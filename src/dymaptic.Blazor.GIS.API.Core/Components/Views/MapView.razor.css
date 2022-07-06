@@ -1,0 +1,19 @@
+#map-container {
+    position: relative;
+}
+
+.dymaptic-branding {
+    text-align: right;
+    font-weight: 400;
+    font-size: 12px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.8);
+    width: fit-content;
+    padding: 0 0.5rem;
+}
+
+.map-wrapper {
+    position: relative;
+}
