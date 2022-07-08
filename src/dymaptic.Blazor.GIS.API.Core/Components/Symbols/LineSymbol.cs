@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace dymaptic.Blazor.GIS.API.Core.Components.Symbols;
 
-public abstract class LineSymbol : Symbol, IEquatable<LineSymbol>
+public abstract class LineSymbol : Symbol
 {
     [Parameter]
     public double? Width { get; set; }
@@ -14,28 +14,6 @@ public abstract class LineSymbol : Symbol, IEquatable<LineSymbol>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [Parameter]
     public LineStyle? LineStyle { get; set; }
-
-    public bool Equals(LineSymbol? other)
-    {
-        if (ReferenceEquals(null, other)) return false;
-        if (ReferenceEquals(this, other)) return true;
-
-        return base.Equals(other) && Nullable.Equals(Width, other.Width) && (LineStyle == other.LineStyle);
-    }
-
-    public override bool Equals(object? obj)
-    {
-        if (ReferenceEquals(null, obj)) return false;
-        if (ReferenceEquals(this, obj)) return true;
-        if (obj.GetType() != GetType()) return false;
-
-        return Equals((LineSymbol)obj);
-    }
-
-    public override int GetHashCode()
-    {
-        return HashCode.Combine(base.GetHashCode(), Width, LineStyle);
-    }
 }
 
 [JsonConverter(typeof(LineStyleConverter))]

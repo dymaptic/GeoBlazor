@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Components;
 namespace dymaptic.Blazor.GIS.API.Core.Components.Geometries;
 
 [JsonConverter(typeof(GeometryConverter))]
-public class Geometry : MapComponent, IEquatable<Geometry>
+public class Geometry : MapComponent
 {
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -22,15 +22,7 @@ public class Geometry : MapComponent, IEquatable<Geometry>
     public SpatialReference? SpatialReference { get; set; }
 
     public virtual string Type => default!;
-
-    public bool Equals(Geometry? other)
-    {
-        if (ReferenceEquals(null, other)) return false;
-        if (ReferenceEquals(this, other)) return true;
-
-        return ((Object)this).Equals(other) && (HasM == other.HasM) && (HasZ == other.HasZ);
-    }
-
+    
     public override async Task RegisterChildComponent(MapComponent child)
     {
         switch (child)
@@ -74,20 +66,6 @@ public class Geometry : MapComponent, IEquatable<Geometry>
 
                 break;
         }
-    }
-
-    public override bool Equals(object? obj)
-    {
-        if (ReferenceEquals(null, obj)) return false;
-        if (ReferenceEquals(this, obj)) return true;
-        if (obj.GetType() != GetType()) return false;
-
-        return Equals((Geometry)obj);
-    }
-
-    public override int GetHashCode()
-    {
-        return HashCode.Combine(base.GetHashCode(), HasM, HasZ);
     }
 }
 

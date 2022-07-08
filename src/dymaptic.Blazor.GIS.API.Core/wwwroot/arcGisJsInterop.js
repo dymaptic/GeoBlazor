@@ -40,6 +40,7 @@ export function buildMapView(dotNetReference, long, lat, rotation, mapObject, zo
                       route, RouteParameters, FeatureSet, ServiceAreaParameters, serviceArea, Graphic,
                       Point, SpatialReference) {
                 try {
+                    setWaitCursor();
                     dotNetRef = dotNetReference;
                     esriConfig.apiKey = apiKey;
                     geometryEngine.initialize(dotNetReference);
@@ -202,6 +203,7 @@ export function buildMapView(dotNetReference, long, lat, rotation, mapObject, zo
                     });
 
                     dotNetReference.invokeMethodAsync('OnViewRendered');
+                    unsetWaitCursor();
                 } catch (error) {
                     logError(error);
                 }
@@ -213,6 +215,7 @@ export function buildMapView(dotNetReference, long, lat, rotation, mapObject, zo
 
 export function updateWidgets(newWidgets) {
     try {
+        setWaitCursor();
         let oldWidgets = [];
         activeWidgets.forEach(aw => {
             if (newWidgets.find(nw => nw.type === aw.type) === undefined) {
@@ -230,6 +233,7 @@ export function updateWidgets(newWidgets) {
                 addWidget(widget);
             });
         }
+        unsetWaitCursor();
     } catch (error) {
         logError(error);
     }
@@ -237,6 +241,7 @@ export function updateWidgets(newWidgets) {
 
 export function updateView(property, value) {
     try {
+        setWaitCursor();
         switch (property) {
             case 'Longitude':
                 view.center = [value, view.center.latitude];
@@ -250,6 +255,7 @@ export function updateView(property, value) {
             case 'Rotation':
                 view.rotation = value;
         }
+        unsetWaitCursor();
     } catch (error) {
         logError(error);
     }
@@ -258,6 +264,7 @@ export function updateView(property, value) {
 
 export function queryFeatureLayer(queryObject, layerObject, symbol, popupTemplateObject) {
     try {
+        setWaitCursor();
         let query = {
             where: queryObject.where,
             outFields: queryObject.outFields,
@@ -273,6 +280,7 @@ export function queryFeatureLayer(queryObject, layerObject, symbol, popupTemplat
         addLayer(layerObject, false, true, () => {
             displayQueryResults(query, symbol, popupTemplate);
         });
+        unsetWaitCursor();
     } catch (error) {
         logError(error);
     }
@@ -281,9 +289,11 @@ export function queryFeatureLayer(queryObject, layerObject, symbol, popupTemplat
 
 export function updateGraphicsLayer(layerObject) {
     try {
+        setWaitCursor();
         console.log('update graphics layer');
         removeGraphicsLayer();
         addLayer(layerObject);
+        unsetWaitCursor();
     } catch (error) {
         logError(error);
     }
@@ -291,10 +301,12 @@ export function updateGraphicsLayer(layerObject) {
 
 export function removeGraphicsLayer() {
     try {
+        setWaitCursor();
         console.log('remove graphics layer');
         view.map.remove(graphicsLayers[0]);
         let layer = graphicsLayers.shift();
         layer?.destroy();
+        unsetWaitCursor();
     } catch (error) {
         logError(error);
     }
@@ -302,6 +314,7 @@ export function removeGraphicsLayer() {
 
 export function updateGraphic(graphicObject, layerIndex) {
     try {
+        setWaitCursor();
         console.log(`updating graphic ${graphicObject?.geometry?.type}, UID: ${graphicObject?.uid}`);
         const newGraphic = createGraphic(CreateGraphic, graphicObject);
         let oldGraphic = null;
@@ -327,7 +340,7 @@ export function updateGraphic(graphicObject, layerIndex) {
             }
             gLayer.graphics.add(newGraphic);
         }
-
+        unsetWaitCursor();
         return newGraphic.uid;
     } catch (error) {
         logError(error);
@@ -338,12 +351,10 @@ export function removeGraphicAtIndex(index, layerIndex) {
     removeGraphic({graphicIndex: index}, layerIndex);
 }
 
-export function removeGraphicsAtIndexes(indexes, layerIndex) {
-
-}
 
 export function removeGraphic(graphicObject, layerIndex) {
     try {
+        setWaitCursor();
         console.log(`removing graphic ${graphicObject?.geometry?.type}, UID ${graphicObject.uid} from layer ${layerIndex}`);
         let oldGraphic = null;
         if (layerIndex === undefined || layerIndex === null) {
@@ -362,7 +373,7 @@ export function removeGraphic(graphicObject, layerIndex) {
                 graphicsLayers[layerIndex]?.graphics?.removeAt(graphicObject.graphicIndex);
             }
         }
-
+        unsetWaitCursor();
     } catch (error) {
         logError(error);
     }
@@ -370,8 +381,10 @@ export function removeGraphic(graphicObject, layerIndex) {
 
 export function updateFeatureLayer(layerObject) {
     try {
+        setWaitCursor();
         removeFeatureLayer(layerObject);
         addLayer(layerObject);
+        unsetWaitCursor();
     } catch (error) {
         logError(error);
     }
@@ -379,10 +392,12 @@ export function updateFeatureLayer(layerObject) {
 
 export function removeFeatureLayer(layerObject) {
     try {
+        setWaitCursor();
         let featureLayer = mapLayers.find(l => layerObject.url.includes(l.url));
         view.map.remove(featureLayer);
         mapLayers.splice(mapLayers.indexOf(featureLayer), 1);
         featureLayer?.destroy();
+        unsetWaitCursor();
     } catch (error) {
         logError(error);
     }
@@ -391,6 +406,7 @@ export function removeFeatureLayer(layerObject) {
 export function findPlaces(addressQueryParams, symbol, popupTemplateObject) {
     require(["esri/rest/locator"], function (locator) {
         try {
+            setWaitCursor();
             locator.addressToLocations(addressQueryParams.locatorUrl, {
                 location: view.center,
                 categories: addressQueryParams.categories,
@@ -409,6 +425,7 @@ export function findPlaces(addressQueryParams, symbol, popupTemplateObject) {
                             popupTemplate: popupTemplate
                         }))
                     });
+                    unsetWaitCursor();
                 }).catch((error) => {
                 logError(error)
             });
@@ -421,12 +438,14 @@ export function findPlaces(addressQueryParams, symbol, popupTemplateObject) {
 
 export async function showPopup(popupTemplateObject, location) {
     try {
+        setWaitCursor();
         var popupTemplate = buildPopupTemplate(popupTemplateObject);
         view.popup.open({
             title: popupTemplate.title,
             content: popupTemplate.content,
             location: location
         });
+        unsetWaitCursor();
     } catch (error) {
         logError(error);
     }
@@ -435,6 +454,7 @@ export async function showPopup(popupTemplateObject, location) {
 
 export async function showPopupWithGraphic(graphicObject, options) {
     try {
+        setWaitCursor();
         let graphicId = addGraphic(graphicObject);
         let graphic = view.graphics.find(g => g.uid === graphicId);
         view.popup.dockOptions = options.dockOptions;
@@ -442,6 +462,7 @@ export async function showPopupWithGraphic(graphicObject, options) {
         view.popup.open({
             features: [graphic]
         });
+        unsetWaitCursor();
     } catch (error) {
         logError(error);
     }
@@ -450,6 +471,7 @@ export async function showPopupWithGraphic(graphicObject, options) {
 
 export function addGraphic(graphicObject, graphicsLayer) {
     try {
+        setWaitCursor();
         let graphic = createGraphic(CreateGraphic, graphicObject);
         console.log(`adding graphic ${graphicObject?.geometry?.type}, UID: ${graphic.uid} to layer ${graphicsLayer}`);
         if (graphicsLayer === undefined || graphicsLayer === null) {
@@ -459,6 +481,7 @@ export function addGraphic(graphicObject, graphicsLayer) {
         } else {
             graphicsLayers[graphicsLayer].add(graphic);
         }
+        unsetWaitCursor();
         return graphic.uid;
     } catch (error) {
         logError(error);
@@ -468,7 +491,9 @@ export function addGraphic(graphicObject, graphicsLayer) {
 
 export function clearViewGraphics() {
     try {
+        setWaitCursor();
         view.graphics.removeAll();
+        unsetWaitCursor();
     } catch (error) {
         logError(error);
     }
@@ -477,6 +502,7 @@ export function clearViewGraphics() {
 
 export async function drawRouteAndGetDirections(routeUrl, routeSymbol) {
     try {
+        setWaitCursor();
         const routeParams = new viewRouteParameters({
             stops: new viewFeatureSet({
                 features: view.graphics.toArray()
@@ -502,7 +528,7 @@ export async function drawRouteAndGetDirections(routeUrl, routeSymbol) {
                 directions.push(direction);
             });
         }
-
+        unsetWaitCursor();
         return directions;
     } catch (error) {
         logError(error);
@@ -511,6 +537,7 @@ export async function drawRouteAndGetDirections(routeUrl, routeSymbol) {
 
 export function solveServiceArea(url, driveTimeCutoffs, serviceAreaSymbol) {
     try {
+        setWaitCursor();
         const featureSet = new viewFeatureSet({
             features: [view.graphics.items[0]]
         });
@@ -520,7 +547,7 @@ export function solveServiceArea(url, driveTimeCutoffs, serviceAreaSymbol) {
             trimOuterPolygon: true,
             outSpatialReference: view.spatialRelationship
         });
-
+        
         return viewServiceArea.solve(url, taskParameters)
             .then(function (result) {
                 if (result.serviceAreaPolygons.length) {
@@ -529,6 +556,7 @@ export function solveServiceArea(url, driveTimeCutoffs, serviceAreaSymbol) {
                         view.graphics.add(graphic, 0);
                     })
                 }
+                unsetWaitCursor();
             }, function (error) {
                 logError(error);
             });
@@ -601,6 +629,7 @@ export function drawWithGeodesicBufferOnPointer(cursorSymbol, bufferSymbol, geod
 
 
 function displayQueryResults(query, symbol, popupTemplate) {
+    setWaitCursor();
     queryLayer.queryFeatures(query)
         .then((results) => {
             results.features.map((feature) => {
@@ -612,6 +641,7 @@ function displayQueryResults(query, symbol, popupTemplate) {
             view.popup.close();
             view.graphics.removeAll();
             view.graphics.addMany(results.features);
+            unsetWaitCursor();
         }).catch((error) => {
         logError(error);
     });
@@ -810,6 +840,10 @@ function addWidget(widget) {
                             console.log("Track widget already added!");
                             return;
                         }
+                        
+                        if (widget.graphic === undefined || widget.graphic === null) {
+                            return;
+                        }
 
                         let graphic = createGraphic(CreateGraphic, widget.graphic);
                         const track = new Track({
@@ -977,6 +1011,7 @@ function logError(error) {
         console.log(error.message);
         dotNetRef.invokeMethodAsync('OnJavascriptError', error.message);
     }
+    unsetWaitCursor();
 }
 
 
@@ -1078,4 +1113,12 @@ function buildDotNetExtent(extent) {
         hasZ: extent.hasZ,
         spatialReference: extent.spatialReference
     }
+}
+
+function setWaitCursor() {
+    document.getElementById('map-container').style.cursor = 'wait';
+}
+
+function unsetWaitCursor() {
+    document.getElementById('map-container').style.cursor = 'unset';
 }

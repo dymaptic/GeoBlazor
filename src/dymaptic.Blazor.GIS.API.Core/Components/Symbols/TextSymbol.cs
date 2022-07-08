@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace dymaptic.Blazor.GIS.API.Core.Components.Symbols;
 
-public class TextSymbol : Symbol, IEquatable<TextSymbol>
+public class TextSymbol : Symbol
 {
     public override string Type => "text";
 
@@ -14,15 +14,6 @@ public class TextSymbol : Symbol, IEquatable<TextSymbol>
     public string? HaloSize { get; set; }
 
     public MapFont? Font { get; set; }
-
-    public bool Equals(TextSymbol? other)
-    {
-        if (ReferenceEquals(null, other)) return false;
-        if (ReferenceEquals(this, other)) return true;
-
-        return base.Equals(other) && Equals(HaloColor, other.HaloColor) && (HaloSize == other.HaloSize) &&
-            Equals(Font, other.Font);
-    }
 
     public override async Task RegisterChildComponent(MapComponent child)
     {
@@ -56,19 +47,5 @@ public class TextSymbol : Symbol, IEquatable<TextSymbol>
 
                 break;
         }
-    }
-
-    public override bool Equals(object? obj)
-    {
-        if (ReferenceEquals(null, obj)) return false;
-        if (ReferenceEquals(this, obj)) return true;
-        if (obj.GetType() != GetType()) return false;
-
-        return Equals((TextSymbol)obj);
-    }
-
-    public override int GetHashCode()
-    {
-        return HashCode.Combine(base.GetHashCode(), HaloColor, HaloSize, Font);
     }
 }

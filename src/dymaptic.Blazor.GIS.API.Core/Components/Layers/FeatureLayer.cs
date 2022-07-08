@@ -6,8 +6,9 @@ using Microsoft.JSInterop;
 
 namespace dymaptic.Blazor.GIS.API.Core.Components.Layers;
 
-public class FeatureLayer : Layer, IEquatable<FeatureLayer>
+public class FeatureLayer : Layer
 {
+    private string? _definitionExpression;
     public override string LayerType => "feature";
 
     [Parameter]
@@ -16,7 +17,19 @@ public class FeatureLayer : Layer, IEquatable<FeatureLayer>
 
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? DefinitionExpression { get; set; }
+    public string? DefinitionExpression
+    {
+        get => _definitionExpression;
+        set
+        {
+            _definitionExpression = value;
+
+            if (MapRendered)
+            {
+                Task.Run(UpdateComponent);
+            }
+        }
+    }
 
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -30,16 +43,6 @@ public class FeatureLayer : Layer, IEquatable<FeatureLayer>
 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Renderer? Renderer { get; set; }
-
-    public bool Equals(FeatureLayer? other)
-    {
-        if (ReferenceEquals(null, other)) return false;
-        if (ReferenceEquals(this, other)) return true;
-
-        return ((Object)this).Equals(other) && (Url == other.Url) && (DefinitionExpression == other.DefinitionExpression) &&
-            Equals(OutFields, other.OutFields) && Equals(PopupTemplate, other.PopupTemplate) &&
-            LabelingInfo.Equals(other.LabelingInfo) && Equals(Renderer, other.Renderer);
-    }
 
     public override async Task RegisterChildComponent(MapComponent child)
     {
@@ -97,21 +100,6 @@ public class FeatureLayer : Layer, IEquatable<FeatureLayer>
 
                 break;
         }
-    }
-
-    public override bool Equals(object? obj)
-    {
-        if (ReferenceEquals(null, obj)) return false;
-        if (ReferenceEquals(this, obj)) return true;
-        if (obj.GetType() != GetType()) return false;
-
-        return Equals((FeatureLayer)obj);
-    }
-
-    public override int GetHashCode()
-    {
-        return HashCode.Combine(base.GetHashCode(), Url, DefinitionExpression, OutFields, PopupTemplate, LabelingInfo,
-            Renderer);
     }
 
     public override async Task UpdateComponent()

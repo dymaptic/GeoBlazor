@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace dymaptic.Blazor.GIS.API.Core.Components.Geometries;
 
-public class Point : Geometry, IEquatable<Point>
+public class Point : Geometry
 {
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

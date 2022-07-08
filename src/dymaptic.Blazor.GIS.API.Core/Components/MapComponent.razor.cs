@@ -9,7 +9,7 @@ using dymaptic.Blazor.GIS.API.Core.Exceptions;
 namespace dymaptic.Blazor.GIS.API.Core.Components;
 
 [JsonConverter(typeof(MapComponentConverter))]
-public abstract partial class MapComponent : ComponentBase, IDisposable, IEquatable<MapComponent>
+public abstract partial class MapComponent : ComponentBase, IDisposable
 {
     [Parameter]
     [JsonIgnore]
@@ -34,14 +34,6 @@ public abstract partial class MapComponent : ComponentBase, IDisposable, IEquata
     public virtual void Dispose()
     {
         Parent?.UnregisterChildComponent(this);
-    }
-
-    public bool Equals(MapComponent? other)
-    {
-        if (ReferenceEquals(null, other)) return false;
-        if (ReferenceEquals(this, other)) return true;
-
-        return Equals(ChildContent, other.ChildContent) && Equals(Parent, other.Parent);
     }
 
     public virtual Task RegisterChildComponent(MapComponent child)
@@ -71,20 +63,6 @@ public abstract partial class MapComponent : ComponentBase, IDisposable, IEquata
     public virtual Task RemoveComponent()
     {
         return Task.CompletedTask;
-    }
-
-    public override bool Equals(object? obj)
-    {
-        if (ReferenceEquals(null, obj)) return false;
-        if (ReferenceEquals(this, obj)) return true;
-        if (obj.GetType() != GetType()) return false;
-
-        return Equals((MapComponent)obj);
-    }
-
-    public override int GetHashCode()
-    {
-        return HashCode.Combine(ChildContent);
     }
 
     protected override Task OnParametersSetAsync()

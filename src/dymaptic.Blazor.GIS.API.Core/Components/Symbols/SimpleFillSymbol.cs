@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace dymaptic.Blazor.GIS.API.Core.Components.Symbols;
 
-public class SimpleFillSymbol : FillSymbol, IEquatable<SimpleFillSymbol>
+public class SimpleFillSymbol : FillSymbol
 {
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Outline? Outline { get; set; }
@@ -16,14 +16,6 @@ public class SimpleFillSymbol : FillSymbol, IEquatable<SimpleFillSymbol>
     public FillStyle? FillStyle { get; set; }
 
     public override string Type => "simple-fill";
-
-    public bool Equals(SimpleFillSymbol? other)
-    {
-        if (ReferenceEquals(null, other)) return false;
-        if (ReferenceEquals(this, other)) return true;
-
-        return base.Equals(other) && (FillStyle == other.FillStyle);
-    }
 
     public override async Task RegisterChildComponent(MapComponent child)
     {
@@ -57,20 +49,6 @@ public class SimpleFillSymbol : FillSymbol, IEquatable<SimpleFillSymbol>
 
                 break;
         }
-    }
-
-    public override bool Equals(object? obj)
-    {
-        if (ReferenceEquals(null, obj)) return false;
-        if (ReferenceEquals(this, obj)) return true;
-        if (obj.GetType() != GetType()) return false;
-
-        return Equals((SimpleFillSymbol)obj);
-    }
-
-    public override int GetHashCode()
-    {
-        return HashCode.Combine(base.GetHashCode(), FillStyle);
     }
 }
 

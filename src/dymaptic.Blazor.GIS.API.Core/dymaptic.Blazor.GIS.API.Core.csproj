@@ -12,11 +12,11 @@
             For more information, contact dymaptic at info@dymaptic.com, or tim.purdum@dymaptic.com
         </Description>
         <Version>1.0.0</Version>
+        <PackageVersion>1.0.0</PackageVersion>
         <Authors>Tim Purdum</Authors>
         <Company>dymaptic</Company>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     </PropertyGroup>
-
 
     <ItemGroup>
         <SupportedPlatform Include="browser" />

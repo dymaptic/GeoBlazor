@@ -3,20 +3,12 @@ using Microsoft.JSInterop;
 
 namespace dymaptic.Blazor.GIS.API.Core.Components.Layers;
 
-public class GraphicsLayer : Layer, IEquatable<GraphicsLayer>
+public class GraphicsLayer : Layer
 {
     public List<Graphic> Graphics { get; set; } = new();
 
     [JsonPropertyName("type")]
     public override string LayerType => "graphics";
-
-    public bool Equals(GraphicsLayer? other)
-    {
-        if (ReferenceEquals(null, other)) return false;
-        if (ReferenceEquals(this, other)) return true;
-
-        return Graphics.Equals(other.Graphics);
-    }
 
     public override async Task RegisterChildComponent(MapComponent child)
     {
@@ -68,20 +60,6 @@ public class GraphicsLayer : Layer, IEquatable<GraphicsLayer>
 
                 break;
         }
-    }
-
-    public override bool Equals(object? obj)
-    {
-        if (ReferenceEquals(null, obj)) return false;
-        if (ReferenceEquals(this, obj)) return true;
-        if (obj.GetType() != GetType()) return false;
-
-        return Equals((GraphicsLayer)obj);
-    }
-
-    public override int GetHashCode()
-    {
-        return Graphics.GetHashCode();
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
