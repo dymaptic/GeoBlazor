@@ -1,0 +1,89 @@
+﻿@page "/widgets"
+
+<PageTitle>Widgets</PageTitle>
+<h1>Widgets</h1>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-support-widget.html">ArcGIS API for JavaScript</a>
+<div id="control-set">
+    <div class="form-group">
+        <label>Locator: <input type="checkbox" @onchange="@(() => ToggleWidget(nameof(LocateWidget)))"></label>
+    </div>
+    <div class="form-group">
+        <label>Search: <input type="checkbox" @onchange="@(() => ToggleWidget(nameof(SearchWidget)))"></label>
+    </div>
+    <div class="form-group">
+        <label>Basemap Toggle: <input type="checkbox" @onchange="@(() => ToggleWidget(nameof(BasemapToggleWidget)))"></label>
+    </div>
+    <div class="form-group">
+        <label>Basemap Gallery: <input type="checkbox" @onchange="@(() => ToggleWidget(nameof(BasemapGalleryWidget)))"></label>
+    </div>
+    <div class="form-group">
+        <label>Legend: <input type="checkbox" @onchange="@(() => ToggleWidget(nameof(LegendWidget)))"></label>
+    </div>
+    <div class="form-group">
+        <label>Scale Bar: <input type="checkbox" @onchange="@(() => ToggleWidget(nameof(ScaleBarWidget)))"></label>
+    </div>
+</div>
+
+<MapView @ref="MapView" Longitude="-40" Latitude="28" Zoom="2" Class="map-view">
+    <Map ArcGISDefaultBasemap="arcgis-navigation" />
+    @if (_showLocate)
+    {
+        <LocateWidget UseHeadingEnabled="false" ZoomTo="1500" Position="OverlayPosition.TopLeft" />
+    }
+    @if (_showSearch)
+    {
+        <SearchWidget Position="OverlayPosition.TopRight" />
+    }
+    @if (_showBasemapToggle)
+    {
+        <BasemapToggleWidget NextBasemap="arcgis-imagery" Position="OverlayPosition.BottomRight" />
+    }
+    @if (_showBasemapGallery)
+    {
+        <BasemapGalleryWidget Position="OverlayPosition.BottomRight" />
+    }
+    @if (_showScaleBar)
+    {
+        <ScaleBarWidget Position="OverlayPosition.BottomLeft" />
+    }
+    @if (_showLegend)
+    {
+        <LegendWidget Position="OverlayPosition.TopRight" />
+    }
+</MapView>
+
+@code {
+    private MapView? MapView { get; set; }
+
+    private void ToggleWidget(string widgetTypeName)
+    {
+        switch (widgetTypeName)
+        {
+            case nameof(LocateWidget):
+                _showLocate = !_showLocate;
+                break;
+            case nameof(SearchWidget):
+                _showSearch = !_showSearch;
+                break;
+            case nameof(BasemapToggleWidget):
+                _showBasemapToggle = !_showBasemapToggle;
+                break;
+            case nameof(BasemapGalleryWidget):
+                _showBasemapGallery = !_showBasemapGallery;
+                break;
+            case nameof(LegendWidget):
+                _showLegend = !_showLegend;
+                break;
+            case nameof(ScaleBarWidget):
+                _showScaleBar = !_showScaleBar;
+                break;
+        }
+    }
+
+    private bool _showSearch;
+    private bool _showLocate;
+    private bool _showBasemapToggle;
+    private bool _showBasemapGallery;
+    private bool _showScaleBar;
+    private bool _showLegend;
+}

@@ -1,0 +1,56 @@
+﻿@page "/place-selector"
+<PageTitle>Place Selector</PageTitle>
+<h1>Place Selector</h1>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/find-places/">ArcGIS API for JavaScript</a>
+
+<MapView @ref="View" Longitude="18.9553" Latitude="69.6492" Zoom="13" Class="map-view">
+    <Map ArcGISDefaultBasemap="arcgis-navigation" />
+
+    <CustomOverlay Position="OverlayPosition.TopRight">
+        <select class="esri-widget esri-select demo-select" @onchange="@OnSelectionChanged">
+            @foreach (string place in _places)
+            {
+                <option value="@place">@place</option>
+            }
+        </select>
+    </CustomOverlay>
+</MapView>
+
+@* Declare these outside the map view for reference/passing into the Query *@
+<SimpleMarkerSymbol @ref="Symbol" Color="@(new MapColor("#000000"))" Size="12">
+    <Outline Color="@(new MapColor("#ffffff"))" Width="2" />
+</SimpleMarkerSymbol>
+<PopupTemplate @ref="Popup" Title="{PlaceName}" StringContent="{Place_addr}" />
+
+@code {
+    public MapView? View { get; set; }
+    public SimpleMarkerSymbol? Symbol { get; set; }
+    public PopupTemplate? Popup { get; set; }
+
+    private readonly string[] _places =
+    {
+        "Choose a place type...",
+        "Parks and Outdoors",
+        "Coffee shop",
+        "Gas station",
+        "Food",
+        "Hotel"
+    };
+
+    private async Task OnSelectionChanged(ChangeEventArgs arg)
+    {
+        var category = arg.Value?.ToString();
+        if (category is null || (category == _places[0])) return;
+
+        var query = new AddressQuery
+        {
+            LocatorUrl = "http://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer",
+            Categories = new HashSet<string> { category },
+            MaxLocations = 25,
+            OutFields = new HashSet<string> { "Place_addr", "PlaceName" }
+        };
+
+        await View!.FindPlaces(query, Symbol!, Popup!);
+    }
+
+}

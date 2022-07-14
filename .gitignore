@@ -350,6 +350,7 @@ MigrationBackup/
 .ionide/
 *.idea/
 
-/dymaptic.Blazor.GIS.API.Core.Sample.Wasm/dymaptic.Blazor.GIS.API.Core.Sample.Wasm.csproj.user
-/dymaptic.Blazor.GIS.API.Core.Sample.Maui/Resources/Raw/*.html
+*/dymaptic.Blazor.GIS.API.Core.Sample.Shared/wwwroot/pages
+*/dymaptic.Blazor.GIS.API.Core.Sample.Wasm/dymaptic.Blazor.GIS.API.Core.Sample.Wasm.csproj.user
+*/dymaptic.Blazor.GIS.API.Core.Sample.Maui/Resources/Raw/*.html
 *.csproj.user

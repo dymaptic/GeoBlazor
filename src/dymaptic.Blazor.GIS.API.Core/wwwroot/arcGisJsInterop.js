@@ -367,7 +367,7 @@ export function removeGraphic(graphicObject, layerIndex) {
         } else {
             let gLayer = graphicsLayers[layerIndex];
             if (graphicObject.uid !== undefined && graphicObject.uid !== null) {
-                oldGraphic = gLayer.graphics.find(g => g.uid === graphicObject.uid);
+                oldGraphic = gLayer.graphics?.find(g => g.uid === graphicObject.uid);
                 gLayer.graphics.remove(oldGraphic);
             } else {
                 graphicsLayers[layerIndex]?.graphics?.removeAt(graphicObject.graphicIndex);

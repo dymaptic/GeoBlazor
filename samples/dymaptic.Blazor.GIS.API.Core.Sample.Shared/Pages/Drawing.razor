@@ -1,0 +1,189 @@
+﻿@page "/drawing"
+
+<PageTitle>Map</PageTitle>
+<h1>Drawing</h1>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/add-a-point-line-and-polygon/">ArcGIS API for JavaScript</a>
+<div id="control-set">
+    <div class="form-group">
+        <label class="draw-label" @onclick="@(() => _showPointSection = !_showPointSection)">
+            Draw a Point
+            <span class="oi @(_showPointSection ? "oi-chevron-top" : "oi-chevron-bottom")"></span>
+        </label>
+        <div class="@(_showPointSection ? "" : "collapse")">
+            <label>Longitude:<input type="number" step="0.01" @bind="_pointLong" /></label>
+            <label>Latitude:<input type="number" step="0.01" @bind="_pointLat" /></label>
+            <button class="btn btn-primary" @onclick="DrawPoint">@(_showPoint ? "Remove" : "Draw")</button>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="draw-label" @onclick="@(() => _showLineSection = !_showLineSection)">
+            Draw a Line
+            <span class="oi @(_showLineSection ? "oi-chevron-top" : "oi-chevron-bottom")"></span>
+        </label>
+        <div class="@(_showLineSection ? "" : "collapse")">
+            <table class="table">
+                <colgroup>
+                    <col style="width: 2rem;" />
+                    <col style="width: 10rem;" />
+                    <col style="width: 10rem;" />
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>Point</th>
+                        <th>Longitude</th>
+                        <th>Latitude</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (var i = 0; i < _mapPath.Count; i++)
+                    {
+                        MapPoint path = _mapPath[i];
+                        <tr>
+                            <td>@(i + 1)</td>
+                            <td>
+                                <input type="number" step="0.01" @bind="@path[0]" />
+                            </td>
+                            <td>
+                                <input type="number" step="0.01" @bind="@path[1]" />
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <button class="btn btn-primary" @onclick="DrawLine">@(_showLine ? "Remove" : "Draw")</button>
+            <button class="btn btn-secondary" @onclick="AddPoint">Add Pt</button>
+            <button class="btn btn-danger" @onclick="RemovePoint">Remove Pt</button>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="draw-label" @onclick="@(() => _showPolygonSection = !_showPolygonSection)">
+            Draw a Polygon
+            <span class="oi @(_showPolygonSection ? "oi-chevron-top" : "oi-chevron-bottom")"></span>
+        </label>
+        <div class="@(_showPolygonSection ? "" : "collapse")">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Point</th>
+                        <th>Longitude</th>
+                        <th>Latitude</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (var i = 0; i < _mapRings.Count; i++)
+                    {
+                        MapPoint path = _mapRings[i];
+                        <tr>
+                            <td>@(i + 1)</td>
+                            <td>
+                                <input type="number" step="0.01" @bind="@path[0]" />
+                            </td>
+                            <td>
+                                <input type="number" step="0.01" @bind="@path[1]" />
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <button class="btn btn-primary" @onclick="DrawPolygon">@(_showPolygon ? "Remove" : "Draw")</button>
+            <button class="btn btn-secondary" @onclick="AddPolygonPoint">Add Pt</button>
+            <button class="btn btn-danger" @onclick="RemovePolygonPoint">Remove Pt</button>
+            <h3>Click on Polygon to see Popup!</h3>
+        </div>
+    </div>
+</div>
+
+<MapView Longitude="_longitude" Latitude="_latitude" Zoom="11" Class="map-view">
+    <Map ArcGISDefaultBasemap="arcgis-topographic">
+        <GraphicsLayer>
+            @if (_showPoint)
+            {
+                <Graphic>
+                    <Point Longitude="_pointLong" Latitude="_pointLat" />
+                    <SimpleMarkerSymbol Color="@(new MapColor(226, 119, 40))">
+                        <Outline Color="@(new MapColor(255, 255, 255))" Width="1" />
+                    </SimpleMarkerSymbol>
+                </Graphic>
+            }
+            @if (_showLine)
+            {
+                <Graphic>
+                    <PolyLine Paths="@(new[] { _mapPath })" />
+                    <SimpleLineSymbol Color="@(new MapColor(226, 119, 40))" Width="2" />
+                </Graphic>
+            }
+            @if (_showPolygon)
+            {
+                <Graphic>
+                    <Polygon Rings="@(new[] { _mapRings })" />
+                    <SimpleFillSymbol Color="@(new MapColor(227, 139, 79, 0.8))">
+                        <Outline Color="@(new MapColor(255, 255, 255))" Width="1" />
+                    </SimpleFillSymbol>
+                    <Attributes Name="Sample Polygon" Description="This is where you can describe the polygon." />
+                    <PopupTemplate Title="{Name}" StringContent="{Description}" />
+                </Graphic>
+            }
+        </GraphicsLayer>
+    </Map>
+</MapView>
+
+
+@code
+{
+    private readonly double _latitude = 34.027;
+    private readonly double _longitude = -118.805;
+    private double _pointLat = 34.027;
+    private double _pointLong = -118.805;
+    private bool _showPoint;
+    private bool _showLine;
+    private bool _showPolygon;
+
+    private readonly MapPath _mapPath = new(new MapPoint(-118.821527826096, 34.0139576938577),
+        new MapPoint(-118.814893761649, 34.0080602407843),
+        new MapPoint(-118.808878330345, 34.0016642996246));
+
+    private readonly MapPath _mapRings = new(new MapPoint(-118.818984489994, 34.0137559967283),
+        new MapPoint(-118.806796597377, 34.0215816298725),
+        new MapPoint(-118.791432890735, 34.0163883241613),
+        new MapPoint(-118.79596686535, 34.008564864635),
+        new MapPoint(-118.808558110679, 34.0035027131376));
+
+    private void DrawPoint()
+    {
+        _showPoint = !_showPoint;
+    }
+
+    private void DrawLine()
+    {
+        _showLine = !_showLine;
+    }
+
+    private void AddPoint()
+    {
+        _mapPath.Add(new MapPoint(_mapPath[0][0], _mapPath[0][1]));
+    }
+
+    private void RemovePoint()
+    {
+        _mapPath.RemoveAt(_mapPath.Count - 1);
+    }
+
+    private void DrawPolygon()
+    {
+        _showPolygon = !_showPolygon;
+    }
+
+    private void AddPolygonPoint()
+    {
+        _mapRings.Add(new MapPoint(_mapRings[0][0], _mapRings[0][1]));
+    }
+
+    private void RemovePolygonPoint()
+    {
+        _mapRings.RemoveAt(_mapRings.Count - 1);
+    }
+
+    private bool _showPointSection;
+    private bool _showLineSection;
+    private bool _showPolygonSection;
+}
