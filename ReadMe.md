@@ -72,7 +72,7 @@ for a 3D map with a basemap loaded from a `PortalId`.
 
 ### Reference Package/Project
 
-- Install nuget package from nuget.org
+- Install nuget package from nuget.org with `dotnet add package dymaptic.Blazor.GIS.API.Core`
   OR
 - Download and add a package reference to the `/packages/dymaptic.Blazor.GIS.API.Core.1.0.x.nupkg` file
   OR
@@ -81,6 +81,7 @@ for a 3D map with a basemap loaded from a `PortalId`.
 ### Reference Scripts and Styles
 
 - Add the following lines to the `head` element of your `_Layout.cshtml` (Blazor Server) or `index.html` (Blazor Wasm or Maui Blazor Hybrid)
+- _Note_, for `_Layout.cshtml`/Blazor Server, all the `@` symbols below must be doubled (`@@`) to escape, since `@` is a reserved character in Razor
 
 ```html
     <link href="_content/dymaptic.Blazor.GIS.API.Core"/>
@@ -88,6 +89,7 @@ for a 3D map with a basemap loaded from a `PortalId`.
     <script src="https://unpkg.com/@esri/arcgis-rest-auth@3.0.0/dist/umd/auth.umd.js"></script>
     <script src="https://unpkg.com/@esri/arcgis-rest-demographics@3.0.0/dist/umd/demographics.umd.js"></script>
     <link href="https://js.arcgis.com/4.23/esri/themes/light/main.css" rel="stylesheet">
+    <script src="https://js.arcgis.com/4.23/"></script>
 ```
 
 ### Setup API Key
@@ -99,7 +101,28 @@ for a 3D map with a basemap loaded from a `PortalId`.
 builder.Configuration.AddInMemoryCollection();
 ```
 
-- If you want to hard-code your API key, add the key/value `"ArcGISApiKey": "YOUR_API_KEY"` to an `appsettings.json `, `secrets.json`, Azure Key Vault, or environment variable. Make sure that it is loaded into `IConfiguration` by your application.
+- If you want to hard-code your API key, add the key/value `"ArcGISApiKey": "YOUR_API_KEY"` to an `appsettings.json `, `appsettings.development.json`, `secrets.json`, Azure Key Vault, or environment variable. Make sure that it is loaded into `IConfiguration` by your application. _NOTE_: it is never recommended to save an api key to a version control repository!
+
+### Add Using Statements
+
+Add using statements as necessary to `_Imports.razor`. Below is a complete list of namespaces:
+
+```csharp
+@using dymaptic.Blazor.GIS.API.Core
+@using dymaptic.Blazor.GIS.API.Core.Components
+@using dymaptic.Blazor.GIS.API.Core.Components.Geometries
+@using dymaptic.Blazor.GIS.API.Core.Components.Layers
+@using dymaptic.Blazor.GIS.API.Core.Components.Popups
+@using dymaptic.Blazor.GIS.API.Core.Components.Renderers
+@using dymaptic.Blazor.GIS.API.Core.Components.Symbols
+@using dymaptic.Blazor.GIS.API.Core.Components.Views
+@using dymaptic.Blazor.GIS.API.Core.Components.Widgets
+@using dymaptic.Blazor.GIS.API.Core.Objects
+```
+
+### Add components to Razor Components/Pages
+
+You should now be ready to directly reference `MapView` and other components in your own Razor Components.
 
 ## Build Requirements
 
