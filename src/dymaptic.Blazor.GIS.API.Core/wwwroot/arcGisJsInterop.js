@@ -1,7 +1,7 @@
 import * as geometryEngine from "./geometryEngine.js";
 import * as projection from "./projection.js";
 
-let view;
+export let view;
 let activeWidgets = [];
 let basemapLayers = [];
 let mapLayers = [];
