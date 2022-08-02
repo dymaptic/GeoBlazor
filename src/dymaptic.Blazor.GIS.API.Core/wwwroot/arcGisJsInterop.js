@@ -322,7 +322,7 @@ export function updateGraphic(graphicObject, layerIndex) {
             if (graphicObject.uid !== undefined && graphicObject.uid !== null) {
                 oldGraphic = view.graphics.find(g => g.uid === graphicObject.uid);
             }
-            if (oldGraphic !== undefine && oldGraphic !== null) {
+            if (oldGraphic !== undefined && oldGraphic !== null) {
                 view.graphics.remove(oldGraphic);
             } else {
                 view.graphics.removeAt(graphicObject.graphicIndex);
