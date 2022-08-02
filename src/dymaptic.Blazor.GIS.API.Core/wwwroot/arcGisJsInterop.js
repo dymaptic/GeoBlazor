@@ -1,13 +1,13 @@
 import * as geometryEngine from "./geometryEngine.js";
 import * as projection from "./projection.js";
 
-export let view;
-export let dotNetRef = null;
-export let graphicsLayers = [];
+export let views = {};
+export let dotNetRefs = {};
+export let graphicsLayers = {};
 export let CreateGraphic = null;
-export let activeWidgets = [];
-export let basemapLayers = [];
-export let mapLayers = [];
+export let activeWidgets = {};
+export let basemapLayers = {};
+export let mapLayers = {};
 export let queryLayer = null;
 let viewRoute = null;
 let viewRouteParameters = null;
@@ -16,7 +16,7 @@ let viewServiceArea = null;
 let viewServiceAreaParameters = null;
 
 
-export function buildMapView(dotNetReference, long, lat, rotation, mapObject, zoom, scale, apiKey, mapType, widgets,
+export function buildMapView(id, dotNetReference, long, lat, rotation, mapObject, zoom, scale, apiKey, mapType, widgets,
                              graphics, spatialReference, zIndex, tilt) {
     console.log("render map");
     try {
@@ -40,21 +40,21 @@ export function buildMapView(dotNetReference, long, lat, rotation, mapObject, zo
                       route, RouteParameters, FeatureSet, ServiceAreaParameters, serviceArea, Graphic,
                       Point, SpatialReference) {
                 try {
-                    setWaitCursor();
-                    dotNetRef = dotNetReference;
+                    setWaitCursor(id);
+                    let dotNetRef = dotNetReference;
+                    dotNetRefs[id] = dotNetRef;
                     esriConfig.apiKey = apiKey;
                     geometryEngine.initialize(dotNetReference);
                     projection.initialize(dotNetReference);
-                    activeWidgets.forEach(w => w?.destroy());
-                    activeWidgets = [];
-                    basemapLayers.forEach(l => l?.destroy());
-                    basemapLayers = [];
-                    mapLayers.forEach(ml => ml?.destroy());
-                    mapLayers = [];
-                    queryLayer?.destroy();
-                    queryLayer = null;
-                    graphicsLayers?.forEach(gl => gl.destroy());
-                    graphicsLayers = [];
+                    activeWidgets[id]?.forEach(w => w?.destroy());
+                    activeWidgets[id] = [];
+                    basemapLayers[id]?.forEach(l => l?.destroy());
+                    basemapLayers[id] = [];
+                    mapLayers[id]?.forEach(ml => ml?.destroy());
+                    mapLayers[id] = [];
+                    graphicsLayers[id]?.forEach(gl => gl.destroy());
+                    graphicsLayers[id] = [];
+                    let view = views[id];
                     view?.graphics?.forEach(g => g.destroy());
                     view?.map?.destroy();
                     view?.destroy();
@@ -83,7 +83,7 @@ export function buildMapView(dotNetReference, long, lat, rotation, mapObject, zo
                                 if (mapObject.basemap?.layers.length > 0) {
                                     for (let i = 0; i < mapObject.basemap.layers.length; i++) {
                                         const layerObject = mapObject.basemap.layers[i];
-                                        addLayer(layerObject, true);
+                                        addLayer(layerObject, id, true);
                                     }
                                 }
                                 basemap = new Basemap({
@@ -101,7 +101,7 @@ export function buildMapView(dotNetReference, long, lat, rotation, mapObject, zo
                                 }
                             });
                             view = new MapView({
-                                container: "map-container",
+                                container: `map-container-${id}`,
                                 map: webMap
                             });
                             break;
@@ -112,7 +112,7 @@ export function buildMapView(dotNetReference, long, lat, rotation, mapObject, zo
                                 }
                             });
                             view = new SceneView({
-                                container: "map-container",
+                                container: `map-container-${id}`,
                                 map: webScene
                             });
                             break;
@@ -122,7 +122,7 @@ export function buildMapView(dotNetReference, long, lat, rotation, mapObject, zo
                                 ground: mapObject.ground
                             });
                             view = new SceneView({
-                                container: "map-container",
+                                container: `map-container-${id}`,
                                 map: scene,
                                 camera: {
                                     position: {
@@ -150,14 +150,14 @@ export function buildMapView(dotNetReference, long, lat, rotation, mapObject, zo
                                     longitude: long,
                                     spatialReference: spatialRef
                                 });
-                                resetCenterToSpatialReference(center, spatialRef);
+                                resetCenterToSpatialReference(center, spatialRef, id);
                             } else {
                                 center = [long, lat];
                             }
                             view = new MapView({
                                 map: map,
                                 center: center,
-                                container: "map-container",
+                                container: `map-container-${id}`,
                                 rotation: rotation
                             });
                             if (scale !== undefined && scale !== null) {
@@ -171,19 +171,21 @@ export function buildMapView(dotNetReference, long, lat, rotation, mapObject, zo
                             }
                             break;
                     }
+                    
+                    views[id] = view;
 
                     if (mapObject.layers !== undefined && mapObject.layers !== null) {
                         mapObject.layers.forEach(layerObject => {
-                            addLayer(layerObject);
+                            addLayer(layerObject, id);
                         });
                     }
 
                     widgets.forEach(widget => {
-                        addWidget(widget);
+                        addWidget(widget, id);
                     });
 
                     graphics.forEach(graphicObject => {
-                        addGraphic(graphicObject);
+                        addGraphic(graphicObject, id);
                     })
 
                     view.on('click', (evt) => {
@@ -203,45 +205,46 @@ export function buildMapView(dotNetReference, long, lat, rotation, mapObject, zo
                     });
 
                     dotNetReference.invokeMethodAsync('OnViewRendered');
-                    unsetWaitCursor();
+                    unsetWaitCursor(id);
                 } catch (error) {
-                    logError(error);
+                    logError(error, id);
                 }
             });
     } catch (error) {
-        logError(error);
+        logError(error, id);
     }
 }
 
-export function updateWidgets(newWidgets) {
+export function updateWidgets(newWidgets, viewId) {
     try {
-        setWaitCursor();
+        setWaitCursor(viewId);
         let oldWidgets = [];
-        activeWidgets.forEach(aw => {
+        activeWidgets[viewId].forEach(aw => {
             if (newWidgets.find(nw => nw.type === aw.type) === undefined) {
                 oldWidgets.push(aw);
             }
         });
         oldWidgets.forEach(ow => {
-            view.ui.remove(ow);
-            activeWidgets.splice(activeWidgets.indexOf(ow), 1);
+            views[viewId].ui.remove(ow);
+            activeWidgets[viewId].splice(activeWidgets[viewId].indexOf(ow), 1);
             ow?.destroy();
         });
 
         if (newWidgets !== null) {
             newWidgets.forEach(widget => {
-                addWidget(widget);
+                addWidget(widget, viewId);
             });
         }
-        unsetWaitCursor();
+        unsetWaitCursor(viewId);
     } catch (error) {
-        logError(error);
+        logError(error, viewId);
     }
 }
 
-export function updateView(property, value) {
+export function updateView(property, value, viewId) {
     try {
-        setWaitCursor();
+        setWaitCursor(viewId);
+        let view = views[viewId];
         switch (property) {
             case 'Longitude':
                 view.center = [value, view.center.latitude];
@@ -255,16 +258,16 @@ export function updateView(property, value) {
             case 'Rotation':
                 view.rotation = value;
         }
-        unsetWaitCursor();
+        unsetWaitCursor(viewId);
     } catch (error) {
-        logError(error);
+        logError(error, viewId);
     }
 }
 
 
-export function queryFeatureLayer(queryObject, layerObject, symbol, popupTemplateObject) {
+export function queryFeatureLayer(queryObject, layerObject, symbol, popupTemplateObject, viewId) {
     try {
-        setWaitCursor();
+        setWaitCursor(viewId);
         let query = {
             where: queryObject.where,
             outFields: queryObject.outFields,
@@ -272,52 +275,53 @@ export function queryFeatureLayer(queryObject, layerObject, symbol, popupTemplat
             spatialRelationship: queryObject.spatialRelationship,
         };
         if (queryObject.useViewExtent) {
-            query.geometry = view.extent;
+            query.geometry = views[viewId].extent;
         } else if (queryObject.geometry !== undefined && queryObject.geometry !== null) {
             query.geometry = queryObject.geometry;
         }
         let popupTemplate = buildPopupTemplate(popupTemplateObject);
-        addLayer(layerObject, false, true, () => {
-            displayQueryResults(query, symbol, popupTemplate);
+        addLayer(layerObject, viewId, false, true, () => {
+            displayQueryResults(query, symbol, popupTemplate, viewId);
         });
-        unsetWaitCursor();
+        unsetWaitCursor(viewId);
     } catch (error) {
-        logError(error);
+        logError(error, viewId);
     }
 }
 
 
-export function updateGraphicsLayer(layerObject) {
+export function updateGraphicsLayer(layerObject, viewId) {
     try {
-        setWaitCursor();
+        setWaitCursor(viewId);
         console.log('update graphics layer');
-        removeGraphicsLayer();
-        addLayer(layerObject);
-        unsetWaitCursor();
+        removeGraphicsLayer(viewId);
+        addLayer(layerObject, viewId);
+        unsetWaitCursor(viewId);
     } catch (error) {
-        logError(error);
+        logError(error, viewId);
     }
 }
 
-export function removeGraphicsLayer() {
+export function removeGraphicsLayer(viewId) {
     try {
-        setWaitCursor();
+        setWaitCursor(viewId);
         console.log('remove graphics layer');
-        view.map.remove(graphicsLayers[0]);
-        let layer = graphicsLayers.shift();
+        views[viewId].map.remove(graphicsLayers[viewId][0]);
+        let layer = graphicsLayers[viewId].shift();
         layer?.destroy();
-        unsetWaitCursor();
+        unsetWaitCursor(viewId);
     } catch (error) {
-        logError(error);
+        logError(error, viewId);
     }
 }
 
-export function updateGraphic(graphicObject, layerIndex) {
+export function updateGraphic(graphicObject, layerIndex, viewId) {
     try {
-        setWaitCursor();
+        setWaitCursor(viewId);
         console.log(`updating graphic ${graphicObject?.geometry?.type}, UID: ${graphicObject?.uid}`);
         const newGraphic = createGraphic(CreateGraphic, graphicObject);
         let oldGraphic = null;
+        let view = views[viewId];
         if (layerIndex === undefined || layerIndex === null) {
             if (graphicObject.uid !== undefined && graphicObject.uid !== null) {
                 oldGraphic = view.graphics.find(g => g.uid === graphicObject.uid);
@@ -329,7 +333,7 @@ export function updateGraphic(graphicObject, layerIndex) {
             }
             view.graphics.add(newGraphic);
         } else {
-            const gLayer = graphicsLayers[layerIndex];
+            const gLayer = graphicsLayers[viewId][layerIndex];
             if (graphicObject.uid !== undefined && graphicObject.uid !== null) {
                 oldGraphic = gLayer.graphics.find(g => g.uid === graphicObject.uid);
             }
@@ -340,23 +344,24 @@ export function updateGraphic(graphicObject, layerIndex) {
             }
             gLayer.graphics.add(newGraphic);
         }
-        unsetWaitCursor();
+        unsetWaitCursor(viewId);
         return newGraphic.uid;
     } catch (error) {
-        logError(error);
+        logError(error, viewId);
     }
 }
 
-export function removeGraphicAtIndex(index, layerIndex) {
-    removeGraphic({graphicIndex: index}, layerIndex);
+export function removeGraphicAtIndex(index, layerIndex, viewId) {
+    removeGraphic({graphicIndex: index}, layerIndex, viewId);
 }
 
 
-export function removeGraphic(graphicObject, layerIndex) {
+export function removeGraphic(graphicObject, layerIndex, viewId) {
     try {
-        setWaitCursor();
+        setWaitCursor(viewId);
         console.log(`removing graphic ${graphicObject?.geometry?.type}, UID ${graphicObject.uid} from layer ${layerIndex}`);
         let oldGraphic = null;
+        let view = views[viewId];
         if (layerIndex === undefined || layerIndex === null) {
             if (graphicObject.uid !== undefined && graphicObject.uid !== null) {
                 oldGraphic = view.graphics.find(g => g.uid === graphicObject.uid);
@@ -365,48 +370,50 @@ export function removeGraphic(graphicObject, layerIndex) {
                 view.graphics.removeAt(graphicObject.graphicIndex);
             }
         } else {
-            let gLayer = graphicsLayers[layerIndex];
+            let gLayer = graphicsLayers[viewId][layerIndex];
             if (graphicObject.uid !== undefined && graphicObject.uid !== null) {
                 oldGraphic = gLayer.graphics?.find(g => g.uid === graphicObject.uid);
                 gLayer.graphics.remove(oldGraphic);
             } else {
-                graphicsLayers[layerIndex]?.graphics?.removeAt(graphicObject.graphicIndex);
+                graphicsLayers[viewId][layerIndex]?.graphics?.removeAt(graphicObject.graphicIndex);
             }
         }
-        unsetWaitCursor();
+        unsetWaitCursor(viewId);
     } catch (error) {
-        logError(error);
+        logError(error, viewId);
     }
 }
 
-export function updateFeatureLayer(layerObject) {
+export function updateFeatureLayer(layerObject, viewId) {
     try {
-        setWaitCursor();
-        removeFeatureLayer(layerObject);
-        addLayer(layerObject);
-        unsetWaitCursor();
+        setWaitCursor(viewId);
+        removeFeatureLayer(layerObject, viewId);
+        addLayer(layerObject, viewId);
+        unsetWaitCursor(viewId);
     } catch (error) {
-        logError(error);
+        logError(error, viewId);
     }
 }
 
-export function removeFeatureLayer(layerObject) {
+export function removeFeatureLayer(layerObject, viewId) {
     try {
-        setWaitCursor();
-        let featureLayer = mapLayers.find(l => layerObject.url.includes(l.url));
+        setWaitCursor(viewId);
+        let featureLayer = mapLayers[viewId].find(l => layerObject.url.includes(l.url));
+        let view = views[viewId];
         view.map.remove(featureLayer);
-        mapLayers.splice(mapLayers.indexOf(featureLayer), 1);
+        mapLayers[viewId].splice(mapLayers[viewId].indexOf(featureLayer), 1);
         featureLayer?.destroy();
-        unsetWaitCursor();
+        unsetWaitCursor(viewId);
     } catch (error) {
-        logError(error);
+        logError(error, viewId);
     }
 }
 
-export function findPlaces(addressQueryParams, symbol, popupTemplateObject) {
+export function findPlaces(addressQueryParams, symbol, popupTemplateObject, viewId) {
     require(["esri/rest/locator"], function (locator) {
         try {
-            setWaitCursor();
+            setWaitCursor(viewId);
+            let view = views[viewId];
             locator.addressToLocations(addressQueryParams.locatorUrl, {
                 location: view.center,
                 categories: addressQueryParams.categories,
@@ -425,84 +432,86 @@ export function findPlaces(addressQueryParams, symbol, popupTemplateObject) {
                             popupTemplate: popupTemplate
                         }))
                     });
-                    unsetWaitCursor();
+                    unsetWaitCursor(viewId);
                 }).catch((error) => {
-                logError(error)
+                logError(error, viewId)
             });
         } catch (error) {
-            logError(error);
+            logError(error, viewId);
         }
     });
 }
 
 
-export async function showPopup(popupTemplateObject, location) {
+export async function showPopup(popupTemplateObject, location, viewId) {
     try {
-        setWaitCursor();
-        var popupTemplate = buildPopupTemplate(popupTemplateObject);
-        view.popup.open({
+        setWaitCursor(viewId);
+        let popupTemplate = buildPopupTemplate(popupTemplateObject);
+        views[viewId].popup.open({
             title: popupTemplate.title,
             content: popupTemplate.content,
             location: location
         });
-        unsetWaitCursor();
+        unsetWaitCursor(viewId);
     } catch (error) {
-        logError(error);
+        logError(error, viewId);
     }
 }
 
 
-export async function showPopupWithGraphic(graphicObject, options) {
+export async function showPopupWithGraphic(graphicObject, options, viewId) {
     try {
-        setWaitCursor();
-        let graphicId = addGraphic(graphicObject);
+        setWaitCursor(viewId);
+        let graphicId = addGraphic(graphicObject, viewId);
+        let view = views[viewId];
         let graphic = view.graphics.find(g => g.uid === graphicId);
         view.popup.dockOptions = options.dockOptions;
         view.popup.visibleElements = options.visibleElements;
         view.popup.open({
             features: [graphic]
         });
-        unsetWaitCursor();
+        unsetWaitCursor(viewId);
     } catch (error) {
-        logError(error);
+        logError(error, viewId);
     }
 }
 
 
-export function addGraphic(graphicObject, graphicsLayer) {
+export function addGraphic(graphicObject, viewId, graphicsLayer) {
     try {
-        setWaitCursor();
+        setWaitCursor(viewId);
         let graphic = createGraphic(CreateGraphic, graphicObject);
         console.log(`adding graphic ${graphicObject?.geometry?.type}, UID: ${graphic.uid} to layer ${graphicsLayer}`);
         if (graphicsLayer === undefined || graphicsLayer === null) {
-            view.graphics.add(graphic);
+            views[viewId].graphics.add(graphic);
         } else if (typeof (graphicsLayer) === 'object') {
             graphicsLayer.add(graphic);
         } else {
-            graphicsLayers[graphicsLayer].add(graphic);
+            graphicsLayers[viewId][graphicsLayer].add(graphic);
         }
-        unsetWaitCursor();
+        unsetWaitCursor(viewId);
         return graphic.uid;
     } catch (error) {
-        logError(error);
+        logError(error, viewId);
     }
 }
 
 
-export function clearViewGraphics() {
+export function clearViewGraphics(viewId) {
     try {
-        setWaitCursor();
-        view.graphics.removeAll();
-        unsetWaitCursor();
+        setWaitCursor(viewId);
+        views[viewId].graphics.removeAll();
+        unsetWaitCursor(viewId);
     } catch (error) {
-        logError(error);
+        logError(error, viewId);
     }
 }
 
 
-export async function drawRouteAndGetDirections(routeUrl, routeSymbol) {
+export async function drawRouteAndGetDirections(routeUrl, routeSymbol, viewId) {
     try {
-        setWaitCursor();
+        setWaitCursor(viewId);
+        let view = views[viewId];
         const routeParams = new viewRouteParameters({
             stops: new viewFeatureSet({
                 features: view.graphics.toArray()
@@ -528,16 +537,17 @@ export async function drawRouteAndGetDirections(routeUrl, routeSymbol) {
                 directions.push(direction);
             });
         }
-        unsetWaitCursor();
+        unsetWaitCursor(viewId);
         return directions;
     } catch (error) {
-        logError(error);
+        logError(error, viewId);
     }
 }
 
-export function solveServiceArea(url, driveTimeCutoffs, serviceAreaSymbol) {
+export function solveServiceArea(url, driveTimeCutoffs, serviceAreaSymbol, viewId) {
     try {
-        setWaitCursor();
+        setWaitCursor(viewId);
+        let view = views[viewId];
         const featureSet = new viewFeatureSet({
             features: [view.graphics.items[0]]
         });
@@ -556,38 +566,39 @@ export function solveServiceArea(url, driveTimeCutoffs, serviceAreaSymbol) {
                         view.graphics.add(graphic, 0);
                     })
                 }
-                unsetWaitCursor();
+                unsetWaitCursor(viewId);
             }, function (error) {
-                logError(error);
+                logError(error, viewId);
             });
     } catch (error) {
-        logError(error);
+        logError(error, viewId);
     }
 }
 
 
-export function getAllGraphics(layerIndex) {
+export function getAllGraphics(layerIndex, viewId) {
     try {
         let dotNetGraphics = [];
-        graphicsLayers[layerIndex].graphics.forEach(g => {
+        graphicsLayers[viewId][layerIndex].graphics.forEach(g => {
             let dotNetGraphic = buildDotNetGraphic(g);
             dotNetGraphics.push(dotNetGraphic);
         });
         return dotNetGraphics;
     } catch (error) {
-        logError(error);
+        logError(error, viewId);
     }
 }
 
-export function getCenter() {
-    return buildDotNetPoint(view.center);
+export function getCenter(viewId) {
+    return buildDotNetPoint(views[viewId].center);
 }
 
 
-export function drawWithGeodesicBufferOnPointer(cursorSymbol, bufferSymbol, geodesicBufferDistance, geodesicBufferUnit) {
+export function drawWithGeodesicBufferOnPointer(cursorSymbol, bufferSymbol, geodesicBufferDistance, geodesicBufferUnit, viewId) {
     require(["esri/geometry/SpatialReference"], (SpatialReference) => {
         let cursorGraphicId;
         let bufferGraphicId;
+        let view = views[viewId];
         view.on('pointer-move', async (evt) => {
             let cursorPoint = view.toMap({
                 x: evt.x,
@@ -628,8 +639,8 @@ export function drawWithGeodesicBufferOnPointer(cursorSymbol, bufferSymbol, geod
 }
 
 
-export function displayQueryResults(query, symbol, popupTemplate) {
-    setWaitCursor();
+export function displayQueryResults(query, symbol, popupTemplate, viewId) {
+    setWaitCursor(viewId);
     queryLayer.queryFeatures(query)
         .then((results) => {
             results.features.map((feature) => {
@@ -637,17 +648,18 @@ export function displayQueryResults(query, symbol, popupTemplate) {
                 feature.popupTemplate = popupTemplate;
                 return feature;
             });
+            let view = views[viewId];
 
             view.popup.close();
             view.graphics.removeAll();
             view.graphics.addMany(results.features);
-            unsetWaitCursor();
+            unsetWaitCursor(viewId);
         }).catch((error) => {
-        logError(error);
+        logError(error, viewId);
     });
 }
 
-export function addWidget(widget) {
+export function addWidget(widget, viewId) {
     return require(["esri/widgets/Locate",
             "esri/widgets/Search",
             "esri/widgets/BasemapToggle",
@@ -660,9 +672,11 @@ export function addWidget(widget) {
         function (Locate, Search, BasemapToggle, BasemapGallery, ScaleBar, Legend, 
                   PortalBasemapsSource, Portal) {
             try {
+                let view = views[viewId];
+                let activeWidgetsForView = activeWidgets[viewId];
                 switch (widget.type) {
                     case 'locate':
-                        if (activeWidgets.some(w => w.declaredClass === 'esri.widgets.Locate')) {
+                        if (activeWidgetsForView.some(w => w.declaredClass === 'esri.widgets.Locate')) {
                             console.log("Locate widget already added!");
                             return;
                         }
@@ -675,10 +689,10 @@ export function addWidget(widget) {
                             }
                         });
                         view.ui.add(locate, widget.position);
-                        activeWidgets.push(locate);
+                        activeWidgetsForView.push(locate);
                         break;
                     case 'search':
-                        if (activeWidgets.some(w => w.declaredClass === 'esri.widgets.Search')) {
+                        if (activeWidgetsForView.some(w => w.declaredClass === 'esri.widgets.Search')) {
                             console.log("Search widget already added!");
                             return;
                         }
@@ -686,7 +700,7 @@ export function addWidget(widget) {
                             view: view
                         });
                         view.ui.add(search, widget.position);
-                        activeWidgets.push(search);
+                        activeWidgetsForView.push(search);
                         search.on('select-result', (evt) => {
                             widget.searchWidgetObjectReference.invokeMethodAsync('OnSearchSelectResult', {
                                 extent: buildDotNetExtent(evt.result.extent),
@@ -696,7 +710,7 @@ export function addWidget(widget) {
                         });
                         break;
                     case 'basemapToggle':
-                        if (activeWidgets.some(w => w.declaredClass === 'esri.widgets.BasemapToggle')) {
+                        if (activeWidgetsForView.some(w => w.declaredClass === 'esri.widgets.BasemapToggle')) {
                             console.log("Basemap Toggle widget already added!");
                             return;
                         }
@@ -705,10 +719,10 @@ export function addWidget(widget) {
                             nextBasemap: widget.nextBasemap
                         });
                         view.ui.add(basemapToggle, widget.position);
-                        activeWidgets.push(basemapToggle);
+                        activeWidgetsForView.push(basemapToggle);
                         break;
                     case 'basemapGallery':
-                        if (activeWidgets.some(w => w.declaredClass === 'esri.widgets.BasemapGallery')) {
+                        if (activeWidgetsForView.some(w => w.declaredClass === 'esri.widgets.BasemapGallery')) {
                             console.log("Basemap Gallery widget already added!");
                             return;
                         }
@@ -739,10 +753,10 @@ export function addWidget(widget) {
                             source: source
                         });
                         view.ui.add(basemapGallery, widget.position);
-                        activeWidgets.push(basemapGallery);
+                        activeWidgetsForView.push(basemapGallery);
                         break;
                     case 'scaleBar':
-                        if (activeWidgets.some(w => w.declaredClass === 'esri.widgets.ScaleBar')) {
+                        if (activeWidgetsForView.some(w => w.declaredClass === 'esri.widgets.ScaleBar')) {
                             console.log("Scale Bar widget already added!");
                             return;
                         }
@@ -753,10 +767,10 @@ export function addWidget(widget) {
                             scaleBar.unit = widget.unit;
                         }
                         view.ui.add(scaleBar, widget.position);
-                        activeWidgets.push(scaleBar);
+                        activeWidgetsForView.push(scaleBar);
                         break;
                     case 'legend':
-                        if (activeWidgets.some(w => w.declaredClass === 'esri.widgets.Legend')) {
+                        if (activeWidgetsForView.some(w => w.declaredClass === 'esri.widgets.Legend')) {
                             console.log("Legend widget already added!");
                             return;
                         }
@@ -764,11 +778,11 @@ export function addWidget(widget) {
                             view: view
                         });
                         view.ui.add(legend, widget.position);
-                        activeWidgets.push(legend);
+                        activeWidgetsForView.push(legend);
                         break;
                 }
             } catch (error) {
-                logError(error);
+                logError(error, viewId);
             }
         });
 }
@@ -788,7 +802,7 @@ export function createGraphic(Graphic, graphicObject) {
     return graphic;
 }
 
-export function addLayer(layerObject, isBasemapLayer, isQueryLayer, callback) {
+export function addLayer(layerObject, viewId, isBasemapLayer, isQueryLayer, callback) {
     return require(["esri/layers/GraphicsLayer",
             "esri/layers/VectorTileLayer",
             "esri/layers/TileLayer",
@@ -797,12 +811,13 @@ export function addLayer(layerObject, isBasemapLayer, isQueryLayer, callback) {
         function (GraphicsLayer, VectorTileLayer, TileLayer, FeatureLayer, GeoJSONLayer) {
             let newLayer;
             try {
+                let view = views[viewId];
                 switch (layerObject.type) {
                     case 'graphics':
                         newLayer = new GraphicsLayer();
-                        graphicsLayers.push(newLayer);
+                        graphicsLayers[viewId].push(newLayer);
                         layerObject.graphics?.forEach(graphicObject => {
-                            addGraphic(graphicObject, newLayer);
+                            addGraphic(graphicObject, viewId, newLayer);
                         });
                         break;
                     case 'feature':
@@ -870,16 +885,16 @@ export function addLayer(layerObject, isBasemapLayer, isQueryLayer, callback) {
                 }
 
                 if (isBasemapLayer) {
-                    basemapLayers.push(newLayer);
+                    basemapLayers[viewId].push(newLayer);
                 } else if (isQueryLayer) {
                     queryLayer = newLayer;
                     callback();
                 } else {
-                    mapLayers.push(newLayer);
+                    mapLayers[viewId].push(newLayer);
                     view.map.add(newLayer);
                 }
             } catch (error) {
-                logError(error);
+                logError(error, viewId);
             }
         });
 }
@@ -898,21 +913,21 @@ export function buildPopupTemplate(popupTemplateObject) {
     };
 }
 
-async function resetCenterToSpatialReference(center, spatialReference) {
+async function resetCenterToSpatialReference(center, spatialReference, viewId) {
     center = await projection.project(center, spatialReference);
-    view.center = center;
+    views[viewId].center = center;
 }
 
 
-function logError(error) {
+function logError(error, viewId) {
     if (error.stack !== undefined && error.stack !== null) {
         console.log(error.stack);
-        dotNetRef.invokeMethodAsync('OnJavascriptError', error.stack);
+        dotNetRefs[viewId].invokeMethodAsync('OnJavascriptError', error.stack);
     } else {
         console.log(error.message);
-        dotNetRef.invokeMethodAsync('OnJavascriptError', error.message);
+        dotNetRefs[viewId].invokeMethodAsync('OnJavascriptError', error.message);
     }
-    unsetWaitCursor();
+    unsetWaitCursor(viewId);
 }
 
 
@@ -1016,10 +1031,10 @@ export function buildDotNetExtent(extent) {
     }
 }
 
-function setWaitCursor() {
-    document.getElementById('map-container').style.cursor = 'wait';
+function setWaitCursor(viewId) {
+    document.getElementById(`map-container-${viewId}`).style.cursor = 'wait';
 }
 
-function unsetWaitCursor() {
-    document.getElementById('map-container').style.cursor = 'unset';
+function unsetWaitCursor(viewId) {
+    document.getElementById(`map-container-${viewId}`).style.cursor = 'unset';
 }
