@@ -1,20 +1,20 @@
 import * as geometryEngine from "./geometryEngine.js";
 import * as projection from "./projection.js";
 
-let view;
-let activeWidgets = [];
-let basemapLayers = [];
-let mapLayers = [];
-let queryLayer = null;
-let graphicsLayers = [];
-let sketchWidget = null;
+export let view;
+export let dotNetRef = null;
+export let graphicsLayers = [];
+export let CreateGraphic = null;
+export let activeWidgets = [];
+export let basemapLayers = [];
+export let mapLayers = [];
+export let queryLayer = null;
 let viewRoute = null;
 let viewRouteParameters = null;
 let viewFeatureSet = null;
 let viewServiceArea = null;
 let viewServiceAreaParameters = null;
-let dotNetRef = null;
-let CreateGraphic = null;
+
 
 export function buildMapView(dotNetReference, long, lat, rotation, mapObject, zoom, scale, apiKey, mapType, widgets,
                              graphics, spatialReference, zIndex, tilt) {
@@ -367,7 +367,7 @@ export function removeGraphic(graphicObject, layerIndex) {
         } else {
             let gLayer = graphicsLayers[layerIndex];
             if (graphicObject.uid !== undefined && graphicObject.uid !== null) {
-                oldGraphic = gLayer.graphics.find(g => g.uid === graphicObject.uid);
+                oldGraphic = gLayer.graphics?.find(g => g.uid === graphicObject.uid);
                 gLayer.graphics.remove(oldGraphic);
             } else {
                 graphicsLayers[layerIndex]?.graphics?.removeAt(graphicObject.graphicIndex);
@@ -628,7 +628,7 @@ export function drawWithGeodesicBufferOnPointer(cursorSymbol, bufferSymbol, geod
 }
 
 
-function displayQueryResults(query, symbol, popupTemplate) {
+export function displayQueryResults(query, symbol, popupTemplate) {
     setWaitCursor();
     queryLayer.queryFeatures(query)
         .then((results) => {
@@ -647,21 +647,17 @@ function displayQueryResults(query, symbol, popupTemplate) {
     });
 }
 
-function addWidget(widget) {
+export function addWidget(widget) {
     return require(["esri/widgets/Locate",
             "esri/widgets/Search",
             "esri/widgets/BasemapToggle",
             "esri/widgets/BasemapGallery",
             "esri/widgets/ScaleBar",
             "esri/widgets/Legend",
-            "esri/widgets/Sketch",
-            "esri/widgets/Editor",
-            "esri/widgets/Track",
-            "esri/widgets/Expand",
             "esri/widgets/BasemapGallery/support/PortalBasemapsSource",
             "esri/portal/Portal"
         ],
-        function (Locate, Search, BasemapToggle, BasemapGallery, ScaleBar, Legend, Sketch, Editor, Track, Expand,
+        function (Locate, Search, BasemapToggle, BasemapGallery, ScaleBar, Legend, 
                   PortalBasemapsSource, Portal) {
             try {
                 switch (widget.type) {
@@ -770,101 +766,6 @@ function addWidget(widget) {
                         view.ui.add(legend, widget.position);
                         activeWidgets.push(legend);
                         break;
-                    case 'sketch':
-                        if (activeWidgets.some(w => w.declaredClass === 'esri.widgets.Sketch')) {
-                            console.log("Sketch widget already added!");
-                            return;
-                        }
-                        if (graphicsLayers.length < 1 || graphicsLayers[0] === null) {
-                            addLayer({type: 'graphics'});
-                        }
-                        const sketch = new Sketch({
-                            view: view,
-                            layer: graphicsLayers[0],
-                            creationMode: widget.creationMode
-                        });
-                        if (widget.creationMode !== undefined &&
-                            widget.creationMode !== null) {
-                            sketch.creationMode = widget.creationMode;
-                        }
-                        if (widget.updateOnGraphicClick !== undefined &&
-                            widget.updateOnGraphicClick !== null) {
-                            sketch.updateOnGraphicClick = widget.updateOnGraphicClick;
-                        }
-                        if (widget.snappingOptions !== undefined &&
-                            widget.snappingOptions !== null) {
-                            sketch.snappingOptions = {
-                                enabled: widget.snappingOptions.enabled,
-                                featureSources: widget.snappingOptions.featureSources ?? [{
-                                    layer: graphicsLayers[0]
-                                }]
-                            };
-                        }
-                        if (widget.visibleElements !== undefined &&
-                            widget.visibleElements !== null) {
-                            sketch.visibleElements = widget.visibleElements;
-                        }
-                        view.ui.add(sketch, widget.position);
-                        activeWidgets.push(sketch);
-                        sketchWidget = widget;
-                        sketch.on(["create", "update", "undo", "redo"], (event) => {
-                            let sketchEvent = {
-                                state: event.state,
-                                type: event.type,
-                                tool: event.tool,
-                                graphics: [],
-                                toolEventInfo: event.toolEventInfo
-                            };
-                            event.graphics?.forEach(g => {
-                                let sketchGraphic = buildDotNetGraphic(g);
-                                sketchEvent.graphics.push(sketchGraphic);
-                            });
-
-                            widget.sketchWidgetObjectReference.invokeMethodAsync('OnSketchUpdate', sketchEvent);
-                        });
-
-                        break;
-                    case 'editor':
-                        if (activeWidgets.some(w => w.declaredClass === 'esri.widgets.Editor')) {
-                            console.log("Editor widget already added!");
-                            return;
-                        }
-                        const editor = new Editor({
-                            view: view
-                        });
-                        view.ui.add(editor, widget.position);
-                        activeWidgets.push(editor);
-                        break;
-                    case 'track':
-                        if (activeWidgets.some(w => w.declaredClass === 'esri.widgets.Track')) {
-                            console.log("Track widget already added!");
-                            return;
-                        }
-                        
-                        if (widget.graphic === undefined || widget.graphic === null) {
-                            return;
-                        }
-
-                        let graphic = createGraphic(CreateGraphic, widget.graphic);
-                        const track = new Track({
-                            view: view,
-                            graphic: graphic,
-                            useHeadingEnabled: widget.useHeadingEnabled
-                        });
-                        view.ui.add(track, widget.position);
-                        activeWidgets.push(track);
-                        break;
-                    case 'expand':
-                        addWidget(widget.content);
-                        let content = activeWidgets[activeWidgets.length - 1];
-                        view.ui.remove(content);
-                        const expand = new Expand({
-                            view,
-                            content: content,
-                            expandIconClass: widget.expandIconClass
-                        });
-                        view.ui.add(expand, widget.position);
-                        activeWidgets.push(expand);
                 }
             } catch (error) {
                 logError(error);
@@ -872,7 +773,7 @@ function addWidget(widget) {
         });
 }
 
-function createGraphic(Graphic, graphicObject) {
+export function createGraphic(Graphic, graphicObject) {
     let popupTemplate = null;
     if (graphicObject.popupTemplate !== undefined && graphicObject.popupTemplate !== null) {
         popupTemplate = buildPopupTemplate(graphicObject.popupTemplate);
@@ -887,7 +788,7 @@ function createGraphic(Graphic, graphicObject) {
     return graphic;
 }
 
-function addLayer(layerObject, isBasemapLayer, isQueryLayer, callback) {
+export function addLayer(layerObject, isBasemapLayer, isQueryLayer, callback) {
     return require(["esri/layers/GraphicsLayer",
             "esri/layers/VectorTileLayer",
             "esri/layers/TileLayer",
@@ -984,7 +885,7 @@ function addLayer(layerObject, isBasemapLayer, isQueryLayer, callback) {
 }
 
 
-function buildPopupTemplate(popupTemplateObject) {
+export function buildPopupTemplate(popupTemplateObject) {
     let content;
     if (popupTemplateObject.stringContent !== undefined && popupTemplateObject.stringContent !== null) {
         content = popupTemplateObject.stringContent;
@@ -1015,7 +916,7 @@ function logError(error) {
 }
 
 
-function buildDotNetGraphic(graphic) {
+export function buildDotNetGraphic(graphic) {
     let dotNetGraphic = {};
     dotNetGraphic.uid = graphic.uid;
 
@@ -1061,7 +962,7 @@ function buildDotNetFeature(feature) {
 }
 
 
-function buildDotNetPoint(point) {
+export function buildDotNetPoint(point) {
     return {
         type: 'point',
         latitude: point.latitude,
@@ -1075,7 +976,7 @@ function buildDotNetPoint(point) {
     }
 }
 
-function buildDotNetPolyline(polyline) {
+export function buildDotNetPolyline(polyline) {
     return {
         type: 'polyline',
         paths: polyline.paths,
@@ -1086,7 +987,7 @@ function buildDotNetPolyline(polyline) {
     }
 }
 
-function buildDotNetPolygon(polygon) {
+export function buildDotNetPolygon(polygon) {
     return {
         type: 'polygon',
         rings: polygon.rings,
@@ -1097,7 +998,7 @@ function buildDotNetPolygon(polygon) {
     }
 }
 
-function buildDotNetExtent(extent) {
+export function buildDotNetExtent(extent) {
     if (extent === undefined || extent === null) return null;
     return {
         type: 'extent',

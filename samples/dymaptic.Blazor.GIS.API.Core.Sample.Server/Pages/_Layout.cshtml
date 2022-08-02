@@ -1,0 +1,42 @@
+﻿@using Microsoft.AspNetCore.Components.Web
+@namespace dymaptic.Blazor.GIS.API.Core.Sample.Pages
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <base href="~/" />
+        <link rel="icon" href="_content/dymaptic.Blazor.GIS.API.Core.Sample.Shared/favicon.ico" />
+        <link rel="stylesheet" href="_content/dymaptic.Blazor.GIS.API.Core.Sample.Shared/css/bootstrap/bootstrap.min.css" />
+        <link href="_content/dymaptic.Blazor.GIS.API.Core.Sample.Shared/css/site.css" rel="stylesheet" />
+        <link href="dymaptic.Blazor.GIS.API.Core.Sample.Server.styles.css" rel="stylesheet" />
+        <link href="_content/dymaptic.Blazor.GIS.API.Core" />
+        <link href="_content/dymaptic.Blazor.GIS.API.Core.Sample.Shared" />
+        <script src="_content/dymaptic.Blazor.GIS.API.Core.Sample.Shared/functions.js"></script>
+        <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />
+        <script src="https://unpkg.com/@@esri/arcgis-rest-request@@3.0.0/dist/umd/request.umd.js"></script>
+        <script src="https://unpkg.com/@@esri/arcgis-rest-auth@@3.0.0/dist/umd/auth.umd.js"></script>
+        <script src="https://unpkg.com/@@esri/arcgis-rest-demographics@@3.0.0/dist/umd/demographics.umd.js"></script>
+
+        <link rel="stylesheet" href="https://js.arcgis.com/4.23/esri/themes/light/main.css">
+        <script src="https://js.arcgis.com/4.23/"></script>
+    </head>
+    <body>
+        @RenderBody()
+
+        <div id="blazor-error-ui">
+            <environment include="Staging,Production">
+                An error has occurred. This application may no longer respond until reloaded.
+            </environment>
+            <environment include="Development">
+                An unhandled exception has occurred. See browser dev tools for details.
+            </environment>
+            <a href="" class="reload">Reload</a>
+            <a class="dismiss">🗙</a>
+        </div>
+
+        <script src="_framework/blazor.server.js"></script>
+    </body>
+</html>

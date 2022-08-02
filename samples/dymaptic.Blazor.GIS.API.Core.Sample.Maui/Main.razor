@@ -1,0 +1,46 @@
+﻿<Router AppAssembly="@typeof(App).Assembly"
+        AdditionalAssemblies="@(new[] { typeof(MainLayout).Assembly })">
+    <Found Context="routeData">
+        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+    </Found>
+    <NotFound>
+        <PageTitle>Not found</PageTitle>
+        <LayoutView Layout="@typeof(MainLayout)">
+            <p role="alert">Sorry, there's nothing at this address.</p>
+        </LayoutView>
+    </NotFound>
+</Router>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        await CheckAndRequestLocationPermission();
+    }
+
+    private async Task<PermissionStatus> CheckAndRequestLocationPermission()
+    {
+        if (DeviceInfo.Platform == DevicePlatform.WinUI) return PermissionStatus.Granted;
+        PermissionStatus status = await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
+
+        if (status == PermissionStatus.Granted)
+            return status;
+
+        if (status == PermissionStatus.Denied && DeviceInfo.Platform == DevicePlatform.iOS)
+        {
+            // Prompt the user to turn on in settings
+            // On iOS once a permission has been denied it may not be requested again from the application
+            return status;
+        }
+
+        if (Permissions.ShouldShowRationale<Permissions.LocationWhenInUse>())
+        {
+            // Prompt the user with additional information as to why the permission is needed
+        }
+
+        status = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
+
+        return status;
+    }
+}

@@ -28,7 +28,7 @@
     </ItemGroup>
     
     <Target Name="Move Nuget" AfterTargets="Publish">
-        <Exec ContinueOnError="true" Command="robocopy bin/$(Configuration) ../packages dymaptic.Blazor.GIS.API.Core.$(Version).nupkg">
+        <Exec ContinueOnError="true" Command="robocopy bin/$(Configuration) ../../packages dymaptic.Blazor.GIS.API.Core.$(Version).nupkg">
             <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
         </Exec>
         <Error Condition="$(ErrorCode) &gt; 8" Message="Robocopy failed" />

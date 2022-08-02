@@ -1,0 +1,63 @@
+﻿@page "/sql-query"
+<PageTitle>SqlQuery</PageTitle>
+<h1>SQL Query</h1>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/query-a-feature-layer-sql/">ArcGIS API for JavaScript</a>
+
+<MapView @ref="View" Longitude="-118.80543"
+         Latitude="34.03000"
+         Zoom="13"
+         Class="map-view">
+    <Map ArcGISDefaultBasemap="arcgis-topographic" />
+
+    <CustomOverlay Position="OverlayPosition.TopRight">
+        <select class="esri-widget esri-select demo-select" @onchange="OnSqlQueryChanged">
+            @foreach (string query in _parcelLayerSql)
+            {
+                <option value="@query">@query</option>
+            }
+        </select>
+    </CustomOverlay>
+</MapView>
+
+@* Declare these outside the map view for reference/passing into the Query *@
+<FeatureLayer @ref="QueryFeatureLayer"
+              Url="https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/LA_County_Parcels/FeatureServer/0" />
+<SimpleFillSymbol @ref="Symbol" Color="@(new MapColor(20, 130, 200, 0.5))">
+    <Outline Color="@(new MapColor("white"))" Width="0.5" />
+</SimpleFillSymbol>
+<PopupTemplate @ref="Popup" Title="Parcel {APN}"
+               StringContent="Type: {UseType} <br> Land value: {Roll_LandValue} <br> Tax Rate City: {TaxRateCity}" />
+
+@code {
+    public MapView? View { get; set; }
+    public FeatureLayer? QueryFeatureLayer { get; set; }
+    public SimpleFillSymbol? Symbol { get; set; }
+    public PopupTemplate? Popup { get; set; }
+
+    private readonly string[] _parcelLayerSql =
+    {
+        "Choose a SQL where clause...", "UseType = 'Residential'", "UseType = 'Government'",
+        "UseType = 'Irrigated Farm'", "TaxRateArea = 10853", "TaxRateArea = 10860", "TaxRateArea = 08637",
+        "Roll_LandValue > 1000000", "Roll_LandValue < 1000000"
+    };
+
+    private async Task OnSqlQueryChanged(ChangeEventArgs e)
+    {
+        var whereClause = e.Value!.ToString();
+        if (whereClause == _parcelLayerSql[0]) return;
+
+        var query = new Query
+        {
+            Where = whereClause,
+            OutFields = new HashSet<string>
+            {
+                "APN", "UseType", "TaxRateCity", "Roll_LandValue"
+            },
+            ReturnGeometry = true,
+            SpatialRelationship = SpatialRelationship.Intersects,
+            UseViewExtent = true
+        };
+        await View!.QueryFeatures(query, QueryFeatureLayer!, Symbol!, Popup!);
+    }
+
+}
