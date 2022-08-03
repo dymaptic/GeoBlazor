@@ -11,10 +11,18 @@
             It is a wrapper around the ArcGIS Javascript API - https://developers.arcgis.com/javascript/latest/
             For more information, contact dymaptic at info@dymaptic.com, or tim.purdum@dymaptic.com
         </Description>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageVersion>1.0.0</PackageVersion>
         <Version>1.0.0</Version>
         <PackageVersion>1.0.0</PackageVersion>
-        <Authors>Tim Purdum</Authors>
+        <Authors>Tim Purdum, Christopher Moravec</Authors>
         <Company>dymaptic</Company>
+        <Copyright>©2022 by dymaptic</Copyright>
+        <PackageReadmeFile>ReadMe.md</PackageReadmeFile>
+        <RepositoryUrl>https://github.com/dymaptic/dy-blazor-api-core</RepositoryUrl>
+        <PackageProjectUrl>https://github.com/dymaptic/dy-blazor-api-core</PackageProjectUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageIcon>dymaptic_logo.png</PackageIcon>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     </PropertyGroup>
 
@@ -25,6 +33,11 @@
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.6" />
         <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="ReadMe.md" Pack="true" PackagePath="" />
+      <None Include="dymaptic_logo.png" Pack="true" PackagePath="" />
     </ItemGroup>
     
     <Target Name="Move Nuget" AfterTargets="Publish">
