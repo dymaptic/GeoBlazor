@@ -1,11 +1,18 @@
 #control-set {
-    width: 50%; 
     display: flex;
+    flex-wrap: wrap;
 }
 
 .form-group {
     border: 1px solid black;
     padding: 0.5rem 2rem;
+    background-image: linear-gradient(180deg, #161616 0%, #1a5974 100%);
+    margin: 0.25rem;
+    color: white;
+}
+
+.form-group .table {
+    color: white;
 }
 
 .draw-label {

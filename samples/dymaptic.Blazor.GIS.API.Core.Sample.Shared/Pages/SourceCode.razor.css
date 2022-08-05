@@ -7,6 +7,9 @@
     overflow: unset;
 }
 
+#source-code ::deep div {
+    background: transparent!important;
+}
 
 @media (min-width: 800px) {
     #source-code {
