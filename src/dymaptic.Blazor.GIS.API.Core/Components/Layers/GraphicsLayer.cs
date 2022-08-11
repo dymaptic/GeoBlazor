@@ -39,7 +39,7 @@ public class GraphicsLayer : Layer
     {
         await InvokeAsync(async () =>
         {
-            await JsModule!.InvokeVoidAsync("removeGraphicsLayer", View.Id);
+            await JsModule!.InvokeVoidAsync("removeGraphicsLayer", View.Id, Id);
         });
     }
 

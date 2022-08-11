@@ -1,13 +1,11 @@
+// noinspection JSUnresolvedFunction
+
 import * as geometryEngine from "./geometryEngine.js";
 import * as projection from "./projection.js";
 
-export let views = {};
+export let arcGisObjectRefs = {};
 export let dotNetRefs = {};
-export let graphicsLayers = {};
 export let CreateGraphic = null;
-export let activeWidgets = {};
-export let basemapLayers = {};
-export let mapLayers = {};
 export let queryLayer = null;
 let viewRoute = null;
 let viewRouteParameters = null;
@@ -46,19 +44,8 @@ export function buildMapView(id, dotNetReference, long, lat, rotation, mapObject
                     esriConfig.apiKey = apiKey;
                     geometryEngine.initialize(dotNetReference);
                     projection.initialize(dotNetReference);
-                    activeWidgets[id]?.forEach(w => w?.destroy());
-                    activeWidgets[id] = [];
-                    basemapLayers[id]?.forEach(l => l?.destroy());
-                    basemapLayers[id] = [];
-                    mapLayers[id]?.forEach(ml => ml?.destroy());
-                    mapLayers[id] = [];
-                    graphicsLayers[id]?.forEach(gl => gl.destroy());
-                    graphicsLayers[id] = [];
-                    let view = views[id];
-                    view?.graphics?.forEach(g => g.destroy());
-                    view?.map?.destroy();
-                    view?.destroy();
-                    view = null;
+                    disposeView(id);
+                    let view = null;
                     viewRoute = route;
                     viewRouteParameters = RouteParameters;
                     viewFeatureSet = FeatureSet;
@@ -172,7 +159,7 @@ export function buildMapView(id, dotNetReference, long, lat, rotation, mapObject
                             break;
                     }
                     
-                    views[id] = view;
+                    arcGisObjectRefs[id] = view;
 
                     if (mapObject.layers !== undefined && mapObject.layers !== null) {
                         mapObject.layers.forEach(layerObject => {
@@ -215,18 +202,36 @@ export function buildMapView(id, dotNetReference, long, lat, rotation, mapObject
     }
 }
 
+export function disposeView(viewId) {
+    try {
+        let view = arcGisObjectRefs[viewId];
+        view?.graphics?._items.forEach(g => g?.destroy());
+        view?.map?.basemap?.baseLayers?._items.forEach(l => l?.destroy());
+        view?.map?.layers?._items.forEach(l => l?.destroy());
+        view?.map?.destroy();
+        view?.destroy();
+        arcGisObjectRefs[viewId] = null;
+    } catch (error) {
+        logError(error, viewId);
+    }
+}
+
 export function updateWidgets(newWidgets, viewId) {
     try {
         setWaitCursor(viewId);
         let oldWidgets = [];
-        activeWidgets[viewId].forEach(aw => {
-            if (newWidgets.find(nw => nw.type === aw.type) === undefined) {
-                oldWidgets.push(aw);
-            }
+        let oldWidgetIds = [];
+        let view = arcGisObjectRefs[viewId];
+        Object.values(arcGisObjectRefs).filter(o => o?.__proto__?.declaredClass?.includes('esri.widgets'))
+            .forEach(aw => {
+                if (newWidgets.find(nw => aw.__proto__.declaredClass.toLowerCase().includes(nw.type.toLowerCase())) === undefined) {
+                    oldWidgets.push(aw);
+                }
         });
+        
         oldWidgets.forEach(ow => {
-            views[viewId].ui.remove(ow);
-            activeWidgets[viewId].splice(activeWidgets[viewId].indexOf(ow), 1);
+            view.ui.remove(ow);
+            Object.ke
             ow?.destroy();
         });
 
@@ -244,7 +249,7 @@ export function updateWidgets(newWidgets, viewId) {
 export function updateView(property, value, viewId) {
     try {
         setWaitCursor(viewId);
-        let view = views[viewId];
+        let view = arcGisObjectRefs[viewId];
         switch (property) {
             case 'Longitude':
                 view.center = [value, view.center.latitude];
@@ -275,7 +280,7 @@ export function queryFeatureLayer(queryObject, layerObject, symbol, popupTemplat
             spatialRelationship: queryObject.spatialRelationship,
         };
         if (queryObject.useViewExtent) {
-            query.geometry = views[viewId].extent;
+            query.geometry = arcGisObjectRefs[viewId].extent;
         } else if (queryObject.geometry !== undefined && queryObject.geometry !== null) {
             query.geometry = queryObject.geometry;
         }
@@ -290,11 +295,11 @@ export function queryFeatureLayer(queryObject, layerObject, symbol, popupTemplat
 }
 
 
-export function updateGraphicsLayer(layerObject, viewId) {
+export function updateGraphicsLayer(layerObject, layerId, viewId) {
     try {
         setWaitCursor(viewId);
         console.log('update graphics layer');
-        removeGraphicsLayer(viewId);
+        removeGraphicsLayer(layerId);
         addLayer(layerObject, viewId);
         unsetWaitCursor(viewId);
     } catch (error) {
@@ -302,12 +307,13 @@ export function updateGraphicsLayer(layerObject, viewId) {
     }
 }
 
-export function removeGraphicsLayer(viewId) {
+export function removeGraphicsLayer(viewId, layerId) {
     try {
         setWaitCursor(viewId);
         console.log('remove graphics layer');
-        views[viewId].map.remove(graphicsLayers[viewId][0]);
-        let layer = graphicsLayers[viewId].shift();
+        let view = arcGisObjectRefs[viewId];
+        let layer = arcGisObjectRefs[layerId];
+        view.map.remove(layer);
         layer?.destroy();
         unsetWaitCursor(viewId);
     } catch (error) {
@@ -321,7 +327,7 @@ export function updateGraphic(graphicObject, layerIndex, viewId) {
         console.log(`updating graphic ${graphicObject?.geometry?.type}, UID: ${graphicObject?.uid}`);
         const newGraphic = createGraphic(CreateGraphic, graphicObject);
         let oldGraphic = null;
-        let view = views[viewId];
+        let view = arcGisObjectRefs[viewId];
         if (layerIndex === undefined || layerIndex === null) {
             if (graphicObject.uid !== undefined && graphicObject.uid !== null) {
                 oldGraphic = view.graphics.find(g => g.uid === graphicObject.uid);
@@ -333,7 +339,7 @@ export function updateGraphic(graphicObject, layerIndex, viewId) {
             }
             view.graphics.add(newGraphic);
         } else {
-            const gLayer = graphicsLayers[viewId][layerIndex];
+            const gLayer = view.map.layers._items.filter(l => l.type === "graphics")[layerIndex];
             if (graphicObject.uid !== undefined && graphicObject.uid !== null) {
                 oldGraphic = gLayer.graphics.find(g => g.uid === graphicObject.uid);
             }
@@ -361,7 +367,7 @@ export function removeGraphic(graphicObject, layerIndex, viewId) {
         setWaitCursor(viewId);
         console.log(`removing graphic ${graphicObject?.geometry?.type}, UID ${graphicObject.uid} from layer ${layerIndex}`);
         let oldGraphic = null;
-        let view = views[viewId];
+        let view = arcGisObjectRefs[viewId];
         if (layerIndex === undefined || layerIndex === null) {
             if (graphicObject.uid !== undefined && graphicObject.uid !== null) {
                 oldGraphic = view.graphics.find(g => g.uid === graphicObject.uid);
@@ -370,12 +376,12 @@ export function removeGraphic(graphicObject, layerIndex, viewId) {
                 view.graphics.removeAt(graphicObject.graphicIndex);
             }
         } else {
-            let gLayer = graphicsLayers[viewId][layerIndex];
+            let gLayer = view.map.layers._items.filter(l => l.type === "graphics")[layerIndex];
             if (graphicObject.uid !== undefined && graphicObject.uid !== null) {
                 oldGraphic = gLayer.graphics?.find(g => g.uid === graphicObject.uid);
                 gLayer.graphics.remove(oldGraphic);
             } else {
-                graphicsLayers[viewId][layerIndex]?.graphics?.removeAt(graphicObject.graphicIndex);
+                gLayer?.graphics?.removeAt(graphicObject.graphicIndex);
             }
         }
         unsetWaitCursor(viewId);
@@ -398,10 +404,9 @@ export function updateFeatureLayer(layerObject, viewId) {
 export function removeFeatureLayer(layerObject, viewId) {
     try {
         setWaitCursor(viewId);
-        let featureLayer = mapLayers[viewId].find(l => layerObject.url.includes(l.url));
-        let view = views[viewId];
+        let featureLayer = arcGisObjectRefs[layerObject.id];
+        let view = arcGisObjectRefs[viewId];
         view.map.remove(featureLayer);
-        mapLayers[viewId].splice(mapLayers[viewId].indexOf(featureLayer), 1);
         featureLayer?.destroy();
         unsetWaitCursor(viewId);
     } catch (error) {
@@ -413,7 +418,7 @@ export function findPlaces(addressQueryParams, symbol, popupTemplateObject, view
     require(["esri/rest/locator"], function (locator) {
         try {
             setWaitCursor(viewId);
-            let view = views[viewId];
+            let view = arcGisObjectRefs[viewId];
             locator.addressToLocations(addressQueryParams.locatorUrl, {
                 location: view.center,
                 categories: addressQueryParams.categories,
@@ -447,7 +452,7 @@ export async function showPopup(popupTemplateObject, location, viewId) {
     try {
         setWaitCursor(viewId);
         let popupTemplate = buildPopupTemplate(popupTemplateObject);
-        views[viewId].popup.open({
+        arcGisObjectRefs[viewId].popup.open({
             title: popupTemplate.title,
             content: popupTemplate.content,
             location: location
@@ -463,7 +468,7 @@ export async function showPopupWithGraphic(graphicObject, options, viewId) {
     try {
         setWaitCursor(viewId);
         let graphicId = addGraphic(graphicObject, viewId);
-        let view = views[viewId];
+        let view = arcGisObjectRefs[viewId];
         let graphic = view.graphics.find(g => g.uid === graphicId);
         view.popup.dockOptions = options.dockOptions;
         view.popup.visibleElements = options.visibleElements;
@@ -481,13 +486,14 @@ export function addGraphic(graphicObject, viewId, graphicsLayer) {
     try {
         setWaitCursor(viewId);
         let graphic = createGraphic(CreateGraphic, graphicObject);
+        let view = arcGisObjectRefs[viewId];
         console.log(`adding graphic ${graphicObject?.geometry?.type}, UID: ${graphic.uid} to layer ${graphicsLayer}`);
         if (graphicsLayer === undefined || graphicsLayer === null) {
-            views[viewId].graphics.add(graphic);
+            view.graphics.add(graphic);
         } else if (typeof (graphicsLayer) === 'object') {
             graphicsLayer.add(graphic);
         } else {
-            graphicsLayers[viewId][graphicsLayer].add(graphic);
+            view.map.layers._items.filter(l => l.type === "graphics")[graphicsLayer].add(graphic);
         }
         unsetWaitCursor(viewId);
         return graphic.uid;
@@ -500,7 +506,7 @@ export function addGraphic(graphicObject, viewId, graphicsLayer) {
 export function clearViewGraphics(viewId) {
     try {
         setWaitCursor(viewId);
-        views[viewId].graphics.removeAll();
+        arcGisObjectRefs[viewId].graphics.removeAll();
         unsetWaitCursor(viewId);
     } catch (error) {
         logError(error, viewId);
@@ -511,7 +517,7 @@ export function clearViewGraphics(viewId) {
 export async function drawRouteAndGetDirections(routeUrl, routeSymbol, viewId) {
     try {
         setWaitCursor(viewId);
-        let view = views[viewId];
+        let view = arcGisObjectRefs[viewId];
         const routeParams = new viewRouteParameters({
             stops: new viewFeatureSet({
                 features: view.graphics.toArray()
@@ -519,7 +525,7 @@ export async function drawRouteAndGetDirections(routeUrl, routeSymbol, viewId) {
             returnDirections: true
         });
 
-        var data = await viewRoute.solve(routeUrl, routeParams);
+        let data = await viewRoute.solve(routeUrl, routeParams);
         data.routeResults.forEach(function (result) {
             result.route.symbol = routeSymbol
             view.graphics.add(result.route);
@@ -547,7 +553,7 @@ export async function drawRouteAndGetDirections(routeUrl, routeSymbol, viewId) {
 export function solveServiceArea(url, driveTimeCutoffs, serviceAreaSymbol, viewId) {
     try {
         setWaitCursor(viewId);
-        let view = views[viewId];
+        let view = arcGisObjectRefs[viewId];
         const featureSet = new viewFeatureSet({
             features: [view.graphics.items[0]]
         });
@@ -579,7 +585,8 @@ export function solveServiceArea(url, driveTimeCutoffs, serviceAreaSymbol, viewI
 export function getAllGraphics(layerIndex, viewId) {
     try {
         let dotNetGraphics = [];
-        graphicsLayers[viewId][layerIndex].graphics.forEach(g => {
+        let view = arcGisObjectRefs[viewId];
+        view.map.layers._items.filter(l => l.type === "graphics")[layerIndex].graphics?._items.forEach(g => {
             let dotNetGraphic = buildDotNetGraphic(g);
             dotNetGraphics.push(dotNetGraphic);
         });
@@ -590,7 +597,7 @@ export function getAllGraphics(layerIndex, viewId) {
 }
 
 export function getCenter(viewId) {
-    return buildDotNetPoint(views[viewId].center);
+    return buildDotNetPoint(arcGisObjectRefs[viewId].center);
 }
 
 
@@ -598,7 +605,7 @@ export function drawWithGeodesicBufferOnPointer(cursorSymbol, bufferSymbol, geod
     require(["esri/geometry/SpatialReference"], (SpatialReference) => {
         let cursorGraphicId;
         let bufferGraphicId;
-        let view = views[viewId];
+        let view = arcGisObjectRefs[viewId];
         view.on('pointer-move', async (evt) => {
             let cursorPoint = view.toMap({
                 x: evt.x,
@@ -648,7 +655,7 @@ export function displayQueryResults(query, symbol, popupTemplate, viewId) {
                 feature.popupTemplate = popupTemplate;
                 return feature;
             });
-            let view = views[viewId];
+            let view = arcGisObjectRefs[viewId];
 
             view.popup.close();
             view.graphics.removeAll();
@@ -672,8 +679,8 @@ export function addWidget(widget, viewId) {
         function (Locate, Search, BasemapToggle, BasemapGallery, ScaleBar, Legend, 
                   PortalBasemapsSource, Portal) {
             try {
-                let view = views[viewId];
-                let activeWidgetsForView = activeWidgets[viewId];
+                let view = arcGisObjectRefs[viewId];
+                let activeWidgetsForView = Object.values(arcGisObjectRefs).filter(o => o?.__proto__?.declaredClass?.includes('esri.widgets'));
                 switch (widget.type) {
                     case 'locate':
                         if (activeWidgetsForView.some(w => w.declaredClass === 'esri.widgets.Locate')) {
@@ -689,7 +696,7 @@ export function addWidget(widget, viewId) {
                             }
                         });
                         view.ui.add(locate, widget.position);
-                        activeWidgetsForView.push(locate);
+                        arcGisObjectRefs[widget.id] = locate;
                         break;
                     case 'search':
                         if (activeWidgetsForView.some(w => w.declaredClass === 'esri.widgets.Search')) {
@@ -700,7 +707,7 @@ export function addWidget(widget, viewId) {
                             view: view
                         });
                         view.ui.add(search, widget.position);
-                        activeWidgetsForView.push(search);
+                        arcGisObjectRefs[widget.id] = search;
                         search.on('select-result', (evt) => {
                             widget.searchWidgetObjectReference.invokeMethodAsync('OnSearchSelectResult', {
                                 extent: buildDotNetExtent(evt.result.extent),
@@ -719,7 +726,7 @@ export function addWidget(widget, viewId) {
                             nextBasemap: widget.nextBasemap
                         });
                         view.ui.add(basemapToggle, widget.position);
-                        activeWidgetsForView.push(basemapToggle);
+                        arcGisObjectRefs[widget.id] = basemapToggle;
                         break;
                     case 'basemapGallery':
                         if (activeWidgetsForView.some(w => w.declaredClass === 'esri.widgets.BasemapGallery')) {
@@ -753,7 +760,7 @@ export function addWidget(widget, viewId) {
                             source: source
                         });
                         view.ui.add(basemapGallery, widget.position);
-                        activeWidgetsForView.push(basemapGallery);
+                        arcGisObjectRefs[widget.id] = basemapGallery;
                         break;
                     case 'scaleBar':
                         if (activeWidgetsForView.some(w => w.declaredClass === 'esri.widgets.ScaleBar')) {
@@ -767,7 +774,7 @@ export function addWidget(widget, viewId) {
                             scaleBar.unit = widget.unit;
                         }
                         view.ui.add(scaleBar, widget.position);
-                        activeWidgetsForView.push(scaleBar);
+                        arcGisObjectRefs[widget.id] = scaleBar;
                         break;
                     case 'legend':
                         if (activeWidgetsForView.some(w => w.declaredClass === 'esri.widgets.Legend')) {
@@ -778,7 +785,7 @@ export function addWidget(widget, viewId) {
                             view: view
                         });
                         view.ui.add(legend, widget.position);
-                        activeWidgetsForView.push(legend);
+                        arcGisObjectRefs[widget.id] = legend;
                         break;
                 }
             } catch (error) {
@@ -799,6 +806,7 @@ export function createGraphic(Graphic, graphicObject) {
         attributes: graphicObject.attributes,
         popupTemplate: popupTemplate
     });
+    arcGisObjectRefs[graphicObject.id] = graphic;
     return graphic;
 }
 
@@ -811,11 +819,10 @@ export function addLayer(layerObject, viewId, isBasemapLayer, isQueryLayer, call
         function (GraphicsLayer, VectorTileLayer, TileLayer, FeatureLayer, GeoJSONLayer) {
             let newLayer;
             try {
-                let view = views[viewId];
+                let view = arcGisObjectRefs[viewId];
                 switch (layerObject.type) {
                     case 'graphics':
                         newLayer = new GraphicsLayer();
-                        graphicsLayers[viewId].push(newLayer);
                         layerObject.graphics?.forEach(graphicObject => {
                             addGraphic(graphicObject, viewId, newLayer);
                         });
@@ -885,14 +892,13 @@ export function addLayer(layerObject, viewId, isBasemapLayer, isQueryLayer, call
                 }
 
                 if (isBasemapLayer) {
-                    basemapLayers[viewId].push(newLayer);
                 } else if (isQueryLayer) {
                     queryLayer = newLayer;
                     callback();
                 } else {
-                    mapLayers[viewId].push(newLayer);
                     view.map.add(newLayer);
                 }
+                arcGisObjectRefs[layerObject.id] = newLayer;
             } catch (error) {
                 logError(error, viewId);
             }
@@ -915,7 +921,7 @@ export function buildPopupTemplate(popupTemplateObject) {
 
 async function resetCenterToSpatialReference(center, spatialReference, viewId) {
     center = await projection.project(center, spatialReference);
-    views[viewId].center = center;
+    arcGisObjectRefs[viewId].center = center;
 }
 
 
@@ -1037,4 +1043,9 @@ function setWaitCursor(viewId) {
 
 function unsetWaitCursor(viewId) {
     document.getElementById(`map-container-${viewId}`).style.cursor = 'unset';
+}
+
+
+function getActiveWidgets() {
+    
 }

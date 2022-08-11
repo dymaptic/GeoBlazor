@@ -16,8 +16,6 @@ namespace dymaptic.Blazor.GIS.API.Core.Components.Views;
 
 public partial class MapView : MapComponent
 {
-    public Guid Id { get; init; } = Guid.NewGuid();
-    
     public HashSet<Widget> Widgets { get; set; } = new();
     public List<Graphic> Graphics { get; set; } = new();
 
@@ -413,6 +411,18 @@ public partial class MapView : MapComponent
     public async Task<Point> GetCenter()
     {
         return await ViewJsModule!.InvokeAsync<Point>("getCenter", Id);
+    }
+
+    public override async ValueTask DisposeAsync()
+    {
+        try
+        {
+            if (ViewJsModule != null) await ViewJsModule.InvokeVoidAsync("disposeView", Id);
+        }
+        catch (JSDisconnectedException)
+        {
+            // ignore, dispose is called by Blazor too early
+        }
     }
 
     protected override async Task OnParametersSetAsync()

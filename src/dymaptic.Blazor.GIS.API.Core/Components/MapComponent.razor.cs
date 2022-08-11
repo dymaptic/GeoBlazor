@@ -9,8 +9,10 @@ using dymaptic.Blazor.GIS.API.Core.Exceptions;
 namespace dymaptic.Blazor.GIS.API.Core.Components;
 
 [JsonConverter(typeof(MapComponentConverter))]
-public abstract partial class MapComponent : ComponentBase, IDisposable
+public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
 {
+    public Guid Id { get; init; } = Guid.NewGuid();
+
     [Parameter]
     [JsonIgnore]
     public RenderFragment? ChildContent { get; set; }
@@ -31,9 +33,12 @@ public abstract partial class MapComponent : ComponentBase, IDisposable
     [JsonIgnore]
     public MapView? View { get; set; }
 
-    public virtual void Dispose()
+    public virtual async ValueTask DisposeAsync()
     {
-        Parent?.UnregisterChildComponent(this);
+        if (Parent is not null)
+        {
+            await Parent.UnregisterChildComponent(this);
+        }
     }
 
     public virtual Task RegisterChildComponent(MapComponent child)
