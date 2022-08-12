@@ -39,6 +39,18 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         {
             await Parent.UnregisterChildComponent(this);
         }
+
+        if (JsModule is not null)
+        {
+            try
+            {
+                await JsModule.InvokeVoidAsync("disposeMapComponent", Id, View?.Id);
+            }
+            catch (JSDisconnectedException)
+            {
+                // it's fine
+            }
+        }
     }
 
     public virtual Task RegisterChildComponent(MapComponent child)
@@ -48,7 +60,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
 
     public virtual Task UnregisterChildComponent(MapComponent child)
     {
-        throw new NotImplementedException();
+        throw new InvalidChildElementException(GetType().Name, child.GetType().Name);
     }
 
     public virtual void Refresh()
@@ -63,11 +75,6 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
             Console.WriteLine($"Updating {GetType().Name} with {Parent.GetType().Name}");
             await Parent.UpdateComponent();
         }
-    }
-
-    public virtual Task RemoveComponent()
-    {
-        return Task.CompletedTask;
     }
 
     protected override Task OnParametersSetAsync()

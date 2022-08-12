@@ -236,7 +236,7 @@ public partial class MapView : MapComponent
 
                     if (MapRendered)
                     {
-                        await UpdateWidgets();
+                        await AddWidget(widget);
                     }
                 }
 
@@ -294,7 +294,6 @@ public partial class MapView : MapComponent
                 if (Widgets.Contains(widget))
                 {
                     Widgets.Remove(widget);
-                    await UpdateWidgets();
                 }
 
                 break;
@@ -302,12 +301,16 @@ public partial class MapView : MapComponent
                 if (Graphics.Contains(graphic))
                 {
                     Graphics.Remove(graphic);
-                    await RemoveGraphic(graphic, null);
                 }
 
                 break;
             case Constraints _:
                 Constraints = null;
+                await UpdateComponent();
+
+                break;
+            case Geometries.SpatialReference _:
+                SpatialReference = null;
                 await UpdateComponent();
 
                 break;
@@ -343,9 +346,9 @@ public partial class MapView : MapComponent
         await ViewJsModule!.InvokeVoidAsync("showPopupWithGraphic", (object)graphic, (object)options, Id);
     }
 
-    public async Task<int> AddGraphic(Graphic graphic, int? layerIndex = null)
+    public async Task AddGraphic(Graphic graphic, int? layerIndex = null)
     {
-        return await ViewJsModule!.InvokeAsync<int>("addGraphic", (object)graphic, Id, layerIndex);
+        await ViewJsModule!.InvokeVoidAsync("addGraphic", (object)graphic, Id, layerIndex);
     }
 
     public async Task ClearGraphics()
@@ -375,11 +378,6 @@ public partial class MapView : MapComponent
         return await ViewJsModule!.InvokeAsync<Graphic[]>("getAllGraphics", layerIndex, Id);
     }
 
-    public async Task RemoveGraphic(Graphic graphic, int? layerIndex = 0)
-    {
-        await ViewJsModule!.InvokeVoidAsync("removeGraphic", (object)graphic, layerIndex, Id);
-    }
-
     public async Task RemoveGraphicAtIndex(int index, int? layerIndex = null)
     {
         await ViewJsModule!.InvokeVoidAsync("removeGraphicAtIndex", index, layerIndex, Id);
@@ -403,9 +401,9 @@ public partial class MapView : MapComponent
             (object)bufferSymbol, bufferDistance, bufferUnit, Id);
     }
 
-    public async Task<int> UpdateGraphic(Graphic graphic, int? layerIndex)
+    public async Task UpdateGraphic(Graphic graphic, int? layerIndex)
     {
-        return await ViewJsModule!.InvokeAsync<int>("updateGraphic", (object)graphic, layerIndex, Id);
+        await ViewJsModule!.InvokeVoidAsync("updateGraphic", (object)graphic, layerIndex, Id);
     }
 
     public async Task<Point> GetCenter()
@@ -490,11 +488,11 @@ public partial class MapView : MapComponent
         });
     }
 
-    private async Task UpdateWidgets()
+    private async Task AddWidget(Widget widget)
     {
         await InvokeAsync(async () =>
         {
-            await ViewJsModule!.InvokeVoidAsync("updateWidgets", Widgets, Id);
+            await ViewJsModule!.InvokeVoidAsync("addWidget", widget, Id);
         });
     }
 
