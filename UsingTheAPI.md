@@ -1,14 +1,12 @@
-﻿# Using ArcGIS in Asp.NET Blazor – No JavaScript Required!
+﻿# Using the Blazor API in Blazor Server
 
-In my previous post, I showed how to call the ArcGIS JavaScript API using the `IJSRuntime` from Asp.NET Blazor.
-Today, I'm happy to announce a free, open-source Nuget package for accessing ArcGIS directly in Blazor components, no JavaScript required!
 To get started, create a new Blazor Server application, and add a `PackageReference` to the `dymaptic.Blazor.GIS.API.Core`
 package (via your IDE's Nuget Package Manager or `dotnet add package dymaptic.Blazor.GIS.API.Core`).
-Next, in `Pages/\_Layout.cshtml`, add the following to the head block of the html. Note the double @ symbols required,
+Next, in `Pages/_Layout.cshtml`, add the following to the head block of the html. Note the double @ symbols required,
 since the symbol is a reserved character in Razor.
 
 ```html
-    <link href="\_content/dymaptic.Blazor.GIS.API.Core"/>
+    <link href="_content/dymaptic.Blazor.GIS.API.Core"/>
     <script src="https://unpkg.com/@@esri/arcgis-rest-request@@3.0.0/dist/umd/request.umd.js"></script>
     <script src="https://unpkg.com/@@esri/arcgis-rest-auth@@3.0.0/dist/umd/auth.umd.js"></script>
     <script src="https://unpkg.com/@@esri/arcgis-rest-demographics@@3.0.0/dist/umd/demographics.umd.js"></script>
@@ -93,3 +91,34 @@ That's it! Now you are ready to write your first ArcGIS Map View in Blazor. Add 
 Run the project, and you should see your new map directly in the blazor application!
 
 <img src="sample1.png" width="600" />
+
+# Differences for Blazor WebAssembly
+
+Most of the code above works seamlessly for a Blazor WASM application as well. However, there are a few known differences.
+
+- In `index.html`, use this block of code instead of the one for `_Layout.cshtml` above. Note that since this is `HTML`,
+  you don't need the double `@` symbols.
+
+```html
+    <link href="_content/dymaptic.Blazor.GIS.API.Core"/>
+    <script src="https://unpkg.com/@esri/arcgis-rest-request@3.0.0/dist/umd/request.umd.js"></script>
+    <script src="https://unpkg.com/@esri/arcgis-rest-auth@3.0.0/dist/umd/auth.umd.js"></script>
+    <script src="https://unpkg.com/@esri/arcgis-rest-demographics@3.0.0/dist/umd/demographics.umd.js"></script>
+    <link href="https://js.arcgis.com/4.23/esri/themes/light/main.css" rel="stylesheet"/>
+    <script src="https://js.arcgis.com/4.23/"></script>
+```
+
+- It is _not_ safe to store keys in `appsettings.json` files for WASM, since all such files are downloaded to the browser
+  at runtime. Instead, you should implement an OAuth 2.0 solution with the
+  [ArcGIS Dashboard](https://developers.arcgis.com/applications/), and require users to login with ArcGIS credentials,
+  or call your own API that will return the `ApiKey`. In our sample WASM application, we have a simple field where you
+  can paste your API key for testing.
+
+# Differences for Blazor Hybrid in MAUI
+
+See the MAUI sample application for some special scenarios around using the API in Blazor Hybrid. A few notes:
+
+- Location Permission requests must be called on various platforms (e.g., Android)
+- MAUI applications do not load `appsettings.json` files to `IConfiguration` by default. You will need to call
+  `builder.Configuration.AddInMemoryConfiguration` and load the ApiKey from another source, or
+  `builderConfiguration.AddJsonFile` to use an `appsettings.json` file.
