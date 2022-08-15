@@ -11,8 +11,6 @@ public class Graphic : LayerObject
 
     public int? GraphicIndex { get; set; }
 
-    public int? Uid { get; set; }
-
     public PopupTemplate? PopupTemplate { get; set; }
 
     public override async Task RegisterChildComponent(MapComponent child)
@@ -75,7 +73,7 @@ public class Graphic : LayerObject
 
     public override async Task UpdateComponent()
     {
-        if (View is null || !MapRendered || Uid is null)
+        if (View is null || !MapRendered)
         {
             return;
         }
@@ -89,7 +87,7 @@ public class Graphic : LayerObject
 
         await InvokeAsync(async () =>
         {
-            Uid = await View.UpdateGraphic(this, layerIndex);
+            await View!.UpdateGraphic(this, layerIndex);
         });
     }
 }

@@ -6,7 +6,7 @@
         <CascadingValue Name="JsModule" Value="ViewJsModule">
             <CascadingValue Name="MapRendered" Value="MapRendered">
                 <div class="map-wrapper">
-                    <div id="map-container" class="@Class" style="@Style">
+                    <div id="@($"map-container-{Id}")" class="@Class" style="@Style">
                         @ChildContent
                     </div>
                     <div class="dymaptic-branding">

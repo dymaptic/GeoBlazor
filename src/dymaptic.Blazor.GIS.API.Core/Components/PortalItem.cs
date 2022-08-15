@@ -5,5 +5,5 @@ namespace dymaptic.Blazor.GIS.API.Core.Components;
 public class PortalItem : MapComponent
 {
     [Parameter]
-    public string? Id { get; set; }
+    public new string? Id { get; set; }
 }

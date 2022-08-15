@@ -109,18 +109,7 @@ public class FeatureLayer : Layer
         await InvokeAsync(async () =>
         {
             // ReSharper disable once RedundantCast
-            await JsModule!.InvokeVoidAsync("updateFeatureLayer", (object)this);
-        });
-    }
-
-    public override async Task RemoveComponent()
-    {
-        if (!MapRendered || JsModule is null) return;
-
-        await InvokeAsync(async () =>
-        {
-            // ReSharper disable once RedundantCast
-            await JsModule!.InvokeVoidAsync("removeFeatureLayer", (object)this);
+            await JsModule!.InvokeVoidAsync("updateFeatureLayer", (object)this, View!.Id);
         });
     }
 }

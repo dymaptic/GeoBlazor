@@ -203,7 +203,7 @@ public partial class MapView : MapComponent
 
         foreach (KeyValuePair<string, object> kvp in _newPropertyValues)
         {
-            await ViewJsModule!.InvokeVoidAsync("updateView", kvp.Key, kvp.Value);
+            await ViewJsModule!.InvokeVoidAsync("updateView", kvp.Key, kvp.Value, Id);
         }
 
         _newPropertyValues.Clear();
@@ -236,7 +236,7 @@ public partial class MapView : MapComponent
 
                     if (MapRendered)
                     {
-                        await UpdateWidgets();
+                        await AddWidget(widget);
                     }
                 }
 
@@ -294,7 +294,6 @@ public partial class MapView : MapComponent
                 if (Widgets.Contains(widget))
                 {
                     Widgets.Remove(widget);
-                    await UpdateWidgets();
                 }
 
                 break;
@@ -302,12 +301,16 @@ public partial class MapView : MapComponent
                 if (Graphics.Contains(graphic))
                 {
                     Graphics.Remove(graphic);
-                    await RemoveGraphic(graphic, null);
                 }
 
                 break;
             case Constraints _:
                 Constraints = null;
+                await UpdateComponent();
+
+                break;
+            case Geometries.SpatialReference _:
+                SpatialReference = null;
                 await UpdateComponent();
 
                 break;
@@ -322,35 +325,35 @@ public partial class MapView : MapComponent
         PopupTemplate popupTemplate)
     {
         await ViewJsModule!.InvokeVoidAsync("queryFeatureLayer", (object)query,
-            (object)featureLayer, (object)displaySymbol, (object)popupTemplate);
+            (object)featureLayer, (object)displaySymbol, (object)popupTemplate, Id);
     }
 
     public async Task FindPlaces(AddressQuery query, Symbol displaySymbol,
         PopupTemplate popupTemplate)
     {
         await ViewJsModule!.InvokeVoidAsync("findPlaces", (object)query,
-            (object)displaySymbol, (object)popupTemplate);
+            (object)displaySymbol, (object)popupTemplate, Id);
     }
 
     public async Task ShowPopup(PopupTemplate template, Point location)
     {
         await ViewJsModule!.InvokeVoidAsync("showPopup", (object)template,
-            (object)location);
+            (object)location, Id);
     }
 
     public async Task ShowPopupWithGraphic(Graphic graphic, PopupOptions options)
     {
-        await ViewJsModule!.InvokeVoidAsync("showPopupWithGraphic", (object)graphic, (object)options);
+        await ViewJsModule!.InvokeVoidAsync("showPopupWithGraphic", (object)graphic, (object)options, Id);
     }
 
-    public async Task<int> AddGraphic(Graphic graphic, int? layerIndex = null)
+    public async Task AddGraphic(Graphic graphic, int? layerIndex = null)
     {
-        return await ViewJsModule!.InvokeAsync<int>("addGraphic", (object)graphic, layerIndex);
+        await ViewJsModule!.InvokeVoidAsync("addGraphic", (object)graphic, Id, layerIndex);
     }
 
     public async Task ClearGraphics()
     {
-        await ViewJsModule!.InvokeVoidAsync("clearViewGraphics");
+        await ViewJsModule!.InvokeVoidAsync("clearViewGraphics", Id);
     }
 
     /// <summary>
@@ -361,56 +364,63 @@ public partial class MapView : MapComponent
     public async Task<Direction[]> DrawRouteAndGetDirections(Symbol routeSymbol, string routeUrl)
     {
         return await ViewJsModule!.InvokeAsync<Direction[]?>("drawRouteAndGetDirections",
-            routeUrl, (object)routeSymbol) ?? Array.Empty<Direction>();
+            routeUrl, (object)routeSymbol, Id) ?? Array.Empty<Direction>();
     }
 
     public async Task SolveServiceArea(string serviceAreaUrl, double[] driveTimeCutOffs, Symbol serviceAreaSymbol)
     {
         await ViewJsModule!.InvokeVoidAsync("solveServiceArea",
-            serviceAreaUrl, driveTimeCutOffs, serviceAreaSymbol);
+            serviceAreaUrl, driveTimeCutOffs, serviceAreaSymbol, Id);
     }
 
     public async Task<Graphic[]> GetAllGraphics(int? layerIndex)
     {
-        return await ViewJsModule!.InvokeAsync<Graphic[]>("getAllGraphics", layerIndex);
-    }
-
-    public async Task RemoveGraphic(Graphic graphic, int? layerIndex = 0)
-    {
-        await ViewJsModule!.InvokeVoidAsync("removeGraphic", (object)graphic, layerIndex);
+        return await ViewJsModule!.InvokeAsync<Graphic[]>("getAllGraphics", layerIndex, Id);
     }
 
     public async Task RemoveGraphicAtIndex(int index, int? layerIndex = null)
     {
-        await ViewJsModule!.InvokeVoidAsync("removeGraphicAtIndex", index, layerIndex);
+        await ViewJsModule!.InvokeVoidAsync("removeGraphicAtIndex", index, layerIndex, Id);
     }
 
     public async Task RemoveGraphicsAtIndexes(int[] indexes, int? layerIndex = null)
     {
-        await ViewJsModule!.InvokeVoidAsync("removeGraphicsAtIndexes", indexes, layerIndex);
+        await ViewJsModule!.InvokeVoidAsync("removeGraphicsAtIndexes", indexes, layerIndex, Id);
     }
 
     public async Task CreateGeodesicBuffer(Geometry geometry, double distance, LinearUnit unit, Graphic bufferGraphic)
     {
         await ViewJsModule!.InvokeVoidAsync("createGeodesicBuffer", (object)geometry, distance, unit,
-            (object)bufferGraphic);
+            (object)bufferGraphic, Id);
     }
 
     public async Task DrawWithGeodesicBufferOnPointer(Symbol cursorSymbol, Symbol bufferSymbol, double bufferDistance,
         LinearUnit bufferUnit)
     {
         await ViewJsModule!.InvokeVoidAsync("drawWithGeodesicBufferOnPointer", (object)cursorSymbol,
-            (object)bufferSymbol, bufferDistance, bufferUnit);
+            (object)bufferSymbol, bufferDistance, bufferUnit, Id);
     }
 
-    public async Task<int> UpdateGraphic(Graphic graphic, int? layerIndex)
+    public async Task UpdateGraphic(Graphic graphic, int? layerIndex)
     {
-        return await ViewJsModule!.InvokeAsync<int>("updateGraphic", (object)graphic, layerIndex);
+        await ViewJsModule!.InvokeVoidAsync("updateGraphic", (object)graphic, layerIndex, Id);
     }
 
     public async Task<Point> GetCenter()
     {
-        return await ViewJsModule!.InvokeAsync<Point>("getCenter");
+        return await ViewJsModule!.InvokeAsync<Point>("getCenter", Id);
+    }
+
+    public override async ValueTask DisposeAsync()
+    {
+        try
+        {
+            if (ViewJsModule != null) await ViewJsModule.InvokeVoidAsync("disposeView", Id);
+        }
+        catch (JSDisconnectedException)
+        {
+            // ignore, dispose is called by Blazor too early
+        }
     }
 
     protected override async Task OnParametersSetAsync()
@@ -469,7 +479,7 @@ public partial class MapView : MapComponent
 
             NeedsRender = false;
 
-            await ViewJsModule!.InvokeVoidAsync("buildMapView",
+            await ViewJsModule!.InvokeVoidAsync("buildMapView", Id,
                 DotNetObjectReference, Longitude, Latitude, Rotation, map, Zoom, Scale,
                 ApiKey, mapType, Widgets, Graphics, SpatialReference);
             Rendering = false;
@@ -478,11 +488,11 @@ public partial class MapView : MapComponent
         });
     }
 
-    private async Task UpdateWidgets()
+    private async Task AddWidget(Widget widget)
     {
         await InvokeAsync(async () =>
         {
-            await ViewJsModule!.InvokeVoidAsync("updateWidgets", Widgets);
+            await ViewJsModule!.InvokeVoidAsync("addWidget", widget, Id);
         });
     }
 
