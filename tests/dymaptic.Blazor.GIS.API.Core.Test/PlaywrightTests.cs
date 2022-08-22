@@ -25,7 +25,7 @@ public class PlaywrightTests
         }
 
         IPlaywright playwright = await Playwright.CreateAsync()!;
-        IBrowser browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions { Headless = true });
+        IBrowser browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions { Headless = false });
         IPage page = await browser.NewPageAsync();
         var renderMessage = new PageWaitForConsoleMessageOptions()
         {
@@ -519,9 +519,16 @@ public class PlaywrightTests
 
             if (!ImageSharpCompare.ImagesAreEqual(newImage, oldImage))
             {
-                var diff = ImageSharpCompare.CalcDiff(newImage, oldImage);
-
-                Assert.IsTrue(diff.PixelErrorPercentage < 0.01, ssFileInfo.Name);
+                try
+                {
+                    var diff = ImageSharpCompare.CalcDiff(newImage, oldImage);
+                    Assert.IsTrue(diff.PixelErrorPercentage < 0.01, ssFileInfo.Name);
+                }
+                catch (ImageSharpCompareException e)
+                {
+                    Console.WriteLine($"ImageSharpCompare exception on {ssFileInfo.Name}");
+                    Console.WriteLine(e);
+                }
             }
         }
     }
