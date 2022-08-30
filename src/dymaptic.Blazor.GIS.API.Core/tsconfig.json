@@ -1,9 +1,9 @@
 ﻿{
   "compilerOptions": {
     "noImplicitAny": false,
-    "noEmitOnError": true,
+    "noEmit": true,
     "removeComments": false,
-    "outDir": "wwwroot",
+    "outDir": "wwwroot/js",
     "esModuleInterop": true,
     "lib": ["ES2020", "DOM"],
     "module": "ES2020",
@@ -11,7 +11,12 @@
     "resolveJsonModule": true,
     "sourceMap": true,
     "strict": true,
-    "target": "ES2020"
+    "target": "ES2020",
+    "paths": {
+      "@arcgis/*": ["/lib/*"]
+    },
+    "allowSyntheticDefaultImports": true,
+    "allowJs": true
   },
   "include": [
     "Scripts/**/*"

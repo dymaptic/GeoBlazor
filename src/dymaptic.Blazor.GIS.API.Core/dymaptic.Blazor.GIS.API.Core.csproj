@@ -43,9 +43,13 @@
       <None Include="ReadMe.md" Pack="true" PackagePath="" />
       <None Include="dymaptic_logo.png" Pack="true" PackagePath="" />
     </ItemGroup>
+
+    <Target Name="NPM Build" AfterTargets="PostBuildEvent">
+        <Exec Command="npm run build" />
+    </Target>
     
     <Target Name="Move Nuget" AfterTargets="Publish">
-        <Exec ContinueOnError="true" Command="robocopy bin/$(Configuration) ../../packages dymaptic.Blazor.GIS.API.Core.$(Version).nupkg">
+        <Exec ContinueOnError="true" ConsoleToMSBuild="true" Command="robocopy bin/$(Configuration) ../../packages dymaptic.Blazor.GIS.API.Core.$(Version).nupkg">
             <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
         </Exec>
         <Error Condition="$(ErrorCode) &gt; 8" Message="Robocopy failed" />

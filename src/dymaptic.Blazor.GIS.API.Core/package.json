@@ -2,15 +2,16 @@
   "name": "dymaptic.blazor.gis.api.core",
   "version": "1.0.0",
   "description": "[View the live demo site!](https://dy-blazor-samples-server.azurewebsites.net/)",
-  "main": "index.js",
+  "main": "arcGisInterop.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "esbuild ./Scripts/arcGisJsInterop.ts --format=esm --bundle --sourcemap --outfile=wwwroot/js/arcGisJsInterop.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Tim Purdum",
   "license": "ISC",
   "dependencies": {
-    "@arcgis/core": "^4.24.7"
+    "@arcgis/core": "^4.24.7",
+    "esbuild": "^0.15.6"
   },
   "devDependencies": {
     "@types/node": "^18.7.9"

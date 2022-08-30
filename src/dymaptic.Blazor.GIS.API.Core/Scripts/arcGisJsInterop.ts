@@ -1,23 +1,21 @@
-﻿// noinspection JSUnresolvedFunction
-
-import esriConfig from "@arcgis/core/config";
-import geometryEngine from "@arcgis/core/geometry/geometryEngine";
-import projection from "@arcgis/core/geometry/projection";
+﻿import esriConfig from "@arcgis/core/config";
+import * as geometryEngine from "@arcgis/core/geometry/geometryEngine";
+import * as projection from "@arcgis/core/geometry/projection";
 import Basemap from "@arcgis/core/Basemap";
 import Map from "@arcgis/core/Map";
 import SceneView from "@arcgis/core/views/SceneView";
 import MapView from "@arcgis/core/views/MapView";
 import WebMap from "@arcgis/core/WebMap";
 import WebScene from "@arcgis/core/WebScene";
-import route from "@arcgis/core/rest/route";
+import * as route from "@arcgis/core/rest/route";
 import RouteParameters from "@arcgis/core/rest/support/RouteParameters";
 import FeatureSet from "@arcgis/core/rest/support/FeatureSet";
 import ServiceAreaParameters from "@arcgis/core/rest/support/ServiceAreaParameters";
-import serviceArea from "@arcgis/core/rest/serviceArea";
+import * as serviceArea from "@arcgis/core/rest/serviceArea";
 import Graphic from "@arcgis/core/Graphic";
 import Point from "@arcgis/core/geometry/Point";
 import SpatialReference from "@arcgis/core/geometry/SpatialReference";
-import locator from "@arcgis/core/rest/locator";
+import * as locator from "@arcgis/core/rest/locator";
 import BasemapGallery from "@arcgis/core/widgets/BasemapGallery";
 import ScaleBar from "@arcgis/core/widgets/ScaleBar";
 import Legend from "@arcgis/core/widgets/Legend";
@@ -37,6 +35,9 @@ import PopupTemplate from "@arcgis/core/PopupTemplate";
 import Query from "@arcgis/core/rest/support/Query";
 import View from "@arcgis/core/views/View";
 import Extent from "@arcgis/core/geometry/Extent";
+import Polygon from "@arcgis/core/geometry/Polygon";
+import Polyline from "@arcgis/core/geometry/Polyline";
+import ArcGisSymbol from "@arcgis/core/symbols/Symbol";
 import {
     DotNetExtent,
     DotNetFeature,
@@ -46,9 +47,6 @@ import {
     DotNetPolyline,
     MapObject
 } from "ArcGisDefinitions";
-import Polygon from "@arcgis/core/geometry/Polygon";
-import Polyline from "@arcgis/core/geometry/Polyline";
-import LinearUnits = __esri.LinearUnits;
 export let arcGisObjectRefs: Record<string, MapObject> = {};
 export let dotNetRefs = {};
 export let queryLayer: FeatureLayer;
@@ -330,8 +328,8 @@ export function updateGraphic(graphicObject: any, layerIndex: number, viewId: st
             }
         } else {
             gLayer = view.map.layers.filter(l => l.type === "graphics")[layerIndex] as GraphicsLayer;
-            if (gLayer !== null) {
-                if (oldGraphic !== null) {
+            if (gLayer !== undefined && gLayer !== null) {
+                if (oldGraphic !== undefined && oldGraphic !== null) {
                     gLayer.graphics.remove(oldGraphic);
                 } else {
                     gLayer.graphics.removeAt(graphicObject.graphicIndex);
@@ -574,7 +572,7 @@ export function getCenter(viewId: string): DotNetPoint {
 
 
 export function drawWithGeodesicBufferOnPointer(cursorSymbol: any, bufferSymbol: any, geodesicBufferDistance: number, 
-                                                geodesicBufferUnit: LinearUnits, viewId: string): void {
+                                                geodesicBufferUnit: any, viewId: string): void {
     let cursorGraphicId = cursorSymbol.id;
     let bufferGraphicId = bufferSymbol.id;
     let view = arcGisObjectRefs[viewId] as MapView;
@@ -630,7 +628,7 @@ export function drawWithGeodesicBufferOnPointer(cursorSymbol: any, bufferSymbol:
 }
 
 
-export function displayQueryResults(query: Query, symbol: __esri.Symbol, popupTemplate: PopupTemplate, viewId: string): 
+export function displayQueryResults(query: Query, symbol: ArcGisSymbol, popupTemplate: PopupTemplate, viewId: string): 
     void {
     setWaitCursor(viewId);
     queryLayer.queryFeatures(query)
