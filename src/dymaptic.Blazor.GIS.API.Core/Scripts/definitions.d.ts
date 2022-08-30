@@ -3,6 +3,10 @@
         destroy();
         declaredClass: string;
     }
+    
+    interface MapCollection extends __esri.Collection {
+        items: any[];
+    }
 
     interface DotNetGraphic {
         uid: string;

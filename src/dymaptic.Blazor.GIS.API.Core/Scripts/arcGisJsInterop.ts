@@ -45,7 +45,8 @@ import {
     DotNetPoint,
     DotNetPolygon,
     DotNetPolyline,
-    MapObject
+    MapObject,
+    MapCollection
 } from "ArcGisDefinitions";
 export let arcGisObjectRefs: Record<string, MapObject> = {};
 export let dotNetRefs = {};
@@ -68,7 +69,8 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
         let basemap: Basemap;
         let basemapLayers: any[] = [];
         if (!mapType.startsWith('web')) {
-            if (mapObject.arcGISDefaultBasemap !== undefined) {
+            if (mapObject.arcGISDefaultBasemap !== undefined &&
+                mapObject.arcGISDefaultBasemap !== null) {
                 basemap = mapObject.arcGISDefaultBasemap;
             } else if (mapObject.basemap?.portalItem?.id !== undefined &&
                 mapObject.basemap?.portalItem?.id !== null) {
@@ -327,7 +329,7 @@ export function updateGraphic(graphicObject: any, layerIndex: number, viewId: st
                 view.graphics.removeAt(graphicObject.graphicIndex);
             }
         } else {
-            gLayer = view.map.layers.filter(l => l.type === "graphics")[layerIndex] as GraphicsLayer;
+            gLayer = (view.map.layers as MapCollection).items.filter(l => l.type === "graphics")[layerIndex] as GraphicsLayer;
             if (gLayer !== undefined && gLayer !== null) {
                 if (oldGraphic !== undefined && oldGraphic !== null) {
                     gLayer.graphics.remove(oldGraphic);
@@ -350,7 +352,7 @@ export function removeGraphicAtIndex(index: number, layerIndex: number, viewId: 
         if (layerIndex === undefined || layerIndex === null) {
             view.graphics.removeAt(index);
         } else {
-            let gLayer = view?.map?.layers.filter(l => l.type === "graphics")[layerIndex];
+            let gLayer = (view?.map?.layers as MapCollection).items.filter(l => l.type === "graphics")[layerIndex];
             gLayer?.graphics?.removeAt(index);
         }
         unsetWaitCursor(viewId);
@@ -460,7 +462,7 @@ export function addGraphic(graphicObject: any, viewId: string, graphicsLayer?: a
         } else if (typeof (graphicsLayer) === 'object') {
             graphicsLayer.add(graphic);
         } else {
-            view.map.layers.filter(l => l.type === "graphics")[graphicsLayer].add(graphic);
+            (view?.map?.layers as MapCollection).items.filter(l => l.type === "graphics")[graphicsLayer].add(graphic);
         }
         unsetWaitCursor(viewId);
     } catch (error) {
@@ -523,7 +525,7 @@ export function solveServiceArea(url: string, driveTimeCutoffs: number[], servic
         setWaitCursor(viewId);
         let view = arcGisObjectRefs[viewId] as View;
         const featureSet = new FeatureSet({
-            features: [view.graphics[0]]
+            features: [(view.graphics as MapCollection).items[0]]
         });
         const taskParameters = new ServiceAreaParameters({
             facilities: featureSet,
@@ -554,7 +556,7 @@ export function getAllGraphics(layerIndex: number, viewId: string): DotNetGraphi
     try {
         let dotNetGraphics: DotNetGraphic[] = [];
         let view = arcGisObjectRefs[viewId] as View;
-        view.map.layers.filter(l => l.type === "graphics")[layerIndex].graphics?._items.forEach(g => {
+        (view?.map?.layers as MapCollection).items.filter(l => l.type === "graphics")[layerIndex].graphics?.items.forEach(g => {
             let dotNetGraphic = buildDotNetGraphic(g);
             dotNetGraphics.push(dotNetGraphic);
         });
@@ -947,7 +949,7 @@ export function buildDotNetPoint(point: Point): DotNetPoint {
     } as DotNetPoint
 }
 
-export function buildDotNetPolyline(polyline: Polyline): DotNetPolyline {
+export function buildDotNetPolyline(polyline: Polyline): DotNetPolyline | null {
     return {
         type: 'polyline',
         paths: polyline.paths,
@@ -958,7 +960,8 @@ export function buildDotNetPolyline(polyline: Polyline): DotNetPolyline {
     } as DotNetPolyline
 }
 
-export function buildDotNetPolygon(polygon: Polygon): DotNetPolygon {
+export function buildDotNetPolygon(polygon: Polygon): DotNetPolygon | null {
+    if (polygon === undefined || polygon === null) return null;
     return {
         type: 'polygon',
         rings: polygon.rings,
@@ -999,12 +1002,4 @@ function unsetWaitCursor(viewId: string): void {
     if (viewContainer !== null) {
         viewContainer.style.cursor = 'unset';
     }
-}
-
-
-export function getActiveWidgetsForView(viewId: string): void {
-    // @ts-ignore
-    let realWidgets = (arcGisObjectRefs[viewId] as View)?.ui?._components.filter(c => c?.widget !== undefined).map(c => c.widget);
-    let registeredWidgets = Object.values(arcGisObjectRefs).filter(o => o?.declaredClass.includes('esri.widgets'));
-    return realWidgets?.filter(wc => registeredWidgets.find(r => r === wc));
 }
