@@ -9,8 +9,10 @@ using dymaptic.Blazor.GIS.API.Core.Exceptions;
 namespace dymaptic.Blazor.GIS.API.Core.Components;
 
 [JsonConverter(typeof(MapComponentConverter))]
-public abstract partial class MapComponent : ComponentBase, IDisposable
+public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
 {
+    public Guid Id { get; init; } = Guid.NewGuid();
+
     [Parameter]
     [JsonIgnore]
     public RenderFragment? ChildContent { get; set; }
@@ -31,9 +33,24 @@ public abstract partial class MapComponent : ComponentBase, IDisposable
     [JsonIgnore]
     public MapView? View { get; set; }
 
-    public virtual void Dispose()
+    public virtual async ValueTask DisposeAsync()
     {
-        Parent?.UnregisterChildComponent(this);
+        if (Parent is not null)
+        {
+            await Parent.UnregisterChildComponent(this);
+        }
+
+        if (JsModule is not null)
+        {
+            try
+            {
+                await JsModule.InvokeVoidAsync("disposeMapComponent", Id, View?.Id);
+            }
+            catch (JSDisconnectedException)
+            {
+                // it's fine
+            }
+        }
     }
 
     public virtual Task RegisterChildComponent(MapComponent child)
@@ -43,7 +60,7 @@ public abstract partial class MapComponent : ComponentBase, IDisposable
 
     public virtual Task UnregisterChildComponent(MapComponent child)
     {
-        throw new NotImplementedException();
+        throw new InvalidChildElementException(GetType().Name, child.GetType().Name);
     }
 
     public virtual void Refresh()
@@ -58,11 +75,6 @@ public abstract partial class MapComponent : ComponentBase, IDisposable
             Console.WriteLine($"Updating {GetType().Name} with {Parent.GetType().Name}");
             await Parent.UpdateComponent();
         }
-    }
-
-    public virtual Task RemoveComponent()
-    {
-        return Task.CompletedTask;
     }
 
     protected override Task OnParametersSetAsync()

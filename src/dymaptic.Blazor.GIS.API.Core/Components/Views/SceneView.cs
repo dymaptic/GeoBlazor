@@ -71,7 +71,7 @@ public class SceneView : MapView
                 throw new MissingMapException();
             }
 
-            await ViewJsModule!.InvokeVoidAsync("buildMapView", DotNetObjectReference,
+            await ViewJsModule!.InvokeVoidAsync("buildMapView", Id, DotNetObjectReference,
                 Longitude, Latitude, Rotation, scene, Zoom, Scale,
                 ApiKey, sceneType, Widgets, Graphics, SpatialReference, ZIndex, Tilt);
             Rendering = false;

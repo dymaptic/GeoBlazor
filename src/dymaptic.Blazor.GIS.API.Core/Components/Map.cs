@@ -62,7 +62,6 @@ public class Map : MapComponent
 
                 break;
             case Layer layer:
-                await layer.RemoveComponent();
                 Layers.Remove(layer);
 
                 break;
