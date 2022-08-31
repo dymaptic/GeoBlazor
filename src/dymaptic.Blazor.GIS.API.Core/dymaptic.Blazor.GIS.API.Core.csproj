@@ -42,6 +42,12 @@
     <ItemGroup>
       <None Include="ReadMe.md" Pack="true" PackagePath="" />
       <None Include="dymaptic_logo.png" Pack="true" PackagePath="" />
+        <Content Remove="package.json" />
+        <Content Remove="package-lock.json" />
+        <Content Remove="tsconfig.json" />
+      <Content Include="package.json" Pack="false" />
+      <Content Include="package-lock.json" Pack="false" />
+      <Content Include="tsconfig.json" Pack="false" />
     </ItemGroup>
 
     <Target Name="NPM Build" AfterTargets="PostBuildEvent">

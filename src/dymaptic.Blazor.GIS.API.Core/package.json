@@ -1,6 +1,6 @@
 {
   "name": "dymaptic.blazor.gis.api.core",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "[View the live demo site!](https://dy-blazor-samples-server.azurewebsites.net/)",
   "main": "arcGisInterop.js",
   "scripts": {
