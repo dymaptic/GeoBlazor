@@ -1,12 +1,24 @@
 ﻿@page "/about"
-<h1>About</h1>
-
-<p>
-    The dymaptic Blazor API wraps the esri ArcGIS Javascript API, providing tag-based web-map building for any Asp.NET Core
-    web application. Get the source at <a href="https://github.com/dymaptic/dy-blazor-api">https://github.com/dymaptic/dy-blazor-api</a>.
-    Useful instructions are in <u>ReadMe.md</u>.
-</p>
-<p>
-    Need help creating your own Geospatial Information System, maps, or data applications? Visit
-    <a href="https://www.dymaptic.com">dymaptic.com</a> and reach out, let us know how we can help you!
-</p>
+@page "/"
+<div id="feature-panel">
+    <h1>Blazor GIS API</h1>
+    <p>
+        The dymaptic Blazor API wraps the esri ArcGIS Javascript API, providing tag-based web-map building for any Asp.NET Core
+        web application.
+    </p>
+    <div id="feature-inset">
+        <img id="map-img" src="_content/dymaptic.Blazor.GIS.API.Core.Sample.Shared/images/AboutMap.png" />
+        <div id="feature-text-container">
+            <div id="feature-text">
+            <h2>Get the Source</h2>
+            <p><a href="https://github.com/dymaptic/dy-blazor-api-core">https://github.com/<br />dymaptic/dy-blazor-api-core</a></p>
+            <h2>Get the Nuget Package</h2>
+            <p><a href="https://www.nuget.org/packages/dymaptic.Blazor.GIS.API.Core">https://www.nuget.org/packages/<br />dymaptic.Blazor.GIS.API.Core</a></p>
+            <h2>Get Started</h2>
+            <p><a href="https://www.dymaptic.com/arcgis-in-asp-net-blazor-no-javascript-required/">ArcGIS In Asp.NET Blazor:<br />No JavaScript Required!</a></p>
+        </div>
+        </div>
+    </div>
+    <p>Need help creating your own Geospatial Information System, maps, or data applications?</p>
+    <p>Visit <a href="https://www.dymaptic.com">dymaptic.com</a> and reach out, let us know how we can help you!</p>
+</div>

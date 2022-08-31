@@ -3,7 +3,7 @@
 
 <div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="https://www.dymaptic.com">
+        <a class="navbar-brand" href="">
             <img src="_content/dymaptic.Blazor.GIS.API.Core.Sample.Shared/images/dymaptic-transparent-web-600x171.png"
                  width="150" alt="dymaptic" />
         </a>
@@ -16,7 +16,12 @@
 <div id="nav-item-container" class="@NavMenuCssClass" @onclick="ToggleNavMenu">
     <nav class="flex-column">
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="navigation" Match="NavLinkMatch.All">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> Home
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="navigation">
                 <span class="oi oi-compass" aria-hidden="true"></span> Navigation
             </NavLink>
         </div>
