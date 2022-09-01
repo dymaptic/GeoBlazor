@@ -13,7 +13,8 @@ internal class SharedFileEnumerator : IEnumerator<IFileInfo>
         _pages ??= Assembly.GetAssembly(typeof(Navigation))!.DefinedTypes
             .Select(t => t.FullName)
             .Where(n => n is not null && n.StartsWith(Namespace))
-            .Select(n => new SharedFileInfo($"{subpath}/{n!.Split('.').Last()}.html") as IFileInfo)
+            .Select(n => new SharedFileInfo(
+                $"{subpath}/{n!.Split('.').Last().Split('+').First()}.html") as IFileInfo)
             .ToList();
     }
 
