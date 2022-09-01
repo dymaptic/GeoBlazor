@@ -25,8 +25,8 @@
             }
             @if (string.IsNullOrWhiteSpace(apiKey))
             {
-                <label>Enter ArcGIS API Key:<input type="text" @bind="ApiKey" /></label>
-                <button @onclick="StateHasChanged">GO</button>
+                <label>Enter ArcGIS API Key:<input id="api-key-field" type="text" @bind="ApiKey" /></label>
+                <button id="api-key-go" @onclick="StateHasChanged">GO</button>
                 if (!string.IsNullOrWhiteSpace(clientId))
                 {
                     <span>&nbsp;OR&nbsp;</span>

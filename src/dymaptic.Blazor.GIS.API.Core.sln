@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dymaptic.Blazor.GIS.API.Cor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dymaptic.Blazor.GIS.API.Core.Sample.Maui", "..\samples\dymaptic.Blazor.GIS.API.Core.Sample.Maui\dymaptic.Blazor.GIS.API.Core.Sample.Maui.csproj", "{08193B44-3A32-4836-96A0-44DEEA1E7556}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dymaptic.Blazor.GIS.API.Core.Test", "..\tests\dymaptic.Blazor.GIS.API.Core.Test\dymaptic.Blazor.GIS.API.Core.Test.csproj", "{48E045E3-F3FF-4D50-8987-83C1B8663E39}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,6 +42,10 @@ Global
 		{08193B44-3A32-4836-96A0-44DEEA1E7556}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{08193B44-3A32-4836-96A0-44DEEA1E7556}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{08193B44-3A32-4836-96A0-44DEEA1E7556}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48E045E3-F3FF-4D50-8987-83C1B8663E39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48E045E3-F3FF-4D50-8987-83C1B8663E39}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48E045E3-F3FF-4D50-8987-83C1B8663E39}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48E045E3-F3FF-4D50-8987-83C1B8663E39}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

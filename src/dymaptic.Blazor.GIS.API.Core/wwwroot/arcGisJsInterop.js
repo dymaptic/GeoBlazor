@@ -161,6 +161,7 @@ export function buildMapView(id, dotNetReference, long, lat, rotation, mapObject
                     }
                     
                     arcGisObjectRefs[id] = view;
+                    waitForRender(id);
 
                     if (mapObject.layers !== undefined && mapObject.layers !== null) {
                         mapObject.layers.forEach(layerObject => {
@@ -1004,4 +1005,24 @@ export function getActiveWidgetsForView(viewId) {
     let realWidgets = arcGisObjectRefs[viewId]?.ui?._components.filter(c => c?.widget !== undefined).map(c => c.widget);
     let registeredWidgets = Object.values(arcGisObjectRefs).filter(o => o?.declaredClass.includes('esri.widgets'));
     return realWidgets?.filter(wc => registeredWidgets.find(r => r === wc));
+}
+
+
+function waitForRender(viewId) {
+    let view = arcGisObjectRefs[viewId];
+    view.when().then(_ => {
+        let isRendered = false;
+        let interval = setInterval(() => {
+            if (view === undefined || view === null) {
+                clearInterval(interval);
+                return;
+            }
+            if (!view.updating && !isRendered) {
+                console.log("View Render Complete")
+                isRendered = true;
+            } else if (isRendered && view.updating) {
+                isRendered = false;
+            }
+        }, 100);
+    })
 }
