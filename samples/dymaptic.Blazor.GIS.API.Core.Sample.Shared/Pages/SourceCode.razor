@@ -16,7 +16,7 @@
     protected override async Task OnParametersSetAsync()
     {
         await base.OnParametersSetAsync();
-        if (PageUrl is null || PageUrl == "navigation") PageUrl = string.Empty;
+        if (PageUrl is null) PageUrl = string.Empty;
 
         string? markupContent = null;
         string directory = "_content/dymaptic.Blazor.GIS.API.Core.Sample.Shared/pages";
