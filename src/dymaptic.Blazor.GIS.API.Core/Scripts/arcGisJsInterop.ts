@@ -174,16 +174,18 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
         arcGisObjectRefs[id] = view;
 
         if (mapObject.layers !== undefined && mapObject.layers !== null) {
-            mapObject.layers.forEach(layerObject => {
-                addLayer(layerObject, id);
-            });
+            for (const layerObject of mapObject.layers) {
+                await addLayer(layerObject, id);
+            }
         }
 
-        basemapLayers.forEach(l => addLayer(l, id, true));
+        for (const l of basemapLayers) {
+            await addLayer(l, id, true);
+        }
 
-        widgets.forEach(widget => {
-            addWidget(widget, id);
-        });
+        for (const widget of widgets) {
+            await addWidget(widget, id);
+        }
 
         graphics.forEach(graphicObject => {
             addGraphic(graphicObject, id);
@@ -263,8 +265,8 @@ export function updateView(property: string, value: number, viewId: string): voi
 }
 
 
-export function queryFeatureLayer(queryObject: any, layerObject: any, symbol: any, popupTemplateObject: any, 
-                                  viewId: string): void {
+export async function queryFeatureLayer(queryObject: any, layerObject: any, symbol: any, popupTemplateObject: any, 
+                                  viewId: string): Promise<void> {
     try {
         setWaitCursor(viewId);
         let query = new Query ({
@@ -280,7 +282,7 @@ export function queryFeatureLayer(queryObject: any, layerObject: any, symbol: an
             query.geometry = queryObject.geometry;
         }
         let popupTemplate = buildPopupTemplate(popupTemplateObject);
-        addLayer(layerObject, viewId, false, true, () => {
+        await addLayer(layerObject, viewId, false, true, () => {
             displayQueryResults(query, symbol, popupTemplate, viewId);
         });
         unsetWaitCursor(viewId);
@@ -290,12 +292,12 @@ export function queryFeatureLayer(queryObject: any, layerObject: any, symbol: an
 }
 
 
-export function updateGraphicsLayer(layerObject: any, layerId: string, viewId: string): void {
+export async function updateGraphicsLayer(layerObject: any, layerId: string, viewId: string): Promise<void> {
     try {
         setWaitCursor(viewId);
         console.log('update graphics layer');
         removeGraphicsLayer(viewId, layerId);
-        addLayer(layerObject, viewId);
+        await addLayer(layerObject, viewId);
         unsetWaitCursor(viewId);
     } catch (error) {
         logError(error, viewId);
@@ -361,11 +363,11 @@ export function removeGraphicAtIndex(index: number, layerIndex: number, viewId: 
     }
 }
 
-export function updateFeatureLayer(layerObject: any, viewId: string): void {
+export async function updateFeatureLayer(layerObject: any, viewId: string): Promise<void> {
     try {
         setWaitCursor(viewId);
         removeFeatureLayer(layerObject, viewId);
-        addLayer(layerObject, viewId);
+        await addLayer(layerObject, viewId);
         unsetWaitCursor(viewId);
     } catch (error) {
         logError(error, viewId);
@@ -759,8 +761,8 @@ export function createGraphic(graphicObject: any): Graphic {
     return graphic;
 }
 
-export function addLayer(layerObject: any, viewId: string, isBasemapLayer?: boolean, isQueryLayer?: boolean, 
-                         callback?: Function): void {
+export async function addLayer(layerObject: any, viewId: string, isBasemapLayer?: boolean, isQueryLayer?: boolean, 
+                         callback?: Function): Promise<void> {
     try {
         let view = arcGisObjectRefs[viewId] as View;
         let newLayer: Layer;

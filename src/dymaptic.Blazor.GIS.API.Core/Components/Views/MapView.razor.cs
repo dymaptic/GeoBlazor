@@ -434,6 +434,7 @@ public partial class MapView : MapComponent
         ViewJsModule = await JsRuntime
             .InvokeAsync<IJSObjectReference>("import",
                 "./_content/dymaptic.Blazor.GIS.API.Core/js/arcGisJsInterop.js");
+        JsModule = ViewJsModule;
 
         if (firstRender)
         {
