@@ -4,7 +4,8 @@
   "description": "[View the live demo site!](https://dy-blazor-samples-server.azurewebsites.net/)",
   "main": "arcGisInterop.js",
   "scripts": {
-    "build": "esbuild ./Scripts/arcGisJsInterop.ts --format=esm --bundle --sourcemap --outfile=wwwroot/js/arcGisJsInterop.js"
+    "debugBuild": "esbuild ./Scripts/arcGisJsInterop.ts --format=esm --bundle --sourcemap --outfile=wwwroot/js/arcGisJsInterop.js",
+    "releaseBuild": "esbuild ./Scripts/arcGisJsInterop.ts --format=esm --bundle --minify --sourcemap --outfile=wwwroot/js/arcGisJsInterop.js"
   },
   "keywords": [],
   "author": "Tim Purdum",

@@ -48,8 +48,15 @@
         <None Include="Scripts/definitions.d.ts" Pack="true" PackagePack="Scripts" />
     </ItemGroup>
 
-    <Target Name="NPM Build" AfterTargets="PreBuildEvent">
-        <Exec Command="npm run build" />
+    <ItemGroup>
+      <Folder Include="wwwroot\js" />
+    </ItemGroup>
+
+    <Target Name="NPM Debug Build" AfterTargets="PreBuildEvent" Condition="$(Configuration) == 'DEBUG'">
+        <Exec Command="npm run debugBuild" />
+    </Target>
+    <Target Name="NPM Release Build" AfterTargets="PreBuildEvent" Condition="$(Configuration) == 'RELEASE'">
+        <Exec Command="npm run releaseBuild" />
     </Target>
     
     <Target Name="Move Nuget" AfterTargets="Publish">

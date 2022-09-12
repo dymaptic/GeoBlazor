@@ -359,3 +359,4 @@ MigrationBackup/
 */dymaptic.Blazor.GIS.API.Core.Test/ScreenShots/**/*
 /src/.vs/**/*
 /src/.idea/**/*
+/src/dymaptic.Blazor.GIS.API.Core/wwwroot/js/*
