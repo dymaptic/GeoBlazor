@@ -349,9 +349,13 @@ MigrationBackup/
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
 *.idea/
+**/.idea/**/*
+**/.vs/**/*
 
 */dymaptic.Blazor.GIS.API.Core.Sample.Shared/wwwroot/pages
 */dymaptic.Blazor.GIS.API.Core.Sample.Wasm/dymaptic.Blazor.GIS.API.Core.Sample.Wasm.csproj.user
 */dymaptic.Blazor.GIS.API.Core.Sample.Maui/Resources/Raw/*.html
 *.csproj.user
 */dymaptic.Blazor.GIS.API.Core.Test/ScreenShots/**/*
+/src/.vs/**/*
+/src/.idea/**/*

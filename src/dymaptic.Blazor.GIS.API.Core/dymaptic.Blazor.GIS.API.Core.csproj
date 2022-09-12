@@ -44,6 +44,8 @@
       <Content Include="package.json" Pack="false" />
       <Content Include="package-lock.json" Pack="false" />
       <Content Include="tsconfig.json" Pack="false" />
+        <None Include="Scripts/arcGisJsInterop.ts" Pack="true" PackagePack="Scripts" />
+        <None Include="Scripts/definitions.d.ts" Pack="true" PackagePack="Scripts" />
     </ItemGroup>
 
     <Target Name="NPM Build" AfterTargets="PreBuildEvent">

@@ -431,13 +431,23 @@ public partial class MapView : MapComponent
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        ViewJsModule = await JsRuntime
-            .InvokeAsync<IJSObjectReference>("import",
-                "./_content/dymaptic.Blazor.GIS.API.Core/js/arcGisJsInterop.js");
-        JsModule = ViewJsModule;
-
         if (firstRender)
         {
+            try
+            {
+                // this is here to support the interactive extension library
+                IJSObjectReference interactiveModule = await JsRuntime
+                    .InvokeAsync<IJSObjectReference>("import",
+                        "./_content/dymaptic.Blazor.GIS.API.Interactive/js/arcGisInteractive.js");
+                ViewJsModule = await interactiveModule.InvokeAsync<IJSObjectReference>("getCore");
+            }
+            catch
+            {
+                ViewJsModule = await JsRuntime
+                    .InvokeAsync<IJSObjectReference>("import",
+                        "./_content/dymaptic.Blazor.GIS.API.Core/js/arcGisJsInterop.js");
+            }
+            JsModule = ViewJsModule;
             // the first render never has all the child components registered
             Rendering = false;
             StateHasChanged();

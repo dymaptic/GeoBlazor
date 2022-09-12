@@ -149,7 +149,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
                         longitude: long,
                         spatialReference: spatialRef
                     });
-                    await resetCenterToSpatialReference(center, spatialRef, id);
+                    center = await resetCenterToSpatialReference(center, spatialRef);
                 } else {
                     center = [long, lat];
                 }
@@ -172,6 +172,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
         }
 
         arcGisObjectRefs[id] = view;
+        waitForRender(id, dotNetRef);
 
         if (mapObject.layers !== undefined && mapObject.layers !== null) {
             for (const layerObject of mapObject.layers) {
@@ -206,8 +207,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
         view.watch('spatialReference', () => {
             dotNetRef.invokeMethodAsync('OnSpatialReferenceChanged', view.spatialReference);
         });
-
-        dotNetReference.invokeMethodAsync('OnViewRendered');
+        
         unsetWaitCursor(id);
     } catch (error) {
         logError(error, id);
@@ -873,9 +873,8 @@ export function buildPopupTemplate(popupTemplateObject: any): PopupTemplate {
     });
 }
 
-async function resetCenterToSpatialReference(center: Point, spatialReference: SpatialReference, viewId: string) {
-    center = await projection.project(center, spatialReference) as Point;
-    (arcGisObjectRefs[viewId] as MapView).center = center;
+async function resetCenterToSpatialReference(center: Point, spatialReference: SpatialReference): Promise<Point> {
+    return await projection.project(center, spatialReference) as Point;
 }
 
 
@@ -1004,4 +1003,24 @@ function unsetWaitCursor(viewId: string): void {
     if (viewContainer !== null) {
         viewContainer.style.cursor = 'unset';
     }
+}
+
+function waitForRender(viewId: string, dotNetRef: any): void {
+    let view = arcGisObjectRefs[viewId] as View;
+    view.when().then(_ => {
+        let isRendered = false;
+        let interval = setInterval(() => {
+            if (view === undefined || view === null) {
+                clearInterval(interval);
+                return;
+            }
+            if (!view.updating && !isRendered) {
+                console.log("View Render Complete");
+                dotNetRef.invokeMethodAsync('OnViewRendered');
+                isRendered = true;
+            } else if (isRendered && view.updating) {
+                isRendered = false;
+            }
+        }, 100);
+    })
 }
