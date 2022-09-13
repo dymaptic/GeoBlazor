@@ -7,11 +7,7 @@ since the symbol is a reserved character in Razor.
 
 ```html
     <link href="_content/dymaptic.Blazor.GIS.API.Core"/>
-    <script src="https://unpkg.com/@@esri/arcgis-rest-request@@3.0.0/dist/umd/request.umd.js"></script>
-    <script src="https://unpkg.com/@@esri/arcgis-rest-auth@@3.0.0/dist/umd/auth.umd.js"></script>
-    <script src="https://unpkg.com/@@esri/arcgis-rest-demographics@@3.0.0/dist/umd/demographics.umd.js"></script>
-    <link href="https://js.arcgis.com/4.23/esri/themes/light/main.css" rel="stylesheet"/>
-    <script src="https://js.arcgis.com/4.23/"></script>
+    <link href="https://js.arcgis.com/4.24/esri/themes/light/main.css" rel="stylesheet"/>
 ```
 
 Now, you will need to get an ArcGIS API Key from the [Developer Dashboard](https://developers.arcgis.com/dashboard/).
@@ -122,3 +118,38 @@ See the MAUI sample application for some special scenarios around using the API 
 - MAUI applications do not load `appsettings.json` files to `IConfiguration` by default. You will need to call
   `builder.Configuration.AddInMemoryConfiguration` and load the ApiKey from another source, or
   `builderConfiguration.AddJsonFile` to use an `appsettings.json` file.
+
+# Using ArcGIS User Accounts for login
+
+Instead of using an app-based token, there are a few other ways to authenticate with ArcGIS.
+
+## Default ArcGIS JS Login
+
+The JavaScript API provides a default fallback sign-in form if you don't have an API Key or App Token.
+This is convenient, but it is not as secure as an OAuth sign-in flow (see below). To use the default
+sign-in, you need to set a flag, which will also remove the error message you see when running without
+a token.
+
+### Option 1: Add the flag to your `MapView` when instantiating in a Blazor page:
+
+```html
+<MapView AllowDefaultEsriLogin="true">
+    <Map></Map>
+</MapView>
+```
+
+### Option 2: Add the flag to `appsettings.json` or another location loaded into `IConfiguration`:
+
+```json
+{
+    "AllowDefaultEsriLogin": "true"
+}
+```
+
+## OAuth Secure User Login
+
+Eventually, we will try to get this more "baked in" to the library. For now, however, there is an example you
+can see in the Sample applications. Look in `dymaptic.Blazor.GIS.API.Core.Sample.Shared\Shared\MainLayout.razor`.
+You will see that it looks in `IConfiguration` for a `ClientId`, which you can get from the ArcGIS Developer portal.
+If this value is provided, it adds a login button, which calls into the OAuth flow. This is very much a work in
+progress, but reach out to us if you need assistance in implementing.

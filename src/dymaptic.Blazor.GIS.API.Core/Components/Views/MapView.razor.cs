@@ -104,6 +104,9 @@ public partial class MapView : MapComponent
             }
         }
     }
+    
+    [Parameter]
+    public bool? AllowDefaultEsriLogin { get; set; }
 
     [Parameter]
     public Func<Point, Task>? OnClickAsyncHandler { get; set; }
@@ -427,6 +430,16 @@ public partial class MapView : MapComponent
     {
         await base.OnParametersSetAsync();
         ApiKey = Configuration["ArcGISApiKey"];
+
+        if (AllowDefaultEsriLogin is null)
+        {
+            string? setting = Configuration["AllowDefaultEsriLogin"];
+
+            if (setting is not null && bool.TryParse(setting, out var allow))
+            {
+                AllowDefaultEsriLogin = allow;
+            }
+        }
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -480,10 +493,12 @@ public partial class MapView : MapComponent
 
         if (Rendering || (Map is null && WebMap is null) || ViewJsModule is null) return;
 
-        if (string.IsNullOrWhiteSpace(ApiKey))
+        if (string.IsNullOrWhiteSpace(ApiKey) && (AllowDefaultEsriLogin is null || !AllowDefaultEsriLogin.Value))
         {
-            ErrorMessage = "No ArcGIS API Key Found. See ReadMe.md for instructions on providing an API Key.";
+            ErrorMessage = "No ArcGIS API Key Found. See UsingTheAPI.md for instructions on providing an API Key or suppressing this message.";
             StateHasChanged();
+
+            return;
         }
 
         Rendering = true;
