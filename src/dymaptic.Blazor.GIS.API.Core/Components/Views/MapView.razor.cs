@@ -217,7 +217,7 @@ public partial class MapView : MapComponent
                 if (!m.Equals(Map))
                 {
                     Map = m;
-                    await UpdateComponent();
+                    await RenderView();
                 }
 
                 break;
@@ -225,7 +225,7 @@ public partial class MapView : MapComponent
                 if (!webMap.Equals(WebMap))
                 {
                     WebMap = webMap;
-                    await UpdateComponent();
+                    await RenderView();
                 }
 
                 break;
