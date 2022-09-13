@@ -81,15 +81,10 @@ for a 3D map with a basemap loaded from a `PortalId`.
 ### Reference Scripts and Styles
 
 - Add the following lines to the `head` element of your `_Layout.cshtml` (Blazor Server) or `index.html` (Blazor Wasm or Maui Blazor Hybrid)
-- _Note_, for `_Layout.cshtml`/Blazor Server, all the `@` symbols below must be doubled (`@@`) to escape, since `@` is a reserved character in Razor
 
 ```html
     <link href="_content/dymaptic.Blazor.GIS.API.Core"/>
-    <script src="https://unpkg.com/@esri/arcgis-rest-request@3.0.0/dist/umd/request.umd.js"></script>
-    <script src="https://unpkg.com/@esri/arcgis-rest-auth@3.0.0/dist/umd/auth.umd.js"></script>
-    <script src="https://unpkg.com/@esri/arcgis-rest-demographics@3.0.0/dist/umd/demographics.umd.js"></script>
-    <link href="https://js.arcgis.com/4.23/esri/themes/light/main.css" rel="stylesheet">
-    <script src="https://js.arcgis.com/4.23/"></script>
+    <link href="https://js.arcgis.com/4.24/esri/themes/light/main.css" rel="stylesheet">
 ```
 
 ### Setup API Key
@@ -166,7 +161,7 @@ For the Maui sample project, you need the latest [_preview_ of Visual Studio](ht
 - Extended application features
 
   - Custom renderers (e.g. image icons), see [Feature Layers (demo)](https://dy-blazor-samples-server.azurewebsites.net/feature-layers)
-  - Custom popups (e.g. charts, tables), see [Popups (demo)](https://dy-blazor-samples-server.azurewebsites.net/popups)
+  - Custodm popups (e.g. charts, tables), see [Popups (demo)](https://dy-blazor-samples-server.azurewebsites.net/popups)
   - Advanced widgets (e.g. sketch, track), see [Sketch Query (demo)](https://dy-blazor-samples-server.azurewebsites.net/sketch-query)
   - Custom layers (e.g. GeoJSON Layer), see [Projection (demo)](https://dy-blazor-samples-server.azurewebsites.net/projection)
   - Advanced event handling (e.g., pointer move, sketch events, search events), see above examples
