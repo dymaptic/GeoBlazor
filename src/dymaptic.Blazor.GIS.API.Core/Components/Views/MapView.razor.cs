@@ -478,8 +478,13 @@ public partial class MapView : MapComponent
             return;
         }
 
-        if (Rendering || (Map is null && WebMap is null) || ViewJsModule is null ||
-            string.IsNullOrWhiteSpace(ApiKey)) return;
+        if (Rendering || (Map is null && WebMap is null) || ViewJsModule is null) return;
+
+        if (string.IsNullOrWhiteSpace(ApiKey))
+        {
+            ErrorMessage = "No ArcGIS API Key Found. See ReadMe.md for instructions on providing an API Key.";
+            StateHasChanged();
+        }
 
         Rendering = true;
 
