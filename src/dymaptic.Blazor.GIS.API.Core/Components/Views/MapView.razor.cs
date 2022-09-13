@@ -496,6 +496,9 @@ public partial class MapView : MapComponent
         if (string.IsNullOrWhiteSpace(ApiKey) && (AllowDefaultEsriLogin is null || !AllowDefaultEsriLogin.Value))
         {
             ErrorMessage = "No ArcGIS API Key Found. See UsingTheAPI.md for instructions on providing an API Key or suppressing this message.";
+#if DEBUG
+            System.Diagnostics.Debug.WriteLine(ErrorMessage);
+#endif
             StateHasChanged();
 
             return;
