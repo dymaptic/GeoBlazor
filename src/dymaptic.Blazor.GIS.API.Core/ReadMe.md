@@ -161,7 +161,7 @@ For the Maui sample project, you need the latest [_preview_ of Visual Studio](ht
 - Extended application features
 
   - Custom renderers (e.g. image icons), see [Feature Layers (demo)](https://dy-blazor-samples-server.azurewebsites.net/feature-layers)
-  - Custodm popups (e.g. charts, tables), see [Popups (demo)](https://dy-blazor-samples-server.azurewebsites.net/popups)
+  - Custom popups (e.g. charts, tables), see [Popups (demo)](https://dy-blazor-samples-server.azurewebsites.net/popups)
   - Advanced widgets (e.g. sketch, track), see [Sketch Query (demo)](https://dy-blazor-samples-server.azurewebsites.net/sketch-query)
   - Custom layers (e.g. GeoJSON Layer), see [Projection (demo)](https://dy-blazor-samples-server.azurewebsites.net/projection)
   - Advanced event handling (e.g., pointer move, sketch events, search events), see above examples
