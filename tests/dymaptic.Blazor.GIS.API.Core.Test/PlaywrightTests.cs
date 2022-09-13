@@ -40,7 +40,7 @@ public class PlaywrightTests
         
         Task waitForRenderTask = page.WaitForConsoleMessageAsync(renderMessage);
         // Go to https://localhost:7255/
-        await page.GotoAsync("https://localhost:7255/");
+        await page.GotoAsync("https://localhost:7255/navigation");
         await Task.Delay(1000);
 
         if (await page.Locator("#api-key-field").IsVisibleAsync())
@@ -80,10 +80,10 @@ public class PlaywrightTests
         await page.Locator("text=Rotation (deg): >> input[type=\"number\"]").PressAsync("Tab");
         await page.ScreenshotAsync(new PageScreenshotOptions { Path = Path.Combine(_screenShotsFolder, "Navigation4.png"), FullPage = true });
         
-        Task pageLoadTask = page.WaitForURLAsync("https://localhost:7255/source-code/");
+        Task pageLoadTask = page.WaitForURLAsync("https://localhost:7255/source-code/navigation");
         
-        // Click text=Razor Source File
-        await page.Locator("text=Razor Source File").ClickAsync();
+        // Click text=Source Code
+        await page.Locator("text=Source Code").ClickAsync();
         await pageLoadTask;
         await page.ScreenshotAsync(new PageScreenshotOptions { Path = Path.Combine(_screenShotsFolder, "Navigation_Source.png"), FullPage = true });
         
@@ -182,9 +182,9 @@ public class PlaywrightTests
         await page.Locator("text=Remove").Nth(1).ClickAsync();
         await page.ScreenshotAsync(new PageScreenshotOptions { Path = Path.Combine(_screenShotsFolder, "Drawing14.png"), FullPage = true });
         
-        // Click text=Razor Source File
+        // Click text=Source Code
         pageLoadTask = page.WaitForURLAsync("https://localhost:7255/source-code/drawing");
-        await page.Locator("text=Razor Source File").ClickAsync();
+        await page.Locator("text=Source Code").ClickAsync();
         await pageLoadTask;
 
         await page.ScreenshotAsync(new PageScreenshotOptions { Path = Path.Combine(_screenShotsFolder, "Drawing_Source.png"), FullPage = true });
@@ -277,9 +277,9 @@ public class PlaywrightTests
         await Task.Delay(1000);
         await page.ScreenshotAsync(new PageScreenshotOptions { Path = Path.Combine(_screenShotsFolder, "Widgets15.png"), FullPage = true });
 
-        // Click text=Razor Source File
+        // Click text=Source Code
         pageLoadTask = page.WaitForURLAsync("https://localhost:7255/source-code/widgets");
-        await page.Locator("text=Razor Source File").ClickAsync();
+        await page.Locator("text=Source Code").ClickAsync();
         await pageLoadTask;
         await Task.Delay(1000);
         await page.ScreenshotAsync(new PageScreenshotOptions { Path = Path.Combine(_screenShotsFolder, "Widgets_Source.png"), FullPage = true });
@@ -304,9 +304,9 @@ public class PlaywrightTests
         await waitForRenderTask;
         await page.ScreenshotAsync(new PageScreenshotOptions { Path = Path.Combine(_screenShotsFolder, "BaseMaps3.png"), FullPage = true });
         
-        // Click text=Razor Source File
+        // Click text=Source Code
         pageLoadTask = page.WaitForURLAsync("https://localhost:7255/source-code/basemaps");
-        await page.Locator("text=Razor Source File").ClickAsync();
+        await page.Locator("text=Source Code").ClickAsync();
         await pageLoadTask;
         await Task.Delay(1000);
         await page.ScreenshotAsync(new PageScreenshotOptions { Path = Path.Combine(_screenShotsFolder, "BaseMaps_Source.png"), FullPage = true });
@@ -357,9 +357,9 @@ public class PlaywrightTests
         await waitForRenderTask;
         await page.ScreenshotAsync(new PageScreenshotOptions { Path = Path.Combine(_screenShotsFolder, "VectorLayer.png"), FullPage = true });
         
-        // Click text=Razor Source File
+        // Click text=Source Code
         pageLoadTask = page.WaitForURLAsync("https://localhost:7255/source-code/vector-layer");
-        await page.Locator("text=Razor Source File").ClickAsync();
+        await page.Locator("text=Source Code").ClickAsync();
         await pageLoadTask;
         await Task.Delay(1000);
         await page.ScreenshotAsync(new PageScreenshotOptions { Path = Path.Combine(_screenShotsFolder, "VectorLayer_Source.png"), FullPage = true });
@@ -409,9 +409,9 @@ public class PlaywrightTests
         await waitForRenderTask;
         await page.ScreenshotAsync(new PageScreenshotOptions { Path = Path.Combine(_screenShotsFolder, "SqlQuery5.png"), FullPage = true });
         
-        // Click text=Razor Source File
+        // Click text=Source Code
         pageLoadTask = page.WaitForURLAsync("https://localhost:7255/source-code/sql-query");
-        await page.Locator("text=Razor Source File").ClickAsync();
+        await page.Locator("text=Source Code").ClickAsync();
         await pageLoadTask;
         await Task.Delay(1000);
         await page.ScreenshotAsync(new PageScreenshotOptions { Path = Path.Combine(_screenShotsFolder, "SqlQuery_Source.png"), FullPage = true });
@@ -495,9 +495,9 @@ public class PlaywrightTests
         await waitForRenderTask;
         await page.ScreenshotAsync(new PageScreenshotOptions { Path = Path.Combine(_screenShotsFolder, "ServiceAreas3.png"), FullPage = true });
         
-        // Click text=Razor Source File
+        // Click text=Source Code
         pageLoadTask = page.WaitForURLAsync("https://localhost:7255/source-code/service-areas");
-        await page.Locator("text=Razor Source File").ClickAsync();
+        await page.Locator("text=Source Code").ClickAsync();
         await pageLoadTask;
         await Task.Delay(1000);
         await page.ScreenshotAsync(new PageScreenshotOptions { Path = Path.Combine(_screenShotsFolder, "ServiceAreas_Source.png"), FullPage = true });

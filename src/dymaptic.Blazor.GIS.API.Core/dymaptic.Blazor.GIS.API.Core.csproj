@@ -38,10 +38,29 @@
     <ItemGroup>
       <None Include="ReadMe.md" Pack="true" PackagePath="" />
       <None Include="dymaptic_logo.png" Pack="true" PackagePath="" />
+      <Content Remove="package.json" />
+      <Content Remove="package-lock.json" />
+      <Content Remove="tsconfig.json" />
+      <Content Include="package.json" Pack="false" />
+      <Content Include="package-lock.json" Pack="false" />
+      <Content Include="tsconfig.json" Pack="false" />
+        <None Include="Scripts/arcGisJsInterop.ts" Pack="true" PackagePack="Scripts" />
+        <None Include="Scripts/definitions.d.ts" Pack="true" PackagePack="Scripts" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="wwwroot\js" />
+    </ItemGroup>
+
+    <Target Name="NPM Debug Build" AfterTargets="PreBuildEvent" Condition="$(Configuration) == 'DEBUG'">
+        <Exec Command="npm run debugBuild" />
+    </Target>
+    <Target Name="NPM Release Build" AfterTargets="PreBuildEvent" Condition="$(Configuration) == 'RELEASE'">
+        <Exec Command="npm run releaseBuild" />
+    </Target>
     
     <Target Name="Move Nuget" AfterTargets="Publish">
-        <Exec ContinueOnError="true" Command="robocopy bin/$(Configuration) ../../packages dymaptic.Blazor.GIS.API.Core.$(Version).nupkg">
+        <Exec ContinueOnError="true" ConsoleToMSBuild="true" Command="robocopy bin/$(Configuration) ../../packages dymaptic.Blazor.GIS.API.Core.$(Version).nupkg">
             <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
         </Exec>
         <Error Condition="$(ErrorCode) &gt; 8" Message="Robocopy failed" />

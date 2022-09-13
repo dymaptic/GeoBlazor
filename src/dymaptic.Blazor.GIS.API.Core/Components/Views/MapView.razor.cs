@@ -217,7 +217,7 @@ public partial class MapView : MapComponent
                 if (!m.Equals(Map))
                 {
                     Map = m;
-                    await UpdateComponent();
+                    await RenderView();
                 }
 
                 break;
@@ -225,7 +225,7 @@ public partial class MapView : MapComponent
                 if (!webMap.Equals(WebMap))
                 {
                     WebMap = webMap;
-                    await UpdateComponent();
+                    await RenderView();
                 }
 
                 break;
@@ -431,12 +431,29 @@ public partial class MapView : MapComponent
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        ViewJsModule = await JsRuntime
-            .InvokeAsync<IJSObjectReference>("import",
-                "./_content/dymaptic.Blazor.GIS.API.Core/arcGisJsInterop.js");
-
         if (firstRender)
         {
+            LicenseType licenseType = Licensing.GetLicenseType();
+            
+            switch ((int)licenseType)
+            {
+                case >= 100:
+                    // this is here to support the interactive extension library
+                    IJSObjectReference interactiveModule = await JsRuntime
+                        .InvokeAsync<IJSObjectReference>("import",
+                            "./_content/dymaptic.Blazor.GIS.API.Interactive/js/arcGisInteractive.js");
+                    ViewJsModule = await interactiveModule.InvokeAsync<IJSObjectReference>("getCore");
+
+                    break;
+                default:
+                    ViewJsModule = await JsRuntime
+                        .InvokeAsync<IJSObjectReference>("import",
+                            "./_content/dymaptic.Blazor.GIS.API.Core/js/arcGisJsInterop.js");
+
+                    break;
+            }
+            
+            JsModule = ViewJsModule;
             // the first render never has all the child components registered
             Rendering = false;
             StateHasChanged();

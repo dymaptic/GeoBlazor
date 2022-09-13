@@ -35,6 +35,6 @@
     </ItemGroup>
     
     <Target Name="Copy Razor Files" AfterTargets="Build">
-        <Exec Command="bash razorCopy.sh" ContinueOnError="true" />
+        <Exec Command="powershell .\razorCopy.ps1" />
     </Target>
 </Project>
