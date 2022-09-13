@@ -51,11 +51,15 @@
     <ItemGroup>
       <Folder Include="wwwroot\js" />
     </ItemGroup>
+    
+    <Target Name="NPM Install" AfterTargets="PreBuildEvent">
+        <Exec Command="npm install" />
+    </Target>
 
-    <Target Name="NPM Debug Build" AfterTargets="PreBuildEvent" Condition="$(Configuration) == 'DEBUG'">
+    <Target Name="NPM Debug Build" AfterTargets="NPM Install" Condition="$(Configuration) == 'DEBUG'">
         <Exec Command="npm run debugBuild" />
     </Target>
-    <Target Name="NPM Release Build" AfterTargets="PreBuildEvent" Condition="$(Configuration) == 'RELEASE'">
+    <Target Name="NPM Release Build" AfterTargets="NPM Install" Condition="$(Configuration) == 'RELEASE'">
         <Exec Command="npm run releaseBuild" />
     </Target>
     
