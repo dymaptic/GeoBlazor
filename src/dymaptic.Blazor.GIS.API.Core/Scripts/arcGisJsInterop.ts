@@ -574,6 +574,10 @@ export function getCenter(viewId: string): DotNetPoint {
     return buildDotNetPoint((arcGisObjectRefs[viewId] as MapView).center);
 }
 
+export function getExtent(viewId: string): DotNetExtent | null {
+    return buildDotNetExtent((arcGisObjectRefs[viewId] as MapView).extent);
+}
+
 
 export function drawWithGeodesicBufferOnPointer(cursorSymbol: any, bufferSymbol: any, geodesicBufferDistance: number, 
                                                 geodesicBufferUnit: any, viewId: string): void {

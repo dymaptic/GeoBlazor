@@ -1,4 +1,5 @@
 @page "/navigation"
+@using System.Text.Json
 
 <PageTitle>Navigation</PageTitle>
 <h1>Navigation</h1>
@@ -16,19 +17,42 @@
     <label>Rotation (deg):<input type="number" @bind="_rotation" /></label>
 </div>
 
-<MapView Class="map-view" 
+<MapView @ref="MapView" 
+         Class="map-view" 
          Longitude="_longitude"
          Latitude="_latitude"
          Zoom="_zoom"
          Rotation="_rotation">
-<Map ArcGISDefaultBasemap="arcgis-topographic" />
+    <Map ArcGISDefaultBasemap="arcgis-topographic" />
 </MapView>
+
+<div class="form-group">
+    <button @onclick="GetExtent">Get Extent</button>
+    @if (!string.IsNullOrEmpty(_extentJson))
+    {
+        <div>@((MarkupString)_extentJson)</div>
+    }
+</div>
 
 
 @code
 {
+    private async Task GetExtent()
+    {
+        Extent? extent = await MapView!.GetExtent();
+        if (extent is null) return;
+        _extentJson = JsonSerializer.Serialize(extent, new JsonSerializerOptions
+        {
+            WriteIndented = true
+        })
+            .Replace(" ", "&nbsp;")
+            .Replace(Environment.NewLine, "<br />");
+    }
+    
     private double _latitude = 34.027;
     private double _longitude = -118.805;
     private double _zoom = 11;
     private double _rotation;
+    private string? _extentJson;
+    private MapView? MapView { get; set; }
 }
