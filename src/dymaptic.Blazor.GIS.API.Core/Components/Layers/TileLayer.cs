@@ -9,8 +9,10 @@ public class TileLayer : Layer
     public override string LayerType => "tile";
 
     [Parameter]
+    [RequiredProperty(nameof(PortalItem))]
     public string? Url { get; set; }
 
+    [RequiredProperty(nameof(Url))]
     public PortalItem? PortalItem { get; set; }
 
     public override async Task RegisterChildComponent(MapComponent child)
@@ -45,6 +47,12 @@ public class TileLayer : Layer
 
                 break;
         }
+    }
+    
+    public override void ValidateRequiredChildren()
+    {
+        base.ValidateRequiredChildren();
+        PortalItem?.ValidateRequiredChildren();
     }
 }
 

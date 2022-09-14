@@ -71,6 +71,17 @@ public class Map : MapComponent
                 break;
         }
     }
+    
+    public override void ValidateRequiredChildren()
+    {
+        base.ValidateRequiredChildren();
+        Basemap?.ValidateRequiredChildren();
+
+        foreach (Layer layer in Layers)
+        {
+            layer.ValidateRequiredChildren();
+        }
+    }
 
     public override async Task UpdateComponent()
     {

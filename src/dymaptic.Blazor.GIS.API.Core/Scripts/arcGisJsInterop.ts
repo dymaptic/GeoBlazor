@@ -774,11 +774,21 @@ export async function addLayer(layerObject: any, viewId: string, isBasemapLayer?
                 });
                 break;
             case 'feature':
-                newLayer = new FeatureLayer({
-                    url: layerObject.url,
-                    opacity: layerObject.opacity,
-                    definitionExpression: layerObject.definitionExpression
-                });
+                if (layerObject.portalItem !== undefined && layerObject.portalItem?.id !== null) {
+                    newLayer = new FeatureLayer({
+                        portalItem: {
+                            id: layerObject.portalItem.id
+                        },
+                        opacity: layerObject.opacity,
+                        definitionExpression: layerObject.definitionExpression
+                    });
+                } else {
+                    newLayer = new FeatureLayer({
+                        url: layerObject.url,
+                        opacity: layerObject.opacity,
+                        definitionExpression: layerObject.definitionExpression
+                    });
+                }
                 let featureLayer = newLayer as FeatureLayer;
                 if (layerObject.opacity !== undefined && layerObject.opacity !== null) {
                     newLayer.opacity = layerObject.opacity;

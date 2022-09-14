@@ -80,28 +80,77 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     }
 
 
-    public void ValidateRequiredChildren()
+    /// <summary>
+    ///     When a <see cref="MapView" /> is prepared to render, this will check to make sure that
+    ///     all properties with the <see cref="RequiredPropertyAttribute"/> are provided.
+    /// </summary>
+    /// <exception cref="MissingRequiredChildElementException">
+    ///     The consumer needs to provide the missing child component
+    /// </exception>
+    /// <exception cref="MissingRequiredOptionsChildElementException">
+    ///     The consumer needs to provide ONE of the options of child components
+    /// </exception>
+    public virtual void ValidateRequiredChildren()
     {
         Type thisType = GetType();
         IEnumerable<PropertyInfo> parameters = thisType
             .GetProperties()
             .Where(p =>
-                Attribute.IsDefined(p, typeof(RequiredComponentAttribute)));
+                Attribute.IsDefined(p, typeof(RequiredPropertyAttribute)));
+
+        List<ComponentOption> options = new();
 
         foreach (PropertyInfo requiredParameter in parameters)
         {
             Type propType = requiredParameter.PropertyType;
             object? value = requiredParameter.GetValue(this);
+            string propName = requiredParameter.Name;
+            RequiredPropertyAttribute attr =
+                (RequiredPropertyAttribute)requiredParameter.GetCustomAttributes(
+                    typeof(RequiredPropertyAttribute), true)[0];
+            
+            if (attr.OtherOptions is not null && attr.OtherOptions.Any())
+            {
+                ComponentOption? optionSet = options.FirstOrDefault(o =>
+                    o.Options.Contains(propName));
 
-            if (value is null)
+                if (optionSet is null)
+                {
+                    optionSet = new ComponentOption();
+                    optionSet.Options.Add(propName);
+                    foreach (string other in attr.OtherOptions)
+                    {
+                        optionSet.Options.Add(other);
+                    }
+                    options.Add(optionSet);
+                }
+
+                if (value is not null)
+                {
+                    optionSet.Found = true;
+                }
+                else
+                {
+                    continue;
+                }
+            }
+            else if (value is null)
             {
                 throw new MissingRequiredChildElementException(thisType.Name, propType.Name);
             }
 
             // lists, arrays
-            if (propType.GetInterface(nameof(IList)) != null && ((IList)value).Count == 0)
+            if (propType.GetInterface(nameof(ICollection)) != null && ((ICollection)value).Count == 0)
             {
                 throw new MissingRequiredChildElementException(thisType.Name, propType.Name);
+            }
+        }
+
+        foreach (var option in options)
+        {
+            if (!option.Found)
+            {
+                throw new MissingRequiredOptionsChildElementException(thisType.Name, option.Options);
             }
         }
     }
@@ -127,8 +176,6 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         {
             await Parent.RegisterChildComponent(this);
         }
-        
-        ValidateRequiredChildren();
     }
 
     protected virtual async Task RenderView(bool forceRender = false)

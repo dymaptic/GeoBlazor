@@ -80,6 +80,17 @@ public class Constraints: MapComponent
                 break;
         }
     }
+    
+    public override void ValidateRequiredChildren()
+    {
+        base.ValidateRequiredChildren();
+        Geometry?.ValidateRequiredChildren();
+
+        foreach (LOD lod in Lods)
+        {
+            lod.ValidateRequiredChildren();
+        }
+    }
 }
 
 

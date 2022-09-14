@@ -49,6 +49,12 @@ public class PortalBasemapsSource: MapComponent
                 break;
         }
     }
+    
+    public override void ValidateRequiredChildren()
+    {
+        base.ValidateRequiredChildren();
+        Portal?.ValidateRequiredChildren();
+    }
 }
 
 public class Portal : MapComponent

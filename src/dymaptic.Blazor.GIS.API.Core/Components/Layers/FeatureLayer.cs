@@ -10,6 +10,7 @@ public class FeatureLayer : Layer
 {
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [RequiredProperty(nameof(PortalItem))]
     public string Url { get; set; } = default!;
 
     [Parameter]
@@ -41,6 +42,10 @@ public class FeatureLayer : Layer
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Renderer? Renderer { get; set; }
     
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [RequiredProperty(nameof(Url))]
+    public PortalItem? PortalItem { get; set; }
+    
     public override string LayerType => "feature";
 
     public override async Task RegisterChildComponent(MapComponent child)
@@ -71,6 +76,14 @@ public class FeatureLayer : Layer
                 }
 
                 break;
+            case PortalItem portalItem:
+                if (!portalItem.Equals(PortalItem))
+                {
+                    PortalItem = portalItem;
+                    await UpdateComponent();
+                }
+
+                break;
             default:
                 await base.RegisterChildComponent(child);
 
@@ -94,11 +107,27 @@ public class FeatureLayer : Layer
                 Renderer = null;
 
                 break;
+            case PortalItem _:
+                PortalItem = null;
+
+                break;
             default:
                 await base.UnregisterChildComponent(child);
 
                 break;
         }
+    }
+    
+    public override void ValidateRequiredChildren()
+    {
+        base.ValidateRequiredChildren();
+        PopupTemplate?.ValidateRequiredChildren();
+        Renderer?.ValidateRequiredChildren();
+        PortalItem?.ValidateRequiredChildren();
+        foreach (var label in LabelingInfo)
+        {
+            label.ValidateRequiredChildren();
+        } 
     }
 
     public override async Task UpdateComponent()

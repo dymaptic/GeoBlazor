@@ -4,7 +4,7 @@ namespace dymaptic.Blazor.GIS.API.Core.Components.Layers;
 
 public abstract class LayerObject : MapComponent
 {
-    [RequiredComponent]
+    [RequiredProperty]
     public Symbol? Symbol { get; set; }
 
     public override async Task RegisterChildComponent(MapComponent child)
@@ -39,5 +39,11 @@ public abstract class LayerObject : MapComponent
 
                 break;
         }
+    }
+    
+    public override void ValidateRequiredChildren()
+    {
+        base.ValidateRequiredChildren();
+        Symbol?.ValidateRequiredChildren();
     }
 }

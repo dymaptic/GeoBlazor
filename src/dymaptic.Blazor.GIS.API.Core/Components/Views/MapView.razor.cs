@@ -152,8 +152,10 @@ public partial class MapView : MapComponent
     
     public List<Graphic> Graphics { get; set; } = new();
 
+    [RequiredProperty(nameof(WebMap), nameof(SceneView.WebScene))]
     public Map? Map { get; set; }
 
+    [RequiredProperty(nameof(Map), nameof(SceneView.WebScene))]
     public WebMap? WebMap { get; set; }
 
     public SpatialReference? SpatialReference
@@ -322,6 +324,25 @@ public partial class MapView : MapComponent
                 break;
         }
     }
+    
+    public override void ValidateRequiredChildren()
+    {
+        base.ValidateRequiredChildren();
+        Map?.ValidateRequiredChildren();
+        WebMap?.ValidateRequiredChildren();
+        Constraints?.ValidateRequiredChildren();
+        SpatialReference?.ValidateRequiredChildren();
+
+        foreach (Graphic graphic in Graphics)
+        {
+            graphic.ValidateRequiredChildren();
+        }
+
+        foreach (Widget widget in Widgets)
+        {
+            widget.ValidateRequiredChildren();
+        }
+    }
 
     public async Task QueryFeatures(Query query, FeatureLayer featureLayer, Symbol displaySymbol,
         PopupTemplate popupTemplate)
@@ -345,7 +366,8 @@ public partial class MapView : MapComponent
 
     public async Task ShowPopupWithGraphic(Graphic graphic, PopupOptions options)
     {
-        await ViewJsModule!.InvokeVoidAsync("showPopupWithGraphic", (object)graphic, (object)options, Id);
+        await ViewJsModule!.InvokeVoidAsync("showPopupWithGraphic", (object)graphic, 
+            (object)options, Id);
     }
 
     public async Task AddGraphic(Graphic graphic, int? layerIndex = null)
@@ -480,6 +502,7 @@ public partial class MapView : MapComponent
             string.IsNullOrWhiteSpace(ApiKey)) return;
 
         Rendering = true;
+        ValidateRequiredChildren();
 
         await InvokeAsync(async () =>
         {

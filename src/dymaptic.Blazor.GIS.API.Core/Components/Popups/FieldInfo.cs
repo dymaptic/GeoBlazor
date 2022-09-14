@@ -54,4 +54,10 @@ public class FieldInfo : MapComponent
                 break;
         }
     }
+    
+    public override void ValidateRequiredChildren()
+    {
+        base.ValidateRequiredChildren();
+        Format?.ValidateRequiredChildren();
+    }
 }

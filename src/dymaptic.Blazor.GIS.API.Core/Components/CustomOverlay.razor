@@ -10,8 +10,10 @@
 
 @code {
     [Parameter, EditorRequired]
+    [RequiredProperty]
     public OverlayPosition Position { get; set; }
     [Parameter, EditorRequired]
+    [RequiredProperty]
     public RenderFragment? ChildContent { get; set; }
 
     public void Refresh()
