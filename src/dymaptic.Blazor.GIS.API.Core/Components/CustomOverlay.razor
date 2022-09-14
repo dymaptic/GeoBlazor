@@ -9,9 +9,9 @@
 </div>
 
 @code {
-    [Parameter]
+    [Parameter, EditorRequired]
     public OverlayPosition Position { get; set; }
-    [Parameter]
+    [Parameter, EditorRequired]
     public RenderFragment? ChildContent { get; set; }
 
     public void Refresh()

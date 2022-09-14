@@ -5,15 +5,15 @@ namespace dymaptic.Blazor.GIS.API.Core.Components;
 
 public class Map : MapComponent
 {
-    public Basemap? Basemap { get; set; }
-
-    public HashSet<Layer> Layers { get; set; } = new();
-
     [Parameter]
     public string? ArcGISDefaultBasemap { get; set; }
 
     [Parameter]
     public string? Ground { get; set; }
+    
+    public Basemap? Basemap { get; set; }
+
+    public HashSet<Layer> Layers { get; set; } = new();
 
     public override async Task RegisterChildComponent(MapComponent child)
     {

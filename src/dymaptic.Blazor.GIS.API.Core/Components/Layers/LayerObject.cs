@@ -4,6 +4,7 @@ namespace dymaptic.Blazor.GIS.API.Core.Components.Layers;
 
 public abstract class LayerObject : MapComponent
 {
+    [RequiredComponent]
     public Symbol? Symbol { get; set; }
 
     public override async Task RegisterChildComponent(MapComponent child)

@@ -16,20 +16,17 @@ namespace dymaptic.Blazor.GIS.API.Core.Components.Views;
 
 public partial class MapView : MapComponent
 {
-    public HashSet<Widget> Widgets { get; set; } = new();
-    public List<Graphic> Graphics { get; set; } = new();
+    [Inject]
+    public IConfiguration Configuration { get; set; } = default!;
+
+    [Inject]
+    public IJSRuntime JsRuntime { get; set; } = default!;
 
     [Parameter]
     public string Style { get; set; } = string.Empty;
 
     [Parameter]
     public string Class { get; set; } = string.Empty;
-
-    [Inject]
-    public IConfiguration Configuration { get; set; } = default!;
-
-    [Inject]
-    public IJSRuntime JsRuntime { get; set; } = default!;
 
     [Parameter]
     public double Latitude
@@ -116,6 +113,44 @@ public partial class MapView : MapComponent
     
     [Parameter]
     public Func<SpatialReference, Task>? OnSpatialReferenceChangedHandler { get; set; }
+    
+    [JSInvokable]
+    public void OnJavascriptError(string error)
+    {
+#if DEBUG
+        ErrorMessage = error.Replace("\n", "<br>");
+        StateHasChanged();
+#endif
+        throw new JavascriptException(error);
+    }
+
+    [JSInvokable]
+    public void OnJavascriptClick(Point mapPoint)
+    {
+        OnClickAsyncHandler?.Invoke(mapPoint);
+    }
+
+    [JSInvokable]
+    public void OnJavascriptPointerMove(Point mapPoint)
+    {
+        OnPointerMoveHandler?.Invoke(mapPoint);
+    }
+
+    [JSInvokable]
+    public void OnViewRendered()
+    {
+        OnMapRenderedHandler?.Invoke();
+    }
+
+    [JSInvokable]
+    public void OnSpatialReferenceChanged(SpatialReference spatialReference)
+    {
+        OnSpatialReferenceChangedHandler?.Invoke(spatialReference);
+    }
+    
+    public HashSet<Widget> Widgets { get; set; } = new();
+    
+    public List<Graphic> Graphics { get; set; } = new();
 
     public Map? Map { get; set; }
 
@@ -159,40 +194,7 @@ public partial class MapView : MapComponent
         NeedsRender = true;
         StateHasChanged();
     }
-
-    [JSInvokable]
-    public void OnJavascriptError(string error)
-    {
-#if DEBUG
-        ErrorMessage = error.Replace("\n", "<br>");
-        StateHasChanged();
-#endif
-        throw new JavascriptException(error);
-    }
-
-    [JSInvokable]
-    public void OnJavascriptClick(Point mapPoint)
-    {
-        OnClickAsyncHandler?.Invoke(mapPoint);
-    }
-
-    [JSInvokable]
-    public void OnJavascriptPointerMove(Point mapPoint)
-    {
-        OnPointerMoveHandler?.Invoke(mapPoint);
-    }
-
-    [JSInvokable]
-    public void OnViewRendered()
-    {
-        OnMapRenderedHandler?.Invoke();
-    }
-
-    [JSInvokable]
-    public void OnSpatialReferenceChanged(SpatialReference spatialReference)
-    {
-        OnSpatialReferenceChangedHandler?.Invoke(spatialReference);
-    }
+    
 
     public override async Task UpdateComponent()
     {
@@ -355,11 +357,7 @@ public partial class MapView : MapComponent
     {
         await ViewJsModule!.InvokeVoidAsync("clearViewGraphics", Id);
     }
-
-    /// <summary>
-    /// </summary>
-    /// <param name="routeSymbol"></param>
-    /// <param name="routeUrl"></param>
+    
     /// <returns>Returns the directions of the route</returns>
     public async Task<Direction[]> DrawRouteAndGetDirections(Symbol routeSymbol, string routeUrl)
     {

@@ -4,6 +4,8 @@ using Microsoft.JSInterop;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using dymaptic.Blazor.GIS.API.Core.Exceptions;
+using System.Collections;
+using System.Reflection;
 
 
 namespace dymaptic.Blazor.GIS.API.Core.Components;
@@ -11,8 +13,6 @@ namespace dymaptic.Blazor.GIS.API.Core.Components;
 [JsonConverter(typeof(MapComponentConverter))]
 public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
 {
-    public Guid Id { get; init; } = Guid.NewGuid();
-
     [Parameter]
     [JsonIgnore]
     public RenderFragment? ChildContent { get; set; }
@@ -32,6 +32,8 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     [CascadingParameter(Name = "View")]
     [JsonIgnore]
     public MapView? View { get; set; }
+    
+    public Guid Id { get; init; } = Guid.NewGuid();
 
     public virtual async ValueTask DisposeAsync()
     {
@@ -77,6 +79,33 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         }
     }
 
+
+    public void ValidateRequiredChildren()
+    {
+        Type thisType = GetType();
+        IEnumerable<PropertyInfo> parameters = thisType
+            .GetProperties()
+            .Where(p =>
+                Attribute.IsDefined(p, typeof(RequiredComponentAttribute)));
+
+        foreach (PropertyInfo requiredParameter in parameters)
+        {
+            Type propType = requiredParameter.PropertyType;
+            object? value = requiredParameter.GetValue(this);
+
+            if (value is null)
+            {
+                throw new MissingRequiredChildElementException(thisType.Name, propType.Name);
+            }
+
+            // lists, arrays
+            if (propType.GetInterface(nameof(IList)) != null && ((IList)value).Count == 0)
+            {
+                throw new MissingRequiredChildElementException(thisType.Name, propType.Name);
+            }
+        }
+    }
+
     protected override Task OnParametersSetAsync()
     {
         _needsUpdate = true;
@@ -98,6 +127,8 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         {
             await Parent.RegisterChildComponent(this);
         }
+        
+        ValidateRequiredChildren();
     }
 
     protected virtual async Task RenderView(bool forceRender = false)

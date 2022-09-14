@@ -5,9 +5,6 @@ namespace dymaptic.Blazor.GIS.API.Core.Components;
 
 public class PortalBasemapsSource: MapComponent
 {
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Portal? Portal { get; set; }
-    
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? QueryString { get; set; }
@@ -15,6 +12,9 @@ public class PortalBasemapsSource: MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Dictionary<string, string>? QueryParams { get; set; }
+    
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Portal? Portal { get; set; }
 
     public override async Task RegisterChildComponent(MapComponent child)
     {

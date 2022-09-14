@@ -8,9 +8,6 @@ namespace dymaptic.Blazor.GIS.API.Core.Components.Layers;
 
 public class FeatureLayer : Layer
 {
-    private string? _definitionExpression;
-    public override string LayerType => "feature";
-
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string Url { get; set; } = default!;
@@ -43,6 +40,8 @@ public class FeatureLayer : Layer
 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Renderer? Renderer { get; set; }
+    
+    public override string LayerType => "feature";
 
     public override async Task RegisterChildComponent(MapComponent child)
     {
@@ -112,4 +111,6 @@ public class FeatureLayer : Layer
             await JsModule!.InvokeVoidAsync("updateFeatureLayer", (object)this, View!.Id);
         });
     }
+    
+    private string? _definitionExpression;
 }

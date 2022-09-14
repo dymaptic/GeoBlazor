@@ -7,6 +7,7 @@ public class BasemapToggleWidget : Widget
 {
     [JsonPropertyName("type")]
     public override string WidgetType => "basemapToggle";
-    [Parameter]
+    
+    [Parameter, EditorRequired]
     public string? NextBasemap { get; set; }
 }
