@@ -1,7 +1,24 @@
-﻿#control-set {
+﻿.control-row {
+    display: flex;
+    flex-direction: row;
+}
+
+#control-set {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
+    width: 45%;
+}
+
+.widget-container {
+    padding: 1rem;
+    max-height: 20rem;
+    position: relative;
+    width: 45%;
+}
+
+#gallery-box {
+    height: 100%;
 }
 
 @media (max-width: 799px) {

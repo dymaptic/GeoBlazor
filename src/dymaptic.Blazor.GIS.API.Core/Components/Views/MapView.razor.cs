@@ -233,7 +233,7 @@ public partial class MapView : MapComponent
                 if (!Widgets.Contains(widget))
                 {
                     Widgets.Add(widget);
-
+                    widget.Parent ??= this;
                     if (MapRendered)
                     {
                         await AddWidget(widget);
@@ -433,26 +433,7 @@ public partial class MapView : MapComponent
     {
         if (firstRender)
         {
-            LicenseType licenseType = Licensing.GetLicenseType();
-            
-            switch ((int)licenseType)
-            {
-                case >= 100:
-                    // this is here to support the interactive extension library
-                    IJSObjectReference interactiveModule = await JsRuntime
-                        .InvokeAsync<IJSObjectReference>("import",
-                            "./_content/dymaptic.Blazor.GIS.API.Interactive/js/arcGisInteractive.js");
-                    ViewJsModule = await interactiveModule.InvokeAsync<IJSObjectReference>("getCore");
-
-                    break;
-                default:
-                    ViewJsModule = await JsRuntime
-                        .InvokeAsync<IJSObjectReference>("import",
-                            "./_content/dymaptic.Blazor.GIS.API.Core/js/arcGisJsInterop.js");
-
-                    break;
-            }
-            
+            ViewJsModule = await JsModuleManager.GetJsModule(JsRuntime);
             JsModule = ViewJsModule;
             // the first render never has all the child components registered
             Rendering = false;
