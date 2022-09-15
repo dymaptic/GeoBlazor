@@ -23,9 +23,6 @@
         <div class="form-group">
             <label>Scale Bar: <input type="checkbox" @onchange="@(() => ToggleWidget(nameof(ScaleBarWidget)))"></label>
         </div>
-    </div>
-    <div class="widget-container">
-        <label>@(_showBasemapGallery ? "Basemap Gallery" : "")</label>
         <div id="gallery-box"></div>
     </div>
 </div>

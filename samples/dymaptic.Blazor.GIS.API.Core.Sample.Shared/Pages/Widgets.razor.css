@@ -7,22 +7,20 @@
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    width: 45%;
-}
-
-.widget-container {
-    padding: 1rem;
-    max-height: 20rem;
-    position: relative;
-    width: 45%;
+    max-height: 24rem;
+    align-content: space-between;
+    width: 100%;
 }
 
 #gallery-box {
-    height: 100%;
+    position: relative;
+    max-height: 20rem;
+    overflow-y: scroll;
 }
 
 @media (max-width: 799px) {
     #control-set {
-        max-height: 15vh;
+        max-height: 20vh;
+        width: 100%;
     }
 }

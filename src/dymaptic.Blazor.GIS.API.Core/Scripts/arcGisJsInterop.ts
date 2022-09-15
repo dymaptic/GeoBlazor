@@ -742,7 +742,10 @@ export async function addWidget(widget: any, viewId: string): Promise<void> {
         }
 
         if (widget.containerId !== undefined && widget.containerId !== null) {
-            newWidget.container = widget.containerId;
+            let container = document.getElementById(widget.containerId);
+            let innerContainer = document.createElement('div');
+            container?.appendChild(innerContainer);
+            newWidget.container = innerContainer;
         } else {
             view.ui.add(newWidget, widget.position);
         }
