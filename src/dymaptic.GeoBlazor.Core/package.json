@@ -1,0 +1,20 @@
+{
+  "name": "dymaptic.GeoBlazor.Core",
+  "version": "1.0.1",
+  "description": "[View the live demo site!](https://dy-blazor-samples-server.azurewebsites.net/)",
+  "main": "arcGisInterop.js",
+  "scripts": {
+    "debugBuild": "esbuild ./Scripts/arcGisJsInterop.ts --format=esm --bundle --sourcemap --outfile=wwwroot/js/arcGisJsInterop.js",
+    "releaseBuild": "esbuild ./Scripts/arcGisJsInterop.ts --format=esm --bundle --minify --sourcemap --outfile=wwwroot/js/arcGisJsInterop.js"
+  },
+  "keywords": [],
+  "author": "Tim Purdum",
+  "license": "ISC",
+  "dependencies": {
+    "@arcgis/core": "^4.24.7",
+    "esbuild": "^0.15.6"
+  },
+  "devDependencies": {
+    "@types/node": "^18.7.9"
+  }
+}

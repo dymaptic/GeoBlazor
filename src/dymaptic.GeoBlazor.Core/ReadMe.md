@@ -81,15 +81,10 @@ for a 3D map with a basemap loaded from a `PortalId`.
 ### Reference Scripts and Styles
 
 - Add the following lines to the `head` element of your `_Layout.cshtml` (Blazor Server) or `index.html` (Blazor Wasm or Maui Blazor Hybrid)
-- _Note_, for `_Layout.cshtml`/Blazor Server, all the `@` symbols below must be doubled (`@@`) to escape, since `@` is a reserved character in Razor
 
 ```html
     <link href="_content/dymaptic.GeoBlazor.Core"/>
-    <script src="https://unpkg.com/@esri/arcgis-rest-request@3.0.0/dist/umd/request.umd.js"></script>
-    <script src="https://unpkg.com/@esri/arcgis-rest-auth@3.0.0/dist/umd/auth.umd.js"></script>
-    <script src="https://unpkg.com/@esri/arcgis-rest-demographics@3.0.0/dist/umd/demographics.umd.js"></script>
-    <link href="https://js.arcgis.com/4.23/esri/themes/light/main.css" rel="stylesheet">
-    <script src="https://js.arcgis.com/4.23/"></script>
+    <link href="https://js.arcgis.com/4.24/esri/themes/light/main.css" rel="stylesheet">
 ```
 
 ### Setup API Key
@@ -123,18 +118,6 @@ Add using statements as necessary to `_Imports.razor`. Below is a complete list 
 ### Add components to Razor Components/Pages
 
 You should now be ready to directly reference `MapView` and other components in your own Razor Components.
-
-For more information, read [Using the API](UsingTheAPI.md).
-
-### Known Limitations/"Gotchas"
-
-- All classes inheriting from `MapComponent`, implement `IAsyncDisposable`. If you use these components in Razor markdown,
-  it handles disposal for you. However, there may be situations (e.g., adding a new graphic on the fly),
-  where you want to instantiate one of these components in C# code. Be aware that if you do this, you need to call
-  `DisposeAsync` yourself when you are done with the object.
-- Directly calling `graphicLayer.Add(graphic)` or `MapView.Widgets.Add(widget)` does not work currently to register these components
-  with the JavaScript API. Instead, use `graphicLayer.RegisterChildComponent(graphic)` or
-  `MapView.RegisterChildComponent(widget)`.
 
 ## Build Requirements
 

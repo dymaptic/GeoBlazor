@@ -352,11 +352,11 @@ MigrationBackup/
 **/.idea/**/*
 **/.vs/**/*
 
-*/dymaptic.Blazor.GIS.API.Core.Sample.Shared/wwwroot/pages
-*/dymaptic.Blazor.GIS.API.Core.Sample.Wasm/dymaptic.Blazor.GIS.API.Core.Sample.Wasm.csproj.user
-*/dymaptic.Blazor.GIS.API.Core.Sample.Maui/Resources/Raw/*.html
+*/dymaptic.GeoBlazor.Core.Sample.Shared/wwwroot/pages
+*/dymaptic.GeoBlazor.Core.Sample.Wasm/dymaptic.GeoBlazor.Core.Sample.Wasm.csproj.user
+*/dymaptic.GeoBlazor.Core.Sample.Maui/Resources/Raw/*.html
 *.csproj.user
-*/dymaptic.Blazor.GIS.API.Core.Test/ScreenShots/**/*
+*/dymaptic.GeoBlazor.Core.Test/ScreenShots/**/*
 /src/.vs/**/*
 /src/.idea/**/*
-/src/dymaptic.Blazor.GIS.API.Core/wwwroot/js/*
+/src/dymaptic.GeoBlazor.Core/wwwroot/js/*
