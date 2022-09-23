@@ -240,7 +240,7 @@ public partial class MapView : MapComponent
                 if (!Widgets.Contains(widget))
                 {
                     Widgets.Add(widget);
-
+                    widget.Parent ??= this;
                     if (MapRendered)
                     {
                         await AddWidget(widget);

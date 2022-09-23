@@ -9,6 +9,10 @@ public abstract class Widget : MapComponent
 {
     [Parameter]
     public OverlayPosition? Position { get; set; }
+    
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? ContainerId { get; set; }
 
     [JsonPropertyName("type")]
     public abstract string WidgetType { get; }

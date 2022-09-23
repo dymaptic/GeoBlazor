@@ -660,9 +660,16 @@ export function displayQueryResults(query: Query, symbol: ArcGisSymbol, popupTem
 export async function addWidget(widget: any, viewId: string): Promise<void> {
     try {
         let view = arcGisObjectRefs[viewId] as MapView;
+        if (arcGisObjectRefs.hasOwnProperty(widget.id)) {
+            // for now just skip if it already exists
+            // later we may want to replace it with a remove and add
+            // if new values are added
+            return;
+        }
+        let newWidget: Widget;
         switch (widget.type) {
             case 'locate':
-                const locate = new Locate({
+                newWidget = new Locate({
                     view: view,
                     useHeadingEnabled: widget.useHeadingEnabled,
                     goToOverride: function (view, options) {
@@ -670,15 +677,14 @@ export async function addWidget(widget: any, viewId: string): Promise<void> {
                         return view.goTo(options.target);
                     }
                 });
-                view.ui.add(locate, widget.position);
-                arcGisObjectRefs[widget.id] = locate;
+                
                 break;
             case 'search':
                 const search = new Search({
                     view: view
                 });
-                view.ui.add(search, widget.position);
-                arcGisObjectRefs[widget.id] = search;
+                newWidget = search;
+                
                 search.on('select-result', (evt) => {
                     widget.searchWidgetObjectReference.invokeMethodAsync('OnSearchSelectResult', {
                         extent: buildDotNetExtent(evt.result.extent),
@@ -688,12 +694,10 @@ export async function addWidget(widget: any, viewId: string): Promise<void> {
                 });
                 break;
             case 'basemapToggle':
-                const basemapToggle = new BasemapToggle({
+                newWidget = new BasemapToggle({
                     view: view,
                     nextBasemap: widget.nextBasemap
                 });
-                view.ui.add(basemapToggle, widget.position);
-                arcGisObjectRefs[widget.id] = basemapToggle;
                 break;
             case 'basemapGallery':
                 let source = new PortalBasemapsSource();
@@ -718,31 +722,38 @@ export async function addWidget(widget: any, viewId: string): Promise<void> {
                         title: widget.title
                     };
                 }
-                const basemapGallery = new BasemapGallery({
+                newWidget = new BasemapGallery({
                     view: view,
                     source: source
                 });
-                view.ui.add(basemapGallery, widget.position);
-                arcGisObjectRefs[widget.id] = basemapGallery;
                 break;
             case 'scaleBar':
                 const scaleBar = new ScaleBar({
                     view: view
                 });
+                newWidget = scaleBar;
                 if (widget.unit !== undefined && widget.unit !== null) {
                     scaleBar.unit = widget.unit;
                 }
-                view.ui.add(scaleBar, widget.position);
-                arcGisObjectRefs[widget.id] = scaleBar;
                 break;
             case 'legend':
-                const legend = new Legend({
+                newWidget = new Legend({
                     view: view
                 });
-                view.ui.add(legend, widget.position);
-                arcGisObjectRefs[widget.id] = legend;
                 break;
+            default:
+                return;
         }
+
+        if (widget.containerId !== undefined && widget.containerId !== null) {
+            let container = document.getElementById(widget.containerId);
+            let innerContainer = document.createElement('div');
+            container?.appendChild(innerContainer);
+            newWidget.container = innerContainer;
+        } else {
+            view.ui.add(newWidget, widget.position);
+        }
+        arcGisObjectRefs[widget.id] = newWidget;
     } catch (error) {
         logError(error, viewId);
     }
