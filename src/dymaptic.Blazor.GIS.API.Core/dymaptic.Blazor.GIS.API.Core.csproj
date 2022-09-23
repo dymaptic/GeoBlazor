@@ -51,10 +51,6 @@
     <ItemGroup>
       <Folder Include="wwwroot\js" />
     </ItemGroup>
-
-    <ItemGroup>
-      <Compile Remove="Exceptions\MissingContainerReferenceException.cs" />
-    </ItemGroup>
     
     <Target Name="NPM Install" AfterTargets="PreBuildEvent">
         <Exec Command="npm install" />
