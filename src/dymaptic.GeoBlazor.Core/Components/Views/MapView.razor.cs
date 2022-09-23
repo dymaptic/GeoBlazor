@@ -411,6 +411,11 @@ public partial class MapView : MapComponent
         return await ViewJsModule!.InvokeAsync<Point>("getCenter", Id);
     }
 
+    public async Task<Extent?> GetExtent()
+    {
+        return await ViewJsModule!.InvokeAsync<Extent?>("getExtent", Id);
+    }
+
     public override async ValueTask DisposeAsync()
     {
         try
