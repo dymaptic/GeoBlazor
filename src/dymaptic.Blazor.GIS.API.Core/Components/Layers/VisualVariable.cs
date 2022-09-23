@@ -11,7 +11,8 @@ public class VisualVariable : MapComponent
     [Parameter]
     public VisualVariableType VariableType { get; set; } = VisualVariableType.Size;
 
-    [Parameter]
+    [Parameter, EditorRequired]
+    [RequiredProperty]
     public string Field { get; set; } = default!;
 
     [Parameter]

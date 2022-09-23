@@ -16,20 +16,17 @@ namespace dymaptic.Blazor.GIS.API.Core.Components.Views;
 
 public partial class MapView : MapComponent
 {
-    public HashSet<Widget> Widgets { get; set; } = new();
-    public List<Graphic> Graphics { get; set; } = new();
+    [Inject]
+    public IConfiguration Configuration { get; set; } = default!;
+
+    [Inject]
+    public IJSRuntime JsRuntime { get; set; } = default!;
 
     [Parameter]
     public string Style { get; set; } = string.Empty;
 
     [Parameter]
     public string Class { get; set; } = string.Empty;
-
-    [Inject]
-    public IConfiguration Configuration { get; set; } = default!;
-
-    [Inject]
-    public IJSRuntime JsRuntime { get; set; } = default!;
 
     [Parameter]
     public double Latitude
@@ -119,9 +116,49 @@ public partial class MapView : MapComponent
     
     [Parameter]
     public Func<SpatialReference, Task>? OnSpatialReferenceChangedHandler { get; set; }
+    
+    [JSInvokable]
+    public void OnJavascriptError(string error)
+    {
+#if DEBUG
+        ErrorMessage = error.Replace("\n", "<br>");
+        StateHasChanged();
+#endif
+        throw new JavascriptException(error);
+    }
 
+    [JSInvokable]
+    public void OnJavascriptClick(Point mapPoint)
+    {
+        OnClickAsyncHandler?.Invoke(mapPoint);
+    }
+
+    [JSInvokable]
+    public void OnJavascriptPointerMove(Point mapPoint)
+    {
+        OnPointerMoveHandler?.Invoke(mapPoint);
+    }
+
+    [JSInvokable]
+    public void OnViewRendered()
+    {
+        OnMapRenderedHandler?.Invoke();
+    }
+
+    [JSInvokable]
+    public void OnSpatialReferenceChanged(SpatialReference spatialReference)
+    {
+        OnSpatialReferenceChangedHandler?.Invoke(spatialReference);
+    }
+    
+    public HashSet<Widget> Widgets { get; set; } = new();
+    
+    public List<Graphic> Graphics { get; set; } = new();
+
+    [RequiredProperty(nameof(WebMap), nameof(SceneView.WebScene))]
     public Map? Map { get; set; }
 
+    [RequiredProperty(nameof(Map), nameof(SceneView.WebScene))]
     public WebMap? WebMap { get; set; }
 
     public SpatialReference? SpatialReference
@@ -162,40 +199,7 @@ public partial class MapView : MapComponent
         NeedsRender = true;
         StateHasChanged();
     }
-
-    [JSInvokable]
-    public void OnJavascriptError(string error)
-    {
-#if DEBUG
-        ErrorMessage = error.Replace("\n", "<br>");
-        StateHasChanged();
-#endif
-        throw new JavascriptException(error);
-    }
-
-    [JSInvokable]
-    public void OnJavascriptClick(Point mapPoint)
-    {
-        OnClickAsyncHandler?.Invoke(mapPoint);
-    }
-
-    [JSInvokable]
-    public void OnJavascriptPointerMove(Point mapPoint)
-    {
-        OnPointerMoveHandler?.Invoke(mapPoint);
-    }
-
-    [JSInvokable]
-    public void OnViewRendered()
-    {
-        OnMapRenderedHandler?.Invoke();
-    }
-
-    [JSInvokable]
-    public void OnSpatialReferenceChanged(SpatialReference spatialReference)
-    {
-        OnSpatialReferenceChangedHandler?.Invoke(spatialReference);
-    }
+    
 
     public override async Task UpdateComponent()
     {
@@ -323,6 +327,25 @@ public partial class MapView : MapComponent
                 break;
         }
     }
+    
+    public override void ValidateRequiredChildren()
+    {
+        base.ValidateRequiredChildren();
+        Map?.ValidateRequiredChildren();
+        WebMap?.ValidateRequiredChildren();
+        Constraints?.ValidateRequiredChildren();
+        SpatialReference?.ValidateRequiredChildren();
+
+        foreach (Graphic graphic in Graphics)
+        {
+            graphic.ValidateRequiredChildren();
+        }
+
+        foreach (Widget widget in Widgets)
+        {
+            widget.ValidateRequiredChildren();
+        }
+    }
 
     public async Task QueryFeatures(Query query, FeatureLayer featureLayer, Symbol displaySymbol,
         PopupTemplate popupTemplate)
@@ -346,7 +369,8 @@ public partial class MapView : MapComponent
 
     public async Task ShowPopupWithGraphic(Graphic graphic, PopupOptions options)
     {
-        await ViewJsModule!.InvokeVoidAsync("showPopupWithGraphic", (object)graphic, (object)options, Id);
+        await ViewJsModule!.InvokeVoidAsync("showPopupWithGraphic", (object)graphic, 
+            (object)options, Id);
     }
 
     public async Task AddGraphic(Graphic graphic, int? layerIndex = null)
@@ -358,11 +382,7 @@ public partial class MapView : MapComponent
     {
         await ViewJsModule!.InvokeVoidAsync("clearViewGraphics", Id);
     }
-
-    /// <summary>
-    /// </summary>
-    /// <param name="routeSymbol"></param>
-    /// <param name="routeUrl"></param>
+    
     /// <returns>Returns the directions of the route</returns>
     public async Task<Direction[]> DrawRouteAndGetDirections(Symbol routeSymbol, string routeUrl)
     {
@@ -508,6 +528,7 @@ public partial class MapView : MapComponent
         }
 
         Rendering = true;
+        ValidateRequiredChildren();
 
         await InvokeAsync(async () =>
         {

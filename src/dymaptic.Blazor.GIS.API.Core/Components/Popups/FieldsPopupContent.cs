@@ -42,4 +42,14 @@ public class FieldsPopupContent : PopupContent
                 break;
         }
     }
+    
+    public override void ValidateRequiredChildren()
+    {
+        base.ValidateRequiredChildren();
+
+        foreach (FieldInfo info in FieldInfos)
+        {
+            info.ValidateRequiredChildren();
+        }
+    }
 }

@@ -55,4 +55,14 @@ public class GraphicsLayer : Layer
                 break;
         }
     }
+    
+    public override void ValidateRequiredChildren()
+    {
+        base.ValidateRequiredChildren();
+
+        foreach (Graphic graphic in Graphics)
+        {
+            graphic.ValidateRequiredChildren();
+        }
+    }
 }

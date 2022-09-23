@@ -2,6 +2,7 @@
 
 public class WebScene : MapComponent
 {
+    [RequiredProperty]
     public PortalItem? PortalItem { get; set; }
 
     public override async Task RegisterChildComponent(MapComponent child)
@@ -36,5 +37,11 @@ public class WebScene : MapComponent
 
                 break;
         }
+    }
+    
+    public override void ValidateRequiredChildren()
+    {
+        base.ValidateRequiredChildren();
+        PortalItem?.ValidateRequiredChildren();
     }
 }

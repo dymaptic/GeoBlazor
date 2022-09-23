@@ -43,4 +43,14 @@ public class SimpleRenderer : Renderer
                 break;
         }
     }
+    
+    public override void ValidateRequiredChildren()
+    {
+        base.ValidateRequiredChildren();
+
+        foreach (VisualVariable variable in VisualVariables)
+        {
+            variable.ValidateRequiredChildren();
+        }
+    }
 }
