@@ -1,4 +1,4 @@
-﻿# Blazor GIS API
+﻿# GeoBlazor
 
 [View the live demo site!](https://dy-blazor-samples-server.azurewebsites.net/)
 
@@ -118,18 +118,6 @@ Add using statements as necessary to `_Imports.razor`. Below is a complete list 
 ### Add components to Razor Components/Pages
 
 You should now be ready to directly reference `MapView` and other components in your own Razor Components.
-
-For more information, read [Using the API](UsingTheAPI.md).
-
-### Known Limitations/"Gotchas"
-
-- All classes inheriting from `MapComponent`, implement `IAsyncDisposable`. If you use these components in Razor markdown,
-  it handles disposal for you. However, there may be situations (e.g., adding a new graphic on the fly),
-  where you want to instantiate one of these components in C# code. Be aware that if you do this, you need to call
-  `DisposeAsync` yourself when you are done with the object.
-- Directly calling `graphicLayer.Add(graphic)` or `MapView.Widgets.Add(widget)` does not work currently to register these components
-  with the JavaScript API. Instead, use `graphicLayer.RegisterChildComponent(graphic)` or
-  `MapView.RegisterChildComponent(widget)`.
 
 ## Build Requirements
 

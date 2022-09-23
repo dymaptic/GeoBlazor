@@ -1,12 +1,12 @@
 ﻿# Using the Blazor API in Blazor Server
 
-To get started, create a new Blazor Server application, and add a `PackageReference` to the `dymaptic.Blazor.GIS.API.Core`
-package (via your IDE's Nuget Package Manager or `dotnet add package dymaptic.Blazor.GIS.API.Core`).
+To get started, create a new Blazor Server application, and add a `PackageReference` to the `dymaptic.GeoBlazor.Core`
+package (via your IDE's Nuget Package Manager or `dotnet add package dymaptic.GeoBlazor.Core`).
 Next, in `Pages/_Layout.cshtml`, add the following to the head block of the html. Note the double @ symbols required,
 since the symbol is a reserved character in Razor.
 
 ```html
-    <link href="_content/dymaptic.Blazor.GIS.API.Core"/>
+    <link href="_content/dymaptic.GeoBlazor.Core"/>
     <link href="https://js.arcgis.com/4.24/esri/themes/light/main.css" rel="stylesheet"/>
 ```
 
@@ -28,13 +28,13 @@ Next, let's add the following `@using` statements to `\_Imports.razor`, so that 
 the necessary package components.
 
 ```csharp
-@using dymaptic.Blazor.GIS.API.Core.Components
-@using dymaptic.Blazor.GIS.API.Core.Components.Geometries
-@using dymaptic.Blazor.GIS.API.Core.Components.Layers
-@using dymaptic.Blazor.GIS.API.Core.Components.Popups
-@using dymaptic.Blazor.GIS.API.Core.Components.Symbols
-@using dymaptic.Blazor.GIS.API.Core.Components.Views
-@using dymaptic.Blazor.GIS.API.Core.Objects
+@using dymaptic.GeoBlazor.Core.Components
+@using dymaptic.GeoBlazor.Core.Components.Geometries
+@using dymaptic.GeoBlazor.Core.Components.Layers
+@using dymaptic.GeoBlazor.Core.Components.Popups
+@using dymaptic.GeoBlazor.Core.Components.Symbols
+@using dymaptic.GeoBlazor.Core.Components.Views
+@using dymaptic.GeoBlazor.Core.Objects
 ```
 
 That's it! Now you are ready to write your first ArcGIS Map View in Blazor. Add the following code to the bottom of `Pages/Index.razor`.
@@ -96,7 +96,7 @@ Most of the code above works seamlessly for a Blazor WASM application as well. H
   you don't need the double `@` symbols.
 
 ```html
-    <link href="_content/dymaptic.Blazor.GIS.API.Core"/>
+    <link href="_content/dymaptic.GeoBlazor.Core"/>
     <script src="https://unpkg.com/@esri/arcgis-rest-request@3.0.0/dist/umd/request.umd.js"></script>
     <script src="https://unpkg.com/@esri/arcgis-rest-auth@3.0.0/dist/umd/auth.umd.js"></script>
     <script src="https://unpkg.com/@esri/arcgis-rest-demographics@3.0.0/dist/umd/demographics.umd.js"></script>
