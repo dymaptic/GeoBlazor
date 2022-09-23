@@ -1,4 +1,4 @@
-﻿namespace dymaptic.Blazor.GIS.API.Core.Exceptions;
+﻿namespace dymaptic.GeoBlazor.Core.Exceptions;
 
 public class MissingRequiredChildElementException : Exception
 {

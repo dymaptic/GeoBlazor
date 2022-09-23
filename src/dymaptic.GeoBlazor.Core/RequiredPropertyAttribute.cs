@@ -1,7 +1,7 @@
-using dymaptic.Blazor.GIS.API.Core.Components;
-using dymaptic.Blazor.GIS.API.Core.Exceptions;
+using dymaptic.GeoBlazor.Core.Components;
+using dymaptic.GeoBlazor.Core.Exceptions;
 
-namespace dymaptic.Blazor.GIS.API.Core;
+namespace dymaptic.GeoBlazor.Core;
 
 /// <summary>
 ///     Add this attribute to any property on any subclass of <see cref="MapComponent"/>, and if the user

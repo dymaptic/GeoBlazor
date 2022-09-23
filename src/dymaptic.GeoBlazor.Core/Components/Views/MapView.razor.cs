@@ -479,14 +479,14 @@ public partial class MapView : MapComponent
                     // this is here to support the interactive extension library
                     IJSObjectReference interactiveModule = await JsRuntime
                         .InvokeAsync<IJSObjectReference>("import",
-                            "./_content/dymaptic.Blazor.GIS.API.Interactive/js/arcGisInteractive.js");
+                            "./_content/dymaptic.GeoBlazor.Interactive/js/arcGisInteractive.js");
                     ViewJsModule = await interactiveModule.InvokeAsync<IJSObjectReference>("getCore");
 
                     break;
                 default:
                     ViewJsModule = await JsRuntime
                         .InvokeAsync<IJSObjectReference>("import",
-                            "./_content/dymaptic.Blazor.GIS.API.Core/js/arcGisJsInterop.js");
+                            "./_content/dymaptic.GeoBlazor.Core/js/arcGisJsInterop.js");
 
                     break;
             }
