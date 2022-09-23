@@ -70,6 +70,14 @@ public class Graphic : LayerObject
                 break;
         }
     }
+    
+    public override void ValidateRequiredChildren()
+    {
+        base.ValidateRequiredChildren();
+        Attributes?.ValidateRequiredChildren();
+        Geometry?.ValidateRequiredChildren();
+        PopupTemplate?.ValidateRequiredChildren();
+    }
 
     public override async Task UpdateComponent()
     {

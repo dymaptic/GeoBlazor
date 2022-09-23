@@ -67,6 +67,13 @@ public class Geometry : MapComponent
                 break;
         }
     }
+
+    public override void ValidateRequiredChildren()
+    {
+        base.ValidateRequiredChildren();
+        Extent?.ValidateRequiredChildren();
+        SpatialReference?.ValidateRequiredChildren();
+    }
 }
 
 public class GeometryConverter : JsonConverter<Geometry>

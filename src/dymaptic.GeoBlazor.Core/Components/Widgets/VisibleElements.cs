@@ -5,16 +5,16 @@ namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
 public class VisibleElements : MapComponent
 {
-    public CreateTools? CreateTools { get; set; }
-
-    public SelectionTools? SelectionTools { get; set; }
-
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? SettingsMenu { get; set; }
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? UndoRedoMenu { get; set; }
+    
+    public CreateTools? CreateTools { get; set; }
+
+    public SelectionTools? SelectionTools { get; set; }
 
     public override async Task RegisterChildComponent(MapComponent child)
     {
@@ -58,6 +58,13 @@ public class VisibleElements : MapComponent
 
                 break;
         }
+    }
+    
+    public override void ValidateRequiredChildren()
+    {
+        base.ValidateRequiredChildren();
+        CreateTools?.ValidateRequiredChildren();
+        SelectionTools?.ValidateRequiredChildren();
     }
 }
 

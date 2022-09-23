@@ -46,4 +46,10 @@ public class BasemapGalleryWidget : Widget
                 break;
         }
     }
+    
+    public override void ValidateRequiredChildren()
+    {
+        base.ValidateRequiredChildren();
+        PortalBasemapsSource?.ValidateRequiredChildren();
+    }
 }

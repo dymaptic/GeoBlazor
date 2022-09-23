@@ -81,15 +81,10 @@ for a 3D map with a basemap loaded from a `PortalId`.
 ### Reference Scripts and Styles
 
 - Add the following lines to the `head` element of your `_Layout.cshtml` (Blazor Server) or `index.html` (Blazor Wasm or Maui Blazor Hybrid)
-- _Note_, for `_Layout.cshtml`/Blazor Server, all the `@` symbols below must be doubled (`@@`) to escape, since `@` is a reserved character in Razor
 
 ```html
     <link href="_content/dymaptic.GeoBlazor.Core"/>
-    <script src="https://unpkg.com/@esri/arcgis-rest-request@3.0.0/dist/umd/request.umd.js"></script>
-    <script src="https://unpkg.com/@esri/arcgis-rest-auth@3.0.0/dist/umd/auth.umd.js"></script>
-    <script src="https://unpkg.com/@esri/arcgis-rest-demographics@3.0.0/dist/umd/demographics.umd.js"></script>
-    <link href="https://js.arcgis.com/4.23/esri/themes/light/main.css" rel="stylesheet">
-    <script src="https://js.arcgis.com/4.23/"></script>
+    <link href="https://js.arcgis.com/4.24/esri/themes/light/main.css" rel="stylesheet">
 ```
 
 ### Setup API Key

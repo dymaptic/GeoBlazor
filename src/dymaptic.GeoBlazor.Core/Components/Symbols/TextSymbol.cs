@@ -48,4 +48,10 @@ public class TextSymbol : Symbol
                 break;
         }
     }
+    
+    public override void ValidateRequiredChildren()
+    {
+        base.ValidateRequiredChildren();
+        Font?.ValidateRequiredChildren();
+    }
 }

@@ -13,6 +13,7 @@ public class SceneView : MapView
     [Parameter]
     public double? Tilt { get; set; }
 
+    [RequiredProperty(nameof(MapView.WebMap), nameof(MapView.Map))]
     public WebScene? WebScene { get; set; }
 
     public override async Task RegisterChildComponent(MapComponent child)
@@ -47,6 +48,12 @@ public class SceneView : MapView
 
                 break;
         }
+    }
+    
+    public override void ValidateRequiredChildren()
+    {
+        base.ValidateRequiredChildren();
+        WebScene?.ValidateRequiredChildren();
     }
 
     protected override async Task RenderView(bool forceRender = false)

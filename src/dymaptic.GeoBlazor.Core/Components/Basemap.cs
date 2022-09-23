@@ -55,4 +55,15 @@ public class Basemap : MapComponent
                 break;
         }
     }
+    
+    public override void ValidateRequiredChildren()
+    {
+        base.ValidateRequiredChildren();
+        PortalItem?.ValidateRequiredChildren();
+
+        foreach (Layer layer in Layers)
+        {
+            layer.ValidateRequiredChildren();
+        }
+    }
 }

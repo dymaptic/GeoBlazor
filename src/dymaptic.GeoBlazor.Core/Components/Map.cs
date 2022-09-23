@@ -5,15 +5,15 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 public class Map : MapComponent
 {
-    public Basemap? Basemap { get; set; }
-
-    public HashSet<Layer> Layers { get; set; } = new();
-
     [Parameter]
     public string? ArcGISDefaultBasemap { get; set; }
 
     [Parameter]
     public string? Ground { get; set; }
+    
+    public Basemap? Basemap { get; set; }
+
+    public HashSet<Layer> Layers { get; set; } = new();
 
     public override async Task RegisterChildComponent(MapComponent child)
     {
@@ -69,6 +69,17 @@ public class Map : MapComponent
                 await base.UnregisterChildComponent(child);
 
                 break;
+        }
+    }
+    
+    public override void ValidateRequiredChildren()
+    {
+        base.ValidateRequiredChildren();
+        Basemap?.ValidateRequiredChildren();
+
+        foreach (Layer layer in Layers)
+        {
+            layer.ValidateRequiredChildren();
         }
     }
 

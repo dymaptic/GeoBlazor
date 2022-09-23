@@ -50,6 +50,12 @@ public class SimpleFillSymbol : FillSymbol
                 break;
         }
     }
+    
+    public override void ValidateRequiredChildren()
+    {
+        base.ValidateRequiredChildren();
+        Outline?.ValidateRequiredChildren();
+    }
 }
 
 [JsonConverter(typeof(FillStyleConverter))]

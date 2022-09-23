@@ -44,4 +44,10 @@ public class Label : LayerObject
                 break;
         }
     }
+    
+    public override void ValidateRequiredChildren()
+    {
+        base.ValidateRequiredChildren();
+        LabelExpressionInfo?.ValidateRequiredChildren();
+    }
 }

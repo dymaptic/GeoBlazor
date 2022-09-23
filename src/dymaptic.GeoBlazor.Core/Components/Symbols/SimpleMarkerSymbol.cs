@@ -47,4 +47,10 @@ public class SimpleMarkerSymbol : MarkerSymbol
                 break;
         }
     }
+    
+    public override void ValidateRequiredChildren()
+    {
+        base.ValidateRequiredChildren();
+        Outline?.ValidateRequiredChildren();
+    }
 }
