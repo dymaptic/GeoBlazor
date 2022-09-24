@@ -360,3 +360,4 @@ MigrationBackup/
 /src/.vs/**/*
 /src/.idea/**/*
 /src/dymaptic.GeoBlazor.Core/wwwroot/js/*
+/src/dymaptic.GeoBlazor.Core/ReadMe.md

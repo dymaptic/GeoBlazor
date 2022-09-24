@@ -42,8 +42,7 @@ for a 2D map with a default ArcGIS basemap, or
         <Basemap>
             <PortalItem Id="f35ef07c9ed24020aadd65c8a65d3754" />
         </Basemap>
-        <GraphicsLayer>
-            <Graphic>
+        <GraphicsLayer>            <Graphic>
                 <Point Longitude="_longitude" Latitude="_latitude"/>
                 <SimpleMarkerSymbol Color="@(new MapColor(226, 119, 40))">
                     <Outline Color="@(new MapColor(255, 255, 255))" Width="1"/>
