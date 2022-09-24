@@ -27,49 +27,51 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <SupportedPlatform Include="browser" />
+        <SupportedPlatform Include="browser"/>
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.6" />
-        <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.6"/>
+        <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1"/>
     </ItemGroup>
 
     <ItemGroup>
-      <None Include="dymaptic_logo.png" Pack="true" PackagePath="" />
-      <Content Remove="package.json" />
-      <Content Remove="package-lock.json" />
-      <Content Remove="tsconfig.json" />
-      <Content Include="package.json" Pack="false" />
-      <Content Include="package-lock.json" Pack="false" />
-      <Content Include="tsconfig.json" Pack="false" />
-        <None Include="Scripts/arcGisJsInterop.ts" Pack="true" PackagePack="Scripts" />
-        <None Include="Scripts/definitions.d.ts" Pack="true" PackagePack="Scripts" />
+        <None Include="dymaptic_logo.png" Pack="true" PackagePath=""/>
+        <Content Remove="package.json"/>
+        <Content Remove="package-lock.json"/>
+        <Content Remove="tsconfig.json"/>
+        <Content Include="package.json" Pack="false"/>
+        <Content Include="package-lock.json" Pack="false"/>
+        <Content Include="tsconfig.json" Pack="false"/>
+        <None Include="Scripts/arcGisJsInterop.ts" Pack="true" PackagePack="Scripts"/>
+        <None Include="Scripts/definitions.d.ts" Pack="true" PackagePack="Scripts"/>
+        <None Remove="ReadMe.md"/>
+        <None Include="ReadMe.md" Pack="true" PackagePath=""/>
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="wwwroot\js" />
+        <Folder Include="wwwroot\js"/>
     </ItemGroup>
-    
+
     <Target Name="Copy Readme" AfterTargets="PreBuildEvent">
-        <Exec Command="robocopy ../../ReadMe.md ReadMe.md" />
+        <Exec ContinueOnError="true" Command="robocopy ../../ ./ ReadMe.md"/>
     </Target>
-    
+
     <Target Name="NPM Install" AfterTargets="Copy Readme">
-        <Exec Command="npm install" />
+        <Exec Command="npm install"/>
     </Target>
 
     <Target Name="NPM Debug Build" AfterTargets="NPM Install" Condition="$(Configuration) == 'DEBUG'">
-        <Exec Command="npm run debugBuild" />
+        <Exec Command="npm run debugBuild"/>
     </Target>
     <Target Name="NPM Release Build" AfterTargets="NPM Install" Condition="$(Configuration) == 'RELEASE'">
-        <Exec Command="npm run releaseBuild" />
+        <Exec Command="npm run releaseBuild"/>
     </Target>
-    
+
     <Target Name="Move Nuget" AfterTargets="Publish">
         <Exec ContinueOnError="true" ConsoleToMSBuild="true" Command="robocopy bin/$(Configuration) ../../packages dymaptic.GeoBlazor.Core.$(Version).nupkg">
-            <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
+            <Output TaskParameter="ExitCode" PropertyName="ErrorCode"/>
         </Exec>
-        <Error Condition="$(ErrorCode) &gt; 8" Message="Robocopy failed" />
+        <Error Condition="$(ErrorCode) &gt; 8" Message="Robocopy failed"/>
     </Target>
 </Project>
