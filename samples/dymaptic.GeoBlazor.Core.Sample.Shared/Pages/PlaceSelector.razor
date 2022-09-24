@@ -1,10 +1,20 @@
 ﻿@page "/place-selector"
 <PageTitle>Place Selector</PageTitle>
 <h1>Place Selector</h1>
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/find-places/">ArcGIS API for JavaScript</a>
-
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/find-places/">ArcGIS API for JavaScript Reference</a>
+<p>
+    <a target="_blank" href="https://www.arcgis.com/home/item.html?id=00f90f3f3c9141e4bea329679b257142">Streets (with Relief) Basemap</a>
+</p>
+<p class="instructions">
+    Use the dropdown in the top-right of the map to select a type of location to display.
+    Click on a rendered point on the map to get details.
+</p>
 <MapView @ref="View" Longitude="18.9553" Latitude="69.6492" Zoom="13" Class="map-view">
-    <Map ArcGISDefaultBasemap="arcgis-navigation" />
+    <Map>
+        <Basemap>
+            <PortalItem Id="00f90f3f3c9141e4bea329679b257142" />
+        </Basemap>
+    </Map>
 
     <CustomOverlay Position="OverlayPosition.TopRight">
         <select class="esri-widget esri-select demo-select" @onchange="@OnSelectionChanged">

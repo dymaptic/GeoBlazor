@@ -2,7 +2,7 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    background-image: linear-gradient(180deg, #161616 0%, #1a5974 100%);
+    background-image: linear-gradient(180deg, black 0%, var(--geoblazor-primary) 100%);
 }
 
 .content {

@@ -2,27 +2,25 @@
 
 <PageTitle>Scene</PageTitle>
 <h1>Scene</h1>
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/display-a-scene/">ArcGIS API for JavaScript</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/display-a-scene/">ArcGIS API for JavaScript Reference</a>
+<p>
+    <a target="_blank" href="https://www.arcgis.com/home/item.html?id=ff52218580f94d89851563f50cd1a2b2">Imagery Hybrid Basemap</a>
+</p>
+<p class="instructions">
+    Just a simple demo of a 3d Scene View, with a basemap from ArcGIS Online and an added polygon graphic.
+    Drag to pan.
+</p>
+
 <SceneView Longitude="_longitude" Latitude="_latitude" Zoom="11" Class="map-view"
            ZIndex="2000" Tilt="76">
     <Map Ground="world-elevation">
         <Basemap>
-            <PortalItem Id="f35ef07c9ed24020aadd65c8a65d3754" />
+            <PortalItem Id="ff52218580f94d89851563f50cd1a2b2" />
         </Basemap>
         <GraphicsLayer>
             <Graphic>
-                <Point Longitude="_longitude" Latitude="_latitude" />
-                <SimpleMarkerSymbol Color="@(new MapColor(226, 119, 40))">
-                    <Outline Color="@(new MapColor(255, 255, 255))" Width="1" />
-                </SimpleMarkerSymbol>
-            </Graphic>
-            <Graphic>
-                <PolyLine Paths="@(new[] { _mapPath })" />
-                <SimpleLineSymbol Color="@(new MapColor(226, 119, 40))" Width="2" />
-            </Graphic>
-            <Graphic>
                 <Polygon Rings="@(new[] { _mapRings })" />
-                <SimpleFillSymbol Color="@(new MapColor(227, 139, 79, 0.8))">
+                <SimpleFillSymbol Color="@(new MapColor(81, 46, 132, 0.8))">
                     <Outline Color="@(new MapColor(255, 255, 255))" Width="1" />
                 </SimpleFillSymbol>
                 <Attributes Name="This is a Title" Description="And a Description" />
@@ -35,7 +33,7 @@
 
 @code
 {
-    private readonly double _latitude = 34.027;
+    private readonly double _latitude = 33.95;
     private readonly double _longitude = -118.805;
 
     private readonly MapPath _mapPath = new(new MapPoint(-118.821527826096, 34.0139576938577),
