@@ -54,7 +54,7 @@
     </ItemGroup>
 
     <Target Name="Copy Readme" AfterTargets="PreBuildEvent">
-        <Exec ContinueOnError="true" Command="robocopy ../../ ./ ReadMe.md"/>
+        <Exec ContinueOnError="true" Command="robocopy ../../ ./ ReadMe.md /it"/>
     </Target>
 
     <Target Name="NPM Install" AfterTargets="Copy Readme">
@@ -69,7 +69,7 @@
     </Target>
 
     <Target Name="Move Nuget" AfterTargets="Publish">
-        <Exec ContinueOnError="true" ConsoleToMSBuild="true" Command="robocopy bin/$(Configuration) ../../packages dymaptic.GeoBlazor.Core.$(Version).nupkg">
+        <Exec ContinueOnError="true" ConsoleToMSBuild="true" Command="robocopy bin/$(Configuration) ../../packages dymaptic.GeoBlazor.Core.$(Version).nupkg /it">
             <Output TaskParameter="ExitCode" PropertyName="ErrorCode"/>
         </Exec>
         <Error Condition="$(ErrorCode) &gt; 8" Message="Robocopy failed"/>
