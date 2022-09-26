@@ -19,8 +19,8 @@
         <Company>dymaptic</Company>
         <Copyright>©2022 by dymaptic</Copyright>
         <PackageReadmeFile>ReadMe.md</PackageReadmeFile>
-        <RepositoryUrl>https://github.com/dymaptic/dy-blazor-api-core</RepositoryUrl>
-        <PackageProjectUrl>https://github.com/dymaptic/dy-blazor-api-core</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/dymaptic/GeoBlazor</RepositoryUrl>
+        <PackageProjectUrl>https://github.com/dymaptic/GeoBlazor</PackageProjectUrl>
         <RepositoryType>git</RepositoryType>
         <PackageIcon>dymaptic_logo.png</PackageIcon>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
