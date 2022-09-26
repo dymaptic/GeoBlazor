@@ -1,4 +1,4 @@
-﻿# Blazor GIS API
+﻿# GeoBlazor
 
 [View the live demo site!](https://dy-blazor-samples-server.azurewebsites.net/)
 
