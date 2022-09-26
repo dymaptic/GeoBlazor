@@ -35,7 +35,11 @@ h1:focus {
 }
 
 a, .btn-link {
-    color: #0071c1;
+    color: var(--geoblazor-primary);
+}
+
+a:hover, .btn-link:hover {
+    color: black;
 }
 
 .btn-primary {
