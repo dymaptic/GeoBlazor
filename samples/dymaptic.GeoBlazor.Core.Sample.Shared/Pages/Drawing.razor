@@ -2,7 +2,14 @@
 
 <PageTitle>Map</PageTitle>
 <h1>Drawing</h1>
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/add-a-point-line-and-polygon/">ArcGIS API for JavaScript</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/add-a-point-line-and-polygon/">ArcGIS API for JavaScript Reference</a>
+<p>
+    <a target="_blank" href="https://www.arcgis.com/home/item.html?id=716b600dbbac433faa4bec9220c76b3a">Imagery with Labels BaseMap</a>
+</p>
+<p class="instructions">
+    Toggle each section below, then use the "Draw" button to add a graphic. To move a graphic, change the value in the 
+    latitude/logitude fields. Click "Remove" to clear the graphic from the map.
+</p>
 <div id="control-set">
     <div class="form-group">
         <label class="draw-label" @onclick="@(() => _showPointSection = !_showPointSection)">
@@ -94,13 +101,16 @@
 </div>
 
 <MapView Longitude="_longitude" Latitude="_latitude" Zoom="11" Class="map-view">
-    <Map ArcGISDefaultBasemap="arcgis-topographic">
+    <Map>
+        <Basemap>
+            <PortalItem Id="716b600dbbac433faa4bec9220c76b3a" />
+        </Basemap>
         <GraphicsLayer>
             @if (_showPoint)
             {
                 <Graphic>
                     <Point Longitude="_pointLong" Latitude="_pointLat" />
-                    <SimpleMarkerSymbol Color="@(new MapColor(226, 119, 40))">
+                    <SimpleMarkerSymbol Color="@(new MapColor(81, 46, 132))">
                         <Outline Color="@(new MapColor(255, 255, 255))" Width="1" />
                     </SimpleMarkerSymbol>
                 </Graphic>
@@ -109,14 +119,14 @@
             {
                 <Graphic>
                     <PolyLine Paths="@(new[] { _mapPath })" />
-                    <SimpleLineSymbol Color="@(new MapColor(226, 119, 40))" Width="2" />
+                    <SimpleLineSymbol Color="@(new MapColor(81, 46, 132))" Width="2" />
                 </Graphic>
             }
             @if (_showPolygon)
             {
                 <Graphic>
                     <Polygon Rings="@(new[] { _mapRings })" />
-                    <SimpleFillSymbol Color="@(new MapColor(227, 139, 79, 0.8))">
+                    <SimpleFillSymbol Color="@(new MapColor(81, 46, 132, 0.8))">
                         <Outline Color="@(new MapColor(255, 255, 255))" Width="1" />
                     </SimpleFillSymbol>
                     <Attributes Name="Sample Polygon" Description="This is where you can describe the polygon." />
@@ -160,7 +170,7 @@
 
     private void AddPoint()
     {
-        _mapPath.Add(new MapPoint(_mapPath[0][0], _mapPath[0][1]));
+        _mapPath.Add(new MapPoint(_mapPath[0][0] + 0.01, _mapPath[0][1] + 0.01));
     }
 
     private void RemovePoint()
@@ -175,7 +185,7 @@
 
     private void AddPolygonPoint()
     {
-        _mapRings.Add(new MapPoint(_mapRings[0][0], _mapRings[0][1]));
+        _mapRings.Add(new MapPoint(_mapRings[0][0] + 0.01, _mapRings[0][1] + 0.01));
     }
 
     private void RemovePolygonPoint()

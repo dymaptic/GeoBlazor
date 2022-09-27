@@ -1,13 +1,21 @@
 ﻿@page "/sql-filter-query"
 <PageTitle>Sql Filter Query</PageTitle>
 <h1>SQL Filter Query</h1>
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/filter-a-feature-layer-with-sql/">ArcGIS API for JavaScript</a>
-
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/filter-a-feature-layer-with-sql/">ArcGIS API for JavaScript Reference</a>
+<p>
+    <a target="_blank" href="https://www.arcgis.com/home/item.html?id=7e2b9be8a9c94e45b7f87857d8d168d6">Streets (Night) BaseMap</a>
+</p>
+<p class="instructions">
+    Use the dropdown in the top-right of the map to filter the loaded Feature Layer by a SQL query.
+</p>
 <MapView Longitude="-118.80543"
          Latitude="34.02700"
          Zoom="12"
          Class="map-view">
-    <Map ArcGISDefaultBasemap="arcgis-topographic">
+    <Map>
+        <Basemap>
+            <PortalItem Id="7e2b9be8a9c94e45b7f87857d8d168d6" />
+        </Basemap>
         <FeatureLayer Url="https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/LA_County_Parcels/FeatureServer/0"
                       DefinitionExpression="@_selectedQuery">
             <PopupTemplate Title="{UseType}"

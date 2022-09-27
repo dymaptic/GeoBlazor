@@ -1,15 +1,25 @@
 ﻿@page "/routing"
 <PageTitle>Routing</PageTitle>
 <h1>Routing</h1>
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/find-a-route-and-directions/">ArcGIS API for JavaScript</a>
-
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/find-a-route-and-directions/">ArcGIS API for JavaScript Reference</a>
+<p>
+    <a target="_blank" href="https://www.arcgis.com/home/item.html?id=4f2e99ba65e34bb8af49733d9778fb8e">Human Geography Dark BaseMap</a>
+</p>
+<p class="instructions">
+    Click on two points on the map to designate starting point and destination. You will see a popup with
+    driving directions!
+</p>
 <MapView @ref="View" Longitude="-118.24532"
          Latitude="34.05398"
          Zoom="12"
          Class="map-view"
          Style="min-height: 500px;"
          OnClickAsyncHandler="OnClick">
-    <Map ArcGISDefaultBasemap="arcgis-navigation" />
+    <Map>
+        <Basemap>
+            <PortalItem Id="4f2e99ba65e34bb8af49733d9778fb8e" />
+        </Basemap>
+    </Map>
     <CustomOverlay Position="OverlayPosition.TopRight">
         <ol id="directions-widget" class="esri-widget esri-widget--panel esri-directions__scroller">
             @foreach (Direction direction in _directions)

@@ -37,7 +37,7 @@ public class PlaywrightTests
             Predicate = m => m.Text.Equals("View Render Complete"),
             Timeout = 60000
         };
-        
+        await Task.Delay(1000);
         Task waitForRenderTask = page.WaitForConsoleMessageAsync(renderMessage);
         // Go to https://localhost:7255/
         await page.GotoAsync("https://localhost:7255/navigation");
@@ -157,7 +157,7 @@ public class PlaywrightTests
         // Click text=Draw a Polygon
         await page.Locator("text=Draw a Polygon").ClickAsync();
         // Click button:has-text("Draw") >> nth=2
-        await page.Locator("button:has-text(\"Draw\")").Nth(2).ClickAsync();
+        await page.Locator("button:has-text(\"Draw\")").Nth(1).ClickAsync();
         await page.ScreenshotAsync(new PageScreenshotOptions { Path = Path.Combine(_screenShotsFolder, "Drawing11.png"), FullPage = true });
         
         // Click text=Add Pt >> nth=1
@@ -504,7 +504,7 @@ public class PlaywrightTests
         
         // Click text=About
         pageLoadTask = page.WaitForURLAsync("https://localhost:7255/about");
-        await page.Locator("text=About").ClickAsync();
+        await page.Locator("text=Home").ClickAsync();
         await pageLoadTask;
         await Task.Delay(1000);
         await page.ScreenshotAsync(new PageScreenshotOptions { Path = Path.Combine(_screenShotsFolder, "About.png"), FullPage = true });

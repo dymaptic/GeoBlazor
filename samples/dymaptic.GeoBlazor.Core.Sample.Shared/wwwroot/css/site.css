@@ -8,7 +8,22 @@ html, body {
     height: 600px;
     max-height: 65vh;
     width: 100%;
-    padding-top: 20px;
+}
+
+.map-wrapper {
+    margin: 2rem 0;
+    padding: 2rem 0.5rem 0.5rem 0.5rem;
+    border-radius: 0.5rem;
+    box-shadow: gray;
+    background: var(--geoblazor-primary)
+}
+
+.dymaptic-branding {
+    margin: 0.5rem;
+}
+
+.instructions {
+    font-style: italic;
 }
 
 .esri-ui {
@@ -20,13 +35,21 @@ h1:focus {
 }
 
 a, .btn-link {
-    color: #0071c1;
+    color: var(--geoblazor-primary);
+}
+
+a:hover, .btn-link:hover {
+    color: black;
 }
 
 .btn-primary {
-    color: #fff;
-    background-color: #1b6ec2;
-    border-color: #1861ac;
+    color: black;
+    background-color: var(--geoblazor-secondary);
+}
+
+.btn-primary:hover {
+    color: var(--geoblazor-primary);
+    background-color: #7f919b;
 }
 
 .content {
@@ -82,6 +105,11 @@ a, .btn-link {
 
 input[type="text"], input[type="number"] {
     width: 8rem;
+}
+
+:root {
+    --geoblazor-primary: #512e84;
+    --geoblazor-secondary: #cae9fb;
 }
 
 @media (max-width: 799px) {

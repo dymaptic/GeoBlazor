@@ -1,13 +1,18 @@
 ﻿@page "/sql-query"
 <PageTitle>SqlQuery</PageTitle>
 <h1>SQL Query</h1>
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/query-a-feature-layer-sql/">ArcGIS API for JavaScript</a>
-
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/query-a-feature-layer-sql/">ArcGIS API for JavaScript Reference</a>
+<p>
+    <a target="_blank" href="https://www.arcgis.com/home/item.html?id=c50de463235e4161b206d000587af18b">Navigation BaseMap</a>
+</p>
+<p class="instructions">
+    Use the dropdown in the top-right of the map to select a query to run against the SQL data source.
+</p>
 <MapView @ref="View" Longitude="-118.80543"
          Latitude="34.03000"
          Zoom="13"
          Class="map-view">
-    <Map ArcGISDefaultBasemap="arcgis-topographic" />
+    <Map ArcGISDefaultBasemap="arcgis-navigation" />
 
     <CustomOverlay Position="OverlayPosition.TopRight">
         <select class="esri-widget esri-select demo-select" @onchange="OnSqlQueryChanged">
