@@ -136,6 +136,15 @@ For the Asp.NET projects, including the core library, you can run on the latest 
 
 For the Maui sample project, you need the latest [_preview_ of Visual Studio](https://visualstudio.microsoft.com/vs/preview/).
 
+If you have not installed node.js on your system, you will need to download and install it in order for the npm scripts to run. Please select
+the appropriate installer for your system (https://nodejs.org/en/download/).
+
+If you have not installed powershell on your system (macOS and Linux users), you will need to install it and change the "execution policies" on the system.
+-Complete installation instructions for Powershell can be found here Linux and macOS users can be found on the left side of the screen, if needed 
+(https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-windows?view=powershell-7.2)
+-The procedure to change the "execution policies" and set them to "RemoteSigned" are found here: 
+https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_execution_policies?view=powershell-7.2#change-the-execution-policy 
+
 ## Projects
 
 ### dymaptic.GeoBlazor.Core
