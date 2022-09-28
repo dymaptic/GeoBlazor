@@ -1,28 +1,26 @@
-﻿@page "/logic-tests"
+﻿@page "/projection-tool"
 @inject Projection Projection
 
-<h1>LogicTests</h1>
-<h2>Starting Point</h2>
-<label>Latitude:
-    <input type="number" step="0.01" @bind="_startingLat" />
-</label>
-<label>Longitude:
-    <input type="number" step="0.01" @bind="_startingLong" />
-</label>
-<label>X:
-    <input type="number" step="0.01" @bind="_startingX" />
-</label>
-<label>Y:
-    <input type="number" step="0.01" @bind="_startingY" />
-</label>
-<label>
-    Starting Spatial Reference Wkid:
-    <input type="number" @bind="_mapWkid" />
-</label>
-<label>
-    Convert to Wkid:
-    <input type="number" @bind="_targetWkid" />
-</label>
+<h1>Projection</h1>
+<h2>Starting Point!</h2>
+<div>
+    <label>X:
+        <input type="number" step="0.01" @bind="_startingX" />
+    </label>
+    <label>Y:
+        <input type="number" step="0.01" @bind="_startingY" />
+    </label>
+</div>
+<div>
+    <label>
+        Starting Spatial Reference Wkid:
+        <input type="number" @bind="_inWkid" />
+    </label>
+    <label>
+        Convert to Wkid:
+        <input type="number" @bind="_outWkid" />
+    </label>
+</div>
 
 @if (_results is not null)
 {
@@ -62,22 +60,41 @@
         }
     }
 }
-
-<button @onclick="@(() => StateHasChanged())">Refresh</button>
-
-<MapView @ref="_view" Longitude="14.6668" Latitude="-25.5011" Zoom="3" Class="map-view">
-    <SpatialReference @ref="_outSpatialReference" Wkid="_targetWkid" />
+<div>
+    <button @onclick="@(() => StateHasChanged())">Refresh</button>
+</div>
+<h3>Wkid: @_inWkid</h3>
+<MapView @ref="_view1" Longitude="14.6668" Latitude="-23.5011" Zoom="3" Class="map-view">
+    @* <SpatialReference @ref="_inSpatialReference" Wkid="_inWkid"></SpatialReference> *@
+    <Map>
+        <Basemap>
+            <PortalItem Id="0e6994a564e94b7a8986941ce3388223" />
+        </Basemap>
+        <GraphicsLayer>
+            <Graphic>
+                <Point @ref="_point1" X="_startingX" Y="_startingY">
+                    <SpatialReference @ref="_inSpatialReference" Wkid="_inWkid" />
+                </Point>
+                <SimpleMarkerSymbol Color="@(new MapColor(81, 46, 132))" />
+            </Graphic>
+        </GraphicsLayer>
+    </Map>
+</MapView>
+<h3>Wkid: @_outWkid</h3>
+<MapView @ref="_view2" Longitude="14.6668" Latitude="-23.5011" Zoom="3" Class="map-view">
+    @* <SpatialReference @ref="_outSpatialReference" Wkid="_outWkid" /> *@
     <Map>
         <Basemap>
             <PortalItem Id="52bdc7ab7fb044d98add148764eaa30a" />
         </Basemap>
         <GraphicsLayer>
-            <Graphic>
-                <Point @ref="_point1" Longitude="_startingLat" Latitude="_startingLong" X="_startingX" Y="_startingY">
-                    <SpatialReference @ref="_inSpatialReference" Wkid="_mapWkid" />
-                </Point>
-                <SimpleMarkerSymbol Color="@(new MapColor(81, 46, 132))" />
-            </Graphic>
+            @if (_resultsPoint is not null)
+            {
+                <Graphic>
+                    <Point Longitude="_resultsPoint.Longitude" Latitude="_resultsPoint.Latitude" />
+                    <SimpleMarkerSymbol Color="@(new MapColor(202, 233, 251))" />
+                </Graphic>
+            }
         </GraphicsLayer>
     </Map>
 </MapView>
@@ -92,11 +109,13 @@
         _reverseResults = await Projection.Project(_results!, _inSpatialReference!);
         if (firstRender)
         {
-            _view!.Refresh();
+            _view1!.Refresh();
+            _view2!.Refresh();
         }
     }
 
-    private MapView? _view;
+    private MapView? _view1;
+    private MapView? _view2;
     private Point? _point1;
     private SpatialReference? _inSpatialReference;
     private SpatialReference? _outSpatialReference;
@@ -106,6 +125,7 @@
     private double? _startingLong;
     private double? _startingX = -116;
     private double? _startingY = 11;
-    private double? _mapWkid = 4826;
-    private double? _targetWkid = 4326;
+    private double? _inWkid = 102100;
+    private double? _outWkid = 4326;
+    private Point? _resultsPoint => _results?.FirstOrDefault() as Point;
 }

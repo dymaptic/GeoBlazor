@@ -417,13 +417,6 @@ public partial class MapView : MapComponent
             (object)bufferGraphic, Id);
     }
 
-    public async Task DrawWithGeodesicBufferOnPointer(Symbol cursorSymbol, Symbol bufferSymbol, double bufferDistance,
-        LinearUnit bufferUnit)
-    {
-        await ViewJsModule!.InvokeVoidAsync("drawWithGeodesicBufferOnPointer", (object)cursorSymbol,
-            (object)bufferSymbol, bufferDistance, bufferUnit, Id);
-    }
-
     public async Task UpdateGraphic(Graphic graphic, int? layerIndex)
     {
         await ViewJsModule!.InvokeVoidAsync("updateGraphic", (object)graphic, layerIndex, Id);

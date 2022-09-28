@@ -20,6 +20,18 @@ public class Projection : LogicComponent
         return await InvokeAsync<Geometry[]?>("project", geometries, spatialReference, 
             geographicTransformation);
     }
+
+    public async Task<GeographicTransformation?> GetTransformation(SpatialReference inSpatialReference,
+        SpatialReference outSpatialReference, Extent extent)
+    {
+        return await InvokeAsync<GeographicTransformation?>("getTransformation", inSpatialReference,
+            outSpatialReference, extent);
+    }
     
-    
+    public async Task<GeographicTransformation[]?> GetTransformations(SpatialReference inSpatialReference,
+        SpatialReference outSpatialReference, Extent extent)
+    {
+        return await InvokeAsync<GeographicTransformation[]?>("getTransformations", 
+            inSpatialReference, outSpatialReference, extent);
+    }
 }
