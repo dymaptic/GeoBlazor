@@ -749,8 +749,11 @@ export async function addWidget(widget: any, viewId: string): Promise<void> {
                     view: view,
                 });
                 newWidget = homeBtn;
-                if (widget.home !== undefined && widget.home !== null) {
-                    view.ui.add(homeBtn, "top-left");
+                if (widget.label !== undefined && widget.label !== null) {
+                    homeBtn.label = widget.label;
+                }
+                if (widget.iconClass !== undefined && widget.iconClass !== null) {
+                    homeBtn.iconClass = widget.iconClass;
                 }
                 
                 break;

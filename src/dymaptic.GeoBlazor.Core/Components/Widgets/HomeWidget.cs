@@ -6,16 +6,15 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using System.Text.Json.Serialization;
 
-namespace dymaptic.GeoBlazor.Core.Components.Widgets
-{
-    public class HomeWidget : Widget
-    {
-        public override string WidgetType => "home";
-        [Parameter]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
-        public string? IconClass { get; set; }
-        [Parameter]
-        public string? Label { get; set; } = "Home";
-    }
+public class HomeWidget : Widget
+{
+    public override string WidgetType => "home";
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+
+    public string? IconClass { get; set; }
+    [Parameter]
+    public string? Label { get; set; } = "Home";
 }
