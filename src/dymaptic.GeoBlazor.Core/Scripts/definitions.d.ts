@@ -2,6 +2,8 @@
     interface MapObject {
         destroy();
         declaredClass: string;
+
+        on(eventName: string, callback: (evt) => any): void;
     }
     
     interface MapCollection extends __esri.Collection {
@@ -18,9 +20,13 @@
         geometry: any;
         attributes: any;
     }
-
-    interface DotNetPoint {
+    
+    interface DotNetGeometry {
         type: string;
+        spatialReference: __esri.SpatialReference;
+    }
+
+    interface DotNetPoint extends DotNetGeometry {
         latitude: number;
         longitude: number;
         hasM: boolean;
@@ -28,11 +34,9 @@
         extent: DotNetExtent;
         x: number;
         y: number;
-        spatialReference: __esri.SpatialReference;
     }
     
-    interface DotNetExtent {
-        type: string;
+    interface DotNetExtent extends DotNetGeometry {
         xmin: number;
         ymin: number;
         xmax: number;
@@ -43,24 +47,19 @@
         mmax: number;
         hasM: boolean;
         hasZ: boolean;
-        spatialReference: __esri.SpatialReference;
     }
     
-    interface DotNetPolygon {
-        type: string;
+    interface DotNetPolygon extends DotNetGeometry {
         rings: number[][][];
         hasM: boolean;
         hasZ: boolean;
         extent: DotNetExtent,
-        spatialReference: __esri.SpatialReference;
     }
     
-    interface DotNetPolyline {
-        type: string;
+    interface DotNetPolyline extends DotNetGeometry {
         paths: number[][][];
         hasM: boolean;
         hasZ: boolean;
         extent: DotNetExtent;
-        spatialReference: __esri.SpatialReference
     }
 }

@@ -1,0 +1,111 @@
+﻿@page "/logic-tests"
+@inject Projection Projection
+
+<h1>LogicTests</h1>
+<h2>Starting Point</h2>
+<label>Latitude:
+    <input type="number" step="0.01" @bind="_startingLat" />
+</label>
+<label>Longitude:
+    <input type="number" step="0.01" @bind="_startingLong" />
+</label>
+<label>X:
+    <input type="number" step="0.01" @bind="_startingX" />
+</label>
+<label>Y:
+    <input type="number" step="0.01" @bind="_startingY" />
+</label>
+<label>
+    Starting Spatial Reference Wkid:
+    <input type="number" @bind="_mapWkid" />
+</label>
+<label>
+    Convert to Wkid:
+    <input type="number" @bind="_targetWkid" />
+</label>
+
+@if (_results is not null)
+{
+    <h3>Results</h3>
+    foreach (var geometry in _results)
+    {
+        switch (geometry.Type)
+        {
+            case "point":
+                Point pt = (Point)geometry;
+                <div>
+                    Lat: @pt.Latitude / Long: @pt.Longitude
+                </div>
+                <div>
+                    X: @pt.X / Y: @pt.Y
+                </div>
+                break;    
+        }
+    }
+}
+@if (_reverseResults is not null)
+{
+    <h3>Reverse Conversion</h3>
+    foreach (var geometry in _reverseResults)
+    {
+        switch (geometry.Type)
+        {
+            case "point":
+                Point pt = (Point)geometry;
+                <div>
+                    Lat: @pt.Latitude / Long: @pt.Longitude
+                </div>
+                <div>
+                    X: @pt.X / Y: @pt.Y
+                </div>
+                break;    
+        }
+    }
+}
+
+<button @onclick="@(() => StateHasChanged())">Refresh</button>
+
+<MapView @ref="_view" Longitude="14.6668" Latitude="-25.5011" Zoom="3" Class="map-view">
+    <SpatialReference @ref="_outSpatialReference" Wkid="_targetWkid" />
+    <Map>
+        <Basemap>
+            <PortalItem Id="52bdc7ab7fb044d98add148764eaa30a" />
+        </Basemap>
+        <GraphicsLayer>
+            <Graphic>
+                <Point @ref="_point1" Longitude="_startingLat" Latitude="_startingLong" X="_startingX" Y="_startingY">
+                    <SpatialReference @ref="_inSpatialReference" Wkid="_mapWkid" />
+                </Point>
+                <SimpleMarkerSymbol Color="@(new MapColor(81, 46, 132))" />
+            </Graphic>
+        </GraphicsLayer>
+    </Map>
+</MapView>
+
+@code {
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        _results = await Projection.Project(new Geometry[] { _point1! }, _outSpatialReference!);
+        _reverseResults = await Projection.Project(_results!, _inSpatialReference!);
+        if (firstRender)
+        {
+            _view!.Refresh();
+        }
+    }
+
+    private MapView? _view;
+    private Point? _point1;
+    private SpatialReference? _inSpatialReference;
+    private SpatialReference? _outSpatialReference;
+    private Geometry[]? _results;
+    private Geometry[]? _reverseResults;
+    private double? _startingLat;
+    private double? _startingLong;
+    private double? _startingX = -116;
+    private double? _startingY = 11;
+    private double? _mapWkid = 4826;
+    private double? _targetWkid = 4326;
+}

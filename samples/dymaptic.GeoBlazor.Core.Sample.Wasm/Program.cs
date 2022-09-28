@@ -1,3 +1,4 @@
+using dymaptic.GeoBlazor.Core.Model;
 using dymaptic.GeoBlazor.Core.Sample.Shared;
 using dymaptic.GeoBlazor.Core.Sample.Wasm;
 using Microsoft.AspNetCore.Components.Web;
@@ -13,5 +14,6 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddScoped<SharedFileProvider>();
 builder.Services.AddSingleton<IConfiguration>(_ => builder.Configuration);
 builder.Services.AddScoped<HttpClient>();
+builder.Services.AddScoped<Projection>();
 
 await builder.Build().RunAsync();
