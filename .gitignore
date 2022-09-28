@@ -352,7 +352,7 @@ MigrationBackup/
 **/.idea/**/*
 **/.vs/**/*
 
-*/dymaptic.GeoBlazor.Core.Sample.Shared/wwwroot/pages
+*/dymaptic.GeoBlazor.Core.Sample.Shared/wwwroot/pages/**/*
 */dymaptic.GeoBlazor.Core.Sample.Wasm/dymaptic.GeoBlazor.Core.Sample.Wasm.csproj.user
 */dymaptic.GeoBlazor.Core.Sample.Maui/Resources/Raw/*.html
 *.csproj.user

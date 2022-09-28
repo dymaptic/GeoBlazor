@@ -38,6 +38,7 @@ import Extent from "@arcgis/core/geometry/Extent";
 import Polygon from "@arcgis/core/geometry/Polygon";
 import Polyline from "@arcgis/core/geometry/Polyline";
 import ArcGisSymbol from "@arcgis/core/symbols/Symbol";
+import Home from "@arcgis/core/widgets/Home";
 import {
     DotNetExtent,
     DotNetFeature,
@@ -737,9 +738,21 @@ export async function addWidget(widget: any, viewId: string): Promise<void> {
                 }
                 break;
             case 'legend':
-                newWidget = new Legend({
+                const legend = new Legend({
                     view: view
                 });
+                newWidget = legend;
+
+                break;
+            case 'home':
+                const homeBtn = new Home({
+                    view: view,
+                });
+                newWidget = homeBtn;
+                if (widget.home !== undefined && widget.home !== null) {
+                    view.ui.add(homeBtn, "top-left");
+                }
+                
                 break;
             default:
                 return;
