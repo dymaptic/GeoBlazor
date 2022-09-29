@@ -30,6 +30,10 @@
         <div class="form-group">
             <label>Scale Bar: <input type="checkbox" @onchange="@(() => ToggleWidget(nameof(ScaleBarWidget)))"></label>
         </div>
+
+        <div class="form-group">
+            <label>Compass: <input type="checkbox" @onchange="@(() => ToggleWidget(nameof(CompassWidget)))"></label>
+        </div>
         <div id="gallery-box"></div>
     </div>
 </div>
@@ -60,6 +64,11 @@
     {
         <LegendWidget Position="OverlayPosition.TopRight" />
     }
+
+    @if (_showCompass)
+    {
+        <CompassWidget Position="OverlayPosition.TopLeft" />
+    }
 </MapView>
 
 @code {
@@ -87,6 +96,10 @@
             case nameof(ScaleBarWidget):
                 _showScaleBar = !_showScaleBar;
                 break;
+
+            case nameof(CompassWidget):
+                _showCompass = !_showCompass;
+                break;
         }
     }
 
@@ -96,4 +109,6 @@
     private bool _showBasemapGallery;
     private bool _showScaleBar;
     private bool _showLegend;
+
+    private bool _showCompass;
 }

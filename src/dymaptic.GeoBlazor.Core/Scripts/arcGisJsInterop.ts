@@ -38,6 +38,8 @@ import Extent from "@arcgis/core/geometry/Extent";
 import Polygon from "@arcgis/core/geometry/Polygon";
 import Polyline from "@arcgis/core/geometry/Polyline";
 import ArcGisSymbol from "@arcgis/core/symbols/Symbol";
+
+import Compass from "@arcgis/core/widgets/Compass";
 import {
     DotNetExtent,
     DotNetFeature,
@@ -740,6 +742,19 @@ export async function addWidget(widget: any, viewId: string): Promise<void> {
                 newWidget = new Legend({
                     view: view
                 });
+                break;
+
+            case 'compass':
+                const compassWidget = new Compass({
+                    view: view
+                });
+                newWidget = compassWidget;
+                if (widget.iconClass !== undefined && widget.iconClass !== null) {
+                    compassWidget.iconClass = widget.iconClass;
+                }
+                if (widget.label !== undefined && widget.label !== null) {
+                    compassWidget.label = widget.label;
+                }
                 break;
             default:
                 return;
