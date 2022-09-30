@@ -16,6 +16,6 @@ public class CompassWidget : Widget
 
     public string? IconClass { get; set; }
     [Parameter]
-    public string? Label { get; set; } = "Compass";
+    public string? Label { get; set; }
 }
 
