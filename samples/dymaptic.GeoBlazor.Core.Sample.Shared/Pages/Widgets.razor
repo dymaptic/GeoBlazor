@@ -30,6 +30,9 @@
         <div class="form-group">
             <label>Scale Bar: <input type="checkbox" @onchange="@(() => ToggleWidget(nameof(ScaleBarWidget)))"></label>
         </div>
+        <div class="form-group">
+            <label>Home: <input type="checkbox" @onchange="@(() => ToggleWidget(nameof(HomeWidget)))"></label>
+        </div>
 
         <div class="form-group">
             <label>Compass: <input type="checkbox" @onchange="@(() => ToggleWidget(nameof(CompassWidget)))"></label>
@@ -64,7 +67,10 @@
     {
         <LegendWidget Position="OverlayPosition.TopRight" />
     }
-
+    @if (_showHome)
+    {
+        <HomeWidget Position="OverlayPosition.TopLeft" />
+    }
     @if (_showCompass)
     {
         <CompassWidget Position="OverlayPosition.TopLeft" />
@@ -96,7 +102,9 @@
             case nameof(ScaleBarWidget):
                 _showScaleBar = !_showScaleBar;
                 break;
-
+            case nameof(HomeWidget):
+                _showHome = !_showHome;
+                break;
             case nameof(CompassWidget):
                 _showCompass = !_showCompass;
                 break;
@@ -109,6 +117,6 @@
     private bool _showBasemapGallery;
     private bool _showScaleBar;
     private bool _showLegend;
-
+    private bool _showHome;
     private bool _showCompass;
 }

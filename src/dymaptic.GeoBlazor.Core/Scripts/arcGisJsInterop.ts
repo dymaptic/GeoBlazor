@@ -38,7 +38,7 @@ import Extent from "@arcgis/core/geometry/Extent";
 import Polygon from "@arcgis/core/geometry/Polygon";
 import Polyline from "@arcgis/core/geometry/Polyline";
 import ArcGisSymbol from "@arcgis/core/symbols/Symbol";
-
+import Home from "@arcgis/core/widgets/Home";
 import Compass from "@arcgis/core/widgets/Compass";
 import {
     DotNetExtent,
@@ -739,11 +739,23 @@ export async function addWidget(widget: any, viewId: string): Promise<void> {
                 }
                 break;
             case 'legend':
-                newWidget = new Legend({
+                const legend = new Legend({
                     view: view
                 });
+                newWidget = legend;
                 break;
-
+            case 'home':
+                const homeBtn = new Home({
+                    view: view,
+                });
+                newWidget = homeBtn;
+                if (widget.label !== undefined && widget.label !== null) {
+                    homeBtn.label = widget.label;
+                }
+                if (widget.iconClass !== undefined && widget.iconClass !== null) {
+                    homeBtn.iconClass = widget.iconClass;
+                }                
+                break;
             case 'compass':
                 const compassWidget = new Compass({
                     view: view
