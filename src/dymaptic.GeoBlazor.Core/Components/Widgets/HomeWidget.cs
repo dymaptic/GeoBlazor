@@ -16,5 +16,5 @@ public class HomeWidget : Widget
 
     public string? IconClass { get; set; }
     [Parameter]
-    public string? Label { get; set; } = "Home";
+    public string? Label { get; set; }
 }
