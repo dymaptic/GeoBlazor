@@ -2,10 +2,6 @@
     width: 200px;
 }
 
-.map-view ::deep {
-    height: 300px;
-}
-
 h2 {
     margin-top: 1rem;
 }
