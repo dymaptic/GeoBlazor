@@ -1,0 +1,147 @@
+@page "/projection"
+@using System.Globalization
+@using System.Text.Json
+@inject IJSRuntime JsRuntime
+
+<PageTitle>Projection</PageTitle>
+<h1>Projection</h1>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/display-projected-geometries/">ArcGIS API for JavaScript</a>
+<p class="instructions">
+    Hover over the map to see a buffer that shows the distortion of various
+    sections of the map projection. Use the dropdown menu in the top right
+    to change projections. The popup shows the center point of the projection.
+</p>
+<MapView @ref="View"
+         OnMapRenderedHandler="OnMapRendered"
+         Longitude="-10"
+         Latitude="30"
+         Scale="150000000"
+         Class="map-view"
+         Style="background-color: lightblue;">
+    <SpatialReference Wkid="@Wkid" />
+    <Graphic @ref="ProjectionBoundary">
+        <SimpleFillSymbol Color="@(new MapColor("transparent"))">
+            <Outline Width="0.5" Color="@(new MapColor(50, 50, 50, 0.75))" LineStyle="LineStyle.Dash" />
+        </SimpleFillSymbol>
+        <Extent Xmin="-180" Xmax="180" Ymin="-90" Ymax="90">
+            <SpatialReference Wkid="4326" />
+        </Extent>
+    </Graphic>
+    <Map>
+        <GeoJSONLayer
+            Url="https://services3.arcgis.com/GVgbJbqm8hXASVYi/ArcGIS/rest/services/World_Countries_(Generalized)/FeatureServer/0/query?where=1%3D1&outFields=*&f=geojson"
+            Copyright="Esri">
+            <SpatialReference Wkid="4326" />
+            <SimpleRenderer>
+                <SimpleFillSymbol Color="@(new MapColor(255, 255, 255, 1))">
+                    <Outline Width="0.5" Color="@(new MapColor(100, 70, 170, 0.75))" />
+                </SimpleFillSymbol>
+            </SimpleRenderer>
+        </GeoJSONLayer>
+    </Map>
+    <CustomOverlay @ref="Overlay" Position="OverlayPosition.TopRight">
+        <select id="wkid" class="esri-widget esri-select" @bind="Wkid">
+            <option value="3857" disabled>Select a projection</option>
+            <optgroup label="Equidistant (maintain length)">
+                <option value="4326" selected>WGS84 (GCS) -> pseudo Plate Carrée (Cylindrical)</option>
+                <option value="54028">World Cassini (Cylindrical)</option>
+                <option value="54027">World Equidistant conic (Conic)</option>
+            </optgroup>
+            <optgroup label="Conformal (maintain angles)">
+                <option value="54026">World Stereographic (Azimuthal)</option>
+            </optgroup>
+            <optgroup label="Equal-area (maintain area)">
+                <option value="54010">World Eckert VI (Pseudocylindrical)</option>
+                <option value="54008">World Sinusoidal (Pseudocylindrical)</option>
+            </optgroup>
+            <optgroup label="Gnomonic (distances)">
+                <option value="102034">North Pole Gnomonic (Azimuthal)</option>
+            </optgroup>
+            <optgroup label="Compromise (distort all)">
+                <option value="3857">Web Mercator Auxiliary Sphere (Cylindrical)</option>
+                <option value="54016">World Gall Stereographic (Cylindrical)</option>
+                <option value="54042">World Winkel Tripel (Pseudoazimuthal)</option>
+                <option value="54050">World Fuller / Dymaxion map (Polyhedral)</option>
+            </optgroup>
+        </select>
+    </CustomOverlay>
+</MapView>
+
+<SimpleFillSymbol @ref="PolySym" Color="@(new MapColor(150, 130, 220, 0.85))">
+    <Outline Color="@(new MapColor("gray"))" Width="0.5" />
+</SimpleFillSymbol>
+<SimpleMarkerSymbol @ref="PointSym" Color="@(new MapColor("red"))" Size="5">
+    <Outline Color="@(new MapColor("white"))" Width="0.5" />
+</SimpleMarkerSymbol>
+
+@code
+{
+    private Symbol? PolySym { get; set; }
+    private Symbol? PointSym { get; set; }
+    private Graphic? ProjectionBoundary { get; set; }
+    private MapView? View { get; set; }
+    private CustomOverlay? Overlay { get; set; }
+
+    private int Wkid
+    {
+        get => _wkid;
+        set
+        {
+            if (_wkid != value)
+            {
+                _wkid = value;
+                _coordinatesSet = false;
+                View!.Refresh();
+            }
+        }
+    }
+
+    private async Task OnMapRendered()
+    {
+        if (_coordinatesSet) return;
+
+        Point? center = await View!.GetCenter();
+        await DisplayCoordinates(center);
+        // This is an example of how to extend GeoBlazor with your own custom JavaScript.
+        // In this case, this was chosen over handling the event in C# because in some scenarios (e.g., Blazor Server),
+        // the latency of the call is noticeable for a real-time event like pointer-move.
+        IJSObjectReference module = await JsRuntime.InvokeAsync<IJSObjectReference>("import", 
+                "./_content/dymaptic.GeoBlazor.Core.Sample.Shared/js/extensions.js");
+        await module.InvokeVoidAsync("drawWithGeodesicBufferOnPointer", PointSym, PolySym, 1000, 
+            LinearUnit.Kilometers, View.Id);
+    }
+
+    private async Task DisplayCoordinates(Point? center)
+    {
+        var popupOptions = new PopupOptions
+        {
+            DockOptions =
+            {
+                ButtonEnabled = false
+            },
+            VisibleElements =
+            {
+                CloseButton = false,
+                FeatureNavigation = false
+            }
+        };
+
+        var popupTemplate = new PopupTemplate
+        {
+            Title = $"WKID: {center!.SpatialReference!.Wkid}",
+            StringContent = $"<b>X:</b> {center.X!.Value.ToString("N5", CultureInfo.CurrentCulture)} | <b>Y:</b> {center.Y!.Value.ToString("N5", CultureInfo.CurrentCulture)}"
+        };
+
+        var graphic = new Graphic
+        {
+            Geometry = center,
+            PopupTemplate = popupTemplate
+        };
+
+        _coordinatesSet = true;
+        await InvokeAsync(async () => await View!.ShowPopupWithGraphic(graphic, popupOptions));
+    }
+
+    private int _wkid = 4326;
+    private bool _coordinatesSet;
+}

@@ -1,6 +1,8 @@
-﻿using System.Text.Json;
+﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
@@ -16,6 +18,13 @@ public abstract class Layer : MapComponent
 
     [JsonIgnore]
     public int LayerIndex { get; set; }
+
+    public async Task<Extent?> QueryExtent()
+    {
+        if (JsModule is null) return null;
+
+        return await JsModule!.InvokeAsync<Extent?>("queryExtent", Id);
+    }
 }
 
 public class LayerConverter : JsonConverter<Layer>

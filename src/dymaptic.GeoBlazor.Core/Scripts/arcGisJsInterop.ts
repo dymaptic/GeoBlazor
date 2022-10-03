@@ -34,25 +34,33 @@ import GeoJSONLayer from "@arcgis/core/layers/GeoJSONLayer";
 import PopupTemplate from "@arcgis/core/PopupTemplate";
 import Query from "@arcgis/core/rest/support/Query";
 import View from "@arcgis/core/views/View";
-import Extent from "@arcgis/core/geometry/Extent";
-import Polygon from "@arcgis/core/geometry/Polygon";
-import Polyline from "@arcgis/core/geometry/Polyline";
 import ArcGisSymbol from "@arcgis/core/symbols/Symbol";
+import Accessor from "@arcgis/core/core/Accessor";
+
 import Home from "@arcgis/core/widgets/Home";
 import Compass from "@arcgis/core/widgets/Compass";
 import {
-    DotNetExtent,
-    DotNetFeature,
+    DotNetExtent, DotNetGeometry,
     DotNetGraphic,
-    DotNetPoint,
-    DotNetPolygon,
-    DotNetPolyline,
-    MapObject,
+    DotNetPoint, DotNetSpatialReference,
     MapCollection
 } from "ArcGisDefinitions";
-export let arcGisObjectRefs: Record<string, MapObject> = {};
+import {
+    buildDotNetExtent,
+    buildDotNetFeature,
+    buildDotNetGraphic,
+    buildDotNetPoint,
+    buildDotNetGeometry, buildDotNetSpatialReference
+} from "./dotNetBuilder";
+import Extent from "@arcgis/core/geometry/Extent";
+import {build} from "esbuild";
+import Geometry from "@arcgis/core/geometry/Geometry";
+import {buildJsSpatialReference} from "./jsBuilder";
+
+export let arcGisObjectRefs: Record<string, Accessor> = {};
 export let dotNetRefs = {};
 export let queryLayer: FeatureLayer;
+export { projection, geometryEngine };
 
 
 export async function buildMapView(id: string, dotNetReference: any, long: number, lat: number,
@@ -64,7 +72,9 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
         setWaitCursor(id);
         let dotNetRef = dotNetReference;
         dotNetRefs[id] = dotNetRef;
-        esriConfig.apiKey = apiKey;
+        if (esriConfig.apiKey === undefined) {
+            esriConfig.apiKey = apiKey;
+        }
         disposeView(id);
         let view: View;
 
@@ -143,9 +153,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
                 let center;
                 let spatialRef;
                 if (spatialReference !== undefined && spatialReference !== null) {
-                    spatialRef = new SpatialReference({
-                        wkid: spatialReference.wkid
-                    });
+                    spatialRef = buildJsSpatialReference(spatialReference);
                     center = new Point({
                         latitude: lat,
                         longitude: long,
@@ -207,7 +215,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
         });
 
         view.watch('spatialReference', () => {
-            dotNetRef.invokeMethodAsync('OnSpatialReferenceChanged', view.spatialReference);
+            dotNetRef.invokeMethodAsync('OnSpatialReferenceChanged', buildDotNetSpatialReference(view.spatialReference));
         });
         
         unsetWaitCursor(id);
@@ -218,8 +226,9 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
 
 export function disposeView(viewId: string): void {
     try {
-        Object.values(arcGisObjectRefs).forEach(o => o?.destroy());
-        arcGisObjectRefs = {};
+        let view = arcGisObjectRefs[viewId];
+        view?.destroy();
+        delete arcGisObjectRefs.viewId;
     } catch (error) {
         logError(error, viewId);
     }
@@ -580,63 +589,27 @@ export function getExtent(viewId: string): DotNetExtent | null {
     return buildDotNetExtent((arcGisObjectRefs[viewId] as MapView).extent);
 }
 
-
-export function drawWithGeodesicBufferOnPointer(cursorSymbol: any, bufferSymbol: any, geodesicBufferDistance: number, 
-                                                geodesicBufferUnit: any, viewId: string): void {
-    let cursorGraphicId = cursorSymbol.id;
-    let bufferGraphicId = bufferSymbol.id;
-    let view = arcGisObjectRefs[viewId] as MapView;
-    view.on('pointer-move', async (evt) => {
-        let cursorPoint = view.toMap({
-            x: evt.x,
-            y: evt.y,
-        });
-        if (cursorPoint) {
-            if (cursorPoint.spatialReference.wkid !== 3857 &&
-                cursorPoint.spatialReference.wkid !== 4326) {
-                cursorPoint = (await projection.project(cursorPoint, new SpatialReference({
-                    wkid: 4326
-                }))) as Point;
-            }
-            if (!cursorPoint) return;
-
-            const buffer = await geometryEngine.geodesicBuffer(cursorPoint, geodesicBufferDistance, geodesicBufferUnit);
-
-            if (buffer) {
-                try {
-                    let cursorSymbolGraphic = arcGisObjectRefs[cursorGraphicId] as Graphic;
-                    if (cursorSymbolGraphic !== undefined && cursorSymbolGraphic !== null) {
-                        view.graphics.remove(cursorSymbolGraphic);
-                        cursorSymbolGraphic.destroy();
-                        delete arcGisObjectRefs[cursorGraphicId];
-                    }
-                    let bufferSymbolGraphic = arcGisObjectRefs[bufferGraphicId] as Graphic;
-                    if (bufferSymbolGraphic !== undefined && bufferSymbolGraphic !== null) {
-                        view.graphics.remove(bufferSymbolGraphic);
-                        bufferSymbolGraphic.destroy();
-                        delete arcGisObjectRefs[bufferGraphicId];
-                    }
-                } catch {
-                    // ignore if they weren't created yet
-                }
-                if (cursorGraphicId === undefined) {
-
-                }
-                addGraphic({
-                    geometry: cursorPoint,
-                    symbol: cursorSymbol,
-                    id: cursorGraphicId
-                }, viewId);
-                addGraphic({
-                    geometry: buffer,
-                    symbol: bufferSymbol,
-                    id: bufferGraphicId
-                }, viewId);
-            }
-        }
-    })
+export function queryExtent(layerId: string): DotNetExtent | null {
+    let layer = arcGisObjectRefs[layerId] as any;
+    if (layer === undefined || layer === null) return null;
+    let extent = layer.queryExtent ?? layer.fullExtent as Extent;
+    return buildDotNetExtent(extent);
 }
 
+export async function goToExtent(extent, viewId: string): Promise<void> {
+    let view = arcGisObjectRefs[viewId] as MapView;
+    await view.goTo(extent);
+}
+
+export function getSpatialReference(viewId: string): DotNetSpatialReference | null {
+    let view = arcGisObjectRefs[viewId] as MapView;
+    return buildDotNetSpatialReference(view?.spatialReference);
+}
+
+export function getGeometry(graphicId: string): DotNetGeometry | null {
+    let graphic = arcGisObjectRefs[graphicId] as Graphic;
+    return buildDotNetGeometry(graphic.geometry);
+}
 
 export function displayQueryResults(query: Query, symbol: ArcGisSymbol, popupTemplate: PopupTemplate, viewId: string): 
     void {
@@ -929,8 +902,7 @@ async function resetCenterToSpatialReference(center: Point, spatialReference: Sp
     return await projection.project(center, spatialReference) as Point;
 }
 
-
-function logError(error, viewId) {
+export function logError(error, viewId) {
     if (error.stack !== undefined && error.stack !== null) {
         console.log(error.stack);
         dotNetRefs[viewId].invokeMethodAsync('OnJavascriptError', error.stack);
@@ -941,107 +913,6 @@ function logError(error, viewId) {
     unsetWaitCursor(viewId);
 }
 
-
-export function buildDotNetGraphic(graphic: any): DotNetGraphic {
-    let dotNetGraphic = {} as DotNetGraphic;
-    dotNetGraphic.uid = graphic.uid;
-
-    switch (graphic.geometry?.type) {
-        case 'point':
-            dotNetGraphic.geometry = buildDotNetPoint(graphic.geometry);
-            break;
-        case 'polyline':
-            dotNetGraphic.geometry = buildDotNetPolyline(graphic.geometry);
-            break;
-        case 'polygon':
-            dotNetGraphic.geometry = buildDotNetPolygon(graphic.geometry);
-            break;
-        case 'extent':
-            dotNetGraphic.geometry = buildDotNetExtent(graphic.geometry);
-            break;
-    }
-    return dotNetGraphic;
-}
-
-
-function buildDotNetFeature(feature: any): DotNetFeature {
-    let dotNetFeature = {
-        attributes: feature.attributes
-    } as DotNetFeature;
-    dotNetFeature.uid = feature.uid;
-
-    switch (feature.geometry?.type) {
-        case 'point':
-            dotNetFeature.geometry = buildDotNetPoint(feature.geometry);
-            break;
-        case 'polyline':
-            dotNetFeature.geometry = buildDotNetPolyline(feature.geometry);
-            break;
-        case 'polygon':
-            dotNetFeature.geometry = buildDotNetPolygon(feature.geometry);
-            break;
-        case 'extent':
-            dotNetFeature.geometry = buildDotNetExtent(feature.geometry);
-            break;
-    }
-    return dotNetFeature;
-}
-
-
-export function buildDotNetPoint(point: Point): DotNetPoint {
-    return {
-        type: 'point',
-        latitude: point.latitude,
-        longitude: point.longitude,
-        hasM: point.hasM,
-        hasZ: point.hasZ,
-        extent: buildDotNetExtent(point.extent),
-        x: point.x,
-        y: point.y,
-        spatialReference: point.spatialReference
-    } as DotNetPoint
-}
-
-export function buildDotNetPolyline(polyline: Polyline): DotNetPolyline | null {
-    return {
-        type: 'polyline',
-        paths: polyline.paths,
-        hasM: polyline.hasM,
-        hasZ: polyline.hasZ,
-        extent: buildDotNetExtent(polyline.extent),
-        spatialReference: polyline.spatialReference
-    } as DotNetPolyline
-}
-
-export function buildDotNetPolygon(polygon: Polygon): DotNetPolygon | null {
-    if (polygon === undefined || polygon === null) return null;
-    return {
-        type: 'polygon',
-        rings: polygon.rings,
-        hasM: polygon.hasM,
-        hasZ: polygon.hasZ,
-        extent: buildDotNetExtent(polygon.extent),
-        spatialReference: polygon.spatialReference
-    } as DotNetPolygon
-}
-
-export function buildDotNetExtent(extent: Extent): DotNetExtent | null {
-    if (extent === undefined || extent === null) return null;
-    return {
-        type: 'extent',
-        xmin: extent.xmin,
-        ymin: extent.ymin,
-        xmax: extent.xmax,
-        ymax: extent.ymax,
-        zmin: extent.zmin,
-        zmax: extent.zmax,
-        mmin: extent.mmin,
-        mmax: extent.mmax,
-        hasM: extent.hasM,
-        hasZ: extent.hasZ,
-        spatialReference: extent.spatialReference
-    } as DotNetExtent;
-}
 
 function setWaitCursor(viewId: string): void {
     let viewContainer = document.getElementById(`map-container-${viewId}`);

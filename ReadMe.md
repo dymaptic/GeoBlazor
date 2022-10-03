@@ -67,58 +67,7 @@ for a 2D map with a default ArcGIS basemap, or
 
 for a 3D map with a basemap loaded from a `PortalId`.
 
-## Using the Library
-
-### Reference Package/Project
-
-- Install nuget package from nuget.org with `dotnet add package dymaptic.GeoBlazor.Core`
-  OR
-- Download and add a package reference to the `/packages/dymaptic.GeoBlazor.Core.1.0.x.nupkg` file
-  OR
-- download the source code and add a project reference to `dymaptic.Blazor.Api`.
-
-### Reference Scripts and Styles
-
-- Add the following lines to the `head` element of your `_Layout.cshtml` (Blazor Server) or `index.html` (Blazor Wasm or Maui Blazor Hybrid)
-
-```html
-    <link href="_content/dymaptic.GeoBlazor.Core"/>
-    <link href="https://js.arcgis.com/4.24/esri/themes/light/main.css" rel="stylesheet">
-```
-
-### Setup API Key
-
-- See [Security and authentication | Documentation | ArcGIS Developers](https://developers.arcgis.com/documentation/mapping-apis-and-services/security/) to learn how to obtain an ArcGIS API Key.
-- If you want to inject your api key via login or some other custom route, add the following line to your `Program.cs` file, so you can add values to `IConfiguration`:
-
-```csharp
-builder.Configuration.AddInMemoryCollection();
-```
-
-- If you want to hard-code your API key, add the key/value `"ArcGISApiKey": "YOUR_API_KEY"` to an `appsettings.json `, `appsettings.development.json`, `secrets.json`, Azure Key Vault, or environment variable. Make sure that it is loaded into `IConfiguration` by your application. _NOTE_: it is never recommended to save an api key to a version control repository!
-
-### Add Using Statements
-
-Add using statements as necessary to `_Imports.razor`. Below is a complete list of namespaces:
-
-```csharp
-@using dymaptic.GeoBlazor.Core
-@using dymaptic.GeoBlazor.Core.Components
-@using dymaptic.GeoBlazor.Core.Components.Geometries
-@using dymaptic.GeoBlazor.Core.Components.Layers
-@using dymaptic.GeoBlazor.Core.Components.Popups
-@using dymaptic.GeoBlazor.Core.Components.Renderers
-@using dymaptic.GeoBlazor.Core.Components.Symbols
-@using dymaptic.GeoBlazor.Core.Components.Views
-@using dymaptic.GeoBlazor.Core.Components.Widgets
-@using dymaptic.GeoBlazor.Core.Objects
-```
-
-### Add components to Razor Components/Pages
-
-You should now be ready to directly reference `MapView` and other components in your own Razor Components.
-
-For more information, read [Using the API](UsingTheAPI.md).
+## [Using the Library](UsingTheAPI.md)
 
 ### Known Limitations/"Gotchas"
 
@@ -126,9 +75,14 @@ For more information, read [Using the API](UsingTheAPI.md).
   it handles disposal for you. However, there may be situations (e.g., adding a new graphic on the fly),
   where you want to instantiate one of these components in C# code. Be aware that if you do this, you need to call
   `DisposeAsync` yourself when you are done with the object.
-- Directly calling `graphicLayer.Add(graphic)` or `MapView.Widgets.Add(widget)` does not work currently to register these components
-  with the JavaScript API. Instead, use `graphicLayer.RegisterChildComponent(graphic)` or
-  `MapView.RegisterChildComponent(widget)`.
+- Directly calling a `HashSet` collection like  `graphicLayer.Add(graphic)` or `MapView.Widgets.Add(widget)` does not 
+  work currently to register these components with the JavaScript API. Instead, use 
+  `graphicLayer.RegisterChildComponent(graphic)` or `MapView.RegisterChildComponent(widget)`.
+- While `JsRuntime` calls are very efficient, some "real-time" events, like handling a mouse pointer moving,
+  may have enough latency to notice on a round-trip to Blazor/C# and back to JavaScript. In these situations, it is 
+  our recommendation to instead write custom JavaScript code, which can handle the event completely client-side. 
+  See `DisplayProjection.razor` in the `...Sample.Shared` library for an example of writing your own JavaScript that interacts
+  with GeoBlazor.
 
 ## Build Requirements
 
@@ -139,13 +93,13 @@ For the Maui sample project, you need the latest [_preview_ of Visual Studio](ht
 If you have not installed node.js on your system, you will need to download and install it in order for the npm scripts to run. Please [select
 the appropriate installer for your system](https://nodejs.org/en/download/).
 
-If you have not installed powershell on your system (macOS and Linux users), or if you would like the latest version of Powershell for Windows, you will need to install Powershell and then change the "execution policies" on the system.  
+If you have not installed powershell on your system (macOS and Linux users), or if you would like the latest version of Powershell for Windows, you will need to install Powershell and then change the "execution policies" on the system.
 -Complete installation instructions for Powershell [can be found here]
 (https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell?view=powershell-7.2).
 
 Because Geoblazor uses an unsigned, local powershell script to copy files in the `Sample.Shared` project, you need to allow unsigned scripts to be run in Powershell.
--The procedure to change the "execution policies" and set them to `RemoteSigned` are found here: 
-https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_execution_policies?view=powershell-7.2#change-the-execution-policy 
+-The procedure to change the "execution policies" and set them to `RemoteSigned` are found here:
+https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_execution_policies?view=powershell-7.2#change-the-execution-policy
 
 ## Projects
 
@@ -180,13 +134,12 @@ https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/ab
 
 ### dymaptic.GeoBlazor.Interactive (not included in open source repo)
 
-- Extended application features
-
-  - Custom renderers (e.g. image icons), see [Feature Layers (demo)](https://dy-blazor-samples-server.azurewebsites.net/feature-layers)
-  - Custom popups (e.g. charts, tables), see [Popups (demo)](https://dy-blazor-samples-server.azurewebsites.net/popups)
-  - Advanced widgets (e.g. sketch, track), see [Sketch Query (demo)](https://dy-blazor-samples-server.azurewebsites.net/sketch-query)
-  - Custom layers (e.g. GeoJSON Layer), see [Projection (demo)](https://dy-blazor-samples-server.azurewebsites.net/projection)
+- Extended application features - coming soon!
+  - Custom renderers (e.g. image icons), see [Feature Layers (demo)](https://blazor.dymaptic.com/feature-layers)
+  - Custom popups (e.g. charts, tables), see [Popups (demo)](https://blazor.dymaptic.com/popups)
+  - Advanced widgets (e.g. sketch, track), see [Sketch Query (demo)](https://blazor.dymaptic.com/sketch-query)
+  - Custom layers (e.g. GeoJSON Layer), see [Projection (demo)](https://blazor.dymaptic.com/projection)
   - Advanced event handling (e.g., pointer move, sketch events, search events), see above examples
-  - GeometryEngine direct calls, see [Calculate Geometries (demo)](https://dy-blazor-samples-server.azurewebsites.net/calculate-geometries)
-  - ArcGIS Rest direct calls, see [Demographic Data (demo)](https://dy-blazor-samples-server.azurewebsites.net/demographic-data)
+  - GeometryEngine direct calls, see [Calculate Geometries (demo)](https://blazor.dymaptic.com/calculate-geometries)
+  - ArcGIS Rest direct calls, see [Demographic Data (demo)](https://blazor.dymaptic.com/demographic-data)
 - Please contact info@dymaptic.com to discuss licensing these advanced features!
