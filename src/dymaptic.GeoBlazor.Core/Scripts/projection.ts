@@ -12,29 +12,29 @@ export function initialize(dotNetReference, apiKey) {
     esriConfig.apiKey = apiKey;
 }
 
-export async function project(geometry: any[], outSpatialReference, geographicTransformation?): 
-    Promise<DotNetGeometry[] | null> {
+export async function project(geometry: any[] | any, outSpatialReference, geographicTransformation?): 
+    Promise<DotNetGeometry[] | DotNetGeometry | null> {
     try {
         await waitForInitialization();
         await loadIfNeeded();
         let result = projection.project(geometry, buildJsSpatialReference(outSpatialReference), 
             geographicTransformation);
         if (result === null) return null;
-        let resultArray: DotNetGeometry[] = [];
+        
         if (Array.isArray(result)) {
+            let resultArray: DotNetGeometry[] = [];
             (result as Geometry[]).forEach(g => {
                 let dotNetGeom = buildDotNetGeometry(g);
                 if (dotNetGeom !== null) {
                     resultArray.push(dotNetGeom);
                 }
             });
+
+            return resultArray;
         } else {
-            let geom = buildDotNetGeometry(result);
-            if (geom !== null) {
-                resultArray.push(geom);
-            }
+            return buildDotNetGeometry(result);
         }
-        return resultArray;
+        
     } catch (error) {
         logError(error);
         return null;

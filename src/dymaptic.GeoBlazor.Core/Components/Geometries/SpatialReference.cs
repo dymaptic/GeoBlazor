@@ -32,4 +32,10 @@ public class SpatialReference : MapComponent
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [Parameter]
     public string? Wkt { get; set; }
+
+    [JsonIgnore]
+    public static SpatialReference Wgs84 { get; set; } = new() { Wkid = 4326 };
+
+    [JsonIgnore]
+    public static SpatialReference WebMercator { get; set; } = new() { Wkid = 3857 };
 }

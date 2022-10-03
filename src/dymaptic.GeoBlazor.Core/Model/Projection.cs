@@ -17,7 +17,14 @@ public class Projection : LogicComponent
     public async Task<Geometry[]?> Project(Geometry[] geometries, SpatialReference spatialReference,
         GeographicTransformation? geographicTransformation = null)
     {
-        return await InvokeAsync<Geometry[]?>("project", geometries, spatialReference, 
+        return await InvokeAsync<Geometry[]?>("project", geometries, spatialReference,
+            geographicTransformation);
+    }
+
+    public async Task<Geometry?> Project(Geometry geometry, SpatialReference spatialReference,
+        GeographicTransformation? geographicTransformation = null)
+    {
+        return await InvokeAsync<Geometry?>("project", geometry, spatialReference,
             geographicTransformation);
     }
 

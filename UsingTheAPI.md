@@ -23,6 +23,12 @@ Here's what the JSON would look like in `secrets.json` or `appsettings.developme
 }
 ```
 
+If you want to inject your api key via login or some other custom route, add the following line to your `Program.cs` file, so you can add values to `IConfiguration`:
+
+```csharp
+builder.Configuration.AddInMemoryCollection();
+```
+
 This will be picked up and added to your maps automatically by the Asp.NET dependency injection framework.
 Next, let's add the following `@using` statements to `\_Imports.razor`, so that our pages and components have access to
 the necessary package components.

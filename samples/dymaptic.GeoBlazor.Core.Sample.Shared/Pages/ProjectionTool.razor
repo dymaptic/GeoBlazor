@@ -2,6 +2,16 @@
 @inject Projection Projection
 
 <h1>Projection</h1>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-projection.html">ArcGIS API for JavaScript</a>
+<p class="instructions">
+    Most mapping projections are handled automatically by <code>SpatialReferences</code> built into basemaps, feature layers,
+    and graphics. However, there is also a tool you can call directly to "Project" or "GetTransformation" between several
+    different <code>SpatialReferences</code>. In this sample, the maps are auto-calculating the projections, but the X/Y
+    coordinates and <code>GeographicTransformation</code> steps are calculated via the projection tool.
+    See the <a target="_blank" href="source-code/projection">Source Code</a> for the Display Projection page for more Wkid values.
+    Not all values will render properly with this GeoJSON map.
+</p>
+
 <h2>Starting Point</h2>
 <div>
     <label>Longitude:
@@ -175,12 +185,10 @@ else
     {
         _allRendered = true;
         Geometry renderedPoint = await _graphic1!.GetGeometry();
-        Geometry[]? startResults = await Projection.Project(new[] { renderedPoint }, _view1SpatialReference!);
-        var startPoint = startResults!.First() as Point;
+        Point? startPoint= await Projection.Project(renderedPoint, _view1SpatialReference!) as Point;
         _startX = startPoint!.X;
         _startY = startPoint.Y;
-        Geometry[]? endResults = await Projection.Project(new[] { renderedPoint }, _view2SpatialReference!);
-        var endPoint = endResults!.First() as Point;
+        Point? endPoint = await Projection.Project(renderedPoint, _view2SpatialReference!) as Point;
         _endX = endPoint!.X;
         _endY = endPoint.Y;
         Extent? view1Extent = await _view1!.GetExtent();
