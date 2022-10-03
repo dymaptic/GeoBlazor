@@ -100,7 +100,7 @@
     {
         if (_coordinatesSet) return;
 
-        Point center = await View!.GetCenter();
+        Point? center = await View!.GetCenter();
         await DisplayCoordinates(center);
         IJSObjectReference module = await JsRuntime.InvokeAsync<IJSObjectReference>("import", 
                 "./_content/dymaptic.GeoBlazor.Core.Sample.Shared/js/extensions.js");
@@ -108,7 +108,7 @@
             LinearUnit.Kilometers, View.Id);
     }
 
-    private async Task DisplayCoordinates(Point center)
+    private async Task DisplayCoordinates(Point? center)
     {
         var popupOptions = new PopupOptions
         {
@@ -125,7 +125,7 @@
 
         var popupTemplate = new PopupTemplate
         {
-            Title = $"WKID: {center.SpatialReference!.Wkid}",
+            Title = $"WKID: {center!.SpatialReference!.Wkid}",
             StringContent = $"<b>X:</b> {center.X!.Value.ToString("N5", CultureInfo.CurrentCulture)} | <b>Y:</b> {center.Y!.Value.ToString("N5", CultureInfo.CurrentCulture)}"
         };
 

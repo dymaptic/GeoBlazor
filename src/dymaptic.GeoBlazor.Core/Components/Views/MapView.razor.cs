@@ -422,14 +422,30 @@ public partial class MapView : MapComponent
         await ViewJsModule!.InvokeVoidAsync("updateGraphic", (object)graphic, layerIndex, Id);
     }
 
-    public async Task<Point> GetCenter()
+    public async Task<Point?> GetCenter()
     {
+        if (ViewJsModule is null) return null;
         return await ViewJsModule!.InvokeAsync<Point>("getCenter", Id);
     }
 
     public async Task<Extent?> GetExtent()
     {
+        if (ViewJsModule is null) return null;
         return await ViewJsModule!.InvokeAsync<Extent?>("getExtent", Id);
+    }
+
+    public async Task<SpatialReference?> GetSpatialReference()
+    {
+        if (ViewJsModule is null) return null;
+
+        return await ViewJsModule!.InvokeAsync<SpatialReference?>("getSpatialReference", Id);
+    }
+
+    public async Task GoTo(Extent extent)
+    {
+        if (ViewJsModule is null) return;
+
+        await ViewJsModule!.InvokeVoidAsync("goToExtent", extent, Id);
     }
 
     public override async ValueTask DisposeAsync()

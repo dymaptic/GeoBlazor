@@ -62,4 +62,24 @@
         hasZ: boolean;
         extent: DotNetExtent;
     }
+    
+    interface DotNetSpatialReference {
+        isGeographic: boolean;
+        isWebMercator: boolean;
+        isWgs84: boolean;
+        isWrappable: boolean;
+        wkid: number;
+        wkt: string;
+        imageCoordinateSystem: any;
+    }
+    
+    interface DotNetGeographicTransformation {
+        steps: Array<DotNetGeographicTransformationStep>
+    }
+    
+    interface DotNetGeographicTransformationStep {
+        isInverse: boolean;
+        wkid: number;
+        wkt: string
+    }
 }

@@ -1,0 +1,151 @@
+﻿@page "/projection-tool"
+@inject Projection Projection
+
+<h1>Projection</h1>
+<h2>Starting Point</h2>
+<div>
+    <label>Longitude:
+        <input type="number" step="0.01" @bind="StartingLong" />
+    </label>
+    <label>Latitutde:
+        <input type="number" step="0.01" @bind="StartingLat" />
+    </label>
+</div>
+
+<div style="display: flex; flex-direction: row">
+    <div style="width: 48%;">
+        <h3>Wkid: @_view1SpatialReference?.Wkid</h3>
+        @if (_startX.HasValue && _startY.HasValue)
+        {
+            <label>X: @_startX.Value.ToString("N2")</label>
+            <label>Y: @_startY.Value.ToString("N2")</label>
+        }
+        <MapView @ref="_view1" Longitude="_startingLong" Latitude="_startingLat" Zoom="3" Class="map-view"
+                 OnMapRenderedHandler="View1Rendered">
+            <Map ArcGISDefaultBasemap="arcgis-topographic">
+                <GraphicsLayer>
+                    <Graphic @ref="_graphic1">
+                        <Point @ref="_point1" Latitude="_startingLat" Longitude="_startingLong" />
+                        <SimpleMarkerSymbol Color="@(new MapColor(81, 46, 132))" />
+                    </Graphic>
+                </GraphicsLayer>
+            </Map>
+        </MapView>
+    </div>
+    <div style="width: 4%;"></div>
+    <div style="width: 48%;">
+        <h3>Wkid: @_view2SpatialReference?.Wkid</h3>
+        @if (_endX.HasValue && _endY.HasValue)
+        {
+            <label>X: @_endX.Value.ToString("N2")</label>
+            <label>Y: @_endY.Value.ToString("N2")</label>
+        }
+        <MapView @ref="_view2" Longitude="_startingLong" Latitude="_startingLat" Zoom="3" Class="map-view"
+                 OnMapRenderedHandler="View2Rendered">
+            <Map>
+                <Basemap>
+                    <PortalItem Id="52bdc7ab7fb044d98add148764eaa30a" />
+                </Basemap>
+                <GraphicsLayer>
+                    <Graphic>
+                        <Point Latitude="_startingLat" Longitude="_startingLong" />
+                        <SimpleMarkerSymbol Color="@(new MapColor(81, 46, 132))" />
+                    </Graphic>
+                </GraphicsLayer>
+            </Map>
+        </MapView>
+    </div>    
+</div>
+
+@if (_transformation?.Steps is not null)
+{
+    <h2>Get Transformation</h2>
+    <label>Steps</label>
+    @for (var i = 0; i < _transformation.Steps.Length; i++)
+    {
+        GeographicTransformationStep? step = _transformation.Steps[i];
+        <div>@(i + 1): @step.Wkid</div>
+    }
+}
+
+@code {
+
+    private MapView? _view1;
+    private MapView? _view2;
+    private Point? _point1;
+    private Graphic? _graphic1;
+    private double StartingLat
+    {
+        get => _startingLat;
+        set
+        {
+            _startingLat = value;
+            Task.Run(RefreshAndProject);
+        }
+    }
+    private double StartingLong
+    {
+        get => _startingLong;
+        set
+        {
+            _startingLong = value;
+            Task.Run(RefreshAndProject);
+        }
+    }
+    private double _startingLat = 74.795766;
+    private double _startingLong = -32.507603;
+    private double? _startX;
+    private double? _startY;
+    private double? _endX;
+    private double? _endY;
+    private SpatialReference? _view1SpatialReference;
+    private SpatialReference? _view2SpatialReference;
+    private bool _allRendered;
+    private GeographicTransformation? _transformation;
+
+    private async Task View1Rendered()
+    {
+        if (_allRendered) return;
+        _view1SpatialReference = await _view1!.GetSpatialReference();
+        if (_view2SpatialReference is not null)
+        {
+            await Project();
+        }
+    }
+    
+    private async Task View2Rendered()
+    {
+        if (_allRendered) return;
+        _view2SpatialReference = await _view2!.GetSpatialReference();
+        if (_view1SpatialReference is not null)
+        {
+            await Project();
+        }
+    }
+
+    private async Task RefreshAndProject()
+    {
+        await InvokeAsync(async () =>
+        {
+            StateHasChanged();
+            await Project();
+        });
+    }
+
+    private async Task Project()
+    {
+        _allRendered = true;
+        Geometry renderedPoint = await _graphic1!.GetGeometry();
+        Geometry[]? startResults = await Projection.Project(new[] { renderedPoint }, _view1SpatialReference!);
+        var startPoint = startResults!.First() as Point;
+        _startX = startPoint!.X;
+        _startY = startPoint.Y;
+        Geometry[]? endResults = await Projection.Project(new[] { renderedPoint }, _view2SpatialReference!);
+        var endPoint = endResults!.First() as Point;
+        _endX = endPoint!.X;
+        _endY = endPoint.Y;
+        Extent? view1Extent = await _view1!.GetExtent();
+        _transformation = await Projection.GetTransformation(_view1SpatialReference!, _view2SpatialReference!, view1Extent!);
+        StateHasChanged();
+    }
+}

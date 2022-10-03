@@ -1,16 +1,18 @@
 ﻿import {
     DotNetExtent,
-    DotNetFeature, DotNetGeometry,
+    DotNetFeature, DotNetGeographicTransformation, DotNetGeographicTransformationStep, DotNetGeometry,
     DotNetGraphic,
     DotNetPoint,
     DotNetPolygon,
-    DotNetPolyline
+    DotNetPolyline, DotNetSpatialReference
 } from "ArcGisDefinitions";
 import Point from "@arcgis/core/geometry/Point";
 import Polyline from "@arcgis/core/geometry/Polyline";
 import Polygon from "@arcgis/core/geometry/Polygon";
 import Extent from "@arcgis/core/geometry/Extent";
 import Geometry from "@arcgis/core/geometry/Geometry";
+import SpatialReference from "@arcgis/core/geometry/SpatialReference";
+import GeographicTransformation from "@arcgis/core/geometry/support/GeographicTransformation";
 
 export function buildDotNetGraphic(graphic: any): DotNetGraphic {
     let dotNetGraphic = {} as DotNetGraphic;
@@ -124,4 +126,35 @@ export function buildDotNetExtent(extent: Extent): DotNetExtent | null {
         hasZ: extent.hasZ,
         spatialReference: extent.spatialReference
     } as DotNetExtent;
+}
+
+export function buildDotNetSpatialReference(spatialReference: SpatialReference): DotNetSpatialReference | null {
+    if (spatialReference === undefined || spatialReference === null) return null;
+    
+    return {
+        isGeographic: spatialReference.isGeographic,
+        isWebMercator: spatialReference.isWebMercator,
+        isWgs84: spatialReference.isWGS84,
+        isWrappable: spatialReference.isWrappable,
+        wkid: spatialReference.wkid,
+        wkt: spatialReference.wkt,
+        imageCoordinateSystem: spatialReference.imageCoordinateSystem
+    } as DotNetSpatialReference;
+}
+
+
+export function buildDotNetGeographicTransformation(geographicTransformation: GeographicTransformation): 
+    DotNetGeographicTransformation | null {
+    if (geographicTransformation === undefined || geographicTransformation === null) return null;
+    let steps: Array<DotNetGeographicTransformationStep> = [];
+    geographicTransformation.steps.forEach(s => {
+        steps.push({
+            isInverse: s.isInverse,
+            wkid: s.wkid,
+            wkt: s.wkt
+        } as DotNetGeographicTransformationStep)
+    });
+    return {
+        steps: steps
+    } as DotNetGeographicTransformation;
 }

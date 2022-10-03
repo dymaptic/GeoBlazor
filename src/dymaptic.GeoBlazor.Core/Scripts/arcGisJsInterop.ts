@@ -38,17 +38,22 @@ import ArcGisSymbol from "@arcgis/core/symbols/Symbol";
 import Accessor from "@arcgis/core/core/Accessor";
 
 import {
-    DotNetExtent,
+    DotNetExtent, DotNetGeometry,
     DotNetGraphic,
-    DotNetPoint,
+    DotNetPoint, DotNetSpatialReference,
     MapCollection
 } from "ArcGisDefinitions";
 import {
-    buildDotNetExtent, 
-    buildDotNetFeature, 
-    buildDotNetGraphic, 
-    buildDotNetPoint
+    buildDotNetExtent,
+    buildDotNetFeature,
+    buildDotNetGraphic,
+    buildDotNetPoint,
+    buildDotNetGeometry, buildDotNetSpatialReference
 } from "./dotNetBuilder";
+import Extent from "@arcgis/core/geometry/Extent";
+import {build} from "esbuild";
+import Geometry from "@arcgis/core/geometry/Geometry";
+import {buildJsSpatialReference} from "./jsBuilder";
 
 export let arcGisObjectRefs: Record<string, Accessor> = {};
 export let dotNetRefs = {};
@@ -65,7 +70,9 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
         setWaitCursor(id);
         let dotNetRef = dotNetReference;
         dotNetRefs[id] = dotNetRef;
-        esriConfig.apiKey = apiKey;
+        if (esriConfig.apiKey === undefined) {
+            esriConfig.apiKey = apiKey;
+        }
         disposeView(id);
         let view: View;
 
@@ -144,9 +151,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
                 let center;
                 let spatialRef;
                 if (spatialReference !== undefined && spatialReference !== null) {
-                    spatialRef = new SpatialReference({
-                        wkid: spatialReference.wkid
-                    });
+                    spatialRef = buildJsSpatialReference(spatialReference);
                     center = new Point({
                         latitude: lat,
                         longitude: long,
@@ -208,7 +213,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
         });
 
         view.watch('spatialReference', () => {
-            dotNetRef.invokeMethodAsync('OnSpatialReferenceChanged', view.spatialReference);
+            dotNetRef.invokeMethodAsync('OnSpatialReferenceChanged', buildDotNetSpatialReference(view.spatialReference));
         });
         
         unsetWaitCursor(id);
@@ -219,8 +224,9 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
 
 export function disposeView(viewId: string): void {
     try {
-        Object.values(arcGisObjectRefs).forEach(o => o?.destroy());
-        arcGisObjectRefs = {};
+        let view = arcGisObjectRefs[viewId];
+        view?.destroy();
+        delete arcGisObjectRefs.viewId;
     } catch (error) {
         logError(error, viewId);
     }
@@ -579,6 +585,28 @@ export function getCenter(viewId: string): DotNetPoint {
 
 export function getExtent(viewId: string): DotNetExtent | null {
     return buildDotNetExtent((arcGisObjectRefs[viewId] as MapView).extent);
+}
+
+export function queryExtent(layerId: string): DotNetExtent | null {
+    let layer = arcGisObjectRefs[layerId] as any;
+    if (layer === undefined || layer === null) return null;
+    let extent = layer.queryExtent ?? layer.fullExtent as Extent;
+    return buildDotNetExtent(extent);
+}
+
+export async function goToExtent(extent, viewId: string): Promise<void> {
+    let view = arcGisObjectRefs[viewId] as MapView;
+    await view.goTo(extent);
+}
+
+export function getSpatialReference(viewId: string): DotNetSpatialReference | null {
+    let view = arcGisObjectRefs[viewId] as MapView;
+    return buildDotNetSpatialReference(view?.spatialReference);
+}
+
+export function getGeometry(graphicId: string): DotNetGeometry | null {
+    let graphic = arcGisObjectRefs[graphicId] as Graphic;
+    return buildDotNetGeometry(graphic.geometry);
 }
 
 export function displayQueryResults(query: Query, symbol: ArcGisSymbol, popupTemplate: PopupTemplate, viewId: string): 

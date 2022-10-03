@@ -1,8 +1,9 @@
 ﻿import esriConfig from "@arcgis/core/config";
 import * as projection from "@arcgis/core/geometry/projection";
 import Geometry from "@arcgis/core/geometry/Geometry";
-import {buildDotNetGeometry} from "./dotNetBuilder";
-import GeographicTransformation from "@arcgis/core/geometry/support/GeographicTransformation";
+import {buildDotNetGeographicTransformation, buildDotNetGeometry} from "./dotNetBuilder";
+import {DotNetGeographicTransformation, DotNetGeometry} from "ArcGisDefinitions";
+import {buildJsExtent, buildJsSpatialReference} from "./jsBuilder";
 
 let dotNetRef: any = null;
 
@@ -12,17 +13,26 @@ export function initialize(dotNetReference, apiKey) {
 }
 
 export async function project(geometry: any[], outSpatialReference, geographicTransformation?): 
-    Promise<any[] | null> {
+    Promise<DotNetGeometry[] | null> {
     try {
         await waitForInitialization();
         await loadIfNeeded();
-        let result = projection.project(geometry, outSpatialReference, geographicTransformation);
+        let result = projection.project(geometry, buildJsSpatialReference(outSpatialReference), 
+            geographicTransformation);
         if (result === null) return null;
-        let resultArray: any[] = [];
+        let resultArray: DotNetGeometry[] = [];
         if (Array.isArray(result)) {
-            (result as Geometry[]).forEach(g => resultArray.push(buildDotNetGeometry(g)));
+            (result as Geometry[]).forEach(g => {
+                let dotNetGeom = buildDotNetGeometry(g);
+                if (dotNetGeom !== null) {
+                    resultArray.push(dotNetGeom);
+                }
+            });
         } else {
-            resultArray.push(buildDotNetGeometry(result));
+            let geom = buildDotNetGeometry(result);
+            if (geom !== null) {
+                resultArray.push(geom);
+            }
         }
         return resultArray;
     } catch (error) {
@@ -32,11 +42,13 @@ export async function project(geometry: any[], outSpatialReference, geographicTr
 }
 
 export async function getTransformation(inSpatialReference, outSpatialReference, extent): 
-    Promise<GeographicTransformation | null> {
+    Promise<DotNetGeographicTransformation | null> {
     try {
         await waitForInitialization();
         await loadIfNeeded();
-        return projection.getTransformation(inSpatialReference, outSpatialReference, extent);
+        let geoTransform = projection.getTransformation(buildJsSpatialReference(inSpatialReference), 
+            buildJsSpatialReference(outSpatialReference), buildJsExtent(extent));
+        return buildDotNetGeographicTransformation(geoTransform);
     } catch (error) {
         logError(error);
         return null;
@@ -44,11 +56,20 @@ export async function getTransformation(inSpatialReference, outSpatialReference,
 }
 
 export async function getTransformations(inSpatialReference, outSpatialReference, extent):
-    Promise<GeographicTransformation[] | null> {
+    Promise<DotNetGeographicTransformation[] | null> {
     try {
         await waitForInitialization();
         await loadIfNeeded();
-        return projection.getTransformations(inSpatialReference, outSpatialReference, extent);
+        let geoTransforms = projection.getTransformations(buildJsSpatialReference(inSpatialReference),
+            buildJsSpatialReference(outSpatialReference), buildJsExtent(extent));
+        let dotNetTransforms: Array<DotNetGeographicTransformation> = [];
+        geoTransforms.forEach(t => {
+            let dotNetT = buildDotNetGeographicTransformation(t);
+            if (dotNetT !== null) {
+                dotNetTransforms.push(dotNetT);
+            }
+        });
+        return dotNetTransforms;
     } catch (error) {
         logError(error);
         return null;
@@ -78,12 +99,4 @@ function logError(error) {
         console.log(error.message);
         dotNetRef?.invokeMethodAsync('OnJavascriptError', error.message);
     }
-}
-
-function cleanJsObject(dotNetObject: any): any {
-    delete dotNetObject.id;
-    Object.keys(dotNetObject).forEach((key, _) => {
-        delete dotNetObject[key]?.id;
-    });
-    return dotNetObject;
 }

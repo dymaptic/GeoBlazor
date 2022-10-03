@@ -1,20 +1,63 @@
 @page "/double-views"
+@inject IJSRuntime JsRuntime
 <PageTitle>WebMap</PageTitle>
-<h1>WebMap</h1>
+<h1>Double Maps</h1>
 <a target="_blank" href="https://developers.arcgis.com/javascript/latest/display-a-web-map/">ArcGIS API for JavaScript Reference</a>
 
 <MapView Class="map-view">
     <WebMap>
-        <PortalItem Id="41281c51f9de45edaf1c8ed44bb10e30" />
+        <PortalItem Id="e691172598f04ea8881cd2a4adaa45ba" />
     </WebMap>
-    <ScaleBarWidget Position="OverlayPosition.BottomLeft" />
-    <LegendWidget Position="OverlayPosition.TopRight" />
+    @* <Map> *@
+    @*     <Basemap> *@
+    @*         <PortalItem Id="e691172598f04ea8881cd2a4adaa45ba" /> *@
+    @*     </Basemap> *@
+    @* </Map> *@
+    @* <ScaleBarWidget Position="OverlayPosition.BottomLeft" /> *@
+    @* <LegendWidget Position="OverlayPosition.TopRight" /> *@
 </MapView>
 
 <MapView Class="map-view">
     <WebMap>
         <PortalItem Id="41281c51f9de45edaf1c8ed44bb10e30" />
     </WebMap>
-    <ScaleBarWidget Position="OverlayPosition.BottomLeft" />
-    <LegendWidget Position="OverlayPosition.TopRight" />
+    @* <Map> *@
+    @*     <Basemap> *@
+    @*         <PortalItem Id="41281c51f9de45edaf1c8ed44bb10e30" /> *@
+    @*     </Basemap> *@
+    @* </Map> *@
+    @* <ScaleBarWidget Position="OverlayPosition.BottomLeft" /> *@
+    @* <LegendWidget Position="OverlayPosition.TopRight" /> *@
 </MapView>
+<div style="position:relative; height: 600px; width: 100%; display: flex; flex-direction: row">
+    <div id="viewDiv-7EC6E2F2-DD08-4D57-BB9A-586D628FB81D" class="viewDiv"></div>
+    <div id="viewDiv-6A3B91B3-DFE9-41AE-80B8-F948321CF7FE" class="viewDiv"></div>
+</div>
+<PortalItem @ref="_portal1" Id="e691172598f04ea8881cd2a4adaa45ba" />
+<PortalItem @ref="_portal2" Id="41281c51f9de45edaf1c8ed44bb10e30" />
+
+@code {
+
+    [JSInvokable]
+    public void OnViewRendered()
+    {
+        // done
+    }
+    
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        var module = await JsRuntime
+            .InvokeAsync<IJSObjectReference>("import",
+                "./_content/dymaptic.GeoBlazor.Core/js/arcGisJsInterop.js");
+
+        // var objectRef = DotNetObjectReference.Create(typeof(DoubleViews));
+        // await module.InvokeVoidAsync("testAddMap", "7EC6E2F2-DD08-4D57-BB9A-586D628FB81D", 
+        //     _portal1, objectRef);
+        //
+        // await module.InvokeVoidAsync("testAddMap", "6A3B91B3-DFE9-41AE-80B8-F948321CF7FE", 
+        //     _portal2, objectRef);
+    }
+
+    private PortalItem? _portal1;
+    private PortalItem? _portal2;
+}
