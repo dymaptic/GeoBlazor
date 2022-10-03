@@ -40,6 +40,7 @@ import Polyline from "@arcgis/core/geometry/Polyline";
 import ArcGisSymbol from "@arcgis/core/symbols/Symbol";
 import Home from "@arcgis/core/widgets/Home";
 import Compass from "@arcgis/core/widgets/Compass";
+import LayerList from "@arcgis/core/widgets/LayerList";
 import {
     DotNetExtent,
     DotNetFeature,
@@ -767,6 +768,17 @@ export async function addWidget(widget: any, viewId: string): Promise<void> {
                 if (widget.label !== undefined && widget.label !== null) {
                     compassWidget.label = widget.label;
                 }
+                break;
+            case 'layerList':
+                const layerListWidget = new LayerList({
+                    view: view
+                });
+                newWidget = layerListWidget;
+                layerListWidget.listItemCreatedFunction = (evt) => {
+                    //reference new listitem function here and pass it into the invoke below (let DotNetListItem = new DotNetListItem)
+                    widget.layerListWidgetObjectReference.invokeMethodAsync('onLayerListSelectResult', , //new function reference here
+                    )
+                });
                 break;
             default:
                 return;
