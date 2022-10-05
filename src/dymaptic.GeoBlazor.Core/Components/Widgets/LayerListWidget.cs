@@ -18,17 +18,15 @@ public class LayerListWidget : Widget
 
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-
     public string? IconClass { get; set; }
     [Parameter]
     public string? Label { get; set; }
-
-    public Func<ListItem, Task>? OnLayerListSelectResultEventHandler { get; set; } 
+    public Func<ListItem, Task<ListItem>>? OnListItemSelectedHandler { get; set; } 
     public DotNetObjectReference<LayerListWidget> LayerListWidgetObjectReference => DotNetObjectReference.Create(this);
     [JSInvokable]
-    public void OnLayerListSelectResult(ListItem listItem)
+    public Task<ListItem>? OnListItemSelected(ListItem item)
     {
-        OnLayerListSelectResultEventHandler?.Invoke(listItem);
+        return OnListItemSelectedHandler?.Invoke(item);
     }
     
     

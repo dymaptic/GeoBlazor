@@ -1,4 +1,7 @@
-﻿declare module "ArcGisDefinitions" {
+﻿import Layer from "@arcgis/core/layers/Layer";
+import ListItem from "@arcgis/core/widgets/LayerList/ListItem";
+
+declare module "ArcGisDefinitions" {
     interface MapObject {
         destroy();
         declaredClass: string;
@@ -62,5 +65,24 @@
         hasZ: boolean;
         extent: DotNetExtent;
         spatialReference: __esri.SpatialReference
+    }
+    /// <summary>
+    /// The Action Sections property and corresponding functionality will be fully implemented
+    /// in a future iteration.  Currently, a user can view available layers in the layer list widget
+    /// and toggle the selected layer's visiblity. More capabilities will be available after full
+    /// implementation of ActionSection.
+    /// </summary>
+    interface DotNetActionSection {
+        title: string,
+        className: string,
+        id: string
+    }
+
+    interface DotNetListItem {
+        title: string;
+        layer: Layer;
+        visible: boolean;
+        children: DotNetListItem[],
+        actionSections: DotNetActionSection[][]
     }
 }
