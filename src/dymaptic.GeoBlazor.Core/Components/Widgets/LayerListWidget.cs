@@ -21,8 +21,11 @@ public class LayerListWidget : Widget
     public string? IconClass { get; set; }
     [Parameter]
     public string? Label { get; set; }
+
     public Func<ListItem, Task<ListItem>>? OnListItemSelectedHandler { get; set; } 
+    
     public DotNetObjectReference<LayerListWidget> LayerListWidgetObjectReference => DotNetObjectReference.Create(this);
+    
     [JSInvokable]
     public Task<ListItem>? OnListItemSelected(ListItem item)
     {

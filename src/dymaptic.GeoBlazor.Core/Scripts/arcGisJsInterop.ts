@@ -785,12 +785,12 @@ export async function addWidget(widget: any, viewId: string): Promise<void> {
                     evt.item.visible = returnItem.visible;
                     evt.item.children = returnItem.children;
                     /// <summary>
-                    /// The Action Sections property and corresponding functionality will be fully implemented
-                    /// in a future iteration.  Currently, a user can view available layers in the layer list widget
-                    /// and toggle the selected layer's visiblity. More capabilities will be available after full
-                    /// implementation of ActionSection.
+                    ///     The Action Sections property and corresponding functionality will be fully implemented
+                    ///     in a future iteration.  Currently, a user can view available layers in the layer list widget
+                    ///     and toggle the selected layer's visiblity. More capabilities will be available after full
+                    ///     implementation of ActionSection.
                     /// </summary>
-                    evt.item.actionSections = returnItem.actionSections as any;
+                    //evt.item.actionSections = returnItem.actionSections as any;
                 };
 
                 if (widget.iconClass !== undefined && widget.iconClass !== null) {
@@ -1123,13 +1123,6 @@ function buildDotNetListItem(item: ListItem): DotNetListItem | null {
             children.push(child);
         }
     });
-
-    /// <summary>
-    /// The Action Sections property and corresponding functionality will be fully implemented
-    /// in a future iteration.  Currently, a user can view available layers in the layer list widget
-    /// and toggle the selected layer's visiblity. More capabilities will be available after full
-    /// implementation of ActionSection.
-    /// </summary>
 
     return {
         title: 'title',
