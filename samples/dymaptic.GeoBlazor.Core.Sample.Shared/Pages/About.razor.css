@@ -1,5 +1,5 @@
 ﻿#feature-panel {
-    background-image: linear-gradient(180deg, black 0%, var(--geoblazor-primary) 100%);
+    background-image: linear-gradient(180deg, var(--geoblazor-tertiary) 0%, var(--geoblazor-primary) 100%);
     color: white;
     padding: 2rem;
 }

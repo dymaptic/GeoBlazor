@@ -2,10 +2,11 @@
 
 <PageTitle>Widgets</PageTitle>
 <h1>Widgets</h1>
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-support-widget.html">ArcGIS API for JavaScript Reference</a>
-<p>
-    <a target="_blank" href="https://www.arcgis.com/home/item.html?id=c50de463235e4161b206d000587af18b">Navigation BaseMap</a>
-</p>
+
+<div class="links-div">
+    <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-support-widget.html">ArcGIS API for JavaScript Reference</a>
+    <a class="btn btn-primary" target="_blank" href="https://www.arcgis.com/home/item.html?id=c50de463235e4161b206d000587af18b">Navigation BaseMap</a>
+</div>
 <p class="instructions">
     Use the checkboxes to toggle various widgets on/off. Notice that Widgets can be placed on top of the map, 
     or outside the map, as in the case of the Basemap Gallery.
@@ -13,28 +14,28 @@
 <div class="control-row">
     <div id="control-set">
         <div class="form-group">
-            <label>Locator: <input type="checkbox" @onchange="@(() => ToggleWidget(nameof(LocateWidget)))"></label>
+            <label>Locator: <input type="checkbox" class="form-check-input" @onchange="@(() => ToggleWidget(nameof(LocateWidget)))"></label>
         </div>
         <div class="form-group">
-            <label>Search: <input type="checkbox" @onchange="@(() => ToggleWidget(nameof(SearchWidget)))"></label>
+            <label>Search: <input type="checkbox" class="form-check-input" @onchange="@(() => ToggleWidget(nameof(SearchWidget)))"></label>
         </div>
         <div class="form-group">
-            <label>Basemap Toggle: <input type="checkbox" @onchange="@(() => ToggleWidget(nameof(BasemapToggleWidget)))"></label>
+            <label>Basemap Toggle: <input type="checkbox" class="form-check-input" @onchange="@(() => ToggleWidget(nameof(BasemapToggleWidget)))"></label>
         </div>
         <div class="form-group">
-            <label>Basemap Gallery: <input type="checkbox" @onchange="@(() => ToggleWidget(nameof(BasemapGalleryWidget)))"></label>
+            <label>Basemap Gallery: <input type="checkbox" class="form-check-input" @onchange="@(() => ToggleWidget(nameof(BasemapGalleryWidget)))"></label>
         </div>
         <div class="form-group">
-            <label>Legend: <input type="checkbox" @onchange="@(() => ToggleWidget(nameof(LegendWidget)))"></label>
+            <label>Legend: <input type="checkbox" class="form-check-input" @onchange="@(() => ToggleWidget(nameof(LegendWidget)))"></label>
         </div>
         <div class="form-group">
-            <label>Scale Bar: <input type="checkbox" @onchange="@(() => ToggleWidget(nameof(ScaleBarWidget)))"></label>
+            <label>Scale Bar: <input type="checkbox" class="form-check-input" @onchange="@(() => ToggleWidget(nameof(ScaleBarWidget)))"></label>
         </div>
         <div class="form-group">
-            <label>Home: <input type="checkbox" @onchange="@(() => ToggleWidget(nameof(HomeWidget)))"></label>
+            <label>Home: <input type="checkbox" class="form-check-input" @onchange="@(() => ToggleWidget(nameof(HomeWidget)))"></label>
         </div>
         <div class="form-group">
-            <label>Compass: <input type="checkbox" @onchange="@(() => ToggleWidget(nameof(CompassWidget)))"></label>
+            <label>Compass: <input type="checkbox" class="form-check-input" @onchange="@(() => ToggleWidget(nameof(CompassWidget)))"></label>
         </div>
         <div id="gallery-box"></div>
     </div>

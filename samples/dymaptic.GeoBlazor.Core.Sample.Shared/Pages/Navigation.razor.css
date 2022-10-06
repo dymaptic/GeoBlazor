@@ -8,3 +8,9 @@
         margin-bottom: 0.5rem;
     }
 }
+
+.form-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}

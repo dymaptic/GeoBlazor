@@ -14,32 +14,37 @@
 
     <main>
         <div class="top-row px-4">
-            @if (!NavigationManager.Uri.Contains("source-code") && 
-                NavigationManager.Uri != NavigationManager.BaseUri &&
-                !NavigationManager.Uri.Contains("about"))
-            {
-                <button type="button" @onclick="ViewPageSource">Source Code</button>
-            }
-            <button type="button" @onclick="ViewRepositorySource">GitHub Repo</button>
-            @{
-                string? apiKey = Configuration["ArcGISApiKey"];
-                string? loggedIn = Configuration["LoggedIn"];
-                string? clientId = Configuration["ClientId"];
-            }
-            @if (string.IsNullOrWhiteSpace(apiKey))
-            {
-                <label>Enter ArcGIS API Key:<input id="api-key-field" type="text" @bind="ApiKey" /></label>
-                <button id="api-key-go" @onclick="StateHasChanged">GO</button>
-                if (!string.IsNullOrWhiteSpace(clientId))
+            <img src="_content/dymaptic.GeoBlazor.Core.Sample.Shared/images/geoblazor_logo_with_title.png"
+                 width="280" alt="dymaptic" />
+            <div>
+                @if (!NavigationManager.Uri.Contains("source-code") && 
+                                NavigationManager.Uri != NavigationManager.BaseUri &&
+                                !NavigationManager.Uri.Contains("about"))
                 {
-                    <span>&nbsp;OR&nbsp;</span>
+                    <button type="button" class="btn btn-primary" @onclick="ViewPageSource">Source Code</button>
+                }
+                <button type="button" class="btn btn-secondary" @onclick="ViewRepositorySource">GitHub Repo</button>
+                @{
+                    string? apiKey = Configuration["ArcGISApiKey"];
+                    string? loggedIn = Configuration["LoggedIn"];
+                    string? clientId = Configuration["ClientId"];
+                }
+                @if (string.IsNullOrWhiteSpace(apiKey))
+                {
+                    <label>Enter ArcGIS API Key:<input id="api-key-field" type="text" @bind="ApiKey" /></label>
+                    <button id="api-key-go" @onclick="StateHasChanged">GO</button>
+                    if (!string.IsNullOrWhiteSpace(clientId))
+                    {
+                        <span>&nbsp;OR&nbsp;</span>
+                        <button @onclick="LoginToArcGis">Login to ArcGIS</button>
+                    }
+                }
+                else if ((loggedIn != "true") && !string.IsNullOrWhiteSpace(clientId))
+                {
                     <button @onclick="LoginToArcGis">Login to ArcGIS</button>
                 }
-            }
-            else if ((loggedIn != "true") && !string.IsNullOrWhiteSpace(clientId))
-            {
-                <button @onclick="LoginToArcGis">Login to ArcGIS</button>
-            }
+            </div>
+            
         </div>
 
         <article class="content px-4">
