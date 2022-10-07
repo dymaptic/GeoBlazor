@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace dymaptic.GeoBlazor.Core.Components.Widgets.LayerList;
+
 /// <summary>
 ///     The Action Sections property and corresponding functionality will be fully implemented
 ///     in a future iteration.  Currently, a user can view available layers in the layer list widget

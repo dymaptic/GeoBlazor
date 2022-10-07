@@ -19,6 +19,7 @@ public class LayerListWidget : Widget
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? IconClass { get; set; }
+    
     [Parameter]
     public string? Label { get; set; }
 
