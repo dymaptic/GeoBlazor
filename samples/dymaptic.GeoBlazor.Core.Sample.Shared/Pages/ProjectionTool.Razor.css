@@ -5,3 +5,24 @@
 h2 {
     margin-top: 1rem;
 }
+
+.map-row {
+    display: flex; 
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.map-section {
+    margin: 1rem;
+    width: 48%;
+}
+
+@media (max-width: 799px) {
+    .map-row {
+        flex-direction: column;
+    }
+    
+    .map-section {
+        width: 100%;
+    }
+}

@@ -15,7 +15,7 @@ html, body {
     padding: 2rem 0.5rem 0.5rem 0.5rem;
     border-radius: 0.5rem;
     box-shadow: gray;
-    background: var(--geoblazor-primary)
+    background-image: linear-gradient(180deg, var(--geoblazor-tertiary) 0%, var(--geoblazor-primary) 100%);
 }
 
 .dymaptic-branding {
@@ -42,19 +42,58 @@ a:hover, .btn-link:hover {
     color: black;
 }
 
+.btn, input {
+    border-radius: 0.5rem;
+    border: 1px solid black;
+}
+
+.btn {
+    padding: 0.2rem 2rem;
+}
+
+input {
+    padding: 0.2rem;
+}
+
 .btn-primary {
     color: black;
     background-color: var(--geoblazor-secondary);
 }
 
 .btn-primary:hover {
-    color: var(--geoblazor-primary);
-    background-color: #7f919b;
+    color: white;
+    background-color: var(--geoblazor-tertiary);
+}
+
+.btn-secondary {
+    background-color: black;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: var(--geoblazor-primary);
 }
 
 .content {
     padding-top: 1.1rem;
     padding-bottom: 2rem;
+}
+
+.links-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+}
+
+.form-check-input {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+.form-check-input:checked[type=checkbox] {
+    background-image: unset;
+    background-color: var(--geoblazor-primary);
 }
 
 .valid.modified:not([type=checkbox]) {
@@ -67,6 +106,26 @@ a:hover, .btn-link:hover {
 
 .validation-message {
     color: red;
+}
+
+.radio-container {
+    position: relative;
+    padding-right: 1rem;
+}
+
+.radio-container input:checked ~ .radio-box {
+    background-color: var(--geoblazor-primary);
+}
+
+.radio-box {
+    display: inline;
+    height: 1.25rem;
+    width: 1.25rem;
+    border: 1px solid black;
+    border-radius: 0.25rem;
+    position: absolute;
+    right: 0;
+    background-color: white;
 }
 
 #blazor-error-ui {
@@ -111,6 +170,7 @@ input[type="text"], input[type="number"] {
 :root {
     --geoblazor-primary: #512e84;
     --geoblazor-secondary: #cae9fb;
+    --geoblazor-tertiary: #125a8d;
 }
 
 @media (max-width: 799px) {

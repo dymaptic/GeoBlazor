@@ -3,10 +3,13 @@
 
 <div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="">
-            <img src="_content/dymaptic.GeoBlazor.Core.Sample.Shared/images/geoblazor_logo_with_title.png"
-                 width="150" alt="dymaptic" />
-        </a>
+        <label>
+            <span id="search-icon" class="oi oi-magnifying-glass" aria-hidden="true"></span>
+            <input type="search" style="width: 180px; padding-left: 0.5rem;" 
+                   @ref="_searchField"
+                   @oninput="UpdateSearchFilter"
+                   @onkeyup="SearchFilterKeyUp" />
+        </label>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -15,100 +18,23 @@
 
 <div id="nav-item-container" class="@NavMenuCssClass" @onclick="ToggleNavMenu">
     <nav class="flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="navigation">
-                <span class="oi oi-compass" aria-hidden="true"></span> Navigation
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="drawing">
-                <span class="oi oi-pencil" aria-hidden="true"></span> Drawing
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="scene">
-                <span class="oi oi-globe" aria-hidden="true"></span> Scene
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="widgets">
-                <span class="oi oi-location" aria-hidden="true"></span> Widgets
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="basemaps">
-                <span class="oi oi-map" aria-hidden="true"></span> Basemaps
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="feature-layers">
-                <span class="oi oi-layers" aria-hidden="true"></span> Feature Layers
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="vector-layer">
-                <span class="oi oi-arrow-right" aria-hidden="true"></span> Vector Layer
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="layerLists">
-                <span class="oi oi-list" aria-hidden="true"></span> Layer Lists
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="web-map">
-                <span class="oi oi-browser" aria-hidden="true"></span> Web Map
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="web-scene">
-                <span class="oi oi-box" aria-hidden="true"></span> Web Scene
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="sql-query">
-                <span class="oi oi-data-transfer-download" aria-hidden="true"></span> SQL Query
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="sql-filter-query">
-                <span class="oi oi-arrow-thick-bottom" aria-hidden="true"></span> SQL Filter Query
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="place-selector">
-                <span class="oi oi-arrow-bottom" aria-hidden="true"></span> Place Selector
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="routing">
-                <span class="oi oi-transfer" aria-hidden="true"></span> Routing
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="service-areas">
-                <span class="oi oi-comment-square" aria-hidden="true"></span> Service Areas
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="projection">
-                <span class="oi oi-sun" aria-hidden="true"></span> Display Projection
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="projection-tool">
-                <span class="oi oi-cog" aria-hidden="true"></span> Projection Tool
-            </NavLink>
-        </div>
+        @foreach (PageLink page in FilteredPages)
+        {
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="@(page.Href)">
+                    <span class="oi @(page.IconClass)" aria-hidden="true"></span>&nbsp;@(page.Title)
+                </NavLink>
+            </div>
+        }
     </nav>
 </div>
 
 @code {
+    private string? NavMenuCssClass => _collapseNavMenu ? "collapse" : null;
+    private IEnumerable<PageLink> FilteredPages => string.IsNullOrWhiteSpace(_searchValue)
+        ? _pages
+        : _pages.Where(p => p.Title.Contains(_searchValue, StringComparison.OrdinalIgnoreCase));
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
@@ -118,13 +44,48 @@
             await JsRuntime.InvokeVoidAsync("scrollToNav", currentPage);
         }
     }
-
-    private bool _collapseNavMenu = true;
-
-    private string? NavMenuCssClass => _collapseNavMenu ? "collapse" : null;
-
+    
     private void ToggleNavMenu()
     {
         _collapseNavMenu = !_collapseNavMenu;
     }
+    
+    private void UpdateSearchFilter(ChangeEventArgs arg)
+    {
+        _searchValue = arg.Value?.ToString() ?? string.Empty;
+    }
+
+    private async Task SearchFilterKeyUp(KeyboardEventArgs arg)
+    {
+        if (arg.Key.Equals("Enter") && FilteredPages.Count() == 1)
+        {
+            NavigationManager.NavigateTo(FilteredPages.First().Href);
+        }
+    }
+
+    private bool _collapseNavMenu = true;
+    private ElementReference _searchField;
+    private string _searchValue = string.Empty;
+    private readonly PageLink[] _pages = {
+        new("", "Home", "oi-home"),
+        new("navigation", "Navigation", "oi-compass"),
+        new("drawing", "Drawing", "oi-pencil"),
+        new("scene", "Scene", "oi-globe"),
+        new("widgets", "Widgets", "oi-location"),
+        new("basemaps", "Basemaps", "oi-map"),
+        new("feature-layers", "Feature Layers", "oi-layers"),
+        new("vector-layer", "Vector Layer", "oi-arrow-right"),
+        new("layer-lists", "Layer Lists", "oi-list"),
+        new("web-map", "Web Map", "oi-browser"),
+        new("web-scene", "Web Scene", "oi-box"),
+        new("sql-query", "SQL Query", "oi-data-transfer-download"),
+        new("sql-filter-query", "SQL Filter", "oi-arrow-thick-bottom"),
+        new("place-selector", "Place Selector", "oi-arrow-bottom"),
+        new("routing", "Routing", "oi-transfer"),
+        new("service-areas", "Service Areas", "oi-comment-square"),
+        new("projection", "Display Projection", "oi-sun"),
+        new("projection-tool", "Projection Tool", "oi-cog")
+    };
+
+    private record PageLink(string Href, string Title, string IconClass);
 }

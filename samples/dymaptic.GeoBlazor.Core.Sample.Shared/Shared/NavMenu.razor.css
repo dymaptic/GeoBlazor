@@ -3,12 +3,18 @@
 }
 
 .top-row {
-    height: 3.5rem;
-    background-color: rgba(0, 0, 0, 0.4);
+    height: 5rem;
+}
+
+#search-icon {
+    color: white;
 }
 
 .navbar-brand {
     font-size: 1.1rem;
+    padding: 0.25rem;
+    background-color: var(--geoblazor-secondary);
+    border-radius: 2rem;
 }
 
 .oi {

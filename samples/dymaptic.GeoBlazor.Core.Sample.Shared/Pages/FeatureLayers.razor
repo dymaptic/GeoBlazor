@@ -2,38 +2,43 @@
 
 <PageTitle>Feature Layers</PageTitle>
 <h1>Feature Layers</h1>
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/add-a-feature-layer/">ArcGIS API for JavaScript Reference</a>
-<p>
-    <a target="_blank" href="https://www.arcgis.com/home/item.html?id=67372ff42cd145319639a99152b15bc3">Topographic BaseMap</a>
-</p>
+
+<div class="links-div">
+    <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/add-a-feature-layer/">ArcGIS API for JavaScript Reference</a>
+    <a class="btn btn-primary" target="_blank" href="https://www.arcgis.com/home/item.html?id=67372ff42cd145319639a99152b15bc3">Topographic BaseMap</a>
+</div>
 <p class="instructions">
     Use the radio buttons to toggle various feature layers.
 </p>
 <div class="form-group">
-    <div class="form-group">
+    <div class="form-group" style="border-bottom: 1px solid black;">
         <EditForm Model="this">
             <InputRadioGroup Name="points" @bind-Value="_showPointsLayer">
-                <label>
+                <label class="radio-container">
                     Show Trailheads Points Layer:
                     <InputRadio Name="points" Value="1" />
+                    <div class="radio-box" />
                 </label>
             </InputRadioGroup>
         </EditForm>
     </div>
-    <div class="form-group">
+    <div class="form-group" style="border-bottom: 1px solid black;">
         <EditForm Model="this">
             <InputRadioGroup Name="points" @bind-Value="_showLinesLayer">
-                <label>
+                <label class="radio-container">
                     Show Trailheads Lines Layer:
                     <InputRadio Name="points" Value="1" />
+                    <div class="radio-box" />
                 </label>
-                <label>
+                <label class="radio-container">
                     Show Trailheads Lines With Elevation Style Renderer:
                     <InputRadio Name="points" Value="2" />
+                    <div class="radio-box" />
                 </label>
-                <label>
+                <label class="radio-container">
                     Show Trailheads Lines With Bike Trails Styled:
                     <InputRadio Name="points" Value="3" />
+                    <div class="radio-box" />
                 </label>
             </InputRadioGroup>
         </EditForm>
@@ -41,9 +46,10 @@
     <div class="form-group">
         <EditForm Model="this">
             <InputRadioGroup Name="points" @bind-Value="_showPolygonLayer">
-                <label>
+                <label class="radio-container">
                     Show Trailheads Polygons Layer:
                     <InputRadio Name="points" Value="1" />
+                    <div class="radio-box" />
                 </label>
             </InputRadioGroup>
         </EditForm>

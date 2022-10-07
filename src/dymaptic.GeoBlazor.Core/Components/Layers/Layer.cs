@@ -29,9 +29,9 @@ public abstract class Layer : MapComponent
 
 public class LayerConverter : JsonConverter<Layer>
 {
-    public override Layer Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    public override Layer? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        throw new NotImplementedException();
+        return JsonSerializer.Deserialize(ref reader, typeof(object), options) as Layer;
     }
 
     public override void Write(Utf8JsonWriter writer, Layer value, JsonSerializerOptions options)

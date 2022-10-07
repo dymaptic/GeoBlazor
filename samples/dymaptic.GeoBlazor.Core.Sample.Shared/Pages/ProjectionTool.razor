@@ -2,7 +2,9 @@
 @inject Projection Projection
 
 <h1>Projection</h1>
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-projection.html">ArcGIS API for JavaScript</a>
+<div class="links-div">
+    <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-projection.html">ArcGIS API for JavaScript</a>
+</div>
 <p class="instructions">
     Most mapping projections are handled automatically by <code>SpatialReferences</code> built into basemaps, feature layers,
     and graphics. However, there is also a tool you can call directly to "Project" or "GetTransformation" between several
@@ -13,7 +15,7 @@
 </p>
 
 <h2>Starting Point</h2>
-<div>
+<div style="margin-bottom: 0.5rem;">
     <label>Longitude:
         <input type="number" step="0.01" @bind="StartingLong" />
     </label>
@@ -22,9 +24,9 @@
     </label>
 </div>
 
-<div style="display: flex; flex-direction: row">
-    <div style="width: 48%;">
-        <div>
+<div class="map-row">
+    <div class="map-section">
+        <div style="margin-bottom: 0.5rem;">
             Wkid: <input type="number" step="1" @bind="Wkid1" />
         </div>
         @if (_startX.HasValue && _startY.HasValue)
@@ -53,8 +55,7 @@
             </Map>
         </MapView>
     </div>
-    <div style="width: 4%;"></div>
-    <div style="width: 48%;">
+    <div class="map-section">
         <div>
             Wkid: <input type="number" step="1" @bind="Wkid2" />
         </div>
