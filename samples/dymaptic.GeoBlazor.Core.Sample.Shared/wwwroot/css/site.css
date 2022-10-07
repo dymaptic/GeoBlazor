@@ -55,6 +55,11 @@ input {
     padding: 0.2rem;
 }
 
+code {
+    color: var(--geoblazor-primary);
+    font-weight: bold;
+}
+
 .btn-primary {
     color: black;
     background-color: var(--geoblazor-secondary);
@@ -126,6 +131,10 @@ input {
     position: absolute;
     right: 0;
     background-color: white;
+}
+
+input[type=radio] {
+    visibility: hidden;
 }
 
 #blazor-error-ui {

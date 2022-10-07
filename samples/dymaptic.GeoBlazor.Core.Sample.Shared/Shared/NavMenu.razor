@@ -55,7 +55,7 @@
         _searchValue = arg.Value?.ToString() ?? string.Empty;
     }
 
-    private async Task SearchFilterKeyUp(KeyboardEventArgs arg)
+    private void SearchFilterKeyUp(KeyboardEventArgs arg)
     {
         if (arg.Key.Equals("Enter") && FilteredPages.Count() == 1)
         {
@@ -84,7 +84,8 @@
         new("routing", "Routing", "oi-transfer"),
         new("service-areas", "Service Areas", "oi-comment-square"),
         new("projection", "Display Projection", "oi-sun"),
-        new("projection-tool", "Projection Tool", "oi-cog")
+        new("projection-tool", "Projection Tool", "oi-cog"),
+        new("basemap-projections", "Basemap Projections", "oi-flash")
     };
 
     private record PageLink(string Href, string Title, string IconClass);
