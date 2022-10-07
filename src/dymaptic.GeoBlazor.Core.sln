@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dymaptic.GeoBlazor.Core.Sam
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dymaptic.GeoBlazor.Core.Sample.Maui", "..\samples\dymaptic.GeoBlazor.Core.Sample.Maui\dymaptic.GeoBlazor.Core.Sample.Maui.csproj", "{08193B44-3A32-4836-96A0-44DEEA1E7556}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dymaptic.GeoBlazor.Core.Test", "..\tests\dymaptic.GeoBlazor.Core.Test\dymaptic.GeoBlazor.Core.Test.csproj", "{48E045E3-F3FF-4D50-8987-83C1B8663E39}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dymaptic.GeoBlazor.Core.Test", "..\tests\dymaptic.GeoBlazor.Core.Test\dymaptic.GeoBlazor.Core.Test.csproj", "{48E045E3-F3FF-4D50-8987-83C1B8663E39}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

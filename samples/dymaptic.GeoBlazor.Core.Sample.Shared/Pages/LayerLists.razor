@@ -1,0 +1,15 @@
+﻿@page "/layerLists"
+<PageTitle>LayerLists</PageTitle>
+<h1>LayerLists</h1>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">ArcGIS API for JavaScript Reference</a>
+<p class="instructions">
+    A simple demo of loading multiple layers into the LayerList widget.  
+    Select the right arrow to open the sublayers within the layer.
+    Select the "eye" icons to toggle a layer's visibility on the basemap.
+</p>
+<SceneView Class="map-view">
+    <WebScene>
+        <PortalItem Id="adfad6ee6c6043238ea64e121bb6429a" />
+    </WebScene>
+    <LayerListWidget Position="OverlayPosition.TopRight" />
+</SceneView>
