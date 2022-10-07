@@ -26,17 +26,16 @@ public class SpatialReference : MapComponent
     public bool? IsWrappable { get; set; }
 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public SpatialReference? WebMercator { get; set; }
-
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public SpatialReference? Wgs84 { get; set; }
-
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [Parameter]
     public double? Wkid { get; set; }
 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [Parameter]
     public string? Wkt { get; set; }
+
+    [JsonIgnore]
+    public static SpatialReference Wgs84 { get; set; } = new() { Wkid = 4326 };
+
+    [JsonIgnore]
+    public static SpatialReference WebMercator { get; set; } = new() { Wkid = 3857 };
 }

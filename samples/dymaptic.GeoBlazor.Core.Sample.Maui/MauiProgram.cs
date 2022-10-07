@@ -1,4 +1,5 @@
-﻿using dymaptic.GeoBlazor.Core.Sample.Shared;
+﻿using dymaptic.GeoBlazor.Core.Model;
+using dymaptic.GeoBlazor.Core.Sample.Shared;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.FileProviders;
 
@@ -25,6 +26,7 @@ public static class MauiProgram
         builder.Services.AddScoped<SharedFileProvider, MauiFileProvider>();
         builder.Services.AddSingleton<IConfiguration>(_ => builder.Configuration);
         builder.Services.AddScoped<HttpClient>();
+        builder.Services.AddScoped<Projection>();
 
         var apiKey = Preferences.Get("ArcGISApiKey", null);
         if (apiKey is not null)

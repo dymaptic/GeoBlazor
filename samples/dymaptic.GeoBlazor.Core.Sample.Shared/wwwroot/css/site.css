@@ -11,7 +11,7 @@ html, body {
 }
 
 .map-wrapper {
-    margin: 2rem 0;
+    margin: 2rem 0 0 0;
     padding: 2rem 0.5rem 0.5rem 0.5rem;
     border-radius: 0.5rem;
     box-shadow: gray;
@@ -54,6 +54,7 @@ a:hover, .btn-link:hover {
 
 .content {
     padding-top: 1.1rem;
+    padding-bottom: 2rem;
 }
 
 .valid.modified:not([type=checkbox]) {

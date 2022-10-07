@@ -1,3 +1,4 @@
+using dymaptic.GeoBlazor.Core.Model;
 using dymaptic.GeoBlazor.Core.Sample.Shared;
 using Microsoft.Extensions.FileProviders;
 
@@ -9,6 +10,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<HttpClient>();
 builder.Services.AddScoped<SharedFileProvider>();
+builder.Services.AddScoped<Projection>();
 builder.Configuration.AddInMemoryCollection();
 
 WebApplication app = builder.Build();

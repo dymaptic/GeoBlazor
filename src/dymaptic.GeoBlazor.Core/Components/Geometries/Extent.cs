@@ -17,10 +17,10 @@ public class Extent : Geometry
     public double Ymin { get; set; }
 
     [Parameter]
-    public double Zmax { get; set; }
+    public double? Zmax { get; set; }
 
     [Parameter]
-    public double Zmin { get; set; }
+    public double? Zmin { get; set; }
 
     [Parameter]
     public double? Mmax { get; set; }

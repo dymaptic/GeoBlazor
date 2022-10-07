@@ -1,0 +1,198 @@
+﻿@page "/projection-tool"
+@inject Projection Projection
+
+<h1>Projection</h1>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-projection.html">ArcGIS API for JavaScript</a>
+<p class="instructions">
+    Most mapping projections are handled automatically by <code>SpatialReferences</code> built into basemaps, feature layers,
+    and graphics. However, there is also a tool you can call directly to "Project" or "GetTransformation" between several
+    different <code>SpatialReferences</code>. In this sample, the maps are auto-calculating the projections, but the X/Y
+    coordinates and <code>GeographicTransformation</code> steps are calculated via the projection tool.
+    See the <a target="_blank" href="source-code/projection">Source Code</a> for the Display Projection page for more Wkid values.
+    Not all values will render properly with this GeoJSON map.
+</p>
+
+<h2>Starting Point</h2>
+<div>
+    <label>Longitude:
+        <input type="number" step="0.01" @bind="StartingLong" />
+    </label>
+    <label>Latitutde:
+        <input type="number" step="0.01" @bind="StartingLat" />
+    </label>
+</div>
+
+<div style="display: flex; flex-direction: row">
+    <div style="width: 48%;">
+        <div>
+            Wkid: <input type="number" step="1" @bind="Wkid1" />
+        </div>
+        @if (_startX.HasValue && _startY.HasValue)
+        {
+            <label>X: @_startX.Value.ToString("N2")</label>
+            <label>Y: @_startY.Value.ToString("N2")</label>
+        }
+        <MapView @ref="_view1" Longitude="_startingLong" Latitude="_startingLat" Zoom="10" Class="map-view"
+                 OnMapRenderedHandler="View1Rendered" Style="background-color: lightblue; height: 300px;">
+            <SpatialReference Wkid="@Wkid1" />
+            <Map>
+                <GeoJSONLayer Url="https://services3.arcgis.com/GVgbJbqm8hXASVYi/ArcGIS/rest/services/World_Countries_(Generalized)/FeatureServer/0/query?where=1%3D1&outFields=*&f=geojson">
+                    <SpatialReference Wkid="103002" />
+                    <SimpleRenderer>
+                        <SimpleFillSymbol Color="@(new MapColor(255, 255, 255, 1))">
+                            <Outline Width="0.5" Color="@(new MapColor(100, 70, 170, 0.75))" />
+                        </SimpleFillSymbol>
+                    </SimpleRenderer>
+                </GeoJSONLayer>
+                <GraphicsLayer>
+                    <Graphic @ref="_graphic1">
+                        <Point @ref="_point1" Latitude="_startingLat" Longitude="_startingLong" />
+                        <SimpleMarkerSymbol Color="@(new MapColor(81, 46, 132))" />
+                    </Graphic>
+                </GraphicsLayer>
+            </Map>
+        </MapView>
+    </div>
+    <div style="width: 4%;"></div>
+    <div style="width: 48%;">
+        <div>
+            Wkid: <input type="number" step="1" @bind="Wkid2" />
+        </div>
+        @if (_endX.HasValue && _endY.HasValue)
+        {
+            <label>X: @_endX.Value.ToString("N2")</label>
+            <label>Y: @_endY.Value.ToString("N2")</label>
+        }
+        <MapView @ref="_view2" Longitude="_startingLong" Latitude="_startingLat" Zoom="3" Class="map-view"
+                 OnMapRenderedHandler="View2Rendered" Style="background-color: lightblue; height: 300px;">
+            <SpatialReference Wkid="@Wkid2" />
+            <Map>
+                <GeoJSONLayer Url="https://services3.arcgis.com/GVgbJbqm8hXASVYi/ArcGIS/rest/services/World_Countries_(Generalized)/FeatureServer/0/query?where=1%3D1&outFields=*&f=geojson">
+                    <SpatialReference Wkid="4326" />
+                    <SimpleRenderer>
+                        <SimpleFillSymbol Color="@(new MapColor(255, 255, 255, 1))">
+                            <Outline Width="0.5" Color="@(new MapColor(100, 70, 170, 0.75))" />
+                        </SimpleFillSymbol>
+                    </SimpleRenderer>
+                </GeoJSONLayer>
+                <GraphicsLayer>
+                    <Graphic @ref="_graphic1">
+                        <Point @ref="_point1" Latitude="_startingLat" Longitude="_startingLong" />
+                        <SimpleMarkerSymbol Color="@(new MapColor(81, 46, 132))" />
+                    </Graphic>
+                </GraphicsLayer>
+            </Map>
+        </MapView>
+    </div>    
+</div>
+
+<h2>Get Transformation</h2>
+<div>Starting Projection (Wkid): @_view1SpatialReference?.Wkid</div>
+<label>Transformation Steps</label>
+@if (_transformation?.Steps is not null)
+{
+    for (var i = 0; i < _transformation.Steps.Length; i++)
+    {
+        GeographicTransformationStep step = _transformation.Steps[i];
+        <div>@(i + 1): @step.Wkid</div>
+    }
+}
+else
+{
+    <div>None</div>
+}
+
+<div>Ending Projection (Wkid): @_view2SpatialReference?.Wkid</div>
+
+@code {
+
+    private MapView? _view1;
+    private MapView? _view2;
+    private Point? _point1;
+    private Graphic? _graphic1;
+    private double StartingLat
+    {
+        get => _startingLat;
+        set
+        {
+            _startingLat = value;
+            InvokeAsync(Project);
+        }
+    }
+    private double StartingLong
+    {
+        get => _startingLong;
+        set
+        {
+            _startingLong = value;
+            InvokeAsync(Project);
+        }
+    }
+    private int Wkid1
+    {
+        get => _wkid1;
+        set
+        {
+            _wkid1 = value;
+            _allRendered = false;
+            _view1!.Refresh();
+        }
+    }
+    private int _wkid1 = 103002;
+    private int Wkid2
+    {
+        get => _wkid2;
+        set
+        {
+            _wkid2 = value;
+            _allRendered = false;
+            _view2!.Refresh();
+        }
+    }
+    private int _wkid2 = 4326;
+    private double _startingLat = 74.795766;
+    private double _startingLong = -32.507603;
+    private double? _startX;
+    private double? _startY;
+    private double? _endX;
+    private double? _endY;
+    private SpatialReference? _view1SpatialReference;
+    private SpatialReference? _view2SpatialReference;
+    private bool _allRendered;
+    private GeographicTransformation? _transformation;
+
+    private async Task View1Rendered()
+    {
+        if (_allRendered) return;
+        _view1SpatialReference = await _view1!.GetSpatialReference();
+        if (_view2SpatialReference is not null)
+        {
+            await Project();
+        }
+    }
+    
+    private async Task View2Rendered()
+    {
+        if (_allRendered) return;
+        _view2SpatialReference = await _view2!.GetSpatialReference();
+        if (_view1SpatialReference is not null)
+        {
+            await Project();
+        }
+    }
+
+    private async Task Project()
+    {
+        _allRendered = true;
+        Geometry renderedPoint = await _graphic1!.GetGeometry();
+        Point? startPoint= await Projection.Project(renderedPoint, _view1SpatialReference!) as Point;
+        _startX = startPoint!.X;
+        _startY = startPoint.Y;
+        Point? endPoint = await Projection.Project(renderedPoint, _view2SpatialReference!) as Point;
+        _endX = endPoint!.X;
+        _endY = endPoint.Y;
+        Extent? view1Extent = await _view1!.GetExtent();
+        _transformation = await Projection.GetTransformation(_view1SpatialReference!, _view2SpatialReference!, view1Extent!);
+        StateHasChanged();
+    }
+}

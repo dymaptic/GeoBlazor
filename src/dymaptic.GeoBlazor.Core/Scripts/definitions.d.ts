@@ -5,6 +5,8 @@ declare module "ArcGisDefinitions" {
     interface MapObject {
         destroy();
         declaredClass: string;
+
+        on(eventName: string, callback: (evt) => any): void;
     }
     
     interface MapCollection extends __esri.Collection {
@@ -21,9 +23,13 @@ declare module "ArcGisDefinitions" {
         geometry: any;
         attributes: any;
     }
-
-    interface DotNetPoint {
+    
+    interface DotNetGeometry {
         type: string;
+        spatialReference: __esri.SpatialReference;
+    }
+
+    interface DotNetPoint extends DotNetGeometry {
         latitude: number;
         longitude: number;
         hasM: boolean;
@@ -31,11 +37,9 @@ declare module "ArcGisDefinitions" {
         extent: DotNetExtent;
         x: number;
         y: number;
-        spatialReference: __esri.SpatialReference;
     }
     
-    interface DotNetExtent {
-        type: string;
+    interface DotNetExtent extends DotNetGeometry {
         xmin: number;
         ymin: number;
         xmax: number;
@@ -46,25 +50,40 @@ declare module "ArcGisDefinitions" {
         mmax: number;
         hasM: boolean;
         hasZ: boolean;
-        spatialReference: __esri.SpatialReference;
     }
     
-    interface DotNetPolygon {
-        type: string;
+    interface DotNetPolygon extends DotNetGeometry {
         rings: number[][][];
         hasM: boolean;
         hasZ: boolean;
         extent: DotNetExtent,
-        spatialReference: __esri.SpatialReference;
     }
     
-    interface DotNetPolyline {
-        type: string;
+    interface DotNetPolyline extends DotNetGeometry {
         paths: number[][][];
         hasM: boolean;
         hasZ: boolean;
         extent: DotNetExtent;
-        spatialReference: __esri.SpatialReference
+    }
+    
+    interface DotNetSpatialReference {
+        isGeographic: boolean;
+        isWebMercator: boolean;
+        isWgs84: boolean;
+        isWrappable: boolean;
+        wkid: number;
+        wkt: string;
+        imageCoordinateSystem: any;
+    }
+    
+    interface DotNetGeographicTransformation {
+        steps: Array<DotNetGeographicTransformationStep>
+    }
+    
+    interface DotNetGeographicTransformationStep {
+        isInverse: boolean;
+        wkid: number;
+        wkt: string
     }
 
     interface DotNetActionSection {

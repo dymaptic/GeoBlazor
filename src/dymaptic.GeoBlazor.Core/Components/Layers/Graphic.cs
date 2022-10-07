@@ -1,5 +1,7 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
 using dymaptic.GeoBlazor.Core.Components.Popups;
+using Microsoft.JSInterop;
+
 
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
@@ -12,6 +14,11 @@ public class Graphic : LayerObject
     public int? GraphicIndex { get; set; }
 
     public PopupTemplate? PopupTemplate { get; set; }
+
+    public async Task<Geometry> GetGeometry()
+    {
+        return await JsModule!.InvokeAsync<Geometry>("getGeometry", Id);
+    }
 
     public override async Task RegisterChildComponent(MapComponent child)
     {
