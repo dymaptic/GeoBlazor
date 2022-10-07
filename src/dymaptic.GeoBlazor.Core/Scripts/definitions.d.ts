@@ -1,4 +1,7 @@
-﻿declare module "ArcGisDefinitions" {
+﻿import Layer from "@arcgis/core/layers/Layer";
+
+
+declare module "ArcGisDefinitions" {
     interface MapObject {
         destroy();
         declaredClass: string;
@@ -81,5 +84,19 @@
         isInverse: boolean;
         wkid: number;
         wkt: string
+    }
+
+    interface DotNetActionSection {
+        title: string,
+        className: string,
+        id: string
+    }
+
+    interface DotNetListItem {
+        title: string;
+        layer: Layer;
+        visible: boolean;
+        children: DotNetListItem[],
+        actionSections: DotNetActionSection[][]
     }
 }

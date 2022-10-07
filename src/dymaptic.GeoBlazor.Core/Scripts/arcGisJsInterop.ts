@@ -39,11 +39,19 @@ import Accessor from "@arcgis/core/core/Accessor";
 
 import Home from "@arcgis/core/widgets/Home";
 import Compass from "@arcgis/core/widgets/Compass";
+import LayerList from "@arcgis/core/widgets/LayerList";
+import ListItem from "@arcgis/core/widgets/LayerList/ListItem";
 import {
-    DotNetExtent, DotNetGeometry,
+    DotNetExtent, 
+    DotNetGeometry,
     DotNetGraphic,
-    DotNetPoint, DotNetSpatialReference,
-    MapCollection
+    DotNetPoint,
+    DotNetPolygon,
+    DotNetPolyline,
+    MapObject,
+    MapCollection,
+    DotNetListItem,
+    DotNetSpatialReference
 } from "ArcGisDefinitions";
 import {
     buildDotNetExtent,
@@ -741,6 +749,38 @@ export async function addWidget(widget: any, viewId: string): Promise<void> {
                     compassWidget.label = widget.label;
                 }
                 break;
+            case 'layerList':
+                const layerListWidget = new LayerList({
+                    view: view
+                });
+                newWidget = layerListWidget;
+
+                layerListWidget.listItemCreatedFunction = async (evt) => {
+                    let dotNetListItem = buildDotNetListItem(evt.item);
+                    let returnItem = await widget.DotNetObjectReference.InvokeMethodAsync('OnListItemSelected', dotNetListItem) as DotNetListItem;
+                    evt.item.title = returnItem.title;
+                    evt.item.layer = returnItem.layer;
+                    evt.item.visible = returnItem.visible;
+                    evt.item.children = returnItem.children;
+                    /// <summary>
+                    ///     The Action Sections property and corresponding functionality will be fully implemented
+                    ///     in a future iteration.  Currently, a user can view available layers in the layer list widget
+                    ///     and toggle the selected layer's visiblity. More capabilities will be available after full
+                    ///     implementation of ActionSection.
+                    /// </summary>
+                    //evt.item.actionSections = returnItem.actionSections as any;
+                };
+
+                if (widget.iconClass !== undefined && widget.iconClass !== null) {
+                    layerListWidget.iconClass = widget.iconClass;
+                }
+                if (widget.label !== undefined && widget.label !== null) {
+                    layerListWidget.label = widget.label;
+                }
+                
+                
+                
+                break;
             default:
                 return;
         }
@@ -946,4 +986,25 @@ function waitForRender(viewId: string, dotNetRef: any): void {
             }
         }, 100);
     })
+}
+
+
+
+function buildDotNetListItem(item: ListItem): DotNetListItem | null {
+    if (item === undefined || item === null) return null;
+    let children: Array<DotNetListItem> = [];
+    item.children.forEach(c => {
+        let child = buildDotNetListItem(c);
+        if (child !== null) {
+            children.push(child);
+        }
+    });
+
+    return {
+        title: 'title',
+        layer: item.layer,
+        visible: item.visible,
+        children: children,
+        actionSections: item.actionsSections
+    } as DotNetListItem;
 }
