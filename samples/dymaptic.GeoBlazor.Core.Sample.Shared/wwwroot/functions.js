@@ -20,6 +20,11 @@ window.saveApiKeyToLocalStorage = (apiKey) => {
 }
 
 
+window.getWidth = () => {
+    return window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+}
+
+
 function elementIsVisible(item) {
     
     let eleTop = item.offsetTop;

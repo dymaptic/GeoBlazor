@@ -11,6 +11,9 @@ using dymaptic.GeoBlazor.Core.Components.Widgets.LayerList;
 
 namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
+/// <summary>
+///     Displays a widget with a list of all layers in a view.
+/// </summary>
 public class LayerListWidget : Widget
 {
     [JsonPropertyName("type")]
@@ -23,16 +26,17 @@ public class LayerListWidget : Widget
     [Parameter]
     public string? Label { get; set; }
 
-    public Func<ListItem, Task<ListItem>>? OnListItemSelectedHandler { get; set; } 
+    [Parameter]
+    [JsonIgnore]
+    public Func<ListItem, Task<ListItem>>? OnListItemCreatedHandler { get; set; } 
     
     public DotNetObjectReference<LayerListWidget> LayerListWidgetObjectReference => DotNetObjectReference.Create(this);
+
+    public bool HasCustomHandler => OnListItemCreatedHandler is not null; 
     
     [JSInvokable]
-    public Task<ListItem>? OnListItemSelected(ListItem item)
+    public Task<ListItem>? OnListItemCreated(ListItem item)
     {
-        return OnListItemSelectedHandler?.Invoke(item);
+        return OnListItemCreatedHandler?.Invoke(item);
     }
-    
-    
-
 }
