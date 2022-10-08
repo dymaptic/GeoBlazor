@@ -1,0 +1,80 @@
+﻿@page "/basemaps"
+
+<PageTitle>Basemaps</PageTitle>
+<h1>BaseMaps</h1>
+<div class="links-div">
+    <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/display-a-custom-basemap-style/">ArcGIS API for JavaScript Reference</a>
+</div>
+<p class="instructions">Use the radio toggle to explore the 3 different ways to load a Basemap.</p>
+<div class="flex-column">
+    <div class="toggle-row">
+        <label class="radio-container">
+            From Static Default
+            <input type="radio" checked
+                   name="basemap-type" @onclick="@(() => SetBasemap(0))" />
+            <div class="radio-box" />
+        </label>
+        <a class="btn btn-primary" target="_blank" href="https://www.arcgis.com/home/item.html?id=67372ff42cd145319639a99152b15bc3">Topographic BaseMap</a>
+    </div>
+    <div class="toggle-row">
+        <label class="radio-container">
+            From Portal Id
+            <input type="radio"
+                   name="basemap-type" @onclick="@(() => SetBasemap(1))" />
+            <div class="radio-box" />
+        </label>
+        <a class="btn btn-primary" target="_blank" href="https://www.arcgis.com/home/item.html?id=f35ef07c9ed24020aadd65c8a65d3754">Modern Antique BaseMap</a>
+    </div>
+    <div class="toggle-row">
+        <label class="radio-container">
+            From Tile Layers
+            <input type="radio"
+                   name="basemap-type" @onclick="@(() => SetBasemap(2))" />
+            <div class="radio-box" />
+        </label>
+        <a class="btn btn-primary" target="_blank" href="https://www.arcgis.com/home/item.html?id=1b243539f4514b6ba35e7d995890db1d">World Hillshade Tile Layer</a>
+        &nbsp;&nbsp;
+        <a class="btn btn-primary" target="_blank" href="https://www.arcgis.com/home/item.html?id=6976148c11bd497d8624206f9ee03e30">Forest and Parks Canvas Tile Layer</a>
+    </div>
+</div>
+@switch (_basemapType)
+{
+    case 0:
+        <MapView Class="map-view">
+            <Map ArcGISDefaultBasemap="arcgis-topographic" />
+        </MapView>
+        break;
+    case 1:
+        <MapView Class="map-view">
+            <Map>
+                <Basemap>
+                    <PortalItem Id="f35ef07c9ed24020aadd65c8a65d3754" />
+                </Basemap>
+            </Map>
+        </MapView>
+        break;
+    case 2:
+        <MapView Class="map-view">
+            <Map>
+                <Basemap>
+                    <TileLayer>
+                        <PortalItem Id="1b243539f4514b6ba35e7d995890db1d" />
+                    </TileLayer>
+                    <VectorTileLayer Opacity="0.75">
+                        <PortalItem Id="6976148c11bd497d8624206f9ee03e30" />
+                    </VectorTileLayer>
+                </Basemap>
+            </Map>
+        </MapView>
+        break;
+}
+
+@code {
+
+    private void SetBasemap(int val)
+    {
+        _basemapType = val;
+    }
+
+    private int _basemapType;
+}

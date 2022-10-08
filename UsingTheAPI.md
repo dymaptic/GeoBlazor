@@ -1,17 +1,13 @@
 ﻿# Using the Blazor API in Blazor Server
 
-To get started, create a new Blazor Server application, and add a `PackageReference` to the `dymaptic.Blazor.GIS.API.Core`
-package (via your IDE's Nuget Package Manager or `dotnet add package dymaptic.Blazor.GIS.API.Core`).
+To get started, create a new Blazor Server application, and add a `PackageReference` to the `dymaptic.GeoBlazor.Core`
+package (via your IDE's Nuget Package Manager or `dotnet add package dymaptic.GeoBlazor.Core`).
 Next, in `Pages/_Layout.cshtml`, add the following to the head block of the html. Note the double @ symbols required,
 since the symbol is a reserved character in Razor.
 
 ```html
-    <link href="_content/dymaptic.Blazor.GIS.API.Core"/>
-    <script src="https://unpkg.com/@@esri/arcgis-rest-request@@3.0.0/dist/umd/request.umd.js"></script>
-    <script src="https://unpkg.com/@@esri/arcgis-rest-auth@@3.0.0/dist/umd/auth.umd.js"></script>
-    <script src="https://unpkg.com/@@esri/arcgis-rest-demographics@@3.0.0/dist/umd/demographics.umd.js"></script>
-    <link href="https://js.arcgis.com/4.23/esri/themes/light/main.css" rel="stylesheet"/>
-    <script src="https://js.arcgis.com/4.23/"></script>
+    <link href="_content/dymaptic.GeoBlazor.Core"/>
+    <link href="https://js.arcgis.com/4.24/esri/themes/light/main.css" rel="stylesheet"/>
 ```
 
 Now, you will need to get an ArcGIS API Key from the [Developer Dashboard](https://developers.arcgis.com/dashboard/).
@@ -27,18 +23,24 @@ Here's what the JSON would look like in `secrets.json` or `appsettings.developme
 }
 ```
 
+If you want to inject your api key via login or some other custom route, add the following line to your `Program.cs` file, so you can add values to `IConfiguration`:
+
+```csharp
+builder.Configuration.AddInMemoryCollection();
+```
+
 This will be picked up and added to your maps automatically by the Asp.NET dependency injection framework.
 Next, let's add the following `@using` statements to `\_Imports.razor`, so that our pages and components have access to
 the necessary package components.
 
 ```csharp
-@using dymaptic.Blazor.GIS.API.Core.Components
-@using dymaptic.Blazor.GIS.API.Core.Components.Geometries
-@using dymaptic.Blazor.GIS.API.Core.Components.Layers
-@using dymaptic.Blazor.GIS.API.Core.Components.Popups
-@using dymaptic.Blazor.GIS.API.Core.Components.Symbols
-@using dymaptic.Blazor.GIS.API.Core.Components.Views
-@using dymaptic.Blazor.GIS.API.Core.Objects
+@using dymaptic.GeoBlazor.Core.Components
+@using dymaptic.GeoBlazor.Core.Components.Geometries
+@using dymaptic.GeoBlazor.Core.Components.Layers
+@using dymaptic.GeoBlazor.Core.Components.Popups
+@using dymaptic.GeoBlazor.Core.Components.Symbols
+@using dymaptic.GeoBlazor.Core.Components.Views
+@using dymaptic.GeoBlazor.Core.Objects
 ```
 
 That's it! Now you are ready to write your first ArcGIS Map View in Blazor. Add the following code to the bottom of `Pages/Index.razor`.
@@ -100,7 +102,7 @@ Most of the code above works seamlessly for a Blazor WASM application as well. H
   you don't need the double `@` symbols.
 
 ```html
-    <link href="_content/dymaptic.Blazor.GIS.API.Core"/>
+    <link href="_content/dymaptic.GeoBlazor.Core"/>
     <script src="https://unpkg.com/@esri/arcgis-rest-request@3.0.0/dist/umd/request.umd.js"></script>
     <script src="https://unpkg.com/@esri/arcgis-rest-auth@3.0.0/dist/umd/auth.umd.js"></script>
     <script src="https://unpkg.com/@esri/arcgis-rest-demographics@3.0.0/dist/umd/demographics.umd.js"></script>
@@ -122,3 +124,38 @@ See the MAUI sample application for some special scenarios around using the API 
 - MAUI applications do not load `appsettings.json` files to `IConfiguration` by default. You will need to call
   `builder.Configuration.AddInMemoryConfiguration` and load the ApiKey from another source, or
   `builderConfiguration.AddJsonFile` to use an `appsettings.json` file.
+
+# Using ArcGIS User Accounts for login
+
+Instead of using an app-based token, there are a few other ways to authenticate with ArcGIS.
+
+## Default ArcGIS JS Login
+
+The JavaScript API provides a default fallback sign-in form if you don't have an API Key or App Token.
+This is convenient, but it is not as secure as an OAuth sign-in flow (see below). To use the default
+sign-in, you need to set a flag, which will also remove the error message you see when running without
+a token.
+
+### Option 1: Add the flag to your `MapView` when instantiating in a Blazor page:
+
+```html
+<MapView AllowDefaultEsriLogin="true">
+    <Map></Map>
+</MapView>
+```
+
+### Option 2: Add the flag to `appsettings.json` or another location loaded into `IConfiguration`:
+
+```json
+{
+    "AllowDefaultEsriLogin": "true"
+}
+```
+
+## OAuth Secure User Login
+
+Eventually, we will try to get this more "baked in" to the library. For now, however, there is an example you
+can see in the Sample applications. Look in `dymaptic.Blazor.GIS.API.Core.Sample.Shared\Shared\MainLayout.razor`.
+You will see that it looks in `IConfiguration` for a `ClientId`, which you can get from the ArcGIS Developer portal.
+If this value is provided, it adds a login button, which calls into the OAuth flow. This is very much a work in
+progress, but reach out to us if you need assistance in implementing.

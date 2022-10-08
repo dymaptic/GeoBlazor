@@ -1,0 +1,16 @@
+﻿@media (max-width: 799px) {
+    a {
+        display: block;
+    }
+    
+    .form-group {
+        display: inline-block;
+        margin-bottom: 0.5rem;
+    }
+}
+
+.form-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}

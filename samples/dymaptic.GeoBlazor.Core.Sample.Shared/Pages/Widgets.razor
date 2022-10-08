@@ -1,0 +1,122 @@
+﻿@page "/widgets"
+
+<PageTitle>Widgets</PageTitle>
+<h1>Widgets</h1>
+
+<div class="links-div">
+    <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-support-widget.html">ArcGIS API for JavaScript Reference</a>
+    <a class="btn btn-primary" target="_blank" href="https://www.arcgis.com/home/item.html?id=c50de463235e4161b206d000587af18b">Navigation BaseMap</a>
+</div>
+<p class="instructions">
+    Use the checkboxes to toggle various widgets on/off. Notice that Widgets can be placed on top of the map, 
+    or outside the map, as in the case of the Basemap Gallery.
+</p>
+<div class="control-row">
+    <div id="control-set">
+        <div class="form-group">
+            <label>Locator: <input type="checkbox" class="form-check-input" @onchange="@(() => ToggleWidget(nameof(LocateWidget)))"></label>
+        </div>
+        <div class="form-group">
+            <label>Search: <input type="checkbox" class="form-check-input" @onchange="@(() => ToggleWidget(nameof(SearchWidget)))"></label>
+        </div>
+        <div class="form-group">
+            <label>Basemap Toggle: <input type="checkbox" class="form-check-input" @onchange="@(() => ToggleWidget(nameof(BasemapToggleWidget)))"></label>
+        </div>
+        <div class="form-group">
+            <label>Basemap Gallery: <input type="checkbox" class="form-check-input" @onchange="@(() => ToggleWidget(nameof(BasemapGalleryWidget)))"></label>
+        </div>
+        <div class="form-group">
+            <label>Legend: <input type="checkbox" class="form-check-input" @onchange="@(() => ToggleWidget(nameof(LegendWidget)))"></label>
+        </div>
+        <div class="form-group">
+            <label>Scale Bar: <input type="checkbox" class="form-check-input" @onchange="@(() => ToggleWidget(nameof(ScaleBarWidget)))"></label>
+        </div>
+        <div class="form-group">
+            <label>Home: <input type="checkbox" class="form-check-input" @onchange="@(() => ToggleWidget(nameof(HomeWidget)))"></label>
+        </div>
+        <div class="form-group">
+            <label>Compass: <input type="checkbox" class="form-check-input" @onchange="@(() => ToggleWidget(nameof(CompassWidget)))"></label>
+        </div>
+        <div id="gallery-box"></div>
+    </div>
+</div>
+
+<MapView @ref="MapView" Longitude="-40" Latitude="28" Zoom="2" Class="map-view">
+    <Map ArcGISDefaultBasemap="arcgis-navigation" />
+    @if (_showLocate)
+    {
+        <LocateWidget UseHeadingEnabled="false" ZoomTo="1500" Position="OverlayPosition.TopLeft" />
+    }
+    @if (_showSearch)
+    {
+        <SearchWidget Position="OverlayPosition.TopRight" />
+    }
+    @if (_showBasemapToggle)
+    {
+        <BasemapToggleWidget NextBasemap="arcgis-imagery" Position="OverlayPosition.BottomRight" />
+    }
+    @if (_showBasemapGallery)
+    {
+        <BasemapGalleryWidget ContainerId="gallery-box" />
+    }
+    @if (_showScaleBar)
+    {
+        <ScaleBarWidget Position="OverlayPosition.BottomLeft" />
+    }
+    @if (_showLegend)
+    {
+        <LegendWidget Position="OverlayPosition.TopRight" />
+    }
+    @if (_showHome)
+    {
+        <HomeWidget Position="OverlayPosition.TopLeft" />
+    }
+    @if (_showCompass)
+    {
+        <CompassWidget Position="OverlayPosition.TopLeft" />
+    }
+</MapView>
+
+@code {
+    private MapView? MapView { get; set; }
+
+    private void ToggleWidget(string widgetTypeName)
+    {
+        switch (widgetTypeName)
+        {
+            case nameof(LocateWidget):
+                _showLocate = !_showLocate;
+                break;
+            case nameof(SearchWidget):
+                _showSearch = !_showSearch;
+                break;
+            case nameof(BasemapToggleWidget):
+                _showBasemapToggle = !_showBasemapToggle;
+                break;
+            case nameof(BasemapGalleryWidget):
+                _showBasemapGallery = !_showBasemapGallery;
+                break;
+            case nameof(LegendWidget):
+                _showLegend = !_showLegend;
+                break;
+            case nameof(ScaleBarWidget):
+                _showScaleBar = !_showScaleBar;
+                break;
+            case nameof(HomeWidget):
+                _showHome = !_showHome;
+                break;
+            case nameof(CompassWidget):
+                _showCompass = !_showCompass;
+                break;
+        }
+    }
+
+    private bool _showSearch;
+    private bool _showLocate;
+    private bool _showBasemapToggle;
+    private bool _showBasemapGallery;
+    private bool _showScaleBar;
+    private bool _showLegend;
+    private bool _showHome;
+    private bool _showCompass;
+}

@@ -1,0 +1,54 @@
+﻿#feature-panel {
+    background-image: linear-gradient(180deg, var(--geoblazor-tertiary) 0%, var(--geoblazor-primary) 100%);
+    color: white;
+    padding: 2rem;
+}
+
+#feature-panel a {
+    color: white;
+    font-weight: bold;
+}
+
+#feature-panel h2 {
+    font-size: 1.2rem;
+    margin-bottom: 0;
+}
+
+#feature-inset {
+    margin: 2rem 0;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+#feature-text-container {
+    width: 48%;
+    display: flex;
+    justify-content: center;
+}
+
+#feature-text {
+
+}
+
+#map-img {
+    width: 50%;
+    aspect-ratio: 1291 / 694;
+}
+
+@media (max-width: 799px) {
+    #feature-inset {
+        flex-direction: column;
+    }
+
+    #feature-text {
+        width: 100%;
+        margin-top: 2rem;
+        padding-left: 0;
+    }
+
+    #map-img {
+        width: 100%;
+    }
+}

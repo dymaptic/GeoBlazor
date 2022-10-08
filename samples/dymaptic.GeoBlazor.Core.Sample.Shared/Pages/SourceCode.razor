@@ -1,0 +1,70 @@
+﻿@page "/source-code"
+@page "/source-code/{PageUrl}"
+@using Markdig
+@using System.Text
+@inject SharedFileProvider FileProvider
+
+<PageTitle>Source Code</PageTitle>
+<h1>Source Code</h1>
+
+<div id="source-code">@((MarkupString)Markdown.ToHtml(_pageContent, _pipeline))</div>
+
+@code {
+    [Parameter]
+    public string? PageUrl { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+        if (PageUrl is null) PageUrl = string.Empty;
+
+        string? markupContent = null;
+        string directory = "_content/dymaptic.GeoBlazor.Core.Sample.Shared/pages";
+        IDirectoryContents pages = FileProvider.GetDirectoryContents(directory)!;
+
+        foreach (IFileInfo? page in pages)
+        {
+            if (page is null || !page.Exists) continue;
+
+            try
+            {
+                using Stream contentStream = await FileProvider.GetFileStreamAsync(page);
+                using var reader = new StreamReader(contentStream);
+                string? firstLine = await reader.ReadLineAsync();
+                if (firstLine is null || !firstLine.StartsWith("@page \"")) continue;
+
+                string route = firstLine.Split('"')[1];
+                if (route == $"/{PageUrl}")
+                {
+                    StringBuilder markupBuilder = new StringBuilder(firstLine);
+                    while (!reader.EndOfStream)
+                    {
+                        markupBuilder.AppendLine(await reader.ReadLineAsync());
+                    }
+                    markupContent = markupBuilder.ToString();
+                    break;
+                }
+            }
+            catch
+            {
+                // continue;
+            }
+        }
+        
+        if (markupContent != null && markupContent.Contains("@code"))
+        {
+            int codeIndex = markupContent.IndexOf("@code", StringComparison.Ordinal);
+            string codeContent = markupContent[codeIndex..].Trim();
+            markupContent = markupContent[..codeIndex].Trim();
+            _pageContent = $"```html{Environment.NewLine}{markupContent}{Environment.NewLine}```{Environment.NewLine}{Environment.NewLine}```csharp{Environment.NewLine}{codeContent}{Environment.NewLine}```";
+        }
+        else
+        {
+            _pageContent = $"```html{Environment.NewLine}{markupContent}{Environment.NewLine}```";
+        }
+    }
+
+    private string _pageContent = string.Empty;
+    private readonly MarkdownPipeline _pipeline = new MarkdownPipelineBuilder()
+        .UseAdvancedExtensions().UseSyntaxHighlighting().Build();
+}

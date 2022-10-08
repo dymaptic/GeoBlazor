@@ -1,0 +1,56 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32708.82
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dymaptic.GeoBlazor.Core", "dymaptic.GeoBlazor.Core\dymaptic.GeoBlazor.Core.csproj", "{92A18016-170A-42F3-B1F5-12CC306F796C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dymaptic.GeoBlazor.Core.Sample.Shared", "..\samples\dymaptic.GeoBlazor.Core.Sample.Shared\dymaptic.GeoBlazor.Core.Sample.Shared.csproj", "{C993832C-734A-485F-A42B-30B620F32345}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dymaptic.GeoBlazor.Core.Sample.Server", "..\samples\dymaptic.GeoBlazor.Core.Sample.Server\dymaptic.GeoBlazor.Core.Sample.Server.csproj", "{1401D856-4C5F-4555-80F0-457523DA8DCC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dymaptic.GeoBlazor.Core.Sample.Wasm", "..\samples\dymaptic.GeoBlazor.Core.Sample.Wasm\dymaptic.GeoBlazor.Core.Sample.Wasm.csproj", "{79F14352-ACAD-4A53-84A2-C88237AD1497}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dymaptic.GeoBlazor.Core.Sample.Maui", "..\samples\dymaptic.GeoBlazor.Core.Sample.Maui\dymaptic.GeoBlazor.Core.Sample.Maui.csproj", "{08193B44-3A32-4836-96A0-44DEEA1E7556}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dymaptic.GeoBlazor.Core.Test", "..\tests\dymaptic.GeoBlazor.Core.Test\dymaptic.GeoBlazor.Core.Test.csproj", "{48E045E3-F3FF-4D50-8987-83C1B8663E39}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{92A18016-170A-42F3-B1F5-12CC306F796C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92A18016-170A-42F3-B1F5-12CC306F796C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92A18016-170A-42F3-B1F5-12CC306F796C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92A18016-170A-42F3-B1F5-12CC306F796C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C993832C-734A-485F-A42B-30B620F32345}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C993832C-734A-485F-A42B-30B620F32345}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C993832C-734A-485F-A42B-30B620F32345}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C993832C-734A-485F-A42B-30B620F32345}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1401D856-4C5F-4555-80F0-457523DA8DCC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1401D856-4C5F-4555-80F0-457523DA8DCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1401D856-4C5F-4555-80F0-457523DA8DCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1401D856-4C5F-4555-80F0-457523DA8DCC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79F14352-ACAD-4A53-84A2-C88237AD1497}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79F14352-ACAD-4A53-84A2-C88237AD1497}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79F14352-ACAD-4A53-84A2-C88237AD1497}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79F14352-ACAD-4A53-84A2-C88237AD1497}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08193B44-3A32-4836-96A0-44DEEA1E7556}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08193B44-3A32-4836-96A0-44DEEA1E7556}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08193B44-3A32-4836-96A0-44DEEA1E7556}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{08193B44-3A32-4836-96A0-44DEEA1E7556}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08193B44-3A32-4836-96A0-44DEEA1E7556}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48E045E3-F3FF-4D50-8987-83C1B8663E39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48E045E3-F3FF-4D50-8987-83C1B8663E39}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48E045E3-F3FF-4D50-8987-83C1B8663E39}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48E045E3-F3FF-4D50-8987-83C1B8663E39}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FA50C146-4061-45AA-A5B3-5DE48D47FF88}
+	EndGlobalSection
+EndGlobal

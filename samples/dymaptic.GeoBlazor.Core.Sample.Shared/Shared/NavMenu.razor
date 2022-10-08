@@ -1,0 +1,92 @@
+﻿@inject IJSRuntime JsRuntime
+@inject NavigationManager NavigationManager
+
+<div class="top-row ps-3 navbar navbar-dark">
+    <div class="container-fluid">
+        <label>
+            <span id="search-icon" class="oi oi-magnifying-glass" aria-hidden="true"></span>
+            <input type="search" style="width: 180px; padding-left: 0.5rem;" 
+                   @ref="_searchField"
+                   @oninput="UpdateSearchFilter"
+                   @onkeyup="SearchFilterKeyUp" />
+        </label>
+        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</div>
+
+<div id="nav-item-container" class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+    <nav class="flex-column">
+        @foreach (PageLink page in FilteredPages)
+        {
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="@(page.Href)">
+                    <span class="oi @(page.IconClass)" aria-hidden="true"></span>&nbsp;@(page.Title)
+                </NavLink>
+            </div>
+        }
+    </nav>
+</div>
+
+@code {
+    private string? NavMenuCssClass => _collapseNavMenu ? "collapse" : null;
+    private IEnumerable<PageLink> FilteredPages => string.IsNullOrWhiteSpace(_searchValue)
+        ? _pages
+        : _pages.Where(p => p.Title.Contains(_searchValue, StringComparison.OrdinalIgnoreCase));
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (!_collapseNavMenu)
+        {
+            string currentPage = NavigationManager.Uri.Replace("source-code/", "");
+            await JsRuntime.InvokeVoidAsync("scrollToNav", currentPage);
+        }
+    }
+    
+    private void ToggleNavMenu()
+    {
+        _collapseNavMenu = !_collapseNavMenu;
+    }
+    
+    private void UpdateSearchFilter(ChangeEventArgs arg)
+    {
+        _searchValue = arg.Value?.ToString() ?? string.Empty;
+    }
+
+    private void SearchFilterKeyUp(KeyboardEventArgs arg)
+    {
+        if (arg.Key.Equals("Enter") && FilteredPages.Count() == 1)
+        {
+            NavigationManager.NavigateTo(FilteredPages.First().Href);
+        }
+    }
+
+    private bool _collapseNavMenu = true;
+    private ElementReference _searchField;
+    private string _searchValue = string.Empty;
+    private readonly PageLink[] _pages = {
+        new("", "Home", "oi-home"),
+        new("navigation", "Navigation", "oi-compass"),
+        new("drawing", "Drawing", "oi-pencil"),
+        new("scene", "Scene", "oi-globe"),
+        new("widgets", "Widgets", "oi-location"),
+        new("basemaps", "Basemaps", "oi-map"),
+        new("feature-layers", "Feature Layers", "oi-layers"),
+        new("vector-layer", "Vector Layer", "oi-arrow-right"),
+        new("layer-lists", "Layer Lists", "oi-list"),
+        new("web-map", "Web Map", "oi-browser"),
+        new("web-scene", "Web Scene", "oi-box"),
+        new("sql-query", "SQL Query", "oi-data-transfer-download"),
+        new("sql-filter-query", "SQL Filter", "oi-arrow-thick-bottom"),
+        new("place-selector", "Place Selector", "oi-arrow-bottom"),
+        new("routing", "Routing", "oi-transfer"),
+        new("service-areas", "Service Areas", "oi-comment-square"),
+        new("projection", "Display Projection", "oi-sun"),
+        new("projection-tool", "Projection Tool", "oi-cog"),
+        new("basemap-projections", "Basemap Projections", "oi-flash")
+    };
+
+    private record PageLink(string Href, string Title, string IconClass);
+}

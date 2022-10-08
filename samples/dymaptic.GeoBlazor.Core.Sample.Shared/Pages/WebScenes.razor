@@ -1,0 +1,15 @@
+﻿@page "/web-scene"
+<PageTitle>WebScene</PageTitle>
+<h1>WebScene</h1>
+<div class="links-div">
+    <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/display-a-web-scene/">ArcGIS API for JavaScript Reference</a>
+</div>
+<p class="instructions">
+    A simple demo of loading a complete 3d WebScene from ArcGIS Online, including layers, icons, popups, and widgets.
+</p>
+<SceneView Class="map-view">
+    <WebScene>
+        <PortalItem Id="579f97b2f3b94d4a8e48a5f140a6639b" />
+    </WebScene>
+    <LegendWidget Position="OverlayPosition.TopRight" />
+</SceneView>

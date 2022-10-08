@@ -1,0 +1,109 @@
+﻿@page "/feature-layers"
+
+<PageTitle>Feature Layers</PageTitle>
+<h1>Feature Layers</h1>
+
+<div class="links-div">
+    <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/add-a-feature-layer/">ArcGIS API for JavaScript Reference</a>
+    <a class="btn btn-primary" target="_blank" href="https://www.arcgis.com/home/item.html?id=67372ff42cd145319639a99152b15bc3">Topographic BaseMap</a>
+</div>
+<p class="instructions">
+    Use the radio buttons to toggle various feature layers.
+</p>
+<div class="form-group">
+    <div class="form-group" style="border-bottom: 1px solid black;">
+        <EditForm Model="this">
+            <InputRadioGroup Name="points" @bind-Value="_showPointsLayer">
+                <label class="radio-container">
+                    Show Trailheads Points Layer:
+                    <InputRadio Name="points" Value="1" />
+                    <div class="radio-box" />
+                </label>
+            </InputRadioGroup>
+        </EditForm>
+    </div>
+    <div class="form-group" style="border-bottom: 1px solid black;">
+        <EditForm Model="this">
+            <InputRadioGroup Name="points" @bind-Value="_showLinesLayer">
+                <label class="radio-container">
+                    Show Trailheads Lines Layer:
+                    <InputRadio Name="points" Value="1" />
+                    <div class="radio-box" />
+                </label>
+                <label class="radio-container">
+                    Show Trailheads Lines With Elevation Style Renderer:
+                    <InputRadio Name="points" Value="2" />
+                    <div class="radio-box" />
+                </label>
+                <label class="radio-container">
+                    Show Trailheads Lines With Bike Trails Styled:
+                    <InputRadio Name="points" Value="3" />
+                    <div class="radio-box" />
+                </label>
+            </InputRadioGroup>
+        </EditForm>
+    </div>
+    <div class="form-group">
+        <EditForm Model="this">
+            <InputRadioGroup Name="points" @bind-Value="_showPolygonLayer">
+                <label class="radio-container">
+                    Show Trailheads Polygons Layer:
+                    <InputRadio Name="points" Value="1" />
+                    <div class="radio-box" />
+                </label>
+            </InputRadioGroup>
+        </EditForm>
+    </div>
+</div>
+
+<MapView @ref="MapView" Longitude="-118.80543" Latitude="34.02700" Zoom="13" Class="map-view">
+    <Map ArcGISDefaultBasemap="arcgis-topographic">
+        @if (_showPolygonLayer == 1)
+        {
+            <FeatureLayer Url="https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Parks_and_Open_Space/FeatureServer/0" />
+        }
+        @if (_showLinesLayer == 1)
+        {
+            <FeatureLayer Url="https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trails/FeatureServer/0" />
+        }
+        else if (_showLinesLayer == 2)
+        {
+            <FeatureLayer Url="https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trails/FeatureServer/0"
+                          Opacity="0.75">
+                <SimpleRenderer>
+                    <SimpleLineSymbol Color="@(new MapColor("#BA55D3"))"
+                                      LineStyle="LineStyle.Solid" />
+                    <VisualVariable VariableType="VisualVariableType.Size"
+                                    Field="ELEV_GAIN"
+                                    MinDataValue="0"
+                                    MaxDataValue="2300"
+                                    MinSize="3px"
+                                    MaxSize="7px" />
+                </SimpleRenderer>
+            </FeatureLayer>
+        }
+        else if (_showLinesLayer == 3)
+        {
+            <FeatureLayer Url="https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trails/FeatureServer/0"
+                          DefinitionExpression="USE_BIKE = 'YES'">
+                <SimpleRenderer>
+                    <SimpleLineSymbol Color="@(new MapColor("#FF91FF"))"
+                                      LineStyle="LineStyle.ShortDot"
+                                      Width="1" />
+                </SimpleRenderer>
+            </FeatureLayer>
+        }
+        @if (_showPointsLayer == 1)
+        {
+            <FeatureLayer Url="https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trailheads/FeatureServer/0" />
+        }
+    </Map>
+</MapView>
+
+@code {
+    private MapView? MapView { get; set; }
+
+    private int _showPointsLayer;
+    private int _showLinesLayer;
+    private int _showPolygonLayer;
+}

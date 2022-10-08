@@ -1,0 +1,9 @@
+﻿.form-group {
+    padding: 0.5rem 0;
+    flex-direction: column;
+    display: flex;
+}
+
+::deep input[type=radio] {
+    visibility: hidden;
+}

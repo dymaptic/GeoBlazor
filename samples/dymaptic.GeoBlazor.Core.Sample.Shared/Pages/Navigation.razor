@@ -1,0 +1,61 @@
+@page "/navigation"
+@using System.Text.Json
+
+<PageTitle>Navigation</PageTitle>
+<h1>Navigation</h1>
+<div class="links-div">
+    <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/display-a-map/">ArcGIS API for JavaScript Reference</a>
+    <a class="btn btn-primary" target="_blank" href="https://www.arcgis.com/home/item.html?id=826498a48bd0424f9c9315214f2165d4">Colored Pencil BaseMap</a>
+</div>
+
+<p class="instructions">Change the values for latitude, longitude, zoom, and rotation to see the map update in real time.</p>
+<div class="form-group">
+    <label>Latitude:&nbsp;<input type="number" step="0.01" @bind="_latitude" /></label>
+    <label>Longitude:&nbsp;<input type="number" step="0.01" @bind="_longitude" /></label>
+    <label>Zoom:&nbsp;<input type="number" @bind="_zoom" /></label>
+    <label>Rotation (deg):&nbsp;<input type="number" @bind="_rotation" /></label>
+</div>
+
+<MapView @ref="MapView" 
+         Class="map-view" 
+         Longitude="_longitude"
+         Latitude="_latitude"
+         Zoom="_zoom"
+         Rotation="_rotation">
+    <Map>
+        <Basemap>
+            <PortalItem Id="826498a48bd0424f9c9315214f2165d4" />
+        </Basemap>
+    </Map>
+</MapView>
+
+<div class="form-group">
+    <button @onclick="GetExtent">Get Extent</button>
+    @if (!string.IsNullOrEmpty(_extentJson))
+    {
+        <div>@((MarkupString)_extentJson)</div>
+    }
+</div>
+
+
+@code
+{
+    private async Task GetExtent()
+    {
+        Extent? extent = await MapView!.GetExtent();
+        if (extent is null) return;
+        _extentJson = JsonSerializer.Serialize(extent, new JsonSerializerOptions
+        {
+            WriteIndented = true
+        })
+            .Replace(" ", "&nbsp;")
+            .Replace(Environment.NewLine, "<br />");
+    }
+    
+    private double _latitude = 34.027;
+    private double _longitude = -118.805;
+    private double _zoom = 11;
+    private double _rotation;
+    private string? _extentJson;
+    private MapView? MapView { get; set; }
+}
