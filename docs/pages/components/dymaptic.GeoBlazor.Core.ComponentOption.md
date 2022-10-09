@@ -1,13 +1,14 @@
-
 ---
-layout: page
+layout: default
+parent: Components
+title: dymaptic.GeoBlazor.Core.ComponentOption
 ---
-#### [dymaptic.GeoBlazor.Core](index.md 'index')
-### [dymaptic.GeoBlazor.Core](index.md#dymaptic.GeoBlazor.Core 'dymaptic.GeoBlazor.Core')
+#### [dymaptic.GeoBlazor.Core](index.html 'index')
+### [dymaptic.GeoBlazor.Core](index.html#dymaptic.GeoBlazor.Core 'dymaptic.GeoBlazor.Core')
 
 ## ComponentOption Class
 
-Just a convenience class for [ValidateRequiredChildren()](dymaptic.GeoBlazor.Core.Components.MapComponent.md#dymaptic.GeoBlazor.Core.Components.MapComponent.ValidateRequiredChildren() 'dymaptic.GeoBlazor.Core.Components.MapComponent.ValidateRequiredChildren()')
+Just a convenience class for [ValidateRequiredChildren()](dymaptic.GeoBlazor.Core.Components.MapComponent.html#dymaptic.GeoBlazor.Core.Components.MapComponent.ValidateRequiredChildren() 'dymaptic.GeoBlazor.Core.Components.MapComponent.ValidateRequiredChildren()')
 
 ```csharp
 internal class ComponentOption

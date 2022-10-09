@@ -1,13 +1,14 @@
-
 ---
-layout: page
+layout: default
+parent: Components
+title: dymaptic.GeoBlazor.Core.RequiredPropertyAttribute
 ---
-#### [dymaptic.GeoBlazor.Core](index.md 'index')
-### [dymaptic.GeoBlazor.Core](index.md#dymaptic.GeoBlazor.Core 'dymaptic.GeoBlazor.Core')
+#### [dymaptic.GeoBlazor.Core](index.html 'index')
+### [dymaptic.GeoBlazor.Core](index.html#dymaptic.GeoBlazor.Core 'dymaptic.GeoBlazor.Core')
 
 ## RequiredPropertyAttribute Class
 
-Add this attribute to any property on any subclass of [MapComponent](dymaptic.GeoBlazor.Core.Components.MapComponent.md 'dymaptic.GeoBlazor.Core.Components.MapComponent'), and if the user  
+Add this attribute to any property on any subclass of [MapComponent](dymaptic.GeoBlazor.Core.Components.MapComponent.html 'dymaptic.GeoBlazor.Core.Components.MapComponent'), and if the user  
 forgets to set that property, this will throw a [dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredChildElementException](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredChildElementException 'dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredChildElementException')  
 or [dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException 'dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException'). This works for both `[Parameter]`  
 properties as well as Child Components registered with `RegisterChildComponent`

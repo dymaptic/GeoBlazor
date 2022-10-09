@@ -1,9 +1,10 @@
-
 ---
-layout: page
+layout: default
+parent: Components
+title: dymaptic.GeoBlazor.Core.Components.MapComponent
 ---
-#### [dymaptic.GeoBlazor.Core](index.md 'index')
-### [dymaptic.GeoBlazor.Core.Components](index.md#dymaptic.GeoBlazor.Core.Components 'dymaptic.GeoBlazor.Core.Components')
+#### [dymaptic.GeoBlazor.Core](index.html 'index')
+### [dymaptic.GeoBlazor.Core.Components](index.html#dymaptic.GeoBlazor.Core.Components 'dymaptic.GeoBlazor.Core.Components')
 
 ## MapComponent Class
 
@@ -15,7 +16,7 @@ System.IAsyncDisposable
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [Microsoft.AspNetCore.Components.ComponentBase](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.ComponentBase 'Microsoft.AspNetCore.Components.ComponentBase') &#129106; MapComponent
 
 Derived  
-&#8627; [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.md 'dymaptic.GeoBlazor.Core.Components.Views.MapView')
+&#8627; [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView')
 
 Implements [System.IAsyncDisposable](https://docs.microsoft.com/en-us/dotnet/api/System.IAsyncDisposable 'System.IAsyncDisposable')
 ### Methods
@@ -24,8 +25,8 @@ Implements [System.IAsyncDisposable](https://docs.microsoft.com/en-us/dotnet/api
 
 ## MapComponent.ValidateRequiredChildren() Method
 
-When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.md 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that  
-all properties with the [RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.md 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
+When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that  
+all properties with the [RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
 
 ```csharp
 public virtual void ValidateRequiredChildren();

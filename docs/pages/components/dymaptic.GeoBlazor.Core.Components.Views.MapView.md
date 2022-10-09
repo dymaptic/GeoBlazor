@@ -1,9 +1,10 @@
-
 ---
-layout: page
+layout: default
+parent: Components
+title: dymaptic.GeoBlazor.Core.Components.Views.MapView
 ---
-#### [dymaptic.GeoBlazor.Core](index.md 'index')
-### [dymaptic.GeoBlazor.Core.Components.Views](index.md#dymaptic.GeoBlazor.Core.Components.Views 'dymaptic.GeoBlazor.Core.Components.Views')
+#### [dymaptic.GeoBlazor.Core](index.html 'index')
+### [dymaptic.GeoBlazor.Core.Components.Views](index.html#dymaptic.GeoBlazor.Core.Components.Views 'dymaptic.GeoBlazor.Core.Components.Views')
 
 ## MapView Class
 
@@ -11,7 +12,7 @@ layout: page
 public class MapView : dymaptic.GeoBlazor.Core.Components.MapComponent
 ```
 
-Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [Microsoft.AspNetCore.Components.ComponentBase](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.ComponentBase 'Microsoft.AspNetCore.Components.ComponentBase') &#129106; [MapComponent](dymaptic.GeoBlazor.Core.Components.MapComponent.md 'dymaptic.GeoBlazor.Core.Components.MapComponent') &#129106; MapView
+Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [Microsoft.AspNetCore.Components.ComponentBase](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.ComponentBase 'Microsoft.AspNetCore.Components.ComponentBase') &#129106; [MapComponent](dymaptic.GeoBlazor.Core.Components.MapComponent.html 'dymaptic.GeoBlazor.Core.Components.MapComponent') &#129106; MapView
 ### Methods
 
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.DrawRouteAndGetDirections(dymaptic.GeoBlazor.Core.Components.Symbols.Symbol,string)'></a>

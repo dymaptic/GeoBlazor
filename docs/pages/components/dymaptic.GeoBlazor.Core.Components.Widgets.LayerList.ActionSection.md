@@ -1,9 +1,10 @@
-
 ---
-layout: page
+layout: default
+parent: Components
+title: dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ActionSection
 ---
-#### [dymaptic.GeoBlazor.Core](index.md 'index')
-### [dymaptic.GeoBlazor.Core.Components.Widgets.LayerList](index.md#dymaptic.GeoBlazor.Core.Components.Widgets.LayerList 'dymaptic.GeoBlazor.Core.Components.Widgets.LayerList')
+#### [dymaptic.GeoBlazor.Core](index.html 'index')
+### [dymaptic.GeoBlazor.Core.Components.Widgets.LayerList](index.html#dymaptic.GeoBlazor.Core.Components.Widgets.LayerList 'dymaptic.GeoBlazor.Core.Components.Widgets.LayerList')
 
 ## ActionSection Class
 

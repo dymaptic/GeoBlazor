@@ -1,13 +1,14 @@
-
 ---
-layout: page
+layout: default
+parent: Components
+title: dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem
 ---
-#### [dymaptic.GeoBlazor.Core](index.md 'index')
-### [dymaptic.GeoBlazor.Core.Components.Widgets.LayerList](index.md#dymaptic.GeoBlazor.Core.Components.Widgets.LayerList 'dymaptic.GeoBlazor.Core.Components.Widgets.LayerList')
+#### [dymaptic.GeoBlazor.Core](index.html 'index')
+### [dymaptic.GeoBlazor.Core.Components.Widgets.LayerList](index.html#dymaptic.GeoBlazor.Core.Components.Widgets.LayerList 'dymaptic.GeoBlazor.Core.Components.Widgets.LayerList')
 
 ## ListItem Class
 
-The description of a layer for display in a [LayerListWidget](dymaptic.GeoBlazor.Core.Components.Widgets.LayerListWidget.md 'dymaptic.GeoBlazor.Core.Components.Widgets.LayerListWidget').
+The description of a layer for display in a [LayerListWidget](dymaptic.GeoBlazor.Core.Components.Widgets.LayerListWidget.html 'dymaptic.GeoBlazor.Core.Components.Widgets.LayerListWidget').
 
 ```csharp
 public class ListItem
@@ -27,7 +28,7 @@ public dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ActionSection[][]? A
 ```
 
 #### Property Value
-[ActionSection](dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ActionSection.md 'dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ActionSection')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')
+[ActionSection](dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ActionSection.html 'dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ActionSection')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')
 
 ### Remarks
 The Action Sections property and corresponding functionality will be fully implemented  
@@ -46,7 +47,7 @@ public System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Components.Widget
 ```
 
 #### Property Value
-[System.Collections.Generic.List&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.List-1 'System.Collections.Generic.List`1')[ListItem](dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem.md 'dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.List-1 'System.Collections.Generic.List`1')
+[System.Collections.Generic.List&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.List-1 'System.Collections.Generic.List`1')[ListItem](dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem.html 'dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.List-1 'System.Collections.Generic.List`1')
 
 ### Remarks
 Editing not currently supported.
