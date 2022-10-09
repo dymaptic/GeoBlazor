@@ -368,3 +368,4 @@ MigrationBackup/
 /docs/.jekyll-metadata
 /docs/vendor
 /docs/.DS_Store
+/src/dymaptic.GeoBlazor.Core/Documentation/**/*
