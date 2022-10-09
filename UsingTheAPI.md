@@ -2,8 +2,7 @@
 
 To get started, create a new Blazor Server application, and add a `PackageReference` to the `dymaptic.GeoBlazor.Core`
 package (via your IDE's Nuget Package Manager or `dotnet add package dymaptic.GeoBlazor.Core`).
-Next, in `Pages/_Layout.cshtml`, add the following to the head block of the html. Note the double @ symbols required,
-since the symbol is a reserved character in Razor.
+Next, in `Pages/_Layout.cshtml`, add the following to the head block of the html.
 
 ```html
     <link href="_content/dymaptic.GeoBlazor.Core"/>
