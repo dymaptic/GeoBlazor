@@ -1,6 +1,6 @@
 ---
 layout: default
-parent: Components
+parent: Classes
 title: ListItem
 ---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
@@ -63,7 +63,7 @@ public dymaptic.GeoBlazor.Core.Components.Layers.Layer? Layer { get; set; }
 ```
 
 #### Property Value
-[dymaptic.GeoBlazor.Core.Components.Layers.Layer](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Components.Layers.Layer 'dymaptic.GeoBlazor.Core.Components.Layers.Layer')
+[Layer](dymaptic.GeoBlazor.Core.Components.Layers.Layer.html 'dymaptic.GeoBlazor.Core.Components.Layers.Layer')
 
 ### Remarks
 Editing not currently supported.

@@ -10,31 +10,56 @@ using System.Reflection;
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
+/// <summary>
+///     The abstract base Razor Component class that all GeoBlazor components derive from.
+/// </summary>
 [JsonConverter(typeof(MapComponentConverter))]
 public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
 {
+    /// <summary>
+    ///     ChildContent defines the ability to add other components within this component in the razor syntax.
+    /// </summary>
     [Parameter]
     [JsonIgnore]
     public RenderFragment? ChildContent { get; set; }
 
+    /// <summary>
+    ///     The parent MapComponent of this component.
+    /// </summary>
     [CascadingParameter(Name = "Parent")]
     [JsonIgnore]
     public MapComponent? Parent { get; set; }
 
+    /// <summary>
+    ///     A boolean flag that indicates that the current <see cref="MapView"/> has finished rendering.
+    ///     To listen for a map rendering event, use <see cref="MapView.OnMapRenderedHandler"/>.
+    /// </summary>
     [CascadingParameter(Name = "MapRendered")]
     [JsonIgnore]
     public bool MapRendered { get; set; }
 
+    /// <summary>
+    ///     The reference to arcGisJsInterop.ts from .NET
+    /// </summary>    
     [CascadingParameter(Name = "JsModule")]
     [JsonIgnore]
     public IJSObjectReference? JsModule { get; set; }
 
+    /// <summary>
+    ///     The parent <see cref="MapView"/> of the current component.
+    /// </summary>
     [CascadingParameter(Name = "View")]
     [JsonIgnore]
     public MapView? View { get; set; }
     
+    /// <summary>
+    ///     A unique identifier, used to track components across .NET and JavaScript.
+    /// </summary>
     public Guid Id { get; init; } = Guid.NewGuid();
 
+    /// <summary>
+    ///     Implements the `IAsyncDisposable` pattern.
+    /// </summary>
     public virtual async ValueTask DisposeAsync()
     {
         if (Parent is not null)
@@ -55,21 +80,42 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         }
     }
 
+    /// <summary>
+    ///     Called from <see cref="MapComponent.OnAfterRenderAsync"/> to "Register" the current component with it's parent.
+    /// </summary>
+    /// <param name="child">
+    ///     The calling, child component to register
+    /// </param>
+    /// <exception cref="InvalidChildElementException">
+    ///     Throws if the current child is not a valid sub-component to the parent.
+    /// </exception>
     public virtual Task RegisterChildComponent(MapComponent child)
     {
         throw new InvalidChildElementException(GetType().Name, child.GetType().Name);
     }
 
+    /// <summary>
+    ///     Undoes the "Registration" of a child with its parent.
+    /// </summary>
+    /// <param name="child">
+    ///     The child to unregister
+    /// </param>
     public virtual Task UnregisterChildComponent(MapComponent child)
     {
         throw new InvalidChildElementException(GetType().Name, child.GetType().Name);
     }
 
+    /// <summary>
+    ///     Provides a way to externally call `StateHasChanged` on the component.
+    /// </summary>
     public virtual void Refresh()
     {
         StateHasChanged();
     }
 
+    /// <summary>
+    ///     Checks if the map is already rendered, and if so, performs forced updates as defined by the component type.
+    /// </summary>
     public virtual async Task UpdateComponent()
     {
         if (Parent is not null && MapRendered)
@@ -155,6 +201,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         }
     }
 
+    /// <inheritdoc />
     protected override Task OnParametersSetAsync()
     {
         _needsUpdate = true;
@@ -162,6 +209,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         return Task.CompletedTask;
     }
 
+    /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender || _needsUpdate)
@@ -178,6 +226,12 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         }
     }
 
+    /// <summary>
+    ///     Tells the <see cref="MapView"/> to completely re-render.
+    /// </summary>
+    /// <param name="forceRender">
+    ///     Optional parameter, if set, will re-render even if other logic says it is not needed.
+    /// </param>
     protected virtual async Task RenderView(bool forceRender = false)
     {
         if (Parent is not null)
@@ -189,7 +243,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     private bool _needsUpdate;
 }
 
-public class MapComponentConverter : JsonConverter<MapComponent>
+internal class MapComponentConverter : JsonConverter<MapComponent>
 {
     public override MapComponent? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {

@@ -3,8 +3,15 @@ using Microsoft.AspNetCore.Components;
 
 namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 
+/// <summary>
+///     A location defined by X, Y, and Z coordinates.
+///     <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Point.html">ArcGIS JS API</a>
+/// </summary>
 public class Point : Geometry
 {
+    /// <summary>
+    ///     The latitude of the point.
+    /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? Latitude
@@ -21,6 +28,9 @@ public class Point : Geometry
         }
     }
 
+    /// <summary>
+    ///     The longitude of the point.
+    /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? Longitude
@@ -37,14 +47,30 @@ public class Point : Geometry
         }
     }
 
+    /// <summary>
+    ///     The x-coordinate (easting) of the point in map units.
+    /// </summary>
     [Parameter]
     public double? X { get; set; }
 
+    /// <summary>
+    ///     The y-coordinate (northing) of the point in map units.
+    /// </summary>
     [Parameter]
     public double? Y { get; set; }
+    
+    /// <summary>
+    ///     The z-coordinate (or elevation) of the point in map units.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public double? Z { get; set; }
 
     public override string Type => "point";
 
+    /// <summary>
+    ///     Implements custom equality checks
+    /// </summary>
     public bool Equals(Point? other)
     {
         if (ReferenceEquals(null, other)) return false;
@@ -53,6 +79,7 @@ public class Point : Geometry
         return base.Equals(other) && Latitude.Equals(other.Latitude) && Longitude.Equals(other.Longitude);
     }
 
+    /// <inheritdoc />
     public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
@@ -62,6 +89,7 @@ public class Point : Geometry
         return Equals((Point)obj);
     }
 
+    /// <inheritdoc />
     public override int GetHashCode()
     {
         return HashCode.Combine(base.GetHashCode(), Latitude, Longitude);

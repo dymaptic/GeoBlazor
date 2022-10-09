@@ -1,6 +1,6 @@
 ---
 layout: default
-parent: Components
+parent: Classes
 title: ActionSection
 ---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
