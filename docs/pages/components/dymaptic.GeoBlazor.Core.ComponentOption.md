@@ -1,7 +1,7 @@
 ---
 layout: default
 parent: Components
-title: dymaptic.GeoBlazor.Core.ComponentOption
+title: ComponentOption
 ---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core](index.html#dymaptic.GeoBlazor.Core 'dymaptic.GeoBlazor.Core')

@@ -1,7 +1,7 @@
 ---
 layout: default
 parent: Components
-title: dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem
+title: ListItem
 ---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Widgets.LayerList](index.html#dymaptic.GeoBlazor.Core.Components.Widgets.LayerList 'dymaptic.GeoBlazor.Core.Components.Widgets.LayerList')

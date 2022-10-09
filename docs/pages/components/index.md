@@ -2,6 +2,7 @@
 layout: default
 parent: Components
 title: index
+nav_order: 1
 ---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 

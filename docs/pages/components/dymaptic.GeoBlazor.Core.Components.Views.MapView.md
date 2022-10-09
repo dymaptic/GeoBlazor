@@ -1,7 +1,7 @@
 ---
 layout: default
 parent: Components
-title: dymaptic.GeoBlazor.Core.Components.Views.MapView
+title: MapView
 ---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Views](index.html#dymaptic.GeoBlazor.Core.Components.Views 'dymaptic.GeoBlazor.Core.Components.Views')
