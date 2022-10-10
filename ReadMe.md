@@ -2,6 +2,8 @@
 
 [View the live demo site!](https://dy-blazor-samples-server.azurewebsites.net/)
 
+[Join our Discord Server!](https://discord.gg/hcmbPzn4VW)
+
 This project wraps the [ArcGIS Javascript API](https://developers.arcgis.com/javascript/latest/) in a Blazor templating framework.
 It generates a nuget package that can be imported and consumed from any Blazor application, without directly interacting with javascript.
 
