@@ -1,7 +1,7 @@
 ---
 layout: default
-parent: Classes
 title: Point
+parent: Geometries
 ---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Geometries](index.html#dymaptic.GeoBlazor.Core.Components.Geometries 'dymaptic.GeoBlazor.Core.Components.Geometries')
@@ -9,7 +9,7 @@ title: Point
 ## Point Class
 
 A location defined by X, Y, and Z coordinates.  
-<a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Point.html">ArcGIS JS API</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Point.html">ArcGIS JS API</a>
 
 ```csharp
 public class Point : dymaptic.GeoBlazor.Core.Components.Geometries.Geometry

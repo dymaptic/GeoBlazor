@@ -1,7 +1,7 @@
 ---
 layout: default
-parent: Classes
 title: PolyLine
+parent: Geometries
 ---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Geometries](index.html#dymaptic.GeoBlazor.Core.Components.Geometries 'dymaptic.GeoBlazor.Core.Components.Geometries')
@@ -9,7 +9,7 @@ title: PolyLine
 ## PolyLine Class
 
 A polyline contains an array of paths and spatialReference. Each path is represented as an array of points. A polyline also has boolean-valued hasM and hasZ properties.  
-<a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polyline.html">ArcGIS JS API</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polyline.html">ArcGIS JS API</a>
 
 ```csharp
 public class PolyLine : dymaptic.GeoBlazor.Core.Components.Geometries.Geometry

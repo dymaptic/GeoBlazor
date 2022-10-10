@@ -1,7 +1,7 @@
 ---
 layout: default
-parent: Classes
 title: RequiredPropertyAttribute
+parent: Core
 ---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core](index.html#dymaptic.GeoBlazor.Core 'dymaptic.GeoBlazor.Core')

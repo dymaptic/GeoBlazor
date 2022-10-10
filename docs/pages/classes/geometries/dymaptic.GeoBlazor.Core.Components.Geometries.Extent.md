@@ -1,7 +1,7 @@
 ---
 layout: default
-parent: Classes
 title: Extent
+parent: Geometries
 ---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Geometries](index.html#dymaptic.GeoBlazor.Core.Components.Geometries 'dymaptic.GeoBlazor.Core.Components.Geometries')
@@ -9,7 +9,7 @@ title: Extent
 ## Extent Class
 
 The minimum and maximum X and Y coordinates of a bounding box. Extent is used to describe the visible portion of a MapView. When working in a SceneView, Camera is used to define the visible part of the map within the view.  
-<a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Extent.html">ArcGIS JS API</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Extent.html">ArcGIS JS API</a>
 
 ```csharp
 public class Extent : dymaptic.GeoBlazor.Core.Components.Geometries.Geometry

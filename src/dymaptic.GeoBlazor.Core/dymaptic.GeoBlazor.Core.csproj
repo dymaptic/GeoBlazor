@@ -39,6 +39,7 @@
     <PropertyGroup>
         <DefaultDocumentationFolder>Documentation</DefaultDocumentationFolder>
         <DefaultDocumentationGeneratedPages>Types</DefaultDocumentationGeneratedPages>
+        <DefaultDocumentationGeneratedAccessModifiers>Public</DefaultDocumentationGeneratedAccessModifiers>
     </PropertyGroup>
 
     <ItemGroup>

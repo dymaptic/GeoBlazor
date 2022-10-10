@@ -6,7 +6,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 
 /// <summary>
 ///     The base class for geometry objects. This class has no constructor. To construct geometries see <see cref="Point"/>, <see cref="PolyLine"/>, or <see cref="Polygon"/>.
-///     <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Geometry.html">ArcGIS JS API</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Geometry.html">ArcGIS JS API</a>
 /// </summary>
 [JsonConverter(typeof(GeometryConverter))]
 public class Geometry : MapComponent
@@ -56,7 +56,7 @@ public class Geometry : MapComponent
 
                 break;
             case SpatialReference spatialReference:
-                if (!((Object)spatialReference).Equals(SpatialReference))
+                if (!((object)spatialReference).Equals(SpatialReference))
                 {
                     SpatialReference = spatialReference;
                     await UpdateComponent();
