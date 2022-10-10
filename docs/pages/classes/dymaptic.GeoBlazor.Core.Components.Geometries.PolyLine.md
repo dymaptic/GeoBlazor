@@ -1,7 +1,7 @@
 ---
 layout: default
 title: PolyLine
-parent: Geometries
+parent: Classes
 ---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Geometries](index.html#dymaptic.GeoBlazor.Core.Components.Geometries 'dymaptic.GeoBlazor.Core.Components.Geometries')

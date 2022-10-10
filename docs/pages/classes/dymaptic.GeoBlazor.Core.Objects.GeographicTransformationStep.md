@@ -1,7 +1,7 @@
 ---
 layout: default
 title: GeographicTransformationStep
-parent: Objects
+parent: Classes
 ---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Objects](index.html#dymaptic.GeoBlazor.Core.Objects 'dymaptic.GeoBlazor.Core.Objects')
