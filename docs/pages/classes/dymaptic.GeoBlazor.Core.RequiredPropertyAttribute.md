@@ -35,3 +35,17 @@ public RequiredPropertyAttribute(params string[]? otherOptions);
 
 If there are two or more acceptable properties that can be set, add the other property names  
 here for the validation. Use `nameof(Property)` to ensure you get the right name.
+### Properties
+
+<a name='dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.OtherOptions'></a>
+
+## RequiredPropertyAttribute.OtherOptions Property
+
+The other potential properties that can replace this property.
+
+```csharp
+public string[]? OtherOptions { get; }
+```
+
+#### Property Value
+[System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')

@@ -8,7 +8,8 @@ parent: Classes
 
 ## GeographicTransformationStep Class
 
-<a target="_blank" href="">ArcGIS JS API</a>
+Represents a step in the process of transforming coordinates from one geographic coordinate system to another. A geographic transformation step can be constructed from a well-known ID (wkid) or a well known text (wkt) that represents a geographic datum transformation.  
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-GeographicTransformationStep.html">ArcGIS JS API</a>
 
 ```csharp
 public class GeographicTransformationStep
@@ -17,11 +18,24 @@ public class GeographicTransformationStep
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; GeographicTransformationStep
 ### Properties
 
+<a name='dymaptic.GeoBlazor.Core.Objects.GeographicTransformationStep.IsInverse'></a>
+
+## GeographicTransformationStep.IsInverse Property
+
+Indicates if the geographic transformation is inverted.
+
+```csharp
+public System.Nullable<bool> IsInverse { get; set; }
+```
+
+#### Property Value
+[System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
+
 <a name='dymaptic.GeoBlazor.Core.Objects.GeographicTransformationStep.Wkid'></a>
 
 ## GeographicTransformationStep.Wkid Property
 
-Wkid = Well-Know Id
+The well-known id (wkid) that represents a known geographic transformation.
 
 ```csharp
 public System.Nullable<double> Wkid { get; set; }
@@ -34,7 +48,7 @@ public System.Nullable<double> Wkid { get; set; }
 
 ## GeographicTransformationStep.Wkt Property
 
-Wkt = Well-Known Text
+The well-known text (wkt) that represents a known geographic transformation.
 
 ```csharp
 public string? Wkt { get; set; }

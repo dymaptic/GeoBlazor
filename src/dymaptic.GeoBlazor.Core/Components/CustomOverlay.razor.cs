@@ -5,18 +5,27 @@ using System.ComponentModel;
 namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
-///
-///     <a target="_blank" href="">ArcGIS JS API</a>
+///     A container for placing custom html or Razor Components on top of the Map View.
 /// </summary>
 public partial class CustomOverlay
 {
+    /// <summary>
+    ///     The position to place the child content over the map.
+    /// </summary>
     [Parameter, EditorRequired]
     [RequiredProperty]
     public OverlayPosition Position { get; set; }
+    
+    /// <summary>
+    ///     The child content to place over the map.
+    /// </summary>
     [Parameter]
     [RequiredProperty]
     public RenderFragment? ChildContent { get; set; }
 
+    /// <summary>
+    ///     A convenience method to force the child content to call StateHasChanged
+    /// </summary>
     public void Refresh()
     {
         StateHasChanged();

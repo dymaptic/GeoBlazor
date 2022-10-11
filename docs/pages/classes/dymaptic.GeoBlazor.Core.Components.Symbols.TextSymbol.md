@@ -22,14 +22,14 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 
 ## TextSymbol.Font Property
 
-The [dymaptic.GeoBlazor.Core.Components.Symbols.MapFont](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Components.Symbols.MapFont 'dymaptic.GeoBlazor.Core.Components.Symbols.MapFont') used to style the text.
+The [MapFont](dymaptic.GeoBlazor.Core.Components.Symbols.MapFont.html 'dymaptic.GeoBlazor.Core.Components.Symbols.MapFont') used to style the text.
 
 ```csharp
 public dymaptic.GeoBlazor.Core.Components.Symbols.MapFont? Font { get; set; }
 ```
 
 #### Property Value
-[dymaptic.GeoBlazor.Core.Components.Symbols.MapFont](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Components.Symbols.MapFont 'dymaptic.GeoBlazor.Core.Components.Symbols.MapFont')
+[MapFont](dymaptic.GeoBlazor.Core.Components.Symbols.MapFont.html 'dymaptic.GeoBlazor.Core.Components.Symbols.MapFont')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol.HaloColor'></a>
 

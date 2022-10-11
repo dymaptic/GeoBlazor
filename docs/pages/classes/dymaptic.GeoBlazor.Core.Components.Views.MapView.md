@@ -390,7 +390,7 @@ A collection of [Direction](dymaptic.GeoBlazor.Core.Objects.Direction.html 'dyma
 
 ## MapView.FindPlaces(AddressQuery, Symbol, PopupTemplate) Method
 
-A custom method to run an [dymaptic.GeoBlazor.Core.Objects.AddressQuery](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Objects.AddressQuery 'dymaptic.GeoBlazor.Core.Objects.AddressQuery') against the current view, and display the results.
+A custom method to run an [AddressQuery](dymaptic.GeoBlazor.Core.Objects.AddressQuery.html 'dymaptic.GeoBlazor.Core.Objects.AddressQuery') against the current view, and display the results.
 
 ```csharp
 public System.Threading.Tasks.Task FindPlaces(dymaptic.GeoBlazor.Core.Objects.AddressQuery query, dymaptic.GeoBlazor.Core.Components.Symbols.Symbol displaySymbol, dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate popupTemplate);
@@ -399,9 +399,9 @@ public System.Threading.Tasks.Task FindPlaces(dymaptic.GeoBlazor.Core.Objects.Ad
 
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.FindPlaces(dymaptic.GeoBlazor.Core.Objects.AddressQuery,dymaptic.GeoBlazor.Core.Components.Symbols.Symbol,dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate).query'></a>
 
-`query` [dymaptic.GeoBlazor.Core.Objects.AddressQuery](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Objects.AddressQuery 'dymaptic.GeoBlazor.Core.Objects.AddressQuery')
+`query` [AddressQuery](dymaptic.GeoBlazor.Core.Objects.AddressQuery.html 'dymaptic.GeoBlazor.Core.Objects.AddressQuery')
 
-The [dymaptic.GeoBlazor.Core.Objects.AddressQuery](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Objects.AddressQuery 'dymaptic.GeoBlazor.Core.Objects.AddressQuery') to run.
+The [AddressQuery](dymaptic.GeoBlazor.Core.Objects.AddressQuery.html 'dymaptic.GeoBlazor.Core.Objects.AddressQuery') to run.
 
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.FindPlaces(dymaptic.GeoBlazor.Core.Objects.AddressQuery,dymaptic.GeoBlazor.Core.Components.Symbols.Symbol,dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate).displaySymbol'></a>
 

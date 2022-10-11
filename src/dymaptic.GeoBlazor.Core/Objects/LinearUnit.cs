@@ -5,21 +5,22 @@ using dymaptic.GeoBlazor.Core.Extensions;
 namespace dymaptic.GeoBlazor.Core.Objects;
 
 /// <summary>
-///
-///     <a target="_blank" href="">ArcGIS JS API</a>
+///     A collection of units for measuring Linear distances.
 /// </summary>
 [JsonConverter(typeof(LinearUnitsConverter))]
 public enum LinearUnit
 {
+#pragma warning disable CS1591
     Meters,
     Feet,
     Kilometers,
     Miles,
     NauticalMiles,
     Yards
+#pragma warning restore CS1591
 }
 
-public class LinearUnitsConverter : JsonConverter<LinearUnit>
+internal class LinearUnitsConverter : JsonConverter<LinearUnit>
 {
     public override LinearUnit Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {

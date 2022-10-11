@@ -44,6 +44,19 @@ public System.Nullable<double> Longitude { get; set; }
 #### Property Value
 [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.Point.Type'></a>
+
+## Point.Type Property
+
+The Geometry "type", used internally to render.
+
+```csharp
+public override string Type { get; }
+```
+
+#### Property Value
+[System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
 <a name='dymaptic.GeoBlazor.Core.Components.Geometries.Point.X'></a>
 
 ## Point.X Property

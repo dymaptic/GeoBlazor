@@ -16,9 +16,9 @@ internal class SharedFileInfo : IFileInfo
     }
 
     public bool Exists => true;
-    public long Length { get; }
+    public long Length { get; } = default!;
     public string PhysicalPath { get; }
     public string Name { get; }
-    public DateTimeOffset LastModified { get; }
-    public bool IsDirectory { get; }
+    public DateTimeOffset LastModified { get; } = default!;
+    public bool IsDirectory { get; } = default!;
 }

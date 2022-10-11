@@ -66,6 +66,7 @@ public class Point : Geometry
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? Z { get; set; }
 
+    /// <inheritdoc />
     public override string Type => "point";
 
     /// <summary>

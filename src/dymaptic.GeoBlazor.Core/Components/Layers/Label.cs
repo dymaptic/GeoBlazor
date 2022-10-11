@@ -34,6 +34,7 @@ public class Label : LayerObject
         switch (child)
         {
             case LabelExpressionInfo labelExpressionInfo:
+                // ReSharper disable once RedundantCast
                 if (!((Object)labelExpressionInfo).Equals(LabelExpressionInfo))
                 {
                     LabelExpressionInfo = labelExpressionInfo;

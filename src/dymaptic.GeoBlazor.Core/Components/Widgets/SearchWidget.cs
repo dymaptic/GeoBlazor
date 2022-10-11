@@ -17,11 +17,11 @@ public class SearchWidget : Widget
 
     /// <summary>
     ///     A delegate for a handler of search selection result events.
-    ///     Function must take in a <see cref="SelectResult"/> parameter, and return a <see cref="Task"/>
+    ///     Function must take in a <see cref="SearchResult"/> parameter, and return a <see cref="Task"/>
     /// </summary>
     [Parameter]
     [JsonIgnore]
-    public Func<SelectResult, Task>? OnSearchSelectResultEventHandler { get; set; }
+    public Func<SearchResult, Task>? OnSearchSelectResultEventHandler { get; set; }
 
     /// <summary>
     ///     A .NET object reference for calling this class from JavaScript.
@@ -31,12 +31,12 @@ public class SearchWidget : Widget
     /// <summary>
     ///     A JavaScript invokable method that is triggered whenever a "select-result" event is fired by the search widget.
     /// </summary>
-    /// <param name="selectResult">
+    /// <param name="searchResult">
     ///     The result selected in the search widget.
     /// </param>
     [JSInvokable]
-    public void OnSearchSelectResult(SelectResult selectResult)
+    public void OnSearchSelectResult(SearchResult searchResult)
     {
-        OnSearchSelectResultEventHandler?.Invoke(selectResult);
+        OnSearchSelectResultEventHandler?.Invoke(searchResult);
     }
 }

@@ -47,7 +47,8 @@ public class WebScene : MapComponent
                 break;
         }
     }
-    
+
+    /// <inheritdoc />
     public override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();

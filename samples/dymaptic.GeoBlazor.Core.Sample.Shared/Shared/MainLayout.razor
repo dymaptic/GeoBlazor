@@ -79,7 +79,7 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (ApiKey is null)
+        if (string.IsNullOrEmpty(ApiKey))
         {
             var localStorageCopy = await JsRuntime.InvokeAsync<string>("loadApiKeyFromLocalStorage");
             if (!string.IsNullOrWhiteSpace(localStorageCopy))

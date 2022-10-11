@@ -8,7 +8,7 @@ parent: Classes
 
 ## LinearUnit Enum
 
-<a target="_blank" href="">ArcGIS JS API</a>
+A collection of units for measuring Linear distances.
 
 ```csharp
 public enum LinearUnit

@@ -56,6 +56,7 @@ public class Geometry : MapComponent
 
                 break;
             case SpatialReference spatialReference:
+                // ReSharper disable once RedundantCast
                 if (!((object)spatialReference).Equals(SpatialReference))
                 {
                     SpatialReference = spatialReference;
