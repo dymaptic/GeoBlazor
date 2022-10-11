@@ -53,6 +53,8 @@ plugins:
 #   - vendor/cache/
 #   - vendor/gems/
 #   - vendor/ruby/
+exlude:
+  ReadMe.md
 
 # Theme Settings
 # Aux links for the upper right navigation
