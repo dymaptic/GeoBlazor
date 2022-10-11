@@ -3,6 +3,10 @@ using System.Text.Json.Serialization;
 
 namespace dymaptic.GeoBlazor.Core.Objects;
 
+/// <summary>
+///
+///     <a target="_blank" href="">ArcGIS JS API</a>
+/// </summary>
 [JsonConverter(typeof(MapPathConverter))]
 public class MapPath : List<MapPoint>, IEquatable<MapPath>
 {

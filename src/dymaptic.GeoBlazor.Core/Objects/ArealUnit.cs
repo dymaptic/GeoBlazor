@@ -4,6 +4,10 @@ using dymaptic.GeoBlazor.Core.Extensions;
 
 namespace dymaptic.GeoBlazor.Core.Objects;
 
+/// <summary>
+///
+///     <a target="_blank" href="">ArcGIS JS API</a>
+/// </summary>
 [JsonConverter(typeof(ArealUnitsConverter))]
 public enum ArealUnit
 {
@@ -16,7 +20,7 @@ public enum ArealUnit
     SquareKilometers
 }
 
-public class ArealUnitsConverter : JsonConverter<ArealUnit>
+internal class ArealUnitsConverter : JsonConverter<ArealUnit>
 {
     public override ArealUnit Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {

@@ -655,7 +655,7 @@ export async function addWidget(widget: any, viewId: string): Promise<void> {
                     view: view,
                     useHeadingEnabled: widget.useHeadingEnabled,
                     goToOverride: function (view, options) {
-                        options.target.scale = widget.zoomTo;
+                        options.target.scale = widget.scale;
                         return view.goTo(options.target);
                     }
                 });
@@ -676,10 +676,15 @@ export async function addWidget(widget: any, viewId: string): Promise<void> {
                 });
                 break;
             case 'basemapToggle':
-                newWidget = new BasemapToggle({
-                    view: view,
-                    nextBasemap: widget.nextBasemap
+                let basemapToggle = new BasemapToggle({
+                    view: view
                 });
+                newWidget = basemapToggle;
+                if (widget.nextBasemapName !== undefined && widget.nextBasemapName !== null) {
+                    basemapToggle.nextBasemap = widget.nextBasemapName;
+                } else {
+                    basemapToggle.nextBasemap = widget.nextBasemap;
+                }
                 break;
             case 'basemapGallery':
                 let source = new PortalBasemapsSource();

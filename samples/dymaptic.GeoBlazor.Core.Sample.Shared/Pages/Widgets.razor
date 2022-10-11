@@ -45,7 +45,7 @@
     <Map ArcGISDefaultBasemap="arcgis-navigation" />
     @if (_showLocate)
     {
-        <LocateWidget UseHeadingEnabled="false" ZoomTo="1500" Position="OverlayPosition.TopLeft" />
+        <LocateWidget UseHeadingEnabled="false" Scale="1500" Position="OverlayPosition.TopLeft" />
     }
     @if (_showSearch)
     {
@@ -53,7 +53,7 @@
     }
     @if (_showBasemapToggle)
     {
-        <BasemapToggleWidget NextBasemap="arcgis-imagery" Position="OverlayPosition.BottomRight" />
+        <BasemapToggleWidget NextBasemapName="arcgis-imagery" Position="OverlayPosition.BottomRight" />
     }
     @if (_showBasemapGallery)
     {

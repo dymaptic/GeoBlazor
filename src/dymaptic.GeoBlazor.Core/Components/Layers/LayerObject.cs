@@ -2,11 +2,18 @@
 
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
+/// <summary>
+///     Abstract base class for objects that are a child of a <see cref="Layer"/> and have a <see cref="Symbol"/> property.
+/// </summary>
 public abstract class LayerObject : MapComponent
 {
+    /// <summary>
+    ///     The <see cref="Symbol"/> for the object.
+    /// </summary>
     [RequiredProperty]
     public Symbol? Symbol { get; set; }
 
+    /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
     {
         switch (child)
@@ -26,6 +33,7 @@ public abstract class LayerObject : MapComponent
         }
     }
 
+    /// <inheritdoc />
     public override async Task UnregisterChildComponent(MapComponent child)
     {
         switch (child)
@@ -40,7 +48,8 @@ public abstract class LayerObject : MapComponent
                 break;
         }
     }
-    
+
+    /// <inheritdoc />
     public override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();

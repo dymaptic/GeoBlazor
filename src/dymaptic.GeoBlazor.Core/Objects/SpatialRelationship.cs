@@ -4,6 +4,10 @@ using dymaptic.GeoBlazor.Core.Extensions;
 
 namespace dymaptic.GeoBlazor.Core.Objects;
 
+/// <summary>
+///
+///     <a target="_blank" href="">ArcGIS JS API</a>
+/// </summary>
 [JsonConverter(typeof(SpatialRelationshipConverter))]
 public enum SpatialRelationship
 {

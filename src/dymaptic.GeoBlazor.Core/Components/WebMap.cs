@@ -1,10 +1,18 @@
 ﻿namespace dymaptic.GeoBlazor.Core.Components;
 
+/// <summary>
+///     Loads a WebMap from ArcGIS Online or ArcGIS Enterprise portal into a MapView. It defines the content, style, and bookmarks of your webmap, and it can be shared across multiple ArcGIS web and desktop applications.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html">ArcGIS JS API</a>
+/// </summary>
 public class WebMap : MapComponent
 {
+    /// <summary>
+    ///    The portal item from which the WebMap is loaded.
+    /// </summary>
     [RequiredProperty]
     public PortalItem? PortalItem { get; set; }
 
+    /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
     {
         switch (child)
@@ -24,6 +32,7 @@ public class WebMap : MapComponent
         }
     }
 
+    /// <inheritdoc />
     public override async Task UnregisterChildComponent(MapComponent child)
     {
         switch (child)
@@ -38,7 +47,8 @@ public class WebMap : MapComponent
                 break;
         }
     }
-    
+
+    /// <inheritdoc />
     public override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();

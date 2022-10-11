@@ -1,10 +1,18 @@
 ﻿namespace dymaptic.GeoBlazor.Core.Components;
 
+/// <summary>
+///     The web scene is the core element of 3D mapping across ArcGIS. It defines the content, style, environment, and slides of your scene and it can be shared across multiple ArcGIS web and desktop applications
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html">ArcGIS JS API</a>
+/// </summary>
 public class WebScene : MapComponent
 {
+    /// <summary>
+    ///     The portal item from which the WebScene is loaded.
+    /// </summary>
     [RequiredProperty]
     public PortalItem? PortalItem { get; set; }
 
+    /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
     {
         switch (child)
@@ -24,6 +32,7 @@ public class WebScene : MapComponent
         }
     }
 
+    /// <inheritdoc />
     public override async Task UnregisterChildComponent(MapComponent child)
     {
         switch (child)

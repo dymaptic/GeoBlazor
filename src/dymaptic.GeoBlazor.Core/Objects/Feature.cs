@@ -4,6 +4,10 @@ using dymaptic.GeoBlazor.Core.Components.Symbols;
 
 namespace dymaptic.GeoBlazor.Core.Objects;
 
+/// <summary>
+///
+///     <a target="_blank" href="">ArcGIS JS API</a>
+/// </summary>
 public class Feature
 {
     public Dictionary<string, object> Attributes { get; set; } = new();

@@ -1,6 +1,8 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
 using dymaptic.GeoBlazor.Core.Components.Popups;
+using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using System.Text.Json.Serialization;
 
 
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
@@ -14,7 +16,9 @@ public class Graphic : LayerObject
     /// <summary>
     ///     Name-value pairs of fields and field values associated with the graphic.
     /// </summary>
-    public Attributes? Attributes { get; set; }
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Dictionary<string, object>? Attributes { get; set; }
 
     /// <summary>
     ///     The geometry that defines the graphic's location.
@@ -44,14 +48,6 @@ public class Graphic : LayerObject
     {
         switch (child)
         {
-            case Attributes attributes:
-                if (!attributes.Equals(Attributes))
-                {
-                    Attributes = attributes;
-                    await UpdateComponent();
-                }
-
-                break;
             case Geometry geometry:
                 if (!geometry.Equals(Geometry))
                 {
@@ -80,10 +76,6 @@ public class Graphic : LayerObject
     {
         switch (child)
         {
-            case Attributes _:
-                Attributes = null;
-
-                break;
             case Geometry _:
                 Geometry = null;
 
@@ -103,7 +95,6 @@ public class Graphic : LayerObject
     public override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();
-        Attributes?.ValidateRequiredChildren();
         Geometry?.ValidateRequiredChildren();
         PopupTemplate?.ValidateRequiredChildren();
     }

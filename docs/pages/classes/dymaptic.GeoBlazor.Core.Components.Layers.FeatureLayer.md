@@ -36,14 +36,14 @@ public string? DefinitionExpression { get; set; }
 
 ## FeatureLayer.LabelingInfo Property
 
-The label definition for this layer, specified as an array of [dymaptic.GeoBlazor.Core.Components.Layers.Label](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Components.Layers.Label 'dymaptic.GeoBlazor.Core.Components.Layers.Label').
+The label definition for this layer, specified as an array of [Label](dymaptic.GeoBlazor.Core.Components.Layers.Label.html 'dymaptic.GeoBlazor.Core.Components.Layers.Label').
 
 ```csharp
 public System.Collections.Generic.HashSet<dymaptic.GeoBlazor.Core.Components.Layers.Label> LabelingInfo { get; set; }
 ```
 
 #### Property Value
-[System.Collections.Generic.HashSet&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.HashSet-1 'System.Collections.Generic.HashSet`1')[dymaptic.GeoBlazor.Core.Components.Layers.Label](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Components.Layers.Label 'dymaptic.GeoBlazor.Core.Components.Layers.Label')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.HashSet-1 'System.Collections.Generic.HashSet`1')
+[System.Collections.Generic.HashSet&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.HashSet-1 'System.Collections.Generic.HashSet`1')[Label](dymaptic.GeoBlazor.Core.Components.Layers.Label.html 'dymaptic.GeoBlazor.Core.Components.Layers.Label')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.HashSet-1 'System.Collections.Generic.HashSet`1')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.LayerType'></a>
 
@@ -82,7 +82,7 @@ public dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate? PopupTemplate { 
 ```
 
 #### Property Value
-[dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate 'dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate')
+[PopupTemplate](dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.html 'dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.PortalItem'></a>
 
@@ -95,7 +95,7 @@ public dymaptic.GeoBlazor.Core.Components.PortalItem? PortalItem { get; set; }
 ```
 
 #### Property Value
-[dymaptic.GeoBlazor.Core.Components.PortalItem](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Components.PortalItem 'dymaptic.GeoBlazor.Core.Components.PortalItem')
+[PortalItem](dymaptic.GeoBlazor.Core.Components.PortalItem.html 'dymaptic.GeoBlazor.Core.Components.PortalItem')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.Renderer'></a>
 
@@ -108,7 +108,7 @@ public dymaptic.GeoBlazor.Core.Components.Renderers.Renderer? Renderer { get; se
 ```
 
 #### Property Value
-[dymaptic.GeoBlazor.Core.Components.Renderers.Renderer](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Components.Renderers.Renderer 'dymaptic.GeoBlazor.Core.Components.Renderers.Renderer')
+[Renderer](dymaptic.GeoBlazor.Core.Components.Renderers.Renderer.html 'dymaptic.GeoBlazor.Core.Components.Renderers.Renderer')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.Url'></a>
 
@@ -146,7 +146,7 @@ The calling, child component to register
 
 #### Exceptions
 
-[dymaptic.GeoBlazor.Core.Exceptions.InvalidChildElementException](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Exceptions.InvalidChildElementException 'dymaptic.GeoBlazor.Core.Exceptions.InvalidChildElementException')  
+[InvalidChildElementException](dymaptic.GeoBlazor.Core.Exceptions.InvalidChildElementException.html 'dymaptic.GeoBlazor.Core.Exceptions.InvalidChildElementException')  
 Throws if the current child is not a valid sub-component to the parent.
 
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.UnregisterChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent)'></a>
@@ -186,8 +186,7 @@ public override System.Threading.Tasks.Task UpdateComponent();
 
 ## FeatureLayer.ValidateRequiredChildren() Method
 
-When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that  
-all properties with the [RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
+When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the [RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
 
 ```csharp
 public override void ValidateRequiredChildren();
@@ -195,8 +194,8 @@ public override void ValidateRequiredChildren();
 
 #### Exceptions
 
-[dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredChildElementException](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredChildElementException 'dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredChildElementException')  
+[MissingRequiredChildElementException](dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredChildElementException.html 'dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredChildElementException')  
 The consumer needs to provide the missing child component
 
-[dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException 'dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException')  
+[MissingRequiredOptionsChildElementException](dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException.html 'dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException')  
 The consumer needs to provide ONE of the options of child components

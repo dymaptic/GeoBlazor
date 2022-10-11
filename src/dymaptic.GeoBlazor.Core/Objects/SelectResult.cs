@@ -3,6 +3,10 @@ using dymaptic.GeoBlazor.Core.Components.Geometries;
 
 namespace dymaptic.GeoBlazor.Core.Objects;
 
+/// <summary>
+///
+///     <a target="_blank" href="">ArcGIS JS API</a>
+/// </summary>
 public class SelectResult
 {
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

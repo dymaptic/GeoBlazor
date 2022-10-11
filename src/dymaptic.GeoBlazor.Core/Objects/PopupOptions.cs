@@ -2,6 +2,10 @@
 
 namespace dymaptic.GeoBlazor.Core.Objects;
 
+/// <summary>
+///
+///     <a target="_blank" href="">ArcGIS JS API</a>
+/// </summary>
 public class PopupOptions
 {
     public PopupDockOptions DockOptions { get; set; } = new();

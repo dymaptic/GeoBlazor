@@ -3,6 +3,10 @@ using System.Text.Json.Serialization;
 
 namespace dymaptic.GeoBlazor.Core.Objects;
 
+/// <summary>
+///
+///     <a target="_blank" href="">ArcGIS JS API</a>
+/// </summary>
 [JsonConverter(typeof(MapColorConverter))]
 public class MapColor
 {
@@ -20,7 +24,7 @@ public class MapColor
     public string? HexValue { get; set; }
 }
 
-public class MapColorConverter : JsonConverter<MapColor>
+internal class MapColorConverter : JsonConverter<MapColor>
 {
     public override MapColor Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {

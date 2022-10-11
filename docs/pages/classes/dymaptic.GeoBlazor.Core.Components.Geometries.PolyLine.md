@@ -22,14 +22,14 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 
 ## PolyLine.Paths Property
 
-An array of [dymaptic.GeoBlazor.Core.Objects.MapPath](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Objects.MapPath 'dymaptic.GeoBlazor.Core.Objects.MapPath') paths, or line segments, that make up the polyline.
+An array of [MapPath](dymaptic.GeoBlazor.Core.Objects.MapPath.html 'dymaptic.GeoBlazor.Core.Objects.MapPath') paths, or line segments, that make up the polyline.
 
 ```csharp
 public dymaptic.GeoBlazor.Core.Objects.MapPath[] Paths { get; set; }
 ```
 
 #### Property Value
-[dymaptic.GeoBlazor.Core.Objects.MapPath](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Objects.MapPath 'dymaptic.GeoBlazor.Core.Objects.MapPath')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')
+[MapPath](dymaptic.GeoBlazor.Core.Objects.MapPath.html 'dymaptic.GeoBlazor.Core.Objects.MapPath')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine.Type'></a>
 

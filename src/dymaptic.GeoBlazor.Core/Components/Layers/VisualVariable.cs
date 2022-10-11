@@ -5,36 +5,39 @@ using Microsoft.AspNetCore.Components;
 
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
-public class VisualVariable : MapComponent
+/// <summary>
+///     The visual variable base class. See each of the subclasses that extend this class to learn how to create continuous data-driven thematic visualizations.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-VisualVariable.html">ArcGIS JS API</a>
+/// </summary>
+public abstract class VisualVariable : MapComponent
 {
+    /// <summary>
+    ///     The visual variable type.
+    /// </summary>
     [JsonPropertyName("type")]
-    [Parameter]
-    public VisualVariableType VariableType { get; set; } = VisualVariableType.Size;
+    public virtual VisualVariableType VariableType { get; }
 
+    /// <summary>
+    ///     The name of the numeric attribute field that contains the data values used to determine the color/opacity/size/rotation of each feature.
+    /// </summary>
     [Parameter, EditorRequired]
     [RequiredProperty]
     public string Field { get; set; } = default!;
-
-    [Parameter]
-    public double MinDataValue { get; set; }
-
-    [Parameter]
-    public double MaxDataValue { get; set; }
-
-    [Parameter]
-    public string? MinSize { get; set; }
-
-    [Parameter]
-    public string? MaxSize { get; set; }
 }
 
+/// <summary>
+///     A collection of <see cref="VisualVariable"/> Types
+/// </summary>
 [JsonConverter(typeof(VisualVariableTypeConverter))]
 public enum VisualVariableType
 {
+    /// <summary>
+    ///     The Size Variable type marker
+    /// </summary>
     Size
 }
 
-public class VisualVariableTypeConverter : JsonConverter<VisualVariableType>
+internal class VisualVariableTypeConverter : JsonConverter<VisualVariableType>
 {
     public override VisualVariableType Read(ref Utf8JsonReader reader, Type typeToConvert,
         JsonSerializerOptions options)

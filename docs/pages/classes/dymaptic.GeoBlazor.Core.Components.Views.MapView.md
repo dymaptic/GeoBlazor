@@ -75,7 +75,7 @@ public dymaptic.GeoBlazor.Core.Components.Constraints? Constraints { get; set; }
 ```
 
 #### Property Value
-[dymaptic.GeoBlazor.Core.Components.Constraints](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Components.Constraints 'dymaptic.GeoBlazor.Core.Components.Constraints')
+[Constraints](dymaptic.GeoBlazor.Core.Components.Constraints.html 'dymaptic.GeoBlazor.Core.Components.Constraints')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.ErrorMessage'></a>
 
@@ -94,7 +94,7 @@ public string? ErrorMessage { get; set; }
 
 ## MapView.Graphics Property
 
-The collection of [Graphic](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic')s in the view. These are directly on the view itself, not in a [dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer 'dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer').
+The collection of [Graphic](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic')s in the view. These are directly on the view itself, not in a [GraphicsLayer](dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer.html 'dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer').
 
 ```csharp
 public System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Components.Layers.Graphic> Graphics { get; set; }
@@ -153,7 +153,7 @@ public dymaptic.GeoBlazor.Core.Components.Map? Map { get; set; }
 ```
 
 #### Property Value
-[dymaptic.GeoBlazor.Core.Components.Map](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Components.Map 'dymaptic.GeoBlazor.Core.Components.Map')
+[Map](dymaptic.GeoBlazor.Core.Components.Map.html 'dymaptic.GeoBlazor.Core.Components.Map')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnClickAsyncHandler'></a>
 
@@ -276,20 +276,20 @@ public dymaptic.GeoBlazor.Core.Components.WebMap? WebMap { get; set; }
 ```
 
 #### Property Value
-[dymaptic.GeoBlazor.Core.Components.WebMap](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Components.WebMap 'dymaptic.GeoBlazor.Core.Components.WebMap')
+[WebMap](dymaptic.GeoBlazor.Core.Components.WebMap.html 'dymaptic.GeoBlazor.Core.Components.WebMap')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.Widgets'></a>
 
 ## MapView.Widgets Property
 
-The collection of [dymaptic.GeoBlazor.Core.Components.Widgets.Widget](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Components.Widgets.Widget 'dymaptic.GeoBlazor.Core.Components.Widgets.Widget')s in the view.
+The collection of [Widget](dymaptic.GeoBlazor.Core.Components.Widgets.Widget.html 'dymaptic.GeoBlazor.Core.Components.Widgets.Widget')s in the view.
 
 ```csharp
 public System.Collections.Generic.HashSet<dymaptic.GeoBlazor.Core.Components.Widgets.Widget> Widgets { get; set; }
 ```
 
 #### Property Value
-[System.Collections.Generic.HashSet&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.HashSet-1 'System.Collections.Generic.HashSet`1')[dymaptic.GeoBlazor.Core.Components.Widgets.Widget](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Components.Widgets.Widget 'dymaptic.GeoBlazor.Core.Components.Widgets.Widget')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.HashSet-1 'System.Collections.Generic.HashSet`1')
+[System.Collections.Generic.HashSet&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.HashSet-1 'System.Collections.Generic.HashSet`1')[Widget](dymaptic.GeoBlazor.Core.Components.Widgets.Widget.html 'dymaptic.GeoBlazor.Core.Components.Widgets.Widget')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.HashSet-1 'System.Collections.Generic.HashSet`1')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.Zoom'></a>
 
@@ -309,7 +309,7 @@ public double Zoom { get; set; }
 
 ## MapView.AddGraphic(Graphic, Nullable<int>) Method
 
-Adds a [Graphic](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic') to the current view, or to a [dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer 'dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer').
+Adds a [Graphic](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic') to the current view, or to a [GraphicsLayer](dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer.html 'dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer').
 
 ```csharp
 public System.Threading.Tasks.Task AddGraphic(dymaptic.GeoBlazor.Core.Components.Layers.Graphic graphic, System.Nullable<int> layerIndex=null);
@@ -326,7 +326,7 @@ The [Graphic](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html 'dymaptic.G
 
 `layerIndex` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 
-An optional index, that determines which [dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer 'dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer') to add the graphic to. If omitted, the graphic will be placed directly on the view.
+An optional index, that determines which [GraphicsLayer](dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer.html 'dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer') to add the graphic to. If omitted, the graphic will be placed directly on the view.
 
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
@@ -363,7 +363,7 @@ Implements [DisposeAsync()](https://docs.microsoft.com/en-us/dotnet/api/System.I
 
 ## MapView.DrawRouteAndGetDirections(Symbol, string) Method
 
-A custom method to set up the interaction for clicking a start and end point, and have the view render a driving route. Also returns a set of [dymaptic.GeoBlazor.Core.Objects.Direction](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Objects.Direction 'dymaptic.GeoBlazor.Core.Objects.Direction')s for display.
+A custom method to set up the interaction for clicking a start and end point, and have the view render a driving route. Also returns a set of [Direction](dymaptic.GeoBlazor.Core.Objects.Direction.html 'dymaptic.GeoBlazor.Core.Objects.Direction')s for display.
 
 ```csharp
 public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Objects.Direction[]> DrawRouteAndGetDirections(dymaptic.GeoBlazor.Core.Components.Symbols.Symbol routeSymbol, string routeUrl);
@@ -372,9 +372,9 @@ public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Objects.Direction[]> 
 
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.DrawRouteAndGetDirections(dymaptic.GeoBlazor.Core.Components.Symbols.Symbol,string).routeSymbol'></a>
 
-`routeSymbol` [dymaptic.GeoBlazor.Core.Components.Symbols.Symbol](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Components.Symbols.Symbol 'dymaptic.GeoBlazor.Core.Components.Symbols.Symbol')
+`routeSymbol` [Symbol](dymaptic.GeoBlazor.Core.Components.Symbols.Symbol.html 'dymaptic.GeoBlazor.Core.Components.Symbols.Symbol')
 
-The [dymaptic.GeoBlazor.Core.Components.Symbols.Symbol](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Components.Symbols.Symbol 'dymaptic.GeoBlazor.Core.Components.Symbols.Symbol') used to render the route.
+The [Symbol](dymaptic.GeoBlazor.Core.Components.Symbols.Symbol.html 'dymaptic.GeoBlazor.Core.Components.Symbols.Symbol') used to render the route.
 
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.DrawRouteAndGetDirections(dymaptic.GeoBlazor.Core.Components.Symbols.Symbol,string).routeUrl'></a>
 
@@ -383,8 +383,8 @@ The [dymaptic.GeoBlazor.Core.Components.Symbols.Symbol](https://docs.microsoft.c
 A routing service url for calculating the route.
 
 #### Returns
-[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[dymaptic.GeoBlazor.Core.Objects.Direction](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Objects.Direction 'dymaptic.GeoBlazor.Core.Objects.Direction')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
-A collection of [dymaptic.GeoBlazor.Core.Objects.Direction](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Objects.Direction 'dymaptic.GeoBlazor.Core.Objects.Direction') steps to follow the route.
+[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[Direction](dymaptic.GeoBlazor.Core.Objects.Direction.html 'dymaptic.GeoBlazor.Core.Objects.Direction')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
+A collection of [Direction](dymaptic.GeoBlazor.Core.Objects.Direction.html 'dymaptic.GeoBlazor.Core.Objects.Direction') steps to follow the route.
 
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.FindPlaces(dymaptic.GeoBlazor.Core.Objects.AddressQuery,dymaptic.GeoBlazor.Core.Components.Symbols.Symbol,dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate)'></a>
 
@@ -405,15 +405,15 @@ The [dymaptic.GeoBlazor.Core.Objects.AddressQuery](https://docs.microsoft.com/en
 
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.FindPlaces(dymaptic.GeoBlazor.Core.Objects.AddressQuery,dymaptic.GeoBlazor.Core.Components.Symbols.Symbol,dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate).displaySymbol'></a>
 
-`displaySymbol` [dymaptic.GeoBlazor.Core.Components.Symbols.Symbol](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Components.Symbols.Symbol 'dymaptic.GeoBlazor.Core.Components.Symbols.Symbol')
+`displaySymbol` [Symbol](dymaptic.GeoBlazor.Core.Components.Symbols.Symbol.html 'dymaptic.GeoBlazor.Core.Components.Symbols.Symbol')
 
-The [dymaptic.GeoBlazor.Core.Components.Symbols.Symbol](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Components.Symbols.Symbol 'dymaptic.GeoBlazor.Core.Components.Symbols.Symbol') to use to render the results of the query.
+The [Symbol](dymaptic.GeoBlazor.Core.Components.Symbols.Symbol.html 'dymaptic.GeoBlazor.Core.Components.Symbols.Symbol') to use to render the results of the query.
 
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.FindPlaces(dymaptic.GeoBlazor.Core.Objects.AddressQuery,dymaptic.GeoBlazor.Core.Components.Symbols.Symbol,dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate).popupTemplate'></a>
 
-`popupTemplate` [dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate 'dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate')
+`popupTemplate` [PopupTemplate](dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.html 'dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate')
 
-A [dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate 'dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate') for displaying Popups on rendered results.
+A [PopupTemplate](dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.html 'dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate') for displaying Popups on rendered results.
 
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
@@ -422,7 +422,7 @@ A [dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate](https://docs.microso
 
 ## MapView.GetAllGraphics(Nullable<int>) Method
 
-Returns all graphics for the view, or for a particular [dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer 'dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer').
+Returns all graphics for the view, or for a particular [GraphicsLayer](dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer.html 'dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer').
 
 ```csharp
 public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Layers.Graphic[]> GetAllGraphics(System.Nullable<int> layerIndex);
@@ -433,7 +433,7 @@ public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Layers.Gra
 
 `layerIndex` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 
-Optional [dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer 'dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer') index. If not provided, this will return the graphics from the view itself.
+Optional [GraphicsLayer](dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer.html 'dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer') index. If not provided, this will return the graphics from the view itself.
 
 #### Returns
 [System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[Graphic](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
@@ -534,7 +534,7 @@ The JavaScript error call stack, or details if the call stack was unavailable.
 
 #### Exceptions
 
-[dymaptic.GeoBlazor.Core.Exceptions.JavascriptException](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Exceptions.JavascriptException 'dymaptic.GeoBlazor.Core.Exceptions.JavascriptException')  
+[JavascriptException](dymaptic.GeoBlazor.Core.Exceptions.JavascriptException.html 'dymaptic.GeoBlazor.Core.Exceptions.JavascriptException')  
 Wraps the JS Error and throws a .NET Exception.
 
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptPointerMove(dymaptic.GeoBlazor.Core.Components.Geometries.Point)'></a>
@@ -594,9 +594,9 @@ public System.Threading.Tasks.Task QueryFeatures(dymaptic.GeoBlazor.Core.Objects
 
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.QueryFeatures(dymaptic.GeoBlazor.Core.Objects.Query,dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer,dymaptic.GeoBlazor.Core.Components.Symbols.Symbol,dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate).query'></a>
 
-`query` [dymaptic.GeoBlazor.Core.Objects.Query](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Objects.Query 'dymaptic.GeoBlazor.Core.Objects.Query')
+`query` [Query](dymaptic.GeoBlazor.Core.Objects.Query.html 'dymaptic.GeoBlazor.Core.Objects.Query')
 
-The [dymaptic.GeoBlazor.Core.Objects.Query](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Objects.Query 'dymaptic.GeoBlazor.Core.Objects.Query') to run.
+The [Query](dymaptic.GeoBlazor.Core.Objects.Query.html 'dymaptic.GeoBlazor.Core.Objects.Query') to run.
 
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.QueryFeatures(dymaptic.GeoBlazor.Core.Objects.Query,dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer,dymaptic.GeoBlazor.Core.Components.Symbols.Symbol,dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate).featureLayer'></a>
 
@@ -606,15 +606,15 @@ The [FeatureLayer](dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html '
 
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.QueryFeatures(dymaptic.GeoBlazor.Core.Objects.Query,dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer,dymaptic.GeoBlazor.Core.Components.Symbols.Symbol,dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate).displaySymbol'></a>
 
-`displaySymbol` [dymaptic.GeoBlazor.Core.Components.Symbols.Symbol](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Components.Symbols.Symbol 'dymaptic.GeoBlazor.Core.Components.Symbols.Symbol')
+`displaySymbol` [Symbol](dymaptic.GeoBlazor.Core.Components.Symbols.Symbol.html 'dymaptic.GeoBlazor.Core.Components.Symbols.Symbol')
 
-The [dymaptic.GeoBlazor.Core.Components.Symbols.Symbol](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Components.Symbols.Symbol 'dymaptic.GeoBlazor.Core.Components.Symbols.Symbol') to use to render the results of the query.
+The [Symbol](dymaptic.GeoBlazor.Core.Components.Symbols.Symbol.html 'dymaptic.GeoBlazor.Core.Components.Symbols.Symbol') to use to render the results of the query.
 
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.QueryFeatures(dymaptic.GeoBlazor.Core.Objects.Query,dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer,dymaptic.GeoBlazor.Core.Components.Symbols.Symbol,dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate).popupTemplate'></a>
 
-`popupTemplate` [dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate 'dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate')
+`popupTemplate` [PopupTemplate](dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.html 'dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate')
 
-A [dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate 'dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate') for displaying Popups on rendered results.
+A [PopupTemplate](dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.html 'dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate') for displaying Popups on rendered results.
 
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
@@ -651,7 +651,7 @@ The calling, child component to register
 
 #### Exceptions
 
-[dymaptic.GeoBlazor.Core.Exceptions.InvalidChildElementException](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Exceptions.InvalidChildElementException 'dymaptic.GeoBlazor.Core.Exceptions.InvalidChildElementException')  
+[InvalidChildElementException](dymaptic.GeoBlazor.Core.Exceptions.InvalidChildElementException.html 'dymaptic.GeoBlazor.Core.Exceptions.InvalidChildElementException')  
 Throws if the current child is not a valid sub-component to the parent.
 
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.RemoveGraphicAtIndex(int,System.Nullable_int_)'></a>
@@ -719,9 +719,9 @@ public System.Threading.Tasks.Task ShowPopup(dymaptic.GeoBlazor.Core.Components.
 
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.ShowPopup(dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate,dymaptic.GeoBlazor.Core.Components.Geometries.Point).template'></a>
 
-`template` [dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate 'dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate')
+`template` [PopupTemplate](dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.html 'dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate')
 
-The [dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate 'dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate') defining the Popup.
+The [PopupTemplate](dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.html 'dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate') defining the Popup.
 
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.ShowPopup(dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate,dymaptic.GeoBlazor.Core.Components.Geometries.Point).location'></a>
 
@@ -751,9 +751,9 @@ The [Graphic](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html 'dymaptic.G
 
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.ShowPopupWithGraphic(dymaptic.GeoBlazor.Core.Components.Layers.Graphic,dymaptic.GeoBlazor.Core.Objects.PopupOptions).options'></a>
 
-`options` [dymaptic.GeoBlazor.Core.Objects.PopupOptions](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Objects.PopupOptions 'dymaptic.GeoBlazor.Core.Objects.PopupOptions')
+`options` [PopupOptions](dymaptic.GeoBlazor.Core.Objects.PopupOptions.html 'dymaptic.GeoBlazor.Core.Objects.PopupOptions')
 
-A set of [dymaptic.GeoBlazor.Core.Objects.PopupOptions](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Objects.PopupOptions 'dymaptic.GeoBlazor.Core.Objects.PopupOptions') that define the position and visible elements of the Popup.
+A set of [PopupOptions](dymaptic.GeoBlazor.Core.Objects.PopupOptions.html 'dymaptic.GeoBlazor.Core.Objects.PopupOptions') that define the position and visible elements of the Popup.
 
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
@@ -783,9 +783,9 @@ A collection of drivable distances, calculated in minutes
 
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.SolveServiceArea(string,double[],dymaptic.GeoBlazor.Core.Components.Symbols.Symbol).serviceAreaSymbol'></a>
 
-`serviceAreaSymbol` [dymaptic.GeoBlazor.Core.Components.Symbols.Symbol](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Components.Symbols.Symbol 'dymaptic.GeoBlazor.Core.Components.Symbols.Symbol')
+`serviceAreaSymbol` [Symbol](dymaptic.GeoBlazor.Core.Components.Symbols.Symbol.html 'dymaptic.GeoBlazor.Core.Components.Symbols.Symbol')
 
-The [dymaptic.GeoBlazor.Core.Components.Symbols.Symbol](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Components.Symbols.Symbol 'dymaptic.GeoBlazor.Core.Components.Symbols.Symbol') used to render the service areas.
+The [Symbol](dymaptic.GeoBlazor.Core.Components.Symbols.Symbol.html 'dymaptic.GeoBlazor.Core.Components.Symbols.Symbol') used to render the service areas.
 
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
@@ -853,8 +853,7 @@ Optional layer index. If omitted, will look for the graphic on the view itself.
 
 ## MapView.ValidateRequiredChildren() Method
 
-When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that  
-all properties with the [RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
+When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the [RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
 
 ```csharp
 public override void ValidateRequiredChildren();
@@ -862,8 +861,8 @@ public override void ValidateRequiredChildren();
 
 #### Exceptions
 
-[dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredChildElementException](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredChildElementException 'dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredChildElementException')  
+[MissingRequiredChildElementException](dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredChildElementException.html 'dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredChildElementException')  
 The consumer needs to provide the missing child component
 
-[dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException 'dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException')  
+[MissingRequiredOptionsChildElementException](dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException.html 'dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException')  
 The consumer needs to provide ONE of the options of child components

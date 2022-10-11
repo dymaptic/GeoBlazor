@@ -5,14 +5,21 @@ using dymaptic.GeoBlazor.Core.Extensions;
 
 namespace dymaptic.GeoBlazor.Core.Components.Renderers;
 
+/// <summary>
+///     Abstract base class, renderers define how to visually represent each feature in one of the following layer types: FeatureLayer, SceneLayer, MapImageLayer, CSVLayer, GeoJSONLayer, OGCFeatureLayer, StreamLayer, WFSLayer.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-Renderer.html">ArcGIS JS API</a>
+/// </summary>
 [JsonConverter(typeof(RendererConverter))]
 public abstract class Renderer : LayerObject
 {
+    /// <summary>
+    ///     The subclass Renderer type
+    /// </summary>
     [JsonPropertyName("type")]
     public abstract RendererType RendererType { get; }
 }
 
-public class RendererConverter : JsonConverter<Renderer>
+internal class RendererConverter : JsonConverter<Renderer>
 {
     public override Renderer Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
@@ -29,14 +36,19 @@ public class RendererConverter : JsonConverter<Renderer>
     }
 }
 
+/// <summary>
+///     A collection of renderer types
+/// </summary>
 [JsonConverter(typeof(RendererTypeConverter))]
 public enum RendererType
 {
-    Simple,
-    UniqueValue
+    /// <summary>
+    ///     The type name for <see cref="SimpleRenderer"/>
+    /// </summary>
+    Simple
 }
 
-public class RendererTypeConverter : JsonConverter<RendererType>
+internal class RendererTypeConverter : JsonConverter<RendererType>
 {
     public override RendererType Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {

@@ -3,6 +3,10 @@
 
 namespace dymaptic.GeoBlazor.Core.Objects;
 
+/// <summary>
+///
+///     <a target="_blank" href="">ArcGIS JS API</a>
+/// </summary>
 public class GeographicTransformationStep
 {
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

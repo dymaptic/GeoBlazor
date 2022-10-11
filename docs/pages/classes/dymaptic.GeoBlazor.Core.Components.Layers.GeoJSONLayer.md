@@ -58,7 +58,7 @@ public dymaptic.GeoBlazor.Core.Components.Renderers.Renderer? Renderer { get; se
 ```
 
 #### Property Value
-[dymaptic.GeoBlazor.Core.Components.Renderers.Renderer](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Components.Renderers.Renderer 'dymaptic.GeoBlazor.Core.Components.Renderers.Renderer')
+[Renderer](dymaptic.GeoBlazor.Core.Components.Renderers.Renderer.html 'dymaptic.GeoBlazor.Core.Components.Renderers.Renderer')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.SpatialReference'></a>
 
@@ -109,7 +109,7 @@ The calling, child component to register
 
 #### Exceptions
 
-[dymaptic.GeoBlazor.Core.Exceptions.InvalidChildElementException](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Exceptions.InvalidChildElementException 'dymaptic.GeoBlazor.Core.Exceptions.InvalidChildElementException')  
+[InvalidChildElementException](dymaptic.GeoBlazor.Core.Exceptions.InvalidChildElementException.html 'dymaptic.GeoBlazor.Core.Exceptions.InvalidChildElementException')  
 Throws if the current child is not a valid sub-component to the parent.
 
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.UnregisterChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent)'></a>

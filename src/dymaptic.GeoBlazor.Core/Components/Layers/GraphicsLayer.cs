@@ -3,13 +3,22 @@ using Microsoft.JSInterop;
 
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
+/// <summary>
+///     A GraphicsLayer contains one or more client-side Graphics. Each graphic in the GraphicsLayer is rendered in a LayerView inside either a SceneView or a MapView. The graphics contain discrete vector geometries that represent real-world phenomena.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GraphicsLayer.html">ArcGIS JS API</a>
+/// </summary>
 public class GraphicsLayer : Layer
 {
+    /// <summary>
+    ///     A collection of <see cref="Graphic"/>s in the layer.
+    /// </summary>
     public List<Graphic> Graphics { get; set; } = new();
 
+    /// <inheritdoc />
     [JsonPropertyName("type")]
     public override string LayerType => "graphics";
 
+    /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
     {
         switch (child)
@@ -37,7 +46,7 @@ public class GraphicsLayer : Layer
         }
     }
 
-
+    /// <inheritdoc />
     public override async Task UnregisterChildComponent(MapComponent child)
     {
         switch (child)
@@ -55,7 +64,8 @@ public class GraphicsLayer : Layer
                 break;
         }
     }
-    
+
+    /// <inheritdoc />
     public override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();

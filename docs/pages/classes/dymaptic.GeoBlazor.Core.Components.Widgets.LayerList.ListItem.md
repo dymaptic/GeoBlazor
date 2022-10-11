@@ -8,7 +8,8 @@ parent: Classes
 
 ## ListItem Class
 
-The description of a layer for display in a [LayerListWidget](dymaptic.GeoBlazor.Core.Components.Widgets.LayerListWidget.html 'dymaptic.GeoBlazor.Core.Components.Widgets.LayerListWidget').
+The ListItem class represents one of the operationalItems in the LayerListViewModel. In the LayerList widget UI, the list item represents a layer displayed in the view. It provides access to the associated layer's properties, allows the developer to configure actions related to the layer, and allows the developer to add content to the item related to the layer.  
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html#actionsSections">ArcGIS JS API</a>
 
 ```csharp
 public class ListItem
@@ -24,11 +25,11 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 Sets the actions on click for the list item.
 
 ```csharp
-public dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ActionSection[][]? ActionSections { get; set; }
+public dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ActionBase[][]? ActionSections { get; set; }
 ```
 
 #### Property Value
-[ActionSection](dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ActionSection.html 'dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ActionSection')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')
+[ActionBase](dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ActionBase.html 'dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ActionBase')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')
 
 ### Remarks
 The Action Sections property and corresponding functionality will be fully implemented  

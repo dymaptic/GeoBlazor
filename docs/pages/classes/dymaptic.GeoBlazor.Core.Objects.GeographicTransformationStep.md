@@ -8,6 +8,8 @@ parent: Classes
 
 ## GeographicTransformationStep Class
 
+<a target="_blank" href="">ArcGIS JS API</a>
+
 ```csharp
 public class GeographicTransformationStep
 ```

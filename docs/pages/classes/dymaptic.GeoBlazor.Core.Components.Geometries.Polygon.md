@@ -22,14 +22,14 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 
 ## Polygon.Rings Property
 
-An array of [dymaptic.GeoBlazor.Core.Objects.MapPath](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Objects.MapPath 'dymaptic.GeoBlazor.Core.Objects.MapPath') rings.
+An array of [MapPath](dymaptic.GeoBlazor.Core.Objects.MapPath.html 'dymaptic.GeoBlazor.Core.Objects.MapPath') rings.
 
 ```csharp
 public dymaptic.GeoBlazor.Core.Objects.MapPath[] Rings { get; set; }
 ```
 
 #### Property Value
-[dymaptic.GeoBlazor.Core.Objects.MapPath](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Objects.MapPath 'dymaptic.GeoBlazor.Core.Objects.MapPath')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')
+[MapPath](dymaptic.GeoBlazor.Core.Objects.MapPath.html 'dymaptic.GeoBlazor.Core.Objects.MapPath')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.Type'></a>
 

@@ -5,15 +5,30 @@ namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 
 public class SimpleMarkerSymbol : MarkerSymbol
 {
+    /// <summary>
+    ///     The outline of the marker symbol.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Outline? Outline { get; set; }
 
+    /// <summary>
+    ///     The size of the marker in points.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public double? Size { get; set; }
+
+    /// <inheritdoc />
     public override string Type => "simple-marker";
 
+    /// <summary>
+    ///     The marker style.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [Parameter]
     public string? Style { get; set; }
 
+    /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
     {
         switch (child)
@@ -33,6 +48,7 @@ public class SimpleMarkerSymbol : MarkerSymbol
         }
     }
 
+    /// <inheritdoc />
     public override async Task UnregisterChildComponent(MapComponent child)
     {
         switch (child)
@@ -47,7 +63,8 @@ public class SimpleMarkerSymbol : MarkerSymbol
                 break;
         }
     }
-    
+
+    /// <inheritdoc />
     public override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();
