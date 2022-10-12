@@ -3,18 +3,30 @@ using Microsoft.AspNetCore.Components;
 
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
+/// <summary>
+///     The TileLayer allows you work with a cached map service exposed by the ArcGIS Server REST API and add it to a Map as a tile layer. A cached service accesses tiles from a cache instead of dynamically rendering images. Because they are cached, tiled layers render faster than MapImageLayers. To create an instance of TileLayer, you must reference the URL of the cached map service.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-TileLayer.html">ArcGIS JS API</a>
+/// </summary>
 public class TileLayer : Layer
 {
+    /// <inheritdoc />
     [JsonPropertyName("type")]
     public override string LayerType => "tile";
 
+    /// <summary>
+    ///     The URL of the REST endpoint of the layer.
+    /// </summary>
     [Parameter]
     [RequiredProperty(nameof(PortalItem))]
     public string? Url { get; set; }
 
+    /// <summary>
+    ///     The <see cref="PortalItem"/> from which the layer is loaded.
+    /// </summary>
     [RequiredProperty(nameof(Url))]
     public PortalItem? PortalItem { get; set; }
 
+    /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
     {
         switch (child)
@@ -34,6 +46,7 @@ public class TileLayer : Layer
         }
     }
 
+    /// <inheritdoc />
     public override async Task UnregisterChildComponent(MapComponent child)
     {
         switch (child)
@@ -48,16 +61,11 @@ public class TileLayer : Layer
                 break;
         }
     }
-    
+
+    /// <inheritdoc />
     public override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();
         PortalItem?.ValidateRequiredChildren();
     }
-}
-
-public class VectorTileLayer : TileLayer
-{
-    [JsonPropertyName("type")]
-    public override string LayerType => "vectorTile";
 }

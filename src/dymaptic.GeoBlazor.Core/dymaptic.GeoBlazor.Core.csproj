@@ -25,6 +25,7 @@
         <RepositoryType>git</RepositoryType>
         <PackageIcon>Blazor-API-500px.png</PackageIcon>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
 
     <ItemGroup>
@@ -32,9 +33,15 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="DefaultDocumentation" Version="0.8.2" PrivateAssets="all" />
         <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.6" />
         <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
     </ItemGroup>
+    <PropertyGroup>
+        <DefaultDocumentationFolder>Documentation</DefaultDocumentationFolder>
+        <DefaultDocumentationGeneratedPages>Types</DefaultDocumentationGeneratedPages>
+        <DefaultDocumentationGeneratedAccessModifiers>Public</DefaultDocumentationGeneratedAccessModifiers>
+    </PropertyGroup>
 
     <ItemGroup>
         <None Include="Blazor-API-500px.png" Pack="true" PackagePath="" />
@@ -70,6 +77,10 @@
     </Target>
     <Target Name="NPM Release Build" AfterTargets="NPM Install" Condition="$(Configuration) == 'RELEASE'">
         <Exec Command="npm run releaseBuild" />
+    </Target>
+    
+    <Target Name="Copy Documentation" AfterTargets="Build">
+        <Exec Command="pwsh .\docCopy.ps1" />
     </Target>
 
     <Target Name="Move Nuget" AfterTargets="Publish">

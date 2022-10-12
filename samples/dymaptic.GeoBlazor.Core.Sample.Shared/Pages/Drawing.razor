@@ -124,12 +124,11 @@
             }
             @if (_showPolygon)
             {
-                <Graphic>
+                <Graphic Attributes="_graphicAttributes">
                     <Polygon Rings="@(new[] { _mapRings })" />
                     <SimpleFillSymbol Color="@(new MapColor(81, 46, 132, 0.8))">
                         <Outline Color="@(new MapColor(255, 255, 255))" Width="1" />
                     </SimpleFillSymbol>
-                    <Attributes Name="Sample Polygon" Description="This is where you can describe the polygon." />
                     <PopupTemplate Title="{Name}" StringContent="{Description}" />
                 </Graphic>
             }
@@ -196,4 +195,10 @@
     private bool _showPointSection;
     private bool _showLineSection;
     private bool _showPolygonSection;
+    private readonly Dictionary<string, object> _graphicAttributes = new()
+    {
+        { "Name", "Sample Polygon"}, 
+        { "Description", "This is where you can describe the polygon." }
+    };
+    
 }

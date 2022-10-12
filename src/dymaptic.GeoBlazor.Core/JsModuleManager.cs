@@ -3,7 +3,7 @@ using Microsoft.JSInterop;
 
 namespace dymaptic.GeoBlazor.Core;
 
-public static class JsModuleManager
+internal static class JsModuleManager
 {
     public static async Task<IJSObjectReference> GetJsModule(IJSRuntime jsRuntime)
     {

@@ -1,6 +1,6 @@
 using dymaptic.GeoBlazor.Core.Model;
 using dymaptic.GeoBlazor.Core.Sample.Shared;
-using Microsoft.Extensions.FileProviders;
+
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
