@@ -224,3 +224,19 @@ search {
 .search-input-wrap {
   padding-right: 1.5rem;
 }
+
+.search-result:hover {
+  color: white;
+}
+
+.search-result.active {
+  color: white;
+}
+
+.search-result.active :is(.search-result-previews,.search-result-rel-url,.search-result-icon) {
+  color: white;
+}
+
+.search-result:hover :is(.search-result-previews,.search-result-rel-url,.search-result-icon) {
+  color: white;
+}
