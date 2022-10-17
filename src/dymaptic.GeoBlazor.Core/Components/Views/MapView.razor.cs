@@ -258,6 +258,11 @@ public partial class MapView : MapComponent
     /// </summary>
     [RequiredProperty(nameof(Map), nameof(SceneView.WebScene))]
     public WebMap? WebMap { get; set; }
+    
+    /// <summary>
+    ///     The extent represents the visible portion of a map within the view as an instance of Extent.
+    /// </summary>
+    public Extent? Extent { get; set; }
 
     /// <summary>
     ///     The <see cref="SpatialReference"/> of the view.
@@ -393,6 +398,14 @@ public partial class MapView : MapComponent
                 }
 
                 break;
+            case Extent extent:
+                if (!extent.Equals(Extent))
+                {
+                    Extent = extent;
+                    await UpdateComponent();
+                }
+
+                break;
             default:
                 await base.RegisterChildComponent(child);
 
@@ -439,6 +452,11 @@ public partial class MapView : MapComponent
                 await UpdateComponent();
 
                 break;
+            case Extent _:
+                Extent = null;
+                await UpdateComponent();
+
+                break;
             default:
                 await base.UnregisterChildComponent(child);
 
@@ -454,6 +472,7 @@ public partial class MapView : MapComponent
         WebMap?.ValidateRequiredChildren();
         Constraints?.ValidateRequiredChildren();
         SpatialReference?.ValidateRequiredChildren();
+        Extent?.ValidateRequiredChildren();
 
         foreach (Graphic graphic in Graphics)
         {
@@ -801,7 +820,7 @@ public partial class MapView : MapComponent
 
             await ViewJsModule!.InvokeVoidAsync("buildMapView", Id,
                 DotNetObjectReference, Longitude, Latitude, Rotation, map, Zoom, Scale,
-                ApiKey, mapType, Widgets, Graphics, SpatialReference);
+                ApiKey, mapType, Widgets, Graphics, SpatialReference, Extent);
             Rendering = false;
             _newPropertyValues.Clear();
             MapRendered = true;

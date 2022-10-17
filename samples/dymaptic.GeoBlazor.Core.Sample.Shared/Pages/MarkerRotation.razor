@@ -1,0 +1,27 @@
+﻿@page "/marker-rotation"
+<PageTitle>Marker Rotation</PageTitle>
+<h1>Marker Rotation</h1>
+<div class="links-div">
+    <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/display-a-web-map/">ArcGIS API for JavaScript Reference</a>
+</div>
+<p class="instructions">
+    Loading a <code>PictureMarkerSymbol</code> from an image url, this sample also demonstrates rotation and size of icons
+    varying based on data fields, to demonstrate wind direction and speed.
+</p>
+<MapView Class="map-view">
+    <Extent Xmin="-41525513" Ymin="4969181" Xmax="-36687355" Ymax="9024624">
+        <SpatialReference Wkid="3857" />
+    </Extent>
+    <Map ArcGISDefaultBasemap="satellite">
+        <FeatureLayer Url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/weather_stations_010417/FeatureServer/0">
+            <SimpleRenderer>
+                <PictureMarkerSymbol 
+                    Url="https://upload.wikimedia.org/wikipedia/commons/5/53/Blue_Glass_Arrow_RTL.svg"
+                    Angle="90" Height="15" Width="15" />
+                <RotationVariable Field="WIND_DIRECT" RotationType="RotationType.Geographic" />
+                <SizeVariable Field="WIND_SPEED" MinDataValue="0" MaxDataValue="60"
+                              MinSize="8" MaxSize="40" />
+            </SimpleRenderer>
+        </FeatureLayer>
+    </Map>
+</MapView>

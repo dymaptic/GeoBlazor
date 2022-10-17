@@ -90,6 +90,19 @@ public string? ErrorMessage { get; set; }
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.Extent'></a>
+
+## MapView.Extent Property
+
+The extent represents the visible portion of a map within the view as an instance of Extent.
+
+```csharp
+public dymaptic.GeoBlazor.Core.Components.Geometries.Extent? Extent { get; set; }
+```
+
+#### Property Value
+[Extent](dymaptic.GeoBlazor.Core.Components.Geometries.Extent.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Extent')
+
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.Graphics'></a>
 
 ## MapView.Graphics Property
@@ -456,7 +469,7 @@ public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Geometries
 
 ## MapView.GetExtent() Method
 
-Returns the current [Extent](dymaptic.GeoBlazor.Core.Components.Geometries.Extent.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Extent') of the view.
+Returns the current [Extent](dymaptic.GeoBlazor.Core.Components.Views.MapView.html#dymaptic.GeoBlazor.Core.Components.Views.MapView.Extent 'dymaptic.GeoBlazor.Core.Components.Views.MapView.Extent') of the view.
 
 ```csharp
 public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Geometries.Extent?> GetExtent();
@@ -482,7 +495,7 @@ public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Geometries
 
 ## MapView.GoTo(Extent) Method
 
-Changes the view [Extent](dymaptic.GeoBlazor.Core.Components.Geometries.Extent.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Extent') and redraws.
+Changes the view [Extent](dymaptic.GeoBlazor.Core.Components.Views.MapView.html#dymaptic.GeoBlazor.Core.Components.Views.MapView.Extent 'dymaptic.GeoBlazor.Core.Components.Views.MapView.Extent') and redraws.
 
 ```csharp
 public System.Threading.Tasks.Task GoTo(dymaptic.GeoBlazor.Core.Components.Geometries.Extent extent);
@@ -493,7 +506,7 @@ public System.Threading.Tasks.Task GoTo(dymaptic.GeoBlazor.Core.Components.Geome
 
 `extent` [Extent](dymaptic.GeoBlazor.Core.Components.Geometries.Extent.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Extent')
 
-The new [Extent](dymaptic.GeoBlazor.Core.Components.Geometries.Extent.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Extent') of the view.
+The new [Extent](dymaptic.GeoBlazor.Core.Components.Views.MapView.html#dymaptic.GeoBlazor.Core.Components.Views.MapView.Extent 'dymaptic.GeoBlazor.Core.Components.Views.MapView.Extent') of the view.
 
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')

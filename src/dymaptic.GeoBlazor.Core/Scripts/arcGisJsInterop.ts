@@ -73,7 +73,7 @@ export { projection, geometryEngine };
 export async function buildMapView(id: string, dotNetReference: any, long: number, lat: number,
                                    rotation: number, mapObject: any, zoom: number, scale: number, 
                                    apiKey: string, mapType: string, widgets: any, graphics: any, 
-                                   spatialReference: any, zIndex?: number, tilt?: number): Promise<void> {
+                                   spatialReference: any, extent: any, zIndex?: number, tilt?: number): Promise<void> {
     console.log("render map");
     try {
         setWaitCursor(id);
@@ -184,6 +184,10 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
 
                 if (spatialRef !== undefined && spatialRef !== null) {
                     view.spatialReference = spatialRef;
+                }
+                
+                if (extent !== undefined && extent !== null) {
+                    (view as MapView).extent = extent;
                 }
                 break;
         }
