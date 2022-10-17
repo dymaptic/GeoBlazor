@@ -13,7 +13,7 @@ public class Constraints: MapComponent
     /// <summary>
     ///     An array of LODs. If not specified, this value is read from the Map.
     /// </summary>
-    public List<LOD> Lods { get; set; } = new();
+    public List<LOD>? Lods { get; set; }
  
     /// <summary>
     ///     The area in which the user is allowed to navigate laterally. Only Extent and Polygon geometry types are supported. Z-values are ignored.
@@ -69,6 +69,7 @@ public class Constraints: MapComponent
         switch (child)
         {
             case LOD lod:
+                Lods ??= new();
                 if (!Lods.Contains(lod))
                 {
                     Lods.Add(lod);
@@ -97,8 +98,12 @@ public class Constraints: MapComponent
         switch (child)
         {
             case LOD lod:
-                Lods.Remove(lod);
+                Lods?.Remove(lod);
 
+                if (Lods is not null && !Lods.Any())
+                {
+                    Lods = null;
+                }
                 break;
             case Geometry _:
                 Geometry = null;
@@ -117,9 +122,12 @@ public class Constraints: MapComponent
         base.ValidateRequiredChildren();
         Geometry?.ValidateRequiredChildren();
 
-        foreach (LOD lod in Lods)
+        if (Lods is not null)
         {
-            lod.ValidateRequiredChildren();
+            foreach (LOD lod in Lods)
+            {
+                lod.ValidateRequiredChildren();
+            }
         }
     }
 }

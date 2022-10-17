@@ -73,7 +73,7 @@ export { projection, geometryEngine };
 export async function buildMapView(id: string, dotNetReference: any, long: number, lat: number,
                                    rotation: number, mapObject: any, zoom: number, scale: number, 
                                    apiKey: string, mapType: string, widgets: any, graphics: any, 
-                                   spatialReference: any, zIndex?: number, tilt?: number): Promise<void> {
+                                   spatialReference: any, constraints: any, zIndex?: number, tilt?: number): Promise<void> {
     console.log("render map");
     try {
         setWaitCursor(id);
@@ -184,6 +184,10 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
 
                 if (spatialRef !== undefined && spatialRef !== null) {
                     view.spatialReference = spatialRef;
+                }
+
+                if (constraints !== undefined && constraints !== null) {
+                    (view as MapView).constraints = constraints;
                 }
                 break;
         }
@@ -839,15 +843,11 @@ export async function addLayer(layerObject: any, viewId: string, isBasemapLayer?
                     newLayer = new FeatureLayer({
                         portalItem: {
                             id: layerObject.portalItem.id
-                        },
-                        opacity: layerObject.opacity,
-                        definitionExpression: layerObject.definitionExpression
+                        }
                     });
                 } else {
                     newLayer = new FeatureLayer({
-                        url: layerObject.url,
-                        opacity: layerObject.opacity,
-                        definitionExpression: layerObject.definitionExpression
+                        url: layerObject.url
                     });
                 }
                 let featureLayer = newLayer as FeatureLayer;
@@ -871,6 +871,18 @@ export async function addLayer(layerObject: any, viewId: string, isBasemapLayer?
 
                 if (layerObject.popupTemplate !== undefined && layerObject.popupTemplate !== null) {
                     featureLayer.popupTemplate = buildPopupTemplate(layerObject.popupTemplate);
+                }
+                if (layerObject.title !== undefined && layerObject.title !== null) {
+                    featureLayer.title = layerObject.title;
+                }
+                if (layerObject.minScale !== undefined && layerObject.minScale !== null) {
+                    featureLayer.minScale = layerObject.minScale;
+                }
+                if (layerObject.maxScale !== undefined && layerObject.maxScale !== null) {
+                    featureLayer.maxScale = layerObject.maxScale;
+                }
+                if (layerObject.orderBy !== undefined && layerObject.orderBy !== null) {
+                    featureLayer.orderBy = layerObject.orderBy;
                 }
                 break;
             case 'vectorTile':

@@ -58,6 +58,45 @@ public override string LayerType { get; }
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.MaxScale'></a>
+
+## FeatureLayer.MaxScale Property
+
+The maximum scale (most zoomed in) at which the layer is visible in the view.
+
+```csharp
+public System.Nullable<double> MaxScale { get; set; }
+```
+
+#### Property Value
+[System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.MinScale'></a>
+
+## FeatureLayer.MinScale Property
+
+The minimum scale (most zoomed out) at which the layer is visible in the view.
+
+```csharp
+public System.Nullable<double> MinScale { get; set; }
+```
+
+#### Property Value
+[System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.OrderBy'></a>
+
+## FeatureLayer.OrderBy Property
+
+Determines the order in which features are drawn in the view.
+
+```csharp
+public System.Collections.Generic.HashSet<dymaptic.GeoBlazor.Core.Components.Layers.OrderedLayerOrderBy> OrderBy { get; set; }
+```
+
+#### Property Value
+[System.Collections.Generic.HashSet&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.HashSet-1 'System.Collections.Generic.HashSet`1')[OrderedLayerOrderBy](dymaptic.GeoBlazor.Core.Components.Layers.OrderedLayerOrderBy.html 'dymaptic.GeoBlazor.Core.Components.Layers.OrderedLayerOrderBy')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.HashSet-1 'System.Collections.Generic.HashSet`1')
+
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.OutFields'></a>
 
 ## FeatureLayer.OutFields Property
@@ -109,6 +148,19 @@ public dymaptic.GeoBlazor.Core.Components.Renderers.Renderer? Renderer { get; se
 
 #### Property Value
 [Renderer](dymaptic.GeoBlazor.Core.Components.Renderers.Renderer.html 'dymaptic.GeoBlazor.Core.Components.Renderers.Renderer')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.Title'></a>
+
+## FeatureLayer.Title Property
+
+The title of the layer used to identify it in places such as the Legend and LayerList widgets.
+
+```csharp
+public string? Title { get; set; }
+```
+
+#### Property Value
+[System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.Url'></a>
 
