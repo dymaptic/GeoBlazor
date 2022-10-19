@@ -80,7 +80,7 @@
     </Target>
     
     <Target Name="Copy Documentation" AfterTargets="Build">
-        <Exec Command="pwsh .\docCopy.ps1" />
+        <Exec Command="pwsh ./docCopy.ps1" />
     </Target>
 
     <Target Name="Move Nuget" AfterTargets="Publish">
