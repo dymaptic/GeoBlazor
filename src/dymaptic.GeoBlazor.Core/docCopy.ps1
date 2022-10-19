@@ -14,3 +14,5 @@ Get-ChildItem -Path $SourcePath -Filter "*.md" |
                     Out-File $_.FullName -Encoding utf8NoBOM;
                              Copy-Item -Path $_.FullName -Destination "$($OutPath)" -Force
         }
+
+Copy-Item ..\..\ReadMe.md -Destination .

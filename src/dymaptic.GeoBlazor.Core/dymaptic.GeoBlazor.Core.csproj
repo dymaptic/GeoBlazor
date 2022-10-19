@@ -13,9 +13,9 @@
         </Description>
         <Title>GeoBlazor</Title>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <PackageVersion>1.1.0</PackageVersion>
-        <Version>1.1.0</Version>
-        <PackageVersion>1.1.0</PackageVersion>
+        <PackageVersion>1.1.1</PackageVersion>
+        <Version>1.1.1</Version>
+        <PackageVersion>1.1.1</PackageVersion>
         <Authors>Tim Purdum, Christopher Moravec</Authors>
         <Company>dymaptic</Company>
         <Copyright>©2022 by dymaptic</Copyright>
@@ -65,7 +65,7 @@
     </ItemGroup>
 
     <Target Name="Copy Readme" AfterTargets="PreBuildEvent">
-        <Exec ContinueOnError="true" Command="robocopy ../../ ./ ReadMe.md /it" />
+        <Exec ContinueOnError="true" Command="pwsh -Command Copy-Item ../../ReadMe.md -Destination ." />
     </Target>
 
     <Target Name="NPM Install" AfterTargets="Copy Readme">
@@ -81,12 +81,5 @@
     
     <Target Name="Copy Documentation" AfterTargets="Build">
         <Exec Command="pwsh ./docCopy.ps1" />
-    </Target>
-
-    <Target Name="Move Nuget" AfterTargets="Publish">
-        <Exec ContinueOnError="true" ConsoleToMSBuild="true" Command="robocopy bin/$(Configuration) ../../packages dymaptic.GeoBlazor.Core.$(Version).nupkg /it">
-            <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
-        </Exec>
-        <Error Condition="$(ErrorCode) &gt; 8" Message="Robocopy failed" />
     </Target>
 </Project>
