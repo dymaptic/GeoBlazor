@@ -18,23 +18,27 @@ public class SizeVariable : VisualVariable
     ///     The minimum data value used in the size ramp.
     /// </summary>
     [Parameter]
-    public double MinDataValue { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public double? MinDataValue { get; set; }
 
     /// <summary>
     ///     The maximum data value used in the size ramp.
     /// </summary>
     [Parameter]
-    public double MaxDataValue { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public double? MaxDataValue { get; set; }
 
     /// <summary>
     ///     The size used to render a feature containing the minimum data value
     /// </summary>
     [Parameter]
-    public string? MinSize { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public double? MinSize { get; set; }
 
     /// <summary>
     ///     The size used to render a feature containing the maximum data value
     /// </summary>
     [Parameter]
-    public string? MaxSize { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public double? MaxSize { get; set; }
 }
