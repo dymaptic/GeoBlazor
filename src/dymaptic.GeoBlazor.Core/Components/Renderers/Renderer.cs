@@ -42,10 +42,10 @@ internal class RendererConverter : JsonConverter<Renderer>
 [JsonConverter(typeof(RendererTypeConverter))]
 public enum RendererType
 {
-    /// <summary>
-    ///     The type name for <see cref="SimpleRenderer"/>
-    /// </summary>
-    Simple
+#pragma warning disable CS1591
+    Simple,
+    UniqueValue
+#pragma warning restore CS1591
 }
 
 internal class RendererTypeConverter : JsonConverter<RendererType>

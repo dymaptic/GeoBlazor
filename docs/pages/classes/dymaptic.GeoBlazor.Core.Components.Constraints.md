@@ -38,7 +38,7 @@ public dymaptic.GeoBlazor.Core.Components.Geometries.Geometry? Geometry { get; s
 An array of LODs. If not specified, this value is read from the Map.
 
 ```csharp
-public System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Components.LOD> Lods { get; set; }
+public System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Components.LOD>? Lods { get; set; }
 ```
 
 #### Property Value

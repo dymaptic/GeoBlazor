@@ -820,7 +820,7 @@ public partial class MapView : MapComponent
 
             await ViewJsModule!.InvokeVoidAsync("buildMapView", Id,
                 DotNetObjectReference, Longitude, Latitude, Rotation, map, Zoom, Scale,
-                ApiKey, mapType, Widgets, Graphics, SpatialReference, Extent);
+                ApiKey, mapType, Widgets, Graphics, SpatialReference, Constraints, Extent);
             Rendering = false;
             _newPropertyValues.Clear();
             MapRendered = true;

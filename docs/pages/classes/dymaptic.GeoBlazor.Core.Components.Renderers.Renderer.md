@@ -18,7 +18,8 @@ public abstract class Renderer : dymaptic.GeoBlazor.Core.Components.Layers.Layer
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [Microsoft.AspNetCore.Components.ComponentBase](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.ComponentBase 'Microsoft.AspNetCore.Components.ComponentBase') &#129106; [MapComponent](dymaptic.GeoBlazor.Core.Components.MapComponent.html 'dymaptic.GeoBlazor.Core.Components.MapComponent') &#129106; [LayerObject](dymaptic.GeoBlazor.Core.Components.Layers.LayerObject.html 'dymaptic.GeoBlazor.Core.Components.Layers.LayerObject') &#129106; Renderer
 
 Derived  
-&#8627; [SimpleRenderer](dymaptic.GeoBlazor.Core.Components.Renderers.SimpleRenderer.html 'dymaptic.GeoBlazor.Core.Components.Renderers.SimpleRenderer')
+&#8627; [SimpleRenderer](dymaptic.GeoBlazor.Core.Components.Renderers.SimpleRenderer.html 'dymaptic.GeoBlazor.Core.Components.Renderers.SimpleRenderer')  
+&#8627; [UniqueValueRenderer](dymaptic.GeoBlazor.Core.Components.Renderers.UniqueValueRenderer.html 'dymaptic.GeoBlazor.Core.Components.Renderers.UniqueValueRenderer')
 ### Properties
 
 <a name='dymaptic.GeoBlazor.Core.Components.Renderers.Renderer.RendererType'></a>
