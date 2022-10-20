@@ -361,3 +361,11 @@ MigrationBackup/
 /src/.idea/**/*
 /src/dymaptic.GeoBlazor.Core/wwwroot/js/*
 /src/dymaptic.GeoBlazor.Core/ReadMe.md
+
+/docs/_site
+/docs/.sass-cache
+/docs/.jekyll-cache
+/docs/.jekyll-metadata
+/docs/vendor
+/docs/.DS_Store
+/src/dymaptic.GeoBlazor.Core/Documentation/**/*

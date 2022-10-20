@@ -11,10 +11,11 @@
             It is a wrapper around the ArcGIS Javascript API - https://developers.arcgis.com/javascript/latest/
             For more information, contact dymaptic at info@dymaptic.com, or tim.purdum@dymaptic.com
         </Description>
+        <Title>GeoBlazor</Title>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <PackageVersion>1.1.0</PackageVersion>
-        <Version>1.1.0</Version>
-        <PackageVersion>1.1.0</PackageVersion>
+        <PackageVersion>1.1.1</PackageVersion>
+        <Version>1.1.1</Version>
+        <PackageVersion>1.1.1</PackageVersion>
         <Authors>Tim Purdum, Christopher Moravec</Authors>
         <Company>dymaptic</Company>
         <Copyright>©2022 by dymaptic</Copyright>
@@ -22,8 +23,9 @@
         <RepositoryUrl>https://github.com/dymaptic/GeoBlazor</RepositoryUrl>
         <PackageProjectUrl>https://github.com/dymaptic/GeoBlazor</PackageProjectUrl>
         <RepositoryType>git</RepositoryType>
-        <PackageIcon>dymaptic_logo.png</PackageIcon>
+        <PackageIcon>Blazor-API-500px.png</PackageIcon>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
 
     <ItemGroup>
@@ -31,12 +33,18 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="DefaultDocumentation" Version="0.8.2" PrivateAssets="all" />
         <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.6" />
         <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
     </ItemGroup>
+    <PropertyGroup>
+        <DefaultDocumentationFolder>Documentation</DefaultDocumentationFolder>
+        <DefaultDocumentationGeneratedPages>Types</DefaultDocumentationGeneratedPages>
+        <DefaultDocumentationGeneratedAccessModifiers>Public</DefaultDocumentationGeneratedAccessModifiers>
+    </PropertyGroup>
 
     <ItemGroup>
-        <None Include="dymaptic_logo.png" Pack="true" PackagePath="" />
+        <None Include="Blazor-API-500px.png" Pack="true" PackagePath="" />
         <Content Remove="package.json" />
         <Content Remove="package-lock.json" />
         <Content Remove="tsconfig.json" />
@@ -45,6 +53,9 @@
         <Content Include="tsconfig.json" Pack="false" />
         <None Include="Scripts/arcGisJsInterop.ts" Pack="true" PackagePack="Scripts" />
         <None Include="Scripts/definitions.d.ts" Pack="true" PackagePack="Scripts" />
+        <None Include="Scripts/dotNetBuilder.ts" Pack="true" PackagePack="Scripts" />
+        <None Include="Scripts/jsBuilder.ts" Pack="true" PackagePack="Scripts" />
+        <None Include="Scripts/projection.ts" Pack="true" PackagePack="Scripts" />
         <None Remove="ReadMe.md" />
         <None Include="ReadMe.md" Pack="true" PackagePath="" />
     </ItemGroup>
@@ -66,6 +77,10 @@
     </Target>
     <Target Name="NPM Release Build" AfterTargets="NPM Install" Condition="$(Configuration) == 'RELEASE'">
         <Exec Command="npm run releaseBuild" />
+    </Target>
+    
+    <Target Name="Copy Documentation" AfterTargets="Build">
+        <Exec Command="pwsh .\docCopy.ps1" />
     </Target>
 
     <Target Name="Move Nuget" AfterTargets="Publish">

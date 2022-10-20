@@ -1,0 +1,48 @@
+﻿@page "/unique-value"
+<PageTitle>Unique Value Renderers</PageTitle>
+<h1>Unique Value Renderers</h1>
+<div class="links-div">
+    <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html">ArcGIS API for JavaScript Reference</a>
+</div>
+<p class="instructions">
+    A US Freeway map rendered with a custom <code>Unique Value Renderer</code> that color-codes different highway types.
+</p>
+<MapView Class="map-view" Longitude="-95.4327" Latitude="29.77624" Scale="544504">
+    <Constraints SnapToZoom="false" />
+    <Map>
+        <Basemap>
+            <PortalItem Id="9cc4e190b8764e8880bd77cb16b9a30a" />
+        </Basemap>
+        <FeatureLayer Url="https://services.arcgis.com/P3ePLMYs2RVChkJx/ArcGIS/rest/services/TIGER_Roads_2021_view/FeatureServer/0"
+                      Title="USA Freeway System"
+                      MinScale="0" MaxScale="0"
+                      DefinitionExpression="MTFC = 'Primary Road'">
+            <OrderedLayerOrderBy Order="SortOrder.Ascending" 
+                                 ValueExpression="@(@"Decode( $feature.RTTYP,
+                      ""I"", 1,
+                      ""U"", 2,
+                      ""S"", 3,
+                      ""M"", 4,
+                    100 );")" />
+            <UniqueValueRenderer Field="RTTYP" DefaultLabel="Other">
+                <UniqueValueRendererLegendOptions Title="Route type" />
+                <DefaultSymbol>
+                    <SimpleLineSymbol Width="4" LineStyle="LineStyle.Solid" Color="@(new MapColor("#f260a1"))" />
+                </DefaultSymbol>
+                <UniqueValueInfo Value="I" Label="Interstate">
+                    <SimpleLineSymbol Width="4" LineStyle="LineStyle.Solid" Color="@(new MapColor("#d92b30"))" />
+                </UniqueValueInfo>
+                <UniqueValueInfo Value="U" Label="US Highway">
+                    <SimpleLineSymbol Width="4" LineStyle="LineStyle.Solid" Color="@(new MapColor("#3cccb4"))" />
+                </UniqueValueInfo>
+                <UniqueValueInfo Value="S" Label="State Highway">
+                    <SimpleLineSymbol Width="4" LineStyle="LineStyle.Solid" Color="@(new MapColor("#ffdf3c"))" />
+                </UniqueValueInfo>
+                <UniqueValueInfo Value="M" Label="Major road">
+                    <SimpleLineSymbol Width="4" LineStyle="LineStyle.Solid" Color="@(new MapColor("#c27c30"))" />
+                </UniqueValueInfo>
+            </UniqueValueRenderer>
+        </FeatureLayer>
+    </Map>
+    <LegendWidget Position="OverlayPosition.BottomLeft" />
+</MapView>

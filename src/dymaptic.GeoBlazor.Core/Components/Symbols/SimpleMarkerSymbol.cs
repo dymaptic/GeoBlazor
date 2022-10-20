@@ -3,17 +3,36 @@ using Microsoft.AspNetCore.Components;
 
 namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 
+/// <summary>
+///     SimpleMarkerSymbol is used for rendering 2D Point geometries with a simple shape and color in either a MapView or a SceneView. It may be filled with a solid color and have an optional outline, which is defined with a SimpleLineSymbol.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleMarkerSymbol.html">ArcGIS JS API</a>
+/// </summary>
 public class SimpleMarkerSymbol : MarkerSymbol
 {
+    /// <summary>
+    ///     The outline of the marker symbol.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Outline? Outline { get; set; }
 
+    /// <summary>
+    ///     The size of the marker in points.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public double? Size { get; set; }
+
+    /// <inheritdoc />
     public override string Type => "simple-marker";
 
+    /// <summary>
+    ///     The marker style.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [Parameter]
     public string? Style { get; set; }
 
+    /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
     {
         switch (child)
@@ -33,6 +52,7 @@ public class SimpleMarkerSymbol : MarkerSymbol
         }
     }
 
+    /// <inheritdoc />
     public override async Task UnregisterChildComponent(MapComponent child)
     {
         switch (child)
@@ -47,7 +67,8 @@ public class SimpleMarkerSymbol : MarkerSymbol
                 break;
         }
     }
-    
+
+    /// <inheritdoc />
     public override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();

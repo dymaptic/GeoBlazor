@@ -1,26 +1,41 @@
-﻿using System.Text.Json;
+﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace dymaptic.GeoBlazor.Core.Objects;
 
+/// <summary>
+///     Represents both <see cref="PolyLine.Paths"/> and <see cref="Polygon.Rings"/>, as a two-dimensional array of number coordinates.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polyline.html#paths">ArcGIS JS API</a>
+/// </summary>
 [JsonConverter(typeof(MapPathConverter))]
 public class MapPath : List<MapPoint>, IEquatable<MapPath>
 {
+    /// <summary>
+    ///     Generate a new path or ring from a parameter list of points.
+    /// </summary>
     public MapPath(params MapPoint[] p)
     {
         AddRange(p);
     }
 
+    /// <summary>
+    ///     Generate a new path or ring from a collection of points.
+    /// </summary>
     public MapPath(IEnumerable<MapPoint> p)
     {
         AddRange(p);
     }
 
+    /// <summary>
+    ///     Custom equality check.
+    /// </summary>
     public bool Equals(MapPath? other)
     {
         return other is not null && this.SequenceEqual(other, MapPointEqualityComparer.Instance);
     }
 
+    /// <inheritdoc />
     public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
@@ -30,6 +45,7 @@ public class MapPath : List<MapPoint>, IEquatable<MapPath>
         return Equals((MapPath)obj);
     }
 
+    /// <inheritdoc />
     public override int GetHashCode()
     {
         int hash = base.GetHashCode();
@@ -42,6 +58,9 @@ public class MapPath : List<MapPoint>, IEquatable<MapPath>
         return hash;
     }
 
+    /// <summary>
+    ///     Clones a path and returns the new copy.
+    /// </summary>
     public MapPath DeepCopy()
     {
         var newPath = new MapPath();
@@ -56,7 +75,7 @@ public class MapPath : List<MapPoint>, IEquatable<MapPath>
     }
 }
 
-public class MapPathEqualityComparer : EqualityComparer<MapPath>
+internal class MapPathEqualityComparer : EqualityComparer<MapPath>
 {
     public static MapPathEqualityComparer Instance => _instance ??= new MapPathEqualityComparer();
 
@@ -77,24 +96,37 @@ public class MapPathEqualityComparer : EqualityComparer<MapPath>
     private static MapPathEqualityComparer? _instance;
 }
 
+/// <summary>
+///     This is another representation of <see cref="Point"/> that should be used to create <see cref="MapPath"/>s.
+/// </summary>
 [JsonConverter(typeof(MapPointConverter))]
 public class MapPoint : List<double>, IEquatable<MapPoint>
 {
+    /// <summary>
+    ///     Create a new point from a parameter list of numbers.
+    /// </summary>
     public MapPoint(params double[] p)
     {
         AddRange(p);
     }
 
+    /// <summary>
+    ///     Create a new point from a collection of numbers.
+    /// </summary>
     public MapPoint(IEnumerable<double> p)
     {
         AddRange(p);
     }
 
+    /// <summary>
+    ///     Custom equality check.
+    /// </summary>
     public bool Equals(MapPoint? other)
     {
         return other is not null && this.SequenceEqual(other);
     }
 
+    /// <inheritdoc />
     public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
@@ -104,6 +136,7 @@ public class MapPoint : List<double>, IEquatable<MapPoint>
         return Equals((MapPoint)obj);
     }
 
+    /// <inheritdoc />
     public override int GetHashCode()
     {
         int hash = base.GetHashCode();
@@ -116,13 +149,16 @@ public class MapPoint : List<double>, IEquatable<MapPoint>
         return hash;
     }
 
+    /// <summary>
+    ///     Clones and returns the copy.
+    /// </summary>
     public MapPoint Copy()
     {
         return new MapPoint(this);
     }
 }
 
-public class MapPointEqualityComparer : EqualityComparer<MapPoint>
+internal class MapPointEqualityComparer : EqualityComparer<MapPoint>
 {
     public static MapPointEqualityComparer Instance => _instance ??= new MapPointEqualityComparer();
 
@@ -143,7 +179,7 @@ public class MapPointEqualityComparer : EqualityComparer<MapPoint>
     private static MapPointEqualityComparer? _instance;
 }
 
-public class MapPathConverter : JsonConverter<MapPath>
+internal class MapPathConverter : JsonConverter<MapPath>
 {
     public override MapPath? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
@@ -160,7 +196,7 @@ public class MapPathConverter : JsonConverter<MapPath>
     }
 }
 
-public class MapPointConverter : JsonConverter<MapPoint>
+internal class MapPointConverter : JsonConverter<MapPoint>
 {
     public override MapPoint? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {

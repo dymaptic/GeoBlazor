@@ -3,7 +3,6 @@ using dymaptic.GeoBlazor.Core.Sample.Shared;
 using dymaptic.GeoBlazor.Core.Sample.Wasm;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Microsoft.Extensions.FileProviders;
 
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);

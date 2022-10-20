@@ -3,15 +3,12 @@ using Android.App;
 using Android.Content.PM;
 using Android.Graphics;
 using Android.OS;
-using Android.Views;
 using Android.Webkit;
 using AndroidX.Activity;
 using AndroidX.Activity.Result;
 using AndroidX.Activity.Result.Contract;
 using AndroidX.Core.Content;
 using Java.Interop;
-using System;
-using System.Collections.Generic;
 using View = Android.Views.View;
 using WebView = Android.Webkit.WebView;
 

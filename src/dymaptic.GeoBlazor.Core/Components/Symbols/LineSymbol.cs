@@ -1,40 +1,18 @@
-﻿using System.Text.Json;
-using System.Text.Json.Serialization;
-using dymaptic.GeoBlazor.Core.Extensions;
+﻿using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Components;
 
 namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 
+/// <summary>
+///     Abstract class. Line symbols are used to draw Polyline features in a FeatureLayer in a 2D MapView.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-LineSymbol.html">ArcGIS JS API</a>
+/// </summary>
 public abstract class LineSymbol : Symbol
 {
-    [Parameter]
-    public double? Width { get; set; }
-
-    [JsonPropertyName("style")]
+    /// <summary>
+    ///     The width of the symbol in points.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [Parameter]
-    public LineStyle? LineStyle { get; set; }
-}
-
-[JsonConverter(typeof(LineStyleConverter))]
-public enum LineStyle
-{
-    Solid,
-    ShortDot,
-    Dash
-}
-
-public class LineStyleConverter : JsonConverter<LineStyle>
-{
-    public override LineStyle Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        throw new NotImplementedException();
-    }
-
-    public override void Write(Utf8JsonWriter writer, LineStyle value, JsonSerializerOptions options)
-    {
-        string? stringVal = Enum.GetName(typeof(LineStyle), value);
-        string resultString = stringVal!.ToKebabCase();
-        writer.WriteRawValue($"\"{resultString}\"");
-    }
+    public double? Width { get; set; }
 }

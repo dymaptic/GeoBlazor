@@ -5,17 +5,34 @@ using Microsoft.JSInterop;
 
 namespace dymaptic.GeoBlazor.Core.Components.Views;
 
+/// <summary>
+///     A SceneView displays a 3D view of a Map or WebScene instance using WebGL. To render a map and its layers in 2D, see the documentation for MapView. For a general overview of views, see View.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">ArcGIS JS API</a>
+/// </summary>
+/// <example>
+///     <a target="_blank" href="https://blazor.dymaptic.com/web-scene">Sample - Web Scene</a>
+/// </example>
 public class SceneView : MapView
 {
+    /// <summary>
+    ///     The Z-Index (elevation) of the camera position over the view.
+    /// </summary>
     [Parameter]
     public double? ZIndex { get; set; }
 
+    /// <summary>
+    ///     The tilt of the camera in degrees with respect to the surface as projected down from the camera position.
+    /// </summary>
     [Parameter]
     public double? Tilt { get; set; }
-
+    
+    /// <summary>
+    ///     An instance of a <see cref="WebScene"/> object to display in the view.
+    /// </summary>
     [RequiredProperty(nameof(MapView.WebMap), nameof(MapView.Map))]
     public WebScene? WebScene { get; set; }
 
+    /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
     {
         switch (child)
@@ -35,6 +52,7 @@ public class SceneView : MapView
         }
     }
 
+    /// <inheritdoc />
     public override async Task UnregisterChildComponent(MapComponent child)
     {
         switch (child)
@@ -49,13 +67,15 @@ public class SceneView : MapView
                 break;
         }
     }
-    
+
+    /// <inheritdoc />
     public override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();
         WebScene?.ValidateRequiredChildren();
     }
 
+    /// <inheritdoc />
     protected override async Task RenderView(bool forceRender = false)
     {
         if (!NeedsRender && !forceRender)
@@ -80,7 +100,7 @@ public class SceneView : MapView
 
             await ViewJsModule!.InvokeVoidAsync("buildMapView", Id, DotNetObjectReference,
                 Longitude, Latitude, Rotation, scene, Zoom, Scale,
-                ApiKey, sceneType, Widgets, Graphics, SpatialReference, ZIndex, Tilt);
+                ApiKey, sceneType, Widgets, Graphics, SpatialReference, Constraints, Extent, ZIndex, Tilt);
             Rendering = false;
         });
     }

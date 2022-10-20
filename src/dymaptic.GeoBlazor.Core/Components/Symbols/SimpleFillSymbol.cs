@@ -5,18 +5,30 @@ using Microsoft.AspNetCore.Components;
 
 namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 
+/// <summary>
+///     SimpleFillSymbol is used for rendering 2D polygons in either a MapView or a SceneView. It can be filled with a solid color, or a pattern. In addition, the symbol can have an optional outline, which is defined by a SimpleLineSymbol.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleFillSymbol.html">ArcGIS JS API</a>
+/// </summary>
 public class SimpleFillSymbol : FillSymbol
 {
+    /// <summary>
+    ///     The outline of the polygon.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Outline? Outline { get; set; }
 
+    /// <summary>
+    ///     The fill style.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonPropertyName("style")]
     [Parameter]
     public FillStyle? FillStyle { get; set; }
 
+    /// <inheritdoc />
     public override string Type => "simple-fill";
 
+    /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
     {
         switch (child)
@@ -36,6 +48,7 @@ public class SimpleFillSymbol : FillSymbol
         }
     }
 
+    /// <inheritdoc />
     public override async Task UnregisterChildComponent(MapComponent child)
     {
         switch (child)
@@ -50,7 +63,8 @@ public class SimpleFillSymbol : FillSymbol
                 break;
         }
     }
-    
+
+    /// <inheritdoc />
     public override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();
@@ -58,9 +72,13 @@ public class SimpleFillSymbol : FillSymbol
     }
 }
 
+/// <summary>
+///     The possible fill style for the <see cref="SimpleFillSymbol"/>
+/// </summary>
 [JsonConverter(typeof(FillStyleConverter))]
 public enum FillStyle
 {
+#pragma warning disable CS1591
     BackwardDiagonal,
     Cross,
     DiagonalCross,
@@ -69,9 +87,10 @@ public enum FillStyle
     None,
     Solid,
     Vertical
+#pragma warning restore CS1591
 }
 
-public class FillStyleConverter : JsonConverter<FillStyle>
+internal class FillStyleConverter : JsonConverter<FillStyle>
 {
     public override FillStyle Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {

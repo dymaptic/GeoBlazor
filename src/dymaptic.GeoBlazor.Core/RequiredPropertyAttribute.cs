@@ -11,6 +11,9 @@ namespace dymaptic.GeoBlazor.Core;
 /// </summary>
 public class RequiredPropertyAttribute: Attribute
 {
+    /// <summary>
+    ///     The other potential properties that can replace this property.
+    /// </summary>
     public string[]? OtherOptions { get; }
 
     /// <param name="otherOptions">

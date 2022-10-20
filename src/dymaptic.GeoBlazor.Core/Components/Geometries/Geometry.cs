@@ -4,25 +4,45 @@ using Microsoft.AspNetCore.Components;
 
 namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 
+/// <summary>
+///     The base class for geometry objects. This class has no constructor. To construct geometries see <see cref="Point"/>, <see cref="PolyLine"/>, or <see cref="Polygon"/>.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Geometry.html">ArcGIS JS API</a>
+/// </summary>
 [JsonConverter(typeof(GeometryConverter))]
 public class Geometry : MapComponent
 {
+    /// <summary>
+    ///     Indicates if the geometry has M values.
+    /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? HasM { get; set; }
 
+    /// <summary>
+    ///     Indicates if the geometry has Z values (elevation).
+    /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? HasZ { get; set; }
 
+    /// <summary>
+    ///     The <see cref="Extent"/> of the geometry.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Extent? Extent { get; set; }
 
+    /// <summary>
+    ///     The <see cref="SpatialReference"/> of the geometry.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public SpatialReference? SpatialReference { get; set; }
 
+    /// <summary>
+    ///     The Geometry "type", used internally to render.
+    /// </summary>
     public virtual string Type => default!;
-    
+
+    /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
     {
         switch (child)
@@ -36,7 +56,8 @@ public class Geometry : MapComponent
 
                 break;
             case SpatialReference spatialReference:
-                if (!((Object)spatialReference).Equals(SpatialReference))
+                // ReSharper disable once RedundantCast
+                if (!((object)spatialReference).Equals(SpatialReference))
                 {
                     SpatialReference = spatialReference;
                     await UpdateComponent();
@@ -50,6 +71,7 @@ public class Geometry : MapComponent
         }
     }
 
+    /// <inheritdoc />
     public override async Task UnregisterChildComponent(MapComponent child)
     {
         switch (child)
@@ -68,6 +90,7 @@ public class Geometry : MapComponent
         }
     }
 
+    /// <inheritdoc />
     public override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();
@@ -76,7 +99,7 @@ public class Geometry : MapComponent
     }
 }
 
-public class GeometryConverter : JsonConverter<Geometry>
+internal class GeometryConverter : JsonConverter<Geometry>
 {
     public override Geometry? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {

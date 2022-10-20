@@ -24,7 +24,7 @@ internal class SharedFileEnumerator : IEnumerator<IFileInfo>
 
     public void Dispose()
     {
-        return;
+        // nothing to dispose
     }
 
     public bool MoveNext()

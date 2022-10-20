@@ -1,7 +1,7 @@
 ﻿using dymaptic.GeoBlazor.Core.Model;
 using dymaptic.GeoBlazor.Core.Sample.Shared;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.FileProviders;
+
 
 namespace dymaptic.GeoBlazor.Core.Sample.Maui;
 

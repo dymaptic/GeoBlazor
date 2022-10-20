@@ -1,6 +1,6 @@
 ﻿namespace dymaptic.GeoBlazor.Core.Extensions;
 
-public static class StringExtensions
+internal static class StringExtensions
 {
     public static string ToLowerFirstChar(this string val)
     {

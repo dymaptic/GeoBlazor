@@ -2,6 +2,10 @@
 
 [View the live demo site!](https://dy-blazor-samples-server.azurewebsites.net/)
 
+[Read the Docs](https://docs.geoblazor.com)
+
+[Join our Discord Server!](https://discord.gg/hcmbPzn4VW)
+
 This project wraps the [ArcGIS Javascript API](https://developers.arcgis.com/javascript/latest/) in a Blazor templating framework.
 It generates a nuget package that can be imported and consumed from any Blazor application, without directly interacting with javascript.
 
@@ -67,7 +71,6 @@ for a 2D map with a default ArcGIS basemap, or
 
 for a 3D map with a basemap loaded from a `PortalId`.
 
-## [Using the Library](UsingTheAPI.md)
 
 ### Known Limitations/"Gotchas"
 
@@ -93,7 +96,7 @@ For the Maui sample project, you need the latest [_preview_ of Visual Studio](ht
 If you have not installed node.js on your system, you will need to download and install it in order for the npm scripts to run. Please [select
 the appropriate installer for your system](https://nodejs.org/en/download/).
 
-If you have not installed powershell on your system (macOS and Linux users), or if you would like the latest version of Powershell for Windows, you will need to install Powershell and then change the "execution policies" on the system.
+You will need to install Powershell 7 on your machine to run the powershell script as part of the build process.
 -Complete installation instructions for Powershell [can be found here]
 (https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell?view=powershell-7.2).
 
@@ -135,11 +138,4 @@ https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/ab
 ### dymaptic.GeoBlazor.Interactive (not included in open source repo)
 
 - Extended application features - coming soon!
-  - Custom renderers (e.g. image icons), see [Feature Layers (demo)](https://blazor.dymaptic.com/feature-layers)
-  - Custom popups (e.g. charts, tables), see [Popups (demo)](https://blazor.dymaptic.com/popups)
-  - Advanced widgets (e.g. sketch, track), see [Sketch Query (demo)](https://blazor.dymaptic.com/sketch-query)
-  - Custom layers (e.g. GeoJSON Layer), see [Projection (demo)](https://blazor.dymaptic.com/projection)
-  - Advanced event handling (e.g., pointer move, sketch events, search events), see above examples
-  - GeometryEngine direct calls, see [Calculate Geometries (demo)](https://blazor.dymaptic.com/calculate-geometries)
-  - ArcGIS Rest direct calls, see [Demographic Data (demo)](https://blazor.dymaptic.com/demographic-data)
 - Please contact info@dymaptic.com to discuss licensing these advanced features!
