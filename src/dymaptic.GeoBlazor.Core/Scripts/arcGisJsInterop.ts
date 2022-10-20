@@ -22,6 +22,7 @@ import Legend from "@arcgis/core/widgets/Legend";
 import PortalBasemapsSource from "@arcgis/core/widgets/BasemapGallery/support/PortalBasemapsSource";
 import Portal from "@arcgis/core/portal/Portal";
 import BasemapToggle from "@arcgis/core/widgets/BasemapToggle";
+import Expand from "@arcgis/core/widgets/Expand";
 import Search from "@arcgis/core/widgets/Search";
 import Locate from "@arcgis/core/widgets/Locate";
 import Widget from "@arcgis/core/widgets/Widget";
@@ -73,7 +74,7 @@ export { projection, geometryEngine };
 export async function buildMapView(id: string, dotNetReference: any, long: number, lat: number,
                                    rotation: number, mapObject: any, zoom: number, scale: number, 
                                    apiKey: string, mapType: string, widgets: any, graphics: any, 
-                                   spatialReference: any, constraints: any, zIndex?: number, tilt?: number): Promise<void> {
+                                   spatialReference: any, constraints: any, extent: any, zIndex?: number, tilt?: number): Promise<void> {
     console.log("render map");
     try {
         setWaitCursor(id);
@@ -188,6 +189,10 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
 
                 if (constraints !== undefined && constraints !== null) {
                     (view as MapView).constraints = constraints;
+                }
+                
+                if (extent !== undefined && extent !== null) {
+                    (view as MapView).extent = extent;
                 }
                 break;
         }
@@ -680,13 +685,16 @@ export async function addWidget(widget: any, viewId: string): Promise<void> {
                 });
                 break;
             case 'basemapToggle':
+                // the esri definition file is missing basemapToggle.nextBasemap, but it is in the docs.
                 let basemapToggle = new BasemapToggle({
                     view: view
                 });
                 newWidget = basemapToggle;
                 if (widget.nextBasemapName !== undefined && widget.nextBasemapName !== null) {
+                    // @ts-ignore
                     basemapToggle.nextBasemap = widget.nextBasemapName;
                 } else {
+                    // @ts-ignore
                     basemapToggle.nextBasemap = widget.nextBasemap;
                 }
                 break;
@@ -788,8 +796,41 @@ export async function addWidget(widget: any, viewId: string): Promise<void> {
                     layerListWidget.label = widget.label;
                 }
                 
+                break;
+            case 'expand':
+                await addWidget(widget.content, viewId);
+                let content = arcGisObjectRefs[widget.content.id] as Widget;
+                view.ui.remove(content);
+                const expand = new Expand({
+                    view,
+                    content: content
+                });
                 
+                if (widget.autoCollapse !== undefined && widget.autoCollapse !== null) {
+                    expand.autoCollapse = widget.autoCollapse;
+                }
+
+                if (widget.closeOnEsc !== undefined && widget.closeOnEsc !== null) {
+                    expand.closeOnEsc = widget.closeOnEsc;
+                }
+
+                if (widget.expandIconClass !== undefined && widget.expandIconClass !== null) {
+                    expand.expandIconClass = widget.expandIconClass;
+                }
+
+                if (widget.collapseIconClass !== undefined && widget.collapseIconClass !== null) {
+                    expand.collapseIconClass = widget.collapseIconClass;
+                }
+
+                if (widget.expandTooltip !== undefined && widget.expandTooltip !== null) {
+                    expand.expandTooltip = widget.expandTooltip;
+                }
+
+                if (widget.collapseTooltip !== undefined && widget.collapseTooltip !== null) {
+                    expand.collapseTooltip = widget.collapseTooltip;
+                }
                 
+                newWidget = expand;
                 break;
             default:
                 return;

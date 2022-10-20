@@ -1,15 +1,15 @@
 ---
 layout: default
-title: VisualVariableType
+title: RotationType
 parent: Classes
 ---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Layers](index.html#dymaptic.GeoBlazor.Core.Components.Layers 'dymaptic.GeoBlazor.Core.Components.Layers')
 
-## VisualVariableType Enum
+## RotationType Enum
 
-A collection of [VisualVariable](dymaptic.GeoBlazor.Core.Components.Layers.VisualVariable.html 'dymaptic.GeoBlazor.Core.Components.Layers.VisualVariable') Types
+Options for rotation type for [RotationVariable](dymaptic.GeoBlazor.Core.Components.Layers.RotationVariable.html 'dymaptic.GeoBlazor.Core.Components.Layers.RotationVariable')
 
 ```csharp
-public enum VisualVariableType
+public enum RotationType
 ```
