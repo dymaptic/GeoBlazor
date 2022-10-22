@@ -7,15 +7,15 @@
         <PackageId>dymaptic.GeoBlazor.Core</PackageId>
         <PackageTags>Blazor;ArcGIS;JsInterop;Javascript;Asp.NET</PackageTags>
         <Description>
-            This package provides a Razor Component-based API for accessing ArcGIS maps, scenes, and data.
+            This package provides a Razor Component-based API for accessing ArcGIS maps, scenes, and data. 
             It is a wrapper around the ArcGIS Javascript API - https://developers.arcgis.com/javascript/latest/
-            For more information, contact dymaptic at info@dymaptic.com, or tim.purdum@dymaptic.com
+            For more information, visit https://www.geoblazor.com or contact dymaptic at geoblazor@dymaptic.com
         </Description>
         <Title>GeoBlazor</Title>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <PackageVersion>1.1.1</PackageVersion>
-        <Version>1.1.1</Version>
-        <PackageVersion>1.1.1</PackageVersion>
+        <PackageVersion>1.1.2</PackageVersion>
+        <Version>1.1.2</Version>
+        <PackageVersion>1.1.2</PackageVersion>
         <Authors>Tim Purdum, Christopher Moravec</Authors>
         <Company>dymaptic</Company>
         <Copyright>©2022 by dymaptic</Copyright>
@@ -58,6 +58,10 @@
         <None Include="Scripts/projection.ts" Pack="true" PackagePack="Scripts" />
         <None Remove="ReadMe.md" />
         <None Include="ReadMe.md" Pack="true" PackagePath="" />
+        <None Include="wwwroot\images\Blazor-API-500px.png">
+          <Pack>true</Pack>
+          <PackagePath></PackagePath>
+        </None>
     </ItemGroup>
 
     <ItemGroup>

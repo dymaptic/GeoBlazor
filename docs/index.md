@@ -9,7 +9,8 @@ GeoBlazor is a set of easy-to-use Razor Components for creating a Blazor Server,
 application with the full power of ArcGIS.
 
 ## Useful Links
-- [Live Samples](https://blazor.dymaptic.com)
+- [Home Page](https://www.geoblazor.com)
+- [Live Samples](https://samples.geoblazor.com)
 - [GitHub Repository](https://github.com/dymaptic/geoblazor)
 - [Nuget Package](https://www.nuget.org/packages/dymaptic.GeoBlazor.Core)
 - [Discord Server](https://discord.gg/hcmbPzn4VW) - for discussions, Q&A

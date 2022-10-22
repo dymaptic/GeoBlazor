@@ -1,6 +1,8 @@
 ﻿# GeoBlazor
 
-[View the live demo site!](https://dy-blazor-samples-server.azurewebsites.net/)
+[Home Page](https://www.geoblazor.com)
+
+[View the live demo site!](https://samples.geoblazor.com)
 
 [Read the Docs](https://docs.geoblazor.com)
 
@@ -138,4 +140,4 @@ https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/ab
 ### dymaptic.GeoBlazor.Interactive (not included in open source repo)
 
 - Extended application features - coming soon!
-- Please contact info@dymaptic.com to discuss licensing these advanced features!
+- Please contact geoblazor@dymaptic.com to discuss licensing these advanced features!
