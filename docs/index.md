@@ -15,4 +15,10 @@ application with the full power of ArcGIS.
 - [Nuget Package](https://www.nuget.org/packages/dymaptic.GeoBlazor.Core)
 - [Discord Server](https://discord.gg/hcmbPzn4VW) - for discussions, Q&A
 
+<div>
+    <a href="https://twitter.com/GeoBlazor?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-count="false">
+        Follow @GeoBlazor on Twitter
+    </a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</div>
+
 We are just starting these docs, and there is more to come soon, so check back!

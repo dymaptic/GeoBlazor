@@ -58,10 +58,6 @@
         <None Include="Scripts/projection.ts" Pack="true" PackagePack="Scripts" />
         <None Remove="ReadMe.md" />
         <None Include="ReadMe.md" Pack="true" PackagePath="" />
-        <None Include="wwwroot\images\Blazor-API-500px.png">
-          <Pack>true</Pack>
-          <PackagePath></PackagePath>
-        </None>
     </ItemGroup>
 
     <ItemGroup>

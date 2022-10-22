@@ -37,6 +37,20 @@
     aspect-ratio: 1291 / 694;
 }
 
+#follow-button {
+    position: relative;
+    height: 20px;
+    box-sizing: border-box;
+    padding: 1px 12px 1px 12px;
+    background-color: #1d9bf0;
+    color: #fff;
+    border-radius: 9999px;
+    cursor: pointer;
+    font: normal normal normal 12px/18px 'Helvetica Neue',Arial,sans-serif;
+}
+
+
+
 @media (max-width: 799px) {
     #feature-inset {
         flex-direction: column;
