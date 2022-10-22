@@ -79,6 +79,8 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
     try {
         setWaitCursor(id);
         let dotNetRef = dotNetReference;
+
+        checkConnectivity(id);
         dotNetRefs[id] = dotNetRef;
         if (esriConfig.apiKey === undefined) {
             esriConfig.apiKey = apiKey;
@@ -1066,4 +1068,32 @@ function buildDotNetListItem(item: ListItem): DotNetListItem | null {
         children: children,
         actionSections: item.actionsSections
     } as DotNetListItem;
+}
+
+function checkConnectivity(viewId) {
+    let connectError = new Error('Cannot connect to ArcGIS Services!');
+    let message = '<div><h1>Cannot connect to ArcGIS Services.</h1><h2>Please check your internet connection.</h2></div>';
+    let mapContainer = document.getElementById(`map-container-${viewId}`)!; 
+    try {
+        if (!navigator.onLine) {
+            mapContainer.innerHTML = message;
+            throw new Error("Browser is offline! GeoBlazor requires an internet connection to work with ArcGIS.");
+        }
+        fetch('https://www.arcgis.com/sharing/rest')
+            .then(response => {
+                // Check if the response is successful
+                if (!response.ok){
+                    mapContainer.innerHTML = message; 
+                    throw connectError;
+                }
+            })
+            .catch(error => {
+                // The resource could not be reached
+                mapContainer.innerHTML = message;
+                logError(connectError, viewId)
+            });
+    } catch (err) {
+        mapContainer.innerHTML = message;
+        logError(connectError, viewId);
+    }
 }
