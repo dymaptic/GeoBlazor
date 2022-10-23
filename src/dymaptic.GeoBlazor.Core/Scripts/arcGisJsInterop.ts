@@ -61,9 +61,7 @@ import {
     buildDotNetGeometry, buildDotNetSpatialReference
 } from "./dotNetBuilder";
 import Extent from "@arcgis/core/geometry/Extent";
-import {build} from "esbuild";
-import Geometry from "@arcgis/core/geometry/Geometry";
-import {buildJsSpatialReference} from "./jsBuilder";
+import {buildJsFields, buildJsRenderer, buildJsSpatialReference} from "./jsBuilder";
 
 export let arcGisObjectRefs: Record<string, Accessor> = {};
 export let dotNetRefs = {};
@@ -160,7 +158,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
                 });
                 let center;
                 let spatialRef;
-                if (spatialReference !== undefined && spatialReference !== null) {
+                if (hasValue(spatialReference)) {
                     spatialRef = buildJsSpatialReference(spatialReference);
                     center = new Point({
                         latitude: lat,
@@ -177,21 +175,21 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
                     container: `map-container-${id}`,
                     rotation: rotation
                 });
-                if (scale !== undefined && scale !== null) {
+                if (hasValue(scale)) {
                     (view as MapView).scale = scale;
                 } else {
                     (view as MapView).zoom = zoom;
                 }
 
-                if (spatialRef !== undefined && spatialRef !== null) {
+                if (hasValue(spatialRef)) {
                     view.spatialReference = spatialRef;
                 }
 
-                if (constraints !== undefined && constraints !== null) {
+                if (hasValue(constraints)) {
                     (view as MapView).constraints = constraints;
                 }
                 
-                if (extent !== undefined && extent !== null) {
+                if (hasValue(extent)) {
                     (view as MapView).extent = extent;
                 }
                 break;
@@ -200,7 +198,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
         arcGisObjectRefs[id] = view;
         waitForRender(id, dotNetRef);
 
-        if (mapObject.layers !== undefined && mapObject.layers !== null) {
+        if (hasValue(mapObject.layers)) {
             for (const layerObject of mapObject.layers) {
                 await addLayer(layerObject, id);
             }
@@ -305,7 +303,7 @@ export async function queryFeatureLayer(queryObject: any, layerObject: any, symb
         if (queryObject.useViewExtent) {
             let view = arcGisObjectRefs[viewId] as MapView;
             query.geometry = view.extent;
-        } else if (queryObject.geometry !== undefined && queryObject.geometry !== null) {
+        } else if (hasValue(queryObject.geometry)) {
             query.geometry = queryObject.geometry;
         }
         let popupTemplate = buildPopupTemplate(popupTemplateObject);
@@ -352,15 +350,15 @@ export function updateGraphic(graphicObject: any, layerIndex: number, viewId: st
         let gLayer: GraphicsLayer | null = null;
         let view = arcGisObjectRefs[viewId] as View;
         if (layerIndex === undefined || layerIndex === null) {
-            if (oldGraphic !== undefined && oldGraphic !== null) {
+            if (hasValue(oldGraphic)) {
                 view.graphics.remove(oldGraphic);
             } else {
                 view.graphics.removeAt(graphicObject.graphicIndex);
             }
         } else {
             gLayer = (view.map.layers as MapCollection).items.filter(l => l.type === "graphics")[layerIndex] as GraphicsLayer;
-            if (gLayer !== undefined && gLayer !== null) {
-                if (oldGraphic !== undefined && oldGraphic !== null) {
+            if (hasValue(gLayer)) {
+                if (hasValue(oldGraphic)) {
                     gLayer.graphics.remove(oldGraphic);
                 } else {
                     gLayer.graphics.removeAt(graphicObject.graphicIndex);
@@ -690,7 +688,7 @@ export async function addWidget(widget: any, viewId: string): Promise<void> {
                     view: view
                 });
                 newWidget = basemapToggle;
-                if (widget.nextBasemapName !== undefined && widget.nextBasemapName !== null) {
+                if (hasValue(widget.nextBasemapName)) {
                     // @ts-ignore
                     basemapToggle.nextBasemap = widget.nextBasemapName;
                 } else {
@@ -700,7 +698,7 @@ export async function addWidget(widget: any, viewId: string): Promise<void> {
                 break;
             case 'basemapGallery':
                 let source = new PortalBasemapsSource();
-                if (widget.portalBasemapsSource !== undefined && widget.portalBasemapsSource !== null) {
+                if (hasValue(widget.portalBasemapsSource)) {
                     const portal = new Portal();
                     if (widget.portalBasemapsSource.portal?.url !== undefined &&
                         widget.portalBasemapsSource.portal?.url !== null) {
@@ -716,7 +714,7 @@ export async function addWidget(widget: any, viewId: string): Promise<void> {
                         widget.portalBasemapsSource.queryString !== null) {
                         source.query = widget.portalBasemapsSource.queryString;
                     }
-                } else if (widget.title !== undefined && widget.title !== null) {
+                } else if (hasValue(widget.title)) {
                     source.query = {
                         title: widget.title
                     };
@@ -731,7 +729,7 @@ export async function addWidget(widget: any, viewId: string): Promise<void> {
                     view: view
                 });
                 newWidget = scaleBar;
-                if (widget.unit !== undefined && widget.unit !== null) {
+                if (hasValue(widget.unit)) {
                     scaleBar.unit = widget.unit;
                 }
                 break;
@@ -746,10 +744,10 @@ export async function addWidget(widget: any, viewId: string): Promise<void> {
                     view: view,
                 });
                 newWidget = homeBtn;
-                if (widget.label !== undefined && widget.label !== null) {
+                if (hasValue(widget.label)) {
                     homeBtn.label = widget.label;
                 }
-                if (widget.iconClass !== undefined && widget.iconClass !== null) {
+                if (hasValue(widget.iconClass)) {
                     homeBtn.iconClass = widget.iconClass;
                 }                
                 break;
@@ -758,10 +756,10 @@ export async function addWidget(widget: any, viewId: string): Promise<void> {
                     view: view
                 });
                 newWidget = compassWidget;
-                if (widget.iconClass !== undefined && widget.iconClass !== null) {
+                if (hasValue(widget.iconClass)) {
                     compassWidget.iconClass = widget.iconClass;
                 }
-                if (widget.label !== undefined && widget.label !== null) {
+                if (hasValue(widget.label)) {
                     compassWidget.label = widget.label;
                 }
                 break;
@@ -789,10 +787,10 @@ export async function addWidget(widget: any, viewId: string): Promise<void> {
                     };
                 }
 
-                if (widget.iconClass !== undefined && widget.iconClass !== null) {
+                if (hasValue(widget.iconClass)) {
                     layerListWidget.iconClass = widget.iconClass;
                 }
-                if (widget.label !== undefined && widget.label !== null) {
+                if (hasValue(widget.label)) {
                     layerListWidget.label = widget.label;
                 }
                 
@@ -806,27 +804,27 @@ export async function addWidget(widget: any, viewId: string): Promise<void> {
                     content: content
                 });
                 
-                if (widget.autoCollapse !== undefined && widget.autoCollapse !== null) {
+                if (hasValue(widget.autoCollapse)) {
                     expand.autoCollapse = widget.autoCollapse;
                 }
 
-                if (widget.closeOnEsc !== undefined && widget.closeOnEsc !== null) {
+                if (hasValue(widget.closeOnEsc)) {
                     expand.closeOnEsc = widget.closeOnEsc;
                 }
 
-                if (widget.expandIconClass !== undefined && widget.expandIconClass !== null) {
+                if (hasValue(widget.expandIconClass)) {
                     expand.expandIconClass = widget.expandIconClass;
                 }
 
-                if (widget.collapseIconClass !== undefined && widget.collapseIconClass !== null) {
+                if (hasValue(widget.collapseIconClass)) {
                     expand.collapseIconClass = widget.collapseIconClass;
                 }
 
-                if (widget.expandTooltip !== undefined && widget.expandTooltip !== null) {
+                if (hasValue(widget.expandTooltip)) {
                     expand.expandTooltip = widget.expandTooltip;
                 }
 
-                if (widget.collapseTooltip !== undefined && widget.collapseTooltip !== null) {
+                if (hasValue(widget.collapseTooltip)) {
                     expand.collapseTooltip = widget.collapseTooltip;
                 }
                 
@@ -836,7 +834,7 @@ export async function addWidget(widget: any, viewId: string): Promise<void> {
                 return;
         }
 
-        if (widget.containerId !== undefined && widget.containerId !== null) {
+        if (hasValue(widget.containerId)) {
             let container = document.getElementById(widget.containerId);
             let innerContainer = document.createElement('div');
             container?.appendChild(innerContainer);
@@ -852,16 +850,18 @@ export async function addWidget(widget: any, viewId: string): Promise<void> {
 
 export function createGraphic(graphicObject: any): Graphic {
     let popupTemplate: PopupTemplate | undefined = undefined;
-    if (graphicObject.popupTemplate !== undefined && graphicObject.popupTemplate !== null) {
+    if (hasValue(graphicObject.popupTemplate)) {
         popupTemplate = buildPopupTemplate(graphicObject.popupTemplate);
     }
 
     const graphic = new Graphic({
         geometry: graphicObject.geometry,
-        symbol: graphicObject.symbol,
         attributes: graphicObject.attributes,
         popupTemplate: popupTemplate
     });
+    if (hasValue(graphicObject.symbol)) {
+        graphic.symbol = graphicObject.symbol;
+    }
 
     arcGisObjectRefs[graphicObject.id] = graphic;
     return graphic;
@@ -880,26 +880,32 @@ export async function addLayer(layerObject: any, viewId: string, isBasemapLayer?
                 });
                 break;
             case 'feature':
-                if (layerObject.portalItem !== undefined && layerObject.portalItem?.id !== null) {
+                if (hasValue(layerObject.portalItem)) {
                     newLayer = new FeatureLayer({
                         portalItem: {
                             id: layerObject.portalItem.id
                         }
                     });
-                } else {
+                } else if (hasValue(layerObject.url)) {
                     newLayer = new FeatureLayer({
                         url: layerObject.url
                     });
-                }
+                } else {
+                    let source: Array<Graphic> = [];
+                    layerObject.source?.forEach(graphicObject => {
+                        let graphic = createGraphic(graphicObject);
+                        source.push(graphic);
+                    });
+                    newLayer = new FeatureLayer({
+                        source: source
+                    });
+                } 
                 let featureLayer = newLayer as FeatureLayer;
-                if (layerObject.opacity !== undefined && layerObject.opacity !== null) {
+                if (hasValue(layerObject.opacity)) {
                     newLayer.opacity = layerObject.opacity;
                 }
-                if (layerObject.definitionExpression !== undefined && layerObject.definitionExpression !== null) {
+                if (hasValue(layerObject.definitionExpression)) {
                     featureLayer.definitionExpression = layerObject.definitionExpression;
-                }
-                if (layerObject.renderer !== undefined && layerObject.renderer !== null) {
-                    featureLayer.renderer = layerObject.renderer;
                 }
 
                 if (layerObject.labelingInfo !== undefined && layerObject.labelingInfo?.length > 0) {
@@ -910,24 +916,39 @@ export async function addLayer(layerObject: any, viewId: string, isBasemapLayer?
                     featureLayer.outFields = layerObject.outFields;
                 }
 
-                if (layerObject.popupTemplate !== undefined && layerObject.popupTemplate !== null) {
+                if (hasValue(layerObject.popupTemplate)) {
                     featureLayer.popupTemplate = buildPopupTemplate(layerObject.popupTemplate);
                 }
-                if (layerObject.title !== undefined && layerObject.title !== null) {
+                if (hasValue(layerObject.title)) {
                     featureLayer.title = layerObject.title;
                 }
-                if (layerObject.minScale !== undefined && layerObject.minScale !== null) {
+                if (hasValue(layerObject.minScale)) {
                     featureLayer.minScale = layerObject.minScale;
                 }
-                if (layerObject.maxScale !== undefined && layerObject.maxScale !== null) {
+                if (hasValue(layerObject.maxScale)) {
                     featureLayer.maxScale = layerObject.maxScale;
                 }
-                if (layerObject.orderBy !== undefined && layerObject.orderBy !== null) {
+                if (hasValue(layerObject.orderBy)) {
                     featureLayer.orderBy = layerObject.orderBy;
+                }
+                if (hasValue(layerObject.objectIdField)) {
+                    featureLayer.objectIdField = layerObject.objectIdField;
+                }
+                if (hasValue(layerObject.renderer)) {
+                    let renderer = buildJsRenderer(layerObject.renderer);
+                    if (renderer !== null) {
+                        featureLayer.renderer = renderer;
+                    }
+                }
+                if (hasValue(layerObject.fields)) {
+                    featureLayer.fields = buildJsFields(layerObject.fields);
+                }
+                if (hasValue(layerObject.spatialReference)) {
+                    featureLayer.spatialReference = buildJsSpatialReference(layerObject.spatialReference);
                 }
                 break;
             case 'vectorTile':
-                if (layerObject.portalItem !== undefined && layerObject.portalItem !== null) {
+                if (hasValue(layerObject.portalItem)) {
                     newLayer = new VectorTileLayer({
                         portalItem: layerObject.portalItem
                     });
@@ -936,7 +957,7 @@ export async function addLayer(layerObject: any, viewId: string, isBasemapLayer?
                         url: layerObject.url
                     });
                 }
-                if (layerObject.opacity !== undefined && layerObject.opacity !== null) {
+                if (hasValue(layerObject.opacity)) {
                     newLayer.opacity = layerObject.opacity;
                 }
                 break;
@@ -953,10 +974,10 @@ export async function addLayer(layerObject: any, viewId: string, isBasemapLayer?
                     copyright: layerObject.copyright
                 });
                 let gjLayer = newLayer as GeoJSONLayer;
-                if (layerObject.renderer !== undefined && layerObject.renderer !== null) {
+                if (hasValue(layerObject.renderer)) {
                     gjLayer.renderer = layerObject.renderer;
                 }
-                if (layerObject.spatialReference !== undefined && layerObject.spatialReference !== null) {
+                if (hasValue(layerObject.spatialReference)) {
                     gjLayer.spatialReference = new SpatialReference({
                         wkid: layerObject.spatialReference.wkid
                     });
@@ -986,7 +1007,7 @@ export async function addLayer(layerObject: any, viewId: string, isBasemapLayer?
 
 export function buildPopupTemplate(popupTemplateObject: any): PopupTemplate {
     let content;
-    if (popupTemplateObject.stringContent !== undefined && popupTemplateObject.stringContent !== null) {
+    if (hasValue(popupTemplateObject.stringContent)) {
         content = popupTemplateObject.stringContent;
     } else {
         content = popupTemplateObject.content;
@@ -1002,7 +1023,7 @@ async function resetCenterToSpatialReference(center: Point, spatialReference: Sp
 }
 
 export function logError(error, viewId) {
-    if (error.stack !== undefined && error.stack !== null) {
+    if (hasValue(error.stack)) {
         console.log(error.stack);
         dotNetRefs[viewId].invokeMethodAsync('OnJavascriptError', error.stack);
     } else {
@@ -1047,7 +1068,9 @@ function waitForRender(viewId: string, dotNetRef: any): void {
     })
 }
 
-
+function hasValue(prop: any): boolean {
+    return prop !== undefined && prop !== null;
+}
 
 function buildDotNetListItem(item: ListItem): DotNetListItem | null {
     if (item === undefined || item === null) return null;

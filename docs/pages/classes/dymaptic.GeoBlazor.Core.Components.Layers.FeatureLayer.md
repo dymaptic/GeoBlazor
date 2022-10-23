@@ -25,12 +25,40 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 
 ## FeatureLayer.DefinitionExpression Property
 
+The SQL where clause used to filter features on the client.
+
 ```csharp
 public string? DefinitionExpression { get; set; }
 ```
 
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.Fields'></a>
+
+## FeatureLayer.Fields Property
+
+An array of fields in the layer.
+
+```csharp
+public System.Collections.Generic.IReadOnlyCollection<dymaptic.GeoBlazor.Core.Components.Layers.Field>? Fields { get; set; }
+```
+
+#### Property Value
+[System.Collections.Generic.IReadOnlyCollection&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IReadOnlyCollection-1 'System.Collections.Generic.IReadOnlyCollection`1')[Field](dymaptic.GeoBlazor.Core.Components.Layers.Field.html 'dymaptic.GeoBlazor.Core.Components.Layers.Field')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IReadOnlyCollection-1 'System.Collections.Generic.IReadOnlyCollection`1')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.GeometryType'></a>
+
+## FeatureLayer.GeometryType Property
+
+The geometry type of the feature layer. All featuers must be of the same type.
+
+```csharp
+public System.Nullable<dymaptic.GeoBlazor.Core.Components.Geometries.GeometryType> GeometryType { get; set; }
+```
+
+#### Property Value
+[System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[GeometryType](dymaptic.GeoBlazor.Core.Components.Geometries.GeometryType.html 'dymaptic.GeoBlazor.Core.Components.Geometries.GeometryType')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.LabelingInfo'></a>
 
@@ -84,6 +112,19 @@ public System.Nullable<double> MinScale { get; set; }
 #### Property Value
 [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.ObjectIdField'></a>
+
+## FeatureLayer.ObjectIdField Property
+
+The name of an oidfield containing a unique value or identifier for each feature in the layer.
+
+```csharp
+public string? ObjectIdField { get; set; }
+```
+
+#### Property Value
+[System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.OrderBy'></a>
 
 ## FeatureLayer.OrderBy Property
@@ -91,7 +132,7 @@ public System.Nullable<double> MinScale { get; set; }
 Determines the order in which features are drawn in the view.
 
 ```csharp
-public System.Collections.Generic.HashSet<dymaptic.GeoBlazor.Core.Components.Layers.OrderedLayerOrderBy> OrderBy { get; set; }
+public System.Collections.Generic.HashSet<dymaptic.GeoBlazor.Core.Components.Layers.OrderedLayerOrderBy>? OrderBy { get; set; }
 ```
 
 #### Property Value
@@ -149,6 +190,32 @@ public dymaptic.GeoBlazor.Core.Components.Renderers.Renderer? Renderer { get; se
 #### Property Value
 [Renderer](dymaptic.GeoBlazor.Core.Components.Renderers.Renderer.html 'dymaptic.GeoBlazor.Core.Components.Renderers.Renderer')
 
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.Source'></a>
+
+## FeatureLayer.Source Property
+
+A collection of Graphic objects used to create a FeatureLayer.
+
+```csharp
+public System.Collections.Generic.IReadOnlyCollection<dymaptic.GeoBlazor.Core.Components.Layers.Graphic>? Source { get; set; }
+```
+
+#### Property Value
+[System.Collections.Generic.IReadOnlyCollection&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IReadOnlyCollection-1 'System.Collections.Generic.IReadOnlyCollection`1')[Graphic](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IReadOnlyCollection-1 'System.Collections.Generic.IReadOnlyCollection`1')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.SpatialReference'></a>
+
+## FeatureLayer.SpatialReference Property
+
+The spatial reference for the feature layer
+
+```csharp
+public dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference? SpatialReference { get; set; }
+```
+
+#### Property Value
+[SpatialReference](dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference.html 'dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference')
+
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.Title'></a>
 
 ## FeatureLayer.Title Property
@@ -176,6 +243,66 @@ public string Url { get; set; }
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 ### Methods
 
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.Add(dymaptic.GeoBlazor.Core.Components.Layers.Field)'></a>
+
+## FeatureLayer.Add(Field) Method
+
+Add a field to the current layer's source
+
+```csharp
+public System.Threading.Tasks.Task Add(dymaptic.GeoBlazor.Core.Components.Layers.Field field);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.Add(dymaptic.GeoBlazor.Core.Components.Layers.Field).field'></a>
+
+`field` [Field](dymaptic.GeoBlazor.Core.Components.Layers.Field.html 'dymaptic.GeoBlazor.Core.Components.Layers.Field')
+
+The field to add
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.Add(dymaptic.GeoBlazor.Core.Components.Layers.Graphic)'></a>
+
+## FeatureLayer.Add(Graphic) Method
+
+Add a graphic to the current layer's source
+
+```csharp
+public System.Threading.Tasks.Task Add(dymaptic.GeoBlazor.Core.Components.Layers.Graphic graphic);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.Add(dymaptic.GeoBlazor.Core.Components.Layers.Graphic).graphic'></a>
+
+`graphic` [Graphic](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic')
+
+The graphic to add
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.Add(System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Layers.Graphic_)'></a>
+
+## FeatureLayer.Add(IEnumerable<Graphic>) Method
+
+Adds a collection of graphics to the feature layer
+
+```csharp
+public System.Threading.Tasks.Task Add(System.Collections.Generic.IEnumerable<dymaptic.GeoBlazor.Core.Components.Layers.Graphic> graphics);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.Add(System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Layers.Graphic_).graphics'></a>
+
+`graphics` [System.Collections.Generic.IEnumerable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IEnumerable-1 'System.Collections.Generic.IEnumerable`1')[Graphic](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IEnumerable-1 'System.Collections.Generic.IEnumerable`1')
+
+The graphics to add
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.RegisterChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent)'></a>
 
 ## FeatureLayer.RegisterChildComponent(MapComponent) Method
@@ -200,6 +327,46 @@ The calling, child component to register
 
 [InvalidChildElementException](dymaptic.GeoBlazor.Core.Exceptions.InvalidChildElementException.html 'dymaptic.GeoBlazor.Core.Exceptions.InvalidChildElementException')  
 Throws if the current child is not a valid sub-component to the parent.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.Remove(dymaptic.GeoBlazor.Core.Components.Layers.Field)'></a>
+
+## FeatureLayer.Remove(Field) Method
+
+Remove a field from the current layer
+
+```csharp
+public System.Threading.Tasks.Task Remove(dymaptic.GeoBlazor.Core.Components.Layers.Field field);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.Remove(dymaptic.GeoBlazor.Core.Components.Layers.Field).field'></a>
+
+`field` [Field](dymaptic.GeoBlazor.Core.Components.Layers.Field.html 'dymaptic.GeoBlazor.Core.Components.Layers.Field')
+
+The field to remove
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.Remove(dymaptic.GeoBlazor.Core.Components.Layers.Graphic)'></a>
+
+## FeatureLayer.Remove(Graphic) Method
+
+Remove a graphic from the current layer
+
+```csharp
+public System.Threading.Tasks.Task Remove(dymaptic.GeoBlazor.Core.Components.Layers.Graphic graphic);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.Remove(dymaptic.GeoBlazor.Core.Components.Layers.Graphic).graphic'></a>
+
+`graphic` [Graphic](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic')
+
+The graphic to remove
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.UnregisterChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent)'></a>
 

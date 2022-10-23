@@ -14,6 +14,35 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 public class Graphic : LayerObject
 {
     /// <summary>
+    ///     Parameterless constructor for using as a razor component
+    /// </summary>
+    public Graphic()
+    {
+    }
+
+    /// <summary>
+    ///     Constructs a new Graphic in code with parameters 
+    /// </summary>
+    /// <param name="geometry">
+    ///     The geometry that defines the graphic's location.
+    /// </param>
+    /// <param name="popupTemplate">
+    ///     The <see cref="PopupTemplate"/> for displaying content in a Popup when the graphic is selected.
+    /// </param>
+    /// <param name="attributes">
+    ///     Name-value pairs of fields and field values associated with the graphic.
+    /// </param>
+    public Graphic(Geometry geometry, PopupTemplate? popupTemplate = null, 
+        Dictionary<string, object>? attributes = null)
+    {
+#pragma warning disable BL0005
+        Geometry = geometry;
+        PopupTemplate = popupTemplate;
+        Attributes = attributes;
+#pragma warning restore BL0005
+    }
+    
+    /// <summary>
     ///     Name-value pairs of fields and field values associated with the graphic.
     /// </summary>
     [Parameter]

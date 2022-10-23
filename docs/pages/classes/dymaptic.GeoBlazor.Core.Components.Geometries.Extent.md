@@ -16,6 +16,82 @@ public class Extent : dymaptic.GeoBlazor.Core.Components.Geometries.Geometry
 ```
 
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [Microsoft.AspNetCore.Components.ComponentBase](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.ComponentBase 'Microsoft.AspNetCore.Components.ComponentBase') &#129106; [MapComponent](dymaptic.GeoBlazor.Core.Components.MapComponent.html 'dymaptic.GeoBlazor.Core.Components.MapComponent') &#129106; [Geometry](dymaptic.GeoBlazor.Core.Components.Geometries.Geometry.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Geometry') &#129106; Extent
+### Constructors
+
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.Extent.Extent()'></a>
+
+## Extent() Constructor
+
+Parameterless constructor for use as a razor component
+
+```csharp
+public Extent();
+```
+
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.Extent.Extent(double,double,double,double,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference)'></a>
+
+## Extent(double, double, double, double, Nullable<double>, Nullable<double>, Nullable<double>, Nullable<double>, SpatialReference) Constructor
+
+Creates a new Extent in code with parameters
+
+```csharp
+public Extent(double xmax, double xmin, double ymax, double ymin, System.Nullable<double> zmax=null, System.Nullable<double> zmin=null, System.Nullable<double> mmax=null, System.Nullable<double> mmin=null, dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference? spatialReference=null);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.Extent.Extent(double,double,double,double,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference).xmax'></a>
+
+`xmax` [System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')
+
+The maximum X-coordinate of an extent envelope.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.Extent.Extent(double,double,double,double,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference).xmin'></a>
+
+`xmin` [System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')
+
+The minimum X-coordinate of an extent envelope.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.Extent.Extent(double,double,double,double,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference).ymax'></a>
+
+`ymax` [System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')
+
+The maximum Y-coordinate of an extent envelope.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.Extent.Extent(double,double,double,double,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference).ymin'></a>
+
+`ymin` [System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')
+
+The minimum Y-coordinate of an extent envelope.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.Extent.Extent(double,double,double,double,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference).zmax'></a>
+
+`zmax` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
+
+The maximum possible z, or elevation, value in an extent envelope.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.Extent.Extent(double,double,double,double,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference).zmin'></a>
+
+`zmin` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
+
+The minimum possible z, or elevation, value in an extent envelope.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.Extent.Extent(double,double,double,double,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference).mmax'></a>
+
+`mmax` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
+
+The maximum possible m value in an extent envelope.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.Extent.Extent(double,double,double,double,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference).mmin'></a>
+
+`mmin` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
+
+The minimum possible m value in an extent envelope.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.Extent.Extent(double,double,double,double,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference).spatialReference'></a>
+
+`spatialReference` [SpatialReference](dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference.html 'dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference')
+
+The [SpatialReference](dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference.html 'dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference') of the geometry.
 ### Properties
 
 <a name='dymaptic.GeoBlazor.Core.Components.Geometries.Extent.Mmax'></a>

@@ -81,6 +81,17 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     }
 
     /// <summary>
+    ///     Add a child component programmatically. Calls <see cref="RegisterChildComponent"/> internally.
+    /// </summary>
+    /// <param name="child">
+    ///     The child component to add
+    /// </param>
+    public Task Add(MapComponent child)
+    {
+        return RegisterChildComponent(child);
+    }
+
+    /// <summary>
     ///     Called from <see cref="MapComponent.OnAfterRenderAsync"/> to "Register" the current component with it's parent.
     /// </summary>
     /// <param name="child">

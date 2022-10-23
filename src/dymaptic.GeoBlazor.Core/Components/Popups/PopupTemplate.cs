@@ -9,6 +9,37 @@ namespace dymaptic.GeoBlazor.Core.Components.Popups;
 public class PopupTemplate : MapComponent
 {
     /// <summary>
+    ///     Parameterless constructor for using as a razor component
+    /// </summary>
+    public PopupTemplate()
+    {
+    }
+
+    /// <summary>
+    ///     Constructs a new PopupTemplate in code with parameters
+    /// </summary>
+    /// <param name="title">
+    ///     The title of the popup
+    /// </param>
+    /// <param name="stringContent">
+    ///     Use this parameter if the content is a simple string
+    /// </param>
+    /// <param name="contents">
+    ///     Pass advanced <see cref="PopupContent"/> parameters
+    /// </param>
+    public PopupTemplate(string title, string? stringContent = null, params PopupContent[] contents)
+    {
+#pragma warning disable BL0005
+        Title = title;
+        StringContent = stringContent;
+        foreach (PopupContent content in contents)
+        {
+            Content.Add(content);
+        }
+#pragma warning restore BL0005
+    }
+    
+    /// <summary>
     ///     The template for defining and formatting a popup's content, provided as a simple string.
     /// </summary>
     /// <remarks>

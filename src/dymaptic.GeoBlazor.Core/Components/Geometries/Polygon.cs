@@ -10,6 +10,34 @@ namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 public class Polygon : Geometry
 {
     /// <summary>
+    ///     Parameterless constructor for use as a razor component
+    /// </summary>
+    public Polygon()
+    {
+    }
+
+    /// <summary>
+    ///     Creates a new polygon in code with parameters
+    /// </summary>
+    /// <param name="rings">
+    ///     An array of <see cref="MapPath"/> rings.
+    /// </param>
+    /// <param name="spatialReference">
+    ///     The <see cref="SpatialReference"/> of the geometry.
+    /// </param>
+    /// <param name="extent">
+    ///     The <see cref="Extent"/> of the geometry.
+    /// </param>
+    public Polygon(MapPath[] rings, SpatialReference? spatialReference = null, Extent? extent = null)
+    {
+#pragma warning disable BL0005
+        Rings = rings;
+        SpatialReference = spatialReference;
+        Extent = extent;
+#pragma warning restore BL0005
+    }
+    
+    /// <summary>
     ///     An array of <see cref="MapPath"/> rings.
     /// </summary>
     [Parameter]

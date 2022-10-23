@@ -1,5 +1,7 @@
 ﻿using dymaptic.GeoBlazor.Core.Objects;
 using Microsoft.AspNetCore.Components;
+using System.Text.Json.Serialization;
+
 
 namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 
@@ -16,17 +18,27 @@ public class TextSymbol : Symbol
     ///     The color of the text symbol's halo.
     /// </summary>
     [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public MapColor? HaloColor { get; set; }
 
     /// <summary>
     ///     The size in points of the text symbol's halo.
     /// </summary>
     [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? HaloSize { get; set; }
+    
+    /// <summary>
+    ///     The text string to display in the view.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Text { get; set; }
 
     /// <summary>
     ///     The <see cref="MapFont"/> used to style the text.
     /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public MapFont? Font { get; set; }
 
     /// <inheritdoc />
@@ -35,7 +47,7 @@ public class TextSymbol : Symbol
         switch (child)
         {
             case MapFont mapFont:
-                if (!((Object)mapFont).Equals(Font))
+                if (!mapFont.Equals(Font))
                 {
                     Font = mapFont;
                     await UpdateComponent();

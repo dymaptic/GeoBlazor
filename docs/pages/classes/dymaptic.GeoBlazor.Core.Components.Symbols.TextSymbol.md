@@ -57,6 +57,19 @@ public string? HaloSize { get; set; }
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 
+<a name='dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol.Text'></a>
+
+## TextSymbol.Text Property
+
+The text string to display in the view.
+
+```csharp
+public string? Text { get; set; }
+```
+
+#### Property Value
+[System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
 <a name='dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol.Type'></a>
 
 ## TextSymbol.Type Property

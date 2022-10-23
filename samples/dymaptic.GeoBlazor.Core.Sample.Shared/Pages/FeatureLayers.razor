@@ -10,19 +10,11 @@
 <p class="instructions">
     Use the radio buttons to toggle various feature layers.
 </p>
-<div class="form-group">
-    <div class="form-group" style="border-bottom: 1px solid black;">
-        <EditForm Model="this">
-            <InputRadioGroup Name="points" @bind-Value="_showPointsLayer">
-                <label class="radio-container">
-                    Show Trailheads Points Layer:
-                    <InputRadio Name="points" Value="1" />
-                    <div class="radio-box" />
-                </label>
-            </InputRadioGroup>
-        </EditForm>
+<div>
+    <div class="form-group">
+        <label>Show Trailheads Points Layer: <input type="checkbox" class="form-check-input" @onchange="@(() => _showPointsLayer = !_showPointsLayer)"></label>
     </div>
-    <div class="form-group" style="border-bottom: 1px solid black;">
+    <div class="form-group">
         <EditForm Model="this">
             <InputRadioGroup Name="points" @bind-Value="_showLinesLayer">
                 <label class="radio-container">
@@ -44,21 +36,16 @@
         </EditForm>
     </div>
     <div class="form-group">
-        <EditForm Model="this">
-            <InputRadioGroup Name="points" @bind-Value="_showPolygonLayer">
-                <label class="radio-container">
-                    Show Trailheads Polygons Layer:
-                    <InputRadio Name="points" Value="1" />
-                    <div class="radio-box" />
-                </label>
-            </InputRadioGroup>
-        </EditForm>
+        <label>Show Trailheads Polygons Layer: <input type="checkbox" class="form-check-input" @onchange="@(() => _showPolygonLayer = !_showPolygonLayer)"></label>
+    </div>
+    <div class="form-group">
+        <label>Show Client-Side Graphics Layer: <input type="checkbox" class="form-check-input" @onchange="@(() => _showGraphics = !_showGraphics)"></label>
     </div>
 </div>
 
 <MapView @ref="MapView" Longitude="-118.80543" Latitude="34.02700" Zoom="13" Class="map-view">
     <Map ArcGISDefaultBasemap="arcgis-topographic">
-        @if (_showPolygonLayer == 1)
+        @if (_showPolygonLayer)
         {
             <FeatureLayer Url="https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Parks_and_Open_Space/FeatureServer/0" />
         }
@@ -92,17 +79,64 @@
                 </SimpleRenderer>
             </FeatureLayer>
         }
-        @if (_showPointsLayer == 1)
+        @if (_showPointsLayer)
         {
             <FeatureLayer Url="https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trailheads/FeatureServer/0" />
+        }
+        @if (_showGraphics)
+        {
+            <FeatureLayer @ref="_graphicsFeatureLayer" ObjectIdField="ObjectID" GeometryType="GeometryType.Point">
+                <SpatialReference Wkid="4326" />
+                <PopupTemplate Title="Custom Point {ObjectID}" StringContent="<img src='{url}' />" />
+                <SimpleRenderer>
+                    <TextSymbol Color="@(new MapColor("#7A003C"))"
+                                Text="">
+                        <MapFont Size="20" Family="CalciteWebCoreIcons" />
+                    </TextSymbol>
+                </SimpleRenderer>
+                <Field Name="ObjectID" Type="FieldType.Oid" />
+                <Field Name="url" Type="FieldType.String" />
+            </FeatureLayer>
         }
     </Map>
 </MapView>
 
 @code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender) return;
+
+        if (_showGraphics)
+        {
+            Graphic[] graphics = {
+                new(new Point(34.027, -118.805),
+                    attributes: new Dictionary<string, object>
+                    {
+                        { "ObjectID", "6" },
+                        { "url", "https://arcgis.github.io/arcgis-samples-javascript/sample-data/featurelayer-collection/photo-6.jpg" }
+                    }),
+                new(new Point(34.017, -118.815),
+                    attributes: new Dictionary<string, object>
+                    {
+                        { "ObjectID", "5" },
+                        { "url", "https://arcgis.github.io/arcgis-samples-javascript/sample-data/featurelayer-collection/photo-5.jpg" }
+                    }),
+                new(new Point(34.027, -118.795),
+                    attributes: new Dictionary<string, object>
+                    {
+                        { "ObjectID", "4" },
+                        { "url", "https://arcgis.github.io/arcgis-samples-javascript/sample-data/featurelayer-collection/photo-4.jpg" }
+                    }),
+            };
+            await _graphicsFeatureLayer!.Add(graphics);
+        }
+    }
+
     private MapView? MapView { get; set; }
 
-    private int _showPointsLayer;
+    private bool _showPointsLayer;
     private int _showLinesLayer;
-    private int _showPolygonLayer;
+    private bool _showPolygonLayer;
+    private bool _showGraphics;
+    private FeatureLayer? _graphicsFeatureLayer;
 }

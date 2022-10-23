@@ -10,6 +10,51 @@ namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 public class Point : Geometry
 {
     /// <summary>
+    ///     Parameterless constructor for use as a razor component
+    /// </summary>
+    public Point()
+    {
+    }
+
+    /// <summary>
+    ///     Creates a new Point programmatically with parameters
+    /// </summary>
+    /// <param name="latitude">
+    ///     The latitude of the point.
+    /// </param>
+    /// <param name="longitude">
+    ///     The longitude of the point.
+    /// </param>
+    /// <param name="x">
+    ///     The x-coordinate (easting) of the point in map units.
+    /// </param>
+    /// <param name="y">
+    ///     The y-coordinate (northing) of the point in map units.
+    /// </param>
+    /// <param name="z">
+    ///     The z-coordinate (or elevation) of the point in map units.
+    /// </param>
+    /// <param name="spatialReference">
+    ///     The <see cref="SpatialReference"/> of the geometry.
+    /// </param>
+    /// <param name="extent">
+    ///     The <see cref="Extent"/> of the geometry.
+    /// </param>
+    public Point(double? latitude = null, double? longitude = null, double? x = null, double? y = null, double? z = null,
+        SpatialReference? spatialReference = null, Extent? extent = null)
+    {
+#pragma warning disable BL0005
+        Latitude = latitude;
+        Longitude = longitude;
+        X = x;
+        Y = y;
+        Z = z;
+        SpatialReference = spatialReference;
+        Extent = extent;
+#pragma warning restore BL0005
+    }
+    
+    /// <summary>
     ///     The latitude of the point.
     /// </summary>
     [Parameter]

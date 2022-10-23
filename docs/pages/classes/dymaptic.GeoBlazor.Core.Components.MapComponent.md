@@ -22,6 +22,7 @@ Derived
 &#8627; [Constraints](dymaptic.GeoBlazor.Core.Components.Constraints.html 'dymaptic.GeoBlazor.Core.Components.Constraints')  
 &#8627; [Geometry](dymaptic.GeoBlazor.Core.Components.Geometries.Geometry.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Geometry')  
 &#8627; [SpatialReference](dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference.html 'dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference')  
+&#8627; [Field](dymaptic.GeoBlazor.Core.Components.Layers.Field.html 'dymaptic.GeoBlazor.Core.Components.Layers.Field')  
 &#8627; [LabelExpressionInfo](dymaptic.GeoBlazor.Core.Components.Layers.LabelExpressionInfo.html 'dymaptic.GeoBlazor.Core.Components.Layers.LabelExpressionInfo')  
 &#8627; [Layer](dymaptic.GeoBlazor.Core.Components.Layers.Layer.html 'dymaptic.GeoBlazor.Core.Components.Layers.Layer')  
 &#8627; [LayerObject](dymaptic.GeoBlazor.Core.Components.Layers.LayerObject.html 'dymaptic.GeoBlazor.Core.Components.Layers.LayerObject')  
@@ -128,6 +129,26 @@ public dymaptic.GeoBlazor.Core.Components.Views.MapView? View { get; set; }
 #### Property Value
 [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView')
 ### Methods
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.Add(dymaptic.GeoBlazor.Core.Components.MapComponent)'></a>
+
+## MapComponent.Add(MapComponent) Method
+
+Add a child component programmatically. Calls [RegisterChildComponent(MapComponent)](dymaptic.GeoBlazor.Core.Components.MapComponent.html#dymaptic.GeoBlazor.Core.Components.MapComponent.RegisterChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent) 'dymaptic.GeoBlazor.Core.Components.MapComponent.RegisterChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent)') internally.
+
+```csharp
+public System.Threading.Tasks.Task Add(dymaptic.GeoBlazor.Core.Components.MapComponent child);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.Add(dymaptic.GeoBlazor.Core.Components.MapComponent).child'></a>
+
+`child` [MapComponent](dymaptic.GeoBlazor.Core.Components.MapComponent.html 'dymaptic.GeoBlazor.Core.Components.MapComponent')
+
+The child component to add
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
 
 <a name='dymaptic.GeoBlazor.Core.Components.MapComponent.DisposeAsync()'></a>
 

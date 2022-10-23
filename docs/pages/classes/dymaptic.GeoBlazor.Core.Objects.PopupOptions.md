@@ -16,6 +16,30 @@ public class PopupOptions
 ```
 
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; PopupOptions
+### Constructors
+
+<a name='dymaptic.GeoBlazor.Core.Objects.PopupOptions.PopupOptions(dymaptic.GeoBlazor.Core.Objects.PopupDockOptions,dymaptic.GeoBlazor.Core.Objects.PopupVisibleElements)'></a>
+
+## PopupOptions(PopupDockOptions, PopupVisibleElements) Constructor
+
+Creates a new PopupOptions
+
+```csharp
+public PopupOptions(dymaptic.GeoBlazor.Core.Objects.PopupDockOptions? dockOptions=null, dymaptic.GeoBlazor.Core.Objects.PopupVisibleElements? visibleElements=null);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Objects.PopupOptions.PopupOptions(dymaptic.GeoBlazor.Core.Objects.PopupDockOptions,dymaptic.GeoBlazor.Core.Objects.PopupVisibleElements).dockOptions'></a>
+
+`dockOptions` [PopupDockOptions](dymaptic.GeoBlazor.Core.Objects.PopupDockOptions.html 'dymaptic.GeoBlazor.Core.Objects.PopupDockOptions')
+
+Docking the popup allows for a better user experience, particularly when opening popups in apps on mobile devices.
+
+<a name='dymaptic.GeoBlazor.Core.Objects.PopupOptions.PopupOptions(dymaptic.GeoBlazor.Core.Objects.PopupDockOptions,dymaptic.GeoBlazor.Core.Objects.PopupVisibleElements).visibleElements'></a>
+
+`visibleElements` [PopupVisibleElements](dymaptic.GeoBlazor.Core.Objects.PopupVisibleElements.html 'dymaptic.GeoBlazor.Core.Objects.PopupVisibleElements')
+
+The visible elements that are displayed within the widget.
 ### Properties
 
 <a name='dymaptic.GeoBlazor.Core.Objects.PopupOptions.DockOptions'></a>

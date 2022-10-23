@@ -11,6 +11,35 @@ namespace dymaptic.GeoBlazor.Core.Components.Popups;
 public class FieldInfoFormat : MapComponent
 {
     /// <summary>
+    ///     Parameterless constructor for using as a razor component
+    /// </summary>
+    public FieldInfoFormat()
+    {
+    }
+
+    
+    /// <summary>
+    ///     Constructor for creating a new FieldInfoFormat in code with parameters
+    /// </summary>
+    /// <param name="places">
+    ///     Used only with Number fields to specify the number of supported decimal places that should appear in popups.
+    /// </param>
+    /// <param name="digitSeparator">
+    ///     Used only with Number fields.
+    /// </param>
+    /// <param name="dateFormat">
+    ///     Used only with Date fields.
+    /// </param>
+    public FieldInfoFormat(int? places = null, bool? digitSeparator = null, string? dateFormat = null)
+    {
+#pragma warning disable BL0005
+        Places = places;
+        DigitSeparator = digitSeparator;
+        DateFormat = dateFormat;
+#pragma warning restore BL0005
+    }
+    
+    /// <summary>
     ///     Used only with Number fields to specify the number of supported decimal places that should appear in popups.
     /// </summary>
     [Parameter]
