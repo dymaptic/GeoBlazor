@@ -416,10 +416,10 @@ public class GeometryEngine: LogicComponent
     /// <remarks>
     ///     This method only works with WGS84 (wkid: 4326) and Web Mercator spatial references. In general, if your input geometries are assigned one of those two spatial references, you should always use geodesicBuffer() to obtain the most accurate results for those geometries. If needing to buffer points assigned a projected coordinate system other than Web Mercator, use buffer() instead. If the input geometries have a geographic coordinate system other than WGS84 (wkid: 4326), use geometryService.buffer().
     /// </remarks>
-    /// <param name="geometries">
+    /// <param name="geometry">
     ///     The buffer input geometru
     /// </param>
-    /// <param name="distances">
+    /// <param name="distance">
     ///     The specified distance for buffering.
     /// </param>
     /// <param name="unit">
@@ -868,7 +868,7 @@ public class GeometryEngine: LogicComponent
 }
 
 /// <summary>
-///     Join types for creating an offset geometry in <see cref="GeometryEngine.Offset"/>
+///     Join types for creating an offset geometry in <see cref="GeometryEngine"/>
 /// </summary>
 [JsonConverter(typeof(JoinTypeConverter))]
 public enum JoinType

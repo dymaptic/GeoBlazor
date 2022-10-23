@@ -460,7 +460,7 @@ Distance between the two input geometries.
 Returns an object containing additional information about the input spatial reference.
 
 ```csharp
-public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReferenceInfo> ExtendedSpatialReferenceInfo(dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference spatialReference);
+public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Objects.SpatialReferenceInfo> ExtendedSpatialReferenceInfo(dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference spatialReference);
 ```
 #### Parameters
 
@@ -471,8 +471,8 @@ public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Geometries
 The input spatial reference.
 
 #### Returns
-[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[SpatialReferenceInfo](dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReferenceInfo.html 'dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReferenceInfo')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
-Resolves to a [SpatialReferenceInfo](dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReferenceInfo.html 'dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReferenceInfo') object.
+[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[SpatialReferenceInfo](dymaptic.GeoBlazor.Core.Objects.SpatialReferenceInfo.html 'dymaptic.GeoBlazor.Core.Objects.SpatialReferenceInfo')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
+Resolves to a [SpatialReferenceInfo](dymaptic.GeoBlazor.Core.Objects.SpatialReferenceInfo.html 'dymaptic.GeoBlazor.Core.Objects.SpatialReferenceInfo') object.
 
 <a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.FlipHorizontal(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,dymaptic.GeoBlazor.Core.Components.Geometries.Point)'></a>
 
@@ -612,9 +612,13 @@ public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Geometries
 
 `geometry` [Geometry](dymaptic.GeoBlazor.Core.Components.Geometries.Geometry.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Geometry')
 
+The buffer input geometru
+
 <a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.GeodesicBuffer(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,double,System.Nullable_dymaptic.GeoBlazor.Core.Objects.LinearUnit_).distance'></a>
 
 `distance` [System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')
+
+The specified distance for buffering.
 
 <a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.GeodesicBuffer(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,double,System.Nullable_dymaptic.GeoBlazor.Core.Objects.LinearUnit_).unit'></a>
 
@@ -843,7 +847,7 @@ Returns true if the geometry is topologically simple.
 Finds the coordinate of the geometry that is closest to the specified point.
 
 ```csharp
-public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Geometries.NearestPointResult> NearestCoordinate(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry geometry, dymaptic.GeoBlazor.Core.Components.Geometries.Point inputPoint);
+public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Objects.NearestPointResult> NearestCoordinate(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry geometry, dymaptic.GeoBlazor.Core.Components.Geometries.Point inputPoint);
 ```
 #### Parameters
 
@@ -860,7 +864,7 @@ The geometry to consider.
 The point used to search the nearest coordinate in the geometry.
 
 #### Returns
-[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[NearestPointResult](dymaptic.GeoBlazor.Core.Components.Geometries.NearestPointResult.html 'dymaptic.GeoBlazor.Core.Components.Geometries.NearestPointResult')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
+[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[NearestPointResult](dymaptic.GeoBlazor.Core.Objects.NearestPointResult.html 'dymaptic.GeoBlazor.Core.Objects.NearestPointResult')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
 Returns an object containing the nearest coordinate.
 
 <a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.NearestVertex(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,dymaptic.GeoBlazor.Core.Components.Geometries.Point)'></a>
@@ -870,7 +874,7 @@ Returns an object containing the nearest coordinate.
 Finds the vertex on the geometry nearest to the specified point.
 
 ```csharp
-public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Geometries.NearestPointResult> NearestVertex(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry geometry, dymaptic.GeoBlazor.Core.Components.Geometries.Point inputPoint);
+public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Objects.NearestPointResult> NearestVertex(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry geometry, dymaptic.GeoBlazor.Core.Components.Geometries.Point inputPoint);
 ```
 #### Parameters
 
@@ -887,7 +891,7 @@ The geometry to consider.
 The point used to search the nearest vertex in the geometry.
 
 #### Returns
-[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[NearestPointResult](dymaptic.GeoBlazor.Core.Components.Geometries.NearestPointResult.html 'dymaptic.GeoBlazor.Core.Components.Geometries.NearestPointResult')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
+[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[NearestPointResult](dymaptic.GeoBlazor.Core.Objects.NearestPointResult.html 'dymaptic.GeoBlazor.Core.Objects.NearestPointResult')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
 Returns an object containing the nearest vertex.
 
 <a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.NearestVertices(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,dymaptic.GeoBlazor.Core.Components.Geometries.Point,double,int)'></a>
@@ -897,7 +901,7 @@ Returns an object containing the nearest vertex.
 Finds all vertices in the given distance from the specified point, sorted from the closest to the furthest and returns them as an array of Objects.
 
 ```csharp
-public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Geometries.NearestPointResult[]> NearestVertices(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry geometry, dymaptic.GeoBlazor.Core.Components.Geometries.Point inputPoint, double searchRadius, int maxVertexCountToReturn);
+public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Objects.NearestPointResult[]> NearestVertices(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry geometry, dymaptic.GeoBlazor.Core.Components.Geometries.Point inputPoint, double searchRadius, int maxVertexCountToReturn);
 ```
 #### Parameters
 
@@ -926,7 +930,7 @@ The distance to search from the inputPoint in the units of the view's spatial re
 The maximum number of vertices to return.
 
 #### Returns
-[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[NearestPointResult](dymaptic.GeoBlazor.Core.Components.Geometries.NearestPointResult.html 'dymaptic.GeoBlazor.Core.Components.Geometries.NearestPointResult')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
+[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[NearestPointResult](dymaptic.GeoBlazor.Core.Objects.NearestPointResult.html 'dymaptic.GeoBlazor.Core.Objects.NearestPointResult')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
 An array of objects containing the nearest vertices within the given searchRadius.
 
 <a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.Offset(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,double,System.Nullable_dymaptic.GeoBlazor.Core.Objects.LinearUnit_,System.Nullable_dymaptic.GeoBlazor.Core.Model.JoinType_,System.Nullable_double_,System.Nullable_double_)'></a>

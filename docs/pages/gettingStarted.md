@@ -19,7 +19,13 @@ nav_order: 2
     ```
 
 4. See [Authentication](authentication) to generate and load an API Token.
-5. In `_Imports.razor`, add the following lines, or add as needed to resolve code that you consume.
+5. In `Program.cs`, add the following line to your `builder.Services` to inject logic omponents like `GeometryEngine`.
+
+```csharp
+    builder.Services.AddGeoBlazor();
+```
+
+6. In `_Imports.razor`, add the following lines, or add as needed to resolve code that you consume.
 
    ```csharp
    @using dymaptic.GeoBlazor.Core.Components
@@ -31,7 +37,7 @@ nav_order: 2
    @using dymaptic.GeoBlazor.Core.Objects
    ```
 
-6. Create a new Razor Component in the `Pages` folder, or just use `Index.razor`. Add a `MapView`. Give it basic
+7. Create a new Razor Component in the `Pages` folder, or just use `Index.razor`. Add a `MapView`. Give it basic
    parameters to ensure that it can render.
     ```html
     @page "/"
@@ -39,7 +45,7 @@ nav_order: 2
     <MapView Longitude="_longitude" Latitude="_latitude" Zoom="11" Style="height: 400px; width: 100%;"> 
     </MapView>
     ```
-7. Within the `MapView`, define a `Map`. To load a pre-generated map from ArcGIS Online or a Portal, get the Portal Id 
+8. Within the `MapView`, define a `Map`. To load a pre-generated map from ArcGIS Online or a Portal, get the Portal Id 
    of the map, and use the `WebMap` component.
    ```html
    <MapView Longitude="_longitude" Latitude="_latitude" Zoom="11" Style="height: 400px; width: 100%;"> 
@@ -48,7 +54,7 @@ nav_order: 2
        </WebMap>
    </MapView>
    ```
-8. Add a Widget to the `MapView`, after the `WebMap`.
+9. Add a Widget to the `MapView`, after the `WebMap`.
    ```html
    <MapView Longitude="_longitude" Latitude="_latitude" Zoom="11" Style="height: 400px; width: 100%;"> 
        <WebMap>
@@ -57,5 +63,5 @@ nav_order: 2
        <ScaleBarWidget Position="OverlayPosition.BottomLeft" />
    </MapView>
    ```
-9. Run your application and make sure you can see your map!
+10. Run your application and make sure you can see your map!
    ![Web Map Sample](assets/images/webmap.png)

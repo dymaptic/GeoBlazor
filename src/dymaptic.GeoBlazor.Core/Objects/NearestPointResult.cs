@@ -12,7 +12,7 @@ public class NearestPointResult
     /// <summary>
     ///     A vertex within the specified distance of the search.
     /// </summary>
-    public Point Coordinate { get; set; }
+    public Point Coordinate { get; set; } = default!;
     
     /// <summary>
     ///     The distance from the inputPoint in the units of the view's spatial reference.
