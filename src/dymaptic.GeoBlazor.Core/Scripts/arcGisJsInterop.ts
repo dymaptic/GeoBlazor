@@ -50,6 +50,8 @@ import {
     DotNetPoint,
     MapCollection,
     DotNetListItem,
+    DotNetBaseListItem,
+    DotNetReferenceListItem,
     DotNetSpatialReference
     // @ts-ignore
 } from "ArcGisDefinitions";
@@ -795,18 +797,35 @@ export async function addWidget(widget: any, viewId: string): Promise<void> {
                 });
                 newWidget = basemapLayerListWidget;
                 
-                if(widget.hasCustomHandler) {
-                    basemapLayerListWidget.baseListItemCreatedFunction = async(evt) => {
-                        let dotNetListItem = buildDotNetListItem(evt.item);
-                        let returnItem = await widget.baselayerListWidgetObjectReference.invokeMethodAsync('OnListItemCreated', dotNetListItem) as DotNetListItem;
+                if (widget.HasCustomBaseListHandler) {
+                    basemapLayerListWidget.baseListItemCreatedFunction = async (evt) => {
+                        let dotNetBaseListItem = buildDotNetListItem(evt.item);
+                        let returnItem = await widget.baselayerListWidgetObjectReference.invokeMethodAsync('OnBaseListItemCreated', dotNetBaseListItem) as DotNetBaseListItem;
                         evt.item.title = returnItem.title;
                         evt.item.visible = returnItem.visible;
                         // basemap will require additional implementation (similar to layerlist above) to activate additional layer and action sections.
                         // evt.item.layer = returnItem.layer; --> needs implementation
                         // evt.item.children = returnItem.children; --> needs implementation
                         //evt.item.actionSections = returnItem.actionSections as any;
-                    
-                    }
+                    };
+                }
+                if (widget.HasCustomReferenceListHandler) {
+                    basemapLayerListWidget.baseListItemCreatedFunction = async (evt) => {
+                        let dotNetReferenceListItem = buildDotNetListItem(evt.item);
+                        let returnItem = await widget.baselayerListWidgetObjectReference.invokeMethodAsync('OnReferenceListItemCreated', dotNetReferenceListItem) as DotNetReferenceListItem;
+                        evt.item.title = returnItem.title;
+                        evt.item.visible = returnItem.visible;
+                        // basemap will require additional implementation (similar to layerlist above) to activate additional layer and action sections.
+                        // evt.item.layer = returnItem.layer; --> needs implementation
+                        // evt.item.children = returnItem.children; --> needs implementation
+                        //evt.item.actionSections = returnItem.actionSections as any;
+                    };
+                }
+                if (widget.iconClass !== undefined && widget.iconClass !== null) {
+                    basemapLayerListWidget.iconClass = widget.iconClass;
+                }
+                if (widget.label !== undefined && widget.label !== null) {
+                    basemapLayerListWidget.label = widget.label;
                 }
                 break;
             default:

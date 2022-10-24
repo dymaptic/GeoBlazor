@@ -1,5 +1,7 @@
 ﻿@page "/layer-lists"
 @using dymaptic.GeoBlazor.Core.Components.Widgets.LayerList
+@using dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerList
+
 @inject IJSRuntime JsRuntime
 
 <PageTitle>LayerLists</PageTitle>
@@ -23,6 +25,13 @@
                 <PortalItem Id="adfad6ee6c6043238ea64e121bb6429a" />
             </WebScene>
             <LayerListWidget Position="OverlayPosition.TopRight" OnListItemCreatedHandler="OnListItemCreated" />
+        </SceneView>
+
+        <SceneView @ref="_view" Class="map-view">
+            <WebScene>
+                <PortalItem Id="46a87c20f09e4fc48fa3c38081e0cae6" />
+            </WebScene>
+            <BasemapLayerListWidget Position="OverlayPosition.TopRight" OnBaseListItemCreatedHandler="OnBaseListItemCreated" OnReferenceListItemCreatedHandler="OnReferenceListItemCreated" />
         </SceneView>
     }
     else // for mobile, move the widget off of the map so you can see the whole map
@@ -59,6 +68,20 @@
         {
             item.Title = $"Mass {item.Title}";
         }
+        return Task.Run(() => item);
+    }
+
+    private Task<ListItem> OnBaseListItemCreated(BaseListItem baseListItem)
+    {
+        baseListItem.Visible = true;
+
+            
+        return Task.Run(() => item); 
+    }
+    private Task<ListItem> OnReferenceListItemCreated(BaseListItem item)
+    {
+        item.Visible = true;
+
         return Task.Run(() => item);
     }
 

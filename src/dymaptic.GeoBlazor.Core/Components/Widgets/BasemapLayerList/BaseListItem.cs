@@ -7,7 +7,10 @@ namespace dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerList;
 public class BaseListItem
 {
     [Parameter]
-    public string? BasemapTitle { get; set; }
+    public string? Title { get; set; }
+
+    [Parameter]
+    public string? Id { get; set; }
 
     [Parameter]
     public List<ListItem>? BasemapItems { get; set; }
