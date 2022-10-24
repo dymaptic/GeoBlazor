@@ -41,6 +41,7 @@ import Home from "@arcgis/core/widgets/Home";
 import Compass from "@arcgis/core/widgets/Compass";
 import LayerList from "@arcgis/core/widgets/LayerList";
 import ListItem from "@arcgis/core/widgets/LayerList/ListItem";
+import BasemapLayerList from "@arcgis/core/widgets/BasemapLayerList";
 
 import {
     DotNetExtent, 
@@ -787,9 +788,26 @@ export async function addWidget(widget: any, viewId: string): Promise<void> {
                 if (widget.label !== undefined && widget.label !== null) {
                     layerListWidget.label = widget.label;
                 }
+                break;
+            case 'basemapLayerList':
+                const basemapLayerListWidget = new BasemapLayerList({
+                    view: view
+                });
+                newWidget = basemapLayerListWidget;
                 
-                
-                
+                if(widget.hasCustomHandler) {
+                    basemapLayerListWidget.baseListItemCreatedFunction = async(evt) => {
+                        let dotNetListItem = buildDotNetListItem(evt.item);
+                        let returnItem = await widget.baselayerListWidgetObjectReference.invokeMethodAsync('OnListItemCreated', dotNetListItem) as DotNetListItem;
+                        evt.item.title = returnItem.title;
+                        evt.item.visible = returnItem.visible;
+                        // basemap will require additional implementation (similar to layerlist above) to activate additional layer and action sections.
+                        // evt.item.layer = returnItem.layer; --> needs implementation
+                        // evt.item.children = returnItem.children; --> needs implementation
+                        //evt.item.actionSections = returnItem.actionSections as any;
+                    
+                    }
+                }
                 break;
             default:
                 return;

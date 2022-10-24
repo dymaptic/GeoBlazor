@@ -21,7 +21,30 @@ public class BasemapLayerListWidget : Widget
     
     [Parameter]
     [JsonIgnore]
-    public Func<ListItem, Task<ListItem>>? onListItemCreatedHandler { get; set; }
+    public Func<ListItem, Task<ListItem>>? onBaseListItemCreatedHandler { get; set; }
     
     public DotNetObjectReference<BasemapLayerListWidget> BasemapLayerListWidgetObjectReference => DotNetObjectReference.Create(this);
+    
+    public bool HasCustomHandler => OnBaseListItemCreatedHandler is not null;
+
+    [JSInvokable]
+    public Task<ListItem>? OnBaseListItemCreated(ListItem item)
+    {
+        return onBaseListItemCreatedHandler?.Invoke(item);
+    }
+    [Parameter]
+    [JsonIgnore]
+    public Func<ListItem, Task<ListItem>>? onReferenceListItemCreatedHandler { get; set; }
+    
+    public DotNetObjectReference<BasemapLayerListWidget> ReferenceLayerListWidgetObjectReference => DotNetObjectReference.Create(this);
+    
+    public bool HasCustomHandler => onReferenceListItemCreatedHandler is not null;
+
+    [JSInvokable]
+    public Task<ListItem>? OnReferenceListItemCreated(ListItem item)
+    {
+        return onReferenceListItemCreatedHandler?.Invoke(item);
+    }
+    
+    
 }
