@@ -8,6 +8,11 @@ layout: default
 title: UniqueValueInfo
 parent: Classes
 ---
+---
+layout: default
+title: UniqueValueInfo
+parent: Classes
+---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Renderers](index.html#dymaptic.GeoBlazor.Core.Components.Renderers 'dymaptic.GeoBlazor.Core.Components.Renderers')
 
@@ -48,4 +53,5 @@ public string? Value { get; set; }
 
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
 

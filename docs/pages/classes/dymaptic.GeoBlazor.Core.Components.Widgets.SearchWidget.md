@@ -8,6 +8,11 @@ layout: default
 title: SearchWidget
 parent: Classes
 ---
+---
+layout: default
+title: SearchWidget
+parent: Classes
+---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Widgets](index.html#dymaptic.GeoBlazor.Core.Components.Widgets 'dymaptic.GeoBlazor.Core.Components.Widgets')
 
@@ -80,4 +85,5 @@ public void OnSearchSelectResult(dymaptic.GeoBlazor.Core.Objects.SearchResult se
 `searchResult` [SearchResult](dymaptic.GeoBlazor.Core.Objects.SearchResult.html 'dymaptic.GeoBlazor.Core.Objects.SearchResult')
 
 The result selected in the search widget.
+
 

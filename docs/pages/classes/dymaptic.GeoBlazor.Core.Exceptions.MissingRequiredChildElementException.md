@@ -8,6 +8,11 @@ layout: default
 title: MissingRequiredChildElementException
 parent: Classes
 ---
+---
+layout: default
+title: MissingRequiredChildElementException
+parent: Classes
+---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Exceptions](index.html#dymaptic.GeoBlazor.Core.Exceptions 'dymaptic.GeoBlazor.Core.Exceptions')
 
@@ -44,4 +49,5 @@ The parent type with a required child.
 `childType` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 
 The missing required child type.
+
 

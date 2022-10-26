@@ -8,6 +8,11 @@ layout: default
 title: CustomOverlay
 parent: Classes
 ---
+---
+layout: default
+title: CustomOverlay
+parent: Classes
+---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components](index.html#dymaptic.GeoBlazor.Core.Components 'dymaptic.GeoBlazor.Core.Components')
 
@@ -58,4 +63,5 @@ A convenience method to force the child content to call StateHasChanged
 ```csharp
 public void Refresh();
 ```
+
 

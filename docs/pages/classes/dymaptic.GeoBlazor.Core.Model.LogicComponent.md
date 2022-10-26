@@ -8,6 +8,11 @@ layout: default
 title: LogicComponent
 parent: Classes
 ---
+---
+layout: default
+title: LogicComponent
+parent: Classes
+---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Model](index.html#dymaptic.GeoBlazor.Core.Model 'dymaptic.GeoBlazor.Core.Model')
 
@@ -70,4 +75,5 @@ The JavaScript error stacktrace and/or details.
 
 [JavascriptException](dymaptic.GeoBlazor.Core.Exceptions.JavascriptException.html 'dymaptic.GeoBlazor.Core.Exceptions.JavascriptException')  
 The converted error to exception.
+
 
