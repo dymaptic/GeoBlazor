@@ -3,6 +3,11 @@ layout: default
 title: PortalItem
 parent: Classes
 ---
+---
+layout: default
+title: PortalItem
+parent: Classes
+---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components](index.html#dymaptic.GeoBlazor.Core.Components 'dymaptic.GeoBlazor.Core.Components')
 
@@ -30,3 +35,4 @@ public string Id { get; set; }
 
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+

@@ -70,6 +70,9 @@ export let dotNetRefs = {};
 export let queryLayer: FeatureLayer;
 export { projection, geometryEngine };
 
+export function setAssetsPath (path: string) {
+    esriConfig.assetsPath = path;
+}
 
 export async function buildMapView(id: string, dotNetReference: any, long: number, lat: number,
                                    rotation: number, mapObject: any, zoom: number, scale: number, 
@@ -1071,15 +1074,11 @@ function buildDotNetListItem(item: ListItem): DotNetListItem | null {
 }
 
 function checkConnectivity(viewId) {
-    let connectError = new Error('Cannot connect to ArcGIS Services!');
-    let message = '<div><h1>Cannot connect to ArcGIS Services.</h1><h2>Please check your internet connection.</h2></div>';
+    let connectError = new Error('Cannot load ArcGIS Assets!');
+    let message = '<div><h1>Cannot retrieve ArcGIS asset files.</h1><p><a target="_blank" href="https://docs/geoblazor.com/assetFiles"</p></div>';
     let mapContainer = document.getElementById(`map-container-${viewId}`)!; 
     try {
-        if (!navigator.onLine) {
-            mapContainer.innerHTML = message;
-            throw new Error("Browser is offline! GeoBlazor requires an internet connection to work with ArcGIS.");
-        }
-        fetch('https://www.arcgis.com/sharing/rest')
+        fetch(esriConfig.assetsPath)
             .then(response => {
                 // Check if the response is successful
                 if (!response.ok){

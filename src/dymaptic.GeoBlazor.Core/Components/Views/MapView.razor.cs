@@ -766,6 +766,8 @@ public partial class MapView : MapComponent
             }
             
             JsModule = ViewJsModule;
+            await ViewJsModule.InvokeVoidAsync("setAssetsPath", 
+                Configuration.GetValue("ArcGISAssetsPath", "./_content/dymaptic.GeoBlazor.Core/assets"));
             // the first render never has all the child components registered
             Rendering = false;
             StateHasChanged();

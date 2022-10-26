@@ -3,6 +3,11 @@ layout: default
 title: ArealUnit
 parent: Classes
 ---
+---
+layout: default
+title: ArealUnit
+parent: Classes
+---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Objects](index.html#dymaptic.GeoBlazor.Core.Objects 'dymaptic.GeoBlazor.Core.Objects')
 
@@ -14,3 +19,4 @@ Units for areal measurements. Use one of the possible values listed below or any
 ```csharp
 public enum ArealUnit
 ```
+

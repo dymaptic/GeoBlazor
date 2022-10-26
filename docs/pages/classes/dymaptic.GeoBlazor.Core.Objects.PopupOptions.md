@@ -3,6 +3,11 @@ layout: default
 title: PopupOptions
 parent: Classes
 ---
+---
+layout: default
+title: PopupOptions
+parent: Classes
+---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Objects](index.html#dymaptic.GeoBlazor.Core.Objects 'dymaptic.GeoBlazor.Core.Objects')
 
@@ -43,3 +48,4 @@ public dymaptic.GeoBlazor.Core.Objects.PopupVisibleElements VisibleElements { ge
 
 #### Property Value
 [PopupVisibleElements](dymaptic.GeoBlazor.Core.Objects.PopupVisibleElements.html 'dymaptic.GeoBlazor.Core.Objects.PopupVisibleElements')
+

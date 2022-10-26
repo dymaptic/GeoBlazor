@@ -3,6 +3,11 @@ layout: default
 title: JavascriptException
 parent: Classes
 ---
+---
+layout: default
+title: JavascriptException
+parent: Classes
+---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Exceptions](index.html#dymaptic.GeoBlazor.Core.Exceptions 'dymaptic.GeoBlazor.Core.Exceptions')
 
@@ -33,3 +38,4 @@ public JavascriptException(string message);
 `message` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 
 The JavaScript error stacktrace and/or message.
+

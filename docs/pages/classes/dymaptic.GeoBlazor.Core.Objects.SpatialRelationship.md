@@ -3,6 +3,11 @@ layout: default
 title: SpatialRelationship
 parent: Classes
 ---
+---
+layout: default
+title: SpatialRelationship
+parent: Classes
+---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Objects](index.html#dymaptic.GeoBlazor.Core.Objects 'dymaptic.GeoBlazor.Core.Objects')
 
@@ -14,3 +19,4 @@ For spatial queries, this parameter defines the spatial relationship to query fe
 ```csharp
 public enum SpatialRelationship
 ```
+
