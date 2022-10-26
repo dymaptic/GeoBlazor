@@ -9,6 +9,7 @@
 <div class="links-div">
     <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">ArcGIS API for JavaScript Reference</a>
     <a class="btn btn-primary" target="_blank" href="https://www.arcgis.com/home/item.html?id=adfad6ee6c6043238ea64e121bb6429a">San Francisco - Urban Planning Web Scene</a>
+    <a class="btn btn-primary" target="_blank" href="https://www.arcgis.com/home/item.html?id=0614ea1f9dd043e9ba157b9c20d3c538">Maquettes 3D des bâtiments de la ville de Paris</a>
 </div>
 <p class="instructions">
     A simple demo of loading multiple layers into the LayerList widget.
@@ -26,13 +27,26 @@
             </WebScene>
             <LayerListWidget Position="OverlayPosition.TopRight" OnListItemCreatedHandler="OnListItemCreated" />
         </SceneView>
+        <div>
+            <div>
+                <p>Basemap and Reference lists</p>
+            </div>
+            <p class="instructions">
+                
+                A simple demo of loading multiple layers into the BaseMapLayerList widget.
+                Select the right arrow to open the sublayers within the layer.
+                Select the "eye" icons to toggle a layer's visibility on the basemap.
+            </p>
+            <SceneView @ref="_baseview" Class="map-view">
+                <WebScene>
+                    <PortalItem Id="0614ea1f9dd043e9ba157b9c20d3c538" />
+                </WebScene>
+                <BasemapLayerListWidget Position="OverlayPosition.TopRight" OnBaseListItemCreatedHandler="OnBaseListItemCreated" OnReferenceListItemCreatedHandler="OnReferenceListItemCreated" />
+            </SceneView>
+        </div>
 
-        <SceneView @ref="_view" Class="map-view">
-            <WebScene>
-                <PortalItem Id="46a87c20f09e4fc48fa3c38081e0cae6" />
-            </WebScene>
-            <BasemapLayerListWidget Position="OverlayPosition.TopRight" OnBaseListItemCreatedHandler="OnBaseListItemCreated" OnReferenceListItemCreatedHandler="OnReferenceListItemCreated" />
-        </SceneView>
+
+        
     }
     else // for mobile, move the widget off of the map so you can see the whole map
     {
@@ -71,6 +85,8 @@
         return Task.Run(() => item);
     }
 
+    private SceneView? _baseview;
+
     private Task<ListItem> OnBaseListItemCreated(ListItem baseListItem)
     {
         baseListItem.Visible = true;
@@ -78,11 +94,11 @@
             
         return Task.Run(() => baseListItem);
     }
-    private Task<ListItem> OnReferenceListItemCreated(ListItem baseListItem)
+    private Task<ListItem> OnReferenceListItemCreated(ListItem refListItem)
     {
-        baseListItem.Visible = true;
+        refListItem.Visible = true;
 
-        return Task.Run(() => baseListItem);
+        return Task.Run(() => refListItem);
     }
 
 }

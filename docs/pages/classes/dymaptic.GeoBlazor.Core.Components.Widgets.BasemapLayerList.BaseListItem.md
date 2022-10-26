@@ -12,10 +12,10 @@ The ListItem class represents one of the operationalItems in the LayerListViewMo
 <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html">ArcGIS JS API</a>
 
 ```csharp
-public class BaseListItem
+public class BaseListItem : dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem
 ```
 
-Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; BaseListItem
+Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [ListItem](dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem.html 'dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem') &#129106; BaseListItem
 ### Properties
 
 <a name='dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerList.BaseListItem.ActionSections'></a>
@@ -50,19 +50,6 @@ public System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Components.Widget
 #### Property Value
 [System.Collections.Generic.List&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.List-1 'System.Collections.Generic.List`1')[ListItem](dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem.html 'dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.List-1 'System.Collections.Generic.List`1')
 
-<a name='dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerList.BaseListItem.Id'></a>
-
-## BaseListItem.Id Property
-
-The displayed id of the basemap layer in the basemap LayerList Widget.
-
-```csharp
-public string? Id { get; set; }
-```
-
-#### Property Value
-[System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
-
 <a name='dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerList.BaseListItem.ReferenceItems'></a>
 
 ## BaseListItem.ReferenceItems Property
@@ -75,29 +62,3 @@ public System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Components.Widget
 
 #### Property Value
 [System.Collections.Generic.List&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.List-1 'System.Collections.Generic.List`1')[ListItem](dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem.html 'dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.List-1 'System.Collections.Generic.List`1')
-
-<a name='dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerList.BaseListItem.Title'></a>
-
-## BaseListItem.Title Property
-
-The displayed title of the basemap layer in the Basemap LayerList Widget.
-
-```csharp
-public string? Title { get; set; }
-```
-
-#### Property Value
-[System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
-
-<a name='dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerList.BaseListItem.Visible'></a>
-
-## BaseListItem.Visible Property
-
-Determines whether the basemap layer is visible on load.
-
-```csharp
-public System.Nullable<bool> Visible { get; set; }
-```
-
-#### Property Value
-[System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
