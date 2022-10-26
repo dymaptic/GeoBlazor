@@ -3,16 +3,6 @@ layout: default
 title: ScaleUnit
 parent: Classes
 ---
----
-layout: default
-title: ScaleUnit
-parent: Classes
----
----
-layout: default
-title: ScaleUnit
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Widgets](index.html#dymaptic.GeoBlazor.Core.Components.Widgets 'dymaptic.GeoBlazor.Core.Components.Widgets')
 
@@ -23,5 +13,3 @@ Possible unit values for the [ScaleBarWidget](dymaptic.GeoBlazor.Core.Components
 ```csharp
 public enum ScaleUnit
 ```
-
-

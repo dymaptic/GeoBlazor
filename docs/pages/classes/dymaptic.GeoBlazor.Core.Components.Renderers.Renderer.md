@@ -3,16 +3,6 @@ layout: default
 title: Renderer
 parent: Classes
 ---
----
-layout: default
-title: Renderer
-parent: Classes
----
----
-layout: default
-title: Renderer
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Renderers](index.html#dymaptic.GeoBlazor.Core.Components.Renderers 'dymaptic.GeoBlazor.Core.Components.Renderers')
 
@@ -44,5 +34,3 @@ public abstract dymaptic.GeoBlazor.Core.Components.Renderers.RendererType Render
 
 #### Property Value
 [RendererType](dymaptic.GeoBlazor.Core.Components.Renderers.RendererType.html 'dymaptic.GeoBlazor.Core.Components.Renderers.RendererType')
-
-

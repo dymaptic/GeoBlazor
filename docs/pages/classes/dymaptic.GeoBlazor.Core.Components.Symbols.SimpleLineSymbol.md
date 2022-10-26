@@ -3,16 +3,6 @@ layout: default
 title: SimpleLineSymbol
 parent: Classes
 ---
----
-layout: default
-title: SimpleLineSymbol
-parent: Classes
----
----
-layout: default
-title: SimpleLineSymbol
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Symbols](index.html#dymaptic.GeoBlazor.Core.Components.Symbols 'dymaptic.GeoBlazor.Core.Components.Symbols')
 
@@ -56,5 +46,3 @@ public override string Type { get; }
 
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
-
-

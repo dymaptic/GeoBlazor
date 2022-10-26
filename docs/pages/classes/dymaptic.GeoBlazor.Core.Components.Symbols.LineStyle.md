@@ -3,16 +3,6 @@ layout: default
 title: LineStyle
 parent: Classes
 ---
----
-layout: default
-title: LineStyle
-parent: Classes
----
----
-layout: default
-title: LineStyle
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Symbols](index.html#dymaptic.GeoBlazor.Core.Components.Symbols 'dymaptic.GeoBlazor.Core.Components.Symbols')
 
@@ -23,5 +13,3 @@ Possible line style values for [SimpleLineSymbol](dymaptic.GeoBlazor.Core.Compon
 ```csharp
 public enum LineStyle
 ```
-
-

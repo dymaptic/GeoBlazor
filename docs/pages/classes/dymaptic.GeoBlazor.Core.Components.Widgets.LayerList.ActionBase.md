@@ -3,16 +3,6 @@ layout: default
 title: ActionBase
 parent: Classes
 ---
----
-layout: default
-title: ActionBase
-parent: Classes
----
----
-layout: default
-title: ActionBase
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Widgets.LayerList](index.html#dymaptic.GeoBlazor.Core.Components.Widgets.LayerList 'dymaptic.GeoBlazor.Core.Components.Widgets.LayerList')
 
@@ -72,5 +62,3 @@ public string? Title { get; set; }
 
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
-
-

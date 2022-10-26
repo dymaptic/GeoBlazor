@@ -1,1 +1,2 @@
-﻿npm install && npm run debugBuild
+﻿npm install
+npm run debugBuild

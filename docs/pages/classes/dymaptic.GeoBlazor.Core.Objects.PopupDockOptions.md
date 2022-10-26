@@ -3,16 +3,6 @@ layout: default
 title: PopupDockOptions
 parent: Classes
 ---
----
-layout: default
-title: PopupDockOptions
-parent: Classes
----
----
-layout: default
-title: PopupDockOptions
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Objects](index.html#dymaptic.GeoBlazor.Core.Objects 'dymaptic.GeoBlazor.Core.Objects')
 
@@ -39,5 +29,3 @@ public System.Nullable<bool> ButtonEnabled { get; set; }
 
 #### Property Value
 [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
-
-

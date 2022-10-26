@@ -71,7 +71,7 @@
     </ItemGroup>
     
     <Target Name="Copy Readme" AfterTargets="PreBuildEvent">
-        <Copy SourceFiles="$(ReadMeSourceFile)" DestinationFolder="./" SkipUnchangedFiles="true" />
+        <Copy SourceFiles="$(ReadMeSourceFile)" DestinationFolder="./" />
     </Target>
 
     <Target Name="NPM Debug Build" AfterTargets="PreBuildEvent" Condition="$(Configuration) == 'DEBUG'">

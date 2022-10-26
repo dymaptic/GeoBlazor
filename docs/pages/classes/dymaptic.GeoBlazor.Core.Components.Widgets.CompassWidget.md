@@ -3,16 +3,6 @@ layout: default
 title: CompassWidget
 parent: Classes
 ---
----
-layout: default
-title: CompassWidget
-parent: Classes
----
----
-layout: default
-title: CompassWidget
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Widgets](index.html#dymaptic.GeoBlazor.Core.Components.Widgets 'dymaptic.GeoBlazor.Core.Components.Widgets')
 
@@ -66,5 +56,3 @@ public override string WidgetType { get; }
 
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
-
-

@@ -3,16 +3,6 @@ layout: default
 title: VisualVariable
 parent: Classes
 ---
----
-layout: default
-title: VisualVariable
-parent: Classes
----
----
-layout: default
-title: VisualVariable
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Layers](index.html#dymaptic.GeoBlazor.Core.Components.Layers 'dymaptic.GeoBlazor.Core.Components.Layers')
 
@@ -116,5 +106,3 @@ The child to unregister
 
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
-
-

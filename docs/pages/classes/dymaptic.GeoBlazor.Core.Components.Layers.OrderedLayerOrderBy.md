@@ -3,16 +3,6 @@ layout: default
 title: OrderedLayerOrderBy
 parent: Classes
 ---
----
-layout: default
-title: OrderedLayerOrderBy
-parent: Classes
----
----
-layout: default
-title: OrderedLayerOrderBy
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Layers](index.html#dymaptic.GeoBlazor.Core.Components.Layers 'dymaptic.GeoBlazor.Core.Components.Layers')
 
@@ -65,5 +55,3 @@ public string? ValueExpression { get; set; }
 
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
-
-

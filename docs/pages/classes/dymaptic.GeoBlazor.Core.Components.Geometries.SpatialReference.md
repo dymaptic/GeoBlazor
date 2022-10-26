@@ -3,16 +3,6 @@ layout: default
 title: SpatialReference
 parent: Classes
 ---
----
-layout: default
-title: SpatialReference
-parent: Classes
----
----
-layout: default
-title: SpatialReference
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Geometries](index.html#dymaptic.GeoBlazor.Core.Components.Geometries 'dymaptic.GeoBlazor.Core.Components.Geometries')
 
@@ -144,5 +134,3 @@ public string? Wkt { get; set; }
 
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
-
-

@@ -3,16 +3,6 @@ layout: default
 title: InvalidChildElementException
 parent: Classes
 ---
----
-layout: default
-title: InvalidChildElementException
-parent: Classes
----
----
-layout: default
-title: InvalidChildElementException
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Exceptions](index.html#dymaptic.GeoBlazor.Core.Exceptions 'dymaptic.GeoBlazor.Core.Exceptions')
 
@@ -49,5 +39,3 @@ The parent type attempting to register the child.
 `childType` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 
 The child type attempting to register with the parent.
-
-

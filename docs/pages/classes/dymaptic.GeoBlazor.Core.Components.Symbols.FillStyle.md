@@ -3,16 +3,6 @@ layout: default
 title: FillStyle
 parent: Classes
 ---
----
-layout: default
-title: FillStyle
-parent: Classes
----
----
-layout: default
-title: FillStyle
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Symbols](index.html#dymaptic.GeoBlazor.Core.Components.Symbols 'dymaptic.GeoBlazor.Core.Components.Symbols')
 
@@ -23,5 +13,3 @@ The possible fill style for the [SimpleFillSymbol](dymaptic.GeoBlazor.Core.Compo
 ```csharp
 public enum FillStyle
 ```
-
-
