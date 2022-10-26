@@ -71,18 +71,18 @@
         return Task.Run(() => item);
     }
 
-    private Task<ListItem> OnBaseListItemCreated(BaseListItem baseListItem)
+    private Task<ListItem> OnBaseListItemCreated(ListItem baseListItem)
     {
         baseListItem.Visible = true;
 
             
-        return Task.Run(() => item); 
+        return Task.Run(() => baseListItem);
     }
-    private Task<ListItem> OnReferenceListItemCreated(BaseListItem item)
+    private Task<ListItem> OnReferenceListItemCreated(ListItem baseListItem)
     {
-        item.Visible = true;
+        baseListItem.Visible = true;
 
-        return Task.Run(() => item);
+        return Task.Run(() => baseListItem);
     }
 
 }
