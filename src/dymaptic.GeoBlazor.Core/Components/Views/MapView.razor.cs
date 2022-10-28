@@ -144,6 +144,12 @@ public partial class MapView : MapComponent
     public bool? AllowDefaultEsriLogin { get; set; }
 
     /// <summary>
+    ///     Set the ArcGIS Theme, dark or light
+    /// </summary>
+    [Parameter]
+    public Theme Theme { get; set; } = Theme.Light;
+
+    /// <summary>
     ///     Handler delegate for click actions on the view. Must take in a <see cref="Point"/> and return a <see cref="Task"/>.
     /// </summary>
     [Parameter]

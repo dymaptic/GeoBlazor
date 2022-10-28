@@ -278,6 +278,19 @@ public string Style { get; set; }
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.Theme'></a>
+
+## MapView.Theme Property
+
+Set the ArcGIS Theme, dark or light
+
+```csharp
+public dymaptic.GeoBlazor.Core.Objects.Theme Theme { get; set; }
+```
+
+#### Property Value
+[Theme](dymaptic.GeoBlazor.Core.Objects.Theme.html 'dymaptic.GeoBlazor.Core.Objects.Theme')
+
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.WebMap'></a>
 
 ## MapView.WebMap Property

@@ -71,7 +71,9 @@ export let queryLayer: FeatureLayer;
 export { projection, geometryEngine };
 
 export function setAssetsPath (path: string) {
-    esriConfig.assetsPath = path;
+    if (path !== undefined && path !== null && esriConfig.assetsPath !== path) {
+        esriConfig.assetsPath = path;
+    }
 }
 
 export async function buildMapView(id: string, dotNetReference: any, long: number, lat: number,
@@ -1078,6 +1080,7 @@ function checkConnectivity(viewId) {
     let message = '<div><h1>Cannot retrieve ArcGIS asset files.</h1><p><a target="_blank" href="https://docs/geoblazor.com/assetFiles"</p></div>';
     let mapContainer = document.getElementById(`map-container-${viewId}`)!; 
     try {
+        if (esriConfig.assetsPath.includes('js.arcgis.com')) return;
         fetch(esriConfig.assetsPath)
             .then(response => {
                 // Check if the response is successful
