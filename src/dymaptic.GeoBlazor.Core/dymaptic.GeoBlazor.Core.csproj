@@ -68,11 +68,12 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ReadMeSourceFile Include="./../../ReadMe.md" />
+        <ReadMeSourceFile Include="../../ReadMe.md" />
     </ItemGroup>
     
     <Target Name="Copy Readme" AfterTargets="PreBuildEvent">
-        <Copy SourceFiles="$(ReadMeSourceFile)" DestinationFolder="./" />
+        <Message Importance="high" Text="Copying ReadMe $(ReadMeSourceFile)" />
+        <Copy SourceFiles="@(ReadMeSourceFile)" DestinationFolder="./" />
     </Target>
 
     <Target Name="NPM Debug Build" AfterTargets="PreBuildEvent" Condition="$(Configuration) == 'DEBUG'">
