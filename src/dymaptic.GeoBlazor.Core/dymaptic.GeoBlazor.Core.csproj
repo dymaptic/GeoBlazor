@@ -72,8 +72,18 @@
     </ItemGroup>
     
     <Target Name="Copy Readme" AfterTargets="PreBuildEvent">
-        <Message Importance="high" Text="Copying ReadMe $(ReadMeSourceFile)" />
+        <Message Importance="high" Text="Copying ReadMe" />
         <Copy SourceFiles="@(ReadMeSourceFile)" DestinationFolder="./" />
+    </Target>
+
+    <Target Name="Copy Assets" AfterTargets="PreBuildEvent" Condition="$(Configuration) == 'DEBUG'">
+        <Message Importance="high" Text="Copying Asset files" />
+        <ExecAsync FilePath="pwsh" Arguments="./assetCopy.ps1" />
+    </Target>
+
+    <Target Name="Copy Assets" AfterTargets="PreBuildEvent" Condition="$(Configuration) == 'RELEASE'">
+        <Message Importance="high" Text="Copying Asset files" />
+        <Exec Command="pwsh ./assetCopy.ps1" />
     </Target>
 
     <Target Name="NPM Debug Build" AfterTargets="PreBuildEvent" Condition="$(Configuration) == 'DEBUG'">
