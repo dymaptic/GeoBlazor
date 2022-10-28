@@ -17,6 +17,13 @@ nav_order: 2
     <link href="_content/dymaptic.GeoBlazor.Core"/>
     <link href="https://js.arcgis.com/4.24/esri/themes/light/main.css" rel="stylesheet"/>
     ```
+    
+    or (dark theme)
+    
+    ```html
+    <link href="_content/dymaptic.GeoBlazor.Core"/>
+    <link href="https://js.arcgis.com/4.24/esri/themes/dark/main.css" rel="stylesheet"/>
+    ```
 
 4. See [Authentication](authentication) to generate and load an API Token.
 5. In `_Imports.razor`, add the following lines, or add as needed to resolve code that you consume.

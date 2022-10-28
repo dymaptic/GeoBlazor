@@ -1080,8 +1080,13 @@ function checkConnectivity(viewId) {
     let message = '<div><h1>Cannot retrieve ArcGIS asset files.</h1><p><a target="_blank" href="https://docs/geoblazor.com/assetFiles"</p></div>';
     let mapContainer = document.getElementById(`map-container-${viewId}`)!; 
     try {
-        if (esriConfig.assetsPath.includes('js.arcgis.com')) return;
-        fetch(esriConfig.assetsPath)
+        //if (esriConfig.assetsPath.includes('js.arcgis.com')) return;
+        let assetsUrl = esriConfig.assetsPath;
+        if (!assetsUrl.endsWith('/')) {
+            assetsUrl += '/';
+        }
+        assetsUrl += 'esri/core/libs/libtess/libtess.wasm';
+        fetch(assetsUrl)
             .then(response => {
                 // Check if the response is successful
                 if (!response.ok){
