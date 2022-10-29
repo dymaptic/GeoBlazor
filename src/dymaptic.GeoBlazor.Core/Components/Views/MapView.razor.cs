@@ -15,6 +15,13 @@ using Microsoft.JSInterop;
 namespace dymaptic.GeoBlazor.Core.Components.Views;
 
 /// <summary>
+/// Delegate Task that can be used asyncronously
+/// </summary>
+/// <param name="sender"></param>
+/// <returns></returns>
+public delegate Task AsyncEventHandler(object? sender);
+
+/// <summary>
 ///     The Top-Level Map Component Container.
 ///     A MapView displays a 2D view of a Map instance. An instance of MapView must be created to render a Map (along with its operational and base layers) in 2D. To render a map and its layers in 3D, see the documentation for SceneView. For a general overview of views, see View.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">ArcGIS JS API</a>
@@ -24,6 +31,11 @@ namespace dymaptic.GeoBlazor.Core.Components.Views;
 /// </example>
 public partial class MapView : MapComponent
 {
+    /// <summary>
+    /// Event fires allways when view has rendered
+    /// </summary>
+    public event AsyncEventHandler? ViewRendered;
+
     /// <summary>
     ///     A set of key/value application configuration properties, that can be populated from `appsettings.json, environment variables, or other sources. 
     /// </summary>
@@ -223,6 +235,7 @@ public partial class MapView : MapComponent
     public void OnViewRendered()
     {
         OnMapRenderedHandler?.Invoke();
+        ViewRendered?.Invoke(this);
     }
 
     /// <summary>

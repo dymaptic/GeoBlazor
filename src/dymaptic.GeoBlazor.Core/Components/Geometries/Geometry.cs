@@ -1,6 +1,9 @@
-﻿using System.Text.Json;
-using System.Text.Json.Serialization;
+﻿using dymaptic.GeoBlazor.Core.Model.EventArgs;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Logging;
+using Microsoft.JSInterop;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 
@@ -17,6 +20,12 @@ public class Geometry : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? HasM { get; set; }
+
+    /// <summary>
+    /// This callback gets fired when this geometry gets selected
+    /// </summary>
+    [Parameter]
+    public EventCallback<GeometrySelectedEventArgs<Geometry>> OnGeometrySelected { get; set; }
 
     /// <summary>
     ///     Indicates if the geometry has Z values (elevation).
@@ -41,6 +50,44 @@ public class Geometry : MapComponent
     ///     The Geometry "type", used internally to render.
     /// </summary>
     public virtual string Type => default!;
+
+    /// <summary>
+    /// Javascript runtime
+    /// </summary>
+    [Inject]
+    public IJSRuntime? JsRuntime { get; set; }
+
+    /// <summary>
+    /// Task to hold JavaScript module that has the logic to handle geometry related functions
+    /// </summary>
+    Task<IJSObjectReference>? _geometryJSModule = null;
+
+    /// <summary>
+    /// Bool to determine if geometry JS module has been initialized
+    /// </summary>
+    bool ModuleInitialized { get; set; }
+
+    /// <inheritdoc />
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _geometryJSModule = JsRuntime?.InvokeAsync<IJSObjectReference>("import", $"./_content/dymaptic.GeoBlazor.Core/js/geometry.js").AsTask();
+            if(View is not null)
+                View.ViewRendered += OnViewRendered;
+        }
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+    async Task OnViewRendered(object? sender)
+    {
+        if ((View?.MapRendered ?? false) && OnGeometrySelected.HasDelegate && !ModuleInitialized && _geometryJSModule is not null)
+        {
+            var module = await _geometryJSModule;
+            await module.InvokeVoidAsync("initialize", DotNetObjectReference.Create(this), View.Id.ToString(), Id, Type);
+            ModuleInitialized = true;
+        }
+    }
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
@@ -96,6 +143,27 @@ public class Geometry : MapComponent
         base.ValidateRequiredChildren();
         Extent?.ValidateRequiredChildren();
         SpatialReference?.ValidateRequiredChildren();
+    }
+
+    /// <summary>
+    /// This method gets called by the JavaScript module when click has been registered.
+    /// </summary>
+    /// <param name="thisWasClicked">Bool to determine if this geometry was clicked</param>
+    /// <param name="attributes">Attributes dictionary associated with this geometry</param>
+    /// <returns></returns>
+    [JSInvokable]
+    public async Task OnGeometrySelectedInJS(bool thisWasClicked, Dictionary<string, object> attributes)
+    {
+        if (OnGeometrySelected.HasDelegate)
+            await OnGeometrySelected.InvokeAsync(new() { GeometryWasSelected = thisWasClicked, Geometry = this, Attributes = thisWasClicked ? attributes : null });
+    }
+
+    /// <inheritdoc />
+    public override async ValueTask DisposeAsync()
+    {
+        if (View is not null)
+            View.ViewRendered -= OnViewRendered;
+        await base.DisposeAsync();
     }
 }
 

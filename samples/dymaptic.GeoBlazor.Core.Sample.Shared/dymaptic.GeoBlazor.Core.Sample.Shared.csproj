@@ -34,7 +34,7 @@
       <Folder Include="wwwroot\pages" />
     </ItemGroup>
     
-    <Target Name="Copy Razor Files" AfterTargets="Build">
+    <!--<Target Name="Copy Razor Files" AfterTargets="Build">
         <Exec Command="powershell .\razorCopy.ps1" />
-    </Target>
+    </Target>-->
 </Project>

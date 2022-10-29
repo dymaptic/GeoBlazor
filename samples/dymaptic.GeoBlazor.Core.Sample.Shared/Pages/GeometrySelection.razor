@@ -1,0 +1,80 @@
+﻿@page "/geometry-selection"
+@using dymaptic.GeoBlazor.Core.Model.EventArgs
+
+<h3>GraphicSelection</h3>
+<MapView Longitude="_longitude"
+         Latitude="_latitude"
+         Style="height: 600px; width: 100%;">
+    <Map ArcGISDefaultBasemap="arcgis-topographic">
+        <GraphicsLayer>
+            @foreach (var feature in Features)
+            {
+                <Graphic Attributes="feature.Attributes">
+                    <Point OnGeometrySelected="GeometrySelected" Longitude="feature?.Point?[0]" Latitude="feature?.Point?[1]" />
+                    <SimpleMarkerSymbol Color="@(new MapColor(81, 46, 132))">
+                        <Outline Color="@(new MapColor(255, 255, 255))" Width="1" />
+                    </SimpleMarkerSymbol>
+                </Graphic>
+            }
+        </GraphicsLayer>
+    </Map>
+</MapView>
+
+@code {
+
+    double _latitude = 34.027;
+    double _longitude = -118.805;
+
+    List<MyObject> Features { get; set; } = GetFeatures();
+
+    Task GeometrySelected(GeometrySelectedEventArgs<Geometry> e)
+    {
+        return Task.CompletedTask;
+    }
+
+    static List<MyObject> GetFeatures() => 
+        new(){
+            new(){
+                Point = new MapPoint(-118.818984489994, 34.0137559967283),
+                Attributes = new List<KeyValuePair<string, object>>(){
+                    new("address", "Test Street 1"),
+                    new("zipcode", "00530")
+                }.ToDictionary(i => i.Key, i => i.Value)
+            },
+            new(){
+                Point = new MapPoint(-118.806796597377, 34.0215816298725),
+                Attributes = new List<KeyValuePair<string, object>>()
+                {
+                    new("address", "Test Street 2"),
+                    new("zipcode", "00531")
+                }.ToDictionary(i => i.Key, i => i.Value)
+            },
+            new(){
+                Point = new MapPoint(-118.791432890735, 34.0163883241613),
+                Attributes = new List<KeyValuePair<string, object>>(){
+                    new("address", "Test Street 3"),
+                    new("zipcode", "00532")
+                }.ToDictionary(i => i.Key, i => i.Value)
+            },
+            new(){
+                Point = new MapPoint(-118.79596686535, 34.008564864635),
+                Attributes = new List<KeyValuePair<string, object>>(){
+                    new("address", "Test Street 4"),
+                    new("zipcode", "00533")
+                }.ToDictionary(i => i.Key, i => i.Value)
+            },
+            new(){
+                Point = new MapPoint(-118.808558110679, 34.0035027131376),
+                Attributes = new List<KeyValuePair<string, object>>(){
+                    new("address", "Test Street 5"),
+                    new("zipcode", "00534")
+                }.ToDictionary(i => i.Key, i => i.Value)
+            },
+        };
+
+    private class MyObject
+    {
+        public MapPoint? Point { get; set; }
+        public Dictionary<string, object> Attributes { get; set; } = new();
+    }
+}
