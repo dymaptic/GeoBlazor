@@ -143,54 +143,47 @@ public partial class MapView : MapComponent
     [Parameter]
     public bool? AllowDefaultEsriLogin { get; set; }
 
-    /// <summary>
-    ///     Handler delegate for click actions on the view. Must take in a <see cref="Point"/> and return a <see cref="Task"/>.
-    /// </summary>
-    [Parameter]
-    public Func<Point, Task>? OnClickAsyncHandler { get; set; }
+#region EventHandlers
 
-    /// <summary>
-    ///     Handler delegate for point move actions on the view. Must take in a <see cref="Point"/> and return a <see cref="Task"/>.
-    /// </summary>
-    /// <remarks>
-    ///     The real-time nature of this handler make it a challenge to use continuously over SignalR in Blazor Server.
-    ///     In this scenario, you should write a custom JavaScript handler instead.
-    ///     See <a target="_blank" href="https://github.com/dymaptic/GeoBlazor/blob/develop/samples/dymaptic.GeoBlazor.Core.Sample.Shared/Pages/DisplayProjection.razor">Display Projection</a> code.
-    /// </remarks>
-    [Parameter]
-    public Func<Point, Task>? OnPointerMoveHandler { get; set; }
-
-    /// <summary>
-    ///     Handler delegate for when the map view is fully rendered. Must return a <see cref="Task"/>.
-    /// </summary>
-    [Parameter]
-    public Func<Task>? OnMapRenderedHandler { get; set; }
-    
-    /// <summary>
-    ///     Handler delegate for the view's Spatial Reference changing.
-    ///     Must take in a <see cref="SpatialReference"/> and return a <see cref="Task"/>.
-    /// </summary>
-    [Parameter]
-    public Func<SpatialReference, Task>? OnSpatialReferenceChangedHandler { get; set; }
-    
     /// <summary>
     ///     Surfaces JavaScript errors to the .NET Code for debugging.
     /// </summary>
-    /// <param name="error">
-    ///     The JavaScript error call stack, or details if the call stack was unavailable.
+    /// <param name="message">
+    ///     The JavaScript error message.
+    /// </param>
+    /// <param name="name">
+    ///     The name of the JavaScript error.
+    /// </param>
+    /// <param name="stack">
+    ///     The JavaScript stack trace.
     /// </param>
     /// <exception cref="JavascriptException">
     ///     Wraps the JS Error and throws a .NET Exception.
     /// </exception>
     [JSInvokable]
-    public void OnJavascriptError(string error)
+    public void OnJavascriptError(string message, string name = "", string stack = "")
     {
 #if DEBUG
-        ErrorMessage = error.Replace("\n", "<br>");
+        ErrorMessage = message.Replace("\n", "<br>");
         StateHasChanged();
 #endif
-        throw new JavascriptException(error);
+        var exception = new JavascriptException(message, name, stack);
+
+        if (OnJavascriptErrorHandler is not null)
+        {
+            OnJavascriptErrorHandler?.Invoke(exception);
+        }
+        else
+        {
+            throw exception;
+        }
     }
+    
+    /// <summary>
+    ///     Implement this handler in your calling code to catch and handle Javascript errors.
+    /// </summary>
+    [Parameter]
+    public Func<JavascriptException, Task>? OnJavascriptErrorHandler { get; set; } 
 
     /// <summary>
     ///     JS-Invokable method to return view clicks.
@@ -199,11 +192,212 @@ public partial class MapView : MapComponent
     ///     The <see cref="Point"/> that was clicked.
     /// </param>
     [JSInvokable]
-    public void OnJavascriptClick(Point mapPoint)
+    public async Task OnJavascriptClick(Point mapPoint)
     {
+#pragma warning disable CS0618
         OnClickAsyncHandler?.Invoke(mapPoint);
+#pragma warning restore CS0618
+        await OnClick.InvokeAsync(mapPoint);
+    }
+    
+    /// <summary>
+    ///     Handler delegate for click events on the view. Must take in a <see cref="Point"/> and return a <see cref="Task"/>.
+    /// </summary>
+    [Parameter]
+    [Obsolete("Use OnClick EventCallback instead.")]
+    public Func<Point, Task>? OnClickAsyncHandler { get; set; }
+    
+    /// <summary>
+    ///     Handler delegate for click events on the view.
+    /// </summary>
+    [Parameter]
+    public EventCallback<Point> OnClick { get; set; }
+    
+    /// <summary>
+    ///     JS-Invokable method to return view double-clicks.
+    /// </summary>
+    /// <param name="mapPoint">
+    ///     The <see cref="Point"/> that was double-clicked.
+    /// </param>
+    [JSInvokable]
+    public async Task OnJavascriptDoubleClick(Point mapPoint)
+    {
+        await OnDoubleClick.InvokeAsync(mapPoint);
+    }
+    
+    /// <summary>
+    ///     Handler delegate for double-click events on the view.
+    /// </summary>
+    [Parameter]
+    public EventCallback<Point> OnDoubleClick { get; set; }
+    
+    /// <summary>
+    ///     JS-Invokable method to return view immediate-clicks.
+    /// </summary>
+    /// <param name="mapPoint">
+    ///     The <see cref="Point"/> that was clicked.
+    /// </param>
+    [JSInvokable]
+    public async Task OnJavascriptImmediateClick(Point mapPoint)
+    {
+        await OnImmediateClick.InvokeAsync(mapPoint);
+    }
+    
+    /// <summary>
+    ///     Handler delegate for immediate-click events on the view.
+    /// </summary>
+    [Parameter]
+    public EventCallback<Point> OnImmediateClick { get; set; }
+    
+    /// <summary>
+    ///     JS-Invokable method to return view immediate-double-clicks.
+    /// </summary>
+    /// <param name="mapPoint">
+    ///     The <see cref="Point"/> that was double-clicked.
+    /// </param>
+    [JSInvokable]
+    public async Task OnJavascriptImmediateDoubleClick(Point mapPoint)
+    {
+        await OnImmediateDoubleClick.InvokeAsync(mapPoint);
+    }
+    
+    /// <summary>
+    ///     Handler delegate for immediate-double-click events on the view.
+    /// </summary>
+    [Parameter]
+    public EventCallback<Point> OnImmediateDoubleClick { get; set; }
+    
+    /// <summary>
+    ///     JS-Invokable method to return view hold events.
+    /// </summary>
+    /// <param name="mapPoint">
+    ///     The <see cref="Point"/> that was pressed.
+    /// </param>
+    [JSInvokable]
+    public async Task OnJavascriptHold(Point mapPoint)
+    {
+        await OnHold.InvokeAsync(mapPoint);
+    }
+    
+    /// <summary>
+    ///     Handler delegate for hold events on the view.
+    /// </summary>
+    [Parameter]
+    public EventCallback<Point> OnHold { get; set; }
+    
+    /// <summary>
+    ///     JS-Invokable method to return view blur (lost focus) events.
+    /// </summary>
+    [JSInvokable]
+    public async Task OnJavascriptBlur()
+    {
+        await OnBlur.InvokeAsync();
+    }
+    
+    /// <summary>
+    ///     Handler delegate for blur (lost focus) events on the view.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnBlur { get; set; }
+    
+    /// <summary>
+    ///     JS-Invokable method to return view focus events.
+    /// </summary>
+    [JSInvokable]
+    public async Task OnJavascriptFocus()
+    {
+        await OnFocus.InvokeAsync();
+    }
+    
+    /// <summary>
+    ///     Handler delegate for focus events on the view.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnFocus { get; set; }
+
+    /// <summary>
+    ///     JS-Invokable method to return view drag events.
+    /// </summary>
+    [JSInvokable]
+    public async Task OnJavascriptDrag(string action, Point origin, Point currentPoint)
+    {
+        Enum.TryParse(action, out DragAction dragAction);
+        await OnDrag.InvokeAsync(new DragResult(dragAction, origin, currentPoint));
     }
 
+    /// <summary>
+    ///     Handler delegate for pointer drag events on the view, returns a <see cref="DragResult"/>.
+    /// </summary>
+    /// <remarks>
+    ///     The real-time nature of this handler make it a challenge to use continuously over SignalR in Blazor Server.
+    ///     In this scenario, you should write a custom JavaScript handler instead.
+    /// </remarks>
+    [Parameter]
+    public EventCallback<DragResult> OnDrag { get; set; }
+    
+    /// <summary>
+    ///     JS-Invokable method to return view pointer down events.
+    /// </summary>
+    /// <param name="mapPoint">
+    ///     The <see cref="Point"/> where the pointer was pressed.
+    /// </param>
+    [JSInvokable]
+    public async Task OnJavascriptPointerDown(Point mapPoint)
+    {
+        await OnPointerDown.InvokeAsync(mapPoint);
+    }
+    
+    /// <summary>
+    ///     Handler delegate for pointer down events on the view.
+    /// </summary>
+    /// <remarks>
+    ///     Fires after a mouse button is pressed, or a finger touches the display.
+    /// </remarks>
+    [Parameter]
+    public EventCallback<Point> OnPointerDown { get; set; }
+    
+    /// <summary>
+    ///     JS-Invokable method to return view pointer enter events.
+    /// </summary>
+    /// <param name="mapPoint">
+    ///     The <see cref="Point"/> where the pointer entered the view.
+    /// </param>
+    [JSInvokable]
+    public async Task OnJavascriptPointerEnter(Point mapPoint)
+    {
+        await OnPointerEnter.InvokeAsync(mapPoint);
+    }
+    
+    /// <summary>
+    ///     Handler delegate for pointer enter events on the view.
+    /// </summary>
+    /// <remarks>
+    ///     Fires after a mouse cursor enters the view, or a display touch begins.
+    /// </remarks>
+    [Parameter]
+    public EventCallback<Point> OnPointerEnter { get; set; }
+    
+    /// <summary>
+    ///     JS-Invokable method to return view pointer leave events.
+    /// </summary>
+    /// <param name="mapPoint">
+    ///     The <see cref="Point"/> where the pointer left the view.
+    /// </param>
+    [JSInvokable]
+    public async Task OnJavascriptPointerLeave(Point mapPoint)
+    {
+        await OnPointerLeave.InvokeAsync(mapPoint);
+    }
+    
+    /// <summary>
+    ///     Handler delegate for pointer leave events on the view. Must take in a <see cref="Point"/> and return a <see cref="Task"/>.
+    /// </summary>
+    /// <remarks>
+    ///     Fires after a mouse cursor leaves the view, or a display touch ends.
+    /// </remarks>
+    [Parameter]
+    public EventCallback<Point> OnPointerLeave { get; set; }
+    
     /// <summary>
     ///     JS-Invokable method to return view pointer movement.
     /// </summary>
@@ -211,19 +405,119 @@ public partial class MapView : MapComponent
     ///     The <see cref="Point"/> where the cursor last moved.
     /// </param>
     [JSInvokable]
-    public void OnJavascriptPointerMove(Point mapPoint)
+    public async Task OnJavascriptPointerMove(Point mapPoint)
     {
+        await OnPointerMove.InvokeAsync(mapPoint);
+#pragma warning disable CS0618
         OnPointerMoveHandler?.Invoke(mapPoint);
+#pragma warning restore CS0618
     }
+    
+    /// <summary>
+    ///     Handler delegate for point move events on the view. Must take in a <see cref="Point"/> and return a <see cref="Task"/>.
+    /// </summary>
+    /// <remarks>
+    ///     Fires after the mouse or a finger on the display moves.
+    ///     The real-time nature of this handler make it a challenge to use continuously over SignalR in Blazor Server.
+    ///     In this scenario, you should write a custom JavaScript handler instead.
+    ///     See <a target="_blank" href="https://github.com/dymaptic/GeoBlazor/blob/develop/samples/dymaptic.GeoBlazor.Core.Sample.Shared/Pages/DisplayProjection.razor">Display Projection</a> code.
+    /// </remarks>
+    [Parameter]
+    [Obsolete("Use OnPointerMove instead")]
+    public Func<Point, Task>? OnPointerMoveHandler { get; set; }
+    
+    /// <summary>
+    ///     Handler delegate for point move events on the view. Must take in a <see cref="Point"/> and return a <see cref="Task"/>.
+    /// </summary>
+    /// <remarks>
+    ///     The real-time nature of this handler make it a challenge to use continuously over SignalR in Blazor Server.
+    ///     In this scenario, you should write a custom JavaScript handler instead.
+    ///     See <a target="_blank" href="https://github.com/dymaptic/GeoBlazor/blob/develop/samples/dymaptic.GeoBlazor.Core.Sample.Shared/Pages/DisplayProjection.razor">Display Projection</a> code.
+    /// </remarks>
+    [Parameter]
+    public EventCallback<Point> OnPointerMove { get; set; }
+    
+    /// <summary>
+    ///     JS-Invokable method to return view pointer up events.
+    /// </summary>
+    /// <param name="mapPoint">
+    ///     The <see cref="Point"/> where the pointer was released.
+    /// </param>
+    [JSInvokable]
+    public async Task OnJavascriptPointerUp(Point mapPoint)
+    {
+        await OnPointerUp.InvokeAsync(mapPoint);
+    }
+    
+    /// <summary>
+    ///     Handler delegate for pointer up events on the view. Must take in a <see cref="Point"/> and return a <see cref="Task"/>.
+    /// </summary>
+    /// <remarks>
+    ///     Fires after a mouse button is released, or a display touch ends.
+    /// </remarks>
+    [Parameter]
+    public EventCallback<Point> OnPointerUp { get; set; }
+    
+    /// <summary>
+    ///     JS-Invokable method to return view key-down events.
+    /// </summary>
+    [JSInvokable]
+    public async Task OnJavascriptKeyDown(string key)
+    {
+        await OnKeyDown.InvokeAsync(key);
+    }
+    
+    /// <summary>
+    ///     Handler delegate for key-down events on the view. Parameter is the Key value that was pressed, according to the <a href="https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values">MDN Full List of Key Values</a>.
+    /// </summary>
+    /// <remarks>
+    ///     Fires after a keyboard key is pressed.
+    /// </remarks>
+    [Parameter]
+    public EventCallback<string> OnKeyDown { get; set; }
+    
+    /// <summary>
+    ///     JS-Invokable method to return view key-up events.
+    /// </summary>
+    [JSInvokable]
+    public async Task OnJavascriptKeyUp(string key)
+    {
+        await OnKeyUp.InvokeAsync(key);
+    }
+    
+    /// <summary>
+    ///     Handler delegate for key-up events on the view. Parameter is the Key value that was pressed, according to the <a href="https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values">MDN Full List of Key Values</a>.
+    /// </summary>
+    /// <remarks>
+    ///     Fires after a keyboard key is released.
+    /// </remarks>
+    [Parameter]
+    public EventCallback<string> OnKeyUp { get; set; }
 
     /// <summary>
     ///     JS-Invokable method to return when the map view is fully rendered.
     /// </summary>
     [JSInvokable]
-    public void OnViewRendered()
+    public async Task OnViewRendered()
     {
+#pragma warning disable CS0618
         OnMapRenderedHandler?.Invoke();
+#pragma warning restore CS0618
+        await OnMapRendered.InvokeAsync();
     }
+    
+    /// <summary>
+    ///     Handler delegate for when the map view is fully rendered. Must return a <see cref="Task"/>.
+    /// </summary>
+    [Parameter]
+    [Obsolete("Use OnMapRendered instead")]
+    public Func<Task>? OnMapRenderedHandler { get; set; }
+    
+    /// <summary>
+    ///     Handler delegate for when the map view is fully rendered. Must return a <see cref="Task"/>.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnMapRendered { get; set; }
 
     /// <summary>
     ///     JS-Invokable method to return when the map view Spatial Reference changes.
@@ -232,10 +526,137 @@ public partial class MapView : MapComponent
     ///     The new <see cref="SpatialReference"/>
     /// </param>
     [JSInvokable]
-    public void OnSpatialReferenceChanged(SpatialReference spatialReference)
+    public async Task OnJavascriptSpatialReferenceChanged(SpatialReference spatialReference)
     {
+        await OnSpatialReferenceChanged.InvokeAsync(spatialReference);
+#pragma warning disable CS0618
         OnSpatialReferenceChangedHandler?.Invoke(spatialReference);
+#pragma warning restore CS0618
     }
+    
+    /// <summary>
+    ///     Handler delegate for the view's Spatial Reference changing.
+    ///     Must take in a <see cref="SpatialReference"/> and return a <see cref="Task"/>.
+    /// </summary>
+    [Parameter]
+    [Obsolete("Use OnSpatialReferenceChanged instead")]
+    public Func<SpatialReference, Task>? OnSpatialReferenceChangedHandler { get; set; }
+    
+    /// <summary>
+    ///     Handler delegate for the view's Spatial Reference changing.
+    /// </summary>
+    [Parameter]
+    public EventCallback<SpatialReference> OnSpatialReferenceChanged { get; set; }
+    
+    /// <summary>
+    ///     JS-Invokable method to return when the map view Extent changes.
+    /// </summary>
+    [JSInvokable]
+    public async Task OnJavascriptExtentChanged(Extent extent)
+    {
+        await OnExtentChanged.InvokeAsync(extent);
+    }
+    
+    /// <summary>
+    ///     Handler delegate for the view's Extent changing.
+    /// </summary>
+    [Parameter]
+    public EventCallback<Extent> OnExtentChanged { get; set; }
+
+    /// <summary>
+    ///     JS-Invokable method to return when the map view is resized in the window.
+    /// </summary>
+    [JSInvokable]
+    public async Task OnJavascriptResize(double oldWidth, double oldHeight, double width, double height)
+    {
+        await OnResize.InvokeAsync(new ResizeResult(oldWidth, oldHeight, width, height));
+    }
+    
+    /// <summary>
+    ///     Handler delegate for the view's Extent changing.
+    /// </summary>
+    [Parameter]
+    public EventCallback<ResizeResult> OnResize { get; set; }
+
+    /// <summary>
+    ///     JS-Invokable method to return when the mouse wheel is scrolled.
+    /// </summary>
+    [JSInvokable]
+    public async Task OnJavascriptMouseWheel(double x, double y, double deltaY)
+    {
+        await OnMouseWheel.InvokeAsync(new MouseWheelResult(x, y, deltaY));
+    }
+    
+    /// <summary>
+    ///     Handler delegate for the view's Extent changing.
+    /// </summary>
+    [Parameter]
+    public EventCallback<MouseWheelResult> OnMouseWheel { get; set; }
+
+    /// <summary>
+    ///     JS-Invokable method to return when a layer view is created.
+    /// </summary>
+    /// <param name="layerView">
+    ///     The new <see cref="LayerView"/>
+    /// </param>
+    [JSInvokable]
+    public async Task OnJavascriptLayerViewCreate(LayerView layerView)
+    {
+        await OnLayerViewCreate.InvokeAsync(layerView);
+    }
+    
+    /// <summary>
+    ///     Fires after each layer in the map has a corresponding LayerView created and rendered in the view.
+    /// </summary>
+    [Parameter]
+    public EventCallback<LayerView> OnLayerViewCreate { get; set; }
+    
+    /// <summary>
+    ///     JS-Invokable method to return when a layer view is destroyed.
+    /// </summary>
+    /// <param name="layerView">
+    ///     The destroyed <see cref="LayerView"/>
+    /// </param>
+    [JSInvokable]
+    public async Task OnJavascriptLayerViewDestroy(LayerView layerView)
+    {
+        await OnLayerViewDestroy.InvokeAsync(layerView);
+    }
+    
+    /// <summary>
+    ///     Fires after a LayerView is destroyed and is no longer rendered in the view. This happens for example when a layer is removed from the map of the view.
+    /// </summary>
+    [Parameter]
+    public EventCallback<LayerView> OnLayerViewDestroy { get; set; }
+    
+    /// <summary>
+    ///     JS-Invokable method to return when a layer view is destroyed.
+    /// </summary>
+    /// <param name="layer">
+    ///     The <see cref="Layer"/> that failed to be added to the view.
+    /// </param>
+    /// <param name="exception">
+    ///     The Javascript error wrapped in a .NET Exception.
+    /// </param>
+    [JSInvokable]
+    public async Task OnJavascriptLayerViewCreateError(Layer layer, JavascriptException exception)
+    {
+        await OnLayerViewCreateError.InvokeAsync(new LayerViewCreateErrorResult(layer, exception));
+    }
+    
+    /// <summary>
+    ///     Fires after a LayerView is destroyed and is no longer rendered in the view. This happens for example when a layer is removed from the map of the view.
+    /// </summary>
+    [Parameter]
+    public EventCallback<LayerViewCreateErrorResult> OnLayerViewCreateError { get; set; }
+    
+    /// <summary>
+    ///     Set this parameter to limit the rate at which recurring events (pointer-move, drag, etc.) are returned.
+    /// </summary>
+    [Parameter]
+    public int? EventRateLimitInMilliseconds { get; set; }
+
+#endregion
     
     /// <summary>
     ///     The collection of <see cref="Widget"/>s in the view.
@@ -820,7 +1241,8 @@ public partial class MapView : MapComponent
 
             await ViewJsModule!.InvokeVoidAsync("buildMapView", Id,
                 DotNetObjectReference, Longitude, Latitude, Rotation, map, Zoom, Scale,
-                ApiKey, mapType, Widgets, Graphics, SpatialReference, Constraints, Extent);
+                ApiKey, mapType, Widgets, Graphics, SpatialReference, Constraints, Extent,
+                EventRateLimitInMilliseconds);
             Rendering = false;
             _newPropertyValues.Clear();
             MapRendered = true;

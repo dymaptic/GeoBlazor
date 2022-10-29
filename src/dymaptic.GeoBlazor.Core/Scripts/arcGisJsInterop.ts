@@ -74,7 +74,9 @@ export { projection, geometryEngine };
 export async function buildMapView(id: string, dotNetReference: any, long: number, lat: number,
                                    rotation: number, mapObject: any, zoom: number, scale: number, 
                                    apiKey: string, mapType: string, widgets: any, graphics: any, 
-                                   spatialReference: any, constraints: any, extent: any, zIndex?: number, tilt?: number): Promise<void> {
+                                   spatialReference: any, constraints: any, extent: any, 
+                                   eventRateLimitInMilliseconds?: number, zIndex?: number, tilt?: number)
+    : Promise<void> {
     console.log("render map");
     try {
         setWaitCursor(id);
@@ -218,26 +220,178 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
             addGraphic(graphicObject, id);
         })
 
-        view.on('click', (evt) => {
-            dotNetRef.invokeMethodAsync('OnJavascriptClick', buildDotNetPoint(evt.mapPoint));
-        });
-
-        view.on('pointer-move', (evt) => {
-            let point = (view as MapView).toMap({
-                x: evt.x,
-                y: evt.y
-            });
-            dotNetRef.invokeMethodAsync('OnJavascriptPointerMove', buildDotNetPoint(point));
-        });
-
-        view.watch('spatialReference', () => {
-            dotNetRef.invokeMethodAsync('OnSpatialReferenceChanged', buildDotNetSpatialReference(view.spatialReference));
-        });
+        setEventListeners(view, dotNetRef, eventRateLimitInMilliseconds);
         
         unsetWaitCursor(id);
     } catch (error) {
         logError(error, id);
     }
+}
+
+function setEventListeners(view: View, dotNetRef: any, eventRateLimit?: number) : void {
+    view.on('click', (evt) => {
+        dotNetRef.invokeMethodAsync('OnJavascriptClick', buildDotNetPoint(evt.mapPoint));
+    });
+
+    view.on('double-click', (evt) => {
+        dotNetRef.invokeMethodAsync('OnJavascriptDoubleClick', buildDotNetPoint(evt.mapPoint));
+    });
+
+    view.on('hold', (evt) => {
+        dotNetRef.invokeMethodAsync('OnJavascriptHold', buildDotNetPoint(evt.mapPoint));
+    });
+
+    view.on('immediate-click', (evt) => {
+        dotNetRef.invokeMethodAsync('OnJavascriptImmediateClick', buildDotNetPoint(evt.mapPoint));
+    });
+
+    view.on('immediate-double-click', (evt) => {
+        dotNetRef.invokeMethodAsync('OnJavascriptImmediateDoubleClick', buildDotNetPoint(evt.mapPoint));
+    });
+
+    view.on('blur', () => {
+        dotNetRef.invokeMethodAsync('OnJavascriptBlur');
+    });
+
+    view.on('focus', () => {
+        dotNetRef.invokeMethodAsync('OnJavascriptFocus');
+    });
+
+    let lastDragCall: number = 0;
+    view.on('drag', (evt) => {
+        let now = Date.now();
+        if (eventRateLimit !== undefined && eventRateLimit !== null && 
+            lastDragCall + eventRateLimit > now) {
+            return;
+        }
+        lastDragCall = now;
+        let originPoint = (view as MapView).toMap({
+            x: evt.origin.x,
+            y: evt.origin.y
+        });
+        let point = (view as MapView).toMap({
+            x: evt.x,
+            y: evt.y
+        });
+        dotNetRef.invokeMethodAsync('OnJavascriptDrag', evt.action, buildDotNetPoint(originPoint),
+            buildDotNetPoint(point));
+    });
+
+    view.on('pointer-down', (evt) => {
+        let point = (view as MapView).toMap({
+            x: evt.x,
+            y: evt.y
+        });
+        dotNetRef.invokeMethodAsync('OnJavascriptPointerDown', buildDotNetPoint(point));
+    });
+
+    view.on('pointer-enter', (evt) => {
+        let point = (view as MapView).toMap({
+            x: evt.x,
+            y: evt.y
+        });
+        dotNetRef.invokeMethodAsync('OnJavascriptPointerEnter', buildDotNetPoint(point));
+    });
+
+    view.on('pointer-leave', (evt) => {
+        let point = (view as MapView).toMap({
+            x: evt.x,
+            y: evt.y
+        });
+        dotNetRef.invokeMethodAsync('OnJavascriptPointerLeave', buildDotNetPoint(point));
+    });
+
+    let lastPointerMoveCall : number = 0;
+    view.on('pointer-move', (evt) => {
+        let now = Date.now();
+        if (eventRateLimit !== undefined && eventRateLimit !== null &&
+            lastPointerMoveCall + eventRateLimit > now) {
+            return;
+        }
+        lastPointerMoveCall = now;
+        let point = (view as MapView).toMap({
+            x: evt.x,
+            y: evt.y
+        });
+        dotNetRef.invokeMethodAsync('OnJavascriptPointerMove', buildDotNetPoint(point));
+    });
+
+    view.on('pointer-up', (evt) => {
+        let point = (view as MapView).toMap({
+            x: evt.x,
+            y: evt.y
+        });
+        dotNetRef.invokeMethodAsync('OnJavascriptPointerDown', buildDotNetPoint(point));
+    });
+
+    view.on('key-down', (evt) => {
+        dotNetRef.invokeMethodAsync('OnJavascriptKeyDown', evt.key);
+    });
+
+    view.on('key-up', (evt) => {
+        dotNetRef.invokeMethodAsync('OnJavascriptKeyUp', evt.key);
+    });
+    
+    view.on('layerview-create', (evt) => {
+        dotNetRef.invokeMethodAsync('OnJavascriptLayerViewCreate', evt.layerView);
+    });
+
+    view.on('layerview-create-error', (evt) => {
+        dotNetRef.invokeMethodAsync('OnJavascriptLayerViewCreateError', evt.layer, 
+            {
+                message: evt.error.message, 
+                name: evt.error.name, 
+                stack: (evt.error as any).stack
+            });
+    });
+
+    view.on('layerview-destroy', (evt) => {
+        dotNetRef.invokeMethodAsync('OnJavascriptLayerViewDestroy', evt.layerView);
+    });
+    
+    let lastMouseWheelCall = 0;
+    view.on('mouse-wheel', (evt) => {
+        let now = Date.now();
+        if (eventRateLimit !== undefined && eventRateLimit !== null &&
+            lastMouseWheelCall + eventRateLimit > now) {
+            return;
+        }
+        lastMouseWheelCall = now;
+        dotNetRef.invokeMethodAsync('OnJavascriptMouseWheel', evt.x, evt.y, evt.deltaY);
+    });
+    
+    let lastResizeCall = 0;
+    view.on('resize', (evt) => {
+        let now = Date.now();
+        if (eventRateLimit !== undefined && eventRateLimit !== null &&
+            lastResizeCall + eventRateLimit > now) {
+            return;
+        }
+        lastResizeCall = now;
+        dotNetRef.invokeMethodAsync('OnJavascriptResize', evt.oldWidth, evt.oldHeight, evt.width, evt.height);
+    });
+
+    let lastSpatialRefChangeCall = 0;
+    view.watch('spatialReference', () => {
+        let now = Date.now();
+        if (eventRateLimit !== undefined && eventRateLimit !== null &&
+            lastSpatialRefChangeCall + eventRateLimit > now) {
+            return;
+        }
+        lastSpatialRefChangeCall = now;
+        dotNetRef.invokeMethodAsync('OnJavascriptSpatialReferenceChanged', buildDotNetSpatialReference(view.spatialReference));
+    });
+    
+    let lastExtentChangeCall = 0;
+    view.watch('extent', () => {
+        let now = Date.now();
+        if (eventRateLimit !== undefined && eventRateLimit !== null &&
+            lastExtentChangeCall + eventRateLimit > now) {
+            return;
+        }
+        lastExtentChangeCall = now;
+        dotNetRef.invokeMethodAsync('OnJavascriptExtentChanged', (view as MapView).extent);
+    });
 }
 
 export function disposeView(viewId: string): void {
@@ -1001,14 +1155,9 @@ async function resetCenterToSpatialReference(center: Point, spatialReference: Sp
     return await projection.project(center, spatialReference) as Point;
 }
 
-export function logError(error, viewId) {
-    if (error.stack !== undefined && error.stack !== null) {
-        console.log(error.stack);
-        dotNetRefs[viewId].invokeMethodAsync('OnJavascriptError', error.stack);
-    } else {
-        console.log(error.message);
-        dotNetRefs[viewId].invokeMethodAsync('OnJavascriptError', error.message);
-    }
+export function logError(error, viewId: string) {
+    dotNetRefs[viewId].invokeMethodAsync('OnJavascriptError', error.message ?? error.toString(), 
+        error.name, error.stack);
     unsetWaitCursor(viewId);
 }
 

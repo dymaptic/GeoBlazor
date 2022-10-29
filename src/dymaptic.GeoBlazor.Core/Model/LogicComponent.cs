@@ -1,4 +1,5 @@
 ﻿using dymaptic.GeoBlazor.Core.Exceptions;
+using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
 using Microsoft.JSInterop;
 
@@ -49,17 +50,37 @@ public abstract class LogicComponent
     /// <summary>
     ///     A JavaScript invokable method that returns a JS Error and converts it to an Exception.
     /// </summary>
-    /// <param name="error">
-    ///     The JavaScript error stacktrace and/or details.
+    /// <param name="message">
+    ///     The JavaScript error message.
+    /// </param>
+    /// <param name="name">
+    ///     The name of the JavaScript error.
+    /// </param>
+    /// <param name="stack">
+    ///     The JavaScript stack trace.
     /// </param>
     /// <exception cref="JavascriptException">
     ///     The converted error to exception.
     /// </exception>
     [JSInvokable]
-    public void OnJavascriptError(string error)
+    public void OnJavascriptError(string message, string name = "", string stack = "")
     {
-        throw new JavascriptException(error);
+        var exception = new JavascriptException(message, name, stack);
+
+        if (OnJavascriptErrorHandler is not null)
+        {
+            OnJavascriptErrorHandler?.Invoke(exception);
+        }
+        else
+        {
+            throw exception;
+        }
     }
+    
+    /// <summary>
+    ///     Implement this handler in your calling code to catch and handle Javascript errors.
+    /// </summary>
+    public Func<JavascriptException, Task>? OnJavascriptErrorHandler { get; set; }
 
     /// <summary>
     ///     Convenience method to invoke a JS function from the .NET logic component class.

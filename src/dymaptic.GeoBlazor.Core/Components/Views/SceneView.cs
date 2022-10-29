@@ -100,7 +100,8 @@ public class SceneView : MapView
 
             await ViewJsModule!.InvokeVoidAsync("buildMapView", Id, DotNetObjectReference,
                 Longitude, Latitude, Rotation, scene, Zoom, Scale,
-                ApiKey, sceneType, Widgets, Graphics, SpatialReference, Constraints, Extent, ZIndex, Tilt);
+                ApiKey, sceneType, Widgets, Graphics, SpatialReference, Constraints, Extent,
+                EventRateLimitInMilliseconds, ZIndex, Tilt);
             Rendering = false;
         });
     }
