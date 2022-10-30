@@ -220,6 +220,9 @@ public System.Func<dymaptic.GeoBlazor.Core.Components.Geometries.Point,System.Th
 #### Property Value
 [System.Func&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Func-2 'System.Func`2')[Point](dymaptic.GeoBlazor.Core.Components.Geometries.Point.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Point')[,](https://docs.microsoft.com/en-us/dotnet/api/System.Func-2 'System.Func`2')[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Func-2 'System.Func`2')
 
+### Remarks
+<b style="color: red">OBSOLETE: Use OnClick EventCallback instead</b>
+
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnDoubleClick'></a>
 
 ## MapView.OnDoubleClick Property
@@ -237,14 +240,14 @@ public Microsoft.AspNetCore.Components.EventCallback<dymaptic.GeoBlazor.Core.Com
 
 ## MapView.OnDrag Property
 
-Handler delegate for pointer drag events on the view, returns a [DragResult](dymaptic.GeoBlazor.Core.Objects.DragResult.html 'dymaptic.GeoBlazor.Core.Objects.DragResult').
+Handler delegate for pointer drag events on the view, returns a [dymaptic.GeoBlazor.Core.Objects.DragResult](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Objects.DragResult 'dymaptic.GeoBlazor.Core.Objects.DragResult').
 
 ```csharp
 public Microsoft.AspNetCore.Components.EventCallback<dymaptic.GeoBlazor.Core.Objects.DragResult> OnDrag { get; set; }
 ```
 
 #### Property Value
-[Microsoft.AspNetCore.Components.EventCallback&lt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback-1 'Microsoft.AspNetCore.Components.EventCallback`1')[DragResult](dymaptic.GeoBlazor.Core.Objects.DragResult.html 'dymaptic.GeoBlazor.Core.Objects.DragResult')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback-1 'Microsoft.AspNetCore.Components.EventCallback`1')
+[Microsoft.AspNetCore.Components.EventCallback&lt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback-1 'Microsoft.AspNetCore.Components.EventCallback`1')[dymaptic.GeoBlazor.Core.Objects.DragResult](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Objects.DragResult 'dymaptic.GeoBlazor.Core.Objects.DragResult')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback-1 'Microsoft.AspNetCore.Components.EventCallback`1')
 
 ### Remarks
 The real-time nature of this handler make it a challenge to use continuously over SignalR in Blazor Server.  
@@ -425,6 +428,9 @@ public System.Func<System.Threading.Tasks.Task>? OnMapRenderedHandler { get; set
 #### Property Value
 [System.Func&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Func-1 'System.Func`1')[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Func-1 'System.Func`1')
 
+### Remarks
+<b style="color: red">OBSOLETE: Use OnMapRendered EventCallback instead</b>
+
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnMouseWheel'></a>
 
 ## MapView.OnMouseWheel Property
@@ -578,6 +584,9 @@ public System.Func<dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReferenc
 
 #### Property Value
 [System.Func&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Func-2 'System.Func`2')[SpatialReference](dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference.html 'dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference')[,](https://docs.microsoft.com/en-us/dotnet/api/System.Func-2 'System.Func`2')[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Func-2 'System.Func`2')
+
+### Remarks
+<b style="color: red">OBSOLETE: Use OnSpatialReferenceChanged instead</b>
 
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.Rotation'></a>
 

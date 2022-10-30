@@ -35,10 +35,56 @@ public MouseWheelResult(double X, double Y, double DeltaY);
 
 `X` [System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')
 
+The horizontal screen coordinate of the click on the view.
+
 <a name='dymaptic.GeoBlazor.Core.Objects.MouseWheelResult.MouseWheelResult(double,double,double).Y'></a>
 
 `Y` [System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')
 
+The vertical screen coordinate of the click on the view.
+
 <a name='dymaptic.GeoBlazor.Core.Objects.MouseWheelResult.MouseWheelResult(double,double,double).DeltaY'></a>
 
 `DeltaY` [System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')
+
+Number representing the vertical scroll amount.
+### Properties
+
+<a name='dymaptic.GeoBlazor.Core.Objects.MouseWheelResult.DeltaY'></a>
+
+## MouseWheelResult.DeltaY Property
+
+Number representing the vertical scroll amount.
+
+```csharp
+public double DeltaY { get; set; }
+```
+
+#### Property Value
+[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')
+
+<a name='dymaptic.GeoBlazor.Core.Objects.MouseWheelResult.X'></a>
+
+## MouseWheelResult.X Property
+
+The horizontal screen coordinate of the click on the view.
+
+```csharp
+public double X { get; set; }
+```
+
+#### Property Value
+[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')
+
+<a name='dymaptic.GeoBlazor.Core.Objects.MouseWheelResult.Y'></a>
+
+## MouseWheelResult.Y Property
+
+The vertical screen coordinate of the click on the view.
+
+```csharp
+public double Y { get; set; }
+```
+
+#### Property Value
+[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')

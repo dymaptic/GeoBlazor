@@ -35,14 +35,75 @@ public ResizeResult(double OldWidth, double OldHeight, double Width, double Heig
 
 `OldWidth` [System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')
 
+The previous view width in pixels
+
 <a name='dymaptic.GeoBlazor.Core.Objects.ResizeResult.ResizeResult(double,double,double,double).OldHeight'></a>
 
 `OldHeight` [System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')
+
+The previous view height in pixels
 
 <a name='dymaptic.GeoBlazor.Core.Objects.ResizeResult.ResizeResult(double,double,double,double).Width'></a>
 
 `Width` [System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')
 
+The new measured view width in pixels
+
 <a name='dymaptic.GeoBlazor.Core.Objects.ResizeResult.ResizeResult(double,double,double,double).Height'></a>
 
 `Height` [System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')
+
+The new measured view height in pixels
+### Properties
+
+<a name='dymaptic.GeoBlazor.Core.Objects.ResizeResult.Height'></a>
+
+## ResizeResult.Height Property
+
+The new measured view height in pixels
+
+```csharp
+public double Height { get; set; }
+```
+
+#### Property Value
+[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')
+
+<a name='dymaptic.GeoBlazor.Core.Objects.ResizeResult.OldHeight'></a>
+
+## ResizeResult.OldHeight Property
+
+The previous view height in pixels
+
+```csharp
+public double OldHeight { get; set; }
+```
+
+#### Property Value
+[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')
+
+<a name='dymaptic.GeoBlazor.Core.Objects.ResizeResult.OldWidth'></a>
+
+## ResizeResult.OldWidth Property
+
+The previous view width in pixels
+
+```csharp
+public double OldWidth { get; set; }
+```
+
+#### Property Value
+[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')
+
+<a name='dymaptic.GeoBlazor.Core.Objects.ResizeResult.Width'></a>
+
+## ResizeResult.Width Property
+
+The new measured view width in pixels
+
+```csharp
+public double Width { get; set; }
+```
+
+#### Property Value
+[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')

@@ -62,6 +62,19 @@ public Microsoft.AspNetCore.Components.RenderFragment? ChildContent { get; set; 
 #### Property Value
 [Microsoft.AspNetCore.Components.RenderFragment](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.RenderFragment 'Microsoft.AspNetCore.Components.RenderFragment')
 
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.DotNetComponentReference'></a>
+
+## MapComponent.DotNetComponentReference Property
+
+A .NET Object Reference to this component for use in JavaScript calls.
+
+```csharp
+public Microsoft.JSInterop.DotNetObjectReference<dymaptic.GeoBlazor.Core.Components.MapComponent> DotNetComponentReference { get; }
+```
+
+#### Property Value
+[Microsoft.JSInterop.DotNetObjectReference&lt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.JSInterop.DotNetObjectReference-1 'Microsoft.JSInterop.DotNetObjectReference`1')[MapComponent](dymaptic.GeoBlazor.Core.Components.MapComponent.html 'dymaptic.GeoBlazor.Core.Components.MapComponent')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.JSInterop.DotNetObjectReference-1 'Microsoft.JSInterop.DotNetObjectReference`1')
+
 <a name='dymaptic.GeoBlazor.Core.Components.MapComponent.Id'></a>
 
 ## MapComponent.Id Property
@@ -267,6 +280,11 @@ Whether to fire the callback immediately after initialization, if the necessary 
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
 
+#### Exceptions
+
+[UnMatchedTargetNameException](dymaptic.GeoBlazor.Core.Exceptions.UnMatchedTargetNameException.html 'dymaptic.GeoBlazor.Core.Exceptions.UnMatchedTargetNameException')  
+This exception is thrown when a watchExpression's target object name doesn't match the targetName parameter.
+
 ### Remarks
 For adding waiters to types other than [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') and [SceneView](dymaptic.GeoBlazor.Core.Components.Views.SceneView.html 'dymaptic.GeoBlazor.Core.Components.Views.SceneView'), the default   
   
@@ -329,6 +347,11 @@ Whether to fire the callback immediately after initialization, if the necessary 
 
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
+#### Exceptions
+
+[UnMatchedTargetNameException](dymaptic.GeoBlazor.Core.Exceptions.UnMatchedTargetNameException.html 'dymaptic.GeoBlazor.Core.Exceptions.UnMatchedTargetNameException')  
+This exception is thrown when a watchExpression's target object name doesn't match the targetName parameter.
 
 ### Remarks
 For adding waiters to types other than [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') and [SceneView](dymaptic.GeoBlazor.Core.Components.Views.SceneView.html 'dymaptic.GeoBlazor.Core.Components.Views.SceneView'), the default   
@@ -400,6 +423,11 @@ Whether to fire the callback immediately after initialization, if the necessary 
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
 
+#### Exceptions
+
+[UnMatchedTargetNameException](dymaptic.GeoBlazor.Core.Exceptions.UnMatchedTargetNameException.html 'dymaptic.GeoBlazor.Core.Exceptions.UnMatchedTargetNameException')  
+This exception is thrown when a watchExpression's target object name doesn't match the targetName parameter.
+
 ### Remarks
 For adding watchers to types other than [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') and [SceneView](dymaptic.GeoBlazor.Core.Components.Views.SceneView.html 'dymaptic.GeoBlazor.Core.Components.Views.SceneView'), the default   
   
@@ -470,6 +498,11 @@ Whether to fire the callback immediately after initialization, if the necessary 
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
 
+#### Exceptions
+
+[UnMatchedTargetNameException](dymaptic.GeoBlazor.Core.Exceptions.UnMatchedTargetNameException.html 'dymaptic.GeoBlazor.Core.Exceptions.UnMatchedTargetNameException')  
+This exception is thrown when a watchExpression's target object name doesn't match the targetName parameter.
+
 ### Remarks
 For adding watchers to types other than [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') and [SceneView](dymaptic.GeoBlazor.Core.Components.Views.SceneView.html 'dymaptic.GeoBlazor.Core.Components.Views.SceneView'), the default   
   
@@ -480,6 +513,55 @@ targetName
 ```csharp  
 watchExpression  
 ```
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.AwaitReactiveSingleWatchUpdate_T_(string,string,System.Threading.CancellationToken)'></a>
+
+## MapComponent.AwaitReactiveSingleWatchUpdate<T>(string, string, CancellationToken) Method
+
+Tracks any properties being evaluated by the getValue function. When getValue changes, it returns a Task containing the value. This method only tracks a single change.
+
+```csharp
+public System.Threading.Tasks.Task<T> AwaitReactiveSingleWatchUpdate<T>(string watchExpression, string? targetName=null, System.Threading.CancellationToken token=default(System.Threading.CancellationToken));
+```
+#### Type parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.AwaitReactiveSingleWatchUpdate_T_(string,string,System.Threading.CancellationToken).T'></a>
+
+`T`
+
+The expected return type.
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.AwaitReactiveSingleWatchUpdate_T_(string,string,System.Threading.CancellationToken).watchExpression'></a>
+
+`watchExpression` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+The expression to be tracked.
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.AwaitReactiveSingleWatchUpdate_T_(string,string,System.Threading.CancellationToken).targetName'></a>
+
+`targetName` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+The name of the target you are referencing in the   
+  
+```csharp  
+waitExpression  
+```. For example, if the expression is "layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on which this method was called.
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.AwaitReactiveSingleWatchUpdate_T_(string,string,System.Threading.CancellationToken).token'></a>
+
+`token` [System.Threading.CancellationToken](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.CancellationToken 'System.Threading.CancellationToken')
+
+Optional Cancellation Token to abort a listener.
+
+#### Returns
+[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[T](dymaptic.GeoBlazor.Core.Components.MapComponent.html#dymaptic.GeoBlazor.Core.Components.MapComponent.AwaitReactiveSingleWatchUpdate_T_(string,string,System.Threading.CancellationToken).T 'dymaptic.GeoBlazor.Core.Components.MapComponent.AwaitReactiveSingleWatchUpdate<T>(string, string, System.Threading.CancellationToken).T')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
+Returns the value from the evaluated property when it changes.
+
+#### Exceptions
+
+[UnMatchedTargetNameException](dymaptic.GeoBlazor.Core.Exceptions.UnMatchedTargetNameException.html 'dymaptic.GeoBlazor.Core.Exceptions.UnMatchedTargetNameException')  
+This exception is thrown when a watchExpression's target object name doesn't match the targetName parameter.
 
 <a name='dymaptic.GeoBlazor.Core.Components.MapComponent.DisposeAsync()'></a>
 
@@ -650,6 +732,26 @@ public System.Threading.Tasks.Task RemoveReactiveWatcher(string watchExpression)
 `watchExpression` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 
 The expression to stop tracking.
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.SetVisibility(bool)'></a>
+
+## MapComponent.SetVisibility(bool) Method
+
+Toggles the visibility of the component.
+
+```csharp
+public System.Threading.Tasks.Task SetVisibility(bool visible);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.SetVisibility(bool).visible'></a>
+
+`visible` [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
+
+The new value to set for visibility of the component.
 
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')

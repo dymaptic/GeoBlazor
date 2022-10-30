@@ -1,5 +1,4 @@
 ﻿using dymaptic.GeoBlazor.Core.Exceptions;
-using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
 using Microsoft.JSInterop;
 

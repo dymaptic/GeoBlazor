@@ -4,6 +4,7 @@ using Microsoft.JSInterop;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using dymaptic.GeoBlazor.Core.Exceptions;
+using dymaptic.GeoBlazor.Core.Extensions;
 using System.Collections;
 using System.Reflection;
 
@@ -56,6 +57,12 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     ///     A unique identifier, used to track components across .NET and JavaScript.
     /// </summary>
     public Guid Id { get; init; } = Guid.NewGuid();
+    
+    /// <summary>
+    ///     A .NET Object Reference to this component for use in JavaScript calls.
+    /// </summary>
+    public DotNetObjectReference<MapComponent> DotNetComponentReference =>
+        DotNetObjectReference.Create(this);
 
     /// <summary>
     ///     Implements the `IAsyncDisposable` pattern.
@@ -82,6 +89,14 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         }
 
         _listeners.Clear();
+        
+        foreach ((Delegate Handler, IJSObjectReference JsObjRef) tuple in _waiters.Values)
+        {
+            IJSObjectReference jsRef = tuple.JsObjRef;
+            await jsRef.InvokeVoidAsync("remove");
+        }
+
+        _waiters.Clear();
 
         if (JsModule is not null)
         {
@@ -257,6 +272,18 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
 
     private bool _needsUpdate;
 
+    
+    /// <summary>
+    ///     Toggles the visibility of the component.
+    /// </summary>
+    /// <param name="visible">
+    ///     The new value to set for visibility of the component.
+    /// </param>
+    public async Task SetVisibility(bool visible)
+    {
+        await JsModule!.InvokeVoidAsync("setVisibility", Id, visible);
+    }
+    
 
 #region Events
 
@@ -281,6 +308,9 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     /// <typeparam name="T">
     ///     The type of return value to expect in the handler.
     /// </typeparam>
+    /// <exception cref="UnMatchedTargetNameException">
+    ///     This exception is thrown when a watchExpression's target object name doesn't match the targetName parameter.
+    /// </exception>
     /// <remarks>
     ///     For adding watchers to types other than <see cref="MapView"/> and <see cref="SceneView"/>, the default <code>targetName</code> should not be relied upon. Make sure it matches the variable in your <code>watchExpression</code>
     /// </remarks>
@@ -311,6 +341,9 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     /// <typeparam name="T">
     ///     The type of return value to expect in the handler.
     /// </typeparam>
+    /// <exception cref="UnMatchedTargetNameException">
+    ///     This exception is thrown when a watchExpression's target object name doesn't match the targetName parameter.
+    /// </exception>
     /// <remarks>
     ///     For adding watchers to types other than <see cref="MapView"/> and <see cref="SceneView"/>, the default <code>targetName</code> should not be relied upon. Make sure it matches the variable in your <code>watchExpression</code>
     /// </remarks>
@@ -325,7 +358,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         bool once, bool initial)
     {
         string typeName = GetType().Name;
-        targetName ??= typeName.Contains("View") ? "view" : typeName.ToLower();
+        targetName ??= typeName.Contains("View") ? "view" : typeName.ToLowerFirstChar();
 
         if (!watchExpression.Contains(targetName))
         {
@@ -518,6 +551,9 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     /// <param name="initial">
     ///     Whether to fire the callback immediately after initialization, if the necessary conditions are met.
     /// </param>
+    /// <exception cref="UnMatchedTargetNameException">
+    ///     This exception is thrown when a watchExpression's target object name doesn't match the targetName parameter.
+    /// </exception>
     /// <remarks>
     ///     For adding waiters to types other than <see cref="MapView"/> and <see cref="SceneView"/>, the default <code>targetName</code> should not be relied upon. Make sure it matches the variable in your <code>waitExpression</code>
     /// </remarks>
@@ -545,6 +581,9 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     /// <param name="initial">
     ///     Whether to fire the callback immediately after initialization, if the necessary conditions are met.
     /// </param>
+    /// <exception cref="UnMatchedTargetNameException">
+    ///     This exception is thrown when a watchExpression's target object name doesn't match the targetName parameter.
+    /// </exception>
     /// <remarks>
     ///     For adding waiters to types other than <see cref="MapView"/> and <see cref="SceneView"/>, the default <code>targetName</code> should not be relied upon. Make sure it matches the variable in your <code>waitExpression</code>
     /// </remarks>
@@ -559,7 +598,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         bool once, bool initial)
     {
         string typeName = GetType().Name;
-        targetName ??= typeName.Contains("View") ? "view" : typeName.ToLower();
+        targetName ??= typeName.Contains("View") ? "view" : typeName.ToLowerFirstChar();
 
         if (!waitExpression.Contains(targetName))
         {
@@ -602,8 +641,44 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     [JSInvokable]
     public void OnReactiveWaiterTrue(string waitExpression)
     {
+        Console.WriteLine($"Reactive Waiter Triggered for wait expression \"{waitExpression}\"");
         Delegate handler = _waiters[waitExpression].Handler;
         handler.DynamicInvoke();
+    }
+    
+    /// <summary>
+    ///     Tracks any properties being evaluated by the getValue function. When getValue changes, it returns a Task containing the value. This method only tracks a single change.
+    /// </summary>
+    /// <param name="watchExpression">
+    ///     The expression to be tracked.
+    /// </param>
+    /// <param name="targetName">
+    ///     The name of the target you are referencing in the <code>waitExpression</code>. For example, if the expression is "layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on which this method was called.
+    /// </param>
+    /// <param name="token">
+    ///     Optional Cancellation Token to abort a listener.
+    /// </param>
+    /// <typeparam name="T">
+    ///     The expected return type.
+    /// </typeparam>
+    /// <returns>
+    ///     Returns the value from the evaluated property when it changes.
+    /// </returns>
+    /// <exception cref="UnMatchedTargetNameException">
+    ///     This exception is thrown when a watchExpression's target object name doesn't match the targetName parameter.
+    /// </exception>
+    public async Task<T> AwaitReactiveSingleWatchUpdate<T>(string watchExpression, string? targetName = null,
+        CancellationToken token = new())
+    {
+        string typeName = GetType().Name;
+        targetName ??= typeName.Contains("View") ? "view" : typeName.ToLowerFirstChar();
+        if (!watchExpression.Contains(targetName))
+        {
+            throw new UnMatchedTargetNameException(targetName, watchExpression);
+        }
+        
+        return await JsModule!.InvokeAsync<T>("awaitReactiveSingleWatchUpdate", token, Id, targetName, 
+            watchExpression);
     }
 
 #endregion

@@ -205,6 +205,9 @@ public partial class MapView : MapComponent
     /// <summary>
     ///     Handler delegate for click events on the view. Must take in a <see cref="Point"/> and return a <see cref="Task"/>.
     /// </summary>
+    /// <remarks>
+    ///     <b style="color: red">OBSOLETE: Use OnClick EventCallback instead</b>
+    /// </remarks>
     [Parameter]
     [Obsolete("Use OnClick EventCallback instead.")]
     public Func<Point, Task>? OnClickAsyncHandler { get; set; }
@@ -424,6 +427,9 @@ public partial class MapView : MapComponent
     ///     In this scenario, you should write a custom JavaScript handler instead.
     ///     See <a target="_blank" href="https://github.com/dymaptic/GeoBlazor/blob/develop/samples/dymaptic.GeoBlazor.Core.Sample.Shared/Pages/DisplayProjection.razor">Display Projection</a> code.
     /// </remarks>
+    /// <remarks>
+    ///     <b style="color: red">OBSOLETE: Use OnPointerMove EventCallback instead</b>
+    /// </remarks>
     [Parameter]
     [Obsolete("Use OnPointerMove instead")]
     public Func<Point, Task>? OnPointerMoveHandler { get; set; }
@@ -511,6 +517,9 @@ public partial class MapView : MapComponent
     /// <summary>
     ///     Handler delegate for when the map view is fully rendered. Must return a <see cref="Task"/>.
     /// </summary>
+    /// <remarks>
+    ///     <b style="color: red">OBSOLETE: Use OnMapRendered EventCallback instead</b>
+    /// </remarks>
     [Parameter]
     [Obsolete("Use OnMapRendered instead")]
     public Func<Task>? OnMapRenderedHandler { get; set; }
@@ -540,6 +549,9 @@ public partial class MapView : MapComponent
     ///     Handler delegate for the view's Spatial Reference changing.
     ///     Must take in a <see cref="SpatialReference"/> and return a <see cref="Task"/>.
     /// </summary>
+    /// <remarks>
+    ///     <b style="color: red">OBSOLETE: Use OnSpatialReferenceChanged instead</b>
+    /// </remarks>
     [Parameter]
     [Obsolete("Use OnSpatialReferenceChanged instead")]
     public Func<SpatialReference, Task>? OnSpatialReferenceChangedHandler { get; set; }
@@ -657,11 +669,6 @@ public partial class MapView : MapComponent
     /// </summary>
     [Parameter]
     public int? EventRateLimitInMilliseconds { get; set; }
-    
-    public async Task<T> AwaitReactiveSingleWatchUpdate<T>(string watchExpression)
-    {
-        return await ViewJsModule!.InvokeAsync<T>("awaitReactiveSingleWatchUpdate", Id, watchExpression);
-    }
 
 #endregion
     
@@ -801,6 +808,7 @@ public partial class MapView : MapComponent
             case Graphic graphic:
                 if (!Graphics.Contains(graphic))
                 {
+                    graphic.GraphicIndex = Graphics.Count;
                     Graphics.Add(graphic);
 
                     if (MapRendered)
@@ -860,6 +868,11 @@ public partial class MapView : MapComponent
                 if (Widgets.Contains(widget))
                 {
                     Widgets.Remove(widget);
+
+                    if (MapRendered)
+                    {
+                        await RemoveWidget(widget);
+                    }
                 }
 
                 break;
@@ -867,6 +880,11 @@ public partial class MapView : MapComponent
                 if (Graphics.Contains(graphic))
                 {
                     Graphics.Remove(graphic);
+
+                    if (MapRendered)
+                    {
+                        await RemoveGraphicAtIndex(graphic.GraphicIndex!.Value);
+                    }
                 }
 
                 break;
@@ -1261,6 +1279,14 @@ public partial class MapView : MapComponent
         await InvokeAsync(async () =>
         {
             await ViewJsModule!.InvokeVoidAsync("addWidget", widget, Id);
+        });
+    }
+    
+    private async Task RemoveWidget(Widget widget)
+    {
+        await InvokeAsync(async () =>
+        {
+            await ViewJsModule!.InvokeVoidAsync("removeWidget", widget.Id, Id);
         });
     }
 

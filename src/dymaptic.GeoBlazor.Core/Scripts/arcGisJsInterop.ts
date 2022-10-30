@@ -1045,9 +1045,22 @@ export async function addWidget(widget: any, viewId: string): Promise<void> {
             view.ui.add(newWidget, widget.position);
         }
         arcGisObjectRefs[widget.id] = newWidget;
+        dotNetRefs[widget.id] = widget.dotNetComponentReference;
     } catch (error) {
         logError(error, viewId);
     }
+}
+
+export function removeWidget(widgetId: string, viewId: string) : void {
+    let view = arcGisObjectRefs[viewId] as MapView;
+    let widget = arcGisObjectRefs[widgetId] as Widget;
+    try {
+        view.ui.remove(widget);
+    }
+    catch{
+        //ignore
+    }
+    delete arcGisObjectRefs.widgetId;
 }
 
 export function createGraphic(graphicObject: any): Graphic {
@@ -1287,13 +1300,16 @@ export function addReactiveListener(targetId: string, eventName: string, once: b
     return listenerFunc(target, reactiveUtils, dotNetRef);
 }
 
-export async function awaitReactiveSingleWatchUpdate(viewId: string, watchExpression: string) : Promise<any> {
-    let view = arcGisObjectRefs[viewId];
-    let dotNetRef = dotNetRefs[viewId];
+export async function awaitReactiveSingleWatchUpdate(targetId: string, targetName: string, watchExpression: string) 
+    : Promise<any> {
+    let target = arcGisObjectRefs[targetId];
+    let dotNetRef = dotNetRefs[targetId];
     console.log(`Adding once watcher: "${watchExpression}"`);
-    const onceFunc = new Function('view', 'reactiveUtils', 'dotNetRef',
+    const AsyncFunction = (async function () {}).constructor;
+    // @ts-ignore
+    const onceFunc = new AsyncFunction(targetName, 'reactiveUtils', 'dotNetRef',
         `return await reactiveUtils.once(() => ${watchExpression});`);
-    return await onceFunc(view, reactiveUtils, dotNetRef);
+    return await onceFunc(target, reactiveUtils, dotNetRef);
 }
 
 export function addReactiveWaiter(targetId: string, targetName: string, watchExpression: string, once: boolean, 
@@ -1303,7 +1319,16 @@ export function addReactiveWaiter(targetId: string, targetName: string, watchExp
     console.log(`Adding when waiter: "${watchExpression}"`);
     const whenFunc = new Function(targetName, 'reactiveUtils', 'dotNetRef',
         `return reactiveUtils.when(() => ${watchExpression},
-        () => dotNetRef.invokeMethodAsync('OnReactiveWaiterTrue', '${watchExpression}'),
+        () => { 
+            console.log('waiter == true'); 
+            dotNetRef.invokeMethodAsync('OnReactiveWaiterTrue', '${watchExpression}')
+        },
         {once: ${once}, initial: ${initial}});`);
     return whenFunc(target, reactiveUtils, dotNetRef);
+}
+
+
+export function setVisibility(componentId: string, visible: boolean) : void {
+    let component : any = arcGisObjectRefs[componentId];
+    component.visible = visible;
 }
