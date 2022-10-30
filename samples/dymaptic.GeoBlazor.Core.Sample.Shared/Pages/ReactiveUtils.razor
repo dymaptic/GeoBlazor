@@ -1,0 +1,107 @@
+﻿@page "/reactive-utils"
+<PageTitle>Reactive Utils</PageTitle>
+<h1>Reactive Utils</h1>
+<div class="links-div">
+    <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-reactiveUtils.html">ArcGIS API for JavaScript Reference</a>
+    <a class="btn btn-primary" target="_blank" href="https://www.arcgis.com/home/item.html?id=0614ea1f9dd043e9ba157b9c20d3c538">Paris 3D Web Scene</a>
+</div>
+<p class="instructions">
+    This sample demonstrates how to use the <code>ReactiveUtils</code> to react to various user interactions. 
+</p>
+
+<SceneView @ref="_view" Class="map-view" OnMapRendered="OnMapRendered">
+    <WebScene>
+        <PortalItem Id="0614ea1f9dd043e9ba157b9c20d3c538" />
+    </WebScene>
+    <LayerListWidget Position="OverlayPosition.TopRight" />
+</SceneView>
+<div class="form-group">
+    <label>Popup is open: <b>@_popupOpen</b> (Click on features to toggle)</label>
+</div>
+<div class="form-group">
+    <label>
+        Center:
+        @if (_center is null)
+        {
+            <b>Drag or Zoom to load</b>
+        }
+        else
+        {
+            <b>@_center?.X!.Value.ToString("N2") X / @_center?.Y!.Value.ToString("N2") Y /</b>
+        }
+    </label>
+    <label>
+        Spatial Reference:
+        @if (_center is null)
+        {
+            <b>Drag or Zoom to load</b>
+        }
+        else
+        {
+            <b>@_center?.SpatialReference!.Wkid</b>
+        }
+    </label>
+</div>
+<div class="form-group">
+    <label>
+        Extent:
+        @if (_extent is null)
+        {
+            <b>Drag or Zoom to load</b>
+        }
+        else
+        {
+            <b>@_extent?.Xmin.ToString("N2") X Min / @_extent?.Xmax.ToString("N2") X Max / 
+                @_extent?.Ymin.ToString("N2") Y Min / @_extent?.Ymax.ToString("N2") Y Max</b>
+        }
+    </label>
+</div>
+<div class="form-group">
+    <label>
+        Layers:
+        @if (_layers is null)
+        {
+            <b>Click to hide/show a layer in the LayerList Widget above</b>
+        }
+        else
+        {
+            <b>@(_layers is null ? "" : string.Join(", ", _layers))</b>
+        }
+    </label>
+</div>
+@code {
+    private SceneView? _view;
+    private bool _popupOpen;
+    private Point? _center;
+    private Extent? _extent;
+    private string[]? _layers;
+
+    private async Task OnMapRendered()
+    {
+        await _view!.AddReactiveWatcher<bool>("view?.popup?.visible", PopupWatchHandler);
+        await _view.AddReactiveWatcher<Point>("view?.center", CenterWatchHandler);
+        await _view.AddReactiveWatcher<Extent>("view?.extent", ExtentWatchHandler);
+        await _view.AddReactiveWatcher<string[]?>(
+            "view?.map?.allLayers?.filter(layer => layer.visible).map(l => l.title)", LayerWatchHandler);
+    }
+
+    private void PopupWatchHandler(bool value)
+    {
+        _popupOpen = value;
+    }
+
+    private void CenterWatchHandler(Point value)
+    {
+        _center = value;
+    }
+
+    private void ExtentWatchHandler(Extent value)
+    {
+        _extent = value;
+    }
+
+    private void LayerWatchHandler(string[]? values)
+    {
+        _layers = values;
+    }
+}

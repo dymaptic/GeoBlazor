@@ -85,7 +85,17 @@ public class SceneView : MapView
 
         if (Rendering || (Map is null && WebScene is null) || ViewJsModule is null) return;
 
+        if (string.IsNullOrWhiteSpace(ApiKey) && (AllowDefaultEsriLogin is null || !AllowDefaultEsriLogin.Value))
+        {
+            ErrorMessage = "No ArcGIS API Key Found. See UsingTheAPI.md for instructions on providing an API Key or suppressing this message.";
+            System.Diagnostics.Debug.WriteLine(ErrorMessage);
+            StateHasChanged();
+
+            return;
+        }
+
         Rendering = true;
+        ValidateRequiredChildren();
 
         await InvokeAsync(async () =>
         {
@@ -98,11 +108,15 @@ public class SceneView : MapView
                 throw new MissingMapException();
             }
 
+            NeedsRender = false;
+
             await ViewJsModule!.InvokeVoidAsync("buildMapView", Id, DotNetObjectReference,
                 Longitude, Latitude, Rotation, scene, Zoom, Scale,
                 ApiKey, sceneType, Widgets, Graphics, SpatialReference, Constraints, Extent,
-                EventRateLimitInMilliseconds, ZIndex, Tilt);
+                EventRateLimitInMilliseconds, GetActiveEventHandlers(), ZIndex, Tilt);
             Rendering = false;
+            NewPropertyValues.Clear();
+            MapRendered = true;
         });
     }
 }

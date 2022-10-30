@@ -8,6 +8,8 @@ using dymaptic.GeoBlazor.Core.Objects;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
 using Microsoft.JSInterop;
+using System.Reflection;
+using System.Text.Json;
 
 
 // ReSharper disable RedundantCast
@@ -60,7 +62,7 @@ public partial class MapView : MapComponent
             if (Math.Abs(_latitude - value) > 0.0000000000001)
             {
                 _latitude = value;
-                _newPropertyValues[nameof(Latitude)] = value;
+                NewPropertyValues[nameof(Latitude)] = value;
             }
         }
     }
@@ -77,7 +79,7 @@ public partial class MapView : MapComponent
             if (Math.Abs(_longitude - value) > 0.0000000000001)
             {
                 _longitude = value;
-                _newPropertyValues[nameof(Longitude)] = value;
+                NewPropertyValues[nameof(Longitude)] = value;
             }
         }
     }
@@ -94,7 +96,7 @@ public partial class MapView : MapComponent
             if (Math.Abs(_zoom - value) > 0.0000000000001)
             {
                 _zoom = value;
-                _newPropertyValues[nameof(Zoom)] = value;
+                NewPropertyValues[nameof(Zoom)] = value;
             }
         }
     }
@@ -114,7 +116,7 @@ public partial class MapView : MapComponent
 
                 if (value is not null)
                 {
-                    _newPropertyValues[nameof(Scale)] = value;
+                    NewPropertyValues[nameof(Scale)] = value;
                 }
             }
         }
@@ -132,7 +134,7 @@ public partial class MapView : MapComponent
             if (Math.Abs(_rotation - value) > 0.0000000000001)
             {
                 _rotation = value;
-                _newPropertyValues[nameof(Rotation)] = value;
+                NewPropertyValues[nameof(Rotation)] = value;
             }
         }
     }
@@ -656,6 +658,52 @@ public partial class MapView : MapComponent
     [Parameter]
     public int? EventRateLimitInMilliseconds { get; set; }
 
+    public async Task AddReactiveWatcher<T>(string watchExpression, Func<T, Task> handler)
+    {
+        _watchers[watchExpression] = handler;
+        await ViewJsModule!.InvokeVoidAsync("addReactiveWatcher", Id, watchExpression);
+    }
+    
+    public async Task AddReactiveWatcher<T>(string watchExpression, Action<T> handler)
+    {
+        IJSObjectReference jsRef = 
+            await ViewJsModule!.InvokeAsync<IJSObjectReference>("addReactiveWatcher", Id, watchExpression);
+        _watchers[watchExpression] = (handler, jsRef);
+    }
+
+    public async Task RemoveReactiveHandler(string watchExpression)
+    {
+        IJSObjectReference jsRef = _watchers[watchExpression].JsObjRef;
+        await jsRef.InvokeVoidAsync("remove");
+        _watchers.Remove(watchExpression);
+    }
+
+    [JSInvokable]
+    public void OnReactiveWatcherUpdate(string propertyName, JsonElement? value)
+    {
+        Delegate handler = _watchers[propertyName].Handler;
+        Type returnType = handler.Method.GetParameters()[0].ParameterType;
+        object? typedValue = null;
+
+        if (value.HasValue)
+        {
+            string stringValue = value.Value.ToString();
+            var options = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
+            typedValue = value.Value.ValueKind switch
+            {
+                JsonValueKind.Object => value.Value.Deserialize(returnType, options),
+                JsonValueKind.Array => value.Value.Deserialize(returnType, options),
+                JsonValueKind.False => false,
+                JsonValueKind.True => true,
+                JsonValueKind.Number => Convert.ChangeType(stringValue, returnType),
+                JsonValueKind.String => stringValue,
+                _ => typedValue
+            };
+        }
+
+        handler.DynamicInvoke(typedValue);
+    }
+
 #endregion
     
     /// <summary>
@@ -750,12 +798,12 @@ public partial class MapView : MapComponent
             return;
         }
 
-        foreach (KeyValuePair<string, object> kvp in _newPropertyValues)
+        foreach (KeyValuePair<string, object> kvp in NewPropertyValues)
         {
             await ViewJsModule!.InvokeVoidAsync("updateView", kvp.Key, kvp.Value, Id);
         }
 
-        _newPropertyValues.Clear();
+        NewPropertyValues.Clear();
     }
 
     /// <inheritdoc />
@@ -1136,6 +1184,13 @@ public partial class MapView : MapComponent
     {
         try
         {
+            foreach ((Delegate Handler, IJSObjectReference JsObjRef) tuple in _watchers.Values)
+            {
+                IJSObjectReference jsRef = tuple.JsObjRef;
+                await jsRef.InvokeVoidAsync("remove");
+            }
+
+            _watchers.Clear();
             if (ViewJsModule != null) await ViewJsModule.InvokeVoidAsync("disposeView", Id);
         }
         catch (JSDisconnectedException)
@@ -1198,7 +1253,7 @@ public partial class MapView : MapComponent
         {
             await RenderView();
         }
-        else if (_newPropertyValues.Any())
+        else if (NewPropertyValues.Any())
         {
             await UpdateComponent();
         }
@@ -1242,9 +1297,9 @@ public partial class MapView : MapComponent
             await ViewJsModule!.InvokeVoidAsync("buildMapView", Id,
                 DotNetObjectReference, Longitude, Latitude, Rotation, map, Zoom, Scale,
                 ApiKey, mapType, Widgets, Graphics, SpatialReference, Constraints, Extent,
-                EventRateLimitInMilliseconds);
+                EventRateLimitInMilliseconds, GetActiveEventHandlers());
             Rendering = false;
-            _newPropertyValues.Clear();
+            NewPropertyValues.Clear();
             MapRendered = true;
         });
     }
@@ -1257,6 +1312,26 @@ public partial class MapView : MapComponent
         });
     }
 
+    protected List<string> GetActiveEventHandlers()
+    {
+        List<string> activeHandlers = new();
+        IEnumerable<PropertyInfo> callbacks = this.GetType().GetProperties()
+            .Where(p => p.PropertyType.Name.StartsWith(nameof(EventCallback)) ||
+                p.PropertyType.Name.StartsWith("Func"));
+
+        foreach (PropertyInfo callbackInfo in callbacks)
+        {
+            dynamic? callback = callbackInfo.GetValue(this);
+
+            if (callback is not null && callback.HasDelegate)
+            {
+                activeHandlers.Add(callbackInfo.Name);
+            }
+        }
+
+        return activeHandlers;
+    }
+
     /// <summary>
     ///     A reference to the arcGisJsInterop module
     /// </summary>
@@ -1266,7 +1341,7 @@ public partial class MapView : MapComponent
     ///     A boolean flag to indicate that rendering is underway
     /// </summary>
     protected bool Rendering;
-    private Dictionary<string, object> _newPropertyValues = new();
+    protected Dictionary<string, object> NewPropertyValues = new();
 
     /// <summary>
     ///     A boolean flag to indicate a "dirty" state that needs to be re-rendered
@@ -1279,4 +1354,5 @@ public partial class MapView : MapComponent
     private double _latitude = 34.027;
     private string? _apiKey;
     private SpatialReference? _spatialReference;
+    private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _watchers = new();
 }

@@ -99,4 +99,12 @@ declare module "ArcGisDefinitions" {
         children: DotNetListItem[],
         actionSections: DotNetActionSection[][]
     }
+    
+    interface DotNetLayerView {
+        layer: Layer;
+        spatialReferenceSupported: boolean;
+        suspended: boolean;
+        updating: boolean;
+        visible: boolean;
+    }
 }
