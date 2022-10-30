@@ -1211,14 +1211,14 @@ export function logError(error, viewId: string) {
 function setWaitCursor(viewId: string): void {
     let viewContainer = document.getElementById(`map-container-${viewId}`);
     if (viewContainer !== null) {
-        viewContainer.style.cursor = 'wait';
+        document.body.style.cursor = 'wait';
     }
 }
 
 function unsetWaitCursor(viewId: string): void {
     let viewContainer = document.getElementById(`map-container-${viewId}`);
     if (viewContainer !== null) {
-        viewContainer.style.cursor = 'unset';
+        document.body.style.cursor = 'unset';
     }
 }
 
@@ -1264,11 +1264,46 @@ function buildDotNetListItem(item: ListItem): DotNetListItem | null {
 }
 
 
-export function addReactiveWatcher(viewId: string, propertyName: string) : any {
+export function addReactiveWatcher(targetId: string, targetName: string, watchExpression: string, once: boolean, 
+                                   initial: boolean) : any {
+    let target = arcGisObjectRefs[targetId];
+    let dotNetRef = dotNetRefs[targetId];
+    console.log(`Adding watch: "${watchExpression}"`);
+    const watcherFunc = new Function(targetName, 'reactiveUtils', 'dotNetRef',
+        `return reactiveUtils.watch(() => ${watchExpression},
+        (value) => dotNetRef.invokeMethodAsync('OnReactiveWatcherUpdate', '${watchExpression}', value),
+        {once: ${once}, initial: ${initial}});`);
+    return watcherFunc(target, reactiveUtils, dotNetRef);
+}
+
+export function addReactiveListener(targetId: string, eventName: string, once: boolean) : any {
+    let target = arcGisObjectRefs[targetId];
+    let dotNetRef = dotNetRefs[targetId];
+    console.log(`Adding listener: "${eventName}"`);
+    const listenerFunc = new Function('target', 'reactiveUtils', 'dotNetRef',
+        `return reactiveUtils.on(() => target, '${eventName}',
+        (value) => dotNetRef.invokeMethodAsync('OnReactiveListenerTriggered', '${eventName}', value),
+        {once: ${once}, onListenerRemove: () => console.log('Removing listener: ${eventName}')});`);
+    return listenerFunc(target, reactiveUtils, dotNetRef);
+}
+
+export async function awaitReactiveSingleWatchUpdate(viewId: string, watchExpression: string) : Promise<any> {
     let view = arcGisObjectRefs[viewId];
     let dotNetRef = dotNetRefs[viewId];
-    const watcherFunc = new Function('view', 'reactiveUtils', 'dotNetRef',
-        `reactiveUtils.watch(() => ${propertyName},
-        (value) => dotNetRef.invokeMethodAsync('OnReactiveWatcherUpdate', '${propertyName}', value));`);
-    return watcherFunc(view, reactiveUtils, dotNetRef);
+    console.log(`Adding once watcher: "${watchExpression}"`);
+    const onceFunc = new Function('view', 'reactiveUtils', 'dotNetRef',
+        `return await reactiveUtils.once(() => ${watchExpression});`);
+    return await onceFunc(view, reactiveUtils, dotNetRef);
+}
+
+export function addReactiveWaiter(targetId: string, targetName: string, watchExpression: string, once: boolean, 
+                                  initial: boolean) : any {
+    let target = arcGisObjectRefs[targetId];
+    let dotNetRef = dotNetRefs[targetId];
+    console.log(`Adding when waiter: "${watchExpression}"`);
+    const whenFunc = new Function(targetName, 'reactiveUtils', 'dotNetRef',
+        `return reactiveUtils.when(() => ${watchExpression},
+        () => dotNetRef.invokeMethodAsync('OnReactiveWaiterTrue', '${watchExpression}'),
+        {once: ${once}, initial: ${initial}});`);
+    return whenFunc(target, reactiveUtils, dotNetRef);
 }

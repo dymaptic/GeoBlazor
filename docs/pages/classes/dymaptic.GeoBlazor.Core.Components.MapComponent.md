@@ -129,6 +129,358 @@ public dymaptic.GeoBlazor.Core.Components.Views.MapView? View { get; set; }
 [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView')
 ### Methods
 
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveListener_T_(string,System.Action_T_,bool)'></a>
+
+## MapComponent.AddReactiveListener<T>(string, Action<T>, bool) Method
+
+Tracks any properties accessed in the   
+  
+```csharp  
+listenExpression  
+``` and calls the callback when any of them change.
+
+```csharp
+public System.Threading.Tasks.Task AddReactiveListener<T>(string eventName, System.Action<T> handler, bool once=false);
+```
+#### Type parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveListener_T_(string,System.Action_T_,bool).T'></a>
+
+`T`
+
+The type of return value to expect in the handler.
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveListener_T_(string,System.Action_T_,bool).eventName'></a>
+
+`eventName` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+The name of the event to add a listener for.
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveListener_T_(string,System.Action_T_,bool).handler'></a>
+
+`handler` [System.Action&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Action-1 'System.Action`1')[T](dymaptic.GeoBlazor.Core.Components.MapComponent.html#dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveListener_T_(string,System.Action_T_,bool).T 'dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveListener<T>(string, System.Action<T>, bool).T')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Action-1 'System.Action`1')
+
+The function to call when there are changes.
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveListener_T_(string,System.Action_T_,bool).once'></a>
+
+`once` [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
+
+Whether to fire the callback only once. Defaults to false.
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveListener_T_(string,System.Func_T,System.Threading.Tasks.Task_,bool)'></a>
+
+## MapComponent.AddReactiveListener<T>(string, Func<T,Task>, bool) Method
+
+Tracks any properties accessed in the   
+  
+```csharp  
+listenExpression  
+``` and calls the callback when any of them change.
+
+```csharp
+public System.Threading.Tasks.Task AddReactiveListener<T>(string eventName, System.Func<T,System.Threading.Tasks.Task> handler, bool once=false);
+```
+#### Type parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveListener_T_(string,System.Func_T,System.Threading.Tasks.Task_,bool).T'></a>
+
+`T`
+
+The type of return value to expect in the handler.
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveListener_T_(string,System.Func_T,System.Threading.Tasks.Task_,bool).eventName'></a>
+
+`eventName` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+The name of the event to add a listener for.
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveListener_T_(string,System.Func_T,System.Threading.Tasks.Task_,bool).handler'></a>
+
+`handler` [System.Func&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Func-2 'System.Func`2')[T](dymaptic.GeoBlazor.Core.Components.MapComponent.html#dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveListener_T_(string,System.Func_T,System.Threading.Tasks.Task_,bool).T 'dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveListener<T>(string, System.Func<T,System.Threading.Tasks.Task>, bool).T')[,](https://docs.microsoft.com/en-us/dotnet/api/System.Func-2 'System.Func`2')[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Func-2 'System.Func`2')
+
+The function to call when the event triggers.
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveListener_T_(string,System.Func_T,System.Threading.Tasks.Task_,bool).once'></a>
+
+`once` [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
+
+Whether to fire the callback only once. Defaults to false.
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveWaiter(string,System.Action,string,bool,bool)'></a>
+
+## MapComponent.AddReactiveWaiter(string, Action, string, bool, bool) Method
+
+Tracks a value in the   
+  
+```csharp  
+waitExpression  
+``` and calls the callback when it becomes <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Glossary/Truthy">truthy</a>.
+
+```csharp
+public System.Threading.Tasks.Task AddReactiveWaiter(string waitExpression, System.Action handler, string? targetName=null, bool once=false, bool initial=false);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveWaiter(string,System.Action,string,bool,bool).waitExpression'></a>
+
+`waitExpression` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+Expression used to get the current value. All accessed properties will be tracked.
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveWaiter(string,System.Action,string,bool,bool).handler'></a>
+
+`handler` [System.Action](https://docs.microsoft.com/en-us/dotnet/api/System.Action 'System.Action')
+
+The function to call when the value is truthy.
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveWaiter(string,System.Action,string,bool,bool).targetName'></a>
+
+`targetName` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+The name of the target you are referencing in the   
+  
+```csharp  
+waitExpression  
+```. For example, if the expression is "layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on which this method was called.
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveWaiter(string,System.Action,string,bool,bool).once'></a>
+
+`once` [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
+
+Whether to fire the callback only once.
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveWaiter(string,System.Action,string,bool,bool).initial'></a>
+
+`initial` [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
+
+Whether to fire the callback immediately after initialization, if the necessary conditions are met.
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
+### Remarks
+For adding waiters to types other than [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') and [SceneView](dymaptic.GeoBlazor.Core.Components.Views.SceneView.html 'dymaptic.GeoBlazor.Core.Components.Views.SceneView'), the default   
+  
+```csharp  
+targetName  
+``` should not be relied upon. Make sure it matches the variable in your   
+  
+```csharp  
+waitExpression  
+```
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveWaiter(string,System.Func_System.Threading.Tasks.Task_,string,bool,bool)'></a>
+
+## MapComponent.AddReactiveWaiter(string, Func<Task>, string, bool, bool) Method
+
+Tracks a value in the   
+  
+```csharp  
+waitExpression  
+``` and calls the callback when it becomes <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Glossary/Truthy">truthy</a>.
+
+```csharp
+public System.Threading.Tasks.Task AddReactiveWaiter(string waitExpression, System.Func<System.Threading.Tasks.Task> handler, string? targetName=null, bool once=false, bool initial=false);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveWaiter(string,System.Func_System.Threading.Tasks.Task_,string,bool,bool).waitExpression'></a>
+
+`waitExpression` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+Expression used to get the current value. All accessed properties will be tracked.
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveWaiter(string,System.Func_System.Threading.Tasks.Task_,string,bool,bool).handler'></a>
+
+`handler` [System.Func&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Func-1 'System.Func`1')[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Func-1 'System.Func`1')
+
+The function to call when the value is truthy.
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveWaiter(string,System.Func_System.Threading.Tasks.Task_,string,bool,bool).targetName'></a>
+
+`targetName` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+The name of the target you are referencing in the   
+  
+```csharp  
+waitExpression  
+```. For example, if the expression is "layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on which this method was called.
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveWaiter(string,System.Func_System.Threading.Tasks.Task_,string,bool,bool).once'></a>
+
+`once` [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
+
+Whether to fire the callback only once.
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveWaiter(string,System.Func_System.Threading.Tasks.Task_,string,bool,bool).initial'></a>
+
+`initial` [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
+
+Whether to fire the callback immediately after initialization, if the necessary conditions are met.
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
+### Remarks
+For adding waiters to types other than [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') and [SceneView](dymaptic.GeoBlazor.Core.Components.Views.SceneView.html 'dymaptic.GeoBlazor.Core.Components.Views.SceneView'), the default   
+  
+```csharp  
+targetName  
+``` should not be relied upon. Make sure it matches the variable in your   
+  
+```csharp  
+waitExpression  
+```
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveWatcher_T_(string,System.Action_T_,string,bool,bool)'></a>
+
+## MapComponent.AddReactiveWatcher<T>(string, Action<T>, string, bool, bool) Method
+
+Tracks any properties accessed in the   
+  
+```csharp  
+watchExpression  
+``` and calls the callback when any of them change.
+
+```csharp
+public System.Threading.Tasks.Task AddReactiveWatcher<T>(string watchExpression, System.Action<T> handler, string? targetName=null, bool once=false, bool initial=false);
+```
+#### Type parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveWatcher_T_(string,System.Action_T_,string,bool,bool).T'></a>
+
+`T`
+
+The type of return value to expect in the handler.
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveWatcher_T_(string,System.Action_T_,string,bool,bool).watchExpression'></a>
+
+`watchExpression` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+Expression used to get the current value. All accessed properties will be tracked.
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveWatcher_T_(string,System.Action_T_,string,bool,bool).handler'></a>
+
+`handler` [System.Action&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Action-1 'System.Action`1')[T](dymaptic.GeoBlazor.Core.Components.MapComponent.html#dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveWatcher_T_(string,System.Action_T_,string,bool,bool).T 'dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveWatcher<T>(string, System.Action<T>, string, bool, bool).T')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Action-1 'System.Action`1')
+
+The function to call when there are changes.
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveWatcher_T_(string,System.Action_T_,string,bool,bool).targetName'></a>
+
+`targetName` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+The name of the target you are referencing in the   
+  
+```csharp  
+watchExpression  
+```. For example, if the expression is "layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on which this method was called.
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveWatcher_T_(string,System.Action_T_,string,bool,bool).once'></a>
+
+`once` [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
+
+Whether to fire the callback only once.
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveWatcher_T_(string,System.Action_T_,string,bool,bool).initial'></a>
+
+`initial` [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
+
+Whether to fire the callback immediately after initialization, if the necessary conditions are met.
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
+### Remarks
+For adding watchers to types other than [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') and [SceneView](dymaptic.GeoBlazor.Core.Components.Views.SceneView.html 'dymaptic.GeoBlazor.Core.Components.Views.SceneView'), the default   
+  
+```csharp  
+targetName  
+``` should not be relied upon. Make sure it matches the variable in your   
+  
+```csharp  
+watchExpression  
+```
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveWatcher_T_(string,System.Func_T,System.Threading.Tasks.Task_,string,bool,bool)'></a>
+
+## MapComponent.AddReactiveWatcher<T>(string, Func<T,Task>, string, bool, bool) Method
+
+Tracks any properties accessed in the   
+  
+```csharp  
+watchExpression  
+``` and calls the callback when any of them change.
+
+```csharp
+public System.Threading.Tasks.Task AddReactiveWatcher<T>(string watchExpression, System.Func<T,System.Threading.Tasks.Task> handler, string? targetName=null, bool once=false, bool initial=false);
+```
+#### Type parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveWatcher_T_(string,System.Func_T,System.Threading.Tasks.Task_,string,bool,bool).T'></a>
+
+`T`
+
+The type of return value to expect in the handler.
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveWatcher_T_(string,System.Func_T,System.Threading.Tasks.Task_,string,bool,bool).watchExpression'></a>
+
+`watchExpression` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+Expression used to get the current value. All accessed properties will be tracked.
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveWatcher_T_(string,System.Func_T,System.Threading.Tasks.Task_,string,bool,bool).handler'></a>
+
+`handler` [System.Func&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Func-2 'System.Func`2')[T](dymaptic.GeoBlazor.Core.Components.MapComponent.html#dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveWatcher_T_(string,System.Func_T,System.Threading.Tasks.Task_,string,bool,bool).T 'dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveWatcher<T>(string, System.Func<T,System.Threading.Tasks.Task>, string, bool, bool).T')[,](https://docs.microsoft.com/en-us/dotnet/api/System.Func-2 'System.Func`2')[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Func-2 'System.Func`2')
+
+The function to call when there are changes.
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveWatcher_T_(string,System.Func_T,System.Threading.Tasks.Task_,string,bool,bool).targetName'></a>
+
+`targetName` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+The name of the target you are referencing in the   
+  
+```csharp  
+watchExpression  
+```. For example, if the expression is "layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on which this method was called.
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveWatcher_T_(string,System.Func_T,System.Threading.Tasks.Task_,string,bool,bool).once'></a>
+
+`once` [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
+
+Whether to fire the callback only once.
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveWatcher_T_(string,System.Func_T,System.Threading.Tasks.Task_,string,bool,bool).initial'></a>
+
+`initial` [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
+
+Whether to fire the callback immediately after initialization, if the necessary conditions are met.
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
+### Remarks
+For adding watchers to types other than [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') and [SceneView](dymaptic.GeoBlazor.Core.Components.Views.SceneView.html 'dymaptic.GeoBlazor.Core.Components.Views.SceneView'), the default   
+  
+```csharp  
+targetName  
+``` should not be relied upon. Make sure it matches the variable in your   
+  
+```csharp  
+watchExpression  
+```
+
 <a name='dymaptic.GeoBlazor.Core.Components.MapComponent.DisposeAsync()'></a>
 
 ## MapComponent.DisposeAsync() Method
@@ -143,6 +495,69 @@ Implements [DisposeAsync()](https://docs.microsoft.com/en-us/dotnet/api/System.I
 
 #### Returns
 [System.Threading.Tasks.ValueTask](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.ValueTask 'System.Threading.Tasks.ValueTask')
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.OnReactiveListenerTriggered(string,System.Nullable_System.Text.Json.JsonElement_)'></a>
+
+## MapComponent.OnReactiveListenerTriggered(string, Nullable<JsonElement>) Method
+
+JS-Invokable method that is triggered by the reactiveUtils 'on' listeners. This method will dynamically trigger handlers passed to [AddReactiveListener&lt;T&gt;(string, Func&lt;T,Task&gt;, bool)](dymaptic.GeoBlazor.Core.Components.MapComponent.html#dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveListener_T_(string,System.Func_T,System.Threading.Tasks.Task_,bool) 'dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveListener<T>(string, System.Func<T,System.Threading.Tasks.Task>, bool)')
+
+```csharp
+public void OnReactiveListenerTriggered(string eventName, System.Nullable<System.Text.Json.JsonElement> value);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.OnReactiveListenerTriggered(string,System.Nullable_System.Text.Json.JsonElement_).eventName'></a>
+
+`eventName` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+The tracked event that was triggered.
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.OnReactiveListenerTriggered(string,System.Nullable_System.Text.Json.JsonElement_).value'></a>
+
+`value` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Text.Json.JsonElement](https://docs.microsoft.com/en-us/dotnet/api/System.Text.Json.JsonElement 'System.Text.Json.JsonElement')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
+
+The return value of the watcher callback.
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.OnReactiveWaiterTrue(string)'></a>
+
+## MapComponent.OnReactiveWaiterTrue(string) Method
+
+JS-Invokable method that is triggered by the reactiveUtils waiters. This method will dynamically trigger handlers passed to [AddReactiveWaiter(string, Func&lt;Task&gt;, string, bool, bool)](dymaptic.GeoBlazor.Core.Components.MapComponent.html#dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveWaiter(string,System.Func_System.Threading.Tasks.Task_,string,bool,bool) 'dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveWaiter(string, System.Func<System.Threading.Tasks.Task>, string, bool, bool)')
+
+```csharp
+public void OnReactiveWaiterTrue(string waitExpression);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.OnReactiveWaiterTrue(string).waitExpression'></a>
+
+`waitExpression` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+The tracked expression that was triggered.
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.OnReactiveWatcherUpdate(string,System.Nullable_System.Text.Json.JsonElement_)'></a>
+
+## MapComponent.OnReactiveWatcherUpdate(string, Nullable<JsonElement>) Method
+
+JS-Invokable method that is triggered by the reactiveUtils watchers. This method will dynamically trigger handlers passed to [AddReactiveWatcher&lt;T&gt;(string, Func&lt;T,Task&gt;, string, bool, bool)](dymaptic.GeoBlazor.Core.Components.MapComponent.html#dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveWatcher_T_(string,System.Func_T,System.Threading.Tasks.Task_,string,bool,bool) 'dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveWatcher<T>(string, System.Func<T,System.Threading.Tasks.Task>, string, bool, bool)')
+
+```csharp
+public void OnReactiveWatcherUpdate(string watchExpression, System.Nullable<System.Text.Json.JsonElement> value);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.OnReactiveWatcherUpdate(string,System.Nullable_System.Text.Json.JsonElement_).watchExpression'></a>
+
+`watchExpression` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+The tracked expression that was triggered.
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.OnReactiveWatcherUpdate(string,System.Nullable_System.Text.Json.JsonElement_).value'></a>
+
+`value` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Text.Json.JsonElement](https://docs.microsoft.com/en-us/dotnet/api/System.Text.Json.JsonElement 'System.Text.Json.JsonElement')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
+
+The return value of the watcher callback.
 
 <a name='dymaptic.GeoBlazor.Core.Components.MapComponent.Refresh()'></a>
 
@@ -178,6 +593,66 @@ The calling, child component to register
 
 [InvalidChildElementException](dymaptic.GeoBlazor.Core.Exceptions.InvalidChildElementException.html 'dymaptic.GeoBlazor.Core.Exceptions.InvalidChildElementException')  
 Throws if the current child is not a valid sub-component to the parent.
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.RemoveReactiveListener(string)'></a>
+
+## MapComponent.RemoveReactiveListener(string) Method
+
+Removes the tracker on a particular expression.
+
+```csharp
+public System.Threading.Tasks.Task RemoveReactiveListener(string eventName);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.RemoveReactiveListener(string).eventName'></a>
+
+`eventName` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+The expression to stop tracking.
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.RemoveReactiveWaiter(string)'></a>
+
+## MapComponent.RemoveReactiveWaiter(string) Method
+
+Removes the tracker on a particular expression.
+
+```csharp
+public System.Threading.Tasks.Task RemoveReactiveWaiter(string waitExpression);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.RemoveReactiveWaiter(string).waitExpression'></a>
+
+`waitExpression` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+The expression to stop tracking.
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.RemoveReactiveWatcher(string)'></a>
+
+## MapComponent.RemoveReactiveWatcher(string) Method
+
+Removes the tracker on a particular expression.
+
+```csharp
+public System.Threading.Tasks.Task RemoveReactiveWatcher(string watchExpression);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.RemoveReactiveWatcher(string).watchExpression'></a>
+
+`watchExpression` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+The expression to stop tracking.
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
 
 <a name='dymaptic.GeoBlazor.Core.Components.MapComponent.UnregisterChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent)'></a>
 

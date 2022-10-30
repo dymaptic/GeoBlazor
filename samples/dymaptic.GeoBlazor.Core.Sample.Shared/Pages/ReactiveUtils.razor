@@ -1,4 +1,5 @@
 ﻿@page "/reactive-utils"
+@using System.Text.Json
 <PageTitle>Reactive Utils</PageTitle>
 <h1>Reactive Utils</h1>
 <div class="links-div">
@@ -6,8 +7,153 @@
     <a class="btn btn-primary" target="_blank" href="https://www.arcgis.com/home/item.html?id=0614ea1f9dd043e9ba157b9c20d3c538">Paris 3D Web Scene</a>
 </div>
 <p class="instructions">
-    This sample demonstrates how to use the <code>ReactiveUtils</code> to react to various user interactions. 
+    This sample demonstrates how to use the <code>ReactiveUtils</code> to react to various user interactions. Use the
+    checkboxes to toggle listeners on/off.
 </p>
+
+@if (!(_view?.MapRendered ?? false))
+{
+    <div>Please wait for the map to fully load...</div>
+}
+else
+{
+    <div style="display: flex; flex-direction: row; justify-content: space-evenly">
+        <div>
+            <h2>Add Watchers</h2>
+            <div class="form-group">
+                <label>
+                    Popup is open:
+                    <input type="checkbox" @onclick="TogglePopupHandler" />
+                </label>
+                <div style="margin-left: 1rem;">
+                    <b>@(_handlePopups ? _popupOpen : "")</b>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>
+                    Center: 
+                    <input type="checkbox" @onclick="ToggleCenterHandler" />
+                </label>
+                <div style="margin-left: 1rem;">
+                    @if (_handleCenter)
+                    {
+                        if (_center is null)
+                        {
+                            <b>Drag or Zoom to load</b>
+                        }
+                        else
+                        {
+                            <b>@_center?.X!.Value.ToString("N2") X / @_center?.Y!.Value.ToString("N2") Y </b>
+                        }
+                    }
+                </div>
+            </div>
+            <div class="form-group">
+                <label>
+                    Spatial Reference:
+                </label>
+                <div style="margin-left: 1rem;">
+                    @if (_handleCenter)
+                    {
+                        if (_center is null)
+                        {
+                            <b>Drag or Zoom to load</b>
+                        }
+                        else
+                        {
+                            <b>@_center?.SpatialReference!.Wkid</b>
+                        }
+                    }
+                </div>
+            </div>
+            <div class="form-group">
+                <label>
+                    Extent: 
+                    <input type="checkbox" @onclick="ToggleExtentHandler" />
+                </label>
+                <div style="margin-left: 1rem;">
+                    @if (_handleExtent)
+                    {
+                        if (_extent is null)
+                        {
+                            <b>Drag or Zoom to load</b>
+                        }
+                        else
+                        {
+                            <b>@_extent?.Xmin.ToString("N2") X Min / @_extent?.Xmax.ToString("N2") X Max / 
+                                @_extent?.Ymin.ToString("N2") Y Min / @_extent?.Ymax.ToString("N2") Y Max</b>
+                        }
+                    }
+                </div>
+            </div>
+            <div class="form-group">
+                <label>
+                    Layers: 
+                    <input type="checkbox" @onclick="ToggleLayerHandler" />
+                </label>
+                <div style="margin-left: 1rem; max-height: 6rem; overflow-y: auto;">
+                    @if (_handleLayers)
+                    {
+                        if (_layers is null)
+                        {
+                            <b>Click to hide/show a layer in the LayerList Widget</b>
+                        }
+                        else
+                        {
+                            <b>@((MarkupString)(_layers is null ? "" : string.Join("<br>", _layers)))</b>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+        <div>
+            <h2>Add Event Listeners</h2>
+            <div class="form-group">
+                <label>
+                    Click:
+                    <input type="checkbox" @onclick="ToggleClickHandler" />
+                </label>
+                <div style="margin-left: 1rem; max-height: 6rem; overflow-y: auto;">
+                    @if (_handleClicks)
+                    {
+                        <b>@((MarkupString)(_clickedReturnValue ?? ""))</b>
+                    }
+                </div>
+            </div>
+            <div class="form-group">
+                <label>
+                    Drag:
+                    <input type="checkbox" @onclick="ToggleDragHandler" />
+                </label>
+                <div style="margin-left: 1rem; max-height: 6rem; overflow-y: auto;">
+                    @if (_handleDrags)
+                    {
+                        <b>@((MarkupString)(_dragReturnValue ?? ""))</b>
+                    }
+                </div>
+            </div>
+        </div>
+        <div>
+            <h2>Add Waiters</h2>
+            <div class="form-group">
+                <label>
+                    Track Home Widget:
+                    <input type="checkbox" @onclick="ToggleHomeWaiter" />
+                </label>
+                <label>
+                    Show Home Widget:
+                    <input type="checkbox" @onclick="ShowHomeWidget" />
+                </label>
+                <div style="margin-left: 1rem; max-height: 6rem; overflow-y: auto;">
+                    @if (_handleHomeWidget)
+                    {
+                        <b>@(_homeWidgetVisible ? "Widget now visible" : "Widget not visible")</b>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}
 
 <SceneView @ref="_view" Class="map-view" OnMapRendered="OnMapRendered">
     <WebScene>
@@ -15,79 +161,91 @@
     </WebScene>
     <LayerListWidget Position="OverlayPosition.TopRight" />
 </SceneView>
-<div class="form-group">
-    <label>Popup is open: <b>@_popupOpen</b> (Click on features to toggle)</label>
-</div>
-<div class="form-group">
-    <label>
-        Center:
-        @if (_center is null)
-        {
-            <b>Drag or Zoom to load</b>
-        }
-        else
-        {
-            <b>@_center?.X!.Value.ToString("N2") X / @_center?.Y!.Value.ToString("N2") Y /</b>
-        }
-    </label>
-    <label>
-        Spatial Reference:
-        @if (_center is null)
-        {
-            <b>Drag or Zoom to load</b>
-        }
-        else
-        {
-            <b>@_center?.SpatialReference!.Wkid</b>
-        }
-    </label>
-</div>
-<div class="form-group">
-    <label>
-        Extent:
-        @if (_extent is null)
-        {
-            <b>Drag or Zoom to load</b>
-        }
-        else
-        {
-            <b>@_extent?.Xmin.ToString("N2") X Min / @_extent?.Xmax.ToString("N2") X Max / 
-                @_extent?.Ymin.ToString("N2") Y Min / @_extent?.Ymax.ToString("N2") Y Max</b>
-        }
-    </label>
-</div>
-<div class="form-group">
-    <label>
-        Layers:
-        @if (_layers is null)
-        {
-            <b>Click to hide/show a layer in the LayerList Widget above</b>
-        }
-        else
-        {
-            <b>@(_layers is null ? "" : string.Join(", ", _layers))</b>
-        }
-    </label>
-</div>
-@code {
-    private SceneView? _view;
-    private bool _popupOpen;
-    private Point? _center;
-    private Extent? _extent;
-    private string[]? _layers;
 
-    private async Task OnMapRendered()
+@code {
+    private Task OnMapRendered()
     {
-        await _view!.AddReactiveWatcher<bool>("view?.popup?.visible", PopupWatchHandler);
-        await _view.AddReactiveWatcher<Point>("view?.center", CenterWatchHandler);
-        await _view.AddReactiveWatcher<Extent>("view?.extent", ExtentWatchHandler);
-        await _view.AddReactiveWatcher<string[]?>(
-            "view?.map?.allLayers?.filter(layer => layer.visible).map(l => l.title)", LayerWatchHandler);
+        _homeWidget.JsModule = _view!.JsModule;
+        return Task.CompletedTask;
+    }
+
+    private async Task ToggleClickHandler()
+    {
+        _handleClicks = !_handleClicks;
+        if (_handleClicks)
+        {
+            await _view!.AddReactiveListener<object?>("click", ClickHandler);    
+        }
+        else
+        {
+            await _view!.RemoveReactiveListener("click");
+        }
+    }
+    
+    private void ClickHandler(object? value)
+    {
+        if (value is not null)
+        {
+            string json = JsonSerializer.Serialize(value, new JsonSerializerOptions{WriteIndented = true});
+            _clickedReturnValue = json.Replace(Environment.NewLine, "<br>")
+                .Replace(" ", "&nbsp;");
+        }
+    }
+    
+    private async Task ToggleDragHandler()
+    {
+        _handleDrags = !_handleDrags;
+        if (_handleDrags)
+        {
+            await _view!.AddReactiveListener<object?>("drag", DragHandler);    
+        }
+        else
+        {
+            await _view!.RemoveReactiveListener("drag");
+        }
+    }
+    
+    private void DragHandler(object? value)
+    {
+        if (value is not null)
+        {
+            string json = JsonSerializer.Serialize(value, new JsonSerializerOptions{WriteIndented = true});
+            _dragReturnValue = json.Replace(Environment.NewLine, "<br>")
+                .Replace(" ", "&nbsp;");
+        }
+    }
+
+    private async Task TogglePopupHandler()
+    {
+        _handlePopups = !_handlePopups;
+        string expression = "view?.popup?.visible";
+        if (_handlePopups)
+        {
+            await _view!.AddReactiveWatcher<bool>(expression, PopupWatchHandler);
+        }
+        else
+        {
+            await _view!.RemoveReactiveWatcher(expression);
+        }
     }
 
     private void PopupWatchHandler(bool value)
     {
         _popupOpen = value;
+    }
+    
+    private async Task ToggleCenterHandler()
+    {
+        _handleCenter = !_handleCenter;
+        string expression = "view?.center";
+        if (_handleCenter)
+        {
+            await _view!.AddReactiveWatcher<Point>(expression, CenterWatchHandler);
+        }
+        else
+        {
+            await _view!.RemoveReactiveWatcher(expression);
+        }
     }
 
     private void CenterWatchHandler(Point value)
@@ -95,13 +253,90 @@
         _center = value;
     }
 
+    private async Task ToggleExtentHandler()
+    {
+        _handleExtent = !_handleExtent;
+        string expression = "view?.extent";
+        if (_handleExtent)
+        {
+            await _view!.AddReactiveWatcher<Extent>(expression, ExtentWatchHandler);
+        }
+        else
+        {
+            await _view!.RemoveReactiveWatcher(expression);
+        }
+    }
+    
     private void ExtentWatchHandler(Extent value)
     {
         _extent = value;
+    }
+    
+    private async Task ToggleLayerHandler()
+    {
+        _handleLayers = !_handleLayers;
+        string expression = "view?.map?.allLayers?.filter(layer => layer.visible).map(l => l.title)";
+        if (_handleLayers)
+        {
+            await _view!.AddReactiveWatcher<string[]?>(expression, LayerWatchHandler);
+        }
+        else
+        {
+            await _view!.RemoveReactiveWatcher(expression);
+        }
     }
 
     private void LayerWatchHandler(string[]? values)
     {
         _layers = values;
     }
+
+    private async Task ToggleHomeWaiter()
+    {
+        _handleHomeWidget = !_handleHomeWidget;
+        if (_handleHomeWidget)
+        {
+            await _homeWidget.AddReactiveWaiter("widget?.visible", HomeWaitHandler, "widget");
+        }
+        else
+        {
+            await _homeWidget.RemoveReactiveWaiter("widget?.visible");
+        }
+    }
+
+    private async Task ShowHomeWidget()
+    {
+        _showHomeWidget = !_showHomeWidget;
+        if (_showHomeWidget)
+        {
+            await _view!.RegisterChildComponent(_homeWidget);
+        }
+        else
+        {
+            await _view!.UnregisterChildComponent(_homeWidget);
+        }
+    }
+
+    private void HomeWaitHandler()
+    {
+        _homeWidgetVisible = true;
+    }
+    
+    private SceneView? _view;
+    private bool _popupOpen;
+    private Point? _center;
+    private Extent? _extent;
+    private string[]? _layers;
+    private bool _handlePopups;
+    private bool _handleCenter;
+    private bool _handleExtent;
+    private bool _handleLayers;
+    private string? _clickedReturnValue;
+    private bool _handleClicks;
+    private string? _dragReturnValue;
+    private bool _handleDrags;
+    private bool _handleHomeWidget;
+    private bool _showHomeWidget;
+    private bool _homeWidgetVisible;
+    private readonly HomeWidget _homeWidget = new() { Position = OverlayPosition.TopLeft };
 }

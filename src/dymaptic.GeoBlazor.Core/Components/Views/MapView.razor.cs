@@ -657,51 +657,10 @@ public partial class MapView : MapComponent
     /// </summary>
     [Parameter]
     public int? EventRateLimitInMilliseconds { get; set; }
-
-    public async Task AddReactiveWatcher<T>(string watchExpression, Func<T, Task> handler)
-    {
-        _watchers[watchExpression] = handler;
-        await ViewJsModule!.InvokeVoidAsync("addReactiveWatcher", Id, watchExpression);
-    }
     
-    public async Task AddReactiveWatcher<T>(string watchExpression, Action<T> handler)
+    public async Task<T> AwaitReactiveSingleWatchUpdate<T>(string watchExpression)
     {
-        IJSObjectReference jsRef = 
-            await ViewJsModule!.InvokeAsync<IJSObjectReference>("addReactiveWatcher", Id, watchExpression);
-        _watchers[watchExpression] = (handler, jsRef);
-    }
-
-    public async Task RemoveReactiveHandler(string watchExpression)
-    {
-        IJSObjectReference jsRef = _watchers[watchExpression].JsObjRef;
-        await jsRef.InvokeVoidAsync("remove");
-        _watchers.Remove(watchExpression);
-    }
-
-    [JSInvokable]
-    public void OnReactiveWatcherUpdate(string propertyName, JsonElement? value)
-    {
-        Delegate handler = _watchers[propertyName].Handler;
-        Type returnType = handler.Method.GetParameters()[0].ParameterType;
-        object? typedValue = null;
-
-        if (value.HasValue)
-        {
-            string stringValue = value.Value.ToString();
-            var options = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
-            typedValue = value.Value.ValueKind switch
-            {
-                JsonValueKind.Object => value.Value.Deserialize(returnType, options),
-                JsonValueKind.Array => value.Value.Deserialize(returnType, options),
-                JsonValueKind.False => false,
-                JsonValueKind.True => true,
-                JsonValueKind.Number => Convert.ChangeType(stringValue, returnType),
-                JsonValueKind.String => stringValue,
-                _ => typedValue
-            };
-        }
-
-        handler.DynamicInvoke(typedValue);
+        return await ViewJsModule!.InvokeAsync<T>("awaitReactiveSingleWatchUpdate", Id, watchExpression);
     }
 
 #endregion
@@ -1184,13 +1143,6 @@ public partial class MapView : MapComponent
     {
         try
         {
-            foreach ((Delegate Handler, IJSObjectReference JsObjRef) tuple in _watchers.Values)
-            {
-                IJSObjectReference jsRef = tuple.JsObjRef;
-                await jsRef.InvokeVoidAsync("remove");
-            }
-
-            _watchers.Clear();
             if (ViewJsModule != null) await ViewJsModule.InvokeVoidAsync("disposeView", Id);
         }
         catch (JSDisconnectedException)
@@ -1312,6 +1264,9 @@ public partial class MapView : MapComponent
         });
     }
 
+    /// <summary>
+    ///     Retrieves all <see cref="EventCallback"/>s and <see cref="Func{TResult}"/>s that are listening for JavaScript events.
+    /// </summary>
     protected List<string> GetActiveEventHandlers()
     {
         List<string> activeHandlers = new();
@@ -1341,7 +1296,11 @@ public partial class MapView : MapComponent
     ///     A boolean flag to indicate that rendering is underway
     /// </summary>
     protected bool Rendering;
-    protected Dictionary<string, object> NewPropertyValues = new();
+    
+    /// <summary>
+    ///     Tracked properties that need to be updated.
+    /// </summary>
+    protected readonly Dictionary<string, object> NewPropertyValues = new();
 
     /// <summary>
     ///     A boolean flag to indicate a "dirty" state that needs to be re-rendered
@@ -1354,5 +1313,4 @@ public partial class MapView : MapComponent
     private double _latitude = 34.027;
     private string? _apiKey;
     private SpatialReference? _spatialReference;
-    private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _watchers = new();
 }
