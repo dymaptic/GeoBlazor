@@ -16,9 +16,6 @@ public class ListItem
 ```
 
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; ListItem
-
-Derived  
-&#8627; [BaseListItem](dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerList.BaseListItem.html 'dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerList.BaseListItem')
 ### Properties
 
 <a name='dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem.ActionSections'></a>

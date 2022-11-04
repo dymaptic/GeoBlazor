@@ -100,21 +100,5 @@ declare module "ArcGisDefinitions" {
         actionSections: DotNetActionSection[][]
     }
 
-    interface DotNetBaseListItem {
-        title: string;
-        id: string;
-        layer: Layer;
-        visible: boolean;
-        children: DotNetListItem[],
-        actionSections: DotNetActionSection[][]
-    }
 
-    interface DotNetReferenceListItem {
-        title: string;
-        id: string;
-        layer: Layer;
-        visible: boolean;
-        children: DotNetListItem[],
-        actionSections: DotNetActionSection[][]
-    }
 }

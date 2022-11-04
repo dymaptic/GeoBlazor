@@ -16,23 +16,23 @@ public class BasemapLayerListWidget : LayerListWidget
     public override string WidgetType => "basemapLayerList";
 
     /// <summary>
-    ///     A delegate to implement a custom handler for setting up each <see cref="ListItem"/>.
+    ///     A delegate to implement a custom handler for setting up each<see cref="ListItem"/>.
     ///     Function must take in a ListItem and return a Task with the same (updated) item.
     /// </summary>
     [Parameter]
     [JsonIgnore]
     public Func<ListItem, Task<ListItem>>? OnBaseListItemCreatedHandler { get; set; }
-    
+
     /// <summary>
     ///     The .Net object reference to this class for calling from JavaScript.
     /// </summary>
     public DotNetObjectReference<BasemapLayerListWidget> BaseLayerListWidgetObjectReference => DotNetObjectReference.Create(this);
-    
+
     /// <summary>
-    ///     A convenience property that signifies whether a custom <see cref="OnListItemCreatedHandler"/> was registered.
+    ///     A convenience property that signifies whether a custom <see cref="OnBaseListItemCreatedHandler"/> was registered.
     /// </summary>
     public bool HasCustomBaseListHandler => OnBaseListItemCreatedHandler is not null;
-    
+
     /// <summary>
     ///     A JavaScript invokable method that is triggered whenever a ListItem is created and a handler is attached.
     /// </summary>
@@ -45,7 +45,7 @@ public class BasemapLayerListWidget : LayerListWidget
     [JSInvokable]
     public Task<ListItem>? OnBaseListItemCreated(ListItem item)
     {
-        return OnBaseListItemCreatedHandler?.Invoke(item);
+        return OnListItemCreatedHandler?.Invoke(item);
     }
 
     /// <summary>
@@ -55,17 +55,17 @@ public class BasemapLayerListWidget : LayerListWidget
     [Parameter]
     [JsonIgnore]
     public Func<ListItem, Task<ListItem>>? OnReferenceListItemCreatedHandler { get; set; }
-    
+
     /// <summary>
     ///     The .Net object reference to this class for calling from JavaScript.
     /// </summary>
-    public DotNetObjectReference<BasemapLayerListWidget> ReferenceLayerListWidgetObjectReference => DotNetObjectReference.Create(this);
-    
+    //public DotNetObjectReference<BasemapLayerListWidget> ReferenceLayerListWidgetObjectReference => DotNetObjectReference.Create(this);
+
     /// <summary>
-    ///     A convenience property that signifies whether a custom <see cref="OnListItemCreatedHandler"/> was registered.
+    ///     A convenience property that signifies whether a custom <see cref="OnReferenceListItemCreatedHandler"/> was registered.
     /// </summary>
     public bool HasCustomReferenceListHandler => OnReferenceListItemCreatedHandler is not null;
-    
+
     /// <summary>
     ///     A JavaScript invokable method that is triggered whenever a ListItem is created and a handler is attached.
     /// </summary>
@@ -80,6 +80,6 @@ public class BasemapLayerListWidget : LayerListWidget
     {
         return OnReferenceListItemCreatedHandler?.Invoke(item);
     }
-    
-    
+
+
 }

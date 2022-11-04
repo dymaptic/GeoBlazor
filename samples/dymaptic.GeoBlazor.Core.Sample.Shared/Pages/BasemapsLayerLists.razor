@@ -1,18 +1,17 @@
-﻿@page "/layer-lists"
+﻿@page "/basemap-layer-lists"
 @using dymaptic.GeoBlazor.Core.Components.Widgets.LayerList
 
 
 @inject IJSRuntime JsRuntime
 
-<PageTitle>LayerLists</PageTitle>
-<h1>LayerLists</h1>
+<PageTitle>BasemapLayerLists</PageTitle>
+<h1>>Basemap and Reference layerlists</h1>
 <div class="links-div">
     <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">ArcGIS API for JavaScript Reference</a>
-    <a class="btn btn-primary" target="_blank" href="https://www.arcgis.com/home/item.html?id=adfad6ee6c6043238ea64e121bb6429a">San Francisco - Urban Planning Web Scene</a>
-   
+    <a class="btn btn-primary" target="_blank" href="https://www.arcgis.com/home/item.html?id=a3667370938e457c875105bf53e2366e">Venice Flood </a>
 </div>
 <p class="instructions">
-    A simple demo of loading multiple layers into the LayerList widget.
+    A simple demo of loading multiple layers into the BaseMapLayerList widget.
     Select the right arrow to open the sublayers within the layer.
     Select the "eye" icons to toggle a layer's visibility on the basemap.
 </p>
@@ -21,23 +20,22 @@
 {
     if (_windowWidth >= 800)
     {
-        <SceneView @ref="_view" Class="map-view">
-            <WebScene>
-                <PortalItem Id="adfad6ee6c6043238ea64e121bb6429a" />
-            </WebScene>
-            <LayerListWidget Position="OverlayPosition.TopRight" OnListItemCreatedHandler="OnListItemCreated" />
-        </SceneView>
+        <SceneView Class="map-view">
+                <WebScene>
+                <PortalItem Id="a3667370938e457c875105bf53e2366e" />
+                </WebScene>
+            <BasemapLayerListWidget Position="OverlayPosition.TopRight" OnListItemCreatedHandler="OnListItemCreated" />
+            </SceneView>
 
-        
     }
     else // for mobile, move the widget off of the map so you can see the whole map
     {
         <div id="widget-holder" />
-        <SceneView @ref="_view" Class="map-view">
+        <SceneView Class="map-view">
             <WebScene>
-                <PortalItem Id="adfad6ee6c6043238ea64e121bb6429a" />
+                <PortalItem Id="a3667370938e457c875105bf53e2366e" />
             </WebScene>
-            <LayerListWidget ContainerId="widget-holder" OnListItemCreatedHandler="OnListItemCreated" />
+            <BasemapLayerListWidget ContainerId="widget-holder" OnListItemCreatedHandler="OnListItemCreated"  />
         </SceneView>
     }
 }
@@ -55,18 +53,26 @@
     }
 
     private int? _windowWidth;
-    private SceneView? _view;
 
+    
     private Task<ListItem> OnListItemCreated(ListItem item)
     {
         item.Visible = true;
-        if (item.Title?.StartsWith("Transit") ?? false)
-        {
-            item.Title = $"Mass {item.Title}";
-        }
+       
         return Task.Run(() => item);
     }
 
-    private SceneView? _baseview;
+    private Task<ListItem> OnBaseListItemCreated(ListItem baseListItem)
+    {
+        baseListItem.Visible = true;
 
+        return Task.Run(() => baseListItem);
+    }
+    private Task<ListItem> OnReferenceListItemCreated(ListItem refListItem)
+    {
+        refListItem.Visible = true;
+
+        return Task.Run(() => refListItem);
+    }
+    
 }

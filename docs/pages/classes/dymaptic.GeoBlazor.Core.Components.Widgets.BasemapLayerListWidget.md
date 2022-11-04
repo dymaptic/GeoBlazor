@@ -35,7 +35,7 @@ public Microsoft.JSInterop.DotNetObjectReference<dymaptic.GeoBlazor.Core.Compone
 
 ## BasemapLayerListWidget.HasCustomBaseListHandler Property
 
-A convenience property that signifies whether a custom [OnListItemCreatedHandler](https://docs.microsoft.com/en-us/dotnet/api/OnListItemCreatedHandler 'OnListItemCreatedHandler') was registered.
+A convenience property that signifies whether a custom [OnBaseListItemCreatedHandler](dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html#dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.OnBaseListItemCreatedHandler 'dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.OnBaseListItemCreatedHandler') was registered.
 
 ```csharp
 public bool HasCustomBaseListHandler { get; }
@@ -48,7 +48,7 @@ public bool HasCustomBaseListHandler { get; }
 
 ## BasemapLayerListWidget.HasCustomReferenceListHandler Property
 
-A convenience property that signifies whether a custom [OnListItemCreatedHandler](https://docs.microsoft.com/en-us/dotnet/api/OnListItemCreatedHandler 'OnListItemCreatedHandler') was registered.
+A convenience property that signifies whether a custom [OnReferenceListItemCreatedHandler](dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html#dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.OnReferenceListItemCreatedHandler 'dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.OnReferenceListItemCreatedHandler') was registered.
 
 ```csharp
 public bool HasCustomReferenceListHandler { get; }
@@ -61,7 +61,7 @@ public bool HasCustomReferenceListHandler { get; }
 
 ## BasemapLayerListWidget.OnBaseListItemCreatedHandler Property
 
-A delegate to implement a custom handler for setting up each [ListItem](dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem.html 'dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem').  
+A delegate to implement a custom handler for setting up each[ListItem](dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem.html 'dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem').  
 Function must take in a ListItem and return a Task with the same (updated) item.
 
 ```csharp
@@ -84,19 +84,6 @@ public System.Func<dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem
 
 #### Property Value
 [System.Func&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Func-2 'System.Func`2')[ListItem](dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem.html 'dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem')[,](https://docs.microsoft.com/en-us/dotnet/api/System.Func-2 'System.Func`2')[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[ListItem](dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem.html 'dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Func-2 'System.Func`2')
-
-<a name='dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.ReferenceLayerListWidgetObjectReference'></a>
-
-## BasemapLayerListWidget.ReferenceLayerListWidgetObjectReference Property
-
-The .Net object reference to this class for calling from JavaScript.
-
-```csharp
-public Microsoft.JSInterop.DotNetObjectReference<dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget> ReferenceLayerListWidgetObjectReference { get; }
-```
-
-#### Property Value
-[Microsoft.JSInterop.DotNetObjectReference&lt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.JSInterop.DotNetObjectReference-1 'Microsoft.JSInterop.DotNetObjectReference`1')[BasemapLayerListWidget](dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html 'dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.JSInterop.DotNetObjectReference-1 'Microsoft.JSInterop.DotNetObjectReference`1')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.WidgetType'></a>
 
