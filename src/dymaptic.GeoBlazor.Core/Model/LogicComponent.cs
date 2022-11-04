@@ -62,9 +62,9 @@ public abstract class LogicComponent
     ///     The converted error to exception.
     /// </exception>
     [JSInvokable]
-    public void OnJavascriptError(string message, string name = "", string stack = "")
+    public void OnJavascriptError(JavascriptError error)
     {
-        var exception = new JavascriptException(message, name, stack);
+        var exception = new JavascriptException(error);
 
         if (OnJavascriptErrorHandler is not null)
         {

@@ -15,4 +15,4 @@
 /// <param name="Height">
 ///     The new measured view height in pixels
 /// </param>
-public record ResizeResult(double OldWidth, double OldHeight, double Width, double Height);
+public record ResizeEvent(double OldWidth, double OldHeight, double Width, double Height);

@@ -9,10 +9,8 @@ namespace dymaptic.GeoBlazor.Core.Objects;
 /// <param name="Action">
 ///     The <see cref="DragAction"/> type of the event callback.
 /// </param>
-/// <param name="OriginPoint">
+/// <param name="Origin">
 ///     The starting point of the drag event.
 /// </param>
-/// <param name="CurrentPoint>
-///     The current point of the drag event.
-/// </param>
-public record DragResult(DragAction Action, Point OriginPoint, Point CurrentPoint);
+public record DragEvent(string Type, DragAction Action, double X, double Y, Point Origin, int Button, int Buttons, 
+    double Radius, double Angle, long Timestamp, DomPointerEvent Native): JsEvent(Type);

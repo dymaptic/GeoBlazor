@@ -4,16 +4,14 @@
 namespace dymaptic.GeoBlazor.Core.Objects;
 
 /// <summary>
-///     JavaScript Drag actions
+///     The types of pointers recognized by the DOM
 /// </summary>
 [JsonConverter(typeof(JsonStringEnumConverter))]
-public enum DragAction
+public enum PointerType
 {
 #pragma warning disable CS1591
-    Start,
-    Added,
-    Update,
-    Removed,
-    End
+    Mouse,
+    Pen,
+    Touch
 #pragma warning restore CS1591
 }

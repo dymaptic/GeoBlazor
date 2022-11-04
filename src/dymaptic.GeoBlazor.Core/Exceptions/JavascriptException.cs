@@ -17,19 +17,21 @@ public class JavascriptException : Exception
     /// <param name="stack">
     ///     The JavaScript stack trace.
     /// </param>
-    public JavascriptException(string message, string name, string stack) : base(message)
+    public JavascriptException(JavascriptError error) : base(error.Message)
     {
-        Name = name;
-        Stack = stack;
+        Name = error.Name;
+        Stack = error.Stack;
     }
     
     /// <summary>
     ///     The JavaScript stack trace.
     /// </summary>
-    public string Stack { get; }
+    public string? Stack { get; }
     
     /// <summary>
     ///     The name of the JavaScript error.
     /// </summary>
-    public string Name { get; }
+    public string? Name { get; }
 }
+
+public record JavascriptError(string Message, string? Name, string? Stack = null);
