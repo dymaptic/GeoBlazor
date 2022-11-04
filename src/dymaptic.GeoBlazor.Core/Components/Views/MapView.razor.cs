@@ -600,9 +600,9 @@ public partial class MapView : MapComponent
     ///     JS-Invokable method to return when the map view is resized in the window.
     /// </summary>
     [JSInvokable]
-    public async Task OnJavascriptResize(double oldWidth, double oldHeight, double width, double height)
+    public async Task OnJavascriptResize(ResizeEvent resizeEvent)
     {
-        await OnResize.InvokeAsync(new ResizeEvent(oldWidth, oldHeight, width, height));
+        await OnResize.InvokeAsync(resizeEvent);
     }
     
     /// <summary>
@@ -615,73 +615,67 @@ public partial class MapView : MapComponent
     ///     JS-Invokable method to return when the mouse wheel is scrolled.
     /// </summary>
     [JSInvokable]
-    public async Task OnJavascriptMouseWheel(double x, double y, double deltaY)
+    public async Task OnJavascriptMouseWheel(MouseWheelEvent mouseWheelEvent)
     {
-        await OnMouseWheel.InvokeAsync(new MouseWheelResult(x, y, deltaY));
+        await OnMouseWheel.InvokeAsync(mouseWheelEvent);
     }
     
     /// <summary>
     ///     Handler delegate for the view's Extent changing.
     /// </summary>
     [Parameter]
-    public EventCallback<MouseWheelResult> OnMouseWheel { get; set; }
+    public EventCallback<MouseWheelEvent> OnMouseWheel { get; set; }
 
     /// <summary>
     ///     JS-Invokable method to return when a layer view is created.
     /// </summary>
-    /// <param name="layerView">
-    ///     The new <see cref="LayerView"/>
+    /// <param name="layerViewCreateEvent">
+    ///     The new <see cref="LayerViewCreateEvent"/>
     /// </param>
     [JSInvokable]
-    public async Task OnJavascriptLayerViewCreate(LayerView layerView)
+    public async Task OnJavascriptLayerViewCreate(LayerViewCreateEvent layerViewCreateEvent)
     {
-        await OnLayerViewCreate.InvokeAsync(layerView);
+        await OnLayerViewCreate.InvokeAsync(layerViewCreateEvent);
     }
     
     /// <summary>
     ///     Fires after each layer in the map has a corresponding LayerView created and rendered in the view.
     /// </summary>
     [Parameter]
-    public EventCallback<LayerView> OnLayerViewCreate { get; set; }
+    public EventCallback<LayerViewCreateEvent> OnLayerViewCreate { get; set; }
     
     /// <summary>
     ///     JS-Invokable method to return when a layer view is destroyed.
     /// </summary>
-    /// <param name="layerView">
-    ///     The destroyed <see cref="LayerView"/>
+    /// <param name="layerViewDestroyEvent">
+    ///     The destroyed <see cref="LayerViewDestroyEvent"/>
     /// </param>
     [JSInvokable]
-    public async Task OnJavascriptLayerViewDestroy(LayerView layerView)
+    public async Task OnJavascriptLayerViewDestroy(LayerViewDestroyEvent layerViewDestroyEvent)
     {
-        await OnLayerViewDestroy.InvokeAsync(layerView);
+        await OnLayerViewDestroy.InvokeAsync(layerViewDestroyEvent);
     }
     
     /// <summary>
     ///     Fires after a LayerView is destroyed and is no longer rendered in the view. This happens for example when a layer is removed from the map of the view.
     /// </summary>
     [Parameter]
-    public EventCallback<LayerView> OnLayerViewDestroy { get; set; }
+    public EventCallback<LayerViewDestroyEvent> OnLayerViewDestroy { get; set; }
     
     /// <summary>
     ///     JS-Invokable method to return when a layer view is destroyed.
     /// </summary>
-    /// <param name="layer">
-    ///     The <see cref="Layer"/> that failed to be added to the view.
-    /// </param>
-    /// <param name="exception">
-    ///     The Javascript error wrapped in a .NET Exception.
-    /// </param>
     [JSInvokable]
-    public async Task OnJavascriptLayerViewCreateError(Layer layer, JavascriptException exception)
+    public async Task OnJavascriptLayerViewCreateError(LayerViewCreateErrorEvent errorEvent)
     {
-        await OnLayerViewCreateError.InvokeAsync(new LayerViewCreateErrorResult(layer, exception));
+        await OnLayerViewCreateError.InvokeAsync(errorEvent);
     }
     
     /// <summary>
     ///     Fires after a LayerView is destroyed and is no longer rendered in the view. This happens for example when a layer is removed from the map of the view.
     /// </summary>
     [Parameter]
-    public EventCallback<LayerViewCreateErrorResult> OnLayerViewCreateError { get; set; }
+    public EventCallback<LayerViewCreateErrorEvent> OnLayerViewCreateError { get; set; }
     
     /// <summary>
     ///     Set this parameter to limit the rate at which recurring events (pointer-move, drag, etc.) are returned.
