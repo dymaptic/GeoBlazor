@@ -371,4 +371,3 @@ MigrationBackup/
 /src/dymaptic.GeoBlazor.Core/Documentation/**/*
 
 package-lock.json
-package.json
