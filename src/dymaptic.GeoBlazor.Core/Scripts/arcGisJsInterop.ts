@@ -78,7 +78,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
                                    eventRateLimitInMilliseconds: number | null, activeEventHandlers: Array<string>,
                                    zIndex?: number, tilt?: number)
     : Promise<void> {
-    console.log("render map");
+    console.debug("render map");
     try {
         setWaitCursor(id);
         let dotNetRef = dotNetReference;
@@ -379,14 +379,7 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
         });
     }
 
-    let lastSpatialRefChangeCall = 0;
     view.watch('spatialReference', () => {
-        let now = Date.now();
-        if (eventRateLimit !== undefined && eventRateLimit !== null &&
-            lastSpatialRefChangeCall + eventRateLimit > now) {
-            return;
-        }
-        lastSpatialRefChangeCall = now;
         dotNetRef.invokeMethodAsync('OnJavascriptSpatialReferenceChanged', buildDotNetSpatialReference(view.spatialReference));
     });
 
@@ -484,7 +477,7 @@ export async function queryFeatureLayer(queryObject: any, layerObject: any, symb
 export async function updateGraphicsLayer(layerObject: any, layerId: string, viewId: string): Promise<void> {
     try {
         setWaitCursor(viewId);
-        console.log('update graphics layer');
+        console.debug('update graphics layer');
         removeGraphicsLayer(viewId, layerId);
         await addLayer(layerObject, viewId);
         unsetWaitCursor(viewId);
@@ -496,7 +489,7 @@ export async function updateGraphicsLayer(layerObject: any, layerId: string, vie
 export function removeGraphicsLayer(viewId: string, layerId: string): void {
     try {
         setWaitCursor(viewId);
-        console.log('remove graphics layer');
+        console.debug('remove graphics layer');
         let view = arcGisObjectRefs[viewId] as View;
         let layer = arcGisObjectRefs[layerId!] as Layer;
         view?.map?.remove(layer);
@@ -1207,7 +1200,7 @@ function waitForRender(viewId: string, dotNetRef: any): void {
                 return;
             }
             if (!view.updating && !isRendered) {
-                console.log("View Render Complete");
+                console.debug("View Render Complete");
                 dotNetRef.invokeMethodAsync('OnViewRendered');
                 isRendered = true;
             } else if (isRendered && view.updating) {
@@ -1243,7 +1236,7 @@ export function addReactiveWatcher(targetId: string, targetName: string, watchEx
                                    initial: boolean) : any {
     let target = arcGisObjectRefs[targetId];
     let dotNetRef = dotNetRefs[targetId];
-    console.log(`Adding watch: "${watchExpression}"`);
+    console.debug(`Adding watch: "${watchExpression}"`);
     const watcherFunc = new Function(targetName, 'reactiveUtils', 'dotNetRef',
         `return reactiveUtils.watch(() => ${watchExpression},
         (value) => dotNetRef.invokeMethodAsync('OnReactiveWatcherUpdate', '${watchExpression}', value),
@@ -1254,11 +1247,11 @@ export function addReactiveWatcher(targetId: string, targetName: string, watchEx
 export function addReactiveListener(targetId: string, eventName: string, once: boolean) : any {
     let target = arcGisObjectRefs[targetId];
     let dotNetRef = dotNetRefs[targetId];
-    console.log(`Adding listener: "${eventName}"`);
+    console.debug(`Adding listener: "${eventName}"`);
     const listenerFunc = new Function('target', 'reactiveUtils', 'dotNetRef',
         `return reactiveUtils.on(() => target, '${eventName}',
         (value) => dotNetRef.invokeMethodAsync('OnReactiveListenerTriggered', '${eventName}', value),
-        {once: ${once}, onListenerRemove: () => console.log('Removing listener: ${eventName}')});`);
+        {once: ${once}, onListenerRemove: () => console.debug('Removing listener: ${eventName}')});`);
     return listenerFunc(target, reactiveUtils, dotNetRef);
 }
 
@@ -1266,7 +1259,7 @@ export async function awaitReactiveSingleWatchUpdate(targetId: string, targetNam
     : Promise<any> {
     let target = arcGisObjectRefs[targetId];
     let dotNetRef = dotNetRefs[targetId];
-    console.log(`Adding once watcher: "${watchExpression}"`);
+    console.debug(`Adding once watcher: "${watchExpression}"`);
     const AsyncFunction = (async function () {}).constructor;
     // @ts-ignore
     const onceFunc = new AsyncFunction(targetName, 'reactiveUtils', 'dotNetRef',
@@ -1278,11 +1271,11 @@ export function addReactiveWaiter(targetId: string, targetName: string, watchExp
                                   initial: boolean) : any {
     let target = arcGisObjectRefs[targetId];
     let dotNetRef = dotNetRefs[targetId];
-    console.log(`Adding when waiter: "${watchExpression}"`);
+    console.debug(`Adding when waiter: "${watchExpression}"`);
     const whenFunc = new Function(targetName, 'reactiveUtils', 'dotNetRef',
         `return reactiveUtils.when(() => ${watchExpression},
         () => { 
-            console.log('waiter == true'); 
+            console.debug('waiter == true'); 
             dotNetRef.invokeMethodAsync('OnReactiveWaiterTrue', '${watchExpression}')
         },
         {once: ${once}, initial: ${initial}});`);

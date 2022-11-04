@@ -1,4 +1,4 @@
-﻿namespace dymaptic.GeoBlazor.Core.Objects;
+﻿namespace dymaptic.GeoBlazor.Core.Events;
 
 /// <summary>
 ///     Represents the native DOM pointer event that the ArcGIS event is built on top of.
@@ -33,5 +33,9 @@
 /// <param name="IsPrimary">
 ///     Indicates if the pointer represents the primary pointer of this pointer type.
 /// </param>
-public record DomPointerEvent(long PointerId, double Width, double Height, double Pressure, double TangentialPressure,
-    double TiltX, double TiltY, double Twist, PointerType PointerType, bool IsPrimary);
+/// <param name="IsTrusted">
+///     Indicates if the event is trusted.
+/// </param>
+public record DomPointerEvent(long? PointerId, double? Width, double? Height, double? Pressure, 
+    double? TangentialPressure, double? TiltX, double? TiltY, double? Twist, PointerType? PointerType, bool? IsPrimary, 
+    bool? IsTrusted);

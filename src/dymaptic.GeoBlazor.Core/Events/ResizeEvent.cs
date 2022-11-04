@@ -1,4 +1,4 @@
-﻿namespace dymaptic.GeoBlazor.Core.Objects;
+﻿namespace dymaptic.GeoBlazor.Core.Events;
 
 /// <summary>
 ///     Result of the view.on('resize') event

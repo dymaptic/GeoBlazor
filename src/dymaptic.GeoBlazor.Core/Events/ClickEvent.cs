@@ -1,7 +1,7 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
 
 
-namespace dymaptic.GeoBlazor.Core.Objects;
+namespace dymaptic.GeoBlazor.Core.Events;
 
 /// <summary>
 ///     Event object for all click (single, double, immediate) and hold events.
@@ -30,5 +30,15 @@ namespace dymaptic.GeoBlazor.Core.Objects;
 /// <param name="Native">
 ///     A standard DOM Pointer Event
 /// </param>
-public record ClickEvent(string Type, Point MapPoint, double X, double Y, int Button, int Buttons, long Timestamp,
-    DomPointerEvent Native): JsEvent(Type);
+/// <param name="PointerType">
+///     Indicates the pointer type.
+/// </param>
+/// <param name="Cancelable">
+///     Whether the event can be cancelled once begun.
+/// </param>
+/// <param name="EventId">
+///     The unique Id of the event.
+/// </param>
+public record ClickEvent(string Type, int? EventId, bool? Cancelable, Point MapPoint, double X, double Y, int Button, 
+    int Buttons, double Timestamp, DomPointerEvent Native, PointerType? PointerType)
+    : JsEvent(Type, EventId, Cancelable, Timestamp, Native, PointerType);

@@ -2,7 +2,7 @@
 using dymaptic.GeoBlazor.Core.Exceptions;
 
 
-namespace dymaptic.GeoBlazor.Core.Objects;
+namespace dymaptic.GeoBlazor.Core.Events;
 
 /// <summary>
 ///     Fires when an error emits during the creation of a LayerView after a layer has been added to the map.

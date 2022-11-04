@@ -49,14 +49,8 @@ public abstract class LogicComponent
     /// <summary>
     ///     A JavaScript invokable method that returns a JS Error and converts it to an Exception.
     /// </summary>
-    /// <param name="message">
-    ///     The JavaScript error message.
-    /// </param>
-    /// <param name="name">
-    ///     The name of the JavaScript error.
-    /// </param>
-    /// <param name="stack">
-    ///     The JavaScript stack trace.
+    /// <param name="error">
+    ///     The original JavaScript error.
     /// </param>
     /// <exception cref="JavascriptException">
     ///     The converted error to exception.

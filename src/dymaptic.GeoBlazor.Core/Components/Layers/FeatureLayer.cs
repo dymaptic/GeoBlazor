@@ -50,14 +50,7 @@ public class FeatureLayer : Layer
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string[]? OutFields { get; set; }
-    
-    /// <summary>
-    ///     The title of the layer used to identify it in places such as the Legend and LayerList widgets.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? Title { get; set; }
-    
+
     /// <summary>
     ///     The minimum scale (most zoomed out) at which the layer is visible in the view.
     /// </summary>

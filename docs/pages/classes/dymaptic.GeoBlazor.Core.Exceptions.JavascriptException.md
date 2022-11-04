@@ -17,34 +17,22 @@ public class JavascriptException : System.Exception
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [System.Exception](https://docs.microsoft.com/en-us/dotnet/api/System.Exception 'System.Exception') &#129106; JavascriptException
 ### Constructors
 
-<a name='dymaptic.GeoBlazor.Core.Exceptions.JavascriptException.JavascriptException(string,string,string)'></a>
+<a name='dymaptic.GeoBlazor.Core.Exceptions.JavascriptException.JavascriptException(dymaptic.GeoBlazor.Core.Exceptions.JavascriptError)'></a>
 
-## JavascriptException(string, string, string) Constructor
+## JavascriptException(JavascriptError) Constructor
 
 Creates a new Exception from a JavaScript Error
 
 ```csharp
-public JavascriptException(string message, string name, string stack);
+public JavascriptException(dymaptic.GeoBlazor.Core.Exceptions.JavascriptError error);
 ```
 #### Parameters
 
-<a name='dymaptic.GeoBlazor.Core.Exceptions.JavascriptException.JavascriptException(string,string,string).message'></a>
+<a name='dymaptic.GeoBlazor.Core.Exceptions.JavascriptException.JavascriptException(dymaptic.GeoBlazor.Core.Exceptions.JavascriptError).error'></a>
 
-`message` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+`error` [JavascriptError](dymaptic.GeoBlazor.Core.Exceptions.JavascriptError.html 'dymaptic.GeoBlazor.Core.Exceptions.JavascriptError')
 
-The JavaScript error message.
-
-<a name='dymaptic.GeoBlazor.Core.Exceptions.JavascriptException.JavascriptException(string,string,string).name'></a>
-
-`name` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
-
-The name of the JavaScript error.
-
-<a name='dymaptic.GeoBlazor.Core.Exceptions.JavascriptException.JavascriptException(string,string,string).stack'></a>
-
-`stack` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
-
-The JavaScript stack trace.
+The original JavaScript error.
 ### Properties
 
 <a name='dymaptic.GeoBlazor.Core.Exceptions.JavascriptException.Name'></a>
@@ -54,7 +42,7 @@ The JavaScript stack trace.
 The name of the JavaScript error.
 
 ```csharp
-public string Name { get; }
+public string? Name { get; }
 ```
 
 #### Property Value
@@ -67,7 +55,7 @@ public string Name { get; }
 The JavaScript stack trace.
 
 ```csharp
-public string Stack { get; }
+public string? Stack { get; }
 ```
 
 #### Property Value

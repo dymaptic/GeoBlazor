@@ -1,4 +1,4 @@
-﻿namespace dymaptic.GeoBlazor.Core.Objects;
+﻿namespace dymaptic.GeoBlazor.Core.Events;
 
 /// <summary>
 ///     This event type returns for all pointer events (down, up, enter, leave, move, etc.).
@@ -30,5 +30,12 @@
 /// <param name="Native">
 ///     A standard DOM Pointer Event
 /// </param>
-public record PointerEvent(string Type, long PointerId, PointerType PointerType, double X, double Y,
-    bool Button, bool Buttons, long Timestamp, DomPointerEvent Native): JsEvent(Type);
+/// <param name="Cancelable">
+///     Whether the event can be cancelled once begun.
+/// </param>
+/// <param name="EventId">
+///     The unique Id of the event.
+/// </param>
+public record PointerEvent(string Type, int? EventId, bool? Cancelable, long PointerId, PointerType? PointerType, 
+    double X, double Y, int Button, int Buttons, double Timestamp, DomPointerEvent Native)
+    : JsEvent(Type, EventId, Cancelable, Timestamp, Native, PointerType);

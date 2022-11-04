@@ -57,12 +57,6 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     ///     A unique identifier, used to track components across .NET and JavaScript.
     /// </summary>
     public Guid Id { get; init; } = Guid.NewGuid();
-    
-    /// <summary>
-    ///     A .NET Object Reference to this component for use in JavaScript calls.
-    /// </summary>
-    public DotNetObjectReference<MapComponent> DotNetComponentReference =>
-        DotNetObjectReference.Create(this);
 
     /// <summary>
     ///     Implements the `IAsyncDisposable` pattern.
@@ -390,7 +384,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         }
     }
 
-#pragma warning disable CS1574
+#pragma warning disable CS1574, CS0419
     /// <summary>
     ///     JS-Invokable method that is triggered by the reactiveUtils watchers. This method will dynamically trigger handlers passed to <see cref="AddReactiveWatcher"/>
     /// </summary>
@@ -400,7 +394,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     /// <param name="value">
     ///     The return value of the watcher callback.
     /// </param>
-#pragma warning restore CS1574
+#pragma warning restore CS1574, CS0419
     [JSInvokable]
     public void OnReactiveWatcherUpdate(string watchExpression, JsonElement? value)
     {
@@ -496,7 +490,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         }
     }
     
-#pragma warning disable CS1574
+#pragma warning disable CS1574, CS0419
     /// <summary>
     ///     JS-Invokable method that is triggered by the reactiveUtils 'on' listeners. This method will dynamically trigger handlers passed to <see cref="AddReactiveListener"/>
     /// </summary>
@@ -506,7 +500,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     /// <param name="value">
     ///     The return value of the watcher callback.
     /// </param>
-#pragma warning restore CS1574
+#pragma warning restore CS1574, CS0419
     [JSInvokable]
     public void OnReactiveListenerTriggered(string eventName, JsonElement? value)
     {

@@ -149,19 +149,6 @@ public dymaptic.GeoBlazor.Core.Components.Renderers.Renderer? Renderer { get; se
 #### Property Value
 [Renderer](dymaptic.GeoBlazor.Core.Components.Renderers.Renderer.html 'dymaptic.GeoBlazor.Core.Components.Renderers.Renderer')
 
-<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.Title'></a>
-
-## FeatureLayer.Title Property
-
-The title of the layer used to identify it in places such as the Legend and LayerList widgets.
-
-```csharp
-public string? Title { get; set; }
-```
-
-#### Property Value
-[System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
-
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.Url'></a>
 
 ## FeatureLayer.Url Property

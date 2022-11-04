@@ -62,19 +62,6 @@ public Microsoft.AspNetCore.Components.RenderFragment? ChildContent { get; set; 
 #### Property Value
 [Microsoft.AspNetCore.Components.RenderFragment](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.RenderFragment 'Microsoft.AspNetCore.Components.RenderFragment')
 
-<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.DotNetComponentReference'></a>
-
-## MapComponent.DotNetComponentReference Property
-
-A .NET Object Reference to this component for use in JavaScript calls.
-
-```csharp
-public Microsoft.JSInterop.DotNetObjectReference<dymaptic.GeoBlazor.Core.Components.MapComponent> DotNetComponentReference { get; }
-```
-
-#### Property Value
-[Microsoft.JSInterop.DotNetObjectReference&lt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.JSInterop.DotNetObjectReference-1 'Microsoft.JSInterop.DotNetObjectReference`1')[MapComponent](dymaptic.GeoBlazor.Core.Components.MapComponent.html 'dymaptic.GeoBlazor.Core.Components.MapComponent')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.JSInterop.DotNetObjectReference-1 'Microsoft.JSInterop.DotNetObjectReference`1')
-
 <a name='dymaptic.GeoBlazor.Core.Components.MapComponent.Id'></a>
 
 ## MapComponent.Id Property

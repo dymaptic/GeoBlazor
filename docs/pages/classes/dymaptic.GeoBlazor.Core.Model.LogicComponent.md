@@ -58,34 +58,22 @@ public System.Func<dymaptic.GeoBlazor.Core.Exceptions.JavascriptException,System
 [System.Func&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Func-2 'System.Func`2')[JavascriptException](dymaptic.GeoBlazor.Core.Exceptions.JavascriptException.html 'dymaptic.GeoBlazor.Core.Exceptions.JavascriptException')[,](https://docs.microsoft.com/en-us/dotnet/api/System.Func-2 'System.Func`2')[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Func-2 'System.Func`2')
 ### Methods
 
-<a name='dymaptic.GeoBlazor.Core.Model.LogicComponent.OnJavascriptError(string,string,string)'></a>
+<a name='dymaptic.GeoBlazor.Core.Model.LogicComponent.OnJavascriptError(dymaptic.GeoBlazor.Core.Exceptions.JavascriptError)'></a>
 
-## LogicComponent.OnJavascriptError(string, string, string) Method
+## LogicComponent.OnJavascriptError(JavascriptError) Method
 
 A JavaScript invokable method that returns a JS Error and converts it to an Exception.
 
 ```csharp
-public void OnJavascriptError(string message, string name="", string stack="");
+public void OnJavascriptError(dymaptic.GeoBlazor.Core.Exceptions.JavascriptError error);
 ```
 #### Parameters
 
-<a name='dymaptic.GeoBlazor.Core.Model.LogicComponent.OnJavascriptError(string,string,string).message'></a>
+<a name='dymaptic.GeoBlazor.Core.Model.LogicComponent.OnJavascriptError(dymaptic.GeoBlazor.Core.Exceptions.JavascriptError).error'></a>
 
-`message` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+`error` [JavascriptError](dymaptic.GeoBlazor.Core.Exceptions.JavascriptError.html 'dymaptic.GeoBlazor.Core.Exceptions.JavascriptError')
 
-The JavaScript error message.
-
-<a name='dymaptic.GeoBlazor.Core.Model.LogicComponent.OnJavascriptError(string,string,string).name'></a>
-
-`name` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
-
-The name of the JavaScript error.
-
-<a name='dymaptic.GeoBlazor.Core.Model.LogicComponent.OnJavascriptError(string,string,string).stack'></a>
-
-`stack` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
-
-The JavaScript stack trace.
+The original JavaScript error.
 
 #### Exceptions
 

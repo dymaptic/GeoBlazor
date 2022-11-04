@@ -1,7 +1,7 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Layers;
 
 
-namespace dymaptic.GeoBlazor.Core.Objects;
+namespace dymaptic.GeoBlazor.Core.Events;
 
 /// <summary>
 ///     Fires after each layer in the map has a corresponding LayerView created and rendered in the view.

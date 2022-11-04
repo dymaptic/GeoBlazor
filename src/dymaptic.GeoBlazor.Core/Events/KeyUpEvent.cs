@@ -1,4 +1,4 @@
-﻿namespace dymaptic.GeoBlazor.Core.Objects;
+﻿namespace dymaptic.GeoBlazor.Core.Events;
 
 /// <summary>
 ///     Fires after a keyboard key is released.
@@ -15,4 +15,15 @@
 /// <param name="Native">
 ///     A standard DOM Pointer Event
 /// </param>
-public record KeyUpEvent(string Type, string Key, long Timestamp, DomPointerEvent Native) : JsEvent(Type);
+/// <param name="PointerType">
+///     Indicates the pointer type.
+/// </param>
+/// <param name="Cancelable">
+///     Whether the event can be cancelled once begun.
+/// </param>
+/// <param name="EventId">
+///     The unique Id of the event.
+/// </param>
+public record KeyUpEvent(string Type, int? EventId, bool? Cancelable, string Key, double Timestamp, 
+        DomPointerEvent Native, PointerType? PointerType) 
+    : JsEvent(Type, EventId, Cancelable, Timestamp, Native, PointerType);

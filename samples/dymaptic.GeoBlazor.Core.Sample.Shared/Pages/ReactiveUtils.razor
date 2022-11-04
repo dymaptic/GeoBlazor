@@ -1,6 +1,5 @@
 ﻿@page "/reactive-utils"
-@using System.Text.Json
-@using dymaptic.GeoBlazor.Core.Components.Widgets.LayerList
+@using System.Text.Json.Serialization
 <PageTitle>Reactive Utils</PageTitle>
 <h1>Reactive Utils</h1>
 <div class="links-div">
@@ -200,7 +199,7 @@ else
         _handleClicks = !_handleClicks;
         if (_handleClicks)
         {
-            await _view!.AddReactiveListener<object?>("click", ClickHandler);
+            await _view!.AddReactiveListener<ClickEvent?>("click", ClickHandler);
         }
         else
         {
@@ -208,11 +207,15 @@ else
         }
     }
 
-    private void ClickHandler(object? value)
+    private void ClickHandler(ClickEvent? value)
     {
         if (value is not null)
         {
-            string json = JsonSerializer.Serialize(value, new JsonSerializerOptions { WriteIndented = true });
+            string json = JsonSerializer.Serialize(value, new JsonSerializerOptions
+            {
+                WriteIndented = true,
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+            });
             _clickedReturnValue = json.Replace(Environment.NewLine, "<br>")
                 .Replace(" ", "&nbsp;");
         }
@@ -223,7 +226,7 @@ else
         _handleDrags = !_handleDrags;
         if (_handleDrags)
         {
-            await _view!.AddReactiveListener<object?>("drag", DragHandler);
+            await _view!.AddReactiveListener<DragEvent?>("drag", DragHandler);
         }
         else
         {
@@ -231,11 +234,15 @@ else
         }
     }
 
-    private void DragHandler(object? value)
+    private void DragHandler(DragEvent? value)
     {
         if (value is not null)
         {
-            string json = JsonSerializer.Serialize(value, new JsonSerializerOptions { WriteIndented = true });
+            string json = JsonSerializer.Serialize(value, new JsonSerializerOptions
+            {
+                WriteIndented = true,
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+            });
             _dragReturnValue = json.Replace(Environment.NewLine, "<br>")
                 .Replace(" ", "&nbsp;");
         }
@@ -301,10 +308,10 @@ else
     private async Task ToggleLayerHandler()
     {
         _handleLayers = !_handleLayers;
-        string expression = "view?.map?.allLayers?.filter(layer => layer.visible).map(l => l.title)";
+        string expression = "view?.map?.allLayers?.filter(layer => layer.visible)";
         if (_handleLayers)
         {
-            await _view!.AddReactiveWatcher<string[]?>(expression, LayerWatchHandler);
+            await _view!.AddReactiveWatcher<Layer[]?>(expression, LayerWatchHandler);
         }
         else
         {
@@ -312,9 +319,9 @@ else
         }
     }
 
-    private void LayerWatchHandler(string[]? values)
+    private void LayerWatchHandler(Layer[]? values)
     {
-        _layers = values;
+        _layers = values?.Where(l => l.Title is not null).Select(l => l.Title!).ToArray();
     }
 
     private async Task ToggleHomeWaiter()

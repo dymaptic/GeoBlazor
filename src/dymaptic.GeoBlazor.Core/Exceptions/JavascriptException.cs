@@ -8,14 +8,8 @@ public class JavascriptException : Exception
     /// <summary>
     ///     Creates a new Exception from a JavaScript Error
     /// </summary>
-    /// <param name="message">
-    ///     The JavaScript error message.
-    /// </param>
-    /// <param name="name">
-    ///     The name of the JavaScript error.
-    /// </param>
-    /// <param name="stack">
-    ///     The JavaScript stack trace.
+    /// <param name="error">
+    ///     The original JavaScript error.
     /// </param>
     public JavascriptException(JavascriptError error) : base(error.Message)
     {
@@ -34,4 +28,16 @@ public class JavascriptException : Exception
     public string? Name { get; }
 }
 
+/// <summary>
+///     A JavaScript error
+/// </summary>
+/// <param name="Message">
+///     The message of the error.
+/// </param>
+/// <param name="Name">
+///     The name of the error.
+/// </param>
+/// <param name="Stack">
+///     The stack trace of the error.
+/// </param>
 public record JavascriptError(string Message, string? Name, string? Stack = null);

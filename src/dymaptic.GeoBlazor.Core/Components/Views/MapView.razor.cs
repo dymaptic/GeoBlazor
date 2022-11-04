@@ -3,6 +3,7 @@ using dymaptic.GeoBlazor.Core.Components.Layers;
 using dymaptic.GeoBlazor.Core.Components.Popups;
 using dymaptic.GeoBlazor.Core.Components.Symbols;
 using dymaptic.GeoBlazor.Core.Components.Widgets;
+using dymaptic.GeoBlazor.Core.Events;
 using dymaptic.GeoBlazor.Core.Exceptions;
 using dymaptic.GeoBlazor.Core.Objects;
 using Microsoft.AspNetCore.Components;
@@ -150,14 +151,8 @@ public partial class MapView : MapComponent
     /// <summary>
     ///     Surfaces JavaScript errors to the .NET Code for debugging.
     /// </summary>
-    /// <param name="message">
-    ///     The JavaScript error message.
-    /// </param>
-    /// <param name="name">
-    ///     The name of the JavaScript error.
-    /// </param>
-    /// <param name="stack">
-    ///     The JavaScript stack trace.
+    /// <param name="error">
+    ///     The original Javascript error.
     /// </param>
     /// <exception cref="JavascriptException">
     ///     Wraps the JS Error and throws a .NET Exception.
@@ -213,7 +208,7 @@ public partial class MapView : MapComponent
     /// </remarks>
     [Parameter]
     [Obsolete("Use OnClick EventCallback instead.")]
-    public Func<Point, Task>? OnClickAsyncHandler { get; set; }
+    public Func<Point, Task>? OnClickAsyncHandler { get; set; } // TODO: Remove for V2.0.0 release
     
     /// <summary>
     ///     Handler delegate for click events on the view.
@@ -424,9 +419,9 @@ public partial class MapView : MapComponent
     public async Task OnJavascriptPointerMove(PointerEvent pointerEvent)
     {
         await OnPointerMove.InvokeAsync(pointerEvent);
-#pragma warning disable CS0618
+#pragma warning disable CS0618, BL0005
         OnPointerMoveHandler?.Invoke(new Point{X = pointerEvent.X, Y = pointerEvent.Y});
-#pragma warning restore CS0618
+#pragma warning restore CS0618, BL0005
     }
     
     /// <summary>
@@ -443,7 +438,7 @@ public partial class MapView : MapComponent
     /// </remarks>
     [Parameter]
     [Obsolete("Use OnPointerMove instead")]
-    public Func<Point, Task>? OnPointerMoveHandler { get; set; }
+    public Func<Point, Task>? OnPointerMoveHandler { get; set; } // TODO: Remove for V2.0.0 release
     
     /// <summary>
     ///     Handler delegate for point move events on the view. Must take in a <see cref="Point"/> and return a <see cref="Task"/>.
@@ -539,7 +534,7 @@ public partial class MapView : MapComponent
     /// </remarks>
     [Parameter]
     [Obsolete("Use OnMapRendered instead")]
-    public Func<Task>? OnMapRenderedHandler { get; set; }
+    public Func<Task>? OnMapRenderedHandler { get; set; } // TODO: Remove for V2.0.0 release
     
     /// <summary>
     ///     Handler delegate for when the map view is fully rendered. Must return a <see cref="Task"/>.
@@ -556,7 +551,7 @@ public partial class MapView : MapComponent
     [JSInvokable]
     public async Task OnJavascriptSpatialReferenceChanged(SpatialReference spatialReference)
     {
-        SpatialReference = spatialReference;
+        _spatialReference = spatialReference;
         await OnSpatialReferenceChanged.InvokeAsync(spatialReference);
 #pragma warning disable CS0618
         OnSpatialReferenceChangedHandler?.Invoke(spatialReference);
@@ -572,7 +567,7 @@ public partial class MapView : MapComponent
     /// </remarks>
     [Parameter]
     [Obsolete("Use OnSpatialReferenceChanged instead")]
-    public Func<SpatialReference, Task>? OnSpatialReferenceChangedHandler { get; set; }
+    public Func<SpatialReference, Task>? OnSpatialReferenceChangedHandler { get; set; } // TODO: Remove for V2.0.0 release
     
     /// <summary>
     ///     Handler delegate for the view's Spatial Reference changing.
@@ -678,7 +673,7 @@ public partial class MapView : MapComponent
     public EventCallback<LayerViewCreateErrorEvent> OnLayerViewCreateError { get; set; }
     
     /// <summary>
-    ///     Set this parameter to limit the rate at which recurring events (pointer-move, drag, etc.) are returned.
+    ///     Set this parameter to limit the rate at which recurring events are returned. Applies to <see cref="OnDrag" />, <see cref="OnPointerMove"/>, <see cref="OnMouseWheel"/>, <see cref="OnResize"/>, and <see cref="OnExtentChanged"/>
     /// </summary>
     [Parameter]
     public int? EventRateLimitInMilliseconds { get; set; }

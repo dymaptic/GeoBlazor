@@ -62,3 +62,16 @@ public System.Nullable<double> Opacity { get; set; }
 
 #### Property Value
 [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.Layer.Title'></a>
+
+## Layer.Title Property
+
+The title of the layer used to identify it in places such as the Legend and LayerList widgets.
+
+```csharp
+public string? Title { get; set; }
+```
+
+#### Property Value
+[System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
