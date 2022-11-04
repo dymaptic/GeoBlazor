@@ -81,38 +81,3 @@ public bool Equals(dymaptic.GeoBlazor.Core.Objects.MapPoint? other);
 
 #### Returns
 [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
-
-<a name='dymaptic.GeoBlazor.Core.Objects.MapPoint.Equals(object)'></a>
-
-## MapPoint.Equals(object) Method
-
-Determines whether the specified object is equal to the current object.
-
-```csharp
-public override bool Equals(object? obj);
-```
-#### Parameters
-
-<a name='dymaptic.GeoBlazor.Core.Objects.MapPoint.Equals(object).obj'></a>
-
-`obj` [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object')
-
-The object to compare with the current object.
-
-#### Returns
-[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')  
-[true](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool') if the specified object  is equal to the current object; otherwise, [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool').
-
-<a name='dymaptic.GeoBlazor.Core.Objects.MapPoint.GetHashCode()'></a>
-
-## MapPoint.GetHashCode() Method
-
-Serves as the default hash function.
-
-```csharp
-public override int GetHashCode();
-```
-
-#### Returns
-[System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')  
-A hash code for the current object.

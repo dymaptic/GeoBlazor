@@ -6,6 +6,64 @@
 
 [Join our Discord Server!](https://discord.gg/hcmbPzn4VW)
 
+## Build Requirements
+
+For the Asp.NET projects, including the core library, you can run on the latest [.NET 6 SDK](https://dotnet.microsoft.com/en-us/download).
+
+For the Maui sample project, you need the latest [_preview_ of Visual Studio](https://visualstudio.microsoft.com/vs/preview/).
+
+If you have not installed node.js on your system, you will need to download and install it in order for the npm scripts to run. Please [select
+the appropriate installer for your system](https://nodejs.org/en/download/).
+
+You will need to install Powershell 7 on your machine to run the powershell script as part of the build process.
+-Complete installation instructions for Powershell [can be found here]
+(https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell?view=powershell-7.2).
+
+**Note** A reboot is required after installing the above components. 
+
+Because Geoblazor uses an unsigned, local powershell script to copy files in the `Sample.Shared` project, you need to allow unsigned scripts to be run in Powershell.
+-The procedure to change the "execution policies" and set them to `RemoteSigned` are found here:
+https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_execution_policies?view=powershell-7.2#change-the-execution-policy
+
+**Note** If you receive an unsigned error even after you set the above execution policy, try setting it again in the older version of PowerShell (the one that comes with Windows).
+
+## Projects
+
+### dymaptic.GeoBlazor.Core
+
+- The core logic library
+
+### dymaptic.GeoBlazor.Core.Sample.Shared
+
+- A razor class library for sample applications
+- All sample pages are based on the [ArcGIS for Javascript API Tutorials](https://developers.arcgis.com/javascript/latest/).
+
+### dymaptic.GeoBlazor.Core.Sample.Server
+
+- Asp.NET Core Blazor Server application sample
+- `dotnet run --project .\samples\dymaptic.GeoBlazor.Core.Sample.Server\dymaptic.GeoBlazor.Core.Sample.Server.csproj`
+- Runs on kestrel or via IIS
+- Serves pages via SignalR/Websockets
+- Can be loaded with a `usersecrets` file to provide the ArcGIS Api Key.
+
+### dymaptic.GeoBlazor.Core.Sample.Wasm
+
+- `dotnet run --project .\samples\dymaptic.GeoBlazor.Core.Sample.Wasm\dymaptic.GeoBlazor.Core.Sample.Wasm.csproj`
+- Runs Blazor in Web Assembly on the client browser
+- No safe storage for API key, users must input an api key or sign in from the browser
+
+### dymaptic.GeoBlazor.Core.Sample.Maui
+
+- Cross-platform mobile and desktop application
+- Should be run from Visual Studio Preview. Command Line support appears to be limited at this time.
+- Android and Windows versions tested
+
+### dymaptic.GeoBlazor.Interactive (not included in open source repo)
+
+- Extended application features - coming soon!
+- Please contact info@dymaptic.com to discuss licensing these advanced features!
+
+
 This project wraps the [ArcGIS Javascript API](https://developers.arcgis.com/javascript/latest/) in a Blazor templating framework.
 It generates a nuget package that can be imported and consumed from any Blazor application, without directly interacting with javascript.
 
@@ -87,55 +145,3 @@ for a 3D map with a basemap loaded from a `PortalId`.
   See `DisplayProjection.razor` in the `...Sample.Shared` library for an example of writing your own JavaScript that interacts
   with GeoBlazor.
 
-## Build Requirements
-
-For the Asp.NET projects, including the core library, you can run on the latest [.NET 6 SDK](https://dotnet.microsoft.com/en-us/download).
-
-For the Maui sample project, you need the latest [_preview_ of Visual Studio](https://visualstudio.microsoft.com/vs/preview/).
-
-If you have not installed node.js on your system, you will need to download and install it in order for the npm scripts to run. Please [select
-the appropriate installer for your system](https://nodejs.org/en/download/).
-
-You will need to install Powershell 7 on your machine to run the powershell script as part of the build process.
--Complete installation instructions for Powershell [can be found here]
-(https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell?view=powershell-7.2).
-
-Because Geoblazor uses an unsigned, local powershell script to copy files in the `Sample.Shared` project, you need to allow unsigned scripts to be run in Powershell.
--The procedure to change the "execution policies" and set them to `RemoteSigned` are found here:
-https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_execution_policies?view=powershell-7.2#change-the-execution-policy
-
-## Projects
-
-### dymaptic.GeoBlazor.Core
-
-- The core logic library
-
-### dymaptic.GeoBlazor.Core.Sample.Shared
-
-- A razor class library for sample applications
-- All sample pages are based on the [ArcGIS for Javascript API Tutorials](https://developers.arcgis.com/javascript/latest/).
-
-### dymaptic.GeoBlazor.Core.Sample.Server
-
-- Asp.NET Core Blazor Server application sample
-- `dotnet run --project .\samples\dymaptic.GeoBlazor.Core.Sample.Server\dymaptic.GeoBlazor.Core.Sample.Server.csproj`
-- Runs on kestrel or via IIS
-- Serves pages via SignalR/Websockets
-- Can be loaded with a `usersecrets` file to provide the ArcGIS Api Key.
-
-### dymaptic.GeoBlazor.Core.Sample.Wasm
-
-- `dotnet run --project .\samples\dymaptic.GeoBlazor.Core.Sample.Wasm\dymaptic.GeoBlazor.Core.Sample.Wasm.csproj`
-- Runs Blazor in Web Assembly on the client browser
-- No safe storage for API key, users must input an api key or sign in from the browser
-
-### dymaptic.GeoBlazor.Core.Sample.Maui
-
-- Cross-platform mobile and desktop application
-- Should be run from Visual Studio Preview. Command Line support appears to be limited at this time.
-- Android and Windows versions tested
-
-### dymaptic.GeoBlazor.Interactive (not included in open source repo)
-
-- Extended application features - coming soon!
-- Please contact info@dymaptic.com to discuss licensing these advanced features!
