@@ -13,7 +13,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html">ArcGIS JS API</a>
 /// </summary>
 /// <example>
-///     <a target="_blank" href="https://blazor.dymaptic.com/feature-layers">Sample - Feature Layers</a>
+///     <a target="_blank" href="https://samples.geoblazor.com/feature-layers">Sample - Feature Layers</a>
 /// </example>
 public class FeatureLayer : Layer
 {
