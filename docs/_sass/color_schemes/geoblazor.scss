@@ -1,4 +1,5 @@
-﻿//
+﻿@import "./color_schemes/dark";
+//
 // Typography
 //
 
@@ -84,7 +85,43 @@ $body-background-color: $white;
             
 $search-background-color: $white;
 $table-background-color: $white;
-$code-background-color: $grey-lt-000;
+//$code-background-color: $grey-dk-300;
+
+code {
+  background-color: #ececec !important;
+  color: inherit!important;
+  font-size: 0.9rem!important;;
+}
+
+.highlight code {
+  color: white!important;
+  background-color: unset !important;
+}
+
+.highlight .na, .highlight .nl, .highlight .p {
+  color: white!important;
+}
+
+.highlight .n {
+  color: #dcffff !important;
+}
+
+.highlight .k {
+  color: #dfff01 !important
+}
+
+.highlight .kt {
+  color: #fd3935 !important;
+}
+
+.highlight .nt, .highlight .nf {
+  color: #30a9ff !important;
+}
+
+.highlight .s, .highlight .s2 {
+  color: #3ffaec !important;
+}
+
 $feedback-color: $geoblazor-purple-000;
 
 $body-text-color: $grey-dk-100;
