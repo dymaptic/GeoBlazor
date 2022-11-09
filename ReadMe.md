@@ -1,6 +1,8 @@
 ﻿# GeoBlazor
 
-[View the live demo site!](https://dy-blazor-samples-server.azurewebsites.net/)
+[Home Page](https://www.geoblazor.com)
+
+[View the live demo site!](https://samples.geoblazor.com)
 
 [Read the Docs](https://docs.geoblazor.com)
 
@@ -129,19 +131,18 @@ for a 2D map with a default ArcGIS basemap, or
 
 for a 3D map with a basemap loaded from a `PortalId`.
 
-
 ### Known Limitations/"Gotchas"
 
 - All classes inheriting from `MapComponent`, implement `IAsyncDisposable`. If you use these components in Razor markdown,
   it handles disposal for you. However, there may be situations (e.g., adding a new graphic on the fly),
   where you want to instantiate one of these components in C# code. Be aware that if you do this, you need to call
   `DisposeAsync` yourself when you are done with the object.
-- Directly calling a `HashSet` collection like  `graphicLayer.Add(graphic)` or `MapView.Widgets.Add(widget)` does not 
-  work currently to register these components with the JavaScript API. Instead, use 
+- Directly calling a `HashSet` collection like  `graphicLayer.Add(graphic)` or `MapView.Widgets.Add(widget)` does not
+  work currently to register these components with the JavaScript API. Instead, use
   `graphicLayer.RegisterChildComponent(graphic)` or `MapView.RegisterChildComponent(widget)`.
 - While `JsRuntime` calls are very efficient, some "real-time" events, like handling a mouse pointer moving,
-  may have enough latency to notice on a round-trip to Blazor/C# and back to JavaScript. In these situations, it is 
-  our recommendation to instead write custom JavaScript code, which can handle the event completely client-side. 
+  may have enough latency to notice on a round-trip to Blazor/C# and back to JavaScript. In these situations, it is
+  our recommendation to instead write custom JavaScript code, which can handle the event completely client-side.
   See `DisplayProjection.razor` in the `...Sample.Shared` library for an example of writing your own JavaScript that interacts
   with GeoBlazor.
 

@@ -1,7 +1,7 @@
 {
   "name": "dymaptic.GeoBlazor.Core",
-  "version": "1.1.1",
-  "description": "[View the live demo site!](https://dy-blazor-samples-server.azurewebsites.net/)",
+  "version": "1.1.2",
+  "description": "https://www.geoblazor.com",
   "main": "arcGisInterop.js",
   "scripts": {
     "debugBuild": "esbuild ./Scripts/arcGisJsInterop.ts ./Scripts/dotNetBuilder.ts ./Scripts/jsBuilder.ts ./Scripts/projection.ts --format=esm --bundle --sourcemap --outdir=wwwroot/js",
