@@ -10,7 +10,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Views;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">ArcGIS JS API</a>
 /// </summary>
 /// <example>
-///     <a target="_blank" href="https://blazor.dymaptic.com/web-scene">Sample - Web Scene</a>
+///     <a target="_blank" href="https://samples.geoblazor.com/web-scene">Sample - Web Scene</a>
 /// </example>
 public class SceneView : MapView
 {

@@ -2,8 +2,8 @@
 import * as projection from "@arcgis/core/geometry/projection";
 import Geometry from "@arcgis/core/geometry/Geometry";
 import {buildDotNetGeographicTransformation, buildDotNetGeometry} from "./dotNetBuilder";
-import {DotNetGeographicTransformation, DotNetGeometry} from "ArcGisDefinitions";
 import {buildJsExtent, buildJsSpatialReference} from "./jsBuilder";
+import {DotNetGeographicTransformation, DotNetGeometry} from "./definitions";
 
 let dotNetRef: any = null;
 

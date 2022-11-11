@@ -18,7 +18,7 @@ public class SceneView : dymaptic.GeoBlazor.Core.Components.Views.MapView
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [Microsoft.AspNetCore.Components.ComponentBase](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.ComponentBase 'Microsoft.AspNetCore.Components.ComponentBase') &#129106; [MapComponent](dymaptic.GeoBlazor.Core.Components.MapComponent.html 'dymaptic.GeoBlazor.Core.Components.MapComponent') &#129106; [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') &#129106; SceneView
 
 ### Example
-<a target="_blank" href="https://blazor.dymaptic.com/web-scene">Sample - Web Scene</a>
+<a target="_blank" href="https://samples.geoblazor.com/web-scene">Sample - Web Scene</a>
 ### Properties
 
 <a name='dymaptic.GeoBlazor.Core.Components.Views.SceneView.Tilt'></a>

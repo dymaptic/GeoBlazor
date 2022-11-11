@@ -18,7 +18,7 @@ public class FeatureLayer : dymaptic.GeoBlazor.Core.Components.Layers.Layer
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [Microsoft.AspNetCore.Components.ComponentBase](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.ComponentBase 'Microsoft.AspNetCore.Components.ComponentBase') &#129106; [MapComponent](dymaptic.GeoBlazor.Core.Components.MapComponent.html 'dymaptic.GeoBlazor.Core.Components.MapComponent') &#129106; [Layer](dymaptic.GeoBlazor.Core.Components.Layers.Layer.html 'dymaptic.GeoBlazor.Core.Components.Layers.Layer') &#129106; FeatureLayer
 
 ### Example
-<a target="_blank" href="https://blazor.dymaptic.com/feature-layers">Sample - Feature Layers</a>
+<a target="_blank" href="https://samples.geoblazor.com/feature-layers">Sample - Feature Layers</a>
 ### Properties
 
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.DefinitionExpression'></a>

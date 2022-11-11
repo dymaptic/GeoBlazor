@@ -37,32 +37,6 @@ public dymaptic.GeoBlazor.Core.Components.Geometries.Extent? Extent { get; set; 
 #### Property Value
 [Extent](dymaptic.GeoBlazor.Core.Components.Geometries.Extent.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Extent')
 
-<a name='dymaptic.GeoBlazor.Core.Components.Geometries.Geometry.HasM'></a>
-
-## Geometry.HasM Property
-
-Indicates if the geometry has M values.
-
-```csharp
-public System.Nullable<bool> HasM { get; set; }
-```
-
-#### Property Value
-[System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
-
-<a name='dymaptic.GeoBlazor.Core.Components.Geometries.Geometry.HasZ'></a>
-
-## Geometry.HasZ Property
-
-Indicates if the geometry has Z values (elevation).
-
-```csharp
-public System.Nullable<bool> HasZ { get; set; }
-```
-
-#### Property Value
-[System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
-
 <a name='dymaptic.GeoBlazor.Core.Components.Geometries.Geometry.SpatialReference'></a>
 
 ## Geometry.SpatialReference Property

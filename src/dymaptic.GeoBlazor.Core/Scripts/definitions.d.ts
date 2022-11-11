@@ -1,110 +1,107 @@
 ﻿import Layer from "@arcgis/core/layers/Layer";
 
+export interface MapObject {
+    destroy();
+    declaredClass: string;
 
-declare module "ArcGisDefinitions" {
-    interface MapObject {
-        destroy();
-        declaredClass: string;
+    on(eventName: string, callback: (evt) => any): void;
+}
 
-        on(eventName: string, callback: (evt) => any): void;
-    }
-    
-    interface MapCollection extends __esri.Collection {
-        items: any[];
-    }
+export interface MapCollection extends __esri.Collection {
+    items: any[];
+}
 
-    interface DotNetGraphic {
-        uid: string;
-        geometry: any;
-    }
+export interface DotNetGraphic {
+    uid: string;
+    geometry: any;
+}
 
-    interface DotNetFeature {
-        uid: string;
-        geometry: any;
-        attributes: any;
-    }
-    
-    interface DotNetGeometry {
-        type: string;
-        spatialReference: __esri.SpatialReference;
-    }
+export interface DotNetFeature {
+    uid: string;
+    geometry: any;
+    attributes: any;
+}
 
-    interface DotNetPoint extends DotNetGeometry {
-        latitude: number;
-        longitude: number;
-        hasM: boolean;
-        hasZ: boolean;
-        extent: DotNetExtent;
-        x: number;
-        y: number;
-    }
-    
-    interface DotNetExtent extends DotNetGeometry {
-        xmin: number;
-        ymin: number;
-        xmax: number;
-        ymax: number;
-        zmin: number;
-        zmax: number;
-        mmin: number;
-        mmax: number;
-        hasM: boolean;
-        hasZ: boolean;
-    }
-    
-    interface DotNetPolygon extends DotNetGeometry {
-        rings: number[][][];
-        hasM: boolean;
-        hasZ: boolean;
-        extent: DotNetExtent,
-    }
-    
-    interface DotNetPolyline extends DotNetGeometry {
-        paths: number[][][];
-        hasM: boolean;
-        hasZ: boolean;
-        extent: DotNetExtent;
-    }
-    
-    interface DotNetSpatialReference {
-        isGeographic: boolean;
-        isWebMercator: boolean;
-        isWgs84: boolean;
-        isWrappable: boolean;
-        wkid: number;
-        wkt: string;
-        imageCoordinateSystem: any;
-    }
-    
-    interface DotNetGeographicTransformation {
-        steps: Array<DotNetGeographicTransformationStep>
-    }
-    
-    interface DotNetGeographicTransformationStep {
-        isInverse: boolean;
-        wkid: number;
-        wkt: string
-    }
+export interface DotNetGeometry {
+    type: string;
+    spatialReference: DotNetSpatialReference;
+}
 
-    interface DotNetActionSection {
-        title: string,
-        className: string,
-        id: string
-    }
+export interface DotNetPoint extends DotNetGeometry {
+    latitude: number;
+    longitude: number;
+    hasM: boolean;
+    hasZ: boolean;
+    extent: DotNetExtent;
+    x: number;
+    y: number;
+}
 
-    interface DotNetListItem {
-        title: string;
-        layer: Layer;
-        visible: boolean;
-        children: DotNetListItem[],
-        actionSections: DotNetActionSection[][]
-    }
-    
-    interface DotNetLayerView {
-        layer: Layer;
-        spatialReferenceSupported: boolean;
-        suspended: boolean;
-        updating: boolean;
-        visible: boolean;
-    }
+export interface DotNetExtent extends DotNetGeometry {
+    xmin: number;
+    ymin: number;
+    xmax: number;
+    ymax: number;
+    zmin: number;
+    zmax: number;
+    mmin: number;
+    mmax: number;
+    hasM: boolean;
+    hasZ: boolean;
+}
+
+export interface DotNetPolygon extends DotNetGeometry {
+    rings: number[][][];
+    hasM: boolean;
+    hasZ: boolean;
+    extent: DotNetExtent,
+}
+
+export interface DotNetPolyline extends DotNetGeometry {
+    paths: number[][][];
+    hasM: boolean;
+    hasZ: boolean;
+    extent: DotNetExtent;
+}
+
+export interface DotNetSpatialReference {
+    isGeographic: boolean;
+    isWebMercator: boolean;
+    isWgs84: boolean;
+    isWrappable: boolean;
+    wkid: number;
+    wkt: string;
+    imageCoordinateSystem: any;
+}
+
+export interface DotNetGeographicTransformation {
+    steps: Array<DotNetGeographicTransformationStep>
+}
+
+export interface DotNetGeographicTransformationStep {
+    isInverse: boolean;
+    wkid: number;
+    wkt: string
+}
+
+export interface DotNetActionSection {
+    title: string,
+    className: string,
+    id: string
+}
+
+export interface DotNetListItem {
+    title: string;
+    layer: Layer;
+    visible: boolean;
+    children: DotNetListItem[],
+    actionSections: DotNetActionSection[][]
+}
+
+export interface DotNetLayerView {
+    layer: Layer;
+    spatialReferenceSupported: boolean;
+    suspended: boolean;
+    updating: boolean;
+    visible: boolean;
 }
