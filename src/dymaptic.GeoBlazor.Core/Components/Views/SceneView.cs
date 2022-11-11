@@ -41,7 +41,7 @@ public class SceneView : MapView
                 if (!webScene.Equals(WebScene))
                 {
                     WebScene = webScene;
-                    await UpdateComponent();
+                    await RenderView();
                 }
 
                 break;
@@ -93,7 +93,7 @@ public class SceneView : MapView
 
             return;
         }
-
+        
         Rendering = true;
         ValidateRequiredChildren();
 
@@ -107,6 +107,8 @@ public class SceneView : MapView
             {
                 throw new MissingMapException();
             }
+            
+            NeedsRender = false;
 
             NeedsRender = false;
 

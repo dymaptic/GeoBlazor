@@ -806,10 +806,7 @@ public partial class MapView : MapComponent
                 {
                     Widgets.Add(widget);
                     widget.Parent ??= this;
-                    if (MapRendered)
-                    {
-                        await AddWidget(widget);
-                    }
+                    await AddWidget(widget);
                 }
 
                 break;
@@ -818,11 +815,7 @@ public partial class MapView : MapComponent
                 {
                     graphic.GraphicIndex = Graphics.Count;
                     Graphics.Add(graphic);
-
-                    if (MapRendered)
-                    {
-                        await AddGraphic(graphic);
-                    }
+                    await AddGraphic(graphic);
                 }
 
                 break;
@@ -1020,6 +1013,7 @@ public partial class MapView : MapComponent
     /// </param>
     public async Task AddGraphic(Graphic graphic, int? layerIndex = null)
     {
+        if (ViewJsModule is null) return;
         await ViewJsModule!.InvokeVoidAsync("addGraphic", (object)graphic, Id, layerIndex);
     }
 
@@ -1284,6 +1278,7 @@ public partial class MapView : MapComponent
 
     private async Task AddWidget(Widget widget)
     {
+        if (ViewJsModule is null) return;
         await InvokeAsync(async () =>
         {
             await ViewJsModule!.InvokeVoidAsync("addWidget", widget, Id);

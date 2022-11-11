@@ -14,6 +14,8 @@
     background-image: linear-gradient(180deg, var(--geoblazor-tertiary) 0%, var(--geoblazor-primary) 100%);
     margin: 1rem;
     color: white;
+    min-width: 30rem;
+    height: 10rem;
 }
 
 .form-group .table {
@@ -46,5 +48,11 @@ h3 {
     #control-set {
         flex-direction: column;
         width: unset;
+        flex-wrap: nowrap;
+    }
+    
+    .form-group {
+        min-width: unset;
+        max-width: 100%;
     }
 }

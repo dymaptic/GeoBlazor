@@ -1143,7 +1143,11 @@ async function resetCenterToSpatialReference(center: Point, spatialReference: Sp
 
 export function logError(error, viewId: string) {
     error.message ??= error.toString();
-    dotNetRefs[viewId].invokeMethodAsync('OnJavascriptError', error);
+    try {
+        dotNetRefs[viewId].invokeMethodAsync('OnJavascriptError', error);
+    } catch {
+        console.log(error);
+    }
     unsetWaitCursor(viewId);
 }
 
