@@ -3,14 +3,14 @@ layout: page
 title: "Events and Property Changes"
 nav_order: 3
 ---
-
 # Reacting to Events and Property Changes
 
 There are several ways to listen for events and property changes in GeoBlazor.
 
 ## View `EventCallbacks`
+
 [MapView](classes/dymaptic.GeoBlazor.Core.Components.Views.MapView) has a full range of DOM-standard and ArcGIS-specific
-event handlers in the form of `EventCallback` with strongly typed return values. 
+event handlers in the form of `EventCallback` with strongly typed return values.
 Implement handlers as Razor component parameters in your calling code.
 
 - OnBlur: `void`
@@ -36,6 +36,27 @@ Implement handlers as Razor component parameters in your calling code.
 - OnResize: `ResizeEvent` \*
 - OnSpatialReferenceChanged: `SpatialReference`
 
+A sample implementation:
+
+```csharp
+<MapView OnClick="OnClick">
+    <Map>
+        ...
+    </Map>
+</MapView>
+
+@code 
+{
+    private async Task<ClickEvent> OnClick(ClickEvent event)
+    {
+        // use the click event
+    }
+}
+```
+
+Note that since an `EventCallback` in Blazor is a `Parameter`, you are limited to attaching a single listener method.
+However, within that one method, you could perform as many actions as you need.
+
 ## Limiting the rate of responses
 
 Some events, such as drag, pointer-move, and extent-changed, will fire rapidly while a user navigates the map.
@@ -44,6 +65,7 @@ Set the property `MapView.EventRateLimitInMilliseconds` to "throttle" the respon
 rate. This is especially useful in Blazor Server, where every response must be sent from the client back to the server.
 
 ## `ReactiveUtils` Handlers
+
 Most components also support a pattern of attaching event handlers and watching properties
 with loose typing. See [Reactive Utils](https://samples.GeoBlazor.com/reactive-utils).
 
@@ -52,7 +74,7 @@ with loose typing. See [Reactive Utils](https://samples.GeoBlazor.com/reactive-u
 A watcher (`watch` event in Javascript) reports back when a property value has changed. The `<T>` type should match
 the expected return type, whether it be a primitive or map component. You can also return a `string` which should
 return a string representation of the type, either primitive or JSON.
- 
+
 ```csharp
 private async Task AddWatcher()
 {
@@ -125,4 +147,3 @@ private async Task<bool> AttachZoomWatcher()
     return await _view!.AwaitReactiveSingleWatchUpdate<bool>("view?.zoom > 20");
 }
 ```
-

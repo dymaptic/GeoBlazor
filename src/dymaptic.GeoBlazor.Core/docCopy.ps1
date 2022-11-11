@@ -5,7 +5,7 @@ $EndMatter = "`n---`n"
 $SourcePath = ".\Documentation"
 $OutPath = "..\..\docs\pages\classes"
 
-#Get-ChildItem -Path $OutPath -Include *.* -Exclude 'classes.md' -File -Recurse | foreach { $_.Delete()}
+Get-ChildItem -Path $OutPath -Include *.* -Exclude 'classes.md' -File -Recurse | foreach { $_.Delete()}
 Get-ChildItem -Path $SourcePath -Filter "*.md" |
         ForEach { $NameComponents = ($_.BaseName -split '\.');
             $Title = $NameComponents[-1];
