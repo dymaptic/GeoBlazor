@@ -5,6 +5,7 @@ $EndMatter = "`n---`n"
 $SourcePath = ".\Documentation"
 $OutPath = "..\..\docs\pages\classes"
 
+Get-ChildItem -Path $OutPath -Include *.* -Exclude 'classes.md' -File -Recurse | foreach { $_.Delete()}
 Write-Output "Copying Docs Files"
 Get-ChildItem -Path $SourcePath -Filter "*.md" |
         ForEach { $NameComponents = ($_.BaseName -split '\.');

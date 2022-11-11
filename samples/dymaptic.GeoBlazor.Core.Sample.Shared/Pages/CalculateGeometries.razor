@@ -1,0 +1,161 @@
+﻿@page "/calculate-geometries"
+
+@inject GeometryEngine GeometryEngine
+
+<PageTitle>Calculate Geometries</PageTitle>
+<h1>Calculate Geometries</h1>
+
+<div class="links-div">
+    <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/calculate-geometries/">ArcGIS API for JavaScript</a>
+    <a class="btn btn-primary" target="_blank" href="https://www.arcgis.com/home/item.html?id=d582a9e953c44c09bb998c7d9b66f8d4">Charted Territory BaseMap</a>
+</div>
+<p class="instructions">
+    Use the buttons in the top right to see a demonstration of drawing a 
+    buffer around a point, finding the intersection between two graphics, 
+    and finding the union of two polygons.
+</p>
+<p class="instructions" style="color: var(--geoblazor-primary);">
+    This sample currently uses code from our <code>Interactive</code> extensions library.
+    <br/>
+    For more information about licensing these advanced features, contact <a href="mailto:info@dymaptic.com">info@dymaptic.com</a>.
+</p>
+<MapView @ref="View" 
+         Class="map-view"
+         Style="min-height: 450px;"
+         Longitude="_longitude" 
+         Latitude="_latitude" 
+         Zoom="13">
+    <Map>
+        <Basemap>
+            <PortalItem Id="d582a9e953c44c09bb998c7d9b66f8d4" />
+        </Basemap>
+        <GraphicsLayer @ref="GraphicsLayer">
+            <Graphic>
+                <Point @ref="PointGeometry" Longitude="-118.80657463861" Latitude="34.0005930608889" />
+                <SimpleMarkerSymbol Color="@(new MapColor(81, 46, 132))">
+                    <Outline Color="@(new MapColor(255, 255, 255))" Width="1" />
+                </SimpleMarkerSymbol>
+            </Graphic>
+            <Graphic>
+                <PolyLine Paths="@(new[] { _mapPath })" />
+                <SimpleLineSymbol Color="@(new MapColor(81, 46, 132))" Width="2" />
+            </Graphic>
+            <Graphic>
+                <Polygon @ref="PolygonGeometry" Rings="@(new[] { _mapRings })" />
+                <SimpleFillSymbol Color="@(new MapColor(81, 46, 132, 0.8))">
+                    <Outline Color="@(new MapColor(255, 255, 255))" Width="1" />
+                </SimpleFillSymbol>
+            </Graphic>
+        </GraphicsLayer>
+        <GraphicsLayer @ref="ResultsLayer">
+        </GraphicsLayer>
+    </Map>
+    <CustomOverlay Position="OverlayPosition.TopRight">
+        <div id="controls" class="esri-widget">
+            <button id="buffer" class="esri-button" @onclick="CreateBuffer">Buffer</button>
+            <button id="intersect" class="esri-button" @onclick="FindIntersect">Intersect</button>
+            <button id="union" class="esri-button" @onclick="CreateUnion">Union</button>
+            <button id="reset" class="esri-button esri-button--secondary" @onclick="ResetGraphics">Reset</button>
+        </div>
+    </CustomOverlay>
+</MapView>
+
+<SimpleFillSymbol @ref="BufferGraphicFill" Color="@(new MapColor(81, 46, 132, 0.5))">
+    <Outline Color="@(new MapColor(255, 255, 255, 255))" />
+</SimpleFillSymbol>
+<SimpleFillSymbol @ref="HighlightFill" FillStyle="FillStyle.Cross" Color="@(new MapColor(255, 255, 255))">
+    <Outline Color="@(new MapColor(255, 255, 255))" />
+</SimpleFillSymbol>
+
+@code {
+
+    private async Task CreateBuffer()
+    {
+        if (_bufferPolygon is not null) return;
+
+        _bufferPolygon = await GeometryEngine.GeodesicBuffer(PointGeometry!, 1, LinearUnit.Kilometers);
+        _bufferGraphic = new Graphic
+        {
+            Geometry = _bufferPolygon,
+            Symbol = BufferGraphicFill
+        };
+        await InvokeAsync(async () => await GraphicsLayer!.RegisterChildComponent(_bufferGraphic));
+    }
+
+    private async Task FindIntersect()
+    {
+        if (_bufferPolygon is null) return;
+
+        await ClearResultsLayer();
+        _highlightPolygon = await GeometryEngine.Intersect(PolygonGeometry!, _bufferPolygon) as Polygon;
+        _highlightGraphic = new Graphic
+        {
+            Geometry = _highlightPolygon,
+            Symbol = HighlightFill
+        };
+        await InvokeAsync(async () => await ResultsLayer!.RegisterChildComponent(_highlightGraphic));
+    }
+
+    private async Task CreateUnion()
+    {
+        if (_bufferPolygon is null) return;
+
+        await ClearResultsLayer();
+        _highlightPolygon = await GeometryEngine.Union(PolygonGeometry!, _bufferPolygon) as Polygon;
+        _highlightGraphic = new Graphic
+        {
+            Geometry = _highlightPolygon,
+            Symbol = HighlightFill
+        };
+        await InvokeAsync(async () => await ResultsLayer!.RegisterChildComponent(_highlightGraphic));
+    }
+
+    private async Task ResetGraphics()
+    {
+        if (_bufferGraphic != null)
+        {
+            await GraphicsLayer!.UnregisterChildComponent(_bufferGraphic);
+            await _bufferGraphic.DisposeAsync();
+        }
+        _bufferPolygon = null;
+
+        await ClearResultsLayer();
+    }
+
+    private async Task ClearResultsLayer()
+    {
+        if (_highlightGraphic is not null)
+        {
+            await ResultsLayer!.UnregisterChildComponent(_highlightGraphic);
+            await _highlightGraphic.DisposeAsync();
+        }
+
+        _highlightGraphic = null;
+        _highlightPolygon = null;
+    }
+
+    private readonly double _latitude = 34.02;
+    private readonly double _longitude = -118.805;
+    private readonly MapPath _mapPath = new(new MapPoint(-118.821527826096, 34.0139576938577),
+        new MapPoint(-118.814893761649, 34.0080602407843),
+        new MapPoint(-118.808878330345, 34.0016642996246));
+    private readonly MapPath _mapRings = new(new MapPoint(-118.818984489994, 34.0137559967283),
+        new MapPoint(-118.806796597377, 34.0215816298725),
+        new MapPoint(-118.791432890735, 34.0163883241613),
+        new MapPoint(-118.79596686535, 34.008564864635),
+        new MapPoint(-118.808558110679, 34.0035027131376));
+
+    private MapView? View { get; set; }
+    private Point? PointGeometry { get; set; }
+    private Polygon? PolygonGeometry { get; set; }
+    private GraphicsLayer? GraphicsLayer { get; set; }
+    private GraphicsLayer? ResultsLayer { get; set; }
+
+    private Symbol? BufferGraphicFill { get; set; }
+    private Graphic? _bufferGraphic;
+    private Polygon? _bufferPolygon;
+
+    private Symbol? HighlightFill { get; set; }
+    private Polygon? _highlightPolygon;
+    private Graphic? _highlightGraphic;
+}

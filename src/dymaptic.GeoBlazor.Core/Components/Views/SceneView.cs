@@ -10,7 +10,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Views;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">ArcGIS JS API</a>
 /// </summary>
 /// <example>
-///     <a target="_blank" href="https://blazor.dymaptic.com/web-scene">Sample - Web Scene</a>
+///     <a target="_blank" href="https://samples.geoblazor.com/web-scene">Sample - Web Scene</a>
 /// </example>
 public class SceneView : MapView
 {
@@ -41,7 +41,7 @@ public class SceneView : MapView
                 if (!webScene.Equals(WebScene))
                 {
                     WebScene = webScene;
-                    await UpdateComponent();
+                    await RenderView();
                 }
 
                 break;
@@ -85,7 +85,17 @@ public class SceneView : MapView
 
         if (Rendering || (Map is null && WebScene is null) || ViewJsModule is null) return;
 
+        if (string.IsNullOrWhiteSpace(ApiKey) && (AllowDefaultEsriLogin is null || !AllowDefaultEsriLogin.Value))
+        {
+            ErrorMessage = "No ArcGIS API Key Found. See UsingTheAPI.md for instructions on providing an API Key or suppressing this message.";
+            System.Diagnostics.Debug.WriteLine(ErrorMessage);
+            StateHasChanged();
+
+            return;
+        }
+        
         Rendering = true;
+        ValidateRequiredChildren();
 
         await InvokeAsync(async () =>
         {
@@ -97,11 +107,18 @@ public class SceneView : MapView
             {
                 throw new MissingMapException();
             }
+            
+            NeedsRender = false;
+
+            NeedsRender = false;
 
             await ViewJsModule!.InvokeVoidAsync("buildMapView", Id, DotNetObjectReference,
                 Longitude, Latitude, Rotation, scene, Zoom, Scale,
-                ApiKey, sceneType, Widgets, Graphics, SpatialReference, Constraints, Extent, ZIndex, Tilt);
+                ApiKey, sceneType, Widgets, Graphics, SpatialReference, Constraints, Extent,
+                EventRateLimitInMilliseconds, GetActiveEventHandlers(), ZIndex, Tilt);
             Rendering = false;
+            NewPropertyValues.Clear();
+            MapRendered = true;
         });
     }
 }

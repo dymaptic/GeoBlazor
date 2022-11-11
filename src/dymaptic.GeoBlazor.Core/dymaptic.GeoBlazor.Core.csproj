@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Razor">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
@@ -7,15 +7,15 @@
         <PackageId>dymaptic.GeoBlazor.Core</PackageId>
         <PackageTags>Blazor;ArcGIS;JsInterop;Javascript;Asp.NET</PackageTags>
         <Description>
-            This package provides a Razor Component-based API for accessing ArcGIS maps, scenes, and data.
+            This package provides a Razor Component-based API for accessing ArcGIS maps, scenes, and data. 
             It is a wrapper around the ArcGIS Javascript API - https://developers.arcgis.com/javascript/latest/
-            For more information, contact dymaptic at info@dymaptic.com, or tim.purdum@dymaptic.com
+            For more information, visit https://www.geoblazor.com or contact dymaptic at geoblazor@dymaptic.com
         </Description>
         <Title>GeoBlazor</Title>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <PackageVersion>1.1.1</PackageVersion>
-        <Version>1.1.1</Version>
-        <PackageVersion>1.1.1</PackageVersion>
+        <PackageVersion>1.1.2</PackageVersion>
+        <Version>1.1.2</Version>
+        <PackageVersion>1.1.2</PackageVersion>
         <Authors>Tim Purdum, Christopher Moravec</Authors>
         <Company>dymaptic</Company>
         <Copyright>©2022 by dymaptic</Copyright>
@@ -26,7 +26,7 @@
         <PackageIcon>Blazor-API-500px.png</PackageIcon>
         <GeneratePackageOnBuild Condition="$(Configuration) == 'RELEASE'">true</GeneratePackageOnBuild>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    </PropertyGroup>
+  </PropertyGroup>
 
     <ItemGroup>
         <SupportedPlatform Include="browser" />
@@ -76,12 +76,12 @@
         <Copy SourceFiles="@(ReadMeSourceFile)" DestinationFolder="./" />
     </Target>
 
-    <Target Name="Copy Assets" AfterTargets="PreBuildEvent" Condition="$(Configuration) == 'DEBUG'">
+    <Target Name="Copy Assets Debug" AfterTargets="PreBuildEvent" Condition="$(Configuration) == 'DEBUG'">
         <Message Importance="high" Text="Copying Asset files" />
         <ExecAsync FilePath="pwsh" Arguments="./assetCopy.ps1" />
     </Target>
 
-    <Target Name="Copy Assets" AfterTargets="PreBuildEvent" Condition="$(Configuration) == 'RELEASE'">
+    <Target Name="Copy Assets Release" AfterTargets="PreBuildEvent" Condition="$(Configuration) == 'RELEASE'">
         <Message Importance="high" Text="Copying Asset files" />
         <Exec Command="pwsh ./assetCopy.ps1" />
     </Target>

@@ -10,3 +10,4 @@ else
 {
     Write-Output "Asset files already copied. To update, delete wwwroot/assets contents and run again"    
 }
+

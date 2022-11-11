@@ -13,7 +13,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html">ArcGIS JS API</a>
 /// </summary>
 /// <example>
-///     <a target="_blank" href="https://blazor.dymaptic.com/feature-layers">Sample - Feature Layers</a>
+///     <a target="_blank" href="https://samples.geoblazor.com/feature-layers">Sample - Feature Layers</a>
 /// </example>
 public class FeatureLayer : Layer
 {
@@ -50,14 +50,7 @@ public class FeatureLayer : Layer
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string[]? OutFields { get; set; }
-    
-    /// <summary>
-    ///     The title of the layer used to identify it in places such as the Legend and LayerList widgets.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? Title { get; set; }
-    
+
     /// <summary>
     ///     The minimum scale (most zoomed out) at which the layer is visible in the view.
     /// </summary>

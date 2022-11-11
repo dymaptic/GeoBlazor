@@ -30,6 +30,13 @@ public abstract class Layer : MapComponent
     /// </summary>
     [JsonIgnore]
     public int LayerIndex { get; set; }
+    
+    /// <summary>
+    ///     The title of the layer used to identify it in places such as the Legend and LayerList widgets.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Title { get; set; }
 }
 
 internal class LayerConverter : JsonConverter<Layer>
