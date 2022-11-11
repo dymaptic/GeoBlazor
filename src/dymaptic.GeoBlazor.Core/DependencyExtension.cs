@@ -15,7 +15,7 @@ public static class DependencyExtension
     /// </summary>
     public static IServiceCollection AddGeoBlazor(this IServiceCollection serviceCollection)
     {
-        return serviceCollection.AddScoped<GeometryEngine>()
-            .AddScoped<Projection>();
+        return serviceCollection.AddSingleton<GeometryEngine>()
+            .AddSingleton<Projection>();
     }
 }

@@ -12,20 +12,6 @@ namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 public class Geometry : MapComponent
 {
     /// <summary>
-    ///     Indicates if the geometry has M values.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? HasM { get; set; }
-
-    /// <summary>
-    ///     Indicates if the geometry has Z values (elevation).
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? HasZ { get; set; }
-
-    /// <summary>
     ///     The <see cref="Extent"/> of the geometry.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
