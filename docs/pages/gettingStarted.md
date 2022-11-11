@@ -58,7 +58,7 @@ nav_order: 2
    <MapView Longitude="_longitude" Latitude="_latitude" Zoom="11" Style="height: 400px; width: 100%;"> 
    </MapView>
    ```
-7. Within the `MapView`, define a `Map`. To load a pre-generated map from ArcGIS Online or a Portal, get the Portal Id
+7. Within the `MapView`, define a `Map`. To load a pre-generated map from ArcGIS Online or Portal, get the Map Id (PortalItem Id)
    of the map, and use the `WebMap` component.
 
    ```html

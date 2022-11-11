@@ -14,24 +14,24 @@ application with the full power of ArcGIS.
 - [API Documentation](pages/classes/index) - Detailed technical specification for GeoBlazor types and classes
 
 ## Useful Links
-- [Home Page](https://www.geoblazor.com) - main website
-- [Live Samples](https://samples.geoblazor.com) - interactive demo pages
+- [Home Page](https://www.geoblazor.com) - Main website
+- [Live Samples](https://samples.geoblazor.com) - Interactive demo pages
 
 <div style="margin-bottom: 1rem;">
     <a href="https://github.com/dymaptic/geoblazor" style="display: flex; align-items: center;">
-        <img src="assets/images/github-logo.png" style="height: 2rem;" />&nbsp;&nbsp; - the open source repository
+        <img src="assets/images/github-logo.png" style="height: 2rem;" />&nbsp;&nbsp; - The open source repository
     </a>
 </div>
 
 <div style="margin-bottom: 1rem;">
     <a href="https://www.nuget.org/packages/dymaptic.GeoBlazor.Core" style="display: flex; align-items: center;">
-        <img src="assets/images/nuget.png" style="height: 2rem;" />&nbsp;&nbsp; - get the official install package
+        <img src="assets/images/nuget.png" style="height: 2rem;" />&nbsp;&nbsp; - Get the official install package
     </a>
 </div>
 
 <div style="margin-bottom: 1rem;">
     <a href="https://discord.gg/hcmbPzn4VW" style="display: flex; align-items: center;">
-        <img src="assets/images/discord-logo-blue.svg" style="height: 2rem;" />&nbsp;&nbsp; - for discussion, Q&A
+        <img src="assets/images/discord-logo-blue.svg" style="height: 2rem;" />&nbsp;&nbsp; - Discussion and Q&A
     </a>
 </div>
 
