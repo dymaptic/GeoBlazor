@@ -5,6 +5,7 @@
   "main": "arcGisInterop.js",
   "scripts": {
     "debugBuild": "esbuild ./Scripts/arcGisJsInterop.ts ./Scripts/dotNetBuilder.ts ./Scripts/jsBuilder.ts ./Scripts/projection.ts ./Scripts/geometryEngine.ts --format=esm --bundle --sourcemap --outdir=wwwroot/js",
+    "watchBuild": "esbuild ./Scripts/arcGisJsInterop.ts ./Scripts/dotNetBuilder.ts ./Scripts/jsBuilder.ts ./Scripts/projection.ts ./Scripts/geometryEngine.ts --format=esm --bundle --sourcemap --outdir=wwwroot/js --watch",
     "releaseBuild": "esbuild ./Scripts/arcGisJsInterop.ts ./Scripts/dotNetBuilder.ts ./Scripts/jsBuilder.ts ./Scripts/projection.ts ./Scripts/geometryEngine.ts --format=esm --bundle --minify --sourcemap --outdir=wwwroot/js"
   },
   "keywords": [],

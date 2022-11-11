@@ -90,6 +90,19 @@ public string? ErrorMessage { get; set; }
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.EventRateLimitInMilliseconds'></a>
+
+## MapView.EventRateLimitInMilliseconds Property
+
+Set this parameter to limit the rate at which recurring events are returned. Applies to [OnDrag](dymaptic.GeoBlazor.Core.Components.Views.MapView.html#dymaptic.GeoBlazor.Core.Components.Views.MapView.OnDrag 'dymaptic.GeoBlazor.Core.Components.Views.MapView.OnDrag'), [OnPointerMove](dymaptic.GeoBlazor.Core.Components.Views.MapView.html#dymaptic.GeoBlazor.Core.Components.Views.MapView.OnPointerMove 'dymaptic.GeoBlazor.Core.Components.Views.MapView.OnPointerMove'), [OnMouseWheel](dymaptic.GeoBlazor.Core.Components.Views.MapView.html#dymaptic.GeoBlazor.Core.Components.Views.MapView.OnMouseWheel 'dymaptic.GeoBlazor.Core.Components.Views.MapView.OnMouseWheel'), [OnResize](dymaptic.GeoBlazor.Core.Components.Views.MapView.html#dymaptic.GeoBlazor.Core.Components.Views.MapView.OnResize 'dymaptic.GeoBlazor.Core.Components.Views.MapView.OnResize'), and [OnExtentChanged](dymaptic.GeoBlazor.Core.Components.Views.MapView.html#dymaptic.GeoBlazor.Core.Components.Views.MapView.OnExtentChanged 'dymaptic.GeoBlazor.Core.Components.Views.MapView.OnExtentChanged')
+
+```csharp
+public System.Nullable<int> EventRateLimitInMilliseconds { get; set; }
+```
+
+#### Property Value
+[System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
+
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.Extent'></a>
 
 ## MapView.Extent Property
@@ -168,11 +181,37 @@ public dymaptic.GeoBlazor.Core.Components.Map? Map { get; set; }
 #### Property Value
 [Map](dymaptic.GeoBlazor.Core.Components.Map.html 'dymaptic.GeoBlazor.Core.Components.Map')
 
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnBlur'></a>
+
+## MapView.OnBlur Property
+
+Handler delegate for blur (lost focus) events on the view.
+
+```csharp
+public Microsoft.AspNetCore.Components.EventCallback<dymaptic.GeoBlazor.Core.Events.BlurEvent> OnBlur { get; set; }
+```
+
+#### Property Value
+[Microsoft.AspNetCore.Components.EventCallback&lt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback-1 'Microsoft.AspNetCore.Components.EventCallback`1')[BlurEvent](dymaptic.GeoBlazor.Core.Events.BlurEvent.html 'dymaptic.GeoBlazor.Core.Events.BlurEvent')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback-1 'Microsoft.AspNetCore.Components.EventCallback`1')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnClick'></a>
+
+## MapView.OnClick Property
+
+Handler delegate for click events on the view.
+
+```csharp
+public Microsoft.AspNetCore.Components.EventCallback<dymaptic.GeoBlazor.Core.Events.ClickEvent> OnClick { get; set; }
+```
+
+#### Property Value
+[Microsoft.AspNetCore.Components.EventCallback&lt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback-1 'Microsoft.AspNetCore.Components.EventCallback`1')[ClickEvent](dymaptic.GeoBlazor.Core.Events.ClickEvent.html 'dymaptic.GeoBlazor.Core.Events.ClickEvent')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback-1 'Microsoft.AspNetCore.Components.EventCallback`1')
+
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnClickAsyncHandler'></a>
 
 ## MapView.OnClickAsyncHandler Property
 
-Handler delegate for click actions on the view. Must take in a [Point](dymaptic.GeoBlazor.Core.Components.Geometries.Point.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Point') and return a [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task').
+Handler delegate for click events on the view. Must take in a [Point](dymaptic.GeoBlazor.Core.Components.Geometries.Point.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Point') and return a [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task').
 
 ```csharp
 public System.Func<dymaptic.GeoBlazor.Core.Components.Geometries.Point,System.Threading.Tasks.Task>? OnClickAsyncHandler { get; set; }
@@ -180,6 +219,201 @@ public System.Func<dymaptic.GeoBlazor.Core.Components.Geometries.Point,System.Th
 
 #### Property Value
 [System.Func&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Func-2 'System.Func`2')[Point](dymaptic.GeoBlazor.Core.Components.Geometries.Point.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Point')[,](https://docs.microsoft.com/en-us/dotnet/api/System.Func-2 'System.Func`2')[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Func-2 'System.Func`2')
+
+### Remarks
+<b style="color: red">OBSOLETE: Use OnClick EventCallback instead</b>
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnDoubleClick'></a>
+
+## MapView.OnDoubleClick Property
+
+Handler delegate for double-click events on the view.
+
+```csharp
+public Microsoft.AspNetCore.Components.EventCallback<dymaptic.GeoBlazor.Core.Events.ClickEvent> OnDoubleClick { get; set; }
+```
+
+#### Property Value
+[Microsoft.AspNetCore.Components.EventCallback&lt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback-1 'Microsoft.AspNetCore.Components.EventCallback`1')[ClickEvent](dymaptic.GeoBlazor.Core.Events.ClickEvent.html 'dymaptic.GeoBlazor.Core.Events.ClickEvent')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback-1 'Microsoft.AspNetCore.Components.EventCallback`1')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnDrag'></a>
+
+## MapView.OnDrag Property
+
+Handler delegate for pointer drag events on the view, returns a [DragEvent](dymaptic.GeoBlazor.Core.Events.DragEvent.html 'dymaptic.GeoBlazor.Core.Events.DragEvent').
+
+```csharp
+public Microsoft.AspNetCore.Components.EventCallback<dymaptic.GeoBlazor.Core.Events.DragEvent> OnDrag { get; set; }
+```
+
+#### Property Value
+[Microsoft.AspNetCore.Components.EventCallback&lt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback-1 'Microsoft.AspNetCore.Components.EventCallback`1')[DragEvent](dymaptic.GeoBlazor.Core.Events.DragEvent.html 'dymaptic.GeoBlazor.Core.Events.DragEvent')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback-1 'Microsoft.AspNetCore.Components.EventCallback`1')
+
+### Remarks
+The real-time nature of this handler make it a challenge to use continuously over SignalR in Blazor Server.  
+In this scenario, you should write a custom JavaScript handler instead.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnExtentChanged'></a>
+
+## MapView.OnExtentChanged Property
+
+Handler delegate for the view's Extent changing.
+
+```csharp
+public Microsoft.AspNetCore.Components.EventCallback<dymaptic.GeoBlazor.Core.Components.Geometries.Extent> OnExtentChanged { get; set; }
+```
+
+#### Property Value
+[Microsoft.AspNetCore.Components.EventCallback&lt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback-1 'Microsoft.AspNetCore.Components.EventCallback`1')[Extent](dymaptic.GeoBlazor.Core.Components.Geometries.Extent.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Extent')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback-1 'Microsoft.AspNetCore.Components.EventCallback`1')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnFocus'></a>
+
+## MapView.OnFocus Property
+
+Handler delegate for focus events on the view.
+
+```csharp
+public Microsoft.AspNetCore.Components.EventCallback<dymaptic.GeoBlazor.Core.Events.FocusEvent> OnFocus { get; set; }
+```
+
+#### Property Value
+[Microsoft.AspNetCore.Components.EventCallback&lt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback-1 'Microsoft.AspNetCore.Components.EventCallback`1')[FocusEvent](dymaptic.GeoBlazor.Core.Events.FocusEvent.html 'dymaptic.GeoBlazor.Core.Events.FocusEvent')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback-1 'Microsoft.AspNetCore.Components.EventCallback`1')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnHold'></a>
+
+## MapView.OnHold Property
+
+Handler delegate for hold events on the view.
+
+```csharp
+public Microsoft.AspNetCore.Components.EventCallback<dymaptic.GeoBlazor.Core.Events.ClickEvent> OnHold { get; set; }
+```
+
+#### Property Value
+[Microsoft.AspNetCore.Components.EventCallback&lt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback-1 'Microsoft.AspNetCore.Components.EventCallback`1')[ClickEvent](dymaptic.GeoBlazor.Core.Events.ClickEvent.html 'dymaptic.GeoBlazor.Core.Events.ClickEvent')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback-1 'Microsoft.AspNetCore.Components.EventCallback`1')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnImmediateClick'></a>
+
+## MapView.OnImmediateClick Property
+
+Handler delegate for immediate-click events on the view.
+
+```csharp
+public Microsoft.AspNetCore.Components.EventCallback<dymaptic.GeoBlazor.Core.Events.ClickEvent> OnImmediateClick { get; set; }
+```
+
+#### Property Value
+[Microsoft.AspNetCore.Components.EventCallback&lt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback-1 'Microsoft.AspNetCore.Components.EventCallback`1')[ClickEvent](dymaptic.GeoBlazor.Core.Events.ClickEvent.html 'dymaptic.GeoBlazor.Core.Events.ClickEvent')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback-1 'Microsoft.AspNetCore.Components.EventCallback`1')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnImmediateDoubleClick'></a>
+
+## MapView.OnImmediateDoubleClick Property
+
+Handler delegate for immediate-double-click events on the view.
+
+```csharp
+public Microsoft.AspNetCore.Components.EventCallback<dymaptic.GeoBlazor.Core.Events.ClickEvent> OnImmediateDoubleClick { get; set; }
+```
+
+#### Property Value
+[Microsoft.AspNetCore.Components.EventCallback&lt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback-1 'Microsoft.AspNetCore.Components.EventCallback`1')[ClickEvent](dymaptic.GeoBlazor.Core.Events.ClickEvent.html 'dymaptic.GeoBlazor.Core.Events.ClickEvent')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback-1 'Microsoft.AspNetCore.Components.EventCallback`1')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptErrorHandler'></a>
+
+## MapView.OnJavascriptErrorHandler Property
+
+Implement this handler in your calling code to catch and handle Javascript errors.
+
+```csharp
+public System.Func<dymaptic.GeoBlazor.Core.Exceptions.JavascriptException,System.Threading.Tasks.Task>? OnJavascriptErrorHandler { get; set; }
+```
+
+#### Property Value
+[System.Func&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Func-2 'System.Func`2')[JavascriptException](dymaptic.GeoBlazor.Core.Exceptions.JavascriptException.html 'dymaptic.GeoBlazor.Core.Exceptions.JavascriptException')[,](https://docs.microsoft.com/en-us/dotnet/api/System.Func-2 'System.Func`2')[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Func-2 'System.Func`2')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnKeyDown'></a>
+
+## MapView.OnKeyDown Property
+
+Handler delegate for key-down events on the view.
+
+```csharp
+public Microsoft.AspNetCore.Components.EventCallback<dymaptic.GeoBlazor.Core.Events.KeyDownEvent> OnKeyDown { get; set; }
+```
+
+#### Property Value
+[Microsoft.AspNetCore.Components.EventCallback&lt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback-1 'Microsoft.AspNetCore.Components.EventCallback`1')[KeyDownEvent](dymaptic.GeoBlazor.Core.Events.KeyDownEvent.html 'dymaptic.GeoBlazor.Core.Events.KeyDownEvent')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback-1 'Microsoft.AspNetCore.Components.EventCallback`1')
+
+### Remarks
+Fires after a keyboard key is pressed.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnKeyUp'></a>
+
+## MapView.OnKeyUp Property
+
+Handler delegate for key-up events on the view.
+
+```csharp
+public Microsoft.AspNetCore.Components.EventCallback<dymaptic.GeoBlazor.Core.Events.KeyUpEvent> OnKeyUp { get; set; }
+```
+
+#### Property Value
+[Microsoft.AspNetCore.Components.EventCallback&lt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback-1 'Microsoft.AspNetCore.Components.EventCallback`1')[KeyUpEvent](dymaptic.GeoBlazor.Core.Events.KeyUpEvent.html 'dymaptic.GeoBlazor.Core.Events.KeyUpEvent')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback-1 'Microsoft.AspNetCore.Components.EventCallback`1')
+
+### Remarks
+Fires after a keyboard key is released.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnLayerViewCreate'></a>
+
+## MapView.OnLayerViewCreate Property
+
+Fires after each layer in the map has a corresponding LayerView created and rendered in the view.
+
+```csharp
+public Microsoft.AspNetCore.Components.EventCallback<dymaptic.GeoBlazor.Core.Events.LayerViewCreateEvent> OnLayerViewCreate { get; set; }
+```
+
+#### Property Value
+[Microsoft.AspNetCore.Components.EventCallback&lt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback-1 'Microsoft.AspNetCore.Components.EventCallback`1')[LayerViewCreateEvent](dymaptic.GeoBlazor.Core.Events.LayerViewCreateEvent.html 'dymaptic.GeoBlazor.Core.Events.LayerViewCreateEvent')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback-1 'Microsoft.AspNetCore.Components.EventCallback`1')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnLayerViewCreateError'></a>
+
+## MapView.OnLayerViewCreateError Property
+
+Fires after a LayerView is destroyed and is no longer rendered in the view. This happens for example when a layer is removed from the map of the view.
+
+```csharp
+public Microsoft.AspNetCore.Components.EventCallback<dymaptic.GeoBlazor.Core.Events.LayerViewCreateErrorEvent> OnLayerViewCreateError { get; set; }
+```
+
+#### Property Value
+[Microsoft.AspNetCore.Components.EventCallback&lt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback-1 'Microsoft.AspNetCore.Components.EventCallback`1')[LayerViewCreateErrorEvent](dymaptic.GeoBlazor.Core.Events.LayerViewCreateErrorEvent.html 'dymaptic.GeoBlazor.Core.Events.LayerViewCreateErrorEvent')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback-1 'Microsoft.AspNetCore.Components.EventCallback`1')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnLayerViewDestroy'></a>
+
+## MapView.OnLayerViewDestroy Property
+
+Fires after a LayerView is destroyed and is no longer rendered in the view. This happens for example when a layer is removed from the map of the view.
+
+```csharp
+public Microsoft.AspNetCore.Components.EventCallback<dymaptic.GeoBlazor.Core.Events.LayerViewDestroyEvent> OnLayerViewDestroy { get; set; }
+```
+
+#### Property Value
+[Microsoft.AspNetCore.Components.EventCallback&lt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback-1 'Microsoft.AspNetCore.Components.EventCallback`1')[LayerViewDestroyEvent](dymaptic.GeoBlazor.Core.Events.LayerViewDestroyEvent.html 'dymaptic.GeoBlazor.Core.Events.LayerViewDestroyEvent')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback-1 'Microsoft.AspNetCore.Components.EventCallback`1')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnMapRendered'></a>
+
+## MapView.OnMapRendered Property
+
+Handler delegate for when the map view is fully rendered. Must return a [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task').
+
+```csharp
+public Microsoft.AspNetCore.Components.EventCallback OnMapRendered { get; set; }
+```
+
+#### Property Value
+[Microsoft.AspNetCore.Components.EventCallback](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback 'Microsoft.AspNetCore.Components.EventCallback')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnMapRenderedHandler'></a>
 
@@ -194,11 +428,93 @@ public System.Func<System.Threading.Tasks.Task>? OnMapRenderedHandler { get; set
 #### Property Value
 [System.Func&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Func-1 'System.Func`1')[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Func-1 'System.Func`1')
 
+### Remarks
+<b style="color: red">OBSOLETE: Use OnMapRendered EventCallback instead</b>
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnMouseWheel'></a>
+
+## MapView.OnMouseWheel Property
+
+Handler delegate for the view's Extent changing.
+
+```csharp
+public Microsoft.AspNetCore.Components.EventCallback<dymaptic.GeoBlazor.Core.Events.MouseWheelEvent> OnMouseWheel { get; set; }
+```
+
+#### Property Value
+[Microsoft.AspNetCore.Components.EventCallback&lt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback-1 'Microsoft.AspNetCore.Components.EventCallback`1')[MouseWheelEvent](dymaptic.GeoBlazor.Core.Events.MouseWheelEvent.html 'dymaptic.GeoBlazor.Core.Events.MouseWheelEvent')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback-1 'Microsoft.AspNetCore.Components.EventCallback`1')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnPointerDown'></a>
+
+## MapView.OnPointerDown Property
+
+Handler delegate for pointer down events on the view.
+
+```csharp
+public Microsoft.AspNetCore.Components.EventCallback<dymaptic.GeoBlazor.Core.Events.PointerEvent> OnPointerDown { get; set; }
+```
+
+#### Property Value
+[Microsoft.AspNetCore.Components.EventCallback&lt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback-1 'Microsoft.AspNetCore.Components.EventCallback`1')[PointerEvent](dymaptic.GeoBlazor.Core.Events.PointerEvent.html 'dymaptic.GeoBlazor.Core.Events.PointerEvent')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback-1 'Microsoft.AspNetCore.Components.EventCallback`1')
+
+### Remarks
+Fires after a mouse button is pressed, or a finger touches the display.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnPointerEnter'></a>
+
+## MapView.OnPointerEnter Property
+
+Handler delegate for pointer enter events on the view.
+
+```csharp
+public Microsoft.AspNetCore.Components.EventCallback<dymaptic.GeoBlazor.Core.Events.PointerEvent> OnPointerEnter { get; set; }
+```
+
+#### Property Value
+[Microsoft.AspNetCore.Components.EventCallback&lt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback-1 'Microsoft.AspNetCore.Components.EventCallback`1')[PointerEvent](dymaptic.GeoBlazor.Core.Events.PointerEvent.html 'dymaptic.GeoBlazor.Core.Events.PointerEvent')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback-1 'Microsoft.AspNetCore.Components.EventCallback`1')
+
+### Remarks
+Fires after a mouse cursor enters the view, or a display touch begins.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnPointerLeave'></a>
+
+## MapView.OnPointerLeave Property
+
+Handler delegate for pointer leave events on the view. Must take in a [Point](dymaptic.GeoBlazor.Core.Components.Geometries.Point.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Point') and return a [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task').
+
+```csharp
+public Microsoft.AspNetCore.Components.EventCallback<dymaptic.GeoBlazor.Core.Events.PointerEvent> OnPointerLeave { get; set; }
+```
+
+#### Property Value
+[Microsoft.AspNetCore.Components.EventCallback&lt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback-1 'Microsoft.AspNetCore.Components.EventCallback`1')[PointerEvent](dymaptic.GeoBlazor.Core.Events.PointerEvent.html 'dymaptic.GeoBlazor.Core.Events.PointerEvent')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback-1 'Microsoft.AspNetCore.Components.EventCallback`1')
+
+### Remarks
+Fires after a mouse cursor leaves the view, or a display touch ends.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnPointerMove'></a>
+
+## MapView.OnPointerMove Property
+
+Handler delegate for point move events on the view. Must take in a [Point](dymaptic.GeoBlazor.Core.Components.Geometries.Point.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Point') and return a [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task').
+
+```csharp
+public Microsoft.AspNetCore.Components.EventCallback<dymaptic.GeoBlazor.Core.Events.PointerEvent> OnPointerMove { get; set; }
+```
+
+#### Property Value
+[Microsoft.AspNetCore.Components.EventCallback&lt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback-1 'Microsoft.AspNetCore.Components.EventCallback`1')[PointerEvent](dymaptic.GeoBlazor.Core.Events.PointerEvent.html 'dymaptic.GeoBlazor.Core.Events.PointerEvent')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback-1 'Microsoft.AspNetCore.Components.EventCallback`1')
+
+### Remarks
+The real-time nature of this handler make it a challenge to use continuously over SignalR in Blazor Server.  
+In this scenario, you should write a custom JavaScript handler instead.  
+See <a target="_blank" href="https://github.com/dymaptic/GeoBlazor/blob/develop/samples/dymaptic.GeoBlazor.Core.Sample.Shared/Pages/DisplayProjection.razor">Display Projection</a> code.
+
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnPointerMoveHandler'></a>
 
 ## MapView.OnPointerMoveHandler Property
 
-Handler delegate for point move actions on the view. Must take in a [Point](dymaptic.GeoBlazor.Core.Components.Geometries.Point.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Point') and return a [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task').
+Handler delegate for point move events on the view. Must take in a [Point](dymaptic.GeoBlazor.Core.Components.Geometries.Point.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Point') and return a [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task').
 
 ```csharp
 public System.Func<dymaptic.GeoBlazor.Core.Components.Geometries.Point,System.Threading.Tasks.Task>? OnPointerMoveHandler { get; set; }
@@ -208,9 +524,52 @@ public System.Func<dymaptic.GeoBlazor.Core.Components.Geometries.Point,System.Th
 [System.Func&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Func-2 'System.Func`2')[Point](dymaptic.GeoBlazor.Core.Components.Geometries.Point.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Point')[,](https://docs.microsoft.com/en-us/dotnet/api/System.Func-2 'System.Func`2')[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Func-2 'System.Func`2')
 
 ### Remarks
+Fires after the mouse or a finger on the display moves.  
 The real-time nature of this handler make it a challenge to use continuously over SignalR in Blazor Server.  
 In this scenario, you should write a custom JavaScript handler instead.  
 See <a target="_blank" href="https://github.com/dymaptic/GeoBlazor/blob/develop/samples/dymaptic.GeoBlazor.Core.Sample.Shared/Pages/DisplayProjection.razor">Display Projection</a> code.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnPointerUp'></a>
+
+## MapView.OnPointerUp Property
+
+Handler delegate for pointer up events on the view. Must take in a [Point](dymaptic.GeoBlazor.Core.Components.Geometries.Point.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Point') and return a [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task').
+
+```csharp
+public Microsoft.AspNetCore.Components.EventCallback<dymaptic.GeoBlazor.Core.Events.PointerEvent> OnPointerUp { get; set; }
+```
+
+#### Property Value
+[Microsoft.AspNetCore.Components.EventCallback&lt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback-1 'Microsoft.AspNetCore.Components.EventCallback`1')[PointerEvent](dymaptic.GeoBlazor.Core.Events.PointerEvent.html 'dymaptic.GeoBlazor.Core.Events.PointerEvent')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback-1 'Microsoft.AspNetCore.Components.EventCallback`1')
+
+### Remarks
+Fires after a mouse button is released, or a display touch ends.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnResize'></a>
+
+## MapView.OnResize Property
+
+Handler delegate for the view's Extent changing.
+
+```csharp
+public Microsoft.AspNetCore.Components.EventCallback<dymaptic.GeoBlazor.Core.Events.ResizeEvent> OnResize { get; set; }
+```
+
+#### Property Value
+[Microsoft.AspNetCore.Components.EventCallback&lt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback-1 'Microsoft.AspNetCore.Components.EventCallback`1')[ResizeEvent](dymaptic.GeoBlazor.Core.Events.ResizeEvent.html 'dymaptic.GeoBlazor.Core.Events.ResizeEvent')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback-1 'Microsoft.AspNetCore.Components.EventCallback`1')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnSpatialReferenceChanged'></a>
+
+## MapView.OnSpatialReferenceChanged Property
+
+Handler delegate for the view's Spatial Reference changing.
+
+```csharp
+public Microsoft.AspNetCore.Components.EventCallback<dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference> OnSpatialReferenceChanged { get; set; }
+```
+
+#### Property Value
+[Microsoft.AspNetCore.Components.EventCallback&lt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback-1 'Microsoft.AspNetCore.Components.EventCallback`1')[SpatialReference](dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference.html 'dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback-1 'Microsoft.AspNetCore.Components.EventCallback`1')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnSpatialReferenceChangedHandler'></a>
 
@@ -225,6 +584,9 @@ public System.Func<dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReferenc
 
 #### Property Value
 [System.Func&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Func-2 'System.Func`2')[SpatialReference](dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference.html 'dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference')[,](https://docs.microsoft.com/en-us/dotnet/api/System.Func-2 'System.Func`2')[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Func-2 'System.Func`2')
+
+### Remarks
+<b style="color: red">OBSOLETE: Use OnSpatialReferenceChanged instead</b>
 
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.Rotation'></a>
 
@@ -511,78 +873,462 @@ The new [Extent](dymaptic.GeoBlazor.Core.Components.Views.MapView.html#dymaptic.
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
 
-<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptClick(dymaptic.GeoBlazor.Core.Components.Geometries.Point)'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptBlur(dymaptic.GeoBlazor.Core.Events.BlurEvent)'></a>
 
-## MapView.OnJavascriptClick(Point) Method
+## MapView.OnJavascriptBlur(BlurEvent) Method
+
+JS-Invokable method to return view blur (lost focus) events.
+
+```csharp
+public System.Threading.Tasks.Task OnJavascriptBlur(dymaptic.GeoBlazor.Core.Events.BlurEvent blurEvent);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptBlur(dymaptic.GeoBlazor.Core.Events.BlurEvent).blurEvent'></a>
+
+`blurEvent` [BlurEvent](dymaptic.GeoBlazor.Core.Events.BlurEvent.html 'dymaptic.GeoBlazor.Core.Events.BlurEvent')
+
+The [BlurEvent](dymaptic.GeoBlazor.Core.Events.BlurEvent.html 'dymaptic.GeoBlazor.Core.Events.BlurEvent') return meta object.
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptClick(dymaptic.GeoBlazor.Core.Events.ClickEvent)'></a>
+
+## MapView.OnJavascriptClick(ClickEvent) Method
 
 JS-Invokable method to return view clicks.
 
 ```csharp
-public void OnJavascriptClick(dymaptic.GeoBlazor.Core.Components.Geometries.Point mapPoint);
+public System.Threading.Tasks.Task OnJavascriptClick(dymaptic.GeoBlazor.Core.Events.ClickEvent clickEvent);
 ```
 #### Parameters
 
-<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptClick(dymaptic.GeoBlazor.Core.Components.Geometries.Point).mapPoint'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptClick(dymaptic.GeoBlazor.Core.Events.ClickEvent).clickEvent'></a>
 
-`mapPoint` [Point](dymaptic.GeoBlazor.Core.Components.Geometries.Point.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Point')
+`clickEvent` [ClickEvent](dymaptic.GeoBlazor.Core.Events.ClickEvent.html 'dymaptic.GeoBlazor.Core.Events.ClickEvent')
 
-The [Point](dymaptic.GeoBlazor.Core.Components.Geometries.Point.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Point') that was clicked.
+The [ClickEvent](dymaptic.GeoBlazor.Core.Events.ClickEvent.html 'dymaptic.GeoBlazor.Core.Events.ClickEvent') return meta object.
 
-<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptError(string)'></a>
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
 
-## MapView.OnJavascriptError(string) Method
+### Remarks
+Fires after a user clicks on the view. This event emits slightly slower than an immediate-click event to make sure that a double-click event isn't triggered instead. The immediate-click event can be used for responding to a click event without delay.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptDoubleClick(dymaptic.GeoBlazor.Core.Events.ClickEvent)'></a>
+
+## MapView.OnJavascriptDoubleClick(ClickEvent) Method
+
+JS-Invokable method to return view double-clicks.
+
+```csharp
+public System.Threading.Tasks.Task OnJavascriptDoubleClick(dymaptic.GeoBlazor.Core.Events.ClickEvent clickEvent);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptDoubleClick(dymaptic.GeoBlazor.Core.Events.ClickEvent).clickEvent'></a>
+
+`clickEvent` [ClickEvent](dymaptic.GeoBlazor.Core.Events.ClickEvent.html 'dymaptic.GeoBlazor.Core.Events.ClickEvent')
+
+The [ClickEvent](dymaptic.GeoBlazor.Core.Events.ClickEvent.html 'dymaptic.GeoBlazor.Core.Events.ClickEvent') return meta object.
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptDrag(dymaptic.GeoBlazor.Core.Events.DragEvent)'></a>
+
+## MapView.OnJavascriptDrag(DragEvent) Method
+
+JS-Invokable method to return view drag events.
+
+```csharp
+public System.Threading.Tasks.Task OnJavascriptDrag(dymaptic.GeoBlazor.Core.Events.DragEvent dragEvent);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptDrag(dymaptic.GeoBlazor.Core.Events.DragEvent).dragEvent'></a>
+
+`dragEvent` [DragEvent](dymaptic.GeoBlazor.Core.Events.DragEvent.html 'dymaptic.GeoBlazor.Core.Events.DragEvent')
+
+The [DragEvent](dymaptic.GeoBlazor.Core.Events.DragEvent.html 'dymaptic.GeoBlazor.Core.Events.DragEvent') return meta object.
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptError(dymaptic.GeoBlazor.Core.Exceptions.JavascriptError)'></a>
+
+## MapView.OnJavascriptError(JavascriptError) Method
 
 Surfaces JavaScript errors to the .NET Code for debugging.
 
 ```csharp
-public void OnJavascriptError(string error);
+public void OnJavascriptError(dymaptic.GeoBlazor.Core.Exceptions.JavascriptError error);
 ```
 #### Parameters
 
-<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptError(string).error'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptError(dymaptic.GeoBlazor.Core.Exceptions.JavascriptError).error'></a>
 
-`error` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+`error` [JavascriptError](dymaptic.GeoBlazor.Core.Exceptions.JavascriptError.html 'dymaptic.GeoBlazor.Core.Exceptions.JavascriptError')
 
-The JavaScript error call stack, or details if the call stack was unavailable.
+The original Javascript error.
 
 #### Exceptions
 
 [JavascriptException](dymaptic.GeoBlazor.Core.Exceptions.JavascriptException.html 'dymaptic.GeoBlazor.Core.Exceptions.JavascriptException')  
 Wraps the JS Error and throws a .NET Exception.
 
-<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptPointerMove(dymaptic.GeoBlazor.Core.Components.Geometries.Point)'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptExtentChanged(dymaptic.GeoBlazor.Core.Components.Geometries.Extent)'></a>
 
-## MapView.OnJavascriptPointerMove(Point) Method
+## MapView.OnJavascriptExtentChanged(Extent) Method
+
+JS-Invokable method to return when the map view Extent changes.
+
+```csharp
+public System.Threading.Tasks.Task OnJavascriptExtentChanged(dymaptic.GeoBlazor.Core.Components.Geometries.Extent extent);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptExtentChanged(dymaptic.GeoBlazor.Core.Components.Geometries.Extent).extent'></a>
+
+`extent` [Extent](dymaptic.GeoBlazor.Core.Components.Geometries.Extent.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Extent')
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptFocus(dymaptic.GeoBlazor.Core.Events.FocusEvent)'></a>
+
+## MapView.OnJavascriptFocus(FocusEvent) Method
+
+JS-Invokable method to return view focus events.
+
+```csharp
+public System.Threading.Tasks.Task OnJavascriptFocus(dymaptic.GeoBlazor.Core.Events.FocusEvent focusEvent);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptFocus(dymaptic.GeoBlazor.Core.Events.FocusEvent).focusEvent'></a>
+
+`focusEvent` [FocusEvent](dymaptic.GeoBlazor.Core.Events.FocusEvent.html 'dymaptic.GeoBlazor.Core.Events.FocusEvent')
+
+The [FocusEvent](dymaptic.GeoBlazor.Core.Events.FocusEvent.html 'dymaptic.GeoBlazor.Core.Events.FocusEvent') return meta object.
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptHold(dymaptic.GeoBlazor.Core.Events.ClickEvent)'></a>
+
+## MapView.OnJavascriptHold(ClickEvent) Method
+
+JS-Invokable method to return view hold events.
+
+```csharp
+public System.Threading.Tasks.Task OnJavascriptHold(dymaptic.GeoBlazor.Core.Events.ClickEvent holdEvent);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptHold(dymaptic.GeoBlazor.Core.Events.ClickEvent).holdEvent'></a>
+
+`holdEvent` [ClickEvent](dymaptic.GeoBlazor.Core.Events.ClickEvent.html 'dymaptic.GeoBlazor.Core.Events.ClickEvent')
+
+The [ClickEvent](dymaptic.GeoBlazor.Core.Events.ClickEvent.html 'dymaptic.GeoBlazor.Core.Events.ClickEvent') return meta object.
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptImmediateClick(dymaptic.GeoBlazor.Core.Events.ClickEvent)'></a>
+
+## MapView.OnJavascriptImmediateClick(ClickEvent) Method
+
+JS-Invokable method to return view immediate-clicks.
+
+```csharp
+public System.Threading.Tasks.Task OnJavascriptImmediateClick(dymaptic.GeoBlazor.Core.Events.ClickEvent clickEvent);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptImmediateClick(dymaptic.GeoBlazor.Core.Events.ClickEvent).clickEvent'></a>
+
+`clickEvent` [ClickEvent](dymaptic.GeoBlazor.Core.Events.ClickEvent.html 'dymaptic.GeoBlazor.Core.Events.ClickEvent')
+
+The [ClickEvent](dymaptic.GeoBlazor.Core.Events.ClickEvent.html 'dymaptic.GeoBlazor.Core.Events.ClickEvent') return meta object.
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptImmediateDoubleClick(dymaptic.GeoBlazor.Core.Events.ClickEvent)'></a>
+
+## MapView.OnJavascriptImmediateDoubleClick(ClickEvent) Method
+
+JS-Invokable method to return view immediate-double-clicks.
+
+```csharp
+public System.Threading.Tasks.Task OnJavascriptImmediateDoubleClick(dymaptic.GeoBlazor.Core.Events.ClickEvent clickEvent);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptImmediateDoubleClick(dymaptic.GeoBlazor.Core.Events.ClickEvent).clickEvent'></a>
+
+`clickEvent` [ClickEvent](dymaptic.GeoBlazor.Core.Events.ClickEvent.html 'dymaptic.GeoBlazor.Core.Events.ClickEvent')
+
+The [ClickEvent](dymaptic.GeoBlazor.Core.Events.ClickEvent.html 'dymaptic.GeoBlazor.Core.Events.ClickEvent') return meta object.
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptKeyDown(dymaptic.GeoBlazor.Core.Events.KeyDownEvent)'></a>
+
+## MapView.OnJavascriptKeyDown(KeyDownEvent) Method
+
+JS-Invokable method to return view key-down events.
+
+```csharp
+public System.Threading.Tasks.Task OnJavascriptKeyDown(dymaptic.GeoBlazor.Core.Events.KeyDownEvent keyDownEvent);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptKeyDown(dymaptic.GeoBlazor.Core.Events.KeyDownEvent).keyDownEvent'></a>
+
+`keyDownEvent` [KeyDownEvent](dymaptic.GeoBlazor.Core.Events.KeyDownEvent.html 'dymaptic.GeoBlazor.Core.Events.KeyDownEvent')
+
+The [KeyDownEvent](dymaptic.GeoBlazor.Core.Events.KeyDownEvent.html 'dymaptic.GeoBlazor.Core.Events.KeyDownEvent') return meta object.
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptKeyUp(dymaptic.GeoBlazor.Core.Events.KeyUpEvent)'></a>
+
+## MapView.OnJavascriptKeyUp(KeyUpEvent) Method
+
+JS-Invokable method to return view key-up events.
+
+```csharp
+public System.Threading.Tasks.Task OnJavascriptKeyUp(dymaptic.GeoBlazor.Core.Events.KeyUpEvent keyUpEvent);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptKeyUp(dymaptic.GeoBlazor.Core.Events.KeyUpEvent).keyUpEvent'></a>
+
+`keyUpEvent` [KeyUpEvent](dymaptic.GeoBlazor.Core.Events.KeyUpEvent.html 'dymaptic.GeoBlazor.Core.Events.KeyUpEvent')
+
+The [KeyUpEvent](dymaptic.GeoBlazor.Core.Events.KeyUpEvent.html 'dymaptic.GeoBlazor.Core.Events.KeyUpEvent') return meta object.
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptLayerViewCreate(dymaptic.GeoBlazor.Core.Events.LayerViewCreateEvent)'></a>
+
+## MapView.OnJavascriptLayerViewCreate(LayerViewCreateEvent) Method
+
+JS-Invokable method to return when a layer view is created.
+
+```csharp
+public System.Threading.Tasks.Task OnJavascriptLayerViewCreate(dymaptic.GeoBlazor.Core.Events.LayerViewCreateEvent layerViewCreateEvent);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptLayerViewCreate(dymaptic.GeoBlazor.Core.Events.LayerViewCreateEvent).layerViewCreateEvent'></a>
+
+`layerViewCreateEvent` [LayerViewCreateEvent](dymaptic.GeoBlazor.Core.Events.LayerViewCreateEvent.html 'dymaptic.GeoBlazor.Core.Events.LayerViewCreateEvent')
+
+The new [LayerViewCreateEvent](dymaptic.GeoBlazor.Core.Events.LayerViewCreateEvent.html 'dymaptic.GeoBlazor.Core.Events.LayerViewCreateEvent')
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptLayerViewCreateError(dymaptic.GeoBlazor.Core.Events.LayerViewCreateErrorEvent)'></a>
+
+## MapView.OnJavascriptLayerViewCreateError(LayerViewCreateErrorEvent) Method
+
+JS-Invokable method to return when a layer view is destroyed.
+
+```csharp
+public System.Threading.Tasks.Task OnJavascriptLayerViewCreateError(dymaptic.GeoBlazor.Core.Events.LayerViewCreateErrorEvent errorEvent);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptLayerViewCreateError(dymaptic.GeoBlazor.Core.Events.LayerViewCreateErrorEvent).errorEvent'></a>
+
+`errorEvent` [LayerViewCreateErrorEvent](dymaptic.GeoBlazor.Core.Events.LayerViewCreateErrorEvent.html 'dymaptic.GeoBlazor.Core.Events.LayerViewCreateErrorEvent')
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptLayerViewDestroy(dymaptic.GeoBlazor.Core.Events.LayerViewDestroyEvent)'></a>
+
+## MapView.OnJavascriptLayerViewDestroy(LayerViewDestroyEvent) Method
+
+JS-Invokable method to return when a layer view is destroyed.
+
+```csharp
+public System.Threading.Tasks.Task OnJavascriptLayerViewDestroy(dymaptic.GeoBlazor.Core.Events.LayerViewDestroyEvent layerViewDestroyEvent);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptLayerViewDestroy(dymaptic.GeoBlazor.Core.Events.LayerViewDestroyEvent).layerViewDestroyEvent'></a>
+
+`layerViewDestroyEvent` [LayerViewDestroyEvent](dymaptic.GeoBlazor.Core.Events.LayerViewDestroyEvent.html 'dymaptic.GeoBlazor.Core.Events.LayerViewDestroyEvent')
+
+The destroyed [LayerViewDestroyEvent](dymaptic.GeoBlazor.Core.Events.LayerViewDestroyEvent.html 'dymaptic.GeoBlazor.Core.Events.LayerViewDestroyEvent')
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptMouseWheel(dymaptic.GeoBlazor.Core.Events.MouseWheelEvent)'></a>
+
+## MapView.OnJavascriptMouseWheel(MouseWheelEvent) Method
+
+JS-Invokable method to return when the mouse wheel is scrolled.
+
+```csharp
+public System.Threading.Tasks.Task OnJavascriptMouseWheel(dymaptic.GeoBlazor.Core.Events.MouseWheelEvent mouseWheelEvent);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptMouseWheel(dymaptic.GeoBlazor.Core.Events.MouseWheelEvent).mouseWheelEvent'></a>
+
+`mouseWheelEvent` [MouseWheelEvent](dymaptic.GeoBlazor.Core.Events.MouseWheelEvent.html 'dymaptic.GeoBlazor.Core.Events.MouseWheelEvent')
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptPointerDown(dymaptic.GeoBlazor.Core.Events.PointerEvent)'></a>
+
+## MapView.OnJavascriptPointerDown(PointerEvent) Method
+
+JS-Invokable method to return view pointer down events.
+
+```csharp
+public System.Threading.Tasks.Task OnJavascriptPointerDown(dymaptic.GeoBlazor.Core.Events.PointerEvent pointerEvent);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptPointerDown(dymaptic.GeoBlazor.Core.Events.PointerEvent).pointerEvent'></a>
+
+`pointerEvent` [PointerEvent](dymaptic.GeoBlazor.Core.Events.PointerEvent.html 'dymaptic.GeoBlazor.Core.Events.PointerEvent')
+
+The [PointerEvent](dymaptic.GeoBlazor.Core.Events.PointerEvent.html 'dymaptic.GeoBlazor.Core.Events.PointerEvent') return meta object.
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptPointerEnter(dymaptic.GeoBlazor.Core.Events.PointerEvent)'></a>
+
+## MapView.OnJavascriptPointerEnter(PointerEvent) Method
+
+JS-Invokable method to return view pointer enter events.
+
+```csharp
+public System.Threading.Tasks.Task OnJavascriptPointerEnter(dymaptic.GeoBlazor.Core.Events.PointerEvent pointerEvent);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptPointerEnter(dymaptic.GeoBlazor.Core.Events.PointerEvent).pointerEvent'></a>
+
+`pointerEvent` [PointerEvent](dymaptic.GeoBlazor.Core.Events.PointerEvent.html 'dymaptic.GeoBlazor.Core.Events.PointerEvent')
+
+The [PointerEvent](dymaptic.GeoBlazor.Core.Events.PointerEvent.html 'dymaptic.GeoBlazor.Core.Events.PointerEvent') return meta object.
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptPointerLeave(dymaptic.GeoBlazor.Core.Events.PointerEvent)'></a>
+
+## MapView.OnJavascriptPointerLeave(PointerEvent) Method
+
+JS-Invokable method to return view pointer leave events.
+
+```csharp
+public System.Threading.Tasks.Task OnJavascriptPointerLeave(dymaptic.GeoBlazor.Core.Events.PointerEvent pointerEvent);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptPointerLeave(dymaptic.GeoBlazor.Core.Events.PointerEvent).pointerEvent'></a>
+
+`pointerEvent` [PointerEvent](dymaptic.GeoBlazor.Core.Events.PointerEvent.html 'dymaptic.GeoBlazor.Core.Events.PointerEvent')
+
+The [PointerEvent](dymaptic.GeoBlazor.Core.Events.PointerEvent.html 'dymaptic.GeoBlazor.Core.Events.PointerEvent') return meta object.
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptPointerMove(dymaptic.GeoBlazor.Core.Events.PointerEvent)'></a>
+
+## MapView.OnJavascriptPointerMove(PointerEvent) Method
 
 JS-Invokable method to return view pointer movement.
 
 ```csharp
-public void OnJavascriptPointerMove(dymaptic.GeoBlazor.Core.Components.Geometries.Point mapPoint);
+public System.Threading.Tasks.Task OnJavascriptPointerMove(dymaptic.GeoBlazor.Core.Events.PointerEvent pointerEvent);
 ```
 #### Parameters
 
-<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptPointerMove(dymaptic.GeoBlazor.Core.Components.Geometries.Point).mapPoint'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptPointerMove(dymaptic.GeoBlazor.Core.Events.PointerEvent).pointerEvent'></a>
 
-`mapPoint` [Point](dymaptic.GeoBlazor.Core.Components.Geometries.Point.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Point')
+`pointerEvent` [PointerEvent](dymaptic.GeoBlazor.Core.Events.PointerEvent.html 'dymaptic.GeoBlazor.Core.Events.PointerEvent')
 
-The [Point](dymaptic.GeoBlazor.Core.Components.Geometries.Point.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Point') where the cursor last moved.
+The [PointerEvent](dymaptic.GeoBlazor.Core.Events.PointerEvent.html 'dymaptic.GeoBlazor.Core.Events.PointerEvent') return meta object.
 
-<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnSpatialReferenceChanged(dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference)'></a>
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
 
-## MapView.OnSpatialReferenceChanged(SpatialReference) Method
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptPointerUp(dymaptic.GeoBlazor.Core.Events.PointerEvent)'></a>
+
+## MapView.OnJavascriptPointerUp(PointerEvent) Method
+
+JS-Invokable method to return view pointer up events.
+
+```csharp
+public System.Threading.Tasks.Task OnJavascriptPointerUp(dymaptic.GeoBlazor.Core.Events.PointerEvent pointerEvent);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptPointerUp(dymaptic.GeoBlazor.Core.Events.PointerEvent).pointerEvent'></a>
+
+`pointerEvent` [PointerEvent](dymaptic.GeoBlazor.Core.Events.PointerEvent.html 'dymaptic.GeoBlazor.Core.Events.PointerEvent')
+
+The [PointerEvent](dymaptic.GeoBlazor.Core.Events.PointerEvent.html 'dymaptic.GeoBlazor.Core.Events.PointerEvent') return meta object.
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptResize(dymaptic.GeoBlazor.Core.Events.ResizeEvent)'></a>
+
+## MapView.OnJavascriptResize(ResizeEvent) Method
+
+JS-Invokable method to return when the map view is resized in the window.
+
+```csharp
+public System.Threading.Tasks.Task OnJavascriptResize(dymaptic.GeoBlazor.Core.Events.ResizeEvent resizeEvent);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptResize(dymaptic.GeoBlazor.Core.Events.ResizeEvent).resizeEvent'></a>
+
+`resizeEvent` [ResizeEvent](dymaptic.GeoBlazor.Core.Events.ResizeEvent.html 'dymaptic.GeoBlazor.Core.Events.ResizeEvent')
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptSpatialReferenceChanged(dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference)'></a>
+
+## MapView.OnJavascriptSpatialReferenceChanged(SpatialReference) Method
 
 JS-Invokable method to return when the map view Spatial Reference changes.
 
 ```csharp
-public void OnSpatialReferenceChanged(dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference spatialReference);
+public System.Threading.Tasks.Task OnJavascriptSpatialReferenceChanged(dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference spatialReference);
 ```
 #### Parameters
 
-<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnSpatialReferenceChanged(dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference).spatialReference'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptSpatialReferenceChanged(dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference).spatialReference'></a>
 
 `spatialReference` [SpatialReference](dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference.html 'dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference')
 
 The new [SpatialReference](dymaptic.GeoBlazor.Core.Components.Views.MapView.html#dymaptic.GeoBlazor.Core.Components.Views.MapView.SpatialReference 'dymaptic.GeoBlazor.Core.Components.Views.MapView.SpatialReference')
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnViewRendered()'></a>
 
@@ -591,8 +1337,11 @@ The new [SpatialReference](dymaptic.GeoBlazor.Core.Components.Views.MapView.html
 JS-Invokable method to return when the map view is fully rendered.
 
 ```csharp
-public void OnViewRendered();
+public System.Threading.Tasks.Task OnViewRendered();
 ```
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.QueryFeatures(dymaptic.GeoBlazor.Core.Objects.Query,dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer,dymaptic.GeoBlazor.Core.Components.Symbols.Symbol,dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate)'></a>
 

@@ -49,10 +49,11 @@ import {
     buildDotNetFeature,
     buildDotNetGraphic,
     buildDotNetPoint,
-    buildDotNetGeometry, buildDotNetSpatialReference
+    buildDotNetGeometry, buildDotNetSpatialReference, buildDotNetLayerView
 } from "./dotNetBuilder";
 import Extent from "@arcgis/core/geometry/Extent";
-import {build} from "esbuild";
+import {buildJsSpatialReference} from "./jsBuilder";
+import * as reactiveUtils from "@arcgis/core/core/reactiveUtils";
 import Geometry from "@arcgis/core/geometry/Geometry";
 import {buildJsGraphic, buildJsPopupTemplate, buildJsSpatialReference} from "./jsBuilder";
 import {
@@ -73,8 +74,11 @@ export { projection, geometryEngine };
 export async function buildMapView(id: string, dotNetReference: any, long: number, lat: number,
                                    rotation: number, mapObject: any, zoom: number, scale: number, 
                                    apiKey: string, mapType: string, widgets: any, graphics: any, 
-                                   spatialReference: any, constraints: any, extent: any, zIndex?: number, tilt?: number): Promise<void> {
-    console.log("render map");
+                                   spatialReference: any, constraints: any, extent: any, 
+                                   eventRateLimitInMilliseconds: number | null, activeEventHandlers: Array<string>,
+                                   zIndex?: number, tilt?: number)
+    : Promise<void> {
+    console.debug("render map");
     try {
         setWaitCursor(id);
         let dotNetRef = dotNetReference;
@@ -217,26 +221,178 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
             addGraphic(graphicObject, id);
         })
 
-        view.on('click', (evt) => {
-            dotNetRef.invokeMethodAsync('OnJavascriptClick', buildDotNetPoint(evt.mapPoint));
-        });
-
-        view.on('pointer-move', (evt) => {
-            let point = (view as MapView).toMap({
-                x: evt.x,
-                y: evt.y
-            });
-            dotNetRef.invokeMethodAsync('OnJavascriptPointerMove', buildDotNetPoint(point));
-        });
-
-        view.watch('spatialReference', () => {
-            dotNetRef.invokeMethodAsync('OnSpatialReferenceChanged', buildDotNetSpatialReference(view.spatialReference));
-        });
+        setEventListeners(view, dotNetRef, eventRateLimitInMilliseconds, activeEventHandlers);
         
         unsetWaitCursor(id);
     } catch (error) {
         logError(error, id);
     }
+}
+
+function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: number | null, 
+                           activeEventHandlers: Array<string>) : void {
+    if (activeEventHandlers.includes('OnClick') || activeEventHandlers.includes('OnClickAsyncHandler')) {
+        view.on('click', (evt) => {
+            dotNetRef.invokeMethodAsync('OnJavascriptClick', evt);
+        });
+    }
+
+    if (activeEventHandlers.includes('OnDoubleClick')) {
+        view.on('double-click', (evt) => {
+            dotNetRef.invokeMethodAsync('OnJavascriptDoubleClick', evt);
+        });
+    }
+
+    if (activeEventHandlers.includes('OnHold')) {
+        view.on('hold', (evt) => {
+            dotNetRef.invokeMethodAsync('OnJavascriptHold', evt);
+        });
+    }
+
+    if (activeEventHandlers.includes('ImmediateClick')) {
+        view.on('immediate-click', (evt) => {
+            dotNetRef.invokeMethodAsync('OnJavascriptImmediateClick', evt);
+        });
+    }
+
+    if (activeEventHandlers.includes('ImmediateDoubleClick')) {
+        view.on('immediate-double-click', (evt) => {
+            dotNetRef.invokeMethodAsync('OnJavascriptImmediateDoubleClick', evt);
+        });
+    }
+
+    if (activeEventHandlers.includes('OnBlur')) {
+        view.on('blur', (evt) => {
+            dotNetRef.invokeMethodAsync('OnJavascriptBlur', evt);
+        });
+    }
+
+    if (activeEventHandlers.includes('OnFocus')) {
+        view.on('focus', (evt) => {
+            dotNetRef.invokeMethodAsync('OnJavascriptFocus', evt);
+        });
+    }
+
+    if (activeEventHandlers.includes('OnDrag')) {
+        let lastDragCall: number = 0;
+        view.on('drag', (evt) => {
+            let now = Date.now();
+            if (eventRateLimit !== undefined && eventRateLimit !== null &&
+                lastDragCall + eventRateLimit > now) {
+                return;
+            }
+            lastDragCall = now;
+            dotNetRef.invokeMethodAsync('OnJavascriptDrag', evt);
+        });
+    }
+
+    if (activeEventHandlers.includes('OnPointerDown')) {
+        view.on('pointer-down', (evt) => {
+            dotNetRef.invokeMethodAsync('OnJavascriptPointerDown', evt);
+        });
+    }
+
+    if (activeEventHandlers.includes('OnPointerEnter')) {
+        view.on('pointer-enter', (evt) => {
+            dotNetRef.invokeMethodAsync('OnJavascriptPointerEnter', evt);
+        });
+    }
+
+    if (activeEventHandlers.includes('OnPointerLeave')) {
+        view.on('pointer-leave', (evt) => {
+            dotNetRef.invokeMethodAsync('OnJavascriptPointerLeave', evt);
+        });
+    }
+
+    if (activeEventHandlers.includes('OnPointerMove') || activeEventHandlers.includes('OnPointerMoveHandler')) {
+        let lastPointerMoveCall : number = 0;
+        view.on('pointer-move', (evt) => {
+            let now = Date.now();
+            if (eventRateLimit !== undefined && eventRateLimit !== null &&
+                lastPointerMoveCall + eventRateLimit > now) {
+                return;
+            }
+            lastPointerMoveCall = now;
+            dotNetRef.invokeMethodAsync('OnJavascriptPointerMove', evt);
+        });
+    }
+
+    if (activeEventHandlers.includes('OnPointerUp')) {
+        view.on('pointer-up', (evt) => {
+            dotNetRef.invokeMethodAsync('OnJavascriptPointerUp', evt);
+        });
+    }
+
+    if (activeEventHandlers.includes('OnKeyDown')) {
+        view.on('key-down', (evt) => {
+            dotNetRef.invokeMethodAsync('OnJavascriptKeyDown', evt);
+        });
+    }
+
+    if (activeEventHandlers.includes('OnKeyUp')) {
+        view.on('key-up', (evt) => {
+            dotNetRef.invokeMethodAsync('OnJavascriptKeyUp', evt);
+        });
+    }
+    
+    if (activeEventHandlers.includes('OnLayerViewCreate')) {
+        view.on('layerview-create', (evt) => {
+            dotNetRef.invokeMethodAsync('OnJavascriptLayerViewCreate', evt);
+        });
+    }
+
+    if (activeEventHandlers.includes('OnLayerViewCreateError')) {
+        view.on('layerview-create-error', (evt) => {
+            dotNetRef.invokeMethodAsync('OnJavascriptLayerViewCreateError', evt);
+        });
+    }
+
+    if (activeEventHandlers.includes('OnLayerViewDestroy')) {
+        view.on('layerview-destroy', (evt) => {
+            dotNetRef.invokeMethodAsync('OnJavascriptLayerViewDestroy', evt);
+        });
+    }
+    
+    if (activeEventHandlers.includes('OnMouseWheel')) {
+        let lastMouseWheelCall = 0;
+        view.on('mouse-wheel', (evt) => {
+            let now = Date.now();
+            if (eventRateLimit !== undefined && eventRateLimit !== null &&
+                lastMouseWheelCall + eventRateLimit > now) {
+                return;
+            }
+            lastMouseWheelCall = now;
+            dotNetRef.invokeMethodAsync('OnJavascriptMouseWheel', evt);
+        });
+    }
+    
+    if (activeEventHandlers.includes('OnResize')) {
+        let lastResizeCall = 0;
+        view.on('resize', (evt) => {
+            let now = Date.now();
+            if (eventRateLimit !== undefined && eventRateLimit !== null &&
+                lastResizeCall + eventRateLimit > now) {
+                return;
+            }
+            lastResizeCall = now;
+            dotNetRef.invokeMethodAsync('OnJavascriptResize', evt);
+        });
+    }
+
+    view.watch('spatialReference', () => {
+        dotNetRef.invokeMethodAsync('OnJavascriptSpatialReferenceChanged', buildDotNetSpatialReference(view.spatialReference));
+    });
+
+    let lastExtentChangeCall = 0;
+    view.watch('extent', () => {
+        let now = Date.now();
+        if (eventRateLimit !== undefined && eventRateLimit !== null &&
+            lastExtentChangeCall + eventRateLimit > now) {
+            return;
+        }
+        lastExtentChangeCall = now;
+        dotNetRef.invokeMethodAsync('OnJavascriptExtentChanged', (view as MapView).extent);
+    });
 }
 
 export function disposeView(viewId: string): void {
@@ -321,7 +477,7 @@ export async function queryFeatureLayer(queryObject: any, layerObject: any, symb
 export async function updateGraphicsLayer(layerObject: any, layerId: string, viewId: string): Promise<void> {
     try {
         setWaitCursor(viewId);
-        console.log('update graphics layer');
+        console.debug('update graphics layer');
         removeGraphicsLayer(viewId, layerId);
         await addLayer(layerObject, viewId);
         unsetWaitCursor(viewId);
@@ -333,7 +489,7 @@ export async function updateGraphicsLayer(layerObject: any, layerId: string, vie
 export function removeGraphicsLayer(viewId: string, layerId: string): void {
     try {
         setWaitCursor(viewId);
-        console.log('remove graphics layer');
+        console.debug('remove graphics layer');
         let view = arcGisObjectRefs[viewId] as View;
         let layer = arcGisObjectRefs[layerId!] as Layer;
         view?.map?.remove(layer);
@@ -844,9 +1000,22 @@ export async function addWidget(widget: any, viewId: string): Promise<void> {
             view.ui.add(newWidget, widget.position);
         }
         arcGisObjectRefs[widget.id] = newWidget;
+        dotNetRefs[widget.id] = widget.dotNetComponentReference;
     } catch (error) {
         logError(error, viewId);
     }
+}
+
+export function removeWidget(widgetId: string, viewId: string) : void {
+    let view = arcGisObjectRefs[viewId] as MapView;
+    let widget = arcGisObjectRefs[widgetId] as Widget;
+    try {
+        view.ui.remove(widget);
+    }
+    catch{
+        //ignore
+    }
+    delete arcGisObjectRefs.widgetId;
 }
 
 export async function addLayer(layerObject: any, viewId: string, isBasemapLayer?: boolean, isQueryLayer?: boolean, 
@@ -972,14 +1141,9 @@ async function resetCenterToSpatialReference(center: Point, spatialReference: Sp
     return await projection.project(center, spatialReference) as Point;
 }
 
-export function logError(error, viewId) {
-    if (error.stack !== undefined && error.stack !== null) {
-        console.log(error.stack);
-        dotNetRefs[viewId].invokeMethodAsync('OnJavascriptError', error.stack);
-    } else {
-        console.log(error.message);
-        dotNetRefs[viewId].invokeMethodAsync('OnJavascriptError', error.message);
-    }
+export function logError(error, viewId: string) {
+    error.message ??= error.toString();
+    dotNetRefs[viewId].invokeMethodAsync('OnJavascriptError', error);
     unsetWaitCursor(viewId);
 }
 
@@ -987,14 +1151,14 @@ export function logError(error, viewId) {
 function setWaitCursor(viewId: string): void {
     let viewContainer = document.getElementById(`map-container-${viewId}`);
     if (viewContainer !== null) {
-        viewContainer.style.cursor = 'wait';
+        document.body.style.cursor = 'wait';
     }
 }
 
 function unsetWaitCursor(viewId: string): void {
     let viewContainer = document.getElementById(`map-container-${viewId}`);
     if (viewContainer !== null) {
-        viewContainer.style.cursor = 'unset';
+        document.body.style.cursor = 'unset';
     }
 }
 
@@ -1008,7 +1172,7 @@ function waitForRender(viewId: string, dotNetRef: any): void {
                 return;
             }
             if (!view.updating && !isRendered) {
-                console.log("View Render Complete");
+                console.debug("View Render Complete");
                 dotNetRef.invokeMethodAsync('OnViewRendered');
                 isRendered = true;
             } else if (isRendered && view.updating) {
@@ -1037,4 +1201,61 @@ function buildDotNetListItem(item: ListItem): DotNetListItem | null {
         children: children,
         actionSections: item.actionsSections as any
     } as DotNetListItem;
+}
+
+
+export function addReactiveWatcher(targetId: string, targetName: string, watchExpression: string, once: boolean, 
+                                   initial: boolean) : any {
+    let target = arcGisObjectRefs[targetId];
+    let dotNetRef = dotNetRefs[targetId];
+    console.debug(`Adding watch: "${watchExpression}"`);
+    const watcherFunc = new Function(targetName, 'reactiveUtils', 'dotNetRef',
+        `return reactiveUtils.watch(() => ${watchExpression},
+        (value) => dotNetRef.invokeMethodAsync('OnReactiveWatcherUpdate', '${watchExpression}', value),
+        {once: ${once}, initial: ${initial}});`);
+    return watcherFunc(target, reactiveUtils, dotNetRef);
+}
+
+export function addReactiveListener(targetId: string, eventName: string, once: boolean) : any {
+    let target = arcGisObjectRefs[targetId];
+    let dotNetRef = dotNetRefs[targetId];
+    console.debug(`Adding listener: "${eventName}"`);
+    const listenerFunc = new Function('target', 'reactiveUtils', 'dotNetRef',
+        `return reactiveUtils.on(() => target, '${eventName}',
+        (value) => dotNetRef.invokeMethodAsync('OnReactiveListenerTriggered', '${eventName}', value),
+        {once: ${once}, onListenerRemove: () => console.debug('Removing listener: ${eventName}')});`);
+    return listenerFunc(target, reactiveUtils, dotNetRef);
+}
+
+export async function awaitReactiveSingleWatchUpdate(targetId: string, targetName: string, watchExpression: string) 
+    : Promise<any> {
+    let target = arcGisObjectRefs[targetId];
+    let dotNetRef = dotNetRefs[targetId];
+    console.debug(`Adding once watcher: "${watchExpression}"`);
+    const AsyncFunction = (async function () {}).constructor;
+    // @ts-ignore
+    const onceFunc = new AsyncFunction(targetName, 'reactiveUtils', 'dotNetRef',
+        `return await reactiveUtils.once(() => ${watchExpression});`);
+    return await onceFunc(target, reactiveUtils, dotNetRef);
+}
+
+export function addReactiveWaiter(targetId: string, targetName: string, watchExpression: string, once: boolean, 
+                                  initial: boolean) : any {
+    let target = arcGisObjectRefs[targetId];
+    let dotNetRef = dotNetRefs[targetId];
+    console.debug(`Adding when waiter: "${watchExpression}"`);
+    const whenFunc = new Function(targetName, 'reactiveUtils', 'dotNetRef',
+        `return reactiveUtils.when(() => ${watchExpression},
+        () => { 
+            console.debug('waiter == true'); 
+            dotNetRef.invokeMethodAsync('OnReactiveWaiterTrue', '${watchExpression}')
+        },
+        {once: ${once}, initial: ${initial}});`);
+    return whenFunc(target, reactiveUtils, dotNetRef);
+}
+
+
+export function setVisibility(componentId: string, visible: boolean) : void {
+    let component : any = arcGisObjectRefs[componentId];
+    component.visible = visible;
 }

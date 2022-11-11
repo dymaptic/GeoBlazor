@@ -1,0 +1,252 @@
+﻿@page "/events"
+@using System.Text.Json.Serialization
+
+<PageTitle>Events</PageTitle>
+<h1>Events</h1>
+<div class="links-div">
+    <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#events-summary">ArcGIS API for JavaScript Reference</a>
+    <a class="btn btn-primary" target="_blank" href="https://www.arcgis.com/home/item.html?id=3d355e34cbd3405dbb3f031286f7b39b">Daily Planet Imagery Web Map</a>
+</div>
+<p class="instructions">
+    Sample demonstrates simple event listeners attached to the MapView.
+</p>
+
+<div id="control-set">
+    <div class="form-group">
+        <label class="react-label">
+            Click:
+        </label>
+        <div style="margin-left: 1rem; max-height: 6rem; overflow-y: auto;">
+            <b>@((MarkupString)(_clickJson ?? ""))</b>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="react-label">
+            Double Click:
+        </label>
+        <div style="margin-left: 1rem; max-height: 6rem; overflow-y: auto;">
+            <b>@((MarkupString)(_doubleClickJson ?? ""))</b>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="react-label">
+            Hold:
+        </label>
+        <div style="margin-left: 1rem; max-height: 6rem; overflow-y: auto;">
+            <b>@((MarkupString)(_holdJson ?? ""))</b>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="react-label">
+            Drag:
+        </label>
+        <div style="margin-left: 1rem; max-height: 6rem; overflow-y: auto;">
+            <b>@((MarkupString)(_dragJson ?? ""))</b>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="react-label">
+            Blur:
+        </label>
+        <div style="margin-left: 1rem; max-height: 6rem; overflow-y: auto;">
+            <b>@((MarkupString)(_blurJson ?? ""))</b>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="react-label">
+            Focus:
+        </label>
+        <div style="margin-left: 1rem; max-height: 6rem; overflow-y: auto;">
+            <b>@((MarkupString)(_focusJson ?? ""))</b>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="react-label">
+            Pointer Down:
+        </label>
+        <div style="margin-left: 1rem; max-height: 6rem; overflow-y: auto;">
+            <b>@((MarkupString)(_pointerDownJson ?? ""))</b>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="react-label">
+            Pointer Up:
+        </label>
+        <div style="margin-left: 1rem; max-height: 6rem; overflow-y: auto;">
+            <b>@((MarkupString)(_pointerUpJson ?? ""))</b>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="react-label">
+            Pointer Enter:
+        </label>
+        <div style="margin-left: 1rem; max-height: 6rem; overflow-y: auto;">
+            <b>@((MarkupString)(_pointerEnterJson ?? ""))</b>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="react-label">
+            Pointer Leave:
+        </label>
+        <div style="margin-left: 1rem; max-height: 6rem; overflow-y: auto;">
+            <b>@((MarkupString)(_pointerLeaveJson ?? ""))</b>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="react-label">
+            Pointer Move:
+        </label>
+        <div style="margin-left: 1rem; max-height: 6rem; overflow-y: auto;">
+            <b>@((MarkupString)(_pointerMoveJson ?? ""))</b>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="react-label">
+            Key Down:
+        </label>
+        <div style="margin-left: 1rem; max-height: 6rem; overflow-y: auto;">
+            <b>@((MarkupString)(_keyDownJson ?? ""))</b>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="react-label">
+            Key Up:
+        </label>
+        <div style="margin-left: 1rem; max-height: 6rem; overflow-y: auto;">
+            <b>@((MarkupString)(_keyUpJson ?? ""))</b>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="react-label">
+            Mouse Wheel:
+        </label>
+        <div style="margin-left: 1rem; max-height: 6rem; overflow-y: auto;">
+            <b>@((MarkupString)(_mouseWheelJson ?? ""))</b>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="react-label">
+            Extent:
+        </label>
+        <div style="margin-left: 1rem; max-height: 6rem; overflow-y: auto;">
+            <b>@((MarkupString)(_extentJson ?? ""))</b>
+        </div>
+    </div>
+</div>
+
+<MapView @ref="_view" Class="map-view" OnClick="OnMapClick" OnDoubleClick="OnMapDoubleClick" 
+           OnHold="OnMapHold" OnBlur="OnMapBlur" OnFocus="OnMapFocus" OnDrag="OnMapDrag"
+           OnPointerDown="OnMapPointerDown" OnPointerUp="OnMapPointerUp" OnPointerEnter="OnMapPointerEnter"
+           OnPointerLeave="OnMapPointerLeave" OnPointerMove="OnMapPointerMove" OnExtentChanged="OnMapExtentChanged"
+           OnKeyDown="OnMapKeyDown" OnKeyUp="OnMapKeyUp" OnMouseWheel="OnMapMouseWheel" 
+           EventRateLimitInMilliseconds="500">
+    <WebMap>
+        <PortalItem Id="3d355e34cbd3405dbb3f031286f7b39b" />
+    </WebMap>
+</MapView>
+
+@code {
+    private void OnMapClick(ClickEvent clickEvent)
+    {
+        _clickJson = BuildViewableJson(clickEvent);
+    }
+    
+    private void OnMapDoubleClick(ClickEvent clickEvent)
+    {
+        _doubleClickJson = BuildViewableJson(clickEvent);
+    }
+    
+    private void OnMapHold(ClickEvent holdEvent)
+    {
+        _holdJson = BuildViewableJson((holdEvent));
+    }
+
+    private void OnMapBlur(BlurEvent blurEvent)
+    {
+        _blurJson = BuildViewableJson(blurEvent);
+    }
+    
+    private void OnMapFocus(FocusEvent focusEvent)
+    {
+        _focusJson = BuildViewableJson(focusEvent);
+    }
+    
+    private void OnMapDrag(DragEvent dragEvent)
+    {
+        _dragJson = BuildViewableJson(dragEvent);
+    }
+
+    private void OnMapPointerEnter(PointerEvent pointerEvent)
+    {
+        _pointerEnterJson = BuildViewableJson(pointerEvent);
+    }
+    
+    private void OnMapPointerLeave(PointerEvent pointerEvent)
+    {
+        _pointerLeaveJson = BuildViewableJson(pointerEvent);
+    }
+    
+    private void OnMapPointerDown(PointerEvent pointerEvent)
+    {
+        _pointerDownJson = BuildViewableJson(pointerEvent);
+    }
+    
+    private void OnMapPointerUp(PointerEvent pointerEvent)
+    {
+        _pointerUpJson = BuildViewableJson(pointerEvent);
+    }
+    
+    private void OnMapPointerMove(PointerEvent pointerEvent)
+    {
+        _pointerMoveJson = BuildViewableJson(pointerEvent);
+    }
+
+    private void OnMapExtentChanged(Extent extent)
+    {
+        _extentJson = BuildViewableJson(extent);
+    }
+
+    private void OnMapKeyDown(KeyDownEvent keyDownEvent)
+    {
+        _keyDownJson = BuildViewableJson(keyDownEvent);
+    }
+
+    private void OnMapKeyUp(KeyUpEvent keyUpEvent)
+    {
+        _keyUpJson = BuildViewableJson(keyUpEvent);
+    }
+
+    private void OnMapMouseWheel(MouseWheelEvent mouseWheelEvent)
+    {
+        _mouseWheelJson = BuildViewableJson(mouseWheelEvent);
+    }
+    
+    private string BuildViewableJson(object eventObject)
+    {
+        string json = JsonSerializer.Serialize(eventObject, _options);
+        return json.Replace(Environment.NewLine, "<br>")
+            .Replace(" ", "&nbsp;");
+    }
+    
+    private MapView? _view;
+    private string? _clickJson;
+    private string? _doubleClickJson;
+    private string? _holdJson;
+    private string? _blurJson;
+    private string? _focusJson;
+    private string? _dragJson;
+    private string? _pointerEnterJson;
+    private string? _pointerLeaveJson;
+    private string? _pointerDownJson;
+    private string? _pointerUpJson;
+    private string? _pointerMoveJson;
+    private string? _extentJson;
+    private string? _keyDownJson;
+    private string? _keyUpJson;
+    private string? _mouseWheelJson;
+    private readonly JsonSerializerOptions _options = new()
+    {
+        WriteIndented = true,
+        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+    };
+}

@@ -97,3 +97,11 @@ export interface DotNetListItem {
     children: DotNetListItem[],
     actionSections: DotNetActionSection[][]
 }
+
+export interface DotNetLayerView {
+    layer: Layer;
+    spatialReferenceSupported: boolean;
+    suspended: boolean;
+    updating: boolean;
+    visible: boolean;
+}

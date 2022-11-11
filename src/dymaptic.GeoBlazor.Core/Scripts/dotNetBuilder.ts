@@ -1,19 +1,24 @@
-﻿import Point from "@arcgis/core/geometry/Point";
+import {
+    DotNetExtent,
+    DotNetFeature, 
+    DotNetGeographicTransformation, 
+    DotNetGeographicTransformationStep, 
+    DotNetGeometry,
+    DotNetGraphic,
+    DotNetPoint,
+    DotNetPolygon,
+    DotNetPolyline, 
+    DotNetSpatialReference,
+    DotNetLayerView
+} from "./definitions";
+import Point from "@arcgis/core/geometry/Point";
 import Polyline from "@arcgis/core/geometry/Polyline";
 import Polygon from "@arcgis/core/geometry/Polygon";
 import Extent from "@arcgis/core/geometry/Extent";
 import Geometry from "@arcgis/core/geometry/Geometry";
 import SpatialReference from "@arcgis/core/geometry/SpatialReference";
 import GeographicTransformation from "@arcgis/core/geometry/support/GeographicTransformation";
-import {
-    DotNetExtent,
-    DotNetFeature, DotNetGeographicTransformation, DotNetGeographicTransformationStep,
-    DotNetGeometry,
-    DotNetGraphic,
-    DotNetPoint,
-    DotNetPolygon,
-    DotNetPolyline, DotNetSpatialReference
-} from "./definitions";
+import LayerView from "@arcgis/core/views/layers/LayerView";
 
 export function buildDotNetGraphic(graphic: any): DotNetGraphic {
     let dotNetGraphic = {} as DotNetGraphic;
@@ -158,4 +163,14 @@ export function buildDotNetGeographicTransformation(geographicTransformation: Ge
     return {
         steps: steps
     } as DotNetGeographicTransformation;
+}
+
+export function buildDotNetLayerView(layerView: LayerView) : DotNetLayerView {
+    return {
+        layer: layerView.layer,
+        spatialReferenceSupported: layerView.spatialReferenceSupported,
+        suspended: layerView.suspended,
+        updating: layerView.updating,
+        visible: layerView.visible
+    }
 }

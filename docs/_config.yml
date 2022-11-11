@@ -29,7 +29,7 @@ twitter_username: TimPurdum
 github_username:  TimPurdum
 
 # Build settings
-# theme: just-the-docs
+theme: just-the-docs
 remote_theme: pmarsceill/just-the-docs
 plugins:
   - jekyll-feed

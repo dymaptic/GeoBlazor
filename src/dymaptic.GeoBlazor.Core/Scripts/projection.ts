@@ -92,11 +92,6 @@ async function loadIfNeeded() {
 }
 
 function logError(error) {
-    if (error.stack !== undefined && error.stack !== null) {
-        console.log(error.stack);
-        dotNetRef?.invokeMethodAsync('OnJavascriptError', error.stack);
-    } else {
-        console.log(error.message);
-        dotNetRef?.invokeMethodAsync('OnJavascriptError', error.message);
-    }
+    error.message ??= error.toString();
+    dotNetRef?.invokeMethodAsync('OnJavascriptError', error);
 }
