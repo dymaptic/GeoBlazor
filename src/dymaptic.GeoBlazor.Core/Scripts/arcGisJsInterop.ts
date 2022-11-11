@@ -32,6 +32,7 @@ import Layer from "@arcgis/core/layers/Layer";
 import VectorTileLayer from "@arcgis/core/layers/VectorTileLayer";
 import TileLayer from "@arcgis/core/layers/TileLayer";
 import GeoJSONLayer from "@arcgis/core/layers/GeoJSONLayer";
+import GeoRSSLayer from "@arcgis/core/layers/GeoRSSLayer";
 import PopupTemplate from "@arcgis/core/PopupTemplate";
 import Query from "@arcgis/core/rest/support/Query";
 import View from "@arcgis/core/views/View";
@@ -942,6 +943,9 @@ export async function addLayer(layerObject: any, viewId: string, isBasemapLayer?
                         wkid: layerObject.spatialReference.wkid
                     });
                 }
+                break;
+            case 'geo-rss':
+                newLayer = new GeoRSSLayer({ url: layerObject.url });
                 break;
             default:
                 return;

@@ -22,7 +22,7 @@ Derived
 &#8627; [SceneView](dymaptic.GeoBlazor.Core.Components.Views.SceneView.html 'dymaptic.GeoBlazor.Core.Components.Views.SceneView')
 
 ### Example
-<a target="_blank" href="https://blazor.dymaptic.com/navigation">Sample - Navigation</a>
+<a target="_blank" href="https://samples.geoblazor.com/navigation">Sample - Navigation</a>
 ### Properties
 
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.AllowDefaultEsriLogin'></a>

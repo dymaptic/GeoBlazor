@@ -20,7 +20,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Views;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">ArcGIS JS API</a>
 /// </summary>
 /// <example>
-///     <a target="_blank" href="https://blazor.dymaptic.com/navigation">Sample - Navigation</a>
+///     <a target="_blank" href="https://samples.geoblazor.com/navigation">Sample - Navigation</a>
 /// </example>
 public partial class MapView : MapComponent
 {
