@@ -101,7 +101,8 @@ public class FieldInfo : MapComponent
         switch (child)
         {
             case FieldInfoFormat format:
-                if (!((Object)format).Equals(Format))
+                // ReSharper disable once RedundantCast
+                if (!((object)format).Equals(Format))
                 {
                     Format = format;
                     await UpdateComponent();

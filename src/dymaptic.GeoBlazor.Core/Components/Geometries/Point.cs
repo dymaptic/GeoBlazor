@@ -110,6 +110,13 @@ public class Point : Geometry
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? Z { get; set; }
+    
+    /// <summary>
+    ///     The m-coordinate of the point in map units.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public double? M { get; set; }
 
     /// <inheritdoc />
     public override string Type => "point";

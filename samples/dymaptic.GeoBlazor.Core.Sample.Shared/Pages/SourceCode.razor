@@ -20,7 +20,7 @@
 
         string? markupContent = null;
         string directory = "_content/dymaptic.GeoBlazor.Core.Sample.Shared/pages";
-        IDirectoryContents pages = FileProvider.GetDirectoryContents(directory)!;
+        IDirectoryContents pages = FileProvider.GetDirectoryContents(directory);
 
         foreach (IFileInfo? page in pages)
         {

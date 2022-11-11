@@ -50,16 +50,30 @@ public abstract class LogicComponent
     ///     A JavaScript invokable method that returns a JS Error and converts it to an Exception.
     /// </summary>
     /// <param name="error">
-    ///     The JavaScript error stacktrace and/or details.
+    ///     The original JavaScript error.
     /// </param>
     /// <exception cref="JavascriptException">
     ///     The converted error to exception.
     /// </exception>
     [JSInvokable]
-    public void OnJavascriptError(string error)
+    public void OnJavascriptError(JavascriptError error)
     {
-        throw new JavascriptException(error);
+        var exception = new JavascriptException(error);
+
+        if (OnJavascriptErrorHandler is not null)
+        {
+            OnJavascriptErrorHandler?.Invoke(exception);
+        }
+        else
+        {
+            throw exception;
+        }
     }
+    
+    /// <summary>
+    ///     Implement this handler in your calling code to catch and handle Javascript errors.
+    /// </summary>
+    public Func<JavascriptException, Task>? OnJavascriptErrorHandler { get; set; }
 
     /// <summary>
     ///     Convenience method to invoke a JS function from the .NET logic component class.
