@@ -45,16 +45,6 @@ import LayerList from "@arcgis/core/widgets/LayerList";
 import ListItem from "@arcgis/core/widgets/LayerList/ListItem";
 
 import {
-    DotNetExtent, 
-    DotNetGeometry,
-    DotNetGraphic,
-    DotNetPoint,
-    MapCollection,
-    DotNetListItem,
-    DotNetSpatialReference
-    // @ts-ignore
-} from "ArcGisDefinitions";
-import {
     buildDotNetExtent,
     buildDotNetFeature,
     buildDotNetGraphic,
@@ -64,7 +54,15 @@ import {
 import Extent from "@arcgis/core/geometry/Extent";
 import {build} from "esbuild";
 import Geometry from "@arcgis/core/geometry/Geometry";
-import {buildJsSpatialReference} from "./jsBuilder";
+import {buildJsGraphic, buildJsPopupTemplate, buildJsSpatialReference} from "./jsBuilder";
+import {
+    DotNetExtent,
+    DotNetGeometry,
+    DotNetGraphic, DotNetListItem,
+    DotNetPoint,
+    DotNetSpatialReference,
+    MapCollection
+} from "./definitions";
 
 export let arcGisObjectRefs: Record<string, Accessor> = {};
 export let dotNetRefs = {};
@@ -309,7 +307,7 @@ export async function queryFeatureLayer(queryObject: any, layerObject: any, symb
         } else if (queryObject.geometry !== undefined && queryObject.geometry !== null) {
             query.geometry = queryObject.geometry;
         }
-        let popupTemplate = buildPopupTemplate(popupTemplateObject);
+        let popupTemplate = buildJsPopupTemplate(popupTemplateObject);
         await addLayer(layerObject, viewId, false, true, () => {
             displayQueryResults(query, symbol, popupTemplate, viewId);
         });
@@ -429,7 +427,7 @@ export function findPlaces(addressQueryParams: any, symbol: any, popupTemplateOb
             .then(function (results) {
                 view.popup.close();
                 view.graphics.removeAll();
-                let popupTemplate = buildPopupTemplate(popupTemplateObject);
+                let popupTemplate = buildJsPopupTemplate(popupTemplateObject);
                 results.forEach(function (result) {
                     view.graphics.add(new Graphic({
                         attributes: result.attributes,
@@ -451,7 +449,7 @@ export function findPlaces(addressQueryParams: any, symbol: any, popupTemplateOb
 export async function showPopup(popupTemplateObject: any, location: any, viewId: string): Promise<void> {
     try {
         setWaitCursor(viewId);
-        let popupTemplate = buildPopupTemplate(popupTemplateObject);
+        let popupTemplate = buildJsPopupTemplate(popupTemplateObject);
         (arcGisObjectRefs[viewId] as View).popup.open({
             title: popupTemplate.title as string,
             content: popupTemplate.content as string,
@@ -482,15 +480,15 @@ export async function showPopupWithGraphic(graphicObject: any, options: any, vie
 }
 
 
-export function addGraphic(graphicObject: any, viewId: string, graphicsLayer?: any): void {
+export function addGraphic(graphicObject: DotNetGraphic, viewId: string, graphicsLayer?: any): void {
     try {
         setWaitCursor(viewId);
-        let graphic = createGraphic(graphicObject);
+        let graphic = buildJsGraphic(graphicObject);
         let view = arcGisObjectRefs[viewId] as View;
         if (graphicsLayer === undefined || graphicsLayer === null) {
-            view.graphics.add(graphic);
+            view.graphics.add(graphic as Graphic);
         } else if (typeof (graphicsLayer) === 'object') {
-            graphicsLayer.add(graphic);
+            graphicsLayer.add(graphic as Graphic);
         } else {
             (view?.map?.layers as MapCollection).items.filter(l => l.type === "graphics")[graphicsLayer].add(graphic);
         }
@@ -851,23 +849,6 @@ export async function addWidget(widget: any, viewId: string): Promise<void> {
     }
 }
 
-export function createGraphic(graphicObject: any): Graphic {
-    let popupTemplate: PopupTemplate | undefined = undefined;
-    if (graphicObject.popupTemplate !== undefined && graphicObject.popupTemplate !== null) {
-        popupTemplate = buildPopupTemplate(graphicObject.popupTemplate);
-    }
-
-    const graphic = new Graphic({
-        geometry: graphicObject.geometry,
-        symbol: graphicObject.symbol,
-        attributes: graphicObject.attributes,
-        popupTemplate: popupTemplate
-    });
-
-    arcGisObjectRefs[graphicObject.id] = graphic;
-    return graphic;
-}
-
 export async function addLayer(layerObject: any, viewId: string, isBasemapLayer?: boolean, isQueryLayer?: boolean, 
                          callback?: Function): Promise<void> {
     try {
@@ -912,7 +893,7 @@ export async function addLayer(layerObject: any, viewId: string, isBasemapLayer?
                 }
 
                 if (layerObject.popupTemplate !== undefined && layerObject.popupTemplate !== null) {
-                    featureLayer.popupTemplate = buildPopupTemplate(layerObject.popupTemplate);
+                    featureLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate);
                 }
                 if (layerObject.title !== undefined && layerObject.title !== null) {
                     featureLayer.title = layerObject.title;
@@ -987,20 +968,6 @@ export async function addLayer(layerObject: any, viewId: string, isBasemapLayer?
     }
 }
 
-
-export function buildPopupTemplate(popupTemplateObject: any): PopupTemplate {
-    let content;
-    if (popupTemplateObject.stringContent !== undefined && popupTemplateObject.stringContent !== null) {
-        content = popupTemplateObject.stringContent;
-    } else {
-        content = popupTemplateObject.content;
-    }
-    return new PopupTemplate({
-        title: popupTemplateObject.title,
-        content: content
-    });
-}
-
 async function resetCenterToSpatialReference(center: Point, spatialReference: SpatialReference): Promise<Point> {
     return await projection.project(center, spatialReference) as Point;
 }
@@ -1068,6 +1035,6 @@ function buildDotNetListItem(item: ListItem): DotNetListItem | null {
         layer: item.layer,
         visible: item.visible,
         children: children,
-        actionSections: item.actionsSections
+        actionSections: item.actionsSections as any
     } as DotNetListItem;
 }
