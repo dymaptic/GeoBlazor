@@ -1,0 +1,16 @@
+﻿@page "/georss-layer"
+<PageTitle>GeoRSSLayers</PageTitle>
+<h1>GeoRSS Layer</h1>
+<div class="links-div">
+    <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/sample-code/layers-georss/">ArcGIS API for JavaScript Reference</a>
+</div>
+<p class="instructions">
+    A simple demo of displaying a GeoRSS feed.
+</p>
+
+<MapView Longitude="-107.95166" Latitude="43.18083" Zoom="4" Class="map-view">
+    <Map ArcGISDefaultBasemap="arcgis-light-gray">
+        <GeoRSSLayer
+            Url="https://arcgis.github.io/arcgis-samples-javascript/sample-data/layers-georss/sample-georss.xml" />
+    </Map>
+</MapView>

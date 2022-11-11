@@ -25,11 +25,11 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 The maximum data value used in the size ramp.
 
 ```csharp
-public double MaxDataValue { get; set; }
+public System.Nullable<double> MaxDataValue { get; set; }
 ```
 
 #### Property Value
-[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')
+[System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.SizeVariable.MaxSize'></a>
 
@@ -38,11 +38,11 @@ public double MaxDataValue { get; set; }
 The size used to render a feature containing the maximum data value
 
 ```csharp
-public string? MaxSize { get; set; }
+public System.Nullable<double> MaxSize { get; set; }
 ```
 
 #### Property Value
-[System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+[System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.SizeVariable.MinDataValue'></a>
 
@@ -51,11 +51,11 @@ public string? MaxSize { get; set; }
 The minimum data value used in the size ramp.
 
 ```csharp
-public double MinDataValue { get; set; }
+public System.Nullable<double> MinDataValue { get; set; }
 ```
 
 #### Property Value
-[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')
+[System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.SizeVariable.MinSize'></a>
 
@@ -64,11 +64,11 @@ public double MinDataValue { get; set; }
 The size used to render a feature containing the minimum data value
 
 ```csharp
-public string? MinSize { get; set; }
+public System.Nullable<double> MinSize { get; set; }
 ```
 
 #### Property Value
-[System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+[System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.SizeVariable.VariableType'></a>
 

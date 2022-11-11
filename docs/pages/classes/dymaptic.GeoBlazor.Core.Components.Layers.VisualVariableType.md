@@ -13,10 +13,3 @@ A collection of [VisualVariable](dymaptic.GeoBlazor.Core.Components.Layers.Visua
 ```csharp
 public enum VisualVariableType
 ```
-### Fields
-
-<a name='dymaptic.GeoBlazor.Core.Components.Layers.VisualVariableType.Size'></a>
-
-`Size` 0
-
-The Size Variable type marker

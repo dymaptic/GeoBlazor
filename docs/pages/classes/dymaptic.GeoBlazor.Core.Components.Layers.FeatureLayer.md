@@ -18,7 +18,7 @@ public class FeatureLayer : dymaptic.GeoBlazor.Core.Components.Layers.Layer
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [Microsoft.AspNetCore.Components.ComponentBase](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.ComponentBase 'Microsoft.AspNetCore.Components.ComponentBase') &#129106; [MapComponent](dymaptic.GeoBlazor.Core.Components.MapComponent.html 'dymaptic.GeoBlazor.Core.Components.MapComponent') &#129106; [Layer](dymaptic.GeoBlazor.Core.Components.Layers.Layer.html 'dymaptic.GeoBlazor.Core.Components.Layers.Layer') &#129106; FeatureLayer
 
 ### Example
-<a target="_blank" href="https://blazor.dymaptic.com/feature-layers">Sample - Feature Layers</a>
+<a target="_blank" href="https://samples.geoblazor.com/feature-layers">Sample - Feature Layers</a>
 ### Properties
 
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.DefinitionExpression'></a>
@@ -148,19 +148,6 @@ public dymaptic.GeoBlazor.Core.Components.Renderers.Renderer? Renderer { get; se
 
 #### Property Value
 [Renderer](dymaptic.GeoBlazor.Core.Components.Renderers.Renderer.html 'dymaptic.GeoBlazor.Core.Components.Renderers.Renderer')
-
-<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.Title'></a>
-
-## FeatureLayer.Title Property
-
-The title of the layer used to identify it in places such as the Legend and LayerList widgets.
-
-```csharp
-public string? Title { get; set; }
-```
-
-#### Property Value
-[System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.Url'></a>
 

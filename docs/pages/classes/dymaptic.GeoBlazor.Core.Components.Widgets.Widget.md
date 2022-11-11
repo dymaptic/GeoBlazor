@@ -21,6 +21,7 @@ Derived
 &#8627; [BasemapGalleryWidget](dymaptic.GeoBlazor.Core.Components.Widgets.BasemapGalleryWidget.html 'dymaptic.GeoBlazor.Core.Components.Widgets.BasemapGalleryWidget')  
 &#8627; [BasemapToggleWidget](dymaptic.GeoBlazor.Core.Components.Widgets.BasemapToggleWidget.html 'dymaptic.GeoBlazor.Core.Components.Widgets.BasemapToggleWidget')  
 &#8627; [CompassWidget](dymaptic.GeoBlazor.Core.Components.Widgets.CompassWidget.html 'dymaptic.GeoBlazor.Core.Components.Widgets.CompassWidget')  
+&#8627; [ExpandWidget](dymaptic.GeoBlazor.Core.Components.Widgets.ExpandWidget.html 'dymaptic.GeoBlazor.Core.Components.Widgets.ExpandWidget')  
 &#8627; [HomeWidget](dymaptic.GeoBlazor.Core.Components.Widgets.HomeWidget.html 'dymaptic.GeoBlazor.Core.Components.Widgets.HomeWidget')  
 &#8627; [LayerListWidget](dymaptic.GeoBlazor.Core.Components.Widgets.LayerListWidget.html 'dymaptic.GeoBlazor.Core.Components.Widgets.LayerListWidget')  
 &#8627; [LegendWidget](dymaptic.GeoBlazor.Core.Components.Widgets.LegendWidget.html 'dymaptic.GeoBlazor.Core.Components.Widgets.LegendWidget')  
