@@ -43,6 +43,9 @@ import Home from "@arcgis/core/widgets/Home";
 import Compass from "@arcgis/core/widgets/Compass";
 import LayerList from "@arcgis/core/widgets/LayerList";
 import ListItem from "@arcgis/core/widgets/LayerList/ListItem";
+import Extent from "@arcgis/core/geometry/Extent";
+import * as reactiveUtils from "@arcgis/core/core/reactiveUtils";
+import Geometry from "@arcgis/core/geometry/Geometry";
 
 import {
     buildDotNetExtent,
@@ -51,15 +54,14 @@ import {
     buildDotNetPoint,
     buildDotNetGeometry, buildDotNetSpatialReference, buildDotNetLayerView
 } from "./dotNetBuilder";
-import Extent from "@arcgis/core/geometry/Extent";
+
 import {
     buildJsFields, 
     buildJsRenderer, 
-    buildJsSpatialReference
+    buildJsSpatialReference,
+    buildJsPopupTemplate,
+    buildJsGraphic
 } from "./jsBuilder";
-import * as reactiveUtils from "@arcgis/core/core/reactiveUtils";
-import Geometry from "@arcgis/core/geometry/Geometry";
-import {buildJsGraphic, buildJsPopupTemplate, buildJsSpatialReference} from "./jsBuilder";
 import {
     DotNetExtent,
     DotNetGeometry,
@@ -244,30 +246,35 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
                            activeEventHandlers: Array<string>) : void {
     if (activeEventHandlers.includes('OnClick') || activeEventHandlers.includes('OnClickAsyncHandler')) {
         view.on('click', (evt) => {
+            evt.mapPoint = buildDotNetPoint(evt.mapPoint) as any;
             dotNetRef.invokeMethodAsync('OnJavascriptClick', evt);
         });
     }
 
     if (activeEventHandlers.includes('OnDoubleClick')) {
         view.on('double-click', (evt) => {
+            evt.mapPoint = buildDotNetPoint(evt.mapPoint) as any;
             dotNetRef.invokeMethodAsync('OnJavascriptDoubleClick', evt);
         });
     }
 
     if (activeEventHandlers.includes('OnHold')) {
         view.on('hold', (evt) => {
+            evt.mapPoint = buildDotNetPoint(evt.mapPoint) as any;
             dotNetRef.invokeMethodAsync('OnJavascriptHold', evt);
         });
     }
 
     if (activeEventHandlers.includes('ImmediateClick')) {
         view.on('immediate-click', (evt) => {
+            evt.mapPoint = buildDotNetPoint(evt.mapPoint) as any;
             dotNetRef.invokeMethodAsync('OnJavascriptImmediateClick', evt);
         });
     }
 
     if (activeEventHandlers.includes('ImmediateDoubleClick')) {
         view.on('immediate-double-click', (evt) => {
+            evt.mapPoint = buildDotNetPoint(evt.mapPoint) as any;
             dotNetRef.invokeMethodAsync('OnJavascriptImmediateDoubleClick', evt);
         });
     }
@@ -402,7 +409,7 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
             return;
         }
         lastExtentChangeCall = now;
-        dotNetRef.invokeMethodAsync('OnJavascriptExtentChanged', (view as MapView).extent);
+        dotNetRef.invokeMethodAsync('OnJavascriptExtentChanged', buildDotNetExtent((view as MapView).extent));
     });
 }
 
@@ -1055,8 +1062,10 @@ export async function addLayer(layerObject: any, viewId: string, isBasemapLayer?
                 } else {
                     let source: Array<Graphic> = [];
                     layerObject.source?.forEach(graphicObject => {
-                        let graphic = createGraphic(graphicObject);
-                        source.push(graphic);
+                        let graphic = buildJsGraphic(graphicObject);
+                        if (graphic !== null) {
+                            source.push(graphic);
+                        }
                     });
                     newLayer = new FeatureLayer({
                         source: source

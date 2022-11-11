@@ -89,6 +89,8 @@ export function buildDotNetPoint(point: Point): DotNetPoint {
         extent: buildDotNetExtent(point.extent),
         x: point.x,
         y: point.y,
+        z: point.z,
+        m: point.m,
         spatialReference: buildDotNetSpatialReference(point.spatialReference)
     } as DotNetPoint
 }

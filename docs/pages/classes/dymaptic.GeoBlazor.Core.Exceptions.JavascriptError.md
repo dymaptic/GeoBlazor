@@ -27,7 +27,7 @@ Implements [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/S
 A JavaScript error
 
 ```csharp
-public JavascriptError(string Message, string? Name, string? Stack=null);
+public JavascriptError(string? Message, string? Name, string? Stack=null);
 ```
 #### Parameters
 
@@ -57,7 +57,7 @@ The stack trace of the error.
 The message of the error.
 
 ```csharp
-public string Message { get; set; }
+public string? Message { get; set; }
 ```
 
 #### Property Value

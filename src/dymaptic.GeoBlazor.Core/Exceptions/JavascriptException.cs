@@ -40,4 +40,4 @@ public class JavascriptException : Exception
 /// <param name="Stack">
 ///     The stack trace of the error.
 /// </param>
-public record JavascriptError(string Message, string? Name, string? Stack = null);
+public record JavascriptError(string? Message, string? Name, string? Stack = null);

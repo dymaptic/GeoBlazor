@@ -58,7 +58,7 @@ public class Map : MapComponent
                     layer.LayerIndex = allLayersOfType.Count();
                     Layers.Add(layer);
 
-                    await UpdateComponent();
+                    await View!.AddLayer(layer);
                 }
 
                 break;
@@ -104,6 +104,10 @@ public class Map : MapComponent
     /// <inheritdoc />
     public override async Task UpdateComponent()
     {
-        await RenderView(true);
+        await InvokeAsync(async () =>
+        {
+            StateHasChanged();
+            await RenderView();
+        });
     }
 }

@@ -706,6 +706,32 @@ An optional index, that determines which [GraphicsLayer](dymaptic.GeoBlazor.Core
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
 
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.AddLayer(dymaptic.GeoBlazor.Core.Components.Layers.Layer,System.Nullable_bool_)'></a>
+
+## MapView.AddLayer(Layer, Nullable<bool>) Method
+
+Adds a layer to the current Map
+
+```csharp
+public System.Threading.Tasks.Task AddLayer(dymaptic.GeoBlazor.Core.Components.Layers.Layer layer, System.Nullable<bool> isBasemapLayer=false);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.AddLayer(dymaptic.GeoBlazor.Core.Components.Layers.Layer,System.Nullable_bool_).layer'></a>
+
+`layer` [Layer](dymaptic.GeoBlazor.Core.Components.Layers.Layer.html 'dymaptic.GeoBlazor.Core.Components.Layers.Layer')
+
+The layer to add
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.AddLayer(dymaptic.GeoBlazor.Core.Components.Layers.Layer,System.Nullable_bool_).isBasemapLayer'></a>
+
+`isBasemapLayer` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
+
+If true, adds the layer as a Basemap
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.ClearGraphics()'></a>
 
 ## MapView.ClearGraphics() Method
