@@ -34,10 +34,18 @@ nav_order: 2
 4. In the root file that defines your html, add the following lines to the `<head>` section.
    This would be `_Layout.cshtml` for Blazor Server, or `index.html` for Blazor Wasm and Blazor Hybrid.
 
-   ```html
-   <link href="_content/dymaptic.GeoBlazor.Core"/>
-   <link href="https://js.arcgis.com/4.24/esri/themes/light/main.css" rel="stylesheet"/>
-   ```
+    ```html
+    <link href="_content/dymaptic.GeoBlazor.Core"/>
+    <link href="_content/dymaptic.GeoBlazor.Core/assets/esri/themes/light/main.css" rel="stylesheet" />
+    ```
+    
+    or (dark theme)
+    
+    ```html
+    <link href="_content/dymaptic.GeoBlazor.Core"/>
+    <link href="_content/dymaptic.GeoBlazor.Core/assets/esri/themes/dark/main.css" rel="stylesheet" />
+    ```
+
 5. In `_Imports.razor`, add the following lines, or add as needed to resolve code that you consume.
 
    ```csharp

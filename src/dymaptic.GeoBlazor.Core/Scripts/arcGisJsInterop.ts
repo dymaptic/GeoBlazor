@@ -70,6 +70,11 @@ export let dotNetRefs = {};
 export let queryLayer: FeatureLayer;
 export { projection, geometryEngine };
 
+export function setAssetsPath (path: string) {
+    if (path !== undefined && path !== null && esriConfig.assetsPath !== path) {
+        esriConfig.assetsPath = path;
+    }
+}
 
 export async function buildMapView(id: string, dotNetReference: any, long: number, lat: number,
                                    rotation: number, mapObject: any, zoom: number, scale: number, 
@@ -82,6 +87,8 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
     try {
         setWaitCursor(id);
         let dotNetRef = dotNetReference;
+
+        checkConnectivity(id);
         dotNetRefs[id] = dotNetRef;
         if (esriConfig.apiKey === undefined) {
             esriConfig.apiKey = apiKey;
@@ -1205,6 +1212,36 @@ function buildDotNetListItem(item: ListItem): DotNetListItem | null {
         children: children,
         actionSections: item.actionsSections as any
     } as DotNetListItem;
+}
+
+function checkConnectivity(viewId) {
+    let connectError = new Error('Cannot load ArcGIS Assets!');
+    let message = '<div><h1>Cannot retrieve ArcGIS asset files.</h1><p><a target="_blank" href="https://docs/geoblazor.com/assetFiles"</p></div>';
+    let mapContainer = document.getElementById(`map-container-${viewId}`)!; 
+    try {
+        //if (esriConfig.assetsPath.includes('js.arcgis.com')) return;
+        let assetsUrl = esriConfig.assetsPath;
+        if (!assetsUrl.endsWith('/')) {
+            assetsUrl += '/';
+        }
+        assetsUrl += 'esri/core/libs/libtess/libtess.wasm';
+        fetch(assetsUrl)
+            .then(response => {
+                // Check if the response is successful
+                if (!response.ok){
+                    mapContainer.innerHTML = message; 
+                    throw connectError;
+                }
+            })
+            .catch(error => {
+                // The resource could not be reached
+                mapContainer.innerHTML = message;
+                logError(connectError, viewId)
+            });
+    } catch (err) {
+        mapContainer.innerHTML = message;
+        logError(connectError, viewId);
+    }
 }
 
 

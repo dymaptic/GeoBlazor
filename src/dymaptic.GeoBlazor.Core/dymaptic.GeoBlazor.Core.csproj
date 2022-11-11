@@ -24,7 +24,7 @@
         <PackageProjectUrl>https://github.com/dymaptic/GeoBlazor</PackageProjectUrl>
         <RepositoryType>git</RepositoryType>
         <PackageIcon>Blazor-API-500px.png</PackageIcon>
-        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <GeneratePackageOnBuild Condition="$(Configuration) == 'RELEASE'">true</GeneratePackageOnBuild>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
@@ -36,6 +36,7 @@
         <PackageReference Include="DefaultDocumentation" Version="0.8.2" PrivateAssets="all" />
         <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.6" />
         <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="6.0.0" />
     </ItemGroup>
     <PropertyGroup>
         <DefaultDocumentationFolder>Documentation</DefaultDocumentationFolder>
@@ -61,32 +62,60 @@
     </ItemGroup>
 
     <ItemGroup>
+        <Folder Include="wwwroot\assets" />
+        <Folder Include="wwwroot\css" />
         <Folder Include="wwwroot\js" />
     </ItemGroup>
 
+    <ItemGroup>
+        <ReadMeSourceFile Include="../../ReadMe.md" />
+    </ItemGroup>
+    
     <Target Name="Copy Readme" AfterTargets="PreBuildEvent">
-        <Exec ContinueOnError="true" Command="robocopy ../../ ./ ReadMe.md /it" />
+        <Message Importance="high" Text="Copying ReadMe" />
+        <Copy SourceFiles="@(ReadMeSourceFile)" DestinationFolder="./" />
     </Target>
 
-    <Target Name="NPM Install" AfterTargets="Copy Readme">
-        <Exec Command="npm install" />
+    <Target Name="Copy Assets Debug" AfterTargets="PreBuildEvent" Condition="$(Configuration) == 'DEBUG'">
+        <Message Importance="high" Text="Copying Asset files" />
+        <ExecAsync FilePath="pwsh" Arguments="./assetCopy.ps1" />
     </Target>
 
-    <Target Name="NPM Debug Build" AfterTargets="NPM Install" Condition="$(Configuration) == 'DEBUG'">
-        <Exec Command="npm run debugBuild" />
+    <Target Name="Copy Assets Release" AfterTargets="PreBuildEvent" Condition="$(Configuration) == 'RELEASE'">
+        <Message Importance="high" Text="Copying Asset files" />
+        <Exec Command="pwsh ./assetCopy.ps1" />
     </Target>
-    <Target Name="NPM Release Build" AfterTargets="NPM Install" Condition="$(Configuration) == 'RELEASE'">
-        <Exec Command="npm run releaseBuild" />
+
+    <Target Name="NPM Debug Build" AfterTargets="PreBuildEvent" Condition="$(Configuration) == 'DEBUG'">
+        <!-- Runs asynchronously to speed up build during development -->
+        <Message Importance="high" Text="Launching Async NPM Build Script" />
+        <ExecAsync FilePath="pwsh" Arguments="./npmDebugBuild.ps1" />
     </Target>
     
-    <Target Name="Copy Documentation" AfterTargets="Build">
-        <Exec Command="pwsh .\docCopy.ps1" />
+    <Target Name="NPM Release Build" AfterTargets="PreBuildEvent" Condition="$(Configuration) == 'RELEASE'">
+        <!-- Runs synchronously to ensure all files are ready for nuget packaging in release mode -->
+        <Exec Command="npm install &amp;&amp; npm run releaseBuild" />
     </Target>
 
-    <Target Name="Move Nuget" AfterTargets="Publish">
-        <Exec ContinueOnError="true" ConsoleToMSBuild="true" Command="robocopy bin/$(Configuration) ../../packages dymaptic.GeoBlazor.Core.$(Version).nupkg /it">
-            <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
-        </Exec>
-        <Error Condition="$(ErrorCode) &gt; 8" Message="Robocopy failed" />
+    <Target Name="Copy Files" AfterTargets="Build">
+        <Message Importance="high" Text="Launching Async File Copy Script" />
+        <ExecAsync FilePath="pwsh" Arguments="./docCopy.ps1" ContinueOnError="true" />
     </Target>
+
+    <!--Launch a Process in Parallel-->
+    <UsingTask TaskName="ExecAsync" TaskFactory="RoslynCodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
+        <ParameterGroup>
+            <FilePath ParameterType="System.String" Required="true" />
+            <Arguments ParameterType="System.String" Required="true" />
+        </ParameterGroup>
+        <Task>
+            <Code Type="Fragment" Language="cs">
+                <![CDATA[ 
+  System.Diagnostics.ProcessStartInfo processStartInfo = new System.Diagnostics.ProcessStartInfo(FilePath, Arguments);
+  processStartInfo.UseShellExecute = true;
+  System.Diagnostics.Process.Start(processStartInfo);
+  ]]>
+            </Code>
+        </Task>
+    </UsingTask>
 </Project>
