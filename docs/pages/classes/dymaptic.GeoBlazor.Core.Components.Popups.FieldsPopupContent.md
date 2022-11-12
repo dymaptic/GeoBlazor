@@ -16,6 +16,34 @@ public class FieldsPopupContent : dymaptic.GeoBlazor.Core.Components.Popups.Popu
 ```
 
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [Microsoft.AspNetCore.Components.ComponentBase](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.ComponentBase 'Microsoft.AspNetCore.Components.ComponentBase') &#129106; [MapComponent](dymaptic.GeoBlazor.Core.Components.MapComponent.html 'dymaptic.GeoBlazor.Core.Components.MapComponent') &#129106; [PopupContent](dymaptic.GeoBlazor.Core.Components.Popups.PopupContent.html 'dymaptic.GeoBlazor.Core.Components.Popups.PopupContent') &#129106; FieldsPopupContent
+### Constructors
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.FieldsPopupContent.FieldsPopupContent()'></a>
+
+## FieldsPopupContent() Constructor
+
+Parameterless constructor for using as a razor component
+
+```csharp
+public FieldsPopupContent();
+```
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.FieldsPopupContent.FieldsPopupContent(dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo[])'></a>
+
+## FieldsPopupContent(FieldInfo[]) Constructor
+
+Constructs a new PopupContent in code with parameters
+
+```csharp
+public FieldsPopupContent(params dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo[] fieldInfos);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.FieldsPopupContent.FieldsPopupContent(dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo[]).fieldInfos'></a>
+
+`fieldInfos` [FieldInfo](dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo.html 'dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')
+
+A collection of [FieldInfo](dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo.html 'dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo')
 ### Properties
 
 <a name='dymaptic.GeoBlazor.Core.Components.Popups.FieldsPopupContent.FieldInfos'></a>

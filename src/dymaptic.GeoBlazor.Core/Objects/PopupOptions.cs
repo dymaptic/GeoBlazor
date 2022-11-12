@@ -9,6 +9,28 @@ namespace dymaptic.GeoBlazor.Core.Objects;
 public class PopupOptions
 {
     /// <summary>
+    ///     Creates a new PopupOptions
+    /// </summary>
+    /// <param name="dockOptions">
+    ///     Docking the popup allows for a better user experience, particularly when opening popups in apps on mobile devices.
+    /// </param>
+    /// <param name="visibleElements">
+    ///     The visible elements that are displayed within the widget.
+    /// </param>
+    public PopupOptions(PopupDockOptions? dockOptions = null, PopupVisibleElements? visibleElements = null)
+    {
+        if (dockOptions is not null)
+        {
+            DockOptions = dockOptions;
+        }
+
+        if (visibleElements is not null)
+        {
+            VisibleElements = visibleElements;
+        }
+    }
+    
+    /// <summary>
     ///     Docking the popup allows for a better user experience, particularly when opening popups in apps on mobile devices.
     /// </summary>
     public PopupDockOptions DockOptions { get; set; } = new();

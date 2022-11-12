@@ -161,7 +161,7 @@ public partial class MapView : MapComponent
     public void OnJavascriptError(JavascriptError error)
     {
 #if DEBUG
-        ErrorMessage = error.Message.Replace("\n", "<br>");
+        ErrorMessage = error.Message?.Replace("\n", "<br>") ?? error.Stack;
         StateHasChanged();
 #endif
         var exception = new JavascriptException(error);
@@ -1026,6 +1026,21 @@ public partial class MapView : MapComponent
     }
     
     /// <summary>
+    ///     Adds a layer to the current Map
+    /// </summary>
+    /// <param name="layer">
+    ///     The layer to add
+    /// </param>
+    /// <param name="isBasemapLayer">
+    ///     If true, adds the layer as a Basemap
+    /// </param>
+    public async Task AddLayer(Layer layer, bool? isBasemapLayer = false)
+    {
+        if (ViewJsModule is null) return;
+        await ViewJsModule!.InvokeVoidAsync("addLayer", (object)layer, Id, isBasemapLayer);
+    }
+    
+    /// <summary>
     ///     A custom method to set up the interaction for clicking a start and end point, and have the view render a driving route. Also returns a set of <see cref="Direction"/>s for display.
     /// </summary>
     /// <param name="routeSymbol">
@@ -1311,9 +1326,20 @@ public partial class MapView : MapComponent
         {
             dynamic? callback = callbackInfo.GetValue(this);
 
-            if (callback is not null && callback.HasDelegate)
+            try
             {
-                activeHandlers.Add(callbackInfo.Name);
+                if (callback is not null && callback.HasDelegate)
+                {
+                    activeHandlers.Add(callbackInfo.Name);
+                }
+            }
+            catch
+            {
+                // Funcs don't have "HasDelegate"
+                if (callback is not null && callback.GetType().Name.StartsWith("Func"))
+                {
+                    activeHandlers.Add(callbackInfo.Name);
+                }
             }
         }
 

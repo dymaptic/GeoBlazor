@@ -6,6 +6,29 @@
 /// </summary>
 public class FieldsPopupContent : PopupContent
 {
+    /// <summary>
+    ///     Parameterless constructor for using as a razor component
+    /// </summary>
+    public FieldsPopupContent()
+    {
+    }
+
+    /// <summary>
+    ///     Constructs a new PopupContent in code with parameters
+    /// </summary>
+    /// <param name="fieldInfos">
+    ///     A collection of <see cref="FieldInfo"/>
+    /// </param>
+    public FieldsPopupContent(params FieldInfo[] fieldInfos)
+    {
+#pragma warning disable BL0005
+        foreach (FieldInfo info in fieldInfos)
+        {
+            FieldInfos.Add(info);
+        }
+#pragma warning restore BL0005
+    }
+    
     /// <inheritdoc />
     public override string Type => "fields";
 

@@ -91,7 +91,13 @@ async function loadIfNeeded() {
     }
 }
 
-function logError(error) {
+export function logError(error) {
     error.message ??= error.toString();
-    dotNetRef?.invokeMethodAsync('OnJavascriptError', error);
+    console.debug(error);
+    try {
+        dotNetRef.invokeMethodAsync('OnJavascriptError', {
+            message: error.message, name: error.name, stack: error.stack
+        });
+    } catch {
+    }
 }

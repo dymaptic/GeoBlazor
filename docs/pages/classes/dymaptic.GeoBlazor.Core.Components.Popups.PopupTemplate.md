@@ -16,6 +16,46 @@ public class PopupTemplate : dymaptic.GeoBlazor.Core.Components.MapComponent
 ```
 
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [Microsoft.AspNetCore.Components.ComponentBase](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.ComponentBase 'Microsoft.AspNetCore.Components.ComponentBase') &#129106; [MapComponent](dymaptic.GeoBlazor.Core.Components.MapComponent.html 'dymaptic.GeoBlazor.Core.Components.MapComponent') &#129106; PopupTemplate
+### Constructors
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.PopupTemplate()'></a>
+
+## PopupTemplate() Constructor
+
+Parameterless constructor for using as a razor component
+
+```csharp
+public PopupTemplate();
+```
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.PopupTemplate(string,string,dymaptic.GeoBlazor.Core.Components.Popups.PopupContent[])'></a>
+
+## PopupTemplate(string, string, PopupContent[]) Constructor
+
+Constructs a new PopupTemplate in code with parameters
+
+```csharp
+public PopupTemplate(string title, string? stringContent=null, params dymaptic.GeoBlazor.Core.Components.Popups.PopupContent[] contents);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.PopupTemplate(string,string,dymaptic.GeoBlazor.Core.Components.Popups.PopupContent[]).title'></a>
+
+`title` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+The title of the popup
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.PopupTemplate(string,string,dymaptic.GeoBlazor.Core.Components.Popups.PopupContent[]).stringContent'></a>
+
+`stringContent` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+Use this parameter if the content is a simple string
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.PopupTemplate(string,string,dymaptic.GeoBlazor.Core.Components.Popups.PopupContent[]).contents'></a>
+
+`contents` [PopupContent](dymaptic.GeoBlazor.Core.Components.Popups.PopupContent.html 'dymaptic.GeoBlazor.Core.Components.Popups.PopupContent')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')
+
+Pass advanced [PopupContent](dymaptic.GeoBlazor.Core.Components.Popups.PopupContent.html 'dymaptic.GeoBlazor.Core.Components.Popups.PopupContent') parameters
 ### Properties
 
 <a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.Content'></a>

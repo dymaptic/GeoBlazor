@@ -16,6 +16,70 @@ public class Point : dymaptic.GeoBlazor.Core.Components.Geometries.Geometry
 ```
 
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [Microsoft.AspNetCore.Components.ComponentBase](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.ComponentBase 'Microsoft.AspNetCore.Components.ComponentBase') &#129106; [MapComponent](dymaptic.GeoBlazor.Core.Components.MapComponent.html 'dymaptic.GeoBlazor.Core.Components.MapComponent') &#129106; [Geometry](dymaptic.GeoBlazor.Core.Components.Geometries.Geometry.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Geometry') &#129106; Point
+### Constructors
+
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.Point.Point()'></a>
+
+## Point() Constructor
+
+Parameterless constructor for use as a razor component
+
+```csharp
+public Point();
+```
+
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.Point.Point(System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference,dymaptic.GeoBlazor.Core.Components.Geometries.Extent)'></a>
+
+## Point(Nullable<double>, Nullable<double>, Nullable<double>, Nullable<double>, Nullable<double>, SpatialReference, Extent) Constructor
+
+Creates a new Point programmatically with parameters
+
+```csharp
+public Point(System.Nullable<double> latitude=null, System.Nullable<double> longitude=null, System.Nullable<double> x=null, System.Nullable<double> y=null, System.Nullable<double> z=null, dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference? spatialReference=null, dymaptic.GeoBlazor.Core.Components.Geometries.Extent? extent=null);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.Point.Point(System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference,dymaptic.GeoBlazor.Core.Components.Geometries.Extent).latitude'></a>
+
+`latitude` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
+
+The latitude of the point.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.Point.Point(System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference,dymaptic.GeoBlazor.Core.Components.Geometries.Extent).longitude'></a>
+
+`longitude` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
+
+The longitude of the point.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.Point.Point(System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference,dymaptic.GeoBlazor.Core.Components.Geometries.Extent).x'></a>
+
+`x` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
+
+The x-coordinate (easting) of the point in map units.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.Point.Point(System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference,dymaptic.GeoBlazor.Core.Components.Geometries.Extent).y'></a>
+
+`y` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
+
+The y-coordinate (northing) of the point in map units.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.Point.Point(System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference,dymaptic.GeoBlazor.Core.Components.Geometries.Extent).z'></a>
+
+`z` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
+
+The z-coordinate (or elevation) of the point in map units.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.Point.Point(System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference,dymaptic.GeoBlazor.Core.Components.Geometries.Extent).spatialReference'></a>
+
+`spatialReference` [SpatialReference](dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference.html 'dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference')
+
+The [SpatialReference](dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference.html 'dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference') of the geometry.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.Point.Point(System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference,dymaptic.GeoBlazor.Core.Components.Geometries.Extent).extent'></a>
+
+`extent` [Extent](dymaptic.GeoBlazor.Core.Components.Geometries.Extent.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Extent')
+
+The [Extent](dymaptic.GeoBlazor.Core.Components.Geometries.Extent.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Extent') of the geometry.
 ### Properties
 
 <a name='dymaptic.GeoBlazor.Core.Components.Geometries.Point.Latitude'></a>

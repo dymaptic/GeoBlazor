@@ -35,6 +35,8 @@ export interface DotNetPoint extends DotNetGeometry {
     extent: DotNetExtent;
     x: number;
     y: number;
+    z: number;
+    m: number;
 }
 
 export interface DotNetExtent extends DotNetGeometry {

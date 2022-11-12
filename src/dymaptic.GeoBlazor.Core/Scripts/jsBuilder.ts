@@ -7,6 +7,11 @@ import Geometry from "@arcgis/core/geometry/Geometry";
 import Point from "@arcgis/core/geometry/Point";
 import Polyline from "@arcgis/core/geometry/Polyline";
 import Polygon from "@arcgis/core/geometry/Polygon";
+import TextSymbol from "@arcgis/core/symbols/TextSymbol";
+import SimpleRenderer from "@arcgis/core/renderers/SimpleRenderer";
+import Renderer from "@arcgis/core/renderers/Renderer";
+import Field from "@arcgis/core/layers/support/Field";
+import Font from "@arcgis/core/symbols/Font";
 import {
     DotNetExtent,
     DotNetGeometry,
@@ -163,4 +168,70 @@ export function buildJsPolygon(dnPolygon: DotNetPolygon): Polygon | null {
         polygon.spatialReference = new SpatialReference({wkid: 4326});
     }
     return polygon;
+}
+
+
+export function buildJsRenderer(dotNetRenderer: any): Renderer | null {
+    if (dotNetRenderer === undefined || dotNetRenderer?.symbol === undefined ||
+        dotNetRenderer?.symbol === null) return null;
+    let dotNetSymbol = dotNetRenderer.symbol;
+    switch (dotNetRenderer.type) {
+        case 'simple':
+            let renderer = new SimpleRenderer();
+            switch (dotNetSymbol.type) {
+                case 'text':
+                    let symbol = buildJsTextSymbol(dotNetSymbol);
+                    renderer.symbol = symbol;
+                    return renderer;
+            }
+    }
+
+    return dotNetRenderer
+}
+
+
+export function buildJsFields(dotNetFields: any): Array<Field> {
+    let fields : Array<Field> = [];
+    dotNetFields.forEach(dnField => {
+        let field = new Field();
+        for (const prop in dnField) {
+            if (Object.prototype.hasOwnProperty.call(dnField, prop) && prop !== 'id') {
+                field[prop] = dnField[prop];
+            }
+        }
+        fields.push(field);
+    });
+    
+    return fields;
+}
+
+export function buildJsTextSymbol(dotNetTextSymbol: any): TextSymbol {
+    let symbol = new TextSymbol();
+    if (dotNetTextSymbol.color !== undefined && dotNetTextSymbol.color !== null) {
+        symbol.color = dotNetTextSymbol.color;
+    }
+    if (dotNetTextSymbol.haloColor !== undefined && dotNetTextSymbol.haloColor !== null) {
+        symbol.haloColor = dotNetTextSymbol.haloColor;
+    }
+    if (dotNetTextSymbol.haloSize !== undefined && dotNetTextSymbol.haloSize !== null) {
+        symbol.haloSize = dotNetTextSymbol.haloSize;
+    }
+    if (dotNetTextSymbol.text !== undefined && dotNetTextSymbol.text !== null) {
+        symbol.text = dotNetTextSymbol.text;
+    }
+    if (dotNetTextSymbol.font !== undefined && dotNetTextSymbol.font !== null) {
+        symbol.font = buildJsFont(dotNetTextSymbol.font);
+    }
+    
+    return symbol;
+}
+
+function buildJsFont(dotNetFont: any) : Font {
+    let font = new Font();
+    font.size = dotNetFont.size;
+    font.family = dotNetFont.family;
+    font.style = dotNetFont.style;
+    font.weight = dotNetFont.weight;
+    
+    return font;
 }

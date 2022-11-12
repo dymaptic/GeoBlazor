@@ -16,6 +16,46 @@ public class FieldInfoFormat : dymaptic.GeoBlazor.Core.Components.MapComponent
 ```
 
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [Microsoft.AspNetCore.Components.ComponentBase](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.ComponentBase 'Microsoft.AspNetCore.Components.ComponentBase') &#129106; [MapComponent](dymaptic.GeoBlazor.Core.Components.MapComponent.html 'dymaptic.GeoBlazor.Core.Components.MapComponent') &#129106; FieldInfoFormat
+### Constructors
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.FieldInfoFormat.FieldInfoFormat()'></a>
+
+## FieldInfoFormat() Constructor
+
+Parameterless constructor for using as a razor component
+
+```csharp
+public FieldInfoFormat();
+```
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.FieldInfoFormat.FieldInfoFormat(System.Nullable_int_,System.Nullable_bool_,string)'></a>
+
+## FieldInfoFormat(Nullable<int>, Nullable<bool>, string) Constructor
+
+Constructor for creating a new FieldInfoFormat in code with parameters
+
+```csharp
+public FieldInfoFormat(System.Nullable<int> places=null, System.Nullable<bool> digitSeparator=null, string? dateFormat=null);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.FieldInfoFormat.FieldInfoFormat(System.Nullable_int_,System.Nullable_bool_,string).places'></a>
+
+`places` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
+
+Used only with Number fields to specify the number of supported decimal places that should appear in popups.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.FieldInfoFormat.FieldInfoFormat(System.Nullable_int_,System.Nullable_bool_,string).digitSeparator'></a>
+
+`digitSeparator` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
+
+Used only with Number fields.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.FieldInfoFormat.FieldInfoFormat(System.Nullable_int_,System.Nullable_bool_,string).dateFormat'></a>
+
+`dateFormat` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+Used only with Date fields.
 ### Properties
 
 <a name='dymaptic.GeoBlazor.Core.Components.Popups.FieldInfoFormat.DateFormat'></a>

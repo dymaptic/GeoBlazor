@@ -106,6 +106,17 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     }
 
     /// <summary>
+    ///     Add a child component programmatically. Calls <see cref="RegisterChildComponent"/> internally.
+    /// </summary>
+    /// <param name="child">
+    ///     The child component to add
+    /// </param>
+    public Task Add(MapComponent child)
+    {
+        return RegisterChildComponent(child);
+    }
+
+    /// <summary>
     ///     Called from <see cref="MapComponent.OnAfterRenderAsync"/> to "Register" the current component with it's parent.
     /// </summary>
     /// <param name="child">
@@ -360,7 +371,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         }
         IJSObjectReference? jsRef = 
             await JsModule!.InvokeAsync<IJSObjectReference?>("addReactiveWatcher", Id, 
-                targetName, watchExpression, once, initial);
+                targetName, watchExpression, once, initial, DotNetObjectReference.Create(this));
 
         if (jsRef != null)
         {
@@ -440,7 +451,8 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     public async Task AddReactiveListener<T>(string eventName, Func<T, Task> handler, bool once = false)
     {
         IJSObjectReference? jsRef = 
-            await JsModule!.InvokeAsync<IJSObjectReference?>("addReactiveListener", Id, eventName, once);
+            await JsModule!.InvokeAsync<IJSObjectReference?>("addReactiveListener", Id, eventName, once,
+                DotNetObjectReference.Create(this));
 
         if (jsRef != null)
         {
@@ -466,7 +478,8 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     public async Task AddReactiveListener<T>(string eventName, Action<T> handler, bool once = false)
     {
         IJSObjectReference? jsRef = 
-            await JsModule!.InvokeAsync<IJSObjectReference?>("addReactiveListener", Id, eventName, once);
+            await JsModule!.InvokeAsync<IJSObjectReference?>("addReactiveListener", Id, eventName, once,
+                DotNetObjectReference.Create(this));
 
         if (jsRef != null)
         {
@@ -600,7 +613,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         }
         IJSObjectReference? jsRef = 
             await JsModule!.InvokeAsync<IJSObjectReference?>("addReactiveWaiter", Id, 
-                targetName, waitExpression, once, initial);
+                targetName, waitExpression, once, initial, DotNetObjectReference.Create(this));
 
         if (jsRef != null)
         {
@@ -624,14 +637,14 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         }
     }
 
-#pragma warning disable CS1574
+#pragma warning disable CS1574, CS0419
     /// <summary>
     ///     JS-Invokable method that is triggered by the reactiveUtils waiters. This method will dynamically trigger handlers passed to <see cref="AddReactiveWaiter"/>
     /// </summary>
     /// <param name="waitExpression">
     ///     The tracked expression that was triggered.
     /// </param>
-#pragma warning restore CS1574
+#pragma warning restore CS1574, CS0419
     [JSInvokable]
     public void OnReactiveWaiterTrue(string waitExpression)
     {
@@ -672,7 +685,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         }
         
         return await JsModule!.InvokeAsync<T>("awaitReactiveSingleWatchUpdate", token, Id, targetName, 
-            watchExpression);
+            watchExpression, DotNetObjectReference.Create(this));
     }
 
 #endregion
