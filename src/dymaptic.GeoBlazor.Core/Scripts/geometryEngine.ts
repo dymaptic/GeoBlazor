@@ -358,7 +358,7 @@ export async function nearestVertices(geometry: DotNetGeometry, inputPoint: DotN
     }
 }
 
-export async function offset(geometries: Array<Geometry> | Geometry, offsetDistance: number, 
+export async function offset(geometries: Array<DotNetGeometry> | DotNetGeometry, offsetDistance: number, 
                              offsetUnit: LinearUnits | null | undefined, joinType: any | null | undefined, 
                              bevelRatio: number | null | undefined, flattenError: number | null | undefined) 
     : Promise<Geometry | Array<Geometry> | null> {
@@ -369,7 +369,7 @@ export async function offset(geometries: Array<Geometry> | Geometry, offsetDista
             geometries.forEach(g => (jsGeometries as Array<Geometry>).push(buildJsGeometry(g) as Geometry));
         } else
         {
-            jsGeometries = buildJsGeometry(geometries) as Geometry;
+            jsGeometries = buildJsGeometry(geometries  as DotNetGeometry) as Geometry;
         }
         if (offsetUnit === null) {
             offsetUnit = void 0;
