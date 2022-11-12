@@ -13,14 +13,14 @@
         <EnableDefaultCssItems>false</EnableDefaultCssItems>
         
         <!-- Display name -->
-        <ApplicationTitle>ArcGIS Blazor API Sample</ApplicationTitle>
+        <ApplicationTitle>GeoBlazor Core Samples</ApplicationTitle>
 
         <!-- App Identifier -->
         <ApplicationId>dymaptic.GeoBlazor.Core.Sample.maui</ApplicationId>
         <ApplicationIdGuid>B317DCA2-17AB-4EBE-949C-C8F6787B2B95</ApplicationIdGuid>
 
         <!-- Versions -->
-        <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+        <ApplicationDisplayVersion>1.2.0</ApplicationDisplayVersion>
         <ApplicationVersion>1</ApplicationVersion>
 
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
@@ -38,8 +38,7 @@
         <MauiIcon Include="Resources\appicon.svg" ForegroundFile="Resources\appiconfg.svg" Color="Black" />
 
         <!-- Splash Screen -->
-        <MauiSplashScreen Include="Resources\Splash\dymaptic_logo.png" Color="Black" BaseSize="64,64" />
-
+        <MauiSplashScreen Include="Resources\Splash\Blazor-API-60px.png" Color="Black" BaseSize="64,64" />
         <!-- Images -->
         <MauiImage Include="Resources\Images\*" />
 
@@ -50,9 +49,9 @@
         <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
     </ItemGroup>
 
-    <ItemGroup>
-      <MauiImage Include="Resources\Splash\dymaptic_logo.png" />
-    </ItemGroup>
+  <ItemGroup>
+    <MauiImage Include="Resources\Splash\Blazor-API-60px.png" />
+  </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="6.0.0" />

@@ -1,6 +1,6 @@
 {
   "name": "dymaptic.GeoBlazor.Core",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "description": "https://www.geoblazor.com",
   "main": "arcGisInterop.js",
   "scripts": {
