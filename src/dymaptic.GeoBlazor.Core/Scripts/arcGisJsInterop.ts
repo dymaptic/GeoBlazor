@@ -60,7 +60,7 @@ import {
     buildJsRenderer,
     buildJsSpatialReference,
     buildJsPopupTemplate,
-    buildJsGraphic, buildJsGeometry
+    buildJsGraphic, buildJsGeometry, buildJsPoint
 } from "./jsBuilder";
 import {
     DotNetExtent,
@@ -620,14 +620,14 @@ export function findPlaces(addressQueryParams: any, symbol: any, popupTemplateOb
 }
 
 
-export async function showPopup(popupTemplateObject: any, location: any, viewId: string): Promise<void> {
+export async function showPopup(popupTemplateObject: any, location: DotNetPoint, viewId: string): Promise<void> {
     try {
         setWaitCursor(viewId);
         let popupTemplate = buildJsPopupTemplate(popupTemplateObject);
         (arcGisObjectRefs[viewId] as View).popup.open({
             title: popupTemplate.title as string,
             content: popupTemplate.content as string,
-            location: location
+            location: buildJsPoint(location)!
         });
         unsetWaitCursor(viewId);
     } catch (error) {
