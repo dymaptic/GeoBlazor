@@ -1336,7 +1336,7 @@ public partial class MapView : MapComponent
             catch
             {
                 // Funcs don't have "HasDelegate"
-                if (callback.GetType().Name.StartsWith("Func"))
+                if (callback is not null && callback.GetType().Name.StartsWith("Func"))
                 {
                     activeHandlers.Add(callbackInfo.Name);
                 }

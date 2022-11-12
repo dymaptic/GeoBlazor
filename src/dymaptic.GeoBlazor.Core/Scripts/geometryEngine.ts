@@ -11,6 +11,7 @@ import ArealUnits = __esri.ArealUnits;
 import NearestPointResult = __esri.NearestPointResult;
 import {buildJsExtent, buildJsGeometry, buildJsPoint, buildJsPolygon, buildJsPolyline} from "./jsBuilder";
 import {DotNetExtent, DotNetGeometry, DotNetPoint, DotNetPolygon, DotNetPolyline} from "./definitions";
+import {dotNetRefs} from "./arcGisJsInterop";
 let dotNetRef: any = null;
 
 export function initialize(dotNetReference, apiKey) {
@@ -504,12 +505,13 @@ export async function within(innerGeometry: DotNetGeometry, outerGeometry: DotNe
     }
 }
 
-function logError(error) {
-    if (error.stack !== undefined && error.stack !== null) {
-        console.log(error.stack);
-        dotNetRef?.invokeMethodAsync('OnJavascriptError', error.stack);
-    } else {
-        console.log(error.message);
-        dotNetRef?.invokeMethodAsync('OnJavascriptError', error.message);
+export function logError(error) {
+    error.message ??= error.toString();
+    console.debug(error);
+    try {
+        dotNetRef.invokeMethodAsync('OnJavascriptError', {
+            message: error.message, name: error.name, stack: error.stack
+        });
+    } catch {
     }
 }

@@ -311,7 +311,7 @@ else
         string expression = "view?.map?.allLayers?.filter(layer => layer.visible)";
         if (_handleLayers)
         {
-            await _view!.AddReactiveWatcher<Layer[]?>(expression, LayerWatchHandler);
+            await _view!.AddReactiveWatcher<ViewableLayer[]?>(expression, LayerWatchHandler);
         }
         else
         {
@@ -319,9 +319,10 @@ else
         }
     }
 
-    private void LayerWatchHandler(Layer[]? values)
+    private void LayerWatchHandler(ViewableLayer[]? values)
     {
-        _layers = values?.Where(l => l.Title is not null).Select(l => l.Title!).ToArray();
+        _layers = values?.Where(l => l.Title is not null).Select(l => l!.Title!).ToArray();
+        StateHasChanged();
     }
 
     private async Task ToggleHomeWaiter()
@@ -390,4 +391,7 @@ else
     private bool _showWaiterSection;
     private double? _zoomValue;
     private bool _zoomWatcherAttached;
+
+    private record ViewableLayer(string Title);
+
 }
