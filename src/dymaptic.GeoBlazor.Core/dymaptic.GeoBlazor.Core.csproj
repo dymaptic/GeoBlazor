@@ -7,15 +7,14 @@
         <PackageId>dymaptic.GeoBlazor.Core</PackageId>
         <PackageTags>Blazor;ArcGIS;JsInterop;Javascript;Asp.NET</PackageTags>
         <Description>
-            This package provides a Razor Component-based API for accessing ArcGIS maps, scenes, and data. 
-            It is a wrapper around the ArcGIS Javascript API - https://developers.arcgis.com/javascript/latest/
+            GeoBlazor is a GIS Component Library and SDK for building interactive maps in Blazor, powered by ArcGIS.
             For more information, visit https://www.geoblazor.com or contact dymaptic at geoblazor@dymaptic.com
         </Description>
         <Title>GeoBlazor</Title>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <PackageVersion>1.1.2</PackageVersion>
-        <Version>1.1.2</Version>
-        <PackageVersion>1.1.2</PackageVersion>
+        <PackageVersion>1.2.0</PackageVersion>
+        <Version>1.2.0</Version>
+        <PackageVersion>1.2.0</PackageVersion>
         <Authors>Tim Purdum, Christopher Moravec</Authors>
         <Company>dymaptic</Company>
         <Copyright>©2022 by dymaptic</Copyright>
@@ -63,7 +62,6 @@
 
     <ItemGroup>
         <Folder Include="wwwroot\assets" />
-        <Folder Include="wwwroot\css" />
         <Folder Include="wwwroot\js" />
     </ItemGroup>
 
@@ -76,28 +74,33 @@
         <Copy SourceFiles="@(ReadMeSourceFile)" DestinationFolder="./" />
     </Target>
 
-    <Target Name="Copy Assets Debug" AfterTargets="PreBuildEvent" Condition="$(Configuration) == 'DEBUG'">
+    <Target Name="NPM Install" AfterTargets="PreBuildEvent" Condition="$(Configuration) == 'RELEASE'">
+        <!-- Runs synchronously to ensure all files are ready for nuget packaging in release mode -->
+        <Exec Command="npm install" />
+    </Target>
+
+    <Target Name="Copy Assets Debug" AfterTargets="NPM Install" Condition="$(Configuration) == 'DEBUG'">
         <Message Importance="high" Text="Copying Asset files" />
         <ExecAsync FilePath="pwsh" Arguments="./assetCopy.ps1" />
     </Target>
 
-    <Target Name="Copy Assets Release" AfterTargets="PreBuildEvent" Condition="$(Configuration) == 'RELEASE'">
-        <Message Importance="high" Text="Copying Asset files" />
-        <Exec Command="pwsh ./assetCopy.ps1" />
-    </Target>
-
-    <Target Name="NPM Debug Build" AfterTargets="PreBuildEvent" Condition="$(Configuration) == 'DEBUG'">
+    <Target Name="NPM Debug Build" AfterTargets="NPM Install" Condition="$(Configuration) == 'DEBUG' And $(CoreSkipJavaScript) != 'true'">
         <!-- Runs asynchronously to speed up build during development -->
         <Message Importance="high" Text="Launching Async NPM Build Script" />
         <ExecAsync FilePath="pwsh" Arguments="./npmDebugBuild.ps1" />
     </Target>
-    
-    <Target Name="NPM Release Build" AfterTargets="PreBuildEvent" Condition="$(Configuration) == 'RELEASE'">
-        <!-- Runs synchronously to ensure all files are ready for nuget packaging in release mode -->
-        <Exec Command="npm install &amp;&amp; npm run releaseBuild" />
+
+    <Target Name="Copy Assets Release" AfterTargets="NPM Install" Condition="$(Configuration) == 'RELEASE'">
+        <Message Importance="high" Text="Copying Asset files" />
+        <Exec Command="pwsh ./assetCopy.ps1" />
     </Target>
 
-    <Target Name="Copy Files" AfterTargets="Build">
+    <Target Name="NPM Release Build" AfterTargets="Copy Assets Release" Condition="$(Configuration) == 'RELEASE' And $(CoreSkipJavaScript) != 'true'">
+        <!-- Runs synchronously to ensure all files are ready for nuget packaging in release mode -->
+        <Exec Command="npm run releaseBuild" />
+    </Target>
+
+    <Target Name="Copy Files" AfterTargets="Build" Condition="$(CoreSkipDocuments) != 'true'">
         <Message Importance="high" Text="Launching Async File Copy Script" />
         <ExecAsync FilePath="pwsh" Arguments="./docCopy.ps1" ContinueOnError="true" />
     </Target>

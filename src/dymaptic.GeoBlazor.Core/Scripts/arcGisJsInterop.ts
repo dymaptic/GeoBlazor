@@ -56,11 +56,11 @@ import {
 } from "./dotNetBuilder";
 
 import {
-    buildJsFields, 
-    buildJsRenderer, 
+    buildJsFields,
+    buildJsRenderer,
     buildJsSpatialReference,
     buildJsPopupTemplate,
-    buildJsGraphic
+    buildJsGraphic, buildJsGeometry
 } from "./jsBuilder";
 import {
     DotNetExtent,
@@ -479,7 +479,7 @@ export async function queryFeatureLayer(queryObject: any, layerObject: any, symb
             let view = arcGisObjectRefs[viewId] as MapView;
             query.geometry = view.extent;
         } else if (hasValue(queryObject.geometry)) {
-            query.geometry = queryObject.geometry;
+            query.geometry = buildJsGeometry(queryObject.geometry)!;
         }
         let popupTemplate = buildJsPopupTemplate(popupTemplateObject);
         await addLayer(layerObject, viewId, false, true, () => {
