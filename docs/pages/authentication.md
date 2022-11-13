@@ -91,7 +91,7 @@ To allow default logins, do one of the following.
 In `appsettings.json`:
 ```json
 {
-    AllowDefaultEsriLogin: true
+    "AllowDefaultEsriLogin": true
 }
 ```
 

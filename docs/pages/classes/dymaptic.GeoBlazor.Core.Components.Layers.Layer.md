@@ -20,6 +20,7 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 Derived  
 &#8627; [FeatureLayer](dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html 'dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer')  
 &#8627; [GeoJSONLayer](dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html 'dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer')  
+&#8627; [GeoRSSLayer](dymaptic.GeoBlazor.Core.Components.Layers.GeoRSSLayer.html 'dymaptic.GeoBlazor.Core.Components.Layers.GeoRSSLayer')  
 &#8627; [GraphicsLayer](dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer.html 'dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer')  
 &#8627; [TileLayer](dymaptic.GeoBlazor.Core.Components.Layers.TileLayer.html 'dymaptic.GeoBlazor.Core.Components.Layers.TileLayer')
 ### Properties
@@ -62,3 +63,16 @@ public System.Nullable<double> Opacity { get; set; }
 
 #### Property Value
 [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.Layer.Title'></a>
+
+## Layer.Title Property
+
+The title of the layer used to identify it in places such as the Legend and LayerList widgets.
+
+```csharp
+public string? Title { get; set; }
+```
+
+#### Property Value
+[System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')

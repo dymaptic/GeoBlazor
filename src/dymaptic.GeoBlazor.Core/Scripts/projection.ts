@@ -2,8 +2,8 @@
 import * as projection from "@arcgis/core/geometry/projection";
 import Geometry from "@arcgis/core/geometry/Geometry";
 import {buildDotNetGeographicTransformation, buildDotNetGeometry} from "./dotNetBuilder";
-import {DotNetGeographicTransformation, DotNetGeometry} from "ArcGisDefinitions";
 import {buildJsExtent, buildJsSpatialReference} from "./jsBuilder";
+import {DotNetGeographicTransformation, DotNetGeometry} from "./definitions";
 
 let dotNetRef: any = null;
 
@@ -91,12 +91,13 @@ async function loadIfNeeded() {
     }
 }
 
-function logError(error) {
-    if (error.stack !== undefined && error.stack !== null) {
-        console.log(error.stack);
-        dotNetRef?.invokeMethodAsync('OnJavascriptError', error.stack);
-    } else {
-        console.log(error.message);
-        dotNetRef?.invokeMethodAsync('OnJavascriptError', error.message);
+export function logError(error) {
+    error.message ??= error.toString();
+    console.debug(error);
+    try {
+        dotNetRef.invokeMethodAsync('OnJavascriptError', {
+            message: error.message, name: error.name, stack: error.stack
+        });
+    } catch {
     }
 }

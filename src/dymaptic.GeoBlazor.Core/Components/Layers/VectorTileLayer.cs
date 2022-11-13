@@ -11,5 +11,5 @@ public class VectorTileLayer : TileLayer
 {
     /// <inheritdoc />
     [JsonPropertyName("type")]
-    public override string LayerType => "vectorTile";
+    public override string LayerType => "vector-tile";
 }

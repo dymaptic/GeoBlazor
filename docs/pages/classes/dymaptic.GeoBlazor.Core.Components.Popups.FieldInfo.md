@@ -16,6 +16,70 @@ public class FieldInfo : dymaptic.GeoBlazor.Core.Components.MapComponent
 ```
 
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [Microsoft.AspNetCore.Components.ComponentBase](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.ComponentBase 'Microsoft.AspNetCore.Components.ComponentBase') &#129106; [MapComponent](dymaptic.GeoBlazor.Core.Components.MapComponent.html 'dymaptic.GeoBlazor.Core.Components.MapComponent') &#129106; FieldInfo
+### Constructors
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo.FieldInfo()'></a>
+
+## FieldInfo() Constructor
+
+Parameterless constructor for using as a razor component
+
+```csharp
+public FieldInfo();
+```
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo.FieldInfo(string,string,string,string,dymaptic.GeoBlazor.Core.Components.Popups.FieldInfoFormat,bool,bool)'></a>
+
+## FieldInfo(string, string, string, string, FieldInfoFormat, bool, bool) Constructor
+
+Constructor for creating a new FieldInfo in code with parameters
+
+```csharp
+public FieldInfo(string? fieldName=null, string? label=null, string tooltip="", string? stringFieldOption=null, dymaptic.GeoBlazor.Core.Components.Popups.FieldInfoFormat? format=null, bool isEditable=false, bool visible=false);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo.FieldInfo(string,string,string,string,dymaptic.GeoBlazor.Core.Components.Popups.FieldInfoFormat,bool,bool).fieldName'></a>
+
+`fieldName` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+The field name as defined by the service or the name of an Arcade expression.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo.FieldInfo(string,string,string,string,dymaptic.GeoBlazor.Core.Components.Popups.FieldInfoFormat,bool,bool).label'></a>
+
+`label` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+The field name as defined by the service or the name of an Arcade expression.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo.FieldInfo(string,string,string,string,dymaptic.GeoBlazor.Core.Components.Popups.FieldInfoFormat,bool,bool).tooltip'></a>
+
+`tooltip` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+A string providing an editing hint for editors of the field.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo.FieldInfo(string,string,string,string,dymaptic.GeoBlazor.Core.Components.Popups.FieldInfoFormat,bool,bool).stringFieldOption'></a>
+
+`stringFieldOption` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+A string determining what type of input box editors see when editing the field.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo.FieldInfo(string,string,string,string,dymaptic.GeoBlazor.Core.Components.Popups.FieldInfoFormat,bool,bool).format'></a>
+
+`format` [FieldInfoFormat](dymaptic.GeoBlazor.Core.Components.Popups.FieldInfoFormat.html 'dymaptic.GeoBlazor.Core.Components.Popups.FieldInfoFormat')
+
+Class which provides formatting options for numerical or date fields and how they should display within a popup.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo.FieldInfo(string,string,string,string,dymaptic.GeoBlazor.Core.Components.Popups.FieldInfoFormat,bool,bool).isEditable'></a>
+
+`isEditable` [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
+
+A Boolean determining whether users can edit this field.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo.FieldInfo(string,string,string,string,dymaptic.GeoBlazor.Core.Components.Popups.FieldInfoFormat,bool,bool).visible'></a>
+
+`visible` [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
+
+Indicates whether the field is visible in the popup window.
 ### Properties
 
 <a name='dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo.FieldName'></a>

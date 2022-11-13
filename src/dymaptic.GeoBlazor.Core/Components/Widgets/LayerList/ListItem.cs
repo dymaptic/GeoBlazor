@@ -12,7 +12,6 @@ public class ListItem
     /// <summary>
     ///     The displayed title of the layer in the LayerList Widget.
     /// </summary>
-    [Parameter]
     public string? Title { get; set; }
     
     /// <summary>
@@ -21,13 +20,11 @@ public class ListItem
     /// <remarks>
     ///      Editing not currently supported.
     /// </remarks>
-    [Parameter]
     public Layer? Layer { get; set; }
     
     /// <summary>
     ///     Determines whether the layer is visible on load.
     /// </summary>
-    [Parameter]
     public bool? Visible { get; set; }
     
     /// <summary>

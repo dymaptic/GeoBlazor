@@ -1,0 +1,397 @@
+﻿@page "/reactive-utils"
+@using System.Text.Json.Serialization
+<PageTitle>Reactive Utils</PageTitle>
+<h1>Reactive Utils</h1>
+<div class="links-div">
+    <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-reactiveUtils.html">ArcGIS API for JavaScript Reference</a>
+    <a class="btn btn-primary" target="_blank" href="https://www.arcgis.com/home/item.html?id=0614ea1f9dd043e9ba157b9c20d3c538">Paris 3D Web Scene</a>
+</div>
+<p class="instructions">
+    This sample demonstrates how to use the <code>ReactiveUtils</code> to react to various user interactions. 
+    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-reactiveUtils.html#watch">Watchers</a> watch a component property and report back any updates. 
+    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-reactiveUtils.html#on">Listeners</a> attach to events on components.
+    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-reactiveUtils.html#when">Waiters</a> return when a value evaluates to "<a target="_blank" href="https://developer.mozilla.org/en-US/docs/Glossary/Truthy">truthy</a>".
+</p>
+
+@if (!(_view?.MapRendered ?? false))
+{
+    <div>Please wait for the map to fully load...</div>
+}
+else
+{
+    <div id="control-set">
+        <div class="control-subset">
+            <h2 @onclick="@(() => _showWatcherSection = !_showWatcherSection)">
+                Add Watchers
+                <span class="oi @(_showWatcherSection ? "oi-chevron-top" : "oi-chevron-bottom")"></span>
+            </h2>
+            <div class="@(_showWatcherSection ? "" : "collapse")">
+                <div class="form-group">
+                    <label class="react-label">
+                        Popup is open:
+                        <input type="checkbox" @onclick="TogglePopupHandler" />
+                    </label>
+                    <div style="margin-left: 1rem;">
+                        <b>@(_handlePopups ? _popupOpen : "")</b>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="react-label">
+                        Center: 
+                        <input type="checkbox" @onclick="ToggleCenterHandler" />
+                    </label>
+                    <div style="margin-left: 1rem;">
+                        @if (_handleCenter)
+                        {
+                            if (_center is null)
+                            {
+                                <b>Drag or Zoom to load</b>
+                            }
+                            else
+                            {
+                                <b>@_center?.X!.Value.ToString("N2") X / @_center?.Y!.Value.ToString("N2") Y </b>
+                            }
+                        }
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="react-label">
+                        Spatial Reference:
+                    </label>
+                    <div style="margin-left: 1rem;">
+                        @if (_handleCenter)
+                        {
+                            if (_center is null)
+                            {
+                                <b>Drag or Zoom to load</b>
+                            }
+                            else
+                            {
+                                <b>@_center?.SpatialReference!.Wkid</b>
+                            }
+                        }
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="react-label">
+                        Extent: 
+                        <input type="checkbox" @onclick="ToggleExtentHandler" />
+                    </label>
+                    <div style="margin-left: 1rem;">
+                        @if (_handleExtent)
+                        {
+                            if (_extent is null)
+                            {
+                                <b>Drag or Zoom to load</b>
+                            }
+                            else
+                            {
+                                <b>@_extent?.Xmin.ToString("N2") X Min / @_extent?.Xmax.ToString("N2") X Max / 
+                                    @_extent?.Ymin.ToString("N2") Y Min / @_extent?.Ymax.ToString("N2") Y Max</b>
+                            }
+                        }
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="react-label">
+                        Layers: 
+                        <input type="checkbox" @onclick="ToggleLayerHandler" />
+                    </label>
+                    <div style="margin-left: 1rem; max-height: 6rem; overflow-y: auto;">
+                        @if (_handleLayers)
+                        {
+                            if (_layers is null)
+                            {
+                                <b>Click to hide/show a layer in the LayerList Widget</b>
+                            }
+                            else
+                            {
+                                <b>@((MarkupString)(_layers is null ? "" : string.Join("<br>", _layers)))</b>
+                            }
+                        }
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="react-label">
+                        One-Time Zoom Watcher:
+                        <input type="checkbox" @bind="_zoomWatcherAttached" @onclick="AttachZoomWatcher" />
+                    </label>
+                    <div style="margin-left: 1rem; max-height: 6rem; overflow-y: auto;">
+                        <b>Zoom Value: @_zoomValue</b>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="control-subset">
+            <h2 @onclick="@(() => _showListenerSection = !_showListenerSection)">
+                Add Listeners
+                <span class="oi @(_showListenerSection ? "oi-chevron-top" : "oi-chevron-bottom")"></span>
+            </h2>
+            <div class="@(_showListenerSection ? "" : "collapse")">
+                <div class="form-group">
+                    <label class="react-label">
+                        Click:
+                        <input type="checkbox" @onclick="ToggleClickHandler" />
+                    </label>
+                    <div style="margin-left: 1rem; max-height: 6rem; overflow-y: auto;">
+                        @if (_handleClicks)
+                        {
+                            <b>@((MarkupString)(_clickedReturnValue ?? ""))</b>
+                        }
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="react-label">
+                        Drag:
+                        <input type="checkbox" @onclick="ToggleDragHandler" />
+                    </label>
+                    <div style="margin-left: 1rem; max-height: 6rem; overflow-y: auto;">
+                        @if (_handleDrags)
+                        {
+                            <b>@((MarkupString)(_dragReturnValue ?? ""))</b>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="control-subset">
+            <h2 @onclick="@(() => _showWaiterSection = !_showWaiterSection)">
+                Add Waiters
+                <span class="oi @(_showWaiterSection ? "oi-chevron-top" : "oi-chevron-bottom")"></span>
+            </h2>
+            <div class="form-group @(_showWaiterSection ? "" : "collapse")">
+                <label class="react-label">
+                    Track Home Widget:
+                    <input type="checkbox" @onclick="ToggleHomeWaiter" />
+                </label>
+                <label>
+                    Show Home Widget:
+                    <input type="checkbox" @onclick="ShowHomeWidget" />
+                </label>
+                <div style="margin-left: 1rem; max-height: 6rem; overflow-y: auto;">
+                    @if (_handleHomeWidget)
+                    {
+                        <b>@(_homeWidgetVisible ? "Widget now visible" : "Widget not visible")</b>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<SceneView @ref="_view" Class="map-view" OnMapRendered="OnMapRendered">
+    <WebScene>
+        <PortalItem Id="0614ea1f9dd043e9ba157b9c20d3c538" />
+    </WebScene>
+    <LayerListWidget Position="OverlayPosition.TopRight" OnListItemCreatedHandler="OnListItemCreated" />
+    <HomeWidget @ref="_homeWidget" Position="OverlayPosition.TopLeft" />
+</SceneView>
+
+@code {
+
+    private async Task OnMapRendered()
+    {
+        await _homeWidget!.SetVisibility(false);
+    }
+
+    private async Task ToggleClickHandler()
+    {
+        _handleClicks = !_handleClicks;
+        if (_handleClicks)
+        {
+            await _view!.AddReactiveListener<ClickEvent?>("click", ClickHandler);
+        }
+        else
+        {
+            await _view!.RemoveReactiveListener("click");
+        }
+    }
+
+    private void ClickHandler(ClickEvent? value)
+    {
+        if (value is not null)
+        {
+            string json = JsonSerializer.Serialize(value, new JsonSerializerOptions
+            {
+                WriteIndented = true,
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+            });
+            _clickedReturnValue = json.Replace(Environment.NewLine, "<br>")
+                .Replace(" ", "&nbsp;");
+        }
+    }
+
+    private async Task ToggleDragHandler()
+    {
+        _handleDrags = !_handleDrags;
+        if (_handleDrags)
+        {
+            await _view!.AddReactiveListener<DragEvent?>("drag", DragHandler);
+        }
+        else
+        {
+            await _view!.RemoveReactiveListener("drag");
+        }
+    }
+
+    private void DragHandler(DragEvent? value)
+    {
+        if (value is not null)
+        {
+            string json = JsonSerializer.Serialize(value, new JsonSerializerOptions
+            {
+                WriteIndented = true,
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+            });
+            _dragReturnValue = json.Replace(Environment.NewLine, "<br>")
+                .Replace(" ", "&nbsp;");
+        }
+    }
+
+    private async Task TogglePopupHandler()
+    {
+        _handlePopups = !_handlePopups;
+        string expression = "view?.popup?.visible";
+        if (_handlePopups)
+        {
+            await _view!.AddReactiveWatcher<bool>(expression, PopupWatchHandler);
+        }
+        else
+        {
+            await _view!.RemoveReactiveWatcher(expression);
+        }
+    }
+
+    private void PopupWatchHandler(bool value)
+    {
+        _popupOpen = value;
+    }
+
+    private async Task ToggleCenterHandler()
+    {
+        _handleCenter = !_handleCenter;
+        string expression = "view?.center";
+        if (_handleCenter)
+        {
+            await _view!.AddReactiveWatcher<Point>(expression, CenterWatchHandler);
+        }
+        else
+        {
+            await _view!.RemoveReactiveWatcher(expression);
+        }
+    }
+
+    private void CenterWatchHandler(Point value)
+    {
+        _center = value;
+    }
+
+    private async Task ToggleExtentHandler()
+    {
+        _handleExtent = !_handleExtent;
+        string expression = "view?.extent";
+        if (_handleExtent)
+        {
+            await _view!.AddReactiveWatcher<Extent>(expression, ExtentWatchHandler);
+        }
+        else
+        {
+            await _view!.RemoveReactiveWatcher(expression);
+        }
+    }
+
+    private void ExtentWatchHandler(Extent value)
+    {
+        _extent = value;
+    }
+
+    private async Task ToggleLayerHandler()
+    {
+        _handleLayers = !_handleLayers;
+        string expression = "view?.map?.allLayers?.filter(layer => layer.visible)";
+        if (_handleLayers)
+        {
+            await _view!.AddReactiveWatcher<ViewableLayer[]?>(expression, LayerWatchHandler);
+        }
+        else
+        {
+            await _view!.RemoveReactiveWatcher(expression);
+        }
+    }
+
+    private void LayerWatchHandler(ViewableLayer[]? values)
+    {
+        _layers = values?.Where(l => l.Title is not null).Select(l => l!.Title!).ToArray();
+        StateHasChanged();
+    }
+
+    private async Task ToggleHomeWaiter()
+    {
+        _handleHomeWidget = !_handleHomeWidget;
+        if (_handleHomeWidget)
+        {
+            await _homeWidget!.AddReactiveWaiter("widget?.visible", HomeWaitHandler, "widget");
+        }
+        else
+        {
+            await _homeWidget!.RemoveReactiveWaiter("widget?.visible");
+        }
+    }
+
+    private async Task ShowHomeWidget()
+    {
+        _showHomeWidget = !_showHomeWidget;
+        await _homeWidget!.SetVisibility(_showHomeWidget);
+        if (!_showHomeWidget)
+        {
+            _homeWidgetVisible = false;
+        }
+    }
+
+    private void HomeWaitHandler()
+    {
+        _homeWidgetVisible = true;
+    }
+
+    private Task<ListItem> OnListItemCreated(ListItem item)
+    {
+        item.Visible = false;
+        return Task.Run(() => item);
+    }
+
+    private async Task AttachZoomWatcher()
+    {
+        _zoomValue = null;
+        StateHasChanged();
+        _zoomValue = await _view!.AwaitReactiveSingleWatchUpdate<double?>("view?.zoom");
+        _zoomWatcherAttached = false;
+        Console.WriteLine($"Zoom analysis: {_zoomValue}");
+        StateHasChanged();
+    }
+
+    private SceneView? _view;
+    private bool _popupOpen;
+    private Point? _center;
+    private Extent? _extent;
+    private string[]? _layers;
+    private bool _handlePopups;
+    private bool _handleCenter;
+    private bool _handleExtent;
+    private bool _handleLayers;
+    private string? _clickedReturnValue;
+    private bool _handleClicks;
+    private string? _dragReturnValue;
+    private bool _handleDrags;
+    private bool _handleHomeWidget;
+    private bool _showHomeWidget;
+    private bool _homeWidgetVisible;
+    private HomeWidget? _homeWidget;
+    private bool _showWatcherSection;
+    private bool _showListenerSection;
+    private bool _showWaiterSection;
+    private double? _zoomValue;
+    private bool _zoomWatcherAttached;
+
+    private record ViewableLayer(string Title);
+
+}

@@ -16,6 +16,34 @@ public class SpatialReference : dymaptic.GeoBlazor.Core.Components.MapComponent
 ```
 
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [Microsoft.AspNetCore.Components.ComponentBase](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.ComponentBase 'Microsoft.AspNetCore.Components.ComponentBase') &#129106; [MapComponent](dymaptic.GeoBlazor.Core.Components.MapComponent.html 'dymaptic.GeoBlazor.Core.Components.MapComponent') &#129106; SpatialReference
+### Constructors
+
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference.SpatialReference()'></a>
+
+## SpatialReference() Constructor
+
+Parameterless constructor for use as a razor component
+
+```csharp
+public SpatialReference();
+```
+
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference.SpatialReference(double)'></a>
+
+## SpatialReference(double) Constructor
+
+Creates a new SpatialReference in code with a Wkid
+
+```csharp
+public SpatialReference(double wkid);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference.SpatialReference(double).wkid'></a>
+
+`wkid` [System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')
+
+The well-known Id for the spatial reference
 ### Properties
 
 <a name='dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference.ImageCoordinateSystem'></a>

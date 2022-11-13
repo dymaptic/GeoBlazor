@@ -18,7 +18,7 @@ public class GeoJSONLayer : dymaptic.GeoBlazor.Core.Components.Layers.Layer
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [Microsoft.AspNetCore.Components.ComponentBase](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.ComponentBase 'Microsoft.AspNetCore.Components.ComponentBase') &#129106; [MapComponent](dymaptic.GeoBlazor.Core.Components.MapComponent.html 'dymaptic.GeoBlazor.Core.Components.MapComponent') &#129106; [Layer](dymaptic.GeoBlazor.Core.Components.Layers.Layer.html 'dymaptic.GeoBlazor.Core.Components.Layers.Layer') &#129106; GeoJSONLayer
 
 ### Example
-<a target="_blank" href="https://blazor.dymaptic.com/interactive-projection">Sample - Display Projection</a>
+<a target="_blank" href="https://samples.geoblazor.com/interactive-projection">Sample - Display Projection</a>
 ### Properties
 
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.Copyright'></a>

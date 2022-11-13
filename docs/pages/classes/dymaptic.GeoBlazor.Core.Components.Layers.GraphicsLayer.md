@@ -8,7 +8,9 @@ parent: Classes
 
 ## GraphicsLayer Class
 
-A GraphicsLayer contains one or more client-side Graphics. Each graphic in the GraphicsLayer is rendered in a LayerView inside either a SceneView or a MapView. The graphics contain discrete vector geometries that represent real-world phenomena.  
+A GraphicsLayer contains one or more client-side Graphics. Each graphic in the GraphicsLayer is rendered in a  
+LayerView inside either a SceneView or a MapView. The graphics contain discrete vector geometries that represent  
+real-world phenomena.  
 <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GraphicsLayer.html">ArcGIS JS API</a>
 
 ```csharp
@@ -25,11 +27,11 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 A collection of [Graphic](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic')s in the layer.
 
 ```csharp
-public System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Components.Layers.Graphic> Graphics { get; set; }
+public System.Collections.Generic.IReadOnlyCollection<dymaptic.GeoBlazor.Core.Components.Layers.Graphic> Graphics { get; set; }
 ```
 
 #### Property Value
-[System.Collections.Generic.List&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.List-1 'System.Collections.Generic.List`1')[Graphic](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.List-1 'System.Collections.Generic.List`1')
+[System.Collections.Generic.IReadOnlyCollection&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IReadOnlyCollection-1 'System.Collections.Generic.IReadOnlyCollection`1')[Graphic](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IReadOnlyCollection-1 'System.Collections.Generic.IReadOnlyCollection`1')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer.LayerType'></a>
 
@@ -44,6 +46,46 @@ public override string LayerType { get; }
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 ### Methods
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer.Add(dymaptic.GeoBlazor.Core.Components.Layers.Graphic)'></a>
+
+## GraphicsLayer.Add(Graphic) Method
+
+Add a graphic to the current layer
+
+```csharp
+public System.Threading.Tasks.Task Add(dymaptic.GeoBlazor.Core.Components.Layers.Graphic graphic);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer.Add(dymaptic.GeoBlazor.Core.Components.Layers.Graphic).graphic'></a>
+
+`graphic` [Graphic](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic')
+
+The graphic to add
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer.Add(System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Layers.Graphic_)'></a>
+
+## GraphicsLayer.Add(IEnumerable<Graphic>) Method
+
+Adds a collection of graphics to the graphics layer
+
+```csharp
+public System.Threading.Tasks.Task Add(System.Collections.Generic.IEnumerable<dymaptic.GeoBlazor.Core.Components.Layers.Graphic> graphics);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer.Add(System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Layers.Graphic_).graphics'></a>
+
+`graphics` [System.Collections.Generic.IEnumerable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IEnumerable-1 'System.Collections.Generic.IEnumerable`1')[Graphic](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IEnumerable-1 'System.Collections.Generic.IEnumerable`1')
+
+The graphics to add
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer.RegisterChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent)'></a>
 
@@ -69,6 +111,26 @@ The calling, child component to register
 
 [InvalidChildElementException](dymaptic.GeoBlazor.Core.Exceptions.InvalidChildElementException.html 'dymaptic.GeoBlazor.Core.Exceptions.InvalidChildElementException')  
 Throws if the current child is not a valid sub-component to the parent.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer.Remove(dymaptic.GeoBlazor.Core.Components.Layers.Graphic)'></a>
+
+## GraphicsLayer.Remove(Graphic) Method
+
+Remove a graphic from the current layer
+
+```csharp
+public System.Threading.Tasks.Task Remove(dymaptic.GeoBlazor.Core.Components.Layers.Graphic graphic);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer.Remove(dymaptic.GeoBlazor.Core.Components.Layers.Graphic).graphic'></a>
+
+`graphic` [Graphic](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic')
+
+The graphic to remove
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer.UnregisterChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent)'></a>
 

@@ -30,13 +30,49 @@ public abstract class Layer : MapComponent
     /// </summary>
     [JsonIgnore]
     public int LayerIndex { get; set; }
+    
+    /// <summary>
+    ///     The title of the layer used to identify it in places such as the Legend and LayerList widgets.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Title { get; set; }
 }
 
 internal class LayerConverter : JsonConverter<Layer>
 {
     public override Layer? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        return JsonSerializer.Deserialize(ref reader, typeof(object), options) as Layer;
+        var newOptions = new JsonSerializerOptions(options)
+        {
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+        };
+        Utf8JsonReader cloneReader = reader;
+        if (JsonSerializer.Deserialize<Dictionary<string, object?>>(ref reader, newOptions) is not IDictionary<string, object?> temp)
+        {
+            return null;
+        }
+
+        if (temp.ContainsKey("type"))
+        {
+            switch (temp["type"]?.ToString())
+            {
+                case "feature":
+                    return JsonSerializer.Deserialize<FeatureLayer>(ref cloneReader, newOptions);
+                case "graphics":
+                    return JsonSerializer.Deserialize<GraphicsLayer>(ref cloneReader, newOptions);
+                case "geo-json":
+                    return JsonSerializer.Deserialize<GeoJSONLayer>(ref cloneReader, newOptions);
+                case "geo-rss":
+                    return JsonSerializer.Deserialize<GeoRSSLayer>(ref cloneReader, newOptions);
+                case "tile":
+                    return JsonSerializer.Deserialize<TileLayer>(ref cloneReader, newOptions);
+                case "vector-tile":
+                    return JsonSerializer.Deserialize<VectorTileLayer>(ref cloneReader, newOptions);
+            }
+        }
+
+        return null;
     }
 
     public override void Write(Utf8JsonWriter writer, Layer value, JsonSerializerOptions options)

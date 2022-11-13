@@ -1,11 +1,16 @@
-﻿import {
+import {
     DotNetExtent,
-    DotNetFeature, DotNetGeographicTransformation, DotNetGeographicTransformationStep, DotNetGeometry,
+    DotNetFeature, 
+    DotNetGeographicTransformation, 
+    DotNetGeographicTransformationStep, 
+    DotNetGeometry,
     DotNetGraphic,
     DotNetPoint,
     DotNetPolygon,
-    DotNetPolyline, DotNetSpatialReference
-} from "ArcGisDefinitions";
+    DotNetPolyline, 
+    DotNetSpatialReference,
+    DotNetLayerView
+} from "./definitions";
 import Point from "@arcgis/core/geometry/Point";
 import Polyline from "@arcgis/core/geometry/Polyline";
 import Polygon from "@arcgis/core/geometry/Polygon";
@@ -13,6 +18,7 @@ import Extent from "@arcgis/core/geometry/Extent";
 import Geometry from "@arcgis/core/geometry/Geometry";
 import SpatialReference from "@arcgis/core/geometry/SpatialReference";
 import GeographicTransformation from "@arcgis/core/geometry/support/GeographicTransformation";
+import LayerView from "@arcgis/core/views/layers/LayerView";
 
 export function buildDotNetGraphic(graphic: any): DotNetGraphic {
     let dotNetGraphic = {} as DotNetGraphic;
@@ -70,7 +76,7 @@ export function buildDotNetGeometry(geometry: Geometry): DotNetGeometry | null {
             return buildDotNetExtent(geometry as Extent);
     }
     
-    return geometry;
+    return geometry as any;
 }
 
 export function buildDotNetPoint(point: Point): DotNetPoint {
@@ -83,7 +89,9 @@ export function buildDotNetPoint(point: Point): DotNetPoint {
         extent: buildDotNetExtent(point.extent),
         x: point.x,
         y: point.y,
-        spatialReference: point.spatialReference
+        z: point.z,
+        m: point.m,
+        spatialReference: buildDotNetSpatialReference(point.spatialReference)
     } as DotNetPoint
 }
 
@@ -94,7 +102,7 @@ export function buildDotNetPolyline(polyline: Polyline): DotNetPolyline | null {
         hasM: polyline.hasM,
         hasZ: polyline.hasZ,
         extent: buildDotNetExtent(polyline.extent),
-        spatialReference: polyline.spatialReference
+        spatialReference: buildDotNetSpatialReference(polyline.spatialReference)
     } as DotNetPolyline
 }
 
@@ -106,7 +114,7 @@ export function buildDotNetPolygon(polygon: Polygon): DotNetPolygon | null {
         hasM: polygon.hasM,
         hasZ: polygon.hasZ,
         extent: buildDotNetExtent(polygon.extent),
-        spatialReference: polygon.spatialReference
+        spatialReference: buildDotNetSpatialReference(polygon.spatialReference)
     } as DotNetPolygon
 }
 
@@ -124,7 +132,7 @@ export function buildDotNetExtent(extent: Extent): DotNetExtent | null {
         mmax: extent.mmax,
         hasM: extent.hasM,
         hasZ: extent.hasZ,
-        spatialReference: extent.spatialReference
+        spatialReference: buildDotNetSpatialReference(extent.spatialReference)
     } as DotNetExtent;
 }
 
@@ -157,4 +165,14 @@ export function buildDotNetGeographicTransformation(geographicTransformation: Ge
     return {
         steps: steps
     } as DotNetGeographicTransformation;
+}
+
+export function buildDotNetLayerView(layerView: LayerView) : DotNetLayerView {
+    return {
+        layer: layerView.layer,
+        spatialReferenceSupported: layerView.spatialReferenceSupported,
+        suspended: layerView.suspended,
+        updating: layerView.updating,
+        visible: layerView.visible
+    }
 }

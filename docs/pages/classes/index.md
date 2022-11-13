@@ -15,6 +15,7 @@ parent: Classes
 
 | Classes | |
 | :--- | :--- |
+| [DependencyExtension](dymaptic.GeoBlazor.Core.DependencyExtension.html 'dymaptic.GeoBlazor.Core.DependencyExtension') | Static extension class for injecting GeoBlazor types |
 | [RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') | Add this attribute to any property on any subclass of [MapComponent](dymaptic.GeoBlazor.Core.Components.MapComponent.html 'dymaptic.GeoBlazor.Core.Components.MapComponent'), and if the user<br/>forgets to set that property, this will throw a [MissingRequiredChildElementException](dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredChildElementException.html 'dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredChildElementException')<br/>or [MissingRequiredOptionsChildElementException](dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException.html 'dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException'). This works for both `[Parameter]`<br/>properties as well as Child Components registered with `RegisterChildComponent` |
 
 <a name='dymaptic.GeoBlazor.Core.Components'></a>
@@ -52,6 +53,10 @@ parent: Classes
 | [PolyLine](dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine.html 'dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine') | A polyline contains an array of paths and spatialReference. Each path is represented as an array of points. A polyline also has boolean-valued hasM and hasZ properties.<br/><a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polyline.html">ArcGIS JS API</a> |
 | [SpatialReference](dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference.html 'dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference') | Defines the spatial reference of a view, layer, or method parameters. This indicates the projected or geographic coordinate system used to locate geographic features in the map. Each projected and geographic coordinate system is defined by either a well-known ID (WKID) or a definition string (WKT). Note that for versions prior to ArcGIS 10, only WKID was supported. For a full list of supported spatial reference IDs and their corresponding definition strings, see Using spatial references.<br/><a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-SpatialReference.html">ArcGIS JS API</a> |
 
+| Enums | |
+| :--- | :--- |
+| [GeometryType](dymaptic.GeoBlazor.Core.Components.Geometries.GeometryType.html 'dymaptic.GeoBlazor.Core.Components.Geometries.GeometryType') | Possible types of geometries |
+
 <a name='dymaptic.GeoBlazor.Core.Components.Layers'></a>
 
 ## dymaptic.GeoBlazor.Core.Components.Layers Namespace
@@ -59,13 +64,16 @@ parent: Classes
 | Classes | |
 | :--- | :--- |
 | [FeatureLayer](dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html 'dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer') | A FeatureLayer is a single layer that can be created from a Map Service or Feature Service; ArcGIS Online or ArcGIS Enterprise portal items; or from an array of client-side features. The layer can be either a spatial (has geographic features) or non-spatial (table).<br/><a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html">ArcGIS JS API</a> |
+| [Field](dymaptic.GeoBlazor.Core.Components.Layers.Field.html 'dymaptic.GeoBlazor.Core.Components.Layers.Field') | Information about each field in a layer. Field objects must be constructed when creating a FeatureLayer from client-side graphics. This class allows you to define the schema of each field in the FeatureLayer.<br/><a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Field.html">ArcGIS JS API</a> |
 | [GeoJSONLayer](dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html 'dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer') | The GeoJSONLayer class is used to create a layer based on GeoJSON. GeoJSON is a format for encoding a variety of geographic data structures. The GeoJSON data must comply with the RFC 7946 specification which states that the coordinates are in SpatialReference.WGS84.<br/><a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html">ArcGIS JS API</a> |
+| [GeoRSSLayer](dymaptic.GeoBlazor.Core.Components.Layers.GeoRSSLayer.html 'dymaptic.GeoBlazor.Core.Components.Layers.GeoRSSLayer') | The GeoRSSLayer class is used to create a layer based on GeoRSS. GeoRSS is a way to add geographic information to an RSS feed. The GeoRSSLayer supports both GeoRSS-Simple and GeoRSS GML encodings, and multiple geometry types.<br/><a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoRSSLayer.html">ArcGIS JS API</a> |
 | [Graphic](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic') | A Graphic is a vector representation of real world geographic phenomena. It can contain geometry, a symbol, and attributes. A Graphic is displayed in the GraphicsLayer.<br/><a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Graphic.html">ArcGIS JS API</a> |
-| [GraphicsLayer](dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer.html 'dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer') | A GraphicsLayer contains one or more client-side Graphics. Each graphic in the GraphicsLayer is rendered in a LayerView inside either a SceneView or a MapView. The graphics contain discrete vector geometries that represent real-world phenomena.<br/><a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GraphicsLayer.html">ArcGIS JS API</a> |
+| [GraphicsLayer](dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer.html 'dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer') | A GraphicsLayer contains one or more client-side Graphics. Each graphic in the GraphicsLayer is rendered in a<br/>LayerView inside either a SceneView or a MapView. The graphics contain discrete vector geometries that represent<br/>real-world phenomena.<br/><a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GraphicsLayer.html">ArcGIS JS API</a> |
 | [Label](dymaptic.GeoBlazor.Core.Components.Layers.Label.html 'dymaptic.GeoBlazor.Core.Components.Layers.Label') | Defines label expressions, symbols, scale ranges, label priorities, and label placement options for labels on a layer. See the Labeling guide for more information about labeling.<br/><a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LabelClass.html">ArcGIS JS API</a> |
 | [LabelExpressionInfo](dymaptic.GeoBlazor.Core.Components.Layers.LabelExpressionInfo.html 'dymaptic.GeoBlazor.Core.Components.Layers.LabelExpressionInfo') | If working with a MapImageLayer that supports Arcade, you can also use labelExpressionInfo. To determine this, check the supportsArcadeExpressionForLabeling property. If true, then labelExpression or labelExpressionInfo can be used. If false, then only labelExpression can be used.<br/><a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LabelClass.html#labelExpressionInfo">ArcGIS JS API</a> |
 | [Layer](dymaptic.GeoBlazor.Core.Components.Layers.Layer.html 'dymaptic.GeoBlazor.Core.Components.Layers.Layer') | The layer is the most fundamental component of a Map. It is a collection of spatial data in the form of vector graphics or raster images that represent real-world phenomena. Layers may contain discrete features that store vector data or continuous cells/pixels that store raster data.<br/><a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html">ArcGIS JS API</a> |
 | [LayerObject](dymaptic.GeoBlazor.Core.Components.Layers.LayerObject.html 'dymaptic.GeoBlazor.Core.Components.Layers.LayerObject') | Abstract base class for objects that are a child of a [Layer](dymaptic.GeoBlazor.Core.Components.Layers.Layer.html 'dymaptic.GeoBlazor.Core.Components.Layers.Layer') and have a [Symbol](dymaptic.GeoBlazor.Core.Components.Layers.LayerObject.html#dymaptic.GeoBlazor.Core.Components.Layers.LayerObject.Symbol 'dymaptic.GeoBlazor.Core.Components.Layers.LayerObject.Symbol') property. |
+| [LayerView](dymaptic.GeoBlazor.Core.Components.Layers.LayerView.html 'dymaptic.GeoBlazor.Core.Components.Layers.LayerView') | Represents the view for a single layer after it has been added to either a MapView or a SceneView.<br/><a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html">ArcGIS JS API</a> |
 | [LegendOptions](dymaptic.GeoBlazor.Core.Components.Layers.LegendOptions.html 'dymaptic.GeoBlazor.Core.Components.Layers.LegendOptions') | An object providing options for displaying the visual variable in the Legend. |
 | [OrderedLayerOrderBy](dymaptic.GeoBlazor.Core.Components.Layers.OrderedLayerOrderBy.html 'dymaptic.GeoBlazor.Core.Components.Layers.OrderedLayerOrderBy') | Determines the order in which features are drawn in the view. |
 | [RotationVariable](dymaptic.GeoBlazor.Core.Components.Layers.RotationVariable.html 'dymaptic.GeoBlazor.Core.Components.Layers.RotationVariable') | The rotation visual variable defines how features rendered with marker symbols or text symbols in a MapView are rotated. The rotation value is determined by mapping the values to data in a field, or by other arithmetic means with an Arcade expression.<br/><a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-RotationVariable.html">ArcGIS JS API</a> |
@@ -76,6 +84,8 @@ parent: Classes
 
 | Enums | |
 | :--- | :--- |
+| [FieldType](dymaptic.GeoBlazor.Core.Components.Layers.FieldType.html 'dymaptic.GeoBlazor.Core.Components.Layers.FieldType') | Potential types of Fields in a FeatureLayer |
+| [FieldValueType](dymaptic.GeoBlazor.Core.Components.Layers.FieldValueType.html 'dymaptic.GeoBlazor.Core.Components.Layers.FieldValueType') | The types of values that can be assigned to a field. |
 | [RotationType](dymaptic.GeoBlazor.Core.Components.Layers.RotationType.html 'dymaptic.GeoBlazor.Core.Components.Layers.RotationType') | Options for rotation type for [RotationVariable](dymaptic.GeoBlazor.Core.Components.Layers.RotationVariable.html 'dymaptic.GeoBlazor.Core.Components.Layers.RotationVariable') |
 | [SortOrder](dymaptic.GeoBlazor.Core.Components.Layers.SortOrder.html 'dymaptic.GeoBlazor.Core.Components.Layers.SortOrder') | The sort order options for [OrderedLayerOrderBy](dymaptic.GeoBlazor.Core.Components.Layers.OrderedLayerOrderBy.html 'dymaptic.GeoBlazor.Core.Components.Layers.OrderedLayerOrderBy') |
 | [VisualVariableType](dymaptic.GeoBlazor.Core.Components.Layers.VisualVariableType.html 'dymaptic.GeoBlazor.Core.Components.Layers.VisualVariableType') | A collection of [VisualVariable](dymaptic.GeoBlazor.Core.Components.Layers.VisualVariable.html 'dymaptic.GeoBlazor.Core.Components.Layers.VisualVariable') Types |
@@ -172,6 +182,32 @@ parent: Classes
 | [ActionBase](dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ActionBase.html 'dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ActionBase') | Actions are customizable behavior which can be executed in certain widgets such as Popups, a BasemapLayerList, or a LayerList.<br/><a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionBase.html">ArcGIS JS API</a> |
 | [ListItem](dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem.html 'dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem') | The ListItem class represents one of the operationalItems in the LayerListViewModel. In the LayerList widget UI, the list item represents a layer displayed in the view. It provides access to the associated layer's properties, allows the developer to configure actions related to the layer, and allows the developer to add content to the item related to the layer.<br/><a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html#actionsSections">ArcGIS JS API</a> |
 
+<a name='dymaptic.GeoBlazor.Core.Events'></a>
+
+## dymaptic.GeoBlazor.Core.Events Namespace
+
+| Classes | |
+| :--- | :--- |
+| [BlurEvent](dymaptic.GeoBlazor.Core.Events.BlurEvent.html 'dymaptic.GeoBlazor.Core.Events.BlurEvent') | Fires when browser focus is moved away from the view. |
+| [ClickEvent](dymaptic.GeoBlazor.Core.Events.ClickEvent.html 'dymaptic.GeoBlazor.Core.Events.ClickEvent') | Event object for all click (single, double, immediate) and hold events. |
+| [DomPointerEvent](dymaptic.GeoBlazor.Core.Events.DomPointerEvent.html 'dymaptic.GeoBlazor.Core.Events.DomPointerEvent') | Represents the native DOM pointer event that the ArcGIS event is built on top of. |
+| [DragEvent](dymaptic.GeoBlazor.Core.Events.DragEvent.html 'dymaptic.GeoBlazor.Core.Events.DragEvent') | Result of the view.on('drag') event. |
+| [FocusEvent](dymaptic.GeoBlazor.Core.Events.FocusEvent.html 'dymaptic.GeoBlazor.Core.Events.FocusEvent') | Fires when browser focus is on the view. |
+| [JsEvent](dymaptic.GeoBlazor.Core.Events.JsEvent.html 'dymaptic.GeoBlazor.Core.Events.JsEvent') | Base class for many events triggered in Javascript. |
+| [KeyDownEvent](dymaptic.GeoBlazor.Core.Events.KeyDownEvent.html 'dymaptic.GeoBlazor.Core.Events.KeyDownEvent') | Fires after a keyboard key is pressed. |
+| [KeyUpEvent](dymaptic.GeoBlazor.Core.Events.KeyUpEvent.html 'dymaptic.GeoBlazor.Core.Events.KeyUpEvent') | Fires after a keyboard key is released. |
+| [LayerViewCreateErrorEvent](dymaptic.GeoBlazor.Core.Events.LayerViewCreateErrorEvent.html 'dymaptic.GeoBlazor.Core.Events.LayerViewCreateErrorEvent') | Fires when an error emits during the creation of a LayerView after a layer has been added to the map. |
+| [LayerViewCreateEvent](dymaptic.GeoBlazor.Core.Events.LayerViewCreateEvent.html 'dymaptic.GeoBlazor.Core.Events.LayerViewCreateEvent') | Fires after each layer in the map has a corresponding LayerView created and rendered in the view. |
+| [LayerViewDestroyEvent](dymaptic.GeoBlazor.Core.Events.LayerViewDestroyEvent.html 'dymaptic.GeoBlazor.Core.Events.LayerViewDestroyEvent') | Fires after a LayerView is destroyed and is no longer rendered in the view. This happens for example when a layer is removed from the map of the view. |
+| [MouseWheelEvent](dymaptic.GeoBlazor.Core.Events.MouseWheelEvent.html 'dymaptic.GeoBlazor.Core.Events.MouseWheelEvent') | Fires when a wheel button of a pointing device (typically a mouse) is scrolled on the view. |
+| [PointerEvent](dymaptic.GeoBlazor.Core.Events.PointerEvent.html 'dymaptic.GeoBlazor.Core.Events.PointerEvent') | This event type returns for all pointer events (down, up, enter, leave, move, etc.). |
+| [ResizeEvent](dymaptic.GeoBlazor.Core.Events.ResizeEvent.html 'dymaptic.GeoBlazor.Core.Events.ResizeEvent') | Result of the view.on('resize') event |
+
+| Enums | |
+| :--- | :--- |
+| [DragAction](dymaptic.GeoBlazor.Core.Events.DragAction.html 'dymaptic.GeoBlazor.Core.Events.DragAction') | JavaScript Drag actions |
+| [PointerType](dymaptic.GeoBlazor.Core.Events.PointerType.html 'dymaptic.GeoBlazor.Core.Events.PointerType') | The types of pointers recognized by the DOM |
+
 <a name='dymaptic.GeoBlazor.Core.Exceptions'></a>
 
 ## dymaptic.GeoBlazor.Core.Exceptions Namespace
@@ -179,10 +215,12 @@ parent: Classes
 | Classes | |
 | :--- | :--- |
 | [InvalidChildElementException](dymaptic.GeoBlazor.Core.Exceptions.InvalidChildElementException.html 'dymaptic.GeoBlazor.Core.Exceptions.InvalidChildElementException') | Exception thrown when a component is added to the wrong type of parent component. |
+| [JavascriptError](dymaptic.GeoBlazor.Core.Exceptions.JavascriptError.html 'dymaptic.GeoBlazor.Core.Exceptions.JavascriptError') | A JavaScript error |
 | [JavascriptException](dymaptic.GeoBlazor.Core.Exceptions.JavascriptException.html 'dymaptic.GeoBlazor.Core.Exceptions.JavascriptException') | Converts a JavaScript Error into a .NET Exception |
 | [MissingMapException](dymaptic.GeoBlazor.Core.Exceptions.MissingMapException.html 'dymaptic.GeoBlazor.Core.Exceptions.MissingMapException') | Exception when a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is created with no [Map](dymaptic.GeoBlazor.Core.Components.Map.html 'dymaptic.GeoBlazor.Core.Components.Map') or [WebMap](dymaptic.GeoBlazor.Core.Components.WebMap.html 'dymaptic.GeoBlazor.Core.Components.WebMap') |
 | [MissingRequiredChildElementException](dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredChildElementException.html 'dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredChildElementException') | An exception that specifies that a required child component was not added to the parent. |
 | [MissingRequiredOptionsChildElementException](dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException.html 'dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException') | An exception that specifies that none of the choices of required child components were added. |
+| [UnMatchedTargetNameException](dymaptic.GeoBlazor.Core.Exceptions.UnMatchedTargetNameException.html 'dymaptic.GeoBlazor.Core.Exceptions.UnMatchedTargetNameException') | This exception is thrown when a watchExpression's target object name doesn't match the targetName parameter. |
 
 <a name='dymaptic.GeoBlazor.Core.Model'></a>
 
@@ -190,8 +228,13 @@ parent: Classes
 
 | Classes | |
 | :--- | :--- |
+| [GeometryEngine](dymaptic.GeoBlazor.Core.Model.GeometryEngine.html 'dymaptic.GeoBlazor.Core.Model.GeometryEngine') | A client-side geometry engine for testing, measuring, and analyzing the spatial relationship between two or more 2D geometries. If more than one geometry is required for any of the methods below, all geometries must have the same spatial reference for the methods to work as expected.<br/><a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-geometryEngine.html">ArcGIS JS API</a> |
 | [LogicComponent](dymaptic.GeoBlazor.Core.Model.LogicComponent.html 'dymaptic.GeoBlazor.Core.Model.LogicComponent') | A base class for non-map components, such as GeometryEngine, Projection, etc. |
 | [Projection](dymaptic.GeoBlazor.Core.Model.Projection.html 'dymaptic.GeoBlazor.Core.Model.Projection') | A client-side projection engine for converting geometries from one SpatialReference to another. When projecting geometries the starting spatial reference must be specified on the input geometry. You can specify a specific geographic (datum) transformation for the project operation, or accept the default transformation if one is needed.<br/><a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-projection.html">ArcGIS JS API</a> |
+
+| Enums | |
+| :--- | :--- |
+| [JoinType](dymaptic.GeoBlazor.Core.Model.JoinType.html 'dymaptic.GeoBlazor.Core.Model.JoinType') | Join types for creating an offset geometry in [GeometryEngine](dymaptic.GeoBlazor.Core.Model.GeometryEngine.html 'dymaptic.GeoBlazor.Core.Model.GeometryEngine') |
 
 <a name='dymaptic.GeoBlazor.Core.Objects'></a>
 
@@ -208,11 +251,13 @@ parent: Classes
 | [MapColor](dymaptic.GeoBlazor.Core.Objects.MapColor.html 'dymaptic.GeoBlazor.Core.Objects.MapColor') | Creates a new color object by passing either a hex, rgb(a), hsl(a) or named color value. Hex, hsl(a) and named color values can be passed as a string:<br/><a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Color.html">ArcGIS JS API</a> |
 | [MapPath](dymaptic.GeoBlazor.Core.Objects.MapPath.html 'dymaptic.GeoBlazor.Core.Objects.MapPath') | Represents both [Paths](dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine.html#dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine.Paths 'dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine.Paths') and [Rings](dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.html#dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.Rings 'dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.Rings'), as a two-dimensional array of number coordinates.<br/><a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polyline.html#paths">ArcGIS JS API</a> |
 | [MapPoint](dymaptic.GeoBlazor.Core.Objects.MapPoint.html 'dymaptic.GeoBlazor.Core.Objects.MapPoint') | This is another representation of [Point](dymaptic.GeoBlazor.Core.Components.Geometries.Point.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Point') that should be used to create [MapPath](dymaptic.GeoBlazor.Core.Objects.MapPath.html 'dymaptic.GeoBlazor.Core.Objects.MapPath')s. |
+| [NearestPointResult](dymaptic.GeoBlazor.Core.Objects.NearestPointResult.html 'dymaptic.GeoBlazor.Core.Objects.NearestPointResult') | Object returned from the nearestCoordinate(), nearestVertex(), and nearestVertices() methods of [GeometryEngine](dymaptic.GeoBlazor.Core.Model.GeometryEngine.html 'dymaptic.GeoBlazor.Core.Model.GeometryEngine'). |
 | [PopupDockOptions](dymaptic.GeoBlazor.Core.Objects.PopupDockOptions.html 'dymaptic.GeoBlazor.Core.Objects.PopupDockOptions') | Docking the popup allows for a better user experience, particularly when opening popups in apps on mobile devices. When a popup is "dockEnabled" it means the popup no longer points to the selected feature or the location assigned to it. Rather it is placed in one of the corners of the view or to the top or bottom of it. This property allows the developer to set various options for docking the popup. |
 | [PopupOptions](dymaptic.GeoBlazor.Core.Objects.PopupOptions.html 'dymaptic.GeoBlazor.Core.Objects.PopupOptions') | A collection of options to define when creating a Popup.<br/><a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html">ArcGIS JS API</a> |
 | [PopupVisibleElements](dymaptic.GeoBlazor.Core.Objects.PopupVisibleElements.html 'dymaptic.GeoBlazor.Core.Objects.PopupVisibleElements') | The visible elements that are displayed within the widget. This provides the ability to turn individual elements of the widget's display on/off. |
 | [Query](dymaptic.GeoBlazor.Core.Objects.Query.html 'dymaptic.GeoBlazor.Core.Objects.Query') | This class defines parameters for executing queries for features from a layer or layer view. Once a Query object's properties are defined, it can then be passed into an executable function, which will return the features in a FeatureSet.<br/><a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">ArcGIS JS API</a> |
 | [SearchResult](dymaptic.GeoBlazor.Core.Objects.SearchResult.html 'dymaptic.GeoBlazor.Core.Objects.SearchResult') | The result object returned from a search.<br/><a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#SearchResult">ArcGIS JS API</a> |
+| [SpatialReferenceInfo](dymaptic.GeoBlazor.Core.Objects.SpatialReferenceInfo.html 'dymaptic.GeoBlazor.Core.Objects.SpatialReferenceInfo') | The return object of [ExtendedSpatialReferenceInfo(SpatialReference)](dymaptic.GeoBlazor.Core.Model.GeometryEngine.html#dymaptic.GeoBlazor.Core.Model.GeometryEngine.ExtendedSpatialReferenceInfo(dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference) 'dymaptic.GeoBlazor.Core.Model.GeometryEngine.ExtendedSpatialReferenceInfo(dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference)') |
 
 | Enums | |
 | :--- | :--- |

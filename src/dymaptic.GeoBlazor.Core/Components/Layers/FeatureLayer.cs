@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
+using System.Text.Json.Serialization;
 using dymaptic.GeoBlazor.Core.Components.Popups;
 using dymaptic.GeoBlazor.Core.Components.Renderers;
 using Microsoft.AspNetCore.Components;
@@ -13,7 +14,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html">ArcGIS JS API</a>
 /// </summary>
 /// <example>
-///     <a target="_blank" href="https://blazor.dymaptic.com/feature-layers">Sample - Feature Layers</a>
+///     <a target="_blank" href="https://samples.geoblazor.com/feature-layers">Sample - Feature Layers</a>
 /// </example>
 public class FeatureLayer : Layer
 {
@@ -22,11 +23,11 @@ public class FeatureLayer : Layer
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [RequiredProperty(nameof(PortalItem))]
+    [RequiredProperty(nameof(PortalItem), nameof(Source))]
     public string Url { get; set; } = default!;
 
     /// <summary>
-    ///     
+    ///     The SQL where clause used to filter features on the client.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -50,14 +51,7 @@ public class FeatureLayer : Layer
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string[]? OutFields { get; set; }
-    
-    /// <summary>
-    ///     The title of the layer used to identify it in places such as the Legend and LayerList widgets.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? Title { get; set; }
-    
+
     /// <summary>
     ///     The minimum scale (most zoomed out) at which the layer is visible in the view.
     /// </summary>
@@ -71,12 +65,26 @@ public class FeatureLayer : Layer
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? MaxScale { get; set; }
+    
+    /// <summary>
+    ///     The name of an oidfield containing a unique value or identifier for each feature in the layer.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? ObjectIdField { get; set; }
+    
+    /// <summary>
+    ///     The geometry type of the feature layer. All featuers must be of the same type.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public GeometryType? GeometryType { get; set; }
 
     /// <summary>
     ///     Determines the order in which features are drawn in the view.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public HashSet<OrderedLayerOrderBy> OrderBy { get; set; } = new();
+    public HashSet<OrderedLayerOrderBy>? OrderBy { get; set; }
 
     /// <summary>
     ///     The <see cref="PopupTemplate"/> for the layer.
@@ -100,11 +108,107 @@ public class FeatureLayer : Layer
     ///     The <see cref="PortalItem"/> from which the layer is loaded.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [RequiredProperty(nameof(Url))]
+    [RequiredProperty(nameof(Url), nameof(Source))]
     public PortalItem? PortalItem { get; set; }
+    
+    /// <summary>
+    ///     The spatial reference for the feature layer
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public SpatialReference? SpatialReference { get; set; }
+
+    /// <summary>
+    ///     A collection of Graphic objects used to create a FeatureLayer.
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [RequiredProperty(nameof(Url), nameof(PortalItem))]
+    public IReadOnlyCollection<Graphic>? Source
+    {
+        get => _source;
+        set
+        {
+            if (value is not null)
+            {
+                _source = new(value);
+            }
+        }
+    }
+
+    /// <summary>
+    ///     An array of fields in the layer.
+    /// </summary>
+    public IReadOnlyCollection<Field>? Fields
+    {
+        get => _fields;
+        set
+        {
+            if (value is not null)
+            {
+                _fields = new(value);
+            }
+        }
+    }
 
     /// <inheritdoc />
     public override string LayerType => "feature";
+    
+    /// <summary>
+    ///     Add a graphic to the current layer's source
+    /// </summary>
+    /// <param name="graphic">
+    ///     The graphic to add
+    /// </param>
+    public Task Add(Graphic graphic)
+    {
+        return RegisterChildComponent(graphic);
+    }
+
+    /// <summary>
+    ///     Adds a collection of graphics to the feature layer
+    /// </summary>
+    /// <param name="graphics">
+    ///     The graphics to add
+    /// </param>
+    public async Task Add(IEnumerable<Graphic> graphics)
+    {
+        foreach (Graphic graphic in graphics)
+        {
+            await RegisterChildComponent(graphic);
+        }
+    }
+
+    /// <summary>
+    ///     Remove a graphic from the current layer
+    /// </summary>
+    /// <param name="graphic">
+    ///     The graphic to remove
+    /// </param>
+    public Task Remove(Graphic graphic)
+    {
+        return UnregisterChildComponent(graphic);
+    }
+    
+    /// <summary>
+    ///     Add a field to the current layer's source
+    /// </summary>
+    /// <param name="field">
+    ///     The field to add
+    /// </param>
+    public Task Add(Field field)
+    {
+        return RegisterChildComponent(field);
+    }
+
+    /// <summary>
+    ///     Remove a field from the current layer
+    /// </summary>
+    /// <param name="field">
+    ///     The field to remove
+    /// </param>
+    public Task Remove(Field field)
+    {
+        return UnregisterChildComponent(field);
+    }
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
@@ -143,10 +247,42 @@ public class FeatureLayer : Layer
                 }
 
                 break;
+            case SpatialReference spatialRef:
+                if (!spatialRef.Equals(SpatialReference))
+                {
+                    SpatialReference = spatialRef;
+                    await UpdateComponent();
+                }
+
+                break;
             case OrderedLayerOrderBy orderBy:
+                OrderBy ??= new HashSet<OrderedLayerOrderBy>();
                 if (!OrderBy.Contains(orderBy))
                 {
                     OrderBy.Add(orderBy);
+                    await UpdateComponent();
+                }
+
+                break;
+            case Graphic graphic:
+                _source ??= new HashSet<Graphic>();
+                if (!_source.Contains(graphic))
+                {
+                    graphic.GraphicIndex = _source.Count;
+                    graphic.View ??= View;
+                    graphic.JsModule ??= JsModule;
+                    graphic.Parent ??= this;
+                    _source.Add(graphic);
+                    await UpdateComponent();
+                }
+
+                break;
+            case Field field:
+                _fields ??= new HashSet<Field>();
+
+                if (!_fields.Contains(field))
+                {
+                    _fields.Add(field);
                     await UpdateComponent();
                 }
 
@@ -179,8 +315,26 @@ public class FeatureLayer : Layer
                 PortalItem = null;
 
                 break;
+            case SpatialReference _:
+                SpatialReference = null;
+
+                break;
             case OrderedLayerOrderBy orderBy:
-                OrderBy.Remove(orderBy);
+                OrderBy?.Remove(orderBy);
+
+                break;
+            case Graphic graphic:
+                if (_source?.Contains(graphic) ?? false)
+                {
+                    _source.Remove(graphic);
+                }
+
+                break;
+            case Field field:
+                if (_fields?.Contains(field) ?? false)
+                {
+                    _fields.Remove(field);
+                }
 
                 break;
             default:
@@ -197,10 +351,26 @@ public class FeatureLayer : Layer
         PopupTemplate?.ValidateRequiredChildren();
         Renderer?.ValidateRequiredChildren();
         PortalItem?.ValidateRequiredChildren();
-        foreach (var label in LabelingInfo)
+        foreach (Label label in LabelingInfo)
         {
             label.ValidateRequiredChildren();
-        } 
+        }
+
+        if (Source is not null)
+        {
+            foreach (Graphic graphic in Source)
+            {
+                graphic.ValidateRequiredChildren();
+            }
+        }
+
+        if (Fields is not null)
+        {
+            foreach (Field field in Fields)
+            {
+                field.ValidateRequiredChildren();
+            }
+        }
     }
 
     /// <inheritdoc />
@@ -216,6 +386,8 @@ public class FeatureLayer : Layer
     }
     
     private string? _definitionExpression;
+    private HashSet<Graphic>? _source;
+    private HashSet<Field>? _fields;
 }
 
 

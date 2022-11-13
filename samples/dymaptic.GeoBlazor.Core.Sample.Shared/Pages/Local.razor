@@ -1,0 +1,17 @@
+﻿@page "/Local"
+<PageTitle>Local Map</PageTitle>
+<h1>Local</h1>
+<MapView Longitude="-118.80543" Latitude="34.02700" Zoom="13"  Class="map-view">
+    <Map>
+        <GraphicsLayer>
+            <Graphic>
+                <Point Longitude="-118.80543" Latitude="34.02700" />
+                <SimpleMarkerSymbol Color="@(new MapColor("green"))" />
+            </Graphic>
+        </GraphicsLayer>
+    </Map>
+</MapView>
+
+@code {
+    
+}

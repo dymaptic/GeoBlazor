@@ -16,6 +16,46 @@ public class Graphic : dymaptic.GeoBlazor.Core.Components.Layers.LayerObject
 ```
 
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [Microsoft.AspNetCore.Components.ComponentBase](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.ComponentBase 'Microsoft.AspNetCore.Components.ComponentBase') &#129106; [MapComponent](dymaptic.GeoBlazor.Core.Components.MapComponent.html 'dymaptic.GeoBlazor.Core.Components.MapComponent') &#129106; [LayerObject](dymaptic.GeoBlazor.Core.Components.Layers.LayerObject.html 'dymaptic.GeoBlazor.Core.Components.Layers.LayerObject') &#129106; Graphic
+### Constructors
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.Graphic.Graphic()'></a>
+
+## Graphic() Constructor
+
+Parameterless constructor for using as a razor component
+
+```csharp
+public Graphic();
+```
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.Graphic.Graphic(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate,System.Collections.Generic.Dictionary_string,object_)'></a>
+
+## Graphic(Geometry, PopupTemplate, Dictionary<string,object>) Constructor
+
+Constructs a new Graphic in code with parameters
+
+```csharp
+public Graphic(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry geometry, dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate? popupTemplate=null, System.Collections.Generic.Dictionary<string,object>? attributes=null);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.Graphic.Graphic(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate,System.Collections.Generic.Dictionary_string,object_).geometry'></a>
+
+`geometry` [Geometry](dymaptic.GeoBlazor.Core.Components.Geometries.Geometry.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Geometry')
+
+The geometry that defines the graphic's location.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.Graphic.Graphic(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate,System.Collections.Generic.Dictionary_string,object_).popupTemplate'></a>
+
+`popupTemplate` [PopupTemplate](dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.html 'dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate')
+
+The [PopupTemplate](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html#dymaptic.GeoBlazor.Core.Components.Layers.Graphic.PopupTemplate 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic.PopupTemplate') for displaying content in a Popup when the graphic is selected.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.Graphic.Graphic(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate,System.Collections.Generic.Dictionary_string,object_).attributes'></a>
+
+`attributes` [System.Collections.Generic.Dictionary&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.Dictionary-2 'System.Collections.Generic.Dictionary`2')[System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')[,](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.Dictionary-2 'System.Collections.Generic.Dictionary`2')[System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.Dictionary-2 'System.Collections.Generic.Dictionary`2')
+
+Name-value pairs of fields and field values associated with the graphic.
 ### Properties
 
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.Graphic.Attributes'></a>

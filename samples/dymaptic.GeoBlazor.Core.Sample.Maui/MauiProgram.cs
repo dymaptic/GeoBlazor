@@ -26,7 +26,7 @@ public static class MauiProgram
         builder.Services.AddScoped<SharedFileProvider, MauiFileProvider>();
         builder.Services.AddSingleton<IConfiguration>(_ => builder.Configuration);
         builder.Services.AddScoped<HttpClient>();
-        builder.Services.AddScoped<Projection>();
+        builder.Services.AddGeoBlazor();
 
         var apiKey = Preferences.Get("ArcGISApiKey", null);
         if (apiKey is not null)

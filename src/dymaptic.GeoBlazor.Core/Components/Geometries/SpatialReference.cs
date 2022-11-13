@@ -10,6 +10,26 @@ namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 public class SpatialReference : MapComponent
 {
     /// <summary>
+    ///     Parameterless constructor for use as a razor component
+    /// </summary>
+    public SpatialReference()
+    {
+    }
+
+    /// <summary>
+    ///     Creates a new SpatialReference in code with a Wkid
+    /// </summary>
+    /// <param name="wkid">
+    ///     The well-known Id for the spatial reference
+    /// </param>
+    public SpatialReference(double wkid)
+    {
+#pragma warning disable BL0005
+        Wkid = wkid;
+#pragma warning restore BL0005
+    }
+    
+    /// <summary>
     ///     An image coordinate system defines the spatial reference used to display the image in its original coordinates without distortion, map transformations or ortho-rectification.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -62,11 +82,11 @@ public class SpatialReference : MapComponent
     ///     A convenience static instance for WGS84 Spatial Reference.
     /// </summary>
     [JsonIgnore]
-    public static SpatialReference Wgs84 { get; set; } = new() { Wkid = 4326 };
+    public static SpatialReference Wgs84 { get; set; } = new(4326);
 
     /// <summary>
     ///     A convenience static instance for WebMercator Spatial Reference.
     /// </summary>
     [JsonIgnore]
-    public static SpatialReference WebMercator { get; set; } = new() { Wkid = 3857 };
+    public static SpatialReference WebMercator { get; set; } = new(3857);
 }
