@@ -14,7 +14,7 @@ nav_order: 2
    the `dotnet` CLI.
 2. add a `PackageReference` to the latest version of the `dymaptic.GeoBlazor.Core` package via your IDE's Nuget Package
    Manager or `dotnet add package dymaptic.GeoBlazor.Core`.
-3. The ArcGIS API requires some form of authentication. The simplest is to use an API Key. Generate a key from the [ArcGIS Developer Dashboard](https://developers.arcgis.com/api-keys/) and place it in your appsettings.json, like this:
+3. The ArcGIS API requires some form of authentication. The simplest is to use an API Key. Generate a key from the [ArcGIS Developer Dashboard](https://developers.arcgis.com/api-keys/). For Blazor Server, place it in your appsettings.json, like this:
 
    ```json
    {
@@ -22,7 +22,9 @@ nav_order: 2
    }
    ```
    <div style="font-size: 0.8rem; font-style: italic; margin-bottom: 1rem;">
-   Note: If you are using Blazor WASM, <span style="color:red;">be aware</span> that the API key will be exposed in the browser 
+   Note: If you are using Blazor WASM, there are several issues with this approach. First, `appsettings.json` is not added by default to the template.
+   If you want to add it yourself, you need to add it inside the `wwwroot` folder. 
+   <span style="color:red;">Be Aware</span> that the API key will be exposed in the browser 
    (just like it would with Javascript). Even when using Blazor Server, the API key may be present in HTTP requests 
    visible to the user in the browsers dev tools, so you should probably take other steps like setting up referrer rules 
    in ArcGIS.
