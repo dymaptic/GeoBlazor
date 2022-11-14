@@ -12,7 +12,7 @@
 
 For the Asp.NET projects, including the core library, you can run on the latest [.NET 6 SDK](https://dotnet.microsoft.com/en-us/download).
 
-For the Maui sample project, you need the latest [_preview_ of Visual Studio](https://visualstudio.microsoft.com/vs/preview/).
+For the Maui sample project, you need the latest Visual Studio 2022 or [.NET 7 SDK](https://dotnet.microsoft.com/en-us/download).
 
 If you have not installed node.js on your system, you will need to download and install it in order for the npm scripts to run. Please [select
 the appropriate installer for your system](https://nodejs.org/en/download/).
@@ -21,13 +21,15 @@ You will need to install Powershell 7 on your machine to run the powershell scri
 -Complete installation instructions for Powershell [can be found here]
 (https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell?view=powershell-7.2).
 
-**Note** A reboot is required after installing the above components. 
+**Note** A reboot is required after installing the above components.
 
 Because Geoblazor uses an unsigned, local powershell script to copy files in the `Sample.Shared` project, you need to allow unsigned scripts to be run in Powershell.
 -The procedure to change the "execution policies" and set them to `RemoteSigned` are found here:
 https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_execution_policies?view=powershell-7.2#change-the-execution-policy
 
 **Note** If you receive an unsigned error even after you set the above execution policy, try setting it again in the older version of PowerShell (the one that comes with Windows).
+
+On the first build, the Core project needs to download a large number of files from `npm` to `node_modules`, and then copy them into `wwwroot/assets`. If this process fails, or you get an error on running the samples of "Cannot load ArcGIS Assets", usually re-building the project will fix the errors.
 
 ## Projects
 
@@ -64,7 +66,6 @@ https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/ab
 
 - Extended application features - coming soon!
 - Please contact info@dymaptic.com to discuss licensing these advanced features!
-
 
 This project wraps the [ArcGIS Javascript API](https://developers.arcgis.com/javascript/latest/) in a Blazor templating framework.
 It generates a nuget package that can be imported and consumed from any Blazor application, without directly interacting with javascript.
@@ -145,4 +146,3 @@ for a 3D map with a basemap loaded from a `PortalId`.
   our recommendation to instead write custom JavaScript code, which can handle the event completely client-side.
   See `DisplayProjection.razor` in the `...Sample.Shared` library for an example of writing your own JavaScript that interacts
   with GeoBlazor.
-

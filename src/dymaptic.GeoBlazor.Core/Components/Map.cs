@@ -58,14 +58,7 @@ public class Map : MapComponent
                     layer.LayerIndex = allLayersOfType.Count();
                     Layers.Add(layer);
 
-                    if (MapRendered)
-                    {
-                        await layer.UpdateComponent();
-                    }
-                    else
-                    {
-                        await UpdateComponent();
-                    }
+                    await View!.AddLayer(layer);
                 }
 
                 break;

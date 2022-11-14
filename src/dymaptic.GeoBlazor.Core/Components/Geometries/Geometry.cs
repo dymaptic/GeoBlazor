@@ -147,3 +147,33 @@ internal class GeometryConverter : JsonConverter<Geometry>
         writer.WriteRawValue(JsonSerializer.Serialize(value, typeof(object), newOptions));
     }
 }
+
+/// <summary>
+///     Possible types of geometries
+/// </summary>
+[JsonConverter(typeof(GeometryTypeConverter))]
+public enum GeometryType
+{
+#pragma warning disable CS1591
+    Point,
+    Multipoint,
+    Polyline,
+    Polygon,
+    Multipatch,
+    Mesh
+#pragma warning restore CS1591
+}
+
+internal class GeometryTypeConverter : JsonConverter<GeometryType>
+{
+    public override GeometryType Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override void Write(Utf8JsonWriter writer, GeometryType value, JsonSerializerOptions options)
+    {
+        string? stringVal = Enum.GetName(typeof(GeometryType), value);
+        writer.WriteRawValue($"\"{stringVal?.ToLower()}\"");
+    }
+}

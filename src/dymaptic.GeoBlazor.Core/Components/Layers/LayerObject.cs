@@ -1,4 +1,6 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Symbols;
+using System.Text.Json.Serialization;
+
 
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
@@ -10,7 +12,7 @@ public abstract class LayerObject : MapComponent
     /// <summary>
     ///     The <see cref="Symbol"/> for the object.
     /// </summary>
-    [RequiredProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Symbol? Symbol { get; set; }
 
     /// <inheritdoc />

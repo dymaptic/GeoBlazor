@@ -161,7 +161,7 @@ public partial class MapView : MapComponent
     public void OnJavascriptError(JavascriptError error)
     {
 #if DEBUG
-        ErrorMessage = error.Message.Replace("\n", "<br>");
+        ErrorMessage = error.Message?.Replace("\n", "<br>") ?? error.Stack;
         StateHasChanged();
 #endif
         var exception = new JavascriptException(error);
@@ -806,10 +806,7 @@ public partial class MapView : MapComponent
                 {
                     Widgets.Add(widget);
                     widget.Parent ??= this;
-                    if (MapRendered)
-                    {
-                        await AddWidget(widget);
-                    }
+                    await AddWidget(widget);
                 }
 
                 break;
@@ -818,11 +815,7 @@ public partial class MapView : MapComponent
                 {
                     graphic.GraphicIndex = Graphics.Count;
                     Graphics.Add(graphic);
-
-                    if (MapRendered)
-                    {
-                        await AddGraphic(graphic);
-                    }
+                    await AddGraphic(graphic);
                 }
 
                 break;
@@ -1020,6 +1013,7 @@ public partial class MapView : MapComponent
     /// </param>
     public async Task AddGraphic(Graphic graphic, int? layerIndex = null)
     {
+        if (ViewJsModule is null) return;
         await ViewJsModule!.InvokeVoidAsync("addGraphic", (object)graphic, Id, layerIndex);
     }
 
@@ -1029,6 +1023,21 @@ public partial class MapView : MapComponent
     public async Task ClearGraphics()
     {
         await ViewJsModule!.InvokeVoidAsync("clearViewGraphics", Id);
+    }
+    
+    /// <summary>
+    ///     Adds a layer to the current Map
+    /// </summary>
+    /// <param name="layer">
+    ///     The layer to add
+    /// </param>
+    /// <param name="isBasemapLayer">
+    ///     If true, adds the layer as a Basemap
+    /// </param>
+    public async Task AddLayer(Layer layer, bool? isBasemapLayer = false)
+    {
+        if (ViewJsModule is null) return;
+        await ViewJsModule!.InvokeVoidAsync("addLayer", (object)layer, Id, isBasemapLayer);
     }
     
     /// <summary>
@@ -1220,6 +1229,7 @@ public partial class MapView : MapComponent
             }
             
             JsModule = ViewJsModule;
+            
             // the first render never has all the child components registered
             Rendering = false;
             StateHasChanged();
@@ -1271,8 +1281,11 @@ public partial class MapView : MapComponent
             }
 
             NeedsRender = false;
-
-            await ViewJsModule!.InvokeVoidAsync("buildMapView", Id,
+            await ViewJsModule!.InvokeVoidAsync("setAssetsPath", 
+                Configuration.GetValue<string?>("ArcGISAssetsPath", 
+                    "./_content/dymaptic.GeoBlazor.Core/assets"));
+            
+            await ViewJsModule.InvokeVoidAsync("buildMapView", Id,
                 DotNetObjectReference, Longitude, Latitude, Rotation, map, Zoom, Scale,
                 ApiKey, mapType, Widgets, Graphics, SpatialReference, Constraints, Extent,
                 EventRateLimitInMilliseconds, GetActiveEventHandlers());
@@ -1284,6 +1297,7 @@ public partial class MapView : MapComponent
 
     private async Task AddWidget(Widget widget)
     {
+        if (ViewJsModule is null) return;
         await InvokeAsync(async () =>
         {
             await ViewJsModule!.InvokeVoidAsync("addWidget", widget, Id);
@@ -1312,9 +1326,20 @@ public partial class MapView : MapComponent
         {
             dynamic? callback = callbackInfo.GetValue(this);
 
-            if (callback is not null && callback.HasDelegate)
+            try
             {
-                activeHandlers.Add(callbackInfo.Name);
+                if (callback is not null && callback.HasDelegate)
+                {
+                    activeHandlers.Add(callbackInfo.Name);
+                }
+            }
+            catch
+            {
+                // Funcs don't have "HasDelegate"
+                if (callback is not null && callback.GetType().Name.StartsWith("Func"))
+                {
+                    activeHandlers.Add(callbackInfo.Name);
+                }
             }
         }
 
