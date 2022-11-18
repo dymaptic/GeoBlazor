@@ -8,7 +8,7 @@
 <h1>>Basemap and Reference layerlists</h1>
 <div class="links-div">
     <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">ArcGIS API for JavaScript Reference</a>
-    <a class="btn btn-primary" target="_blank" href="https://www.arcgis.com/home/item.html?id=a3667370938e457c875105bf53e2366e">Venice Flood </a>
+    <a class="btn btn-primary" target="_blank" href="https://www.arcgis.com/home/item.html?id=0614ea1f9dd043e9ba157b9c20d3c538">Maquettes 3D des bâtiments de la ville de Paris</a>
 </div>
 <p class="instructions">
     A simple demo of loading multiple layers into the BaseMapLayerList widget.
@@ -22,9 +22,9 @@
     {
         <SceneView Class="map-view">
                 <WebScene>
-                <PortalItem Id="a3667370938e457c875105bf53e2366e" />
+                <PortalItem Id="0614ea1f9dd043e9ba157b9c20d3c538" />
                 </WebScene>
-            <BasemapLayerListWidget Position="OverlayPosition.TopRight" OnListItemCreatedHandler="OnListItemCreated" />
+            <BasemapLayerListWidget Position="OverlayPosition.TopRight" OnBaseListItemCreatedHandler="OnBaseListItemCreated" OnReferenceListItemCreatedHandler="OnReferenceListItemCreated" />
             </SceneView>
 
     }
@@ -33,9 +33,9 @@
         <div id="widget-holder" />
         <SceneView Class="map-view">
             <WebScene>
-                <PortalItem Id="a3667370938e457c875105bf53e2366e" />
+                <PortalItem Id="0614ea1f9dd043e9ba157b9c20d3c538" />
             </WebScene>
-            <BasemapLayerListWidget ContainerId="widget-holder" OnListItemCreatedHandler="OnListItemCreated"  />
+            <BasemapLayerListWidget ContainerId="widget-holder" OnBaseListItemCreatedHandler="OnBaseListItemCreated" OnReferenceListItemCreatedHandler="OnReferenceListItemCreated" />
         </SceneView>
     }
 }
@@ -55,11 +55,19 @@
     private int? _windowWidth;
 
     
-    private Task<ListItem> OnListItemCreated(ListItem item)
+     private Task<ListItem> OnBaseListItemCreated(ListItem baseListItem)
     {
-        item.Visible = true;
-       
-        return Task.Run(() => item);
+        baseListItem.Visible = true;
+
+        return Task.Run(() => baseListItem);
     }
-    
+
+    private Task<ListItem> OnReferenceListItemCreated(ListItem baseListItem)
+    {
+        baseListItem.Visible = true;
+
+        return Task.Run(() => baseListItem);
+    }
+
+}
 }
