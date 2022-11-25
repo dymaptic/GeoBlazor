@@ -26,8 +26,8 @@ nav_order: 2
    If you want to add it yourself, you need to add it inside the `wwwroot` folder. 
    <span style="color:red;">Be Aware</span> that the API key will be exposed in the browser 
    (just like it would with Javascript). Even when using Blazor Server, the API key may be present in HTTP requests 
-   visible to the user in the browsers dev tools, so you should probably take other steps like setting up referrer rules 
-   in ArcGIS.
+   visible to the user in the browsers dev tools, so you should probably take other steps like [setting up referrer rules 
+   in ArcGIS](https://developers.arcgis.com/documentation/mapping-apis-and-services/security/api-keys/#referrers).
    </div>
    <div style="font-size: 0.8rem; font-style: italic">
    You can also set up an OAuth2 workflow, which is more secure as it does not expose a static API key, 
