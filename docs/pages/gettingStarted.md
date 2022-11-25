@@ -35,10 +35,12 @@ nav_order: 2
    </div>
 4. In the root file that defines your html, add the following lines to the `<head>` section.
    This would be `_Layout.cshtml` for Blazor Server, or `index.html` for Blazor Wasm and Blazor Hybrid.
+   Note that `YourProject` is the namespace for the application that you are creating.
 
     ```html
     <link href="_content/dymaptic.GeoBlazor.Core"/>
     <link href="_content/dymaptic.GeoBlazor.Core/assets/esri/themes/light/main.css" rel="stylesheet" />
+    <link href="YourProject.styles.css" rel="stylesheet" />
     ```
     
     or (dark theme)
@@ -46,6 +48,7 @@ nav_order: 2
     ```html
     <link href="_content/dymaptic.GeoBlazor.Core"/>
     <link href="_content/dymaptic.GeoBlazor.Core/assets/esri/themes/dark/main.css" rel="stylesheet" />
+    <link href="YourProject.styles.css" rel="stylesheet" />
     ```
 
 5. In `_Imports.razor`, add the following lines, or add as needed to resolve code that you consume.
