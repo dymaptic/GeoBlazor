@@ -57,11 +57,6 @@ public class BasemapLayerListWidget : LayerListWidget
     public Func<ListItem, Task<ListItem>>? OnReferenceListItemCreatedHandler { get; set; }
 
     /// <summary>
-    ///     The .Net object reference to this class for calling from JavaScript.
-    /// </summary>
-    //public DotNetObjectReference<BasemapLayerListWidget> ReferenceLayerListWidgetObjectReference => DotNetObjectReference.Create(this);
-
-    /// <summary>
     ///     A convenience property that signifies whether a custom <see cref="OnReferenceListItemCreatedHandler"/> was registered.
     /// </summary>
     public bool HasCustomReferenceListHandler => OnReferenceListItemCreatedHandler is not null;

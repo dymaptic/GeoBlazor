@@ -37,6 +37,19 @@ in a future iteration.  Currently, a user can view available layers in the layer
 and toggle the selected layer's visibility. More capabilities will be available after full  
 implementation of ActionSection.
 
+<a name='dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.BaseListItem.BaseItems'></a>
+
+## BaseListItem.BaseItems Property
+
+The children base items in a layer.
+
+```csharp
+public System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem>? BaseItems { get; set; }
+```
+
+#### Property Value
+[System.Collections.Generic.List&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.List-1 'System.Collections.Generic.List`1')[ListItem](dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem.html 'dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.List-1 'System.Collections.Generic.List`1')
+
 <a name='dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.BaseListItem.BasemapItems'></a>
 
 ## BaseListItem.BasemapItems Property

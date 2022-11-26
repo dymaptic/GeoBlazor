@@ -31,6 +31,10 @@ namespace dymaptic.GeoBlazor.Core.Components.Widgets.LayerList
         [Parameter]
         public List<ListItem>? BasemapItems { get; set; }
 
+        /// <summary>
+        ///     The children base items in a layer.
+        /// </summary>
+
         public List<ListItem>? BaseItems { get; set; }
         /// <summary>
         ///     The children reference items in a layer.

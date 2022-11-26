@@ -972,13 +972,13 @@ export async function addWidget(widget: any, viewId: string): Promise<void> {
                 }
                 break;
             case 'basemapLayerList':
-                const basemapLayerListWidget = new LayerList({
+                const basemapLayerListWidget = new BasemapLayerList({
                     view: view
                 });
                 newWidget = basemapLayerListWidget;
                 
                 if (widget.HasCustomBaseListHandler) {
-                    basemapLayerListWidget.listItemCreatedFunction = async (evt) => {
+                    basemapLayerListWidget.baseListItemCreatedFunction = async (evt) => {
                         let dotNetBaseListItem = buildDotNetListItem(evt.item);
                         let returnItem = await widget.layerListWidgetObjectReference.invokeMethodAsync('OnBaseListItemCreated', dotNetBaseListItem) as DotNetBaseListItem;
                         evt.item.title = returnItem.title;
@@ -990,7 +990,7 @@ export async function addWidget(widget: any, viewId: string): Promise<void> {
                     };
                 }
                 if (widget.HasCustomReferenceListHandler) {
-                    basemapLayerListWidget.listItemCreatedFunction = async (evt) => {
+                    basemapLayerListWidget.baseListItemCreatedFunction = async (evt) => {
                         let dotNetReferenceListItem = buildDotNetListItem(evt.item);
                         let returnItem = await widget.layerListWidgetObjectReference.invokeMethodAsync('OnReferenceListItemCreated', dotNetReferenceListItem) as DotNetReferenceListItem;
                         evt.item.title = returnItem.title;
