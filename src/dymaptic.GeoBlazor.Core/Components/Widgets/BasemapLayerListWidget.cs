@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 
 namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 /// <summary>
-///     The ListItem class represents one of the operationalItems in the LayerListViewModel. In the LayerList widget UI, the list item represents a layer displayed in the view. It provides access to the associated layer's properties, allows the developer to configure actions related to the layer, and allows the developer to add content to the item related to the layer.
+///     The Basemap ListItem class represents two of the operational Items in the LayerList ViewModel. In the Basemap LayerList widget UI, the list items represent any base or reference layers displayed in the view. To display the ListItems as separate types, a developer will need to specify a base or reference. It provides access to the associated layer's properties, allows the developer to configure actions related to the layer, and allows the developer to add content to the item related to the layer.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html">ArcGIS JS API</a>
 /// </summary>
 public class BasemapLayerListWidget : LayerListWidget
@@ -16,8 +16,8 @@ public class BasemapLayerListWidget : LayerListWidget
     public override string WidgetType => "basemapLayerList";
 
     /// <summary>
-    ///     A delegate to implement a custom handler for setting up each<see cref="ListItem"/>.
-    ///     Function must take in a ListItem and return a Task with the same (updated) item.
+    ///     A delegate to implement a custom handler for setting up a base type of<see cref="ListItem"/>.
+    ///     Function must take in a ListItem and return a Task with the designated base type of item.
     /// </summary>
     [Parameter]
     [JsonIgnore]
@@ -34,13 +34,13 @@ public class BasemapLayerListWidget : LayerListWidget
     public bool HasCustomBaseListHandler => OnBaseListItemCreatedHandler is not null;
 
     /// <summary>
-    ///     A JavaScript invokable method that is triggered whenever a ListItem is created and a handler is attached.
+    ///     A JavaScript invokable method that is triggered whenever a base type ListItem is created and a handler is attached.
     /// </summary>
     /// <param name="item">
     ///     The <see cref="ListItem"/> from the original source.
     /// </param>
     /// <returns>
-    ///     Returns the modified <see cref="ListItem"/>
+    ///     Returns the modified base <see cref="ListItem"/>
     /// </returns>
     [JSInvokable]
     public Task<ListItem>? OnBaseListItemCreated(ListItem item)
@@ -49,8 +49,8 @@ public class BasemapLayerListWidget : LayerListWidget
     }
 
     /// <summary>
-    ///     A delegate to implement a custom handler for setting up each <see cref="ListItem"/>.
-    ///     Function must take in a ListItem and return a Task with the same (updated) item.
+    ///     A delegate to implement a custom handler for setting up a reference type of<see cref="ListItem"/>.
+    ///     Function must take in a ListItem and return a Task with the designated reference type of item.
     /// </summary>
     [Parameter]
     [JsonIgnore]
@@ -62,13 +62,13 @@ public class BasemapLayerListWidget : LayerListWidget
     public bool HasCustomReferenceListHandler => OnReferenceListItemCreatedHandler is not null;
 
     /// <summary>
-    ///     A JavaScript invokable method that is triggered whenever a ListItem is created and a handler is attached.
+    ///     A JavaScript invokable method that is triggered whenever a reference type ListItem is created and a handler is attached.
     /// </summary>
     /// <param name="item">
     ///     The <see cref="ListItem"/> from the original source.
     /// </param>
     /// <returns>
-    ///     Returns the modified <see cref="ListItem"/>
+    ///     Returns the modified reference <see cref="ListItem"/>
     /// </returns>
     [JSInvokable]
     public Task<ListItem>? OnReferenceListItemCreated(ListItem item)
