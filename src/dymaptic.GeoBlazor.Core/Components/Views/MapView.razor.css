@@ -1,7 +1,3 @@
-#map-container {
-    position: relative;
-}
-
 .dymaptic-branding {
     text-align: right;
     font-weight: 400;
@@ -16,4 +12,10 @@
 
 .map-wrapper {
     position: relative;
+}
+
+.map-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
 }
