@@ -1,4 +1,6 @@
-﻿using System.Text.Json;
+﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
+using dymaptic.GeoBlazor.Core.Extensions;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Components;
 
@@ -37,6 +39,70 @@ public abstract class Layer : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Title { get; set; }
+    
+    /// <summary>
+    ///     Indicates how the layer should display in the LayerList widget. The possible values are listed below.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public ListMode? ListMode { get; set; }
+    
+    /// <summary>
+    ///     Indicates if the layer is visible in the View. When false, the layer may still be added to a Map instance that is referenced in a view, but its features will not be visible in the view.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? Visible { get; set; }
+    
+    /// <summary>
+    ///     The full extent of the layer. By default, this is worldwide. This property may be used to set the extent of the view to match a layer's extent so that its features appear to fill the view.
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Extent? FullExtent { get; set; }
+
+    /// <inheritdoc />
+    public override async Task RegisterChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case Extent extent:
+                if (!extent.Equals(FullExtent))
+                {
+                    FullExtent = extent;
+                    await UpdateComponent();
+                }
+
+                break;
+            default:
+                await base.RegisterChildComponent(child);
+
+                break;
+        }
+    }
+
+    /// <inheritdoc />
+    public override async Task UnregisterChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case Extent _:
+                FullExtent = null;
+                await UpdateComponent();
+
+                break;
+            default:
+                await base.UnregisterChildComponent(child);
+
+                break;
+        }
+    }
+
+    /// <inheritdoc />
+    public override void ValidateRequiredChildren()
+    {
+        FullExtent?.ValidateRequiredChildren();
+        base.ValidateRequiredChildren();
+    }
 }
 
 internal class LayerConverter : JsonConverter<Layer>
@@ -82,5 +148,33 @@ internal class LayerConverter : JsonConverter<Layer>
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
         };
         writer.WriteRawValue(JsonSerializer.Serialize(value, typeof(object), newOptions));
+    }
+}
+
+/// <summary>
+///     Indicates how the layer should display in the LayerList widget. The possible values are listed below.
+/// </summary>
+[JsonConverter(typeof(ListModeConverter))]
+public enum ListMode
+{
+#pragma warning disable CS1591
+    Show,
+    Hide,
+    HideChildren
+#pragma warning restore CS1591
+}
+
+internal class ListModeConverter : JsonConverter<ListMode>
+{
+    public override ListMode Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override void Write(Utf8JsonWriter writer, ListMode value, JsonSerializerOptions options)
+    {
+        string? stringVal = Enum.GetName(typeof(ListMode), value);
+        string resultString = stringVal!.ToKebabCase();
+        writer.WriteRawValue($"\"{resultString}\"");
     }
 }

@@ -95,8 +95,7 @@
         <Exec Command="pwsh ./assetCopy.ps1" />
     </Target>
 
-    <Target Name="NPM Release Build" AfterTargets="Copy Assets Release" 
-            Condition="$(Configuration) == 'RELEASE' And $(CoreSkipJavaScript) != 'true'">
+    <Target Name="NPM Release Build" AfterTargets="Copy Assets Release" Condition="$(Configuration) == 'RELEASE' And $(CoreSkipJavaScript) != 'true'">
         <!-- Runs synchronously to ensure all files are ready for nuget packaging in release mode -->
         <Exec Command="npm run releaseBuild" />
     </Target>

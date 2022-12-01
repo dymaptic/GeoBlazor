@@ -40,12 +40,12 @@
 @switch (_basemapType)
 {
     case 0:
-        <MapView Class="map-view">
+        <MapView Class="map-view" Zoom="2">
             <Map ArcGISDefaultBasemap="arcgis-topographic" />
         </MapView>
         break;
     case 1:
-        <MapView Class="map-view">
+        <MapView Class="map-view" Zoom="2">
             <Map>
                 <Basemap>
                     <PortalItem Id="f35ef07c9ed24020aadd65c8a65d3754" />
@@ -54,7 +54,7 @@
         </MapView>
         break;
     case 2:
-        <MapView Class="map-view">
+        <MapView Class="map-view" Zoom="2">
             <Map>
                 <Basemap>
                     <TileLayer>

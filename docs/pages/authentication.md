@@ -103,3 +103,25 @@ When defining your `MapView` or `SceneView`:
     <Map></Map>
 </MapView>
 ```
+
+## Prevent API Token Prompt
+This is essentially another way to silence the API token check in GeoBlazor. Calling ArcGIS resources will still 
+show the default login same as `AllowDefaultEsriLogin` above.
+
+To silence the api key prompt, do one of the following.
+
+In `appsettings.json`:
+```json
+{
+    "PromptForArcGISKey": false
+}
+```
+
+or
+
+When defining your `MapView` or `SceneView`:
+```html
+<MapView PromptForArcGISKey="false">
+    <Map></Map>
+</MapView>
+```
