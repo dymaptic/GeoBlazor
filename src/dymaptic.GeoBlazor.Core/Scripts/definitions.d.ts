@@ -107,20 +107,3 @@ export interface DotNetLayerView {
     updating: boolean;
     visible: boolean;
 }
-//export interface DotNetBaseListItem {
-//    title: string;
-//    id: string;
-//    layer: Layer;
-//    visible: boolean;
-//    children: DotNetListItem[],
-//    actionSections: DotNetActionSection[][]
-//}
-
-//export interface DotNetReferenceListItem {
-//    title: string;
-//    id: string;
-//    layer: Layer;
-//    visible: boolean;
-//    children: DotNetListItem[],
-//    actionSections: DotNetActionSection[][]
-//}

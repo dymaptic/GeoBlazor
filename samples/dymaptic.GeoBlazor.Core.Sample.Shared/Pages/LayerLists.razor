@@ -60,7 +60,10 @@
     private Task<ListItem> OnListItemCreated(ListItem item)
     {
         item.Visible = true;
-
+        if (item.Title?.StartsWith("Transit") ?? false)
+        {
+            item.Title = $"Mass {item.Title}";
+        }
         return Task.Run(() => item);
     }
 

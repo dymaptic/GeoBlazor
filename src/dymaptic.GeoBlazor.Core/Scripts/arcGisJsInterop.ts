@@ -66,7 +66,7 @@ import {
 import {
     DotNetExtent,
     DotNetGeometry,
-    DotNetGraphic, DotNetListItem, DotNetBaseListItem, DotNetReferenceListItem,
+    DotNetGraphic, DotNetListItem, 
     DotNetPoint,
     DotNetSpatialReference,
     MapCollection
@@ -946,21 +946,21 @@ export async function addWidget(widget: any, viewId: string): Promise<void> {
                 });
                 newWidget = layerListWidget;
 
-                if (widget.hasCustomHandler) {
+                if (hasValue(widget.hasCustomHandler)) {
                     layerListWidget.listItemCreatedFunction = async (evt) => {
                         let dotNetListItem = buildDotNetListItem(evt.item);
                         let returnItem = await widget.layerListWidgetObjectReference.invokeMethodAsync('OnListItemCreated', dotNetListItem) as DotNetListItem;
                         evt.item.title = returnItem.title;
                         evt.item.visible = returnItem.visible;
-                        // evt.item.layer = returnItem.layer; --> needs implementation
-                        // evt.item.children = returnItem.children; --> needs implementation
+                        evt.item.layer = returnItem.layer; //--> needs implementation
+                        evt.item.children = returnItem.children; //--> needs implementation
                         /// <summary>
                         ///     The Action Sections property and corresponding functionality will be fully implemented
                         ///     in a future iteration.  Currently, a user can view available layers in the layer list widget
                         ///     and toggle the selected layer's visiblity. More capabilities will be available after full
                         ///     implementation of ActionSection.
                         /// </summary>
-                        //evt.item.actionSections = returnItem.actionSections as any;
+                        evt.item.actionSections = returnItem.actionSections as any;
                     };
                 }
 
@@ -977,28 +977,28 @@ export async function addWidget(widget: any, viewId: string): Promise<void> {
                 });
                 newWidget = basemapLayerListWidget;
                 
-                if (widget.HasCustomBaseListHandler) {
+                if (hasValue(widget.HasCustomBaseListHandler)) {
                     basemapLayerListWidget.baseListItemCreatedFunction = async (evt) => {
                         let dotNetBaseListItem = buildDotNetListItem(evt.item);
                         let returnItem = await widget.layerListWidgetObjectReference.invokeMethodAsync('OnBaseListItemCreated', dotNetBaseListItem) as DotNetListItem;
                         evt.item.title = returnItem.title;
                         evt.item.visible = returnItem.visible;
                         // basemap will require additional implementation (similar to layerlist above) to activate additional layer and action sections.
-                        // evt.item.layer = returnItem.layer; --> needs implementation
-                        // evt.item.children = returnItem.children; --> needs implementation
-                        //evt.item.actionSections = returnItem.actionSections as any;
+                        evt.item.layer = returnItem.layer; //--> needs implementation
+                        evt.item.children = returnItem.children; //--> needs implementation
+                        evt.item.actionSections = returnItem.actionSections as any;
                     };
                 }
-                if (widget.HasCustomReferenceListHandler) {
+                if (hasValue(widget.HasCustomReferenceListHandler)) {
                     basemapLayerListWidget.baseListItemCreatedFunction = async (evt) => {
                         let dotNetReferenceListItem = buildDotNetListItem(evt.item);
                         let returnItem = await widget.layerListWidgetObjectReference.invokeMethodAsync('OnReferenceListItemCreated', dotNetReferenceListItem) as DotNetListItem;
                         evt.item.title = returnItem.title;
                         evt.item.visible = returnItem.visible;
                         // basemap will require additional implementation (similar to layerlist above) to activate additional layer and action sections.
-                        // evt.item.layer = returnItem.layer; --> needs implementation
-                        // evt.item.children = returnItem.children; --> needs implementation
-                        //evt.item.actionSections = returnItem.actionSections as any;
+                        evt.item.layer = returnItem.layer; //--> needs implementation
+                        evt.item.children = returnItem.children; //--> needs implementation
+                        evt.item.actionSections = returnItem.actionSections as any;
                     };
                 }
 
