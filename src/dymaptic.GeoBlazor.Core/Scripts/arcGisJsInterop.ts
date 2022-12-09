@@ -980,7 +980,7 @@ export async function addWidget(widget: any, viewId: string): Promise<void> {
                 if (widget.HasCustomBaseListHandler) {
                     basemapLayerListWidget.baseListItemCreatedFunction = async (evt) => {
                         let dotNetBaseListItem = buildDotNetListItem(evt.item);
-                        let returnItem = await widget.layerListWidgetObjectReference.invokeMethodAsync('OnBaseListItemCreated', dotNetBaseListItem) as DotNetBaseListItem;
+                        let returnItem = await widget.layerListWidgetObjectReference.invokeMethodAsync('OnBaseListItemCreated', dotNetBaseListItem) as DotNetListItem;
                         evt.item.title = returnItem.title;
                         evt.item.visible = returnItem.visible;
                         // basemap will require additional implementation (similar to layerlist above) to activate additional layer and action sections.
@@ -992,7 +992,7 @@ export async function addWidget(widget: any, viewId: string): Promise<void> {
                 if (widget.HasCustomReferenceListHandler) {
                     basemapLayerListWidget.baseListItemCreatedFunction = async (evt) => {
                         let dotNetReferenceListItem = buildDotNetListItem(evt.item);
-                        let returnItem = await widget.layerListWidgetObjectReference.invokeMethodAsync('OnReferenceListItemCreated', dotNetReferenceListItem) as DotNetReferenceListItem;
+                        let returnItem = await widget.layerListWidgetObjectReference.invokeMethodAsync('OnReferenceListItemCreated', dotNetReferenceListItem) as DotNetListItem;
                         evt.item.title = returnItem.title;
                         evt.item.visible = returnItem.visible;
                         // basemap will require additional implementation (similar to layerlist above) to activate additional layer and action sections.

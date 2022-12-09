@@ -8,7 +8,7 @@ parent: Classes
 
 ## BasemapLayerListWidget Class
 
-The ListItem class represents one of the operationalItems in the LayerListViewModel. In the LayerList widget UI, the list item represents a layer displayed in the view. It provides access to the associated layer's properties, allows the developer to configure actions related to the layer, and allows the developer to add content to the item related to the layer.  
+The Basemap ListItem class represents two of the operational Items in the LayerList ViewModel. In the Basemap LayerList widget UI, the list items represent any base or reference layers displayed in the view. To display the ListItems as separate types, a developer will need to specify a base or reference. It provides access to the associated layer's properties, allows the developer to configure actions related to the layer, and allows the developer to add content to the item related to the layer.  
 <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html">ArcGIS JS API</a>
 
 ```csharp
@@ -61,8 +61,8 @@ public bool HasCustomReferenceListHandler { get; }
 
 ## BasemapLayerListWidget.OnBaseListItemCreatedHandler Property
 
-A delegate to implement a custom handler for setting up each[ListItem](dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem.html 'dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem').  
-Function must take in a ListItem and return a Task with the same (updated) item.
+A delegate to implement a custom handler for setting up a base type of[ListItem](dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem.html 'dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem').  
+Function must take in a ListItem and return a Task with the designated base type of item.
 
 ```csharp
 public System.Func<dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem,System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem>>? OnBaseListItemCreatedHandler { get; set; }
@@ -75,8 +75,8 @@ public System.Func<dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem
 
 ## BasemapLayerListWidget.OnReferenceListItemCreatedHandler Property
 
-A delegate to implement a custom handler for setting up each [ListItem](dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem.html 'dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem').  
-Function must take in a ListItem and return a Task with the same (updated) item.
+A delegate to implement a custom handler for setting up a reference type of[ListItem](dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem.html 'dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem').  
+Function must take in a ListItem and return a Task with the designated reference type of item.
 
 ```csharp
 public System.Func<dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem,System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem>>? OnReferenceListItemCreatedHandler { get; set; }
@@ -103,7 +103,7 @@ public override string WidgetType { get; }
 
 ## BasemapLayerListWidget.OnBaseListItemCreated(ListItem) Method
 
-A JavaScript invokable method that is triggered whenever a ListItem is created and a handler is attached.
+A JavaScript invokable method that is triggered whenever a base type ListItem is created and a handler is attached.
 
 ```csharp
 public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem>? OnBaseListItemCreated(dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem item);
@@ -118,13 +118,13 @@ The [ListItem](dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem.htm
 
 #### Returns
 [System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[ListItem](dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem.html 'dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
-Returns the modified [ListItem](dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem.html 'dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem')
+Returns the modified base [ListItem](dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem.html 'dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.OnReferenceListItemCreated(dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem)'></a>
 
 ## BasemapLayerListWidget.OnReferenceListItemCreated(ListItem) Method
 
-A JavaScript invokable method that is triggered whenever a ListItem is created and a handler is attached.
+A JavaScript invokable method that is triggered whenever a reference type ListItem is created and a handler is attached.
 
 ```csharp
 public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem>? OnReferenceListItemCreated(dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem item);
@@ -139,4 +139,4 @@ The [ListItem](dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem.htm
 
 #### Returns
 [System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[ListItem](dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem.html 'dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
-Returns the modified [ListItem](dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem.html 'dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem')
+Returns the modified reference [ListItem](dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem.html 'dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem')
