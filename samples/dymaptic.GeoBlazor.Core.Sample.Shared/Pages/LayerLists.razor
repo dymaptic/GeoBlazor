@@ -1,5 +1,7 @@
 ﻿@page "/layer-lists"
 @using dymaptic.GeoBlazor.Core.Components.Widgets.LayerList
+
+
 @inject IJSRuntime JsRuntime
 
 <PageTitle>LayerLists</PageTitle>
@@ -7,6 +9,7 @@
 <div class="links-div">
     <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">ArcGIS API for JavaScript Reference</a>
     <a class="btn btn-primary" target="_blank" href="https://www.arcgis.com/home/item.html?id=adfad6ee6c6043238ea64e121bb6429a">San Francisco - Urban Planning Web Scene</a>
+   
 </div>
 <p class="instructions">
     A simple demo of loading multiple layers into the LayerList widget.
@@ -24,6 +27,8 @@
             </WebScene>
             <LayerListWidget Position="OverlayPosition.TopRight" OnListItemCreatedHandler="OnListItemCreated" />
         </SceneView>
+
+        
     }
     else // for mobile, move the widget off of the map so you can see the whole map
     {

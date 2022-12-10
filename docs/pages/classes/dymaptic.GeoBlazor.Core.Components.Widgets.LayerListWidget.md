@@ -16,6 +16,9 @@ public class LayerListWidget : dymaptic.GeoBlazor.Core.Components.Widgets.Widget
 ```
 
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [Microsoft.AspNetCore.Components.ComponentBase](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.ComponentBase 'Microsoft.AspNetCore.Components.ComponentBase') &#129106; [MapComponent](dymaptic.GeoBlazor.Core.Components.MapComponent.html 'dymaptic.GeoBlazor.Core.Components.MapComponent') &#129106; [Widget](dymaptic.GeoBlazor.Core.Components.Widgets.Widget.html 'dymaptic.GeoBlazor.Core.Components.Widgets.Widget') &#129106; LayerListWidget
+
+Derived  
+&#8627; [BasemapLayerListWidget](dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html 'dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget')
 ### Properties
 
 <a name='dymaptic.GeoBlazor.Core.Components.Widgets.LayerListWidget.HasCustomHandler'></a>
