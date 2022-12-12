@@ -20,6 +20,7 @@ import {
     DotNetPolyline,
     DotNetSpatialReference
 } from "./definitions";
+import ViewClickEvent = __esri.ViewClickEvent;
 
 export function buildJsSpatialReference(dotNetSpatialReference: DotNetSpatialReference): SpatialReference {
     if (dotNetSpatialReference === undefined || dotNetSpatialReference === null) {
@@ -224,6 +225,18 @@ export function buildJsTextSymbol(dotNetTextSymbol: any): TextSymbol {
     }
     
     return symbol;
+}
+
+export function buildJsViewClickEvent(dotNetClickEvent: any): ViewClickEvent {
+    return {
+        type: dotNetClickEvent.type,
+        mapPoint: buildJsPoint(dotNetClickEvent.mapPoint) as Point,
+        x: dotNetClickEvent.x,
+        y: dotNetClickEvent.y,
+        button: dotNetClickEvent.button,
+        buttons: dotNetClickEvent.buttons,
+        timestamp: dotNetClickEvent.timestamp
+    } as ViewClickEvent
 }
 
 function buildJsFont(dotNetFont: any) : Font {

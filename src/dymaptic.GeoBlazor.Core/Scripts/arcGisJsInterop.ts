@@ -52,7 +52,7 @@ import {
     buildDotNetFeature,
     buildDotNetGraphic,
     buildDotNetPoint,
-    buildDotNetGeometry, buildDotNetSpatialReference, buildDotNetLayerView
+    buildDotNetGeometry, buildDotNetSpatialReference, buildDotNetLayerView, buildDotNetHitTestResult
 } from "./dotNetBuilder";
 
 import {
@@ -60,16 +60,17 @@ import {
     buildJsRenderer,
     buildJsSpatialReference,
     buildJsPopupTemplate,
-    buildJsGraphic, buildJsGeometry, buildJsPoint
+    buildJsGraphic, buildJsGeometry, buildJsPoint, buildJsViewClickEvent
 } from "./jsBuilder";
 import {
     DotNetExtent,
     DotNetGeometry,
-    DotNetGraphic, DotNetListItem,
+    DotNetGraphic, DotNetHitTestResult, DotNetListItem,
     DotNetPoint,
     DotNetSpatialReference,
     MapCollection
 } from "./definitions";
+import HitTestResult = __esri.HitTestResult;
 
 export let arcGisObjectRefs: Record<string, Accessor> = {};
 export let dotNetRefs = {};
@@ -97,7 +98,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
         checkConnectivity(id);
         dotNetRefs[id] = dotNetRef;
         if (esriConfig.apiKey === undefined) {
-            esriConfig.apiKey = apiKey;
+            esriConfig.apiKey = apiKey ?? localStorage.getItem("arcgis-api-key");
         }
         disposeView(id);
         let view: View;
@@ -411,6 +412,13 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
         lastExtentChangeCall = now;
         dotNetRef.invokeMethodAsync('OnJavascriptExtentChanged', buildDotNetExtent((view as MapView).extent));
     });
+}
+
+export async function hitTest(event: any, viewId: string): Promise<DotNetHitTestResult> {
+    let view = arcGisObjectRefs[viewId] as MapView;
+    let clickEvent = buildJsViewClickEvent(event);
+    let result = await view.hitTest(clickEvent);
+    return buildDotNetHitTestResult(result);
 }
 
 export function disposeView(viewId: string): void {

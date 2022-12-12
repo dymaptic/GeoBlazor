@@ -107,3 +107,18 @@ export interface DotNetLayerView {
     updating: boolean;
     visible: boolean;
 }
+
+export interface DotNetHitTestResult {
+    results: DotNetViewHit[];
+    screenPoint: { x: number, y: number };
+}
+
+export interface DotNetViewHit {
+    type: string;
+    mapPoint: DotNetPoint;
+}
+
+export interface DotNetGraphicHit extends DotNetViewHit {
+    graphic: DotNetGraphic;
+    layer: Layer;
+}

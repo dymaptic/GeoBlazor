@@ -1173,6 +1173,20 @@ public partial class MapView : MapComponent
         await ViewJsModule!.InvokeVoidAsync("goToExtent", extent, Id);
     }
 
+    public async Task<HitTestResult> HitTest(ClickEvent clickEvent)
+    {
+        try
+        {
+            return await ViewJsModule!.InvokeAsync<HitTestResult>("hitTest", clickEvent, Id);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+        }
+        
+        return new HitTestResult(new ViewHit[]{}, new ScreenPoint(1, 1));
+    }
+
     /// <inheritdoc />
     public override async ValueTask DisposeAsync()
     {

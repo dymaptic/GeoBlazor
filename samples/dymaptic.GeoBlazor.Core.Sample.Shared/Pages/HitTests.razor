@@ -1,0 +1,53 @@
+﻿@page "/hit-tests"
+
+<PageTitle>Hit Tests</PageTitle>
+<h1>Hit Tests</h1>
+
+<div class="links-div">
+    <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#hitTest">ArcGIS API for JavaScript Reference</a>
+    <a class="btn btn-primary" target="_blank" href="https://www.arcgis.com/home/item.html?id=1e051c1656184b98a8daf304cb87d19d">Concentration of Black or African American Population in the US (Census 2020)</a>
+</div>
+<p class="instructions">
+    Click a point on the map, and the "Hit Test" will return the graphics and layers clicked.
+</p>
+
+<div class="form-group">
+    <label>Point Clicked: @_clickPoint?.Longitude Longitude / @_clickPoint?.Latitude Latitude</label>
+</div>
+<h2>Hits</h2>
+@if (_hitTestResult?.Results is not null)
+{
+    foreach (ViewHit result in _hitTestResult!.Results)
+    {
+        <div class="form-group">
+            <label>Hit Type: @result.Type</label>
+            @if (result is GraphicHit graphicHit && graphicHit.Graphic?.Attributes is not null)
+            {
+                foreach (KeyValuePair<string, object> attr in graphicHit.Graphic.Attributes)
+                {
+                    <label>@attr.Key: @attr.Value</label>
+                }
+            }
+        </div>
+        
+    }
+}
+
+<MapView @ref="_mapView" OnClick="OnMapViewClicked" Class="map-view">
+    <WebMap>
+        <PortalItem Id="1e051c1656184b98a8daf304cb87d19d" />
+    </WebMap>
+</MapView>
+
+@code {
+
+    private async Task OnMapViewClicked(ClickEvent arg)
+    {
+        _clickPoint = arg.MapPoint;
+        await InvokeAsync(async () => _hitTestResult = await _mapView!.HitTest(arg));
+    }
+
+    private MapView? _mapView;
+    private Point? _clickPoint;
+    private HitTestResult? _hitTestResult;
+}

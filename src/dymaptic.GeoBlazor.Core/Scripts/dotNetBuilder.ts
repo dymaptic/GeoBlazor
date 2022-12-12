@@ -1,15 +1,15 @@
 import {
     DotNetExtent,
-    DotNetFeature, 
-    DotNetGeographicTransformation, 
-    DotNetGeographicTransformationStep, 
+    DotNetFeature,
+    DotNetGeographicTransformation,
+    DotNetGeographicTransformationStep,
     DotNetGeometry,
     DotNetGraphic,
     DotNetPoint,
     DotNetPolygon,
-    DotNetPolyline, 
+    DotNetPolyline,
     DotNetSpatialReference,
-    DotNetLayerView
+    DotNetLayerView, DotNetViewHit, DotNetHitTestResult, DotNetGraphicHit
 } from "./definitions";
 import Point from "@arcgis/core/geometry/Point";
 import Polyline from "@arcgis/core/geometry/Polyline";
@@ -19,6 +19,9 @@ import Geometry from "@arcgis/core/geometry/Geometry";
 import SpatialReference from "@arcgis/core/geometry/SpatialReference";
 import GeographicTransformation from "@arcgis/core/geometry/support/GeographicTransformation";
 import LayerView from "@arcgis/core/views/layers/LayerView";
+import HitTestResult = __esri.HitTestResult;
+import {build} from "esbuild";
+import ViewHit = __esri.ViewHit;
 
 export function buildDotNetGraphic(graphic: any): DotNetGraphic {
     let dotNetGraphic = {} as DotNetGraphic;
@@ -175,4 +178,27 @@ export function buildDotNetLayerView(layerView: LayerView) : DotNetLayerView {
         updating: layerView.updating,
         visible: layerView.visible
     }
+}
+
+export function buildDotNetHitTestResult(hitTestResult: HitTestResult) : DotNetHitTestResult {
+    let results = hitTestResult.results.map(r => buildDotNetViewHit(r))
+        .filter(r => r !== null) as Array<DotNetViewHit>;
+    return {
+        results: results,
+        screenPoint: hitTestResult.screenPoint
+    }
+}
+
+function buildDotNetViewHit(viewHit: ViewHit) : DotNetViewHit | null {
+    switch (viewHit.type) {
+        case "graphic":
+            return {
+                graphic: buildDotNetGraphic(viewHit.graphic),
+                layer: viewHit.layer,
+                mapPoint: buildDotNetPoint(viewHit.mapPoint)
+            } as DotNetGraphicHit;
+        break;
+    }
+    
+    return null;
 }
