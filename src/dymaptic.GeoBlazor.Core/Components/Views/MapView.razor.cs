@@ -8,8 +8,10 @@ using dymaptic.GeoBlazor.Core.Exceptions;
 using dymaptic.GeoBlazor.Core.Objects;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.JSInterop;
 using System.Reflection;
+using System.Text;
 using System.Text.Json;
 
 
@@ -139,12 +141,13 @@ public partial class MapView : MapComponent
             }
         }
     }
-    
+
     /// <summary>
     ///     Allows maps to be rendered without an Api or OAuth Token, which will trigger a default esri login popup.
     /// </summary>
     [Parameter]
     public bool? AllowDefaultEsriLogin { get; set; }
+
 
 #region EventHandlers
 
@@ -175,12 +178,12 @@ public partial class MapView : MapComponent
             throw exception;
         }
     }
-    
+
     /// <summary>
     ///     Implement this handler in your calling code to catch and handle Javascript errors.
     /// </summary>
     [Parameter]
-    public Func<JavascriptException, Task>? OnJavascriptErrorHandler { get; set; } 
+    public Func<JavascriptException, Task>? OnJavascriptErrorHandler { get; set; }
 
     /// <summary>
     ///     JS-Invokable method to return view clicks.
@@ -199,7 +202,7 @@ public partial class MapView : MapComponent
 #pragma warning restore CS0618
         await OnClick.InvokeAsync(clickEvent);
     }
-    
+
     /// <summary>
     ///     Handler delegate for click events on the view. Must take in a <see cref="Point"/> and return a <see cref="Task"/>.
     /// </summary>
@@ -209,13 +212,13 @@ public partial class MapView : MapComponent
     [Parameter]
     [Obsolete("Use OnClick EventCallback instead.")]
     public Func<Point, Task>? OnClickAsyncHandler { get; set; } // TODO: Remove for V2.0.0 release
-    
+
     /// <summary>
     ///     Handler delegate for click events on the view.
     /// </summary>
     [Parameter]
     public EventCallback<ClickEvent> OnClick { get; set; }
-    
+
     /// <summary>
     ///     JS-Invokable method to return view double-clicks.
     /// </summary>
@@ -227,13 +230,13 @@ public partial class MapView : MapComponent
     {
         await OnDoubleClick.InvokeAsync(clickEvent);
     }
-    
+
     /// <summary>
     ///     Handler delegate for double-click events on the view.
     /// </summary>
     [Parameter]
     public EventCallback<ClickEvent> OnDoubleClick { get; set; }
-    
+
     /// <summary>
     ///     JS-Invokable method to return view immediate-clicks.
     /// </summary>
@@ -245,13 +248,13 @@ public partial class MapView : MapComponent
     {
         await OnImmediateClick.InvokeAsync(clickEvent);
     }
-    
+
     /// <summary>
     ///     Handler delegate for immediate-click events on the view.
     /// </summary>
     [Parameter]
     public EventCallback<ClickEvent> OnImmediateClick { get; set; }
-    
+
     /// <summary>
     ///     JS-Invokable method to return view immediate-double-clicks.
     /// </summary>
@@ -263,13 +266,13 @@ public partial class MapView : MapComponent
     {
         await OnImmediateDoubleClick.InvokeAsync(clickEvent);
     }
-    
+
     /// <summary>
     ///     Handler delegate for immediate-double-click events on the view.
     /// </summary>
     [Parameter]
     public EventCallback<ClickEvent> OnImmediateDoubleClick { get; set; }
-    
+
     /// <summary>
     ///     JS-Invokable method to return view hold events.
     /// </summary>
@@ -281,13 +284,13 @@ public partial class MapView : MapComponent
     {
         await OnHold.InvokeAsync(holdEvent);
     }
-    
+
     /// <summary>
     ///     Handler delegate for hold events on the view.
     /// </summary>
     [Parameter]
     public EventCallback<ClickEvent> OnHold { get; set; }
-    
+
     /// <summary>
     ///     JS-Invokable method to return view blur (lost focus) events.
     /// </summary>
@@ -299,13 +302,13 @@ public partial class MapView : MapComponent
     {
         await OnBlur.InvokeAsync(blurEvent);
     }
-    
+
     /// <summary>
     ///     Handler delegate for blur (lost focus) events on the view.
     /// </summary>
     [Parameter]
     public EventCallback<BlurEvent> OnBlur { get; set; }
-    
+
     /// <summary>
     ///     JS-Invokable method to return view focus events.
     /// </summary>
@@ -317,7 +320,7 @@ public partial class MapView : MapComponent
     {
         await OnFocus.InvokeAsync(focusEvent);
     }
-    
+
     /// <summary>
     ///     Handler delegate for focus events on the view.
     /// </summary>
@@ -345,7 +348,7 @@ public partial class MapView : MapComponent
     /// </remarks>
     [Parameter]
     public EventCallback<DragEvent> OnDrag { get; set; }
-    
+
     /// <summary>
     ///     JS-Invokable method to return view pointer down events.
     /// </summary>
@@ -357,7 +360,7 @@ public partial class MapView : MapComponent
     {
         await OnPointerDown.InvokeAsync(pointerEvent);
     }
-    
+
     /// <summary>
     ///     Handler delegate for pointer down events on the view.
     /// </summary>
@@ -366,7 +369,7 @@ public partial class MapView : MapComponent
     /// </remarks>
     [Parameter]
     public EventCallback<PointerEvent> OnPointerDown { get; set; }
-    
+
     /// <summary>
     ///     JS-Invokable method to return view pointer enter events.
     /// </summary>
@@ -378,7 +381,7 @@ public partial class MapView : MapComponent
     {
         await OnPointerEnter.InvokeAsync(pointerEvent);
     }
-    
+
     /// <summary>
     ///     Handler delegate for pointer enter events on the view.
     /// </summary>
@@ -387,7 +390,7 @@ public partial class MapView : MapComponent
     /// </remarks>
     [Parameter]
     public EventCallback<PointerEvent> OnPointerEnter { get; set; }
-    
+
     /// <summary>
     ///     JS-Invokable method to return view pointer leave events.
     /// </summary>
@@ -399,7 +402,7 @@ public partial class MapView : MapComponent
     {
         await OnPointerLeave.InvokeAsync(pointerEvent);
     }
-    
+
     /// <summary>
     ///     Handler delegate for pointer leave events on the view. Must take in a <see cref="Point"/> and return a <see cref="Task"/>.
     /// </summary>
@@ -408,7 +411,7 @@ public partial class MapView : MapComponent
     /// </remarks>
     [Parameter]
     public EventCallback<PointerEvent> OnPointerLeave { get; set; }
-    
+
     /// <summary>
     ///     JS-Invokable method to return view pointer movement.
     /// </summary>
@@ -420,10 +423,10 @@ public partial class MapView : MapComponent
     {
         await OnPointerMove.InvokeAsync(pointerEvent);
 #pragma warning disable CS0618, BL0005
-        OnPointerMoveHandler?.Invoke(new Point{X = pointerEvent.X, Y = pointerEvent.Y});
+        OnPointerMoveHandler?.Invoke(new Point { X = pointerEvent.X, Y = pointerEvent.Y });
 #pragma warning restore CS0618, BL0005
     }
-    
+
     /// <summary>
     ///     Handler delegate for point move events on the view. Must take in a <see cref="Point"/> and return a <see cref="Task"/>.
     /// </summary>
@@ -439,7 +442,7 @@ public partial class MapView : MapComponent
     [Parameter]
     [Obsolete("Use OnPointerMove instead")]
     public Func<Point, Task>? OnPointerMoveHandler { get; set; } // TODO: Remove for V2.0.0 release
-    
+
     /// <summary>
     ///     Handler delegate for point move events on the view. Must take in a <see cref="Point"/> and return a <see cref="Task"/>.
     /// </summary>
@@ -450,7 +453,7 @@ public partial class MapView : MapComponent
     /// </remarks>
     [Parameter]
     public EventCallback<PointerEvent> OnPointerMove { get; set; }
-    
+
     /// <summary>
     ///     JS-Invokable method to return view pointer up events.
     /// </summary>
@@ -462,7 +465,7 @@ public partial class MapView : MapComponent
     {
         await OnPointerUp.InvokeAsync(pointerEvent);
     }
-    
+
     /// <summary>
     ///     Handler delegate for pointer up events on the view. Must take in a <see cref="Point"/> and return a <see cref="Task"/>.
     /// </summary>
@@ -471,7 +474,7 @@ public partial class MapView : MapComponent
     /// </remarks>
     [Parameter]
     public EventCallback<PointerEvent> OnPointerUp { get; set; }
-    
+
     /// <summary>
     ///     JS-Invokable method to return view key-down events.
     /// </summary>
@@ -483,7 +486,7 @@ public partial class MapView : MapComponent
     {
         await OnKeyDown.InvokeAsync(keyDownEvent);
     }
-    
+
     /// <summary>
     ///     Handler delegate for key-down events on the view. 
     /// </summary>
@@ -492,7 +495,7 @@ public partial class MapView : MapComponent
     /// </remarks>
     [Parameter]
     public EventCallback<KeyDownEvent> OnKeyDown { get; set; }
-    
+
     /// <summary>
     ///     JS-Invokable method to return view key-up events.
     /// </summary>
@@ -504,7 +507,7 @@ public partial class MapView : MapComponent
     {
         await OnKeyUp.InvokeAsync(keyUpEvent);
     }
-    
+
     /// <summary>
     ///     Handler delegate for key-up events on the view. 
     /// </summary>
@@ -525,7 +528,7 @@ public partial class MapView : MapComponent
 #pragma warning restore CS0618
         await OnMapRendered.InvokeAsync();
     }
-    
+
     /// <summary>
     ///     Handler delegate for when the map view is fully rendered. Must return a <see cref="Task"/>.
     /// </summary>
@@ -535,7 +538,7 @@ public partial class MapView : MapComponent
     [Parameter]
     [Obsolete("Use OnMapRendered instead")]
     public Func<Task>? OnMapRenderedHandler { get; set; } // TODO: Remove for V2.0.0 release
-    
+
     /// <summary>
     ///     Handler delegate for when the map view is fully rendered. Must return a <see cref="Task"/>.
     /// </summary>
@@ -557,7 +560,7 @@ public partial class MapView : MapComponent
         OnSpatialReferenceChangedHandler?.Invoke(spatialReference);
 #pragma warning restore CS0618
     }
-    
+
     /// <summary>
     ///     Handler delegate for the view's Spatial Reference changing.
     ///     Must take in a <see cref="SpatialReference"/> and return a <see cref="Task"/>.
@@ -567,14 +570,15 @@ public partial class MapView : MapComponent
     /// </remarks>
     [Parameter]
     [Obsolete("Use OnSpatialReferenceChanged instead")]
-    public Func<SpatialReference, Task>? OnSpatialReferenceChangedHandler { get; set; } // TODO: Remove for V2.0.0 release
-    
+    public Func<SpatialReference, Task>?
+        OnSpatialReferenceChangedHandler { get; set; } // TODO: Remove for V2.0.0 release
+
     /// <summary>
     ///     Handler delegate for the view's Spatial Reference changing.
     /// </summary>
     [Parameter]
     public EventCallback<SpatialReference> OnSpatialReferenceChanged { get; set; }
-    
+
     /// <summary>
     ///     JS-Invokable method to return when the map view Extent changes.
     /// </summary>
@@ -584,7 +588,7 @@ public partial class MapView : MapComponent
         Extent = extent;
         await OnExtentChanged.InvokeAsync(extent);
     }
-    
+
     /// <summary>
     ///     Handler delegate for the view's Extent changing.
     /// </summary>
@@ -599,7 +603,7 @@ public partial class MapView : MapComponent
     {
         await OnResize.InvokeAsync(resizeEvent);
     }
-    
+
     /// <summary>
     ///     Handler delegate for the view's Extent changing.
     /// </summary>
@@ -614,7 +618,7 @@ public partial class MapView : MapComponent
     {
         await OnMouseWheel.InvokeAsync(mouseWheelEvent);
     }
-    
+
     /// <summary>
     ///     Handler delegate for the view's Extent changing.
     /// </summary>
@@ -632,13 +636,13 @@ public partial class MapView : MapComponent
     {
         await OnLayerViewCreate.InvokeAsync(layerViewCreateEvent);
     }
-    
+
     /// <summary>
     ///     Fires after each layer in the map has a corresponding LayerView created and rendered in the view.
     /// </summary>
     [Parameter]
     public EventCallback<LayerViewCreateEvent> OnLayerViewCreate { get; set; }
-    
+
     /// <summary>
     ///     JS-Invokable method to return when a layer view is destroyed.
     /// </summary>
@@ -650,13 +654,13 @@ public partial class MapView : MapComponent
     {
         await OnLayerViewDestroy.InvokeAsync(layerViewDestroyEvent);
     }
-    
+
     /// <summary>
     ///     Fires after a LayerView is destroyed and is no longer rendered in the view. This happens for example when a layer is removed from the map of the view.
     /// </summary>
     [Parameter]
     public EventCallback<LayerViewDestroyEvent> OnLayerViewDestroy { get; set; }
-    
+
     /// <summary>
     ///     JS-Invokable method to return when a layer view is destroyed.
     /// </summary>
@@ -665,13 +669,13 @@ public partial class MapView : MapComponent
     {
         await OnLayerViewCreateError.InvokeAsync(errorEvent);
     }
-    
+
     /// <summary>
     ///     Fires after a LayerView is destroyed and is no longer rendered in the view. This happens for example when a layer is removed from the map of the view.
     /// </summary>
     [Parameter]
     public EventCallback<LayerViewCreateErrorEvent> OnLayerViewCreateError { get; set; }
-    
+
     /// <summary>
     ///     Set this parameter to limit the rate at which recurring events are returned. Applies to <see cref="OnDrag" />, <see cref="OnPointerMove"/>, <see cref="OnMouseWheel"/>, <see cref="OnResize"/>, and <see cref="OnExtentChanged"/>
     /// </summary>
@@ -679,12 +683,13 @@ public partial class MapView : MapComponent
     public int? EventRateLimitInMilliseconds { get; set; }
 
 #endregion
-    
+
+
     /// <summary>
     ///     The collection of <see cref="Widget"/>s in the view.
     /// </summary>
     public HashSet<Widget> Widgets { get; set; } = new();
-    
+
     /// <summary>
     ///     The collection of <see cref="Graphic"/>s in the view. These are directly on the view itself, not in a <see cref="GraphicsLayer"/>.
     /// </summary>
@@ -701,7 +706,7 @@ public partial class MapView : MapComponent
     /// </summary>
     [RequiredProperty(nameof(Map), nameof(SceneView.WebScene))]
     public WebMap? WebMap { get; set; }
-    
+
     /// <summary>
     ///     The extent represents the visible portion of a map within the view as an instance of Extent.
     /// </summary>
@@ -723,7 +728,7 @@ public partial class MapView : MapComponent
             }
         }
     }
-    
+
     /// <summary>
     ///     Specifies constraints to scale, zoom, and rotation that may be applied to the MapView.
     /// </summary>
@@ -733,7 +738,7 @@ public partial class MapView : MapComponent
     ///     Surfaces errors to the UI for easy debugging of issues.
     /// </summary>
     public string? ErrorMessage { get; set; }
-    
+
     /// <summary>
     ///     The ArcGIS Api Token/Key or OAuth Token
     /// </summary>
@@ -750,7 +755,7 @@ public partial class MapView : MapComponent
             }
         }
     }
-    
+
     /// <summary>
     ///     A .NET Object Reference to this view for use in JavaScript calls.
     /// </summary>
@@ -998,7 +1003,7 @@ public partial class MapView : MapComponent
     /// </param>
     public async Task ShowPopupWithGraphic(Graphic graphic, PopupOptions options)
     {
-        await ViewJsModule!.InvokeVoidAsync("showPopupWithGraphic", (object)graphic, 
+        await ViewJsModule!.InvokeVoidAsync("showPopupWithGraphic", (object)graphic,
             (object)options, Id);
     }
 
@@ -1014,6 +1019,7 @@ public partial class MapView : MapComponent
     public async Task AddGraphic(Graphic graphic, int? layerIndex = null)
     {
         if (ViewJsModule is null) return;
+
         await ViewJsModule!.InvokeVoidAsync("addGraphic", (object)graphic, Id, layerIndex);
     }
 
@@ -1024,7 +1030,7 @@ public partial class MapView : MapComponent
     {
         await ViewJsModule!.InvokeVoidAsync("clearViewGraphics", Id);
     }
-    
+
     /// <summary>
     ///     Adds a layer to the current Map
     /// </summary>
@@ -1037,9 +1043,10 @@ public partial class MapView : MapComponent
     public async Task AddLayer(Layer layer, bool? isBasemapLayer = false)
     {
         if (ViewJsModule is null) return;
+
         await ViewJsModule!.InvokeVoidAsync("addLayer", (object)layer, Id, isBasemapLayer);
     }
-    
+
     /// <summary>
     ///     A custom method to set up the interaction for clicking a start and end point, and have the view render a driving route. Also returns a set of <see cref="Direction"/>s for display.
     /// </summary>
@@ -1138,6 +1145,7 @@ public partial class MapView : MapComponent
     public async Task<Point?> GetCenter()
     {
         if (ViewJsModule is null) return null;
+
         return await ViewJsModule!.InvokeAsync<Point>("getCenter", Id);
     }
 
@@ -1147,6 +1155,7 @@ public partial class MapView : MapComponent
     public async Task<Extent?> GetExtent()
     {
         if (ViewJsModule is null) return null;
+
         return await ViewJsModule!.InvokeAsync<Extent?>("getExtent", Id);
     }
 
@@ -1172,19 +1181,89 @@ public partial class MapView : MapComponent
 
         await ViewJsModule!.InvokeVoidAsync("goToExtent", extent, Id);
     }
-
+    
+    /// <summary>
+    ///    Returns <see cref="HitTestResult"/>s from each layer that intersects the specified screen coordinates. The results are organized as an array of objects containing different result types.
+    /// </summary>
+    /// <param name="clickEvent">
+    ///     The click event to test for hits.
+    /// </param>
     public async Task<HitTestResult> HitTest(ClickEvent clickEvent)
     {
         try
         {
-            return await ViewJsModule!.InvokeAsync<HitTestResult>("hitTest", clickEvent, Id);
+            if (IsServer)
+            {
+                Guid eventId = Guid.NewGuid();
+                await ViewJsModule!.InvokeVoidAsync("hitTestFromClickEvent", clickEvent, eventId, Id, false);
+                string json = _hitTestResults[eventId].ToString();
+                _hitTestResults.Remove(eventId);
+
+                return JsonSerializer.Deserialize<HitTestResult>(json,
+                    new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
+            }
+
+            return await ViewJsModule!.InvokeAsync<HitTestResult>("hitTestFromClickEvent", clickEvent, null, Id, true);
         }
         catch (Exception ex)
         {
             Console.WriteLine(ex);
         }
-        
-        return new HitTestResult(new ViewHit[]{}, new ScreenPoint(1, 1));
+
+        return new HitTestResult(new ViewHit[] { }, new ScreenPoint(1, 1));
+    }
+
+    /// <summary>
+    ///    Returns <see cref="HitTestResult"/>s from each layer that intersects the specified screen coordinates. The results are organized as an array of objects containing different result types.
+    /// </summary>
+    /// <param name="screenPoint">
+    ///     The screen point to check for hits. 
+    /// </param>
+    public async Task<HitTestResult> HitTest(Point screenPoint)
+    {
+        try
+        {
+            if (IsServer)
+            {
+                Guid eventId = Guid.NewGuid();
+                await ViewJsModule!.InvokeVoidAsync("hitTestFromPoint", screenPoint, eventId, Id, false);
+                string json = _hitTestResults[eventId].ToString();
+                _hitTestResults.Remove(eventId);
+
+                return JsonSerializer.Deserialize<HitTestResult>(json,
+                    new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
+            }
+
+            return await ViewJsModule!.InvokeAsync<HitTestResult>("hitTestFromPoint", screenPoint, null, Id, true);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+        }
+
+        return new HitTestResult(new ViewHit[] { }, new ScreenPoint(1, 1));
+    }
+
+    /// <summary>
+    ///     The callback method for returning a chunk of data from a Blazor Server hit test.
+    /// </summary>
+    /// <param name="eventId">
+    ///     The hit test event id.
+    /// </param>
+    /// <param name="chunk">
+    ///     A chunk of hit test data, to be combined with other data before deserialization.
+    /// </param>
+    [JSInvokable]
+    public void OnJavascriptHitTestResult(Guid eventId, string chunk)
+    {
+        if (_hitTestResults.ContainsKey(eventId))
+        {
+            _hitTestResults[eventId].Append(chunk);
+        }
+        else
+        {
+            _hitTestResults.Add(eventId, new StringBuilder(chunk));
+        }
     }
 
     /// <inheritdoc />
@@ -1204,7 +1283,6 @@ public partial class MapView : MapComponent
     protected override async Task OnParametersSetAsync()
     {
         await base.OnParametersSetAsync();
-        ApiKey = Configuration["ArcGISApiKey"];
 
         if (AllowDefaultEsriLogin is null)
         {
@@ -1220,10 +1298,12 @@ public partial class MapView : MapComponent
     /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        ApiKey = Configuration["ArcGISApiKey"];
+
         if (firstRender)
         {
             LicenseType licenseType = Licensing.GetLicenseType();
-            
+
             switch ((int)licenseType)
             {
                 case >= 100:
@@ -1241,9 +1321,9 @@ public partial class MapView : MapComponent
 
                     break;
             }
-            
+
             JsModule = ViewJsModule;
-            
+
             // the first render never has all the child components registered
             Rendering = false;
             StateHasChanged();
@@ -1273,7 +1353,15 @@ public partial class MapView : MapComponent
 
         if (string.IsNullOrWhiteSpace(ApiKey) && (AllowDefaultEsriLogin is null || !AllowDefaultEsriLogin.Value))
         {
-            ErrorMessage = "No ArcGIS API Key Found. See UsingTheAPI.md for instructions on providing an API Key or suppressing this message.";
+            string newErrorMessage =
+                "No ArcGIS API Key Found. See UsingTheAPI.md for instructions on providing an API Key or suppressing this message.";
+
+            if (ErrorMessage == newErrorMessage)
+            {
+                return;
+            }
+
+            ErrorMessage = newErrorMessage;
             System.Diagnostics.Debug.WriteLine(ErrorMessage);
             StateHasChanged();
 
@@ -1295,10 +1383,11 @@ public partial class MapView : MapComponent
             }
 
             NeedsRender = false;
-            await ViewJsModule!.InvokeVoidAsync("setAssetsPath", 
-                Configuration.GetValue<string?>("ArcGISAssetsPath", 
+
+            await ViewJsModule!.InvokeVoidAsync("setAssetsPath",
+                Configuration.GetValue<string?>("ArcGISAssetsPath",
                     "./_content/dymaptic.GeoBlazor.Core/assets"));
-            
+
             await ViewJsModule.InvokeVoidAsync("buildMapView", Id,
                 DotNetObjectReference, Longitude, Latitude, Rotation, map, Zoom, Scale,
                 ApiKey, mapType, Widgets, Graphics, SpatialReference, Constraints, Extent,
@@ -1312,12 +1401,13 @@ public partial class MapView : MapComponent
     private async Task AddWidget(Widget widget)
     {
         if (ViewJsModule is null) return;
+
         await InvokeAsync(async () =>
         {
             await ViewJsModule!.InvokeVoidAsync("addWidget", widget, Id);
         });
     }
-    
+
     private async Task RemoveWidget(Widget widget)
     {
         await InvokeAsync(async () =>
@@ -1332,7 +1422,9 @@ public partial class MapView : MapComponent
     protected List<string> GetActiveEventHandlers()
     {
         List<string> activeHandlers = new();
-        IEnumerable<PropertyInfo> callbacks = this.GetType().GetProperties()
+
+        IEnumerable<PropertyInfo> callbacks = this.GetType()
+            .GetProperties()
             .Where(p => p.PropertyType.Name.StartsWith(nameof(EventCallback)) ||
                 p.PropertyType.Name.StartsWith("Func"));
 
@@ -1364,12 +1456,12 @@ public partial class MapView : MapComponent
     ///     A reference to the arcGisJsInterop module
     /// </summary>
     protected IJSObjectReference? ViewJsModule;
-    
+
     /// <summary>
     ///     A boolean flag to indicate that rendering is underway
     /// </summary>
     protected bool Rendering;
-    
+
     /// <summary>
     ///     Tracked properties that need to be updated.
     /// </summary>
@@ -1379,6 +1471,9 @@ public partial class MapView : MapComponent
     ///     A boolean flag to indicate a "dirty" state that needs to be re-rendered
     /// </summary>
     protected bool NeedsRender = true;
+    private bool IsWebAssembly => JsRuntime is IJSInProcessRuntime;
+    private bool IsServer => JsRuntime?.GetType().Name.Contains("Remote") ?? false;
+    private bool IsMaui => JsRuntime?.GetType().Name.Contains("WebView") ?? false;
     private double _longitude = -118.805;
     private double _zoom = 11;
     private double? _scale;
@@ -1386,4 +1481,5 @@ public partial class MapView : MapComponent
     private double _latitude = 34.027;
     private string? _apiKey;
     private SpatialReference? _spatialReference;
+    private Dictionary<Guid, StringBuilder> _hitTestResults = new();
 }

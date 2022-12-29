@@ -193,6 +193,8 @@ parent: Classes
 | [DomPointerEvent](dymaptic.GeoBlazor.Core.Events.DomPointerEvent.html 'dymaptic.GeoBlazor.Core.Events.DomPointerEvent') | Represents the native DOM pointer event that the ArcGIS event is built on top of. |
 | [DragEvent](dymaptic.GeoBlazor.Core.Events.DragEvent.html 'dymaptic.GeoBlazor.Core.Events.DragEvent') | Result of the view.on('drag') event. |
 | [FocusEvent](dymaptic.GeoBlazor.Core.Events.FocusEvent.html 'dymaptic.GeoBlazor.Core.Events.FocusEvent') | Fires when browser focus is on the view. |
+| [GraphicHit](dymaptic.GeoBlazor.Core.Events.GraphicHit.html 'dymaptic.GeoBlazor.Core.Events.GraphicHit') | Object specification for the [Results](dymaptic.GeoBlazor.Core.Events.HitTestResult.html#dymaptic.GeoBlazor.Core.Events.HitTestResult.Results 'dymaptic.GeoBlazor.Core.Events.HitTestResult.Results').<br/><a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#ViewHit">ArcGIS JS API</a> |
+| [HitTestResult](dymaptic.GeoBlazor.Core.Events.HitTestResult.html 'dymaptic.GeoBlazor.Core.Events.HitTestResult') | Object specification for the result of the [HitTest(ClickEvent)](dymaptic.GeoBlazor.Core.Components.Views.MapView.html#dymaptic.GeoBlazor.Core.Components.Views.MapView.HitTest(dymaptic.GeoBlazor.Core.Events.ClickEvent) 'dymaptic.GeoBlazor.Core.Components.Views.MapView.HitTest(dymaptic.GeoBlazor.Core.Events.ClickEvent)') method.<br/><a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#HitTestResult">ArcGIS JS API</a> |
 | [JsEvent](dymaptic.GeoBlazor.Core.Events.JsEvent.html 'dymaptic.GeoBlazor.Core.Events.JsEvent') | Base class for many events triggered in Javascript. |
 | [KeyDownEvent](dymaptic.GeoBlazor.Core.Events.KeyDownEvent.html 'dymaptic.GeoBlazor.Core.Events.KeyDownEvent') | Fires after a keyboard key is pressed. |
 | [KeyUpEvent](dymaptic.GeoBlazor.Core.Events.KeyUpEvent.html 'dymaptic.GeoBlazor.Core.Events.KeyUpEvent') | Fires after a keyboard key is released. |
@@ -202,6 +204,8 @@ parent: Classes
 | [MouseWheelEvent](dymaptic.GeoBlazor.Core.Events.MouseWheelEvent.html 'dymaptic.GeoBlazor.Core.Events.MouseWheelEvent') | Fires when a wheel button of a pointing device (typically a mouse) is scrolled on the view. |
 | [PointerEvent](dymaptic.GeoBlazor.Core.Events.PointerEvent.html 'dymaptic.GeoBlazor.Core.Events.PointerEvent') | This event type returns for all pointer events (down, up, enter, leave, move, etc.). |
 | [ResizeEvent](dymaptic.GeoBlazor.Core.Events.ResizeEvent.html 'dymaptic.GeoBlazor.Core.Events.ResizeEvent') | Result of the view.on('resize') event |
+| [ScreenPoint](dymaptic.GeoBlazor.Core.Events.ScreenPoint.html 'dymaptic.GeoBlazor.Core.Events.ScreenPoint') | The screen coordinates (or native mouse event) of the click on the view. |
+| [ViewHit](dymaptic.GeoBlazor.Core.Events.ViewHit.html 'dymaptic.GeoBlazor.Core.Events.ViewHit') | Object specification for the [Results](dymaptic.GeoBlazor.Core.Events.HitTestResult.html#dymaptic.GeoBlazor.Core.Events.HitTestResult.Results 'dymaptic.GeoBlazor.Core.Events.HitTestResult.Results').<br/><a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#ViewHit">ArcGIS JS API</a> |
 
 | Enums | |
 | :--- | :--- |

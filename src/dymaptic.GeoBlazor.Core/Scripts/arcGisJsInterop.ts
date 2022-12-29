@@ -70,7 +70,6 @@ import {
     DotNetSpatialReference,
     MapCollection
 } from "./definitions";
-import HitTestResult = __esri.HitTestResult;
 
 export let arcGisObjectRefs: Record<string, Accessor> = {};
 export let dotNetRefs = {};
@@ -98,7 +97,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
         checkConnectivity(id);
         dotNetRefs[id] = dotNetRef;
         if (esriConfig.apiKey === undefined) {
-            esriConfig.apiKey = apiKey ?? localStorage.getItem("arcgis-api-key");
+            esriConfig.apiKey = apiKey;
         }
         disposeView(id);
         let view: View;
@@ -414,11 +413,45 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
     });
 }
 
-export async function hitTest(event: any, viewId: string): Promise<DotNetHitTestResult> {
+export async function hitTestFromPoint(screenPoint: any, eventId: string | null, viewId: string, returnValue: boolean)
+    : Promise<DotNetHitTestResult | void> {
     let view = arcGisObjectRefs[viewId] as MapView;
-    let clickEvent = buildJsViewClickEvent(event);
-    let result = await view.hitTest(clickEvent);
-    return buildDotNetHitTestResult(result);
+    let result = await view.hitTest({ x: screenPoint.x, y: screenPoint.y } as any);
+    let dotNetResult = buildDotNetHitTestResult(result);
+    if (returnValue) {
+        return dotNetResult;
+    }
+
+    let dotNetRef = dotNetRefs[viewId];
+    let jsonResult = JSON.stringify(dotNetResult);
+    // return dotNetResult in small chunks to avoid memory issues
+    let chunkSize = 100;
+    let chunks = Math.ceil(jsonResult.length / chunkSize);
+    for (let i = 0; i < chunks; i++) {
+        let chunk = jsonResult.slice(i * chunkSize, (i + 1) * chunkSize);
+        await dotNetRef.invokeMethodAsync('OnJavascriptHitTestResult', eventId, chunk);
+    }
+}
+
+export async function hitTestFromClickEvent(clickEvent: any, eventId: string | null, viewId: string, returnValue: boolean)
+    : Promise<DotNetHitTestResult | void> {
+    let view = arcGisObjectRefs[viewId] as MapView;
+    let jsClickEvent = buildJsViewClickEvent(clickEvent);
+    let result = await view.hitTest(jsClickEvent);
+    let dotNetResult = buildDotNetHitTestResult(result);
+    if (returnValue) {
+        return dotNetResult;
+    }
+
+    let dotNetRef = dotNetRefs[viewId];
+    let jsonResult = JSON.stringify(dotNetResult);
+    // return dotNetResult in small chunks to avoid memory issues
+    let chunkSize = 100;
+    let chunks = Math.ceil(jsonResult.length / chunkSize);
+    for (let i = 0; i < chunks; i++) {
+        let chunk = jsonResult.slice(i * chunkSize, (i + 1) * chunkSize);
+        await dotNetRef.invokeMethodAsync('OnJavascriptHitTestResult', eventId, chunk);
+    }
 }
 
 export function disposeView(viewId: string): void {
@@ -1231,7 +1264,13 @@ function waitForRender(viewId: string, dotNetRef: any): void {
             }
             if (!view.updating && !isRendered) {
                 console.debug("View Render Complete");
-                dotNetRef.invokeMethodAsync('OnViewRendered');
+                try {
+                    dotNetRef.invokeMethodAsync('OnViewRendered');    
+                }
+                catch
+                {
+                    // we must be disconnected
+                }
                 isRendered = true;
             } else if (isRendered && view.updating) {
                 isRendered = false;

@@ -14,6 +14,7 @@ export interface MapCollection extends __esri.Collection {
 export interface DotNetGraphic {
     uid: string;
     geometry: any;
+    attributes: any;
 }
 
 export interface DotNetFeature {
@@ -120,5 +121,15 @@ export interface DotNetViewHit {
 
 export interface DotNetGraphicHit extends DotNetViewHit {
     graphic: DotNetGraphic;
-    layer: Layer;
+    layer: DotNetLayer;
+}
+
+export interface DotNetLayer {
+    fullExtent: DotNetExtent;
+    id: string;
+    title: string;
+    type: string;
+    visible: boolean;
+    opacity: number;
+    listMode: string;
 }

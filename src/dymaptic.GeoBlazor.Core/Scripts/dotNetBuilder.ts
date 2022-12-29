@@ -9,7 +9,7 @@ import {
     DotNetPolygon,
     DotNetPolyline,
     DotNetSpatialReference,
-    DotNetLayerView, DotNetViewHit, DotNetHitTestResult, DotNetGraphicHit
+    DotNetLayerView, DotNetViewHit, DotNetHitTestResult, DotNetGraphicHit, DotNetLayer
 } from "./definitions";
 import Point from "@arcgis/core/geometry/Point";
 import Polyline from "@arcgis/core/geometry/Polyline";
@@ -20,12 +20,13 @@ import SpatialReference from "@arcgis/core/geometry/SpatialReference";
 import GeographicTransformation from "@arcgis/core/geometry/support/GeographicTransformation";
 import LayerView from "@arcgis/core/views/layers/LayerView";
 import HitTestResult = __esri.HitTestResult;
-import {build} from "esbuild";
 import ViewHit = __esri.ViewHit;
+import Layer from "@arcgis/core/layers/Layer";
 
 export function buildDotNetGraphic(graphic: any): DotNetGraphic {
     let dotNetGraphic = {} as DotNetGraphic;
     dotNetGraphic.uid = graphic.uid;
+    dotNetGraphic.attributes = graphic.attributes;
 
     switch (graphic.geometry?.type) {
         case 'point':
@@ -180,6 +181,17 @@ export function buildDotNetLayerView(layerView: LayerView) : DotNetLayerView {
     }
 }
 
+export function buildDotNetLayer(layer: Layer): DotNetLayer {
+    return {
+        title: layer.title,
+        type: layer.type,
+        listMode: layer.listMode,
+        fullExtent: buildDotNetExtent(layer.fullExtent),
+        visible: layer.visible,
+        opacity: layer.opacity
+    } as DotNetLayer;
+}
+
 export function buildDotNetHitTestResult(hitTestResult: HitTestResult) : DotNetHitTestResult {
     let results = hitTestResult.results.map(r => buildDotNetViewHit(r))
         .filter(r => r !== null) as Array<DotNetViewHit>;
@@ -193,8 +205,9 @@ function buildDotNetViewHit(viewHit: ViewHit) : DotNetViewHit | null {
     switch (viewHit.type) {
         case "graphic":
             return {
+                type: "graphic",
                 graphic: buildDotNetGraphic(viewHit.graphic),
-                layer: viewHit.layer,
+                layer: buildDotNetLayer(viewHit.layer),
                 mapPoint: buildDotNetPoint(viewHit.mapPoint)
             } as DotNetGraphicHit;
         break;

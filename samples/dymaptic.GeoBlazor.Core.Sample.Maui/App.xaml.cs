@@ -14,7 +14,7 @@ public partial class App
 
     protected override void OnSleep()
     {
-        var apiKey = _configuration.GetValue<string>("ArcGISApiKey", null);
+        string? apiKey = _configuration.GetValue<string?>("ArcGISApiKey", null);
         if (!string.IsNullOrWhiteSpace(apiKey))
         {
             Preferences.Set("ArcGISApiKey", apiKey);

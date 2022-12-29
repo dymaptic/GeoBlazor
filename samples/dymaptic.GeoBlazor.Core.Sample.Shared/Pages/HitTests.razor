@@ -21,11 +21,13 @@
     {
         <div class="form-group">
             <label>Hit Type: @result.Type</label>
-            @if (result is GraphicHit graphicHit && graphicHit.Graphic?.Attributes is not null)
+            @if (result is GraphicHit {Graphic.Attributes: { } } graphicHit)
             {
                 foreach (KeyValuePair<string, object> attr in graphicHit.Graphic.Attributes)
                 {
-                    <label>@attr.Key: @attr.Value</label>
+                    <div>
+                        <label> - @attr.Key: @attr.Value</label>
+                    </div>
                 }
             }
         </div>
@@ -44,7 +46,7 @@
     private async Task OnMapViewClicked(ClickEvent arg)
     {
         _clickPoint = arg.MapPoint;
-        await InvokeAsync(async () => _hitTestResult = await _mapView!.HitTest(arg));
+        _hitTestResult = await _mapView!.HitTest(arg);
     }
 
     private MapView? _mapView;
