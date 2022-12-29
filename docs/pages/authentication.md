@@ -24,6 +24,11 @@ Possibly the simplest approach, is to create an API Key from your [ArcGIS Develo
   in a file loaded into Wasm on the client
 - API Keys are tied to _your_ developer account, which means you or your company will be responsible for all usage fees 
   if/when you pass the free tier of usage
+  
+### Additional Security Steps
+- (Set up a referrer so only your url can use the token)[https://developers.arcgis.com/documentation/mapping-apis-and-services/security/api-keys/#referrers]
+- Monitor your api-key usage and ArcGIS Dashboard billing regularly to catch any suspicious activity
+- (Read the full API Key docs)[https://developers.arcgis.com/documentation/mapping-apis-and-services/security/api-keys] for ways to limit access to various types of services
 
 ## OAuth Sign-in
 
