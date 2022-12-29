@@ -899,6 +899,46 @@ The new [Extent](dymaptic.GeoBlazor.Core.Components.Views.MapView.html#dymaptic.
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
 
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.HitTest(dymaptic.GeoBlazor.Core.Components.Geometries.Point)'></a>
+
+## MapView.HitTest(Point) Method
+
+Returns [HitTestResult](dymaptic.GeoBlazor.Core.Events.HitTestResult.html 'dymaptic.GeoBlazor.Core.Events.HitTestResult')s from each layer that intersects the specified screen coordinates. The results are organized as an array of objects containing different result types.
+
+```csharp
+public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Events.HitTestResult> HitTest(dymaptic.GeoBlazor.Core.Components.Geometries.Point screenPoint);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.HitTest(dymaptic.GeoBlazor.Core.Components.Geometries.Point).screenPoint'></a>
+
+`screenPoint` [Point](dymaptic.GeoBlazor.Core.Components.Geometries.Point.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Point')
+
+The screen point to check for hits.
+
+#### Returns
+[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[HitTestResult](dymaptic.GeoBlazor.Core.Events.HitTestResult.html 'dymaptic.GeoBlazor.Core.Events.HitTestResult')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.HitTest(dymaptic.GeoBlazor.Core.Events.ClickEvent)'></a>
+
+## MapView.HitTest(ClickEvent) Method
+
+Returns [HitTestResult](dymaptic.GeoBlazor.Core.Events.HitTestResult.html 'dymaptic.GeoBlazor.Core.Events.HitTestResult')s from each layer that intersects the specified screen coordinates. The results are organized as an array of objects containing different result types.
+
+```csharp
+public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Events.HitTestResult> HitTest(dymaptic.GeoBlazor.Core.Events.ClickEvent clickEvent);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.HitTest(dymaptic.GeoBlazor.Core.Events.ClickEvent).clickEvent'></a>
+
+`clickEvent` [ClickEvent](dymaptic.GeoBlazor.Core.Events.ClickEvent.html 'dymaptic.GeoBlazor.Core.Events.ClickEvent')
+
+The click event to test for hits.
+
+#### Returns
+[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[HitTestResult](dymaptic.GeoBlazor.Core.Events.HitTestResult.html 'dymaptic.GeoBlazor.Core.Events.HitTestResult')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')
+
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptBlur(dymaptic.GeoBlazor.Core.Events.BlurEvent)'></a>
 
 ## MapView.OnJavascriptBlur(BlurEvent) Method
@@ -1041,6 +1081,29 @@ The [FocusEvent](dymaptic.GeoBlazor.Core.Events.FocusEvent.html 'dymaptic.GeoBla
 
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptHitTestResult(System.Guid,string)'></a>
+
+## MapView.OnJavascriptHitTestResult(Guid, string) Method
+
+The callback method for returning a chunk of data from a Blazor Server hit test.
+
+```csharp
+public void OnJavascriptHitTestResult(System.Guid eventId, string chunk);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptHitTestResult(System.Guid,string).eventId'></a>
+
+`eventId` [System.Guid](https://docs.microsoft.com/en-us/dotnet/api/System.Guid 'System.Guid')
+
+The hit test event id.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptHitTestResult(System.Guid,string).chunk'></a>
+
+`chunk` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+A chunk of hit test data, to be combined with other data before deserialization.
 
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptHold(dymaptic.GeoBlazor.Core.Events.ClickEvent)'></a>
 

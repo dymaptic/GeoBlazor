@@ -1,5 +1,4 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Layers;
-using Microsoft.AspNetCore.Components;
 
 namespace dymaptic.GeoBlazor.Core.Components.Widgets.LayerList;
 
