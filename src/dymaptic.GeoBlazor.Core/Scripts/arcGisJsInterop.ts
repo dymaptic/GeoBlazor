@@ -76,6 +76,8 @@ import {
     DotNetSpatialReference,
     MapCollection
 } from "./definitions";
+import HitTestResult = __esri.HitTestResult;
+import MapViewHitTestOptions = __esri.MapViewHitTestOptions;
 
 export let arcGisObjectRefs: Record<string, Accessor> = {};
 export let dotNetRefs = {};
@@ -419,10 +421,19 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
     });
 }
 
-export async function hitTestFromPoint(screenPoint: any, eventId: string | null, viewId: string, returnValue: boolean)
-    : Promise<DotNetHitTestResult | void> {
+export async function hitTestFromPoint(screenPoint: any, eventId: string | null, viewId: string, returnValue: boolean,
+    options: any | null) : Promise<DotNetHitTestResult | void> {
     let view = arcGisObjectRefs[viewId] as MapView;
-    let result = await view.hitTest({ x: screenPoint.x, y: screenPoint.y } as any);
+    let result: HitTestResult;
+    
+    if (options !== null) {
+        let hitOptions = buildHitTestOptions(options);
+        result = await view.hitTest({ x: screenPoint.x, y: screenPoint.y } as any, hitOptions);
+    }
+    else {
+        result = await view.hitTest({ x: screenPoint.x, y: screenPoint.y } as any);
+    }
+    
     let dotNetResult = buildDotNetHitTestResult(result);
     if (returnValue) {
         return dotNetResult;
@@ -430,7 +441,9 @@ export async function hitTestFromPoint(screenPoint: any, eventId: string | null,
 
     let dotNetRef = dotNetRefs[viewId];
     let jsonResult = JSON.stringify(dotNetResult);
-    // return dotNetResult in small chunks to avoid memory issues
+    // return dotNetResult in small chunks to avoid memory issues in Blazor Server
+    // SignalR has a maximum message size of 32KB
+    // https://github.com/dotnet/aspnetcore/issues/23179
     let chunkSize = 100;
     let chunks = Math.ceil(jsonResult.length / chunkSize);
     for (let i = 0; i < chunks; i++) {
@@ -439,11 +452,20 @@ export async function hitTestFromPoint(screenPoint: any, eventId: string | null,
     }
 }
 
-export async function hitTestFromClickEvent(clickEvent: any, eventId: string | null, viewId: string, returnValue: boolean)
-    : Promise<DotNetHitTestResult | void> {
+export async function hitTestFromClickEvent(clickEvent: any, eventId: string | null, viewId: string, returnValue: boolean,
+    options: any | null) : Promise<DotNetHitTestResult | void> {
     let view = arcGisObjectRefs[viewId] as MapView;
     let jsClickEvent = buildJsViewClickEvent(clickEvent);
-    let result = await view.hitTest(jsClickEvent);
+    let result: HitTestResult;
+
+    if (options !== null) {
+        let hitOptions = buildHitTestOptions(options);
+        result = await view.hitTest(jsClickEvent, hitOptions);
+    }
+    else {
+        result = await view.hitTest(jsClickEvent);
+    }
+    
     let dotNetResult = buildDotNetHitTestResult(result);
     if (returnValue) {
         return dotNetResult;
@@ -1426,4 +1448,21 @@ export function addReactiveWaiter(targetId: string, targetName: string, watchExp
 export function setVisibility(componentId: string, visible: boolean) : void {
     let component : any = arcGisObjectRefs[componentId];
     component.visible = visible;
+}
+
+function buildHitTestOptions(options: any) : MapViewHitTestOptions {
+    let hitOptions: MapViewHitTestOptions = {};
+    if (options.include !== null) {
+        let hitIncludeOptions = options.include.map(i => arcGisObjectRefs[i.id]);
+        if (hitIncludeOptions.length > 0) {
+            hitOptions.include = hitIncludeOptions;
+        }
+    }
+    if (options.exclude !== null) {
+        let hitExcludeOptions = options.exclude.map(i => arcGisObjectRefs[i.id]);
+        if (hitExcludeOptions.length > 0) {
+            hitOptions.exclude = hitExcludeOptions;
+        }
+    }
+    return hitOptions;
 }

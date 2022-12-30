@@ -1188,14 +1188,17 @@ public partial class MapView : MapComponent
     /// <param name="clickEvent">
     ///     The click event to test for hits.
     /// </param>
-    public async Task<HitTestResult> HitTest(ClickEvent clickEvent)
+    /// <param name="options">
+    ///     Options to specify what is included in or excluded from the hitTest.
+    /// </param>
+    public async Task<HitTestResult> HitTest(ClickEvent clickEvent, HitTestOptions? options = null)
     {
         try
         {
             if (IsServer)
             {
                 Guid eventId = Guid.NewGuid();
-                await ViewJsModule!.InvokeVoidAsync("hitTestFromClickEvent", clickEvent, eventId, Id, false);
+                await ViewJsModule!.InvokeVoidAsync("hitTestFromClickEvent", clickEvent, eventId, Id, false, options);
                 string json = _hitTestResults[eventId].ToString();
                 _hitTestResults.Remove(eventId);
 
@@ -1203,7 +1206,7 @@ public partial class MapView : MapComponent
                     new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
             }
 
-            return await ViewJsModule!.InvokeAsync<HitTestResult>("hitTestFromClickEvent", clickEvent, null, Id, true);
+            return await ViewJsModule!.InvokeAsync<HitTestResult>("hitTestFromClickEvent", clickEvent, null, Id, true, options);
         }
         catch (Exception ex)
         {
@@ -1219,14 +1222,17 @@ public partial class MapView : MapComponent
     /// <param name="screenPoint">
     ///     The screen point to check for hits. 
     /// </param>
-    public async Task<HitTestResult> HitTest(Point screenPoint)
+    /// <param name="options">
+    ///     Options to specify what is included in or excluded from the hitTest.
+    /// </param>
+    public async Task<HitTestResult> HitTest(Point screenPoint, HitTestOptions? options = null)
     {
         try
         {
             if (IsServer)
             {
                 Guid eventId = Guid.NewGuid();
-                await ViewJsModule!.InvokeVoidAsync("hitTestFromPoint", screenPoint, eventId, Id, false);
+                await ViewJsModule!.InvokeVoidAsync("hitTestFromPoint", screenPoint, eventId, Id, false, options);
                 string json = _hitTestResults[eventId].ToString();
                 _hitTestResults.Remove(eventId);
 
@@ -1234,7 +1240,7 @@ public partial class MapView : MapComponent
                     new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
             }
 
-            return await ViewJsModule!.InvokeAsync<HitTestResult>("hitTestFromPoint", screenPoint, null, Id, true);
+            return await ViewJsModule!.InvokeAsync<HitTestResult>("hitTestFromPoint", screenPoint, null, Id, true, options);
         }
         catch (Exception ex)
         {

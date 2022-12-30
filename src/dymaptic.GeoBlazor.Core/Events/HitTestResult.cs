@@ -1,4 +1,5 @@
-﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
+﻿using dymaptic.GeoBlazor.Core.Components;
+using dymaptic.GeoBlazor.Core.Components.Geometries;
 using dymaptic.GeoBlazor.Core.Components.Layers;
 using dymaptic.GeoBlazor.Core.Components.Views;
 using System.Text.Json;
@@ -6,11 +7,9 @@ using System.Text.Json.Serialization;
 
 
 namespace dymaptic.GeoBlazor.Core.Events;
-
-/// <summary>
 #pragma warning disable CS1574
+/// <summary>
 ///     Object specification for the result of the <see cref="MapView.HitTest"/> method.
-#pragma warning restore CS1574
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#HitTestResult">ArcGIS JS API</a>
 /// </summary>
 /// <param name="Results">
@@ -20,6 +19,7 @@ namespace dymaptic.GeoBlazor.Core.Events;
 ///     The screen coordinates (or native mouse event) of the click on the view.
 /// </param>
 public record HitTestResult(ViewHit[] Results, ScreenPoint ScreenPoint);
+#pragma warning restore CS1574
 
 /// <summary>
 ///     Object specification for the <see cref="HitTestResult.Results"/>.
@@ -58,6 +58,22 @@ public record GraphicHit(Graphic Graphic, Layer Layer, Point MapPoint) : ViewHit
 ///     The Y coordinate.
 /// </param>
 public record ScreenPoint(double X, double Y);
+
+/// <summary>
+///     Options to specify what is included in or excluded from the hitTest.
+/// </summary>
+public record HitTestOptions
+{
+    /// <summary>
+    ///     A list of layers and/or graphics to include in the hitTest. All layers and graphics will be included if include is not specified.
+    /// </summary>
+    public IEnumerable<MapComponent> Include { get; init; }
+    
+    /// <summary>
+    ///     A list of layers and/or graphics to exclude from the hitTest. No layers or graphics will be excluded if exclude is not specified.
+    /// </summary>
+    public IEnumerable<MapComponent> Exclude { get; init; }
+}
 
 internal class ViewHitConverter : JsonConverter<ViewHit>
 {
