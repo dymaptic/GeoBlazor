@@ -1,5 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Components;
-using dymaptic.GeoBlazor.Core.Components.Geometries;
+﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
 using dymaptic.GeoBlazor.Core.Components.Layers;
 using dymaptic.GeoBlazor.Core.Components.Views;
 using System.Text.Json;
@@ -7,7 +6,7 @@ using System.Text.Json.Serialization;
 
 
 namespace dymaptic.GeoBlazor.Core.Events;
-#pragma warning disable CS1574
+#pragma warning disable CS1574, CSO419
 /// <summary>
 ///     Object specification for the result of the <see cref="MapView.HitTest"/> method.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#HitTestResult">ArcGIS JS API</a>
@@ -18,8 +17,19 @@ namespace dymaptic.GeoBlazor.Core.Events;
 /// <param name="ScreenPoint">
 ///     The screen coordinates (or native mouse event) of the click on the view.
 /// </param>
-public record HitTestResult(ViewHit[] Results, ScreenPoint ScreenPoint);
-#pragma warning restore CS1574
+#pragma warning restore CS1574, CSO419
+public record HitTestResult(ViewHit[] Results, ScreenPoint ScreenPoint)
+{
+    /// <summary>
+    ///    Ground intersection result, only applies to SceneViews. The ground hit result will always be returned, even if the ground was excluded from the hitTest.
+    /// </summary>
+    public GroundIntersectionResult? Ground { get; init; }
+}
+
+/// <summary>
+///    Ground intersection result, only applies to SceneViews. The ground hit result will always be returned, even if the ground was excluded from the hitTest.
+/// </summary>
+public record GroundIntersectionResult(Point MapPoint, double Distance);
 
 /// <summary>
 ///     Object specification for the <see cref="HitTestResult.Results"/>.
@@ -65,14 +75,34 @@ public record ScreenPoint(double X, double Y);
 public record HitTestOptions
 {
     /// <summary>
-    ///     A list of layers and/or graphics to include in the hitTest. All layers and graphics will be included if include is not specified.
+    ///     A list of layers and/or graphics GeoBlazor Ids (Guid) to include in the hitTest. All layers and graphics will be included if include is not specified.
     /// </summary>
-    public IEnumerable<MapComponent> Include { get; init; }
+    public IEnumerable<Guid>? IncludeByGeoBlazorId { get; set; }
     
     /// <summary>
-    ///     A list of layers and/or graphics to exclude from the hitTest. No layers or graphics will be excluded if exclude is not specified.
+    ///     A list of layer ArcGIS Ids (aka FIELDID or OBJECTID) to include in the hitTest. All layers and graphics will be included if include is not specified.
     /// </summary>
-    public IEnumerable<MapComponent> Exclude { get; init; }
+    public IEnumerable<string>? IncludeLayersByArcGISId { get; set; }
+    
+    /// <summary>
+    ///     A list of graphic ArcGIS OBJECTID attributes to include in the hitTest. All layers and graphics will be included if include is not specified.
+    /// </summary>
+    public IEnumerable<string>? IncludeGraphicsByArcGISId { get; set; }
+    
+    /// <summary>
+    ///     A list of layers and/or graphics GeoBlazor Ids (Guid) to exclude from the hitTest. No layers or graphics will be excluded if exclude is not specified.
+    /// </summary>
+    public IEnumerable<Guid>? ExcludeByGeoBlazorId { get; set; }
+    
+    /// <summary>
+    ///     A list of layer ArcGIS Ids (aka FIELDID or OBJECTID) to exclude in the hitTest. No layers and graphics will be excluded if exclude is not specified.
+    /// </summary>
+    public IEnumerable<string>? ExcludeLayersByArcGISId { get; set; }
+    
+    /// <summary>
+    ///     A list of graphic ArcGIS OBJECTID attributes to exclude in the hitTest. No layers and graphics will be excluded if exclude is not specified.
+    /// </summary>
+    public IEnumerable<string>? ExcludeGraphicsByArcGISId { get; set; }
 }
 
 internal class ViewHitConverter : JsonConverter<ViewHit>

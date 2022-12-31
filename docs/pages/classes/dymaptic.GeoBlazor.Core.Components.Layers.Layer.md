@@ -25,6 +25,19 @@ Derived
 &#8627; [TileLayer](dymaptic.GeoBlazor.Core.Components.Layers.TileLayer.html 'dymaptic.GeoBlazor.Core.Components.Layers.TileLayer')
 ### Properties
 
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.Layer.JsObjectReference'></a>
+
+## Layer.JsObjectReference Property
+
+The JavaScript object that represents the layer.
+
+```csharp
+public Microsoft.JSInterop.IJSObjectReference? JsObjectReference { get; set; }
+```
+
+#### Property Value
+[Microsoft.JSInterop.IJSObjectReference](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.JSInterop.IJSObjectReference 'Microsoft.JSInterop.IJSObjectReference')
+
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.Layer.LayerIndex'></a>
 
 ## Layer.LayerIndex Property
@@ -50,6 +63,19 @@ public virtual string LayerType { get; }
 
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.Layer.LayerView'></a>
+
+## Layer.LayerView Property
+
+Represents the view for a single layer after it has been added to either a MapView or a SceneView.
+
+```csharp
+public dymaptic.GeoBlazor.Core.Components.Layers.LayerView? LayerView { get; set; }
+```
+
+#### Property Value
+[LayerView](dymaptic.GeoBlazor.Core.Components.Layers.LayerView.html 'dymaptic.GeoBlazor.Core.Components.Layers.LayerView')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.Layer.Opacity'></a>
 

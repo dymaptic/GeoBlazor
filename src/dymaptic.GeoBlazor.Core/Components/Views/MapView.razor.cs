@@ -634,6 +634,14 @@ public partial class MapView : MapComponent
     [JSInvokable]
     public async Task OnJavascriptLayerViewCreate(LayerViewCreateEvent layerViewCreateEvent)
     {
+        LayerView layerView = layerViewCreateEvent.LayerView;
+        layerView.JsObjectReference = layerViewCreateEvent.LayerViewObjectRef;
+        Layer? createdLayer = Map?.Layers.FirstOrDefault(l => l.Id == layerViewCreateEvent.LayerGeoBlazorId);
+        if (createdLayer != null)
+        {
+            createdLayer.LayerView = layerViewCreateEvent.LayerView;
+            createdLayer.JsObjectReference = layerViewCreateEvent.LayerObjectRef;
+        }
         await OnLayerViewCreate.InvokeAsync(layerViewCreateEvent);
     }
 
@@ -738,6 +746,11 @@ public partial class MapView : MapComponent
     ///     Surfaces errors to the UI for easy debugging of issues.
     /// </summary>
     public string? ErrorMessage { get; set; }
+    
+    /// <summary>
+    ///    Options for configuring the highlight. Use the highlight method on the appropriate LayerView to highlight a feature. With version 4.19, highlighting a feature influences the shadow of the feature as well. By default, the shadow of the highlighted feature is displayed in a darker shade.
+    /// </summary>
+    public HighlightOptions? HighlightOptions { get; set; }
 
     /// <summary>
     ///     The ArcGIS Api Token/Key or OAuth Token
@@ -848,6 +861,14 @@ public partial class MapView : MapComponent
                 }
 
                 break;
+            case HighlightOptions highlightOptions:
+                if (!highlightOptions.Equals(HighlightOptions))
+                {
+                    HighlightOptions = highlightOptions;
+                    await RenderView();
+                }
+
+                break;
             default:
                 await base.RegisterChildComponent(child);
 
@@ -907,6 +928,10 @@ public partial class MapView : MapComponent
             case Extent _:
                 Extent = null;
                 await UpdateComponent();
+
+                break;
+            case HighlightOptions _:
+                HighlightOptions = null;
 
                 break;
             default:
@@ -1193,27 +1218,21 @@ public partial class MapView : MapComponent
     /// </param>
     public async Task<HitTestResult> HitTest(ClickEvent clickEvent, HitTestOptions? options = null)
     {
-        try
-        {
-            if (IsServer)
-            {
-                Guid eventId = Guid.NewGuid();
-                await ViewJsModule!.InvokeVoidAsync("hitTestFromClickEvent", clickEvent, eventId, Id, false, options);
-                string json = _hitTestResults[eventId].ToString();
-                _hitTestResults.Remove(eventId);
-
-                return JsonSerializer.Deserialize<HitTestResult>(json,
-                    new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
-            }
-
-            return await ViewJsModule!.InvokeAsync<HitTestResult>("hitTestFromClickEvent", clickEvent, null, Id, true, options);
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex);
-        }
-
-        return new HitTestResult(new ViewHit[] { }, new ScreenPoint(1, 1));
+        return await HitTestImplementation(clickEvent, options, true);
+    }
+    
+    /// <summary>
+    ///    Returns <see cref="HitTestResult"/>s from each layer that intersects the specified screen coordinates. The results are organized as an array of objects containing different result types.
+    /// </summary>
+    /// <param name="pointerEvent">
+    ///     The pointer event to test for hits.
+    /// </param>
+    /// <param name="options">
+    ///     Options to specify what is included in or excluded from the hitTest.
+    /// </param>
+    public async Task<HitTestResult> HitTest(PointerEvent pointerEvent, HitTestOptions? options = null)
+    {
+        return await HitTestImplementation(pointerEvent, options, true);
     }
 
     /// <summary>
@@ -1227,12 +1246,18 @@ public partial class MapView : MapComponent
     /// </param>
     public async Task<HitTestResult> HitTest(Point screenPoint, HitTestOptions? options = null)
     {
+        return await HitTestImplementation(screenPoint, options, false);
+    }
+
+    private async Task<HitTestResult> HitTestImplementation(object pointObject, HitTestOptions? options,
+        bool isEvent)
+    {
         try
         {
             if (IsServer)
             {
                 Guid eventId = Guid.NewGuid();
-                await ViewJsModule!.InvokeVoidAsync("hitTestFromPoint", screenPoint, eventId, Id, false, options);
+                await ViewJsModule!.InvokeVoidAsync("hitTest", pointObject, eventId, Id, false, isEvent, options);
                 string json = _hitTestResults[eventId].ToString();
                 _hitTestResults.Remove(eventId);
 
@@ -1240,7 +1265,7 @@ public partial class MapView : MapComponent
                     new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
             }
 
-            return await ViewJsModule!.InvokeAsync<HitTestResult>("hitTestFromPoint", screenPoint, null, Id, true, options);
+            return await ViewJsModule!.InvokeAsync<HitTestResult>("hitTest", pointObject, null, Id, true, isEvent, options);
         }
         catch (Exception ex)
         {
@@ -1397,7 +1422,7 @@ public partial class MapView : MapComponent
             await ViewJsModule.InvokeVoidAsync("buildMapView", Id,
                 DotNetObjectReference, Longitude, Latitude, Rotation, map, Zoom, Scale,
                 ApiKey, mapType, Widgets, Graphics, SpatialReference, Constraints, Extent,
-                EventRateLimitInMilliseconds, GetActiveEventHandlers());
+                EventRateLimitInMilliseconds, GetActiveEventHandlers(), HighlightOptions);
             Rendering = false;
             NewPropertyValues.Clear();
             MapRendered = true;
@@ -1478,8 +1503,8 @@ public partial class MapView : MapComponent
     /// </summary>
     protected bool NeedsRender = true;
     private bool IsWebAssembly => JsRuntime is IJSInProcessRuntime;
-    private bool IsServer => JsRuntime?.GetType().Name.Contains("Remote") ?? false;
-    private bool IsMaui => JsRuntime?.GetType().Name.Contains("WebView") ?? false;
+    private bool IsServer => JsRuntime.GetType().Name.Contains("Remote");
+    private bool IsMaui => JsRuntime.GetType().Name.Contains("WebView");
     private double _longitude = -118.805;
     private double _zoom = 11;
     private double? _scale;

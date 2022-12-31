@@ -133,3 +133,12 @@ export interface DotNetLayer {
     opacity: number;
     listMode: string;
 }
+
+export interface DotNetHitTestOptions {
+    includeByGeoBlazorId: Array<string> | null,
+    excludeByGeoBlazorId: Array<string> | null,
+    includeLayersByArcGISId: Array<string> | null,
+    excludeLayersByArcGISId: Array<string> | null,
+    includeGraphicsByArcGISId: Array<string> | null,
+    excludeGraphicsByArcGISId: Array<string> | null
+}

@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 
 
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
@@ -37,6 +38,18 @@ public abstract class Layer : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Title { get; set; }
+    
+    /// <summary>
+    ///    Represents the view for a single layer after it has been added to either a MapView or a SceneView.
+    /// </summary>
+    [JsonIgnore]
+    public LayerView? LayerView { get; set; }
+    
+    /// <summary>
+    ///    The JavaScript object that represents the layer.
+    /// </summary>
+    [JsonIgnore]
+    public IJSObjectReference? JsObjectReference { get; set; }
 }
 
 internal class LayerConverter : JsonConverter<Layer>

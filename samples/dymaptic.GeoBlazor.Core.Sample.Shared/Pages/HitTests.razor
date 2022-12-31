@@ -5,51 +5,125 @@
 
 <div class="links-div">
     <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#hitTest">ArcGIS API for JavaScript Reference</a>
-    <a class="btn btn-primary" target="_blank" href="https://www.arcgis.com/home/item.html?id=1e051c1656184b98a8daf304cb87d19d">Concentration of Black or African American Population in the US (Census 2020)</a>
+    <a class="btn btn-primary" target="_blank" href="https://www.arcgis.com/apps/mapviewer/index.html?url=https://sampleserver6.arcgisonline.com/arcgis/rest/services/Hurricanes/MapServer">Hurricanes</a>
 </div>
 <p class="instructions">
-    Click a point on the map, and the "Hit Test" will return the graphics and layers clicked.
+    Hover over a line on the map, and the "Hit Test" will return the hurricane name, category, and wind speed (knots).
 </p>
 
-<div class="form-group">
-    <label>Point Clicked: @_clickPoint?.Longitude Longitude / @_clickPoint?.Latitude Latitude</label>
-</div>
-<h2>Hits</h2>
-@if (_hitTestResult?.Results is not null)
-{
-    foreach (ViewHit result in _hitTestResult!.Results)
-    {
-        <div class="form-group">
-            <label>Hit Type: @result.Type</label>
-            @if (result is GraphicHit {Graphic.Attributes: { } } graphicHit)
-            {
-                foreach (KeyValuePair<string, object> attr in graphicHit.Graphic.Attributes)
-                {
-                    <div>
-                        <label> - @attr.Key: @attr.Value</label>
-                    </div>
-                }
-            }
-        </div>
+<MapView @ref="_mapView" OnPointerMove="OnPointerMove"
+         OnLayerViewCreate="OnLayerViewCreate"
+         Class="map-view"
+         Longitude="-61.125537" 
+         Latitude="35.863534"
+         Zoom="3"
+         EventRateLimitInMilliseconds="50">
+    <Map ArcGISDefaultBasemap="dark-gray-vector">
+        <FeatureLayer @ref="_hurricaneLayer"
+                      OutFields="@(new[] { "*" })"
+                      Url="https://sampleserver6.arcgisonline.com/arcgis/rest/services/Hurricanes/MapServer/1">
+            <SimpleRenderer>
+                <SimpleLineSymbol Width="4" Color="@(new MapColor(128, 128, 128, 0.8))" />
+            </SimpleRenderer>
+        </FeatureLayer>
         
-    }
-}
-
-<MapView @ref="_mapView" OnClick="OnMapViewClicked" Class="map-view">
-    <WebMap>
-        <PortalItem Id="1e051c1656184b98a8daf304cb87d19d" />
-    </WebMap>
+    </Map>
+    <HighlightOptions Color="@(new MapColor("orange"))" />
+    <CustomOverlay Position="OverlayPosition.TopRight">
+        @if (!string.IsNullOrEmpty(_name))
+        {
+            <div id="info">
+            <span>@_name</span><br/>
+            <span>Category @_category</span><br/>
+            <span>@_wind kts</span>
+        </div>
+        }
+    </CustomOverlay>
 </MapView>
 
 @code {
-
-    private async Task OnMapViewClicked(ClickEvent arg)
+    
+    private void OnLayerViewCreate(LayerViewCreateEvent createEvent)
     {
-        _clickPoint = arg.MapPoint;
-        _hitTestResult = await _mapView!.HitTest(arg);
+        if (_hurricaneLayer!.Id == createEvent.LayerGeoBlazorId)
+        {
+            _layerView = createEvent.LayerView;
+        }
+    }
+
+    private async Task OnPointerMove(PointerEvent pointerEvent)
+    {
+        if (_evaluatingPointer) return;
+        
+        _evaluatingPointer = true;
+        try
+        {
+            HitTestOptions options = new()
+            {
+                IncludeByGeoBlazorId = new[] { _hurricaneLayer!.Id }
+            };
+            HitTestResult result = await _mapView!.HitTest(pointerEvent, options);
+            Graphic? graphic = result.Results.OfType<GraphicHit>().FirstOrDefault()?.Graphic;
+            if (graphic?.Attributes != null)
+            {
+                graphic.Attributes.TryGetValue("NAME", out object? name);
+                string? newName = name?.ToString();
+                graphic.Attributes.TryGetValue("YEAR", out object? year);
+                string? newYear = year?.ToString();
+                if (newYear is null || newName is null) return;
+
+                graphic.Attributes.TryGetValue("CAT", out object? category);
+                _category = category?.ToString();
+                graphic.Attributes.TryGetValue("WIND_KTS", out object? wind);
+                _wind = wind?.ToString();
+
+                if (_highlightHandle is not null && (_name != newName || _year != newYear))
+                {
+                    await _highlightHandle.Remove();
+                    _highlightHandle = null;
+                    _evaluatingPointer = false;
+                    return;
+                }
+
+                if (_highlightHandle is not null)
+                {
+                    _evaluatingPointer = false;
+                    return;
+                }
+
+                Query layerQuery = await _layerView!.CreateQuery();
+                layerQuery.Where = $"YEAR = {newYear} AND NAME = '{newName}'";
+                int[] ids = await _layerView.QueryObjectIds(layerQuery);
+                if (_highlightHandle is not null)
+                {
+                    await _highlightHandle.Remove();
+                    _highlightHandle = null;
+                }
+                _highlightHandle = await _layerView!.Highlight(ids);
+                _year = newYear;
+                _name = newName;
+            }
+            else if (_highlightHandle is not null)
+            {
+                await _highlightHandle.Remove();
+                _highlightHandle = null;
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+        }
+        
+        _evaluatingPointer = false;
     }
 
     private MapView? _mapView;
-    private Point? _clickPoint;
-    private HitTestResult? _hitTestResult;
+    private FeatureLayer? _hurricaneLayer;
+    private string? _name;
+    private string? _category;
+    private string? _wind;
+    private string? _year;
+    private LayerView? _layerView;
+    private HighlightHandle? _highlightHandle;
+    private bool _evaluatingPointer;
 }
