@@ -1,7 +1,7 @@
 ---
 layout: page
 title: "Events and Property Changes"
-nav_order: 3
+nav_order: 4
 ---
 # Reacting to Events and Property Changes
 
@@ -147,3 +147,4 @@ private async Task<bool> AttachZoomWatcher()
     return await _view!.AwaitReactiveSingleWatchUpdate<bool>("view?.zoom > 20");
 }
 ```
+

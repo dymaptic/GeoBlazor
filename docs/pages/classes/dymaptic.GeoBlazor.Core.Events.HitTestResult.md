@@ -8,7 +8,7 @@ parent: Classes
 
 ## HitTestResult Class
 
-Object specification for the result of the [HitTest(ClickEvent)](dymaptic.GeoBlazor.Core.Components.Views.MapView.html#dymaptic.GeoBlazor.Core.Components.Views.MapView.HitTest(dymaptic.GeoBlazor.Core.Events.ClickEvent) 'dymaptic.GeoBlazor.Core.Components.Views.MapView.HitTest(dymaptic.GeoBlazor.Core.Events.ClickEvent)') method.  
+Object specification for the result of the [HitTest(ClickEvent, HitTestOptions)](dymaptic.GeoBlazor.Core.Components.Views.MapView.html#dymaptic.GeoBlazor.Core.Components.Views.MapView.HitTest(dymaptic.GeoBlazor.Core.Events.ClickEvent,dymaptic.GeoBlazor.Core.Events.HitTestOptions) 'dymaptic.GeoBlazor.Core.Components.Views.MapView.HitTest(dymaptic.GeoBlazor.Core.Events.ClickEvent, dymaptic.GeoBlazor.Core.Events.HitTestOptions)') method.  
 <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#HitTestResult">ArcGIS JS API</a>
 
 ```csharp
@@ -25,7 +25,7 @@ Implements [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/S
 
 ## HitTestResult(ViewHit[], ScreenPoint) Constructor
 
-Object specification for the result of the [HitTest(ClickEvent)](dymaptic.GeoBlazor.Core.Components.Views.MapView.html#dymaptic.GeoBlazor.Core.Components.Views.MapView.HitTest(dymaptic.GeoBlazor.Core.Events.ClickEvent) 'dymaptic.GeoBlazor.Core.Components.Views.MapView.HitTest(dymaptic.GeoBlazor.Core.Events.ClickEvent)') method.  
+Object specification for the result of the [HitTest(ClickEvent, HitTestOptions)](dymaptic.GeoBlazor.Core.Components.Views.MapView.html#dymaptic.GeoBlazor.Core.Components.Views.MapView.HitTest(dymaptic.GeoBlazor.Core.Events.ClickEvent,dymaptic.GeoBlazor.Core.Events.HitTestOptions) 'dymaptic.GeoBlazor.Core.Components.Views.MapView.HitTest(dymaptic.GeoBlazor.Core.Events.ClickEvent, dymaptic.GeoBlazor.Core.Events.HitTestOptions)') method.  
 <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#HitTestResult">ArcGIS JS API</a>
 
 ```csharp
@@ -45,6 +45,19 @@ An array of result objects returned from the hitTest(). Results are returned whe
 
 The screen coordinates (or native mouse event) of the click on the view.
 ### Properties
+
+<a name='dymaptic.GeoBlazor.Core.Events.HitTestResult.Ground'></a>
+
+## HitTestResult.Ground Property
+
+Ground intersection result, only applies to SceneViews. The ground hit result will always be returned, even if the ground was excluded from the hitTest.
+
+```csharp
+public dymaptic.GeoBlazor.Core.Events.GroundIntersectionResult? Ground { get; set; }
+```
+
+#### Property Value
+[GroundIntersectionResult](dymaptic.GeoBlazor.Core.Events.GroundIntersectionResult.html 'dymaptic.GeoBlazor.Core.Events.GroundIntersectionResult')
 
 <a name='dymaptic.GeoBlazor.Core.Events.HitTestResult.Results'></a>
 
