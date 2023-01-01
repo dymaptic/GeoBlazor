@@ -1,4 +1,5 @@
 ﻿using dymaptic.GeoBlazor.Core.Extensions;
+using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -133,7 +134,7 @@ public class Field: MapComponent
 /// <summary>
 ///     Potential types of Fields in a FeatureLayer
 /// </summary>
-[JsonConverter(typeof(FieldTypeConverter))]
+[JsonConverter(typeof(EnumToKebabCaseStringConverter<FieldType>))]
 public enum FieldType
 {
 #pragma warning disable CS1591
@@ -157,7 +158,7 @@ public enum FieldType
 /// <summary>
 ///     The types of values that can be assigned to a field.
 /// </summary>
-[JsonConverter(typeof(FieldValueTypeConverter))]
+[JsonConverter(typeof(EnumToKebabCaseStringConverter<FieldValueType>))]
 public enum FieldValueType
 {
 #pragma warning disable CS1591
@@ -175,34 +176,4 @@ public enum FieldValueType
     TypeOrCategory,
     UniqueIdentifier
 #pragma warning restore CS1591
-}
-
-internal class FieldTypeConverter : JsonConverter<FieldType>
-{
-    public override FieldType Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        throw new NotImplementedException();
-    }
-
-    public override void Write(Utf8JsonWriter writer, FieldType value, JsonSerializerOptions options)
-    {
-        string? stringVal = Enum.GetName(typeof(FieldType), value);
-        string kebabString = stringVal!.ToKebabCase();
-        writer.WriteRawValue($"\"{kebabString}\"");
-    }
-}
-
-internal class FieldValueTypeConverter : JsonConverter<FieldValueType>
-{
-    public override FieldValueType Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        throw new NotImplementedException();
-    }
-
-    public override void Write(Utf8JsonWriter writer, FieldValueType value, JsonSerializerOptions options)
-    {
-        string? stringVal = Enum.GetName(typeof(FieldValueType), value);
-        string kebabString = stringVal!.ToKebabCase();
-        writer.WriteRawValue($"\"{kebabString}\"");
-    }
 }

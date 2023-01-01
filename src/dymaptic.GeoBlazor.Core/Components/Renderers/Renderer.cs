@@ -1,7 +1,8 @@
-﻿using System.Text.Json;
+﻿using dymaptic.GeoBlazor.Core.Components.Layers;
+using dymaptic.GeoBlazor.Core.Serialization;
+using System.Text.Json;
 using System.Text.Json.Serialization;
-using dymaptic.GeoBlazor.Core.Components.Layers;
-using dymaptic.GeoBlazor.Core.Extensions;
+
 
 namespace dymaptic.GeoBlazor.Core.Components.Renderers;
 
@@ -39,26 +40,11 @@ internal class RendererConverter : JsonConverter<Renderer>
 /// <summary>
 ///     A collection of renderer types
 /// </summary>
-[JsonConverter(typeof(RendererTypeConverter))]
+[JsonConverter(typeof(EnumToKebabCaseStringConverter<RendererType>))]
 public enum RendererType
 {
 #pragma warning disable CS1591
     Simple,
     UniqueValue
 #pragma warning restore CS1591
-}
-
-internal class RendererTypeConverter : JsonConverter<RendererType>
-{
-    public override RendererType Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        throw new NotImplementedException();
-    }
-
-    public override void Write(Utf8JsonWriter writer, RendererType value, JsonSerializerOptions options)
-    {
-        string? stringVal = Enum.GetName(typeof(RendererType), value);
-        string resultString = stringVal!.ToKebabCase();
-        writer.WriteRawValue($"\"{resultString}\"");
-    }
 }

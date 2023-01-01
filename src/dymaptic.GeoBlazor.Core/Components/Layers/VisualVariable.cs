@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 using dymaptic.GeoBlazor.Core.Extensions;
+using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
 
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
@@ -92,7 +93,7 @@ public class LegendOptions : MapComponent
 /// <summary>
 ///     A collection of <see cref="VisualVariable"/> Types
 /// </summary>
-[JsonConverter(typeof(VisualVariableTypeConverter))]
+[JsonConverter(typeof(EnumToKebabCaseStringConverter<VisualVariableType>))]
 public enum VisualVariableType
 {
 #pragma warning disable CS1591
@@ -101,21 +102,6 @@ public enum VisualVariableType
 #pragma warning restore CS1591
 }
 
-internal class VisualVariableTypeConverter : JsonConverter<VisualVariableType>
-{
-    public override VisualVariableType Read(ref Utf8JsonReader reader, Type typeToConvert,
-        JsonSerializerOptions options)
-    {
-        throw new NotImplementedException();
-    }
-
-    public override void Write(Utf8JsonWriter writer, VisualVariableType value, JsonSerializerOptions options)
-    {
-        string? stringVal = Enum.GetName(typeof(VisualVariableType), value);
-        string resultString = stringVal!.ToLowerFirstChar();
-        writer.WriteRawValue($"\"{resultString}\"");
-    }
-}
 
 internal class VisualVariableConverter : JsonConverter<VisualVariable>
 {

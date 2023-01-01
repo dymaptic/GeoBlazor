@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 using dymaptic.GeoBlazor.Core.Extensions;
+using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
 
 namespace dymaptic.GeoBlazor.Core.Components.Symbols;
@@ -75,7 +76,7 @@ public class SimpleFillSymbol : FillSymbol
 /// <summary>
 ///     The possible fill style for the <see cref="SimpleFillSymbol"/>
 /// </summary>
-[JsonConverter(typeof(FillStyleConverter))]
+[JsonConverter(typeof(EnumToKebabCaseStringConverter<FillStyle>))]
 public enum FillStyle
 {
 #pragma warning disable CS1591
@@ -88,19 +89,4 @@ public enum FillStyle
     Solid,
     Vertical
 #pragma warning restore CS1591
-}
-
-internal class FillStyleConverter : JsonConverter<FillStyle>
-{
-    public override FillStyle Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        throw new NotImplementedException();
-    }
-
-    public override void Write(Utf8JsonWriter writer, FillStyle value, JsonSerializerOptions options)
-    {
-        string? stringVal = Enum.GetName(typeof(FillStyle), value);
-        string resultString = stringVal!.ToKebabCase();
-        writer.WriteRawValue($"\"{resultString}\"");
-    }
 }

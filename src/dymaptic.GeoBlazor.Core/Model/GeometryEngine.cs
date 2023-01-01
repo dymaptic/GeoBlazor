@@ -1,5 +1,6 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
 using dymaptic.GeoBlazor.Core.Objects;
+using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.JSInterop;
 using System.Text.Json;
@@ -871,7 +872,7 @@ public class GeometryEngine: LogicComponent
 /// <summary>
 ///     Join types for creating an offset geometry in <see cref="GeometryEngine"/>
 /// </summary>
-[JsonConverter(typeof(JoinTypeConverter))]
+[JsonConverter(typeof(EnumToKebabCaseStringConverter<JoinType>))]
 public enum JoinType
 {
 #pragma warning disable CS1591
@@ -880,18 +881,4 @@ public enum JoinType
     Miter,
     Square
 #pragma warning restore CS1591
-}
-
-internal class JoinTypeConverter : JsonConverter<JoinType>
-{
-    public override JoinType Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        throw new NotImplementedException();
-    }
-
-    public override void Write(Utf8JsonWriter writer, JoinType value, JsonSerializerOptions options)
-    {
-        string? stringVal = Enum.GetName(typeof(JoinType), value);
-        writer.WriteRawValue($"\"{stringVal?.ToLower()}\"");
-    }
 }

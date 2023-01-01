@@ -2,6 +2,7 @@
 using System.Text.Json.Serialization;
 using dymaptic.GeoBlazor.Core.Components.Popups;
 using dymaptic.GeoBlazor.Core.Components.Renderers;
+using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System.Text.Json;
@@ -422,25 +423,11 @@ public class OrderedLayerOrderBy: MapComponent
 /// <summary>
 ///     The sort order options for <see cref="OrderedLayerOrderBy"/>
 /// </summary>
-[JsonConverter(typeof(SortOrderConverter))]
+[JsonConverter(typeof(EnumToKebabCaseStringConverter<SortOrder>))]
 public enum SortOrder
 {
 #pragma warning disable CS1591
     Ascending,
     Descending
 #pragma warning restore CS1591
-}
-
-internal class SortOrderConverter : JsonConverter<SortOrder>
-{
-    public override SortOrder Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        throw new NotImplementedException();
-    }
-
-    public override void Write(Utf8JsonWriter writer, SortOrder value, JsonSerializerOptions options)
-    {
-        string? stringVal = Enum.GetName(typeof(SortOrder), value);
-        writer.WriteRawValue($"\"{stringVal?.ToLower()}\"");
-    }
 }
