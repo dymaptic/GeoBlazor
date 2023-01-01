@@ -14,6 +14,7 @@ export interface MapCollection extends __esri.Collection {
 export interface DotNetGraphic {
     uid: string;
     geometry: any;
+    attributes: any;
 }
 
 export interface DotNetFeature {
@@ -106,4 +107,38 @@ export interface DotNetLayerView {
     suspended: boolean;
     updating: boolean;
     visible: boolean;
+}
+
+export interface DotNetHitTestResult {
+    results: DotNetViewHit[];
+    screenPoint: { x: number, y: number };
+}
+
+export interface DotNetViewHit {
+    type: string;
+    mapPoint: DotNetPoint;
+}
+
+export interface DotNetGraphicHit extends DotNetViewHit {
+    graphic: DotNetGraphic;
+    layer: DotNetLayer;
+}
+
+export interface DotNetLayer {
+    fullExtent: DotNetExtent;
+    id: string;
+    title: string;
+    type: string;
+    visible: boolean;
+    opacity: number;
+    listMode: string;
+}
+
+export interface DotNetHitTestOptions {
+    includeByGeoBlazorId: Array<string> | null,
+    excludeByGeoBlazorId: Array<string> | null,
+    includeLayersByArcGISId: Array<string> | null,
+    excludeLayersByArcGISId: Array<string> | null,
+    includeGraphicsByArcGISId: Array<string> | null,
+    excludeGraphicsByArcGISId: Array<string> | null
 }

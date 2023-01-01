@@ -7,7 +7,7 @@ namespace dymaptic.GeoBlazor.Core.Sample.Maui;
 
 public partial class MainPage
 {
-    private void OnBlazorWebViewInitialized(object sender, BlazorWebViewInitializedEventArgs e)
+    private void OnBlazorWebViewInitialized(object? sender, BlazorWebViewInitializedEventArgs e)
     {
         if (e.WebView.Context?.GetActivity() is not ComponentActivity activity)
         {
@@ -16,6 +16,8 @@ public partial class MainPage
 
         e.WebView.Settings.SetGeolocationEnabled(true);
         e.WebView.Settings.SetGeolocationDatabasePath(e.WebView.Context?.FilesDir?.Path);
+#pragma warning disable CA1416
         e.WebView.SetWebChromeClient(new PermissionManagingBlazorWebChromeClient(e.WebView.WebChromeClient!, activity));
+#pragma warning restore CA1416
     }
 }

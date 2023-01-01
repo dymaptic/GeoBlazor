@@ -53,7 +53,10 @@ import {
     buildDotNetFeature,
     buildDotNetGraphic,
     buildDotNetPoint,
-    buildDotNetGeometry, buildDotNetSpatialReference, buildDotNetLayerView
+    buildDotNetGeometry,
+    buildDotNetSpatialReference,
+    buildDotNetLayerView,
+    buildDotNetHitTestResult, buildDotNetLayer
 } from "./dotNetBuilder";
 
 import {
@@ -61,16 +64,20 @@ import {
     buildJsRenderer,
     buildJsSpatialReference,
     buildJsPopupTemplate,
-    buildJsGraphic, buildJsGeometry, buildJsPoint
+    buildJsGraphic, buildJsGeometry, buildJsPoint, buildJsViewClickEvent
 } from "./jsBuilder";
 import {
     DotNetExtent,
     DotNetGeometry,
-    DotNetGraphic, DotNetListItem, 
+    DotNetGraphic, DotNetHitTestOptions,
+    DotNetHitTestResult,
+    DotNetListItem,
     DotNetPoint,
     DotNetSpatialReference,
     MapCollection
 } from "./definitions";
+import HitTestResult = __esri.HitTestResult;
+import MapViewHitTestOptions = __esri.MapViewHitTestOptions;
 
 export let arcGisObjectRefs: Record<string, Accessor> = {};
 export let dotNetRefs = {};
@@ -88,7 +95,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
                                    apiKey: string, mapType: string, widgets: any, graphics: any, 
                                    spatialReference: any, constraints: any, extent: any, 
                                    eventRateLimitInMilliseconds: number | null, activeEventHandlers: Array<string>,
-                                   zIndex?: number, tilt?: number)
+                                   highlightOptions?: any | null, zIndex?: number, tilt?: number)
     : Promise<void> {
     console.debug("render map");
     try {
@@ -217,6 +224,10 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
         arcGisObjectRefs[id] = view;
         waitForRender(id, dotNetRef);
 
+        if (hasValue(highlightOptions)) {
+            (view as MapView).highlightOptions = highlightOptions;
+        }
+        
         if (hasValue(mapObject.layers)) {
             for (const layerObject of mapObject.layers) {
                 await addLayer(layerObject, id);
@@ -353,12 +364,21 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
             dotNetRef.invokeMethodAsync('OnJavascriptKeyUp', evt);
         });
     }
-    
-    if (activeEventHandlers.includes('OnLayerViewCreate')) {
-        view.on('layerview-create', (evt) => {
-            dotNetRef.invokeMethodAsync('OnJavascriptLayerViewCreate', evt);
-        });
-    }
+
+    view.on('layerview-create', (evt) => {
+        // find objectRef id by layer
+        let layerGeoBlazorId = Object.keys(arcGisObjectRefs).find(key => arcGisObjectRefs[key] === evt.layer);
+        let result = {
+            // @ts-ignore
+            layerObjectRef: DotNet.createJSObjectReference(evt.layer),
+            // @ts-ignore
+            layerViewObjectRef: DotNet.createJSObjectReference(evt.layerView),
+            layerView: buildDotNetLayerView(evt.layerView),
+            layer: buildDotNetLayer(evt.layer),
+            layerGeoBlazorId: layerGeoBlazorId
+        }
+        dotNetRef.invokeMethodAsync('OnJavascriptLayerViewCreate', result);
+    });
 
     if (activeEventHandlers.includes('OnLayerViewCreateError')) {
         view.on('layerview-create-error', (evt) => {
@@ -412,6 +432,38 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
         lastExtentChangeCall = now;
         dotNetRef.invokeMethodAsync('OnJavascriptExtentChanged', buildDotNetExtent((view as MapView).extent));
     });
+}
+
+export async function hitTest(pointObject: any, eventId: string | null, viewId: string, returnValue: boolean,
+    isEvent: boolean, options: DotNetHitTestOptions | null) : Promise<DotNetHitTestResult | void> {
+    let view = arcGisObjectRefs[viewId] as MapView;
+    let result: HitTestResult;
+    let screenPoint = isEvent ? pointObject : { x: pointObject.x, y: pointObject.y };
+    
+    if (options !== null) {
+        let hitOptions = buildHitTestOptions(options, view);
+        result = await view.hitTest(screenPoint, hitOptions);
+    }
+    else {
+        result = await view.hitTest(screenPoint);
+    }
+    
+    let dotNetResult = buildDotNetHitTestResult(result);
+    if (returnValue) {
+        return dotNetResult;
+    }
+
+    let dotNetRef = dotNetRefs[viewId];
+    let jsonResult = JSON.stringify(dotNetResult);
+    // return dotNetResult in small chunks to avoid memory issues in Blazor Server
+    // SignalR has a maximum message size of 32KB
+    // https://github.com/dotnet/aspnetcore/issues/23179
+    let chunkSize = 100;
+    let chunks = Math.ceil(jsonResult.length / chunkSize);
+    for (let i = 0; i < chunks; i++) {
+        let chunk = jsonResult.slice(i * chunkSize, (i + 1) * chunkSize);
+        await dotNetRef.invokeMethodAsync('OnJavascriptHitTestResult', eventId, chunk);
+    }
 }
 
 export function disposeView(viewId: string): void {
@@ -1261,7 +1313,13 @@ function waitForRender(viewId: string, dotNetRef: any): void {
             }
             if (!view.updating && !isRendered) {
                 console.debug("View Render Complete");
-                dotNetRef.invokeMethodAsync('OnViewRendered');
+                try {
+                    dotNetRef.invokeMethodAsync('OnViewRendered');    
+                }
+                catch
+                {
+                    // we must be disconnected
+                }
                 isRendered = true;
             } else if (isRendered && view.updating) {
                 isRendered = false;
@@ -1374,4 +1432,50 @@ export function addReactiveWaiter(targetId: string, targetName: string, watchExp
 export function setVisibility(componentId: string, visible: boolean) : void {
     let component : any = arcGisObjectRefs[componentId];
     component.visible = visible;
+}
+
+function buildHitTestOptions(options: DotNetHitTestOptions, view: MapView) : MapViewHitTestOptions {
+    let hitOptions: MapViewHitTestOptions = {};
+    let hitIncludeOptions: Array<any> = [];
+    let hitExcludeOptions: Array<any> = [];
+    let layers = (view.map.layers as MapCollection).items as Array<Layer>;
+    let graphicsLayers = layers.filter(l => l.type === "graphics") as Array<GraphicsLayer>;
+    
+    if (options.includeByGeoBlazorId !== null) {
+        let gbInclude = options.includeByGeoBlazorId.map(i => arcGisObjectRefs[i]);
+        hitIncludeOptions = hitIncludeOptions.concat(gbInclude);
+    }
+    if (options.excludeByGeoBlazorId !== null) {
+        let gbExclude = options.excludeByGeoBlazorId.map(i => arcGisObjectRefs[i]);
+        hitExcludeOptions = hitExcludeOptions.concat(gbExclude);
+    }
+    if (options.includeLayersByArcGISId !== null) {
+        let layerInclude = layers.filter(l => options.includeLayersByArcGISId!.includes(l.id));
+        hitIncludeOptions = hitIncludeOptions.concat(layerInclude);
+    }
+    if (options.excludeLayersByArcGISId !== null) {
+        let layerExclude = layers.filter(l => options.excludeLayersByArcGISId!.includes(l.id));
+        hitExcludeOptions = hitExcludeOptions.concat(layerExclude);
+    }
+    if (options.includeGraphicsByArcGISId !== null) {
+        let graphicInclude = options.includeGraphicsByArcGISId.map(i => 
+            view.graphics.find(g => g.attributes['OBJECTID'] == i) ||
+            graphicsLayers.map(l => l.graphics.find(g => g.attributes['OBJECTID'] == i)));
+        hitIncludeOptions = hitIncludeOptions.concat(graphicInclude);
+    }
+    if (options.excludeGraphicsByArcGISId !== null) {
+        let graphicExclude = options.excludeGraphicsByArcGISId.map(i =>
+            view.graphics.find(g => g.attributes['OBJECTID'] == i) ||
+            graphicsLayers.map(l => l.graphics.find(g => g.attributes['OBJECTID'] == i)));
+        hitExcludeOptions = hitExcludeOptions.concat(graphicExclude);
+    }
+    
+    if (hitIncludeOptions.length > 0) {
+        hitOptions.include = hitIncludeOptions;
+    }
+    if (hitExcludeOptions.length > 0) {
+        hitOptions.exclude = hitExcludeOptions;
+    }
+    
+    return hitOptions;
 }

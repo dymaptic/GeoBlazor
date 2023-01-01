@@ -9,7 +9,7 @@ internal static class Licensing
     {
         try
         {
-            Assembly interactiveAssembly = Assembly.Load("dymaptic.GeoBlazor.Interactive");
+            Assembly unused = Assembly.Load("dymaptic.GeoBlazor.Interactive");
             return LicenseType.Interactive;
         }
         catch

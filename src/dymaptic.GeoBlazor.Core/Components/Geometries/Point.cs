@@ -129,7 +129,8 @@ public class Point : Geometry
         if (ReferenceEquals(null, other)) return false;
         if (ReferenceEquals(this, other)) return true;
 
-        return base.Equals(other) && Latitude.Equals(other.Latitude) && Longitude.Equals(other.Longitude);
+        return Latitude.Equals(other.Latitude) && Longitude.Equals(other.Longitude) &&
+               X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z);
     }
 
     /// <inheritdoc />

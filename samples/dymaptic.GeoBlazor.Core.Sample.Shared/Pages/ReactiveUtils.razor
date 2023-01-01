@@ -321,7 +321,7 @@ else
 
     private void LayerWatchHandler(ViewableLayer[]? values)
     {
-        _layers = values?.Where(l => l.Title is not null).Select(l => l!.Title!).ToArray();
+        _layers = values?.Where(l => l.Title is not null).Select(l => l.Title).ToArray();
         StateHasChanged();
     }
 
