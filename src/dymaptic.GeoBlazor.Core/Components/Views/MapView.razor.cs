@@ -632,17 +632,34 @@ public partial class MapView : MapComponent
     ///     The new <see cref="LayerViewCreateEvent"/>
     /// </param>
     [JSInvokable]
-    public async Task OnJavascriptLayerViewCreate(LayerViewCreateEvent layerViewCreateEvent)
+    public async Task OnJavascriptLayerViewCreate(LayerViewCreateInternalEvent layerViewCreateEvent)
     {
-        LayerView layerView = layerViewCreateEvent.LayerView;
+        LayerView layerView = layerViewCreateEvent.Layer switch
+        {
+            FeatureLayer => new FeatureLayerView(layerViewCreateEvent.LayerView),
+            _ => layerViewCreateEvent.LayerView
+        };
+
         layerView.JsObjectReference = layerViewCreateEvent.LayerViewObjectRef;
+        
         Layer? createdLayer = Map?.Layers.FirstOrDefault(l => l.Id == layerViewCreateEvent.LayerGeoBlazorId);
         if (createdLayer != null)
         {
             createdLayer.LayerView = layerViewCreateEvent.LayerView;
             createdLayer.JsObjectReference = layerViewCreateEvent.LayerObjectRef;
+            if (createdLayer is FeatureLayer featureLayer)
+            {
+                await featureLayer.UpdateFromJavaScript((FeatureLayer)layerViewCreateEvent.Layer);
+            }
+
+            layerView.Layer = createdLayer;
         }
-        await OnLayerViewCreate.InvokeAsync(layerViewCreateEvent);
+        else
+        {
+            layerView.Layer = layerViewCreateEvent.Layer;
+        }
+        
+        await OnLayerViewCreate.InvokeAsync(new LayerViewCreateEvent(layerView.Layer, layerView));
     }
 
     /// <summary>

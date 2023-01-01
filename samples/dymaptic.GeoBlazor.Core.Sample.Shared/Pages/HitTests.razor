@@ -45,9 +45,9 @@
     
     private void OnLayerViewCreate(LayerViewCreateEvent createEvent)
     {
-        if (_hurricaneLayer!.Id == createEvent.LayerGeoBlazorId)
+        if (_hurricaneLayer!.Id == createEvent.Layer.Id)
         {
-            _layerView = createEvent.LayerView;
+            _layerView = createEvent.LayerView as FeatureLayerView;
         }
     }
 
@@ -123,7 +123,7 @@
     private string? _category;
     private string? _wind;
     private string? _year;
-    private LayerView? _layerView;
+    private FeatureLayerView? _layerView;
     private HighlightHandle? _highlightHandle;
     private bool _evaluatingPointer;
 }

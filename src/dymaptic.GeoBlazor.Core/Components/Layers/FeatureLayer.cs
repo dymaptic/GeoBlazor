@@ -211,6 +211,76 @@ public class FeatureLayer : Layer
         return UnregisterChildComponent(field);
     }
 
+    public async Task UpdateFromJavaScript(FeatureLayer renderedLayer)
+    {
+        Url = renderedLayer.Url;
+        // Source = renderedLayer.Source;
+        if (renderedLayer.Fields is not null && renderedLayer.Fields.Any())
+        {
+            Fields = renderedLayer.Fields;
+        }
+
+        if (renderedLayer.DefinitionExpression is not null)
+        {
+            DefinitionExpression = renderedLayer.DefinitionExpression;
+        }
+        
+        if (renderedLayer.OutFields is not null && renderedLayer.OutFields.Any())
+        {
+            OutFields = renderedLayer.OutFields;
+        }
+        
+        if (renderedLayer.MinScale is not null)
+        {
+            MinScale = renderedLayer.MinScale;
+        }
+        
+        if (renderedLayer.MaxScale is not null)
+        {
+            MaxScale = renderedLayer.MaxScale;
+        }
+        
+        if (renderedLayer.ObjectIdField is not null)
+        {
+            ObjectIdField = renderedLayer.ObjectIdField;
+        }
+        
+        if (renderedLayer.GeometryType is not null)
+        {
+            GeometryType = renderedLayer.GeometryType;
+        }
+        
+        if (renderedLayer.OrderBy is not null && renderedLayer.OrderBy.Any())
+        {
+            OrderBy = renderedLayer.OrderBy;
+        }
+        
+        if (renderedLayer.PopupTemplate is not null)
+        {
+            PopupTemplate = renderedLayer.PopupTemplate;
+        }
+        
+        if (renderedLayer.LabelingInfo.Any())
+        {
+            LabelingInfo = renderedLayer.LabelingInfo;
+        }
+        
+        if (renderedLayer.Renderer is not null)
+        {
+            Renderer = renderedLayer.Renderer;
+        }
+        
+        if (renderedLayer.PortalItem is not null)
+        {
+            PortalItem = renderedLayer.PortalItem;
+        }
+        
+        if (renderedLayer.SpatialReference is not null)
+        {
+            SpatialReference = renderedLayer.SpatialReference;
+        }
+    }
+
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
     {

@@ -8,27 +8,63 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 ///     Represents the view for a single layer after it has been added to either a MapView or a SceneView.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html">ArcGIS JS API</a>
 /// </summary>
-/// <param name="Layer">
-///     The layer being viewed.
-/// </param>
+
 /// <param name="SpatialReferenceSupported">
-///     Indicates if the spatialReference of the MapView is supported by the layer view.
+///     
 /// </param>
 /// <param name="Suspended">
 ///     Value is true if the layer is suspended (i.e., layer will not redraw or update itself when the extent changes).
 /// </param>
 /// <param name="Updating">
-///     Value is true when the layer is updating; for example, if it is in the process of fetching data.
+///     
 /// </param>
 /// <param name="Visible">
-///     Value is true when the layer is updating; for example, if it is in the process of fetching data.
+///     
 /// </param>
-public record LayerView(Layer Layer, bool SpatialReferenceSupported, bool Suspended, bool Updating, bool Visible)
+public class LayerView
 {
+    /// <summary>
+    ///     The layer being viewed.
+    /// </summary>
+    public Layer Layer { get; set; }
+    
     /// <summary>
     ///    The JavaScript object reference used by the LayerView.
     /// </summary>
     public IJSObjectReference? JsObjectReference { get; set; }
+    
+    /// <summary>
+    ///     Indicates if the spatialReference of the MapView is supported by the layer view.
+    /// </summary>
+    public bool SpatialReferenceSupported { get; init; }
+    
+    /// <summary>
+    ///     Value is true if the layer is suspended (i.e., layer will not redraw or update itself when the extent changes).
+    /// </summary>
+    public bool Suspended { get; init; }
+    
+    /// <summary>
+    ///     Value is true when the layer is updating; for example, if it is in the process of fetching data.
+    /// </summary>
+    public bool Updating { get; init; }
+    
+    /// <summary>
+    ///     Value is true when the layer is updating; for example, if it is in the process of fetching data.
+    /// </summary>
+    public bool Visible { get; init; }
+}
+
+public class FeatureLayerView: LayerView
+{
+    public FeatureLayerView(LayerView layerView)
+    {
+        Layer = layerView.Layer;
+        JsObjectReference = layerView.JsObjectReference;
+        SpatialReferenceSupported = layerView.SpatialReferenceSupported;
+        Suspended = layerView.Suspended;
+        Updating = layerView.Updating;
+        Visible = layerView.Visible;
+    }
     
     /// <summary>
     ///    Highlights the given feature(s).

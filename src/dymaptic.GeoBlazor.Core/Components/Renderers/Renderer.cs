@@ -22,9 +22,30 @@ public abstract class Renderer : LayerObject
 
 internal class RendererConverter : JsonConverter<Renderer>
 {
-    public override Renderer Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    public override Renderer? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        throw new NotImplementedException();
+        var newOptions = new JsonSerializerOptions(options)
+        {
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+        };
+        Utf8JsonReader cloneReader = reader;
+        if (JsonSerializer.Deserialize<Dictionary<string, object?>>(ref reader, newOptions) is not IDictionary<string, object?> temp)
+        {
+            return null;
+        }
+
+        if (temp.ContainsKey("type"))
+        {
+            switch (temp["type"]?.ToString())
+            {
+                case "simple":
+                    return JsonSerializer.Deserialize<SimpleRenderer>(ref cloneReader, newOptions);
+                case "unique-value":
+                    return JsonSerializer.Deserialize<UniqueValueRenderer>(ref cloneReader, newOptions);
+            }
+        }
+
+        return null;
     }
 
     public override void Write(Utf8JsonWriter writer, Renderer value, JsonSerializerOptions options)

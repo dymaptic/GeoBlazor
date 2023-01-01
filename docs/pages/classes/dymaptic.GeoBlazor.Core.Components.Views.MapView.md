@@ -1256,20 +1256,20 @@ The [KeyUpEvent](dymaptic.GeoBlazor.Core.Events.KeyUpEvent.html 'dymaptic.GeoBla
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
 
-<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptLayerViewCreate(dymaptic.GeoBlazor.Core.Events.LayerViewCreateEvent)'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptLayerViewCreate(dymaptic.GeoBlazor.Core.Events.LayerViewCreateInternalEvent)'></a>
 
-## MapView.OnJavascriptLayerViewCreate(LayerViewCreateEvent) Method
+## MapView.OnJavascriptLayerViewCreate(LayerViewCreateInternalEvent) Method
 
 JS-Invokable method to return when a layer view is created.
 
 ```csharp
-public System.Threading.Tasks.Task OnJavascriptLayerViewCreate(dymaptic.GeoBlazor.Core.Events.LayerViewCreateEvent layerViewCreateEvent);
+public System.Threading.Tasks.Task OnJavascriptLayerViewCreate(dymaptic.GeoBlazor.Core.Events.LayerViewCreateInternalEvent layerViewCreateEvent);
 ```
 #### Parameters
 
-<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptLayerViewCreate(dymaptic.GeoBlazor.Core.Events.LayerViewCreateEvent).layerViewCreateEvent'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptLayerViewCreate(dymaptic.GeoBlazor.Core.Events.LayerViewCreateInternalEvent).layerViewCreateEvent'></a>
 
-`layerViewCreateEvent` [LayerViewCreateEvent](dymaptic.GeoBlazor.Core.Events.LayerViewCreateEvent.html 'dymaptic.GeoBlazor.Core.Events.LayerViewCreateEvent')
+`layerViewCreateEvent` [LayerViewCreateInternalEvent](dymaptic.GeoBlazor.Core.Events.LayerViewCreateInternalEvent.html 'dymaptic.GeoBlazor.Core.Events.LayerViewCreateInternalEvent')
 
 The new [LayerViewCreateEvent](dymaptic.GeoBlazor.Core.Events.LayerViewCreateEvent.html 'dymaptic.GeoBlazor.Core.Events.LayerViewCreateEvent')
 

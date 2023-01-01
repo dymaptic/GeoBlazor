@@ -8,7 +8,8 @@ internal class EnumToKebabCaseStringConverter<T> : JsonConverter<T> where T : no
 {
     public override T Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        throw new NotImplementedException();
+        string? value = reader.GetString()?.Replace("-", string.Empty);
+        return value is not null ? (T)Enum.Parse(typeof(T), value, true) : default!;
     }
 
     public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
