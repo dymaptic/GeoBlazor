@@ -2,6 +2,7 @@
 using System.Text.Json.Serialization;
 using dymaptic.GeoBlazor.Core.Components.Popups;
 using dymaptic.GeoBlazor.Core.Components.Renderers;
+using dymaptic.GeoBlazor.Core.Objects;
 using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -455,49 +456,114 @@ public class FeatureLayer : Layer
             await JsModule!.InvokeVoidAsync("updateFeatureLayer", (object)this, View!.Id);
         });
     }
+
+    /// <summary>
+    ///     Creates query parameter object that can be used to fetch features that satisfy the layer's configurations such as definitionExpression, gdbVersion, and historicMoment. It will return Z and M values based on the layer's data capabilities. It sets the query parameter's outFields property to ["*"]. The results will include geometries of features and values for all available fields for client-side queries or all fields in the layer for server side queries.
+    /// </summary>
+    public async Task<Query> CreateQuery()
+    {
+        return await JsObjectReference!.InvokeAsync<Query>("createQuery");
+    }
     
+    /// <summary>
+    ///     Executes a Query against the feature service and returns the Extent of features that satisfy the query. If no parameters are specified, then the extent and count of all features satisfying the layer's configuration/filters are returned.
+    ///     To query for the extent of features/graphics available to or visible in the View on the client rather than making a server-side query, you must use the <see cref="FeatureLayerView.QueryExtent"/> method.
+    /// </summary>
+    /// <param name="query">
+    ///     Specifies the attributes and spatial filter of the query. If no parameters are specified, then the extent and count of all features satisfying the layer's configuration/filters are returned.
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     A cancellation token that can be used to cancel the query operation.
+    /// </param>
+    public async Task<ExtentQueryResult> QueryExtent(Query? query = null, CancellationToken cancellationToken = default)
+    {
+        IJSObjectReference abortSignal = await AbortManager.CreateAbortSignal(cancellationToken);
+        ExtentQueryResult result = await JsObjectReference!.InvokeAsync<ExtentQueryResult>("queryExtent", 
+            cancellationToken, query, new {signal = abortSignal});
+
+        await AbortManager.DisposeAbortController(cancellationToken);
+        return result;
+    }
+
+    /// <summary>
+    ///     Executes a Query against the feature service and returns the number of features that satisfy the query. If no parameters are specified, the total number of features satisfying the layer's configuration/filters is returned.
+    ///     To query for the count of features/graphics available to or visible in the View on the client rather than making a server-side query, you must use the <see cref="FeatureLayerView.QueryFeatureCount"/> method.
+    /// </summary>
+    /// <param name="query">
+    ///     Specifies the attributes and spatial filter of the query. If no parameters are specified, the total number of features satisfying the layer's configuration/filters is returned.
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     A cancellation token that can be used to cancel the query operation.
+    /// </param>
+    /// <returns></returns>
+    public async Task<int> QueryFeatureCount(Query? query = null, CancellationToken cancellationToken = default)
+    {
+        IJSObjectReference abortSignal = await AbortManager.CreateAbortSignal(cancellationToken);
+        int result = await JsObjectReference!.InvokeAsync<int>("queryFeatureCount", cancellationToken, 
+            query, new {signal = abortSignal});
+        
+        await AbortManager.DisposeAbortController(cancellationToken);
+
+        return result;
+    }
+    
+    /// <summary>
+    ///     Executes a Query against the feature service and returns the number of features that satisfy the query. If no parameters are specified, the total number of features satisfying the layer's configuration/filters is returned.
+    ///     To query for the count of features/graphics available to or visible in the View on the client rather than making a server-side query, you must use the <see cref="FeatureLayerView.QueryFeatureCount"/> method.
+    /// </summary>
+    /// <param name="query">
+    ///     Specifies the attributes and spatial filter of the query. If no parameters are specified, the total number of features satisfying the layer's configuration/filters is returned.
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     A cancellation token that can be used to cancel the query operation.
+    /// </param>
+    /// <returns></returns>
+    public async Task<FeatureSet> QueryFeatures(Query? query = null, CancellationToken cancellationToken = default)
+    {
+        IJSObjectReference abortSignal =
+            await AbortManager.CreateAbortSignal(cancellationToken);
+        FeatureSet result = await JsObjectReference!.InvokeAsync<FeatureSet>("queryFeatures", cancellationToken, 
+            query, new {signal = abortSignal});
+
+        await AbortManager.DisposeAbortController(cancellationToken);
+
+        return result;
+    }
+
+    /// <summary>
+    ///     Executes a Query against the feature service and returns an array of Object IDs for features that satisfy the input query. If no parameters are specified, then the Object IDs of all features satisfying the layer's configuration/filters are returned.
+    ///     To query for ObjectIDs of features/graphics available to or visible in the View on the client rather than making a server-side query, you must use the <see cref="FeatureLayerView.QueryObjectIds"/> method.
+    /// </summary>
+    /// <param name="query">
+    ///     Specifies the attributes and spatial filter of the query. If no parameters are specified, then the Object IDs of all features satisfying the layer's configuration/filters are returned.
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     A cancellation token that can be used to cancel the query operation.
+    /// </param>
+    public async Task<int[]> QueryObjectIds(Query query, CancellationToken cancellationToken = default)
+    {
+        IJSObjectReference abortSignal = await AbortManager.CreateAbortSignal(cancellationToken);
+        
+        int[] queryResult = await JsObjectReference!.InvokeAsync<int[]>("queryObjectIds", cancellationToken,
+            query, new {signal = abortSignal});
+
+        await AbortManager.DisposeAbortController(cancellationToken);
+
+        return queryResult;
+    }
+
     private string? _definitionExpression;
     private HashSet<Graphic>? _source;
     private HashSet<Field>? _fields;
 }
 
-
 /// <summary>
-///     Determines the order in which features are drawn in the view.
+///    The return type for <see cref="FeatureLayer.QueryExtent"/>.
 /// </summary>
-public class OrderedLayerOrderBy: MapComponent
-{
-    /// <summary>
-    ///     The number or date field whose values will be used to sort features.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? Field { get; set; }
-    
-    
-    /// <summary>
-    ///     An [Arcade](https://developers.arcgis.com/javascript/latest/arcade/) expression following the specification defined by the [Arcade Feature Z Profile](https://developers.arcgis.com/javascript/latest/arcade/#feature-sorting).
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? ValueExpression { get; set; }
-    
-    /// <summary>
-    ///     The sort order
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public SortOrder? Order { get; set; }
-}
-
-/// <summary>
-///     The sort order options for <see cref="OrderedLayerOrderBy"/>
-/// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<SortOrder>))]
-public enum SortOrder
-{
-#pragma warning disable CS1591
-    Ascending,
-    Descending
-#pragma warning restore CS1591
-}
+/// <param name="Count">
+///     The number of features that satisfy the input query.
+/// </param>
+/// <param name="Extent">
+///     The extent of features that satisfy the query.
+/// </param>
+public record ExtentQueryResult(int Count, Extent Extent);

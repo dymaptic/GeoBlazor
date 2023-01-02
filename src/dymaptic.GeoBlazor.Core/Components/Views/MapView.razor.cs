@@ -42,6 +42,12 @@ public partial class MapView : MapComponent
     public IJSRuntime JsRuntime { get; set; } = default!;
 
     /// <summary>
+    ///     Handles conversion from .NET CancellationToken to JavaScript AbortController
+    /// </summary>
+    [Inject]
+    public AbortManager AbortManager { get; set; } = default!;
+
+    /// <summary>
     ///     Inline css styling attribute
     /// </summary>
     [Parameter]
@@ -636,7 +642,7 @@ public partial class MapView : MapComponent
     {
         LayerView layerView = layerViewCreateEvent.Layer switch
         {
-            FeatureLayer => new FeatureLayerView(layerViewCreateEvent.LayerView),
+            FeatureLayer => new FeatureLayerView(layerViewCreateEvent.LayerView, AbortManager),
             _ => layerViewCreateEvent.LayerView
         };
 
@@ -647,6 +653,7 @@ public partial class MapView : MapComponent
         {
             createdLayer.LayerView = layerViewCreateEvent.LayerView;
             createdLayer.JsObjectReference = layerViewCreateEvent.LayerObjectRef;
+            createdLayer.AbortManager = AbortManager;
             if (createdLayer is FeatureLayer featureLayer)
             {
                 await featureLayer.UpdateFromJavaScript((FeatureLayer)layerViewCreateEvent.Layer);

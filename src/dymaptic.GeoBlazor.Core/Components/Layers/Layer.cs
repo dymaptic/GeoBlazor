@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using dymaptic.GeoBlazor.Core.Objects;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -50,6 +51,18 @@ public abstract class Layer : MapComponent
     /// </summary>
     [JsonIgnore]
     public IJSObjectReference? JsObjectReference { get; set; }
+    
+    /// <inheritdoc />
+    public override async ValueTask DisposeAsync()
+    {
+        await AbortManager.DisposeAsync();
+        await base.DisposeAsync();
+    }
+    
+    /// <summary>
+    ///     Handles conversion from .NET CancellationToken to JavaScript AbortController
+    /// </summary>
+    public AbortManager AbortManager { get; set; }
 }
 
 internal class LayerConverter : JsonConverter<Layer>
