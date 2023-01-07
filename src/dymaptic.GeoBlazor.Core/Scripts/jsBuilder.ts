@@ -21,6 +21,9 @@ import {
     DotNetSpatialReference
 } from "./definitions";
 import ViewClickEvent = __esri.ViewClickEvent;
+import Popup from "@arcgis/core/widgets/Popup";
+import LayerInfo = __esri.LayerInfo;
+import PopupOpenOptions = __esri.PopupOpenOptions;
 
 export function buildJsSpatialReference(dotNetSpatialReference: DotNetSpatialReference): SpatialReference {
     if (dotNetSpatialReference === undefined || dotNetSpatialReference === null) {
@@ -237,6 +240,134 @@ export function buildJsViewClickEvent(dotNetClickEvent: any): ViewClickEvent {
         buttons: dotNetClickEvent.buttons,
         timestamp: dotNetClickEvent.timestamp
     } as ViewClickEvent
+}
+
+export function buildJsPopup(dotNetPopup: any) : Popup {
+    let popup = new Popup();
+    
+    if (dotNetPopup.stringContent !== undefined && dotNetPopup.stringContent !== null) {
+        popup.content = dotNetPopup.stringContent;
+    }
+    
+    if (dotNetPopup.actions !== undefined && dotNetPopup.actions !== null) {
+        popup.actions = dotNetPopup.actions;
+    }
+    
+    if (dotNetPopup.title !== undefined && dotNetPopup.title !== null) {
+        popup.title = dotNetPopup.title;
+    }
+    
+    if (dotNetPopup.location !== undefined && dotNetPopup.location !== null) {
+        popup.location = buildJsPoint(dotNetPopup.location) as Point;
+    }
+    
+    if (dotNetPopup.visible !== undefined && dotNetPopup.visible !== null) {
+        popup.visible = dotNetPopup.visible;
+    }
+    
+    if (dotNetPopup.dockEnabled !== undefined && dotNetPopup.dockEnabled !== null) {
+        popup.dockEnabled = dotNetPopup.dockEnabled;
+    }
+    
+    if (dotNetPopup.dockOptions !== undefined && dotNetPopup.dockOptions !== null) {
+        popup.dockOptions = dotNetPopup.dockOptions;
+    }
+    
+    if (dotNetPopup.features !== undefined && dotNetPopup.features !== null) {
+        popup.features = dotNetPopup.features.forEach(f => buildJsGraphic(f));
+    }
+    
+    if (dotNetPopup.alignment !== undefined && dotNetPopup.alignment !== null) {
+        popup.alignment = dotNetPopup.alignment;
+    }
+    
+    if (dotNetPopup.autoCloseEnabled !== undefined && dotNetPopup.autoCloseEnabled !== null) {
+        popup.autoCloseEnabled = dotNetPopup.autoCloseEnabled;
+    }
+    
+    if (dotNetPopup.autoOpenEnabled !== undefined && dotNetPopup.autoOpenEnabled !== null) {
+        popup.autoOpenEnabled = dotNetPopup.autoOpenEnabled;
+    }
+    
+    if (dotNetPopup.collapseEnabled !== undefined && dotNetPopup.collapseEnabled !== null) {
+        popup.collapseEnabled = dotNetPopup.collapseEnabled;
+    }
+    
+    if (dotNetPopup.collapsed !== undefined && dotNetPopup.collapsed !== null) {
+        popup.collapsed = dotNetPopup.collapsed;
+    }
+    
+    if (dotNetPopup.defaultPopupTemplateEnabled !== undefined && dotNetPopup.defaultPopupTemplateEnabled !== null) {
+        popup.defaultPopupTemplateEnabled = dotNetPopup.defaultPopupTemplateEnabled;
+    }
+    
+    if (dotNetPopup.dockEnabled !== undefined && dotNetPopup.dockEnabled !== null) {
+        popup.dockEnabled = dotNetPopup.dockEnabled;
+    }
+    
+    if (dotNetPopup.headingLevel !== undefined && dotNetPopup.headingLevel !== null) {
+        popup.headingLevel = dotNetPopup.headingLevel;
+    }
+    
+    if (dotNetPopup.highlightEnabled !== undefined && dotNetPopup.highlightEnabled !== null) {
+        popup.highlightEnabled = dotNetPopup.highlightEnabled;
+    }
+    
+    if (dotNetPopup.label !== undefined && dotNetPopup.label !== null) {
+        popup.label = dotNetPopup.label;
+    }
+    
+    if (dotNetPopup.spinnerEnabled !== undefined && dotNetPopup.spinnerEnabled !== null) {
+        popup.spinnerEnabled = dotNetPopup.spinnerEnabled;
+    }
+    
+    if (dotNetPopup.visibleElements !== undefined && dotNetPopup.visibleElements !== null) {
+        popup.visibleElements = dotNetPopup.visibleElements;
+    }
+    
+    return popup;
+}
+
+export function buildJsPopupOptions(dotNetPopupOptions: any) : PopupOpenOptions {
+    let options: PopupOpenOptions = {};
+    
+    if (dotNetPopupOptions.title !== undefined && dotNetPopupOptions.title !== null) {
+        options.title = dotNetPopupOptions.title;
+    }
+    
+    if (dotNetPopupOptions.stringContent !== undefined && dotNetPopupOptions.stringContent !== null) {
+        options.content = dotNetPopupOptions.stringContent;
+    }
+    
+    if (dotNetPopupOptions.location !== undefined && dotNetPopupOptions.location !== null) {
+        options.location = buildJsPoint(dotNetPopupOptions.location) as Point;
+    }
+    
+    if (dotNetPopupOptions.fetchFeatures !== undefined && dotNetPopupOptions.fetchFeatures !== null) {
+        options.fetchFeatures = dotNetPopupOptions.fetchFeatures;
+    }
+    
+    if (dotNetPopupOptions.features !== undefined && dotNetPopupOptions.features !== null) {
+        options.features = dotNetPopupOptions.features.forEach(f => buildJsGraphic(f));
+    }
+    
+    if (dotNetPopupOptions.featureMenuOpen !== undefined && dotNetPopupOptions.featureMenuOpen !== null) {
+        options.featureMenuOpen = dotNetPopupOptions.featureMenuOpen;
+    }
+    
+    if (dotNetPopupOptions.updateLocationEnabled !== undefined && dotNetPopupOptions.updateLocationEnabled !== null) {
+        options.updateLocationEnabled = dotNetPopupOptions.updateLocationEnabled;
+    }
+    
+    if (dotNetPopupOptions.collapsed !== undefined && dotNetPopupOptions.collapsed !== null) {
+        options.collapsed = dotNetPopupOptions.collapsed;
+    }
+    
+    if (dotNetPopupOptions.shouldFocus !== undefined && dotNetPopupOptions.shouldFocus !== null) {
+        options.shouldFocus = dotNetPopupOptions.shouldFocus;
+    }
+    
+    return options;
 }
 
 function buildJsFont(dotNetFont: any) : Font {

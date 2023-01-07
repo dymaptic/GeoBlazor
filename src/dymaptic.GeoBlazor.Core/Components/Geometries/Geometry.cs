@@ -1,4 +1,5 @@
 ﻿using dymaptic.GeoBlazor.Core.Serialization;
+using System.Dynamic;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -125,7 +126,7 @@ internal class GeometryConverter : JsonConverter<Geometry>
             return JsonSerializer.Deserialize<PolyLine>(ref cloneReader, newOptions);
         }
 
-        if (temp.ContainsKey("latitude"))
+        if (temp.ContainsKey("latitude") || temp.ContainsKey("x"))
         {
             return JsonSerializer.Deserialize<Point>(ref cloneReader, newOptions);
         }
@@ -151,7 +152,7 @@ internal class GeometryConverter : JsonConverter<Geometry>
 /// <summary>
 ///     Possible types of geometries
 /// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<GeometryType>))]
+[JsonConverter(typeof(GeometryTypeConverter))]
 public enum GeometryType
 {
 #pragma warning disable CS1591
@@ -162,4 +163,16 @@ public enum GeometryType
     Multipatch,
     Mesh
 #pragma warning restore CS1591
+}
+
+internal class GeometryTypeConverter : EnumToKebabCaseStringConverter<GeometryType>
+{
+    public override GeometryType Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        string? value = reader.GetString()?.Replace("-", string.Empty)
+            .Replace("esri", string.Empty)
+            .Replace("Geometry", string.Empty)
+            .Replace("Type", string.Empty);
+        return value is not null ? (GeometryType)Enum.Parse(typeof(GeometryType), value, true) : default!;
+    }
 }

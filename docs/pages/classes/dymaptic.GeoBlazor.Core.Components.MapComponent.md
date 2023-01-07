@@ -45,6 +45,9 @@ Derived
 &#8627; [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView')  
 &#8627; [WebMap](dymaptic.GeoBlazor.Core.Components.WebMap.html 'dymaptic.GeoBlazor.Core.Components.WebMap')  
 &#8627; [WebScene](dymaptic.GeoBlazor.Core.Components.WebScene.html 'dymaptic.GeoBlazor.Core.Components.WebScene')  
+&#8627; [LayerInfo](dymaptic.GeoBlazor.Core.Components.Widgets.LayerInfo.html 'dymaptic.GeoBlazor.Core.Components.Widgets.LayerInfo')  
+&#8627; [PopupDockOptions](dymaptic.GeoBlazor.Core.Components.Widgets.PopupDockOptions.html 'dymaptic.GeoBlazor.Core.Components.Widgets.PopupDockOptions')  
+&#8627; [PopupVisibleElements](dymaptic.GeoBlazor.Core.Components.Widgets.PopupVisibleElements.html 'dymaptic.GeoBlazor.Core.Components.Widgets.PopupVisibleElements')  
 &#8627; [Widget](dymaptic.GeoBlazor.Core.Components.Widgets.Widget.html 'dymaptic.GeoBlazor.Core.Components.Widgets.Widget')  
 &#8627; [HighlightOptions](dymaptic.GeoBlazor.Core.Objects.HighlightOptions.html 'dymaptic.GeoBlazor.Core.Objects.HighlightOptions')
 
@@ -71,7 +74,7 @@ public Microsoft.AspNetCore.Components.RenderFragment? ChildContent { get; set; 
 A unique identifier, used to track components across .NET and JavaScript.
 
 ```csharp
-public System.Guid Id { get; set; }
+public System.Guid Id { get; }
 ```
 
 #### Property Value

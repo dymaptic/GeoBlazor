@@ -16,7 +16,7 @@ public class AbortManager: IAsyncDisposable
         if (_abortControllerModule is null)
         {
             _abortControllerModule = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", 
-                cancellationToken, "./_content/dymaptic.GeoBlazor.Interactive/js/abortController.js");
+                cancellationToken, "./_content/dymaptic.GeoBlazor.Core/js/abortController.js");
         }
         AbortManagerResult result = await _abortControllerModule!
             .InvokeAsync<AbortManagerResult>("createAbortControllerAndSignal", cancellationToken);

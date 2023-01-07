@@ -42,12 +42,6 @@ public partial class MapView : MapComponent
     public IJSRuntime JsRuntime { get; set; } = default!;
 
     /// <summary>
-    ///     Handles conversion from .NET CancellationToken to JavaScript AbortController
-    /// </summary>
-    [Inject]
-    public AbortManager AbortManager { get; set; } = default!;
-
-    /// <summary>
     ///     Inline css styling attribute
     /// </summary>
     [Parameter]
@@ -642,7 +636,7 @@ public partial class MapView : MapComponent
     {
         LayerView layerView = layerViewCreateEvent.Layer switch
         {
-            FeatureLayer => new FeatureLayerView(layerViewCreateEvent.LayerView, AbortManager),
+            FeatureLayer => new FeatureLayerView(layerViewCreateEvent.LayerView, new AbortManager(JsRuntime)),
             _ => layerViewCreateEvent.LayerView
         };
 
@@ -653,10 +647,10 @@ public partial class MapView : MapComponent
         {
             createdLayer.LayerView = layerViewCreateEvent.LayerView;
             createdLayer.JsObjectReference = layerViewCreateEvent.LayerObjectRef;
-            createdLayer.AbortManager = AbortManager;
+            createdLayer.AbortManager = new AbortManager(JsRuntime);
             if (createdLayer is FeatureLayer featureLayer)
             {
-                await featureLayer.UpdateFromJavaScript((FeatureLayer)layerViewCreateEvent.Layer);
+                featureLayer.UpdateFromJavaScript((FeatureLayer)layerViewCreateEvent.Layer);
             }
 
             layerView.Layer = createdLayer;
@@ -814,12 +808,15 @@ public partial class MapView : MapComponent
             return;
         }
 
-        foreach (KeyValuePair<string, object> kvp in NewPropertyValues)
+        if (NewPropertyValues.Any())
         {
-            await ViewJsModule!.InvokeVoidAsync("updateView", kvp.Key, kvp.Value, Id);
+            foreach (KeyValuePair<string, object> kvp in NewPropertyValues)
+            {
+                await ViewJsModule!.InvokeVoidAsync("updateView", kvp.Key, kvp.Value, Id);
+            }
+            
+            NewPropertyValues.Clear();
         }
-
-        NewPropertyValues.Clear();
     }
 
     /// <inheritdoc />
@@ -1054,6 +1051,17 @@ public partial class MapView : MapComponent
     {
         await ViewJsModule!.InvokeVoidAsync("showPopupWithGraphic", (object)graphic,
             (object)options, Id);
+    }
+    
+    /// <summary>
+    ///     Opens the popup at the given location with content defined either explicitly with content or driven from the PopupTemplate of input features. This method sets the popup's visible property to true. Users can alternatively open the popup by directly setting the visible property to true.
+    /// </summary>
+    /// <param name="options">
+    ///     Defines the location and content of the popup when opened.
+    /// </param>
+    public async Task OpenPopup(PopupOpenOptions? options = null)
+    {
+        await ViewJsModule!.InvokeVoidAsync("openPopup", Id, options);
     }
 
     /// <summary>
@@ -1465,9 +1473,18 @@ public partial class MapView : MapComponent
 
     private async Task RemoveWidget(Widget widget)
     {
+        if (ViewJsModule is null) return;
+        
         await InvokeAsync(async () =>
         {
-            await ViewJsModule!.InvokeVoidAsync("removeWidget", widget.Id, Id);
+            try
+            {
+                await ViewJsModule!.InvokeVoidAsync("removeWidget", widget.Id, Id);
+            }
+            catch (JSDisconnectedException)
+            {
+                // ignore, dispose is called by Blazor too early
+            }
         });
     }
 

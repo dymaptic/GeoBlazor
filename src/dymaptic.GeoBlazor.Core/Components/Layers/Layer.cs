@@ -1,4 +1,5 @@
-﻿using dymaptic.GeoBlazor.Core.Objects;
+﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
+using dymaptic.GeoBlazor.Core.Objects;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Components;
@@ -55,14 +56,80 @@ public abstract class Layer : MapComponent
     /// <inheritdoc />
     public override async ValueTask DisposeAsync()
     {
-        await AbortManager.DisposeAsync();
+        if (AbortManager != null)
+        {
+            await AbortManager.DisposeAsync();
+        }
         await base.DisposeAsync();
     }
     
     /// <summary>
     ///     Handles conversion from .NET CancellationToken to JavaScript AbortController
     /// </summary>
-    public AbortManager AbortManager { get; set; }
+    public AbortManager? AbortManager { get; set; }
+    
+    /// <summary>
+    ///     The full extent of the layer. By default, this is worldwide. This property may be used to set the extent of the view to match a layer's extent so that its features appear to fill the view. See the sample snippet below.
+    /// </summary>
+    public Extent? FullExtent { get; set; }
+
+    /// <inheritdoc />
+    public override async Task RegisterChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case Extent extent:
+                if (!extent.Equals(FullExtent))
+                {
+                    FullExtent = extent;
+                    await UpdateComponent();
+                }
+                
+                break;
+            default:
+                await base.RegisterChildComponent(child);
+
+                break;
+        }
+    }
+
+    /// <inheritdoc />
+    public override async Task UnregisterChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case Extent extent:
+                FullExtent = null;
+                await UpdateComponent();
+                
+                break;
+            default:
+                await base.UnregisterChildComponent(child);
+
+                break;
+        }
+    }
+
+    /// <inheritdoc />
+    public override void ValidateRequiredChildren()
+    {
+        FullExtent?.ValidateRequiredChildren();
+        base.ValidateRequiredChildren();
+    }
+
+    /// <summary>
+    ///     Copies values from the rendered JavaScript layer back to the .NET implementation.
+    /// </summary>
+    /// <param name="renderedLayer">
+    ///     The layer deserialized from JavaScript
+    /// </param>
+    public virtual void UpdateFromJavaScript(Layer renderedLayer)
+    {
+        if (renderedLayer.FullExtent is not null)
+        {
+            FullExtent = renderedLayer.FullExtent;
+        }
+    }
 }
 
 internal class LayerConverter : JsonConverter<Layer>

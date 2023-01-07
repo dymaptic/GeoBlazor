@@ -56,7 +56,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     /// <summary>
     ///     A unique identifier, used to track components across .NET and JavaScript.
     /// </summary>
-    public Guid Id { get; init; } = Guid.NewGuid();
+    public Guid Id { get; } = Guid.NewGuid();
 
     /// <summary>
     ///     Implements the `IAsyncDisposable` pattern.

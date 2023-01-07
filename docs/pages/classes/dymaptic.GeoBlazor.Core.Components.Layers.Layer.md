@@ -25,6 +25,32 @@ Derived
 &#8627; [TileLayer](dymaptic.GeoBlazor.Core.Components.Layers.TileLayer.html 'dymaptic.GeoBlazor.Core.Components.Layers.TileLayer')
 ### Properties
 
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.Layer.AbortManager'></a>
+
+## Layer.AbortManager Property
+
+Handles conversion from .NET CancellationToken to JavaScript AbortController
+
+```csharp
+public dymaptic.GeoBlazor.Core.Objects.AbortManager? AbortManager { get; set; }
+```
+
+#### Property Value
+[dymaptic.GeoBlazor.Core.Objects.AbortManager](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Objects.AbortManager 'dymaptic.GeoBlazor.Core.Objects.AbortManager')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.Layer.FullExtent'></a>
+
+## Layer.FullExtent Property
+
+The full extent of the layer. By default, this is worldwide. This property may be used to set the extent of the view to match a layer's extent so that its features appear to fill the view. See the sample snippet below.
+
+```csharp
+public dymaptic.GeoBlazor.Core.Components.Geometries.Extent? FullExtent { get; set; }
+```
+
+#### Property Value
+[Extent](dymaptic.GeoBlazor.Core.Components.Geometries.Extent.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Extent')
+
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.Layer.JsObjectReference'></a>
 
 ## Layer.JsObjectReference Property
@@ -102,3 +128,99 @@ public string? Title { get; set; }
 
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+### Methods
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.Layer.DisposeAsync()'></a>
+
+## Layer.DisposeAsync() Method
+
+Implements the `IAsyncDisposable` pattern.
+
+```csharp
+public override System.Threading.Tasks.ValueTask DisposeAsync();
+```
+
+Implements [DisposeAsync()](https://docs.microsoft.com/en-us/dotnet/api/System.IAsyncDisposable.DisposeAsync 'System.IAsyncDisposable.DisposeAsync')
+
+#### Returns
+[System.Threading.Tasks.ValueTask](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.ValueTask 'System.Threading.Tasks.ValueTask')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.Layer.RegisterChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent)'></a>
+
+## Layer.RegisterChildComponent(MapComponent) Method
+
+Called from [dymaptic.GeoBlazor.Core.Components.MapComponent.OnAfterRenderAsync(System.Boolean)](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Components.MapComponent.OnAfterRenderAsync#dymaptic_GeoBlazor_Core_Components_MapComponent_OnAfterRenderAsync_System_Boolean_ 'dymaptic.GeoBlazor.Core.Components.MapComponent.OnAfterRenderAsync(System.Boolean)') to "Register" the current component with it's parent.
+
+```csharp
+public override System.Threading.Tasks.Task RegisterChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent child);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.Layer.RegisterChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent).child'></a>
+
+`child` [MapComponent](dymaptic.GeoBlazor.Core.Components.MapComponent.html 'dymaptic.GeoBlazor.Core.Components.MapComponent')
+
+The calling, child component to register
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
+#### Exceptions
+
+[InvalidChildElementException](dymaptic.GeoBlazor.Core.Exceptions.InvalidChildElementException.html 'dymaptic.GeoBlazor.Core.Exceptions.InvalidChildElementException')  
+Throws if the current child is not a valid sub-component to the parent.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.Layer.UnregisterChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent)'></a>
+
+## Layer.UnregisterChildComponent(MapComponent) Method
+
+Undoes the "Registration" of a child with its parent.
+
+```csharp
+public override System.Threading.Tasks.Task UnregisterChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent child);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.Layer.UnregisterChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent).child'></a>
+
+`child` [MapComponent](dymaptic.GeoBlazor.Core.Components.MapComponent.html 'dymaptic.GeoBlazor.Core.Components.MapComponent')
+
+The child to unregister
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.Layer.UpdateFromJavaScript(dymaptic.GeoBlazor.Core.Components.Layers.Layer)'></a>
+
+## Layer.UpdateFromJavaScript(Layer) Method
+
+Copies values from the rendered JavaScript layer back to the .NET implementation.
+
+```csharp
+public virtual void UpdateFromJavaScript(dymaptic.GeoBlazor.Core.Components.Layers.Layer renderedLayer);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.Layer.UpdateFromJavaScript(dymaptic.GeoBlazor.Core.Components.Layers.Layer).renderedLayer'></a>
+
+`renderedLayer` [Layer](dymaptic.GeoBlazor.Core.Components.Layers.Layer.html 'dymaptic.GeoBlazor.Core.Components.Layers.Layer')
+
+The layer deserialized from JavaScript
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.Layer.ValidateRequiredChildren()'></a>
+
+## Layer.ValidateRequiredChildren() Method
+
+When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the [RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
+
+```csharp
+public override void ValidateRequiredChildren();
+```
+
+#### Exceptions
+
+[MissingRequiredChildElementException](dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredChildElementException.html 'dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredChildElementException')  
+The consumer needs to provide the missing child component
+
+[MissingRequiredOptionsChildElementException](dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException.html 'dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException')  
+The consumer needs to provide ONE of the options of child components

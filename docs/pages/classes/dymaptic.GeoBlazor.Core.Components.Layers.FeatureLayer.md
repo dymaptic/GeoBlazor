@@ -290,6 +290,127 @@ The graphics to add
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
 
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.CreateQuery()'></a>
+
+## FeatureLayer.CreateQuery() Method
+
+Creates query parameter object that can be used to fetch features that satisfy the layer's configurations such as definitionExpression, gdbVersion, and historicMoment. It will return Z and M values based on the layer's data capabilities. It sets the query parameter's outFields property to ["*"]. The results will include geometries of features and values for all available fields for client-side queries or all fields in the layer for server side queries.
+
+```csharp
+public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Objects.Query> CreateQuery();
+```
+
+#### Returns
+[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[Query](dymaptic.GeoBlazor.Core.Objects.Query.html 'dymaptic.GeoBlazor.Core.Objects.Query')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.QueryExtent(dymaptic.GeoBlazor.Core.Objects.Query,System.Threading.CancellationToken)'></a>
+
+## FeatureLayer.QueryExtent(Query, CancellationToken) Method
+
+Executes a Query against the feature service and returns the Extent of features that satisfy the query. If no parameters are specified, then the extent and count of all features satisfying the layer's configuration/filters are returned.  
+To query for the extent of features/graphics available to or visible in the View on the client rather than making a server-side query, you must use the [QueryExtent(Query, CancellationToken)](dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayerView.html#dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayerView.QueryExtent(dymaptic.GeoBlazor.Core.Objects.Query,System.Threading.CancellationToken) 'dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayerView.QueryExtent(dymaptic.GeoBlazor.Core.Objects.Query, System.Threading.CancellationToken)') method.
+
+```csharp
+public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Layers.ExtentQueryResult> QueryExtent(dymaptic.GeoBlazor.Core.Objects.Query? query=null, System.Threading.CancellationToken cancellationToken=default(System.Threading.CancellationToken));
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.QueryExtent(dymaptic.GeoBlazor.Core.Objects.Query,System.Threading.CancellationToken).query'></a>
+
+`query` [Query](dymaptic.GeoBlazor.Core.Objects.Query.html 'dymaptic.GeoBlazor.Core.Objects.Query')
+
+Specifies the attributes and spatial filter of the query. If no parameters are specified, then the extent and count of all features satisfying the layer's configuration/filters are returned.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.QueryExtent(dymaptic.GeoBlazor.Core.Objects.Query,System.Threading.CancellationToken).cancellationToken'></a>
+
+`cancellationToken` [System.Threading.CancellationToken](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.CancellationToken 'System.Threading.CancellationToken')
+
+A cancellation token that can be used to cancel the query operation.
+
+#### Returns
+[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[ExtentQueryResult](dymaptic.GeoBlazor.Core.Components.Layers.ExtentQueryResult.html 'dymaptic.GeoBlazor.Core.Components.Layers.ExtentQueryResult')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.QueryFeatureCount(dymaptic.GeoBlazor.Core.Objects.Query,System.Threading.CancellationToken)'></a>
+
+## FeatureLayer.QueryFeatureCount(Query, CancellationToken) Method
+
+Executes a Query against the feature service and returns the number of features that satisfy the query. If no parameters are specified, the total number of features satisfying the layer's configuration/filters is returned.  
+To query for the count of features/graphics available to or visible in the View on the client rather than making a server-side query, you must use the [QueryFeatureCount(Query, CancellationToken)](dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayerView.html#dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayerView.QueryFeatureCount(dymaptic.GeoBlazor.Core.Objects.Query,System.Threading.CancellationToken) 'dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayerView.QueryFeatureCount(dymaptic.GeoBlazor.Core.Objects.Query, System.Threading.CancellationToken)') method.
+
+```csharp
+public System.Threading.Tasks.Task<int> QueryFeatureCount(dymaptic.GeoBlazor.Core.Objects.Query? query=null, System.Threading.CancellationToken cancellationToken=default(System.Threading.CancellationToken));
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.QueryFeatureCount(dymaptic.GeoBlazor.Core.Objects.Query,System.Threading.CancellationToken).query'></a>
+
+`query` [Query](dymaptic.GeoBlazor.Core.Objects.Query.html 'dymaptic.GeoBlazor.Core.Objects.Query')
+
+Specifies the attributes and spatial filter of the query. If no parameters are specified, the total number of features satisfying the layer's configuration/filters is returned.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.QueryFeatureCount(dymaptic.GeoBlazor.Core.Objects.Query,System.Threading.CancellationToken).cancellationToken'></a>
+
+`cancellationToken` [System.Threading.CancellationToken](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.CancellationToken 'System.Threading.CancellationToken')
+
+A cancellation token that can be used to cancel the query operation.
+
+#### Returns
+[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.QueryFeatures(dymaptic.GeoBlazor.Core.Objects.Query,System.Threading.CancellationToken)'></a>
+
+## FeatureLayer.QueryFeatures(Query, CancellationToken) Method
+
+Executes a Query against the feature service and returns the number of features that satisfy the query. If no parameters are specified, the total number of features satisfying the layer's configuration/filters is returned.  
+To query for the count of features/graphics available to or visible in the View on the client rather than making a server-side query, you must use the [QueryFeatureCount(Query, CancellationToken)](dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayerView.html#dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayerView.QueryFeatureCount(dymaptic.GeoBlazor.Core.Objects.Query,System.Threading.CancellationToken) 'dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayerView.QueryFeatureCount(dymaptic.GeoBlazor.Core.Objects.Query, System.Threading.CancellationToken)') method.
+
+```csharp
+public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Layers.FeatureSet> QueryFeatures(dymaptic.GeoBlazor.Core.Objects.Query? query=null, System.Threading.CancellationToken cancellationToken=default(System.Threading.CancellationToken));
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.QueryFeatures(dymaptic.GeoBlazor.Core.Objects.Query,System.Threading.CancellationToken).query'></a>
+
+`query` [Query](dymaptic.GeoBlazor.Core.Objects.Query.html 'dymaptic.GeoBlazor.Core.Objects.Query')
+
+Specifies the attributes and spatial filter of the query. If no parameters are specified, the total number of features satisfying the layer's configuration/filters is returned.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.QueryFeatures(dymaptic.GeoBlazor.Core.Objects.Query,System.Threading.CancellationToken).cancellationToken'></a>
+
+`cancellationToken` [System.Threading.CancellationToken](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.CancellationToken 'System.Threading.CancellationToken')
+
+A cancellation token that can be used to cancel the query operation.
+
+#### Returns
+[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[FeatureSet](dymaptic.GeoBlazor.Core.Components.Layers.FeatureSet.html 'dymaptic.GeoBlazor.Core.Components.Layers.FeatureSet')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.QueryObjectIds(dymaptic.GeoBlazor.Core.Objects.Query,System.Threading.CancellationToken)'></a>
+
+## FeatureLayer.QueryObjectIds(Query, CancellationToken) Method
+
+Executes a Query against the feature service and returns an array of Object IDs for features that satisfy the input query. If no parameters are specified, then the Object IDs of all features satisfying the layer's configuration/filters are returned.  
+To query for ObjectIDs of features/graphics available to or visible in the View on the client rather than making a server-side query, you must use the [QueryObjectIds(Query, CancellationToken)](dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayerView.html#dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayerView.QueryObjectIds(dymaptic.GeoBlazor.Core.Objects.Query,System.Threading.CancellationToken) 'dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayerView.QueryObjectIds(dymaptic.GeoBlazor.Core.Objects.Query, System.Threading.CancellationToken)') method.
+
+```csharp
+public System.Threading.Tasks.Task<int[]> QueryObjectIds(dymaptic.GeoBlazor.Core.Objects.Query query, System.Threading.CancellationToken cancellationToken=default(System.Threading.CancellationToken));
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.QueryObjectIds(dymaptic.GeoBlazor.Core.Objects.Query,System.Threading.CancellationToken).query'></a>
+
+`query` [Query](dymaptic.GeoBlazor.Core.Objects.Query.html 'dymaptic.GeoBlazor.Core.Objects.Query')
+
+Specifies the attributes and spatial filter of the query. If no parameters are specified, then the Object IDs of all features satisfying the layer's configuration/filters are returned.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.QueryObjectIds(dymaptic.GeoBlazor.Core.Objects.Query,System.Threading.CancellationToken).cancellationToken'></a>
+
+`cancellationToken` [System.Threading.CancellationToken](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.CancellationToken 'System.Threading.CancellationToken')
+
+A cancellation token that can be used to cancel the query operation.
+
+#### Returns
+[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')
+
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.RegisterChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent)'></a>
 
 ## FeatureLayer.RegisterChildComponent(MapComponent) Method
@@ -387,6 +508,23 @@ public override System.Threading.Tasks.Task UpdateComponent();
 
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.UpdateFromJavaScript(dymaptic.GeoBlazor.Core.Components.Layers.Layer)'></a>
+
+## FeatureLayer.UpdateFromJavaScript(Layer) Method
+
+Copies values from the rendered JavaScript layer back to the .NET implementation.
+
+```csharp
+public override void UpdateFromJavaScript(dymaptic.GeoBlazor.Core.Components.Layers.Layer renderedLayer);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.UpdateFromJavaScript(dymaptic.GeoBlazor.Core.Components.Layers.Layer).renderedLayer'></a>
+
+`renderedLayer` [Layer](dymaptic.GeoBlazor.Core.Components.Layers.Layer.html 'dymaptic.GeoBlazor.Core.Components.Layers.Layer')
+
+The layer deserialized from JavaScript
 
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.ValidateRequiredChildren()'></a>
 

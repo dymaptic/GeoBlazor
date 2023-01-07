@@ -212,73 +212,80 @@ public class FeatureLayer : Layer
         return UnregisterChildComponent(field);
     }
 
-    public async Task UpdateFromJavaScript(FeatureLayer renderedLayer)
+    /// <inheritdoc />
+    public override void UpdateFromJavaScript(Layer renderedLayer)
     {
-        Url = renderedLayer.Url;
-        // Source = renderedLayer.Source;
-        if (renderedLayer.Fields is not null && renderedLayer.Fields.Any())
+        base.UpdateFromJavaScript(renderedLayer);
+        FeatureLayer renderedFeatureLayer = (FeatureLayer)renderedLayer;
+        Url = renderedFeatureLayer.Url;
+        if (renderedFeatureLayer.Source is not null && renderedFeatureLayer.Source.Any())
         {
-            Fields = renderedLayer.Fields;
+            Source = renderedFeatureLayer.Source;
+        }
+        
+        if (renderedFeatureLayer.Fields is not null && renderedFeatureLayer.Fields.Any())
+        {
+            Fields = renderedFeatureLayer.Fields;
         }
 
-        if (renderedLayer.DefinitionExpression is not null)
+        if (renderedFeatureLayer.DefinitionExpression is not null)
         {
-            DefinitionExpression = renderedLayer.DefinitionExpression;
+            DefinitionExpression = renderedFeatureLayer.DefinitionExpression;
         }
         
-        if (renderedLayer.OutFields is not null && renderedLayer.OutFields.Any())
+        if (renderedFeatureLayer.OutFields is not null && renderedFeatureLayer.OutFields.Any())
         {
-            OutFields = renderedLayer.OutFields;
+            OutFields = renderedFeatureLayer.OutFields;
         }
         
-        if (renderedLayer.MinScale is not null)
+        if (renderedFeatureLayer.MinScale is not null)
         {
-            MinScale = renderedLayer.MinScale;
+            MinScale = renderedFeatureLayer.MinScale;
         }
         
-        if (renderedLayer.MaxScale is not null)
+        if (renderedFeatureLayer.MaxScale is not null)
         {
-            MaxScale = renderedLayer.MaxScale;
+            MaxScale = renderedFeatureLayer.MaxScale;
         }
         
-        if (renderedLayer.ObjectIdField is not null)
+        if (renderedFeatureLayer.ObjectIdField is not null)
         {
-            ObjectIdField = renderedLayer.ObjectIdField;
+            ObjectIdField = renderedFeatureLayer.ObjectIdField;
         }
         
-        if (renderedLayer.GeometryType is not null)
+        if (renderedFeatureLayer.GeometryType is not null)
         {
-            GeometryType = renderedLayer.GeometryType;
+            GeometryType = renderedFeatureLayer.GeometryType;
         }
         
-        if (renderedLayer.OrderBy is not null && renderedLayer.OrderBy.Any())
+        if (renderedFeatureLayer.OrderBy is not null && renderedFeatureLayer.OrderBy.Any())
         {
-            OrderBy = renderedLayer.OrderBy;
+            OrderBy = renderedFeatureLayer.OrderBy;
         }
         
-        if (renderedLayer.PopupTemplate is not null)
+        if (renderedFeatureLayer.PopupTemplate is not null)
         {
-            PopupTemplate = renderedLayer.PopupTemplate;
+            PopupTemplate = renderedFeatureLayer.PopupTemplate;
         }
         
-        if (renderedLayer.LabelingInfo.Any())
+        if (renderedFeatureLayer.LabelingInfo.Any())
         {
-            LabelingInfo = renderedLayer.LabelingInfo;
+            LabelingInfo = renderedFeatureLayer.LabelingInfo;
         }
         
-        if (renderedLayer.Renderer is not null)
+        if (renderedFeatureLayer.Renderer is not null)
         {
-            Renderer = renderedLayer.Renderer;
+            Renderer = renderedFeatureLayer.Renderer;
         }
         
-        if (renderedLayer.PortalItem is not null)
+        if (renderedFeatureLayer.PortalItem is not null)
         {
-            PortalItem = renderedLayer.PortalItem;
+            PortalItem = renderedFeatureLayer.PortalItem;
         }
         
-        if (renderedLayer.SpatialReference is not null)
+        if (renderedFeatureLayer.SpatialReference is not null)
         {
-            SpatialReference = renderedLayer.SpatialReference;
+            SpatialReference = renderedFeatureLayer.SpatialReference;
         }
     }
 
@@ -457,6 +464,11 @@ public class FeatureLayer : Layer
         });
     }
 
+    public async Task<PopupTemplate> CreatePopupTemplate(CreatePopupTemplateOptions? options = null)
+    {
+        return await JsObjectReference!.InvokeAsync<PopupTemplate>("createPopupTemplate", options);
+    }
+
     /// <summary>
     ///     Creates query parameter object that can be used to fetch features that satisfy the layer's configurations such as definitionExpression, gdbVersion, and historicMoment. It will return Z and M values based on the layer's data capabilities. It sets the query parameter's outFields property to ["*"]. The results will include geometries of features and values for all available fields for client-side queries or all fields in the layer for server side queries.
     /// </summary>
@@ -567,3 +579,19 @@ public class FeatureLayer : Layer
 ///     The extent of features that satisfy the query.
 /// </param>
 public record ExtentQueryResult(int Count, Extent Extent);
+
+/// <summary>
+///     Options for creating the <see cref="PopupTemplate"/>.
+/// </summary>
+public class CreatePopupTemplateOptions
+{
+    /// <summary>
+    ///     An array of field types to ignore when creating the popup. System fields such as Shape_Area and Shape_length, in addition to geometry, blob, raster, guid and xml field types are automatically ignored.
+    /// </summary>
+    public string[]? IgnoreFieldTypes { get; set; }
+    
+    /// <summary>
+    ///     An array of field names set to be visible within the PopupTemplate.
+    /// </summary>
+    public HashSet<string>? VisibleFieldNames { get; set; }
+}

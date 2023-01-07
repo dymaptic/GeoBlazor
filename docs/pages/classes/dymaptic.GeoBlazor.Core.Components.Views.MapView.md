@@ -1483,6 +1483,26 @@ public System.Threading.Tasks.Task OnViewRendered();
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
 
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OpenPopup(dymaptic.GeoBlazor.Core.Components.Widgets.PopupOpenOptions)'></a>
+
+## MapView.OpenPopup(PopupOpenOptions) Method
+
+Opens the popup at the given location with content defined either explicitly with content or driven from the PopupTemplate of input features. This method sets the popup's visible property to true. Users can alternatively open the popup by directly setting the visible property to true.
+
+```csharp
+public System.Threading.Tasks.Task OpenPopup(dymaptic.GeoBlazor.Core.Components.Widgets.PopupOpenOptions? options=null);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OpenPopup(dymaptic.GeoBlazor.Core.Components.Widgets.PopupOpenOptions).options'></a>
+
+`options` [PopupOpenOptions](dymaptic.GeoBlazor.Core.Components.Widgets.PopupOpenOptions.html 'dymaptic.GeoBlazor.Core.Components.Widgets.PopupOpenOptions')
+
+Defines the location and content of the popup when opened.
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.QueryFeatures(dymaptic.GeoBlazor.Core.Objects.Query,dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer,dymaptic.GeoBlazor.Core.Components.Symbols.Symbol,dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate)'></a>
 
 ## MapView.QueryFeatures(Query, FeatureLayer, Symbol, PopupTemplate) Method
@@ -1634,28 +1654,28 @@ The [Point](dymaptic.GeoBlazor.Core.Components.Geometries.Point.html 'dymaptic.G
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
 
-<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.ShowPopupWithGraphic(dymaptic.GeoBlazor.Core.Components.Layers.Graphic,dymaptic.GeoBlazor.Core.Objects.PopupOptions)'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.ShowPopupWithGraphic(dymaptic.GeoBlazor.Core.Components.Layers.Graphic,dymaptic.GeoBlazor.Core.Components.Widgets.PopupOptions)'></a>
 
 ## MapView.ShowPopupWithGraphic(Graphic, PopupOptions) Method
 
 Opens a Popup with a custom [Graphic](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic') on a particular [Point](dymaptic.GeoBlazor.Core.Components.Geometries.Point.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Point') of the map view.
 
 ```csharp
-public System.Threading.Tasks.Task ShowPopupWithGraphic(dymaptic.GeoBlazor.Core.Components.Layers.Graphic graphic, dymaptic.GeoBlazor.Core.Objects.PopupOptions options);
+public System.Threading.Tasks.Task ShowPopupWithGraphic(dymaptic.GeoBlazor.Core.Components.Layers.Graphic graphic, dymaptic.GeoBlazor.Core.Components.Widgets.PopupOptions options);
 ```
 #### Parameters
 
-<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.ShowPopupWithGraphic(dymaptic.GeoBlazor.Core.Components.Layers.Graphic,dymaptic.GeoBlazor.Core.Objects.PopupOptions).graphic'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.ShowPopupWithGraphic(dymaptic.GeoBlazor.Core.Components.Layers.Graphic,dymaptic.GeoBlazor.Core.Components.Widgets.PopupOptions).graphic'></a>
 
 `graphic` [Graphic](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic')
 
 The [Graphic](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic') to display in the Popup
 
-<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.ShowPopupWithGraphic(dymaptic.GeoBlazor.Core.Components.Layers.Graphic,dymaptic.GeoBlazor.Core.Objects.PopupOptions).options'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.ShowPopupWithGraphic(dymaptic.GeoBlazor.Core.Components.Layers.Graphic,dymaptic.GeoBlazor.Core.Components.Widgets.PopupOptions).options'></a>
 
-`options` [PopupOptions](dymaptic.GeoBlazor.Core.Objects.PopupOptions.html 'dymaptic.GeoBlazor.Core.Objects.PopupOptions')
+`options` [PopupOptions](dymaptic.GeoBlazor.Core.Components.Widgets.PopupOptions.html 'dymaptic.GeoBlazor.Core.Components.Widgets.PopupOptions')
 
-A set of [PopupOptions](dymaptic.GeoBlazor.Core.Objects.PopupOptions.html 'dymaptic.GeoBlazor.Core.Objects.PopupOptions') that define the position and visible elements of the Popup.
+A set of [PopupOptions](dymaptic.GeoBlazor.Core.Components.Widgets.PopupOptions.html 'dymaptic.GeoBlazor.Core.Components.Widgets.PopupOptions') that define the position and visible elements of the Popup.
 
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')

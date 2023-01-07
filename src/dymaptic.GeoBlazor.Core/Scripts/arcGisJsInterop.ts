@@ -64,7 +64,13 @@ import {
     buildJsRenderer,
     buildJsSpatialReference,
     buildJsPopupTemplate,
-    buildJsGraphic, buildJsGeometry, buildJsPoint, buildJsViewClickEvent
+    buildJsGraphic,
+    buildJsGeometry,
+    buildJsPoint,
+    buildJsViewClickEvent,
+    buildJsPopup,
+    buildJsExtent,
+    buildJsPopupOptions
 } from "./jsBuilder";
 import {
     DotNetExtent,
@@ -78,6 +84,7 @@ import {
 } from "./definitions";
 import HitTestResult = __esri.HitTestResult;
 import MapViewHitTestOptions = __esri.MapViewHitTestOptions;
+import LegendLayerInfos = __esri.LegendLayerInfos;
 
 export let arcGisObjectRefs: Record<string, Accessor> = {};
 export let dotNetRefs = {};
@@ -216,7 +223,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
                 }
                 
                 if (hasValue(extent)) {
-                    (view as MapView).extent = extent;
+                    (view as MapView).extent = buildJsExtent(extent);
                 }
                 break;
         }
@@ -239,7 +246,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
         }
 
         for (const widget of widgets) {
-            await addWidget(widget, id);
+            addWidget(widget, id);
         }
 
         graphics.forEach(graphicObject => {
@@ -672,6 +679,41 @@ export function findPlaces(addressQueryParams: any, symbol: any, popupTemplateOb
     }
 }
 
+export function setPopup(popup: any, viewId: string): void {
+    try {
+        let view = arcGisObjectRefs[viewId] as View;
+        let jsPopup = buildJsPopup(popup);
+        if (hasValue(popup.widgetContent)) {
+            let widgetContent = createWidget(popup.widgetContent, popup.viewId);
+            if (hasValue(widgetContent)) {
+                jsPopup.content = widgetContent as Widget;
+            }
+        }
+        view.popup = jsPopup;
+    } catch (error) {
+        logError(error, popup.viewId);
+    }
+}
+
+export function openPopup(viewId: string, options: any | null): void {
+    try {
+        let view = arcGisObjectRefs[viewId] as View;
+        if (options !== null) {
+            let jsOptions = buildJsPopupOptions(options);
+            if (hasValue(options.widgetContent)) {
+                let widgetContent = createWidget(options.widgetContent, viewId);
+                if (hasValue(widgetContent)) {
+                    jsOptions.content = widgetContent as Widget;
+                }
+            }
+            view.popup.open(jsOptions);
+        } else {
+            view.popup.open();
+        }
+    } catch (error) {
+        logError(error, options.viewId);
+    }
+}
 
 export async function showPopup(popupTemplateObject: any, location: DotNetPoint, viewId: string): Promise<void> {
     try {
@@ -875,230 +917,10 @@ export function displayQueryResults(query: Query, symbol: ArcGisSymbol, popupTem
     });
 }
 
-export async function addWidget(widget: any, viewId: string): Promise<void> {
+export function addWidget(widget: any, viewId: string): void {
     try {
-        let view = arcGisObjectRefs[viewId] as MapView;
-        if (arcGisObjectRefs.hasOwnProperty(widget.id)) {
-            // for now just skip if it already exists
-            // later we may want to replace it with a remove and add
-            // if new values are added
-            return;
-        }
-        let newWidget: Widget;
-        switch (widget.type) {
-            case 'locate':
-                newWidget = new Locate({
-                    view: view,
-                    useHeadingEnabled: widget.useHeadingEnabled,
-                    goToOverride: function (view, options) {
-                        options.target.scale = widget.scale;
-                        return view.goTo(options.target);
-                    }
-                });
-                
-                break;
-            case 'search':
-                const search = new Search({
-                    view: view
-                });
-                newWidget = search;
-                
-                search.on('select-result', (evt) => {
-                    widget.searchWidgetObjectReference.invokeMethodAsync('OnSearchSelectResult', {
-                        extent: buildDotNetExtent(evt.result.extent),
-                        feature: buildDotNetFeature(evt.result.feature),
-                        name: evt.result.name
-                    });
-                });
-                break;
-            case 'basemapToggle':
-                // the esri definition file is missing basemapToggle.nextBasemap, but it is in the docs.
-                let basemapToggle = new BasemapToggle({
-                    view: view
-                });
-                newWidget = basemapToggle;
-                if (hasValue(widget.nextBasemapName)) {
-                    // @ts-ignore
-                    basemapToggle.nextBasemap = widget.nextBasemapName;
-                } else {
-                    // @ts-ignore
-                    basemapToggle.nextBasemap = widget.nextBasemap;
-                }
-                break;
-            case 'basemapGallery':
-                let source = new PortalBasemapsSource();
-                if (hasValue(widget.portalBasemapsSource)) {
-                    const portal = new Portal();
-                    if (widget.portalBasemapsSource.portal?.url !== undefined &&
-                        widget.portalBasemapsSource.portal?.url !== null) {
-                        portal.url = widget.portalBasemapsSource.portal.url;
-                    }
-                    source = new PortalBasemapsSource({
-                        portal
-                    });
-                    if (widget.portalBasemapsSource.queryParams !== undefined &&
-                        widget.portalBasemapsSource.queryParams !== null) {
-                        source.query = widget.portalBasemapsSource.queryParams;
-                    } else if (widget.portalBasemapsSource.queryString !== undefined &&
-                        widget.portalBasemapsSource.queryString !== null) {
-                        source.query = widget.portalBasemapsSource.queryString;
-                    }
-                } else if (hasValue(widget.title)) {
-                    source.query = {
-                        title: widget.title
-                    };
-                }
-                newWidget = new BasemapGallery({
-                    view: view,
-                    source: source
-                });
-                break;
-            case 'scaleBar':
-                const scaleBar = new ScaleBar({
-                    view: view
-                });
-                newWidget = scaleBar;
-                if (hasValue(widget.unit)) {
-                    scaleBar.unit = widget.unit;
-                }
-                break;
-            case 'legend':
-                const legend = new Legend({
-                    view: view
-                });
-                newWidget = legend;
-                break;
-            case 'home':
-                const homeBtn = new Home({
-                    view: view,
-                });
-                newWidget = homeBtn;
-                if (hasValue(widget.label)) {
-                    homeBtn.label = widget.label;
-                }
-                if (hasValue(widget.iconClass)) {
-                    homeBtn.iconClass = widget.iconClass;
-                }                
-                break;
-            case 'compass':
-                const compassWidget = new Compass({
-                    view: view
-                });
-                newWidget = compassWidget;
-                if (hasValue(widget.iconClass)) {
-                    compassWidget.iconClass = widget.iconClass;
-                }
-                if (hasValue(widget.label)) {
-                    compassWidget.label = widget.label;
-                }
-                break;
-            case 'layerList':
-                const layerListWidget = new LayerList({
-                    view: view
-                });
-                newWidget = layerListWidget;
-
-                if (hasValue(widget.hasCustomHandler)) {
-                    layerListWidget.listItemCreatedFunction = async (evt) => {
-                        let dotNetListItem = buildDotNetListItem(evt.item);
-                        let returnItem = await widget.layerListWidgetObjectReference.invokeMethodAsync('OnListItemCreated', dotNetListItem) as DotNetListItem;
-                        evt.item.title = returnItem.title;
-                        evt.item.visible = returnItem.visible;
-                        evt.item.layer = returnItem.layer; //--> needs implementation
-                        evt.item.children = returnItem.children; //--> needs implementation
-                        /// <summary>
-                        ///     The Action Sections property and corresponding functionality will be fully implemented
-                        ///     in a future iteration.  Currently, a user can view available layers in the layer list widget
-                        ///     and toggle the selected layer's visiblity. More capabilities will be available after full
-                        ///     implementation of ActionSection.
-                        /// </summary>
-                        evt.item.actionSections = returnItem.actionSections as any;
-                    };
-                }
-
-                if (hasValue(widget.iconClass)) {
-                    layerListWidget.iconClass = widget.iconClass;
-                }
-                if (hasValue(widget.label)) {
-                    layerListWidget.label = widget.label;
-                }
-                break;
-            case 'basemapLayerList':
-                const basemapLayerListWidget = new BasemapLayerList({
-                    view: view
-                });
-                newWidget = basemapLayerListWidget;
-                
-                if (hasValue(widget.HasCustomBaseListHandler)) {
-                    basemapLayerListWidget.baseListItemCreatedFunction = async (evt) => {
-                        let dotNetBaseListItem = buildDotNetListItem(evt.item);
-                        let returnItem = await widget.layerListWidgetObjectReference.invokeMethodAsync('OnBaseListItemCreated', dotNetBaseListItem) as DotNetListItem;
-                        evt.item.title = returnItem.title;
-                        evt.item.visible = returnItem.visible;
-                        // basemap will require additional implementation (similar to layerlist above) to activate additional layer and action sections.
-                        evt.item.layer = returnItem.layer; //--> needs implementation
-                        evt.item.children = returnItem.children; //--> needs implementation
-                        evt.item.actionSections = returnItem.actionSections as any;
-                    };
-                }
-                if (hasValue(widget.HasCustomReferenceListHandler)) {
-                    basemapLayerListWidget.baseListItemCreatedFunction = async (evt) => {
-                        let dotNetReferenceListItem = buildDotNetListItem(evt.item);
-                        let returnItem = await widget.layerListWidgetObjectReference.invokeMethodAsync('OnReferenceListItemCreated', dotNetReferenceListItem) as DotNetListItem;
-                        evt.item.title = returnItem.title;
-                        evt.item.visible = returnItem.visible;
-                        // basemap will require additional implementation (similar to layerlist above) to activate additional layer and action sections.
-                        evt.item.layer = returnItem.layer; //--> needs implementation
-                        evt.item.children = returnItem.children; //--> needs implementation
-                        evt.item.actionSections = returnItem.actionSections as any;
-                    };
-                }
-
-                if (widget.iconClass !== undefined && widget.iconClass !== null) {
-                    basemapLayerListWidget.iconClass = widget.iconClass;
-                }
-                if (widget.label !== undefined && widget.label !== null) {
-                    basemapLayerListWidget.label = widget.label;
-                }
-                break;
-            case 'expand':
-                await addWidget(widget.content, viewId);
-                let content = arcGisObjectRefs[widget.content.id] as Widget;
-                view.ui.remove(content);
-                const expand = new Expand({
-                    view,
-                    content: content
-                });
-                
-                if (hasValue(widget.autoCollapse)) {
-                    expand.autoCollapse = widget.autoCollapse;
-                }
-
-                if (hasValue(widget.closeOnEsc)) {
-                    expand.closeOnEsc = widget.closeOnEsc;
-                }
-
-                if (hasValue(widget.expandIconClass)) {
-                    expand.expandIconClass = widget.expandIconClass;
-                }
-
-                if (hasValue(widget.collapseIconClass)) {
-                    expand.collapseIconClass = widget.collapseIconClass;
-                }
-
-                if (hasValue(widget.expandTooltip)) {
-                    expand.expandTooltip = widget.expandTooltip;
-                }
-
-                if (hasValue(widget.collapseTooltip)) {
-                    expand.collapseTooltip = widget.collapseTooltip;
-                }
-                
-                newWidget = expand;
-                break;
-            default:
-                return;
-        }
+        let newWidget = createWidget(widget, viewId);
+        if (newWidget === null) return;
 
         if (hasValue(widget.containerId)) {
             let container = document.getElementById(widget.containerId);
@@ -1106,13 +928,260 @@ export async function addWidget(widget: any, viewId: string): Promise<void> {
             container?.appendChild(innerContainer);
             newWidget.container = innerContainer;
         } else {
+            let view = arcGisObjectRefs[viewId] as MapView;
             view.ui.add(newWidget, widget.position);
         }
-        arcGisObjectRefs[widget.id] = newWidget;
-        dotNetRefs[widget.id] = widget.dotNetComponentReference;
     } catch (error) {
         logError(error, viewId);
     }
+}
+
+function createWidget(widget: any, viewId: string): Widget | null {
+    let view = arcGisObjectRefs[viewId] as MapView;
+    if (arcGisObjectRefs.hasOwnProperty(widget.id)) {
+        // for now just skip if it already exists
+        // later we may want to replace it with a remove and add
+        // if new values are added
+        return null;
+    }
+    let newWidget: Widget;
+    switch (widget.type) {
+        case 'locate':
+            newWidget = new Locate({
+                view: view,
+                useHeadingEnabled: widget.useHeadingEnabled,
+                goToOverride: function (view, options) {
+                    options.target.scale = widget.scale;
+                    return view.goTo(options.target);
+                }
+            });
+
+            break;
+        case 'search':
+            const search = new Search({
+                view: view
+            });
+            newWidget = search;
+
+            search.on('select-result', (evt) => {
+                widget.searchWidgetObjectReference.invokeMethodAsync('OnSearchSelectResult', {
+                    extent: buildDotNetExtent(evt.result.extent),
+                    feature: buildDotNetFeature(evt.result.feature),
+                    name: evt.result.name
+                });
+            });
+            break;
+        case 'basemapToggle':
+            // the esri definition file is missing basemapToggle.nextBasemap, but it is in the docs.
+            let basemapToggle = new BasemapToggle({
+                view: view
+            });
+            newWidget = basemapToggle;
+            if (hasValue(widget.nextBasemapName)) {
+                // @ts-ignore
+                basemapToggle.nextBasemap = widget.nextBasemapName;
+            } else {
+                // @ts-ignore
+                basemapToggle.nextBasemap = widget.nextBasemap;
+            }
+            break;
+        case 'basemapGallery':
+            let source = new PortalBasemapsSource();
+            if (hasValue(widget.portalBasemapsSource)) {
+                const portal = new Portal();
+                if (widget.portalBasemapsSource.portal?.url !== undefined &&
+                    widget.portalBasemapsSource.portal?.url !== null) {
+                    portal.url = widget.portalBasemapsSource.portal.url;
+                }
+                source = new PortalBasemapsSource({
+                    portal
+                });
+                if (widget.portalBasemapsSource.queryParams !== undefined &&
+                    widget.portalBasemapsSource.queryParams !== null) {
+                    source.query = widget.portalBasemapsSource.queryParams;
+                } else if (widget.portalBasemapsSource.queryString !== undefined &&
+                    widget.portalBasemapsSource.queryString !== null) {
+                    source.query = widget.portalBasemapsSource.queryString;
+                }
+            } else if (hasValue(widget.title)) {
+                source.query = {
+                    title: widget.title
+                };
+            }
+            newWidget = new BasemapGallery({
+                view: view,
+                source: source
+            });
+            break;
+        case 'scaleBar':
+            const scaleBar = new ScaleBar({
+                view: view
+            });
+            newWidget = scaleBar;
+            if (hasValue(widget.unit)) {
+                scaleBar.unit = widget.unit;
+            }
+            break;
+        case 'legend':
+            const legend = new Legend({
+                view: view
+            });
+            newWidget = legend;
+            
+            if (hasValue(widget.layerInfos)) {
+                legend.layerInfos = widget.layerInfos.forEach(li => {
+                    let jsLayerInfo = {
+                        layer: arcGisObjectRefs[li.layerId]
+                    } as LegendLayerInfos;
+                    if (hasValue(li.title)) {
+                        jsLayerInfo.title = li.title;
+                    }
+                    if (hasValue(li.sublayerIds)) {
+                        jsLayerInfo.sublayerIds = li.sublayerIds;
+                    }
+                    
+                    return jsLayerInfo;
+                });
+            }
+            break;
+        case 'home':
+            const homeBtn = new Home({
+                view: view,
+            });
+            newWidget = homeBtn;
+            if (hasValue(widget.label)) {
+                homeBtn.label = widget.label;
+            }
+            if (hasValue(widget.iconClass)) {
+                homeBtn.iconClass = widget.iconClass;
+            }
+            break;
+        case 'compass':
+            const compassWidget = new Compass({
+                view: view
+            });
+            newWidget = compassWidget;
+            if (hasValue(widget.iconClass)) {
+                compassWidget.iconClass = widget.iconClass;
+            }
+            if (hasValue(widget.label)) {
+                compassWidget.label = widget.label;
+            }
+            break;
+        case 'layerList':
+            const layerListWidget = new LayerList({
+                view: view
+            });
+            newWidget = layerListWidget;
+
+            if (hasValue(widget.hasCustomHandler)) {
+                layerListWidget.listItemCreatedFunction = async (evt) => {
+                    let dotNetListItem = buildDotNetListItem(evt.item);
+                    let returnItem = await widget.layerListWidgetObjectReference.invokeMethodAsync('OnListItemCreated', dotNetListItem) as DotNetListItem;
+                    evt.item.title = returnItem.title;
+                    evt.item.visible = returnItem.visible;
+                    evt.item.layer = returnItem.layer; //--> needs implementation
+                    evt.item.children = returnItem.children; //--> needs implementation
+                    /// <summary>
+                    ///     The Action Sections property and corresponding functionality will be fully implemented
+                    ///     in a future iteration.  Currently, a user can view available layers in the layer list widget
+                    ///     and toggle the selected layer's visiblity. More capabilities will be available after full
+                    ///     implementation of ActionSection.
+                    /// </summary>
+                    evt.item.actionSections = returnItem.actionSections as any;
+                };
+            }
+
+            if (hasValue(widget.iconClass)) {
+                layerListWidget.iconClass = widget.iconClass;
+            }
+            if (hasValue(widget.label)) {
+                layerListWidget.label = widget.label;
+            }
+            break;
+        case 'basemapLayerList':
+            const basemapLayerListWidget = new BasemapLayerList({
+                view: view
+            });
+            newWidget = basemapLayerListWidget;
+
+            if (hasValue(widget.HasCustomBaseListHandler)) {
+                basemapLayerListWidget.baseListItemCreatedFunction = async (evt) => {
+                    let dotNetBaseListItem = buildDotNetListItem(evt.item);
+                    let returnItem = await widget.layerListWidgetObjectReference.invokeMethodAsync('OnBaseListItemCreated', dotNetBaseListItem) as DotNetListItem;
+                    evt.item.title = returnItem.title;
+                    evt.item.visible = returnItem.visible;
+                    // basemap will require additional implementation (similar to layerlist above) to activate additional layer and action sections.
+                    evt.item.layer = returnItem.layer; //--> needs implementation
+                    evt.item.children = returnItem.children; //--> needs implementation
+                    evt.item.actionSections = returnItem.actionSections as any;
+                };
+            }
+            if (hasValue(widget.HasCustomReferenceListHandler)) {
+                basemapLayerListWidget.baseListItemCreatedFunction = async (evt) => {
+                    let dotNetReferenceListItem = buildDotNetListItem(evt.item);
+                    let returnItem = await widget.layerListWidgetObjectReference.invokeMethodAsync('OnReferenceListItemCreated', dotNetReferenceListItem) as DotNetListItem;
+                    evt.item.title = returnItem.title;
+                    evt.item.visible = returnItem.visible;
+                    // basemap will require additional implementation (similar to layerlist above) to activate additional layer and action sections.
+                    evt.item.layer = returnItem.layer; //--> needs implementation
+                    evt.item.children = returnItem.children; //--> needs implementation
+                    evt.item.actionSections = returnItem.actionSections as any;
+                };
+            }
+
+            if (widget.iconClass !== undefined && widget.iconClass !== null) {
+                basemapLayerListWidget.iconClass = widget.iconClass;
+            }
+            if (widget.label !== undefined && widget.label !== null) {
+                basemapLayerListWidget.label = widget.label;
+            }
+            break;
+        case 'expand':
+            addWidget(widget.content, viewId);
+            let content = arcGisObjectRefs[widget.content.id] as Widget;
+            view.ui.remove(content);
+            const expand = new Expand({
+                view,
+                content: content
+            });
+
+            if (hasValue(widget.autoCollapse)) {
+                expand.autoCollapse = widget.autoCollapse;
+            }
+
+            if (hasValue(widget.closeOnEsc)) {
+                expand.closeOnEsc = widget.closeOnEsc;
+            }
+
+            if (hasValue(widget.expandIconClass)) {
+                expand.expandIconClass = widget.expandIconClass;
+            }
+
+            if (hasValue(widget.collapseIconClass)) {
+                expand.collapseIconClass = widget.collapseIconClass;
+            }
+
+            if (hasValue(widget.expandTooltip)) {
+                expand.expandTooltip = widget.expandTooltip;
+            }
+
+            if (hasValue(widget.collapseTooltip)) {
+                expand.collapseTooltip = widget.collapseTooltip;
+            }
+
+            newWidget = expand;
+            break;
+        case 'popup':
+            setPopup(widget, viewId);
+            return null;
+        default:
+            return null;
+    }
+    
+    arcGisObjectRefs[widget.id] = newWidget;
+    dotNetRefs[widget.id] = widget.dotNetComponentReference;
+    return newWidget;
 }
 
 export function removeWidget(widgetId: string, viewId: string) : void {
@@ -1252,7 +1321,10 @@ export async function addLayer(layerObject: any, viewId: string, isBasemapLayer?
             default:
                 return;
         }
-
+        
+        if (hasValue(layerObject.fullExtent)) {
+            newLayer.fullExtent = buildJsExtent(layerObject.fullExtent);
+        }
         
         if (isBasemapLayer) {
             view.map?.basemap.baseLayers.push(newLayer);

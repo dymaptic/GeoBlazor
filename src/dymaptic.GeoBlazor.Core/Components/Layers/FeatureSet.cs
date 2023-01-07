@@ -28,5 +28,5 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 /// <param name="SpatialReference">
 ///     When a FeatureSet is used as input to Geoprocessor, the spatial reference is set to the map's spatial reference by default. This value can be changed. When a FeatureSet is returned from a task, the value is the result as returned from the server.
 /// </param>
-public record FeatureSet(string DisplayFieldName, bool ExceededTransferLimit, Graphic[] Features, Field[] Fields,
-    GeometryType GeometryType, Geometry QueryGeometry, SpatialReference SpatialReference);
+public record FeatureSet(string? DisplayFieldName, bool? ExceededTransferLimit, Graphic[]? Features, Field[]? Fields,
+    GeometryType? GeometryType, Geometry? QueryGeometry, SpatialReference? SpatialReference);
