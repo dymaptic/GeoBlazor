@@ -2,9 +2,9 @@
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import Query from "@arcgis/core/rest/support/Query";
 import FeatureSet from "@arcgis/core/rest/support/FeatureSet";
-import {DotNetPopupTemplate, DotNetQuery} from "./definitions";
+import {DotNetExtent, DotNetPopupTemplate, DotNetQuery} from "./definitions";
 import {buildJsQuery} from "./jsBuilder";
-import {buildDotNetPopupTemplate} from "./dotNetBuilder";
+import {buildDotNetExtent, buildDotNetPopupTemplate} from "./dotNetBuilder";
 import {arcGisObjectRefs} from "./arcGisJsInterop";
 import MapView from "@arcgis/core/views/MapView";
 
@@ -35,9 +35,13 @@ export default class FeatureLayerWrapper {
         return this.layer.createQuery();
     }
 
-    async queryExtent(query: DotNetQuery, abortSignal: AbortSignal): Promise<FeatureSet> {
+    async queryExtent(query: DotNetQuery, abortSignal: AbortSignal): Promise<any> {
         let jsQuery = buildJsQuery(query);
-        return await this.layer.queryExtent(jsQuery, abortSignal);
+        let result = await this.layer.queryExtent(jsQuery, abortSignal);
+        return {
+            count: result.count,
+            extent: buildDotNetExtent(result.extent)
+        };
     }
 
     async queryFeatures(query: DotNetQuery, abortSignal: AbortSignal): Promise<FeatureSet> {
@@ -53,5 +57,10 @@ export default class FeatureLayerWrapper {
     async queryObjectIds(query: DotNetQuery, abortSignal: AbortSignal): Promise<number[]> {
         let jsQuery = buildJsQuery(query);
         return await this.layer.queryObjectIds(jsQuery, abortSignal);
+    }
+    
+    async queryRelatedFeatures(query: DotNetQuery, abortSignal: AbortSignal): Promise<FeatureSet> {
+        let jsQuery = buildJsQuery(query);
+        return await this.layer.queryRelatedFeatures(jsQuery, abortSignal);
     }
 }

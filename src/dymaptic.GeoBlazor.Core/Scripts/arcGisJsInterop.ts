@@ -1005,13 +1005,6 @@ export function getExtent(viewId: string): DotNetExtent | null {
     return buildDotNetExtent((arcGisObjectRefs[viewId] as MapView).extent);
 }
 
-export function queryExtent(layerId: string): DotNetExtent | null {
-    let layer = arcGisObjectRefs[layerId] as any;
-    if (layer === undefined || layer === null) return null;
-    let extent = layer.queryExtent ?? layer.fullExtent as Extent;
-    return buildDotNetExtent(extent);
-}
-
 export async function goToExtent(extent, viewId: string): Promise<void> {
     let view = arcGisObjectRefs[viewId] as MapView;
     await view.goTo(extent);
