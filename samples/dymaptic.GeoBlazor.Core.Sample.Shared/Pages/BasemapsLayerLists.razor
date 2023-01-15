@@ -1,0 +1,69 @@
+﻿@page "/basemap-layer-lists"
+
+
+@inject IJSRuntime JsRuntime
+
+<PageTitle>BasemapLayerLists</PageTitle>
+<h1>>Basemap and Reference layerlists</h1>
+<div class="links-div">
+    <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html">ArcGIS API for JavaScript Reference</a>
+    <a class="btn btn-primary" target="_blank" href="https://www.arcgis.com/home/item.html?id=bfefe7a603c94fc29edca0f4a6662b44">City of Bend 3D Scene</a>
+</div>
+<p class="instructions">
+    A simple demo of loading multiple layers into the BaseMapLayerList widget.
+    Select the right arrow to open the sublayers within the BaseMapLayerList.
+    Select the "eye" icons to toggle a layer's visibility on the basemap.
+</p>
+
+@if (_windowWidth is not null)
+{
+    if (_windowWidth >= 800)
+    {
+        <SceneView Class="map-view">
+                <WebScene>
+                <PortalItem Id="bfefe7a603c94fc29edca0f4a6662b44" />
+                </WebScene>
+            <BasemapLayerListWidget Position="OverlayPosition.TopRight" OnBaseListItemCreatedHandler="OnBaseListItemCreated" OnReferenceListItemCreatedHandler="OnReferenceListItemCreated" />
+            </SceneView>
+
+    }
+    else // for mobile, move the widget off of the map so you can see the whole map
+    {
+        <div id="widget-holder" />
+        <SceneView Class="map-view">
+            <WebScene>
+                <PortalItem Id="bfefe7a603c94fc29edca0f4a6662b44" />
+            </WebScene>
+            <BasemapLayerListWidget ContainerId="widget-holder" OnBaseListItemCreatedHandler="OnBaseListItemCreated" OnReferenceListItemCreatedHandler="OnReferenceListItemCreated" />
+        </SceneView>
+    }
+}
+
+@code {
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        int? oldWidth = _windowWidth;
+        _windowWidth = await JsRuntime.InvokeAsync<int>("window.getWidth");
+        if (oldWidth != _windowWidth)
+        {
+            StateHasChanged();
+        }
+    }
+
+    private int? _windowWidth;
+
+
+     private Task<ListItem> OnBaseListItemCreated(ListItem baseListItem)
+    {
+        return Task.Run(() => baseListItem);
+    }
+
+    private Task<ListItem> OnReferenceListItemCreated(ListItem baseListItem)
+    {
+        baseListItem.Visible = true;
+
+        return Task.Run(() => baseListItem);
+    }
+
+}

@@ -116,7 +116,7 @@ public class SceneView : MapView
             await ViewJsModule!.InvokeVoidAsync("buildMapView", Id, DotNetObjectReference,
                 Longitude, Latitude, Rotation, scene, Zoom, Scale,
                 ApiKey, sceneType, Widgets, Graphics, SpatialReference, Constraints, Extent,
-                EventRateLimitInMilliseconds, GetActiveEventHandlers(), ZIndex, Tilt);
+                EventRateLimitInMilliseconds, GetActiveEventHandlers(), HighlightOptions, ZIndex, Tilt);
             Rendering = false;
             NewPropertyValues.Clear();
             MapRendered = true;

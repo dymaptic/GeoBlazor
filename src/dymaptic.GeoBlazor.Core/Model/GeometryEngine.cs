@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.JSInterop;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+// ReSharper disable RedundantEnumerableCastCall
 
 
 namespace dymaptic.GeoBlazor.Core.Model;

@@ -20,6 +20,7 @@ import {
     DotNetPolyline,
     DotNetSpatialReference
 } from "./definitions";
+import ViewClickEvent = __esri.ViewClickEvent;
 import PictureMarkerSymbol from "@arcgis/core/symbols/PictureMarkerSymbol";
 
 export function buildJsSpatialReference(dotNetSpatialReference: DotNetSpatialReference): SpatialReference {
@@ -262,6 +263,18 @@ export function buildJsPictureMarker(dotNetPictureMarker: any): PictureMarkerSym
     }
     
     return symbol;
+}
+
+export function buildJsViewClickEvent(dotNetClickEvent: any): ViewClickEvent {
+    return {
+        type: dotNetClickEvent.type,
+        mapPoint: buildJsPoint(dotNetClickEvent.mapPoint) as Point,
+        x: dotNetClickEvent.x,
+        y: dotNetClickEvent.y,
+        button: dotNetClickEvent.button,
+        buttons: dotNetClickEvent.buttons,
+        timestamp: dotNetClickEvent.timestamp
+    } as ViewClickEvent
 }
 
 function buildJsFont(dotNetFont: any) : Font {

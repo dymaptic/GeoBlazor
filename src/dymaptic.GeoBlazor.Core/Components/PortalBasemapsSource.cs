@@ -41,6 +41,7 @@ public class PortalBasemapsSource: MapComponent
         switch (child)
         {
             case Portal portal:
+                // ReSharper disable once RedundantCast
                 if (!((Object)portal).Equals(Portal))
                 {
                     Portal = portal;
