@@ -50,9 +50,10 @@ public abstract class Layer : MapComponent
     /// <summary>
     ///    The JavaScript object that represents the layer.
     /// </summary>
-    [JsonIgnore]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IJSObjectReference? JsObjectReference { get; set; }
-    
+
+
     /// <inheritdoc />
     public override async ValueTask DisposeAsync()
     {
@@ -98,7 +99,7 @@ public abstract class Layer : MapComponent
     {
         switch (child)
         {
-            case Extent extent:
+            case Extent:
                 FullExtent = null;
                 await UpdateComponent();
                 
@@ -115,6 +116,29 @@ public abstract class Layer : MapComponent
     {
         FullExtent?.ValidateRequiredChildren();
         base.ValidateRequiredChildren();
+    }
+    
+    /// <summary>
+    ///     Loads the resources referenced by this class. This method automatically executes for a View and all of the resources it references in Map if the view is constructed with a map instance.
+    ///     This method must be called by the developer when accessing a resource that will not be loaded in a View.
+    ///     The load() method only triggers the loading of the resource the first time it is called. The subsequent calls return the same promise.
+    /// </summary>
+    /// <remarks>
+    ///     It's possible to provide a signal to stop being interested into a Loadable instance load status. When the signal is aborted, the instance does not stop its loading process, only cancelLoad can abort it.
+    /// </remarks>
+    public async Task Load(CancellationToken cancellationToken = default)
+    {
+        AbortManager = new AbortManager(JsRuntime);
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        IJSObjectReference arcGisJsInterop = await GetArcGisJsInterop();
+        JsObjectReference = await arcGisJsInterop.InvokeAsync<IJSObjectReference>("createLayer", 
+            // ReSharper disable once RedundantCast
+            cancellationToken, (object)this, true);
+        await JsObjectReference.InvokeVoidAsync("load", cancellationToken, abortSignal);
+        Layer loadedLayer = await arcGisJsInterop.InvokeAsync<Layer>("getSerializedDotNetObject",
+            cancellationToken, Id);
+        UpdateFromJavaScript(loadedLayer);
+        await AbortManager.DisposeAbortController(cancellationToken);
     }
 
     /// <summary>

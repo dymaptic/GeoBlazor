@@ -289,6 +289,19 @@ public dymaptic.GeoBlazor.Core.Components.Widgets.Widget? WidgetContent { get; s
 
 #### Property Value
 [Widget](dymaptic.GeoBlazor.Core.Components.Widgets.Widget.html 'dymaptic.GeoBlazor.Core.Components.Widgets.Widget')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.WidgetType'></a>
+
+## PopupWidget.WidgetType Property
+
+The type of widget
+
+```csharp
+public override string WidgetType { get; }
+```
+
+#### Property Value
+[System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 ### Methods
 
 <a name='dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.RegisterChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent)'></a>

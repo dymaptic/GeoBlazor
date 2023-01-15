@@ -142,19 +142,6 @@ public dymaptic.GeoBlazor.Core.Objects.HighlightOptions? HighlightOptions { get;
 #### Property Value
 [HighlightOptions](dymaptic.GeoBlazor.Core.Objects.HighlightOptions.html 'dymaptic.GeoBlazor.Core.Objects.HighlightOptions')
 
-<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.JsRuntime'></a>
-
-## MapView.JsRuntime Property
-
-Represents an instance of a JavaScript runtime to which calls may be dispatched.
-
-```csharp
-public Microsoft.JSInterop.IJSRuntime JsRuntime { get; set; }
-```
-
-#### Property Value
-[Microsoft.JSInterop.IJSRuntime](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.JSInterop.IJSRuntime 'Microsoft.JSInterop.IJSRuntime')
-
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.Latitude'></a>
 
 ## MapView.Latitude Property
@@ -167,6 +154,19 @@ public double Latitude { get; set; }
 
 #### Property Value
 [System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.LoadOnRender'></a>
+
+## MapView.LoadOnRender Property
+
+Boolean flag that can be set to false to prevent the MapView from automatically rendering with the Blazor components.
+
+```csharp
+public bool LoadOnRender { get; set; }
+```
+
+#### Property Value
+[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.Longitude'></a>
 
@@ -601,6 +601,19 @@ public System.Func<dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReferenc
 ### Remarks
 <b style="color: red">OBSOLETE: Use OnSpatialReferenceChanged instead</b>
 
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnViewInitialized'></a>
+
+## MapView.OnViewInitialized Property
+
+Event triggered when the JS view is created, but before the full map is rendered.
+
+```csharp
+public Microsoft.AspNetCore.Components.EventCallback OnViewInitialized { get; set; }
+```
+
+#### Property Value
+[Microsoft.AspNetCore.Components.EventCallback](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback 'Microsoft.AspNetCore.Components.EventCallback')
+
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.Rotation'></a>
 
 ## MapView.Rotation Property
@@ -989,6 +1002,17 @@ Options to specify what is included in or excluded from the hitTest.
 
 #### Returns
 [System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[HitTestResult](dymaptic.GeoBlazor.Core.Events.HitTestResult.html 'dymaptic.GeoBlazor.Core.Events.HitTestResult')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.Load()'></a>
+
+## MapView.Load() Method
+
+Manually loads and renders the MapView, if the consumer has also set [LoadOnRender](dymaptic.GeoBlazor.Core.Components.Views.MapView.html#dymaptic.GeoBlazor.Core.Components.Views.MapView.LoadOnRender 'dymaptic.GeoBlazor.Core.Components.Views.MapView.LoadOnRender') to false.  
+If [LoadOnRender](dymaptic.GeoBlazor.Core.Components.Views.MapView.html#dymaptic.GeoBlazor.Core.Components.Views.MapView.LoadOnRender 'dymaptic.GeoBlazor.Core.Components.Views.MapView.LoadOnRender') is true, this method will function the same as [Refresh()](dymaptic.GeoBlazor.Core.Components.Views.MapView.html#dymaptic.GeoBlazor.Core.Components.Views.MapView.Refresh() 'dymaptic.GeoBlazor.Core.Components.Views.MapView.Refresh()').
+
+```csharp
+public void Load();
+```
 
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptBlur(dymaptic.GeoBlazor.Core.Events.BlurEvent)'></a>
 
@@ -1466,6 +1490,19 @@ public System.Threading.Tasks.Task OnJavascriptSpatialReferenceChanged(dymaptic.
 `spatialReference` [SpatialReference](dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference.html 'dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference')
 
 The new [SpatialReference](dymaptic.GeoBlazor.Core.Components.Views.MapView.html#dymaptic.GeoBlazor.Core.Components.Views.MapView.SpatialReference 'dymaptic.GeoBlazor.Core.Components.Views.MapView.SpatialReference')
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJsViewInitialized()'></a>
+
+## MapView.OnJsViewInitialized() Method
+
+JS-Invokable callback that signifies when the view is created but not yet fully rendered.
+
+```csharp
+public System.Threading.Tasks.Task OnJsViewInitialized();
+```
 
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')

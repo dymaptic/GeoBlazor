@@ -36,7 +36,7 @@ public dymaptic.GeoBlazor.Core.Objects.AbortManager? AbortManager { get; set; }
 ```
 
 #### Property Value
-[dymaptic.GeoBlazor.Core.Objects.AbortManager](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Objects.AbortManager 'dymaptic.GeoBlazor.Core.Objects.AbortManager')
+[AbortManager](dymaptic.GeoBlazor.Core.Objects.AbortManager.html 'dymaptic.GeoBlazor.Core.Objects.AbortManager')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.Layer.FullExtent'></a>
 
@@ -144,6 +144,29 @@ Implements [DisposeAsync()](https://docs.microsoft.com/en-us/dotnet/api/System.I
 
 #### Returns
 [System.Threading.Tasks.ValueTask](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.ValueTask 'System.Threading.Tasks.ValueTask')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.Layer.Load(System.Threading.CancellationToken)'></a>
+
+## Layer.Load(CancellationToken) Method
+
+Loads the resources referenced by this class. This method automatically executes for a View and all of the resources it references in Map if the view is constructed with a map instance.  
+This method must be called by the developer when accessing a resource that will not be loaded in a View.  
+The load() method only triggers the loading of the resource the first time it is called. The subsequent calls return the same promise.
+
+```csharp
+public System.Threading.Tasks.Task Load(System.Threading.CancellationToken cancellationToken=default(System.Threading.CancellationToken));
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.Layer.Load(System.Threading.CancellationToken).cancellationToken'></a>
+
+`cancellationToken` [System.Threading.CancellationToken](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.CancellationToken 'System.Threading.CancellationToken')
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
+### Remarks
+It's possible to provide a signal to stop being interested into a Loadable instance load status. When the signal is aborted, the instance does not stop its loading process, only cancelLoad can abort it.
 
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.Layer.RegisterChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent)'></a>
 

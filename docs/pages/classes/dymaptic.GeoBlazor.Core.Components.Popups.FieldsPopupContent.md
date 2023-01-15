@@ -28,23 +28,48 @@ Parameterless constructor for using as a razor component
 public FieldsPopupContent();
 ```
 
-<a name='dymaptic.GeoBlazor.Core.Components.Popups.FieldsPopupContent.FieldsPopupContent(dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo[])'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.FieldsPopupContent.FieldsPopupContent(dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo[],string,string)'></a>
 
-## FieldsPopupContent(FieldInfo[]) Constructor
+## FieldsPopupContent(FieldInfo[], string, string) Constructor
 
 Constructs a new PopupContent in code with parameters
 
 ```csharp
-public FieldsPopupContent(params dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo[] fieldInfos);
+public FieldsPopupContent(dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo[] fieldInfos, string? description=null, string? title=null);
 ```
 #### Parameters
 
-<a name='dymaptic.GeoBlazor.Core.Components.Popups.FieldsPopupContent.FieldsPopupContent(dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo[]).fieldInfos'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.FieldsPopupContent.FieldsPopupContent(dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo[],string,string).fieldInfos'></a>
 
 `fieldInfos` [FieldInfo](dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo.html 'dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')
 
 A collection of [FieldInfo](dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo.html 'dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.FieldsPopupContent.FieldsPopupContent(dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo[],string,string).description'></a>
+
+`description` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+Describes the field's content in detail.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.FieldsPopupContent.FieldsPopupContent(dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo[],string,string).title'></a>
+
+`title` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+Heading indicating what the field's content represents.
 ### Properties
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.FieldsPopupContent.Description'></a>
+
+## FieldsPopupContent.Description Property
+
+Describes the field's content in detail.
+
+```csharp
+public string? Description { get; set; }
+```
+
+#### Property Value
+[System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Popups.FieldsPopupContent.FieldInfos'></a>
 
@@ -53,11 +78,24 @@ A collection of [FieldInfo](dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo.
 Array of [FieldInfo](dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo.html 'dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo')s
 
 ```csharp
-public System.Collections.Generic.HashSet<dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo> FieldInfos { get; set; }
+public System.Collections.Generic.HashSet<dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo>? FieldInfos { get; set; }
 ```
 
 #### Property Value
 [System.Collections.Generic.HashSet&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.HashSet-1 'System.Collections.Generic.HashSet`1')[FieldInfo](dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo.html 'dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.HashSet-1 'System.Collections.Generic.HashSet`1')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.FieldsPopupContent.Title'></a>
+
+## FieldsPopupContent.Title Property
+
+Heading indicating what the field's content represents.
+
+```csharp
+public string? Title { get; set; }
+```
+
+#### Property Value
+[System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Popups.FieldsPopupContent.Type'></a>
 

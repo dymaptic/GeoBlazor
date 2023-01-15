@@ -7,7 +7,7 @@
 /// <remarks>
 ///     The Action Sections property and corresponding functionality will be fully implemented
 ///     in a future iteration.  Currently, a user can view available layers in the layer list widget
-///     and toggle the selected layer's visiblity. More capabilities will be available after full
+///     and toggle the selected layer's visibility. More capabilities will be available after full
 ///     implementation of ActionSection.
 /// </remarks>
 public abstract class ActionBase
@@ -42,6 +42,9 @@ public abstract class ActionBase
     /// </summary>
     public bool? Visible { get; set; }
 
+    /// <summary>
+    ///     Specifies the type of action. Choose between "button" or "toggle".
+    /// </summary>
     public virtual string Type { get; } = default!;
 }
 
@@ -50,6 +53,7 @@ public abstract class ActionBase
 /// </summary>
 public class ActionButton : ActionBase
 {
+    /// <inheritdoc />
     public override string Type => "button";
     
     /// <summary>

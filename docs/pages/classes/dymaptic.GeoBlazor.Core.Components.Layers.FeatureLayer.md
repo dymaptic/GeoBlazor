@@ -290,6 +290,26 @@ The graphics to add
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
 
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.CreatePopupTemplate(dymaptic.GeoBlazor.Core.Components.Layers.CreatePopupTemplateOptions)'></a>
+
+## FeatureLayer.CreatePopupTemplate(CreatePopupTemplateOptions) Method
+
+Creates a popup template for the layer, populated with all the fields of the layer.
+
+```csharp
+public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate> CreatePopupTemplate(dymaptic.GeoBlazor.Core.Components.Layers.CreatePopupTemplateOptions? options=null);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.CreatePopupTemplate(dymaptic.GeoBlazor.Core.Components.Layers.CreatePopupTemplateOptions).options'></a>
+
+`options` [CreatePopupTemplateOptions](dymaptic.GeoBlazor.Core.Components.Layers.CreatePopupTemplateOptions.html 'dymaptic.GeoBlazor.Core.Components.Layers.CreatePopupTemplateOptions')
+
+Options for creating the popup template.
+
+#### Returns
+[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[PopupTemplate](dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.html 'dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')
+
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.CreateQuery()'></a>
 
 ## FeatureLayer.CreateQuery() Method

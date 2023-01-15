@@ -351,6 +351,7 @@ public class FeatureLayer : Layer
                     graphic.View ??= View;
                     graphic.JsModule ??= JsModule;
                     graphic.Parent ??= this;
+                    graphic.LayerId ??= Id;
                     _source.Add(graphic);
                     await UpdateComponent();
                 }
@@ -455,7 +456,7 @@ public class FeatureLayer : Layer
     /// <inheritdoc />
     public override async Task UpdateComponent()
     {
-        if (!MapRendered || JsModule is null) return;
+        if ((!MapRendered && JsObjectReference is null) || JsModule is null) return;
 
         await InvokeAsync(async () =>
         {
@@ -464,6 +465,12 @@ public class FeatureLayer : Layer
         });
     }
 
+    /// <summary>
+    ///     Creates a popup template for the layer, populated with all the fields of the layer.
+    /// </summary>
+    /// <param name="options">
+    ///     Options for creating the popup template.
+    /// </param>
     public async Task<PopupTemplate> CreatePopupTemplate(CreatePopupTemplateOptions? options = null)
     {
         return await JsObjectReference!.InvokeAsync<PopupTemplate>("createPopupTemplate", options);
@@ -489,7 +496,7 @@ public class FeatureLayer : Layer
     /// </param>
     public async Task<ExtentQueryResult> QueryExtent(Query? query = null, CancellationToken cancellationToken = default)
     {
-        IJSObjectReference abortSignal = await AbortManager.CreateAbortSignal(cancellationToken);
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         ExtentQueryResult result = await JsObjectReference!.InvokeAsync<ExtentQueryResult>("queryExtent", 
             cancellationToken, query, new {signal = abortSignal});
 
@@ -510,7 +517,7 @@ public class FeatureLayer : Layer
     /// <returns></returns>
     public async Task<int> QueryFeatureCount(Query? query = null, CancellationToken cancellationToken = default)
     {
-        IJSObjectReference abortSignal = await AbortManager.CreateAbortSignal(cancellationToken);
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         int result = await JsObjectReference!.InvokeAsync<int>("queryFeatureCount", cancellationToken, 
             query, new {signal = abortSignal});
         
@@ -532,10 +539,17 @@ public class FeatureLayer : Layer
     /// <returns></returns>
     public async Task<FeatureSet> QueryFeatures(Query? query = null, CancellationToken cancellationToken = default)
     {
-        IJSObjectReference abortSignal =
-            await AbortManager.CreateAbortSignal(cancellationToken);
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         FeatureSet result = await JsObjectReference!.InvokeAsync<FeatureSet>("queryFeatures", cancellationToken, 
             query, new {signal = abortSignal});
+
+        if (result.Features is not null)
+        {
+            foreach (Graphic graphic in result.Features)
+            {
+                graphic.LayerId = Id;
+            }
+        }
 
         await AbortManager.DisposeAbortController(cancellationToken);
 
@@ -554,7 +568,7 @@ public class FeatureLayer : Layer
     /// </param>
     public async Task<int[]> QueryObjectIds(Query query, CancellationToken cancellationToken = default)
     {
-        IJSObjectReference abortSignal = await AbortManager.CreateAbortSignal(cancellationToken);
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         
         int[] queryResult = await JsObjectReference!.InvokeAsync<int[]>("queryObjectIds", cancellationToken,
             query, new {signal = abortSignal});

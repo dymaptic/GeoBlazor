@@ -866,7 +866,7 @@ public class GeometryEngine: LogicComponent
     
 
     /// <inheritdoc />
-    protected override string ComponentName => "geometryEngine";
+    protected override string ComponentName => nameof(GeometryEngine);
 }
 
 /// <summary>

@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
+using System.Collections;
+using System.Text.Json.Serialization;
+
 
 namespace dymaptic.GeoBlazor.Core.Components.Popups;
 
@@ -24,17 +27,49 @@ public class PopupTemplate : MapComponent
     /// <param name="stringContent">
     ///     Use this parameter if the content is a simple string
     /// </param>
+    /// <param name="outFields">
+    ///     An array of field names used in the PopupTemplate. 
+    /// </param>
+    /// <param name="fieldInfos">
+    ///     An array of FieldInfo that defines how fields in the dataset or values from Arcade expressions participate in a popup.
+    /// </param>
     /// <param name="contents">
     ///     Pass advanced <see cref="PopupContent"/> parameters
     /// </param>
-    public PopupTemplate(string title, string? stringContent = null, params PopupContent[] contents)
+    /// <param name="expressionInfos">
+    ///     An array of objects or ExpressionInfo[] that reference Arcade expressions following the specification defined by the Arcade Popup Profile.
+    /// </param>
+    /// <param name="overwriteActions">
+    ///     Indicates whether actions should replace existing popup actions.
+    /// </param>
+    /// <param name="returnGeometry">
+    ///     Indicates whether to include the feature's geometry for use by the template.
+    /// </param>
+    public PopupTemplate(string title, string? stringContent = null, IEnumerable<string>? outFields = null,
+        IEnumerable<FieldInfo>? fieldInfos = null, IEnumerable<PopupContent>? contents = null,
+        IEnumerable<ExpressionInfo>? expressionInfos = null, bool? overwriteActions = null,
+        bool? returnGeometry = null)
     {
 #pragma warning disable BL0005
         Title = title;
         StringContent = stringContent;
-        foreach (PopupContent content in contents)
+        OutFields = outFields;
+        OverwriteActions = overwriteActions;
+        ReturnGeometry = returnGeometry;
+
+        if (contents is not null)
         {
-            Content.Add(content);
+            Content = contents.ToHashSet();    
+        }
+
+        if (fieldInfos is not null)
+        {
+            FieldInfos = fieldInfos.ToHashSet();
+        }
+        
+        if (expressionInfos is not null)
+        {
+            ExpressionInfos = expressionInfos.ToHashSet();
         }
 #pragma warning restore BL0005
     }
@@ -54,6 +89,33 @@ public class PopupTemplate : MapComponent
     /// </summary>
     [Parameter]
     public string? Title { get; set; }
+    
+    /// <summary>
+    ///     An array of field names used in the PopupTemplate. Use this property to indicate what fields are required to fully render the PopupTemplate. This is important if setting content via a function since any fields needed for successful rendering should be specified here.
+    ///     Generally speaking, it is good practice to always set this property when instantiating a new popup template.
+    ///     To fetch the values from all fields, use ["*"].
+    /// </summary>
+    /// <remarks>
+    ///     This will not fetch fields from related tables. If related features are needed, set this using FieldInfo.
+    /// </remarks>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IEnumerable<string>? OutFields { get; set; }
+    
+    /// <summary>
+    ///     Indicates whether actions should replace existing popup actions.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? OverwriteActions { get; set; }
+    
+    /// <summary>
+    ///     Indicates whether to include the feature's geometry for use by the template. This property should be set to true if needing to access the popup's selected feature's geometry. Access the geometry via the returned graphic from the popup's selectedFeatureWidget. This is needed since the geometry is not automatically queried and returned in the popup's selected feature.
+    ///     If the feature layer does not specify its outFields and the template's outFields isn't set, the returned popup's geometry is only returned if returnGeometry is set to true. This also applies when working with WebMaps.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? ReturnGeometry { get; set; }
 
     /// <summary>
     ///     The template for defining and formatting a popup's content, provided as a collection of <see cref="PopupContent"/>s.
@@ -63,6 +125,21 @@ public class PopupTemplate : MapComponent
     /// </remarks>
     [RequiredProperty(nameof(StringContent))]
     public HashSet<PopupContent> Content { get; set; } = new();
+    
+    /// <summary>
+    ///     An array of FieldInfo that defines how fields in the dataset or values from Arcade expressions participate in a popup. If no FieldInfo are specified, nothing will display since the popup will only display the fields that are defined by this array. Each FieldInfo contains properties for a single field or expression. This property can be set directly within the PopupTemplate or within the fields content element. If this is not set within the fields content element, it will default to whatever is specified directly within the PopupTemplate.fieldInfos. The image on the left is a result of using the first example snippet below, whereas the image on the right is a result of the second snippet.
+    /// </summary>
+    /// <remarks>
+    ///     Use this fieldInfos property to specify any formatting options for numbers displayed in chart or text elements.
+    /// </remarks>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public HashSet<FieldInfo>? FieldInfos { get; set; }
+    
+    /// <summary>
+    ///     An array of objects or ExpressionInfo[] that reference Arcade expressions following the specification defined by the Arcade Popup Profile.
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public HashSet<ExpressionInfo>? ExpressionInfos { get; set; }
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
@@ -73,6 +150,24 @@ public class PopupTemplate : MapComponent
                 if (!Content.Contains(popupContent))
                 {
                     Content.Add(popupContent);
+                    await UpdateComponent();
+                }
+
+                break;
+            case FieldInfo fieldInfo:
+                FieldInfos ??= new HashSet<FieldInfo>();
+                if (!FieldInfos.Contains(fieldInfo))
+                {
+                    FieldInfos.Add(fieldInfo);
+                    await UpdateComponent();
+                }
+
+                break;
+            case ExpressionInfo expressionInfo:
+                ExpressionInfos ??= new HashSet<ExpressionInfo>();
+                if (!ExpressionInfos.Contains(expressionInfo))
+                {
+                    ExpressionInfos.Add(expressionInfo);
                     await UpdateComponent();
                 }
 
@@ -96,6 +191,14 @@ public class PopupTemplate : MapComponent
                 }
 
                 break;
+            case FieldInfo fieldInfo:
+                FieldInfos?.Remove(fieldInfo);
+
+                break;
+            case ExpressionInfo expressionInfo:
+                ExpressionInfos?.Remove(expressionInfo);
+
+                break;
             default:
                 await base.UnregisterChildComponent(child);
 
@@ -111,6 +214,22 @@ public class PopupTemplate : MapComponent
         foreach (PopupContent item in Content)
         {
             item.ValidateRequiredChildren();
+        }
+
+        if (FieldInfos != null)
+        {
+            foreach (FieldInfo fieldInfo in FieldInfos)
+            {
+                fieldInfo.ValidateRequiredChildren();
+            }
+        }
+
+        if (ExpressionInfos != null)
+        {
+            foreach (ExpressionInfo expressionInfo in ExpressionInfos)
+            {
+                expressionInfo.ValidateRequiredChildren();
+            }
         }
     }
 }

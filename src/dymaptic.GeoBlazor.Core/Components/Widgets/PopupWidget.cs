@@ -145,6 +145,7 @@ public class PopupWidget: Widget
     /// </summary>
     public PopupVisibleElements? VisibleElements { get; set; }
 
+    /// <inheritdoc />
     public override string WidgetType => "popup";
 
     /// <inheritdoc />
@@ -293,6 +294,34 @@ public class PopupDockOptions: MapComponent
     /// </summary>
     [Parameter]
     public BreakPoint? BreakPoint { get; set; }
+
+    /// <summary>
+    ///     Parameterless constructor for use as a razor component.
+    /// </summary>
+    public PopupDockOptions()
+    {
+    }
+    
+    /// <summary>
+    ///     Constructor for creating a PopupDockOptions object in code.
+    /// </summary>
+    /// <param name="position">
+    ///     The position in the view at which to dock the popup.
+    /// </param>
+    /// <param name="buttonEnabled">
+    ///     If true, displays the dock button. If false, hides the dock button from the popup.
+    /// </param>
+    /// <param name="breakPoint">
+    ///     Defines the dimensions of the View at which to dock the popup. Set to false to disable docking at a breakpoint.
+    /// </param>
+    public PopupDockOptions(PopupDockPosition? position = null, bool? buttonEnabled = null, BreakPoint? breakPoint = null)
+    {
+#pragma warning disable BL0005
+        Position = position;
+        ButtonEnabled = buttonEnabled;
+        BreakPoint = breakPoint;
+#pragma warning restore BL0005
+    }
 }
 
 /// <summary>
@@ -402,6 +431,7 @@ public class PopupOpenOptions
     /// <summary>
     ///     Sets the popup's features, which populate the title and content of the popup based on each graphic's PopupTemplate.
     /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Graphic[]? Features { get; set; }
     
     /// <summary>

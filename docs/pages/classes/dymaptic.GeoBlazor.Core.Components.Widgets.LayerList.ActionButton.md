@@ -29,3 +29,16 @@ public string? Image { get; set; }
 
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ActionButton.Type'></a>
+
+## ActionButton.Type Property
+
+Specifies the type of action. Choose between "button" or "toggle".
+
+```csharp
+public override string Type { get; }
+```
+
+#### Property Value
+[System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')

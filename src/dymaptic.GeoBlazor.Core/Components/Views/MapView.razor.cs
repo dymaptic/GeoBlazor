@@ -36,12 +36,6 @@ public partial class MapView : MapComponent
     public IConfiguration Configuration { get; set; } = default!;
 
     /// <summary>
-    ///     Represents an instance of a JavaScript runtime to which calls may be dispatched.
-    /// </summary>
-    [Inject]
-    public IJSRuntime JsRuntime { get; set; } = default!;
-
-    /// <summary>
     ///     Inline css styling attribute
     /// </summary>
     [Parameter]
@@ -147,6 +141,12 @@ public partial class MapView : MapComponent
     /// </summary>
     [Parameter]
     public bool? AllowDefaultEsriLogin { get; set; }
+    
+    /// <summary>
+    ///    Boolean flag that can be set to false to prevent the MapView from automatically rendering with the Blazor components.
+    /// </summary>
+    [Parameter]
+    public bool LoadOnRender { get; set; } = true;
 
 
 #region EventHandlers
@@ -518,6 +518,21 @@ public partial class MapView : MapComponent
     public EventCallback<KeyUpEvent> OnKeyUp { get; set; }
 
     /// <summary>
+    ///    JS-Invokable callback that signifies when the view is created but not yet fully rendered.
+    /// </summary>
+    [JSInvokable]
+    public async Task OnJsViewInitialized()
+    {
+        await OnViewInitialized.InvokeAsync();
+    }
+    
+    /// <summary>
+    ///     Event triggered when the JS view is created, but before the full map is rendered.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnViewInitialized { get; set; }
+
+    /// <summary>
     ///     JS-Invokable method to return when the map view is fully rendered.
     /// </summary>
     [JSInvokable]
@@ -646,7 +661,9 @@ public partial class MapView : MapComponent
         if (createdLayer != null)
         {
             createdLayer.LayerView = layerViewCreateEvent.LayerView;
-            createdLayer.JsObjectReference = layerViewCreateEvent.LayerObjectRef;
+
+            createdLayer.JsObjectReference ??= layerViewCreateEvent.LayerObjectRef;
+            
             createdLayer.AbortManager = new AbortManager(JsRuntime);
             if (createdLayer is FeatureLayer featureLayer)
             {
@@ -796,6 +813,17 @@ public partial class MapView : MapComponent
     /// <inheritdoc />
     public override void Refresh()
     {
+        NeedsRender = true;
+        StateHasChanged();
+    }
+
+    /// <summary>
+    ///     Manually loads and renders the MapView, if the consumer has also set <see cref="LoadOnRender"/> to false.
+    ///     If <see cref="LoadOnRender"/> is true, this method will function the same as <see cref="Refresh"/>.
+    /// </summary>
+    public void Load()
+    {
+        _renderCalled = true;
         NeedsRender = true;
         StateHasChanged();
     }
@@ -1362,28 +1390,15 @@ public partial class MapView : MapComponent
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         ApiKey = Configuration["ArcGISApiKey"];
+        
+        if (!LoadOnRender && !_renderCalled)
+        {
+            NeedsRender = false;
+        }
 
         if (firstRender)
         {
-            LicenseType licenseType = Licensing.GetLicenseType();
-
-            switch ((int)licenseType)
-            {
-                case >= 100:
-                    // this is here to support the interactive extension library
-                    IJSObjectReference interactiveModule = await JsRuntime
-                        .InvokeAsync<IJSObjectReference>("import",
-                            "./_content/dymaptic.GeoBlazor.Interactive/js/arcGisInteractive.js");
-                    ViewJsModule = await interactiveModule.InvokeAsync<IJSObjectReference>("getCore");
-
-                    break;
-                default:
-                    ViewJsModule = await JsRuntime
-                        .InvokeAsync<IJSObjectReference>("import",
-                            "./_content/dymaptic.GeoBlazor.Core/js/arcGisJsInterop.js");
-
-                    break;
-            }
+            ViewJsModule = await GetArcGisJsInterop();
 
             JsModule = ViewJsModule;
 
@@ -1463,7 +1478,7 @@ public partial class MapView : MapComponent
 
     private async Task AddWidget(Widget widget)
     {
-        if (ViewJsModule is null) return;
+        if (ViewJsModule is null || !MapRendered) return;
 
         await InvokeAsync(async () =>
         {
@@ -1554,4 +1569,5 @@ public partial class MapView : MapComponent
     private string? _apiKey;
     private SpatialReference? _spatialReference;
     private Dictionary<Guid, StringBuilder> _hitTestResults = new();
+    private bool _renderCalled;
 }

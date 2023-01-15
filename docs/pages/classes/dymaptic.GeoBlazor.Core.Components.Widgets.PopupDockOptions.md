@@ -15,6 +15,46 @@ public class PopupDockOptions : dymaptic.GeoBlazor.Core.Components.MapComponent
 ```
 
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [Microsoft.AspNetCore.Components.ComponentBase](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.ComponentBase 'Microsoft.AspNetCore.Components.ComponentBase') &#129106; [MapComponent](dymaptic.GeoBlazor.Core.Components.MapComponent.html 'dymaptic.GeoBlazor.Core.Components.MapComponent') &#129106; PopupDockOptions
+### Constructors
+
+<a name='dymaptic.GeoBlazor.Core.Components.Widgets.PopupDockOptions.PopupDockOptions()'></a>
+
+## PopupDockOptions() Constructor
+
+Parameterless constructor for use as a razor component.
+
+```csharp
+public PopupDockOptions();
+```
+
+<a name='dymaptic.GeoBlazor.Core.Components.Widgets.PopupDockOptions.PopupDockOptions(System.Nullable_dymaptic.GeoBlazor.Core.Components.Widgets.PopupDockPosition_,System.Nullable_bool_,dymaptic.GeoBlazor.Core.Components.Widgets.BreakPoint)'></a>
+
+## PopupDockOptions(Nullable<PopupDockPosition>, Nullable<bool>, BreakPoint) Constructor
+
+Constructor for creating a PopupDockOptions object in code.
+
+```csharp
+public PopupDockOptions(System.Nullable<dymaptic.GeoBlazor.Core.Components.Widgets.PopupDockPosition> position=null, System.Nullable<bool> buttonEnabled=null, dymaptic.GeoBlazor.Core.Components.Widgets.BreakPoint? breakPoint=null);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Widgets.PopupDockOptions.PopupDockOptions(System.Nullable_dymaptic.GeoBlazor.Core.Components.Widgets.PopupDockPosition_,System.Nullable_bool_,dymaptic.GeoBlazor.Core.Components.Widgets.BreakPoint).position'></a>
+
+`position` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[PopupDockPosition](dymaptic.GeoBlazor.Core.Components.Widgets.PopupDockPosition.html 'dymaptic.GeoBlazor.Core.Components.Widgets.PopupDockPosition')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
+
+The position in the view at which to dock the popup.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Widgets.PopupDockOptions.PopupDockOptions(System.Nullable_dymaptic.GeoBlazor.Core.Components.Widgets.PopupDockPosition_,System.Nullable_bool_,dymaptic.GeoBlazor.Core.Components.Widgets.BreakPoint).buttonEnabled'></a>
+
+`buttonEnabled` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
+
+If true, displays the dock button. If false, hides the dock button from the popup.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Widgets.PopupDockOptions.PopupDockOptions(System.Nullable_dymaptic.GeoBlazor.Core.Components.Widgets.PopupDockPosition_,System.Nullable_bool_,dymaptic.GeoBlazor.Core.Components.Widgets.BreakPoint).breakPoint'></a>
+
+`breakPoint` [BreakPoint](dymaptic.GeoBlazor.Core.Components.Widgets.BreakPoint.html 'dymaptic.GeoBlazor.Core.Components.Widgets.BreakPoint')
+
+Defines the dimensions of the View at which to dock the popup. Set to false to disable docking at a breakpoint.
 ### Properties
 
 <a name='dymaptic.GeoBlazor.Core.Components.Widgets.PopupDockOptions.BreakPoint'></a>

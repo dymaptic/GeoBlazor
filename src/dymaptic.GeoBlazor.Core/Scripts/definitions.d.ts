@@ -102,7 +102,7 @@ export interface DotNetListItem {
 }
 
 export interface DotNetLayerView {
-    layer: Layer;
+    layer: DotNetLayer;
     spatialReferenceSupported: boolean;
     suspended: boolean;
     updating: boolean;
@@ -141,4 +141,187 @@ export interface DotNetHitTestOptions {
     excludeLayersByArcGISId: Array<string> | null,
     includeGraphicsByArcGISId: Array<string> | null,
     excludeGraphicsByArcGISId: Array<string> | null
+}
+
+export interface DotNetQuery {
+    geometry: DotNetGeometry;
+    where: string;
+    outFields: string[];
+    returnGeometry: boolean;
+    spatialRelationship: string;
+    useViewExtent: boolean;
+    aggregateIds: number[];
+    cacheHint: boolean;
+    datumTransformation: number;
+    distance: number;
+    gdbVersion: string;
+    geometryPrecision: number;
+    groupByFieldsForStatistics: string[];
+    having: string;
+    historicMoment: Date;
+    maxAllowableOffset: number;
+    maxRecordCountFactor: number;
+    num: number;
+    objectIds: number[];
+    orderByFields: string[];
+    outSpatialReference: DotNetSpatialReference;
+    outStatistics: any[];
+    parameterValues: any[];
+    quantizationParameters: any;
+    rangeValues: any[];
+    relationParameter: string;
+    returnCentroid: boolean;
+    returnDistinctValues: boolean;
+    returnExceededLimitFeatures: boolean;
+    returnM: boolean;
+    returnQueryGeometry: boolean;
+    returnZ: boolean;
+    sqlFormat: string;
+    start: number;
+    text: string;
+    timeExtent: any;
+    units: string;
+}
+
+export interface DotNetPopupTemplate {
+    stringContent: string;
+    content: DotNetPopupContent[];
+    title: string;
+    fieldInfos: DotNetFieldInfo[];
+    expressionInfos: DotNetExpressionInfo[];
+    outFields: string[];
+    overwriteActions: boolean;
+    returnGeometry: boolean;
+}
+
+export interface DotNetPopupContent {
+    type: string;
+}
+
+export interface DotNetFieldsPopupContent extends DotNetPopupContent {
+    fieldInfos: DotNetFieldInfo[];
+    title: string;
+    description: string;
+}
+
+export interface DotNetTextPopupContent extends DotNetPopupContent {
+    text: string;
+}
+
+export interface DotNetMediaPopupContent extends DotNetPopupContent {
+    activeMediaInfoIndex: string;
+    description: string;
+    mediaInfos: DotNetMediaInfo[];
+    title: string;
+}
+
+export interface DotNetFieldInfo {
+    fieldName: string;
+    label: string;
+    tooltip: string;
+    stringFieldOption: string;
+    format: DotNetFieldInfoFormat;
+    visible: boolean;
+    isEditable: boolean;
+}
+
+export interface DotNetMediaInfo {
+    type: string;
+}
+
+export interface DotNetBarChartMediaInfo extends DotNetMediaInfo {
+    altText: string;
+    caption: string;
+    title: string;
+    value: DotNetChartMediaInfoValue;
+}
+
+export interface DotNetChartMediaInfoValue {
+    fields: string[];
+    normalizeField: string;
+    tooltipField: string;
+    series: DotNetChartMediaInfoValueSeries[];
+}
+
+export interface DotNetChartMediaInfoValueSeries {
+    fieldName: string;
+    tooltip: string;
+    value: number;
+}
+
+export interface DotNetColumnChartMediaInfo extends DotNetMediaInfo {
+    altText: string;
+    caption: string;
+    title: string;
+    value: DotNetChartMediaInfoValue;
+}
+
+export interface DotNetImageMediaInfo extends DotNetMediaInfo {
+    altText: string;
+    caption: string;
+    title: string;
+    refreshInterval: number;
+    value: DotNetImageMediaInfoValue;
+}
+
+export interface DotNetImageMediaInfoValue extends DotNetMediaInfo {
+    linkURL: string;
+    sourceURL: string;
+}
+
+export interface DotNetLineChartMediaInfo extends DotNetMediaInfo {
+    altText: string;
+    caption: string;
+    title: string;
+    value: DotNetChartMediaInfoValue;
+}
+
+export interface DotNetPieChartMediaInfo extends DotNetMediaInfo {
+    altText: string;
+    caption: string;
+    title: string;
+    value: DotNetChartMediaInfoValue;
+}
+
+export interface DotNetExpressionInfo {
+    expression: string;
+    name: string;
+    title: string;
+    returnType: string;
+}
+
+export interface DotNetFieldInfoFormat {
+    places: number;
+    digitSeparator: boolean;
+    dateFormat: string;
+}
+
+export interface DotNetAttachmentsPopupContent extends DotNetPopupContent {
+    description: string;
+    displayType: string;
+    title: string;
+}
+
+export interface DotNetExpressionPopupContent extends DotNetPopupContent {
+    expressionInfo: DotNetElementExpressionInfo;
+}
+
+export interface DotNetElementExpressionInfo {
+    expression: string;
+    returnType: string;
+    title: string;
+}
+
+export interface DotNetRelationshipPopupContent extends DotNetPopupContent {
+    description: string;
+    displayCount: number;
+    displayType: string;
+    orderByFields: DotNetRelatedRecordsInfoFieldOrder;
+    relationshipId: number;
+    title: string;
+}
+
+export interface DotNetRelatedRecordsInfoFieldOrder {
+    field: string;
+    order: string;
 }

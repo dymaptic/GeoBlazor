@@ -24,7 +24,7 @@ Derived
 ### Remarks
 The Action Sections property and corresponding functionality will be fully implemented  
 in a future iteration.  Currently, a user can view available layers in the layer list widget  
-and toggle the selected layer's visiblity. More capabilities will be available after full  
+and toggle the selected layer's visibility. More capabilities will be available after full  
 implementation of ActionSection.
 ### Properties
 
@@ -88,6 +88,19 @@ The title of the action.
 
 ```csharp
 public string? Title { get; set; }
+```
+
+#### Property Value
+[System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ActionBase.Type'></a>
+
+## ActionBase.Type Property
+
+Specifies the type of action. Choose between "button" or "toggle".
+
+```csharp
+public virtual string Type { get; }
 ```
 
 #### Property Value

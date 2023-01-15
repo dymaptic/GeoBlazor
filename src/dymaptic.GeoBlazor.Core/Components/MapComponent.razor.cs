@@ -18,6 +18,12 @@ namespace dymaptic.GeoBlazor.Core.Components;
 public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
 {
     /// <summary>
+    ///     Represents an instance of a JavaScript runtime to which calls may be dispatched.
+    /// </summary>
+    [Inject]
+    public IJSRuntime JsRuntime { get; set; } = default!;
+    
+    /// <summary>
     ///     ChildContent defines the ability to add other components within this component in the razor syntax.
     /// </summary>
     [Parameter]
@@ -272,6 +278,28 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         if (Parent is not null)
         {
             await Parent.RenderView(forceRender);
+        }
+    }
+
+    /// <summary>
+    ///     Retrieves the main entry point for the JavaScript interop.
+    /// </summary>
+    protected async Task<IJSObjectReference> GetArcGisJsInterop()
+    {
+        LicenseType licenseType = Licensing.GetLicenseType();
+
+        switch ((int)licenseType)
+        {
+            case >= 100:
+                // this is here to support the interactive extension library
+                IJSObjectReference interactiveModule = await JsRuntime
+                    .InvokeAsync<IJSObjectReference>("import",
+                        "./_content/dymaptic.GeoBlazor.Interactive/js/arcGisInteractive.js");
+                return await interactiveModule.InvokeAsync<IJSObjectReference>("getCore");
+            default:
+                return await JsRuntime
+                    .InvokeAsync<IJSObjectReference>("import",
+                        "./_content/dymaptic.GeoBlazor.Core/js/arcGisJsInterop.js");
         }
     }
 

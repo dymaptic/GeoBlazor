@@ -7,25 +7,12 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 ///     Represents the view for a single layer after it has been added to either a MapView or a SceneView.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html">ArcGIS JS API</a>
 /// </summary>
-
-/// <param name="SpatialReferenceSupported">
-///     
-/// </param>
-/// <param name="Suspended">
-///     Value is true if the layer is suspended (i.e., layer will not redraw or update itself when the extent changes).
-/// </param>
-/// <param name="Updating">
-///     
-/// </param>
-/// <param name="Visible">
-///     
-/// </param>
 public class LayerView
 {
     /// <summary>
     ///     The layer being viewed.
     /// </summary>
-    public Layer Layer { get; set; }
+    public Layer Layer { get; set; } = default!;
     
     /// <summary>
     ///    The JavaScript object reference used by the LayerView.

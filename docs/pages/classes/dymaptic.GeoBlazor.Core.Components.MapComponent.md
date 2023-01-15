@@ -31,10 +31,16 @@ Derived
 &#8627; [VisualVariable](dymaptic.GeoBlazor.Core.Components.Layers.VisualVariable.html 'dymaptic.GeoBlazor.Core.Components.Layers.VisualVariable')  
 &#8627; [LOD](dymaptic.GeoBlazor.Core.Components.LOD.html 'dymaptic.GeoBlazor.Core.Components.LOD')  
 &#8627; [Map](dymaptic.GeoBlazor.Core.Components.Map.html 'dymaptic.GeoBlazor.Core.Components.Map')  
+&#8627; [ChartMediaInfoValue](dymaptic.GeoBlazor.Core.Components.Popups.ChartMediaInfoValue.html 'dymaptic.GeoBlazor.Core.Components.Popups.ChartMediaInfoValue')  
+&#8627; [ChartMediaInfoValueSeries](dymaptic.GeoBlazor.Core.Components.Popups.ChartMediaInfoValueSeries.html 'dymaptic.GeoBlazor.Core.Components.Popups.ChartMediaInfoValueSeries')  
+&#8627; [ExpressionInfo](dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo.html 'dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo')  
 &#8627; [FieldInfo](dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo.html 'dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo')  
 &#8627; [FieldInfoFormat](dymaptic.GeoBlazor.Core.Components.Popups.FieldInfoFormat.html 'dymaptic.GeoBlazor.Core.Components.Popups.FieldInfoFormat')  
+&#8627; [ImageMediaInfoValue](dymaptic.GeoBlazor.Core.Components.Popups.ImageMediaInfoValue.html 'dymaptic.GeoBlazor.Core.Components.Popups.ImageMediaInfoValue')  
+&#8627; [MediaInfo](dymaptic.GeoBlazor.Core.Components.Popups.MediaInfo.html 'dymaptic.GeoBlazor.Core.Components.Popups.MediaInfo')  
 &#8627; [PopupContent](dymaptic.GeoBlazor.Core.Components.Popups.PopupContent.html 'dymaptic.GeoBlazor.Core.Components.Popups.PopupContent')  
 &#8627; [PopupTemplate](dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.html 'dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate')  
+&#8627; [RelatedRecordsInfoFieldOrder](dymaptic.GeoBlazor.Core.Components.Popups.RelatedRecordsInfoFieldOrder.html 'dymaptic.GeoBlazor.Core.Components.Popups.RelatedRecordsInfoFieldOrder')  
 &#8627; [Portal](dymaptic.GeoBlazor.Core.Components.Portal.html 'dymaptic.GeoBlazor.Core.Components.Portal')  
 &#8627; [PortalBasemapsSource](dymaptic.GeoBlazor.Core.Components.PortalBasemapsSource.html 'dymaptic.GeoBlazor.Core.Components.PortalBasemapsSource')  
 &#8627; [PortalItem](dymaptic.GeoBlazor.Core.Components.PortalItem.html 'dymaptic.GeoBlazor.Core.Components.PortalItem')  
@@ -92,6 +98,19 @@ public Microsoft.JSInterop.IJSObjectReference? JsModule { get; set; }
 
 #### Property Value
 [Microsoft.JSInterop.IJSObjectReference](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.JSInterop.IJSObjectReference 'Microsoft.JSInterop.IJSObjectReference')
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.JsRuntime'></a>
+
+## MapComponent.JsRuntime Property
+
+Represents an instance of a JavaScript runtime to which calls may be dispatched.
+
+```csharp
+public Microsoft.JSInterop.IJSRuntime JsRuntime { get; set; }
+```
+
+#### Property Value
+[Microsoft.JSInterop.IJSRuntime](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.JSInterop.IJSRuntime 'Microsoft.JSInterop.IJSRuntime')
 
 <a name='dymaptic.GeoBlazor.Core.Components.MapComponent.MapRendered'></a>
 

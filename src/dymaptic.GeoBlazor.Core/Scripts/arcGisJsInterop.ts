@@ -47,6 +47,7 @@ import Extent from "@arcgis/core/geometry/Extent";
 import * as reactiveUtils from "@arcgis/core/core/reactiveUtils";
 import Geometry from "@arcgis/core/geometry/Geometry";
 import BasemapLayerList from "@arcgis/core/widgets/BasemapLayerList";
+import FeatureLayerWrapper from "./featureLayer";
 
 import {
     buildDotNetExtent,
@@ -82,9 +83,12 @@ import {
     DotNetSpatialReference,
     MapCollection
 } from "./definitions";
+
 import HitTestResult = __esri.HitTestResult;
 import MapViewHitTestOptions = __esri.MapViewHitTestOptions;
 import LegendLayerInfos = __esri.LegendLayerInfos;
+import ProjectionWrapper from "./projection";
+import GeometryEngineWrapper from "./geometryEngine";
 
 export let arcGisObjectRefs: Record<string, Accessor> = {};
 export let dotNetRefs = {};
@@ -95,6 +99,47 @@ export function setAssetsPath (path: string) {
     if (path !== undefined && path !== null && esriConfig.assetsPath !== path) {
         esriConfig.assetsPath = path;
     }
+}
+
+export function getObjectReference(id: string): any {
+    let objectRef = arcGisObjectRefs[id];
+    if (objectRef instanceof Layer) {
+        if (objectRef instanceof FeatureLayer) {
+            return new FeatureLayerWrapper(objectRef);
+        }
+
+        return buildDotNetLayer(objectRef);
+    }
+    if (objectRef instanceof Graphic) {
+        return buildDotNetGraphic(objectRef);
+    }
+    return objectRef;
+}
+
+export function getSerializedDotNetObject(id: string): any {
+    let objectRef = arcGisObjectRefs[id];
+    if (objectRef instanceof Layer) {
+        return buildDotNetLayer(objectRef);
+    }
+    if (objectRef instanceof Graphic) {
+        return buildDotNetGraphic(objectRef);
+    }
+    return objectRef;
+}
+
+export function getFeatureLayerWrapper(layer: FeatureLayer): FeatureLayerWrapper {
+    let wrapper = new FeatureLayerWrapper(layer);
+    return wrapper;
+}
+
+export function getProjectionWrapper(dotNetRef: any, apiKey: string): ProjectionWrapper {
+    let wrapper = new ProjectionWrapper(dotNetRef, apiKey);
+    return wrapper;
+}
+
+export function getGeometryEngineWrapper(dotNetRef: any, apiKey: string): GeometryEngineWrapper {
+    let wrapper = new GeometryEngineWrapper(dotNetRef, apiKey);
+    return wrapper;
 }
 
 export async function buildMapView(id: string, dotNetReference: any, long: number, lat: number,
@@ -229,6 +274,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
         }
 
         arcGisObjectRefs[id] = view;
+        await dotNetRef.invokeMethodAsync('OnJsViewInitialized');
         waitForRender(id, dotNetRef);
 
         if (hasValue(highlightOptions)) {
@@ -375,9 +421,18 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
     view.on('layerview-create', (evt) => {
         // find objectRef id by layer
         let layerGeoBlazorId = Object.keys(arcGisObjectRefs).find(key => arcGisObjectRefs[key] === evt.layer);
-        let result = {
+        // @ts-ignore
+        let layerRef;
+        if (evt.layer instanceof FeatureLayer) {
             // @ts-ignore
-            layerObjectRef: DotNet.createJSObjectReference(evt.layer),
+            layerRef = DotNet.createJSObjectReference(getFeatureLayerWrapper(evt.layer));
+        } else {
+            // @ts-ignore
+            layerRef = DotNet.createJSObjectReference(evt.layer)
+        }
+        
+        let result = {
+            layerObjectRef: layerRef,
             // @ts-ignore
             layerViewObjectRef: DotNet.createJSObjectReference(evt.layerView),
             layerView: buildDotNetLayerView(evt.layerView),
@@ -626,8 +681,84 @@ export function removeGraphicAtIndex(index: number, layerIndex: number, viewId: 
 export async function updateFeatureLayer(layerObject: any, viewId: string): Promise<void> {
     try {
         setWaitCursor(viewId);
-        removeFeatureLayer(layerObject, viewId);
-        await addLayer(layerObject, viewId);
+        let currentLayer = arcGisObjectRefs[layerObject.id] as FeatureLayer;
+        
+        if (currentLayer === undefined) {
+            await addLayer(layerObject, viewId);
+            return;
+        }
+        
+        if (hasValue(layerObject.portalItem) && layerObject.portalItem.id !== currentLayer.portalItem.id) {
+            currentLayer.portalItem.id = layerObject.portalItem.id;
+        }
+        if (hasValue(layerObject.url) && layerObject.url !== currentLayer.url) {
+            currentLayer.url = layerObject.url;
+        }
+        if (hasValue(layerObject.source)) {
+            let source: Array<Graphic> = [];
+            layerObject.source?.forEach(graphicObject => {
+                let graphic = buildJsGraphic(graphicObject);
+                if (graphic !== null) {
+                    source.push(graphic);
+                }
+            });
+            
+            currentLayer.source = source as any;
+        }
+        
+        if (hasValue(layerObject.opacity) && layerObject.opacity !== currentLayer.opacity && 
+            layerObject.opacity >= 0 && layerObject.opacity <= 1) {
+            currentLayer.opacity = layerObject.opacity;
+        }
+        if (hasValue(layerObject.definitionExpression) && 
+            layerObject.definitionExpression !== currentLayer.definitionExpression) {
+            currentLayer.definitionExpression = layerObject.definitionExpression;
+        }
+
+        if (layerObject.labelingInfo !== undefined && layerObject.labelingInfo?.length > 0 &&
+            layerObject.labelingInfo !== currentLayer.labelingInfo) {
+            currentLayer.labelingInfo = layerObject.labelingInfo;
+        }
+
+        if (layerObject.outFields !== undefined && layerObject.outFields?.length > 0 && 
+            layerObject.outFields !== currentLayer.outFields) {
+            currentLayer.outFields = layerObject.outFields;
+        }
+
+        if (hasValue(layerObject.popupTemplate) && layerObject.popupTemplate !== currentLayer.popupTemplate) {
+            currentLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate);
+        }
+        if (hasValue(layerObject.title) && layerObject.title !== currentLayer.title) {
+            currentLayer.title = layerObject.title;
+        }
+        if (hasValue(layerObject.minScale) && layerObject.minScale !== currentLayer.minScale) {
+            currentLayer.minScale = layerObject.minScale;
+        }
+        if (hasValue(layerObject.maxScale) && layerObject.maxScale !== currentLayer.maxScale) {
+            currentLayer.maxScale = layerObject.maxScale;
+        }
+        if (hasValue(layerObject.orderBy) && layerObject.orderBy !== currentLayer.orderBy) {
+            currentLayer.orderBy = layerObject.orderBy;
+        }
+        if (hasValue(layerObject.objectIdField) && layerObject.objectIdField !== currentLayer.objectIdField) {
+            currentLayer.objectIdField = layerObject.objectIdField;
+        }
+        if (hasValue(layerObject.renderer) && layerObject.renderer !== currentLayer.renderer) {
+            let renderer = buildJsRenderer(layerObject.renderer);
+            if (renderer !== null) {
+                currentLayer.renderer = renderer;
+            }
+        }
+        if (hasValue(layerObject.fields) && layerObject.fields !== currentLayer.fields) {
+            currentLayer.fields = buildJsFields(layerObject.fields);
+        }
+        if (hasValue(layerObject.spatialReference) && 
+            layerObject.spatialReference.wkid !== currentLayer.spatialReference.wkid) {
+            currentLayer.spatialReference = buildJsSpatialReference(layerObject.spatialReference);
+        }
+        if (hasValue(layerObject.fullExtent) && layerObject.fullExtent !== currentLayer.fullExtent) {
+            currentLayer.fullExtent = buildJsExtent(layerObject.fullExtent);
+        }
         unsetWaitCursor(viewId);
     } catch (error) {
         logError(error, viewId);
@@ -1080,15 +1211,15 @@ function createWidget(widget: any, viewId: string): Widget | null {
                     let returnItem = await widget.layerListWidgetObjectReference.invokeMethodAsync('OnListItemCreated', dotNetListItem) as DotNetListItem;
                     evt.item.title = returnItem.title;
                     evt.item.visible = returnItem.visible;
-                    evt.item.layer = returnItem.layer; //--> needs implementation
-                    evt.item.children = returnItem.children; //--> needs implementation
+                    //evt.item.layer = returnItem.layer; //--> needs implementation
+                    //evt.item.children = returnItem.children; //--> needs implementation
                     /// <summary>
                     ///     The Action Sections property and corresponding functionality will be fully implemented
                     ///     in a future iteration.  Currently, a user can view available layers in the layer list widget
                     ///     and toggle the selected layer's visiblity. More capabilities will be available after full
                     ///     implementation of ActionSection.
                     /// </summary>
-                    evt.item.actionSections = returnItem.actionSections as any;
+                    //evt.item.actionSections = returnItem.actionSections as any;
                 };
             }
 
@@ -1112,9 +1243,9 @@ function createWidget(widget: any, viewId: string): Widget | null {
                     evt.item.title = returnItem.title;
                     evt.item.visible = returnItem.visible;
                     // basemap will require additional implementation (similar to layerlist above) to activate additional layer and action sections.
-                    evt.item.layer = returnItem.layer; //--> needs implementation
-                    evt.item.children = returnItem.children; //--> needs implementation
-                    evt.item.actionSections = returnItem.actionSections as any;
+                    //evt.item.layer = returnItem.layer; //--> needs implementation
+                   // evt.item.children = returnItem.children; //--> needs implementation
+                   // evt.item.actionSections = returnItem.actionSections as any;
                 };
             }
             if (hasValue(widget.HasCustomReferenceListHandler)) {
@@ -1124,9 +1255,9 @@ function createWidget(widget: any, viewId: string): Widget | null {
                     evt.item.title = returnItem.title;
                     evt.item.visible = returnItem.visible;
                     // basemap will require additional implementation (similar to layerlist above) to activate additional layer and action sections.
-                    evt.item.layer = returnItem.layer; //--> needs implementation
-                    evt.item.children = returnItem.children; //--> needs implementation
-                    evt.item.actionSections = returnItem.actionSections as any;
+                    // evt.item.layer = returnItem.layer; //--> needs implementation
+                    // evt.item.children = returnItem.children; //--> needs implementation
+                    // evt.item.actionSections = returnItem.actionSections as any;
                 };
             }
 
@@ -1138,7 +1269,7 @@ function createWidget(widget: any, viewId: string): Widget | null {
             }
             break;
         case 'expand':
-            addWidget(widget.content, viewId);
+            createWidget(widget.content, viewId);
             let content = arcGisObjectRefs[widget.content.id] as Widget;
             view.ui.remove(content);
             const expand = new Expand({
@@ -1196,134 +1327,28 @@ export function removeWidget(widgetId: string, viewId: string) : void {
     delete arcGisObjectRefs.widgetId;
 }
 
-export async function addLayer(layerObject: any, viewId: string, isBasemapLayer?: boolean, isQueryLayer?: boolean, 
-                         callback?: Function): Promise<void> {
+export function addLayer(layerObject: any, viewId: string, isBasemapLayer?: boolean, isQueryLayer?: boolean, 
+                         callback?: Function): void {
     try {
         let view = arcGisObjectRefs[viewId] as View;
         if (!hasValue(view?.map)) return;
-        let newLayer: Layer;
-        switch (layerObject.type) {
-            case 'graphics':
-                newLayer = new GraphicsLayer();
-                layerObject.graphics?.forEach(graphicObject => {
-                    addGraphic(graphicObject, viewId, newLayer);
-                });
-                break;
-            case 'feature':
-                if (hasValue(layerObject.portalItem)) {
-                    newLayer = new FeatureLayer({
-                        portalItem: {
-                            id: layerObject.portalItem.id
-                        }
-                    });
-                } else if (hasValue(layerObject.url)) {
-                    newLayer = new FeatureLayer({
-                        url: layerObject.url
-                    });
-                } else {
-                    let source: Array<Graphic> = [];
-                    layerObject.source?.forEach(graphicObject => {
-                        let graphic = buildJsGraphic(graphicObject);
-                        if (graphic !== null) {
-                            source.push(graphic);
-                        }
-                    });
-                    newLayer = new FeatureLayer({
-                        source: source
-                    });
-                } 
-                let featureLayer = newLayer as FeatureLayer;
-                if (hasValue(layerObject.opacity)) {
-                    newLayer.opacity = layerObject.opacity;
-                }
-                if (hasValue(layerObject.definitionExpression)) {
-                    featureLayer.definitionExpression = layerObject.definitionExpression;
-                }
-
-                if (layerObject.labelingInfo !== undefined && layerObject.labelingInfo?.length > 0) {
-                    featureLayer.labelingInfo = layerObject.labelingInfo;
-                }
-
-                if (layerObject.outFields !== undefined && layerObject.outFields?.length > 0) {
-                    featureLayer.outFields = layerObject.outFields;
-                }
-
-                if (hasValue(layerObject.popupTemplate)) {
-                    featureLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate);
-                }
-                if (hasValue(layerObject.title)) {
-                    featureLayer.title = layerObject.title;
-                }
-                if (hasValue(layerObject.minScale)) {
-                    featureLayer.minScale = layerObject.minScale;
-                }
-                if (hasValue(layerObject.maxScale)) {
-                    featureLayer.maxScale = layerObject.maxScale;
-                }
-                if (hasValue(layerObject.orderBy)) {
-                    featureLayer.orderBy = layerObject.orderBy;
-                }
-                if (hasValue(layerObject.objectIdField)) {
-                    featureLayer.objectIdField = layerObject.objectIdField;
-                }
-                if (hasValue(layerObject.renderer)) {
-                    let renderer = buildJsRenderer(layerObject.renderer);
-                    if (renderer !== null) {
-                        featureLayer.renderer = renderer;
-                    }
-                }
-                if (hasValue(layerObject.fields)) {
-                    featureLayer.fields = buildJsFields(layerObject.fields);
-                }
-                if (hasValue(layerObject.spatialReference)) {
-                    featureLayer.spatialReference = buildJsSpatialReference(layerObject.spatialReference);
-                }
-                break;
-            case 'vector-tile':
-                if (hasValue(layerObject.portalItem)) {
-                    newLayer = new VectorTileLayer({
-                        portalItem: layerObject.portalItem
-                    });
-                } else {
-                    newLayer = new VectorTileLayer({
-                        url: layerObject.url
-                    });
-                }
-                if (hasValue(layerObject.opacity)) {
-                    newLayer.opacity = layerObject.opacity;
-                }
-                break;
-            case 'tile':
-                newLayer = new TileLayer({
-                    portalItem: {
-                        id: layerObject.portalItem.id
-                    }
-                });
-                break;
-            case 'geo-json':
-                newLayer = new GeoJSONLayer({
-                    url: layerObject.url,
-                    copyright: layerObject.copyright
-                });
-                let gjLayer = newLayer as GeoJSONLayer;
-                if (hasValue(layerObject.renderer)) {
-                    gjLayer.renderer = layerObject.renderer;
-                }
-                if (hasValue(layerObject.spatialReference)) {
-                    gjLayer.spatialReference = new SpatialReference({
-                        wkid: layerObject.spatialReference.wkid
-                    });
-                }
-                break;
-            case 'geo-rss':
-                newLayer = new GeoRSSLayer({ url: layerObject.url });
-                break;
-            default:
-                return;
+        
+        let newLayer: Layer | null;
+        if (arcGisObjectRefs.hasOwnProperty(layerObject.id)) {
+            newLayer = arcGisObjectRefs[layerObject.id] as Layer;
+            if (newLayer.destroyed) {
+                newLayer = createLayer(layerObject);
+            }
+        } else {
+            newLayer = createLayer(layerObject);
         }
         
-        if (hasValue(layerObject.fullExtent)) {
-            newLayer.fullExtent = buildJsExtent(layerObject.fullExtent);
+        if (newLayer === null) return;
+        
+        if (layerObject.type === 'graphics') {
+            layerObject.graphics?.forEach(graphicObject => {
+                addGraphic(graphicObject, viewId, newLayer);
+            });
         }
         
         if (isBasemapLayer) {
@@ -1336,10 +1361,141 @@ export async function addLayer(layerObject: any, viewId: string, isBasemapLayer?
         } else {
             view.map?.add(newLayer);
         }
-        arcGisObjectRefs[layerObject.id] = newLayer;
     } catch (error) {
         logError(error, viewId);
     }
+}
+
+export function createLayer(layerObject: any, wrap?: boolean | null): Layer | null {
+    let newLayer: Layer;
+    switch (layerObject.type) {
+        case 'graphics':
+            newLayer = new GraphicsLayer();
+            break;
+        case 'feature':
+            if (hasValue(layerObject.portalItem)) {
+                newLayer = new FeatureLayer({
+                    portalItem: {
+                        id: layerObject.portalItem.id
+                    }
+                });
+            } else if (hasValue(layerObject.url)) {
+                newLayer = new FeatureLayer({
+                    url: layerObject.url
+                });
+            } else {
+                let source: Array<Graphic> = [];
+                layerObject.source?.forEach(graphicObject => {
+                    let graphic = buildJsGraphic(graphicObject);
+                    if (graphic !== null) {
+                        source.push(graphic);
+                    }
+                });
+                newLayer = new FeatureLayer({
+                    source: source
+                });
+            }
+            let featureLayer = newLayer as FeatureLayer;
+            if (hasValue(layerObject.opacity)) {
+                newLayer.opacity = layerObject.opacity;
+            }
+            if (hasValue(layerObject.definitionExpression)) {
+                featureLayer.definitionExpression = layerObject.definitionExpression;
+            }
+
+            if (layerObject.labelingInfo !== undefined && layerObject.labelingInfo?.length > 0) {
+                featureLayer.labelingInfo = layerObject.labelingInfo;
+            }
+
+            if (layerObject.outFields !== undefined && layerObject.outFields?.length > 0) {
+                featureLayer.outFields = layerObject.outFields;
+            }
+
+            if (hasValue(layerObject.popupTemplate)) {
+                featureLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate);
+            }
+            if (hasValue(layerObject.title)) {
+                featureLayer.title = layerObject.title;
+            }
+            if (hasValue(layerObject.minScale)) {
+                featureLayer.minScale = layerObject.minScale;
+            }
+            if (hasValue(layerObject.maxScale)) {
+                featureLayer.maxScale = layerObject.maxScale;
+            }
+            if (hasValue(layerObject.orderBy)) {
+                featureLayer.orderBy = layerObject.orderBy;
+            }
+            if (hasValue(layerObject.objectIdField)) {
+                featureLayer.objectIdField = layerObject.objectIdField;
+            }
+            if (hasValue(layerObject.renderer)) {
+                let renderer = buildJsRenderer(layerObject.renderer);
+                if (renderer !== null) {
+                    featureLayer.renderer = renderer;
+                }
+            }
+            if (hasValue(layerObject.fields)) {
+                featureLayer.fields = buildJsFields(layerObject.fields);
+            }
+            if (hasValue(layerObject.spatialReference)) {
+                featureLayer.spatialReference = buildJsSpatialReference(layerObject.spatialReference);
+            }
+            break;
+        case 'vector-tile':
+            if (hasValue(layerObject.portalItem)) {
+                newLayer = new VectorTileLayer({
+                    portalItem: layerObject.portalItem
+                });
+            } else {
+                newLayer = new VectorTileLayer({
+                    url: layerObject.url
+                });
+            }
+            if (hasValue(layerObject.opacity)) {
+                newLayer.opacity = layerObject.opacity;
+            }
+            break;
+        case 'tile':
+            newLayer = new TileLayer({
+                portalItem: {
+                    id: layerObject.portalItem.id
+                }
+            });
+            break;
+        case 'geo-json':
+            newLayer = new GeoJSONLayer({
+                url: layerObject.url,
+                copyright: layerObject.copyright
+            });
+            let gjLayer = newLayer as GeoJSONLayer;
+            if (hasValue(layerObject.renderer)) {
+                gjLayer.renderer = layerObject.renderer;
+            }
+            if (hasValue(layerObject.spatialReference)) {
+                gjLayer.spatialReference = new SpatialReference({
+                    wkid: layerObject.spatialReference.wkid
+                });
+            }
+            break;
+        case 'geo-rss':
+            newLayer = new GeoRSSLayer({ url: layerObject.url });
+            break;
+        default:
+            return null;
+    }
+
+    if (hasValue(layerObject.fullExtent)) {
+        newLayer.fullExtent = buildJsExtent(layerObject.fullExtent);
+    }
+
+    arcGisObjectRefs[layerObject.id] = newLayer;
+    
+    if (wrap) {
+        return getObjectReference(layerObject.id);
+    }
+    
+    return newLayer;
 }
 
 async function resetCenterToSpatialReference(center: Point, spatialReference: SpatialReference): Promise<Point> {

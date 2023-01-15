@@ -3,17 +3,17 @@
 <h1>Server Side Queries</h1>
 
 <div class="links-div">
-    <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#hitTest">ArcGIS API for JavaScript Reference</a>
-    <a class="btn btn-primary" target="_blank" href="https://www.arcgis.com/apps/mapviewer/index.html?url=https://sampleserver6.arcgisonline.com/arcgis/rest/services/Hurricanes/MapServer">Hurricanes</a>
+    <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#queryFeatures">ArcGIS API for JavaScript Reference</a>
+    <a class="btn btn-primary" target="_blank" href="https://www.arcgis.com/home/item.html?id=234d2e3f6f554e0e84757662469c26d3">SF Crimes by Block Group</a>
 </div>
 <p class="instructions">
-    Hover over a line on the map, and the "Hit Test" will return the hurricane name, category, and wind speed (knots).
+    This sample demonstrates a query on a feature layer that lives on a server. On the click action, the feature layer is queried to find which features were clicked, and then the results are used to open a custom popup.
 </p>
 
 <MapView @ref="_mapView"
+         OnViewInitialized="OnViewInitialized"
          Class="map-view" 
-         OnClick="OnClick"
-         OnMapRendered="OnMapRendered">
+         OnClick="OnClick">
     <Map ArcGISDefaultBasemap="gray-vector">
         <FeatureLayer @ref="_featureLayer" OutFields="@(new []{"*"})">
             <PortalItem Id="234d2e3f6f554e0e84757662469c26d3" />
@@ -25,7 +25,8 @@
             Ymin="4536523.6511999965">
         <SpatialReference Wkid="102100" />
     </Extent>
-    <PopupWidget AutoOpenEnabled="false">
+    <PopupWidget AutoOpenEnabled="false"
+                 DockEnabled="true">
         <PopupDockOptions ButtonEnabled="false"
                           BreakPoint="@(new BreakPoint(false))"
                           Position="PopupDockPosition.BottomRight" />
@@ -59,12 +60,15 @@
 </Graphic>
 
 @code {
-    private async Task OnMapRendered()
+    private async Task OnViewInitialized()
     {
-        if (!_extentSet && _featureLayer?.FullExtent is not null)
+        if (!_fullyLoaded)
         {
-            _extentSet = true;
-            // await _featureLayer.RegisterChildComponent(await _featureLayer.CreatePopupTemplate());
+            await _featureLayer!.Load();
+            PopupTemplate popupTemplate = await _featureLayer.CreatePopupTemplate();
+            await _featureLayer!.RegisterChildComponent(popupTemplate);
+            await _mapView!.RegisterChildComponent(_featureLayer!.FullExtent!);
+            _fullyLoaded = true;
         }
     }
     
@@ -79,11 +83,11 @@
             SpatialRelationship = SpatialRelationship.Intersects,
             ReturnGeometry = false,
             ReturnQueryGeometry = true,
-            OutFields = new HashSet<string>{ "*" }
+            OutFields = new HashSet<string> { "*" }
         };
         FeatureSet result = await _featureLayer!.QueryFeatures(query);
         await _pointGraphic!.RegisterChildComponent(clickEvent.MapPoint);
-        await _mapView.AddGraphic(_pointGraphic);
+        await _mapView!.AddGraphic(_pointGraphic);
         await _mapView.OpenPopup(new PopupOpenOptions
         {
             Location = clickEvent.MapPoint,
@@ -105,5 +109,5 @@
     private Graphic? _pointGraphic;
     private Graphic? _bufferGraphic;
     private string? _queryType;
-    private bool _extentSet;
+    private bool _fullyLoaded;
 }
