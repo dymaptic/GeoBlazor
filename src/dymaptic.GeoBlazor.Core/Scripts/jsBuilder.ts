@@ -37,6 +37,7 @@ import {
     DotNetTextPopupContent
 } from "./definitions";
 import ViewClickEvent = __esri.ViewClickEvent;
+import PictureMarkerSymbol from "@arcgis/core/symbols/PictureMarkerSymbol";
 import Popup from "@arcgis/core/widgets/Popup";
 import PopupOpenOptions = __esri.PopupOpenOptions;
 import PopupDockOptions = __esri.PopupDockOptions;
@@ -291,10 +292,15 @@ export function buildJsRenderer(dotNetRenderer: any): Renderer | null {
     switch (dotNetRenderer.type) {
         case 'simple':
             let renderer = new SimpleRenderer();
+            renderer.visualVariables = dotNetRenderer.visualVariables;
             switch (dotNetSymbol.type) {
                 case 'text':
                     let symbol = buildJsTextSymbol(dotNetSymbol);
                     renderer.symbol = symbol;
+                    return renderer;
+                case 'picture-marker':
+                    let marker = buildJsPictureMarker(dotNetSymbol);
+                    renderer.symbol = marker;
                     return renderer;
             }
     }
@@ -334,6 +340,39 @@ export function buildJsTextSymbol(dotNetTextSymbol: any): TextSymbol {
     }
     if (dotNetTextSymbol.font !== undefined && dotNetTextSymbol.font !== null) {
         symbol.font = buildJsFont(dotNetTextSymbol.font);
+    }
+    
+    return symbol;
+}
+
+export function buildJsPictureMarker(dotNetPictureMarker: any): PictureMarkerSymbol {
+    let symbol = new PictureMarkerSymbol();
+    if (dotNetPictureMarker.color !== undefined && dotNetPictureMarker.color !== null) {
+        symbol.color = dotNetPictureMarker.color;
+    }
+
+    if (dotNetPictureMarker.angle !== undefined && dotNetPictureMarker.angle !== null) {
+        symbol.angle = dotNetPictureMarker.angle;
+    }
+
+    if (dotNetPictureMarker.height !== undefined && dotNetPictureMarker.height !== null) {
+        symbol.height = dotNetPictureMarker.height;
+    }
+
+    if (dotNetPictureMarker.width !== undefined && dotNetPictureMarker.width !== null) {
+        symbol.width = dotNetPictureMarker.width;
+    }
+
+    if (dotNetPictureMarker.url !== undefined && dotNetPictureMarker.url !== null) {
+        symbol.url = dotNetPictureMarker.url;
+    }
+
+    if (dotNetPictureMarker.xoffset !== undefined && dotNetPictureMarker.xoffset !== null) {
+        symbol.xoffset = dotNetPictureMarker.xoffset;
+    }
+
+    if (dotNetPictureMarker.yoffset !== undefined && dotNetPictureMarker.yoffset !== null) {
+        symbol.yoffset = dotNetPictureMarker.yoffset;
     }
     
     return symbol;

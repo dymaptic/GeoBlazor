@@ -22,7 +22,8 @@ Derived
 &#8627; [GeoJSONLayer](dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html 'dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer')  
 &#8627; [GeoRSSLayer](dymaptic.GeoBlazor.Core.Components.Layers.GeoRSSLayer.html 'dymaptic.GeoBlazor.Core.Components.Layers.GeoRSSLayer')  
 &#8627; [GraphicsLayer](dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer.html 'dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer')  
-&#8627; [TileLayer](dymaptic.GeoBlazor.Core.Components.Layers.TileLayer.html 'dymaptic.GeoBlazor.Core.Components.Layers.TileLayer')
+&#8627; [TileLayer](dymaptic.GeoBlazor.Core.Components.Layers.TileLayer.html 'dymaptic.GeoBlazor.Core.Components.Layers.TileLayer')  
+&#8627; [WebTileLayer](dymaptic.GeoBlazor.Core.Components.Layers.WebTileLayer.html 'dymaptic.GeoBlazor.Core.Components.Layers.WebTileLayer')
 ### Properties
 
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.Layer.AbortManager'></a>
@@ -42,7 +43,7 @@ public dymaptic.GeoBlazor.Core.Objects.AbortManager? AbortManager { get; set; }
 
 ## Layer.FullExtent Property
 
-The full extent of the layer. By default, this is worldwide. This property may be used to set the extent of the view to match a layer's extent so that its features appear to fill the view. See the sample snippet below.
+The full extent of the layer. By default, this is worldwide. This property may be used to set the extent of the view to match a layer's extent so that its features appear to fill the view.
 
 ```csharp
 public dymaptic.GeoBlazor.Core.Components.Geometries.Extent? FullExtent { get; set; }
@@ -103,6 +104,19 @@ public dymaptic.GeoBlazor.Core.Components.Layers.LayerView? LayerView { get; set
 #### Property Value
 [LayerView](dymaptic.GeoBlazor.Core.Components.Layers.LayerView.html 'dymaptic.GeoBlazor.Core.Components.Layers.LayerView')
 
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.Layer.ListMode'></a>
+
+## Layer.ListMode Property
+
+Indicates how the layer should display in the LayerList widget. The possible values are listed below.
+
+```csharp
+public System.Nullable<dymaptic.GeoBlazor.Core.Components.Layers.ListMode> ListMode { get; set; }
+```
+
+#### Property Value
+[System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[ListMode](dymaptic.GeoBlazor.Core.Components.Layers.ListMode.html 'dymaptic.GeoBlazor.Core.Components.Layers.ListMode')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
+
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.Layer.Opacity'></a>
 
 ## Layer.Opacity Property
@@ -128,6 +142,19 @@ public string? Title { get; set; }
 
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.Layer.Visible'></a>
+
+## Layer.Visible Property
+
+Indicates if the layer is visible in the View. When false, the layer may still be added to a Map instance that is referenced in a view, but its features will not be visible in the view.
+
+```csharp
+public System.Nullable<bool> Visible { get; set; }
+```
+
+#### Property Value
+[System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 ### Methods
 
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.Layer.DisposeAsync()'></a>

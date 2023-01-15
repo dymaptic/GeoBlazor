@@ -149,11 +149,11 @@ public dymaptic.GeoBlazor.Core.Objects.HighlightOptions? HighlightOptions { get;
 The Latitude for the Center point of the view
 
 ```csharp
-public double Latitude { get; set; }
+public System.Nullable<double> Latitude { get; set; }
 ```
 
 #### Property Value
-[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')
+[System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.LoadOnRender'></a>
 
@@ -175,11 +175,11 @@ public bool LoadOnRender { get; set; }
 The Longitude for the Center point of the view
 
 ```csharp
-public double Longitude { get; set; }
+public System.Nullable<double> Longitude { get; set; }
 ```
 
 #### Property Value
-[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')
+[System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.Map'></a>
 
@@ -614,6 +614,22 @@ public Microsoft.AspNetCore.Components.EventCallback OnViewInitialized { get; se
 #### Property Value
 [Microsoft.AspNetCore.Components.EventCallback](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback 'Microsoft.AspNetCore.Components.EventCallback')
 
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.PromptForArcGISKey'></a>
+
+## MapView.PromptForArcGISKey Property
+
+Provides an override for the default behavior of requiring an API key. By setting to "false", all calls to ArcGIS services will trigger a sign-in popup.
+
+```csharp
+public System.Nullable<bool> PromptForArcGISKey { get; set; }
+```
+
+#### Property Value
+[System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
+
+### Remarks
+Setting this to "false" is the same as setting [AllowDefaultEsriLogin](dymaptic.GeoBlazor.Core.Components.Views.MapView.html#dymaptic.GeoBlazor.Core.Components.Views.MapView.AllowDefaultEsriLogin 'dymaptic.GeoBlazor.Core.Components.Views.MapView.AllowDefaultEsriLogin') to "true". This is provided simply for convenience of discovery.
+
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.Rotation'></a>
 
 ## MapView.Rotation Property
@@ -699,11 +715,11 @@ public System.Collections.Generic.HashSet<dymaptic.GeoBlazor.Core.Components.Wid
 Represents the level of detail (LOD) at the center of the view.
 
 ```csharp
-public double Zoom { get; set; }
+public System.Nullable<double> Zoom { get; set; }
 ```
 
 #### Property Value
-[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')
+[System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 ### Methods
 
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.AddGraphic(dymaptic.GeoBlazor.Core.Components.Layers.Graphic,System.Nullable_int_)'></a>
