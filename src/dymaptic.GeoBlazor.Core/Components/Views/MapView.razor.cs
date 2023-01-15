@@ -57,12 +57,12 @@ public partial class MapView : MapComponent
     ///     The Latitude for the Center point of the view
     /// </summary>
     [Parameter]
-    public double Latitude
+    public double? Latitude
     {
         get => _latitude;
         set
         {
-            if (Math.Abs(_latitude - value) > 0.0000000000001)
+            if (value is null || _latitude is null || Math.Abs(_latitude.Value - value.Value) > 0.0000000000001)
             {
                 _latitude = value;
                 NewPropertyValues[nameof(Latitude)] = value;
@@ -74,12 +74,12 @@ public partial class MapView : MapComponent
     ///     The Longitude for the Center point of the view
     /// </summary>
     [Parameter]
-    public double Longitude
+    public double? Longitude
     {
         get => _longitude;
         set
         {
-            if (Math.Abs(_longitude - value) > 0.0000000000001)
+            if (value is null || _longitude is null || Math.Abs(_longitude.Value - value.Value) > 0.0000000000001)
             {
                 _longitude = value;
                 NewPropertyValues[nameof(Longitude)] = value;
@@ -91,12 +91,12 @@ public partial class MapView : MapComponent
     ///     Represents the level of detail (LOD) at the center of the view.
     /// </summary>
     [Parameter]
-    public double Zoom
+    public double? Zoom
     {
         get => _zoom;
         set
         {
-            if (Math.Abs(_zoom - value) > 0.0000000000001)
+            if (value is null || _zoom is null || Math.Abs(_zoom.Value - value.Value) > 0.0000000000001)
             {
                 _zoom = value;
                 NewPropertyValues[nameof(Zoom)] = value;
@@ -148,6 +148,14 @@ public partial class MapView : MapComponent
     [Parameter]
     public bool? AllowDefaultEsriLogin { get; set; }
 
+    /// <summary>
+    ///     Provides an override for the default behavior of requiring an API key. By setting to "false", all calls to ArcGIS services will trigger a sign-in popup.
+    /// </summary>
+    /// <remarks>
+    ///     Setting this to "false" is the same as setting <see cref="AllowDefaultEsriLogin"/> to "true". This is provided simply for convenience of discovery. 
+    /// </remarks>
+    [Parameter]
+    public bool? PromptForArcGISKey { get; set; }
 
 #region EventHandlers
 
@@ -790,7 +798,7 @@ public partial class MapView : MapComponent
             return;
         }
 
-        foreach (KeyValuePair<string, object> kvp in NewPropertyValues)
+        foreach (KeyValuePair<string, object?> kvp in NewPropertyValues)
         {
             await ViewJsModule!.InvokeVoidAsync("updateView", kvp.Key, kvp.Value, Id);
         }
@@ -1317,11 +1325,21 @@ public partial class MapView : MapComponent
 
         if (AllowDefaultEsriLogin is null)
         {
-            string? setting = Configuration["AllowDefaultEsriLogin"];
+            bool? setting = Configuration.GetValue<bool?>("AllowDefaultEsriLogin");
 
-            if (setting is not null && bool.TryParse(setting, out var allow))
+            if (setting is not null)
             {
-                AllowDefaultEsriLogin = allow;
+                AllowDefaultEsriLogin = setting.Value;
+            }
+        }
+
+        if (PromptForArcGISKey is null)
+        {
+            bool? promptSetting = Configuration.GetValue<bool?>("PromptForArcGISKey");
+
+            if (promptSetting is not null)
+            {
+                PromptForArcGISKey = promptSetting.Value;
             }
         }
     }
@@ -1382,10 +1400,11 @@ public partial class MapView : MapComponent
 
         if (Rendering || (Map is null && WebMap is null) || ViewJsModule is null) return;
 
-        if (string.IsNullOrWhiteSpace(ApiKey) && (AllowDefaultEsriLogin is null || !AllowDefaultEsriLogin.Value))
+        if (string.IsNullOrWhiteSpace(ApiKey) && AllowDefaultEsriLogin is null or false &&
+            PromptForArcGISKey is null or true)
         {
             string newErrorMessage =
-                "No ArcGIS API Key Found. See UsingTheAPI.md for instructions on providing an API Key or suppressing this message.";
+                "No ArcGIS API Key Found. See https://docs.geoblazor.com/pages/authentication.html for instructions on providing an API Key or suppressing this message.";
 
             if (ErrorMessage == newErrorMessage)
             {
@@ -1496,7 +1515,7 @@ public partial class MapView : MapComponent
     /// <summary>
     ///     Tracked properties that need to be updated.
     /// </summary>
-    protected readonly Dictionary<string, object> NewPropertyValues = new();
+    protected readonly Dictionary<string, object?> NewPropertyValues = new();
 
     /// <summary>
     ///     A boolean flag to indicate a "dirty" state that needs to be re-rendered
@@ -1505,11 +1524,11 @@ public partial class MapView : MapComponent
     private bool IsWebAssembly => JsRuntime is IJSInProcessRuntime;
     private bool IsServer => JsRuntime.GetType().Name.Contains("Remote");
     private bool IsMaui => JsRuntime.GetType().Name.Contains("WebView");
-    private double _longitude = -118.805;
-    private double _zoom = 11;
+    private double? _longitude;
+    private double? _zoom;
     private double? _scale;
     private double _rotation;
-    private double _latitude = 34.027;
+    private double? _latitude;
     private string? _apiKey;
     private SpatialReference? _spatialReference;
     private Dictionary<Guid, StringBuilder> _hitTestResults = new();

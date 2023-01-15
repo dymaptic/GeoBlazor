@@ -64,7 +64,11 @@ import {
     buildJsRenderer,
     buildJsSpatialReference,
     buildJsPopupTemplate,
-    buildJsGraphic, buildJsGeometry, buildJsPoint, buildJsViewClickEvent
+    buildJsGraphic, 
+    buildJsViewClickEvent,
+    buildJsGeometry, 
+    buildJsPoint, 
+    buildJsExtent
 } from "./jsBuilder";
 import {
     DotNetExtent,
@@ -78,6 +82,11 @@ import {
 } from "./definitions";
 import HitTestResult = __esri.HitTestResult;
 import MapViewHitTestOptions = __esri.MapViewHitTestOptions;
+import WebTileLayer from "@arcgis/core/layers/WebTileLayer";
+import TileInfo from "@arcgis/core/layers/support/TileInfo";
+import LOD from "@arcgis/core/layers/support/LOD";
+import OpenStreetMapLayer from "@arcgis/core/layers/OpenStreetMapLayer";
+import Camera from "@arcgis/core/Camera";
 
 export let arcGisObjectRefs: Record<string, Accessor> = {};
 export let dotNetRefs = {};
@@ -90,8 +99,8 @@ export function setAssetsPath (path: string) {
     }
 }
 
-export async function buildMapView(id: string, dotNetReference: any, long: number, lat: number,
-                                   rotation: number, mapObject: any, zoom: number, scale: number, 
+export async function buildMapView(id: string, dotNetReference: any, long: number | null, lat: number | null,
+                                   rotation: number, mapObject: any, zoom: number | null, scale: number, 
                                    apiKey: string, mapType: string, widgets: any, graphics: any, 
                                    spatialReference: any, constraints: any, extent: any, 
                                    eventRateLimitInMilliseconds: number | null, activeEventHandlers: Array<string>,
@@ -166,59 +175,70 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
                 });
                 view = new SceneView({
                     container: `map-container-${id}`,
-                    map: scene,
-                    camera: {
-                        position: {
-                            x: long, //Longitude
-                            y: lat, //Latitude
-                            z: zIndex //Meters
-                        },
-                        tilt: tilt
-                    }
+                    map: scene
                 });
+                if (hasValue(lat) && hasValue(long)) {
+                    (view as SceneView).camera = {
+                        position: {
+                            x: long as number, //Longitude
+                            y: lat as number, //Latitude
+                            z: zIndex as number //Meters
+                        } as Point,
+                        tilt: tilt as number
+                    } as Camera
+                }
                 break;
             default:
                 const map = new Map({
                     basemap: basemap!,
                     ground: mapObject.ground
                 });
-                let center;
-                let spatialRef;
-                if (hasValue(spatialReference)) {
-                    spatialRef = buildJsSpatialReference(spatialReference);
+                
+                view = new MapView({
+                    map: map,
+                    container: `map-container-${id}`,
+                    rotation: rotation
+                });
+                break;
+        }
+
+        let spatialRef;
+        if (hasValue(spatialReference)) {
+            spatialRef = buildJsSpatialReference(spatialReference);
+            view.spatialReference = spatialRef;
+        }
+
+        if (hasValue(extent)) {
+            (view as MapView).extent = buildJsExtent(extent);
+        } else {
+            let center;
+            
+            if (hasValue(lat) && hasValue(long)) {
+                if (hasValue(spatialRef)) {
                     center = new Point({
-                        latitude: lat,
-                        longitude: long,
+                        latitude: lat as number,
+                        longitude: long as number,
                         spatialReference: spatialRef
                     });
                     center = await resetCenterToSpatialReference(center, spatialRef);
                 } else {
                     center = [long, lat];
                 }
-                view = new MapView({
-                    map: map,
-                    center: center,
-                    container: `map-container-${id}`,
-                    rotation: rotation
-                });
-                if (hasValue(scale)) {
-                    (view as MapView).scale = scale;
-                } else {
-                    (view as MapView).zoom = zoom;
-                }
+            }
 
-                if (hasValue(spatialRef)) {
-                    view.spatialReference = spatialRef;
-                }
+            if (hasValue(center)) {
+                (view as MapView).center = center;
+            }
 
-                if (hasValue(constraints)) {
-                    (view as MapView).constraints = constraints;
-                }
-                
-                if (hasValue(extent)) {
-                    (view as MapView).extent = extent;
-                }
-                break;
+            if (hasValue(scale)) {
+                (view as MapView).scale = scale;
+            } else if (hasValue(zoom)) {
+                (view as MapView).zoom = zoom as number;
+            }
+        }
+
+        if (hasValue(constraints)) {
+            (view as MapView).constraints = constraints;
         }
 
         arcGisObjectRefs[id] = view;
@@ -1164,13 +1184,10 @@ export async function addLayer(layerObject: any, viewId: string, isBasemapLayer?
                     });
                 } 
                 let featureLayer = newLayer as FeatureLayer;
-                if (hasValue(layerObject.opacity)) {
-                    newLayer.opacity = layerObject.opacity;
-                }
-                if (hasValue(layerObject.definitionExpression)) {
-                    featureLayer.definitionExpression = layerObject.definitionExpression;
-                }
 
+                copyValuesIfExists(layerObject, featureLayer, 'minScale', 'maxScale', 'orderBy', 'objectIdField',
+                    'definitionExpression');
+                
                 if (layerObject.labelingInfo !== undefined && layerObject.labelingInfo?.length > 0) {
                     featureLayer.labelingInfo = layerObject.labelingInfo;
                 }
@@ -1182,21 +1199,7 @@ export async function addLayer(layerObject: any, viewId: string, isBasemapLayer?
                 if (hasValue(layerObject.popupTemplate)) {
                     featureLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate);
                 }
-                if (hasValue(layerObject.title)) {
-                    featureLayer.title = layerObject.title;
-                }
-                if (hasValue(layerObject.minScale)) {
-                    featureLayer.minScale = layerObject.minScale;
-                }
-                if (hasValue(layerObject.maxScale)) {
-                    featureLayer.maxScale = layerObject.maxScale;
-                }
-                if (hasValue(layerObject.orderBy)) {
-                    featureLayer.orderBy = layerObject.orderBy;
-                }
-                if (hasValue(layerObject.objectIdField)) {
-                    featureLayer.objectIdField = layerObject.objectIdField;
-                }
+                
                 if (hasValue(layerObject.renderer)) {
                     let renderer = buildJsRenderer(layerObject.renderer);
                     if (renderer !== null) {
@@ -1219,9 +1222,6 @@ export async function addLayer(layerObject: any, viewId: string, isBasemapLayer?
                     newLayer = new VectorTileLayer({
                         url: layerObject.url
                     });
-                }
-                if (hasValue(layerObject.opacity)) {
-                    newLayer.opacity = layerObject.opacity;
                 }
                 break;
             case 'tile':
@@ -1249,10 +1249,107 @@ export async function addLayer(layerObject: any, viewId: string, isBasemapLayer?
             case 'geo-rss':
                 newLayer = new GeoRSSLayer({ url: layerObject.url });
                 break;
+                
+            case 'web-tile':
+                let webTileLayer: WebTileLayer;
+                if (hasValue(layerObject.urlTemplate)) {
+                    webTileLayer = new WebTileLayer({
+                        urlTemplate: layerObject.urlTemplate
+                    });
+                } else {
+                    webTileLayer = new WebTileLayer({
+                        portalItem: layerObject.portalItem
+                    });
+                }
+                newLayer = webTileLayer;
+                
+                copyValuesIfExists(layerObject, webTileLayer, 
+                    'subDomains', 'blendMode', 'copyright', 'maxScale', 'minScale', 'refreshInterval')
+                
+                if (hasValue(layerObject.tileInfo)) {
+                    webTileLayer.tileInfo = new TileInfo();
+                    copyValuesIfExists(layerObject.tileInfo, webTileLayer.tileInfo,
+                        'dpi', 'format', 'isWrappable', 'size');
+                    
+                    if (hasValue(layerObject.tileInfo.lods)) {
+                        webTileLayer.tileInfo.lods = layerObject.tileInfo.lods.map(l => {
+                            let lod = new LOD();
+                            copyValuesIfExists(l, lod, 'level', 'levelValue', 'resolution', 'scale');
+                            return lod;
+                        });
+                    }
+                    
+                    if (hasValue(layerObject.tileInfo.origin)) {
+                        webTileLayer.tileInfo.origin = buildJsPoint(layerObject.tileInfo.origin) as Point;
+                    }
+                    
+                    if (hasValue(layerObject.tileInfo.spatialReference)) {
+                        webTileLayer.tileInfo.spatialReference = buildJsSpatialReference(layerObject.tileInfo.spatialReference);
+                    }
+                }
+                
+                break;
+            case 'open-street-map':
+                let openStreetMapLayer: OpenStreetMapLayer;
+                if (hasValue(layerObject.urlTemplate)) {
+                    openStreetMapLayer = new OpenStreetMapLayer({
+                        urlTemplate: layerObject.urlTemplate
+                    });
+                } else {
+                    openStreetMapLayer = new OpenStreetMapLayer({
+                        portalItem: layerObject.portalItem
+                    });
+                }
+                newLayer = openStreetMapLayer;
+
+                copyValuesIfExists(layerObject, openStreetMapLayer,
+                    'subDomains', 'blendMode', 'copyright', 'maxScale', 'minScale', 'refreshInterval')
+
+                if (hasValue(layerObject.tileInfo)) {
+                    openStreetMapLayer.tileInfo = new TileInfo();
+                    copyValuesIfExists(layerObject.tileInfo, openStreetMapLayer.tileInfo,
+                        'dpi', 'format', 'isWrappable', 'size');
+
+                    if (hasValue(layerObject.tileInfo.lods)) {
+                        openStreetMapLayer.tileInfo.lods = layerObject.tileInfo.lods.map(l => {
+                            let lod = new LOD();
+                            copyValuesIfExists(l, lod, 'level', 'levelValue', 'resolution', 'scale');
+                            return lod;
+                        });
+                    }
+
+                    if (hasValue(layerObject.tileInfo.origin)) {
+                        openStreetMapLayer.tileInfo.origin = buildJsPoint(layerObject.tileInfo.origin) as Point;
+                    }
+
+                    if (hasValue(layerObject.tileInfo.spatialReference)) {
+                        openStreetMapLayer.tileInfo.spatialReference = buildJsSpatialReference(layerObject.tileInfo.spatialReference);
+                    }
+                }
+
+                break;
             default:
                 return;
         }
 
+        if (hasValue(layerObject.title)) {
+            newLayer.title = layerObject.title;
+        }
+
+        if (hasValue(layerObject.opacity)) {
+            newLayer.opacity = layerObject.opacity;
+        }
+        
+        if (hasValue(layerObject.listMode)) {
+            newLayer.listMode = layerObject.listMode;
+        }
+        if (hasValue(layerObject.visible)) {
+            newLayer.visible = layerObject.visible;
+        }
+        
+        if (hasValue(layerObject.fullExtent)) {
+            newLayer.fullExtent = buildJsExtent(layerObject.fullExtent);
+        }
         
         if (isBasemapLayer) {
             view.map?.basemap.baseLayers.push(newLayer);
@@ -1349,6 +1446,14 @@ function buildDotNetListItem(item: ListItem): DotNetListItem | null {
         children: children,
         actionSections: item.actionsSections as any
     } as DotNetListItem;
+}
+
+function copyValuesIfExists(originalObject: any, newObject: any, ...params: Array<string>) {
+    params.forEach(p => {
+        if (hasValue(originalObject[p])) {
+            newObject[p] = originalObject[p];
+        }
+    });
 }
 
 function checkConnectivity(viewId) {

@@ -85,9 +85,10 @@ public class SceneView : MapView
 
         if (Rendering || (Map is null && WebScene is null) || ViewJsModule is null) return;
 
-        if (string.IsNullOrWhiteSpace(ApiKey) && (AllowDefaultEsriLogin is null || !AllowDefaultEsriLogin.Value))
+        if (string.IsNullOrWhiteSpace(ApiKey) && AllowDefaultEsriLogin is null or false &&
+            PromptForArcGISKey is null or true)
         {
-            ErrorMessage = "No ArcGIS API Key Found. See UsingTheAPI.md for instructions on providing an API Key or suppressing this message.";
+            ErrorMessage = "No ArcGIS API Key Found. See https://docs.geoblazor.com/pages/authentication.html for instructions on providing an API Key or suppressing this message.";
             System.Diagnostics.Debug.WriteLine(ErrorMessage);
             StateHasChanged();
 

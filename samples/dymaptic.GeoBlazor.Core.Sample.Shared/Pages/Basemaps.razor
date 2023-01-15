@@ -40,12 +40,12 @@
 @switch (_basemapType)
 {
     case 0:
-        <MapView Class="map-view">
+        <MapView Class="map-view" Zoom="11" Latitude="_latitude" Longitude="_longitude">
             <Map ArcGISDefaultBasemap="arcgis-topographic" />
         </MapView>
         break;
     case 1:
-        <MapView Class="map-view">
+        <MapView Class="map-view" Zoom="11" Latitude="_latitude" Longitude="_longitude">
             <Map>
                 <Basemap>
                     <PortalItem Id="f35ef07c9ed24020aadd65c8a65d3754" />
@@ -54,7 +54,7 @@
         </MapView>
         break;
     case 2:
-        <MapView Class="map-view">
+        <MapView Class="map-view" Zoom="11" Latitude="_latitude" Longitude="_longitude">
             <Map>
                 <Basemap>
                     <TileLayer>
@@ -77,4 +77,6 @@
     }
 
     private int _basemapType;
+    private readonly double _latitude = 34.027;
+    private readonly double _longitude = -118.805;
 }
