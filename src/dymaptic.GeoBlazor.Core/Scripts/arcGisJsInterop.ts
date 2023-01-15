@@ -177,7 +177,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
                     container: `map-container-${id}`,
                     map: scene
                 });
-                if (!hasValue(zoom) && !hasValue(scale) && hasValue(lat) && hasValue(long)) {
+                if (hasValue(lat) && hasValue(long)) {
                     (view as SceneView).camera = {
                         position: {
                             x: long as number, //Longitude
@@ -199,10 +199,6 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
                     container: `map-container-${id}`,
                     rotation: rotation
                 });
-                // backwards-compatibility setting for map zoom/lat/long levels
-                zoom = zoom ?? 11;
-                lat = lat ?? 34.027;
-                long = long ?? -118.805;
                 break;
         }
 

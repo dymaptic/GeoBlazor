@@ -181,7 +181,13 @@ internal class ListModeConverter : JsonConverter<ListMode>
 {
     public override ListMode Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        throw new NotImplementedException();
+        return reader.GetString() switch
+        {
+            "show" => ListMode.Show,
+            "hide" => ListMode.Hide,
+            "hide-children" => ListMode.HideChildren,
+            _ => throw new JsonException()
+        };
     }
 
     public override void Write(Utf8JsonWriter writer, ListMode value, JsonSerializerOptions options)

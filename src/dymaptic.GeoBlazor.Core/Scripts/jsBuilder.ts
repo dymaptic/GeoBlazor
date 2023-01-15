@@ -180,6 +180,7 @@ export function buildJsRenderer(dotNetRenderer: any): Renderer | null {
     switch (dotNetRenderer.type) {
         case 'simple':
             let renderer = new SimpleRenderer();
+            renderer.visualVariables = dotNetRenderer.visualVariables;
             switch (dotNetSymbol.type) {
                 case 'text':
                     let symbol = buildJsTextSymbol(dotNetSymbol);
