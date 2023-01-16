@@ -16,6 +16,20 @@ public class FeatureLayerView : dymaptic.GeoBlazor.Core.Components.Layers.LayerV
 ```
 
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [LayerView](dymaptic.GeoBlazor.Core.Components.Layers.LayerView.html 'dymaptic.GeoBlazor.Core.Components.Layers.LayerView') &#129106; FeatureLayerView
+### Properties
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayerView.Filter'></a>
+
+## FeatureLayerView.Filter Property
+
+The attribute, geometry, and time extent filter. Only the features that satisfy the filter are displayed on the view.
+
+```csharp
+public dymaptic.GeoBlazor.Core.Components.Layers.FeatureFilter? Filter { get; }
+```
+
+#### Property Value
+[FeatureFilter](dymaptic.GeoBlazor.Core.Components.Layers.FeatureFilter.html 'dymaptic.GeoBlazor.Core.Components.Layers.FeatureFilter')
 ### Methods
 
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayerView.CreateQuery()'></a>
@@ -250,3 +264,23 @@ A cancellation token that can be used to cancel the query operation.
 
 #### Returns
 [System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayerView.SetFilter(dymaptic.GeoBlazor.Core.Components.Layers.FeatureFilter)'></a>
+
+## FeatureLayerView.SetFilter(FeatureFilter) Method
+
+Sets the [FeatureFilter](dymaptic.GeoBlazor.Core.Components.Layers.FeatureFilter.html 'dymaptic.GeoBlazor.Core.Components.Layers.FeatureFilter') for this view.
+
+```csharp
+public System.Threading.Tasks.Task SetFilter(dymaptic.GeoBlazor.Core.Components.Layers.FeatureFilter? filter);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayerView.SetFilter(dymaptic.GeoBlazor.Core.Components.Layers.FeatureFilter).filter'></a>
+
+`filter` [FeatureFilter](dymaptic.GeoBlazor.Core.Components.Layers.FeatureFilter.html 'dymaptic.GeoBlazor.Core.Components.Layers.FeatureFilter')
+
+The new filter (or null to clear) to apply to this view.
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')

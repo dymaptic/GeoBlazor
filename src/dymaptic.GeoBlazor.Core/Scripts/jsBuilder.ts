@@ -32,9 +32,9 @@ import {
     DotNetPolyline,
     DotNetPopupContent,
     DotNetPopupTemplate,
-    DotNetQuery,
+    DotNetQuery, DotNetRelationshipQuery,
     DotNetSpatialReference,
-    DotNetTextPopupContent
+    DotNetTextPopupContent, DotNetTopFeaturesQuery
 } from "./definitions";
 import ViewClickEvent = __esri.ViewClickEvent;
 import PictureMarkerSymbol from "@arcgis/core/symbols/PictureMarkerSymbol";
@@ -60,6 +60,9 @@ import ExpressionContent from "@arcgis/core/popup/content/ExpressionContent";
 import ElementExpressionInfoProperties = __esri.ElementExpressionInfoProperties;
 import popupExpressionInfoProperties = __esri.popupExpressionInfoProperties;
 import Layer from "@arcgis/core/layers/Layer";
+import RelationshipQuery from "@arcgis/core/rest/support/RelationshipQuery";
+import TopFeaturesQuery from "@arcgis/core/rest/support/TopFeaturesQuery";
+import popupExpressionInfo from "@arcgis/core/popup/ExpressionInfo";
 
 export function buildJsSpatialReference(dotNetSpatialReference: DotNetSpatialReference): SpatialReference {
     if (dotNetSpatialReference === undefined || dotNetSpatialReference === null) {
@@ -139,15 +142,37 @@ export function buildJsPopupTemplate(popupTemplateObject: DotNetPopupTemplate): 
     } else {
         content = popupTemplateObject.content?.map(c => buildJsPopupContent(c));
     }
-    return new PopupTemplate({
-        title: popupTemplateObject.title,
-        content: content,
-        outFields: popupTemplateObject.outFields,
-        overwriteActions: popupTemplateObject.overwriteActions,
-        returnGeometry: popupTemplateObject.returnGeometry,
-        fieldInfos: popupTemplateObject.fieldInfos?.map(f => buildJsFieldInfo(f)),
-        expressionInfos: popupTemplateObject.expressionInfos?.map(e => buildJsExpressionInfo(e)),
-    });
+    let template = new PopupTemplate();
+    
+    if (popupTemplateObject.title !== undefined && popupTemplateObject.title !== null) {
+        template.title = popupTemplateObject.title;
+    }
+    
+    if (content !== undefined && content !== null) {
+        template.content = content;
+    }
+    
+    if (popupTemplateObject.outFields !== undefined && popupTemplateObject.outFields !== null) {
+        template.outFields = popupTemplateObject.outFields;
+    }
+    
+    if (popupTemplateObject.overwriteActions !== undefined && popupTemplateObject.overwriteActions !== null) {
+        template.overwriteActions = popupTemplateObject.overwriteActions;
+    }
+    
+    if (popupTemplateObject.returnGeometry !== undefined && popupTemplateObject.returnGeometry !== null) {
+        template.returnGeometry = popupTemplateObject.returnGeometry;
+    }
+    
+    if (popupTemplateObject.fieldInfos !== undefined && popupTemplateObject.fieldInfos !== null) {
+        template.fieldInfos = popupTemplateObject.fieldInfos.map(f => buildJsFieldInfo(f));
+    }
+    
+    if (popupTemplateObject.expressionInfos !== undefined && popupTemplateObject.expressionInfos !== null) {
+        template.expressionInfos = popupTemplateObject.expressionInfos.map(e => buildJsExpressionInfo(e));
+    }
+    
+    return template;
 }
 
 export function buildJsPopupContent(popupContentObject: DotNetPopupContent): ContentProperties | null {
@@ -184,14 +209,32 @@ export function buildJsPopupContent(popupContentObject: DotNetPopupContent): Con
 }
 
 export function buildJsFieldInfo(fieldInfoObject: DotNetFieldInfo): FieldInfo {
-    let fieldInfo = new FieldInfo({
-        fieldName: fieldInfoObject.fieldName,
-        label: fieldInfoObject.label,
-        tooltip: fieldInfoObject.tooltip,
-        stringFieldOption: fieldInfoObject.stringFieldOption as any,
-        visible: fieldInfoObject.visible,
-        isEditable: fieldInfoObject.isEditable
-    });
+    let fieldInfo = new FieldInfo();
+    
+    if (fieldInfoObject.fieldName !== undefined && fieldInfoObject.fieldName !== null) {
+        fieldInfo.fieldName = fieldInfoObject.fieldName;
+    }
+    
+    if (fieldInfoObject.label !== undefined && fieldInfoObject.label !== null) {
+        fieldInfo.label = fieldInfoObject.label;
+    }
+    
+    if (fieldInfoObject.tooltip !== undefined && fieldInfoObject.tooltip !== null) {
+        fieldInfo.tooltip = fieldInfoObject.tooltip;
+    }
+    
+    if (fieldInfoObject.stringFieldOption !== undefined && fieldInfoObject.stringFieldOption !== null) {
+        fieldInfo.stringFieldOption = fieldInfoObject.stringFieldOption as any;
+    }
+    
+    if (fieldInfoObject.visible !== undefined && fieldInfoObject.visible !== null) {
+        fieldInfo.visible = fieldInfoObject.visible;
+    }
+    
+    if (fieldInfoObject.isEditable !== undefined && fieldInfoObject.isEditable !== null) {
+        fieldInfo.isEditable = fieldInfoObject.isEditable;
+    }
+    
     if (fieldInfoObject.format !== undefined && fieldInfoObject.format !== null) {
         fieldInfo.format = buildJsFieldInfoFormat(fieldInfoObject.format);
     }
@@ -207,13 +250,13 @@ export function buildJsFieldInfoFormat(formatObject: DotNetFieldInfoFormat): Fie
     });
 }
 
-export function buildJsExpressionInfo(expressionInfoObject: DotNetExpressionInfo): popupExpressionInfoProperties {
+export function buildJsExpressionInfo(expressionInfoObject: DotNetExpressionInfo): popupExpressionInfo {
     return {
         name: expressionInfoObject.name,
         title: expressionInfoObject.title,
         expression: expressionInfoObject.expression,
         returnType: expressionInfoObject.returnType as any
-    };
+    } as popupExpressionInfo;
 }
 
 export function buildJsGeometry(geometry: DotNetGeometry): Geometry | null {
@@ -694,6 +737,155 @@ export function buildJsQuery(dotNetQuery: DotNetQuery): Query {
     }
     
     return query as Query;
+}
+
+export function buildJsRelationshipQuery(dotNetRelationshipQuery: DotNetRelationshipQuery): RelationshipQuery
+{
+    // copy all values from the dotnet object to the js object
+    let relationshipQuery = new RelationshipQuery();
+    
+    if (dotNetRelationshipQuery.cacheHint !== undefined && dotNetRelationshipQuery.cacheHint !== null) {
+        relationshipQuery.cacheHint = dotNetRelationshipQuery.cacheHint;
+    }
+    
+    if (dotNetRelationshipQuery.gdbVersion !== undefined && dotNetRelationshipQuery.gdbVersion !== null) {
+        relationshipQuery.gdbVersion = dotNetRelationshipQuery.gdbVersion;
+    }
+    
+    if (dotNetRelationshipQuery.geometryPrecision !== undefined && dotNetRelationshipQuery.geometryPrecision !== null) {
+        relationshipQuery.geometryPrecision = dotNetRelationshipQuery.geometryPrecision;
+    }
+
+    if (dotNetRelationshipQuery.historicMoment !== undefined && dotNetRelationshipQuery.historicMoment !== null) {
+        relationshipQuery.historicMoment = dotNetRelationshipQuery.historicMoment;
+    }
+    
+    if (dotNetRelationshipQuery.maxAllowableOffset !== undefined && dotNetRelationshipQuery.maxAllowableOffset !== null) {
+        relationshipQuery.maxAllowableOffset = dotNetRelationshipQuery.maxAllowableOffset;
+    }
+    
+    if (dotNetRelationshipQuery.num !== undefined && dotNetRelationshipQuery.num !== null) {
+        relationshipQuery.num = dotNetRelationshipQuery.num;
+    }
+    
+    if (dotNetRelationshipQuery.objectIds !== undefined && dotNetRelationshipQuery.objectIds !== null) {
+        relationshipQuery.objectIds = dotNetRelationshipQuery.objectIds;
+    }
+    
+    if (dotNetRelationshipQuery.orderByFields !== undefined && dotNetRelationshipQuery.orderByFields !== null) {
+        relationshipQuery.orderByFields = dotNetRelationshipQuery.orderByFields;
+    }
+    
+    if (dotNetRelationshipQuery.outFields !== undefined && dotNetRelationshipQuery.outFields !== null) {
+        relationshipQuery.outFields = dotNetRelationshipQuery.outFields;
+    }
+    
+    if (dotNetRelationshipQuery.outSpatialReference !== undefined && dotNetRelationshipQuery.outSpatialReference !== null) {
+        relationshipQuery.outSpatialReference = buildJsSpatialReference(dotNetRelationshipQuery.outSpatialReference);
+    }   
+    
+    if (dotNetRelationshipQuery.returnGeometry !== undefined && dotNetRelationshipQuery.returnGeometry !== null) {
+        relationshipQuery.returnGeometry = dotNetRelationshipQuery.returnGeometry;
+    }
+    
+    if (dotNetRelationshipQuery.returnM !== undefined && dotNetRelationshipQuery.returnM !== null) {
+        relationshipQuery.returnM = dotNetRelationshipQuery.returnM;
+    }
+    
+    if (dotNetRelationshipQuery.returnZ !== undefined && dotNetRelationshipQuery.returnZ !== null) {
+        relationshipQuery.returnZ = dotNetRelationshipQuery.returnZ;
+    }
+    
+    if (dotNetRelationshipQuery.start !== undefined && dotNetRelationshipQuery.start !== null) {
+        relationshipQuery.start = dotNetRelationshipQuery.start;
+    }
+    
+    if (dotNetRelationshipQuery.where !== undefined && dotNetRelationshipQuery.where !== null) {
+        relationshipQuery.where = dotNetRelationshipQuery.where;
+    }
+    
+    return relationshipQuery as RelationshipQuery;
+}
+
+export function buildJsTopFeaturesQuery(dnQuery: DotNetTopFeaturesQuery): TopFeaturesQuery {
+    let query = new TopFeaturesQuery();
+    if (dnQuery.cacheHint !== undefined && dnQuery.cacheHint !== null) {
+        query.cacheHint = dnQuery.cacheHint;
+    }
+    
+    if (dnQuery.distance !== undefined && dnQuery.distance !== null) {
+        query.distance = dnQuery.distance;
+    }
+    
+    if (dnQuery.geometry !== undefined && dnQuery.geometry !== null) {
+        query.geometry = buildJsGeometry(dnQuery.geometry) as Geometry;
+    }
+    
+    if (dnQuery.geometryPrecision !== undefined && dnQuery.geometryPrecision !== null) {
+        query.geometryPrecision = dnQuery.geometryPrecision;
+    }
+    
+    if (dnQuery.maxAllowableOffset !== undefined && dnQuery.maxAllowableOffset !== null) {
+        query.maxAllowableOffset = dnQuery.maxAllowableOffset;
+    }
+    
+    if (dnQuery.num !== undefined && dnQuery.num !== null) {
+        query.num = dnQuery.num;
+    }
+    
+    if (dnQuery.objectIds !== undefined && dnQuery.objectIds !== null) {
+        query.objectIds = dnQuery.objectIds;
+    }
+    
+    if (dnQuery.orderByFields !== undefined && dnQuery.orderByFields !== null) {
+        query.orderByFields = dnQuery.orderByFields;
+    }
+    
+    if (dnQuery.outFields !== undefined && dnQuery.outFields !== null) {
+        query.outFields = dnQuery.outFields;
+    }
+    
+    if (dnQuery.outSpatialReference !== undefined && dnQuery.outSpatialReference !== null) {
+        query.outSpatialReference = buildJsSpatialReference(dnQuery.outSpatialReference);
+    }
+    
+    if (dnQuery.returnGeometry !== undefined && dnQuery.returnGeometry !== null) {
+        query.returnGeometry = dnQuery.returnGeometry;
+    }
+    
+    if (dnQuery.returnM !== undefined && dnQuery.returnM !== null) {
+        query.returnM = dnQuery.returnM;
+    }
+    
+    if (dnQuery.returnZ !== undefined && dnQuery.returnZ !== null) {
+        query.returnZ = dnQuery.returnZ;
+    }
+    
+    if (dnQuery.spatialRelationship !== undefined && dnQuery.spatialRelationship !== null) {
+        query.spatialRelationship = dnQuery.spatialRelationship as any;
+    }
+    
+    if (dnQuery.start !== undefined && dnQuery.start !== null) {
+        query.start = dnQuery.start;
+    }
+    
+    if (dnQuery.timeExtent !== undefined && dnQuery.timeExtent !== null) {
+        query.timeExtent = dnQuery.timeExtent;
+    }
+    
+    if (dnQuery.topFilter !== undefined && dnQuery.topFilter !== null) {
+        query.topFilter = dnQuery.topFilter;
+    }
+    
+    if (dnQuery.units !== undefined && dnQuery.units !== null) {
+        query.units = dnQuery.units as any;
+    }
+    
+    if (dnQuery.where !== undefined && dnQuery.where !== null) {
+        query.where = dnQuery.where;
+    }
+    
+    return query as TopFeaturesQuery;
 }
 
 export function buildJsMediaInfo(dotNetMediaInfo: DotNetMediaInfo): any {

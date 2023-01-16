@@ -33,7 +33,7 @@ public class Query
     ///     Attribute fields to include in the FeatureSet.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public HashSet<string>? OutFields { get; set; }
+    public IEnumerable<string>? OutFields { get; set; }
     
     /// <summary>
     ///     If true, each feature in the returned FeatureSet includes the geometry.

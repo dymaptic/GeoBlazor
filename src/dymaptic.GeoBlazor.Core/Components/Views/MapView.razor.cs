@@ -668,7 +668,7 @@ public partial class MapView : MapComponent
         Layer? createdLayer = Map?.Layers.FirstOrDefault(l => l.Id == layerViewCreateEvent.LayerGeoBlazorId);
         if (createdLayer != null)
         {
-            createdLayer.LayerView = layerViewCreateEvent.LayerView;
+            createdLayer.LayerView = layerView;
 
             createdLayer.JsObjectReference ??= layerViewCreateEvent.LayerObjectRef;
             
@@ -1098,6 +1098,14 @@ public partial class MapView : MapComponent
     public async Task OpenPopup(PopupOpenOptions? options = null)
     {
         await ViewJsModule!.InvokeVoidAsync("openPopup", Id, options);
+    }
+
+    /// <summary>
+    ///     Closes the popup by setting its visible property to false. Users can alternatively close the popup by directly setting the visible property to false.
+    /// </summary>
+    public async Task ClosePopup()
+    {
+        await ViewJsModule!.InvokeVoidAsync("closePopup", Id);
     }
 
     /// <summary>
