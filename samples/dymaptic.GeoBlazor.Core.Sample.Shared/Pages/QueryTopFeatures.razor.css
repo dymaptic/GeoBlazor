@@ -8,9 +8,9 @@
 #infoDiv {
     padding: 6px;
     width: 370px;
-    height: 97%;
+    height: 100%;
     position: absolute;
-    top: 10px;
+    top: 0;
     right: -370px;
     --calcite-ui-brand: #71C96E;
     --calcite-ui-brand-hover: #67B564;
