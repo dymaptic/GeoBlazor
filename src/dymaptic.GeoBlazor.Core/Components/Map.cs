@@ -51,15 +51,7 @@ public class Map : MapComponent
 
                 break;
             case Layer layer:
-                if (!Layers.Contains(layer))
-                {
-                    Type typeOfLayer = layer.GetType();
-                    IEnumerable<Layer> allLayersOfType = Layers.Where(l => l.GetType() == typeOfLayer);
-                    layer.LayerIndex = allLayersOfType.Count();
-                    Layers.Add(layer);
-
-                    await View!.AddLayer(layer);
-                }
+                await View!.AddLayer(layer);
 
                 break;
             default:
@@ -80,6 +72,7 @@ public class Map : MapComponent
                 break;
             case Layer layer:
                 Layers.Remove(layer);
+                await UpdateComponent();
 
                 break;
             default:
