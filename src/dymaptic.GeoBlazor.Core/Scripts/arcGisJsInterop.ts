@@ -597,23 +597,38 @@ export function updateGraphic(graphicObject: any, layerIndex: number, viewId: st
         let oldGraphic = arcGisObjectRefs[graphicObject.id] as Graphic;
         let gLayer: GraphicsLayer | null = null;
         let view = arcGisObjectRefs[viewId] as View;
-        if (layerIndex === undefined || layerIndex === null) {
-            if (hasValue(oldGraphic)) {
-                view.graphics.remove(oldGraphic);
-            } else {
-                view.graphics.removeAt(graphicObject.graphicIndex);
+        
+        if (hasValue(oldGraphic)) {
+            // the graphic already exists, so update it
+            let popupTemplate: PopupTemplate | undefined = undefined;
+            if (hasValue(graphicObject.popupTemplate)) {
+                oldGraphic.popupTemplate = buildJsPopupTemplate(graphicObject.popupTemplate);
+            }
+            
+            if (hasValue(graphicObject.geometry)) {
+                oldGraphic.geometry = buildJsGeometry(graphicObject.geometry) as Geometry;
+            }
+            
+            if (hasValue(graphicObject.symbol)) {
+                oldGraphic.symbol = graphicObject.symbol;
+            }
+            
+            if (hasValue(graphicObject.attributes)) {
+                oldGraphic.attributes = graphicObject.attributes;
             }
         } else {
-            gLayer = (view.map.layers as MapCollection).items.filter(l => l.type === "graphics")[layerIndex] as GraphicsLayer;
-            if (hasValue(gLayer)) {
-                if (hasValue(oldGraphic)) {
-                    gLayer.graphics.remove(oldGraphic);
-                } else {
+            // remove a graphic at the same index, it could be a replacement with a new Id in Blazor
+            if (layerIndex === undefined || layerIndex === null) {
+                view.graphics.removeAt(graphicObject.graphicIndex);
+            } else {
+                gLayer = (view.map.layers as MapCollection).items.filter(l => l.type === "graphics")[layerIndex] as GraphicsLayer;
+                if (hasValue(gLayer)) {
                     gLayer.graphics.removeAt(graphicObject.graphicIndex);
                 }
             }
+            addGraphic(graphicObject, viewId, gLayer);
         }
-        addGraphic(graphicObject, viewId, gLayer);
+        
         unsetWaitCursor(viewId);
     } catch (error) {
         logError(error, viewId);
@@ -812,8 +827,8 @@ export function solveServiceArea(url: string, driveTimeCutoffs: number[], servic
 
         serviceArea.solve(url, taskParameters)
             .then(function (result) {
-                if (result.serviceAreaPolygons.length) {
-                    result.serviceAreaPolygons.forEach(function (graphic) {
+                if (result.serviceAreaPolygons.features.length) {
+                    result.serviceAreaPolygons.features.forEach(function (graphic) {
                         graphic.symbol = serviceAreaSymbol;
                         view.graphics.add(graphic, 0);
                     })

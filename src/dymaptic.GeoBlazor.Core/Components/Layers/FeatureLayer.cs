@@ -266,14 +266,18 @@ public class FeatureLayer : Layer
                 break;
             case Graphic graphic:
                 _source ??= new HashSet<Graphic>();
-                if (!_source.Contains(graphic))
+
+                if (MapRendered)
+                {
+                    await View!.AddGraphic(graphic, LayerIndex);
+                }
+                else if (!_source.Contains(graphic))
                 {
                     graphic.GraphicIndex = _source.Count;
                     graphic.View ??= View;
                     graphic.JsModule ??= JsModule;
                     graphic.Parent ??= this;
                     _source.Add(graphic);
-                    await UpdateComponent();
                 }
 
                 break;
@@ -301,32 +305,34 @@ public class FeatureLayer : Layer
         {
             case PopupTemplate _:
                 PopupTemplate = null;
-
+                await UpdateComponent();
                 break;
             case Label label:
                 LabelingInfo.Remove(label);
-
+                await UpdateComponent();
                 break;
             case Renderer _:
                 Renderer = null;
-
+                await UpdateComponent();
                 break;
             case PortalItem _:
                 PortalItem = null;
-
+                await UpdateComponent();
                 break;
             case SpatialReference _:
                 SpatialReference = null;
-
+                await UpdateComponent();
                 break;
             case OrderedLayerOrderBy orderBy:
                 OrderBy?.Remove(orderBy);
-
+                await UpdateComponent();
                 break;
             case Graphic graphic:
                 if (_source?.Contains(graphic) ?? false)
                 {
                     _source.Remove(graphic);
+                    ResetGraphicIndexes();
+                    await UpdateComponent();
                 }
 
                 break;
@@ -334,6 +340,7 @@ public class FeatureLayer : Layer
                 if (_fields?.Contains(field) ?? false)
                 {
                     _fields.Remove(field);
+                    await UpdateComponent();
                 }
 
                 break;
@@ -383,6 +390,30 @@ public class FeatureLayer : Layer
             // ReSharper disable once RedundantCast
             await JsModule!.InvokeVoidAsync("updateFeatureLayer", (object)this, View!.Id);
         });
+    }
+    
+    internal void AddGraphicToCollection(Graphic graphic)
+    {
+        if (_source is null)
+        {
+            _source = new HashSet<Graphic>();
+        }
+        _source.Add(graphic);
+    }
+    
+    internal void RemoveGraphicFromCollection(Graphic graphic)
+    {
+        _source?.Remove(graphic);
+    }
+    
+    private void ResetGraphicIndexes()
+    {
+        int i = 0;
+        foreach (Graphic graphic in Source!.OrderBy(g => g.GraphicIndex))
+        {
+            graphic.GraphicIndex = i;
+            i++;
+        }
     }
     
     private string? _definitionExpression;

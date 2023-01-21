@@ -60,24 +60,42 @@ public class GraphicsLayer : Layer
         return UnregisterChildComponent(graphic);
     }
 
+    /// <summary>
+    ///     Removes a set of graphics from the current layer
+    /// </summary>
+    /// <param name="graphics">
+    ///     The graphics to remove
+    /// </param>
+    public async Task Remove(IEnumerable<Graphic> graphics)
+    {
+        foreach (Graphic graphic in graphics)
+        {
+            await UnregisterChildComponent(graphic);
+        }
+    }
+    
+    public async Task Update(Graphic graphic)
+    {
+        await View!.UpdateGraphic(graphic, LayerIndex);
+    }
+
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
     {
         switch (child)
         {
             case Graphic graphic:
-                if (!Graphics.Contains(graphic))
+                if (MapRendered)
+                {
+                    await View!.AddGraphic(graphic, LayerIndex);
+                }
+                else if (!Graphics.Contains(graphic))
                 {
                     graphic.GraphicIndex = Graphics.Count;
                     graphic.View ??= View;
                     graphic.JsModule ??= JsModule;
                     graphic.Parent ??= this;
                     _graphics.Add(graphic);
-
-                    if (MapRendered)
-                    {
-                        await View!.UpdateGraphic(graphic, LayerIndex);
-                    }
                 }
 
                 break;
@@ -94,9 +112,14 @@ public class GraphicsLayer : Layer
         switch (child)
         {
             case Graphic graphic:
-                if (Graphics.Contains(graphic))
+                if (MapRendered)
+                {
+                    await View!.RemoveGraphicAtIndex(graphic.GraphicIndex!.Value, LayerIndex);
+                }
+                else if (Graphics.Contains(graphic))
                 {
                     _graphics.Remove(graphic);
+                    ResetGraphicIndexes();
                 }
 
                 break;
@@ -115,6 +138,26 @@ public class GraphicsLayer : Layer
         foreach (Graphic graphic in Graphics)
         {
             graphic.ValidateRequiredChildren();
+        }
+    }
+    
+    internal void AddGraphicToCollection(Graphic graphic)
+    {
+        _graphics.Add(graphic);
+    }
+    
+    internal void RemoveGraphicFromCollection(Graphic graphic)
+    {
+        _graphics.Remove(graphic);
+    }
+    
+    private void ResetGraphicIndexes()
+    {
+        int i = 0;
+        foreach (Graphic graphic in Graphics.OrderBy(g => g.GraphicIndex))
+        {
+            graphic.GraphicIndex = i;
+            i++;
         }
     }
 
