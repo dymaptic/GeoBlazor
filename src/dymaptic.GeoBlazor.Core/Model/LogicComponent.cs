@@ -88,10 +88,9 @@ public abstract class LogicComponent
     {
         if (Component is null)
         {
-            Component = await JsRuntime
-                .InvokeAsync<IJSObjectReference>("import",
-                    $"./_content/dymaptic.GeoBlazor.{Library}/js/{ComponentName}.js");
-            await Component.InvokeVoidAsync("initialize", DotNetObjectReference, _apiKey);
+            IJSObjectReference module = await GetArcGisJsInterop();
+            Component = await module.InvokeAsync<IJSObjectReference>($"get{ComponentName}Wrapper",
+                DotNetObjectReference, _apiKey);
         }
 
         await Component.InvokeVoidAsync(method, parameters);
@@ -110,13 +109,31 @@ public abstract class LogicComponent
     {
         if (Component is null)
         {
-            Component = await JsRuntime
-                .InvokeAsync<IJSObjectReference>("import",
-                    $"./_content/dymaptic.GeoBlazor.{Library}/js/{ComponentName}.js");
-            await Component.InvokeVoidAsync("initialize", DotNetObjectReference, _apiKey);
+            IJSObjectReference module = await GetArcGisJsInterop();
+            Component = await module.InvokeAsync<IJSObjectReference>($"get{ComponentName}Wrapper",
+                    DotNetObjectReference, _apiKey);
         }
 
         return await Component.InvokeAsync<T>(method, parameters);
+    }
+    
+    private async Task<IJSObjectReference> GetArcGisJsInterop()
+    {
+        LicenseType licenseType = Licensing.GetLicenseType();
+
+        switch ((int)licenseType)
+        {
+            case >= 100:
+                // this is here to support the interactive extension library
+                IJSObjectReference interactiveModule = await JsRuntime
+                    .InvokeAsync<IJSObjectReference>("import",
+                        "./_content/dymaptic.GeoBlazor.Interactive/js/arcGisInteractive.js");
+                return await interactiveModule.InvokeAsync<IJSObjectReference>("getCore");
+            default:
+                return await JsRuntime
+                    .InvokeAsync<IJSObjectReference>("import",
+                        "./_content/dymaptic.GeoBlazor.Core/js/arcGisJsInterop.js");
+        }
     }
 
     /// <summary>

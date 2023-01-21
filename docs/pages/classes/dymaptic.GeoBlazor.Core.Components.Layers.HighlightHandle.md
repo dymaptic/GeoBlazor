@@ -8,7 +8,7 @@ parent: Classes
 
 ## HighlightHandle Class
 
-A handle to a [Highlight(int)](dymaptic.GeoBlazor.Core.Components.Layers.LayerView.html#dymaptic.GeoBlazor.Core.Components.Layers.LayerView.Highlight(int) 'dymaptic.GeoBlazor.Core.Components.Layers.LayerView.Highlight(int)') call result. The handle can be used to remove the installed highlight.
+A handle to a [LayerView.Highlight](https://docs.microsoft.com/en-us/dotnet/api/LayerView.Highlight 'LayerView.Highlight') call result. The handle can be used to remove the installed highlight.
 
 ```csharp
 public class HighlightHandle :
@@ -24,7 +24,7 @@ Implements [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/S
 
 ## HighlightHandle(IJSObjectReference) Constructor
 
-A handle to a [Highlight(int)](dymaptic.GeoBlazor.Core.Components.Layers.LayerView.html#dymaptic.GeoBlazor.Core.Components.Layers.LayerView.Highlight(int) 'dymaptic.GeoBlazor.Core.Components.Layers.LayerView.Highlight(int)') call result. The handle can be used to remove the installed highlight.
+A handle to a [LayerView.Highlight](https://docs.microsoft.com/en-us/dotnet/api/LayerView.Highlight 'LayerView.Highlight') call result. The handle can be used to remove the installed highlight.
 
 ```csharp
 public HighlightHandle(Microsoft.JSInterop.IJSObjectReference JsObjectReference);

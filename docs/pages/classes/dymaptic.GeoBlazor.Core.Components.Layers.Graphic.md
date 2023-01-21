@@ -97,6 +97,19 @@ public System.Nullable<int> GraphicIndex { get; set; }
 #### Property Value
 [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.Graphic.LayerId'></a>
+
+## Graphic.LayerId Property
+
+The GeoBlazor Id of the parent layer, used when serializing the graphic to/from JavaScript.
+
+```csharp
+public System.Nullable<System.Guid> LayerId { get; set; }
+```
+
+#### Property Value
+[System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Guid](https://docs.microsoft.com/en-us/dotnet/api/System.Guid 'System.Guid')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
+
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.Graphic.PopupTemplate'></a>
 
 ## Graphic.PopupTemplate Property

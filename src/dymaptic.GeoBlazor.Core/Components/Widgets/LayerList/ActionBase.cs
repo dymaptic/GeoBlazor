@@ -7,10 +7,10 @@
 /// <remarks>
 ///     The Action Sections property and corresponding functionality will be fully implemented
 ///     in a future iteration.  Currently, a user can view available layers in the layer list widget
-///     and toggle the selected layer's visiblity. More capabilities will be available after full
+///     and toggle the selected layer's visibility. More capabilities will be available after full
 ///     implementation of ActionSection.
 /// </remarks>
-public class ActionBase
+public abstract class ActionBase
 {
     /// <summary>
     ///     The title of the action.
@@ -26,6 +26,52 @@ public class ActionBase
     ///     The name of the ID assigned to this action.
     /// </summary>
     public string? Id { get; set; }
+    
+    /// <summary>
+    ///     Set this property to true to display a spinner icon. You should do this if the action executes an async operation, such as a query, that requires letting the end user know that a process is ongoing in the background. Set the property back to false to communicate to the user that the process has finished.
+    /// </summary>
+    public bool? Active { get; set; }
+    
+    /// <summary>
+    ///     Indicates whether this action is disabled.
+    /// </summary>
+    public bool? Disabled { get; set; }
+    
+    /// <summary>
+    ///     Indicates if the action is visible.
+    /// </summary>
+    public bool? Visible { get; set; }
+
+    /// <summary>
+    ///     Specifies the type of action. Choose between "button" or "toggle".
+    /// </summary>
+    public virtual string Type { get; } = default!;
 }
 
+/// <summary>
+///     A customizable button that performs a specific action(s) used in widgets such as the Popup, LayerList, and BasemapLayerList.
+/// </summary>
+public class ActionButton : ActionBase
+{
+    /// <inheritdoc />
+    public override string Type => "button";
+    
+    /// <summary>
+    ///     The URL to an image that will be used to represent the action. This property will be used as a background image for the node. It may be used in conjunction with the className property or by itself. If neither image nor className are specified, a default icon will display
+    /// </summary>
+    public string? Image { get; set; }
+}
 
+/// <summary>
+///     A customizable toggle used in the LayerList widget that performs a specific action(s) which can be toggled on/off.
+/// </summary>
+public class ActionToggle : ActionBase
+{
+    /// <inheritdoc />
+    public override string Type => "toggle";
+    
+    /// <summary>
+    ///     Indicates the value of whether the action is toggled on/off.
+    /// </summary>
+    public bool? Value { get; set; }
+}

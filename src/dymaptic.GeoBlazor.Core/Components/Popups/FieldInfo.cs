@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
+using System.Text.Json.Serialization;
+
 
 namespace dymaptic.GeoBlazor.Core.Components.Popups;
 
@@ -39,9 +41,9 @@ public class FieldInfo : MapComponent
     /// <param name="visible">
     ///     Indicates whether the field is visible in the popup window.
     /// </param>
-    public FieldInfo(string? fieldName = null, string? label = null, string tooltip = "",
+    public FieldInfo(string? fieldName = null, string? label = null, string? tooltip = null,
         string? stringFieldOption = null, FieldInfoFormat? format = null, 
-        bool isEditable = false, bool visible = false)
+        bool? isEditable = null, bool? visible = null)
     {
 #pragma warning disable BL0005
         FieldName = fieldName;
@@ -58,41 +60,48 @@ public class FieldInfo : MapComponent
     ///     The field name as defined by the service or the name of an Arcade expression.
     /// </summary>
     [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? FieldName { get; set; }
     
     /// <summary>
     ///     The field name as defined by the service or the name of an Arcade expression.
     /// </summary>
     [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Label { get; set; }
     
     /// <summary>
     ///     A Boolean determining whether users can edit this field.
     /// </summary>
     [Parameter]
-    public bool IsEditable { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? IsEditable { get; set; }
 
     /// <summary>
     ///     A string providing an editing hint for editors of the field.
     /// </summary>
     [Parameter]
-    public string Tooltip { get; set; } = string.Empty;
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Tooltip { get; set; } = string.Empty;
 
     /// <summary>
     ///     Indicates whether the field is visible in the popup window.
     /// </summary>
     [Parameter]
-    public bool Visible { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? Visible { get; set; }
     
     /// <summary>
     ///     A string determining what type of input box editors see when editing the field.
     /// </summary>
     [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? StringFieldOption { get; set; }
 
     /// <summary>
     ///     Class which provides formatting options for numerical or date fields and how they should display within a popup.
     /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public FieldInfoFormat? Format { get; set; }
 
     /// <inheritdoc />

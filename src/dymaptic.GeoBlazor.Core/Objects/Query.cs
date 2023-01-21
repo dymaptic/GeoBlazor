@@ -1,5 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 using dymaptic.GeoBlazor.Core.Components.Geometries;
+using dymaptic.GeoBlazor.Core.Serialization;
+
 
 namespace dymaptic.GeoBlazor.Core.Objects;
 
@@ -18,62 +20,74 @@ public class Query
     /// <summary>
     ///     For spatial queries, this parameter defines the spatial relationship to query features in the layer or layer view against the input geometry.
     /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public SpatialRelationship? SpatialRelationship { get; set; }
     
     /// <summary>
     ///     The geometry to apply to the spatial filter.
     /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Geometry? Geometry { get; set; }
     
     /// <summary>
     ///     Attribute fields to include in the FeatureSet.
     /// </summary>
-    public HashSet<string> OutFields { get; set; } = new();
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IEnumerable<string>? OutFields { get; set; }
     
     /// <summary>
     ///     If true, each feature in the returned FeatureSet includes the geometry.
     /// </summary>
-    public bool ReturnGeometry { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? ReturnGeometry { get; set; }
     
     /// <summary>
     ///     Determines whether to use the view's extent as the query geometry
     /// </summary>
-    public bool UseViewExtent { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? UseViewExtent { get; set; }
     
     /// <summary>
     ///     An array of Object IDs representing aggregate (i.e. cluster) graphics. This property should be used to query features represented by one or more cluster graphics with the given Object IDs.
     /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IEnumerable<int>? AggregateIds { get; set; }
     
     /// <summary>
     ///     Indicates if the service should cache the query results. It only applies if the layer's capabilities.query.supportsCacheHint is set to true. Use only for queries that have the same parameters every time the app is used.
     /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? CacheHint { get; set; }
     
     /// <summary>
     ///     Datum transformation used for projecting geometries in the query results when outSpatialReference is different than the layer's spatial reference. Requires ArcGIS Server service 10.5 or greater.
     /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? DatumTransformation { get; set; }
     
     /// <summary>
     ///     Specifies a search distance from a given geometry in a spatial query. The units property indicates the unit of measurement. In essence, setting this property creates a buffer at the specified size around the input geometry. The query will use that buffer to return features in the layer or layer view that adhere to the indicated spatial relationship.
     ///     If querying a feature service, the supportsQueryWithDistance capability must be true.
     /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? Distance { get; set; }
     
     /// <summary>
     ///     Specifies the geodatabase version to display for feature service queries.
     /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? GdbVersion { get; set; }
     
     /// <summary>
     ///     Specifies the number of decimal places for geometries returned by the JSON query operation.
     /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? GeometryPrecision { get; set; }
     
     /// <summary>
     ///     Used only in statistical queries. When one or more field names are provided in this property, the output statistics will be grouped based on unique values from those fields. This is only valid when outStatistics has been defined.
     /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IEnumerable<string>? GroupByFieldsForStatistics { get; set; }
     
     /// <summary>
@@ -82,11 +96,13 @@ public class Query
     ///     Aggregation functions used in having must be included in the outStatistics as well. See the snippet below for an example of how this works.
     ///     For service-based layer queries, this parameter applies only if the supportsHavingClause property of the layer is true. This property is supported on all LayerView queries.
     /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Having { get; set; }
     
     /// <summary>
     ///     The historic moment to query. This parameter applies only if the supportsQueryWithHistoricMoment capability of the service being queried is true. This setting is provided in the layer resource.
     /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public DateTime? HistoricMoment { get; set; }
     
     /// <summary>
@@ -95,6 +111,7 @@ public class Query
     /// <remarks>
     ///     This property does not apply to LayerView or CSVLayer queries.
     /// </remarks>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? MaxAllowableOffset { get; set; }
     
     /// <summary>
@@ -103,17 +120,20 @@ public class Query
     /// <remarks>
     ///     Only supported with ArcGIS Online hosted services or ArcGIS Enterprise 10.6 services.
     /// </remarks>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? MaxRecordCountFactor { get; set; }
     
     /// <summary>
     ///     The number of features to retrieve. This option should be used in conjunction with the start property. Use this to implement paging (i.e. to retrieve "pages" of results when querying).
     ///     If not provided, but an instance of Query has a start property, then the default value of num is 10. If neither num nor start properties are provided, then the default value of num is equal to the maxRecordCount of the service, which can be found at the REST endpoint of the FeatureLayer.
     /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? Num { get; set; }
     
     /// <summary>
     ///     An array of ObjectIDs to be used to query for features in a layer.
     /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IEnumerable<int>? ObjectIds { get; set; }
     
     /// <summary>
@@ -123,11 +143,13 @@ public class Query
     ///     If querying a MapImageLayer, then supportsAdvancedQueries must be true on the service.
     ///     For FeatureLayer, FeatureLayer.capabilities.queryRelated.supportsOrderBy must be true.
     /// </remarks>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IEnumerable<string>? OrderByFields { get; set; }
     
     /// <summary>
     ///     The spatial reference for the returned geometry. If not specified, the geometry is returned in the spatial reference of the queried layer.
     /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public SpatialReference? OutSpatialReference { get; set; }
     
     /// <summary>
@@ -136,21 +158,25 @@ public class Query
     /// <remarks>
     ///     For service-based queries, outStatistics is only supported on layers where supportsStatistics = true.
     /// </remarks>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IEnumerable<StatisticDefinition>? OutStatistics { get; set; }
     
     /// <summary>
     ///     Filters features from the layer based on pre-authored parameterized filters. When value is not specified for any parameter in a request, the default value, that is assigned during authoring time, gets used. Requires an ArcGIS Enterprise service 10.5 or greater. This parameter is only supported with MapImageLayer pointing to a map service.
     /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IEnumerable<ParameterValue>? ParameterValues { get; set; }
     
     /// <summary>
     ///     Used to project the geometry onto a virtual grid, likely representing pixels on the screen. Geometry coordinates are converted to integers by building a grid with a resolution matching the quantizationParameters.tolerance. Each coordinate is then snapped to one pixel on the grid.
     /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public QuantizationParameters? QuantizationParameters { get; set; }
     
     /// <summary>
     ///     Filters features from the layer that are within the specified range values. Requires ArcGIS Enterprise services 10.5 or greater.This parameter is only supported with MapImageLayer pointing to a map service.
     /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IEnumerable<RangeValue>? RangeValues { get; set; }
     
     /// <summary>
@@ -160,6 +186,7 @@ public class Query
     /// <remarks>
     ///     This property does not apply to layer view or CSVLayer queries.
     /// </remarks>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? RelationParameter { get; set; }
     
     /// <summary>
@@ -168,6 +195,7 @@ public class Query
     /// <remarks>
     ///     Only supported with ArcGIS Online hosted services or ArcGIS Enterprise 10.6.1 services.
     /// </remarks>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? ReturnCentroid { get; set; }
     
     /// <summary>
@@ -177,6 +205,7 @@ public class Query
     ///     For service-based queries, this parameter applies only if the supportsAdvancedQueries capability of the layer is true.
     ///     Make sure to set returnGeometry to false when returnDistinctValues is true. Otherwise, reliable results will not be returned.
     /// </remarks>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? ReturnDistinctValues { get; set; }
     
     /// <summary>
@@ -186,16 +215,19 @@ public class Query
     /// <remarks>
     ///     Only supported with ArcGIS Online hosted services or ArcGIS Enterprise 10.6 services.
     /// </remarks>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? ReturnExceededLimitFeatures { get; set; }
     
     /// <summary>
     ///     If true, and returnGeometry is true, then m-values are included in the geometry.
     /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? ReturnM { get; set; }
     
     /// <summary>
     ///     If true, the query geometry will be returned with the query results. It is useful for getting the buffer geometry generated when querying features by distance or getting the query geometry projected in the outSpatialReference of the query. The query geometry is returned only for client-side queries and hosted feature services and if the layer's capabilities.query.supportsQueryGeometry is true.
     /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? ReturnQueryGeometry { get; set; }
     
     /// <summary>
@@ -204,6 +236,7 @@ public class Query
     /// <remarks>
     ///     FeatureLayerView.queryFeatures(), GeoJSONLayerView.queryFeatures(), and OGCFeatureLayerView.queryFeatures() results do not include the z-values when called in 2D MapView even if returnZ is set to true.
     /// </remarks>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? ReturnZ { get; set; }
     
     /// <summary>
@@ -212,26 +245,31 @@ public class Query
     /// <remarks>
     ///     This property does not apply to layer view or CSVLayer queries.
     /// </remarks>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public SqlFormat? SqlFormat { get; set; }
     
     /// <summary>
     ///     The zero-based index indicating where to begin retrieving features. This property should be used in conjunction with num. Use this to implement paging and retrieve "pages" of results when querying. Features are sorted ascending by object ID by default.
     /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? Start { get; set; }
     
     /// <summary>
     ///     Shorthand for a where clause using "like". The field used is the display field defined in the services directory.
     /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Text { get; set; }
     
     /// <summary>
     ///     A time extent for a temporal query against time-aware layers. For example, it can be used to discover all crimes that occurred during the night shift from 10 PM to 6 AM on a particular date.
     /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public TimeExtent? TimeExtent { get; set; }
     
     /// <summary>
     ///     The unit for calculating the buffer distance when distance is specified in spatial queries. If units is not specified, the unit is derived from the geometry spatial reference. If the geometry spatial reference is not specified, the unit is derived from the feature service data spatial reference. For service-based queries, this parameter only applies if the layer's capabilities.query.supportsDistance is true.
     /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public LinearUnit? Units { get; set; }
 }
 
@@ -243,27 +281,32 @@ public class AddressQuery
     /// <summary>
     ///     URL to the ArcGIS Server REST resource that represents a locator service.
     /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? LocatorUrl { get; set; }
     
     /// <summary>
     ///     Limit result to one or more categories. For example, "Populated Place" or "Scandinavian Food". Only applies to the World Geocode Service. See Category filtering (World Geocoding Service) for more information.
     /// </summary>
-    public HashSet<string> Categories { get; set; } = new();
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public HashSet<string>? Categories { get; set; }
     
     /// <summary>
     ///     The address argument is data object that contains properties representing the various address fields accepted by the corresponding geocode service. These fields are listed in the addressFields property of the associated geocode service resource.
     /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Address? Address { get; set; }
     
     /// <summary>
     ///     Maximum results to return from the query.
     /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? MaxLocations { get; set; }
     
     /// <summary>
     ///     The list of fields included in the returned result set. This list is a comma delimited list of field names. If you specify the shape field in the list of return fields, it is ignored. For non-intersection addresses you can specify the candidate fields as defined in the geocode service. For intersection addresses you can specify the intersection candidate fields.
     /// </summary>
-    public HashSet<string> OutFields { get; set; } = new();
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public HashSet<string>? OutFields { get; set; }
 }
 
 /// <summary>
@@ -301,6 +344,7 @@ public record StatisticParameters(double Value)
     /// <summary>
     ///     Specify ASC (ascending) or DESC (descending) to control the order of the data. For example, in a data set of 10 values from 1 to 10, the percentile value for 0.9 with orderBy set to ascending (ASC) is 9, but when orderBy is set to descending (DESC) the result is 2. The default is ASC.
     /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public OrderBy? OrderBy { get; init; }
 }
 
@@ -334,28 +378,33 @@ public record QuantizationParameters
     /// <summary>
     ///     An extent defining the quantization grid bounds. Its SpatialReference matches the input geometry spatial reference if one is specified for the query. Otherwise, the extent will be in the layer's spatial reference.
     /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Extent? Extent { get; init; }
     
     /// <summary>
     ///     Geometry coordinates are optimized for viewing and displaying of data.
     /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public QuantizationMode? Mode { get; init; }
     
     /// <summary>
     ///     The integer's coordinates will be returned relative to the origin position defined by this property value.
     /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public OriginPosition? OriginPosition { get; init; }
     
     /// <summary>
     ///     The size of one pixel in the units of the outSpatialReference. This number is used to convert coordinates to integers by building a grid with a resolution matching the tolerance. Each coordinate is then snapped to one pixel on the grid. Consecutive coordinates snapped to the same pixel are removed for reducing the overall response size. The units of tolerance will match the units of outSpatialReference. If outSpatialReference is not specified, then tolerance is assumed to be in the units of the spatial reference of the layer. If tolerance is not specified, the maxAllowableOffset is used. If tolerance and maxAllowableOffset are not specified, a grid of 10,000 * 10,000 grid is used by default.
     ///     Default Value: 1
     /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? Tolerance { get; init; }
 }
 
 /// <summary>
 ///     Geometry coordinates are optimized for viewing and displaying of data.
 /// </summary>
+[JsonConverter(typeof(EnumToKebabCaseStringConverter<QuantizationMode>))]
 public enum QuantizationMode
 {
 #pragma warning disable CS1591
@@ -367,6 +416,7 @@ public enum QuantizationMode
 /// <summary>
 ///     The integer's coordinates will be returned relative to the origin position defined by this property value.
 /// </summary>
+[JsonConverter(typeof(EnumToKebabCaseStringConverter<OriginPosition>))]
 public enum OriginPosition
 {
 #pragma warning disable CS1591
@@ -381,6 +431,7 @@ public enum OriginPosition
 /// <remarks>
 ///     This property does not apply to layer view or CSVLayer queries.
 /// </remarks>
+[JsonConverter(typeof(EnumToKebabCaseStringConverter<SqlFormat>))]
 public enum SqlFormat
 {
 #pragma warning disable CS1591
@@ -393,6 +444,7 @@ public enum SqlFormat
 /// <summary>
 ///     Defines the type of statistic.
 /// </summary>
+[JsonConverter(typeof(EnumToKebabCaseStringConverter<StatisticType>))]
 public enum StatisticType
 {
 #pragma warning disable CS1591
@@ -414,6 +466,7 @@ public enum StatisticType
 /// <summary>
 ///     Specify ASC (ascending) or DESC (descending) to control the order of the data. For example, in a data set of 10 values from 1 to 10, the percentile value for 0.9 with orderBy set to ascending (ASC) is 9, but when orderBy is set to descending (DESC) the result is 2. The default is ASC.
 /// </summary>
+[JsonConverter(typeof(EnumToKebabCaseStringConverter<OrderBy>))]
 public enum OrderBy
 {
 #pragma warning disable CS1591

@@ -1,5 +1,6 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
 using dymaptic.GeoBlazor.Core.Extensions;
+using dymaptic.GeoBlazor.Core.Objects;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Components;
@@ -50,7 +51,7 @@ public abstract class Layer : MapComponent
     /// <summary>
     ///    The JavaScript object that represents the layer.
     /// </summary>
-    [JsonIgnore]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IJSObjectReference? JsObjectReference { get; set; }
     
     /// <summary>
@@ -115,6 +116,60 @@ public abstract class Layer : MapComponent
     {
         FullExtent?.ValidateRequiredChildren();
         base.ValidateRequiredChildren();
+    }
+
+
+    /// <inheritdoc />
+    public override async ValueTask DisposeAsync()
+    {
+        if (AbortManager != null)
+        {
+            await AbortManager.DisposeAsync();
+        }
+        await base.DisposeAsync();
+    }
+    
+    /// <summary>
+    ///     Handles conversion from .NET CancellationToken to JavaScript AbortController
+    /// </summary>
+    public AbortManager? AbortManager { get; set; }
+    
+    
+    /// <summary>
+    ///     Loads the resources referenced by this class. This method automatically executes for a View and all of the resources it references in Map if the view is constructed with a map instance.
+    ///     This method must be called by the developer when accessing a resource that will not be loaded in a View.
+    ///     The load() method only triggers the loading of the resource the first time it is called. The subsequent calls return the same promise.
+    /// </summary>
+    /// <remarks>
+    ///     It's possible to provide a signal to stop being interested into a Loadable instance load status. When the signal is aborted, the instance does not stop its loading process, only cancelLoad can abort it.
+    /// </remarks>
+    public async Task Load(CancellationToken cancellationToken = default)
+    {
+        AbortManager = new AbortManager(JsRuntime);
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        IJSObjectReference arcGisJsInterop = await GetArcGisJsInterop();
+        JsObjectReference = await arcGisJsInterop.InvokeAsync<IJSObjectReference>("createLayer", 
+            // ReSharper disable once RedundantCast
+            cancellationToken, (object)this, true);
+        await JsObjectReference.InvokeVoidAsync("load", cancellationToken, abortSignal);
+        Layer loadedLayer = await arcGisJsInterop.InvokeAsync<Layer>("getSerializedDotNetObject",
+            cancellationToken, Id);
+        UpdateFromJavaScript(loadedLayer);
+        await AbortManager.DisposeAbortController(cancellationToken);
+    }
+
+    /// <summary>
+    ///     Copies values from the rendered JavaScript layer back to the .NET implementation.
+    /// </summary>
+    /// <param name="renderedLayer">
+    ///     The layer deserialized from JavaScript
+    /// </param>
+    public virtual void UpdateFromJavaScript(Layer renderedLayer)
+    {
+        if (renderedLayer.FullExtent is not null)
+        {
+            FullExtent = renderedLayer.FullExtent;
+        }
     }
 }
 

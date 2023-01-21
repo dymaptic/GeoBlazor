@@ -26,6 +26,7 @@ Derived
 &#8627; [LayerListWidget](dymaptic.GeoBlazor.Core.Components.Widgets.LayerListWidget.html 'dymaptic.GeoBlazor.Core.Components.Widgets.LayerListWidget')  
 &#8627; [LegendWidget](dymaptic.GeoBlazor.Core.Components.Widgets.LegendWidget.html 'dymaptic.GeoBlazor.Core.Components.Widgets.LegendWidget')  
 &#8627; [LocateWidget](dymaptic.GeoBlazor.Core.Components.Widgets.LocateWidget.html 'dymaptic.GeoBlazor.Core.Components.Widgets.LocateWidget')  
+&#8627; [PopupWidget](dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html 'dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget')  
 &#8627; [ScaleBarWidget](dymaptic.GeoBlazor.Core.Components.Widgets.ScaleBarWidget.html 'dymaptic.GeoBlazor.Core.Components.Widgets.ScaleBarWidget')  
 &#8627; [SearchWidget](dymaptic.GeoBlazor.Core.Components.Widgets.SearchWidget.html 'dymaptic.GeoBlazor.Core.Components.Widgets.SearchWidget')
 ### Properties

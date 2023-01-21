@@ -2,6 +2,8 @@
 using System.Text.Json.Serialization;
 using dymaptic.GeoBlazor.Core.Components.Popups;
 using dymaptic.GeoBlazor.Core.Components.Renderers;
+using dymaptic.GeoBlazor.Core.Objects;
+using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System.Text.Json;
@@ -148,6 +150,11 @@ public class FeatureLayer : Layer
             }
         }
     }
+    
+    /// <summary>
+    ///     Array of relationships set up for the layer. Each object in the array describes the layer's relationship with another layer or table.
+    /// </summary>
+    public Relationship[]? Relationships { get; set; }
 
     /// <inheritdoc />
     public override string LayerType => "feature";
@@ -208,6 +215,88 @@ public class FeatureLayer : Layer
     public Task Remove(Field field)
     {
         return UnregisterChildComponent(field);
+    }
+
+    /// <inheritdoc />
+    public override void UpdateFromJavaScript(Layer renderedLayer)
+    {
+        base.UpdateFromJavaScript(renderedLayer);
+        FeatureLayer renderedFeatureLayer = (FeatureLayer)renderedLayer;
+        Url = renderedFeatureLayer.Url;
+        if (renderedFeatureLayer.Source is not null && renderedFeatureLayer.Source.Any())
+        {
+            Source = renderedFeatureLayer.Source;
+        }
+        
+        if (renderedFeatureLayer.Fields is not null && renderedFeatureLayer.Fields.Any())
+        {
+            Fields = renderedFeatureLayer.Fields;
+        }
+
+        if (renderedFeatureLayer.DefinitionExpression is not null)
+        {
+            DefinitionExpression = renderedFeatureLayer.DefinitionExpression;
+        }
+        
+        if (renderedFeatureLayer.OutFields is not null && renderedFeatureLayer.OutFields.Any())
+        {
+            OutFields = renderedFeatureLayer.OutFields;
+        }
+        
+        if (renderedFeatureLayer.MinScale is not null)
+        {
+            MinScale = renderedFeatureLayer.MinScale;
+        }
+        
+        if (renderedFeatureLayer.MaxScale is not null)
+        {
+            MaxScale = renderedFeatureLayer.MaxScale;
+        }
+        
+        if (renderedFeatureLayer.ObjectIdField is not null)
+        {
+            ObjectIdField = renderedFeatureLayer.ObjectIdField;
+        }
+        
+        if (renderedFeatureLayer.GeometryType is not null)
+        {
+            GeometryType = renderedFeatureLayer.GeometryType;
+        }
+        
+        if (renderedFeatureLayer.OrderBy is not null && renderedFeatureLayer.OrderBy.Any())
+        {
+            OrderBy = renderedFeatureLayer.OrderBy;
+        }
+        
+        if (renderedFeatureLayer.PopupTemplate is not null)
+        {
+            PopupTemplate = renderedFeatureLayer.PopupTemplate;
+        }
+        
+        if (renderedFeatureLayer.LabelingInfo.Any())
+        {
+            LabelingInfo = renderedFeatureLayer.LabelingInfo;
+        }
+        
+        if (renderedFeatureLayer.Renderer is not null)
+        {
+            Renderer = renderedFeatureLayer.Renderer;
+        }
+        
+        if (renderedFeatureLayer.PortalItem is not null)
+        {
+            PortalItem = renderedFeatureLayer.PortalItem;
+        }
+        
+        if (renderedFeatureLayer.SpatialReference is not null)
+        {
+            SpatialReference = renderedFeatureLayer.SpatialReference;
+        }
+
+        if (renderedFeatureLayer.Relationships is not null)
+        {
+            Relationships = renderedFeatureLayer.Relationships;
+        }
     }
 
     /// <inheritdoc />
@@ -277,6 +366,7 @@ public class FeatureLayer : Layer
                     graphic.View ??= View;
                     graphic.JsModule ??= JsModule;
                     graphic.Parent ??= this;
+                    graphic.LayerId ??= Id;
                     _source.Add(graphic);
                 }
 
@@ -383,7 +473,7 @@ public class FeatureLayer : Layer
     /// <inheritdoc />
     public override async Task UpdateComponent()
     {
-        if (!MapRendered || JsModule is null) return;
+        if ((!MapRendered && JsObjectReference is null) || JsModule is null) return;
 
         await InvokeAsync(async () =>
         {
@@ -416,62 +506,295 @@ public class FeatureLayer : Layer
         }
     }
     
+
+    /// <summary>
+    ///     Creates a popup template for the layer, populated with all the fields of the layer.
+    /// </summary>
+    /// <param name="options">
+    ///     Options for creating the popup template.
+    /// </param>
+    public async Task<PopupTemplate> CreatePopupTemplate(CreatePopupTemplateOptions? options = null)
+    {
+        return await JsObjectReference!.InvokeAsync<PopupTemplate>("createPopupTemplate", options);
+    }
+
+    /// <summary>
+    ///     Creates query parameter object that can be used to fetch features that satisfy the layer's configurations such as definitionExpression, gdbVersion, and historicMoment. It will return Z and M values based on the layer's data capabilities. It sets the query parameter's outFields property to ["*"]. The results will include geometries of features and values for all available fields for client-side queries or all fields in the layer for server side queries.
+    /// </summary>
+    public async Task<Query> CreateQuery()
+    {
+        return await JsObjectReference!.InvokeAsync<Query>("createQuery");
+    }
+    
+    /// <summary>
+    ///     Executes a Query against the feature service and returns the Extent of features that satisfy the query. If no parameters are specified, then the extent and count of all features satisfying the layer's configuration/filters are returned.
+    ///     To query for the extent of features/graphics available to or visible in the View on the client rather than making a server-side query, you must use the <see cref="FeatureLayerView.QueryExtent"/> method.
+    /// </summary>
+    /// <param name="query">
+    ///     Specifies the attributes and spatial filter of the query. If no parameters are specified, then the extent and count of all features satisfying the layer's configuration/filters are returned.
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     A cancellation token that can be used to cancel the query operation.
+    /// </param>
+    public async Task<ExtentQueryResult> QueryExtent(Query? query = null, CancellationToken cancellationToken = default)
+    {
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        ExtentQueryResult result = await JsObjectReference!.InvokeAsync<ExtentQueryResult>("queryExtent", 
+            cancellationToken, query, new {signal = abortSignal});
+
+        await AbortManager.DisposeAbortController(cancellationToken);
+        return result;
+    }
+
+    /// <summary>
+    ///     Executes a Query against the feature service and returns the number of features that satisfy the query. If no parameters are specified, the total number of features satisfying the layer's configuration/filters is returned.
+    ///     To query for the count of features/graphics available to or visible in the View on the client rather than making a server-side query, you must use the <see cref="FeatureLayerView.QueryFeatureCount"/> method.
+    /// </summary>
+    /// <param name="query">
+    ///     Specifies the attributes and spatial filter of the query. If no parameters are specified, the total number of features satisfying the layer's configuration/filters is returned.
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     A cancellation token that can be used to cancel the query operation.
+    /// </param>
+    /// <returns></returns>
+    public async Task<int> QueryFeatureCount(Query? query = null, CancellationToken cancellationToken = default)
+    {
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        int result = await JsObjectReference!.InvokeAsync<int>("queryFeatureCount", cancellationToken, 
+            query, new {signal = abortSignal});
+        
+        await AbortManager.DisposeAbortController(cancellationToken);
+
+        return result;
+    }
+    
+    /// <summary>
+    ///     Executes a Query against the feature service and returns the number of features that satisfy the query. If no parameters are specified, the total number of features satisfying the layer's configuration/filters is returned.
+    ///     To query for the count of features/graphics available to or visible in the View on the client rather than making a server-side query, you must use the <see cref="FeatureLayerView.QueryFeatureCount"/> method.
+    /// </summary>
+    /// <param name="query">
+    ///     Specifies the attributes and spatial filter of the query. If no parameters are specified, the total number of features satisfying the layer's configuration/filters is returned.
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     A cancellation token that can be used to cancel the query operation.
+    /// </param>
+    /// <returns></returns>
+    public async Task<FeatureSet> QueryFeatures(Query? query = null, CancellationToken cancellationToken = default)
+    {
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        FeatureSet result = await JsObjectReference!.InvokeAsync<FeatureSet>("queryFeatures", cancellationToken, 
+            query, new {signal = abortSignal});
+
+        if (result.Features is not null)
+        {
+            foreach (Graphic graphic in result.Features)
+            {
+                graphic.LayerId = Id;
+            }
+        }
+
+        await AbortManager.DisposeAbortController(cancellationToken);
+
+        return result;
+    }
+
+    /// <summary>
+    ///     Executes a Query against the feature service and returns an array of Object IDs for features that satisfy the input query. If no parameters are specified, then the Object IDs of all features satisfying the layer's configuration/filters are returned.
+    ///     To query for ObjectIDs of features/graphics available to or visible in the View on the client rather than making a server-side query, you must use the <see cref="FeatureLayerView.QueryObjectIds"/> method.
+    /// </summary>
+    /// <param name="query">
+    ///     Specifies the attributes and spatial filter of the query. If no parameters are specified, then the Object IDs of all features satisfying the layer's configuration/filters are returned.
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     A cancellation token that can be used to cancel the query operation.
+    /// </param>
+    public async Task<int[]> QueryObjectIds(Query query, CancellationToken cancellationToken = default)
+    {
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        
+        int[] queryResult = await JsObjectReference!.InvokeAsync<int[]>("queryObjectIds", cancellationToken,
+            query, new {signal = abortSignal});
+
+        await AbortManager.DisposeAbortController(cancellationToken);
+
+        return queryResult;
+    }
+    
+    /// <summary>
+    ///     Executes a RelationshipQuery against the feature service and returns FeatureSets grouped by source layer or table objectIds.
+    /// </summary>
+    /// <param name="query">
+    ///     Specifies relationship parameters for querying related features or records from a layer or a table.
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     A cancellation token that can be used to cancel the query operation.
+    /// </param>
+    public async Task<Dictionary<int, FeatureSet?>> QueryRelatedFeatures(RelationshipQuery query, 
+        CancellationToken cancellationToken = default)
+    {
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        Dictionary<int, FeatureSet?> result = await JsObjectReference!.InvokeAsync<Dictionary<int, FeatureSet?>>(
+            "queryRelatedFeatures", cancellationToken, query, new {signal = abortSignal});
+
+        foreach (FeatureSet? set in result.Values)
+        {
+            if (set?.Features is null) continue;
+            foreach (Graphic graphic in set.Features)
+            {
+                graphic.LayerId = Id;
+            }
+        }
+
+        await AbortManager.DisposeAbortController(cancellationToken);
+
+        return result;
+    }
+    
+    /// <summary>
+    ///     Executes a RelationshipQuery against the feature service and when resolved, it returns an object containing key value pairs. Key in this case is the objectId of the feature and value is the number of related features associated with the feature.
+    /// </summary>
+    /// <param name="query">
+    ///     Specifies relationship parameters for querying related features or records from a layer or a table.
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     A cancellation token that can be used to cancel the query operation.
+    /// </param>
+    public async Task<Dictionary<int, int>> QueryRelatedFeaturesCount(RelationshipQuery query, 
+        CancellationToken cancellationToken = default)
+    {
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        Dictionary<int, int> result = await JsObjectReference!.InvokeAsync<Dictionary<int, int>>(
+            "queryRelatedFeaturesCount", cancellationToken, query, new {signal = abortSignal});
+
+        await AbortManager.DisposeAbortController(cancellationToken);
+
+        return result;
+    }
+    
+    
+    /// <summary>
+    ///     Executes a TopFeaturesQuery against a feature service and returns the count of features or records that satisfy the query.
+    /// </summary>
+    /// <remarks>
+    ///     Known Limitations: Currently, the <see cref="QueryTopFeatureCount"/> is only supported with server-side <see cref="FeatureLayer"/>s.
+    /// </remarks>
+    /// <param name="query">
+    ///     Specifies the attributes, spatial, temporal, and top filter of the query. The topFilter parameter must be set.
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     A cancellation token that can be used to cancel the query operation.
+    /// </param>
+    public async Task<int> QueryTopFeatureCount(TopFeaturesQuery query, CancellationToken cancellationToken = default)
+    {
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        int result = await JsObjectReference!.InvokeAsync<int>("queryTopFeatureCount", cancellationToken, 
+            query, new {signal = abortSignal});
+        
+        await AbortManager.DisposeAbortController(cancellationToken);
+
+        return result;
+    }
+    
+    
+    /// <summary>
+    ///     Executes a TopFeaturesQuery against a feature service and returns a FeatureSet once the promise resolves. The FeatureSet contains an array of top features grouped and ordered by specified fields. For example, you can call this method to query top three counties grouped by state names while ordering them based on their populations in a descending order.
+    /// </summary>
+    /// <remarks>
+    ///     Known Limitations: Currently, the <see cref="QueryTopFeatures"/> is only supported with server-side <see cref="FeatureLayer"/>s.
+    /// </remarks>
+    /// <param name="query">
+    ///     Specifies the attributes, spatial, temporal, and top filter of the query. The topFilter parameter must be set.
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     A cancellation token that can be used to cancel the query operation.
+    /// </param>
+    public async Task<FeatureSet> QueryTopFeatures(TopFeaturesQuery query, CancellationToken cancellationToken = default)
+    {
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        FeatureSet result = await JsObjectReference!.InvokeAsync<FeatureSet>("queryTopFeatures", cancellationToken, 
+            query, new {signal = abortSignal});
+
+        if (result.Features is not null)
+        {
+            foreach (Graphic graphic in result.Features)
+            {
+                graphic.LayerId = Id;
+            }
+        }
+
+        await AbortManager.DisposeAbortController(cancellationToken);
+
+        return result;
+    }
+    
+    /// <summary>
+    ///     
+    /// </summary>
+    /// <param name="query"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public async Task<int[]> QueryTopObjectIds(TopFeaturesQuery query, CancellationToken cancellationToken = default)
+    {
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        
+        int[] queryResult = await JsObjectReference!.InvokeAsync<int[]>("queryTopObjectIds", cancellationToken,
+            query, new {signal = abortSignal});
+
+        await AbortManager.DisposeAbortController(cancellationToken);
+
+        return queryResult;
+    }
+    
+    /// <summary>
+    ///     Executes a TopFeaturesQuery against a feature service and returns the Extent of features that satisfy the query.
+    /// </summary>
+    /// <remarks>
+    ///     Known Limitations: Currently, the <see cref="QueryTopFeaturesExtent"/> is only supported with server-side <see cref="FeatureLayer"/>s.
+    /// </remarks>
+    /// <param name="query">
+    ///     Specifies the attributes, spatial, temporal, and top filter of the query. The topFilter parameter must be set.
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     A cancellation token that can be used to cancel the query operation.
+    /// </param>
+    public async Task<ExtentQueryResult> QueryTopFeaturesExtent(TopFeaturesQuery? query = null, CancellationToken cancellationToken = default)
+    {
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        ExtentQueryResult result = await JsObjectReference!.InvokeAsync<ExtentQueryResult>("queryExtent", 
+            cancellationToken, query, new {signal = abortSignal});
+
+        await AbortManager.DisposeAbortController(cancellationToken);
+        return result;
+    }
+
     private string? _definitionExpression;
     private HashSet<Graphic>? _source;
     private HashSet<Field>? _fields;
 }
 
+/// <summary>
+///    The return type for <see cref="FeatureLayer.QueryExtent"/>.
+/// </summary>
+/// <param name="Count">
+///     The number of features that satisfy the input query.
+/// </param>
+/// <param name="Extent">
+///     The extent of features that satisfy the query.
+/// </param>
+public record ExtentQueryResult(int Count, Extent Extent);
 
 /// <summary>
-///     Determines the order in which features are drawn in the view.
+///     Options for creating the <see cref="PopupTemplate"/>.
 /// </summary>
-public class OrderedLayerOrderBy: MapComponent
+public class CreatePopupTemplateOptions
 {
     /// <summary>
-    ///     The number or date field whose values will be used to sort features.
+    ///     An array of field types to ignore when creating the popup. System fields such as Shape_Area and Shape_length, in addition to geometry, blob, raster, guid and xml field types are automatically ignored.
     /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? Field { get; set; }
-    
+    public string[]? IgnoreFieldTypes { get; set; }
     
     /// <summary>
-    ///     An [Arcade](https://developers.arcgis.com/javascript/latest/arcade/) expression following the specification defined by the [Arcade Feature Z Profile](https://developers.arcgis.com/javascript/latest/arcade/#feature-sorting).
+    ///     An array of field names set to be visible within the PopupTemplate.
     /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? ValueExpression { get; set; }
-    
-    /// <summary>
-    ///     The sort order
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public SortOrder? Order { get; set; }
-}
-
-/// <summary>
-///     The sort order options for <see cref="OrderedLayerOrderBy"/>
-/// </summary>
-[JsonConverter(typeof(SortOrderConverter))]
-public enum SortOrder
-{
-#pragma warning disable CS1591
-    Ascending,
-    Descending
-#pragma warning restore CS1591
-}
-
-internal class SortOrderConverter : JsonConverter<SortOrder>
-{
-    public override SortOrder Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        throw new NotImplementedException();
-    }
-
-    public override void Write(Utf8JsonWriter writer, SortOrder value, JsonSerializerOptions options)
-    {
-        string? stringVal = Enum.GetName(typeof(SortOrder), value);
-        writer.WriteRawValue($"\"{stringVal?.ToLower()}\"");
-    }
+    public HashSet<string>? VisibleFieldNames { get; set; }
 }

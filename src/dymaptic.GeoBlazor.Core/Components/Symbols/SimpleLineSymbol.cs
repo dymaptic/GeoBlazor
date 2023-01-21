@@ -1,4 +1,5 @@
 ﻿using dymaptic.GeoBlazor.Core.Extensions;
+using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -27,7 +28,7 @@ public class SimpleLineSymbol : LineSymbol
 /// <summary>
 ///     Possible line style values for <see cref="SimpleLineSymbol"/>
 /// </summary>
-[JsonConverter(typeof(LineStyleConverter))]
+[JsonConverter(typeof(EnumToKebabCaseStringConverter<LineStyle>))]
 public enum LineStyle
 {
 #pragma warning disable CS1591
@@ -35,19 +36,4 @@ public enum LineStyle
     ShortDot,
     Dash
 #pragma warning restore CS1591
-}
-
-internal class LineStyleConverter : JsonConverter<LineStyle>
-{
-    public override LineStyle Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        throw new NotImplementedException();
-    }
-
-    public override void Write(Utf8JsonWriter writer, LineStyle value, JsonSerializerOptions options)
-    {
-        string? stringVal = Enum.GetName(typeof(LineStyle), value);
-        string resultString = stringVal!.ToKebabCase();
-        writer.WriteRawValue($"\"{resultString}\"");
-    }
 }

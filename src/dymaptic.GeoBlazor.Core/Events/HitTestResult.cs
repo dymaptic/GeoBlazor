@@ -1,14 +1,12 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
 using dymaptic.GeoBlazor.Core.Components.Layers;
-using dymaptic.GeoBlazor.Core.Components.Views;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
 
 namespace dymaptic.GeoBlazor.Core.Events;
-#pragma warning disable CS1574, CSO419
 /// <summary>
-///     Object specification for the result of the <see cref="MapView.HitTest"/> method.
+///     Object specification for the result of the MapView.HitTest method.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#HitTestResult">ArcGIS JS API</a>
 /// </summary>
 /// <param name="Results">
@@ -17,7 +15,6 @@ namespace dymaptic.GeoBlazor.Core.Events;
 /// <param name="ScreenPoint">
 ///     The screen coordinates (or native mouse event) of the click on the view.
 /// </param>
-#pragma warning restore CS1574, CSO419
 public record HitTestResult(ViewHit[] Results, ScreenPoint ScreenPoint)
 {
     /// <summary>

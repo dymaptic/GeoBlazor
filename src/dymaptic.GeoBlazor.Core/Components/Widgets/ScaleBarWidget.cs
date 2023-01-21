@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 using dymaptic.GeoBlazor.Core.Extensions;
+using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
 
 namespace dymaptic.GeoBlazor.Core.Components.Widgets;
@@ -25,7 +26,7 @@ public class ScaleBarWidget : Widget
 /// <summary>
 ///     Possible unit values for the <see cref="ScaleBarWidget"/>
 /// </summary>
-[JsonConverter(typeof(ScaleUnitConverter))]
+[JsonConverter(typeof(EnumToKebabCaseStringConverter<ScaleUnit>))]
 public enum ScaleUnit
 {
 #pragma warning disable CS1591
@@ -33,19 +34,4 @@ public enum ScaleUnit
     Metric,
     Dual
 #pragma warning restore CS1591
-}
-
-internal class ScaleUnitConverter : JsonConverter<ScaleUnit>
-{
-    public override ScaleUnit Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        throw new NotImplementedException();
-    }
-
-    public override void Write(Utf8JsonWriter writer, ScaleUnit value, JsonSerializerOptions options)
-    {
-        string? stringVal = Enum.GetName(typeof(ScaleUnit), value);
-        string kebabString = stringVal!.ToKebabCase();
-        writer.WriteRawValue($"\"{kebabString}\"");
-    }
 }

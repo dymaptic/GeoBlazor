@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using dymaptic.GeoBlazor.Core.Serialization;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace dymaptic.GeoBlazor.Core.Components.Geometries;
@@ -124,7 +125,7 @@ internal class GeometryConverter : JsonConverter<Geometry>
             return JsonSerializer.Deserialize<PolyLine>(ref cloneReader, newOptions);
         }
 
-        if (temp.ContainsKey("latitude"))
+        if (temp.ContainsKey("latitude") || temp.ContainsKey("x"))
         {
             return JsonSerializer.Deserialize<Point>(ref cloneReader, newOptions);
         }
@@ -163,16 +164,14 @@ public enum GeometryType
 #pragma warning restore CS1591
 }
 
-internal class GeometryTypeConverter : JsonConverter<GeometryType>
+internal class GeometryTypeConverter : EnumToKebabCaseStringConverter<GeometryType>
 {
     public override GeometryType Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        throw new NotImplementedException();
-    }
-
-    public override void Write(Utf8JsonWriter writer, GeometryType value, JsonSerializerOptions options)
-    {
-        string? stringVal = Enum.GetName(typeof(GeometryType), value);
-        writer.WriteRawValue($"\"{stringVal?.ToLower()}\"");
+        string? value = reader.GetString()?.Replace("-", string.Empty)
+            .Replace("esri", string.Empty)
+            .Replace("Geometry", string.Empty)
+            .Replace("Type", string.Empty);
+        return value is not null ? (GeometryType)Enum.Parse(typeof(GeometryType), value, true) : default!;
     }
 }

@@ -26,7 +26,7 @@ public class Projection : LogicComponent
     }
 
     /// <inheritdoc />
-    protected override string ComponentName => "projection";
+    protected override string ComponentName => nameof(Projection);
 
     /// <summary>
     ///     Projects an array of geometries to the specified output spatial reference.

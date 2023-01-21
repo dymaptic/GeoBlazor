@@ -1,5 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Components;
+using System.Text.Json;
+
 
 namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 
@@ -7,6 +9,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 ///     Defines the spatial reference of a view, layer, or method parameters. This indicates the projected or geographic coordinate system used to locate geographic features in the map. Each projected and geographic coordinate system is defined by either a well-known ID (WKID) or a definition string (WKT). Note that for versions prior to ArcGIS 10, only WKID was supported. For a full list of supported spatial reference IDs and their corresponding definition strings, see Using spatial references.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-SpatialReference.html">ArcGIS JS API</a>
 /// </summary>
+[JsonConverter(typeof(SpatialReferenceConverter))]
 public class SpatialReference : MapComponent
 {
     /// <summary>
@@ -40,7 +43,6 @@ public class SpatialReference : MapComponent
     ///     Indicates if the spatial reference refers to a geographic coordinate system.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [Parameter]
     public bool? IsGeographic { get; set; }
 
     /// <summary>
@@ -89,4 +91,72 @@ public class SpatialReference : MapComponent
     /// </summary>
     [JsonIgnore]
     public static SpatialReference WebMercator { get; set; } = new(3857);
+}
+
+internal class SpatialReferenceConverter: JsonConverter<SpatialReference>
+{
+    public override SpatialReference? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        var spatialReference = new SpatialReference();
+
+        while (reader.Read())
+        {
+            switch (reader.TokenType)
+            {
+                case JsonTokenType.PropertyName:
+                    var propertyName = reader.GetString();
+                    reader.Read();
+#pragma warning disable BL0005
+                    switch (propertyName)
+                    {
+                        case "wkid":
+                            spatialReference.Wkid = reader.GetInt32();
+
+                            break;
+                        case "wkt":
+                            spatialReference.Wkt = reader.GetString();
+                            break;
+                        case "isGeographic":
+                            spatialReference.IsGeographic = reader.GetBoolean();
+                            break;
+                        case "isWebMercator":
+                            spatialReference.IsWebMercator = reader.GetBoolean();
+                            break;
+                        case "isWgs84":
+                            spatialReference.IsWgs84 = reader.GetBoolean();
+                            break;
+                        case "isWrappable":
+                            spatialReference.IsWrappable = reader.GetBoolean();
+                            break;
+                        case "imageCoordinateSystem":
+                            spatialReference.ImageCoordinateSystem = JsonSerializer.Deserialize<object>(ref reader, options);
+                            break;
+                    }
+                    break;
+                case JsonTokenType.EndObject:
+                    return spatialReference;
+            }
+#pragma warning restore BL0005
+        }
+
+        return null;
+    }
+
+    public override void Write(Utf8JsonWriter writer, SpatialReference value, JsonSerializerOptions options)
+    {
+        writer.WriteStartObject();
+        if (value.Wkid.HasValue)
+        {
+            writer.WriteNumber("wkid", (int)value.Wkid.Value);
+        }
+        else if (!string.IsNullOrWhiteSpace(value.Wkt))
+        {
+            writer.WriteString("wkt", value.Wkt);
+        }
+        else
+        {
+            throw new ArgumentException("SpatialReference must have either a Wkid or Wkt");
+        }
+        writer.WriteEndObject();
+    }
 }

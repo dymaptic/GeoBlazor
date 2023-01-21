@@ -94,6 +94,7 @@ public class GraphicsLayer : Layer
                     graphic.GraphicIndex = Graphics.Count;
                     graphic.View ??= View;
                     graphic.JsModule ??= JsModule;
+                    graphic.LayerId ??= Id;
                     graphic.Parent ??= this;
                     _graphics.Add(graphic);
                 }
