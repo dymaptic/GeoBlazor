@@ -877,21 +877,11 @@ public partial class MapView : MapComponent
 
                 break;
             case Widget widget:
-                if (!Widgets.Contains(widget))
-                {
-                    Widgets.Add(widget);
-                    widget.Parent ??= this;
-                    await AddWidget(widget);
-                }
+                await AddWidget(widget);
 
                 break;
             case Graphic graphic:
-                if (!Graphics.Contains(graphic))
-                {
-                    graphic.GraphicIndex = Graphics.Count;
-                    Graphics.Add(graphic);
-                    await AddGraphic(graphic);
-                }
+                await AddGraphic(graphic);
 
                 break;
             case SpatialReference spatialReference:
@@ -949,27 +939,11 @@ public partial class MapView : MapComponent
 
                 break;
             case Widget widget:
-                if (Widgets.Contains(widget))
-                {
-                    Widgets.Remove(widget);
-
-                    if (MapRendered)
-                    {
-                        await RemoveWidget(widget);
-                    }
-                }
+                await RemoveWidget(widget);
 
                 break;
             case Graphic graphic:
-                if (Graphics.Contains(graphic))
-                {
-                    Graphics.Remove(graphic);
-
-                    if (MapRendered)
-                    {
-                        await RemoveGraphicAtIndex(graphic.GraphicIndex!.Value);
-                    }
-                }
+                await RemoveGraphicAtIndex(graphic.GraphicIndex!.Value);
 
                 break;
             case Constraints _:
@@ -1119,6 +1093,12 @@ public partial class MapView : MapComponent
     /// </param>
     public async Task AddGraphic(Graphic graphic, int? layerIndex = null)
     {
+        if (!Graphics.Contains(graphic))
+        {
+            graphic.GraphicIndex = Graphics.Count;
+            Graphics.Add(graphic);
+        }
+        
         if (ViewJsModule is null) return;
 
         await ViewJsModule!.InvokeVoidAsync("addGraphic", (object)graphic, Id, layerIndex);
@@ -1129,6 +1109,8 @@ public partial class MapView : MapComponent
     /// </summary>
     public async Task ClearGraphics()
     {
+        Graphics.Clear();
+        if (ViewJsModule is null) return;
         await ViewJsModule!.InvokeVoidAsync("clearViewGraphics", Id);
     }
 
@@ -1143,6 +1125,14 @@ public partial class MapView : MapComponent
     /// </param>
     public async Task AddLayer(Layer layer, bool? isBasemapLayer = false)
     {
+        if (Map?.Layers.Contains(layer) == false)
+        {
+            Type typeOfLayer = layer.GetType();
+            IEnumerable<Layer> allLayersOfType = Map.Layers.Where(l => l.GetType() == typeOfLayer);
+            layer.LayerIndex = allLayersOfType.Count();
+            Map.Layers.Add(layer);
+        }
+        
         if (ViewJsModule is null) return;
 
         await ViewJsModule!.InvokeVoidAsync("addLayer", (object)layer, Id, isBasemapLayer);
@@ -1209,6 +1199,7 @@ public partial class MapView : MapComponent
     /// </param>
     public async Task RemoveGraphicAtIndex(int index, int? layerIndex = null)
     {
+        await RemoveGraphicsFromCollection(index, layerIndex);
         await ViewJsModule!.InvokeVoidAsync("removeGraphicAtIndex", index, layerIndex, Id);
     }
 
@@ -1223,6 +1214,10 @@ public partial class MapView : MapComponent
     /// </param>
     public async Task RemoveGraphicsAtIndexes(int[] indexes, int? layerIndex = null)
     {
+        foreach (int index in indexes)
+        {
+            await RemoveGraphicsFromCollection(index, layerIndex);
+        }
         await ViewJsModule!.InvokeVoidAsync("removeGraphicsAtIndexes", indexes, layerIndex, Id);
     }
 
@@ -1505,6 +1500,12 @@ public partial class MapView : MapComponent
 
     private async Task AddWidget(Widget widget)
     {
+        if (!Widgets.Contains(widget))
+        {
+            Widgets.Add(widget);
+            widget.Parent ??= this;
+        }
+        
         if (ViewJsModule is null) return;
         
         while (Rendering)
@@ -1521,6 +1522,11 @@ public partial class MapView : MapComponent
     private async Task RemoveWidget(Widget widget)
     {
         if (ViewJsModule is null) return;
+        
+        if (Widgets.Contains(widget))
+        {
+            Widgets.Remove(widget);
+        }
         
         await InvokeAsync(async () =>
         {
@@ -1569,6 +1575,37 @@ public partial class MapView : MapComponent
         }
 
         return activeHandlers;
+    }
+
+    private async Task RemoveGraphicsFromCollection(int index, int? layerIndex)
+    {
+        if (layerIndex is null)
+        {
+            Graphics.RemoveAt(index);
+        }
+        else
+        {
+            Layer? indexedLayer = Map?.Layers.FirstOrDefault(l => l.LayerIndex == layerIndex);
+
+            if (indexedLayer is GraphicsLayer graphicsLayer)
+            {
+                Graphic? graphic = graphicsLayer.Graphics.FirstOrDefault(g => g.GraphicIndex == index);
+
+                if (graphic is not null)
+                {
+                    await graphicsLayer.Remove(graphic);
+                }
+            }
+            else if (indexedLayer is FeatureLayer featureLayer)
+            {
+                Graphic? graphic = featureLayer.Source?.FirstOrDefault(g => g.GraphicIndex == index);
+
+                if (graphic is not null)
+                {
+                    await featureLayer.Remove(graphic);
+                }
+            }
+        }
     }
 
     /// <summary>
