@@ -235,11 +235,11 @@ For FeatureLayer, FeatureLayer.capabilities.queryRelated.supportsOrderBy must be
 Attribute fields to include in the FeatureSet.
 
 ```csharp
-public System.Collections.Generic.HashSet<string> OutFields { get; set; }
+public System.Collections.Generic.IEnumerable<string>? OutFields { get; set; }
 ```
 
 #### Property Value
-[System.Collections.Generic.HashSet&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.HashSet-1 'System.Collections.Generic.HashSet`1')[System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.HashSet-1 'System.Collections.Generic.HashSet`1')
+[System.Collections.Generic.IEnumerable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IEnumerable-1 'System.Collections.Generic.IEnumerable`1')[System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IEnumerable-1 'System.Collections.Generic.IEnumerable`1')
 
 <a name='dymaptic.GeoBlazor.Core.Objects.Query.OutSpatialReference'></a>
 
@@ -383,11 +383,11 @@ Only supported with ArcGIS Online hosted services or ArcGIS Enterprise 10.6 serv
 If true, each feature in the returned FeatureSet includes the geometry.
 
 ```csharp
-public bool ReturnGeometry { get; set; }
+public System.Nullable<bool> ReturnGeometry { get; set; }
 ```
 
 #### Property Value
-[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
+[System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 
 <a name='dymaptic.GeoBlazor.Core.Objects.Query.ReturnM'></a>
 
@@ -519,11 +519,11 @@ public System.Nullable<dymaptic.GeoBlazor.Core.Objects.LinearUnit> Units { get; 
 Determines whether to use the view's extent as the query geometry
 
 ```csharp
-public bool UseViewExtent { get; set; }
+public System.Nullable<bool> UseViewExtent { get; set; }
 ```
 
 #### Property Value
-[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
+[System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 
 <a name='dymaptic.GeoBlazor.Core.Objects.Query.Where'></a>
 

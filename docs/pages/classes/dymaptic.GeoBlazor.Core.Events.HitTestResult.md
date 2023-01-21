@@ -8,7 +8,7 @@ parent: Classes
 
 ## HitTestResult Class
 
-Object specification for the result of the [HitTest(ClickEvent, HitTestOptions)](dymaptic.GeoBlazor.Core.Components.Views.MapView.html#dymaptic.GeoBlazor.Core.Components.Views.MapView.HitTest(dymaptic.GeoBlazor.Core.Events.ClickEvent,dymaptic.GeoBlazor.Core.Events.HitTestOptions) 'dymaptic.GeoBlazor.Core.Components.Views.MapView.HitTest(dymaptic.GeoBlazor.Core.Events.ClickEvent, dymaptic.GeoBlazor.Core.Events.HitTestOptions)') method.  
+Object specification for the result of the MapView.HitTest method.  
 <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#HitTestResult">ArcGIS JS API</a>
 
 ```csharp
@@ -25,7 +25,7 @@ Implements [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/S
 
 ## HitTestResult(ViewHit[], ScreenPoint) Constructor
 
-Object specification for the result of the [HitTest(ClickEvent, HitTestOptions)](dymaptic.GeoBlazor.Core.Components.Views.MapView.html#dymaptic.GeoBlazor.Core.Components.Views.MapView.HitTest(dymaptic.GeoBlazor.Core.Events.ClickEvent,dymaptic.GeoBlazor.Core.Events.HitTestOptions) 'dymaptic.GeoBlazor.Core.Components.Views.MapView.HitTest(dymaptic.GeoBlazor.Core.Events.ClickEvent, dymaptic.GeoBlazor.Core.Events.HitTestOptions)') method.  
+Object specification for the result of the MapView.HitTest method.  
 <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#HitTestResult">ArcGIS JS API</a>
 
 ```csharp

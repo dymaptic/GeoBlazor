@@ -114,7 +114,7 @@
 
     private async Task DisplayCoordinates(Point? center)
     {
-        var popupOptions = new PopupOptions(new PopupDockOptions { ButtonEnabled = false }, 
+        var popupOptions = new PopupOptions(new PopupDockOptions(buttonEnabled: false), 
             new PopupVisibleElements { CloseButton = false, FeatureNavigation = false });
 
         var popupTemplate = new PopupTemplate($"WKID: {center!.SpatialReference!.Wkid}",
