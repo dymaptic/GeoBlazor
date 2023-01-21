@@ -1,4 +1,5 @@
 ﻿using dymaptic.GeoBlazor.Core.Model;
+using dymaptic.GeoBlazor.Core.Objects;
 using Microsoft.Extensions.DependencyInjection;
 
 
@@ -16,6 +17,7 @@ public static class DependencyExtension
     public static IServiceCollection AddGeoBlazor(this IServiceCollection serviceCollection)
     {
         return serviceCollection.AddScoped<GeometryEngine>()
-            .AddScoped<Projection>();
+            .AddScoped<Projection>()
+            .AddScoped<AbortManager>();
     }
 }

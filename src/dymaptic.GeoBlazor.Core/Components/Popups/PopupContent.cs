@@ -19,9 +19,46 @@ public abstract class PopupContent : MapComponent
 
 internal class PopupContentConverter : JsonConverter<PopupContent>
 {
-    public override PopupContent Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    public override PopupContent? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        throw new NotImplementedException();
+        // check the type property and deserialize to the correct type
+        var jsonDoc = JsonDocument.ParseValue(ref reader);
+        var type = jsonDoc.RootElement.GetProperty("type").GetString();
+        
+        PopupContent? content = null;
+
+        switch (type)
+        {
+            case "fields":
+                content = JsonSerializer.Deserialize<FieldsPopupContent>(jsonDoc.RootElement.GetRawText(), options);
+
+                break;
+            case "text":
+                content = JsonSerializer.Deserialize<TextPopupContent>(jsonDoc.RootElement.GetRawText(), options);
+
+                break;
+            case "attachments":
+                content = JsonSerializer.Deserialize<AttachmentsPopupContent>(jsonDoc.RootElement.GetRawText(), options);
+
+                break;
+            
+            case "expression":
+                content = JsonSerializer.Deserialize<ExpressionPopupContent>(jsonDoc.RootElement.GetRawText(), options);
+
+                break;
+            
+            case "media":
+                content = JsonSerializer.Deserialize<MediaPopupContent>(jsonDoc.RootElement.GetRawText(), options);
+                
+                break;
+            
+            case "relationship":
+                content = JsonSerializer.Deserialize<RelationshipPopupContent>(jsonDoc.RootElement.GetRawText(), options);
+
+                break;
+        }
+
+        return content;
     }
 
     public override void Write(Utf8JsonWriter writer, PopupContent value, JsonSerializerOptions options)

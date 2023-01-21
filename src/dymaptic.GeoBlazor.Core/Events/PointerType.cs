@@ -1,4 +1,6 @@
-﻿using System.Text.Json.Serialization;
+﻿using dymaptic.GeoBlazor.Core.Components.Layers;
+using dymaptic.GeoBlazor.Core.Serialization;
+using System.Text.Json.Serialization;
 
 
 namespace dymaptic.GeoBlazor.Core.Events;
@@ -6,7 +8,7 @@ namespace dymaptic.GeoBlazor.Core.Events;
 /// <summary>
 ///     The types of pointers recognized by the DOM
 /// </summary>
-[JsonConverter(typeof(JsonStringEnumConverter))]
+[JsonConverter(typeof(EnumToKebabCaseStringConverter<PointerType>))]
 public enum PointerType
 {
 #pragma warning disable CS1591

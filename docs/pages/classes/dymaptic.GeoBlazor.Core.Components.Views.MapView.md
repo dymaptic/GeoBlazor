@@ -142,19 +142,6 @@ public dymaptic.GeoBlazor.Core.Objects.HighlightOptions? HighlightOptions { get;
 #### Property Value
 [HighlightOptions](dymaptic.GeoBlazor.Core.Objects.HighlightOptions.html 'dymaptic.GeoBlazor.Core.Objects.HighlightOptions')
 
-<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.JsRuntime'></a>
-
-## MapView.JsRuntime Property
-
-Represents an instance of a JavaScript runtime to which calls may be dispatched.
-
-```csharp
-public Microsoft.JSInterop.IJSRuntime JsRuntime { get; set; }
-```
-
-#### Property Value
-[Microsoft.JSInterop.IJSRuntime](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.JSInterop.IJSRuntime 'Microsoft.JSInterop.IJSRuntime')
-
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.Latitude'></a>
 
 ## MapView.Latitude Property
@@ -167,6 +154,19 @@ public System.Nullable<double> Latitude { get; set; }
 
 #### Property Value
 [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.LoadOnRender'></a>
+
+## MapView.LoadOnRender Property
+
+Boolean flag that can be set to false to prevent the MapView from automatically rendering with the Blazor components.
+
+```csharp
+public bool LoadOnRender { get; set; }
+```
+
+#### Property Value
+[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.Longitude'></a>
 
@@ -601,6 +601,19 @@ public System.Func<dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReferenc
 ### Remarks
 <b style="color: red">OBSOLETE: Use OnSpatialReferenceChanged instead</b>
 
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnViewInitialized'></a>
+
+## MapView.OnViewInitialized Property
+
+Event triggered when the JS view is created, but before the full map is rendered.
+
+```csharp
+public Microsoft.AspNetCore.Components.EventCallback OnViewInitialized { get; set; }
+```
+
+#### Property Value
+[Microsoft.AspNetCore.Components.EventCallback](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback 'Microsoft.AspNetCore.Components.EventCallback')
+
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.PromptForArcGISKey'></a>
 
 ## MapView.PromptForArcGISKey Property
@@ -1006,6 +1019,17 @@ Options to specify what is included in or excluded from the hitTest.
 #### Returns
 [System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[HitTestResult](dymaptic.GeoBlazor.Core.Events.HitTestResult.html 'dymaptic.GeoBlazor.Core.Events.HitTestResult')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')
 
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.Load()'></a>
+
+## MapView.Load() Method
+
+Manually loads and renders the MapView, if the consumer has also set [LoadOnRender](dymaptic.GeoBlazor.Core.Components.Views.MapView.html#dymaptic.GeoBlazor.Core.Components.Views.MapView.LoadOnRender 'dymaptic.GeoBlazor.Core.Components.Views.MapView.LoadOnRender') to false.  
+If [LoadOnRender](dymaptic.GeoBlazor.Core.Components.Views.MapView.html#dymaptic.GeoBlazor.Core.Components.Views.MapView.LoadOnRender 'dymaptic.GeoBlazor.Core.Components.Views.MapView.LoadOnRender') is true, this method will function the same as [Refresh()](dymaptic.GeoBlazor.Core.Components.Views.MapView.html#dymaptic.GeoBlazor.Core.Components.Views.MapView.Refresh() 'dymaptic.GeoBlazor.Core.Components.Views.MapView.Refresh()').
+
+```csharp
+public void Load();
+```
+
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptBlur(dymaptic.GeoBlazor.Core.Events.BlurEvent)'></a>
 
 ## MapView.OnJavascriptBlur(BlurEvent) Method
@@ -1272,20 +1296,20 @@ The [KeyUpEvent](dymaptic.GeoBlazor.Core.Events.KeyUpEvent.html 'dymaptic.GeoBla
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
 
-<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptLayerViewCreate(dymaptic.GeoBlazor.Core.Events.LayerViewCreateEvent)'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptLayerViewCreate(dymaptic.GeoBlazor.Core.Events.LayerViewCreateInternalEvent)'></a>
 
-## MapView.OnJavascriptLayerViewCreate(LayerViewCreateEvent) Method
+## MapView.OnJavascriptLayerViewCreate(LayerViewCreateInternalEvent) Method
 
 JS-Invokable method to return when a layer view is created.
 
 ```csharp
-public System.Threading.Tasks.Task OnJavascriptLayerViewCreate(dymaptic.GeoBlazor.Core.Events.LayerViewCreateEvent layerViewCreateEvent);
+public System.Threading.Tasks.Task OnJavascriptLayerViewCreate(dymaptic.GeoBlazor.Core.Events.LayerViewCreateInternalEvent layerViewCreateEvent);
 ```
 #### Parameters
 
-<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptLayerViewCreate(dymaptic.GeoBlazor.Core.Events.LayerViewCreateEvent).layerViewCreateEvent'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptLayerViewCreate(dymaptic.GeoBlazor.Core.Events.LayerViewCreateInternalEvent).layerViewCreateEvent'></a>
 
-`layerViewCreateEvent` [LayerViewCreateEvent](dymaptic.GeoBlazor.Core.Events.LayerViewCreateEvent.html 'dymaptic.GeoBlazor.Core.Events.LayerViewCreateEvent')
+`layerViewCreateEvent` [LayerViewCreateInternalEvent](dymaptic.GeoBlazor.Core.Events.LayerViewCreateInternalEvent.html 'dymaptic.GeoBlazor.Core.Events.LayerViewCreateInternalEvent')
 
 The new [LayerViewCreateEvent](dymaptic.GeoBlazor.Core.Events.LayerViewCreateEvent.html 'dymaptic.GeoBlazor.Core.Events.LayerViewCreateEvent')
 
@@ -1486,6 +1510,19 @@ The new [SpatialReference](dymaptic.GeoBlazor.Core.Components.Views.MapView.html
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
 
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJsViewInitialized()'></a>
+
+## MapView.OnJsViewInitialized() Method
+
+JS-Invokable callback that signifies when the view is created but not yet fully rendered.
+
+```csharp
+public System.Threading.Tasks.Task OnJsViewInitialized();
+```
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnViewRendered()'></a>
 
 ## MapView.OnViewRendered() Method
@@ -1495,6 +1532,26 @@ JS-Invokable method to return when the map view is fully rendered.
 ```csharp
 public System.Threading.Tasks.Task OnViewRendered();
 ```
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OpenPopup(dymaptic.GeoBlazor.Core.Components.Widgets.PopupOpenOptions)'></a>
+
+## MapView.OpenPopup(PopupOpenOptions) Method
+
+Opens the popup at the given location with content defined either explicitly with content or driven from the PopupTemplate of input features. This method sets the popup's visible property to true. Users can alternatively open the popup by directly setting the visible property to true.
+
+```csharp
+public System.Threading.Tasks.Task OpenPopup(dymaptic.GeoBlazor.Core.Components.Widgets.PopupOpenOptions? options=null);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OpenPopup(dymaptic.GeoBlazor.Core.Components.Widgets.PopupOpenOptions).options'></a>
+
+`options` [PopupOpenOptions](dymaptic.GeoBlazor.Core.Components.Widgets.PopupOpenOptions.html 'dymaptic.GeoBlazor.Core.Components.Widgets.PopupOpenOptions')
+
+Defines the location and content of the popup when opened.
 
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
@@ -1650,28 +1707,28 @@ The [Point](dymaptic.GeoBlazor.Core.Components.Geometries.Point.html 'dymaptic.G
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
 
-<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.ShowPopupWithGraphic(dymaptic.GeoBlazor.Core.Components.Layers.Graphic,dymaptic.GeoBlazor.Core.Objects.PopupOptions)'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.ShowPopupWithGraphic(dymaptic.GeoBlazor.Core.Components.Layers.Graphic,dymaptic.GeoBlazor.Core.Components.Widgets.PopupOptions)'></a>
 
 ## MapView.ShowPopupWithGraphic(Graphic, PopupOptions) Method
 
 Opens a Popup with a custom [Graphic](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic') on a particular [Point](dymaptic.GeoBlazor.Core.Components.Geometries.Point.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Point') of the map view.
 
 ```csharp
-public System.Threading.Tasks.Task ShowPopupWithGraphic(dymaptic.GeoBlazor.Core.Components.Layers.Graphic graphic, dymaptic.GeoBlazor.Core.Objects.PopupOptions options);
+public System.Threading.Tasks.Task ShowPopupWithGraphic(dymaptic.GeoBlazor.Core.Components.Layers.Graphic graphic, dymaptic.GeoBlazor.Core.Components.Widgets.PopupOptions options);
 ```
 #### Parameters
 
-<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.ShowPopupWithGraphic(dymaptic.GeoBlazor.Core.Components.Layers.Graphic,dymaptic.GeoBlazor.Core.Objects.PopupOptions).graphic'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.ShowPopupWithGraphic(dymaptic.GeoBlazor.Core.Components.Layers.Graphic,dymaptic.GeoBlazor.Core.Components.Widgets.PopupOptions).graphic'></a>
 
 `graphic` [Graphic](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic')
 
 The [Graphic](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic') to display in the Popup
 
-<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.ShowPopupWithGraphic(dymaptic.GeoBlazor.Core.Components.Layers.Graphic,dymaptic.GeoBlazor.Core.Objects.PopupOptions).options'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.ShowPopupWithGraphic(dymaptic.GeoBlazor.Core.Components.Layers.Graphic,dymaptic.GeoBlazor.Core.Components.Widgets.PopupOptions).options'></a>
 
-`options` [PopupOptions](dymaptic.GeoBlazor.Core.Objects.PopupOptions.html 'dymaptic.GeoBlazor.Core.Objects.PopupOptions')
+`options` [PopupOptions](dymaptic.GeoBlazor.Core.Components.Widgets.PopupOptions.html 'dymaptic.GeoBlazor.Core.Components.Widgets.PopupOptions')
 
-A set of [PopupOptions](dymaptic.GeoBlazor.Core.Objects.PopupOptions.html 'dymaptic.GeoBlazor.Core.Objects.PopupOptions') that define the position and visible elements of the Popup.
+A set of [PopupOptions](dymaptic.GeoBlazor.Core.Components.Widgets.PopupOptions.html 'dymaptic.GeoBlazor.Core.Components.Widgets.PopupOptions') that define the position and visible elements of the Popup.
 
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')

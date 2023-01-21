@@ -2,6 +2,7 @@
 using dymaptic.GeoBlazor.Core.Components.Popups;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 
@@ -63,6 +64,11 @@ public class Graphic : LayerObject
     ///     The <see cref="PopupTemplate"/> for displaying content in a Popup when the graphic is selected.
     /// </summary>
     public PopupTemplate? PopupTemplate { get; set; }
+    
+    /// <summary>
+    ///     The GeoBlazor Id of the parent layer, used when serializing the graphic to/from JavaScript.
+    /// </summary>
+    public Guid? LayerId { get; set; }
 
     /// <summary>
     ///     Retrieves the <see cref="Geometry"/> from the rendered graphic.

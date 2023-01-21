@@ -37,7 +37,7 @@ public dymaptic.GeoBlazor.Core.Objects.Address? Address { get; set; }
 Limit result to one or more categories. For example, "Populated Place" or "Scandinavian Food". Only applies to the World Geocode Service. See Category filtering (World Geocoding Service) for more information.
 
 ```csharp
-public System.Collections.Generic.HashSet<string> Categories { get; set; }
+public System.Collections.Generic.HashSet<string>? Categories { get; set; }
 ```
 
 #### Property Value
@@ -76,7 +76,7 @@ public System.Nullable<int> MaxLocations { get; set; }
 The list of fields included in the returned result set. This list is a comma delimited list of field names. If you specify the shape field in the list of return fields, it is ignored. For non-intersection addresses you can specify the candidate fields as defined in the geocode service. For intersection addresses you can specify the intersection candidate fields.
 
 ```csharp
-public System.Collections.Generic.HashSet<string> OutFields { get; set; }
+public System.Collections.Generic.HashSet<string>? OutFields { get; set; }
 ```
 
 #### Property Value
