@@ -183,6 +183,47 @@ export interface DotNetQuery {
     units: string;
 }
 
+export interface DotNetRelationshipQuery {
+    cacheHint: boolean;
+    gdbVersion: string;
+    geometryPrecision: number;
+    historicMoment: Date;
+    maxAllowableOffset: number;
+    num: number;
+    objectIds: number[];
+    orderByFields: string[];
+    outFields: string[];
+    outSpatialReference: DotNetSpatialReference;
+    relationshipId: number;
+    returnGeometry: boolean;
+    returnM: boolean;
+    returnZ: boolean;
+    start: number;
+    where: string;
+}
+
+export interface DotNetTopFeaturesQuery {
+    cacheHint: boolean;
+    distance: number;
+    geometry: DotNetGeometry;
+    geometryPrecision: number;
+    maxAllowableOffset: number;
+    num: number;
+    objectIds: number[];
+    orderByFields: string[];
+    outFields: string[];
+    outSpatialReference: DotNetSpatialReference;
+    returnGeometry: boolean;
+    returnM: boolean;
+    returnZ: boolean;
+    spatialRelationship: string;
+    start: number;
+    timeExtent: any;
+    topFilter: any;
+    units: string;
+    where: string;
+}
+
 export interface DotNetPopupTemplate {
     stringContent: string;
     content: DotNetPopupContent[];

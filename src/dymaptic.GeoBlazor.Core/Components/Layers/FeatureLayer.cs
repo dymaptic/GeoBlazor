@@ -150,6 +150,11 @@ public class FeatureLayer : Layer
             }
         }
     }
+    
+    /// <summary>
+    ///     Array of relationships set up for the layer. Each object in the array describes the layer's relationship with another layer or table.
+    /// </summary>
+    public Relationship[]? Relationships { get; set; }
 
     /// <inheritdoc />
     public override string LayerType => "feature";
@@ -286,6 +291,11 @@ public class FeatureLayer : Layer
         if (renderedFeatureLayer.SpatialReference is not null)
         {
             SpatialReference = renderedFeatureLayer.SpatialReference;
+        }
+
+        if (renderedFeatureLayer.Relationships is not null)
+        {
+            Relationships = renderedFeatureLayer.Relationships;
         }
     }
 
@@ -576,6 +586,153 @@ public class FeatureLayer : Layer
         await AbortManager.DisposeAbortController(cancellationToken);
 
         return queryResult;
+    }
+    
+    /// <summary>
+    ///     Executes a RelationshipQuery against the feature service and returns FeatureSets grouped by source layer or table objectIds.
+    /// </summary>
+    /// <param name="query">
+    ///     Specifies relationship parameters for querying related features or records from a layer or a table.
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     A cancellation token that can be used to cancel the query operation.
+    /// </param>
+    public async Task<Dictionary<int, FeatureSet?>> QueryRelatedFeatures(RelationshipQuery query, 
+        CancellationToken cancellationToken = default)
+    {
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        Dictionary<int, FeatureSet?> result = await JsObjectReference!.InvokeAsync<Dictionary<int, FeatureSet?>>(
+            "queryRelatedFeatures", cancellationToken, query, new {signal = abortSignal});
+
+        foreach (FeatureSet? set in result.Values)
+        {
+            if (set?.Features is null) continue;
+            foreach (Graphic graphic in set.Features)
+            {
+                graphic.LayerId = Id;
+            }
+        }
+
+        await AbortManager.DisposeAbortController(cancellationToken);
+
+        return result;
+    }
+    
+    /// <summary>
+    ///     Executes a RelationshipQuery against the feature service and when resolved, it returns an object containing key value pairs. Key in this case is the objectId of the feature and value is the number of related features associated with the feature.
+    /// </summary>
+    /// <param name="query">
+    ///     Specifies relationship parameters for querying related features or records from a layer or a table.
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     A cancellation token that can be used to cancel the query operation.
+    /// </param>
+    public async Task<Dictionary<int, int>> QueryRelatedFeaturesCount(RelationshipQuery query, 
+        CancellationToken cancellationToken = default)
+    {
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        Dictionary<int, int> result = await JsObjectReference!.InvokeAsync<Dictionary<int, int>>(
+            "queryRelatedFeaturesCount", cancellationToken, query, new {signal = abortSignal});
+
+        await AbortManager.DisposeAbortController(cancellationToken);
+
+        return result;
+    }
+    
+    
+    /// <summary>
+    ///     Executes a TopFeaturesQuery against a feature service and returns the count of features or records that satisfy the query.
+    /// </summary>
+    /// <remarks>
+    ///     Known Limitations: Currently, the <see cref="QueryTopFeatureCount"/> is only supported with server-side <see cref="FeatureLayer"/>s.
+    /// </remarks>
+    /// <param name="query">
+    ///     Specifies the attributes, spatial, temporal, and top filter of the query. The topFilter parameter must be set.
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     A cancellation token that can be used to cancel the query operation.
+    /// </param>
+    public async Task<int> QueryTopFeatureCount(TopFeaturesQuery query, CancellationToken cancellationToken = default)
+    {
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        int result = await JsObjectReference!.InvokeAsync<int>("queryTopFeatureCount", cancellationToken, 
+            query, new {signal = abortSignal});
+        
+        await AbortManager.DisposeAbortController(cancellationToken);
+
+        return result;
+    }
+    
+    
+    /// <summary>
+    ///     Executes a TopFeaturesQuery against a feature service and returns a FeatureSet once the promise resolves. The FeatureSet contains an array of top features grouped and ordered by specified fields. For example, you can call this method to query top three counties grouped by state names while ordering them based on their populations in a descending order.
+    /// </summary>
+    /// <remarks>
+    ///     Known Limitations: Currently, the <see cref="QueryTopFeatures"/> is only supported with server-side <see cref="FeatureLayer"/>s.
+    /// </remarks>
+    /// <param name="query">
+    ///     Specifies the attributes, spatial, temporal, and top filter of the query. The topFilter parameter must be set.
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     A cancellation token that can be used to cancel the query operation.
+    /// </param>
+    public async Task<FeatureSet> QueryTopFeatures(TopFeaturesQuery query, CancellationToken cancellationToken = default)
+    {
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        FeatureSet result = await JsObjectReference!.InvokeAsync<FeatureSet>("queryTopFeatures", cancellationToken, 
+            query, new {signal = abortSignal});
+
+        if (result.Features is not null)
+        {
+            foreach (Graphic graphic in result.Features)
+            {
+                graphic.LayerId = Id;
+            }
+        }
+
+        await AbortManager.DisposeAbortController(cancellationToken);
+
+        return result;
+    }
+    
+    /// <summary>
+    ///     
+    /// </summary>
+    /// <param name="query"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public async Task<int[]> QueryTopObjectIds(TopFeaturesQuery query, CancellationToken cancellationToken = default)
+    {
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        
+        int[] queryResult = await JsObjectReference!.InvokeAsync<int[]>("queryTopObjectIds", cancellationToken,
+            query, new {signal = abortSignal});
+
+        await AbortManager.DisposeAbortController(cancellationToken);
+
+        return queryResult;
+    }
+    
+    /// <summary>
+    ///     Executes a TopFeaturesQuery against a feature service and returns the Extent of features that satisfy the query.
+    /// </summary>
+    /// <remarks>
+    ///     Known Limitations: Currently, the <see cref="QueryTopFeaturesExtent"/> is only supported with server-side <see cref="FeatureLayer"/>s.
+    /// </remarks>
+    /// <param name="query">
+    ///     Specifies the attributes, spatial, temporal, and top filter of the query. The topFilter parameter must be set.
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     A cancellation token that can be used to cancel the query operation.
+    /// </param>
+    public async Task<ExtentQueryResult> QueryTopFeaturesExtent(TopFeaturesQuery? query = null, CancellationToken cancellationToken = default)
+    {
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        ExtentQueryResult result = await JsObjectReference!.InvokeAsync<ExtentQueryResult>("queryExtent", 
+            cancellationToken, query, new {signal = abortSignal});
+
+        await AbortManager.DisposeAbortController(cancellationToken);
+        return result;
     }
 
     private string? _definitionExpression;

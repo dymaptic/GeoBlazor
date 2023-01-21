@@ -235,11 +235,11 @@ For FeatureLayer, FeatureLayer.capabilities.queryRelated.supportsOrderBy must be
 Attribute fields to include in the FeatureSet.
 
 ```csharp
-public System.Collections.Generic.HashSet<string>? OutFields { get; set; }
+public System.Collections.Generic.IEnumerable<string>? OutFields { get; set; }
 ```
 
 #### Property Value
-[System.Collections.Generic.HashSet&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.HashSet-1 'System.Collections.Generic.HashSet`1')[System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.HashSet-1 'System.Collections.Generic.HashSet`1')
+[System.Collections.Generic.IEnumerable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IEnumerable-1 'System.Collections.Generic.IEnumerable`1')[System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IEnumerable-1 'System.Collections.Generic.IEnumerable`1')
 
 <a name='dymaptic.GeoBlazor.Core.Objects.Query.OutSpatialReference'></a>
 

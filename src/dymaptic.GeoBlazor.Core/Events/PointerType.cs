@@ -1,5 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Components.Layers;
-using dymaptic.GeoBlazor.Core.Serialization;
+﻿using dymaptic.GeoBlazor.Core.Serialization;
 using System.Text.Json.Serialization;
 
 

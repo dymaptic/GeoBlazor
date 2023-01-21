@@ -1,6 +1,7 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
 using dymaptic.GeoBlazor.Core.Objects;
 using Microsoft.JSInterop;
+using System.Text.Json.Serialization;
 
 
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
@@ -21,7 +22,24 @@ public class FeatureLayerView: LayerView
         Updating = layerView.Updating;
         Visible = layerView.Visible;
     }
-    
+
+    /// <summary>
+    ///     The attribute, geometry, and time extent filter. Only the features that satisfy the filter are displayed on the view.
+    /// </summary>
+    public FeatureFilter? Filter => _filter;
+
+    /// <summary>
+    ///     Sets the <see cref="FeatureFilter"/> for this view.
+    /// </summary>
+    /// <param name="filter">
+    ///     The new filter (or null to clear) to apply to this view.
+    /// </param>
+    public async Task SetFilter(FeatureFilter? filter)
+    {
+        await JsObjectReference!.InvokeVoidAsync("setFilter", filter);
+        _filter = filter;
+    }
+
     /// <summary>
     ///    Highlights the given feature(s).
     /// </summary>
@@ -210,4 +228,58 @@ public class FeatureLayerView: LayerView
     }
     
     private readonly AbortManager _abortManager;
+    private FeatureFilter? _filter;
+}
+
+
+/// <summary>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html">ArcGIS JS API</a>
+/// </summary>
+public class FeatureFilter
+{
+    /// <summary>
+    ///     Specifies a search distance from a given geometry in a spatial filter. The units property indicates the unit of measurement. In essence, setting this property creates a buffer at the specified size around the input geometry. The filter will use that buffer to display features in the layer or layer view that adhere to the to the indicated spatial relationship.
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public double? Distance { get; set; }
+    
+    /// <summary>
+    ///     The geometry to apply to the spatial filter. The spatial relationship as specified by spatialRelationship will indicate how the geometry should be used to filter features.
+    /// </summary>
+    /// <remarks>
+    ///     Known Limitations: Mesh geometry types are currently not supported.
+    /// </remarks>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Geometry? Geometry { get; set; }
+    
+    /// <summary>
+    ///     An array of objectIds of the features to be filtered.
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IEnumerable<int>? ObjectIds { get; set; }
+    
+    /// <summary>
+    ///     For spatial filters, this parameter defines the spatial relationship to filter features in the layer view against the filter geometry. The spatial relationships discover how features are spatially related to each other. For example, you may want to know if a polygon representing a county completely contains points representing settlements.
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public SpatialRelationship? SpatialRelationship { get; set; }
+    
+    /// <summary>
+    ///     A range of time with start and end date. Only the features that fall within this time extent will be displayed. The Date field to be used for timeExtent should be added to outFields list when the layer is initialized. This ensures the best user experience when switching or updating fields for time filters.
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public TimeExtent? TimeExtent { get; set; }
+    
+    /// <summary>
+    ///     The unit for calculating the buffer distance when distance is specified in a spatial filter. If units is not specified, the unit is derived from the filter geometry's spatial reference.
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public LinearUnit? Units { get; set; }
+    
+    /// <summary>
+    ///     A where clause for the feature filter. Any legal SQL92 where clause operating on the fields in the layer is allowed. Be sure to have the correct sequence of single and double quotes when writing the where clause in JavaScript.
+    ///     For apps where users can interactively change fields used for attribute filter, we suggest you include all possible fields in the outFields of the layer. This ensures the best user experience when switching or updating fields for attribute filters.
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Where { get; set; }
 }

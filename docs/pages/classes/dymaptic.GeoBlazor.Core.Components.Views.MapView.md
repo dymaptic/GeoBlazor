@@ -787,6 +787,19 @@ public System.Threading.Tasks.Task ClearGraphics();
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
 
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.ClosePopup()'></a>
+
+## MapView.ClosePopup() Method
+
+Closes the popup by setting its visible property to false. Users can alternatively close the popup by directly setting the visible property to false.
+
+```csharp
+public System.Threading.Tasks.Task ClosePopup();
+```
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.DisposeAsync()'></a>
 
 ## MapView.DisposeAsync() Method

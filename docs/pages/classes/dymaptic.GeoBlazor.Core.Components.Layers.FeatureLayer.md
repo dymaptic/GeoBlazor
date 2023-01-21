@@ -177,6 +177,19 @@ public dymaptic.GeoBlazor.Core.Components.PortalItem? PortalItem { get; set; }
 #### Property Value
 [PortalItem](dymaptic.GeoBlazor.Core.Components.PortalItem.html 'dymaptic.GeoBlazor.Core.Components.PortalItem')
 
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.Relationships'></a>
+
+## FeatureLayer.Relationships Property
+
+Array of relationships set up for the layer. Each object in the array describes the layer's relationship with another layer or table.
+
+```csharp
+public dymaptic.GeoBlazor.Core.Objects.Relationship[]? Relationships { get; set; }
+```
+
+#### Property Value
+[Relationship](dymaptic.GeoBlazor.Core.Objects.Relationship.html 'dymaptic.GeoBlazor.Core.Objects.Relationship')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')
+
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.Renderer'></a>
 
 ## FeatureLayer.Renderer Property
@@ -427,6 +440,165 @@ Specifies the attributes and spatial filter of the query. If no parameters are s
 `cancellationToken` [System.Threading.CancellationToken](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.CancellationToken 'System.Threading.CancellationToken')
 
 A cancellation token that can be used to cancel the query operation.
+
+#### Returns
+[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.QueryRelatedFeatures(dymaptic.GeoBlazor.Core.Objects.RelationshipQuery,System.Threading.CancellationToken)'></a>
+
+## FeatureLayer.QueryRelatedFeatures(RelationshipQuery, CancellationToken) Method
+
+Executes a RelationshipQuery against the feature service and returns FeatureSets grouped by source layer or table objectIds.
+
+```csharp
+public System.Threading.Tasks.Task<System.Collections.Generic.Dictionary<int,dymaptic.GeoBlazor.Core.Components.Layers.FeatureSet?>> QueryRelatedFeatures(dymaptic.GeoBlazor.Core.Objects.RelationshipQuery query, System.Threading.CancellationToken cancellationToken=default(System.Threading.CancellationToken));
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.QueryRelatedFeatures(dymaptic.GeoBlazor.Core.Objects.RelationshipQuery,System.Threading.CancellationToken).query'></a>
+
+`query` [RelationshipQuery](dymaptic.GeoBlazor.Core.Objects.RelationshipQuery.html 'dymaptic.GeoBlazor.Core.Objects.RelationshipQuery')
+
+Specifies relationship parameters for querying related features or records from a layer or a table.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.QueryRelatedFeatures(dymaptic.GeoBlazor.Core.Objects.RelationshipQuery,System.Threading.CancellationToken).cancellationToken'></a>
+
+`cancellationToken` [System.Threading.CancellationToken](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.CancellationToken 'System.Threading.CancellationToken')
+
+A cancellation token that can be used to cancel the query operation.
+
+#### Returns
+[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[System.Collections.Generic.Dictionary&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.Dictionary-2 'System.Collections.Generic.Dictionary`2')[System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')[,](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.Dictionary-2 'System.Collections.Generic.Dictionary`2')[FeatureSet](dymaptic.GeoBlazor.Core.Components.Layers.FeatureSet.html 'dymaptic.GeoBlazor.Core.Components.Layers.FeatureSet')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.Dictionary-2 'System.Collections.Generic.Dictionary`2')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.QueryRelatedFeaturesCount(dymaptic.GeoBlazor.Core.Objects.RelationshipQuery,System.Threading.CancellationToken)'></a>
+
+## FeatureLayer.QueryRelatedFeaturesCount(RelationshipQuery, CancellationToken) Method
+
+Executes a RelationshipQuery against the feature service and when resolved, it returns an object containing key value pairs. Key in this case is the objectId of the feature and value is the number of related features associated with the feature.
+
+```csharp
+public System.Threading.Tasks.Task<System.Collections.Generic.Dictionary<int,int>> QueryRelatedFeaturesCount(dymaptic.GeoBlazor.Core.Objects.RelationshipQuery query, System.Threading.CancellationToken cancellationToken=default(System.Threading.CancellationToken));
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.QueryRelatedFeaturesCount(dymaptic.GeoBlazor.Core.Objects.RelationshipQuery,System.Threading.CancellationToken).query'></a>
+
+`query` [RelationshipQuery](dymaptic.GeoBlazor.Core.Objects.RelationshipQuery.html 'dymaptic.GeoBlazor.Core.Objects.RelationshipQuery')
+
+Specifies relationship parameters for querying related features or records from a layer or a table.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.QueryRelatedFeaturesCount(dymaptic.GeoBlazor.Core.Objects.RelationshipQuery,System.Threading.CancellationToken).cancellationToken'></a>
+
+`cancellationToken` [System.Threading.CancellationToken](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.CancellationToken 'System.Threading.CancellationToken')
+
+A cancellation token that can be used to cancel the query operation.
+
+#### Returns
+[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[System.Collections.Generic.Dictionary&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.Dictionary-2 'System.Collections.Generic.Dictionary`2')[System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')[,](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.Dictionary-2 'System.Collections.Generic.Dictionary`2')[System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.Dictionary-2 'System.Collections.Generic.Dictionary`2')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.QueryTopFeatureCount(dymaptic.GeoBlazor.Core.Objects.TopFeaturesQuery,System.Threading.CancellationToken)'></a>
+
+## FeatureLayer.QueryTopFeatureCount(TopFeaturesQuery, CancellationToken) Method
+
+Executes a TopFeaturesQuery against a feature service and returns the count of features or records that satisfy the query.
+
+```csharp
+public System.Threading.Tasks.Task<int> QueryTopFeatureCount(dymaptic.GeoBlazor.Core.Objects.TopFeaturesQuery query, System.Threading.CancellationToken cancellationToken=default(System.Threading.CancellationToken));
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.QueryTopFeatureCount(dymaptic.GeoBlazor.Core.Objects.TopFeaturesQuery,System.Threading.CancellationToken).query'></a>
+
+`query` [TopFeaturesQuery](dymaptic.GeoBlazor.Core.Objects.TopFeaturesQuery.html 'dymaptic.GeoBlazor.Core.Objects.TopFeaturesQuery')
+
+Specifies the attributes, spatial, temporal, and top filter of the query. The topFilter parameter must be set.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.QueryTopFeatureCount(dymaptic.GeoBlazor.Core.Objects.TopFeaturesQuery,System.Threading.CancellationToken).cancellationToken'></a>
+
+`cancellationToken` [System.Threading.CancellationToken](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.CancellationToken 'System.Threading.CancellationToken')
+
+A cancellation token that can be used to cancel the query operation.
+
+#### Returns
+[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')
+
+### Remarks
+Known Limitations: Currently, the [QueryTopFeatureCount(TopFeaturesQuery, CancellationToken)](dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html#dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.QueryTopFeatureCount(dymaptic.GeoBlazor.Core.Objects.TopFeaturesQuery,System.Threading.CancellationToken) 'dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.QueryTopFeatureCount(dymaptic.GeoBlazor.Core.Objects.TopFeaturesQuery, System.Threading.CancellationToken)') is only supported with server-side [FeatureLayer](dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html 'dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer')s.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.QueryTopFeatures(dymaptic.GeoBlazor.Core.Objects.TopFeaturesQuery,System.Threading.CancellationToken)'></a>
+
+## FeatureLayer.QueryTopFeatures(TopFeaturesQuery, CancellationToken) Method
+
+Executes a TopFeaturesQuery against a feature service and returns a FeatureSet once the promise resolves. The FeatureSet contains an array of top features grouped and ordered by specified fields. For example, you can call this method to query top three counties grouped by state names while ordering them based on their populations in a descending order.
+
+```csharp
+public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Layers.FeatureSet> QueryTopFeatures(dymaptic.GeoBlazor.Core.Objects.TopFeaturesQuery query, System.Threading.CancellationToken cancellationToken=default(System.Threading.CancellationToken));
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.QueryTopFeatures(dymaptic.GeoBlazor.Core.Objects.TopFeaturesQuery,System.Threading.CancellationToken).query'></a>
+
+`query` [TopFeaturesQuery](dymaptic.GeoBlazor.Core.Objects.TopFeaturesQuery.html 'dymaptic.GeoBlazor.Core.Objects.TopFeaturesQuery')
+
+Specifies the attributes, spatial, temporal, and top filter of the query. The topFilter parameter must be set.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.QueryTopFeatures(dymaptic.GeoBlazor.Core.Objects.TopFeaturesQuery,System.Threading.CancellationToken).cancellationToken'></a>
+
+`cancellationToken` [System.Threading.CancellationToken](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.CancellationToken 'System.Threading.CancellationToken')
+
+A cancellation token that can be used to cancel the query operation.
+
+#### Returns
+[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[FeatureSet](dymaptic.GeoBlazor.Core.Components.Layers.FeatureSet.html 'dymaptic.GeoBlazor.Core.Components.Layers.FeatureSet')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')
+
+### Remarks
+Known Limitations: Currently, the [QueryTopFeatures(TopFeaturesQuery, CancellationToken)](dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html#dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.QueryTopFeatures(dymaptic.GeoBlazor.Core.Objects.TopFeaturesQuery,System.Threading.CancellationToken) 'dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.QueryTopFeatures(dymaptic.GeoBlazor.Core.Objects.TopFeaturesQuery, System.Threading.CancellationToken)') is only supported with server-side [FeatureLayer](dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html 'dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer')s.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.QueryTopFeaturesExtent(dymaptic.GeoBlazor.Core.Objects.TopFeaturesQuery,System.Threading.CancellationToken)'></a>
+
+## FeatureLayer.QueryTopFeaturesExtent(TopFeaturesQuery, CancellationToken) Method
+
+Executes a TopFeaturesQuery against a feature service and returns the Extent of features that satisfy the query.
+
+```csharp
+public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Layers.ExtentQueryResult> QueryTopFeaturesExtent(dymaptic.GeoBlazor.Core.Objects.TopFeaturesQuery? query=null, System.Threading.CancellationToken cancellationToken=default(System.Threading.CancellationToken));
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.QueryTopFeaturesExtent(dymaptic.GeoBlazor.Core.Objects.TopFeaturesQuery,System.Threading.CancellationToken).query'></a>
+
+`query` [TopFeaturesQuery](dymaptic.GeoBlazor.Core.Objects.TopFeaturesQuery.html 'dymaptic.GeoBlazor.Core.Objects.TopFeaturesQuery')
+
+Specifies the attributes, spatial, temporal, and top filter of the query. The topFilter parameter must be set.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.QueryTopFeaturesExtent(dymaptic.GeoBlazor.Core.Objects.TopFeaturesQuery,System.Threading.CancellationToken).cancellationToken'></a>
+
+`cancellationToken` [System.Threading.CancellationToken](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.CancellationToken 'System.Threading.CancellationToken')
+
+A cancellation token that can be used to cancel the query operation.
+
+#### Returns
+[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[ExtentQueryResult](dymaptic.GeoBlazor.Core.Components.Layers.ExtentQueryResult.html 'dymaptic.GeoBlazor.Core.Components.Layers.ExtentQueryResult')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')
+
+### Remarks
+Known Limitations: Currently, the [QueryTopFeaturesExtent(TopFeaturesQuery, CancellationToken)](dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html#dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.QueryTopFeaturesExtent(dymaptic.GeoBlazor.Core.Objects.TopFeaturesQuery,System.Threading.CancellationToken) 'dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.QueryTopFeaturesExtent(dymaptic.GeoBlazor.Core.Objects.TopFeaturesQuery, System.Threading.CancellationToken)') is only supported with server-side [FeatureLayer](dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html 'dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer')s.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.QueryTopObjectIds(dymaptic.GeoBlazor.Core.Objects.TopFeaturesQuery,System.Threading.CancellationToken)'></a>
+
+## FeatureLayer.QueryTopObjectIds(TopFeaturesQuery, CancellationToken) Method
+
+```csharp
+public System.Threading.Tasks.Task<int[]> QueryTopObjectIds(dymaptic.GeoBlazor.Core.Objects.TopFeaturesQuery query, System.Threading.CancellationToken cancellationToken=default(System.Threading.CancellationToken));
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.QueryTopObjectIds(dymaptic.GeoBlazor.Core.Objects.TopFeaturesQuery,System.Threading.CancellationToken).query'></a>
+
+`query` [TopFeaturesQuery](dymaptic.GeoBlazor.Core.Objects.TopFeaturesQuery.html 'dymaptic.GeoBlazor.Core.Objects.TopFeaturesQuery')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.QueryTopObjectIds(dymaptic.GeoBlazor.Core.Objects.TopFeaturesQuery,System.Threading.CancellationToken).cancellationToken'></a>
+
+`cancellationToken` [System.Threading.CancellationToken](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.CancellationToken 'System.Threading.CancellationToken')
 
 #### Returns
 [System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')
