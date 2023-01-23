@@ -12,10 +12,13 @@ A Graphic is a vector representation of real world geographic phenomena. It can 
 <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Graphic.html">ArcGIS JS API</a>
 
 ```csharp
-public class Graphic : dymaptic.GeoBlazor.Core.Components.Layers.LayerObject
+public class Graphic : dymaptic.GeoBlazor.Core.Components.Layers.LayerObject,
+System.IEquatable<dymaptic.GeoBlazor.Core.Components.Layers.Graphic>
 ```
 
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [Microsoft.AspNetCore.Components.ComponentBase](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.ComponentBase 'Microsoft.AspNetCore.Components.ComponentBase') &#129106; [MapComponent](dymaptic.GeoBlazor.Core.Components.MapComponent.html 'dymaptic.GeoBlazor.Core.Components.MapComponent') &#129106; [LayerObject](dymaptic.GeoBlazor.Core.Components.Layers.LayerObject.html 'dymaptic.GeoBlazor.Core.Components.Layers.LayerObject') &#129106; Graphic
+
+Implements [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.IEquatable-1 'System.IEquatable`1')[Graphic](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.IEquatable-1 'System.IEquatable`1')
 ### Constructors
 
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.Graphic.Graphic()'></a>
@@ -28,30 +31,34 @@ Parameterless constructor for using as a razor component
 public Graphic();
 ```
 
-<a name='dymaptic.GeoBlazor.Core.Components.Layers.Graphic.Graphic(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate,System.Collections.Generic.Dictionary_string,object_)'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.Graphic.Graphic(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,dymaptic.GeoBlazor.Core.Components.Symbols.Symbol,dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate,System.Collections.Generic.Dictionary_string,object_)'></a>
 
-## Graphic(Geometry, PopupTemplate, Dictionary<string,object>) Constructor
+## Graphic(Geometry, Symbol, PopupTemplate, Dictionary<string,object>) Constructor
 
 Constructs a new Graphic in code with parameters
 
 ```csharp
-public Graphic(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry geometry, dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate? popupTemplate=null, System.Collections.Generic.Dictionary<string,object>? attributes=null);
+public Graphic(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry? geometry=null, dymaptic.GeoBlazor.Core.Components.Symbols.Symbol? symbol=null, dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate? popupTemplate=null, System.Collections.Generic.Dictionary<string,object>? attributes=null);
 ```
 #### Parameters
 
-<a name='dymaptic.GeoBlazor.Core.Components.Layers.Graphic.Graphic(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate,System.Collections.Generic.Dictionary_string,object_).geometry'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.Graphic.Graphic(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,dymaptic.GeoBlazor.Core.Components.Symbols.Symbol,dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate,System.Collections.Generic.Dictionary_string,object_).geometry'></a>
 
 `geometry` [Geometry](dymaptic.GeoBlazor.Core.Components.Geometries.Geometry.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Geometry')
 
 The geometry that defines the graphic's location.
 
-<a name='dymaptic.GeoBlazor.Core.Components.Layers.Graphic.Graphic(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate,System.Collections.Generic.Dictionary_string,object_).popupTemplate'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.Graphic.Graphic(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,dymaptic.GeoBlazor.Core.Components.Symbols.Symbol,dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate,System.Collections.Generic.Dictionary_string,object_).symbol'></a>
+
+`symbol` [Symbol](dymaptic.GeoBlazor.Core.Components.Symbols.Symbol.html 'dymaptic.GeoBlazor.Core.Components.Symbols.Symbol')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.Graphic.Graphic(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,dymaptic.GeoBlazor.Core.Components.Symbols.Symbol,dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate,System.Collections.Generic.Dictionary_string,object_).popupTemplate'></a>
 
 `popupTemplate` [PopupTemplate](dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.html 'dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate')
 
 The [PopupTemplate](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html#dymaptic.GeoBlazor.Core.Components.Layers.Graphic.PopupTemplate 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic.PopupTemplate') for displaying content in a Popup when the graphic is selected.
 
-<a name='dymaptic.GeoBlazor.Core.Components.Layers.Graphic.Graphic(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate,System.Collections.Generic.Dictionary_string,object_).attributes'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.Graphic.Graphic(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,dymaptic.GeoBlazor.Core.Components.Symbols.Symbol,dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate,System.Collections.Generic.Dictionary_string,object_).attributes'></a>
 
 `attributes` [System.Collections.Generic.Dictionary&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.Dictionary-2 'System.Collections.Generic.Dictionary`2')[System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')[,](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.Dictionary-2 'System.Collections.Generic.Dictionary`2')[System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.Dictionary-2 'System.Collections.Generic.Dictionary`2')
 
@@ -65,7 +72,7 @@ Name-value pairs of fields and field values associated with the graphic.
 Name-value pairs of fields and field values associated with the graphic.
 
 ```csharp
-public System.Collections.Generic.Dictionary<string,object>? Attributes { get; set; }
+public System.Collections.Generic.Dictionary<string,object> Attributes { get; set; }
 ```
 
 #### Property Value
@@ -83,19 +90,6 @@ public dymaptic.GeoBlazor.Core.Components.Geometries.Geometry? Geometry { get; s
 
 #### Property Value
 [Geometry](dymaptic.GeoBlazor.Core.Components.Geometries.Geometry.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Geometry')
-
-<a name='dymaptic.GeoBlazor.Core.Components.Layers.Graphic.GraphicIndex'></a>
-
-## Graphic.GraphicIndex Property
-
-The position of the graphic in its parent layer's collection.
-
-```csharp
-public System.Nullable<int> GraphicIndex { get; set; }
-```
-
-#### Property Value
-[System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.Graphic.LayerId'></a>
 
@@ -178,19 +172,6 @@ public override System.Threading.Tasks.Task UnregisterChildComponent(dymaptic.Ge
 `child` [MapComponent](dymaptic.GeoBlazor.Core.Components.MapComponent.html 'dymaptic.GeoBlazor.Core.Components.MapComponent')
 
 The child to unregister
-
-#### Returns
-[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
-
-<a name='dymaptic.GeoBlazor.Core.Components.Layers.Graphic.UpdateComponent()'></a>
-
-## Graphic.UpdateComponent() Method
-
-Checks if the map is already rendered, and if so, performs forced updates as defined by the component type.
-
-```csharp
-public override System.Threading.Tasks.Task UpdateComponent();
-```
 
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')

@@ -722,28 +722,22 @@ public System.Nullable<double> Zoom { get; set; }
 [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 ### Methods
 
-<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.AddGraphic(dymaptic.GeoBlazor.Core.Components.Layers.Graphic,System.Nullable_int_)'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.AddGraphic(dymaptic.GeoBlazor.Core.Components.Layers.Graphic)'></a>
 
-## MapView.AddGraphic(Graphic, Nullable<int>) Method
+## MapView.AddGraphic(Graphic) Method
 
 Adds a [Graphic](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic') to the current view, or to a [GraphicsLayer](dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer.html 'dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer').
 
 ```csharp
-public System.Threading.Tasks.Task AddGraphic(dymaptic.GeoBlazor.Core.Components.Layers.Graphic graphic, System.Nullable<int> layerIndex=null);
+public System.Threading.Tasks.Task AddGraphic(dymaptic.GeoBlazor.Core.Components.Layers.Graphic graphic);
 ```
 #### Parameters
 
-<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.AddGraphic(dymaptic.GeoBlazor.Core.Components.Layers.Graphic,System.Nullable_int_).graphic'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.AddGraphic(dymaptic.GeoBlazor.Core.Components.Layers.Graphic).graphic'></a>
 
 `graphic` [Graphic](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic')
 
 The [Graphic](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic') to add.
-
-<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.AddGraphic(dymaptic.GeoBlazor.Core.Components.Layers.Graphic,System.Nullable_int_).layerIndex'></a>
-
-`layerIndex` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
-
-An optional index, that determines which [GraphicsLayer](dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer.html 'dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer') to add the graphic to. If omitted, the graphic will be placed directly on the view.
 
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
@@ -873,27 +867,6 @@ A [PopupTemplate](dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.html '
 
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
-
-<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.GetAllGraphics(System.Nullable_int_)'></a>
-
-## MapView.GetAllGraphics(Nullable<int>) Method
-
-Returns all graphics for the view, or for a particular [GraphicsLayer](dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer.html 'dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer').
-
-```csharp
-public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Layers.Graphic[]> GetAllGraphics(System.Nullable<int> layerIndex);
-```
-#### Parameters
-
-<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.GetAllGraphics(System.Nullable_int_).layerIndex'></a>
-
-`layerIndex` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
-
-Optional [GraphicsLayer](dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer.html 'dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer') index. If not provided, this will return the graphics from the view itself.
-
-#### Returns
-[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[Graphic](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
-A collection of [Graphic](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic')s.
 
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.GetCenter()'></a>
 
@@ -1642,58 +1615,6 @@ The calling, child component to register
 [InvalidChildElementException](dymaptic.GeoBlazor.Core.Exceptions.InvalidChildElementException.html 'dymaptic.GeoBlazor.Core.Exceptions.InvalidChildElementException')  
 Throws if the current child is not a valid sub-component to the parent.
 
-<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.RemoveGraphicAtIndex(int,System.Nullable_int_)'></a>
-
-## MapView.RemoveGraphicAtIndex(int, Nullable<int>) Method
-
-Removes a graphic based on the graphic index and optional layer index.
-
-```csharp
-public System.Threading.Tasks.Task RemoveGraphicAtIndex(int index, System.Nullable<int> layerIndex=null);
-```
-#### Parameters
-
-<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.RemoveGraphicAtIndex(int,System.Nullable_int_).index'></a>
-
-`index` [System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')
-
-Within the layer or view, the position of the graphic to be removed in the collection.
-
-<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.RemoveGraphicAtIndex(int,System.Nullable_int_).layerIndex'></a>
-
-`layerIndex` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
-
-Optional layer index. If omitted, will remove the graphic from the view itself.
-
-#### Returns
-[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
-
-<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.RemoveGraphicsAtIndexes(int[],System.Nullable_int_)'></a>
-
-## MapView.RemoveGraphicsAtIndexes(int[], Nullable<int>) Method
-
-Removes a collection of graphics based on index.
-
-```csharp
-public System.Threading.Tasks.Task RemoveGraphicsAtIndexes(int[] indexes, System.Nullable<int> layerIndex=null);
-```
-#### Parameters
-
-<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.RemoveGraphicsAtIndexes(int[],System.Nullable_int_).indexes'></a>
-
-`indexes` [System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')
-
-Within the layer or view, remove all graphics at these indexes in the collection.
-
-<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.RemoveGraphicsAtIndexes(int[],System.Nullable_int_).layerIndex'></a>
-
-`layerIndex` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
-
-Optional layer index. If omitted, will remove the graphics from the view itself.
-
-#### Returns
-[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
-
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.ShowPopup(dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate,dymaptic.GeoBlazor.Core.Components.Geometries.Point)'></a>
 
 ## MapView.ShowPopup(PopupTemplate, Point) Method
@@ -1807,32 +1728,6 @@ Checks if the map is already rendered, and if so, performs forced updates as def
 ```csharp
 public override System.Threading.Tasks.Task UpdateComponent();
 ```
-
-#### Returns
-[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
-
-<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.UpdateGraphic(dymaptic.GeoBlazor.Core.Components.Layers.Graphic,System.Nullable_int_)'></a>
-
-## MapView.UpdateGraphic(Graphic, Nullable<int>) Method
-
-Redraws a particular graphic.
-
-```csharp
-public System.Threading.Tasks.Task UpdateGraphic(dymaptic.GeoBlazor.Core.Components.Layers.Graphic graphic, System.Nullable<int> layerIndex);
-```
-#### Parameters
-
-<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.UpdateGraphic(dymaptic.GeoBlazor.Core.Components.Layers.Graphic,System.Nullable_int_).graphic'></a>
-
-`graphic` [Graphic](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic')
-
-The [Graphic](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic') to redraw.
-
-<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.UpdateGraphic(dymaptic.GeoBlazor.Core.Components.Layers.Graphic,System.Nullable_int_).layerIndex'></a>
-
-`layerIndex` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
-
-Optional layer index. If omitted, will look for the graphic on the view itself.
 
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')

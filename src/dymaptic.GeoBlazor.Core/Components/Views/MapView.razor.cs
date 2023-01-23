@@ -670,13 +670,10 @@ public partial class MapView : MapComponent
         {
             createdLayer.LayerView = layerView;
 
-            createdLayer.JsObjectReference ??= layerViewCreateEvent.LayerObjectRef;
+            createdLayer.JsLayerReference ??= layerViewCreateEvent.LayerObjectRef;
             
             createdLayer.AbortManager = new AbortManager(JsRuntime);
-            if (createdLayer is FeatureLayer featureLayer)
-            {
-                featureLayer.UpdateFromJavaScript((FeatureLayer)layerViewCreateEvent.Layer);
-            }
+            createdLayer.UpdateFromJavaScript(layerViewCreateEvent.Layer);
 
             layerView.Layer = createdLayer;
         }
@@ -943,7 +940,7 @@ public partial class MapView : MapComponent
 
                 break;
             case Graphic graphic:
-                await RemoveGraphicAtIndex(graphic.GraphicIndex!.Value);
+                await RemoveGraphic(graphic);
 
                 break;
             case Constraints _:
@@ -1088,49 +1085,15 @@ public partial class MapView : MapComponent
     /// <param name="graphic">
     ///     The <see cref="Graphic"/> to add.
     /// </param>
-    /// <param name="layerIndex">
-    ///     An optional index, that determines which <see cref="GraphicsLayer"/> to add the graphic to. If omitted, the graphic will be placed directly on the view.
-    /// </param>
-    public async Task AddGraphic(Graphic graphic, int? layerIndex = null)
+    public async Task AddGraphic(Graphic graphic)
     {
-        if (ViewJsModule is null) return;
-
         graphic.View = this;
         graphic.JsModule = ViewJsModule;
+        graphic.Parent = this;
+        Graphics.Add(graphic);
 
-        if (layerIndex is null)
-        {
-            if (!Graphics.Contains(graphic))
-            {
-                graphic.GraphicIndex = Graphics.Count;
-                graphic.Parent = this;
-                Graphics.Add(graphic);
-            }
-        }
-        else
-        {
-            Layer? indexedLayer = Map?.Layers.FirstOrDefault(l => l.LayerIndex == layerIndex);
-            if (indexedLayer is GraphicsLayer graphicsLayer)
-            {
-                if (!graphicsLayer.Graphics.Contains(graphic))
-                {
-                    graphic.GraphicIndex = graphicsLayer.Graphics.Count;
-                    graphic.Parent = graphicsLayer;
-                    graphicsLayer.AddGraphicToCollection(graphic);
-                }
-            }
-            else if (indexedLayer is FeatureLayer featureLayer)
-            {
-                if (!featureLayer.Source!.Contains(graphic))
-                {
-                    graphic.GraphicIndex = featureLayer.Source!.Count;
-                    graphic.Parent = featureLayer;
-                    featureLayer.AddGraphicToCollection(graphic);
-                }
-            }
-        }
-        
-        await ViewJsModule!.InvokeVoidAsync("addGraphic", (object)graphic, Id, layerIndex);
+        if (ViewJsModule is null) return;
+        await ViewJsModule!.InvokeVoidAsync("addGraphic", (object)graphic, Id);
     }
 
     /// <summary>
@@ -1160,11 +1123,10 @@ public partial class MapView : MapComponent
             IEnumerable<Layer> allLayersOfType = Map.Layers.Where(l => l.GetType() == typeOfLayer);
             layer.LayerIndex = allLayersOfType.Count();
             Map.Layers.Add(layer);
+            
+            if (ViewJsModule is null) return;
+            await ViewJsModule!.InvokeVoidAsync("addLayer", (object)layer, Id, isBasemapLayer);
         }
-        
-        if (ViewJsModule is null) return;
-
-        await ViewJsModule!.InvokeVoidAsync("addLayer", (object)layer, Id, isBasemapLayer);
     }
 
     /// <summary>
@@ -1203,65 +1165,22 @@ public partial class MapView : MapComponent
             serviceAreaUrl, driveTimeCutOffs, serviceAreaSymbol, Id);
     }
 
-    /// <summary>
-    ///     Returns all graphics for the view, or for a particular <see cref="GraphicsLayer"/>.
-    /// </summary>
-    /// <param name="layerIndex">
-    ///     Optional <see cref="GraphicsLayer"/> index. If not provided, this will return the graphics from the view itself.
-    /// </param>
-    /// <returns>
-    ///     A collection of <see cref="Graphic"/>s.
-    /// </returns>
-    public async Task<Graphic[]> GetAllGraphics(int? layerIndex)
+    public async Task RemoveGraphic(Graphic graphic)
     {
-        return await ViewJsModule!.InvokeAsync<Graphic[]>("getAllGraphics", layerIndex, Id);
-    }
+        Graphics.Remove(graphic);
 
-    /// <summary>
-    ///     Removes a graphic based on the graphic index and optional layer index.
-    /// </summary>
-    /// <param name="index">
-    ///     Within the layer or view, the position of the graphic to be removed in the collection.
-    /// </param>
-    /// <param name="layerIndex">
-    ///     Optional layer index. If omitted, will remove the graphic from the view itself.
-    /// </param>
-    public async Task RemoveGraphicAtIndex(int index, int? layerIndex = null)
-    {
-        RemoveGraphicFromCollection(index, layerIndex);
-        await ViewJsModule!.InvokeVoidAsync("removeGraphicAtIndex", index, layerIndex, Id);
+        if (ViewJsModule is null) return;
+        await ViewJsModule!.InvokeVoidAsync("removeGraphic", graphic, Id);
     }
-
-    /// <summary>
-    ///     Removes a collection of graphics based on index.
-    /// </summary>
-    /// <param name="indexes">
-    ///     Within the layer or view, remove all graphics at these indexes in the collection.
-    /// </param>
-    /// <param name="layerIndex">
-    ///     Optional layer index. If omitted, will remove the graphics from the view itself.
-    /// </param>
-    public async Task RemoveGraphicsAtIndexes(int[] indexes, int? layerIndex = null)
+    
+    public async Task RemoveGraphics(IEnumerable<Graphic> graphics)
     {
-        foreach (int index in indexes)
+        foreach (Graphic graphic in graphics)
         {
-            RemoveGraphicFromCollection(index, layerIndex);
+            Graphics.Remove(graphic);
         }
-        await ViewJsModule!.InvokeVoidAsync("removeGraphicsAtIndexes", indexes, layerIndex, Id);
-    }
-
-    /// <summary>
-    ///     Redraws a particular graphic.
-    /// </summary>
-    /// <param name="graphic">
-    ///     The <see cref="Graphic"/> to redraw.
-    /// </param>
-    /// <param name="layerIndex">
-    ///     Optional layer index. If omitted, will look for the graphic on the view itself.
-    /// </param>
-    public async Task UpdateGraphic(Graphic graphic, int? layerIndex)
-    {
-        await UpdateGraphicInCollection(graphic, layerIndex);
+        if (ViewJsModule is null) return;
+        await ViewJsModule!.InvokeVoidAsync("removeGraphics", graphics, Id);
     }
 
     /// <summary>
@@ -1440,7 +1359,6 @@ public partial class MapView : MapComponent
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         ApiKey = Configuration["ArcGISApiKey"];
-        
         if (!LoadOnRender && !_renderCalled)
         {
             NeedsRender = false;
@@ -1606,82 +1524,6 @@ public partial class MapView : MapComponent
         return activeHandlers;
     }
 
-    private void RemoveGraphicFromCollection(int index, int? layerIndex)
-    {
-        if (layerIndex is null)
-        {
-            Graphics.RemoveAt(index);
-
-            ResetGraphicIndexes(Graphics);
-        }
-        else
-        {
-            Layer? indexedLayer = Map?.Layers.FirstOrDefault(l => l.LayerIndex == layerIndex);
-
-            if (indexedLayer is GraphicsLayer graphicsLayer)
-            {
-                Graphic? graphic = graphicsLayer.Graphics.FirstOrDefault(g => g.GraphicIndex == index);
-
-                if (graphic is not null)
-                {
-                    graphicsLayer.RemoveGraphicFromCollection(graphic);
-                    ResetGraphicIndexes(graphicsLayer.Graphics);
-                }
-            }
-            else if (indexedLayer is FeatureLayer featureLayer)
-            {
-                Graphic? graphic = featureLayer.Source?.FirstOrDefault(g => g.GraphicIndex == index);
-
-                if (graphic is not null)
-                {
-                    featureLayer.RemoveGraphicFromCollection(graphic);
-                    ResetGraphicIndexes(featureLayer.Source!);
-                }
-            }
-        }
-    }
-
-    private async Task UpdateGraphicInCollection(Graphic graphic, int? layerIndex)
-    {
-        bool graphicExists = false;
-
-        if (layerIndex is null)
-        {
-            graphicExists = Graphics.Contains(graphic);
-        }
-        else
-        {
-            Layer? indexedLayer = Map?.Layers.FirstOrDefault(l => l.LayerIndex == layerIndex);
-            if (indexedLayer is GraphicsLayer graphicsLayer)
-            {
-                graphicExists = graphicsLayer.Graphics.Contains(graphic);
-            }
-            else if (indexedLayer is FeatureLayer featureLayer)
-            {
-                graphicExists = featureLayer.Source?.Contains(graphic) ?? false;
-            }
-        }
-        if (!graphicExists && graphic.GraphicIndex is not null)
-        {
-            int index = graphic.GraphicIndex!.Value;
-            await RemoveGraphicAtIndex(index, layerIndex);
-            await AddGraphic(graphic, layerIndex);
-        }
-        else
-        {
-            await ViewJsModule!.InvokeVoidAsync("updateGraphic", (object)graphic, layerIndex, Id);
-        }
-    }
-
-    private void ResetGraphicIndexes(IEnumerable<Graphic> graphics)
-    {
-        int i = 0;
-        foreach (Graphic graphic in graphics.OrderBy(g => g.GraphicIndex))
-        {
-            graphic.GraphicIndex = i;
-            i++;
-        }
-    }
 
     /// <summary>
     ///     A reference to the arcGisJsInterop module

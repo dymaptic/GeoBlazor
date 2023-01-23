@@ -132,6 +132,26 @@ The graphic to remove
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
 
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer.Remove(System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Layers.Graphic_)'></a>
+
+## GraphicsLayer.Remove(IEnumerable<Graphic>) Method
+
+Removes a set of graphics from the current layer
+
+```csharp
+public System.Threading.Tasks.Task Remove(System.Collections.Generic.IEnumerable<dymaptic.GeoBlazor.Core.Components.Layers.Graphic> graphics);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer.Remove(System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Layers.Graphic_).graphics'></a>
+
+`graphics` [System.Collections.Generic.IEnumerable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IEnumerable-1 'System.Collections.Generic.IEnumerable`1')[Graphic](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IEnumerable-1 'System.Collections.Generic.IEnumerable`1')
+
+The graphics to remove
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer.UnregisterChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent)'></a>
 
 ## GraphicsLayer.UnregisterChildComponent(MapComponent) Method

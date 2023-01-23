@@ -29,7 +29,10 @@ import {
     DotNetImageMediaInfoValue,
     DotNetLineChartMediaInfo,
     DotNetAttachmentsPopupContent,
-    DotNetExpressionPopupContent, DotNetElementExpressionInfo, DotNetRelationshipPopupContent
+    DotNetExpressionPopupContent,
+    DotNetElementExpressionInfo,
+    DotNetFeatureLayer,
+    MapCollection, DotNetGraphicsLayer
 } from "./definitions";
 import Point from "@arcgis/core/geometry/Point";
 import Polyline from "@arcgis/core/geometry/Polyline";
@@ -48,7 +51,6 @@ import FieldInfo from "@arcgis/core/popup/FieldInfo";
 import FieldInfoFormat from "@arcgis/core/popup/support/FieldInfoFormat";
 import FieldsContent from "@arcgis/core/popup/content/FieldsContent";
 import TextContent from "@arcgis/core/popup/content/TextContent";
-import ExpressionInfo from "@arcgis/core/form/ExpressionInfo";
 import MediaContent from "@arcgis/core/popup/content/MediaContent";
 import MediaInfo from "@arcgis/core/popup/content/mixins/MediaInfo";
 import BarChartMediaInfo from "@arcgis/core/popup/content/BarChartMediaInfo";
@@ -59,10 +61,22 @@ import LineChartMediaInfo from "@arcgis/core/popup/content/LineChartMediaInfo";
 import AttachmentsContent from "@arcgis/core/popup/content/AttachmentsContent";
 import ExpressionContent from "@arcgis/core/popup/content/ExpressionContent";
 import ElementExpressionInfo from "@arcgis/core/popup/ElementExpressionInfo";
-import {build} from "esbuild";
+import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
+import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
+import {arcGisObjectRefs} from "./arcGisJsInterop";
 
 export function buildDotNetGraphic(graphic: any): DotNetGraphic {
     let dotNetGraphic = {} as DotNetGraphic;
+    
+    if (Object.values(arcGisObjectRefs).includes(graphic)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === graphic) {
+                dotNetGraphic.id = k;
+                break;
+            }
+        }
+    }
+    
     dotNetGraphic.uid = graphic.uid;
     dotNetGraphic.attributes = graphic.attributes;
 
@@ -220,14 +234,116 @@ export function buildDotNetLayerView(layerView: LayerView): DotNetLayerView {
 }
 
 export function buildDotNetLayer(layer: Layer): DotNetLayer {
-    return {
+    switch (layer.type) {
+        case 'feature':
+            return buildDotNetFeatureLayer(layer as FeatureLayer);
+        case 'graphics':
+            return buildDotNetGraphicsLayer(layer as GraphicsLayer);
+        default:
+            
+            let dotNetLayer = {
+                title: layer.title,
+                type: layer.type,
+                listMode: layer.listMode,
+                visible: layer.visible,
+                opacity: layer.opacity
+            } as DotNetLayer;
+            
+            if (layer.fullExtent !== undefined && layer.fullExtent !== null) {
+                dotNetLayer.fullExtent = buildDotNetExtent(layer.fullExtent) as DotNetExtent;
+            }
+            
+            if (Object.values(arcGisObjectRefs).includes(layer)) {
+                for (const k of Object.keys(arcGisObjectRefs)) {
+                    if (arcGisObjectRefs[k] === layer) {
+                        dotNetLayer.id = k;
+                        break;
+                    }
+                }
+            }
+            return dotNetLayer;
+    }
+}
+
+export function buildDotNetFeatureLayer(layer: FeatureLayer): DotNetFeatureLayer {
+        
+        let dotNetLayer = {
+            title: layer.title,
+            type: layer.type,
+            listMode: layer.listMode,
+            visible: layer.visible,
+            opacity: layer.opacity,
+            url: layer.url,
+            definitionExpression: layer.definitionExpression,
+            outFields: layer.outFields,
+            minScale: layer.minScale,
+            maxScale: layer.maxScale,
+            objectIdField: layer.objectIdField,
+            geometryType: layer.geometryType,
+            orderBy: layer.orderBy,
+            labelingInfo: layer.labelingInfo,
+            renderer: layer.renderer,
+            portalItem: layer.portalItem,
+            fields: layer.fields,
+            relationships: layer.relationships
+        } as DotNetFeatureLayer;
+        
+    if (layer.fullExtent !== undefined && layer.fullExtent !== null) {
+        dotNetLayer.fullExtent = buildDotNetExtent(layer.fullExtent) as DotNetExtent;
+    }
+        
+    if (layer.popupTemplate !== undefined && layer.popupTemplate !== null) {
+        dotNetLayer.popupTemplate = buildDotNetPopupTemplate(layer.popupTemplate);
+    }
+    
+    if (layer.spatialReference !== undefined && layer.spatialReference !== null) {
+        dotNetLayer.spatialReference = buildDotNetSpatialReference(layer.spatialReference) as DotNetSpatialReference;
+    }
+    
+    // todo: figure out why source isn't convertible
+    // if (layer.source !== undefined && layer.source !== null) {
+    //     dotNetLayer.source = (layer.source as MapCollection).items.map(s => buildDotNetGraphic(s));
+    // }
+
+    if (Object.values(arcGisObjectRefs).includes(layer)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === layer) {
+                dotNetLayer.id = k;
+                break;
+            }
+        }
+    }
+    
+    return dotNetLayer;
+}
+
+export function buildDotNetGraphicsLayer(layer: GraphicsLayer): DotNetGraphicsLayer {
+    let dotNetLayer = {
         title: layer.title,
         type: layer.type,
         listMode: layer.listMode,
-        fullExtent: buildDotNetExtent(layer.fullExtent),
         visible: layer.visible,
         opacity: layer.opacity
-    } as DotNetLayer;
+    } as DotNetGraphicsLayer;
+
+    if (layer.fullExtent !== undefined && layer.fullExtent !== null) {
+        dotNetLayer.fullExtent = buildDotNetExtent(layer.fullExtent) as DotNetExtent;
+    }
+    
+    if (layer.graphics !== undefined && layer.graphics !== null) {
+        dotNetLayer.graphics = (layer.graphics as MapCollection).items.map(g => buildDotNetGraphic(g));
+    }
+    
+    if (Object.values(arcGisObjectRefs).includes(layer)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === layer) {
+                dotNetLayer.id = k;
+                break;
+            }
+        }
+    }
+    
+    return dotNetLayer;
 }
 
 export function buildDotNetHitTestResult(hitTestResult: HitTestResult): DotNetHitTestResult {

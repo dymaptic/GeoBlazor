@@ -52,11 +52,11 @@ public string? Name { get; set; }
 Indicates the return type of the Arcade expression.
 
 ```csharp
-public dymaptic.GeoBlazor.Core.Components.Popups.ReturnType ReturnType { get; set; }
+public System.Nullable<dymaptic.GeoBlazor.Core.Components.Popups.ReturnType> ReturnType { get; set; }
 ```
 
 #### Property Value
-[ReturnType](dymaptic.GeoBlazor.Core.Components.Popups.ReturnType.html 'dymaptic.GeoBlazor.Core.Components.Popups.ReturnType')
+[System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[ReturnType](dymaptic.GeoBlazor.Core.Components.Popups.ReturnType.html 'dymaptic.GeoBlazor.Core.Components.Popups.ReturnType')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo.Title'></a>
 

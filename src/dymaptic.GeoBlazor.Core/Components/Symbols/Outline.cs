@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using dymaptic.GeoBlazor.Core.Objects;
+using System.Text.Json.Serialization;
 
 namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 
@@ -7,7 +8,12 @@ namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 /// </summary>
 public class Outline : SimpleLineSymbol
 {
-    /// <inheritdoc />
-    [JsonIgnore]
-    public override string Type => string.Empty;
+    public Outline()
+    {
+    }
+    
+    public Outline(MapColor? color = null, double? width =null, LineStyle? lineStyle = null) 
+        : base(color, width, lineStyle)
+    {
+    }
 }

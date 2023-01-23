@@ -7,7 +7,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 ///     A location defined by X, Y, and Z coordinates.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Point.html">ArcGIS JS API</a>
 /// </summary>
-public class Point : Geometry
+public class Point : Geometry, IEquatable<Point>
 {
     /// <summary>
     ///     Parameterless constructor for use as a razor component

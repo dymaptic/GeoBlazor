@@ -31,7 +31,7 @@
 
     private async Task OnClick(Point mapPoint)
     {
-        AreaGraphic!.Geometry = mapPoint;
+        await AreaGraphic!.SetGeometry(mapPoint);
         await View!.ClearGraphics();
         await View.AddGraphic(AreaGraphic);
         await View.SolveServiceArea(_serviceAreaUrl, new double[] { 5, 10, 15 }, AreaFillSymbol!);

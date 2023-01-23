@@ -52,14 +52,14 @@ public dymaptic.GeoBlazor.Core.Components.Geometries.Extent? FullExtent { get; s
 #### Property Value
 [Extent](dymaptic.GeoBlazor.Core.Components.Geometries.Extent.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Extent')
 
-<a name='dymaptic.GeoBlazor.Core.Components.Layers.Layer.JsObjectReference'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.Layer.JsLayerReference'></a>
 
-## Layer.JsObjectReference Property
+## Layer.JsLayerReference Property
 
 The JavaScript object that represents the layer.
 
 ```csharp
-public Microsoft.JSInterop.IJSObjectReference? JsObjectReference { get; set; }
+public Microsoft.JSInterop.IJSObjectReference? JsLayerReference { get; set; }
 ```
 
 #### Property Value

@@ -55,14 +55,14 @@
     {
         if (!_clickedPoints.Any())
         {
-            OriginGraphic!.Geometry = mapPoint;
+            await OriginGraphic!.SetGeometry(mapPoint);
             _clickedPoints.Add(mapPoint);
             await View!.AddGraphic(OriginGraphic);
             StateHasChanged();
         }
         else if (_clickedPoints.Count == 1)
         {
-            DestinationGraphic!.Geometry = mapPoint;
+            await DestinationGraphic!.SetGeometry(mapPoint);
             _clickedPoints.Add(mapPoint);
             await View!.AddGraphic(DestinationGraphic);
             _directions = await View.DrawRouteAndGetDirections(RouteSymbol!, _routeUrl);

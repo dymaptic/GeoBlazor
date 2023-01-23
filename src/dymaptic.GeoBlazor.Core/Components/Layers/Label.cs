@@ -6,7 +6,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 ///     Defines label expressions, symbols, scale ranges, label priorities, and label placement options for labels on a layer. See the Labeling guide for more information about labeling.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LabelClass.html">ArcGIS JS API</a>
 /// </summary>
-public class Label : LayerObject
+public class Label : LayerObject, IEquatable<Label>
 {
     /// <summary>
     ///     The position of the label.
@@ -70,5 +70,34 @@ public class Label : LayerObject
     {
         base.ValidateRequiredChildren();
         LabelExpressionInfo?.ValidateRequiredChildren();
+    }
+
+    public bool Equals(Label? other)
+    {
+        return other?.Id == Id;
+    }
+
+    public override bool Equals(object? obj)
+    {
+        if (ReferenceEquals(null, obj)) return false;
+        if (ReferenceEquals(this, obj)) return true;
+        if (obj.GetType() != this.GetType()) return false;
+
+        return Equals((Label)obj);
+    }
+
+    public override int GetHashCode()
+    {
+        return Id.GetHashCode();
+    }
+
+    public static bool operator ==(Label? left, Label? right)
+    {
+        return Equals(left, right);
+    }
+
+    public static bool operator !=(Label? left, Label? right)
+    {
+        return !Equals(left, right);
     }
 }

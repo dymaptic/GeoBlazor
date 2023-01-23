@@ -1,4 +1,5 @@
 ﻿using dymaptic.GeoBlazor.Core.Extensions;
+using dymaptic.GeoBlazor.Core.Objects;
 using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
 using System.Text.Json;
@@ -13,6 +14,17 @@ namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 /// </summary>
 public class SimpleLineSymbol : LineSymbol
 {
+    public SimpleLineSymbol()
+    {
+    }
+    
+    public SimpleLineSymbol(MapColor? color = null, double? width = null, LineStyle? lineStyle = null)
+    {
+        Color = color;
+        Width = width;
+        LineStyle = lineStyle;
+    }
+    
     /// <inheritdoc />
     public override string Type => "simple-line";
     

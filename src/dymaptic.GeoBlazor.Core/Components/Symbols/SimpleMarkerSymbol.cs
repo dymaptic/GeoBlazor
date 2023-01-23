@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using dymaptic.GeoBlazor.Core.Objects;
+using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Components;
 
 namespace dymaptic.GeoBlazor.Core.Components.Symbols;
@@ -9,6 +10,19 @@ namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 /// </summary>
 public class SimpleMarkerSymbol : MarkerSymbol
 {
+    public SimpleMarkerSymbol()
+    {
+    }
+
+    public SimpleMarkerSymbol(Outline? outline = null, MapColor? color = null, double? size = null,
+        string? style = null)
+    {
+        Outline = outline;
+        Color = color;
+        Size = size;
+        Style = style;
+    }
+    
     /// <summary>
     ///     The outline of the marker symbol.
     /// </summary>

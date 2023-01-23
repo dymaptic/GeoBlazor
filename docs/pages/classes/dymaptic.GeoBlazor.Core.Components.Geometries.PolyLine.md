@@ -12,10 +12,13 @@ A polyline contains an array of paths and spatialReference. Each path is represe
 <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polyline.html">ArcGIS JS API</a>
 
 ```csharp
-public class PolyLine : dymaptic.GeoBlazor.Core.Components.Geometries.Geometry
+public class PolyLine : dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,
+System.IEquatable<dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine>
 ```
 
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [Microsoft.AspNetCore.Components.ComponentBase](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.ComponentBase 'Microsoft.AspNetCore.Components.ComponentBase') &#129106; [MapComponent](dymaptic.GeoBlazor.Core.Components.MapComponent.html 'dymaptic.GeoBlazor.Core.Components.MapComponent') &#129106; [Geometry](dymaptic.GeoBlazor.Core.Components.Geometries.Geometry.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Geometry') &#129106; PolyLine
+
+Implements [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.IEquatable-1 'System.IEquatable`1')[PolyLine](dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine.html 'dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.IEquatable-1 'System.IEquatable`1')
 ### Constructors
 
 <a name='dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine.PolyLine()'></a>

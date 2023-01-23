@@ -37,7 +37,7 @@ public class ExpressionInfo: MapComponent
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public ReturnType ReturnType { get; set; }
+    public ReturnType? ReturnType { get; set; }
 }
 
 /// <summary>

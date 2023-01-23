@@ -67,7 +67,7 @@ public System.Nullable<dymaptic.GeoBlazor.Core.Components.Geometries.GeometryTyp
 The label definition for this layer, specified as an array of [Label](dymaptic.GeoBlazor.Core.Components.Layers.Label.html 'dymaptic.GeoBlazor.Core.Components.Layers.Label').
 
 ```csharp
-public System.Collections.Generic.HashSet<dymaptic.GeoBlazor.Core.Components.Layers.Label> LabelingInfo { get; set; }
+public System.Collections.Generic.HashSet<dymaptic.GeoBlazor.Core.Components.Layers.Label>? LabelingInfo { get; set; }
 ```
 
 #### Property Value

@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 using dymaptic.GeoBlazor.Core.Extensions;
+using dymaptic.GeoBlazor.Core.Objects;
 using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
 
@@ -12,6 +13,17 @@ namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 /// </summary>
 public class SimpleFillSymbol : FillSymbol
 {
+    public SimpleFillSymbol()
+    {
+    }
+
+    public SimpleFillSymbol(Outline? outline = null, MapColor? color = null, FillStyle? fillStyle = null)
+    {
+        Outline = outline;
+        Color = color;
+        FillStyle = fillStyle;
+    }
+    
     /// <summary>
     ///     The outline of the polygon.
     /// </summary>

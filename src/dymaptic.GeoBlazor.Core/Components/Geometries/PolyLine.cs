@@ -7,7 +7,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 ///     A polyline contains an array of paths and spatialReference. Each path is represented as an array of points. A polyline also has boolean-valued hasM and hasZ properties.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polyline.html">ArcGIS JS API</a>
 /// </summary>
-public class PolyLine : Geometry
+public class PolyLine : Geometry, IEquatable<PolyLine>
 {
     /// <summary>
     ///     A parameterless constructor for using as a razor component
@@ -58,4 +58,36 @@ public class PolyLine : Geometry
     /// <inheritdoc />
     public override string Type => "polyline";
     private MapPath[] _paths = Array.Empty<MapPath>();
+
+    public bool Equals(PolyLine? other)
+    {
+        if (ReferenceEquals(null, other)) return false;
+        if (ReferenceEquals(this, other)) return true;
+
+        return _paths.Equals(other._paths);
+    }
+
+    public override bool Equals(object? obj)
+    {
+        if (ReferenceEquals(null, obj)) return false;
+        if (ReferenceEquals(this, obj)) return true;
+        if (obj.GetType() != this.GetType()) return false;
+
+        return Equals((PolyLine)obj);
+    }
+
+    public override int GetHashCode()
+    {
+        return _paths.GetHashCode();
+    }
+
+    public static bool operator ==(PolyLine? left, PolyLine? right)
+    {
+        return Equals(left, right);
+    }
+
+    public static bool operator !=(PolyLine? left, PolyLine? right)
+    {
+        return !Equals(left, right);
+    }
 }

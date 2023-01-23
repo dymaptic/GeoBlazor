@@ -52,7 +52,7 @@ public abstract class Layer : MapComponent
     ///    The JavaScript object that represents the layer.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IJSObjectReference? JsObjectReference { get; set; }
+    public IJSObjectReference? JsLayerReference { get; set; }
     
     /// <summary>
     ///     Indicates how the layer should display in the LayerList widget. The possible values are listed below.
@@ -148,10 +148,10 @@ public abstract class Layer : MapComponent
         AbortManager = new AbortManager(JsRuntime);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         IJSObjectReference arcGisJsInterop = await GetArcGisJsInterop();
-        JsObjectReference = await arcGisJsInterop.InvokeAsync<IJSObjectReference>("createLayer", 
+        JsLayerReference = await arcGisJsInterop.InvokeAsync<IJSObjectReference>("createLayer", 
             // ReSharper disable once RedundantCast
             cancellationToken, (object)this, true);
-        await JsObjectReference.InvokeVoidAsync("load", cancellationToken, abortSignal);
+        await JsLayerReference.InvokeVoidAsync("load", cancellationToken, abortSignal);
         Layer loadedLayer = await arcGisJsInterop.InvokeAsync<Layer>("getSerializedDotNetObject",
             cancellationToken, Id);
         UpdateFromJavaScript(loadedLayer);
@@ -203,6 +203,8 @@ internal class LayerConverter : JsonConverter<Layer>
                     return JsonSerializer.Deserialize<TileLayer>(ref cloneReader, newOptions);
                 case "vector-tile":
                     return JsonSerializer.Deserialize<VectorTileLayer>(ref cloneReader, newOptions);
+                case "open-street-map":
+                    return JsonSerializer.Deserialize<OpenStreetMapLayer>(ref cloneReader, newOptions);
             }
         }
 

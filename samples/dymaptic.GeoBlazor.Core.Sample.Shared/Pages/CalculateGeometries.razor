@@ -74,11 +74,7 @@
         if (_bufferPolygon is not null) return;
 
         _bufferPolygon = await GeometryEngine.GeodesicBuffer(PointGeometry!, 1, LinearUnit.Kilometers);
-        _bufferGraphic = new Graphic
-        {
-            Geometry = _bufferPolygon,
-            Symbol = BufferGraphicFill
-        };
+        _bufferGraphic = new Graphic(_bufferPolygon, BufferGraphicFill);
         await InvokeAsync(async () => await GraphicsLayer!.RegisterChildComponent(_bufferGraphic));
     }
 
@@ -88,11 +84,7 @@
 
         await ClearResultsLayer();
         _highlightPolygon = await GeometryEngine.Intersect(PolygonGeometry!, _bufferPolygon) as Polygon;
-        _highlightGraphic = new Graphic
-        {
-            Geometry = _highlightPolygon,
-            Symbol = HighlightFill
-        };
+        _highlightGraphic = new Graphic(_highlightPolygon, HighlightFill);
         await InvokeAsync(async () => await ResultsLayer!.RegisterChildComponent(_highlightGraphic));
     }
 
@@ -102,11 +94,7 @@
 
         await ClearResultsLayer();
         _highlightPolygon = await GeometryEngine.Union(PolygonGeometry!, _bufferPolygon) as Polygon;
-        _highlightGraphic = new Graphic
-        {
-            Geometry = _highlightPolygon,
-            Symbol = HighlightFill
-        };
+        _highlightGraphic = new Graphic(_highlightPolygon, HighlightFill);
         await InvokeAsync(async () => await ResultsLayer!.RegisterChildComponent(_highlightGraphic));
     }
 

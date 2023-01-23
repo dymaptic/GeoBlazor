@@ -21,6 +21,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     ///     Represents an instance of a JavaScript runtime to which calls may be dispatched.
     /// </summary>
     [Inject]
+    [JsonIgnore]
     public IJSRuntime JsRuntime { get; set; } = default!;
     
     /// <summary>

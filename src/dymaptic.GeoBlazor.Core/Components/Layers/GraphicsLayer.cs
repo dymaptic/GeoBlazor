@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using Microsoft.JSInterop;
+using System.Text.Json.Serialization;
 
 
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
@@ -73,11 +74,6 @@ public class GraphicsLayer : Layer
             await UnregisterChildComponent(graphic);
         }
     }
-    
-    public async Task Update(Graphic graphic)
-    {
-        await View!.UpdateGraphic(graphic, LayerIndex);
-    }
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
@@ -85,18 +81,17 @@ public class GraphicsLayer : Layer
         switch (child)
         {
             case Graphic graphic:
-                if (MapRendered)
+                if (!Graphics.Contains(graphic))
                 {
-                    await View!.AddGraphic(graphic, LayerIndex);
-                }
-                else if (!Graphics.Contains(graphic))
-                {
-                    graphic.GraphicIndex = Graphics.Count;
                     graphic.View ??= View;
                     graphic.JsModule ??= JsModule;
                     graphic.LayerId ??= Id;
                     graphic.Parent ??= this;
                     _graphics.Add(graphic);
+                    if (JsLayerReference is not null)
+                    {
+                        await JsLayerReference.InvokeVoidAsync("add", graphic);
+                    }
                 }
 
                 break;
@@ -113,14 +108,14 @@ public class GraphicsLayer : Layer
         switch (child)
         {
             case Graphic graphic:
-                if (MapRendered)
-                {
-                    await View!.RemoveGraphicAtIndex(graphic.GraphicIndex!.Value, LayerIndex);
-                }
-                else if (Graphics.Contains(graphic))
+                if (Graphics.Contains(graphic))
                 {
                     _graphics.Remove(graphic);
-                    ResetGraphicIndexes();
+
+                    if (JsLayerReference is not null)
+                    {
+                        await JsLayerReference.InvokeVoidAsync("remove", graphic);
+                    }
                 }
 
                 break;
@@ -142,23 +137,17 @@ public class GraphicsLayer : Layer
         }
     }
     
-    internal void AddGraphicToCollection(Graphic graphic)
+    public override void UpdateFromJavaScript(Layer renderedLayer)
     {
-        _graphics.Add(graphic);
-    }
-    
-    internal void RemoveGraphicFromCollection(Graphic graphic)
-    {
-        _graphics.Remove(graphic);
-    }
-    
-    private void ResetGraphicIndexes()
-    {
-        int i = 0;
-        foreach (Graphic graphic in Graphics.OrderBy(g => g.GraphicIndex))
+        base.UpdateFromJavaScript(renderedLayer);
+        GraphicsLayer renderedGraphicsLayer = (GraphicsLayer)renderedLayer;
+
+        if (renderedGraphicsLayer.Graphics.Any())
         {
-            graphic.GraphicIndex = i;
-            i++;
+            foreach (Graphic graphic in renderedGraphicsLayer.Graphics)
+            {
+                _graphics.Add(graphic);
+            }
         }
     }
 

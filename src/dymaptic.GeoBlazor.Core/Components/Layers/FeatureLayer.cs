@@ -98,7 +98,7 @@ public class FeatureLayer : Layer
     ///     The label definition for this layer, specified as an array of <see cref="Label"/>.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public HashSet<Label> LabelingInfo { get; set; } = new();
+    public HashSet<Label>? LabelingInfo { get; set; }
 
     /// <summary>
     ///     The <see cref="Renderer"/> assigned to the layer.
@@ -225,12 +225,42 @@ public class FeatureLayer : Layer
         Url = renderedFeatureLayer.Url;
         if (renderedFeatureLayer.Source is not null && renderedFeatureLayer.Source.Any())
         {
-            Source = renderedFeatureLayer.Source;
+            if (Source is null)
+            {
+                Source = renderedFeatureLayer.Source;
+            }
+            else
+            {
+                foreach (Graphic graphic in renderedFeatureLayer.Source)
+                {
+                    Graphic? existingGraphic = Source.FirstOrDefault(g => g.Id == graphic.Id);
+
+                    if (existingGraphic is null)
+                    {
+                        _source!.Add(graphic);
+                    }
+                }
+            }
         }
         
         if (renderedFeatureLayer.Fields is not null && renderedFeatureLayer.Fields.Any())
         {
-            Fields = renderedFeatureLayer.Fields;
+            if (Fields is null)
+            {
+                Fields = renderedFeatureLayer.Fields;
+            }
+            else
+            {
+                foreach (Field field in renderedFeatureLayer.Fields)
+                {
+                    Field? existingField = Fields.FirstOrDefault(f => f.Name == field.Name);
+
+                    if (existingField is null)
+                    {
+                        _fields!.Add(field);
+                    }
+                }
+            }
         }
 
         if (renderedFeatureLayer.DefinitionExpression is not null)
@@ -268,32 +298,43 @@ public class FeatureLayer : Layer
             OrderBy = renderedFeatureLayer.OrderBy;
         }
         
-        if (renderedFeatureLayer.PopupTemplate is not null)
+        if (renderedFeatureLayer.PopupTemplate is not null && PopupTemplate is null)
         {
             PopupTemplate = renderedFeatureLayer.PopupTemplate;
         }
         
-        if (renderedFeatureLayer.LabelingInfo.Any())
+        if (renderedFeatureLayer.LabelingInfo is not null && renderedFeatureLayer.LabelingInfo.Any())
         {
-            LabelingInfo = renderedFeatureLayer.LabelingInfo;
+            if (LabelingInfo is null || !LabelingInfo.Any())
+            {
+                LabelingInfo = renderedFeatureLayer.LabelingInfo;
+            }
+            else
+            {
+                LabelingInfo ??= new();
+                foreach (Label label in renderedFeatureLayer.LabelingInfo)
+                {
+                    LabelingInfo.Add(label);
+                }
+            }
         }
         
-        if (renderedFeatureLayer.Renderer is not null)
+        if (renderedFeatureLayer.Renderer is not null && Renderer is null)
         {
             Renderer = renderedFeatureLayer.Renderer;
         }
         
-        if (renderedFeatureLayer.PortalItem is not null)
+        if (renderedFeatureLayer.PortalItem is not null && PortalItem is null)
         {
             PortalItem = renderedFeatureLayer.PortalItem;
         }
         
-        if (renderedFeatureLayer.SpatialReference is not null)
+        if (renderedFeatureLayer.SpatialReference is not null && SpatialReference is null)
         {
             SpatialReference = renderedFeatureLayer.SpatialReference;
         }
 
-        if (renderedFeatureLayer.Relationships is not null)
+        if (renderedFeatureLayer.Relationships is not null && Relationships is null)
         {
             Relationships = renderedFeatureLayer.Relationships;
         }
@@ -313,6 +354,7 @@ public class FeatureLayer : Layer
 
                 break;
             case Label label:
+                LabelingInfo ??= new();
                 if (!LabelingInfo.Contains(label))
                 {
                     LabelingInfo.Add(label);
@@ -356,18 +398,15 @@ public class FeatureLayer : Layer
             case Graphic graphic:
                 _source ??= new HashSet<Graphic>();
 
-                if (MapRendered)
+                if (!_source.Contains(graphic))
                 {
-                    await View!.AddGraphic(graphic, LayerIndex);
-                }
-                else if (!_source.Contains(graphic))
-                {
-                    graphic.GraphicIndex = _source.Count;
                     graphic.View ??= View;
                     graphic.JsModule ??= JsModule;
                     graphic.Parent ??= this;
                     graphic.LayerId ??= Id;
                     _source.Add(graphic);
+
+                    await UpdateComponent();
                 }
 
                 break;
@@ -398,7 +437,7 @@ public class FeatureLayer : Layer
                 await UpdateComponent();
                 break;
             case Label label:
-                LabelingInfo.Remove(label);
+                LabelingInfo?.Remove(label);
                 await UpdateComponent();
                 break;
             case Renderer _:
@@ -421,7 +460,6 @@ public class FeatureLayer : Layer
                 if (_source?.Contains(graphic) ?? false)
                 {
                     _source.Remove(graphic);
-                    ResetGraphicIndexes();
                     await UpdateComponent();
                 }
 
@@ -448,9 +486,13 @@ public class FeatureLayer : Layer
         PopupTemplate?.ValidateRequiredChildren();
         Renderer?.ValidateRequiredChildren();
         PortalItem?.ValidateRequiredChildren();
-        foreach (Label label in LabelingInfo)
+
+        if (LabelingInfo is not null)
         {
-            label.ValidateRequiredChildren();
+            foreach (Label label in LabelingInfo)
+            {
+                label.ValidateRequiredChildren();
+            }
         }
 
         if (Source is not null)
@@ -473,39 +515,22 @@ public class FeatureLayer : Layer
     /// <inheritdoc />
     public override async Task UpdateComponent()
     {
-        if ((!MapRendered && JsObjectReference is null) || JsModule is null) return;
+        if ((!MapRendered && JsLayerReference is null) || JsModule is null) return;
 
         await InvokeAsync(async () =>
         {
-            // ReSharper disable once RedundantCast
-            await JsModule!.InvokeVoidAsync("updateFeatureLayer", (object)this, View!.Id);
+            try
+            {
+                // ReSharper disable once RedundantCast
+                await JsModule!.InvokeVoidAsync("updateFeatureLayer", (object)this, View!.Id);
+            }
+            catch (JSDisconnectedException)
+            {
+                // ignore, layer is already disposed
+            }
         });
     }
-    
-    internal void AddGraphicToCollection(Graphic graphic)
-    {
-        if (_source is null)
-        {
-            _source = new HashSet<Graphic>();
-        }
-        _source.Add(graphic);
-    }
-    
-    internal void RemoveGraphicFromCollection(Graphic graphic)
-    {
-        _source?.Remove(graphic);
-    }
-    
-    private void ResetGraphicIndexes()
-    {
-        int i = 0;
-        foreach (Graphic graphic in Source!.OrderBy(g => g.GraphicIndex))
-        {
-            graphic.GraphicIndex = i;
-            i++;
-        }
-    }
-    
+
 
     /// <summary>
     ///     Creates a popup template for the layer, populated with all the fields of the layer.
@@ -515,7 +540,7 @@ public class FeatureLayer : Layer
     /// </param>
     public async Task<PopupTemplate> CreatePopupTemplate(CreatePopupTemplateOptions? options = null)
     {
-        return await JsObjectReference!.InvokeAsync<PopupTemplate>("createPopupTemplate", options);
+        return await JsLayerReference!.InvokeAsync<PopupTemplate>("createPopupTemplate", options);
     }
 
     /// <summary>
@@ -523,7 +548,7 @@ public class FeatureLayer : Layer
     /// </summary>
     public async Task<Query> CreateQuery()
     {
-        return await JsObjectReference!.InvokeAsync<Query>("createQuery");
+        return await JsLayerReference!.InvokeAsync<Query>("createQuery");
     }
     
     /// <summary>
@@ -539,7 +564,7 @@ public class FeatureLayer : Layer
     public async Task<ExtentQueryResult> QueryExtent(Query? query = null, CancellationToken cancellationToken = default)
     {
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        ExtentQueryResult result = await JsObjectReference!.InvokeAsync<ExtentQueryResult>("queryExtent", 
+        ExtentQueryResult result = await JsLayerReference!.InvokeAsync<ExtentQueryResult>("queryExtent", 
             cancellationToken, query, new {signal = abortSignal});
 
         await AbortManager.DisposeAbortController(cancellationToken);
@@ -560,7 +585,7 @@ public class FeatureLayer : Layer
     public async Task<int> QueryFeatureCount(Query? query = null, CancellationToken cancellationToken = default)
     {
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        int result = await JsObjectReference!.InvokeAsync<int>("queryFeatureCount", cancellationToken, 
+        int result = await JsLayerReference!.InvokeAsync<int>("queryFeatureCount", cancellationToken, 
             query, new {signal = abortSignal});
         
         await AbortManager.DisposeAbortController(cancellationToken);
@@ -582,7 +607,7 @@ public class FeatureLayer : Layer
     public async Task<FeatureSet> QueryFeatures(Query? query = null, CancellationToken cancellationToken = default)
     {
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        FeatureSet result = await JsObjectReference!.InvokeAsync<FeatureSet>("queryFeatures", cancellationToken, 
+        FeatureSet result = await JsLayerReference!.InvokeAsync<FeatureSet>("queryFeatures", cancellationToken, 
             query, new {signal = abortSignal});
 
         if (result.Features is not null)
@@ -612,7 +637,7 @@ public class FeatureLayer : Layer
     {
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         
-        int[] queryResult = await JsObjectReference!.InvokeAsync<int[]>("queryObjectIds", cancellationToken,
+        int[] queryResult = await JsLayerReference!.InvokeAsync<int[]>("queryObjectIds", cancellationToken,
             query, new {signal = abortSignal});
 
         await AbortManager.DisposeAbortController(cancellationToken);
@@ -633,7 +658,7 @@ public class FeatureLayer : Layer
         CancellationToken cancellationToken = default)
     {
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        Dictionary<int, FeatureSet?> result = await JsObjectReference!.InvokeAsync<Dictionary<int, FeatureSet?>>(
+        Dictionary<int, FeatureSet?> result = await JsLayerReference!.InvokeAsync<Dictionary<int, FeatureSet?>>(
             "queryRelatedFeatures", cancellationToken, query, new {signal = abortSignal});
 
         foreach (FeatureSet? set in result.Values)
@@ -663,7 +688,7 @@ public class FeatureLayer : Layer
         CancellationToken cancellationToken = default)
     {
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        Dictionary<int, int> result = await JsObjectReference!.InvokeAsync<Dictionary<int, int>>(
+        Dictionary<int, int> result = await JsLayerReference!.InvokeAsync<Dictionary<int, int>>(
             "queryRelatedFeaturesCount", cancellationToken, query, new {signal = abortSignal});
 
         await AbortManager.DisposeAbortController(cancellationToken);
@@ -687,7 +712,7 @@ public class FeatureLayer : Layer
     public async Task<int> QueryTopFeatureCount(TopFeaturesQuery query, CancellationToken cancellationToken = default)
     {
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        int result = await JsObjectReference!.InvokeAsync<int>("queryTopFeatureCount", cancellationToken, 
+        int result = await JsLayerReference!.InvokeAsync<int>("queryTopFeatureCount", cancellationToken, 
             query, new {signal = abortSignal});
         
         await AbortManager.DisposeAbortController(cancellationToken);
@@ -711,7 +736,7 @@ public class FeatureLayer : Layer
     public async Task<FeatureSet> QueryTopFeatures(TopFeaturesQuery query, CancellationToken cancellationToken = default)
     {
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        FeatureSet result = await JsObjectReference!.InvokeAsync<FeatureSet>("queryTopFeatures", cancellationToken, 
+        FeatureSet result = await JsLayerReference!.InvokeAsync<FeatureSet>("queryTopFeatures", cancellationToken, 
             query, new {signal = abortSignal});
 
         if (result.Features is not null)
@@ -737,7 +762,7 @@ public class FeatureLayer : Layer
     {
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         
-        int[] queryResult = await JsObjectReference!.InvokeAsync<int[]>("queryTopObjectIds", cancellationToken,
+        int[] queryResult = await JsLayerReference!.InvokeAsync<int[]>("queryTopObjectIds", cancellationToken,
             query, new {signal = abortSignal});
 
         await AbortManager.DisposeAbortController(cancellationToken);
@@ -760,7 +785,7 @@ public class FeatureLayer : Layer
     public async Task<ExtentQueryResult> QueryTopFeaturesExtent(TopFeaturesQuery? query = null, CancellationToken cancellationToken = default)
     {
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        ExtentQueryResult result = await JsObjectReference!.InvokeAsync<ExtentQueryResult>("queryExtent", 
+        ExtentQueryResult result = await JsLayerReference!.InvokeAsync<ExtentQueryResult>("queryExtent", 
             cancellationToken, query, new {signal = abortSignal});
 
         await AbortManager.DisposeAbortController(cancellationToken);
