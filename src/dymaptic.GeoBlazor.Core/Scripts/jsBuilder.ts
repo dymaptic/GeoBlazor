@@ -26,14 +26,14 @@ import {
     DotNetImageMediaInfoValue,
     DotNetLineChartMediaInfo,
     DotNetMediaInfo,
-    DotNetMediaPopupContent, DotNetPieChartMediaInfo,
+    DotNetMediaPopupContent, DotNetPictureMarkerSymbol, DotNetPieChartMediaInfo,
     DotNetPoint,
     DotNetPolygon,
     DotNetPolyline,
     DotNetPopupContent,
     DotNetPopupTemplate,
-    DotNetQuery, DotNetRelationshipQuery,
-    DotNetSpatialReference,
+    DotNetQuery, DotNetRelationshipQuery, DotNetSimpleFillSymbol, DotNetSimpleLineSymbol, DotNetSimpleMarkerSymbol,
+    DotNetSpatialReference, DotNetSymbol,
     DotNetTextPopupContent, DotNetTopFeaturesQuery
 } from "./definitions";
 import ViewClickEvent = __esri.ViewClickEvent;
@@ -58,11 +58,17 @@ import PieChartMediaInfo from "@arcgis/core/popup/content/PieChartMediaInfo";
 import AttachmentsContent from "@arcgis/core/popup/content/AttachmentsContent";
 import ExpressionContent from "@arcgis/core/popup/content/ExpressionContent";
 import ElementExpressionInfoProperties = __esri.ElementExpressionInfoProperties;
-import popupExpressionInfoProperties = __esri.popupExpressionInfoProperties;
 import Layer from "@arcgis/core/layers/Layer";
 import RelationshipQuery from "@arcgis/core/rest/support/RelationshipQuery";
 import TopFeaturesQuery from "@arcgis/core/rest/support/TopFeaturesQuery";
 import popupExpressionInfo from "@arcgis/core/popup/ExpressionInfo";
+import GraphicWrapper from "./graphic";
+import SimpleMarkerSymbol from "@arcgis/core/symbols/SimpleMarkerSymbol";
+import Symbol from "@arcgis/core/symbols/Symbol";
+import SimpleFillSymbol from "@arcgis/core/symbols/SimpleFillSymbol";
+import SimpleLineSymbol from "@arcgis/core/symbols/SimpleLineSymbol";
+import ElementExpressionInfo from "@arcgis/core/popup/ElementExpressionInfo";
+import ChartMediaInfoValueSeries from "@arcgis/core/popup/content/support/ChartMediaInfoValueSeries";
 
 export function buildJsSpatialReference(dotNetSpatialReference: DotNetSpatialReference): SpatialReference {
     if (dotNetSpatialReference === undefined || dotNetSpatialReference === null) {
@@ -115,12 +121,19 @@ export function buildJsExtent(dotNetExtent: DotNetExtent): Extent {
     return extent;
 }
 
-export function buildJsGraphic(graphicObject: any): Graphic | null {
+export async function buildJsGraphic(graphicObject: any): Promise<Graphic | null> {
     const graphic = new Graphic({
-        geometry: buildJsGeometry(graphicObject.geometry) as Geometry,
-        symbol: graphicObject.symbol,
-        attributes: graphicObject.attributes
+        geometry: buildJsGeometry(graphicObject.geometry) as Geometry
     });
+    
+    if (graphicObject.symbol !== undefined && graphicObject.symbol !== null) {
+        graphic.symbol = buildJsSymbol(graphicObject.symbol) as Symbol;
+    }
+    
+    if (graphicObject.attributes !== undefined && graphicObject.attributes !== null &&
+        Object.keys(graphicObject.attributes).length > 0) {
+        graphic.attributes = graphicObject.attributes;
+    }
 
     if (graphicObject.popupTemplate !== undefined && graphicObject.popupTemplate !== null) {
         graphic.popupTemplate = buildJsPopupTemplate(graphicObject.popupTemplate);
@@ -131,6 +144,10 @@ export function buildJsGraphic(graphicObject: any): Graphic | null {
         graphic.layer = layer;
     }
 
+    let wrapper = new GraphicWrapper(graphic);
+    // @ts-ignore
+    let objectRef = DotNet.createJSObjectReference(wrapper);
+    await graphicObject.dotNetGraphicReference.invokeMethodAsync("OnGraphicCreated", objectRef);
     arcGisObjectRefs[graphicObject.id] = graphic;
     return graphic;
 }
@@ -179,31 +196,54 @@ export function buildJsPopupContent(popupContentObject: DotNetPopupContent): Con
     switch (popupContentObject?.type) {
         case "fields":
             let dnFieldsContent = popupContentObject as DotNetFieldsPopupContent;
-            return new FieldsContent({
-                fieldInfos: dnFieldsContent.fieldInfos?.map(f => buildJsFieldInfo(f)),
-                description: dnFieldsContent.description,
-                title: dnFieldsContent.title
-            });
+            let fieldsContent = new FieldsContent();
+            if (dnFieldsContent.fieldInfos !== undefined && dnFieldsContent.fieldInfos !== null &&
+                dnFieldsContent.fieldInfos.length > 0) {
+                fieldsContent.fieldInfos = dnFieldsContent.fieldInfos.map(f => buildJsFieldInfo(f));
+            }
+            if (dnFieldsContent.description !== undefined && dnFieldsContent.description !== null) {
+                fieldsContent.description = dnFieldsContent.description;
+            }
+            if (dnFieldsContent.title !== undefined && dnFieldsContent.title !== null) {
+                fieldsContent.title = dnFieldsContent.title;
+            }
+            return fieldsContent;
         case "text":
-            return new TextContent({
-                text: (popupContentObject as DotNetTextPopupContent).text
-            });
+            let dnTextContent = popupContentObject as DotNetTextPopupContent;
+            let textContent = new TextContent();
+            if (dnTextContent.text !== undefined && dnTextContent.text !== null) {
+                textContent.text = dnTextContent.text;
+            }
+            return textContent;
         case "media":
-            return new MediaContent({
-                mediaInfos: (popupContentObject as DotNetMediaPopupContent).mediaInfos?.map(m => buildJsMediaInfo(m))
-            });
+            let dnMediaContent = popupContentObject as DotNetMediaPopupContent;
+            let mediaContent = new MediaContent();
+            if (dnMediaContent.mediaInfos !== undefined && dnMediaContent.mediaInfos !== null &&
+                dnMediaContent.mediaInfos.length > 0) {
+                mediaContent.mediaInfos = dnMediaContent.mediaInfos.map(m => buildJsMediaInfo(m));
+            }
+            return mediaContent;
         case "attachments":
             let dnAttachmentsContent = popupContentObject as DotNetAttachmentsPopupContent;
-            return new AttachmentsContent({
-                description: dnAttachmentsContent.description,
-                title: dnAttachmentsContent.title,
-                displayType: dnAttachmentsContent.displayType as any
-            });
+            let attachmentsContent = new AttachmentsContent();
+            if (dnAttachmentsContent.description !== undefined && dnAttachmentsContent.description !== null) {
+                attachmentsContent.description = dnAttachmentsContent.description;
+            }
+            if (dnAttachmentsContent.title !== undefined && dnAttachmentsContent.title !== null) {
+                attachmentsContent.title = dnAttachmentsContent.title;
+            }
+            if (dnAttachmentsContent.displayType !== undefined && dnAttachmentsContent.displayType !== null) {
+                attachmentsContent.displayType = dnAttachmentsContent.displayType as any;
+            }
+            return attachmentsContent;
         case "expression":
             let dnExpressionContent = popupContentObject as DotNetExpressionPopupContent;
-            return new ExpressionContent({
+            let expressionContent = new ExpressionContent({
                 expressionInfo: buildJsElementExpressionInfo(dnExpressionContent.expressionInfo)
             });
+            if (dnExpressionContent.expressionInfo !== undefined && dnExpressionContent.expressionInfo !== null) {
+                expressionContent.expressionInfo = buildJsElementExpressionInfo(dnExpressionContent.expressionInfo);
+            }
     }
     return null;
 }
@@ -244,19 +284,128 @@ export function buildJsFieldInfo(fieldInfoObject: DotNetFieldInfo): FieldInfo {
 
 export function buildJsFieldInfoFormat(formatObject: DotNetFieldInfoFormat): FieldInfoFormat {
     return new FieldInfoFormat({
-        dateFormat: formatObject.dateFormat as any,
-        places: formatObject.places,
-        digitSeparator: formatObject.digitSeparator
+        dateFormat: formatObject.dateFormat as any ?? undefined,
+        places: formatObject.places ?? undefined,
+        digitSeparator: formatObject.digitSeparator ?? undefined
     });
 }
 
 export function buildJsExpressionInfo(expressionInfoObject: DotNetExpressionInfo): popupExpressionInfo {
     return {
-        name: expressionInfoObject.name,
-        title: expressionInfoObject.title,
-        expression: expressionInfoObject.expression,
-        returnType: expressionInfoObject.returnType as any
+        name: expressionInfoObject.name ?? undefined,
+        title: expressionInfoObject.title ?? undefined,
+        expression: expressionInfoObject.expression ?? undefined,
+        returnType: expressionInfoObject.returnType as any ?? undefined
     } as popupExpressionInfo;
+}
+
+export function buildJsSymbol(symbol: DotNetSymbol | null): Symbol | null {
+    if (symbol === null) {
+        return null;
+    }
+    switch (symbol.type) {
+        case "simple-marker":
+            let dnSimpleMarkerSymbol = symbol as DotNetSimpleMarkerSymbol;
+            let jsSimpleMarkerSymbol = new SimpleMarkerSymbol();
+            if (dnSimpleMarkerSymbol.color !== undefined && dnSimpleMarkerSymbol.color !== null) {
+                jsSimpleMarkerSymbol.color = dnSimpleMarkerSymbol.color as any;
+            }
+            
+            if (dnSimpleMarkerSymbol.path !== undefined && dnSimpleMarkerSymbol.path !== null) {
+                jsSimpleMarkerSymbol.path = dnSimpleMarkerSymbol.path;
+            }
+            
+            if (dnSimpleMarkerSymbol.size !== undefined && dnSimpleMarkerSymbol.size !== null) {
+                jsSimpleMarkerSymbol.size = dnSimpleMarkerSymbol.size;
+            }
+            
+            if (dnSimpleMarkerSymbol.style !== undefined && dnSimpleMarkerSymbol.style !== null) {
+                jsSimpleMarkerSymbol.style = dnSimpleMarkerSymbol.style as any;
+            }
+            
+            if (dnSimpleMarkerSymbol.xoffset !== undefined && dnSimpleMarkerSymbol.xoffset !== null) {
+                jsSimpleMarkerSymbol.xoffset = dnSimpleMarkerSymbol.xoffset;
+            }
+            
+            if (dnSimpleMarkerSymbol.yoffset !== undefined && dnSimpleMarkerSymbol.yoffset !== null) {
+                jsSimpleMarkerSymbol.yoffset = dnSimpleMarkerSymbol.yoffset;
+            }
+            
+            if (dnSimpleMarkerSymbol.outline !== undefined && dnSimpleMarkerSymbol.outline !== null) {
+                jsSimpleMarkerSymbol.outline = buildJsSymbol(dnSimpleMarkerSymbol.outline) as any;
+            }
+            return jsSimpleMarkerSymbol;
+        case "simple-line":
+            let dnSimpleLineSymbol = symbol as DotNetSimpleLineSymbol;
+            let jsSimpleLineSymbol = new SimpleLineSymbol();
+            
+            if (dnSimpleLineSymbol.color !== undefined && dnSimpleLineSymbol.color !== null) {
+                jsSimpleLineSymbol.color = dnSimpleLineSymbol.color as any;
+            }
+            
+            if (dnSimpleLineSymbol.cap !== undefined && dnSimpleLineSymbol.cap !== null) {
+                jsSimpleLineSymbol.cap = dnSimpleLineSymbol.cap as any;
+            }
+            
+            if (dnSimpleLineSymbol.join !== undefined && dnSimpleLineSymbol.join !== null) {
+                jsSimpleLineSymbol.join = dnSimpleLineSymbol.join as any;
+            }
+            
+            if (dnSimpleLineSymbol.marker !== undefined && dnSimpleLineSymbol.marker !== null) {
+                jsSimpleLineSymbol.marker = dnSimpleLineSymbol.marker as any;
+            }
+            
+            if (dnSimpleLineSymbol.miterLimit !== undefined && dnSimpleLineSymbol.miterLimit !== null) {
+                jsSimpleLineSymbol.miterLimit = dnSimpleLineSymbol.miterLimit;
+            }
+            
+            if (dnSimpleLineSymbol.style !== undefined && dnSimpleLineSymbol.style !== null) {
+                jsSimpleLineSymbol.style = dnSimpleLineSymbol.style as any;
+            }
+            
+            if (dnSimpleLineSymbol.width !== undefined && dnSimpleLineSymbol.width !== null) {
+                jsSimpleLineSymbol.width = dnSimpleLineSymbol.width;
+            }
+            
+            return jsSimpleLineSymbol;
+        case "picture-marker":
+            let dnPictureMarkerSymbol = symbol as DotNetPictureMarkerSymbol;
+            let jsPictureMarkerSymbol = new PictureMarkerSymbol();
+            
+            if (dnPictureMarkerSymbol.color !== undefined && dnPictureMarkerSymbol.color !== null) {
+                jsPictureMarkerSymbol.color = dnPictureMarkerSymbol.color as any;
+            }
+            if (dnPictureMarkerSymbol.angle !== undefined && dnPictureMarkerSymbol.angle !== null) {
+                jsPictureMarkerSymbol.angle = dnPictureMarkerSymbol.angle;
+            }
+            if (dnPictureMarkerSymbol.xoffset !== undefined && dnPictureMarkerSymbol.xoffset !== null) {
+                jsPictureMarkerSymbol.xoffset = dnPictureMarkerSymbol.xoffset;
+            }
+            if (dnPictureMarkerSymbol.yoffset !== undefined && dnPictureMarkerSymbol.yoffset !== null) {
+                jsPictureMarkerSymbol.yoffset = dnPictureMarkerSymbol.yoffset;
+            }
+            
+            return jsPictureMarkerSymbol;
+            
+        case "simple-fill":
+            let dnSimpleFillSymbol = symbol as DotNetSimpleFillSymbol;
+            let jsSimpleFillSymbol = new SimpleFillSymbol();
+            if (dnSimpleFillSymbol.color !== undefined && dnSimpleFillSymbol.color !== null) {
+                jsSimpleFillSymbol.color = dnSimpleFillSymbol.color as any;
+            }
+            
+            if (dnSimpleFillSymbol.style !== undefined && dnSimpleFillSymbol.style !== null) {
+                jsSimpleFillSymbol.style = dnSimpleFillSymbol.style as any;
+            }
+            
+            if (dnSimpleFillSymbol.outline !== undefined && dnSimpleFillSymbol.outline !== null) {
+                jsSimpleFillSymbol.outline = buildJsSymbol(dnSimpleFillSymbol.outline) as any;
+            }
+            return jsSimpleFillSymbol;
+    }
+    
+    delete symbol["id"];
+    return symbol as any;
 }
 
 export function buildJsGeometry(geometry: DotNetGeometry): Geometry | null {
@@ -427,13 +576,13 @@ export function buildJsViewClickEvent(dotNetClickEvent: any): ViewClickEvent {
         mapPoint: buildJsPoint(dotNetClickEvent.mapPoint) as Point,
         x: dotNetClickEvent.x,
         y: dotNetClickEvent.y,
-        button: dotNetClickEvent.button,
-        buttons: dotNetClickEvent.buttons,
-        timestamp: dotNetClickEvent.timestamp
+        button: dotNetClickEvent.button ?? undefined,
+        buttons: dotNetClickEvent.buttons ?? undefined,
+        timestamp: dotNetClickEvent.timestamp ?? undefined
     } as ViewClickEvent
 }
 
-export function buildJsPopup(dotNetPopup: any) : Popup {
+export async function buildJsPopup(dotNetPopup: any) : Promise<Popup> {
     let popup = new Popup();
     
     if (dotNetPopup.stringContent !== undefined && dotNetPopup.stringContent !== null) {
@@ -465,7 +614,11 @@ export function buildJsPopup(dotNetPopup: any) : Popup {
     }
     
     if (dotNetPopup.features !== undefined && dotNetPopup.features !== null) {
-        popup.features = dotNetPopup.features.forEach(f => buildJsGraphic(f));
+        let features: Graphic[] = [];
+        for (const f of dotNetPopup.features) {
+            features.push(await buildJsGraphic(f) as Graphic);
+        }
+        popup.features = features;
     }
     
     if (dotNetPopup.alignment !== undefined && dotNetPopup.alignment !== null) {
@@ -537,7 +690,7 @@ function buildJsDockOptions(dotNetDockOptions: any) : PopupDockOptions {
     return dockOptions as PopupDockOptions;
 }
 
-export function buildJsPopupOptions(dotNetPopupOptions: any) : PopupOpenOptions {
+export async function buildJsPopupOptions(dotNetPopupOptions: any) : Promise<PopupOpenOptions> {
     let options: PopupOpenOptions = {};
     
     if (dotNetPopupOptions.title !== undefined && dotNetPopupOptions.title !== null) {
@@ -557,7 +710,11 @@ export function buildJsPopupOptions(dotNetPopupOptions: any) : PopupOpenOptions 
     }
     
     if (dotNetPopupOptions.features !== undefined && dotNetPopupOptions.features !== null) {
-        options.features = dotNetPopupOptions.features.map(f => buildJsGraphic(f));
+        let features: Graphic[] = [];
+        for (const f of dotNetPopupOptions.features) {
+            features.push(await buildJsGraphic(f) as Graphic);
+        }
+        options.features = features;
     }
     
     if (dotNetPopupOptions.featureMenuOpen !== undefined && dotNetPopupOptions.featureMenuOpen !== null) {
@@ -894,70 +1051,91 @@ export function buildJsMediaInfo(dotNetMediaInfo: DotNetMediaInfo): any {
             let dotNetBarChartMediaInfo = dotNetMediaInfo as DotNetBarChartMediaInfo;
             return {
                 type: "bar-chart",
-                altText: dotNetBarChartMediaInfo.altText,
-                caption: dotNetBarChartMediaInfo.caption,
+                altText: dotNetBarChartMediaInfo.altText ?? undefined,
+                caption: dotNetBarChartMediaInfo.caption ?? undefined,
                 value: buildJsChartMediaInfoValue(dotNetBarChartMediaInfo.value)
             } as BarChartMediaInfo;
         case "column-chart":
             let dotNetColumnChartMediaInfo = dotNetMediaInfo as DotNetColumnChartMediaInfo;
             return {
                 type: "column-chart",
-                altText: dotNetColumnChartMediaInfo.altText,
-                caption: dotNetColumnChartMediaInfo.caption,
-                title: dotNetColumnChartMediaInfo.title,
+                altText: dotNetColumnChartMediaInfo.altText ?? undefined,
+                caption: dotNetColumnChartMediaInfo.caption ?? undefined,
+                title: dotNetColumnChartMediaInfo.title ?? undefined,
                 value: buildJsChartMediaInfoValue(dotNetColumnChartMediaInfo.value)
             } as ColumnChartMediaInfo;
         case "image":
             let dotNetImageMediaInfo = dotNetMediaInfo as DotNetImageMediaInfo;
             return {
                 type: "image",
-                altText: dotNetImageMediaInfo.altText,
-                caption: dotNetImageMediaInfo.caption,
-                title: dotNetImageMediaInfo.title,
-                refreshInterval: dotNetImageMediaInfo.refreshInterval,
+                altText: dotNetImageMediaInfo.altText ?? undefined,
+                caption: dotNetImageMediaInfo.caption ?? undefined,
+                title: dotNetImageMediaInfo.title ?? undefined,
+                refreshInterval: dotNetImageMediaInfo.refreshInterval ?? undefined,
                 value: buildJsImageMediaInfoValue(dotNetImageMediaInfo.value)
             } as ImageMediaInfo;
         case "line-chart":
             let dotNetLineChartMediaInfo = dotNetMediaInfo as DotNetLineChartMediaInfo;
             return {
                 type: "line-chart",
-                altText: dotNetLineChartMediaInfo.altText,
-                caption: dotNetLineChartMediaInfo.caption,
-                title: dotNetLineChartMediaInfo.title,
+                altText: dotNetLineChartMediaInfo.altText ?? undefined,
+                caption: dotNetLineChartMediaInfo.caption ?? undefined,
+                title: dotNetLineChartMediaInfo.title ?? undefined,
                 value: buildJsChartMediaInfoValue(dotNetLineChartMediaInfo.value)
             } as LineChartMediaInfo;
         case "pie-chart":
             let dotNetPieChartMediaInfo = dotNetMediaInfo as DotNetPieChartMediaInfo;
             return {
                 type: "pie-chart",
-                altText: dotNetPieChartMediaInfo.altText,
-                caption: dotNetPieChartMediaInfo.caption,
-                title: dotNetPieChartMediaInfo.title,
+                altText: dotNetPieChartMediaInfo.altText ?? undefined,
+                caption: dotNetPieChartMediaInfo.caption ?? undefined,
+                title: dotNetPieChartMediaInfo.title ?? undefined,
                 value: buildJsChartMediaInfoValue(dotNetPieChartMediaInfo.value)
             } as PieChartMediaInfo;
     }
 }
 
 export function buildJsChartMediaInfoValue(dotNetChartMediaInfoValue: DotNetChartMediaInfoValue): ChartMediaInfoValue {
-    return {
-        fields: dotNetChartMediaInfoValue.fields,
-        normalizeField: dotNetChartMediaInfoValue.normalizeField,
-        tooltipField: dotNetChartMediaInfoValue.tooltipField,
-        series: dotNetChartMediaInfoValue.series,
-    } as ChartMediaInfoValue;
+    let value = {} as ChartMediaInfoValue;
+    if (dotNetChartMediaInfoValue.fields !== undefined && dotNetChartMediaInfoValue.fields !== null) {
+        value.fields = dotNetChartMediaInfoValue.fields;
+    }
+    if (dotNetChartMediaInfoValue.normalizeField !== undefined && dotNetChartMediaInfoValue.normalizeField !== null) {
+        value.normalizeField = dotNetChartMediaInfoValue.normalizeField;
+    }
+    if (dotNetChartMediaInfoValue.tooltipField !== undefined && dotNetChartMediaInfoValue.tooltipField !== null) {
+        value.tooltipField = dotNetChartMediaInfoValue.tooltipField;
+    }
+    if (dotNetChartMediaInfoValue.series !== undefined && dotNetChartMediaInfoValue.series !== null) {
+        value.series = dotNetChartMediaInfoValue.series.map(s => {
+            let series = new ChartMediaInfoValueSeries({
+                tooltip: s.tooltip ?? undefined,
+                value: s.value ?? undefined,
+                fieldName: s.fieldName ?? undefined
+            });
+            return series;
+        });
+    }
+    return value;
 }
 
 export function buildJsImageMediaInfoValue(dotNetImageMediaInfoValue: DotNetImageMediaInfoValue): ImageMediaInfoValue {
     return {
-        sourceURL: dotNetImageMediaInfoValue.sourceURL,
-        linkURL: dotNetImageMediaInfoValue.linkURL
+        sourceURL: dotNetImageMediaInfoValue.sourceURL ?? undefined,
+        linkURL: dotNetImageMediaInfoValue.linkURL ?? undefined
     } as ImageMediaInfoValue;
 }
 
-export function buildJsElementExpressionInfo(dotNetExpressionInfo: DotNetElementExpressionInfo): ElementExpressionInfoProperties {
-    return {
-        expression: dotNetExpressionInfo.expression,
-        returnType: dotNetExpressionInfo.returnType as any,
-        title: dotNetExpressionInfo.title
-    } as ElementExpressionInfoProperties;
+export function buildJsElementExpressionInfo(dotNetExpressionInfo: DotNetElementExpressionInfo): ElementExpressionInfo {
+    let info = {} as ElementExpressionInfo;
+    if (dotNetExpressionInfo.expression !== undefined && dotNetExpressionInfo.expression !== null) {
+        info.expression = dotNetExpressionInfo.expression;
+    }
+    if (dotNetExpressionInfo.returnType !== undefined && dotNetExpressionInfo.returnType !== null) {
+        info.returnType = dotNetExpressionInfo.returnType as any;
+    }
+    if (dotNetExpressionInfo.title !== undefined && dotNetExpressionInfo.title !== null) {
+        info.title = dotNetExpressionInfo.title;
+    }
+    return info;
 }
