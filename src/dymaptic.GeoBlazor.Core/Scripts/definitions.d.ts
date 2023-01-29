@@ -95,11 +95,36 @@ export interface DotNetPictureMarkerSymbol extends DotNetSymbol {
     angle: number;
     xoffset: number;
     yoffset: number;
+    
+    height: number;
+    
+    width: number;
+    
+    url: string;
 }
 
 export interface DotNetSimpleFillSymbol extends DotNetSymbol {
     outline: DotNetSimpleLineSymbol;
     style: string;
+}
+
+export interface DotNetTextSymbol extends DotNetSymbol {
+    angle: number;
+    backgroundColor: string;
+    borderLineColor: string;
+    borderLineSize: number;
+    font: any;
+    haloColor: string;
+    haloSize: number;
+    horizontalAlignment: string;
+    kerning: boolean;
+    lineHeight: number;
+    lineWidth: number;
+    rotated: boolean;
+    text: string;
+    verticalAlignment: string;
+    xoffset: number;
+    yoffset: number;
 }
 
 export interface DotNetSpatialReference {

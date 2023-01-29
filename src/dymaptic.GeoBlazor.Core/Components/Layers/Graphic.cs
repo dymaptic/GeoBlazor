@@ -65,6 +65,7 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     /// <summary>
     ///     The geometry that defines the graphic's location.
     /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public Geometry? Geometry { get; private set; }
 
@@ -72,6 +73,7 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     /// <summary>
     ///     The <see cref="PopupTemplate"/> for displaying content in a Popup when the graphic is selected.
     /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public PopupTemplate? PopupTemplate { get; private set; }
     
