@@ -168,7 +168,7 @@ export function buildJsPopupTemplate(popupTemplateObject: DotNetPopupTemplate): 
         content: content ?? undefined,
         outFields: popupTemplateObject.outFields ?? undefined,
         overwriteActions: popupTemplateObject.overwriteActions ?? false,
-        returnGeometry: popupTemplateObject.returnGeometry ?? false,
+        returnGeometry: popupTemplateObject.returnGeometry ?? false
     });
     
     if (popupTemplateObject.fieldInfos !== undefined && popupTemplateObject.fieldInfos !== null) {
@@ -235,9 +235,9 @@ export function buildJsFieldInfo(fieldInfoObject: DotNetFieldInfo): FieldInfo {
         fieldName: fieldInfoObject.fieldName ?? '',
         label: fieldInfoObject.label ?? '',
         tooltip: fieldInfoObject.tooltip ?? '',
-        stringFieldOption: fieldInfoObject.stringFieldOption as any ?? undefined,
-        visible: fieldInfoObject.visible ?? undefined,
-        isEditable: fieldInfoObject.isEditable ?? undefined
+        stringFieldOption: fieldInfoObject.stringFieldOption as any ?? "text-box",
+        visible: fieldInfoObject.visible ?? true,
+        isEditable: fieldInfoObject.isEditable ?? false
     });
     
     if (fieldInfoObject.format !== undefined && fieldInfoObject.format !== null) {
@@ -496,15 +496,33 @@ function buildJsDockOptions(dotNetDockOptions: any) : PopupDockOptions {
 }
 
 export async function buildJsPopupOptions(dotNetPopupOptions: any) : Promise<PopupOpenOptions> {
-    let options: PopupOpenOptions = {
-        title: dotNetPopupOptions.title ?? undefined,
-        content: dotNetPopupOptions.stringContent ?? undefined,
-        fetchFeatures: dotNetPopupOptions.fetchFeatures ?? false,
-        featureMenuOpen: dotNetPopupOptions.featureMenuOpen ?? false,
-        updateLocationEnabled: dotNetPopupOptions.updateLocationEnabled ?? false,
-        collapsed: dotNetPopupOptions.collapsed ?? false,
-        shouldFocus: dotNetPopupOptions.shouldFocus ?? false
-    };
+    let options: PopupOpenOptions = {};
+
+    if (dotNetPopupOptions.title !== undefined && dotNetPopupOptions.title !== null) {
+        options.title = dotNetPopupOptions.title;
+    }
+    if (dotNetPopupOptions.stringContent !== undefined && dotNetPopupOptions.stringContent !== null) {
+        options.content = dotNetPopupOptions.content;
+    }
+    if (dotNetPopupOptions.fetchFeatures !== undefined && dotNetPopupOptions.fetchFeatures !== null) {
+        options.fetchFeatures = dotNetPopupOptions.fetchFeatures;
+    }
+    
+    if (dotNetPopupOptions.featureMenuOpen !== undefined && dotNetPopupOptions.featureMenuOpen !== null) {
+        options.featureMenuOpen = dotNetPopupOptions.featureMenuOpen;
+    }
+    
+    if (dotNetPopupOptions.updateLocationEnabled !== undefined && dotNetPopupOptions.updateLocationEnabled !== null) {
+        options.updateLocationEnabled = dotNetPopupOptions.updateLocationEnabled;
+    }
+    
+    if (dotNetPopupOptions.collapsed !== undefined && dotNetPopupOptions.collapsed !== null) {
+        options.collapsed = dotNetPopupOptions.collapsed;
+    }
+    
+    if (dotNetPopupOptions.shouldFocus !== undefined && dotNetPopupOptions.shouldFocus !== null) {
+        options.shouldFocus = dotNetPopupOptions.shouldFocus;
+    }
     
     if (dotNetPopupOptions.location !== undefined && dotNetPopupOptions.location !== null) {
         options.location = buildJsPoint(dotNetPopupOptions.location) as Point;
@@ -616,17 +634,20 @@ export function buildJsTopFeaturesQuery(dnQuery: DotNetTopFeaturesQuery): TopFea
         num: dnQuery.num ?? undefined,
         objectIds: dnQuery.objectIds ?? undefined,
         orderByFields: dnQuery.orderByFields ?? undefined,
-        outFields: dnQuery.outFields ?? undefined,
-        returnGeometry: dnQuery.returnGeometry ?? undefined,
+        outFields: dnQuery.outFields ?? null,
+        returnGeometry: dnQuery.returnGeometry ?? false,
         returnM: dnQuery.returnM ?? undefined,
         returnZ: dnQuery.returnZ ?? undefined,
-        spatialRelationship: dnQuery.spatialRelationship as any ?? undefined,
+        spatialRelationship: dnQuery.spatialRelationship as any ?? "intersects",
         start: dnQuery.start ?? undefined,
         timeExtent: dnQuery.timeExtent ?? undefined,
         topFilter: dnQuery.topFilter as any ?? undefined,
-        units: dnQuery.units as any ?? undefined,
-        where: dnQuery.where ?? undefined
+        units: dnQuery.units as any ?? null
     });
+    
+    if (dnQuery.where !== undefined && dnQuery.where !== null) {
+        query.where = dnQuery.where;
+    }
     
     if (dnQuery.geometry !== undefined && dnQuery.geometry !== null) {
         query.geometry = buildJsGeometry(dnQuery.geometry) as Geometry;

@@ -162,7 +162,6 @@ export interface DotNetListItem {
 }
 
 export interface DotNetLayerView {
-    layer: DotNetLayer;
     spatialReferenceSupported: boolean;
     suspended: boolean;
     updating: boolean;

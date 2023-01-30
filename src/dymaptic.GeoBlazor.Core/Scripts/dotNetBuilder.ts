@@ -225,7 +225,6 @@ export function buildDotNetGeographicTransformation(geographicTransformation: Ge
 
 export function buildDotNetLayerView(layerView: LayerView): DotNetLayerView {
     return {
-        layer: buildDotNetLayer(layerView.layer),
         spatialReferenceSupported: layerView.spatialReferenceSupported,
         suspended: layerView.suspended,
         updating: layerView.updating,

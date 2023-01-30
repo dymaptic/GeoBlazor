@@ -103,6 +103,7 @@ export let arcGisObjectRefs: Record<string, Accessor> = {};
 export let dotNetRefs = {};
 export let queryLayer: FeatureLayer;
 export { projection, geometryEngine };
+let blazorServer: boolean = false;
 
 export function setAssetsPath (path: string) {
     if (path !== undefined && path !== null && esriConfig.assetsPath !== path) {
@@ -153,11 +154,12 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
                                    apiKey: string, mapType: string, widgets: any, graphics: any, 
                                    spatialReference: any, constraints: any, extent: any, 
                                    eventRateLimitInMilliseconds: number | null, activeEventHandlers: Array<string>,
-                                   highlightOptions?: any | null, zIndex?: number, tilt?: number)
+                                   isServer: boolean, highlightOptions?: any | null, zIndex?: number, tilt?: number)
     : Promise<void> {
     console.debug("render map");
     try {
         setWaitCursor(id);
+        blazorServer = isServer;
         let dotNetRef = dotNetReference;
 
         checkConnectivity(id);
@@ -436,7 +438,7 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
         });
     }
 
-    view.on('layerview-create', (evt) => {
+    view.on('layerview-create', async (evt) => {
         // find objectRef id by layer
         let layerGeoBlazorId = Object.keys(arcGisObjectRefs).find(key => arcGisObjectRefs[key] === evt.layer);
         
@@ -466,7 +468,33 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
             layer: buildDotNetLayer(evt.layer),
             layerGeoBlazorId: layerGeoBlazorId
         }
-        dotNetRef.invokeMethodAsync('OnJavascriptLayerViewCreate', result);
+        
+        if (!blazorServer) {
+            await dotNetRef.invokeMethodAsync('OnJavascriptLayerViewCreate', result);
+            return;
+        }
+
+        // return dotNetResult in small chunks to avoid memory issues in Blazor Server
+        // SignalR has a maximum message size of 32KB
+        // https://github.com/dotnet/aspnetcore/issues/23179
+        let jsonLayerResult = JSON.stringify(result.layer);
+        let jsonLayerViewResult = JSON.stringify(result.layerView);
+        let chunkSize = 1000;
+        let chunks = Math.ceil(jsonLayerResult.length / chunkSize);
+        let layerUid = evt.layer.id;
+        for (let i = 0; i < chunks; i++) {
+            let chunk = jsonLayerResult.slice(i * chunkSize, (i + 1) * chunkSize);
+            await dotNetRef.invokeMethodAsync('OnJavascriptLayerCreateChunk', layerUid, chunk);
+        }
+
+        chunks = Math.ceil(jsonLayerViewResult.length / chunkSize);
+        for (let i = 0; i < chunks; i++) {
+            let chunk = jsonLayerViewResult.slice(i * chunkSize, (i + 1) * chunkSize);
+            await dotNetRef.invokeMethodAsync('OnJavascriptLayerViewCreateChunk', layerUid, chunk);
+        }
+        
+        await dotNetRef.invokeMethodAsync('OnJavascriptLayerViewCreateComplete', layerGeoBlazorId ?? null, layerUid,
+            result.layerObjectRef, result.layerViewObjectRef);
     });
 
     if (activeEventHandlers.includes('OnLayerViewCreateError')) {
@@ -523,7 +551,7 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
     });
 }
 
-export async function hitTest(pointObject: any, eventId: string | null, viewId: string, returnValue: boolean,
+export async function hitTest(pointObject: any, eventId: string | null, viewId: string,
     isEvent: boolean, options: DotNetHitTestOptions | null) : Promise<DotNetHitTestResult | void> {
     let view = arcGisObjectRefs[viewId] as MapView;
     let result: HitTestResult;
@@ -538,7 +566,7 @@ export async function hitTest(pointObject: any, eventId: string | null, viewId: 
     }
     
     let dotNetResult = buildDotNetHitTestResult(result);
-    if (returnValue) {
+    if (!blazorServer) {
         return dotNetResult;
     }
 
@@ -547,7 +575,7 @@ export async function hitTest(pointObject: any, eventId: string | null, viewId: 
     // return dotNetResult in small chunks to avoid memory issues in Blazor Server
     // SignalR has a maximum message size of 32KB
     // https://github.com/dotnet/aspnetcore/issues/23179
-    let chunkSize = 100;
+    let chunkSize = 1000;
     let chunks = Math.ceil(jsonResult.length / chunkSize);
     for (let i = 0; i < chunks; i++) {
         let chunk = jsonResult.slice(i * chunkSize, (i + 1) * chunkSize);

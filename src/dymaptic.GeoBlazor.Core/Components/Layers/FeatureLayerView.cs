@@ -15,7 +15,6 @@ public class FeatureLayerView: LayerView
     internal FeatureLayerView(LayerView layerView, AbortManager abortManager)
     {
         _abortManager = abortManager;
-        Layer = layerView.Layer;
         JsObjectReference = layerView.JsObjectReference;
         SpatialReferenceSupported = layerView.SpatialReferenceSupported;
         Suspended = layerView.Suspended;

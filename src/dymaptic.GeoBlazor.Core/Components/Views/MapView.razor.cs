@@ -648,6 +648,47 @@ public partial class MapView : MapComponent
     [Parameter]
     public EventCallback<MouseWheelEvent> OnMouseWheel { get; set; }
 
+    [JSInvokable]
+    public async Task OnJavascriptLayerCreateChunk(string layerUid, string chunk)
+    {
+        if (_layerCreateData.ContainsKey(layerUid))
+        {
+            _layerCreateData[layerUid].Append(chunk);
+        }
+        else
+        {
+            _layerCreateData.Add(layerUid, new StringBuilder(chunk));
+        }
+    }
+
+    [JSInvokable]
+    public async Task OnJavascriptLayerViewCreateChunk(string layerViewUid, string chunk)
+    {
+        if (_layerViewCreateData.ContainsKey(layerViewUid))
+        {
+            _layerViewCreateData[layerViewUid].Append(chunk);
+        }
+        else
+        {
+            _layerViewCreateData.Add(layerViewUid, new StringBuilder(chunk));
+        }
+    }
+    
+    [JSInvokable]
+    public async Task OnJavascriptLayerViewCreateComplete(Guid? geoBlazorLayerId, string layerUid, 
+        IJSObjectReference layerRef, IJSObjectReference layerViewRef)
+    {
+        JsonSerializerOptions options = new(){ PropertyNameCaseInsensitive = true };
+        Layer layer = JsonSerializer.Deserialize<Layer>(_layerCreateData[layerUid].ToString(), options)!;
+
+        LayerView layerView =
+            JsonSerializer.Deserialize<LayerView>(_layerViewCreateData[layerUid].ToString(), options)!;
+
+        LayerViewCreateInternalEvent createEvent =
+            new(layerRef, layerViewRef, geoBlazorLayerId ?? Guid.Empty, layer, layerView);
+        await OnJavascriptLayerViewCreate(createEvent);
+    }
+
     /// <summary>
     ///     JS-Invokable method to return when a layer view is created.
     /// </summary>
@@ -1276,7 +1317,7 @@ public partial class MapView : MapComponent
             if (IsServer)
             {
                 Guid eventId = Guid.NewGuid();
-                await ViewJsModule!.InvokeVoidAsync("hitTest", pointObject, eventId, Id, false, isEvent, options);
+                await ViewJsModule!.InvokeVoidAsync("hitTest", pointObject, eventId, Id, isEvent, options);
                 string json = _hitTestResults[eventId].ToString();
                 _hitTestResults.Remove(eventId);
 
@@ -1284,7 +1325,7 @@ public partial class MapView : MapComponent
                     new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
             }
 
-            return await ViewJsModule!.InvokeAsync<HitTestResult>("hitTest", pointObject, null, Id, true, isEvent, options);
+            return await ViewJsModule!.InvokeAsync<HitTestResult>("hitTest", pointObject, null, Id, isEvent, options);
         }
         catch (Exception ex)
         {
@@ -1438,7 +1479,7 @@ public partial class MapView : MapComponent
             await ViewJsModule.InvokeVoidAsync("buildMapView", Id,
                 DotNetObjectReference, Longitude, Latitude, Rotation, map, Zoom, Scale,
                 ApiKey, mapType, Widgets, Graphics, SpatialReference, Constraints, Extent,
-                EventRateLimitInMilliseconds, GetActiveEventHandlers(), HighlightOptions);
+                EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions);
             Rendering = false;
             NewPropertyValues.Clear();
             MapRendered = true;
@@ -1556,4 +1597,6 @@ public partial class MapView : MapComponent
     private SpatialReference? _spatialReference;
     private Dictionary<Guid, StringBuilder> _hitTestResults = new();
     private bool _renderCalled;
+    private Dictionary<string, StringBuilder> _layerCreateData = new();
+    private Dictionary<string, StringBuilder> _layerViewCreateData = new();
 }
