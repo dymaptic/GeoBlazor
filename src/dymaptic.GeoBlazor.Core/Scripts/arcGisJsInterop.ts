@@ -484,13 +484,13 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
         let layerUid = evt.layer.id;
         for (let i = 0; i < chunks; i++) {
             let chunk = jsonLayerResult.slice(i * chunkSize, (i + 1) * chunkSize);
-            await dotNetRef.invokeMethodAsync('OnJavascriptLayerCreateChunk', layerUid, chunk);
+            await dotNetRef.invokeMethodAsync('OnJavascriptLayerCreateChunk', layerUid, chunk, i);
         }
 
         chunks = Math.ceil(jsonLayerViewResult.length / chunkSize);
         for (let i = 0; i < chunks; i++) {
             let chunk = jsonLayerViewResult.slice(i * chunkSize, (i + 1) * chunkSize);
-            await dotNetRef.invokeMethodAsync('OnJavascriptLayerViewCreateChunk', layerUid, chunk);
+            await dotNetRef.invokeMethodAsync('OnJavascriptLayerViewCreateChunk', layerUid, chunk, i);
         }
         
         await dotNetRef.invokeMethodAsync('OnJavascriptLayerViewCreateComplete', layerGeoBlazorId ?? null, layerUid,
@@ -1112,6 +1112,8 @@ export function displayQueryResults(query: Query, symbol: ArcGisSymbol, popupTem
 
 export async function addWidget(widget: any, viewId: string): Promise<void> {
     try {
+        let view = arcGisObjectRefs[viewId] as MapView;
+        if (view === undefined || view === null) return;
         let newWidget = await createWidget(widget, viewId);
         if (newWidget === null || newWidget instanceof Popup) return;
 
@@ -1121,7 +1123,6 @@ export async function addWidget(widget: any, viewId: string): Promise<void> {
             container?.appendChild(innerContainer);
             newWidget.container = innerContainer;
         } else {
-            let view = arcGisObjectRefs[viewId] as MapView;
             view.ui.add(newWidget, widget.position);
         }
     } catch (error) {

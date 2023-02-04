@@ -11,7 +11,16 @@ internal class EnumToKebabCaseStringConverter<T> : JsonConverter<T> where T : no
         string? value = reader.GetString()?.Replace("-", string.Empty)
             .Replace("esri", string.Empty)
             .Replace(typeof(T).Name, string.Empty);
-        return value is not null ? (T)Enum.Parse(typeof(T), value, true) : default!;
+
+        try
+        {
+            return value is not null ? (T)Enum.Parse(typeof(T), value, true) : default(T)!;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+            return default(T)!;
+        }
     }
 
     public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options)

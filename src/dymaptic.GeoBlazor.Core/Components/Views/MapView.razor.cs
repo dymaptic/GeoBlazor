@@ -649,28 +649,28 @@ public partial class MapView : MapComponent
     public EventCallback<MouseWheelEvent> OnMouseWheel { get; set; }
 
     [JSInvokable]
-    public async Task OnJavascriptLayerCreateChunk(string layerUid, string chunk)
+    public async Task OnJavascriptLayerCreateChunk(string layerUid, string chunk, int chunkIndex)
     {
-        if (_layerCreateData.ContainsKey(layerUid))
+        if (chunkIndex == 0)
         {
-            _layerCreateData[layerUid].Append(chunk);
+            _layerCreateData[layerUid] = new StringBuilder(chunk);
         }
         else
         {
-            _layerCreateData.Add(layerUid, new StringBuilder(chunk));
+            _layerCreateData[layerUid].Append(chunk);
         }
     }
 
     [JSInvokable]
-    public async Task OnJavascriptLayerViewCreateChunk(string layerViewUid, string chunk)
+    public async Task OnJavascriptLayerViewCreateChunk(string layerUid, string chunk, int chunkIndex)
     {
-        if (_layerViewCreateData.ContainsKey(layerViewUid))
+        if (chunkIndex == 0)
         {
-            _layerViewCreateData[layerViewUid].Append(chunk);
+            _layerViewCreateData[layerUid] = new StringBuilder(chunk);
         }
         else
         {
-            _layerViewCreateData.Add(layerViewUid, new StringBuilder(chunk));
+            _layerViewCreateData[layerUid].Append(chunk);
         }
     }
     
@@ -678,15 +678,22 @@ public partial class MapView : MapComponent
     public async Task OnJavascriptLayerViewCreateComplete(Guid? geoBlazorLayerId, string layerUid, 
         IJSObjectReference layerRef, IJSObjectReference layerViewRef)
     {
-        JsonSerializerOptions options = new(){ PropertyNameCaseInsensitive = true };
-        Layer layer = JsonSerializer.Deserialize<Layer>(_layerCreateData[layerUid].ToString(), options)!;
+        try
+        {
+            JsonSerializerOptions options = new() { PropertyNameCaseInsensitive = true };
+            Layer layer = JsonSerializer.Deserialize<Layer>(_layerCreateData[layerUid].ToString(), options)!;
 
-        LayerView layerView =
-            JsonSerializer.Deserialize<LayerView>(_layerViewCreateData[layerUid].ToString(), options)!;
+            LayerView layerView =
+                JsonSerializer.Deserialize<LayerView>(_layerViewCreateData[layerUid].ToString(), options)!;
 
-        LayerViewCreateInternalEvent createEvent =
-            new(layerRef, layerViewRef, geoBlazorLayerId ?? Guid.Empty, layer, layerView);
-        await OnJavascriptLayerViewCreate(createEvent);
+            LayerViewCreateInternalEvent createEvent =
+                new(layerRef, layerViewRef, geoBlazorLayerId ?? Guid.Empty, layer, layerView);
+            await OnJavascriptLayerViewCreate(createEvent);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex); 
+        }
     }
 
     /// <summary>
@@ -1585,8 +1592,12 @@ public partial class MapView : MapComponent
     ///     A boolean flag to indicate a "dirty" state that needs to be re-rendered
     /// </summary>
     protected bool NeedsRender = true;
+    
+    /// <summary>
+    ///     Boolean flag to identify if GeoBlazor is running in Blazor Server mode
+    /// </summary>
+    protected bool IsServer => JsRuntime.GetType().Name.Contains("Remote");
     private bool IsWebAssembly => JsRuntime is IJSInProcessRuntime;
-    private bool IsServer => JsRuntime.GetType().Name.Contains("Remote");
     private bool IsMaui => JsRuntime.GetType().Name.Contains("WebView");
     private double? _longitude;
     private double? _zoom;

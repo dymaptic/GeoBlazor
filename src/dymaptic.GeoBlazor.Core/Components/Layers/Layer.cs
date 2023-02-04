@@ -196,8 +196,10 @@ internal class LayerConverter : JsonConverter<Layer>
                 case "graphics":
                     return JsonSerializer.Deserialize<GraphicsLayer>(ref cloneReader, newOptions);
                 case "geo-json":
+                case "geojson":
                     return JsonSerializer.Deserialize<GeoJSONLayer>(ref cloneReader, newOptions);
                 case "geo-rss":
+                case "georss":
                     return JsonSerializer.Deserialize<GeoRSSLayer>(ref cloneReader, newOptions);
                 case "tile":
                     return JsonSerializer.Deserialize<TileLayer>(ref cloneReader, newOptions);
