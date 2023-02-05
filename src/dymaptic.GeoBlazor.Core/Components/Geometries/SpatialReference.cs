@@ -10,7 +10,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-SpatialReference.html">ArcGIS JS API</a>
 /// </summary>
 [JsonConverter(typeof(SpatialReferenceConverter))]
-public class SpatialReference : MapComponent
+public class SpatialReference : MapComponent, IEquatable<SpatialReference>
 {
     /// <summary>
     ///     Parameterless constructor for use as a razor component
@@ -91,6 +91,47 @@ public class SpatialReference : MapComponent
     /// </summary>
     [JsonIgnore]
     public static SpatialReference WebMercator { get; set; } = new(3857);
+
+    /// <inheritdoc />
+    public bool Equals(SpatialReference? other)
+    {
+        if (ReferenceEquals(null, other)) return false;
+        if (ReferenceEquals(this, other)) return true;
+
+        return Nullable.Equals(Wkid, other.Wkid);
+    }
+
+    /// <inheritdoc />
+    public override bool Equals(object? obj)
+    {
+        if (ReferenceEquals(null, obj)) return false;
+        if (ReferenceEquals(this, obj)) return true;
+        if (obj.GetType() != this.GetType()) return false;
+
+        return Equals((SpatialReference)obj);
+    }
+
+    /// <inheritdoc />
+    public override int GetHashCode()
+    {
+        return Wkid.GetHashCode();
+    }
+
+    /// <summary>
+    ///     Compares two SpatialReference objects for equality
+    /// </summary>
+    public static bool operator ==(SpatialReference? left, SpatialReference? right)
+    {
+        return Equals(left, right);
+    }
+
+    /// <summary>
+    ///     Compares two SpatialReference objects for inequality
+    /// </summary>
+    public static bool operator !=(SpatialReference? left, SpatialReference? right)
+    {
+        return !Equals(left, right);
+    }
 }
 
 internal class SpatialReferenceConverter: JsonConverter<SpatialReference>

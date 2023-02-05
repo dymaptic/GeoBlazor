@@ -8,7 +8,7 @@ namespace dymaptic.GeoBlazor.Core.Objects;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Color.html">ArcGIS JS API</a>
 /// </summary>
 [JsonConverter(typeof(MapColorConverter))]
-public class MapColor
+public class MapColor: IEquatable<MapColor>
 {
     /// <summary>
     ///     Creates a new color with a collection of numeric values in rgb or rgba format.
@@ -41,6 +41,47 @@ public class MapColor
     ///     The name or hex value of the color.
     /// </summary>
     public string? HexOrNameValue { get; set; }
+
+    /// <inheritdoc />
+    public bool Equals(MapColor? other)
+    {
+        if (ReferenceEquals(null, other)) return false;
+        if (ReferenceEquals(this, other)) return true;
+
+        return Values.Equals(other.Values) && HexOrNameValue == other.HexOrNameValue;
+    }
+
+    /// <inheritdoc />
+    public override bool Equals(object? obj)
+    {
+        if (ReferenceEquals(null, obj)) return false;
+        if (ReferenceEquals(this, obj)) return true;
+        if (obj.GetType() != this.GetType()) return false;
+
+        return Equals((MapColor)obj);
+    }
+
+    /// <inheritdoc />
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Values, HexOrNameValue);
+    }
+
+    /// <summary>
+    ///     Compares two <see cref="MapColor"/> objects for equality.
+    /// </summary>
+    public static bool operator ==(MapColor? left, MapColor? right)
+    {
+        return Equals(left, right);
+    }
+
+    /// <summary>
+    ///     Compares two <see cref="MapColor"/> objects for inequality.
+    /// </summary>
+    public static bool operator !=(MapColor? left, MapColor? right)
+    {
+        return !Equals(left, right);
+    }
 }
 
 internal class MapColorConverter : JsonConverter<MapColor>

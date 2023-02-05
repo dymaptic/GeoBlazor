@@ -86,3 +86,84 @@ public override string Type { get; }
 
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+### Methods
+
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.Equals(object)'></a>
+
+## Polygon.Equals(object) Method
+
+Determines whether the specified object is equal to the current object.
+
+```csharp
+public override bool Equals(object? obj);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.Equals(object).obj'></a>
+
+`obj` [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object')
+
+The object to compare with the current object.
+
+#### Returns
+[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')  
+[true](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool') if the specified object  is equal to the current object; otherwise, [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool').
+
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.GetHashCode()'></a>
+
+## Polygon.GetHashCode() Method
+
+Serves as the default hash function.
+
+```csharp
+public override int GetHashCode();
+```
+
+#### Returns
+[System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')  
+A hash code for the current object.
+### Operators
+
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.op_Equality(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon,dymaptic.GeoBlazor.Core.Components.Geometries.Polygon)'></a>
+
+## Polygon.operator ==(Polygon, Polygon) Operator
+
+Override equality operator
+
+```csharp
+public static bool operator ==(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon? left, dymaptic.GeoBlazor.Core.Components.Geometries.Polygon? right);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.op_Equality(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon,dymaptic.GeoBlazor.Core.Components.Geometries.Polygon).left'></a>
+
+`left` [Polygon](dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Polygon')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.op_Equality(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon,dymaptic.GeoBlazor.Core.Components.Geometries.Polygon).right'></a>
+
+`right` [Polygon](dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Polygon')
+
+#### Returns
+[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.op_Inequality(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon,dymaptic.GeoBlazor.Core.Components.Geometries.Polygon)'></a>
+
+## Polygon.operator !=(Polygon, Polygon) Operator
+
+Override inequality operator
+
+```csharp
+public static bool operator !=(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon? left, dymaptic.GeoBlazor.Core.Components.Geometries.Polygon? right);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.op_Inequality(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon,dymaptic.GeoBlazor.Core.Components.Geometries.Polygon).left'></a>
+
+`left` [Polygon](dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Polygon')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.op_Inequality(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon,dymaptic.GeoBlazor.Core.Components.Geometries.Polygon).right'></a>
+
+`right` [Polygon](dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Polygon')
+
+#### Returns
+[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')

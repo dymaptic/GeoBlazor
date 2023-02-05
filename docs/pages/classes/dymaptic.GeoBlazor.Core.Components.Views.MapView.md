@@ -927,6 +927,26 @@ The new [Extent](dymaptic.GeoBlazor.Core.Components.Views.MapView.html#dymaptic.
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
 
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.GoTo(System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Layers.Graphic_)'></a>
+
+## MapView.GoTo(IEnumerable<Graphic>) Method
+
+Changes the view [Extent](dymaptic.GeoBlazor.Core.Components.Views.MapView.html#dymaptic.GeoBlazor.Core.Components.Views.MapView.Extent 'dymaptic.GeoBlazor.Core.Components.Views.MapView.Extent') and redraws.
+
+```csharp
+public System.Threading.Tasks.Task GoTo(System.Collections.Generic.IEnumerable<dymaptic.GeoBlazor.Core.Components.Layers.Graphic> graphics);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.GoTo(System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Layers.Graphic_).graphics'></a>
+
+`graphics` [System.Collections.Generic.IEnumerable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IEnumerable-1 'System.Collections.Generic.IEnumerable`1')[Graphic](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IEnumerable-1 'System.Collections.Generic.IEnumerable`1')
+
+The [Graphic](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic')s to zoom to.
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.HitTest(dymaptic.GeoBlazor.Core.Components.Geometries.Point,dymaptic.GeoBlazor.Core.Events.HitTestOptions)'></a>
 
 ## MapView.HitTest(Point, HitTestOptions) Method
@@ -1282,6 +1302,29 @@ The [KeyUpEvent](dymaptic.GeoBlazor.Core.Events.KeyUpEvent.html 'dymaptic.GeoBla
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
 
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptLayerCreateChunk(string,string,int)'></a>
+
+## MapView.OnJavascriptLayerCreateChunk(string, string, int) Method
+
+JS-Invokable method for internal use only.
+
+```csharp
+public void OnJavascriptLayerCreateChunk(string layerUid, string chunk, int chunkIndex);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptLayerCreateChunk(string,string,int).layerUid'></a>
+
+`layerUid` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptLayerCreateChunk(string,string,int).chunk'></a>
+
+`chunk` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptLayerCreateChunk(string,string,int).chunkIndex'></a>
+
+`chunkIndex` [System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')
+
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptLayerViewCreate(dymaptic.GeoBlazor.Core.Events.LayerViewCreateInternalEvent)'></a>
 
 ## MapView.OnJavascriptLayerViewCreate(LayerViewCreateInternalEvent) Method
@@ -1298,6 +1341,59 @@ public System.Threading.Tasks.Task OnJavascriptLayerViewCreate(dymaptic.GeoBlazo
 `layerViewCreateEvent` [LayerViewCreateInternalEvent](dymaptic.GeoBlazor.Core.Events.LayerViewCreateInternalEvent.html 'dymaptic.GeoBlazor.Core.Events.LayerViewCreateInternalEvent')
 
 The new [LayerViewCreateEvent](dymaptic.GeoBlazor.Core.Events.LayerViewCreateEvent.html 'dymaptic.GeoBlazor.Core.Events.LayerViewCreateEvent')
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptLayerViewCreateChunk(string,string,int)'></a>
+
+## MapView.OnJavascriptLayerViewCreateChunk(string, string, int) Method
+
+JS-Invokable method for internal use only.
+
+```csharp
+public void OnJavascriptLayerViewCreateChunk(string layerUid, string chunk, int chunkIndex);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptLayerViewCreateChunk(string,string,int).layerUid'></a>
+
+`layerUid` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptLayerViewCreateChunk(string,string,int).chunk'></a>
+
+`chunk` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptLayerViewCreateChunk(string,string,int).chunkIndex'></a>
+
+`chunkIndex` [System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptLayerViewCreateComplete(System.Nullable_System.Guid_,string,Microsoft.JSInterop.IJSObjectReference,Microsoft.JSInterop.IJSObjectReference)'></a>
+
+## MapView.OnJavascriptLayerViewCreateComplete(Nullable<Guid>, string, IJSObjectReference, IJSObjectReference) Method
+
+JS-Invokable method for internal use only.
+
+```csharp
+public System.Threading.Tasks.Task OnJavascriptLayerViewCreateComplete(System.Nullable<System.Guid> geoBlazorLayerId, string layerUid, Microsoft.JSInterop.IJSObjectReference layerRef, Microsoft.JSInterop.IJSObjectReference layerViewRef);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptLayerViewCreateComplete(System.Nullable_System.Guid_,string,Microsoft.JSInterop.IJSObjectReference,Microsoft.JSInterop.IJSObjectReference).geoBlazorLayerId'></a>
+
+`geoBlazorLayerId` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Guid](https://docs.microsoft.com/en-us/dotnet/api/System.Guid 'System.Guid')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptLayerViewCreateComplete(System.Nullable_System.Guid_,string,Microsoft.JSInterop.IJSObjectReference,Microsoft.JSInterop.IJSObjectReference).layerUid'></a>
+
+`layerUid` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptLayerViewCreateComplete(System.Nullable_System.Guid_,string,Microsoft.JSInterop.IJSObjectReference,Microsoft.JSInterop.IJSObjectReference).layerRef'></a>
+
+`layerRef` [Microsoft.JSInterop.IJSObjectReference](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.JSInterop.IJSObjectReference 'Microsoft.JSInterop.IJSObjectReference')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptLayerViewCreateComplete(System.Nullable_System.Guid_,string,Microsoft.JSInterop.IJSObjectReference,Microsoft.JSInterop.IJSObjectReference).layerViewRef'></a>
+
+`layerViewRef` [Microsoft.JSInterop.IJSObjectReference](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.JSInterop.IJSObjectReference 'Microsoft.JSInterop.IJSObjectReference')
 
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
@@ -1614,6 +1710,46 @@ The calling, child component to register
 
 [InvalidChildElementException](dymaptic.GeoBlazor.Core.Exceptions.InvalidChildElementException.html 'dymaptic.GeoBlazor.Core.Exceptions.InvalidChildElementException')  
 Throws if the current child is not a valid sub-component to the parent.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.RemoveGraphic(dymaptic.GeoBlazor.Core.Components.Layers.Graphic)'></a>
+
+## MapView.RemoveGraphic(Graphic) Method
+
+Removes a graphic from the current view.
+
+```csharp
+public System.Threading.Tasks.Task RemoveGraphic(dymaptic.GeoBlazor.Core.Components.Layers.Graphic graphic);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.RemoveGraphic(dymaptic.GeoBlazor.Core.Components.Layers.Graphic).graphic'></a>
+
+`graphic` [Graphic](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic')
+
+The [Graphic](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic') to remove.
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.RemoveGraphics(System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Layers.Graphic_)'></a>
+
+## MapView.RemoveGraphics(IEnumerable<Graphic>) Method
+
+Removes a collection of graphics from the current view.
+
+```csharp
+public System.Threading.Tasks.Task RemoveGraphics(System.Collections.Generic.IEnumerable<dymaptic.GeoBlazor.Core.Components.Layers.Graphic> graphics);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.RemoveGraphics(System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Layers.Graphic_).graphics'></a>
+
+`graphics` [System.Collections.Generic.IEnumerable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IEnumerable-1 'System.Collections.Generic.IEnumerable`1')[Graphic](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IEnumerable-1 'System.Collections.Generic.IEnumerable`1')
+
+The [Graphic](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic')s to remove.
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.ShowPopup(dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate,dymaptic.GeoBlazor.Core.Components.Geometries.Point)'></a>
 

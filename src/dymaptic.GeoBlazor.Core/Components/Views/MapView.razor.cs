@@ -648,8 +648,11 @@ public partial class MapView : MapComponent
     [Parameter]
     public EventCallback<MouseWheelEvent> OnMouseWheel { get; set; }
 
+    /// <summary>
+    ///    JS-Invokable method for internal use only.
+    /// </summary>
     [JSInvokable]
-    public async Task OnJavascriptLayerCreateChunk(string layerUid, string chunk, int chunkIndex)
+    public void OnJavascriptLayerCreateChunk(string layerUid, string chunk, int chunkIndex)
     {
         if (chunkIndex == 0)
         {
@@ -661,8 +664,11 @@ public partial class MapView : MapComponent
         }
     }
 
+    /// <summary>
+    ///    JS-Invokable method for internal use only.
+    /// </summary>
     [JSInvokable]
-    public async Task OnJavascriptLayerViewCreateChunk(string layerUid, string chunk, int chunkIndex)
+    public void OnJavascriptLayerViewCreateChunk(string layerUid, string chunk, int chunkIndex)
     {
         if (chunkIndex == 0)
         {
@@ -674,6 +680,9 @@ public partial class MapView : MapComponent
         }
     }
     
+    /// <summary>
+    ///    JS-Invokable method for internal use only.
+    /// </summary>
     [JSInvokable]
     public async Task OnJavascriptLayerViewCreateComplete(Guid? geoBlazorLayerId, string layerUid, 
         IJSObjectReference layerRef, IJSObjectReference layerViewRef)
@@ -1213,6 +1222,12 @@ public partial class MapView : MapComponent
             serviceAreaUrl, driveTimeCutOffs, serviceAreaSymbol, Id);
     }
 
+    /// <summary>
+    ///     Removes a graphic from the current view.
+    /// </summary>
+    /// <param name="graphic">
+    ///     The <see cref="Graphic"/> to remove.
+    /// </param>
     public async Task RemoveGraphic(Graphic graphic)
     {
         Graphics.Remove(graphic);
@@ -1221,6 +1236,12 @@ public partial class MapView : MapComponent
         await ViewJsModule!.InvokeVoidAsync("removeGraphic", graphic, Id);
     }
     
+    /// <summary>
+    ///     Removes a collection of graphics from the current view.
+    /// </summary>
+    /// <param name="graphics">
+    ///     The <see cref="Graphic"/>s to remove.
+    /// </param>
     public async Task RemoveGraphics(IEnumerable<Graphic> graphics)
     {
         foreach (Graphic graphic in graphics)
@@ -1272,6 +1293,19 @@ public partial class MapView : MapComponent
         if (ViewJsModule is null) return;
 
         await ViewJsModule!.InvokeVoidAsync("goToExtent", extent, Id);
+    }
+
+    /// <summary>
+    ///     Changes the view <see cref="Extent"/> and redraws.
+    /// </summary>
+    /// <param name="graphics">
+    ///     The <see cref="Graphic"/>s to zoom to.
+    /// </param>
+    public async Task GoTo(IEnumerable<Graphic> graphics)
+    {
+        if (ViewJsModule is null) return;
+        
+        await ViewJsModule!.InvokeVoidAsync("goToGraphics", graphics, Id);
     }
     
     /// <summary>

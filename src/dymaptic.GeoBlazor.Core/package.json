@@ -1,6 +1,6 @@
 {
   "name": "dymaptic.GeoBlazor.Core",
-  "version": "1.2.1",
+  "version": "2.0.0",
   "description": "https://www.geoblazor.com",
   "main": "arcGisInterop.js",
   "scripts": {
@@ -13,9 +13,9 @@
   "license": "ISC",
   "dependencies": {
     "@arcgis/core": "^4.25.0",
-    "esbuild": "^0.17.0"
+    "esbuild": "^0.17.5"
   },
   "devDependencies": {
-    "@types/node": "^18.7.9"
+    "@types/node": "^18.11.18"
   }
 }

@@ -374,8 +374,6 @@ internal class MediaInfoConverter : JsonConverter<MediaInfo>
         // check the type property and deserialize to the correct type
         var jsonDoc = JsonDocument.ParseValue(ref reader);
         var type = jsonDoc.RootElement.GetProperty("type").GetString();
-        
-        MediaInfo? info = null;
 
         switch (type)
         {

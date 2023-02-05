@@ -59,6 +59,7 @@ public class Polygon : Geometry, IEquatable<Polygon>
 
     private MapPath[] _rings = Array.Empty<MapPath>();
 
+    /// <inheritdoc />
     public bool Equals(Polygon? other)
     {
         if (ReferenceEquals(null, other)) return false;
@@ -67,6 +68,7 @@ public class Polygon : Geometry, IEquatable<Polygon>
         return _rings.Equals(other._rings);
     }
 
+    /// <inheritdoc />
     public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
@@ -76,16 +78,23 @@ public class Polygon : Geometry, IEquatable<Polygon>
         return Equals((Polygon)obj);
     }
 
+    /// <inheritdoc />
     public override int GetHashCode()
     {
         return _rings.GetHashCode();
     }
 
+    /// <summary>
+    ///    Override equality operator
+    /// </summary>
     public static bool operator ==(Polygon? left, Polygon? right)
     {
         return Equals(left, right);
     }
 
+    /// <summary>
+    ///   Override inequality operator
+    /// </summary>
     public static bool operator !=(Polygon? left, Polygon? right)
     {
         return !Equals(left, right);

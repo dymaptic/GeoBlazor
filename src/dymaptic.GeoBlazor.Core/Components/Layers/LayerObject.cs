@@ -16,11 +16,20 @@ public abstract class LayerObject : MapComponent
     [JsonInclude]
     public Symbol? Symbol { get; protected set; }
     
+    /// <summary>
+    ///    Gets the current <see cref="Symbol"/> for the object.
+    /// </summary>
     public virtual async Task<Symbol?> GetSymbol()
     {
         return await Task.Run(() => Symbol);
     }
 
+    /// <summary>
+    ///    Sets the <see cref="Symbol"/> for the object.
+    /// </summary>
+    /// <param name="symbol">
+    ///     The <see cref="Symbol"/> for the object.
+    /// </param>
     public async Task SetSymbol(Symbol symbol)
     {
         await RegisterChildComponent(symbol);

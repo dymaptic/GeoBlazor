@@ -1,0 +1,93 @@
+﻿@page "/graphic-tracking"
+<PageTitle>Graphic Tracking</PageTitle>
+
+<h1>Graphic Tracking</h1>
+<div class="links-div">
+    <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Graphic.html">ArcGIS API for JavaScript</a>
+    <a class="btn btn-primary" target="_blank" href="https://www.arcgis.com/home/item.html?id=d582a9e953c44c09bb998c7d9b66f8d4">Charted Territory BaseMap</a>
+</div>
+<p class="instructions">
+    Some applications require real-time updates of graphics on a map. This sample renders ten points with a random offset, 
+    which updates quickly in a loop. Use the buttons to start, stop, reset, and center the view on the points.
+</p>
+
+<button disabled="@(!_mapRendered)" @onclick="ToggleMovement">@(_mapRendered ? _isMoving ? "Stop" : "Start" : "Wait...")</button>
+<button @onclick="ResetGraphics">Reset</button>
+<button @onclick="CenterView">Center</button>
+<MapView @ref="_view" Class="map-view" Latitude="_lat" Longitude="_lon" Zoom="13" OnMapRendered="OnMapRendered">
+    <Map>
+        <Basemap>
+            <PortalItem Id="d582a9e953c44c09bb998c7d9b66f8d4" />
+        </Basemap>
+        <GraphicsLayer @ref="_graphicsLayer" />
+    </Map>
+</MapView>
+@code
+{
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await SetGraphics();
+        }
+    }
+
+    private void OnMapRendered()
+    {
+        _mapRendered = true;
+    }
+
+    private async Task SetGraphics()
+    {
+        for (var i = 1; i < 11; i++)
+        {
+            Dictionary<string, object> attributes = new Dictionary<string, object> { { i.ToString(), i } };
+            Graphic graphic = new Graphic(
+                new Point(_lat + _random.NextDouble() / 100, 
+                    _lon + _random.NextDouble() / 100), 
+                attributes: attributes);
+            await _graphicsLayer!.Add(graphic);
+        }
+    }
+
+    private async Task ToggleMovement()
+    {
+        _isMoving = !_isMoving;
+        while (_isMoving)
+        {
+            Graphic? graphic = _graphicsLayer!.Graphics
+                .FirstOrDefault(x => x.Attributes.ContainsKey(_index.ToString()));
+            if (graphic is null) continue;
+            Point currentPoint = (Point)graphic.Geometry!;
+            await graphic.SetGeometry(
+                new Point(currentPoint.Latitude + (_random.NextDouble() - 0.5) / 100, 
+                    currentPoint.Longitude + (_random.NextDouble() - 0.5) / 100));
+
+            _index += 1;
+            if (_index > _graphicsLayer!.Graphics.Count)
+            {
+                _index = 1;
+            }
+        }
+    }
+
+    private async Task ResetGraphics()
+    {
+        await _graphicsLayer!.Clear();
+        await SetGraphics();
+    }
+
+    private async Task CenterView()
+    {
+        await _view!.GoTo(_graphicsLayer!.Graphics);
+    }
+    
+    private int _index = 1;
+    private bool _isMoving;
+    private bool _mapRendered;
+    private MapView? _view;
+    private GraphicsLayer? _graphicsLayer;
+    private readonly Random _random = new();
+    private readonly double _lat = 22.405950;
+    private readonly double _lon = 79.220341;
+}

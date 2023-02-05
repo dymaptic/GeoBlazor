@@ -52,7 +52,7 @@ internal class SortOrderConverter : EnumToKebabCaseStringConverter<SortOrder>
     {
         string? value = reader.GetString();
 
-        if (value.Contains("desc", StringComparison.OrdinalIgnoreCase))
+        if (value is not null && value.Contains("desc", StringComparison.OrdinalIgnoreCase))
         {
             return SortOrder.Descending;
         }

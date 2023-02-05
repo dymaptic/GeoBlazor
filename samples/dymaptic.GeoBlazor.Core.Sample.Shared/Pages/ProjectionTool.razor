@@ -185,11 +185,11 @@ else
     private async Task Project()
     {
         _allRendered = true;
-        Geometry renderedPoint = await _graphic1!.GetGeometry();
-        Point? startPoint= await Projection.Project(renderedPoint, _view1SpatialReference!) as Point;
+        Geometry? renderedPoint = await _graphic1!.GetGeometry();
+        Point? startPoint= await Projection.Project(renderedPoint!, _view1SpatialReference!) as Point;
         _startX = startPoint!.X;
         _startY = startPoint.Y;
-        Point? endPoint = await Projection.Project(renderedPoint, _view2SpatialReference!) as Point;
+        Point? endPoint = await Projection.Project(renderedPoint!, _view2SpatialReference!) as Point;
         _endX = endPoint!.X;
         _endY = endPoint.Y;
         Extent? view1Extent = await _view1!.GetExtent();

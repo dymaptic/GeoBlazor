@@ -164,7 +164,7 @@ public abstract class Layer : MapComponent
     /// <param name="renderedLayer">
     ///     The layer deserialized from JavaScript
     /// </param>
-    public virtual void UpdateFromJavaScript(Layer renderedLayer)
+    internal virtual void UpdateFromJavaScript(Layer renderedLayer)
     {
         if (renderedLayer.FullExtent is not null)
         {

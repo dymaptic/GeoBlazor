@@ -64,6 +64,41 @@ public string? LabelPlacement { get; set; }
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 ### Methods
 
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.Label.Equals(object)'></a>
+
+## Label.Equals(object) Method
+
+Determines whether the specified object is equal to the current object.
+
+```csharp
+public override bool Equals(object? obj);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.Label.Equals(object).obj'></a>
+
+`obj` [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object')
+
+The object to compare with the current object.
+
+#### Returns
+[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')  
+[true](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool') if the specified object  is equal to the current object; otherwise, [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool').
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.Label.GetHashCode()'></a>
+
+## Label.GetHashCode() Method
+
+Serves as the default hash function.
+
+```csharp
+public override int GetHashCode();
+```
+
+#### Returns
+[System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')  
+A hash code for the current object.
+
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.Label.RegisterChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent)'></a>
 
 ## Label.RegisterChildComponent(MapComponent) Method
@@ -126,3 +161,48 @@ The consumer needs to provide the missing child component
 
 [MissingRequiredOptionsChildElementException](dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException.html 'dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException')  
 The consumer needs to provide ONE of the options of child components
+### Operators
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.Label.op_Equality(dymaptic.GeoBlazor.Core.Components.Layers.Label,dymaptic.GeoBlazor.Core.Components.Layers.Label)'></a>
+
+## Label.operator ==(Label, Label) Operator
+
+Compares two [Label](dymaptic.GeoBlazor.Core.Components.Layers.Label.html 'dymaptic.GeoBlazor.Core.Components.Layers.Label')s for equality.
+
+```csharp
+public static bool operator ==(dymaptic.GeoBlazor.Core.Components.Layers.Label? left, dymaptic.GeoBlazor.Core.Components.Layers.Label? right);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.Label.op_Equality(dymaptic.GeoBlazor.Core.Components.Layers.Label,dymaptic.GeoBlazor.Core.Components.Layers.Label).left'></a>
+
+`left` [Label](dymaptic.GeoBlazor.Core.Components.Layers.Label.html 'dymaptic.GeoBlazor.Core.Components.Layers.Label')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.Label.op_Equality(dymaptic.GeoBlazor.Core.Components.Layers.Label,dymaptic.GeoBlazor.Core.Components.Layers.Label).right'></a>
+
+`right` [Label](dymaptic.GeoBlazor.Core.Components.Layers.Label.html 'dymaptic.GeoBlazor.Core.Components.Layers.Label')
+
+#### Returns
+[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.Label.op_Inequality(dymaptic.GeoBlazor.Core.Components.Layers.Label,dymaptic.GeoBlazor.Core.Components.Layers.Label)'></a>
+
+## Label.operator !=(Label, Label) Operator
+
+Compares two [Label](dymaptic.GeoBlazor.Core.Components.Layers.Label.html 'dymaptic.GeoBlazor.Core.Components.Layers.Label')s for inequality.
+
+```csharp
+public static bool operator !=(dymaptic.GeoBlazor.Core.Components.Layers.Label? left, dymaptic.GeoBlazor.Core.Components.Layers.Label? right);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.Label.op_Inequality(dymaptic.GeoBlazor.Core.Components.Layers.Label,dymaptic.GeoBlazor.Core.Components.Layers.Label).left'></a>
+
+`left` [Label](dymaptic.GeoBlazor.Core.Components.Layers.Label.html 'dymaptic.GeoBlazor.Core.Components.Layers.Label')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.Label.op_Inequality(dymaptic.GeoBlazor.Core.Components.Layers.Label,dymaptic.GeoBlazor.Core.Components.Layers.Label).right'></a>
+
+`right` [Label](dymaptic.GeoBlazor.Core.Components.Layers.Label.html 'dymaptic.GeoBlazor.Core.Components.Layers.Label')
+
+#### Returns
+[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')

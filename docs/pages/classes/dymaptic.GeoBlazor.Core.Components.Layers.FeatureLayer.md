@@ -701,23 +701,6 @@ public override System.Threading.Tasks.Task UpdateComponent();
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
 
-<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.UpdateFromJavaScript(dymaptic.GeoBlazor.Core.Components.Layers.Layer)'></a>
-
-## FeatureLayer.UpdateFromJavaScript(Layer) Method
-
-Copies values from the rendered JavaScript layer back to the .NET implementation.
-
-```csharp
-public override void UpdateFromJavaScript(dymaptic.GeoBlazor.Core.Components.Layers.Layer renderedLayer);
-```
-#### Parameters
-
-<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.UpdateFromJavaScript(dymaptic.GeoBlazor.Core.Components.Layers.Layer).renderedLayer'></a>
-
-`renderedLayer` [Layer](dymaptic.GeoBlazor.Core.Components.Layers.Layer.html 'dymaptic.GeoBlazor.Core.Components.Layers.Layer')
-
-The layer deserialized from JavaScript
-
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.ValidateRequiredChildren()'></a>
 
 ## FeatureLayer.ValidateRequiredChildren() Method

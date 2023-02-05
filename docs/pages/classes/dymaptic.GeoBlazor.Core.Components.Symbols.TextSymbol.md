@@ -12,10 +12,13 @@ Text symbols are used to define the graphic for displaying labels on a FeatureLa
 <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-TextSymbol.html">ArcGIS JS API</a>
 
 ```csharp
-public class TextSymbol : dymaptic.GeoBlazor.Core.Components.Symbols.Symbol
+public class TextSymbol : dymaptic.GeoBlazor.Core.Components.Symbols.Symbol,
+System.IEquatable<dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol>
 ```
 
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [Microsoft.AspNetCore.Components.ComponentBase](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.ComponentBase 'Microsoft.AspNetCore.Components.ComponentBase') &#129106; [MapComponent](dymaptic.GeoBlazor.Core.Components.MapComponent.html 'dymaptic.GeoBlazor.Core.Components.MapComponent') &#129106; [Symbol](dymaptic.GeoBlazor.Core.Components.Symbols.Symbol.html 'dymaptic.GeoBlazor.Core.Components.Symbols.Symbol') &#129106; TextSymbol
+
+Implements [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.IEquatable-1 'System.IEquatable`1')[TextSymbol](dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol.html 'dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.IEquatable-1 'System.IEquatable`1')
 ### Properties
 
 <a name='dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol.Font'></a>
@@ -84,6 +87,41 @@ public override string Type { get; }
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 ### Methods
 
+<a name='dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol.Equals(object)'></a>
+
+## TextSymbol.Equals(object) Method
+
+Determines whether the specified object is equal to the current object.
+
+```csharp
+public override bool Equals(object? obj);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol.Equals(object).obj'></a>
+
+`obj` [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object')
+
+The object to compare with the current object.
+
+#### Returns
+[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')  
+[true](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool') if the specified object  is equal to the current object; otherwise, [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool').
+
+<a name='dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol.GetHashCode()'></a>
+
+## TextSymbol.GetHashCode() Method
+
+Serves as the default hash function.
+
+```csharp
+public override int GetHashCode();
+```
+
+#### Returns
+[System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')  
+A hash code for the current object.
+
 <a name='dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol.RegisterChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent)'></a>
 
 ## TextSymbol.RegisterChildComponent(MapComponent) Method
@@ -146,3 +184,48 @@ The consumer needs to provide the missing child component
 
 [MissingRequiredOptionsChildElementException](dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException.html 'dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException')  
 The consumer needs to provide ONE of the options of child components
+### Operators
+
+<a name='dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol.op_Equality(dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol,dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol)'></a>
+
+## TextSymbol.operator ==(TextSymbol, TextSymbol) Operator
+
+Compares two [TextSymbol](dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol.html 'dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol') objects for equality.
+
+```csharp
+public static bool operator ==(dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol? left, dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol? right);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol.op_Equality(dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol,dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol).left'></a>
+
+`left` [TextSymbol](dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol.html 'dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol.op_Equality(dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol,dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol).right'></a>
+
+`right` [TextSymbol](dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol.html 'dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol')
+
+#### Returns
+[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol.op_Inequality(dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol,dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol)'></a>
+
+## TextSymbol.operator !=(TextSymbol, TextSymbol) Operator
+
+Compares two [TextSymbol](dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol.html 'dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol') objects for inequality.
+
+```csharp
+public static bool operator !=(dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol? left, dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol? right);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol.op_Inequality(dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol,dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol).left'></a>
+
+`left` [TextSymbol](dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol.html 'dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol.op_Inequality(dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol,dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol).right'></a>
+
+`right` [TextSymbol](dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol.html 'dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol')
+
+#### Returns
+[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')

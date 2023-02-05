@@ -103,7 +103,7 @@ public enum Role
     Destination
 }
 
-internal class EnumRelConverter<T> : EnumToKebabCaseStringConverter<T>
+internal class EnumRelConverter<T> : EnumToKebabCaseStringConverter<T> where T : notnull
 {
     public override T Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {

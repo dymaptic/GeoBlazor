@@ -75,13 +75,24 @@ public class GraphicsLayer : Layer
         }
     }
 
+    /// <summary>
+    ///    Removes all graphics from the current layer
+    /// </summary>
+    public async Task Clear()
+    {
+        foreach (Graphic graphic in _graphics)
+        {
+            await UnregisterChildComponent(graphic);
+        }
+    }
+
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
     {
         switch (child)
         {
             case Graphic graphic:
-                if (!Graphics.Contains(graphic))
+                if (!_graphics.Any(g => g.Equals(graphic)))
                 {
                     graphic.View ??= View;
                     graphic.JsModule ??= JsModule;
@@ -108,14 +119,9 @@ public class GraphicsLayer : Layer
         switch (child)
         {
             case Graphic graphic:
-                if (Graphics.Contains(graphic))
+                if (_graphics.Remove(graphic) && JsLayerReference is not null)
                 {
-                    _graphics.Remove(graphic);
-
-                    if (JsLayerReference is not null)
-                    {
-                        await JsLayerReference.InvokeVoidAsync("remove", graphic);
-                    }
+                    await JsLayerReference.InvokeVoidAsync("remove", graphic);
                 }
 
                 break;
@@ -137,7 +143,7 @@ public class GraphicsLayer : Layer
         }
     }
     
-    public override void UpdateFromJavaScript(Layer renderedLayer)
+    internal override void UpdateFromJavaScript(Layer renderedLayer)
     {
         base.UpdateFromJavaScript(renderedLayer);
         GraphicsLayer renderedGraphicsLayer = (GraphicsLayer)renderedLayer;
@@ -146,7 +152,10 @@ public class GraphicsLayer : Layer
         {
             foreach (Graphic graphic in renderedGraphicsLayer.Graphics)
             {
-                _graphics.Add(graphic);
+                if (!_graphics.Any(g => g.Equals(graphic)))
+                {
+                    _graphics.Add(graphic);
+                }
             }
         }
     }

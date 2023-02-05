@@ -11,12 +11,27 @@ namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 ///     SimpleFillSymbol is used for rendering 2D polygons in either a MapView or a SceneView. It can be filled with a solid color, or a pattern. In addition, the symbol can have an optional outline, which is defined by a SimpleLineSymbol.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleFillSymbol.html">ArcGIS JS API</a>
 /// </summary>
-public class SimpleFillSymbol : FillSymbol
+public class SimpleFillSymbol : FillSymbol, IEquatable<SimpleFillSymbol>
 {
+    /// <summary>
+    ///    Parameterless constructor for using as a razor component
+    /// </summary>
     public SimpleFillSymbol()
     {
     }
 
+    /// <summary>
+    ///    Constructs a new SimpleFillSymbol in code with parameters
+    /// </summary>
+    /// <param name="outline">
+    ///    The outline of the polygon.
+    /// </param>
+    /// <param name="color">
+    ///     The color of the polygon.
+    /// </param>
+    /// <param name="fillStyle">
+    ///     The fill style.
+    /// </param>
     public SimpleFillSymbol(Outline? outline = null, MapColor? color = null, FillStyle? fillStyle = null)
     {
         Outline = outline;
@@ -82,6 +97,47 @@ public class SimpleFillSymbol : FillSymbol
     {
         base.ValidateRequiredChildren();
         Outline?.ValidateRequiredChildren();
+    }
+
+    /// <inheritdoc />
+    public bool Equals(SimpleFillSymbol? other)
+    {
+        if (ReferenceEquals(null, other)) return false;
+        if (ReferenceEquals(this, other)) return true;
+
+        return Equals(Outline, other.Outline) && FillStyle == other.FillStyle && Color == other.Color;
+    }
+
+    /// <inheritdoc />
+    public override bool Equals(object? obj)
+    {
+        if (ReferenceEquals(null, obj)) return false;
+        if (ReferenceEquals(this, obj)) return true;
+        if (obj.GetType() != this.GetType()) return false;
+
+        return Equals((SimpleFillSymbol)obj);
+    }
+
+    /// <inheritdoc />
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Outline, FillStyle, Color);
+    }
+
+    /// <summary>
+    ///     Compares two <see cref="SimpleFillSymbol"/>s for equality
+    /// </summary>
+    public static bool operator ==(SimpleFillSymbol? left, SimpleFillSymbol? right)
+    {
+        return Equals(left, right);
+    }
+
+    /// <summary>
+    ///     Compares two <see cref="SimpleFillSymbol"/>s for inequality
+    /// </summary>
+    public static bool operator !=(SimpleFillSymbol? left, SimpleFillSymbol? right)
+    {
+        return !Equals(left, right);
     }
 }
 

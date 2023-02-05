@@ -218,7 +218,7 @@ public class FeatureLayer : Layer
     }
 
     /// <inheritdoc />
-    public override void UpdateFromJavaScript(Layer renderedLayer)
+    internal override void UpdateFromJavaScript(Layer renderedLayer)
     {
         base.UpdateFromJavaScript(renderedLayer);
         FeatureLayer renderedFeatureLayer = (FeatureLayer)renderedLayer;
@@ -233,7 +233,7 @@ public class FeatureLayer : Layer
             {
                 foreach (Graphic graphic in renderedFeatureLayer.Source)
                 {
-                    Graphic? existingGraphic = Source.FirstOrDefault(g => g.Id == graphic.Id);
+                    Graphic? existingGraphic = Source.FirstOrDefault(g => g.Equals(graphic));
 
                     if (existingGraphic is null)
                     {

@@ -12,10 +12,59 @@ SimpleMarkerSymbol is used for rendering 2D Point geometries with a simple shape
 <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleMarkerSymbol.html">ArcGIS JS API</a>
 
 ```csharp
-public class SimpleMarkerSymbol : dymaptic.GeoBlazor.Core.Components.Symbols.MarkerSymbol
+public class SimpleMarkerSymbol : dymaptic.GeoBlazor.Core.Components.Symbols.MarkerSymbol,
+System.IEquatable<dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol>
 ```
 
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [Microsoft.AspNetCore.Components.ComponentBase](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.ComponentBase 'Microsoft.AspNetCore.Components.ComponentBase') &#129106; [MapComponent](dymaptic.GeoBlazor.Core.Components.MapComponent.html 'dymaptic.GeoBlazor.Core.Components.MapComponent') &#129106; [Symbol](dymaptic.GeoBlazor.Core.Components.Symbols.Symbol.html 'dymaptic.GeoBlazor.Core.Components.Symbols.Symbol') &#129106; [MarkerSymbol](dymaptic.GeoBlazor.Core.Components.Symbols.MarkerSymbol.html 'dymaptic.GeoBlazor.Core.Components.Symbols.MarkerSymbol') &#129106; SimpleMarkerSymbol
+
+Implements [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.IEquatable-1 'System.IEquatable`1')[SimpleMarkerSymbol](dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol.html 'dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.IEquatable-1 'System.IEquatable`1')
+### Constructors
+
+<a name='dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol.SimpleMarkerSymbol()'></a>
+
+## SimpleMarkerSymbol() Constructor
+
+Parameterless constructor for using as a razor component
+
+```csharp
+public SimpleMarkerSymbol();
+```
+
+<a name='dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol.SimpleMarkerSymbol(dymaptic.GeoBlazor.Core.Components.Symbols.Outline,dymaptic.GeoBlazor.Core.Objects.MapColor,System.Nullable_double_,string)'></a>
+
+## SimpleMarkerSymbol(Outline, MapColor, Nullable<double>, string) Constructor
+
+Constructs a new SimpleMarkerSymbol in code with parameters
+
+```csharp
+public SimpleMarkerSymbol(dymaptic.GeoBlazor.Core.Components.Symbols.Outline? outline=null, dymaptic.GeoBlazor.Core.Objects.MapColor? color=null, System.Nullable<double> size=null, string? style=null);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol.SimpleMarkerSymbol(dymaptic.GeoBlazor.Core.Components.Symbols.Outline,dymaptic.GeoBlazor.Core.Objects.MapColor,System.Nullable_double_,string).outline'></a>
+
+`outline` [Outline](dymaptic.GeoBlazor.Core.Components.Symbols.Outline.html 'dymaptic.GeoBlazor.Core.Components.Symbols.Outline')
+
+The outline of the marker symbol.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol.SimpleMarkerSymbol(dymaptic.GeoBlazor.Core.Components.Symbols.Outline,dymaptic.GeoBlazor.Core.Objects.MapColor,System.Nullable_double_,string).color'></a>
+
+`color` [MapColor](dymaptic.GeoBlazor.Core.Objects.MapColor.html 'dymaptic.GeoBlazor.Core.Objects.MapColor')
+
+The color of the marker symbol.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol.SimpleMarkerSymbol(dymaptic.GeoBlazor.Core.Components.Symbols.Outline,dymaptic.GeoBlazor.Core.Objects.MapColor,System.Nullable_double_,string).size'></a>
+
+`size` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
+
+The size of the marker in points.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol.SimpleMarkerSymbol(dymaptic.GeoBlazor.Core.Components.Symbols.Outline,dymaptic.GeoBlazor.Core.Objects.MapColor,System.Nullable_double_,string).style'></a>
+
+`style` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+The marker style.
 ### Properties
 
 <a name='dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol.Outline'></a>
@@ -70,6 +119,41 @@ public override string Type { get; }
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 ### Methods
+
+<a name='dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol.Equals(object)'></a>
+
+## SimpleMarkerSymbol.Equals(object) Method
+
+Determines whether the specified object is equal to the current object.
+
+```csharp
+public override bool Equals(object? obj);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol.Equals(object).obj'></a>
+
+`obj` [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object')
+
+The object to compare with the current object.
+
+#### Returns
+[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')  
+[true](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool') if the specified object  is equal to the current object; otherwise, [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool').
+
+<a name='dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol.GetHashCode()'></a>
+
+## SimpleMarkerSymbol.GetHashCode() Method
+
+Serves as the default hash function.
+
+```csharp
+public override int GetHashCode();
+```
+
+#### Returns
+[System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')  
+A hash code for the current object.
 
 <a name='dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol.RegisterChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent)'></a>
 
@@ -133,3 +217,48 @@ The consumer needs to provide the missing child component
 
 [MissingRequiredOptionsChildElementException](dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException.html 'dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException')  
 The consumer needs to provide ONE of the options of child components
+### Operators
+
+<a name='dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol.op_Equality(dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol,dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol)'></a>
+
+## SimpleMarkerSymbol.operator ==(SimpleMarkerSymbol, SimpleMarkerSymbol) Operator
+
+Compares two SimpleMarkerSymbol objects for equality
+
+```csharp
+public static bool operator ==(dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol? left, dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol? right);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol.op_Equality(dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol,dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol).left'></a>
+
+`left` [SimpleMarkerSymbol](dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol.html 'dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol.op_Equality(dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol,dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol).right'></a>
+
+`right` [SimpleMarkerSymbol](dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol.html 'dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol')
+
+#### Returns
+[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol.op_Inequality(dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol,dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol)'></a>
+
+## SimpleMarkerSymbol.operator !=(SimpleMarkerSymbol, SimpleMarkerSymbol) Operator
+
+Compares two SimpleMarkerSymbol objects for inequality
+
+```csharp
+public static bool operator !=(dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol? left, dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol? right);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol.op_Inequality(dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol,dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol).left'></a>
+
+`left` [SimpleMarkerSymbol](dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol.html 'dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol.op_Inequality(dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol,dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol).right'></a>
+
+`right` [SimpleMarkerSymbol](dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol.html 'dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol')
+
+#### Returns
+[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')

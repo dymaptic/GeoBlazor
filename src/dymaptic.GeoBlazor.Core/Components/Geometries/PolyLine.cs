@@ -59,6 +59,7 @@ public class PolyLine : Geometry, IEquatable<PolyLine>
     public override string Type => "polyline";
     private MapPath[] _paths = Array.Empty<MapPath>();
 
+    /// <inheritdoc />
     public bool Equals(PolyLine? other)
     {
         if (ReferenceEquals(null, other)) return false;
@@ -67,6 +68,7 @@ public class PolyLine : Geometry, IEquatable<PolyLine>
         return _paths.Equals(other._paths);
     }
 
+    /// <inheritdoc />
     public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
@@ -76,16 +78,23 @@ public class PolyLine : Geometry, IEquatable<PolyLine>
         return Equals((PolyLine)obj);
     }
 
+    /// <inheritdoc />
     public override int GetHashCode()
     {
         return _paths.GetHashCode();
     }
 
+    /// <summary>
+    ///    Compares two <see cref="PolyLine"/> objects for equality
+    /// </summary>
     public static bool operator ==(PolyLine? left, PolyLine? right)
     {
         return Equals(left, right);
     }
 
+    /// <summary>
+    ///     Compares two <see cref="PolyLine"/> objects for inequality
+    /// </summary>
     public static bool operator !=(PolyLine? left, PolyLine? right)
     {
         return !Equals(left, right);

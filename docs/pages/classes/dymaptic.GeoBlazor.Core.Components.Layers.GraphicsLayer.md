@@ -87,6 +87,19 @@ The graphics to add
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
 
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer.Clear()'></a>
+
+## GraphicsLayer.Clear() Method
+
+Removes all graphics from the current layer
+
+```csharp
+public System.Threading.Tasks.Task Clear();
+```
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer.RegisterChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent)'></a>
 
 ## GraphicsLayer.RegisterChildComponent(MapComponent) Method

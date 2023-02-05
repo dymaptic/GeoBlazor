@@ -72,11 +72,13 @@ public class Label : LayerObject, IEquatable<Label>
         LabelExpressionInfo?.ValidateRequiredChildren();
     }
 
+    /// <inheritdoc />
     public bool Equals(Label? other)
     {
         return other?.Id == Id;
     }
 
+    /// <inheritdoc />
     public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
@@ -86,16 +88,23 @@ public class Label : LayerObject, IEquatable<Label>
         return Equals((Label)obj);
     }
 
+    /// <inheritdoc />
     public override int GetHashCode()
     {
         return Id.GetHashCode();
     }
 
+    /// <summary>
+    ///     Compares two <see cref="Label" />s for equality.
+    /// </summary>
     public static bool operator ==(Label? left, Label? right)
     {
         return Equals(left, right);
     }
 
+    /// <summary>
+    ///     Compares two <see cref="Label" />s for inequality.
+    /// </summary>
     public static bool operator !=(Label? left, Label? right)
     {
         return !Equals(left, right);

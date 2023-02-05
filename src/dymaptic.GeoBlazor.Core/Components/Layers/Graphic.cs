@@ -30,6 +30,9 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     /// <param name="geometry">
     ///     The geometry that defines the graphic's location.
     /// </param>
+    /// <param name="symbol">
+    ///     The <see cref="Symbol"/> for the object.
+    /// </param>
     /// <param name="popupTemplate">
     ///     The <see cref="PopupTemplate"/> for displaying content in a Popup when the graphic is selected.
     /// </param>
@@ -65,6 +68,9 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     /// <summary>
     ///     The geometry that defines the graphic's location.
     /// </summary>
+    /// <remarks>
+    ///     To retrieve a current geometry for a graphic, use <see cref="GetGeometry"/> instead of calling this Property directly.
+    /// </remarks>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public Geometry? Geometry { get; private set; }
@@ -73,6 +79,9 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     /// <summary>
     ///     The <see cref="PopupTemplate"/> for displaying content in a Popup when the graphic is selected.
     /// </summary>
+    /// <remarks>
+    ///     To retrieve a current popup template for a graphic, use <see cref="GetPopupTemplate"/> instead of calling this Property directly.
+    /// </remarks>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public PopupTemplate? PopupTemplate { get; private set; }
@@ -85,7 +94,7 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     /// <summary>
     ///     Retrieves the <see cref="Geometry"/> from the rendered graphic.
     /// </summary>
-    public async Task<Geometry> GetGeometry()
+    public async Task<Geometry?> GetGeometry()
     {
         if (_jsObjectReference is not null)
         {
@@ -94,12 +103,19 @@ public class Graphic : LayerObject, IEquatable<Graphic>
         return Geometry;
     }
 
+    /// <summary>
+    ///    Sets the <see cref="Geometry"/> on the rendered graphic.
+    /// </summary>
+    /// <param name="geometry"></param>
     public async Task SetGeometry(Geometry geometry)
     {
         await RegisterChildComponent(geometry);
     }
     
-    public async Task<PopupTemplate> GetPopupTemplate()
+    /// <summary>
+    ///    Retrieves the <see cref="PopupTemplate"/> from the rendered graphic.
+    /// </summary>
+    public async Task<PopupTemplate?> GetPopupTemplate()
     {
         if (_jsObjectReference is not null)
         {
@@ -108,11 +124,18 @@ public class Graphic : LayerObject, IEquatable<Graphic>
         return PopupTemplate;
     }
     
+    /// <summary>
+    ///   Sets the <see cref="PopupTemplate"/> on the rendered graphic.
+    /// </summary>
+    /// <param name="popupTemplate">
+    ///     The <see cref="PopupTemplate"/> for displaying content in a Popup when the graphic is selected.
+    /// </param>
     public async Task SetPopupTemplate(PopupTemplate popupTemplate)
     {
         await RegisterChildComponent(popupTemplate);
     }
 
+    /// <inheritdoc />
     public override async Task<Symbol?> GetSymbol()
     {
         if (_jsObjectReference is not null)
@@ -123,12 +146,21 @@ public class Graphic : LayerObject, IEquatable<Graphic>
         return Symbol;
     }
 
+    /// <summary>
+    ///   Internally used reference for JavaScript callbacks.
+    /// </summary>
     public DotNetObjectReference<Graphic> DotNetGraphicReference => DotNetObjectReference.Create(this);
 
+    /// <summary>
+    ///    Javascript-invokable internal method.
+    /// </summary>
+    /// <param name="jsObjectReference">
+    ///     The javascript object reference for the rendered graphic.
+    /// </param>
     [JSInvokable]
     public void OnGraphicCreated(IJSObjectReference jsObjectReference)
     {
-        _jsObjectReference = jsObjectReference;
+        _jsObjectReference ??= jsObjectReference;
     }
 
     /// <inheritdoc />
@@ -223,11 +255,18 @@ public class Graphic : LayerObject, IEquatable<Graphic>
 
     private IJSObjectReference? _jsObjectReference = null!;
     private ObservableDictionary<string, object> _attributes = new();
+
+    /// <inheritdoc />
     public bool Equals(Graphic? other)
     {
-        return other?.Id == Id;
+        return other?.Id == Id ||
+            (other is not null &&
+                ((other.Geometry is null && Geometry is null) || other.Geometry?.Equals(Geometry) == true) &&
+                other.Attributes.Equals(Attributes) &&
+                ((other.Symbol is null && Symbol is null) || other.Symbol?.Equals(Symbol) == true));
     }
 
+    /// <inheritdoc />
     public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
@@ -237,18 +276,26 @@ public class Graphic : LayerObject, IEquatable<Graphic>
         return Equals((Graphic)obj);
     }
 
+    /// <inheritdoc />
     public override int GetHashCode()
     {
         return Id.GetHashCode();
     }
 
+    /// <summary>
+    ///    Compares two <see cref="Graphic"/> instances for equality.
+    /// </summary>
     public static bool operator ==(Graphic? left, Graphic? right)
     {
         return Equals(left, right);
     }
 
+    /// <summary>
+    ///     Compares two <see cref="Graphic"/> instances for inequality.
+    /// </summary>
     public static bool operator !=(Graphic? left, Graphic? right)
     {
         return !Equals(left, right);
     }
 }
+

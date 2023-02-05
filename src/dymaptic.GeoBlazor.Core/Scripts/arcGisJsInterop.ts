@@ -1079,6 +1079,18 @@ export async function goToExtent(extent, viewId: string): Promise<void> {
     await view.goTo(extent);
 }
 
+export async function goToGraphics(graphics, viewId: string): Promise<void> {
+    let view = arcGisObjectRefs[viewId] as MapView;
+    let jsGraphics : Graphic[] = [];
+    for (const graphic of graphics) {
+        let jsGraphic = await buildJsGraphic(graphic);
+        if (jsGraphic !== null) {
+            jsGraphics.push(jsGraphic);
+        }
+    }
+    await view.goTo(jsGraphics);
+}
+
 export function getSpatialReference(viewId: string): DotNetSpatialReference | null {
     let view = arcGisObjectRefs[viewId] as MapView;
     return buildDotNetSpatialReference(view?.spatialReference);

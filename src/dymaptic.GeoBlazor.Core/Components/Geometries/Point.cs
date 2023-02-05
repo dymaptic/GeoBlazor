@@ -129,8 +129,8 @@ public class Point : Geometry, IEquatable<Point>
         if (ReferenceEquals(null, other)) return false;
         if (ReferenceEquals(this, other)) return true;
 
-        return Latitude.Equals(other.Latitude) && Longitude.Equals(other.Longitude) &&
-               X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z);
+        return (Latitude.Equals(other.Latitude) && Longitude.Equals(other.Longitude)) ||
+               (X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z));
     }
 
     /// <inheritdoc />
@@ -146,7 +146,7 @@ public class Point : Geometry, IEquatable<Point>
     /// <inheritdoc />
     public override int GetHashCode()
     {
-        return HashCode.Combine(base.GetHashCode(), Latitude, Longitude);
+        return HashCode.Combine(base.GetHashCode(), Latitude, Longitude, X, Y, Z);
     }
 
     private double? _latitude;
