@@ -1083,6 +1083,8 @@ export async function goToGraphics(graphics, viewId: string): Promise<void> {
     let view = arcGisObjectRefs[viewId] as MapView;
     let jsGraphics : Graphic[] = [];
     for (const graphic of graphics) {
+        delete graphic.dotNetGraphicReference;
+        delete graphic.layerId;
         let jsGraphic = await buildJsGraphic(graphic);
         if (jsGraphic !== null) {
             jsGraphics.push(jsGraphic);
@@ -1641,6 +1643,23 @@ export async function createLayer(layerObject: any, wrap?: boolean | null): Prom
     }
     
     return newLayer;
+}
+
+export function removeLayer(layerId: string, viewId: string, isBasemapLayer: boolean): void {
+    try {
+        let layer = arcGisObjectRefs[layerId] as Layer;
+        let view = arcGisObjectRefs[viewId] as MapView;
+        if (isBasemapLayer) {
+            view.map?.basemap.baseLayers.remove(layer);
+        } else {
+            view.map?.remove(layer);
+        }
+        layer.destroy();
+        delete arcGisObjectRefs.layerId;
+    }
+    catch (error) {
+        logError(error, viewId);
+    }
 }
 
 async function resetCenterToSpatialReference(center: Point, spatialReference: SpatialReference): Promise<Point> {

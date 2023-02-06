@@ -16,6 +16,8 @@ export interface DotNetGraphic {
     uid: string;
     geometry: any;
     attributes: any;
+    
+    symbol: DotNetSymbol;
 }
 
 export interface DotNetFeature {

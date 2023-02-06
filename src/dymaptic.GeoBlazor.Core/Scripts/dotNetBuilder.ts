@@ -32,7 +32,12 @@ import {
     DotNetExpressionPopupContent,
     DotNetElementExpressionInfo,
     DotNetFeatureLayer,
-    MapCollection, DotNetGraphicsLayer
+    MapCollection,
+    DotNetGraphicsLayer,
+    DotNetSymbol,
+    DotNetSimpleMarkerSymbol,
+    DotNetSimpleLineSymbol,
+    DotNetSimpleFillSymbol, DotNetPictureMarkerSymbol, DotNetTextSymbol
 } from "./definitions";
 import Point from "@arcgis/core/geometry/Point";
 import Polyline from "@arcgis/core/geometry/Polyline";
@@ -64,8 +69,15 @@ import ElementExpressionInfo from "@arcgis/core/popup/ElementExpressionInfo";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
 import {arcGisObjectRefs} from "./arcGisJsInterop";
+import SimpleMarkerSymbol from "@arcgis/core/symbols/SimpleMarkerSymbol";
+import Symbol from "@arcgis/core/symbols/Symbol";
+import Graphic from "@arcgis/core/Graphic";
+import SimpleLineSymbol from "@arcgis/core/symbols/SimpleLineSymbol";
+import SimpleFillSymbol from "@arcgis/core/symbols/SimpleFillSymbol";
+import PictureMarkerSymbol from "@arcgis/core/symbols/PictureMarkerSymbol";
+import TextSymbol from "@arcgis/core/symbols/TextSymbol";
 
-export function buildDotNetGraphic(graphic: any): DotNetGraphic {
+export function buildDotNetGraphic(graphic: Graphic): DotNetGraphic {
     let dotNetGraphic = {} as DotNetGraphic;
     
     if (Object.values(arcGisObjectRefs).includes(graphic)) {
@@ -77,24 +89,108 @@ export function buildDotNetGraphic(graphic: any): DotNetGraphic {
         }
     }
     
-    dotNetGraphic.uid = graphic.uid;
+    dotNetGraphic.uid = (graphic as any).uid;
     dotNetGraphic.attributes = graphic.attributes;
+    if (graphic.symbol !== undefined && graphic.symbol !== null) {
+        dotNetGraphic.symbol = buildDotNetSymbol(graphic.symbol);
+    }
 
     switch (graphic.geometry?.type) {
         case 'point':
-            dotNetGraphic.geometry = buildDotNetPoint(graphic.geometry);
+            dotNetGraphic.geometry = buildDotNetPoint(graphic.geometry as Point);
             break;
         case 'polyline':
-            dotNetGraphic.geometry = buildDotNetPolyline(graphic.geometry);
+            dotNetGraphic.geometry = buildDotNetPolyline(graphic.geometry as Polyline);
             break;
         case 'polygon':
-            dotNetGraphic.geometry = buildDotNetPolygon(graphic.geometry);
+            dotNetGraphic.geometry = buildDotNetPolygon(graphic.geometry as Polygon);
             break;
         case 'extent':
-            dotNetGraphic.geometry = buildDotNetExtent(graphic.geometry);
+            dotNetGraphic.geometry = buildDotNetExtent(graphic.geometry as Extent);
             break;
     }
     return dotNetGraphic;
+}
+
+function buildDotNetSymbol(symbol: Symbol): DotNetSymbol {
+    if (symbol instanceof SimpleMarkerSymbol) {
+        let dnMarkerSymbol = {
+            type: 'simple-marker',
+            color: symbol.color.toHex(),
+            size: symbol.size,
+            style: symbol.style,
+            path: symbol.path,
+            xoffset: symbol.xoffset,
+            yoffset: symbol.yoffset,
+        } as DotNetSimpleMarkerSymbol;
+        if (symbol.outline !== undefined && symbol.outline !== null) {
+            dnMarkerSymbol.outline = buildDotNetSymbol(symbol.outline) as DotNetSimpleLineSymbol;
+        }
+        return dnMarkerSymbol;
+    }
+    if (symbol instanceof SimpleLineSymbol) {
+        return {
+            type: 'simple-line',
+            color: symbol.color.toHex(),
+            width: symbol.width,
+            style: symbol.style,
+            cap: symbol.cap,
+            join: symbol.join,
+            marker: symbol.marker,
+            miterLimit: symbol.miterLimit
+        } as DotNetSimpleLineSymbol;
+    }
+    if (symbol instanceof SimpleFillSymbol) {
+        let dnSimpleFillSymbol = {
+            type: 'simple-fill',
+            color: symbol.color.toHex(),
+            style: symbol.style
+        } as DotNetSimpleFillSymbol;
+        if (symbol.outline !== undefined && symbol.outline !== null) {
+            dnSimpleFillSymbol.outline = buildDotNetSymbol(symbol.outline) as DotNetSimpleLineSymbol;
+        }
+        return dnSimpleFillSymbol;
+    }
+    if (symbol instanceof PictureMarkerSymbol) {
+        return {
+            type: 'picture-marker',
+            url: symbol.url,
+            width: symbol.width,
+            height: symbol.height,
+            angle: symbol.angle,
+            xoffset: symbol.xoffset,
+            yoffset: symbol.yoffset
+        } as DotNetPictureMarkerSymbol;
+    }
+    if (symbol instanceof TextSymbol) {
+        return {
+            type: 'text',
+            color: symbol.color.toHex(),
+            haloColor: symbol.haloColor.toHex(),
+            haloSize: symbol.haloSize,
+            horizontalAlignment: symbol.horizontalAlignment,
+            kerning: symbol.kerning,
+            rotated: symbol.rotated,
+            text: symbol.text,
+            xoffset: symbol.xoffset,
+            yoffset: symbol.yoffset,
+            font: {
+                family: symbol.font.family,
+                size: symbol.font.size,
+                style: symbol.font.style,
+                weight: symbol.font.weight
+            },
+            angle: symbol.angle,
+            backgroundColor: symbol.backgroundColor.toHex(),
+            borderLineColor: symbol.borderLineColor.toHex(),
+            borderLineSize: symbol.borderLineSize,
+            lineHeight: symbol.lineHeight,
+            lineWidth: symbol.lineWidth,
+            verticalAlignment: symbol.verticalAlignment
+        } as DotNetTextSymbol;
+    }
+    
+    return symbol as any as DotNetSymbol;
 }
 
 export function buildDotNetFeature(feature: any): DotNetFeature {

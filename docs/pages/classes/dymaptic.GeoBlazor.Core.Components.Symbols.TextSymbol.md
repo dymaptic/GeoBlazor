@@ -19,6 +19,58 @@ System.IEquatable<dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol>
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [Microsoft.AspNetCore.Components.ComponentBase](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.ComponentBase 'Microsoft.AspNetCore.Components.ComponentBase') &#129106; [MapComponent](dymaptic.GeoBlazor.Core.Components.MapComponent.html 'dymaptic.GeoBlazor.Core.Components.MapComponent') &#129106; [Symbol](dymaptic.GeoBlazor.Core.Components.Symbols.Symbol.html 'dymaptic.GeoBlazor.Core.Components.Symbols.Symbol') &#129106; TextSymbol
 
 Implements [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.IEquatable-1 'System.IEquatable`1')[TextSymbol](dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol.html 'dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.IEquatable-1 'System.IEquatable`1')
+### Constructors
+
+<a name='dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol.TextSymbol()'></a>
+
+## TextSymbol() Constructor
+
+Parameterless constructor for use as a razor component
+
+```csharp
+public TextSymbol();
+```
+
+<a name='dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol.TextSymbol(string,dymaptic.GeoBlazor.Core.Objects.MapColor,dymaptic.GeoBlazor.Core.Objects.MapColor,string,dymaptic.GeoBlazor.Core.Components.Symbols.MapFont)'></a>
+
+## TextSymbol(string, MapColor, MapColor, string, MapFont) Constructor
+
+Constructor for use in code
+
+```csharp
+public TextSymbol(string text, dymaptic.GeoBlazor.Core.Objects.MapColor? color=null, dymaptic.GeoBlazor.Core.Objects.MapColor? haloColor=null, string? haloSize=null, dymaptic.GeoBlazor.Core.Components.Symbols.MapFont? font=null);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol.TextSymbol(string,dymaptic.GeoBlazor.Core.Objects.MapColor,dymaptic.GeoBlazor.Core.Objects.MapColor,string,dymaptic.GeoBlazor.Core.Components.Symbols.MapFont).text'></a>
+
+`text` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+The text string to display in the view.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol.TextSymbol(string,dymaptic.GeoBlazor.Core.Objects.MapColor,dymaptic.GeoBlazor.Core.Objects.MapColor,string,dymaptic.GeoBlazor.Core.Components.Symbols.MapFont).color'></a>
+
+`color` [MapColor](dymaptic.GeoBlazor.Core.Objects.MapColor.html 'dymaptic.GeoBlazor.Core.Objects.MapColor')
+
+The color of the symbol.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol.TextSymbol(string,dymaptic.GeoBlazor.Core.Objects.MapColor,dymaptic.GeoBlazor.Core.Objects.MapColor,string,dymaptic.GeoBlazor.Core.Components.Symbols.MapFont).haloColor'></a>
+
+`haloColor` [MapColor](dymaptic.GeoBlazor.Core.Objects.MapColor.html 'dymaptic.GeoBlazor.Core.Objects.MapColor')
+
+The color of the text symbol's halo.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol.TextSymbol(string,dymaptic.GeoBlazor.Core.Objects.MapColor,dymaptic.GeoBlazor.Core.Objects.MapColor,string,dymaptic.GeoBlazor.Core.Components.Symbols.MapFont).haloSize'></a>
+
+`haloSize` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+The size in points of the text symbol's halo.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol.TextSymbol(string,dymaptic.GeoBlazor.Core.Objects.MapColor,dymaptic.GeoBlazor.Core.Objects.MapColor,string,dymaptic.GeoBlazor.Core.Components.Symbols.MapFont).font'></a>
+
+`font` [MapFont](dymaptic.GeoBlazor.Core.Components.Symbols.MapFont.html 'dymaptic.GeoBlazor.Core.Components.Symbols.MapFont')
+
+The [MapFont](dymaptic.GeoBlazor.Core.Components.Symbols.MapFont.html 'dymaptic.GeoBlazor.Core.Components.Symbols.MapFont') used to style the text.
 ### Properties
 
 <a name='dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol.Font'></a>

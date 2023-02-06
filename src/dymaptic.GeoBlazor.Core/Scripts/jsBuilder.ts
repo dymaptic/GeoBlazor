@@ -148,11 +148,13 @@ export async function buildJsGraphic(graphicObject: any): Promise<Graphic | null
         graphic.layer = layer;
     }
 
-    let wrapper = new GraphicWrapper(graphic);
-    // @ts-ignore
-    let objectRef = DotNet.createJSObjectReference(wrapper);
-    await graphicObject.dotNetGraphicReference?.invokeMethodAsync("OnGraphicCreated", objectRef);
-    arcGisObjectRefs[graphicObject.id] = graphic;
+    if (graphicObject.dotNetGraphicReference !== undefined ) {
+        let wrapper = new GraphicWrapper(graphic);
+        // @ts-ignore
+        let objectRef = DotNet.createJSObjectReference(wrapper);
+        await graphicObject.dotNetGraphicReference.invokeMethodAsync("OnGraphicCreated", objectRef);
+        arcGisObjectRefs[graphicObject.id] = graphic;
+    }
     return graphic;
 }
 
@@ -304,7 +306,8 @@ export function buildJsSymbol(symbol: DotNetSymbol | null): Symbol | null {
                 xoffset: dnPictureMarkerSymbol.xoffset ?? 0,
                 yoffset: dnPictureMarkerSymbol.yoffset ?? 0,
                 height: dnPictureMarkerSymbol.height ?? 12,
-                width: dnPictureMarkerSymbol.width ?? 12
+                width: dnPictureMarkerSymbol.width ?? 12,
+                url: dnPictureMarkerSymbol.url
             });
             
             return jsPictureMarkerSymbol;
@@ -472,6 +475,7 @@ export async function buildJsPopup(dotNetPopup: any) : Promise<Popup> {
     if (dotNetPopup.features !== undefined && dotNetPopup.features !== null) {
         let features: Graphic[] = [];
         for (const f of dotNetPopup.features) {
+            delete f.dotNetGraphicReference;
             let graphic = await buildJsGraphic(f) as Graphic;
             features.push(graphic);
         }
@@ -531,6 +535,7 @@ export async function buildJsPopupOptions(dotNetPopupOptions: any) : Promise<Pop
     if (dotNetPopupOptions.features !== undefined && dotNetPopupOptions.features !== null) {
         let features: Graphic[] = [];
         for (const f of dotNetPopupOptions.features) {
+            delete f.dotNetGraphicReference;
             features.push(await buildJsGraphic(f) as Graphic);
         }
         options.features = features;

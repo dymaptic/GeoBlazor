@@ -19,11 +19,11 @@ public class Point : Geometry, IEquatable<Point>
     /// <summary>
     ///     Creates a new Point programmatically with parameters
     /// </summary>
-    /// <param name="latitude">
-    ///     The latitude of the point.
-    /// </param>
     /// <param name="longitude">
     ///     The longitude of the point.
+    /// </param>
+    /// <param name="latitude">
+    ///     The latitude of the point.
     /// </param>
     /// <param name="x">
     ///     The x-coordinate (easting) of the point in map units.
@@ -40,7 +40,7 @@ public class Point : Geometry, IEquatable<Point>
     /// <param name="extent">
     ///     The <see cref="Extent"/> of the geometry.
     /// </param>
-    public Point(double? latitude = null, double? longitude = null, double? x = null, double? y = null, double? z = null,
+    public Point(double? longitude = null, double? latitude = null, double? x = null, double? y = null, double? z = null,
         SpatialReference? spatialReference = null, Extent? extent = null)
     {
 #pragma warning disable BL0005

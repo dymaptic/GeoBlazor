@@ -11,6 +11,45 @@ namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 public class PictureMarkerSymbol : MarkerSymbol, IEquatable<PictureMarkerSymbol>
 {
     /// <summary>
+    ///     Parameterless constructor for use as a razor component
+    /// </summary>
+    public PictureMarkerSymbol()
+    {
+    }
+    
+    /// <summary>
+    ///    Constructor for use in code
+    /// </summary>
+    /// <param name="url">
+    ///     The URL to an image or SVG document.
+    /// </param>
+    /// <param name="width">
+    ///     The width of the image in points.
+    /// </param>
+    /// <param name="height">
+    ///     The height of the image in points.
+    /// </param>
+    /// <param name="angle">
+    ///     The angle of the marker relative to the screen in degrees.
+    /// </param>
+    /// <param name="xOffset">
+    ///     The offset on the x-axis in points.
+    /// </param>
+    /// <param name="yOffset">
+    ///     The offset on the y-axis in points.
+    /// </param>
+    public PictureMarkerSymbol(string url, double? width = null, double? height = null,
+        double? angle = null, double? xOffset = null, double? yOffset = null)
+    {
+        Url = url;
+        Width = width;
+        Height = height;
+        Angle = angle;
+        XOffset = xOffset;
+        YOffset = yOffset;
+    }
+
+    /// <summary>
     ///     The height of the image in points.
     /// </summary>
     [Parameter]

@@ -19,6 +19,64 @@ System.IEquatable<dymaptic.GeoBlazor.Core.Components.Symbols.PictureMarkerSymbol
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [Microsoft.AspNetCore.Components.ComponentBase](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.ComponentBase 'Microsoft.AspNetCore.Components.ComponentBase') &#129106; [MapComponent](dymaptic.GeoBlazor.Core.Components.MapComponent.html 'dymaptic.GeoBlazor.Core.Components.MapComponent') &#129106; [Symbol](dymaptic.GeoBlazor.Core.Components.Symbols.Symbol.html 'dymaptic.GeoBlazor.Core.Components.Symbols.Symbol') &#129106; [MarkerSymbol](dymaptic.GeoBlazor.Core.Components.Symbols.MarkerSymbol.html 'dymaptic.GeoBlazor.Core.Components.Symbols.MarkerSymbol') &#129106; PictureMarkerSymbol
 
 Implements [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.IEquatable-1 'System.IEquatable`1')[PictureMarkerSymbol](dymaptic.GeoBlazor.Core.Components.Symbols.PictureMarkerSymbol.html 'dymaptic.GeoBlazor.Core.Components.Symbols.PictureMarkerSymbol')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.IEquatable-1 'System.IEquatable`1')
+### Constructors
+
+<a name='dymaptic.GeoBlazor.Core.Components.Symbols.PictureMarkerSymbol.PictureMarkerSymbol()'></a>
+
+## PictureMarkerSymbol() Constructor
+
+Parameterless constructor for use as a razor component
+
+```csharp
+public PictureMarkerSymbol();
+```
+
+<a name='dymaptic.GeoBlazor.Core.Components.Symbols.PictureMarkerSymbol.PictureMarkerSymbol(string,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_)'></a>
+
+## PictureMarkerSymbol(string, Nullable<double>, Nullable<double>, Nullable<double>, Nullable<double>, Nullable<double>) Constructor
+
+Constructor for use in code
+
+```csharp
+public PictureMarkerSymbol(string url, System.Nullable<double> width=null, System.Nullable<double> height=null, System.Nullable<double> angle=null, System.Nullable<double> xOffset=null, System.Nullable<double> yOffset=null);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Symbols.PictureMarkerSymbol.PictureMarkerSymbol(string,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_).url'></a>
+
+`url` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+The URL to an image or SVG document.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Symbols.PictureMarkerSymbol.PictureMarkerSymbol(string,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_).width'></a>
+
+`width` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
+
+The width of the image in points.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Symbols.PictureMarkerSymbol.PictureMarkerSymbol(string,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_).height'></a>
+
+`height` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
+
+The height of the image in points.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Symbols.PictureMarkerSymbol.PictureMarkerSymbol(string,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_).angle'></a>
+
+`angle` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
+
+The angle of the marker relative to the screen in degrees.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Symbols.PictureMarkerSymbol.PictureMarkerSymbol(string,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_).xOffset'></a>
+
+`xOffset` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
+
+The offset on the x-axis in points.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Symbols.PictureMarkerSymbol.PictureMarkerSymbol(string,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_).yOffset'></a>
+
+`yOffset` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
+
+The offset on the y-axis in points.
 ### Properties
 
 <a name='dymaptic.GeoBlazor.Core.Components.Symbols.PictureMarkerSymbol.Height'></a>

@@ -2,6 +2,7 @@
 using System.Text.Json.Serialization;
 using dymaptic.GeoBlazor.Core.Components.Popups;
 using dymaptic.GeoBlazor.Core.Components.Renderers;
+using dymaptic.GeoBlazor.Core.Exceptions;
 using dymaptic.GeoBlazor.Core.Objects;
 using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
@@ -21,12 +22,87 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 public class FeatureLayer : Layer
 {
     /// <summary>
+    ///     Constructor for use as a razor component
+    /// </summary>
+    public FeatureLayer()
+    {
+    }
+
+    /// <summary>
+    ///     Constructor for creating a new FeatureLayer in code. Either the url, portalItem, or source parameter must be specified.
+    /// </summary>
+    /// <param name="url">
+    ///     The absolute URL of the REST endpoint of the layer, non-spatial table or service 
+    /// </param>
+    /// <param name="portalItem">
+    ///     The <see cref="PortalItem"/> from which the layer is loaded.
+    /// </param>
+    /// <param name="source">
+    ///     A collection of Graphic objects used to create a FeatureLayer.
+    /// </param>
+    /// <param name="outFields">
+    ///     An array of field names from the service to include with each feature.
+    /// </param>
+    /// <param name="definitionExpression">
+    ///     The SQL where clause used to filter features on the client.
+    /// </param>
+    /// <param name="minScale">
+    ///     The minimum scale (most zoomed out) at which the layer is visible in the view.
+    /// </param>
+    /// <param name="maxScale">
+    ///     The maximum scale (most zoomed in) at which the layer is visible in the view.
+    /// </param>
+    /// <param name="objectIdField">
+    ///     The name of an oidfield containing a unique value or identifier for each feature in the layer.
+    /// </param>
+    /// <param name="geometryType">
+    ///     The geometry type of the feature layer. All features must be of the same type.
+    /// </param>
+    /// <param name="title">
+    ///     The title of the layer used to identify it in places such as the Legend and LayerList widgets.
+    /// </param>
+    /// <param name="opacity">
+    ///     The opacity of the layer.
+    /// </param>
+    /// <param name="visible">
+    ///     Indicates if the layer is visible in the View. When false, the layer may still be added to a Map instance that is referenced in a view, but its features will not be visible in the view.
+    /// </param>
+    /// <param name="listMode">
+    ///     Indicates how the layer should display in the LayerList widget. The possible values are listed below.
+    /// </param>
+    public FeatureLayer(string? url = null, PortalItem? portalItem = null, IReadOnlyCollection<Graphic> source = null, 
+        string[]? outFields = null, string? definitionExpression = null, double? minScale = null, 
+        double? maxScale = null, string? objectIdField = null, GeometryType? geometryType = null, string? title = null, 
+        double? opacity = null, bool? visible = null, ListMode? listMode = null)
+    {
+        if (url is null && portalItem is null && source is null)
+        {
+            throw new MissingRequiredOptionsChildElementException(nameof(FeatureLayer),
+                new[] { nameof(Url), nameof(PortalItem), nameof(Source) });
+        }
+        
+        Url = url;
+        Source = source;
+        PortalItem = portalItem;
+        OutFields = outFields;
+        _definitionExpression = definitionExpression;
+        MinScale = minScale;
+        MaxScale = maxScale;
+        ObjectIdField = objectIdField;
+        GeometryType = geometryType;
+        Title = title;
+        Opacity = opacity;
+        Visible = visible;
+        ListMode = listMode;
+    }
+
+    /// <summary>
     ///     The absolute URL of the REST endpoint of the layer, non-spatial table or service
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [RequiredProperty(nameof(PortalItem), nameof(Source))]
-    public string Url { get; set; } = default!;
+    public string? Url { get; set; }
 
     /// <summary>
     ///     The SQL where clause used to filter features on the client.
@@ -76,7 +152,7 @@ public class FeatureLayer : Layer
     public string? ObjectIdField { get; set; }
     
     /// <summary>
-    ///     The geometry type of the feature layer. All featuers must be of the same type.
+    ///     The geometry type of the feature layer. All features must be of the same type.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -228,18 +304,6 @@ public class FeatureLayer : Layer
             if (Source is null)
             {
                 Source = renderedFeatureLayer.Source;
-            }
-            else
-            {
-                foreach (Graphic graphic in renderedFeatureLayer.Source)
-                {
-                    Graphic? existingGraphic = Source.FirstOrDefault(g => g.Equals(graphic));
-
-                    if (existingGraphic is null)
-                    {
-                        _source!.Add(graphic);
-                    }
-                }
             }
         }
         

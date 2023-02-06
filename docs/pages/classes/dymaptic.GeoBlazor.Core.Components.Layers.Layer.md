@@ -65,19 +65,6 @@ public Microsoft.JSInterop.IJSObjectReference? JsLayerReference { get; set; }
 #### Property Value
 [Microsoft.JSInterop.IJSObjectReference](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.JSInterop.IJSObjectReference 'Microsoft.JSInterop.IJSObjectReference')
 
-<a name='dymaptic.GeoBlazor.Core.Components.Layers.Layer.LayerIndex'></a>
-
-## Layer.LayerIndex Property
-
-Used internally to identify multiple layers.
-
-```csharp
-public int LayerIndex { get; set; }
-```
-
-#### Property Value
-[System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')
-
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.Layer.LayerType'></a>
 
 ## Layer.LayerType Property

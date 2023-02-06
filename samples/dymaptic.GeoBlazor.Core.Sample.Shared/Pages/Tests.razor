@@ -1,0 +1,76 @@
+﻿@page "/tests"
+<PageTitle>Tests</PageTitle> 
+
+<button disabled="@(!_mapRendered)" @onclick="() => ToggleLayer(_localFeatureLayer)">Local Feature Layer</button>
+<button disabled="@(!_mapRendered)" @onclick="() => ToggleLayer(_remoteFeatureLayer)">Server Feature Layer</button>
+<button disabled="@(!_mapRendered)" @onclick="() => ToggleLayer(_graphicsLayer)">Graphics Layer</button>
+<button disabled="@(!_mapRendered)" @onclick="() => ToggleLayer(_geoJsonLayer)">GeoJSON Layer</button>
+<button disabled="@(!_mapRendered)" @onclick="() => ToggleLayer(_geoRssLayer)">GeoRSS Layer</button>
+<button disabled="@(!_mapRendered)" @onclick="() => ToggleLayer(_osmLayer)">OpenStreetMaps Layer</button>
+
+<MapView @ref="_view" class="map-view" OnMapRendered="OnMapRendered">
+    <Extent Xmin="-41525513" Ymin="4969181" Xmax="-36687355" Ymax="9024624">
+        <SpatialReference Wkid="3857" />
+    </Extent>
+    <Map ArcGISDefaultBasemap="arcgis-topographic">
+    </Map>
+</MapView>
+
+@code {
+    private void OnMapRendered()
+    {
+        _mapRendered = true;
+    }
+
+    private async Task ToggleLayer(Layer layer)
+    {
+        if (_view!.Map!.Layers.Contains(layer))
+        {
+            await _view.RemoveLayer(layer);
+        }
+        else
+        {
+            await _view.AddLayer(layer);
+        }
+    }
+    
+    private MapView? _view;
+    private readonly FeatureLayer _localFeatureLayer = new(source: new[]
+    {
+        new Graphic(new Point(11.967162, 49.201448), 
+            new SimpleMarkerSymbol(new Outline(new MapColor("white")), 
+                new MapColor("red"), 6))
+    }, 
+        objectIdField: "OBJECTID");
+    private readonly FeatureLayer _remoteFeatureLayer = 
+        new("https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/weather_stations_010417/FeatureServer/0");
+    private readonly GraphicsLayer _graphicsLayer = new(graphics: new[]
+    {
+        new Graphic(new Point(11.888650, 52.451825), 
+            new SimpleMarkerSymbol(new Outline(new MapColor("white")), 
+                new MapColor("green"), 6)),
+        new Graphic(new PolyLine(new []
+        {
+            new MapPath(new MapPoint(11, 52),
+                new MapPoint(11.5, 53),
+                new MapPoint(12, 55),
+                new MapPoint(10, 55),
+                new MapPoint(10.5, 51),
+                new MapPoint(11, 56))
+        }),
+            new SimpleLineSymbol(new MapColor("blue"), 2)),
+        new Graphic(new Point(7.274721, 59.614991), 
+            new PictureMarkerSymbol("https://static.arcgis.com/images/Symbols/Shapes/BluePin1LargeB.png",
+                height: 15, width:15)),
+        new Graphic(new Point(29.437639, 55.469513),
+            new TextSymbol("Hello World", new MapColor("red"), 
+                new MapColor("yellow"), "12px"))
+    });
+    private readonly GeoJSONLayer _geoJsonLayer = 
+        new("https://services3.arcgis.com/GVgbJbqm8hXASVYi/ArcGIS/rest/services/World_Countries_(Generalized)/FeatureServer/0/query?where=1%3D1&outFields=*&f=geojson");
+    private readonly GeoRSSLayer _geoRssLayer =
+        new("https://disasterscharter.org/charter-portlets/cpi-mvc/activations/feed/rss/");
+    private readonly OpenStreetMapLayer _osmLayer = new();
+    
+    private bool _mapRendered;
+}

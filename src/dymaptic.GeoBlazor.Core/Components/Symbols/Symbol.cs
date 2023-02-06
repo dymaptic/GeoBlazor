@@ -30,7 +30,36 @@ internal class SymbolJsonConverter : JsonConverter<Symbol>
 {
     public override Symbol? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        return JsonSerializer.Deserialize(ref reader, typeof(object), options) as Symbol;
+        // deserialize based on the subclass type
+        var newOptions = new JsonSerializerOptions(options)
+        {
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+        };
+        Utf8JsonReader cloneReader = reader;
+        
+        if (JsonSerializer.Deserialize<Dictionary<string, object?>>(ref reader, newOptions) is not IDictionary<string, object?> temp)
+        {
+            return null;
+        }
+
+        if (temp.ContainsKey("type"))
+        {
+            switch (temp["type"]?.ToString())
+            {
+                case "simple-marker":
+                    return JsonSerializer.Deserialize<SimpleMarkerSymbol>(ref cloneReader, newOptions);
+                case "simple-line":
+                    return JsonSerializer.Deserialize<SimpleLineSymbol>(ref cloneReader, newOptions);
+                case "simple-fill":
+                    return JsonSerializer.Deserialize<SimpleFillSymbol>(ref cloneReader, newOptions);
+                case "picture-marker":
+                    return JsonSerializer.Deserialize<PictureMarkerSymbol>(ref cloneReader, newOptions);
+                case "text":
+                    return JsonSerializer.Deserialize<TextSymbol>(ref cloneReader, newOptions);
+            }
+        }
+
+        return null;
     }
 
     public override void Write(Utf8JsonWriter writer, Symbol value, JsonSerializerOptions options)

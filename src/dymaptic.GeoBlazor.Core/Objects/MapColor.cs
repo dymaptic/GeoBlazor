@@ -48,7 +48,7 @@ public class MapColor: IEquatable<MapColor>
         if (ReferenceEquals(null, other)) return false;
         if (ReferenceEquals(this, other)) return true;
 
-        return Values.Equals(other.Values) && HexOrNameValue == other.HexOrNameValue;
+        return Values.SequenceEqual(other.Values) && HexOrNameValue == other.HexOrNameValue;
     }
 
     /// <inheritdoc />
@@ -88,7 +88,19 @@ internal class MapColorConverter : JsonConverter<MapColor>
 {
     public override MapColor Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        throw new NotImplementedException();
+        if (reader.TokenType == JsonTokenType.StartArray)
+        {
+            var values = JsonSerializer.Deserialize<double[]>(ref reader, options);
+            return new MapColor(values);
+        }
+
+        if (reader.TokenType == JsonTokenType.String)
+        {
+            var hexOrNameValue = reader.GetString();
+            return new MapColor(hexOrNameValue);
+        }
+
+        throw new JsonException();
     }
 
     public override void Write(Utf8JsonWriter writer, MapColor value, JsonSerializerOptions options)

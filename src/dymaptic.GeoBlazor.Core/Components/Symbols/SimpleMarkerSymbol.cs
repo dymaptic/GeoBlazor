@@ -2,6 +2,7 @@
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Components;
 
+
 namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 
 /// <summary>
@@ -32,15 +33,27 @@ public class SimpleMarkerSymbol : MarkerSymbol, IEquatable<SimpleMarkerSymbol>
     /// <param name="style">
     ///     The marker style.
     /// </param>
+    /// <param name="angle">
+    ///     The angle of the marker relative to the screen in degrees.
+    /// </param>
+    /// <param name="xOffset">
+    ///     The offset on the x-axis in points.
+    /// </param>
+    /// <param name="yOffset">
+    ///     The offset on the y-axis in points.
+    /// </param>
     public SimpleMarkerSymbol(Outline? outline = null, MapColor? color = null, double? size = null,
-        string? style = null)
+        string? style = null, double? angle = null, double? xOffset = null, double? yOffset = null)
     {
         Outline = outline;
         Color = color;
         Size = size;
         Style = style;
+        Angle = angle;
+        XOffset = xOffset;
+        YOffset = yOffset;
     }
-    
+
     /// <summary>
     ///     The outline of the marker symbol.
     /// </summary>
@@ -113,8 +126,10 @@ public class SimpleMarkerSymbol : MarkerSymbol, IEquatable<SimpleMarkerSymbol>
         if (ReferenceEquals(null, other)) return false;
         if (ReferenceEquals(this, other)) return true;
 
-        return Equals(Outline, other.Outline) && Nullable.Equals(Size, other.Size) && Style == other.Style &&
-            Color == other.Color;
+        return Equals(Outline, other.Outline) &&
+            Nullable.Equals(Size, other.Size) &&
+            Color == other.Color &&
+            StylesEqual(Style, other.Style);
     }
 
     /// <inheritdoc />
@@ -147,5 +162,30 @@ public class SimpleMarkerSymbol : MarkerSymbol, IEquatable<SimpleMarkerSymbol>
     public static bool operator !=(SimpleMarkerSymbol? left, SimpleMarkerSymbol? right)
     {
         return !Equals(left, right);
+    }
+
+    private bool StylesEqual(string? style1, string? style2)
+    {
+        if (style1 is null)
+        {
+            if (style2 is null || style2 == "circle")
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        if (style2 is null)
+        {
+            if (style1 == "circle")
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        return style1 == style2;
     }
 }

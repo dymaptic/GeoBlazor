@@ -262,8 +262,7 @@ public class Graphic : LayerObject, IEquatable<Graphic>
         return other?.Id == Id ||
             (other is not null &&
                 ((other.Geometry is null && Geometry is null) || other.Geometry?.Equals(Geometry) == true) &&
-                other.Attributes.Equals(Attributes) &&
-                ((other.Symbol is null && Symbol is null) || other.Symbol?.Equals(Symbol) == true));
+                other.Attributes.Equals(Attributes));
     }
 
     /// <inheritdoc />

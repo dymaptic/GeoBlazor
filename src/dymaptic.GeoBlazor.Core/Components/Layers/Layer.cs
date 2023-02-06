@@ -30,12 +30,6 @@ public abstract class Layer : MapComponent
     public double? Opacity { get; set; }
 
     /// <summary>
-    ///     Used internally to identify multiple layers.
-    /// </summary>
-    [JsonIgnore]
-    public int LayerIndex { get; set; }
-    
-    /// <summary>
     ///     The title of the layer used to identify it in places such as the Legend and LayerList widgets.
     /// </summary>
     [Parameter]

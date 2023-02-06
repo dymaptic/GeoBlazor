@@ -13,6 +13,45 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 public class GraphicsLayer : Layer
 {
     /// <summary>
+    ///     Parameterless constructor for use as a razor component
+    /// </summary>
+    public GraphicsLayer()
+    {
+    }
+
+    /// <summary>
+    ///     Constructor for use in code
+    /// </summary>
+    /// <param name="graphics">
+    ///     A collection of <see cref="Graphic" />s in the layer.
+    /// </param>
+    /// <param name="title">
+    ///     The title of the layer used to identify it in places such as the Legend and LayerList widgets.
+    /// </param>
+    /// <param name="opacity">
+    ///     The opacity of the layer.
+    /// </param>
+    /// <param name="visible">
+    ///     Indicates if the layer is visible in the View. When false, the layer may still be added to a Map instance that is referenced in a view, but its features will not be visible in the view.
+    /// </param>
+    /// <param name="listMode">
+    ///     Indicates how the layer should display in the LayerList widget. The possible values are listed below.
+    /// </param>
+    public GraphicsLayer(IReadOnlyCollection<Graphic>? graphics = null, string? title = null,
+        double? opacity = null, bool? visible = null, ListMode? listMode = null)
+    {
+        Title = title;
+        Opacity = opacity;
+        Visible = visible;
+        ListMode = listMode;
+
+        if (graphics is not null)
+        {
+            Graphics = graphics;
+        }
+    }
+    
+    /// <summary>
     ///     A collection of <see cref="Graphic" />s in the layer.
     /// </summary>
     public IReadOnlyCollection<Graphic> Graphics
@@ -140,23 +179,6 @@ public class GraphicsLayer : Layer
         foreach (Graphic graphic in Graphics)
         {
             graphic.ValidateRequiredChildren();
-        }
-    }
-    
-    internal override void UpdateFromJavaScript(Layer renderedLayer)
-    {
-        base.UpdateFromJavaScript(renderedLayer);
-        GraphicsLayer renderedGraphicsLayer = (GraphicsLayer)renderedLayer;
-
-        if (renderedGraphicsLayer.Graphics.Any())
-        {
-            foreach (Graphic graphic in renderedGraphicsLayer.Graphics)
-            {
-                if (!_graphics.Any(g => g.Equals(graphic)))
-                {
-                    _graphics.Add(graphic);
-                }
-            }
         }
     }
 

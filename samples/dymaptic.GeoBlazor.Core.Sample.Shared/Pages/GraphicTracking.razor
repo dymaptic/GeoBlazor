@@ -43,8 +43,7 @@
         {
             Dictionary<string, object> attributes = new Dictionary<string, object> { { i.ToString(), i } };
             Graphic graphic = new Graphic(
-                new Point(_lat + _random.NextDouble() / 100, 
-                    _lon + _random.NextDouble() / 100), 
+                new Point(_lon + _random.NextDouble() / 100, _lat + _random.NextDouble() / 100), 
                 attributes: attributes);
             await _graphicsLayer!.Add(graphic);
         }
@@ -60,8 +59,8 @@
             if (graphic is null) continue;
             Point currentPoint = (Point)graphic.Geometry!;
             await graphic.SetGeometry(
-                new Point(currentPoint.Latitude + (_random.NextDouble() - 0.5) / 100, 
-                    currentPoint.Longitude + (_random.NextDouble() - 0.5) / 100));
+                new Point(currentPoint.Longitude + (_random.NextDouble() - 0.5) / 100,
+                currentPoint.Latitude + (_random.NextDouble() - 0.5) / 100));
 
             _index += 1;
             if (_index > _graphicsLayer!.Graphics.Count)
@@ -73,6 +72,7 @@
 
     private async Task ResetGraphics()
     {
+        _isMoving = false;
         await _graphicsLayer!.Clear();
         await SetGraphics();
     }

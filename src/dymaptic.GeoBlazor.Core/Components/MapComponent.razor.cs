@@ -718,7 +718,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     }
 
 #endregion
-    
+
     private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _watchers = new();
     private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _listeners = new();
     private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _waiters = new();

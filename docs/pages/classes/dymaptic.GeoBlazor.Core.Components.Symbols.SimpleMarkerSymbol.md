@@ -31,40 +31,58 @@ Parameterless constructor for using as a razor component
 public SimpleMarkerSymbol();
 ```
 
-<a name='dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol.SimpleMarkerSymbol(dymaptic.GeoBlazor.Core.Components.Symbols.Outline,dymaptic.GeoBlazor.Core.Objects.MapColor,System.Nullable_double_,string)'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol.SimpleMarkerSymbol(dymaptic.GeoBlazor.Core.Components.Symbols.Outline,dymaptic.GeoBlazor.Core.Objects.MapColor,System.Nullable_double_,string,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_)'></a>
 
-## SimpleMarkerSymbol(Outline, MapColor, Nullable<double>, string) Constructor
+## SimpleMarkerSymbol(Outline, MapColor, Nullable<double>, string, Nullable<double>, Nullable<double>, Nullable<double>) Constructor
 
 Constructs a new SimpleMarkerSymbol in code with parameters
 
 ```csharp
-public SimpleMarkerSymbol(dymaptic.GeoBlazor.Core.Components.Symbols.Outline? outline=null, dymaptic.GeoBlazor.Core.Objects.MapColor? color=null, System.Nullable<double> size=null, string? style=null);
+public SimpleMarkerSymbol(dymaptic.GeoBlazor.Core.Components.Symbols.Outline? outline=null, dymaptic.GeoBlazor.Core.Objects.MapColor? color=null, System.Nullable<double> size=null, string? style=null, System.Nullable<double> angle=null, System.Nullable<double> xOffset=null, System.Nullable<double> yOffset=null);
 ```
 #### Parameters
 
-<a name='dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol.SimpleMarkerSymbol(dymaptic.GeoBlazor.Core.Components.Symbols.Outline,dymaptic.GeoBlazor.Core.Objects.MapColor,System.Nullable_double_,string).outline'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol.SimpleMarkerSymbol(dymaptic.GeoBlazor.Core.Components.Symbols.Outline,dymaptic.GeoBlazor.Core.Objects.MapColor,System.Nullable_double_,string,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_).outline'></a>
 
 `outline` [Outline](dymaptic.GeoBlazor.Core.Components.Symbols.Outline.html 'dymaptic.GeoBlazor.Core.Components.Symbols.Outline')
 
 The outline of the marker symbol.
 
-<a name='dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol.SimpleMarkerSymbol(dymaptic.GeoBlazor.Core.Components.Symbols.Outline,dymaptic.GeoBlazor.Core.Objects.MapColor,System.Nullable_double_,string).color'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol.SimpleMarkerSymbol(dymaptic.GeoBlazor.Core.Components.Symbols.Outline,dymaptic.GeoBlazor.Core.Objects.MapColor,System.Nullable_double_,string,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_).color'></a>
 
 `color` [MapColor](dymaptic.GeoBlazor.Core.Objects.MapColor.html 'dymaptic.GeoBlazor.Core.Objects.MapColor')
 
 The color of the marker symbol.
 
-<a name='dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol.SimpleMarkerSymbol(dymaptic.GeoBlazor.Core.Components.Symbols.Outline,dymaptic.GeoBlazor.Core.Objects.MapColor,System.Nullable_double_,string).size'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol.SimpleMarkerSymbol(dymaptic.GeoBlazor.Core.Components.Symbols.Outline,dymaptic.GeoBlazor.Core.Objects.MapColor,System.Nullable_double_,string,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_).size'></a>
 
 `size` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 
 The size of the marker in points.
 
-<a name='dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol.SimpleMarkerSymbol(dymaptic.GeoBlazor.Core.Components.Symbols.Outline,dymaptic.GeoBlazor.Core.Objects.MapColor,System.Nullable_double_,string).style'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol.SimpleMarkerSymbol(dymaptic.GeoBlazor.Core.Components.Symbols.Outline,dymaptic.GeoBlazor.Core.Objects.MapColor,System.Nullable_double_,string,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_).style'></a>
 
 `style` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 
 The marker style.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol.SimpleMarkerSymbol(dymaptic.GeoBlazor.Core.Components.Symbols.Outline,dymaptic.GeoBlazor.Core.Objects.MapColor,System.Nullable_double_,string,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_).angle'></a>
+
+`angle` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
+
+The angle of the marker relative to the screen in degrees.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol.SimpleMarkerSymbol(dymaptic.GeoBlazor.Core.Components.Symbols.Outline,dymaptic.GeoBlazor.Core.Objects.MapColor,System.Nullable_double_,string,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_).xOffset'></a>
+
+`xOffset` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
+
+The offset on the x-axis in points.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol.SimpleMarkerSymbol(dymaptic.GeoBlazor.Core.Components.Symbols.Outline,dymaptic.GeoBlazor.Core.Objects.MapColor,System.Nullable_double_,string,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_).yOffset'></a>
+
+`yOffset` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
+
+The offset on the y-axis in points.
 ### Properties
 
 <a name='dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol.Outline'></a>

@@ -1176,13 +1176,21 @@ public partial class MapView : MapComponent
     {
         if (Map?.Layers.Contains(layer) == false)
         {
-            Type typeOfLayer = layer.GetType();
-            IEnumerable<Layer> allLayersOfType = Map.Layers.Where(l => l.GetType() == typeOfLayer);
-            layer.LayerIndex = allLayersOfType.Count();
             Map.Layers.Add(layer);
             
             if (ViewJsModule is null) return;
             await ViewJsModule!.InvokeVoidAsync("addLayer", (object)layer, Id, isBasemapLayer);
+        }
+    }
+
+    public async Task RemoveLayer(Layer layer, bool? isBasemapLayer = false)
+    {
+        if (Map?.Layers.Contains(layer) == true)
+        {
+            Map.Layers.Remove(layer);
+            
+            if (ViewJsModule is null) return;
+            await ViewJsModule!.InvokeVoidAsync("removeLayer", layer.Id, Id, isBasemapLayer);
         }
     }
 

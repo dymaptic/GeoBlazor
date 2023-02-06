@@ -35,15 +35,13 @@ export default class GraphicsLayerWrapper {
     remove(graphic: DotNetGraphic): void {
         let jsGraphic = arcGisObjectRefs[graphic.id as string] as Graphic;
         this.layer.remove(jsGraphic);
+        delete arcGisObjectRefs[graphic.id as string];
     }
     
     removeMany(graphics: DotNetGraphic[]): void {
         let jsGraphics: Graphic[] = [];
         graphics.forEach(g => jsGraphics.push(arcGisObjectRefs[g.id as string] as Graphic));
         this.layer.removeMany(jsGraphics);
-    }
-    
-    removeAll(): void {
-        this.layer.removeAll();
+        graphics.forEach(g => delete arcGisObjectRefs[g.id as string]);
     }
 }

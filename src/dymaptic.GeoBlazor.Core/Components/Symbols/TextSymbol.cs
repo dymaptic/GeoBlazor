@@ -11,6 +11,41 @@ namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 /// </summary>
 public class TextSymbol : Symbol, IEquatable<TextSymbol>
 {
+    /// <summary>
+    ///     Parameterless constructor for use as a razor component
+    /// </summary>
+    public TextSymbol()
+    {
+    }
+
+    /// <summary>
+    ///    Constructor for use in code
+    /// </summary>
+    /// <param name="text">
+    ///     The text string to display in the view.
+    /// </param>
+    /// <param name="color">
+    ///     The color of the symbol.
+    /// </param>
+    /// <param name="haloColor">
+    ///     The color of the text symbol's halo.
+    /// </param>
+    /// <param name="haloSize">
+    ///     The size in points of the text symbol's halo.
+    /// </param>
+    /// <param name="font">
+    ///     The <see cref="MapFont"/> used to style the text.
+    /// </param>
+    public TextSymbol(string text, MapColor? color = null, MapColor? haloColor = null, string? haloSize = null,
+        MapFont? font = null)
+    {
+        Text = text;
+        Color = color;
+        HaloColor = haloColor;
+        HaloSize = haloSize;
+        Font = font;
+    }
+    
     /// <inheritdoc />
     public override string Type => "text";
 
