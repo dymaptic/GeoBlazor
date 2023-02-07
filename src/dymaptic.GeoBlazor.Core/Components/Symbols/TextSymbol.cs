@@ -36,7 +36,7 @@ public class TextSymbol : Symbol, IEquatable<TextSymbol>
     /// <param name="font">
     ///     The <see cref="MapFont"/> used to style the text.
     /// </param>
-    public TextSymbol(string text, MapColor? color = null, MapColor? haloColor = null, string? haloSize = null,
+    public TextSymbol(string text, MapColor? color = null, MapColor? haloColor = null, int? haloSize = null,
         MapFont? font = null)
     {
         Text = text;
@@ -61,7 +61,7 @@ public class TextSymbol : Symbol, IEquatable<TextSymbol>
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? HaloSize { get; set; }
+    public int? HaloSize { get; set; }
     
     /// <summary>
     ///     The text string to display in the view.

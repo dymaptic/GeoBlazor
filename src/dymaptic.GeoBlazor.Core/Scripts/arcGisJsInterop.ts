@@ -1632,7 +1632,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null): Prom
         newLayer.visible = layerObject.visible;
     }
         
-    if (hasValue(layerObject.fullExtent)) {
+    if (hasValue(layerObject.fullExtent) && layerObject.type !== 'open-street-map') {
         newLayer.fullExtent = buildJsExtent(layerObject.fullExtent);
     }
 

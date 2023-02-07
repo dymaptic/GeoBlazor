@@ -116,7 +116,7 @@ function buildDotNetSymbol(symbol: Symbol): DotNetSymbol {
     if (symbol instanceof SimpleMarkerSymbol) {
         let dnMarkerSymbol = {
             type: 'simple-marker',
-            color: symbol.color.toHex(),
+            color: symbol.color?.toHex(),
             size: symbol.size,
             style: symbol.style,
             path: symbol.path,
@@ -131,7 +131,7 @@ function buildDotNetSymbol(symbol: Symbol): DotNetSymbol {
     if (symbol instanceof SimpleLineSymbol) {
         return {
             type: 'simple-line',
-            color: symbol.color.toHex(),
+            color: symbol.color?.toHex(),
             width: symbol.width,
             style: symbol.style,
             cap: symbol.cap,
@@ -143,7 +143,7 @@ function buildDotNetSymbol(symbol: Symbol): DotNetSymbol {
     if (symbol instanceof SimpleFillSymbol) {
         let dnSimpleFillSymbol = {
             type: 'simple-fill',
-            color: symbol.color.toHex(),
+            color: symbol.color?.toHex(),
             style: symbol.style
         } as DotNetSimpleFillSymbol;
         if (symbol.outline !== undefined && symbol.outline !== null) {
@@ -165,8 +165,8 @@ function buildDotNetSymbol(symbol: Symbol): DotNetSymbol {
     if (symbol instanceof TextSymbol) {
         return {
             type: 'text',
-            color: symbol.color.toHex(),
-            haloColor: symbol.haloColor.toHex(),
+            color: symbol.color?.toHex(),
+            haloColor: symbol.haloColor?.toHex(),
             haloSize: symbol.haloSize,
             horizontalAlignment: symbol.horizontalAlignment,
             kerning: symbol.kerning,
@@ -181,8 +181,8 @@ function buildDotNetSymbol(symbol: Symbol): DotNetSymbol {
                 weight: symbol.font.weight
             },
             angle: symbol.angle,
-            backgroundColor: symbol.backgroundColor.toHex(),
-            borderLineColor: symbol.borderLineColor.toHex(),
+            backgroundColor: symbol.backgroundColor?.toHex(),
+            borderLineColor: symbol.borderLineColor?.toHex(),
             borderLineSize: symbol.borderLineSize,
             lineHeight: symbol.lineHeight,
             lineWidth: symbol.lineWidth,

@@ -717,12 +717,12 @@ export function buildJsMediaInfo(dotNetMediaInfo: DotNetMediaInfo): any {
 
 export function buildJsChartMediaInfoValue(dotNetChartMediaInfoValue: DotNetChartMediaInfoValue): ChartMediaInfoValue {
     let value = new ChartMediaInfoValue({
-        fields: dotNetChartMediaInfoValue.fields ?? undefined,
-        normalizeField: dotNetChartMediaInfoValue.normalizeField ?? undefined,
-        tooltipField: dotNetChartMediaInfoValue.tooltipField ?? undefined
+        fields: dotNetChartMediaInfoValue?.fields ?? undefined,
+        normalizeField: dotNetChartMediaInfoValue?.normalizeField ?? undefined,
+        tooltipField: dotNetChartMediaInfoValue?.tooltipField ?? undefined
     });
     
-    if (dotNetChartMediaInfoValue.series !== undefined && dotNetChartMediaInfoValue.series !== null) {
+    if (dotNetChartMediaInfoValue?.series !== undefined && dotNetChartMediaInfoValue?.series !== null) {
         value.series = dotNetChartMediaInfoValue.series.map(s => {
             let series = new ChartMediaInfoValueSeries({
                 tooltip: s.tooltip ?? undefined,

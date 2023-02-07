@@ -13,7 +13,7 @@ public class MapFont : MapComponent, IEquatable<MapFont>
     ///     The font size in points.
     /// </summary>
     [Parameter]
-    public string? Size { get; set; }
+    public int? Size { get; set; }
     
     /// <summary>
     ///     The font family of the text.

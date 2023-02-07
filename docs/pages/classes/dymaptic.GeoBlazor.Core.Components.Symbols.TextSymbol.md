@@ -31,42 +31,42 @@ Parameterless constructor for use as a razor component
 public TextSymbol();
 ```
 
-<a name='dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol.TextSymbol(string,dymaptic.GeoBlazor.Core.Objects.MapColor,dymaptic.GeoBlazor.Core.Objects.MapColor,string,dymaptic.GeoBlazor.Core.Components.Symbols.MapFont)'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol.TextSymbol(string,dymaptic.GeoBlazor.Core.Objects.MapColor,dymaptic.GeoBlazor.Core.Objects.MapColor,System.Nullable_int_,dymaptic.GeoBlazor.Core.Components.Symbols.MapFont)'></a>
 
-## TextSymbol(string, MapColor, MapColor, string, MapFont) Constructor
+## TextSymbol(string, MapColor, MapColor, Nullable<int>, MapFont) Constructor
 
 Constructor for use in code
 
 ```csharp
-public TextSymbol(string text, dymaptic.GeoBlazor.Core.Objects.MapColor? color=null, dymaptic.GeoBlazor.Core.Objects.MapColor? haloColor=null, string? haloSize=null, dymaptic.GeoBlazor.Core.Components.Symbols.MapFont? font=null);
+public TextSymbol(string text, dymaptic.GeoBlazor.Core.Objects.MapColor? color=null, dymaptic.GeoBlazor.Core.Objects.MapColor? haloColor=null, System.Nullable<int> haloSize=null, dymaptic.GeoBlazor.Core.Components.Symbols.MapFont? font=null);
 ```
 #### Parameters
 
-<a name='dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol.TextSymbol(string,dymaptic.GeoBlazor.Core.Objects.MapColor,dymaptic.GeoBlazor.Core.Objects.MapColor,string,dymaptic.GeoBlazor.Core.Components.Symbols.MapFont).text'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol.TextSymbol(string,dymaptic.GeoBlazor.Core.Objects.MapColor,dymaptic.GeoBlazor.Core.Objects.MapColor,System.Nullable_int_,dymaptic.GeoBlazor.Core.Components.Symbols.MapFont).text'></a>
 
 `text` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 
 The text string to display in the view.
 
-<a name='dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol.TextSymbol(string,dymaptic.GeoBlazor.Core.Objects.MapColor,dymaptic.GeoBlazor.Core.Objects.MapColor,string,dymaptic.GeoBlazor.Core.Components.Symbols.MapFont).color'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol.TextSymbol(string,dymaptic.GeoBlazor.Core.Objects.MapColor,dymaptic.GeoBlazor.Core.Objects.MapColor,System.Nullable_int_,dymaptic.GeoBlazor.Core.Components.Symbols.MapFont).color'></a>
 
 `color` [MapColor](dymaptic.GeoBlazor.Core.Objects.MapColor.html 'dymaptic.GeoBlazor.Core.Objects.MapColor')
 
 The color of the symbol.
 
-<a name='dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol.TextSymbol(string,dymaptic.GeoBlazor.Core.Objects.MapColor,dymaptic.GeoBlazor.Core.Objects.MapColor,string,dymaptic.GeoBlazor.Core.Components.Symbols.MapFont).haloColor'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol.TextSymbol(string,dymaptic.GeoBlazor.Core.Objects.MapColor,dymaptic.GeoBlazor.Core.Objects.MapColor,System.Nullable_int_,dymaptic.GeoBlazor.Core.Components.Symbols.MapFont).haloColor'></a>
 
 `haloColor` [MapColor](dymaptic.GeoBlazor.Core.Objects.MapColor.html 'dymaptic.GeoBlazor.Core.Objects.MapColor')
 
 The color of the text symbol's halo.
 
-<a name='dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol.TextSymbol(string,dymaptic.GeoBlazor.Core.Objects.MapColor,dymaptic.GeoBlazor.Core.Objects.MapColor,string,dymaptic.GeoBlazor.Core.Components.Symbols.MapFont).haloSize'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol.TextSymbol(string,dymaptic.GeoBlazor.Core.Objects.MapColor,dymaptic.GeoBlazor.Core.Objects.MapColor,System.Nullable_int_,dymaptic.GeoBlazor.Core.Components.Symbols.MapFont).haloSize'></a>
 
-`haloSize` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+`haloSize` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 
 The size in points of the text symbol's halo.
 
-<a name='dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol.TextSymbol(string,dymaptic.GeoBlazor.Core.Objects.MapColor,dymaptic.GeoBlazor.Core.Objects.MapColor,string,dymaptic.GeoBlazor.Core.Components.Symbols.MapFont).font'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol.TextSymbol(string,dymaptic.GeoBlazor.Core.Objects.MapColor,dymaptic.GeoBlazor.Core.Objects.MapColor,System.Nullable_int_,dymaptic.GeoBlazor.Core.Components.Symbols.MapFont).font'></a>
 
 `font` [MapFont](dymaptic.GeoBlazor.Core.Components.Symbols.MapFont.html 'dymaptic.GeoBlazor.Core.Components.Symbols.MapFont')
 
@@ -106,11 +106,11 @@ public dymaptic.GeoBlazor.Core.Objects.MapColor? HaloColor { get; set; }
 The size in points of the text symbol's halo.
 
 ```csharp
-public string? HaloSize { get; set; }
+public System.Nullable<int> HaloSize { get; set; }
 ```
 
 #### Property Value
-[System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+[System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Symbols.TextSymbol.Text'></a>
 
