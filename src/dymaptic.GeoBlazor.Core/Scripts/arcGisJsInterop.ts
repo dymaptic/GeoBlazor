@@ -661,19 +661,6 @@ export async function queryFeatureLayer(queryObject: any, layerObject: any, symb
     }
 }
 
-
-export async function updateGraphicsLayer(layerObject: any, layerId: string, viewId: string): Promise<void> {
-    try {
-        setWaitCursor(viewId);
-        console.debug('update graphics layer');
-        removeGraphicsLayer(viewId, layerId);
-        await addLayer(layerObject, viewId);
-        unsetWaitCursor(viewId);
-    } catch (error) {
-        logError(error, viewId);
-    }
-}
-
 export function removeGraphicsLayer(viewId: string, layerId: string): void {
     try {
         setWaitCursor(viewId);
@@ -770,7 +757,7 @@ export async function updateFeatureLayer(layerObject: any, viewId: string): Prom
             let source: Array<Graphic> = [];
             for (let i = 0; i < layerObject.source.length; i++) {
                 let graphic = layerObject.source[i];
-                let jsGraphic = await buildJsGraphic(graphic);
+                let jsGraphic = await buildJsGraphic(graphic, true);
                 if (jsGraphic !== null) {
                     source.push(jsGraphic as Graphic);
                 }
@@ -848,6 +835,30 @@ export function removeFeatureLayer(layerObject: any, viewId: string): void {
         unsetWaitCursor(viewId);
     } catch (error) {
         logError(error, viewId);
+    }
+}
+
+export async function updateGraphicsLayer(layerObject: any, viewId: string): Promise<void> {
+    let currentLayer = arcGisObjectRefs[layerObject.id] as GraphicsLayer;
+    if (currentLayer === undefined) {
+        await addLayer(layerObject, viewId);
+        return;
+    }
+    
+    if (hasValue(layerObject.title) && layerObject.title !== currentLayer.title) {
+        currentLayer.title = layerObject.title;
+    }
+    
+    if (hasValue(layerObject.opacity) && layerObject.opacity !== currentLayer.opacity) {
+        currentLayer.opacity = layerObject.opacity;
+    }
+    
+    if (hasValue(layerObject.visible) && layerObject.visible !== currentLayer.visible) {
+        currentLayer.visible = layerObject.visible;
+    }
+    
+    if (hasValue(layerObject.listMode) && layerObject.listMode !== currentLayer.listMode) {
+        currentLayer.listMode = layerObject.listMode;
     }
 }
 
@@ -969,7 +980,7 @@ export async function showPopupWithGraphic(graphicObject: any, options: any, vie
 export async function addGraphic(graphicObject: DotNetGraphic, viewId: string, graphicsLayer?: any): Promise<void> {
     try {
         setWaitCursor(viewId);
-        let graphic = await buildJsGraphic(graphicObject);
+        let graphic = await buildJsGraphic(graphicObject, true);
         let view = arcGisObjectRefs[viewId] as View;
         if (graphicsLayer === undefined || graphicsLayer === null) {
             if (!hasValue(view?.graphics)) return;
@@ -1085,7 +1096,7 @@ export async function goToGraphics(graphics, viewId: string): Promise<void> {
     for (const graphic of graphics) {
         delete graphic.dotNetGraphicReference;
         delete graphic.layerId;
-        let jsGraphic = await buildJsGraphic(graphic);
+        let jsGraphic = await buildJsGraphic(graphic, false);
         if (jsGraphic !== null) {
             jsGraphics.push(jsGraphic);
         }
@@ -1465,7 +1476,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null): Prom
                 let source: Array<Graphic> = [];
                 for (let i = 0; i < layerObject.source.length; i++){
                     const graphicObject = layerObject.source[i];
-                    let graphic = await buildJsGraphic(graphicObject);
+                    let graphic = await buildJsGraphic(graphicObject, true);
                     if (graphic !== null) {
                         source.push(graphic);
                     }

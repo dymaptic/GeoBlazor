@@ -59,39 +59,15 @@ public class Point : Geometry, IEquatable<Point>
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public double? Latitude
-    {
-        get => _latitude;
-        set
-        {
-            if (_latitude is null || value is null ||
-                (Math.Abs(_latitude.Value - value.Value) > 0.0000000000001))
-            {
-                _latitude = value;
-                Task.Run(UpdateComponent);
-            }
-        }
-    }
-
+    public double? Latitude { get; set; }
+    
     /// <summary>
     ///     The longitude of the point.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public double? Longitude
-    {
-        get => _longitude;
-        set
-        {
-            if (_longitude is null || value is null ||
-                (Math.Abs(_longitude.Value - value.Value) > 0.0000000000001))
-            {
-                _longitude = value;
-                Task.Run(UpdateComponent);
-            }
-        }
-    }
-
+    public double? Longitude { get; set; }
+    
     /// <summary>
     ///     The x-coordinate (easting) of the point in map units.
     /// </summary>
@@ -148,7 +124,4 @@ public class Point : Geometry, IEquatable<Point>
     {
         return HashCode.Combine(base.GetHashCode(), Latitude, Longitude, X, Y, Z);
     }
-
-    private double? _latitude;
-    private double? _longitude;
 }

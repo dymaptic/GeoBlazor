@@ -83,6 +83,19 @@ public class Geometry : MapComponent
         Extent?.ValidateRequiredChildren();
         SpatialReference?.ValidateRequiredChildren();
     }
+
+    /// <inheritdoc />
+    public override async Task UpdateComponent()
+    {
+        if (Parent is not null)
+        {
+            await Parent.RegisterChildComponent(this);
+        }
+        else
+        {
+            await base.UpdateComponent();
+        }
+    }
 }
 
 internal class GeometryConverter : JsonConverter<Geometry>

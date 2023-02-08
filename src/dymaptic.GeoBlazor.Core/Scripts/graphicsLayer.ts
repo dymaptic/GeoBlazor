@@ -21,13 +21,13 @@ export default class GraphicsLayerWrapper {
     }
     
     async add(graphic: DotNetGraphic): Promise<void> {
-        this.layer.add(await buildJsGraphic(graphic) as Graphic);
+        this.layer.add(await buildJsGraphic(graphic, true) as Graphic);
     }
     
     async addMany(graphics: DotNetGraphic[]): Promise<void> {
         let jsGraphics: Graphic[] = [];
         for (const g of graphics) {
-            jsGraphics.push(await buildJsGraphic(g) as Graphic);
+            jsGraphics.push(await buildJsGraphic(g, true) as Graphic);
         }
         this.layer.addMany(jsGraphics);
     }

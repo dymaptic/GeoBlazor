@@ -148,7 +148,7 @@ public abstract class Layer : MapComponent
         await JsLayerReference.InvokeVoidAsync("load", cancellationToken, abortSignal);
         Layer loadedLayer = await arcGisJsInterop.InvokeAsync<Layer>("getSerializedDotNetObject",
             cancellationToken, Id);
-        UpdateFromJavaScript(loadedLayer);
+        await UpdateFromJavaScript(loadedLayer);
         await AbortManager.DisposeAbortController(cancellationToken);
     }
 
@@ -158,12 +158,14 @@ public abstract class Layer : MapComponent
     /// <param name="renderedLayer">
     ///     The layer deserialized from JavaScript
     /// </param>
-    internal virtual void UpdateFromJavaScript(Layer renderedLayer)
+    internal virtual Task UpdateFromJavaScript(Layer renderedLayer)
     {
         if (renderedLayer.FullExtent is not null)
         {
             FullExtent = renderedLayer.FullExtent;
         }
+
+        return Task.CompletedTask;
     }
 }
 

@@ -730,7 +730,7 @@ public partial class MapView : MapComponent
             createdLayer.JsLayerReference ??= layerViewCreateEvent.LayerObjectRef;
             
             createdLayer.AbortManager = new AbortManager(JsRuntime);
-            createdLayer.UpdateFromJavaScript(layerViewCreateEvent.Layer);
+            await createdLayer.UpdateFromJavaScript(layerViewCreateEvent.Layer);
 
             layerView.Layer = createdLayer;
         }

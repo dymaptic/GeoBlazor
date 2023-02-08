@@ -181,6 +181,42 @@ public class GraphicsLayer : Layer
             graphic.ValidateRequiredChildren();
         }
     }
+    
+    /// <inheritdoc />
+    public override async Task UpdateComponent()
+    {
+        if ((!MapRendered && JsLayerReference is null) || JsModule is null)
+        {
+            await base.UpdateComponent();
+        }
+
+        await InvokeAsync(async () =>
+        {
+            try
+            {
+                // ReSharper disable once RedundantCast
+                await JsModule!.InvokeVoidAsync("updateGraphicsLayer", (object)this, View!.Id);
+            }
+            catch (JSDisconnectedException)
+            {
+                // ignore, layer is already disposed
+            }
+        });
+    }
+
+    /// <inheritdoc />
+    internal override async Task UpdateFromJavaScript(Layer renderedLayer)
+    {
+        await base.UpdateFromJavaScript(renderedLayer);
+
+        foreach (Graphic graphic in _graphics)
+        {
+            if (!graphic.IsRendered)
+            {
+                await JsLayerReference!.InvokeVoidAsync("add", graphic);
+            }
+        }
+    }
 
     private HashSet<Graphic> _graphics = new();
 }

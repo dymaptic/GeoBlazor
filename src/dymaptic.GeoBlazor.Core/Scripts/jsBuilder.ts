@@ -132,7 +132,7 @@ export function buildJsExtent(dotNetExtent: DotNetExtent): Extent {
     return extent;
 }
 
-export async function buildJsGraphic(graphicObject: any): Promise<Graphic | null> {
+export async function buildJsGraphic(graphicObject: any, register: boolean): Promise<Graphic | null> {
     const graphic = new Graphic({
         geometry: buildJsGeometry(graphicObject.geometry) as Geometry ?? null,
         attributes: graphicObject.attributes ?? null,
@@ -153,6 +153,8 @@ export async function buildJsGraphic(graphicObject: any): Promise<Graphic | null
         // @ts-ignore
         let objectRef = DotNet.createJSObjectReference(wrapper);
         await graphicObject.dotNetGraphicReference.invokeMethodAsync("OnGraphicCreated", objectRef);
+    }
+    if (register) {
         arcGisObjectRefs[graphicObject.id] = graphic;
     }
     return graphic;
@@ -476,7 +478,7 @@ export async function buildJsPopup(dotNetPopup: any) : Promise<Popup> {
         let features: Graphic[] = [];
         for (const f of dotNetPopup.features) {
             delete f.dotNetGraphicReference;
-            let graphic = await buildJsGraphic(f) as Graphic;
+            let graphic = await buildJsGraphic(f, false) as Graphic;
             features.push(graphic);
         }
         popup.features = features;
@@ -536,7 +538,7 @@ export async function buildJsPopupOptions(dotNetPopupOptions: any) : Promise<Pop
         let features: Graphic[] = [];
         for (const f of dotNetPopupOptions.features) {
             delete f.dotNetGraphicReference;
-            features.push(await buildJsGraphic(f) as Graphic);
+            features.push(await buildJsGraphic(f, false) as Graphic);
         }
         options.features = features;
     }

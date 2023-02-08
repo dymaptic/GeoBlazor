@@ -253,6 +253,19 @@ The child to unregister
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
 
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.UpdateComponent()'></a>
+
+## PopupTemplate.UpdateComponent() Method
+
+Checks if the map is already rendered, and if so, performs forced updates as defined by the component type.
+
+```csharp
+public override System.Threading.Tasks.Task UpdateComponent();
+```
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
 <a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.ValidateRequiredChildren()'></a>
 
 ## PopupTemplate.ValidateRequiredChildren() Method

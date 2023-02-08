@@ -294,17 +294,15 @@ public class FeatureLayer : Layer
     }
 
     /// <inheritdoc />
-    internal override void UpdateFromJavaScript(Layer renderedLayer)
+    internal override async Task UpdateFromJavaScript(Layer renderedLayer)
     {
-        base.UpdateFromJavaScript(renderedLayer);
+        await base.UpdateFromJavaScript(renderedLayer);
         FeatureLayer renderedFeatureLayer = (FeatureLayer)renderedLayer;
         Url = renderedFeatureLayer.Url;
-        if (renderedFeatureLayer.Source is not null && renderedFeatureLayer.Source.Any())
+        if (renderedFeatureLayer.Source is not null && renderedFeatureLayer.Source.Any() && 
+            Source is null)
         {
-            if (Source is null)
-            {
-                Source = renderedFeatureLayer.Source;
-            }
+            Source = renderedFeatureLayer.Source;
         }
         
         if (renderedFeatureLayer.Fields is not null && renderedFeatureLayer.Fields.Any())

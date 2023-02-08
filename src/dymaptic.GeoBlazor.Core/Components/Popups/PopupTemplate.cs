@@ -232,4 +232,17 @@ public class PopupTemplate : MapComponent
             }
         }
     }
+    
+    /// <inheritdoc />
+    public override async Task UpdateComponent()
+    {
+        if (Parent is not null)
+        {
+            await Parent.RegisterChildComponent(this);
+        }
+        else
+        {
+            await base.UpdateComponent();
+        }
+    }
 }

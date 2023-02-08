@@ -1,18 +1,38 @@
 ﻿@page "/tests"
 <PageTitle>Tests</PageTitle> 
 
+<h1>Tests</h1>
+<h2>Code Layers</h2>
 <button disabled="@(!_mapRendered)" @onclick="() => ToggleLayer(_localFeatureLayer)">Local Feature Layer</button>
 <button disabled="@(!_mapRendered)" @onclick="() => ToggleLayer(_remoteFeatureLayer)">Server Feature Layer</button>
 <button disabled="@(!_mapRendered)" @onclick="() => ToggleLayer(_graphicsLayer)">Graphics Layer</button>
 <button disabled="@(!_mapRendered)" @onclick="() => ToggleLayer(_geoJsonLayer)">GeoJSON Layer</button>
 <button disabled="@(!_mapRendered)" @onclick="() => ToggleLayer(_geoRssLayer)">GeoRSS Layer</button>
 <button disabled="@(!_mapRendered)" @onclick="() => ToggleLayer(_osmLayer)">OpenStreetMaps Layer</button>
+<h2>Markup Layers</h2>
+<button disabled="@(!_mapRendered)" @onclick="() => _showGraphicsMarkupLayer = !_showGraphicsMarkupLayer">Graphics Layer</button>
 
 <MapView @ref="_view" class="map-view" OnMapRendered="OnMapRendered">
     <Extent Xmin="-41525513" Ymin="4969181" Xmax="-36687355" Ymax="9024624">
         <SpatialReference Wkid="3857" />
     </Extent>
     <Map ArcGISDefaultBasemap="arcgis-topographic">
+        @if (_showGraphicsMarkupLayer)
+        {
+            <GraphicsLayer>
+                @for (var i = 0; i < 10; i++)
+                {
+                    var lat = _lats[i];
+                    var lon = _longs[i];
+                    <Graphic>
+                        <Point Longitude="@lon" Latitude="@lat" />
+                        <SimpleMarkerSymbol Color="@(new MapColor("red"))" Size="6">
+                            <Outline Color="@(new MapColor("white"))" />
+                        </SimpleMarkerSymbol>
+                    </Graphic>
+                }
+            </GraphicsLayer>
+        }
     </Map>
 </MapView>
 
@@ -20,6 +40,15 @@
     private void OnMapRendered()
     {
         _mapRendered = true;
+    }
+
+    protected override void OnInitialized()
+    {
+        for (var i = 0; i < 10; i++)
+        {
+            _lats.Add(_random.NextDouble() + 50.0);
+            _longs.Add(_random.NextDouble() + 11.0);
+        }
     }
 
     private async Task ToggleLayer(Layer layer)
@@ -73,4 +102,8 @@
     private readonly OpenStreetMapLayer _osmLayer = new();
     
     private bool _mapRendered;
+    private bool _showGraphicsMarkupLayer;
+    private Random _random = new();
+    private List<double> _lats = new();
+    private List<double> _longs = new();
 }

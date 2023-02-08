@@ -239,6 +239,8 @@ public class Graphic : LayerObject, IEquatable<Graphic>
         Geometry?.ValidateRequiredChildren();
         PopupTemplate?.ValidateRequiredChildren();
     }
+    
+    public bool IsRendered => _jsObjectReference is not null;
 
     /// <inheritdoc />
     protected override void OnParametersSet()
@@ -261,8 +263,8 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     {
         return other?.Id == Id ||
             (other is not null &&
-                ((other.Geometry is null && Geometry is null) || other.Geometry?.Equals(Geometry) == true) &&
-                other.Attributes.Equals(Attributes));
+             other.Geometry?.Equals(Geometry) == true &&
+             other.Attributes.Equals(Attributes));
     }
 
     /// <inheritdoc />
