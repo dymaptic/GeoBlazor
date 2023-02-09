@@ -50,7 +50,7 @@ internal class ObservableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, IN
                     JsonValueKind.True => true,
                     JsonValueKind.Number => jsonElement.ToString().Contains('.') 
                         ? Convert.ChangeType(jsonElement.ToString(), TypeCode.Double) 
-                        : Convert.ChangeType(jsonElement.ToString(), TypeCode.Int32),
+                        : Convert.ChangeType(jsonElement.ToString(), TypeCode.Int64),
                     JsonValueKind.String => jsonElement.ToString(),
                     _ => jsonElement
                 };

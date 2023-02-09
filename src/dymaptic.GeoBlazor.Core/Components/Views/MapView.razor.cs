@@ -900,7 +900,8 @@ public partial class MapView : MapComponent
 
         if (NewPropertyValues.Any())
         {
-            foreach (KeyValuePair<string, object?> kvp in NewPropertyValues)
+            List<KeyValuePair<string, object?>> props = NewPropertyValues.ToList();
+            foreach (KeyValuePair<string, object?> kvp in props)
             {
                 await ViewJsModule!.InvokeVoidAsync("updateView", kvp.Key, kvp.Value, Id);
             }

@@ -188,20 +188,23 @@ public class GraphicsLayer : Layer
         if ((!MapRendered && JsLayerReference is null) || JsModule is null)
         {
             await base.UpdateComponent();
+
+            return;
         }
 
-        await InvokeAsync(async () =>
+        if (_updating) return;
+        
+        try
         {
-            try
-            {
-                // ReSharper disable once RedundantCast
-                await JsModule!.InvokeVoidAsync("updateGraphicsLayer", (object)this, View!.Id);
-            }
-            catch (JSDisconnectedException)
-            {
-                // ignore, layer is already disposed
-            }
-        });
+            _updating = true;
+            // ReSharper disable once RedundantCast
+            await JsModule!.InvokeVoidAsync("updateGraphicsLayer", (object)this, View!.Id);
+            _updating = false;
+        }
+        catch (JSDisconnectedException)
+        {
+            // ignore, layer is already disposed
+        }
     }
 
     /// <inheritdoc />
@@ -219,4 +222,5 @@ public class GraphicsLayer : Layer
     }
 
     private HashSet<Graphic> _graphics = new();
+    private bool _updating;
 }
