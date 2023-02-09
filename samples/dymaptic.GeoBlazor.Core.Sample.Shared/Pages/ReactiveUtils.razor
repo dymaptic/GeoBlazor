@@ -365,7 +365,6 @@ else
         StateHasChanged();
         _zoomValue = await _view!.AwaitReactiveSingleWatchUpdate<double?>("view?.zoom");
         _zoomWatcherAttached = false;
-        Console.WriteLine($"Zoom analysis: {_zoomValue}");
         StateHasChanged();
     }
 
