@@ -27,7 +27,6 @@ public class SimpleRenderer : Renderer
                 if (!VisualVariables.Contains(visualVariable))
                 {
                     VisualVariables.Add(visualVariable);
-                    await UpdateComponent();
                 }
 
                 break;

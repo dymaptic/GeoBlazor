@@ -156,18 +156,6 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         StateHasChanged();
     }
 
-    /// <summary>
-    ///     Checks if the map is already rendered, and if so, performs forced updates as defined by the component type.
-    /// </summary>
-    public virtual async Task UpdateComponent()
-    {
-        if (Parent is not null && MapRendered)
-        {
-            Console.WriteLine($"Updating {GetType().Name} with {Parent.GetType().Name}");
-            await Parent.UpdateComponent();
-        }
-    }
-
 
     /// <summary>
     ///     When a <see cref="MapView" /> is prepared to render, this will check to make sure that all properties with the <see cref="RequiredPropertyAttribute"/> are provided.

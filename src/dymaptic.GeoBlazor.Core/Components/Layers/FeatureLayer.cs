@@ -70,7 +70,7 @@ public class FeatureLayer : Layer
     /// <param name="listMode">
     ///     Indicates how the layer should display in the LayerList widget. The possible values are listed below.
     /// </param>
-    public FeatureLayer(string? url = null, PortalItem? portalItem = null, IReadOnlyCollection<Graphic> source = null, 
+    public FeatureLayer(string? url = null, PortalItem? portalItem = null, IReadOnlyCollection<Graphic>? source = null, 
         string[]? outFields = null, string? definitionExpression = null, double? minScale = null, 
         double? maxScale = null, string? objectIdField = null, GeometryType? geometryType = null, string? title = null, 
         double? opacity = null, bool? visible = null, ListMode? listMode = null)
@@ -85,7 +85,7 @@ public class FeatureLayer : Layer
         Source = source;
         PortalItem = portalItem;
         OutFields = outFields;
-        _definitionExpression = definitionExpression;
+        DefinitionExpression = definitionExpression;
         MinScale = minScale;
         MaxScale = maxScale;
         ObjectIdField = objectIdField;
@@ -109,19 +109,7 @@ public class FeatureLayer : Layer
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? DefinitionExpression
-    {
-        get => _definitionExpression;
-        set
-        {
-            _definitionExpression = value;
-
-            if (MapRendered)
-            {
-                Task.Run(UpdateComponent);
-            }
-        }
-    }
+    public string? DefinitionExpression { get; set; }
 
     /// <summary>
     ///     An array of field names from the service to include with each feature.
@@ -411,7 +399,7 @@ public class FeatureLayer : Layer
                 if (!popupTemplate.Equals(PopupTemplate))
                 {
                     PopupTemplate = popupTemplate;
-                    await UpdateComponent();
+                    LayerChanged = true;
                 }
 
                 break;
@@ -420,7 +408,7 @@ public class FeatureLayer : Layer
                 if (!LabelingInfo.Contains(label))
                 {
                     LabelingInfo.Add(label);
-                    await UpdateComponent();
+                    LayerChanged = true;
                 }
 
                 break;
@@ -428,7 +416,7 @@ public class FeatureLayer : Layer
                 if (!renderer.Equals(Renderer))
                 {
                     Renderer = renderer;
-                    await UpdateComponent();
+                    LayerChanged = true;
                 }
 
                 break;
@@ -436,7 +424,7 @@ public class FeatureLayer : Layer
                 if (!portalItem.Equals(PortalItem))
                 {
                     PortalItem = portalItem;
-                    await UpdateComponent();
+                    LayerChanged = true;
                 }
 
                 break;
@@ -444,7 +432,7 @@ public class FeatureLayer : Layer
                 if (!spatialRef.Equals(SpatialReference))
                 {
                     SpatialReference = spatialRef;
-                    await UpdateComponent();
+                    LayerChanged = true;
                 }
 
                 break;
@@ -453,7 +441,7 @@ public class FeatureLayer : Layer
                 if (!OrderBy.Contains(orderBy))
                 {
                     OrderBy.Add(orderBy);
-                    await UpdateComponent();
+                    LayerChanged = true;
                 }
 
                 break;
@@ -468,7 +456,7 @@ public class FeatureLayer : Layer
                     graphic.LayerId ??= Id;
                     _source.Add(graphic);
 
-                    await UpdateComponent();
+                    LayerChanged = true;
                 }
 
                 break;
@@ -478,7 +466,7 @@ public class FeatureLayer : Layer
                 if (!_fields.Contains(field))
                 {
                     _fields.Add(field);
-                    await UpdateComponent();
+                    LayerChanged = true;
                 }
 
                 break;
@@ -496,33 +484,33 @@ public class FeatureLayer : Layer
         {
             case PopupTemplate _:
                 PopupTemplate = null;
-                await UpdateComponent();
+                LayerChanged = true;
                 break;
             case Label label:
                 LabelingInfo?.Remove(label);
-                await UpdateComponent();
+                LayerChanged = true;
                 break;
             case Renderer _:
                 Renderer = null;
-                await UpdateComponent();
+                LayerChanged = true;
                 break;
             case PortalItem _:
                 PortalItem = null;
-                await UpdateComponent();
+                LayerChanged = true;
                 break;
             case SpatialReference _:
                 SpatialReference = null;
-                await UpdateComponent();
+                LayerChanged = true;
                 break;
             case OrderedLayerOrderBy orderBy:
                 OrderBy?.Remove(orderBy);
-                await UpdateComponent();
+                LayerChanged = true;
                 break;
             case Graphic graphic:
                 if (_source?.Contains(graphic) ?? false)
                 {
                     _source.Remove(graphic);
-                    await UpdateComponent();
+                    LayerChanged = true;
                 }
 
                 break;
@@ -530,7 +518,7 @@ public class FeatureLayer : Layer
                 if (_fields?.Contains(field) ?? false)
                 {
                     _fields.Remove(field);
-                    await UpdateComponent();
+                    LayerChanged = true;
                 }
 
                 break;
@@ -572,25 +560,6 @@ public class FeatureLayer : Layer
                 field.ValidateRequiredChildren();
             }
         }
-    }
-
-    /// <inheritdoc />
-    public override async Task UpdateComponent()
-    {
-        if ((!MapRendered && JsLayerReference is null) || JsModule is null) return;
-
-        await InvokeAsync(async () =>
-        {
-            try
-            {
-                // ReSharper disable once RedundantCast
-                await JsModule!.InvokeVoidAsync("updateFeatureLayer", (object)this, View!.Id);
-            }
-            catch (JSDisconnectedException)
-            {
-                // ignore, layer is already disposed
-            }
-        });
     }
 
 
@@ -854,7 +823,6 @@ public class FeatureLayer : Layer
         return result;
     }
 
-    private string? _definitionExpression;
     private HashSet<Graphic>? _source;
     private HashSet<Field>? _fields;
 }

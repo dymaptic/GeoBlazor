@@ -37,7 +37,6 @@ public class Geometry : MapComponent
                 if (!extent.Equals(Extent))
                 {
                     Extent = extent;
-                    await UpdateComponent();
                 }
 
                 break;
@@ -46,7 +45,6 @@ public class Geometry : MapComponent
                 if (!((object)spatialReference).Equals(SpatialReference))
                 {
                     SpatialReference = spatialReference;
-                    await UpdateComponent();
                 }
 
                 break;
@@ -82,19 +80,6 @@ public class Geometry : MapComponent
         base.ValidateRequiredChildren();
         Extent?.ValidateRequiredChildren();
         SpatialReference?.ValidateRequiredChildren();
-    }
-
-    /// <inheritdoc />
-    public override async Task UpdateComponent()
-    {
-        if (Parent is not null)
-        {
-            await Parent.RegisterChildComponent(this);
-        }
-        else
-        {
-            await base.UpdateComponent();
-        }
     }
 }
 

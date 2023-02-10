@@ -175,10 +175,6 @@ public class Graphic : LayerObject, IEquatable<Graphic>
                 {
                     await _jsObjectReference.InvokeVoidAsync("setGeometry", Geometry);
                 }
-                else
-                {
-                    await UpdateComponent();
-                }
 
                 break;
             case PopupTemplate popupTemplate:
@@ -187,10 +183,6 @@ public class Graphic : LayerObject, IEquatable<Graphic>
                 {
                     await _jsObjectReference.InvokeVoidAsync("setPopupTemplate", PopupTemplate);
                 }
-                else
-                {
-                    await UpdateComponent();
-                }
 
                 break;
             case Symbol symbol:
@@ -198,10 +190,6 @@ public class Graphic : LayerObject, IEquatable<Graphic>
                 if (_jsObjectReference is not null)
                 {
                     await _jsObjectReference.InvokeVoidAsync("setSymbol", Symbol);
-                }
-                else
-                {
-                    await UpdateComponent();
                 }
 
                 break;
@@ -240,7 +228,7 @@ public class Graphic : LayerObject, IEquatable<Graphic>
         PopupTemplate?.ValidateRequiredChildren();
     }
     
-    public bool IsRendered => _jsObjectReference is not null;
+    internal bool IsRendered => _jsObjectReference is not null;
 
     /// <inheritdoc />
     protected override void OnParametersSet()

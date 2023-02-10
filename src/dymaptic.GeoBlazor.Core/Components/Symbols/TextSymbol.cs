@@ -85,7 +85,6 @@ public class TextSymbol : Symbol, IEquatable<TextSymbol>
                 if (!mapFont.Equals(Font))
                 {
                     Font = mapFont;
-                    await UpdateComponent();
                 }
 
                 break;

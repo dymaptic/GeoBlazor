@@ -39,7 +39,6 @@ public class BasemapToggleWidget : Widget
         {
             case Basemap basemap:
                 NextBasemap = basemap;
-                await UpdateComponent();
 
                 break;
             default:

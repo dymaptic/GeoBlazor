@@ -1,6 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Components.Layers;
-using System.Drawing;
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 using dymaptic.GeoBlazor.Core.Objects;
 using Microsoft.AspNetCore.Components;
@@ -20,19 +18,6 @@ public abstract class Symbol : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public MapColor? Color { get; set; }
-
-    /// <inheritdoc />
-    public override async Task UpdateComponent()
-    {
-        if (Parent is not null)
-        {
-            await Parent.RegisterChildComponent(this);
-        }
-        else
-        {
-            await base.UpdateComponent();
-        }
-    }
 
     /// <summary>
     ///     The symbol type

@@ -65,7 +65,6 @@ public class SimpleFillSymbol : FillSymbol, IEquatable<SimpleFillSymbol>
                 if (!outline.Equals(Outline))
                 {
                     Outline = outline;
-                    await UpdateComponent();
                 }
 
                 break;

@@ -77,7 +77,7 @@ public abstract class Layer : MapComponent
                 if (!extent.Equals(FullExtent))
                 {
                     FullExtent = extent;
-                    await UpdateComponent();
+                    LayerChanged = true;
                 }
 
                 break;
@@ -95,7 +95,7 @@ public abstract class Layer : MapComponent
         {
             case Extent _:
                 FullExtent = null;
-                await UpdateComponent();
+                LayerChanged = true;
 
                 break;
             default:
@@ -110,6 +110,25 @@ public abstract class Layer : MapComponent
     {
         FullExtent?.ValidateRequiredChildren();
         base.ValidateRequiredChildren();
+    }
+
+    /// <inheritdoc />
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (LayerChanged && MapRendered)
+        {
+            await UpdateLayer();
+        }
+    }
+
+    private async Task UpdateLayer()
+    {
+        LayerChanged = false;
+        if ((!MapRendered && JsLayerReference is null) || JsModule is null) return;
+        // ReSharper disable once RedundantCast
+        await JsModule!.InvokeVoidAsync("updateLayer", (object)this, View!.Id);
     }
 
 
@@ -167,6 +186,11 @@ public abstract class Layer : MapComponent
 
         return Task.CompletedTask;
     }
+
+    /// <summary>
+    ///    Indicates if the layer has changed since the last render.
+    /// </summary>
+    protected bool LayerChanged;
 }
 
 internal class LayerConverter : JsonConverter<Layer>

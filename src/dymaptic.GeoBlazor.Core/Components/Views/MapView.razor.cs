@@ -51,90 +51,32 @@ public partial class MapView : MapComponent
     ///     The Latitude for the Center point of the view
     /// </summary>
     [Parameter]
-    public double? Latitude
-    {
-        get => _latitude;
-        set
-        {
-            if (value is null || _latitude is null || Math.Abs(_latitude.Value - value.Value) > 0.0000000000001)
-            {
-                _latitude = value;
-                NewPropertyValues[nameof(Latitude)] = value;
-            }
-        }
-    }
+    public double? Latitude { get; set; }
 
     /// <summary>
     ///     The Longitude for the Center point of the view
     /// </summary>
     [Parameter]
-    public double? Longitude
-    {
-        get => _longitude;
-        set
-        {
-            if (value is null || _longitude is null || Math.Abs(_longitude.Value - value.Value) > 0.0000000000001)
-            {
-                _longitude = value;
-                NewPropertyValues[nameof(Longitude)] = value;
-            }
-        }
-    }
+    public double? Longitude { get; set; }
 
     /// <summary>
     ///     Represents the level of detail (LOD) at the center of the view.
     /// </summary>
     [Parameter]
-    public double? Zoom
-    {
-        get => _zoom;
-        set
-        {
-            if (value is null || _zoom is null || Math.Abs(_zoom.Value - value.Value) > 0.0000000000001)
-            {
-                _zoom = value;
-                NewPropertyValues[nameof(Zoom)] = value;
-            }
-        }
-    }
+    public double? Zoom { get; set; }
 
     /// <summary>
     ///     Represents the map scale at the center of the view.
     /// </summary>
     [Parameter]
-    public double? Scale
-    {
-        get => _scale;
-        set
-        {
-            if (_scale is null || value is null || (Math.Abs(_scale!.Value - value.Value) > 0.0000000000001))
-            {
-                _scale = value;
-
-                if (value is not null)
-                {
-                    NewPropertyValues[nameof(Scale)] = value;
-                }
-            }
-        }
-    }
+    public double? Scale { get; set; }
 
     /// <summary>
     ///     The clockwise rotation of due north in relation to the top of the view in degrees.
     /// </summary>
     [Parameter]
-    public double Rotation
-    {
-        get => _rotation;
-        set
-        {
-            if (Math.Abs(_rotation - value) > 0.0000000000001)
-            {
-                _rotation = value;
-                NewPropertyValues[nameof(Rotation)] = value;
-            }
-        }
-    }
+    public double Rotation { get; set; }
+
 
     /// <summary>
     ///     Allows maps to be rendered without an Api or OAuth Token, which will trigger a default esri login popup.
@@ -798,7 +740,11 @@ public partial class MapView : MapComponent
     /// <summary>
     ///     The collection of <see cref="Graphic"/>s in the view. These are directly on the view itself, not in a <see cref="GraphicsLayer"/>.
     /// </summary>
-    public List<Graphic> Graphics { get; set; } = new();
+    public IReadOnlyCollection<Graphic> Graphics
+    {
+        get => _graphics;
+        set => _graphics = new HashSet<Graphic>(value);
+    }
 
     /// <summary>
     ///     An instance of a <see cref="Map"/> object to display in the view.
@@ -890,24 +836,19 @@ public partial class MapView : MapComponent
         StateHasChanged();
     }
 
-    /// <inheritdoc />
-    public override async Task UpdateComponent()
+    /// <summary>
+    ///     Updates properties directly on the view.
+    /// </summary>
+    protected async Task UpdateView()
     {
         if (!MapRendered)
         {
             return;
         }
 
-        if (NewPropertyValues.Any())
-        {
-            List<KeyValuePair<string, object?>> props = NewPropertyValues.ToList();
-            foreach (KeyValuePair<string, object?> kvp in props)
-            {
-                await ViewJsModule!.InvokeVoidAsync("updateView", kvp.Key, kvp.Value, Id);
-            }
-            
-            NewPropertyValues.Clear();
-        }
+        await ViewJsModule!.InvokeVoidAsync("updateView", new {
+            Id, Latitude, Longitude, Zoom, Rotation
+        });
     }
 
     /// <inheritdoc />
@@ -940,35 +881,19 @@ public partial class MapView : MapComponent
 
                 break;
             case SpatialReference spatialReference:
-                if (!spatialReference.Equals(SpatialReference))
-                {
-                    SpatialReference = spatialReference;
-                    await UpdateComponent();
-                }
+                await SetSpatialReference(spatialReference);
 
                 break;
             case Constraints constraints:
-                if (!constraints.Equals(Constraints))
-                {
-                    Constraints = constraints;
-                    await UpdateComponent();
-                }
+                await SetConstraints(constraints);
 
                 break;
             case Extent extent:
-                if (!extent.Equals(Extent))
-                {
-                    Extent = extent;
-                    await UpdateComponent();
-                }
+                await SetExtent(extent);
 
                 break;
             case HighlightOptions highlightOptions:
-                if (!highlightOptions.Equals(HighlightOptions))
-                {
-                    HighlightOptions = highlightOptions;
-                    await RenderView();
-                }
+                await SetHighlightOptions(highlightOptions);
 
                 break;
             default:
@@ -985,12 +910,10 @@ public partial class MapView : MapComponent
         {
             case Map _:
                 Map = null;
-                await UpdateComponent();
 
                 break;
             case WebMap _:
                 WebMap = null;
-                await UpdateComponent();
 
                 break;
             case Widget widget:
@@ -1003,17 +926,14 @@ public partial class MapView : MapComponent
                 break;
             case Constraints _:
                 Constraints = null;
-                await UpdateComponent();
 
                 break;
             case SpatialReference _:
                 SpatialReference = null;
-                await UpdateComponent();
 
                 break;
             case Extent _:
                 Extent = null;
-                await UpdateComponent();
 
                 break;
             case HighlightOptions _:
@@ -1137,6 +1057,14 @@ public partial class MapView : MapComponent
         await ViewJsModule!.InvokeVoidAsync("closePopup", Id);
     }
 
+    public async Task AddGraphics(IEnumerable<Graphic> graphics)
+    {
+        foreach (Graphic graphic in graphics)
+        {
+            await AddGraphic(graphic);
+        }
+    }
+
     /// <summary>
     ///     Adds a <see cref="Graphic"/> to the current view, or to a <see cref="GraphicsLayer"/>.
     /// </summary>
@@ -1145,13 +1073,16 @@ public partial class MapView : MapComponent
     /// </param>
     public async Task AddGraphic(Graphic graphic)
     {
-        graphic.View = this;
-        graphic.JsModule = ViewJsModule;
-        graphic.Parent = this;
-        Graphics.Add(graphic);
+        if (!_graphics.Any(g => g.Equals(graphic)))
+        {
+            graphic.View = this;
+            graphic.JsModule = ViewJsModule;
+            graphic.Parent = this;
+            _graphics.Add(graphic);
 
-        if (ViewJsModule is null) return;
-        await ViewJsModule!.InvokeVoidAsync("addGraphic", (object)graphic, Id);
+            if (ViewJsModule is null) return;
+            await ViewJsModule!.InvokeVoidAsync("addGraphic", (object)graphic, Id);
+        }
     }
 
     /// <summary>
@@ -1159,7 +1090,7 @@ public partial class MapView : MapComponent
     /// </summary>
     public async Task ClearGraphics()
     {
-        Graphics.Clear();
+        _graphics.Clear();
         if (ViewJsModule is null) return;
         await ViewJsModule!.InvokeVoidAsync("clearViewGraphics", Id);
     }
@@ -1184,6 +1115,15 @@ public partial class MapView : MapComponent
         }
     }
 
+    /// <summary>
+    ///    Removes a layer from the current Map
+    /// </summary>
+    /// <param name="layer">
+    ///     The layer to remove
+    /// </param>
+    /// <param name="isBasemapLayer">
+    ///     If true, removes the layer as a Basemap
+    /// </param>
     public async Task RemoveLayer(Layer layer, bool? isBasemapLayer = false)
     {
         if (Map?.Layers.Contains(layer) == true)
@@ -1239,7 +1179,7 @@ public partial class MapView : MapComponent
     /// </param>
     public async Task RemoveGraphic(Graphic graphic)
     {
-        Graphics.Remove(graphic);
+        _graphics.Remove(graphic);
 
         if (ViewJsModule is null) return;
         await ViewJsModule!.InvokeVoidAsync("removeGraphic", graphic, Id);
@@ -1255,7 +1195,7 @@ public partial class MapView : MapComponent
     {
         foreach (Graphic graphic in graphics)
         {
-            Graphics.Remove(graphic);
+            _graphics.Remove(graphic);
         }
         if (ViewJsModule is null) return;
         await ViewJsModule!.InvokeVoidAsync("removeGraphics", graphics, Id);
@@ -1271,6 +1211,17 @@ public partial class MapView : MapComponent
         return await ViewJsModule!.InvokeAsync<Point>("getCenter", Id);
     }
 
+    public async Task SetExtent(Extent extent)
+    {
+        if (!extent.Equals(Extent))
+        {
+            Extent = extent;
+            if (ViewJsModule is null) return;
+        
+            await ViewJsModule!.InvokeVoidAsync("setExtent", (object)Extent, Id);
+        }
+    }
+
     /// <summary>
     ///     Returns the current <see cref="Extent"/> of the view.
     /// </summary>
@@ -1279,6 +1230,39 @@ public partial class MapView : MapComponent
         if (ViewJsModule is null) return null;
 
         return await ViewJsModule!.InvokeAsync<Extent?>("getExtent", Id);
+    }
+
+    public async Task SetConstraints(Constraints constraints)
+    {
+        if (!constraints.Equals(Constraints))
+        {
+            Constraints = constraints;
+            if (ViewJsModule is null) return;
+        
+            await ViewJsModule!.InvokeVoidAsync("setConstraints", (object)Constraints, Id);
+        }
+    }
+    
+    public async Task SetHighlightOptions(HighlightOptions highlightOptions)
+    {
+        if (!highlightOptions.Equals(HighlightOptions))
+        {
+            HighlightOptions = highlightOptions;
+            if (ViewJsModule is null) return;
+        
+            await ViewJsModule!.InvokeVoidAsync("setHighlightOptions", (object)HighlightOptions, Id);
+        }
+    }
+
+    public async Task SetSpatialReference(SpatialReference spatialReference)
+    {
+        if (!spatialReference.Equals(SpatialReference))
+        {
+            SpatialReference = spatialReference;
+            if (ViewJsModule is null) return;
+            
+            await ViewJsModule!.InvokeVoidAsync("setSpatialReference", (object)SpatialReference, Id);
+        }
     }
 
     /// <summary>
@@ -1444,6 +1428,8 @@ public partial class MapView : MapComponent
                 PromptForArcGISKey = promptSetting.Value;
             }
         }
+
+        await UpdateView();
     }
 
     /// <inheritdoc />
@@ -1471,10 +1457,6 @@ public partial class MapView : MapComponent
         if (NeedsRender)
         {
             await RenderView();
-        }
-        else if (NewPropertyValues.Any())
-        {
-            await UpdateComponent();
         }
     }
 
@@ -1531,7 +1513,6 @@ public partial class MapView : MapComponent
                 ApiKey, mapType, Widgets, Graphics, SpatialReference, Constraints, Extent,
                 EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions);
             Rendering = false;
-            NewPropertyValues.Clear();
             MapRendered = true;
         });
     }
@@ -1627,11 +1608,6 @@ public partial class MapView : MapComponent
     protected bool Rendering;
 
     /// <summary>
-    ///     Tracked properties that need to be updated.
-    /// </summary>
-    protected readonly Dictionary<string, object?> NewPropertyValues = new();
-
-    /// <summary>
     ///     A boolean flag to indicate a "dirty" state that needs to be re-rendered
     /// </summary>
     protected bool NeedsRender = true;
@@ -1642,15 +1618,12 @@ public partial class MapView : MapComponent
     protected bool IsServer => JsRuntime.GetType().Name.Contains("Remote");
     private bool IsWebAssembly => JsRuntime is IJSInProcessRuntime;
     private bool IsMaui => JsRuntime.GetType().Name.Contains("WebView");
-    private double? _longitude;
-    private double? _zoom;
-    private double? _scale;
-    private double _rotation;
-    private double? _latitude;
+    
     private string? _apiKey;
     private SpatialReference? _spatialReference;
     private Dictionary<Guid, StringBuilder> _hitTestResults = new();
     private bool _renderCalled;
     private Dictionary<string, StringBuilder> _layerCreateData = new();
     private Dictionary<string, StringBuilder> _layerViewCreateData = new();
+    private HashSet<Graphic> _graphics;
 }

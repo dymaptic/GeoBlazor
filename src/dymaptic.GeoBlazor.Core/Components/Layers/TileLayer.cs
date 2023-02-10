@@ -35,7 +35,7 @@ public class TileLayer : Layer
                 if (!portalItem.Equals(PortalItem))
                 {
                     PortalItem = portalItem;
-                    await UpdateComponent();
+                    LayerChanged = true;
                 }
 
                 break;
@@ -53,7 +53,7 @@ public class TileLayer : Layer
         {
             case PortalItem _:
                 PortalItem = null;
-
+                LayerChanged = true;
                 break;
             default:
                 await base.UnregisterChildComponent(child);

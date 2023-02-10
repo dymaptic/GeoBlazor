@@ -27,7 +27,6 @@ public class Basemap : MapComponent
                 if (!portalItem.Equals(PortalItem))
                 {
                     PortalItem = portalItem;
-                    await UpdateComponent();
                 }
 
                 break;
@@ -35,7 +34,6 @@ public class Basemap : MapComponent
                 if (!Layers.Contains(layer))
                 {
                     Layers.Add(layer);
-                    await UpdateComponent();
                 }
 
                 break;
@@ -53,12 +51,10 @@ public class Basemap : MapComponent
         {
             case PortalItem _:
                 PortalItem = null;
-                await UpdateComponent();
 
                 break;
             case Layer layer:
                 Layers.Remove(layer);
-                await UpdateComponent();
 
                 break;
             default:

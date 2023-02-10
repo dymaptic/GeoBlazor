@@ -114,7 +114,6 @@ public class FieldInfo : MapComponent
                 if (!((object)format).Equals(Format))
                 {
                     Format = format;
-                    await UpdateComponent();
                 }
 
                 break;

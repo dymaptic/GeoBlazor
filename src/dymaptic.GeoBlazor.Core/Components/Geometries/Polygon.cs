@@ -36,28 +36,15 @@ public class Polygon : Geometry, IEquatable<Polygon>
         Extent = extent;
 #pragma warning restore BL0005
     }
-    
+
     /// <summary>
     ///     An array of <see cref="MapPath"/> rings.
     /// </summary>
     [Parameter]
-    public MapPath[] Rings
-    {
-        get => _rings;
-        set
-        {
-            if (!_rings.SequenceEqual(value, MapPathEqualityComparer.Instance))
-            {
-                _rings = value.Select(p => p.DeepCopy()).ToArray();
-                Task.Run(UpdateComponent);
-            }
-        }
-    }
+    public MapPath[] Rings { get; set; } = Array.Empty<MapPath>();
 
     /// <inheritdoc />
     public override string Type => "polygon";
-
-    private MapPath[] _rings = Array.Empty<MapPath>();
 
     /// <inheritdoc />
     public bool Equals(Polygon? other)
@@ -65,7 +52,7 @@ public class Polygon : Geometry, IEquatable<Polygon>
         if (ReferenceEquals(null, other)) return false;
         if (ReferenceEquals(this, other)) return true;
 
-        return _rings.Equals(other._rings);
+        return Rings.Equals(other.Rings);
     }
 
     /// <inheritdoc />
@@ -81,7 +68,7 @@ public class Polygon : Geometry, IEquatable<Polygon>
     /// <inheritdoc />
     public override int GetHashCode()
     {
-        return _rings.GetHashCode();
+        return Rings.GetHashCode();
     }
 
     /// <summary>

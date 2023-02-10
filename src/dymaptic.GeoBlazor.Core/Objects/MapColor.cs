@@ -90,13 +90,13 @@ internal class MapColorConverter : JsonConverter<MapColor>
     {
         if (reader.TokenType == JsonTokenType.StartArray)
         {
-            var values = JsonSerializer.Deserialize<double[]>(ref reader, options);
+            var values = JsonSerializer.Deserialize<double[]>(ref reader, options)!;
             return new MapColor(values);
         }
 
         if (reader.TokenType == JsonTokenType.String)
         {
-            var hexOrNameValue = reader.GetString();
+            var hexOrNameValue = reader.GetString()!;
             return new MapColor(hexOrNameValue);
         }
 

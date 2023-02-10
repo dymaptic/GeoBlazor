@@ -22,8 +22,8 @@
             <GraphicsLayer>
                 @for (var i = 0; i < 10; i++)
                 {
-                    var lat = _lats[i];
-                    var lon = _longs[i];
+                    double lat = _lats[i];
+                    double lon = _longs[i];
                     <Graphic>
                         <Point Longitude="@lon" Latitude="@lat" />
                         <SimpleMarkerSymbol Color="@(new MapColor("red"))" Size="6">

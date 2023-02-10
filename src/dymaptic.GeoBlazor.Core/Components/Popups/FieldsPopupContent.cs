@@ -78,7 +78,6 @@ public class FieldsPopupContent : PopupContent
                 if (!FieldInfos.Contains(fieldInfo))
                 {
                     FieldInfos.Add(fieldInfo);
-                    await UpdateComponent();
                 }
 
                 break;

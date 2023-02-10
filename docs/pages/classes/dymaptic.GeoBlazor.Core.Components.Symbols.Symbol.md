@@ -49,17 +49,3 @@ public virtual string Type { get; }
 
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
-### Methods
-
-<a name='dymaptic.GeoBlazor.Core.Components.Symbols.Symbol.UpdateComponent()'></a>
-
-## Symbol.UpdateComponent() Method
-
-Checks if the map is already rendered, and if so, performs forced updates as defined by the component type.
-
-```csharp
-public override System.Threading.Tasks.Task UpdateComponent();
-```
-
-#### Returns
-[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')

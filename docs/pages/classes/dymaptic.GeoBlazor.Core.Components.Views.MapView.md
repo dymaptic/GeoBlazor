@@ -1751,6 +1751,32 @@ The [Graphic](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html 'dymaptic.G
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
 
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.RemoveLayer(dymaptic.GeoBlazor.Core.Components.Layers.Layer,System.Nullable_bool_)'></a>
+
+## MapView.RemoveLayer(Layer, Nullable<bool>) Method
+
+Removes a layer from the current Map
+
+```csharp
+public System.Threading.Tasks.Task RemoveLayer(dymaptic.GeoBlazor.Core.Components.Layers.Layer layer, System.Nullable<bool> isBasemapLayer=false);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.RemoveLayer(dymaptic.GeoBlazor.Core.Components.Layers.Layer,System.Nullable_bool_).layer'></a>
+
+`layer` [Layer](dymaptic.GeoBlazor.Core.Components.Layers.Layer.html 'dymaptic.GeoBlazor.Core.Components.Layers.Layer')
+
+The layer to remove
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.RemoveLayer(dymaptic.GeoBlazor.Core.Components.Layers.Layer,System.Nullable_bool_).isBasemapLayer'></a>
+
+`isBasemapLayer` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
+
+If true, removes the layer as a Basemap
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.ShowPopup(dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate,dymaptic.GeoBlazor.Core.Components.Geometries.Point)'></a>
 
 ## MapView.ShowPopup(PopupTemplate, Point) Method
@@ -1851,19 +1877,6 @@ public override System.Threading.Tasks.Task UnregisterChildComponent(dymaptic.Ge
 `child` [MapComponent](dymaptic.GeoBlazor.Core.Components.MapComponent.html 'dymaptic.GeoBlazor.Core.Components.MapComponent')
 
 The child to unregister
-
-#### Returns
-[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
-
-<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.UpdateComponent()'></a>
-
-## MapView.UpdateComponent() Method
-
-Checks if the map is already rendered, and if so, performs forced updates as defined by the component type.
-
-```csharp
-public override System.Threading.Tasks.Task UpdateComponent();
-```
 
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')

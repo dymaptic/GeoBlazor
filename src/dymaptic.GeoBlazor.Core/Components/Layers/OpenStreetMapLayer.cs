@@ -50,7 +50,7 @@ public class OpenStreetMapLayer: WebTileLayer
     ///     Refresh interval of the layer in minutes.
     /// </param>
     /// <param name="subDomains">
-    ///     A string of subDomain names where tiles are served to speed up tile retrieval. If subDomains are specified, the <see cref="UrlTemplate"/> should include a {subDomain} place holder.
+    ///     A string of subDomain names where tiles are served to speed up tile retrieval. If subDomains are specified, the UrlTemplate should include a {subDomain} place holder.
     /// </param>
     public OpenStreetMapLayer(PortalItem? portalItem = null, string? title = null, BlendMode? blendMode = null, 
         string? copyright = null, double? maxScale = null, double? minScale = null, double? refreshInterval = null, 

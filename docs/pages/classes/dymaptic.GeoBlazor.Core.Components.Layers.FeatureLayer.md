@@ -38,7 +38,7 @@ public FeatureLayer();
 Constructor for creating a new FeatureLayer in code. Either the url, portalItem, or source parameter must be specified.
 
 ```csharp
-public FeatureLayer(string? url=null, dymaptic.GeoBlazor.Core.Components.PortalItem? portalItem=null, System.Collections.Generic.IReadOnlyCollection<dymaptic.GeoBlazor.Core.Components.Layers.Graphic> source=null, string[]? outFields=null, string? definitionExpression=null, System.Nullable<double> minScale=null, System.Nullable<double> maxScale=null, string? objectIdField=null, System.Nullable<dymaptic.GeoBlazor.Core.Components.Geometries.GeometryType> geometryType=null, string? title=null, System.Nullable<double> opacity=null, System.Nullable<bool> visible=null, System.Nullable<dymaptic.GeoBlazor.Core.Components.Layers.ListMode> listMode=null);
+public FeatureLayer(string? url=null, dymaptic.GeoBlazor.Core.Components.PortalItem? portalItem=null, System.Collections.Generic.IReadOnlyCollection<dymaptic.GeoBlazor.Core.Components.Layers.Graphic>? source=null, string[]? outFields=null, string? definitionExpression=null, System.Nullable<double> minScale=null, System.Nullable<double> maxScale=null, string? objectIdField=null, System.Nullable<dymaptic.GeoBlazor.Core.Components.Geometries.GeometryType> geometryType=null, string? title=null, System.Nullable<double> opacity=null, System.Nullable<bool> visible=null, System.Nullable<dymaptic.GeoBlazor.Core.Components.Layers.ListMode> listMode=null);
 ```
 #### Parameters
 
@@ -784,19 +784,6 @@ public override System.Threading.Tasks.Task UnregisterChildComponent(dymaptic.Ge
 `child` [MapComponent](dymaptic.GeoBlazor.Core.Components.MapComponent.html 'dymaptic.GeoBlazor.Core.Components.MapComponent')
 
 The child to unregister
-
-#### Returns
-[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
-
-<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.UpdateComponent()'></a>
-
-## FeatureLayer.UpdateComponent() Method
-
-Checks if the map is already rendered, and if so, performs forced updates as defined by the component type.
-
-```csharp
-public override System.Threading.Tasks.Task UpdateComponent();
-```
 
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')

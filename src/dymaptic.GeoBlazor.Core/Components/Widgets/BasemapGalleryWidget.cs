@@ -40,7 +40,6 @@ public class BasemapGalleryWidget : Widget
                 if (!pbms.Equals(PortalBasemapsSource))
                 {
                     PortalBasemapsSource = pbms;
-                    await UpdateComponent();
                 }
 
                 break;

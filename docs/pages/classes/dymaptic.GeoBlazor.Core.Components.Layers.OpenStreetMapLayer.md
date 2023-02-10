@@ -85,7 +85,7 @@ Refresh interval of the layer in minutes.
 
 `subDomains` [System.Collections.Generic.IList&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IList-1 'System.Collections.Generic.IList`1')[System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IList-1 'System.Collections.Generic.IList`1')
 
-A string of subDomain names where tiles are served to speed up tile retrieval. If subDomains are specified, the [UrlTemplate](https://docs.microsoft.com/en-us/dotnet/api/UrlTemplate 'UrlTemplate') should include a {subDomain} place holder.
+A string of subDomain names where tiles are served to speed up tile retrieval. If subDomains are specified, the UrlTemplate should include a {subDomain} place holder.
 
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.OpenStreetMapLayer.OpenStreetMapLayer(dymaptic.GeoBlazor.Core.Components.PortalItem,string,System.Nullable_dymaptic.GeoBlazor.Core.Components.Layers.BlendMode_,string,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Collections.Generic.IList_string_,dymaptic.GeoBlazor.Core.Components.Layers.TileInfo,System.Nullable_double_,System.Nullable_bool_,System.Nullable_dymaptic.GeoBlazor.Core.Components.Layers.ListMode_).tileInfo'></a>
 

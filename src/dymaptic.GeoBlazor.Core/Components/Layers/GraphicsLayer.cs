@@ -142,6 +142,10 @@ public class GraphicsLayer : Layer
                     {
                         await JsLayerReference.InvokeVoidAsync("add", graphic);
                     }
+                    else
+                    {
+                        LayerChanged = true;
+                    }
                 }
 
                 break;
@@ -162,6 +166,10 @@ public class GraphicsLayer : Layer
                 {
                     await JsLayerReference.InvokeVoidAsync("remove", graphic);
                 }
+                else
+                {
+                    LayerChanged = true;
+                }
 
                 break;
             default:
@@ -181,31 +189,6 @@ public class GraphicsLayer : Layer
             graphic.ValidateRequiredChildren();
         }
     }
-    
-    /// <inheritdoc />
-    public override async Task UpdateComponent()
-    {
-        if ((!MapRendered && JsLayerReference is null) || JsModule is null)
-        {
-            await base.UpdateComponent();
-
-            return;
-        }
-
-        if (_updating) return;
-        
-        try
-        {
-            _updating = true;
-            // ReSharper disable once RedundantCast
-            await JsModule!.InvokeVoidAsync("updateGraphicsLayer", (object)this, View!.Id);
-            _updating = false;
-        }
-        catch (JSDisconnectedException)
-        {
-            // ignore, layer is already disposed
-        }
-    }
 
     /// <inheritdoc />
     internal override async Task UpdateFromJavaScript(Layer renderedLayer)
@@ -222,5 +205,4 @@ public class GraphicsLayer : Layer
     }
 
     private HashSet<Graphic> _graphics = new();
-    private bool _updating;
 }

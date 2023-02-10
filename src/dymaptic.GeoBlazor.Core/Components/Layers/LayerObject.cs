@@ -44,7 +44,6 @@ public abstract class LayerObject : MapComponent
                 if (!symbol.Equals(Symbol))
                 {
                     Symbol = symbol;
-                    await UpdateComponent();
                 }
 
                 break;

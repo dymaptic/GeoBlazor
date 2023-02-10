@@ -808,19 +808,6 @@ The child to unregister
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
 
-<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.UpdateComponent()'></a>
-
-## MapComponent.UpdateComponent() Method
-
-Checks if the map is already rendered, and if so, performs forced updates as defined by the component type.
-
-```csharp
-public virtual System.Threading.Tasks.Task UpdateComponent();
-```
-
-#### Returns
-[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
-
 <a name='dymaptic.GeoBlazor.Core.Components.MapComponent.ValidateRequiredChildren()'></a>
 
 ## MapComponent.ValidateRequiredChildren() Method

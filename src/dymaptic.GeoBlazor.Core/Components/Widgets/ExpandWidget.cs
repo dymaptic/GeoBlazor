@@ -73,10 +73,6 @@ public class ExpandWidget: Widget
                 if (!widget.Equals(Content))
                 {
                     Content = widget;
-                    if (MapRendered)
-                    {
-                        await UpdateComponent();
-                    }
                 }
 
                 break;

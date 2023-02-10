@@ -86,7 +86,6 @@ public class SimpleMarkerSymbol : MarkerSymbol, IEquatable<SimpleMarkerSymbol>
                 if (!outline.Equals(Outline))
                 {
                     Outline = outline;
-                    await UpdateComponent();
                 }
 
                 break;

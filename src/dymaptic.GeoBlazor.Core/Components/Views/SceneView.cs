@@ -118,7 +118,6 @@ public class SceneView : MapView
                 ApiKey, sceneType, Widgets, Graphics, SpatialReference, Constraints, Extent,
                 EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions, ZIndex, Tilt);
             Rendering = false;
-            NewPropertyValues.Clear();
             MapRendered = true;
         });
     }

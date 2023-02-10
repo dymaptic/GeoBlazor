@@ -42,22 +42,10 @@ public class PolyLine : Geometry, IEquatable<PolyLine>
     ///     An array of <see cref="MapPath"/> paths, or line segments, that make up the polyline.
     /// </summary>
     [Parameter]
-    public MapPath[] Paths
-    {
-        get => _paths;
-        set
-        {
-            if (!_paths.SequenceEqual(value, MapPathEqualityComparer.Instance))
-            {
-                _paths = value.Select(p => p.DeepCopy()).ToArray();
-                Task.Run(UpdateComponent);
-            }
-        }
-    }
+    public MapPath[] Paths { get; set; } = Array.Empty<MapPath>();
 
     /// <inheritdoc />
     public override string Type => "polyline";
-    private MapPath[] _paths = Array.Empty<MapPath>();
 
     /// <inheritdoc />
     public bool Equals(PolyLine? other)
@@ -65,7 +53,7 @@ public class PolyLine : Geometry, IEquatable<PolyLine>
         if (ReferenceEquals(null, other)) return false;
         if (ReferenceEquals(this, other)) return true;
 
-        return _paths.Equals(other._paths);
+        return Paths.Equals(other.Paths);
     }
 
     /// <inheritdoc />
@@ -81,7 +69,7 @@ public class PolyLine : Geometry, IEquatable<PolyLine>
     /// <inheritdoc />
     public override int GetHashCode()
     {
-        return _paths.GetHashCode();
+        return Paths.GetHashCode();
     }
 
     /// <summary>

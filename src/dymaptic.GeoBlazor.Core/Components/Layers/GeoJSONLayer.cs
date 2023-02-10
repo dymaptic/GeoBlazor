@@ -1,6 +1,7 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
 using dymaptic.GeoBlazor.Core.Components.Renderers;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using System.Text.Json.Serialization;
 
 
@@ -92,7 +93,7 @@ public class GeoJSONLayer : Layer
                 if (!renderer.Equals(Renderer))
                 {
                     Renderer = renderer;
-                    await UpdateComponent();
+                    LayerChanged = true;
                 }
 
                 break;
@@ -100,7 +101,7 @@ public class GeoJSONLayer : Layer
                 if (!spatialReference.Equals(SpatialReference))
                 {
                     SpatialReference = spatialReference;
-                    await UpdateComponent();
+                    LayerChanged = true;
                 }
 
                 break;
@@ -118,11 +119,11 @@ public class GeoJSONLayer : Layer
         {
             case Renderer _:
                 Renderer = null;
-
+                LayerChanged = true;
                 break;
             case SpatialReference _:
                 SpatialReference = null;
-
+                LayerChanged = true;
                 break;
             default:
                 await base.UnregisterChildComponent(child);

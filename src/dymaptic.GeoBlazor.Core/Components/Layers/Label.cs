@@ -38,7 +38,6 @@ public class Label : LayerObject, IEquatable<Label>
                 if (!((Object)labelExpressionInfo).Equals(LabelExpressionInfo))
                 {
                     LabelExpressionInfo = labelExpressionInfo;
-                    await UpdateComponent();
                 }
 
                 break;
