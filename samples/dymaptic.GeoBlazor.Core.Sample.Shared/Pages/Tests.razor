@@ -36,18 +36,30 @@
     </Map>
 </MapView>
 
+<br />
+
+<h2>Extent Test Map</h2>
+<MapView Class="map-view" OnExtentChanged="OnExtentChanged">
+    <Extent Xmax="-13165385.47351927" Xmin="-13288754.837171592" 
+            Ymax="4061566.0769513007" Ymin="4015703.859980177" />
+    <Map ArcGISDefaultBasemap="arcgis-navigation">
+    </Map>
+</MapView>
+
 @code {
     private void OnMapRendered()
     {
         _mapRendered = true;
     }
 
-    protected override void OnInitialized()
+    protected override void OnAfterRender(bool firstRender)
     {
+        _lats.Clear();
+        _longs.Clear();
         for (var i = 0; i < 10; i++)
         {
-            _lats.Add(_random.NextDouble() + 50.0);
-            _longs.Add(_random.NextDouble() + 11.0);
+            _lats.Add(_random.NextDouble() * 10 + 50.0);
+            _longs.Add(_random.NextDouble() * 10 + 11.0);
         }
     }
 
@@ -95,6 +107,11 @@
             new TextSymbol("Hello World", new MapColor("red"), 
                 new MapColor("yellow"), 12))
     });
+    
+    private void OnExtentChanged(Extent extent) {
+        Console.WriteLine($"Xmax {extent.Xmax} Xmin{extent.Xmin} Ymax{extent.Ymax} Ymin{extent.Ymin}");
+    }
+    
     private readonly GeoJSONLayer _geoJsonLayer = 
         new("https://services3.arcgis.com/GVgbJbqm8hXASVYi/ArcGIS/rest/services/World_Countries_(Generalized)/FeatureServer/0/query?where=1%3D1&outFields=*&f=geojson");
     private readonly GeoRSSLayer _geoRssLayer =

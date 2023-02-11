@@ -76,6 +76,9 @@ import SimpleLineSymbol from "@arcgis/core/symbols/SimpleLineSymbol";
 import SimpleFillSymbol from "@arcgis/core/symbols/SimpleFillSymbol";
 import PictureMarkerSymbol from "@arcgis/core/symbols/PictureMarkerSymbol";
 import TextSymbol from "@arcgis/core/symbols/TextSymbol";
+import View from "@arcgis/core/views/View";
+import MapView from "@arcgis/core/views/MapView";
+import SceneView from "@arcgis/core/views/SceneView";
 
 export function buildDotNetGraphic(graphic: Graphic): DotNetGraphic {
     let dotNetGraphic = {} as DotNetGraphic;
@@ -607,4 +610,24 @@ export function buildDotNetElementExpressionInfo(expressionInfo: ElementExpressi
         title: expressionInfo.title,
         returnType: expressionInfo.returnType
     } as DotNetElementExpressionInfo;
+}
+
+export function buildViewExtentUpdate(view: View): any {
+    if (view instanceof MapView) {
+        return {
+            extent: buildDotNetExtent(view.extent),
+            center: buildDotNetPoint(view.center),
+            scale: view.scale,
+            zoom: view.zoom,
+            rotation: view.rotation
+        }
+    } else if (view instanceof SceneView) {
+        return {
+            extent: buildDotNetExtent(view.extent),
+            center: buildDotNetPoint(view.center),
+            scale: view.scale,
+            zoom: view.zoom,
+            tilt: view.camera.tilt
+        }
+    }
 }

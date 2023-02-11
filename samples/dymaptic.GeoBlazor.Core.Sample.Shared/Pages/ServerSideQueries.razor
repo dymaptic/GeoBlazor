@@ -81,7 +81,7 @@
         if (result.QueryGeometry is not null)
         {
             await _bufferGraphic.SetGeometry(result.QueryGeometry);
-            await _mapView.AddGraphic(_bufferGraphic!);
+            await _mapView.AddGraphic(_bufferGraphic);
         }
         
          await _mapView.OpenPopup(new PopupOpenOptions

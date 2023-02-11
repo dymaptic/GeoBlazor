@@ -113,6 +113,13 @@ public abstract class Layer : MapComponent
     }
 
     /// <inheritdoc />
+    protected override async Task OnParametersSetAsync()
+    {
+        LayerChanged = true;
+        await base.OnParametersSetAsync();
+    }
+
+    /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);

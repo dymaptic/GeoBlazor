@@ -40,7 +40,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
 
     /// <summary>
     ///     A boolean flag that indicates that the current <see cref="MapView"/> has finished rendering.
-    ///     To listen for a map rendering event, use <see cref="MapView.OnMapRenderedHandler"/>.
+    ///     To listen for a map rendering event, use <see cref="MapView.OnMapRendered"/>.
     /// </summary>
     [CascadingParameter(Name = "MapRendered")]
     [JsonIgnore]

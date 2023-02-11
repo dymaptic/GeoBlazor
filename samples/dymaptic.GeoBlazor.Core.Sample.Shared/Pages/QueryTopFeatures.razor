@@ -1,5 +1,5 @@
 ﻿@page "/query-top-features"
-@inject IJSRuntime JSRuntime
+@inject IJSRuntime JsRuntime
 <PageTitle>Query Top Features</PageTitle>
 <h1>Query Top Features</h1>
 
@@ -130,7 +130,7 @@
                             int index = i;
                             <calcite-pick-list-item label="@result.Attributes["Park"]"
                                                     value="@i"
-                                                    description="@($"Total visitors: {result.Attributes[_orderByFieldSelected!]}\nState: {result.Attributes!["State"]}")"
+                                                    description="@($"Total visitors: {result.Attributes[_orderByFieldSelected!]}\nState: {result.Attributes["State"]}")"
                                                     @onclick="@(() => OnParkResultClicked(index))" />
                         }
                     </div>
@@ -209,12 +209,12 @@
     
     private async Task<string> GetTopCount()
     {
-        return await JSRuntime.InvokeAsync<string>("getCalciteSelectValue", _topCountSelect);
+        return await JsRuntime.InvokeAsync<string>("getCalciteSelectValue", _topCountSelect);
     }
 
     private async Task<string> GetTimeRange()
     {
-        return await JSRuntime.InvokeAsync<string>("getCalciteSelectValue", _timeRangeSelect);
+        return await JsRuntime.InvokeAsync<string>("getCalciteSelectValue", _timeRangeSelect);
     }
     
     private MapView? _mapView;

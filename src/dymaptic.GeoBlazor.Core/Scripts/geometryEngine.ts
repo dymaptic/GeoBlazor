@@ -48,7 +48,7 @@ export default class GeometryEngineWrapper {
 
     async clip(geometry: DotNetGeometry, extent: DotNetExtent): Promise<Geometry | null> {
         try {
-            return engine.clip(buildJsGeometry(geometry) as Geometry, buildJsExtent(extent));
+            return engine.clip(buildJsGeometry(geometry) as Geometry, buildJsExtent(extent, null));
         } catch (error) {
             this.logError(error);
             return null;

@@ -46,7 +46,7 @@ export default class ProjectionWrapper {
         try {
             await this.loadIfNeeded();
             let geoTransform = projection.getTransformation(buildJsSpatialReference(inSpatialReference),
-                buildJsSpatialReference(outSpatialReference), buildJsExtent(extent));
+                buildJsSpatialReference(outSpatialReference), buildJsExtent(extent, null));
             return buildDotNetGeographicTransformation(geoTransform);
         } catch (error) {
             this.logError(error);
@@ -59,7 +59,7 @@ export default class ProjectionWrapper {
         try {
             await this.loadIfNeeded();
             let geoTransforms = projection.getTransformations(buildJsSpatialReference(inSpatialReference),
-                buildJsSpatialReference(outSpatialReference), buildJsExtent(extent));
+                buildJsSpatialReference(outSpatialReference), buildJsExtent(extent, null));
             let dotNetTransforms: Array<DotNetGeographicTransformation> = [];
             geoTransforms.forEach(t => {
                 let dotNetT = buildDotNetGeographicTransformation(t);

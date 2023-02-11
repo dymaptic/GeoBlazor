@@ -14,8 +14,8 @@
          Latitude="34.05398"
          Zoom="12"
          Class="map-view"
-         Style="min-height: 500px;"
-         OnClickAsyncHandler="OnClick">
+         OnClick="OnClick"
+         Style="min-height: 500px;">
     <Map>
         <Basemap>
             <PortalItem Id="4f2e99ba65e34bb8af49733d9778fb8e" />
@@ -51,8 +51,9 @@
     private readonly string _routeUrl = "https://route-api.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World";
     private Direction[] _directions = Array.Empty<Direction>();
 
-    private async Task OnClick(Point mapPoint)
+    private async Task OnClick(ClickEvent clickEvent)
     {
+        Point mapPoint = clickEvent.MapPoint;
         if (!_clickedPoints.Any())
         {
             await OriginGraphic!.SetGeometry(mapPoint);
@@ -74,7 +75,6 @@
             _graphics[0] = null;
             _graphics[1] = null;
             _directions = Array.Empty<Direction>();
-            StateHasChanged();
             await View!.ClearGraphics();
         }
     }

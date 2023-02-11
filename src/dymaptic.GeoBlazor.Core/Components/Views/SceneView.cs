@@ -1,6 +1,9 @@
-﻿using dymaptic.GeoBlazor.Core.Exceptions;
+﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
+using dymaptic.GeoBlazor.Core.Components.Layers;
+using dymaptic.GeoBlazor.Core.Exceptions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+// ReSharper disable RedundantCast
 
 
 namespace dymaptic.GeoBlazor.Core.Components.Views;
@@ -29,7 +32,7 @@ public class SceneView : MapView
     /// <summary>
     ///     An instance of a <see cref="WebScene"/> object to display in the view.
     /// </summary>
-    [RequiredProperty(nameof(MapView.WebMap), nameof(MapView.Map))]
+    [RequiredProperty("WebMap", "Map")]
     public WebScene? WebScene { get; set; }
 
     /// <inheritdoc />
@@ -73,6 +76,21 @@ public class SceneView : MapView
     {
         base.ValidateRequiredChildren();
         WebScene?.ValidateRequiredChildren();
+    }
+
+    /// <inheritdoc />
+    protected override async Task UpdateView()
+    {
+        if (!MapRendered || !ShouldUpdate || ExtentSetByCode || ExtentChangedInJs)
+        {
+            return;
+        }
+
+        ShouldUpdate = false;
+        ViewExtentUpdate change = await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("updateView", 
+            new { Id, Latitude, Longitude, Zoom, Rotation, Tilt, ZIndex });
+        Extent = change.Extent;
+        ShouldUpdate = true;
     }
 
     /// <inheritdoc />
@@ -120,5 +138,117 @@ public class SceneView : MapView
             Rendering = false;
             MapRendered = true;
         });
+    }
+
+    /// <inheritdoc />
+    [JSInvokable]
+    public override async Task OnJavascriptExtentChanged(Extent extent, Point center, double zoom, double scale,
+        double? rotation = null, double? tilt = null)
+    {
+        ZIndex = center.Z;
+        Tilt = tilt;
+        await base.OnJavascriptExtentChanged(extent, center, zoom, scale, rotation, tilt);
+    }
+    
+    /// <inheritdoc />
+    public override async Task SetCenter(Point point)
+    {
+        if (!Equals(point.Latitude, Latitude) || !Equals(point.Longitude, Longitude))
+        {
+            ShouldUpdate = false;
+            ExtentSetByCode = true;
+            Latitude = point.Latitude;
+            Longitude = point.Longitude;
+            if (ViewJsModule is null) return;
+            ViewExtentUpdate change = 
+                await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("setCenter", (object)point, Id);
+            Extent = change.Extent;
+            Zoom = change.Zoom;
+            Scale = change.Scale;
+            Tilt = change.Tilt;
+            ZIndex = change.Center.Z;
+            ShouldUpdate = true;
+        }
+    }
+    
+    /// <inheritdoc />
+    public override async Task SetZoom(double zoom)
+    {
+        Zoom = zoom;
+
+        if (ViewJsModule is not null)
+        {
+            ShouldUpdate = false;
+            ExtentSetByCode = true;
+            ViewExtentUpdate change = 
+                await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("setZoom", Zoom, Id);
+            Extent = change.Extent;
+            Latitude = change.Center.Latitude;
+            Longitude = change.Center.Longitude;
+            Scale = change.Scale;
+            ZIndex = change.Center.Z;
+            Tilt = change.Tilt;
+            ShouldUpdate = true;
+        }
+    }
+    
+    /// <inheritdoc />
+    public override async Task SetScale(double scale)
+    {
+        Scale = scale;
+        
+        if (ViewJsModule is not null)
+        {
+            ShouldUpdate = false;
+            ExtentSetByCode = true;
+            ViewExtentUpdate change = 
+                await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("setScale", Scale, Id);
+            Extent = change.Extent;
+            Latitude = change.Center.Latitude;
+            Longitude = change.Center.Longitude;
+            Zoom = change.Zoom;
+            ZIndex = change.Center.Z;
+            Tilt = change.Tilt;
+            ShouldUpdate = true;
+        }
+    }
+
+    /// <inheritdoc />
+    public override async Task SetExtent(Extent extent)
+    {
+        if (!extent.Equals(Extent))
+        {
+            Extent = extent;
+            if (ViewJsModule is null) return;
+            ShouldUpdate = false;
+            ExtentSetByCode = true;
+            ViewExtentUpdate change = 
+                await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("setExtent", (object)Extent, Id);
+            Latitude = change.Center.Latitude;
+            Longitude = change.Center.Longitude;
+            Zoom = change.Zoom;
+            Scale = change.Scale;
+            Tilt = change.Tilt;
+            ZIndex = change.Center.Z;
+            ShouldUpdate = true;
+        }
+    }
+
+    /// <inheritdoc />
+    public override async Task GoTo(IEnumerable<Graphic> graphics)
+    {
+        if (ViewJsModule is null) return;
+        ShouldUpdate = false;
+        ExtentSetByCode = true;
+        ViewExtentUpdate change = 
+            await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("goToGraphics", graphics, Id);
+        Extent = change.Extent;
+        Latitude = change.Center.Latitude;
+        Longitude = change.Center.Longitude;
+        Zoom = change.Zoom;
+        Scale = change.Scale;
+        Tilt = change.Tilt;
+        ZIndex = change.Center.Z;
+        ShouldUpdate = true;
     }
 }

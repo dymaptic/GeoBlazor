@@ -97,7 +97,7 @@ export function buildJsSpatialReference(dotNetSpatialReference: DotNetSpatialRef
     return jsSpatialRef;
 }
 
-export function buildJsExtent(dotNetExtent: DotNetExtent): Extent {
+export function buildJsExtent(dotNetExtent: DotNetExtent, currentSpatialReference: SpatialReference | null): Extent {
     let extent = new Extent();
     if (dotNetExtent.xmax !== undefined && dotNetExtent.xmax !== null) {
         extent.xmax = dotNetExtent.xmax;
@@ -125,8 +125,8 @@ export function buildJsExtent(dotNetExtent: DotNetExtent): Extent {
     }
     if (dotNetExtent.spatialReference !== undefined && dotNetExtent.spatialReference !== null) {
         extent.spatialReference = buildJsSpatialReference(dotNetExtent.spatialReference)
-    } else {
-        extent.spatialReference = new SpatialReference({wkid: 4326});
+    } else if (currentSpatialReference !== null) {
+        extent.spatialReference = currentSpatialReference;
     }
     
     return extent;
@@ -354,7 +354,7 @@ export function buildJsGeometry(geometry: DotNetGeometry): Geometry | null {
         case "polygon":
             return buildJsPolygon(geometry as DotNetPolygon);
         case "extent":
-            return buildJsExtent(geometry as DotNetExtent);
+            return buildJsExtent(geometry as DotNetExtent, null);
     }
 
     return geometry as any;

@@ -118,7 +118,7 @@ public Microsoft.JSInterop.IJSRuntime JsRuntime { get; set; }
 ## MapComponent.MapRendered Property
 
 A boolean flag that indicates that the current [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') has finished rendering.  
-To listen for a map rendering event, use [OnMapRenderedHandler](dymaptic.GeoBlazor.Core.Components.Views.MapView.html#dymaptic.GeoBlazor.Core.Components.Views.MapView.OnMapRenderedHandler 'dymaptic.GeoBlazor.Core.Components.Views.MapView.OnMapRenderedHandler').
+To listen for a map rendering event, use [OnMapRendered](dymaptic.GeoBlazor.Core.Components.Views.MapView.html#dymaptic.GeoBlazor.Core.Components.Views.MapView.OnMapRendered 'dymaptic.GeoBlazor.Core.Components.Views.MapView.OnMapRendered').
 
 ```csharp
 public bool MapRendered { get; set; }

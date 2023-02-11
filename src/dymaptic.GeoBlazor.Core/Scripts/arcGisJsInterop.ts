@@ -57,7 +57,7 @@ import {
     buildDotNetGeometry,
     buildDotNetSpatialReference,
     buildDotNetLayerView,
-    buildDotNetHitTestResult, buildDotNetLayer
+    buildDotNetHitTestResult, buildDotNetLayer, buildViewExtentUpdate
 } from "./dotNetBuilder";
 
 import {
@@ -104,6 +104,7 @@ export let dotNetRefs = {};
 export let queryLayer: FeatureLayer;
 export { projection, geometryEngine };
 let blazorServer: boolean = false;
+let notifyExtentChanged: boolean = true;
 
 export function setAssetsPath (path: string) {
     if (path !== undefined && path !== null && esriConfig.assetsPath !== path) {
@@ -161,6 +162,9 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
         setWaitCursor(id);
         blazorServer = isServer;
         let dotNetRef = dotNetReference;
+        if (!projection.isLoaded()) {
+            await projection.load();
+        }
 
         checkConnectivity(id);
         dotNetRefs[id] = dotNetRef;
@@ -260,7 +264,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
         }
 
         if (hasValue(extent)) {
-            (view as MapView).extent = buildJsExtent(extent);
+            (view as MapView).extent = buildJsExtent(extent, view.spatialReference);
         } else {
             let center;
             
@@ -329,7 +333,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
 
 function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: number | null, 
                            activeEventHandlers: Array<string>) : void {
-    if (activeEventHandlers.includes('OnClick') || activeEventHandlers.includes('OnClickAsyncHandler')) {
+    if (activeEventHandlers.includes('OnClick')) {
         view.on('click', (evt) => {
             evt.mapPoint = buildDotNetPoint(evt.mapPoint) as any;
             dotNetRef.invokeMethodAsync('OnJavascriptClick', evt);
@@ -407,7 +411,7 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
         });
     }
 
-    if (activeEventHandlers.includes('OnPointerMove') || activeEventHandlers.includes('OnPointerMoveHandler')) {
+    if (activeEventHandlers.includes('OnPointerMove')) {
         let lastPointerMoveCall : number = 0;
         view.on('pointer-move', (evt) => {
             let now = Date.now();
@@ -541,13 +545,21 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
 
     let lastExtentChangeCall = 0;
     view.watch('extent', () => {
+        if (!notifyExtentChanged) return;
         let now = Date.now();
         if (eventRateLimit !== undefined && eventRateLimit !== null &&
             lastExtentChangeCall + eventRateLimit > now) {
             return;
         }
         lastExtentChangeCall = now;
-        dotNetRef.invokeMethodAsync('OnJavascriptExtentChanged', buildDotNetExtent((view as MapView).extent));
+        if (view instanceof SceneView) {
+            dotNetRef.invokeMethodAsync('OnJavascriptExtentChanged', buildDotNetExtent(view.extent),
+                buildDotNetPoint(view.camera.position), view.zoom, view.scale, null, view.camera.tilt);
+            return;
+        }
+        dotNetRef.invokeMethodAsync('OnJavascriptExtentChanged', buildDotNetExtent((view as MapView).extent),
+            buildDotNetPoint((view as MapView).center), (view as MapView).zoom, (view as MapView).scale, 
+            (view as MapView).rotation, null);
     });
 }
 
@@ -611,37 +623,61 @@ export function disposeMapComponent(componentId: string, viewId: string): void {
     }
 }
 
-export function updateView(viewObject: any): void {
+export function updateView(viewObject: any) {
     try {
         setWaitCursor(viewObject.Id);
-        let view = arcGisObjectRefs[viewObject.id] as MapView;
+        notifyExtentChanged = false;
+        let view = arcGisObjectRefs[viewObject.id] as View;
         
-        if (hasValue(viewObject.latitude) && hasValue(viewObject.longitude) &&
-            (viewObject.latitude.toFixed(2) !== view.center.latitude.toFixed(2) ||
-                viewObject.longitude.toFixed(2) !== view.center.longitude.toFixed(2))) {
-            view.center = new Point({ latitude: viewObject.latitude, longitude: viewObject.longitude });
+        if (view instanceof MapView) {
+            if (hasValue(viewObject.latitude) && hasValue(viewObject.longitude) &&
+                (viewObject.latitude?.toFixed(2) !== view.center.latitude?.toFixed(2) ||
+                    viewObject.longitude?.toFixed(2) !== view.center.longitude?.toFixed(2))) {
+                view.center = new Point({
+                    latitude: viewObject.latitude,
+                    longitude: viewObject.longitude
+                });
+            }
+            else if (hasValue(viewObject.zoom) && viewObject.zoom !== view.zoom) {
+                view.zoom = viewObject.zoom;
+            }
+
+            if (hasValue(viewObject.rotation) && viewObject.rotation !== view.rotation) {
+                view.rotation = viewObject.rotation;
+            }
+        } else if (view instanceof SceneView && hasValue(viewObject.tilt)) {
+            if (hasValue(viewObject.latitude) && hasValue(viewObject.longitude) &&
+                (viewObject.latitude?.toFixed(2) !== view.center.latitude?.toFixed(2) ||
+                    viewObject.longitude?.toFixed(2) !== view.center.longitude?.toFixed(2) ||
+                viewObject.tilt !== view.camera.tilt || viewObject.zIndex !== view.camera.position.z)) {
+                view.camera = new Camera({
+                    position: {
+                        latitude: viewObject.latitude,
+                        longitude: viewObject.longitude,
+                        z: viewObject.zIndex
+                    },
+                    tilt: viewObject.tilt
+                });
+            }
         }
-        else if (hasValue(viewObject.zoom) && viewObject.zoom !== view.zoom) {
-            view.zoom = viewObject.zoom;
-        }
-        
-        if (hasValue(viewObject.rotation) && viewObject.rotation !== view.rotation) {
-            view.rotation = viewObject.rotation;
-        }
-        
         unsetWaitCursor(viewObject.id);
+        return buildViewExtentUpdate(view);
     } catch (error) {
         logError(error, viewObject.id);
     }
 }
 
-export function setExtent(extentObject: any, viewId: string) {
+export async function setExtent(extentObject: any, viewId: string) {
     try {
+        notifyExtentChanged = false;
         let view = arcGisObjectRefs[viewId] as MapView;
-        let extent = buildJsExtent(extentObject);
+        if (!hasValue(view)) return;
+        let extent = buildJsExtent(extentObject, view.spatialReference);
         if (extent !== null) {
-            view.extent = extent;
+            await view.goTo(extent);
         }
+        notifyExtentChanged = true;
+        return buildViewExtentUpdate(view);
     } catch (error) {
         logError(error, viewId);
     }
@@ -651,6 +687,15 @@ export function setConstraints(constraintsObject: any, viewId: string) {
     try {
         let view = arcGisObjectRefs[viewId] as MapView;
         view.constraints = constraintsObject;
+    } catch (error) {
+        logError(error, viewId);
+    }
+}
+
+export function setHighlightOptions(highlightOptions: any, viewId: string) {
+    try {
+        let view = arcGisObjectRefs[viewId] as MapView;
+        view.highlightOptions = highlightOptions;
     } catch (error) {
         logError(error, viewId);
     }
@@ -771,6 +816,7 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
     try {
         setWaitCursor(viewId);
         let currentLayer = arcGisObjectRefs[layerObject.id] as Layer;
+        let view = arcGisObjectRefs[viewId] as View;
         
         if (currentLayer === undefined) {
             await addLayer(layerObject, viewId);
@@ -915,7 +961,7 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
         }
         
         if (hasValue(layerObject.fullExtent) && layerObject.fullExtent !== currentLayer.fullExtent) {
-            currentLayer.fullExtent = buildJsExtent(layerObject.fullExtent);
+            currentLayer.fullExtent = buildJsExtent(layerObject.fullExtent, view.spatialReference);
         }
         unsetWaitCursor(viewId);
     } catch (error) {
@@ -1142,16 +1188,52 @@ export function getCenter(viewId: string): DotNetPoint {
     return buildDotNetPoint((arcGisObjectRefs[viewId] as MapView).center);
 }
 
+export function setZoom(zoom: number, viewId: string) {
+    notifyExtentChanged = false;
+    let view = arcGisObjectRefs[viewId] as MapView;
+    view.zoom = zoom;
+    return buildViewExtentUpdate(view);
+}
+
+export function getZoom(viewId: string): number {
+    return (arcGisObjectRefs[viewId] as MapView).zoom;
+}
+
+export function setScale(scale: number, viewId: string) {
+    notifyExtentChanged = false;
+    let view = arcGisObjectRefs[viewId] as MapView;
+    view.scale = scale;
+    return buildViewExtentUpdate(view);
+}
+
+export function getScale(viewId: string): number {
+    return (arcGisObjectRefs[viewId] as MapView).scale;
+}
+
+export function setRotation(rotation: number, viewId: string) {
+    notifyExtentChanged = false;
+    let view = arcGisObjectRefs[viewId] as MapView;
+    view.rotation = rotation;
+    return buildViewExtentUpdate(view);
+}
+
+export function getRotation(viewId: string): number {
+    return (arcGisObjectRefs[viewId] as MapView).rotation;
+}
+
+export function setCenter(center: any, viewId: string): any {
+    notifyExtentChanged = false;
+    let view = arcGisObjectRefs[viewId] as MapView;
+    view.center = buildJsPoint(center) as Point;
+    return buildViewExtentUpdate(view);
+}
+
 export function getExtent(viewId: string): DotNetExtent | null {
     return buildDotNetExtent((arcGisObjectRefs[viewId] as MapView).extent);
 }
 
-export async function goToExtent(extent, viewId: string): Promise<void> {
-    let view = arcGisObjectRefs[viewId] as MapView;
-    await view.goTo(extent);
-}
-
 export async function goToGraphics(graphics, viewId: string): Promise<void> {
+    notifyExtentChanged = false;
     let view = arcGisObjectRefs[viewId] as MapView;
     let jsGraphics : Graphic[] = [];
     for (const graphic of graphics) {
@@ -1163,6 +1245,8 @@ export async function goToGraphics(graphics, viewId: string): Promise<void> {
         }
     }
     await view.goTo(jsGraphics);
+    notifyExtentChanged = true;
+    return buildViewExtentUpdate(view);
 }
 
 export function getSpatialReference(viewId: string): DotNetSpatialReference | null {
@@ -1701,7 +1785,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null): Prom
     }
         
     if (hasValue(layerObject.fullExtent) && layerObject.type !== 'open-street-map') {
-        newLayer.fullExtent = buildJsExtent(layerObject.fullExtent);
+        newLayer.fullExtent = buildJsExtent(layerObject.fullExtent, null);
     }
 
     arcGisObjectRefs[layerObject.id] = newLayer;
@@ -1772,9 +1856,10 @@ function waitForRender(viewId: string, dotNetRef: any): void {
                 return;
             }
             if (!view.updating && !isRendered) {
+                notifyExtentChanged = true;
                 console.debug("View Render Complete");
                 try {
-                    dotNetRef.invokeMethodAsync('OnViewRendered');    
+                    dotNetRef.invokeMethodAsync('OnViewRendered');   
                 }
                 catch
                 {
