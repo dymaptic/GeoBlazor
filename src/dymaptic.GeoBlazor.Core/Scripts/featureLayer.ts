@@ -75,8 +75,14 @@ export default class FeatureLayerWrapper {
     
     
     async queryTopFeatures(query: DotNetTopFeaturesQuery, options: any): Promise<FeatureSet> {
-        let jsQuery = buildJsTopFeaturesQuery(query);
-        return await this.layer.queryTopFeatures(jsQuery, options);
+        try {
+            let jsQuery = buildJsTopFeaturesQuery(query);
+            return await this.layer.queryTopFeatures(jsQuery, options);
+        }
+        catch (error) {
+            console.debug(error);
+            throw error;
+        }
     }
     
     async queryTopFeatureCount(query: DotNetTopFeaturesQuery, options: any): Promise<number> {

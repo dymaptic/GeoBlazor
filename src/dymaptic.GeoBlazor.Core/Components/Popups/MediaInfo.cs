@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 
@@ -7,6 +8,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Popups;
 /// <summary>
 ///     Base class for all MediaInfos used in <see cref="MediaPopupContent"/>
 /// </summary>
+[JsonConverter(typeof(MediaInfoConverter))]
 public abstract class MediaInfo: MapComponent
 {
     /// <summary>
@@ -363,4 +365,39 @@ public class PieChartMediaInfo : MediaInfo
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ChartMediaInfoValue? Value { get; set; }
+}
+
+internal class MediaInfoConverter : JsonConverter<MediaInfo>
+{
+    public override MediaInfo? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        // check the type property and deserialize to the correct type
+        var jsonDoc = JsonDocument.ParseValue(ref reader);
+        var type = jsonDoc.RootElement.GetProperty("type").GetString();
+
+        switch (type)
+        {
+            case "bar-chart":
+                return JsonSerializer.Deserialize<BarChartMediaInfo>(jsonDoc.RootElement.GetRawText(), options);
+            case "column-chart":
+                return JsonSerializer.Deserialize<ColumnChartMediaInfo>(jsonDoc.RootElement.GetRawText(), options);
+            case "pie-chart":
+                return JsonSerializer.Deserialize<PieChartMediaInfo>(jsonDoc.RootElement.GetRawText(), options);
+            case "line-chart":
+                return JsonSerializer.Deserialize<LineChartMediaInfo>(jsonDoc.RootElement.GetRawText(), options);
+            case "image-media":
+                return JsonSerializer.Deserialize<ImageMediaInfo>(jsonDoc.RootElement.GetRawText(), options);
+        }
+
+        return null;
+    }
+
+    public override void Write(Utf8JsonWriter writer, MediaInfo value, JsonSerializerOptions options)
+    {
+        var newOptions = new JsonSerializerOptions(options)
+        {
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+        };
+        writer.WriteRawValue(JsonSerializer.Serialize(value, typeof(object), newOptions));
+    }
 }

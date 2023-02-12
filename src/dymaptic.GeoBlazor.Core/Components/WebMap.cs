@@ -21,7 +21,6 @@ public class WebMap : MapComponent
                 if (!portalItem.Equals(PortalItem))
                 {
                     PortalItem = portalItem;
-                    await UpdateComponent();
                 }
 
                 break;

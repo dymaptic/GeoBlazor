@@ -89,7 +89,7 @@ public class WebTileLayer: Layer
                 if (!portalItem.Equals(PortalItem))
                 {
                     PortalItem = portalItem;
-                    await UpdateComponent();
+                    LayerChanged = true;
                 }
 
                 break;
@@ -97,7 +97,7 @@ public class WebTileLayer: Layer
                 if (!tileInfo.Equals(TileInfo))
                 {
                     TileInfo = tileInfo;
-                    await UpdateComponent();
+                    LayerChanged = true;
                 }
 
                 break;
@@ -115,12 +115,12 @@ public class WebTileLayer: Layer
         {
             case PortalItem _:
                 PortalItem = null;
-                await UpdateComponent();
+                LayerChanged = true;
 
                 break;
             case TileInfo _:
                 TileInfo = null;
-                await UpdateComponent();
+                LayerChanged = true;
 
                 break;
             default:

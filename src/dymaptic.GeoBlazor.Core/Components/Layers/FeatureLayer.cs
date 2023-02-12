@@ -2,6 +2,7 @@
 using System.Text.Json.Serialization;
 using dymaptic.GeoBlazor.Core.Components.Popups;
 using dymaptic.GeoBlazor.Core.Components.Renderers;
+using dymaptic.GeoBlazor.Core.Exceptions;
 using dymaptic.GeoBlazor.Core.Objects;
 using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
@@ -21,31 +22,94 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 public class FeatureLayer : Layer
 {
     /// <summary>
+    ///     Constructor for use as a razor component
+    /// </summary>
+    public FeatureLayer()
+    {
+    }
+
+    /// <summary>
+    ///     Constructor for creating a new FeatureLayer in code. Either the url, portalItem, or source parameter must be specified.
+    /// </summary>
+    /// <param name="url">
+    ///     The absolute URL of the REST endpoint of the layer, non-spatial table or service 
+    /// </param>
+    /// <param name="portalItem">
+    ///     The <see cref="PortalItem"/> from which the layer is loaded.
+    /// </param>
+    /// <param name="source">
+    ///     A collection of Graphic objects used to create a FeatureLayer.
+    /// </param>
+    /// <param name="outFields">
+    ///     An array of field names from the service to include with each feature.
+    /// </param>
+    /// <param name="definitionExpression">
+    ///     The SQL where clause used to filter features on the client.
+    /// </param>
+    /// <param name="minScale">
+    ///     The minimum scale (most zoomed out) at which the layer is visible in the view.
+    /// </param>
+    /// <param name="maxScale">
+    ///     The maximum scale (most zoomed in) at which the layer is visible in the view.
+    /// </param>
+    /// <param name="objectIdField">
+    ///     The name of an oidfield containing a unique value or identifier for each feature in the layer.
+    /// </param>
+    /// <param name="geometryType">
+    ///     The geometry type of the feature layer. All features must be of the same type.
+    /// </param>
+    /// <param name="title">
+    ///     The title of the layer used to identify it in places such as the Legend and LayerList widgets.
+    /// </param>
+    /// <param name="opacity">
+    ///     The opacity of the layer.
+    /// </param>
+    /// <param name="visible">
+    ///     Indicates if the layer is visible in the View. When false, the layer may still be added to a Map instance that is referenced in a view, but its features will not be visible in the view.
+    /// </param>
+    /// <param name="listMode">
+    ///     Indicates how the layer should display in the LayerList widget. The possible values are listed below.
+    /// </param>
+    public FeatureLayer(string? url = null, PortalItem? portalItem = null, IReadOnlyCollection<Graphic>? source = null, 
+        string[]? outFields = null, string? definitionExpression = null, double? minScale = null, 
+        double? maxScale = null, string? objectIdField = null, GeometryType? geometryType = null, string? title = null, 
+        double? opacity = null, bool? visible = null, ListMode? listMode = null)
+    {
+        if (url is null && portalItem is null && source is null)
+        {
+            throw new MissingRequiredOptionsChildElementException(nameof(FeatureLayer),
+                new[] { nameof(Url), nameof(PortalItem), nameof(Source) });
+        }
+        
+        Url = url;
+        Source = source;
+        PortalItem = portalItem;
+        OutFields = outFields;
+        DefinitionExpression = definitionExpression;
+        MinScale = minScale;
+        MaxScale = maxScale;
+        ObjectIdField = objectIdField;
+        GeometryType = geometryType;
+        Title = title;
+        Opacity = opacity;
+        Visible = visible;
+        ListMode = listMode;
+    }
+
+    /// <summary>
     ///     The absolute URL of the REST endpoint of the layer, non-spatial table or service
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [RequiredProperty(nameof(PortalItem), nameof(Source))]
-    public string Url { get; set; } = default!;
+    public string? Url { get; set; }
 
     /// <summary>
     ///     The SQL where clause used to filter features on the client.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? DefinitionExpression
-    {
-        get => _definitionExpression;
-        set
-        {
-            _definitionExpression = value;
-
-            if (MapRendered)
-            {
-                Task.Run(UpdateComponent);
-            }
-        }
-    }
+    public string? DefinitionExpression { get; set; }
 
     /// <summary>
     ///     An array of field names from the service to include with each feature.
@@ -76,7 +140,7 @@ public class FeatureLayer : Layer
     public string? ObjectIdField { get; set; }
     
     /// <summary>
-    ///     The geometry type of the feature layer. All featuers must be of the same type.
+    ///     The geometry type of the feature layer. All features must be of the same type.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -98,7 +162,7 @@ public class FeatureLayer : Layer
     ///     The label definition for this layer, specified as an array of <see cref="Label"/>.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public HashSet<Label> LabelingInfo { get; set; } = new();
+    public HashSet<Label>? LabelingInfo { get; set; }
 
     /// <summary>
     ///     The <see cref="Renderer"/> assigned to the layer.
@@ -218,19 +282,35 @@ public class FeatureLayer : Layer
     }
 
     /// <inheritdoc />
-    public override void UpdateFromJavaScript(Layer renderedLayer)
+    internal override async Task UpdateFromJavaScript(Layer renderedLayer)
     {
-        base.UpdateFromJavaScript(renderedLayer);
+        await base.UpdateFromJavaScript(renderedLayer);
         FeatureLayer renderedFeatureLayer = (FeatureLayer)renderedLayer;
         Url = renderedFeatureLayer.Url;
-        if (renderedFeatureLayer.Source is not null && renderedFeatureLayer.Source.Any())
+        if (renderedFeatureLayer.Source is not null && renderedFeatureLayer.Source.Any() && 
+            Source is null)
         {
             Source = renderedFeatureLayer.Source;
         }
         
         if (renderedFeatureLayer.Fields is not null && renderedFeatureLayer.Fields.Any())
         {
-            Fields = renderedFeatureLayer.Fields;
+            if (Fields is null)
+            {
+                Fields = renderedFeatureLayer.Fields;
+            }
+            else
+            {
+                foreach (Field field in renderedFeatureLayer.Fields)
+                {
+                    Field? existingField = Fields.FirstOrDefault(f => f.Name == field.Name);
+
+                    if (existingField is null)
+                    {
+                        _fields!.Add(field);
+                    }
+                }
+            }
         }
 
         if (renderedFeatureLayer.DefinitionExpression is not null)
@@ -268,32 +348,43 @@ public class FeatureLayer : Layer
             OrderBy = renderedFeatureLayer.OrderBy;
         }
         
-        if (renderedFeatureLayer.PopupTemplate is not null)
+        if (renderedFeatureLayer.PopupTemplate is not null && PopupTemplate is null)
         {
             PopupTemplate = renderedFeatureLayer.PopupTemplate;
         }
         
-        if (renderedFeatureLayer.LabelingInfo.Any())
+        if (renderedFeatureLayer.LabelingInfo is not null && renderedFeatureLayer.LabelingInfo.Any())
         {
-            LabelingInfo = renderedFeatureLayer.LabelingInfo;
+            if (LabelingInfo is null || !LabelingInfo.Any())
+            {
+                LabelingInfo = renderedFeatureLayer.LabelingInfo;
+            }
+            else
+            {
+                LabelingInfo ??= new();
+                foreach (Label label in renderedFeatureLayer.LabelingInfo)
+                {
+                    LabelingInfo.Add(label);
+                }
+            }
         }
         
-        if (renderedFeatureLayer.Renderer is not null)
+        if (renderedFeatureLayer.Renderer is not null && Renderer is null)
         {
             Renderer = renderedFeatureLayer.Renderer;
         }
         
-        if (renderedFeatureLayer.PortalItem is not null)
+        if (renderedFeatureLayer.PortalItem is not null && PortalItem is null)
         {
             PortalItem = renderedFeatureLayer.PortalItem;
         }
         
-        if (renderedFeatureLayer.SpatialReference is not null)
+        if (renderedFeatureLayer.SpatialReference is not null && SpatialReference is null)
         {
             SpatialReference = renderedFeatureLayer.SpatialReference;
         }
 
-        if (renderedFeatureLayer.Relationships is not null)
+        if (renderedFeatureLayer.Relationships is not null && Relationships is null)
         {
             Relationships = renderedFeatureLayer.Relationships;
         }
@@ -308,15 +399,16 @@ public class FeatureLayer : Layer
                 if (!popupTemplate.Equals(PopupTemplate))
                 {
                     PopupTemplate = popupTemplate;
-                    await UpdateComponent();
+                    LayerChanged = true;
                 }
 
                 break;
             case Label label:
+                LabelingInfo ??= new();
                 if (!LabelingInfo.Contains(label))
                 {
                     LabelingInfo.Add(label);
-                    await UpdateComponent();
+                    LayerChanged = true;
                 }
 
                 break;
@@ -324,7 +416,7 @@ public class FeatureLayer : Layer
                 if (!renderer.Equals(Renderer))
                 {
                     Renderer = renderer;
-                    await UpdateComponent();
+                    LayerChanged = true;
                 }
 
                 break;
@@ -332,7 +424,7 @@ public class FeatureLayer : Layer
                 if (!portalItem.Equals(PortalItem))
                 {
                     PortalItem = portalItem;
-                    await UpdateComponent();
+                    LayerChanged = true;
                 }
 
                 break;
@@ -340,7 +432,7 @@ public class FeatureLayer : Layer
                 if (!spatialRef.Equals(SpatialReference))
                 {
                     SpatialReference = spatialRef;
-                    await UpdateComponent();
+                    LayerChanged = true;
                 }
 
                 break;
@@ -349,21 +441,22 @@ public class FeatureLayer : Layer
                 if (!OrderBy.Contains(orderBy))
                 {
                     OrderBy.Add(orderBy);
-                    await UpdateComponent();
+                    LayerChanged = true;
                 }
 
                 break;
             case Graphic graphic:
                 _source ??= new HashSet<Graphic>();
+
                 if (!_source.Contains(graphic))
                 {
-                    graphic.GraphicIndex = _source.Count;
                     graphic.View ??= View;
                     graphic.JsModule ??= JsModule;
                     graphic.Parent ??= this;
                     graphic.LayerId ??= Id;
                     _source.Add(graphic);
-                    await UpdateComponent();
+
+                    LayerChanged = true;
                 }
 
                 break;
@@ -373,7 +466,7 @@ public class FeatureLayer : Layer
                 if (!_fields.Contains(field))
                 {
                     _fields.Add(field);
-                    await UpdateComponent();
+                    LayerChanged = true;
                 }
 
                 break;
@@ -391,32 +484,33 @@ public class FeatureLayer : Layer
         {
             case PopupTemplate _:
                 PopupTemplate = null;
-
+                LayerChanged = true;
                 break;
             case Label label:
-                LabelingInfo.Remove(label);
-
+                LabelingInfo?.Remove(label);
+                LayerChanged = true;
                 break;
             case Renderer _:
                 Renderer = null;
-
+                LayerChanged = true;
                 break;
             case PortalItem _:
                 PortalItem = null;
-
+                LayerChanged = true;
                 break;
             case SpatialReference _:
                 SpatialReference = null;
-
+                LayerChanged = true;
                 break;
             case OrderedLayerOrderBy orderBy:
                 OrderBy?.Remove(orderBy);
-
+                LayerChanged = true;
                 break;
             case Graphic graphic:
                 if (_source?.Contains(graphic) ?? false)
                 {
                     _source.Remove(graphic);
+                    LayerChanged = true;
                 }
 
                 break;
@@ -424,6 +518,7 @@ public class FeatureLayer : Layer
                 if (_fields?.Contains(field) ?? false)
                 {
                     _fields.Remove(field);
+                    LayerChanged = true;
                 }
 
                 break;
@@ -441,9 +536,13 @@ public class FeatureLayer : Layer
         PopupTemplate?.ValidateRequiredChildren();
         Renderer?.ValidateRequiredChildren();
         PortalItem?.ValidateRequiredChildren();
-        foreach (Label label in LabelingInfo)
+
+        if (LabelingInfo is not null)
         {
-            label.ValidateRequiredChildren();
+            foreach (Label label in LabelingInfo)
+            {
+                label.ValidateRequiredChildren();
+            }
         }
 
         if (Source is not null)
@@ -463,17 +562,6 @@ public class FeatureLayer : Layer
         }
     }
 
-    /// <inheritdoc />
-    public override async Task UpdateComponent()
-    {
-        if ((!MapRendered && JsObjectReference is null) || JsModule is null) return;
-
-        await InvokeAsync(async () =>
-        {
-            // ReSharper disable once RedundantCast
-            await JsModule!.InvokeVoidAsync("updateFeatureLayer", (object)this, View!.Id);
-        });
-    }
 
     /// <summary>
     ///     Creates a popup template for the layer, populated with all the fields of the layer.
@@ -483,7 +571,7 @@ public class FeatureLayer : Layer
     /// </param>
     public async Task<PopupTemplate> CreatePopupTemplate(CreatePopupTemplateOptions? options = null)
     {
-        return await JsObjectReference!.InvokeAsync<PopupTemplate>("createPopupTemplate", options);
+        return await JsLayerReference!.InvokeAsync<PopupTemplate>("createPopupTemplate", options);
     }
 
     /// <summary>
@@ -491,7 +579,7 @@ public class FeatureLayer : Layer
     /// </summary>
     public async Task<Query> CreateQuery()
     {
-        return await JsObjectReference!.InvokeAsync<Query>("createQuery");
+        return await JsLayerReference!.InvokeAsync<Query>("createQuery");
     }
     
     /// <summary>
@@ -507,7 +595,7 @@ public class FeatureLayer : Layer
     public async Task<ExtentQueryResult> QueryExtent(Query? query = null, CancellationToken cancellationToken = default)
     {
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        ExtentQueryResult result = await JsObjectReference!.InvokeAsync<ExtentQueryResult>("queryExtent", 
+        ExtentQueryResult result = await JsLayerReference!.InvokeAsync<ExtentQueryResult>("queryExtent", 
             cancellationToken, query, new {signal = abortSignal});
 
         await AbortManager.DisposeAbortController(cancellationToken);
@@ -528,7 +616,7 @@ public class FeatureLayer : Layer
     public async Task<int> QueryFeatureCount(Query? query = null, CancellationToken cancellationToken = default)
     {
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        int result = await JsObjectReference!.InvokeAsync<int>("queryFeatureCount", cancellationToken, 
+        int result = await JsLayerReference!.InvokeAsync<int>("queryFeatureCount", cancellationToken, 
             query, new {signal = abortSignal});
         
         await AbortManager.DisposeAbortController(cancellationToken);
@@ -550,7 +638,7 @@ public class FeatureLayer : Layer
     public async Task<FeatureSet> QueryFeatures(Query? query = null, CancellationToken cancellationToken = default)
     {
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        FeatureSet result = await JsObjectReference!.InvokeAsync<FeatureSet>("queryFeatures", cancellationToken, 
+        FeatureSet result = await JsLayerReference!.InvokeAsync<FeatureSet>("queryFeatures", cancellationToken, 
             query, new {signal = abortSignal});
 
         if (result.Features is not null)
@@ -580,7 +668,7 @@ public class FeatureLayer : Layer
     {
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         
-        int[] queryResult = await JsObjectReference!.InvokeAsync<int[]>("queryObjectIds", cancellationToken,
+        int[] queryResult = await JsLayerReference!.InvokeAsync<int[]>("queryObjectIds", cancellationToken,
             query, new {signal = abortSignal});
 
         await AbortManager.DisposeAbortController(cancellationToken);
@@ -601,7 +689,7 @@ public class FeatureLayer : Layer
         CancellationToken cancellationToken = default)
     {
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        Dictionary<int, FeatureSet?> result = await JsObjectReference!.InvokeAsync<Dictionary<int, FeatureSet?>>(
+        Dictionary<int, FeatureSet?> result = await JsLayerReference!.InvokeAsync<Dictionary<int, FeatureSet?>>(
             "queryRelatedFeatures", cancellationToken, query, new {signal = abortSignal});
 
         foreach (FeatureSet? set in result.Values)
@@ -631,7 +719,7 @@ public class FeatureLayer : Layer
         CancellationToken cancellationToken = default)
     {
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        Dictionary<int, int> result = await JsObjectReference!.InvokeAsync<Dictionary<int, int>>(
+        Dictionary<int, int> result = await JsLayerReference!.InvokeAsync<Dictionary<int, int>>(
             "queryRelatedFeaturesCount", cancellationToken, query, new {signal = abortSignal});
 
         await AbortManager.DisposeAbortController(cancellationToken);
@@ -655,7 +743,7 @@ public class FeatureLayer : Layer
     public async Task<int> QueryTopFeatureCount(TopFeaturesQuery query, CancellationToken cancellationToken = default)
     {
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        int result = await JsObjectReference!.InvokeAsync<int>("queryTopFeatureCount", cancellationToken, 
+        int result = await JsLayerReference!.InvokeAsync<int>("queryTopFeatureCount", cancellationToken, 
             query, new {signal = abortSignal});
         
         await AbortManager.DisposeAbortController(cancellationToken);
@@ -679,7 +767,7 @@ public class FeatureLayer : Layer
     public async Task<FeatureSet> QueryTopFeatures(TopFeaturesQuery query, CancellationToken cancellationToken = default)
     {
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        FeatureSet result = await JsObjectReference!.InvokeAsync<FeatureSet>("queryTopFeatures", cancellationToken, 
+        FeatureSet result = await JsLayerReference!.InvokeAsync<FeatureSet>("queryTopFeatures", cancellationToken, 
             query, new {signal = abortSignal});
 
         if (result.Features is not null)
@@ -705,7 +793,7 @@ public class FeatureLayer : Layer
     {
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         
-        int[] queryResult = await JsObjectReference!.InvokeAsync<int[]>("queryTopObjectIds", cancellationToken,
+        int[] queryResult = await JsLayerReference!.InvokeAsync<int[]>("queryTopObjectIds", cancellationToken,
             query, new {signal = abortSignal});
 
         await AbortManager.DisposeAbortController(cancellationToken);
@@ -728,14 +816,13 @@ public class FeatureLayer : Layer
     public async Task<ExtentQueryResult> QueryTopFeaturesExtent(TopFeaturesQuery? query = null, CancellationToken cancellationToken = default)
     {
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        ExtentQueryResult result = await JsObjectReference!.InvokeAsync<ExtentQueryResult>("queryExtent", 
+        ExtentQueryResult result = await JsLayerReference!.InvokeAsync<ExtentQueryResult>("queryExtent", 
             cancellationToken, query, new {signal = abortSignal});
 
         await AbortManager.DisposeAbortController(cancellationToken);
         return result;
     }
 
-    private string? _definitionExpression;
     private HashSet<Graphic>? _source;
     private HashSet<Field>? _fields;
 }

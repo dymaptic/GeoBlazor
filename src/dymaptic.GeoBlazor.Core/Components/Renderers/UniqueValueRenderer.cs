@@ -54,7 +54,6 @@ public class UniqueValueRenderer : Renderer
                 if (!UniqueValueInfos.Contains(uniqueValue))
                 {
                     UniqueValueInfos.Add(uniqueValue);
-                    await UpdateComponent();
                 }
 
                 break;
@@ -62,7 +61,6 @@ public class UniqueValueRenderer : Renderer
                 if (!legendOptions.Equals(LegendOptions))
                 {
                     LegendOptions = legendOptions;
-                    await UpdateComponent();
                 }
 
                 break;
@@ -70,7 +68,6 @@ public class UniqueValueRenderer : Renderer
                 if (defaultSymbol.Symbol is not null && !defaultSymbol.Symbol!.Equals(Symbol))
                 {
                     Symbol = defaultSymbol.Symbol;
-                    await UpdateComponent();
                 }
 
                 break;
@@ -140,7 +137,6 @@ public class DefaultSymbol : MapComponent
                 if (!symbol.Equals(Symbol))
                 {
                     Symbol = symbol;
-                    await UpdateComponent();
                 }
                 break;
             default:

@@ -118,7 +118,7 @@ public Microsoft.JSInterop.IJSRuntime JsRuntime { get; set; }
 ## MapComponent.MapRendered Property
 
 A boolean flag that indicates that the current [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') has finished rendering.  
-To listen for a map rendering event, use [OnMapRenderedHandler](dymaptic.GeoBlazor.Core.Components.Views.MapView.html#dymaptic.GeoBlazor.Core.Components.Views.MapView.OnMapRenderedHandler 'dymaptic.GeoBlazor.Core.Components.Views.MapView.OnMapRenderedHandler').
+To listen for a map rendering event, use [OnMapRendered](dymaptic.GeoBlazor.Core.Components.Views.MapView.html#dymaptic.GeoBlazor.Core.Components.Views.MapView.OnMapRendered 'dymaptic.GeoBlazor.Core.Components.Views.MapView.OnMapRendered').
 
 ```csharp
 public bool MapRendered { get; set; }
@@ -804,19 +804,6 @@ public virtual System.Threading.Tasks.Task UnregisterChildComponent(dymaptic.Geo
 `child` [MapComponent](dymaptic.GeoBlazor.Core.Components.MapComponent.html 'dymaptic.GeoBlazor.Core.Components.MapComponent')
 
 The child to unregister
-
-#### Returns
-[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
-
-<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.UpdateComponent()'></a>
-
-## MapComponent.UpdateComponent() Method
-
-Checks if the map is already rendered, and if so, performs forced updates as defined by the component type.
-
-```csharp
-public virtual System.Threading.Tasks.Task UpdateComponent();
-```
 
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')

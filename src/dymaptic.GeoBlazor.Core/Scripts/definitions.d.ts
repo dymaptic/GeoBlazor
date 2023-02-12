@@ -12,9 +12,12 @@ export interface MapCollection extends __esri.Collection {
 }
 
 export interface DotNetGraphic {
+    id: string | null;
     uid: string;
     geometry: any;
     attributes: any;
+    
+    symbol: DotNetSymbol;
 }
 
 export interface DotNetFeature {
@@ -67,6 +70,65 @@ export interface DotNetPolyline extends DotNetGeometry {
     extent: DotNetExtent;
 }
 
+export interface DotNetSymbol {
+    type: string;
+    color: string;
+}
+
+export interface DotNetSimpleMarkerSymbol extends DotNetSymbol {
+    outline: DotNetSimpleLineSymbol;
+    path: string;
+    size: number;
+    style: string;
+    xoffset: number;
+    yoffset: number;
+}
+
+export interface DotNetSimpleLineSymbol extends DotNetSymbol {
+    cap: string;
+    join: string;
+    marker: any;
+    miterLimit: number;
+    style: string;
+    width: number;
+}
+
+export interface DotNetPictureMarkerSymbol extends DotNetSymbol {
+    angle: number;
+    xoffset: number;
+    yoffset: number;
+    
+    height: number;
+    
+    width: number;
+    
+    url: string;
+}
+
+export interface DotNetSimpleFillSymbol extends DotNetSymbol {
+    outline: DotNetSimpleLineSymbol;
+    style: string;
+}
+
+export interface DotNetTextSymbol extends DotNetSymbol {
+    angle: number;
+    backgroundColor: string;
+    borderLineColor: string;
+    borderLineSize: number;
+    font: any;
+    haloColor: string;
+    haloSize: number;
+    horizontalAlignment: string;
+    kerning: boolean;
+    lineHeight: number;
+    lineWidth: number;
+    rotated: boolean;
+    text: string;
+    verticalAlignment: string;
+    xoffset: number;
+    yoffset: number;
+}
+
 export interface DotNetSpatialReference {
     isGeographic: boolean;
     isWebMercator: boolean;
@@ -102,7 +164,6 @@ export interface DotNetListItem {
 }
 
 export interface DotNetLayerView {
-    layer: DotNetLayer;
     spatialReferenceSupported: boolean;
     suspended: boolean;
     updating: boolean;
@@ -132,6 +193,29 @@ export interface DotNetLayer {
     visible: boolean;
     opacity: number;
     listMode: string;
+}
+
+export interface DotNetFeatureLayer extends DotNetLayer {
+    url: string;
+    definitionExpression: string;
+    outFields: string[];
+    minScale: number;
+    maxScale: number;
+    objectIdField: string;
+    geometryType: string;
+    orderBy: any[];
+    popupTemplate: DotNetPopupTemplate;
+    labelingInfo: any[];
+    renderer: any;
+    portalItem: any;
+    spatialReference: DotNetSpatialReference;
+    source: any[];
+    fields: any[];
+    relationships: any[];
+}
+
+export interface DotNetGraphicsLayer extends DotNetLayer {
+    graphics: DotNetGraphic[];
 }
 
 export interface DotNetHitTestOptions {

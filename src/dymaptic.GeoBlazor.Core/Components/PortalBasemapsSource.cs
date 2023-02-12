@@ -45,7 +45,6 @@ public class PortalBasemapsSource: MapComponent
                 if (!((Object)portal).Equals(Portal))
                 {
                     Portal = portal;
-                    await UpdateComponent();
                 }
 
                 break;

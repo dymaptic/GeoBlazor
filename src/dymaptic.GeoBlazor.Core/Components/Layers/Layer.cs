@@ -30,12 +30,6 @@ public abstract class Layer : MapComponent
     public double? Opacity { get; set; }
 
     /// <summary>
-    ///     Used internally to identify multiple layers.
-    /// </summary>
-    [JsonIgnore]
-    public int LayerIndex { get; set; }
-    
-    /// <summary>
     ///     The title of the layer used to identify it in places such as the Legend and LayerList widgets.
     /// </summary>
     [Parameter]
@@ -52,7 +46,7 @@ public abstract class Layer : MapComponent
     ///    The JavaScript object that represents the layer.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IJSObjectReference? JsObjectReference { get; set; }
+    public IJSObjectReference? JsLayerReference { get; set; }
     
     /// <summary>
     ///     Indicates how the layer should display in the LayerList widget. The possible values are listed below.
@@ -83,7 +77,7 @@ public abstract class Layer : MapComponent
                 if (!extent.Equals(FullExtent))
                 {
                     FullExtent = extent;
-                    await UpdateComponent();
+                    LayerChanged = true;
                 }
 
                 break;
@@ -101,7 +95,7 @@ public abstract class Layer : MapComponent
         {
             case Extent _:
                 FullExtent = null;
-                await UpdateComponent();
+                LayerChanged = true;
 
                 break;
             default:
@@ -116,6 +110,32 @@ public abstract class Layer : MapComponent
     {
         FullExtent?.ValidateRequiredChildren();
         base.ValidateRequiredChildren();
+    }
+
+    /// <inheritdoc />
+    protected override async Task OnParametersSetAsync()
+    {
+        LayerChanged = true;
+        await base.OnParametersSetAsync();
+    }
+
+    /// <inheritdoc />
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (LayerChanged && MapRendered)
+        {
+            await UpdateLayer();
+        }
+    }
+
+    private async Task UpdateLayer()
+    {
+        LayerChanged = false;
+        if ((!MapRendered && JsLayerReference is null) || JsModule is null) return;
+        // ReSharper disable once RedundantCast
+        await JsModule!.InvokeVoidAsync("updateLayer", (object)this, View!.Id);
     }
 
 
@@ -148,13 +168,13 @@ public abstract class Layer : MapComponent
         AbortManager = new AbortManager(JsRuntime);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         IJSObjectReference arcGisJsInterop = await GetArcGisJsInterop();
-        JsObjectReference = await arcGisJsInterop.InvokeAsync<IJSObjectReference>("createLayer", 
+        JsLayerReference = await arcGisJsInterop.InvokeAsync<IJSObjectReference>("createLayer", 
             // ReSharper disable once RedundantCast
             cancellationToken, (object)this, true);
-        await JsObjectReference.InvokeVoidAsync("load", cancellationToken, abortSignal);
+        await JsLayerReference.InvokeVoidAsync("load", cancellationToken, abortSignal);
         Layer loadedLayer = await arcGisJsInterop.InvokeAsync<Layer>("getSerializedDotNetObject",
             cancellationToken, Id);
-        UpdateFromJavaScript(loadedLayer);
+        await UpdateFromJavaScript(loadedLayer);
         await AbortManager.DisposeAbortController(cancellationToken);
     }
 
@@ -164,13 +184,20 @@ public abstract class Layer : MapComponent
     /// <param name="renderedLayer">
     ///     The layer deserialized from JavaScript
     /// </param>
-    public virtual void UpdateFromJavaScript(Layer renderedLayer)
+    internal virtual Task UpdateFromJavaScript(Layer renderedLayer)
     {
         if (renderedLayer.FullExtent is not null)
         {
             FullExtent = renderedLayer.FullExtent;
         }
+
+        return Task.CompletedTask;
     }
+
+    /// <summary>
+    ///    Indicates if the layer has changed since the last render.
+    /// </summary>
+    protected bool LayerChanged;
 }
 
 internal class LayerConverter : JsonConverter<Layer>
@@ -196,13 +223,17 @@ internal class LayerConverter : JsonConverter<Layer>
                 case "graphics":
                     return JsonSerializer.Deserialize<GraphicsLayer>(ref cloneReader, newOptions);
                 case "geo-json":
+                case "geojson":
                     return JsonSerializer.Deserialize<GeoJSONLayer>(ref cloneReader, newOptions);
                 case "geo-rss":
+                case "georss":
                     return JsonSerializer.Deserialize<GeoRSSLayer>(ref cloneReader, newOptions);
                 case "tile":
                     return JsonSerializer.Deserialize<TileLayer>(ref cloneReader, newOptions);
                 case "vector-tile":
                     return JsonSerializer.Deserialize<VectorTileLayer>(ref cloneReader, newOptions);
+                case "open-street-map":
+                    return JsonSerializer.Deserialize<OpenStreetMapLayer>(ref cloneReader, newOptions);
             }
         }
 

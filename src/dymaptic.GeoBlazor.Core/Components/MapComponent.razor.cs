@@ -21,6 +21,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     ///     Represents an instance of a JavaScript runtime to which calls may be dispatched.
     /// </summary>
     [Inject]
+    [JsonIgnore]
     public IJSRuntime JsRuntime { get; set; } = default!;
     
     /// <summary>
@@ -39,7 +40,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
 
     /// <summary>
     ///     A boolean flag that indicates that the current <see cref="MapView"/> has finished rendering.
-    ///     To listen for a map rendering event, use <see cref="MapView.OnMapRenderedHandler"/>.
+    ///     To listen for a map rendering event, use <see cref="MapView.OnMapRendered"/>.
     /// </summary>
     [CascadingParameter(Name = "MapRendered")]
     [JsonIgnore]
@@ -153,18 +154,6 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     public virtual void Refresh()
     {
         StateHasChanged();
-    }
-
-    /// <summary>
-    ///     Checks if the map is already rendered, and if so, performs forced updates as defined by the component type.
-    /// </summary>
-    public virtual async Task UpdateComponent()
-    {
-        if (Parent is not null && MapRendered)
-        {
-            Console.WriteLine($"Updating {GetType().Name} with {Parent.GetType().Name}");
-            await Parent.UpdateComponent();
-        }
     }
 
 
@@ -717,7 +706,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     }
 
 #endregion
-    
+
     private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _watchers = new();
     private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _listeners = new();
     private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _waiters = new();

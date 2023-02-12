@@ -183,6 +183,7 @@ parent: Classes
 | :--- | :--- |
 | [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') | The Top-Level Map Component Container.<br/>A MapView displays a 2D view of a Map instance. An instance of MapView must be created to render a Map (along with its operational and base layers) in 2D. To render a map and its layers in 3D, see the documentation for SceneView. For a general overview of views, see View.<br/><a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">ArcGIS JS API</a> |
 | [SceneView](dymaptic.GeoBlazor.Core.Components.Views.SceneView.html 'dymaptic.GeoBlazor.Core.Components.Views.SceneView') | A SceneView displays a 3D view of a Map or WebScene instance using WebGL. To render a map and its layers in 2D, see the documentation for MapView. For a general overview of views, see View.<br/><a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">ArcGIS JS API</a> |
+| [ViewExtentUpdate](dymaptic.GeoBlazor.Core.Components.Views.ViewExtentUpdate.html 'dymaptic.GeoBlazor.Core.Components.Views.ViewExtentUpdate') | A class to represent all the parameters that make up the extent of the map view. |
 
 <a name='dymaptic.GeoBlazor.Core.Components.Widgets'></a>
 

@@ -150,7 +150,6 @@ public class PopupTemplate : MapComponent
                 if (!Content.Contains(popupContent))
                 {
                     Content.Add(popupContent);
-                    await UpdateComponent();
                 }
 
                 break;
@@ -159,7 +158,6 @@ public class PopupTemplate : MapComponent
                 if (!FieldInfos.Contains(fieldInfo))
                 {
                     FieldInfos.Add(fieldInfo);
-                    await UpdateComponent();
                 }
 
                 break;
@@ -168,7 +166,6 @@ public class PopupTemplate : MapComponent
                 if (!ExpressionInfos.Contains(expressionInfo))
                 {
                     ExpressionInfos.Add(expressionInfo);
-                    await UpdateComponent();
                 }
 
                 break;

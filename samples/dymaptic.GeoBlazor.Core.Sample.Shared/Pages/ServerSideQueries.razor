@@ -47,17 +47,6 @@
     </CustomOverlay>
 </MapView>
 
-<Graphic @ref="_pointGraphic">
-    <SimpleMarkerSymbol Color="@(new MapColor(0, 0, 139))">
-        <Outline Color="@(new MapColor(255, 255, 255))" Width="1.5" />
-    </SimpleMarkerSymbol>
-</Graphic>
-
-<Graphic @ref="_bufferGraphic">
-    <SimpleFillSymbol Color="@(new MapColor(173, 216, 230, 0.2))">
-        <Outline Color="@(new MapColor(255, 255, 255))" Width="1" />
-    </SimpleFillSymbol>
-</Graphic>
 
 @code {
     private async Task OnViewInitialized()
@@ -86,28 +75,33 @@
             OutFields = new HashSet<string> { "*" }
         };
         FeatureSet result = await _featureLayer!.QueryFeatures(query);
-        await _pointGraphic!.RegisterChildComponent(clickEvent.MapPoint);
+        await _pointGraphic.SetGeometry(clickEvent.MapPoint);
         await _mapView!.AddGraphic(_pointGraphic);
-        await _mapView.OpenPopup(new PopupOpenOptions
-        {
-            Location = clickEvent.MapPoint,
-            Features = result.Features,
-            FeatureMenuOpen = true
-        });
 
         if (result.QueryGeometry is not null)
         {
-            await _bufferGraphic!.RegisterChildComponent(result.QueryGeometry);
-            await _mapView.AddGraphic(_bufferGraphic!);
+            await _bufferGraphic.SetGeometry(result.QueryGeometry);
+            await _mapView.AddGraphic(_bufferGraphic);
         }
+        
+         await _mapView.OpenPopup(new PopupOpenOptions
+         {
+             Location = clickEvent.MapPoint,
+             Features = result.Features,
+             FeatureMenuOpen = true
+         });
     }
     
     private double? Distance => _queryType == "distance" ? 0.5 : null;
     private LinearUnit? Unit => _queryType == "distance" ? LinearUnit.Miles : null;
     private MapView? _mapView;
     private FeatureLayer? _featureLayer;
-    private Graphic? _pointGraphic;
-    private Graphic? _bufferGraphic;
+    private readonly Graphic _pointGraphic = new(symbol: new SimpleMarkerSymbol(
+        new Outline(new MapColor(255, 255, 255), 1), 
+        new MapColor(0, 0, 139)));
+    private readonly Graphic _bufferGraphic = new(symbol: new SimpleFillSymbol(
+        new Outline(new MapColor(255, 255, 255), 1.5), 
+        new MapColor(173, 216, 230, 0.2)));
     private string? _queryType;
     private bool _fullyLoaded;
 }

@@ -13,7 +13,27 @@ public abstract class LayerObject : MapComponent
     ///     The <see cref="Symbol"/> for the object.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Symbol? Symbol { get; set; }
+    [JsonInclude]
+    public Symbol? Symbol { get; protected set; }
+    
+    /// <summary>
+    ///    Gets the current <see cref="Symbol"/> for the object.
+    /// </summary>
+    public virtual async Task<Symbol?> GetSymbol()
+    {
+        return await Task.Run(() => Symbol);
+    }
+
+    /// <summary>
+    ///    Sets the <see cref="Symbol"/> for the object.
+    /// </summary>
+    /// <param name="symbol">
+    ///     The <see cref="Symbol"/> for the object.
+    /// </param>
+    public async Task SetSymbol(Symbol symbol)
+    {
+        await RegisterChildComponent(symbol);
+    }
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
@@ -24,7 +44,6 @@ public abstract class LayerObject : MapComponent
                 if (!symbol.Equals(Symbol))
                 {
                     Symbol = symbol;
-                    await UpdateComponent();
                 }
 
                 break;

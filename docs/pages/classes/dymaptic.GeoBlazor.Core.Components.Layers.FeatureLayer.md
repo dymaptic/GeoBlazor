@@ -19,6 +19,106 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 
 ### Example
 <a target="_blank" href="https://samples.geoblazor.com/feature-layers">Sample - Feature Layers</a>
+### Constructors
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.FeatureLayer()'></a>
+
+## FeatureLayer() Constructor
+
+Constructor for use as a razor component
+
+```csharp
+public FeatureLayer();
+```
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.FeatureLayer(string,dymaptic.GeoBlazor.Core.Components.PortalItem,System.Collections.Generic.IReadOnlyCollection_dymaptic.GeoBlazor.Core.Components.Layers.Graphic_,string[],string,System.Nullable_double_,System.Nullable_double_,string,System.Nullable_dymaptic.GeoBlazor.Core.Components.Geometries.GeometryType_,string,System.Nullable_double_,System.Nullable_bool_,System.Nullable_dymaptic.GeoBlazor.Core.Components.Layers.ListMode_)'></a>
+
+## FeatureLayer(string, PortalItem, IReadOnlyCollection<Graphic>, string[], string, Nullable<double>, Nullable<double>, string, Nullable<GeometryType>, string, Nullable<double>, Nullable<bool>, Nullable<ListMode>) Constructor
+
+Constructor for creating a new FeatureLayer in code. Either the url, portalItem, or source parameter must be specified.
+
+```csharp
+public FeatureLayer(string? url=null, dymaptic.GeoBlazor.Core.Components.PortalItem? portalItem=null, System.Collections.Generic.IReadOnlyCollection<dymaptic.GeoBlazor.Core.Components.Layers.Graphic>? source=null, string[]? outFields=null, string? definitionExpression=null, System.Nullable<double> minScale=null, System.Nullable<double> maxScale=null, string? objectIdField=null, System.Nullable<dymaptic.GeoBlazor.Core.Components.Geometries.GeometryType> geometryType=null, string? title=null, System.Nullable<double> opacity=null, System.Nullable<bool> visible=null, System.Nullable<dymaptic.GeoBlazor.Core.Components.Layers.ListMode> listMode=null);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.FeatureLayer(string,dymaptic.GeoBlazor.Core.Components.PortalItem,System.Collections.Generic.IReadOnlyCollection_dymaptic.GeoBlazor.Core.Components.Layers.Graphic_,string[],string,System.Nullable_double_,System.Nullable_double_,string,System.Nullable_dymaptic.GeoBlazor.Core.Components.Geometries.GeometryType_,string,System.Nullable_double_,System.Nullable_bool_,System.Nullable_dymaptic.GeoBlazor.Core.Components.Layers.ListMode_).url'></a>
+
+`url` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+The absolute URL of the REST endpoint of the layer, non-spatial table or service
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.FeatureLayer(string,dymaptic.GeoBlazor.Core.Components.PortalItem,System.Collections.Generic.IReadOnlyCollection_dymaptic.GeoBlazor.Core.Components.Layers.Graphic_,string[],string,System.Nullable_double_,System.Nullable_double_,string,System.Nullable_dymaptic.GeoBlazor.Core.Components.Geometries.GeometryType_,string,System.Nullable_double_,System.Nullable_bool_,System.Nullable_dymaptic.GeoBlazor.Core.Components.Layers.ListMode_).portalItem'></a>
+
+`portalItem` [PortalItem](dymaptic.GeoBlazor.Core.Components.PortalItem.html 'dymaptic.GeoBlazor.Core.Components.PortalItem')
+
+The [PortalItem](dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html#dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.PortalItem 'dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.PortalItem') from which the layer is loaded.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.FeatureLayer(string,dymaptic.GeoBlazor.Core.Components.PortalItem,System.Collections.Generic.IReadOnlyCollection_dymaptic.GeoBlazor.Core.Components.Layers.Graphic_,string[],string,System.Nullable_double_,System.Nullable_double_,string,System.Nullable_dymaptic.GeoBlazor.Core.Components.Geometries.GeometryType_,string,System.Nullable_double_,System.Nullable_bool_,System.Nullable_dymaptic.GeoBlazor.Core.Components.Layers.ListMode_).source'></a>
+
+`source` [System.Collections.Generic.IReadOnlyCollection&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IReadOnlyCollection-1 'System.Collections.Generic.IReadOnlyCollection`1')[Graphic](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IReadOnlyCollection-1 'System.Collections.Generic.IReadOnlyCollection`1')
+
+A collection of Graphic objects used to create a FeatureLayer.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.FeatureLayer(string,dymaptic.GeoBlazor.Core.Components.PortalItem,System.Collections.Generic.IReadOnlyCollection_dymaptic.GeoBlazor.Core.Components.Layers.Graphic_,string[],string,System.Nullable_double_,System.Nullable_double_,string,System.Nullable_dymaptic.GeoBlazor.Core.Components.Geometries.GeometryType_,string,System.Nullable_double_,System.Nullable_bool_,System.Nullable_dymaptic.GeoBlazor.Core.Components.Layers.ListMode_).outFields'></a>
+
+`outFields` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')
+
+An array of field names from the service to include with each feature.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.FeatureLayer(string,dymaptic.GeoBlazor.Core.Components.PortalItem,System.Collections.Generic.IReadOnlyCollection_dymaptic.GeoBlazor.Core.Components.Layers.Graphic_,string[],string,System.Nullable_double_,System.Nullable_double_,string,System.Nullable_dymaptic.GeoBlazor.Core.Components.Geometries.GeometryType_,string,System.Nullable_double_,System.Nullable_bool_,System.Nullable_dymaptic.GeoBlazor.Core.Components.Layers.ListMode_).definitionExpression'></a>
+
+`definitionExpression` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+The SQL where clause used to filter features on the client.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.FeatureLayer(string,dymaptic.GeoBlazor.Core.Components.PortalItem,System.Collections.Generic.IReadOnlyCollection_dymaptic.GeoBlazor.Core.Components.Layers.Graphic_,string[],string,System.Nullable_double_,System.Nullable_double_,string,System.Nullable_dymaptic.GeoBlazor.Core.Components.Geometries.GeometryType_,string,System.Nullable_double_,System.Nullable_bool_,System.Nullable_dymaptic.GeoBlazor.Core.Components.Layers.ListMode_).minScale'></a>
+
+`minScale` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
+
+The minimum scale (most zoomed out) at which the layer is visible in the view.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.FeatureLayer(string,dymaptic.GeoBlazor.Core.Components.PortalItem,System.Collections.Generic.IReadOnlyCollection_dymaptic.GeoBlazor.Core.Components.Layers.Graphic_,string[],string,System.Nullable_double_,System.Nullable_double_,string,System.Nullable_dymaptic.GeoBlazor.Core.Components.Geometries.GeometryType_,string,System.Nullable_double_,System.Nullable_bool_,System.Nullable_dymaptic.GeoBlazor.Core.Components.Layers.ListMode_).maxScale'></a>
+
+`maxScale` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
+
+The maximum scale (most zoomed in) at which the layer is visible in the view.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.FeatureLayer(string,dymaptic.GeoBlazor.Core.Components.PortalItem,System.Collections.Generic.IReadOnlyCollection_dymaptic.GeoBlazor.Core.Components.Layers.Graphic_,string[],string,System.Nullable_double_,System.Nullable_double_,string,System.Nullable_dymaptic.GeoBlazor.Core.Components.Geometries.GeometryType_,string,System.Nullable_double_,System.Nullable_bool_,System.Nullable_dymaptic.GeoBlazor.Core.Components.Layers.ListMode_).objectIdField'></a>
+
+`objectIdField` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+The name of an oidfield containing a unique value or identifier for each feature in the layer.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.FeatureLayer(string,dymaptic.GeoBlazor.Core.Components.PortalItem,System.Collections.Generic.IReadOnlyCollection_dymaptic.GeoBlazor.Core.Components.Layers.Graphic_,string[],string,System.Nullable_double_,System.Nullable_double_,string,System.Nullable_dymaptic.GeoBlazor.Core.Components.Geometries.GeometryType_,string,System.Nullable_double_,System.Nullable_bool_,System.Nullable_dymaptic.GeoBlazor.Core.Components.Layers.ListMode_).geometryType'></a>
+
+`geometryType` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[GeometryType](dymaptic.GeoBlazor.Core.Components.Geometries.GeometryType.html 'dymaptic.GeoBlazor.Core.Components.Geometries.GeometryType')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
+
+The geometry type of the feature layer. All features must be of the same type.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.FeatureLayer(string,dymaptic.GeoBlazor.Core.Components.PortalItem,System.Collections.Generic.IReadOnlyCollection_dymaptic.GeoBlazor.Core.Components.Layers.Graphic_,string[],string,System.Nullable_double_,System.Nullable_double_,string,System.Nullable_dymaptic.GeoBlazor.Core.Components.Geometries.GeometryType_,string,System.Nullable_double_,System.Nullable_bool_,System.Nullable_dymaptic.GeoBlazor.Core.Components.Layers.ListMode_).title'></a>
+
+`title` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+The title of the layer used to identify it in places such as the Legend and LayerList widgets.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.FeatureLayer(string,dymaptic.GeoBlazor.Core.Components.PortalItem,System.Collections.Generic.IReadOnlyCollection_dymaptic.GeoBlazor.Core.Components.Layers.Graphic_,string[],string,System.Nullable_double_,System.Nullable_double_,string,System.Nullable_dymaptic.GeoBlazor.Core.Components.Geometries.GeometryType_,string,System.Nullable_double_,System.Nullable_bool_,System.Nullable_dymaptic.GeoBlazor.Core.Components.Layers.ListMode_).opacity'></a>
+
+`opacity` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
+
+The opacity of the layer.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.FeatureLayer(string,dymaptic.GeoBlazor.Core.Components.PortalItem,System.Collections.Generic.IReadOnlyCollection_dymaptic.GeoBlazor.Core.Components.Layers.Graphic_,string[],string,System.Nullable_double_,System.Nullable_double_,string,System.Nullable_dymaptic.GeoBlazor.Core.Components.Geometries.GeometryType_,string,System.Nullable_double_,System.Nullable_bool_,System.Nullable_dymaptic.GeoBlazor.Core.Components.Layers.ListMode_).visible'></a>
+
+`visible` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
+
+Indicates if the layer is visible in the View. When false, the layer may still be added to a Map instance that is referenced in a view, but its features will not be visible in the view.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.FeatureLayer(string,dymaptic.GeoBlazor.Core.Components.PortalItem,System.Collections.Generic.IReadOnlyCollection_dymaptic.GeoBlazor.Core.Components.Layers.Graphic_,string[],string,System.Nullable_double_,System.Nullable_double_,string,System.Nullable_dymaptic.GeoBlazor.Core.Components.Geometries.GeometryType_,string,System.Nullable_double_,System.Nullable_bool_,System.Nullable_dymaptic.GeoBlazor.Core.Components.Layers.ListMode_).listMode'></a>
+
+`listMode` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[ListMode](dymaptic.GeoBlazor.Core.Components.Layers.ListMode.html 'dymaptic.GeoBlazor.Core.Components.Layers.ListMode')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
+
+Indicates how the layer should display in the LayerList widget. The possible values are listed below.
 ### Properties
 
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.DefinitionExpression'></a>
@@ -51,7 +151,7 @@ public System.Collections.Generic.IReadOnlyCollection<dymaptic.GeoBlazor.Core.Co
 
 ## FeatureLayer.GeometryType Property
 
-The geometry type of the feature layer. All featuers must be of the same type.
+The geometry type of the feature layer. All features must be of the same type.
 
 ```csharp
 public System.Nullable<dymaptic.GeoBlazor.Core.Components.Geometries.GeometryType> GeometryType { get; set; }
@@ -67,7 +167,7 @@ public System.Nullable<dymaptic.GeoBlazor.Core.Components.Geometries.GeometryTyp
 The label definition for this layer, specified as an array of [Label](dymaptic.GeoBlazor.Core.Components.Layers.Label.html 'dymaptic.GeoBlazor.Core.Components.Layers.Label').
 
 ```csharp
-public System.Collections.Generic.HashSet<dymaptic.GeoBlazor.Core.Components.Layers.Label> LabelingInfo { get; set; }
+public System.Collections.Generic.HashSet<dymaptic.GeoBlazor.Core.Components.Layers.Label>? LabelingInfo { get; set; }
 ```
 
 #### Property Value
@@ -236,7 +336,7 @@ public dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference? SpatialRe
 The absolute URL of the REST endpoint of the layer, non-spatial table or service
 
 ```csharp
-public string Url { get; set; }
+public string? Url { get; set; }
 ```
 
 #### Property Value
@@ -687,36 +787,6 @@ The child to unregister
 
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
-
-<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.UpdateComponent()'></a>
-
-## FeatureLayer.UpdateComponent() Method
-
-Checks if the map is already rendered, and if so, performs forced updates as defined by the component type.
-
-```csharp
-public override System.Threading.Tasks.Task UpdateComponent();
-```
-
-#### Returns
-[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
-
-<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.UpdateFromJavaScript(dymaptic.GeoBlazor.Core.Components.Layers.Layer)'></a>
-
-## FeatureLayer.UpdateFromJavaScript(Layer) Method
-
-Copies values from the rendered JavaScript layer back to the .NET implementation.
-
-```csharp
-public override void UpdateFromJavaScript(dymaptic.GeoBlazor.Core.Components.Layers.Layer renderedLayer);
-```
-#### Parameters
-
-<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.UpdateFromJavaScript(dymaptic.GeoBlazor.Core.Components.Layers.Layer).renderedLayer'></a>
-
-`renderedLayer` [Layer](dymaptic.GeoBlazor.Core.Components.Layers.Layer.html 'dymaptic.GeoBlazor.Core.Components.Layers.Layer')
-
-The layer deserialized from JavaScript
 
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.ValidateRequiredChildren()'></a>
 

@@ -52,31 +52,18 @@ public dymaptic.GeoBlazor.Core.Components.Geometries.Extent? FullExtent { get; s
 #### Property Value
 [Extent](dymaptic.GeoBlazor.Core.Components.Geometries.Extent.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Extent')
 
-<a name='dymaptic.GeoBlazor.Core.Components.Layers.Layer.JsObjectReference'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.Layer.JsLayerReference'></a>
 
-## Layer.JsObjectReference Property
+## Layer.JsLayerReference Property
 
 The JavaScript object that represents the layer.
 
 ```csharp
-public Microsoft.JSInterop.IJSObjectReference? JsObjectReference { get; set; }
+public Microsoft.JSInterop.IJSObjectReference? JsLayerReference { get; set; }
 ```
 
 #### Property Value
 [Microsoft.JSInterop.IJSObjectReference](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.JSInterop.IJSObjectReference 'Microsoft.JSInterop.IJSObjectReference')
-
-<a name='dymaptic.GeoBlazor.Core.Components.Layers.Layer.LayerIndex'></a>
-
-## Layer.LayerIndex Property
-
-Used internally to identify multiple layers.
-
-```csharp
-public int LayerIndex { get; set; }
-```
-
-#### Property Value
-[System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.Layer.LayerType'></a>
 
@@ -239,23 +226,6 @@ The child to unregister
 
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
-
-<a name='dymaptic.GeoBlazor.Core.Components.Layers.Layer.UpdateFromJavaScript(dymaptic.GeoBlazor.Core.Components.Layers.Layer)'></a>
-
-## Layer.UpdateFromJavaScript(Layer) Method
-
-Copies values from the rendered JavaScript layer back to the .NET implementation.
-
-```csharp
-public virtual void UpdateFromJavaScript(dymaptic.GeoBlazor.Core.Components.Layers.Layer renderedLayer);
-```
-#### Parameters
-
-<a name='dymaptic.GeoBlazor.Core.Components.Layers.Layer.UpdateFromJavaScript(dymaptic.GeoBlazor.Core.Components.Layers.Layer).renderedLayer'></a>
-
-`renderedLayer` [Layer](dymaptic.GeoBlazor.Core.Components.Layers.Layer.html 'dymaptic.GeoBlazor.Core.Components.Layers.Layer')
-
-The layer deserialized from JavaScript
 
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.Layer.ValidateRequiredChildren()'></a>
 

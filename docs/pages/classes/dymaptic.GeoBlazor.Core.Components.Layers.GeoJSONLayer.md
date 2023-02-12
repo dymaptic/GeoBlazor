@@ -19,6 +19,64 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 
 ### Example
 <a target="_blank" href="https://samples.geoblazor.com/interactive-projection">Sample - Display Projection</a>
+### Constructors
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.GeoJSONLayer()'></a>
+
+## GeoJSONLayer() Constructor
+
+Parameterless constructor for using as a razor component
+
+```csharp
+public GeoJSONLayer();
+```
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.GeoJSONLayer(string,string,string,System.Nullable_double_,System.Nullable_bool_,System.Nullable_dymaptic.GeoBlazor.Core.Components.Layers.ListMode_)'></a>
+
+## GeoJSONLayer(string, string, string, Nullable<double>, Nullable<bool>, Nullable<ListMode>) Constructor
+
+Constructs a new GeoJSONLayer in code with parameters
+
+```csharp
+public GeoJSONLayer(string? url=null, string? copyright=null, string? title=null, System.Nullable<double> opacity=null, System.Nullable<bool> visible=null, System.Nullable<dymaptic.GeoBlazor.Core.Components.Layers.ListMode> listMode=null);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.GeoJSONLayer(string,string,string,System.Nullable_double_,System.Nullable_bool_,System.Nullable_dymaptic.GeoBlazor.Core.Components.Layers.ListMode_).url'></a>
+
+`url` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+The url for the GeoJSON source data.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.GeoJSONLayer(string,string,string,System.Nullable_double_,System.Nullable_bool_,System.Nullable_dymaptic.GeoBlazor.Core.Components.Layers.ListMode_).copyright'></a>
+
+`copyright` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+A copyright string to identify ownership of the data.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.GeoJSONLayer(string,string,string,System.Nullable_double_,System.Nullable_bool_,System.Nullable_dymaptic.GeoBlazor.Core.Components.Layers.ListMode_).title'></a>
+
+`title` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+The title of the layer used to identify it in places such as the Legend and LayerList widgets.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.GeoJSONLayer(string,string,string,System.Nullable_double_,System.Nullable_bool_,System.Nullable_dymaptic.GeoBlazor.Core.Components.Layers.ListMode_).opacity'></a>
+
+`opacity` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
+
+The opacity of the layer.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.GeoJSONLayer(string,string,string,System.Nullable_double_,System.Nullable_bool_,System.Nullable_dymaptic.GeoBlazor.Core.Components.Layers.ListMode_).visible'></a>
+
+`visible` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
+
+Indicates if the layer is visible in the View. When false, the layer may still be added to a Map instance that is referenced in a view, but its features will not be visible in the view.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.GeoJSONLayer(string,string,string,System.Nullable_double_,System.Nullable_bool_,System.Nullable_dymaptic.GeoBlazor.Core.Components.Layers.ListMode_).listMode'></a>
+
+`listMode` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[ListMode](dymaptic.GeoBlazor.Core.Components.Layers.ListMode.html 'dymaptic.GeoBlazor.Core.Components.Layers.ListMode')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
+
+Indicates how the layer should display in the LayerList widget. The possible values are listed below.
 ### Properties
 
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.Copyright'></a>

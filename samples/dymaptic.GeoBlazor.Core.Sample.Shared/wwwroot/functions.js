@@ -24,6 +24,9 @@ window.getWidth = () => {
     return window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 }
 
+window.getCalciteSelectValue = (calciteSelect) => {
+    return calciteSelect.selectedOption.value;
+}
 
 function elementIsVisible(item) {
     
@@ -32,3 +35,4 @@ function elementIsVisible(item) {
 
     return (eleTop >=0 && eleBottom <= window.innerHeight);
 }
+

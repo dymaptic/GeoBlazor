@@ -69,7 +69,6 @@ public class TileInfo: MapComponent
                 if (!point.Equals(Origin))
                 {
                     Origin = point;
-                    await UpdateComponent();
                 }
 
                 break;
@@ -77,7 +76,6 @@ public class TileInfo: MapComponent
                 if (!spatialReference.Equals(SpatialReference))
                 {
                     SpatialReference = spatialReference;
-                    await UpdateComponent();
                 }
 
                 break;
@@ -95,12 +93,10 @@ public class TileInfo: MapComponent
         {
             case Point _:
                 Origin = null;
-                await UpdateComponent();
                 
                 break;
             case SpatialReference _:
                 SpatialReference = null;
-                await UpdateComponent();
 
                 break;
             default:

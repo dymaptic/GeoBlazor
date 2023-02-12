@@ -21,7 +21,6 @@ public class WebScene : MapComponent
                 if (!portalItem.Equals(PortalItem))
                 {
                     PortalItem = portalItem;
-                    await UpdateComponent();
                 }
 
                 break;

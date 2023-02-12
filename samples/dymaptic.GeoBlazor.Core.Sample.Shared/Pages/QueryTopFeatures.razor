@@ -1,4 +1,5 @@
 ﻿@page "/query-top-features"
+@inject IJSRuntime JsRuntime
 <PageTitle>Query Top Features</PageTitle>
 <h1>Query Top Features</h1>
 
@@ -76,24 +77,20 @@
                 <br /><br />
                 <label>
                     Number of parks to be returned from each state:
-                    <calcite-select id="topCountSelect" scale="s" width="auto">
-                        <calcite-option label="1" value="1" @onclick="@(() => _topCountSelected = "1")"></calcite-option>
-                        <calcite-option label="2" value="2" @onclick="@(() => _topCountSelected = "2")"></calcite-option>
-                        <calcite-option label="3" value="3" @onclick="@(() => _topCountSelected = "3")"></calcite-option>
+                    <calcite-select @ref="_topCountSelect" id="topCountSelect" scale="s" width="auto">
+                        <calcite-option label="1" value="1"></calcite-option>
+                        <calcite-option label="2" value="2"></calcite-option>
+                        <calcite-option label="3" value="3"></calcite-option>
                     </calcite-select>
                 </label>
                 <br />
                 <label>
                     Year:
-                    <calcite-select id="orderByFieldSelect" scale="s" width="auto">
-                        <calcite-option label="Total of all time" value="TOTAL"  
-                                        @onclick="@(() => _orderByFieldSelected = "TOTAL")"></calcite-option>
-                        <calcite-option label="2018" value="F2018"
-                                        @onclick="@(() => _orderByFieldSelected = "F2018")"></calcite-option>
-                        <calcite-option label="2019" value="F2019"
-                                        @onclick="@(() => _orderByFieldSelected = "F2019")"></calcite-option>
-                        <calcite-option label="2020" value="F2020"
-                                        @onclick="@(() => _orderByFieldSelected = "F2020")"></calcite-option>
+                    <calcite-select @ref="_timeRangeSelect" id="orderByFieldSelect" scale="s" width="auto">
+                        <calcite-option label="Total of all time" value="TOTAL"></calcite-option>
+                        <calcite-option label="2018" value="F2018"></calcite-option>
+                        <calcite-option label="2019" value="F2019"></calcite-option>
+                        <calcite-option label="2020" value="F2020"></calcite-option>
                     </calcite-select>
                 </label>
                 <br />
@@ -104,7 +101,8 @@
                         appearance="@_queryParksBtnAppearance"
                         alignment="center"
                         scale="s"
-                        @onclick="QueryParks">
+                        @onclick="QueryParks"
+                        disabled="@(_layerView is null)">
                         Query parks
                     </calcite-button>
                     <calcite-button
@@ -130,9 +128,9 @@
                         {
                             Graphic result = _results.Features[i];
                             int index = i;
-                            <calcite-pick-list-item label="@result.Attributes!["Park"]"
+                            <calcite-pick-list-item label="@result.Attributes["Park"]"
                                                     value="@i"
-                                                    description="@($"Total visitors: {result.Attributes![_orderByFieldSelected!]}\nState: {result.Attributes!["State"]}")"
+                                                    description="@($"Total visitors: {result.Attributes[_orderByFieldSelected!]}\nState: {result.Attributes["State"]}")"
                                                     @onclick="@(() => OnParkResultClicked(index))" />
                         }
                     </div>
@@ -162,12 +160,13 @@
     {
         _clearQueryBtnAppearance = "outline";
         _queryParksBtnAppearance = "solid";
+        _orderByFieldSelected = await GetTimeRange();
         string[] orderByField = { $"{_orderByFieldSelected} {_orderDirectionSelected}" }; 
         TopFeaturesQuery query = new TopFeaturesQuery
         {
             TopFilter = new TopFilter
             {
-                TopCount = int.Parse(_topCountSelected!),
+                TopCount = int.Parse(await GetTopCount()),
                 GroupByFields = new []{"State"},
                 OrderByFields = orderByField
             },
@@ -192,9 +191,10 @@
         Graphic feature = _results!.Features![index];
         PopupOpenOptions options = new PopupOpenOptions
         {
-            Location = feature.Geometry,
+            Location = await feature.GetGeometry(),
             Features = new []{ feature }
         };
+        await _mapView!.ClosePopup();
         await _mapView!.OpenPopup(options);
     }
 
@@ -207,14 +207,24 @@
         _results = null;
     }
     
+    private async Task<string> GetTopCount()
+    {
+        return await JsRuntime.InvokeAsync<string>("getCalciteSelectValue", _topCountSelect);
+    }
+
+    private async Task<string> GetTimeRange()
+    {
+        return await JsRuntime.InvokeAsync<string>("getCalciteSelectValue", _timeRangeSelect);
+    }
+    
     private MapView? _mapView;
     private FeatureLayer? _featureLayer;
     private FeatureLayerView? _layerView;
     private string _queryParksBtnAppearance = "solid";
     private string _clearQueryBtnAppearance = "outline";
     private string? _orderDirectionSelected = "DESC";
-
-    private string? _topCountSelected = "1";
     private string? _orderByFieldSelected = "TOTAL";
     private FeatureSet? _results;
+    private ElementReference? _topCountSelect;
+    private ElementReference? _timeRangeSelect;
 }

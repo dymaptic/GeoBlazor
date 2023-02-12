@@ -7,7 +7,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 ///     A polyline contains an array of paths and spatialReference. Each path is represented as an array of points. A polyline also has boolean-valued hasM and hasZ properties.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polyline.html">ArcGIS JS API</a>
 /// </summary>
-public class PolyLine : Geometry
+public class PolyLine : Geometry, IEquatable<PolyLine>
 {
     /// <summary>
     ///     A parameterless constructor for using as a razor component
@@ -42,20 +42,49 @@ public class PolyLine : Geometry
     ///     An array of <see cref="MapPath"/> paths, or line segments, that make up the polyline.
     /// </summary>
     [Parameter]
-    public MapPath[] Paths
-    {
-        get => _paths;
-        set
-        {
-            if (!_paths.SequenceEqual(value, MapPathEqualityComparer.Instance))
-            {
-                _paths = value.Select(p => p.DeepCopy()).ToArray();
-                Task.Run(UpdateComponent);
-            }
-        }
-    }
+    public MapPath[] Paths { get; set; } = Array.Empty<MapPath>();
 
     /// <inheritdoc />
     public override string Type => "polyline";
-    private MapPath[] _paths = Array.Empty<MapPath>();
+
+    /// <inheritdoc />
+    public bool Equals(PolyLine? other)
+    {
+        if (ReferenceEquals(null, other)) return false;
+        if (ReferenceEquals(this, other)) return true;
+
+        return Paths.Equals(other.Paths);
+    }
+
+    /// <inheritdoc />
+    public override bool Equals(object? obj)
+    {
+        if (ReferenceEquals(null, obj)) return false;
+        if (ReferenceEquals(this, obj)) return true;
+        if (obj.GetType() != this.GetType()) return false;
+
+        return Equals((PolyLine)obj);
+    }
+
+    /// <inheritdoc />
+    public override int GetHashCode()
+    {
+        return Paths.GetHashCode();
+    }
+
+    /// <summary>
+    ///    Compares two <see cref="PolyLine"/> objects for equality
+    /// </summary>
+    public static bool operator ==(PolyLine? left, PolyLine? right)
+    {
+        return Equals(left, right);
+    }
+
+    /// <summary>
+    ///     Compares two <see cref="PolyLine"/> objects for inequality
+    /// </summary>
+    public static bool operator !=(PolyLine? left, PolyLine? right)
+    {
+        return !Equals(left, right);
+    }
 }

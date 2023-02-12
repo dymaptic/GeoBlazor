@@ -29,7 +29,15 @@ import {
     DotNetImageMediaInfoValue,
     DotNetLineChartMediaInfo,
     DotNetAttachmentsPopupContent,
-    DotNetExpressionPopupContent, DotNetElementExpressionInfo, DotNetRelationshipPopupContent
+    DotNetExpressionPopupContent,
+    DotNetElementExpressionInfo,
+    DotNetFeatureLayer,
+    MapCollection,
+    DotNetGraphicsLayer,
+    DotNetSymbol,
+    DotNetSimpleMarkerSymbol,
+    DotNetSimpleLineSymbol,
+    DotNetSimpleFillSymbol, DotNetPictureMarkerSymbol, DotNetTextSymbol
 } from "./definitions";
 import Point from "@arcgis/core/geometry/Point";
 import Polyline from "@arcgis/core/geometry/Polyline";
@@ -48,7 +56,6 @@ import FieldInfo from "@arcgis/core/popup/FieldInfo";
 import FieldInfoFormat from "@arcgis/core/popup/support/FieldInfoFormat";
 import FieldsContent from "@arcgis/core/popup/content/FieldsContent";
 import TextContent from "@arcgis/core/popup/content/TextContent";
-import ExpressionInfo from "@arcgis/core/form/ExpressionInfo";
 import MediaContent from "@arcgis/core/popup/content/MediaContent";
 import MediaInfo from "@arcgis/core/popup/content/mixins/MediaInfo";
 import BarChartMediaInfo from "@arcgis/core/popup/content/BarChartMediaInfo";
@@ -59,28 +66,134 @@ import LineChartMediaInfo from "@arcgis/core/popup/content/LineChartMediaInfo";
 import AttachmentsContent from "@arcgis/core/popup/content/AttachmentsContent";
 import ExpressionContent from "@arcgis/core/popup/content/ExpressionContent";
 import ElementExpressionInfo from "@arcgis/core/popup/ElementExpressionInfo";
-import {build} from "esbuild";
+import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
+import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
+import {arcGisObjectRefs} from "./arcGisJsInterop";
+import SimpleMarkerSymbol from "@arcgis/core/symbols/SimpleMarkerSymbol";
+import Symbol from "@arcgis/core/symbols/Symbol";
+import Graphic from "@arcgis/core/Graphic";
+import SimpleLineSymbol from "@arcgis/core/symbols/SimpleLineSymbol";
+import SimpleFillSymbol from "@arcgis/core/symbols/SimpleFillSymbol";
+import PictureMarkerSymbol from "@arcgis/core/symbols/PictureMarkerSymbol";
+import TextSymbol from "@arcgis/core/symbols/TextSymbol";
+import View from "@arcgis/core/views/View";
+import MapView from "@arcgis/core/views/MapView";
+import SceneView from "@arcgis/core/views/SceneView";
 
-export function buildDotNetGraphic(graphic: any): DotNetGraphic {
+export function buildDotNetGraphic(graphic: Graphic): DotNetGraphic {
     let dotNetGraphic = {} as DotNetGraphic;
-    dotNetGraphic.uid = graphic.uid;
+    
+    if (Object.values(arcGisObjectRefs).includes(graphic)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === graphic) {
+                dotNetGraphic.id = k;
+                break;
+            }
+        }
+    }
+    
+    dotNetGraphic.uid = (graphic as any).uid;
     dotNetGraphic.attributes = graphic.attributes;
+    if (graphic.symbol !== undefined && graphic.symbol !== null) {
+        dotNetGraphic.symbol = buildDotNetSymbol(graphic.symbol);
+    }
 
     switch (graphic.geometry?.type) {
         case 'point':
-            dotNetGraphic.geometry = buildDotNetPoint(graphic.geometry);
+            dotNetGraphic.geometry = buildDotNetPoint(graphic.geometry as Point);
             break;
         case 'polyline':
-            dotNetGraphic.geometry = buildDotNetPolyline(graphic.geometry);
+            dotNetGraphic.geometry = buildDotNetPolyline(graphic.geometry as Polyline);
             break;
         case 'polygon':
-            dotNetGraphic.geometry = buildDotNetPolygon(graphic.geometry);
+            dotNetGraphic.geometry = buildDotNetPolygon(graphic.geometry as Polygon);
             break;
         case 'extent':
-            dotNetGraphic.geometry = buildDotNetExtent(graphic.geometry);
+            dotNetGraphic.geometry = buildDotNetExtent(graphic.geometry as Extent);
             break;
     }
     return dotNetGraphic;
+}
+
+function buildDotNetSymbol(symbol: Symbol): DotNetSymbol {
+    if (symbol instanceof SimpleMarkerSymbol) {
+        let dnMarkerSymbol = {
+            type: 'simple-marker',
+            color: symbol.color?.toHex(),
+            size: symbol.size,
+            style: symbol.style,
+            path: symbol.path,
+            xoffset: symbol.xoffset,
+            yoffset: symbol.yoffset,
+        } as DotNetSimpleMarkerSymbol;
+        if (symbol.outline !== undefined && symbol.outline !== null) {
+            dnMarkerSymbol.outline = buildDotNetSymbol(symbol.outline) as DotNetSimpleLineSymbol;
+        }
+        return dnMarkerSymbol;
+    }
+    if (symbol instanceof SimpleLineSymbol) {
+        return {
+            type: 'simple-line',
+            color: symbol.color?.toHex(),
+            width: symbol.width,
+            style: symbol.style,
+            cap: symbol.cap,
+            join: symbol.join,
+            marker: symbol.marker,
+            miterLimit: symbol.miterLimit
+        } as DotNetSimpleLineSymbol;
+    }
+    if (symbol instanceof SimpleFillSymbol) {
+        let dnSimpleFillSymbol = {
+            type: 'simple-fill',
+            color: symbol.color?.toHex(),
+            style: symbol.style
+        } as DotNetSimpleFillSymbol;
+        if (symbol.outline !== undefined && symbol.outline !== null) {
+            dnSimpleFillSymbol.outline = buildDotNetSymbol(symbol.outline) as DotNetSimpleLineSymbol;
+        }
+        return dnSimpleFillSymbol;
+    }
+    if (symbol instanceof PictureMarkerSymbol) {
+        return {
+            type: 'picture-marker',
+            url: symbol.url,
+            width: symbol.width,
+            height: symbol.height,
+            angle: symbol.angle,
+            xoffset: symbol.xoffset,
+            yoffset: symbol.yoffset
+        } as DotNetPictureMarkerSymbol;
+    }
+    if (symbol instanceof TextSymbol) {
+        return {
+            type: 'text',
+            color: symbol.color?.toHex(),
+            haloColor: symbol.haloColor?.toHex(),
+            haloSize: symbol.haloSize,
+            horizontalAlignment: symbol.horizontalAlignment,
+            kerning: symbol.kerning,
+            rotated: symbol.rotated,
+            text: symbol.text,
+            xoffset: symbol.xoffset,
+            yoffset: symbol.yoffset,
+            font: {
+                family: symbol.font.family,
+                size: symbol.font.size,
+                style: symbol.font.style,
+                weight: symbol.font.weight
+            },
+            angle: symbol.angle,
+            backgroundColor: symbol.backgroundColor?.toHex(),
+            borderLineColor: symbol.borderLineColor?.toHex(),
+            borderLineSize: symbol.borderLineSize,
+            lineHeight: symbol.lineHeight,
+            lineWidth: symbol.lineWidth,
+            verticalAlignment: symbol.verticalAlignment
+        } as DotNetTextSymbol;
+    }
+    
+    return symbol as any as DotNetSymbol;
 }
 
 export function buildDotNetFeature(feature: any): DotNetFeature {
@@ -211,7 +324,6 @@ export function buildDotNetGeographicTransformation(geographicTransformation: Ge
 
 export function buildDotNetLayerView(layerView: LayerView): DotNetLayerView {
     return {
-        layer: buildDotNetLayer(layerView.layer),
         spatialReferenceSupported: layerView.spatialReferenceSupported,
         suspended: layerView.suspended,
         updating: layerView.updating,
@@ -220,14 +332,116 @@ export function buildDotNetLayerView(layerView: LayerView): DotNetLayerView {
 }
 
 export function buildDotNetLayer(layer: Layer): DotNetLayer {
-    return {
+    switch (layer.type) {
+        case 'feature':
+            return buildDotNetFeatureLayer(layer as FeatureLayer);
+        case 'graphics':
+            return buildDotNetGraphicsLayer(layer as GraphicsLayer);
+        default:
+            
+            let dotNetLayer = {
+                title: layer.title,
+                type: layer.type,
+                listMode: layer.listMode,
+                visible: layer.visible,
+                opacity: layer.opacity
+            } as DotNetLayer;
+            
+            if (layer.fullExtent !== undefined && layer.fullExtent !== null) {
+                dotNetLayer.fullExtent = buildDotNetExtent(layer.fullExtent) as DotNetExtent;
+            }
+            
+            if (Object.values(arcGisObjectRefs).includes(layer)) {
+                for (const k of Object.keys(arcGisObjectRefs)) {
+                    if (arcGisObjectRefs[k] === layer) {
+                        dotNetLayer.id = k;
+                        break;
+                    }
+                }
+            }
+            return dotNetLayer;
+    }
+}
+
+export function buildDotNetFeatureLayer(layer: FeatureLayer): DotNetFeatureLayer {
+        
+        let dotNetLayer = {
+            title: layer.title,
+            type: layer.type,
+            listMode: layer.listMode,
+            visible: layer.visible,
+            opacity: layer.opacity,
+            url: layer.url,
+            definitionExpression: layer.definitionExpression,
+            outFields: layer.outFields,
+            minScale: layer.minScale,
+            maxScale: layer.maxScale,
+            objectIdField: layer.objectIdField,
+            geometryType: layer.geometryType,
+            orderBy: layer.orderBy,
+            labelingInfo: layer.labelingInfo,
+            renderer: layer.renderer,
+            portalItem: layer.portalItem,
+            fields: layer.fields,
+            relationships: layer.relationships
+        } as DotNetFeatureLayer;
+        
+    if (layer.fullExtent !== undefined && layer.fullExtent !== null) {
+        dotNetLayer.fullExtent = buildDotNetExtent(layer.fullExtent) as DotNetExtent;
+    }
+        
+    if (layer.popupTemplate !== undefined && layer.popupTemplate !== null) {
+        dotNetLayer.popupTemplate = buildDotNetPopupTemplate(layer.popupTemplate);
+    }
+    
+    if (layer.spatialReference !== undefined && layer.spatialReference !== null) {
+        dotNetLayer.spatialReference = buildDotNetSpatialReference(layer.spatialReference) as DotNetSpatialReference;
+    }
+    
+    // todo: figure out why source isn't convertible
+    // if (layer.source !== undefined && layer.source !== null) {
+    //     dotNetLayer.source = (layer.source as MapCollection).items.map(s => buildDotNetGraphic(s));
+    // }
+
+    if (Object.values(arcGisObjectRefs).includes(layer)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === layer) {
+                dotNetLayer.id = k;
+                break;
+            }
+        }
+    }
+    
+    return dotNetLayer;
+}
+
+export function buildDotNetGraphicsLayer(layer: GraphicsLayer): DotNetGraphicsLayer {
+    let dotNetLayer = {
         title: layer.title,
         type: layer.type,
         listMode: layer.listMode,
-        fullExtent: buildDotNetExtent(layer.fullExtent),
         visible: layer.visible,
         opacity: layer.opacity
-    } as DotNetLayer;
+    } as DotNetGraphicsLayer;
+
+    if (layer.fullExtent !== undefined && layer.fullExtent !== null) {
+        dotNetLayer.fullExtent = buildDotNetExtent(layer.fullExtent) as DotNetExtent;
+    }
+    
+    if (layer.graphics !== undefined && layer.graphics !== null) {
+        dotNetLayer.graphics = (layer.graphics as MapCollection).items.map(g => buildDotNetGraphic(g));
+    }
+    
+    if (Object.values(arcGisObjectRefs).includes(layer)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === layer) {
+                dotNetLayer.id = k;
+                break;
+            }
+        }
+    }
+    
+    return dotNetLayer;
 }
 
 export function buildDotNetHitTestResult(hitTestResult: HitTestResult): DotNetHitTestResult {
@@ -396,4 +610,24 @@ export function buildDotNetElementExpressionInfo(expressionInfo: ElementExpressi
         title: expressionInfo.title,
         returnType: expressionInfo.returnType
     } as DotNetElementExpressionInfo;
+}
+
+export function buildViewExtentUpdate(view: View): any {
+    if (view instanceof MapView) {
+        return {
+            extent: buildDotNetExtent(view.extent),
+            center: buildDotNetPoint(view.center),
+            scale: view.scale,
+            zoom: view.zoom,
+            rotation: view.rotation
+        }
+    } else if (view instanceof SceneView) {
+        return {
+            extent: buildDotNetExtent(view.extent),
+            center: buildDotNetPoint(view.center),
+            scale: view.scale,
+            zoom: view.zoom,
+            tilt: view.camera.tilt
+        }
+    }
 }

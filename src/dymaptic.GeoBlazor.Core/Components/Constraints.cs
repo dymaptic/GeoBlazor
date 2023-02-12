@@ -73,7 +73,6 @@ public class Constraints: MapComponent
                 if (!Lods.Contains(lod))
                 {
                     Lods.Add(lod);
-                    await UpdateComponent();
                 }
 
                 break;
@@ -81,7 +80,6 @@ public class Constraints: MapComponent
                 if (!geometry.Equals(Geometry))
                 {
                     Geometry = geometry;
-                    await UpdateComponent();
                 }
 
                 break;

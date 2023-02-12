@@ -37,7 +37,6 @@ public class Geometry : MapComponent
                 if (!extent.Equals(Extent))
                 {
                     Extent = extent;
-                    await UpdateComponent();
                 }
 
                 break;
@@ -46,7 +45,6 @@ public class Geometry : MapComponent
                 if (!((object)spatialReference).Equals(SpatialReference))
                 {
                     SpatialReference = spatialReference;
-                    await UpdateComponent();
                 }
 
                 break;

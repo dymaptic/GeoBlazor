@@ -157,7 +157,6 @@ public class PopupWidget: Widget
                 if (!widget.Equals(WidgetContent))
                 {
                     WidgetContent = widget;
-                    await UpdateComponent();
                 }
                 
                 break;
@@ -165,20 +164,17 @@ public class PopupWidget: Widget
                 if (!dockOptions.Equals(DockOptions))
                 {
                     DockOptions = dockOptions;
-                    await UpdateComponent();
                 }
                 
                 break;
             case Graphic graphic:
                 Features.Add(graphic);
-                await UpdateComponent();
                 
                 break;
             case Point point:
                 if (!point.Equals(Location))
                 {
                     Location = point;
-                    await UpdateComponent();
                 }
 
                 break;
@@ -186,7 +182,6 @@ public class PopupWidget: Widget
                 if (!visibleElements.Equals(VisibleElements))
                 {
                     VisibleElements = visibleElements;
-                    await UpdateComponent();
                 }
 
                 break;

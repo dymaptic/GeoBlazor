@@ -26,7 +26,6 @@ public class LegendWidget : Widget
         {
             case LayerInfo layerInfo:
                 LayerInfos.Add(layerInfo);
-                await UpdateComponent();
                 break;
             default:
                 await base.RegisterChildComponent(child);
@@ -42,7 +41,6 @@ public class LegendWidget : Widget
         {
             case LayerInfo layerInfo:
                 LayerInfos.Remove(layerInfo);
-                await UpdateComponent();
                 break;
             default:
                 await base.UnregisterChildComponent(child);

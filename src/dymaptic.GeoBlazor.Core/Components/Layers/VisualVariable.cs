@@ -40,7 +40,6 @@ public abstract class VisualVariable : MapComponent
                 if (!options.Equals(LegendOptions))
                 {
                     LegendOptions = options;
-                    await UpdateComponent();
                 }
 
                 break;
@@ -58,7 +57,6 @@ public abstract class VisualVariable : MapComponent
         {
             case LegendOptions _:
                 LegendOptions = null;
-                await UpdateComponent();
 
                 break;
             default:
