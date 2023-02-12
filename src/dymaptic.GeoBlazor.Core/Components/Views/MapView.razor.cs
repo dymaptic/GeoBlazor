@@ -1434,7 +1434,18 @@ public partial class MapView : MapComponent
     /// </param>
     public async Task GoTo(Extent extent)
     {
-        await SetExtent(extent);
+        if (ViewJsModule is null || !MapRendered) return;
+        ShouldUpdate = false;
+        ExtentSetByCode = true;
+        ViewExtentUpdate change = 
+            await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("goToExtent", extent, Id);
+        Extent = change.Extent;
+        Latitude = change.Center.Latitude;
+        Longitude = change.Center.Longitude;
+        Zoom = change.Zoom;
+        Scale = change.Scale;
+        Rotation = change.Rotation ?? Rotation;
+        ShouldUpdate = true;
     }
 
     /// <summary>

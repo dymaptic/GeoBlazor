@@ -1,7 +1,7 @@
 ---
 layout: page
 title: "Queries and Hit Tests"
-nav_order: 5
+nav_order: 7
 ---
 
 # Queries and Hit Tests
@@ -11,15 +11,32 @@ actively working to support.
 
 ## Queries
 
-### Querying a Layer from the MapView
-Currently, you can run queries against a `MapView` or `SceneView` using the `QueryFeatures` method. This method 
-takes in a `Symbol` and `PopupTemplate` which define how the queried features will be displayed on the map. See the
-[Sql Query Sample Page](https://github.com/dymaptic/GeoBlazor/blob/main/samples/dymaptic.GeoBlazor.Core.Sample.Shared/Pages/SqlQuery.razor) for an example of how to use this method.
+### Querying a FeatureLayer
+`FeatureLayer` supports the following query methods on hosted layers accessed with a Url or `PortalItem.Id`. 
+For each, you define a `Query`, `RelationshipQuery`, or `TopQuery` in code, and then pass it to the method.
+- `QueryExtent` - returns an `Extent` of features that matches the `Query`
+- `QueryFeatures` - returns a `FeatureSet` of features (graphics) that match the `Query`. See [Server Side Queries Sample Page](https://github.com/dymaptic/GeoBlazor/blob/main/samples/dymaptic.GeoBlazor.Core.Sample.Shared/Pages/ServerSideQueries.razor).
+- `QueryFeatureCount` - returns the number of features that match the `Query`
+- `QueryObjectIds` - returns an array of object ids that match the `Query`
+- `QueryRelatedFeatures` - returns a `FeatureSet` of related features that match the `RelationshipQuery`. See [Query Related Features Sample Page](https://github.com/dymaptic/GeoBlazor/blob/main/samples/dymaptic.GeoBlazor.Core.Sample.Shared/Pages/QueryRelatedFeatures.razor).
+- `QueryRelatedFeatureCount` - returns the number of related features that match the `RelationshipQuery`
+- `QueryTopFeatures` - returns a `FeatureSet` of the features that match the `TopFeaturesQuery`. See [Query Top Features Sample Page](https://github.com/dymaptic/GeoBlazor/blob/main/samples/dymaptic.GeoBlazor.Core.Sample.Shared/Pages/QueryTopFeatures.razor).
+- `QueryTopFeatureCount` - returns the number of the features that match the `TopFeaturesQuery`
+- `QueryTopObjectIds` - returns an array of the top object ids that match the `TopFeaturesQuery`
+- `QueryTopFeaturesExtent` - returns an `Extent` of the top features that match the `TopFeaturesQuery`
 
 ### Querying a LayerView
-More advanced queries can be run against a `LayerView` using `CreateQuery` and `QueryObjectIds`. This allows you 
-to decide what to do with the resulting objects. See the [Hit Tests Sample Page](https://github.com/dymaptic/GeoBlazor/blob/main/samples/dymaptic.GeoBlazor.Core.Sample.Shared/Pages/HitTests.razor) 
+`FeatureLayerView` supports a lot of the same queries as `FeatureLayer`. The difference is that while layer queries run against the hosted layer service,
+layerView queries run against the rendered view.
+See the [Hit Tests Sample Page](https://github.com/dymaptic/GeoBlazor/blob/main/samples/dymaptic.GeoBlazor.Core.Sample.Shared/Pages/HitTests.razor) 
 for an example where the query results are used to call `LayerView.Highlight()`.
+
+### Querying a Layer from the MapView
+In an early prototype of GeoBlazor, we added a custom query method to `MapView` called `QueryFeatures`.
+Unlike the methods on `FeatureLayer` and `FeatureLayerView`, this method does not return the results, but instead
+automatically updates the display based on the inputs. It takes in a `Symbol` and `PopupTemplate` which define how
+the queried features will be displayed on the map. See the
+[Sql Query Sample Page](https://github.com/dymaptic/GeoBlazor/blob/main/samples/dymaptic.GeoBlazor.Core.Sample.Shared/Pages/SqlQuery.razor) for an example of how to use this method.
 
 ```csharp
 Query layerQuery = await _layerView.CreateQuery();

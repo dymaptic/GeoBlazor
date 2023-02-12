@@ -674,9 +674,8 @@ export async function setExtent(extentObject: any, viewId: string) {
         if (!hasValue(view)) return;
         let extent = buildJsExtent(extentObject, view.spatialReference);
         if (extent !== null) {
-            await view.goTo(extent);
+            view.extent = extent;
         }
-        notifyExtentChanged = true;
         return buildViewExtentUpdate(view);
     } catch (error) {
         logError(error, viewId);
@@ -1230,6 +1229,22 @@ export function setCenter(center: any, viewId: string): any {
 
 export function getExtent(viewId: string): DotNetExtent | null {
     return buildDotNetExtent((arcGisObjectRefs[viewId] as MapView).extent);
+}
+
+export async function goToExtent(extentObject: any, viewId: string) {
+    try {
+        notifyExtentChanged = false;
+        let view = arcGisObjectRefs[viewId] as MapView;
+        if (!hasValue(view)) return;
+        let extent = buildJsExtent(extentObject, view.spatialReference);
+        if (extent !== null) {
+            await view.goTo(extent);
+        }
+        notifyExtentChanged = true;
+        return buildViewExtentUpdate(view);
+    } catch (error) {
+        logError(error, viewId);
+    }
 }
 
 export async function goToGraphics(graphics, viewId: string): Promise<void> {
