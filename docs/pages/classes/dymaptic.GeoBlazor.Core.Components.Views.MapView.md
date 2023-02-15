@@ -1085,7 +1085,7 @@ Wraps the JS Error and throws a .NET Exception.
 JS-Invokable method to return when the map view Extent changes.
 
 ```csharp
-public virtual System.Threading.Tasks.Task OnJavascriptExtentChanged(dymaptic.GeoBlazor.Core.Components.Geometries.Extent extent, dymaptic.GeoBlazor.Core.Components.Geometries.Point center, double zoom, double scale, System.Nullable<double> rotation=null, System.Nullable<double> tilt=null);
+public virtual System.Threading.Tasks.Task OnJavascriptExtentChanged(dymaptic.GeoBlazor.Core.Components.Geometries.Extent extent, dymaptic.GeoBlazor.Core.Components.Geometries.Point? center, double zoom, double scale, System.Nullable<double> rotation=null, System.Nullable<double> tilt=null);
 ```
 #### Parameters
 

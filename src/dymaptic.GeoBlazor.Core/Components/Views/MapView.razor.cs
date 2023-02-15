@@ -588,7 +588,7 @@ public partial class MapView : MapComponent
     ///     JS-Invokable method to return when the map view Extent changes.
     /// </summary>
     [JSInvokable]
-    public virtual async Task OnJavascriptExtentChanged(Extent extent, Point center, double zoom, double scale, 
+    public virtual async Task OnJavascriptExtentChanged(Extent extent, Point? center, double zoom, double scale, 
         double? rotation = null, double? tilt = null)
     {
         if (Extent is not null && !extent.Equals(Extent))
@@ -596,8 +596,12 @@ public partial class MapView : MapComponent
             ExtentChangedInJs = true;
         }
         Extent = extent;
-        Latitude = center.Latitude;
-        Longitude = center.Longitude;
+
+        if (center is not null)
+        {
+            Latitude = center.Latitude;
+            Longitude = center.Longitude;
+        }
         Zoom = zoom;
         Scale = scale;
         Rotation = rotation ?? Rotation;

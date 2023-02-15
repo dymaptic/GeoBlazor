@@ -234,7 +234,8 @@ export function buildDotNetGeometry(geometry: Geometry): DotNetGeometry | null {
     return geometry as any;
 }
 
-export function buildDotNetPoint(point: Point): DotNetPoint {
+export function buildDotNetPoint(point: Point | null | undefined): DotNetPoint | null {
+    if (point === undefined || point === null) return null;
     return {
         type: 'point',
         latitude: point.latitude,
@@ -616,7 +617,7 @@ export function buildViewExtentUpdate(view: View): any {
     if (view instanceof MapView) {
         return {
             extent: buildDotNetExtent(view.extent),
-            center: buildDotNetPoint(view.center),
+            center: view.center !== null ? buildDotNetPoint(view.center) : null,
             scale: view.scale,
             zoom: view.zoom,
             rotation: view.rotation
@@ -624,10 +625,10 @@ export function buildViewExtentUpdate(view: View): any {
     } else if (view instanceof SceneView) {
         return {
             extent: buildDotNetExtent(view.extent),
-            center: buildDotNetPoint(view.center),
+            center: view.center !== null ? buildDotNetPoint(view.center) : null,
             scale: view.scale,
             zoom: view.zoom,
-            tilt: view.camera.tilt
+            tilt: view.camera?.tilt
         }
     }
 }

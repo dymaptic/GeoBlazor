@@ -31,7 +31,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="wwwroot\pages\NewFolder\" />
+      <Folder Include="wwwroot\pages" />
     </ItemGroup>
     
     <Target Name="Copy Razor Files" AfterTargets="Build">

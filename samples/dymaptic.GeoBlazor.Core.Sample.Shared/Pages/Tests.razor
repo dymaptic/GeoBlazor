@@ -14,7 +14,7 @@
 
 <MapView @ref="_view" class="map-view" OnMapRendered="OnMapRendered">
     <Extent Xmin="-41525513" Ymin="4969181" Xmax="-36687355" Ymax="9024624">
-        <SpatialReference Wkid="3857" />
+        <SpatialReference Wkid="102100" />
     </Extent>
     <Map ArcGISDefaultBasemap="arcgis-topographic">
         @if (_showGraphicsMarkupLayer)
@@ -40,10 +40,33 @@
 
 <h2>Extent Test Map</h2>
 <MapView Class="map-view" OnExtentChanged="OnExtentChanged">
-    <Extent Xmax="-13165385.47351927" Xmin="-13288754.837171592" 
-            Ymax="4061566.0769513007" Ymin="4015703.859980177" />
+    <Extent Xmax="-13165385.47351927" Xmin="-13288754.837171592"
+            Ymax="4061566.0769513007" Ymin="4015703.859980177">
+        <SpatialReference Wkid="102100" />
+    </Extent>
     <Map ArcGISDefaultBasemap="arcgis-navigation">
     </Map>
+</MapView>
+
+<h2>MapRendered Test Map</h2>
+<MapView @ref="_view3" Style="height: 600px; width: 100%;" OnMapRendered="OnMap3Rendered" OnClick="On3Click">
+    <Map ArcGISDefaultBasemap="arcgis-navigation">
+    </Map>
+    <Extent Xmax="4120960.074670904" Xmin="-3412935.278412999" Ymax="8963926.222211033" Ymin="6049459.93475111">
+        <SpatialReference Wkid="102100" />
+    </Extent>
+
+</MapView>
+
+<h2>Spatial Ref from FeatureLayer Test Map</h2>
+<MapView Style="height: 600px; width: 100%;">
+    <Map ArcGISDefaultBasemap="arcgis-navigation">
+        <FeatureLayer Url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/weather_stations_010417/FeatureServer/0" />
+    </Map>
+    <Extent Xmax="4120960.074670904" Xmin="-3412935.278412999" Ymax="8963926.222211033" Ymin="6049459.93475111">
+        <SpatialReference Wkid="3857" />
+    </Extent>
+    
 </MapView>
 
 @code {
@@ -61,6 +84,11 @@
             _lats.Add(_random.NextDouble() * 10 + 50.0);
             _longs.Add(_random.NextDouble() * 10 + 11.0);
         }
+    }
+    
+    private async Task OnExtentChanged(Extent extent)
+    {
+        Console.WriteLine(JsonSerializer.Serialize(extent));
     }
 
     private async Task ToggleLayer(Layer layer)
@@ -107,9 +135,22 @@
             new TextSymbol("Hello World", new MapColor("red"), 
                 new MapColor("yellow"), 12))
     });
+
+    bool map3Rendered = false;
+    private async void On3Click(ClickEvent clickEvent) {
+        await _view3.SetExtent(
+            new Extent
+            {
+                Xmax = 4120960.074670904, Xmin = -3412935.278412999, Ymax = 8963926.222211033, Ymin = 6049459.93475111
+            });
+    }
     
-    private void OnExtentChanged(Extent extent) {
-        Console.WriteLine($"Xmax {extent.Xmax} Xmin{extent.Xmin} Ymax{extent.Ymax} Ymin{extent.Ymin}");
+    private void OnMap3Rendered()
+    {
+        if (!map3Rendered)
+        {
+            map3Rendered = true;
+        }
     }
     
     private readonly GeoJSONLayer _geoJsonLayer = 
@@ -123,4 +164,5 @@
     private Random _random = new();
     private List<double> _lats = new();
     private List<double> _longs = new();
+    private MapView? _view3;
 }
