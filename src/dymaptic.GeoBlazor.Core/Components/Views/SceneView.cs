@@ -248,7 +248,7 @@ public class SceneView : MapView
         Zoom = change.Zoom;
         Scale = change.Scale;
         Tilt = change.Tilt;
-        ZIndex = change.Center.Z;
+        ZIndex = change.Center?.Z;
         ShouldUpdate = true;
     }
 }
