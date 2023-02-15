@@ -142,10 +142,10 @@ public class SceneView : MapView
 
     /// <inheritdoc />
     [JSInvokable]
-    public override async Task OnJavascriptExtentChanged(Extent extent, Point center, double zoom, double scale,
+    public override async Task OnJavascriptExtentChanged(Extent extent, Point? center, double zoom, double scale,
         double? rotation = null, double? tilt = null)
     {
-        ZIndex = center.Z;
+        ZIndex = center?.Z;
         Tilt = tilt;
         await base.OnJavascriptExtentChanged(extent, center, zoom, scale, rotation, tilt);
     }
@@ -166,7 +166,7 @@ public class SceneView : MapView
             Zoom = change.Zoom;
             Scale = change.Scale;
             Tilt = change.Tilt;
-            ZIndex = change.Center.Z;
+            ZIndex = change.Center?.Z;
             ShouldUpdate = true;
         }
     }
@@ -183,10 +183,10 @@ public class SceneView : MapView
             ViewExtentUpdate change = 
                 await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("setZoom", Zoom, Id);
             Extent = change.Extent;
-            Latitude = change.Center.Latitude;
-            Longitude = change.Center.Longitude;
+            Latitude = change.Center?.Latitude;
+            Longitude = change.Center?.Longitude;
             Scale = change.Scale;
-            ZIndex = change.Center.Z;
+            ZIndex = change.Center?.Z;
             Tilt = change.Tilt;
             ShouldUpdate = true;
         }
@@ -204,10 +204,10 @@ public class SceneView : MapView
             ViewExtentUpdate change = 
                 await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("setScale", Scale, Id);
             Extent = change.Extent;
-            Latitude = change.Center.Latitude;
-            Longitude = change.Center.Longitude;
+            Latitude = change.Center?.Latitude;
+            Longitude = change.Center?.Longitude;
             Zoom = change.Zoom;
-            ZIndex = change.Center.Z;
+            ZIndex = change.Center?.Z;
             Tilt = change.Tilt;
             ShouldUpdate = true;
         }
@@ -224,12 +224,12 @@ public class SceneView : MapView
             ExtentSetByCode = true;
             ViewExtentUpdate change = 
                 await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("setExtent", (object)Extent, Id);
-            Latitude = change.Center.Latitude;
-            Longitude = change.Center.Longitude;
+            Latitude = change.Center?.Latitude;
+            Longitude = change.Center?.Longitude;
             Zoom = change.Zoom;
             Scale = change.Scale;
             Tilt = change.Tilt;
-            ZIndex = change.Center.Z;
+            ZIndex = change.Center?.Z;
             ShouldUpdate = true;
         }
     }
@@ -243,8 +243,8 @@ public class SceneView : MapView
         ViewExtentUpdate change = 
             await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("goToGraphics", graphics, Id);
         Extent = change.Extent;
-        Latitude = change.Center.Latitude;
-        Longitude = change.Center.Longitude;
+        Latitude = change.Center?.Latitude;
+        Longitude = change.Center?.Longitude;
         Zoom = change.Zoom;
         Scale = change.Scale;
         Tilt = change.Tilt;

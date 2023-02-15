@@ -633,8 +633,8 @@ export function updateView(viewObject: any) {
         
         if (view instanceof MapView) {
             if (hasValue(viewObject.latitude) && hasValue(viewObject.longitude) &&
-                (viewObject.latitude?.toFixed(2) !== view.center.latitude?.toFixed(2) ||
-                    viewObject.longitude?.toFixed(2) !== view.center.longitude?.toFixed(2))) {
+                (viewObject.latitude?.toFixed(2) !== view.center?.latitude?.toFixed(2) ||
+                    viewObject.longitude?.toFixed(2) !== view.center?.longitude?.toFixed(2))) {
                 view.center = new Point({
                     latitude: viewObject.latitude,
                     longitude: viewObject.longitude
@@ -649,8 +649,8 @@ export function updateView(viewObject: any) {
             }
         } else if (view instanceof SceneView && hasValue(viewObject.tilt)) {
             if (hasValue(viewObject.latitude) && hasValue(viewObject.longitude) &&
-                (viewObject.latitude?.toFixed(2) !== view.center.latitude?.toFixed(2) ||
-                    viewObject.longitude?.toFixed(2) !== view.center.longitude?.toFixed(2) ||
+                (viewObject.latitude?.toFixed(2) !== view.center?.latitude?.toFixed(2) ||
+                    viewObject.longitude?.toFixed(2) !== view.center?.longitude?.toFixed(2) ||
                 viewObject.tilt !== view.camera.tilt || viewObject.zIndex !== view.camera.position.z)) {
                 view.camera = new Camera({
                     position: {

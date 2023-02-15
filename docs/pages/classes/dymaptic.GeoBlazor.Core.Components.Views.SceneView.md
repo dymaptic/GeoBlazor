@@ -88,7 +88,7 @@ The [Graphic](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html 'dymaptic.G
 JS-Invokable method to return when the map view Extent changes.
 
 ```csharp
-public override System.Threading.Tasks.Task OnJavascriptExtentChanged(dymaptic.GeoBlazor.Core.Components.Geometries.Extent extent, dymaptic.GeoBlazor.Core.Components.Geometries.Point center, double zoom, double scale, System.Nullable<double> rotation=null, System.Nullable<double> tilt=null);
+public override System.Threading.Tasks.Task OnJavascriptExtentChanged(dymaptic.GeoBlazor.Core.Components.Geometries.Extent extent, dymaptic.GeoBlazor.Core.Components.Geometries.Point? center, double zoom, double scale, System.Nullable<double> rotation=null, System.Nullable<double> tilt=null);
 ```
 #### Parameters
 

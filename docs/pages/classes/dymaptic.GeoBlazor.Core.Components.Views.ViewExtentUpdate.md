@@ -27,7 +27,7 @@ Implements [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/S
 A class to represent all the parameters that make up the extent of the map view.
 
 ```csharp
-public ViewExtentUpdate(dymaptic.GeoBlazor.Core.Components.Geometries.Extent Extent, dymaptic.GeoBlazor.Core.Components.Geometries.Point Center, double Scale, double Zoom, System.Nullable<double> Rotation=null, System.Nullable<double> Tilt=null);
+public ViewExtentUpdate(dymaptic.GeoBlazor.Core.Components.Geometries.Extent Extent, dymaptic.GeoBlazor.Core.Components.Geometries.Point? Center, double Scale, double Zoom, System.Nullable<double> Rotation=null, System.Nullable<double> Tilt=null);
 ```
 #### Parameters
 
@@ -75,7 +75,7 @@ The tilt of the 3d view camera.
 The [Point](dymaptic.GeoBlazor.Core.Components.Geometries.Point.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Point') that represents the center of the view.
 
 ```csharp
-public dymaptic.GeoBlazor.Core.Components.Geometries.Point Center { get; set; }
+public dymaptic.GeoBlazor.Core.Components.Geometries.Point? Center { get; set; }
 ```
 
 #### Property Value
