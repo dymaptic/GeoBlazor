@@ -12,8 +12,7 @@ There are many ways to set and retrieve the extent of a view in GeoBlazor.
 The advantage of setting the extent in Razor markup is that it will be read
 before the view is rendered.
 
-1. You can set the `Extent` property directly inside the `MapView`. If the
-   `SpatialReference` is not specified, it will default to the basemap's spatial reference.
+1. You can set the `Extent` property directly inside the `MapView`. The `SpatialReference` is _required_ when defining the `Extent` in markup.
 
 ```html
 <MapView>

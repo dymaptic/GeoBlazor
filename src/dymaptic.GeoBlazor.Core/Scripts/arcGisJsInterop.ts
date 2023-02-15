@@ -174,7 +174,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
         disposeView(id);
         let view: View;
 
-        let basemap: Basemap;
+        let basemap: Basemap | null = null;
         let basemapLayers: any[] = [];
         if (!mapType.startsWith('web')) {
             if (mapObject.arcGISDefaultBasemap !== undefined &&
@@ -257,41 +257,6 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
                 break;
         }
 
-        let spatialRef;
-        if (hasValue(spatialReference)) {
-            spatialRef = buildJsSpatialReference(spatialReference);
-            view.spatialReference = spatialRef;
-        }
-
-        if (hasValue(extent)) {
-            (view as MapView).extent = buildJsExtent(extent, view.spatialReference);
-        } else {
-            let center;
-            
-            if (hasValue(lat) && hasValue(long)) {
-                if (hasValue(spatialRef)) {
-                    center = new Point({
-                        latitude: lat as number,
-                        longitude: long as number,
-                        spatialReference: spatialRef
-                    });
-                    center = await resetCenterToSpatialReference(center, spatialRef);
-                } else {
-                    center = [long, lat];
-                }
-            }
-
-            if (hasValue(center)) {
-                (view as MapView).center = center;
-            }
-
-            if (hasValue(scale)) {
-                (view as MapView).scale = scale;
-            } else if (hasValue(zoom)) {
-                (view as MapView).zoom = zoom as number;
-            }
-        }
-
         if (hasValue(constraints)) {
             (view as MapView).constraints = constraints;
         }
@@ -324,6 +289,43 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
         }
 
         setEventListeners(view, dotNetRef, eventRateLimitInMilliseconds, activeEventHandlers);
+
+        let spatialRef: SpatialReference | null = null;
+        if (hasValue(spatialReference)) {
+            spatialRef = buildJsSpatialReference(spatialReference);
+            view.spatialReference = spatialRef;
+        }
+
+        if (view instanceof MapView) {
+            if (hasValue(extent) && (hasValue(extent.spatialReference) || hasValue(spatialRef))) {
+                    (view as MapView).extent = buildJsExtent(extent, spatialRef);
+            } else {
+                let center;
+
+                if (hasValue(lat) && hasValue(long)) {
+                    if (hasValue(spatialRef)) {
+                        center = new Point({
+                            latitude: lat as number,
+                            longitude: long as number,
+                            spatialReference: spatialRef as SpatialReference
+                        });
+                        center = await resetCenterToSpatialReference(center, spatialRef as SpatialReference);
+                    } else {
+                        center = [long, lat];
+                    }
+                }
+
+                if (hasValue(center)) {
+                    (view as MapView).center = center;
+                }
+
+                if (hasValue(scale)) {
+                    (view as MapView).scale = scale;
+                } else if (hasValue(zoom)) {
+                    (view as MapView).zoom = zoom as number;
+                }
+            }
+        }
         
         unsetWaitCursor(id);
     } catch (error) {
@@ -631,8 +633,8 @@ export function updateView(viewObject: any) {
         
         if (view instanceof MapView) {
             if (hasValue(viewObject.latitude) && hasValue(viewObject.longitude) &&
-                (viewObject.latitude?.toFixed(2) !== view.center.latitude?.toFixed(2) ||
-                    viewObject.longitude?.toFixed(2) !== view.center.longitude?.toFixed(2))) {
+                (viewObject.latitude?.toFixed(2) !== view.center?.latitude?.toFixed(2) ||
+                    viewObject.longitude?.toFixed(2) !== view.center?.longitude?.toFixed(2))) {
                 view.center = new Point({
                     latitude: viewObject.latitude,
                     longitude: viewObject.longitude
@@ -647,8 +649,8 @@ export function updateView(viewObject: any) {
             }
         } else if (view instanceof SceneView && hasValue(viewObject.tilt)) {
             if (hasValue(viewObject.latitude) && hasValue(viewObject.longitude) &&
-                (viewObject.latitude?.toFixed(2) !== view.center.latitude?.toFixed(2) ||
-                    viewObject.longitude?.toFixed(2) !== view.center.longitude?.toFixed(2) ||
+                (viewObject.latitude?.toFixed(2) !== view.center?.latitude?.toFixed(2) ||
+                    viewObject.longitude?.toFixed(2) !== view.center?.longitude?.toFixed(2) ||
                 viewObject.tilt !== view.camera.tilt || viewObject.zIndex !== view.camera.position.z)) {
                 view.camera = new Camera({
                     position: {
@@ -1183,7 +1185,7 @@ export function solveServiceArea(url: string, driveTimeCutoffs: number[], servic
     }
 }
 
-export function getCenter(viewId: string): DotNetPoint {
+export function getCenter(viewId: string): DotNetPoint | null {
     return buildDotNetPoint((arcGisObjectRefs[viewId] as MapView).center);
 }
 

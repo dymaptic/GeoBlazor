@@ -588,7 +588,7 @@ public partial class MapView : MapComponent
     ///     JS-Invokable method to return when the map view Extent changes.
     /// </summary>
     [JSInvokable]
-    public virtual async Task OnJavascriptExtentChanged(Extent extent, Point center, double zoom, double scale, 
+    public virtual async Task OnJavascriptExtentChanged(Extent extent, Point? center, double zoom, double scale, 
         double? rotation = null, double? tilt = null)
     {
         if (Extent is not null && !extent.Equals(Extent))
@@ -596,8 +596,12 @@ public partial class MapView : MapComponent
             ExtentChangedInJs = true;
         }
         Extent = extent;
-        Latitude = center.Latitude;
-        Longitude = center.Longitude;
+
+        if (center is not null)
+        {
+            Latitude = center.Latitude;
+            Longitude = center.Longitude;
+        }
         Zoom = zoom;
         Scale = scale;
         Rotation = rotation ?? Rotation;
@@ -1234,14 +1238,18 @@ public partial class MapView : MapComponent
     /// </summary>
     public async Task<Point?> GetCenter()
     {
-        Point center;
+        Point? center = null;
         if (ViewJsModule is not null && MapRendered)
         {
-            center = await ViewJsModule!.InvokeAsync<Point>("getCenter", Id);
-            Latitude = center.Latitude;
-            Longitude = center.Longitude;
+            center = await ViewJsModule!.InvokeAsync<Point?>("getCenter", Id);
+
+            if (center is not null)
+            {
+                Latitude = center.Latitude;
+                Longitude = center.Longitude;
+            }
         }
-        else
+        else if (Latitude is not null && Longitude is not null)
         {
             center = new Point(Longitude, Latitude);
         }
@@ -1263,8 +1271,8 @@ public partial class MapView : MapComponent
             ViewExtentUpdate change = 
                 await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("setZoom", Zoom, Id);
             Extent = change.Extent;
-            Latitude = change.Center.Latitude;
-            Longitude = change.Center.Longitude;
+            Latitude = change.Center?.Latitude;
+            Longitude = change.Center?.Longitude;
             Scale = change.Scale;
             Rotation = change.Rotation ?? Rotation;
             ShouldUpdate = true;
@@ -1298,8 +1306,8 @@ public partial class MapView : MapComponent
             ViewExtentUpdate change = 
                 await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("setScale", Scale, Id);
             Extent = change.Extent;
-            Latitude = change.Center.Latitude;
-            Longitude = change.Center.Longitude;
+            Latitude = change.Center?.Latitude;
+            Longitude = change.Center?.Longitude;
             Zoom = change.Zoom;
             Rotation = change.Rotation ?? Rotation;
             ShouldUpdate = true;
@@ -1333,8 +1341,8 @@ public partial class MapView : MapComponent
             ViewExtentUpdate change = 
                 await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("setRotation", Rotation, Id);
             Extent = change.Extent;
-            Latitude = change.Center.Latitude;
-            Longitude = change.Center.Longitude;
+            Latitude = change.Center?.Latitude;
+            Longitude = change.Center?.Longitude;
             Zoom = change.Zoom;
             Scale = change.Scale;
             ShouldUpdate = true;
@@ -1367,8 +1375,8 @@ public partial class MapView : MapComponent
             ExtentSetByCode = true;
             ViewExtentUpdate change = 
                 await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("setExtent", (object)Extent, Id);
-            Latitude = change.Center.Latitude;
-            Longitude = change.Center.Longitude;
+            Latitude = change.Center?.Latitude;
+            Longitude = change.Center?.Longitude;
             Zoom = change.Zoom;
             Scale = change.Scale;
             Rotation = change.Rotation ?? Rotation;
@@ -1458,8 +1466,8 @@ public partial class MapView : MapComponent
         ViewExtentUpdate change = 
             await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("goToExtent", extent, Id);
         Extent = change.Extent;
-        Latitude = change.Center.Latitude;
-        Longitude = change.Center.Longitude;
+        Latitude = change.Center?.Latitude;
+        Longitude = change.Center?.Longitude;
         Zoom = change.Zoom;
         Scale = change.Scale;
         Rotation = change.Rotation ?? Rotation;
@@ -1480,8 +1488,8 @@ public partial class MapView : MapComponent
         ViewExtentUpdate change = 
             await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("goToGraphics", graphics, Id);
         Extent = change.Extent;
-        Latitude = change.Center.Latitude;
-        Longitude = change.Center.Longitude;
+        Latitude = change.Center?.Latitude;
+        Longitude = change.Center?.Longitude;
         Zoom = change.Zoom;
         Scale = change.Scale;
         Rotation = change.Rotation ?? Rotation;

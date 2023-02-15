@@ -24,5 +24,5 @@ namespace dymaptic.GeoBlazor.Core.Components.Views;
 /// <param name="Tilt">
 ///     The tilt of the 3d view camera.
 /// </param>
-public record ViewExtentUpdate(Extent Extent, Point Center, double Scale, double Zoom, 
+public record ViewExtentUpdate(Extent Extent, Point? Center, double Scale, double Zoom, 
     double? Rotation = null, double? Tilt = null);
