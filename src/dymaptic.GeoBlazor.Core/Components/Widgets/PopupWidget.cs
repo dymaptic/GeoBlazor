@@ -381,6 +381,24 @@ public class BreakPoint
 public class PopupVisibleElements: MapComponent
 {
     /// <summary>
+    ///    Parameterless constructor for use as a razor component.
+    /// </summary>
+    public PopupVisibleElements()
+    {
+    }
+    
+    /// <summary>
+    ///     Constructor for creating a PopupVisibleElements object in code.
+    /// </summary>
+    public PopupVisibleElements(bool? closeButton = null, bool? featureNavigation = null)
+    {
+#pragma warning disable BL0005
+        CloseButton = closeButton;
+        FeatureNavigation = featureNavigation;
+#pragma warning restore BL0005
+    }
+    
+    /// <summary>
     ///     Indicates whether to display a close button on the popup dialog. Default value is true.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

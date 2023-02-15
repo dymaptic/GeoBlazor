@@ -37,7 +37,53 @@ public class MediaPopupContent: PopupContent
     /// <summary>
     ///     Contains the media elements representing images or charts to display within the PopupTemplate. This can be an individual chart or image element, or an array containing a combination of any of these types.
     /// </summary>
-    [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public HashSet<MediaInfo> MediaInfos { get; set; } = new();
+    public HashSet<MediaInfo>? MediaInfos { get; set; }
+
+    /// <inheritdoc />
+    public override async Task RegisterChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case MediaInfo mediaInfo:
+                MediaInfos ??= new HashSet<MediaInfo>();
+                MediaInfos.Add(mediaInfo);
+
+                break;
+            default:
+                await base.RegisterChildComponent(child);
+
+                break;
+        }
+    }
+
+    /// <inheritdoc />
+    public override async Task UnregisterChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case MediaInfo mediaInfo:
+                MediaInfos?.Remove(mediaInfo);
+
+                break;
+            default:
+                await base.UnregisterChildComponent(child);
+
+                break;
+        }
+    }
+
+    /// <inheritdoc />
+    public override void ValidateRequiredChildren()
+    {
+        base.ValidateRequiredChildren();
+
+        if (MediaInfos is not null)
+        {
+            foreach (var mediaInfo in MediaInfos)
+            {
+                mediaInfo.ValidateRequiredChildren();
+            }
+        }
+    }
 }

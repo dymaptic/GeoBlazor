@@ -1064,6 +1064,24 @@ public partial class MapView : MapComponent
     }
 
     /// <summary>
+    ///     This method should only be used to register graphics that have already been rendered
+    ///     and exist in the JavaScript view. Not recommended for direct use.
+    /// </summary>
+    public void RegisterExistingGraphics(IEnumerable<Graphic> graphics)
+    {
+        foreach (Graphic graphic in graphics)
+        {
+            if (!_graphics.Any(g => g.Equals(graphic)))
+            {
+                graphic.View = this;
+                graphic.JsModule = ViewJsModule;
+                graphic.Parent = this;
+                _graphics.Add(graphic);
+            }
+        }
+    }
+
+    /// <summary>
     ///     Clears all graphics from the view.
     /// </summary>
     public async Task ClearGraphics()
@@ -1616,6 +1634,8 @@ public partial class MapView : MapComponent
 
             JsModule = ViewJsModule;
 
+            ProJsModule = await GetArcGisJsPro();
+
             // the first render never has all the child components registered
             Rendering = false;
             StateHasChanged();
@@ -1703,7 +1723,14 @@ public partial class MapView : MapComponent
 
         await InvokeAsync(async () =>
         {
-            await ViewJsModule!.InvokeVoidAsync("addWidget", widget, Id);
+            if (widget.GetType().Namespace!.Contains("Core"))
+            {
+                await ViewJsModule!.InvokeVoidAsync("addWidget", widget, Id);
+            }
+            else
+            {
+                await ProJsModule!.InvokeVoidAsync("addProWidget", widget, Id);
+            }
         });
     }
 
@@ -1773,6 +1800,11 @@ public partial class MapView : MapComponent
     ///     A reference to the arcGisJsInterop module
     /// </summary>
     protected IJSObjectReference? ViewJsModule;
+
+    /// <summary>
+    ///     Optional reference to the Pro library JS module
+    /// </summary>
+    protected IJSObjectReference? ProJsModule;
 
     /// <summary>
     ///     A boolean flag to indicate that rendering is underway

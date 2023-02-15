@@ -9,8 +9,8 @@ internal static class Licensing
     {
         try
         {
-            Assembly unused = Assembly.Load("dymaptic.GeoBlazor.Interactive");
-            return LicenseType.Interactive;
+            Assembly unused = Assembly.Load("dymaptic.GeoBlazor.Pro");
+            return LicenseType.Pro;
         }
         catch
         {
@@ -22,5 +22,5 @@ internal static class Licensing
 internal enum LicenseType
 {
     Core = 0, // default, no license, free
-    Interactive = 100 // first paid license tier, leaving room for other future tiers on either side
+    Pro = 100 // first paid license tier, leaving room for other future tiers on either side
 }

@@ -62,7 +62,7 @@ On the first build, the Core project needs to download a large number of files f
 - Should be run from Visual Studio Preview. Command Line support appears to be limited at this time.
 - Android and Windows versions tested
 
-### dymaptic.GeoBlazor.Interactive (not included in open source repo)
+### dymaptic.GeoBlazor.pro (not included in open source repo)
 
 - Extended application features - coming soon!
 - Please contact info@dymaptic.com to discuss licensing these advanced features!

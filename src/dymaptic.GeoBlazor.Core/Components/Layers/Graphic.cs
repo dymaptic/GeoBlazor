@@ -59,10 +59,12 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Dictionary<string, object> Attributes
+    public Dictionary<string, object>? Attributes
     {
         get => _attributes;
-        set => _attributes = new ObservableDictionary<string, object>(value);
+        set => _attributes = value is null 
+            ? new ObservableDictionary<string, object>() 
+            : new ObservableDictionary<string, object>(value);
     }
 
     /// <summary>
@@ -252,7 +254,7 @@ public class Graphic : LayerObject, IEquatable<Graphic>
         return other?.Id == Id ||
             (other is not null &&
              other.Geometry?.Equals(Geometry) == true &&
-             other.Attributes.Equals(Attributes));
+             (other.Attributes?.Equals(Attributes) == true));
     }
 
     /// <inheritdoc />

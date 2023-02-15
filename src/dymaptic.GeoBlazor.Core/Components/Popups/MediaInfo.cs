@@ -50,9 +50,47 @@ public class BarChartMediaInfo : MediaInfo
     /// <summary>
     ///     Defines the chart value.
     /// </summary>
-    [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ChartMediaInfoValue? Value { get; set; }
+
+    /// <inheritdoc />
+    public override async Task RegisterChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case ChartMediaInfoValue chartMediaInfoValue:
+                Value = chartMediaInfoValue;
+                
+                break;
+            default:
+                await base.RegisterChildComponent(child);
+                
+                break;
+        }
+    }
+
+    /// <inheritdoc />
+    public override async Task UnregisterChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case ChartMediaInfoValue:
+                Value = null;
+                
+                break;
+            default:
+                await base.UnregisterChildComponent(child);
+                
+                break;
+        }
+    }
+
+    /// <inheritdoc />
+    public override void ValidateRequiredChildren()
+    {
+        base.ValidateRequiredChildren();
+        Value?.ValidateRequiredChildren();
+    }
 }
 
 /// <summary>
@@ -69,7 +107,7 @@ public class ChartMediaInfoValue: MapComponent
     ///     Set the popupTemplate.fieldInfos property for any fields that need to have number formatting for chart/text elements.
     /// </remarks>
     [Parameter]
-    public HashSet<string> Fields { get; set; } = new();
+    public IEnumerable<string> Fields { get; set; } = new List<string>();
     
     /// <summary>
     ///     A string containing the name of a field. The values of all fields in the chart will be normalized (divided) by the value of this field.
@@ -88,7 +126,8 @@ public class ChartMediaInfoValue: MapComponent
     /// <summary>
     ///     An array of ChartMediaInfoValueSeries objects which provide information of x/y data that is plotted in a chart.
     /// </summary>
-    public HashSet<ChartMediaInfoValueSeries> Series { get; set; } = new();
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public HashSet<ChartMediaInfoValueSeries>? Series { get; set; }
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
@@ -96,6 +135,7 @@ public class ChartMediaInfoValue: MapComponent
         switch (child)
         {
             case ChartMediaInfoValueSeries series:
+                Series ??= new HashSet<ChartMediaInfoValueSeries>();
                 Series.Add(series);
                 break;
             default:
@@ -110,7 +150,7 @@ public class ChartMediaInfoValue: MapComponent
         switch (child)
         {
             case ChartMediaInfoValueSeries series:
-                Series.Remove(series);
+                Series?.Remove(series);
                 break;
             default:
                 await base.UnregisterChildComponent(child);
@@ -123,9 +163,12 @@ public class ChartMediaInfoValue: MapComponent
     {
         base.ValidateRequiredChildren();
 
-        foreach (ChartMediaInfoValueSeries series in Series)
+        if (Series is not null)
         {
-            series.ValidateRequiredChildren();
+            foreach (ChartMediaInfoValueSeries series in Series)
+            {
+                series.ValidateRequiredChildren();
+            }
         }
     }
 }
@@ -220,9 +263,47 @@ public class ColumnChartMediaInfo : MediaInfo
     /// <summary>
     ///     Defines the chart value.
     /// </summary>
-    [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ChartMediaInfoValue? Value { get; set; }
+    
+    /// <inheritdoc />
+    public override async Task RegisterChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case ChartMediaInfoValue chartMediaInfoValue:
+                Value = chartMediaInfoValue;
+                
+                break;
+            default:
+                await base.RegisterChildComponent(child);
+                
+                break;
+        }
+    }
+
+    /// <inheritdoc />
+    public override async Task UnregisterChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case ChartMediaInfoValue:
+                Value = null;
+                
+                break;
+            default:
+                await base.UnregisterChildComponent(child);
+                
+                break;
+        }
+    }
+
+    /// <inheritdoc />
+    public override void ValidateRequiredChildren()
+    {
+        base.ValidateRequiredChildren();
+        Value?.ValidateRequiredChildren();
+    }
 }
 
 /// <summary>
@@ -265,9 +346,47 @@ public class ImageMediaInfo : MediaInfo
     /// <summary>
     ///     Defines the value format of the image media element and how the images should be retrieved.
     /// </summary>
-    [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ImageMediaInfoValue? Value { get; set; }
+    
+    /// <inheritdoc />
+    public override async Task RegisterChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case ImageMediaInfoValue imageMediaInfoValue:
+                Value = imageMediaInfoValue;
+                
+                break;
+            default:
+                await base.RegisterChildComponent(child);
+                
+                break;
+        }
+    }
+
+    /// <inheritdoc />
+    public override async Task UnregisterChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case ImageMediaInfoValue:
+                Value = null;
+                
+                break;
+            default:
+                await base.UnregisterChildComponent(child);
+                
+                break;
+        }
+    }
+
+    /// <inheritdoc />
+    public override void ValidateRequiredChildren()
+    {
+        base.ValidateRequiredChildren();
+        Value?.ValidateRequiredChildren();
+    }
 }
 
 /// <summary>
@@ -324,9 +443,47 @@ public class LineChartMediaInfo : MediaInfo
     /// <summary>
     ///     Defines the chart value.
     /// </summary>
-    [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ChartMediaInfoValue? Value { get; set; }
+    
+    /// <inheritdoc />
+    public override async Task RegisterChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case ChartMediaInfoValue chartMediaInfoValue:
+                Value = chartMediaInfoValue;
+                
+                break;
+            default:
+                await base.RegisterChildComponent(child);
+                
+                break;
+        }
+    }
+
+    /// <inheritdoc />
+    public override async Task UnregisterChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case ChartMediaInfoValue:
+                Value = null;
+                
+                break;
+            default:
+                await base.UnregisterChildComponent(child);
+                
+                break;
+        }
+    }
+
+    /// <inheritdoc />
+    public override void ValidateRequiredChildren()
+    {
+        base.ValidateRequiredChildren();
+        Value?.ValidateRequiredChildren();
+    }
 }
 
 /// <summary>
@@ -362,9 +519,47 @@ public class PieChartMediaInfo : MediaInfo
     /// <summary>
     ///     Defines the chart value.
     /// </summary>
-    [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ChartMediaInfoValue? Value { get; set; }
+    
+    /// <inheritdoc />
+    public override async Task RegisterChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case ChartMediaInfoValue chartMediaInfoValue:
+                Value = chartMediaInfoValue;
+                
+                break;
+            default:
+                await base.RegisterChildComponent(child);
+                
+                break;
+        }
+    }
+
+    /// <inheritdoc />
+    public override async Task UnregisterChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case ChartMediaInfoValue:
+                Value = null;
+                
+                break;
+            default:
+                await base.UnregisterChildComponent(child);
+                
+                break;
+        }
+    }
+
+    /// <inheritdoc />
+    public override void ValidateRequiredChildren()
+    {
+        base.ValidateRequiredChildren();
+        Value?.ValidateRequiredChildren();
+    }
 }
 
 internal class MediaInfoConverter : JsonConverter<MediaInfo>

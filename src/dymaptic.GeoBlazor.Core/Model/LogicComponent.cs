@@ -124,11 +124,11 @@ public abstract class LogicComponent
         switch ((int)licenseType)
         {
             case >= 100:
-                // this is here to support the interactive extension library
-                IJSObjectReference interactiveModule = await JsRuntime
+                // this is here to support the pro extension library
+                IJSObjectReference proModule = await JsRuntime
                     .InvokeAsync<IJSObjectReference>("import",
-                        "./_content/dymaptic.GeoBlazor.Interactive/js/arcGisInteractive.js");
-                return await interactiveModule.InvokeAsync<IJSObjectReference>("getCore");
+                        "./_content/dymaptic.GeoBlazor.Pro/js/arcGisPro.js");
+                return await proModule.InvokeAsync<IJSObjectReference>("getCore");
             default:
                 return await JsRuntime
                     .InvokeAsync<IJSObjectReference>("import",
