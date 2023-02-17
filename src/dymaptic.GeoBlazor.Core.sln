@@ -3,6 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32708.82
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CDCDDCD6-6958-4352-AF0C-C589ECD51C0D}"
+	ProjectSection(SolutionItems) = preProject
+		..\Directory.Build.props = ..\Directory.Build.props
+	EndProjectSection
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dymaptic.GeoBlazor.Core", "dymaptic.GeoBlazor.Core\dymaptic.GeoBlazor.Core.csproj", "{92A18016-170A-42F3-B1F5-12CC306F796C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dymaptic.GeoBlazor.Core.Sample.Shared", "..\samples\dymaptic.GeoBlazor.Core.Sample.Shared\dymaptic.GeoBlazor.Core.Sample.Shared.csproj", "{C993832C-734A-485F-A42B-30B620F32345}"
