@@ -1068,24 +1068,6 @@ public partial class MapView : MapComponent
     }
 
     /// <summary>
-    ///     This method should only be used to register graphics that have already been rendered
-    ///     and exist in the JavaScript view. Not recommended for direct use.
-    /// </summary>
-    public void RegisterExistingGraphics(IEnumerable<Graphic> graphics)
-    {
-        foreach (Graphic graphic in graphics)
-        {
-            if (!_graphics.Any(g => g.Equals(graphic)))
-            {
-                graphic.View = this;
-                graphic.JsModule = ViewJsModule;
-                graphic.Parent = this;
-                _graphics.Add(graphic);
-            }
-        }
-    }
-
-    /// <summary>
     ///     Clears all graphics from the view.
     /// </summary>
     public async Task ClearGraphics()

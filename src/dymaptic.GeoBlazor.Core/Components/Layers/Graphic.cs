@@ -165,6 +165,18 @@ public class Graphic : LayerObject, IEquatable<Graphic>
         _jsObjectReference ??= jsObjectReference;
     }
 
+    /// <summary>
+    ///     Used internally to register a graphic that was generated in Javascript directly.
+    /// </summary>
+    /// <remarks>
+    ///     Not intended for end-user use.
+    /// </remarks>
+    public async Task RegisterGraphic(IJSObjectReference jsObjectReference)
+    {
+        _jsObjectReference ??= jsObjectReference;
+        await _jsObjectReference.InvokeVoidAsync("registerWithId", Id);
+    } 
+
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
     {

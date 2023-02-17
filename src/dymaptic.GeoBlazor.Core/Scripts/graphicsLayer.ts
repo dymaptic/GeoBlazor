@@ -3,6 +3,7 @@ import {buildJsGraphic} from "./jsBuilder";
 import Graphic from "@arcgis/core/Graphic";
 import {DotNetGraphic} from "./definitions";
 import {arcGisObjectRefs} from "./arcGisJsInterop";
+import {buildDotNetGraphic} from "./dotNetBuilder";
 
 export default class GraphicsLayerWrapper {
     private layer: GraphicsLayer;
@@ -43,5 +44,14 @@ export default class GraphicsLayerWrapper {
         graphics.forEach(g => jsGraphics.push(arcGisObjectRefs[g.id as string] as Graphic));
         this.layer.removeMany(jsGraphics);
         graphics.forEach(g => delete arcGisObjectRefs[g.id as string]);
+    }
+    
+    getAllGraphics(): DotNetGraphic[] {
+        let dnGraphics: DotNetGraphic[] = [];
+        this.layer.graphics.forEach(g => {
+            dnGraphics.push(buildDotNetGraphic(g));
+        });
+        
+        return dnGraphics;
     }
 }

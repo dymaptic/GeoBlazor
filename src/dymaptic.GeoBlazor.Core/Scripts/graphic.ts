@@ -3,6 +3,7 @@ import {DotNetGeometry, DotNetPopupTemplate} from "./definitions";
 import {buildJsGeometry, buildJsPopupTemplate} from "./jsBuilder";
 import Geometry from "@arcgis/core/geometry/Geometry";
 import {buildDotNetGeometry, buildDotNetPopupTemplate} from "./dotNetBuilder";
+import {arcGisObjectRefs} from "./arcGisJsInterop";
 
 export default class GraphicWrapper {
     private graphic: Graphic;
@@ -60,5 +61,11 @@ export default class GraphicWrapper {
     
     getPopupTemplate(): DotNetPopupTemplate | null {
         return buildDotNetPopupTemplate(this.graphic.popupTemplate);
+    }
+
+    registerWithId(id: string): void {
+        if (arcGisObjectRefs[id] !== this.graphic) {
+            arcGisObjectRefs[id] = this.graphic;
+        }
     }
 }
