@@ -591,7 +591,7 @@ public partial class MapView : MapComponent
     public virtual async Task OnJavascriptExtentChanged(Extent extent, Point? center, double zoom, double scale, 
         double? rotation = null, double? tilt = null)
     {
-        if (Extent is not null && !extent.Equals(Extent))
+        if (!extent.Equals(Extent) || Extent is null)
         {
             ExtentChangedInJs = true;
         }
