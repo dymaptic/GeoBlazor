@@ -51,6 +51,9 @@ nav_order: 2
     <link href="YourProject.styles.css" rel="stylesheet" />
     ```
 
+   <div style="font-size: 0.8rem; font-style: italic; margin-bottom: 1rem;">
+   Note: You may already have the `YourProject.styles.css` file. If so, you can just add the two lines to the existing file. In some .Net templates, this file is commented out by default and you will need to add it.
+   </div>
 5. In `_Imports.razor`, add the following lines, or add as needed to resolve code that you consume.
 
    ```csharp
@@ -60,6 +63,7 @@ nav_order: 2
    @using dymaptic.GeoBlazor.Core.Components.Popups
    @using dymaptic.GeoBlazor.Core.Components.Symbols
    @using dymaptic.GeoBlazor.Core.Components.Views
+   @using dymaptic.GeoBlazor.Core.Components.Widgets
    @using dymaptic.GeoBlazor.Core.Objects
    ```
 6. In `Program.cs`, add the following line to your `builder.Services` to inject logic omponents like `GeometryEngine`.
@@ -78,6 +82,11 @@ nav_order: 2
 
    <MapView Longitude="_longitude" Latitude="_latitude" Zoom="11" Style="height: 400px; width: 100%;"> 
    </MapView>
+
+   @code {
+      private readonly double _latitude = 34.027;
+      private readonly double _longitude = -118.805;
+   } 
    ```
 9. Within the `MapView`, define a `Map`. To load a pre-generated map from ArcGIS Online or Portal, get the Map Id (PortalItem Id)
    of the map, and use the `WebMap` component.
@@ -85,7 +94,7 @@ nav_order: 2
    ```html
    <MapView Longitude="_longitude" Latitude="_latitude" Zoom="11" Style="height: 400px; width: 100%;"> 
        <WebMap>
-           <PortalItem Id="41281c51f9de45edaf1c8ed44bb10e30" />
+           <PortalItem Id="4a6cb60ebbe3483a805999d481c2daa5" />
        </WebMap>
    </MapView>
    ```
@@ -94,7 +103,7 @@ nav_order: 2
    ```html
    <MapView Longitude="_longitude" Latitude="_latitude" Zoom="11" Style="height: 400px; width: 100%;"> 
        <WebMap>
-           <PortalItem Id="41281c51f9de45edaf1c8ed44bb10e30" />
+           <PortalItem Id="4a6cb60ebbe3483a805999d481c2daa5" />
        </WebMap>
        <ScaleBarWidget Position="OverlayPosition.BottomLeft" />
    </MapView>
