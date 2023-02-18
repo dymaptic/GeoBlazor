@@ -22,7 +22,7 @@ public abstract class LogicComponent
     public LogicComponent(IJSRuntime jsRuntime, IConfiguration configuration)
     {
         JsRuntime = jsRuntime;
-        _apiKey = configuration["ArcGISApiKey"];
+        ApiKey = configuration["ArcGISApiKey"];
     }
 
     /// <summary>
@@ -90,7 +90,7 @@ public abstract class LogicComponent
         {
             IJSObjectReference module = await GetArcGisJsInterop();
             Component = await module.InvokeAsync<IJSObjectReference>($"get{ComponentName}Wrapper",
-                DotNetObjectReference, _apiKey);
+                DotNetObjectReference, ApiKey);
         }
 
         await Component.InvokeVoidAsync(method, parameters);
@@ -111,7 +111,7 @@ public abstract class LogicComponent
         {
             IJSObjectReference module = await GetArcGisJsInterop();
             Component = await module.InvokeAsync<IJSObjectReference>($"get{ComponentName}Wrapper",
-                    DotNetObjectReference, _apiKey);
+                    DotNetObjectReference, ApiKey);
         }
 
         return await Component.InvokeAsync<T>(method, parameters);
@@ -140,5 +140,5 @@ public abstract class LogicComponent
     ///     The reference to the JS Runtime.
     /// </summary>
     protected readonly IJSRuntime JsRuntime;
-    private readonly string? _apiKey;
+    protected readonly string? ApiKey;
 }
