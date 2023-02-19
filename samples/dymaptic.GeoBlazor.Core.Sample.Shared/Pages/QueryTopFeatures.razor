@@ -150,7 +150,7 @@
 
     private void OnLayerViewCreate(LayerViewCreateEvent evt)
     {
-        if (evt.Layer.Id == _featureLayer?.Id)
+        if (evt.Layer!.Id == _featureLayer?.Id)
         {
             _layerView = evt.LayerView as FeatureLayerView;
         }

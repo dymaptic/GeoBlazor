@@ -188,7 +188,7 @@ internal class SpatialReferenceConverter: JsonConverter<SpatialReference>
         writer.WriteStartObject();
         if (value.Wkid.HasValue)
         {
-            writer.WriteNumber("wkid", (int)value.Wkid.Value);
+            writer.WriteNumber("wkid", value.Wkid.Value);
         }
         else if (!string.IsNullOrWhiteSpace(value.Wkt))
         {

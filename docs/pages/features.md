@@ -18,6 +18,8 @@ Below is a list of all current and planned features for GeoBlazor, listed by the
 | **Feature Layer**         | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      |
 | **Graphics Layer**        | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      |
 | **Tile Layer**            | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      |
+| **Vector Tile Layer**     | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      |
+| **Elevation Layer**       | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      |
 | **GeoJSON Layer**         | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      |
 | **GeoRSS Layer**          | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      |
 | **Open Street Map Layer** | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      |
@@ -34,7 +36,6 @@ Below is a list of all current and planned features for GeoBlazor, listed by the
 | **Base Elevation Layer**  |                                                                       | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> |
 | **Base Tile Layer**       |                                                                       | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> |
 | **Building Scene Layer**  |                                                                       | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> |
-| **Elevation Layer**       |                                                                       | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> |
 | **Group Layer**           |                                                                       | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> |
 | **Integrated Mesh Layer** |                                                                       | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> |
 | **Line of Sight Layer**   |                                                                       | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> |
@@ -172,7 +173,7 @@ Below is a list of all current and planned features for GeoBlazor, listed by the
 | **Fullscreen**                 | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> |
 | **Navigation Toggle**          | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> |
 | **Slider**                     | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> |
-| **Track**                      | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> |
+| **Track**                      | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      |
 | **Editor**                     |                                                                       | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      |
 | **Sketch**                     |                                                                       | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      |
 | **Attachments**                |                                                                       | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> |
@@ -234,8 +235,8 @@ Below is a list of all current and planned features for GeoBlazor, listed by the
 |-------------------------------|-----------------------------------------------------------------------|-----------------------------------------------------------------------|
 | **Geometry Engine**           | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      |
 | **Projection**                | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      |
+| **Locator**                   | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      |
 | **Identity Manager**          | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> |
-| **Locator**                   | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> |
 | **Web Mercator Utils**        | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> |
 | **Route**                     | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> |
 | **Service Area**              | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> |

@@ -98,6 +98,7 @@ import FeatureLayerViewWrapper from "./featureLayerView";
 import FeatureLayerView from "@arcgis/core/views/layers/FeatureLayerView";
 import GraphicsLayerWrapper from "./graphicsLayer";
 import Popup from "@arcgis/core/widgets/Popup";
+import ElevationLayer from "@arcgis/core/layers/ElevationLayer";
 
 export let arcGisObjectRefs: Record<string, Accessor> = {};
 export let dotNetRefs = {};
@@ -1686,6 +1687,19 @@ export async function createLayer(layerObject: any, wrap?: boolean | null): Prom
                 }
             });
             break;
+        case 'elevation':
+            if (hasValue(layerObject.portalItem)) {
+                newLayer = new ElevationLayer({
+                    portalItem: {
+                        id: layerObject.portalItem.id
+                    }
+                });
+            } else {
+                newLayer = new ElevationLayer({
+                    url: layerObject.url
+                });
+            }
+            break;   
         case 'geo-json':
             newLayer = new GeoJSONLayer({
                 url: layerObject.url,

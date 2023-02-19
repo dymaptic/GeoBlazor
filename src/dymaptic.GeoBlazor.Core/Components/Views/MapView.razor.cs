@@ -140,8 +140,8 @@ public partial class MapView : MapComponent
     /// <summary>
     ///     An instance of a <see cref="Map"/> object to display in the view.
     /// </summary>
-    [RequiredProperty(nameof(SceneView.WebScene))]
-    public Map? Map { get; private set; }
+    [RequiredProperty]
+    public virtual Map? Map { get; private set; }
 
     /// <summary>
     ///     The extent represents the visible portion of a map within the view as an instance of Extent.
@@ -585,7 +585,8 @@ public partial class MapView : MapComponent
     public virtual async Task OnJavascriptExtentChanged(Extent extent, Point? center, double zoom, double scale, 
         double? rotation = null, double? tilt = null)
     {
-        if (!extent.Equals(Extent) || Extent is null)
+        // if extents are set, but don't match, that means the change was done JS-side
+        if (Extent is not null && !extent.Equals(Extent))
         {
             ExtentChangedInJs = true;
         }
@@ -704,37 +705,56 @@ public partial class MapView : MapComponent
     [JSInvokable]
     public async Task OnJavascriptLayerViewCreate(LayerViewCreateInternalEvent layerViewCreateEvent)
     {
-        LayerView layerView = layerViewCreateEvent.Layer switch
+        LayerView? layerView = layerViewCreateEvent.Layer switch
         {
-            FeatureLayer => new FeatureLayerView(layerViewCreateEvent.LayerView, new AbortManager(JsRuntime), IsServer),
+            FeatureLayer => new FeatureLayerView(layerViewCreateEvent.LayerView!, new AbortManager(JsRuntime), IsServer),
             _ => layerViewCreateEvent.LayerView
         };
 
-        layerView.JsObjectReference = layerViewCreateEvent.LayerViewObjectRef;
+        if (layerView is not null)
+        {
+            layerView.JsObjectReference = layerViewCreateEvent.LayerViewObjectRef;
+        }
         
         Layer? createdLayer = Map?.Layers.FirstOrDefault(l => l.Id == layerViewCreateEvent.LayerGeoBlazorId);
-        if (createdLayer != null)
+        if (createdLayer is not null)
         {
             createdLayer.LayerView = layerView;
 
             createdLayer.JsLayerReference ??= layerViewCreateEvent.LayerObjectRef;
             
             createdLayer.AbortManager = new AbortManager(JsRuntime);
-            await createdLayer.UpdateFromJavaScript(layerViewCreateEvent.Layer);
+            await createdLayer.UpdateFromJavaScript(layerViewCreateEvent.Layer!);
 
-            layerView.Layer = createdLayer;
+            if (layerView is not null)
+            {
+                layerView.Layer = createdLayer;
+            }
         }
         else
         {
-            layerViewCreateEvent.Layer.LayerView = layerView;
-            layerViewCreateEvent.Layer.AbortManager = new AbortManager(JsRuntime);
-            layerViewCreateEvent.Layer.JsLayerReference = layerViewCreateEvent.LayerObjectRef;
-            layerView.Layer = layerViewCreateEvent.Layer;
-            layerViewCreateEvent.Layer.View = this;
-            Map!.Layers.Add(layerViewCreateEvent.Layer);
+            Layer? layer = layerViewCreateEvent.Layer;
+
+            if (layer is not null)
+            {
+                layer.LayerView = layerView;
+                layer.AbortManager = new AbortManager(JsRuntime);
+                layer.JsLayerReference = layerViewCreateEvent.LayerObjectRef;
+
+                if (layerView is not null)
+                {
+                    layerView.Layer = layer;
+                }
+                layer.View = this;
+
+                if (Map is not null)
+                {
+                    Map!.Layers.Add(layer);
+                }
+            }
         }
         
-        await OnLayerViewCreate.InvokeAsync(new LayerViewCreateEvent(layerView.Layer, layerView));
+        await OnLayerViewCreate.InvokeAsync(new LayerViewCreateEvent(layerView?.Layer, layerView));
     }
 
     /// <summary>

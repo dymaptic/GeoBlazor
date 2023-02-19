@@ -728,7 +728,7 @@ public class FeatureLayer : Layer
 
         if (result is not null)
         {
-            foreach (FeatureSet? set in result!.Values)
+            foreach (FeatureSet? set in result.Values)
             {
                 if (set?.Features is null) continue;
                 foreach (Graphic graphic in set.Features)

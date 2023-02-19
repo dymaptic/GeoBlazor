@@ -162,7 +162,7 @@ public System.Nullable<double> Longitude { get; set; }
 An instance of a [Map](dymaptic.GeoBlazor.Core.Components.Views.MapView.html#dymaptic.GeoBlazor.Core.Components.Views.MapView.Map 'dymaptic.GeoBlazor.Core.Components.Views.MapView.Map') object to display in the view.
 
 ```csharp
-public dymaptic.GeoBlazor.Core.Components.Map? Map { get; set; }
+public virtual dymaptic.GeoBlazor.Core.Components.Map? Map { get; set; }
 ```
 
 #### Property Value

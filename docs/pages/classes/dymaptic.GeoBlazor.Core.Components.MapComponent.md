@@ -50,7 +50,6 @@ Derived
 &#8627; [MapFont](dymaptic.GeoBlazor.Core.Components.Symbols.MapFont.html 'dymaptic.GeoBlazor.Core.Components.Symbols.MapFont')  
 &#8627; [Symbol](dymaptic.GeoBlazor.Core.Components.Symbols.Symbol.html 'dymaptic.GeoBlazor.Core.Components.Symbols.Symbol')  
 &#8627; [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView')  
-&#8627; [WebScene](dymaptic.GeoBlazor.Core.Components.WebScene.html 'dymaptic.GeoBlazor.Core.Components.WebScene')  
 &#8627; [LayerInfo](dymaptic.GeoBlazor.Core.Components.Widgets.LayerInfo.html 'dymaptic.GeoBlazor.Core.Components.Widgets.LayerInfo')  
 &#8627; [PopupDockOptions](dymaptic.GeoBlazor.Core.Components.Widgets.PopupDockOptions.html 'dymaptic.GeoBlazor.Core.Components.Widgets.PopupDockOptions')  
 &#8627; [PopupVisibleElements](dymaptic.GeoBlazor.Core.Components.Widgets.PopupVisibleElements.html 'dymaptic.GeoBlazor.Core.Components.Widgets.PopupVisibleElements')  
