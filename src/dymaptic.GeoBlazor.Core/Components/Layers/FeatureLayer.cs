@@ -643,7 +643,7 @@ public class FeatureLayer : Layer
         FeatureSet? result = await JsLayerReference!.InvokeAsync<FeatureSet?>("queryFeatures", cancellationToken, 
             query, new {signal = abortSignal}, DotNetObjectReference.Create(this));
 
-        if (View.IsServer && result is null)
+        if (View!.IsServer && result is null)
         {
             JsonSerializerOptions options = new() { PropertyNameCaseInsensitive = true };
             result = JsonSerializer.Deserialize<FeatureSet>(_queryFeatureData!.ToString(), options)!;
@@ -710,7 +710,7 @@ public class FeatureLayer : Layer
     /// <param name="cancellationToken">
     ///     A cancellation token that can be used to cancel the query operation.
     /// </param>
-    public async Task<Dictionary<int, FeatureSet?>> QueryRelatedFeatures(RelationshipQuery query, 
+    public async Task<Dictionary<int, FeatureSet?>?> QueryRelatedFeatures(RelationshipQuery query, 
         CancellationToken cancellationToken = default)
     {
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
@@ -801,7 +801,7 @@ public class FeatureLayer : Layer
     /// <param name="cancellationToken">
     ///     A cancellation token that can be used to cancel the query operation.
     /// </param>
-    public async Task<FeatureSet> QueryTopFeatures(TopFeaturesQuery query, CancellationToken cancellationToken = default)
+    public async Task<FeatureSet?> QueryTopFeatures(TopFeaturesQuery query, CancellationToken cancellationToken = default)
     {
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         FeatureSet? result = await JsLayerReference!.InvokeAsync<FeatureSet?>("queryTopFeatures", cancellationToken, 
@@ -814,7 +814,7 @@ public class FeatureLayer : Layer
             _queryFeatureData = null;
         }
         
-        if (result.Features is not null)
+        if (result?.Features is not null)
         {
             foreach (Graphic graphic in result.Features)
             {

@@ -570,7 +570,7 @@ A cancellation token that can be used to cancel the query operation.
 Executes a RelationshipQuery against the feature service and returns FeatureSets grouped by source layer or table objectIds.
 
 ```csharp
-public System.Threading.Tasks.Task<System.Collections.Generic.Dictionary<int,dymaptic.GeoBlazor.Core.Components.Layers.FeatureSet?>> QueryRelatedFeatures(dymaptic.GeoBlazor.Core.Objects.RelationshipQuery query, System.Threading.CancellationToken cancellationToken=default(System.Threading.CancellationToken));
+public System.Threading.Tasks.Task<System.Collections.Generic.Dictionary<int,dymaptic.GeoBlazor.Core.Components.Layers.FeatureSet?>?> QueryRelatedFeatures(dymaptic.GeoBlazor.Core.Objects.RelationshipQuery query, System.Threading.CancellationToken cancellationToken=default(System.Threading.CancellationToken));
 ```
 #### Parameters
 
@@ -651,7 +651,7 @@ Known Limitations: Currently, the [QueryTopFeatureCount(TopFeaturesQuery, Cancel
 Executes a TopFeaturesQuery against a feature service and returns a FeatureSet once the promise resolves. The FeatureSet contains an array of top features grouped and ordered by specified fields. For example, you can call this method to query top three counties grouped by state names while ordering them based on their populations in a descending order.
 
 ```csharp
-public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Layers.FeatureSet> QueryTopFeatures(dymaptic.GeoBlazor.Core.Objects.TopFeaturesQuery query, System.Threading.CancellationToken cancellationToken=default(System.Threading.CancellationToken));
+public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Layers.FeatureSet?> QueryTopFeatures(dymaptic.GeoBlazor.Core.Objects.TopFeaturesQuery query, System.Threading.CancellationToken cancellationToken=default(System.Threading.CancellationToken));
 ```
 #### Parameters
 

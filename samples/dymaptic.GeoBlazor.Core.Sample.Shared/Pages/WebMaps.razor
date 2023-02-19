@@ -60,8 +60,8 @@
         {
             if (evt.Layer is FeatureLayer fl)
             {
-                FeatureSet features = await fl.QueryFeatures();
-                _featureLayerGraphics[fl.Id] = features.Features!.ToArray();
+                FeatureSet? features = await fl.QueryFeatures();
+                _featureLayerGraphics[fl.Id] = features!.Features!.ToArray();
             }
         }
         catch (Exception ex)

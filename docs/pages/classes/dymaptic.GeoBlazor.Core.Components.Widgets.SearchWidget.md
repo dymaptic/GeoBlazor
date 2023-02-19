@@ -18,19 +18,19 @@ public class SearchWidget : dymaptic.GeoBlazor.Core.Components.Widgets.Widget
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [Microsoft.AspNetCore.Components.ComponentBase](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.ComponentBase 'Microsoft.AspNetCore.Components.ComponentBase') &#129106; [MapComponent](dymaptic.GeoBlazor.Core.Components.MapComponent.html 'dymaptic.GeoBlazor.Core.Components.MapComponent') &#129106; [Widget](dymaptic.GeoBlazor.Core.Components.Widgets.Widget.html 'dymaptic.GeoBlazor.Core.Components.Widgets.Widget') &#129106; SearchWidget
 ### Properties
 
-<a name='dymaptic.GeoBlazor.Core.Components.Widgets.SearchWidget.OnSearchSelectResultEventHandler'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Widgets.SearchWidget.OnSearchSelectResultEvent'></a>
 
-## SearchWidget.OnSearchSelectResultEventHandler Property
+## SearchWidget.OnSearchSelectResultEvent Property
 
 A delegate for a handler of search selection result events.  
 Function must take in a [SearchResult](dymaptic.GeoBlazor.Core.Objects.SearchResult.html 'dymaptic.GeoBlazor.Core.Objects.SearchResult') parameter, and return a [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
 
 ```csharp
-public System.Func<dymaptic.GeoBlazor.Core.Objects.SearchResult,System.Threading.Tasks.Task>? OnSearchSelectResultEventHandler { get; set; }
+public Microsoft.AspNetCore.Components.EventCallback<dymaptic.GeoBlazor.Core.Objects.SearchResult> OnSearchSelectResultEvent { get; set; }
 ```
 
 #### Property Value
-[System.Func&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Func-2 'System.Func`2')[SearchResult](dymaptic.GeoBlazor.Core.Objects.SearchResult.html 'dymaptic.GeoBlazor.Core.Objects.SearchResult')[,](https://docs.microsoft.com/en-us/dotnet/api/System.Func-2 'System.Func`2')[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Func-2 'System.Func`2')
+[Microsoft.AspNetCore.Components.EventCallback&lt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback-1 'Microsoft.AspNetCore.Components.EventCallback`1')[SearchResult](dymaptic.GeoBlazor.Core.Objects.SearchResult.html 'dymaptic.GeoBlazor.Core.Objects.SearchResult')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback-1 'Microsoft.AspNetCore.Components.EventCallback`1')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Widgets.SearchWidget.SearchWidgetObjectReference'></a>
 
@@ -59,19 +59,22 @@ public override string WidgetType { get; }
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 ### Methods
 
-<a name='dymaptic.GeoBlazor.Core.Components.Widgets.SearchWidget.OnSearchSelectResult(dymaptic.GeoBlazor.Core.Objects.SearchResult)'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Widgets.SearchWidget.OnJavaScriptSearchSelectResult(dymaptic.GeoBlazor.Core.Objects.SearchResult)'></a>
 
-## SearchWidget.OnSearchSelectResult(SearchResult) Method
+## SearchWidget.OnJavaScriptSearchSelectResult(SearchResult) Method
 
 A JavaScript invokable method that is triggered whenever a "select-result" event is fired by the search widget.
 
 ```csharp
-public void OnSearchSelectResult(dymaptic.GeoBlazor.Core.Objects.SearchResult searchResult);
+public System.Threading.Tasks.Task OnJavaScriptSearchSelectResult(dymaptic.GeoBlazor.Core.Objects.SearchResult searchResult);
 ```
 #### Parameters
 
-<a name='dymaptic.GeoBlazor.Core.Components.Widgets.SearchWidget.OnSearchSelectResult(dymaptic.GeoBlazor.Core.Objects.SearchResult).searchResult'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Widgets.SearchWidget.OnJavaScriptSearchSelectResult(dymaptic.GeoBlazor.Core.Objects.SearchResult).searchResult'></a>
 
 `searchResult` [SearchResult](dymaptic.GeoBlazor.Core.Objects.SearchResult.html 'dymaptic.GeoBlazor.Core.Objects.SearchResult')
 
 The result selected in the search widget.
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')

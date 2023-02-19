@@ -1345,7 +1345,7 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
             newWidget = search;
 
             search.on('select-result', (evt) => {
-                widget.searchWidgetObjectReference.invokeMethodAsync('OnSearchSelectResult', {
+                widget.searchWidgetObjectReference.invokeMethodAsync('OnJavaScriptSearchSelectResult', {
                     extent: buildDotNetExtent(evt.result.extent),
                     feature: buildDotNetFeature(evt.result.feature),
                     name: evt.result.name
