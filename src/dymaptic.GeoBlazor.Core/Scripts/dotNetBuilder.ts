@@ -398,11 +398,6 @@ export function buildDotNetFeatureLayer(layer: FeatureLayer): DotNetFeatureLayer
     if (layer.spatialReference !== undefined && layer.spatialReference !== null) {
         dotNetLayer.spatialReference = buildDotNetSpatialReference(layer.spatialReference) as DotNetSpatialReference;
     }
-    
-    // todo: figure out why source isn't convertible
-    // if (layer.source !== undefined && layer.source !== null) {
-    //     dotNetLayer.source = (layer.source as MapCollection).items.map(s => buildDotNetGraphic(s));
-    // }
 
     if (Object.values(arcGisObjectRefs).includes(layer)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

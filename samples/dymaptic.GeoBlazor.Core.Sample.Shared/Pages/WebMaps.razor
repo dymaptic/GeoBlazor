@@ -1,4 +1,5 @@
 ﻿@page "/web-map"
+
 <PageTitle>WebMap</PageTitle>
 <h1>WebMap</h1>
 <div class="links-div">
@@ -7,10 +8,68 @@
 <p class="instructions">
     A simple demo of loading a complete WebMap from ArcGIS Online, including layers, icons, popups, and widgets.
 </p>
-<MapView Class="map-view">
-    <WebMap>
+<MapView OnLayerViewCreate="OnLayerViewCreate" Class="map-view">
+    <WebMap @ref="_webMap">
         <PortalItem Id="31cfc5b138e24dee866c457948773ac4" />
     </WebMap>
     <ScaleBarWidget Position="OverlayPosition.BottomLeft" />
     <LegendWidget Position="OverlayPosition.TopRight" />
 </MapView>
+
+<h2>Layers</h2>
+@if (_webMap is not null && _webMap.Layers.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Type</th>
+                <th>Name</th>
+                <th>Features</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Layer layer in _webMap.Layers)
+            {
+                FeatureLayer? fl = layer as FeatureLayer;
+                <tr>
+                    <td>@layer.GetType().Name</td>
+                    <td>@layer.Title</td>
+                    <td>
+                        @if (fl is not null && _featureLayerGraphics.TryGetValue(fl.Id, out Graphic[]? features))
+                        {
+                            <div style="max-height: 160px; overflow: scroll;">
+                                <ul>
+                                    @foreach (Graphic feature in features)
+                                    {
+                                        <li>@(feature.Attributes?.Values.FirstOrDefault())</li>
+                                    }
+                                </ul>
+                            </div>
+                        }
+                    </td>
+                </tr>   
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private async Task OnLayerViewCreate(LayerViewCreateEvent evt)
+    {
+        try
+        {
+            if (evt.Layer is FeatureLayer fl)
+            {
+                FeatureSet features = await fl.QueryFeatures();
+                _featureLayerGraphics[fl.Id] = features.Features!.ToArray();
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+        }
+    }
+
+    private WebMap? _webMap;
+    private readonly Dictionary<Guid, Graphic[]> _featureLayerGraphics = new();
+}

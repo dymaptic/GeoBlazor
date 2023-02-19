@@ -7,6 +7,7 @@ using dymaptic.GeoBlazor.Core.Objects;
 using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using System.Text;
 using System.Text.Json;
 
 
@@ -635,13 +636,21 @@ public class FeatureLayer : Layer
     ///     A cancellation token that can be used to cancel the query operation.
     /// </param>
     /// <returns></returns>
-    public async Task<FeatureSet> QueryFeatures(Query? query = null, CancellationToken cancellationToken = default)
+    public async Task<FeatureSet?> QueryFeatures(Query? query = null, CancellationToken cancellationToken = default)
     {
+        query ??= new Query();
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        FeatureSet result = await JsLayerReference!.InvokeAsync<FeatureSet>("queryFeatures", cancellationToken, 
-            query, new {signal = abortSignal});
+        FeatureSet? result = await JsLayerReference!.InvokeAsync<FeatureSet?>("queryFeatures", cancellationToken, 
+            query, new {signal = abortSignal}, DotNetObjectReference.Create(this));
 
-        if (result.Features is not null)
+        if (View.IsServer && result is null)
+        {
+            JsonSerializerOptions options = new() { PropertyNameCaseInsensitive = true };
+            result = JsonSerializer.Deserialize<FeatureSet>(_queryFeatureData!.ToString(), options)!;
+            _queryFeatureData = null;
+        }
+
+        if (result?.Features is not null)
         {
             foreach (Graphic graphic in result.Features)
             {
@@ -652,6 +661,22 @@ public class FeatureLayer : Layer
         await AbortManager.DisposeAbortController(cancellationToken);
 
         return result;
+    }
+    
+    /// <summary>
+    ///     partial query result return for Blazor Server, to avoid SignalR size limits
+    /// </summary>
+    [JSInvokable]
+    public void OnQueryFeaturesCreateChunk(string chunk, int chunkIndex)
+    {
+        if (chunkIndex == 0)
+        {
+            _queryFeatureData = new StringBuilder(chunk);
+        }
+        else
+        {
+            _queryFeatureData!.Append(chunk);
+        }
     }
 
     /// <summary>
@@ -689,15 +714,27 @@ public class FeatureLayer : Layer
         CancellationToken cancellationToken = default)
     {
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        Dictionary<int, FeatureSet?> result = await JsLayerReference!.InvokeAsync<Dictionary<int, FeatureSet?>>(
-            "queryRelatedFeatures", cancellationToken, query, new {signal = abortSignal});
 
-        foreach (FeatureSet? set in result.Values)
+        Dictionary<int, FeatureSet?>? result = await JsLayerReference!.InvokeAsync<Dictionary<int, FeatureSet?>?>(
+            "queryRelatedFeatures", cancellationToken, query, new { signal = abortSignal },
+            DotNetObjectReference.Create(this));
+        
+        if (View!.IsServer && result is null)
         {
-            if (set?.Features is null) continue;
-            foreach (Graphic graphic in set.Features)
+            JsonSerializerOptions options = new() { PropertyNameCaseInsensitive = true };
+            result = JsonSerializer.Deserialize<Dictionary<int, FeatureSet?>>(_queryFeatureData!.ToString(), options)!;
+            _queryFeatureData = null;
+        }
+
+        if (result is not null)
+        {
+            foreach (FeatureSet? set in result!.Values)
             {
-                graphic.LayerId = Id;
+                if (set?.Features is null) continue;
+                foreach (Graphic graphic in set.Features)
+                {
+                    graphic.LayerId = Id;
+                }
             }
         }
 
@@ -767,9 +804,16 @@ public class FeatureLayer : Layer
     public async Task<FeatureSet> QueryTopFeatures(TopFeaturesQuery query, CancellationToken cancellationToken = default)
     {
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        FeatureSet result = await JsLayerReference!.InvokeAsync<FeatureSet>("queryTopFeatures", cancellationToken, 
-            query, new {signal = abortSignal});
+        FeatureSet? result = await JsLayerReference!.InvokeAsync<FeatureSet?>("queryTopFeatures", cancellationToken, 
+            query, new {signal = abortSignal}, DotNetObjectReference.Create(this));
 
+        if (View!.IsServer && result is null)
+        {
+            JsonSerializerOptions options = new() { PropertyNameCaseInsensitive = true };
+            result = JsonSerializer.Deserialize<FeatureSet>(_queryFeatureData!.ToString(), options)!;
+            _queryFeatureData = null;
+        }
+        
         if (result.Features is not null)
         {
             foreach (Graphic graphic in result.Features)
@@ -825,6 +869,7 @@ public class FeatureLayer : Layer
 
     private HashSet<Graphic>? _source;
     private HashSet<Field>? _fields;
+    private StringBuilder? _queryFeatureData;
 }
 
 /// <summary>

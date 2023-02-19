@@ -102,8 +102,8 @@ import Popup from "@arcgis/core/widgets/Popup";
 export let arcGisObjectRefs: Record<string, Accessor> = {};
 export let dotNetRefs = {};
 export let queryLayer: FeatureLayer;
+export let blazorServer: boolean = false;
 export { projection, geometryEngine };
-let blazorServer: boolean = false;
 let notifyExtentChanged: boolean = true;
 
 export function setAssetsPath (path: string) {
@@ -269,7 +269,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
             (view as MapView).highlightOptions = highlightOptions;
         }
         
-        if (hasValue(mapObject.layers)) {
+        if (hasValue(mapObject.layers) && mapType !== 'webmap' && mapType !== 'webscene') {
             for (const layerObject of mapObject.layers) {
                 await addLayer(layerObject, id);
             }
