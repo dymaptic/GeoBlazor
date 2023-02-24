@@ -195,7 +195,7 @@ public class Graphic : LayerObject, IEquatable<Graphic>
                 PopupTemplate = popupTemplate;
                 if (_jsObjectReference is not null)
                 {
-                    await _jsObjectReference.InvokeVoidAsync("setPopupTemplate", PopupTemplate);
+                    await _jsObjectReference.InvokeVoidAsync("setPopupTemplate", PopupTemplate, View?.Id);
                 }
 
                 break;

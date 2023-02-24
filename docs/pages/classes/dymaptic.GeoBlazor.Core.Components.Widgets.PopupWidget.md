@@ -29,11 +29,11 @@ In most cases this module will not need to be loaded into your application becau
 Defines actions that may be executed by clicking the icon or image symbolizing them in the popup. By default, every popup has a zoom-to action styled with a magnifying glass icon. When this icon is clicked, the view zooms in four LODs and centers on the selected feature.
 
 ```csharp
-public System.Collections.Generic.HashSet<dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ActionBase>? Actions { get; set; }
+public System.Collections.Generic.HashSet<dymaptic.GeoBlazor.Core.Components.ActionBase>? Actions { get; set; }
 ```
 
 #### Property Value
-[System.Collections.Generic.HashSet&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.HashSet-1 'System.Collections.Generic.HashSet`1')[ActionBase](dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ActionBase.html 'dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ActionBase')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.HashSet-1 'System.Collections.Generic.HashSet`1')
+[System.Collections.Generic.HashSet&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.HashSet-1 'System.Collections.Generic.HashSet`1')[ActionBase](dymaptic.GeoBlazor.Core.Components.ActionBase.html 'dymaptic.GeoBlazor.Core.Components.ActionBase')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.HashSet-1 'System.Collections.Generic.HashSet`1')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.Alignment'></a>
 
@@ -303,6 +303,26 @@ public override string WidgetType { get; }
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 ### Methods
+
+<a name='dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.OnTriggerAction(string)'></a>
+
+## PopupWidget.OnTriggerAction(string) Method
+
+JS-invokable method for triggering actions.
+
+```csharp
+public System.Threading.Tasks.Task OnTriggerAction(string actionId);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.OnTriggerAction(string).actionId'></a>
+
+`actionId` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+The action ID.
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.RegisterChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent)'></a>
 

@@ -55,8 +55,8 @@ export default class GraphicWrapper {
         return this.graphic.visible;
     }
     
-    setPopupTemplate(popupTemplate: DotNetPopupTemplate): void {
-        this.graphic.popupTemplate = buildJsPopupTemplate(popupTemplate);
+    setPopupTemplate(popupTemplate: DotNetPopupTemplate, viewId: string): void {
+        this.graphic.popupTemplate = buildJsPopupTemplate(popupTemplate, viewId);
     }
     
     getPopupTemplate(): DotNetPopupTemplate | null {

@@ -25,11 +25,11 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 An array of strings, with each string containing the name of a field to display in the chart.
 
 ```csharp
-public System.Collections.Generic.HashSet<string> Fields { get; set; }
+public System.Collections.Generic.IEnumerable<string> Fields { get; set; }
 ```
 
 #### Property Value
-[System.Collections.Generic.HashSet&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.HashSet-1 'System.Collections.Generic.HashSet`1')[System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.HashSet-1 'System.Collections.Generic.HashSet`1')
+[System.Collections.Generic.IEnumerable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IEnumerable-1 'System.Collections.Generic.IEnumerable`1')[System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IEnumerable-1 'System.Collections.Generic.IEnumerable`1')
 
 ### Remarks
 In order to work with related fields within a chart, the fields must either be set as a fields element in the PopupTemplate's content or as popupTemplate.fieldInfos property outside of the PopupTemplate's content.  
@@ -55,7 +55,7 @@ public string? NormalizeField { get; set; }
 An array of ChartMediaInfoValueSeries objects which provide information of x/y data that is plotted in a chart.
 
 ```csharp
-public System.Collections.Generic.HashSet<dymaptic.GeoBlazor.Core.Components.Popups.ChartMediaInfoValueSeries> Series { get; set; }
+public System.Collections.Generic.HashSet<dymaptic.GeoBlazor.Core.Components.Popups.ChartMediaInfoValueSeries>? Series { get; set; }
 ```
 
 #### Property Value

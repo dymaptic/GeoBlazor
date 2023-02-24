@@ -74,7 +74,7 @@ Name-value pairs of fields and field values associated with the graphic.
 Name-value pairs of fields and field values associated with the graphic.
 
 ```csharp
-public System.Collections.Generic.Dictionary<string,object> Attributes { get; set; }
+public System.Collections.Generic.Dictionary<string,object>? Attributes { get; set; }
 ```
 
 #### Property Value
@@ -254,6 +254,27 @@ The calling, child component to register
 
 [InvalidChildElementException](dymaptic.GeoBlazor.Core.Exceptions.InvalidChildElementException.html 'dymaptic.GeoBlazor.Core.Exceptions.InvalidChildElementException')  
 Throws if the current child is not a valid sub-component to the parent.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.Graphic.RegisterGraphic(Microsoft.JSInterop.IJSObjectReference)'></a>
+
+## Graphic.RegisterGraphic(IJSObjectReference) Method
+
+Used internally to register a graphic that was generated in Javascript directly.
+
+```csharp
+public System.Threading.Tasks.Task RegisterGraphic(Microsoft.JSInterop.IJSObjectReference jsObjectReference);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.Graphic.RegisterGraphic(Microsoft.JSInterop.IJSObjectReference).jsObjectReference'></a>
+
+`jsObjectReference` [Microsoft.JSInterop.IJSObjectReference](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.JSInterop.IJSObjectReference 'Microsoft.JSInterop.IJSObjectReference')
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
+### Remarks
+Not intended for end-user use.
 
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.Graphic.SetGeometry(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry)'></a>
 

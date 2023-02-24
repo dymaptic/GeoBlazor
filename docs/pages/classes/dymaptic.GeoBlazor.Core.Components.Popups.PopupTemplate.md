@@ -28,64 +28,68 @@ Parameterless constructor for using as a razor component
 public PopupTemplate();
 ```
 
-<a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.PopupTemplate(string,string,System.Collections.Generic.IEnumerable_string_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.PopupContent_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo_,System.Nullable_bool_,System.Nullable_bool_)'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.PopupTemplate(string,string,System.Collections.Generic.IEnumerable_string_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.PopupContent_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo_,System.Nullable_bool_,System.Nullable_bool_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.ActionBase_)'></a>
 
-## PopupTemplate(string, string, IEnumerable<string>, IEnumerable<FieldInfo>, IEnumerable<PopupContent>, IEnumerable<ExpressionInfo>, Nullable<bool>, Nullable<bool>) Constructor
+## PopupTemplate(string, string, IEnumerable<string>, IEnumerable<FieldInfo>, IEnumerable<PopupContent>, IEnumerable<ExpressionInfo>, Nullable<bool>, Nullable<bool>, IEnumerable<ActionBase>) Constructor
 
 Constructs a new PopupTemplate in code with parameters
 
 ```csharp
-public PopupTemplate(string title, string? stringContent=null, System.Collections.Generic.IEnumerable<string>? outFields=null, System.Collections.Generic.IEnumerable<dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo>? fieldInfos=null, System.Collections.Generic.IEnumerable<dymaptic.GeoBlazor.Core.Components.Popups.PopupContent>? contents=null, System.Collections.Generic.IEnumerable<dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo>? expressionInfos=null, System.Nullable<bool> overwriteActions=null, System.Nullable<bool> returnGeometry=null);
+public PopupTemplate(string title, string? stringContent=null, System.Collections.Generic.IEnumerable<string>? outFields=null, System.Collections.Generic.IEnumerable<dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo>? fieldInfos=null, System.Collections.Generic.IEnumerable<dymaptic.GeoBlazor.Core.Components.Popups.PopupContent>? contents=null, System.Collections.Generic.IEnumerable<dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo>? expressionInfos=null, System.Nullable<bool> overwriteActions=null, System.Nullable<bool> returnGeometry=null, System.Collections.Generic.IEnumerable<dymaptic.GeoBlazor.Core.Components.ActionBase>? actions=null);
 ```
 #### Parameters
 
-<a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.PopupTemplate(string,string,System.Collections.Generic.IEnumerable_string_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.PopupContent_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo_,System.Nullable_bool_,System.Nullable_bool_).title'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.PopupTemplate(string,string,System.Collections.Generic.IEnumerable_string_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.PopupContent_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo_,System.Nullable_bool_,System.Nullable_bool_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.ActionBase_).title'></a>
 
 `title` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 
 The title of the popup
 
-<a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.PopupTemplate(string,string,System.Collections.Generic.IEnumerable_string_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.PopupContent_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo_,System.Nullable_bool_,System.Nullable_bool_).stringContent'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.PopupTemplate(string,string,System.Collections.Generic.IEnumerable_string_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.PopupContent_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo_,System.Nullable_bool_,System.Nullable_bool_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.ActionBase_).stringContent'></a>
 
 `stringContent` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 
 Use this parameter if the content is a simple string
 
-<a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.PopupTemplate(string,string,System.Collections.Generic.IEnumerable_string_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.PopupContent_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo_,System.Nullable_bool_,System.Nullable_bool_).outFields'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.PopupTemplate(string,string,System.Collections.Generic.IEnumerable_string_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.PopupContent_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo_,System.Nullable_bool_,System.Nullable_bool_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.ActionBase_).outFields'></a>
 
 `outFields` [System.Collections.Generic.IEnumerable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IEnumerable-1 'System.Collections.Generic.IEnumerable`1')[System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IEnumerable-1 'System.Collections.Generic.IEnumerable`1')
 
 An array of field names used in the PopupTemplate.
 
-<a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.PopupTemplate(string,string,System.Collections.Generic.IEnumerable_string_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.PopupContent_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo_,System.Nullable_bool_,System.Nullable_bool_).fieldInfos'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.PopupTemplate(string,string,System.Collections.Generic.IEnumerable_string_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.PopupContent_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo_,System.Nullable_bool_,System.Nullable_bool_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.ActionBase_).fieldInfos'></a>
 
 `fieldInfos` [System.Collections.Generic.IEnumerable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IEnumerable-1 'System.Collections.Generic.IEnumerable`1')[FieldInfo](dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo.html 'dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IEnumerable-1 'System.Collections.Generic.IEnumerable`1')
 
 An array of FieldInfo that defines how fields in the dataset or values from Arcade expressions participate in a popup.
 
-<a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.PopupTemplate(string,string,System.Collections.Generic.IEnumerable_string_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.PopupContent_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo_,System.Nullable_bool_,System.Nullable_bool_).contents'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.PopupTemplate(string,string,System.Collections.Generic.IEnumerable_string_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.PopupContent_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo_,System.Nullable_bool_,System.Nullable_bool_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.ActionBase_).contents'></a>
 
 `contents` [System.Collections.Generic.IEnumerable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IEnumerable-1 'System.Collections.Generic.IEnumerable`1')[PopupContent](dymaptic.GeoBlazor.Core.Components.Popups.PopupContent.html 'dymaptic.GeoBlazor.Core.Components.Popups.PopupContent')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IEnumerable-1 'System.Collections.Generic.IEnumerable`1')
 
 Pass advanced [PopupContent](dymaptic.GeoBlazor.Core.Components.Popups.PopupContent.html 'dymaptic.GeoBlazor.Core.Components.Popups.PopupContent') parameters
 
-<a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.PopupTemplate(string,string,System.Collections.Generic.IEnumerable_string_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.PopupContent_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo_,System.Nullable_bool_,System.Nullable_bool_).expressionInfos'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.PopupTemplate(string,string,System.Collections.Generic.IEnumerable_string_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.PopupContent_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo_,System.Nullable_bool_,System.Nullable_bool_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.ActionBase_).expressionInfos'></a>
 
 `expressionInfos` [System.Collections.Generic.IEnumerable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IEnumerable-1 'System.Collections.Generic.IEnumerable`1')[ExpressionInfo](dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo.html 'dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IEnumerable-1 'System.Collections.Generic.IEnumerable`1')
 
 An array of objects or ExpressionInfo[] that reference Arcade expressions following the specification defined by the Arcade Popup Profile.
 
-<a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.PopupTemplate(string,string,System.Collections.Generic.IEnumerable_string_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.PopupContent_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo_,System.Nullable_bool_,System.Nullable_bool_).overwriteActions'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.PopupTemplate(string,string,System.Collections.Generic.IEnumerable_string_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.PopupContent_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo_,System.Nullable_bool_,System.Nullable_bool_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.ActionBase_).overwriteActions'></a>
 
 `overwriteActions` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 
 Indicates whether actions should replace existing popup actions.
 
-<a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.PopupTemplate(string,string,System.Collections.Generic.IEnumerable_string_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.PopupContent_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo_,System.Nullable_bool_,System.Nullable_bool_).returnGeometry'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.PopupTemplate(string,string,System.Collections.Generic.IEnumerable_string_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.PopupContent_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo_,System.Nullable_bool_,System.Nullable_bool_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.ActionBase_).returnGeometry'></a>
 
 `returnGeometry` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 
 Indicates whether to include the feature's geometry for use by the template.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.PopupTemplate(string,string,System.Collections.Generic.IEnumerable_string_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.PopupContent_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo_,System.Nullable_bool_,System.Nullable_bool_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.ActionBase_).actions'></a>
+
+`actions` [System.Collections.Generic.IEnumerable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IEnumerable-1 'System.Collections.Generic.IEnumerable`1')[ActionBase](dymaptic.GeoBlazor.Core.Components.ActionBase.html 'dymaptic.GeoBlazor.Core.Components.ActionBase')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IEnumerable-1 'System.Collections.Generic.IEnumerable`1')
 ### Properties
 
 <a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.Content'></a>
@@ -103,6 +107,19 @@ public System.Collections.Generic.HashSet<dymaptic.GeoBlazor.Core.Components.Pop
 
 ### Remarks
 Either [Content](dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.html#dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.Content 'dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.Content') or [StringContent](dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.html#dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.StringContent 'dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.StringContent') should be defined, but not both.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.DotNetPopupTemplateReference'></a>
+
+## PopupTemplate.DotNetPopupTemplateReference Property
+
+Object reference for callbacks from JavaScript.
+
+```csharp
+public Microsoft.JSInterop.DotNetObjectReference<dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate> DotNetPopupTemplateReference { get; }
+```
+
+#### Property Value
+[Microsoft.JSInterop.DotNetObjectReference&lt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.JSInterop.DotNetObjectReference-1 'Microsoft.JSInterop.DotNetObjectReference`1')[PopupTemplate](dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.html 'dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.JSInterop.DotNetObjectReference-1 'Microsoft.JSInterop.DotNetObjectReference`1')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.ExpressionInfos'></a>
 
@@ -207,6 +224,26 @@ public string? Title { get; set; }
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 ### Methods
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.OnTriggerAction(string)'></a>
+
+## PopupTemplate.OnTriggerAction(string) Method
+
+JS-invokable method for triggering actions.
+
+```csharp
+public System.Threading.Tasks.Task OnTriggerAction(string actionId);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.OnTriggerAction(string).actionId'></a>
+
+`actionId` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+The action ID.
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.RegisterChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent)'></a>
 

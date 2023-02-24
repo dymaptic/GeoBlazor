@@ -24,6 +24,9 @@ parent: Classes
 
 | Classes | |
 | :--- | :--- |
+| [ActionBase](dymaptic.GeoBlazor.Core.Components.ActionBase.html 'dymaptic.GeoBlazor.Core.Components.ActionBase') | Actions are customizable behavior which can be executed in certain widgets such as Popups, a BasemapLayerList, or a LayerList.<br/><a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionBase.html">ArcGIS JS API</a> |
+| [ActionButton](dymaptic.GeoBlazor.Core.Components.ActionButton.html 'dymaptic.GeoBlazor.Core.Components.ActionButton') | A customizable button that performs a specific action(s) used in widgets such as the Popup, LayerList, and BasemapLayerList. |
+| [ActionToggle](dymaptic.GeoBlazor.Core.Components.ActionToggle.html 'dymaptic.GeoBlazor.Core.Components.ActionToggle') | A customizable toggle used in the LayerList widget that performs a specific action(s) which can be toggled on/off. |
 | [Basemap](dymaptic.GeoBlazor.Core.Components.Basemap.html 'dymaptic.GeoBlazor.Core.Components.Basemap') | Creates a new basemap object. Basemaps can be created from a PortalItem, from a well known basemap ID, or can be used for creating custom basemaps. These basemaps may be created from tiled services you publish to your own server, or from tiled services published by third parties.<br/><a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html">ArcGIS JS API</a> |
 | [Constraints](dymaptic.GeoBlazor.Core.Components.Constraints.html 'dymaptic.GeoBlazor.Core.Components.Constraints') | Specifies constraints to scale, zoom, and rotation that may be applied to the MapView. The constraints.lods should be set in the MapView constructor, if the map does not have a basemap or when the basemap does not have tileInfo.<br/><a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#constraints">ArcGIS JS API</a> |
 | [CustomOverlay](dymaptic.GeoBlazor.Core.Components.CustomOverlay.html 'dymaptic.GeoBlazor.Core.Components.CustomOverlay') | A container for placing custom html or Razor Components on top of the Map View. |
@@ -223,9 +226,6 @@ parent: Classes
 
 | Classes | |
 | :--- | :--- |
-| [ActionBase](dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ActionBase.html 'dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ActionBase') | Actions are customizable behavior which can be executed in certain widgets such as Popups, a BasemapLayerList, or a LayerList.<br/><a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionBase.html">ArcGIS JS API</a> |
-| [ActionButton](dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ActionButton.html 'dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ActionButton') | A customizable button that performs a specific action(s) used in widgets such as the Popup, LayerList, and BasemapLayerList. |
-| [ActionToggle](dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ActionToggle.html 'dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ActionToggle') | A customizable toggle used in the LayerList widget that performs a specific action(s) which can be toggled on/off. |
 | [ListItem](dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem.html 'dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem') | The ListItem class represents one of the operationalItems in the LayerListViewModel. In the LayerList widget UI, the list item represents a layer displayed in the view. It provides access to the associated layer's properties, allows the developer to configure actions related to the layer, and allows the developer to add content to the item related to the layer.<br/><a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html#actionsSections">ArcGIS JS API</a> |
 
 <a name='dymaptic.GeoBlazor.Core.Events'></a>

@@ -86,9 +86,10 @@
         }
     }
     
-    private async Task OnExtentChanged(Extent extent)
+    private Task OnExtentChanged(Extent extent)
     {
         Console.WriteLine(JsonSerializer.Serialize(extent));
+        return Task.CompletedTask;
     }
 
     private async Task ToggleLayer(Layer layer)
@@ -136,20 +137,17 @@
                 new MapColor("yellow"), 12))
     });
 
-    bool map3Rendered = false;
-    private async void On3Click(ClickEvent clickEvent) {
-        await _view3.SetExtent(
-            new Extent
-            {
-                Xmax = 4120960.074670904, Xmin = -3412935.278412999, Ymax = 8963926.222211033, Ymin = 6049459.93475111
-            });
+    private bool _map3Rendered = false;
+    private async Task On3Click(ClickEvent clickEvent)
+    {
+        await _view3!.SetExtent(new Extent(4120960.074670904, -3412935.278412999, 8963926.222211033, 6049459.93475111));
     }
     
     private void OnMap3Rendered()
     {
-        if (!map3Rendered)
+        if (!_map3Rendered)
         {
-            map3Rendered = true;
+            _map3Rendered = true;
         }
     }
     
