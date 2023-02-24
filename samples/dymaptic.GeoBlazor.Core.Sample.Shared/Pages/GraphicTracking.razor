@@ -55,7 +55,7 @@
         while (_isMoving)
         {
             Graphic? graphic = _graphicsLayer!.Graphics
-                .FirstOrDefault(x => x.Attributes.ContainsKey(_index.ToString()));
+                .FirstOrDefault(x => x.Attributes?.ContainsKey(_index.ToString()) == true);
             if (graphic is null) continue;
             Point currentPoint = (Point)graphic.Geometry!;
             await graphic.SetGeometry(

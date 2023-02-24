@@ -46,7 +46,7 @@
     
     private void OnLayerViewCreate(LayerViewCreateEvent createEvent)
     {
-        if (_hurricaneLayer!.Id == createEvent.Layer.Id)
+        if (_hurricaneLayer!.Id == createEvent.Layer!.Id)
         {
             _layerView = createEvent.LayerView as FeatureLayerView;
         }

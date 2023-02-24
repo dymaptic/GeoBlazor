@@ -128,7 +128,7 @@
                         {
                             Graphic result = _results.Features[i];
                             int index = i;
-                            <calcite-pick-list-item label="@result.Attributes["Park"]"
+                            <calcite-pick-list-item label="@result.Attributes!["Park"]"
                                                     value="@i"
                                                     description="@($"Total visitors: {result.Attributes[_orderByFieldSelected!]}\nState: {result.Attributes["State"]}")"
                                                     @onclick="@(() => OnParkResultClicked(index))" />
@@ -150,7 +150,7 @@
 
     private void OnLayerViewCreate(LayerViewCreateEvent evt)
     {
-        if (evt.Layer.Id == _featureLayer?.Id)
+        if (evt.Layer!.Id == _featureLayer?.Id)
         {
             _layerView = evt.LayerView as FeatureLayerView;
         }

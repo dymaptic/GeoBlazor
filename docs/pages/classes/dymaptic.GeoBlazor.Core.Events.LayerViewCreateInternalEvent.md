@@ -27,7 +27,7 @@ Implements [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/S
 Custom return event from the [OnJavascriptLayerViewCreate(LayerViewCreateInternalEvent)](dymaptic.GeoBlazor.Core.Components.Views.MapView.html#dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptLayerViewCreate(dymaptic.GeoBlazor.Core.Events.LayerViewCreateInternalEvent) 'dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptLayerViewCreate(dymaptic.GeoBlazor.Core.Events.LayerViewCreateInternalEvent)') event.
 
 ```csharp
-public LayerViewCreateInternalEvent(Microsoft.JSInterop.IJSObjectReference LayerObjectRef, Microsoft.JSInterop.IJSObjectReference LayerViewObjectRef, System.Guid LayerGeoBlazorId, dymaptic.GeoBlazor.Core.Components.Layers.Layer Layer, dymaptic.GeoBlazor.Core.Components.Layers.LayerView LayerView);
+public LayerViewCreateInternalEvent(Microsoft.JSInterop.IJSObjectReference LayerObjectRef, Microsoft.JSInterop.IJSObjectReference LayerViewObjectRef, System.Guid LayerGeoBlazorId, dymaptic.GeoBlazor.Core.Components.Layers.Layer? Layer, dymaptic.GeoBlazor.Core.Components.Layers.LayerView? LayerView);
 ```
 #### Parameters
 
@@ -69,7 +69,7 @@ A deserialized copy of the [LayerView](dymaptic.GeoBlazor.Core.Events.LayerViewC
 A deserialized copy of the [Layer](dymaptic.GeoBlazor.Core.Events.LayerViewCreateInternalEvent.html#dymaptic.GeoBlazor.Core.Events.LayerViewCreateInternalEvent.Layer 'dymaptic.GeoBlazor.Core.Events.LayerViewCreateInternalEvent.Layer') object.
 
 ```csharp
-public dymaptic.GeoBlazor.Core.Components.Layers.Layer Layer { get; set; }
+public dymaptic.GeoBlazor.Core.Components.Layers.Layer? Layer { get; set; }
 ```
 
 #### Property Value
@@ -108,7 +108,7 @@ public Microsoft.JSInterop.IJSObjectReference LayerObjectRef { get; set; }
 A deserialized copy of the [LayerView](dymaptic.GeoBlazor.Core.Events.LayerViewCreateInternalEvent.html#dymaptic.GeoBlazor.Core.Events.LayerViewCreateInternalEvent.LayerView 'dymaptic.GeoBlazor.Core.Events.LayerViewCreateInternalEvent.LayerView') object.
 
 ```csharp
-public dymaptic.GeoBlazor.Core.Components.Layers.LayerView LayerView { get; set; }
+public dymaptic.GeoBlazor.Core.Components.Layers.LayerView? LayerView { get; set; }
 ```
 
 #### Property Value

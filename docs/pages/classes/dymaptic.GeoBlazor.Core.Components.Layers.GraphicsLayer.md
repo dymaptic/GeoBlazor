@@ -177,6 +177,21 @@ The calling, child component to register
 [InvalidChildElementException](dymaptic.GeoBlazor.Core.Exceptions.InvalidChildElementException.html 'dymaptic.GeoBlazor.Core.Exceptions.InvalidChildElementException')  
 Throws if the current child is not a valid sub-component to the parent.
 
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer.RegisterExistingGraphicFromJavaScript(dymaptic.GeoBlazor.Core.Components.Layers.Graphic)'></a>
+
+## GraphicsLayer.RegisterExistingGraphicFromJavaScript(Graphic) Method
+
+Register a graphic that was created in JavaScript
+
+```csharp
+public void RegisterExistingGraphicFromJavaScript(dymaptic.GeoBlazor.Core.Components.Layers.Graphic graphic);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer.RegisterExistingGraphicFromJavaScript(dymaptic.GeoBlazor.Core.Components.Layers.Graphic).graphic'></a>
+
+`graphic` [Graphic](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic')
+
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer.Remove(dymaptic.GeoBlazor.Core.Components.Layers.Graphic)'></a>
 
 ## GraphicsLayer.Remove(Graphic) Method

@@ -4,6 +4,7 @@ import Query from "@arcgis/core/rest/support/Query";
 import Handle = __esri.Handle;
 import {DotNetQuery} from "./definitions";
 import {buildJsQuery} from "./jsBuilder";
+import {blazorServer} from "./arcGisJsInterop";
 
 export default class FeatureLayerViewWrapper {
     private featureLayerView: FeatureLayerView;
@@ -56,9 +57,25 @@ export default class FeatureLayerViewWrapper {
         return await this.featureLayerView.queryFeatureCount(jsQuery, options);
     }
     
-    async queryFeatures(query: DotNetQuery, options: any): Promise<any> {
-        let jsQuery = buildJsQuery(query);
-        return await this.featureLayerView.queryFeatures(jsQuery, options);
+    async queryFeatures(query: DotNetQuery, options: any, dotNetRef: any): Promise<any> {
+        try {
+            let jsQuery = buildJsQuery(query);
+            let featureSet = await this.featureLayerView.queryFeatures(jsQuery, options);
+            if (!blazorServer) {
+                return featureSet;
+            }
+            let jsonSet = JSON.stringify(featureSet);
+            let chunkSize = 1000;
+            let chunks = Math.ceil(jsonSet.length / chunkSize);
+            for (let i = 0; i < chunks; i++) {
+                let chunk = jsonSet.slice(i * chunkSize, (i + 1) * chunkSize);
+                await dotNetRef.invokeMethodAsync('OnQueryFeaturesCreateChunk', chunk, i);
+            }
+            return null;
+        } catch (error) {
+            console.debug(error);
+            throw error;
+        }
     }
     
     async queryObjectIds(query: DotNetQuery, options: any): Promise<number[]> {

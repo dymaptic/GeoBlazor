@@ -129,6 +129,25 @@ The ObjectIDs of the graphics to highlight.
 [System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[HighlightHandle](dymaptic.GeoBlazor.Core.Components.Layers.HighlightHandle.html 'dymaptic.GeoBlazor.Core.Components.Layers.HighlightHandle')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
 A handle that allows the highlight to be removed later.
 
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayerView.OnQueryFeaturesCreateChunk(string,int)'></a>
+
+## FeatureLayerView.OnQueryFeaturesCreateChunk(string, int) Method
+
+partial query result return for Blazor Server, to avoid SignalR size limits
+
+```csharp
+public void OnQueryFeaturesCreateChunk(string chunk, int chunkIndex);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayerView.OnQueryFeaturesCreateChunk(string,int).chunk'></a>
+
+`chunk` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayerView.OnQueryFeaturesCreateChunk(string,int).chunkIndex'></a>
+
+`chunkIndex` [System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')
+
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayerView.QueryExtent(dymaptic.GeoBlazor.Core.Objects.Query,System.Threading.CancellationToken)'></a>
 
 ## FeatureLayerView.QueryExtent(Query, CancellationToken) Method
@@ -209,7 +228,7 @@ Executes a Query against features available for drawing in the layerView and ret
 To execute a query against all the features in a feature service rather than only those in the client, you must use the [QueryFeatures(Query, CancellationToken)](dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html#dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.QueryFeatures(dymaptic.GeoBlazor.Core.Objects.Query,System.Threading.CancellationToken) 'dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.QueryFeatures(dymaptic.GeoBlazor.Core.Objects.Query, System.Threading.CancellationToken)') method.
 
 ```csharp
-public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Layers.FeatureSet> QueryFeatures(dymaptic.GeoBlazor.Core.Objects.Query? query=null, System.Threading.CancellationToken cancellationToken=default(System.Threading.CancellationToken));
+public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Layers.FeatureSet?> QueryFeatures(dymaptic.GeoBlazor.Core.Objects.Query? query=null, System.Threading.CancellationToken cancellationToken=default(System.Threading.CancellationToken));
 ```
 #### Parameters
 

@@ -103,6 +103,19 @@ public System.Collections.Generic.IReadOnlyCollection<dymaptic.GeoBlazor.Core.Co
 #### Property Value
 [System.Collections.Generic.IReadOnlyCollection&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IReadOnlyCollection-1 'System.Collections.Generic.IReadOnlyCollection`1')[Graphic](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IReadOnlyCollection-1 'System.Collections.Generic.IReadOnlyCollection`1')
 
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.IsServer'></a>
+
+## MapView.IsServer Property
+
+Boolean flag to identify if GeoBlazor is running in Blazor Server mode
+
+```csharp
+public bool IsServer { get; }
+```
+
+#### Property Value
+[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
+
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.Latitude'></a>
 
 ## MapView.Latitude Property
@@ -149,7 +162,7 @@ public System.Nullable<double> Longitude { get; set; }
 An instance of a [Map](dymaptic.GeoBlazor.Core.Components.Views.MapView.html#dymaptic.GeoBlazor.Core.Components.Views.MapView.Map 'dymaptic.GeoBlazor.Core.Components.Views.MapView.Map') object to display in the view.
 
 ```csharp
-public dymaptic.GeoBlazor.Core.Components.Map? Map { get; set; }
+public virtual dymaptic.GeoBlazor.Core.Components.Map? Map { get; set; }
 ```
 
 #### Property Value
@@ -561,19 +574,6 @@ public string Style { get; set; }
 
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
-
-<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.WebMap'></a>
-
-## MapView.WebMap Property
-
-An instance of a [WebMap](dymaptic.GeoBlazor.Core.Components.Views.MapView.html#dymaptic.GeoBlazor.Core.Components.Views.MapView.WebMap 'dymaptic.GeoBlazor.Core.Components.Views.MapView.WebMap') object to display in the view.
-
-```csharp
-public dymaptic.GeoBlazor.Core.Components.WebMap? WebMap { get; set; }
-```
-
-#### Property Value
-[WebMap](dymaptic.GeoBlazor.Core.Components.WebMap.html 'dymaptic.GeoBlazor.Core.Components.WebMap')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.Widgets'></a>
 

@@ -18,10 +18,10 @@ public class LocateWidget : Widget
     /// </summary>
     [Parameter]
     public bool UseHeadingEnabled { get; set; }
-    
+
     /// <summary>
     ///     Indicates the scale to set on the view when navigating to the position of the geolocated result once a location is returned from the track event.
     /// </summary>
     [Parameter]
-    public int? Scale { get; set; }
+    public int? Scale { get; set; } = 2500;
 }
