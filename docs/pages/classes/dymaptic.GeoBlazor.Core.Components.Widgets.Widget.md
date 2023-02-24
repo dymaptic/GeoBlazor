@@ -47,6 +47,19 @@ public string? ContainerId { get; set; }
 ### Remarks
 Either [Position](dymaptic.GeoBlazor.Core.Components.Widgets.Widget.html#dymaptic.GeoBlazor.Core.Components.Widgets.Widget.Position 'dymaptic.GeoBlazor.Core.Components.Widgets.Widget.Position') or [ContainerId](dymaptic.GeoBlazor.Core.Components.Widgets.Widget.html#dymaptic.GeoBlazor.Core.Components.Widgets.Widget.ContainerId 'dymaptic.GeoBlazor.Core.Components.Widgets.Widget.ContainerId') should be set, but not both.
 
+<a name='dymaptic.GeoBlazor.Core.Components.Widgets.Widget.DotNetWidgetReference'></a>
+
+## Widget.DotNetWidgetReference Property
+
+DotNet Object Reference to the widget
+
+```csharp
+public Microsoft.JSInterop.DotNetObjectReference<dymaptic.GeoBlazor.Core.Components.Widgets.Widget> DotNetWidgetReference { get; }
+```
+
+#### Property Value
+[Microsoft.JSInterop.DotNetObjectReference&lt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.JSInterop.DotNetObjectReference-1 'Microsoft.JSInterop.DotNetObjectReference`1')[Widget](dymaptic.GeoBlazor.Core.Components.Widgets.Widget.html 'dymaptic.GeoBlazor.Core.Components.Widgets.Widget')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.JSInterop.DotNetObjectReference-1 'Microsoft.JSInterop.DotNetObjectReference`1')
+
 <a name='dymaptic.GeoBlazor.Core.Components.Widgets.Widget.Position'></a>
 
 ## Widget.Position Property
@@ -75,3 +88,19 @@ public abstract string WidgetType { get; }
 
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+### Methods
+
+<a name='dymaptic.GeoBlazor.Core.Components.Widgets.Widget.OnWidgetCreated(Microsoft.JSInterop.IJSObjectReference)'></a>
+
+## Widget.OnWidgetCreated(IJSObjectReference) Method
+
+JS-invokable callback to register a JS Object Reference
+
+```csharp
+public void OnWidgetCreated(Microsoft.JSInterop.IJSObjectReference jsObjectReference);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Widgets.Widget.OnWidgetCreated(Microsoft.JSInterop.IJSObjectReference).jsObjectReference'></a>
+
+`jsObjectReference` [Microsoft.JSInterop.IJSObjectReference](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.JSInterop.IJSObjectReference 'Microsoft.JSInterop.IJSObjectReference')

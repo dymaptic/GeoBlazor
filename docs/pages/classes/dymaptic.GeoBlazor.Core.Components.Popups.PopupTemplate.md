@@ -90,7 +90,22 @@ Indicates whether to include the feature's geometry for use by the template.
 <a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.PopupTemplate(string,string,System.Collections.Generic.IEnumerable_string_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.PopupContent_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo_,System.Nullable_bool_,System.Nullable_bool_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.ActionBase_).actions'></a>
 
 `actions` [System.Collections.Generic.IEnumerable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IEnumerable-1 'System.Collections.Generic.IEnumerable`1')[ActionBase](dymaptic.GeoBlazor.Core.Components.ActionBase.html 'dymaptic.GeoBlazor.Core.Components.ActionBase')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IEnumerable-1 'System.Collections.Generic.IEnumerable`1')
+
+Defines actions that may be executed by clicking the icon or image symbolizing them in the popup
 ### Properties
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.Actions'></a>
+
+## PopupTemplate.Actions Property
+
+Defines actions that may be executed by clicking the icon or image symbolizing them in the popup
+
+```csharp
+public System.Collections.Generic.HashSet<dymaptic.GeoBlazor.Core.Components.ActionBase>? Actions { get; set; }
+```
+
+#### Property Value
+[System.Collections.Generic.HashSet&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.HashSet-1 'System.Collections.Generic.HashSet`1')[ActionBase](dymaptic.GeoBlazor.Core.Components.ActionBase.html 'dymaptic.GeoBlazor.Core.Components.ActionBase')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.HashSet-1 'System.Collections.Generic.HashSet`1')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.Content'></a>
 

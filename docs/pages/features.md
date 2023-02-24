@@ -80,6 +80,8 @@ Below is a list of all current and planned features for GeoBlazor, listed by the
 | **Media Popup Content**     | <img src="/assets/images/checkmark.svg" style="height: 40px;" /> | <img src="/assets/images/checkmark.svg" style="height: 40px;" /> |
 | **Media Info**              | <img src="/assets/images/checkmark.svg" style="height: 40px;" /> | <img src="/assets/images/checkmark.svg" style="height: 40px;" /> |
 | **Column Chart Media Info** | <img src="/assets/images/checkmark.svg" style="height: 40px;" /> | <img src="/assets/images/checkmark.svg" style="height: 40px;" /> |
+| **Action Button**           | <img src="/assets/images/checkmark.svg" style="height: 40px;" /> | <img src="/assets/images/checkmark.svg" style="height: 40px;" /> |
+| **Action Toggle**           | <img src="/assets/images/checkmark.svg" style="height: 40px;" /> | <img src="/assets/images/checkmark.svg" style="height: 40px;" /> |
 
 ## Renderers
 

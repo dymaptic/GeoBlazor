@@ -304,6 +304,19 @@ public override string WidgetType { get; }
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 ### Methods
 
+<a name='dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.GetSelectedFeature()'></a>
+
+## PopupWidget.GetSelectedFeature() Method
+
+The selected feature accessed by the popup. The content of the Popup is determined based on the PopupTemplate assigned to this feature.
+
+```csharp
+public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Layers.Graphic> GetSelectedFeature();
+```
+
+#### Returns
+[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[Graphic](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')
+
 <a name='dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.OnTriggerAction(string)'></a>
 
 ## PopupWidget.OnTriggerAction(string) Method
@@ -348,6 +361,24 @@ The calling, child component to register
 
 [InvalidChildElementException](dymaptic.GeoBlazor.Core.Exceptions.InvalidChildElementException.html 'dymaptic.GeoBlazor.Core.Exceptions.InvalidChildElementException')  
 Throws if the current child is not a valid sub-component to the parent.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.SetContent(string)'></a>
+
+## PopupWidget.SetContent(string) Method
+
+Sets the string content of the popup.
+
+```csharp
+public System.Threading.Tasks.Task SetContent(string stringContent);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.SetContent(string).stringContent'></a>
+
+`stringContent` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.UnregisterChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent)'></a>
 
