@@ -24,7 +24,7 @@ namespace dymaptic.GeoBlazor.Core.Events;
 ///     A deserialized copy of the <see cref="LayerView"/> object.
 /// </param>
 public record LayerViewCreateInternalEvent(IJSObjectReference LayerObjectRef, IJSObjectReference LayerViewObjectRef,
-    Guid LayerGeoBlazorId, Layer Layer, LayerView LayerView);
+    Guid LayerGeoBlazorId, Layer? Layer, LayerView? LayerView);
 
 /// <summary>
 ///     Return event from the <see cref="MapView.OnJavascriptLayerViewCreate"/> event.
@@ -35,4 +35,4 @@ public record LayerViewCreateInternalEvent(IJSObjectReference LayerObjectRef, IJ
 /// <param name="LayerView">
 ///     A deserialized copy of the <see cref="LayerView"/> object.
 /// </param>
-public record LayerViewCreateEvent(Layer Layer, LayerView LayerView);
+public record LayerViewCreateEvent(Layer? Layer, LayerView? LayerView);

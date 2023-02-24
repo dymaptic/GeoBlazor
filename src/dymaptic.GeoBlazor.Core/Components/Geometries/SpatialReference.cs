@@ -25,7 +25,7 @@ public class SpatialReference : MapComponent, IEquatable<SpatialReference>
     /// <param name="wkid">
     ///     The well-known Id for the spatial reference
     /// </param>
-    public SpatialReference(double wkid)
+    public SpatialReference(int wkid)
     {
 #pragma warning disable BL0005
         Wkid = wkid;
@@ -71,7 +71,7 @@ public class SpatialReference : MapComponent, IEquatable<SpatialReference>
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [Parameter]
-    public double? Wkid { get; set; }
+    public int? Wkid { get; set; }
 
     /// <summary>
     ///     The well-known text that defines a spatial reference.
@@ -188,7 +188,7 @@ internal class SpatialReferenceConverter: JsonConverter<SpatialReference>
         writer.WriteStartObject();
         if (value.Wkid.HasValue)
         {
-            writer.WriteNumber("wkid", (int)value.Wkid.Value);
+            writer.WriteNumber("wkid", value.Wkid.Value);
         }
         else if (!string.IsNullOrWhiteSpace(value.Wkt))
         {

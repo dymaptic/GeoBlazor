@@ -436,6 +436,25 @@ public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Objects.Query> Create
 #### Returns
 [System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[Query](dymaptic.GeoBlazor.Core.Objects.Query.html 'dymaptic.GeoBlazor.Core.Objects.Query')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')
 
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.OnQueryFeaturesCreateChunk(string,int)'></a>
+
+## FeatureLayer.OnQueryFeaturesCreateChunk(string, int) Method
+
+partial query result return for Blazor Server, to avoid SignalR size limits
+
+```csharp
+public void OnQueryFeaturesCreateChunk(string chunk, int chunkIndex);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.OnQueryFeaturesCreateChunk(string,int).chunk'></a>
+
+`chunk` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.OnQueryFeaturesCreateChunk(string,int).chunkIndex'></a>
+
+`chunkIndex` [System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')
+
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.QueryExtent(dymaptic.GeoBlazor.Core.Objects.Query,System.Threading.CancellationToken)'></a>
 
 ## FeatureLayer.QueryExtent(Query, CancellationToken) Method
@@ -498,7 +517,7 @@ Executes a Query against the feature service and returns the number of features 
 To query for the count of features/graphics available to or visible in the View on the client rather than making a server-side query, you must use the [QueryFeatureCount(Query, CancellationToken)](dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayerView.html#dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayerView.QueryFeatureCount(dymaptic.GeoBlazor.Core.Objects.Query,System.Threading.CancellationToken) 'dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayerView.QueryFeatureCount(dymaptic.GeoBlazor.Core.Objects.Query, System.Threading.CancellationToken)') method.
 
 ```csharp
-public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Layers.FeatureSet> QueryFeatures(dymaptic.GeoBlazor.Core.Objects.Query? query=null, System.Threading.CancellationToken cancellationToken=default(System.Threading.CancellationToken));
+public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Layers.FeatureSet?> QueryFeatures(dymaptic.GeoBlazor.Core.Objects.Query? query=null, System.Threading.CancellationToken cancellationToken=default(System.Threading.CancellationToken));
 ```
 #### Parameters
 
@@ -551,7 +570,7 @@ A cancellation token that can be used to cancel the query operation.
 Executes a RelationshipQuery against the feature service and returns FeatureSets grouped by source layer or table objectIds.
 
 ```csharp
-public System.Threading.Tasks.Task<System.Collections.Generic.Dictionary<int,dymaptic.GeoBlazor.Core.Components.Layers.FeatureSet?>> QueryRelatedFeatures(dymaptic.GeoBlazor.Core.Objects.RelationshipQuery query, System.Threading.CancellationToken cancellationToken=default(System.Threading.CancellationToken));
+public System.Threading.Tasks.Task<System.Collections.Generic.Dictionary<int,dymaptic.GeoBlazor.Core.Components.Layers.FeatureSet?>?> QueryRelatedFeatures(dymaptic.GeoBlazor.Core.Objects.RelationshipQuery query, System.Threading.CancellationToken cancellationToken=default(System.Threading.CancellationToken));
 ```
 #### Parameters
 
@@ -632,7 +651,7 @@ Known Limitations: Currently, the [QueryTopFeatureCount(TopFeaturesQuery, Cancel
 Executes a TopFeaturesQuery against a feature service and returns a FeatureSet once the promise resolves. The FeatureSet contains an array of top features grouped and ordered by specified fields. For example, you can call this method to query top three counties grouped by state names while ordering them based on their populations in a descending order.
 
 ```csharp
-public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Layers.FeatureSet> QueryTopFeatures(dymaptic.GeoBlazor.Core.Objects.TopFeaturesQuery query, System.Threading.CancellationToken cancellationToken=default(System.Threading.CancellationToken));
+public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Layers.FeatureSet?> QueryTopFeatures(dymaptic.GeoBlazor.Core.Objects.TopFeaturesQuery query, System.Threading.CancellationToken cancellationToken=default(System.Threading.CancellationToken));
 ```
 #### Parameters
 

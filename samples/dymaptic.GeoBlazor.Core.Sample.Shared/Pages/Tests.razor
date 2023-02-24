@@ -136,11 +136,11 @@
             new TextSymbol("Hello World", new MapColor("red"), 
                 new MapColor("yellow"), 12))
     });
-
-    private bool _map3Rendered = false;
-    private async Task On3Click(ClickEvent clickEvent)
+    
+    private async void On3Click(ClickEvent clickEvent)
     {
-        await _view3!.SetExtent(new Extent(4120960.074670904, -3412935.278412999, 8963926.222211033, 6049459.93475111));
+        await _view3!.SetExtent(
+            new Extent(4120960.074670904, -3412935.278412999, 8963926.222211033, 6049459.93475111));
     }
     
     private void OnMap3Rendered()
@@ -158,6 +158,7 @@
     private readonly OpenStreetMapLayer _osmLayer = new();
     
     private bool _mapRendered;
+    private bool _map3Rendered;
     private bool _showGraphicsMarkupLayer;
     private Random _random = new();
     private List<double> _lats = new();

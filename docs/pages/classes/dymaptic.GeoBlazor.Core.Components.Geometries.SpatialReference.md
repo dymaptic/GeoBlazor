@@ -31,20 +31,20 @@ Parameterless constructor for use as a razor component
 public SpatialReference();
 ```
 
-<a name='dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference.SpatialReference(double)'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference.SpatialReference(int)'></a>
 
-## SpatialReference(double) Constructor
+## SpatialReference(int) Constructor
 
 Creates a new SpatialReference in code with a Wkid
 
 ```csharp
-public SpatialReference(double wkid);
+public SpatialReference(int wkid);
 ```
 #### Parameters
 
-<a name='dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference.SpatialReference(double).wkid'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference.SpatialReference(int).wkid'></a>
 
-`wkid` [System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')
+`wkid` [System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')
 
 The well-known Id for the spatial reference
 ### Properties
@@ -147,11 +147,11 @@ public static dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference Wgs
 The well-known ID of a spatial reference.
 
 ```csharp
-public System.Nullable<double> Wkid { get; set; }
+public System.Nullable<int> Wkid { get; set; }
 ```
 
 #### Property Value
-[System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
+[System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference.Wkt'></a>
 

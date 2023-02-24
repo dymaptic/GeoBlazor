@@ -98,13 +98,14 @@ import FeatureLayerViewWrapper from "./featureLayerView";
 import FeatureLayerView from "@arcgis/core/views/layers/FeatureLayerView";
 import GraphicsLayerWrapper from "./graphicsLayer";
 import Popup from "@arcgis/core/widgets/Popup";
+import ElevationLayer from "@arcgis/core/layers/ElevationLayer";
 import PopupWidgetWrapper from "./popupWidgetWrapper";
 
 export let arcGisObjectRefs: Record<string, Accessor> = {};
 export let dotNetRefs = {};
 export let queryLayer: FeatureLayer;
+export let blazorServer: boolean = false;
 export { projection, geometryEngine };
-let blazorServer: boolean = false;
 let notifyExtentChanged: boolean = true;
 
 export function getProperty(obj, prop) {
@@ -281,7 +282,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
             (view as MapView).highlightOptions = highlightOptions;
         }
         
-        if (hasValue(mapObject.layers)) {
+        if (hasValue(mapObject.layers) && mapType !== 'webmap' && mapType !== 'webscene') {
             for (const layerObject of mapObject.layers) {
                 await addLayer(layerObject, id);
             }
@@ -1361,7 +1362,7 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
             newWidget = search;
 
             search.on('select-result', (evt) => {
-                widget.searchWidgetObjectReference.invokeMethodAsync('OnSearchSelectResult', {
+                widget.searchWidgetObjectReference.invokeMethodAsync('OnJavaScriptSearchSelectResult', {
                     extent: buildDotNetExtent(evt.result.extent),
                     feature: buildDotNetFeature(evt.result.feature),
                     name: evt.result.name
@@ -1705,6 +1706,19 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
                 }
             });
             break;
+        case 'elevation':
+            if (hasValue(layerObject.portalItem)) {
+                newLayer = new ElevationLayer({
+                    portalItem: {
+                        id: layerObject.portalItem.id
+                    }
+                });
+            } else {
+                newLayer = new ElevationLayer({
+                    url: layerObject.url
+                });
+            }
+            break;   
         case 'geo-json':
             newLayer = new GeoJSONLayer({
                 url: layerObject.url,

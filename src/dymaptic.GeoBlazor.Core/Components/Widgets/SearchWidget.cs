@@ -21,7 +21,7 @@ public class SearchWidget : Widget
     /// </summary>
     [Parameter]
     [JsonIgnore]
-    public Func<SearchResult, Task>? OnSearchSelectResultEventHandler { get; set; }
+    public EventCallback<SearchResult> OnSearchSelectResultEvent { get; set; }
 
     /// <summary>
     ///     A .NET object reference for calling this class from JavaScript.
@@ -35,8 +35,8 @@ public class SearchWidget : Widget
     ///     The result selected in the search widget.
     /// </param>
     [JSInvokable]
-    public void OnSearchSelectResult(SearchResult searchResult)
+    public async Task OnJavaScriptSearchSelectResult(SearchResult searchResult)
     {
-        OnSearchSelectResultEventHandler?.Invoke(searchResult);
+        await OnSearchSelectResultEvent.InvokeAsync();
     }
 }

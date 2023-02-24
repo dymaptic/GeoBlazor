@@ -572,7 +572,7 @@ function buildJsFont(dotNetFont: any) : Font {
 
 export function buildJsQuery(dotNetQuery: DotNetQuery): Query {
     let query: any = new Query({
-        where: dotNetQuery.where ?? undefined,
+        where: dotNetQuery.where ?? "1=1",
         spatialRelationship: dotNetQuery.spatialRelationship as any ?? "intersects",
         distance: dotNetQuery.distance ?? undefined,
         units: dotNetQuery.units as any ?? null,

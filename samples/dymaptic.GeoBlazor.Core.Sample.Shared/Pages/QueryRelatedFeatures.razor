@@ -42,7 +42,7 @@
                         <thead>
                             <tr>
                                 @foreach (string attr in _relatedFeatures!
-                                    .First(kvp => kvp.Value?.Features?.FirstOrDefault()?.Attributes is not null)!
+                                    .First(kvp => kvp.Value?.Features?.FirstOrDefault()?.Attributes is not null)
                                     .Value!.Features!.First().Attributes!.Keys)
                                 {
                                     <th>@attr</th>

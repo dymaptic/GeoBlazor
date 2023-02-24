@@ -140,14 +140,8 @@ public partial class MapView : MapComponent
     /// <summary>
     ///     An instance of a <see cref="Map"/> object to display in the view.
     /// </summary>
-    [RequiredProperty(nameof(WebMap), nameof(SceneView.WebScene))]
-    public Map? Map { get; private set; }
-
-    /// <summary>
-    ///     An instance of a <see cref="WebMap"/> object to display in the view.
-    /// </summary>
-    [RequiredProperty(nameof(Map), nameof(SceneView.WebScene))]
-    public WebMap? WebMap { get; private set; }
+    [RequiredProperty]
+    public virtual Map? Map { get; private set; }
 
     /// <summary>
     ///     The extent represents the visible portion of a map within the view as an instance of Extent.
@@ -591,7 +585,8 @@ public partial class MapView : MapComponent
     public virtual async Task OnJavascriptExtentChanged(Extent extent, Point? center, double zoom, double scale, 
         double? rotation = null, double? tilt = null)
     {
-        if (!extent.Equals(Extent) || Extent is null)
+        // if extents are set, but don't match, that means the change was done JS-side
+        if (Extent is not null && !extent.Equals(Extent))
         {
             ExtentChangedInJs = true;
         }
@@ -710,32 +705,56 @@ public partial class MapView : MapComponent
     [JSInvokable]
     public async Task OnJavascriptLayerViewCreate(LayerViewCreateInternalEvent layerViewCreateEvent)
     {
-        LayerView layerView = layerViewCreateEvent.Layer switch
+        LayerView? layerView = layerViewCreateEvent.Layer switch
         {
-            FeatureLayer => new FeatureLayerView(layerViewCreateEvent.LayerView, new AbortManager(JsRuntime)),
+            FeatureLayer => new FeatureLayerView(layerViewCreateEvent.LayerView!, new AbortManager(JsRuntime), IsServer),
             _ => layerViewCreateEvent.LayerView
         };
 
-        layerView.JsObjectReference = layerViewCreateEvent.LayerViewObjectRef;
+        if (layerView is not null)
+        {
+            layerView.JsObjectReference = layerViewCreateEvent.LayerViewObjectRef;
+        }
         
         Layer? createdLayer = Map?.Layers.FirstOrDefault(l => l.Id == layerViewCreateEvent.LayerGeoBlazorId);
-        if (createdLayer != null)
+        if (createdLayer is not null)
         {
             createdLayer.LayerView = layerView;
 
             createdLayer.JsLayerReference ??= layerViewCreateEvent.LayerObjectRef;
             
             createdLayer.AbortManager = new AbortManager(JsRuntime);
-            await createdLayer.UpdateFromJavaScript(layerViewCreateEvent.Layer);
+            await createdLayer.UpdateFromJavaScript(layerViewCreateEvent.Layer!);
 
-            layerView.Layer = createdLayer;
+            if (layerView is not null)
+            {
+                layerView.Layer = createdLayer;
+            }
         }
         else
         {
-            layerView.Layer = layerViewCreateEvent.Layer;
+            Layer? layer = layerViewCreateEvent.Layer;
+
+            if (layer is not null)
+            {
+                layer.LayerView = layerView;
+                layer.AbortManager = new AbortManager(JsRuntime);
+                layer.JsLayerReference = layerViewCreateEvent.LayerObjectRef;
+
+                if (layerView is not null)
+                {
+                    layerView.Layer = layer;
+                }
+                layer.View = this;
+
+                if (Map is not null)
+                {
+                    Map!.Layers.Add(layer);
+                }
+            }
         }
         
-        await OnLayerViewCreate.InvokeAsync(new LayerViewCreateEvent(layerView.Layer, layerView));
+        await OnLayerViewCreate.InvokeAsync(new LayerViewCreateEvent(layerView?.Layer, layerView));
     }
 
     /// <summary>
@@ -842,14 +861,7 @@ public partial class MapView : MapComponent
                 }
 
                 break;
-            case WebMap webMap:
-                if (!webMap.Equals(WebMap))
-                {
-                    WebMap = webMap;
-                    await RenderView();
-                }
 
-                break;
             case Widget widget:
                 await AddWidget(widget);
 
@@ -891,10 +903,7 @@ public partial class MapView : MapComponent
                 Map = null;
 
                 break;
-            case WebMap _:
-                WebMap = null;
 
-                break;
             case Widget widget:
                 await RemoveWidget(widget);
 
@@ -931,7 +940,6 @@ public partial class MapView : MapComponent
     {
         base.ValidateRequiredChildren();
         Map?.ValidateRequiredChildren();
-        WebMap?.ValidateRequiredChildren();
         Constraints?.ValidateRequiredChildren();
         SpatialReference?.ValidateRequiredChildren();
         Extent?.ValidateRequiredChildren();
@@ -1661,7 +1669,7 @@ public partial class MapView : MapComponent
             return;
         }
 
-        if (Rendering || (Map is null && WebMap is null) || ViewJsModule is null) return;
+        if (Rendering || Map is null || ViewJsModule is null) return;
 
         if (string.IsNullOrWhiteSpace(ApiKey) && AllowDefaultEsriLogin is null or false &&
             PromptForArcGISKey is null or true)
@@ -1687,13 +1695,11 @@ public partial class MapView : MapComponent
         await InvokeAsync(async () =>
         {
             Console.WriteLine("Rendering View");
-            string mapType = Map is null ? "webmap" : "map";
-            object? map = Map is null ? WebMap : Map;
-
-            if (map is null)
+            if (Map is null)
             {
                 throw new MissingMapException();
             }
+            string mapType = Map is WebMap ? "webmap" : "map";
 
             NeedsRender = false;
 
@@ -1702,7 +1708,7 @@ public partial class MapView : MapComponent
                     "./_content/dymaptic.GeoBlazor.Core/assets"));
 
             await ViewJsModule.InvokeVoidAsync("buildMapView", Id,
-                DotNetObjectReference, Longitude, Latitude, Rotation, map, Zoom, Scale,
+                DotNetObjectReference, Longitude, Latitude, Rotation, Map, Zoom, Scale,
                 ApiKey, mapType, Widgets, Graphics, SpatialReference, Constraints, Extent,
                 EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions);
             Rendering = false;
@@ -1825,7 +1831,7 @@ public partial class MapView : MapComponent
     /// <summary>
     ///     Boolean flag to identify if GeoBlazor is running in Blazor Server mode
     /// </summary>
-    protected bool IsServer => JsRuntime.GetType().Name.Contains("Remote");
+    public bool IsServer => JsRuntime.GetType().Name.Contains("Remote");
     private bool IsWebAssembly => JsRuntime is IJSInProcessRuntime;
     private bool IsMaui => JsRuntime.GetType().Name.Contains("WebView");
     

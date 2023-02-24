@@ -28,55 +28,6 @@ public class SceneView : MapView
     /// </summary>
     [Parameter]
     public double? Tilt { get; set; }
-    
-    /// <summary>
-    ///     An instance of a <see cref="WebScene"/> object to display in the view.
-    /// </summary>
-    [RequiredProperty("WebMap", "Map")]
-    public WebScene? WebScene { get; set; }
-
-    /// <inheritdoc />
-    public override async Task RegisterChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case WebScene webScene:
-                if (!webScene.Equals(WebScene))
-                {
-                    WebScene = webScene;
-                    await RenderView();
-                }
-
-                break;
-            default:
-                await base.RegisterChildComponent(child);
-
-                break;
-        }
-    }
-
-    /// <inheritdoc />
-    public override async Task UnregisterChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case WebScene _:
-                WebScene = null;
-
-                break;
-            default:
-                await base.UnregisterChildComponent(child);
-
-                break;
-        }
-    }
-
-    /// <inheritdoc />
-    public override void ValidateRequiredChildren()
-    {
-        base.ValidateRequiredChildren();
-        WebScene?.ValidateRequiredChildren();
-    }
 
     /// <inheritdoc />
     protected override async Task UpdateView()
@@ -101,7 +52,7 @@ public class SceneView : MapView
             return;
         }
 
-        if (Rendering || (Map is null && WebScene is null) || ViewJsModule is null) return;
+        if (Rendering || Map is null || ViewJsModule is null) return;
 
         if (string.IsNullOrWhiteSpace(ApiKey) && AllowDefaultEsriLogin is null or false &&
             PromptForArcGISKey is null or true)
@@ -119,21 +70,21 @@ public class SceneView : MapView
         await InvokeAsync(async () =>
         {
             Console.WriteLine("Rendering View");
-            string sceneType = Map is null ? "webscene" : "scene";
-            object? scene = Map is null ? WebScene : Map;
 
-            if (scene is null)
+            if (Map is null)
             {
                 throw new MissingMapException();
             }
+
+            string mapType = Map is WebScene ? "webscene" : "scene";
             
             NeedsRender = false;
 
             NeedsRender = false;
 
             await ViewJsModule!.InvokeVoidAsync("buildMapView", Id, DotNetObjectReference,
-                Longitude, Latitude, Rotation, scene, Zoom, Scale,
-                ApiKey, sceneType, Widgets, Graphics, SpatialReference, Constraints, Extent,
+                Longitude, Latitude, Rotation, Map, Zoom, Scale,
+                ApiKey, mapType, Widgets, Graphics, SpatialReference, Constraints, Extent,
                 EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions, ZIndex, Tilt);
             Rendering = false;
             MapRendered = true;

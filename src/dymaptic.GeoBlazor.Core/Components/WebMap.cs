@@ -4,7 +4,7 @@
 ///     Loads a WebMap from ArcGIS Online or ArcGIS Enterprise portal into a MapView. It defines the content, style, and bookmarks of your webmap, and it can be shared across multiple ArcGIS web and desktop applications.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html">ArcGIS JS API</a>
 /// </summary>
-public class WebMap : MapComponent
+public class WebMap : Map
 {
     /// <summary>
     ///    The portal item from which the WebMap is loaded.

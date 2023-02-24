@@ -34,19 +34,6 @@ public System.Nullable<double> Tilt { get; set; }
 #### Property Value
 [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 
-<a name='dymaptic.GeoBlazor.Core.Components.Views.SceneView.WebScene'></a>
-
-## SceneView.WebScene Property
-
-An instance of a [WebScene](dymaptic.GeoBlazor.Core.Components.Views.SceneView.html#dymaptic.GeoBlazor.Core.Components.Views.SceneView.WebScene 'dymaptic.GeoBlazor.Core.Components.Views.SceneView.WebScene') object to display in the view.
-
-```csharp
-public dymaptic.GeoBlazor.Core.Components.WebScene? WebScene { get; set; }
-```
-
-#### Property Value
-[WebScene](dymaptic.GeoBlazor.Core.Components.WebScene.html 'dymaptic.GeoBlazor.Core.Components.WebScene')
-
 <a name='dymaptic.GeoBlazor.Core.Components.Views.SceneView.ZIndex'></a>
 
 ## SceneView.ZIndex Property
@@ -119,31 +106,6 @@ public override System.Threading.Tasks.Task OnJavascriptExtentChanged(dymaptic.G
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
 
-<a name='dymaptic.GeoBlazor.Core.Components.Views.SceneView.RegisterChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent)'></a>
-
-## SceneView.RegisterChildComponent(MapComponent) Method
-
-Called from [dymaptic.GeoBlazor.Core.Components.MapComponent.OnAfterRenderAsync(System.Boolean)](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Components.MapComponent.OnAfterRenderAsync#dymaptic_GeoBlazor_Core_Components_MapComponent_OnAfterRenderAsync_System_Boolean_ 'dymaptic.GeoBlazor.Core.Components.MapComponent.OnAfterRenderAsync(System.Boolean)') to "Register" the current component with it's parent.
-
-```csharp
-public override System.Threading.Tasks.Task RegisterChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent child);
-```
-#### Parameters
-
-<a name='dymaptic.GeoBlazor.Core.Components.Views.SceneView.RegisterChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent).child'></a>
-
-`child` [MapComponent](dymaptic.GeoBlazor.Core.Components.MapComponent.html 'dymaptic.GeoBlazor.Core.Components.MapComponent')
-
-The calling, child component to register
-
-#### Returns
-[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
-
-#### Exceptions
-
-[InvalidChildElementException](dymaptic.GeoBlazor.Core.Exceptions.InvalidChildElementException.html 'dymaptic.GeoBlazor.Core.Exceptions.InvalidChildElementException')  
-Throws if the current child is not a valid sub-component to the parent.
-
 <a name='dymaptic.GeoBlazor.Core.Components.Views.SceneView.SetCenter(dymaptic.GeoBlazor.Core.Components.Geometries.Point)'></a>
 
 ## SceneView.SetCenter(Point) Method
@@ -215,41 +177,3 @@ public override System.Threading.Tasks.Task SetZoom(double zoom);
 
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
-
-<a name='dymaptic.GeoBlazor.Core.Components.Views.SceneView.UnregisterChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent)'></a>
-
-## SceneView.UnregisterChildComponent(MapComponent) Method
-
-Undoes the "Registration" of a child with its parent.
-
-```csharp
-public override System.Threading.Tasks.Task UnregisterChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent child);
-```
-#### Parameters
-
-<a name='dymaptic.GeoBlazor.Core.Components.Views.SceneView.UnregisterChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent).child'></a>
-
-`child` [MapComponent](dymaptic.GeoBlazor.Core.Components.MapComponent.html 'dymaptic.GeoBlazor.Core.Components.MapComponent')
-
-The child to unregister
-
-#### Returns
-[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
-
-<a name='dymaptic.GeoBlazor.Core.Components.Views.SceneView.ValidateRequiredChildren()'></a>
-
-## SceneView.ValidateRequiredChildren() Method
-
-When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the [RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
-
-```csharp
-public override void ValidateRequiredChildren();
-```
-
-#### Exceptions
-
-[MissingRequiredChildElementException](dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredChildElementException.html 'dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredChildElementException')  
-The consumer needs to provide the missing child component
-
-[MissingRequiredOptionsChildElementException](dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException.html 'dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException')  
-The consumer needs to provide ONE of the options of child components

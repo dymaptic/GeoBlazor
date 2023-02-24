@@ -27,7 +27,7 @@ Implements [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/S
 Return event from the [OnJavascriptLayerViewCreate(LayerViewCreateInternalEvent)](dymaptic.GeoBlazor.Core.Components.Views.MapView.html#dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptLayerViewCreate(dymaptic.GeoBlazor.Core.Events.LayerViewCreateInternalEvent) 'dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptLayerViewCreate(dymaptic.GeoBlazor.Core.Events.LayerViewCreateInternalEvent)') event.
 
 ```csharp
-public LayerViewCreateEvent(dymaptic.GeoBlazor.Core.Components.Layers.Layer Layer, dymaptic.GeoBlazor.Core.Components.Layers.LayerView LayerView);
+public LayerViewCreateEvent(dymaptic.GeoBlazor.Core.Components.Layers.Layer? Layer, dymaptic.GeoBlazor.Core.Components.Layers.LayerView? LayerView);
 ```
 #### Parameters
 
@@ -51,7 +51,7 @@ A deserialized copy of the [LayerView](dymaptic.GeoBlazor.Core.Events.LayerViewC
 A deserialized copy of the [Layer](dymaptic.GeoBlazor.Core.Events.LayerViewCreateEvent.html#dymaptic.GeoBlazor.Core.Events.LayerViewCreateEvent.Layer 'dymaptic.GeoBlazor.Core.Events.LayerViewCreateEvent.Layer') object.
 
 ```csharp
-public dymaptic.GeoBlazor.Core.Components.Layers.Layer Layer { get; set; }
+public dymaptic.GeoBlazor.Core.Components.Layers.Layer? Layer { get; set; }
 ```
 
 #### Property Value
@@ -64,7 +64,7 @@ public dymaptic.GeoBlazor.Core.Components.Layers.Layer Layer { get; set; }
 A deserialized copy of the [LayerView](dymaptic.GeoBlazor.Core.Events.LayerViewCreateEvent.html#dymaptic.GeoBlazor.Core.Events.LayerViewCreateEvent.LayerView 'dymaptic.GeoBlazor.Core.Events.LayerViewCreateEvent.LayerView') object.
 
 ```csharp
-public dymaptic.GeoBlazor.Core.Components.Layers.LayerView LayerView { get; set; }
+public dymaptic.GeoBlazor.Core.Components.Layers.LayerView? LayerView { get; set; }
 ```
 
 #### Property Value

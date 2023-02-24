@@ -74,7 +74,7 @@
             ReturnQueryGeometry = true,
             OutFields = new HashSet<string> { "*" }
         };
-        FeatureSet result = await _featureLayer!.QueryFeatures(query);
+        FeatureSet result = (await _featureLayer!.QueryFeatures(query))!;
         await _pointGraphic.SetGeometry(clickEvent.MapPoint);
         await _mapView!.AddGraphic(_pointGraphic);
 

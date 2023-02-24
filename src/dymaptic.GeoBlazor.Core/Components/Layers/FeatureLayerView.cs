@@ -1,6 +1,8 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
 using dymaptic.GeoBlazor.Core.Objects;
 using Microsoft.JSInterop;
+using System.Text;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 
@@ -12,9 +14,10 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 /// </summary>
 public class FeatureLayerView: LayerView
 {
-    internal FeatureLayerView(LayerView layerView, AbortManager abortManager)
+    internal FeatureLayerView(LayerView layerView, AbortManager abortManager, bool isServer)
     {
         _abortManager = abortManager;
+        _isServer = isServer;
         JsObjectReference = layerView.JsObjectReference;
         SpatialReferenceSupported = layerView.SpatialReferenceSupported;
         Suspended = layerView.Suspended;
@@ -192,16 +195,40 @@ public class FeatureLayerView: LayerView
     ///     A cancellation token that can be used to cancel the query operation.
     /// </param>
     /// <returns></returns>
-    public async Task<FeatureSet> QueryFeatures(Query? query = null, CancellationToken cancellationToken = default)
+    public async Task<FeatureSet?> QueryFeatures(Query? query = null, CancellationToken cancellationToken = default)
     {
         IJSObjectReference abortSignal =
             await _abortManager.CreateAbortSignal(cancellationToken);
-        FeatureSet result = await JsObjectReference!.InvokeAsync<FeatureSet>("queryFeatures", cancellationToken, 
-            query, new {signal = abortSignal});
 
+        FeatureSet? result = await JsObjectReference!.InvokeAsync<FeatureSet?>("queryFeatures", cancellationToken, 
+            query, new {signal = abortSignal}, DotNetObjectReference.Create(this));
+
+        if (_isServer && result is null)
+        {
+            JsonSerializerOptions options = new() { PropertyNameCaseInsensitive = true };
+            result = JsonSerializer.Deserialize<FeatureSet>(_queryFeatureData!.ToString(), options)!;
+            _queryFeatureData = null;
+        }
+        
         await _abortManager.DisposeAbortController(cancellationToken);
 
         return result;
+    }
+    
+    /// <summary>
+    ///     partial query result return for Blazor Server, to avoid SignalR size limits
+    /// </summary>
+    [JSInvokable]
+    public void OnQueryFeaturesCreateChunk(string chunk, int chunkIndex)
+    {
+        if (chunkIndex == 0)
+        {
+            _queryFeatureData = new StringBuilder(chunk);
+        }
+        else
+        {
+            _queryFeatureData!.Append(chunk);
+        }
     }
     
     /// <summary>
@@ -227,7 +254,9 @@ public class FeatureLayerView: LayerView
     }
     
     private readonly AbortManager _abortManager;
+    private readonly bool _isServer;
     private FeatureFilter? _filter;
+    private StringBuilder? _queryFeatureData;
 }
 
 
