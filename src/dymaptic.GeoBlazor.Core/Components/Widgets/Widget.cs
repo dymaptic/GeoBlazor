@@ -38,14 +38,23 @@ public abstract class Widget : MapComponent
     [JsonPropertyName("type")]
     public abstract string WidgetType { get; }
 
+    /// <summary>
+    ///    DotNet Object Reference to the widget
+    /// </summary>
     public DotNetObjectReference<Widget> DotNetWidgetReference => DotNetObjectReference.Create(this);
 
+    /// <summary>
+    ///     JS-invokable callback to register a JS Object Reference
+    /// </summary>
     [JSInvokable]
-    public async Task OnWidgetCreated(IJSObjectReference jsObjectReference)
+    public void OnWidgetCreated(IJSObjectReference jsObjectReference)
     {
         JsObjectReference = jsObjectReference;
     }
 
+    /// <summary>
+    ///    JS Object Reference to the widget
+    /// </summary>
     protected IJSObjectReference? JsObjectReference;
 }
 

@@ -47,6 +47,9 @@ public class PopupTemplate : MapComponent
     /// <param name="returnGeometry">
     ///     Indicates whether to include the feature's geometry for use by the template.
     /// </param>
+    /// <param name="actions">
+    ///     Defines actions that may be executed by clicking the icon or image symbolizing them in the popup
+    /// </param>
     public PopupTemplate(string title, string? stringContent = null, IEnumerable<string>? outFields = null,
         IEnumerable<FieldInfo>? fieldInfos = null, IEnumerable<PopupContent>? contents = null,
         IEnumerable<ExpressionInfo>? expressionInfos = null, bool? overwriteActions = null,
@@ -148,6 +151,9 @@ public class PopupTemplate : MapComponent
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public HashSet<ExpressionInfo>? ExpressionInfos { get; set; }
     
+    /// <summary>
+    ///     Defines actions that may be executed by clicking the icon or image symbolizing them in the popup
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public HashSet<ActionBase>? Actions { get; set; }
 

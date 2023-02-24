@@ -148,11 +148,17 @@ public class PopupWidget: Widget
     /// <inheritdoc />
     public override string WidgetType => "popup";
 
+    /// <summary>
+    ///     The selected feature accessed by the popup. The content of the Popup is determined based on the PopupTemplate assigned to this feature.
+    /// </summary>
     public async Task<Graphic> GetSelectedFeature()
     {
         return await JsObjectReference!.InvokeAsync<Graphic>("getSelectedFeature");
     }
     
+    /// <summary>
+    ///     Sets the string content of the popup.
+    /// </summary>
     public async Task SetContent(string stringContent)
     {
         await JsObjectReference!.InvokeVoidAsync("setContent", stringContent);

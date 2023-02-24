@@ -140,5 +140,8 @@ public abstract class LogicComponent
     ///     The reference to the JS Runtime.
     /// </summary>
     protected readonly IJSRuntime JsRuntime;
+    /// <summary>
+    ///    The ArcGIS API Key.
+    /// </summary>
     protected readonly string? ApiKey;
 }
