@@ -140,7 +140,7 @@ public class GraphicsLayer : Layer
                     _graphics.Add(graphic);
                     if (JsLayerReference is not null)
                     {
-                        await JsLayerReference.InvokeVoidAsync("add", graphic);
+                        await JsLayerReference.InvokeVoidAsync("add", graphic, View?.Id);
                     }
                     else
                     {

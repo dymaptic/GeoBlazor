@@ -1,0 +1,98 @@
+﻿@page "/popups"
+
+<PageTitle>Popups</PageTitle>
+<h1>Popups</h1>
+
+<div class="links-div">
+    <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/display-a-pop-up/">ArcGIS API for JavaScript</a>
+    <a class="btn btn-primary" target="_blank" href="https://www.arcgis.com/home/item.html?id=f35ef07c9ed24020aadd65c8a65d3754">Modern Antique BaseMap</a>
+</div>
+<p class="instructions">
+    Use the radio buttons to toggle features with three different types of popups.
+    Once the features are rendered, click on a feature to see the popup.
+</p>
+<div class="form-group">
+    <div class="form-group">
+        <EditForm Model="this">
+            <InputRadioGroup Name="points" @bind-Value="_showPopupOption">
+                <div class="form-group">
+                    <label class="radio-container">
+                        Display Attributes Popup:
+                        <InputRadio Name="points" Value="1" />
+                        <div class="radio-box" />
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label class="radio-container">
+                        Display Elevation Chart Popup:
+                        <InputRadio Name="points" Value="2" />
+                        <div class="radio-box" />
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label class="radio-container">
+                        Display Table Popup:
+                        <InputRadio Name="points" Value="3" />
+                        <div class="radio-box" />
+                    </label>
+                </div>
+            </InputRadioGroup>
+        </EditForm>
+    </div>
+</div>
+
+<MapView @ref="MapView" Longitude="-118.80543" Latitude="34.02700" Zoom="13" Class="map-view">
+    <Map>
+        <Basemap>
+            <PortalItem Id="f35ef07c9ed24020aadd65c8a65d3754" />
+        </Basemap>
+        @if (_showPopupOption == 1)
+        {
+            <FeatureLayer Url="https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trailheads_Styled/FeatureServer/0"
+                          OutFields="@(new[] { "TRL_NAME", "CITY_JUR", "X_STREET", "PARKING", "ELEV_FT" })">
+                <PopupTemplate Title="Trailhead"
+                               StringContent="<b>Trail:</b> {TRL_NAME}<br><b>City:</b> {CITY_JUR}<br><b>Cross Street:</b> {X_STREET}<br><b>Parking:</b> {PARKING}<br><b>Elevation:</b> {ELEV_FT} ft" />
+            </FeatureLayer>
+        }
+        else if (_showPopupOption == 2)
+        {
+            <FeatureLayer Url="https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trails_Styled/FeatureServer/0"
+                          OutFields="@(new[] { "TRL_NAME", "ELEV_GAIN" })">
+                <PopupTemplate Title="Trail Information">
+                    <MediaPopupContent>
+                        <ColumnChartMediaInfo Caption="">
+                            <ChartMediaInfoValue Fields="@(new[] { "ELEV_MIN", "ELEV_MAX" })"
+                                                 TooltipField="Min and max elevation values" />
+                        </ColumnChartMediaInfo>
+                    </MediaPopupContent>
+                </PopupTemplate>
+            </FeatureLayer>
+        }
+        else if (_showPopupOption == 3)
+        {
+            <FeatureLayer Url="https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Parks_and_Open_Space_Styled/FeatureServer/0"
+                          OutFields="@(new[] { "TYPE", "PARK_NAME", "AGNCY_NAME", "ACCESS_TYP", "GIS_ACRES", "TRLS_MI", "TOTAL_GOOD", "TOTAL_FAIR", "TOTAL_POOR" })">
+                <PopupTemplate Title="{PARK_NAME}">
+                    <FieldsPopupContent>
+                        <FieldInfo FieldName="AGNCY_NAME" Label="Agency" IsEditable="true" Tooltip="" Visible="true"
+                                   StringFieldOption="text-box" />
+                        <FieldInfo FieldName="TYPE" Label="Type" IsEditable="true" Tooltip="" Visible="true"
+                                   StringFieldOption="text-box" />
+                        <FieldInfo FieldName="ACCESS_TYP" Label="Access" IsEditable="true" Tooltip="" Visible="true"
+                                   StringFieldOption="text-box" />
+                        <FieldInfo FieldName="GIS_ACRES" Label="Acres" IsEditable="true" Tooltip="" Visible="true"
+                                   StringFieldOption="text-box">
+                            <FieldInfoFormat Places="2" DigitSeparator="true" />
+                        </FieldInfo>
+                    </FieldsPopupContent>
+                </PopupTemplate>
+            </FeatureLayer>
+        }
+    </Map>
+</MapView>
+
+@code {
+    private MapView? MapView { get; set; }
+
+    private int _showPopupOption;
+}

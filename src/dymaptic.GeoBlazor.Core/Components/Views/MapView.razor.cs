@@ -1443,6 +1443,20 @@ public partial class MapView : MapComponent
     }
 
     /// <summary>
+    ///     Retrieves the Popup Widget for the view.
+    /// </summary>
+    public async Task<PopupWidget?> GetPopupWidget()
+    {
+        if (!Widgets.Any(w => w is PopupWidget) && ViewJsModule is not null)
+        {
+            PopupWidget popupWidget = new PopupWidget();
+            await AddWidget(popupWidget);
+        }
+        
+        return Widgets.FirstOrDefault(w => w is PopupWidget) as PopupWidget;
+    }
+
+    /// <summary>
     ///     Changes the view <see cref="Extent"/> and redraws.
     /// </summary>
     /// <param name="extent">
@@ -1708,6 +1722,8 @@ public partial class MapView : MapComponent
         {
             _widgets.Add(widget);
             widget.Parent ??= this;
+            widget.View ??= this;
+            widget.JsModule ??= ViewJsModule;
         }
         
         if (ViewJsModule is null) return;

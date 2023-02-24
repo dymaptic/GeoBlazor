@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using dymaptic.GeoBlazor.Core.Components.Widgets.LayerList;
+using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using System.Collections;
 using System.Text.Json.Serialization;
 
@@ -45,10 +47,13 @@ public class PopupTemplate : MapComponent
     /// <param name="returnGeometry">
     ///     Indicates whether to include the feature's geometry for use by the template.
     /// </param>
+    /// <param name="actions">
+    ///     Defines actions that may be executed by clicking the icon or image symbolizing them in the popup
+    /// </param>
     public PopupTemplate(string title, string? stringContent = null, IEnumerable<string>? outFields = null,
         IEnumerable<FieldInfo>? fieldInfos = null, IEnumerable<PopupContent>? contents = null,
         IEnumerable<ExpressionInfo>? expressionInfos = null, bool? overwriteActions = null,
-        bool? returnGeometry = null)
+        bool? returnGeometry = null, IEnumerable<ActionBase>? actions = null)
     {
 #pragma warning disable BL0005
         Title = title;
@@ -70,6 +75,11 @@ public class PopupTemplate : MapComponent
         if (expressionInfos is not null)
         {
             ExpressionInfos = expressionInfos.ToHashSet();
+        }
+
+        if (actions is not null)
+        {
+            Actions = actions.ToHashSet();
         }
 #pragma warning restore BL0005
     }
@@ -140,6 +150,33 @@ public class PopupTemplate : MapComponent
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public HashSet<ExpressionInfo>? ExpressionInfos { get; set; }
+    
+    /// <summary>
+    ///     Defines actions that may be executed by clicking the icon or image symbolizing them in the popup
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public HashSet<ActionBase>? Actions { get; set; }
+
+    /// <summary>
+    ///     JS-invokable method for triggering actions.
+    /// </summary>
+    /// <param name="actionId">
+    ///     The action ID.
+    /// </param>
+    [JSInvokable]
+    public async Task OnTriggerAction(string actionId)
+    {
+        ActionBase? action = Actions?.FirstOrDefault(a => a.Id == actionId);
+        if (action is not null)
+        {
+            await action.CallbackFunction!.Invoke();
+        }
+    }
+    
+    /// <summary>
+    ///    Object reference for callbacks from JavaScript.
+    /// </summary>
+    public DotNetObjectReference<PopupTemplate> DotNetPopupTemplateReference => DotNetObjectReference.Create(this);
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
@@ -169,6 +206,14 @@ public class PopupTemplate : MapComponent
                 }
 
                 break;
+            case ActionBase action:
+                Actions ??= new HashSet<ActionBase>();
+                if (!Actions.Contains(action))
+                {
+                    Actions.Add(action);
+                }
+
+                break;
             default:
                 await base.RegisterChildComponent(child);
 
@@ -194,6 +239,10 @@ public class PopupTemplate : MapComponent
                 break;
             case ExpressionInfo expressionInfo:
                 ExpressionInfos?.Remove(expressionInfo);
+
+                break;
+            case ActionBase action:
+                Actions?.Remove(action);
 
                 break;
             default:
@@ -226,6 +275,14 @@ public class PopupTemplate : MapComponent
             foreach (ExpressionInfo expressionInfo in ExpressionInfos)
             {
                 expressionInfo.ValidateRequiredChildren();
+            }
+        }
+        
+        if (Actions != null)
+        {
+            foreach (ActionBase action in Actions)
+            {
+                action.ValidateRequiredChildren();
             }
         }
     }

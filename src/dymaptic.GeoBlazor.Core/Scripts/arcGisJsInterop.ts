@@ -99,6 +99,7 @@ import FeatureLayerView from "@arcgis/core/views/layers/FeatureLayerView";
 import GraphicsLayerWrapper from "./graphicsLayer";
 import Popup from "@arcgis/core/widgets/Popup";
 import ElevationLayer from "@arcgis/core/layers/ElevationLayer";
+import PopupWidgetWrapper from "./popupWidgetWrapper";
 
 export let arcGisObjectRefs: Record<string, Accessor> = {};
 export let dotNetRefs = {};
@@ -106,6 +107,14 @@ export let queryLayer: FeatureLayer;
 export let blazorServer: boolean = false;
 export { projection, geometryEngine };
 let notifyExtentChanged: boolean = true;
+
+export function getProperty(obj, prop) {
+    return obj[prop];
+}
+
+export function setProperty(obj, prop, value) {
+    obj[prop] = value;
+}
 
 export function setAssetsPath (path: string) {
     if (path !== undefined && path !== null && esriConfig.assetsPath !== path) {
@@ -126,6 +135,9 @@ export function getObjectReference(id: string): any {
     }
     if (objectRef instanceof Graphic) {
         return buildDotNetGraphic(objectRef);
+    }
+    if (objectRef instanceof Popup) {
+        return new PopupWidgetWrapper(objectRef);
     }
     return objectRef;
 }
@@ -722,13 +734,13 @@ export async function queryFeatureLayer(queryObject: any, layerObject: any, symb
             returnGeometry: queryObject.returnGeometry,
             spatialRelationship: queryObject.spatialRelationship,
         });
+        let view = arcGisObjectRefs[viewId] as MapView;
         if (queryObject.useViewExtent) {
-            let view = arcGisObjectRefs[viewId] as MapView;
             query.geometry = view.extent;
         } else if (hasValue(queryObject.geometry)) {
             query.geometry = buildJsGeometry(queryObject.geometry)!;
         }
-        let popupTemplate = buildJsPopupTemplate(popupTemplateObject);
+        let popupTemplate = buildJsPopupTemplate(popupTemplateObject, viewId);
         await addLayer(layerObject, viewId, false, true, () => {
             displayQueryResults(query, symbol, popupTemplate, viewId);
         });
@@ -762,7 +774,7 @@ export async function updateGraphic(graphicObject: any, viewId: string): Promise
             // the graphic already exists, so update it
             let popupTemplate: PopupTemplate | undefined = undefined;
             if (hasValue(graphicObject.popupTemplate)) {
-                oldGraphic.popupTemplate = buildJsPopupTemplate(graphicObject.popupTemplate);
+                oldGraphic.popupTemplate = buildJsPopupTemplate(graphicObject.popupTemplate, viewId);
             }
             
             if (hasValue(graphicObject.geometry)) {
@@ -838,7 +850,7 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                     let source: Array<Graphic> = [];
                     for (let i = 0; i < layerObject.source.length; i++) {
                         let graphic = layerObject.source[i];
-                        let jsGraphic = await buildJsGraphic(graphic, true);
+                        let jsGraphic = await buildJsGraphic(graphic, true, viewId);
                         if (jsGraphic !== null) {
                             source.push(jsGraphic as Graphic);
                         }
@@ -851,7 +863,7 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                     'definitionExpression', 'labelingInfo', 'outFields');
 
                 if (hasValue(layerObject.popupTemplate)) {
-                    featureLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate);
+                    featureLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId);
                 }
                 if (hasValue(layerObject.renderer)) {
                     let renderer = buildJsRenderer(layerObject.renderer);
@@ -985,7 +997,7 @@ export function findPlaces(addressQueryParams: any, symbol: any, popupTemplateOb
             .then(function (results) {
                 view.popup.close();
                 view.graphics.removeAll();
-                let popupTemplate = buildJsPopupTemplate(popupTemplateObject);
+                let popupTemplate = buildJsPopupTemplate(popupTemplateObject, viewId);
                 results.forEach(function (result) {
                     view.graphics.add(new Graphic({
                         attributes: result.attributes,
@@ -1007,7 +1019,7 @@ export async function setPopup(popup: any, viewId: string): Promise<Popup | null
     try {
         let view = arcGisObjectRefs[viewId] as View;
         
-        let jsPopup = await buildJsPopup(popup);
+        let jsPopup = await buildJsPopup(popup, viewId);
         if (hasValue(popup.widgetContent)) {
             let widgetContent = await createWidget(popup.widgetContent, popup.viewId);
             if (hasValue(widgetContent)) {
@@ -1016,6 +1028,10 @@ export async function setPopup(popup: any, viewId: string): Promise<Popup | null
         }
 
         view.popup = jsPopup;
+        
+        view.popup.on("trigger-action", async (event) => {
+            await popup.dotNetWidgetReference.invokeMethodAsync("OnTriggerAction", event.action.id);
+        });
         return jsPopup;
     } catch (error) {
         logError(error, popup.viewId);
@@ -1055,7 +1071,7 @@ export function closePopup(viewId: string): void {
 export async function showPopup(popupTemplateObject: any, location: DotNetPoint, viewId: string): Promise<void> {
     try {
         setWaitCursor(viewId);
-        let popupTemplate = buildJsPopupTemplate(popupTemplateObject);
+        let popupTemplate = buildJsPopupTemplate(popupTemplateObject, viewId);
         (arcGisObjectRefs[viewId] as View).popup.open({
             title: popupTemplate.title as string,
             content: popupTemplate.content as string,
@@ -1089,7 +1105,7 @@ export async function showPopupWithGraphic(graphicObject: any, options: any, vie
 export async function addGraphic(graphicObject: DotNetGraphic, viewId: string, graphicsLayer?: any): Promise<void> {
     try {
         setWaitCursor(viewId);
-        let graphic = await buildJsGraphic(graphicObject, true);
+        let graphic = await buildJsGraphic(graphicObject, true, viewId);
         let view = arcGisObjectRefs[viewId] as View;
         if (graphicsLayer === undefined || graphicsLayer === null) {
             if (!hasValue(view?.graphics)) return;
@@ -1257,7 +1273,7 @@ export async function goToGraphics(graphics, viewId: string): Promise<void> {
     for (const graphic of graphics) {
         delete graphic.dotNetGraphicReference;
         delete graphic.layerId;
-        let jsGraphic = await buildJsGraphic(graphic, false);
+        let jsGraphic = await buildJsGraphic(graphic, false, viewId);
         if (jsGraphic !== null) {
             jsGraphics.push(jsGraphic);
         }
@@ -1563,6 +1579,9 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
     
     arcGisObjectRefs[widget.id] = newWidget;
     dotNetRefs[widget.id] = widget.dotNetComponentReference;
+    // @ts-ignore
+    let jsRef = DotNet.createJSObjectReference(getObjectReference(widget.id));
+    await widget.dotNetWidgetReference.invokeMethodAsync('OnWidgetCreated', jsRef);
     return newWidget;
 }
 
@@ -1588,10 +1607,10 @@ export async function addLayer(layerObject: any, viewId: string, isBasemapLayer?
         if (arcGisObjectRefs.hasOwnProperty(layerObject.id)) {
             newLayer = arcGisObjectRefs[layerObject.id] as Layer;
             if (newLayer.destroyed) {
-                newLayer = await createLayer(layerObject);
+                newLayer = await createLayer(layerObject, null, viewId);
             }
         } else {
-            newLayer = await createLayer(layerObject);
+            newLayer = await createLayer(layerObject, null, viewId);
         }
         
         if (newLayer === null) return;
@@ -1618,7 +1637,7 @@ export async function addLayer(layerObject: any, viewId: string, isBasemapLayer?
     }
 }
 
-export async function createLayer(layerObject: any, wrap?: boolean | null): Promise<Layer | null> {
+export async function createLayer(layerObject: any, wrap?: boolean | null, viewId?: string | null): Promise<Layer | null> {
     let newLayer: Layer;
     switch (layerObject.type) {
         case 'graphics':
@@ -1639,7 +1658,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null): Prom
                 let source: Array<Graphic> = [];
                 for (let i = 0; i < layerObject.source.length; i++){
                     const graphicObject = layerObject.source[i];
-                    let graphic = await buildJsGraphic(graphicObject, true);
+                    let graphic = await buildJsGraphic(graphicObject, true, viewId ?? null);
                     if (graphic !== null) {
                         source.push(graphic);
                     }
@@ -1654,7 +1673,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null): Prom
                 'definitionExpression', 'labelingInfo', 'outFields');
 
             if (hasValue(layerObject.popupTemplate)) {
-                featureLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate);
+                featureLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId ?? null);
             }
             if (hasValue(layerObject.renderer)) {
                 let renderer = buildJsRenderer(layerObject.renderer);

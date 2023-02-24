@@ -25,11 +25,11 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 Sets the actions on click for the list item.
 
 ```csharp
-public dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ActionBase[][]? ActionSections { get; set; }
+public dymaptic.GeoBlazor.Core.Components.ActionBase[][]? ActionSections { get; set; }
 ```
 
 #### Property Value
-[ActionBase](dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ActionBase.html 'dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ActionBase')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')
+[ActionBase](dymaptic.GeoBlazor.Core.Components.ActionBase.html 'dymaptic.GeoBlazor.Core.Components.ActionBase')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')
 
 ### Remarks
 The Action Sections property and corresponding functionality will be fully implemented  

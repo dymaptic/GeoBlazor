@@ -170,7 +170,7 @@ public abstract class Layer : MapComponent
         IJSObjectReference arcGisJsInterop = await GetArcGisJsInterop();
         JsLayerReference = await arcGisJsInterop.InvokeAsync<IJSObjectReference>("createLayer", 
             // ReSharper disable once RedundantCast
-            cancellationToken, (object)this, true);
+            cancellationToken, (object)this, true, View?.Id);
         await JsLayerReference.InvokeVoidAsync("load", cancellationToken, abortSignal);
         Layer loadedLayer = await arcGisJsInterop.InvokeAsync<Layer>("getSerializedDotNetObject",
             cancellationToken, Id);

@@ -1,6 +1,8 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
+
 
 namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
@@ -35,6 +37,25 @@ public abstract class Widget : MapComponent
     /// </summary>
     [JsonPropertyName("type")]
     public abstract string WidgetType { get; }
+
+    /// <summary>
+    ///    DotNet Object Reference to the widget
+    /// </summary>
+    public DotNetObjectReference<Widget> DotNetWidgetReference => DotNetObjectReference.Create(this);
+
+    /// <summary>
+    ///     JS-invokable callback to register a JS Object Reference
+    /// </summary>
+    [JSInvokable]
+    public void OnWidgetCreated(IJSObjectReference jsObjectReference)
+    {
+        JsObjectReference = jsObjectReference;
+    }
+
+    /// <summary>
+    ///    JS Object Reference to the widget
+    /// </summary>
+    protected IJSObjectReference? JsObjectReference;
 }
 
 internal class WidgetConverter : JsonConverter<Widget>

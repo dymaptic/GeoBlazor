@@ -317,6 +317,9 @@ export interface DotNetPopupTemplate {
     outFields: string[];
     overwriteActions: boolean;
     returnGeometry: boolean;
+    dotNetPopupTemplateReference: any;
+    
+    actions: any[];
 }
 
 export interface DotNetPopupContent {
