@@ -6,6 +6,7 @@ using dymaptic.GeoBlazor.Core.Components.Widgets.LayerList;
 using dymaptic.GeoBlazor.Core.Objects;
 using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -25,7 +26,6 @@ public class PopupWidget: Widget
     /// <summary>
     ///     Defines actions that may be executed by clicking the icon or image symbolizing them in the popup. By default, every popup has a zoom-to action styled with a magnifying glass icon. When this icon is clicked, the view zooms in four LODs and centers on the selected feature.
     /// </summary>
-    [Parameter]
     public HashSet<ActionBase>? Actions { get; set; }
     
     /// <summary>
@@ -148,6 +148,32 @@ public class PopupWidget: Widget
     /// <inheritdoc />
     public override string WidgetType => "popup";
 
+    public async Task<Graphic> GetSelectedFeature()
+    {
+        return await JsObjectReference!.InvokeAsync<Graphic>("getSelectedFeature");
+    }
+    
+    public async Task SetContent(string stringContent)
+    {
+        await JsObjectReference!.InvokeVoidAsync("setContent", stringContent);
+    }
+
+    /// <summary>
+    ///     JS-invokable method for triggering actions.
+    /// </summary>
+    /// <param name="actionId">
+    ///     The action ID.
+    /// </param>
+    [JSInvokable]
+    public async Task OnTriggerAction(string actionId)
+    {
+        ActionBase? action = Actions?.FirstOrDefault(a => a.Id == actionId);
+        if (action is not null)
+        {
+            await action.CallbackFunction!.Invoke();
+        }
+    }
+
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
     {
@@ -185,6 +211,11 @@ public class PopupWidget: Widget
                 }
 
                 break;
+            case ActionBase action:
+                Actions ??= new HashSet<ActionBase>();
+                Actions.Add(action);
+
+                break;
             default:
                 await base.RegisterChildComponent(child);
 
@@ -212,6 +243,10 @@ public class PopupWidget: Widget
             case PopupVisibleElements:
                 VisibleElements = null;
                 break;
+            case ActionBase action:
+                Actions?.Remove(action);
+
+                break;
             default:
                 await base.UnregisterChildComponent(child);
 
@@ -228,6 +263,14 @@ public class PopupWidget: Widget
         foreach (Graphic feature in Features)
         {
             feature.ValidateRequiredChildren();
+        }
+
+        if (Actions is not null)
+        {
+            foreach (ActionBase action in Actions)
+            {
+                action.ValidateRequiredChildren();
+            }
         }
         
         base.ValidateRequiredChildren();

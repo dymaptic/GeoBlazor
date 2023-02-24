@@ -792,6 +792,19 @@ public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Geometries
 #### Returns
 [System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[Extent](dymaptic.GeoBlazor.Core.Components.Geometries.Extent.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Extent')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')
 
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.GetPopupWidget()'></a>
+
+## MapView.GetPopupWidget() Method
+
+Retrieves the Popup Widget for the view.
+
+```csharp
+public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget?> GetPopupWidget();
+```
+
+#### Returns
+[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[PopupWidget](dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html 'dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')
+
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.GetRotation()'></a>
 
 ## MapView.GetRotation() Method

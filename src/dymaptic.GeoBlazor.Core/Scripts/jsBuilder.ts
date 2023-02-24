@@ -80,6 +80,8 @@ import SimpleFillSymbol from "@arcgis/core/symbols/SimpleFillSymbol";
 import SimpleLineSymbol from "@arcgis/core/symbols/SimpleLineSymbol";
 import ElementExpressionInfo from "@arcgis/core/popup/ElementExpressionInfo";
 import ChartMediaInfoValueSeries from "@arcgis/core/popup/content/support/ChartMediaInfoValueSeries";
+import View from "@arcgis/core/views/View";
+import PopupTriggerActionEvent = __esri.PopupTriggerActionEvent;
 
 export function buildJsSpatialReference(dotNetSpatialReference: DotNetSpatialReference): SpatialReference {
     if (dotNetSpatialReference === undefined || dotNetSpatialReference === null) {
@@ -132,7 +134,7 @@ export function buildJsExtent(dotNetExtent: DotNetExtent, currentSpatialReferenc
     return extent;
 }
 
-export async function buildJsGraphic(graphicObject: any, register: boolean): Promise<Graphic | null> {
+export async function buildJsGraphic(graphicObject: any, register: boolean, viewId: string | null): Promise<Graphic | null> {
     const graphic = new Graphic({
         geometry: buildJsGeometry(graphicObject.geometry) as Geometry ?? null,
         attributes: graphicObject.attributes ?? null,
@@ -140,7 +142,7 @@ export async function buildJsGraphic(graphicObject: any, register: boolean): Pro
     });
 
     if (graphicObject.popupTemplate !== undefined && graphicObject.popupTemplate !== null) {
-        graphic.popupTemplate = buildJsPopupTemplate(graphicObject.popupTemplate);
+        graphic.popupTemplate = buildJsPopupTemplate(graphicObject.popupTemplate, viewId);
     }
     
     if (graphicObject.layerId !== undefined && graphicObject.layerId !== null) {
@@ -160,7 +162,7 @@ export async function buildJsGraphic(graphicObject: any, register: boolean): Pro
     return graphic;
 }
 
-export function buildJsPopupTemplate(popupTemplateObject: DotNetPopupTemplate): PopupTemplate {
+export function buildJsPopupTemplate(popupTemplateObject: DotNetPopupTemplate, viewId: string | null): PopupTemplate {
     let content;
     if (popupTemplateObject.stringContent !== undefined && popupTemplateObject.stringContent !== null) {
         content = popupTemplateObject.stringContent;
@@ -181,6 +183,17 @@ export function buildJsPopupTemplate(popupTemplateObject: DotNetPopupTemplate): 
     
     if (popupTemplateObject.expressionInfos !== undefined && popupTemplateObject.expressionInfos !== null) {
         template.expressionInfos = popupTemplateObject.expressionInfos.map(e => buildJsExpressionInfo(e));
+    }
+    
+    if (popupTemplateObject.actions !== undefined && popupTemplateObject.actions !== null) {
+        template.actions = popupTemplateObject.actions as any;
+    }
+
+    if (viewId !== null) {
+        let view = arcGisObjectRefs[viewId] as View;
+        view.popup.on("trigger-action", async (event: PopupTriggerActionEvent) => {
+            await popupTemplateObject.dotNetPopupTemplateReference.invokeMethodAsync("OnTriggerAction", event.action.id);
+        });
     }
     
     return template;
@@ -447,7 +460,7 @@ export function buildJsViewClickEvent(dotNetClickEvent: any): ViewClickEvent {
     } as ViewClickEvent
 }
 
-export async function buildJsPopup(dotNetPopup: any) : Promise<Popup> {
+export async function buildJsPopup(dotNetPopup: any, viewId: string) : Promise<Popup> {
     let popup = new Popup({
         actions: dotNetPopup.actions ?? [],
         alignment: dotNetPopup.alignment ?? "auto",
@@ -478,7 +491,7 @@ export async function buildJsPopup(dotNetPopup: any) : Promise<Popup> {
         let features: Graphic[] = [];
         for (const f of dotNetPopup.features) {
             delete f.dotNetGraphicReference;
-            let graphic = await buildJsGraphic(f, false) as Graphic;
+            let graphic = await buildJsGraphic(f, false, viewId) as Graphic;
             features.push(graphic);
         }
         popup.features = features;
@@ -538,7 +551,7 @@ export async function buildJsPopupOptions(dotNetPopupOptions: any) : Promise<Pop
         let features: Graphic[] = [];
         for (const f of dotNetPopupOptions.features) {
             delete f.dotNetGraphicReference;
-            features.push(await buildJsGraphic(f, false) as Graphic);
+            features.push(await buildJsGraphic(f, false, null) as Graphic);
         }
         options.features = features;
     }
