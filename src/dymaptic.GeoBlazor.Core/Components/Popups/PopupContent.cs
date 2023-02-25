@@ -1,11 +1,15 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 
+
 namespace dymaptic.GeoBlazor.Core.Components.Popups;
 
 /// <summary>
 ///     Abstract base class, PopupContent elements define what should display within the PopupTemplate content.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-Content.html">ArcGIS JS API</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-Content.html">
+///         ArcGIS
+///         JS API
+///     </a>
 /// </summary>
 [JsonConverter(typeof(PopupContentConverter))]
 public abstract class PopupContent : MapComponent
@@ -23,8 +27,8 @@ internal class PopupContentConverter : JsonConverter<PopupContent>
     {
         // check the type property and deserialize to the correct type
         var jsonDoc = JsonDocument.ParseValue(ref reader);
-        var type = jsonDoc.RootElement.GetProperty("type").GetString();
-        
+        string? type = jsonDoc.RootElement.GetProperty("type").GetString();
+
         PopupContent? content = null;
 
         switch (type)
@@ -38,22 +42,24 @@ internal class PopupContentConverter : JsonConverter<PopupContent>
 
                 break;
             case "attachments":
-                content = JsonSerializer.Deserialize<AttachmentsPopupContent>(jsonDoc.RootElement.GetRawText(), options);
+                content = JsonSerializer.Deserialize<AttachmentsPopupContent>(jsonDoc.RootElement.GetRawText(),
+                    options);
 
                 break;
-            
+
             case "expression":
                 content = JsonSerializer.Deserialize<ExpressionPopupContent>(jsonDoc.RootElement.GetRawText(), options);
 
                 break;
-            
+
             case "media":
                 content = JsonSerializer.Deserialize<MediaPopupContent>(jsonDoc.RootElement.GetRawText(), options);
-                
+
                 break;
-            
+
             case "relationship":
-                content = JsonSerializer.Deserialize<RelationshipPopupContent>(jsonDoc.RootElement.GetRawText(), options);
+                content = JsonSerializer.Deserialize<RelationshipPopupContent>(jsonDoc.RootElement.GetRawText(),
+                    options);
 
                 break;
         }

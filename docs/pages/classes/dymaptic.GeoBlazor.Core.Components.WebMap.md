@@ -8,8 +8,12 @@ parent: Classes
 
 ## WebMap Class
 
-Loads a WebMap from ArcGIS Online or ArcGIS Enterprise portal into a MapView. It defines the content, style, and bookmarks of your webmap, and it can be shared across multiple ArcGIS web and desktop applications.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html">ArcGIS JS API</a>
+Loads a WebMap from ArcGIS Online or ArcGIS Enterprise portal into a MapView. It defines the content, style, and  
+bookmarks of your webmap, and it can be shared across multiple ArcGIS web and desktop applications.  
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html">  
+    ArcGIS JS  
+    API  
+</a>
 
 ```csharp
 public class WebMap : dymaptic.GeoBlazor.Core.Components.Map
@@ -81,7 +85,8 @@ The child to unregister
 
 ## WebMap.ValidateRequiredChildren() Method
 
-When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the [RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
+When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the  
+[RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
 
 ```csharp
 public override void ValidateRequiredChildren();

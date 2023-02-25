@@ -8,8 +8,13 @@ parent: Classes
 
 ## TextPopupContent Class
 
-A TextContent popup element is used to define descriptive text as an element within a PopupTemplate's content. The text may reference values returned from a field attribute or an Arcade expression defined in a PopupTemplate's expressionInfos property.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-TextContent.html">ArcGIS JS API</a>
+A TextContent popup element is used to define descriptive text as an element within a PopupTemplate's content. The  
+text may reference values returned from a field attribute or an Arcade expression defined in a PopupTemplate's  
+expressionInfos property.  
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-TextContent.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class TextPopupContent : dymaptic.GeoBlazor.Core.Components.Popups.PopupContent
@@ -22,7 +27,9 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 
 ## TextPopupContent.Text Property
 
-The formatted string content to display. This may contain a field name enclosed in {} (e.g. {FIELDNAME}), or an Arcade expression name (e.g. {expression/EXPRESSIONNAME}). Text content may also leverage HTML tags such as <b></b>, <p></p>, and <table></table> for formatting the look and feel of the content.
+The formatted string content to display. This may contain a field name enclosed in {} (e.g. {FIELDNAME}), or an  
+Arcade expression name (e.g. {expression/EXPRESSIONNAME}). Text content may also leverage HTML tags such as <b></b>  
+, <p></p>, and <table></table> for formatting the look and feel of the content.
 
 ```csharp
 public string? Text { get; set; }

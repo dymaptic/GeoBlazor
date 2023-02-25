@@ -22,4 +22,4 @@ namespace dymaptic.GeoBlazor.Core.Events;
 ///     The event type.
 /// </param>
 public record BlurEvent(MapView Target, DomPointerEvent Native, string Type, double Timestamp, bool? Cancelable)
-    :JsEvent(Type, null, Cancelable, Timestamp, Native, null);
+    : JsEvent(Type, null, Cancelable, Timestamp, Native, null);

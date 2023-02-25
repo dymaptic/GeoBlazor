@@ -5,7 +5,7 @@ using dymaptic.GeoBlazor.Core.Components.Views;
 namespace dymaptic.GeoBlazor.Core.Exceptions;
 
 /// <summary>
-///     Exception when a <see cref="MapView"/> is created with no <see cref="Map"/> or <see cref="WebMap"/>
+///     Exception when a <see cref="MapView" /> is created with no <see cref="Map" /> or <see cref="WebMap" />
 /// </summary>
 public class MissingMapException : Exception
 {

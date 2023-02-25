@@ -9,8 +9,10 @@ using AndroidX.Activity.Result;
 using AndroidX.Activity.Result.Contract;
 using AndroidX.Core.Content;
 using Java.Interop;
+using Object = Java.Lang.Object;
 using View = Android.Views.View;
 using WebView = Android.Webkit.WebView;
+
 
 namespace dymaptic.GeoBlazor.Core.Sample.Maui.Platforms.Android;
 
@@ -20,32 +22,20 @@ namespace dymaptic.GeoBlazor.Core.Sample.Maui.Platforms.Android;
 /// </summary>
 internal class PermissionManagingBlazorWebChromeClient : WebChromeClient, IActivityResultCallback
 {
-    private const string LocationAccessRationale = "This app requires access to your location. Please grant access to your precise location when requested.";
-
-    private static readonly Dictionary<string, string> s_rationalesByPermission = new()
-    {
-        [Manifest.Permission.AccessFineLocation] = LocationAccessRationale,
-        // Add more rationales as you add more supported permissions.
-    };
-
-    private static readonly Dictionary<string, string[]> s_requiredPermissionsByWebkitResource = new()
-    {
-        [PermissionRequest.ResourceVideoCapture] = new[] { Manifest.Permission.Camera },
-        [PermissionRequest.ResourceAudioCapture] = new[] { Manifest.Permission.ModifyAudioSettings, Manifest.Permission.RecordAudio },
-        // Add more Webkit resource -> Android permission mappings as needed.
-    };
-
-    private readonly WebChromeClient _blazorWebChromeClient;
-    private readonly ComponentActivity _activity;
-    private readonly ActivityResultLauncher _requestPermissionLauncher;
-
-    private Action<bool>? _pendingPermissionRequestCallback;
-
     public PermissionManagingBlazorWebChromeClient(WebChromeClient blazorWebChromeClient, ComponentActivity activity)
     {
         _blazorWebChromeClient = blazorWebChromeClient;
         _activity = activity;
-        _requestPermissionLauncher = _activity.RegisterForActivityResult(new ActivityResultContracts.RequestPermission(), this);
+
+        _requestPermissionLauncher =
+            _activity.RegisterForActivityResult(new ActivityResultContracts.RequestPermission(), this);
+    }
+
+    void IActivityResultCallback.OnActivityResult(Object isGranted)
+    {
+        Action<bool>? callback = _pendingPermissionRequestCallback;
+        _pendingPermissionRequestCallback = null;
+        callback?.Invoke((bool)isGranted);
     }
 
     public override void OnCloseWindow(WebView? window)
@@ -58,7 +48,8 @@ internal class PermissionManagingBlazorWebChromeClient : WebChromeClient, IActiv
     {
         ArgumentNullException.ThrowIfNull(callback, nameof(callback));
 
-        RequestPermission(Manifest.Permission.AccessFineLocation, isGranted => callback.Invoke(origin, isGranted, false));
+        RequestPermission(Manifest.Permission.AccessFineLocation,
+            isGranted => callback.Invoke(origin, isGranted, false));
     }
 
     public override void OnPermissionRequest(PermissionRequest? request)
@@ -68,6 +59,7 @@ internal class PermissionManagingBlazorWebChromeClient : WebChromeClient, IActiv
         if (request.GetResources() is not { } requestedResources)
         {
             request.Deny();
+
             return;
         }
 
@@ -89,22 +81,27 @@ internal class PermissionManagingBlazorWebChromeClient : WebChromeClient, IActiv
         if (requestedResources.Length == 0)
         {
             // No resources to request - invoke the callback with an empty list.
-            callback(new());
+            callback(new List<string>());
+
             return;
         }
 
-        var currentResource = requestedResources.Span[0];
-        var requiredPermissions = s_requiredPermissionsByWebkitResource.GetValueOrDefault(currentResource, Array.Empty<string>());
+        string currentResource = requestedResources.Span[0];
+
+        string[] requiredPermissions =
+            s_requiredPermissionsByWebkitResource.GetValueOrDefault(currentResource, Array.Empty<string>());
 
         RequestAllPermissions(requiredPermissions, isGranted =>
         {
             // Recurse with the remaining resources. If the first resource was granted, use a modified callback
             // that adds the first resource to the granted resources list.
-            RequestAllResources(requestedResources[1..], !isGranted ? callback : grantedResources =>
-            {
-                grantedResources.Add(currentResource);
-                callback(grantedResources);
-            });
+            RequestAllResources(requestedResources[1..], !isGranted
+                ? callback
+                : grantedResources =>
+                {
+                    grantedResources.Add(currentResource);
+                    callback(grantedResources);
+                });
         });
     }
 
@@ -114,6 +111,7 @@ internal class PermissionManagingBlazorWebChromeClient : WebChromeClient, IActiv
         {
             // No permissions left to request - success!
             callback(true);
+
             return;
         }
 
@@ -142,7 +140,8 @@ internal class PermissionManagingBlazorWebChromeClient : WebChromeClient, IActiv
         {
             callback.Invoke(true);
         }
-        else if (_activity.ShouldShowRequestPermissionRationale(permission) && s_rationalesByPermission.TryGetValue(permission, out var rationale))
+        else if (_activity.ShouldShowRequestPermissionRationale(permission) &&
+            s_rationalesByPermission.TryGetValue(permission, out string? rationale))
         {
             new AlertDialog.Builder(_activity)
                 .SetTitle("Enable app permissions")!
@@ -168,51 +167,124 @@ internal class PermissionManagingBlazorWebChromeClient : WebChromeClient, IActiv
         _requestPermissionLauncher.Launch(permission);
     }
 
-    void IActivityResultCallback.OnActivityResult(Java.Lang.Object isGranted)
+    private static readonly Dictionary<string, string> s_rationalesByPermission = new()
     {
-        var callback = _pendingPermissionRequestCallback;
-        _pendingPermissionRequestCallback = null;
-        callback?.Invoke((bool)isGranted);
-    }
+        [Manifest.Permission.AccessFineLocation] = LocationAccessRationale
 
-    #region Unremarkable overrides
+        // Add more rationales as you add more supported permissions.
+    };
+
+    private static readonly Dictionary<string, string[]> s_requiredPermissionsByWebkitResource = new()
+    {
+        [PermissionRequest.ResourceVideoCapture] = new[] { Manifest.Permission.Camera },
+        [PermissionRequest.ResourceAudioCapture] =
+            new[] { Manifest.Permission.ModifyAudioSettings, Manifest.Permission.RecordAudio }
+
+        // Add more Webkit resource -> Android permission mappings as needed.
+    };
+
+    private readonly WebChromeClient _blazorWebChromeClient;
+    private readonly ComponentActivity _activity;
+    private readonly ActivityResultLauncher _requestPermissionLauncher;
+
+    private Action<bool>? _pendingPermissionRequestCallback;
+    private const string LocationAccessRationale =
+        "This app requires access to your location. Please grant access to your precise location when requested.";
+
+
+#region Unremarkable overrides
+
     // See: https://github.com/dotnet/maui/issues/6565
     public override JniPeerMembers JniPeerMembers => _blazorWebChromeClient.JniPeerMembers;
     public override Bitmap? DefaultVideoPoster => _blazorWebChromeClient.DefaultVideoPoster;
     public override View? VideoLoadingProgressView => _blazorWebChromeClient.VideoLoadingProgressView;
+
     public override void GetVisitedHistory(IValueCallback? callback)
-        => _blazorWebChromeClient.GetVisitedHistory(callback);
+    {
+        _blazorWebChromeClient.GetVisitedHistory(callback);
+    }
+
     public override bool OnConsoleMessage(ConsoleMessage? consoleMessage)
-        => _blazorWebChromeClient.OnConsoleMessage(consoleMessage);
+    {
+        return _blazorWebChromeClient.OnConsoleMessage(consoleMessage);
+    }
+
     public override bool OnCreateWindow(WebView? view, bool isDialog, bool isUserGesture, Message? resultMsg)
-        => _blazorWebChromeClient.OnCreateWindow(view, isDialog, isUserGesture, resultMsg);
+    {
+        return _blazorWebChromeClient.OnCreateWindow(view, isDialog, isUserGesture, resultMsg);
+    }
+
     public override void OnGeolocationPermissionsHidePrompt()
-        => _blazorWebChromeClient.OnGeolocationPermissionsHidePrompt();
+    {
+        _blazorWebChromeClient.OnGeolocationPermissionsHidePrompt();
+    }
+
     public override void OnHideCustomView()
-        => _blazorWebChromeClient.OnHideCustomView();
+    {
+        _blazorWebChromeClient.OnHideCustomView();
+    }
+
     public override bool OnJsAlert(WebView? view, string? url, string? message, JsResult? result)
-        => _blazorWebChromeClient.OnJsAlert(view, url, message, result);
+    {
+        return _blazorWebChromeClient.OnJsAlert(view, url, message, result);
+    }
+
     public override bool OnJsBeforeUnload(WebView? view, string? url, string? message, JsResult? result)
-        => _blazorWebChromeClient.OnJsBeforeUnload(view, url, message, result);
+    {
+        return _blazorWebChromeClient.OnJsBeforeUnload(view, url, message, result);
+    }
+
     public override bool OnJsConfirm(WebView? view, string? url, string? message, JsResult? result)
-        => _blazorWebChromeClient.OnJsConfirm(view, url, message, result);
-    public override bool OnJsPrompt(WebView? view, string? url, string? message, string? defaultValue, JsPromptResult? result)
-        => _blazorWebChromeClient.OnJsPrompt(view, url, message, defaultValue, result);
+    {
+        return _blazorWebChromeClient.OnJsConfirm(view, url, message, result);
+    }
+
+    public override bool OnJsPrompt(WebView? view, string? url, string? message, string? defaultValue,
+        JsPromptResult? result)
+    {
+        return _blazorWebChromeClient.OnJsPrompt(view, url, message, defaultValue, result);
+    }
+
     public override void OnPermissionRequestCanceled(PermissionRequest? request)
-        => _blazorWebChromeClient.OnPermissionRequestCanceled(request);
+    {
+        _blazorWebChromeClient.OnPermissionRequestCanceled(request);
+    }
+
     public override void OnProgressChanged(WebView? view, int newProgress)
-        => _blazorWebChromeClient.OnProgressChanged(view, newProgress);
+    {
+        _blazorWebChromeClient.OnProgressChanged(view, newProgress);
+    }
+
     public override void OnReceivedIcon(WebView? view, Bitmap? icon)
-        => _blazorWebChromeClient.OnReceivedIcon(view, icon);
+    {
+        _blazorWebChromeClient.OnReceivedIcon(view, icon);
+    }
+
     public override void OnReceivedTitle(WebView? view, string? title)
-        => _blazorWebChromeClient.OnReceivedTitle(view, title);
+    {
+        _blazorWebChromeClient.OnReceivedTitle(view, title);
+    }
+
     public override void OnReceivedTouchIconUrl(WebView? view, string? url, bool precomposed)
-        => _blazorWebChromeClient.OnReceivedTouchIconUrl(view, url, precomposed);
+    {
+        _blazorWebChromeClient.OnReceivedTouchIconUrl(view, url, precomposed);
+    }
+
     public override void OnRequestFocus(WebView? view)
-        => _blazorWebChromeClient.OnRequestFocus(view);
+    {
+        _blazorWebChromeClient.OnRequestFocus(view);
+    }
+
     public override void OnShowCustomView(View? view, ICustomViewCallback? callback)
-        => _blazorWebChromeClient.OnShowCustomView(view, callback);
-    public override bool OnShowFileChooser(WebView? webView, IValueCallback? filePathCallback, FileChooserParams? fileChooserParams)
-        => _blazorWebChromeClient.OnShowFileChooser(webView, filePathCallback, fileChooserParams);
-    #endregion
+    {
+        _blazorWebChromeClient.OnShowCustomView(view, callback);
+    }
+
+    public override bool OnShowFileChooser(WebView? webView, IValueCallback? filePathCallback,
+        FileChooserParams? fileChooserParams)
+    {
+        return _blazorWebChromeClient.OnShowFileChooser(webView, filePathCallback, fileChooserParams);
+    }
+
+#endregion
 }

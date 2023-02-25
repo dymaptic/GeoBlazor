@@ -8,8 +8,13 @@ parent: Classes
 
 ## RelationshipQuery Class
 
-This class defines parameters for executing queries for related records from a layer. Once a RelationshipQuery object's properties are defined, it can then be passed into the query.executeRelationshipQuery() and FeatureLayer.queryRelatedFeatures() methods, which will return FeatureSets grouped by source layer/table objectIds.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-RelationshipQuery.html#maxAllowableOffset">ArcGIS JS API</a>
+This class defines parameters for executing queries for related records from a layer. Once a RelationshipQuery  
+object's properties are defined, it can then be passed into the query.executeRelationshipQuery() and  
+FeatureLayer.queryRelatedFeatures() methods, which will return FeatureSets grouped by source layer/table objectIds.  
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-RelationshipQuery.html#maxAllowableOffset">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class RelationshipQuery
@@ -22,7 +27,9 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 
 ## RelationshipQuery.CacheHint Property
 
-Indicates if the service should cache the relationship query results. It only applies if the layer's capabilities.queryRelated.supportsCacheHint is set to true. Use only for queries that have the same parameters every time the app is used.
+Indicates if the service should cache the relationship query results. It only applies if the layer's  
+capabilities.queryRelated.supportsCacheHint is set to true. Use only for queries that have the same parameters  
+every time the app is used.
 
 ```csharp
 public System.Nullable<bool> CacheHint { get; set; }
@@ -61,7 +68,8 @@ public System.Nullable<double> GeometryPrecision { get; set; }
 
 ## RelationshipQuery.HistoricMoment Property
 
-The historic moment to query. This parameter applies only if the supportsHistoricMoment on FeatureLayer property of the layer is set to true.
+The historic moment to query. This parameter applies only if the supportsHistoricMoment on FeatureLayer property of  
+the layer is set to true.
 
 ```csharp
 public System.Nullable<System.DateTime> HistoricMoment { get; set; }
@@ -74,7 +82,8 @@ public System.Nullable<System.DateTime> HistoricMoment { get; set; }
 
 ## RelationshipQuery.MaxAllowableOffset Property
 
-The maximum allowable offset used for generalizing geometries returned by the query operation. The offset is in the units of outSpatialReference. If outSpatialReference is not defined, the spatialReference of the view is used.
+The maximum allowable offset used for generalizing geometries returned by the query operation. The offset is in the  
+units of outSpatialReference. If outSpatialReference is not defined, the spatialReference of the view is used.
 
 ```csharp
 public System.Nullable<double> MaxAllowableOffset { get; set; }
@@ -87,8 +96,11 @@ public System.Nullable<double> MaxAllowableOffset { get; set; }
 
 ## RelationshipQuery.Num Property
 
-The number of features to retrieve. This option should be used in conjunction with the start property. Use this to implement paging (i.e. to retrieve "pages" of results when querying).  
-If not provided, but an instance of Query has a start property, then the default value of num is 10. If neither num nor start properties are provided, then the default value of num is equal to the maxRecordCount of the service, which can be found at the REST endpoint of the FeatureLayer.
+The number of features to retrieve. This option should be used in conjunction with the start property. Use this to  
+implement paging (i.e. to retrieve "pages" of results when querying).  
+If not provided, but an instance of Query has a start property, then the default value of num is 10. If neither num  
+nor start properties are provided, then the default value of num is equal to the maxRecordCount of the service,  
+which can be found at the REST endpoint of the FeatureLayer.
 
 ```csharp
 public System.Nullable<int> Num { get; set; }
@@ -114,7 +126,8 @@ public System.Collections.Generic.IEnumerable<int>? ObjectIds { get; set; }
 
 ## RelationshipQuery.OrderByFields Property
 
-One or more field names used to order the query results. Specify ASC (ascending) or DESC (descending) after the field name to control the order. The default order is ASC.
+One or more field names used to order the query results. Specify ASC (ascending) or DESC (descending) after the  
+field name to control the order. The default order is ASC.
 
 ```csharp
 public System.Collections.Generic.IEnumerable<string>? OrderByFields { get; set; }
@@ -132,9 +145,12 @@ Known Limitations
 
 ## RelationshipQuery.OutFields Property
 
-Attribute fields to include in the FeatureSet. Fields must exist in the map layer. You must list actual field names rather than the alias names. You are, however, able to use the alias names when you display the results.  
-When specifying the output fields, you should limit the fields to only those you expect to use in the query or the results. The fewer fields you include, the faster the response will be.  
-Each query must have access to the Shape and ObjectId fields for a layer. However, your list of fields does not need to include these two fields.
+Attribute fields to include in the FeatureSet. Fields must exist in the map layer. You must list actual field names  
+rather than the alias names. You are, however, able to use the alias names when you display the results.  
+When specifying the output fields, you should limit the fields to only those you expect to use in the query or the  
+results. The fewer fields you include, the faster the response will be.  
+Each query must have access to the Shape and ObjectId fields for a layer. However, your list of fields does not  
+need to include these two fields.
 
 ```csharp
 public System.Collections.Generic.IEnumerable<string>? OutFields { get; set; }
@@ -147,7 +163,8 @@ public System.Collections.Generic.IEnumerable<string>? OutFields { get; set; }
 
 ## RelationshipQuery.OutSpatialReference Property
 
-The spatial reference for the returned geometry. If outSpatialReference is not defined, the spatialReference of the view is used.
+The spatial reference for the returned geometry. If outSpatialReference is not defined, the spatialReference of the  
+view is used.
 
 ```csharp
 public dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference? OutSpatialReference { get; set; }
@@ -160,7 +177,10 @@ public dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference? OutSpatia
 
 ## RelationshipQuery.RelationshipId Property
 
-The ID of the relationship to be queried. The ids for the relationships the table or layer participates in are listed in the ArcGIS Services directory. The ID of the relationship to be queried. The relationships that this layer/table participates in are included in the Feature Service Layer resource response. Records in tables/layers corresponding to the related table/layer of the relationship are queried.
+The ID of the relationship to be queried. The ids for the relationships the table or layer participates in are  
+listed in the ArcGIS Services directory. The ID of the relationship to be queried. The relationships that this  
+layer/table participates in are included in the Feature Service Layer resource response. Records in tables/layers  
+corresponding to the related table/layer of the relationship are queried.
 
 ```csharp
 public System.Nullable<int> RelationshipId { get; set; }
@@ -173,7 +193,8 @@ public System.Nullable<int> RelationshipId { get; set; }
 
 ## RelationshipQuery.ReturnGeometry Property
 
-If true, each feature in the FeatureSet includes the geometry. Set to false (default) if you do not plan to include highlighted features on a map since the geometry makes up a significant portion of the response.
+If true, each feature in the FeatureSet includes the geometry. Set to false (default) if you do not plan to include  
+highlighted features on a map since the geometry makes up a significant portion of the response.
 
 ```csharp
 public System.Nullable<bool> ReturnGeometry { get; set; }
@@ -212,7 +233,9 @@ public System.Nullable<bool> ReturnZ { get; set; }
 
 ## RelationshipQuery.Start Property
 
-The zero-based index indicating where to begin retrieving features. This property should be used in conjunction with num. Use this to implement paging and retrieve "pages" of results when querying. Features are sorted ascending by object ID by default.
+The zero-based index indicating where to begin retrieving features. This property should be used in conjunction  
+with num. Use this to implement paging and retrieve "pages" of results when querying. Features are sorted ascending  
+by object ID by default.
 
 ```csharp
 public System.Nullable<int> Start { get; set; }
@@ -225,7 +248,8 @@ public System.Nullable<int> Start { get; set; }
 
 ## RelationshipQuery.Where Property
 
-The definition expression to be applied to the related table or layer. Only records in the list of objectIds that satisfy the definition expression are queried for related records.
+The definition expression to be applied to the related table or layer. Only records in the list of objectIds that  
+satisfy the definition expression are queried for related records.
 
 ```csharp
 public string? Where { get; set; }

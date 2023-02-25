@@ -30,7 +30,7 @@
         <tbody>
             @foreach (Layer layer in _webMap.Layers)
             {
-                FeatureLayer? fl = layer as FeatureLayer;
+                var fl = layer as FeatureLayer;
                 <tr>
                     <td>@layer.GetType().Name</td>
                     <td>@layer.Title</td>
@@ -47,13 +47,14 @@
                             </div>
                         }
                     </td>
-                </tr>   
+                </tr>
             }
         </tbody>
     </table>
 }
 
 @code {
+
     private async Task OnLayerViewCreate(LayerViewCreateEvent evt)
     {
         try

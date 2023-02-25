@@ -29,10 +29,10 @@ window.getCalciteSelectValue = (calciteSelect) => {
 }
 
 function elementIsVisible(item) {
-    
+
     let eleTop = item.offsetTop;
     let eleBottom = eleTop + item.clientHeight;
 
-    return (eleTop >=0 && eleBottom <= window.innerHeight);
+    return (eleTop >= 0 && eleBottom <= window.innerHeight);
 }
 

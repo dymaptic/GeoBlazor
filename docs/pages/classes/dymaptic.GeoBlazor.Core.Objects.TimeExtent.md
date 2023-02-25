@@ -8,7 +8,8 @@ parent: Classes
 
 ## TimeExtent Class
 
-A time extent for a temporal query against time-aware layers. For example, it can be used to discover all crimes that occurred during the night shift from 10 PM to 6 AM on a particular date.
+A time extent for a temporal query against time-aware layers. For example, it can be used to discover all crimes  
+that occurred during the night shift from 10 PM to 6 AM on a particular date.
 
 ```csharp
 public class TimeExtent :
@@ -24,7 +25,8 @@ Implements [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/S
 
 ## TimeExtent(DateTime, DateTime) Constructor
 
-A time extent for a temporal query against time-aware layers. For example, it can be used to discover all crimes that occurred during the night shift from 10 PM to 6 AM on a particular date.
+A time extent for a temporal query against time-aware layers. For example, it can be used to discover all crimes  
+that occurred during the night shift from 10 PM to 6 AM on a particular date.
 
 ```csharp
 public TimeExtent(System.DateTime Start, System.DateTime End);

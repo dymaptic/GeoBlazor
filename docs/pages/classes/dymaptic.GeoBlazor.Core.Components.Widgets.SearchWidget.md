@@ -8,8 +8,14 @@ parent: Classes
 
 ## SearchWidget Class
 
-The Search widget provides a way to perform search operations on locator service(s), map/feature service feature layer(s), SceneLayers with an associated feature layer, BuildingComponentSublayer with an associated feature layer, GeoJSONLayer, CSVLayer, OGCFeatureLayer, and/or table(s). If using a locator with a geocoding service, the findAddressCandidates operation is used, whereas queries are used on feature layers.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html">ArcGIS JS API</a>
+The Search widget provides a way to perform search operations on locator service(s), map/feature service feature  
+layer(s), SceneLayers with an associated feature layer, BuildingComponentSublayer with an associated feature layer,  
+GeoJSONLayer, CSVLayer, OGCFeatureLayer, and/or table(s). If using a locator with a geocoding service, the  
+findAddressCandidates operation is used, whereas queries are used on feature layers.  
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class SearchWidget : dymaptic.GeoBlazor.Core.Components.Widgets.Widget

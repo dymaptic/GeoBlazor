@@ -9,7 +9,10 @@ parent: Classes
 ## Widget Class
 
 The base class for widgets. Each widget's presentation is separate from its properties, methods, and data.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html">ArcGIS JS API</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public abstract class Widget : dymaptic.GeoBlazor.Core.Components.MapComponent
@@ -35,7 +38,8 @@ Derived
 
 ## Widget.ContainerId Property
 
-The id of an external HTML Element (div). If provided, the widget will be placed inside that element, instead of on the map.
+The id of an external HTML Element (div). If provided, the widget will be placed inside that element, instead of on  
+the map.
 
 ```csharp
 public string? ContainerId { get; set; }

@@ -59,7 +59,12 @@ Indicates whether this is the first event emitted due to the key press, or a rep
 
 `Key` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 
-The key value that was pressed, according to the <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values".htmlN full list of key values</a>.
+The key value that was pressed, according to the  
+<a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values">  
+   .htmlN  
+    full list of key values  
+</a>  
+.
 
 <a name='dymaptic.GeoBlazor.Core.Events.KeyDownEvent.KeyDownEvent(string,System.Nullable_int_,System.Nullable_bool_,bool,string,double,dymaptic.GeoBlazor.Core.Events.DomPointerEvent,System.Nullable_dymaptic.GeoBlazor.Core.Events.PointerType_).Timestamp'></a>
 
@@ -84,7 +89,12 @@ Indicates the pointer type.
 
 ## KeyDownEvent.Key Property
 
-The key value that was pressed, according to the <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values".htmlN full list of key values</a>.
+The key value that was pressed, according to the  
+<a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values">  
+   .htmlN  
+    full list of key values  
+</a>  
+.
 
 ```csharp
 public string Key { get; set; }

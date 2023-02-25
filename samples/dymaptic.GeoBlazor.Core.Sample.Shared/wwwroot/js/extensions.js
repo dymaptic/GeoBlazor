@@ -1,7 +1,12 @@
 ﻿// This is an example of how to extend GeoBlazor with your own custom JavaScript.
 // The import method exposes a dictionary of map components, "arcGisObjectRefs", that can be looked up via the C# component
 // "Id" value. A method (addGraphic) and two tools (projection, geometryEngine) are also imported.
-import {addGraphic, arcGisObjectRefs, projection, geometryEngine} from "../../dymaptic.GeoBlazor.Core/js/arcGisJsInterop.js";
+import {
+    addGraphic,
+    arcGisObjectRefs,
+    geometryEngine,
+    projection
+} from "../../dymaptic.GeoBlazor.Core/js/arcGisJsInterop.js";
 
 
 // In this case, this was chosen over handling the event in C# because in some scenarios (e.g., Blazor Server),

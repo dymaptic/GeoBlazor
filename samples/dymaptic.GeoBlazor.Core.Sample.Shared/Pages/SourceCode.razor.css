@@ -8,11 +8,11 @@
 }
 
 #source-code ::deep div {
-    background: transparent!important;
+    background: transparent !important;
 }
 
 @media (min-width: 800px) {
     #source-code {
         width: calc(100vw - 300px - 3.5rem);
-    }  
+    }
 }

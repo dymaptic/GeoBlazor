@@ -8,8 +8,12 @@ parent: Classes
 
 ## ActionBase Class
 
-Actions are customizable behavior which can be executed in certain widgets such as Popups, a BasemapLayerList, or a LayerList.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionBase.html">ArcGIS JS API</a>
+Actions are customizable behavior which can be executed in certain widgets such as Popups, a BasemapLayerList, or a  
+LayerList.  
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionBase.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public abstract class ActionBase : dymaptic.GeoBlazor.Core.Components.MapComponent
@@ -26,7 +30,9 @@ Derived
 
 ## ActionBase.Active Property
 
-Set this property to true to display a spinner icon. You should do this if the action executes an async operation, such as a query, that requires letting the end user know that a process is ongoing in the background. Set the property back to false to communicate to the user that the process has finished.
+Set this property to true to display a spinner icon. You should do this if the action executes an async operation,  
+such as a query, that requires letting the end user know that a process is ongoing in the background. Set the  
+property back to false to communicate to the user that the process has finished.
 
 ```csharp
 public System.Nullable<bool> Active { get; set; }

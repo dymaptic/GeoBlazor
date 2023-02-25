@@ -8,8 +8,13 @@ parent: Classes
 
 ## SimpleMarkerSymbol Class
 
-SimpleMarkerSymbol is used for rendering 2D Point geometries with a simple shape and color in either a MapView or a SceneView. It may be filled with a solid color and have an optional outline, which is defined with a SimpleLineSymbol.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleMarkerSymbol.html">ArcGIS JS API</a>
+SimpleMarkerSymbol is used for rendering 2D Point geometries with a simple shape and color in either a MapView or a  
+SceneView. It may be filled with a solid color and have an optional outline, which is defined with a  
+SimpleLineSymbol.  
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleMarkerSymbol.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class SimpleMarkerSymbol : dymaptic.GeoBlazor.Core.Components.Symbols.MarkerSymbol,
@@ -222,7 +227,8 @@ The child to unregister
 
 ## SimpleMarkerSymbol.ValidateRequiredChildren() Method
 
-When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the [RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
+When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the  
+[RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
 
 ```csharp
 public override void ValidateRequiredChildren();

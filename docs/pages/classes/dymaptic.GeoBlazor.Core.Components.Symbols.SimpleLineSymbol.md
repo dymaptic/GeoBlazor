@@ -8,8 +8,12 @@ parent: Classes
 
 ## SimpleLineSymbol Class
 
-SimpleLineSymbol is used for rendering 2D polyline geometries in a 2D MapView. SimpleLineSymbol is also used for rendering outlines for marker symbols and fill symbols.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleLineSymbol.html">ArcGIS JS API</a>
+SimpleLineSymbol is used for rendering 2D polyline geometries in a 2D MapView. SimpleLineSymbol is also used for  
+rendering outlines for marker symbols and fill symbols.  
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleLineSymbol.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class SimpleLineSymbol : dymaptic.GeoBlazor.Core.Components.Symbols.LineSymbol,

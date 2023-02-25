@@ -2,19 +2,14 @@
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import Query from "@arcgis/core/rest/support/Query";
 import FeatureSet from "@arcgis/core/rest/support/FeatureSet";
-import {
-    DotNetExtent,
-    DotNetPopupTemplate,
-    DotNetQuery,
-    DotNetRelationshipQuery,
-    DotNetTopFeaturesQuery
-} from "./definitions";
+import {DotNetPopupTemplate, DotNetQuery, DotNetRelationshipQuery, DotNetTopFeaturesQuery} from "./definitions";
 import {buildJsQuery, buildJsRelationshipQuery, buildJsTopFeaturesQuery} from "./jsBuilder";
 import {buildDotNetExtent, buildDotNetPopupTemplate} from "./dotNetBuilder";
 import {blazorServer} from "./arcGisJsInterop";
 
 export default class FeatureLayerWrapper {
     private layer: FeatureLayer;
+
     constructor(layer: FeatureLayer) {
         this.layer = layer;
         // set all properties from layer
@@ -26,12 +21,12 @@ export default class FeatureLayerWrapper {
     }
 
     createPopupTemplate(options: CreatePopupTemplateOptions | null): DotNetPopupTemplate {
-        let jsPopupTemplate = options === null 
-            ? this.layer.createPopupTemplate() 
+        let jsPopupTemplate = options === null
+            ? this.layer.createPopupTemplate()
             : this.layer.createPopupTemplate(options);
         return buildDotNetPopupTemplate(jsPopupTemplate);
     }
-    
+
     async load(options: AbortSignal): Promise<void> {
         await this.layer.load(options);
     }
@@ -79,7 +74,7 @@ export default class FeatureLayerWrapper {
         let jsQuery = buildJsQuery(query);
         return await this.layer.queryObjectIds(jsQuery, options);
     }
-    
+
     async queryRelatedFeatures(query: DotNetRelationshipQuery, options: any, dotNetRef: any): Promise<FeatureSet | null> {
         try {
             let jsQuery = buildJsRelationshipQuery(query);
@@ -100,13 +95,13 @@ export default class FeatureLayerWrapper {
             throw error;
         }
     }
-    
+
     async queryRelatedFeaturesCount(query: DotNetRelationshipQuery, options: any): Promise<number> {
         let jsQuery = buildJsRelationshipQuery(query);
         return await this.layer.queryRelatedFeaturesCount(jsQuery, options);
     }
-    
-    
+
+
     async queryTopFeatures(query: DotNetTopFeaturesQuery, options: any, dotNetRef: any): Promise<FeatureSet | null> {
         try {
             let jsQuery = buildJsTopFeaturesQuery(query);
@@ -127,17 +122,17 @@ export default class FeatureLayerWrapper {
             throw error;
         }
     }
-    
+
     async queryTopFeatureCount(query: DotNetTopFeaturesQuery, options: any): Promise<number> {
         let jsQuery = buildJsTopFeaturesQuery(query);
         return await this.layer.queryTopFeatureCount(jsQuery, options);
     }
-    
+
     async queryTopObjectIds(query: DotNetTopFeaturesQuery, options: any): Promise<number[]> {
         let jsQuery = buildJsTopFeaturesQuery(query);
         return await this.layer.queryTopObjectIds(jsQuery, options);
     }
-    
+
     async queryTopFeaturesExtent(query: DotNetTopFeaturesQuery, options: any): Promise<any> {
         let jsQuery = buildJsTopFeaturesQuery(query);
         let result = await this.layer.queryTopFeaturesExtent(jsQuery, options);

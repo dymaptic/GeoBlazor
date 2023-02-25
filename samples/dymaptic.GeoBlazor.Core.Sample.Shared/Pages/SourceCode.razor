@@ -19,7 +19,7 @@
         if (PageUrl is null) PageUrl = string.Empty;
 
         string? markupContent = null;
-        string directory = "_content/dymaptic.GeoBlazor.Core.Sample.Shared/pages";
+        var directory = "_content/dymaptic.GeoBlazor.Core.Sample.Shared/pages";
         IDirectoryContents pages = FileProvider.GetDirectoryContents(directory);
 
         foreach (IFileInfo? page in pages)
@@ -36,7 +36,7 @@
                 string route = firstLine.Split('"')[1];
                 if (route == $"/{PageUrl}")
                 {
-                    StringBuilder markupBuilder = new StringBuilder(firstLine);
+                    var markupBuilder = new StringBuilder(firstLine);
                     while (!reader.EndOfStream)
                     {
                         markupBuilder.AppendLine(await reader.ReadLineAsync());
@@ -47,11 +47,11 @@
             }
             catch
             {
-                // continue;
+    // continue;
             }
         }
-        
-        if (markupContent != null && markupContent.Contains("@code"))
+
+        if ((markupContent != null) && markupContent.Contains("@code"))
         {
             int codeIndex = markupContent.IndexOf("@code", StringComparison.Ordinal);
             string codeContent = markupContent[codeIndex..].Trim();

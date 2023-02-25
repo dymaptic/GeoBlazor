@@ -1,10 +1,9 @@
-﻿import {arcGisObjectRefs} from "./arcGisJsInterop";
-import Popup from "@arcgis/core/widgets/Popup";
+﻿import Popup from "@arcgis/core/widgets/Popup";
 import {buildDotNetGraphic} from "./dotNetBuilder";
 
 export default class PopupWidgetWrapper {
     private popup: Popup;
-    
+
     constructor(popup: Popup) {
         this.popup = popup;
         // set all properties from graphic
@@ -14,11 +13,11 @@ export default class PopupWidgetWrapper {
             }
         }
     }
-    
+
     getSelectedFeature() {
         return buildDotNetGraphic(this.popup.selectedFeature);
     }
-    
+
     setContent(content: string) {
         this.popup.content = content;
     }

@@ -30,6 +30,6 @@
 /// <param name="Type">
 ///     Indicates the type of the event.
 /// </param>
-public record MouseWheelEvent(string Type, int? EventId, bool? Cancelable, double X, double Y, double DeltaY, 
-    double Timestamp, DomPointerEvent Native, PointerType? PointerType) 
+public record MouseWheelEvent(string Type, int? EventId, bool? Cancelable, double X, double Y, double DeltaY,
+        double Timestamp, DomPointerEvent Native, PointerType? PointerType)
     : JsEvent(Type, EventId, Cancelable, Timestamp, Native, PointerType);

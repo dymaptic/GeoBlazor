@@ -10,10 +10,6 @@ internal class SharedFileInfo : IFileInfo
         PhysicalPath = physicalPath;
         Name = Path.GetFileName(physicalPath);
     }
-    public Stream CreateReadStream()
-    {
-        throw new NotImplementedException();
-    }
 
     public bool Exists => true;
     public long Length { get; } = default!;
@@ -21,4 +17,9 @@ internal class SharedFileInfo : IFileInfo
     public string Name { get; }
     public DateTimeOffset LastModified { get; } = default!;
     public bool IsDirectory { get; } = default!;
+
+    public Stream CreateReadStream()
+    {
+        throw new NotImplementedException();
+    }
 }

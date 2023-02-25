@@ -40,5 +40,3 @@ application with the full power of ArcGIS.
         Follow @GeoBlazor on Twitter
     </a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 </div>
-
-We are just starting these docs, and there is more to come soon, so check back!

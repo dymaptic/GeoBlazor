@@ -34,7 +34,9 @@ public System.Nullable<bool> Collapsed { get; set; }
 
 ## PopupOpenOptions.FeatureMenuOpen Property
 
-This property enables multiple features in a popup to display in a list rather than displaying the first selected feature. Setting this to true allows the user to scroll through the list of features returned from the query and choose the selection they want to display within the popup.
+This property enables multiple features in a popup to display in a list rather than displaying the first selected  
+feature. Setting this to true allows the user to scroll through the list of features returned from the query and  
+choose the selection they want to display within the popup.
 
 ```csharp
 public System.Nullable<bool> FeatureMenuOpen { get; set; }
@@ -60,7 +62,9 @@ public dymaptic.GeoBlazor.Core.Components.Layers.Graphic[]? Features { get; set;
 
 ## PopupOpenOptions.FetchFeatures Property
 
-When true, indicates the popup should fetch the content of this feature and display it. If no PopupTemplate exists, a default template is created for the layer if defaultPopupTemplateEnabled = true. In order for this option to work, there must be a valid view and location set.
+When true, indicates the popup should fetch the content of this feature and display it. If no PopupTemplate exists,  
+a default template is created for the layer if defaultPopupTemplateEnabled = true. In order for this option to  
+work, there must be a valid view and location set.
 
 ```csharp
 public System.Nullable<bool> FetchFeatures { get; set; }
@@ -125,7 +129,8 @@ public string? Title { get; set; }
 
 ## PopupOpenOptions.UpdateLocationEnabled Property
 
-When true indicates the popup should update its location for each paginated feature based on the selected feature's geometry.
+When true indicates the popup should update its location for each paginated feature based on the selected feature's  
+geometry.
 
 ```csharp
 public System.Nullable<bool> UpdateLocationEnabled { get; set; }

@@ -8,8 +8,12 @@ parent: Classes
 
 ## OpenStreetMapLayer Class
 
-Allows you to use basemaps from OpenStreetMap. Set the tileservers property to change which OpenStreetMap tiles you want to use.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-OpenStreetMapLayer.html">ArcGIS JS API</a>
+Allows you to use basemaps from OpenStreetMap. Set the tileservers property to change which OpenStreetMap tiles you  
+want to use.  
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-OpenStreetMapLayer.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class OpenStreetMapLayer : dymaptic.GeoBlazor.Core.Components.Layers.WebTileLayer
@@ -55,7 +59,8 @@ The title of the layer used to identify it in places such as the Legend and Laye
 
 `blendMode` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[BlendMode](dymaptic.GeoBlazor.Core.Components.Layers.BlendMode.html 'dymaptic.GeoBlazor.Core.Components.Layers.BlendMode')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 
-Blend modes are used to blend layers together to create an interesting effect in a layer, or even to produce what seems like a new layer.
+Blend modes are used to blend layers together to create an interesting effect in a layer, or even to produce what  
+seems like a new layer.
 
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.OpenStreetMapLayer.OpenStreetMapLayer(dymaptic.GeoBlazor.Core.Components.PortalItem,string,System.Nullable_dymaptic.GeoBlazor.Core.Components.Layers.BlendMode_,string,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Collections.Generic.IList_string_,dymaptic.GeoBlazor.Core.Components.Layers.TileInfo,System.Nullable_double_,System.Nullable_bool_,System.Nullable_dymaptic.GeoBlazor.Core.Components.Layers.ListMode_).copyright'></a>
 
@@ -85,7 +90,8 @@ Refresh interval of the layer in minutes.
 
 `subDomains` [System.Collections.Generic.IList&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IList-1 'System.Collections.Generic.IList`1')[System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IList-1 'System.Collections.Generic.IList`1')
 
-A string of subDomain names where tiles are served to speed up tile retrieval. If subDomains are specified, the UrlTemplate should include a {subDomain} place holder.
+A string of subDomain names where tiles are served to speed up tile retrieval. If subDomains are specified, the  
+UrlTemplate should include a {subDomain} place holder.
 
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.OpenStreetMapLayer.OpenStreetMapLayer(dymaptic.GeoBlazor.Core.Components.PortalItem,string,System.Nullable_dymaptic.GeoBlazor.Core.Components.Layers.BlendMode_,string,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Collections.Generic.IList_string_,dymaptic.GeoBlazor.Core.Components.Layers.TileInfo,System.Nullable_double_,System.Nullable_bool_,System.Nullable_dymaptic.GeoBlazor.Core.Components.Layers.ListMode_).tileInfo'></a>
 
@@ -103,7 +109,8 @@ The opacity of the layer.
 
 `visible` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 
-Indicates if the layer is visible in the View. When false, the layer may still be added to a Map instance that is referenced in a view, but its features will not be visible in the view.
+Indicates if the layer is visible in the View. When false, the layer may still be added to a Map instance that is  
+referenced in a view, but its features will not be visible in the view.
 
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.OpenStreetMapLayer.OpenStreetMapLayer(dymaptic.GeoBlazor.Core.Components.PortalItem,string,System.Nullable_dymaptic.GeoBlazor.Core.Components.Layers.BlendMode_,string,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Collections.Generic.IList_string_,dymaptic.GeoBlazor.Core.Components.Layers.TileInfo,System.Nullable_double_,System.Nullable_bool_,System.Nullable_dymaptic.GeoBlazor.Core.Components.Layers.ListMode_).listMode'></a>
 

@@ -1,17 +1,21 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Layers;
-using Microsoft.JSInterop;
 
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
-///     Creates a new basemap object. Basemaps can be created from a PortalItem, from a well known basemap ID, or can be used for creating custom basemaps. These basemaps may be created from tiled services you publish to your own server, or from tiled services published by third parties.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html">ArcGIS JS API</a>
+///     Creates a new basemap object. Basemaps can be created from a PortalItem, from a well known basemap ID, or can be
+///     used for creating custom basemaps. These basemaps may be created from tiled services you publish to your own
+///     server, or from tiled services published by third parties.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html">
+///         ArcGIS JS
+///         API
+///     </a>
 /// </summary>
 public class Basemap : MapComponent
 {
     /// <summary>
-    ///     The <see cref="PortalItem"/>
+    ///     The <see cref="PortalItem" />
     /// </summary>
     public PortalItem? PortalItem { get; set; }
 

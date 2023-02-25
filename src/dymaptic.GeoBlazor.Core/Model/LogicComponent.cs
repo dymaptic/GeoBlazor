@@ -26,6 +26,11 @@ public abstract class LogicComponent
     }
 
     /// <summary>
+    ///     Implement this handler in your calling code to catch and handle Javascript errors.
+    /// </summary>
+    public Func<JavascriptException, Task>? OnJavascriptErrorHandler { get; set; }
+
+    /// <summary>
     ///     The name of the logic component.
     /// </summary>
     protected abstract string ComponentName { get; }
@@ -69,11 +74,6 @@ public abstract class LogicComponent
             throw exception;
         }
     }
-    
-    /// <summary>
-    ///     Implement this handler in your calling code to catch and handle Javascript errors.
-    /// </summary>
-    public Func<JavascriptException, Task>? OnJavascriptErrorHandler { get; set; }
 
     /// <summary>
     ///     Convenience method to invoke a JS function from the .NET logic component class.
@@ -89,6 +89,7 @@ public abstract class LogicComponent
         if (Component is null)
         {
             IJSObjectReference module = await GetArcGisJsInterop();
+
             Component = await module.InvokeAsync<IJSObjectReference>($"get{ComponentName}Wrapper",
                 DotNetObjectReference, ApiKey);
         }
@@ -110,13 +111,14 @@ public abstract class LogicComponent
         if (Component is null)
         {
             IJSObjectReference module = await GetArcGisJsInterop();
+
             Component = await module.InvokeAsync<IJSObjectReference>($"get{ComponentName}Wrapper",
-                    DotNetObjectReference, ApiKey);
+                DotNetObjectReference, ApiKey);
         }
 
         return await Component.InvokeAsync<T>(method, parameters);
     }
-    
+
     private async Task<IJSObjectReference> GetArcGisJsInterop()
     {
         LicenseType licenseType = Licensing.GetLicenseType();
@@ -128,6 +130,7 @@ public abstract class LogicComponent
                 IJSObjectReference proModule = await JsRuntime
                     .InvokeAsync<IJSObjectReference>("import",
                         "./_content/dymaptic.GeoBlazor.Pro/js/arcGisPro.js");
+
                 return await proModule.InvokeAsync<IJSObjectReference>("getCore");
             default:
                 return await JsRuntime
@@ -141,7 +144,7 @@ public abstract class LogicComponent
     /// </summary>
     protected readonly IJSRuntime JsRuntime;
     /// <summary>
-    ///    The ArcGIS API Key.
+    ///     The ArcGIS API Key.
     /// </summary>
     protected readonly string? ApiKey;
 }

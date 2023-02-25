@@ -8,7 +8,8 @@ parent: Classes
 
 ## NearestPointResult Class
 
-Object returned from the nearestCoordinate(), nearestVertex(), and nearestVertices() methods of [GeometryEngine](dymaptic.GeoBlazor.Core.Model.GeometryEngine.html 'dymaptic.GeoBlazor.Core.Model.GeometryEngine').
+Object returned from the nearestCoordinate(), nearestVertex(), and nearestVertices() methods of  
+[GeometryEngine](dymaptic.GeoBlazor.Core.Model.GeometryEngine.html 'dymaptic.GeoBlazor.Core.Model.GeometryEngine').
 
 ```csharp
 public class NearestPointResult

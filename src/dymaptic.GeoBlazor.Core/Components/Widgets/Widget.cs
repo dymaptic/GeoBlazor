@@ -1,32 +1,36 @@
-﻿using System.Text.Json;
-using System.Text.Json.Serialization;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 
 namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
 /// <summary>
 ///     The base class for widgets. Each widget's presentation is separate from its properties, methods, and data.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html">ArcGIS JS API</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html">
+///         ArcGIS
+///         JS API
+///     </a>
 /// </summary>
 [JsonConverter(typeof(WidgetConverter))]
 public abstract class Widget : MapComponent
 {
     /// <summary>
-    ///     The position of the widget in relation to the map view. 
+    ///     The position of the widget in relation to the map view.
     /// </summary>
     /// <remarks>
-    ///     Either <see cref="Position"/> or <see cref="ContainerId"/> should be set, but not both.
+    ///     Either <see cref="Position" /> or <see cref="ContainerId" /> should be set, but not both.
     /// </remarks>
     [Parameter]
     public OverlayPosition? Position { get; set; }
-    
+
     /// <summary>
-    ///     The id of an external HTML Element (div). If provided, the widget will be placed inside that element, instead of on the map.
+    ///     The id of an external HTML Element (div). If provided, the widget will be placed inside that element, instead of on
+    ///     the map.
     /// </summary>
     /// <remarks>
-    ///     Either <see cref="Position"/> or <see cref="ContainerId"/> should be set, but not both.
+    ///     Either <see cref="Position" /> or <see cref="ContainerId" /> should be set, but not both.
     /// </remarks>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -39,7 +43,7 @@ public abstract class Widget : MapComponent
     public abstract string WidgetType { get; }
 
     /// <summary>
-    ///    DotNet Object Reference to the widget
+    ///     DotNet Object Reference to the widget
     /// </summary>
     public DotNetObjectReference<Widget> DotNetWidgetReference => DotNetObjectReference.Create(this);
 
@@ -53,7 +57,7 @@ public abstract class Widget : MapComponent
     }
 
     /// <summary>
-    ///    JS Object Reference to the widget
+    ///     JS Object Reference to the widget
     /// </summary>
     protected IJSObjectReference? JsObjectReference;
 }

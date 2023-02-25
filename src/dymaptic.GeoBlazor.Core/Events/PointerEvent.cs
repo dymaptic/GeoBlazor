@@ -7,7 +7,8 @@
 ///     The event type.
 /// </param>
 /// <param name="PointerId">
-///     Uniquely identifies a pointer between multiple down, move, and up events. Ids might get reused after a pointer-up event.
+///     Uniquely identifies a pointer between multiple down, move, and up events. Ids might get reused after a pointer-up
+///     event.
 /// </param>
 /// <param name="PointerType">
 ///     Indicates the pointer type.
@@ -36,6 +37,6 @@
 /// <param name="EventId">
 ///     The unique Id of the event.
 /// </param>
-public record PointerEvent(string Type, int? EventId, bool? Cancelable, long PointerId, PointerType? PointerType, 
-    double X, double Y, int Button, int Buttons, double Timestamp, DomPointerEvent Native)
+public record PointerEvent(string Type, int? EventId, bool? Cancelable, long PointerId, PointerType? PointerType,
+        double X, double Y, int Button, int Buttons, double Timestamp, DomPointerEvent Native)
     : JsEvent(Type, EventId, Cancelable, Timestamp, Native, PointerType);

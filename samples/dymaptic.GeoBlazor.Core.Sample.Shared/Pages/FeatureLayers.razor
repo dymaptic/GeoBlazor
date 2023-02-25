@@ -102,13 +102,15 @@
 </MapView>
 
 @code {
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender) return;
 
         if (_showGraphics)
         {
-            Graphic[] graphics = {
+            Graphic[] graphics =
+            {
                 new(new Point(-118.805, 34.027),
                     attributes: new Dictionary<string, object>
                     {
@@ -126,7 +128,7 @@
                     {
                         { "ObjectID", "4" },
                         { "url", "https://arcgis.github.io/arcgis-samples-javascript/sample-data/featurelayer-collection/photo-4.jpg" }
-                    }),
+                    })
             };
             await _graphicsFeatureLayer!.Add(graphics);
         }

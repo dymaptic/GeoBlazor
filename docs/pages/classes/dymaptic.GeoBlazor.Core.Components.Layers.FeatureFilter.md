@@ -8,7 +8,10 @@ parent: Classes
 
 ## FeatureFilter Class
 
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html">ArcGIS JS API</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html">  
+                    ArcGIS  
+                    JS API  
+                </a>
 
 ```csharp
 public class FeatureFilter
@@ -21,7 +24,10 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 
 ## FeatureFilter.Distance Property
 
-Specifies a search distance from a given geometry in a spatial filter. The units property indicates the unit of measurement. In essence, setting this property creates a buffer at the specified size around the input geometry. The filter will use that buffer to display features in the layer or layer view that adhere to the to the indicated spatial relationship.
+Specifies a search distance from a given geometry in a spatial filter. The units property indicates the unit of  
+measurement. In essence, setting this property creates a buffer at the specified size around the input geometry.  
+The filter will use that buffer to display features in the layer or layer view that adhere to the to the indicated  
+spatial relationship.
 
 ```csharp
 public System.Nullable<double> Distance { get; set; }
@@ -34,7 +40,8 @@ public System.Nullable<double> Distance { get; set; }
 
 ## FeatureFilter.Geometry Property
 
-The geometry to apply to the spatial filter. The spatial relationship as specified by spatialRelationship will indicate how the geometry should be used to filter features.
+The geometry to apply to the spatial filter. The spatial relationship as specified by spatialRelationship will  
+indicate how the geometry should be used to filter features.
 
 ```csharp
 public dymaptic.GeoBlazor.Core.Components.Geometries.Geometry? Geometry { get; set; }
@@ -63,7 +70,10 @@ public System.Collections.Generic.IEnumerable<int>? ObjectIds { get; set; }
 
 ## FeatureFilter.SpatialRelationship Property
 
-For spatial filters, this parameter defines the spatial relationship to filter features in the layer view against the filter geometry. The spatial relationships discover how features are spatially related to each other. For example, you may want to know if a polygon representing a county completely contains points representing settlements.
+For spatial filters, this parameter defines the spatial relationship to filter features in the layer view against  
+the filter geometry. The spatial relationships discover how features are spatially related to each other. For  
+example, you may want to know if a polygon representing a county completely contains points representing  
+settlements.
 
 ```csharp
 public System.Nullable<dymaptic.GeoBlazor.Core.Objects.SpatialRelationship> SpatialRelationship { get; set; }
@@ -76,7 +86,9 @@ public System.Nullable<dymaptic.GeoBlazor.Core.Objects.SpatialRelationship> Spat
 
 ## FeatureFilter.TimeExtent Property
 
-A range of time with start and end date. Only the features that fall within this time extent will be displayed. The Date field to be used for timeExtent should be added to outFields list when the layer is initialized. This ensures the best user experience when switching or updating fields for time filters.
+A range of time with start and end date. Only the features that fall within this time extent will be displayed. The  
+Date field to be used for timeExtent should be added to outFields list when the layer is initialized. This ensures  
+the best user experience when switching or updating fields for time filters.
 
 ```csharp
 public dymaptic.GeoBlazor.Core.Objects.TimeExtent? TimeExtent { get; set; }
@@ -89,7 +101,8 @@ public dymaptic.GeoBlazor.Core.Objects.TimeExtent? TimeExtent { get; set; }
 
 ## FeatureFilter.Units Property
 
-The unit for calculating the buffer distance when distance is specified in a spatial filter. If units is not specified, the unit is derived from the filter geometry's spatial reference.
+The unit for calculating the buffer distance when distance is specified in a spatial filter. If units is not  
+specified, the unit is derived from the filter geometry's spatial reference.
 
 ```csharp
 public System.Nullable<dymaptic.GeoBlazor.Core.Objects.LinearUnit> Units { get; set; }
@@ -102,8 +115,12 @@ public System.Nullable<dymaptic.GeoBlazor.Core.Objects.LinearUnit> Units { get; 
 
 ## FeatureFilter.Where Property
 
-A where clause for the feature filter. Any legal SQL92 where clause operating on the fields in the layer is allowed. Be sure to have the correct sequence of single and double quotes when writing the where clause in JavaScript.  
-For apps where users can interactively change fields used for attribute filter, we suggest you include all possible fields in the outFields of the layer. This ensures the best user experience when switching or updating fields for attribute filters.
+A where clause for the feature filter. Any legal SQL92 where clause operating on the fields in the layer is  
+allowed. Be sure to have the correct sequence of single and double quotes when writing the where clause in  
+JavaScript.  
+For apps where users can interactively change fields used for attribute filter, we suggest you include all possible  
+fields in the outFields of the layer. This ensures the best user experience when switching or updating fields for  
+attribute filters.
 
 ```csharp
 public string? Where { get; set; }

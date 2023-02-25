@@ -8,8 +8,13 @@ parent: Classes
 
 ## GeometryEngine Class
 
-A client-side geometry engine for testing, measuring, and analyzing the spatial relationship between two or more 2D geometries. If more than one geometry is required for any of the methods below, all geometries must have the same spatial reference for the methods to work as expected.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-geometryEngine.html">ArcGIS JS API</a>
+A client-side geometry engine for testing, measuring, and analyzing the spatial relationship between two or more 2D  
+geometries. If more than one geometry is required for any of the methods below, all geometries must have the same  
+spatial reference for the methods to work as expected.  
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-geometryEngine.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class GeometryEngine : dymaptic.GeoBlazor.Core.Model.LogicComponent
@@ -70,7 +75,8 @@ Second input geometry.
 Returns true if the two input geometries are equal.
 
 ### Remarks
-In ArcGIS for JS, this method is called `Equals`. However, this term has special meaning in .NET, so we have renamed here.
+In ArcGIS for JS, this method is called `Equals`. However, this term has special meaning in .NET, so we have  
+renamed here.
 
 <a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.Buffer(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,double,System.Nullable_dymaptic.GeoBlazor.Core.Objects.LinearUnit_)'></a>
 
@@ -106,7 +112,11 @@ Measurement unit of the distance(s). Defaults to the units of the input geometri
 The resulting buffer.
 
 ### Remarks
-The GeometryEngine has two methods for buffering geometries client-side: buffer and geodesicBuffer. Use caution when deciding which method to use. As a general rule, use geodesicBuffer if the input geometries have a spatial reference of either WGS84 (wkid: 4326) or Web Mercator. Only use buffer (this method) when attempting to buffer geometries with a projected coordinate system other than Web Mercator. If you need to buffer geometries with a geographic coordinate system other than WGS84 (wkid: 4326), use geometryService.buffer().
+The GeometryEngine has two methods for buffering geometries client-side: buffer and geodesicBuffer. Use caution  
+when deciding which method to use. As a general rule, use geodesicBuffer if the input geometries have a spatial  
+reference of either WGS84 (wkid: 4326) or Web Mercator. Only use buffer (this method) when attempting to buffer  
+geometries with a projected coordinate system other than Web Mercator. If you need to buffer geometries with a  
+geographic coordinate system other than WGS84 (wkid: 4326), use geometryService.buffer().
 
 <a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.Buffer(System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Geometries.Geometry_,System.Collections.Generic.IEnumerable_double_,System.Nullable_dymaptic.GeoBlazor.Core.Objects.LinearUnit_,System.Nullable_bool_)'></a>
 
@@ -129,7 +139,12 @@ The buffer input geometries.
 
 `distances` [System.Collections.Generic.IEnumerable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IEnumerable-1 'System.Collections.Generic.IEnumerable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IEnumerable-1 'System.Collections.Generic.IEnumerable`1')
 
-The specified distance(s) for buffering. The length of the geometry array does not have to equal the length of the distance array. For example, if you pass an array of four geometries: [g1, g2, g3, g4] and an array with one distance: [d1], all four geometries will be buffered by the single distance value. If instead you use an array of three distances: [d1, d2, d3], g1 will be buffered by d1, g2 by d2, and g3 and g4 will both be buffered by d3. The value of the geometry array will be matched one to one with those in the distance array until the final value of the distance array is reached, in which case that value will be applied to the remaining geometries.
+The specified distance(s) for buffering. The length of the geometry array does not have to equal the length of the  
+distance array. For example, if you pass an array of four geometries: [g1, g2, g3, g4] and an array with one  
+distance: [d1], all four geometries will be buffered by the single distance value. If instead you use an array of  
+three distances: [d1, d2, d3], g1 will be buffered by d1, g2 by d2, and g3 and g4 will both be buffered by d3. The  
+value of the geometry array will be matched one to one with those in the distance array until the final value of  
+the distance array is reached, in which case that value will be applied to the remaining geometries.
 
 <a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.Buffer(System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Geometries.Geometry_,System.Collections.Generic.IEnumerable_double_,System.Nullable_dymaptic.GeoBlazor.Core.Objects.LinearUnit_,System.Nullable_bool_).unit'></a>
 
@@ -148,7 +163,11 @@ Determines whether the output geometries should be unioned into a single polygon
 The resulting buffers.
 
 ### Remarks
-The GeometryEngine has two methods for buffering geometries client-side: buffer and geodesicBuffer. Use caution when deciding which method to use. As a general rule, use geodesicBuffer if the input geometries have a spatial reference of either WGS84 (wkid: 4326) or Web Mercator. Only use buffer (this method) when attempting to buffer geometries with a projected coordinate system other than Web Mercator. If you need to buffer geometries with a geographic coordinate system other than WGS84 (wkid: 4326), use geometryService.buffer().
+The GeometryEngine has two methods for buffering geometries client-side: buffer and geodesicBuffer. Use caution  
+when deciding which method to use. As a general rule, use geodesicBuffer if the input geometries have a spatial  
+reference of either WGS84 (wkid: 4326) or Web Mercator. Only use buffer (this method) when attempting to buffer  
+geometries with a projected coordinate system other than Web Mercator. If you need to buffer geometries with a  
+geographic coordinate system other than WGS84 (wkid: 4326), use geometryService.buffer().
 
 <a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.Clip(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,dymaptic.GeoBlazor.Core.Components.Geometries.Extent)'></a>
 
@@ -192,7 +211,8 @@ public System.Threading.Tasks.Task<bool> Contains(dymaptic.GeoBlazor.Core.Compon
 
 `containerGeometry` [Geometry](dymaptic.GeoBlazor.Core.Components.Geometries.Geometry.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Geometry')
 
-The geometry that is tested for the "contains" relationship to the other geometry. Think of this geometry as the potential "container" of the insideGeometry.
+The geometry that is tested for the "contains" relationship to the other geometry. Think of this geometry as the  
+potential "container" of the insideGeometry.
 
 <a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.Contains(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,dymaptic.GeoBlazor.Core.Components.Geometries.Geometry).insideGeometry'></a>
 
@@ -208,7 +228,9 @@ Returns true if the containerGeometry contains the insideGeometry.
 
 ## GeometryEngine.ConvexHull(Geometry) Method
 
-Calculates the convex hull of one or more geometries. A convex hull is the smallest convex polygon that encloses a group of geometries or vertices. The input can be a single geometry (such as a polyline) or an array of any geometry type. The hull is typically a polygon but can also be a polyline or a point in degenerate cases.
+Calculates the convex hull of one or more geometries. A convex hull is the smallest convex polygon that encloses a  
+group of geometries or vertices. The input can be a single geometry (such as a polyline) or an array of any  
+geometry type. The hull is typically a polygon but can also be a polyline or a point in degenerate cases.
 
 ```csharp
 public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Geometries.Geometry> ConvexHull(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry geometry);
@@ -223,13 +245,16 @@ The input geometry used to calculate the convex hull.
 
 #### Returns
 [System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[Geometry](dymaptic.GeoBlazor.Core.Components.Geometries.Geometry.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Geometry')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
-Returns the convex hull of the input geometries. This is usually a polygon, but can also be a polyline (if the input is a set of points or polylines forming a straight line), or a point (in degenerate cases).
+Returns the convex hull of the input geometries. This is usually a polygon, but can also be a polyline (if the  
+input is a set of points or polylines forming a straight line), or a point (in degenerate cases).
 
 <a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.ConvexHull(System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Geometries.Geometry_,System.Nullable_bool_)'></a>
 
 ## GeometryEngine.ConvexHull(IEnumerable<Geometry>, Nullable<bool>) Method
 
-Calculates the convex hull of one or more geometries. A convex hull is the smallest convex polygon that encloses a group of geometries or vertices. The input can be a single geometry (such as a polyline) or an array of any geometry type. The hull is typically a polygon but can also be a polyline or a point in degenerate cases.
+Calculates the convex hull of one or more geometries. A convex hull is the smallest convex polygon that encloses a  
+group of geometries or vertices. The input can be a single geometry (such as a polyline) or an array of any  
+geometry type. The hull is typically a polygon but can also be a polyline or a point in degenerate cases.
 
 ```csharp
 public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Geometries.Geometry[]> ConvexHull(System.Collections.Generic.IEnumerable<dymaptic.GeoBlazor.Core.Components.Geometries.Geometry> geometries, System.Nullable<bool> merge=null);
@@ -250,7 +275,8 @@ Indicates whether to merge the output into a single geometry (usually a polygon)
 
 #### Returns
 [System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[Geometry](dymaptic.GeoBlazor.Core.Components.Geometries.Geometry.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Geometry')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
-Returns the convex hull of the input geometries. This is usually a polygon, but can also be a polyline (if the input is a set of points or polylines forming a straight line), or a point (in degenerate cases).
+Returns the convex hull of the input geometries. This is usually a polygon, but can also be a polyline (if the  
+input is a set of points or polylines forming a straight line), or a point (in degenerate cases).
 
 <a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.Crosses(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,dymaptic.GeoBlazor.Core.Components.Geometries.Geometry)'></a>
 
@@ -283,7 +309,13 @@ Returns true if geometry1 crosses geometry2.
 
 ## GeometryEngine.Cut(Geometry, PolyLine) Method
 
-Splits the input Polyline or Polygon where it crosses a cutting Polyline. For Polylines, all left cuts are grouped together in the first Geometry. Right cuts and coincident cuts are grouped in the second Geometry and each undefined cut, along with any uncut parts, are output as separate Polylines. For Polygons, all left cuts are grouped in the first Polygon, all right cuts are grouped in the second Polygon, and each undefined cut, along with any leftover parts after cutting, are output as a separate Polygon. If no cuts are returned then the array will be empty. An undefined cut will only be produced if a left cut or right cut was produced and there was a part left over after cutting, or a cut is bounded to the left and right of the cutter.
+Splits the input Polyline or Polygon where it crosses a cutting Polyline. For Polylines, all left cuts are grouped  
+together in the first Geometry. Right cuts and coincident cuts are grouped in the second Geometry and each  
+undefined cut, along with any uncut parts, are output as separate Polylines. For Polygons, all left cuts are  
+grouped in the first Polygon, all right cuts are grouped in the second Polygon, and each undefined cut, along with  
+any leftover parts after cutting, are output as a separate Polygon. If no cuts are returned then the array will be  
+empty. An undefined cut will only be produced if a left cut or right cut was produced and there was a part left  
+over after cutting, or a cut is bounded to the left and right of the cutter.
 
 ```csharp
 public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Geometries.Geometry[]> Cut(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry geometry, dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine cutter);
@@ -343,7 +375,8 @@ The densified geometry.
 
 ## GeometryEngine.Difference(Geometry, Geometry) Method
 
-Creates the difference of two geometries. The resultant geometry is the portion of inputGeometry not in the subtractor. The dimension of the subtractor has to be equal to or greater than that of the inputGeometry.
+Creates the difference of two geometries. The resultant geometry is the portion of inputGeometry not in the  
+subtractor. The dimension of the subtractor has to be equal to or greater than that of the inputGeometry.
 
 ```csharp
 public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Geometries.Geometry> Difference(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry geometry, dymaptic.GeoBlazor.Core.Components.Geometries.Geometry subtractor);
@@ -370,7 +403,8 @@ Returns the geometry of inputGeometry minus the subtractor geometry.
 
 ## GeometryEngine.Difference(IEnumerable<Geometry>, Geometry) Method
 
-Creates the difference of two geometries. The resultant geometry is the portion of inputGeometry not in the subtractor. The dimension of the subtractor has to be equal to or greater than that of the inputGeometry.
+Creates the difference of two geometries. The resultant geometry is the portion of inputGeometry not in the  
+subtractor. The dimension of the subtractor has to be equal to or greater than that of the inputGeometry.
 
 ```csharp
 public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Geometries.Geometry[]> Difference(System.Collections.Generic.IEnumerable<dymaptic.GeoBlazor.Core.Components.Geometries.Geometry> geometries, dymaptic.GeoBlazor.Core.Components.Geometries.Geometry subtractor);
@@ -424,7 +458,8 @@ Returns true if geometry1 and geometry2 are disjoint (don't intersect in any way
 
 ## GeometryEngine.Distance(Geometry, Geometry, Nullable<LinearUnit>) Method
 
-Calculates the shortest planar distance between two geometries. Distance is reported in the linear units specified by distanceUnit or, if distanceUnit is null, the units of the spatialReference of input geometry.
+Calculates the shortest planar distance between two geometries. Distance is reported in the linear units specified  
+by distanceUnit or, if distanceUnit is null, the units of the spatialReference of input geometry.
 
 ```csharp
 public System.Threading.Tasks.Task<double> Distance(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry geometry1, dymaptic.GeoBlazor.Core.Components.Geometries.Geometry geometry2, System.Nullable<dymaptic.GeoBlazor.Core.Objects.LinearUnit> distanceUnit=null);
@@ -532,7 +567,8 @@ The flipped geometry.
 
 ## GeometryEngine.Generalize(Geometry, double, Nullable<bool>, Nullable<LinearUnit>) Method
 
-Performs the generalize operation on the geometries in the cursor. Point and Multipoint geometries are left unchanged. Envelope is converted to a Polygon and then generalized.
+Performs the generalize operation on the geometries in the cursor. Point and Multipoint geometries are left  
+unchanged. Envelope is converted to a Polygon and then generalized.
 
 ```csharp
 public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Geometries.Geometry> Generalize(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry geometry, double maxDeviation, System.Nullable<bool> removeDegenerateParts=null, System.Nullable<dymaptic.GeoBlazor.Core.Objects.LinearUnit> maxDeviationUnit=null);
@@ -571,7 +607,11 @@ The generalized geometry.
 
 ## GeometryEngine.GeodesicArea(Polygon, Nullable<ArealUnit>) Method
 
-Calculates the area of the input geometry. As opposed to planarArea(), geodesicArea takes into account the curvature of the earth when performing this calculation. Therefore, when using input geometries with a spatial reference of either WGS84 (wkid: 4326) or Web Mercator, it is best practice to calculate areas using geodesicArea(). If the input geometries have a projected coordinate system other than Web Mercator, use planarArea() instead.
+Calculates the area of the input geometry. As opposed to planarArea(), geodesicArea takes into account the  
+curvature of the earth when performing this calculation. Therefore, when using input geometries with a spatial  
+reference of either WGS84 (wkid: 4326) or Web Mercator, it is best practice to calculate areas using  
+geodesicArea(). If the input geometries have a projected coordinate system other than Web Mercator, use  
+planarArea() instead.
 
 ```csharp
 public System.Threading.Tasks.Task<double> GeodesicArea(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon geometry, System.Nullable<dymaptic.GeoBlazor.Core.Objects.ArealUnit> unit=null);
@@ -601,7 +641,10 @@ This method only works with WGS84 (wkid: 4326) and Web Mercator spatial referenc
 
 ## GeometryEngine.GeodesicBuffer(Geometry, double, Nullable<LinearUnit>) Method
 
-Creates geodesic buffer polygons at a specified distance around the input geometries. When calculating distances, this method takes the curvature of the earth into account, which provides highly accurate results when dealing with very large geometries and/or geometries that spatially vary on a global scale where one projected coordinate system could not accurately plot coordinates and measure distances for all the geometries.
+Creates geodesic buffer polygons at a specified distance around the input geometries. When calculating distances,  
+this method takes the curvature of the earth into account, which provides highly accurate results when dealing with  
+very large geometries and/or geometries that spatially vary on a global scale where one projected coordinate system  
+could not accurately plot coordinates and measure distances for all the geometries.
 
 ```csharp
 public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Geometries.Polygon> GeodesicBuffer(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry geometry, double distance, System.Nullable<dymaptic.GeoBlazor.Core.Objects.LinearUnit> unit=null);
@@ -631,13 +674,20 @@ Measurement unit of the distance. Defaults to the units of the input geometry.
 The resulting buffers
 
 ### Remarks
-This method only works with WGS84 (wkid: 4326) and Web Mercator spatial references. In general, if your input geometries are assigned one of those two spatial references, you should always use geodesicBuffer() to obtain the most accurate results for those geometries. If needing to buffer points assigned a projected coordinate system other than Web Mercator, use buffer() instead. If the input geometries have a geographic coordinate system other than WGS84 (wkid: 4326), use geometryService.buffer().
+This method only works with WGS84 (wkid: 4326) and Web Mercator spatial references. In general, if your input  
+geometries are assigned one of those two spatial references, you should always use geodesicBuffer() to obtain the  
+most accurate results for those geometries. If needing to buffer points assigned a projected coordinate system  
+other than Web Mercator, use buffer() instead. If the input geometries have a geographic coordinate system other  
+than WGS84 (wkid: 4326), use geometryService.buffer().
 
 <a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.GeodesicBuffer(System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Geometries.Geometry_,System.Collections.Generic.IEnumerable_double_,System.Nullable_dymaptic.GeoBlazor.Core.Objects.LinearUnit_,System.Nullable_bool_)'></a>
 
 ## GeometryEngine.GeodesicBuffer(IEnumerable<Geometry>, IEnumerable<double>, Nullable<LinearUnit>, Nullable<bool>) Method
 
-Creates geodesic buffer polygons at a specified distance around the input geometries. When calculating distances, this method takes the curvature of the earth into account, which provides highly accurate results when dealing with very large geometries and/or geometries that spatially vary on a global scale where one projected coordinate system could not accurately plot coordinates and measure distances for all the geometries.
+Creates geodesic buffer polygons at a specified distance around the input geometries. When calculating distances,  
+this method takes the curvature of the earth into account, which provides highly accurate results when dealing with  
+very large geometries and/or geometries that spatially vary on a global scale where one projected coordinate system  
+could not accurately plot coordinates and measure distances for all the geometries.
 
 ```csharp
 public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Geometries.Polygon[]> GeodesicBuffer(System.Collections.Generic.IEnumerable<dymaptic.GeoBlazor.Core.Components.Geometries.Geometry> geometries, System.Collections.Generic.IEnumerable<double> distances, System.Nullable<dymaptic.GeoBlazor.Core.Objects.LinearUnit> unit=null, System.Nullable<bool> unionResults=null);
@@ -654,7 +704,12 @@ The buffer input geometries
 
 `distances` [System.Collections.Generic.IEnumerable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IEnumerable-1 'System.Collections.Generic.IEnumerable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IEnumerable-1 'System.Collections.Generic.IEnumerable`1')
 
-The specified distance(s) for buffering. The length of the geometry array does not have to equal the length of the distance array. For example, if you pass an array of four geometries: [g1, g2, g3, g4] and an array with one distance: [d1], all four geometries will be buffered by the single distance value. If instead you use an array of three distances: [d1, d2, d3], g1 will be buffered by d1, g2 by d2, and g3 and g4 will both be buffered by d3. The value of the geometry array will be matched one to one with those in the distance array until the final value of the distance array is reached, in which case that value will be applied to the remaining geometries.
+The specified distance(s) for buffering. The length of the geometry array does not have to equal the length of the  
+distance array. For example, if you pass an array of four geometries: [g1, g2, g3, g4] and an array with one  
+distance: [d1], all four geometries will be buffered by the single distance value. If instead you use an array of  
+three distances: [d1, d2, d3], g1 will be buffered by d1, g2 by d2, and g3 and g4 will both be buffered by d3. The  
+value of the geometry array will be matched one to one with those in the distance array until the final value of  
+the distance array is reached, in which case that value will be applied to the remaining geometries.
 
 <a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.GeodesicBuffer(System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Geometries.Geometry_,System.Collections.Generic.IEnumerable_double_,System.Nullable_dymaptic.GeoBlazor.Core.Objects.LinearUnit_,System.Nullable_bool_).unit'></a>
 
@@ -673,13 +728,18 @@ Determines whether the output geometries should be unioned into a single polygon
 The resulting buffers
 
 ### Remarks
-This method only works with WGS84 (wkid: 4326) and Web Mercator spatial references. In general, if your input geometries are assigned one of those two spatial references, you should always use geodesicBuffer() to obtain the most accurate results for those geometries. If needing to buffer points assigned a projected coordinate system other than Web Mercator, use buffer() instead. If the input geometries have a geographic coordinate system other than WGS84 (wkid: 4326), use geometryService.buffer().
+This method only works with WGS84 (wkid: 4326) and Web Mercator spatial references. In general, if your input  
+geometries are assigned one of those two spatial references, you should always use geodesicBuffer() to obtain the  
+most accurate results for those geometries. If needing to buffer points assigned a projected coordinate system  
+other than Web Mercator, use buffer() instead. If the input geometries have a geographic coordinate system other  
+than WGS84 (wkid: 4326), use geometryService.buffer().
 
 <a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.GeodesicDensify(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,double,System.Nullable_dymaptic.GeoBlazor.Core.Objects.LinearUnit_)'></a>
 
 ## GeometryEngine.GeodesicDensify(Geometry, double, Nullable<LinearUnit>) Method
 
-Returns a geodesically densified version of the input geometry. Use this function to draw the line(s) of the geometry along great circles.
+Returns a geodesically densified version of the input geometry. Use this function to draw the line(s) of the  
+geometry along great circles.
 
 ```csharp
 public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Geometries.Geometry> GeodesicDensify(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry geometry, double maxSegmentLength, System.Nullable<dymaptic.GeoBlazor.Core.Objects.LinearUnit> maxSegmentLenghtUnit=null);
@@ -696,7 +756,8 @@ A polyline or polygon to densify.
 
 `maxSegmentLength` [System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')
 
-The maximum segment length allowed (in meters if a maxSegmentLengthUnit is not provided). This must be a positive value.
+The maximum segment length allowed (in meters if a maxSegmentLengthUnit is not provided). This must be a positive  
+value.
 
 <a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.GeodesicDensify(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,double,System.Nullable_dymaptic.GeoBlazor.Core.Objects.LinearUnit_).maxSegmentLenghtUnit'></a>
 
@@ -712,7 +773,11 @@ Returns the densified geometry.
 
 ## GeometryEngine.GeodesicLength(Geometry, Nullable<LinearUnit>) Method
 
-Calculates the length of the input geometry. As opposed to planarLength(), geodesicLength() takes into account the curvature of the earth when performing this calculation. Therefore, when using input geometries with a spatial reference of either WGS84 (wkid: 4326) or Web Mercator, it is best practice to calculate lengths using geodesicLength(). If the input geometries have a projected coordinate system other than Web Mercator, use planarLength() instead.
+Calculates the length of the input geometry. As opposed to planarLength(), geodesicLength() takes into account the  
+curvature of the earth when performing this calculation. Therefore, when using input geometries with a spatial  
+reference of either WGS84 (wkid: 4326) or Web Mercator, it is best practice to calculate lengths using  
+geodesicLength(). If the input geometries have a projected coordinate system other than Web Mercator, use  
+planarLength() instead.
 
 ```csharp
 public System.Threading.Tasks.Task<double> GeodesicLength(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry geometry, System.Nullable<dymaptic.GeoBlazor.Core.Objects.LinearUnit> unit=null);
@@ -742,7 +807,9 @@ This method only works with WGS84 (wkid: 4326) and Web Mercator spatial referenc
 
 ## GeometryEngine.Intersect(Geometry, Geometry) Method
 
-Creates new geometries from the intersections between two geometries. If the input geometries have different dimensions (i.e. point = 0; polyline = 1; polygon = 2), then the result's dimension will be equal to the lowest dimension of the inputs.
+Creates new geometries from the intersections between two geometries. If the input geometries have different  
+dimensions (i.e. point = 0; polyline = 1; polygon = 2), then the result's dimension will be equal to the lowest  
+dimension of the inputs.
 
 ```csharp
 public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Geometries.Geometry> Intersect(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry geometry1, dymaptic.GeoBlazor.Core.Components.Geometries.Geometry geometry2);
@@ -769,7 +836,9 @@ The intersections of the geometries.
 
 ## GeometryEngine.Intersect(IEnumerable<Geometry>, Geometry) Method
 
-Creates new geometries from the intersections between two geometries. If the input geometries have different dimensions (i.e. point = 0; polyline = 1; polygon = 2), then the result's dimension will be equal to the lowest dimension of the inputs. The table below describes the expected output for various combinations of geometry types.
+Creates new geometries from the intersections between two geometries. If the input geometries have different  
+dimensions (i.e. point = 0; polyline = 1; polygon = 2), then the result's dimension will be equal to the lowest  
+dimension of the inputs. The table below describes the expected output for various combinations of geometry types.
 
 ```csharp
 public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Geometries.Geometry[]> Intersect(System.Collections.Generic.IEnumerable<dymaptic.GeoBlazor.Core.Components.Geometries.Geometry> geometries1, dymaptic.GeoBlazor.Core.Components.Geometries.Geometry geometry2);
@@ -823,7 +892,8 @@ Returns true if the input geometries intersect each other.
 
 ## GeometryEngine.IsSimple(Geometry) Method
 
-Indicates if the given geometry is topologically simple. In a simplified geometry, no polygon rings or polyline paths will overlap, and no self-intersection will occur.
+Indicates if the given geometry is topologically simple. In a simplified geometry, no polygon rings or polyline  
+paths will overlap, and no self-intersection will occur.
 
 ```csharp
 public System.Threading.Tasks.Task<bool> IsSimple(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry geometry);
@@ -898,7 +968,8 @@ Returns an object containing the nearest vertex.
 
 ## GeometryEngine.NearestVertices(Geometry, Point, double, int) Method
 
-Finds all vertices in the given distance from the specified point, sorted from the closest to the furthest and returns them as an array of Objects.
+Finds all vertices in the given distance from the specified point, sorted from the closest to the furthest and  
+returns them as an array of Objects.
 
 ```csharp
 public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Objects.NearestPointResult[]> NearestVertices(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry geometry, dymaptic.GeoBlazor.Core.Components.Geometries.Point inputPoint, double searchRadius, int maxVertexCountToReturn);
@@ -937,7 +1008,8 @@ An array of objects containing the nearest vertices within the given searchRadiu
 
 ## GeometryEngine.Offset(Geometry, double, Nullable<LinearUnit>, Nullable<JoinType>, Nullable<double>, Nullable<double>) Method
 
-The offset operation creates a geometry that is a constant planar distance from an input polyline or polygon. It is similar to buffering, but produces a one-sided result.
+The offset operation creates a geometry that is a constant planar distance from an input polyline or polygon. It is  
+similar to buffering, but produces a one-sided result.
 
 ```csharp
 public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Geometries.Geometry> Offset(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry geometry, double offsetDistance, System.Nullable<dymaptic.GeoBlazor.Core.Objects.LinearUnit> offsetUnit=null, System.Nullable<dymaptic.GeoBlazor.Core.Model.JoinType> joinType=null, System.Nullable<double> bevelRatio=null, System.Nullable<double> flattenError=null);
@@ -954,7 +1026,11 @@ The geometry to offset.
 
 `offsetDistance` [System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')
 
-The planar distance to offset from the input geometry. If offsetDistance > 0, then the offset geometry is constructed to the right of the oriented input geometry, if offsetDistance = 0, then there is no change in the geometries, otherwise it is constructed to the left. For a simple polygon, the orientation of outer rings is clockwise and for inner rings it is counter clockwise. So the "right side" of a simple polygon is always its inside.
+The planar distance to offset from the input geometry. If offsetDistance > 0, then the offset geometry is  
+constructed to the right of the oriented input geometry, if offsetDistance = 0, then there is no change in the  
+geometries, otherwise it is constructed to the left. For a simple polygon, the orientation of outer rings is  
+clockwise and for inner rings it is counter clockwise. So the "right side" of a simple polygon is always its  
+inside.
 
 <a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.Offset(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,double,System.Nullable_dymaptic.GeoBlazor.Core.Objects.LinearUnit_,System.Nullable_dymaptic.GeoBlazor.Core.Model.JoinType_,System.Nullable_double_,System.Nullable_double_).offsetUnit'></a>
 
@@ -972,13 +1048,15 @@ The [JoinType](dymaptic.GeoBlazor.Core.Model.JoinType.html 'dymaptic.GeoBlazor.C
 
 `bevelRatio` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 
-Applicable when joinType = 'miter'; bevelRatio is multiplied by the offset distance and the result determines how far a mitered offset intersection can be located before it is beveled.
+Applicable when joinType = 'miter'; bevelRatio is multiplied by the offset distance and the result determines how  
+far a mitered offset intersection can be located before it is beveled.
 
 <a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.Offset(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,double,System.Nullable_dymaptic.GeoBlazor.Core.Objects.LinearUnit_,System.Nullable_dymaptic.GeoBlazor.Core.Model.JoinType_,System.Nullable_double_,System.Nullable_double_).flattenError'></a>
 
 `flattenError` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 
-Applicable when joinType = 'round'; flattenError determines the maximum distance of the resulting segments compared to the true circular arc. The algorithm never produces more than around 180 vertices for each round join.
+Applicable when joinType = 'round'; flattenError determines the maximum distance of the resulting segments compared  
+to the true circular arc. The algorithm never produces more than around 180 vertices for each round join.
 
 #### Returns
 [System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[Geometry](dymaptic.GeoBlazor.Core.Components.Geometries.Geometry.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Geometry')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
@@ -988,7 +1066,8 @@ The offset geometry.
 
 ## GeometryEngine.Offset(IEnumerable<Geometry>, double, Nullable<LinearUnit>, Nullable<JoinType>, Nullable<double>, Nullable<double>) Method
 
-The offset operation creates a geometry that is a constant planar distance from an input polyline or polygon. It is similar to buffering, but produces a one-sided result.
+The offset operation creates a geometry that is a constant planar distance from an input polyline or polygon. It is  
+similar to buffering, but produces a one-sided result.
 
 ```csharp
 public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Geometries.Geometry[]> Offset(System.Collections.Generic.IEnumerable<dymaptic.GeoBlazor.Core.Components.Geometries.Geometry> geometries, double offsetDistance, System.Nullable<dymaptic.GeoBlazor.Core.Objects.LinearUnit> offsetUnit=null, System.Nullable<dymaptic.GeoBlazor.Core.Model.JoinType> joinType=null, System.Nullable<double> bevelRatio=null, System.Nullable<double> flattenError=null);
@@ -1005,7 +1084,11 @@ The geometries to offset.
 
 `offsetDistance` [System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')
 
-The planar distance to offset from the input geometry. If offsetDistance > 0, then the offset geometry is constructed to the right of the oriented input geometry, if offsetDistance = 0, then there is no change in the geometries, otherwise it is constructed to the left. For a simple polygon, the orientation of outer rings is clockwise and for inner rings it is counter clockwise. So the "right side" of a simple polygon is always its inside.
+The planar distance to offset from the input geometry. If offsetDistance > 0, then the offset geometry is  
+constructed to the right of the oriented input geometry, if offsetDistance = 0, then there is no change in the  
+geometries, otherwise it is constructed to the left. For a simple polygon, the orientation of outer rings is  
+clockwise and for inner rings it is counter clockwise. So the "right side" of a simple polygon is always its  
+inside.
 
 <a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.Offset(System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Geometries.Geometry_,double,System.Nullable_dymaptic.GeoBlazor.Core.Objects.LinearUnit_,System.Nullable_dymaptic.GeoBlazor.Core.Model.JoinType_,System.Nullable_double_,System.Nullable_double_).offsetUnit'></a>
 
@@ -1023,13 +1106,15 @@ The [JoinType](dymaptic.GeoBlazor.Core.Model.JoinType.html 'dymaptic.GeoBlazor.C
 
 `bevelRatio` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 
-Applicable when joinType = 'miter'; bevelRatio is multiplied by the offset distance and the result determines how far a mitered offset intersection can be located before it is beveled.
+Applicable when joinType = 'miter'; bevelRatio is multiplied by the offset distance and the result determines how  
+far a mitered offset intersection can be located before it is beveled.
 
 <a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.Offset(System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Geometries.Geometry_,double,System.Nullable_dymaptic.GeoBlazor.Core.Objects.LinearUnit_,System.Nullable_dymaptic.GeoBlazor.Core.Model.JoinType_,System.Nullable_double_,System.Nullable_double_).flattenError'></a>
 
 `flattenError` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 
-Applicable when joinType = 'round'; flattenError determines the maximum distance of the resulting segments compared to the true circular arc. The algorithm never produces more than around 180 vertices for each round join.
+Applicable when joinType = 'round'; flattenError determines the maximum distance of the resulting segments compared  
+to the true circular arc. The algorithm never produces more than around 180 vertices for each round join.
 
 #### Returns
 [System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[Geometry](dymaptic.GeoBlazor.Core.Components.Geometries.Geometry.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Geometry')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
@@ -1066,7 +1151,11 @@ Returns true if the two geometries overlap.
 
 ## GeometryEngine.PlanarArea(Polygon, Nullable<ArealUnit>) Method
 
-Calculates the area of the input geometry. As opposed to geodesicArea(), planarArea() performs this calculation using projected coordinates and does not take into account the earth's curvature. When using input geometries with a spatial reference of either WGS84 (wkid: 4326) or Web Mercator, it is best practice to calculate areas using geodesicArea(). If the input geometries have a projected coordinate system other than Web Mercator, use planarArea() instead.
+Calculates the area of the input geometry. As opposed to geodesicArea(), planarArea() performs this calculation  
+using projected coordinates and does not take into account the earth's curvature. When using input geometries with  
+a spatial reference of either WGS84 (wkid: 4326) or Web Mercator, it is best practice to calculate areas using  
+geodesicArea(). If the input geometries have a projected coordinate system other than Web Mercator, use  
+planarArea() instead.
 
 ```csharp
 public System.Threading.Tasks.Task<double> PlanarArea(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon geometry, System.Nullable<dymaptic.GeoBlazor.Core.Objects.ArealUnit> unit=null);
@@ -1093,7 +1182,11 @@ The area of the input geometry.
 
 ## GeometryEngine.PlanarLength(Geometry, Nullable<LinearUnit>) Method
 
-Calculates the length of the input geometry. As opposed to geodesicLength(), planarLength() uses projected coordinates and does not take into account the curvature of the earth when performing this calculation. When using input geometries with a spatial reference of either WGS84 (wkid: 4326) or Web Mercator, it is best practice to calculate lengths using geodesicLength(). If the input geometries have a projected coordinate system other than Web Mercator, use planarLength() instead.
+Calculates the length of the input geometry. As opposed to geodesicLength(), planarLength() uses projected  
+coordinates and does not take into account the curvature of the earth when performing this calculation. When using  
+input geometries with a spatial reference of either WGS84 (wkid: 4326) or Web Mercator, it is best practice to  
+calculate lengths using geodesicLength(). If the input geometries have a projected coordinate system other than Web  
+Mercator, use planarLength() instead.
 
 ```csharp
 public System.Threading.Tasks.Task<double> PlanarLength(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry geometry, System.Nullable<dymaptic.GeoBlazor.Core.Objects.LinearUnit> unit=null);
@@ -1143,7 +1236,19 @@ The second geometry for the relation.
 
 `relation` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 
-The Dimensionally Extended 9 Intersection Model (DE-9IM) matrix relation (encoded as a string) to test against the relationship of the two geometries. This string contains the test result of each intersection represented in the DE-9IM matrix. Each result is one character of the string and may be represented as either a number (maximum dimension returned: 0,1,2), a Boolean value (T or F), or a mask character (for ignoring results: '*'). For example, each of the following DE-9IM string codes are valid for testing whether a polygon geometry completely contains a line geometry: TTTFFTFFT (Boolean), 'T******FF*' (ignore irrelevant intersections), or '102FF*FF*' (dimension form). Each returns the same result. See <a target="_blank" href="https://en.wikipedia.org/wiki/DE-9IM">this article</a> and <a target="_blank" href="https://desktop.arcgis.com/en/arcmap/latest/manage-data/using-sql-with-gdbs/relational-functions-for-st-geometry.htm">this ArcGIS help page</a> for more information about the DE-9IM model and how string codes are constructed.
+The Dimensionally Extended 9 Intersection Model (DE-9IM) matrix relation (encoded as a string) to test against the  
+relationship of the two geometries. This string contains the test result of each intersection represented in the  
+DE-9IM matrix. Each result is one character of the string and may be represented as either a number (maximum  
+dimension returned: 0,1,2), a Boolean value (T or F), or a mask character (for ignoring results: '*'). For example,  
+each of the following DE-9IM string codes are valid for testing whether a polygon geometry completely contains a  
+line geometry: TTTFFTFFT (Boolean), 'T******FF*' (ignore irrelevant intersections), or '102FF*FF*' (dimension  
+form). Each returns the same result. See  
+<a target="_blank" href="https://en.wikipedia.org/wiki/DE-9IM">this article</a> and  
+<a target="_blank" href="https://desktop.arcgis.com/en/arcmap/latest/manage-data/using-sql-with-gdbs/relational-functions-for-st-geometry.htm">  
+    this  
+    ArcGIS help page  
+</a>  
+for more information about the DE-9IM model and how string codes are constructed.
 
 #### Returns
 [System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
@@ -1153,7 +1258,8 @@ Returns true if the relation of the input geometries is accurate.
 
 ## GeometryEngine.Rotate(Geometry, double, Point) Method
 
-Rotates a geometry counterclockwise by the specified number of degrees. Rotation is around the centroid, or a given rotation point.
+Rotates a geometry counterclockwise by the specified number of degrees. Rotation is around the centroid, or a given  
+rotation point.
 
 ```csharp
 public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Geometries.Geometry> Rotate(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry geometry, double angle, dymaptic.GeoBlazor.Core.Components.Geometries.Point rotationOrigin);
@@ -1186,7 +1292,9 @@ The rotated geometry.
 
 ## GeometryEngine.Simplify(Geometry) Method
 
-Performs the simplify operation on the geometry, which alters the given geometries to make their definitions topologically legal with respect to their geometry type. At the end of a simplify operation, no polygon rings or polyline paths will overlap, and no self-intersection will occur.
+Performs the simplify operation on the geometry, which alters the given geometries to make their definitions  
+topologically legal with respect to their geometry type. At the end of a simplify operation, no polygon rings or  
+polyline paths will overlap, and no self-intersection will occur.
 
 ```csharp
 public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Geometries.Geometry> Simplify(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry geometry);
@@ -1207,7 +1315,8 @@ The simplified geometry.
 
 ## GeometryEngine.SymmetricDifference(Geometry, Geometry) Method
 
-Creates the symmetric difference of two geometries. The symmetric difference includes the parts that are in either of the sets, but not in both.
+Creates the symmetric difference of two geometries. The symmetric difference includes the parts that are in either  
+of the sets, but not in both.
 
 ```csharp
 public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Geometries.Geometry> SymmetricDifference(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry leftGeometry, dymaptic.GeoBlazor.Core.Components.Geometries.Geometry rightGeometry);
@@ -1234,7 +1343,8 @@ The symmetric differences of the two geometries.
 
 ## GeometryEngine.SymmetricDifference(IEnumerable<Geometry>, Geometry) Method
 
-Creates the symmetric difference of two geometries. The symmetric difference includes the parts that are in either of the sets, but not in both.
+Creates the symmetric difference of two geometries. The symmetric difference includes the parts that are in either  
+of the sets, but not in both.
 
 ```csharp
 public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Geometries.Geometry[]> SymmetricDifference(System.Collections.Generic.IEnumerable<dymaptic.GeoBlazor.Core.Components.Geometries.Geometry> leftGeometries, dymaptic.GeoBlazor.Core.Components.Geometries.Geometry rightGeometry);

@@ -8,7 +8,10 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 ///     A GraphicsLayer contains one or more client-side Graphics. Each graphic in the GraphicsLayer is rendered in a
 ///     LayerView inside either a SceneView or a MapView. The graphics contain discrete vector geometries that represent
 ///     real-world phenomena.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GraphicsLayer.html">ArcGIS JS API</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GraphicsLayer.html">
+///         ArcGIS
+///         JS API
+///     </a>
 /// </summary>
 public class GraphicsLayer : Layer
 {
@@ -32,7 +35,8 @@ public class GraphicsLayer : Layer
     ///     The opacity of the layer.
     /// </param>
     /// <param name="visible">
-    ///     Indicates if the layer is visible in the View. When false, the layer may still be added to a Map instance that is referenced in a view, but its features will not be visible in the view.
+    ///     Indicates if the layer is visible in the View. When false, the layer may still be added to a Map instance that is
+    ///     referenced in a view, but its features will not be visible in the view.
     /// </param>
     /// <param name="listMode">
     ///     Indicates how the layer should display in the LayerList widget. The possible values are listed below.
@@ -50,7 +54,7 @@ public class GraphicsLayer : Layer
             Graphics = graphics;
         }
     }
-    
+
     /// <summary>
     ///     A collection of <see cref="Graphic" />s in the layer.
     /// </summary>
@@ -74,7 +78,7 @@ public class GraphicsLayer : Layer
     {
         return RegisterChildComponent(graphic);
     }
-    
+
     /// <summary>
     ///     Adds a collection of graphics to the graphics layer
     /// </summary>
@@ -115,7 +119,7 @@ public class GraphicsLayer : Layer
     }
 
     /// <summary>
-    ///    Removes all graphics from the current layer
+    ///     Removes all graphics from the current layer
     /// </summary>
     public async Task Clear()
     {
@@ -138,6 +142,7 @@ public class GraphicsLayer : Layer
                     graphic.LayerId ??= Id;
                     graphic.Parent ??= this;
                     _graphics.Add(graphic);
+
                     if (JsLayerReference is not null)
                     {
                         await JsLayerReference.InvokeVoidAsync("add", graphic, View?.Id);
@@ -191,7 +196,7 @@ public class GraphicsLayer : Layer
     }
 
     /// <summary>
-    ///    Register a graphic that was created in JavaScript
+    ///     Register a graphic that was created in JavaScript
     /// </summary>
     public void RegisterExistingGraphicFromJavaScript(Graphic graphic)
     {

@@ -27,7 +27,7 @@ html, body {
 }
 
 .esri-ui {
-    overflow: visible!important;
+    overflow: visible !important;
 }
 
 h1:focus {
@@ -185,19 +185,19 @@ input[type="text"], input[type="number"] {
 @media (max-width: 799px) {
     input[type="text"], input[type="number"] {
         width: 5.5rem;
-    }   
+    }
 }
 
 /*noinspection CssInvalidMediaFeature*/
 @media (vertical-viewport-segments: 2) or (screen-spanning: ) {
     .map-wrapper {
-        position: fixed!important;
+        position: fixed !important;
         bottom: 10px;
         right: 10px;
         left: 10px;
         top: calc(50vh + 20px);
     }
-    
+
     #map-container {
         height: calc(50vh - 40px);
     }

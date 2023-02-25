@@ -7,8 +7,12 @@ using System.Text.Json.Serialization;
 namespace dymaptic.GeoBlazor.Core.Components.Renderers;
 
 /// <summary>
-///     Abstract base class, renderers define how to visually represent each feature in one of the following layer types: FeatureLayer, SceneLayer, MapImageLayer, CSVLayer, GeoJSONLayer, OGCFeatureLayer, StreamLayer, WFSLayer.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-Renderer.html">ArcGIS JS API</a>
+///     Abstract base class, renderers define how to visually represent each feature in one of the following layer types:
+///     FeatureLayer, SceneLayer, MapImageLayer, CSVLayer, GeoJSONLayer, OGCFeatureLayer, StreamLayer, WFSLayer.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-Renderer.html">
+///         ArcGIS
+///         JS API
+///     </a>
 /// </summary>
 [JsonConverter(typeof(RendererConverter))]
 public abstract class Renderer : LayerObject
@@ -29,7 +33,9 @@ internal class RendererConverter : JsonConverter<Renderer>
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
         };
         Utf8JsonReader cloneReader = reader;
-        if (JsonSerializer.Deserialize<Dictionary<string, object?>>(ref reader, newOptions) is not IDictionary<string, object?> temp)
+
+        if (JsonSerializer.Deserialize<Dictionary<string, object?>>(ref reader, newOptions) is not
+            IDictionary<string, object?> temp)
         {
             return null;
         }

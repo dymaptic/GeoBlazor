@@ -9,8 +9,13 @@ parent: Classes
 ## MapView Class
 
 The Top-Level Map Component Container.  
-A MapView displays a 2D view of a Map instance. An instance of MapView must be created to render a Map (along with its operational and base layers) in 2D. To render a map and its layers in 3D, see the documentation for SceneView. For a general overview of views, see View.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">ArcGIS JS API</a>
+A MapView displays a 2D view of a Map instance. An instance of MapView must be created to render a Map (along with  
+its operational and base layers) in 2D. To render a map and its layers in 3D, see the documentation for SceneView.  
+For a general overview of views, see View.  
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class MapView : dymaptic.GeoBlazor.Core.Components.MapComponent
@@ -68,7 +73,8 @@ public string Class { get; set; }
 
 ## MapView.Configuration Property
 
-A set of key/value application configuration properties, that can be populated from `appsettings.json, environment variables, or other sources.
+A set of key/value application configuration properties, that can be populated from `appsettings.json, environment  
+variables, or other sources.
 
 ```csharp
 public Microsoft.Extensions.Configuration.IConfiguration Configuration { get; set; }
@@ -81,7 +87,9 @@ public Microsoft.Extensions.Configuration.IConfiguration Configuration { get; se
 
 ## MapView.EventRateLimitInMilliseconds Property
 
-Set this parameter to limit the rate at which recurring events are returned. Applies to [OnDrag](dymaptic.GeoBlazor.Core.Components.Views.MapView.html#dymaptic.GeoBlazor.Core.Components.Views.MapView.OnDrag 'dymaptic.GeoBlazor.Core.Components.Views.MapView.OnDrag'), [OnPointerMove](dymaptic.GeoBlazor.Core.Components.Views.MapView.html#dymaptic.GeoBlazor.Core.Components.Views.MapView.OnPointerMove 'dymaptic.GeoBlazor.Core.Components.Views.MapView.OnPointerMove'), [OnMouseWheel](dymaptic.GeoBlazor.Core.Components.Views.MapView.html#dymaptic.GeoBlazor.Core.Components.Views.MapView.OnMouseWheel 'dymaptic.GeoBlazor.Core.Components.Views.MapView.OnMouseWheel'), [OnResize](dymaptic.GeoBlazor.Core.Components.Views.MapView.html#dymaptic.GeoBlazor.Core.Components.Views.MapView.OnResize 'dymaptic.GeoBlazor.Core.Components.Views.MapView.OnResize'), and [OnExtentChanged](dymaptic.GeoBlazor.Core.Components.Views.MapView.html#dymaptic.GeoBlazor.Core.Components.Views.MapView.OnExtentChanged 'dymaptic.GeoBlazor.Core.Components.Views.MapView.OnExtentChanged')
+Set this parameter to limit the rate at which recurring events are returned. Applies to [OnDrag](dymaptic.GeoBlazor.Core.Components.Views.MapView.html#dymaptic.GeoBlazor.Core.Components.Views.MapView.OnDrag 'dymaptic.GeoBlazor.Core.Components.Views.MapView.OnDrag'),  
+[OnPointerMove](dymaptic.GeoBlazor.Core.Components.Views.MapView.html#dymaptic.GeoBlazor.Core.Components.Views.MapView.OnPointerMove 'dymaptic.GeoBlazor.Core.Components.Views.MapView.OnPointerMove'), [OnMouseWheel](dymaptic.GeoBlazor.Core.Components.Views.MapView.html#dymaptic.GeoBlazor.Core.Components.Views.MapView.OnMouseWheel 'dymaptic.GeoBlazor.Core.Components.Views.MapView.OnMouseWheel'), [OnResize](dymaptic.GeoBlazor.Core.Components.Views.MapView.html#dymaptic.GeoBlazor.Core.Components.Views.MapView.OnResize 'dymaptic.GeoBlazor.Core.Components.Views.MapView.OnResize'), and  
+[OnExtentChanged](dymaptic.GeoBlazor.Core.Components.Views.MapView.html#dymaptic.GeoBlazor.Core.Components.Views.MapView.OnExtentChanged 'dymaptic.GeoBlazor.Core.Components.Views.MapView.OnExtentChanged')
 
 ```csharp
 public System.Nullable<int> EventRateLimitInMilliseconds { get; set; }
@@ -94,7 +102,8 @@ public System.Nullable<int> EventRateLimitInMilliseconds { get; set; }
 
 ## MapView.Graphics Property
 
-The collection of [Graphic](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic')s in the view. These are directly on the view itself, not in a [GraphicsLayer](dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer.html 'dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer').
+The collection of [Graphic](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic')s in the view. These are directly on the view itself, not in a  
+[GraphicsLayer](dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer.html 'dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer').
 
 ```csharp
 public System.Collections.Generic.IReadOnlyCollection<dymaptic.GeoBlazor.Core.Components.Layers.Graphic> Graphics { get; set; }
@@ -133,7 +142,8 @@ public System.Nullable<double> Latitude { get; set; }
 
 ## MapView.LoadOnRender Property
 
-Boolean flag that can be set to false to prevent the MapView from automatically rendering with the Blazor components.
+Boolean flag that can be set to false to prevent the MapView from automatically rendering with the Blazor  
+components.
 
 ```csharp
 public bool LoadOnRender { get; set; }
@@ -351,7 +361,8 @@ public Microsoft.AspNetCore.Components.EventCallback<dymaptic.GeoBlazor.Core.Eve
 
 ## MapView.OnLayerViewCreateError Property
 
-Fires after a LayerView is destroyed and is no longer rendered in the view. This happens for example when a layer is removed from the map of the view.
+Fires after a LayerView is destroyed and is no longer rendered in the view. This happens for example when a layer  
+is removed from the map of the view.
 
 ```csharp
 public Microsoft.AspNetCore.Components.EventCallback<dymaptic.GeoBlazor.Core.Events.LayerViewCreateErrorEvent> OnLayerViewCreateError { get; set; }
@@ -364,7 +375,8 @@ public Microsoft.AspNetCore.Components.EventCallback<dymaptic.GeoBlazor.Core.Eve
 
 ## MapView.OnLayerViewDestroy Property
 
-Fires after a LayerView is destroyed and is no longer rendered in the view. This happens for example when a layer is removed from the map of the view.
+Fires after a LayerView is destroyed and is no longer rendered in the view. This happens for example when a layer  
+is removed from the map of the view.
 
 ```csharp
 public Microsoft.AspNetCore.Components.EventCallback<dymaptic.GeoBlazor.Core.Events.LayerViewDestroyEvent> OnLayerViewDestroy { get; set; }
@@ -435,7 +447,8 @@ Fires after a mouse cursor enters the view, or a display touch begins.
 
 ## MapView.OnPointerLeave Property
 
-Handler delegate for pointer leave events on the view. Must take in a [Point](dymaptic.GeoBlazor.Core.Components.Geometries.Point.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Point') and return a [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task').
+Handler delegate for pointer leave events on the view. Must take in a [Point](dymaptic.GeoBlazor.Core.Components.Geometries.Point.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Point') and return a  
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task').
 
 ```csharp
 public Microsoft.AspNetCore.Components.EventCallback<dymaptic.GeoBlazor.Core.Events.PointerEvent> OnPointerLeave { get; set; }
@@ -451,7 +464,8 @@ Fires after a mouse cursor leaves the view, or a display touch ends.
 
 ## MapView.OnPointerMove Property
 
-Handler delegate for point move events on the view. Must take in a [Point](dymaptic.GeoBlazor.Core.Components.Geometries.Point.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Point') and return a [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task').
+Handler delegate for point move events on the view. Must take in a [Point](dymaptic.GeoBlazor.Core.Components.Geometries.Point.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Point') and return a  
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task').
 
 ```csharp
 public Microsoft.AspNetCore.Components.EventCallback<dymaptic.GeoBlazor.Core.Events.PointerEvent> OnPointerMove { get; set; }
@@ -463,13 +477,19 @@ public Microsoft.AspNetCore.Components.EventCallback<dymaptic.GeoBlazor.Core.Eve
 ### Remarks
 The real-time nature of this handler make it a challenge to use continuously over SignalR in Blazor Server.  
 In this scenario, you should write a custom JavaScript handler instead.  
-See <a target="_blank" href="https://github.com/dymaptic/GeoBlazor/blob/develop/samples/dymaptic.GeoBlazor.Core.Sample.Shared/Pages/DisplayProjection.razor">Display Projection</a> code.
+See  
+<a target="_blank" href="https://github.com/dymaptic/GeoBlazor/blob/develop/samples/dymaptic.GeoBlazor.Core.Sample.Shared/Pages/DisplayProjection.razor">  
+    Display  
+    Projection  
+</a>  
+code.
 
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnPointerUp'></a>
 
 ## MapView.OnPointerUp Property
 
-Handler delegate for pointer up events on the view. Must take in a [Point](dymaptic.GeoBlazor.Core.Components.Geometries.Point.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Point') and return a [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task').
+Handler delegate for pointer up events on the view. Must take in a [Point](dymaptic.GeoBlazor.Core.Components.Geometries.Point.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Point') and return a  
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task').
 
 ```csharp
 public Microsoft.AspNetCore.Components.EventCallback<dymaptic.GeoBlazor.Core.Events.PointerEvent> OnPointerUp { get; set; }
@@ -524,7 +544,8 @@ public Microsoft.AspNetCore.Components.EventCallback OnViewInitialized { get; se
 
 ## MapView.PromptForArcGISKey Property
 
-Provides an override for the default behavior of requiring an API key. By setting to "false", all calls to ArcGIS services will trigger a sign-in popup.
+Provides an override for the default behavior of requiring an API key. By setting to "false", all calls to ArcGIS  
+services will trigger a sign-in popup.
 
 ```csharp
 public System.Nullable<bool> PromptForArcGISKey { get; set; }
@@ -534,7 +555,8 @@ public System.Nullable<bool> PromptForArcGISKey { get; set; }
 [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 
 ### Remarks
-Setting this to "false" is the same as setting [AllowDefaultEsriLogin](dymaptic.GeoBlazor.Core.Components.Views.MapView.html#dymaptic.GeoBlazor.Core.Components.Views.MapView.AllowDefaultEsriLogin 'dymaptic.GeoBlazor.Core.Components.Views.MapView.AllowDefaultEsriLogin') to "true". This is provided simply for convenience of discovery.
+Setting this to "false" is the same as setting [AllowDefaultEsriLogin](dymaptic.GeoBlazor.Core.Components.Views.MapView.html#dymaptic.GeoBlazor.Core.Components.Views.MapView.AllowDefaultEsriLogin 'dymaptic.GeoBlazor.Core.Components.Views.MapView.AllowDefaultEsriLogin') to "true". This is provided  
+simply for convenience of discovery.
 
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.Rotation'></a>
 
@@ -683,7 +705,8 @@ public System.Threading.Tasks.Task ClearGraphics();
 
 ## MapView.ClosePopup() Method
 
-Closes the popup by setting its visible property to false. Users can alternatively close the popup by directly setting the visible property to false.
+Closes the popup by setting its visible property to false. Users can alternatively close the popup by directly  
+setting the visible property to false.
 
 ```csharp
 public System.Threading.Tasks.Task ClosePopup();
@@ -711,7 +734,8 @@ Implements [DisposeAsync()](https://docs.microsoft.com/en-us/dotnet/api/System.I
 
 ## MapView.DrawRouteAndGetDirections(Symbol, string) Method
 
-A custom method to set up the interaction for clicking a start and end point, and have the view render a driving route. Also returns a set of [Direction](dymaptic.GeoBlazor.Core.Objects.Direction.html 'dymaptic.GeoBlazor.Core.Objects.Direction')s for display.
+A custom method to set up the interaction for clicking a start and end point, and have the view render a driving  
+route. Also returns a set of [Direction](dymaptic.GeoBlazor.Core.Objects.Direction.html 'dymaptic.GeoBlazor.Core.Objects.Direction')s for display.
 
 ```csharp
 public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Objects.Direction[]> DrawRouteAndGetDirections(dymaptic.GeoBlazor.Core.Components.Symbols.Symbol routeSymbol, string routeUrl);
@@ -901,7 +925,8 @@ The [Graphic](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html 'dymaptic.G
 
 ## MapView.HitTest(Point, HitTestOptions) Method
 
-Returns [HitTestResult](dymaptic.GeoBlazor.Core.Events.HitTestResult.html 'dymaptic.GeoBlazor.Core.Events.HitTestResult')s from each layer that intersects the specified screen coordinates. The results are organized as an array of objects containing different result types.
+Returns [HitTestResult](dymaptic.GeoBlazor.Core.Events.HitTestResult.html 'dymaptic.GeoBlazor.Core.Events.HitTestResult')s from each layer that intersects the specified screen coordinates. The results  
+are organized as an array of objects containing different result types.
 
 ```csharp
 public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Events.HitTestResult> HitTest(dymaptic.GeoBlazor.Core.Components.Geometries.Point screenPoint, dymaptic.GeoBlazor.Core.Events.HitTestOptions? options=null);
@@ -927,7 +952,8 @@ Options to specify what is included in or excluded from the hitTest.
 
 ## MapView.HitTest(ClickEvent, HitTestOptions) Method
 
-Returns [HitTestResult](dymaptic.GeoBlazor.Core.Events.HitTestResult.html 'dymaptic.GeoBlazor.Core.Events.HitTestResult')s from each layer that intersects the specified screen coordinates. The results are organized as an array of objects containing different result types.
+Returns [HitTestResult](dymaptic.GeoBlazor.Core.Events.HitTestResult.html 'dymaptic.GeoBlazor.Core.Events.HitTestResult')s from each layer that intersects the specified screen coordinates. The results  
+are organized as an array of objects containing different result types.
 
 ```csharp
 public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Events.HitTestResult> HitTest(dymaptic.GeoBlazor.Core.Events.ClickEvent clickEvent, dymaptic.GeoBlazor.Core.Events.HitTestOptions? options=null);
@@ -953,7 +979,8 @@ Options to specify what is included in or excluded from the hitTest.
 
 ## MapView.HitTest(PointerEvent, HitTestOptions) Method
 
-Returns [HitTestResult](dymaptic.GeoBlazor.Core.Events.HitTestResult.html 'dymaptic.GeoBlazor.Core.Events.HitTestResult')s from each layer that intersects the specified screen coordinates. The results are organized as an array of objects containing different result types.
+Returns [HitTestResult](dymaptic.GeoBlazor.Core.Events.HitTestResult.html 'dymaptic.GeoBlazor.Core.Events.HitTestResult')s from each layer that intersects the specified screen coordinates. The results  
+are organized as an array of objects containing different result types.
 
 ```csharp
 public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Events.HitTestResult> HitTest(dymaptic.GeoBlazor.Core.Events.PointerEvent pointerEvent, dymaptic.GeoBlazor.Core.Events.HitTestOptions? options=null);
@@ -1027,7 +1054,9 @@ The [ClickEvent](dymaptic.GeoBlazor.Core.Events.ClickEvent.html 'dymaptic.GeoBla
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
 
 ### Remarks
-Fires after a user clicks on the view. This event emits slightly slower than an immediate-click event to make sure that a double-click event isn't triggered instead. The immediate-click event can be used for responding to a click event without delay.
+Fires after a user clicks on the view. This event emits slightly slower than an immediate-click event to make sure  
+that a double-click event isn't triggered instead. The immediate-click event can be used for responding to a click  
+event without delay.
 
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptDoubleClick(dymaptic.GeoBlazor.Core.Events.ClickEvent)'></a>
 
@@ -1596,7 +1625,9 @@ public System.Threading.Tasks.Task OnViewRendered();
 
 ## MapView.OpenPopup(PopupOpenOptions) Method
 
-Opens the popup at the given location with content defined either explicitly with content or driven from the PopupTemplate of input features. This method sets the popup's visible property to true. Users can alternatively open the popup by directly setting the visible property to true.
+Opens the popup at the given location with content defined either explicitly with content or driven from the  
+PopupTemplate of input features. This method sets the popup's visible property to true. Users can alternatively  
+open the popup by directly setting the visible property to true.
 
 ```csharp
 public System.Threading.Tasks.Task OpenPopup(dymaptic.GeoBlazor.Core.Components.Widgets.PopupOpenOptions? options=null);
@@ -2003,7 +2034,8 @@ The child to unregister
 
 ## MapView.ValidateRequiredChildren() Method
 
-When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the [RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
+When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the  
+[RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
 
 ```csharp
 public override void ValidateRequiredChildren();

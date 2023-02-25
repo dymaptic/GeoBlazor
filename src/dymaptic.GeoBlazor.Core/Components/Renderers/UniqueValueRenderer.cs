@@ -6,8 +6,13 @@ using System.Text.Json.Serialization;
 namespace dymaptic.GeoBlazor.Core.Components.Renderers;
 
 /// <summary>
-///     UniqueValueRenderer allows you to symbolize features in a Layer based on one or more matching string attributes. This is typically done by using unique colors, fill styles, or images to represent features with equal values in a string field.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html">ArcGIS JS API</a>
+///     UniqueValueRenderer allows you to symbolize features in a Layer based on one or more matching string attributes.
+///     This is typically done by using unique colors, fill styles, or images to represent features with equal values in a
+///     string field.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html">
+///         ArcGIS
+///         JS API
+///     </a>
 /// </summary>
 public class UniqueValueRenderer : Renderer
 {
@@ -20,7 +25,7 @@ public class UniqueValueRenderer : Renderer
     /// </summary>
     [Parameter]
     public string? Field { get; set; }
-    
+
     /// <summary>
     ///     Label used in the Legend to describe features assigned the default symbol.
     /// </summary>
@@ -38,7 +43,7 @@ public class UniqueValueRenderer : Renderer
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Symbol? DefaultSymbol => Symbol;
-    
+
     /// <summary>
     ///     An object providing options for displaying the renderer in the Legend.
     /// </summary>
@@ -89,6 +94,7 @@ public class UniqueValueRenderer : Renderer
                 break;
             case UniqueValueRendererLegendOptions _:
                 LegendOptions = null;
+
                 break;
             case DefaultSymbol _:
                 Symbol = null;
@@ -102,11 +108,10 @@ public class UniqueValueRenderer : Renderer
     }
 }
 
-
 /// <summary>
 ///     An object providing options for displaying the renderer in the Legend.
 /// </summary>
-public class UniqueValueRendererLegendOptions: MapComponent
+public class UniqueValueRendererLegendOptions : MapComponent
 {
     /// <summary>
     ///     The title to display in the legend for the renderer
@@ -116,9 +121,8 @@ public class UniqueValueRendererLegendOptions: MapComponent
     public string? Title { get; set; }
 }
 
-
 /// <summary>
-///     Wrapper to identify the default (fallback) symbol for a <see cref="UniqueValueRenderer"/>
+///     Wrapper to identify the default (fallback) symbol for a <see cref="UniqueValueRenderer" />
 /// </summary>
 public class DefaultSymbol : MapComponent
 {
@@ -138,6 +142,7 @@ public class DefaultSymbol : MapComponent
                 {
                     Symbol = symbol;
                 }
+
                 break;
             default:
                 await base.RegisterChildComponent(child);

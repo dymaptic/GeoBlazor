@@ -6,7 +6,10 @@ namespace dymaptic.GeoBlazor.Core.Components.Popups;
 
 /// <summary>
 ///     The FieldInfo class defines how a Field participates, or in some cases, does not participate, in a PopupTemplate.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-FieldInfo.html">ArcGIS JS API</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-FieldInfo.html">
+///         ArcGIS
+///         JS API
+///     </a>
 /// </summary>
 public class FieldInfo : MapComponent
 {
@@ -42,7 +45,7 @@ public class FieldInfo : MapComponent
     ///     Indicates whether the field is visible in the popup window.
     /// </param>
     public FieldInfo(string? fieldName = null, string? label = null, string? tooltip = null,
-        string? stringFieldOption = null, FieldInfoFormat? format = null, 
+        string? stringFieldOption = null, FieldInfoFormat? format = null,
         bool? isEditable = null, bool? visible = null)
     {
 #pragma warning disable BL0005
@@ -55,21 +58,21 @@ public class FieldInfo : MapComponent
         Visible = visible;
 #pragma warning restore BL0005
     }
-    
+
     /// <summary>
     ///     The field name as defined by the service or the name of an Arcade expression.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? FieldName { get; set; }
-    
+
     /// <summary>
     ///     The field name as defined by the service or the name of an Arcade expression.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Label { get; set; }
-    
+
     /// <summary>
     ///     A Boolean determining whether users can edit this field.
     /// </summary>
@@ -90,7 +93,7 @@ public class FieldInfo : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? Visible { get; set; }
-    
+
     /// <summary>
     ///     A string determining what type of input box editors see when editing the field.
     /// </summary>

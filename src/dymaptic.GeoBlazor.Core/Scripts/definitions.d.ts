@@ -1,8 +1,9 @@
 ﻿import Layer from "@arcgis/core/layers/Layer";
 
 export interface MapObject {
-    destroy();
     declaredClass: string;
+
+    destroy();
 
     on(eventName: string, callback: (evt) => any): void;
 }
@@ -16,7 +17,7 @@ export interface DotNetGraphic {
     uid: string;
     geometry: any;
     attributes: any;
-    
+
     symbol: DotNetSymbol;
 }
 
@@ -97,11 +98,11 @@ export interface DotNetPictureMarkerSymbol extends DotNetSymbol {
     angle: number;
     xoffset: number;
     yoffset: number;
-    
+
     height: number;
-    
+
     width: number;
-    
+
     url: string;
 }
 
@@ -318,7 +319,7 @@ export interface DotNetPopupTemplate {
     overwriteActions: boolean;
     returnGeometry: boolean;
     dotNetPopupTemplateReference: any;
-    
+
     actions: any[];
 }
 

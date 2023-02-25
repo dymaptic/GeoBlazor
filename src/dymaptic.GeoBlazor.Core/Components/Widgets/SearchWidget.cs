@@ -1,13 +1,20 @@
-﻿using System.Text.Json.Serialization;
-using dymaptic.GeoBlazor.Core.Objects;
+﻿using dymaptic.GeoBlazor.Core.Objects;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using System.Text.Json.Serialization;
+
 
 namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
 /// <summary>
-///     The Search widget provides a way to perform search operations on locator service(s), map/feature service feature layer(s), SceneLayers with an associated feature layer, BuildingComponentSublayer with an associated feature layer, GeoJSONLayer, CSVLayer, OGCFeatureLayer, and/or table(s). If using a locator with a geocoding service, the findAddressCandidates operation is used, whereas queries are used on feature layers.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html">ArcGIS JS API</a>
+///     The Search widget provides a way to perform search operations on locator service(s), map/feature service feature
+///     layer(s), SceneLayers with an associated feature layer, BuildingComponentSublayer with an associated feature layer,
+///     GeoJSONLayer, CSVLayer, OGCFeatureLayer, and/or table(s). If using a locator with a geocoding service, the
+///     findAddressCandidates operation is used, whereas queries are used on feature layers.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html">
+///         ArcGIS
+///         JS API
+///     </a>
 /// </summary>
 public class SearchWidget : Widget
 {
@@ -17,7 +24,7 @@ public class SearchWidget : Widget
 
     /// <summary>
     ///     A delegate for a handler of search selection result events.
-    ///     Function must take in a <see cref="SearchResult"/> parameter, and return a <see cref="Task"/>
+    ///     Function must take in a <see cref="SearchResult" /> parameter, and return a <see cref="Task" />
     /// </summary>
     [Parameter]
     [JsonIgnore]

@@ -8,8 +8,12 @@ parent: Classes
 
 ## MapPath Class
 
-Represents both [Paths](dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine.html#dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine.Paths 'dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine.Paths') and [Rings](dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.html#dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.Rings 'dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.Rings'), as a two-dimensional array of number coordinates.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polyline.html#paths">ArcGIS JS API</a>
+Represents both [Paths](dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine.html#dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine.Paths 'dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine.Paths') and [Rings](dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.html#dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.Rings 'dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.Rings'), as a two-dimensional array of  
+number coordinates.  
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polyline.html#paths">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class MapPath : System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Objects.MapPoint>,

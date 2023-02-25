@@ -1,5 +1,5 @@
 ﻿@page "/tests"
-<PageTitle>Tests</PageTitle> 
+<PageTitle>Tests</PageTitle>
 
 <h1>Tests</h1>
 <h2>Code Layers</h2>
@@ -66,10 +66,11 @@
     <Extent Xmax="4120960.074670904" Xmin="-3412935.278412999" Ymax="8963926.222211033" Ymin="6049459.93475111">
         <SpatialReference Wkid="3857" />
     </Extent>
-    
+
 </MapView>
 
 @code {
+
     private void OnMapRendered()
     {
         _mapRendered = true;
@@ -85,7 +86,7 @@
             _longs.Add(_random.NextDouble() * 10 + 11.0);
         }
     }
-    
+
     private Task OnExtentChanged(Extent extent)
     {
         Console.WriteLine(JsonSerializer.Serialize(extent));
@@ -103,23 +104,23 @@
             await _view.AddLayer(layer);
         }
     }
-    
+
     private MapView? _view;
     private readonly FeatureLayer _localFeatureLayer = new(source: new[]
     {
-        new Graphic(new Point(11.967162, 49.201448), 
-            new SimpleMarkerSymbol(new Outline(new MapColor("white")), 
+        new Graphic(new Point(11.967162, 49.201448),
+            new SimpleMarkerSymbol(new Outline(new MapColor("white")),
                 new MapColor("red"), 6))
-    }, 
+    },
         objectIdField: "OBJECTID");
-    private readonly FeatureLayer _remoteFeatureLayer = 
+    private readonly FeatureLayer _remoteFeatureLayer =
         new("https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/weather_stations_010417/FeatureServer/0");
-    private readonly GraphicsLayer _graphicsLayer = new(graphics: new[]
+    private readonly GraphicsLayer _graphicsLayer = new(new[]
     {
-        new Graphic(new Point(11.888650, 52.451825), 
-            new SimpleMarkerSymbol(new Outline(new MapColor("white")), 
+        new Graphic(new Point(11.888650, 52.451825),
+            new SimpleMarkerSymbol(new Outline(new MapColor("white")),
                 new MapColor("green"), 6)),
-        new Graphic(new PolyLine(new []
+        new Graphic(new PolyLine(new[]
         {
             new MapPath(new MapPoint(11, 52),
                 new MapPoint(11.5, 53),
@@ -129,20 +130,20 @@
                 new MapPoint(11, 56))
         }),
             new SimpleLineSymbol(new MapColor("blue"), 2)),
-        new Graphic(new Point(7.274721, 59.614991), 
+        new Graphic(new Point(7.274721, 59.614991),
             new PictureMarkerSymbol("https://static.arcgis.com/images/Symbols/Shapes/BluePin1LargeB.png",
-                height: 15, width:15)),
+                height: 15, width: 15)),
         new Graphic(new Point(29.437639, 55.469513),
-            new TextSymbol("Hello World", new MapColor("red"), 
+            new TextSymbol("Hello World", new MapColor("red"),
                 new MapColor("yellow"), 12))
     });
-    
+
     private async void On3Click(ClickEvent clickEvent)
     {
         await _view3!.SetExtent(
             new Extent(4120960.074670904, -3412935.278412999, 8963926.222211033, 6049459.93475111));
     }
-    
+
     private void OnMap3Rendered()
     {
         if (!_map3Rendered)
@@ -150,18 +151,18 @@
             _map3Rendered = true;
         }
     }
-    
-    private readonly GeoJSONLayer _geoJsonLayer = 
+
+    private readonly GeoJSONLayer _geoJsonLayer =
         new("https://services3.arcgis.com/GVgbJbqm8hXASVYi/ArcGIS/rest/services/World_Countries_(Generalized)/FeatureServer/0/query?where=1%3D1&outFields=*&f=geojson");
     private readonly GeoRSSLayer _geoRssLayer =
         new("https://disasterscharter.org/charter-portlets/cpi-mvc/activations/feed/rss/");
     private readonly OpenStreetMapLayer _osmLayer = new();
-    
+
     private bool _mapRendered;
     private bool _map3Rendered;
     private bool _showGraphicsMarkupLayer;
-    private Random _random = new();
-    private List<double> _lats = new();
-    private List<double> _longs = new();
+    private readonly Random _random = new();
+    private readonly List<double> _lats = new();
+    private readonly List<double> _longs = new();
     private MapView? _view3;
 }

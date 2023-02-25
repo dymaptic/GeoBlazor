@@ -8,9 +8,19 @@ parent: Classes
 
 ## RelationshipPopupContent Class
 
-A RelationshipContent popup element represents a relationship element associated with a feature. This can only be configured if the related layer or table is added to the map.  
-RelationshipContent provides a way to browse related records of the current selected feature within its popup, as shown in the images below. The Origin Feature image shows a popup template configured with RelationshipContent. When selecting one of the related features in the list, the popup template for the chosen related destination feature displays. The Related Destination Feature image shows the destination popup template content with FieldsContent and RelationshipContent configured. When exploring a related feature's RelationshipContent, one could navigate into that feature's related records or exit the origin feature's related record exploration with the arrow button.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-RelationshipContent.html">ArcGIS JS API</a>
+A RelationshipContent popup element represents a relationship element associated with a feature. This can only be  
+configured if the related layer or table is added to the map.  
+RelationshipContent provides a way to browse related records of the current selected feature within its popup, as  
+shown in the images below. The Origin Feature image shows a popup template configured with RelationshipContent.  
+When selecting one of the related features in the list, the popup template for the chosen related destination  
+feature displays. The Related Destination Feature image shows the destination popup template content with  
+FieldsContent and RelationshipContent configured. When exploring a related feature's RelationshipContent, one could  
+navigate into that feature's related records or exit the origin feature's related record exploration with the arrow  
+button.  
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-RelationshipContent.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class RelationshipPopupContent : dymaptic.GeoBlazor.Core.Components.Popups.PopupContent
@@ -36,7 +46,9 @@ public string? Description { get; set; }
 
 ## RelationshipPopupContent.DisplayCount Property
 
-A numeric value indicating the maximum number of related features to display in the list of related records. The maximum number of related records to display in the list of related records is 10. If no value is specified, the Show all button will be available to display all related records.
+A numeric value indicating the maximum number of related features to display in the list of related records. The  
+maximum number of related records to display in the list of related records is 10. If no value is specified, the  
+Show all button will be available to display all related records.
 
 ```csharp
 public System.Nullable<int> DisplayCount { get; set; }
@@ -62,7 +74,8 @@ public string? DisplayType { get; set; }
 
 ## RelationshipPopupContent.OrderByFields Property
 
-An array of RelatedRecordsInfoFieldOrder indicating the display order for the related records, and whether they should be sorted in ascending asc or descending desc order.
+An array of RelatedRecordsInfoFieldOrder indicating the display order for the related records, and whether they  
+should be sorted in ascending asc or descending desc order.
 
 ```csharp
 public System.Collections.Generic.HashSet<dymaptic.GeoBlazor.Core.Components.Popups.RelatedRecordsInfoFieldOrder> OrderByFields { get; set; }
@@ -75,7 +88,8 @@ public System.Collections.Generic.HashSet<dymaptic.GeoBlazor.Core.Components.Pop
 
 ## RelationshipPopupContent.RelationshipId Property
 
-The numeric id value for the defined relationship. This value can be found on the service itself or on the service's relationships resource if supportsRelationshipResource is true.
+The numeric id value for the defined relationship. This value can be found on the service itself or on the  
+service's relationships resource if supportsRelationshipResource is true.
 
 ```csharp
 public System.Nullable<int> RelationshipId { get; set; }

@@ -1,43 +1,45 @@
 import {
+    DotNetAttachmentsPopupContent,
+    DotNetBarChartMediaInfo,
+    DotNetColumnChartMediaInfo,
+    DotNetElementExpressionInfo,
+    DotNetExpressionInfo,
+    DotNetExpressionPopupContent,
     DotNetExtent,
     DotNetFeature,
+    DotNetFeatureLayer,
+    DotNetFieldInfo,
+    DotNetFieldInfoFormat,
+    DotNetFieldsPopupContent,
     DotNetGeographicTransformation,
     DotNetGeographicTransformationStep,
     DotNetGeometry,
     DotNetGraphic,
+    DotNetGraphicHit,
+    DotNetGraphicsLayer,
+    DotNetHitTestResult,
+    DotNetImageMediaInfo,
+    DotNetImageMediaInfoValue,
+    DotNetLayer,
+    DotNetLayerView,
+    DotNetLineChartMediaInfo,
+    DotNetMediaInfo,
+    DotNetMediaPopupContent,
+    DotNetPictureMarkerSymbol,
     DotNetPoint,
     DotNetPolygon,
     DotNetPolyline,
-    DotNetSpatialReference,
-    DotNetLayerView,
-    DotNetViewHit,
-    DotNetHitTestResult,
-    DotNetGraphicHit,
-    DotNetLayer,
-    DotNetPopupTemplate,
     DotNetPopupContent,
-    DotNetFieldInfo,
-    DotNetFieldInfoFormat,
-    DotNetFieldsPopupContent,
-    DotNetTextPopupContent,
-    DotNetExpressionInfo,
-    DotNetMediaPopupContent,
-    DotNetMediaInfo,
-    DotNetBarChartMediaInfo,
-    DotNetColumnChartMediaInfo,
-    DotNetImageMediaInfo,
-    DotNetImageMediaInfoValue,
-    DotNetLineChartMediaInfo,
-    DotNetAttachmentsPopupContent,
-    DotNetExpressionPopupContent,
-    DotNetElementExpressionInfo,
-    DotNetFeatureLayer,
-    MapCollection,
-    DotNetGraphicsLayer,
-    DotNetSymbol,
-    DotNetSimpleMarkerSymbol,
+    DotNetPopupTemplate,
+    DotNetSimpleFillSymbol,
     DotNetSimpleLineSymbol,
-    DotNetSimpleFillSymbol, DotNetPictureMarkerSymbol, DotNetTextSymbol
+    DotNetSimpleMarkerSymbol,
+    DotNetSpatialReference,
+    DotNetSymbol,
+    DotNetTextPopupContent,
+    DotNetTextSymbol,
+    DotNetViewHit,
+    MapCollection
 } from "./definitions";
 import Point from "@arcgis/core/geometry/Point";
 import Polyline from "@arcgis/core/geometry/Polyline";
@@ -47,8 +49,6 @@ import Geometry from "@arcgis/core/geometry/Geometry";
 import SpatialReference from "@arcgis/core/geometry/SpatialReference";
 import GeographicTransformation from "@arcgis/core/geometry/support/GeographicTransformation";
 import LayerView from "@arcgis/core/views/layers/LayerView";
-import HitTestResult = __esri.HitTestResult;
-import ViewHit = __esri.ViewHit;
 import Layer from "@arcgis/core/layers/Layer";
 import PopupTemplate from "@arcgis/core/PopupTemplate";
 import Content from "@arcgis/core/popup/content/Content";
@@ -79,10 +79,12 @@ import TextSymbol from "@arcgis/core/symbols/TextSymbol";
 import View from "@arcgis/core/views/View";
 import MapView from "@arcgis/core/views/MapView";
 import SceneView from "@arcgis/core/views/SceneView";
+import HitTestResult = __esri.HitTestResult;
+import ViewHit = __esri.ViewHit;
 
 export function buildDotNetGraphic(graphic: Graphic): DotNetGraphic {
     let dotNetGraphic = {} as DotNetGraphic;
-    
+
     if (Object.values(arcGisObjectRefs).includes(graphic)) {
         for (const k of Object.keys(arcGisObjectRefs)) {
             if (arcGisObjectRefs[k] === graphic) {
@@ -91,7 +93,7 @@ export function buildDotNetGraphic(graphic: Graphic): DotNetGraphic {
             }
         }
     }
-    
+
     dotNetGraphic.uid = (graphic as any).uid;
     dotNetGraphic.attributes = graphic.attributes;
     if (graphic.symbol !== undefined && graphic.symbol !== null) {
@@ -192,7 +194,7 @@ function buildDotNetSymbol(symbol: Symbol): DotNetSymbol {
             verticalAlignment: symbol.verticalAlignment
         } as DotNetTextSymbol;
     }
-    
+
     return symbol as any as DotNetSymbol;
 }
 
@@ -339,7 +341,7 @@ export function buildDotNetLayer(layer: Layer): DotNetLayer {
         case 'graphics':
             return buildDotNetGraphicsLayer(layer as GraphicsLayer);
         default:
-            
+
             let dotNetLayer = {
                 title: layer.title,
                 type: layer.type,
@@ -347,11 +349,11 @@ export function buildDotNetLayer(layer: Layer): DotNetLayer {
                 visible: layer.visible,
                 opacity: layer.opacity
             } as DotNetLayer;
-            
+
             if (layer.fullExtent !== undefined && layer.fullExtent !== null) {
                 dotNetLayer.fullExtent = buildDotNetExtent(layer.fullExtent) as DotNetExtent;
             }
-            
+
             if (Object.values(arcGisObjectRefs).includes(layer)) {
                 for (const k of Object.keys(arcGisObjectRefs)) {
                     if (arcGisObjectRefs[k] === layer) {
@@ -365,36 +367,36 @@ export function buildDotNetLayer(layer: Layer): DotNetLayer {
 }
 
 export function buildDotNetFeatureLayer(layer: FeatureLayer): DotNetFeatureLayer {
-        
-        let dotNetLayer = {
-            title: layer.title,
-            type: layer.type,
-            listMode: layer.listMode,
-            visible: layer.visible,
-            opacity: layer.opacity,
-            url: layer.url,
-            definitionExpression: layer.definitionExpression,
-            outFields: layer.outFields,
-            minScale: layer.minScale,
-            maxScale: layer.maxScale,
-            objectIdField: layer.objectIdField,
-            geometryType: layer.geometryType,
-            orderBy: layer.orderBy,
-            labelingInfo: layer.labelingInfo,
-            renderer: layer.renderer,
-            portalItem: layer.portalItem,
-            fields: layer.fields,
-            relationships: layer.relationships
-        } as DotNetFeatureLayer;
-        
+
+    let dotNetLayer = {
+        title: layer.title,
+        type: layer.type,
+        listMode: layer.listMode,
+        visible: layer.visible,
+        opacity: layer.opacity,
+        url: layer.url,
+        definitionExpression: layer.definitionExpression,
+        outFields: layer.outFields,
+        minScale: layer.minScale,
+        maxScale: layer.maxScale,
+        objectIdField: layer.objectIdField,
+        geometryType: layer.geometryType,
+        orderBy: layer.orderBy,
+        labelingInfo: layer.labelingInfo,
+        renderer: layer.renderer,
+        portalItem: layer.portalItem,
+        fields: layer.fields,
+        relationships: layer.relationships
+    } as DotNetFeatureLayer;
+
     if (layer.fullExtent !== undefined && layer.fullExtent !== null) {
         dotNetLayer.fullExtent = buildDotNetExtent(layer.fullExtent) as DotNetExtent;
     }
-        
+
     if (layer.popupTemplate !== undefined && layer.popupTemplate !== null) {
         dotNetLayer.popupTemplate = buildDotNetPopupTemplate(layer.popupTemplate);
     }
-    
+
     if (layer.spatialReference !== undefined && layer.spatialReference !== null) {
         dotNetLayer.spatialReference = buildDotNetSpatialReference(layer.spatialReference) as DotNetSpatialReference;
     }
@@ -407,7 +409,7 @@ export function buildDotNetFeatureLayer(layer: FeatureLayer): DotNetFeatureLayer
             }
         }
     }
-    
+
     return dotNetLayer;
 }
 
@@ -423,11 +425,11 @@ export function buildDotNetGraphicsLayer(layer: GraphicsLayer): DotNetGraphicsLa
     if (layer.fullExtent !== undefined && layer.fullExtent !== null) {
         dotNetLayer.fullExtent = buildDotNetExtent(layer.fullExtent) as DotNetExtent;
     }
-    
+
     if (layer.graphics !== undefined && layer.graphics !== null) {
         dotNetLayer.graphics = (layer.graphics as MapCollection).items.map(g => buildDotNetGraphic(g));
     }
-    
+
     if (Object.values(arcGisObjectRefs).includes(layer)) {
         for (const k of Object.keys(arcGisObjectRefs)) {
             if (arcGisObjectRefs[k] === layer) {
@@ -436,7 +438,7 @@ export function buildDotNetGraphicsLayer(layer: GraphicsLayer): DotNetGraphicsLa
             }
         }
     }
-    
+
     return dotNetLayer;
 }
 
@@ -519,7 +521,7 @@ export function buildDotNetPopupContent(popupContent: Content): DotNetPopupConte
             expressionContent.expressionInfo = buildDotNetElementExpressionInfo(jsExpressionContent.expressionInfo);
             break;
     }
-    
+
     return content;
 }
 
@@ -561,7 +563,7 @@ export function buildDotNetMediaInfo(mediaInfo: MediaInfo): DotNetMediaInfo {
             title: mediaInfo.title,
         } as DotNetBarChartMediaInfo;
     }
-    
+
     if (mediaInfo instanceof ColumnChartMediaInfo) {
         return {
             type: "column-chart",
@@ -570,7 +572,7 @@ export function buildDotNetMediaInfo(mediaInfo: MediaInfo): DotNetMediaInfo {
             title: mediaInfo.title,
         } as DotNetColumnChartMediaInfo;
     }
-    
+
     if (mediaInfo instanceof ImageMediaInfo) {
         return {
             type: "image-media",
@@ -580,7 +582,7 @@ export function buildDotNetMediaInfo(mediaInfo: MediaInfo): DotNetMediaInfo {
             value: buildDotNetImageMediaInfoValue(mediaInfo.value)
         } as DotNetImageMediaInfo;
     }
-    
+
     if (mediaInfo instanceof LineChartMediaInfo) {
         return {
             type: "line-chart",
@@ -589,7 +591,7 @@ export function buildDotNetMediaInfo(mediaInfo: MediaInfo): DotNetMediaInfo {
             title: mediaInfo.title,
         } as DotNetLineChartMediaInfo;
     }
-    
+
     throw new Error("Unknown media info type");
 }
 

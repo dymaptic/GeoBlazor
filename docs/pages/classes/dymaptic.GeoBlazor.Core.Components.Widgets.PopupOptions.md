@@ -9,7 +9,10 @@ parent: Classes
 ## PopupOptions Class
 
 A collection of options to define when creating a Popup.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html">ArcGIS JS API</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class PopupOptions

@@ -8,8 +8,12 @@ parent: Classes
 
 ## ChartMediaInfoValueSeries Class
 
-The ChartMediaInfoValueSeries class is a read-only support class that represents information specific to how data should be plotted in a chart. It helps provide a consistent API for plotting charts used by the Popup widget.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-support-ChartMediaInfoValueSeries.html">ArcGIS JS API</a>
+The ChartMediaInfoValueSeries class is a read-only support class that represents information specific to how data  
+should be plotted in a chart. It helps provide a consistent API for plotting charts used by the Popup widget.  
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-support-ChartMediaInfoValueSeries.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class ChartMediaInfoValueSeries : dymaptic.GeoBlazor.Core.Components.MapComponent

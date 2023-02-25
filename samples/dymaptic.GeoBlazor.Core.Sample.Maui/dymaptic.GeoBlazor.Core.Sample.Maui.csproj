@@ -10,7 +10,7 @@
         <UseMaui>true</UseMaui>
         <SingleProject>true</SingleProject>
         <EnableDefaultCssItems>false</EnableDefaultCssItems>
-        
+
         <!-- Display name -->
         <ApplicationTitle>GeoBlazor Core Samples</ApplicationTitle>
 
@@ -33,40 +33,42 @@
 
     <ItemGroup>
         <!-- App Icon -->
-        <MauiIcon Include="Resources\appicon.svg" ForegroundFile="Resources\appiconfg.svg" Color="Black" />
+        <MauiIcon Include="Resources\appicon.svg" ForegroundFile="Resources\appiconfg.svg" Color="Black"/>
 
         <!-- Splash Screen -->
-        <MauiSplashScreen Include="Resources\Splash\geoblazor.png" Color="Black" BaseSize="64,64" />
+        <MauiSplashScreen Include="Resources\Splash\geoblazor.png" Color="Black" BaseSize="64,64"/>
         <!-- Images -->
-        <MauiImage Include="Resources\Images\*" />
+        <MauiImage Include="Resources\Images\*"/>
 
         <!-- Custom Fonts -->
-        <MauiFont Include="Resources\Fonts\*" />
+        <MauiFont Include="Resources\Fonts\*"/>
 
         <!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
-        <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
-    </ItemGroup>
-
-  <ItemGroup>
-    <MauiImage Include="Resources\Splash\geoblazor.png" />
-  </ItemGroup>
-
-    <ItemGroup>
-        <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="6.0.0" />
-        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
-        <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.1" />
+        <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)"/>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\dymaptic.GeoBlazor.Core.Sample.Shared\dymaptic.GeoBlazor.Core.Sample.Shared.csproj" />
+        <MauiImage Include="Resources\Splash\geoblazor.png"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="6.0.0"/>
+        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0"/>
+        <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.1"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\dymaptic.GeoBlazor.Core.Sample.Shared\dymaptic.GeoBlazor.Core.Sample.Shared.csproj"/>
     </ItemGroup>
 
     <ProjectExtensions>
-        <VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptiondymapticBlazorApiSampleMauiHideInfoBar="True" XamarinHotReloadDebuggerTimeoutExceptiondymapticBlazorGISAPICoreSampleMauiHideInfoBar="True" /></VisualStudio>
+        <VisualStudio>
+            <UserProperties XamarinHotReloadDebuggerTimeoutExceptiondymapticBlazorApiSampleMauiHideInfoBar="True" XamarinHotReloadDebuggerTimeoutExceptiondymapticBlazorGISAPICoreSampleMauiHideInfoBar="True"/>
+        </VisualStudio>
     </ProjectExtensions>
 
-  <Target Name="Copy Source Files" BeforeTargets="Build">
-    <Exec ContinueOnError="true" Command="robocopy ..\dymaptic.GeoBlazor.Core.Sample.Shared\wwwroot\pages\ Resources\Raw\" />
-  </Target>
+    <Target Name="Copy Source Files" BeforeTargets="Build">
+        <Exec ContinueOnError="true" Command="robocopy ..\dymaptic.GeoBlazor.Core.Sample.Shared\wwwroot\pages\ Resources\Raw\"/>
+    </Target>
 
 </Project>

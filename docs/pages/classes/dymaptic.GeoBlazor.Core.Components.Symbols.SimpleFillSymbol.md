@@ -8,8 +8,13 @@ parent: Classes
 
 ## SimpleFillSymbol Class
 
-SimpleFillSymbol is used for rendering 2D polygons in either a MapView or a SceneView. It can be filled with a solid color, or a pattern. In addition, the symbol can have an optional outline, which is defined by a SimpleLineSymbol.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleFillSymbol.html">ArcGIS JS API</a>
+SimpleFillSymbol is used for rendering 2D polygons in either a MapView or a SceneView. It can be filled with a  
+solid color, or a pattern. In addition, the symbol can have an optional outline, which is defined by a  
+SimpleLineSymbol.  
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleFillSymbol.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class SimpleFillSymbol : dymaptic.GeoBlazor.Core.Components.Symbols.FillSymbol,
@@ -185,7 +190,8 @@ The child to unregister
 
 ## SimpleFillSymbol.ValidateRequiredChildren() Method
 
-When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the [RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
+When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the  
+[RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
 
 ```csharp
 public override void ValidateRequiredChildren();

@@ -8,8 +8,14 @@ parent: Classes
 
 ## TileLayer Class
 
-The TileLayer allows you work with a cached map service exposed by the ArcGIS Server REST API and add it to a Map as a tile layer. A cached service accesses tiles from a cache instead of dynamically rendering images. Because they are cached, tiled layers render faster than MapImageLayers. To create an instance of TileLayer, you must reference the URL of the cached map service.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-TileLayer.html">ArcGIS JS API</a>
+The TileLayer allows you work with a cached map service exposed by the ArcGIS Server REST API and add it to a Map  
+as a tile layer. A cached service accesses tiles from a cache instead of dynamically rendering images. Because they  
+are cached, tiled layers render faster than MapImageLayers. To create an instance of TileLayer, you must reference  
+the URL of the cached map service.  
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-TileLayer.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class TileLayer : dymaptic.GeoBlazor.Core.Components.Layers.Layer
@@ -110,7 +116,8 @@ The child to unregister
 
 ## TileLayer.ValidateRequiredChildren() Method
 
-When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the [RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
+When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the  
+[RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
 
 ```csharp
 public override void ValidateRequiredChildren();

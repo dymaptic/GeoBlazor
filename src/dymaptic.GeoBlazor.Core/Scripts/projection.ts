@@ -7,7 +7,7 @@ import {DotNetGeographicTransformation, DotNetGeometry} from "./definitions";
 
 export default class ProjectionWrapper {
     private dotNetRef: any;
-    
+
     constructor(dotNetReference, apiKey) {
         this.dotNetRef = dotNetReference;
         esriConfig.apiKey = apiKey;

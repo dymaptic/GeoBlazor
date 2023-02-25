@@ -7,7 +7,7 @@ namespace dymaptic.GeoBlazor.Core.Events;
 ///     Result of the view.on('drag') event.
 /// </summary>
 /// <param name="Action">
-///     The <see cref="DragAction"/> type of the event callback.
+///     The <see cref="DragAction" /> type of the event callback.
 /// </param>
 /// <param name="Origin">
 ///     The starting point of the drag event.
@@ -48,7 +48,7 @@ namespace dymaptic.GeoBlazor.Core.Events;
 /// <param name="Type">
 ///     The event type.
 /// </param>
-public record DragEvent(string Type, int? EventId, bool? Cancelable, DragAction Action, double X, double Y, 
-    Point Origin, int Button, int Buttons, double Radius, double Angle, double Timestamp, DomPointerEvent Native,
-    PointerType? PointerType)
+public record DragEvent(string Type, int? EventId, bool? Cancelable, DragAction Action, double X, double Y,
+        Point Origin, int Button, int Buttons, double Radius, double Angle, double Timestamp, DomPointerEvent Native,
+        PointerType? PointerType)
     : JsEvent(Type, EventId, Cancelable, Timestamp, Native, PointerType);

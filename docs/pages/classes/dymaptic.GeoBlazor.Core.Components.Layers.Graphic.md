@@ -8,8 +8,12 @@ parent: Classes
 
 ## Graphic Class
 
-A Graphic is a vector representation of real world geographic phenomena. It can contain geometry, a symbol, and attributes. A Graphic is displayed in the GraphicsLayer.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Graphic.html">ArcGIS JS API</a>
+A Graphic is a vector representation of real world geographic phenomena. It can contain geometry, a symbol, and  
+attributes. A Graphic is displayed in the GraphicsLayer.  
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Graphic.html">  
+    ArcGIS JS  
+    API  
+</a>
 
 ```csharp
 public class Graphic : dymaptic.GeoBlazor.Core.Components.Layers.LayerObject,
@@ -107,7 +111,8 @@ public dymaptic.GeoBlazor.Core.Components.Geometries.Geometry? Geometry { get; s
 [Geometry](dymaptic.GeoBlazor.Core.Components.Geometries.Geometry.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Geometry')
 
 ### Remarks
-To retrieve a current geometry for a graphic, use [GetGeometry()](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html#dymaptic.GeoBlazor.Core.Components.Layers.Graphic.GetGeometry() 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic.GetGeometry()') instead of calling this Property directly.
+To retrieve a current geometry for a graphic, use [GetGeometry()](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html#dymaptic.GeoBlazor.Core.Components.Layers.Graphic.GetGeometry() 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic.GetGeometry()') instead of calling this Property  
+directly.
 
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.Graphic.LayerId'></a>
 
@@ -136,7 +141,8 @@ public dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate? PopupTemplate { 
 [PopupTemplate](dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.html 'dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate')
 
 ### Remarks
-To retrieve a current popup template for a graphic, use [GetPopupTemplate()](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html#dymaptic.GeoBlazor.Core.Components.Layers.Graphic.GetPopupTemplate() 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic.GetPopupTemplate()') instead of calling this Property directly.
+To retrieve a current popup template for a graphic, use [GetPopupTemplate()](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html#dymaptic.GeoBlazor.Core.Components.Layers.Graphic.GetPopupTemplate() 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic.GetPopupTemplate()') instead of calling this  
+Property directly.
 ### Methods
 
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.Graphic.Equals(object)'></a>
@@ -338,7 +344,8 @@ The child to unregister
 
 ## Graphic.ValidateRequiredChildren() Method
 
-When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the [RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
+When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the  
+[RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
 
 ```csharp
 public override void ValidateRequiredChildren();

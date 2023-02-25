@@ -5,8 +5,12 @@ using System.Text.Json.Serialization;
 namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 
 /// <summary>
-///     PictureMarkerSymbol renders Point graphics in either a 2D MapView or 3D SceneView using an image. A url must point to a valid image. PictureMarkerSymbols may be applied to point features in a FeatureLayer or individual graphics.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-PictureMarkerSymbol.html">ArcGIS JS API</a>
+///     PictureMarkerSymbol renders Point graphics in either a 2D MapView or 3D SceneView using an image. A url must point
+///     to a valid image. PictureMarkerSymbols may be applied to point features in a FeatureLayer or individual graphics.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-PictureMarkerSymbol.html">
+///         ArcGIS
+///         JS API
+///     </a>
 /// </summary>
 public class PictureMarkerSymbol : MarkerSymbol, IEquatable<PictureMarkerSymbol>
 {
@@ -16,9 +20,9 @@ public class PictureMarkerSymbol : MarkerSymbol, IEquatable<PictureMarkerSymbol>
     public PictureMarkerSymbol()
     {
     }
-    
+
     /// <summary>
-    ///    Constructor for use in code
+    ///     Constructor for use in code
     /// </summary>
     /// <param name="url">
     ///     The URL to an image or SVG document.
@@ -50,6 +54,22 @@ public class PictureMarkerSymbol : MarkerSymbol, IEquatable<PictureMarkerSymbol>
     }
 
     /// <summary>
+    ///     Compares two PictureMarkerSymbols for equality
+    /// </summary>
+    public static bool operator ==(PictureMarkerSymbol? left, PictureMarkerSymbol? right)
+    {
+        return Equals(left, right);
+    }
+
+    /// <summary>
+    ///     Compares two PictureMarkerSymbols for inequality
+    /// </summary>
+    public static bool operator !=(PictureMarkerSymbol? left, PictureMarkerSymbol? right)
+    {
+        return !Equals(left, right);
+    }
+
+    /// <summary>
     ///     The height of the image in points.
     /// </summary>
     [Parameter]
@@ -78,8 +98,8 @@ public class PictureMarkerSymbol : MarkerSymbol, IEquatable<PictureMarkerSymbol>
         if (ReferenceEquals(null, other)) return false;
         if (ReferenceEquals(this, other)) return true;
 
-        return Nullable.Equals(Height, other.Height) && Nullable.Equals(Width, other.Width) && Url == other.Url &&
-            Color == other.Color;
+        return Nullable.Equals(Height, other.Height) && Nullable.Equals(Width, other.Width) && (Url == other.Url) &&
+            (Color == other.Color);
     }
 
     /// <inheritdoc />
@@ -87,7 +107,7 @@ public class PictureMarkerSymbol : MarkerSymbol, IEquatable<PictureMarkerSymbol>
     {
         if (ReferenceEquals(null, obj)) return false;
         if (ReferenceEquals(this, obj)) return true;
-        if (obj.GetType() != this.GetType()) return false;
+        if (obj.GetType() != GetType()) return false;
 
         return Equals((PictureMarkerSymbol)obj);
     }
@@ -96,21 +116,5 @@ public class PictureMarkerSymbol : MarkerSymbol, IEquatable<PictureMarkerSymbol>
     public override int GetHashCode()
     {
         return HashCode.Combine(Height, Width, Url, Color);
-    }
-
-    /// <summary>
-    ///     Compares two PictureMarkerSymbols for equality
-    /// </summary>
-    public static bool operator ==(PictureMarkerSymbol? left, PictureMarkerSymbol? right)
-    {
-        return Equals(left, right);
-    }
-
-    /// <summary>
-    ///     Compares two PictureMarkerSymbols for inequality
-    /// </summary>
-    public static bool operator !=(PictureMarkerSymbol? left, PictureMarkerSymbol? right)
-    {
-        return !Equals(left, right);
     }
 }

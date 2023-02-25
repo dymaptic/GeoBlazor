@@ -16,12 +16,12 @@ public class JavascriptException : Exception
         Name = error.Name;
         Stack = error.Stack;
     }
-    
+
     /// <summary>
     ///     The JavaScript stack trace.
     /// </summary>
     public string? Stack { get; }
-    
+
     /// <summary>
     ///     The name of the JavaScript error.
     /// </summary>

@@ -7,7 +7,7 @@
     <a class="btn btn-primary" target="_blank" href="https://www.arcgis.com/home/item.html?id=716b600dbbac433faa4bec9220c76b3a">Imagery with Labels BaseMap</a>
 </div>
 <p class="instructions">
-    Toggle each section below, then use the "Draw" button to add a graphic. To move a graphic, change the value in the 
+    Toggle each section below, then use the "Draw" button to add a graphic. To move a graphic, change the value in the
     latitude/logitude fields. Click "Remove" to clear the graphic from the map.
 </p>
 <div id="control-set">
@@ -136,7 +136,7 @@
     </Map>
 </MapView>
 
-<br/>
+<br />
 <button class="btn btn-info" @onclick="GetPoint">Get Point Data</button>
 <button class="btn btn-info" @onclick="GetPolyLine">Get Polyline Data</button>
 <button class="btn btn-info" @onclick="GetPolygon">Get Polygon Data</button>
@@ -197,7 +197,7 @@
     {
         _mapRings.RemoveAt(_mapRings.Count - 1);
     }
-    
+
     private async Task GetPoint()
     {
         if (_pointGraphic is null) return;
@@ -213,7 +213,7 @@
         Geometry? geometry = await _polylineGraphic.GetGeometry();
         _geometry = JsonSerializer.Serialize(geometry);
     }
-    
+
     private async Task GetPolygon()
     {
         if (_polygonGraphic is null) return;
@@ -232,8 +232,8 @@
     private string? _geometry;
     private readonly Dictionary<string, object> _graphicAttributes = new()
     {
-        { "Name", "Sample Polygon"}, 
+        { "Name", "Sample Polygon" },
         { "Description", "This is where you can describe the polygon." }
     };
-    
+
 }

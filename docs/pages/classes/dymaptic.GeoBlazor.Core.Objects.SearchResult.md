@@ -9,7 +9,10 @@ parent: Classes
 ## SearchResult Class
 
 The result object returned from a search.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#SearchResult">ArcGIS JS API</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#SearchResult">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class SearchResult
@@ -22,7 +25,8 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 
 ## SearchResult.Extent Property
 
-The extent, or bounding box, of the returned feature. The value depends on the data source, with higher quality data sources returning extents closer to the feature obtained from the search.
+The extent, or bounding box, of the returned feature. The value depends on the data source, with higher quality  
+data sources returning extents closer to the feature obtained from the search.
 
 ```csharp
 public dymaptic.GeoBlazor.Core.Components.Geometries.Extent? Extent { get; set; }

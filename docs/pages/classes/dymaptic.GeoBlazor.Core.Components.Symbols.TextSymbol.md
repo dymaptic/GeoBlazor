@@ -8,8 +8,14 @@ parent: Classes
 
 ## TextSymbol Class
 
-Text symbols are used to define the graphic for displaying labels on a FeatureLayer, CSVLayer, Sublayer, and StreamLayer in a 2D MapView. Text symbols can also be used to define the symbol property of Graphic if the geometry type is Point or Multipoint. With this class, you may alter the color, font, halo, and other properties of the label graphic.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-TextSymbol.html">ArcGIS JS API</a>
+Text symbols are used to define the graphic for displaying labels on a FeatureLayer, CSVLayer, Sublayer, and  
+StreamLayer in a 2D MapView. Text symbols can also be used to define the symbol property of Graphic if the geometry  
+type is Point or Multipoint. With this class, you may alter the color, font, halo, and other properties of the  
+label graphic.  
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-TextSymbol.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class TextSymbol : dymaptic.GeoBlazor.Core.Components.Symbols.Symbol,
@@ -223,7 +229,8 @@ The child to unregister
 
 ## TextSymbol.ValidateRequiredChildren() Method
 
-When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the [RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
+When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the  
+[RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
 
 ```csharp
 public override void ValidateRequiredChildren();

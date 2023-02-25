@@ -34,7 +34,8 @@ public bool ShowLegend { get; set; }
 
 ## LegendOptions.Title Property
 
-The title describing the visualization of the visual variable in the Legend. This takes precedence over a field alias or valueExpressionTitle.
+The title describing the visualization of the visual variable in the Legend. This takes precedence over a field  
+alias or valueExpressionTitle.
 
 ```csharp
 public string? Title { get; set; }

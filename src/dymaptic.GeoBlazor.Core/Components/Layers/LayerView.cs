@@ -5,7 +5,10 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
 /// <summary>
 ///     Represents the view for a single layer after it has been added to either a MapView or a SceneView.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html">ArcGIS JS API</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html">
+///         ArcGIS
+///         JS API
+///     </a>
 /// </summary>
 public class LayerView
 {
@@ -13,27 +16,27 @@ public class LayerView
     ///     The layer being viewed.
     /// </summary>
     public Layer Layer { get; set; } = default!;
-    
+
     /// <summary>
-    ///    The JavaScript object reference used by the LayerView.
+    ///     The JavaScript object reference used by the LayerView.
     /// </summary>
     public IJSObjectReference? JsObjectReference { get; set; }
-    
+
     /// <summary>
     ///     Indicates if the spatialReference of the MapView is supported by the layer view.
     /// </summary>
     public bool SpatialReferenceSupported { get; init; }
-    
+
     /// <summary>
     ///     Value is true if the layer is suspended (i.e., layer will not redraw or update itself when the extent changes).
     /// </summary>
     public bool Suspended { get; init; }
-    
+
     /// <summary>
     ///     Value is true when the layer is updating; for example, if it is in the process of fetching data.
     /// </summary>
     public bool Updating { get; init; }
-    
+
     /// <summary>
     ///     Value is true when the layer is updating; for example, if it is in the process of fetching data.
     /// </summary>
@@ -42,7 +45,8 @@ public class LayerView
 
 #pragma warning disable CS1574, CS0419
 /// <summary>
-///     A handle to a <see cref="LayerView.Highlight"/> call result. The handle can be used to remove the installed highlight.
+///     A handle to a <see cref="LayerView.Highlight" /> call result. The handle can be used to remove the installed
+///     highlight.
 /// </summary>
 /// <param name="JsObjectReference">
 ///     The JavaScript object reference used by the handle.
@@ -51,7 +55,7 @@ public class LayerView
 public record HighlightHandle(IJSObjectReference JsObjectReference)
 {
     /// <summary>
-    ///    Removes the highlight.
+    ///     Removes the highlight.
     /// </summary>
     public async Task Remove()
     {

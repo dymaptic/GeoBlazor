@@ -8,7 +8,9 @@ parent: Classes
 
 ## ParameterValue Class
 
-Filters features from the layer based on pre-authored parameterized filters. When value is not specified for any parameter in a request, the default value, that is assigned during authoring time, gets used. Requires an ArcGIS Enterprise service 10.5 or greater. This parameter is only supported with MapImageLayer pointing to a map service.
+Filters features from the layer based on pre-authored parameterized filters. When value is not specified for any  
+parameter in a request, the default value, that is assigned during authoring time, gets used. Requires an ArcGIS  
+Enterprise service 10.5 or greater. This parameter is only supported with MapImageLayer pointing to a map service.
 
 ```csharp
 public class ParameterValue :
@@ -24,7 +26,9 @@ Implements [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/S
 
 ## ParameterValue(string, object) Constructor
 
-Filters features from the layer based on pre-authored parameterized filters. When value is not specified for any parameter in a request, the default value, that is assigned during authoring time, gets used. Requires an ArcGIS Enterprise service 10.5 or greater. This parameter is only supported with MapImageLayer pointing to a map service.
+Filters features from the layer based on pre-authored parameterized filters. When value is not specified for any  
+parameter in a request, the default value, that is assigned during authoring time, gets used. Requires an ArcGIS  
+Enterprise service 10.5 or greater. This parameter is only supported with MapImageLayer pointing to a map service.
 
 ```csharp
 public ParameterValue(string Name, object Value);

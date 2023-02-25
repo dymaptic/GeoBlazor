@@ -8,8 +8,14 @@ parent: Classes
 
 ## WebTileLayer Class
 
-WebTileLayer provides a simple way to add non-ArcGIS Server map tiles as a layer to a map. The constructor takes a URL template that usually follows a pattern of http://some.domain.com/{level}/{col}/{row}/ where level corresponds to a zoom level, and column and row represent tile column and row, respectively. This pattern is not required, but is the most common one currently on the web.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WebTileLayer.html#urlTemplate">ArcGIS JS API</a>
+WebTileLayer provides a simple way to add non-ArcGIS Server map tiles as a layer to a map. The constructor takes a  
+URL template that usually follows a pattern of http://some.domain.com/{level}/{col}/{row}/ where level corresponds  
+to a zoom level, and column and row represent tile column and row, respectively. This pattern is not required, but  
+is the most common one currently on the web.  
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WebTileLayer.html#urlTemplate">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class WebTileLayer : dymaptic.GeoBlazor.Core.Components.Layers.Layer
@@ -25,7 +31,8 @@ Derived
 
 ## WebTileLayer.BlendMode Property
 
-Blend modes are used to blend layers together to create an interesting effect in a layer, or even to produce what seems like a new layer.
+Blend modes are used to blend layers together to create an interesting effect in a layer, or even to produce what  
+seems like a new layer.
 
 ```csharp
 public System.Nullable<dymaptic.GeoBlazor.Core.Components.Layers.BlendMode> BlendMode { get; set; }
@@ -116,7 +123,8 @@ public System.Nullable<double> RefreshInterval { get; set; }
 
 ## WebTileLayer.SubDomains Property
 
-A string of subDomain names where tiles are served to speed up tile retrieval. If subDomains are specified, the [UrlTemplate](dymaptic.GeoBlazor.Core.Components.Layers.WebTileLayer.html#dymaptic.GeoBlazor.Core.Components.Layers.WebTileLayer.UrlTemplate 'dymaptic.GeoBlazor.Core.Components.Layers.WebTileLayer.UrlTemplate') should include a {subDomain} place holder.
+A string of subDomain names where tiles are served to speed up tile retrieval. If subDomains are specified, the  
+[UrlTemplate](dymaptic.GeoBlazor.Core.Components.Layers.WebTileLayer.html#dymaptic.GeoBlazor.Core.Components.Layers.WebTileLayer.UrlTemplate 'dymaptic.GeoBlazor.Core.Components.Layers.WebTileLayer.UrlTemplate') should include a {subDomain} place holder.
 
 ```csharp
 public System.Collections.Generic.IList<string>? SubDomains { get; set; }
@@ -142,7 +150,8 @@ public dymaptic.GeoBlazor.Core.Components.Layers.TileInfo? TileInfo { get; set; 
 
 ## WebTileLayer.UrlTemplate Property
 
-The url template is a string that specifies the URL of the hosted tile images to load. The url template resembles an absolute URL but with a number of placeholder strings that the source evaluates to decide which tiles to load.
+The url template is a string that specifies the URL of the hosted tile images to load. The url template resembles  
+an absolute URL but with a number of placeholder strings that the source evaluates to decide which tiles to load.
 
 ```csharp
 public string? UrlTemplate { get; set; }
@@ -152,7 +161,10 @@ public string? UrlTemplate { get; set; }
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 
 ### Remarks
-The url template can follow a pattern of https://some.domain.com/{level}/{col}/{row}/ where level corresponds to a zoom level, and column and row represent a tile column and row, respectively. It can also follow a pattern of https://some.domain.com/{z}/{x}/{y}/ where z corresponds to a zoom level, and x and y represent a tile location along x and y axis. The urlTemplate should contain a {subDomain} place holder if subDomains are specified.
+The url template can follow a pattern of https://some.domain.com/{level}/{col}/{row}/ where level corresponds to a  
+zoom level, and column and row represent a tile column and row, respectively. It can also follow a pattern of  
+https://some.domain.com/{z}/{x}/{y}/ where z corresponds to a zoom level, and x and y represent a tile location  
+along x and y axis. The urlTemplate should contain a {subDomain} place holder if subDomains are specified.
 ### Methods
 
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.WebTileLayer.RegisterChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent)'></a>
@@ -204,7 +216,8 @@ The child to unregister
 
 ## WebTileLayer.ValidateRequiredChildren() Method
 
-When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the [RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
+When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the  
+[RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
 
 ```csharp
 public override void ValidateRequiredChildren();

@@ -8,8 +8,12 @@ parent: Classes
 
 ## LocateWidget Class
 
-Provides a simple widget that animates the View to the user's current location. The view rotates according to the direction where the tracked device is heading towards.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate.html">ArcGIS JS API</a>
+Provides a simple widget that animates the View to the user's current location. The view rotates according to the  
+direction where the tracked device is heading towards.  
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class LocateWidget : dymaptic.GeoBlazor.Core.Components.Widgets.Widget
@@ -22,7 +26,8 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 
 ## LocateWidget.Scale Property
 
-Indicates the scale to set on the view when navigating to the position of the geolocated result once a location is returned from the track event.
+Indicates the scale to set on the view when navigating to the position of the geolocated result once a location is  
+returned from the track event.
 
 ```csharp
 public System.Nullable<int> Scale { get; set; }

@@ -9,7 +9,10 @@ parent: Classes
 ## ChartMediaInfoValue Class
 
 The ChartMediaInfoValue class contains information for popups regarding how charts should be constructed.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-support-ChartMediaInfoValue.html">ArcGIS JS API</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-support-ChartMediaInfoValue.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class ChartMediaInfoValue : dymaptic.GeoBlazor.Core.Components.MapComponent
@@ -32,14 +35,17 @@ public System.Collections.Generic.IEnumerable<string> Fields { get; set; }
 [System.Collections.Generic.IEnumerable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IEnumerable-1 'System.Collections.Generic.IEnumerable`1')[System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IEnumerable-1 'System.Collections.Generic.IEnumerable`1')
 
 ### Remarks
-In order to work with related fields within a chart, the fields must either be set as a fields element in the PopupTemplate's content or as popupTemplate.fieldInfos property outside of the PopupTemplate's content.  
-Set the popupTemplate.fieldInfos property for any fields that need to have number formatting for chart/text elements.
+In order to work with related fields within a chart, the fields must either be set as a fields element in the  
+PopupTemplate's content or as popupTemplate.fieldInfos property outside of the PopupTemplate's content.  
+Set the popupTemplate.fieldInfos property for any fields that need to have number formatting for chart/text  
+elements.
 
 <a name='dymaptic.GeoBlazor.Core.Components.Popups.ChartMediaInfoValue.NormalizeField'></a>
 
 ## ChartMediaInfoValue.NormalizeField Property
 
-A string containing the name of a field. The values of all fields in the chart will be normalized (divided) by the value of this field.
+A string containing the name of a field. The values of all fields in the chart will be normalized (divided) by the  
+value of this field.
 
 ```csharp
 public string? NormalizeField { get; set; }
@@ -65,7 +71,8 @@ public System.Collections.Generic.HashSet<dymaptic.GeoBlazor.Core.Components.Pop
 
 ## ChartMediaInfoValue.TooltipField Property
 
-String value indicating the tooltip for a chart specified from another field. It is used for showing tooltips from another field in the same layer or related layer/table.
+String value indicating the tooltip for a chart specified from another field. It is used for showing tooltips from  
+another field in the same layer or related layer/table.
 
 ```csharp
 public string? TooltipField { get; set; }
@@ -124,7 +131,8 @@ The child to unregister
 
 ## ChartMediaInfoValue.ValidateRequiredChildren() Method
 
-When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the [RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
+When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the  
+[RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
 
 ```csharp
 public override void ValidateRequiredChildren();

@@ -8,8 +8,13 @@ parent: Classes
 
 ## PopupWidget Class
 
-The Popup widget allows users to view content from feature attributes. Popups enhance web applications by providing users with a simple way to interact with and view attributes in a layer. They play an important role in relaying information to the user, which improves the storytelling capabilities of the application.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html">ArcGIS API</a>
+The Popup widget allows users to view content from feature attributes. Popups enhance web applications by providing  
+users with a simple way to interact with and view attributes in a layer. They play an important role in relaying  
+information to the user, which improves the storytelling capabilities of the application.  
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html">  
+    ArcGIS  
+    API  
+</a>
 
 ```csharp
 public class PopupWidget : dymaptic.GeoBlazor.Core.Components.Widgets.Widget
@@ -18,15 +23,19 @@ public class PopupWidget : dymaptic.GeoBlazor.Core.Components.Widgets.Widget
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [Microsoft.AspNetCore.Components.ComponentBase](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.ComponentBase 'Microsoft.AspNetCore.Components.ComponentBase') &#129106; [MapComponent](dymaptic.GeoBlazor.Core.Components.MapComponent.html 'dymaptic.GeoBlazor.Core.Components.MapComponent') &#129106; [Widget](dymaptic.GeoBlazor.Core.Components.Widgets.Widget.html 'dymaptic.GeoBlazor.Core.Components.Widgets.Widget') &#129106; PopupWidget
 
 ### Remarks
-All Views contain a default popup. This popup can display generic content, which is set in its title and content properties. When content is set directly on the Popup instance it is not tied to a specific feature or layer.  
-In most cases this module will not need to be loaded into your application because the view contains a default instance of popup.
+All Views contain a default popup. This popup can display generic content, which is set in its title and content  
+properties. When content is set directly on the Popup instance it is not tied to a specific feature or layer.  
+In most cases this module will not need to be loaded into your application because the view contains a default  
+instance of popup.
 ### Properties
 
 <a name='dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.Actions'></a>
 
 ## PopupWidget.Actions Property
 
-Defines actions that may be executed by clicking the icon or image symbolizing them in the popup. By default, every popup has a zoom-to action styled with a magnifying glass icon. When this icon is clicked, the view zooms in four LODs and centers on the selected feature.
+Defines actions that may be executed by clicking the icon or image symbolizing them in the popup. By default, every  
+popup has a zoom-to action styled with a magnifying glass icon. When this icon is clicked, the view zooms in four  
+LODs and centers on the selected feature.
 
 ```csharp
 public System.Collections.Generic.HashSet<dymaptic.GeoBlazor.Core.Components.ActionBase>? Actions { get; set; }
@@ -39,7 +48,9 @@ public System.Collections.Generic.HashSet<dymaptic.GeoBlazor.Core.Components.Act
 
 ## PopupWidget.Alignment Property
 
-Position of the popup in relation to the selected feature. The default behavior is to display above the feature and adjust if not enough room. If needing to explicitly control where the popup displays in relation to the feature, choose an option besides auto.
+Position of the popup in relation to the selected feature. The default behavior is to display above the feature and  
+adjust if not enough room. If needing to explicitly control where the popup displays in relation to the feature,  
+choose an option besides auto.
 
 ```csharp
 public System.Nullable<dymaptic.GeoBlazor.Core.Components.Widgets.PopupAlignment> Alignment { get; set; }
@@ -65,7 +76,8 @@ public System.Nullable<bool> AutoCloseEnabled { get; set; }
 
 ## PopupWidget.AutoOpenEnabled Property
 
-This property indicates to the Popup that it needs to allow or disallow the click event propagation. Use view.popup.autoOpenEnabled = false; when needing to stop the click event propagation.  
+This property indicates to the Popup that it needs to allow or disallow the click event propagation. Use  
+view.popup.autoOpenEnabled = false; when needing to stop the click event propagation.  
 DefaultValue: true
 
 ```csharp
@@ -106,7 +118,9 @@ public System.Nullable<bool> CollapseEnabled { get; set; }
 
 ## PopupWidget.DefaultPopupTemplateEnabled Property
 
-Enables automatic creation of a popup template for layers that have popups enabled but no popupTemplate defined. Automatic popup templates are supported for layers that support the createPopupTemplate method. (Supported for FeatureLayer, GeoJSONLayer, OGCFeatureLayer, SceneLayer, CSVLayer, PointCloudLayer, StreamLayer, and ImageryLayer).
+Enables automatic creation of a popup template for layers that have popups enabled but no popupTemplate defined.  
+Automatic popup templates are supported for layers that support the createPopupTemplate method. (Supported for  
+FeatureLayer, GeoJSONLayer, OGCFeatureLayer, SceneLayer, CSVLayer, PointCloudLayer, StreamLayer, and ImageryLayer).
 
 ```csharp
 public System.Nullable<bool> DefaultPopupTemplateEnabled { get; set; }
@@ -120,7 +134,9 @@ public System.Nullable<bool> DefaultPopupTemplateEnabled { get; set; }
 ## PopupWidget.DockEnabled Property
 
 Indicates whether the placement of the popup is docked to the side of the view.  
-Docking the popup allows for a better user experience, particularly when opening popups in apps on mobile devices. When a popup is "dockEnabled" it means the popup no longer points to the selected feature or the location assigned to it. Rather it is attached to a side, the top, or the bottom of the view.  
+Docking the popup allows for a better user experience, particularly when opening popups in apps on mobile devices.  
+When a popup is "dockEnabled" it means the popup no longer points to the selected feature or the location assigned  
+to it. Rather it is attached to a side, the top, or the bottom of the view.  
 See [DockOptions](dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.DockOptions 'dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.DockOptions') to override default options related to docking the popup.
 
 ```csharp
@@ -134,7 +150,10 @@ public System.Nullable<bool> DockEnabled { get; set; }
 
 ## PopupWidget.DockOptions Property
 
-Docking the popup allows for a better user experience, particularly when opening popups in apps on mobile devices. When a popup is "dockEnabled" it means the popup no longer points to the selected feature or the location assigned to it. Rather it is placed in one of the corners of the view or to the top or bottom of it. This property allows the developer to set various options for docking the popup.
+Docking the popup allows for a better user experience, particularly when opening popups in apps on mobile devices.  
+When a popup is "dockEnabled" it means the popup no longer points to the selected feature or the location assigned  
+to it. Rather it is placed in one of the corners of the view or to the top or bottom of it. This property allows  
+the developer to set various options for docking the popup.
 
 ```csharp
 public dymaptic.GeoBlazor.Core.Components.Widgets.PopupDockOptions? DockOptions { get; set; }
@@ -147,8 +166,11 @@ public dymaptic.GeoBlazor.Core.Components.Widgets.PopupDockOptions? DockOptions 
 
 ## PopupWidget.Features Property
 
-An array of features associated with the popup. Each graphic in this array must have a valid PopupTemplate set. They may share the same PopupTemplate or have unique PopupTemplates depending on their attributes. The content and title of the popup is set based on the content and title properties of each graphic's respective PopupTemplate.  
-When more than one graphic exists in this array, the current content of the Popup is set based on the value of the selected feature.  
+An array of features associated with the popup. Each graphic in this array must have a valid PopupTemplate set.  
+They may share the same PopupTemplate or have unique PopupTemplates depending on their attributes. The content and  
+title of the popup is set based on the content and title properties of each graphic's respective PopupTemplate.  
+When more than one graphic exists in this array, the current content of the Popup is set based on the value of the  
+selected feature.  
 This value is null if no features are associated with the popup.
 
 ```csharp
@@ -162,7 +184,9 @@ public System.Collections.Generic.HashSet<dymaptic.GeoBlazor.Core.Components.Lay
 
 ## PopupWidget.HeadingLevel Property
 
-Indicates the heading level to use for the title of the popup. By default, the title is rendered as a level 2 heading (e.g. <h2>Popup title</h2>). Depending on the widget's placement in your app, you may need to adjust this heading for proper semantics. This is important for meeting accessibility standards.  
+Indicates the heading level to use for the title of the popup. By default, the title is rendered as a level 2  
+heading (e.g. <h2>Popup title</h2>). Depending on the widget's placement in your app, you may need to adjust this  
+heading for proper semantics. This is important for meeting accessibility standards.  
 DefaultValue:2
 
 ```csharp
@@ -176,7 +200,8 @@ public System.Nullable<int> HeadingLevel { get; set; }
 
 ## PopupWidget.HighlightEnabled Property
 
-Highlight the selected popup feature using the highlightOptions set on the MapView or the highlightOptions set on the SceneView.
+Highlight the selected popup feature using the highlightOptions set on the MapView or the highlightOptions set on  
+the SceneView.
 
 ```csharp
 public System.Nullable<bool> HighlightEnabled { get; set; }
@@ -202,7 +227,9 @@ public string? Label { get; set; }
 
 ## PopupWidget.Location Property
 
-Point used to position the popup. This is automatically set when viewing the popup by selecting a feature. If using the Popup to display content not related to features in the map, such as the results from a task, then you must set this property before making the popup visible to the user.
+Point used to position the popup. This is automatically set when viewing the popup by selecting a feature. If using  
+the Popup to display content not related to features in the map, such as the results from a task, then you must set  
+this property before making the popup visible to the user.
 
 ```csharp
 public dymaptic.GeoBlazor.Core.Components.Geometries.Point? Location { get; set; }
@@ -242,7 +269,9 @@ public System.Nullable<bool> SpinnerEnabled { get; set; }
 
 ## PopupWidget.StringContent Property
 
-The html string content of the popup. When set directly on the Popup, this content is static and cannot use fields to set content templates. To set a template for the content based on field or attribute names, see [Content](dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.html#dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.Content 'dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.Content').
+The html string content of the popup. When set directly on the Popup, this content is static and cannot use fields  
+to set content templates. To set a template for the content based on field or attribute names, see  
+[Content](dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.html#dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.Content 'dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.Content').
 
 ```csharp
 public string? StringContent { get; set; }
@@ -255,7 +284,8 @@ public string? StringContent { get; set; }
 
 ## PopupWidget.Title Property
 
-The title of the popup. This can be set generically on the popup no matter the features that are selected. If the selected feature has a PopupTemplate, then the title set in the corresponding template is used here.
+The title of the popup. This can be set generically on the popup no matter the features that are selected. If the  
+selected feature has a PopupTemplate, then the title set in the corresponding template is used here.
 
 ```csharp
 public string? Title { get; set; }
@@ -268,7 +298,8 @@ public string? Title { get; set; }
 
 ## PopupWidget.VisibleElements Property
 
-The visible elements that are displayed within the widget. This property provides the ability to turn individual elements of the widget's display on/off.
+The visible elements that are displayed within the widget. This property provides the ability to turn individual  
+elements of the widget's display on/off.
 
 ```csharp
 public dymaptic.GeoBlazor.Core.Components.Widgets.PopupVisibleElements? VisibleElements { get; set; }
@@ -281,7 +312,9 @@ public dymaptic.GeoBlazor.Core.Components.Widgets.PopupVisibleElements? VisibleE
 
 ## PopupWidget.WidgetContent Property
 
-The widget content of the popup. When set directly on the Popup, this content is static and cannot use fields to set content templates. To set a template for the content based on field or attribute names, see [Content](dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.html#dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.Content 'dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.Content').
+The widget content of the popup. When set directly on the Popup, this content is static and cannot use fields to  
+set content templates. To set a template for the content based on field or attribute names, see  
+[Content](dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.html#dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.Content 'dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.Content').
 
 ```csharp
 public dymaptic.GeoBlazor.Core.Components.Widgets.Widget? WidgetContent { get; set; }
@@ -308,7 +341,8 @@ public override string WidgetType { get; }
 
 ## PopupWidget.GetSelectedFeature() Method
 
-The selected feature accessed by the popup. The content of the Popup is determined based on the PopupTemplate assigned to this feature.
+The selected feature accessed by the popup. The content of the Popup is determined based on the PopupTemplate  
+assigned to this feature.
 
 ```csharp
 public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Layers.Graphic> GetSelectedFeature();
@@ -404,7 +438,8 @@ The child to unregister
 
 ## PopupWidget.ValidateRequiredChildren() Method
 
-When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the [RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
+When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the  
+[RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
 
 ```csharp
 public override void ValidateRequiredChildren();

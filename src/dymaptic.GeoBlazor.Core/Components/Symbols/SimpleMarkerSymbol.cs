@@ -1,18 +1,23 @@
 ﻿using dymaptic.GeoBlazor.Core.Objects;
-using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Components;
+using System.Text.Json.Serialization;
 
 
 namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 
 /// <summary>
-///     SimpleMarkerSymbol is used for rendering 2D Point geometries with a simple shape and color in either a MapView or a SceneView. It may be filled with a solid color and have an optional outline, which is defined with a SimpleLineSymbol.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleMarkerSymbol.html">ArcGIS JS API</a>
+///     SimpleMarkerSymbol is used for rendering 2D Point geometries with a simple shape and color in either a MapView or a
+///     SceneView. It may be filled with a solid color and have an optional outline, which is defined with a
+///     SimpleLineSymbol.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleMarkerSymbol.html">
+///         ArcGIS
+///         JS API
+///     </a>
 /// </summary>
 public class SimpleMarkerSymbol : MarkerSymbol, IEquatable<SimpleMarkerSymbol>
 {
     /// <summary>
-    ///    Parameterless constructor for using as a razor component
+    ///     Parameterless constructor for using as a razor component
     /// </summary>
     public SimpleMarkerSymbol()
     {
@@ -55,6 +60,22 @@ public class SimpleMarkerSymbol : MarkerSymbol, IEquatable<SimpleMarkerSymbol>
     }
 
     /// <summary>
+    ///     Compares two SimpleMarkerSymbol objects for equality
+    /// </summary>
+    public static bool operator ==(SimpleMarkerSymbol? left, SimpleMarkerSymbol? right)
+    {
+        return Equals(left, right);
+    }
+
+    /// <summary>
+    ///     Compares two SimpleMarkerSymbol objects for inequality
+    /// </summary>
+    public static bool operator !=(SimpleMarkerSymbol? left, SimpleMarkerSymbol? right)
+    {
+        return !Equals(left, right);
+    }
+
+    /// <summary>
     ///     The outline of the marker symbol.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -76,6 +97,18 @@ public class SimpleMarkerSymbol : MarkerSymbol, IEquatable<SimpleMarkerSymbol>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [Parameter]
     public string? Style { get; set; }
+
+    /// <inheritdoc />
+    public bool Equals(SimpleMarkerSymbol? other)
+    {
+        if (ReferenceEquals(null, other)) return false;
+        if (ReferenceEquals(this, other)) return true;
+
+        return Equals(Outline, other.Outline) &&
+            Nullable.Equals(Size, other.Size) &&
+            (Color == other.Color) &&
+            StylesEqual(Style, other.Style);
+    }
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
@@ -120,23 +153,11 @@ public class SimpleMarkerSymbol : MarkerSymbol, IEquatable<SimpleMarkerSymbol>
     }
 
     /// <inheritdoc />
-    public bool Equals(SimpleMarkerSymbol? other)
-    {
-        if (ReferenceEquals(null, other)) return false;
-        if (ReferenceEquals(this, other)) return true;
-
-        return Equals(Outline, other.Outline) &&
-            Nullable.Equals(Size, other.Size) &&
-            Color == other.Color &&
-            StylesEqual(Style, other.Style);
-    }
-
-    /// <inheritdoc />
     public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
         if (ReferenceEquals(this, obj)) return true;
-        if (obj.GetType() != this.GetType()) return false;
+        if (obj.GetType() != GetType()) return false;
 
         return Equals((SimpleMarkerSymbol)obj);
     }
@@ -147,27 +168,11 @@ public class SimpleMarkerSymbol : MarkerSymbol, IEquatable<SimpleMarkerSymbol>
         return HashCode.Combine(Outline, Size, Style, Color);
     }
 
-    /// <summary>
-    ///     Compares two SimpleMarkerSymbol objects for equality
-    /// </summary>
-    public static bool operator ==(SimpleMarkerSymbol? left, SimpleMarkerSymbol? right)
-    {
-        return Equals(left, right);
-    }
-
-    /// <summary>
-    ///     Compares two SimpleMarkerSymbol objects for inequality
-    /// </summary>
-    public static bool operator !=(SimpleMarkerSymbol? left, SimpleMarkerSymbol? right)
-    {
-        return !Equals(left, right);
-    }
-
     private bool StylesEqual(string? style1, string? style2)
     {
         if (style1 is null)
         {
-            if (style2 is null || style2 == "circle")
+            if (style2 is null || (style2 == "circle"))
             {
                 return true;
             }

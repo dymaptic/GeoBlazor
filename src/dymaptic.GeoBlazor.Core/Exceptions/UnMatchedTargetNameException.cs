@@ -3,10 +3,10 @@
 /// <summary>
 ///     This exception is thrown when a watchExpression's target object name doesn't match the targetName parameter.
 /// </summary>
-public class UnMatchedTargetNameException: Exception
+public class UnMatchedTargetNameException : Exception
 {
     /// <summary>
-    ///     Creates a new <see cref="UnMatchedTargetNameException"/>
+    ///     Creates a new <see cref="UnMatchedTargetNameException" />
     /// </summary>
     /// <param name="targetName">
     ///     The targetName parameter from the throwing method.

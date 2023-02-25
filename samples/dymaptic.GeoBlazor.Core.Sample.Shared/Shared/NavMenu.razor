@@ -5,7 +5,7 @@
     <div class="container-fluid">
         <label>
             <span id="search-icon" class="oi oi-magnifying-glass" aria-hidden="true"></span>
-            <input type="search" style="width: 180px; padding-left: 0.5rem;" 
+            <input type="search" style="width: 180px; padding-left: 0.5rem;"
                    @ref="_searchField"
                    @oninput="UpdateSearchFilter"
                    @onkeyup="SearchFilterKeyUp" />
@@ -44,12 +44,12 @@
             await JsRuntime.InvokeVoidAsync("scrollToNav", currentPage);
         }
     }
-    
+
     private void ToggleNavMenu()
     {
         _collapseNavMenu = !_collapseNavMenu;
     }
-    
+
     private void UpdateSearchFilter(ChangeEventArgs arg)
     {
         _searchValue = arg.Value?.ToString() ?? string.Empty;
@@ -57,7 +57,7 @@
 
     private void SearchFilterKeyUp(KeyboardEventArgs arg)
     {
-        if (arg.Key.Equals("Enter") && FilteredPages.Count() == 1)
+        if (arg.Key.Equals("Enter") && (FilteredPages.Count() == 1))
         {
             NavigationManager.NavigateTo(FilteredPages.First().Href);
         }
@@ -66,7 +66,8 @@
     private bool _collapseNavMenu = true;
     private ElementReference _searchField;
     private string _searchValue = string.Empty;
-    private readonly PageLink[] _pages = {
+    private readonly PageLink[] _pages =
+    {
         new("", "Home", "oi-home"),
         new("navigation", "Navigation", "oi-compass"),
         new("drawing", "Drawing", "oi-pencil"),
@@ -83,7 +84,7 @@
         new("osm-layer", "OpenStreetMaps Layer", "oi-envelope-open"),
         new("web-map", "Web Map", "oi-browser"),
         new("web-scene", "Web Scene", "oi-box"),
-        new ("events", "Events", "oi-flash"),
+        new("events", "Events", "oi-flash"),
         new("reactive-utils", "Reactive Utils", "oi-wrench"),
         new("hit-tests", "Hit Tests", "oi-star"),
         new("sql-query", "SQL Query", "oi-data-transfer-download"),
@@ -105,4 +106,5 @@
     };
 
     private record PageLink(string Href, string Title, string IconClass);
+
 }

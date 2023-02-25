@@ -8,7 +8,8 @@ parent: Classes
 
 ## ActionButton Class
 
-A customizable button that performs a specific action(s) used in widgets such as the Popup, LayerList, and BasemapLayerList.
+A customizable button that performs a specific action(s) used in widgets such as the Popup, LayerList, and  
+BasemapLayerList.
 
 ```csharp
 public class ActionButton : dymaptic.GeoBlazor.Core.Components.ActionBase
@@ -21,7 +22,9 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 
 ## ActionButton.Image Property
 
-The URL to an image that will be used to represent the action. This property will be used as a background image for the node. It may be used in conjunction with the className property or by itself. If neither image nor className are specified, a default icon will display
+The URL to an image that will be used to represent the action. This property will be used as a background image for  
+the node. It may be used in conjunction with the className property or by itself. If neither image nor className  
+are specified, a default icon will display
 
 ```csharp
 public string? Image { get; set; }

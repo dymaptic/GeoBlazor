@@ -1,5 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Model;
-using dymaptic.GeoBlazor.Core.Sample.Shared;
+﻿using dymaptic.GeoBlazor.Core.Sample.Shared;
 using Microsoft.Extensions.Configuration;
 
 
@@ -28,7 +27,8 @@ public static class MauiProgram
         builder.Services.AddScoped<HttpClient>();
         builder.Services.AddGeoBlazor();
 
-        var apiKey = Preferences.Get("ArcGISApiKey", null);
+        string? apiKey = Preferences.Get("ArcGISApiKey", null);
+
         if (apiKey is not null)
         {
             builder.Configuration.AddInMemoryCollection(new Dictionary<string, string> { { "ArcGISApiKey", apiKey } });

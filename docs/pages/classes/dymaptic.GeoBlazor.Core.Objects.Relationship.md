@@ -8,8 +8,12 @@ parent: Classes
 
 ## Relationship Class
 
-Describes a layer's relationship with another layer or table. These relationships are listed in the ArcGIS Services directory as described in the REST API documentation.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Relationship.html">ArcGIS JS API</a>
+Describes a layer's relationship with another layer or table. These relationships are listed in the ArcGIS Services  
+directory as described in the REST API documentation.  
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Relationship.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class Relationship
@@ -22,7 +26,8 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 
 ## Relationship.Cardinality Property
 
-The cardinality which specifies the number of objects in the origin FeatureLayer related to the number of objects in the destination FeatureLayer. Please see the Desktop help for additional information on cardinality.
+The cardinality which specifies the number of objects in the origin FeatureLayer related to the number of objects  
+in the destination FeatureLayer. Please see the Desktop help for additional information on cardinality.
 
 ```csharp
 public System.Nullable<dymaptic.GeoBlazor.Core.Objects.Cardinality> Cardinality { get; set; }
@@ -35,7 +40,8 @@ public System.Nullable<dymaptic.GeoBlazor.Core.Objects.Cardinality> Cardinality 
 
 ## Relationship.Composite Property
 
-Indicates whether the relationship is composite. In a composite relationship, a destination object cannot exist independently of its origin object.
+Indicates whether the relationship is composite. In a composite relationship, a destination object cannot exist  
+independently of its origin object.
 
 ```csharp
 public System.Nullable<bool> Composite { get; set; }
@@ -48,7 +54,8 @@ public System.Nullable<bool> Composite { get; set; }
 
 ## Relationship.Id Property
 
-The unique ID for the relationship. These ids for the relationships the FeatureLayer participates in are listed in the ArcGIS Services directory.
+The unique ID for the relationship. These ids for the relationships the FeatureLayer participates in are listed in  
+the ArcGIS Services directory.
 
 ```csharp
 public System.Nullable<int> Id { get; set; }
@@ -74,7 +81,8 @@ public string? KeyField { get; set; }
 
 ## Relationship.KeyFieldInRelationshipTable Property
 
-The key field in an attributed relationship class table that matches the keyField. This is returned only for attributed relationships.
+The key field in an attributed relationship class table that matches the keyField. This is returned only for  
+attributed relationships.
 
 ```csharp
 public string? KeyFieldInRelationshipTable { get; set; }

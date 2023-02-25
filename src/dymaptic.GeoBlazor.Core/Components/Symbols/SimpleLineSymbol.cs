@@ -1,16 +1,18 @@
-﻿using dymaptic.GeoBlazor.Core.Extensions;
-using dymaptic.GeoBlazor.Core.Objects;
+﻿using dymaptic.GeoBlazor.Core.Objects;
 using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
-using System.Text.Json;
 using System.Text.Json.Serialization;
 
 
 namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 
 /// <summary>
-///     SimpleLineSymbol is used for rendering 2D polyline geometries in a 2D MapView. SimpleLineSymbol is also used for rendering outlines for marker symbols and fill symbols.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleLineSymbol.html">ArcGIS JS API</a>
+///     SimpleLineSymbol is used for rendering 2D polyline geometries in a 2D MapView. SimpleLineSymbol is also used for
+///     rendering outlines for marker symbols and fill symbols.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleLineSymbol.html">
+///         ArcGIS
+///         JS API
+///     </a>
 /// </summary>
 public class SimpleLineSymbol : LineSymbol, IEquatable<SimpleLineSymbol>
 {
@@ -20,7 +22,7 @@ public class SimpleLineSymbol : LineSymbol, IEquatable<SimpleLineSymbol>
     public SimpleLineSymbol()
     {
     }
-    
+
     /// <summary>
     ///     Constructs a new SimpleLineSymbol in code with parameters
     /// </summary>
@@ -39,10 +41,26 @@ public class SimpleLineSymbol : LineSymbol, IEquatable<SimpleLineSymbol>
         Width = width;
         LineStyle = lineStyle;
     }
-    
+
+    /// <summary>
+    ///     Compares two <see cref="SimpleLineSymbol" />s for equality
+    /// </summary>
+    public static bool operator ==(SimpleLineSymbol? left, SimpleLineSymbol? right)
+    {
+        return Equals(left, right);
+    }
+
+    /// <summary>
+    ///     Compares two <see cref="SimpleLineSymbol" />s for inequality
+    /// </summary>
+    public static bool operator !=(SimpleLineSymbol? left, SimpleLineSymbol? right)
+    {
+        return !Equals(left, right);
+    }
+
     /// <inheritdoc />
     public override string Type => "simple-line";
-    
+
     /// <summary>
     ///     Specifies the line style.
     /// </summary>
@@ -57,7 +75,7 @@ public class SimpleLineSymbol : LineSymbol, IEquatable<SimpleLineSymbol>
         if (ReferenceEquals(null, other)) return false;
         if (ReferenceEquals(this, other)) return true;
 
-        return LineStyle == other.LineStyle && Color == other.Color;
+        return (LineStyle == other.LineStyle) && (Color == other.Color);
     }
 
     /// <inheritdoc />
@@ -65,7 +83,7 @@ public class SimpleLineSymbol : LineSymbol, IEquatable<SimpleLineSymbol>
     {
         if (ReferenceEquals(null, obj)) return false;
         if (ReferenceEquals(this, obj)) return true;
-        if (obj.GetType() != this.GetType()) return false;
+        if (obj.GetType() != GetType()) return false;
 
         return Equals((SimpleLineSymbol)obj);
     }
@@ -75,26 +93,10 @@ public class SimpleLineSymbol : LineSymbol, IEquatable<SimpleLineSymbol>
     {
         return LineStyle.GetHashCode();
     }
-
-    /// <summary>
-    ///     Compares two <see cref="SimpleLineSymbol"/>s for equality
-    /// </summary>
-    public static bool operator ==(SimpleLineSymbol? left, SimpleLineSymbol? right)
-    {
-        return Equals(left, right);
-    }
-
-    /// <summary>
-    ///     Compares two <see cref="SimpleLineSymbol"/>s for inequality
-    /// </summary>
-    public static bool operator !=(SimpleLineSymbol? left, SimpleLineSymbol? right)
-    {
-        return !Equals(left, right);
-    }
 }
 
 /// <summary>
-///     Possible line style values for <see cref="SimpleLineSymbol"/>
+///     Possible line style values for <see cref="SimpleLineSymbol" />
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<LineStyle>))]
 public enum LineStyle

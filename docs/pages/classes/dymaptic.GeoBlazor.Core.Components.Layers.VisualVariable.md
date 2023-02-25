@@ -8,8 +8,12 @@ parent: Classes
 
 ## VisualVariable Class
 
-The visual variable base class. See each of the subclasses that extend this class to learn how to create continuous data-driven thematic visualizations.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-VisualVariable.html">ArcGIS JS API</a>
+The visual variable base class. See each of the subclasses that extend this class to learn how to create continuous  
+data-driven thematic visualizations.  
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-VisualVariable.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public abstract class VisualVariable : dymaptic.GeoBlazor.Core.Components.MapComponent
@@ -26,7 +30,8 @@ Derived
 
 ## VisualVariable.Field Property
 
-The name of the numeric attribute field that contains the data values used to determine the color/opacity/size/rotation of each feature.
+The name of the numeric attribute field that contains the data values used to determine the  
+color/opacity/size/rotation of each feature.
 
 ```csharp
 public string Field { get; set; }

@@ -8,9 +8,16 @@ parent: Classes
 
 ## ExpressionInfo Class
 
-The ExpressionInfo class references Arcade expressions following the specification defined by the Arcade Popup Profile. Expressions must return a string or a number and may access data values from the feature, its layer, or other layers in the map or datastore with the $feature, $layer, $map, and $datastore profile variables.  
-Expression names are referenced in a layer's PopupTemplate and execute once a layer's popup is opened. The values display within the view's popup as if they are field values. They can be displayed in a table using the FieldInfo of the popupTemplate's content or referenced within a simple string.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-ExpressionInfo.html">ArcGIS API for JS</a>
+The ExpressionInfo class references Arcade expressions following the specification defined by the Arcade Popup  
+Profile. Expressions must return a string or a number and may access data values from the feature, its layer, or  
+other layers in the map or datastore with the $feature, $layer, $map, and $datastore profile variables.  
+Expression names are referenced in a layer's PopupTemplate and execute once a layer's popup is opened. The values  
+display within the view's popup as if they are field values. They can be displayed in a table using the FieldInfo  
+of the popupTemplate's content or referenced within a simple string.  
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-ExpressionInfo.html">  
+    ArcGIS  
+    API for JS  
+</a>
 
 ```csharp
 public class ExpressionInfo : dymaptic.GeoBlazor.Core.Components.MapComponent
@@ -23,7 +30,9 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 
 ## ExpressionInfo.Expression Property
 
-An Arcade expression following the specification defined by the Arcade Popup Profile. Expressions must return a string or a number and may access data values from the feature, its layer, or other layers in the map or datastore with the $feature, $layer, $map, and $datastore profile variables.
+An Arcade expression following the specification defined by the Arcade Popup Profile. Expressions must return a  
+string or a number and may access data values from the feature, its layer, or other layers in the map or datastore  
+with the $feature, $layer, $map, and $datastore profile variables.
 
 ```csharp
 public string? Expression { get; set; }
@@ -36,7 +45,9 @@ public string? Expression { get; set; }
 
 ## ExpressionInfo.Name Property
 
-The name of the expression. This is used to reference the value of the given expression in the popupTemplate's content property by wrapping it in curly braces and prefacing it with expression/ (e.g. {expression/expressionName}).
+The name of the expression. This is used to reference the value of the given expression in the popupTemplate's  
+content property by wrapping it in curly braces and prefacing it with expression/ (e.g.  
+{expression/expressionName}).
 
 ```csharp
 public string? Name { get; set; }
@@ -62,7 +73,8 @@ public System.Nullable<dymaptic.GeoBlazor.Core.Components.Popups.ReturnType> Ret
 
 ## ExpressionInfo.Title Property
 
-The title used to describe the value returned by the expression in the popup. This will display if the value is referenced in a FieldInfo table.
+The title used to describe the value returned by the expression in the popup. This will display if the value is  
+referenced in a FieldInfo table.
 
 ```csharp
 public string? Title { get; set; }

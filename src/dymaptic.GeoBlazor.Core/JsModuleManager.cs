@@ -9,6 +9,7 @@ internal static class JsModuleManager
     {
         LicenseType licenseType = Licensing.GetLicenseType();
         IJSObjectReference jsModule;
+
         switch ((int)licenseType)
         {
             case >= 100:

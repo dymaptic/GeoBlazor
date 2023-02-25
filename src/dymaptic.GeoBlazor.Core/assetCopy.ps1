@@ -6,7 +6,7 @@ if ((Test-Path -Path './wwwroot/assets/*') -eq $false)
     try
     {
         Write-Output "Copying Assets to wwwroot/assets"
-        Copy-Item -Path $SourceFiles -Destination $OutputDir -Recurse -Verbose   
+        Copy-Item -Path $SourceFiles -Destination $OutputDir -Recurse -Verbose
     }
     catch
     {
@@ -18,6 +18,6 @@ if ((Test-Path -Path './wwwroot/assets/*') -eq $false)
 }
 else
 {
-    Write-Output "Asset files already copied. To update, delete wwwroot/assets contents and run again"    
+    Write-Output "Asset files already copied. To update, delete wwwroot/assets contents and run again"
 }
 

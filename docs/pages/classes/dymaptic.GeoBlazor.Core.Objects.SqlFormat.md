@@ -8,7 +8,8 @@ parent: Classes
 
 ## SqlFormat Enum
 
-This parameter can be either standard SQL92 standard or it can use the native SQL of the underlying datastore native. See the ArcGIS REST API documentation for more information.
+This parameter can be either standard SQL92 standard or it can use the native SQL of the underlying datastore  
+native. See the ArcGIS REST API documentation for more information.
 
 ```csharp
 public enum SqlFormat

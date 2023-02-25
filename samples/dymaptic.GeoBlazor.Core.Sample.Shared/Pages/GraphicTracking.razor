@@ -7,7 +7,7 @@
     <a class="btn btn-primary" target="_blank" href="https://www.arcgis.com/home/item.html?id=d582a9e953c44c09bb998c7d9b66f8d4">Charted Territory BaseMap</a>
 </div>
 <p class="instructions">
-    Some applications require real-time updates of graphics on a map. This sample renders ten points with a random offset, 
+    Some applications require real-time updates of graphics on a map. This sample renders ten points with a random offset,
     which updates quickly in a loop. Use the buttons to start, stop, reset, and center the view on the points.
 </p>
 
@@ -22,6 +22,7 @@
         <GraphicsLayer @ref="_graphicsLayer" />
     </Map>
 </MapView>
+
 @code
 {
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -41,9 +42,9 @@
     {
         for (var i = 1; i < 11; i++)
         {
-            Dictionary<string, object> attributes = new Dictionary<string, object> { { i.ToString(), i } };
-            Graphic graphic = new Graphic(
-                new Point(_lon + _random.NextDouble() / 100, _lat + _random.NextDouble() / 100), 
+            var attributes = new Dictionary<string, object> { { i.ToString(), i } };
+            var graphic = new Graphic(
+                new Point(_lon + _random.NextDouble() / 100, _lat + _random.NextDouble() / 100),
                 attributes: attributes);
             await _graphicsLayer!.Add(graphic);
         }
@@ -57,10 +58,11 @@
             Graphic? graphic = _graphicsLayer!.Graphics
                 .FirstOrDefault(x => x.Attributes!.ContainsKey(_index.ToString()));
             if (graphic is null) continue;
-            Point currentPoint = (Point)graphic.Geometry!;
+
+            var currentPoint = (Point)graphic.Geometry!;
             await graphic.SetGeometry(
                 new Point(currentPoint.Longitude + (_random.NextDouble() - 0.5) / 100,
-                currentPoint.Latitude + (_random.NextDouble() - 0.5) / 100));
+                    currentPoint.Latitude + (_random.NextDouble() - 0.5) / 100));
 
             _index += 1;
             if (_index > _graphicsLayer!.Graphics.Count)
@@ -82,7 +84,7 @@
     {
         await _view!.GoTo(_graphicsLayer!.Graphics);
     }
-    
+
     private int _index = 1;
     private bool _isMoving;
     private bool _mapRendered;

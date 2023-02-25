@@ -1,29 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using System.Text.Json.Serialization;
+
 
 namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
 /// <summary>
 ///     Provides a simple widget that switches the View to its initial Viewpoint or a previously defined viewpoint.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Home.html">ArcGIS JS API</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Home.html">
+///         ArcGIS
+///         JS API
+///     </a>
 /// </summary>
 public class HomeWidget : Widget
 {
     /// <inheritdoc />
     public override string WidgetType => "home";
-    
+
     /// <summary>
     ///     The widget's default CSS icon class.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? IconClass { get; set; }
-    
+
     /// <summary>
     ///     The widget's default label.
     /// </summary>
