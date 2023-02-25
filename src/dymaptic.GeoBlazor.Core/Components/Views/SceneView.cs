@@ -2,6 +2,7 @@
 using dymaptic.GeoBlazor.Core.Components.Layers;
 using dymaptic.GeoBlazor.Core.Exceptions;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Configuration;
 using Microsoft.JSInterop;
 // ReSharper disable RedundantCast
 
@@ -65,6 +66,8 @@ public class SceneView : MapView
         }
         
         Rendering = true;
+        Map.Layers.RemoveWhere(l => l.Imported);
+        Map.Basemap?.Layers.RemoveWhere(l => l.Imported);
         ValidateRequiredChildren();
 
         await InvokeAsync(async () =>
@@ -79,8 +82,10 @@ public class SceneView : MapView
             string mapType = Map is WebScene ? "webscene" : "scene";
             
             NeedsRender = false;
-
-            NeedsRender = false;
+            
+            await ViewJsModule!.InvokeVoidAsync("setAssetsPath",
+                Configuration.GetValue<string?>("ArcGISAssetsPath",
+                    "./_content/dymaptic.GeoBlazor.Core/assets"));
 
             await ViewJsModule!.InvokeVoidAsync("buildMapView", Id, DotNetObjectReference,
                 Longitude, Latitude, Rotation, Map, Zoom, Scale,

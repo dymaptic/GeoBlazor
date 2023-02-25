@@ -67,6 +67,11 @@ public abstract class Layer : MapComponent
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Extent? FullExtent { get; set; }
+    
+    /// <summary>
+    ///     Marks an incoming layer loaded from a service or Javascript source.
+    /// </summary>
+    public bool Imported { get; set; }
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)

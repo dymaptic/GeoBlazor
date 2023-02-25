@@ -23,8 +23,11 @@ namespace dymaptic.GeoBlazor.Core.Events;
 /// <param name="LayerView">
 ///     A deserialized copy of the <see cref="LayerView"/> object.
 /// </param>
+/// <param name="IsBasemapLayer">
+///     A boolean value indicating whether the Layer is a basemap layer.
+/// </param>
 public record LayerViewCreateInternalEvent(IJSObjectReference LayerObjectRef, IJSObjectReference LayerViewObjectRef,
-    Guid LayerGeoBlazorId, Layer? Layer, LayerView? LayerView);
+    Guid LayerGeoBlazorId, Layer? Layer, LayerView? LayerView, bool IsBasemapLayer);
 
 /// <summary>
 ///     Return event from the <see cref="MapView.OnJavascriptLayerViewCreate"/> event.
