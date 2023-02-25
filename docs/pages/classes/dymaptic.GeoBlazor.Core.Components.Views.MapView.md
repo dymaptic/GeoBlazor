@@ -1725,26 +1725,26 @@ The [Graphic](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html 'dymaptic.G
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
 
-<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.RemoveLayer(dymaptic.GeoBlazor.Core.Components.Layers.Layer,System.Nullable_bool_)'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.RemoveLayer(dymaptic.GeoBlazor.Core.Components.Layers.Layer,bool)'></a>
 
-## MapView.RemoveLayer(Layer, Nullable<bool>) Method
+## MapView.RemoveLayer(Layer, bool) Method
 
 Removes a layer from the current Map
 
 ```csharp
-public System.Threading.Tasks.Task RemoveLayer(dymaptic.GeoBlazor.Core.Components.Layers.Layer layer, System.Nullable<bool> isBasemapLayer=false);
+public System.Threading.Tasks.Task RemoveLayer(dymaptic.GeoBlazor.Core.Components.Layers.Layer layer, bool isBasemapLayer=false);
 ```
 #### Parameters
 
-<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.RemoveLayer(dymaptic.GeoBlazor.Core.Components.Layers.Layer,System.Nullable_bool_).layer'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.RemoveLayer(dymaptic.GeoBlazor.Core.Components.Layers.Layer,bool).layer'></a>
 
 `layer` [Layer](dymaptic.GeoBlazor.Core.Components.Layers.Layer.html 'dymaptic.GeoBlazor.Core.Components.Layers.Layer')
 
 The layer to remove
 
-<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.RemoveLayer(dymaptic.GeoBlazor.Core.Components.Layers.Layer,System.Nullable_bool_).isBasemapLayer'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.RemoveLayer(dymaptic.GeoBlazor.Core.Components.Layers.Layer,bool).isBasemapLayer'></a>
 
-`isBasemapLayer` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
+`isBasemapLayer` [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
 
 If true, removes the layer as a Basemap
 

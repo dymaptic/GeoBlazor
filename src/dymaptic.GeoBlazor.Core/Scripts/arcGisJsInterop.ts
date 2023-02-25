@@ -396,24 +396,20 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
         });
     }
 
-    if (activeEventHandlers.includes('OnDrag')) {
-        let lastDragCall: number = 0;
-        view.on('drag', (evt) => {
-            let now = Date.now();
-            if (eventRateLimit !== undefined && eventRateLimit !== null &&
-                lastDragCall + eventRateLimit > now) {
-                return;
-            }
-            lastDragCall = now;
-            dotNetRef.invokeMethodAsync('OnJavascriptDrag', evt);
-        });
-    }
+    let lastDragCall: number = 0;
+    view.on('drag', (evt) => {
+        let now = Date.now();
+        if (eventRateLimit !== undefined && eventRateLimit !== null &&
+            lastDragCall + eventRateLimit > now) {
+            return;
+        }
+        lastDragCall = now;
+        dotNetRef.invokeMethodAsync('OnJavascriptDrag', evt);
+    });
 
-    if (activeEventHandlers.includes('OnPointerDown')) {
-        view.on('pointer-down', (evt) => {
-            dotNetRef.invokeMethodAsync('OnJavascriptPointerDown', evt);
-        });
-    }
+    view.on('pointer-down', (evt) => {
+        dotNetRef.invokeMethodAsync('OnJavascriptPointerDown', evt);
+    });
 
     if (activeEventHandlers.includes('OnPointerEnter')) {
         view.on('pointer-enter', (evt) => {
@@ -440,11 +436,9 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
         });
     }
 
-    if (activeEventHandlers.includes('OnPointerUp')) {
-        view.on('pointer-up', (evt) => {
-            dotNetRef.invokeMethodAsync('OnJavascriptPointerUp', evt);
-        });
-    }
+    view.on('pointer-up', (evt) => {
+        dotNetRef.invokeMethodAsync('OnJavascriptPointerUp', evt);
+    });
 
     if (activeEventHandlers.includes('OnKeyDown')) {
         view.on('key-down', (evt) => {

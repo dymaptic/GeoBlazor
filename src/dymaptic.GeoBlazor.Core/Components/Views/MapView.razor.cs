@@ -259,6 +259,7 @@ public partial class MapView : MapComponent
     [JSInvokable]
     public async Task OnJavascriptDoubleClick(ClickEvent clickEvent)
     {
+        ExtentChangedInJs = true;
         await OnDoubleClick.InvokeAsync(clickEvent);
     }
 
@@ -367,6 +368,7 @@ public partial class MapView : MapComponent
     [JSInvokable]
     public async Task OnJavascriptDrag(DragEvent dragEvent)
     {
+        ExtentChangedInJs = true;
         await OnDrag.InvokeAsync(dragEvent);
     }
 
@@ -389,6 +391,7 @@ public partial class MapView : MapComponent
     [JSInvokable]
     public async Task OnJavascriptPointerDown(PointerEvent pointerEvent)
     {
+        PointerDown = true;
         await OnPointerDown.InvokeAsync(pointerEvent);
     }
 
@@ -475,6 +478,7 @@ public partial class MapView : MapComponent
     [JSInvokable]
     public async Task OnJavascriptPointerUp(PointerEvent pointerEvent)
     {
+        PointerDown = false;
         await OnPointerUp.InvokeAsync(pointerEvent);
     }
 
@@ -630,6 +634,7 @@ public partial class MapView : MapComponent
     [JSInvokable]
     public async Task OnJavascriptMouseWheel(MouseWheelEvent mouseWheelEvent)
     {
+        ExtentChangedInJs = true;
         await OnMouseWheel.InvokeAsync(mouseWheelEvent);
     }
 
@@ -844,7 +849,7 @@ public partial class MapView : MapComponent
     /// </summary>
     protected virtual async Task UpdateView()
     {
-        if (!MapRendered || !ShouldUpdate || ExtentSetByCode || ExtentChangedInJs)
+        if (!MapRendered || !ShouldUpdate || ExtentSetByCode || ExtentChangedInJs || PointerDown)
         {
             return;
         }
@@ -1115,11 +1120,13 @@ public partial class MapView : MapComponent
     /// </param>
     public async Task AddLayer(Layer layer, bool isBasemapLayer = false)
     {
+        bool added = false;
         if (isBasemapLayer)
         {
             if (Map?.Basemap?.Layers.Contains(layer) == false)
             {
                 Map.Basemap.Layers.Add(layer);
+                added = true;
             }
         }
         else
@@ -1127,10 +1134,11 @@ public partial class MapView : MapComponent
             if (Map?.Layers.Contains(layer) == false)
             {
                 Map.Layers.Add(layer);
+                added = true;
             }
         }
         
-        if (ViewJsModule is null) return;
+        if (ViewJsModule is null || !added) return;
         await ViewJsModule!.InvokeVoidAsync("addLayer", (object)layer, Id, isBasemapLayer);
     }
 
@@ -1143,16 +1151,31 @@ public partial class MapView : MapComponent
     /// <param name="isBasemapLayer">
     ///     If true, removes the layer as a Basemap
     /// </param>
-    public async Task RemoveLayer(Layer layer, bool? isBasemapLayer = false)
+    public async Task RemoveLayer(Layer layer, bool isBasemapLayer = false)
     {
-        if (Map?.Layers.Contains(layer) == true)
+        bool removed = false;
+
+        if (isBasemapLayer)
         {
-            Map.Layers.Remove(layer);
-            layer.Parent = null;
-            
-            if (ViewJsModule is null) return;
-            await ViewJsModule!.InvokeVoidAsync("removeLayer", layer.Id, Id, isBasemapLayer);
+            if (Map?.Basemap?.Layers.Contains(layer) == true)
+            {
+                Map.Basemap.Layers.Remove(layer);
+                layer.Parent = null;
+                removed = true;
+            }
         }
+        else
+        {
+            if (Map?.Layers.Contains(layer) == true)
+            {
+                Map.Layers.Remove(layer);
+                layer.Parent = null;
+                removed = true;
+            }
+       }
+
+        if (ViewJsModule is null || !removed) return;
+        await ViewJsModule!.InvokeVoidAsync("removeLayer", layer.Id, Id, isBasemapLayer);
     }
 
     /// <summary>
@@ -1873,6 +1896,10 @@ public partial class MapView : MapComponent
     ///     A boolean flag to indicate that the map extent has been modified in JavaScript, and therefore should not be modifiable by markup until <see cref="Refresh"/> is called
     /// </summary>
     protected bool ExtentChangedInJs = false;
+    /// <summary>
+    ///    Indicates that the pointer is currently down, to prevent updating the extent during this action.
+    /// </summary>
+    protected bool PointerDown;
     private string? _apiKey;
     private SpatialReference? _spatialReference;
     private Dictionary<Guid, StringBuilder> _hitTestResults = new();

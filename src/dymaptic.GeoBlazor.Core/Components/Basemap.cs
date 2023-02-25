@@ -53,7 +53,7 @@ public class Basemap : MapComponent
 
                 break;
             case Layer layer:
-                await View!.RemoveLayer(layer);
+                await View!.RemoveLayer(layer, true);
 
                 break;
             default:
