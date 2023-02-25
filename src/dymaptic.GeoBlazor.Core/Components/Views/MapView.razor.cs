@@ -676,7 +676,7 @@ public partial class MapView : MapComponent
     /// </summary>
     [JSInvokable]
     public async Task OnJavascriptLayerViewCreateComplete(Guid? geoBlazorLayerId, string layerUid, 
-        IJSObjectReference layerRef, IJSObjectReference layerViewRef)
+        IJSObjectReference layerRef, IJSObjectReference layerViewRef, bool isBasemapLayer)
     {
         try
         {
@@ -687,7 +687,8 @@ public partial class MapView : MapComponent
                 JsonSerializer.Deserialize<LayerView>(_layerViewCreateData[layerUid].ToString(), options)!;
 
             LayerViewCreateInternalEvent createEvent =
-                new(layerRef, layerViewRef, geoBlazorLayerId ?? Guid.Empty, layer, layerView);
+                new(layerRef, layerViewRef, geoBlazorLayerId ?? Guid.Empty, layer, 
+                    layerView, isBasemapLayer);
             await OnJavascriptLayerViewCreate(createEvent);
         }
         catch (Exception ex)
@@ -716,7 +717,9 @@ public partial class MapView : MapComponent
             layerView.JsObjectReference = layerViewCreateEvent.LayerViewObjectRef;
         }
         
-        Layer? createdLayer = Map?.Layers.FirstOrDefault(l => l.Id == layerViewCreateEvent.LayerGeoBlazorId);
+        Layer? createdLayer = layerViewCreateEvent.IsBasemapLayer
+            ? Map?.Basemap?.Layers.FirstOrDefault(l => l.Id == layerViewCreateEvent.LayerGeoBlazorId)
+            : Map?.Layers.FirstOrDefault(l => l.Id == layerViewCreateEvent.LayerGeoBlazorId);
         if (createdLayer is not null)
         {
             createdLayer.LayerView = layerView;
@@ -740,6 +743,7 @@ public partial class MapView : MapComponent
                 layer.LayerView = layerView;
                 layer.AbortManager = new AbortManager(JsRuntime);
                 layer.JsLayerReference = layerViewCreateEvent.LayerObjectRef;
+                layer.Imported = true;
 
                 if (layerView is not null)
                 {
@@ -747,9 +751,19 @@ public partial class MapView : MapComponent
                 }
                 layer.View = this;
 
-                if (Map is not null)
+                if (layerViewCreateEvent.IsBasemapLayer)
                 {
-                    Map!.Layers.Add(layer);
+                    if (Map?.Basemap is not null)
+                    {
+                        Map!.Basemap!.Layers.Add(layer);
+                    }
+                }
+                else
+                {
+                    if (Map is not null)
+                    {
+                        Map!.Layers.Add(layer);
+                    }
                 }
             }
         }
@@ -1099,15 +1113,25 @@ public partial class MapView : MapComponent
     /// <param name="isBasemapLayer">
     ///     If true, adds the layer as a Basemap
     /// </param>
-    public async Task AddLayer(Layer layer, bool? isBasemapLayer = false)
+    public async Task AddLayer(Layer layer, bool isBasemapLayer = false)
     {
-        if (Map?.Layers.Contains(layer) == false)
+        if (isBasemapLayer)
         {
-            Map.Layers.Add(layer);
-            
-            if (ViewJsModule is null) return;
-            await ViewJsModule!.InvokeVoidAsync("addLayer", (object)layer, Id, isBasemapLayer);
+            if (Map?.Basemap?.Layers.Contains(layer) == false)
+            {
+                Map.Basemap.Layers.Add(layer);
+            }
         }
+        else
+        {
+            if (Map?.Layers.Contains(layer) == false)
+            {
+                Map.Layers.Add(layer);
+            }
+        }
+        
+        if (ViewJsModule is null) return;
+        await ViewJsModule!.InvokeVoidAsync("addLayer", (object)layer, Id, isBasemapLayer);
     }
 
     /// <summary>
@@ -1690,6 +1714,8 @@ public partial class MapView : MapComponent
         }
 
         Rendering = true;
+        Map.Layers.RemoveWhere(l => l.Imported);
+        Map.Basemap?.Layers.RemoveWhere(l => l.Imported);
         ValidateRequiredChildren();
 
         await InvokeAsync(async () =>

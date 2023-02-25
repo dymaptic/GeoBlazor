@@ -100,6 +100,7 @@ import GraphicsLayerWrapper from "./graphicsLayer";
 import Popup from "@arcgis/core/widgets/Popup";
 import ElevationLayer from "@arcgis/core/layers/ElevationLayer";
 import PopupWidgetWrapper from "./popupWidgetWrapper";
+import PortalItem from "@arcgis/core/portal/PortalItem";
 
 export let arcGisObjectRefs: Record<string, Accessor> = {};
 export let dotNetRefs = {};
@@ -460,7 +461,10 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
     view.on('layerview-create', async (evt) => {
         // find objectRef id by layer
         let layerGeoBlazorId = Object.keys(arcGisObjectRefs).find(key => arcGisObjectRefs[key] === evt.layer);
-        
+        let isBasemapLayer = false;
+        if (view.map.basemap.baseLayers.includes(evt.layer) || view.map.basemap.referenceLayers.includes(evt.layer)) {
+            isBasemapLayer = true;
+        }
         let layerRef;
         let layerViewRef;
         if (evt.layer instanceof FeatureLayer) {
@@ -485,7 +489,8 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
             layerViewObjectRef: layerViewRef,
             layerView: buildDotNetLayerView(evt.layerView),
             layer: buildDotNetLayer(evt.layer),
-            layerGeoBlazorId: layerGeoBlazorId
+            layerGeoBlazorId: layerGeoBlazorId,
+            isBasemapLayer: isBasemapLayer
         }
         
         if (!blazorServer) {
@@ -513,7 +518,7 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
         }
         
         await dotNetRef.invokeMethodAsync('OnJavascriptLayerViewCreateComplete', layerGeoBlazorId ?? null, layerUid,
-            result.layerObjectRef, result.layerViewObjectRef);
+            result.layerObjectRef, result.layerViewObjectRef, isBasemapLayer);
     });
 
     if (activeEventHandlers.includes('OnLayerViewCreateError')) {

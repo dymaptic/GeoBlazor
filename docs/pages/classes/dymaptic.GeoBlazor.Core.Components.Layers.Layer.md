@@ -53,6 +53,19 @@ public dymaptic.GeoBlazor.Core.Components.Geometries.Extent? FullExtent { get; s
 #### Property Value
 [Extent](dymaptic.GeoBlazor.Core.Components.Geometries.Extent.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Extent')
 
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.Layer.Imported'></a>
+
+## Layer.Imported Property
+
+Marks an incoming layer loaded from a service or Javascript source.
+
+```csharp
+public bool Imported { get; set; }
+```
+
+#### Property Value
+[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
+
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.Layer.JsLayerReference'></a>
 
 ## Layer.JsLayerReference Property

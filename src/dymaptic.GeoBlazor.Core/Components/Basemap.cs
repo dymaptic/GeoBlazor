@@ -1,4 +1,6 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Layers;
+using Microsoft.JSInterop;
+
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
@@ -31,10 +33,7 @@ public class Basemap : MapComponent
 
                 break;
             case Layer layer:
-                if (!Layers.Contains(layer))
-                {
-                    Layers.Add(layer);
-                }
+                await View!.AddLayer(layer, true);
 
                 break;
             default:
@@ -54,7 +53,7 @@ public class Basemap : MapComponent
 
                 break;
             case Layer layer:
-                Layers.Remove(layer);
+                await View!.RemoveLayer(layer);
 
                 break;
             default:

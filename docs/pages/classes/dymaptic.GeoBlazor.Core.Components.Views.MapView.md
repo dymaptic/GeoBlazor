@@ -640,26 +640,26 @@ public System.Threading.Tasks.Task AddGraphics(System.Collections.Generic.IEnume
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
 
-<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.AddLayer(dymaptic.GeoBlazor.Core.Components.Layers.Layer,System.Nullable_bool_)'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.AddLayer(dymaptic.GeoBlazor.Core.Components.Layers.Layer,bool)'></a>
 
-## MapView.AddLayer(Layer, Nullable<bool>) Method
+## MapView.AddLayer(Layer, bool) Method
 
 Adds a layer to the current Map
 
 ```csharp
-public System.Threading.Tasks.Task AddLayer(dymaptic.GeoBlazor.Core.Components.Layers.Layer layer, System.Nullable<bool> isBasemapLayer=false);
+public System.Threading.Tasks.Task AddLayer(dymaptic.GeoBlazor.Core.Components.Layers.Layer layer, bool isBasemapLayer=false);
 ```
 #### Parameters
 
-<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.AddLayer(dymaptic.GeoBlazor.Core.Components.Layers.Layer,System.Nullable_bool_).layer'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.AddLayer(dymaptic.GeoBlazor.Core.Components.Layers.Layer,bool).layer'></a>
 
 `layer` [Layer](dymaptic.GeoBlazor.Core.Components.Layers.Layer.html 'dymaptic.GeoBlazor.Core.Components.Layers.Layer')
 
 The layer to add
 
-<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.AddLayer(dymaptic.GeoBlazor.Core.Components.Layers.Layer,System.Nullable_bool_).isBasemapLayer'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.AddLayer(dymaptic.GeoBlazor.Core.Components.Layers.Layer,bool).isBasemapLayer'></a>
 
-`isBasemapLayer` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
+`isBasemapLayer` [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
 
 If true, adds the layer as a Basemap
 
@@ -1338,32 +1338,36 @@ public void OnJavascriptLayerViewCreateChunk(string layerUid, string chunk, int 
 
 `chunkIndex` [System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')
 
-<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptLayerViewCreateComplete(System.Nullable_System.Guid_,string,Microsoft.JSInterop.IJSObjectReference,Microsoft.JSInterop.IJSObjectReference)'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptLayerViewCreateComplete(System.Nullable_System.Guid_,string,Microsoft.JSInterop.IJSObjectReference,Microsoft.JSInterop.IJSObjectReference,bool)'></a>
 
-## MapView.OnJavascriptLayerViewCreateComplete(Nullable<Guid>, string, IJSObjectReference, IJSObjectReference) Method
+## MapView.OnJavascriptLayerViewCreateComplete(Nullable<Guid>, string, IJSObjectReference, IJSObjectReference, bool) Method
 
 JS-Invokable method for internal use only.
 
 ```csharp
-public System.Threading.Tasks.Task OnJavascriptLayerViewCreateComplete(System.Nullable<System.Guid> geoBlazorLayerId, string layerUid, Microsoft.JSInterop.IJSObjectReference layerRef, Microsoft.JSInterop.IJSObjectReference layerViewRef);
+public System.Threading.Tasks.Task OnJavascriptLayerViewCreateComplete(System.Nullable<System.Guid> geoBlazorLayerId, string layerUid, Microsoft.JSInterop.IJSObjectReference layerRef, Microsoft.JSInterop.IJSObjectReference layerViewRef, bool isBasemapLayer);
 ```
 #### Parameters
 
-<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptLayerViewCreateComplete(System.Nullable_System.Guid_,string,Microsoft.JSInterop.IJSObjectReference,Microsoft.JSInterop.IJSObjectReference).geoBlazorLayerId'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptLayerViewCreateComplete(System.Nullable_System.Guid_,string,Microsoft.JSInterop.IJSObjectReference,Microsoft.JSInterop.IJSObjectReference,bool).geoBlazorLayerId'></a>
 
 `geoBlazorLayerId` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Guid](https://docs.microsoft.com/en-us/dotnet/api/System.Guid 'System.Guid')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 
-<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptLayerViewCreateComplete(System.Nullable_System.Guid_,string,Microsoft.JSInterop.IJSObjectReference,Microsoft.JSInterop.IJSObjectReference).layerUid'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptLayerViewCreateComplete(System.Nullable_System.Guid_,string,Microsoft.JSInterop.IJSObjectReference,Microsoft.JSInterop.IJSObjectReference,bool).layerUid'></a>
 
 `layerUid` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 
-<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptLayerViewCreateComplete(System.Nullable_System.Guid_,string,Microsoft.JSInterop.IJSObjectReference,Microsoft.JSInterop.IJSObjectReference).layerRef'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptLayerViewCreateComplete(System.Nullable_System.Guid_,string,Microsoft.JSInterop.IJSObjectReference,Microsoft.JSInterop.IJSObjectReference,bool).layerRef'></a>
 
 `layerRef` [Microsoft.JSInterop.IJSObjectReference](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.JSInterop.IJSObjectReference 'Microsoft.JSInterop.IJSObjectReference')
 
-<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptLayerViewCreateComplete(System.Nullable_System.Guid_,string,Microsoft.JSInterop.IJSObjectReference,Microsoft.JSInterop.IJSObjectReference).layerViewRef'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptLayerViewCreateComplete(System.Nullable_System.Guid_,string,Microsoft.JSInterop.IJSObjectReference,Microsoft.JSInterop.IJSObjectReference,bool).layerViewRef'></a>
 
 `layerViewRef` [Microsoft.JSInterop.IJSObjectReference](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.JSInterop.IJSObjectReference 'Microsoft.JSInterop.IJSObjectReference')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJavascriptLayerViewCreateComplete(System.Nullable_System.Guid_,string,Microsoft.JSInterop.IJSObjectReference,Microsoft.JSInterop.IJSObjectReference,bool).isBasemapLayer'></a>
+
+`isBasemapLayer` [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
 
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
