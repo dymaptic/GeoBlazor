@@ -111,6 +111,5 @@ nav_order: 2
 11. Run your application and make sure you can see your map!
    ![Web Map Sample](../assets/images/webmap.png)
 12. Now that you have a great starting point, you can now start to customize the features available in your new app using Geoblazor's capabilites:<br/>
-     -Learn more about the variety of widgets, types, layers, properties, and methods in the [Classes](https://docs.geoblazor.com/pages/assetFiles.html) section.<br/>
-     -Learn more about available EventCallbacks and Event handlers in the [Events and Property Changes](https://docs.geoblazor.com/pages/reactive.html) section.
-
+     -Take a look at the [Documentation](https://docs.geoblazor.com/index.html) pages to learn more.<br/>
+     
