@@ -10,7 +10,7 @@ application with the full power of ArcGIS.
 
 ## Documentation Pages
 - [Getting Started](pages/gettingStarted) - How to set up your first GeoBlazor application
-- [Features](pages/features) - How to set up your first GeoBlazor application
+- [Features](pages/features) - Available features supported by GeoBlazor
 - [Authentication](pages/authentication) - Advanced options for authenticating with ArcGIS
 - [Managing Extent](pages/managingExtent) - Methods to set and retrieve the extent of a view in GeoBlazor
 - [Custom Graphics](pages/customGraphics) - Customizing your graphics with GeoBlazor
