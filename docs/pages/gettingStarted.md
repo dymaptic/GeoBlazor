@@ -66,7 +66,7 @@ nav_order: 2
    @using dymaptic.GeoBlazor.Core.Components.Widgets
    @using dymaptic.GeoBlazor.Core.Objects
    ```
-6. In `Program.cs`, add the following line to your `builder.Services` to inject logic omponents like `GeometryEngine`.
+6. In `Program.cs`, add the following line to your `builder.Services` to inject logic components like `GeometryEngine`.
 
 ```csharp
    builder.Services.AddGeoBlazor();
@@ -88,8 +88,8 @@ nav_order: 2
       private readonly double _longitude = -118.805;
    } 
    ```
-9. Within the `MapView`, define a `Map`. To load a pre-generated map from ArcGIS Online or Portal, get the Map Id (PortalItem Id)
-   of the map, and use the `WebMap` component.
+9. Within the `MapView`, define a map using the `WebMap` component.  To load a pre-generated map from ArcGIS Online or Portal, get the Map Id (PortalItem Id)
+   of the map.
 
    ```html
    <MapView Longitude="_longitude" Latitude="_latitude" Zoom="11" Style="height: 400px; width: 100%;"> 
@@ -110,3 +110,6 @@ nav_order: 2
    ```
 11. Run your application and make sure you can see your map!
    ![Web Map Sample](../assets/images/webmap.png)
+12. Now that you have a great starting point, you can now start to customize the features available in your new app using Geoblazor's capabilites:<br/>
+     -Take a look at the [Documentation](https://docs.geoblazor.com/index.html) pages to learn more.<br/>
+     

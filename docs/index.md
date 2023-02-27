@@ -10,8 +10,15 @@ application with the full power of ArcGIS.
 
 ## Documentation Pages
 - [Getting Started](pages/gettingStarted) - How to set up your first GeoBlazor application
+- [Features](pages/features) - Available features supported by GeoBlazor
 - [Authentication](pages/authentication) - Advanced options for authenticating with ArcGIS
-- [API Documentation](pages/classes/index) - Detailed technical specification for GeoBlazor types and classes
+- [Managing Extent](pages/managingExtent) - Methods to set and retrieve the extent of a view in GeoBlazor
+- [Custom Graphics](pages/customGraphics) - Customizing your graphics with GeoBlazor
+- [Events and Property Changes](pages/reactive) - Methods to listen for event and property changes in GeoBlazor
+- [Hit Test](pages/hitTestAndQueries) - A variety of queries supported by GeoBlazor
+- [Asset Files](pages/assetFiles) - Description of default and customized asset loading
+- [Full API Documentation](pages/classes/index) - Detailed technical specification for GeoBlazor types and classes
+
 
 ## Useful Links
 - [Home Page](https://www.geoblazor.com) - Main website
