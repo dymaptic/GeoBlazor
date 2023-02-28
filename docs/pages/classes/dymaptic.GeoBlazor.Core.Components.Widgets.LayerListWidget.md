@@ -8,14 +8,22 @@ parent: Classes
 
 ## LayerListWidget Class
 
-The LayerList widget provides a way to display a list of layers, and switch on/off their visibility. The ListItem API provides access to each layer's properties, allows the developer to configure actions related to the layer, and allows the developer to add content to the item related to the layer.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">ArcGIS JS API</a>
+The LayerList widget provides a way to display a list of layers, and switch on/off their visibility. The ListItem  
+API provides access to each layer's properties, allows the developer to configure actions related to the layer, and  
+allows the developer to add content to the item related to the layer.  
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class LayerListWidget : dymaptic.GeoBlazor.Core.Components.Widgets.Widget
 ```
 
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [Microsoft.AspNetCore.Components.ComponentBase](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.ComponentBase 'Microsoft.AspNetCore.Components.ComponentBase') &#129106; [MapComponent](dymaptic.GeoBlazor.Core.Components.MapComponent.html 'dymaptic.GeoBlazor.Core.Components.MapComponent') &#129106; [Widget](dymaptic.GeoBlazor.Core.Components.Widgets.Widget.html 'dymaptic.GeoBlazor.Core.Components.Widgets.Widget') &#129106; LayerListWidget
+
+Derived  
+&#8627; [BasemapLayerListWidget](dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html 'dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget')
 ### Properties
 
 <a name='dymaptic.GeoBlazor.Core.Components.Widgets.LayerListWidget.HasCustomHandler'></a>

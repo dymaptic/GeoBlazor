@@ -9,7 +9,10 @@ parent: Classes
 ## FieldInfo Class
 
 The FieldInfo class defines how a Field participates, or in some cases, does not participate, in a PopupTemplate.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-FieldInfo.html">ArcGIS JS API</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-FieldInfo.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class FieldInfo : dymaptic.GeoBlazor.Core.Components.MapComponent
@@ -28,56 +31,56 @@ Parameterless constructor for using as a razor component
 public FieldInfo();
 ```
 
-<a name='dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo.FieldInfo(string,string,string,string,dymaptic.GeoBlazor.Core.Components.Popups.FieldInfoFormat,bool,bool)'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo.FieldInfo(string,string,string,string,dymaptic.GeoBlazor.Core.Components.Popups.FieldInfoFormat,System.Nullable_bool_,System.Nullable_bool_)'></a>
 
-## FieldInfo(string, string, string, string, FieldInfoFormat, bool, bool) Constructor
+## FieldInfo(string, string, string, string, FieldInfoFormat, Nullable<bool>, Nullable<bool>) Constructor
 
 Constructor for creating a new FieldInfo in code with parameters
 
 ```csharp
-public FieldInfo(string? fieldName=null, string? label=null, string tooltip="", string? stringFieldOption=null, dymaptic.GeoBlazor.Core.Components.Popups.FieldInfoFormat? format=null, bool isEditable=false, bool visible=false);
+public FieldInfo(string? fieldName=null, string? label=null, string? tooltip=null, string? stringFieldOption=null, dymaptic.GeoBlazor.Core.Components.Popups.FieldInfoFormat? format=null, System.Nullable<bool> isEditable=null, System.Nullable<bool> visible=null);
 ```
 #### Parameters
 
-<a name='dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo.FieldInfo(string,string,string,string,dymaptic.GeoBlazor.Core.Components.Popups.FieldInfoFormat,bool,bool).fieldName'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo.FieldInfo(string,string,string,string,dymaptic.GeoBlazor.Core.Components.Popups.FieldInfoFormat,System.Nullable_bool_,System.Nullable_bool_).fieldName'></a>
 
 `fieldName` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 
 The field name as defined by the service or the name of an Arcade expression.
 
-<a name='dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo.FieldInfo(string,string,string,string,dymaptic.GeoBlazor.Core.Components.Popups.FieldInfoFormat,bool,bool).label'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo.FieldInfo(string,string,string,string,dymaptic.GeoBlazor.Core.Components.Popups.FieldInfoFormat,System.Nullable_bool_,System.Nullable_bool_).label'></a>
 
 `label` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 
 The field name as defined by the service or the name of an Arcade expression.
 
-<a name='dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo.FieldInfo(string,string,string,string,dymaptic.GeoBlazor.Core.Components.Popups.FieldInfoFormat,bool,bool).tooltip'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo.FieldInfo(string,string,string,string,dymaptic.GeoBlazor.Core.Components.Popups.FieldInfoFormat,System.Nullable_bool_,System.Nullable_bool_).tooltip'></a>
 
 `tooltip` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 
 A string providing an editing hint for editors of the field.
 
-<a name='dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo.FieldInfo(string,string,string,string,dymaptic.GeoBlazor.Core.Components.Popups.FieldInfoFormat,bool,bool).stringFieldOption'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo.FieldInfo(string,string,string,string,dymaptic.GeoBlazor.Core.Components.Popups.FieldInfoFormat,System.Nullable_bool_,System.Nullable_bool_).stringFieldOption'></a>
 
 `stringFieldOption` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 
 A string determining what type of input box editors see when editing the field.
 
-<a name='dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo.FieldInfo(string,string,string,string,dymaptic.GeoBlazor.Core.Components.Popups.FieldInfoFormat,bool,bool).format'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo.FieldInfo(string,string,string,string,dymaptic.GeoBlazor.Core.Components.Popups.FieldInfoFormat,System.Nullable_bool_,System.Nullable_bool_).format'></a>
 
 `format` [FieldInfoFormat](dymaptic.GeoBlazor.Core.Components.Popups.FieldInfoFormat.html 'dymaptic.GeoBlazor.Core.Components.Popups.FieldInfoFormat')
 
 Class which provides formatting options for numerical or date fields and how they should display within a popup.
 
-<a name='dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo.FieldInfo(string,string,string,string,dymaptic.GeoBlazor.Core.Components.Popups.FieldInfoFormat,bool,bool).isEditable'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo.FieldInfo(string,string,string,string,dymaptic.GeoBlazor.Core.Components.Popups.FieldInfoFormat,System.Nullable_bool_,System.Nullable_bool_).isEditable'></a>
 
-`isEditable` [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
+`isEditable` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 
 A Boolean determining whether users can edit this field.
 
-<a name='dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo.FieldInfo(string,string,string,string,dymaptic.GeoBlazor.Core.Components.Popups.FieldInfoFormat,bool,bool).visible'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo.FieldInfo(string,string,string,string,dymaptic.GeoBlazor.Core.Components.Popups.FieldInfoFormat,System.Nullable_bool_,System.Nullable_bool_).visible'></a>
 
-`visible` [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
+`visible` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 
 Indicates whether the field is visible in the popup window.
 ### Properties
@@ -115,11 +118,11 @@ public dymaptic.GeoBlazor.Core.Components.Popups.FieldInfoFormat? Format { get; 
 A Boolean determining whether users can edit this field.
 
 ```csharp
-public bool IsEditable { get; set; }
+public System.Nullable<bool> IsEditable { get; set; }
 ```
 
 #### Property Value
-[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
+[System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo.Label'></a>
 
@@ -154,7 +157,7 @@ public string? StringFieldOption { get; set; }
 A string providing an editing hint for editors of the field.
 
 ```csharp
-public string Tooltip { get; set; }
+public string? Tooltip { get; set; }
 ```
 
 #### Property Value
@@ -167,11 +170,11 @@ public string Tooltip { get; set; }
 Indicates whether the field is visible in the popup window.
 
 ```csharp
-public bool Visible { get; set; }
+public System.Nullable<bool> Visible { get; set; }
 ```
 
 #### Property Value
-[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
+[System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 ### Methods
 
 <a name='dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo.RegisterChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent)'></a>
@@ -223,7 +226,8 @@ The child to unregister
 
 ## FieldInfo.ValidateRequiredChildren() Method
 
-When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the [RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
+When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the  
+[RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
 
 ```csharp
 public override void ValidateRequiredChildren();

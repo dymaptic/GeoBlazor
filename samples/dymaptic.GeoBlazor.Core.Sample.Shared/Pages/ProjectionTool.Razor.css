@@ -7,7 +7,7 @@ h2 {
 }
 
 .map-row {
-    display: flex; 
+    display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
@@ -21,7 +21,7 @@ h2 {
     .map-row {
         flex-direction: column;
     }
-    
+
     .map-section {
         width: 100%;
     }

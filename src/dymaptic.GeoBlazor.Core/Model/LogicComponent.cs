@@ -22,8 +22,13 @@ public abstract class LogicComponent
     public LogicComponent(IJSRuntime jsRuntime, IConfiguration configuration)
     {
         JsRuntime = jsRuntime;
-        _apiKey = configuration["ArcGISApiKey"];
+        ApiKey = configuration["ArcGISApiKey"];
     }
+
+    /// <summary>
+    ///     Implement this handler in your calling code to catch and handle Javascript errors.
+    /// </summary>
+    public Func<JavascriptException, Task>? OnJavascriptErrorHandler { get; set; }
 
     /// <summary>
     ///     The name of the logic component.
@@ -69,11 +74,6 @@ public abstract class LogicComponent
             throw exception;
         }
     }
-    
-    /// <summary>
-    ///     Implement this handler in your calling code to catch and handle Javascript errors.
-    /// </summary>
-    public Func<JavascriptException, Task>? OnJavascriptErrorHandler { get; set; }
 
     /// <summary>
     ///     Convenience method to invoke a JS function from the .NET logic component class.
@@ -88,10 +88,10 @@ public abstract class LogicComponent
     {
         if (Component is null)
         {
-            Component = await JsRuntime
-                .InvokeAsync<IJSObjectReference>("import",
-                    $"./_content/dymaptic.GeoBlazor.{Library}/js/{ComponentName}.js");
-            await Component.InvokeVoidAsync("initialize", DotNetObjectReference, _apiKey);
+            IJSObjectReference module = await GetArcGisJsInterop();
+
+            Component = await module.InvokeAsync<IJSObjectReference>($"get{ComponentName}Wrapper",
+                DotNetObjectReference, ApiKey);
         }
 
         await Component.InvokeVoidAsync(method, parameters);
@@ -110,18 +110,41 @@ public abstract class LogicComponent
     {
         if (Component is null)
         {
-            Component = await JsRuntime
-                .InvokeAsync<IJSObjectReference>("import",
-                    $"./_content/dymaptic.GeoBlazor.{Library}/js/{ComponentName}.js");
-            await Component.InvokeVoidAsync("initialize", DotNetObjectReference, _apiKey);
+            IJSObjectReference module = await GetArcGisJsInterop();
+
+            Component = await module.InvokeAsync<IJSObjectReference>($"get{ComponentName}Wrapper",
+                DotNetObjectReference, ApiKey);
         }
 
         return await Component.InvokeAsync<T>(method, parameters);
+    }
+
+    private async Task<IJSObjectReference> GetArcGisJsInterop()
+    {
+        LicenseType licenseType = Licensing.GetLicenseType();
+
+        switch ((int)licenseType)
+        {
+            case >= 100:
+                // this is here to support the pro extension library
+                IJSObjectReference proModule = await JsRuntime
+                    .InvokeAsync<IJSObjectReference>("import",
+                        "./_content/dymaptic.GeoBlazor.Pro/js/arcGisPro.js");
+
+                return await proModule.InvokeAsync<IJSObjectReference>("getCore");
+            default:
+                return await JsRuntime
+                    .InvokeAsync<IJSObjectReference>("import",
+                        "./_content/dymaptic.GeoBlazor.Core/js/arcGisJsInterop.js");
+        }
     }
 
     /// <summary>
     ///     The reference to the JS Runtime.
     /// </summary>
     protected readonly IJSRuntime JsRuntime;
-    private readonly string? _apiKey;
+    /// <summary>
+    ///     The ArcGIS API Key.
+    /// </summary>
+    protected readonly string? ApiKey;
 }

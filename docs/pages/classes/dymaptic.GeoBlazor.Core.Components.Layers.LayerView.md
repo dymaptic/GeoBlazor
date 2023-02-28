@@ -9,60 +9,33 @@ parent: Classes
 ## LayerView Class
 
 Represents the view for a single layer after it has been added to either a MapView or a SceneView.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html">ArcGIS JS API</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
-public class LayerView :
-System.IEquatable<dymaptic.GeoBlazor.Core.Components.Layers.LayerView>
+public class LayerView
 ```
 
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; LayerView
 
-Implements [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.IEquatable-1 'System.IEquatable`1')[LayerView](dymaptic.GeoBlazor.Core.Components.Layers.LayerView.html 'dymaptic.GeoBlazor.Core.Components.Layers.LayerView')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.IEquatable-1 'System.IEquatable`1')
-### Constructors
+Derived  
+&#8627; [FeatureLayerView](dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayerView.html 'dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayerView')
+### Properties
 
-<a name='dymaptic.GeoBlazor.Core.Components.Layers.LayerView.LayerView(dymaptic.GeoBlazor.Core.Components.Layers.Layer,bool,bool,bool,bool)'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.LayerView.JsObjectReference'></a>
 
-## LayerView(Layer, bool, bool, bool, bool) Constructor
+## LayerView.JsObjectReference Property
 
-Represents the view for a single layer after it has been added to either a MapView or a SceneView.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html">ArcGIS JS API</a>
+The JavaScript object reference used by the LayerView.
 
 ```csharp
-public LayerView(dymaptic.GeoBlazor.Core.Components.Layers.Layer Layer, bool SpatialReferenceSupported, bool Suspended, bool Updating, bool Visible);
+public Microsoft.JSInterop.IJSObjectReference? JsObjectReference { get; set; }
 ```
-#### Parameters
 
-<a name='dymaptic.GeoBlazor.Core.Components.Layers.LayerView.LayerView(dymaptic.GeoBlazor.Core.Components.Layers.Layer,bool,bool,bool,bool).Layer'></a>
-
-`Layer` [Layer](dymaptic.GeoBlazor.Core.Components.Layers.Layer.html 'dymaptic.GeoBlazor.Core.Components.Layers.Layer')
-
-The layer being viewed.
-
-<a name='dymaptic.GeoBlazor.Core.Components.Layers.LayerView.LayerView(dymaptic.GeoBlazor.Core.Components.Layers.Layer,bool,bool,bool,bool).SpatialReferenceSupported'></a>
-
-`SpatialReferenceSupported` [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
-
-Indicates if the spatialReference of the MapView is supported by the layer view.
-
-<a name='dymaptic.GeoBlazor.Core.Components.Layers.LayerView.LayerView(dymaptic.GeoBlazor.Core.Components.Layers.Layer,bool,bool,bool,bool).Suspended'></a>
-
-`Suspended` [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
-
-Value is true if the layer is suspended (i.e., layer will not redraw or update itself when the extent changes).
-
-<a name='dymaptic.GeoBlazor.Core.Components.Layers.LayerView.LayerView(dymaptic.GeoBlazor.Core.Components.Layers.Layer,bool,bool,bool,bool).Updating'></a>
-
-`Updating` [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
-
-Value is true when the layer is updating; for example, if it is in the process of fetching data.
-
-<a name='dymaptic.GeoBlazor.Core.Components.Layers.LayerView.LayerView(dymaptic.GeoBlazor.Core.Components.Layers.Layer,bool,bool,bool,bool).Visible'></a>
-
-`Visible` [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
-
-Value is true when the layer is updating; for example, if it is in the process of fetching data.
-### Properties
+#### Property Value
+[Microsoft.JSInterop.IJSObjectReference](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.JSInterop.IJSObjectReference 'Microsoft.JSInterop.IJSObjectReference')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.LayerView.Layer'></a>
 

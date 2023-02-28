@@ -10,20 +10,16 @@
     <a class="btn btn-primary" target="_blank" href="https://www.arcgis.com/home/item.html?id=d582a9e953c44c09bb998c7d9b66f8d4">Charted Territory BaseMap</a>
 </div>
 <p class="instructions">
-    Use the buttons in the top right to see a demonstration of drawing a 
-    buffer around a point, finding the intersection between two graphics, 
+    Use the buttons in the top right to see a demonstration of drawing a
+    buffer around a point, finding the intersection between two graphics,
     and finding the union of two polygons.
 </p>
-<p class="instructions" style="color: var(--geoblazor-primary);">
-    This sample currently uses code from our <code>Interactive</code> extensions library.
-    <br/>
-    For more information about licensing these advanced features, contact <a href="mailto:info@dymaptic.com">info@dymaptic.com</a>.
-</p>
-<MapView @ref="View" 
+
+<MapView @ref="View"
          Class="map-view"
          Style="min-height: 450px;"
-         Longitude="_longitude" 
-         Latitude="_latitude" 
+         Longitude="_longitude"
+         Latitude="_latitude"
          Zoom="13">
     <Map>
         <Basemap>
@@ -74,11 +70,7 @@
         if (_bufferPolygon is not null) return;
 
         _bufferPolygon = await GeometryEngine.GeodesicBuffer(PointGeometry!, 1, LinearUnit.Kilometers);
-        _bufferGraphic = new Graphic
-        {
-            Geometry = _bufferPolygon,
-            Symbol = BufferGraphicFill
-        };
+        _bufferGraphic = new Graphic(_bufferPolygon, BufferGraphicFill);
         await InvokeAsync(async () => await GraphicsLayer!.RegisterChildComponent(_bufferGraphic));
     }
 
@@ -88,11 +80,7 @@
 
         await ClearResultsLayer();
         _highlightPolygon = await GeometryEngine.Intersect(PolygonGeometry!, _bufferPolygon) as Polygon;
-        _highlightGraphic = new Graphic
-        {
-            Geometry = _highlightPolygon,
-            Symbol = HighlightFill
-        };
+        _highlightGraphic = new Graphic(_highlightPolygon, HighlightFill);
         await InvokeAsync(async () => await ResultsLayer!.RegisterChildComponent(_highlightGraphic));
     }
 
@@ -102,11 +90,7 @@
 
         await ClearResultsLayer();
         _highlightPolygon = await GeometryEngine.Union(PolygonGeometry!, _bufferPolygon) as Polygon;
-        _highlightGraphic = new Graphic
-        {
-            Geometry = _highlightPolygon,
-            Symbol = HighlightFill
-        };
+        _highlightGraphic = new Graphic(_highlightPolygon, HighlightFill);
         await InvokeAsync(async () => await ResultsLayer!.RegisterChildComponent(_highlightGraphic));
     }
 

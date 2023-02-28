@@ -11,7 +11,7 @@
          Latitude="34.6937"
          Zoom="11"
          Class="map-view"
-         OnClickAsyncHandler="OnClick">
+         OnClick="OnClick">
     <Map ArcGISDefaultBasemap="arcgis-navigation" />
 </MapView>
 
@@ -29,9 +29,9 @@
     private readonly string _serviceAreaUrl =
         "https://route-api.arcgis.com/arcgis/rest/services/World/ServiceAreas/NAServer/ServiceArea_World/solveServiceArea";
 
-    private async Task OnClick(Point mapPoint)
+    private async Task OnClick(ClickEvent clickEvent)
     {
-        AreaGraphic!.Geometry = mapPoint;
+        await AreaGraphic!.SetGeometry(clickEvent.MapPoint);
         await View!.ClearGraphics();
         await View.AddGraphic(AreaGraphic);
         await View.SolveServiceArea(_serviceAreaUrl, new double[] { 5, 10, 15 }, AreaFillSymbol!);

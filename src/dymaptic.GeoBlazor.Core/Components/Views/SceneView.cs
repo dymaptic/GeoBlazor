@@ -1,13 +1,23 @@
-﻿using dymaptic.GeoBlazor.Core.Exceptions;
+﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
+using dymaptic.GeoBlazor.Core.Components.Layers;
+using dymaptic.GeoBlazor.Core.Exceptions;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Configuration;
 using Microsoft.JSInterop;
+using System.Diagnostics;
 
+
+// ReSharper disable RedundantCast
 
 namespace dymaptic.GeoBlazor.Core.Components.Views;
 
 /// <summary>
-///     A SceneView displays a 3D view of a Map or WebScene instance using WebGL. To render a map and its layers in 2D, see the documentation for MapView. For a general overview of views, see View.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">ArcGIS JS API</a>
+///     A SceneView displays a 3D view of a Map or WebScene instance using WebGL. To render a map and its layers in 2D, see
+///     the documentation for MapView. For a general overview of views, see View.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">
+///         ArcGIS
+///         JS API
+///     </a>
 /// </summary>
 /// <example>
 ///     <a target="_blank" href="https://samples.geoblazor.com/web-scene">Sample - Web Scene</a>
@@ -25,54 +35,151 @@ public class SceneView : MapView
     /// </summary>
     [Parameter]
     public double? Tilt { get; set; }
-    
-    /// <summary>
-    ///     An instance of a <see cref="WebScene"/> object to display in the view.
-    /// </summary>
-    [RequiredProperty(nameof(MapView.WebMap), nameof(MapView.Map))]
-    public WebScene? WebScene { get; set; }
 
     /// <inheritdoc />
-    public override async Task RegisterChildComponent(MapComponent child)
+    [JSInvokable]
+    public override async Task OnJavascriptExtentChanged(Extent extent, Point? center, double zoom, double scale,
+        double? rotation = null, double? tilt = null)
     {
-        switch (child)
+        ZIndex = center?.Z;
+        Tilt = tilt;
+        await base.OnJavascriptExtentChanged(extent, center, zoom, scale, rotation, tilt);
+    }
+
+    /// <inheritdoc />
+    public override async Task SetCenter(Point point)
+    {
+        if (!Equals(point.Latitude, Latitude) || !Equals(point.Longitude, Longitude))
         {
-            case WebScene webScene:
-                if (!webScene.Equals(WebScene))
-                {
-                    WebScene = webScene;
-                    await RenderView();
-                }
+            ShouldUpdate = false;
+            ExtentSetByCode = true;
+            Latitude = point.Latitude;
+            Longitude = point.Longitude;
 
-                break;
-            default:
-                await base.RegisterChildComponent(child);
+            if (ViewJsModule is null) return;
 
-                break;
+            ViewExtentUpdate change =
+                await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("setCenter", (object)point, Id);
+            Extent = change.Extent;
+            Zoom = change.Zoom;
+            Scale = change.Scale;
+            Tilt = change.Tilt;
+            ZIndex = change.Center?.Z;
+            ShouldUpdate = true;
         }
     }
 
     /// <inheritdoc />
-    public override async Task UnregisterChildComponent(MapComponent child)
+    public override async Task SetZoom(double zoom)
     {
-        switch (child)
+        Zoom = zoom;
+
+        if (ViewJsModule is not null)
         {
-            case WebScene _:
-                WebScene = null;
+            ShouldUpdate = false;
+            ExtentSetByCode = true;
 
-                break;
-            default:
-                await base.UnregisterChildComponent(child);
-
-                break;
+            ViewExtentUpdate change =
+                await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("setZoom", Zoom, Id);
+            Extent = change.Extent;
+            Latitude = change.Center?.Latitude;
+            Longitude = change.Center?.Longitude;
+            Scale = change.Scale;
+            ZIndex = change.Center?.Z;
+            Tilt = change.Tilt;
+            ShouldUpdate = true;
         }
     }
 
     /// <inheritdoc />
-    public override void ValidateRequiredChildren()
+    public override async Task SetScale(double scale)
     {
-        base.ValidateRequiredChildren();
-        WebScene?.ValidateRequiredChildren();
+        Scale = scale;
+
+        if (ViewJsModule is not null)
+        {
+            ShouldUpdate = false;
+            ExtentSetByCode = true;
+
+            ViewExtentUpdate change =
+                await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("setScale", Scale, Id);
+            Extent = change.Extent;
+            Latitude = change.Center?.Latitude;
+            Longitude = change.Center?.Longitude;
+            Zoom = change.Zoom;
+            ZIndex = change.Center?.Z;
+            Tilt = change.Tilt;
+            ShouldUpdate = true;
+        }
+    }
+
+    /// <inheritdoc />
+    public override async Task SetExtent(Extent extent)
+    {
+        if (!extent.Equals(Extent))
+        {
+            Extent = extent;
+
+            if (ViewJsModule is null) return;
+
+            ShouldUpdate = false;
+            ExtentSetByCode = true;
+
+            ViewExtentUpdate change =
+                await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("setExtent", (object)Extent, Id);
+            Latitude = change.Center?.Latitude;
+            Longitude = change.Center?.Longitude;
+            Zoom = change.Zoom;
+            Scale = change.Scale;
+            Tilt = change.Tilt;
+            ZIndex = change.Center?.Z;
+            ShouldUpdate = true;
+        }
+    }
+
+    /// <inheritdoc />
+    public override async Task GoTo(IEnumerable<Graphic> graphics)
+    {
+        if (ViewJsModule is null) return;
+
+        ShouldUpdate = false;
+        ExtentSetByCode = true;
+
+        ViewExtentUpdate change =
+            await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("goToGraphics", graphics, Id);
+        Extent = change.Extent;
+        Latitude = change.Center?.Latitude;
+        Longitude = change.Center?.Longitude;
+        Zoom = change.Zoom;
+        Scale = change.Scale;
+        Tilt = change.Tilt;
+        ZIndex = change.Center?.Z;
+        ShouldUpdate = true;
+    }
+
+    /// <inheritdoc />
+    protected override async Task UpdateView()
+    {
+        if (!MapRendered || !ShouldUpdate || ExtentSetByCode || ExtentChangedInJs)
+        {
+            return;
+        }
+
+        ShouldUpdate = false;
+
+        ViewExtentUpdate change = await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("updateView",
+            new
+            {
+                Id,
+                Latitude,
+                Longitude,
+                Zoom,
+                Rotation,
+                Tilt,
+                ZIndex
+            });
+        Extent = change.Extent;
+        ShouldUpdate = true;
     }
 
     /// <inheritdoc />
@@ -83,41 +190,46 @@ public class SceneView : MapView
             return;
         }
 
-        if (Rendering || (Map is null && WebScene is null) || ViewJsModule is null) return;
+        if (Rendering || Map is null || ViewJsModule is null) return;
 
-        if (string.IsNullOrWhiteSpace(ApiKey) && (AllowDefaultEsriLogin is null || !AllowDefaultEsriLogin.Value))
+        if (string.IsNullOrWhiteSpace(ApiKey) && AllowDefaultEsriLogin is null or false &&
+            PromptForArcGISKey is null or true)
         {
-            ErrorMessage = "No ArcGIS API Key Found. See UsingTheAPI.md for instructions on providing an API Key or suppressing this message.";
-            System.Diagnostics.Debug.WriteLine(ErrorMessage);
+            ErrorMessage =
+                "No ArcGIS API Key Found. See https://docs.geoblazor.com/pages/authentication.html for instructions on providing an API Key or suppressing this message.";
+            Debug.WriteLine(ErrorMessage);
             StateHasChanged();
 
             return;
         }
-        
+
         Rendering = true;
+        Map.Layers.RemoveWhere(l => l.Imported);
+        Map.Basemap?.Layers.RemoveWhere(l => l.Imported);
         ValidateRequiredChildren();
 
         await InvokeAsync(async () =>
         {
             Console.WriteLine("Rendering View");
-            string sceneType = Map is null ? "webscene" : "scene";
-            object? scene = Map is null ? WebScene : Map;
 
-            if (scene is null)
+            if (Map is null)
             {
                 throw new MissingMapException();
             }
-            
-            NeedsRender = false;
+
+            string mapType = Map is WebScene ? "webscene" : "scene";
 
             NeedsRender = false;
+
+            await ViewJsModule!.InvokeVoidAsync("setAssetsPath",
+                Configuration.GetValue<string?>("ArcGISAssetsPath",
+                    "./_content/dymaptic.GeoBlazor.Core/assets"));
 
             await ViewJsModule!.InvokeVoidAsync("buildMapView", Id, DotNetObjectReference,
-                Longitude, Latitude, Rotation, scene, Zoom, Scale,
-                ApiKey, sceneType, Widgets, Graphics, SpatialReference, Constraints, Extent,
-                EventRateLimitInMilliseconds, GetActiveEventHandlers(), ZIndex, Tilt);
+                Longitude, Latitude, Rotation, Map, Zoom, Scale,
+                ApiKey, mapType, Widgets, Graphics, SpatialReference, Constraints, Extent,
+                EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions, ZIndex, Tilt);
             Rendering = false;
-            NewPropertyValues.Clear();
             MapRendered = true;
         });
     }

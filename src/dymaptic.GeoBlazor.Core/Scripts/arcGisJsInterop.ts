@@ -43,56 +43,140 @@ import Home from "@arcgis/core/widgets/Home";
 import Compass from "@arcgis/core/widgets/Compass";
 import LayerList from "@arcgis/core/widgets/LayerList";
 import ListItem from "@arcgis/core/widgets/LayerList/ListItem";
-import Extent from "@arcgis/core/geometry/Extent";
 import * as reactiveUtils from "@arcgis/core/core/reactiveUtils";
 import Geometry from "@arcgis/core/geometry/Geometry";
+import BasemapLayerList from "@arcgis/core/widgets/BasemapLayerList";
+import FeatureLayerWrapper from "./featureLayer";
 
 import {
     buildDotNetExtent,
     buildDotNetFeature,
+    buildDotNetGeometry,
     buildDotNetGraphic,
+    buildDotNetHitTestResult,
+    buildDotNetLayer,
+    buildDotNetLayerView,
     buildDotNetPoint,
-    buildDotNetGeometry, buildDotNetSpatialReference, buildDotNetLayerView
+    buildDotNetSpatialReference,
+    buildViewExtentUpdate
 } from "./dotNetBuilder";
 
 import {
+    buildJsExtent,
     buildJsFields,
-    buildJsRenderer,
-    buildJsSpatialReference,
+    buildJsGeometry,
+    buildJsGraphic,
+    buildJsPoint,
+    buildJsPopup,
+    buildJsPopupOptions,
     buildJsPopupTemplate,
-    buildJsGraphic, buildJsGeometry, buildJsPoint
+    buildJsRenderer,
+    buildJsSpatialReference
 } from "./jsBuilder";
 import {
     DotNetExtent,
     DotNetGeometry,
-    DotNetGraphic, DotNetListItem,
+    DotNetGraphic,
+    DotNetHitTestOptions,
+    DotNetHitTestResult,
+    DotNetListItem,
     DotNetPoint,
     DotNetSpatialReference,
     MapCollection
 } from "./definitions";
+import WebTileLayer from "@arcgis/core/layers/WebTileLayer";
+import TileInfo from "@arcgis/core/layers/support/TileInfo";
+import LOD from "@arcgis/core/layers/support/LOD";
+import OpenStreetMapLayer from "@arcgis/core/layers/OpenStreetMapLayer";
+import Camera from "@arcgis/core/Camera";
+import ProjectionWrapper from "./projection";
+import GeometryEngineWrapper from "./geometryEngine";
+import FeatureLayerViewWrapper from "./featureLayerView";
+import GraphicsLayerWrapper from "./graphicsLayer";
+import Popup from "@arcgis/core/widgets/Popup";
+import ElevationLayer from "@arcgis/core/layers/ElevationLayer";
+import PopupWidgetWrapper from "./popupWidgetWrapper";
+import HitTestResult = __esri.HitTestResult;
+import MapViewHitTestOptions = __esri.MapViewHitTestOptions;
+import LegendLayerInfos = __esri.LegendLayerInfos;
 
 export let arcGisObjectRefs: Record<string, Accessor> = {};
 export let dotNetRefs = {};
 export let queryLayer: FeatureLayer;
-export { projection, geometryEngine };
+export let blazorServer: boolean = false;
+export {projection, geometryEngine};
+let notifyExtentChanged: boolean = true;
 
-export function setAssetsPath (path: string) {
+export function getProperty(obj, prop) {
+    return obj[prop];
+}
+
+export function setProperty(obj, prop, value) {
+    obj[prop] = value;
+}
+
+export function setAssetsPath(path: string) {
     if (path !== undefined && path !== null && esriConfig.assetsPath !== path) {
         esriConfig.assetsPath = path;
     }
 }
 
-export async function buildMapView(id: string, dotNetReference: any, long: number, lat: number,
-                                   rotation: number, mapObject: any, zoom: number, scale: number, 
-                                   apiKey: string, mapType: string, widgets: any, graphics: any, 
-                                   spatialReference: any, constraints: any, extent: any, 
+export function getObjectReference(id: string): any {
+    let objectRef = arcGisObjectRefs[id];
+    if (objectRef instanceof Layer) {
+        if (objectRef instanceof FeatureLayer) {
+            return new FeatureLayerWrapper(objectRef);
+        } else if (objectRef instanceof GraphicsLayer) {
+            return new GraphicsLayerWrapper(objectRef);
+        }
+
+        return buildDotNetLayer(objectRef);
+    }
+    if (objectRef instanceof Graphic) {
+        return buildDotNetGraphic(objectRef);
+    }
+    if (objectRef instanceof Popup) {
+        return new PopupWidgetWrapper(objectRef);
+    }
+    return objectRef;
+}
+
+export function getSerializedDotNetObject(id: string): any {
+    let objectRef = arcGisObjectRefs[id];
+    if (objectRef instanceof Layer) {
+        return buildDotNetLayer(objectRef);
+    }
+    if (objectRef instanceof Graphic) {
+        return buildDotNetGraphic(objectRef);
+    }
+    return objectRef;
+}
+
+export function getProjectionWrapper(dotNetRef: any, apiKey: string): ProjectionWrapper {
+    let wrapper = new ProjectionWrapper(dotNetRef, apiKey);
+    return wrapper;
+}
+
+export function getGeometryEngineWrapper(dotNetRef: any, apiKey: string): GeometryEngineWrapper {
+    let wrapper = new GeometryEngineWrapper(dotNetRef, apiKey);
+    return wrapper;
+}
+
+export async function buildMapView(id: string, dotNetReference: any, long: number | null, lat: number | null,
+                                   rotation: number, mapObject: any, zoom: number | null, scale: number,
+                                   apiKey: string, mapType: string, widgets: any, graphics: any,
+                                   spatialReference: any, constraints: any, extent: any,
                                    eventRateLimitInMilliseconds: number | null, activeEventHandlers: Array<string>,
-                                   zIndex?: number, tilt?: number)
+                                   isServer: boolean, highlightOptions?: any | null, zIndex?: number, tilt?: number)
     : Promise<void> {
     console.debug("render map");
     try {
         setWaitCursor(id);
+        blazorServer = isServer;
         let dotNetRef = dotNetReference;
+        if (!projection.isLoaded()) {
+            await projection.load();
+        }
 
         checkConnectivity(id);
         dotNetRefs[id] = dotNetRef;
@@ -102,7 +186,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
         disposeView(id);
         let view: View;
 
-        let basemap: Basemap;
+        let basemap: Basemap | null = null;
         let basemapLayers: any[] = [];
         if (!mapType.startsWith('web')) {
             if (mapObject.arcGISDefaultBasemap !== undefined &&
@@ -158,65 +242,46 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
                 });
                 view = new SceneView({
                     container: `map-container-${id}`,
-                    map: scene,
-                    camera: {
-                        position: {
-                            x: long, //Longitude
-                            y: lat, //Latitude
-                            z: zIndex //Meters
-                        },
-                        tilt: tilt
-                    }
+                    map: scene
                 });
+                if (hasValue(lat) && hasValue(long)) {
+                    (view as SceneView).camera = {
+                        position: {
+                            x: long as number, //Longitude
+                            y: lat as number, //Latitude
+                            z: zIndex as number //Meters
+                        } as Point,
+                        tilt: tilt as number
+                    } as Camera
+                }
                 break;
             default:
                 const map = new Map({
                     basemap: basemap!,
                     ground: mapObject.ground
                 });
-                let center;
-                let spatialRef;
-                if (hasValue(spatialReference)) {
-                    spatialRef = buildJsSpatialReference(spatialReference);
-                    center = new Point({
-                        latitude: lat,
-                        longitude: long,
-                        spatialReference: spatialRef
-                    });
-                    center = await resetCenterToSpatialReference(center, spatialRef);
-                } else {
-                    center = [long, lat];
-                }
+
                 view = new MapView({
                     map: map,
-                    center: center,
                     container: `map-container-${id}`,
                     rotation: rotation
                 });
-                if (hasValue(scale)) {
-                    (view as MapView).scale = scale;
-                } else {
-                    (view as MapView).zoom = zoom;
-                }
-
-                if (hasValue(spatialRef)) {
-                    view.spatialReference = spatialRef;
-                }
-
-                if (hasValue(constraints)) {
-                    (view as MapView).constraints = constraints;
-                }
-                
-                if (hasValue(extent)) {
-                    (view as MapView).extent = extent;
-                }
                 break;
         }
 
+        if (hasValue(constraints)) {
+            (view as MapView).constraints = constraints;
+        }
+
         arcGisObjectRefs[id] = view;
+        await dotNetRef.invokeMethodAsync('OnJsViewInitialized');
         waitForRender(id, dotNetRef);
 
-        if (hasValue(mapObject.layers)) {
+        if (hasValue(highlightOptions)) {
+            (view as MapView).highlightOptions = highlightOptions;
+        }
+
+        if (hasValue(mapObject.layers) && mapType !== 'webmap' && mapType !== 'webscene') {
             for (const layerObject of mapObject.layers) {
                 await addLayer(layerObject, id);
             }
@@ -230,21 +295,59 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
             await addWidget(widget, id);
         }
 
-        graphics.forEach(graphicObject => {
-            addGraphic(graphicObject, id);
-        })
+        for (let i = 0; i < graphics.length; i++) {
+            const graphicObject = graphics[i];
+            await addGraphic(graphicObject, id);
+        }
 
         setEventListeners(view, dotNetRef, eventRateLimitInMilliseconds, activeEventHandlers);
-        
+
+        let spatialRef: SpatialReference | null = null;
+        if (hasValue(spatialReference)) {
+            spatialRef = buildJsSpatialReference(spatialReference);
+            view.spatialReference = spatialRef;
+        }
+
+        if (view instanceof MapView) {
+            if (hasValue(extent) && (hasValue(extent.spatialReference) || hasValue(spatialRef))) {
+                (view as MapView).extent = buildJsExtent(extent, spatialRef);
+            } else {
+                let center;
+
+                if (hasValue(lat) && hasValue(long)) {
+                    if (hasValue(spatialRef)) {
+                        center = new Point({
+                            latitude: lat as number,
+                            longitude: long as number,
+                            spatialReference: spatialRef as SpatialReference
+                        });
+                        center = await resetCenterToSpatialReference(center, spatialRef as SpatialReference);
+                    } else {
+                        center = [long, lat];
+                    }
+                }
+
+                if (hasValue(center)) {
+                    (view as MapView).center = center;
+                }
+
+                if (hasValue(scale)) {
+                    (view as MapView).scale = scale;
+                } else if (hasValue(zoom)) {
+                    (view as MapView).zoom = zoom as number;
+                }
+            }
+        }
+
         unsetWaitCursor(id);
     } catch (error) {
         logError(error, id);
     }
 }
 
-function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: number | null, 
-                           activeEventHandlers: Array<string>) : void {
-    if (activeEventHandlers.includes('OnClick') || activeEventHandlers.includes('OnClickAsyncHandler')) {
+function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: number | null,
+                           activeEventHandlers: Array<string>): void {
+    if (activeEventHandlers.includes('OnClick')) {
         view.on('click', (evt) => {
             evt.mapPoint = buildDotNetPoint(evt.mapPoint) as any;
             dotNetRef.invokeMethodAsync('OnJavascriptClick', evt);
@@ -291,24 +394,20 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
         });
     }
 
-    if (activeEventHandlers.includes('OnDrag')) {
-        let lastDragCall: number = 0;
-        view.on('drag', (evt) => {
-            let now = Date.now();
-            if (eventRateLimit !== undefined && eventRateLimit !== null &&
-                lastDragCall + eventRateLimit > now) {
-                return;
-            }
-            lastDragCall = now;
-            dotNetRef.invokeMethodAsync('OnJavascriptDrag', evt);
-        });
-    }
+    let lastDragCall: number = 0;
+    view.on('drag', (evt) => {
+        let now = Date.now();
+        if (eventRateLimit !== undefined && eventRateLimit !== null &&
+            lastDragCall + eventRateLimit > now) {
+            return;
+        }
+        lastDragCall = now;
+        dotNetRef.invokeMethodAsync('OnJavascriptDrag', evt);
+    });
 
-    if (activeEventHandlers.includes('OnPointerDown')) {
-        view.on('pointer-down', (evt) => {
-            dotNetRef.invokeMethodAsync('OnJavascriptPointerDown', evt);
-        });
-    }
+    view.on('pointer-down', (evt) => {
+        dotNetRef.invokeMethodAsync('OnJavascriptPointerDown', evt);
+    });
 
     if (activeEventHandlers.includes('OnPointerEnter')) {
         view.on('pointer-enter', (evt) => {
@@ -322,8 +421,8 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
         });
     }
 
-    if (activeEventHandlers.includes('OnPointerMove') || activeEventHandlers.includes('OnPointerMoveHandler')) {
-        let lastPointerMoveCall : number = 0;
+    if (activeEventHandlers.includes('OnPointerMove')) {
+        let lastPointerMoveCall: number = 0;
         view.on('pointer-move', (evt) => {
             let now = Date.now();
             if (eventRateLimit !== undefined && eventRateLimit !== null &&
@@ -335,11 +434,9 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
         });
     }
 
-    if (activeEventHandlers.includes('OnPointerUp')) {
-        view.on('pointer-up', (evt) => {
-            dotNetRef.invokeMethodAsync('OnJavascriptPointerUp', evt);
-        });
-    }
+    view.on('pointer-up', (evt) => {
+        dotNetRef.invokeMethodAsync('OnJavascriptPointerUp', evt);
+    });
 
     if (activeEventHandlers.includes('OnKeyDown')) {
         view.on('key-down', (evt) => {
@@ -352,12 +449,69 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
             dotNetRef.invokeMethodAsync('OnJavascriptKeyUp', evt);
         });
     }
-    
-    if (activeEventHandlers.includes('OnLayerViewCreate')) {
-        view.on('layerview-create', (evt) => {
-            dotNetRef.invokeMethodAsync('OnJavascriptLayerViewCreate', evt);
-        });
-    }
+
+    view.on('layerview-create', async (evt) => {
+        // find objectRef id by layer
+        let layerGeoBlazorId = Object.keys(arcGisObjectRefs).find(key => arcGisObjectRefs[key] === evt.layer);
+        let isBasemapLayer = false;
+        if (view.map.basemap.baseLayers.includes(evt.layer) || view.map.basemap.referenceLayers.includes(evt.layer)) {
+            isBasemapLayer = true;
+        }
+        let layerRef;
+        let layerViewRef;
+        if (evt.layer instanceof FeatureLayer) {
+            // @ts-ignore
+            layerRef = DotNet.createJSObjectReference(new FeatureLayerWrapper(evt.layer));
+            // @ts-ignore
+            layerViewRef = DotNet.createJSObjectReference(new FeatureLayerViewWrapper(evt.layerView));
+        } else if (evt.layer instanceof GraphicsLayer) {
+            // @ts-ignore
+            layerRef = DotNet.createJSObjectReference(new GraphicsLayerWrapper(evt.layer));
+            // @ts-ignore
+            layerViewRef = DotNet.createJSObjectReference(evt.layerView);
+        } else {
+            // @ts-ignore
+            layerRef = DotNet.createJSObjectReference(evt.layer);
+            // @ts-ignore
+            layerViewRef = DotNet.createJSObjectReference(evt.layerView);
+        }
+
+        let result = {
+            layerObjectRef: layerRef,
+            layerViewObjectRef: layerViewRef,
+            layerView: buildDotNetLayerView(evt.layerView),
+            layer: buildDotNetLayer(evt.layer),
+            layerGeoBlazorId: layerGeoBlazorId,
+            isBasemapLayer: isBasemapLayer
+        }
+
+        if (!blazorServer) {
+            await dotNetRef.invokeMethodAsync('OnJavascriptLayerViewCreate', result);
+            return;
+        }
+
+        // return dotNetResult in small chunks to avoid memory issues in Blazor Server
+        // SignalR has a maximum message size of 32KB
+        // https://github.com/dotnet/aspnetcore/issues/23179
+        let jsonLayerResult = JSON.stringify(result.layer);
+        let jsonLayerViewResult = JSON.stringify(result.layerView);
+        let chunkSize = 1000;
+        let chunks = Math.ceil(jsonLayerResult.length / chunkSize);
+        let layerUid = evt.layer.id;
+        for (let i = 0; i < chunks; i++) {
+            let chunk = jsonLayerResult.slice(i * chunkSize, (i + 1) * chunkSize);
+            await dotNetRef.invokeMethodAsync('OnJavascriptLayerCreateChunk', layerUid, chunk, i);
+        }
+
+        chunks = Math.ceil(jsonLayerViewResult.length / chunkSize);
+        for (let i = 0; i < chunks; i++) {
+            let chunk = jsonLayerViewResult.slice(i * chunkSize, (i + 1) * chunkSize);
+            await dotNetRef.invokeMethodAsync('OnJavascriptLayerViewCreateChunk', layerUid, chunk, i);
+        }
+
+        await dotNetRef.invokeMethodAsync('OnJavascriptLayerViewCreateComplete', layerGeoBlazorId ?? null, layerUid,
+            result.layerObjectRef, result.layerViewObjectRef, isBasemapLayer);
+    });
 
     if (activeEventHandlers.includes('OnLayerViewCreateError')) {
         view.on('layerview-create-error', (evt) => {
@@ -370,7 +524,7 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
             dotNetRef.invokeMethodAsync('OnJavascriptLayerViewDestroy', evt);
         });
     }
-    
+
     if (activeEventHandlers.includes('OnMouseWheel')) {
         let lastMouseWheelCall = 0;
         view.on('mouse-wheel', (evt) => {
@@ -383,7 +537,7 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
             dotNetRef.invokeMethodAsync('OnJavascriptMouseWheel', evt);
         });
     }
-    
+
     if (activeEventHandlers.includes('OnResize')) {
         let lastResizeCall = 0;
         view.on('resize', (evt) => {
@@ -403,14 +557,53 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
 
     let lastExtentChangeCall = 0;
     view.watch('extent', () => {
+        if (!notifyExtentChanged) return;
         let now = Date.now();
         if (eventRateLimit !== undefined && eventRateLimit !== null &&
             lastExtentChangeCall + eventRateLimit > now) {
             return;
         }
         lastExtentChangeCall = now;
-        dotNetRef.invokeMethodAsync('OnJavascriptExtentChanged', buildDotNetExtent((view as MapView).extent));
+        if (view instanceof SceneView) {
+            dotNetRef.invokeMethodAsync('OnJavascriptExtentChanged', buildDotNetExtent(view.extent),
+                buildDotNetPoint(view.camera.position), view.zoom, view.scale, null, view.camera.tilt);
+            return;
+        }
+        dotNetRef.invokeMethodAsync('OnJavascriptExtentChanged', buildDotNetExtent((view as MapView).extent),
+            buildDotNetPoint((view as MapView).center), (view as MapView).zoom, (view as MapView).scale,
+            (view as MapView).rotation, null);
     });
+}
+
+export async function hitTest(pointObject: any, eventId: string | null, viewId: string,
+                              isEvent: boolean, options: DotNetHitTestOptions | null): Promise<DotNetHitTestResult | void> {
+    let view = arcGisObjectRefs[viewId] as MapView;
+    let result: HitTestResult;
+    let screenPoint = isEvent ? pointObject : {x: pointObject.x, y: pointObject.y};
+
+    if (options !== null) {
+        let hitOptions = buildHitTestOptions(options, view);
+        result = await view.hitTest(screenPoint, hitOptions);
+    } else {
+        result = await view.hitTest(screenPoint);
+    }
+
+    let dotNetResult = buildDotNetHitTestResult(result);
+    if (!blazorServer) {
+        return dotNetResult;
+    }
+
+    let dotNetRef = dotNetRefs[viewId];
+    let jsonResult = JSON.stringify(dotNetResult);
+    // return dotNetResult in small chunks to avoid memory issues in Blazor Server
+    // SignalR has a maximum message size of 32KB
+    // https://github.com/dotnet/aspnetcore/issues/23179
+    let chunkSize = 1000;
+    let chunks = Math.ceil(jsonResult.length / chunkSize);
+    for (let i = 0; i < chunks; i++) {
+        let chunk = jsonResult.slice(i * chunkSize, (i + 1) * chunkSize);
+        await dotNetRef.invokeMethodAsync('OnJavascriptHitTestResult', eventId, chunk);
+    }
 }
 
 export function disposeView(viewId: string): void {
@@ -441,63 +634,111 @@ export function disposeMapComponent(componentId: string, viewId: string): void {
     }
 }
 
-export function updateView(property: string, value: number, viewId: string): void {
+export function updateView(viewObject: any) {
     try {
-        setWaitCursor(viewId);
-        let view = arcGisObjectRefs[viewId] as MapView;
-        switch (property) {
-            case 'Longitude':
-                view.center = new Point({ longitude: value, latitude: view.center.latitude });
-                break;
-            case 'Latitude':
-                view.center = new Point({ longitude: view.center.longitude, latitude: value });
-                break;
-            case 'Zoom':
-                view.zoom = value;
-                break;
-            case 'Rotation':
-                view.rotation = value;
+        setWaitCursor(viewObject.Id);
+        notifyExtentChanged = false;
+        let view = arcGisObjectRefs[viewObject.id] as View;
+
+        if (view instanceof MapView) {
+            if (hasValue(viewObject.latitude) && hasValue(viewObject.longitude) &&
+                (viewObject.latitude?.toFixed(2) !== view.center?.latitude?.toFixed(2) ||
+                    viewObject.longitude?.toFixed(2) !== view.center?.longitude?.toFixed(2))) {
+                view.center = new Point({
+                    latitude: viewObject.latitude,
+                    longitude: viewObject.longitude
+                });
+            } else if (hasValue(viewObject.zoom) && viewObject.zoom !== view.zoom) {
+                view.zoom = viewObject.zoom;
+            }
+
+            if (hasValue(viewObject.rotation) && viewObject.rotation !== view.rotation) {
+                view.rotation = viewObject.rotation;
+            }
+        } else if (view instanceof SceneView && hasValue(viewObject.tilt)) {
+            if (hasValue(viewObject.latitude) && hasValue(viewObject.longitude) &&
+                (viewObject.latitude?.toFixed(2) !== view.center?.latitude?.toFixed(2) ||
+                    viewObject.longitude?.toFixed(2) !== view.center?.longitude?.toFixed(2) ||
+                    viewObject.tilt !== view.camera.tilt || viewObject.zIndex !== view.camera.position.z)) {
+                view.camera = new Camera({
+                    position: {
+                        latitude: viewObject.latitude,
+                        longitude: viewObject.longitude,
+                        z: viewObject.zIndex
+                    },
+                    tilt: viewObject.tilt
+                });
+            }
         }
-        unsetWaitCursor(viewId);
+        unsetWaitCursor(viewObject.id);
+        return buildViewExtentUpdate(view);
+    } catch (error) {
+        logError(error, viewObject.id);
+    }
+}
+
+export async function setExtent(extentObject: any, viewId: string) {
+    try {
+        notifyExtentChanged = false;
+        let view = arcGisObjectRefs[viewId] as MapView;
+        if (!hasValue(view)) return;
+        let extent = buildJsExtent(extentObject, view.spatialReference);
+        if (extent !== null) {
+            view.extent = extent;
+        }
+        return buildViewExtentUpdate(view);
     } catch (error) {
         logError(error, viewId);
     }
 }
 
+export function setConstraints(constraintsObject: any, viewId: string) {
+    try {
+        let view = arcGisObjectRefs[viewId] as MapView;
+        view.constraints = constraintsObject;
+    } catch (error) {
+        logError(error, viewId);
+    }
+}
 
-export async function queryFeatureLayer(queryObject: any, layerObject: any, symbol: any, popupTemplateObject: any, 
-                                  viewId: string): Promise<void> {
+export function setHighlightOptions(highlightOptions: any, viewId: string) {
+    try {
+        let view = arcGisObjectRefs[viewId] as MapView;
+        view.highlightOptions = highlightOptions;
+    } catch (error) {
+        logError(error, viewId);
+    }
+}
+
+export function setSpatialReference(spatialReferenceObject: any, viewId: string) {
+    try {
+        let view = arcGisObjectRefs[viewId] as MapView;
+        view.spatialReference = buildJsSpatialReference(spatialReferenceObject);
+    } catch (error) {
+        logError(error, viewId);
+    }
+}
+
+export async function queryFeatureLayer(queryObject: any, layerObject: any, symbol: any, popupTemplateObject: any,
+                                        viewId: string): Promise<void> {
     try {
         setWaitCursor(viewId);
-        let query = new Query ({
+        let query = new Query({
             where: queryObject.where,
             outFields: queryObject.outFields,
             returnGeometry: queryObject.returnGeometry,
             spatialRelationship: queryObject.spatialRelationship,
         });
+        let view = arcGisObjectRefs[viewId] as MapView;
         if (queryObject.useViewExtent) {
-            let view = arcGisObjectRefs[viewId] as MapView;
             query.geometry = view.extent;
         } else if (hasValue(queryObject.geometry)) {
             query.geometry = buildJsGeometry(queryObject.geometry)!;
         }
-        let popupTemplate = buildJsPopupTemplate(popupTemplateObject);
+        let popupTemplate = buildJsPopupTemplate(popupTemplateObject, viewId);
         await addLayer(layerObject, viewId, false, true, () => {
             displayQueryResults(query, symbol, popupTemplate, viewId);
         });
-        unsetWaitCursor(viewId);
-    } catch (error) {
-        logError(error, viewId);
-    }
-}
-
-
-export async function updateGraphicsLayer(layerObject: any, layerId: string, viewId: string): Promise<void> {
-    try {
-        setWaitCursor(viewId);
-        console.debug('update graphics layer');
-        removeGraphicsLayer(viewId, layerId);
-        await addLayer(layerObject, viewId);
         unsetWaitCursor(viewId);
     } catch (error) {
         logError(error, viewId);
@@ -511,76 +752,226 @@ export function removeGraphicsLayer(viewId: string, layerId: string): void {
         let view = arcGisObjectRefs[viewId] as View;
         let layer = arcGisObjectRefs[layerId!] as Layer;
         view?.map?.remove(layer);
-        layer?.destroy();        
+        layer?.destroy();
         unsetWaitCursor(viewId);
     } catch (error) {
         logError(error, viewId);
     }
 }
 
-export function updateGraphic(graphicObject: any, layerIndex: number, viewId: string): void {
+export async function updateGraphic(graphicObject: any, viewId: string): Promise<void> {
     try {
         setWaitCursor(viewId);
         let oldGraphic = arcGisObjectRefs[graphicObject.id] as Graphic;
-        let gLayer: GraphicsLayer | null = null;
         let view = arcGisObjectRefs[viewId] as View;
-        if (layerIndex === undefined || layerIndex === null) {
-            if (hasValue(oldGraphic)) {
-                view.graphics.remove(oldGraphic);
-            } else {
-                view.graphics.removeAt(graphicObject.graphicIndex);
+
+        if (hasValue(oldGraphic)) {
+            // the graphic already exists, so update it
+            let popupTemplate: PopupTemplate | undefined = undefined;
+            if (hasValue(graphicObject.popupTemplate)) {
+                oldGraphic.popupTemplate = buildJsPopupTemplate(graphicObject.popupTemplate, viewId);
+            }
+
+            if (hasValue(graphicObject.geometry)) {
+                oldGraphic.geometry = buildJsGeometry(graphicObject.geometry) as Geometry;
+            }
+
+            if (hasValue(graphicObject.symbol)) {
+                oldGraphic.symbol = graphicObject.symbol;
+            }
+
+            if (hasValue(graphicObject.attributes)) {
+                oldGraphic.attributes = graphicObject.attributes;
             }
         } else {
-            gLayer = (view.map.layers as MapCollection).items.filter(l => l.type === "graphics")[layerIndex] as GraphicsLayer;
-            if (hasValue(gLayer)) {
-                if (hasValue(oldGraphic)) {
-                    gLayer.graphics.remove(oldGraphic);
-                } else {
-                    gLayer.graphics.removeAt(graphicObject.graphicIndex);
+            // remove a graphic at the same index, it could be a replacement with a new Id in Blazor
+            view.graphics.removeAt(graphicObject.graphicIndex);
+            await addGraphic(graphicObject, viewId);
+        }
+
+        unsetWaitCursor(viewId);
+    } catch (error) {
+        logError(error, viewId);
+    }
+}
+
+export function removeGraphics(graphics: DotNetGraphic[], viewId: string): void {
+    try {
+        setWaitCursor(viewId);
+        let view = arcGisObjectRefs[viewId] as View;
+        for (let graphic of graphics) {
+            let jsGraphic = arcGisObjectRefs[graphic.id as string] as Graphic;
+            view.graphics.remove(jsGraphic);
+        }
+        unsetWaitCursor(viewId);
+    } catch (error) {
+        logError(error, viewId);
+    }
+}
+
+export function removeGraphic(graphicObject: DotNetGraphic, viewId: string): void {
+    try {
+        setWaitCursor(viewId);
+        let view = arcGisObjectRefs[viewId] as View;
+        let graphic = arcGisObjectRefs[graphicObject.id as string] as Graphic;
+        view.graphics.remove(graphic);
+        unsetWaitCursor(viewId);
+    } catch (error) {
+        logError(error, viewId);
+    }
+}
+
+export async function updateLayer(layerObject: any, viewId: string): Promise<void> {
+    try {
+        setWaitCursor(viewId);
+        let currentLayer = arcGisObjectRefs[layerObject.id] as Layer;
+        let view = arcGisObjectRefs[viewId] as View;
+
+        if (currentLayer === undefined) {
+            await addLayer(layerObject, viewId);
+            return;
+        }
+
+        switch (layerObject.type) {
+            case 'feature':
+                let featureLayer = currentLayer as FeatureLayer;
+                if (hasValue(layerObject.portalItem) && layerObject.portalItem.id !== featureLayer.portalItem.id) {
+                    featureLayer.portalItem.id = layerObject.portalItem.id;
                 }
-            }
+                if (hasValue(layerObject.url) && layerObject.url !== featureLayer.url) {
+                    featureLayer.url = layerObject.url;
+                }
+                if (hasValue(layerObject.source)) {
+                    let source: Array<Graphic> = [];
+                    for (let i = 0; i < layerObject.source.length; i++) {
+                        let graphic = layerObject.source[i];
+                        let jsGraphic = await buildJsGraphic(graphic, true, viewId);
+                        if (jsGraphic !== null) {
+                            source.push(jsGraphic as Graphic);
+                        }
+                    }
+
+                    featureLayer.source = source as any;
+                }
+
+                copyValuesIfExists(layerObject, featureLayer, 'minScale', 'maxScale', 'orderBy', 'objectIdField',
+                    'definitionExpression', 'labelingInfo', 'outFields');
+
+                if (hasValue(layerObject.popupTemplate)) {
+                    featureLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId);
+                }
+                if (hasValue(layerObject.renderer)) {
+                    let renderer = buildJsRenderer(layerObject.renderer);
+                    if (renderer !== null) {
+                        featureLayer.renderer = renderer;
+                    }
+                }
+                if (hasValue(layerObject.fields) && layerObject.fields.length > 0) {
+                    featureLayer.fields = buildJsFields(layerObject.fields);
+                }
+                if (hasValue(layerObject.spatialReference) &&
+                    layerObject.spatialReference.wkid !== featureLayer.spatialReference.wkid) {
+                    featureLayer.spatialReference = buildJsSpatialReference(layerObject.spatialReference);
+                }
+                break;
+            case 'geo-json':
+                let geoJsonLayer = currentLayer as GeoJSONLayer;
+                if (hasValue(layerObject.renderer)) {
+                    let renderer = buildJsRenderer(layerObject.renderer);
+                    if (renderer !== null) {
+                        geoJsonLayer.renderer = renderer;
+                    }
+                }
+                if (hasValue(layerObject.spatialReference) &&
+                    layerObject.spatialReference.wkid !== geoJsonLayer.spatialReference.wkid) {
+                    geoJsonLayer.spatialReference = new SpatialReference({
+                        wkid: layerObject.spatialReference.wkid
+                    });
+                }
+                break;
+            case 'web-tile':
+                let webTileLayer = currentLayer as WebTileLayer;
+                copyValuesIfExists(layerObject, webTileLayer,
+                    'subDomains', 'blendMode', 'copyright', 'maxScale', 'minScale', 'refreshInterval');
+
+                if (hasValue(layerObject.tileInfo)) {
+                    webTileLayer.tileInfo = new TileInfo();
+                    copyValuesIfExists(layerObject.tileInfo, webTileLayer.tileInfo,
+                        'dpi', 'format', 'isWrappable', 'size');
+
+                    if (hasValue(layerObject.tileInfo.lods)) {
+                        webTileLayer.tileInfo.lods = layerObject.tileInfo.lods.map(l => {
+                            let lod = new LOD();
+                            copyValuesIfExists(l, lod, 'level', 'levelValue', 'resolution', 'scale');
+                            return lod;
+                        });
+                    }
+
+                    if (hasValue(layerObject.tileInfo.origin) &&
+                        (layerObject.tileInfo.origin.x !== webTileLayer.tileInfo.origin.x ||
+                            layerObject.tileInfo.origin.y !== webTileLayer.tileInfo.origin.y)) {
+                        webTileLayer.tileInfo.origin = buildJsPoint(layerObject.tileInfo.origin) as Point;
+                    }
+
+                    if (hasValue(layerObject.tileInfo.spatialReference) &&
+                        layerObject.tileInfo.spatialReference.wkid !== webTileLayer.tileInfo.spatialReference.wkid) {
+                        webTileLayer.tileInfo.spatialReference = buildJsSpatialReference(layerObject.tileInfo.spatialReference);
+                    }
+                }
+                break;
+            case 'open-street-map':
+                let openStreetMapLayer = currentLayer as OpenStreetMapLayer;
+                copyValuesIfExists(layerObject, openStreetMapLayer,
+                    'subDomains', 'blendMode', 'copyright', 'maxScale', 'minScale', 'refreshInterval')
+
+                if (hasValue(layerObject.tileInfo)) {
+                    openStreetMapLayer.tileInfo = new TileInfo();
+                    copyValuesIfExists(layerObject.tileInfo, openStreetMapLayer.tileInfo,
+                        'dpi', 'format', 'isWrappable', 'size');
+
+                    if (hasValue(layerObject.tileInfo.lods)) {
+                        openStreetMapLayer.tileInfo.lods = layerObject.tileInfo.lods.map(l => {
+                            let lod = new LOD();
+                            copyValuesIfExists(l, lod, 'level', 'levelValue', 'resolution', 'scale');
+                            return lod;
+                        });
+                    }
+
+                    if (hasValue(layerObject.tileInfo.origin) &&
+                        (layerObject.tileInfo.origin.x !== openStreetMapLayer.tileInfo.origin.x ||
+                            layerObject.tileInfo.origin.y !== openStreetMapLayer.tileInfo.origin.y)) {
+                        openStreetMapLayer.tileInfo.origin = buildJsPoint(layerObject.tileInfo.origin) as Point;
+                    }
+
+                    if (hasValue(layerObject.tileInfo.spatialReference) &&
+                        layerObject.tileInfo.spatialReference.wkid !== openStreetMapLayer.tileInfo.spatialReference.wkid) {
+                        openStreetMapLayer.tileInfo.spatialReference = buildJsSpatialReference(layerObject.tileInfo.spatialReference);
+                    }
+                }
+
+                break;
         }
-        addGraphic(graphicObject, viewId, gLayer);
-        unsetWaitCursor(viewId);
-    } catch (error) {
-        logError(error, viewId);
-    }
-}
 
-export function removeGraphicAtIndex(index: number, layerIndex: number, viewId: string): void {
-    try {
-        setWaitCursor(viewId);
-        let view = arcGisObjectRefs[viewId] as View;
-        if (layerIndex === undefined || layerIndex === null) {
-            view.graphics.removeAt(index);
-        } else {
-            let gLayer = (view?.map?.layers as MapCollection).items.filter(l => l.type === "graphics")[layerIndex];
-            gLayer?.graphics?.removeAt(index);
+
+        if (hasValue(layerObject.opacity) && layerObject.opacity !== currentLayer.opacity &&
+            layerObject.opacity >= 0 && layerObject.opacity <= 1) {
+            currentLayer.opacity = layerObject.opacity;
         }
-        unsetWaitCursor(viewId);
-    } catch (error) {
-        logError(error, viewId);
-    }
-}
 
-export async function updateFeatureLayer(layerObject: any, viewId: string): Promise<void> {
-    try {
-        setWaitCursor(viewId);
-        removeFeatureLayer(layerObject, viewId);
-        await addLayer(layerObject, viewId);
-        unsetWaitCursor(viewId);
-    } catch (error) {
-        logError(error, viewId);
-    }
-}
+        if (hasValue(layerObject.title) && layerObject.title !== currentLayer.title) {
+            currentLayer.title = layerObject.title;
+        }
 
-export function removeFeatureLayer(layerObject: any, viewId: string): void {
-    try {
-        setWaitCursor(viewId);
-        let featureLayer = arcGisObjectRefs[layerObject.id] as Layer;
-        let view = arcGisObjectRefs[viewId] as View;
-        view?.map?.remove(featureLayer);
-        featureLayer?.destroy();
+        if (hasValue(layerObject.listMode) && layerObject.listMode !== currentLayer.listMode) {
+            currentLayer.listMode = layerObject.listMode;
+        }
+        if (hasValue(layerObject.visible) && layerObject.visible !== currentLayer.visible) {
+            currentLayer.visible = layerObject.visible;
+        }
+
+        if (hasValue(layerObject.fullExtent) && layerObject.fullExtent !== currentLayer.fullExtent) {
+            currentLayer.fullExtent = buildJsExtent(layerObject.fullExtent, view.spatialReference);
+        }
         unsetWaitCursor(viewId);
     } catch (error) {
         logError(error, viewId);
@@ -601,7 +992,7 @@ export function findPlaces(addressQueryParams: any, symbol: any, popupTemplateOb
             .then(function (results) {
                 view.popup.close();
                 view.graphics.removeAll();
-                let popupTemplate = buildJsPopupTemplate(popupTemplateObject);
+                let popupTemplate = buildJsPopupTemplate(popupTemplateObject, viewId);
                 results.forEach(function (result) {
                     view.graphics.add(new Graphic({
                         attributes: result.attributes,
@@ -619,11 +1010,63 @@ export function findPlaces(addressQueryParams: any, symbol: any, popupTemplateOb
     }
 }
 
+export async function setPopup(popup: any, viewId: string): Promise<Popup | null> {
+    try {
+        let view = arcGisObjectRefs[viewId] as View;
+
+        let jsPopup = await buildJsPopup(popup, viewId);
+        if (hasValue(popup.widgetContent)) {
+            let widgetContent = await createWidget(popup.widgetContent, popup.viewId);
+            if (hasValue(widgetContent)) {
+                jsPopup.content = widgetContent as Widget;
+            }
+        }
+
+        view.popup = jsPopup;
+
+        view.popup.on("trigger-action", async (event) => {
+            await popup.dotNetWidgetReference.invokeMethodAsync("OnTriggerAction", event.action.id);
+        });
+        return jsPopup;
+    } catch (error) {
+        logError(error, popup.viewId);
+        return null;
+    }
+}
+
+export async function openPopup(viewId: string, options: any | null): Promise<void> {
+    try {
+        let view = arcGisObjectRefs[viewId] as View;
+        if (options !== null) {
+            let jsOptions = await buildJsPopupOptions(options);
+            if (hasValue(options.widgetContent)) {
+                let widgetContent = await createWidget(options.widgetContent, viewId);
+                if (hasValue(widgetContent)) {
+                    jsOptions.content = widgetContent as Widget;
+                }
+            }
+            view.popup.open(jsOptions);
+        } else {
+            view.popup.open();
+        }
+    } catch (error) {
+        logError(error, options.viewId);
+    }
+}
+
+export function closePopup(viewId: string): void {
+    try {
+        let view = arcGisObjectRefs[viewId] as View;
+        view.popup.close();
+    } catch (error) {
+        logError(error, viewId);
+    }
+}
 
 export async function showPopup(popupTemplateObject: any, location: DotNetPoint, viewId: string): Promise<void> {
     try {
         setWaitCursor(viewId);
-        let popupTemplate = buildJsPopupTemplate(popupTemplateObject);
+        let popupTemplate = buildJsPopupTemplate(popupTemplateObject, viewId);
         (arcGisObjectRefs[viewId] as View).popup.open({
             title: popupTemplate.title as string,
             content: popupTemplate.content as string,
@@ -639,7 +1082,7 @@ export async function showPopup(popupTemplateObject: any, location: DotNetPoint,
 export async function showPopupWithGraphic(graphicObject: any, options: any, viewId: string): Promise<void> {
     try {
         setWaitCursor(viewId);
-        addGraphic(graphicObject, viewId);
+        await addGraphic(graphicObject, viewId);
         let view = arcGisObjectRefs[viewId] as View;
         let graphic = arcGisObjectRefs[graphicObject.id] as Graphic;
         view.popup.dockOptions = options.dockOptions;
@@ -654,10 +1097,10 @@ export async function showPopupWithGraphic(graphicObject: any, options: any, vie
 }
 
 
-export function addGraphic(graphicObject: DotNetGraphic, viewId: string, graphicsLayer?: any): void {
+export async function addGraphic(graphicObject: DotNetGraphic, viewId: string, graphicsLayer?: any): Promise<void> {
     try {
         setWaitCursor(viewId);
-        let graphic = buildJsGraphic(graphicObject);
+        let graphic = await buildJsGraphic(graphicObject, true, viewId);
         let view = arcGisObjectRefs[viewId] as View;
         if (graphicsLayer === undefined || graphicsLayer === null) {
             if (!hasValue(view?.graphics)) return;
@@ -719,7 +1162,7 @@ export async function drawRouteAndGetDirections(routeUrl: string, routeSymbol: a
     } catch (error) {
         logError(error, viewId);
     }
-    
+
     return [];
 }
 
@@ -739,8 +1182,8 @@ export function solveServiceArea(url: string, driveTimeCutoffs: number[], servic
 
         serviceArea.solve(url, taskParameters)
             .then(function (result) {
-                if (result.serviceAreaPolygons.length) {
-                    result.serviceAreaPolygons.forEach(function (graphic) {
+                if (result.serviceAreaPolygons.features.length) {
+                    result.serviceAreaPolygons.features.forEach(function (graphic) {
                         graphic.symbol = serviceAreaSymbol;
                         view.graphics.add(graphic, 0);
                     })
@@ -754,41 +1197,85 @@ export function solveServiceArea(url: string, driveTimeCutoffs: number[], servic
     }
 }
 
-
-export function getAllGraphics(layerIndex: number, viewId: string): DotNetGraphic[] {
-    try {
-        let dotNetGraphics: DotNetGraphic[] = [];
-        let view = arcGisObjectRefs[viewId] as View;
-        (view?.map?.layers as MapCollection).items.filter(l => l.type === "graphics")[layerIndex].graphics?.items.forEach(g => {
-            let dotNetGraphic = buildDotNetGraphic(g);
-            dotNetGraphics.push(dotNetGraphic);
-        });
-        return dotNetGraphics;
-    } catch (error) {
-        logError(error, viewId);
-    }
-    
-    return [];
+export function getCenter(viewId: string): DotNetPoint | null {
+    return buildDotNetPoint((arcGisObjectRefs[viewId] as MapView).center);
 }
 
-export function getCenter(viewId: string): DotNetPoint {
-    return buildDotNetPoint((arcGisObjectRefs[viewId] as MapView).center);
+export function setZoom(zoom: number, viewId: string) {
+    notifyExtentChanged = false;
+    let view = arcGisObjectRefs[viewId] as MapView;
+    view.zoom = zoom;
+    return buildViewExtentUpdate(view);
+}
+
+export function getZoom(viewId: string): number {
+    return (arcGisObjectRefs[viewId] as MapView).zoom;
+}
+
+export function setScale(scale: number, viewId: string) {
+    notifyExtentChanged = false;
+    let view = arcGisObjectRefs[viewId] as MapView;
+    view.scale = scale;
+    return buildViewExtentUpdate(view);
+}
+
+export function getScale(viewId: string): number {
+    return (arcGisObjectRefs[viewId] as MapView).scale;
+}
+
+export function setRotation(rotation: number, viewId: string) {
+    notifyExtentChanged = false;
+    let view = arcGisObjectRefs[viewId] as MapView;
+    view.rotation = rotation;
+    return buildViewExtentUpdate(view);
+}
+
+export function getRotation(viewId: string): number {
+    return (arcGisObjectRefs[viewId] as MapView).rotation;
+}
+
+export function setCenter(center: any, viewId: string): any {
+    notifyExtentChanged = false;
+    let view = arcGisObjectRefs[viewId] as MapView;
+    view.center = buildJsPoint(center) as Point;
+    return buildViewExtentUpdate(view);
 }
 
 export function getExtent(viewId: string): DotNetExtent | null {
     return buildDotNetExtent((arcGisObjectRefs[viewId] as MapView).extent);
 }
 
-export function queryExtent(layerId: string): DotNetExtent | null {
-    let layer = arcGisObjectRefs[layerId] as any;
-    if (layer === undefined || layer === null) return null;
-    let extent = layer.queryExtent ?? layer.fullExtent as Extent;
-    return buildDotNetExtent(extent);
+export async function goToExtent(extentObject: any, viewId: string) {
+    try {
+        notifyExtentChanged = false;
+        let view = arcGisObjectRefs[viewId] as MapView;
+        if (!hasValue(view)) return;
+        let extent = buildJsExtent(extentObject, view.spatialReference);
+        if (extent !== null) {
+            await view.goTo(extent);
+        }
+        notifyExtentChanged = true;
+        return buildViewExtentUpdate(view);
+    } catch (error) {
+        logError(error, viewId);
+    }
 }
 
-export async function goToExtent(extent, viewId: string): Promise<void> {
+export async function goToGraphics(graphics, viewId: string): Promise<void> {
+    notifyExtentChanged = false;
     let view = arcGisObjectRefs[viewId] as MapView;
-    await view.goTo(extent);
+    let jsGraphics: Graphic[] = [];
+    for (const graphic of graphics) {
+        delete graphic.dotNetGraphicReference;
+        delete graphic.layerId;
+        let jsGraphic = await buildJsGraphic(graphic, false, viewId);
+        if (jsGraphic !== null) {
+            jsGraphics.push(jsGraphic);
+        }
+    }
+    await view.goTo(jsGraphics);
+    notifyExtentChanged = true;
+    return buildViewExtentUpdate(view);
 }
 
 export function getSpatialReference(viewId: string): DotNetSpatialReference | null {
@@ -801,7 +1288,7 @@ export function getGeometry(graphicId: string): DotNetGeometry | null {
     return buildDotNetGeometry(graphic.geometry);
 }
 
-export function displayQueryResults(query: Query, symbol: ArcGisSymbol, popupTemplate: PopupTemplate, viewId: string): 
+export function displayQueryResults(query: Query, symbol: ArcGisSymbol, popupTemplate: PopupTemplate, viewId: string):
     void {
     setWaitCursor(viewId);
     queryLayer.queryFeatures(query)
@@ -825,190 +1312,9 @@ export function displayQueryResults(query: Query, symbol: ArcGisSymbol, popupTem
 export async function addWidget(widget: any, viewId: string): Promise<void> {
     try {
         let view = arcGisObjectRefs[viewId] as MapView;
-        if (arcGisObjectRefs.hasOwnProperty(widget.id)) {
-            // for now just skip if it already exists
-            // later we may want to replace it with a remove and add
-            // if new values are added
-            return;
-        }
-        let newWidget: Widget;
-        switch (widget.type) {
-            case 'locate':
-                newWidget = new Locate({
-                    view: view,
-                    useHeadingEnabled: widget.useHeadingEnabled,
-                    goToOverride: function (view, options) {
-                        options.target.scale = widget.scale;
-                        return view.goTo(options.target);
-                    }
-                });
-                
-                break;
-            case 'search':
-                const search = new Search({
-                    view: view
-                });
-                newWidget = search;
-                
-                search.on('select-result', (evt) => {
-                    widget.searchWidgetObjectReference.invokeMethodAsync('OnSearchSelectResult', {
-                        extent: buildDotNetExtent(evt.result.extent),
-                        feature: buildDotNetFeature(evt.result.feature),
-                        name: evt.result.name
-                    });
-                });
-                break;
-            case 'basemapToggle':
-                // the esri definition file is missing basemapToggle.nextBasemap, but it is in the docs.
-                let basemapToggle = new BasemapToggle({
-                    view: view
-                });
-                newWidget = basemapToggle;
-                if (hasValue(widget.nextBasemapName)) {
-                    // @ts-ignore
-                    basemapToggle.nextBasemap = widget.nextBasemapName;
-                } else {
-                    // @ts-ignore
-                    basemapToggle.nextBasemap = widget.nextBasemap;
-                }
-                break;
-            case 'basemapGallery':
-                let source = new PortalBasemapsSource();
-                if (hasValue(widget.portalBasemapsSource)) {
-                    const portal = new Portal();
-                    if (widget.portalBasemapsSource.portal?.url !== undefined &&
-                        widget.portalBasemapsSource.portal?.url !== null) {
-                        portal.url = widget.portalBasemapsSource.portal.url;
-                    }
-                    source = new PortalBasemapsSource({
-                        portal
-                    });
-                    if (widget.portalBasemapsSource.queryParams !== undefined &&
-                        widget.portalBasemapsSource.queryParams !== null) {
-                        source.query = widget.portalBasemapsSource.queryParams;
-                    } else if (widget.portalBasemapsSource.queryString !== undefined &&
-                        widget.portalBasemapsSource.queryString !== null) {
-                        source.query = widget.portalBasemapsSource.queryString;
-                    }
-                } else if (hasValue(widget.title)) {
-                    source.query = {
-                        title: widget.title
-                    };
-                }
-                newWidget = new BasemapGallery({
-                    view: view,
-                    source: source
-                });
-                break;
-            case 'scaleBar':
-                const scaleBar = new ScaleBar({
-                    view: view
-                });
-                newWidget = scaleBar;
-                if (hasValue(widget.unit)) {
-                    scaleBar.unit = widget.unit;
-                }
-                break;
-            case 'legend':
-                const legend = new Legend({
-                    view: view
-                });
-                newWidget = legend;
-                break;
-            case 'home':
-                const homeBtn = new Home({
-                    view: view,
-                });
-                newWidget = homeBtn;
-                if (hasValue(widget.label)) {
-                    homeBtn.label = widget.label;
-                }
-                if (hasValue(widget.iconClass)) {
-                    homeBtn.iconClass = widget.iconClass;
-                }                
-                break;
-            case 'compass':
-                const compassWidget = new Compass({
-                    view: view
-                });
-                newWidget = compassWidget;
-                if (hasValue(widget.iconClass)) {
-                    compassWidget.iconClass = widget.iconClass;
-                }
-                if (hasValue(widget.label)) {
-                    compassWidget.label = widget.label;
-                }
-                break;
-            case 'layerList':
-                const layerListWidget = new LayerList({
-                    view: view
-                });
-                newWidget = layerListWidget;
-
-                if (widget.hasCustomHandler) {
-                    layerListWidget.listItemCreatedFunction = async (evt) => {
-                        let dotNetListItem = buildDotNetListItem(evt.item);
-                        let returnItem = await widget.layerListWidgetObjectReference.invokeMethodAsync('OnListItemCreated', dotNetListItem) as DotNetListItem;
-                        evt.item.title = returnItem.title;
-                        evt.item.visible = returnItem.visible;
-                        // evt.item.layer = returnItem.layer; --> needs implementation
-                        // evt.item.children = returnItem.children; --> needs implementation
-                        /// <summary>
-                        ///     The Action Sections property and corresponding functionality will be fully implemented
-                        ///     in a future iteration.  Currently, a user can view available layers in the layer list widget
-                        ///     and toggle the selected layer's visiblity. More capabilities will be available after full
-                        ///     implementation of ActionSection.
-                        /// </summary>
-                        //evt.item.actionSections = returnItem.actionSections as any;
-                    };
-                }
-
-                if (hasValue(widget.iconClass)) {
-                    layerListWidget.iconClass = widget.iconClass;
-                }
-                if (hasValue(widget.label)) {
-                    layerListWidget.label = widget.label;
-                }
-                
-                break;
-            case 'expand':
-                await addWidget(widget.content, viewId);
-                let content = arcGisObjectRefs[widget.content.id] as Widget;
-                view.ui.remove(content);
-                const expand = new Expand({
-                    view,
-                    content: content
-                });
-                
-                if (hasValue(widget.autoCollapse)) {
-                    expand.autoCollapse = widget.autoCollapse;
-                }
-
-                if (hasValue(widget.closeOnEsc)) {
-                    expand.closeOnEsc = widget.closeOnEsc;
-                }
-
-                if (hasValue(widget.expandIconClass)) {
-                    expand.expandIconClass = widget.expandIconClass;
-                }
-
-                if (hasValue(widget.collapseIconClass)) {
-                    expand.collapseIconClass = widget.collapseIconClass;
-                }
-
-                if (hasValue(widget.expandTooltip)) {
-                    expand.expandTooltip = widget.expandTooltip;
-                }
-
-                if (hasValue(widget.collapseTooltip)) {
-                    expand.collapseTooltip = widget.collapseTooltip;
-                }
-                
-                newWidget = expand;
-                break;
-            default:
-                return;
-        }
+        if (view === undefined || view === null) return;
+        let newWidget = await createWidget(widget, viewId);
+        if (newWidget === null || newWidget instanceof Popup) return;
 
         if (hasValue(widget.containerId)) {
             let container = document.getElementById(widget.containerId);
@@ -1018,152 +1324,298 @@ export async function addWidget(widget: any, viewId: string): Promise<void> {
         } else {
             view.ui.add(newWidget, widget.position);
         }
-        arcGisObjectRefs[widget.id] = newWidget;
-        dotNetRefs[widget.id] = widget.dotNetComponentReference;
     } catch (error) {
         logError(error, viewId);
     }
 }
 
-export function removeWidget(widgetId: string, viewId: string) : void {
+async function createWidget(widget: any, viewId: string): Promise<Widget | null> {
+    let view = arcGisObjectRefs[viewId] as MapView;
+    if (arcGisObjectRefs.hasOwnProperty(widget.id)) {
+        // for now just skip if it already exists
+        // later we may want to replace it with a remove and add
+        // if new values are added
+        return null;
+    }
+    let newWidget: Widget;
+    switch (widget.type) {
+        case 'locate':
+            newWidget = new Locate({
+                view: view,
+                useHeadingEnabled: widget.useHeadingEnabled,
+                goToOverride: function (view, options) {
+                    options.target.scale = widget.scale;
+                    return view.goTo(options.target);
+                }
+            });
+
+            break;
+        case 'search':
+            const search = new Search({
+                view: view
+            });
+            newWidget = search;
+
+            search.on('select-result', (evt) => {
+                widget.searchWidgetObjectReference.invokeMethodAsync('OnJavaScriptSearchSelectResult', {
+                    extent: buildDotNetExtent(evt.result.extent),
+                    feature: buildDotNetFeature(evt.result.feature),
+                    name: evt.result.name
+                });
+            });
+            break;
+        case 'basemapToggle':
+            // the esri definition file is missing basemapToggle.nextBasemap, but it is in the docs.
+            let basemapToggle = new BasemapToggle({
+                view: view
+            });
+            newWidget = basemapToggle;
+            if (hasValue(widget.nextBasemapName)) {
+                // @ts-ignore
+                basemapToggle.nextBasemap = widget.nextBasemapName;
+            } else {
+                // @ts-ignore
+                basemapToggle.nextBasemap = widget.nextBasemap;
+            }
+            break;
+        case 'basemapGallery':
+            let source = new PortalBasemapsSource();
+            if (hasValue(widget.portalBasemapsSource)) {
+                const portal = new Portal();
+                if (widget.portalBasemapsSource.portal?.url !== undefined &&
+                    widget.portalBasemapsSource.portal?.url !== null) {
+                    portal.url = widget.portalBasemapsSource.portal.url;
+                }
+                source = new PortalBasemapsSource({
+                    portal
+                });
+                if (widget.portalBasemapsSource.queryParams !== undefined &&
+                    widget.portalBasemapsSource.queryParams !== null) {
+                    source.query = widget.portalBasemapsSource.queryParams;
+                } else if (widget.portalBasemapsSource.queryString !== undefined &&
+                    widget.portalBasemapsSource.queryString !== null) {
+                    source.query = widget.portalBasemapsSource.queryString;
+                }
+            } else if (hasValue(widget.title)) {
+                source.query = {
+                    title: widget.title
+                };
+            }
+            newWidget = new BasemapGallery({
+                view: view,
+                source: source
+            });
+            break;
+        case 'scaleBar':
+            const scaleBar = new ScaleBar({
+                view: view
+            });
+            newWidget = scaleBar;
+            if (hasValue(widget.unit)) {
+                scaleBar.unit = widget.unit;
+            }
+            break;
+        case 'legend':
+            const legend = new Legend({
+                view: view
+            });
+            newWidget = legend;
+
+            if (hasValue(widget.layerInfos)) {
+                legend.layerInfos = widget.layerInfos.forEach(li => {
+                    let jsLayerInfo = {
+                        layer: arcGisObjectRefs[li.layerId]
+                    } as LegendLayerInfos;
+                    if (hasValue(li.title)) {
+                        jsLayerInfo.title = li.title;
+                    }
+                    if (hasValue(li.sublayerIds)) {
+                        jsLayerInfo.sublayerIds = li.sublayerIds;
+                    }
+
+                    return jsLayerInfo;
+                });
+            }
+            break;
+        case 'home':
+            const homeBtn = new Home({
+                view: view,
+            });
+            newWidget = homeBtn;
+            if (hasValue(widget.label)) {
+                homeBtn.label = widget.label;
+            }
+            if (hasValue(widget.iconClass)) {
+                homeBtn.iconClass = widget.iconClass;
+            }
+            break;
+        case 'compass':
+            const compassWidget = new Compass({
+                view: view
+            });
+            newWidget = compassWidget;
+            if (hasValue(widget.iconClass)) {
+                compassWidget.iconClass = widget.iconClass;
+            }
+            if (hasValue(widget.label)) {
+                compassWidget.label = widget.label;
+            }
+            break;
+        case 'layerList':
+            const layerListWidget = new LayerList({
+                view: view
+            });
+            newWidget = layerListWidget;
+
+            if (hasValue(widget.hasCustomHandler)) {
+                layerListWidget.listItemCreatedFunction = async (evt) => {
+                    let dotNetListItem = buildDotNetListItem(evt.item);
+                    let returnItem = await widget.layerListWidgetObjectReference.invokeMethodAsync('OnListItemCreated', dotNetListItem) as DotNetListItem;
+                    evt.item.title = returnItem.title;
+                    evt.item.visible = returnItem.visible;
+                    //evt.item.layer = returnItem.layer; //--> needs implementation
+                    //evt.item.children = returnItem.children; //--> needs implementation
+                    /// <summary>
+                    ///     The Action Sections property and corresponding functionality will be fully implemented
+                    ///     in a future iteration.  Currently, a user can view available layers in the layer list widget
+                    ///     and toggle the selected layer's visiblity. More capabilities will be available after full
+                    ///     implementation of ActionSection.
+                    /// </summary>
+                    //evt.item.actionSections = returnItem.actionSections as any;
+                };
+            }
+
+            if (hasValue(widget.iconClass)) {
+                layerListWidget.iconClass = widget.iconClass;
+            }
+            if (hasValue(widget.label)) {
+                layerListWidget.label = widget.label;
+            }
+            break;
+        case 'basemapLayerList':
+            const basemapLayerListWidget = new BasemapLayerList({
+                view: view
+            });
+            newWidget = basemapLayerListWidget;
+
+            if (hasValue(widget.HasCustomBaseListHandler)) {
+                basemapLayerListWidget.baseListItemCreatedFunction = async (evt) => {
+                    let dotNetBaseListItem = buildDotNetListItem(evt.item);
+                    let returnItem = await widget.layerListWidgetObjectReference.invokeMethodAsync('OnBaseListItemCreated', dotNetBaseListItem) as DotNetListItem;
+                    evt.item.title = returnItem.title;
+                    evt.item.visible = returnItem.visible;
+                    // basemap will require additional implementation (similar to layerlist above) to activate additional layer and action sections.
+                    //evt.item.layer = returnItem.layer; //--> needs implementation
+                    // evt.item.children = returnItem.children; //--> needs implementation
+                    // evt.item.actionSections = returnItem.actionSections as any;
+                };
+            }
+            if (hasValue(widget.HasCustomReferenceListHandler)) {
+                basemapLayerListWidget.baseListItemCreatedFunction = async (evt) => {
+                    let dotNetReferenceListItem = buildDotNetListItem(evt.item);
+                    let returnItem = await widget.layerListWidgetObjectReference.invokeMethodAsync('OnReferenceListItemCreated', dotNetReferenceListItem) as DotNetListItem;
+                    evt.item.title = returnItem.title;
+                    evt.item.visible = returnItem.visible;
+                    // basemap will require additional implementation (similar to layerlist above) to activate additional layer and action sections.
+                    // evt.item.layer = returnItem.layer; //--> needs implementation
+                    // evt.item.children = returnItem.children; //--> needs implementation
+                    // evt.item.actionSections = returnItem.actionSections as any;
+                };
+            }
+
+            if (widget.iconClass !== undefined && widget.iconClass !== null) {
+                basemapLayerListWidget.iconClass = widget.iconClass;
+            }
+            if (widget.label !== undefined && widget.label !== null) {
+                basemapLayerListWidget.label = widget.label;
+            }
+            break;
+        case 'expand':
+            await createWidget(widget.content, viewId);
+            let content = arcGisObjectRefs[widget.content.id] as Widget;
+            view.ui.remove(content);
+            const expand = new Expand({
+                view,
+                content: content
+            });
+
+            if (hasValue(widget.autoCollapse)) {
+                expand.autoCollapse = widget.autoCollapse;
+            }
+
+            if (hasValue(widget.closeOnEsc)) {
+                expand.closeOnEsc = widget.closeOnEsc;
+            }
+
+            if (hasValue(widget.expandIconClass)) {
+                expand.expandIconClass = widget.expandIconClass;
+            }
+
+            if (hasValue(widget.collapseIconClass)) {
+                expand.collapseIconClass = widget.collapseIconClass;
+            }
+
+            if (hasValue(widget.expandTooltip)) {
+                expand.expandTooltip = widget.expandTooltip;
+            }
+
+            if (hasValue(widget.collapseTooltip)) {
+                expand.collapseTooltip = widget.collapseTooltip;
+            }
+
+            newWidget = expand;
+            break;
+        case 'popup':
+            newWidget = await setPopup(widget, viewId) as Popup;
+            break;
+        default:
+            return null;
+    }
+
+    arcGisObjectRefs[widget.id] = newWidget;
+    dotNetRefs[widget.id] = widget.dotNetComponentReference;
+    // @ts-ignore
+    let jsRef = DotNet.createJSObjectReference(getObjectReference(widget.id));
+    await widget.dotNetWidgetReference.invokeMethodAsync('OnWidgetCreated', jsRef);
+    return newWidget;
+}
+
+export function removeWidget(widgetId: string, viewId: string): void {
     let view = arcGisObjectRefs[viewId] as MapView;
     let widget = arcGisObjectRefs[widgetId] as Widget;
     try {
         view.ui.remove(widget);
-    }
-    catch{
+    } catch {
         //ignore
     }
     delete arcGisObjectRefs.widgetId;
 }
 
-export async function addLayer(layerObject: any, viewId: string, isBasemapLayer?: boolean, isQueryLayer?: boolean, 
-                         callback?: Function): Promise<void> {
+export async function addLayer(layerObject: any, viewId: string, isBasemapLayer?: boolean, isQueryLayer?: boolean,
+                               callback?: Function): Promise<void> {
     try {
         let view = arcGisObjectRefs[viewId] as View;
         if (!hasValue(view?.map)) return;
-        let newLayer: Layer;
-        switch (layerObject.type) {
-            case 'graphics':
-                newLayer = new GraphicsLayer();
-                layerObject.graphics?.forEach(graphicObject => {
-                    addGraphic(graphicObject, viewId, newLayer);
-                });
-                break;
-            case 'feature':
-                if (hasValue(layerObject.portalItem)) {
-                    newLayer = new FeatureLayer({
-                        portalItem: {
-                            id: layerObject.portalItem.id
-                        }
-                    });
-                } else if (hasValue(layerObject.url)) {
-                    newLayer = new FeatureLayer({
-                        url: layerObject.url
-                    });
-                } else {
-                    let source: Array<Graphic> = [];
-                    layerObject.source?.forEach(graphicObject => {
-                        let graphic = buildJsGraphic(graphicObject);
-                        if (graphic !== null) {
-                            source.push(graphic);
-                        }
-                    });
-                    newLayer = new FeatureLayer({
-                        source: source
-                    });
-                } 
-                let featureLayer = newLayer as FeatureLayer;
-                if (hasValue(layerObject.opacity)) {
-                    newLayer.opacity = layerObject.opacity;
-                }
-                if (hasValue(layerObject.definitionExpression)) {
-                    featureLayer.definitionExpression = layerObject.definitionExpression;
-                }
 
-                if (layerObject.labelingInfo !== undefined && layerObject.labelingInfo?.length > 0) {
-                    featureLayer.labelingInfo = layerObject.labelingInfo;
-                }
-
-                if (layerObject.outFields !== undefined && layerObject.outFields?.length > 0) {
-                    featureLayer.outFields = layerObject.outFields;
-                }
-
-                if (hasValue(layerObject.popupTemplate)) {
-                    featureLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate);
-                }
-                if (hasValue(layerObject.title)) {
-                    featureLayer.title = layerObject.title;
-                }
-                if (hasValue(layerObject.minScale)) {
-                    featureLayer.minScale = layerObject.minScale;
-                }
-                if (hasValue(layerObject.maxScale)) {
-                    featureLayer.maxScale = layerObject.maxScale;
-                }
-                if (hasValue(layerObject.orderBy)) {
-                    featureLayer.orderBy = layerObject.orderBy;
-                }
-                if (hasValue(layerObject.objectIdField)) {
-                    featureLayer.objectIdField = layerObject.objectIdField;
-                }
-                if (hasValue(layerObject.renderer)) {
-                    let renderer = buildJsRenderer(layerObject.renderer);
-                    if (renderer !== null) {
-                        featureLayer.renderer = renderer;
-                    }
-                }
-                if (hasValue(layerObject.fields)) {
-                    featureLayer.fields = buildJsFields(layerObject.fields);
-                }
-                if (hasValue(layerObject.spatialReference)) {
-                    featureLayer.spatialReference = buildJsSpatialReference(layerObject.spatialReference);
-                }
-                break;
-            case 'vector-tile':
-                if (hasValue(layerObject.portalItem)) {
-                    newLayer = new VectorTileLayer({
-                        portalItem: layerObject.portalItem
-                    });
-                } else {
-                    newLayer = new VectorTileLayer({
-                        url: layerObject.url
-                    });
-                }
-                if (hasValue(layerObject.opacity)) {
-                    newLayer.opacity = layerObject.opacity;
-                }
-                break;
-            case 'tile':
-                newLayer = new TileLayer({
-                    portalItem: {
-                        id: layerObject.portalItem.id
-                    }
-                });
-                break;
-            case 'geo-json':
-                newLayer = new GeoJSONLayer({
-                    url: layerObject.url,
-                    copyright: layerObject.copyright
-                });
-                let gjLayer = newLayer as GeoJSONLayer;
-                if (hasValue(layerObject.renderer)) {
-                    gjLayer.renderer = layerObject.renderer;
-                }
-                if (hasValue(layerObject.spatialReference)) {
-                    gjLayer.spatialReference = new SpatialReference({
-                        wkid: layerObject.spatialReference.wkid
-                    });
-                }
-                break;
-            case 'geo-rss':
-                newLayer = new GeoRSSLayer({ url: layerObject.url });
-                break;
-            default:
-                return;
+        let newLayer: Layer | null;
+        if (arcGisObjectRefs.hasOwnProperty(layerObject.id)) {
+            newLayer = arcGisObjectRefs[layerObject.id] as Layer;
+            if (newLayer.destroyed) {
+                newLayer = await createLayer(layerObject, null, viewId);
+            }
+        } else {
+            newLayer = await createLayer(layerObject, null, viewId);
         }
 
-        
+        if (newLayer === null) return;
+
+        if (layerObject.type === 'graphics') {
+            for (let i = 0; i < layerObject.graphics.length; i++) {
+                const graphicObject = layerObject.graphics[i];
+                await addGraphic(graphicObject, viewId, newLayer);
+            }
+        }
+
         if (isBasemapLayer) {
             view.map?.basemap.baseLayers.push(newLayer);
         } else if (isQueryLayer) {
@@ -1174,7 +1626,232 @@ export async function addLayer(layerObject: any, viewId: string, isBasemapLayer?
         } else {
             view.map?.add(newLayer);
         }
-        arcGisObjectRefs[layerObject.id] = newLayer;
+    } catch (error) {
+        logError(error, viewId);
+    }
+}
+
+export async function createLayer(layerObject: any, wrap?: boolean | null, viewId?: string | null): Promise<Layer | null> {
+    let newLayer: Layer;
+    switch (layerObject.type) {
+        case 'graphics':
+            newLayer = new GraphicsLayer();
+            break;
+        case 'feature':
+            if (hasValue(layerObject.portalItem)) {
+                newLayer = new FeatureLayer({
+                    portalItem: {
+                        id: layerObject.portalItem.id
+                    }
+                });
+            } else if (hasValue(layerObject.url)) {
+                newLayer = new FeatureLayer({
+                    url: layerObject.url
+                });
+            } else {
+                let source: Array<Graphic> = [];
+                for (let i = 0; i < layerObject.source.length; i++) {
+                    const graphicObject = layerObject.source[i];
+                    let graphic = await buildJsGraphic(graphicObject, true, viewId ?? null);
+                    if (graphic !== null) {
+                        source.push(graphic);
+                    }
+                }
+                newLayer = new FeatureLayer({
+                    source: source
+                });
+            }
+            let featureLayer = newLayer as FeatureLayer;
+
+            copyValuesIfExists(layerObject, featureLayer, 'minScale', 'maxScale', 'orderBy', 'objectIdField',
+                'definitionExpression', 'labelingInfo', 'outFields');
+
+            if (hasValue(layerObject.popupTemplate)) {
+                featureLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId ?? null);
+            }
+            if (hasValue(layerObject.renderer)) {
+                let renderer = buildJsRenderer(layerObject.renderer);
+                if (renderer !== null) {
+                    featureLayer.renderer = renderer;
+                }
+            }
+            if (hasValue(layerObject.fields)) {
+                featureLayer.fields = buildJsFields(layerObject.fields);
+            }
+            if (hasValue(layerObject.spatialReference)) {
+                featureLayer.spatialReference = buildJsSpatialReference(layerObject.spatialReference);
+            }
+            break;
+        case 'vector-tile':
+            if (hasValue(layerObject.portalItem)) {
+                newLayer = new VectorTileLayer({
+                    portalItem: layerObject.portalItem
+                });
+            } else {
+                newLayer = new VectorTileLayer({
+                    url: layerObject.url
+                });
+            }
+            break;
+        case 'tile':
+            newLayer = new TileLayer({
+                portalItem: {
+                    id: layerObject.portalItem.id
+                }
+            });
+            break;
+        case 'elevation':
+            if (hasValue(layerObject.portalItem)) {
+                newLayer = new ElevationLayer({
+                    portalItem: {
+                        id: layerObject.portalItem.id
+                    }
+                });
+            } else {
+                newLayer = new ElevationLayer({
+                    url: layerObject.url
+                });
+            }
+            break;
+        case 'geo-json':
+            newLayer = new GeoJSONLayer({
+                url: layerObject.url,
+                copyright: layerObject.copyright
+            });
+            let gjLayer = newLayer as GeoJSONLayer;
+            if (hasValue(layerObject.renderer)) {
+                gjLayer.renderer = layerObject.renderer;
+            }
+            if (hasValue(layerObject.spatialReference)) {
+                gjLayer.spatialReference = new SpatialReference({
+                    wkid: layerObject.spatialReference.wkid
+                });
+            }
+            break;
+        case 'geo-rss':
+            newLayer = new GeoRSSLayer({url: layerObject.url});
+            break;
+        case 'web-tile':
+            let webTileLayer: WebTileLayer;
+            if (hasValue(layerObject.urlTemplate)) {
+                webTileLayer = new WebTileLayer({
+                    urlTemplate: layerObject.urlTemplate
+                });
+            } else {
+                webTileLayer = new WebTileLayer({
+                    portalItem: layerObject.portalItem
+                });
+            }
+            newLayer = webTileLayer;
+
+            copyValuesIfExists(layerObject, webTileLayer,
+                'subDomains', 'blendMode', 'copyright', 'maxScale', 'minScale', 'refreshInterval');
+
+            if (hasValue(layerObject.tileInfo)) {
+                webTileLayer.tileInfo = new TileInfo();
+                copyValuesIfExists(layerObject.tileInfo, webTileLayer.tileInfo,
+                    'dpi', 'format', 'isWrappable', 'size');
+
+                if (hasValue(layerObject.tileInfo.lods)) {
+                    webTileLayer.tileInfo.lods = layerObject.tileInfo.lods.map(l => {
+                        let lod = new LOD();
+                        copyValuesIfExists(l, lod, 'level', 'levelValue', 'resolution', 'scale');
+                        return lod;
+                    });
+                }
+
+                if (hasValue(layerObject.tileInfo.origin)) {
+                    webTileLayer.tileInfo.origin = buildJsPoint(layerObject.tileInfo.origin) as Point;
+                }
+
+                if (hasValue(layerObject.tileInfo.spatialReference)) {
+                    webTileLayer.tileInfo.spatialReference = buildJsSpatialReference(layerObject.tileInfo.spatialReference);
+                }
+            }
+
+            break;
+        case 'open-street-map':
+            let openStreetMapLayer: OpenStreetMapLayer;
+            if (hasValue(layerObject.urlTemplate)) {
+                openStreetMapLayer = new OpenStreetMapLayer({
+                    urlTemplate: layerObject.urlTemplate
+                });
+            } else {
+                openStreetMapLayer = new OpenStreetMapLayer({
+                    portalItem: layerObject.portalItem
+                });
+            }
+            newLayer = openStreetMapLayer;
+
+            copyValuesIfExists(layerObject, openStreetMapLayer,
+                'subDomains', 'blendMode', 'copyright', 'maxScale', 'minScale', 'refreshInterval')
+
+            if (hasValue(layerObject.tileInfo)) {
+                openStreetMapLayer.tileInfo = new TileInfo();
+                copyValuesIfExists(layerObject.tileInfo, openStreetMapLayer.tileInfo,
+                    'dpi', 'format', 'isWrappable', 'size');
+
+                if (hasValue(layerObject.tileInfo.lods)) {
+                    openStreetMapLayer.tileInfo.lods = layerObject.tileInfo.lods.map(l => {
+                        let lod = new LOD();
+                        copyValuesIfExists(l, lod, 'level', 'levelValue', 'resolution', 'scale');
+                        return lod;
+                    });
+                }
+
+                if (hasValue(layerObject.tileInfo.origin)) {
+                    openStreetMapLayer.tileInfo.origin = buildJsPoint(layerObject.tileInfo.origin) as Point;
+                }
+
+                if (hasValue(layerObject.tileInfo.spatialReference)) {
+                    openStreetMapLayer.tileInfo.spatialReference = buildJsSpatialReference(layerObject.tileInfo.spatialReference);
+                }
+            }
+
+            break;
+        default:
+            return null;
+    }
+
+    if (hasValue(layerObject.title)) {
+        newLayer.title = layerObject.title;
+    }
+
+    if (hasValue(layerObject.opacity)) {
+        newLayer.opacity = layerObject.opacity;
+    }
+
+    if (hasValue(layerObject.listMode)) {
+        newLayer.listMode = layerObject.listMode;
+    }
+    if (hasValue(layerObject.visible)) {
+        newLayer.visible = layerObject.visible;
+    }
+
+    if (hasValue(layerObject.fullExtent) && layerObject.type !== 'open-street-map') {
+        newLayer.fullExtent = buildJsExtent(layerObject.fullExtent, null);
+    }
+
+    arcGisObjectRefs[layerObject.id] = newLayer;
+
+    if (wrap) {
+        return getObjectReference(layerObject.id);
+    }
+
+    return newLayer;
+}
+
+export function removeLayer(layerId: string, viewId: string, isBasemapLayer: boolean): void {
+    try {
+        let layer = arcGisObjectRefs[layerId] as Layer;
+        let view = arcGisObjectRefs[viewId] as MapView;
+        if (isBasemapLayer) {
+            view.map?.basemap.baseLayers.remove(layer);
+        } else {
+            view.map?.remove(layer);
+        }
+        layer.destroy();
+        delete arcGisObjectRefs.layerId;
     } catch (error) {
         logError(error, viewId);
     }
@@ -1222,8 +1899,13 @@ function waitForRender(viewId: string, dotNetRef: any): void {
                 return;
             }
             if (!view.updating && !isRendered) {
+                notifyExtentChanged = true;
                 console.debug("View Render Complete");
-                dotNetRef.invokeMethodAsync('OnViewRendered');
+                try {
+                    dotNetRef.invokeMethodAsync('OnViewRendered');
+                } catch {
+                    // we must be disconnected
+                }
                 isRendered = true;
             } else if (isRendered && view.updating) {
                 isRendered = false;
@@ -1255,10 +1937,18 @@ function buildDotNetListItem(item: ListItem): DotNetListItem | null {
     } as DotNetListItem;
 }
 
+function copyValuesIfExists(originalObject: any, newObject: any, ...params: Array<string>) {
+    params.forEach(p => {
+        if (hasValue(originalObject[p]) && originalObject[p] !== newObject[p]) {
+            newObject[p] = originalObject[p];
+        }
+    });
+}
+
 function checkConnectivity(viewId) {
     let connectError = new Error('Cannot load ArcGIS Assets!');
     let message = '<div><h1>Cannot retrieve ArcGIS asset files.</h1><p><a target="_blank" href="https://docs/geoblazor.com/assetFiles"</p></div>';
-    let mapContainer = document.getElementById(`map-container-${viewId}`)!; 
+    let mapContainer = document.getElementById(`map-container-${viewId}`)!;
     try {
         //if (esriConfig.assetsPath.includes('js.arcgis.com')) return;
         let assetsUrl = esriConfig.assetsPath;
@@ -1269,8 +1959,8 @@ function checkConnectivity(viewId) {
         fetch(assetsUrl)
             .then(response => {
                 // Check if the response is successful
-                if (!response.ok){
-                    mapContainer.innerHTML = message; 
+                if (!response.ok) {
+                    mapContainer.innerHTML = message;
                     throw connectError;
                 }
             })
@@ -1286,8 +1976,8 @@ function checkConnectivity(viewId) {
 }
 
 
-export function addReactiveWatcher(targetId: string, targetName: string, watchExpression: string, once: boolean, 
-                                   initial: boolean, dotNetRef: any) : any {
+export function addReactiveWatcher(targetId: string, targetName: string, watchExpression: string, once: boolean,
+                                   initial: boolean, dotNetRef: any): any {
     let target = arcGisObjectRefs[targetId];
     console.debug(`Adding watch: "${watchExpression}"`);
     const watcherFunc = new Function(targetName, 'reactiveUtils', 'dotNetRef',
@@ -1297,7 +1987,7 @@ export function addReactiveWatcher(targetId: string, targetName: string, watchEx
     return watcherFunc(target, reactiveUtils, dotNetRef);
 }
 
-export function addReactiveListener(targetId: string, eventName: string, once: boolean, dotNetRef: any) : any {
+export function addReactiveListener(targetId: string, eventName: string, once: boolean, dotNetRef: any): any {
     let target = arcGisObjectRefs[targetId];
     console.debug(`Adding listener: "${eventName}"`);
     const listenerFunc = new Function('target', 'reactiveUtils', 'dotNetRef',
@@ -1308,18 +1998,19 @@ export function addReactiveListener(targetId: string, eventName: string, once: b
 }
 
 export async function awaitReactiveSingleWatchUpdate(targetId: string, targetName: string, watchExpression: string,
-                                                     dotNetRef: any) : Promise<any> {
+                                                     dotNetRef: any): Promise<any> {
     let target = arcGisObjectRefs[targetId];
     console.debug(`Adding once watcher: "${watchExpression}"`);
-    const AsyncFunction = (async function () {}).constructor;
+    const AsyncFunction = (async function () {
+    }).constructor;
     // @ts-ignore
     const onceFunc = new AsyncFunction(targetName, 'reactiveUtils', 'dotNetRef',
         `return await reactiveUtils.once(() => ${watchExpression});`);
     return await onceFunc(target, reactiveUtils, dotNetRef);
 }
 
-export function addReactiveWaiter(targetId: string, targetName: string, watchExpression: string, once: boolean, 
-                                  initial: boolean, dotNetRef: any) : any {
+export function addReactiveWaiter(targetId: string, targetName: string, watchExpression: string, once: boolean,
+                                  initial: boolean, dotNetRef: any): any {
     let target = arcGisObjectRefs[targetId];
     console.debug(`Adding when waiter: "${watchExpression}"`);
     const whenFunc = new Function(targetName, 'reactiveUtils', 'dotNetRef',
@@ -1333,7 +2024,55 @@ export function addReactiveWaiter(targetId: string, targetName: string, watchExp
 }
 
 
-export function setVisibility(componentId: string, visible: boolean) : void {
-    let component : any = arcGisObjectRefs[componentId];
-    component.visible = visible;
+export function setVisibility(componentId: string, visible: boolean): void {
+    let component: any | undefined = arcGisObjectRefs[componentId];
+    if (component !== undefined) {
+        component.visible = visible;
+    }
+}
+
+function buildHitTestOptions(options: DotNetHitTestOptions, view: MapView): MapViewHitTestOptions {
+    let hitOptions: MapViewHitTestOptions = {};
+    let hitIncludeOptions: Array<any> = [];
+    let hitExcludeOptions: Array<any> = [];
+    let layers = (view.map.layers as MapCollection).items as Array<Layer>;
+    let graphicsLayers = layers.filter(l => l.type === "graphics") as Array<GraphicsLayer>;
+
+    if (options.includeByGeoBlazorId !== null) {
+        let gbInclude = options.includeByGeoBlazorId.map(i => arcGisObjectRefs[i]);
+        hitIncludeOptions = hitIncludeOptions.concat(gbInclude);
+    }
+    if (options.excludeByGeoBlazorId !== null) {
+        let gbExclude = options.excludeByGeoBlazorId.map(i => arcGisObjectRefs[i]);
+        hitExcludeOptions = hitExcludeOptions.concat(gbExclude);
+    }
+    if (options.includeLayersByArcGISId !== null) {
+        let layerInclude = layers.filter(l => options.includeLayersByArcGISId!.includes(l.id));
+        hitIncludeOptions = hitIncludeOptions.concat(layerInclude);
+    }
+    if (options.excludeLayersByArcGISId !== null) {
+        let layerExclude = layers.filter(l => options.excludeLayersByArcGISId!.includes(l.id));
+        hitExcludeOptions = hitExcludeOptions.concat(layerExclude);
+    }
+    if (options.includeGraphicsByArcGISId !== null) {
+        let graphicInclude = options.includeGraphicsByArcGISId.map(i =>
+            view.graphics.find(g => g.attributes['OBJECTID'] == i) ||
+            graphicsLayers.map(l => l.graphics.find(g => g.attributes['OBJECTID'] == i)));
+        hitIncludeOptions = hitIncludeOptions.concat(graphicInclude);
+    }
+    if (options.excludeGraphicsByArcGISId !== null) {
+        let graphicExclude = options.excludeGraphicsByArcGISId.map(i =>
+            view.graphics.find(g => g.attributes['OBJECTID'] == i) ||
+            graphicsLayers.map(l => l.graphics.find(g => g.attributes['OBJECTID'] == i)));
+        hitExcludeOptions = hitExcludeOptions.concat(graphicExclude);
+    }
+
+    if (hitIncludeOptions.length > 0) {
+        hitOptions.include = hitIncludeOptions;
+    }
+    if (hitExcludeOptions.length > 0) {
+        hitOptions.exclude = hitExcludeOptions;
+    }
+
+    return hitOptions;
 }

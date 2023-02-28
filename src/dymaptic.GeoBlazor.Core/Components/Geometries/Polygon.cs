@@ -1,13 +1,18 @@
 ﻿using dymaptic.GeoBlazor.Core.Objects;
 using Microsoft.AspNetCore.Components;
 
+
 namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 
 /// <summary>
-///     A polygon contains an array of rings and a spatialReference. Each ring is represented as an array of points. The first and last points of a ring must be the same. A polygon also has boolean-valued hasM and hasZ fields.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polygon.html">ArcGIS JS API</a>
+///     A polygon contains an array of rings and a spatialReference. Each ring is represented as an array of points. The
+///     first and last points of a ring must be the same. A polygon also has boolean-valued hasM and hasZ fields.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polygon.html">
+///         ArcGIS
+///         JS API
+///     </a>
 /// </summary>
-public class Polygon : Geometry
+public class Polygon : Geometry, IEquatable<Polygon>
 {
     /// <summary>
     ///     Parameterless constructor for use as a razor component
@@ -20,13 +25,13 @@ public class Polygon : Geometry
     ///     Creates a new polygon in code with parameters
     /// </summary>
     /// <param name="rings">
-    ///     An array of <see cref="MapPath"/> rings.
+    ///     An array of <see cref="MapPath" /> rings.
     /// </param>
     /// <param name="spatialReference">
-    ///     The <see cref="SpatialReference"/> of the geometry.
+    ///     The <see cref="SpatialReference" /> of the geometry.
     /// </param>
     /// <param name="extent">
-    ///     The <see cref="Extent"/> of the geometry.
+    ///     The <see cref="Extent" /> of the geometry.
     /// </param>
     public Polygon(MapPath[] rings, SpatialReference? spatialReference = null, Extent? extent = null)
     {
@@ -36,26 +41,54 @@ public class Polygon : Geometry
         Extent = extent;
 #pragma warning restore BL0005
     }
-    
+
     /// <summary>
-    ///     An array of <see cref="MapPath"/> rings.
+    ///     Override equality operator
+    /// </summary>
+    public static bool operator ==(Polygon? left, Polygon? right)
+    {
+        return Equals(left, right);
+    }
+
+    /// <summary>
+    ///     Override inequality operator
+    /// </summary>
+    public static bool operator !=(Polygon? left, Polygon? right)
+    {
+        return !Equals(left, right);
+    }
+
+    /// <summary>
+    ///     An array of <see cref="MapPath" /> rings.
     /// </summary>
     [Parameter]
-    public MapPath[] Rings
-    {
-        get => _rings;
-        set
-        {
-            if (!_rings.SequenceEqual(value, MapPathEqualityComparer.Instance))
-            {
-                _rings = value.Select(p => p.DeepCopy()).ToArray();
-                Task.Run(UpdateComponent);
-            }
-        }
-    }
+    public MapPath[] Rings { get; set; } = Array.Empty<MapPath>();
 
     /// <inheritdoc />
     public override string Type => "polygon";
 
-    private MapPath[] _rings = Array.Empty<MapPath>();
+    /// <inheritdoc />
+    public bool Equals(Polygon? other)
+    {
+        if (ReferenceEquals(null, other)) return false;
+        if (ReferenceEquals(this, other)) return true;
+
+        return Rings.Equals(other.Rings);
+    }
+
+    /// <inheritdoc />
+    public override bool Equals(object? obj)
+    {
+        if (ReferenceEquals(null, obj)) return false;
+        if (ReferenceEquals(this, obj)) return true;
+        if (obj.GetType() != GetType()) return false;
+
+        return Equals((Polygon)obj);
+    }
+
+    /// <inheritdoc />
+    public override int GetHashCode()
+    {
+        return Rings.GetHashCode();
+    }
 }

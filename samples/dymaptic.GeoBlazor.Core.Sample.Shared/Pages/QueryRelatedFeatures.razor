@@ -1,0 +1,136 @@
+﻿@page "/query-related-features"
+<PageTitle>Query Related Features</PageTitle>
+<h1>Query Related Features</h1>
+
+<div class="links-div">
+    <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#queryRelatedFeatures">ArcGIS API for JavaScript Reference</a>
+    <a class="btn btn-primary" target="_blank" href="https://www.arcgis.com/home/item.html?id=https://www.arcgis.com/home/item.html?id=7a301e848a7c4bfcaefdac4fe98a7f99">Aggregation of Major US Cities</a>
+</div>
+<p class="instructions">
+    This sample demonstrates querying related features on a layer that lives on a server. On the click action, the feature layer is queried to find which features were clicked, and then the results are used to update the population table.
+</p>
+
+<MapView @ref="_mapView"
+         Class="map-view"
+         OnClick="OnClick"
+         Longitude="-98.5795" Latitude="39.8282"
+         Zoom="3">
+    <Map>
+        <Basemap>
+            <PortalItem Id="00c8181753cd4673810a1ede1f52a922" />
+        </Basemap>
+        <FeatureLayer @ref="_featureLayer" OutFields="@(new[] { "*" })">
+            <PortalItem Id="7a301e848a7c4bfcaefdac4fe98a7f99" />
+        </FeatureLayer>
+    </Map>
+    <PopupWidget AutoOpenEnabled="false" />
+    <ExpandWidget ExpandTooltip="Show Legend" Position="OverlayPosition.TopRight">
+        <LegendWidget />
+    </ExpandWidget>
+
+    <CustomOverlay Position="OverlayPosition.BottomLeft">
+        <div id="gridDiv" class="esri-widget">
+            <h2>US Cities</h2>
+            <p>
+                Click on a hexagon in the map to view the US cities located in that
+                area.
+            </p>
+            <div id="queryResults">
+                @if (_relatedFeatures is not null && _relatedFeatures.Any())
+                {
+                    <table>
+                        <thead>
+                            <tr>
+                                @foreach (string attr in _relatedFeatures!
+                                    .First(kvp => kvp.Value?.Features?.FirstOrDefault()?.Attributes is not null)
+                                    .Value!.Features!.First().Attributes!.Keys)
+                                {
+                                    <th>@attr</th>
+                                }
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (FeatureSet? set in _relatedFeatures!.Values)
+                            {
+                                if (set?.Features is null) continue;
+
+                                foreach (Graphic graphic in set.Features!)
+                                {
+                                    if (graphic.Attributes is null) continue;
+
+                                    <tr>
+                                        @foreach (object? value in graphic.Attributes.Values)
+                                        {
+                                            <td>@value</td>
+                                        }
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                }
+            </div>
+            <button style="display: @(_relatedFeatures?.Any() == true ? "block" : "none")" id="clearButton" @onclick="ClearMap" class="esri-widget">Clear Query</button>
+        </div>
+    </CustomOverlay>
+</MapView>
+
+
+@code {
+
+    private async Task OnClick(ClickEvent clickEvent)
+    {
+        await ClearMap();
+        await QueryFeatures(clickEvent.MapPoint);
+    }
+
+    private async Task ClearMap()
+    {
+        if (_highlight is not null)
+        {
+            await _highlight.Remove();
+        }
+
+        _relatedFeatures = null;
+    }
+
+    private async Task QueryFeatures(Point point)
+    {
+        var query = new Query
+        {
+            Geometry = point,
+            OutFields = new[] { "*" },
+            SpatialRelationship = SpatialRelationship.Intersects,
+            ReturnGeometry = false
+        };
+
+        int[] objectIds = await _featureLayer!.QueryObjectIds(query);
+        if (!objectIds.Any())
+        {
+            return;
+        }
+
+        var layerView = (FeatureLayerView)_featureLayer!.LayerView!;
+
+        if (_highlight is not null)
+        {
+            await _highlight.Remove();
+        }
+
+        _highlight = await layerView.Highlight(objectIds);
+
+        var relationshipQuery = new RelationshipQuery
+        {
+            OutFields = new[] { "NAME", "SUM_POPULATION" },
+            RelationshipId = _featureLayer.Relationships?.FirstOrDefault()?.Id,
+            ObjectIds = objectIds
+        };
+
+        _relatedFeatures = await _featureLayer.QueryRelatedFeatures(relationshipQuery);
+    }
+
+    private MapView? _mapView;
+    private FeatureLayer? _featureLayer;
+    private HighlightHandle? _highlight;
+    Dictionary<int, FeatureSet?>? _relatedFeatures;
+}

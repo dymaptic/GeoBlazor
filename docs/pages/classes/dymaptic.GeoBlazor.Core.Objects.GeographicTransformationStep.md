@@ -8,8 +8,13 @@ parent: Classes
 
 ## GeographicTransformationStep Class
 
-Represents a step in the process of transforming coordinates from one geographic coordinate system to another. A geographic transformation step can be constructed from a well-known ID (wkid) or a well known text (wkt) that represents a geographic datum transformation.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-GeographicTransformationStep.html">ArcGIS JS API</a>
+Represents a step in the process of transforming coordinates from one geographic coordinate system to another. A  
+geographic transformation step can be constructed from a well-known ID (wkid) or a well known text (wkt) that  
+represents a geographic datum transformation.  
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-GeographicTransformationStep.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class GeographicTransformationStep

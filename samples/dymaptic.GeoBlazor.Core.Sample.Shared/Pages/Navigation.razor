@@ -1,5 +1,4 @@
 @page "/navigation"
-@using System.Text.Json
 
 <PageTitle>Navigation</PageTitle>
 <h1>Navigation</h1>
@@ -8,7 +7,11 @@
     <a class="btn btn-primary" target="_blank" href="https://www.arcgis.com/home/item.html?id=826498a48bd0424f9c9315214f2165d4">Colored Pencil BaseMap</a>
 </div>
 
-<p class="instructions">Change the values for latitude, longitude, zoom, and rotation to see the map update in real time.</p>
+<p class="instructions">
+    Change the values for latitude, longitude, zoom, and rotation to see the map update in real time.
+    Note that once a user drags or zooms the map manually, the Razor Markup bindings to our input fields must be ignored, otherwise the map would "snap back".
+    You can always call <code>MapView.SetExtent</code> to set the extent again, or <code>MapView.Refresh</code> to re-enable bindings.
+</p>
 <div class="form-group">
     <label>Latitude:&nbsp;<input type="number" step="0.01" @bind="_latitude" /></label>
     <label>Longitude:&nbsp;<input type="number" step="0.01" @bind="_longitude" /></label>
@@ -17,7 +20,7 @@
 </div>
 
 <MapView @ref="MapView"
-         Class="map-view" 
+         Class="map-view"
          Longitude="_longitude"
          Latitude="_latitude"
          Zoom="_zoom"
@@ -44,6 +47,7 @@
     {
         Extent? extent = await MapView!.GetExtent();
         if (extent is null) return;
+
         _extentJson = JsonSerializer.Serialize(extent, new JsonSerializerOptions
         {
             WriteIndented = true
@@ -51,7 +55,7 @@
             .Replace(" ", "&nbsp;")
             .Replace(Environment.NewLine, "<br />");
     }
-    
+
     private double _latitude = 34.027;
     private double _longitude = -118.805;
     private double _zoom = 11;

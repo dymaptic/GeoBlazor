@@ -8,7 +8,8 @@ parent: Classes
 
 ## LayerViewDestroyEvent Class
 
-Fires after a LayerView is destroyed and is no longer rendered in the view. This happens for example when a layer is removed from the map of the view.
+Fires after a LayerView is destroyed and is no longer rendered in the view. This happens for example when a layer  
+is removed from the map of the view.
 
 ```csharp
 public class LayerViewDestroyEvent :
@@ -24,7 +25,8 @@ Implements [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/S
 
 ## LayerViewDestroyEvent(Layer, LayerView) Constructor
 
-Fires after a LayerView is destroyed and is no longer rendered in the view. This happens for example when a layer is removed from the map of the view.
+Fires after a LayerView is destroyed and is no longer rendered in the view. This happens for example when a layer  
+is removed from the map of the view.
 
 ```csharp
 public LayerViewDestroyEvent(dymaptic.GeoBlazor.Core.Components.Layers.Layer Layer, dymaptic.GeoBlazor.Core.Components.Layers.LayerView LayerView);

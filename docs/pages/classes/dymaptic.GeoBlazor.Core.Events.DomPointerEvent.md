@@ -53,31 +53,36 @@ The height (magnitude on the Y axis), in CSS pixels, of the contact geometry of 
 
 `Pressure` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 
-The normalized pressure of the pointer input in the range 0 to 1, where 0 and 1 represent the minimum and maximum pressure the hardware is capable of detecting, respectively.
+The normalized pressure of the pointer input in the range 0 to 1, where 0 and 1 represent the minimum and maximum  
+pressure the hardware is capable of detecting, respectively.
 
 <a name='dymaptic.GeoBlazor.Core.Events.DomPointerEvent.DomPointerEvent(System.Nullable_long_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_dymaptic.GeoBlazor.Core.Events.PointerType_,System.Nullable_bool_,System.Nullable_bool_).TangentialPressure'></a>
 
 `TangentialPressure` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 
-The normalized tangential pressure of the pointer input (also known as barrel pressure or cylinder stress) in the range -1 to 1, where 0 is the neutral position of the control.
+The normalized tangential pressure of the pointer input (also known as barrel pressure or cylinder stress) in the  
+range -1 to 1, where 0 is the neutral position of the control.
 
 <a name='dymaptic.GeoBlazor.Core.Events.DomPointerEvent.DomPointerEvent(System.Nullable_long_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_dymaptic.GeoBlazor.Core.Events.PointerType_,System.Nullable_bool_,System.Nullable_bool_).TiltX'></a>
 
 `TiltX` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 
-The plane angle (in degrees, in the range of -90 to 90) between the Y–Z plane and the plane containing both the pointer (e.g. pen stylus) axis and the Y axis.
+The plane angle (in degrees, in the range of -90 to 90) between the Y–Z plane and the plane containing both the  
+pointer (e.g. pen stylus) axis and the Y axis.
 
 <a name='dymaptic.GeoBlazor.Core.Events.DomPointerEvent.DomPointerEvent(System.Nullable_long_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_dymaptic.GeoBlazor.Core.Events.PointerType_,System.Nullable_bool_,System.Nullable_bool_).TiltY'></a>
 
 `TiltY` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 
-The plane angle (in degrees, in the range of -90 to 90) between the X–Z plane and the plane containing both the pointer (e.g. pen stylus) axis and the X axis.
+The plane angle (in degrees, in the range of -90 to 90) between the X–Z plane and the plane containing both the  
+pointer (e.g. pen stylus) axis and the X axis.
 
 <a name='dymaptic.GeoBlazor.Core.Events.DomPointerEvent.DomPointerEvent(System.Nullable_long_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_dymaptic.GeoBlazor.Core.Events.PointerType_,System.Nullable_bool_,System.Nullable_bool_).Twist'></a>
 
 `Twist` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 
-The clockwise rotation of the pointer (e.g. pen stylus) around its major axis in degrees, with a value in the range 0 to 359.
+The clockwise rotation of the pointer (e.g. pen stylus) around its major axis in degrees, with a value in the range  
+0 to 359.
 
 <a name='dymaptic.GeoBlazor.Core.Events.DomPointerEvent.DomPointerEvent(System.Nullable_long_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_double_,System.Nullable_dymaptic.GeoBlazor.Core.Events.PointerType_,System.Nullable_bool_,System.Nullable_bool_).PointerType'></a>
 
@@ -167,7 +172,8 @@ public System.Nullable<dymaptic.GeoBlazor.Core.Events.PointerType> PointerType {
 
 ## DomPointerEvent.Pressure Property
 
-The normalized pressure of the pointer input in the range 0 to 1, where 0 and 1 represent the minimum and maximum pressure the hardware is capable of detecting, respectively.
+The normalized pressure of the pointer input in the range 0 to 1, where 0 and 1 represent the minimum and maximum  
+pressure the hardware is capable of detecting, respectively.
 
 ```csharp
 public System.Nullable<double> Pressure { get; set; }
@@ -180,7 +186,8 @@ public System.Nullable<double> Pressure { get; set; }
 
 ## DomPointerEvent.TangentialPressure Property
 
-The normalized tangential pressure of the pointer input (also known as barrel pressure or cylinder stress) in the range -1 to 1, where 0 is the neutral position of the control.
+The normalized tangential pressure of the pointer input (also known as barrel pressure or cylinder stress) in the  
+range -1 to 1, where 0 is the neutral position of the control.
 
 ```csharp
 public System.Nullable<double> TangentialPressure { get; set; }
@@ -193,7 +200,8 @@ public System.Nullable<double> TangentialPressure { get; set; }
 
 ## DomPointerEvent.TiltX Property
 
-The plane angle (in degrees, in the range of -90 to 90) between the Y–Z plane and the plane containing both the pointer (e.g. pen stylus) axis and the Y axis.
+The plane angle (in degrees, in the range of -90 to 90) between the Y–Z plane and the plane containing both the  
+pointer (e.g. pen stylus) axis and the Y axis.
 
 ```csharp
 public System.Nullable<double> TiltX { get; set; }
@@ -206,7 +214,8 @@ public System.Nullable<double> TiltX { get; set; }
 
 ## DomPointerEvent.TiltY Property
 
-The plane angle (in degrees, in the range of -90 to 90) between the X–Z plane and the plane containing both the pointer (e.g. pen stylus) axis and the X axis.
+The plane angle (in degrees, in the range of -90 to 90) between the X–Z plane and the plane containing both the  
+pointer (e.g. pen stylus) axis and the X axis.
 
 ```csharp
 public System.Nullable<double> TiltY { get; set; }
@@ -219,7 +228,8 @@ public System.Nullable<double> TiltY { get; set; }
 
 ## DomPointerEvent.Twist Property
 
-The clockwise rotation of the pointer (e.g. pen stylus) around its major axis in degrees, with a value in the range 0 to 359.
+The clockwise rotation of the pointer (e.g. pen stylus) around its major axis in degrees, with a value in the range  
+0 to 359.
 
 ```csharp
 public System.Nullable<double> Twist { get; set; }

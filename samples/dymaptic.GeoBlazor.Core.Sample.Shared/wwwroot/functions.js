@@ -24,11 +24,15 @@ window.getWidth = () => {
     return window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 }
 
+window.getCalciteSelectValue = (calciteSelect) => {
+    return calciteSelect.selectedOption.value;
+}
 
 function elementIsVisible(item) {
-    
+
     let eleTop = item.offsetTop;
     let eleBottom = eleTop + item.clientHeight;
 
-    return (eleTop >=0 && eleBottom <= window.innerHeight);
+    return (eleTop >= 0 && eleBottom <= window.innerHeight);
 }
+

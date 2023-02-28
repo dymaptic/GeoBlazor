@@ -8,8 +8,12 @@ parent: Classes
 
 ## LOD Class
 
-A TileLayer has a number of LODs (Levels of Detail). Each LOD corresponds to a map at a given scale or resolution. LOD has no constructor.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LOD.html">ArcGIS JS API</a>
+A TileLayer has a number of LODs (Levels of Detail). Each LOD corresponds to a map at a given scale or resolution.  
+LOD has no constructor.  
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LOD.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class LOD : dymaptic.GeoBlazor.Core.Components.MapComponent

@@ -8,14 +8,18 @@ parent: Classes
 
 ## WebScene Class
 
-The web scene is the core element of 3D mapping across ArcGIS. It defines the content, style, environment, and slides of your scene and it can be shared across multiple ArcGIS web and desktop applications  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html">ArcGIS JS API</a>
+The web scene is the core element of 3D mapping across ArcGIS. It defines the content, style, environment, and  
+slides of your scene and it can be shared across multiple ArcGIS web and desktop applications  
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
-public class WebScene : dymaptic.GeoBlazor.Core.Components.MapComponent
+public class WebScene : dymaptic.GeoBlazor.Core.Components.Map
 ```
 
-Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [Microsoft.AspNetCore.Components.ComponentBase](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.ComponentBase 'Microsoft.AspNetCore.Components.ComponentBase') &#129106; [MapComponent](dymaptic.GeoBlazor.Core.Components.MapComponent.html 'dymaptic.GeoBlazor.Core.Components.MapComponent') &#129106; WebScene
+Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [Microsoft.AspNetCore.Components.ComponentBase](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.ComponentBase 'Microsoft.AspNetCore.Components.ComponentBase') &#129106; [MapComponent](dymaptic.GeoBlazor.Core.Components.MapComponent.html 'dymaptic.GeoBlazor.Core.Components.MapComponent') &#129106; [Map](dymaptic.GeoBlazor.Core.Components.Map.html 'dymaptic.GeoBlazor.Core.Components.Map') &#129106; WebScene
 ### Properties
 
 <a name='dymaptic.GeoBlazor.Core.Components.WebScene.PortalItem'></a>
@@ -81,7 +85,8 @@ The child to unregister
 
 ## WebScene.ValidateRequiredChildren() Method
 
-When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the [RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
+When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the  
+[RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
 
 ```csharp
 public override void ValidateRequiredChildren();

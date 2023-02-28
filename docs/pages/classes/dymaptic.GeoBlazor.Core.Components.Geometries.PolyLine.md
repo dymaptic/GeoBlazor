@@ -8,14 +8,21 @@ parent: Classes
 
 ## PolyLine Class
 
-A polyline contains an array of paths and spatialReference. Each path is represented as an array of points. A polyline also has boolean-valued hasM and hasZ properties.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polyline.html">ArcGIS JS API</a>
+A polyline contains an array of paths and spatialReference. Each path is represented as an array of points. A  
+polyline also has boolean-valued hasM and hasZ properties.  
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polyline.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
-public class PolyLine : dymaptic.GeoBlazor.Core.Components.Geometries.Geometry
+public class PolyLine : dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,
+System.IEquatable<dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine>
 ```
 
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [Microsoft.AspNetCore.Components.ComponentBase](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.ComponentBase 'Microsoft.AspNetCore.Components.ComponentBase') &#129106; [MapComponent](dymaptic.GeoBlazor.Core.Components.MapComponent.html 'dymaptic.GeoBlazor.Core.Components.MapComponent') &#129106; [Geometry](dymaptic.GeoBlazor.Core.Components.Geometries.Geometry.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Geometry') &#129106; PolyLine
+
+Implements [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.IEquatable-1 'System.IEquatable`1')[PolyLine](dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine.html 'dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.IEquatable-1 'System.IEquatable`1')
 ### Constructors
 
 <a name='dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine.PolyLine()'></a>
@@ -83,3 +90,84 @@ public override string Type { get; }
 
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+### Methods
+
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine.Equals(object)'></a>
+
+## PolyLine.Equals(object) Method
+
+Determines whether the specified object is equal to the current object.
+
+```csharp
+public override bool Equals(object? obj);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine.Equals(object).obj'></a>
+
+`obj` [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object')
+
+The object to compare with the current object.
+
+#### Returns
+[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')  
+[true](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool') if the specified object  is equal to the current object; otherwise, [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool').
+
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine.GetHashCode()'></a>
+
+## PolyLine.GetHashCode() Method
+
+Serves as the default hash function.
+
+```csharp
+public override int GetHashCode();
+```
+
+#### Returns
+[System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')  
+A hash code for the current object.
+### Operators
+
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine.op_Equality(dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine,dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine)'></a>
+
+## PolyLine.operator ==(PolyLine, PolyLine) Operator
+
+Compares two [PolyLine](dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine.html 'dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine') objects for equality
+
+```csharp
+public static bool operator ==(dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine? left, dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine? right);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine.op_Equality(dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine,dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine).left'></a>
+
+`left` [PolyLine](dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine.html 'dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine.op_Equality(dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine,dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine).right'></a>
+
+`right` [PolyLine](dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine.html 'dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine')
+
+#### Returns
+[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine.op_Inequality(dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine,dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine)'></a>
+
+## PolyLine.operator !=(PolyLine, PolyLine) Operator
+
+Compares two [PolyLine](dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine.html 'dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine') objects for inequality
+
+```csharp
+public static bool operator !=(dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine? left, dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine? right);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine.op_Inequality(dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine,dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine).left'></a>
+
+`left` [PolyLine](dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine.html 'dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine.op_Inequality(dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine,dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine).right'></a>
+
+`right` [PolyLine](dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine.html 'dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine')
+
+#### Returns
+[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')

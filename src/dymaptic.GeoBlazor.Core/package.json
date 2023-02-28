@@ -1,21 +1,21 @@
 {
   "name": "dymaptic.GeoBlazor.Core",
-  "version": "1.2.0",
+  "version": "2.0.0",
   "description": "https://www.geoblazor.com",
   "main": "arcGisInterop.js",
   "scripts": {
-    "debugBuild": "esbuild ./Scripts/arcGisJsInterop.ts ./Scripts/dotNetBuilder.ts ./Scripts/jsBuilder.ts ./Scripts/projection.ts ./Scripts/geometryEngine.ts --format=esm --bundle --sourcemap --outdir=wwwroot/js",
-    "watchBuild": "esbuild ./Scripts/arcGisJsInterop.ts ./Scripts/dotNetBuilder.ts ./Scripts/jsBuilder.ts ./Scripts/projection.ts ./Scripts/geometryEngine.ts --format=esm --bundle --sourcemap --outdir=wwwroot/js --watch",
-    "releaseBuild": "esbuild ./Scripts/arcGisJsInterop.ts ./Scripts/dotNetBuilder.ts ./Scripts/jsBuilder.ts ./Scripts/projection.ts ./Scripts/geometryEngine.ts --format=esm --bundle --minify --sourcemap --outdir=wwwroot/js"
+    "debugBuild": "esbuild ./Scripts/arcGisJsInterop.ts ./Scripts/abortController.ts --format=esm --bundle --sourcemap --outdir=wwwroot/js",
+    "watchBuild": "esbuild ./Scripts/arcGisJsInterop.ts ./Scripts/abortController.ts --format=esm --bundle --sourcemap --outdir=wwwroot/js --watch",
+    "releaseBuild": "esbuild ./Scripts/arcGisJsInterop.ts ./Scripts/abortController.ts --format=esm --bundle --minify --sourcemap --outdir=wwwroot/js"
   },
   "keywords": [],
   "author": "Tim Purdum",
   "license": "ISC",
   "dependencies": {
-    "@arcgis/core": "^4.24.7",
-    "esbuild": "^0.15.6"
+    "@arcgis/core": "^4.25.0",
+    "esbuild": "^0.17.5"
   },
   "devDependencies": {
-    "@types/node": "^18.7.9"
+    "@types/node": "^18.11.18"
   }
 }

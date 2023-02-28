@@ -1,0 +1,108 @@
+﻿@page "/server-side-queries"
+<PageTitle>Server Side Queries</PageTitle>
+<h1>Server Side Queries</h1>
+
+<div class="links-div">
+    <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#queryFeatures">ArcGIS API for JavaScript Reference</a>
+    <a class="btn btn-primary" target="_blank" href="https://www.arcgis.com/home/item.html?id=234d2e3f6f554e0e84757662469c26d3">SF Crimes by Block Group</a>
+</div>
+<p class="instructions">
+    This sample demonstrates a query on a feature layer that lives on a server. On the click action, the feature layer is queried to find which features were clicked, and then the results are used to open a custom popup.
+</p>
+
+<MapView @ref="_mapView"
+         OnViewInitialized="OnViewInitialized"
+         Class="map-view"
+         OnClick="OnClick">
+    <Map ArcGISDefaultBasemap="gray-vector">
+        <FeatureLayer @ref="_featureLayer" OutFields="@(new[] { "*" })">
+            <PortalItem Id="234d2e3f6f554e0e84757662469c26d3" />
+        </FeatureLayer>
+    </Map>
+    <Extent Xmax="-13620669.8431"
+            Xmin="-13640432.281"
+            Ymax="4556710.618000001"
+            Ymin="4536523.6511999965">
+        <SpatialReference Wkid="102100" />
+    </Extent>
+    <PopupWidget AutoOpenEnabled="false"
+                 DockEnabled="true">
+        <PopupDockOptions ButtonEnabled="false"
+                          BreakPoint="@(new BreakPoint(false))"
+                          Position="PopupDockPosition.BottomRight" />
+    </PopupWidget>
+    <LegendWidget Position="OverlayPosition.BottomLeft">
+        <LayerInfo Layer="_featureLayer" />
+    </LegendWidget>
+    <CustomOverlay Position="OverlayPosition.TopRight">
+        <div id="optionsDiv" class="esri-widget">
+            <p>
+                Select a query type and click a point on the map to view the results.
+            </p>
+            <select id="query-type" @bind="_queryType" class="esri-widget">
+                <option value="basic">Basic Query</option>
+                <option value="distance">Query By Distance</option>
+            </select>
+        </div>
+    </CustomOverlay>
+</MapView>
+
+
+@code {
+
+    private async Task OnViewInitialized()
+    {
+        if (!_fullyLoaded)
+        {
+            await _featureLayer!.Load();
+            PopupTemplate popupTemplate = await _featureLayer.CreatePopupTemplate();
+            await _featureLayer!.RegisterChildComponent(popupTemplate);
+            await _mapView!.RegisterChildComponent(_featureLayer!.FullExtent!);
+            _fullyLoaded = true;
+        }
+    }
+
+    private async Task OnClick(ClickEvent clickEvent)
+    {
+        await _mapView!.ClearGraphics();
+        var query = new Query
+        {
+            Geometry = clickEvent.MapPoint,
+            Distance = Distance,
+            Units = Unit,
+            SpatialRelationship = SpatialRelationship.Intersects,
+            ReturnGeometry = false,
+            ReturnQueryGeometry = true,
+            OutFields = new HashSet<string> { "*" }
+        };
+        FeatureSet result = (await _featureLayer!.QueryFeatures(query))!;
+        await _pointGraphic.SetGeometry(clickEvent.MapPoint);
+        await _mapView!.AddGraphic(_pointGraphic);
+
+        if (result.QueryGeometry is not null)
+        {
+            await _bufferGraphic.SetGeometry(result.QueryGeometry);
+            await _mapView.AddGraphic(_bufferGraphic);
+        }
+
+        await _mapView.OpenPopup(new PopupOpenOptions
+        {
+            Location = clickEvent.MapPoint,
+            Features = result.Features,
+            FeatureMenuOpen = true
+        });
+    }
+
+    private double? Distance => _queryType == "distance" ? 0.5 : null;
+    private LinearUnit? Unit => _queryType == "distance" ? LinearUnit.Miles : null;
+    private MapView? _mapView;
+    private FeatureLayer? _featureLayer;
+    private readonly Graphic _pointGraphic = new(symbol: new SimpleMarkerSymbol(
+        new Outline(new MapColor(255, 255, 255), 1),
+        new MapColor(0, 0, 139)));
+    private readonly Graphic _bufferGraphic = new(symbol: new SimpleFillSymbol(
+        new Outline(new MapColor(255, 255, 255), 1.5),
+        new MapColor(173, 216, 230, 0.2)));
+    private string? _queryType;
+    private bool _fullyLoaded;
+}

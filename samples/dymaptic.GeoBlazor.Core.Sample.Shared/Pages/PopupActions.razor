@@ -1,0 +1,50 @@
+﻿@page "/popup-actions"
+@inject GeometryEngine GeometryEngine
+
+<PageTitle>Popup Actions</PageTitle>
+<h1>Popup Actions</h1>
+
+<div class="links-div">
+    <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/sample-code/popup-actions/">ArcGIS API for JavaScript</a>
+    <a class="btn btn-primary" target="_blank" href="https://www.arcgis.com/apps/mapviewer/index.html?url=https://services.arcgis.com/V6ZHFr6zdgNZuVG0/ArcGIS/rest/services/TrailRuns/FeatureServer&source=sd">Trail Runs Feature Service</a>
+</div>
+<p class="instructions">
+    Popup actions create custom buttons or toggles within the popup, and allow the developer to call back to a custom function.
+</p>
+
+<MapView @ref="MapView" OnMapRendered="OnMapRendered"
+         Center="new Point(-117.08, 34.1)" Zoom="11" Class="map-view">
+    <Map>
+        <Basemap>
+            <PortalItem Id="f35ef07c9ed24020aadd65c8a65d3754" />
+        </Basemap>
+        <FeatureLayer Url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/TrailRuns/FeatureServer/0">
+            <PopupTemplate Title="Trail Run" StringContent="{name}">
+                <ActionButton Image="_content/dymaptic.GeoBlazor.Core.Sample.Shared/images/Measure_Distance16.png"
+                              Title="Measure Length"
+                              Id="measure-this"
+                              CallbackFunction="MeasureThis" />
+            </PopupTemplate>
+        </FeatureLayer>
+    </Map>
+</MapView>
+
+@code {
+    private MapView? MapView { get; set; }
+
+    private async Task OnMapRendered()
+    {
+        _popup = await MapView!.GetPopupWidget();
+    }
+
+    private async Task MeasureThis()
+    {
+        Graphic selectedFeature = await _popup!.GetSelectedFeature();
+        Geometry geom = selectedFeature.Geometry!;
+        double initDistance = await GeometryEngine.GeodesicLength(geom, LinearUnit.Miles);
+        var distance = (Math.Round(initDistance * 100) / 100).ToString("F2");
+        await _popup.SetContent($"{selectedFeature.Attributes?["name"]}<div style='background-color:DarkGray;color:white'>{distance} miles.</div>");
+    }
+
+    private PopupWidget? _popup;
+}

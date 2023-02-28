@@ -18,6 +18,7 @@ System.IAsyncDisposable
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [Microsoft.AspNetCore.Components.ComponentBase](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.ComponentBase 'Microsoft.AspNetCore.Components.ComponentBase') &#129106; MapComponent
 
 Derived  
+&#8627; [ActionBase](dymaptic.GeoBlazor.Core.Components.ActionBase.html 'dymaptic.GeoBlazor.Core.Components.ActionBase')  
 &#8627; [Basemap](dymaptic.GeoBlazor.Core.Components.Basemap.html 'dymaptic.GeoBlazor.Core.Components.Basemap')  
 &#8627; [Constraints](dymaptic.GeoBlazor.Core.Components.Constraints.html 'dymaptic.GeoBlazor.Core.Components.Constraints')  
 &#8627; [Geometry](dymaptic.GeoBlazor.Core.Components.Geometries.Geometry.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Geometry')  
@@ -28,13 +29,20 @@ Derived
 &#8627; [LayerObject](dymaptic.GeoBlazor.Core.Components.Layers.LayerObject.html 'dymaptic.GeoBlazor.Core.Components.Layers.LayerObject')  
 &#8627; [LegendOptions](dymaptic.GeoBlazor.Core.Components.Layers.LegendOptions.html 'dymaptic.GeoBlazor.Core.Components.Layers.LegendOptions')  
 &#8627; [OrderedLayerOrderBy](dymaptic.GeoBlazor.Core.Components.Layers.OrderedLayerOrderBy.html 'dymaptic.GeoBlazor.Core.Components.Layers.OrderedLayerOrderBy')  
+&#8627; [TileInfo](dymaptic.GeoBlazor.Core.Components.Layers.TileInfo.html 'dymaptic.GeoBlazor.Core.Components.Layers.TileInfo')  
 &#8627; [VisualVariable](dymaptic.GeoBlazor.Core.Components.Layers.VisualVariable.html 'dymaptic.GeoBlazor.Core.Components.Layers.VisualVariable')  
 &#8627; [LOD](dymaptic.GeoBlazor.Core.Components.LOD.html 'dymaptic.GeoBlazor.Core.Components.LOD')  
 &#8627; [Map](dymaptic.GeoBlazor.Core.Components.Map.html 'dymaptic.GeoBlazor.Core.Components.Map')  
+&#8627; [ChartMediaInfoValue](dymaptic.GeoBlazor.Core.Components.Popups.ChartMediaInfoValue.html 'dymaptic.GeoBlazor.Core.Components.Popups.ChartMediaInfoValue')  
+&#8627; [ChartMediaInfoValueSeries](dymaptic.GeoBlazor.Core.Components.Popups.ChartMediaInfoValueSeries.html 'dymaptic.GeoBlazor.Core.Components.Popups.ChartMediaInfoValueSeries')  
+&#8627; [ExpressionInfo](dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo.html 'dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo')  
 &#8627; [FieldInfo](dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo.html 'dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo')  
 &#8627; [FieldInfoFormat](dymaptic.GeoBlazor.Core.Components.Popups.FieldInfoFormat.html 'dymaptic.GeoBlazor.Core.Components.Popups.FieldInfoFormat')  
+&#8627; [ImageMediaInfoValue](dymaptic.GeoBlazor.Core.Components.Popups.ImageMediaInfoValue.html 'dymaptic.GeoBlazor.Core.Components.Popups.ImageMediaInfoValue')  
+&#8627; [MediaInfo](dymaptic.GeoBlazor.Core.Components.Popups.MediaInfo.html 'dymaptic.GeoBlazor.Core.Components.Popups.MediaInfo')  
 &#8627; [PopupContent](dymaptic.GeoBlazor.Core.Components.Popups.PopupContent.html 'dymaptic.GeoBlazor.Core.Components.Popups.PopupContent')  
 &#8627; [PopupTemplate](dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.html 'dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate')  
+&#8627; [RelatedRecordsInfoFieldOrder](dymaptic.GeoBlazor.Core.Components.Popups.RelatedRecordsInfoFieldOrder.html 'dymaptic.GeoBlazor.Core.Components.Popups.RelatedRecordsInfoFieldOrder')  
 &#8627; [Portal](dymaptic.GeoBlazor.Core.Components.Portal.html 'dymaptic.GeoBlazor.Core.Components.Portal')  
 &#8627; [PortalBasemapsSource](dymaptic.GeoBlazor.Core.Components.PortalBasemapsSource.html 'dymaptic.GeoBlazor.Core.Components.PortalBasemapsSource')  
 &#8627; [PortalItem](dymaptic.GeoBlazor.Core.Components.PortalItem.html 'dymaptic.GeoBlazor.Core.Components.PortalItem')  
@@ -43,9 +51,11 @@ Derived
 &#8627; [MapFont](dymaptic.GeoBlazor.Core.Components.Symbols.MapFont.html 'dymaptic.GeoBlazor.Core.Components.Symbols.MapFont')  
 &#8627; [Symbol](dymaptic.GeoBlazor.Core.Components.Symbols.Symbol.html 'dymaptic.GeoBlazor.Core.Components.Symbols.Symbol')  
 &#8627; [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView')  
-&#8627; [WebMap](dymaptic.GeoBlazor.Core.Components.WebMap.html 'dymaptic.GeoBlazor.Core.Components.WebMap')  
-&#8627; [WebScene](dymaptic.GeoBlazor.Core.Components.WebScene.html 'dymaptic.GeoBlazor.Core.Components.WebScene')  
-&#8627; [Widget](dymaptic.GeoBlazor.Core.Components.Widgets.Widget.html 'dymaptic.GeoBlazor.Core.Components.Widgets.Widget')
+&#8627; [LayerInfo](dymaptic.GeoBlazor.Core.Components.Widgets.LayerInfo.html 'dymaptic.GeoBlazor.Core.Components.Widgets.LayerInfo')  
+&#8627; [PopupDockOptions](dymaptic.GeoBlazor.Core.Components.Widgets.PopupDockOptions.html 'dymaptic.GeoBlazor.Core.Components.Widgets.PopupDockOptions')  
+&#8627; [PopupVisibleElements](dymaptic.GeoBlazor.Core.Components.Widgets.PopupVisibleElements.html 'dymaptic.GeoBlazor.Core.Components.Widgets.PopupVisibleElements')  
+&#8627; [Widget](dymaptic.GeoBlazor.Core.Components.Widgets.Widget.html 'dymaptic.GeoBlazor.Core.Components.Widgets.Widget')  
+&#8627; [HighlightOptions](dymaptic.GeoBlazor.Core.Objects.HighlightOptions.html 'dymaptic.GeoBlazor.Core.Objects.HighlightOptions')
 
 Implements [System.IAsyncDisposable](https://docs.microsoft.com/en-us/dotnet/api/System.IAsyncDisposable 'System.IAsyncDisposable')
 ### Properties
@@ -70,7 +80,7 @@ public Microsoft.AspNetCore.Components.RenderFragment? ChildContent { get; set; 
 A unique identifier, used to track components across .NET and JavaScript.
 
 ```csharp
-public System.Guid Id { get; set; }
+public System.Guid Id { get; }
 ```
 
 #### Property Value
@@ -89,12 +99,25 @@ public Microsoft.JSInterop.IJSObjectReference? JsModule { get; set; }
 #### Property Value
 [Microsoft.JSInterop.IJSObjectReference](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.JSInterop.IJSObjectReference 'Microsoft.JSInterop.IJSObjectReference')
 
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.JsRuntime'></a>
+
+## MapComponent.JsRuntime Property
+
+Represents an instance of a JavaScript runtime to which calls may be dispatched.
+
+```csharp
+public Microsoft.JSInterop.IJSRuntime JsRuntime { get; set; }
+```
+
+#### Property Value
+[Microsoft.JSInterop.IJSRuntime](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.JSInterop.IJSRuntime 'Microsoft.JSInterop.IJSRuntime')
+
 <a name='dymaptic.GeoBlazor.Core.Components.MapComponent.MapRendered'></a>
 
 ## MapComponent.MapRendered Property
 
 A boolean flag that indicates that the current [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') has finished rendering.  
-To listen for a map rendering event, use [OnMapRenderedHandler](dymaptic.GeoBlazor.Core.Components.Views.MapView.html#dymaptic.GeoBlazor.Core.Components.Views.MapView.OnMapRenderedHandler 'dymaptic.GeoBlazor.Core.Components.Views.MapView.OnMapRenderedHandler').
+To listen for a map rendering event, use [OnMapRendered](dymaptic.GeoBlazor.Core.Components.Views.MapView.html#dymaptic.GeoBlazor.Core.Components.Views.MapView.OnMapRendered 'dymaptic.GeoBlazor.Core.Components.Views.MapView.OnMapRendered').
 
 ```csharp
 public bool MapRendered { get; set; }
@@ -244,7 +267,8 @@ Tracks a value in the
   
 ```csharp  
 waitExpression  
-``` and calls the callback when it becomes <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Glossary/Truthy">truthy</a>.
+``` and calls the callback when it becomes  
+<a target="_blank" href="https://developer.mozilla.org/en-US/docs/Glossary/Truthy">truthy</a>.
 
 ```csharp
 public System.Threading.Tasks.Task AddReactiveWaiter(string waitExpression, System.Action handler, string? targetName=null, bool once=false, bool initial=false);
@@ -271,7 +295,9 @@ The name of the target you are referencing in the
   
 ```csharp  
 waitExpression  
-```. For example, if the expression is "layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on which this method was called.
+```. For example, if the expression is  
+"layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on  
+which this method was called.
 
 <a name='dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveWaiter(string,System.Action,string,bool,bool).once'></a>
 
@@ -294,11 +320,11 @@ Whether to fire the callback immediately after initialization, if the necessary 
 This exception is thrown when a watchExpression's target object name doesn't match the targetName parameter.
 
 ### Remarks
-For adding waiters to types other than [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') and [SceneView](dymaptic.GeoBlazor.Core.Components.Views.SceneView.html 'dymaptic.GeoBlazor.Core.Components.Views.SceneView'), the default   
+For adding waiters to types other than [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') and [SceneView](dymaptic.GeoBlazor.Core.Components.Views.SceneView.html 'dymaptic.GeoBlazor.Core.Components.Views.SceneView'), the default  
   
 ```csharp  
 targetName  
-``` should not be relied upon. Make sure it matches the variable in your   
+``` should not be relied upon. Make sure it matches the variable in your  
   
 ```csharp  
 waitExpression  
@@ -312,7 +338,8 @@ Tracks a value in the
   
 ```csharp  
 waitExpression  
-``` and calls the callback when it becomes <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Glossary/Truthy">truthy</a>.
+``` and calls the callback when it becomes  
+<a target="_blank" href="https://developer.mozilla.org/en-US/docs/Glossary/Truthy">truthy</a>.
 
 ```csharp
 public System.Threading.Tasks.Task AddReactiveWaiter(string waitExpression, System.Func<System.Threading.Tasks.Task> handler, string? targetName=null, bool once=false, bool initial=false);
@@ -339,7 +366,9 @@ The name of the target you are referencing in the
   
 ```csharp  
 waitExpression  
-```. For example, if the expression is "layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on which this method was called.
+```. For example, if the expression is  
+"layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on  
+which this method was called.
 
 <a name='dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveWaiter(string,System.Func_System.Threading.Tasks.Task_,string,bool,bool).once'></a>
 
@@ -362,11 +391,11 @@ Whether to fire the callback immediately after initialization, if the necessary 
 This exception is thrown when a watchExpression's target object name doesn't match the targetName parameter.
 
 ### Remarks
-For adding waiters to types other than [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') and [SceneView](dymaptic.GeoBlazor.Core.Components.Views.SceneView.html 'dymaptic.GeoBlazor.Core.Components.Views.SceneView'), the default   
+For adding waiters to types other than [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') and [SceneView](dymaptic.GeoBlazor.Core.Components.Views.SceneView.html 'dymaptic.GeoBlazor.Core.Components.Views.SceneView'), the default  
   
 ```csharp  
 targetName  
-``` should not be relied upon. Make sure it matches the variable in your   
+``` should not be relied upon. Make sure it matches the variable in your  
   
 ```csharp  
 waitExpression  
@@ -414,7 +443,9 @@ The name of the target you are referencing in the
   
 ```csharp  
 watchExpression  
-```. For example, if the expression is "layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on which this method was called.
+```. For example, if the expression is  
+"layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on  
+which this method was called.
 
 <a name='dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveWatcher_T_(string,System.Action_T_,string,bool,bool).once'></a>
 
@@ -437,11 +468,11 @@ Whether to fire the callback immediately after initialization, if the necessary 
 This exception is thrown when a watchExpression's target object name doesn't match the targetName parameter.
 
 ### Remarks
-For adding watchers to types other than [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') and [SceneView](dymaptic.GeoBlazor.Core.Components.Views.SceneView.html 'dymaptic.GeoBlazor.Core.Components.Views.SceneView'), the default   
+For adding watchers to types other than [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') and [SceneView](dymaptic.GeoBlazor.Core.Components.Views.SceneView.html 'dymaptic.GeoBlazor.Core.Components.Views.SceneView'), the default  
   
 ```csharp  
 targetName  
-``` should not be relied upon. Make sure it matches the variable in your   
+``` should not be relied upon. Make sure it matches the variable in your  
   
 ```csharp  
 watchExpression  
@@ -489,7 +520,9 @@ The name of the target you are referencing in the
   
 ```csharp  
 watchExpression  
-```. For example, if the expression is "layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on which this method was called.
+```. For example, if the expression is  
+"layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on  
+which this method was called.
 
 <a name='dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveWatcher_T_(string,System.Func_T,System.Threading.Tasks.Task_,string,bool,bool).once'></a>
 
@@ -512,11 +545,11 @@ Whether to fire the callback immediately after initialization, if the necessary 
 This exception is thrown when a watchExpression's target object name doesn't match the targetName parameter.
 
 ### Remarks
-For adding watchers to types other than [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') and [SceneView](dymaptic.GeoBlazor.Core.Components.Views.SceneView.html 'dymaptic.GeoBlazor.Core.Components.Views.SceneView'), the default   
+For adding watchers to types other than [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') and [SceneView](dymaptic.GeoBlazor.Core.Components.Views.SceneView.html 'dymaptic.GeoBlazor.Core.Components.Views.SceneView'), the default  
   
 ```csharp  
 targetName  
-``` should not be relied upon. Make sure it matches the variable in your   
+``` should not be relied upon. Make sure it matches the variable in your  
   
 ```csharp  
 watchExpression  
@@ -526,7 +559,8 @@ watchExpression
 
 ## MapComponent.AwaitReactiveSingleWatchUpdate<T>(string, string, CancellationToken) Method
 
-Tracks any properties being evaluated by the getValue function. When getValue changes, it returns a Task containing the value. This method only tracks a single change.
+Tracks any properties being evaluated by the getValue function. When getValue changes, it returns a Task containing  
+the value. This method only tracks a single change.
 
 ```csharp
 public System.Threading.Tasks.Task<T> AwaitReactiveSingleWatchUpdate<T>(string watchExpression, string? targetName=null, System.Threading.CancellationToken token=default(System.Threading.CancellationToken));
@@ -554,7 +588,9 @@ The name of the target you are referencing in the
   
 ```csharp  
 waitExpression  
-```. For example, if the expression is "layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on which this method was called.
+```. For example, if the expression is  
+"layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on  
+which this method was called.
 
 <a name='dymaptic.GeoBlazor.Core.Components.MapComponent.AwaitReactiveSingleWatchUpdate_T_(string,string,System.Threading.CancellationToken).token'></a>
 
@@ -590,7 +626,8 @@ Implements [DisposeAsync()](https://docs.microsoft.com/en-us/dotnet/api/System.I
 
 ## MapComponent.OnReactiveListenerTriggered(string, Nullable<JsonElement>) Method
 
-JS-Invokable method that is triggered by the reactiveUtils 'on' listeners. This method will dynamically trigger handlers passed to [AddReactiveListener&lt;T&gt;(string, Func&lt;T,Task&gt;, bool)](dymaptic.GeoBlazor.Core.Components.MapComponent.html#dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveListener_T_(string,System.Func_T,System.Threading.Tasks.Task_,bool) 'dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveListener<T>(string, System.Func<T,System.Threading.Tasks.Task>, bool)')
+JS-Invokable method that is triggered by the reactiveUtils 'on' listeners. This method will dynamically trigger  
+handlers passed to [AddReactiveListener&lt;T&gt;(string, Func&lt;T,Task&gt;, bool)](dymaptic.GeoBlazor.Core.Components.MapComponent.html#dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveListener_T_(string,System.Func_T,System.Threading.Tasks.Task_,bool) 'dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveListener<T>(string, System.Func<T,System.Threading.Tasks.Task>, bool)')
 
 ```csharp
 public void OnReactiveListenerTriggered(string eventName, System.Nullable<System.Text.Json.JsonElement> value);
@@ -613,7 +650,8 @@ The return value of the watcher callback.
 
 ## MapComponent.OnReactiveWaiterTrue(string) Method
 
-JS-Invokable method that is triggered by the reactiveUtils waiters. This method will dynamically trigger handlers passed to [AddReactiveWaiter(string, Func&lt;Task&gt;, string, bool, bool)](dymaptic.GeoBlazor.Core.Components.MapComponent.html#dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveWaiter(string,System.Func_System.Threading.Tasks.Task_,string,bool,bool) 'dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveWaiter(string, System.Func<System.Threading.Tasks.Task>, string, bool, bool)')
+JS-Invokable method that is triggered by the reactiveUtils waiters. This method will dynamically trigger handlers  
+passed to [AddReactiveWaiter(string, Func&lt;Task&gt;, string, bool, bool)](dymaptic.GeoBlazor.Core.Components.MapComponent.html#dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveWaiter(string,System.Func_System.Threading.Tasks.Task_,string,bool,bool) 'dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveWaiter(string, System.Func<System.Threading.Tasks.Task>, string, bool, bool)')
 
 ```csharp
 public void OnReactiveWaiterTrue(string waitExpression);
@@ -630,7 +668,8 @@ The tracked expression that was triggered.
 
 ## MapComponent.OnReactiveWatcherUpdate(string, Nullable<JsonElement>) Method
 
-JS-Invokable method that is triggered by the reactiveUtils watchers. This method will dynamically trigger handlers passed to [AddReactiveWatcher&lt;T&gt;(string, Func&lt;T,Task&gt;, string, bool, bool)](dymaptic.GeoBlazor.Core.Components.MapComponent.html#dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveWatcher_T_(string,System.Func_T,System.Threading.Tasks.Task_,string,bool,bool) 'dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveWatcher<T>(string, System.Func<T,System.Threading.Tasks.Task>, string, bool, bool)')
+JS-Invokable method that is triggered by the reactiveUtils watchers. This method will dynamically trigger handlers  
+passed to [AddReactiveWatcher&lt;T&gt;(string, Func&lt;T,Task&gt;, string, bool, bool)](dymaptic.GeoBlazor.Core.Components.MapComponent.html#dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveWatcher_T_(string,System.Func_T,System.Threading.Tasks.Task_,string,bool,bool) 'dymaptic.GeoBlazor.Core.Components.MapComponent.AddReactiveWatcher<T>(string, System.Func<T,System.Threading.Tasks.Task>, string, bool, bool)')
 
 ```csharp
 public void OnReactiveWatcherUpdate(string watchExpression, System.Nullable<System.Text.Json.JsonElement> value);
@@ -784,24 +823,12 @@ The child to unregister
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
 
-<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.UpdateComponent()'></a>
-
-## MapComponent.UpdateComponent() Method
-
-Checks if the map is already rendered, and if so, performs forced updates as defined by the component type.
-
-```csharp
-public virtual System.Threading.Tasks.Task UpdateComponent();
-```
-
-#### Returns
-[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
-
 <a name='dymaptic.GeoBlazor.Core.Components.MapComponent.ValidateRequiredChildren()'></a>
 
 ## MapComponent.ValidateRequiredChildren() Method
 
-When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the [RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
+When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the  
+[RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
 
 ```csharp
 public virtual void ValidateRequiredChildren();

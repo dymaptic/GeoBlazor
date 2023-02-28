@@ -1,11 +1,16 @@
-﻿using System.Text.Json.Serialization;
-using dymaptic.GeoBlazor.Core.Components.Layers;
+﻿using dymaptic.GeoBlazor.Core.Components.Layers;
+using System.Text.Json.Serialization;
+
 
 namespace dymaptic.GeoBlazor.Core.Components.Renderers;
 
 /// <summary>
-///     SimpleRenderer renders all features in a Layer with one Symbol. This renderer may be used to simply visualize the location of geographic features.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-SimpleRenderer.html">ArcGIS JS API</a>
+///     SimpleRenderer renders all features in a Layer with one Symbol. This renderer may be used to simply visualize the
+///     location of geographic features.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-SimpleRenderer.html">
+///         ArcGIS
+///         JS API
+///     </a>
 /// </summary>
 public class SimpleRenderer : Renderer
 {
@@ -14,7 +19,7 @@ public class SimpleRenderer : Renderer
     public override RendererType RendererType => RendererType.Simple;
 
     /// <summary>
-    ///     A collection of <see cref="VisualVariable"/> objects.
+    ///     A collection of <see cref="VisualVariable" /> objects.
     /// </summary>
     public HashSet<VisualVariable> VisualVariables { get; set; } = new();
 
@@ -27,7 +32,6 @@ public class SimpleRenderer : Renderer
                 if (!VisualVariables.Contains(visualVariable))
                 {
                     VisualVariables.Add(visualVariable);
-                    await UpdateComponent();
                 }
 
                 break;

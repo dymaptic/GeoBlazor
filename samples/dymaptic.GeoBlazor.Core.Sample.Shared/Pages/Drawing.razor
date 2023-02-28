@@ -7,7 +7,7 @@
     <a class="btn btn-primary" target="_blank" href="https://www.arcgis.com/home/item.html?id=716b600dbbac433faa4bec9220c76b3a">Imagery with Labels BaseMap</a>
 </div>
 <p class="instructions">
-    Toggle each section below, then use the "Draw" button to add a graphic. To move a graphic, change the value in the 
+    Toggle each section below, then use the "Draw" button to add a graphic. To move a graphic, change the value in the
     latitude/logitude fields. Click "Remove" to clear the graphic from the map.
 </p>
 <div id="control-set">
@@ -105,10 +105,10 @@
         <Basemap>
             <PortalItem Id="716b600dbbac433faa4bec9220c76b3a" />
         </Basemap>
-        <GraphicsLayer>
+        <GraphicsLayer @ref="_graphicsLayer">
             @if (_showPoint)
             {
-                <Graphic>
+                <Graphic @ref="_pointGraphic">
                     <Point Longitude="_pointLong" Latitude="_pointLat" />
                     <SimpleMarkerSymbol Color="@(new MapColor(81, 46, 132))">
                         <Outline Color="@(new MapColor(255, 255, 255))" Width="1" />
@@ -117,14 +117,14 @@
             }
             @if (_showLine)
             {
-                <Graphic>
+                <Graphic @ref="_polylineGraphic">
                     <PolyLine Paths="@(new[] { _mapPath })" />
-                    <SimpleLineSymbol Color="@(new MapColor(81, 46, 132))" Width="2" />
+                    <SimpleLineSymbol Color="@(new MapColor("white"))" Width="2" />
                 </Graphic>
             }
             @if (_showPolygon)
             {
-                <Graphic Attributes="_graphicAttributes">
+                <Graphic @ref="_polygonGraphic" Attributes="_graphicAttributes">
                     <Polygon Rings="@(new[] { _mapRings })" />
                     <SimpleFillSymbol Color="@(new MapColor(81, 46, 132, 0.8))">
                         <Outline Color="@(new MapColor(255, 255, 255))" Width="1" />
@@ -135,6 +135,12 @@
         </GraphicsLayer>
     </Map>
 </MapView>
+
+<br />
+<button class="btn btn-info" @onclick="GetPoint">Get Point Data</button>
+<button class="btn btn-info" @onclick="GetPolyLine">Get Polyline Data</button>
+<button class="btn btn-info" @onclick="GetPolygon">Get Polygon Data</button>
+@_geometry
 
 
 @code
@@ -192,13 +198,42 @@
         _mapRings.RemoveAt(_mapRings.Count - 1);
     }
 
+    private async Task GetPoint()
+    {
+        if (_pointGraphic is null) return;
+
+        Geometry? geometry = await _pointGraphic.GetGeometry();
+        _geometry = JsonSerializer.Serialize(geometry);
+    }
+
+    private async Task GetPolyLine()
+    {
+        if (_polylineGraphic is null) return;
+
+        Geometry? geometry = await _polylineGraphic.GetGeometry();
+        _geometry = JsonSerializer.Serialize(geometry);
+    }
+
+    private async Task GetPolygon()
+    {
+        if (_polygonGraphic is null) return;
+
+        Geometry? geometry = await _polygonGraphic.GetGeometry();
+        _geometry = JsonSerializer.Serialize(geometry);
+    }
+
     private bool _showPointSection;
     private bool _showLineSection;
     private bool _showPolygonSection;
+    private GraphicsLayer? _graphicsLayer;
+    private Graphic? _polygonGraphic;
+    private Graphic? _pointGraphic;
+    private Graphic? _polylineGraphic;
+    private string? _geometry;
     private readonly Dictionary<string, object> _graphicAttributes = new()
     {
-        { "Name", "Sample Polygon"}, 
+        { "Name", "Sample Polygon" },
         { "Description", "This is where you can describe the polygon." }
     };
-    
+
 }

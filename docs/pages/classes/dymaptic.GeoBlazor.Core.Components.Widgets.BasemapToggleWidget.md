@@ -8,8 +8,12 @@ parent: Classes
 
 ## BasemapToggleWidget Class
 
-The BasemapToggle provides a widget which allows an end-user to switch between two basemaps. The toggled basemap is set inside the view's map object.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapToggle.html">ArcGIS JS API</a>
+The BasemapToggle provides a widget which allows an end-user to switch between two basemaps. The toggled basemap is  
+set inside the view's map object.  
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapToggle.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class BasemapToggleWidget : dymaptic.GeoBlazor.Core.Components.Widgets.Widget
@@ -113,7 +117,8 @@ The child to unregister
 
 ## BasemapToggleWidget.ValidateRequiredChildren() Method
 
-When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the [RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
+When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the  
+[RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
 
 ```csharp
 public override void ValidateRequiredChildren();

@@ -1,16 +1,64 @@
-﻿using System.Text.Json;
-using System.Text.Json.Serialization;
-using dymaptic.GeoBlazor.Core.Extensions;
+﻿using dymaptic.GeoBlazor.Core.Objects;
+using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
+using System.Text.Json.Serialization;
+
 
 namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 
 /// <summary>
-///     SimpleFillSymbol is used for rendering 2D polygons in either a MapView or a SceneView. It can be filled with a solid color, or a pattern. In addition, the symbol can have an optional outline, which is defined by a SimpleLineSymbol.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleFillSymbol.html">ArcGIS JS API</a>
+///     SimpleFillSymbol is used for rendering 2D polygons in either a MapView or a SceneView. It can be filled with a
+///     solid color, or a pattern. In addition, the symbol can have an optional outline, which is defined by a
+///     SimpleLineSymbol.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleFillSymbol.html">
+///         ArcGIS
+///         JS API
+///     </a>
 /// </summary>
-public class SimpleFillSymbol : FillSymbol
+public class SimpleFillSymbol : FillSymbol, IEquatable<SimpleFillSymbol>
 {
+    /// <summary>
+    ///     Parameterless constructor for using as a razor component
+    /// </summary>
+    public SimpleFillSymbol()
+    {
+    }
+
+    /// <summary>
+    ///     Constructs a new SimpleFillSymbol in code with parameters
+    /// </summary>
+    /// <param name="outline">
+    ///     The outline of the polygon.
+    /// </param>
+    /// <param name="color">
+    ///     The color of the polygon.
+    /// </param>
+    /// <param name="fillStyle">
+    ///     The fill style.
+    /// </param>
+    public SimpleFillSymbol(Outline? outline = null, MapColor? color = null, FillStyle? fillStyle = null)
+    {
+        Outline = outline;
+        Color = color;
+        FillStyle = fillStyle;
+    }
+
+    /// <summary>
+    ///     Compares two <see cref="SimpleFillSymbol" />s for equality
+    /// </summary>
+    public static bool operator ==(SimpleFillSymbol? left, SimpleFillSymbol? right)
+    {
+        return Equals(left, right);
+    }
+
+    /// <summary>
+    ///     Compares two <see cref="SimpleFillSymbol" />s for inequality
+    /// </summary>
+    public static bool operator !=(SimpleFillSymbol? left, SimpleFillSymbol? right)
+    {
+        return !Equals(left, right);
+    }
+
     /// <summary>
     ///     The outline of the polygon.
     /// </summary>
@@ -29,6 +77,15 @@ public class SimpleFillSymbol : FillSymbol
     public override string Type => "simple-fill";
 
     /// <inheritdoc />
+    public bool Equals(SimpleFillSymbol? other)
+    {
+        if (ReferenceEquals(null, other)) return false;
+        if (ReferenceEquals(this, other)) return true;
+
+        return Equals(Outline, other.Outline) && (FillStyle == other.FillStyle) && (Color == other.Color);
+    }
+
+    /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
     {
         switch (child)
@@ -37,7 +94,6 @@ public class SimpleFillSymbol : FillSymbol
                 if (!outline.Equals(Outline))
                 {
                     Outline = outline;
-                    await UpdateComponent();
                 }
 
                 break;
@@ -70,12 +126,28 @@ public class SimpleFillSymbol : FillSymbol
         base.ValidateRequiredChildren();
         Outline?.ValidateRequiredChildren();
     }
+
+    /// <inheritdoc />
+    public override bool Equals(object? obj)
+    {
+        if (ReferenceEquals(null, obj)) return false;
+        if (ReferenceEquals(this, obj)) return true;
+        if (obj.GetType() != GetType()) return false;
+
+        return Equals((SimpleFillSymbol)obj);
+    }
+
+    /// <inheritdoc />
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Outline, FillStyle, Color);
+    }
 }
 
 /// <summary>
-///     The possible fill style for the <see cref="SimpleFillSymbol"/>
+///     The possible fill style for the <see cref="SimpleFillSymbol" />
 /// </summary>
-[JsonConverter(typeof(FillStyleConverter))]
+[JsonConverter(typeof(EnumToKebabCaseStringConverter<FillStyle>))]
 public enum FillStyle
 {
 #pragma warning disable CS1591
@@ -88,19 +160,4 @@ public enum FillStyle
     Solid,
     Vertical
 #pragma warning restore CS1591
-}
-
-internal class FillStyleConverter : JsonConverter<FillStyle>
-{
-    public override FillStyle Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        throw new NotImplementedException();
-    }
-
-    public override void Write(Utf8JsonWriter writer, FillStyle value, JsonSerializerOptions options)
-    {
-        string? stringVal = Enum.GetName(typeof(FillStyle), value);
-        string resultString = stringVal!.ToKebabCase();
-        writer.WriteRawValue($"\"{resultString}\"");
-    }
 }

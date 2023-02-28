@@ -8,14 +8,21 @@ parent: Classes
 
 ## Extent Class
 
-The minimum and maximum X and Y coordinates of a bounding box. Extent is used to describe the visible portion of a MapView. When working in a SceneView, Camera is used to define the visible part of the map within the view.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Extent.html">ArcGIS JS API</a>
+The minimum and maximum X and Y coordinates of a bounding box. Extent is used to describe the visible portion of a  
+MapView. When working in a SceneView, Camera is used to define the visible part of the map within the view.  
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Extent.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
-public class Extent : dymaptic.GeoBlazor.Core.Components.Geometries.Geometry
+public class Extent : dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,
+System.IEquatable<dymaptic.GeoBlazor.Core.Components.Geometries.Extent>
 ```
 
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [Microsoft.AspNetCore.Components.ComponentBase](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.ComponentBase 'Microsoft.AspNetCore.Components.ComponentBase') &#129106; [MapComponent](dymaptic.GeoBlazor.Core.Components.MapComponent.html 'dymaptic.GeoBlazor.Core.Components.MapComponent') &#129106; [Geometry](dymaptic.GeoBlazor.Core.Components.Geometries.Geometry.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Geometry') &#129106; Extent
+
+Implements [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.IEquatable-1 'System.IEquatable`1')[Extent](dymaptic.GeoBlazor.Core.Components.Geometries.Extent.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Extent')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.IEquatable-1 'System.IEquatable`1')
 ### Constructors
 
 <a name='dymaptic.GeoBlazor.Core.Components.Geometries.Extent.Extent()'></a>
@@ -210,3 +217,84 @@ public System.Nullable<double> Zmin { get; set; }
 
 #### Property Value
 [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
+### Methods
+
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.Extent.Equals(object)'></a>
+
+## Extent.Equals(object) Method
+
+Determines whether the specified object is equal to the current object.
+
+```csharp
+public override bool Equals(object? obj);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.Extent.Equals(object).obj'></a>
+
+`obj` [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object')
+
+The object to compare with the current object.
+
+#### Returns
+[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')  
+[true](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool') if the specified object  is equal to the current object; otherwise, [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool').
+
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.Extent.GetHashCode()'></a>
+
+## Extent.GetHashCode() Method
+
+Serves as the default hash function.
+
+```csharp
+public override int GetHashCode();
+```
+
+#### Returns
+[System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')  
+A hash code for the current object.
+### Operators
+
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.Extent.op_Equality(dymaptic.GeoBlazor.Core.Components.Geometries.Extent,dymaptic.GeoBlazor.Core.Components.Geometries.Extent)'></a>
+
+## Extent.operator ==(Extent, Extent) Operator
+
+Compares two Extent objects for equality
+
+```csharp
+public static bool operator ==(dymaptic.GeoBlazor.Core.Components.Geometries.Extent? left, dymaptic.GeoBlazor.Core.Components.Geometries.Extent? right);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.Extent.op_Equality(dymaptic.GeoBlazor.Core.Components.Geometries.Extent,dymaptic.GeoBlazor.Core.Components.Geometries.Extent).left'></a>
+
+`left` [Extent](dymaptic.GeoBlazor.Core.Components.Geometries.Extent.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Extent')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.Extent.op_Equality(dymaptic.GeoBlazor.Core.Components.Geometries.Extent,dymaptic.GeoBlazor.Core.Components.Geometries.Extent).right'></a>
+
+`right` [Extent](dymaptic.GeoBlazor.Core.Components.Geometries.Extent.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Extent')
+
+#### Returns
+[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.Extent.op_Inequality(dymaptic.GeoBlazor.Core.Components.Geometries.Extent,dymaptic.GeoBlazor.Core.Components.Geometries.Extent)'></a>
+
+## Extent.operator !=(Extent, Extent) Operator
+
+Compares two Extent objects for inequality
+
+```csharp
+public static bool operator !=(dymaptic.GeoBlazor.Core.Components.Geometries.Extent? left, dymaptic.GeoBlazor.Core.Components.Geometries.Extent? right);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.Extent.op_Inequality(dymaptic.GeoBlazor.Core.Components.Geometries.Extent,dymaptic.GeoBlazor.Core.Components.Geometries.Extent).left'></a>
+
+`left` [Extent](dymaptic.GeoBlazor.Core.Components.Geometries.Extent.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Extent')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.Extent.op_Inequality(dymaptic.GeoBlazor.Core.Components.Geometries.Extent,dymaptic.GeoBlazor.Core.Components.Geometries.Extent).right'></a>
+
+`right` [Extent](dymaptic.GeoBlazor.Core.Components.Geometries.Extent.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Extent')
+
+#### Returns
+[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')

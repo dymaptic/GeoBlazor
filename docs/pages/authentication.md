@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Authentication
-nav_order: 3
+nav_order: 4
 ---
 
 # ArcGIS Authentication
@@ -24,6 +24,11 @@ Possibly the simplest approach, is to create an API Key from your [ArcGIS Develo
   in a file loaded into Wasm on the client
 - API Keys are tied to _your_ developer account, which means you or your company will be responsible for all usage fees 
   if/when you pass the free tier of usage
+  
+### Additional Security Steps
+- (Set up a referrer so only your url can use the token)[https://developers.arcgis.com/documentation/mapping-apis-and-services/security/api-keys/#referrers]
+- Monitor your api-key usage and ArcGIS Dashboard billing regularly to catch any suspicious activity
+- (Read the full API Key docs)[https://developers.arcgis.com/documentation/mapping-apis-and-services/security/api-keys] for ways to limit access to various types of services
 
 ## OAuth Sign-in
 
@@ -100,6 +105,28 @@ or
 When defining your `MapView` or `SceneView`:
 ```html
 <MapView AllowDefaultEsriLogin="true">
+    <Map></Map>
+</MapView>
+```
+
+## Prevent API Token Prompt
+This is essentially another way to silence the API token check in GeoBlazor. Calling ArcGIS resources will still 
+show the default login same as `AllowDefaultEsriLogin` above.
+
+To silence the api key prompt, do one of the following.
+
+In `appsettings.json`:
+```json
+{
+    "PromptForArcGISKey": false
+}
+```
+
+or
+
+When defining your `MapView` or `SceneView`:
+```html
+<MapView PromptForArcGISKey="false">
     <Map></Map>
 </MapView>
 ```

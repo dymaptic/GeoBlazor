@@ -17,9 +17,9 @@
             <img src="_content/dymaptic.GeoBlazor.Core.Sample.Shared/images/geoblazor_logo_with_title.png"
                  width="280" alt="dymaptic" />
             <div>
-                @if (!NavigationManager.Uri.Contains("source-code") && 
-                                NavigationManager.Uri != NavigationManager.BaseUri &&
-                                !NavigationManager.Uri.Contains("about"))
+                @if (!NavigationManager.Uri.Contains("source-code") &&
+                    (NavigationManager.Uri != NavigationManager.BaseUri) &&
+                    !NavigationManager.Uri.Contains("about"))
                 {
                     <button type="button" class="btn btn-primary" @onclick="ViewPageSource">Source Code</button>
                 }
@@ -44,7 +44,7 @@
                     <button @onclick="LoginToArcGis">Login to ArcGIS</button>
                 }
             </div>
-            
+
         </div>
 
         <article class="content px-4">
@@ -81,7 +81,7 @@
     {
         if (string.IsNullOrEmpty(ApiKey))
         {
-            var localStorageCopy = await JsRuntime.InvokeAsync<string>("loadApiKeyFromLocalStorage");
+            string localStorageCopy = await JsRuntime.InvokeAsync<string>("loadApiKeyFromLocalStorage");
             if (!string.IsNullOrWhiteSpace(localStorageCopy))
             {
                 Configuration["ArcGISApiKey"] = localStorageCopy;
@@ -89,7 +89,7 @@
             }
         }
     }
-    
+
     private string ApiKey
     {
         get => Configuration["ArcGISApiKey"];
@@ -100,7 +100,7 @@
             {
                 JsRuntime.InvokeVoidAsync("saveApiKeyToLocalStorage", value);
             }
-            
+
             NavigationManager.NavigateTo(NavigationManager.Uri, true);
         }
     }
@@ -112,17 +112,18 @@
             $"&response_type=code&expiration=3600&redirect_uri={callback}";
         NavigationManager.NavigateTo(loginUrl);
     }
-    
+
     private void ViewPageSource()
     {
         string currentPageUrl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
         NavigationManager.NavigateTo($"source-code/{currentPageUrl}");
     }
-    
+
     private void ViewRepositorySource()
     {
         NavigationManager.NavigateTo("https://github.com/dymaptic/GeoBlazor");
     }
 
     private record TokenResponse([property: JsonPropertyName("access_token")] string AccessToken);
+
 }

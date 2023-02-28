@@ -8,8 +8,13 @@ parent: Classes
 
 ## BasemapGalleryWidget Class
 
-The BasemapGallery widget displays a collection images representing basemaps from ArcGIS.com or a user-defined set of map or image services. When a new basemap is selected from the BasemapGallery, the map's basemap layers are removed and replaced with the basemap layers of the associated basemap selected in the gallery.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery.html">ArcGIS JS API</a>
+The BasemapGallery widget displays a collection images representing basemaps from ArcGIS.com or a user-defined set  
+of map or image services. When a new basemap is selected from the BasemapGallery, the map's basemap layers are  
+removed and replaced with the basemap layers of the associated basemap selected in the gallery.  
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class BasemapGalleryWidget : dymaptic.GeoBlazor.Core.Components.Widgets.Widget
@@ -113,7 +118,8 @@ The child to unregister
 
 ## BasemapGalleryWidget.ValidateRequiredChildren() Method
 
-When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the [RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
+When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the  
+[RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
 
 ```csharp
 public override void ValidateRequiredChildren();

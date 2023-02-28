@@ -9,14 +9,15 @@ internal static class JsModuleManager
     {
         LicenseType licenseType = Licensing.GetLicenseType();
         IJSObjectReference jsModule;
+
         switch ((int)licenseType)
         {
             case >= 100:
-                // this is here to support the interactive extension library
-                IJSObjectReference interactiveModule = await jsRuntime
+                // this is here to support the pro extension library
+                IJSObjectReference proModule = await jsRuntime
                     .InvokeAsync<IJSObjectReference>("import",
-                        "./_content/dymaptic.GeoBlazor.Interactive/js/arcGisInteractive.js");
-                jsModule = await interactiveModule.InvokeAsync<IJSObjectReference>("getCore");
+                        "./_content/dymaptic.GeoBlazor.Pro/js/arcGisPro.js");
+                jsModule = await proModule.InvokeAsync<IJSObjectReference>("getCore");
 
                 break;
             default:

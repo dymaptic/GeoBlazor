@@ -1,33 +1,38 @@
-﻿using System.Text.Json.Serialization;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
+using System.Text.Json.Serialization;
+
 
 namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
 /// <summary>
-///     The BasemapToggle provides a widget which allows an end-user to switch between two basemaps. The toggled basemap is set inside the view's map object.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapToggle.html">ArcGIS JS API</a>
+///     The BasemapToggle provides a widget which allows an end-user to switch between two basemaps. The toggled basemap is
+///     set inside the view's map object.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapToggle.html">
+///         ArcGIS
+///         JS API
+///     </a>
 /// </summary>
 public class BasemapToggleWidget : Widget
 {
     /// <inheritdoc />
     [JsonPropertyName("type")]
     public override string WidgetType => "basemapToggle";
-    
+
     /// <summary>
     ///     The name of the next basemap for toggling.
     /// </summary>
     /// <remarks>
-    ///     Set either <see cref="NextBasemapName"/> or <see cref="NextBasemap"/>
+    ///     Set either <see cref="NextBasemapName" /> or <see cref="NextBasemap" />
     /// </remarks>
     [Parameter]
     [RequiredProperty(nameof(NextBasemap))]
     public string? NextBasemapName { get; set; }
-    
+
     /// <summary>
-    ///     The next <see cref="Basemap"/> for toggling.
+    ///     The next <see cref="Basemap" /> for toggling.
     /// </summary>
     /// <remarks>
-    ///     Set either <see cref="NextBasemapName"/> or <see cref="NextBasemap"/>
+    ///     Set either <see cref="NextBasemapName" /> or <see cref="NextBasemap" />
     /// </remarks>
     [RequiredProperty(nameof(NextBasemapName))]
     public Basemap? NextBasemap { get; set; }
@@ -39,7 +44,6 @@ public class BasemapToggleWidget : Widget
         {
             case Basemap basemap:
                 NextBasemap = basemap;
-                await UpdateComponent();
 
                 break;
             default:

@@ -1,0 +1,229 @@
+﻿@page "/query-top-features"
+@inject IJSRuntime JsRuntime
+<PageTitle>Query Top Features</PageTitle>
+<h1>Query Top Features</h1>
+
+<div class="links-div">
+    <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#queryTopFeatures">ArcGIS API for JavaScript Reference</a>
+    <a class="btn btn-primary" target="_blank" href="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/US_National_Parks_Annual_Visitation/FeatureServer/0">US National Parks Annual Visitation</a>
+</div>
+<p class="instructions">
+    This sample demonstrates how to use the QueryTopFeatures() method on a FeatureLayer to query the most or the least visited national parks in each state for a given year or total of all time.
+</p>
+
+<MapView @ref="_mapView"
+         Class="map-view"
+         Longitude="-97.75188" Latitude="37.23308"
+         Zoom="3"
+         OnLayerViewCreate="OnLayerViewCreate"
+         Style="padding-right: 380px">
+    <Map>
+        <Basemap>
+            <PortalItem Id="4f2e99ba65e34bb8af49733d9778fb8e" />
+        </Basemap>
+        <FeatureLayer @ref="_featureLayer" OutFields="@(new[] { "*" })"
+                      Url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/US_National_Parks_Annual_Visitation/FeatureServer/0">
+            <SimpleRenderer>
+                <PictureMarkerSymbol Url="https://upload.wikimedia.org/wikipedia/commons/9/9e/Emojione_1F332.svg"
+                                     Height="12"
+                                     Width="12" />
+            </SimpleRenderer>
+            <PopupTemplate Title="{Park}">
+                <FieldsPopupContent>
+                    <FieldInfo FieldName="TOTAL"
+                               Label="Total visits">
+                        <FieldInfoFormat Places="0" DigitSeparator="true" />
+                    </FieldInfo>
+                    <FieldInfo FieldName="F2018"
+                               Label="2018">
+                        <FieldInfoFormat Places="0" DigitSeparator="true" />
+                    </FieldInfo>
+                    <FieldInfo FieldName="F2019"
+                               Label="2019">
+                        <FieldInfoFormat Places="0" DigitSeparator="true" />
+                    </FieldInfo>
+                    <FieldInfo FieldName="F2020"
+                               Label="2020">
+                        <FieldInfoFormat Places="0" DigitSeparator="true" />
+                    </FieldInfo>
+                </FieldsPopupContent>
+            </PopupTemplate>
+        </FeatureLayer>
+    </Map>
+
+    <CustomOverlay Position="OverlayPosition.Manual">
+        <calcite-panel id="infoDiv" class="calcite-theme-dark">
+            <h5 class="heading" slot="header-content">
+                Most or least visited parks by states
+            </h5>
+            <div id="content" style="padding: 5px">
+                <label>
+                    <calcite-radio-group
+                        id="orderDirectionSelection"
+                        layout="horizontal"
+                        appearance="outline"
+                        scale="m"
+                        width="auto">
+                        <calcite-radio-group-item value="DESC" checked=""
+                                                  @onclick="@(() => _orderDirectionSelected = "DESC")">
+                            Most visited
+                        </calcite-radio-group-item>
+                        <calcite-radio-group-item value="ASC"
+                                                  @onclick="@(() => _orderDirectionSelected = "ASC")">
+                            Least visited
+                        </calcite-radio-group-item>
+                    </calcite-radio-group>
+                </label>
+                <br /><br />
+                <label>
+                    Number of parks to be returned from each state:
+                    <calcite-select @ref="_topCountSelect" id="topCountSelect" scale="s" width="auto">
+                        <calcite-option label="1" value="1"></calcite-option>
+                        <calcite-option label="2" value="2"></calcite-option>
+                        <calcite-option label="3" value="3"></calcite-option>
+                    </calcite-select>
+                </label>
+                <br />
+                <label>
+                    Year:
+                    <calcite-select @ref="_timeRangeSelect" id="orderByFieldSelect" scale="s" width="auto">
+                        <calcite-option label="Total of all time" value="TOTAL"></calcite-option>
+                        <calcite-option label="2018" value="F2018"></calcite-option>
+                        <calcite-option label="2019" value="F2019"></calcite-option>
+                        <calcite-option label="2020" value="F2020"></calcite-option>
+                    </calcite-select>
+                </label>
+                <br />
+                <div style="width: 360px; max-width: 100%; display: flex;flex-direction: row;">
+                    <calcite-button
+                        id="query-parks"
+                        width="half"
+                        appearance="@_queryParksBtnAppearance"
+                        alignment="center"
+                        scale="s"
+                        @onclick="QueryParks"
+                        disabled="@(_layerView is null)">
+                        Query parks
+                    </calcite-button>
+                    <calcite-button
+                        id="clear-query"
+                        width="half"
+                        appearance="@_clearQueryBtnAppearance"
+                        alignment="center"
+                        scale="s"
+                        @onclick="ClearQuery">
+                        Clear query
+                    </calcite-button>
+                </div>
+                <br />
+            </div>
+            <calcite-panel id="resultsDiv">
+                @if (_results is not null)
+                {
+                    <h5 class="heading" id="resultsHeading" slot="header-content">
+                        Results: @_results!.Features!.Length parks
+                    </h5>
+                    <div id="results">
+                        @for (var i = 0; i < _results.Features.Length; i++)
+                        {
+                            Graphic result = _results.Features[i];
+                            int index = i;
+                            <calcite-pick-list-item label="@result.Attributes!["Park"]"
+                                                    value="@i"
+                                                    description="@($"Total visitors: {result.Attributes[_orderByFieldSelected!]}\nState: {result.Attributes["State"]}")"
+                                                    @onclick="@(() => OnParkResultClicked(index))" />
+                        }
+                    </div>
+                }
+                else
+                {
+                    <span>Results</span>
+                }
+            </calcite-panel>
+        </calcite-panel>
+    </CustomOverlay>
+</MapView>
+
+
+@code {
+
+    private void OnLayerViewCreate(LayerViewCreateEvent evt)
+    {
+        if (evt.Layer!.Id == _featureLayer?.Id)
+        {
+            _layerView = evt.LayerView as FeatureLayerView;
+        }
+    }
+
+    private async Task QueryParks()
+    {
+        _clearQueryBtnAppearance = "outline";
+        _queryParksBtnAppearance = "solid";
+        _orderByFieldSelected = await GetTimeRange();
+        string[] orderByField = { $"{_orderByFieldSelected} {_orderDirectionSelected}" };
+        var query = new TopFeaturesQuery
+        {
+            TopFilter = new TopFilter
+            {
+                TopCount = int.Parse(await GetTopCount()),
+                GroupByFields = new[] { "State" },
+                OrderByFields = orderByField
+            },
+            ReturnGeometry = true,
+            OutFields = new[] { "State, TOTAL, F2018, F2019, F2020, Park" },
+            OrderByFields = orderByField,
+            CacheHint = false
+        };
+
+        _results = await _featureLayer!.QueryTopFeatures(query);
+
+        query.OrderByFields = new[] { "" };
+        int[] objectIds = await _featureLayer!.QueryTopObjectIds(query);
+        await _layerView!.SetFilter(new FeatureFilter
+        {
+            ObjectIds = objectIds
+        });
+    }
+
+    private async Task OnParkResultClicked(int index)
+    {
+        Graphic feature = _results!.Features![index];
+        var options = new PopupOpenOptions
+        {
+            Location = await feature.GetGeometry(),
+            Features = new[] { feature }
+        };
+        await _mapView!.ClosePopup();
+        await _mapView!.OpenPopup(options);
+    }
+
+    private async Task ClearQuery()
+    {
+        _clearQueryBtnAppearance = "solid";
+        _queryParksBtnAppearance = "outline";
+        await _layerView!.SetFilter(null);
+        await _mapView!.ClosePopup();
+        _results = null;
+    }
+
+    private async Task<string> GetTopCount()
+    {
+        return await JsRuntime.InvokeAsync<string>("getCalciteSelectValue", _topCountSelect);
+    }
+
+    private async Task<string> GetTimeRange()
+    {
+        return await JsRuntime.InvokeAsync<string>("getCalciteSelectValue", _timeRangeSelect);
+    }
+
+    private MapView? _mapView;
+    private FeatureLayer? _featureLayer;
+    private FeatureLayerView? _layerView;
+    private string _queryParksBtnAppearance = "solid";
+    private string _clearQueryBtnAppearance = "outline";
+    private string? _orderDirectionSelected = "DESC";
+    private string? _orderByFieldSelected = "TOTAL";
+    private FeatureSet? _results;
+    private ElementReference? _topCountSelect;
+    private ElementReference? _timeRangeSelect;
+}

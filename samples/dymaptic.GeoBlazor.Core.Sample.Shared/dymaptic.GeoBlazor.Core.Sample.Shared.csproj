@@ -2,39 +2,37 @@
 
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
-        <Nullable>enable</Nullable>
-        <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
 
 
     <ItemGroup>
-        <SupportedPlatform Include="browser" />
+        <SupportedPlatform Include="browser"/>
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Markdig" Version="0.30.2" />
-        <PackageReference Include="MarkdigExtensions.SyntaxHighlighting" Version="1.0.3" />
-        <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="6.0.6" />
-        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.6" />
-        <PackageReference Include="Microsoft.Extensions.FileProviders.Abstractions" Version="6.0.0" />
+        <PackageReference Include="Markdig" Version="0.30.4"/>
+        <PackageReference Include="MarkdigExtensions.SyntaxHighlighting" Version="1.0.3"/>
+        <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="6.0.13"/>
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.13"/>
+        <PackageReference Include="Microsoft.Extensions.FileProviders.Abstractions" Version="6.0.0"/>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\src\dymaptic.GeoBlazor.Core\dymaptic.GeoBlazor.Core.csproj" />
+        <ProjectReference Include="..\..\src\dymaptic.GeoBlazor.Core\dymaptic.GeoBlazor.Core.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Content Update="wwwroot\images\dymaptic_logo.png">
-        <Color>Black</Color>
-        <BaseSize>300,293</BaseSize>
-      </Content>
+        <Content Update="wwwroot\images\dymaptic_logo.png">
+            <Color>Black</Color>
+            <BaseSize>300,293</BaseSize>
+        </Content>
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="wwwroot\pages\NewFolder\" />
+        <Folder Include="wwwroot\pages"/>
     </ItemGroup>
-    
+
     <Target Name="Copy Razor Files" AfterTargets="Build">
-        <Exec Command="powershell .\razorCopy.ps1" />
+        <Exec Command="powershell .\razorCopy.ps1"/>
     </Target>
 </Project>

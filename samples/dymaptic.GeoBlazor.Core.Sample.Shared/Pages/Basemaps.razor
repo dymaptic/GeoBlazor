@@ -23,8 +23,23 @@
                    name="basemap-type" @onclick="@(() => SetBasemap(1))" />
             <div class="radio-box" />
         </label>
-        <a class="btn btn-primary" target="_blank" href="https://www.arcgis.com/home/item.html?id=f35ef07c9ed24020aadd65c8a65d3754">Modern Antique BaseMap</a>
+        <a class="btn btn-primary" target="_blank" href="https://www.arcgis.com/home/group.html?id=702026e41f6641fb85da88efe79dc166&view=list#content">ArcGIS Online BaseMaps</a>
     </div>
+    @if (_basemapType == 1)
+    {
+        <select @onchange="SelectMapChanged">
+            <option value="55ebf90799fa4a3fa57562700a68c405">Default-Street</option>
+            <option value="da10cf4ba254469caf8016cd66369157">Satellite</option>
+            <option value="86265e5a4bbb4187a59719cf134e0018">Hybrid</option>
+            <option value="f33a34de3a294590ab48f246e99958c9">National Geographic</option>
+            <option value="67372ff42cd145319639a99152b15bc3">Topographic</option>
+            <option value="979c6cc89af9449cbeb5342a439c6a76">Gray</option>
+            <option value="1a386c5dfd864bfda3f03ab428e57640">Dark Gray</option>
+            <option value="fae788aa91e54244b161b59725dcbb2a">Open Street Map</option>
+            <option value="9053b6cd38d54e65bb0967f355a232df">Streets Night</option>
+            <option value="c50de463235e4161b206d000587af18b">Streets Navigation</option>
+        </select>
+    }
     <div class="toggle-row">
         <label class="radio-container">
             From Tile Layers
@@ -40,21 +55,21 @@
 @switch (_basemapType)
 {
     case 0:
-        <MapView Class="map-view">
+        <MapView Class="map-view" Zoom="11" Latitude="_latitude" Longitude="_longitude">
             <Map ArcGISDefaultBasemap="arcgis-topographic" />
         </MapView>
         break;
     case 1:
-        <MapView Class="map-view">
+        <MapView @ref="_mapView2" Class="map-view" Zoom="11" Latitude="_latitude" Longitude="_longitude">
             <Map>
                 <Basemap>
-                    <PortalItem Id="f35ef07c9ed24020aadd65c8a65d3754" />
+                    <PortalItem Id="@_basemapId" />
                 </Basemap>
             </Map>
         </MapView>
         break;
     case 2:
-        <MapView Class="map-view">
+        <MapView Class="map-view" Zoom="11" Latitude="_latitude" Longitude="_longitude">
             <Map>
                 <Basemap>
                     <TileLayer>
@@ -76,5 +91,18 @@
         _basemapType = val;
     }
 
+    private void SelectMapChanged(ChangeEventArgs obj)
+    {
+        _basemapId = obj.Value?.ToString() ?? "55ebf90799fa4a3fa57562700a68c405";
+        _mapView2!.Refresh();
+    }
+
+    private MapView? _mapView2;
     private int _basemapType;
+    private readonly double _latitude = 34.027;
+    private readonly double _longitude = -118.805;
+    private string _basemapId = "55ebf90799fa4a3fa57562700a68c405";
+
+
+
 }

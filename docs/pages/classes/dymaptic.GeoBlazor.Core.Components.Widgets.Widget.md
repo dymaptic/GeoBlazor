@@ -9,7 +9,10 @@ parent: Classes
 ## Widget Class
 
 The base class for widgets. Each widget's presentation is separate from its properties, methods, and data.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html">ArcGIS JS API</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public abstract class Widget : dymaptic.GeoBlazor.Core.Components.MapComponent
@@ -26,6 +29,7 @@ Derived
 &#8627; [LayerListWidget](dymaptic.GeoBlazor.Core.Components.Widgets.LayerListWidget.html 'dymaptic.GeoBlazor.Core.Components.Widgets.LayerListWidget')  
 &#8627; [LegendWidget](dymaptic.GeoBlazor.Core.Components.Widgets.LegendWidget.html 'dymaptic.GeoBlazor.Core.Components.Widgets.LegendWidget')  
 &#8627; [LocateWidget](dymaptic.GeoBlazor.Core.Components.Widgets.LocateWidget.html 'dymaptic.GeoBlazor.Core.Components.Widgets.LocateWidget')  
+&#8627; [PopupWidget](dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html 'dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget')  
 &#8627; [ScaleBarWidget](dymaptic.GeoBlazor.Core.Components.Widgets.ScaleBarWidget.html 'dymaptic.GeoBlazor.Core.Components.Widgets.ScaleBarWidget')  
 &#8627; [SearchWidget](dymaptic.GeoBlazor.Core.Components.Widgets.SearchWidget.html 'dymaptic.GeoBlazor.Core.Components.Widgets.SearchWidget')
 ### Properties
@@ -34,7 +38,8 @@ Derived
 
 ## Widget.ContainerId Property
 
-The id of an external HTML Element (div). If provided, the widget will be placed inside that element, instead of on the map.
+The id of an external HTML Element (div). If provided, the widget will be placed inside that element, instead of on  
+the map.
 
 ```csharp
 public string? ContainerId { get; set; }
@@ -45,6 +50,19 @@ public string? ContainerId { get; set; }
 
 ### Remarks
 Either [Position](dymaptic.GeoBlazor.Core.Components.Widgets.Widget.html#dymaptic.GeoBlazor.Core.Components.Widgets.Widget.Position 'dymaptic.GeoBlazor.Core.Components.Widgets.Widget.Position') or [ContainerId](dymaptic.GeoBlazor.Core.Components.Widgets.Widget.html#dymaptic.GeoBlazor.Core.Components.Widgets.Widget.ContainerId 'dymaptic.GeoBlazor.Core.Components.Widgets.Widget.ContainerId') should be set, but not both.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Widgets.Widget.DotNetWidgetReference'></a>
+
+## Widget.DotNetWidgetReference Property
+
+DotNet Object Reference to the widget
+
+```csharp
+public Microsoft.JSInterop.DotNetObjectReference<dymaptic.GeoBlazor.Core.Components.Widgets.Widget> DotNetWidgetReference { get; }
+```
+
+#### Property Value
+[Microsoft.JSInterop.DotNetObjectReference&lt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.JSInterop.DotNetObjectReference-1 'Microsoft.JSInterop.DotNetObjectReference`1')[Widget](dymaptic.GeoBlazor.Core.Components.Widgets.Widget.html 'dymaptic.GeoBlazor.Core.Components.Widgets.Widget')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.JSInterop.DotNetObjectReference-1 'Microsoft.JSInterop.DotNetObjectReference`1')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Widgets.Widget.Position'></a>
 
@@ -74,3 +92,19 @@ public abstract string WidgetType { get; }
 
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+### Methods
+
+<a name='dymaptic.GeoBlazor.Core.Components.Widgets.Widget.OnWidgetCreated(Microsoft.JSInterop.IJSObjectReference)'></a>
+
+## Widget.OnWidgetCreated(IJSObjectReference) Method
+
+JS-invokable callback to register a JS Object Reference
+
+```csharp
+public void OnWidgetCreated(Microsoft.JSInterop.IJSObjectReference jsObjectReference);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Widgets.Widget.OnWidgetCreated(Microsoft.JSInterop.IJSObjectReference).jsObjectReference'></a>
+
+`jsObjectReference` [Microsoft.JSInterop.IJSObjectReference](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.JSInterop.IJSObjectReference 'Microsoft.JSInterop.IJSObjectReference')

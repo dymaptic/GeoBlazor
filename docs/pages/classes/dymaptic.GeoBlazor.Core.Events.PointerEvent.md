@@ -53,7 +53,8 @@ Whether the event can be cancelled once begun.
 
 `PointerId` [System.Int64](https://docs.microsoft.com/en-us/dotnet/api/System.Int64 'System.Int64')
 
-Uniquely identifies a pointer between multiple down, move, and up events. Ids might get reused after a pointer-up event.
+Uniquely identifies a pointer between multiple down, move, and up events. Ids might get reused after a pointer-up  
+event.
 
 <a name='dymaptic.GeoBlazor.Core.Events.PointerEvent.PointerEvent(string,System.Nullable_int_,System.Nullable_bool_,long,System.Nullable_dymaptic.GeoBlazor.Core.Events.PointerType_,double,double,int,int,double,dymaptic.GeoBlazor.Core.Events.DomPointerEvent).PointerType'></a>
 
@@ -128,7 +129,8 @@ public int Buttons { get; set; }
 
 ## PointerEvent.PointerId Property
 
-Uniquely identifies a pointer between multiple down, move, and up events. Ids might get reused after a pointer-up event.
+Uniquely identifies a pointer between multiple down, move, and up events. Ids might get reused after a pointer-up  
+event.
 
 ```csharp
 public long PointerId { get; set; }

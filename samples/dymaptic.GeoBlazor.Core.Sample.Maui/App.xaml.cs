@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 
+
 namespace dymaptic.GeoBlazor.Core.Sample.Maui;
 
 public partial class App
@@ -14,13 +15,15 @@ public partial class App
 
     protected override void OnSleep()
     {
-        var apiKey = _configuration.GetValue<string>("ArcGISApiKey", null);
+        string? apiKey = _configuration.GetValue<string?>("ArcGISApiKey", null);
+
         if (!string.IsNullOrWhiteSpace(apiKey))
         {
             Preferences.Set("ArcGISApiKey", apiKey);
         }
+
         base.OnSleep();
     }
 
-    private IConfiguration _configuration;
+    private readonly IConfiguration _configuration;
 }

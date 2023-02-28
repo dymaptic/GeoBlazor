@@ -39,6 +39,6 @@ namespace dymaptic.GeoBlazor.Core.Events;
 /// <param name="EventId">
 ///     The unique Id of the event.
 /// </param>
-public record ClickEvent(string Type, int? EventId, bool? Cancelable, Point MapPoint, double X, double Y, int Button, 
-    int Buttons, double Timestamp, DomPointerEvent Native, PointerType? PointerType)
+public record ClickEvent(string Type, int? EventId, bool? Cancelable, Point MapPoint, double X, double Y, int Button,
+        int Buttons, double Timestamp, DomPointerEvent Native, PointerType? PointerType)
     : JsEvent(Type, EventId, Cancelable, Timestamp, Native, PointerType);

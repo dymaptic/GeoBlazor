@@ -13,15 +13,15 @@
          Longitude="-100"
          Latitude="35"
          Zoom="2"
-         OnSpatialReferenceChangedHandler="OnSpatialReferenceChanged">
+         OnSpatialReferenceChanged="OnSpatialReferenceChanged">
     <Constraints SnapToZoom="false" />
     <CustomOverlay @ref="Overlay" Position="OverlayPosition.BottomLeft">
         <div id="sr-div" class="esri-widget">view.spatialReference.wkid = <b>@_spatialReference.Wkid</b></div>
     </CustomOverlay>
     <ExpandWidget Position="OverlayPosition.TopRight" ExpandIconClass="esri-icon-basemap">
         <BasemapGalleryWidget>
-            <PortalBasemapsSource 
-                QueryParams="@(new Dictionary<string, string> {{"id", "bdb9d65e0b5c480c8dcc6916e7f4e099"}})" />
+            <PortalBasemapsSource
+                QueryParams="@(new Dictionary<string, string> { { "id", "bdb9d65e0b5c480c8dcc6916e7f4e099" } })" />
         </BasemapGalleryWidget>
     </ExpandWidget>
     <Map>
@@ -33,7 +33,7 @@
 
 @code {
     private CustomOverlay? Overlay { get; set; }
-    
+
     private Task OnSpatialReferenceChanged(SpatialReference spatialReference)
     {
         _spatialReference = spatialReference;

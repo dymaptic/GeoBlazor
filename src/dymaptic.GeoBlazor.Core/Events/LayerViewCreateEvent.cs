@@ -1,15 +1,41 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Layers;
+using dymaptic.GeoBlazor.Core.Components.Views;
+using Microsoft.JSInterop;
 
 
 namespace dymaptic.GeoBlazor.Core.Events;
 
 /// <summary>
-///     Fires after each layer in the map has a corresponding LayerView created and rendered in the view.
+///     Custom return event from the <see cref="MapView.OnJavascriptLayerViewCreate" /> event.
 /// </summary>
+/// <param name="LayerObjectRef">
+///     A JavaScript object reference for the Layer created.
+/// </param>
+/// <param name="LayerViewObjectRef">
+///     A JavaScript object reference for the LayerView created.
+/// </param>
+/// <param name="LayerGeoBlazorId">
+///     The unique GeoBlazor ID for the Layer created.
+/// </param>
 /// <param name="Layer">
-///     The layer in the map for which the layerView was created.
+///     A deserialized copy of the <see cref="Layer" /> object.
 /// </param>
 /// <param name="LayerView">
-///     The LayerView rendered in the view representing the layer.
+///     A deserialized copy of the <see cref="LayerView" /> object.
 /// </param>
-public record LayerViewCreateEvent(Layer Layer, LayerView LayerView);
+/// <param name="IsBasemapLayer">
+///     A boolean value indicating whether the Layer is a basemap layer.
+/// </param>
+public record LayerViewCreateInternalEvent(IJSObjectReference LayerObjectRef, IJSObjectReference LayerViewObjectRef,
+    Guid LayerGeoBlazorId, Layer? Layer, LayerView? LayerView, bool IsBasemapLayer);
+
+/// <summary>
+///     Return event from the <see cref="MapView.OnJavascriptLayerViewCreate" /> event.
+/// </summary>
+/// <param name="Layer">
+///     A deserialized copy of the <see cref="Layer" /> object.
+/// </param>
+/// <param name="LayerView">
+///     A deserialized copy of the <see cref="LayerView" /> object.
+/// </param>
+public record LayerViewCreateEvent(Layer? Layer, LayerView? LayerView);
