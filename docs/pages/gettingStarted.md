@@ -22,8 +22,10 @@ nav_order: 2
    }
    ```
    <div style="font-size: 0.8rem; font-style: italic; margin-bottom: 1rem;">
+
    Note: If you are using Blazor WASM, there are several issues with this approach. First, <code>appsettings.json</code> is not added by default to the template.
    If you want to add it yourself, you need to add it inside the <code>wwwroot</code> folder. 
+
    <span style="color:red;">Be Aware</span> that the API key will be exposed in the browser 
    (just like it would with Javascript). Even when using Blazor Server, the API key may be present in HTTP requests 
    visible to the user in the browsers dev tools, so you should probably take other steps like <a href="https://developers.arcgis.com/documentation/mapping-apis-and-services/security/api-keys/#referrers" target="_blank">setting up referrer rules 
