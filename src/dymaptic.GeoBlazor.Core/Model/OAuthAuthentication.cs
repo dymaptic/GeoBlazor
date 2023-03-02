@@ -7,13 +7,8 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// <summary>
 ///     A simple class for handling OAuth authentication.
 /// </summary>
-public class OAuthAuthentication: LogicComponent
+public class OAuthAuthentication : LogicComponent
 {
-
-    private readonly IConfiguration _config;
-    private string AppId => _config["ArcGISAppId"];
-    private string _initializedAppId = string.Empty;
-    
     /// <summary>
     ///     Default Constructor
     /// </summary>
@@ -21,34 +16,40 @@ public class OAuthAuthentication: LogicComponent
     ///     Injected JavaScript Runtime reference
     /// </param>
     /// <param name="config">
-    ///    Injected configuration object
+    ///     Injected configuration object
     /// </param>
     public OAuthAuthentication(IJSRuntime jsRuntime, IConfiguration config) : base(jsRuntime, config)
     {
         _config = config;
-        #pragma warning disable CS4014
+#pragma warning disable CS4014
         if (!string.IsNullOrEmpty(AppId))
         {
             Initialize();
         }
-        #pragma warning restore CS4014
+#pragma warning restore CS4014
     }
-    
+
+    /// <inheritdoc />
+    protected override string ComponentName => nameof(OAuthAuthentication);
+    private string AppId => _config["ArcGISAppId"];
+
     /// <summary>
     ///     Initializes the OAuth Authentication component with the ArcGIS App ID.
     /// </summary>
     /// <returns></returns>
     public async Task Initialize()
     {
-        if (_initializedAppId.Equals(AppId)) 
+        if (_initializedAppId.Equals(AppId))
+        {
             return;
+        }
 
         await InvokeVoidAsync("initialize", AppId);
         _initializedAppId = AppId;
     }
-    
+
     /// <summary>
-    /// Tests to see if the user is logged in. True if yes, false if otherwise.
+    ///     Tests to see if the user is logged in. True if yes, false if otherwise.
     /// </summary>
     /// <returns>
     ///     Returns a boolean value indicating whether or not the user is logged in.
@@ -56,6 +57,7 @@ public class OAuthAuthentication: LogicComponent
     public async Task<bool> IsLoggedIn()
     {
         await Initialize();
+
         return await InvokeAsync<bool>("isLoggedIn");
     }
 
@@ -88,9 +90,10 @@ public class OAuthAuthentication: LogicComponent
     public async Task<string> GetCurrentToken()
     {
         await Initialize();
+
         return await InvokeAsync<string>("getToken");
     }
 
-    /// <inheritdoc />
-    protected override string ComponentName => nameof(OAuthAuthentication);
+    private readonly IConfiguration _config;
+    private string _initializedAppId = string.Empty;
 }

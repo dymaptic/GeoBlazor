@@ -1,7 +1,7 @@
 using dymaptic.GeoBlazor.Core;
+using dymaptic.GeoBlazor.Core.Sample.WasmOAuth;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using dymaptic.GeoBlazor.Core.Sample.WasmOAuth;
 
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);

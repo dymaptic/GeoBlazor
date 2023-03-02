@@ -3,9 +3,12 @@
 @inject OAuthAuthentication Authentication
 
 <h1>Hello, GeoBlazor!</h1>
-<div>Currently your login status is: <p>@_isLoggedIn</p></div>
+<div>
+    Currently your login status is:
+    <p>@_isLoggedIn</p>
+</div>
 
-@if(!_isLoggedIn)
+@if (!_isLoggedIn)
 {
     <button class="btn btn-primary" @onclick="async () => { await Authentication.Login(); }">Login</button>
 }
@@ -13,16 +16,16 @@ else
 {
     <div>You are Logged in.</div>
     <div>Your token is: @_token</div>
-    
+
     <MapView Latitude="0" Longitude="0" Zoom="2" Style="height: 500px; width: 100%;">
         <Map ArcGISDefaultBasemap="arcgis-topographic"></Map>
-        <SearchWidget Position="OverlayPosition.TopRight"/>
+        <SearchWidget Position="OverlayPosition.TopRight" />
     </MapView>
 }
 
 @code {
 
-    private bool _isLoggedIn = false;
+    private bool _isLoggedIn;
     private string? _token = "";
 
     protected override async Task OnInitializedAsync()
