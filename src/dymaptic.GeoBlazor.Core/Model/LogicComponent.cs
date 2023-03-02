@@ -146,5 +146,5 @@ public abstract class LogicComponent
     /// <summary>
     ///     The ArcGIS API Key.
     /// </summary>
-    protected readonly string? ApiKey;
+    protected string? ApiKey { get; set; }
 }

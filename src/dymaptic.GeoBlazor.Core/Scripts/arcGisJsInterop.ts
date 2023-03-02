@@ -48,6 +48,8 @@ import Geometry from "@arcgis/core/geometry/Geometry";
 import BasemapLayerList from "@arcgis/core/widgets/BasemapLayerList";
 import FeatureLayerWrapper from "./featureLayer";
 
+import OAuthAuthenticationWrapper from "./authentication";
+
 import {
     buildDotNetExtent,
     buildDotNetFeature,
@@ -2075,4 +2077,12 @@ function buildHitTestOptions(options: DotNetHitTestOptions, view: MapView): MapV
     }
 
     return hitOptions;
+}
+
+let _oauthWrapper:OAuthAuthenticationWrapper | null = null;
+export function getOAuthAuthenticationWrapper(doNetRef:any, appId: string): OAuthAuthenticationWrapper {
+    if (_oauthWrapper == null) {
+        _oauthWrapper = new OAuthAuthenticationWrapper(doNetRef, appId);
+    }
+    return _oauthWrapper
 }

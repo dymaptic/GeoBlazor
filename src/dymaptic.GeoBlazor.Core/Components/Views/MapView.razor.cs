@@ -87,6 +87,7 @@ public partial class MapView : MapComponent
     /// </summary>
     protected bool PointerDown;
     private string? _apiKey;
+    private string? _appId;
     private SpatialReference? _spatialReference;
     private Dictionary<Guid, StringBuilder> _hitTestResults = new();
     private bool _renderCalled;
@@ -249,6 +250,23 @@ public partial class MapView : MapComponent
             if (!string.IsNullOrWhiteSpace(_apiKey))
             {
                 Configuration["ArcGISApiKey"] = value;
+            }
+        }
+    }
+    
+    /// <summary>
+    ///     The ArcGIS AppId for OAuth2 login
+    /// </summary>
+    protected string? AppId
+    {
+        get => _appId;
+        set
+        {
+            _appId = value;
+
+            if (!string.IsNullOrWhiteSpace(_appId))
+            {
+                Configuration["ArcGISAppId"] = value;
             }
         }
     }
@@ -1815,6 +1833,7 @@ public partial class MapView : MapComponent
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         ApiKey = Configuration["ArcGISApiKey"];
+        AppId = Configuration["ArcGISAppId"];
 
         if (!LoadOnRender && !_renderCalled)
         {
@@ -1853,7 +1872,7 @@ public partial class MapView : MapComponent
         if (Rendering || Map is null || ViewJsModule is null) return;
 
         if (string.IsNullOrWhiteSpace(ApiKey) && AllowDefaultEsriLogin is null or false &&
-            PromptForArcGISKey is null or true)
+            PromptForArcGISKey is null or true && string.IsNullOrWhiteSpace(AppId))
         {
             var newErrorMessage =
                 "No ArcGIS API Key Found. See https://docs.geoblazor.com/pages/authentication.html for instructions on providing an API Key or suppressing this message.";
