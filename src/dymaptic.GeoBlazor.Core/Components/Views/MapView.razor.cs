@@ -1172,12 +1172,12 @@ public partial class MapView : MapComponent
     public async Task AddGraphics(IEnumerable<Graphic> graphics)
     {
         List<Graphic> newGraphics = graphics.ToList();
+        _graphics.UnionWith(newGraphics);
         foreach (Graphic graphic in newGraphics)
         {
             graphic.View = this;
             graphic.JsModule = ViewJsModule;
             graphic.Parent = this;
-            _graphics.Add(graphic);
         }
         
         if (ViewJsModule is null) return;
