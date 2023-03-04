@@ -33,6 +33,6 @@
     </ItemGroup>
 
     <Target Name="Copy Razor Files" AfterTargets="Build">
-        <Exec Command="powershell .\razorCopy.ps1"/>
+        <Exec Command="pwsh .\razorCopy.ps1"/>
     </Target>
 </Project>
