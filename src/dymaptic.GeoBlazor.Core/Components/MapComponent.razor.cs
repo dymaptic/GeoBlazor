@@ -779,3 +779,5 @@ internal class MapComponentConverter : JsonConverter<MapComponent>
         writer.WriteRawValue(JsonSerializer.Serialize(value, typeof(object), newOptions));
     }
 }
+
+internal record MapComponentSerializationRecord;

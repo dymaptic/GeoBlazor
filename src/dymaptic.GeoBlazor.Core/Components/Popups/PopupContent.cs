@@ -19,6 +19,27 @@ public abstract class PopupContent : MapComponent
     /// </summary>
     [JsonPropertyName("type")]
     public abstract string Type { get; }
+    
+    internal virtual PopupContentSerializationRecord ToSerializationRecord()
+    {
+        return new PopupContentSerializationRecord(Type);
+    }
+}
+
+[JsonConverter(typeof(PopupContentSerializationConverter))]
+internal record PopupContentSerializationRecord(string Type) : MapComponentSerializationRecord;
+
+internal class PopupContentSerializationConverter : JsonConverter<PopupContentSerializationRecord>
+{
+    public override PopupContentSerializationRecord? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override void Write(Utf8JsonWriter writer, PopupContentSerializationRecord value, JsonSerializerOptions options)
+    {
+        writer.WriteRawValue(JsonSerializer.Serialize(value, value.GetType(), options));
+    }
 }
 
 internal class PopupContentConverter : JsonConverter<PopupContent>

@@ -1171,10 +1171,19 @@ public partial class MapView : MapComponent
     /// </summary>
     public async Task AddGraphics(IEnumerable<Graphic> graphics)
     {
-        foreach (Graphic graphic in graphics)
+        List<Graphic> newGraphics = graphics.ToList();
+        foreach (Graphic graphic in newGraphics)
         {
-            await AddGraphic(graphic);
+            graphic.View = this;
+            graphic.JsModule = ViewJsModule;
+            graphic.Parent = this;
+            _graphics.Add(graphic);
         }
+        
+        if (ViewJsModule is null) return;
+        
+        IEnumerable<GraphicSerializationRecord> records = newGraphics.Select(g => g.ToSerializationRecord());
+        await ViewJsModule!.InvokeVoidAsync("addGraphics", records, Id);
     }
 
     /// <summary>

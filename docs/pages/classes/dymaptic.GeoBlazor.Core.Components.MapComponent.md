@@ -80,7 +80,7 @@ public Microsoft.AspNetCore.Components.RenderFragment? ChildContent { get; set; 
 A unique identifier, used to track components across .NET and JavaScript.
 
 ```csharp
-public System.Guid Id { get; }
+public virtual System.Guid Id { get; }
 ```
 
 #### Property Value

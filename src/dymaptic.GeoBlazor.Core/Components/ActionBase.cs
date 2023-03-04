@@ -73,6 +73,35 @@ public abstract class ActionBase : MapComponent
     ///     Specifies the type of action. Choose between "button" or "toggle".
     /// </summary>
     public virtual string Type { get; } = default!;
+    
+    internal virtual ActionBaseSerializationRecord ToSerializationRecord()
+    {
+        return new ActionBaseSerializationRecord(Title, ClassName, Active, Disabled, Visible, Id, Type);
+    }
+}
+
+[JsonConverter(typeof(ActionBaseSerializationConverter))]
+internal record ActionBaseSerializationRecord(
+        [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Title, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? ClassName, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]bool? Active, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]bool? Disabled, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]bool? Visible, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Id, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string Type) 
+    : MapComponentSerializationRecord;
+
+internal class ActionBaseSerializationConverter : JsonConverter<ActionBaseSerializationRecord>
+{
+    public override ActionBaseSerializationRecord? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override void Write(Utf8JsonWriter writer, ActionBaseSerializationRecord value, JsonSerializerOptions options)
+    {
+        writer.WriteRawValue(JsonSerializer.Serialize(value, value.GetType(), options));
+    }
 }
 
 /// <summary>
@@ -92,7 +121,17 @@ public class ActionButton : ActionBase
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Image { get; set; }
+    
+    internal override ActionBaseSerializationRecord ToSerializationRecord()
+    {
+        return new ActionButtonSerializationRecord(Title, ClassName, Active, Disabled, Visible, Id, Type, Image);
+    }
 }
+
+internal record ActionButtonSerializationRecord(string? Title, string? ClassName, bool? Active, bool? Disabled, 
+    bool? Visible, string? Id, string Type, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Image) 
+    : ActionBaseSerializationRecord(Title, ClassName, Active, Disabled, Visible, Id, Type);
 
 /// <summary>
 ///     A customizable toggle used in the LayerList widget that performs a specific action(s) which can be toggled on/off.
@@ -108,7 +147,17 @@ public class ActionToggle : ActionBase
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? Value { get; set; }
+    
+    internal override ActionBaseSerializationRecord ToSerializationRecord()
+    {
+        return new ActionToggleSerializationRecord(Title, ClassName, Active, Disabled, Visible, Id, Type, Value);
+    }
 }
+
+internal record ActionToggleSerializationRecord(string? Title, string? ClassName, bool? Active, bool? Disabled, 
+    bool? Visible, string? Id, string Type, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]bool? Value) 
+    : ActionBaseSerializationRecord(Title, ClassName, Active, Disabled, Visible, Id, Type);
 
 internal class ActionBaseConverter : JsonConverter<ActionBase>
 {

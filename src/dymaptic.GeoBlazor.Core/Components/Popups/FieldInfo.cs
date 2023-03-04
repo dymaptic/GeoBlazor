@@ -149,4 +149,20 @@ public class FieldInfo : MapComponent
         base.ValidateRequiredChildren();
         Format?.ValidateRequiredChildren();
     }
+    
+    internal FieldInfoSerializationRecord ToSerializationRecord()
+    {
+        return new FieldInfoSerializationRecord(FieldName, Label, Tooltip, StringFieldOption, 
+            Format?.ToSerializationRecord(), IsEditable, Visible);
+    }
 }
+
+internal record FieldInfoSerializationRecord(
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? FieldName = null,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Label = null, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Tooltip = null,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? StringFieldOption = null,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]FieldInfoFormatSerializationRecord? Format = null,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]bool? IsEditable = null, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]bool? Visible = null) 
+    : MapComponentSerializationRecord;

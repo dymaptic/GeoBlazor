@@ -117,4 +117,17 @@ public class PictureMarkerSymbol : MarkerSymbol, IEquatable<PictureMarkerSymbol>
     {
         return HashCode.Combine(Height, Width, Url, Color);
     }
+
+    internal override SymbolSerializationRecord ToSerializationRecord()
+    {
+        return new PictureMarkerSymbolSerializationRecord(Url, Width, Height, Angle, XOffset, YOffset);
+    }
 }
+
+internal record PictureMarkerSymbolSerializationRecord(string Url, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? Width = null, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? Height = null,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? Angle = null, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? XOffset = null, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? YOffset = null): 
+    SymbolSerializationRecord("picture-marker", null);

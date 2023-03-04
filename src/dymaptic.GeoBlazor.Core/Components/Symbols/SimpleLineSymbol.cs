@@ -93,7 +93,17 @@ public class SimpleLineSymbol : LineSymbol, IEquatable<SimpleLineSymbol>
     {
         return LineStyle.GetHashCode();
     }
+
+    internal override SymbolSerializationRecord ToSerializationRecord()
+    {
+        return new SimpleLineSymbolSerializationRecord(Color, Width, LineStyle);
+    }
 }
+
+internal record SimpleLineSymbolSerializationRecord(MapColor? Color = null, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? Width = null, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]LineStyle? LineStyle = null)
+    : SymbolSerializationRecord("simple-line", Color);
 
 /// <summary>
 ///     Possible line style values for <see cref="SimpleLineSymbol" />

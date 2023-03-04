@@ -116,6 +116,11 @@ public class SpatialReference : MapComponent, IEquatable<SpatialReference>
     [Parameter]
     public string? Wkt { get; set; }
 
+    internal SpatialReferenceSerializationRecord ToSerializationRecord()
+    {
+        return new SpatialReferenceSerializationRecord(Wkid);
+    }
+
     /// <inheritdoc />
     public bool Equals(SpatialReference? other)
     {
@@ -219,3 +224,6 @@ internal class SpatialReferenceConverter : JsonConverter<SpatialReference>
         writer.WriteEndObject();
     }
 }
+
+internal record SpatialReferenceSerializationRecord([property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]int? Wkid)
+    : MapComponentSerializationRecord;

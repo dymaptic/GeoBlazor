@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using System.Text.Json.Serialization;
 
 
 namespace dymaptic.GeoBlazor.Core.Components.Geometries;
@@ -159,4 +160,18 @@ public class Extent : Geometry, IEquatable<Extent>
     {
         return HashCode.Combine(Xmax, Xmin, Ymax, Ymin, Zmax, Zmin, Mmax, Mmin);
     }
+
+    internal override GeometrySerializationRecord ToSerializationRecord()
+    {
+        return new ExtentSerializationRecord(Xmax, Xmin, Ymax, Ymin, Zmax, Zmin, Mmax, Mmin, 
+            SpatialReference?.ToSerializationRecord());
+    }
 }
+
+internal record ExtentSerializationRecord(double Xmax, double Xmin, double Ymax, double Ymin, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? Zmax = null, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? Zmin = null, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? Mmax = null, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? Mmin = null, 
+    SpatialReferenceSerializationRecord? SpatialReference = null): 
+    GeometrySerializationRecord("extent", null, SpatialReference);

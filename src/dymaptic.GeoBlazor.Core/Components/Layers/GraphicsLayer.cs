@@ -1,4 +1,5 @@
 ﻿using Microsoft.JSInterop;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 
@@ -87,10 +88,25 @@ public class GraphicsLayer : Layer
     /// </param>
     public async Task Add(IEnumerable<Graphic> graphics)
     {
-        foreach (Graphic graphic in graphics)
+        List<Graphic> newGraphics = graphics.ToList();
+        _graphics.UnionWith(newGraphics);
+        foreach (Graphic graphic in newGraphics)
         {
-            await RegisterChildComponent(graphic);
+            graphic.View ??= View;
+            graphic.JsModule ??= JsModule;
+            graphic.LayerId ??= Id;
+            graphic.Parent ??= this;
         }
+
+        if (JsLayerReference is null)
+        {
+            LayerChanged = true;
+
+            return;
+        }
+
+        IEnumerable<GraphicSerializationRecord> records = newGraphics.Select(g => g.ToSerializationRecord());
+        await JsLayerReference!.InvokeVoidAsync("addMany", records, View?.Id);
     }
 
     /// <summary>
@@ -135,14 +151,12 @@ public class GraphicsLayer : Layer
         switch (child)
         {
             case Graphic graphic:
-                if (!_graphics.Any(g => g.Equals(graphic)))
+                graphic.View ??= View;
+                graphic.JsModule ??= JsModule;
+                graphic.LayerId ??= Id;
+                graphic.Parent ??= this;
+                if (_graphics.Add(graphic))
                 {
-                    graphic.View ??= View;
-                    graphic.JsModule ??= JsModule;
-                    graphic.LayerId ??= Id;
-                    graphic.Parent ??= this;
-                    _graphics.Add(graphic);
-
                     if (JsLayerReference is not null)
                     {
                         await JsLayerReference.InvokeVoidAsync("add", graphic, View?.Id);

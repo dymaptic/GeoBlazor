@@ -92,4 +92,15 @@ public class PolyLine : Geometry, IEquatable<PolyLine>
     {
         return Paths.GetHashCode();
     }
+    
+    internal override GeometrySerializationRecord ToSerializationRecord()
+    {
+        return new PolyLineSerializationRecord(Paths, SpatialReference?.ToSerializationRecord(),
+            Extent?.ToSerializationRecord() as ExtentSerializationRecord);
+    }
 }
+
+internal record PolyLineSerializationRecord(MapPath[] Paths, 
+        SpatialReferenceSerializationRecord? SpatialReference = null, 
+        ExtentSerializationRecord? Extent = null)
+    : GeometrySerializationRecord("polyline", Extent, SpatialReference);

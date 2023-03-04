@@ -192,4 +192,21 @@ public class SimpleMarkerSymbol : MarkerSymbol, IEquatable<SimpleMarkerSymbol>
 
         return style1 == style2;
     }
+
+    internal override SymbolSerializationRecord ToSerializationRecord()
+    {
+        return new SimpleMarkerSymbolSerializationRecord(
+            Outline?.ToSerializationRecord() as SimpleLineSymbolSerializationRecord,
+            Color, Size, Style, Angle, XOffset, YOffset);
+    }
 }
+
+internal record SimpleMarkerSymbolSerializationRecord(
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]SimpleLineSymbolSerializationRecord? Outline = null, 
+    MapColor? Color = null, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? Size = null, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Style = null, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? Angle = null, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? XOffset = null,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? YOffset = null)
+    : SymbolSerializationRecord("simple-marker", Color);

@@ -42,6 +42,19 @@ public dymaptic.GeoBlazor.Core.Objects.MapColor? Color { get; set; }
 #### Property Value
 [MapColor](dymaptic.GeoBlazor.Core.Objects.MapColor.html 'dymaptic.GeoBlazor.Core.Objects.MapColor')
 
+<a name='dymaptic.GeoBlazor.Core.Components.Symbols.Symbol.Id'></a>
+
+## Symbol.Id Property
+
+A unique identifier, used to track components across .NET and JavaScript.
+
+```csharp
+public override System.Guid Id { get; }
+```
+
+#### Property Value
+[System.Guid](https://docs.microsoft.com/en-us/dotnet/api/System.Guid 'System.Guid')
+
 <a name='dymaptic.GeoBlazor.Core.Components.Symbols.Symbol.Type'></a>
 
 ## Symbol.Type Property

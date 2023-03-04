@@ -165,4 +165,17 @@ public class TextSymbol : Symbol, IEquatable<TextSymbol>
     {
         return HashCode.Combine(HaloColor, HaloSize, Text, Font, Color);
     }
+
+    internal override SymbolSerializationRecord ToSerializationRecord()
+    {
+        return new TextSymbolSerializationRecord(Text, Color, HaloColor, HaloSize, Font?.ToSerializationRecord());
+    }
 }
+
+internal record TextSymbolSerializationRecord(
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Text, 
+    MapColor? Color = null, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]MapColor? HaloColor = null, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]int? HaloSize = null, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]MapFontSerializationRecord? Font = null)
+    : SymbolSerializationRecord("text", Color);

@@ -10,8 +10,8 @@
         </Description>
         <Title>GeoBlazor</Title>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <PackageVersion>2.0.0</PackageVersion>
-        <Version>2.0.0</Version>
+        <PackageVersion>2.0.1-beta-1</PackageVersion>
+        <Version>2.0.1-beta-1</Version>
         <Authors>Tim Purdum, Christopher Moravec, Mara Stoica, Tim Rawson</Authors>
         <Company>dymaptic</Company>
         <Copyright>©2023 by dymaptic</Copyright>
@@ -97,7 +97,7 @@
         <Exec Command="npm run releaseBuild"/>
     </Target>
 
-    <Target Name="Copy Files" AfterTargets="Build" Condition="$(CoreSkipDocuments) != 'true'">
+    <Target Name="Copy Files" AfterTargets="Build"  Condition="$(Configuration) == 'RELEASE'">
         <Message Importance="high" Text="Launching Async File Copy Script"/>
         <ExecAsync FilePath="pwsh" Arguments="./docCopy.ps1" ContinueOnError="true"/>
     </Target>

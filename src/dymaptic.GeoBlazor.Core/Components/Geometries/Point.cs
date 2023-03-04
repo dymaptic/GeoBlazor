@@ -129,4 +129,20 @@ public class Point : Geometry, IEquatable<Point>
     {
         return HashCode.Combine(base.GetHashCode(), Latitude, Longitude, X, Y, Z);
     }
+
+    internal override GeometrySerializationRecord ToSerializationRecord()
+    {
+        return new PointSerializationRecord(Longitude, Latitude, X, Y, Z, SpatialReference?.ToSerializationRecord(),
+            Extent?.ToSerializationRecord() as ExtentSerializationRecord);
+    }
 }
+
+internal record PointSerializationRecord(
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? Longitude = null, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? Latitude = null, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? X = null, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? Y = null, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? Z = null, 
+    SpatialReferenceSerializationRecord? SpatialReference = null, 
+    ExtentSerializationRecord? Extent = null) 
+    : GeometrySerializationRecord("point", Extent, SpatialReference);

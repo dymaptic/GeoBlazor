@@ -142,7 +142,19 @@ public class SimpleFillSymbol : FillSymbol, IEquatable<SimpleFillSymbol>
     {
         return HashCode.Combine(Outline, FillStyle, Color);
     }
+
+    internal override SymbolSerializationRecord ToSerializationRecord()
+    {
+        return new SimpleFillSymbolSerializationRecord(
+            Outline?.ToSerializationRecord() as SimpleLineSymbolSerializationRecord, Color, FillStyle);
+    }
 }
+
+internal record SimpleFillSymbolSerializationRecord(
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]SimpleLineSymbolSerializationRecord? Outline = null, 
+    MapColor? Color = null, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]FillStyle? FillStyle = null) 
+    : SymbolSerializationRecord("simple-fill", Color);
 
 /// <summary>
 ///     The possible fill style for the <see cref="SimpleFillSymbol" />

@@ -309,4 +309,25 @@ public class PopupTemplate : MapComponent
             }
         }
     }
+
+    internal PopupTemplateSerializationRecord ToSerializationRecord()
+    {
+        return new PopupTemplateSerializationRecord(Title, StringContent, OutFields,
+            FieldInfos?.Select(f => f.ToSerializationRecord()),
+            Content.Select(c => c.ToSerializationRecord()),
+            ExpressionInfos?.Select(e => e.ToSerializationRecord()), OverwriteActions,
+            ReturnGeometry, Actions?.Select(a => a.ToSerializationRecord()));
+    }
 }
+
+internal record PopupTemplateSerializationRecord(
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Title, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? StringContent = null, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]IEnumerable<string>? OutFields = null,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]IEnumerable<FieldInfoSerializationRecord>? FieldInfos = null, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]IEnumerable<PopupContentSerializationRecord>? Contents = null,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]IEnumerable<ExpressionInfoSerializationRecord>? ExpressionInfos = null, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]bool? OverwriteActions = null,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]bool? ReturnGeometry = null, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]IEnumerable<ActionBaseSerializationRecord>? Actions = null)
+    : MapComponentSerializationRecord;

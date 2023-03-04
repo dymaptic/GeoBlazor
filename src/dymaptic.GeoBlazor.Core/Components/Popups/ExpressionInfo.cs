@@ -50,7 +50,19 @@ public class ExpressionInfo : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ReturnType? ReturnType { get; set; }
+    
+    internal ExpressionInfoSerializationRecord ToSerializationRecord()
+    {
+        return new(Expression, Name, Title, ReturnType);
+    }
 }
+
+internal record ExpressionInfoSerializationRecord(
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Expression, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Name, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Title,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]ReturnType? ReturnType) 
+    : MapComponentSerializationRecord;
 
 /// <summary>
 ///     Indicates the return type of the Arcade expression.

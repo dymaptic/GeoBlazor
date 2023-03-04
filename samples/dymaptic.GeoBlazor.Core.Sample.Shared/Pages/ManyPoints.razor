@@ -1,0 +1,65 @@
+﻿@page "/many-points"
+
+<PageTitle>Many Points</PageTitle>
+<h1>Many Points</h1>
+<div class="links-div">
+    <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Graphic.html">ArcGIS API for JavaScript</a>
+</div>
+<p class="instructions">
+    GeoBlazor can support a large number of geometries, such as the 2000 points generated and shown in this example.
+    In order to get performant rendering of your graphics, be sure to call <code>MapView.AddGraphics(IEnumerable&lt;Graphic&gt;)</code> or <code>GraphicsLayer.Add(IEnumerable&lt;Graphic&gt;)</code>,
+    rather than trying to add all the graphics individually. It should take just a few seconds to load all the graphics in this example.
+</p>
+
+<div>
+    <MapView @ref="_mapView" Longitude="_longitude" Latitude="_latitude" Zoom="9" Style="height: 400px; width: 100%;"
+             OnMapRendered="OnMapRendered">
+        <Map ArcGISDefaultBasemap="arcgis-topographic">
+        </Map>
+    </MapView>
+</div>
+
+
+@code
+{
+    private async Task OnMapRendered()
+    {
+        if (!_pointsAdded)
+        {
+            _pointsAdded = true;
+            await AddManyPoints();
+        }
+    }
+
+    private async Task AddManyPoints()
+    {
+        // simulate getting a lot of points from somewhere
+        var points = await Task.Run(() => GenerateSomePoints(34.027, -118.805, 2000));
+
+        // convert these points to graphics
+        var graphics = points.Select(p => new Graphic(p, _mySymbol)).ToList();
+        Console.WriteLine($"{DateTime.Now} - Graphics Generated");
+        await _mapView!.AddGraphics(graphics);
+        Console.WriteLine($"{DateTime.Now} - Graphics Registered");
+    }
+
+
+    private static List<Point> GenerateSomePoints(double centerLat, double centerLong, int count = 10)
+    {
+        var data = new List<Point>();
+        for (int i = 0; i < count; i++)
+        {
+            var r = new Point(centerLong + Random.Shared.NextDouble(), centerLat + Random.Shared.NextDouble());
+            data.Add(r);
+        }
+
+        return data;
+    }
+    
+    private readonly double _latitude = 34.5; 
+    private readonly double _longitude = -118.5;
+    private MapView? _mapView;
+    private bool _pointsAdded;
+    private readonly SimpleMarkerSymbol _mySymbol = 
+        new SimpleMarkerSymbol(new Outline(new MapColor(255, 255, 255), 1), new MapColor(81, 46, 132));
+}

@@ -5,6 +5,7 @@ using dymaptic.GeoBlazor.Core.Objects;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System.Collections.Specialized;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 
@@ -55,6 +56,7 @@ public class Graphic : LayerObject, IEquatable<Graphic>
             Attributes = attributes;
         }
 #pragma warning restore BL0005
+        ToSerializationRecord();
     }
 
     /// <summary>
@@ -247,6 +249,8 @@ public class Graphic : LayerObject, IEquatable<Graphic>
 
                 break;
         }
+
+        ToSerializationRecord();
     }
 
     /// <inheritdoc />
@@ -292,12 +296,24 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     {
         return Id.GetHashCode();
     }
+    
+    internal GraphicSerializationRecord ToSerializationRecord()
+    {
+        if (_serializationRecord is null)
+        {
+            _serializationRecord = new(Id, Geometry?.ToSerializationRecord(), Symbol?.ToSerializationRecord(), 
+                PopupTemplate?.ToSerializationRecord(), Attributes, LayerId, DotNetGraphicReference);
+        }
+
+        return _serializationRecord;
+    }
 
     /// <inheritdoc />
     protected override void OnParametersSet()
     {
         _attributes.CollectionChanged -= OnAttributesChanged;
         _attributes.CollectionChanged += OnAttributesChanged;
+        ToSerializationRecord();
     }
 
     private async void OnAttributesChanged(object? sender, NotifyCollectionChangedEventArgs e)
@@ -305,8 +321,19 @@ public class Graphic : LayerObject, IEquatable<Graphic>
         if (_jsObjectReference is null) return;
 
         await _jsObjectReference.InvokeVoidAsync("setAttributes", Attributes);
+        ToSerializationRecord();
     }
 
     private IJSObjectReference? _jsObjectReference = null!;
     private ObservableDictionary<string, object> _attributes = new();
+    private GraphicSerializationRecord? _serializationRecord;
 }
+
+internal record GraphicSerializationRecord(Guid Id, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]GeometrySerializationRecord? Geometry, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]SymbolSerializationRecord? Symbol, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]PopupTemplateSerializationRecord? PopupTemplate,
+    Dictionary<string, object>? Attributes, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]Guid? LayerId, 
+    DotNetObjectReference<Graphic> DotNetGraphicReference)
+    : MapComponentSerializationRecord;
