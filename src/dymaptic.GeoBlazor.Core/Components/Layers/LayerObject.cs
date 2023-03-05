@@ -87,5 +87,8 @@ public abstract class LayerObject : MapComponent
         Symbol?.ValidateRequiredChildren();
     }
     
+    /// <summary>
+    ///    The <see cref="IJSObjectReference" /> for the layer object.
+    /// </summary>
     protected IJSObjectReference? JsObjectReference = null!;
 }

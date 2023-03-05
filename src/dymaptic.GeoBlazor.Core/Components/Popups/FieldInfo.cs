@@ -59,11 +59,17 @@ public class FieldInfo : MapComponent, IEquatable<FieldInfo>
 #pragma warning restore BL0005
     }
 
+    /// <summary>
+    ///    Equality operator
+    /// </summary>
     public static bool operator ==(FieldInfo? left, FieldInfo? right)
     {
         return Equals(left, right);
     }
 
+    /// <summary>
+    ///    Inequality operator
+    /// </summary>
     public static bool operator !=(FieldInfo? left, FieldInfo? right)
     {
         return !Equals(left, right);
@@ -117,6 +123,7 @@ public class FieldInfo : MapComponent, IEquatable<FieldInfo>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public FieldInfoFormat? Format { get; set; }
 
+    /// <inheritdoc />
     public bool Equals(FieldInfo? other)
     {
         if (ReferenceEquals(null, other)) return false;
@@ -169,6 +176,7 @@ public class FieldInfo : MapComponent, IEquatable<FieldInfo>
         Format?.ValidateRequiredChildren();
     }
 
+    /// <inheritdoc />
     public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
@@ -177,6 +185,7 @@ public class FieldInfo : MapComponent, IEquatable<FieldInfo>
         return Equals((FieldInfo)obj);
     }
 
+    /// <inheritdoc />
     public override int GetHashCode()
     {
         return HashCode.Combine(FieldName, Label, IsEditable, Tooltip, Visible, StringFieldOption, Format);

@@ -28,6 +28,21 @@ Derived
 
 ### Example
 <a target="_blank" href="https://samples.geoblazor.com/navigation">Sample - Navigation</a>
+### Fields
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.ExtentChangedInJs'></a>
+
+## MapView.ExtentChangedInJs Field
+
+A boolean flag to indicate that the map extent has been modified in JavaScript, and therefore should not be  
+modifiable by markup until [Refresh()](dymaptic.GeoBlazor.Core.Components.Views.MapView.html#dymaptic.GeoBlazor.Core.Components.Views.MapView.Refresh() 'dymaptic.GeoBlazor.Core.Components.Views.MapView.Refresh()') is called
+
+```csharp
+public bool ExtentChangedInJs;
+```
+
+#### Field Value
+[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
 ### Properties
 
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.AllowDefaultEsriLogin'></a>

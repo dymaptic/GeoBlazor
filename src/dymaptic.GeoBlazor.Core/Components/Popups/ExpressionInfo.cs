@@ -56,6 +56,7 @@ public class ExpressionInfo : MapComponent, IEquatable<ExpressionInfo>
         return new(Expression, Name, Title, ReturnType);
     }
 
+    /// <inheritdoc />
     public bool Equals(ExpressionInfo? other)
     {
         if (ReferenceEquals(null, other)) return false;
@@ -64,6 +65,7 @@ public class ExpressionInfo : MapComponent, IEquatable<ExpressionInfo>
             ReturnType == other.ReturnType;
     }
 
+    /// <inheritdoc />
     public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
@@ -72,16 +74,23 @@ public class ExpressionInfo : MapComponent, IEquatable<ExpressionInfo>
         return Equals((ExpressionInfo)obj);
     }
 
+    /// <inheritdoc />
     public override int GetHashCode()
     {
         return HashCode.Combine(Expression, Name, Title, ReturnType);
     }
 
+    /// <summary>
+    ///    Equality operator.
+    /// </summary>
     public static bool operator ==(ExpressionInfo? left, ExpressionInfo? right)
     {
         return Equals(left, right);
     }
 
+    /// <summary>
+    ///    Inequality operator.
+    /// </summary>
     public static bool operator !=(ExpressionInfo? left, ExpressionInfo? right)
     {
         return !Equals(left, right);

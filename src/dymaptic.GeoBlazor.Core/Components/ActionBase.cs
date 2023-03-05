@@ -79,6 +79,7 @@ public abstract class ActionBase : MapComponent, IEquatable<ActionBase>
         return new ActionBaseSerializationRecord(Title, ClassName, Active, Disabled, Visible, Id, Type);
     }
 
+    /// <inheritdoc />
     public bool Equals(ActionBase? other)
     {
         if (ReferenceEquals(null, other)) return false;
@@ -88,6 +89,7 @@ public abstract class ActionBase : MapComponent, IEquatable<ActionBase>
             Equals(CallbackFunction, other.CallbackFunction) && Type == other.Type;
     }
 
+    /// <inheritdoc />
     public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
@@ -96,16 +98,24 @@ public abstract class ActionBase : MapComponent, IEquatable<ActionBase>
         return Equals((ActionBase)obj);
     }
 
+    /// <inheritdoc />
     public override int GetHashCode()
     {
         return HashCode.Combine(Title, ClassName, Id, Active, Disabled, Visible, CallbackFunction, Type);
     }
 
+    /// <summary>
+    ///     Determines whether the specified <see cref="ActionBase" /> is equal to the current <see cref="ActionBase" />.
+    /// </summary>
+    /// <returns></returns>
     public static bool operator ==(ActionBase? left, ActionBase? right)
     {
         return Equals(left, right);
     }
 
+    /// <summary>
+    ///    Determines whether the specified <see cref="ActionBase" /> is not equal to the current <see cref="ActionBase" />.
+    /// </summary>
     public static bool operator !=(ActionBase? left, ActionBase? right)
     {
         return !Equals(left, right);

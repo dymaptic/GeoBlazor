@@ -89,11 +89,17 @@ public class PopupTemplate : MapComponent, IEquatable<PopupTemplate>
 #pragma warning restore BL0005
     }
 
+    /// <summary>
+    ///     Equality operator
+    /// </summary>
     public static bool operator ==(PopupTemplate? left, PopupTemplate? right)
     {
         return Equals(left, right);
     }
 
+    /// <summary>
+    ///     Inequality operator
+    /// </summary>
     public static bool operator !=(PopupTemplate? left, PopupTemplate? right)
     {
         return !Equals(left, right);
@@ -191,6 +197,7 @@ public class PopupTemplate : MapComponent, IEquatable<PopupTemplate>
     /// </summary>
     public DotNetObjectReference<PopupTemplate> DotNetPopupTemplateReference => DotNetObjectReference.Create(this);
 
+    /// <inheritdoc />
     public bool Equals(PopupTemplate? other)
     {
         if (ReferenceEquals(null, other)) return false;
@@ -330,6 +337,7 @@ public class PopupTemplate : MapComponent, IEquatable<PopupTemplate>
         }
     }
 
+    /// <inheritdoc />
     public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
@@ -338,6 +346,7 @@ public class PopupTemplate : MapComponent, IEquatable<PopupTemplate>
         return Equals((PopupTemplate)obj);
     }
 
+    /// <inheritdoc />
     public override int GetHashCode()
     {
         var hashCode = new HashCode();
