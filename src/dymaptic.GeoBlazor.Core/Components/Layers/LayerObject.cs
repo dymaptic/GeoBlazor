@@ -1,4 +1,5 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Symbols;
+using Microsoft.JSInterop;
 using System.Text.Json.Serialization;
 
 
@@ -33,7 +34,13 @@ public abstract class LayerObject : MapComponent
     /// </param>
     public async Task SetSymbol(Symbol symbol)
     {
-        await RegisterChildComponent(symbol);
+        Symbol = symbol;
+
+        if (JsObjectReference is not null)
+        {
+            await JsObjectReference.InvokeVoidAsync("setSymbol", 
+                Symbol.ToSerializationRecord());
+        }
     }
 
     /// <inheritdoc />
@@ -42,10 +49,12 @@ public abstract class LayerObject : MapComponent
         switch (child)
         {
             case Symbol symbol:
-                if (!symbol.Equals(Symbol))
+                if (View?.ExtentChangedInJs == true)
                 {
-                    Symbol = symbol;
+                    return;
                 }
+                
+                await SetSymbol(symbol);
 
                 break;
             default:
@@ -77,4 +86,6 @@ public abstract class LayerObject : MapComponent
         base.ValidateRequiredChildren();
         Symbol?.ValidateRequiredChildren();
     }
+    
+    protected IJSObjectReference? JsObjectReference = null!;
 }

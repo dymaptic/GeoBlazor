@@ -23,8 +23,8 @@
                                      {"Description", "This is a point"}
                                  })">
                 <Point Latitude="@point.Latitude" Longitude="@point.Longitude" />
-                <SimpleMarkerSymbol Color="new MapColor(81, 46, 132)">
-                    <Outline Color="new MapColor(255, 255, 255)" Width="1" />
+                <SimpleMarkerSymbol Color="@(new MapColor(81, 46, 132))">
+                    <Outline Color="@(new MapColor(255, 255, 255))" Width="1" />
                 </SimpleMarkerSymbol>
             </Graphic>
         }
@@ -37,7 +37,7 @@
     {
         if (_points is null)
         {
-            _points = GenerateSomePoints(34.027, -118.805, 50);
+            _points = GenerateSomePoints(34.027, -118.805, 425);
         }
     }
 

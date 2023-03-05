@@ -1,6 +1,7 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
 using dymaptic.GeoBlazor.Core.Components.Popups;
 using dymaptic.GeoBlazor.Core.Components.Symbols;
+using dymaptic.GeoBlazor.Core.Components.Views;
 using dymaptic.GeoBlazor.Core.Objects;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -120,7 +121,7 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     /// </summary>
     public DotNetObjectReference<Graphic> DotNetGraphicReference => DotNetObjectReference.Create(this);
 
-    internal bool IsRendered => _jsObjectReference is not null;
+    internal bool IsRendered => JsObjectReference is not null;
 
     /// <inheritdoc />
     public bool Equals(Graphic? other)
@@ -136,9 +137,9 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     /// </summary>
     public async Task<Geometry?> GetGeometry()
     {
-        if (_jsObjectReference is not null)
+        if (JsObjectReference is not null)
         {
-            Geometry = await _jsObjectReference!.InvokeAsync<Geometry>("getGeometry",
+            Geometry = await JsObjectReference!.InvokeAsync<Geometry>("getGeometry",
                 CancellationTokenSource.Token);
         }
 
@@ -151,7 +152,13 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     /// <param name="geometry"></param>
     public async Task SetGeometry(Geometry geometry)
     {
-        await RegisterChildComponent(geometry);
+        Geometry = geometry;
+
+        if (JsObjectReference is not null)
+        {
+            await JsObjectReference.InvokeVoidAsync("setGeometry", 
+                Geometry.ToSerializationRecord());
+        }
     }
 
     /// <summary>
@@ -159,9 +166,9 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     /// </summary>
     public async Task<PopupTemplate?> GetPopupTemplate()
     {
-        if (_jsObjectReference is not null)
+        if (JsObjectReference is not null)
         {
-            PopupTemplate = await _jsObjectReference!.InvokeAsync<PopupTemplate>("getPopupTemplate",
+            PopupTemplate = await JsObjectReference!.InvokeAsync<PopupTemplate>("getPopupTemplate",
                 CancellationTokenSource.Token);
         }
 
@@ -176,15 +183,21 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     /// </param>
     public async Task SetPopupTemplate(PopupTemplate popupTemplate)
     {
-        await RegisterChildComponent(popupTemplate);
+        PopupTemplate = popupTemplate;
+
+        if (JsObjectReference is not null)
+        {
+            await JsObjectReference.InvokeVoidAsync("setPopupTemplate", 
+                PopupTemplate.ToSerializationRecord(), View?.Id);
+        }
     }
 
     /// <inheritdoc />
     public override async Task<Symbol?> GetSymbol()
     {
-        if (_jsObjectReference is not null)
+        if (JsObjectReference is not null)
         {
-            Symbol = await _jsObjectReference!.InvokeAsync<Symbol>("getSymbol",
+            Symbol = await JsObjectReference!.InvokeAsync<Symbol>("getSymbol",
                 CancellationTokenSource.Token);
         }
 
@@ -200,7 +213,7 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     [JSInvokable]
     public void OnGraphicCreated(IJSObjectReference jsObjectReference)
     {
-        _jsObjectReference ??= jsObjectReference;
+        JsObjectReference ??= jsObjectReference;
     }
 
     /// <summary>
@@ -211,8 +224,8 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     /// </remarks>
     public async Task RegisterGraphic(IJSObjectReference jsObjectReference)
     {
-        _jsObjectReference ??= jsObjectReference;
-        await _jsObjectReference.InvokeVoidAsync("registerWithId", CancellationTokenSource.Token, Id);
+        JsObjectReference ??= jsObjectReference;
+        await JsObjectReference.InvokeVoidAsync("registerWithId", CancellationTokenSource.Token, Id);
     }
 
     /// <inheritdoc />
@@ -221,42 +234,21 @@ public class Graphic : LayerObject, IEquatable<Graphic>
         switch (child)
         {
             case Geometry geometry:
-                if (!geometry.Equals(Geometry))
+                if (View?.ExtentChangedInJs == true)
                 {
-                    Geometry = geometry;
-
-                    if (_jsObjectReference is not null)
-                    {
-                        await _jsObjectReference.InvokeVoidAsync("setGeometry", 
-                            CancellationTokenSource.Token, Geometry);
-                    }
+                    return;
                 }
+                
+                await SetGeometry(geometry);
 
                 break;
             case PopupTemplate popupTemplate:
-                if (!popupTemplate.Equals(PopupTemplate))
+                if (View?.ExtentChangedInJs == true)
                 {
-                    PopupTemplate = popupTemplate;
-
-                    if (_jsObjectReference is not null)
-                    {
-                        await _jsObjectReference.InvokeVoidAsync("setPopupTemplate", 
-                            CancellationTokenSource.Token, PopupTemplate, View?.Id);
-                    }
+                    return;
                 }
-
-                break;
-            case Symbol symbol:
-                if (!symbol.Equals(Symbol))
-                {
-                    Symbol = symbol;
-
-                    if (_jsObjectReference is not null)
-                    {
-                        await _jsObjectReference.InvokeVoidAsync("setSymbol",
-                            CancellationTokenSource.Token, Symbol);
-                    }
-                }
+                
+                await SetPopupTemplate(popupTemplate);
 
                 break;
             default:
@@ -333,14 +325,13 @@ public class Graphic : LayerObject, IEquatable<Graphic>
 
     private async void OnAttributesChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
-        if (_jsObjectReference is null) return;
+        if (JsObjectReference is null) return;
 
-        await _jsObjectReference.InvokeVoidAsync("setAttributes", 
+        await JsObjectReference.InvokeVoidAsync("setAttributes", 
             CancellationTokenSource.Token, Attributes);
         ToSerializationRecord(true);
     }
-
-    private IJSObjectReference? _jsObjectReference = null!;
+    
     private ObservableDictionary<string, object> _attributes = new();
     private GraphicSerializationRecord? _serializationRecord;
 }
