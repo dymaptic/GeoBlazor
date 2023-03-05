@@ -155,7 +155,7 @@ export async function buildJsGraphic(graphicObject: any, register: boolean, view
             let wrapper = new GraphicWrapper(graphic);
             // @ts-ignore
             let objectRef = DotNet.createJSObjectReference(wrapper);
-            await graphicObject.dotNetGraphicReference.invokeMethodAsync("OnGraphicCreated", objectRef);
+            graphicObject.dotNetGraphicReference.invokeMethodAsync("OnGraphicCreated", objectRef);
         }
         arcGisObjectRefs[graphicObject.id] = graphic;
     }

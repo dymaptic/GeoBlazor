@@ -102,7 +102,6 @@ public class TextSymbol : Symbol, IEquatable<TextSymbol>
     public bool Equals(TextSymbol? other)
     {
         if (ReferenceEquals(null, other)) return false;
-        if (ReferenceEquals(this, other)) return true;
 
         return Equals(HaloColor, other.HaloColor) && (HaloSize == other.HaloSize) && (Text == other.Text) &&
             Equals(Font, other.Font) && Equals(Color, other.Color);
@@ -154,7 +153,6 @@ public class TextSymbol : Symbol, IEquatable<TextSymbol>
     public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
-        if (ReferenceEquals(this, obj)) return true;
         if (obj.GetType() != GetType()) return false;
 
         return Equals((TextSymbol)obj);

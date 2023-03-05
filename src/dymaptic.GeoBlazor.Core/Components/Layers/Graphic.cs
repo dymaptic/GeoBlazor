@@ -138,7 +138,8 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     {
         if (_jsObjectReference is not null)
         {
-            Geometry = await _jsObjectReference!.InvokeAsync<Geometry>("getGeometry");
+            Geometry = await _jsObjectReference!.InvokeAsync<Geometry>("getGeometry",
+                CancellationTokenSource.Token);
         }
 
         return Geometry;
@@ -160,7 +161,8 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     {
         if (_jsObjectReference is not null)
         {
-            PopupTemplate = await _jsObjectReference!.InvokeAsync<PopupTemplate>("getPopupTemplate");
+            PopupTemplate = await _jsObjectReference!.InvokeAsync<PopupTemplate>("getPopupTemplate",
+                CancellationTokenSource.Token);
         }
 
         return PopupTemplate;
@@ -182,7 +184,8 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     {
         if (_jsObjectReference is not null)
         {
-            Symbol = await _jsObjectReference!.InvokeAsync<Symbol>("getSymbol");
+            Symbol = await _jsObjectReference!.InvokeAsync<Symbol>("getSymbol",
+                CancellationTokenSource.Token);
         }
 
         return Symbol;
@@ -209,7 +212,7 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     public async Task RegisterGraphic(IJSObjectReference jsObjectReference)
     {
         _jsObjectReference ??= jsObjectReference;
-        await _jsObjectReference.InvokeVoidAsync("registerWithId", Id);
+        await _jsObjectReference.InvokeVoidAsync("registerWithId", CancellationTokenSource.Token, Id);
     }
 
     /// <inheritdoc />
@@ -218,29 +221,41 @@ public class Graphic : LayerObject, IEquatable<Graphic>
         switch (child)
         {
             case Geometry geometry:
-                Geometry = geometry;
-
-                if (_jsObjectReference is not null)
+                if (!geometry.Equals(Geometry))
                 {
-                    await _jsObjectReference.InvokeVoidAsync("setGeometry", Geometry);
+                    Geometry = geometry;
+
+                    if (_jsObjectReference is not null)
+                    {
+                        await _jsObjectReference.InvokeVoidAsync("setGeometry", 
+                            CancellationTokenSource.Token, Geometry);
+                    }
                 }
 
                 break;
             case PopupTemplate popupTemplate:
-                PopupTemplate = popupTemplate;
-
-                if (_jsObjectReference is not null)
+                if (!popupTemplate.Equals(PopupTemplate))
                 {
-                    await _jsObjectReference.InvokeVoidAsync("setPopupTemplate", PopupTemplate, View?.Id);
+                    PopupTemplate = popupTemplate;
+
+                    if (_jsObjectReference is not null)
+                    {
+                        await _jsObjectReference.InvokeVoidAsync("setPopupTemplate", 
+                            CancellationTokenSource.Token, PopupTemplate, View?.Id);
+                    }
                 }
 
                 break;
             case Symbol symbol:
-                Symbol = symbol;
-
-                if (_jsObjectReference is not null)
+                if (!symbol.Equals(Symbol))
                 {
-                    await _jsObjectReference.InvokeVoidAsync("setSymbol", Symbol);
+                    Symbol = symbol;
+
+                    if (_jsObjectReference is not null)
+                    {
+                        await _jsObjectReference.InvokeVoidAsync("setSymbol",
+                            CancellationTokenSource.Token, Symbol);
+                    }
                 }
 
                 break;
@@ -250,7 +265,7 @@ public class Graphic : LayerObject, IEquatable<Graphic>
                 break;
         }
 
-        ToSerializationRecord();
+        ToSerializationRecord(true);
     }
 
     /// <inheritdoc />
@@ -297,9 +312,9 @@ public class Graphic : LayerObject, IEquatable<Graphic>
         return Id.GetHashCode();
     }
     
-    internal GraphicSerializationRecord ToSerializationRecord()
+    internal GraphicSerializationRecord ToSerializationRecord(bool refresh = false)
     {
-        if (_serializationRecord is null)
+        if (_serializationRecord is null || refresh)
         {
             _serializationRecord = new(Id, Geometry?.ToSerializationRecord(), Symbol?.ToSerializationRecord(), 
                 PopupTemplate?.ToSerializationRecord(), Attributes, LayerId, DotNetGraphicReference);
@@ -313,15 +328,16 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     {
         _attributes.CollectionChanged -= OnAttributesChanged;
         _attributes.CollectionChanged += OnAttributesChanged;
-        ToSerializationRecord();
+        ToSerializationRecord(true);
     }
 
     private async void OnAttributesChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
         if (_jsObjectReference is null) return;
 
-        await _jsObjectReference.InvokeVoidAsync("setAttributes", Attributes);
-        ToSerializationRecord();
+        await _jsObjectReference.InvokeVoidAsync("setAttributes", 
+            CancellationTokenSource.Token, Attributes);
+        ToSerializationRecord(true);
     }
 
     private IJSObjectReference? _jsObjectReference = null!;

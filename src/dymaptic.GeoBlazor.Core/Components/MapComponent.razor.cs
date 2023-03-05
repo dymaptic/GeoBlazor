@@ -110,6 +110,8 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
                 // it's fine
             }
         }
+        
+        CancellationTokenSource.Cancel();
     }
 
     /// <summary>
@@ -243,7 +245,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     /// </param>
     public async Task SetVisibility(bool visible)
     {
-        await JsModule!.InvokeVoidAsync("setVisibility", Id, visible);
+        await JsModule!.InvokeVoidAsync("setVisibility", CancellationTokenSource.Token, Id, visible);
     }
 
     /// <inheritdoc />
@@ -297,13 +299,13 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
             case >= 100:
                 // this is here to support the pro extension library
                 IJSObjectReference proModule = await JsRuntime
-                    .InvokeAsync<IJSObjectReference>("import",
+                    .InvokeAsync<IJSObjectReference>("import", CancellationTokenSource.Token,
                         "./_content/dymaptic.GeoBlazor.Pro/js/arcGisPro.js");
 
                 return await proModule.InvokeAsync<IJSObjectReference>("getCore");
             default:
                 return await JsRuntime
-                    .InvokeAsync<IJSObjectReference>("import",
+                    .InvokeAsync<IJSObjectReference>("import", CancellationTokenSource.Token,
                         "./_content/dymaptic.GeoBlazor.Core/js/arcGisJsInterop.js");
         }
     }
@@ -318,12 +320,17 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         switch ((int)licenseType)
         {
             case >= 100:
-                return await JsRuntime.InvokeAsync<IJSObjectReference>("import",
+                return await JsRuntime.InvokeAsync<IJSObjectReference>("import", CancellationTokenSource.Token,
                     "./_content/dymaptic.GeoBlazor.Pro/js/arcGisPro.js");
             default:
                 return null;
         }
     }
+
+    /// <summary>
+    ///    Creates a cancellation token to control external calls
+    /// </summary>
+    protected CancellationTokenSource CancellationTokenSource = new();
 
     private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _watchers = new();
     private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _listeners = new();

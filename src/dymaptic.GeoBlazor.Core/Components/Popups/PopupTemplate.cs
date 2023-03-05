@@ -14,7 +14,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Popups;
 ///         JS API
 ///     </a>
 /// </summary>
-public class PopupTemplate : MapComponent
+public class PopupTemplate : MapComponent, IEquatable<PopupTemplate>
 {
     /// <summary>
     ///     Parameterless constructor for using as a razor component
@@ -87,6 +87,16 @@ public class PopupTemplate : MapComponent
             Actions = actions.ToHashSet();
         }
 #pragma warning restore BL0005
+    }
+
+    public static bool operator ==(PopupTemplate? left, PopupTemplate? right)
+    {
+        return Equals(left, right);
+    }
+
+    public static bool operator !=(PopupTemplate? left, PopupTemplate? right)
+    {
+        return !Equals(left, right);
     }
 
     /// <summary>
@@ -180,6 +190,16 @@ public class PopupTemplate : MapComponent
     ///     Object reference for callbacks from JavaScript.
     /// </summary>
     public DotNetObjectReference<PopupTemplate> DotNetPopupTemplateReference => DotNetObjectReference.Create(this);
+
+    public bool Equals(PopupTemplate? other)
+    {
+        if (ReferenceEquals(null, other)) return false;
+
+        return (StringContent == other.StringContent) && (Title == other.Title) && Equals(OutFields, other.OutFields) &&
+            (OverwriteActions == other.OverwriteActions) && (ReturnGeometry == other.ReturnGeometry) &&
+            Content.Equals(other.Content) && Equals(FieldInfos, other.FieldInfos) &&
+            Equals(ExpressionInfos, other.ExpressionInfos) && Equals(Actions, other.Actions);
+    }
 
     /// <summary>
     ///     JS-invokable method for triggering actions.
@@ -310,6 +330,30 @@ public class PopupTemplate : MapComponent
         }
     }
 
+    public override bool Equals(object? obj)
+    {
+        if (ReferenceEquals(null, obj)) return false;
+        if (obj.GetType() != GetType()) return false;
+
+        return Equals((PopupTemplate)obj);
+    }
+
+    public override int GetHashCode()
+    {
+        var hashCode = new HashCode();
+        hashCode.Add(StringContent);
+        hashCode.Add(Title);
+        hashCode.Add(OutFields);
+        hashCode.Add(OverwriteActions);
+        hashCode.Add(ReturnGeometry);
+        hashCode.Add(Content);
+        hashCode.Add(FieldInfos);
+        hashCode.Add(ExpressionInfos);
+        hashCode.Add(Actions);
+
+        return hashCode.ToHashCode();
+    }
+
     internal PopupTemplateSerializationRecord ToSerializationRecord()
     {
         return new PopupTemplateSerializationRecord(Title, StringContent, OutFields,
@@ -320,14 +364,22 @@ public class PopupTemplate : MapComponent
     }
 }
 
-internal record PopupTemplateSerializationRecord(
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Title, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? StringContent = null, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]IEnumerable<string>? OutFields = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]IEnumerable<FieldInfoSerializationRecord>? FieldInfos = null, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]IEnumerable<PopupContentSerializationRecord>? Contents = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]IEnumerable<ExpressionInfoSerializationRecord>? ExpressionInfos = null, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]bool? OverwriteActions = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]bool? ReturnGeometry = null, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]IEnumerable<ActionBaseSerializationRecord>? Actions = null)
+internal record PopupTemplateSerializationRecord([property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        string? Title,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        string? StringContent = null,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        IEnumerable<string>? OutFields = null,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        IEnumerable<FieldInfoSerializationRecord>? FieldInfos = null,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        IEnumerable<PopupContentSerializationRecord>? Contents = null,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        IEnumerable<ExpressionInfoSerializationRecord>? ExpressionInfos = null,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        bool? OverwriteActions = null,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        bool? ReturnGeometry = null,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        IEnumerable<ActionBaseSerializationRecord>? Actions = null)
     : MapComponentSerializationRecord;

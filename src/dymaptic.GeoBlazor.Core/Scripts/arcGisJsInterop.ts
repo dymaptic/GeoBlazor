@@ -1106,6 +1106,7 @@ export async function addGraphic(graphicObject: DotNetGraphic, viewId: string, g
         if (graphicsLayer === undefined || graphicsLayer === null) {
             if (!hasValue(view?.graphics)) return;
             view.graphics?.add(graphic as Graphic);
+            console.log(new Date() + " - added to map");
         } else if (typeof (graphicsLayer) === 'object') {
             graphicsLayer.add(graphic as Graphic);
         } else {

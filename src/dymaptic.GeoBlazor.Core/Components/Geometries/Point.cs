@@ -108,8 +108,7 @@ public class Point : Geometry, IEquatable<Point>
     public bool Equals(Point? other)
     {
         if (ReferenceEquals(null, other)) return false;
-        if (ReferenceEquals(this, other)) return true;
-
+        
         return (Latitude.Equals(other.Latitude) && Longitude.Equals(other.Longitude)) ||
             (X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z));
     }
@@ -118,7 +117,6 @@ public class Point : Geometry, IEquatable<Point>
     public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
-        if (ReferenceEquals(this, obj)) return true;
         if (obj.GetType() != GetType()) return false;
 
         return Equals((Point)obj);

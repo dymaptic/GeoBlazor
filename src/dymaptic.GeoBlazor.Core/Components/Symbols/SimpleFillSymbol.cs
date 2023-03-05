@@ -80,7 +80,6 @@ public class SimpleFillSymbol : FillSymbol, IEquatable<SimpleFillSymbol>
     public bool Equals(SimpleFillSymbol? other)
     {
         if (ReferenceEquals(null, other)) return false;
-        if (ReferenceEquals(this, other)) return true;
 
         return Equals(Outline, other.Outline) && (FillStyle == other.FillStyle) && (Color == other.Color);
     }
@@ -131,7 +130,6 @@ public class SimpleFillSymbol : FillSymbol, IEquatable<SimpleFillSymbol>
     public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
-        if (ReferenceEquals(this, obj)) return true;
         if (obj.GetType() != GetType()) return false;
 
         return Equals((SimpleFillSymbol)obj);
@@ -153,7 +151,7 @@ public class SimpleFillSymbol : FillSymbol, IEquatable<SimpleFillSymbol>
 internal record SimpleFillSymbolSerializationRecord(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]SimpleLineSymbolSerializationRecord? Outline = null, 
     MapColor? Color = null, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]FillStyle? FillStyle = null) 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]FillStyle? Style = null) 
     : SymbolSerializationRecord("simple-fill", Color);
 
 /// <summary>

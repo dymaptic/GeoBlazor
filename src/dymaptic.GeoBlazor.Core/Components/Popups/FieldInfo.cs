@@ -11,7 +11,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Popups;
 ///         JS API
 ///     </a>
 /// </summary>
-public class FieldInfo : MapComponent
+public class FieldInfo : MapComponent, IEquatable<FieldInfo>
 {
     /// <summary>
     ///     Parameterless constructor for using as a razor component
@@ -57,6 +57,16 @@ public class FieldInfo : MapComponent
         IsEditable = isEditable;
         Visible = visible;
 #pragma warning restore BL0005
+    }
+
+    public static bool operator ==(FieldInfo? left, FieldInfo? right)
+    {
+        return Equals(left, right);
+    }
+
+    public static bool operator !=(FieldInfo? left, FieldInfo? right)
+    {
+        return !Equals(left, right);
     }
 
     /// <summary>
@@ -107,6 +117,15 @@ public class FieldInfo : MapComponent
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public FieldInfoFormat? Format { get; set; }
 
+    public bool Equals(FieldInfo? other)
+    {
+        if (ReferenceEquals(null, other)) return false;
+
+        return (FieldName == other.FieldName) && (Label == other.Label) && (IsEditable == other.IsEditable) &&
+            (Tooltip == other.Tooltip) && (Visible == other.Visible) &&
+            (StringFieldOption == other.StringFieldOption) && Equals(Format, other.Format);
+    }
+
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
     {
@@ -149,20 +168,39 @@ public class FieldInfo : MapComponent
         base.ValidateRequiredChildren();
         Format?.ValidateRequiredChildren();
     }
-    
+
+    public override bool Equals(object? obj)
+    {
+        if (ReferenceEquals(null, obj)) return false;
+        if (obj.GetType() != GetType()) return false;
+
+        return Equals((FieldInfo)obj);
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(FieldName, Label, IsEditable, Tooltip, Visible, StringFieldOption, Format);
+    }
+
     internal FieldInfoSerializationRecord ToSerializationRecord()
     {
-        return new FieldInfoSerializationRecord(FieldName, Label, Tooltip, StringFieldOption, 
+        return new FieldInfoSerializationRecord(FieldName, Label, Tooltip, StringFieldOption,
             Format?.ToSerializationRecord(), IsEditable, Visible);
     }
 }
 
-internal record FieldInfoSerializationRecord(
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? FieldName = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Label = null, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Tooltip = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? StringFieldOption = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]FieldInfoFormatSerializationRecord? Format = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]bool? IsEditable = null, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]bool? Visible = null) 
+internal record FieldInfoSerializationRecord([property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        string? FieldName = null,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        string? Label = null,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        string? Tooltip = null,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        string? StringFieldOption = null,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        FieldInfoFormatSerializationRecord? Format = null,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        bool? IsEditable = null,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        bool? Visible = null)
     : MapComponentSerializationRecord;

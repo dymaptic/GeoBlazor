@@ -10,8 +10,8 @@
         </Description>
         <Title>GeoBlazor</Title>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <PackageVersion>2.0.1-beta-1</PackageVersion>
-        <Version>2.0.1-beta-1</Version>
+        <PackageVersion>2.0.1-beta-2</PackageVersion>
+        <Version>2.0.1-beta-2</Version>
         <Authors>Tim Purdum, Christopher Moravec, Mara Stoica, Tim Rawson</Authors>
         <Company>dymaptic</Company>
         <Copyright>©2023 by dymaptic</Copyright>
@@ -21,7 +21,6 @@
         <RepositoryType>git</RepositoryType>
         <PackageIcon>Blazor-API-500px.png</PackageIcon>
         <GeneratePackageOnBuild Condition="$(Configuration) == 'RELEASE'">true</GeneratePackageOnBuild>
-        <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
 
     <ItemGroup>
@@ -34,7 +33,8 @@
         <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1"/>
         <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="6.0.0"/>
     </ItemGroup>
-    <PropertyGroup>
+    <PropertyGroup Condition="$(Configuration) == 'RELEASE'">
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <DefaultDocumentationFolder>Documentation</DefaultDocumentationFolder>
         <DefaultDocumentationGeneratedPages>Types</DefaultDocumentationGeneratedPages>
         <DefaultDocumentationGeneratedAccessModifiers>Public</DefaultDocumentationGeneratedAccessModifiers>

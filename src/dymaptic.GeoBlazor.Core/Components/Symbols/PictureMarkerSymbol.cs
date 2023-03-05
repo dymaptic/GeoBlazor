@@ -96,7 +96,6 @@ public class PictureMarkerSymbol : MarkerSymbol, IEquatable<PictureMarkerSymbol>
     public bool Equals(PictureMarkerSymbol? other)
     {
         if (ReferenceEquals(null, other)) return false;
-        if (ReferenceEquals(this, other)) return true;
 
         return Nullable.Equals(Height, other.Height) && Nullable.Equals(Width, other.Width) && (Url == other.Url) &&
             (Color == other.Color);
@@ -106,7 +105,6 @@ public class PictureMarkerSymbol : MarkerSymbol, IEquatable<PictureMarkerSymbol>
     public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
-        if (ReferenceEquals(this, obj)) return true;
         if (obj.GetType() != GetType()) return false;
 
         return Equals((PictureMarkerSymbol)obj);

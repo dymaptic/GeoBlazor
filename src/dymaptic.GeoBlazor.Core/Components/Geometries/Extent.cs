@@ -138,7 +138,6 @@ public class Extent : Geometry, IEquatable<Extent>
     public bool Equals(Extent? other)
     {
         if (ReferenceEquals(null, other)) return false;
-        if (ReferenceEquals(this, other)) return true;
 
         return Xmax.Equals(other.Xmax) && Xmin.Equals(other.Xmin) && Ymax.Equals(other.Ymax) &&
             Ymin.Equals(other.Ymin) && Nullable.Equals(Zmax, other.Zmax) && Nullable.Equals(Zmin, other.Zmin) &&
@@ -149,7 +148,6 @@ public class Extent : Geometry, IEquatable<Extent>
     public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
-        if (ReferenceEquals(this, obj)) return true;
         if (obj.GetType() != GetType()) return false;
 
         return Equals((Extent)obj);

@@ -14,7 +14,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 ///     </a>
 /// </summary>
 [JsonConverter(typeof(ActionBaseConverter))]
-public abstract class ActionBase : MapComponent
+public abstract class ActionBase : MapComponent, IEquatable<ActionBase>
 {
     /// <summary>
     ///     The title of the action.
@@ -77,6 +77,38 @@ public abstract class ActionBase : MapComponent
     internal virtual ActionBaseSerializationRecord ToSerializationRecord()
     {
         return new ActionBaseSerializationRecord(Title, ClassName, Active, Disabled, Visible, Id, Type);
+    }
+
+    public bool Equals(ActionBase? other)
+    {
+        if (ReferenceEquals(null, other)) return false;
+
+        return Title == other.Title && ClassName == other.ClassName && Id == other.Id && Active == other.Active && 
+            Disabled == other.Disabled && Visible == other.Visible && 
+            Equals(CallbackFunction, other.CallbackFunction) && Type == other.Type;
+    }
+
+    public override bool Equals(object? obj)
+    {
+        if (ReferenceEquals(null, obj)) return false;
+        if (obj.GetType() != this.GetType()) return false;
+
+        return Equals((ActionBase)obj);
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Title, ClassName, Id, Active, Disabled, Visible, CallbackFunction, Type);
+    }
+
+    public static bool operator ==(ActionBase? left, ActionBase? right)
+    {
+        return Equals(left, right);
+    }
+
+    public static bool operator !=(ActionBase? left, ActionBase? right)
+    {
+        return !Equals(left, right);
     }
 }
 

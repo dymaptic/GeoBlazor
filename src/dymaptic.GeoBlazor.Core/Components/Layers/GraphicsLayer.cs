@@ -106,7 +106,8 @@ public class GraphicsLayer : Layer
         }
 
         IEnumerable<GraphicSerializationRecord> records = newGraphics.Select(g => g.ToSerializationRecord());
-        await JsLayerReference!.InvokeVoidAsync("addMany", records, View?.Id);
+        await JsLayerReference!.InvokeVoidAsync("addMany", 
+            CancellationTokenSource.Token, records, View?.Id);
     }
 
     /// <summary>
@@ -159,7 +160,9 @@ public class GraphicsLayer : Layer
                 {
                     if (JsLayerReference is not null)
                     {
-                        await JsLayerReference.InvokeVoidAsync("add", graphic, View?.Id);
+                        GraphicSerializationRecord record = graphic.ToSerializationRecord();
+                        await JsLayerReference.InvokeVoidAsync("add", 
+                            CancellationTokenSource.Token, record, View?.Id);
                     }
                     else
                     {
@@ -183,7 +186,15 @@ public class GraphicsLayer : Layer
             case Graphic graphic:
                 if (_graphics.Remove(graphic) && JsLayerReference is not null)
                 {
-                    await JsLayerReference.InvokeVoidAsync("remove", graphic);
+                    try
+                    {
+                        await JsLayerReference.InvokeVoidAsync("remove", 
+                            CancellationTokenSource.Token, graphic);
+                    }
+                    catch
+                    {
+                        // object disposed
+                    }
                 }
                 else
                 {
@@ -233,7 +244,8 @@ public class GraphicsLayer : Layer
         {
             if (!graphic.IsRendered)
             {
-                await JsLayerReference!.InvokeVoidAsync("add", graphic);
+                await JsLayerReference!.InvokeVoidAsync("add", 
+                    CancellationTokenSource.Token, graphic);
             }
         }
     }

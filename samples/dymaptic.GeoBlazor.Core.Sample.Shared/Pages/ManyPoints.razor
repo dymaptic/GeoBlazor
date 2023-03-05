@@ -8,17 +8,14 @@
 <p class="instructions">
     GeoBlazor can support a large number of geometries, such as the 2000 points generated and shown in this example.
     In order to get performant rendering of your graphics, be sure to call <code>MapView.AddGraphics(IEnumerable&lt;Graphic&gt;)</code> or <code>GraphicsLayer.Add(IEnumerable&lt;Graphic&gt;)</code>,
-    rather than trying to add all the graphics individually. It should take just a few seconds to load all the graphics in this example.
+    rather than trying to add all the graphics individually.
 </p>
 
-<div>
-    <MapView @ref="_mapView" Longitude="_longitude" Latitude="_latitude" Zoom="9" Style="height: 400px; width: 100%;"
-             OnMapRendered="OnMapRendered">
-        <Map ArcGISDefaultBasemap="arcgis-topographic">
-        </Map>
-    </MapView>
-</div>
-
+<MapView @ref="_mapView" Longitude="_longitude" Latitude="_latitude" Zoom="9" Style="height: 400px; width: 100%;"
+         OnMapRendered="OnMapRendered">
+    <Map ArcGISDefaultBasemap="arcgis-topographic">
+    </Map>
+</MapView>
 
 @code
 {
@@ -34,10 +31,14 @@
     private async Task AddManyPoints()
     {
         // simulate getting a lot of points from somewhere
-        var points = await Task.Run(() => GenerateSomePoints(34.027, -118.805, 2000));
+        List<Point> points = await Task.Run(() => GenerateSomePoints(34.027, -118.805, 2000));
 
         // convert these points to graphics
-        var graphics = points.Select(p => new Graphic(p, _mySymbol)).ToList();
+        var graphics = points.Select(p => new Graphic(p, _mySymbol, attributes: new Dictionary<string, object>()
+        {
+            {"Name", "My Point"},
+            {"Description", "This is a point"}
+        })).ToList();
         Console.WriteLine($"{DateTime.Now} - Graphics Generated");
         await _mapView!.AddGraphics(graphics);
         Console.WriteLine($"{DateTime.Now} - Graphics Registered");

@@ -17,7 +17,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Popups;
 ///         API for JS
 ///     </a>
 /// </summary>
-public class ExpressionInfo : MapComponent
+public class ExpressionInfo : MapComponent, IEquatable<ExpressionInfo>
 {
     /// <summary>
     ///     An Arcade expression following the specification defined by the Arcade Popup Profile. Expressions must return a
@@ -54,6 +54,37 @@ public class ExpressionInfo : MapComponent
     internal ExpressionInfoSerializationRecord ToSerializationRecord()
     {
         return new(Expression, Name, Title, ReturnType);
+    }
+
+    public bool Equals(ExpressionInfo? other)
+    {
+        if (ReferenceEquals(null, other)) return false;
+
+        return Expression == other.Expression && Name == other.Name && Title == other.Title && 
+            ReturnType == other.ReturnType;
+    }
+
+    public override bool Equals(object? obj)
+    {
+        if (ReferenceEquals(null, obj)) return false;
+        if (obj.GetType() != this.GetType()) return false;
+
+        return Equals((ExpressionInfo)obj);
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Expression, Name, Title, ReturnType);
+    }
+
+    public static bool operator ==(ExpressionInfo? left, ExpressionInfo? right)
+    {
+        return Equals(left, right);
+    }
+
+    public static bool operator !=(ExpressionInfo? left, ExpressionInfo? right)
+    {
+        return !Equals(left, right);
     }
 }
 
