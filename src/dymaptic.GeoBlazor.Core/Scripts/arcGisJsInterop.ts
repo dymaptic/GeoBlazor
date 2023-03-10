@@ -192,13 +192,23 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
             if (mapObject.arcGISDefaultBasemap !== undefined &&
                 mapObject.arcGISDefaultBasemap !== null) {
                 basemap = mapObject.arcGISDefaultBasemap;
-            } else if (mapObject.basemap?.portalItem?.id !== undefined &&
-                mapObject.basemap?.portalItem?.id !== null) {
-                basemap = new Basemap({
-                    portalItem: {
-                        id: mapObject.basemap.portalItem.id
-                    }
-                });
+            } else if (hasValue(mapObject.basemap?.portalItem?.id)) {
+                if (hasValue(mapObject.basemap.portalItem.portal)) {
+                    basemap = new Basemap({
+                        portalItem: {
+                            id: mapObject.basemap.portalItem.id,
+                            portal: {
+                                url: mapObject.basemap.portalItem.portal.url
+                            }
+                        }
+                    });
+                } else {
+                    basemap = new Basemap({
+                        portalItem: {
+                            id: mapObject.basemap.portalItem.id
+                        }
+                    });
+                }
             } else {
                 if (mapObject.basemap?.layers.length > 0) {
                     for (let i = 0; i < mapObject.basemap.layers.length; i++) {
@@ -214,22 +224,46 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
 
         switch (mapType) {
             case 'webmap':
-                const webMap = new WebMap({
-                    portalItem: {
-                        id: mapObject.portalItem.id
-                    }
-                });
+                let webMap: WebMap;
+                if (hasValue(mapObject.portalItem.portal)) {
+                    webMap = new WebMap({
+                        portalItem: {
+                            id: mapObject.portalItem.id,
+                            portal: {
+                                url: mapObject.portalItem.portal.url
+                            }
+                        }
+                    });
+                } else {
+                    webMap = new WebMap({
+                        portalItem: {
+                            id: mapObject.portalItem.id
+                        }
+                    });
+                }
                 view = new MapView({
                     container: `map-container-${id}`,
                     map: webMap
                 });
                 break;
             case 'webscene':
-                const webScene = new WebScene({
-                    portalItem: {
-                        id: mapObject.portalItem.id
-                    }
-                });
+                let webScene: WebScene;
+                if (hasValue(mapObject.portalItem.portal)) {
+                    webScene = new WebScene({
+                        portalItem: {
+                            id: mapObject.portalItem.id,
+                            portal: {
+                                url: mapObject.portalItem.portal.url
+                            }
+                        }
+                    });
+                } else {
+                    webScene = new WebScene({
+                        portalItem: {
+                            id: mapObject.portalItem.id
+                        }
+                    });
+                }
                 view = new SceneView({
                     container: `map-container-${id}`,
                     map: webScene
@@ -837,6 +871,10 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                 let featureLayer = currentLayer as FeatureLayer;
                 if (hasValue(layerObject.portalItem) && layerObject.portalItem.id !== featureLayer.portalItem.id) {
                     featureLayer.portalItem.id = layerObject.portalItem.id;
+                    if (hasValue(layerObject.portalItem.portal.url) &&
+                        layerObject.portalItem.portal.url !== featureLayer.portalItem.portal?.url) {
+                        featureLayer.portalItem.portal.url = layerObject.portalItem.portal.url;
+                    }
                 }
                 if (hasValue(layerObject.url) && layerObject.url !== featureLayer.url) {
                     featureLayer.url = layerObject.url;
@@ -1639,11 +1677,22 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             break;
         case 'feature':
             if (hasValue(layerObject.portalItem)) {
-                newLayer = new FeatureLayer({
-                    portalItem: {
-                        id: layerObject.portalItem.id
-                    }
-                });
+                if (hasValue(layerObject.portalItem.portal)) {
+                    newLayer = new FeatureLayer({
+                        portalItem: {
+                            id: layerObject.portalItem.id,
+                            portal: {
+                                url: layerObject.portalItem.portal.url
+                            }
+                        }
+                    });
+                } else {
+                    newLayer = new FeatureLayer({
+                        portalItem: {
+                            id: layerObject.portalItem.id
+                        }
+                    });
+                }
             } else if (hasValue(layerObject.url)) {
                 newLayer = new FeatureLayer({
                     url: layerObject.url
@@ -1684,9 +1733,20 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             break;
         case 'vector-tile':
             if (hasValue(layerObject.portalItem)) {
-                newLayer = new VectorTileLayer({
-                    portalItem: layerObject.portalItem
-                });
+                if (hasValue(layerObject.portalItem.portal)) {
+                    newLayer = new VectorTileLayer({
+                        portalItem: layerObject.portalItem
+                    });
+                } else {
+                    newLayer = new VectorTileLayer({
+                        portalItem: {
+                            id: layerObject.portalItem.id,
+                            portal: {
+                                url: layerObject.portalItem.portal.url
+                            }
+                        }
+                    });
+                }
             } else {
                 newLayer = new VectorTileLayer({
                     url: layerObject.url
@@ -1694,19 +1754,41 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             }
             break;
         case 'tile':
-            newLayer = new TileLayer({
-                portalItem: {
-                    id: layerObject.portalItem.id
-                }
-            });
-            break;
-        case 'elevation':
-            if (hasValue(layerObject.portalItem)) {
-                newLayer = new ElevationLayer({
+            if (hasValue(layerObject.portalItem.portal)) {
+                newLayer = new TileLayer({
+                    portalItem: {
+                        id: layerObject.portalItem.id,
+                        portal: {
+                            url: layerObject.portalItem.portal.url
+                        }
+                    }
+                });
+            } else {
+                newLayer = new TileLayer({
                     portalItem: {
                         id: layerObject.portalItem.id
                     }
                 });
+            }
+            break;
+        case 'elevation':
+            if (hasValue(layerObject.portalItem)) {
+                if (hasValue(layerObject.portalItem.portal)) {
+                    newLayer = new ElevationLayer({
+                        portalItem: {
+                            id: layerObject.portalItem.id,
+                            portal: {
+                                url: layerObject.portalItem.portal.url
+                            }
+                        }
+                    });
+                } else {
+                    newLayer = new ElevationLayer({
+                        portalItem: {
+                            id: layerObject.portalItem.id
+                        }
+                    });
+                }
             } else {
                 newLayer = new ElevationLayer({
                     url: layerObject.url
@@ -1738,9 +1820,20 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
                     urlTemplate: layerObject.urlTemplate
                 });
             } else {
-                webTileLayer = new WebTileLayer({
-                    portalItem: layerObject.portalItem
-                });
+                if (hasValue(layerObject.portalItem.portal)) {
+                    webTileLayer = new WebTileLayer({
+                        portalItem: {
+                            id: layerObject.portalItem.id,
+                            portal: {
+                                url: layerObject.portalItem.portal.url
+                            }
+                        }
+                    });
+                } else {
+                    webTileLayer = new WebTileLayer({
+                        portalItem: layerObject.portalItem
+                    });
+                }
             }
             newLayer = webTileLayer;
 
@@ -1777,9 +1870,20 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
                     urlTemplate: layerObject.urlTemplate
                 });
             } else {
-                openStreetMapLayer = new OpenStreetMapLayer({
-                    portalItem: layerObject.portalItem
-                });
+                if (hasValue(layerObject.portalItem.portal)) {
+                    openStreetMapLayer = new OpenStreetMapLayer({
+                        portalItem: {
+                            id: layerObject.portalItem.id,
+                            portal: {
+                                url: layerObject.portalItem.portal.url
+                            }
+                        }
+                    });
+                } else {
+                    openStreetMapLayer = new OpenStreetMapLayer({
+                        portalItem: layerObject.portalItem
+                    });
+                }
             }
             newLayer = openStreetMapLayer;
 
