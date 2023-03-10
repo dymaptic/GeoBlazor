@@ -81,4 +81,16 @@ public class MapFont : MapComponent, IEquatable<MapFont>
     {
         return HashCode.Combine(Size, Family, FontStyle, Weight);
     }
+    
+    internal MapFontSerializationRecord ToSerializationRecord()
+    {
+        return new MapFontSerializationRecord(Size, Family, FontStyle, Weight);
+    }
 }
+
+internal record MapFontSerializationRecord(
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]int? Size, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Family, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? FontStyle, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Weight)
+    : MapComponentSerializationRecord;

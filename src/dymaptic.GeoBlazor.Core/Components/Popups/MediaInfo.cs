@@ -15,6 +15,24 @@ public abstract class MediaInfo : MapComponent
     ///     Indicates the type of media
     /// </summary>
     public abstract string Type { get; }
+    
+    internal abstract MediaInfoSerializationRecord ToSerializationRecord();
+}
+
+[JsonConverter(typeof(MediaInfoSerializationConverter))]
+internal record MediaInfoSerializationRecord(string Type): MapComponentSerializationRecord;
+
+internal class MediaInfoSerializationConverter : JsonConverter<MediaInfoSerializationRecord>
+{
+    public override MediaInfoSerializationRecord? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override void Write(Utf8JsonWriter writer, MediaInfoSerializationRecord value, JsonSerializerOptions options)
+    {
+        writer.WriteRawValue(JsonSerializer.Serialize(value, value.GetType(), options));
+    }
 }
 
 /// <summary>
@@ -94,7 +112,19 @@ public class BarChartMediaInfo : MediaInfo
         base.ValidateRequiredChildren();
         Value?.ValidateRequiredChildren();
     }
+    
+    internal override MediaInfoSerializationRecord ToSerializationRecord()
+    {
+        return new BarChartMediaInfoSerializationRecord(AltText, Caption, Title, Value?.ToSerializationRecord());
+    }
 }
+
+internal record BarChartMediaInfoSerializationRecord(
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? AltText, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Caption, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Title, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]ChartMediaInfoValueSerializationRecord? Value)
+    : MediaInfoSerializationRecord("bar-chart");
 
 /// <summary>
 ///     The ChartMediaInfoValue class contains information for popups regarding how charts should be constructed.
@@ -185,7 +215,19 @@ public class ChartMediaInfoValue : MapComponent
             }
         }
     }
+    
+    internal ChartMediaInfoValueSerializationRecord ToSerializationRecord()
+    {
+        return new ChartMediaInfoValueSerializationRecord(Fields, NormalizeField, TooltipField, 
+            Series?.Select(s => s.ToSerializationRecord()));
+    }
 }
+
+internal record ChartMediaInfoValueSerializationRecord(IEnumerable<string> Fields, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? NormalizeField, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? TooltipField, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]IEnumerable<ChartMediaInfoValueSeriesSerializationRecord>? Series)
+    : MapComponentSerializationRecord;
 
 /// <summary>
 ///     The ChartMediaInfoValueSeries class is a read-only support class that represents information specific to how data
@@ -246,7 +288,18 @@ public class ChartMediaInfoValueSeries : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? Value { get; set; }
+    
+    internal ChartMediaInfoValueSeriesSerializationRecord ToSerializationRecord()
+    {
+        return new ChartMediaInfoValueSeriesSerializationRecord(FieldName, Tooltip, Value);
+    }
 }
+
+internal record ChartMediaInfoValueSeriesSerializationRecord(
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? FieldName, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Tooltip, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? Value)
+    : MapComponentSerializationRecord;
 
 /// <summary>
 ///     A ColumnChartMediaInfo is a type of chart media element that represents a column chart displayed within a popup.
@@ -325,7 +378,19 @@ public class ColumnChartMediaInfo : MediaInfo
         base.ValidateRequiredChildren();
         Value?.ValidateRequiredChildren();
     }
+    
+    internal override MediaInfoSerializationRecord ToSerializationRecord()
+    {
+        return new ColumnChartMediaInfoSerializationRecord(AltText, Caption, Title, Value?.ToSerializationRecord());
+    }
 }
+
+internal record ColumnChartMediaInfoSerializationRecord(
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? AltText, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Caption, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Title, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]ChartMediaInfoValueSerializationRecord? Value)
+    : MediaInfoSerializationRecord("column-chart");
 
 /// <summary>
 ///     An ImageMediaInfo is a type of media element that represents images to display within a popup.
@@ -413,7 +478,21 @@ public class ImageMediaInfo : MediaInfo
         base.ValidateRequiredChildren();
         Value?.ValidateRequiredChildren();
     }
+    
+    internal override MediaInfoSerializationRecord ToSerializationRecord()
+    {
+        return new ImageMediaInfoSerializationRecord(AltText, Caption, Title, Value?.ToSerializationRecord(), 
+            RefreshInterval);
+    }
 }
+
+internal record ImageMediaInfoSerializationRecord(
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? AltText, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Caption, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Title, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]ImageMediaInfoValueSerializationRecord? Value,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? RefreshInterval)
+    : MediaInfoSerializationRecord("image-media");
 
 /// <summary>
 ///     The ImageMediaInfoValue class contains information for popups regarding how images should be retrieved.
@@ -437,7 +516,17 @@ public class ImageMediaInfoValue : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? SourceURL { get; set; }
+    
+    internal ImageMediaInfoValueSerializationRecord ToSerializationRecord()
+    {
+        return new(LinkURL, SourceURL);
+    }
 }
+
+internal record ImageMediaInfoValueSerializationRecord(
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? LinkURL, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? SourceURL)
+    : MapComponentSerializationRecord;
 
 /// <summary>
 ///     A LineChartMediaInfo is a type of chart media element that represents a line chart displayed within a popup.
@@ -516,7 +605,19 @@ public class LineChartMediaInfo : MediaInfo
         base.ValidateRequiredChildren();
         Value?.ValidateRequiredChildren();
     }
+    
+    internal override MediaInfoSerializationRecord ToSerializationRecord()
+    {
+        return new LineChartMediaInfoSerializationRecord(AltText, Caption, Title, Value?.ToSerializationRecord());
+    }
 }
+
+internal record LineChartMediaInfoSerializationRecord(
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? AltText, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Caption, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Title, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]ChartMediaInfoValueSerializationRecord? Value)
+    : MediaInfoSerializationRecord("line-chart");
 
 /// <summary>
 ///     A PieChartMediaInfo is a type of chart media element that represents a pie chart displayed within a popup.
@@ -595,7 +696,19 @@ public class PieChartMediaInfo : MediaInfo
         base.ValidateRequiredChildren();
         Value?.ValidateRequiredChildren();
     }
+    
+    internal override MediaInfoSerializationRecord ToSerializationRecord()
+    {
+        return new PieChartMediaInfoSerializationRecord(AltText, Caption, Title, Value?.ToSerializationRecord());
+    }
 }
+
+internal record PieChartMediaInfoSerializationRecord(
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? AltText, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Caption, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Title, 
+    ChartMediaInfoValueSerializationRecord? Value)
+    : MediaInfoSerializationRecord("pie-chart");
 
 internal class MediaInfoConverter : JsonConverter<MediaInfo>
 {

@@ -63,4 +63,15 @@ public class FieldInfoFormat : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? DateFormat { get; set; }
+    
+    internal FieldInfoFormatSerializationRecord ToSerializationRecord()
+    {
+        return new FieldInfoFormatSerializationRecord(Places, DigitSeparator, DateFormat);
+    }
 }
+
+internal record FieldInfoFormatSerializationRecord(
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]int? Places,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]bool? DigitSeparator,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? DateFormat) 
+    : MapComponentSerializationRecord;

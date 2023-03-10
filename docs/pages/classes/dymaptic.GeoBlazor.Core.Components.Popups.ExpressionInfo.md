@@ -20,10 +20,13 @@ of the popupTemplate's content or referenced within a simple string.
 </a>
 
 ```csharp
-public class ExpressionInfo : dymaptic.GeoBlazor.Core.Components.MapComponent
+public class ExpressionInfo : dymaptic.GeoBlazor.Core.Components.MapComponent,
+System.IEquatable<dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo>
 ```
 
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [Microsoft.AspNetCore.Components.ComponentBase](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.ComponentBase 'Microsoft.AspNetCore.Components.ComponentBase') &#129106; [MapComponent](dymaptic.GeoBlazor.Core.Components.MapComponent.html 'dymaptic.GeoBlazor.Core.Components.MapComponent') &#129106; ExpressionInfo
+
+Implements [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.IEquatable-1 'System.IEquatable`1')[ExpressionInfo](dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo.html 'dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.IEquatable-1 'System.IEquatable`1')
 ### Properties
 
 <a name='dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo.Expression'></a>
@@ -82,3 +85,84 @@ public string? Title { get; set; }
 
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+### Methods
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo.Equals(object)'></a>
+
+## ExpressionInfo.Equals(object) Method
+
+Determines whether the specified object is equal to the current object.
+
+```csharp
+public override bool Equals(object? obj);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo.Equals(object).obj'></a>
+
+`obj` [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object')
+
+The object to compare with the current object.
+
+#### Returns
+[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')  
+[true](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool') if the specified object  is equal to the current object; otherwise, [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool').
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo.GetHashCode()'></a>
+
+## ExpressionInfo.GetHashCode() Method
+
+Serves as the default hash function.
+
+```csharp
+public override int GetHashCode();
+```
+
+#### Returns
+[System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')  
+A hash code for the current object.
+### Operators
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo.op_Equality(dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo,dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo)'></a>
+
+## ExpressionInfo.operator ==(ExpressionInfo, ExpressionInfo) Operator
+
+Equality operator.
+
+```csharp
+public static bool operator ==(dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo? left, dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo? right);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo.op_Equality(dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo,dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo).left'></a>
+
+`left` [ExpressionInfo](dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo.html 'dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo.op_Equality(dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo,dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo).right'></a>
+
+`right` [ExpressionInfo](dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo.html 'dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo')
+
+#### Returns
+[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo.op_Inequality(dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo,dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo)'></a>
+
+## ExpressionInfo.operator !=(ExpressionInfo, ExpressionInfo) Operator
+
+Inequality operator.
+
+```csharp
+public static bool operator !=(dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo? left, dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo? right);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo.op_Inequality(dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo,dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo).left'></a>
+
+`left` [ExpressionInfo](dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo.html 'dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo.op_Inequality(dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo,dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo).right'></a>
+
+`right` [ExpressionInfo](dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo.html 'dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo')
+
+#### Returns
+[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')

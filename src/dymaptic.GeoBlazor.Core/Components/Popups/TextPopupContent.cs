@@ -30,3 +30,7 @@ public class TextPopupContent : PopupContent
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Text { get; set; }
 }
+
+internal record TextPopupContentSerializationRecord(
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Text) 
+    : PopupContentSerializationRecord("text");

@@ -1,5 +1,6 @@
 ﻿using dymaptic.GeoBlazor.Core.Objects;
 using Microsoft.AspNetCore.Components;
+using System.Text.Json.Serialization;
 
 
 namespace dymaptic.GeoBlazor.Core.Components.Geometries;
@@ -71,7 +72,6 @@ public class Polygon : Geometry, IEquatable<Polygon>
     public bool Equals(Polygon? other)
     {
         if (ReferenceEquals(null, other)) return false;
-        if (ReferenceEquals(this, other)) return true;
 
         return Rings.Equals(other.Rings);
     }
@@ -80,7 +80,6 @@ public class Polygon : Geometry, IEquatable<Polygon>
     public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
-        if (ReferenceEquals(this, obj)) return true;
         if (obj.GetType() != GetType()) return false;
 
         return Equals((Polygon)obj);
@@ -91,4 +90,15 @@ public class Polygon : Geometry, IEquatable<Polygon>
     {
         return Rings.GetHashCode();
     }
+
+    internal override GeometrySerializationRecord ToSerializationRecord()
+    {
+        return new PolygonSerializationRecord(Rings, SpatialReference?.ToSerializationRecord(),
+            Extent?.ToSerializationRecord() as ExtentSerializationRecord);
+    }
 }
+
+internal record PolygonSerializationRecord(MapPath[] Rings, 
+        SpatialReferenceSerializationRecord? SpatialReference = null, 
+        ExtentSerializationRecord? Extent = null)
+    : GeometrySerializationRecord("polygon", Extent, SpatialReference);

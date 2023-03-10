@@ -99,6 +99,7 @@ import PopupWidgetWrapper from "./popupWidgetWrapper";
 import HitTestResult = __esri.HitTestResult;
 import MapViewHitTestOptions = __esri.MapViewHitTestOptions;
 import LegendLayerInfos = __esri.LegendLayerInfos;
+import GraphicWrapper from "./graphic";
 
 export let arcGisObjectRefs: Record<string, Accessor> = {};
 export let dotNetRefs = {};
@@ -1143,6 +1144,7 @@ export async function addGraphic(graphicObject: DotNetGraphic, viewId: string, g
         if (graphicsLayer === undefined || graphicsLayer === null) {
             if (!hasValue(view?.graphics)) return;
             view.graphics?.add(graphic as Graphic);
+            console.log(new Date() + " - added to map");
         } else if (typeof (graphicsLayer) === 'object') {
             graphicsLayer.add(graphic as Graphic);
         } else {
@@ -1151,6 +1153,29 @@ export async function addGraphic(graphicObject: DotNetGraphic, viewId: string, g
         unsetWaitCursor(viewId);
     } catch (error) {
         logError(error, viewId);
+    }
+}
+
+export async function addGraphics(graphics: DotNetGraphic[], viewId: string): Promise<void> {
+    try {
+        let jsGraphics: Graphic[] = [];
+        let wrappers: GraphicWrapper[] = [];
+        let view = arcGisObjectRefs[viewId] as View;
+        for (const g of graphics) {
+            let jsGraphic = await buildJsGraphic(g, false, viewId) as Graphic;
+            jsGraphics.push(jsGraphic);
+            wrappers.push(new GraphicWrapper(jsGraphic));
+        }
+        view.graphics?.addMany(jsGraphics);
+        console.log(new Date() + " - added to map");
+        for (let i = 0; i < wrappers.length; i++) {
+            const w = wrappers[i];
+            // @ts-ignore
+            let objectRef = DotNet.createJSObjectReference(w);
+            await graphics[i].dotNetGraphicReference.invokeMethodAsync("OnGraphicCreated", objectRef);
+        }
+    } catch (error) {
+        console.log(error);
     }
 }
 
@@ -1997,19 +2022,22 @@ function waitForRender(viewId: string, dotNetRef: any): void {
     let view = arcGisObjectRefs[viewId] as View;
     view.when().then(_ => {
         let isRendered = false;
-        let interval = setInterval(() => {
+        let rendering = false;
+        let interval = setInterval(async () => {
             if (view === undefined || view === null) {
                 clearInterval(interval);
                 return;
             }
-            if (!view.updating && !isRendered) {
+            if (!view.updating && !isRendered && !rendering) {
                 notifyExtentChanged = true;
                 console.debug("View Render Complete");
                 try {
-                    dotNetRef.invokeMethodAsync('OnViewRendered');
+                    rendering = true;
+                    await dotNetRef.invokeMethodAsync('OnViewRendered');
                 } catch {
                     // we must be disconnected
                 }
+                rendering = false;
                 isRendered = true;
             } else if (isRendered && view.updating) {
                 isRendered = false;

@@ -11,7 +11,8 @@ parent: Classes
 A base class for non-map components, such as GeometryEngine, Projection, etc.
 
 ```csharp
-public abstract class LogicComponent
+public abstract class LogicComponent :
+System.IDisposable
 ```
 
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; LogicComponent
@@ -19,6 +20,8 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 Derived  
 &#8627; [GeometryEngine](dymaptic.GeoBlazor.Core.Model.GeometryEngine.html 'dymaptic.GeoBlazor.Core.Model.GeometryEngine')  
 &#8627; [Projection](dymaptic.GeoBlazor.Core.Model.Projection.html 'dymaptic.GeoBlazor.Core.Model.Projection')
+
+Implements [System.IDisposable](https://docs.microsoft.com/en-us/dotnet/api/System.IDisposable 'System.IDisposable')
 ### Constructors
 
 <a name='dymaptic.GeoBlazor.Core.Model.LogicComponent.LogicComponent(Microsoft.JSInterop.IJSRuntime,Microsoft.Extensions.Configuration.IConfiguration)'></a>
@@ -58,6 +61,18 @@ public System.Func<dymaptic.GeoBlazor.Core.Exceptions.JavascriptException,System
 #### Property Value
 [System.Func&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Func-2 'System.Func`2')[JavascriptException](dymaptic.GeoBlazor.Core.Exceptions.JavascriptException.html 'dymaptic.GeoBlazor.Core.Exceptions.JavascriptException')[,](https://docs.microsoft.com/en-us/dotnet/api/System.Func-2 'System.Func`2')[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Func-2 'System.Func`2')
 ### Methods
+
+<a name='dymaptic.GeoBlazor.Core.Model.LogicComponent.Dispose()'></a>
+
+## LogicComponent.Dispose() Method
+
+Disposes of the Logic Component and cancels all external calls
+
+```csharp
+public void Dispose();
+```
+
+Implements [Dispose()](https://docs.microsoft.com/en-us/dotnet/api/System.IDisposable.Dispose 'System.IDisposable.Dispose')
 
 <a name='dymaptic.GeoBlazor.Core.Model.LogicComponent.OnJavascriptError(dymaptic.GeoBlazor.Core.Exceptions.JavascriptError)'></a>
 
