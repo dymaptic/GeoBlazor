@@ -32,7 +32,16 @@ public class ExpressionPopupContent : PopupContent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ElementExpressionInfo? ExpressionInfo { get; set; }
+    
+    internal override PopupContentSerializationRecord ToSerializationRecord()
+    {
+        return new ExpressionPopupContentSerializationRecord(ExpressionInfo);
+    }
 }
+
+internal record ExpressionPopupContentSerializationRecord(
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]ElementExpressionInfo? ExpressionInfo) 
+    : PopupContentSerializationRecord("expression");
 
 /// <summary>
 ///     Defines an Arcade expression used to create an ExpressionContent element in a PopupTemplate. The expression must

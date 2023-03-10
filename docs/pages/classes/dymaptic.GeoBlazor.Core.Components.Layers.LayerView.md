@@ -15,13 +15,16 @@ Represents the view for a single layer after it has been added to either a MapVi
 </a>
 
 ```csharp
-public class LayerView
+public class LayerView :
+System.IDisposable
 ```
 
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; LayerView
 
 Derived  
 &#8627; [FeatureLayerView](dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayerView.html 'dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayerView')
+
+Implements [System.IDisposable](https://docs.microsoft.com/en-us/dotnet/api/System.IDisposable 'System.IDisposable')
 ### Properties
 
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.LayerView.JsObjectReference'></a>
@@ -101,3 +104,16 @@ public bool Visible { get; set; }
 
 #### Property Value
 [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
+### Methods
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.LayerView.Dispose()'></a>
+
+## LayerView.Dispose() Method
+
+Disposes the LayerView.
+
+```csharp
+public void Dispose();
+```
+
+Implements [Dispose()](https://docs.microsoft.com/en-us/dotnet/api/System.IDisposable.Dispose 'System.IDisposable.Dispose')

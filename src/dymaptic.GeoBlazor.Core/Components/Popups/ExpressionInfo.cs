@@ -17,7 +17,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Popups;
 ///         API for JS
 ///     </a>
 /// </summary>
-public class ExpressionInfo : MapComponent
+public class ExpressionInfo : MapComponent, IEquatable<ExpressionInfo>
 {
     /// <summary>
     ///     An Arcade expression following the specification defined by the Arcade Popup Profile. Expressions must return a
@@ -50,7 +50,59 @@ public class ExpressionInfo : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ReturnType? ReturnType { get; set; }
+    
+    internal ExpressionInfoSerializationRecord ToSerializationRecord()
+    {
+        return new(Expression, Name, Title, ReturnType);
+    }
+
+    /// <inheritdoc />
+    public bool Equals(ExpressionInfo? other)
+    {
+        if (ReferenceEquals(null, other)) return false;
+
+        return Expression == other.Expression && Name == other.Name && Title == other.Title && 
+            ReturnType == other.ReturnType;
+    }
+
+    /// <inheritdoc />
+    public override bool Equals(object? obj)
+    {
+        if (ReferenceEquals(null, obj)) return false;
+        if (obj.GetType() != this.GetType()) return false;
+
+        return Equals((ExpressionInfo)obj);
+    }
+
+    /// <inheritdoc />
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Expression, Name, Title, ReturnType);
+    }
+
+    /// <summary>
+    ///    Equality operator.
+    /// </summary>
+    public static bool operator ==(ExpressionInfo? left, ExpressionInfo? right)
+    {
+        return Equals(left, right);
+    }
+
+    /// <summary>
+    ///    Inequality operator.
+    /// </summary>
+    public static bool operator !=(ExpressionInfo? left, ExpressionInfo? right)
+    {
+        return !Equals(left, right);
+    }
 }
+
+internal record ExpressionInfoSerializationRecord(
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Expression, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Name, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Title,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]ReturnType? ReturnType) 
+    : MapComponentSerializationRecord;
 
 /// <summary>
 ///     Indicates the return type of the Arcade expression.

@@ -29,6 +29,11 @@ public abstract class Symbol : MapComponent
     ///     The symbol type
     /// </summary>
     public virtual string Type => default!;
+    
+    internal virtual SymbolSerializationRecord ToSerializationRecord()
+    {
+        return new(Type, Color);
+    }
 }
 
 internal class SymbolJsonConverter : JsonConverter<Symbol>
@@ -75,5 +80,23 @@ internal class SymbolJsonConverter : JsonConverter<Symbol>
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
         };
         writer.WriteRawValue(JsonSerializer.Serialize(value, typeof(object), newOptions));
+    }
+}
+
+[JsonConverter(typeof(SymbolSerializationConverter))]
+internal record SymbolSerializationRecord(string Type, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]MapColor? Color)
+    : MapComponentSerializationRecord;
+
+internal class SymbolSerializationConverter : JsonConverter<SymbolSerializationRecord>
+{
+    public override SymbolSerializationRecord? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override void Write(Utf8JsonWriter writer, SymbolSerializationRecord value, JsonSerializerOptions options)
+    {
+        writer.WriteRawValue(JsonSerializer.Serialize(value, value.GetType(), options));
     }
 }

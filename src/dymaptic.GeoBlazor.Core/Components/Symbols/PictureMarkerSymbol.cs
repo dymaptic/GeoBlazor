@@ -96,7 +96,6 @@ public class PictureMarkerSymbol : MarkerSymbol, IEquatable<PictureMarkerSymbol>
     public bool Equals(PictureMarkerSymbol? other)
     {
         if (ReferenceEquals(null, other)) return false;
-        if (ReferenceEquals(this, other)) return true;
 
         return Nullable.Equals(Height, other.Height) && Nullable.Equals(Width, other.Width) && (Url == other.Url) &&
             (Color == other.Color);
@@ -106,7 +105,6 @@ public class PictureMarkerSymbol : MarkerSymbol, IEquatable<PictureMarkerSymbol>
     public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
-        if (ReferenceEquals(this, obj)) return true;
         if (obj.GetType() != GetType()) return false;
 
         return Equals((PictureMarkerSymbol)obj);
@@ -117,4 +115,17 @@ public class PictureMarkerSymbol : MarkerSymbol, IEquatable<PictureMarkerSymbol>
     {
         return HashCode.Combine(Height, Width, Url, Color);
     }
+
+    internal override SymbolSerializationRecord ToSerializationRecord()
+    {
+        return new PictureMarkerSymbolSerializationRecord(Url, Width, Height, Angle, XOffset, YOffset);
+    }
 }
+
+internal record PictureMarkerSymbolSerializationRecord(string Url, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? Width = null, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? Height = null,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? Angle = null, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? XOffset = null, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? YOffset = null): 
+    SymbolSerializationRecord("picture-marker", null);

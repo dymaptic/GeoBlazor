@@ -108,8 +108,7 @@ public class Point : Geometry, IEquatable<Point>
     public bool Equals(Point? other)
     {
         if (ReferenceEquals(null, other)) return false;
-        if (ReferenceEquals(this, other)) return true;
-
+        
         return (Latitude.Equals(other.Latitude) && Longitude.Equals(other.Longitude)) ||
             (X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z));
     }
@@ -118,7 +117,6 @@ public class Point : Geometry, IEquatable<Point>
     public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
-        if (ReferenceEquals(this, obj)) return true;
         if (obj.GetType() != GetType()) return false;
 
         return Equals((Point)obj);
@@ -129,4 +127,20 @@ public class Point : Geometry, IEquatable<Point>
     {
         return HashCode.Combine(base.GetHashCode(), Latitude, Longitude, X, Y, Z);
     }
+
+    internal override GeometrySerializationRecord ToSerializationRecord()
+    {
+        return new PointSerializationRecord(Longitude, Latitude, X, Y, Z, SpatialReference?.ToSerializationRecord(),
+            Extent?.ToSerializationRecord() as ExtentSerializationRecord);
+    }
 }
+
+internal record PointSerializationRecord(
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? Longitude = null, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? Latitude = null, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? X = null, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? Y = null, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? Z = null, 
+    SpatialReferenceSerializationRecord? SpatialReference = null, 
+    ExtentSerializationRecord? Extent = null) 
+    : GeometrySerializationRecord("point", Extent, SpatialReference);

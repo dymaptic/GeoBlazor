@@ -149,14 +149,14 @@ export async function buildJsGraphic(graphicObject: any, register: boolean, view
         let layer = arcGisObjectRefs[graphicObject.layerId] as Layer;
         graphic.layer = layer;
     }
-
-    if (graphicObject.dotNetGraphicReference !== undefined) {
-        let wrapper = new GraphicWrapper(graphic);
-        // @ts-ignore
-        let objectRef = DotNet.createJSObjectReference(wrapper);
-        await graphicObject.dotNetGraphicReference.invokeMethodAsync("OnGraphicCreated", objectRef);
-    }
+    
     if (register) {
+        if (graphicObject.dotNetGraphicReference !== undefined) {
+            let wrapper = new GraphicWrapper(graphic);
+            // @ts-ignore
+            let objectRef = DotNet.createJSObjectReference(wrapper);
+            graphicObject.dotNetGraphicReference.invokeMethodAsync("OnGraphicCreated", objectRef);
+        }
         arcGisObjectRefs[graphicObject.id] = graphic;
     }
     return graphic;
