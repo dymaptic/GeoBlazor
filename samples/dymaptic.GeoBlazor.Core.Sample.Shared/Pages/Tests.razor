@@ -69,6 +69,13 @@
 
 </MapView>
 
+<h2>Delayed Render with Graphics</h2>
+<MapView @ref="_delayedMapView" Style="height: 600px; width: 100%;">
+    <Map>
+        <OpenStreetMapLayer />
+    </Map>
+</MapView>
+
 @code {
 
     private void OnMapRendered()
@@ -76,7 +83,7 @@
         _mapRendered = true;
     }
 
-    protected override void OnAfterRender(bool firstRender)
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         _lats.Clear();
         _longs.Clear();
@@ -84,6 +91,18 @@
         {
             _lats.Add(_random.NextDouble() * 10 + 50.0);
             _longs.Add(_random.NextDouble() * 10 + 11.0);
+        }
+
+        if (!_delayedMapSet && !firstRender)
+        {
+            List<Graphic> graphics = new();
+            for (var i = 0; i < 2000; i++)
+            {
+                graphics.Add(new Graphic(new Point(_random.NextDouble() * 10 + 11.0, 
+                    _random.NextDouble() * 10 + 50.0)));
+            }
+            await _delayedMapView!.AddGraphics(graphics);
+            _delayedMapSet = true;
         }
     }
 
@@ -165,4 +184,6 @@
     private readonly List<double> _lats = new();
     private readonly List<double> _longs = new();
     private MapView? _view3;
+    private MapView? _delayedMapView;
+    private bool _delayedMapSet;
 }
