@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
+using dymaptic.GeoBlazor.Core.Serialization;
+using Microsoft.AspNetCore.Components;
 using System.Text.Json.Serialization;
 
 
@@ -22,7 +24,14 @@ public class PortalItem : MapComponent
     [EditorRequired]
     [RequiredProperty]
     public new string Id { get; set; } = default!;
-    
+
+    /// <summary>
+    ///     An authorization string used to access the portal item. API keys are generated and managed in the ArcGIS Developer dashboard. An API key is tied explicitly to an ArcGIS account; it is also used to monitor service usage.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? ApiKey { get; set; }
+
     /// <summary>
     ///     The portal that contains the item. It uses Portal.getDefault().
     /// </summary>
@@ -50,7 +59,7 @@ public class PortalItem : MapComponent
     {
         switch (child)
         {
-            case Portal portal:
+            case Portal _:
                 Portal = null;
 
                 break;
