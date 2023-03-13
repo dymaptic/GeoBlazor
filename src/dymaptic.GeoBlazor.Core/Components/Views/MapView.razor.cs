@@ -1262,8 +1262,8 @@ public partial class MapView : MapComponent
 
         if (ViewJsModule is null || !added) return;
 
-        await ViewJsModule!.InvokeVoidAsync("addLayer", (object)layer, Id,
-            CancellationTokenSource.Token, isBasemapLayer);
+        await ViewJsModule!.InvokeVoidAsync("addLayer", CancellationTokenSource.Token,
+            (object)layer, Id, isBasemapLayer);
     }
 
     /// <summary>
