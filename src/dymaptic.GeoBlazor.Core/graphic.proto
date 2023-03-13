@@ -1,0 +1,6 @@
+﻿syntax = "proto3";
+package dymaptic.GeoBlazor.Core.proto;
+
+message Graphic {
+  
+}
