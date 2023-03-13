@@ -130,8 +130,8 @@ public class GraphicsLayer : Layer
     public async Task Remove(IEnumerable<Graphic> graphics)
     {
         List<Graphic> removedGraphics = graphics.ToList();
-        List<Guid> ids = removedGraphics.Select(g => g.Id).ToList();
-        await JsLayerReference!.InvokeVoidAsync("removeMany", ids);
+        List<IJSObjectReference> refs = removedGraphics.Select(g => g.JsGraphicReference!).ToList();
+        await JsLayerReference!.InvokeVoidAsync("removeMany", refs);
         _graphics.ExceptWith(removedGraphics);
     }
 
@@ -187,7 +187,7 @@ public class GraphicsLayer : Layer
                     try
                     {
                         await JsLayerReference.InvokeVoidAsync("remove", 
-                            CancellationTokenSource.Token, graphic);
+                            CancellationTokenSource.Token, graphic.JsGraphicReference);
                     }
                     catch
                     {

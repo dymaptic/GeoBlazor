@@ -36,9 +36,9 @@ public abstract class LayerObject : MapComponent
     {
         Symbol = symbol;
 
-        if (JsObjectReference is not null)
+        if (JsGraphicReference is not null)
         {
-            await JsObjectReference.InvokeVoidAsync("setSymbol", 
+            await JsGraphicReference.InvokeVoidAsync("setSymbol", 
                 Symbol.ToSerializationRecord());
         }
     }
@@ -90,5 +90,5 @@ public abstract class LayerObject : MapComponent
     /// <summary>
     ///    The <see cref="IJSObjectReference" /> for the layer object.
     /// </summary>
-    protected IJSObjectReference? JsObjectReference = null!;
+    public IJSObjectReference? JsGraphicReference = null!;
 }

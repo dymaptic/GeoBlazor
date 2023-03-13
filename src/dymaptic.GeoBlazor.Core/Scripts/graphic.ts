@@ -4,7 +4,7 @@ import {buildJsGeometry, buildJsPopupTemplate} from "./jsBuilder";
 import {buildDotNetGeometry, buildDotNetPopupTemplate} from "./dotNetBuilder";
 
 export default class GraphicWrapper {
-    private graphic: Graphic;
+    public graphic: Graphic;
 
     constructor(graphic: Graphic) {
         this.graphic = graphic;

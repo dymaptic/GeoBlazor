@@ -796,26 +796,22 @@ export async function updateGraphic(graphicObject: any, viewId: string): Promise
     }
 }
 
-export function removeGraphics(graphics: DotNetGraphic[], viewId: string): void {
+export function removeGraphics(graphicWrappers: GraphicWrapper[], viewId: string): void {
     try {
         setWaitCursor(viewId);
         let view = arcGisObjectRefs[viewId] as View;
-        for (let graphic of graphics) {
-            let jsGraphic = arcGisObjectRefs[graphic.id as string] as Graphic;
-            view.graphics.remove(jsGraphic);
-        }
+        view.graphics.removeMany(graphicWrappers.map(g => g.graphic));
         unsetWaitCursor(viewId);
     } catch (error) {
         logError(error, viewId);
     }
 }
 
-export function removeGraphic(graphicObject: DotNetGraphic, viewId: string): void {
+export function removeGraphic(graphicWrapper: GraphicWrapper, viewId: string): void {
     try {
         setWaitCursor(viewId);
         let view = arcGisObjectRefs[viewId] as View;
-        let graphic = arcGisObjectRefs[graphicObject.id as string] as Graphic;
-        view.graphics.remove(graphic);
+        view.graphics.remove(graphicWrapper.graphic);
         unsetWaitCursor(viewId);
     } catch (error) {
         logError(error, viewId);
