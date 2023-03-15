@@ -139,6 +139,11 @@ public abstract class Layer : MapComponent
 
         LayerView?.Dispose();
 
+        if (JsLayerReference is not null)
+        {
+            await JsLayerReference.DisposeAsync();
+        }
+
         await base.DisposeAsync();
     }
 

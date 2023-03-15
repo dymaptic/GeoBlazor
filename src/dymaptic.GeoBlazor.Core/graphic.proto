@@ -1,6 +1,47 @@
 ﻿syntax = "proto3";
 package dymaptic.GeoBlazor.Core.proto;
 
+import "google/protobuf/any.proto";
+
 message Graphic {
-  
+  string id = 1;
+  Geometry geometry = 2;
+  Symbol symbol = 3;
+  PopupTemplate popupTemplate = 4;
+  map<string, google.protobuf.Any> attributes = 5;
+  string layerId = 6;
+}
+
+message Geometry {
+  string type = 1;
+  Geometry extent = 2;
+  SpatialReference spatialReference = 3;
+  double longitude = 4;
+  double latitude = 5;
+  double x = 6;
+  double y = 7;
+  double z = 8;
+  repeated MapPath paths = 9;
+  repeated MapPath rings = 10;
+  double xMax = 11;
+  double xMin = 12;
+  double yMax = 13;
+  double yMin = 14;
+  double zMax = 15;
+  double zMin = 16;
+  double mMax = 17;
+  double mMin = 18;
+}
+
+message MapPath {
+  repeated double path = 1;
+}
+
+message SpatialReference {
+  int32 wkid = 1;
+}
+
+message Symbol {
+  string type = 1;
+  google.protobuf.Any
 }

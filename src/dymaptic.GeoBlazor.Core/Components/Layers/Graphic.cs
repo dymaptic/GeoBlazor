@@ -303,7 +303,19 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     {
         return Id.GetHashCode();
     }
-    
+
+    public override async ValueTask DisposeAsync()
+    {
+        DotNetGraphicReference.Dispose();
+
+        if (JsObjectReference is not null)
+        {
+            await JsObjectReference.DisposeAsync();
+        }
+        
+        await base.DisposeAsync();
+    }
+
     internal GraphicSerializationRecord ToSerializationRecord(bool refresh = false)
     {
         if (_serializationRecord is null || refresh)
