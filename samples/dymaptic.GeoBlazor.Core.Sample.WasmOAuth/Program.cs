@@ -1,4 +1,5 @@
 using dymaptic.GeoBlazor.Core;
+using dymaptic.GeoBlazor.Core.Model;
 using dymaptic.GeoBlazor.Core.Sample.WasmOAuth;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -11,4 +12,6 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddScoped(sp => new HttpClient {BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)});
 builder.Services.AddGeoBlazor();
 
-await builder.Build().RunAsync();
+var app = builder.Build();
+await app.Services.GetService<OAuthAuthentication>().Initialize();
+await app.RunAsync();

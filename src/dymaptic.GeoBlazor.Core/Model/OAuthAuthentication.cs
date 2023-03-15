@@ -46,6 +46,7 @@ public class OAuthAuthentication : LogicComponent
 
         await InvokeVoidAsync("initialize", AppId);
         _initializedAppId = AppId;
+        Console.WriteLine("Initialized OAuth");
     }
 
     /// <summary>

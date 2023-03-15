@@ -15,4 +15,6 @@
         <ProjectReference Include="..\..\src\dymaptic.GeoBlazor.Core\dymaptic.GeoBlazor.Core.csproj"/>
     </ItemGroup>
 
+   
+
 </Project>
