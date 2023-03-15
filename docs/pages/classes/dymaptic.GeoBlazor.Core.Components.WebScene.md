@@ -8,8 +8,12 @@ parent: Classes
 
 ## WebScene Class
 
-The web scene is the core element of 3D mapping across ArcGIS. It defines the content, style, environment, and slides of your scene and it can be shared across multiple ArcGIS web and desktop applications  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html">ArcGIS JS API</a>
+The web scene is the core element of 3D mapping across ArcGIS. It defines the content, style, environment, and  
+slides of your scene and it can be shared across multiple ArcGIS web and desktop applications  
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class WebScene : dymaptic.GeoBlazor.Core.Components.Map
@@ -81,7 +85,8 @@ The child to unregister
 
 ## WebScene.ValidateRequiredChildren() Method
 
-When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the [RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
+When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the  
+[RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
 
 ```csharp
 public override void ValidateRequiredChildren();

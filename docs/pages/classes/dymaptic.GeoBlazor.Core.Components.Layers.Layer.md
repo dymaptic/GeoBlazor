@@ -8,8 +8,13 @@ parent: Classes
 
 ## Layer Class
 
-The layer is the most fundamental component of a Map. It is a collection of spatial data in the form of vector graphics or raster images that represent real-world phenomena. Layers may contain discrete features that store vector data or continuous cells/pixels that store raster data.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html">ArcGIS JS API</a>
+The layer is the most fundamental component of a Map. It is a collection of spatial data in the form of vector  
+graphics or raster images that represent real-world phenomena. Layers may contain discrete features that store  
+vector data or continuous cells/pixels that store raster data.  
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public abstract class Layer : dymaptic.GeoBlazor.Core.Components.MapComponent
@@ -44,7 +49,8 @@ public dymaptic.GeoBlazor.Core.Objects.AbortManager? AbortManager { get; set; }
 
 ## Layer.FullExtent Property
 
-The full extent of the layer. By default, this is worldwide. This property may be used to set the extent of the view to match a layer's extent so that its features appear to fill the view.
+The full extent of the layer. By default, this is worldwide. This property may be used to set the extent of the  
+view to match a layer's extent so that its features appear to fill the view.
 
 ```csharp
 public dymaptic.GeoBlazor.Core.Components.Geometries.Extent? FullExtent { get; set; }
@@ -148,7 +154,8 @@ public string? Title { get; set; }
 
 ## Layer.Visible Property
 
-Indicates if the layer is visible in the View. When false, the layer may still be added to a Map instance that is referenced in a view, but its features will not be visible in the view.
+Indicates if the layer is visible in the View. When false, the layer may still be added to a Map instance that is  
+referenced in a view, but its features will not be visible in the view.
 
 ```csharp
 public System.Nullable<bool> Visible { get; set; }
@@ -177,9 +184,11 @@ Implements [DisposeAsync()](https://docs.microsoft.com/en-us/dotnet/api/System.I
 
 ## Layer.Load(CancellationToken) Method
 
-Loads the resources referenced by this class. This method automatically executes for a View and all of the resources it references in Map if the view is constructed with a map instance.  
+Loads the resources referenced by this class. This method automatically executes for a View and all of the  
+resources it references in Map if the view is constructed with a map instance.  
 This method must be called by the developer when accessing a resource that will not be loaded in a View.  
-The load() method only triggers the loading of the resource the first time it is called. The subsequent calls return the same promise.
+The load() method only triggers the loading of the resource the first time it is called. The subsequent calls  
+return the same promise.
 
 ```csharp
 public System.Threading.Tasks.Task Load(System.Threading.CancellationToken cancellationToken=default(System.Threading.CancellationToken));
@@ -194,7 +203,8 @@ public System.Threading.Tasks.Task Load(System.Threading.CancellationToken cance
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
 
 ### Remarks
-It's possible to provide a signal to stop being interested into a Loadable instance load status. When the signal is aborted, the instance does not stop its loading process, only cancelLoad can abort it.
+It's possible to provide a signal to stop being interested into a Loadable instance load status. When the signal is  
+aborted, the instance does not stop its loading process, only cancelLoad can abort it.
 
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.Layer.RegisterChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent)'></a>
 
@@ -245,7 +255,8 @@ The child to unregister
 
 ## Layer.ValidateRequiredChildren() Method
 
-When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the [RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
+When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the  
+[RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
 
 ```csharp
 public override void ValidateRequiredChildren();

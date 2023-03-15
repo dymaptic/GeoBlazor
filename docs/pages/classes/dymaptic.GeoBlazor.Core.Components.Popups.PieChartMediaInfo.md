@@ -9,7 +9,10 @@ parent: Classes
 ## PieChartMediaInfo Class
 
 A PieChartMediaInfo is a type of chart media element that represents a pie chart displayed within a popup.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-PieChartMediaInfo.html">ArcGIS JS API</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-PieChartMediaInfo.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class PieChartMediaInfo : dymaptic.GeoBlazor.Core.Components.Popups.MediaInfo
@@ -133,7 +136,8 @@ The child to unregister
 
 ## PieChartMediaInfo.ValidateRequiredChildren() Method
 
-When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the [RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
+When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the  
+[RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
 
 ```csharp
 public override void ValidateRequiredChildren();

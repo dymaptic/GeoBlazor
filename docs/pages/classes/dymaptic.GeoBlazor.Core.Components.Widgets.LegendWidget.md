@@ -8,8 +8,13 @@ parent: Classes
 
 ## LegendWidget Class
 
-The Legend widget describes the symbols used to represent layers in a map. All symbols and text used in this widget are configured in the Renderer of the layer. The legend will only display layers and sublayers that are visible in the view.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">ArcGIS JS API</a>
+The Legend widget describes the symbols used to represent layers in a map. All symbols and text used in this widget  
+are configured in the Renderer of the layer. The legend will only display layers and sublayers that are visible in  
+the view.  
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class LegendWidget : dymaptic.GeoBlazor.Core.Components.Widgets.Widget
@@ -22,7 +27,9 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 
 ## LegendWidget.LayerInfos Property
 
-Specifies a subset of the layers to display in the legend. This includes any basemap layers you want to be visible in the legend. If this property is not set, all layers in the map will display in the legend, including basemap layers if basemapLegendVisible is true.
+Specifies a subset of the layers to display in the legend. This includes any basemap layers you want to be visible  
+in the legend. If this property is not set, all layers in the map will display in the legend, including basemap  
+layers if basemapLegendVisible is true.
 
 ```csharp
 public System.Collections.Generic.HashSet<dymaptic.GeoBlazor.Core.Components.Widgets.LayerInfo> LayerInfos { get; set; }
@@ -94,7 +101,8 @@ The child to unregister
 
 ## LegendWidget.ValidateRequiredChildren() Method
 
-When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the [RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
+When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the  
+[RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
 
 ```csharp
 public override void ValidateRequiredChildren();

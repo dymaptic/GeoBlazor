@@ -20,12 +20,11 @@
     if (_windowWidth >= 800)
     {
         <SceneView Class="map-view">
-                <WebScene>
+            <WebScene>
                 <PortalItem Id="bfefe7a603c94fc29edca0f4a6662b44" />
-                </WebScene>
+            </WebScene>
             <BasemapLayerListWidget Position="OverlayPosition.TopRight" OnBaseListItemCreatedHandler="OnBaseListItemCreated" OnReferenceListItemCreatedHandler="OnReferenceListItemCreated" />
-            </SceneView>
-
+        </SceneView>
     }
     else // for mobile, move the widget off of the map so you can see the whole map
     {
@@ -53,8 +52,7 @@
 
     private int? _windowWidth;
 
-
-     private Task<ListItem> OnBaseListItemCreated(ListItem baseListItem)
+    private Task<ListItem> OnBaseListItemCreated(ListItem baseListItem)
     {
         return Task.Run(() => baseListItem);
     }

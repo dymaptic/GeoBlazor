@@ -2,13 +2,15 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
+
 namespace dymaptic.GeoBlazor.Core.Serialization;
 
 internal class EnumToKebabCaseStringConverter<T> : JsonConverter<T> where T : notnull
 {
     public override T Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        string? value = reader.GetString()?.Replace("-", string.Empty)
+        string? value = reader.GetString()
+            ?.Replace("-", string.Empty)
             .Replace("esri", string.Empty)
             .Replace(typeof(T).Name, string.Empty);
 
@@ -19,6 +21,7 @@ internal class EnumToKebabCaseStringConverter<T> : JsonConverter<T> where T : no
         catch (Exception ex)
         {
             Console.WriteLine(ex);
+
             return default(T)!;
         }
     }

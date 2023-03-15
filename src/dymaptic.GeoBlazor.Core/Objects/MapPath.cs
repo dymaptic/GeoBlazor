@@ -2,11 +2,16 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
+
 namespace dymaptic.GeoBlazor.Core.Objects;
 
 /// <summary>
-///     Represents both <see cref="PolyLine.Paths"/> and <see cref="Polygon.Rings"/>, as a two-dimensional array of number coordinates.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polyline.html#paths">ArcGIS JS API</a>
+///     Represents both <see cref="PolyLine.Paths" /> and <see cref="Polygon.Rings" />, as a two-dimensional array of
+///     number coordinates.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polyline.html#paths">
+///         ArcGIS
+///         JS API
+///     </a>
 /// </summary>
 [JsonConverter(typeof(MapPathConverter))]
 public class MapPath : List<MapPoint>, IEquatable<MapPath>
@@ -97,7 +102,7 @@ internal class MapPathEqualityComparer : EqualityComparer<MapPath>
 }
 
 /// <summary>
-///     This is another representation of <see cref="Point"/> that should be used to create <see cref="MapPath"/>s.
+///     This is another representation of <see cref="Point" /> that should be used to create <see cref="MapPath" />s.
 /// </summary>
 [JsonConverter(typeof(MapPointConverter))]
 public class MapPoint : List<double>, IEquatable<MapPoint>

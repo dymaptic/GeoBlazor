@@ -1,34 +1,39 @@
-﻿using System.Text.Json.Serialization;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
+using System.Text.Json.Serialization;
+
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
-///     The PortalBasemapsSource class is a Portal-driven Basemap source in the BasemapGalleryViewModel or BasemapGallery widget.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-support-PortalBasemapsSource.html">ArcGIS JS API</a>
+///     The PortalBasemapsSource class is a Portal-driven Basemap source in the BasemapGalleryViewModel or BasemapGallery
+///     widget.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-support-PortalBasemapsSource.html">
+///         ArcGIS
+///         JS API
+///     </a>
 /// </summary>
-public class PortalBasemapsSource: MapComponent
+public class PortalBasemapsSource : MapComponent
 {
     /// <summary>
     ///     An query string used to create a custom basemap gallery group query.
     /// </summary>
     /// <remarks>
-    ///     User either <see cref="QueryString"/> or <see cref="QueryParams"/>
+    ///     User either <see cref="QueryString" /> or <see cref="QueryParams" />
     /// </remarks>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? QueryString { get; set; }
-    
+
     /// <summary>
     ///     An object with key-value pairs used to create a custom basemap gallery group query.
     /// </summary>
     /// <remarks>
-    ///     User either <see cref="QueryString"/> or <see cref="QueryParams"/>
+    ///     User either <see cref="QueryString" /> or <see cref="QueryParams" />
     /// </remarks>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Dictionary<string, string>? QueryParams { get; set; }
-    
+
     /// <summary>
     ///     The Portal from which to fetch basemaps.
     /// </summary>
@@ -42,7 +47,7 @@ public class PortalBasemapsSource: MapComponent
         {
             case Portal portal:
                 // ReSharper disable once RedundantCast
-                if (!((Object)portal).Equals(Portal))
+                if (!((object)portal).Equals(Portal))
                 {
                     Portal = portal;
                 }

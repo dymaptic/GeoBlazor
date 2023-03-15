@@ -3,6 +3,7 @@ using dymaptic.GeoBlazor.Core.Sample.Maui.Platforms.Android;
 using Microsoft.AspNetCore.Components.WebView;
 using Microsoft.Maui.Platform;
 
+
 namespace dymaptic.GeoBlazor.Core.Sample.Maui;
 
 public partial class MainPage
@@ -11,7 +12,8 @@ public partial class MainPage
     {
         if (e.WebView.Context?.GetActivity() is not ComponentActivity activity)
         {
-            throw new InvalidOperationException($"The permission-managing WebChromeClient requires that the current activity be a '{nameof(ComponentActivity)}'.");
+            throw new InvalidOperationException(
+                $"The permission-managing WebChromeClient requires that the current activity be a '{nameof(ComponentActivity)}'.");
         }
 
         e.WebView.Settings.SetGeolocationEnabled(true);

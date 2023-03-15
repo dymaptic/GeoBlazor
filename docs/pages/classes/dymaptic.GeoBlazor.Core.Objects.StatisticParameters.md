@@ -8,7 +8,8 @@ parent: Classes
 
 ## StatisticParameters Class
 
-The parameters for percentile statistics. This property must be set when the statisticType is set to either percentile-continuous or percentile-discrete.
+The parameters for percentile statistics. This property must be set when the statisticType is set to either  
+percentile-continuous or percentile-discrete.
 
 ```csharp
 public class StatisticParameters :
@@ -24,7 +25,8 @@ Implements [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/S
 
 ## StatisticParameters(double) Constructor
 
-The parameters for percentile statistics. This property must be set when the statisticType is set to either percentile-continuous or percentile-discrete.
+The parameters for percentile statistics. This property must be set when the statisticType is set to either  
+percentile-continuous or percentile-discrete.
 
 ```csharp
 public StatisticParameters(double Value);
@@ -42,7 +44,9 @@ Percentile value. This should be a decimal value between 0 and 1.
 
 ## StatisticParameters.OrderBy Property
 
-Specify ASC (ascending) or DESC (descending) to control the order of the data. For example, in a data set of 10 values from 1 to 10, the percentile value for 0.9 with orderBy set to ascending (ASC) is 9, but when orderBy is set to descending (DESC) the result is 2. The default is ASC.
+Specify ASC (ascending) or DESC (descending) to control the order of the data. For example, in a data set of 10  
+values from 1 to 10, the percentile value for 0.9 with orderBy set to ascending (ASC) is 9, but when orderBy is set  
+to descending (DESC) the result is 2. The default is ASC.
 
 ```csharp
 public System.Nullable<dymaptic.GeoBlazor.Core.Objects.OrderBy> OrderBy { get; set; }

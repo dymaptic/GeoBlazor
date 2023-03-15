@@ -2,7 +2,7 @@
 @inject GeometryEngine GeometryEngine
 
 <PageTitle>Popup Actions</PageTitle>
-<h1>Popups</h1>
+<h1>Popup Actions</h1>
 
 <div class="links-div">
     <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/sample-code/popup-actions/">ArcGIS API for JavaScript</a>
@@ -12,7 +12,7 @@
     Popup actions create custom buttons or toggles within the popup, and allow the developer to call back to a custom function.
 </p>
 
-<MapView @ref="MapView" OnMapRendered="OnMapRendered" 
+<MapView @ref="MapView" OnMapRendered="OnMapRendered"
          Center="new Point(-117.08, 34.1)" Zoom="11" Class="map-view">
     <Map>
         <Basemap>
@@ -36,7 +36,7 @@
     {
         _popup = await MapView!.GetPopupWidget();
     }
-    
+
     private async Task MeasureThis()
     {
         Graphic selectedFeature = await _popup!.GetSelectedFeature();

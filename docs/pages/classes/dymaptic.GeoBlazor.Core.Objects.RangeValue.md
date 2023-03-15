@@ -8,7 +8,8 @@ parent: Classes
 
 ## RangeValue Class
 
-Filters features from the layer that are within the specified range values. Requires ArcGIS Enterprise services 10.5 or greater.This parameter is only supported with MapImageLayer pointing to a map service.
+Filters features from the layer that are within the specified range values. Requires ArcGIS Enterprise services  
+10.5 or greater.This parameter is only supported with MapImageLayer pointing to a map service.
 
 ```csharp
 public class RangeValue :
@@ -24,7 +25,8 @@ Implements [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/S
 
 ## RangeValue(string, object) Constructor
 
-Filters features from the layer that are within the specified range values. Requires ArcGIS Enterprise services 10.5 or greater.This parameter is only supported with MapImageLayer pointing to a map service.
+Filters features from the layer that are within the specified range values. Requires ArcGIS Enterprise services  
+10.5 or greater.This parameter is only supported with MapImageLayer pointing to a map service.
 
 ```csharp
 public RangeValue(string Name, object Value);

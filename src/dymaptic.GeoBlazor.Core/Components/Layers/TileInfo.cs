@@ -8,10 +8,14 @@ using System.Text.Json.Serialization;
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
 /// <summary>
-///     Contains information about the tiling scheme for TileLayers, ElevationLayers, ImageryTileLayers, VectorTileLayers, and WebTileLayers.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TileInfo.html">ArcGIS JS API</a>
+///     Contains information about the tiling scheme for TileLayers, ElevationLayers, ImageryTileLayers, VectorTileLayers,
+///     and WebTileLayers.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TileInfo.html">
+///         ArcGIS
+///         JS API
+///     </a>
 /// </summary>
-public class TileInfo: MapComponent
+public class TileInfo : MapComponent
 {
     /// <summary>
     ///     The dots per inch (DPI) of the tiling scheme.
@@ -19,41 +23,41 @@ public class TileInfo: MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? Dpi { get; set; }
-    
+
     /// <summary>
     ///     Image format of the cached tiles.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public TileInfoFormat? Format { get; set; }
-    
+
     /// <summary>
     ///     Indicates if the tiling scheme supports wrap around.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? IsWrappable { get; set; }
-    
+
     /// <summary>
     ///     An array of levels of detail that define the tiling scheme.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IList<LOD>? Lods { get; set; }
-    
+
     /// <summary>
     ///     Size of tiles in pixels.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IList<double>? Size { get; set; }
-    
+
     /// <summary>
     ///     The tiling scheme origin
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Point? Origin { get; set; }
-    
+
     /// <summary>
     ///     The spatial reference of the tiling schema.
     /// </summary>
@@ -93,7 +97,7 @@ public class TileInfo: MapComponent
         {
             case Point _:
                 Origin = null;
-                
+
                 break;
             case SpatialReference _:
                 SpatialReference = null;

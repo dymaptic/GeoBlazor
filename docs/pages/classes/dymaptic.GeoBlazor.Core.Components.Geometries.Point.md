@@ -9,7 +9,10 @@ parent: Classes
 ## Point Class
 
 A location defined by X, Y, and Z coordinates.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Point.html">ArcGIS JS API</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Point.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class Point : dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,

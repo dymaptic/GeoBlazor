@@ -9,7 +9,10 @@ parent: Classes
 ## StatisticDefinition Class
 
 This class defines the parameters for querying a layer or layer view for statistics.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-StatisticDefinition.html">ArcGIS JS API</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-StatisticDefinition.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class StatisticDefinition :
@@ -26,7 +29,10 @@ Implements [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/S
 ## StatisticDefinition(string, string, StatisticType, StatisticParameters) Constructor
 
 This class defines the parameters for querying a layer or layer view for statistics.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-StatisticDefinition.html">ArcGIS JS API</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-StatisticDefinition.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public StatisticDefinition(string OnStatisticField, string OutStatisticFieldName, dymaptic.GeoBlazor.Core.Objects.StatisticType StatisticType, dymaptic.GeoBlazor.Core.Objects.StatisticParameters StatisticParameters);
@@ -37,13 +43,16 @@ public StatisticDefinition(string OnStatisticField, string OutStatisticFieldName
 
 `OnStatisticField` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 
-Defines the field for which statistics will be calculated. This can be service field names or SQL expressions. See the snippets below for examples.
+Defines the field for which statistics will be calculated. This can be service field names or SQL expressions. See  
+the snippets below for examples.
 
 <a name='dymaptic.GeoBlazor.Core.Objects.StatisticDefinition.StatisticDefinition(string,string,dymaptic.GeoBlazor.Core.Objects.StatisticType,dymaptic.GeoBlazor.Core.Objects.StatisticParameters).OutStatisticFieldName'></a>
 
 `OutStatisticFieldName` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 
-Specifies the output field name for the requested statistic. Output field names can only contain alpha-numeric characters and an underscore. If no output field name is specified, the server assigns a field name to the returned statistic field.
+Specifies the output field name for the requested statistic. Output field names can only contain alpha-numeric  
+characters and an underscore. If no output field name is specified, the server assigns a field name to the returned  
+statistic field.
 
 <a name='dymaptic.GeoBlazor.Core.Objects.StatisticDefinition.StatisticDefinition(string,string,dymaptic.GeoBlazor.Core.Objects.StatisticType,dymaptic.GeoBlazor.Core.Objects.StatisticParameters).StatisticType'></a>
 
@@ -55,14 +64,16 @@ Defines the type of statistic.
 
 `StatisticParameters` [StatisticParameters](dymaptic.GeoBlazor.Core.Objects.StatisticParameters.html 'dymaptic.GeoBlazor.Core.Objects.StatisticParameters')
 
-The parameters for percentile statistics. This property must be set when the statisticType is set to either percentile-continuous or percentile-discrete.
+The parameters for percentile statistics. This property must be set when the statisticType is set to either  
+percentile-continuous or percentile-discrete.
 ### Properties
 
 <a name='dymaptic.GeoBlazor.Core.Objects.StatisticDefinition.OnStatisticField'></a>
 
 ## StatisticDefinition.OnStatisticField Property
 
-Defines the field for which statistics will be calculated. This can be service field names or SQL expressions. See the snippets below for examples.
+Defines the field for which statistics will be calculated. This can be service field names or SQL expressions. See  
+the snippets below for examples.
 
 ```csharp
 public string OnStatisticField { get; set; }
@@ -75,7 +86,9 @@ public string OnStatisticField { get; set; }
 
 ## StatisticDefinition.OutStatisticFieldName Property
 
-Specifies the output field name for the requested statistic. Output field names can only contain alpha-numeric characters and an underscore. If no output field name is specified, the server assigns a field name to the returned statistic field.
+Specifies the output field name for the requested statistic. Output field names can only contain alpha-numeric  
+characters and an underscore. If no output field name is specified, the server assigns a field name to the returned  
+statistic field.
 
 ```csharp
 public string OutStatisticFieldName { get; set; }
@@ -88,7 +101,8 @@ public string OutStatisticFieldName { get; set; }
 
 ## StatisticDefinition.StatisticParameters Property
 
-The parameters for percentile statistics. This property must be set when the statisticType is set to either percentile-continuous or percentile-discrete.
+The parameters for percentile statistics. This property must be set when the statisticType is set to either  
+percentile-continuous or percentile-discrete.
 
 ```csharp
 public dymaptic.GeoBlazor.Core.Objects.StatisticParameters StatisticParameters { get; set; }

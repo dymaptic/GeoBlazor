@@ -6,8 +6,14 @@ using System.Text.Json.Serialization;
 namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 
 /// <summary>
-///     Text symbols are used to define the graphic for displaying labels on a FeatureLayer, CSVLayer, Sublayer, and StreamLayer in a 2D MapView. Text symbols can also be used to define the symbol property of Graphic if the geometry type is Point or Multipoint. With this class, you may alter the color, font, halo, and other properties of the label graphic.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-TextSymbol.html">ArcGIS JS API</a>
+///     Text symbols are used to define the graphic for displaying labels on a FeatureLayer, CSVLayer, Sublayer, and
+///     StreamLayer in a 2D MapView. Text symbols can also be used to define the symbol property of Graphic if the geometry
+///     type is Point or Multipoint. With this class, you may alter the color, font, halo, and other properties of the
+///     label graphic.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-TextSymbol.html">
+///         ArcGIS
+///         JS API
+///     </a>
 /// </summary>
 public class TextSymbol : Symbol, IEquatable<TextSymbol>
 {
@@ -19,7 +25,7 @@ public class TextSymbol : Symbol, IEquatable<TextSymbol>
     }
 
     /// <summary>
-    ///    Constructor for use in code
+    ///     Constructor for use in code
     /// </summary>
     /// <param name="text">
     ///     The text string to display in the view.
@@ -34,7 +40,7 @@ public class TextSymbol : Symbol, IEquatable<TextSymbol>
     ///     The size in points of the text symbol's halo.
     /// </param>
     /// <param name="font">
-    ///     The <see cref="MapFont"/> used to style the text.
+    ///     The <see cref="MapFont" /> used to style the text.
     /// </param>
     public TextSymbol(string text, MapColor? color = null, MapColor? haloColor = null, int? haloSize = null,
         MapFont? font = null)
@@ -45,7 +51,23 @@ public class TextSymbol : Symbol, IEquatable<TextSymbol>
         HaloSize = haloSize;
         Font = font;
     }
-    
+
+    /// <summary>
+    ///     Compares two <see cref="TextSymbol" /> objects for equality.
+    /// </summary>
+    public static bool operator ==(TextSymbol? left, TextSymbol? right)
+    {
+        return Equals(left, right);
+    }
+
+    /// <summary>
+    ///     Compares two <see cref="TextSymbol" /> objects for inequality.
+    /// </summary>
+    public static bool operator !=(TextSymbol? left, TextSymbol? right)
+    {
+        return !Equals(left, right);
+    }
+
     /// <inheritdoc />
     public override string Type => "text";
 
@@ -62,7 +84,7 @@ public class TextSymbol : Symbol, IEquatable<TextSymbol>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? HaloSize { get; set; }
-    
+
     /// <summary>
     ///     The text string to display in the view.
     /// </summary>
@@ -71,10 +93,19 @@ public class TextSymbol : Symbol, IEquatable<TextSymbol>
     public string? Text { get; set; }
 
     /// <summary>
-    ///     The <see cref="MapFont"/> used to style the text.
+    ///     The <see cref="MapFont" /> used to style the text.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public MapFont? Font { get; set; }
+
+    /// <inheritdoc />
+    public bool Equals(TextSymbol? other)
+    {
+        if (ReferenceEquals(null, other)) return false;
+
+        return Equals(HaloColor, other.HaloColor) && (HaloSize == other.HaloSize) && (Text == other.Text) &&
+            Equals(Font, other.Font) && Equals(Color, other.Color);
+    }
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
@@ -119,21 +150,10 @@ public class TextSymbol : Symbol, IEquatable<TextSymbol>
     }
 
     /// <inheritdoc />
-    public bool Equals(TextSymbol? other)
-    {
-        if (ReferenceEquals(null, other)) return false;
-        if (ReferenceEquals(this, other)) return true;
-
-        return Equals(HaloColor, other.HaloColor) && HaloSize == other.HaloSize && Text == other.Text &&
-            Equals(Font, other.Font) && Equals(Color, other.Color);
-    }
-
-    /// <inheritdoc />
     public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
-        if (ReferenceEquals(this, obj)) return true;
-        if (obj.GetType() != this.GetType()) return false;
+        if (obj.GetType() != GetType()) return false;
 
         return Equals((TextSymbol)obj);
     }
@@ -144,19 +164,16 @@ public class TextSymbol : Symbol, IEquatable<TextSymbol>
         return HashCode.Combine(HaloColor, HaloSize, Text, Font, Color);
     }
 
-    /// <summary>
-    ///     Compares two <see cref="TextSymbol"/> objects for equality.
-    /// </summary>
-    public static bool operator ==(TextSymbol? left, TextSymbol? right)
+    internal override SymbolSerializationRecord ToSerializationRecord()
     {
-        return Equals(left, right);
-    }
-
-    /// <summary>
-    ///     Compares two <see cref="TextSymbol"/> objects for inequality.
-    /// </summary>
-    public static bool operator !=(TextSymbol? left, TextSymbol? right)
-    {
-        return !Equals(left, right);
+        return new TextSymbolSerializationRecord(Text, Color, HaloColor, HaloSize, Font?.ToSerializationRecord());
     }
 }
+
+internal record TextSymbolSerializationRecord(
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Text, 
+    MapColor? Color = null, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]MapColor? HaloColor = null, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]int? HaloSize = null, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]MapFontSerializationRecord? Font = null)
+    : SymbolSerializationRecord("text", Color);

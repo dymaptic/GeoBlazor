@@ -8,8 +8,15 @@ parent: Classes
 
 ## TopFilter Class
 
-This class defines the top filter parameters for executing top features queries for features from a FeatureLayer. This parameter must be set on the TopFeaturesQuery object when calling any of top query methods on a FeatureLayer. It is used to set the groupByFields, orderByFields, and count criteria used the top features query. For example, you can use FeatureLayer's queryTopFeatures() method to query the most populous three counties in each state of the United States.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFilter.html">ArcGIS JS API</a>
+This class defines the top filter parameters for executing top features queries for features from a FeatureLayer.  
+This parameter must be set on the TopFeaturesQuery object when calling any of top query methods on a FeatureLayer.  
+It is used to set the groupByFields, orderByFields, and count criteria used the top features query. For example,  
+you can use FeatureLayer's queryTopFeatures() method to query the most populous three counties in each state of the  
+United States.  
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFilter.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class TopFilter
@@ -22,7 +29,8 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 
 ## TopFilter.GroupByFields Property
 
-When one or more field names are provided in this property, the output result will be grouped based on unique values from those fields.
+When one or more field names are provided in this property, the output result will be grouped based on unique  
+values from those fields.
 
 ```csharp
 public System.Collections.Generic.IEnumerable<string>? GroupByFields { get; set; }
@@ -35,7 +43,8 @@ public System.Collections.Generic.IEnumerable<string>? GroupByFields { get; set;
 
 ## TopFilter.OrderByFields Property
 
-One or more field names used to order the query results. Specify ASC (ascending) or DESC (descending) after the field name to control the order. The default order is ASC.
+One or more field names used to order the query results. Specify ASC (ascending) or DESC (descending) after the  
+field name to control the order. The default order is ASC.
 
 ```csharp
 public System.Collections.Generic.IEnumerable<string>? OrderByFields { get; set; }

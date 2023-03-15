@@ -9,7 +9,10 @@ parent: Classes
 ## ImageMediaInfoValue Class
 
 The ImageMediaInfoValue class contains information for popups regarding how images should be retrieved.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-support-ImageMediaInfoValue.html">ArcGIS JS API</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-support-ImageMediaInfoValue.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class ImageMediaInfoValue : dymaptic.GeoBlazor.Core.Components.MapComponent

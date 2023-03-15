@@ -8,7 +8,8 @@ parent: Classes
 
 ## Cardinality Enum
 
-The cardinality which specifies the number of objects in the origin FeatureLayer related to the number of objects in the destination FeatureLayer. Please see the Desktop help for additional information on cardinality.
+The cardinality which specifies the number of objects in the origin FeatureLayer related to the number of objects  
+in the destination FeatureLayer. Please see the Desktop help for additional information on cardinality.
 
 ```csharp
 public enum Cardinality

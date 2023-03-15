@@ -7,7 +7,12 @@
 ///     The event type.
 /// </param>
 /// <param name="Key">
-///     The key value that was pressed, according to the <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values">MDN full list of key values</a>.
+///     The key value that was pressed, according to the
+///     <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values">
+///         MDN
+///         full list of key values
+///     </a>
+///     .
 /// </param>
 /// <param name="Timestamp">
 ///     Time stamp (in milliseconds) at which the event was emitted.
@@ -24,6 +29,6 @@
 /// <param name="EventId">
 ///     The unique Id of the event.
 /// </param>
-public record KeyUpEvent(string Type, int? EventId, bool? Cancelable, string Key, double Timestamp, 
-        DomPointerEvent Native, PointerType? PointerType) 
+public record KeyUpEvent(string Type, int? EventId, bool? Cancelable, string Key, double Timestamp,
+        DomPointerEvent Native, PointerType? PointerType)
     : JsEvent(Type, EventId, Cancelable, Timestamp, Native, PointerType);

@@ -8,8 +8,12 @@ parent: Classes
 
 ## FieldsPopupContent Class
 
-A FieldsContent popup element represents the FieldInfo associated with a feature. If this is not set within the content, it will revert to whatever may be set within the PopupTemplate.fieldInfos property.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-FieldsContent.html">ArcGIS JS API</a>
+A FieldsContent popup element represents the FieldInfo associated with a feature. If this is not set within the  
+content, it will revert to whatever may be set within the PopupTemplate.fieldInfos property.  
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-FieldsContent.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class FieldsPopupContent : dymaptic.GeoBlazor.Core.Components.Popups.PopupContent
@@ -160,7 +164,8 @@ The child to unregister
 
 ## FieldsPopupContent.ValidateRequiredChildren() Method
 
-When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the [RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
+When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the  
+[RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
 
 ```csharp
 public override void ValidateRequiredChildren();

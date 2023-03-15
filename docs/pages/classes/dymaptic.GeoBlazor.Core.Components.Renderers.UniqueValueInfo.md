@@ -8,8 +8,12 @@ parent: Classes
 
 ## UniqueValueInfo Class
 
-Defines the symbols to use in a UniqueValueRenderer. Each unique value info defines a symbol that should be used to represent features with a specific value.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueInfo.html">ArcGIS JS API</a>
+Defines the symbols to use in a UniqueValueRenderer. Each unique value info defines a symbol that should be used to  
+represent features with a specific value.  
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueInfo.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class UniqueValueInfo : dymaptic.GeoBlazor.Core.Components.Layers.LayerObject

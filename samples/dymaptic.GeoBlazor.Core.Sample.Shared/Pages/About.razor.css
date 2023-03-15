@@ -46,9 +46,8 @@
     color: #fff;
     border-radius: 9999px;
     cursor: pointer;
-    font: normal normal normal 12px/18px 'Helvetica Neue',Arial,sans-serif;
+    font: normal normal normal 12px/18px 'Helvetica Neue', Arial, sans-serif;
 }
-
 
 
 @media (max-width: 799px) {

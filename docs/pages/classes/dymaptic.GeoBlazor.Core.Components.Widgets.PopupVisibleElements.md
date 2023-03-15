@@ -8,7 +8,8 @@ parent: Classes
 
 ## PopupVisibleElements Class
 
-The visible elements that are displayed within the widget. This provides the ability to turn individual elements of the widget's display on/off.
+The visible elements that are displayed within the widget. This provides the ability to turn individual elements of  
+the widget's display on/off.
 
 ```csharp
 public class PopupVisibleElements : dymaptic.GeoBlazor.Core.Components.MapComponent
@@ -64,7 +65,8 @@ public System.Nullable<bool> CloseButton { get; set; }
 
 ## PopupVisibleElements.FeatureNavigation Property
 
-Indicates whether pagination for feature navigation will be displayed. Default value is true. This allows the user to scroll through various selected features using pagination arrows.
+Indicates whether pagination for feature navigation will be displayed. Default value is true. This allows the user  
+to scroll through various selected features using pagination arrows.
 
 ```csharp
 public System.Nullable<bool> FeatureNavigation { get; set; }

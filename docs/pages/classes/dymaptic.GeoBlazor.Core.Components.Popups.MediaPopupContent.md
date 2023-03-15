@@ -8,8 +8,12 @@ parent: Classes
 
 ## MediaPopupContent Class
 
-A MediaContent popup element contains an individual or array of chart and/or image media elements to display within a popup's content.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-MediaContent.html">ArcGIS JS API</a>
+A MediaContent popup element contains an individual or array of chart and/or image media elements to display within  
+a popup's content.  
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-MediaContent.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class MediaPopupContent : dymaptic.GeoBlazor.Core.Components.Popups.PopupContent
@@ -22,7 +26,8 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 
 ## MediaPopupContent.ActiveMediaInfoIndex Property
 
-Index of the current active media within the popup's media content. This will be the media that is currently viewed when displayed.
+Index of the current active media within the popup's media content. This will be the media that is currently viewed  
+when displayed.
 
 ```csharp
 public string? ActiveMediaInfoIndex { get; set; }
@@ -48,7 +53,8 @@ public string? Description { get; set; }
 
 ## MediaPopupContent.MediaInfos Property
 
-Contains the media elements representing images or charts to display within the PopupTemplate. This can be an individual chart or image element, or an array containing a combination of any of these types.
+Contains the media elements representing images or charts to display within the PopupTemplate. This can be an  
+individual chart or image element, or an array containing a combination of any of these types.
 
 ```csharp
 public System.Collections.Generic.HashSet<dymaptic.GeoBlazor.Core.Components.Popups.MediaInfo>? MediaInfos { get; set; }
@@ -133,7 +139,8 @@ The child to unregister
 
 ## MediaPopupContent.ValidateRequiredChildren() Method
 
-When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the [RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
+When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the  
+[RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
 
 ```csharp
 public override void ValidateRequiredChildren();

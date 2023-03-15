@@ -8,8 +8,12 @@ parent: Classes
 
 ## MapColor Class
 
-Creates a new color object by passing either a hex, rgb(a), hsl(a) or named color value. Hex, hsl(a) and named color values can be passed as a string:  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Color.html">ArcGIS JS API</a>
+Creates a new color object by passing either a hex, rgb(a), hsl(a) or named color value. Hex, hsl(a) and named  
+color values can be passed as a string:  
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Color.html">  
+    ArcGIS JS  
+    API  
+</a>
 
 ```csharp
 public class MapColor :

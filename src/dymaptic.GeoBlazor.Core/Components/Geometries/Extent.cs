@@ -1,10 +1,16 @@
 ﻿using Microsoft.AspNetCore.Components;
+using System.Text.Json.Serialization;
+
 
 namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 
 /// <summary>
-///     The minimum and maximum X and Y coordinates of a bounding box. Extent is used to describe the visible portion of a MapView. When working in a SceneView, Camera is used to define the visible part of the map within the view.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Extent.html">ArcGIS JS API</a>
+///     The minimum and maximum X and Y coordinates of a bounding box. Extent is used to describe the visible portion of a
+///     MapView. When working in a SceneView, Camera is used to define the visible part of the map within the view.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Extent.html">
+///         ArcGIS
+///         JS API
+///     </a>
 /// </summary>
 public class Extent : Geometry, IEquatable<Extent>
 {
@@ -43,7 +49,7 @@ public class Extent : Geometry, IEquatable<Extent>
     ///     The minimum possible m value in an extent envelope.
     /// </param>
     /// <param name="spatialReference">
-    ///     The <see cref="SpatialReference"/> of the geometry.
+    ///     The <see cref="SpatialReference" /> of the geometry.
     /// </param>
     public Extent(double xmax, double xmin, double ymax, double ymin, double? zmax = null, double? zmin = null,
         double? mmax = null, double? mmin = null, SpatialReference? spatialReference = null)
@@ -60,7 +66,23 @@ public class Extent : Geometry, IEquatable<Extent>
         SpatialReference = spatialReference;
 #pragma warning restore BL0005
     }
-    
+
+    /// <summary>
+    ///     Compares two Extent objects for equality
+    /// </summary>
+    public static bool operator ==(Extent? left, Extent? right)
+    {
+        return Equals(left, right);
+    }
+
+    /// <summary>
+    ///     Compares two Extent objects for inequality
+    /// </summary>
+    public static bool operator !=(Extent? left, Extent? right)
+    {
+        return !Equals(left, right);
+    }
+
     /// <summary>
     ///     The maximum X-coordinate of an extent envelope.
     /// </summary>
@@ -116,7 +138,6 @@ public class Extent : Geometry, IEquatable<Extent>
     public bool Equals(Extent? other)
     {
         if (ReferenceEquals(null, other)) return false;
-        if (ReferenceEquals(this, other)) return true;
 
         return Xmax.Equals(other.Xmax) && Xmin.Equals(other.Xmin) && Ymax.Equals(other.Ymax) &&
             Ymin.Equals(other.Ymin) && Nullable.Equals(Zmax, other.Zmax) && Nullable.Equals(Zmin, other.Zmin) &&
@@ -127,8 +148,7 @@ public class Extent : Geometry, IEquatable<Extent>
     public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
-        if (ReferenceEquals(this, obj)) return true;
-        if (obj.GetType() != this.GetType()) return false;
+        if (obj.GetType() != GetType()) return false;
 
         return Equals((Extent)obj);
     }
@@ -139,19 +159,17 @@ public class Extent : Geometry, IEquatable<Extent>
         return HashCode.Combine(Xmax, Xmin, Ymax, Ymin, Zmax, Zmin, Mmax, Mmin);
     }
 
-    /// <summary>
-    ///     Compares two Extent objects for equality
-    /// </summary>
-    public static bool operator ==(Extent? left, Extent? right)
+    internal override GeometrySerializationRecord ToSerializationRecord()
     {
-        return Equals(left, right);
-    }
-
-    /// <summary>
-    ///     Compares two Extent objects for inequality
-    /// </summary>
-    public static bool operator !=(Extent? left, Extent? right)
-    {
-        return !Equals(left, right);
+        return new ExtentSerializationRecord(Xmax, Xmin, Ymax, Ymin, Zmax, Zmin, Mmax, Mmin, 
+            SpatialReference?.ToSerializationRecord());
     }
 }
+
+internal record ExtentSerializationRecord(double Xmax, double Xmin, double Ymax, double Ymin, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? Zmax = null, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? Zmin = null, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? Mmax = null, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? Mmin = null, 
+    SpatialReferenceSerializationRecord? SpatialReference = null): 
+    GeometrySerializationRecord("extent", null, SpatialReference);

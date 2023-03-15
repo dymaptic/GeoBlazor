@@ -9,7 +9,10 @@ parent: Classes
 ## ImageMediaInfo Class
 
 An ImageMediaInfo is a type of media element that represents images to display within a popup.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-ImageMediaInfo.html">ArcGIS JS API</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-ImageMediaInfo.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class ImageMediaInfo : dymaptic.GeoBlazor.Core.Components.Popups.MediaInfo
@@ -48,7 +51,9 @@ public string? Caption { get; set; }
 
 ## ImageMediaInfo.RefreshInterval Property
 
-Refresh interval of the layer in minutes. Non-zero value indicates automatic layer refresh at the specified interval. Value of 0 indicates auto refresh is not enabled. If the property does not exist, it is equivalent to having a value of 0.
+Refresh interval of the layer in minutes. Non-zero value indicates automatic layer refresh at the specified  
+interval. Value of 0 indicates auto refresh is not enabled. If the property does not exist, it is equivalent to  
+having a value of 0.
 
 ```csharp
 public System.Nullable<double> RefreshInterval { get; set; }
@@ -146,7 +151,8 @@ The child to unregister
 
 ## ImageMediaInfo.ValidateRequiredChildren() Method
 
-When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the [RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
+When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the  
+[RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
 
 ```csharp
 public override void ValidateRequiredChildren();

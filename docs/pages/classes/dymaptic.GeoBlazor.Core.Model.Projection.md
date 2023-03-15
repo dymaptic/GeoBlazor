@@ -8,8 +8,13 @@ parent: Classes
 
 ## Projection Class
 
-A client-side projection engine for converting geometries from one SpatialReference to another. When projecting geometries the starting spatial reference must be specified on the input geometry. You can specify a specific geographic (datum) transformation for the project operation, or accept the default transformation if one is needed.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-projection.html">ArcGIS JS API</a>
+A client-side projection engine for converting geometries from one SpatialReference to another. When projecting  
+geometries the starting spatial reference must be specified on the input geometry. You can specify a specific  
+geographic (datum) transformation for the project operation, or accept the default transformation if one is needed.  
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-projection.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class Projection : dymaptic.GeoBlazor.Core.Model.LogicComponent
@@ -46,7 +51,9 @@ Injected configuration object
 
 ## Projection.GetTransformation(SpatialReference, SpatialReference, Extent) Method
 
-Returns the default geographic transformation used to convert the geometry from the input spatial reference to the output spatial reference. The default transformation is used when projecting geometries where the datum transformation is required but not specified in the geographicTransformation parameter.
+Returns the default geographic transformation used to convert the geometry from the input spatial reference to the  
+output spatial reference. The default transformation is used when projecting geometries where the datum  
+transformation is required but not specified in the geographicTransformation parameter.
 
 ```csharp
 public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Objects.GeographicTransformation?> GetTransformation(dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference inSpatialReference, dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference outSpatialReference, dymaptic.GeoBlazor.Core.Components.Geometries.Extent extent);
@@ -57,7 +64,8 @@ public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Objects.GeographicTra
 
 `inSpatialReference` [SpatialReference](dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference.html 'dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference')
 
-The input spatial reference from which to project geometries. This is the spatial reference of the input geometries.
+The input spatial reference from which to project geometries. This is the spatial reference of the input  
+geometries.
 
 <a name='dymaptic.GeoBlazor.Core.Model.Projection.GetTransformation(dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference,dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference,dymaptic.GeoBlazor.Core.Components.Geometries.Extent).outSpatialReference'></a>
 
@@ -79,7 +87,9 @@ A geographic transformation.
 
 ## Projection.GetTransformations(SpatialReference, SpatialReference, Extent) Method
 
-Returns a list of all geographic transformations suitable to convert geometries from the input spatial reference to the specified output spatial reference. The list is ordered in descending order by suitability, with the most suitable being first in the list.
+Returns a list of all geographic transformations suitable to convert geometries from the input spatial reference to  
+the specified output spatial reference. The list is ordered in descending order by suitability, with the most  
+suitable being first in the list.
 
 ```csharp
 public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Objects.GeographicTransformation[]?> GetTransformations(dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference inSpatialReference, dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference outSpatialReference, dymaptic.GeoBlazor.Core.Components.Geometries.Extent extent);
@@ -102,7 +112,8 @@ The spatial reference to which you are converting the geometries.
 
 `extent` [Extent](dymaptic.GeoBlazor.Core.Components.Geometries.Extent.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Extent')
 
-An optional extent used to determine the suitability of the returned transformations. The extent will be re-projected to the input spatial reference if necessary.
+An optional extent used to determine the suitability of the returned transformations. The extent will be  
+re-projected to the input spatial reference if necessary.
 
 #### Returns
 [System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[GeographicTransformation](dymaptic.GeoBlazor.Core.Objects.GeographicTransformation.html 'dymaptic.GeoBlazor.Core.Objects.GeographicTransformation')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
@@ -135,7 +146,8 @@ The spatial reference to which you are converting the geometries' coordinates.
 
 `geographicTransformation` [GeographicTransformation](dymaptic.GeoBlazor.Core.Objects.GeographicTransformation.html 'dymaptic.GeoBlazor.Core.Objects.GeographicTransformation')
 
-The optional geographic transformation used to transform the geometries. Specify this parameter to project a geometry when the default transformation is not appropriate for your requirements.
+The optional geographic transformation used to transform the geometries. Specify this parameter to project a  
+geometry when the default transformation is not appropriate for your requirements.
 
 #### Returns
 [System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[Geometry](dymaptic.GeoBlazor.Core.Components.Geometries.Geometry.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Geometry')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
@@ -168,7 +180,8 @@ The spatial reference to which you are converting the geometries' coordinates.
 
 `geographicTransformation` [GeographicTransformation](dymaptic.GeoBlazor.Core.Objects.GeographicTransformation.html 'dymaptic.GeoBlazor.Core.Objects.GeographicTransformation')
 
-The optional geographic transformation used to transform the geometries. Specify this parameter to project a geometry when the default transformation is not appropriate for your requirements.
+The optional geographic transformation used to transform the geometries. Specify this parameter to project a  
+geometry when the default transformation is not appropriate for your requirements.
 
 #### Returns
 [System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[Geometry](dymaptic.GeoBlazor.Core.Components.Geometries.Geometry.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Geometry')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  

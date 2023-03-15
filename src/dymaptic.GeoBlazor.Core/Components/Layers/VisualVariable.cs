@@ -1,13 +1,18 @@
-﻿using System.Text.Json;
-using System.Text.Json.Serialization;
-using dymaptic.GeoBlazor.Core.Serialization;
+﻿using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+
 
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
 /// <summary>
-///     The visual variable base class. See each of the subclasses that extend this class to learn how to create continuous data-driven thematic visualizations.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-VisualVariable.html">ArcGIS JS API</a>
+///     The visual variable base class. See each of the subclasses that extend this class to learn how to create continuous
+///     data-driven thematic visualizations.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-VisualVariable.html">
+///         ArcGIS
+///         JS API
+///     </a>
 /// </summary>
 [JsonConverter(typeof(VisualVariableConverter))]
 public abstract class VisualVariable : MapComponent
@@ -19,12 +24,14 @@ public abstract class VisualVariable : MapComponent
     public virtual VisualVariableType VariableType { get; } = default!;
 
     /// <summary>
-    ///     The name of the numeric attribute field that contains the data values used to determine the color/opacity/size/rotation of each feature.
+    ///     The name of the numeric attribute field that contains the data values used to determine the
+    ///     color/opacity/size/rotation of each feature.
     /// </summary>
-    [Parameter, EditorRequired]
+    [Parameter]
+    [EditorRequired]
     [RequiredProperty]
     public string Field { get; set; } = default!;
-    
+
     /// <summary>
     ///     An object providing options for displaying the visual variable in the Legend.
     /// </summary>
@@ -78,9 +85,10 @@ public class LegendOptions : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool ShowLegend { get; set; }
-    
+
     /// <summary>
-    ///     The title describing the visualization of the visual variable in the Legend. This takes precedence over a field alias or valueExpressionTitle.
+    ///     The title describing the visualization of the visual variable in the Legend. This takes precedence over a field
+    ///     alias or valueExpressionTitle.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -88,7 +96,7 @@ public class LegendOptions : MapComponent
 }
 
 /// <summary>
-///     A collection of <see cref="VisualVariable"/> Types
+///     A collection of <see cref="VisualVariable" /> Types
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<VisualVariableType>))]
 public enum VisualVariableType
@@ -98,7 +106,6 @@ public enum VisualVariableType
     Rotation
 #pragma warning restore CS1591
 }
-
 
 internal class VisualVariableConverter : JsonConverter<VisualVariable>
 {

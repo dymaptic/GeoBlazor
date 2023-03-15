@@ -8,8 +8,13 @@ parent: Classes
 
 ## GeoJSONLayer Class
 
-The GeoJSONLayer class is used to create a layer based on GeoJSON. GeoJSON is a format for encoding a variety of geographic data structures. The GeoJSON data must comply with the RFC 7946 specification which states that the coordinates are in SpatialReference.WGS84.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html">ArcGIS JS API</a>
+The GeoJSONLayer class is used to create a layer based on GeoJSON. GeoJSON is a format for encoding a variety of  
+geographic data structures. The GeoJSON data must comply with the RFC 7946 specification which states that the  
+coordinates are in SpatialReference.WGS84.  
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class GeoJSONLayer : dymaptic.GeoBlazor.Core.Components.Layers.Layer
@@ -70,7 +75,8 @@ The opacity of the layer.
 
 `visible` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 
-Indicates if the layer is visible in the View. When false, the layer may still be added to a Map instance that is referenced in a view, but its features will not be visible in the view.
+Indicates if the layer is visible in the View. When false, the layer may still be added to a Map instance that is  
+referenced in a view, but its features will not be visible in the view.
 
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.GeoJSONLayer(string,string,string,System.Nullable_double_,System.Nullable_bool_,System.Nullable_dymaptic.GeoBlazor.Core.Components.Layers.ListMode_).listMode'></a>
 

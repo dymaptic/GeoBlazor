@@ -9,7 +9,7 @@ public class Direction
     ///     The navigation directions in human readable text.
     /// </summary>
     public string Text { get; set; } = string.Empty;
-    
+
     /// <summary>
     ///     The distance of the current leg of directions.
     /// </summary>

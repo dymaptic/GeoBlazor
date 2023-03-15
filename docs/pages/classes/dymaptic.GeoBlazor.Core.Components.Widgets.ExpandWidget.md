@@ -9,7 +9,10 @@ parent: Classes
 ## ExpandWidget Class
 
 The Expand widget acts as a clickable button for opening a widget.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Expand.html">ArcGIS JS API</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Expand.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class ExpandWidget : dymaptic.GeoBlazor.Core.Components.Widgets.Widget
@@ -35,7 +38,8 @@ public System.Nullable<bool> AutoCollapse { get; set; }
 
 ## ExpandWidget.CloseOnEsc Property
 
-When true, the Expand widget will close after the Escape key is pressed when the keyboard focus is within its content.
+When true, the Expand widget will close after the Escape key is pressed when the keyboard focus is within its  
+content.
 
 ```csharp
 public System.Nullable<bool> CloseOnEsc { get; set; }
@@ -84,7 +88,8 @@ public dymaptic.GeoBlazor.Core.Components.Widgets.Widget? Content { get; set; }
 [Widget](dymaptic.GeoBlazor.Core.Components.Widgets.Widget.html 'dymaptic.GeoBlazor.Core.Components.Widgets.Widget')
 
 ### Remarks
-If adding a Slider, HistogramRangeSlider, or TimeSlider as content to the Expand widget, the container or parent container of the widget must have a width set in CSS for it to render inside the Expand widget.
+If adding a Slider, HistogramRangeSlider, or TimeSlider as content to the Expand widget, the container or parent  
+container of the widget must have a width set in CSS for it to render inside the Expand widget.
 
 <a name='dymaptic.GeoBlazor.Core.Components.Widgets.ExpandWidget.ExpandIconClass'></a>
 

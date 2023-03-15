@@ -2,23 +2,28 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
+
 namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 
 /// <summary>
-///     The base class for geometry objects. This class has no constructor. To construct geometries see <see cref="Point"/>, <see cref="PolyLine"/>, or <see cref="Polygon"/>.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Geometry.html">ArcGIS JS API</a>
+///     The base class for geometry objects. This class has no constructor. To construct geometries see
+///     <see cref="Point" />, <see cref="PolyLine" />, or <see cref="Polygon" />.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Geometry.html">
+///         ArcGIS
+///         JS API
+///     </a>
 /// </summary>
 [JsonConverter(typeof(GeometryConverter))]
 public class Geometry : MapComponent
 {
     /// <summary>
-    ///     The <see cref="Extent"/> of the geometry.
+    ///     The <see cref="Extent" /> of the geometry.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Extent? Extent { get; set; }
 
     /// <summary>
-    ///     The <see cref="SpatialReference"/> of the geometry.
+    ///     The <see cref="SpatialReference" /> of the geometry.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public SpatialReference? SpatialReference { get; set; }
@@ -66,6 +71,7 @@ public class Geometry : MapComponent
                 break;
             case SpatialReference _:
                 SpatialReference = null;
+
                 break;
             default:
                 await base.UnregisterChildComponent(child);
@@ -81,6 +87,31 @@ public class Geometry : MapComponent
         Extent?.ValidateRequiredChildren();
         SpatialReference?.ValidateRequiredChildren();
     }
+    
+    internal virtual GeometrySerializationRecord ToSerializationRecord()
+    {
+        return new GeometrySerializationRecord(Type, Extent?.ToSerializationRecord() as ExtentSerializationRecord, 
+            SpatialReference?.ToSerializationRecord());
+    }
+}
+
+[JsonConverter(typeof(GeometrySerializationConverter))]
+internal record GeometrySerializationRecord(string Type, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]ExtentSerializationRecord? Extent,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]SpatialReferenceSerializationRecord? SpatialReference)
+    : MapComponentSerializationRecord;
+
+internal class GeometrySerializationConverter : JsonConverter<GeometrySerializationRecord>
+{
+    public override GeometrySerializationRecord? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override void Write(Utf8JsonWriter writer, GeometrySerializationRecord value, JsonSerializerOptions options)
+    {
+        writer.WriteRawValue(JsonSerializer.Serialize(value, value.GetType(), options));
+    }
 }
 
 internal class GeometryConverter : JsonConverter<Geometry>
@@ -93,7 +124,9 @@ internal class GeometryConverter : JsonConverter<Geometry>
         };
 
         Utf8JsonReader cloneReader = reader;
-        if (JsonSerializer.Deserialize<Dictionary<string, object?>>(ref reader, newOptions) is not IDictionary<string, object?> temp)
+
+        if (JsonSerializer.Deserialize<Dictionary<string, object?>>(ref reader, newOptions) is not
+            IDictionary<string, object?> temp)
         {
             return null;
         }
@@ -166,10 +199,12 @@ internal class GeometryTypeConverter : EnumToKebabCaseStringConverter<GeometryTy
 {
     public override GeometryType Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        string? value = reader.GetString()?.Replace("-", string.Empty)
+        string? value = reader.GetString()
+            ?.Replace("-", string.Empty)
             .Replace("esri", string.Empty)
             .Replace("Geometry", string.Empty)
             .Replace("Type", string.Empty);
-        return value is not null ? (GeometryType)Enum.Parse(typeof(GeometryType), value, true) : default!;
+
+        return value is not null ? (GeometryType)Enum.Parse(typeof(GeometryType), value, true) : default(GeometryType);
     }
 }

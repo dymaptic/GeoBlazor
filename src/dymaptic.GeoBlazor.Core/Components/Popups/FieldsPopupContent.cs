@@ -5,8 +5,12 @@ using System.Text.Json.Serialization;
 namespace dymaptic.GeoBlazor.Core.Components.Popups;
 
 /// <summary>
-///     A FieldsContent popup element represents the FieldInfo associated with a feature. If this is not set within the content, it will revert to whatever may be set within the PopupTemplate.fieldInfos property.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-FieldsContent.html">ArcGIS JS API</a>
+///     A FieldsContent popup element represents the FieldInfo associated with a feature. If this is not set within the
+///     content, it will revert to whatever may be set within the PopupTemplate.fieldInfos property.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-FieldsContent.html">
+///         ArcGIS
+///         JS API
+///     </a>
 /// </summary>
 public class FieldsPopupContent : PopupContent
 {
@@ -21,7 +25,7 @@ public class FieldsPopupContent : PopupContent
     ///     Constructs a new PopupContent in code with parameters
     /// </summary>
     /// <param name="fieldInfos">
-    ///     A collection of <see cref="FieldInfo"/>
+    ///     A collection of <see cref="FieldInfo" />
     /// </param>
     /// <param name="description">
     ///     Describes the field's content in detail.
@@ -35,35 +39,37 @@ public class FieldsPopupContent : PopupContent
         if (fieldInfos.Any())
         {
             FieldInfos = new HashSet<FieldInfo>();
+
             foreach (FieldInfo info in fieldInfos)
             {
                 FieldInfos.Add(info);
             }
         }
+
         Description = description;
         Title = title;
 #pragma warning restore BL0005
     }
-    
+
     /// <summary>
     ///     Describes the field's content in detail.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Description { get; set; }
-    
+
     /// <summary>
     ///     Heading indicating what the field's content represents.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Title { get; set; }
-    
+
     /// <inheritdoc />
     public override string Type => "fields";
 
     /// <summary>
-    ///     Array of <see cref="FieldInfo"/>s
+    ///     Array of <see cref="FieldInfo" />s
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public HashSet<FieldInfo>? FieldInfos { get; set; }
@@ -75,6 +81,7 @@ public class FieldsPopupContent : PopupContent
         {
             case FieldInfo fieldInfo:
                 FieldInfos ??= new HashSet<FieldInfo>();
+
                 if (!FieldInfos.Contains(fieldInfo))
                 {
                     FieldInfos.Add(fieldInfo);
@@ -120,4 +127,15 @@ public class FieldsPopupContent : PopupContent
             }
         }
     }
+
+    internal override PopupContentSerializationRecord ToSerializationRecord()
+    {
+        return new FieldsPopupContentSerializationRecord(FieldInfos?.ToArray(), Description, Title);
+    }
 }
+
+internal record FieldsPopupContentSerializationRecord(
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]FieldInfo[]? FieldInfos, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Description = null, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Title = null)
+    : PopupContentSerializationRecord("fields");

@@ -44,16 +44,13 @@ import {
     DotNetSimpleMarkerSymbol,
     DotNetSpatialReference,
     DotNetSymbol,
-    DotNetTextPopupContent, DotNetTextSymbol,
+    DotNetTextPopupContent,
+    DotNetTextSymbol,
     DotNetTopFeaturesQuery
 } from "./definitions";
-import ViewClickEvent = __esri.ViewClickEvent;
 import PictureMarkerSymbol from "@arcgis/core/symbols/PictureMarkerSymbol";
 import Popup from "@arcgis/core/widgets/Popup";
-import PopupOpenOptions = __esri.PopupOpenOptions;
-import PopupDockOptions = __esri.PopupDockOptions;
 import Query from "@arcgis/core/rest/support/Query";
-import ContentProperties = __esri.ContentProperties;
 import FieldsContent from "@arcgis/core/popup/content/FieldsContent";
 import TextContent from "@arcgis/core/popup/content/TextContent";
 import FieldInfo from "@arcgis/core/popup/FieldInfo";
@@ -68,7 +65,6 @@ import LineChartMediaInfo from "@arcgis/core/popup/content/LineChartMediaInfo";
 import PieChartMediaInfo from "@arcgis/core/popup/content/PieChartMediaInfo";
 import AttachmentsContent from "@arcgis/core/popup/content/AttachmentsContent";
 import ExpressionContent from "@arcgis/core/popup/content/ExpressionContent";
-import ElementExpressionInfoProperties = __esri.ElementExpressionInfoProperties;
 import Layer from "@arcgis/core/layers/Layer";
 import RelationshipQuery from "@arcgis/core/rest/support/RelationshipQuery";
 import TopFeaturesQuery from "@arcgis/core/rest/support/TopFeaturesQuery";
@@ -81,8 +77,11 @@ import SimpleLineSymbol from "@arcgis/core/symbols/SimpleLineSymbol";
 import ElementExpressionInfo from "@arcgis/core/popup/ElementExpressionInfo";
 import ChartMediaInfoValueSeries from "@arcgis/core/popup/content/support/ChartMediaInfoValueSeries";
 import View from "@arcgis/core/views/View";
+import ViewClickEvent = __esri.ViewClickEvent;
+import PopupOpenOptions = __esri.PopupOpenOptions;
+import PopupDockOptions = __esri.PopupDockOptions;
+import ContentProperties = __esri.ContentProperties;
 import PopupTriggerActionEvent = __esri.PopupTriggerActionEvent;
-import ActionBase = __esri.ActionBase;
 
 export function buildJsSpatialReference(dotNetSpatialReference: DotNetSpatialReference): SpatialReference {
     if (dotNetSpatialReference === undefined || dotNetSpatialReference === null) {
@@ -131,7 +130,7 @@ export function buildJsExtent(dotNetExtent: DotNetExtent, currentSpatialReferenc
     } else if (currentSpatialReference !== null) {
         extent.spatialReference = currentSpatialReference;
     }
-    
+
     return extent;
 }
 
@@ -145,19 +144,19 @@ export async function buildJsGraphic(graphicObject: any, register: boolean, view
     if (graphicObject.popupTemplate !== undefined && graphicObject.popupTemplate !== null) {
         graphic.popupTemplate = buildJsPopupTemplate(graphicObject.popupTemplate, viewId);
     }
-    
+
     if (graphicObject.layerId !== undefined && graphicObject.layerId !== null) {
         let layer = arcGisObjectRefs[graphicObject.layerId] as Layer;
         graphic.layer = layer;
     }
-
-    if (graphicObject.dotNetGraphicReference !== undefined ) {
-        let wrapper = new GraphicWrapper(graphic);
-        // @ts-ignore
-        let objectRef = DotNet.createJSObjectReference(wrapper);
-        await graphicObject.dotNetGraphicReference.invokeMethodAsync("OnGraphicCreated", objectRef);
-    }
+    
     if (register) {
+        if (graphicObject.dotNetGraphicReference !== undefined) {
+            let wrapper = new GraphicWrapper(graphic);
+            // @ts-ignore
+            let objectRef = DotNet.createJSObjectReference(wrapper);
+            graphicObject.dotNetGraphicReference.invokeMethodAsync("OnGraphicCreated", objectRef);
+        }
         arcGisObjectRefs[graphicObject.id] = graphic;
     }
     return graphic;
@@ -177,15 +176,15 @@ export function buildJsPopupTemplate(popupTemplateObject: DotNetPopupTemplate, v
         overwriteActions: popupTemplateObject.overwriteActions ?? false,
         returnGeometry: popupTemplateObject.returnGeometry ?? false
     });
-    
+
     if (popupTemplateObject.fieldInfos !== undefined && popupTemplateObject.fieldInfos !== null) {
         template.fieldInfos = popupTemplateObject.fieldInfos.map(f => buildJsFieldInfo(f));
     }
-    
+
     if (popupTemplateObject.expressionInfos !== undefined && popupTemplateObject.expressionInfos !== null) {
         template.expressionInfos = popupTemplateObject.expressionInfos.map(e => buildJsExpressionInfo(e));
     }
-    
+
     if (popupTemplateObject.actions !== undefined && popupTemplateObject.actions !== null) {
         template.actions = popupTemplateObject.actions as any;
     }
@@ -196,7 +195,7 @@ export function buildJsPopupTemplate(popupTemplateObject: DotNetPopupTemplate, v
             await popupTemplateObject.dotNetPopupTemplateReference.invokeMethodAsync("OnTriggerAction", event.action.id);
         });
     }
-    
+
     return template;
 }
 
@@ -212,14 +211,14 @@ export function buildJsPopupContent(popupContentObject: DotNetPopupContent): Con
                 dnFieldsContent.fieldInfos.length > 0) {
                 fieldsContent.fieldInfos = dnFieldsContent.fieldInfos.map(f => buildJsFieldInfo(f));
             }
-            
+
             return fieldsContent;
         case "text":
             let dnTextContent = popupContentObject as DotNetTextPopupContent;
             let textContent = new TextContent({
                 text: dnTextContent.text ?? null
             });
-            
+
             return textContent;
         case "media":
             let dnMediaContent = popupContentObject as DotNetMediaPopupContent;
@@ -257,11 +256,11 @@ export function buildJsFieldInfo(fieldInfoObject: DotNetFieldInfo): FieldInfo {
         visible: fieldInfoObject.visible ?? true,
         isEditable: fieldInfoObject.isEditable ?? false
     });
-    
+
     if (fieldInfoObject.format !== undefined && fieldInfoObject.format !== null) {
         fieldInfo.format = buildJsFieldInfoFormat(fieldInfoObject.format);
     }
-    
+
     return fieldInfo;
 }
 
@@ -297,7 +296,7 @@ export function buildJsSymbol(symbol: DotNetSymbol | null): Symbol | null {
                 xoffset: dnSimpleMarkerSymbol.xoffset ?? 0,
                 yoffset: dnSimpleMarkerSymbol.yoffset ?? 0
             });
-            
+
             if (dnSimpleMarkerSymbol.outline !== undefined && dnSimpleMarkerSymbol.outline !== null) {
                 jsSimpleMarkerSymbol.outline = buildJsSymbol(dnSimpleMarkerSymbol.outline) as any;
             }
@@ -313,7 +312,7 @@ export function buildJsSymbol(symbol: DotNetSymbol | null): Symbol | null {
                 style: dnSimpleLineSymbol.style as any ?? "solid",
                 width: dnSimpleLineSymbol.width ?? 0.75
             });
-            
+
             return jsSimpleLineSymbol;
         case "picture-marker":
             let dnPictureMarkerSymbol = symbol as DotNetPictureMarkerSymbol;
@@ -325,16 +324,16 @@ export function buildJsSymbol(symbol: DotNetSymbol | null): Symbol | null {
                 width: dnPictureMarkerSymbol.width ?? 12,
                 url: dnPictureMarkerSymbol.url
             });
-            
+
             return jsPictureMarkerSymbol;
-            
+
         case "simple-fill":
             let dnSimpleFillSymbol = symbol as DotNetSimpleFillSymbol;
             let jsSimpleFillSymbol = new SimpleFillSymbol({
                 color: dnSimpleFillSymbol.color ?? [0, 0, 0, 0.25],
                 style: dnSimpleFillSymbol.style as any ?? "solid"
             });
-            
+
             if (dnSimpleFillSymbol.outline !== undefined && dnSimpleFillSymbol.outline !== null) {
                 jsSimpleFillSymbol.outline = buildJsSymbol(dnSimpleFillSymbol.outline) as any;
             }
@@ -353,7 +352,7 @@ export function buildJsSymbol(symbol: DotNetSymbol | null): Symbol | null {
 
             return jsTextSymbol;
     }
-    
+
     delete symbol["id"];
     return symbol as any;
 }
@@ -382,13 +381,13 @@ export function buildJsPoint(dnPoint: DotNetPoint): Point | null {
         x: dnPoint.x ?? undefined,
         y: dnPoint.y ?? undefined
     });
-    
+
     if (dnPoint.spatialReference !== undefined && dnPoint.spatialReference !== null) {
         point.spatialReference = buildJsSpatialReference(dnPoint.spatialReference);
     } else {
         point.spatialReference = new SpatialReference({wkid: 4326});
     }
-    
+
     return point;
 }
 
@@ -435,7 +434,7 @@ export function buildJsRenderer(dotNetRenderer: any): Renderer | null {
 
 
 export function buildJsFields(dotNetFields: any): Array<Field> {
-    let fields : Array<Field> = [];
+    let fields: Array<Field> = [];
     dotNetFields.forEach(dnField => {
         let field = new Field();
         for (const prop in dnField) {
@@ -445,7 +444,7 @@ export function buildJsFields(dotNetFields: any): Array<Field> {
         }
         fields.push(field);
     });
-    
+
     return fields;
 }
 
@@ -461,7 +460,7 @@ export function buildJsViewClickEvent(dotNetClickEvent: any): ViewClickEvent {
     } as ViewClickEvent
 }
 
-export async function buildJsPopup(dotNetPopup: any, viewId: string) : Promise<Popup> {
+export async function buildJsPopup(dotNetPopup: any, viewId: string): Promise<Popup> {
     let popup = new Popup({
         actions: dotNetPopup.actions ?? [],
         alignment: dotNetPopup.alignment ?? "auto",
@@ -479,15 +478,15 @@ export async function buildJsPopup(dotNetPopup: any, viewId: string) : Promise<P
         label: dotNetPopup.label ?? '',
         spinnerEnabled: dotNetPopup.spinnerEnabled ?? true
     });
-    
+
     if (dotNetPopup.location !== undefined && dotNetPopup.location !== null) {
         popup.location = buildJsPoint(dotNetPopup.location) as Point;
     }
-    
+
     if (dotNetPopup.dockOptions !== undefined && dotNetPopup.dockOptions !== null) {
         popup.dockOptions = buildJsDockOptions(dotNetPopup.dockOptions);
     }
-    
+
     if (dotNetPopup.features !== undefined && dotNetPopup.features !== null) {
         let features: Graphic[] = [];
         for (const f of dotNetPopup.features) {
@@ -497,25 +496,25 @@ export async function buildJsPopup(dotNetPopup: any, viewId: string) : Promise<P
         }
         popup.features = features;
     }
-    
+
     if (dotNetPopup.visibleElements !== undefined && dotNetPopup.visibleElements !== null) {
         popup.visibleElements = dotNetPopup.visibleElements;
     }
-    
+
     return popup;
 }
 
-function buildJsDockOptions(dotNetDockOptions: any) : PopupDockOptions {
+function buildJsDockOptions(dotNetDockOptions: any): PopupDockOptions {
     let dockOptions: PopupDockOptions = {
         buttonEnabled: dotNetDockOptions.buttonEnabled ?? undefined,
         position: dotNetDockOptions.position ?? undefined,
         breakpoint: dotNetDockOptions.breakPoint ?? true
     };
-    
+
     return dockOptions as PopupDockOptions;
 }
 
-export async function buildJsPopupOptions(dotNetPopupOptions: any) : Promise<PopupOpenOptions> {
+export async function buildJsPopupOptions(dotNetPopupOptions: any): Promise<PopupOpenOptions> {
     let options: PopupOpenOptions = {};
 
     if (dotNetPopupOptions.title !== undefined && dotNetPopupOptions.title !== null) {
@@ -527,27 +526,27 @@ export async function buildJsPopupOptions(dotNetPopupOptions: any) : Promise<Pop
     if (dotNetPopupOptions.fetchFeatures !== undefined && dotNetPopupOptions.fetchFeatures !== null) {
         options.fetchFeatures = dotNetPopupOptions.fetchFeatures;
     }
-    
+
     if (dotNetPopupOptions.featureMenuOpen !== undefined && dotNetPopupOptions.featureMenuOpen !== null) {
         options.featureMenuOpen = dotNetPopupOptions.featureMenuOpen;
     }
-    
+
     if (dotNetPopupOptions.updateLocationEnabled !== undefined && dotNetPopupOptions.updateLocationEnabled !== null) {
         options.updateLocationEnabled = dotNetPopupOptions.updateLocationEnabled;
     }
-    
+
     if (dotNetPopupOptions.collapsed !== undefined && dotNetPopupOptions.collapsed !== null) {
         options.collapsed = dotNetPopupOptions.collapsed;
     }
-    
+
     if (dotNetPopupOptions.shouldFocus !== undefined && dotNetPopupOptions.shouldFocus !== null) {
         options.shouldFocus = dotNetPopupOptions.shouldFocus;
     }
-    
+
     if (dotNetPopupOptions.location !== undefined && dotNetPopupOptions.location !== null) {
         options.location = buildJsPoint(dotNetPopupOptions.location) as Point;
     }
-    
+
     if (dotNetPopupOptions.features !== undefined && dotNetPopupOptions.features !== null) {
         let features: Graphic[] = [];
         for (const f of dotNetPopupOptions.features) {
@@ -556,17 +555,17 @@ export async function buildJsPopupOptions(dotNetPopupOptions: any) : Promise<Pop
         }
         options.features = features;
     }
-    
+
     return options;
 }
 
-function buildJsFont(dotNetFont: any) : Font {
+function buildJsFont(dotNetFont: any): Font {
     let font = new Font();
     font.size = dotNetFont.size ?? 9;
     font.family = dotNetFont.family ?? "sans-serif";
     font.style = dotNetFont.style ?? "normal";
     font.weight = dotNetFont.weight ?? "normal";
-    
+
     return font;
 }
 
@@ -607,20 +606,19 @@ export function buildJsQuery(dotNetQuery: DotNetQuery): Query {
         sqlFormat: dotNetQuery.sqlFormat as any ?? "none",
         start: dotNetQuery.start ?? undefined
     });
-    
+
     if (dotNetQuery.geometry !== undefined && dotNetQuery.geometry !== null) {
         query.geometry = buildJsGeometry(dotNetQuery.geometry) as Geometry;
     }
-    
+
     if (dotNetQuery.outSpatialReference !== undefined && dotNetQuery.outSpatialReference !== null) {
         query.outSpatialReference = buildJsSpatialReference(dotNetQuery.outSpatialReference);
     }
-    
+
     return query as Query;
 }
 
-export function buildJsRelationshipQuery(dotNetRelationshipQuery: DotNetRelationshipQuery): RelationshipQuery
-{
+export function buildJsRelationshipQuery(dotNetRelationshipQuery: DotNetRelationshipQuery): RelationshipQuery {
     // copy all values from the dotnet object to the js object
     let relationshipQuery = new RelationshipQuery({
         cacheHint: dotNetRelationshipQuery.cacheHint ?? undefined,
@@ -638,11 +636,11 @@ export function buildJsRelationshipQuery(dotNetRelationshipQuery: DotNetRelation
         start: dotNetRelationshipQuery.start ?? undefined,
         where: dotNetRelationshipQuery.where ?? undefined
     });
-    
+
     if (dotNetRelationshipQuery.outSpatialReference !== undefined && dotNetRelationshipQuery.outSpatialReference !== null) {
         relationshipQuery.outSpatialReference = buildJsSpatialReference(dotNetRelationshipQuery.outSpatialReference);
     }
-    
+
     return relationshipQuery as RelationshipQuery;
 }
 
@@ -665,11 +663,11 @@ export function buildJsTopFeaturesQuery(dnQuery: DotNetTopFeaturesQuery): TopFea
         topFilter: dnQuery.topFilter as any ?? undefined,
         units: dnQuery.units as any ?? null
     });
-    
+
     if (dnQuery.where !== undefined && dnQuery.where !== null) {
         query.where = dnQuery.where;
     }
-    
+
     if (dnQuery.geometry !== undefined && dnQuery.geometry !== null) {
         query.geometry = buildJsGeometry(dnQuery.geometry) as Geometry;
     }
@@ -677,12 +675,12 @@ export function buildJsTopFeaturesQuery(dnQuery: DotNetTopFeaturesQuery): TopFea
     if (dnQuery.outSpatialReference !== undefined && dnQuery.outSpatialReference !== null) {
         query.outSpatialReference = buildJsSpatialReference(dnQuery.outSpatialReference);
     }
-    
+
     return query as TopFeaturesQuery;
 }
 
 export function buildJsMediaInfo(dotNetMediaInfo: DotNetMediaInfo): any {
-    switch (dotNetMediaInfo?.type){
+    switch (dotNetMediaInfo?.type) {
         case "bar-chart":
             let dotNetBarChartMediaInfo = dotNetMediaInfo as DotNetBarChartMediaInfo;
             return {
@@ -737,7 +735,7 @@ export function buildJsChartMediaInfoValue(dotNetChartMediaInfoValue: DotNetChar
         normalizeField: dotNetChartMediaInfoValue?.normalizeField ?? undefined,
         tooltipField: dotNetChartMediaInfoValue?.tooltipField ?? undefined
     });
-    
+
     if (dotNetChartMediaInfoValue?.series !== undefined && dotNetChartMediaInfoValue?.series !== null) {
         value.series = dotNetChartMediaInfoValue.series.map(s => {
             let series = new ChartMediaInfoValueSeries({
@@ -764,6 +762,6 @@ export function buildJsElementExpressionInfo(dotNetExpressionInfo: DotNetElement
         returnType: dotNetExpressionInfo.returnType as any ?? undefined,
         title: dotNetExpressionInfo.title ?? undefined
     });
-    
+
     return info;
 }

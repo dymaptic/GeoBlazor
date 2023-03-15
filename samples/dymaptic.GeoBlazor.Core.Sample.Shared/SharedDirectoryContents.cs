@@ -6,13 +6,11 @@ namespace dymaptic.GeoBlazor.Core.Sample.Shared;
 
 internal class SharedDirectoryContents : IDirectoryContents
 {
-    private readonly string _subpath;
-
     public SharedDirectoryContents(string subpath)
     {
         _subpath = subpath;
     }
-    
+
     public bool Exists => true;
 
     public IEnumerator<IFileInfo> GetEnumerator()
@@ -24,4 +22,6 @@ internal class SharedDirectoryContents : IDirectoryContents
     {
         return GetEnumerator();
     }
+
+    private readonly string _subpath;
 }

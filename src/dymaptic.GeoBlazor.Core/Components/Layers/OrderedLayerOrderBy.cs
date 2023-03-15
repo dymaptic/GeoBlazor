@@ -9,7 +9,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 /// <summary>
 ///     Determines the order in which features are drawn in the view.
 /// </summary>
-public class OrderedLayerOrderBy: MapComponent
+public class OrderedLayerOrderBy : MapComponent
 {
     /// <summary>
     ///     The number or date field whose values will be used to sort features.
@@ -17,15 +17,15 @@ public class OrderedLayerOrderBy: MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Field { get; set; }
-    
-    
+
     /// <summary>
-    ///     An [Arcade](https://developers.arcgis.com/javascript/latest/arcade/) expression following the specification defined by the [Arcade Feature Z Profile](https://developers.arcgis.com/javascript/latest/arcade/#feature-sorting).
+    ///     An [Arcade](https://developers.arcgis.com/javascript/latest/arcade/) expression following the specification defined
+    ///     by the [Arcade Feature Z Profile](https://developers.arcgis.com/javascript/latest/arcade/#feature-sorting).
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? ValueExpression { get; set; }
-    
+
     /// <summary>
     ///     The sort order
     /// </summary>
@@ -35,7 +35,7 @@ public class OrderedLayerOrderBy: MapComponent
 }
 
 /// <summary>
-///     The sort order options for <see cref="OrderedLayerOrderBy"/>
+///     The sort order options for <see cref="OrderedLayerOrderBy" />
 /// </summary>
 [JsonConverter(typeof(SortOrderConverter))]
 public enum SortOrder

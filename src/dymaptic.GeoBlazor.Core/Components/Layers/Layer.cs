@@ -1,17 +1,22 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
 using dymaptic.GeoBlazor.Core.Extensions;
 using dymaptic.GeoBlazor.Core.Objects;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
 /// <summary>
-///     The layer is the most fundamental component of a Map. It is a collection of spatial data in the form of vector graphics or raster images that represent real-world phenomena. Layers may contain discrete features that store vector data or continuous cells/pixels that store raster data.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html">ArcGIS JS API</a>
+///     The layer is the most fundamental component of a Map. It is a collection of spatial data in the form of vector
+///     graphics or raster images that represent real-world phenomena. Layers may contain discrete features that store
+///     vector data or continuous cells/pixels that store raster data.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html">
+///         ArcGIS
+///         JS API
+///     </a>
 /// </summary>
 [JsonConverter(typeof(LayerConverter))]
 public abstract class Layer : MapComponent
@@ -35,43 +40,50 @@ public abstract class Layer : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Title { get; set; }
-    
+
     /// <summary>
-    ///    Represents the view for a single layer after it has been added to either a MapView or a SceneView.
+    ///     Represents the view for a single layer after it has been added to either a MapView or a SceneView.
     /// </summary>
     [JsonIgnore]
     public LayerView? LayerView { get; set; }
-    
+
     /// <summary>
-    ///    The JavaScript object that represents the layer.
+    ///     The JavaScript object that represents the layer.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IJSObjectReference? JsLayerReference { get; set; }
-    
+
     /// <summary>
     ///     Indicates how the layer should display in the LayerList widget. The possible values are listed below.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ListMode? ListMode { get; set; }
-    
+
     /// <summary>
-    ///     Indicates if the layer is visible in the View. When false, the layer may still be added to a Map instance that is referenced in a view, but its features will not be visible in the view.
+    ///     Indicates if the layer is visible in the View. When false, the layer may still be added to a Map instance that is
+    ///     referenced in a view, but its features will not be visible in the view.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? Visible { get; set; }
-    
+
     /// <summary>
-    ///     The full extent of the layer. By default, this is worldwide. This property may be used to set the extent of the view to match a layer's extent so that its features appear to fill the view.
+    ///     The full extent of the layer. By default, this is worldwide. This property may be used to set the extent of the
+    ///     view to match a layer's extent so that its features appear to fill the view.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Extent? FullExtent { get; set; }
-    
+
     /// <summary>
     ///     Marks an incoming layer loaded from a service or Javascript source.
     /// </summary>
     public bool Imported { get; set; }
+
+    /// <summary>
+    ///     Handles conversion from .NET CancellationToken to JavaScript AbortController
+    /// </summary>
+    public AbortManager? AbortManager { get; set; }
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
@@ -118,6 +130,47 @@ public abstract class Layer : MapComponent
     }
 
     /// <inheritdoc />
+    public override async ValueTask DisposeAsync()
+    {
+        if (AbortManager != null)
+        {
+            await AbortManager.DisposeAsync();
+        }
+
+        LayerView?.Dispose();
+
+        await base.DisposeAsync();
+    }
+
+    /// <summary>
+    ///     Loads the resources referenced by this class. This method automatically executes for a View and all of the
+    ///     resources it references in Map if the view is constructed with a map instance.
+    ///     This method must be called by the developer when accessing a resource that will not be loaded in a View.
+    ///     The load() method only triggers the loading of the resource the first time it is called. The subsequent calls
+    ///     return the same promise.
+    /// </summary>
+    /// <remarks>
+    ///     It's possible to provide a signal to stop being interested into a Loadable instance load status. When the signal is
+    ///     aborted, the instance does not stop its loading process, only cancelLoad can abort it.
+    /// </remarks>
+    public async Task Load(CancellationToken cancellationToken = default)
+    {
+        AbortManager = new AbortManager(JsRuntime);
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        IJSObjectReference arcGisJsInterop = await GetArcGisJsInterop();
+
+        JsLayerReference = await arcGisJsInterop.InvokeAsync<IJSObjectReference>("createLayer",
+            // ReSharper disable once RedundantCast
+            cancellationToken, (object)this, true, View?.Id);
+        await JsLayerReference.InvokeVoidAsync("load", cancellationToken, abortSignal);
+
+        Layer loadedLayer = await arcGisJsInterop.InvokeAsync<Layer>("getSerializedDotNetObject",
+            cancellationToken, Id);
+        await UpdateFromJavaScript(loadedLayer);
+        await AbortManager.DisposeAbortController(cancellationToken);
+    }
+
+    /// <inheritdoc />
     protected override async Task OnParametersSetAsync()
     {
         LayerChanged = true;
@@ -138,49 +191,12 @@ public abstract class Layer : MapComponent
     private async Task UpdateLayer()
     {
         LayerChanged = false;
+
         if ((!MapRendered && JsLayerReference is null) || JsModule is null) return;
+
         // ReSharper disable once RedundantCast
-        await JsModule!.InvokeVoidAsync("updateLayer", (object)this, View!.Id);
-    }
-
-
-    /// <inheritdoc />
-    public override async ValueTask DisposeAsync()
-    {
-        if (AbortManager != null)
-        {
-            await AbortManager.DisposeAsync();
-        }
-        await base.DisposeAsync();
-    }
-    
-    /// <summary>
-    ///     Handles conversion from .NET CancellationToken to JavaScript AbortController
-    /// </summary>
-    public AbortManager? AbortManager { get; set; }
-    
-    
-    /// <summary>
-    ///     Loads the resources referenced by this class. This method automatically executes for a View and all of the resources it references in Map if the view is constructed with a map instance.
-    ///     This method must be called by the developer when accessing a resource that will not be loaded in a View.
-    ///     The load() method only triggers the loading of the resource the first time it is called. The subsequent calls return the same promise.
-    /// </summary>
-    /// <remarks>
-    ///     It's possible to provide a signal to stop being interested into a Loadable instance load status. When the signal is aborted, the instance does not stop its loading process, only cancelLoad can abort it.
-    /// </remarks>
-    public async Task Load(CancellationToken cancellationToken = default)
-    {
-        AbortManager = new AbortManager(JsRuntime);
-        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        IJSObjectReference arcGisJsInterop = await GetArcGisJsInterop();
-        JsLayerReference = await arcGisJsInterop.InvokeAsync<IJSObjectReference>("createLayer", 
-            // ReSharper disable once RedundantCast
-            cancellationToken, (object)this, true, View?.Id);
-        await JsLayerReference.InvokeVoidAsync("load", cancellationToken, abortSignal);
-        Layer loadedLayer = await arcGisJsInterop.InvokeAsync<Layer>("getSerializedDotNetObject",
-            cancellationToken, Id);
-        await UpdateFromJavaScript(loadedLayer);
-        await AbortManager.DisposeAbortController(cancellationToken);
+        await JsModule!.InvokeVoidAsync("updateLayer", CancellationTokenSource.Token, 
+            (object)this, View!.Id);
     }
 
     /// <summary>
@@ -200,7 +216,7 @@ public abstract class Layer : MapComponent
     }
 
     /// <summary>
-    ///    Indicates if the layer has changed since the last render.
+    ///     Indicates if the layer has changed since the last render.
     /// </summary>
     protected bool LayerChanged;
 }
@@ -214,7 +230,9 @@ internal class LayerConverter : JsonConverter<Layer>
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
         };
         Utf8JsonReader cloneReader = reader;
-        if (JsonSerializer.Deserialize<Dictionary<string, object?>>(ref reader, newOptions) is not IDictionary<string, object?> temp)
+
+        if (JsonSerializer.Deserialize<Dictionary<string, object?>>(ref reader, newOptions) is not
+            IDictionary<string, object?> temp)
         {
             return null;
         }

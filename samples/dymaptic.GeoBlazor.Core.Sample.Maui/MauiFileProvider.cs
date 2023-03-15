@@ -2,11 +2,13 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.FileProviders;
 
+
 namespace dymaptic.GeoBlazor.Core.Sample.Maui;
 
-public class MauiFileProvider: SharedFileProvider
+public class MauiFileProvider : SharedFileProvider
 {
-    public MauiFileProvider(HttpClient httpClient, NavigationManager navigationManager) : base(httpClient, navigationManager)
+    public MauiFileProvider(HttpClient httpClient, NavigationManager navigationManager) : base(httpClient,
+        navigationManager)
     {
     }
 

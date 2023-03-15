@@ -6,47 +6,68 @@ using System.Text.Json.Serialization;
 namespace dymaptic.GeoBlazor.Core.Components.Popups;
 
 /// <summary>
-///     Base class for all MediaInfos used in <see cref="MediaPopupContent"/>
+///     Base class for all MediaInfos used in <see cref="MediaPopupContent" />
 /// </summary>
 [JsonConverter(typeof(MediaInfoConverter))]
-public abstract class MediaInfo: MapComponent
+public abstract class MediaInfo : MapComponent
 {
     /// <summary>
     ///     Indicates the type of media
     /// </summary>
     public abstract string Type { get; }
+    
+    internal abstract MediaInfoSerializationRecord ToSerializationRecord();
+}
+
+[JsonConverter(typeof(MediaInfoSerializationConverter))]
+internal record MediaInfoSerializationRecord(string Type): MapComponentSerializationRecord;
+
+internal class MediaInfoSerializationConverter : JsonConverter<MediaInfoSerializationRecord>
+{
+    public override MediaInfoSerializationRecord? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override void Write(Utf8JsonWriter writer, MediaInfoSerializationRecord value, JsonSerializerOptions options)
+    {
+        writer.WriteRawValue(JsonSerializer.Serialize(value, value.GetType(), options));
+    }
 }
 
 /// <summary>
 ///     A BarChartMediaInfo is a type of chart media element that represents a bar chart displayed within a popup.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-BarChartMediaInfo.html">ArcGIS JS API</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-BarChartMediaInfo.html">
+///         ArcGIS
+///         JS API
+///     </a>
 /// </summary>
 public class BarChartMediaInfo : MediaInfo
 {
     /// <inheritdoc />
     public override string Type => "bar-chart";
-    
+
     /// <summary>
     ///     Provides an alternate text for an image if the image cannot be displayed.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? AltText { get; set; }
-    
+
     /// <summary>
     ///     Defines a caption for the media.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Caption { get; set; }
-    
+
     /// <summary>
     ///     The title of the media element.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Title { get; set; }
-    
+
     /// <summary>
     ///     Defines the chart value.
     /// </summary>
@@ -60,11 +81,11 @@ public class BarChartMediaInfo : MediaInfo
         {
             case ChartMediaInfoValue chartMediaInfoValue:
                 Value = chartMediaInfoValue;
-                
+
                 break;
             default:
                 await base.RegisterChildComponent(child);
-                
+
                 break;
         }
     }
@@ -76,11 +97,11 @@ public class BarChartMediaInfo : MediaInfo
         {
             case ChartMediaInfoValue:
                 Value = null;
-                
+
                 break;
             default:
                 await base.UnregisterChildComponent(child);
-                
+
                 break;
         }
     }
@@ -91,33 +112,52 @@ public class BarChartMediaInfo : MediaInfo
         base.ValidateRequiredChildren();
         Value?.ValidateRequiredChildren();
     }
+    
+    internal override MediaInfoSerializationRecord ToSerializationRecord()
+    {
+        return new BarChartMediaInfoSerializationRecord(AltText, Caption, Title, Value?.ToSerializationRecord());
+    }
 }
+
+internal record BarChartMediaInfoSerializationRecord(
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? AltText, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Caption, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Title, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]ChartMediaInfoValueSerializationRecord? Value)
+    : MediaInfoSerializationRecord("bar-chart");
 
 /// <summary>
 ///     The ChartMediaInfoValue class contains information for popups regarding how charts should be constructed.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-support-ChartMediaInfoValue.html">ArcGIS JS API</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-support-ChartMediaInfoValue.html">
+///         ArcGIS
+///         JS API
+///     </a>
 /// </summary>
-public class ChartMediaInfoValue: MapComponent
+public class ChartMediaInfoValue : MapComponent
 {
     /// <summary>
     ///     An array of strings, with each string containing the name of a field to display in the chart.
     /// </summary>
     /// <remarks>
-    ///     In order to work with related fields within a chart, the fields must either be set as a fields element in the PopupTemplate's content or as popupTemplate.fieldInfos property outside of the PopupTemplate's content.
-    ///     Set the popupTemplate.fieldInfos property for any fields that need to have number formatting for chart/text elements.
+    ///     In order to work with related fields within a chart, the fields must either be set as a fields element in the
+    ///     PopupTemplate's content or as popupTemplate.fieldInfos property outside of the PopupTemplate's content.
+    ///     Set the popupTemplate.fieldInfos property for any fields that need to have number formatting for chart/text
+    ///     elements.
     /// </remarks>
     [Parameter]
     public IEnumerable<string> Fields { get; set; } = new List<string>();
-    
+
     /// <summary>
-    ///     A string containing the name of a field. The values of all fields in the chart will be normalized (divided) by the value of this field.
+    ///     A string containing the name of a field. The values of all fields in the chart will be normalized (divided) by the
+    ///     value of this field.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? NormalizeField { get; set; }
-    
+
     /// <summary>
-    ///     String value indicating the tooltip for a chart specified from another field. It is used for showing tooltips from another field in the same layer or related layer/table.
+    ///     String value indicating the tooltip for a chart specified from another field. It is used for showing tooltips from
+    ///     another field in the same layer or related layer/table.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -137,9 +177,11 @@ public class ChartMediaInfoValue: MapComponent
             case ChartMediaInfoValueSeries series:
                 Series ??= new HashSet<ChartMediaInfoValueSeries>();
                 Series.Add(series);
+
                 break;
             default:
                 await base.RegisterChildComponent(child);
+
                 break;
         }
     }
@@ -151,9 +193,11 @@ public class ChartMediaInfoValue: MapComponent
         {
             case ChartMediaInfoValueSeries series:
                 Series?.Remove(series);
+
                 break;
             default:
                 await base.UnregisterChildComponent(child);
+
                 break;
         }
     }
@@ -171,35 +215,30 @@ public class ChartMediaInfoValue: MapComponent
             }
         }
     }
+    
+    internal ChartMediaInfoValueSerializationRecord ToSerializationRecord()
+    {
+        return new ChartMediaInfoValueSerializationRecord(Fields, NormalizeField, TooltipField, 
+            Series?.Select(s => s.ToSerializationRecord()));
+    }
 }
 
-/// <summary>
-///     The ChartMediaInfoValueSeries class is a read-only support class that represents information specific to how data should be plotted in a chart. It helps provide a consistent API for plotting charts used by the Popup widget.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-support-ChartMediaInfoValueSeries.html">ArcGIS JS API</a>
-/// </summary>
-public class ChartMediaInfoValueSeries: MapComponent
-{
-    /// <summary>
-    ///     String value indicating the field's name for a series.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? FieldName { get; set; }
-    
-    /// <summary>
-    ///     String value indicating the tooltip for a series.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? Tooltip { get; set; }
-    
-    /// <summary>
-    ///     Numerical value for the chart series.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public double? Value { get; set; }
+internal record ChartMediaInfoValueSerializationRecord(IEnumerable<string> Fields, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? NormalizeField, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? TooltipField, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]IEnumerable<ChartMediaInfoValueSeriesSerializationRecord>? Series)
+    : MapComponentSerializationRecord;
 
+/// <summary>
+///     The ChartMediaInfoValueSeries class is a read-only support class that represents information specific to how data
+///     should be plotted in a chart. It helps provide a consistent API for plotting charts used by the Popup widget.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-support-ChartMediaInfoValueSeries.html">
+///         ArcGIS
+///         JS API
+///     </a>
+/// </summary>
+public class ChartMediaInfoValueSeries : MapComponent
+{
     /// <summary>
     ///     Parameterless constructor for use as a razor component.
     /// </summary>
@@ -208,7 +247,7 @@ public class ChartMediaInfoValueSeries: MapComponent
     }
 
     /// <summary>
-    ///    Constructor for building a <see cref="ChartMediaInfoValueSeries"/> in code.
+    ///     Constructor for building a <see cref="ChartMediaInfoValueSeries" /> in code.
     /// </summary>
     /// <param name="fieldName">
     ///     String value indicating the field's name for a series.
@@ -228,44 +267,79 @@ public class ChartMediaInfoValueSeries: MapComponent
         Value = value;
 #pragma warning restore BL0005
     }
+
+    /// <summary>
+    ///     String value indicating the field's name for a series.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? FieldName { get; set; }
+
+    /// <summary>
+    ///     String value indicating the tooltip for a series.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Tooltip { get; set; }
+
+    /// <summary>
+    ///     Numerical value for the chart series.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public double? Value { get; set; }
+    
+    internal ChartMediaInfoValueSeriesSerializationRecord ToSerializationRecord()
+    {
+        return new ChartMediaInfoValueSeriesSerializationRecord(FieldName, Tooltip, Value);
+    }
 }
+
+internal record ChartMediaInfoValueSeriesSerializationRecord(
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? FieldName, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Tooltip, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? Value)
+    : MapComponentSerializationRecord;
 
 /// <summary>
 ///     A ColumnChartMediaInfo is a type of chart media element that represents a column chart displayed within a popup.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-ColumnChartMediaInfo.html">ArcGIS JS API</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-ColumnChartMediaInfo.html">
+///         ArcGIS
+///         JS API
+///     </a>
 /// </summary>
 public class ColumnChartMediaInfo : MediaInfo
 {
     /// <inheritdoc />
     public override string Type => "column-chart";
-    
+
     /// <summary>
     ///     Provides an alternate text for an image if the image cannot be displayed.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? AltText { get; set; }
-    
+
     /// <summary>
     ///     Defines a caption for the media.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Caption { get; set; }
-    
+
     /// <summary>
     ///     The title of the media element.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Title { get; set; }
-    
+
     /// <summary>
     ///     Defines the chart value.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ChartMediaInfoValue? Value { get; set; }
-    
+
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
     {
@@ -273,11 +347,11 @@ public class ColumnChartMediaInfo : MediaInfo
         {
             case ChartMediaInfoValue chartMediaInfoValue:
                 Value = chartMediaInfoValue;
-                
+
                 break;
             default:
                 await base.RegisterChildComponent(child);
-                
+
                 break;
         }
     }
@@ -289,11 +363,11 @@ public class ColumnChartMediaInfo : MediaInfo
         {
             case ChartMediaInfoValue:
                 Value = null;
-                
+
                 break;
             default:
                 await base.UnregisterChildComponent(child);
-                
+
                 break;
         }
     }
@@ -304,51 +378,68 @@ public class ColumnChartMediaInfo : MediaInfo
         base.ValidateRequiredChildren();
         Value?.ValidateRequiredChildren();
     }
+    
+    internal override MediaInfoSerializationRecord ToSerializationRecord()
+    {
+        return new ColumnChartMediaInfoSerializationRecord(AltText, Caption, Title, Value?.ToSerializationRecord());
+    }
 }
+
+internal record ColumnChartMediaInfoSerializationRecord(
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? AltText, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Caption, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Title, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]ChartMediaInfoValueSerializationRecord? Value)
+    : MediaInfoSerializationRecord("column-chart");
 
 /// <summary>
 ///     An ImageMediaInfo is a type of media element that represents images to display within a popup.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-ImageMediaInfo.html">ArcGIS JS API</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-ImageMediaInfo.html">
+///         ArcGIS
+///         JS API
+///     </a>
 /// </summary>
 public class ImageMediaInfo : MediaInfo
 {
     /// <inheritdoc />
     public override string Type => "image-media";
-    
+
     /// <summary>
     ///     Provides an alternate text for an image if the image cannot be displayed.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? AltText { get; set; }
-    
+
     /// <summary>
     ///     Defines a caption for the media.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Caption { get; set; }
-    
+
     /// <summary>
     ///     The title of the media element.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Title { get; set; }
-    
+
     /// <summary>
-    ///     Refresh interval of the layer in minutes. Non-zero value indicates automatic layer refresh at the specified interval. Value of 0 indicates auto refresh is not enabled. If the property does not exist, it is equivalent to having a value of 0.
+    ///     Refresh interval of the layer in minutes. Non-zero value indicates automatic layer refresh at the specified
+    ///     interval. Value of 0 indicates auto refresh is not enabled. If the property does not exist, it is equivalent to
+    ///     having a value of 0.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? RefreshInterval { get; set; }
-    
+
     /// <summary>
     ///     Defines the value format of the image media element and how the images should be retrieved.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ImageMediaInfoValue? Value { get; set; }
-    
+
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
     {
@@ -356,11 +447,11 @@ public class ImageMediaInfo : MediaInfo
         {
             case ImageMediaInfoValue imageMediaInfoValue:
                 Value = imageMediaInfoValue;
-                
+
                 break;
             default:
                 await base.RegisterChildComponent(child);
-                
+
                 break;
         }
     }
@@ -372,11 +463,11 @@ public class ImageMediaInfo : MediaInfo
         {
             case ImageMediaInfoValue:
                 Value = null;
-                
+
                 break;
             default:
                 await base.UnregisterChildComponent(child);
-                
+
                 break;
         }
     }
@@ -387,13 +478,30 @@ public class ImageMediaInfo : MediaInfo
         base.ValidateRequiredChildren();
         Value?.ValidateRequiredChildren();
     }
+    
+    internal override MediaInfoSerializationRecord ToSerializationRecord()
+    {
+        return new ImageMediaInfoSerializationRecord(AltText, Caption, Title, Value?.ToSerializationRecord(), 
+            RefreshInterval);
+    }
 }
+
+internal record ImageMediaInfoSerializationRecord(
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? AltText, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Caption, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Title, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]ImageMediaInfoValueSerializationRecord? Value,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? RefreshInterval)
+    : MediaInfoSerializationRecord("image-media");
 
 /// <summary>
 ///     The ImageMediaInfoValue class contains information for popups regarding how images should be retrieved.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-support-ImageMediaInfoValue.html">ArcGIS JS API</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-support-ImageMediaInfoValue.html">
+///         ArcGIS
+///         JS API
+///     </a>
 /// </summary>
-public class ImageMediaInfoValue: MapComponent
+public class ImageMediaInfoValue : MapComponent
 {
     /// <summary>
     ///     A string containing a URL to be launched in a browser when a user clicks the image.
@@ -401,51 +509,64 @@ public class ImageMediaInfoValue: MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? LinkURL { get; set; }
-    
+
     /// <summary>
     ///     A string containing the URL to the image.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? SourceURL { get; set; }
+    
+    internal ImageMediaInfoValueSerializationRecord ToSerializationRecord()
+    {
+        return new(LinkURL, SourceURL);
+    }
 }
+
+internal record ImageMediaInfoValueSerializationRecord(
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? LinkURL, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? SourceURL)
+    : MapComponentSerializationRecord;
 
 /// <summary>
 ///     A LineChartMediaInfo is a type of chart media element that represents a line chart displayed within a popup.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-LineChartMediaInfo.html">ArcGIS JS API</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-LineChartMediaInfo.html">
+///         ArcGIS
+///         JS API
+///     </a>
 /// </summary>
 public class LineChartMediaInfo : MediaInfo
 {
     /// <inheritdoc />
     public override string Type => "line-chart";
-    
+
     /// <summary>
     ///     Provides an alternate text for an image if the image cannot be displayed.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? AltText { get; set; }
-    
+
     /// <summary>
     ///     Defines a caption for the media.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Caption { get; set; }
-    
+
     /// <summary>
     ///     The title of the media element.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Title { get; set; }
-    
+
     /// <summary>
     ///     Defines the chart value.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ChartMediaInfoValue? Value { get; set; }
-    
+
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
     {
@@ -453,11 +574,11 @@ public class LineChartMediaInfo : MediaInfo
         {
             case ChartMediaInfoValue chartMediaInfoValue:
                 Value = chartMediaInfoValue;
-                
+
                 break;
             default:
                 await base.RegisterChildComponent(child);
-                
+
                 break;
         }
     }
@@ -469,11 +590,11 @@ public class LineChartMediaInfo : MediaInfo
         {
             case ChartMediaInfoValue:
                 Value = null;
-                
+
                 break;
             default:
                 await base.UnregisterChildComponent(child);
-                
+
                 break;
         }
     }
@@ -484,44 +605,59 @@ public class LineChartMediaInfo : MediaInfo
         base.ValidateRequiredChildren();
         Value?.ValidateRequiredChildren();
     }
+    
+    internal override MediaInfoSerializationRecord ToSerializationRecord()
+    {
+        return new LineChartMediaInfoSerializationRecord(AltText, Caption, Title, Value?.ToSerializationRecord());
+    }
 }
+
+internal record LineChartMediaInfoSerializationRecord(
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? AltText, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Caption, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Title, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]ChartMediaInfoValueSerializationRecord? Value)
+    : MediaInfoSerializationRecord("line-chart");
 
 /// <summary>
 ///     A PieChartMediaInfo is a type of chart media element that represents a pie chart displayed within a popup.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-PieChartMediaInfo.html">ArcGIS JS API</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-PieChartMediaInfo.html">
+///         ArcGIS
+///         JS API
+///     </a>
 /// </summary>
 public class PieChartMediaInfo : MediaInfo
 {
     /// <inheritdoc />
     public override string Type => "pie-chart";
-    
+
     /// <summary>
     ///     Provides an alternate text for an image if the image cannot be displayed.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? AltText { get; set; }
-    
+
     /// <summary>
     ///     Defines a caption for the media.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Caption { get; set; }
-    
+
     /// <summary>
     ///     The title of the media element.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Title { get; set; }
-    
+
     /// <summary>
     ///     Defines the chart value.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ChartMediaInfoValue? Value { get; set; }
-    
+
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
     {
@@ -529,11 +665,11 @@ public class PieChartMediaInfo : MediaInfo
         {
             case ChartMediaInfoValue chartMediaInfoValue:
                 Value = chartMediaInfoValue;
-                
+
                 break;
             default:
                 await base.RegisterChildComponent(child);
-                
+
                 break;
         }
     }
@@ -545,11 +681,11 @@ public class PieChartMediaInfo : MediaInfo
         {
             case ChartMediaInfoValue:
                 Value = null;
-                
+
                 break;
             default:
                 await base.UnregisterChildComponent(child);
-                
+
                 break;
         }
     }
@@ -560,7 +696,19 @@ public class PieChartMediaInfo : MediaInfo
         base.ValidateRequiredChildren();
         Value?.ValidateRequiredChildren();
     }
+    
+    internal override MediaInfoSerializationRecord ToSerializationRecord()
+    {
+        return new PieChartMediaInfoSerializationRecord(AltText, Caption, Title, Value?.ToSerializationRecord());
+    }
 }
+
+internal record PieChartMediaInfoSerializationRecord(
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? AltText, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Caption, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Title, 
+    ChartMediaInfoValueSerializationRecord? Value)
+    : MediaInfoSerializationRecord("pie-chart");
 
 internal class MediaInfoConverter : JsonConverter<MediaInfo>
 {
@@ -568,7 +716,7 @@ internal class MediaInfoConverter : JsonConverter<MediaInfo>
     {
         // check the type property and deserialize to the correct type
         var jsonDoc = JsonDocument.ParseValue(ref reader);
-        var type = jsonDoc.RootElement.GetProperty("type").GetString();
+        string? type = jsonDoc.RootElement.GetProperty("type").GetString();
 
         switch (type)
         {

@@ -47,7 +47,8 @@ public System.Nullable<dymaptic.GeoBlazor.Core.Components.Layers.SortOrder> Orde
 
 ## OrderedLayerOrderBy.ValueExpression Property
 
-An [Arcade](https://developers.arcgis.com/javascript/latest/arcade/) expression following the specification defined by the [Arcade Feature Z Profile](https://developers.arcgis.com/javascript/latest/arcade/#feature-sorting).
+An [Arcade](https://developers.arcgis.com/javascript/latest/arcade/) expression following the specification defined  
+by the [Arcade Feature Z Profile](https://developers.arcgis.com/javascript/latest/arcade/#feature-sorting).
 
 ```csharp
 public string? ValueExpression { get; set; }

@@ -8,8 +8,12 @@ parent: Classes
 
 ## RelatedRecordsInfoFieldOrder Class
 
-The RelatedRecordsInfoFieldOrder class indicates the field display order for the related records in a layer's PopupTemplate.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-support-RelatedRecordsInfoFieldOrder.html">ArcGIS JS API</a>
+The RelatedRecordsInfoFieldOrder class indicates the field display order for the related records in a layer's  
+PopupTemplate.  
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-support-RelatedRecordsInfoFieldOrder.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class RelatedRecordsInfoFieldOrder : dymaptic.GeoBlazor.Core.Components.MapComponent

@@ -8,7 +8,10 @@ parent: Classes
 
 ## PopupDockOptions Class
 
-Docking the popup allows for a better user experience, particularly when opening popups in apps on mobile devices. When a popup is "dockEnabled" it means the popup no longer points to the selected feature or the location assigned to it. Rather it is placed in one of the corners of the view or to the top or bottom of it. This property allows the developer to set various options for docking the popup.
+Docking the popup allows for a better user experience, particularly when opening popups in apps on mobile devices.  
+When a popup is "dockEnabled" it means the popup no longer points to the selected feature or the location assigned  
+to it. Rather it is placed in one of the corners of the view or to the top or bottom of it. This property allows  
+the developer to set various options for docking the popup.
 
 ```csharp
 public class PopupDockOptions : dymaptic.GeoBlazor.Core.Components.MapComponent

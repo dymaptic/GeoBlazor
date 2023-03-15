@@ -1,5 +1,5 @@
 ﻿try
-{  
+{
     $Build = npm run debugBuild 2>&1
     Write-Output $Build
     $HasError = ($Build -like "*Error*")

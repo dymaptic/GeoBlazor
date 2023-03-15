@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
-///     A collection of possible positions for setting a <see cref="Widget"/> or <see cref="CustomOverlay"/>
+///     A collection of possible positions for setting a <see cref="Widget" /> or <see cref="CustomOverlay" />
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<OverlayPosition>))]
 public enum OverlayPosition

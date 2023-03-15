@@ -1,4 +1,5 @@
 ﻿using Microsoft.JSInterop;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 
@@ -8,7 +9,10 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 ///     A GraphicsLayer contains one or more client-side Graphics. Each graphic in the GraphicsLayer is rendered in a
 ///     LayerView inside either a SceneView or a MapView. The graphics contain discrete vector geometries that represent
 ///     real-world phenomena.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GraphicsLayer.html">ArcGIS JS API</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GraphicsLayer.html">
+///         ArcGIS
+///         JS API
+///     </a>
 /// </summary>
 public class GraphicsLayer : Layer
 {
@@ -32,7 +36,8 @@ public class GraphicsLayer : Layer
     ///     The opacity of the layer.
     /// </param>
     /// <param name="visible">
-    ///     Indicates if the layer is visible in the View. When false, the layer may still be added to a Map instance that is referenced in a view, but its features will not be visible in the view.
+    ///     Indicates if the layer is visible in the View. When false, the layer may still be added to a Map instance that is
+    ///     referenced in a view, but its features will not be visible in the view.
     /// </param>
     /// <param name="listMode">
     ///     Indicates how the layer should display in the LayerList widget. The possible values are listed below.
@@ -50,7 +55,7 @@ public class GraphicsLayer : Layer
             Graphics = graphics;
         }
     }
-    
+
     /// <summary>
     ///     A collection of <see cref="Graphic" />s in the layer.
     /// </summary>
@@ -74,7 +79,7 @@ public class GraphicsLayer : Layer
     {
         return RegisterChildComponent(graphic);
     }
-    
+
     /// <summary>
     ///     Adds a collection of graphics to the graphics layer
     /// </summary>
@@ -83,10 +88,26 @@ public class GraphicsLayer : Layer
     /// </param>
     public async Task Add(IEnumerable<Graphic> graphics)
     {
-        foreach (Graphic graphic in graphics)
+        List<Graphic> newGraphics = graphics.ToList();
+        _graphics.UnionWith(newGraphics);
+        foreach (Graphic graphic in newGraphics)
         {
-            await RegisterChildComponent(graphic);
+            graphic.View ??= View;
+            graphic.JsModule ??= JsModule;
+            graphic.LayerId ??= Id;
+            graphic.Parent ??= this;
         }
+
+        if (JsLayerReference is null)
+        {
+            LayerChanged = true;
+
+            return;
+        }
+
+        IEnumerable<GraphicSerializationRecord> records = newGraphics.Select(g => g.ToSerializationRecord());
+        await JsLayerReference!.InvokeVoidAsync("addMany", 
+            CancellationTokenSource.Token, records, View?.Id);
     }
 
     /// <summary>
@@ -115,7 +136,7 @@ public class GraphicsLayer : Layer
     }
 
     /// <summary>
-    ///    Removes all graphics from the current layer
+    ///     Removes all graphics from the current layer
     /// </summary>
     public async Task Clear()
     {
@@ -131,16 +152,17 @@ public class GraphicsLayer : Layer
         switch (child)
         {
             case Graphic graphic:
-                if (!_graphics.Any(g => g.Equals(graphic)))
+                graphic.View ??= View;
+                graphic.JsModule ??= JsModule;
+                graphic.LayerId ??= Id;
+                graphic.Parent ??= this;
+                if (_graphics.Add(graphic))
                 {
-                    graphic.View ??= View;
-                    graphic.JsModule ??= JsModule;
-                    graphic.LayerId ??= Id;
-                    graphic.Parent ??= this;
-                    _graphics.Add(graphic);
                     if (JsLayerReference is not null)
                     {
-                        await JsLayerReference.InvokeVoidAsync("add", graphic, View?.Id);
+                        GraphicSerializationRecord record = graphic.ToSerializationRecord();
+                        await JsLayerReference.InvokeVoidAsync("add", 
+                            CancellationTokenSource.Token, record, View?.Id);
                     }
                     else
                     {
@@ -164,7 +186,15 @@ public class GraphicsLayer : Layer
             case Graphic graphic:
                 if (_graphics.Remove(graphic) && JsLayerReference is not null)
                 {
-                    await JsLayerReference.InvokeVoidAsync("remove", graphic);
+                    try
+                    {
+                        await JsLayerReference.InvokeVoidAsync("remove", 
+                            CancellationTokenSource.Token, graphic);
+                    }
+                    catch
+                    {
+                        // object disposed
+                    }
                 }
                 else
                 {
@@ -191,7 +221,7 @@ public class GraphicsLayer : Layer
     }
 
     /// <summary>
-    ///    Register a graphic that was created in JavaScript
+    ///     Register a graphic that was created in JavaScript
     /// </summary>
     public void RegisterExistingGraphicFromJavaScript(Graphic graphic)
     {
@@ -214,7 +244,8 @@ public class GraphicsLayer : Layer
         {
             if (!graphic.IsRendered)
             {
-                await JsLayerReference!.InvokeVoidAsync("add", graphic);
+                await JsLayerReference!.InvokeVoidAsync("add", 
+                    CancellationTokenSource.Token, graphic);
             }
         }
     }

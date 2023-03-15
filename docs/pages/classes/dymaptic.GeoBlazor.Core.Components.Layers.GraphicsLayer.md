@@ -11,7 +11,10 @@ parent: Classes
 A GraphicsLayer contains one or more client-side Graphics. Each graphic in the GraphicsLayer is rendered in a  
 LayerView inside either a SceneView or a MapView. The graphics contain discrete vector geometries that represent  
 real-world phenomena.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GraphicsLayer.html">ArcGIS JS API</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GraphicsLayer.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class GraphicsLayer : dymaptic.GeoBlazor.Core.Components.Layers.Layer
@@ -63,7 +66,8 @@ The opacity of the layer.
 
 `visible` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 
-Indicates if the layer is visible in the View. When false, the layer may still be added to a Map instance that is referenced in a view, but its features will not be visible in the view.
+Indicates if the layer is visible in the View. When false, the layer may still be added to a Map instance that is  
+referenced in a view, but its features will not be visible in the view.
 
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer.GraphicsLayer(System.Collections.Generic.IReadOnlyCollection_dymaptic.GeoBlazor.Core.Components.Layers.Graphic_,string,System.Nullable_double_,System.Nullable_bool_,System.Nullable_dymaptic.GeoBlazor.Core.Components.Layers.ListMode_).listMode'></a>
 
@@ -256,7 +260,8 @@ The child to unregister
 
 ## GraphicsLayer.ValidateRequiredChildren() Method
 
-When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the [RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
+When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the  
+[RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
 
 ```csharp
 public override void ValidateRequiredChildren();

@@ -7,8 +7,8 @@
     <a class="btn btn-primary" target="_blank" href="https://www.arcgis.com/home/item.html?id=0614ea1f9dd043e9ba157b9c20d3c538">Paris 3D Web Scene</a>
 </div>
 <p class="instructions">
-    This sample demonstrates how to use the <code>ReactiveUtils</code> to react to various user interactions. 
-    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-reactiveUtils.html#watch">Watchers</a> watch a component property and report back any updates. 
+    This sample demonstrates how to use the <code>ReactiveUtils</code> to react to various user interactions.
+    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-reactiveUtils.html#watch">Watchers</a> watch a component property and report back any updates.
     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-reactiveUtils.html#on">Listeners</a> attach to events on components.
     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-reactiveUtils.html#when">Waiters</a> return when a value evaluates to "<a target="_blank" href="https://developer.mozilla.org/en-US/docs/Glossary/Truthy">truthy</a>".
 </p>
@@ -37,7 +37,7 @@ else
                 </div>
                 <div class="form-group">
                     <label class="react-label">
-                        Center: 
+                        Center:
                         <input type="checkbox" @onclick="ToggleCenterHandler" />
                     </label>
                     <div style="margin-left: 1rem;">
@@ -74,7 +74,7 @@ else
                 </div>
                 <div class="form-group">
                     <label class="react-label">
-                        Extent: 
+                        Extent:
                         <input type="checkbox" @onclick="ToggleExtentHandler" />
                     </label>
                     <div style="margin-left: 1rem;">
@@ -86,15 +86,17 @@ else
                             }
                             else
                             {
-                                <b>@_extent?.Xmin.ToString("N2") X Min / @_extent?.Xmax.ToString("N2") X Max / 
-                                    @_extent?.Ymin.ToString("N2") Y Min / @_extent?.Ymax.ToString("N2") Y Max</b>
+                                <b>
+                                    @_extent?.Xmin.ToString("N2") X Min / @_extent?.Xmax.ToString("N2") X Max /
+                                    @_extent?.Ymin.ToString("N2") Y Min / @_extent?.Ymax.ToString("N2") Y Max
+                                </b>
                             }
                         }
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="react-label">
-                        Layers: 
+                        Layers:
                         <input type="checkbox" @onclick="ToggleLayerHandler" />
                     </label>
                     <div style="margin-left: 1rem; max-height: 6rem; overflow-y: auto;">
@@ -251,7 +253,7 @@ else
     private async Task TogglePopupHandler()
     {
         _handlePopups = !_handlePopups;
-        string expression = "view?.popup?.visible";
+        var expression = "view?.popup?.visible";
         if (_handlePopups)
         {
             await _view!.AddReactiveWatcher<bool>(expression, PopupWatchHandler);
@@ -270,7 +272,7 @@ else
     private async Task ToggleCenterHandler()
     {
         _handleCenter = !_handleCenter;
-        string expression = "view?.center";
+        var expression = "view?.center";
         if (_handleCenter)
         {
             await _view!.AddReactiveWatcher<Point>(expression, CenterWatchHandler);
@@ -289,7 +291,7 @@ else
     private async Task ToggleExtentHandler()
     {
         _handleExtent = !_handleExtent;
-        string expression = "view?.extent";
+        var expression = "view?.extent";
         if (_handleExtent)
         {
             await _view!.AddReactiveWatcher<Extent>(expression, ExtentWatchHandler);
@@ -308,7 +310,7 @@ else
     private async Task ToggleLayerHandler()
     {
         _handleLayers = !_handleLayers;
-        string expression = "view?.map?.allLayers?.filter(layer => layer.visible)";
+        var expression = "view?.map?.allLayers?.filter(layer => layer.visible)";
         if (_handleLayers)
         {
             await _view!.AddReactiveWatcher<ViewableLayer[]?>(expression, LayerWatchHandler);

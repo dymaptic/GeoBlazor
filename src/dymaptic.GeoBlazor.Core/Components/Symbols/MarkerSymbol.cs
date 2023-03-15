@@ -1,11 +1,16 @@
-﻿using System.Text.Json.Serialization;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
+using System.Text.Json.Serialization;
+
 
 namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 
 /// <summary>
-///     Marker symbols are used to draw Point graphics in a FeatureLayer or individual graphics in a 2D MapView. To create new marker symbols, use either SimpleMarkerSymbol or PictureMarkerSymbol.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-MarkerSymbol.html">ArcGIS JS API</a>
+///     Marker symbols are used to draw Point graphics in a FeatureLayer or individual graphics in a 2D MapView. To create
+///     new marker symbols, use either SimpleMarkerSymbol or PictureMarkerSymbol.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-MarkerSymbol.html">
+///         ArcGIS
+///         JS API
+///     </a>
 /// </summary>
 public abstract class MarkerSymbol : Symbol
 {

@@ -1,12 +1,12 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Views;
-using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using dymaptic.GeoBlazor.Core.Exceptions;
 using dymaptic.GeoBlazor.Core.Extensions;
+using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using System.Collections;
 using System.Reflection;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 
 namespace dymaptic.GeoBlazor.Core.Components;
@@ -23,7 +23,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     [Inject]
     [JsonIgnore]
     public IJSRuntime JsRuntime { get; set; } = default!;
-    
+
     /// <summary>
     ///     ChildContent defines the ability to add other components within this component in the razor syntax.
     /// </summary>
@@ -39,8 +39,8 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     public MapComponent? Parent { get; set; }
 
     /// <summary>
-    ///     A boolean flag that indicates that the current <see cref="MapView"/> has finished rendering.
-    ///     To listen for a map rendering event, use <see cref="MapView.OnMapRendered"/>.
+    ///     A boolean flag that indicates that the current <see cref="MapView" /> has finished rendering.
+    ///     To listen for a map rendering event, use <see cref="MapView.OnMapRendered" />.
     /// </summary>
     [CascadingParameter(Name = "MapRendered")]
     [JsonIgnore]
@@ -48,18 +48,18 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
 
     /// <summary>
     ///     The reference to arcGisJsInterop.ts from .NET
-    /// </summary>    
+    /// </summary>
     [CascadingParameter(Name = "JsModule")]
     [JsonIgnore]
     public IJSObjectReference? JsModule { get; set; }
 
     /// <summary>
-    ///     The parent <see cref="MapView"/> of the current component.
+    ///     The parent <see cref="MapView" /> of the current component.
     /// </summary>
     [CascadingParameter(Name = "View")]
     [JsonIgnore]
     public MapView? View { get; set; }
-    
+
     /// <summary>
     ///     A unique identifier, used to track components across .NET and JavaScript.
     /// </summary>
@@ -74,7 +74,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         {
             await Parent.UnregisterChildComponent(this);
         }
-        
+
         foreach ((Delegate Handler, IJSObjectReference JsObjRef) tuple in _watchers.Values)
         {
             IJSObjectReference jsRef = tuple.JsObjRef;
@@ -82,7 +82,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         }
 
         _watchers.Clear();
-        
+
         foreach ((Delegate Handler, IJSObjectReference JsObjRef) tuple in _listeners.Values)
         {
             IJSObjectReference jsRef = tuple.JsObjRef;
@@ -90,7 +90,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         }
 
         _listeners.Clear();
-        
+
         foreach ((Delegate Handler, IJSObjectReference JsObjRef) tuple in _waiters.Values)
         {
             IJSObjectReference jsRef = tuple.JsObjRef;
@@ -110,10 +110,12 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
                 // it's fine
             }
         }
+        
+        CancellationTokenSource.Cancel();
     }
 
     /// <summary>
-    ///     Add a child component programmatically. Calls <see cref="RegisterChildComponent"/> internally.
+    ///     Add a child component programmatically. Calls <see cref="RegisterChildComponent" /> internally.
     /// </summary>
     /// <param name="child">
     ///     The child component to add
@@ -124,7 +126,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     }
 
     /// <summary>
-    ///     Called from <see cref="MapComponent.OnAfterRenderAsync"/> to "Register" the current component with it's parent.
+    ///     Called from <see cref="MapComponent.OnAfterRenderAsync" /> to "Register" the current component with it's parent.
     /// </summary>
     /// <param name="child">
     ///     The calling, child component to register
@@ -156,9 +158,9 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         StateHasChanged();
     }
 
-
     /// <summary>
-    ///     When a <see cref="MapView" /> is prepared to render, this will check to make sure that all properties with the <see cref="RequiredPropertyAttribute"/> are provided.
+    ///     When a <see cref="MapView" /> is prepared to render, this will check to make sure that all properties with the
+    ///     <see cref="RequiredPropertyAttribute" /> are provided.
     /// </summary>
     /// <exception cref="MissingRequiredChildElementException">
     ///     The consumer needs to provide the missing child component
@@ -169,6 +171,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     public virtual void ValidateRequiredChildren()
     {
         Type thisType = GetType();
+
         IEnumerable<PropertyInfo> parameters = thisType
             .GetProperties()
             .Where(p =>
@@ -181,10 +184,11 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
             Type propType = requiredParameter.PropertyType;
             object? value = requiredParameter.GetValue(this);
             string propName = requiredParameter.Name;
-            RequiredPropertyAttribute attr =
-                (RequiredPropertyAttribute)requiredParameter.GetCustomAttributes(
-                    typeof(RequiredPropertyAttribute), true)[0];
-            
+
+            var attr =
+                (RequiredPropertyAttribute)requiredParameter.GetCustomAttributes(typeof(RequiredPropertyAttribute),
+                    true)[0];
+
             if (attr.OtherOptions is not null && attr.OtherOptions.Any())
             {
                 ComponentOption? optionSet = options.FirstOrDefault(o =>
@@ -194,10 +198,12 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
                 {
                     optionSet = new ComponentOption();
                     optionSet.Options.Add(propName);
+
                     foreach (string other in attr.OtherOptions)
                     {
                         optionSet.Options.Add(other);
                     }
+
                     options.Add(optionSet);
                 }
 
@@ -216,19 +222,30 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
             }
 
             // lists, arrays
-            if (propType.GetInterface(nameof(ICollection)) != null && ((ICollection)value).Count == 0)
+            if ((propType.GetInterface(nameof(ICollection)) != null) && (((ICollection)value).Count == 0))
             {
                 throw new MissingRequiredChildElementException(thisType.Name, propType.Name);
             }
         }
 
-        foreach (var option in options)
+        foreach (ComponentOption option in options)
         {
             if (!option.Found)
             {
                 throw new MissingRequiredOptionsChildElementException(thisType.Name, option.Options);
             }
         }
+    }
+
+    /// <summary>
+    ///     Toggles the visibility of the component.
+    /// </summary>
+    /// <param name="visible">
+    ///     The new value to set for visibility of the component.
+    /// </param>
+    public async Task SetVisibility(bool visible)
+    {
+        await JsModule!.InvokeVoidAsync("setVisibility", CancellationTokenSource.Token, Id, visible);
     }
 
     /// <inheritdoc />
@@ -257,7 +274,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     }
 
     /// <summary>
-    ///     Tells the <see cref="MapView"/> to completely re-render.
+    ///     Tells the <see cref="MapView" /> to completely re-render.
     /// </summary>
     /// <param name="forceRender">
     ///     Optional parameter, if set, will re-render even if other logic says it is not needed.
@@ -282,46 +299,45 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
             case >= 100:
                 // this is here to support the pro extension library
                 IJSObjectReference proModule = await JsRuntime
-                    .InvokeAsync<IJSObjectReference>("import",
+                    .InvokeAsync<IJSObjectReference>("import", CancellationTokenSource.Token,
                         "./_content/dymaptic.GeoBlazor.Pro/js/arcGisPro.js");
+
                 return await proModule.InvokeAsync<IJSObjectReference>("getCore");
             default:
                 return await JsRuntime
-                    .InvokeAsync<IJSObjectReference>("import",
+                    .InvokeAsync<IJSObjectReference>("import", CancellationTokenSource.Token,
                         "./_content/dymaptic.GeoBlazor.Core/js/arcGisJsInterop.js");
         }
     }
 
     /// <summary>
-    ///    Retrieves the main entry point for the optional GeoBlazor Pro JavaScript module.
+    ///     Retrieves the main entry point for the optional GeoBlazor Pro JavaScript module.
     /// </summary>
     protected async Task<IJSObjectReference?> GetArcGisJsPro()
     {
         LicenseType licenseType = Licensing.GetLicenseType();
+
         switch ((int)licenseType)
         {
             case >= 100:
-                return await JsRuntime.InvokeAsync<IJSObjectReference>("import",
-                        "./_content/dymaptic.GeoBlazor.Pro/js/arcGisPro.js");
+                return await JsRuntime.InvokeAsync<IJSObjectReference>("import", CancellationTokenSource.Token,
+                    "./_content/dymaptic.GeoBlazor.Pro/js/arcGisPro.js");
             default:
                 return null;
         }
     }
 
+    /// <summary>
+    ///    Creates a cancellation token to control external calls
+    /// </summary>
+    protected CancellationTokenSource CancellationTokenSource = new();
+
+    private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _watchers = new();
+    private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _listeners = new();
+    private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _waiters = new();
+
     private bool _needsUpdate;
 
-    
-    /// <summary>
-    ///     Toggles the visibility of the component.
-    /// </summary>
-    /// <param name="visible">
-    ///     The new value to set for visibility of the component.
-    /// </param>
-    public async Task SetVisibility(bool visible)
-    {
-        await JsModule!.InvokeVoidAsync("setVisibility", Id, visible);
-    }
-    
 
 #region Events
 
@@ -335,7 +351,9 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     ///     The function to call when there are changes.
     /// </param>
     /// <param name="targetName">
-    ///     The name of the target you are referencing in the <code>watchExpression</code>. For example, if the expression is "layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on which this method was called.
+    ///     The name of the target you are referencing in the <code>watchExpression</code>. For example, if the expression is
+    ///     "layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on
+    ///     which this method was called.
     /// </param>
     /// <param name="once">
     ///     Whether to fire the callback only once.
@@ -350,14 +368,16 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     ///     This exception is thrown when a watchExpression's target object name doesn't match the targetName parameter.
     /// </exception>
     /// <remarks>
-    ///     For adding watchers to types other than <see cref="MapView"/> and <see cref="SceneView"/>, the default <code>targetName</code> should not be relied upon. Make sure it matches the variable in your <code>watchExpression</code>
+    ///     For adding watchers to types other than <see cref="MapView" /> and <see cref="SceneView" />, the default
+    ///     <code>targetName</code> should not be relied upon. Make sure it matches the variable in your
+    ///     <code>watchExpression</code>
     /// </remarks>
     public Task AddReactiveWatcher<T>(string watchExpression, Func<T, Task> handler, string? targetName = null,
         bool once = false, bool initial = false)
     {
         return AddReactiveWatcherImplementation(watchExpression, handler, targetName, once, initial);
     }
-    
+
     /// <summary>
     ///     Tracks any properties accessed in the <code>watchExpression</code> and calls the callback when any of them change.
     /// </summary>
@@ -368,7 +388,9 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     ///     The function to call when there are changes.
     /// </param>
     /// <param name="targetName">
-    ///     The name of the target you are referencing in the <code>watchExpression</code>. For example, if the expression is "layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on which this method was called.
+    ///     The name of the target you are referencing in the <code>watchExpression</code>. For example, if the expression is
+    ///     "layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on
+    ///     which this method was called.
     /// </param>
     /// <param name="once">
     ///     Whether to fire the callback only once.
@@ -383,16 +405,19 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     ///     This exception is thrown when a watchExpression's target object name doesn't match the targetName parameter.
     /// </exception>
     /// <remarks>
-    ///     For adding watchers to types other than <see cref="MapView"/> and <see cref="SceneView"/>, the default <code>targetName</code> should not be relied upon. Make sure it matches the variable in your <code>watchExpression</code>
+    ///     For adding watchers to types other than <see cref="MapView" /> and <see cref="SceneView" />, the default
+    ///     <code>targetName</code> should not be relied upon. Make sure it matches the variable in your
+    ///     <code>watchExpression</code>
     /// </remarks>
+
     // ReSharper disable once UnusedMethodReturnValue.Global
-    public Task AddReactiveWatcher<T>(string watchExpression, Action<T> handler, string? targetName = null, 
+    public Task AddReactiveWatcher<T>(string watchExpression, Action<T> handler, string? targetName = null,
         bool once = false, bool initial = false)
     {
         return AddReactiveWatcherImplementation(watchExpression, handler, targetName, once, initial);
     }
 
-    private async Task AddReactiveWatcherImplementation(string watchExpression, Delegate handler, string? targetName, 
+    private async Task AddReactiveWatcherImplementation(string watchExpression, Delegate handler, string? targetName,
         bool once, bool initial)
     {
         string typeName = GetType().Name;
@@ -402,8 +427,9 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         {
             throw new UnMatchedTargetNameException(targetName, watchExpression);
         }
-        IJSObjectReference? jsRef = 
-            await JsModule!.InvokeAsync<IJSObjectReference?>("addReactiveWatcher", Id, 
+
+        IJSObjectReference? jsRef =
+            await JsModule!.InvokeAsync<IJSObjectReference?>("addReactiveWatcher", Id,
                 targetName, watchExpression, once, initial, DotNetObjectReference.Create(this));
 
         if (jsRef != null)
@@ -430,7 +456,8 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
 
 #pragma warning disable CS1574, CS0419
     /// <summary>
-    ///     JS-Invokable method that is triggered by the reactiveUtils watchers. This method will dynamically trigger handlers passed to <see cref="AddReactiveWatcher"/>
+    ///     JS-Invokable method that is triggered by the reactiveUtils watchers. This method will dynamically trigger handlers
+    ///     passed to <see cref="AddReactiveWatcher" />
     /// </summary>
     /// <param name="watchExpression">
     ///     The tracked expression that was triggered.
@@ -448,8 +475,9 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
 
         if (value.HasValue)
         {
-            string stringValue = value.Value.ToString();
-            var options = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
+            var stringValue = value.Value.ToString();
+            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+
             typedValue = value.Value.ValueKind switch
             {
                 JsonValueKind.Object => value.Value.Deserialize(returnType, options),
@@ -465,7 +493,6 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         handler.DynamicInvoke(typedValue);
     }
 
-    
     /// <summary>
     ///     Tracks any properties accessed in the <code>listenExpression</code> and calls the callback when any of them change.
     /// </summary>
@@ -483,7 +510,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     /// </typeparam>
     public async Task AddReactiveListener<T>(string eventName, Func<T, Task> handler, bool once = false)
     {
-        IJSObjectReference? jsRef = 
+        IJSObjectReference? jsRef =
             await JsModule!.InvokeAsync<IJSObjectReference?>("addReactiveListener", Id, eventName, once,
                 DotNetObjectReference.Create(this));
 
@@ -510,7 +537,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     /// </typeparam>
     public async Task AddReactiveListener<T>(string eventName, Action<T> handler, bool once = false)
     {
-        IJSObjectReference? jsRef = 
+        IJSObjectReference? jsRef =
             await JsModule!.InvokeAsync<IJSObjectReference?>("addReactiveListener", Id, eventName, once,
                 DotNetObjectReference.Create(this));
 
@@ -535,10 +562,11 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
             _listeners.Remove(eventName);
         }
     }
-    
+
 #pragma warning disable CS1574, CS0419
     /// <summary>
-    ///     JS-Invokable method that is triggered by the reactiveUtils 'on' listeners. This method will dynamically trigger handlers passed to <see cref="AddReactiveListener"/>
+    ///     JS-Invokable method that is triggered by the reactiveUtils 'on' listeners. This method will dynamically trigger
+    ///     handlers passed to <see cref="AddReactiveListener" />
     /// </summary>
     /// <param name="eventName">
     ///     The tracked event that was triggered.
@@ -556,8 +584,9 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
 
         if (value.HasValue)
         {
-            string stringValue = value.Value.ToString();
-            var options = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
+            var stringValue = value.Value.ToString();
+            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+
             typedValue = value.Value.ValueKind switch
             {
                 JsonValueKind.Object => value.Value.Deserialize(returnType, options),
@@ -572,9 +601,10 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
 
         handler.DynamicInvoke(typedValue);
     }
-    
+
     /// <summary>
-    ///     Tracks a value in the <code>waitExpression</code> and calls the callback when it becomes <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Glossary/Truthy">truthy</a>.
+    ///     Tracks a value in the <code>waitExpression</code> and calls the callback when it becomes
+    ///     <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Glossary/Truthy">truthy</a>.
     /// </summary>
     /// <param name="waitExpression">
     ///     Expression used to get the current value. All accessed properties will be tracked.
@@ -583,7 +613,9 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     ///     The function to call when the value is truthy.
     /// </param>
     /// <param name="targetName">
-    ///     The name of the target you are referencing in the <code>waitExpression</code>. For example, if the expression is "layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on which this method was called.
+    ///     The name of the target you are referencing in the <code>waitExpression</code>. For example, if the expression is
+    ///     "layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on
+    ///     which this method was called.
     /// </param>
     /// <param name="once">
     ///     Whether to fire the callback only once.
@@ -595,16 +627,19 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     ///     This exception is thrown when a watchExpression's target object name doesn't match the targetName parameter.
     /// </exception>
     /// <remarks>
-    ///     For adding waiters to types other than <see cref="MapView"/> and <see cref="SceneView"/>, the default <code>targetName</code> should not be relied upon. Make sure it matches the variable in your <code>waitExpression</code>
+    ///     For adding waiters to types other than <see cref="MapView" /> and <see cref="SceneView" />, the default
+    ///     <code>targetName</code> should not be relied upon. Make sure it matches the variable in your
+    ///     <code>waitExpression</code>
     /// </remarks>
     public Task AddReactiveWaiter(string waitExpression, Func<Task> handler, string? targetName = null,
         bool once = false, bool initial = false)
     {
         return AddReactiveWaiterImplementation(waitExpression, handler, targetName, once, initial);
     }
-    
+
     /// <summary>
-    ///     Tracks a value in the <code>waitExpression</code> and calls the callback when it becomes <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Glossary/Truthy">truthy</a>.
+    ///     Tracks a value in the <code>waitExpression</code> and calls the callback when it becomes
+    ///     <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Glossary/Truthy">truthy</a>.
     /// </summary>
     /// <param name="waitExpression">
     ///     Expression used to get the current value. All accessed properties will be tracked.
@@ -613,7 +648,9 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     ///     The function to call when the value is truthy.
     /// </param>
     /// <param name="targetName">
-    ///     The name of the target you are referencing in the <code>waitExpression</code>. For example, if the expression is "layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on which this method was called.
+    ///     The name of the target you are referencing in the <code>waitExpression</code>. For example, if the expression is
+    ///     "layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on
+    ///     which this method was called.
     /// </param>
     /// <param name="once">
     ///     Whether to fire the callback only once.
@@ -625,16 +662,19 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     ///     This exception is thrown when a watchExpression's target object name doesn't match the targetName parameter.
     /// </exception>
     /// <remarks>
-    ///     For adding waiters to types other than <see cref="MapView"/> and <see cref="SceneView"/>, the default <code>targetName</code> should not be relied upon. Make sure it matches the variable in your <code>waitExpression</code>
+    ///     For adding waiters to types other than <see cref="MapView" /> and <see cref="SceneView" />, the default
+    ///     <code>targetName</code> should not be relied upon. Make sure it matches the variable in your
+    ///     <code>waitExpression</code>
     /// </remarks>
+
     // ReSharper disable once UnusedMethodReturnValue.Global
-    public Task AddReactiveWaiter(string waitExpression, Action handler, string? targetName = null, 
+    public Task AddReactiveWaiter(string waitExpression, Action handler, string? targetName = null,
         bool once = false, bool initial = false)
     {
         return AddReactiveWaiterImplementation(waitExpression, handler, targetName, once, initial);
     }
 
-    private async Task AddReactiveWaiterImplementation(string waitExpression, Delegate handler, string? targetName, 
+    private async Task AddReactiveWaiterImplementation(string waitExpression, Delegate handler, string? targetName,
         bool once, bool initial)
     {
         string typeName = GetType().Name;
@@ -644,8 +684,9 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         {
             throw new UnMatchedTargetNameException(targetName, waitExpression);
         }
-        IJSObjectReference? jsRef = 
-            await JsModule!.InvokeAsync<IJSObjectReference?>("addReactiveWaiter", Id, 
+
+        IJSObjectReference? jsRef =
+            await JsModule!.InvokeAsync<IJSObjectReference?>("addReactiveWaiter", Id,
                 targetName, waitExpression, once, initial, DotNetObjectReference.Create(this));
 
         if (jsRef != null)
@@ -672,7 +713,8 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
 
 #pragma warning disable CS1574, CS0419
     /// <summary>
-    ///     JS-Invokable method that is triggered by the reactiveUtils waiters. This method will dynamically trigger handlers passed to <see cref="AddReactiveWaiter"/>
+    ///     JS-Invokable method that is triggered by the reactiveUtils waiters. This method will dynamically trigger handlers
+    ///     passed to <see cref="AddReactiveWaiter" />
     /// </summary>
     /// <param name="waitExpression">
     ///     The tracked expression that was triggered.
@@ -685,15 +727,18 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         Delegate handler = _waiters[waitExpression].Handler;
         handler.DynamicInvoke();
     }
-    
+
     /// <summary>
-    ///     Tracks any properties being evaluated by the getValue function. When getValue changes, it returns a Task containing the value. This method only tracks a single change.
+    ///     Tracks any properties being evaluated by the getValue function. When getValue changes, it returns a Task containing
+    ///     the value. This method only tracks a single change.
     /// </summary>
     /// <param name="watchExpression">
     ///     The expression to be tracked.
     /// </param>
     /// <param name="targetName">
-    ///     The name of the target you are referencing in the <code>waitExpression</code>. For example, if the expression is "layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on which this method was called.
+    ///     The name of the target you are referencing in the <code>waitExpression</code>. For example, if the expression is
+    ///     "layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on
+    ///     which this method was called.
     /// </param>
     /// <param name="token">
     ///     Optional Cancellation Token to abort a listener.
@@ -712,20 +757,17 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     {
         string typeName = GetType().Name;
         targetName ??= typeName.Contains("View") ? "view" : typeName.ToLowerFirstChar();
+
         if (!watchExpression.Contains(targetName))
         {
             throw new UnMatchedTargetNameException(targetName, watchExpression);
         }
-        
-        return await JsModule!.InvokeAsync<T>("awaitReactiveSingleWatchUpdate", token, Id, targetName, 
+
+        return await JsModule!.InvokeAsync<T>("awaitReactiveSingleWatchUpdate", token, Id, targetName,
             watchExpression, DotNetObjectReference.Create(this));
     }
 
 #endregion
-
-    private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _watchers = new();
-    private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _listeners = new();
-    private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _waiters = new();
 }
 
 internal class MapComponentConverter : JsonConverter<MapComponent>
@@ -744,3 +786,5 @@ internal class MapComponentConverter : JsonConverter<MapComponent>
         writer.WriteRawValue(JsonSerializer.Serialize(value, typeof(object), newOptions));
     }
 }
+
+internal record MapComponentSerializationRecord;

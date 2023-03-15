@@ -2,7 +2,10 @@
 
 /// <summary>
 ///     A collection of options to define when creating a Popup.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html">ArcGIS JS API</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html">
+///         ArcGIS
+///         JS API
+///     </a>
 /// </summary>
 public class PopupOptions
 {
@@ -27,7 +30,7 @@ public class PopupOptions
             VisibleElements = visibleElements;
         }
     }
-    
+
     /// <summary>
     ///     Docking the popup allows for a better user experience, particularly when opening popups in apps on mobile devices.
     /// </summary>

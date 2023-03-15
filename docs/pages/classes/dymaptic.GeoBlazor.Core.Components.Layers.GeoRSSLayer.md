@@ -8,8 +8,12 @@ parent: Classes
 
 ## GeoRSSLayer Class
 
-The GeoRSSLayer class is used to create a layer based on GeoRSS. GeoRSS is a way to add geographic information to an RSS feed. The GeoRSSLayer supports both GeoRSS-Simple and GeoRSS GML encodings, and multiple geometry types.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoRSSLayer.html">ArcGIS JS API</a>
+The GeoRSSLayer class is used to create a layer based on GeoRSS. GeoRSS is a way to add geographic information to  
+an RSS feed. The GeoRSSLayer supports both GeoRSS-Simple and GeoRSS GML encodings, and multiple geometry types.  
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoRSSLayer.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class GeoRSSLayer : dymaptic.GeoBlazor.Core.Components.Layers.Layer
@@ -61,7 +65,8 @@ The opacity of the layer.
 
 `visible` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 
-Indicates if the layer is visible in the View. When false, the layer may still be added to a Map instance that is referenced in a view, but its features will not be visible in the view.
+Indicates if the layer is visible in the View. When false, the layer may still be added to a Map instance that is  
+referenced in a view, but its features will not be visible in the view.
 
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.GeoRSSLayer.GeoRSSLayer(string,string,System.Nullable_double_,System.Nullable_bool_,System.Nullable_dymaptic.GeoBlazor.Core.Components.Layers.ListMode_).listMode'></a>
 

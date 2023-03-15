@@ -8,8 +8,12 @@ parent: Classes
 
 ## ElevationLayer Class
 
-ElevationLayer is a tile layer used for rendering elevations in SceneViews. A default world elevation layer can be added to the map by setting the map's ground property to world-elevation.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ElevationLayer.html">ArcGIS JS API</a>
+ElevationLayer is a tile layer used for rendering elevations in SceneViews. A default world elevation layer can be  
+added to the map by setting the map's ground property to world-elevation.  
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ElevationLayer.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class ElevationLayer : dymaptic.GeoBlazor.Core.Components.Layers.Layer
@@ -35,7 +39,8 @@ public override string LayerType { get; }
 
 ## ElevationLayer.PortalItem Property
 
-The portal item from which the layer is loaded. If the portal item references a Feature Service or Scene Service, then you can specify a single layer to load with the layerId property.
+The portal item from which the layer is loaded. If the portal item references a Feature Service or Scene Service,  
+then you can specify a single layer to load with the layerId property.
 
 ```csharp
 public dymaptic.GeoBlazor.Core.Components.PortalItem? PortalItem { get; set; }
@@ -107,7 +112,8 @@ The child to unregister
 
 ## ElevationLayer.ValidateRequiredChildren() Method
 
-When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the [RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
+When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the  
+[RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
 
 ```csharp
 public override void ValidateRequiredChildren();

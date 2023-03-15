@@ -8,14 +8,22 @@ parent: Classes
 
 ## PopupTemplate Class
 
-A PopupTemplate formats and defines the content of a Popup for a specific Layer or Graphic. The user can also use the PopupTemplate to access values from feature attributes and values returned from Arcade expressions when a feature in the view is selected.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html">ArcGIS JS API</a>
+A PopupTemplate formats and defines the content of a Popup for a specific Layer or Graphic. The user can also use  
+the PopupTemplate to access values from feature attributes and values returned from Arcade expressions when a  
+feature in the view is selected.  
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
-public class PopupTemplate : dymaptic.GeoBlazor.Core.Components.MapComponent
+public class PopupTemplate : dymaptic.GeoBlazor.Core.Components.MapComponent,
+System.IEquatable<dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate>
 ```
 
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [Microsoft.AspNetCore.Components.ComponentBase](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.ComponentBase 'Microsoft.AspNetCore.Components.ComponentBase') &#129106; [MapComponent](dymaptic.GeoBlazor.Core.Components.MapComponent.html 'dymaptic.GeoBlazor.Core.Components.MapComponent') &#129106; PopupTemplate
+
+Implements [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.IEquatable-1 'System.IEquatable`1')[PopupTemplate](dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.html 'dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.IEquatable-1 'System.IEquatable`1')
 ### Constructors
 
 <a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.PopupTemplate()'></a>
@@ -61,7 +69,8 @@ An array of field names used in the PopupTemplate.
 
 `fieldInfos` [System.Collections.Generic.IEnumerable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IEnumerable-1 'System.Collections.Generic.IEnumerable`1')[FieldInfo](dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo.html 'dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IEnumerable-1 'System.Collections.Generic.IEnumerable`1')
 
-An array of FieldInfo that defines how fields in the dataset or values from Arcade expressions participate in a popup.
+An array of FieldInfo that defines how fields in the dataset or values from Arcade expressions participate in a  
+popup.
 
 <a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.PopupTemplate(string,string,System.Collections.Generic.IEnumerable_string_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.PopupContent_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo_,System.Nullable_bool_,System.Nullable_bool_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.ActionBase_).contents'></a>
 
@@ -73,7 +82,8 @@ Pass advanced [PopupContent](dymaptic.GeoBlazor.Core.Components.Popups.PopupCont
 
 `expressionInfos` [System.Collections.Generic.IEnumerable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IEnumerable-1 'System.Collections.Generic.IEnumerable`1')[ExpressionInfo](dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo.html 'dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IEnumerable-1 'System.Collections.Generic.IEnumerable`1')
 
-An array of objects or ExpressionInfo[] that reference Arcade expressions following the specification defined by the Arcade Popup Profile.
+An array of objects or ExpressionInfo[] that reference Arcade expressions following the specification defined by  
+the Arcade Popup Profile.
 
 <a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.PopupTemplate(string,string,System.Collections.Generic.IEnumerable_string_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.PopupContent_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo_,System.Nullable_bool_,System.Nullable_bool_,System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.ActionBase_).overwriteActions'></a>
 
@@ -111,7 +121,8 @@ public System.Collections.Generic.HashSet<dymaptic.GeoBlazor.Core.Components.Act
 
 ## PopupTemplate.Content Property
 
-The template for defining and formatting a popup's content, provided as a collection of [PopupContent](dymaptic.GeoBlazor.Core.Components.Popups.PopupContent.html 'dymaptic.GeoBlazor.Core.Components.Popups.PopupContent')s.
+The template for defining and formatting a popup's content, provided as a collection of [PopupContent](dymaptic.GeoBlazor.Core.Components.Popups.PopupContent.html 'dymaptic.GeoBlazor.Core.Components.Popups.PopupContent')  
+s.
 
 ```csharp
 public System.Collections.Generic.HashSet<dymaptic.GeoBlazor.Core.Components.Popups.PopupContent> Content { get; set; }
@@ -140,7 +151,8 @@ public Microsoft.JSInterop.DotNetObjectReference<dymaptic.GeoBlazor.Core.Compone
 
 ## PopupTemplate.ExpressionInfos Property
 
-An array of objects or ExpressionInfo[] that reference Arcade expressions following the specification defined by the Arcade Popup Profile.
+An array of objects or ExpressionInfo[] that reference Arcade expressions following the specification defined by  
+the Arcade Popup Profile.
 
 ```csharp
 public System.Collections.Generic.HashSet<dymaptic.GeoBlazor.Core.Components.Popups.ExpressionInfo>? ExpressionInfos { get; set; }
@@ -153,7 +165,13 @@ public System.Collections.Generic.HashSet<dymaptic.GeoBlazor.Core.Components.Pop
 
 ## PopupTemplate.FieldInfos Property
 
-An array of FieldInfo that defines how fields in the dataset or values from Arcade expressions participate in a popup. If no FieldInfo are specified, nothing will display since the popup will only display the fields that are defined by this array. Each FieldInfo contains properties for a single field or expression. This property can be set directly within the PopupTemplate or within the fields content element. If this is not set within the fields content element, it will default to whatever is specified directly within the PopupTemplate.fieldInfos. The image on the left is a result of using the first example snippet below, whereas the image on the right is a result of the second snippet.
+An array of FieldInfo that defines how fields in the dataset or values from Arcade expressions participate in a  
+popup. If no FieldInfo are specified, nothing will display since the popup will only display the fields that are  
+defined by this array. Each FieldInfo contains properties for a single field or expression. This property can be  
+set directly within the PopupTemplate or within the fields content element. If this is not set within the fields  
+content element, it will default to whatever is specified directly within the PopupTemplate.fieldInfos. The image  
+on the left is a result of using the first example snippet below, whereas the image on the right is a result of the  
+second snippet.
 
 ```csharp
 public System.Collections.Generic.HashSet<dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo>? FieldInfos { get; set; }
@@ -169,7 +187,9 @@ Use this fieldInfos property to specify any formatting options for numbers displ
 
 ## PopupTemplate.OutFields Property
 
-An array of field names used in the PopupTemplate. Use this property to indicate what fields are required to fully render the PopupTemplate. This is important if setting content via a function since any fields needed for successful rendering should be specified here.  
+An array of field names used in the PopupTemplate. Use this property to indicate what fields are required to fully  
+render the PopupTemplate. This is important if setting content via a function since any fields needed for  
+successful rendering should be specified here.  
 Generally speaking, it is good practice to always set this property when instantiating a new popup template.  
 To fetch the values from all fields, use ["*"].
 
@@ -200,8 +220,12 @@ public System.Nullable<bool> OverwriteActions { get; set; }
 
 ## PopupTemplate.ReturnGeometry Property
 
-Indicates whether to include the feature's geometry for use by the template. This property should be set to true if needing to access the popup's selected feature's geometry. Access the geometry via the returned graphic from the popup's selectedFeatureWidget. This is needed since the geometry is not automatically queried and returned in the popup's selected feature.  
-If the feature layer does not specify its outFields and the template's outFields isn't set, the returned popup's geometry is only returned if returnGeometry is set to true. This also applies when working with WebMaps.
+Indicates whether to include the feature's geometry for use by the template. This property should be set to true if  
+needing to access the popup's selected feature's geometry. Access the geometry via the returned graphic from the  
+popup's selectedFeatureWidget. This is needed since the geometry is not automatically queried and returned in the  
+popup's selected feature.  
+If the feature layer does not specify its outFields and the template's outFields isn't set, the returned popup's  
+geometry is only returned if returnGeometry is set to true. This also applies when working with WebMaps.
 
 ```csharp
 public System.Nullable<bool> ReturnGeometry { get; set; }
@@ -239,6 +263,41 @@ public string? Title { get; set; }
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 ### Methods
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.Equals(object)'></a>
+
+## PopupTemplate.Equals(object) Method
+
+Determines whether the specified object is equal to the current object.
+
+```csharp
+public override bool Equals(object? obj);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.Equals(object).obj'></a>
+
+`obj` [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object')
+
+The object to compare with the current object.
+
+#### Returns
+[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')  
+[true](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool') if the specified object  is equal to the current object; otherwise, [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool').
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.GetHashCode()'></a>
+
+## PopupTemplate.GetHashCode() Method
+
+Serves as the default hash function.
+
+```csharp
+public override int GetHashCode();
+```
+
+#### Returns
+[System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')  
+A hash code for the current object.
 
 <a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.OnTriggerAction(string)'></a>
 
@@ -309,7 +368,8 @@ The child to unregister
 
 ## PopupTemplate.ValidateRequiredChildren() Method
 
-When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the [RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
+When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the  
+[RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
 
 ```csharp
 public override void ValidateRequiredChildren();
@@ -322,3 +382,48 @@ The consumer needs to provide the missing child component
 
 [MissingRequiredOptionsChildElementException](dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException.html 'dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException')  
 The consumer needs to provide ONE of the options of child components
+### Operators
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.op_Equality(dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate,dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate)'></a>
+
+## PopupTemplate.operator ==(PopupTemplate, PopupTemplate) Operator
+
+Equality operator
+
+```csharp
+public static bool operator ==(dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate? left, dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate? right);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.op_Equality(dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate,dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate).left'></a>
+
+`left` [PopupTemplate](dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.html 'dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.op_Equality(dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate,dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate).right'></a>
+
+`right` [PopupTemplate](dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.html 'dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate')
+
+#### Returns
+[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.op_Inequality(dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate,dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate)'></a>
+
+## PopupTemplate.operator !=(PopupTemplate, PopupTemplate) Operator
+
+Inequality operator
+
+```csharp
+public static bool operator !=(dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate? left, dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate? right);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.op_Inequality(dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate,dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate).left'></a>
+
+`left` [PopupTemplate](dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.html 'dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.op_Inequality(dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate,dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate).right'></a>
+
+`right` [PopupTemplate](dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.html 'dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate')
+
+#### Returns
+[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')

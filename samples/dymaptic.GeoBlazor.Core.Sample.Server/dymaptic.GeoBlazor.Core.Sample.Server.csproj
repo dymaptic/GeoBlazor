@@ -2,10 +2,10 @@
 
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
-      <UserSecretsId>ef66ef9c-9152-4e73-83b0-b8e00cc0f646</UserSecretsId>
+        <UserSecretsId>ef66ef9c-9152-4e73-83b0-b8e00cc0f646</UserSecretsId>
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\dymaptic.GeoBlazor.Core.Sample.Shared\dymaptic.GeoBlazor.Core.Sample.Shared.csproj" />
+        <ProjectReference Include="..\dymaptic.GeoBlazor.Core.Sample.Shared\dymaptic.GeoBlazor.Core.Sample.Shared.csproj"/>
     </ItemGroup>
 </Project>

@@ -50,7 +50,7 @@
             </PopupTemplate>
         </FeatureLayer>
     </Map>
-    
+
     <CustomOverlay Position="OverlayPosition.Manual">
         <calcite-panel id="infoDiv" class="calcite-theme-dark">
             <h5 class="heading" slot="header-content">
@@ -64,7 +64,7 @@
                         appearance="outline"
                         scale="m"
                         width="auto">
-                        <calcite-radio-group-item value="DESC" checked="" 
+                        <calcite-radio-group-item value="DESC" checked=""
                                                   @onclick="@(() => _orderDirectionSelected = "DESC")">
                             Most visited
                         </calcite-radio-group-item>
@@ -134,7 +134,6 @@
                                                     @onclick="@(() => OnParkResultClicked(index))" />
                         }
                     </div>
-                
                 }
                 else
                 {
@@ -161,13 +160,13 @@
         _clearQueryBtnAppearance = "outline";
         _queryParksBtnAppearance = "solid";
         _orderByFieldSelected = await GetTimeRange();
-        string[] orderByField = { $"{_orderByFieldSelected} {_orderDirectionSelected}" }; 
-        TopFeaturesQuery query = new TopFeaturesQuery
+        string[] orderByField = { $"{_orderByFieldSelected} {_orderDirectionSelected}" };
+        var query = new TopFeaturesQuery
         {
             TopFilter = new TopFilter
             {
                 TopCount = int.Parse(await GetTopCount()),
-                GroupByFields = new []{"State"},
+                GroupByFields = new[] { "State" },
                 OrderByFields = orderByField
             },
             ReturnGeometry = true,
@@ -179,7 +178,7 @@
         _results = await _featureLayer!.QueryTopFeatures(query);
 
         query.OrderByFields = new[] { "" };
-        var objectIds = await _featureLayer!.QueryTopObjectIds(query);
+        int[] objectIds = await _featureLayer!.QueryTopObjectIds(query);
         await _layerView!.SetFilter(new FeatureFilter
         {
             ObjectIds = objectIds
@@ -189,10 +188,10 @@
     private async Task OnParkResultClicked(int index)
     {
         Graphic feature = _results!.Features![index];
-        PopupOpenOptions options = new PopupOpenOptions
+        var options = new PopupOpenOptions
         {
             Location = await feature.GetGeometry(),
-            Features = new []{ feature }
+            Features = new[] { feature }
         };
         await _mapView!.ClosePopup();
         await _mapView!.OpenPopup(options);
@@ -206,7 +205,7 @@
         await _mapView!.ClosePopup();
         _results = null;
     }
-    
+
     private async Task<string> GetTopCount()
     {
         return await JsRuntime.InvokeAsync<string>("getCalciteSelectValue", _topCountSelect);
@@ -216,7 +215,7 @@
     {
         return await JsRuntime.InvokeAsync<string>("getCalciteSelectValue", _timeRangeSelect);
     }
-    
+
     private MapView? _mapView;
     private FeatureLayer? _featureLayer;
     private FeatureLayerView? _layerView;

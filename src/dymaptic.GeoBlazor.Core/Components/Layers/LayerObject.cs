@@ -1,23 +1,25 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Symbols;
+using Microsoft.JSInterop;
 using System.Text.Json.Serialization;
 
 
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
 /// <summary>
-///     Abstract base class for objects that are a child of a <see cref="Layer"/> and have a <see cref="Symbol"/> property.
+///     Abstract base class for objects that are a child of a <see cref="Layer" /> and have a <see cref="Symbol" />
+///     property.
 /// </summary>
 public abstract class LayerObject : MapComponent
 {
     /// <summary>
-    ///     The <see cref="Symbol"/> for the object.
+    ///     The <see cref="Symbol" /> for the object.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public Symbol? Symbol { get; protected set; }
-    
+
     /// <summary>
-    ///    Gets the current <see cref="Symbol"/> for the object.
+    ///     Gets the current <see cref="Symbol" /> for the object.
     /// </summary>
     public virtual async Task<Symbol?> GetSymbol()
     {
@@ -25,14 +27,20 @@ public abstract class LayerObject : MapComponent
     }
 
     /// <summary>
-    ///    Sets the <see cref="Symbol"/> for the object.
+    ///     Sets the <see cref="Symbol" /> for the object.
     /// </summary>
     /// <param name="symbol">
-    ///     The <see cref="Symbol"/> for the object.
+    ///     The <see cref="Symbol" /> for the object.
     /// </param>
     public async Task SetSymbol(Symbol symbol)
     {
-        await RegisterChildComponent(symbol);
+        Symbol = symbol;
+
+        if (JsObjectReference is not null)
+        {
+            await JsObjectReference.InvokeVoidAsync("setSymbol", 
+                Symbol.ToSerializationRecord());
+        }
     }
 
     /// <inheritdoc />
@@ -41,10 +49,12 @@ public abstract class LayerObject : MapComponent
         switch (child)
         {
             case Symbol symbol:
-                if (!symbol.Equals(Symbol))
+                if (View?.ExtentChangedInJs == true)
                 {
-                    Symbol = symbol;
+                    return;
                 }
+                
+                await SetSymbol(symbol);
 
                 break;
             default:
@@ -76,4 +86,9 @@ public abstract class LayerObject : MapComponent
         base.ValidateRequiredChildren();
         Symbol?.ValidateRequiredChildren();
     }
+    
+    /// <summary>
+    ///    The <see cref="IJSObjectReference" /> for the layer object.
+    /// </summary>
+    protected IJSObjectReference? JsObjectReference = null!;
 }

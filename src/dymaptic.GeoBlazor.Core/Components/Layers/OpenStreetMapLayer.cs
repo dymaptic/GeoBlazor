@@ -1,10 +1,14 @@
 ﻿namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
 /// <summary>
-///     Allows you to use basemaps from OpenStreetMap. Set the tileservers property to change which OpenStreetMap tiles you want to use.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-OpenStreetMapLayer.html">ArcGIS JS API</a>
+///     Allows you to use basemaps from OpenStreetMap. Set the tileservers property to change which OpenStreetMap tiles you
+///     want to use.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-OpenStreetMapLayer.html">
+///         ArcGIS
+///         JS API
+///     </a>
 /// </summary>
-public class OpenStreetMapLayer: WebTileLayer
+public class OpenStreetMapLayer : WebTileLayer
 {
     /// <summary>
     ///     Parameterless constructor for use as a razor component
@@ -29,13 +33,15 @@ public class OpenStreetMapLayer: WebTileLayer
     ///     The opacity of the layer.
     /// </param>
     /// <param name="visible">
-    ///     Indicates if the layer is visible in the View. When false, the layer may still be added to a Map instance that is referenced in a view, but its features will not be visible in the view.
+    ///     Indicates if the layer is visible in the View. When false, the layer may still be added to a Map instance that is
+    ///     referenced in a view, but its features will not be visible in the view.
     /// </param>
     /// <param name="listMode">
     ///     Indicates how the layer should display in the LayerList widget. The possible values are listed below.
     /// </param>
     /// <param name="blendMode">
-    ///     Blend modes are used to blend layers together to create an interesting effect in a layer, or even to produce what seems like a new layer.
+    ///     Blend modes are used to blend layers together to create an interesting effect in a layer, or even to produce what
+    ///     seems like a new layer.
     /// </param>
     /// <param name="copyright">
     ///     The attribution information for the layer.
@@ -50,11 +56,12 @@ public class OpenStreetMapLayer: WebTileLayer
     ///     Refresh interval of the layer in minutes.
     /// </param>
     /// <param name="subDomains">
-    ///     A string of subDomain names where tiles are served to speed up tile retrieval. If subDomains are specified, the UrlTemplate should include a {subDomain} place holder.
+    ///     A string of subDomain names where tiles are served to speed up tile retrieval. If subDomains are specified, the
+    ///     UrlTemplate should include a {subDomain} place holder.
     /// </param>
-    public OpenStreetMapLayer(PortalItem? portalItem = null, string? title = null, BlendMode? blendMode = null, 
-        string? copyright = null, double? maxScale = null, double? minScale = null, double? refreshInterval = null, 
-        IList<string>? subDomains = null, TileInfo? tileInfo = null, double? opacity = null, bool? visible = null, 
+    public OpenStreetMapLayer(PortalItem? portalItem = null, string? title = null, BlendMode? blendMode = null,
+        string? copyright = null, double? maxScale = null, double? minScale = null, double? refreshInterval = null,
+        IList<string>? subDomains = null, TileInfo? tileInfo = null, double? opacity = null, bool? visible = null,
         ListMode? listMode = null)
     {
         Title = title;
@@ -70,7 +77,7 @@ public class OpenStreetMapLayer: WebTileLayer
         RefreshInterval = refreshInterval;
         SubDomains = subDomains;
     }
-    
+
     /// <inheritdoc />
     public override string LayerType => "open-street-map";
 }

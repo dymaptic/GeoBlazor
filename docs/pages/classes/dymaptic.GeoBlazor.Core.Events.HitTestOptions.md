@@ -24,7 +24,8 @@ Implements [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/S
 
 ## HitTestOptions.ExcludeByGeoBlazorId Property
 
-A list of layers and/or graphics GeoBlazor Ids (Guid) to exclude from the hitTest. No layers or graphics will be excluded if exclude is not specified.
+A list of layers and/or graphics GeoBlazor Ids (Guid) to exclude from the hitTest. No layers or graphics will be  
+excluded if exclude is not specified.
 
 ```csharp
 public System.Collections.Generic.IEnumerable<System.Guid>? ExcludeByGeoBlazorId { get; set; }
@@ -37,7 +38,8 @@ public System.Collections.Generic.IEnumerable<System.Guid>? ExcludeByGeoBlazorId
 
 ## HitTestOptions.ExcludeGraphicsByArcGISId Property
 
-A list of graphic ArcGIS OBJECTID attributes to exclude in the hitTest. No layers and graphics will be excluded if exclude is not specified.
+A list of graphic ArcGIS OBJECTID attributes to exclude in the hitTest. No layers and graphics will be excluded if  
+exclude is not specified.
 
 ```csharp
 public System.Collections.Generic.IEnumerable<string>? ExcludeGraphicsByArcGISId { get; set; }
@@ -50,7 +52,8 @@ public System.Collections.Generic.IEnumerable<string>? ExcludeGraphicsByArcGISId
 
 ## HitTestOptions.ExcludeLayersByArcGISId Property
 
-A list of layer ArcGIS Ids (aka FIELDID or OBJECTID) to exclude in the hitTest. No layers and graphics will be excluded if exclude is not specified.
+A list of layer ArcGIS Ids (aka FIELDID or OBJECTID) to exclude in the hitTest. No layers and graphics will be  
+excluded if exclude is not specified.
 
 ```csharp
 public System.Collections.Generic.IEnumerable<string>? ExcludeLayersByArcGISId { get; set; }
@@ -63,7 +66,8 @@ public System.Collections.Generic.IEnumerable<string>? ExcludeLayersByArcGISId {
 
 ## HitTestOptions.IncludeByGeoBlazorId Property
 
-A list of layers and/or graphics GeoBlazor Ids (Guid) to include in the hitTest. All layers and graphics will be included if include is not specified.
+A list of layers and/or graphics GeoBlazor Ids (Guid) to include in the hitTest. All layers and graphics will be  
+included if include is not specified.
 
 ```csharp
 public System.Collections.Generic.IEnumerable<System.Guid>? IncludeByGeoBlazorId { get; set; }
@@ -76,7 +80,8 @@ public System.Collections.Generic.IEnumerable<System.Guid>? IncludeByGeoBlazorId
 
 ## HitTestOptions.IncludeGraphicsByArcGISId Property
 
-A list of graphic ArcGIS OBJECTID attributes to include in the hitTest. All layers and graphics will be included if include is not specified.
+A list of graphic ArcGIS OBJECTID attributes to include in the hitTest. All layers and graphics will be included if  
+include is not specified.
 
 ```csharp
 public System.Collections.Generic.IEnumerable<string>? IncludeGraphicsByArcGISId { get; set; }
@@ -89,7 +94,8 @@ public System.Collections.Generic.IEnumerable<string>? IncludeGraphicsByArcGISId
 
 ## HitTestOptions.IncludeLayersByArcGISId Property
 
-A list of layer ArcGIS Ids (aka FIELDID or OBJECTID) to include in the hitTest. All layers and graphics will be included if include is not specified.
+A list of layer ArcGIS Ids (aka FIELDID or OBJECTID) to include in the hitTest. All layers and graphics will be  
+included if include is not specified.
 
 ```csharp
 public System.Collections.Generic.IEnumerable<string>? IncludeLayersByArcGISId { get; set; }

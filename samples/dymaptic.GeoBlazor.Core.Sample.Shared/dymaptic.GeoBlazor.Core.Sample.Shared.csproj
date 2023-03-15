@@ -22,17 +22,17 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Content Update="wwwroot\images\dymaptic_logo.png">
-        <Color>Black</Color>
-        <BaseSize>300,293</BaseSize>
-      </Content>
+        <Content Update="wwwroot\images\dymaptic_logo.png">
+            <Color>Black</Color>
+            <BaseSize>300,293</BaseSize>
+        </Content>
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="wwwroot\pages" />
+        <Folder Include="wwwroot\pages" />
     </ItemGroup>
-    
+
     <Target Name="Copy Razor Files" AfterTargets="Build">
-        <Exec Command="powershell .\razorCopy.ps1" />
+        <Exec Command="pwsh .\razorCopy.ps1" />
     </Target>
 </Project>

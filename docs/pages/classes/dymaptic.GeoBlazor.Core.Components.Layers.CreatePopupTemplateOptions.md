@@ -21,7 +21,8 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 
 ## CreatePopupTemplateOptions.IgnoreFieldTypes Property
 
-An array of field types to ignore when creating the popup. System fields such as Shape_Area and Shape_length, in addition to geometry, blob, raster, guid and xml field types are automatically ignored.
+An array of field types to ignore when creating the popup. System fields such as Shape_Area and Shape_length, in  
+addition to geometry, blob, raster, guid and xml field types are automatically ignored.
 
 ```csharp
 public string[]? IgnoreFieldTypes { get; set; }

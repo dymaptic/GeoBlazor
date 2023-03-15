@@ -1,0 +1,63 @@
+﻿@page "/many-points-markup"
+
+<PageTitle>Many Points</PageTitle>
+<h1>Many Points</h1>
+<div class="links-div">
+    <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Graphic.html">ArcGIS API for JavaScript</a>
+</div>
+<p class="instructions">
+    This file is simply to demonstrate the <b>WRONG</b> way to add lots of points to the map. It will cause lots of rendering loop issues and will continually drag down performance.
+</p>
+
+<MapView @ref="_mapView" Longitude="_longitude" Latitude="_latitude" Zoom="9" Style="height: 400px; width: 100%;"
+         OnMapRendered="OnMapRendered">
+    <Map ArcGISDefaultBasemap="arcgis-topographic">
+    </Map>
+    @if (_points is not null)
+    {
+        foreach (Point point in _points)
+        {
+            <Graphic Attributes="@(new Dictionary<string, object>()
+                                 {
+                                     {"Name", "Point"},
+                                     {"Description", "This is a point"}
+                                 })">
+                <Point Latitude="@point.Latitude" Longitude="@point.Longitude" />
+                <SimpleMarkerSymbol Color="@(new MapColor(81, 46, 132))">
+                    <Outline Color="@(new MapColor(255, 255, 255))" Width="1" />
+                </SimpleMarkerSymbol>
+            </Graphic>
+        }
+    }
+</MapView>
+
+@code
+{
+    private void OnMapRendered()
+    {
+        if (_points is null)
+        {
+            _points = GenerateSomePoints(34.027, -118.805, 425);
+        }
+    }
+
+
+    private static List<Point> GenerateSomePoints(double centerLat, double centerLong, int count = 10)
+    {
+        var data = new List<Point>();
+        for (int i = 0; i < count; i++)
+        {
+            var r = new Point(centerLong + Random.Shared.NextDouble(), centerLat + Random.Shared.NextDouble());
+            data.Add(r);
+        }
+
+        return data;
+    }
+    
+    private readonly double _latitude = 34.5; 
+    private readonly double _longitude = -118.5;
+    private MapView? _mapView;
+    private List<Point>? _points;
+    private readonly SimpleMarkerSymbol _mySymbol = 
+        new SimpleMarkerSymbol(new Outline(new MapColor(255, 255, 255), 1), new MapColor(81, 46, 132));
+}

@@ -1,13 +1,20 @@
-﻿using System.Text.Json.Serialization;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 
 namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 
 /// <summary>
-///     Defines the spatial reference of a view, layer, or method parameters. This indicates the projected or geographic coordinate system used to locate geographic features in the map. Each projected and geographic coordinate system is defined by either a well-known ID (WKID) or a definition string (WKT). Note that for versions prior to ArcGIS 10, only WKID was supported. For a full list of supported spatial reference IDs and their corresponding definition strings, see Using spatial references.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-SpatialReference.html">ArcGIS JS API</a>
+///     Defines the spatial reference of a view, layer, or method parameters. This indicates the projected or geographic
+///     coordinate system used to locate geographic features in the map. Each projected and geographic coordinate system is
+///     defined by either a well-known ID (WKID) or a definition string (WKT). Note that for versions prior to ArcGIS 10,
+///     only WKID was supported. For a full list of supported spatial reference IDs and their corresponding definition
+///     strings, see Using spatial references.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-SpatialReference.html">
+///         ArcGIS
+///         JS API
+///     </a>
 /// </summary>
 [JsonConverter(typeof(SpatialReferenceConverter))]
 public class SpatialReference : MapComponent, IEquatable<SpatialReference>
@@ -31,9 +38,38 @@ public class SpatialReference : MapComponent, IEquatable<SpatialReference>
         Wkid = wkid;
 #pragma warning restore BL0005
     }
-    
+
     /// <summary>
-    ///     An image coordinate system defines the spatial reference used to display the image in its original coordinates without distortion, map transformations or ortho-rectification.
+    ///     Compares two SpatialReference objects for equality
+    /// </summary>
+    public static bool operator ==(SpatialReference? left, SpatialReference? right)
+    {
+        return Equals(left, right);
+    }
+
+    /// <summary>
+    ///     Compares two SpatialReference objects for inequality
+    /// </summary>
+    public static bool operator !=(SpatialReference? left, SpatialReference? right)
+    {
+        return !Equals(left, right);
+    }
+
+    /// <summary>
+    ///     A convenience static instance for WGS84 Spatial Reference.
+    /// </summary>
+    [JsonIgnore]
+    public static SpatialReference Wgs84 { get; set; } = new(4326);
+
+    /// <summary>
+    ///     A convenience static instance for WebMercator Spatial Reference.
+    /// </summary>
+    [JsonIgnore]
+    public static SpatialReference WebMercator { get; set; } = new(3857);
+
+    /// <summary>
+    ///     An image coordinate system defines the spatial reference used to display the image in its original coordinates
+    ///     without distortion, map transformations or ortho-rectification.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [Parameter]
@@ -80,17 +116,10 @@ public class SpatialReference : MapComponent, IEquatable<SpatialReference>
     [Parameter]
     public string? Wkt { get; set; }
 
-    /// <summary>
-    ///     A convenience static instance for WGS84 Spatial Reference.
-    /// </summary>
-    [JsonIgnore]
-    public static SpatialReference Wgs84 { get; set; } = new(4326);
-
-    /// <summary>
-    ///     A convenience static instance for WebMercator Spatial Reference.
-    /// </summary>
-    [JsonIgnore]
-    public static SpatialReference WebMercator { get; set; } = new(3857);
+    internal SpatialReferenceSerializationRecord ToSerializationRecord()
+    {
+        return new SpatialReferenceSerializationRecord(Wkid);
+    }
 
     /// <inheritdoc />
     public bool Equals(SpatialReference? other)
@@ -106,7 +135,7 @@ public class SpatialReference : MapComponent, IEquatable<SpatialReference>
     {
         if (ReferenceEquals(null, obj)) return false;
         if (ReferenceEquals(this, obj)) return true;
-        if (obj.GetType() != this.GetType()) return false;
+        if (obj.GetType() != GetType()) return false;
 
         return Equals((SpatialReference)obj);
     }
@@ -116,25 +145,9 @@ public class SpatialReference : MapComponent, IEquatable<SpatialReference>
     {
         return Wkid.GetHashCode();
     }
-
-    /// <summary>
-    ///     Compares two SpatialReference objects for equality
-    /// </summary>
-    public static bool operator ==(SpatialReference? left, SpatialReference? right)
-    {
-        return Equals(left, right);
-    }
-
-    /// <summary>
-    ///     Compares two SpatialReference objects for inequality
-    /// </summary>
-    public static bool operator !=(SpatialReference? left, SpatialReference? right)
-    {
-        return !Equals(left, right);
-    }
 }
 
-internal class SpatialReferenceConverter: JsonConverter<SpatialReference>
+internal class SpatialReferenceConverter : JsonConverter<SpatialReference>
 {
     public override SpatialReference? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
@@ -145,7 +158,7 @@ internal class SpatialReferenceConverter: JsonConverter<SpatialReference>
             switch (reader.TokenType)
             {
                 case JsonTokenType.PropertyName:
-                    var propertyName = reader.GetString();
+                    string? propertyName = reader.GetString();
                     reader.Read();
 #pragma warning disable BL0005
                     switch (propertyName)
@@ -156,23 +169,31 @@ internal class SpatialReferenceConverter: JsonConverter<SpatialReference>
                             break;
                         case "wkt":
                             spatialReference.Wkt = reader.GetString();
+
                             break;
                         case "isGeographic":
                             spatialReference.IsGeographic = reader.GetBoolean();
+
                             break;
                         case "isWebMercator":
                             spatialReference.IsWebMercator = reader.GetBoolean();
+
                             break;
                         case "isWgs84":
                             spatialReference.IsWgs84 = reader.GetBoolean();
+
                             break;
                         case "isWrappable":
                             spatialReference.IsWrappable = reader.GetBoolean();
+
                             break;
                         case "imageCoordinateSystem":
-                            spatialReference.ImageCoordinateSystem = JsonSerializer.Deserialize<object>(ref reader, options);
+                            spatialReference.ImageCoordinateSystem =
+                                JsonSerializer.Deserialize<object>(ref reader, options);
+
                             break;
                     }
+
                     break;
                 case JsonTokenType.EndObject:
                     return spatialReference;
@@ -186,6 +207,7 @@ internal class SpatialReferenceConverter: JsonConverter<SpatialReference>
     public override void Write(Utf8JsonWriter writer, SpatialReference value, JsonSerializerOptions options)
     {
         writer.WriteStartObject();
+
         if (value.Wkid.HasValue)
         {
             writer.WriteNumber("wkid", value.Wkid.Value);
@@ -198,6 +220,10 @@ internal class SpatialReferenceConverter: JsonConverter<SpatialReference>
         {
             throw new ArgumentException("SpatialReference must have either a Wkid or Wkt");
         }
+
         writer.WriteEndObject();
     }
 }
+
+internal record SpatialReferenceSerializationRecord([property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]int? Wkid)
+    : MapComponentSerializationRecord;

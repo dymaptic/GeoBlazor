@@ -1,11 +1,18 @@
-﻿using System.Text.Json.Serialization;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
+using System.Text.Json.Serialization;
+
 
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
 /// <summary>
-///     The TileLayer allows you work with a cached map service exposed by the ArcGIS Server REST API and add it to a Map as a tile layer. A cached service accesses tiles from a cache instead of dynamically rendering images. Because they are cached, tiled layers render faster than MapImageLayers. To create an instance of TileLayer, you must reference the URL of the cached map service.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-TileLayer.html">ArcGIS JS API</a>
+///     The TileLayer allows you work with a cached map service exposed by the ArcGIS Server REST API and add it to a Map
+///     as a tile layer. A cached service accesses tiles from a cache instead of dynamically rendering images. Because they
+///     are cached, tiled layers render faster than MapImageLayers. To create an instance of TileLayer, you must reference
+///     the URL of the cached map service.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-TileLayer.html">
+///         ArcGIS
+///         JS API
+///     </a>
 /// </summary>
 public class TileLayer : Layer
 {
@@ -21,7 +28,7 @@ public class TileLayer : Layer
     public string? Url { get; set; }
 
     /// <summary>
-    ///     The <see cref="PortalItem"/> from which the layer is loaded.
+    ///     The <see cref="PortalItem" /> from which the layer is loaded.
     /// </summary>
     [RequiredProperty(nameof(Url))]
     public PortalItem? PortalItem { get; set; }
@@ -54,6 +61,7 @@ public class TileLayer : Layer
             case PortalItem _:
                 PortalItem = null;
                 LayerChanged = true;
+
                 break;
             default:
                 await base.UnregisterChildComponent(child);

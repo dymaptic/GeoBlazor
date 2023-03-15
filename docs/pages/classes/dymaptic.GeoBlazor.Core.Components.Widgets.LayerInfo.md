@@ -34,7 +34,8 @@ public dymaptic.GeoBlazor.Core.Components.Layers.Layer Layer { get; set; }
 
 ## LayerInfo.SublayerIds Property
 
-Only applicable if the layer is a MapImageLayer. The IDs of the MapImageLayer sublayers for which to display legend information.
+Only applicable if the layer is a MapImageLayer. The IDs of the MapImageLayer sublayers for which to display legend  
+information.
 
 ```csharp
 public int[]? SublayerIds { get; set; }
@@ -47,7 +48,8 @@ public int[]? SublayerIds { get; set; }
 
 ## LayerInfo.Title Property
 
-Specifies a title for the layer to display above its symbols and descriptions. If no title is specified the service name is used.
+Specifies a title for the layer to display above its symbols and descriptions. If no title is specified the service  
+name is used.
 
 ```csharp
 public string? Title { get; set; }

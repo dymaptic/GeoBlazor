@@ -8,7 +8,8 @@ parent: Classes
 
 ## GroundIntersectionResult Class
 
-Ground intersection result, only applies to SceneViews. The ground hit result will always be returned, even if the ground was excluded from the hitTest.
+Ground intersection result, only applies to SceneViews. The ground hit result will always be returned, even if the  
+ground was excluded from the hitTest.
 
 ```csharp
 public class GroundIntersectionResult :
@@ -24,7 +25,8 @@ Implements [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/S
 
 ## GroundIntersectionResult(Point, double) Constructor
 
-Ground intersection result, only applies to SceneViews. The ground hit result will always be returned, even if the ground was excluded from the hitTest.
+Ground intersection result, only applies to SceneViews. The ground hit result will always be returned, even if the  
+ground was excluded from the hitTest.
 
 ```csharp
 public GroundIntersectionResult(dymaptic.GeoBlazor.Core.Components.Geometries.Point MapPoint, double Distance);

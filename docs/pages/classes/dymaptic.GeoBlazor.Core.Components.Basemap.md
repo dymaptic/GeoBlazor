@@ -8,8 +8,13 @@ parent: Classes
 
 ## Basemap Class
 
-Creates a new basemap object. Basemaps can be created from a PortalItem, from a well known basemap ID, or can be used for creating custom basemaps. These basemaps may be created from tiled services you publish to your own server, or from tiled services published by third parties.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html">ArcGIS JS API</a>
+Creates a new basemap object. Basemaps can be created from a PortalItem, from a well known basemap ID, or can be  
+used for creating custom basemaps. These basemaps may be created from tiled services you publish to your own  
+server, or from tiled services published by third parties.  
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html">  
+    ArcGIS JS  
+    API  
+</a>
 
 ```csharp
 public class Basemap : dymaptic.GeoBlazor.Core.Components.MapComponent
@@ -94,7 +99,8 @@ The child to unregister
 
 ## Basemap.ValidateRequiredChildren() Method
 
-When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the [RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
+When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the  
+[RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
 
 ```csharp
 public override void ValidateRequiredChildren();

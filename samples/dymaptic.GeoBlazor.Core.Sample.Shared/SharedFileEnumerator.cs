@@ -13,8 +13,7 @@ internal class SharedFileEnumerator : IEnumerator<IFileInfo>
         _pages ??= Assembly.GetAssembly(typeof(Navigation))!.DefinedTypes
             .Select(t => t.FullName)
             .Where(n => n is not null && n.StartsWith(Namespace))
-            .Select(n => new SharedFileInfo(
-                $"{subpath}/{n!.Split('.').Last().Split('+').First()}.html") as IFileInfo)
+            .Select(n => new SharedFileInfo($"{subpath}/{n!.Split('.').Last().Split('+').First()}.html") as IFileInfo)
             .ToList();
     }
 
@@ -30,6 +29,7 @@ internal class SharedFileEnumerator : IEnumerator<IFileInfo>
     public bool MoveNext()
     {
         _currentIndex++;
+
         return _currentIndex < _pages!.Count;
     }
 
@@ -38,7 +38,8 @@ internal class SharedFileEnumerator : IEnumerator<IFileInfo>
         _currentIndex = 0;
     }
 
-    private const string Namespace = "dymaptic.GeoBlazor.Core.Sample.Shared.Pages";
     private static IList<IFileInfo>? _pages;
     private int _currentIndex;
+
+    private const string Namespace = "dymaptic.GeoBlazor.Core.Sample.Shared.Pages";
 }

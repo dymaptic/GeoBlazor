@@ -25,9 +25,9 @@
     </Map>
     <PopupWidget AutoOpenEnabled="false" />
     <ExpandWidget ExpandTooltip="Show Legend" Position="OverlayPosition.TopRight">
-        <LegendWidget />    
+        <LegendWidget />
     </ExpandWidget>
-    
+
     <CustomOverlay Position="OverlayPosition.BottomLeft">
         <div id="gridDiv" class="esri-widget">
             <h2>US Cities</h2>
@@ -53,10 +53,11 @@
                             @foreach (FeatureSet? set in _relatedFeatures!.Values)
                             {
                                 if (set?.Features is null) continue;
-                                
+
                                 foreach (Graphic graphic in set.Features!)
                                 {
                                     if (graphic.Attributes is null) continue;
+
                                     <tr>
                                         @foreach (object? value in graphic.Attributes.Values)
                                         {
@@ -92,24 +93,24 @@
 
         _relatedFeatures = null;
     }
-    
+
     private async Task QueryFeatures(Point point)
     {
-        Query query = new Query
+        var query = new Query
         {
             Geometry = point,
             OutFields = new[] { "*" },
             SpatialRelationship = SpatialRelationship.Intersects,
             ReturnGeometry = false
         };
-        
+
         int[] objectIds = await _featureLayer!.QueryObjectIds(query);
         if (!objectIds.Any())
         {
             return;
         }
 
-        FeatureLayerView layerView = (FeatureLayerView)_featureLayer!.LayerView!;
+        var layerView = (FeatureLayerView)_featureLayer!.LayerView!;
 
         if (_highlight is not null)
         {
@@ -118,16 +119,16 @@
 
         _highlight = await layerView.Highlight(objectIds);
 
-        RelationshipQuery relationshipQuery = new RelationshipQuery()
+        var relationshipQuery = new RelationshipQuery
         {
             OutFields = new[] { "NAME", "SUM_POPULATION" },
             RelationshipId = _featureLayer.Relationships?.FirstOrDefault()?.Id,
             ObjectIds = objectIds
         };
-        
+
         _relatedFeatures = await _featureLayer.QueryRelatedFeatures(relationshipQuery);
     }
-    
+
     private MapView? _mapView;
     private FeatureLayer? _featureLayer;
     private HighlightHandle? _highlight;

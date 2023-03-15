@@ -134,43 +134,44 @@
     </div>
 </div>
 
-<MapView @ref="_view" Class="map-view" OnClick="OnMapClick" OnDoubleClick="OnMapDoubleClick" 
-           OnHold="OnMapHold" OnBlur="OnMapBlur" OnFocus="OnMapFocus" OnDrag="OnMapDrag"
-           OnPointerDown="OnMapPointerDown" OnPointerUp="OnMapPointerUp" OnPointerEnter="OnMapPointerEnter"
-           OnPointerLeave="OnMapPointerLeave" OnPointerMove="OnMapPointerMove" OnExtentChanged="OnMapExtentChanged"
-           OnKeyDown="OnMapKeyDown" OnKeyUp="OnMapKeyUp" OnMouseWheel="OnMapMouseWheel" 
-           EventRateLimitInMilliseconds="500">
+<MapView @ref="_view" Class="map-view" OnClick="OnMapClick" OnDoubleClick="OnMapDoubleClick"
+         OnHold="OnMapHold" OnBlur="OnMapBlur" OnFocus="OnMapFocus" OnDrag="OnMapDrag"
+         OnPointerDown="OnMapPointerDown" OnPointerUp="OnMapPointerUp" OnPointerEnter="OnMapPointerEnter"
+         OnPointerLeave="OnMapPointerLeave" OnPointerMove="OnMapPointerMove" OnExtentChanged="OnMapExtentChanged"
+         OnKeyDown="OnMapKeyDown" OnKeyUp="OnMapKeyUp" OnMouseWheel="OnMapMouseWheel"
+         EventRateLimitInMilliseconds="500">
     <WebMap>
         <PortalItem Id="3d355e34cbd3405dbb3f031286f7b39b" />
     </WebMap>
 </MapView>
 
 @code {
+
     private void OnMapClick(ClickEvent clickEvent)
     {
         _clickJson = BuildViewableJson(clickEvent);
     }
-    
+
     private void OnMapDoubleClick(ClickEvent clickEvent)
     {
         _doubleClickJson = BuildViewableJson(clickEvent);
     }
-    
+
     private void OnMapHold(ClickEvent holdEvent)
     {
-        _holdJson = BuildViewableJson((holdEvent));
+        _holdJson = BuildViewableJson(holdEvent);
     }
 
     private void OnMapBlur(BlurEvent blurEvent)
     {
         _blurJson = BuildViewableJson(blurEvent);
     }
-    
+
     private void OnMapFocus(FocusEvent focusEvent)
     {
         _focusJson = BuildViewableJson(focusEvent);
     }
-    
+
     private void OnMapDrag(DragEvent dragEvent)
     {
         _dragJson = BuildViewableJson(dragEvent);
@@ -180,22 +181,22 @@
     {
         _pointerEnterJson = BuildViewableJson(pointerEvent);
     }
-    
+
     private void OnMapPointerLeave(PointerEvent pointerEvent)
     {
         _pointerLeaveJson = BuildViewableJson(pointerEvent);
     }
-    
+
     private void OnMapPointerDown(PointerEvent pointerEvent)
     {
         _pointerDownJson = BuildViewableJson(pointerEvent);
     }
-    
+
     private void OnMapPointerUp(PointerEvent pointerEvent)
     {
         _pointerUpJson = BuildViewableJson(pointerEvent);
     }
-    
+
     private void OnMapPointerMove(PointerEvent pointerEvent)
     {
         _pointerMoveJson = BuildViewableJson(pointerEvent);
@@ -220,14 +221,14 @@
     {
         _mouseWheelJson = BuildViewableJson(mouseWheelEvent);
     }
-    
+
     private string BuildViewableJson(object eventObject)
     {
         string json = JsonSerializer.Serialize(eventObject, _options);
         return json.Replace(Environment.NewLine, "<br>")
             .Replace(" ", "&nbsp;");
     }
-    
+
     private MapView? _view;
     private string? _clickJson;
     private string? _doubleClickJson;

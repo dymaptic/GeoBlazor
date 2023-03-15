@@ -8,8 +8,12 @@ parent: Classes
 
 ## SceneView Class
 
-A SceneView displays a 3D view of a Map or WebScene instance using WebGL. To render a map and its layers in 2D, see the documentation for MapView. For a general overview of views, see View.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">ArcGIS JS API</a>
+A SceneView displays a 3D view of a Map or WebScene instance using WebGL. To render a map and its layers in 2D, see  
+the documentation for MapView. For a general overview of views, see View.  
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class SceneView : dymaptic.GeoBlazor.Core.Components.Views.MapView

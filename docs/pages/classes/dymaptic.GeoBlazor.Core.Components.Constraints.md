@@ -8,8 +8,12 @@ parent: Classes
 
 ## Constraints Class
 
-Specifies constraints to scale, zoom, and rotation that may be applied to the MapView. The constraints.lods should be set in the MapView constructor, if the map does not have a basemap or when the basemap does not have tileInfo.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#constraints">ArcGIS JS API</a>
+Specifies constraints to scale, zoom, and rotation that may be applied to the MapView. The constraints.lods should  
+be set in the MapView constructor, if the map does not have a basemap or when the basemap does not have tileInfo.  
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#constraints">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class Constraints : dymaptic.GeoBlazor.Core.Components.MapComponent
@@ -22,7 +26,8 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 
 ## Constraints.Geometry Property
 
-The area in which the user is allowed to navigate laterally. Only Extent and Polygon geometry types are supported. Z-values are ignored.
+The area in which the user is allowed to navigate laterally. Only Extent and Polygon geometry types are supported.  
+Z-values are ignored.
 
 ```csharp
 public dymaptic.GeoBlazor.Core.Components.Geometries.Geometry? Geometry { get; set; }
@@ -48,7 +53,8 @@ public System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Components.LOD>? 
 
 ## Constraints.MaxScale Property
 
-The maximum scale the user is allowed to zoom to within the view. Setting this value to 0 allows the user to overzoom layer tiles.
+The maximum scale the user is allowed to zoom to within the view. Setting this value to 0 allows the user to  
+overzoom layer tiles.
 
 ```csharp
 public System.Nullable<double> MaxScale { get; set; }
@@ -61,7 +67,8 @@ public System.Nullable<double> MaxScale { get; set; }
 
 ## Constraints.MaxZoom Property
 
-The maximum zoom level the user is allowed to zoom to within the view. Setting this value to 0 allows the user to over-zoom layer tiles.
+The maximum zoom level the user is allowed to zoom to within the view. Setting this value to 0 allows the user to  
+over-zoom layer tiles.
 
 ```csharp
 public System.Nullable<double> MaxZoom { get; set; }
@@ -113,7 +120,8 @@ public System.Nullable<bool> RotationEnabled { get; set; }
 
 ## Constraints.SnapToZoom Property
 
-When true, the view snaps to the next LOD when zooming in or out. When false, the zoom is continuous. This does not apply when zooming in/out using two finger pinch in/out.
+When true, the view snaps to the next LOD when zooming in or out. When false, the zoom is continuous. This does not  
+apply when zooming in/out using two finger pinch in/out.
 
 ```csharp
 public System.Nullable<bool> SnapToZoom { get; set; }
@@ -172,7 +180,8 @@ The child to unregister
 
 ## Constraints.ValidateRequiredChildren() Method
 
-When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the [RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
+When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the  
+[RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
 
 ```csharp
 public override void ValidateRequiredChildren();

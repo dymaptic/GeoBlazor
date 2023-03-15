@@ -7,20 +7,10 @@ namespace dymaptic.GeoBlazor.Core.Sample.Shared;
 
 public class SharedFileProvider : IFileProvider
 {
-    private readonly HttpClient _httpClient;
-    private readonly NavigationManager _navigationManager;
-
     public SharedFileProvider(HttpClient httpClient, NavigationManager navigationManager)
     {
         _httpClient = httpClient;
         _navigationManager = navigationManager;
-    }
-
-    public virtual async Task<Stream> GetFileStreamAsync(IFileInfo fileInfo)
-    {
-        HttpResponseMessage pageResponse = await _httpClient.GetAsync(
-                    Path.Combine(_navigationManager.BaseUri, fileInfo.PhysicalPath));
-        return await pageResponse.Content.ReadAsStreamAsync();
     }
 
     public IDirectoryContents GetDirectoryContents(string subpath)
@@ -37,4 +27,15 @@ public class SharedFileProvider : IFileProvider
     {
         throw new NotImplementedException();
     }
+
+    public virtual async Task<Stream> GetFileStreamAsync(IFileInfo fileInfo)
+    {
+        HttpResponseMessage pageResponse = await _httpClient.GetAsync(
+            Path.Combine(_navigationManager.BaseUri, fileInfo.PhysicalPath));
+
+        return await pageResponse.Content.ReadAsStreamAsync();
+    }
+
+    private readonly HttpClient _httpClient;
+    private readonly NavigationManager _navigationManager;
 }

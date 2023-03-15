@@ -1,7 +1,7 @@
 ---
 layout: page
 title: "Events and Property Changes"
-nav_order: 6
+nav_order: 7
 ---
 # Reacting to Events and Property Changes
 

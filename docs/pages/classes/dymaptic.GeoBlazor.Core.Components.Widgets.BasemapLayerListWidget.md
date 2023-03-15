@@ -8,8 +8,15 @@ parent: Classes
 
 ## BasemapLayerListWidget Class
 
-The Basemap ListItem class represents two of the operational Items in the LayerList ViewModel. In the Basemap LayerList widget UI, the list items represent any base or reference layers displayed in the view. To display the ListItems as separate types, a developer will need to specify a base or reference. It provides access to the associated layer's properties, allows the developer to configure actions related to the layer, and allows the developer to add content to the item related to the layer.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html">ArcGIS JS API</a>
+The Basemap ListItem class represents two of the operational Items in the LayerList ViewModel. In the Basemap  
+LayerList widget UI, the list items represent any base or reference layers displayed in the view. To display the  
+ListItems as separate types, a developer will need to specify a base or reference. It provides access to the  
+associated layer's properties, allows the developer to configure actions related to the layer, and allows the  
+developer to add content to the item related to the layer.  
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class BasemapLayerListWidget : dymaptic.GeoBlazor.Core.Components.Widgets.LayerListWidget
@@ -48,7 +55,8 @@ public bool HasCustomBaseListHandler { get; }
 
 ## BasemapLayerListWidget.HasCustomReferenceListHandler Property
 
-A convenience property that signifies whether a custom [OnReferenceListItemCreatedHandler](dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html#dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.OnReferenceListItemCreatedHandler 'dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.OnReferenceListItemCreatedHandler') was registered.
+A convenience property that signifies whether a custom [OnReferenceListItemCreatedHandler](dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html#dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.OnReferenceListItemCreatedHandler 'dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.OnReferenceListItemCreatedHandler') was  
+registered.
 
 ```csharp
 public bool HasCustomReferenceListHandler { get; }
@@ -124,7 +132,8 @@ Returns the modified base [ListItem](dymaptic.GeoBlazor.Core.Components.Widgets.
 
 ## BasemapLayerListWidget.OnReferenceListItemCreated(ListItem) Method
 
-A JavaScript invokable method that is triggered whenever a reference type ListItem is created and a handler is attached.
+A JavaScript invokable method that is triggered whenever a reference type ListItem is created and a handler is  
+attached.
 
 ```csharp
 public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem>? OnReferenceListItemCreated(dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem item);

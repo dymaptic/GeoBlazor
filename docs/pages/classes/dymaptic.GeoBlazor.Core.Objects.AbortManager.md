@@ -59,13 +59,15 @@ The [System.Threading.CancellationToken](https://docs.microsoft.com/en-us/dotnet
 [System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[Microsoft.JSInterop.IJSObjectReference](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.JSInterop.IJSObjectReference 'Microsoft.JSInterop.IJSObjectReference')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')
 
 ### Remarks
-Uses of this method should always be followed by [DisposeAbortController(CancellationToken)](dymaptic.GeoBlazor.Core.Objects.AbortManager.html#dymaptic.GeoBlazor.Core.Objects.AbortManager.DisposeAbortController(System.Threading.CancellationToken) 'dymaptic.GeoBlazor.Core.Objects.AbortManager.DisposeAbortController(System.Threading.CancellationToken)') when you are finished with the JavaScript calls.
+Uses of this method should always be followed by [DisposeAbortController(CancellationToken)](dymaptic.GeoBlazor.Core.Objects.AbortManager.html#dymaptic.GeoBlazor.Core.Objects.AbortManager.DisposeAbortController(System.Threading.CancellationToken) 'dymaptic.GeoBlazor.Core.Objects.AbortManager.DisposeAbortController(System.Threading.CancellationToken)') when you are finished with  
+the JavaScript calls.
 
 <a name='dymaptic.GeoBlazor.Core.Objects.AbortManager.DisposeAbortController(System.Threading.CancellationToken)'></a>
 
 ## AbortManager.DisposeAbortController(CancellationToken) Method
 
-Disposes the signal created for a specific JavaScript call, this should always be called when you are done with the signal.
+Disposes the signal created for a specific JavaScript call, this should always be called when you are done with the  
+signal.
 
 ```csharp
 public System.Threading.Tasks.Task DisposeAbortController(System.Threading.CancellationToken cancellationToken);

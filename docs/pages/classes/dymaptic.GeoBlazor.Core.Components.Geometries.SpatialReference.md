@@ -8,8 +8,15 @@ parent: Classes
 
 ## SpatialReference Class
 
-Defines the spatial reference of a view, layer, or method parameters. This indicates the projected or geographic coordinate system used to locate geographic features in the map. Each projected and geographic coordinate system is defined by either a well-known ID (WKID) or a definition string (WKT). Note that for versions prior to ArcGIS 10, only WKID was supported. For a full list of supported spatial reference IDs and their corresponding definition strings, see Using spatial references.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-SpatialReference.html">ArcGIS JS API</a>
+Defines the spatial reference of a view, layer, or method parameters. This indicates the projected or geographic  
+coordinate system used to locate geographic features in the map. Each projected and geographic coordinate system is  
+defined by either a well-known ID (WKID) or a definition string (WKT). Note that for versions prior to ArcGIS 10,  
+only WKID was supported. For a full list of supported spatial reference IDs and their corresponding definition  
+strings, see Using spatial references.  
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-SpatialReference.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class SpatialReference : dymaptic.GeoBlazor.Core.Components.MapComponent,
@@ -53,7 +60,8 @@ The well-known Id for the spatial reference
 
 ## SpatialReference.ImageCoordinateSystem Property
 
-An image coordinate system defines the spatial reference used to display the image in its original coordinates without distortion, map transformations or ortho-rectification.
+An image coordinate system defines the spatial reference used to display the image in its original coordinates  
+without distortion, map transformations or ortho-rectification.
 
 ```csharp
 public object? ImageCoordinateSystem { get; set; }
