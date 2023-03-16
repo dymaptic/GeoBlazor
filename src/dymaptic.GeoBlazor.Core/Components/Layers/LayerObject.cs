@@ -32,7 +32,7 @@ public abstract class LayerObject : MapComponent
     /// <param name="symbol">
     ///     The <see cref="Symbol" /> for the object.
     /// </param>
-    public async Task SetSymbol(Symbol symbol)
+    public virtual async Task SetSymbol(Symbol symbol)
     {
         Symbol = symbol;
 
