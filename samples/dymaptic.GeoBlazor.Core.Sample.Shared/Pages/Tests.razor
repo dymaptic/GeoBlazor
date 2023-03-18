@@ -83,6 +83,21 @@
 <button @onclick="AddGraphicsToLayer">Add Graphics To Layer</button>
 <button @onclick="ClearGraphics">Clear Graphics</button>
 
+<h2>Enterprise-Hosted Layer Test</h2>
+<MapView Style="height: 600px; width: 100%;">
+    <Extent Xmax="-12316914.7038" Xmin="-14596572.5354" Ymax="6562278.17835" Ymin="4992526.63148">
+        <SpatialReference Wkid="102100" />
+    </Extent>
+    <Map ArcGISDefaultBasemap="arcgis-topographic">
+        <FeatureLayer>
+            <PortalItem Id="a07b8cd0b3514285ab1ff001befd2288">
+                <Portal Url="https://arcgis.dymaptic.com/portal/" />
+            </PortalItem>
+            <PopupTemplate Title="Details" StringContent="<p>State: {state}</p><p><a href='{image_url}'>Image</a></p>" />
+        </FeatureLayer>
+    </Map>
+</MapView>
+
 @code {
 
     private void OnMapRendered()

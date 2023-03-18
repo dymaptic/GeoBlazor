@@ -159,6 +159,16 @@ public class Graphic : LayerObject, IEquatable<Graphic>
             await JsGraphicReference.InvokeVoidAsync("setGeometry", 
                 Geometry.ToSerializationRecord());
         }
+
+        _serializationRecord = null;
+        ToSerializationRecord();
+    }
+
+    public override async Task SetSymbol(Symbol symbol)
+    {
+        await base.SetSymbol(symbol);
+        _serializationRecord = null;
+        ToSerializationRecord();
     }
 
     /// <summary>
@@ -190,6 +200,9 @@ public class Graphic : LayerObject, IEquatable<Graphic>
             await JsGraphicReference.InvokeVoidAsync("setPopupTemplate", 
                 PopupTemplate.ToSerializationRecord(), View?.Id);
         }
+        
+        _serializationRecord = null;
+        ToSerializationRecord();
     }
 
     /// <inheritdoc />
