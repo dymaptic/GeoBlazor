@@ -32,13 +32,13 @@ public abstract class LayerObject : MapComponent
     /// <param name="symbol">
     ///     The <see cref="Symbol" /> for the object.
     /// </param>
-    public async Task SetSymbol(Symbol symbol)
+    public virtual async Task SetSymbol(Symbol symbol)
     {
         Symbol = symbol;
 
-        if (JsObjectReference is not null)
+        if (JsGraphicReference is not null)
         {
-            await JsObjectReference.InvokeVoidAsync("setSymbol", 
+            await JsGraphicReference.InvokeVoidAsync("setSymbol", 
                 Symbol.ToSerializationRecord());
         }
     }
@@ -90,5 +90,5 @@ public abstract class LayerObject : MapComponent
     /// <summary>
     ///    The <see cref="IJSObjectReference" /> for the layer object.
     /// </summary>
-    protected IJSObjectReference? JsObjectReference = null!;
+    public IJSObjectReference? JsGraphicReference = null!;
 }

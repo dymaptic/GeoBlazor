@@ -129,10 +129,10 @@ public class GraphicsLayer : Layer
     /// </param>
     public async Task Remove(IEnumerable<Graphic> graphics)
     {
-        foreach (Graphic graphic in graphics)
-        {
-            await UnregisterChildComponent(graphic);
-        }
+        List<Graphic> removedGraphics = graphics.ToList();
+        List<IJSObjectReference> refs = removedGraphics.Select(g => g.JsGraphicReference!).ToList();
+        await JsLayerReference!.InvokeVoidAsync("removeMany", refs);
+        _graphics.ExceptWith(removedGraphics);
     }
 
     /// <summary>
@@ -140,10 +140,8 @@ public class GraphicsLayer : Layer
     /// </summary>
     public async Task Clear()
     {
-        foreach (Graphic graphic in _graphics)
-        {
-            await UnregisterChildComponent(graphic);
-        }
+        await JsLayerReference!.InvokeVoidAsync("clear");
+        _graphics.Clear();
     }
 
     /// <inheritdoc />
@@ -189,7 +187,7 @@ public class GraphicsLayer : Layer
                     try
                     {
                         await JsLayerReference.InvokeVoidAsync("remove", 
-                            CancellationTokenSource.Token, graphic);
+                            CancellationTokenSource.Token, graphic.JsGraphicReference);
                     }
                     catch
                     {

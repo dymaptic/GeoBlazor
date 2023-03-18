@@ -69,7 +69,7 @@ import {
     buildJsPoint,
     buildJsPopup,
     buildJsPopupOptions,
-    buildJsPopupTemplate,
+    buildJsPopupTemplate, buildJsPortalItem,
     buildJsRenderer,
     buildJsSpatialReference
 } from "./jsBuilder";
@@ -193,13 +193,9 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
             if (mapObject.arcGISDefaultBasemap !== undefined &&
                 mapObject.arcGISDefaultBasemap !== null) {
                 basemap = mapObject.arcGISDefaultBasemap;
-            } else if (mapObject.basemap?.portalItem?.id !== undefined &&
-                mapObject.basemap?.portalItem?.id !== null) {
-                basemap = new Basemap({
-                    portalItem: {
-                        id: mapObject.basemap.portalItem.id
-                    }
-                });
+            } else if (hasValue(mapObject.basemap?.portalItem?.id)) {
+                let portalItem = buildJsPortalItem(mapObject.basemap.portalItem);
+                basemap = new Basemap({portalItem: portalItem});
             } else {
                 if (mapObject.basemap?.layers.length > 0) {
                     for (let i = 0; i < mapObject.basemap.layers.length; i++) {
@@ -215,22 +211,18 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
 
         switch (mapType) {
             case 'webmap':
-                const webMap = new WebMap({
-                    portalItem: {
-                        id: mapObject.portalItem.id
-                    }
-                });
+                let webMap: WebMap;
+                let portalItem = buildJsPortalItem(mapObject.portalItem);
+                webMap = new WebMap({portalItem: portalItem});
                 view = new MapView({
                     container: `map-container-${id}`,
                     map: webMap
                 });
                 break;
             case 'webscene':
-                const webScene = new WebScene({
-                    portalItem: {
-                        id: mapObject.portalItem.id
-                    }
-                });
+                let webScene: WebScene;
+                let scenePortalItem = buildJsPortalItem(mapObject.portalItem);
+                webScene = new WebScene({portalItem: scenePortalItem});
                 view = new SceneView({
                     container: `map-container-${id}`,
                     map: webScene
@@ -796,26 +788,22 @@ export async function updateGraphic(graphicObject: any, viewId: string): Promise
     }
 }
 
-export function removeGraphics(graphics: DotNetGraphic[], viewId: string): void {
+export function removeGraphics(graphicWrappers: GraphicWrapper[], viewId: string): void {
     try {
         setWaitCursor(viewId);
         let view = arcGisObjectRefs[viewId] as View;
-        for (let graphic of graphics) {
-            let jsGraphic = arcGisObjectRefs[graphic.id as string] as Graphic;
-            view.graphics.remove(jsGraphic);
-        }
+        view.graphics.removeMany(graphicWrappers.map(g => g.graphic));
         unsetWaitCursor(viewId);
     } catch (error) {
         logError(error, viewId);
     }
 }
 
-export function removeGraphic(graphicObject: DotNetGraphic, viewId: string): void {
+export function removeGraphic(graphicWrapper: GraphicWrapper, viewId: string): void {
     try {
         setWaitCursor(viewId);
         let view = arcGisObjectRefs[viewId] as View;
-        let graphic = arcGisObjectRefs[graphicObject.id as string] as Graphic;
-        view.graphics.remove(graphic);
+        view.graphics.remove(graphicWrapper.graphic);
         unsetWaitCursor(viewId);
     } catch (error) {
         logError(error, viewId);
@@ -838,6 +826,14 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                 let featureLayer = currentLayer as FeatureLayer;
                 if (hasValue(layerObject.portalItem) && layerObject.portalItem.id !== featureLayer.portalItem.id) {
                     featureLayer.portalItem.id = layerObject.portalItem.id;
+                    if (hasValue(layerObject.portalItem?.portal.url) &&
+                        layerObject.portalItem.portal.url !== featureLayer.portalItem.portal?.url) {
+                        featureLayer.portalItem.portal.url = layerObject.portalItem.portal.url;
+                    }
+                    if (hasValue(layerObject.portalItem?.apiKey) && 
+                        layerObject.portalItem.apiKey !== featureLayer.portalItem.apiKey) {
+                        featureLayer.portalItem.apiKey = layerObject.portalItem.apiKey;
+                    }
                 }
                 if (hasValue(layerObject.url) && layerObject.url !== featureLayer.url) {
                     featureLayer.url = layerObject.url;
@@ -857,7 +853,9 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
 
                 copyValuesIfExists(layerObject, featureLayer, 'minScale', 'maxScale', 'orderBy', 'objectIdField',
                     'definitionExpression', 'labelingInfo', 'outFields');
-
+                if (hasValue(layerObject.fullExtent) && layerObject.fullExtent !== currentLayer.fullExtent) {
+                    currentLayer.fullExtent = buildJsExtent(layerObject.fullExtent, view.spatialReference);
+                }
                 if (hasValue(layerObject.popupTemplate)) {
                     featureLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId);
                 }
@@ -889,6 +887,9 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                         wkid: layerObject.spatialReference.wkid
                     });
                 }
+                if (hasValue(layerObject.fullExtent) && layerObject.fullExtent !== currentLayer.fullExtent) {
+                    currentLayer.fullExtent = buildJsExtent(layerObject.fullExtent, view.spatialReference);
+                }
                 break;
             case 'web-tile':
                 let webTileLayer = currentLayer as WebTileLayer;
@@ -918,6 +919,10 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                         layerObject.tileInfo.spatialReference.wkid !== webTileLayer.tileInfo.spatialReference.wkid) {
                         webTileLayer.tileInfo.spatialReference = buildJsSpatialReference(layerObject.tileInfo.spatialReference);
                     }
+                }
+
+                if (hasValue(layerObject.fullExtent) && layerObject.fullExtent !== currentLayer.fullExtent) {
+                    currentLayer.fullExtent = buildJsExtent(layerObject.fullExtent, view.spatialReference);
                 }
                 break;
             case 'open-street-map':
@@ -969,10 +974,7 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
         if (hasValue(layerObject.visible) && layerObject.visible !== currentLayer.visible) {
             currentLayer.visible = layerObject.visible;
         }
-
-        if (hasValue(layerObject.fullExtent) && layerObject.fullExtent !== currentLayer.fullExtent) {
-            currentLayer.fullExtent = buildJsExtent(layerObject.fullExtent, view.spatialReference);
-        }
+        
         unsetWaitCursor(viewId);
     } catch (error) {
         logError(error, viewId);
@@ -1145,7 +1147,8 @@ export async function addGraphics(graphics: DotNetGraphic[], viewId: string): Pr
 export function clearViewGraphics(viewId: string): void {
     try {
         setWaitCursor(viewId);
-        (arcGisObjectRefs[viewId] as View).graphics.removeAll();
+        let view = arcGisObjectRefs[viewId] as View;
+        view.graphics.removeAll();
         unsetWaitCursor(viewId);
     } catch (error) {
         logError(error, viewId);
@@ -1664,11 +1667,9 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             break;
         case 'feature':
             if (hasValue(layerObject.portalItem)) {
-                newLayer = new FeatureLayer({
-                    portalItem: {
-                        id: layerObject.portalItem.id
-                    }
-                });
+                let portalItem = buildJsPortalItem(layerObject.portalItem);
+                
+                newLayer = new FeatureLayer({portalItem: portalItem});
             } else if (hasValue(layerObject.url)) {
                 newLayer = new FeatureLayer({
                     url: layerObject.url
@@ -1709,9 +1710,8 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             break;
         case 'vector-tile':
             if (hasValue(layerObject.portalItem)) {
-                newLayer = new VectorTileLayer({
-                    portalItem: layerObject.portalItem
-                });
+                let portalItem = buildJsPortalItem(layerObject.portalItem);
+                newLayer = new VectorTileLayer({portalItem: portalItem});
             } else {
                 newLayer = new VectorTileLayer({
                     url: layerObject.url
@@ -1719,19 +1719,13 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             }
             break;
         case 'tile':
-            newLayer = new TileLayer({
-                portalItem: {
-                    id: layerObject.portalItem.id
-                }
-            });
+            let portalItem = buildJsPortalItem(layerObject.portalItem);
+            newLayer = new TileLayer({portalItem: portalItem});
             break;
         case 'elevation':
             if (hasValue(layerObject.portalItem)) {
-                newLayer = new ElevationLayer({
-                    portalItem: {
-                        id: layerObject.portalItem.id
-                    }
-                });
+                let portalItem = buildJsPortalItem(layerObject.portalItem);
+                newLayer = new ElevationLayer({portalItem: portalItem});
             } else {
                 newLayer = new ElevationLayer({
                     url: layerObject.url
@@ -1763,9 +1757,8 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
                     urlTemplate: layerObject.urlTemplate
                 });
             } else {
-                webTileLayer = new WebTileLayer({
-                    portalItem: layerObject.portalItem
-                });
+                let portalItem = buildJsPortalItem(layerObject.portalItem);
+                webTileLayer = new WebTileLayer({portalItem: portalItem});
             }
             newLayer = webTileLayer;
 
@@ -1801,10 +1794,11 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
                 openStreetMapLayer = new OpenStreetMapLayer({
                     urlTemplate: layerObject.urlTemplate
                 });
+            } else if (hasValue(layerObject.portalItem)) {
+                let portalItem = buildJsPortalItem(layerObject.portalItem);
+                openStreetMapLayer = new OpenStreetMapLayer({portalItem: portalItem});
             } else {
-                openStreetMapLayer = new OpenStreetMapLayer({
-                    portalItem: layerObject.portalItem
-                });
+                openStreetMapLayer = new OpenStreetMapLayer();
             }
             newLayer = openStreetMapLayer;
 

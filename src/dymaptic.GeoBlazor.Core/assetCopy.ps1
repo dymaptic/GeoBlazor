@@ -1,4 +1,4 @@
-﻿$SourceFiles = "./node_modules/@arcgis/core/assets/*"
+﻿$SourceFiles = "./node_modules/@arcgis/core/assets"
 $OutputDir = "./wwwroot/assets"
 
 if ((Test-Path -Path './wwwroot/assets/*') -eq $false)
