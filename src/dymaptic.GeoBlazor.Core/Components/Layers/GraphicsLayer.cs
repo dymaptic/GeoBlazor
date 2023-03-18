@@ -1,4 +1,5 @@
 ﻿using Microsoft.JSInterop;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 
@@ -87,10 +88,26 @@ public class GraphicsLayer : Layer
     /// </param>
     public async Task Add(IEnumerable<Graphic> graphics)
     {
-        foreach (Graphic graphic in graphics)
+        List<Graphic> newGraphics = graphics.ToList();
+        _graphics.UnionWith(newGraphics);
+        foreach (Graphic graphic in newGraphics)
         {
-            await RegisterChildComponent(graphic);
+            graphic.View ??= View;
+            graphic.JsModule ??= JsModule;
+            graphic.LayerId ??= Id;
+            graphic.Parent ??= this;
         }
+
+        if (JsLayerReference is null)
+        {
+            LayerChanged = true;
+
+            return;
+        }
+
+        IEnumerable<GraphicSerializationRecord> records = newGraphics.Select(g => g.ToSerializationRecord());
+        await JsLayerReference!.InvokeVoidAsync("addMany", 
+            CancellationTokenSource.Token, records, View?.Id);
     }
 
     /// <summary>
@@ -112,10 +129,10 @@ public class GraphicsLayer : Layer
     /// </param>
     public async Task Remove(IEnumerable<Graphic> graphics)
     {
-        foreach (Graphic graphic in graphics)
-        {
-            await UnregisterChildComponent(graphic);
-        }
+        List<Graphic> removedGraphics = graphics.ToList();
+        List<IJSObjectReference> refs = removedGraphics.Select(g => g.JsGraphicReference!).ToList();
+        await JsLayerReference!.InvokeVoidAsync("removeMany", refs);
+        _graphics.ExceptWith(removedGraphics);
     }
 
     /// <summary>
@@ -123,10 +140,8 @@ public class GraphicsLayer : Layer
     /// </summary>
     public async Task Clear()
     {
-        foreach (Graphic graphic in _graphics)
-        {
-            await UnregisterChildComponent(graphic);
-        }
+        await JsLayerReference!.InvokeVoidAsync("clear");
+        _graphics.Clear();
     }
 
     /// <inheritdoc />
@@ -135,17 +150,17 @@ public class GraphicsLayer : Layer
         switch (child)
         {
             case Graphic graphic:
-                if (!_graphics.Any(g => g.Equals(graphic)))
+                graphic.View ??= View;
+                graphic.JsModule ??= JsModule;
+                graphic.LayerId ??= Id;
+                graphic.Parent ??= this;
+                if (_graphics.Add(graphic))
                 {
-                    graphic.View ??= View;
-                    graphic.JsModule ??= JsModule;
-                    graphic.LayerId ??= Id;
-                    graphic.Parent ??= this;
-                    _graphics.Add(graphic);
-
                     if (JsLayerReference is not null)
                     {
-                        await JsLayerReference.InvokeVoidAsync("add", graphic, View?.Id);
+                        GraphicSerializationRecord record = graphic.ToSerializationRecord();
+                        await JsLayerReference.InvokeVoidAsync("add", 
+                            CancellationTokenSource.Token, record, View?.Id);
                     }
                     else
                     {
@@ -169,7 +184,15 @@ public class GraphicsLayer : Layer
             case Graphic graphic:
                 if (_graphics.Remove(graphic) && JsLayerReference is not null)
                 {
-                    await JsLayerReference.InvokeVoidAsync("remove", graphic);
+                    try
+                    {
+                        await JsLayerReference.InvokeVoidAsync("remove", 
+                            CancellationTokenSource.Token, graphic.JsGraphicReference);
+                    }
+                    catch
+                    {
+                        // object disposed
+                    }
                 }
                 else
                 {
@@ -219,7 +242,8 @@ public class GraphicsLayer : Layer
         {
             if (!graphic.IsRendered)
             {
-                await JsLayerReference!.InvokeVoidAsync("add", graphic);
+                await JsLayerReference!.InvokeVoidAsync("add", 
+                    CancellationTokenSource.Token, graphic);
             }
         }
     }

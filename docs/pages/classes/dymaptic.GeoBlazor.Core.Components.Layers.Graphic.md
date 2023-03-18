@@ -261,27 +261,6 @@ The calling, child component to register
 [InvalidChildElementException](dymaptic.GeoBlazor.Core.Exceptions.InvalidChildElementException.html 'dymaptic.GeoBlazor.Core.Exceptions.InvalidChildElementException')  
 Throws if the current child is not a valid sub-component to the parent.
 
-<a name='dymaptic.GeoBlazor.Core.Components.Layers.Graphic.RegisterGraphic(Microsoft.JSInterop.IJSObjectReference)'></a>
-
-## Graphic.RegisterGraphic(IJSObjectReference) Method
-
-Used internally to register a graphic that was generated in Javascript directly.
-
-```csharp
-public System.Threading.Tasks.Task RegisterGraphic(Microsoft.JSInterop.IJSObjectReference jsObjectReference);
-```
-#### Parameters
-
-<a name='dymaptic.GeoBlazor.Core.Components.Layers.Graphic.RegisterGraphic(Microsoft.JSInterop.IJSObjectReference).jsObjectReference'></a>
-
-`jsObjectReference` [Microsoft.JSInterop.IJSObjectReference](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.JSInterop.IJSObjectReference 'Microsoft.JSInterop.IJSObjectReference')
-
-#### Returns
-[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
-
-### Remarks
-Not intended for end-user use.
-
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.Graphic.SetGeometry(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry)'></a>
 
 ## Graphic.SetGeometry(Geometry) Method
@@ -316,6 +295,26 @@ public System.Threading.Tasks.Task SetPopupTemplate(dymaptic.GeoBlazor.Core.Comp
 `popupTemplate` [PopupTemplate](dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.html 'dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate')
 
 The [PopupTemplate](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html#dymaptic.GeoBlazor.Core.Components.Layers.Graphic.PopupTemplate 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic.PopupTemplate') for displaying content in a Popup when the graphic is selected.
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.Graphic.SetSymbol(dymaptic.GeoBlazor.Core.Components.Symbols.Symbol)'></a>
+
+## Graphic.SetSymbol(Symbol) Method
+
+Sets the [Symbol](dymaptic.GeoBlazor.Core.Components.Layers.LayerObject.html#dymaptic.GeoBlazor.Core.Components.Layers.LayerObject.Symbol 'dymaptic.GeoBlazor.Core.Components.Layers.LayerObject.Symbol') for the object.
+
+```csharp
+public override System.Threading.Tasks.Task SetSymbol(dymaptic.GeoBlazor.Core.Components.Symbols.Symbol symbol);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.Graphic.SetSymbol(dymaptic.GeoBlazor.Core.Components.Symbols.Symbol).symbol'></a>
+
+`symbol` [Symbol](dymaptic.GeoBlazor.Core.Components.Symbols.Symbol.html 'dymaptic.GeoBlazor.Core.Components.Symbols.Symbol')
+
+The [Symbol](dymaptic.GeoBlazor.Core.Components.Layers.LayerObject.html#dymaptic.GeoBlazor.Core.Components.Layers.LayerObject.Symbol 'dymaptic.GeoBlazor.Core.Components.Layers.LayerObject.Symbol') for the object.
 
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')

@@ -70,7 +70,22 @@ public class RelationshipPopupContent : PopupContent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Title { get; set; }
+    
+    internal override PopupContentSerializationRecord ToSerializationRecord()
+    {
+        return new RelationshipPopupContentSerializationRecord(Description, DisplayCount, DisplayType, 
+            OrderByFields.Select(r => r.ToSerializationRecord()).ToArray(), RelationshipId, Title);
+    }
 }
+
+internal record RelationshipPopupContentSerializationRecord(
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Description, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]int? DisplayCount, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? DisplayType,
+    RelatedRecordsInfoFieldOrderSerializationRecord[] OrderByFields, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]int? RelationshipId, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Title) 
+    : PopupContentSerializationRecord("relationship");
 
 /// <summary>
 ///     The RelatedRecordsInfoFieldOrder class indicates the field display order for the related records in a layer's
@@ -95,4 +110,11 @@ public class RelatedRecordsInfoFieldOrder : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public OrderBy? Order { get; set; }
+    
+    internal RelatedRecordsInfoFieldOrderSerializationRecord ToSerializationRecord()
+    {
+        return new RelatedRecordsInfoFieldOrderSerializationRecord(Field, Order);
+    }
 }
+
+internal record RelatedRecordsInfoFieldOrderSerializationRecord(string? Field, OrderBy? Order);

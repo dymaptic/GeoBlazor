@@ -3,7 +3,6 @@ layout: page
 title: "Custom Graphics"
 nav_order: 6
 ---
-
 # Custom Graphics
 
 While many `FeatureLayer` and `TileLayer` services come pre-loaded with images, GeoBlazor also supports custom
@@ -11,8 +10,10 @@ While many `FeatureLayer` and `TileLayer` services come pre-loaded with images, 
 
 ## Defining Graphics in Razor Markup
 
-The simplest way to define custom graphics is using the Razor Component markup syntax. Below is an example of 
-iterating through a C# list of `Point`s and creating `Graphics` in Razor markup.
+The simplest way to define custom graphics is using the Razor Component markup syntax. Below is an example of
+adding a single `Graphic` in Razor markup.
+
+***Note that iterating through collections in markup creates very poor performance and may cause crashing, especially in WebAssembly. See the C# example below for a better approach for multiple graphics.***
 
 ```html
 <MapView @ref="_view" class="map-view" OnMapRendered="OnMapRendered">
@@ -21,15 +22,12 @@ iterating through a C# list of `Point`s and creating `Graphics` in Razor markup.
     </Extent>
     <Map ArcGISDefaultBasemap="arcgis-topographic">
         <GraphicsLayer>
-            @foreach (Point graphicPoint in _graphicPoints.Count)
-            {
-                <Graphic>
-                    <Point Longitude="graphicPoint.Longitude" Latitude="graphicPoint.Latitude" />
-                    <SimpleMarkerSymbol Color="@(new MapColor("red"))" Size="6">
-                        <Outline Color="@(new MapColor("white"))" />
-                    </SimpleMarkerSymbol>
-                </Graphic>
-            }
+            <Graphic>
+                <Point Longitude="@_graphicPoint.Longitude" Latitude="@_graphicPoint.Latitude" />
+                <SimpleMarkerSymbol Color="@(new MapColor("red"))" Size="6">
+                    <Outline Color="@(new MapColor("white"))" />
+                </SimpleMarkerSymbol>
+            </Graphic>
         </GraphicsLayer>
     </Map>
 </MapView>
@@ -40,51 +38,25 @@ iterating through a C# list of `Point`s and creating `Graphics` in Razor markup.
 Both `MapView` and `GraphicsLayer` support programmatically adding graphics after the map view is rendered.
 
 1. `GraphicsLayer.Add(graphic)` and `GraphicsLayer.Add(graphics)` allows you to add single or multiple graphics to the layer.
+
 ```csharp
-await graphicsLayer.Add(new Graphic
-{
-    Geometry = new Point
-    {
-        Longitude = -118.80500,
-        Latitude = 34.02700
-    },
-    Symbol = new SimpleMarkerSymbol
-    {
-        Color = new MapColor("red"),
-        Size = 6,
-        Outline = new SimpleLineSymbol
-        {
-            Color = new MapColor("white")
-        }
-    }
-});
+await graphicsLayer.Add(new Graphic(new Point(-118.80500, 34.02700), new SimpleMarkerSymbol(new Outline(new MapColor("white"), new MapColor("red"))));
 ```
 
 2. `MapView.AddGraphic(graphic)` and `MapView.AddGraphics(graphics)` allows you to add single or multiple graphics to the map view.
+
 ```csharp
-await mapView.AddGraphic(new Graphic
-{
-    Geometry = new Point
-    {
-        Longitude = -118.80500,
-        Latitude = 34.02700
-    },
-    Symbol = new SimpleMarkerSymbol
-    {
-        Color = new MapColor("red"),
-        Size = 6,
-        Outline = new SimpleLineSymbol
-        {
-            Color = new MapColor("white")
-        }
-    }
-});
+await mapView.AddGraphic(new Graphic(new Point(-118.80500, 34.02700), new SimpleMarkerSymbol(new Outline(new MapColor("white"), new MapColor("red"))));
 ```
 
 Both classes also support `Remove` and `Clear` methods to remove or clear all graphics from the layer.
 
 Note that while you can define `Graphics` in a `FeatureLayer` via Razor Component markup, the `FeatureLayer` does not support
 altering the graphics collection (aka `Source`) after the map is rendered.
+
+## Multiple Graphics in a Collection
+
+For stable performance, *always* use `MapView.AddGraphics(IEnumerable&lt;Graphic&gt; graphics)` or `GraphicsLayer.Add(IEnumerable&lt;Graphic&gt; graphics)` to add collections of graphics, and do not define them in markup with a loop.
 
 ## Altering a Rendered Graphic
 

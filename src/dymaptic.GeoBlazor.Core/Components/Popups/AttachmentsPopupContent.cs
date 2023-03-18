@@ -37,4 +37,15 @@ public class AttachmentsPopupContent : PopupContent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Title { get; set; }
+
+    internal override PopupContentSerializationRecord ToSerializationRecord()
+    {
+        return new AttachmentsPopupContentSerializationRecord(Description, DisplayType, Title);
+    }
 }
+
+internal record AttachmentsPopupContentSerializationRecord(
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Description, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? DisplayType, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Title) 
+    : PopupContentSerializationRecord("attachments");

@@ -28,6 +28,14 @@ window.getCalciteSelectValue = (calciteSelect) => {
     return calciteSelect.selectedOption.value;
 }
 
+window.setWaitCursor = (wait) => {
+    if (wait) {
+        document.body.style.cursor = 'wait';
+    } else {
+        document.body.style.cursor = 'default';
+    }
+}
+
 function elementIsVisible(item) {
 
     let eleTop = item.offsetTop;

@@ -18,6 +18,7 @@ export interface DotNetGraphic {
     geometry: any;
     attributes: any;
 
+    dotNetGraphicReference: any;
     symbol: DotNetSymbol;
 }
 

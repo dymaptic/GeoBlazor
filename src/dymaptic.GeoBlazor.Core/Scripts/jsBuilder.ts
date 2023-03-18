@@ -82,6 +82,7 @@ import PopupOpenOptions = __esri.PopupOpenOptions;
 import PopupDockOptions = __esri.PopupDockOptions;
 import ContentProperties = __esri.ContentProperties;
 import PopupTriggerActionEvent = __esri.PopupTriggerActionEvent;
+import OpenStreetMapLayer from "@arcgis/core/layers/OpenStreetMapLayer";
 
 export function buildJsSpatialReference(dotNetSpatialReference: DotNetSpatialReference): SpatialReference {
     if (dotNetSpatialReference === undefined || dotNetSpatialReference === null) {
@@ -149,15 +150,14 @@ export async function buildJsGraphic(graphicObject: any, register: boolean, view
         let layer = arcGisObjectRefs[graphicObject.layerId] as Layer;
         graphic.layer = layer;
     }
-
-    if (graphicObject.dotNetGraphicReference !== undefined) {
-        let wrapper = new GraphicWrapper(graphic);
-        // @ts-ignore
-        let objectRef = DotNet.createJSObjectReference(wrapper);
-        await graphicObject.dotNetGraphicReference.invokeMethodAsync("OnGraphicCreated", objectRef);
-    }
+    
     if (register) {
-        arcGisObjectRefs[graphicObject.id] = graphic;
+        if (graphicObject.dotNetGraphicReference !== undefined) {
+            let wrapper = new GraphicWrapper(graphic);
+            // @ts-ignore
+            let objectRef = DotNet.createJSObjectReference(wrapper);
+            graphicObject.dotNetGraphicReference.invokeMethodAsync("OnGraphicCreated", objectRef);
+        }
     }
     return graphic;
 }
@@ -764,4 +764,25 @@ export function buildJsElementExpressionInfo(dotNetExpressionInfo: DotNetElement
     });
 
     return info;
+}
+
+export function buildJsPortalItem(dotNetPortalItem: any): any {
+    if (dotNetPortalItem?.Id === null) return null;
+    let portalItem: any = {
+        id: dotNetPortalItem.id
+    };
+    if (hasValue(dotNetPortalItem?.portal)) {
+        portalItem.portal = {
+            url: dotNetPortalItem.portal.url
+        }
+    }
+    if (hasValue(dotNetPortalItem?.apiKey)) {
+        portalItem.apiKey =dotNetPortalItem.apiKey;
+    }
+
+    return portalItem;
+}
+
+function hasValue(prop: any): boolean {
+    return prop !== undefined && prop !== null;
 }

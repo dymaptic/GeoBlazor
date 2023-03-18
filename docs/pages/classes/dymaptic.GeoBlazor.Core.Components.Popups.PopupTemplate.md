@@ -17,10 +17,13 @@ feature in the view is selected.
 </a>
 
 ```csharp
-public class PopupTemplate : dymaptic.GeoBlazor.Core.Components.MapComponent
+public class PopupTemplate : dymaptic.GeoBlazor.Core.Components.MapComponent,
+System.IEquatable<dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate>
 ```
 
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [Microsoft.AspNetCore.Components.ComponentBase](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.ComponentBase 'Microsoft.AspNetCore.Components.ComponentBase') &#129106; [MapComponent](dymaptic.GeoBlazor.Core.Components.MapComponent.html 'dymaptic.GeoBlazor.Core.Components.MapComponent') &#129106; PopupTemplate
+
+Implements [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.IEquatable-1 'System.IEquatable`1')[PopupTemplate](dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.html 'dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.IEquatable-1 'System.IEquatable`1')
 ### Constructors
 
 <a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.PopupTemplate()'></a>
@@ -261,6 +264,41 @@ public string? Title { get; set; }
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 ### Methods
 
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.Equals(object)'></a>
+
+## PopupTemplate.Equals(object) Method
+
+Determines whether the specified object is equal to the current object.
+
+```csharp
+public override bool Equals(object? obj);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.Equals(object).obj'></a>
+
+`obj` [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object')
+
+The object to compare with the current object.
+
+#### Returns
+[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')  
+[true](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool') if the specified object  is equal to the current object; otherwise, [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool').
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.GetHashCode()'></a>
+
+## PopupTemplate.GetHashCode() Method
+
+Serves as the default hash function.
+
+```csharp
+public override int GetHashCode();
+```
+
+#### Returns
+[System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')  
+A hash code for the current object.
+
 <a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.OnTriggerAction(string)'></a>
 
 ## PopupTemplate.OnTriggerAction(string) Method
@@ -344,3 +382,48 @@ The consumer needs to provide the missing child component
 
 [MissingRequiredOptionsChildElementException](dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException.html 'dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException')  
 The consumer needs to provide ONE of the options of child components
+### Operators
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.op_Equality(dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate,dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate)'></a>
+
+## PopupTemplate.operator ==(PopupTemplate, PopupTemplate) Operator
+
+Equality operator
+
+```csharp
+public static bool operator ==(dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate? left, dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate? right);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.op_Equality(dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate,dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate).left'></a>
+
+`left` [PopupTemplate](dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.html 'dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.op_Equality(dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate,dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate).right'></a>
+
+`right` [PopupTemplate](dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.html 'dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate')
+
+#### Returns
+[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.op_Inequality(dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate,dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate)'></a>
+
+## PopupTemplate.operator !=(PopupTemplate, PopupTemplate) Operator
+
+Inequality operator
+
+```csharp
+public static bool operator !=(dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate? left, dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate? right);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.op_Inequality(dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate,dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate).left'></a>
+
+`left` [PopupTemplate](dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.html 'dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.op_Inequality(dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate,dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate).right'></a>
+
+`right` [PopupTemplate](dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.html 'dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate')
+
+#### Returns
+[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')

@@ -1,12 +1,10 @@
 ﻿import Graphic from "@arcgis/core/Graphic";
 import {DotNetGeometry, DotNetPopupTemplate} from "./definitions";
 import {buildJsGeometry, buildJsPopupTemplate} from "./jsBuilder";
-import Geometry from "@arcgis/core/geometry/Geometry";
 import {buildDotNetGeometry, buildDotNetPopupTemplate} from "./dotNetBuilder";
-import {arcGisObjectRefs} from "./arcGisJsInterop";
 
 export default class GraphicWrapper {
-    private graphic: Graphic;
+    public graphic: Graphic;
 
     constructor(graphic: Graphic) {
         this.graphic = graphic;
@@ -19,7 +17,9 @@ export default class GraphicWrapper {
     }
 
     setAttribute(name: string, value: any): void {
-        this.graphic.attributes[name] = value;
+        if (this.graphic.attributes[name] !== value) {
+            this.graphic.attributes[name] = value;
+        }
     }
 
     getAttribute(name: string): any {
@@ -32,7 +32,9 @@ export default class GraphicWrapper {
 
     setGeometry(geometry: DotNetGeometry): void {
         let jsGeometry = buildJsGeometry(geometry);
-        this.graphic.geometry = jsGeometry as Geometry;
+        if (jsGeometry !== null && this.graphic.geometry !== jsGeometry) {
+            this.graphic.geometry = jsGeometry;
+        }
     }
 
     getGeometry(): DotNetGeometry | null {
@@ -40,7 +42,9 @@ export default class GraphicWrapper {
     }
 
     setSymbol(symbol: any): void {
-        this.graphic.symbol = symbol;
+        if (this.graphic.symbol !== symbol) {
+            this.graphic.symbol = symbol;
+        }
     }
 
     getSymbol(): any {
@@ -56,16 +60,13 @@ export default class GraphicWrapper {
     }
 
     setPopupTemplate(popupTemplate: DotNetPopupTemplate, viewId: string): void {
-        this.graphic.popupTemplate = buildJsPopupTemplate(popupTemplate, viewId);
+        let jsPopupTemplate = buildJsPopupTemplate(popupTemplate, viewId);
+        if (jsPopupTemplate !== null && this.graphic.popupTemplate !== jsPopupTemplate) {
+            this.graphic.popupTemplate = jsPopupTemplate;
+        }
     }
 
     getPopupTemplate(): DotNetPopupTemplate | null {
         return buildDotNetPopupTemplate(this.graphic.popupTemplate);
-    }
-
-    registerWithId(id: string): void {
-        if (arcGisObjectRefs[id] !== this.graphic) {
-            arcGisObjectRefs[id] = this.graphic;
-        }
     }
 }

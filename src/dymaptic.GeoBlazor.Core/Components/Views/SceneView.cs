@@ -59,7 +59,8 @@ public class SceneView : MapView
             if (ViewJsModule is null) return;
 
             ViewExtentUpdate change =
-                await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("setCenter", (object)point, Id);
+                await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("setCenter", 
+                    CancellationTokenSource.Token, (object)point, Id);
             Extent = change.Extent;
             Zoom = change.Zoom;
             Scale = change.Scale;
@@ -80,7 +81,8 @@ public class SceneView : MapView
             ExtentSetByCode = true;
 
             ViewExtentUpdate change =
-                await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("setZoom", Zoom, Id);
+                await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("setZoom", 
+                    CancellationTokenSource.Token, Zoom, Id);
             Extent = change.Extent;
             Latitude = change.Center?.Latitude;
             Longitude = change.Center?.Longitude;
@@ -102,7 +104,8 @@ public class SceneView : MapView
             ExtentSetByCode = true;
 
             ViewExtentUpdate change =
-                await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("setScale", Scale, Id);
+                await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("setScale",
+                    CancellationTokenSource.Token, Scale, Id);
             Extent = change.Extent;
             Latitude = change.Center?.Latitude;
             Longitude = change.Center?.Longitude;
@@ -126,7 +129,8 @@ public class SceneView : MapView
             ExtentSetByCode = true;
 
             ViewExtentUpdate change =
-                await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("setExtent", (object)Extent, Id);
+                await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("setExtent", 
+                    CancellationTokenSource.Token, (object)Extent, Id);
             Latitude = change.Center?.Latitude;
             Longitude = change.Center?.Longitude;
             Zoom = change.Zoom;
@@ -146,7 +150,8 @@ public class SceneView : MapView
         ExtentSetByCode = true;
 
         ViewExtentUpdate change =
-            await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("goToGraphics", graphics, Id);
+            await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("goToGraphics", 
+                CancellationTokenSource.Token, graphics, Id);
         Extent = change.Extent;
         Latitude = change.Center?.Latitude;
         Longitude = change.Center?.Longitude;
@@ -168,7 +173,7 @@ public class SceneView : MapView
         ShouldUpdate = false;
 
         ViewExtentUpdate change = await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("updateView",
-            new
+            CancellationTokenSource.Token, new
             {
                 Id,
                 Latitude,
@@ -221,11 +226,12 @@ public class SceneView : MapView
 
             NeedsRender = false;
 
-            await ViewJsModule!.InvokeVoidAsync("setAssetsPath",
+            await ViewJsModule!.InvokeVoidAsync("setAssetsPath", CancellationTokenSource.Token,
                 Configuration.GetValue<string?>("ArcGISAssetsPath",
                     "./_content/dymaptic.GeoBlazor.Core/assets"));
 
-            await ViewJsModule!.InvokeVoidAsync("buildMapView", Id, DotNetObjectReference,
+            await ViewJsModule!.InvokeVoidAsync("buildMapView", 
+                CancellationTokenSource.Token, Id, DotNetObjectReference,
                 Longitude, Latitude, Rotation, Map, Zoom, Scale,
                 ApiKey, mapType, Widgets, Graphics, SpatialReference, Constraints, Extent,
                 EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions, ZIndex, Tilt);

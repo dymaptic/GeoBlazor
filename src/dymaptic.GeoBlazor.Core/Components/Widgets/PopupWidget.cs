@@ -185,7 +185,8 @@ public class PopupWidget : Widget
     /// </summary>
     public async Task<Graphic> GetSelectedFeature()
     {
-        return await JsObjectReference!.InvokeAsync<Graphic>("getSelectedFeature");
+        return await JsObjectReference!.InvokeAsync<Graphic>("getSelectedFeature",
+            CancellationTokenSource.Token);
     }
 
     /// <summary>
@@ -193,7 +194,7 @@ public class PopupWidget : Widget
     /// </summary>
     public async Task SetContent(string stringContent)
     {
-        await JsObjectReference!.InvokeVoidAsync("setContent", stringContent);
+        await JsObjectReference!.InvokeVoidAsync("setContent", CancellationTokenSource.Token, stringContent);
     }
 
     /// <summary>

@@ -87,6 +87,31 @@ public class Geometry : MapComponent
         Extent?.ValidateRequiredChildren();
         SpatialReference?.ValidateRequiredChildren();
     }
+    
+    internal virtual GeometrySerializationRecord ToSerializationRecord()
+    {
+        return new GeometrySerializationRecord(Type, Extent?.ToSerializationRecord() as ExtentSerializationRecord, 
+            SpatialReference?.ToSerializationRecord());
+    }
+}
+
+[JsonConverter(typeof(GeometrySerializationConverter))]
+internal record GeometrySerializationRecord(string Type, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]ExtentSerializationRecord? Extent,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]SpatialReferenceSerializationRecord? SpatialReference)
+    : MapComponentSerializationRecord;
+
+internal class GeometrySerializationConverter : JsonConverter<GeometrySerializationRecord>
+{
+    public override GeometrySerializationRecord? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override void Write(Utf8JsonWriter writer, GeometrySerializationRecord value, JsonSerializerOptions options)
+    {
+        writer.WriteRawValue(JsonSerializer.Serialize(value, value.GetType(), options));
+    }
 }
 
 internal class GeometryConverter : JsonConverter<Geometry>
@@ -180,6 +205,6 @@ internal class GeometryTypeConverter : EnumToKebabCaseStringConverter<GeometryTy
             .Replace("Geometry", string.Empty)
             .Replace("Type", string.Empty);
 
-        return value is not null ? (GeometryType)Enum.Parse(typeof(GeometryType), value, true) : default(GeometryType)!;
+        return value is not null ? (GeometryType)Enum.Parse(typeof(GeometryType), value, true) : default(GeometryType);
     }
 }
