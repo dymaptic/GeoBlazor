@@ -1210,8 +1210,8 @@ export function solveServiceArea(url: string, driveTimeCutoffs: number[], servic
 
         serviceArea.solve(url, taskParameters)
             .then(function (result) {
-                if (result.serviceAreaPolygons.length) {
-                    result.serviceAreaPolygons.forEach(function (graphic) {
+                if (result.serviceAreaPolygons.features.length) {
+                    result.serviceAreaPolygons.features.forEach(function (graphic) {
                         graphic.symbol = serviceAreaSymbol;
                         view.graphics.add(graphic, 0);
                     })
