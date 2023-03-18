@@ -1356,7 +1356,7 @@ public partial class MapView : MapComponent
         if (ViewJsModule is null) return;
 
         await ViewJsModule!.InvokeVoidAsync("removeGraphic", CancellationTokenSource.Token,
-            graphic, Id);
+            graphic.JsGraphicReference, Id);
     }
 
     /// <summary>
@@ -1367,7 +1367,8 @@ public partial class MapView : MapComponent
     /// </param>
     public async Task RemoveGraphics(IEnumerable<Graphic> graphics)
     {
-        foreach (Graphic graphic in graphics)
+        List<Graphic> oldGraphics= graphics.ToList();
+        foreach (Graphic graphic in oldGraphics)
         {
             _graphics.Remove(graphic);
             graphic.View = null;
@@ -1377,7 +1378,7 @@ public partial class MapView : MapComponent
         if (ViewJsModule is null) return;
 
         await ViewJsModule!.InvokeVoidAsync("removeGraphics", CancellationTokenSource.Token,
-            graphics, Id);
+            oldGraphics.Select(g => g.JsGraphicReference), Id);
     }
 
     /// <summary>

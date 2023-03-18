@@ -158,7 +158,6 @@ export async function buildJsGraphic(graphicObject: any, register: boolean, view
             let objectRef = DotNet.createJSObjectReference(wrapper);
             graphicObject.dotNetGraphicReference.invokeMethodAsync("OnGraphicCreated", objectRef);
         }
-        arcGisObjectRefs[graphicObject.id] = graphic;
     }
     return graphic;
 }
