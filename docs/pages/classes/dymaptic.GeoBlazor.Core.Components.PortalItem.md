@@ -23,6 +23,19 @@ public class PortalItem : dymaptic.GeoBlazor.Core.Components.MapComponent
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [Microsoft.AspNetCore.Components.ComponentBase](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.ComponentBase 'Microsoft.AspNetCore.Components.ComponentBase') &#129106; [MapComponent](dymaptic.GeoBlazor.Core.Components.MapComponent.html 'dymaptic.GeoBlazor.Core.Components.MapComponent') &#129106; PortalItem
 ### Properties
 
+<a name='dymaptic.GeoBlazor.Core.Components.PortalItem.ApiKey'></a>
+
+## PortalItem.ApiKey Property
+
+An authorization string used to access the portal item. API keys are generated and managed in the ArcGIS Developer dashboard. An API key is tied explicitly to an ArcGIS account; it is also used to monitor service usage.
+
+```csharp
+public string? ApiKey { get; set; }
+```
+
+#### Property Value
+[System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
 <a name='dymaptic.GeoBlazor.Core.Components.PortalItem.Id'></a>
 
 ## PortalItem.Id Property

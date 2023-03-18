@@ -164,6 +164,7 @@ public class Graphic : LayerObject, IEquatable<Graphic>
         ToSerializationRecord();
     }
 
+    /// <inheritdoc />
     public override async Task SetSymbol(Symbol symbol)
     {
         await base.SetSymbol(symbol);

@@ -22,6 +22,20 @@ Derived
 &#8627; [Label](dymaptic.GeoBlazor.Core.Components.Layers.Label.html 'dymaptic.GeoBlazor.Core.Components.Layers.Label')  
 &#8627; [Renderer](dymaptic.GeoBlazor.Core.Components.Renderers.Renderer.html 'dymaptic.GeoBlazor.Core.Components.Renderers.Renderer')  
 &#8627; [UniqueValueInfo](dymaptic.GeoBlazor.Core.Components.Renderers.UniqueValueInfo.html 'dymaptic.GeoBlazor.Core.Components.Renderers.UniqueValueInfo')
+### Fields
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.LayerObject.JsGraphicReference'></a>
+
+## LayerObject.JsGraphicReference Field
+
+The [Microsoft.JSInterop.IJSObjectReference](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.JSInterop.IJSObjectReference 'Microsoft.JSInterop.IJSObjectReference') for the layer object.
+
+```csharp
+public IJSObjectReference? JsGraphicReference;
+```
+
+#### Field Value
+[Microsoft.JSInterop.IJSObjectReference](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.JSInterop.IJSObjectReference 'Microsoft.JSInterop.IJSObjectReference')
 ### Properties
 
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.LayerObject.Symbol'></a>
@@ -83,7 +97,7 @@ Throws if the current child is not a valid sub-component to the parent.
 Sets the [Symbol](dymaptic.GeoBlazor.Core.Components.Layers.LayerObject.html#dymaptic.GeoBlazor.Core.Components.Layers.LayerObject.Symbol 'dymaptic.GeoBlazor.Core.Components.Layers.LayerObject.Symbol') for the object.
 
 ```csharp
-public System.Threading.Tasks.Task SetSymbol(dymaptic.GeoBlazor.Core.Components.Symbols.Symbol symbol);
+public virtual System.Threading.Tasks.Task SetSymbol(dymaptic.GeoBlazor.Core.Components.Symbols.Symbol symbol);
 ```
 #### Parameters
 
