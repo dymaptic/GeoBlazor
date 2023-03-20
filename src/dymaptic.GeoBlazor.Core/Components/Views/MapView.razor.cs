@@ -9,6 +9,7 @@ using dymaptic.GeoBlazor.Core.Objects;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
 using Microsoft.JSInterop;
+using ProtoBuf;
 using System.Diagnostics;
 using System.Reflection;
 using System.Text;
@@ -1188,7 +1189,13 @@ public partial class MapView : MapComponent
         if (ViewJsModule is null) return;
 
         IEnumerable<GraphicSerializationRecord> records = newGraphics.Select(g => g.ToSerializationRecord());
-        await ViewJsModule!.InvokeVoidAsync("addGraphics", CancellationTokenSource.Token, records, Id);
+        ProtoGraphicCollection collection = new(records.ToArray());
+        MemoryStream ms = new();
+        Serializer.Serialize(ms, collection);
+        ms.Seek(0, SeekOrigin.Begin);
+        using DotNetStreamReference streamRef = new(ms);
+        await ViewJsModule!.InvokeVoidAsync("addGraphics", CancellationTokenSource.Token, 
+            streamRef, Id, DotNetObjectReference);
     }
 
     /// <summary>
@@ -1207,8 +1214,24 @@ public partial class MapView : MapComponent
             _graphics.Add(graphic);
 
             if (ViewJsModule is null) return;
+            ProtoGraphicCollection collection = new(new []{graphic.ToSerializationRecord()});
+            MemoryStream ms = new();
+            Serializer.Serialize(ms, collection);
+            ms.Seek(0, SeekOrigin.Begin);
+            using DotNetStreamReference streamRef = new(ms);
+            graphic.JsLayerObjectReference = await ViewJsModule!.InvokeAsync<IJSObjectReference>("addGraphic", 
+                CancellationTokenSource.Token, streamRef, Id);
+        }
+    }
+    
+    [JSInvokable]
+    public void RegisterGraphicReference(Guid id, IJSObjectReference reference)
+    {
+        Graphic? graphic = _graphics.FirstOrDefault(g => g.Id == id);
 
-            await ViewJsModule!.InvokeVoidAsync("addGraphic", graphic.ToSerializationRecord(), Id);
+        if (graphic is not null)
+        {
+            graphic.JsLayerObjectReference = reference;
         }
     }
 
@@ -1356,7 +1379,7 @@ public partial class MapView : MapComponent
         if (ViewJsModule is null) return;
 
         await ViewJsModule!.InvokeVoidAsync("removeGraphic", CancellationTokenSource.Token,
-            graphic.JsGraphicReference, Id);
+            graphic.JsLayerObjectReference, Id);
     }
 
     /// <summary>
@@ -1378,7 +1401,7 @@ public partial class MapView : MapComponent
         if (ViewJsModule is null) return;
 
         await ViewJsModule!.InvokeVoidAsync("removeGraphics", CancellationTokenSource.Token,
-            oldGraphics.Select(g => g.JsGraphicReference), Id);
+            oldGraphics.Select(g => g.JsLayerObjectReference), Id);
     }
 
     /// <summary>

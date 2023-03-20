@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using ProtoBuf;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -225,5 +226,8 @@ internal class SpatialReferenceConverter : JsonConverter<SpatialReference>
     }
 }
 
-internal record SpatialReferenceSerializationRecord([property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]int? Wkid)
+[ProtoContract(Name = "SpatialReference")]
+internal record SpatialReferenceSerializationRecord(
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [property:ProtoMember(1)]int? Wkid)
     : MapComponentSerializationRecord;

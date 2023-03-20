@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using ProtoBuf;
 using System.Text.Json.Serialization;
 
 
@@ -161,15 +162,16 @@ public class Extent : Geometry, IEquatable<Extent>
 
     internal override GeometrySerializationRecord ToSerializationRecord()
     {
-        return new ExtentSerializationRecord(Xmax, Xmin, Ymax, Ymin, Zmax, Zmin, Mmax, Mmin, 
-            SpatialReference?.ToSerializationRecord());
+        return new GeometrySerializationRecord(Type, null, SpatialReference?.ToSerializationRecord())
+        {
+            XMax = Xmax,
+            XMin = Xmin,
+            YMax = Ymax,
+            YMin = Ymin,
+            ZMax = Zmax,
+            ZMin = Zmin,
+            MMax = Mmax,
+            MMin = Mmin
+        };
     }
 }
-
-internal record ExtentSerializationRecord(double Xmax, double Xmin, double Ymax, double Ymin, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? Zmax = null, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? Zmin = null, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? Mmax = null, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? Mmin = null, 
-    SpatialReferenceSerializationRecord? SpatialReference = null): 
-    GeometrySerializationRecord("extent", null, SpatialReference);

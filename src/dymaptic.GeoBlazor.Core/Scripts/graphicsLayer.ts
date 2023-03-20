@@ -2,7 +2,7 @@
 import {buildJsGraphic} from "./jsBuilder";
 import Graphic from "@arcgis/core/Graphic";
 import {DotNetGraphic} from "./definitions";
-import {arcGisObjectRefs} from "./arcGisJsInterop";
+import {getGraphicsFromProtobufStream} from "./arcGisJsInterop";
 import {buildDotNetGraphic} from "./dotNetBuilder";
 import GraphicWrapper from "./graphic";
 
@@ -23,27 +23,34 @@ export default class GraphicsLayerWrapper {
         await this.layer.load(options);
     }
 
-    async add(graphic: DotNetGraphic, viewId: string): Promise<void> {
-        this.layer.add(await buildJsGraphic(graphic, true, viewId) as Graphic);
-    }
-
-    async addMany(graphics: DotNetGraphic[], viewId: string): Promise<void> {
+    async add(graphicRef: any, viewId: string): Promise<GraphicWrapper | null> {
         try {
+            let graphics = await getGraphicsFromProtobufStream(graphicRef) as any[];
+            let jsGraphic = buildJsGraphic(graphics[0], viewId) as Graphic;
+            this.layer.add(jsGraphic);
+            return new GraphicWrapper(jsGraphic);
+        } catch (error) {
+            console.log(error);
+            return null;
+        }
+    }
+    
+    async addMany(streamRef: any, viewId: string, layerRef: any): Promise<void> {
+        try {
+            let graphics = await getGraphicsFromProtobufStream(streamRef) as any[];
             let jsGraphics: Graphic[] = [];
-            let wrappers: GraphicWrapper[] = [];
             for (const g of graphics) {
-                let jsGraphic = await buildJsGraphic(g, false, viewId) as Graphic;
+                let jsGraphic = buildJsGraphic(g, viewId) as Graphic;
                 jsGraphics.push(jsGraphic);
-                wrappers.push(new GraphicWrapper(jsGraphic));
             }
             this.layer.addMany(jsGraphics);
-            console.log(new Date() + " - added to map");
-            for (let i = 0; i < wrappers.length; i++){
-               const w = wrappers[i];
-               // @ts-ignore
-               let objectRef = DotNet.createJSObjectReference(w);
-               await graphics[i].dotNetGraphicReference.invokeMethodAsync("OnGraphicCreated", objectRef);
-            }  
+            for (let i = 0; i < jsGraphics.length; i++) {
+                let graphic = jsGraphics[i];
+                let graphicObject = graphics[i];
+                // @ts-ignore
+                let wrapperRef = DotNet.createJSObjectReference(new GraphicWrapper(graphic));
+                await layerRef.invokeMethodAsync("RegisterGraphicReference", graphicObject.id, wrapperRef);
+            }
         } catch (error) { 
             console.log(error);
         }

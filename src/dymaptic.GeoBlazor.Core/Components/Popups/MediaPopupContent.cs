@@ -95,14 +95,12 @@ public class MediaPopupContent : PopupContent
     
     internal override PopupContentSerializationRecord ToSerializationRecord()
     {
-        return new MediaPopupContentSerializationRecord(ActiveMediaInfoIndex, Description, Title, 
-            MediaInfos?.Select(x => x.ToSerializationRecord()));
+        return new PopupContentSerializationRecord(Type)
+        {
+            ActiveMediaInfoIndex = ActiveMediaInfoIndex,
+            Description = Description,
+            Title = Title,
+            MediaInfos = MediaInfos?.Select(x => x.ToSerializationRecord()).ToArray()
+        };
     }
 }
-
-internal record MediaPopupContentSerializationRecord(
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? ActiveMediaInfoIndex,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Description, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Title,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]IEnumerable<MediaInfoSerializationRecord>? MediaInfos)
-    : PopupContentSerializationRecord("media");

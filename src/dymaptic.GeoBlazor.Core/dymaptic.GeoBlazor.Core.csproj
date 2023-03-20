@@ -25,13 +25,16 @@
 
     <ItemGroup>
         <SupportedPlatform Include="browser" />
+        <InternalsVisibleTo Include="dymaptic.GeoBlazor.Core.Sample.Shared" />
     </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="DefaultDocumentation" Version="0.8.2" PrivateAssets="all" />
+        <PackageReference Include="Google.Protobuf" Version="3.22.1" />
         <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.13" />
         <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
         <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="6.0.0" />
+        <PackageReference Include="protobuf-net" Version="3.2.16" />
     </ItemGroup>
     <PropertyGroup Condition="$(Configuration) == 'RELEASE'">
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -55,11 +58,13 @@
         <None Include="Scripts/projection.ts" Pack="true" PackagePack="Scripts" />
         <None Remove="ReadMe.md" />
         <None Include="ReadMe.md" Pack="true" PackagePath="" />
+        <Content Update="wwwroot\js\graphic.json">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
     </ItemGroup>
 
     <ItemGroup>
         <Folder Include="wwwroot\assets" />
-        <Folder Include="wwwroot\js" />
     </ItemGroup>
 
     <ItemGroup>

@@ -1,5 +1,6 @@
 ﻿using dymaptic.GeoBlazor.Core.Objects;
 using Microsoft.AspNetCore.Components;
+using ProtoBuf;
 using System.Text.Json.Serialization;
 
 
@@ -193,18 +194,14 @@ public class SimpleMarkerSymbol : MarkerSymbol, IEquatable<SimpleMarkerSymbol>
 
     internal override SymbolSerializationRecord ToSerializationRecord()
     {
-        return new SimpleMarkerSymbolSerializationRecord(
-            Outline?.ToSerializationRecord() as SimpleLineSymbolSerializationRecord,
-            Color, Size, Style, Angle, XOffset, YOffset);
+        return new SymbolSerializationRecord(Type, Color)
+        {
+            Outline = Outline?.ToSerializationRecord(),
+            Size = Size,
+            Style = Style,
+            Angle = Angle,
+            XOffset = XOffset,
+            YOffset = YOffset
+        };
     }
 }
-
-internal record SimpleMarkerSymbolSerializationRecord(
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]SimpleLineSymbolSerializationRecord? Outline = null, 
-    MapColor? Color = null, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? Size = null, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Style = null, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? Angle = null, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? XOffset = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? YOffset = null)
-    : SymbolSerializationRecord("simple-marker", Color);

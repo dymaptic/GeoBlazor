@@ -64,7 +64,6 @@
 
     private async Task OnClick(ClickEvent clickEvent)
     {
-        await _mapView!.ClearGraphics();
         var query = new Query
         {
             Geometry = clickEvent.MapPoint,
@@ -77,12 +76,22 @@
         };
         FeatureSet result = (await _featureLayer!.QueryFeatures(query))!;
         await _pointGraphic.SetGeometry(clickEvent.MapPoint);
-        await _mapView!.AddGraphic(_pointGraphic);
+        if (!_mapView!.Graphics.Contains(_pointGraphic))
+        {
+            await _mapView.AddGraphic(_pointGraphic);
+        }
 
         if (result.QueryGeometry is not null)
         {
             await _bufferGraphic.SetGeometry(result.QueryGeometry);
-            await _mapView.AddGraphic(_bufferGraphic);
+            if (!_mapView.Graphics.Contains(_bufferGraphic))
+            {
+                await _mapView.AddGraphic(_bufferGraphic);
+            }
+        }
+        else if (_mapView.Graphics.Contains(_bufferGraphic))
+        {
+            await _mapView.RemoveGraphic(_bufferGraphic);
         }
 
         await _mapView.OpenPopup(new PopupOpenOptions

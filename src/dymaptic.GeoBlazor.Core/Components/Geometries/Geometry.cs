@@ -1,4 +1,6 @@
-﻿using dymaptic.GeoBlazor.Core.Serialization;
+﻿using dymaptic.GeoBlazor.Core.Objects;
+using dymaptic.GeoBlazor.Core.Serialization;
+using ProtoBuf;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -14,7 +16,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 ///     </a>
 /// </summary>
 [JsonConverter(typeof(GeometryConverter))]
-public class Geometry : MapComponent
+public abstract class Geometry : MapComponent
 {
     /// <summary>
     ///     The <see cref="Extent" /> of the geometry.
@@ -87,31 +89,64 @@ public class Geometry : MapComponent
         Extent?.ValidateRequiredChildren();
         SpatialReference?.ValidateRequiredChildren();
     }
-    
-    internal virtual GeometrySerializationRecord ToSerializationRecord()
-    {
-        return new GeometrySerializationRecord(Type, Extent?.ToSerializationRecord() as ExtentSerializationRecord, 
-            SpatialReference?.ToSerializationRecord());
-    }
+
+    internal abstract GeometrySerializationRecord ToSerializationRecord();
 }
 
-[JsonConverter(typeof(GeometrySerializationConverter))]
-internal record GeometrySerializationRecord(string Type, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]ExtentSerializationRecord? Extent,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]SpatialReferenceSerializationRecord? SpatialReference)
-    : MapComponentSerializationRecord;
-
-internal class GeometrySerializationConverter : JsonConverter<GeometrySerializationRecord>
+[ProtoContract(Name = "Geometry")]
+internal record GeometrySerializationRecord([property: ProtoMember(1)] string Type,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [property: ProtoMember(2)]
+        GeometrySerializationRecord? Extent,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [property: ProtoMember(3)]
+        SpatialReferenceSerializationRecord? SpatialReference)
+    : MapComponentSerializationRecord
 {
-    public override GeometrySerializationRecord? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        throw new NotImplementedException();
-    }
-
-    public override void Write(Utf8JsonWriter writer, GeometrySerializationRecord value, JsonSerializerOptions options)
-    {
-        writer.WriteRawValue(JsonSerializer.Serialize(value, value.GetType(), options));
-    }
+    [ProtoMember(4)]
+    public double? Longitude { get; init; }
+    
+    [ProtoMember(5)]
+    public double? Latitude { get; init; }
+    
+    [ProtoMember(6)]
+    public double? X { get; init; }
+    
+    [ProtoMember(7)]
+    public double? Y { get; init; }
+    
+    [ProtoMember(8)]
+    public double? Z { get; init; }
+    
+    [ProtoMember(9)]
+    public MapPathSerializationRecord[]? Paths { get; init; }
+    
+    [ProtoMember(10)]
+    public MapPathSerializationRecord[]? Rings { get; init; }
+    
+    [ProtoMember(11)]
+    public double? XMax { get; init; }
+    
+    [ProtoMember(12)]
+    public double? XMin { get; init; }
+    
+    [ProtoMember(13)]
+    public double? YMax { get; init; }
+    
+    [ProtoMember(14)]
+    public double? YMin { get; init; }
+    
+    [ProtoMember(15)]
+    public double? ZMax { get; init; }
+    
+    [ProtoMember(16)]
+    public double? ZMin { get; init; }
+    
+    [ProtoMember(17)]
+    public double? MMax { get; init; }
+    
+    [ProtoMember(18)]
+    public double? MMin { get; init; }
 }
 
 internal class GeometryConverter : JsonConverter<Geometry>

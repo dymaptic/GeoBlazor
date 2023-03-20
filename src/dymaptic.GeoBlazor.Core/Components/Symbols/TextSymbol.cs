@@ -166,14 +166,9 @@ public class TextSymbol : Symbol, IEquatable<TextSymbol>
 
     internal override SymbolSerializationRecord ToSerializationRecord()
     {
-        return new TextSymbolSerializationRecord(Text, Color, HaloColor, HaloSize, Font?.ToSerializationRecord());
+        return new SymbolSerializationRecord(Type, Color)
+        {
+            Text = Text, HaloColor = HaloColor, HaloSize = HaloSize, MapFont = Font
+        };
     }
 }
-
-internal record TextSymbolSerializationRecord(
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Text, 
-    MapColor? Color = null, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]MapColor? HaloColor = null, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]int? HaloSize = null, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]MapFontSerializationRecord? Font = null)
-    : SymbolSerializationRecord("text", Color);

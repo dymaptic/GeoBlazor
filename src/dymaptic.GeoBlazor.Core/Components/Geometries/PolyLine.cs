@@ -1,5 +1,6 @@
 ﻿using dymaptic.GeoBlazor.Core.Objects;
 using Microsoft.AspNetCore.Components;
+using ProtoBuf;
 
 
 namespace dymaptic.GeoBlazor.Core.Components.Geometries;
@@ -93,12 +94,10 @@ public class PolyLine : Geometry, IEquatable<PolyLine>
     
     internal override GeometrySerializationRecord ToSerializationRecord()
     {
-        return new PolyLineSerializationRecord(Paths, SpatialReference?.ToSerializationRecord(),
-            Extent?.ToSerializationRecord() as ExtentSerializationRecord);
+        return new GeometrySerializationRecord(Type, Extent?.ToSerializationRecord(),
+            SpatialReference?.ToSerializationRecord())
+        {
+            Paths = Paths.Select(p => p.ToSerializationRecord()).ToArray()
+        };
     }
 }
-
-internal record PolyLineSerializationRecord(MapPath[] Paths, 
-        SpatialReferenceSerializationRecord? SpatialReference = null, 
-        ExtentSerializationRecord? Extent = null)
-    : GeometrySerializationRecord("polyline", Extent, SpatialReference);

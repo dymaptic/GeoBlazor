@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using ProtoBuf;
 using System.Text.Json.Serialization;
 
 
@@ -118,14 +119,14 @@ public class PictureMarkerSymbol : MarkerSymbol, IEquatable<PictureMarkerSymbol>
 
     internal override SymbolSerializationRecord ToSerializationRecord()
     {
-        return new PictureMarkerSymbolSerializationRecord(Url, Width, Height, Angle, XOffset, YOffset);
+        return new SymbolSerializationRecord(Type, null)
+        {
+            Url = Url,
+            Width = Width,
+            Height = Height,
+            Angle = Angle,
+            XOffset = XOffset,
+            YOffset = YOffset
+        };
     }
 }
-
-internal record PictureMarkerSymbolSerializationRecord(string Url, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? Width = null, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? Height = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? Angle = null, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? XOffset = null, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? YOffset = null): 
-    SymbolSerializationRecord("picture-marker", null);

@@ -1,4 +1,5 @@
 ﻿using Microsoft.JSInterop;
+using ProtoBuf;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -59,6 +60,7 @@ public class GraphicsLayer : Layer
     /// <summary>
     ///     A collection of <see cref="Graphic" />s in the layer.
     /// </summary>
+    [JsonConverter(typeof(GraphicsToSerializationConverter))]
     public IReadOnlyCollection<Graphic> Graphics
     {
         get => _graphics;
@@ -68,6 +70,11 @@ public class GraphicsLayer : Layer
     /// <inheritdoc />
     [JsonPropertyName("type")]
     public override string LayerType => "graphics";
+    
+    /// <summary>
+    ///     Layer Reference for JS Registration
+    /// </summary>
+    public DotNetObjectReference<GraphicsLayer> DotNetLayerReference => DotNetObjectReference.Create(this);
 
     /// <summary>
     ///     Add a graphic to the current layer
@@ -104,10 +111,14 @@ public class GraphicsLayer : Layer
 
             return;
         }
-
         IEnumerable<GraphicSerializationRecord> records = newGraphics.Select(g => g.ToSerializationRecord());
+        ProtoGraphicCollection collection = new(records.ToArray());
+        MemoryStream ms = new();
+        Serializer.Serialize(ms, collection);
+        ms.Seek(0, SeekOrigin.Begin);
+        using DotNetStreamReference streamRef = new(ms);
         await JsLayerReference!.InvokeVoidAsync("addMany", 
-            CancellationTokenSource.Token, records, View?.Id);
+            CancellationTokenSource.Token, streamRef, View?.Id, DotNetLayerReference);
     }
 
     /// <summary>
@@ -130,7 +141,7 @@ public class GraphicsLayer : Layer
     public async Task Remove(IEnumerable<Graphic> graphics)
     {
         List<Graphic> removedGraphics = graphics.ToList();
-        List<IJSObjectReference> refs = removedGraphics.Select(g => g.JsGraphicReference!).ToList();
+        List<IJSObjectReference> refs = removedGraphics.Select(g => g.JsLayerObjectReference!).ToList();
         await JsLayerReference!.InvokeVoidAsync("removeMany", refs);
         _graphics.ExceptWith(removedGraphics);
     }
@@ -142,6 +153,17 @@ public class GraphicsLayer : Layer
     {
         await JsLayerReference!.InvokeVoidAsync("clear");
         _graphics.Clear();
+    }
+    
+    [JSInvokable]
+    public void RegisterGraphicReference(Guid id, IJSObjectReference reference)
+    {
+        Graphic? graphic = _graphics.FirstOrDefault(g => g.Id == id);
+
+        if (graphic is not null)
+        {
+            graphic.JsLayerObjectReference = reference;
+        }
     }
 
     /// <inheritdoc />
@@ -159,8 +181,13 @@ public class GraphicsLayer : Layer
                     if (JsLayerReference is not null)
                     {
                         GraphicSerializationRecord record = graphic.ToSerializationRecord();
-                        await JsLayerReference.InvokeVoidAsync("add", 
-                            CancellationTokenSource.Token, record, View?.Id);
+                        ProtoGraphicCollection collection = new(new[] { record });
+                        MemoryStream ms = new();
+                        Serializer.Serialize(ms, collection);
+                        ms.Seek(0, SeekOrigin.Begin);
+                        using DotNetStreamReference streamRef = new(ms);
+                        graphic.JsLayerObjectReference = await JsLayerReference.InvokeAsync<IJSObjectReference>(
+                            "add", CancellationTokenSource.Token, streamRef, View?.Id);
                     }
                     else
                     {
@@ -187,7 +214,7 @@ public class GraphicsLayer : Layer
                     try
                     {
                         await JsLayerReference.InvokeVoidAsync("remove", 
-                            CancellationTokenSource.Token, graphic.JsGraphicReference);
+                            CancellationTokenSource.Token, graphic.JsLayerObjectReference);
                     }
                     catch
                     {
@@ -218,35 +245,50 @@ public class GraphicsLayer : Layer
         }
     }
 
-    /// <summary>
-    ///     Register a graphic that was created in JavaScript
-    /// </summary>
-    public void RegisterExistingGraphicFromJavaScript(Graphic graphic)
-    {
-        if (!_graphics.Any(g => g.Equals(graphic)))
-        {
-            graphic.View ??= View;
-            graphic.JsModule ??= JsModule;
-            graphic.LayerId ??= Id;
-            graphic.Parent ??= this;
-            _graphics.Add(graphic);
-        }
-    }
-
     /// <inheritdoc />
     internal override async Task UpdateFromJavaScript(Layer renderedLayer)
     {
         await base.UpdateFromJavaScript(renderedLayer);
-
-        foreach (Graphic graphic in _graphics)
-        {
-            if (!graphic.IsRendered)
-            {
-                await JsLayerReference!.InvokeVoidAsync("add", 
-                    CancellationTokenSource.Token, graphic);
-            }
-        }
     }
 
     private HashSet<Graphic> _graphics = new();
 }
+
+internal class GraphicsToSerializationConverter : JsonConverter<IReadOnlyCollection<Graphic>>
+{
+    public override IReadOnlyCollection<Graphic>? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        if (reader.TokenType != JsonTokenType.StartArray)
+        {
+            return null;
+        }
+
+        List<Graphic> graphics = new();
+        while (reader.Read())
+        {
+            if (reader.TokenType == JsonTokenType.EndArray)
+            {
+                break;
+            }
+
+            Graphic graphic = JsonSerializer.Deserialize<Graphic>(ref reader, options)!;
+            graphics.Add(graphic);
+        }
+
+        return graphics;
+    }
+
+    public override void Write(Utf8JsonWriter writer, IReadOnlyCollection<Graphic> value, JsonSerializerOptions options)
+    {
+        writer.WriteStartArray();
+        foreach (Graphic graphic in value)
+        {
+            JsonSerializer.Serialize(writer, graphic.ToSerializationRecord(), options);
+        }
+
+        writer.WriteEndArray();
+    }
+}
+
+[ProtoContract]
+internal record ProtoGraphicCollection([property: ProtoMember(1)]GraphicSerializationRecord[] Graphics);

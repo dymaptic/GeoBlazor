@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using ProtoBuf;
 using System.Text.Json.Serialization;
 
 
@@ -130,17 +131,14 @@ public class Point : Geometry, IEquatable<Point>
 
     internal override GeometrySerializationRecord ToSerializationRecord()
     {
-        return new PointSerializationRecord(Longitude, Latitude, X, Y, Z, SpatialReference?.ToSerializationRecord(),
-            Extent?.ToSerializationRecord() as ExtentSerializationRecord);
+        return new GeometrySerializationRecord(Type, Extent?.ToSerializationRecord(),
+            SpatialReference?.ToSerializationRecord())
+        {
+            Longitude = Longitude,
+            Latitude = Latitude,
+            X = X,
+            Y = Y,
+            Z = Z
+        };
     }
 }
-
-internal record PointSerializationRecord(
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? Longitude = null, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? Latitude = null, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? X = null, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? Y = null, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? Z = null, 
-    SpatialReferenceSerializationRecord? SpatialReference = null, 
-    ExtentSerializationRecord? Extent = null) 
-    : GeometrySerializationRecord("point", Extent, SpatialReference);

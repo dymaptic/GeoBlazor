@@ -1,5 +1,6 @@
 ﻿using dymaptic.GeoBlazor.Core.Objects;
 using Microsoft.AspNetCore.Components;
+using ProtoBuf;
 using System.Text.Json.Serialization;
 
 
@@ -93,12 +94,10 @@ public class Polygon : Geometry, IEquatable<Polygon>
 
     internal override GeometrySerializationRecord ToSerializationRecord()
     {
-        return new PolygonSerializationRecord(Rings, SpatialReference?.ToSerializationRecord(),
-            Extent?.ToSerializationRecord() as ExtentSerializationRecord);
+        return new GeometrySerializationRecord(Type, Extent?.ToSerializationRecord(),
+            SpatialReference?.ToSerializationRecord())
+        {
+            Rings = Rings.Select(p => p.ToSerializationRecord()).ToArray()
+        };
     }
 }
-
-internal record PolygonSerializationRecord(MapPath[] Rings, 
-        SpatialReferenceSerializationRecord? SpatialReference = null, 
-        ExtentSerializationRecord? Extent = null)
-    : GeometrySerializationRecord("polygon", Extent, SpatialReference);
