@@ -76,6 +76,19 @@ referenced in a view, but its features will not be visible in the view.
 Indicates how the layer should display in the LayerList widget. The possible values are listed below.
 ### Properties
 
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer.DotNetLayerReference'></a>
+
+## GraphicsLayer.DotNetLayerReference Property
+
+Layer Reference for JS Registration
+
+```csharp
+public Microsoft.JSInterop.DotNetObjectReference<dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer> DotNetLayerReference { get; }
+```
+
+#### Property Value
+[Microsoft.JSInterop.DotNetObjectReference&lt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.JSInterop.DotNetObjectReference-1 'Microsoft.JSInterop.DotNetObjectReference`1')[GraphicsLayer](dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer.html 'dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.JSInterop.DotNetObjectReference-1 'Microsoft.JSInterop.DotNetObjectReference`1')
+
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer.Graphics'></a>
 
 ## GraphicsLayer.Graphics Property
@@ -180,21 +193,6 @@ The calling, child component to register
 
 [InvalidChildElementException](dymaptic.GeoBlazor.Core.Exceptions.InvalidChildElementException.html 'dymaptic.GeoBlazor.Core.Exceptions.InvalidChildElementException')  
 Throws if the current child is not a valid sub-component to the parent.
-
-<a name='dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer.RegisterExistingGraphicFromJavaScript(dymaptic.GeoBlazor.Core.Components.Layers.Graphic)'></a>
-
-## GraphicsLayer.RegisterExistingGraphicFromJavaScript(Graphic) Method
-
-Register a graphic that was created in JavaScript
-
-```csharp
-public void RegisterExistingGraphicFromJavaScript(dymaptic.GeoBlazor.Core.Components.Layers.Graphic graphic);
-```
-#### Parameters
-
-<a name='dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer.RegisterExistingGraphicFromJavaScript(dymaptic.GeoBlazor.Core.Components.Layers.Graphic).graphic'></a>
-
-`graphic` [Graphic](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer.Remove(dymaptic.GeoBlazor.Core.Components.Layers.Graphic)'></a>
 

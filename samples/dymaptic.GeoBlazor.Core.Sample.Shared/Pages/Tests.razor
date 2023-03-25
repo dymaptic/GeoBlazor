@@ -125,7 +125,7 @@
     private async Task AddGraphicsToView()
     {
         List<Graphic> graphics = new();
-        for (var i = 0; i < 200; i++)
+        for (var i = 0; i < 10_000; i++)
         {
             graphics.Add(new Graphic(new Point(_random.NextDouble() * 10 + 11.0, 
                 _random.NextDouble() * 10 + 50.0), new SimpleMarkerSymbol(
@@ -139,7 +139,7 @@
     private async Task AddGraphicsToLayer()
     {
         List<Graphic> graphics = new();
-        for (var i = 0; i < 200; i++)
+        for (var i = 0; i < 10_000; i++)
         {
             graphics.Add(new Graphic(new Point(_random.NextDouble() * 10 + 11.0, 
                 _random.NextDouble() * 10 + 50.0), new SimpleMarkerSymbol(

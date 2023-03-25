@@ -26,6 +26,7 @@
     <ItemGroup>
         <SupportedPlatform Include="browser" />
         <InternalsVisibleTo Include="dymaptic.GeoBlazor.Core.Sample.Shared" />
+        <InternalsVisibleTo Include="dymaptic.GeoBlazor.Core.Test" />
     </ItemGroup>
 
     <ItemGroup>
@@ -61,6 +62,10 @@
         <Content Update="wwwroot\js\graphic.json">
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
+        <Content Remove="Scripts\graphic.json" />
+        <None Include="wwwroot\graphic.json">
+          <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
     <ItemGroup>

@@ -16,7 +16,7 @@ The base class for geometry objects. This class has no constructor. To construct
 </a>
 
 ```csharp
-public class Geometry : dymaptic.GeoBlazor.Core.Components.MapComponent
+public abstract class Geometry : dymaptic.GeoBlazor.Core.Components.MapComponent
 ```
 
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [Microsoft.AspNetCore.Components.ComponentBase](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.ComponentBase 'Microsoft.AspNetCore.Components.ComponentBase') &#129106; [MapComponent](dymaptic.GeoBlazor.Core.Components.MapComponent.html 'dymaptic.GeoBlazor.Core.Components.MapComponent') &#129106; Geometry

@@ -910,6 +910,9 @@ public partial class MapView : MapComponent
     [Parameter]
     public int? EventRateLimitInMilliseconds { get; set; }
 
+    [Parameter]
+    public int? GraphicSerializationChunkSize { get; set; }
+
 #endregion
 
 
@@ -1174,7 +1177,7 @@ public partial class MapView : MapComponent
     /// <summary>
     ///     Adds a collection of <see cref="Graphic" />s to the current view
     /// </summary>
-    public async Task AddGraphics(IEnumerable<Graphic> graphics)
+    public async Task AddGraphics(IEnumerable<Graphic> graphics, CancellationToken cancellationToken = default)
     {
         var newGraphics = graphics.ToList();
         _graphics.UnionWith(newGraphics);
@@ -1188,14 +1191,56 @@ public partial class MapView : MapComponent
 
         if (ViewJsModule is null) return;
 
-        IEnumerable<GraphicSerializationRecord> records = newGraphics.Select(g => g.ToSerializationRecord());
-        ProtoGraphicCollection collection = new(records.ToArray());
-        MemoryStream ms = new();
-        Serializer.Serialize(ms, collection);
-        ms.Seek(0, SeekOrigin.Begin);
-        using DotNetStreamReference streamRef = new(ms);
-        await ViewJsModule!.InvokeVoidAsync("addGraphics", CancellationTokenSource.Token, 
-            streamRef, Id, DotNetObjectReference);
+        List<GraphicSerializationRecord> records = newGraphics.Select(g => g.ToSerializationRecord()).ToList();
+        int chunkSize = GraphicSerializationChunkSize ?? 200;
+
+        if (IsWebAssembly)
+        {
+            for (int index = 0; index < records.Count; index += chunkSize)
+            {
+                int skip = index;
+
+                if (cancellationToken.IsCancellationRequested ||
+                    CancellationTokenSource.Token.IsCancellationRequested) return;
+
+                ProtoGraphicCollection collection =
+                    new(records.Skip(skip).Take(chunkSize).ToArray());
+                MemoryStream ms = new();
+                Serializer.Serialize(ms, collection);
+                ms.Seek(0, SeekOrigin.Begin);
+                using DotNetStreamReference streamRef = new(ms);
+
+                await ViewJsModule!.InvokeVoidAsync("addGraphics", cancellationToken,
+                    streamRef, Id, DotNetObjectReference);
+            }
+        }
+        else
+        {
+            List<Task> serializationTasks = new();
+
+            for (int index = 0; index < records.Count; index += chunkSize)
+            {
+                int skip = index;
+
+                serializationTasks.Add(Task.Run(async () =>
+                {
+                    if (cancellationToken.IsCancellationRequested ||
+                        CancellationTokenSource.Token.IsCancellationRequested) return;
+
+                    ProtoGraphicCollection collection =
+                        new(records.Skip(skip).Take(chunkSize).ToArray());
+                    MemoryStream ms = new();
+                    Serializer.Serialize(ms, collection);
+                    ms.Seek(0, SeekOrigin.Begin);
+                    using DotNetStreamReference streamRef = new(ms);
+
+                    await ViewJsModule!.InvokeVoidAsync("addGraphics", cancellationToken,
+                        streamRef, Id, DotNetObjectReference);
+                }, cancellationToken));
+            }
+        
+            await Task.WhenAll(serializationTasks);
+        }
     }
 
     /// <summary>
@@ -1865,6 +1910,16 @@ public partial class MapView : MapComponent
             if (promptSetting is not null)
             {
                 PromptForArcGISKey = promptSetting.Value;
+            }
+        }
+
+        if (GraphicSerializationChunkSize is null)
+        {
+            int? chunkSetting = Configuration.GetValue<int?>("GraphicSerializationChunkSize");
+
+            if (chunkSetting is not null)
+            {
+                GraphicSerializationChunkSize = chunkSetting.Value;
             }
         }
 

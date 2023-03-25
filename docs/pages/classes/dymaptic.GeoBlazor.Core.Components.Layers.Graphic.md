@@ -219,23 +219,6 @@ public override System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.S
 #### Returns
 [System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[Symbol](dymaptic.GeoBlazor.Core.Components.Symbols.Symbol.html 'dymaptic.GeoBlazor.Core.Components.Symbols.Symbol')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')
 
-<a name='dymaptic.GeoBlazor.Core.Components.Layers.Graphic.OnGraphicCreated(Microsoft.JSInterop.IJSObjectReference)'></a>
-
-## Graphic.OnGraphicCreated(IJSObjectReference) Method
-
-Javascript-invokable internal method.
-
-```csharp
-public void OnGraphicCreated(Microsoft.JSInterop.IJSObjectReference jsObjectReference);
-```
-#### Parameters
-
-<a name='dymaptic.GeoBlazor.Core.Components.Layers.Graphic.OnGraphicCreated(Microsoft.JSInterop.IJSObjectReference).jsObjectReference'></a>
-
-`jsObjectReference` [Microsoft.JSInterop.IJSObjectReference](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.JSInterop.IJSObjectReference 'Microsoft.JSInterop.IJSObjectReference')
-
-The javascript object reference for the rendered graphic.
-
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.Graphic.RegisterChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent)'></a>
 
 ## Graphic.RegisterChildComponent(MapComponent) Method

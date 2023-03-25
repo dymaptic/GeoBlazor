@@ -22,21 +22,20 @@ Derived
 &#8627; [Label](dymaptic.GeoBlazor.Core.Components.Layers.Label.html 'dymaptic.GeoBlazor.Core.Components.Layers.Label')  
 &#8627; [Renderer](dymaptic.GeoBlazor.Core.Components.Renderers.Renderer.html 'dymaptic.GeoBlazor.Core.Components.Renderers.Renderer')  
 &#8627; [UniqueValueInfo](dymaptic.GeoBlazor.Core.Components.Renderers.UniqueValueInfo.html 'dymaptic.GeoBlazor.Core.Components.Renderers.UniqueValueInfo')
-### Fields
+### Properties
 
-<a name='dymaptic.GeoBlazor.Core.Components.Layers.LayerObject.JsGraphicReference'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.LayerObject.JsLayerObjectReference'></a>
 
-## LayerObject.JsGraphicReference Field
+## LayerObject.JsLayerObjectReference Property
 
 The [Microsoft.JSInterop.IJSObjectReference](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.JSInterop.IJSObjectReference 'Microsoft.JSInterop.IJSObjectReference') for the layer object.
 
 ```csharp
-public IJSObjectReference? JsGraphicReference;
+public Microsoft.JSInterop.IJSObjectReference? JsLayerObjectReference { get; set; }
 ```
 
-#### Field Value
+#### Property Value
 [Microsoft.JSInterop.IJSObjectReference](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.JSInterop.IJSObjectReference 'Microsoft.JSInterop.IJSObjectReference')
-### Properties
 
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.LayerObject.Symbol'></a>
 

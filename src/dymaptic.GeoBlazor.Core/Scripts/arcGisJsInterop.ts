@@ -1925,7 +1925,7 @@ function waitForRender(viewId: string, dotNetRef: any): void {
             }
             if (!view.updating && !isRendered && !rendering) {
                 notifyExtentChanged = true;
-                console.debug("View Render Complete");
+                console.debug(new Date() + " - View Render Complete");
                 try {
                     rendering = true;
                     await dotNetRef.invokeMethodAsync('OnViewRendered');
@@ -2107,7 +2107,7 @@ function buildHitTestOptions(options: DotNetHitTestOptions, view: MapView): MapV
 let ProtoGraphicCollection;
 
 export async function loadProtobuf() {
-    load("_content/dymaptic.GeoBlazor.Core/js/graphic.json", function (err, root) {
+    load("_content/dymaptic.GeoBlazor.Core/graphic.json", function (err, root) {
         if (err) throw err;
         ProtoGraphicCollection = root?.lookupType("ProtoGraphicCollection");
     });

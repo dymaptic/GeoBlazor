@@ -1,0 +1,617 @@
+{
+  "nested": {
+    "dymaptic": {
+      "nested": {
+        "GeoBlazor": {
+          "nested": {
+            "Core": {
+              "nested": {
+                "proto": {
+                  "nested": {
+                    "ProtoGraphicCollection": {
+                      "fields": {
+                        "graphics": {
+                          "rule": "repeated",
+                          "type": "Graphic",
+                          "id": 1
+                        }
+                      }
+                    },
+                    "Graphic": {
+                      "fields": {
+                        "id": {
+                          "type": "string",
+                          "id": 1
+                        },
+                        "geometry": {
+                          "type": "Geometry",
+                          "id": 2
+                        },
+                        "symbol": {
+                          "type": "Symbol",
+                          "id": 3
+                        },
+                        "popupTemplate": {
+                          "type": "PopupTemplate",
+                          "id": 4
+                        },
+                        "attributes": {
+                          "rule": "repeated",
+                          "type": "Attribute",
+                          "id": 5
+                        }
+                      }
+                    },
+                    "Attribute": {
+                        "fields": {
+                            "key": {
+                            "type": "string",
+                            "id": 1
+                          },
+                            "value": {
+                            "type": "string",
+                            "id": 2
+                          },
+                            "valueType": {
+                            "type": "string",
+                            "id": 3
+                          }
+                        }
+                    },
+                    "Geometry": {
+                      "fields": {
+                        "type": {
+                          "type": "string",
+                          "id": 1
+                        },
+                        "extent": {
+                          "type": "Geometry",
+                          "id": 2
+                        },
+                        "spatialReference": {
+                          "type": "SpatialReference",
+                          "id": 3
+                        },
+                        "longitude": {
+                          "type": "double",
+                          "id": 4
+                        },
+                        "latitude": {
+                          "type": "double",
+                          "id": 5
+                        },
+                        "x": {
+                          "type": "double",
+                          "id": 6
+                        },
+                        "y": {
+                          "type": "double",
+                          "id": 7
+                        },
+                        "z": {
+                          "type": "double",
+                          "id": 8
+                        },
+                        "paths": {
+                          "rule": "repeated",
+                          "type": "MapPath",
+                          "id": 9
+                        },
+                        "rings": {
+                          "rule": "repeated",
+                          "type": "MapPath",
+                          "id": 10
+                        },
+                        "xMax": {
+                          "type": "double",
+                          "id": 11
+                        },
+                        "xMin": {
+                          "type": "double",
+                          "id": 12
+                        },
+                        "yMax": {
+                          "type": "double",
+                          "id": 13
+                        },
+                        "yMin": {
+                          "type": "double",
+                          "id": 14
+                        },
+                        "zMax": {
+                          "type": "double",
+                          "id": 15
+                        },
+                        "zMin": {
+                          "type": "double",
+                          "id": 16
+                        },
+                        "mMax": {
+                          "type": "double",
+                          "id": 17
+                        },
+                        "mMin": {
+                          "type": "double",
+                          "id": 18
+                        }
+                      }
+                    },
+                    "MapPath": {
+                      "fields": {
+                        "points": {
+                          "rule": "repeated",
+                          "type": "MapPoint",
+                          "id": 1
+                        }
+                      }
+                    },
+                    "MapPoint": {
+                        "fields": {
+                            "coordinates": {
+                                "rule": "repeated",
+                                "type": "double",
+                                "id": 1
+                            }
+                        }
+                    },
+                    "SpatialReference": {
+                      "fields": {
+                        "wkid": {
+                          "type": "int32",
+                          "id": 1
+                        }
+                      }
+                    },
+                    "Symbol": {
+                      "fields": {
+                        "type": {
+                          "type": "string",
+                          "id": 1
+                        },
+                        "color": {
+                          "type": "MapColor",
+                          "id": 2
+                        },
+                        "outline": {
+                          "type": "Symbol",
+                          "id": 3
+                        },
+                        "size": {
+                          "type": "double",
+                          "id": 4
+                        },
+                        "style": {
+                          "type": "string",
+                          "id": 5
+                        },
+                        "angle": {
+                          "type": "double",
+                          "id": 6
+                        },
+                        "xOffset": {
+                          "type": "double",
+                          "id": 7
+                        },
+                        "yOffset": {
+                          "type": "double",
+                          "id": 8
+                        },
+                        "width": {
+                          "type": "double",
+                          "id": 9
+                        },
+                        "lineStyle": {
+                          "type": "string",
+                          "id": 10
+                        },
+                        "text": {
+                          "type": "string",
+                          "id": 11
+                        },
+                        "haloColor": {
+                          "type": "MapColor",
+                          "id": 12
+                        },
+                        "haloSize": {
+                          "type": "int32",
+                          "id": 13
+                        },
+                        "font": {
+                          "type": "MapFont",
+                          "id": 14
+                        },
+                        "height": {
+                          "type": "double",
+                          "id": 15
+                        },
+                        "url": {
+                          "type": "string",
+                          "id": 16
+                        }
+                      }
+                    },
+                    "MapColor": {
+                      "fields": {
+                        "values": {
+                          "rule": "repeated",
+                          "type": "double",
+                          "id": 1
+                        },
+                        "hexOrNameValue": {
+                            "type": "string",
+                            "id": 2
+                        }
+                      }
+                    },
+                    "MapFont": {
+                      "fields": {
+                        "size": {
+                          "type": "int32",
+                          "id": 1
+                        },
+                        "family": {
+                          "type": "string",
+                          "id": 2
+                        },
+                        "style": {
+                          "type": "string",
+                          "id": 3
+                        },
+                        "weight": {
+                          "type": "string",
+                          "id": 4
+                        }
+                      }
+                    },
+                    "PopupTemplate": {
+                      "fields": {
+                        "title": {
+                          "type": "string",
+                          "id": 1
+                        },
+                        "stringContent": {
+                          "type": "string",
+                          "id": 2
+                        },
+                        "outFields": {
+                          "rule": "repeated",
+                          "type": "string",
+                          "id": 3
+                        },
+                        "fieldInfos": {
+                          "rule": "repeated",
+                          "type": "FieldInfo",
+                          "id": 4
+                        },
+                        "content": {
+                          "rule": "repeated",
+                          "type": "PopupContent",
+                          "id": 5
+                        },
+                        "expressionInfos": {
+                          "rule": "repeated",
+                          "type": "ExpressionInfo",
+                          "id": 6
+                        },
+                        "overwriteActions": {
+                          "type": "bool",
+                          "id": 7
+                        },
+                        "returnGeometry": {
+                          "type": "bool",
+                          "id": 8
+                        },
+                        "actions": {
+                          "rule": "repeated",
+                          "type": "Action",
+                          "id": 9
+                        }
+                      }
+                    },
+                    "FieldInfo": {
+                      "fields": {
+                        "fieldName": {
+                          "type": "string",
+                          "id": 1
+                        },
+                        "label": {
+                          "type": "string",
+                          "id": 2
+                        },
+                        "tooltip": {
+                          "type": "string",
+                          "id": 3
+                        },
+                        "stringFieldOption": {
+                          "type": "string",
+                          "id": 4
+                        },
+                        "format": {
+                          "type": "FieldInfoFormat",
+                          "id": 5
+                        },
+                        "isEditable": {
+                          "type": "bool",
+                          "id": 6
+                        },
+                        "visible": {
+                          "type": "bool",
+                          "id": 7
+                        }
+                      }
+                    },
+                    "FieldInfoFormat": {
+                      "fields": {
+                        "places": {
+                          "type": "int32",
+                          "id": 1
+                        },
+                        "digitSeparator": {
+                          "type": "bool",
+                          "id": 2
+                        },
+                        "dateFormat": {
+                          "type": "string",
+                          "id": 3
+                        }
+                      }
+                    },
+                    "PopupContent": {
+                      "fields": {
+                        "type": {
+                          "type": "string",
+                          "id": 1
+                        },
+                        "description": {
+                          "type": "string",
+                          "id": 2
+                        },
+                        "displayType": {
+                          "type": "string",
+                          "id": 3
+                        },
+                        "title": {
+                          "type": "string",
+                          "id": 4
+                        },
+                        "expressionInfo": {
+                          "type": "ElementExpressionInfo",
+                          "id": 5
+                        },
+                        "fieldInfos": {
+                          "rule": "repeated",
+                          "type": "FieldInfo",
+                          "id": 6
+                        },
+                        "activeMediaInfoIndex": {
+                          "type": "string",
+                          "id": 7
+                        },
+                        "mediaInfos": {
+                          "rule": "repeated",
+                          "type": "MediaInfo",
+                          "id": 8
+                        },
+                        "displayCount": {
+                          "type": "int32",
+                          "id": 9
+                        },
+                        "orderByFields": {
+                          "rule": "repeated",
+                          "type": "RelatedRecordsInfoFieldOrder",
+                          "id": 10
+                        },
+                        "relationshipId": {
+                          "type": "int32",
+                          "id": 11
+                        },
+                        "text": {
+                          "type": "string",
+                          "id": 12
+                        }
+                      }
+                    },
+                    "ElementExpressionInfo": {
+                      "fields": {
+                        "expression": {
+                          "type": "string",
+                          "id": 1
+                        },
+                        "returnType": {
+                          "type": "string",
+                          "id": 2
+                        },
+                        "title": {
+                          "type": "string",
+                          "id": 3
+                        }
+                      }
+                    },
+                    "MediaInfo": {
+                      "fields": {
+                        "type": {
+                          "type": "string",
+                          "id": 1
+                        },
+                        "altText": {
+                          "type": "string",
+                          "id": 2
+                        },
+                        "caption": {
+                          "type": "string",
+                          "id": 3
+                        },
+                        "title": {
+                          "type": "string",
+                          "id": 4
+                        },
+                        "value": {
+                          "type": "ChartMediaInfoValue",
+                          "id": 5
+                        },
+                        "refreshInterval": {
+                          "type": "double",
+                          "id": 6
+                        }
+                      }
+                    },
+                    "ChartMediaInfoValue": {
+                      "fields": {
+                        "fields": {
+                          "rule": "repeated",
+                          "type": "string",
+                          "id": 1
+                        },
+                        "normalizeField": {
+                          "type": "string",
+                          "id": 2
+                        },
+                        "tooltipField": {
+                          "type": "string",
+                          "id": 3
+                        },
+                        "series": {
+                          "rule": "repeated",
+                          "type": "ChartMediaInfoValueSeries",
+                          "id": 4
+                        },
+                        "linkURL": {
+                          "type": "string",
+                          "id": 5
+                        },
+                        "sourceURL": {
+                          "type": "string",
+                          "id": 6
+                        }
+                      }
+                    },
+                    "ChartMediaInfoValueSeries": {
+                      "fields": {
+                        "fieldName": {
+                          "type": "string",
+                          "id": 1
+                        },
+                        "tooltip": {
+                          "type": "string",
+                          "id": 2
+                        },
+                        "value": {
+                          "type": "double",
+                          "id": 3
+                        }
+                      }
+                    },
+                    "RelatedRecordsInfoFieldOrder": {
+                      "fields": {
+                        "field": {
+                          "type": "string",
+                          "id": 1
+                        },
+                        "order": {
+                          "type": "OrderBy",
+                          "id": 2
+                        }
+                      }
+                    },
+                    "OrderBy": {
+                      "values": {
+                        "asc": 0,
+                        "desc": 1
+                      }
+                    },
+                    "ExpressionInfo": {
+                      "fields": {
+                        "expression": {
+                          "type": "string",
+                          "id": 1
+                        },
+                        "name": {
+                          "type": "string",
+                          "id": 2
+                        },
+                        "title": {
+                          "type": "string",
+                          "id": 3
+                        },
+                        "returnType": {
+                          "type": "ReturnType",
+                          "id": 4
+                        }
+                      }
+                    },
+                    "ReturnType": {
+                      "values": {
+                        "string": 0,
+                        "number": 1
+                      }
+                    },
+                    "Action": {
+                      "fields": {
+                        "type": {
+                          "type": "string",
+                          "id": 1
+                        },
+                        "title": {
+                          "type": "string",
+                          "id": 2
+                        },
+                        "className": {
+                          "type": "string",
+                          "id": 3
+                        },
+                        "active": {
+                          "type": "bool",
+                          "id": 4
+                        },
+                        "disabled": {
+                          "type": "bool",
+                          "id": 5
+                        },
+                        "visible": {
+                          "type": "bool",
+                          "id": 6
+                        },
+                        "id": {
+                          "type": "string",
+                          "id": 7
+                        },
+                        "image": {
+                          "type": "string",
+                          "id": 8
+                        },
+                        "value": {
+                          "type": "bool",
+                          "id": 9
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "google": {
+      "nested": {
+        "protobuf": {
+          "nested": {
+            "Any": {
+              "fields": {
+                "type_url": {
+                  "type": "string",
+                  "id": 1
+                },
+                "value": {
+                  "type": "bytes",
+                  "id": 2
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
