@@ -248,25 +248,8 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         await JsModule!.InvokeVoidAsync("setVisibility", CancellationTokenSource.Token, Id, visible);
     }
 
-    /// <inheritdoc />
-    protected override Task OnParametersSetAsync()
+    protected override async Task OnParametersSetAsync()
     {
-        _needsUpdate = true;
-
-        return Task.CompletedTask;
-    }
-
-    /// <inheritdoc />
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender || _needsUpdate)
-        {
-            _needsUpdate = false;
-            StateHasChanged();
-
-            return;
-        }
-
         if (Parent is not null)
         {
             await Parent.RegisterChildComponent(this);
@@ -335,8 +318,6 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _watchers = new();
     private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _listeners = new();
     private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _waiters = new();
-
-    private bool _needsUpdate;
 
 
 #region Events
@@ -416,6 +397,13 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     {
         return AddReactiveWatcherImplementation(watchExpression, handler, targetName, once, initial);
     }
+    
+    protected override bool ShouldRender()
+    {
+        return AllowRender;
+    }
+
+    public bool AllowRender = true;
 
     private async Task AddReactiveWatcherImplementation(string watchExpression, Delegate handler, string? targetName,
         bool once, bool initial)

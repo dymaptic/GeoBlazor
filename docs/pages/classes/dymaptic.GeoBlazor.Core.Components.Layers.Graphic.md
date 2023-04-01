@@ -3,6 +3,11 @@ layout: default
 title: Graphic
 parent: Classes
 ---
+---
+layout: default
+title: Graphic
+parent: Classes
+---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Layers](index.html#dymaptic.GeoBlazor.Core.Components.Layers 'dymaptic.GeoBlazor.Core.Components.Layers')
 
@@ -385,3 +390,4 @@ public static bool operator !=(dymaptic.GeoBlazor.Core.Components.Layers.Graphic
 
 #### Returns
 [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
+

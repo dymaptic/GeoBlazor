@@ -207,9 +207,11 @@ export function buildJsPopupTemplate(popupTemplateObject: DotNetPopupTemplate, v
 
     if (viewId !== null) {
         let view = arcGisObjectRefs[viewId] as View;
-        view.popup.on("trigger-action", async (event: PopupTriggerActionEvent) => {
-            await popupTemplateObject.dotNetPopupTemplateReference.invokeMethodAsync("OnTriggerAction", event.action.id);
-        });
+        if (hasValue(view)) {
+            view.popup.on("trigger-action", async (event: PopupTriggerActionEvent) => {
+                await popupTemplateObject.dotNetPopupTemplateReference.invokeMethodAsync("OnTriggerAction", event.action.id);
+            });    
+        }
     }
 
     return template;

@@ -46,12 +46,15 @@ public class PictureMarkerSymbol : MarkerSymbol, IEquatable<PictureMarkerSymbol>
     public PictureMarkerSymbol(string url, double? width = null, double? height = null,
         double? angle = null, double? xOffset = null, double? yOffset = null)
     {
+        AllowRender = false;
+#pragma warning disable BL0005
         Url = url;
         Width = width;
         Height = height;
         Angle = angle;
         XOffset = xOffset;
         YOffset = yOffset;
+#pragma warning restore BL0005
     }
 
     /// <summary>

@@ -39,9 +39,12 @@ public class SimpleLineSymbol : LineSymbol, IEquatable<SimpleLineSymbol>
     /// </param>
     public SimpleLineSymbol(MapColor? color = null, double? width = null, LineStyle? lineStyle = null)
     {
+        AllowRender = false;
+#pragma warning disable BL0005
         Color = color;
         Width = width;
         LineStyle = lineStyle;
+#pragma warning restore BL0005
     }
 
     /// <summary>

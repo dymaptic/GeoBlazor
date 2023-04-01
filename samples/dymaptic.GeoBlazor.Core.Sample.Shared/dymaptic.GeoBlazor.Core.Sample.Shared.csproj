@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
     </PropertyGroup>
 
 
@@ -12,9 +12,16 @@
     <ItemGroup>
         <PackageReference Include="Markdig" Version="0.30.4" />
         <PackageReference Include="MarkdigExtensions.SyntaxHighlighting" Version="1.0.3" />
+    </ItemGroup>
+    <ItemGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
         <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="6.0.13" />
         <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.13" />
         <PackageReference Include="Microsoft.Extensions.FileProviders.Abstractions" Version="6.0.0" />
+    </ItemGroup>
+    <ItemGroup Condition=" '$(TargetFramework)' == 'net7.0' ">
+        <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="7.0.4" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.4" />
+        <PackageReference Include="Microsoft.Extensions.FileProviders.Abstractions" Version="7.0.0" />
     </ItemGroup>
 
     <ItemGroup>
@@ -32,7 +39,7 @@
         <Folder Include="wwwroot\pages" />
     </ItemGroup>
 
-    <Target Name="Copy Razor Files" AfterTargets="Build">
-        <Exec Command="pwsh .\razorCopy.ps1" />
+    <Target Name="Copy Razor Files" AfterTargets="Build" Condition="$(TargetFrameworks.StartsWith($(TargetFramework)))">
+        <Exec Command="pwsh ./razorCopy.ps1" />
     </Target>
 </Project>

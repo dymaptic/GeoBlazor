@@ -3,6 +3,11 @@ layout: default
 title: OverlayPosition
 parent: Classes
 ---
+---
+layout: default
+title: OverlayPosition
+parent: Classes
+---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components](index.html#dymaptic.GeoBlazor.Core.Components 'dymaptic.GeoBlazor.Core.Components')
 
@@ -13,3 +18,4 @@ A collection of possible positions for setting a [Widget](dymaptic.GeoBlazor.Cor
 ```csharp
 public enum OverlayPosition
 ```
+

@@ -36,10 +36,10 @@ public abstract class LayerObject : MapComponent
     {
         Symbol = symbol;
 
-        if (JsLayerObjectReference is not null)
+        if (JsModule is not null)
         {
-            await JsLayerObjectReference.InvokeVoidAsync("setSymbol", 
-                Symbol.ToSerializationRecord());
+            await JsModule.InvokeVoidAsync("setGraphicSymbol", 
+                Id, Symbol.ToSerializationRecord());
         }
         else
         {
@@ -91,26 +91,6 @@ public abstract class LayerObject : MapComponent
         Symbol?.ValidateRequiredChildren();
     }
 
-    /// <summary>
-    ///    The <see cref="IJSObjectReference" /> for the layer object.
-    /// </summary>
-    public IJSObjectReference? JsLayerObjectReference
-    {
-        get => _jsLayerObjectReference;
-        set
-        {
-            _jsLayerObjectReference = value;
 
-            try
-            {
-                StateHasChanged();
-            }
-            catch
-            {
-                // ignore
-            }
-        }
-    }
     protected bool UpdateSymbol;
-    private IJSObjectReference? _jsLayerObjectReference;
 }

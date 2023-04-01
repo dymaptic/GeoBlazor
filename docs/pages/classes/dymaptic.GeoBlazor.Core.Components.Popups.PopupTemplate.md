@@ -3,6 +3,11 @@ layout: default
 title: PopupTemplate
 parent: Classes
 ---
+---
+layout: default
+title: PopupTemplate
+parent: Classes
+---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Popups](index.html#dymaptic.GeoBlazor.Core.Components.Popups 'dymaptic.GeoBlazor.Core.Components.Popups')
 
@@ -427,3 +432,4 @@ public static bool operator !=(dymaptic.GeoBlazor.Core.Components.Popups.PopupTe
 
 #### Returns
 [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
+

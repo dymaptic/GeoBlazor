@@ -37,6 +37,7 @@ public class PolyLine : Geometry, IEquatable<PolyLine>
     public PolyLine(MapPath[] paths, SpatialReference? spatialReference = null,
         Extent? extent = null)
     {
+        AllowRender = false;
 #pragma warning disable BL0005
         Paths = paths;
         SpatialReference = spatialReference;

@@ -55,6 +55,7 @@ public class Extent : Geometry, IEquatable<Extent>
     public Extent(double xmax, double xmin, double ymax, double ymin, double? zmax = null, double? zmin = null,
         double? mmax = null, double? mmin = null, SpatialReference? spatialReference = null)
     {
+        AllowRender = false;
 #pragma warning disable BL0005
         Xmax = xmax;
         Xmin = xmin;

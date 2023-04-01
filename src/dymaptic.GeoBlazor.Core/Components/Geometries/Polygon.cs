@@ -37,6 +37,7 @@ public class Polygon : Geometry, IEquatable<Polygon>
     /// </param>
     public Polygon(MapPath[] rings, SpatialReference? spatialReference = null, Extent? extent = null)
     {
+        AllowRender = false;
 #pragma warning disable BL0005
         Rings = rings;
         SpatialReference = spatialReference;

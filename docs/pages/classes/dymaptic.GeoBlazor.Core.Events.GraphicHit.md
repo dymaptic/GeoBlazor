@@ -3,6 +3,11 @@ layout: default
 title: GraphicHit
 parent: Classes
 ---
+---
+layout: default
+title: GraphicHit
+parent: Classes
+---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Events](index.html#dymaptic.GeoBlazor.Core.Events 'dymaptic.GeoBlazor.Core.Events')
 
@@ -83,3 +88,4 @@ public dymaptic.GeoBlazor.Core.Components.Layers.Layer Layer { get; set; }
 
 #### Property Value
 [Layer](dymaptic.GeoBlazor.Core.Components.Layers.Layer.html 'dymaptic.GeoBlazor.Core.Components.Layers.Layer')
+

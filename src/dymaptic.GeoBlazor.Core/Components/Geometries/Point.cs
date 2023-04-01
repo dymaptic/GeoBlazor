@@ -49,6 +49,7 @@ public class Point : Geometry, IEquatable<Point>
         double? z = null,
         SpatialReference? spatialReference = null, Extent? extent = null)
     {
+        AllowRender = false;
 #pragma warning disable BL0005
         Latitude = latitude;
         Longitude = longitude;

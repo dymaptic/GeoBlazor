@@ -40,9 +40,12 @@ public class SimpleFillSymbol : FillSymbol, IEquatable<SimpleFillSymbol>
     /// </param>
     public SimpleFillSymbol(Outline? outline = null, MapColor? color = null, FillStyle? fillStyle = null)
     {
+        AllowRender = false;
+#pragma  warning disable BL0005
         Outline = outline;
         Color = color;
         FillStyle = fillStyle;
+#pragma  warning restore BL0005
     }
 
     /// <summary>

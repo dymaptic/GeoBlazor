@@ -48,6 +48,7 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     public Graphic(Geometry? geometry = null, Symbol? symbol = null, PopupTemplate? popupTemplate = null,
         Dictionary<string, object>? attributes = null)
     {
+        AllowRender = false;
 #pragma warning disable BL0005
         Geometry = geometry;
         Symbol = symbol;
@@ -80,6 +81,7 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     /// <summary>
     ///     Name-value pairs of fields and field values associated with the graphic.
     /// </summary>
+#pragma warning disable BL0007
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Dictionary<string, object>? Attributes
@@ -89,6 +91,7 @@ public class Graphic : LayerObject, IEquatable<Graphic>
             ? new ObservableDictionary<string, object>()
             : new ObservableDictionary<string, object>(value);
     }
+#pragma warning restore BL0007
 
     /// <summary>
     ///     The geometry that defines the graphic's location.
@@ -117,14 +120,6 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     /// </summary>
     public Guid? LayerId { get; set; }
 
-    /// <summary>
-    ///     Internally used reference for JavaScript callbacks.
-    /// </summary>
-    public DotNetObjectReference<Graphic> DotNetGraphicReference => DotNetObjectReference.Create(this);
-    public IJSObjectReference? JsGraphicReference => JsLayerObjectReference;
-
-    internal bool IsRendered => JsLayerObjectReference is not null;
-
     /// <inheritdoc />
     public bool Equals(Graphic? other)
     {
@@ -139,10 +134,10 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     /// </summary>
     public async Task<Geometry?> GetGeometry()
     {
-        if (JsLayerObjectReference is not null)
+        if (JsModule is not null)
         {
-            Geometry = await JsLayerObjectReference!.InvokeAsync<Geometry>("getGeometry",
-                CancellationTokenSource.Token);
+            Geometry = await JsModule!.InvokeAsync<Geometry>("getGraphicGeometry",
+                CancellationTokenSource.Token, Id);
         }
 
         return Geometry;
@@ -156,9 +151,9 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     {
         Geometry = geometry;
 
-        if (JsLayerObjectReference is not null)
+        if (JsModule is not null)
         {
-            await JsLayerObjectReference.InvokeVoidAsync("setGeometry", 
+            await JsModule.InvokeVoidAsync("setGraphicGeometry", Id, 
                 Geometry.ToSerializationRecord());
         }
         else
@@ -183,10 +178,10 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     /// </summary>
     public async Task<PopupTemplate?> GetPopupTemplate()
     {
-        if (JsLayerObjectReference is not null)
+        if (JsModule is not null)
         {
-            PopupTemplate = await JsLayerObjectReference!.InvokeAsync<PopupTemplate>("getPopupTemplate",
-                CancellationTokenSource.Token);
+            PopupTemplate = await JsModule!.InvokeAsync<PopupTemplate>("getGraphicPopupTemplate",
+                CancellationTokenSource.Token, Id);
         }
 
         return PopupTemplate;
@@ -202,9 +197,9 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     {
         PopupTemplate = popupTemplate;
 
-        if (JsLayerObjectReference is not null)
+        if (JsModule is not null)
         {
-            await JsLayerObjectReference.InvokeVoidAsync("setPopupTemplate", 
+            await JsModule.InvokeVoidAsync("setGraphicPopupTemplate", Id,
                 PopupTemplate.ToSerializationRecord(), View?.Id);
         }
         else
@@ -219,10 +214,10 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     /// <inheritdoc />
     public override async Task<Symbol?> GetSymbol()
     {
-        if (JsLayerObjectReference is not null)
+        if (JsModule is not null)
         {
-            Symbol = await JsLayerObjectReference!.InvokeAsync<Symbol>("getSymbol",
-                CancellationTokenSource.Token);
+            Symbol = await JsModule!.InvokeAsync<Symbol>("getGraphicSymbol",
+                CancellationTokenSource.Token, Id);
         }
 
         return Symbol;
@@ -307,17 +302,15 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     public override async ValueTask DisposeAsync()
     {
         await base.DisposeAsync();
-        DotNetGraphicReference.Dispose();
 
-        if (JsLayerObjectReference is not null)
+        if (JsModule is not null)
         {
-            await JsLayerObjectReference.DisposeAsync();
+            await JsModule.InvokeVoidAsync("disposeGraphic", Id);
         }
     }
 
     internal GraphicSerializationRecord ToSerializationRecord(bool refresh = false)
     {
-        ;
         if (_serializationRecord is null || refresh)
         {
             _serializationRecord = new(Id.ToString(),
@@ -332,6 +325,7 @@ public class Graphic : LayerObject, IEquatable<Graphic>
         return _serializationRecord;
     }
 
+
     /// <inheritdoc />
     protected override void OnParametersSet()
     {
@@ -344,7 +338,7 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     {
         await base.OnAfterRenderAsync(firstRender);
 
-        if (JsGraphicReference is not null)
+        if (JsModule is not null)
         {
             if (UpdateSymbol)
             {
@@ -368,10 +362,10 @@ public class Graphic : LayerObject, IEquatable<Graphic>
 
     private async void OnAttributesChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
-        if (JsLayerObjectReference is null) return;
+        if (JsModule is null) return;
 
-        await JsLayerObjectReference.InvokeVoidAsync("setAttributes", 
-            CancellationTokenSource.Token, Attributes);
+        await JsModule.InvokeVoidAsync("setGraphicAttributes", 
+            CancellationTokenSource.Token, Id, Attributes);
         ToSerializationRecord(true);
     }
     

@@ -3,6 +3,11 @@ layout: default
 title: PopupAlignment
 parent: Classes
 ---
+---
+layout: default
+title: PopupAlignment
+parent: Classes
+---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Widgets](index.html#dymaptic.GeoBlazor.Core.Components.Widgets 'dymaptic.GeoBlazor.Core.Components.Widgets')
 
@@ -15,3 +20,4 @@ choose an option besides auto.
 ```csharp
 public enum PopupAlignment
 ```
+

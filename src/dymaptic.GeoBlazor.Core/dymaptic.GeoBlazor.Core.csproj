@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
         <PackageId>dymaptic.GeoBlazor.Core</PackageId>
         <PackageTags>Blazor;ArcGIS;JsInterop;Javascript;Asp.NET</PackageTags>
         <Description>
@@ -21,6 +20,10 @@
         <RepositoryType>git</RepositoryType>
         <PackageIcon>Blazor-API-500px.png</PackageIcon>
         <GeneratePackageOnBuild Condition="$(Configuration) == 'RELEASE'">true</GeneratePackageOnBuild>
+        <TargetFrameworks>net7.0;net6.0</TargetFrameworks>
+    </PropertyGroup>
+    <PropertyGroup>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
 
     <ItemGroup>
@@ -32,10 +35,17 @@
     <ItemGroup>
         <PackageReference Include="DefaultDocumentation" Version="0.8.2" PrivateAssets="all" />
         <PackageReference Include="Google.Protobuf" Version="3.22.1" />
+        <PackageReference Include="protobuf-net" Version="3.2.16" />
+    </ItemGroup>
+    <ItemGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
         <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.13" />
         <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
         <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="6.0.0" />
-        <PackageReference Include="protobuf-net" Version="3.2.16" />
+    </ItemGroup>
+    <ItemGroup Condition=" '$(TargetFramework)' == 'net7.0' ">
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.4" />
+        <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="7.0.4" />
     </ItemGroup>
     <PropertyGroup Condition="$(Configuration) == 'RELEASE'">
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -45,6 +55,9 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <None Include="..\..\Dockerfile">
+          <Link>dy-blazor-api-core\Dockerfile</Link>
+        </None>
         <None Include="Blazor-API-500px.png" Pack="true" PackagePath="" />
         <Content Remove="package.json" />
         <Content Remove="package-lock.json" />
@@ -76,38 +89,39 @@
         <ReadMeSourceFile Include="../../ReadMe.md" />
     </ItemGroup>
 
-    <Target Name="Copy Readme" AfterTargets="PreBuildEvent">
+    <Target Name="Copy Readme" BeforeTargets="PreBuildEvent" Condition="$(TargetFrameworks.StartsWith($(TargetFramework)))">
         <Message Importance="high" Text="Copying ReadMe" />
         <Copy SourceFiles="@(ReadMeSourceFile)" DestinationFolder="./" />
     </Target>
 
-    <Target Name="NPM Install" AfterTargets="PreBuildEvent" Condition="$(Configuration) == 'RELEASE'">
+    <Target Name="NPM Install" AfterTargets="Copy Readme" Condition="$(TargetFrameworks.StartsWith($(TargetFramework)))">
         <!-- Runs synchronously to ensure all files are ready for nuget packaging in release mode -->
+        <Message Importance="high" Text="Running NPM Install" />
         <Exec Command="npm install" />
     </Target>
 
-    <Target Name="Copy Assets Debug" AfterTargets="NPM Install" Condition="$(Configuration) == 'DEBUG'">
+    <Target Name="Copy Assets Debug" AfterTargets="NPM Install" Condition="$(Configuration) == 'DEBUG' AND $(TargetFrameworks.StartsWith($(TargetFramework)))">
         <Message Importance="high" Text="Copying Asset files" />
         <ExecAsync FilePath="pwsh" Arguments="./assetCopy.ps1" />
     </Target>
 
-    <Target Name="NPM Debug Build" AfterTargets="NPM Install" Condition="$(Configuration) == 'DEBUG' And $(CoreSkipJavaScript) != 'true'">
+    <Target Name="Copy Assets Release" AfterTargets="NPM Install" Condition="$(Configuration) == 'RELEASE' AND $(TargetFrameworks.StartsWith($(TargetFramework)))">
+        <Message Importance="high" Text="Copying Asset files" />
+        <Exec Command="pwsh ./assetCopy.ps1" />
+    </Target>
+
+    <Target Name="NPM Debug Build" AfterTargets="Copy Readme" Condition="$(Configuration) == 'DEBUG' AND $(TargetFrameworks.StartsWith($(TargetFramework)))">
         <!-- Runs asynchronously to speed up build during development -->
         <Message Importance="high" Text="Launching Async NPM Build Script" />
         <ExecAsync FilePath="pwsh" Arguments="./npmDebugBuild.ps1" />
     </Target>
 
-    <Target Name="Copy Assets Release" AfterTargets="NPM Install" Condition="$(Configuration) == 'RELEASE'">
-        <Message Importance="high" Text="Copying Asset files" />
-        <Exec Command="pwsh ./assetCopy.ps1" />
-    </Target>
-
-    <Target Name="NPM Release Build" AfterTargets="Copy Assets Release" Condition="$(Configuration) == 'RELEASE' And $(CoreSkipJavaScript) != 'true'">
+    <Target Name="NPM Release Build" AfterTargets="Copy Assets Release" Condition="$(Configuration) == 'RELEASE' AND $(TargetFrameworks.StartsWith($(TargetFramework)))">
         <!-- Runs synchronously to ensure all files are ready for nuget packaging in release mode -->
         <Exec Command="npm run releaseBuild" />
     </Target>
 
-    <Target Name="Copy Files" AfterTargets="Build" Condition="$(Configuration) == 'RELEASE'">
+    <Target Name="Copy Files" AfterTargets="Build" Condition="$(Configuration) == 'RELEASE' AND $(TargetFrameworks.StartsWith($(TargetFramework)))">
         <Message Importance="high" Text="Launching Async File Copy Script" />
         <ExecAsync FilePath="pwsh" Arguments="./docCopy.ps1" ContinueOnError="true" />
     </Target>

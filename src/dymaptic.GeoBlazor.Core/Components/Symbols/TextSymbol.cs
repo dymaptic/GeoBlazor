@@ -45,11 +45,14 @@ public class TextSymbol : Symbol, IEquatable<TextSymbol>
     public TextSymbol(string text, MapColor? color = null, MapColor? haloColor = null, int? haloSize = null,
         MapFont? font = null)
     {
+        AllowRender = false;
+#pragma warning disable BL0005
         Text = text;
         Color = color;
         HaloColor = haloColor;
         HaloSize = haloSize;
         Font = font;
+#pragma warning restore BL0005
     }
 
     /// <summary>
