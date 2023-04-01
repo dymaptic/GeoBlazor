@@ -276,6 +276,8 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
             (view as MapView).highlightOptions = highlightOptions;
         }
 
+        setEventListeners(view, dotNetRef, eventRateLimitInMilliseconds, activeEventHandlers);
+
         if (hasValue(mapObject.layers) && mapType !== 'webmap' && mapType !== 'webscene') {
             for (const layerObject of mapObject.layers) {
                 await addLayer(layerObject, id);
