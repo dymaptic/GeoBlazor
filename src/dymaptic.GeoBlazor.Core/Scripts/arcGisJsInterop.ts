@@ -282,6 +282,8 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
             }
         }
 
+        setEventListeners(view, dotNetRef, eventRateLimitInMilliseconds, activeEventHandlers);
+
         for (const l of basemapLayers) {
             await addLayer(l, id, true);
         }
@@ -294,8 +296,6 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
             const graphicObject = graphics[i];
             await addGraphic(graphicObject, id);
         }
-
-        setEventListeners(view, dotNetRef, eventRateLimitInMilliseconds, activeEventHandlers);
 
         let spatialRef: SpatialReference | null = null;
         if (hasValue(spatialReference)) {

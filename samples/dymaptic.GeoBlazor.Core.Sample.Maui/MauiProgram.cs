@@ -27,16 +27,7 @@ public static class MauiProgram
         builder.Services.AddScoped<HttpClient>();
         builder.Services.AddGeoBlazor();
 
-        string? apiKey = Preferences.Get("ArcGISApiKey", null);
-
-        if (apiKey is not null)
-        {
-            builder.Configuration.AddInMemoryCollection(new Dictionary<string, string> { { "ArcGISApiKey", apiKey } });
-        }
-        else
-        {
-            builder.Configuration.AddInMemoryCollection();
-        }
+        builder.Configuration.AddInMemoryCollection();
 
         return builder.Build();
     }
