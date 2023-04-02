@@ -70,9 +70,10 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     /// </summary>
     public virtual async ValueTask DisposeAsync()
     {
-        if (Parent is not null)
+        if (Parent is not null && _registered)
         {
             await Parent.UnregisterChildComponent(this);
+            _registered = false;
         }
 
         foreach ((Delegate Handler, IJSObjectReference JsObjRef) tuple in _watchers.Values)
@@ -126,7 +127,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     }
 
     /// <summary>
-    ///     Called from <see cref="MapComponent.OnAfterRenderAsync" /> to "Register" the current component with it's parent.
+    ///     Called from <see cref="MapComponent.OnInitializedAsync" /> to "Register" the current component with it's parent.
     /// </summary>
     /// <param name="child">
     ///     The calling, child component to register
@@ -248,13 +249,16 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         await JsModule!.InvokeVoidAsync("setVisibility", CancellationTokenSource.Token, Id, visible);
     }
 
-    protected override async Task OnParametersSetAsync()
+    protected override async Task OnInitializedAsync()
     {
-        if (Parent is not null)
+        await base.OnInitializedAsync();
+        if (Parent is not null && !_registered)
         {
             await Parent.RegisterChildComponent(this);
+            _registered = true;
         }
     }
+    
 
     /// <summary>
     ///     Tells the <see cref="MapView" /> to completely re-render.
@@ -404,6 +408,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     }
 
     public bool AllowRender = true;
+    private bool _registered;
 
     private async Task AddReactiveWatcherImplementation(string watchExpression, Delegate handler, string? targetName,
         bool once, bool initial)

@@ -1,6 +1,6 @@
 ﻿using dymaptic.GeoBlazor.Core.Sample.Shared;
 using Microsoft.Extensions.Configuration;
-
+using System.Reflection;
 
 namespace dymaptic.GeoBlazor.Core.Sample.Maui;
 
@@ -28,6 +28,15 @@ public static class MauiProgram
         builder.Services.AddGeoBlazor();
 
         builder.Configuration.AddInMemoryCollection();
+
+        var a = Assembly.GetExecutingAssembly();
+        using var stream = a.GetManifestResourceStream("dymaptic.GeoBlazor.Core.Sample.Maui.appsettings.json");
+
+        var config = new ConfigurationBuilder()
+            .AddUserSecrets(a)
+            .AddJsonStream(stream)
+            .Build();
+        builder.Configuration.AddConfiguration(config);
 
         return builder.Build();
     }

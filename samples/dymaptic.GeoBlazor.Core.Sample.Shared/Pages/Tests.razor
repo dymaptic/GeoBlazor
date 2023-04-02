@@ -114,12 +114,6 @@
             _lats.Add(_random.NextDouble() * 10 + 50.0);
             _longs.Add(_random.NextDouble() * 10 + 11.0);
         }
-
-        if (!_delayedMapSet && !firstRender)
-        {
-            _delayedMapSet = true;
-            await AddGraphicsToView();
-        }
     }
 
     private async Task AddGraphicsToView()

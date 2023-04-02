@@ -132,6 +132,19 @@ public System.Collections.Generic.IReadOnlyCollection<dymaptic.GeoBlazor.Core.Co
 #### Property Value
 [System.Collections.Generic.IReadOnlyCollection&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IReadOnlyCollection-1 'System.Collections.Generic.IReadOnlyCollection`1')[Graphic](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IReadOnlyCollection-1 'System.Collections.Generic.IReadOnlyCollection`1')
 
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.IsMaui'></a>
+
+## MapView.IsMaui Property
+
+Boolean flag to identify if GeoBlazor is running in Blazor Hybrid (MAUI) mode
+
+```csharp
+public bool IsMaui { get; }
+```
+
+#### Property Value
+[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
+
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.IsServer'></a>
 
 ## MapView.IsServer Property
@@ -140,6 +153,19 @@ Boolean flag to identify if GeoBlazor is running in Blazor Server mode
 
 ```csharp
 public bool IsServer { get; }
+```
+
+#### Property Value
+[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.IsWebAssembly'></a>
+
+## MapView.IsWebAssembly Property
+
+Boolean flag to identify if GeoBlazor is running in Blazor WebAssembly (client) mode
+
+```csharp
+public bool IsWebAssembly { get; }
 ```
 
 #### Property Value
@@ -1719,7 +1745,7 @@ public override void Refresh();
 
 ## MapView.RegisterChildComponent(MapComponent) Method
 
-Called from [dymaptic.GeoBlazor.Core.Components.MapComponent.OnAfterRenderAsync(System.Boolean)](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Components.MapComponent.OnAfterRenderAsync#dymaptic_GeoBlazor_Core_Components_MapComponent_OnAfterRenderAsync_System_Boolean_ 'dymaptic.GeoBlazor.Core.Components.MapComponent.OnAfterRenderAsync(System.Boolean)') to "Register" the current component with it's parent.
+Called from [dymaptic.GeoBlazor.Core.Components.MapComponent.OnInitializedAsync](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Components.MapComponent.OnInitializedAsync 'dymaptic.GeoBlazor.Core.Components.MapComponent.OnInitializedAsync') to "Register" the current component with it's parent.
 
 ```csharp
 public override System.Threading.Tasks.Task RegisterChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent child);

@@ -36,6 +36,17 @@ public abstract class Geometry : MapComponent
     public virtual string Type => default!;
 
     /// <inheritdoc />
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+
+        if (Parent is not null)
+        {
+            await Parent.RegisterChildComponent(this);
+        }
+    }
+
+    /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
     {
         switch (child)

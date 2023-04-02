@@ -81,19 +81,6 @@ referenced in a view, but its features will not be visible in the view.
 Indicates how the layer should display in the LayerList widget. The possible values are listed below.
 ### Properties
 
-<a name='dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer.DotNetLayerReference'></a>
-
-## GraphicsLayer.DotNetLayerReference Property
-
-Layer Reference for JS Registration
-
-```csharp
-public Microsoft.JSInterop.DotNetObjectReference<dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer> DotNetLayerReference { get; }
-```
-
-#### Property Value
-[Microsoft.JSInterop.DotNetObjectReference&lt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.JSInterop.DotNetObjectReference-1 'Microsoft.JSInterop.DotNetObjectReference`1')[GraphicsLayer](dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer.html 'dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.JSInterop.DotNetObjectReference-1 'Microsoft.JSInterop.DotNetObjectReference`1')
-
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer.Graphics'></a>
 
 ## GraphicsLayer.Graphics Property
@@ -141,22 +128,28 @@ The graphic to add
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
 
-<a name='dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer.Add(System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Layers.Graphic_)'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer.Add(System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Layers.Graphic_,System.Threading.CancellationToken)'></a>
 
-## GraphicsLayer.Add(IEnumerable<Graphic>) Method
+## GraphicsLayer.Add(IEnumerable<Graphic>, CancellationToken) Method
 
 Adds a collection of graphics to the graphics layer
 
 ```csharp
-public System.Threading.Tasks.Task Add(System.Collections.Generic.IEnumerable<dymaptic.GeoBlazor.Core.Components.Layers.Graphic> graphics);
+public System.Threading.Tasks.Task Add(System.Collections.Generic.IEnumerable<dymaptic.GeoBlazor.Core.Components.Layers.Graphic> graphics, System.Threading.CancellationToken cancellationToken=default(System.Threading.CancellationToken));
 ```
 #### Parameters
 
-<a name='dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer.Add(System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Layers.Graphic_).graphics'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer.Add(System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Layers.Graphic_,System.Threading.CancellationToken).graphics'></a>
 
 `graphics` [System.Collections.Generic.IEnumerable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IEnumerable-1 'System.Collections.Generic.IEnumerable`1')[Graphic](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IEnumerable-1 'System.Collections.Generic.IEnumerable`1')
 
 The graphics to add
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.GraphicsLayer.Add(System.Collections.Generic.IEnumerable_dymaptic.GeoBlazor.Core.Components.Layers.Graphic_,System.Threading.CancellationToken).cancellationToken'></a>
+
+`cancellationToken` [System.Threading.CancellationToken](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.CancellationToken 'System.Threading.CancellationToken')
+
+A CancellationToken to cancel the operation
 
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
@@ -178,7 +171,7 @@ public System.Threading.Tasks.Task Clear();
 
 ## GraphicsLayer.RegisterChildComponent(MapComponent) Method
 
-Called from [dymaptic.GeoBlazor.Core.Components.MapComponent.OnAfterRenderAsync(System.Boolean)](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Components.MapComponent.OnAfterRenderAsync#dymaptic_GeoBlazor_Core_Components_MapComponent_OnAfterRenderAsync_System_Boolean_ 'dymaptic.GeoBlazor.Core.Components.MapComponent.OnAfterRenderAsync(System.Boolean)') to "Register" the current component with it's parent.
+Called from [dymaptic.GeoBlazor.Core.Components.MapComponent.OnInitializedAsync](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Components.MapComponent.OnInitializedAsync 'dymaptic.GeoBlazor.Core.Components.MapComponent.OnInitializedAsync') to "Register" the current component with it's parent.
 
 ```csharp
 public override System.Threading.Tasks.Task RegisterChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent child);

@@ -49,6 +49,10 @@
     </ItemGroup>
 
     <ItemGroup>
+      <EmbeddedResource Include="appsettings.json" />
+    </ItemGroup>
+
+    <ItemGroup>
         <MauiImage Include="Resources\Splash\geoblazor.png" />
     </ItemGroup>
 

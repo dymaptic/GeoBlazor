@@ -29,8 +29,8 @@
         List<Graphic> graphics = new();
         for (var i = 0; i < _numberOfGraphics; i++)
         {
-            graphics.Add(new Graphic(new Point(_random.NextDouble() * 10 + 11.0, 
-                _random.NextDouble() * 10 + 50.0), new SimpleMarkerSymbol(
+            graphics.Add(new Graphic(new Point(_random.NextDouble() * 30 + -5.0, 
+                _random.NextDouble() * 30 + 37.0), new SimpleMarkerSymbol(
                     new Outline(new MapColor("green")), new MapColor("red"), 10),
                 new PopupTemplate("Test", "Test Content<br/>{testString}<br/>{testNumber}", new []{"*"}),
                 new Dictionary<string, object> { { "testString", "test" }, { "testNumber", 123 } }));
@@ -45,8 +45,8 @@
         List<Graphic> graphics = new();
         for (var i = 0; i < _numberOfGraphics; i++)
         {
-            graphics.Add(new Graphic(new Point(_random.NextDouble() * 10 + 11.0, 
-                _random.NextDouble() * 10 + 50.0), new SimpleMarkerSymbol(
+            graphics.Add(new Graphic(new Point(_random.NextDouble() * 30 + -5.0, 
+                _random.NextDouble() * 30 + 37.0), new SimpleMarkerSymbol(
                     new Outline(new MapColor("green")), new MapColor("red"), 10),
                 new PopupTemplate("Test", "Test Content<br/>{testString}<br/>{testNumber}", new []{"*"}),
                 new Dictionary<string, object> { { "testString", "test" }, { "testNumber", 123 } }));

@@ -40,14 +40,16 @@
 
     private async Task SetGraphics()
     {
+        List<Graphic> graphics = new();
         for (var i = 1; i < 11; i++)
         {
             var attributes = new Dictionary<string, object> { { i.ToString(), i } };
             var graphic = new Graphic(
                 new Point(_lon + _random.NextDouble() / 100, _lat + _random.NextDouble() / 100),
                 attributes: attributes);
-            await _graphicsLayer!.Add(graphic);
+            graphics.Add(graphic);
         }
+        await _graphicsLayer!.Add(graphics);
     }
 
     private async Task ToggleMovement()

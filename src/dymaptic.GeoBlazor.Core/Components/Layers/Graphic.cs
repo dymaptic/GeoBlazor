@@ -134,6 +134,7 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     /// </summary>
     public async Task<Geometry?> GetGeometry()
     {
+        GetJsModule();
         if (JsModule is not null)
         {
             Geometry = await JsModule!.InvokeAsync<Geometry>("getGraphicGeometry",
@@ -150,7 +151,7 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     public async Task SetGeometry(Geometry geometry)
     {
         Geometry = geometry;
-
+        GetJsModule();
         if (JsModule is not null)
         {
             await JsModule.InvokeVoidAsync("setGraphicGeometry", Id, 
@@ -178,6 +179,7 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     /// </summary>
     public async Task<PopupTemplate?> GetPopupTemplate()
     {
+        GetJsModule();
         if (JsModule is not null)
         {
             PopupTemplate = await JsModule!.InvokeAsync<PopupTemplate>("getGraphicPopupTemplate",
@@ -196,7 +198,7 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     public async Task SetPopupTemplate(PopupTemplate popupTemplate)
     {
         PopupTemplate = popupTemplate;
-
+        GetJsModule();
         if (JsModule is not null)
         {
             await JsModule.InvokeVoidAsync("setGraphicPopupTemplate", Id,
@@ -214,6 +216,7 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     /// <inheritdoc />
     public override async Task<Symbol?> GetSymbol()
     {
+        GetJsModule();
         if (JsModule is not null)
         {
             Symbol = await JsModule!.InvokeAsync<Symbol>("getGraphicSymbol",
@@ -337,7 +340,7 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
-
+        GetJsModule();
         if (JsModule is not null)
         {
             if (UpdateSymbol)
@@ -362,11 +365,17 @@ public class Graphic : LayerObject, IEquatable<Graphic>
 
     private async void OnAttributesChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
+        GetJsModule();
         if (JsModule is null) return;
 
         await JsModule.InvokeVoidAsync("setGraphicAttributes", 
             CancellationTokenSource.Token, Id, Attributes);
         ToSerializationRecord(true);
+    }
+
+    private void GetJsModule()
+    {
+        JsModule ??= Parent?.JsModule;
     }
     
     private ObservableDictionary<string, object> _attributes = new();

@@ -1,0 +1,163 @@
+﻿@page "/many-graphics"
+
+<PageTitle>Many Graphics</PageTitle>
+<h1>Many Points</h1>
+<div class="links-div">
+    <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Graphic.html">ArcGIS API for JavaScript</a>
+</div>
+<p class="instructions">
+    GeoBlazor can support a large number of geometries, such as the graphics generated and shown in this example.
+    Use the input fields and buttons to test various graphic sizes and chunk sizes.
+    In order to get performant rendering of your graphics, be sure to always call <code>MapView.AddGraphics(IEnumerable&lt;Graphic&gt;)</code> or <code>GraphicsLayer.Add(IEnumerable&lt;Graphic&gt;)</code>,
+    rather than trying to add all the graphics individually.
+    Chunk sizes are set by default to 200 (Server, WASM) and 100 (MAUI) based on internal testing.
+</p>
+
+<label>Number of Graphics: <input @bind="_numberOfGraphics" /></label>
+<label>Chunk Size: <input @bind="_chunkSize" /></label>
+
+<MapView @ref="_view" Style="height: 600px; width: 100%;" GraphicSerializationChunkSize="_chunkSize">
+    <Extent Xmin="-41525513" Ymin="4969181" Xmax="-36687355" Ymax="9024624">
+            <SpatialReference Wkid="102100" />
+    </Extent>
+    <Map>
+        <OpenStreetMapLayer />
+        <GraphicsLayer @ref="_graphicsLayer" />
+    </Map>
+</MapView>
+<button @onclick="AddGraphicsToView">Add Graphics To View</button>
+<button @onclick="AddGraphicsToLayer">Add Graphics To Layer</button>
+<button @onclick="ClearGraphics">Clear Graphics</button>
+<label>
+    Select Geometry Type:
+    <select @bind="_geometryType">
+        <option value="Point">Point</option>
+        <option value="Polyline">Polyline</option>
+        <option value="Polygon">Polygon</option>
+    </select>
+</label>
+
+@code {
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _chunkSize = _view?.IsMaui == true ? 100 : 200;
+        }
+    }
+
+    private async Task AddGraphicsToView()
+    {
+        _cts.Cancel();
+        _cts = new CancellationTokenSource();
+        List<Graphic> graphics = new();
+        for (var i = 0; i < _numberOfGraphics; i++)
+        {
+            graphics.Add(GenerateGraphic());
+        }
+        await _view!.AddGraphics(graphics, _cts.Token);
+    }
+
+    private async Task AddGraphicsToLayer()
+    {
+        _cts.Cancel();
+        _cts = new CancellationTokenSource();
+        List<Graphic> graphics = new();
+        for (var i = 0; i < _numberOfGraphics; i++)
+        {
+            graphics.Add(GenerateGraphic());
+        }
+        await _graphicsLayer!.Add(graphics, _cts.Token);
+    }
+
+    private async Task ClearGraphics()
+    {
+        _cts.Cancel();
+        _cts = new CancellationTokenSource();
+        await _graphicsLayer!.Clear();
+        await _view!.ClearGraphics();
+    }
+
+    private Graphic GenerateGraphic()
+    {
+        switch (_geometryType)
+        {
+            case "Polyline":
+                return new Graphic(GeneratePolyline(), GenerateSimpleLine(), GeneratePopupTemplate(),
+                    GenerateAttributes());
+            case "Polygon":
+                return new Graphic(GeneratePolygon(), GenerateSimpleFill(), GeneratePopupTemplate(),
+                    GenerateAttributes());
+            default:
+                return new Graphic(GeneratePoint(), GenerateSimpleMarker(), GeneratePopupTemplate(),
+                                    GenerateAttributes());
+        }
+    }
+
+    private Point GeneratePoint()
+    {
+        return new Point(_random.NextDouble() * 40 + -10.0, _random.NextDouble() * 20 + 40.0);
+    }
+
+    private PolyLine GeneratePolyline()
+    {
+        return new PolyLine(new MapPath[]
+        {
+            new MapPath(new []
+            {
+                new MapPoint(_random.NextDouble() * 40 + -10.0, _random.NextDouble() * 20 + 40.0),
+                new MapPoint(_random.NextDouble() * 40 + -10.0, _random.NextDouble() * 20 + 40.0)
+            })
+        });
+    }
+    
+    private Polygon GeneratePolygon()
+    {
+        return new Polygon(new MapPath[]
+        {
+            new MapPath(new []
+            {
+                new MapPoint(_random.NextDouble() * 40 + -10.0, _random.NextDouble() * 20 + 40.0),
+                new MapPoint(_random.NextDouble() * 40 + -10.0, _random.NextDouble() * 20 + 40.0),
+                new MapPoint(_random.NextDouble() * 40 + -10.0, _random.NextDouble() * 20 + 40.0),
+                new MapPoint(_random.NextDouble() * 40 + -10.0, _random.NextDouble() * 20 + 40.0)
+            })
+        });
+    }
+
+    private Symbol GenerateSimpleMarker()
+    {
+        return new SimpleMarkerSymbol(new Outline(new MapColor("green")), 
+            new MapColor("red"), 10);
+    }
+
+    private Symbol GenerateSimpleLine()
+    {
+        return new SimpleLineSymbol(new MapColor("blue"), 2, LineStyle.Solid);
+    }
+    
+    private Symbol GenerateSimpleFill()
+    {
+        return new SimpleFillSymbol(new Outline(new MapColor("purple")), 
+            new MapColor("yellow"));
+    }
+
+    private PopupTemplate GeneratePopupTemplate()
+    {
+        return new PopupTemplate("Test", "Test Content<br/>{testString}<br/>{testNumber}", new[] { "*" });
+    }
+        
+    private Dictionary<string, object> GenerateAttributes()
+    {
+        return new Dictionary<string, object> { { "testString", "test" }, { "testNumber", 123 } };
+    }
+
+    private readonly Random _random = new();
+    private MapView? _view;
+    private GraphicsLayer? _graphicsLayer;
+    private int _numberOfGraphics = 10_000;
+    private int _chunkSize = 200;
+    private CancellationTokenSource _cts = new();
+    private string _geometryType = "Point";
+}

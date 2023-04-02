@@ -29,19 +29,6 @@ Derived
 &#8627; [UniqueValueInfo](dymaptic.GeoBlazor.Core.Components.Renderers.UniqueValueInfo.html 'dymaptic.GeoBlazor.Core.Components.Renderers.UniqueValueInfo')
 ### Properties
 
-<a name='dymaptic.GeoBlazor.Core.Components.Layers.LayerObject.JsLayerObjectReference'></a>
-
-## LayerObject.JsLayerObjectReference Property
-
-The [Microsoft.JSInterop.IJSObjectReference](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.JSInterop.IJSObjectReference 'Microsoft.JSInterop.IJSObjectReference') for the layer object.
-
-```csharp
-public Microsoft.JSInterop.IJSObjectReference? JsLayerObjectReference { get; set; }
-```
-
-#### Property Value
-[Microsoft.JSInterop.IJSObjectReference](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.JSInterop.IJSObjectReference 'Microsoft.JSInterop.IJSObjectReference')
-
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.LayerObject.Symbol'></a>
 
 ## LayerObject.Symbol Property
@@ -73,7 +60,7 @@ public virtual System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Sy
 
 ## LayerObject.RegisterChildComponent(MapComponent) Method
 
-Called from [dymaptic.GeoBlazor.Core.Components.MapComponent.OnAfterRenderAsync(System.Boolean)](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Components.MapComponent.OnAfterRenderAsync#dymaptic_GeoBlazor_Core_Components_MapComponent_OnAfterRenderAsync_System_Boolean_ 'dymaptic.GeoBlazor.Core.Components.MapComponent.OnAfterRenderAsync(System.Boolean)') to "Register" the current component with it's parent.
+Called from [dymaptic.GeoBlazor.Core.Components.MapComponent.OnInitializedAsync](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Components.MapComponent.OnInitializedAsync 'dymaptic.GeoBlazor.Core.Components.MapComponent.OnInitializedAsync') to "Register" the current component with it's parent.
 
 ```csharp
 public override System.Threading.Tasks.Task RegisterChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent child);
