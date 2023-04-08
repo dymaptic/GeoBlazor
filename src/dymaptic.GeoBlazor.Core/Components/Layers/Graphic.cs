@@ -134,10 +134,9 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     /// </summary>
     public async Task<Geometry?> GetGeometry()
     {
-        GetJsModule();
-        if (JsModule is not null)
+        if (LayerJsModule is not null)
         {
-            Geometry = await JsModule!.InvokeAsync<Geometry>("getGraphicGeometry",
+            Geometry = await LayerJsModule!.InvokeAsync<Geometry>("getGraphicGeometry",
                 CancellationTokenSource.Token, Id);
         }
 
@@ -151,10 +150,9 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     public async Task SetGeometry(Geometry geometry)
     {
         Geometry = geometry;
-        GetJsModule();
-        if (JsModule is not null)
+        if (LayerJsModule is not null)
         {
-            await JsModule.InvokeVoidAsync("setGraphicGeometry", Id, 
+            await LayerJsModule.InvokeVoidAsync("setGraphicGeometry", Id, 
                 Geometry.ToSerializationRecord());
         }
         else
@@ -179,10 +177,9 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     /// </summary>
     public async Task<PopupTemplate?> GetPopupTemplate()
     {
-        GetJsModule();
-        if (JsModule is not null)
+        if (LayerJsModule is not null)
         {
-            PopupTemplate = await JsModule!.InvokeAsync<PopupTemplate>("getGraphicPopupTemplate",
+            PopupTemplate = await LayerJsModule!.InvokeAsync<PopupTemplate>("getGraphicPopupTemplate",
                 CancellationTokenSource.Token, Id);
         }
 
@@ -198,10 +195,9 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     public async Task SetPopupTemplate(PopupTemplate popupTemplate)
     {
         PopupTemplate = popupTemplate;
-        GetJsModule();
-        if (JsModule is not null)
+        if (LayerJsModule is not null)
         {
-            await JsModule.InvokeVoidAsync("setGraphicPopupTemplate", Id,
+            await LayerJsModule.InvokeVoidAsync("setGraphicPopupTemplate", Id,
                 PopupTemplate.ToSerializationRecord(), View?.Id);
         }
         else
@@ -216,10 +212,9 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     /// <inheritdoc />
     public override async Task<Symbol?> GetSymbol()
     {
-        GetJsModule();
-        if (JsModule is not null)
+        if (LayerJsModule is not null)
         {
-            Symbol = await JsModule!.InvokeAsync<Symbol>("getGraphicSymbol",
+            Symbol = await LayerJsModule!.InvokeAsync<Symbol>("getGraphicSymbol",
                 CancellationTokenSource.Token, Id);
         }
 
@@ -306,9 +301,9 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     {
         await base.DisposeAsync();
 
-        if (JsModule is not null)
+        if (LayerJsModule is not null)
         {
-            await JsModule.InvokeVoidAsync("disposeGraphic", Id);
+            await LayerJsModule.InvokeVoidAsync("disposeGraphic", Id);
         }
     }
 
@@ -340,8 +335,7 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
-        GetJsModule();
-        if (JsModule is not null)
+        if (LayerJsModule is not null)
         {
             if (UpdateSymbol)
             {
@@ -365,17 +359,11 @@ public class Graphic : LayerObject, IEquatable<Graphic>
 
     private async void OnAttributesChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
-        GetJsModule();
-        if (JsModule is null) return;
+        if (LayerJsModule is null) return;
 
-        await JsModule.InvokeVoidAsync("setGraphicAttributes", 
+        await LayerJsModule.InvokeVoidAsync("setGraphicAttributes", 
             CancellationTokenSource.Token, Id, Attributes);
         ToSerializationRecord(true);
-    }
-
-    private void GetJsModule()
-    {
-        JsModule ??= Parent?.JsModule;
     }
     
     private ObservableDictionary<string, object> _attributes = new();

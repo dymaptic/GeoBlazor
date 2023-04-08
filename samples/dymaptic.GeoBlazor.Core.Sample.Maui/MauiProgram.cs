@@ -29,11 +29,11 @@ public static class MauiProgram
 
         builder.Configuration.AddInMemoryCollection();
 
-        var a = Assembly.GetExecutingAssembly();
-        using var stream = a.GetManifestResourceStream("dymaptic.GeoBlazor.Core.Sample.Maui.appsettings.json");
+        var executingAssembly = Assembly.GetExecutingAssembly();
+        using Stream? stream = executingAssembly.GetManifestResourceStream("dymaptic.GeoBlazor.Core.Sample.Maui.appsettings.json");
 
         var config = new ConfigurationBuilder()
-            .AddUserSecrets(a)
+            .AddUserSecrets(executingAssembly)
             .AddJsonStream(stream)
             .Build();
         builder.Configuration.AddConfiguration(config);
