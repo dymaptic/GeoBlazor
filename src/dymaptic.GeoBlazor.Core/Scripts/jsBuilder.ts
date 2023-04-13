@@ -293,8 +293,8 @@ export function buildJsSymbol(symbol: DotNetSymbol | null): Symbol | null {
                 path: dnSimpleMarkerSymbol.path ?? undefined,
                 size: dnSimpleMarkerSymbol.size ?? 12,
                 style: dnSimpleMarkerSymbol.style as any ?? "circle",
-                xoffset: dnSimpleMarkerSymbol.xoffset ?? 0,
-                yoffset: dnSimpleMarkerSymbol.yoffset ?? 0
+                xoffset: dnSimpleMarkerSymbol.xOffset ?? 0,
+                yoffset: dnSimpleMarkerSymbol.yOffset ?? 0
             });
 
             if (dnSimpleMarkerSymbol.outline !== undefined && dnSimpleMarkerSymbol.outline !== null) {
@@ -318,8 +318,8 @@ export function buildJsSymbol(symbol: DotNetSymbol | null): Symbol | null {
             let dnPictureMarkerSymbol = symbol as DotNetPictureMarkerSymbol;
             let jsPictureMarkerSymbol = new PictureMarkerSymbol({
                 angle: dnPictureMarkerSymbol.angle ?? 0,
-                xoffset: dnPictureMarkerSymbol.xoffset ?? 0,
-                yoffset: dnPictureMarkerSymbol.yoffset ?? 0,
+                xoffset: dnPictureMarkerSymbol.xOffset ?? 0,
+                yoffset: dnPictureMarkerSymbol.yOffset ?? 0,
                 height: dnPictureMarkerSymbol.height ?? 12,
                 width: dnPictureMarkerSymbol.width ?? 12,
                 url: dnPictureMarkerSymbol.url
