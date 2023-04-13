@@ -69,7 +69,8 @@ import {
     buildJsPoint,
     buildJsPopup,
     buildJsPopupOptions,
-    buildJsPopupTemplate, buildJsPortalItem,
+    buildJsPopupTemplate,
+    buildJsPortalItem,
     buildJsRenderer,
     buildJsSpatialReference
 } from "./jsBuilder";
@@ -96,10 +97,11 @@ import GraphicsLayerWrapper from "./graphicsLayer";
 import Popup from "@arcgis/core/widgets/Popup";
 import ElevationLayer from "@arcgis/core/layers/ElevationLayer";
 import PopupWidgetWrapper from "./popupWidgetWrapper";
+import GraphicWrapper from "./graphic";
 import HitTestResult = __esri.HitTestResult;
 import MapViewHitTestOptions = __esri.MapViewHitTestOptions;
 import LegendLayerInfos = __esri.LegendLayerInfos;
-import GraphicWrapper from "./graphic";
+import ScreenPoint = __esri.ScreenPoint;
 
 export let arcGisObjectRefs: Record<string, Accessor> = {};
 export let dotNetRefs = {};
@@ -597,6 +599,17 @@ export async function hitTest(pointObject: any, eventId: string | null, viewId: 
         let chunk = jsonResult.slice(i * chunkSize, (i + 1) * chunkSize);
         await dotNetRef.invokeMethodAsync('OnJavascriptHitTestResult', eventId, chunk);
     }
+}
+
+export function toMap(screenPoint: any, viewId: string): DotNetPoint | null {
+    let view = arcGisObjectRefs[viewId] as MapView;
+    let mapPoint = view.toMap(screenPoint);
+    return buildDotNetPoint(mapPoint);
+}
+
+export function toScreen(mapPoint: any, viewId: string): ScreenPoint {
+    let view = arcGisObjectRefs[viewId] as MapView;
+    return view.toScreen(mapPoint);
 }
 
 export function disposeView(viewId: string): void {
