@@ -1927,7 +1927,7 @@ public partial class MapView : MapComponent
 
             await ViewJsModule!.InvokeVoidAsync("setAssetsPath", CancellationTokenSource.Token,
                 Configuration.GetValue<string?>("ArcGISAssetsPath",
-                    "./_content/dymaptic.GeoBlazor.Core/assets"));
+                    "/_content/dymaptic.GeoBlazor.Core/assets"));
 
             await ViewJsModule.InvokeVoidAsync("buildMapView", CancellationTokenSource.Token, Id,
                 DotNetObjectReference, Longitude, Latitude, Rotation, Map, Zoom, Scale,
