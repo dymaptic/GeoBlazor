@@ -1892,6 +1892,18 @@ public partial class MapView : MapComponent
         return new HitTestResult(new ViewHit[] { }, new ScreenPoint(1, 1));
     }
 
+    public async Task<Point> ToMap(ScreenPoint screenPoint)
+    {
+        return await ViewJsModule!.InvokeAsync<Point>("toMap",
+            CancellationTokenSource.Token, screenPoint, Id);
+    }
+    
+    public async Task<ScreenPoint> ToScreen(Point mapPoint)
+    {
+        return await ViewJsModule!.InvokeAsync<ScreenPoint>("toScreen",
+            CancellationTokenSource.Token, mapPoint, Id);
+    }
+
     /// <summary>
     ///     The callback method for returning a chunk of data from a Blazor Server hit test.
     /// </summary>
