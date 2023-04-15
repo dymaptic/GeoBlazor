@@ -3,6 +3,11 @@ layout: default
 title: ElementExpressionInfo
 parent: Classes
 ---
+---
+layout: default
+title: ElementExpressionInfo
+parent: Classes
+---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Popups](index.html#dymaptic.GeoBlazor.Core.Components.Popups 'dymaptic.GeoBlazor.Core.Components.Popups')
 
@@ -69,3 +74,4 @@ public string? Title { get; set; }
 
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+

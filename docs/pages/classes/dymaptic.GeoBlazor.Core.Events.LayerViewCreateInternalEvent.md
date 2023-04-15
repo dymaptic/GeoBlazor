@@ -3,6 +3,11 @@ layout: default
 title: LayerViewCreateInternalEvent
 parent: Classes
 ---
+---
+layout: default
+title: LayerViewCreateInternalEvent
+parent: Classes
+---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Events](index.html#dymaptic.GeoBlazor.Core.Events 'dymaptic.GeoBlazor.Core.Events')
 
@@ -145,3 +150,4 @@ public Microsoft.JSInterop.IJSObjectReference LayerViewObjectRef { get; set; }
 
 #### Property Value
 [Microsoft.JSInterop.IJSObjectReference](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.JSInterop.IJSObjectReference 'Microsoft.JSInterop.IJSObjectReference')
+

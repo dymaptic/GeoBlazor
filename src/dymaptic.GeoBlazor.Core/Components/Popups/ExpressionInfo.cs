@@ -1,5 +1,6 @@
 ﻿using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
+using ProtoBuf;
 using System.Text.Json.Serialization;
 
 
@@ -97,11 +98,16 @@ public class ExpressionInfo : MapComponent, IEquatable<ExpressionInfo>
     }
 }
 
+[ProtoContract(Name = "ExpressionInfo")]
 internal record ExpressionInfoSerializationRecord(
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Expression, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Name, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Title,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]ReturnType? ReturnType) 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [property: ProtoMember(1)]string? Expression, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [property: ProtoMember(2)]string? Name, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [property: ProtoMember(3)]string? Title,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [property: ProtoMember(4)]ReturnType? ReturnType) 
     : MapComponentSerializationRecord;
 
 /// <summary>

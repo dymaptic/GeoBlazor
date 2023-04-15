@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using ProtoBuf;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 
@@ -13,6 +14,7 @@ namespace dymaptic.GeoBlazor.Core.Objects;
 ///     </a>
 /// </summary>
 [JsonConverter(typeof(MapColorConverter))]
+[ProtoContract]
 public class MapColor : IEquatable<MapColor>
 {
     /// <summary>
@@ -56,11 +58,13 @@ public class MapColor : IEquatable<MapColor>
     /// <summary>
     ///     The numeric values for calculating a color (rgb/rgba).
     /// </summary>
+    [ProtoMember(1)]
     public List<double> Values { get; set; } = new();
 
     /// <summary>
     ///     The name or hex value of the color.
     /// </summary>
+    [ProtoMember(2)]
     public string? HexOrNameValue { get; set; }
 
     /// <inheritdoc />

@@ -1,6 +1,6 @@
 ﻿import Graphic from "@arcgis/core/Graphic";
 import {DotNetGeometry, DotNetPopupTemplate} from "./definitions";
-import {buildJsGeometry, buildJsPopupTemplate} from "./jsBuilder";
+import {buildJsGeometry, buildJsPopupTemplate, buildJsSymbol} from "./jsBuilder";
 import {buildDotNetGeometry, buildDotNetPopupTemplate} from "./dotNetBuilder";
 
 export default class GraphicWrapper {
@@ -43,7 +43,7 @@ export default class GraphicWrapper {
 
     setSymbol(symbol: any): void {
         if (this.graphic.symbol !== symbol) {
-            this.graphic.symbol = symbol;
+            this.graphic.symbol = buildJsSymbol(symbol) as any;
         }
     }
 

@@ -3,6 +3,11 @@ layout: default
 title: ActionBase
 parent: Classes
 ---
+---
+layout: default
+title: ActionBase
+parent: Classes
+---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components](index.html#dymaptic.GeoBlazor.Core.Components 'dymaptic.GeoBlazor.Core.Components')
 
@@ -215,3 +220,4 @@ public static bool operator !=(dymaptic.GeoBlazor.Core.Components.ActionBase? le
 
 #### Returns
 [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
+

@@ -5,6 +5,7 @@ using dymaptic.GeoBlazor.Core.Components.Views;
 using dymaptic.GeoBlazor.Core.Objects;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using ProtoBuf;
 using System.Collections.Specialized;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -47,6 +48,7 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     public Graphic(Geometry? geometry = null, Symbol? symbol = null, PopupTemplate? popupTemplate = null,
         Dictionary<string, object>? attributes = null)
     {
+        AllowRender = false;
 #pragma warning disable BL0005
         Geometry = geometry;
         Symbol = symbol;
@@ -79,6 +81,7 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     /// <summary>
     ///     Name-value pairs of fields and field values associated with the graphic.
     /// </summary>
+#pragma warning disable BL0007
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Dictionary<string, object>? Attributes
@@ -88,6 +91,7 @@ public class Graphic : LayerObject, IEquatable<Graphic>
             ? new ObservableDictionary<string, object>()
             : new ObservableDictionary<string, object>(value);
     }
+#pragma warning restore BL0007
 
     /// <summary>
     ///     The geometry that defines the graphic's location.
@@ -116,13 +120,6 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     /// </summary>
     public Guid? LayerId { get; set; }
 
-    /// <summary>
-    ///     Internally used reference for JavaScript callbacks.
-    /// </summary>
-    public DotNetObjectReference<Graphic> DotNetGraphicReference => DotNetObjectReference.Create(this);
-
-    internal bool IsRendered => JsGraphicReference is not null;
-
     /// <inheritdoc />
     public bool Equals(Graphic? other)
     {
@@ -137,10 +134,10 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     /// </summary>
     public async Task<Geometry?> GetGeometry()
     {
-        if (JsGraphicReference is not null)
+        if (LayerJsModule is not null)
         {
-            Geometry = await JsGraphicReference!.InvokeAsync<Geometry>("getGeometry",
-                CancellationTokenSource.Token);
+            Geometry = await LayerJsModule!.InvokeAsync<Geometry>("getGraphicGeometry",
+                CancellationTokenSource.Token, Id);
         }
 
         return Geometry;
@@ -153,11 +150,14 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     public async Task SetGeometry(Geometry geometry)
     {
         Geometry = geometry;
-
-        if (JsGraphicReference is not null)
+        if (LayerJsModule is not null)
         {
-            await JsGraphicReference.InvokeVoidAsync("setGeometry", 
+            await LayerJsModule.InvokeVoidAsync("setGraphicGeometry", Id, 
                 Geometry.ToSerializationRecord());
+        }
+        else
+        {
+            _updateGeometry = true;
         }
 
         _serializationRecord = null;
@@ -177,10 +177,10 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     /// </summary>
     public async Task<PopupTemplate?> GetPopupTemplate()
     {
-        if (JsGraphicReference is not null)
+        if (LayerJsModule is not null)
         {
-            PopupTemplate = await JsGraphicReference!.InvokeAsync<PopupTemplate>("getPopupTemplate",
-                CancellationTokenSource.Token);
+            PopupTemplate = await LayerJsModule!.InvokeAsync<PopupTemplate>("getGraphicPopupTemplate",
+                CancellationTokenSource.Token, Id);
         }
 
         return PopupTemplate;
@@ -195,11 +195,14 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     public async Task SetPopupTemplate(PopupTemplate popupTemplate)
     {
         PopupTemplate = popupTemplate;
-
-        if (JsGraphicReference is not null)
+        if (LayerJsModule is not null)
         {
-            await JsGraphicReference.InvokeVoidAsync("setPopupTemplate", 
+            await LayerJsModule.InvokeVoidAsync("setGraphicPopupTemplate", Id,
                 PopupTemplate.ToSerializationRecord(), View?.Id);
+        }
+        else
+        {
+            _updatePopupTemplate = true;
         }
         
         _serializationRecord = null;
@@ -209,25 +212,13 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     /// <inheritdoc />
     public override async Task<Symbol?> GetSymbol()
     {
-        if (JsGraphicReference is not null)
+        if (LayerJsModule is not null)
         {
-            Symbol = await JsGraphicReference!.InvokeAsync<Symbol>("getSymbol",
-                CancellationTokenSource.Token);
+            Symbol = await LayerJsModule!.InvokeAsync<Symbol>("getGraphicSymbol",
+                CancellationTokenSource.Token, Id);
         }
 
         return Symbol;
-    }
-
-    /// <summary>
-    ///     Javascript-invokable internal method.
-    /// </summary>
-    /// <param name="jsObjectReference">
-    ///     The javascript object reference for the rendered graphic.
-    /// </param>
-    [JSInvokable]
-    public void OnGraphicCreated(IJSObjectReference jsObjectReference)
-    {
-        JsGraphicReference ??= jsObjectReference;
     }
 
     /// <inheritdoc />
@@ -305,17 +296,33 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     {
         return Id.GetHashCode();
     }
-    
+
+    public override async ValueTask DisposeAsync()
+    {
+        await base.DisposeAsync();
+
+        if (LayerJsModule is not null)
+        {
+            await LayerJsModule.InvokeVoidAsync("disposeGraphic", Id);
+        }
+    }
+
     internal GraphicSerializationRecord ToSerializationRecord(bool refresh = false)
     {
         if (_serializationRecord is null || refresh)
         {
-            _serializationRecord = new(Id, Geometry?.ToSerializationRecord(), Symbol?.ToSerializationRecord(), 
-                PopupTemplate?.ToSerializationRecord(), Attributes, LayerId, DotNetGraphicReference);
+            _serializationRecord = new(Id.ToString(),
+                Geometry?.ToSerializationRecord(),
+                Symbol?.ToSerializationRecord(),
+                PopupTemplate?.ToSerializationRecord(),
+                Attributes?.Select(kvp =>
+                        new AttributeSerializationRecord(kvp.Key, kvp.Value.ToString(), kvp.Value.GetType().ToString()))
+                    .ToArray());
         }
 
         return _serializationRecord;
     }
+
 
     /// <inheritdoc />
     protected override void OnParametersSet()
@@ -325,24 +332,57 @@ public class Graphic : LayerObject, IEquatable<Graphic>
         ToSerializationRecord(true);
     }
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (LayerJsModule is not null)
+        {
+            if (UpdateSymbol)
+            {
+                UpdateSymbol = false;
+                await SetSymbol(Symbol!);
+            }
+
+            if (_updateGeometry)
+            {
+                _updateGeometry = false;
+                await SetGeometry(Geometry!);
+            }
+            
+            if (_updatePopupTemplate)
+            {
+                _updatePopupTemplate = false;
+                await SetPopupTemplate(PopupTemplate!);
+            }
+        }
+    }
+
     private async void OnAttributesChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
-        if (JsGraphicReference is null) return;
+        if (LayerJsModule is null) return;
 
-        await JsGraphicReference.InvokeVoidAsync("setAttributes", 
-            CancellationTokenSource.Token, Attributes);
+        await LayerJsModule.InvokeVoidAsync("setGraphicAttributes", 
+            CancellationTokenSource.Token, Id, Attributes);
         ToSerializationRecord(true);
     }
     
     private ObservableDictionary<string, object> _attributes = new();
     private GraphicSerializationRecord? _serializationRecord;
+    private bool _updateGeometry;
+    private bool _updatePopupTemplate;
 }
 
-internal record GraphicSerializationRecord(Guid Id, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]GeometrySerializationRecord? Geometry, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]SymbolSerializationRecord? Symbol, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]PopupTemplateSerializationRecord? PopupTemplate,
-    Dictionary<string, object>? Attributes, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]Guid? LayerId, 
-    DotNetObjectReference<Graphic> DotNetGraphicReference)
+[ProtoContract(Name = "Graphic")]
+internal record GraphicSerializationRecord([property:ProtoMember(1)]string Id, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [property:ProtoMember(2)]GeometrySerializationRecord? Geometry, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [property:ProtoMember(3)]SymbolSerializationRecord? Symbol, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [property:ProtoMember(4)]PopupTemplateSerializationRecord? PopupTemplate,
+    [property:ProtoMember(5)]AttributeSerializationRecord[]? Attributes)
     : MapComponentSerializationRecord;
+    
+[ProtoContract(Name = "Attribute")]
+internal record AttributeSerializationRecord([property:ProtoMember(1)]string Key, 
+    [property:ProtoMember(2)]string? Value, [property:ProtoMember(3)]string ValueType);

@@ -135,30 +135,46 @@ export function buildJsExtent(dotNetExtent: DotNetExtent, currentSpatialReferenc
     return extent;
 }
 
-export async function buildJsGraphic(graphicObject: any, register: boolean, viewId: string | null): Promise<Graphic | null> {
+export function buildJsGraphic(graphicObject: any, viewId: string | null)
+    : Graphic | null {
     const graphic = new Graphic({
         geometry: buildJsGeometry(graphicObject.geometry) as Geometry ?? null,
-        attributes: graphicObject.attributes ?? null,
         symbol: buildJsSymbol(graphicObject.symbol) as Symbol ?? null,
     });
-
-    if (graphicObject.popupTemplate !== undefined && graphicObject.popupTemplate !== null) {
-        graphic.popupTemplate = buildJsPopupTemplate(graphicObject.popupTemplate, viewId);
-    }
-
-    if (graphicObject.layerId !== undefined && graphicObject.layerId !== null) {
-        let layer = arcGisObjectRefs[graphicObject.layerId] as Layer;
-        graphic.layer = layer;
-    }
     
-    if (register) {
-        if (graphicObject.dotNetGraphicReference !== undefined) {
-            let wrapper = new GraphicWrapper(graphic);
-            // @ts-ignore
-            let objectRef = DotNet.createJSObjectReference(wrapper);
-            graphicObject.dotNetGraphicReference.invokeMethodAsync("OnGraphicCreated", objectRef);
+    if (hasValue(graphicObject.attributes)) {
+        if (graphicObject.attributes instanceof Array) {
+            graphic.attributes = {};
+            graphicObject.attributes.forEach((attr: any) => {
+                switch (attr.valueType) {
+                    case "number":
+                        graphic.attributes[attr.key] = Number(attr.value);
+                        break;
+                    case "boolean":
+                        graphic.attributes[attr.key] = Boolean(attr.value);
+                        break;
+                    case "date":
+                        graphic.attributes[attr.key] = new Date(attr.value);
+                        break;
+                    case "dateTime":
+                        graphic.attributes[attr.key] = new Date(attr.value);
+                        break;
+                    case "object":
+                        graphic.attributes[attr.key] = JSON.parse(attr.value);
+                        break;
+                    default:
+                        graphic.attributes[attr.key] = attr.value;
+                }
+            });
+        } else {
+            graphic.attributes = graphicObject.attributes;
         }
     }
+
+    if (hasValue(graphicObject.popupTemplate)) {
+        graphic.popupTemplate = buildJsPopupTemplate(graphicObject.popupTemplate, viewId);
+    }
+    
     return graphic;
 }
 
@@ -191,9 +207,11 @@ export function buildJsPopupTemplate(popupTemplateObject: DotNetPopupTemplate, v
 
     if (viewId !== null) {
         let view = arcGisObjectRefs[viewId] as View;
-        view.popup.on("trigger-action", async (event: PopupTriggerActionEvent) => {
-            await popupTemplateObject.dotNetPopupTemplateReference.invokeMethodAsync("OnTriggerAction", event.action.id);
-        });
+        if (hasValue(view)) {
+            view.popup.on("trigger-action", async (event: PopupTriggerActionEvent) => {
+                await popupTemplateObject.dotNetPopupTemplateReference.invokeMethodAsync("OnTriggerAction", event.action.id);
+            });    
+        }
     }
 
     return template;
@@ -289,12 +307,12 @@ export function buildJsSymbol(symbol: DotNetSymbol | null): Symbol | null {
         case "simple-marker":
             let dnSimpleMarkerSymbol = symbol as DotNetSimpleMarkerSymbol;
             let jsSimpleMarkerSymbol = new SimpleMarkerSymbol({
-                color: dnSimpleMarkerSymbol.color ?? [255, 255, 255, 0.25],
+                color: buildJsColor(dnSimpleMarkerSymbol.color) ?? [255, 255, 255, 0.25],
                 path: dnSimpleMarkerSymbol.path ?? undefined,
                 size: dnSimpleMarkerSymbol.size ?? 12,
                 style: dnSimpleMarkerSymbol.style as any ?? "circle",
-                xoffset: dnSimpleMarkerSymbol.xoffset ?? 0,
-                yoffset: dnSimpleMarkerSymbol.yoffset ?? 0
+                xoffset: dnSimpleMarkerSymbol.xOffset ?? 0,
+                yoffset: dnSimpleMarkerSymbol.yOffset ?? 0
             });
 
             if (dnSimpleMarkerSymbol.outline !== undefined && dnSimpleMarkerSymbol.outline !== null) {
@@ -304,7 +322,7 @@ export function buildJsSymbol(symbol: DotNetSymbol | null): Symbol | null {
         case "simple-line":
             let dnSimpleLineSymbol = symbol as DotNetSimpleLineSymbol;
             let jsSimpleLineSymbol = new SimpleLineSymbol({
-                color: dnSimpleLineSymbol.color ?? "black",
+                color: buildJsColor(dnSimpleLineSymbol.color) ?? "black",
                 cap: dnSimpleLineSymbol.cap as any ?? "round",
                 join: dnSimpleLineSymbol.join as any ?? "round",
                 marker: dnSimpleLineSymbol.marker as any ?? null,
@@ -318,8 +336,8 @@ export function buildJsSymbol(symbol: DotNetSymbol | null): Symbol | null {
             let dnPictureMarkerSymbol = symbol as DotNetPictureMarkerSymbol;
             let jsPictureMarkerSymbol = new PictureMarkerSymbol({
                 angle: dnPictureMarkerSymbol.angle ?? 0,
-                xoffset: dnPictureMarkerSymbol.xoffset ?? 0,
-                yoffset: dnPictureMarkerSymbol.yoffset ?? 0,
+                xoffset: dnPictureMarkerSymbol.xOffset ?? 0,
+                yoffset: dnPictureMarkerSymbol.yOffset ?? 0,
                 height: dnPictureMarkerSymbol.height ?? 12,
                 width: dnPictureMarkerSymbol.width ?? 12,
                 url: dnPictureMarkerSymbol.url
@@ -330,7 +348,7 @@ export function buildJsSymbol(symbol: DotNetSymbol | null): Symbol | null {
         case "simple-fill":
             let dnSimpleFillSymbol = symbol as DotNetSimpleFillSymbol;
             let jsSimpleFillSymbol = new SimpleFillSymbol({
-                color: dnSimpleFillSymbol.color ?? [0, 0, 0, 0.25],
+                color: buildJsColor(dnSimpleFillSymbol.color) ?? [0, 0, 0, 0.25],
                 style: dnSimpleFillSymbol.style as any ?? "solid"
             });
 
@@ -341,8 +359,8 @@ export function buildJsSymbol(symbol: DotNetSymbol | null): Symbol | null {
         case "text":
             let dotNetTextSymbol = symbol as DotNetTextSymbol;
             let jsTextSymbol = new TextSymbol({
-                color: dotNetTextSymbol.color ?? "black",
-                haloColor: dotNetTextSymbol.haloColor ?? undefined,
+                color: buildJsColor(dotNetTextSymbol.color) ?? "black",
+                haloColor: buildJsColor(dotNetTextSymbol.haloColor) ?? undefined,
                 haloSize: dotNetTextSymbol.haloSize ?? undefined,
                 text: dotNetTextSymbol.text ?? undefined
             });
@@ -394,7 +412,7 @@ export function buildJsPoint(dnPoint: DotNetPoint): Point | null {
 export function buildJsPolyline(dnPolyline: DotNetPolyline): Polyline | null {
     if (dnPolyline === undefined || dnPolyline === null) return null;
     let polyline = new Polyline({
-        paths: dnPolyline.paths ?? undefined
+        paths: buildJsPathsOrRings(dnPolyline.paths) ?? undefined
     });
     if (dnPolyline.spatialReference !== undefined && dnPolyline.spatialReference !== null) {
         polyline.spatialReference = buildJsSpatialReference(dnPolyline.spatialReference);
@@ -407,7 +425,7 @@ export function buildJsPolyline(dnPolyline: DotNetPolyline): Polyline | null {
 export function buildJsPolygon(dnPolygon: DotNetPolygon): Polygon | null {
     if (dnPolygon === undefined || dnPolygon === null) return null;
     let polygon = new Polygon({
-        rings: dnPolygon.rings ?? undefined
+        rings: buildJsPathsOrRings(dnPolygon.rings) ?? undefined
     });
     if (dnPolygon.spatialReference !== undefined && dnPolygon.spatialReference !== null) {
         polygon.spatialReference = buildJsSpatialReference(dnPolygon.spatialReference);
@@ -491,7 +509,7 @@ export async function buildJsPopup(dotNetPopup: any, viewId: string): Promise<Po
         let features: Graphic[] = [];
         for (const f of dotNetPopup.features) {
             delete f.dotNetGraphicReference;
-            let graphic = await buildJsGraphic(f, false, viewId) as Graphic;
+            let graphic = buildJsGraphic(f, viewId) as Graphic;
             features.push(graphic);
         }
         popup.features = features;
@@ -551,7 +569,9 @@ export async function buildJsPopupOptions(dotNetPopupOptions: any): Promise<Popu
         let features: Graphic[] = [];
         for (const f of dotNetPopupOptions.features) {
             delete f.dotNetGraphicReference;
-            features.push(await buildJsGraphic(f, false, null) as Graphic);
+            let graphic = buildJsGraphic(f, null) as Graphic;
+            graphic.layer = arcGisObjectRefs[f.layerId] as Layer;
+            features.push(graphic);
         }
         options.features = features;
     }
@@ -781,6 +801,32 @@ export function buildJsPortalItem(dotNetPortalItem: any): any {
     }
 
     return portalItem;
+}
+
+function buildJsColor(color: any) {
+    if (!hasValue(color)) return null;
+    if (typeof color === "string" || color instanceof Array<number>) return color;
+    if (hasValue(color?.hexOrNameValue)) {
+        return color.hexOrNameValue;
+    }
+    return color.values;
+}
+
+function buildJsPathsOrRings(pathsOrRings: any) {
+    if (!hasValue(pathsOrRings)) return null;
+    if (pathsOrRings[0].hasOwnProperty("points")) {
+        let array: [][][] = [];
+        for (let i = 0; i < pathsOrRings.length; i++) {
+            let points = pathsOrRings[i].points;
+            let pointsArray: [][] = [];
+            for (let j = 0; j < points.length; j++) {
+                pointsArray.push(points[j].coordinates);
+            }
+            array.push(pointsArray);
+        }
+        return array;
+    }
+    return pathsOrRings;
 }
 
 function hasValue(prop: any): boolean {

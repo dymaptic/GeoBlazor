@@ -3,6 +3,11 @@ layout: default
 title: LinearUnit
 parent: Classes
 ---
+---
+layout: default
+title: LinearUnit
+parent: Classes
+---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Objects](index.html#dymaptic.GeoBlazor.Core.Objects 'dymaptic.GeoBlazor.Core.Objects')
 
@@ -13,3 +18,4 @@ A collection of units for measuring Linear distances.
 ```csharp
 public enum LinearUnit
 ```
+

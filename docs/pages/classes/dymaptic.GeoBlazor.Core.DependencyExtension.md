@@ -3,6 +3,11 @@ layout: default
 title: DependencyExtension
 parent: Classes
 ---
+---
+layout: default
+title: DependencyExtension
+parent: Classes
+---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core](index.html#dymaptic.GeoBlazor.Core 'dymaptic.GeoBlazor.Core')
 
@@ -35,3 +40,4 @@ public static Microsoft.Extensions.DependencyInjection.IServiceCollection AddGeo
 
 #### Returns
 [Microsoft.Extensions.DependencyInjection.IServiceCollection](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.Extensions.DependencyInjection.IServiceCollection 'Microsoft.Extensions.DependencyInjection.IServiceCollection')
+

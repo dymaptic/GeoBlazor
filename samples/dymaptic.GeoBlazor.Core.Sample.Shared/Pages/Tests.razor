@@ -114,21 +114,18 @@
             _lats.Add(_random.NextDouble() * 10 + 50.0);
             _longs.Add(_random.NextDouble() * 10 + 11.0);
         }
-
-        if (!_delayedMapSet && !firstRender)
-        {
-            _delayedMapSet = true;
-            await AddGraphicsToView();
-        }
     }
 
     private async Task AddGraphicsToView()
     {
         List<Graphic> graphics = new();
-        for (var i = 0; i < 2000; i++)
+        for (var i = 0; i < 10_000; i++)
         {
             graphics.Add(new Graphic(new Point(_random.NextDouble() * 10 + 11.0, 
-                _random.NextDouble() * 10 + 50.0)));
+                _random.NextDouble() * 10 + 50.0), new SimpleMarkerSymbol(
+                    new Outline(new MapColor("green")), new MapColor("red"), 10),
+                new PopupTemplate("Test", "Test Content<br/>{testString}<br/>{testNumber}", new []{"*"}),
+                new Dictionary<string, object> { { "testString", "test" }, { "testNumber", 123 } }));
         }
         await _delayedMapView!.AddGraphics(graphics);
     }
@@ -136,10 +133,13 @@
     private async Task AddGraphicsToLayer()
     {
         List<Graphic> graphics = new();
-        for (var i = 0; i < 2000; i++)
+        for (var i = 0; i < 10_000; i++)
         {
             graphics.Add(new Graphic(new Point(_random.NextDouble() * 10 + 11.0, 
-                _random.NextDouble() * 10 + 50.0)));
+                _random.NextDouble() * 10 + 50.0), new SimpleMarkerSymbol(
+                    new Outline(new MapColor("green")), new MapColor("red"), 10),
+                new PopupTemplate("Test", "Test Content<br/>{testString}<br/>{testNumber}", new []{"*"}),
+                new Dictionary<string, object> { { "testString", "test" }, { "testNumber", 123 } }));
         }
         await _delayedGraphicsLayer!.Add(graphics);
     }

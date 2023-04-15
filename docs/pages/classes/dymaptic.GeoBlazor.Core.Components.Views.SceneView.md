@@ -3,6 +3,11 @@ layout: default
 title: SceneView
 parent: Classes
 ---
+---
+layout: default
+title: SceneView
+parent: Classes
+---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Views](index.html#dymaptic.GeoBlazor.Core.Components.Views 'dymaptic.GeoBlazor.Core.Components.Views')
 
@@ -181,3 +186,4 @@ public override System.Threading.Tasks.Task SetZoom(double zoom);
 
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
