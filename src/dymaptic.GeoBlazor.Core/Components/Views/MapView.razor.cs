@@ -9,8 +9,13 @@ using dymaptic.GeoBlazor.Core.Objects;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
 using Microsoft.JSInterop;
+using ProtoBuf;
 using System.Diagnostics;
 using System.Reflection;
+#if NET7_0_OR_GREATER
+using Microsoft.JSInterop.Implementation;
+using System.Runtime.InteropServices.JavaScript;
+#endif
 using System.Text;
 using System.Text.Json;
 
@@ -45,8 +50,16 @@ public partial class MapView : MapComponent
     ///     Boolean flag to identify if GeoBlazor is running in Blazor Server mode
     /// </summary>
     public bool IsServer => JsRuntime.GetType().Name.Contains("Remote");
-    private bool IsWebAssembly => JsRuntime is IJSInProcessRuntime;
-    private bool IsMaui => JsRuntime.GetType().Name.Contains("WebView");
+
+    /// <summary>
+    ///     Boolean flag to identify if GeoBlazor is running in Blazor WebAssembly (client) mode
+    /// </summary>
+    public bool IsWebAssembly => OperatingSystem.IsBrowser();
+
+    /// <summary>
+    ///     Boolean flag to identify if GeoBlazor is running in Blazor Hybrid (MAUI) mode
+    /// </summary>
+    public bool IsMaui => JsRuntime.GetType().Name.Contains("WebView");
     /// <summary>
     ///     A boolean flag to indicate that the map extent has been modified in JavaScript, and therefore should not be
     ///     modifiable by markup until <see cref="Refresh" /> is called
@@ -123,6 +136,7 @@ public partial class MapView : MapComponent
     [Parameter]
     public double? Longitude { get; set; }
 
+#pragma warning disable BL0007
     /// <summary>
     ///     The Center point of the view, equivalent to setting Latitude/Longitude
     /// </summary>
@@ -136,6 +150,7 @@ public partial class MapView : MapComponent
             Latitude = value?.Latitude;
         }
     }
+#pragma warning restore BL0007
 
     /// <summary>
     ///     Represents the level of detail (LOD) at the center of the view.
@@ -909,6 +924,9 @@ public partial class MapView : MapComponent
     [Parameter]
     public int? EventRateLimitInMilliseconds { get; set; }
 
+    [Parameter]
+    public int? GraphicSerializationChunkSize { get; set; }
+
 #endregion
 
 
@@ -1173,9 +1191,10 @@ public partial class MapView : MapComponent
     /// <summary>
     ///     Adds a collection of <see cref="Graphic" />s to the current view
     /// </summary>
-    public async Task AddGraphics(IEnumerable<Graphic> graphics)
+    public async Task AddGraphics(IEnumerable<Graphic> graphics, CancellationToken cancellationToken = default)
     {
-        var newGraphics = graphics.ToList();
+        AllowRender = false;
+        List<Graphic> newGraphics = graphics.ToList();
         _graphics.UnionWith(newGraphics);
 
         foreach (Graphic graphic in newGraphics)
@@ -1183,13 +1202,89 @@ public partial class MapView : MapComponent
             graphic.View = this;
             graphic.JsModule = ViewJsModule;
             graphic.Parent = this;
+            graphic.AllowRender = false;
         }
 
         if (ViewJsModule is null) return;
 
-        IEnumerable<GraphicSerializationRecord> records = newGraphics.Select(g => g.ToSerializationRecord());
-        await ViewJsModule!.InvokeVoidAsync("addGraphics", CancellationTokenSource.Token, records, Id);
+        List<GraphicSerializationRecord> records = newGraphics.Select(g => g.ToSerializationRecord()).ToList();
+        int chunkSize = GraphicSerializationChunkSize ?? (IsMaui ? 100 : 200);
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+
+        if (IsWebAssembly)
+        {
+            for (int index = 0; index < records.Count; index += chunkSize)
+            {
+                int skip = index;
+
+                if (cancellationToken.IsCancellationRequested ||
+                        CancellationTokenSource.Token.IsCancellationRequested) return;
+
+                ProtoGraphicCollection collection =
+                    new(records.Skip(skip).Take(chunkSize).ToArray());
+                MemoryStream ms = new();
+                Serializer.Serialize(ms, collection);
+                if (cancellationToken.IsCancellationRequested ||
+                    CancellationTokenSource.Token.IsCancellationRequested)
+                {
+                    await ms.DisposeAsync();   
+                    return;
+                }
+                ms.Seek(0, SeekOrigin.Begin);
+#if NET7_0_OR_GREATER
+                AddGraphicsSyncInterop(ms.ToArray(), Id.ToString());
+                await ms.DisposeAsync();
+                await Task.Delay(1, cancellationToken);
+#else
+                using DotNetStreamReference streamRef = new(ms);
+                await ViewJsModule!.InvokeVoidAsync("addGraphicsFromStream", cancellationToken,
+                        streamRef, Id, abortSignal);
+#endif
+            }
+        }
+        else
+        {
+            List<Task> serializationTasks = new();
+
+            for (int index = 0; index < records.Count; index += chunkSize)
+            {
+                int skip = index;
+
+                serializationTasks.Add(Task.Run(async () =>
+                {
+                    if (cancellationToken.IsCancellationRequested ||
+                        CancellationTokenSource.Token.IsCancellationRequested) return;
+
+                    ProtoGraphicCollection collection =
+                        new(records.Skip(skip).Take(chunkSize).ToArray());
+                    MemoryStream ms = new();
+                    Serializer.Serialize(ms, collection);
+                    if (cancellationToken.IsCancellationRequested ||
+                        CancellationTokenSource.Token.IsCancellationRequested)
+                    {
+                        await ms.DisposeAsync();
+                        return;
+                    }
+                    ms.Seek(0, SeekOrigin.Begin);
+                    using DotNetStreamReference streamRef = new(ms);
+
+                    await ViewJsModule!.InvokeVoidAsync("addGraphicsFromStream", cancellationToken,
+                        streamRef, Id, abortSignal);
+                }, cancellationToken));
+            }
+            
+            await Task.WhenAll(serializationTasks);
+        }
+        
+        AllowRender = true;
     }
+    
+#if NET7_0_OR_GREATER
+#pragma warning disable CA1416
+    [JSImport("addGraphicsSyncInterop", "arcGisJsInterop")]
+    internal static partial void AddGraphicsSyncInterop(byte[] graphics, string id, string? layerId = null);
+#pragma warning restore CA1416
+#endif
 
     /// <summary>
     ///     Adds a <see cref="Graphic" /> to the current view, or to a <see cref="GraphicsLayer" />.
@@ -1207,8 +1302,13 @@ public partial class MapView : MapComponent
             _graphics.Add(graphic);
 
             if (ViewJsModule is null) return;
-
-            await ViewJsModule!.InvokeVoidAsync("addGraphic", graphic.ToSerializationRecord(), Id);
+            ProtoGraphicCollection collection = new(new []{graphic.ToSerializationRecord()});
+            MemoryStream ms = new();
+            Serializer.Serialize(ms, collection);
+            ms.Seek(0, SeekOrigin.Begin);
+            using DotNetStreamReference streamRef = new(ms);
+            await ViewJsModule!.InvokeVoidAsync("addGraphic", CancellationTokenSource.Token, 
+                streamRef, Id);
         }
     }
 
@@ -1217,6 +1317,7 @@ public partial class MapView : MapComponent
     /// </summary>
     public async Task ClearGraphics()
     {
+        AllowRender = false;
         foreach (Graphic graphic in _graphics)
         {
             graphic.View = null;
@@ -1227,7 +1328,8 @@ public partial class MapView : MapComponent
 
         if (ViewJsModule is null) return;
 
-        await ViewJsModule!.InvokeVoidAsync("clearViewGraphics", CancellationTokenSource.Token, Id);
+        await ViewJsModule!.InvokeVoidAsync("clearGraphics", CancellationTokenSource.Token, Id);
+        AllowRender = true;
     }
 
     /// <summary>
@@ -1349,14 +1451,21 @@ public partial class MapView : MapComponent
     /// </param>
     public async Task RemoveGraphic(Graphic graphic)
     {
-        _graphics.Remove(graphic);
-        graphic.Parent = null;
-        graphic.View = null;
+        try
+        {
+            _graphics.Remove(graphic);
+            graphic.Parent = null;
+            graphic.View = null;
 
-        if (ViewJsModule is null) return;
+            if (ViewJsModule is null) return;
 
-        await ViewJsModule!.InvokeVoidAsync("removeGraphic", CancellationTokenSource.Token,
-            graphic.JsGraphicReference, Id);
+            await ViewJsModule!.InvokeVoidAsync("removeGraphic", CancellationTokenSource.Token,
+                graphic.Id, View!.Id, Id);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+        }
     }
 
     /// <summary>
@@ -1367,6 +1476,7 @@ public partial class MapView : MapComponent
     /// </param>
     public async Task RemoveGraphics(IEnumerable<Graphic> graphics)
     {
+        AllowRender = false;
         List<Graphic> oldGraphics= graphics.ToList();
         foreach (Graphic graphic in oldGraphics)
         {
@@ -1378,7 +1488,8 @@ public partial class MapView : MapComponent
         if (ViewJsModule is null) return;
 
         await ViewJsModule!.InvokeVoidAsync("removeGraphics", CancellationTokenSource.Token,
-            oldGraphics.Select(g => g.JsGraphicReference), Id);
+            oldGraphics.Select(g => g.Id), View!.Id, Id);
+        AllowRender = true;
     }
 
     /// <summary>
@@ -1845,13 +1956,42 @@ public partial class MapView : MapComponent
             }
         }
 
+        if (GraphicSerializationChunkSize is null)
+        {
+            int? chunkSetting = Configuration.GetValue<int?>("GraphicSerializationChunkSize");
+
+            if (chunkSetting is not null)
+            {
+                GraphicSerializationChunkSize = chunkSetting.Value;
+            }
+        }
+
         await UpdateView();
+    }
+    
+    protected override async Task OnInitializedAsync()
+    {
+#if NET7_0_OR_GREATER
+        if (IsWebAssembly)
+        {
+#pragma warning disable CA1416
+            await JSHost.ImportAsync("arcGisJsInterop", "../_content/dymaptic.GeoBlazor.Core/js/arcGisJsInterop.js");
+#pragma warning restore CA1416
+        }
+#else
+        await Task.Run(() => Task.CompletedTask);
+#endif
     }
 
     /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         ApiKey = Configuration["ArcGISApiKey"];
+
+        if (AbortManager is null)
+        {
+            AbortManager = new AbortManager(JsRuntime);
+        }
 
         if (!LoadOnRender && !_renderCalled)
         {
@@ -2031,5 +2171,7 @@ public partial class MapView : MapComponent
         return activeHandlers;
     }
 
-#endregion
+    #endregion
+
+    protected AbortManager? AbortManager;
 }

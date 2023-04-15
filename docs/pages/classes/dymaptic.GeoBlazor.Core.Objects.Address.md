@@ -3,6 +3,11 @@ layout: default
 title: Address
 parent: Classes
 ---
+---
+layout: default
+title: Address
+parent: Classes
+---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Objects](index.html#dymaptic.GeoBlazor.Core.Objects 'dymaptic.GeoBlazor.Core.Objects')
 
@@ -46,3 +51,4 @@ public Address(string Street, string City, string State, string Zone);
 <a name='dymaptic.GeoBlazor.Core.Objects.Address.Address(string,string,string,string).Zone'></a>
 
 `Zone` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+

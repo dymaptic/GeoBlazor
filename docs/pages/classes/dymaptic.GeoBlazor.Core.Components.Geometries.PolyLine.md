@@ -3,6 +3,11 @@ layout: default
 title: PolyLine
 parent: Classes
 ---
+---
+layout: default
+title: PolyLine
+parent: Classes
+---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Geometries](index.html#dymaptic.GeoBlazor.Core.Components.Geometries 'dymaptic.GeoBlazor.Core.Components.Geometries')
 
@@ -171,3 +176,4 @@ public static bool operator !=(dymaptic.GeoBlazor.Core.Components.Geometries.Pol
 
 #### Returns
 [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
+

@@ -1,5 +1,6 @@
 ﻿using dymaptic.GeoBlazor.Core.Objects;
 using Microsoft.AspNetCore.Components;
+using ProtoBuf;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -29,11 +30,8 @@ public abstract class Symbol : MapComponent
     ///     The symbol type
     /// </summary>
     public virtual string Type => default!;
-    
-    internal virtual SymbolSerializationRecord ToSerializationRecord()
-    {
-        return new(Type, Color);
-    }
+
+    internal abstract SymbolSerializationRecord ToSerializationRecord();
 }
 
 internal class SymbolJsonConverter : JsonConverter<Symbol>
@@ -83,20 +81,52 @@ internal class SymbolJsonConverter : JsonConverter<Symbol>
     }
 }
 
-[JsonConverter(typeof(SymbolSerializationConverter))]
-internal record SymbolSerializationRecord(string Type, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]MapColor? Color)
-    : MapComponentSerializationRecord;
-
-internal class SymbolSerializationConverter : JsonConverter<SymbolSerializationRecord>
+[ProtoContract(Name = "Symbol")]
+internal record SymbolSerializationRecord([property: ProtoMember(1)] string Type,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [property: ProtoMember(2)]
+        MapColor? Color)
+    : MapComponentSerializationRecord
 {
-    public override SymbolSerializationRecord? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        throw new NotImplementedException();
-    }
-
-    public override void Write(Utf8JsonWriter writer, SymbolSerializationRecord value, JsonSerializerOptions options)
-    {
-        writer.WriteRawValue(JsonSerializer.Serialize(value, value.GetType(), options));
-    }
+    [ProtoMember(3)]
+    public SymbolSerializationRecord? Outline { get; init; }
+    
+    [ProtoMember(4)]
+    public double? Size { get; init; }
+    
+    [ProtoMember(5)]
+    public string? Style { get; init; }
+    
+    [ProtoMember(6)]
+    public double? Angle { get; init; }
+    
+    [ProtoMember(7)]
+    public double? XOffset { get; init; }
+    
+    [ProtoMember(8)]
+    public double? YOffset { get; init; }
+    
+    [ProtoMember(9)]
+    public double? Width { get; init; }
+    
+    [ProtoMember(10)]
+    public string? LineStyle { get; init; }
+    
+    [ProtoMember(11)]
+    public string? Text { get; init; }
+    
+    [ProtoMember(12)]
+    public MapColor? HaloColor { get; init; }
+    
+    [ProtoMember(13)]
+    public double? HaloSize { get; init; }
+    
+    [ProtoMember(14)]
+    public MapFont? MapFont { get; init; }
+    
+    [ProtoMember(15)]
+    public double? Height { get; init; }
+    
+    [ProtoMember(16)]
+    public string? Url { get; init; }
 }

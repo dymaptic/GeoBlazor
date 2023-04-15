@@ -130,12 +130,11 @@ public class FieldsPopupContent : PopupContent
 
     internal override PopupContentSerializationRecord ToSerializationRecord()
     {
-        return new FieldsPopupContentSerializationRecord(FieldInfos?.ToArray(), Description, Title);
+        return new PopupContentSerializationRecord(Type)
+        {
+            FieldInfos = FieldInfos?.ToArray(), 
+            Description = Description, 
+            Title = Title
+        };
     }
 }
-
-internal record FieldsPopupContentSerializationRecord(
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]FieldInfo[]? FieldInfos, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Description = null, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Title = null)
-    : PopupContentSerializationRecord("fields");

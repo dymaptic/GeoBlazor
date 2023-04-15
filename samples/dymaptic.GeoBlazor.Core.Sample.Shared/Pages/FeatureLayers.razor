@@ -96,44 +96,33 @@
                 </SimpleRenderer>
                 <Field Name="ObjectID" Type="FieldType.Oid" />
                 <Field Name="url" Type="FieldType.String" />
+                <Graphic Attributes="@(new Dictionary<string, object>
+                                     {
+                                         { "ObjectID", "6" },
+                                         { "url", "https://arcgis.github.io/arcgis-samples-javascript/sample-data/featurelayer-collection/photo-6.jpg" }
+                                     })">
+                    <Point Longitude="-118.805" Latitude="34.027" />
+                </Graphic>
+                <Graphic Attributes="@(new Dictionary<string, object>
+                                     {
+                                         { "ObjectID", "5" },
+                                         { "url", "https://arcgis.github.io/arcgis-samples-javascript/sample-data/featurelayer-collection/photo-5.jpg" }
+                                     })">
+                    <Point Longitude="-118.815" Latitude="34.017" />
+                </Graphic>
+                <Graphic Attributes="@(new Dictionary<string, object>
+                                     {
+                                         { "ObjectID", "4" },
+                                         { "url", "https://arcgis.github.io/arcgis-samples-javascript/sample-data/featurelayer-collection/photo-4.jpg" }
+                                     })">
+                    <Point Longitude="-118.795" Latitude="34.027" />
+                </Graphic>
             </FeatureLayer>
         }
     </Map>
 </MapView>
 
 @code {
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender) return;
-
-        if (_showGraphics)
-        {
-            Graphic[] graphics =
-            {
-                new(new Point(-118.805, 34.027),
-                    attributes: new Dictionary<string, object>
-                    {
-                        { "ObjectID", "6" },
-                        { "url", "https://arcgis.github.io/arcgis-samples-javascript/sample-data/featurelayer-collection/photo-6.jpg" }
-                    }),
-                new(new Point(-118.815, 34.017),
-                    attributes: new Dictionary<string, object>
-                    {
-                        { "ObjectID", "5" },
-                        { "url", "https://arcgis.github.io/arcgis-samples-javascript/sample-data/featurelayer-collection/photo-5.jpg" }
-                    }),
-                new(new Point(-118.795, 34.027),
-                    attributes: new Dictionary<string, object>
-                    {
-                        { "ObjectID", "4" },
-                        { "url", "https://arcgis.github.io/arcgis-samples-javascript/sample-data/featurelayer-collection/photo-4.jpg" }
-                    })
-            };
-            await _graphicsFeatureLayer!.Add(graphics);
-        }
-    }
-
     private MapView? MapView { get; set; }
 
     private bool _showPointsLayer;

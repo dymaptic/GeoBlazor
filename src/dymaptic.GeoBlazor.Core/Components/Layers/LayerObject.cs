@@ -36,10 +36,14 @@ public abstract class LayerObject : MapComponent
     {
         Symbol = symbol;
 
-        if (JsGraphicReference is not null)
+        if (LayerJsModule is not null)
         {
-            await JsGraphicReference.InvokeVoidAsync("setSymbol", 
-                Symbol.ToSerializationRecord());
+            await LayerJsModule.InvokeVoidAsync("setGraphicSymbol", 
+                Id, Symbol.ToSerializationRecord());
+        }
+        else
+        {
+            UpdateSymbol = true;
         }
     }
 
@@ -86,9 +90,9 @@ public abstract class LayerObject : MapComponent
         base.ValidateRequiredChildren();
         Symbol?.ValidateRequiredChildren();
     }
-    
-    /// <summary>
-    ///    The <see cref="IJSObjectReference" /> for the layer object.
-    /// </summary>
-    public IJSObjectReference? JsGraphicReference = null!;
+
+    /// <remarks>
+    ///    Since some layer objects like "Graphics" can be added programmatically, we can't depend on the cascading parameter
+    protected IJSObjectReference? LayerJsModule => JsModule ?? Parent?.JsModule;
+    protected bool UpdateSymbol;
 }

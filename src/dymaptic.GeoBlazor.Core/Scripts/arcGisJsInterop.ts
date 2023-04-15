@@ -56,7 +56,7 @@ import {
     buildDotNetHitTestResult,
     buildDotNetLayer,
     buildDotNetLayerView,
-    buildDotNetPoint,
+    buildDotNetPoint, buildDotNetPopupTemplate,
     buildDotNetSpatialReference,
     buildViewExtentUpdate
 } from "./dotNetBuilder";
@@ -71,7 +71,7 @@ import {
     buildJsPopupOptions,
     buildJsPopupTemplate, buildJsPortalItem,
     buildJsRenderer,
-    buildJsSpatialReference
+    buildJsSpatialReference, buildJsSymbol
 } from "./jsBuilder";
 import {
     DotNetExtent,
@@ -80,7 +80,7 @@ import {
     DotNetHitTestOptions,
     DotNetHitTestResult,
     DotNetListItem,
-    DotNetPoint,
+    DotNetPoint, DotNetPopupTemplate,
     DotNetSpatialReference,
     MapCollection
 } from "./definitions";
@@ -92,21 +92,22 @@ import Camera from "@arcgis/core/Camera";
 import ProjectionWrapper from "./projection";
 import GeometryEngineWrapper from "./geometryEngine";
 import FeatureLayerViewWrapper from "./featureLayerView";
-import GraphicsLayerWrapper from "./graphicsLayer";
 import Popup from "@arcgis/core/widgets/Popup";
 import ElevationLayer from "@arcgis/core/layers/ElevationLayer";
 import PopupWidgetWrapper from "./popupWidgetWrapper";
 import HitTestResult = __esri.HitTestResult;
 import MapViewHitTestOptions = __esri.MapViewHitTestOptions;
 import LegendLayerInfos = __esri.LegendLayerInfos;
-import GraphicWrapper from "./graphic";
+import { load } from "protobufjs";
 
 export let arcGisObjectRefs: Record<string, Accessor> = {};
+export let graphicsRefs: Record<string, Graphic> = {};
 export let dotNetRefs = {};
 export let queryLayer: FeatureLayer;
 export let blazorServer: boolean = false;
-export {projection, geometryEngine};
+export {projection, geometryEngine, Graphic};
 let notifyExtentChanged: boolean = true;
+let uploadingLayers: Array<string> = [];
 
 export function getProperty(obj, prop) {
     return obj[prop];
@@ -127,8 +128,6 @@ export function getObjectReference(id: string): any {
     if (objectRef instanceof Layer) {
         if (objectRef instanceof FeatureLayer) {
             return new FeatureLayerWrapper(objectRef);
-        } else if (objectRef instanceof GraphicsLayer) {
-            return new GraphicsLayerWrapper(objectRef);
         }
 
         return buildDotNetLayer(objectRef);
@@ -177,6 +176,10 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
         let dotNetRef = dotNetReference;
         if (!projection.isLoaded()) {
             await projection.load();
+        }
+        
+        if (ProtoGraphicCollection === undefined) {
+            await loadProtobuf();
         }
 
         checkConnectivity(id);
@@ -457,11 +460,6 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
             layerRef = DotNet.createJSObjectReference(new FeatureLayerWrapper(evt.layer));
             // @ts-ignore
             layerViewRef = DotNet.createJSObjectReference(new FeatureLayerViewWrapper(evt.layerView));
-        } else if (evt.layer instanceof GraphicsLayer) {
-            // @ts-ignore
-            layerRef = DotNet.createJSObjectReference(new GraphicsLayerWrapper(evt.layer));
-            // @ts-ignore
-            layerViewRef = DotNet.createJSObjectReference(evt.layerView);
         } else {
             // @ts-ignore
             layerRef = DotNet.createJSObjectReference(evt.layer);
@@ -478,8 +476,16 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
             isBasemapLayer: isBasemapLayer
         }
 
+        let layerUid = evt.layer.id;
+        if (uploadingLayers.includes(layerUid)) {
+            return;
+        }
+        
+        uploadingLayers.push(layerUid);
+
         if (!blazorServer) {
             await dotNetRef.invokeMethodAsync('OnJavascriptLayerViewCreate', result);
+            uploadingLayers.splice(uploadingLayers.indexOf(layerUid), 1);
             return;
         }
 
@@ -490,7 +496,7 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
         let jsonLayerViewResult = JSON.stringify(result.layerView);
         let chunkSize = 1000;
         let chunks = Math.ceil(jsonLayerResult.length / chunkSize);
-        let layerUid = evt.layer.id;
+        
         for (let i = 0; i < chunks; i++) {
             let chunk = jsonLayerResult.slice(i * chunkSize, (i + 1) * chunkSize);
             await dotNetRef.invokeMethodAsync('OnJavascriptLayerCreateChunk', layerUid, chunk, i);
@@ -504,6 +510,7 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
 
         await dotNetRef.invokeMethodAsync('OnJavascriptLayerViewCreateComplete', layerGeoBlazorId ?? null, layerUid,
             result.layerObjectRef, result.layerViewObjectRef, isBasemapLayer);
+        uploadingLayers.splice(uploadingLayers.indexOf(layerUid), 1);
     });
 
     if (activeEventHandlers.includes('OnLayerViewCreateError')) {
@@ -627,6 +634,16 @@ export function disposeMapComponent(componentId: string, viewId: string): void {
     }
 }
 
+export function disposeGraphic(graphicId: string) {
+    try {
+        let graphic = graphicsRefs[graphicId];
+        graphic.destroy();
+        delete graphicsRefs[graphicId];
+    } catch (error) {
+        logError(error, graphicId);
+    }
+}
+
 export function updateView(viewObject: any) {
     try {
         setWaitCursor(viewObject.Id);
@@ -706,7 +723,9 @@ export function setHighlightOptions(highlightOptions: any, viewId: string) {
 export function setSpatialReference(spatialReferenceObject: any, viewId: string) {
     try {
         let view = arcGisObjectRefs[viewId] as MapView;
-        view.spatialReference = buildJsSpatialReference(spatialReferenceObject);
+        if (view !== undefined) {
+            view.spatialReference = buildJsSpatialReference(spatialReferenceObject);
+        }
     } catch (error) {
         logError(error, viewId);
     }
@@ -738,72 +757,42 @@ export async function queryFeatureLayer(queryObject: any, layerObject: any, symb
     }
 }
 
-export function removeGraphicsLayer(viewId: string, layerId: string): void {
+export function removeGraphics(graphicWrapperIds: string[], viewId: string, layerId?: string | null): void {
     try {
         setWaitCursor(viewId);
-        console.debug('remove graphics layer');
         let view = arcGisObjectRefs[viewId] as View;
-        let layer = arcGisObjectRefs[layerId!] as Layer;
-        view?.map?.remove(layer);
-        layer?.destroy();
-        unsetWaitCursor(viewId);
-    } catch (error) {
-        logError(error, viewId);
-    }
-}
-
-export async function updateGraphic(graphicObject: any, viewId: string): Promise<void> {
-    try {
-        setWaitCursor(viewId);
-        let oldGraphic = arcGisObjectRefs[graphicObject.id] as Graphic;
-        let view = arcGisObjectRefs[viewId] as View;
-
-        if (hasValue(oldGraphic)) {
-            // the graphic already exists, so update it
-            let popupTemplate: PopupTemplate | undefined = undefined;
-            if (hasValue(graphicObject.popupTemplate)) {
-                oldGraphic.popupTemplate = buildJsPopupTemplate(graphicObject.popupTemplate, viewId);
-            }
-
-            if (hasValue(graphicObject.geometry)) {
-                oldGraphic.geometry = buildJsGeometry(graphicObject.geometry) as Geometry;
-            }
-
-            if (hasValue(graphicObject.symbol)) {
-                oldGraphic.symbol = graphicObject.symbol;
-            }
-
-            if (hasValue(graphicObject.attributes)) {
-                oldGraphic.attributes = graphicObject.attributes;
-            }
+        let graphicsToRemove: Graphic[] = [];
+        if (hasValue(layerId)) {
+            let layer = arcGisObjectRefs[layerId as string] as GraphicsLayer;
+            layer.removeMany(graphicsToRemove);
         } else {
-            // remove a graphic at the same index, it could be a replacement with a new Id in Blazor
-            view.graphics.removeAt(graphicObject.graphicIndex);
-            await addGraphic(graphicObject, viewId);
+            view.graphics.removeMany(graphicsToRemove);
         }
-
+        (async () => {
+            for (const id of graphicWrapperIds) {
+                graphicsToRemove.push(graphicsRefs[id]);
+                delete graphicsRefs[id];
+            }
+        })();
         unsetWaitCursor(viewId);
     } catch (error) {
         logError(error, viewId);
     }
 }
 
-export function removeGraphics(graphicWrappers: GraphicWrapper[], viewId: string): void {
+export function removeGraphic(graphicId: string, viewId: string, layerId?: string | null): void {
     try {
         setWaitCursor(viewId);
         let view = arcGisObjectRefs[viewId] as View;
-        view.graphics.removeMany(graphicWrappers.map(g => g.graphic));
-        unsetWaitCursor(viewId);
-    } catch (error) {
-        logError(error, viewId);
-    }
-}
-
-export function removeGraphic(graphicWrapper: GraphicWrapper, viewId: string): void {
-    try {
-        setWaitCursor(viewId);
-        let view = arcGisObjectRefs[viewId] as View;
-        view.graphics.remove(graphicWrapper.graphic);
+        let graphic = graphicsRefs[graphicId];
+        if (hasValue(layerId)) {
+            let layer = arcGisObjectRefs[layerId as string] as GraphicsLayer;
+            layer.remove(graphic);
+        } else {
+            view.graphics.remove(graphic);
+        }
+        delete graphicsRefs[graphicId];
+        
         unsetWaitCursor(viewId);
     } catch (error) {
         logError(error, viewId);
@@ -837,18 +826,6 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                 }
                 if (hasValue(layerObject.url) && layerObject.url !== featureLayer.url) {
                     featureLayer.url = layerObject.url;
-                }
-                if (hasValue(layerObject.source)) {
-                    let source: Array<Graphic> = [];
-                    for (let i = 0; i < layerObject.source.length; i++) {
-                        let graphic = layerObject.source[i];
-                        let jsGraphic = await buildJsGraphic(graphic, true, viewId);
-                        if (jsGraphic !== null) {
-                            source.push(jsGraphic as Graphic);
-                        }
-                    }
-
-                    featureLayer.source = source as any;
                 }
 
                 copyValuesIfExists(layerObject, featureLayer, 'minScale', 'maxScale', 'orderBy', 'objectIdField',
@@ -1100,55 +1077,200 @@ export async function showPopupWithGraphic(graphicObject: any, options: any, vie
 }
 
 
-export async function addGraphic(graphicObject: DotNetGraphic, viewId: string, graphicsLayer?: any): Promise<void> {
+export async function addGraphic(streamRefOrGraphicObject: any, viewId: string, layerId?: string | null): Promise<void> {
     try {
         setWaitCursor(viewId);
-        let graphic = await buildJsGraphic(graphicObject, true, viewId);
-        let view = arcGisObjectRefs[viewId] as View;
-        if (graphicsLayer === undefined || graphicsLayer === null) {
-            if (!hasValue(view?.graphics)) return;
-            view.graphics?.add(graphic as Graphic);
-            console.log(new Date() + " - added to map");
-        } else if (typeof (graphicsLayer) === 'object') {
-            graphicsLayer.add(graphic as Graphic);
+        let graphic: Graphic;
+        let graphicId: string;
+        if (streamRefOrGraphicObject.hasOwnProperty("_streamPromise")) {
+            let graphics = await getGraphicsFromProtobufStream(streamRefOrGraphicObject) as any[];
+            graphic = buildJsGraphic(graphics[0], viewId) as Graphic;
+            graphicId = graphics[0].id;
         } else {
-            (view?.map?.layers as MapCollection).items.filter(l => l.type === "graphics")[graphicsLayer].add(graphic);
+            graphic = buildJsGraphic(streamRefOrGraphicObject, viewId) as Graphic;
+            graphicId = streamRefOrGraphicObject.id;
         }
+        let view = arcGisObjectRefs[viewId] as View;
+        if (hasValue(layerId)) {
+            let layer = arcGisObjectRefs[layerId as string] as GraphicsLayer;
+            layer.add(graphic);
+        } else {
+            if (!hasValue(view?.graphics)) return;
+            view.graphics?.add(graphic);
+        }
+        graphicsRefs[graphicId] = graphic;
         unsetWaitCursor(viewId);
     } catch (error) {
         logError(error, viewId);
     }
 }
 
-export async function addGraphics(graphics: DotNetGraphic[], viewId: string): Promise<void> {
+export async function addGraphicsFromStream(streamRef: any, viewId: string, abortSignal: AbortSignal, layerId?: string | null): Promise<void> {
     try {
+        if (abortSignal.aborted) {
+            return;
+        }
+        let graphics = await getGraphicsFromProtobufStream(streamRef) as any[];
         let jsGraphics: Graphic[] = [];
-        let wrappers: GraphicWrapper[] = [];
         let view = arcGisObjectRefs[viewId] as View;
         for (const g of graphics) {
-            let jsGraphic = await buildJsGraphic(g, false, viewId) as Graphic;
+            if (abortSignal.aborted) {
+                return;
+            }
+            let jsGraphic = buildJsGraphic(g, viewId) as Graphic;
             jsGraphics.push(jsGraphic);
-            wrappers.push(new GraphicWrapper(jsGraphic));
         }
-        view.graphics?.addMany(jsGraphics);
-        console.log(new Date() + " - added to map");
-        for (let i = 0; i < wrappers.length; i++) {
-            const w = wrappers[i];
-            // @ts-ignore
-            let objectRef = DotNet.createJSObjectReference(w);
-            await graphics[i].dotNetGraphicReference.invokeMethodAsync("OnGraphicCreated", objectRef);
+        if (abortSignal.aborted) {
+            return;
         }
+        if (hasValue(layerId)) {
+            let layer = arcGisObjectRefs[layerId as string] as GraphicsLayer;
+            layer.addMany(jsGraphics);
+        } else {
+            view.graphics?.addMany(jsGraphics);
+        }
+        (async () => {
+            for (let i = 0; i < jsGraphics.length; i++) {
+                if (abortSignal.aborted) {
+                    return;
+                }
+                let graphic = jsGraphics[i];
+                let graphicObject = graphics[i];
+                graphicsRefs[graphicObject.id] = graphic;
+            }
+        })();
     } catch (error) {
-        console.log(error);
+        logError(error, viewId);
     }
 }
 
+export function addGraphicsSyncInterop(graphicsArray: Uint8Array, viewId: string, layerId?: string | null): void {
+    try {
+        let graphics = decodeProtobufGraphics(graphicsArray);
+        let jsGraphics: Graphic[] = [];
+        let view = arcGisObjectRefs[viewId] as View;
+        for (const g of graphics) {
+            let jsGraphic = buildJsGraphic(g, viewId) as Graphic;
+            jsGraphics.push(jsGraphic);
+        }
+        if (hasValue(layerId)) {
+            let layer = arcGisObjectRefs[layerId as string] as GraphicsLayer;
+            layer.graphics?.addMany(jsGraphics);
+        } else {
+            view.graphics?.addMany(jsGraphics);
+        }
+        (async () => {
+            for (let i = 0; i < jsGraphics.length; i++) {
+                let graphic = jsGraphics[i];
+                let graphicObject = graphics[i];
+                graphicsRefs[graphicObject.id] = graphic;
+            }
+        })();
+    } catch (error) {
+        logError(error, viewId);
+    }
+}
 
-export function clearViewGraphics(viewId: string): void {
+export function setGraphicAttribute(id: string, name: string, value: any): void {
+    let graphic = graphicsRefs[id];
+    if (hasValue(graphic)) {
+        graphic.attributes[name] = value;
+    }
+}
+
+export function getGraphicAttribute(id: string, name: string): any {
+    return graphicsRefs[id]?.attributes[name];
+}
+
+export function removeGraphicAttribute(id: string, name: string): void {
+    delete graphicsRefs[id]?.attributes[name];
+}
+
+export function setGraphicGeometry(id: string, geometry: DotNetGeometry): void {
+    let jsGeometry = buildJsGeometry(geometry);
+    let graphic = graphicsRefs[id];
+    if (hasValue(graphic) && jsGeometry !== null && graphic.geometry !== jsGeometry) {
+        graphic.geometry = jsGeometry;
+    }
+}
+
+export function getGraphicGeometry(id: string): DotNetGeometry | null {
+    let graphic = graphicsRefs[id];
+    if (hasValue(graphic)) {
+        return buildDotNetGeometry(graphic.geometry);    
+    }
+    
+    return null;
+}
+
+export function setGraphicSymbol(id: string, symbol: any): void {
+    let graphic = graphicsRefs[id];
+    let jsSymbol = buildJsSymbol(symbol);
+    if (hasValue(graphic) && hasValue(symbol) && graphic.symbol !== jsSymbol) {
+        graphic.symbol = jsSymbol as any;
+    }
+}
+
+export function getGraphicSymbol(id: string): any {
+    return graphicsRefs[id]?.symbol;
+}
+
+export function setGraphicVisibility(id: string, visible: boolean): void {
+    let graphic = graphicsRefs[id];
+    if (hasValue(graphic)) {
+        graphic.visible = visible;
+    }
+}
+
+export function getGraphicVisibility(id: string): boolean {
+    return graphicsRefs[id]?.visible;
+}
+
+export function setGraphicPopupTemplate(id: string, popupTemplate: DotNetPopupTemplate, viewId: string): void {
+    let graphic = graphicsRefs[id];
+    let jsPopupTemplate = buildJsPopupTemplate(popupTemplate, viewId);
+    if (hasValue(graphic) && hasValue(popupTemplate) && graphic.popupTemplate !== jsPopupTemplate) {
+        graphic.popupTemplate = jsPopupTemplate;
+    }
+}
+
+export function getGraphicPopupTemplate(id: string): DotNetPopupTemplate | null {
+    let graphic = graphicsRefs[id];
+    if (!hasValue(graphic)) return null;
+    return buildDotNetPopupTemplate(graphic.popupTemplate);
+}
+
+
+export function clearGraphics(viewId: string, layerId?: string | null): void {
     try {
         setWaitCursor(viewId);
         let view = arcGisObjectRefs[viewId] as View;
-        view.graphics.removeAll();
+        if (hasValue(layerId)) {
+            let layer = arcGisObjectRefs[layerId as string] as GraphicsLayer;
+            layer.graphics?.removeAll();
+            (async () => {
+                for (const key in graphicsRefs) {
+                    if (graphicsRefs.hasOwnProperty(key)) {
+                        const graphic = graphicsRefs[key];
+                        if (graphic.layer == layer) {
+                            delete graphicsRefs[key];
+                        }
+                    }
+                }
+            })();
+        } else {
+            view.graphics.removeAll();
+            (async () => {
+                for (const key in graphicsRefs) {
+                    if (graphicsRefs.hasOwnProperty(key)) {
+                        const graphic = graphicsRefs[key];
+                        if (!hasValue(graphic.layer)) {
+                            delete graphicsRefs[key];
+                        }
+                    }
+                }
+            })();
+        }
         unsetWaitCursor(viewId);
     } catch (error) {
         logError(error, viewId);
@@ -1296,7 +1418,7 @@ export async function goToGraphics(graphics, viewId: string): Promise<void> {
     for (const graphic of graphics) {
         delete graphic.dotNetGraphicReference;
         delete graphic.layerId;
-        let jsGraphic = await buildJsGraphic(graphic, false, viewId);
+        let jsGraphic = buildJsGraphic(graphic, viewId);
         if (jsGraphic !== null) {
             jsGraphics.push(jsGraphic);
         }
@@ -1637,13 +1759,6 @@ export async function addLayer(layerObject: any, viewId: string, isBasemapLayer?
 
         if (newLayer === null) return;
 
-        if (layerObject.type === 'graphics') {
-            for (let i = 0; i < layerObject.graphics.length; i++) {
-                const graphicObject = layerObject.graphics[i];
-                await addGraphic(graphicObject, viewId, newLayer);
-            }
-        }
-
         if (isBasemapLayer) {
             view.map?.basemap.baseLayers.push(newLayer);
         } else if (isQueryLayer) {
@@ -1664,6 +1779,18 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
     switch (layerObject.type) {
         case 'graphics':
             newLayer = new GraphicsLayer();
+            let graphicsLayer = newLayer as GraphicsLayer;
+            let jsGraphics: Graphic[] = [];
+            for (const g of layerObject.graphics) {
+                let jsGraphic = buildJsGraphic(g, viewId ?? null) as Graphic;
+                jsGraphics.push(jsGraphic);
+            }
+            graphicsLayer.addMany(jsGraphics);
+            for (let i = 0; i < jsGraphics.length; i++) {
+                let graphic = jsGraphics[i];
+                let graphicObject = layerObject.graphics[i];
+                graphicsRefs[graphicObject.id] = graphic;
+            }
             break;
         case 'feature':
             if (hasValue(layerObject.portalItem)) {
@@ -1676,13 +1803,16 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
                 });
             } else {
                 let source: Array<Graphic> = [];
-                for (let i = 0; i < layerObject.source.length; i++) {
-                    const graphicObject = layerObject.source[i];
-                    let graphic = await buildJsGraphic(graphicObject, true, viewId ?? null);
-                    if (graphic !== null) {
-                        source.push(graphic);
+                if (hasValue(layerObject.source)) {
+                    for (let i = 0; i < layerObject.source.length; i++) {
+                        const graphicObject = layerObject.source[i];
+                        let graphic = buildJsGraphic(graphicObject, viewId ?? null);
+                        if (graphic !== null) {
+                            source.push(graphic);
+                        }
                     }
                 }
+                
                 newLayer = new FeatureLayer({
                     source: source
                 });
@@ -1880,17 +2010,19 @@ async function resetCenterToSpatialReference(center: Point, spatialReference: Sp
     return await projection.project(center, spatialReference) as Point;
 }
 
-export function logError(error, viewId: string) {
+export function logError(error, viewId: string | null) {
     error.message ??= error.toString();
     console.debug(error);
-    try {
-        dotNetRefs[viewId].invokeMethodAsync('OnJavascriptError', {
-            message: error.message, name: error.name, stack: error.stack
-        });
-    } catch {
-        // ignore, we've already logged to the console
+    if (viewId !== null) {
+        try {
+            dotNetRefs[viewId].invokeMethodAsync('OnJavascriptError', {
+                message: error.message, name: error.name, stack: error.stack
+            });
+        } catch {
+            // ignore, we've already logged to the console
+        }
+        unsetWaitCursor(viewId);
     }
-    unsetWaitCursor(viewId);
 }
 
 
@@ -1920,7 +2052,7 @@ function waitForRender(viewId: string, dotNetRef: any): void {
             }
             if (!view.updating && !isRendered && !rendering) {
                 notifyExtentChanged = true;
-                console.debug("View Render Complete");
+                console.debug(new Date() + " - View Render Complete");
                 try {
                     rendering = true;
                     await dotNetRef.invokeMethodAsync('OnViewRendered');
@@ -2097,4 +2229,46 @@ function buildHitTestOptions(options: DotNetHitTestOptions, view: MapView): MapV
     }
 
     return hitOptions;
+}
+
+let ProtoGraphicCollection;
+
+export async function loadProtobuf() {
+    load("_content/dymaptic.GeoBlazor.Core/graphic.json", function (err, root) {
+        if (err) throw err;
+        ProtoGraphicCollection = root?.lookupType("ProtoGraphicCollection");
+    });
+}
+
+export async function getGraphicsFromProtobufStream(streamRef): Promise<any[] | null> {
+    try {
+        const buffer = await streamRef.arrayBuffer();
+        console.debug(new Date() + " - " + buffer.byteLength + " bytes received from server.");
+        return decodeProtobufGraphics(new Uint8Array(buffer));
+    } catch (error) {
+        logError(error, null);
+        return null;
+    }
+}
+
+export function decodeProtobufGraphics(uintArray: Uint8Array): any[] {
+    let decoded = ProtoGraphicCollection.decode(uintArray);
+    let array = ProtoGraphicCollection.toObject(decoded, {
+        defaults: false,
+        enums: String,
+        longs: String,
+        arrays: false,
+        objects: false
+    });
+    console.debug(new Date() + " - " + array.graphics.length + " graphics decoded from protobuf.");
+    return array.graphics;
+}
+
+export function encodeProtobufGraphics(graphics: any[]): Uint8Array {
+    let obj = {
+        graphics: graphics
+    };
+    let collection = ProtoGraphicCollection.fromObject(obj);
+    let encoded = ProtoGraphicCollection.encode(collection).finish();
+    return encoded;
 }
