@@ -3,6 +3,11 @@ layout: default
 title: ExtentQueryResult
 parent: Classes
 ---
+---
+layout: default
+title: ExtentQueryResult
+parent: Classes
+---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Layers](index.html#dymaptic.GeoBlazor.Core.Components.Layers 'dymaptic.GeoBlazor.Core.Components.Layers')
 
@@ -69,3 +74,4 @@ public dymaptic.GeoBlazor.Core.Components.Geometries.Extent Extent { get; set; }
 
 #### Property Value
 [Extent](dymaptic.GeoBlazor.Core.Components.Geometries.Extent.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Extent')
+

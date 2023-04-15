@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using ProtoBuf;
 using System.Text.Json.Serialization;
 
 
@@ -198,18 +199,19 @@ public class FieldInfo : MapComponent, IEquatable<FieldInfo>
     }
 }
 
+[ProtoContract(Name = "FieldInfo")]
 internal record FieldInfoSerializationRecord([property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        string? FieldName = null,
+        [property: ProtoMember(1)]string? FieldName = null,
         [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        string? Label = null,
+        [property: ProtoMember(2)]string? Label = null,
         [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        string? Tooltip = null,
+        [property: ProtoMember(3)]string? Tooltip = null,
         [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        string? StringFieldOption = null,
+        [property: ProtoMember(4)]string? StringFieldOption = null,
         [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        FieldInfoFormatSerializationRecord? Format = null,
+        [property: ProtoMember(5)]FieldInfoFormatSerializationRecord? Format = null,
         [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        bool? IsEditable = null,
+        [property: ProtoMember(6)]bool? IsEditable = null,
         [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        bool? Visible = null)
+        [property: ProtoMember(7)]bool? Visible = null)
     : MapComponentSerializationRecord;

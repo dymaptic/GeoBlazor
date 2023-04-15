@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using ProtoBuf;
 using System.Text.Json.Serialization;
 
 
@@ -13,6 +14,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 ///         JS API
 ///     </a>
 /// </summary>
+[ProtoContract]
 public class MapFont : MapComponent, IEquatable<MapFont>
 {
     /// <summary>
@@ -35,12 +37,14 @@ public class MapFont : MapComponent, IEquatable<MapFont>
     ///     The font size in points.
     /// </summary>
     [Parameter]
+    [ProtoMember(1)]
     public int? Size { get; set; }
 
     /// <summary>
     ///     The font family of the text.
     /// </summary>
     [Parameter]
+    [ProtoMember(2)]
     public string? Family { get; set; }
 
     /// <summary>
@@ -48,12 +52,14 @@ public class MapFont : MapComponent, IEquatable<MapFont>
     /// </summary>
     [Parameter]
     [JsonPropertyName("style")]
+    [ProtoMember(3, Name = "style")]
     public string? FontStyle { get; set; }
 
     /// <summary>
     ///     The text weight.
     /// </summary>
     [Parameter]
+    [ProtoMember(4)]
     public string? Weight { get; set; }
 
     /// <inheritdoc />
@@ -91,6 +97,6 @@ public class MapFont : MapComponent, IEquatable<MapFont>
 internal record MapFontSerializationRecord(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]int? Size, 
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Family, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? FontStyle, 
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Style, 
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Weight)
     : MapComponentSerializationRecord;

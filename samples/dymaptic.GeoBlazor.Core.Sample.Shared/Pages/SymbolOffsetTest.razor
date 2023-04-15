@@ -1,0 +1,275 @@
+﻿@page "/symbol-offset"
+@using System.Text
+
+<MapView @ref="_mapView" Longitude="_longitude" Latitude="_latitude" Zoom="11" Style="height: 600px; width: 100%;">
+    <Map ArcGisDefaultBasemap="arcgis-navigation">
+        <GraphicsLayer @ref="pointsLayer">
+        </GraphicsLayer>
+    </Map>
+    <ScaleBarWidget Position="OverlayPosition.BottomLeft" />
+    <CompassWidget Position="OverlayPosition.TopLeft" />
+</MapView>
+
+<button class="btn btn-primary" @onclick="AddOffSet">Offset Marker</button>
+
+@code {
+    // Buffalo, NY
+    private readonly double _latitude = 42.895715;
+    private readonly double _longitude = -78.78077;
+
+    private CoordinateEntity[] Positions;
+
+    // Polyline encoded set of points in Buffalo, NY
+    // See https://developers.google.com/maps/documentation/utilities/polylineutility
+    private string polyline = "itwdGvh_`NpF@?uEAaGpOPGrX";
+
+    GraphicsLayer pointsLayer;
+    MapView _mapView;
+
+    private Graphic GetNewGraphic(string color, CoordinateEntity point, double heading, double xOffset, double yOffset)
+    {
+        var symbol = new PictureMarkerSymbol($"https://static.arcgis.com/images/Symbols/Shapes/{color}Pin1LargeB.png",
+                        height: 80,
+                        width: 80,
+                        xOffset: xOffset,
+                        yOffset: yOffset,
+                        angle: heading);
+
+        var g = new Graphic(
+                new Point(point.Longitude, point.Latitude),
+                symbol);
+
+        return g;
+    }
+
+    private async void AddOffSet()
+    {
+        await AddLine();
+
+        // Add marker, zero offsets
+        await pointsLayer.Add(GetNewGraphic("Blue", Positions[2], 0.0, 0.0, 0.0));
+
+        // Add marker, positive offsets
+        await pointsLayer.Add(GetNewGraphic("Green", Positions[4], 0.0, 100.0, 100.0));
+
+        // Add marker, negative offsets
+        await pointsLayer.Add(GetNewGraphic("Red", Positions[5], 0.0, -100.0, -100.0));
+    }
+
+    private async Task AddLine()
+    {
+        var spatialReference = new SpatialReference(4326);
+        // This will return a set of lat/lng
+        var points = PolylineEncoder.Decode(polyline).ToArray();
+
+        Positions = points;
+
+        MyExtent extent = new();
+
+        if (points.Length > 1)
+        {
+            extent.ReadLatLon(points[0], true);
+
+            var sp = new MapPoint(points[0].Longitude, points[0].Latitude);
+            var polyPaths = new List<MapPath>();
+
+            for (var i = 1; i < points.Length; i++)
+            {
+                extent.ReadLatLon(points[i], false);
+                var dp = new MapPoint(points[i].Longitude, points[i].Latitude);
+
+                polyPaths.Add(new MapPath(sp, dp));
+
+                sp = dp;
+            }
+
+            var polyLine = new PolyLine(polyPaths.ToArray(), spatialReference);
+
+            var g = new Graphic(
+                polyLine,
+                new SimpleLineSymbol(new MapColor("green"), width: 3, LineStyle.Solid));
+
+            await pointsLayer.Clear();
+
+            await pointsLayer.Add(g);
+
+            Extent ex = new Extent(xmax: extent.MaxLongitude, xmin: extent.MinLongitude, ymax: extent.MaxLatitude, ymin: extent.MinLatitude, spatialReference: spatialReference);
+
+            await _mapView!.GoTo(ex);
+        }
+    }
+    
+    public static class PolylineEncoder
+    {
+        /// <summary>
+        /// Decode google style polyline coordinates.
+        /// </summary>
+        /// <param name="encodedPoints"></param>
+        /// <returns></returns>
+        public static IEnumerable<CoordinateEntity> Decode(string encodedPoints)
+        {
+            if (string.IsNullOrEmpty(encodedPoints))
+                throw new ArgumentNullException("encodedPoints");
+
+            char[] polylineChars = encodedPoints.ToCharArray();
+            int index = 0;
+
+            int currentLat = 0;
+            int currentLng = 0;
+            int next5bits;
+            int sum;
+            int shifter;
+
+            while (index < polylineChars.Length)
+            {
+                // calculate next latitude
+                sum = 0;
+                shifter = 0;
+                do
+                {
+                    next5bits = (int)polylineChars[index++] - 63;
+                    sum |= (next5bits & 31) << shifter;
+                    shifter += 5;
+                } while (next5bits >= 32 && index < polylineChars.Length);
+
+                if (index >= polylineChars.Length)
+                    break;
+
+                currentLat += (sum & 1) == 1 ? ~(sum >> 1) : (sum >> 1);
+
+                //calculate next longitude
+                sum = 0;
+                shifter = 0;
+                do
+                {
+                    next5bits = (int)polylineChars[index++] - 63;
+                    sum |= (next5bits & 31) << shifter;
+                    shifter += 5;
+                } while (next5bits >= 32 && index < polylineChars.Length);
+
+                if (index >= polylineChars.Length && next5bits >= 32)
+                    break;
+
+                currentLng += (sum & 1) == 1 ? ~(sum >> 1) : (sum >> 1);
+
+                yield return new CoordinateEntity
+                {
+                    Latitude = Convert.ToDouble(currentLat) / 1E5,
+                    Longitude = Convert.ToDouble(currentLng) / 1E5
+                };
+            }
+        }
+
+        /// <summary>
+        /// Encode it
+        /// </summary>
+        /// <param name="points"></param>
+        /// <returns></returns>
+        public static string Encode(IEnumerable<CoordinateEntity> points)
+        {
+            var str = new StringBuilder();
+
+            void encodeDiff(int diff)
+            {
+                int shifted = diff << 1;
+                if (diff < 0)
+                    shifted = ~shifted;
+
+                int rem = shifted;
+
+                while (rem >= 0x20)
+                {
+                    str.Append((char)((0x20 | (rem & 0x1f)) + 63));
+
+                    rem >>= 5;
+                }
+
+                str.Append((char)(rem + 63));
+            }
+
+            int lastLat = 0;
+            int lastLng = 0;
+
+            foreach (var point in points)
+            {
+                int lat = (int)Math.Round(point.Latitude * 1E5);
+                int lng = (int)Math.Round(point.Longitude * 1E5);
+
+                encodeDiff(lat - lastLat);
+                encodeDiff(lng - lastLng);
+
+                lastLat = lat;
+                lastLng = lng;
+            }
+
+            return str.ToString();
+        }
+    }
+
+    public struct CoordinateEntity
+    {
+        public double Latitude;
+        public double Longitude;
+
+        public CoordinateEntity(double x, double y)
+        {
+            this.Latitude = x;
+            this.Longitude = y;
+        }
+    }
+    
+    public class MyExtent
+    {
+        public double MinLatitude { get; set; }
+        public double MinLongitude { get; set; }
+        public double MaxLatitude { get; set; }
+        public double MaxLongitude { get; set; }
+
+        public void ReadLatLon(CoordinateEntity position, bool isFirstPoint)
+        {
+            ReadLatLon(position.Latitude, position.Longitude, isFirstPoint);
+        }
+
+        public void ReadLatLon(double lat, double lon, bool isFirstPoint)
+        {
+            if (isFirstPoint)
+            {
+                MinLongitude = lon;
+                MaxLongitude = lon;
+                MinLatitude = lat;
+                MaxLatitude = lat;
+            }
+            else
+            {
+                if (lon < MinLongitude)
+                    MinLongitude = lon;
+                if (lat < MinLatitude)
+                    MinLatitude = lat;
+                if (lon > MaxLongitude)
+                    MaxLongitude = lon;
+                if (lat > MaxLatitude)
+                    MaxLatitude = lat;
+            }
+        }
+        public MyExtent() { }
+
+        public MyExtent(double latitude, double longitude)
+        {
+            ReadLatLon(latitude, longitude, true);
+        }
+        public MyExtent(double latitude, double longitude, double otherLatitude, double otherLongitude) : this(latitude, longitude)
+        {
+            ReadLatLon(otherLatitude, otherLongitude, false);
+        }
+    // Simple way of getting center, reasonably accurate for short distances
+        public CoordinateEntity GetCenter()
+        {
+            var Latitude = (MaxLatitude + MinLatitude) / 2.0;
+            var Longitude = (MaxLongitude + MinLongitude) / 2.0;
+
+            return new CoordinateEntity(Latitude, Longitude);
+        }
+
+    }
+
+}

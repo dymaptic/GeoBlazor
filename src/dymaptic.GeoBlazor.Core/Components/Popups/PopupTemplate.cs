@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using ProtoBuf;
 using System.Text.Json.Serialization;
 
 
@@ -373,22 +374,24 @@ public class PopupTemplate : MapComponent, IEquatable<PopupTemplate>
     }
 }
 
-internal record PopupTemplateSerializationRecord([property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        string? Title,
+[ProtoContract(Name = "PopupTemplate")]
+internal record PopupTemplateSerializationRecord(
         [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        string? StringContent = null,
+        [property: ProtoMember(1)]string? Title,
         [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        IEnumerable<string>? OutFields = null,
+        [property: ProtoMember(2)]string? StringContent = null,
         [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        IEnumerable<FieldInfoSerializationRecord>? FieldInfos = null,
+        [property: ProtoMember(3)]IEnumerable<string>? OutFields = null,
         [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        IEnumerable<PopupContentSerializationRecord>? Contents = null,
+        [property: ProtoMember(4)]IEnumerable<FieldInfoSerializationRecord>? FieldInfos = null,
         [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        IEnumerable<ExpressionInfoSerializationRecord>? ExpressionInfos = null,
+        [property: ProtoMember(5)]IEnumerable<PopupContentSerializationRecord>? Content = null,
         [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        bool? OverwriteActions = null,
+        [property: ProtoMember(6)]IEnumerable<ExpressionInfoSerializationRecord>? ExpressionInfos = null,
         [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        bool? ReturnGeometry = null,
+        [property: ProtoMember(7)]bool? OverwriteActions = null,
         [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        IEnumerable<ActionBaseSerializationRecord>? Actions = null)
+        [property: ProtoMember(8)]bool? ReturnGeometry = null,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [property: ProtoMember(9)]IEnumerable<ActionBaseSerializationRecord>? Actions = null)
     : MapComponentSerializationRecord;
