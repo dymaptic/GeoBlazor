@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
     <PropertyGroup>
-        <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
+        <TargetFramework>net7.0</TargetFramework>
     </PropertyGroup>
 
 
@@ -12,16 +12,9 @@
     <ItemGroup>
         <PackageReference Include="Markdig" Version="0.30.4" />
         <PackageReference Include="MarkdigExtensions.SyntaxHighlighting" Version="1.0.3" />
-    </ItemGroup>
-    <ItemGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
-        <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="6.0.13" />
-        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.13" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="7.0.5" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.5" />
         <PackageReference Include="Microsoft.Extensions.FileProviders.Abstractions" Version="6.0.0" />
-    </ItemGroup>
-    <ItemGroup Condition=" '$(TargetFramework)' == 'net7.0' ">
-        <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="7.0.4" />
-        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.4" />
-        <PackageReference Include="Microsoft.Extensions.FileProviders.Abstractions" Version="7.0.0" />
     </ItemGroup>
 
     <ItemGroup>
