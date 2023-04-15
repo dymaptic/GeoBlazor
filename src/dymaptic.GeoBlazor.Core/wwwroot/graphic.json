@@ -159,6 +159,10 @@
                         "wkid": {
                           "type": "int32",
                           "id": 1
+                        },
+                        "wkt": {
+                          "type": "string",
+                          "id": 2
                         }
                       }
                     },

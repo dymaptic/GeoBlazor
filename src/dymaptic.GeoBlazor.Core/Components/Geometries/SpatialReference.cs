@@ -119,7 +119,7 @@ public class SpatialReference : MapComponent, IEquatable<SpatialReference>
 
     internal SpatialReferenceSerializationRecord ToSerializationRecord()
     {
-        return new SpatialReferenceSerializationRecord(Wkid);
+        return new SpatialReferenceSerializationRecord(Wkid, Wkt);
     }
 
     /// <inheritdoc />
@@ -229,5 +229,7 @@ internal class SpatialReferenceConverter : JsonConverter<SpatialReference>
 [ProtoContract(Name = "SpatialReference")]
 internal record SpatialReferenceSerializationRecord(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [property:ProtoMember(1)]int? Wkid)
+    [property:ProtoMember(1)]int? Wkid,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [property:ProtoMember(2)]string? Wkt = null)
     : MapComponentSerializationRecord;
