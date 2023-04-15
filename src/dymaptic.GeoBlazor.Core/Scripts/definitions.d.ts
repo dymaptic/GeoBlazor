@@ -127,8 +127,8 @@ export interface DotNetTextSymbol extends DotNetSymbol {
     rotated: boolean;
     text: string;
     verticalAlignment: string;
-    xoffset: number;
-    yoffset: number;
+    xOffset: number;
+    yOffset: number;
 }
 
 export interface DotNetSpatialReference {
