@@ -198,6 +198,62 @@ public class PopupWidget : Widget
     }
 
     /// <summary>
+    ///     Removes promises, features, content, title and location from the Popup.
+    /// </summary>
+    public async Task Clear()
+    {
+        await JsObjectReference!.InvokeVoidAsync("clear", CancellationTokenSource.Token);
+    }
+    
+    /// <summary>
+    ///     Use this method to return feature(s) at a given screen location. These features are fetched from all of the LayerViews in the view. In order to use this, a layer must already have an associated PopupTemplate and have its popupEnabled. These features can then be used within a custom Popup or Feature widget experience.
+    /// </summary>
+    public async Task<Graphic[]> FetchFeatures()
+    {
+        return await JsObjectReference!.InvokeAsync<Graphic[]>("fetchFeatures", CancellationTokenSource.Token);
+    }
+
+    /// <summary>
+    ///     The number of selected features available to the popup.
+    /// </summary>
+    public async Task<int> GetFeatureCount()
+    {
+        return await JsObjectReference!.InvokeAsync<int>("getFeatureCount", CancellationTokenSource.Token);
+    }
+
+    /// <summary>
+    ///     Index of the feature that is selected. When features are set, the first index is automatically selected.
+    /// </summary>
+    public async Task<int> GetSelectedFeatureIndex()
+    {
+        return await JsObjectReference!.InvokeAsync<int>("getSelectedFeatureIndex", CancellationTokenSource.Token);
+    }
+
+    /// <summary>
+    ///     Index of the feature that is selected. When features are set, the first index is automatically selected.
+    /// </summary>
+    public async Task<bool> GetVisibility()
+    {
+        return await JsObjectReference!.InvokeAsync<bool>("getVisibility", CancellationTokenSource.Token);
+    }
+    
+    /// <summary>
+    ///     Opens the popup at the given location with content defined either explicitly with content or driven from the PopupTemplate of input features. This method sets the popup's visible property to true. Users can alternatively open the popup by directly setting the visible property to true.
+    /// </summary>
+    public async Task Open()
+    {
+        await JsObjectReference!.InvokeVoidAsync("open", CancellationTokenSource.Token);
+    }
+    
+    /// <summary>
+    ///     Closes the popup by setting its visible property to false. Users can alternatively close the popup by directly setting the visible property to false.
+    /// </summary>
+    public async Task Close()
+    {
+        await JsObjectReference!.InvokeVoidAsync("close", CancellationTokenSource.Token);
+    }
+
+    /// <summary>
     ///     JS-invokable method for triggering actions.
     /// </summary>
     /// <param name="actionId">
