@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using ProtoBuf;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 
@@ -19,27 +20,46 @@ public abstract class PopupContent : MapComponent
     /// </summary>
     [JsonPropertyName("type")]
     public abstract string Type { get; }
-    
-    internal virtual PopupContentSerializationRecord ToSerializationRecord()
-    {
-        return new PopupContentSerializationRecord(Type);
-    }
+
+    internal abstract PopupContentSerializationRecord ToSerializationRecord();
 }
 
-[JsonConverter(typeof(PopupContentSerializationConverter))]
-internal record PopupContentSerializationRecord(string Type) : MapComponentSerializationRecord;
-
-internal class PopupContentSerializationConverter : JsonConverter<PopupContentSerializationRecord>
+[ProtoContract(Name = "PopupContent")]
+internal record PopupContentSerializationRecord([property: ProtoMember(1)] string Type)
+    : MapComponentSerializationRecord
 {
-    public override PopupContentSerializationRecord? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        throw new NotImplementedException();
-    }
+    [ProtoMember(2)]
+    public string? Description { get; init; }
 
-    public override void Write(Utf8JsonWriter writer, PopupContentSerializationRecord value, JsonSerializerOptions options)
-    {
-        writer.WriteRawValue(JsonSerializer.Serialize(value, value.GetType(), options));
-    }
+    [ProtoMember(3)]
+    public string? DisplayType { get; init; }
+
+    [ProtoMember(4)]
+    public string? Title { get; init; }
+
+    [ProtoMember(5)]
+    public ElementExpressionInfo? ExpressionInfo { get; init; }
+
+    [ProtoMember(6)]
+    public FieldInfo[]? FieldInfos { get; init; }
+
+    [ProtoMember(7)]
+    public string? ActiveMediaInfoIndex { get; init; }
+
+    [ProtoMember(8)]
+    public MediaInfoSerializationRecord[]? MediaInfos { get; init; }
+
+    [ProtoMember(9)]
+    public int? DisplayCount { get; init; }
+
+    [ProtoMember(10)]
+    public RelatedRecordsInfoFieldOrderSerializationRecord[]? OrderByFields { get; init; }
+
+    [ProtoMember(11)]
+    public int? RelationshipId { get; init; }
+
+    [ProtoMember(12)]
+    public string? Text { get; init; }
 }
 
 internal class PopupContentConverter : JsonConverter<PopupContent>

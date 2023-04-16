@@ -2,9 +2,9 @@
 // The import method exposes a dictionary of map components, "arcGisObjectRefs", that can be looked up via the C# component
 // "Id" value. A method (addGraphic) and two tools (projection, geometryEngine) are also imported.
 import {
-    addGraphic,
     arcGisObjectRefs,
     geometryEngine,
+    Graphic,
     projection
 } from "../../dymaptic.GeoBlazor.Core/js/arcGisJsInterop.js";
 
@@ -14,14 +14,15 @@ import {
 // Calling code is in DisplayProjection.razor
 export function drawWithGeodesicBufferOnPointer(cursorSymbol, bufferSymbol, geodesicBufferDistance,
                                                 geodesicBufferUnit, viewId) {
-    let cursorGraphicId = cursorSymbol.id;
-    let bufferGraphicId = bufferSymbol.id;
     let view = arcGisObjectRefs[viewId];
+    let cursorSymbolGraphic;
+    let bufferSymbolGraphic;
     view.on('pointer-move', (evt) => {
         let cursorPoint = view.toMap({
             x: evt.x,
             y: evt.y,
         });
+
         if (cursorPoint) {
             if (cursorPoint.spatialReference.wkid !== 3857 &&
                 cursorPoint.spatialReference.wkid !== 4326) {
@@ -34,35 +35,26 @@ export function drawWithGeodesicBufferOnPointer(cursorSymbol, bufferSymbol, geod
             const buffer = geometryEngine.geodesicBuffer(cursorPoint, geodesicBufferDistance, geodesicBufferUnit);
 
             if (buffer) {
-                try {
-                    let cursorSymbolGraphic = arcGisObjectRefs[cursorGraphicId];
-                    if (cursorSymbolGraphic !== undefined && cursorSymbolGraphic !== null) {
-                        view.graphics.remove(cursorSymbolGraphic);
-                        cursorSymbolGraphic.destroy();
-                        delete arcGisObjectRefs[cursorGraphicId];
+                if (view.graphics.length > 0) {
+                    try {
+                        view.graphics.removeMany([
+                            view.graphics.getItemAt(2),
+                            view.graphics.getItemAt(3)
+                        ]);
+                    } catch {
+                        // ignore if they weren't created yet
                     }
-                    let bufferSymbolGraphic = arcGisObjectRefs[bufferGraphicId];
-                    if (bufferSymbolGraphic !== undefined && bufferSymbolGraphic !== null) {
-                        view.graphics.remove(bufferSymbolGraphic);
-                        bufferSymbolGraphic.destroy();
-                        delete arcGisObjectRefs[bufferGraphicId];
-                    }
-                } catch {
-                    // ignore if they weren't created yet
                 }
-                if (cursorGraphicId === undefined) {
-
-                }
-                addGraphic({
+                cursorSymbolGraphic = new Graphic({
                     geometry: cursorPoint,
-                    symbol: cursorSymbol,
-                    id: cursorGraphicId
-                }, viewId);
-                addGraphic({
+                    symbol: cursorSymbol
+                });
+                bufferSymbolGraphic = ({
                     geometry: buffer,
-                    symbol: bufferSymbol,
-                    id: bufferGraphicId
-                }, viewId);
+                    symbol: bufferSymbol
+                });
+                view.graphics.add(cursorSymbolGraphic);
+                view.graphics.add(bufferSymbolGraphic);
             }
         }
     })

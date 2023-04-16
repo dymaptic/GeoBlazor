@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using ProtoBuf;
 using System.Text.Json.Serialization;
 
 
@@ -60,7 +61,7 @@ public class FieldInfo : MapComponent, IEquatable<FieldInfo>
     }
 
     /// <summary>
-    ///    Equality operator
+    ///     Equality operator
     /// </summary>
     public static bool operator ==(FieldInfo? left, FieldInfo? right)
     {
@@ -68,7 +69,7 @@ public class FieldInfo : MapComponent, IEquatable<FieldInfo>
     }
 
     /// <summary>
-    ///    Inequality operator
+    ///     Inequality operator
     /// </summary>
     public static bool operator !=(FieldInfo? left, FieldInfo? right)
     {
@@ -198,18 +199,26 @@ public class FieldInfo : MapComponent, IEquatable<FieldInfo>
     }
 }
 
+[ProtoContract(Name = "FieldInfo")]
 internal record FieldInfoSerializationRecord([property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [property: ProtoMember(1)]
         string? FieldName = null,
         [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [property: ProtoMember(2)]
         string? Label = null,
         [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [property: ProtoMember(3)]
         string? Tooltip = null,
         [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [property: ProtoMember(4)]
         string? StringFieldOption = null,
         [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [property: ProtoMember(5)]
         FieldInfoFormatSerializationRecord? Format = null,
         [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [property: ProtoMember(6)]
         bool? IsEditable = null,
         [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [property: ProtoMember(7)]
         bool? Visible = null)
     : MapComponentSerializationRecord;

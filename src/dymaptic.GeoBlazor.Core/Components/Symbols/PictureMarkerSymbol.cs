@@ -45,12 +45,15 @@ public class PictureMarkerSymbol : MarkerSymbol, IEquatable<PictureMarkerSymbol>
     public PictureMarkerSymbol(string url, double? width = null, double? height = null,
         double? angle = null, double? xOffset = null, double? yOffset = null)
     {
+        AllowRender = false;
+#pragma warning disable BL0005
         Url = url;
         Width = width;
         Height = height;
         Angle = angle;
         XOffset = xOffset;
         YOffset = yOffset;
+#pragma warning restore BL0005
     }
 
     /// <summary>
@@ -118,14 +121,14 @@ public class PictureMarkerSymbol : MarkerSymbol, IEquatable<PictureMarkerSymbol>
 
     internal override SymbolSerializationRecord ToSerializationRecord()
     {
-        return new PictureMarkerSymbolSerializationRecord(Url, Width, Height, Angle, XOffset, YOffset);
+        return new SymbolSerializationRecord(Type, null)
+        {
+            Url = Url,
+            Width = Width,
+            Height = Height,
+            Angle = Angle,
+            XOffset = XOffset,
+            YOffset = YOffset
+        };
     }
 }
-
-internal record PictureMarkerSymbolSerializationRecord(string Url, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? Width = null, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? Height = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? Angle = null, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? XOffset = null, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]double? YOffset = null): 
-    SymbolSerializationRecord("picture-marker", null);

@@ -1,4 +1,5 @@
-﻿using dymaptic.GeoBlazor.Core.Objects;
+﻿using dymaptic.GeoBlazor.Core.Extensions;
+using dymaptic.GeoBlazor.Core.Objects;
 using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
 using System.Text.Json.Serialization;
@@ -38,9 +39,12 @@ public class SimpleFillSymbol : FillSymbol, IEquatable<SimpleFillSymbol>
     /// </param>
     public SimpleFillSymbol(Outline? outline = null, MapColor? color = null, FillStyle? fillStyle = null)
     {
+        AllowRender = false;
+#pragma warning disable BL0005
         Outline = outline;
         Color = color;
         FillStyle = fillStyle;
+#pragma warning restore BL0005
     }
 
     /// <summary>
@@ -69,8 +73,8 @@ public class SimpleFillSymbol : FillSymbol, IEquatable<SimpleFillSymbol>
     ///     The fill style.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [JsonPropertyName("style")]
     [Parameter]
+    [JsonPropertyName("style")]
     public FillStyle? FillStyle { get; set; }
 
     /// <inheritdoc />
@@ -143,16 +147,12 @@ public class SimpleFillSymbol : FillSymbol, IEquatable<SimpleFillSymbol>
 
     internal override SymbolSerializationRecord ToSerializationRecord()
     {
-        return new SimpleFillSymbolSerializationRecord(
-            Outline?.ToSerializationRecord() as SimpleLineSymbolSerializationRecord, Color, FillStyle);
+        return new SymbolSerializationRecord(Type, Color)
+        {
+            Outline = Outline?.ToSerializationRecord(), Style = FillStyle?.ToString().ToKebabCase()
+        };
     }
 }
-
-internal record SimpleFillSymbolSerializationRecord(
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]SimpleLineSymbolSerializationRecord? Outline = null, 
-    MapColor? Color = null, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]FillStyle? Style = null) 
-    : SymbolSerializationRecord("simple-fill", Color);
 
 /// <summary>
 ///     The possible fill style for the <see cref="SimpleFillSymbol" />

@@ -29,10 +29,7 @@ public class SimpleRenderer : Renderer
         switch (child)
         {
             case VisualVariable visualVariable:
-                if (!VisualVariables.Contains(visualVariable))
-                {
-                    VisualVariables.Add(visualVariable);
-                }
+                VisualVariables.Add(visualVariable);
 
                 break;
             default:

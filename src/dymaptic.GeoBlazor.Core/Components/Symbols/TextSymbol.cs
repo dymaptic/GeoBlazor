@@ -45,11 +45,14 @@ public class TextSymbol : Symbol, IEquatable<TextSymbol>
     public TextSymbol(string text, MapColor? color = null, MapColor? haloColor = null, int? haloSize = null,
         MapFont? font = null)
     {
+        AllowRender = false;
+#pragma warning disable BL0005
         Text = text;
         Color = color;
         HaloColor = haloColor;
         HaloSize = haloSize;
         Font = font;
+#pragma warning restore BL0005
     }
 
     /// <summary>
@@ -166,14 +169,9 @@ public class TextSymbol : Symbol, IEquatable<TextSymbol>
 
     internal override SymbolSerializationRecord ToSerializationRecord()
     {
-        return new TextSymbolSerializationRecord(Text, Color, HaloColor, HaloSize, Font?.ToSerializationRecord());
+        return new SymbolSerializationRecord(Type, Color)
+        {
+            Text = Text, HaloColor = HaloColor, HaloSize = HaloSize, MapFont = Font
+        };
     }
 }
-
-internal record TextSymbolSerializationRecord(
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Text, 
-    MapColor? Color = null, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]MapColor? HaloColor = null, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]int? HaloSize = null, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]MapFontSerializationRecord? Font = null)
-    : SymbolSerializationRecord("text", Color);

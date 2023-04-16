@@ -60,7 +60,7 @@ public class FeatureLayerView : LayerView
     public async Task<HighlightHandle> Highlight(int objectId)
     {
         IJSObjectReference objectRef =
-            await JsObjectReference!.InvokeAsync<IJSObjectReference>("highlight", 
+            await JsObjectReference!.InvokeAsync<IJSObjectReference>("highlight",
                 CancellationTokenSource.Token, objectId);
 
         return new HighlightHandle(objectRef);
@@ -78,7 +78,7 @@ public class FeatureLayerView : LayerView
     public async Task<HighlightHandle> Highlight(IEnumerable<int> objectIds)
     {
         IJSObjectReference objectRef =
-            await JsObjectReference!.InvokeAsync<IJSObjectReference>("highlight", 
+            await JsObjectReference!.InvokeAsync<IJSObjectReference>("highlight",
                 CancellationTokenSource.Token, objectIds);
 
         return new HighlightHandle(objectRef);
@@ -96,7 +96,7 @@ public class FeatureLayerView : LayerView
     public async Task<HighlightHandle> Highlight(Graphic graphic)
     {
         IJSObjectReference objectRef =
-            await JsObjectReference!.InvokeAsync<IJSObjectReference>("highlight", 
+            await JsObjectReference!.InvokeAsync<IJSObjectReference>("highlight",
                 CancellationTokenSource.Token, graphic);
 
         return new HighlightHandle(objectRef);
@@ -114,7 +114,7 @@ public class FeatureLayerView : LayerView
     public async Task<HighlightHandle> Highlight(IEnumerable<Graphic> graphics)
     {
         IJSObjectReference objectRef =
-            await JsObjectReference!.InvokeAsync<IJSObjectReference>("highlight", 
+            await JsObjectReference!.InvokeAsync<IJSObjectReference>("highlight",
                 CancellationTokenSource.Token, graphics);
 
         return new HighlightHandle(objectRef);

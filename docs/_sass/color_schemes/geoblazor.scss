@@ -77,28 +77,28 @@ $geoblazor-blue-100: #125a8d;
 $body-background-color: $white;
 .side-bar {
   background-image: linear-gradient(180deg, $geoblazor-blue-100 0%, $geoblazor-purple-000 100%);
-} 
+}
 
 .side-bar a {
   color: white;
 }
-            
+
 $search-background-color: $white;
 $table-background-color: $white;
 
 code {
   background-color: #ececec !important;
-  color: inherit!important;
-  font-size: 0.9rem!important;;
+  color: inherit !important;
+  font-size: 0.9rem !important;;
 }
 
 .highlight code {
-  color: white!important;
+  color: white !important;
   background-color: unset !important;
 }
 
 .highlight .na, .highlight .nl, .highlight .p {
-  color: white!important;
+  color: white !important;
 }
 
 .highlight .n {
@@ -201,13 +201,14 @@ $media-queries: (
 .site-header {
   border-bottom: none !important;
 }
+
 .site-button:hover {
   background-image: none !important;
   text-decoration: underline;
 }
 
 .search {
-  position: absolute!important;
+  position: absolute !important;
   left: 0;
 }
 
@@ -217,7 +218,7 @@ body {
 }
 
 .main-header {
-  background-color: transparent!important;
+  background-color: transparent !important;
 }
 
 .site-button {
@@ -225,13 +226,13 @@ body {
   color: white;
   border-radius: 0.5rem;
   border: 1px solid black;
-  padding: 0.2rem 2rem!important;
+  padding: 0.2rem 2rem !important;
   font-size: 1.5rem;
-  height: unset!important;
+  height: unset !important;
 }
 
 .aux-nav-list-item, .search-input-wrap {
-  display: flex!important;
+  display: flex !important;
   align-items: center;
 }
 
@@ -240,17 +241,17 @@ search {
 }
 
 .search-input {
-  height: unset!important;
-  border-radius: 0.5rem!important;
-  padding: 0.5rem 1rem 0.5rem 2rem!important;
-  font-size: 1.5rem!important;
-  position: relative!important;
+  height: unset !important;
+  border-radius: 0.5rem !important;
+  padding: 0.5rem 1rem 0.5rem 2rem !important;
+  font-size: 1.5rem !important;
+  position: relative !important;
   margin: 0 1.5rem;
-  width: 250px!important;
+  width: 250px !important;
 }
 
 .search-active .search-label {
-  padding-left: 2rem!important;
+  padding-left: 2rem !important;
 }
 
 .search-active .search-input {

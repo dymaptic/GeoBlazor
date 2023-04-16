@@ -11,10 +11,7 @@ parent: Classes
 An item (a unit of content) in the Portal. Each item has a unique identifier and a well known URL that is  
 independent of the user owning the item. An item may have associated binary or textual data which is available via  
 the item data resource. View the ArcGIS portal API REST documentation for the item for more details.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html">ArcGIS JS API</a>
 
 ```csharp
 public class PortalItem : dymaptic.GeoBlazor.Core.Components.MapComponent
@@ -27,7 +24,8 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 
 ## PortalItem.ApiKey Property
 
-An authorization string used to access the portal item. API keys are generated and managed in the ArcGIS Developer dashboard. An API key is tied explicitly to an ArcGIS account; it is also used to monitor service usage.
+An authorization string used to access the portal item. API keys are generated and managed in the ArcGIS Developer  
+dashboard. An API key is tied explicitly to an ArcGIS account; it is also used to monitor service usage.
 
 ```csharp
 public string? ApiKey { get; set; }
@@ -67,7 +65,7 @@ public dymaptic.GeoBlazor.Core.Components.Portal? Portal { get; set; }
 
 ## PortalItem.RegisterChildComponent(MapComponent) Method
 
-Called from [dymaptic.GeoBlazor.Core.Components.MapComponent.OnAfterRenderAsync(System.Boolean)](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Components.MapComponent.OnAfterRenderAsync#dymaptic_GeoBlazor_Core_Components_MapComponent_OnAfterRenderAsync_System_Boolean_ 'dymaptic.GeoBlazor.Core.Components.MapComponent.OnAfterRenderAsync(System.Boolean)') to "Register" the current component with it's parent.
+Called from [dymaptic.GeoBlazor.Core.Components.MapComponent.OnInitializedAsync](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Components.MapComponent.OnInitializedAsync 'dymaptic.GeoBlazor.Core.Components.MapComponent.OnInitializedAsync') to "Register" the current component with it's parent.
 
 ```csharp
 public override System.Threading.Tasks.Task RegisterChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent child);

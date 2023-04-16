@@ -1,5 +1,6 @@
 ﻿import Popup from "@arcgis/core/widgets/Popup";
 import {buildDotNetGraphic} from "./dotNetBuilder";
+import {DotNetGraphic} from "./definitions";
 
 export default class PopupWidgetWrapper {
     private popup: Popup;
@@ -14,8 +15,36 @@ export default class PopupWidgetWrapper {
         }
     }
 
-    getSelectedFeature() {
+    clear() {
+        this.popup.clear();
+    }
+
+    close() {
+        this.popup.close();
+    }
+
+    fetchFeatures(): Array<DotNetGraphic> {
+        return this.popup.features.map(buildDotNetGraphic);
+    }
+
+    getFeatureCount(): number {
+        return this.popup.featureCount;
+    }
+
+    getSelectedFeature(): DotNetGraphic {
         return buildDotNetGraphic(this.popup.selectedFeature);
+    }
+
+    getSelectedFeatureIndex(): number {
+        return this.popup.selectedFeatureIndex;
+    }
+
+    getVisibility(): boolean {
+        return this.popup.visible;
+    }
+
+    open() {
+        this.popup.open();
     }
 
     setContent(content: string) {

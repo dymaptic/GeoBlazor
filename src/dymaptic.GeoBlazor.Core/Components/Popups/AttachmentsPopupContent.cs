@@ -40,12 +40,9 @@ public class AttachmentsPopupContent : PopupContent
 
     internal override PopupContentSerializationRecord ToSerializationRecord()
     {
-        return new AttachmentsPopupContentSerializationRecord(Description, DisplayType, Title);
+        return new PopupContentSerializationRecord(Type)
+        {
+            Description = Description, DisplayType = DisplayType, Title = Title
+        };
     }
 }
-
-internal record AttachmentsPopupContentSerializationRecord(
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Description, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? DisplayType, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? Title) 
-    : PopupContentSerializationRecord("attachments");

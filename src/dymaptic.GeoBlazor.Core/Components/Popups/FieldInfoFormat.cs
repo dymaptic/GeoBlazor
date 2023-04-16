@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using ProtoBuf;
 using System.Text.Json.Serialization;
 
 
@@ -63,15 +64,22 @@ public class FieldInfoFormat : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? DateFormat { get; set; }
-    
+
     internal FieldInfoFormatSerializationRecord ToSerializationRecord()
     {
         return new FieldInfoFormatSerializationRecord(Places, DigitSeparator, DateFormat);
     }
 }
 
+[ProtoContract(Name = "FieldInfoFormat")]
 internal record FieldInfoFormatSerializationRecord(
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]int? Places,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]bool? DigitSeparator,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? DateFormat) 
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [property: ProtoMember(1)]
+        int? Places,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [property: ProtoMember(2)]
+        bool? DigitSeparator,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [property: ProtoMember(3)]
+        string? DateFormat)
     : MapComponentSerializationRecord;

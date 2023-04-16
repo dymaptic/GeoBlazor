@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using ProtoBuf;
 using System.Text.Json.Serialization;
 
 
@@ -32,16 +33,12 @@ public class ExpressionPopupContent : PopupContent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ElementExpressionInfo? ExpressionInfo { get; set; }
-    
+
     internal override PopupContentSerializationRecord ToSerializationRecord()
     {
-        return new ExpressionPopupContentSerializationRecord(ExpressionInfo);
+        return new PopupContentSerializationRecord(Type) { ExpressionInfo = ExpressionInfo };
     }
 }
-
-internal record ExpressionPopupContentSerializationRecord(
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]ElementExpressionInfo? ExpressionInfo) 
-    : PopupContentSerializationRecord("expression");
 
 /// <summary>
 ///     Defines an Arcade expression used to create an ExpressionContent element in a PopupTemplate. The expression must
@@ -55,6 +52,7 @@ internal record ExpressionPopupContentSerializationRecord(
 ///         JS API
 ///     </a>
 /// </summary>
+[ProtoContract]
 public class ElementExpressionInfo
 {
     /// <summary>
@@ -66,6 +64,7 @@ public class ElementExpressionInfo
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(1)]
     public string? Expression { get; set; }
 
     /// <summary>
@@ -74,6 +73,7 @@ public class ElementExpressionInfo
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(2)]
     public string? ReturnType { get; set; }
 
     /// <summary>
@@ -81,5 +81,6 @@ public class ElementExpressionInfo
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(3)]
     public string? Title { get; set; }
 }

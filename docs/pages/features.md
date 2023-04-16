@@ -6,7 +6,8 @@ nav_order: 3
 
 # Features
 
-Below is a list of all current and planned features for GeoBlazor, listed by the Core (free, open source) and Pro (paid, commercial) packages.
+Below is a list of all current and planned features for GeoBlazor, listed by the Core (free, open source) and Pro (paid,
+commercial) packages.
 
 ## Layers
 
@@ -230,53 +231,52 @@ Below is a list of all current and planned features for GeoBlazor, listed by the
 | **Reactive Utils Listeners**  | <img src="/assets/images/checkmark.svg" style="height: 40px;" /> | <img src="/assets/images/checkmark.svg" style="height: 40px;" /> |
 | **Reactive Utils Waiters**    | <img src="/assets/images/checkmark.svg" style="height: 40px;" /> | <img src="/assets/images/checkmark.svg" style="height: 40px;" /> |
 
-
 ## Queries
 
 <img src="/assets/images/checkmark.svg" style="height: 40px;" /> Available
 <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> Upcoming
 
-| **Query Type**                                 | **Core**                                                              | **Pro**                                                               |
-|------------------------------------------------|-----------------------------------------------------------------------|-----------------------------------------------------------------------|
-| **FeatureLayer.QueryExtent**                   | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      |
-| **FeatureLayer.QueryFeatureCount**             | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      |
-| **FeatureLayer.QueryFeatures**                 | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      |
-| **FeatureLayer.QueryObjectIds**                | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      |
-| **FeatureLayer.QueryRelatedFeatures**          | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      |
-| **FeatureLayer.QueryRelatedFeaturesCount**     | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      |
-| **FeatureLayer.QueryTopFeatures**              | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      |
-| **FeatureLayer.QueryTopFeaturesCount**         | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      |
-| **FeatureLayer.QueryTopFeaturesExtent**        | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      |
-| **FeatureLayer.QueryTopObjectIds**             | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      |
-| **FeatureLayerView.QueryExtent**               | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      |
-| **FeatureLayerView.QueryFeatureCount**         | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      |
-| **FeatureLayerView.QueryFeatures**             | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      |
-| **FeatureLayerView.QueryObjectIds**            | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      |
-| **FeatureLayer.QueryAttachments**              | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> |
-| **FeatureLayerView.QueryAggregates**           | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> |
+| **Query Type**                             | **Core**                                                              | **Pro**                                                               |
+|--------------------------------------------|-----------------------------------------------------------------------|-----------------------------------------------------------------------|
+| **FeatureLayer.QueryExtent**               | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      |
+| **FeatureLayer.QueryFeatureCount**         | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      |
+| **FeatureLayer.QueryFeatures**             | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      |
+| **FeatureLayer.QueryObjectIds**            | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      |
+| **FeatureLayer.QueryRelatedFeatures**      | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      |
+| **FeatureLayer.QueryRelatedFeaturesCount** | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      |
+| **FeatureLayer.QueryTopFeatures**          | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      |
+| **FeatureLayer.QueryTopFeaturesCount**     | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      |
+| **FeatureLayer.QueryTopFeaturesExtent**    | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      |
+| **FeatureLayer.QueryTopObjectIds**         | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      |
+| **FeatureLayerView.QueryExtent**           | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      |
+| **FeatureLayerView.QueryFeatureCount**     | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      |
+| **FeatureLayerView.QueryFeatures**         | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      |
+| **FeatureLayerView.QueryObjectIds**        | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      |
+| **FeatureLayer.QueryAttachments**          | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> |
+| **FeatureLayerView.QueryAggregates**       | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> |
 
 ## Tools
 
 <img src="/assets/images/checkmark.svg" style="height: 40px;" /> Available
 <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> Upcoming
 
-| **Tool Type**                 | **Core**                                                              | **Pro**                                                               |
-|-------------------------------|-----------------------------------------------------------------------|-----------------------------------------------------------------------|
-| **Geometry Engine**           | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      |
-| **Projection**                | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      |
-| **Locator**                   | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      |
-| **Identity Manager**          | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> |
-| **Web Mercator Utils**        | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> |
-| **Route**                     | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> |
-| **Service Area**              | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> |
-| **Find**                      | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> |
-| **Query**                     | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> |
-| **Geometry Service**          |                                                                       | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> |
-| **Closest Facility**          |                                                                       | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> |
-| **Geoprocessor**              |                                                                       | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> |
-| **Identify**                  |                                                                       | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> |
-| **Image Service**             |                                                                       | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> |
-| **Network Service**           |                                                                       | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> |
-| **Print**                     |                                                                       | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> |
+| **Tool Type**          | **Core**                                                              | **Pro**                                                               |
+|------------------------|-----------------------------------------------------------------------|-----------------------------------------------------------------------|
+| **Geometry Engine**    | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      |
+| **Projection**         | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      |
+| **Locator**            | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      |
+| **Identity Manager**   | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> |
+| **Web Mercator Utils** | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> |
+| **Route**              | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> |
+| **Service Area**       | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> |
+| **Find**               | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> |
+| **Query**              | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> |
+| **Geometry Service**   |                                                                       | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> |
+| **Closest Facility**   |                                                                       | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> |
+| **Geoprocessor**       |                                                                       | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> |
+| **Identify**           |                                                                       | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> |
+| **Image Service**      |                                                                       | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> |
+| **Network Service**    |                                                                       | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> |
+| **Print**              |                                                                       | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> |
 
 

@@ -9,10 +9,7 @@ parent: Classes
 ## LayerView Class
 
 Represents the view for a single layer after it has been added to either a MapView or a SceneView.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html">ArcGIS JS API</a>
 
 ```csharp
 public class LayerView :
