@@ -1,15 +1,24 @@
----
-layout: page
-title: "Getting Started"
-nav_order: 2
----
+﻿# GeoBlazor
 
-# Getting Started
+## PUT MAPS IN YOUR BLAZOR APPS
 
-<video style="width: 100%;" controls>
-    <source src="../assets/videos/GeoBlazorDemo1_with_music_and_text.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-</video>
+With GeoBlazor, you have access to the world’s most powerful and versatile web mapping API, the
+ArcGIS JavaScript API, but without having to write a single line of JavaScript.
+
+[Home Page](https://www.geoblazor.com)
+
+[GitHub Repository](https://github.com/dymaptic/GeoBlazor)
+
+[View the live demo site!](https://samples.geoblazor.com)
+
+[Read the Docs](https://docs.geoblazor.com)
+
+[Join our Discord Server!](https://discord.gg/hcmbPzn4VW)
+
+
+
+## Getting Started 
+(from https://docs.geoblazor.com/pages/gettingStarted.html)
 
 1. Create a new Blazor Server, Blazor Wasm, or Blazor Hybrid (MAUI) project, using the templates provided in your IDE or
    the `dotnet` CLI.
@@ -39,7 +48,7 @@ nav_order: 2
    </div>
    <div style="font-size: 0.8rem; font-style: italic">
    You can also set up an OAuth2 workflow, which is more secure as it does not expose a static API key, 
-   but this is more complex. You can read about all the authentication options in <a href="authentication">Authentication</a>.
+   but this is more complex. You can read about all the authentication options in <a href="https://docs.geoblazor.com/pages/authentication.html">Authentication</a>.
    </div>
 4. In the root file that defines your html, add the following lines to the `<head>` section.
    This would be `_Layout.cshtml` for Blazor Server, or `index.html` for Blazor Wasm and Blazor Hybrid.
@@ -118,7 +127,6 @@ nav_order: 2
 </MapView>
 ```
 11. Run your application and make sure you can see your map!
-    ![Web Map Sample](../assets/images/webmap.png)
 12. Now that you have a great starting point, you can now start to customize the features available in your new app
     using Geoblazor's capabilites:<br/>
     -Take a look at the [Documentation](https://docs.geoblazor.com/index.html) pages to learn more.<br/>

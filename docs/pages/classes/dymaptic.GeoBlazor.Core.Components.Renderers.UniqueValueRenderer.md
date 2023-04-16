@@ -3,11 +3,6 @@ layout: default
 title: UniqueValueRenderer
 parent: Classes
 ---
----
-layout: default
-title: UniqueValueRenderer
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Renderers](index.html#dymaptic.GeoBlazor.Core.Components.Renderers 'dymaptic.GeoBlazor.Core.Components.Renderers')
 
@@ -16,10 +11,7 @@ parent: Classes
 UniqueValueRenderer allows you to symbolize features in a Layer based on one or more matching string attributes.  
 This is typically done by using unique colors, fill styles, or images to represent features with equal values in a  
 string field.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html">ArcGIS JS API</a>
 
 ```csharp
 public class UniqueValueRenderer : dymaptic.GeoBlazor.Core.Components.Renderers.Renderer
@@ -151,4 +143,3 @@ The child to unregister
 
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
-

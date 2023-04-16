@@ -3,11 +3,6 @@ layout: default
 title: SearchWidget
 parent: Classes
 ---
----
-layout: default
-title: SearchWidget
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Widgets](index.html#dymaptic.GeoBlazor.Core.Components.Widgets 'dymaptic.GeoBlazor.Core.Components.Widgets')
 
@@ -17,10 +12,7 @@ The Search widget provides a way to perform search operations on locator service
 layer(s), SceneLayers with an associated feature layer, BuildingComponentSublayer with an associated feature layer,  
 GeoJSONLayer, CSVLayer, OGCFeatureLayer, and/or table(s). If using a locator with a geocoding service, the  
 findAddressCandidates operation is used, whereas queries are used on feature layers.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html">ArcGIS JS API</a>
 
 ```csharp
 public class SearchWidget : dymaptic.GeoBlazor.Core.Components.Widgets.Widget
@@ -89,4 +81,3 @@ The result selected in the search widget.
 
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
-

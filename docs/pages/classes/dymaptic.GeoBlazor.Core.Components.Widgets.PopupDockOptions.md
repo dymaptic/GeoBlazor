@@ -3,11 +3,6 @@ layout: default
 title: PopupDockOptions
 parent: Classes
 ---
----
-layout: default
-title: PopupDockOptions
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Widgets](index.html#dymaptic.GeoBlazor.Core.Components.Widgets 'dymaptic.GeoBlazor.Core.Components.Widgets')
 
@@ -103,4 +98,3 @@ public System.Nullable<dymaptic.GeoBlazor.Core.Components.Widgets.PopupDockPosit
 
 #### Property Value
 [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[PopupDockPosition](dymaptic.GeoBlazor.Core.Components.Widgets.PopupDockPosition.html 'dymaptic.GeoBlazor.Core.Components.Widgets.PopupDockPosition')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
-

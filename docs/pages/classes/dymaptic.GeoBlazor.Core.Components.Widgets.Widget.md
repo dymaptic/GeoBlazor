@@ -3,21 +3,13 @@ layout: default
 title: Widget
 parent: Classes
 ---
----
-layout: default
-title: Widget
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Widgets](index.html#dymaptic.GeoBlazor.Core.Components.Widgets 'dymaptic.GeoBlazor.Core.Components.Widgets')
 
 ## Widget Class
 
 The base class for widgets. Each widget's presentation is separate from its properties, methods, and data.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html">ArcGIS JS API</a>
 
 ```csharp
 public abstract class Widget : dymaptic.GeoBlazor.Core.Components.MapComponent
@@ -113,4 +105,3 @@ public void OnWidgetCreated(Microsoft.JSInterop.IJSObjectReference jsObjectRefer
 <a name='dymaptic.GeoBlazor.Core.Components.Widgets.Widget.OnWidgetCreated(Microsoft.JSInterop.IJSObjectReference).jsObjectReference'></a>
 
 `jsObjectReference` [Microsoft.JSInterop.IJSObjectReference](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.JSInterop.IJSObjectReference 'Microsoft.JSInterop.IJSObjectReference')
-

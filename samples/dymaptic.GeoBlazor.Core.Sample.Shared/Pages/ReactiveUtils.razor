@@ -323,6 +323,7 @@ else
 
     private void LayerWatchHandler(ViewableLayer[]? values)
     {
+    // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         _layers = values?.Where(l => l.Title is not null).Select(l => l.Title).ToArray();
         StateHasChanged();
     }

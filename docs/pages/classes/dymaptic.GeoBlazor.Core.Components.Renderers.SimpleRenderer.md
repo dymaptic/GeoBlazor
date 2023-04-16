@@ -3,11 +3,6 @@ layout: default
 title: SimpleRenderer
 parent: Classes
 ---
----
-layout: default
-title: SimpleRenderer
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Renderers](index.html#dymaptic.GeoBlazor.Core.Components.Renderers 'dymaptic.GeoBlazor.Core.Components.Renderers')
 
@@ -15,10 +10,7 @@ parent: Classes
 
 SimpleRenderer renders all features in a Layer with one Symbol. This renderer may be used to simply visualize the  
 location of geographic features.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-SimpleRenderer.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-SimpleRenderer.html">ArcGIS JS API</a>
 
 ```csharp
 public class SimpleRenderer : dymaptic.GeoBlazor.Core.Components.Renderers.Renderer
@@ -117,4 +109,3 @@ The consumer needs to provide the missing child component
 
 [MissingRequiredOptionsChildElementException](dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException.html 'dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException')  
 The consumer needs to provide ONE of the options of child components
-

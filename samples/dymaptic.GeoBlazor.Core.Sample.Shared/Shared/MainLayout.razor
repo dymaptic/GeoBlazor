@@ -65,7 +65,7 @@
             HttpResponseMessage response = await HttpClient.PostAsync("https://www.arcgis.com/sharing/rest/oauth2/token/",
                 new FormUrlEncodedContent(new Dictionary<string, string>
                 {
-                    ["client_id"] = Configuration["ClientId"],
+                    ["client_id"] = Configuration["ClientId"]!,
                     ["grant_type"] = "authorization_code",
                     ["redirect_uri"] = callbackUri,
                     ["code"] = code
@@ -92,7 +92,7 @@
 
     private string ApiKey
     {
-        get => Configuration["ArcGISApiKey"];
+        get => Configuration["ArcGISApiKey"] ?? string.Empty;
         set
         {
             Configuration["ArcGISApiKey"] = value;

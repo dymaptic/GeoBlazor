@@ -43,20 +43,20 @@
                       }
                     },
                     "Attribute": {
-                        "fields": {
-                            "key": {
-                            "type": "string",
-                            "id": 1
-                          },
-                            "value": {
-                            "type": "string",
-                            "id": 2
-                          },
-                            "valueType": {
-                            "type": "string",
-                            "id": 3
-                          }
+                      "fields": {
+                        "key": {
+                          "type": "string",
+                          "id": 1
+                        },
+                        "value": {
+                          "type": "string",
+                          "id": 2
+                        },
+                        "valueType": {
+                          "type": "string",
+                          "id": 3
                         }
+                      }
                     },
                     "Geometry": {
                       "fields": {
@@ -146,13 +146,13 @@
                       }
                     },
                     "MapPoint": {
-                        "fields": {
-                            "coordinates": {
-                                "rule": "repeated",
-                                "type": "double",
-                                "id": 1
-                            }
+                      "fields": {
+                        "coordinates": {
+                          "rule": "repeated",
+                          "type": "double",
+                          "id": 1
                         }
+                      }
                     },
                     "SpatialReference": {
                       "fields": {
@@ -242,8 +242,8 @@
                           "id": 1
                         },
                         "hexOrNameValue": {
-                            "type": "string",
-                            "id": 2
+                          "type": "string",
+                          "id": 2
                         }
                       }
                     },

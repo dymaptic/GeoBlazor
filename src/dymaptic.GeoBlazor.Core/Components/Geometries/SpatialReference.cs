@@ -117,11 +117,6 @@ public class SpatialReference : MapComponent, IEquatable<SpatialReference>
     [Parameter]
     public string? Wkt { get; set; }
 
-    internal SpatialReferenceSerializationRecord ToSerializationRecord()
-    {
-        return new SpatialReferenceSerializationRecord(Wkid, Wkt);
-    }
-
     /// <inheritdoc />
     public bool Equals(SpatialReference? other)
     {
@@ -145,6 +140,11 @@ public class SpatialReference : MapComponent, IEquatable<SpatialReference>
     public override int GetHashCode()
     {
         return Wkid.GetHashCode();
+    }
+
+    internal SpatialReferenceSerializationRecord ToSerializationRecord()
+    {
+        return new SpatialReferenceSerializationRecord(Wkid, Wkt);
     }
 }
 
@@ -228,8 +228,10 @@ internal class SpatialReferenceConverter : JsonConverter<SpatialReference>
 
 [ProtoContract(Name = "SpatialReference")]
 internal record SpatialReferenceSerializationRecord(
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [property:ProtoMember(1)]int? Wkid,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [property:ProtoMember(2)]string? Wkt = null)
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [property: ProtoMember(1)]
+        int? Wkid,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [property: ProtoMember(2)]
+        string? Wkt = null)
     : MapComponentSerializationRecord;

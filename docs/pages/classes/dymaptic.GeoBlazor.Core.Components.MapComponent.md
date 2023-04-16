@@ -3,11 +3,6 @@ layout: default
 title: MapComponent
 parent: Classes
 ---
----
-layout: default
-title: MapComponent
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components](index.html#dymaptic.GeoBlazor.Core.Components 'dymaptic.GeoBlazor.Core.Components')
 
@@ -63,6 +58,20 @@ Derived
 &#8627; [HighlightOptions](dymaptic.GeoBlazor.Core.Objects.HighlightOptions.html 'dymaptic.GeoBlazor.Core.Objects.HighlightOptions')
 
 Implements [System.IAsyncDisposable](https://docs.microsoft.com/en-us/dotnet/api/System.IAsyncDisposable 'System.IAsyncDisposable')
+### Fields
+
+<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.AllowRender'></a>
+
+## MapComponent.AllowRender Field
+
+Whether to allow the component to render on the next cycle.
+
+```csharp
+public bool AllowRender;
+```
+
+#### Field Value
+[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
 ### Properties
 
 <a name='dymaptic.GeoBlazor.Core.Components.MapComponent.ChildContent'></a>
@@ -846,4 +855,3 @@ The consumer needs to provide the missing child component
 
 [MissingRequiredOptionsChildElementException](dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException.html 'dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException')  
 The consumer needs to provide ONE of the options of child components
-

@@ -1,8 +1,9 @@
-﻿---
+---
 layout: page
 title: "Custom Graphics"
 nav_order: 6
 ---
+
 # Custom Graphics
 
 While many `FeatureLayer` and `TileLayer` services come pre-loaded with images, GeoBlazor also supports custom
@@ -13,7 +14,8 @@ While many `FeatureLayer` and `TileLayer` services come pre-loaded with images, 
 The simplest way to define custom graphics is using the Razor Component markup syntax. Below is an example of
 adding a single `Graphic` in Razor markup.
 
-***Note that iterating through collections in markup creates very poor performance and may cause crashing, especially in WebAssembly. See the C# example below for a better approach for multiple graphics.***
+***Note that iterating through collections in markup creates very poor performance and may cause crashing, especially in
+WebAssembly. See the C# example below for a better approach for multiple graphics.***
 
 ```html
 <MapView @ref="_view" class="map-view" OnMapRendered="OnMapRendered">
@@ -37,13 +39,15 @@ adding a single `Graphic` in Razor markup.
 
 Both `MapView` and `GraphicsLayer` support programmatically adding graphics after the map view is rendered.
 
-1. `GraphicsLayer.Add(graphic)` and `GraphicsLayer.Add(graphics)` allows you to add single or multiple graphics to the layer.
+1. `GraphicsLayer.Add(graphic)` and `GraphicsLayer.Add(graphics)` allows you to add single or multiple graphics to the
+   layer.
 
 ```csharp
 await graphicsLayer.Add(new Graphic(new Point(-118.80500, 34.02700), new SimpleMarkerSymbol(new Outline(new MapColor("white"), new MapColor("red"))));
 ```
 
-2. `MapView.AddGraphic(graphic)` and `MapView.AddGraphics(graphics)` allows you to add single or multiple graphics to the map view.
+2. `MapView.AddGraphic(graphic)` and `MapView.AddGraphics(graphics)` allows you to add single or multiple graphics to
+   the map view.
 
 ```csharp
 await mapView.AddGraphic(new Graphic(new Point(-118.80500, 34.02700), new SimpleMarkerSymbol(new Outline(new MapColor("white"), new MapColor("red"))));
@@ -51,16 +55,20 @@ await mapView.AddGraphic(new Graphic(new Point(-118.80500, 34.02700), new Simple
 
 Both classes also support `Remove` and `Clear` methods to remove or clear all graphics from the layer.
 
-Note that while you can define `Graphics` in a `FeatureLayer` via Razor Component markup, the `FeatureLayer` does not support
+Note that while you can define `Graphics` in a `FeatureLayer` via Razor Component markup, the `FeatureLayer` does not
+support
 altering the graphics collection (aka `Source`) after the map is rendered.
 
 ## Multiple Graphics in a Collection
 
-For stable performance, *always* use `MapView.AddGraphics(IEnumerable&lt;Graphic&gt; graphics)` or `GraphicsLayer.Add(IEnumerable&lt;Graphic&gt; graphics)` to add collections of graphics, and do not define them in markup with a loop.
+For stable performance, *always* use `MapView.AddGraphics(IEnumerable&lt;Graphic&gt; graphics)`
+or `GraphicsLayer.Add(IEnumerable&lt;Graphic&gt; graphics)` to add collections of graphics, and do not define them in
+markup with a loop.
 
 ## Altering a Rendered Graphic
 
-Once a graphic is rendered, you can alter its `Geometry`, `Symbol`, `Attributes`, and `PopupTemplate` properties using `Set` methods.
+Once a graphic is rendered, you can alter its `Geometry`, `Symbol`, `Attributes`, and `PopupTemplate` properties
+using `Set` methods.
 This will cause the graphic to re-render on the map, without having to be added and removed.
 
 ```csharp

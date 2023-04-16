@@ -3,11 +3,6 @@ layout: default
 title: Label
 parent: Classes
 ---
----
-layout: default
-title: Label
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Layers](index.html#dymaptic.GeoBlazor.Core.Components.Layers 'dymaptic.GeoBlazor.Core.Components.Layers')
 
@@ -15,10 +10,7 @@ parent: Classes
 
 Defines label expressions, symbols, scale ranges, label priorities, and label placement options for labels on a  
 layer. See the Labeling guide for more information about labeling.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LabelClass.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LabelClass.html">ArcGIS JS API</a>
 
 ```csharp
 public class Label : dymaptic.GeoBlazor.Core.Components.Layers.LayerObject,
@@ -216,4 +208,3 @@ public static bool operator !=(dymaptic.GeoBlazor.Core.Components.Layers.Label? 
 
 #### Returns
 [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
-

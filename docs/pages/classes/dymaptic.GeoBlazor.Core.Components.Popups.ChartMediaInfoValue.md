@@ -3,21 +3,13 @@ layout: default
 title: ChartMediaInfoValue
 parent: Classes
 ---
----
-layout: default
-title: ChartMediaInfoValue
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Popups](index.html#dymaptic.GeoBlazor.Core.Components.Popups 'dymaptic.GeoBlazor.Core.Components.Popups')
 
 ## ChartMediaInfoValue Class
 
 The ChartMediaInfoValue class contains information for popups regarding how charts should be constructed.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-support-ChartMediaInfoValue.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-support-ChartMediaInfoValue.html">ArcGIS JS API</a>
 
 ```csharp
 public class ChartMediaInfoValue : dymaptic.GeoBlazor.Core.Components.MapComponent
@@ -150,4 +142,3 @@ The consumer needs to provide the missing child component
 
 [MissingRequiredOptionsChildElementException](dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException.html 'dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException')  
 The consumer needs to provide ONE of the options of child components
-

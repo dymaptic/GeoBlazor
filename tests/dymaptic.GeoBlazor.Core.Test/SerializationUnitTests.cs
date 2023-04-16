@@ -1,5 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
-using dymaptic.GeoBlazor.Core.Components.Layers;
+﻿using dymaptic.GeoBlazor.Core.Components.Layers;
 using dymaptic.GeoBlazor.Core.Components.Popups;
 using dymaptic.GeoBlazor.Core.Components.Symbols;
 using dymaptic.GeoBlazor.Core.Objects;
@@ -7,6 +6,7 @@ using ProtoBuf;
 using System.Diagnostics;
 using System.Text;
 using System.Text.Json;
+using Point = dymaptic.GeoBlazor.Core.Components.Geometries.Point;
 
 
 namespace dymaptic.GeoBlazor.Core.Test;
@@ -22,7 +22,7 @@ public class SerializationUnitTests
             new SimpleMarkerSymbol(new Outline(new MapColor("green")), new MapColor("red"), 10),
             new PopupTemplate("Test", "Test Content<br/>{testString}<br/>{testNumber}", new[] { "*" }),
             new Dictionary<string, object> { { "testString", "test" }, { "testNumber", 123 } });
-        Stopwatch sw = Stopwatch.StartNew();
+        var sw = Stopwatch.StartNew();
         string json = JsonSerializer.Serialize(graphic.ToSerializationRecord());
         byte[] data = Encoding.UTF8.GetBytes(json);
         sw.Stop();
@@ -38,8 +38,8 @@ public class SerializationUnitTests
             new SimpleMarkerSymbol(new Outline(new MapColor("green")), new MapColor("red"), 10),
             new PopupTemplate("Test", "Test Content<br/>{testString}<br/>{testNumber}", new[] { "*" }),
             new Dictionary<string, object> { { "testString", "test" }, { "testNumber", 123 } });
-        Stopwatch sw = Stopwatch.StartNew();
-        ProtoGraphicCollection collection = new(new [] { graphic.ToSerializationRecord() });
+        var sw = Stopwatch.StartNew();
+        ProtoGraphicCollection collection = new(new[] { graphic.ToSerializationRecord() });
         using MemoryStream ms = new();
         Serializer.Serialize(ms, collection);
         byte[] data = ms.ToArray();
@@ -47,6 +47,6 @@ public class SerializationUnitTests
         Debug.WriteLine($"SerializeGraphicToJson: {sw.ElapsedMilliseconds}ms");
         Debug.WriteLine($"Size: {data.Length} bytes");
     }
-    
+
     private readonly Random _random = new();
 }

@@ -9,8 +9,8 @@
         </Description>
         <Title>GeoBlazor</Title>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <PackageVersion>2.0.2-beta-2</PackageVersion>
-        <Version>2.0.2-beta-2</Version>
+        <PackageVersion>2.1.0-beta-1</PackageVersion>
+        <Version>2.1.0-beta-1</Version>
         <Authors>Tim Purdum, Christopher Moravec, Mara Stoica, Tim Rawson</Authors>
         <Company>dymaptic</Company>
         <Copyright>©2023 by dymaptic</Copyright>
@@ -47,7 +47,7 @@
         <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
         <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="7.0.4" />
     </ItemGroup>
-    <PropertyGroup Condition="$(Configuration) == 'RELEASE'">
+    <PropertyGroup Condition="$(Configuration) == 'RELEASE' AND $(TargetFrameworks.StartsWith($(TargetFramework)))">
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <DefaultDocumentationFolder>Documentation</DefaultDocumentationFolder>
         <DefaultDocumentationGeneratedPages>Types</DefaultDocumentationGeneratedPages>
@@ -55,9 +55,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <None Include="..\..\Dockerfile">
-          <Link>dy-blazor-api-core\Dockerfile</Link>
-        </None>
         <None Include="Blazor-API-500px.png" Pack="true" PackagePath="" />
         <Content Remove="package.json" />
         <Content Remove="package-lock.json" />
@@ -65,36 +62,15 @@
         <Content Include="package.json" Pack="false" />
         <Content Include="package-lock.json" Pack="false" />
         <Content Include="tsconfig.json" Pack="false" />
-        <None Include="Scripts/arcGisJsInterop.ts" Pack="true" PackagePack="Scripts" />
-        <None Include="Scripts/definitions.d.ts" Pack="true" PackagePack="Scripts" />
-        <None Include="Scripts/dotNetBuilder.ts" Pack="true" PackagePack="Scripts" />
-        <None Include="Scripts/jsBuilder.ts" Pack="true" PackagePack="Scripts" />
-        <None Include="Scripts/projection.ts" Pack="true" PackagePack="Scripts" />
         <None Remove="ReadMe.md" />
         <None Include="ReadMe.md" Pack="true" PackagePath="" />
-        <Content Update="wwwroot\js\graphic.json">
-          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Content>
-        <Content Remove="Scripts\graphic.json" />
-        <None Include="wwwroot\graphic.json">
-          <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-        </None>
     </ItemGroup>
 
     <ItemGroup>
         <Folder Include="wwwroot\assets" />
     </ItemGroup>
 
-    <ItemGroup>
-        <ReadMeSourceFile Include="../../ReadMe.md" />
-    </ItemGroup>
-
-    <Target Name="Copy Readme" BeforeTargets="PreBuildEvent" Condition="$(TargetFrameworks.StartsWith($(TargetFramework)))">
-        <Message Importance="high" Text="Copying ReadMe" />
-        <Copy SourceFiles="@(ReadMeSourceFile)" DestinationFolder="./" />
-    </Target>
-
-    <Target Name="NPM Install" AfterTargets="Copy Readme" Condition="$(TargetFrameworks.StartsWith($(TargetFramework)))">
+    <Target Name="NPM Install" BeforeTargets="PreBuildEvent" Condition="$(TargetFrameworks.StartsWith($(TargetFramework)))">
         <!-- Runs synchronously to ensure all files are ready for nuget packaging in release mode -->
         <Message Importance="high" Text="Running NPM Install" />
         <Exec Command="npm install" />
@@ -110,7 +86,7 @@
         <Exec Command="pwsh ./assetCopy.ps1" />
     </Target>
 
-    <Target Name="NPM Debug Build" AfterTargets="Copy Readme" Condition="$(Configuration) == 'DEBUG' AND $(TargetFrameworks.StartsWith($(TargetFramework)))">
+    <Target Name="NPM Debug Build" AfterTargets="NPM Install" Condition="$(Configuration) == 'DEBUG' AND $(TargetFrameworks.StartsWith($(TargetFramework)))">
         <!-- Runs asynchronously to speed up build during development -->
         <Message Importance="high" Text="Launching Async NPM Build Script" />
         <ExecAsync FilePath="pwsh" Arguments="./npmDebugBuild.ps1" />

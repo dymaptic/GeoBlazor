@@ -11,11 +11,11 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\dymaptic.GeoBlazor.Core.Sample.Shared\dymaptic.GeoBlazor.Core.Sample.Shared.csproj" />
+        <ProjectReference Include="..\dymaptic.GeoBlazor.Core.Sample.Shared\dymaptic.GeoBlazor.Core.Sample.Shared.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-        <Content Remove="staticwebapp.config.json" />
+        <Content Remove="staticwebapp.config.json"/>
     </ItemGroup>
 
 </Project>

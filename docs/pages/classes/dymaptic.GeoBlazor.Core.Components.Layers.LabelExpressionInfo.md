@@ -3,11 +3,6 @@ layout: default
 title: LabelExpressionInfo
 parent: Classes
 ---
----
-layout: default
-title: LabelExpressionInfo
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Layers](index.html#dymaptic.GeoBlazor.Core.Components.Layers 'dymaptic.GeoBlazor.Core.Components.Layers')
 
@@ -16,10 +11,7 @@ parent: Classes
 If working with a MapImageLayer that supports Arcade, you can also use labelExpressionInfo. To determine this,  
 check the supportsArcadeExpressionForLabeling property. If true, then labelExpression or labelExpressionInfo can be  
 used. If false, then only labelExpression can be used.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LabelClass.html#labelExpressionInfo">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LabelClass.html#labelExpressionInfo">ArcGIS JS API</a>
 
 ```csharp
 public class LabelExpressionInfo : dymaptic.GeoBlazor.Core.Components.MapComponent
@@ -44,4 +36,3 @@ public string Expression { get; set; }
 
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
-

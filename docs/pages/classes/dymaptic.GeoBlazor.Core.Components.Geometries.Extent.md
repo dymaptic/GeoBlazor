@@ -3,11 +3,6 @@ layout: default
 title: Extent
 parent: Classes
 ---
----
-layout: default
-title: Extent
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Geometries](index.html#dymaptic.GeoBlazor.Core.Components.Geometries 'dymaptic.GeoBlazor.Core.Components.Geometries')
 
@@ -15,10 +10,7 @@ parent: Classes
 
 The minimum and maximum X and Y coordinates of a bounding box. Extent is used to describe the visible portion of a  
 MapView. When working in a SceneView, Camera is used to define the visible part of the map within the view.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Extent.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Extent.html">ArcGIS JS API</a>
 
 ```csharp
 public class Extent : dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,
@@ -303,4 +295,3 @@ public static bool operator !=(dymaptic.GeoBlazor.Core.Components.Geometries.Ext
 
 #### Returns
 [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
-

@@ -3,11 +3,6 @@ layout: default
 title: ChartMediaInfoValueSeries
 parent: Classes
 ---
----
-layout: default
-title: ChartMediaInfoValueSeries
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Popups](index.html#dymaptic.GeoBlazor.Core.Components.Popups 'dymaptic.GeoBlazor.Core.Components.Popups')
 
@@ -15,10 +10,7 @@ parent: Classes
 
 The ChartMediaInfoValueSeries class is a read-only support class that represents information specific to how data  
 should be plotted in a chart. It helps provide a consistent API for plotting charts used by the Popup widget.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-support-ChartMediaInfoValueSeries.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-support-ChartMediaInfoValueSeries.html">ArcGIS JS API</a>
 
 ```csharp
 public class ChartMediaInfoValueSeries : dymaptic.GeoBlazor.Core.Components.MapComponent
@@ -105,4 +97,3 @@ public System.Nullable<double> Value { get; set; }
 
 #### Property Value
 [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
-

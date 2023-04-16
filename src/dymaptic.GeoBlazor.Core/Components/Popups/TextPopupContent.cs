@@ -17,13 +17,6 @@ public class TextPopupContent : PopupContent
 {
     /// <inheritdoc />
     public override string Type => "text";
-    internal override PopupContentSerializationRecord ToSerializationRecord()
-    {
-        return new PopupContentSerializationRecord(Type)
-        {
-            Text = Text
-        };
-    }
 
     /// <summary>
     ///     The formatted string content to display. This may contain a field name enclosed in {} (e.g. {FIELDNAME}), or an
@@ -36,4 +29,9 @@ public class TextPopupContent : PopupContent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Text { get; set; }
+
+    internal override PopupContentSerializationRecord ToSerializationRecord()
+    {
+        return new PopupContentSerializationRecord(Type) { Text = Text };
+    }
 }

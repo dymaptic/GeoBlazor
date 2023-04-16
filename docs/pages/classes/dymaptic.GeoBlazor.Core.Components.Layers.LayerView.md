@@ -3,21 +3,13 @@ layout: default
 title: LayerView
 parent: Classes
 ---
----
-layout: default
-title: LayerView
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Layers](index.html#dymaptic.GeoBlazor.Core.Components.Layers 'dymaptic.GeoBlazor.Core.Components.Layers')
 
 ## LayerView Class
 
 Represents the view for a single layer after it has been added to either a MapView or a SceneView.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html">ArcGIS JS API</a>
 
 ```csharp
 public class LayerView :
@@ -122,4 +114,3 @@ public void Dispose();
 ```
 
 Implements [Dispose()](https://docs.microsoft.com/en-us/dotnet/api/System.IDisposable.Dispose 'System.IDisposable.Dispose')
-

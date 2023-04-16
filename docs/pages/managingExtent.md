@@ -3,6 +3,7 @@ layout: page
 title: "Managing View Extent"
 nav_order: 5
 ---
+
 # Managing View Extent
 
 There are many ways to set and retrieve the extent of a view in GeoBlazor.
@@ -12,7 +13,8 @@ There are many ways to set and retrieve the extent of a view in GeoBlazor.
 The advantage of setting the extent in Razor markup is that it will be read
 before the view is rendered.
 
-1. You can set the `Extent` property directly inside the `MapView`. The `SpatialReference` is _required_ when defining the `Extent` in markup.
+1. You can set the `Extent` property directly inside the `MapView`. The `SpatialReference` is _required_ when defining
+   the `Extent` in markup.
 
 ```html
 <MapView>
@@ -34,9 +36,9 @@ before the view is rendered.
 </MapView>
 ```
 
-Setting either `Extent`'s or `MapView`'s parameters to a variable would allow one to alter the extent programmatically 
-after rendering. However, it should be noted that if a user interacts with the view manually via drag, pinch-to-zoom, 
-or the zoom controls, or any of the `MapView.Set` methods listed below are called, the Razor component parameters will 
+Setting either `Extent`'s or `MapView`'s parameters to a variable would allow one to alter the extent programmatically
+after rendering. However, it should be noted that if a user interacts with the view manually via drag, pinch-to-zoom,
+or the zoom controls, or any of the `MapView.Set` methods listed below are called, the Razor component parameters will
 be _disabled_ from controlling the extent until the view is re-rendered, such as by calling `mapView.Refresh()`.
 
 ## Setting the extent in C# code
@@ -44,6 +46,7 @@ be _disabled_ from controlling the extent until the view is re-rendered, such as
 Once the view is rendered, it may be necessary to change the view's extent in code.
 
 1. `SetExtent` allows you to directly alter the current view extent.
+
 ```csharp
 await mapView.SetExtent(new Extent
 {
@@ -56,6 +59,7 @@ await mapView.SetExtent(new Extent
 ```
 
 2. `GoTo(extent)` is similar to `SetExtent`, but it provides more animation.
+
 ```csharp
 await mapView.GoTo(new Extent
 {
@@ -68,6 +72,7 @@ await mapView.GoTo(new Extent
 ```
 
 3. `SetCenter` and `SetZoom` allow you to set the center and zoom level of the view.
+
 ```csharp
 await mapView.SetCenter(new MapPoint(-118.80500, 34.02700));
 await mapView.SetZoom(13);

@@ -69,7 +69,6 @@ import Layer from "@arcgis/core/layers/Layer";
 import RelationshipQuery from "@arcgis/core/rest/support/RelationshipQuery";
 import TopFeaturesQuery from "@arcgis/core/rest/support/TopFeaturesQuery";
 import popupExpressionInfo from "@arcgis/core/popup/ExpressionInfo";
-import GraphicWrapper from "./graphic";
 import SimpleMarkerSymbol from "@arcgis/core/symbols/SimpleMarkerSymbol";
 import Symbol from "@arcgis/core/symbols/Symbol";
 import SimpleFillSymbol from "@arcgis/core/symbols/SimpleFillSymbol";
@@ -82,7 +81,6 @@ import PopupOpenOptions = __esri.PopupOpenOptions;
 import PopupDockOptions = __esri.PopupDockOptions;
 import ContentProperties = __esri.ContentProperties;
 import PopupTriggerActionEvent = __esri.PopupTriggerActionEvent;
-import OpenStreetMapLayer from "@arcgis/core/layers/OpenStreetMapLayer";
 
 export function buildJsSpatialReference(dotNetSpatialReference: DotNetSpatialReference): SpatialReference {
     if (dotNetSpatialReference === undefined || dotNetSpatialReference === null) {
@@ -141,7 +139,7 @@ export function buildJsGraphic(graphicObject: any, viewId: string | null)
         geometry: buildJsGeometry(graphicObject.geometry) as Geometry ?? null,
         symbol: buildJsSymbol(graphicObject.symbol) as Symbol ?? null,
     });
-    
+
     if (hasValue(graphicObject.attributes)) {
         if (graphicObject.attributes instanceof Array) {
             graphic.attributes = {};
@@ -174,7 +172,7 @@ export function buildJsGraphic(graphicObject: any, viewId: string | null)
     if (hasValue(graphicObject.popupTemplate)) {
         graphic.popupTemplate = buildJsPopupTemplate(graphicObject.popupTemplate, viewId);
     }
-    
+
     return graphic;
 }
 
@@ -210,7 +208,7 @@ export function buildJsPopupTemplate(popupTemplateObject: DotNetPopupTemplate, v
         if (hasValue(view)) {
             view.popup.on("trigger-action", async (event: PopupTriggerActionEvent) => {
                 await popupTemplateObject.dotNetPopupTemplateReference.invokeMethodAsync("OnTriggerAction", event.action.id);
-            });    
+            });
         }
     }
 
@@ -437,8 +435,7 @@ export function buildJsPolygon(dnPolygon: DotNetPolygon): Polygon | null {
 
 
 export function buildJsRenderer(dotNetRenderer: any): Renderer | null {
-    if (dotNetRenderer === undefined || dotNetRenderer?.symbol === undefined ||
-        dotNetRenderer?.symbol === null) return null;
+    if (dotNetRenderer === undefined) return null;
     let dotNetSymbol = dotNetRenderer.symbol;
     switch (dotNetRenderer.type) {
         case 'simple':
@@ -797,7 +794,7 @@ export function buildJsPortalItem(dotNetPortalItem: any): any {
         }
     }
     if (hasValue(dotNetPortalItem?.apiKey)) {
-        portalItem.apiKey =dotNetPortalItem.apiKey;
+        portalItem.apiKey = dotNetPortalItem.apiKey;
     }
 
     return portalItem;

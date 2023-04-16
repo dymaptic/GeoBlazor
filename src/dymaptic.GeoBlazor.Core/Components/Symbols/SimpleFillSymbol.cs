@@ -2,7 +2,6 @@
 using dymaptic.GeoBlazor.Core.Objects;
 using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
-using ProtoBuf;
 using System.Text.Json.Serialization;
 
 
@@ -41,11 +40,11 @@ public class SimpleFillSymbol : FillSymbol, IEquatable<SimpleFillSymbol>
     public SimpleFillSymbol(Outline? outline = null, MapColor? color = null, FillStyle? fillStyle = null)
     {
         AllowRender = false;
-#pragma  warning disable BL0005
+#pragma warning disable BL0005
         Outline = outline;
         Color = color;
         FillStyle = fillStyle;
-#pragma  warning restore BL0005
+#pragma warning restore BL0005
     }
 
     /// <summary>
@@ -150,12 +149,10 @@ public class SimpleFillSymbol : FillSymbol, IEquatable<SimpleFillSymbol>
     {
         return new SymbolSerializationRecord(Type, Color)
         {
-            Outline = Outline?.ToSerializationRecord(), 
-            Style = FillStyle?.ToString().ToKebabCase()
+            Outline = Outline?.ToSerializationRecord(), Style = FillStyle?.ToString().ToKebabCase()
         };
     }
 }
-
 
 /// <summary>
 ///     The possible fill style for the <see cref="SimpleFillSymbol" />

@@ -25,39 +25,39 @@ public abstract class PopupContent : MapComponent
 }
 
 [ProtoContract(Name = "PopupContent")]
-internal record PopupContentSerializationRecord([property: ProtoMember(1)]string Type) 
+internal record PopupContentSerializationRecord([property: ProtoMember(1)] string Type)
     : MapComponentSerializationRecord
 {
     [ProtoMember(2)]
     public string? Description { get; init; }
-    
+
     [ProtoMember(3)]
     public string? DisplayType { get; init; }
-    
+
     [ProtoMember(4)]
     public string? Title { get; init; }
-    
+
     [ProtoMember(5)]
     public ElementExpressionInfo? ExpressionInfo { get; init; }
-    
+
     [ProtoMember(6)]
     public FieldInfo[]? FieldInfos { get; init; }
-    
+
     [ProtoMember(7)]
     public string? ActiveMediaInfoIndex { get; init; }
-    
+
     [ProtoMember(8)]
     public MediaInfoSerializationRecord[]? MediaInfos { get; init; }
-    
+
     [ProtoMember(9)]
     public int? DisplayCount { get; init; }
-    
+
     [ProtoMember(10)]
     public RelatedRecordsInfoFieldOrderSerializationRecord[]? OrderByFields { get; init; }
-    
+
     [ProtoMember(11)]
     public int? RelationshipId { get; init; }
-    
+
     [ProtoMember(12)]
     public string? Text { get; init; }
 }

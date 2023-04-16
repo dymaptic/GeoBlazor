@@ -3,11 +3,6 @@ layout: default
 title: Relationship
 parent: Classes
 ---
----
-layout: default
-title: Relationship
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Objects](index.html#dymaptic.GeoBlazor.Core.Objects 'dymaptic.GeoBlazor.Core.Objects')
 
@@ -15,10 +10,7 @@ parent: Classes
 
 Describes a layer's relationship with another layer or table. These relationships are listed in the ArcGIS Services  
 directory as described in the REST API documentation.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Relationship.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Relationship.html">ArcGIS JS API</a>
 
 ```csharp
 public class Relationship
@@ -147,4 +139,3 @@ public System.Nullable<dymaptic.GeoBlazor.Core.Objects.Role> Role { get; set; }
 
 #### Property Value
 [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[Role](dymaptic.GeoBlazor.Core.Objects.Role.html 'dymaptic.GeoBlazor.Core.Objects.Role')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
-

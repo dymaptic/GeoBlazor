@@ -8,7 +8,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// <summary>
 ///     A base class for non-map components, such as GeometryEngine, Projection, etc.
 /// </summary>
-public abstract class LogicComponent: IDisposable
+public abstract class LogicComponent : IDisposable
 {
     /// <summary>
     ///     Default constructor
@@ -50,6 +50,14 @@ public abstract class LogicComponent: IDisposable
     ///     The project library which houses this particular logic component.
     /// </summary>
     protected virtual string Library => "Core";
+
+    /// <summary>
+    ///     Disposes of the Logic Component and cancels all external calls
+    /// </summary>
+    public void Dispose()
+    {
+        CancellationTokenSource.Dispose();
+    }
 
     /// <summary>
     ///     A JavaScript invokable method that returns a JS Error and converts it to an Exception.
@@ -134,7 +142,7 @@ public abstract class LogicComponent: IDisposable
                 return await proModule.InvokeAsync<IJSObjectReference>("getCore");
             default:
                 return await JsRuntime
-                    .InvokeAsync<IJSObjectReference>("import", CancellationTokenSource.Token, 
+                    .InvokeAsync<IJSObjectReference>("import", CancellationTokenSource.Token,
                         "./_content/dymaptic.GeoBlazor.Core/js/arcGisJsInterop.js");
         }
     }
@@ -149,15 +157,7 @@ public abstract class LogicComponent: IDisposable
     protected readonly string? ApiKey;
 
     /// <summary>
-    ///    Creates a cancellation token to control external calls
+    ///     Creates a cancellation token to control external calls
     /// </summary>
     protected CancellationTokenSource CancellationTokenSource = new();
-
-    /// <summary>
-    ///    Disposes of the Logic Component and cancels all external calls
-    /// </summary>
-    public void Dispose()
-    {
-        CancellationTokenSource.Dispose();
-    }
 }

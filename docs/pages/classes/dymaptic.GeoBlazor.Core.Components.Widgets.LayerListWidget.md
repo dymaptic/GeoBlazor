@@ -3,11 +3,6 @@ layout: default
 title: LayerListWidget
 parent: Classes
 ---
----
-layout: default
-title: LayerListWidget
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Widgets](index.html#dymaptic.GeoBlazor.Core.Components.Widgets 'dymaptic.GeoBlazor.Core.Components.Widgets')
 
@@ -16,10 +11,7 @@ parent: Classes
 The LayerList widget provides a way to display a list of layers, and switch on/off their visibility. The ListItem  
 API provides access to each layer's properties, allows the developer to configure actions related to the layer, and  
 allows the developer to add content to the item related to the layer.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">ArcGIS JS API</a>
 
 ```csharp
 public class LayerListWidget : dymaptic.GeoBlazor.Core.Components.Widgets.Widget
@@ -131,4 +123,3 @@ The [ListItem](dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem.htm
 #### Returns
 [System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[ListItem](dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem.html 'dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
 Returns the modified [ListItem](dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem.html 'dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem')
-

@@ -3,11 +3,6 @@ layout: default
 title: BasemapLayerListWidget
 parent: Classes
 ---
----
-layout: default
-title: BasemapLayerListWidget
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Widgets](index.html#dymaptic.GeoBlazor.Core.Components.Widgets 'dymaptic.GeoBlazor.Core.Components.Widgets')
 
@@ -18,10 +13,7 @@ LayerList widget UI, the list items represent any base or reference layers displ
 ListItems as separate types, a developer will need to specify a base or reference. It provides access to the  
 associated layer's properties, allows the developer to configure actions related to the layer, and allows the  
 developer to add content to the item related to the layer.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html">ArcGIS JS API</a>
 
 ```csharp
 public class BasemapLayerListWidget : dymaptic.GeoBlazor.Core.Components.Widgets.LayerListWidget
@@ -154,4 +146,3 @@ The [ListItem](dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem.htm
 #### Returns
 [System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[ListItem](dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem.html 'dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
 Returns the modified reference [ListItem](dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem.html 'dymaptic.GeoBlazor.Core.Components.Widgets.LayerList.ListItem')
-

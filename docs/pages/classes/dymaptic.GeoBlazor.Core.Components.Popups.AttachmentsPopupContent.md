@@ -3,11 +3,6 @@ layout: default
 title: AttachmentsPopupContent
 parent: Classes
 ---
----
-layout: default
-title: AttachmentsPopupContent
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Popups](index.html#dymaptic.GeoBlazor.Core.Components.Popups 'dymaptic.GeoBlazor.Core.Components.Popups')
 
@@ -15,10 +10,7 @@ parent: Classes
 
 An AttachmentsContent popup element represents an attachment element associated with a feature. This resource is  
 available only if the FeatureLayer.capabilities.data.supportsAttachment is true.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-AttachmentsContent.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-AttachmentsContent.html">ArcGIS JS API</a>
 
 ```csharp
 public class AttachmentsPopupContent : dymaptic.GeoBlazor.Core.Components.Popups.PopupContent
@@ -78,4 +70,3 @@ public override string Type { get; }
 
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
-

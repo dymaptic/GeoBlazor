@@ -3,11 +3,6 @@ layout: default
 title: UniqueValueInfo
 parent: Classes
 ---
----
-layout: default
-title: UniqueValueInfo
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Renderers](index.html#dymaptic.GeoBlazor.Core.Components.Renderers 'dymaptic.GeoBlazor.Core.Components.Renderers')
 
@@ -15,10 +10,7 @@ parent: Classes
 
 Defines the symbols to use in a UniqueValueRenderer. Each unique value info defines a symbol that should be used to  
 represent features with a specific value.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueInfo.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueInfo.html">ArcGIS JS API</a>
 
 ```csharp
 public class UniqueValueInfo : dymaptic.GeoBlazor.Core.Components.Layers.LayerObject
@@ -52,4 +44,3 @@ public string? Value { get; set; }
 
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
-

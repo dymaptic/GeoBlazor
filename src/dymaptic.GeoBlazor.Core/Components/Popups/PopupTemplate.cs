@@ -232,37 +232,25 @@ public class PopupTemplate : MapComponent, IEquatable<PopupTemplate>
         switch (child)
         {
             case PopupContent popupContent:
-                if (!Content.Contains(popupContent))
-                {
-                    Content.Add(popupContent);
-                }
+                Content.Add(popupContent);
 
                 break;
             case FieldInfo fieldInfo:
                 FieldInfos ??= new HashSet<FieldInfo>();
 
-                if (!FieldInfos.Contains(fieldInfo))
-                {
-                    FieldInfos.Add(fieldInfo);
-                }
+                FieldInfos.Add(fieldInfo);
 
                 break;
             case ExpressionInfo expressionInfo:
                 ExpressionInfos ??= new HashSet<ExpressionInfo>();
 
-                if (!ExpressionInfos.Contains(expressionInfo))
-                {
-                    ExpressionInfos.Add(expressionInfo);
-                }
+                ExpressionInfos.Add(expressionInfo);
 
                 break;
             case ActionBase action:
                 Actions ??= new HashSet<ActionBase>();
 
-                if (!Actions.Contains(action))
-                {
-                    Actions.Add(action);
-                }
+                Actions.Add(action);
 
                 break;
             default:
@@ -375,23 +363,31 @@ public class PopupTemplate : MapComponent, IEquatable<PopupTemplate>
 }
 
 [ProtoContract(Name = "PopupTemplate")]
-internal record PopupTemplateSerializationRecord(
+internal record PopupTemplateSerializationRecord([property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [property: ProtoMember(1)]
+        string? Title,
         [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(1)]string? Title,
+        [property: ProtoMember(2)]
+        string? StringContent = null,
         [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(2)]string? StringContent = null,
+        [property: ProtoMember(3)]
+        IEnumerable<string>? OutFields = null,
         [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(3)]IEnumerable<string>? OutFields = null,
+        [property: ProtoMember(4)]
+        IEnumerable<FieldInfoSerializationRecord>? FieldInfos = null,
         [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(4)]IEnumerable<FieldInfoSerializationRecord>? FieldInfos = null,
+        [property: ProtoMember(5)]
+        IEnumerable<PopupContentSerializationRecord>? Content = null,
         [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(5)]IEnumerable<PopupContentSerializationRecord>? Content = null,
+        [property: ProtoMember(6)]
+        IEnumerable<ExpressionInfoSerializationRecord>? ExpressionInfos = null,
         [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(6)]IEnumerable<ExpressionInfoSerializationRecord>? ExpressionInfos = null,
+        [property: ProtoMember(7)]
+        bool? OverwriteActions = null,
         [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(7)]bool? OverwriteActions = null,
+        [property: ProtoMember(8)]
+        bool? ReturnGeometry = null,
         [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(8)]bool? ReturnGeometry = null,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(9)]IEnumerable<ActionBaseSerializationRecord>? Actions = null)
+        [property: ProtoMember(9)]
+        IEnumerable<ActionBaseSerializationRecord>? Actions = null)
     : MapComponentSerializationRecord;

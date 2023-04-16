@@ -59,7 +59,7 @@ public class SceneView : MapView
             if (ViewJsModule is null) return;
 
             ViewExtentUpdate change =
-                await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("setCenter", 
+                await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("setCenter",
                     CancellationTokenSource.Token, (object)point, Id);
             Extent = change.Extent;
             Zoom = change.Zoom;
@@ -81,7 +81,7 @@ public class SceneView : MapView
             ExtentSetByCode = true;
 
             ViewExtentUpdate change =
-                await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("setZoom", 
+                await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("setZoom",
                     CancellationTokenSource.Token, Zoom, Id);
             Extent = change.Extent;
             Latitude = change.Center?.Latitude;
@@ -129,7 +129,7 @@ public class SceneView : MapView
             ExtentSetByCode = true;
 
             ViewExtentUpdate change =
-                await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("setExtent", 
+                await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("setExtent",
                     CancellationTokenSource.Token, (object)Extent, Id);
             Latitude = change.Center?.Latitude;
             Longitude = change.Center?.Longitude;
@@ -150,7 +150,7 @@ public class SceneView : MapView
         ExtentSetByCode = true;
 
         ViewExtentUpdate change =
-            await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("goToGraphics", 
+            await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("goToGraphics",
                 CancellationTokenSource.Token, graphics, Id);
         Extent = change.Extent;
         Latitude = change.Center?.Latitude;
@@ -230,7 +230,7 @@ public class SceneView : MapView
                 Configuration.GetValue<string?>("ArcGISAssetsPath",
                     "./_content/dymaptic.GeoBlazor.Core/assets"));
 
-            await ViewJsModule!.InvokeVoidAsync("buildMapView", 
+            await ViewJsModule!.InvokeVoidAsync("buildMapView",
                 CancellationTokenSource.Token, Id, DotNetObjectReference,
                 Longitude, Latitude, Rotation, Map, Zoom, Scale,
                 ApiKey, mapType, Widgets, Graphics, SpatialReference, Constraints, Extent,

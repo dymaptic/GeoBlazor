@@ -3,11 +3,6 @@ layout: default
 title: Symbol
 parent: Classes
 ---
----
-layout: default
-title: Symbol
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Symbols](index.html#dymaptic.GeoBlazor.Core.Components.Symbols 'dymaptic.GeoBlazor.Core.Components.Symbols')
 
@@ -16,10 +11,7 @@ parent: Classes
 Symbol is the abstract base class for all symbols. Symbols represent point, line, polygon, and mesh geometries as  
 vector graphics within a View. Symbols can only be set directly on individual graphics in a GraphicsLayer or in  
 View.graphics. Otherwise they are assigned to a Renderer that is applied to a Layer.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-Symbol.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-Symbol.html">ArcGIS JS API</a>
 
 ```csharp
 public abstract class Symbol : dymaptic.GeoBlazor.Core.Components.MapComponent
@@ -59,4 +51,3 @@ public virtual string Type { get; }
 
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
-

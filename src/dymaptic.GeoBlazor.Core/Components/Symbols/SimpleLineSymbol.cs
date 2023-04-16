@@ -101,8 +101,7 @@ public class SimpleLineSymbol : LineSymbol, IEquatable<SimpleLineSymbol>
     {
         return new SymbolSerializationRecord(Type, Color)
         {
-            Width = Width,
-            LineStyle = LineStyle?.ToString().ToKebabCase()
+            Width = Width, LineStyle = LineStyle?.ToString().ToKebabCase()
         };
     }
 }

@@ -3,11 +3,6 @@ layout: default
 title: SceneView
 parent: Classes
 ---
----
-layout: default
-title: SceneView
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Views](index.html#dymaptic.GeoBlazor.Core.Components.Views 'dymaptic.GeoBlazor.Core.Components.Views')
 
@@ -15,10 +10,7 @@ parent: Classes
 
 A SceneView displays a 3D view of a Map or WebScene instance using WebGL. To render a map and its layers in 2D, see  
 the documentation for MapView. For a general overview of views, see View.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">ArcGIS JS API</a>
 
 ```csharp
 public class SceneView : dymaptic.GeoBlazor.Core.Components.Views.MapView
@@ -186,4 +178,3 @@ public override System.Threading.Tasks.Task SetZoom(double zoom);
 
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
-

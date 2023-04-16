@@ -51,9 +51,9 @@ internal class SymbolJsonConverter : JsonConverter<Symbol>
             return null;
         }
 
-        if (temp.ContainsKey("type"))
+        if (temp.TryGetValue("type", out object? typeValue))
         {
-            switch (temp["type"]?.ToString())
+            switch (typeValue?.ToString())
             {
                 case "simple-marker":
                     return JsonSerializer.Deserialize<SimpleMarkerSymbol>(ref cloneReader, newOptions);
@@ -90,43 +90,43 @@ internal record SymbolSerializationRecord([property: ProtoMember(1)] string Type
 {
     [ProtoMember(3)]
     public SymbolSerializationRecord? Outline { get; init; }
-    
+
     [ProtoMember(4)]
     public double? Size { get; init; }
-    
+
     [ProtoMember(5)]
     public string? Style { get; init; }
-    
+
     [ProtoMember(6)]
     public double? Angle { get; init; }
-    
+
     [ProtoMember(7)]
     public double? XOffset { get; init; }
-    
+
     [ProtoMember(8)]
     public double? YOffset { get; init; }
-    
+
     [ProtoMember(9)]
     public double? Width { get; init; }
-    
+
     [ProtoMember(10)]
     public string? LineStyle { get; init; }
-    
+
     [ProtoMember(11)]
     public string? Text { get; init; }
-    
+
     [ProtoMember(12)]
     public MapColor? HaloColor { get; init; }
-    
+
     [ProtoMember(13)]
     public double? HaloSize { get; init; }
-    
+
     [ProtoMember(14)]
     public MapFont? MapFont { get; init; }
-    
+
     [ProtoMember(15)]
     public double? Height { get; init; }
-    
+
     [ProtoMember(16)]
     public string? Url { get; init; }
 }

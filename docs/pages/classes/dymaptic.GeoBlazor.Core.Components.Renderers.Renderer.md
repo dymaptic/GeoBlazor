@@ -3,11 +3,6 @@ layout: default
 title: Renderer
 parent: Classes
 ---
----
-layout: default
-title: Renderer
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Renderers](index.html#dymaptic.GeoBlazor.Core.Components.Renderers 'dymaptic.GeoBlazor.Core.Components.Renderers')
 
@@ -15,10 +10,7 @@ parent: Classes
 
 Abstract base class, renderers define how to visually represent each feature in one of the following layer types:  
 FeatureLayer, SceneLayer, MapImageLayer, CSVLayer, GeoJSONLayer, OGCFeatureLayer, StreamLayer, WFSLayer.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-Renderer.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-Renderer.html">ArcGIS JS API</a>
 
 ```csharp
 public abstract class Renderer : dymaptic.GeoBlazor.Core.Components.Layers.LayerObject
@@ -43,4 +35,3 @@ public abstract dymaptic.GeoBlazor.Core.Components.Renderers.RendererType Render
 
 #### Property Value
 [RendererType](dymaptic.GeoBlazor.Core.Components.Renderers.RendererType.html 'dymaptic.GeoBlazor.Core.Components.Renderers.RendererType')
-

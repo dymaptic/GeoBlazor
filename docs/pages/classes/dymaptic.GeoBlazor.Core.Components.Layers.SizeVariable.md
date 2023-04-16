@@ -3,11 +3,6 @@ layout: default
 title: SizeVariable
 parent: Classes
 ---
----
-layout: default
-title: SizeVariable
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Layers](index.html#dymaptic.GeoBlazor.Core.Components.Layers 'dymaptic.GeoBlazor.Core.Components.Layers')
 
@@ -15,10 +10,7 @@ parent: Classes
 
 The size visual variable defines the size of individual features in a layer based on a numeric (often thematic)  
 value.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-SizeVariable.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-SizeVariable.html">ArcGIS JS API</a>
 
 ```csharp
 public class SizeVariable : dymaptic.GeoBlazor.Core.Components.Layers.VisualVariable
@@ -91,4 +83,3 @@ public override dymaptic.GeoBlazor.Core.Components.Layers.VisualVariableType Var
 
 #### Property Value
 [VisualVariableType](dymaptic.GeoBlazor.Core.Components.Layers.VisualVariableType.html 'dymaptic.GeoBlazor.Core.Components.Layers.VisualVariableType')
-

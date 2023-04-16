@@ -3,11 +3,6 @@ layout: default
 title: SpatialReference
 parent: Classes
 ---
----
-layout: default
-title: SpatialReference
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Geometries](index.html#dymaptic.GeoBlazor.Core.Components.Geometries 'dymaptic.GeoBlazor.Core.Components.Geometries')
 
@@ -18,10 +13,7 @@ coordinate system used to locate geographic features in the map. Each projected 
 defined by either a well-known ID (WKID) or a definition string (WKT). Note that for versions prior to ArcGIS 10,  
 only WKID was supported. For a full list of supported spatial reference IDs and their corresponding definition  
 strings, see Using spatial references.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-SpatialReference.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-SpatialReference.html">ArcGIS JS API</a>
 
 ```csharp
 public class SpatialReference : dymaptic.GeoBlazor.Core.Components.MapComponent,
@@ -259,4 +251,3 @@ public static bool operator !=(dymaptic.GeoBlazor.Core.Components.Geometries.Spa
 
 #### Returns
 [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
-

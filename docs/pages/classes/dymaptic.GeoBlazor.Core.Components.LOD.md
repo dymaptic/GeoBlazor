@@ -3,11 +3,6 @@ layout: default
 title: LOD
 parent: Classes
 ---
----
-layout: default
-title: LOD
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components](index.html#dymaptic.GeoBlazor.Core.Components 'dymaptic.GeoBlazor.Core.Components')
 
@@ -15,10 +10,7 @@ parent: Classes
 
 A TileLayer has a number of LODs (Levels of Detail). Each LOD corresponds to a map at a given scale or resolution.  
 LOD has no constructor.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LOD.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LOD.html">ArcGIS JS API</a>
 
 ```csharp
 public class LOD : dymaptic.GeoBlazor.Core.Components.MapComponent
@@ -78,4 +70,3 @@ public System.Nullable<double> Scale { get; set; }
 
 #### Property Value
 [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
-

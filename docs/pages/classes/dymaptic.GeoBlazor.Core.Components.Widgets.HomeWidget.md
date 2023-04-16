@@ -3,21 +3,13 @@ layout: default
 title: HomeWidget
 parent: Classes
 ---
----
-layout: default
-title: HomeWidget
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Widgets](index.html#dymaptic.GeoBlazor.Core.Components.Widgets 'dymaptic.GeoBlazor.Core.Components.Widgets')
 
 ## HomeWidget Class
 
 Provides a simple widget that switches the View to its initial Viewpoint or a previously defined viewpoint.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Home.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Home.html">ArcGIS JS API</a>
 
 ```csharp
 public class HomeWidget : dymaptic.GeoBlazor.Core.Components.Widgets.Widget
@@ -64,4 +56,3 @@ public override string WidgetType { get; }
 
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
-

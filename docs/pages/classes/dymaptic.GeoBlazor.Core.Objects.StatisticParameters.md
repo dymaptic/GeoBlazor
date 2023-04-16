@@ -3,11 +3,6 @@ layout: default
 title: StatisticParameters
 parent: Classes
 ---
----
-layout: default
-title: StatisticParameters
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Objects](index.html#dymaptic.GeoBlazor.Core.Objects 'dymaptic.GeoBlazor.Core.Objects')
 
@@ -72,4 +67,3 @@ public double Value { get; set; }
 
 #### Property Value
 [System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')
-

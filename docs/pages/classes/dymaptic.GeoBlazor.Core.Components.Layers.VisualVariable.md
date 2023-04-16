@@ -3,11 +3,6 @@ layout: default
 title: VisualVariable
 parent: Classes
 ---
----
-layout: default
-title: VisualVariable
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Layers](index.html#dymaptic.GeoBlazor.Core.Components.Layers 'dymaptic.GeoBlazor.Core.Components.Layers')
 
@@ -15,10 +10,7 @@ parent: Classes
 
 The visual variable base class. See each of the subclasses that extend this class to learn how to create continuous  
 data-driven thematic visualizations.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-VisualVariable.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-VisualVariable.html">ArcGIS JS API</a>
 
 ```csharp
 public abstract class VisualVariable : dymaptic.GeoBlazor.Core.Components.MapComponent
@@ -116,4 +108,3 @@ The child to unregister
 
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
-

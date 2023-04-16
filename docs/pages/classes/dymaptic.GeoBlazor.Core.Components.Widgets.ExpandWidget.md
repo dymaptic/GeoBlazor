@@ -3,21 +3,13 @@ layout: default
 title: ExpandWidget
 parent: Classes
 ---
----
-layout: default
-title: ExpandWidget
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Widgets](index.html#dymaptic.GeoBlazor.Core.Components.Widgets 'dymaptic.GeoBlazor.Core.Components.Widgets')
 
 ## ExpandWidget Class
 
 The Expand widget acts as a clickable button for opening a widget.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Expand.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Expand.html">ArcGIS JS API</a>
 
 ```csharp
 public class ExpandWidget : dymaptic.GeoBlazor.Core.Components.Widgets.Widget
@@ -180,4 +172,3 @@ The child to unregister
 
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
-

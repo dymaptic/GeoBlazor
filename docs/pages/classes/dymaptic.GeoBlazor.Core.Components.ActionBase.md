@@ -3,11 +3,6 @@ layout: default
 title: ActionBase
 parent: Classes
 ---
----
-layout: default
-title: ActionBase
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components](index.html#dymaptic.GeoBlazor.Core.Components 'dymaptic.GeoBlazor.Core.Components')
 
@@ -15,10 +10,7 @@ parent: Classes
 
 Actions are customizable behavior which can be executed in certain widgets such as Popups, a BasemapLayerList, or a  
 LayerList.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionBase.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionBase.html">ArcGIS JS API</a>
 
 ```csharp
 public abstract class ActionBase : dymaptic.GeoBlazor.Core.Components.MapComponent,
@@ -220,4 +212,3 @@ public static bool operator !=(dymaptic.GeoBlazor.Core.Components.ActionBase? le
 
 #### Returns
 [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
-

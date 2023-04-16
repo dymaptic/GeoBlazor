@@ -2,11 +2,10 @@
 // The import method exposes a dictionary of map components, "arcGisObjectRefs", that can be looked up via the C# component
 // "Id" value. A method (addGraphic) and two tools (projection, geometryEngine) are also imported.
 import {
-    addGraphic,
     arcGisObjectRefs,
     geometryEngine,
-    projection,
-    Graphic
+    Graphic,
+    projection
 } from "../../dymaptic.GeoBlazor.Core/js/arcGisJsInterop.js";
 
 
@@ -23,7 +22,7 @@ export function drawWithGeodesicBufferOnPointer(cursorSymbol, bufferSymbol, geod
             x: evt.x,
             y: evt.y,
         });
-        
+
         if (cursorPoint) {
             if (cursorPoint.spatialReference.wkid !== 3857 &&
                 cursorPoint.spatialReference.wkid !== 4326) {

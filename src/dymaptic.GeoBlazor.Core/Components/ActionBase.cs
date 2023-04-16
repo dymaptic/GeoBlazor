@@ -18,6 +18,23 @@ namespace dymaptic.GeoBlazor.Core.Components;
 public abstract class ActionBase : MapComponent, IEquatable<ActionBase>
 {
     /// <summary>
+    ///     Determines whether the specified <see cref="ActionBase" /> is equal to the current <see cref="ActionBase" />.
+    /// </summary>
+    /// <returns></returns>
+    public static bool operator ==(ActionBase? left, ActionBase? right)
+    {
+        return Equals(left, right);
+    }
+
+    /// <summary>
+    ///     Determines whether the specified <see cref="ActionBase" /> is not equal to the current <see cref="ActionBase" />.
+    /// </summary>
+    public static bool operator !=(ActionBase? left, ActionBase? right)
+    {
+        return !Equals(left, right);
+    }
+
+    /// <summary>
     ///     The title of the action.
     /// </summary>
     [Parameter]
@@ -75,23 +92,22 @@ public abstract class ActionBase : MapComponent, IEquatable<ActionBase>
     /// </summary>
     public virtual string Type { get; } = default!;
 
-    internal abstract ActionBaseSerializationRecord ToSerializationRecord();
-
     /// <inheritdoc />
     public bool Equals(ActionBase? other)
     {
         if (ReferenceEquals(null, other)) return false;
 
-        return Title == other.Title && ClassName == other.ClassName && Id == other.Id && Active == other.Active && 
-            Disabled == other.Disabled && Visible == other.Visible && 
-            Equals(CallbackFunction, other.CallbackFunction) && Type == other.Type;
+        return (Title == other.Title) && (ClassName == other.ClassName) && (Id == other.Id) &&
+            (Active == other.Active) &&
+            (Disabled == other.Disabled) && (Visible == other.Visible) &&
+            Equals(CallbackFunction, other.CallbackFunction) && (Type == other.Type);
     }
 
     /// <inheritdoc />
     public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
-        if (obj.GetType() != this.GetType()) return false;
+        if (obj.GetType() != GetType()) return false;
 
         return Equals((ActionBase)obj);
     }
@@ -102,22 +118,7 @@ public abstract class ActionBase : MapComponent, IEquatable<ActionBase>
         return HashCode.Combine(Title, ClassName, Id, Active, Disabled, Visible, CallbackFunction, Type);
     }
 
-    /// <summary>
-    ///     Determines whether the specified <see cref="ActionBase" /> is equal to the current <see cref="ActionBase" />.
-    /// </summary>
-    /// <returns></returns>
-    public static bool operator ==(ActionBase? left, ActionBase? right)
-    {
-        return Equals(left, right);
-    }
-
-    /// <summary>
-    ///    Determines whether the specified <see cref="ActionBase" /> is not equal to the current <see cref="ActionBase" />.
-    /// </summary>
-    public static bool operator !=(ActionBase? left, ActionBase? right)
-    {
-        return !Equals(left, right);
-    }
+    internal abstract ActionBaseSerializationRecord ToSerializationRecord();
 }
 
 [ProtoContract(Name = "Action")]
@@ -146,7 +147,7 @@ internal record ActionBaseSerializationRecord([property: JsonIgnore(Condition = 
 {
     [ProtoMember(8)]
     public string? Image { get; init; }
-    
+
     [ProtoMember(9)]
     public bool? Value { get; init; }
 }
@@ -168,7 +169,7 @@ public class ActionButton : ActionBase
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Image { get; set; }
-    
+
     internal override ActionBaseSerializationRecord ToSerializationRecord()
     {
         return new ActionBaseSerializationRecord(Type, Title, ClassName, Active, Disabled, Visible, Id)
@@ -192,7 +193,7 @@ public class ActionToggle : ActionBase
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? Value { get; set; }
-    
+
     internal override ActionBaseSerializationRecord ToSerializationRecord()
     {
         return new ActionBaseSerializationRecord(Type, Title, ClassName, Active, Disabled, Visible, Id)
@@ -201,7 +202,6 @@ public class ActionToggle : ActionBase
         };
     }
 }
-
 
 internal class ActionBaseConverter : JsonConverter<ActionBase>
 {
@@ -219,9 +219,9 @@ internal class ActionBaseConverter : JsonConverter<ActionBase>
             return null;
         }
 
-        if (temp.ContainsKey("type"))
+        if (temp.TryGetValue("type", out object? typeValue))
         {
-            switch (temp["type"]?.ToString())
+            switch (typeValue?.ToString())
             {
                 case "button":
                     return JsonSerializer.Deserialize<ActionButton>(ref cloneReader, newOptions);

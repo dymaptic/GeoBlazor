@@ -21,7 +21,7 @@ If ((Test-Path -Path './wwwroot/assets/*') -eq $false)
         Remove-Item './wwwroot/assets/*' -Recurse -Verbose
         pause
     }
-    
+
     Write-Output "4.26.2" | Out-File -FilePath "$OutputDir/ArcGISAssetsVersion.txt"
 }
 Else

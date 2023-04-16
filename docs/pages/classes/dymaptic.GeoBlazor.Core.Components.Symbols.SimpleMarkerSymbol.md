@@ -3,11 +3,6 @@ layout: default
 title: SimpleMarkerSymbol
 parent: Classes
 ---
----
-layout: default
-title: SimpleMarkerSymbol
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Symbols](index.html#dymaptic.GeoBlazor.Core.Components.Symbols 'dymaptic.GeoBlazor.Core.Components.Symbols')
 
@@ -16,10 +11,7 @@ parent: Classes
 SimpleMarkerSymbol is used for rendering 2D Point geometries with a simple shape and color in either a MapView or a  
 SceneView. It may be filled with a solid color and have an optional outline, which is defined with a  
 SimpleLineSymbol.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleMarkerSymbol.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleMarkerSymbol.html">ArcGIS JS API</a>
 
 ```csharp
 public class SimpleMarkerSymbol : dymaptic.GeoBlazor.Core.Components.Symbols.MarkerSymbol,
@@ -291,4 +283,3 @@ public static bool operator !=(dymaptic.GeoBlazor.Core.Components.Symbols.Simple
 
 #### Returns
 [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
-

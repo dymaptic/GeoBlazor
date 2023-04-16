@@ -3,11 +3,6 @@ layout: default
 title: ExpressionPopupContent
 parent: Classes
 ---
----
-layout: default
-title: ExpressionPopupContent
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Popups](index.html#dymaptic.GeoBlazor.Core.Components.Popups 'dymaptic.GeoBlazor.Core.Components.Popups')
 
@@ -23,10 +18,7 @@ based on logical conditions. For example, if data in one or more fields is empty
 dynamically create a table consisting only of fields containing valid data values. You can also use this element to  
 create charts or other content types consisting of aggregated data values. This can be especially useful in cluster  
 popups.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-ExpressionContent.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-ExpressionContent.html">ArcGIS JS API</a>
 
 ```csharp
 public class ExpressionPopupContent : dymaptic.GeoBlazor.Core.Components.Popups.PopupContent
@@ -61,4 +53,3 @@ public override string Type { get; }
 
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
-

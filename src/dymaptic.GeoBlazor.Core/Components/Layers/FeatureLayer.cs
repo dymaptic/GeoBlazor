@@ -477,7 +477,7 @@ public class FeatureLayer : Layer
     /// </param>
     public async Task<PopupTemplate> CreatePopupTemplate(CreatePopupTemplateOptions? options = null)
     {
-        return await JsLayerReference!.InvokeAsync<PopupTemplate>("createPopupTemplate", 
+        return await JsLayerReference!.InvokeAsync<PopupTemplate>("createPopupTemplate",
             CancellationTokenSource.Token, options);
     }
 

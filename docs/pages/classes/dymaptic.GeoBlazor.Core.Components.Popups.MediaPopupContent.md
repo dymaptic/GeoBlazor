@@ -3,11 +3,6 @@ layout: default
 title: MediaPopupContent
 parent: Classes
 ---
----
-layout: default
-title: MediaPopupContent
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Popups](index.html#dymaptic.GeoBlazor.Core.Components.Popups 'dymaptic.GeoBlazor.Core.Components.Popups')
 
@@ -15,10 +10,7 @@ parent: Classes
 
 A MediaContent popup element contains an individual or array of chart and/or image media elements to display within  
 a popup's content.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-MediaContent.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-MediaContent.html">ArcGIS JS API</a>
 
 ```csharp
 public class MediaPopupContent : dymaptic.GeoBlazor.Core.Components.Popups.PopupContent
@@ -158,4 +150,3 @@ The consumer needs to provide the missing child component
 
 [MissingRequiredOptionsChildElementException](dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException.html 'dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException')  
 The consumer needs to provide ONE of the options of child components
-

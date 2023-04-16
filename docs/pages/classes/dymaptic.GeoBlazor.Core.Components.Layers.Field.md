@@ -3,11 +3,6 @@ layout: default
 title: Field
 parent: Classes
 ---
----
-layout: default
-title: Field
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Layers](index.html#dymaptic.GeoBlazor.Core.Components.Layers 'dymaptic.GeoBlazor.Core.Components.Layers')
 
@@ -15,10 +10,7 @@ parent: Classes
 
 Information about each field in a layer. Field objects must be constructed when creating a FeatureLayer from  
 client-side graphics. This class allows you to define the schema of each field in the FeatureLayer.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Field.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Field.html">ArcGIS JS API</a>
 
 ```csharp
 public class Field : dymaptic.GeoBlazor.Core.Components.MapComponent
@@ -219,4 +211,3 @@ public System.Nullable<dymaptic.GeoBlazor.Core.Components.Layers.FieldValueType>
 
 #### Property Value
 [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[FieldValueType](dymaptic.GeoBlazor.Core.Components.Layers.FieldValueType.html 'dymaptic.GeoBlazor.Core.Components.Layers.FieldValueType')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
-

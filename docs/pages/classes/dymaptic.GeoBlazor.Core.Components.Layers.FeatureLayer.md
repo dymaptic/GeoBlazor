@@ -3,11 +3,6 @@ layout: default
 title: FeatureLayer
 parent: Classes
 ---
----
-layout: default
-title: FeatureLayer
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Layers](index.html#dymaptic.GeoBlazor.Core.Components.Layers 'dymaptic.GeoBlazor.Core.Components.Layers')
 
@@ -16,10 +11,7 @@ parent: Classes
 A FeatureLayer is a single layer that can be created from a Map Service or Feature Service; ArcGIS Online or ArcGIS  
 Enterprise portal items; or from an array of client-side features. The layer can be either a spatial (has  
 geographic features) or non-spatial (table).  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html">ArcGIS JS API</a>
 
 ```csharp
 public class FeatureLayer : dymaptic.GeoBlazor.Core.Components.Layers.Layer
@@ -866,4 +858,3 @@ The consumer needs to provide the missing child component
 
 [MissingRequiredOptionsChildElementException](dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException.html 'dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException')  
 The consumer needs to provide ONE of the options of child components
-

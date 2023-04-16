@@ -204,9 +204,11 @@ public class PopupWidget : Widget
     {
         await JsObjectReference!.InvokeVoidAsync("clear", CancellationTokenSource.Token);
     }
-    
+
     /// <summary>
-    ///     Use this method to return feature(s) at a given screen location. These features are fetched from all of the LayerViews in the view. In order to use this, a layer must already have an associated PopupTemplate and have its popupEnabled. These features can then be used within a custom Popup or Feature widget experience.
+    ///     Use this method to return feature(s) at a given screen location. These features are fetched from all of the
+    ///     LayerViews in the view. In order to use this, a layer must already have an associated PopupTemplate and have its
+    ///     popupEnabled. These features can then be used within a custom Popup or Feature widget experience.
     /// </summary>
     public async Task<Graphic[]> FetchFeatures()
     {
@@ -236,17 +238,20 @@ public class PopupWidget : Widget
     {
         return await JsObjectReference!.InvokeAsync<bool>("getVisibility", CancellationTokenSource.Token);
     }
-    
+
     /// <summary>
-    ///     Opens the popup at the given location with content defined either explicitly with content or driven from the PopupTemplate of input features. This method sets the popup's visible property to true. Users can alternatively open the popup by directly setting the visible property to true.
+    ///     Opens the popup at the given location with content defined either explicitly with content or driven from the
+    ///     PopupTemplate of input features. This method sets the popup's visible property to true. Users can alternatively
+    ///     open the popup by directly setting the visible property to true.
     /// </summary>
     public async Task Open()
     {
         await JsObjectReference!.InvokeVoidAsync("open", CancellationTokenSource.Token);
     }
-    
+
     /// <summary>
-    ///     Closes the popup by setting its visible property to false. Users can alternatively close the popup by directly setting the visible property to false.
+    ///     Closes the popup by setting its visible property to false. Users can alternatively close the popup by directly
+    ///     setting the visible property to false.
     /// </summary>
     public async Task Close()
     {

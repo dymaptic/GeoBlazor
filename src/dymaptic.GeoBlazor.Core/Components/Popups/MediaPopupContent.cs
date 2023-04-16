@@ -92,7 +92,7 @@ public class MediaPopupContent : PopupContent
             }
         }
     }
-    
+
     internal override PopupContentSerializationRecord ToSerializationRecord()
     {
         return new PopupContentSerializationRecord(Type)

@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Components;
-using ProtoBuf;
 using System.Text.Json.Serialization;
 
 
@@ -110,7 +109,7 @@ public class Point : Geometry, IEquatable<Point>
     public bool Equals(Point? other)
     {
         if (ReferenceEquals(null, other)) return false;
-        
+
         return (Latitude.Equals(other.Latitude) && Longitude.Equals(other.Longitude)) ||
             (X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z));
     }

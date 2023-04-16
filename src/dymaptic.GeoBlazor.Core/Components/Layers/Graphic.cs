@@ -1,13 +1,11 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
 using dymaptic.GeoBlazor.Core.Components.Popups;
 using dymaptic.GeoBlazor.Core.Components.Symbols;
-using dymaptic.GeoBlazor.Core.Components.Views;
 using dymaptic.GeoBlazor.Core.Objects;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using ProtoBuf;
 using System.Collections.Specialized;
-using System.Text.Json;
 using System.Text.Json.Serialization;
 
 
@@ -150,9 +148,10 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     public async Task SetGeometry(Geometry geometry)
     {
         Geometry = geometry;
+
         if (LayerJsModule is not null)
         {
-            await LayerJsModule.InvokeVoidAsync("setGraphicGeometry", Id, 
+            await LayerJsModule.InvokeVoidAsync("setGraphicGeometry", Id,
                 Geometry.ToSerializationRecord());
         }
         else
@@ -195,6 +194,7 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     public async Task SetPopupTemplate(PopupTemplate popupTemplate)
     {
         PopupTemplate = popupTemplate;
+
         if (LayerJsModule is not null)
         {
             await LayerJsModule.InvokeVoidAsync("setGraphicPopupTemplate", Id,
@@ -204,7 +204,7 @@ public class Graphic : LayerObject, IEquatable<Graphic>
         {
             _updatePopupTemplate = true;
         }
-        
+
         _serializationRecord = null;
         ToSerializationRecord();
     }
@@ -231,7 +231,7 @@ public class Graphic : LayerObject, IEquatable<Graphic>
                 {
                     return;
                 }
-                
+
                 await SetGeometry(geometry);
 
                 break;
@@ -240,7 +240,7 @@ public class Graphic : LayerObject, IEquatable<Graphic>
                 {
                     return;
                 }
-                
+
                 await SetPopupTemplate(popupTemplate);
 
                 break;
@@ -297,6 +297,7 @@ public class Graphic : LayerObject, IEquatable<Graphic>
         return Id.GetHashCode();
     }
 
+    /// <inheritdoc />
     public override async ValueTask DisposeAsync()
     {
         await base.DisposeAsync();
@@ -307,23 +308,6 @@ public class Graphic : LayerObject, IEquatable<Graphic>
         }
     }
 
-    internal GraphicSerializationRecord ToSerializationRecord(bool refresh = false)
-    {
-        if (_serializationRecord is null || refresh)
-        {
-            _serializationRecord = new(Id.ToString(),
-                Geometry?.ToSerializationRecord(),
-                Symbol?.ToSerializationRecord(),
-                PopupTemplate?.ToSerializationRecord(),
-                Attributes?.Select(kvp =>
-                        new AttributeSerializationRecord(kvp.Key, kvp.Value.ToString(), kvp.Value.GetType().ToString()))
-                    .ToArray());
-        }
-
-        return _serializationRecord;
-    }
-
-
     /// <inheritdoc />
     protected override void OnParametersSet()
     {
@@ -332,9 +316,11 @@ public class Graphic : LayerObject, IEquatable<Graphic>
         ToSerializationRecord(true);
     }
 
+    /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
+
         if (LayerJsModule is not null)
         {
             if (UpdateSymbol)
@@ -348,7 +334,7 @@ public class Graphic : LayerObject, IEquatable<Graphic>
                 _updateGeometry = false;
                 await SetGeometry(Geometry!);
             }
-            
+
             if (_updatePopupTemplate)
             {
                 _updatePopupTemplate = false;
@@ -357,15 +343,31 @@ public class Graphic : LayerObject, IEquatable<Graphic>
         }
     }
 
+    internal GraphicSerializationRecord ToSerializationRecord(bool refresh = false)
+    {
+        if (_serializationRecord is null || refresh)
+        {
+            _serializationRecord = new GraphicSerializationRecord(Id.ToString(),
+                Geometry?.ToSerializationRecord(),
+                Symbol?.ToSerializationRecord(),
+                PopupTemplate?.ToSerializationRecord(),
+                Attributes?.Select(kvp =>
+                        new AttributeSerializationRecord(kvp.Key, kvp.Value.ToString(), kvp.Value.GetType().ToString()))
+                    .ToArray());
+        }
+
+        return _serializationRecord;
+    }
+
     private async void OnAttributesChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
         if (LayerJsModule is null) return;
 
-        await LayerJsModule.InvokeVoidAsync("setGraphicAttributes", 
+        await LayerJsModule.InvokeVoidAsync("setGraphicAttributes",
             CancellationTokenSource.Token, Id, Attributes);
         ToSerializationRecord(true);
     }
-    
+
     private ObservableDictionary<string, object> _attributes = new();
     private GraphicSerializationRecord? _serializationRecord;
     private bool _updateGeometry;
@@ -373,16 +375,19 @@ public class Graphic : LayerObject, IEquatable<Graphic>
 }
 
 [ProtoContract(Name = "Graphic")]
-internal record GraphicSerializationRecord([property:ProtoMember(1)]string Id, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [property:ProtoMember(2)]GeometrySerializationRecord? Geometry, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [property:ProtoMember(3)]SymbolSerializationRecord? Symbol, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [property:ProtoMember(4)]PopupTemplateSerializationRecord? PopupTemplate,
-    [property:ProtoMember(5)]AttributeSerializationRecord[]? Attributes)
+internal record GraphicSerializationRecord([property: ProtoMember(1)] string Id,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [property: ProtoMember(2)]
+        GeometrySerializationRecord? Geometry,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [property: ProtoMember(3)]
+        SymbolSerializationRecord? Symbol,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [property: ProtoMember(4)]
+        PopupTemplateSerializationRecord? PopupTemplate,
+        [property: ProtoMember(5)] AttributeSerializationRecord[]? Attributes)
     : MapComponentSerializationRecord;
-    
+
 [ProtoContract(Name = "Attribute")]
-internal record AttributeSerializationRecord([property:ProtoMember(1)]string Key, 
-    [property:ProtoMember(2)]string? Value, [property:ProtoMember(3)]string ValueType);
+internal record AttributeSerializationRecord([property: ProtoMember(1)] string Key,
+    [property: ProtoMember(2)] string? Value, [property: ProtoMember(3)] string ValueType);

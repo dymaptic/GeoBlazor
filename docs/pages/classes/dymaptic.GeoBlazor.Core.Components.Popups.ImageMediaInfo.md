@@ -3,21 +3,13 @@ layout: default
 title: ImageMediaInfo
 parent: Classes
 ---
----
-layout: default
-title: ImageMediaInfo
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Popups](index.html#dymaptic.GeoBlazor.Core.Components.Popups 'dymaptic.GeoBlazor.Core.Components.Popups')
 
 ## ImageMediaInfo Class
 
 An ImageMediaInfo is a type of media element that represents images to display within a popup.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-ImageMediaInfo.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-ImageMediaInfo.html">ArcGIS JS API</a>
 
 ```csharp
 public class ImageMediaInfo : dymaptic.GeoBlazor.Core.Components.Popups.MediaInfo
@@ -170,4 +162,3 @@ The consumer needs to provide the missing child component
 
 [MissingRequiredOptionsChildElementException](dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException.html 'dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException')  
 The consumer needs to provide ONE of the options of child components
-

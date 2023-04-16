@@ -18,7 +18,7 @@
 
 <MapView @ref="_view" Style="height: 600px; width: 100%;" GraphicSerializationChunkSize="_chunkSize">
     <Extent Xmin="-41525513" Ymin="4969181" Xmax="-36687355" Ymax="9024624">
-            <SpatialReference Wkid="102100" />
+        <SpatialReference Wkid="102100" />
     </Extent>
     <Map>
         <OpenStreetMapLayer />
@@ -91,7 +91,7 @@
                     GenerateAttributes());
             default:
                 return new Graphic(GeneratePoint(), GenerateSimpleMarker(), GeneratePopupTemplate(),
-                                    GenerateAttributes());
+                    GenerateAttributes());
         }
     }
 
@@ -104,31 +104,21 @@
     {
         return new PolyLine(new MapPath[]
         {
-            new MapPath(new []
-            {
-                new MapPoint(_random.NextDouble() * 40 + -10.0, _random.NextDouble() * 20 + 40.0),
-                new MapPoint(_random.NextDouble() * 40 + -10.0, _random.NextDouble() * 20 + 40.0)
-            })
+            new(new MapPoint(_random.NextDouble() * 40 + -10.0, _random.NextDouble() * 20 + 40.0), new MapPoint(_random.NextDouble() * 40 + -10.0, _random.NextDouble() * 20 + 40.0))
         });
     }
-    
+
     private Polygon GeneratePolygon()
     {
         return new Polygon(new MapPath[]
         {
-            new MapPath(new []
-            {
-                new MapPoint(_random.NextDouble() * 40 + -10.0, _random.NextDouble() * 20 + 40.0),
-                new MapPoint(_random.NextDouble() * 40 + -10.0, _random.NextDouble() * 20 + 40.0),
-                new MapPoint(_random.NextDouble() * 40 + -10.0, _random.NextDouble() * 20 + 40.0),
-                new MapPoint(_random.NextDouble() * 40 + -10.0, _random.NextDouble() * 20 + 40.0)
-            })
+            new(new MapPoint(_random.NextDouble() * 40 + -10.0, _random.NextDouble() * 20 + 40.0), new MapPoint(_random.NextDouble() * 40 + -10.0, _random.NextDouble() * 20 + 40.0), new MapPoint(_random.NextDouble() * 40 + -10.0, _random.NextDouble() * 20 + 40.0), new MapPoint(_random.NextDouble() * 40 + -10.0, _random.NextDouble() * 20 + 40.0))
         });
     }
 
     private Symbol GenerateSimpleMarker()
     {
-        return new SimpleMarkerSymbol(new Outline(new MapColor("green")), 
+        return new SimpleMarkerSymbol(new Outline(new MapColor("green")),
             new MapColor("red"), 10);
     }
 
@@ -136,10 +126,10 @@
     {
         return new SimpleLineSymbol(new MapColor("blue"), 2, LineStyle.Solid);
     }
-    
+
     private Symbol GenerateSimpleFill()
     {
-        return new SimpleFillSymbol(new Outline(new MapColor("purple")), 
+        return new SimpleFillSymbol(new Outline(new MapColor("purple")),
             new MapColor("yellow"));
     }
 
@@ -147,7 +137,7 @@
     {
         return new PopupTemplate("Test", "Test Content<br/>{testString}<br/>{testNumber}", new[] { "*" });
     }
-        
+
     private Dictionary<string, object> GenerateAttributes()
     {
         return new Dictionary<string, object> { { "testString", "test" }, { "testNumber", 123 } };

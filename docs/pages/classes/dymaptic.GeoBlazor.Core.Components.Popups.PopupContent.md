@@ -3,21 +3,13 @@ layout: default
 title: PopupContent
 parent: Classes
 ---
----
-layout: default
-title: PopupContent
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Popups](index.html#dymaptic.GeoBlazor.Core.Components.Popups 'dymaptic.GeoBlazor.Core.Components.Popups')
 
 ## PopupContent Class
 
 Abstract base class, PopupContent elements define what should display within the PopupTemplate content.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-Content.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-Content.html">ArcGIS JS API</a>
 
 ```csharp
 public abstract class PopupContent : dymaptic.GeoBlazor.Core.Components.MapComponent
@@ -46,4 +38,3 @@ public abstract string Type { get; }
 
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
-

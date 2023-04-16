@@ -33,13 +33,10 @@ public class ExpressionPopupContent : PopupContent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ElementExpressionInfo? ExpressionInfo { get; set; }
-    
+
     internal override PopupContentSerializationRecord ToSerializationRecord()
     {
-        return new PopupContentSerializationRecord(Type)
-        {
-            ExpressionInfo = ExpressionInfo
-        };
+        return new PopupContentSerializationRecord(Type) { ExpressionInfo = ExpressionInfo };
     }
 }
 

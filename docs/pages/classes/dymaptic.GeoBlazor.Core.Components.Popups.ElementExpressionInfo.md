@@ -3,11 +3,6 @@ layout: default
 title: ElementExpressionInfo
 parent: Classes
 ---
----
-layout: default
-title: ElementExpressionInfo
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Popups](index.html#dymaptic.GeoBlazor.Core.Components.Popups 'dymaptic.GeoBlazor.Core.Components.Popups')
 
@@ -19,10 +14,7 @@ the Popup Element web map specification.
 This expression may access data values from the feature, its layer, or other layers in the map or datastore with  
 the $feature, $layer, $map, and $datastore profile variables. See the Popup Element Arcade Profile specification  
 for more information and examples of valid return dictionaries.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-ElementExpressionInfo.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-ElementExpressionInfo.html">ArcGIS JS API</a>
 
 ```csharp
 public class ElementExpressionInfo
@@ -74,4 +66,3 @@ public string? Title { get; set; }
 
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
-

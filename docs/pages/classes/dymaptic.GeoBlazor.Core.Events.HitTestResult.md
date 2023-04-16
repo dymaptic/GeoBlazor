@@ -3,21 +3,13 @@ layout: default
 title: HitTestResult
 parent: Classes
 ---
----
-layout: default
-title: HitTestResult
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Events](index.html#dymaptic.GeoBlazor.Core.Events 'dymaptic.GeoBlazor.Core.Events')
 
 ## HitTestResult Class
 
 Object specification for the result of the MapView.HitTest method.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#HitTestResult">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#HitTestResult">ArcGIS JS API</a>
 
 ```csharp
 public class HitTestResult :
@@ -34,10 +26,7 @@ Implements [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/S
 ## HitTestResult(ViewHit[], ScreenPoint) Constructor
 
 Object specification for the result of the MapView.HitTest method.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#HitTestResult">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#HitTestResult">ArcGIS JS API</a>
 
 ```csharp
 public HitTestResult(dymaptic.GeoBlazor.Core.Events.ViewHit[] Results, dymaptic.GeoBlazor.Core.Events.ScreenPoint ScreenPoint);
@@ -98,4 +87,3 @@ public dymaptic.GeoBlazor.Core.Events.ScreenPoint ScreenPoint { get; set; }
 
 #### Property Value
 [ScreenPoint](dymaptic.GeoBlazor.Core.Events.ScreenPoint.html 'dymaptic.GeoBlazor.Core.Events.ScreenPoint')
-

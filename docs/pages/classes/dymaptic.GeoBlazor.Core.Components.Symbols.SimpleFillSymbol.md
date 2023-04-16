@@ -3,11 +3,6 @@ layout: default
 title: SimpleFillSymbol
 parent: Classes
 ---
----
-layout: default
-title: SimpleFillSymbol
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Symbols](index.html#dymaptic.GeoBlazor.Core.Components.Symbols 'dymaptic.GeoBlazor.Core.Components.Symbols')
 
@@ -16,10 +11,7 @@ parent: Classes
 SimpleFillSymbol is used for rendering 2D polygons in either a MapView or a SceneView. It can be filled with a  
 solid color, or a pattern. In addition, the symbol can have an optional outline, which is defined by a  
 SimpleLineSymbol.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleFillSymbol.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleFillSymbol.html">ArcGIS JS API</a>
 
 ```csharp
 public class SimpleFillSymbol : dymaptic.GeoBlazor.Core.Components.Symbols.FillSymbol,
@@ -254,4 +246,3 @@ public static bool operator !=(dymaptic.GeoBlazor.Core.Components.Symbols.Simple
 
 #### Returns
 [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
-

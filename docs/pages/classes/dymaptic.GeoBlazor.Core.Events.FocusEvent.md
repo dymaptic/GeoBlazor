@@ -3,11 +3,6 @@ layout: default
 title: FocusEvent
 parent: Classes
 ---
----
-layout: default
-title: FocusEvent
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Events](index.html#dymaptic.GeoBlazor.Core.Events 'dymaptic.GeoBlazor.Core.Events')
 
@@ -79,4 +74,3 @@ public dymaptic.GeoBlazor.Core.Components.Views.MapView Target { get; set; }
 
 #### Property Value
 [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView')
-

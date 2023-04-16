@@ -3,11 +3,6 @@ layout: default
 title: AddressCandidate
 parent: Classes
 ---
----
-layout: default
-title: AddressCandidate
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Objects](index.html#dymaptic.GeoBlazor.Core.Objects 'dymaptic.GeoBlazor.Core.Objects')
 
@@ -15,10 +10,7 @@ parent: Classes
 
 Represents the result of a geocode service operation as a list of address candidates. This resource provides  
 information about candidates, including the address, location, and match score.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AddressCandidate.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AddressCandidate.html">ArcGIS JS API</a>
 
 ```csharp
 public class AddressCandidate
@@ -91,4 +83,3 @@ public System.Nullable<double> Score { get; set; }
 
 #### Property Value
 [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
-

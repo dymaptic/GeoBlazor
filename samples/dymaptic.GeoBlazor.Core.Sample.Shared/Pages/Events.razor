@@ -150,7 +150,7 @@
     private async Task OnMapClick(ClickEvent clickEvent)
     {
         _clickJson = BuildViewableJson(clickEvent);
-        ScreenPoint screenPoint = await _view.ToScreen(clickEvent.MapPoint);
+        ScreenPoint screenPoint = await _view!.ToScreen(clickEvent.MapPoint);
         _clickJson += $", ScreenPoint: {screenPoint.X}, {screenPoint.Y}";
         Point mapPoint = await _view.ToMap(screenPoint);
         _clickJson += $", MapPoint: {mapPoint.X}, {mapPoint.Y}";

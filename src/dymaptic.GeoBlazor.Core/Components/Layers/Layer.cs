@@ -165,6 +165,7 @@ public abstract class Layer : MapComponent
         IJSObjectReference arcGisJsInterop = await GetArcGisJsInterop();
 
         JsLayerReference = await arcGisJsInterop.InvokeAsync<IJSObjectReference>("createLayer",
+
             // ReSharper disable once RedundantCast
             cancellationToken, (object)this, true, View?.Id);
         await JsLayerReference.InvokeVoidAsync("load", cancellationToken, abortSignal);
@@ -200,7 +201,7 @@ public abstract class Layer : MapComponent
         if ((!MapRendered && JsLayerReference is null) || JsModule is null) return;
 
         // ReSharper disable once RedundantCast
-        await JsModule!.InvokeVoidAsync("updateLayer", CancellationTokenSource.Token, 
+        await JsModule!.InvokeVoidAsync("updateLayer", CancellationTokenSource.Token,
             (object)this, View!.Id);
     }
 
@@ -242,9 +243,9 @@ internal class LayerConverter : JsonConverter<Layer>
             return null;
         }
 
-        if (temp.ContainsKey("type"))
+        if (temp.TryGetValue("type", out object? typeValue))
         {
-            switch (temp["type"]?.ToString())
+            switch (typeValue?.ToString())
             {
                 case "feature":
                     return JsonSerializer.Deserialize<FeatureLayer>(ref cloneReader, newOptions);

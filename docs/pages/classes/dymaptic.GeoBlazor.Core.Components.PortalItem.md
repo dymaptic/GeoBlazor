@@ -3,11 +3,6 @@ layout: default
 title: PortalItem
 parent: Classes
 ---
----
-layout: default
-title: PortalItem
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components](index.html#dymaptic.GeoBlazor.Core.Components 'dymaptic.GeoBlazor.Core.Components')
 
@@ -16,10 +11,7 @@ parent: Classes
 An item (a unit of content) in the Portal. Each item has a unique identifier and a well known URL that is  
 independent of the user owning the item. An item may have associated binary or textual data which is available via  
 the item data resource. View the ArcGIS portal API REST documentation for the item for more details.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html">ArcGIS JS API</a>
 
 ```csharp
 public class PortalItem : dymaptic.GeoBlazor.Core.Components.MapComponent
@@ -32,7 +24,8 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 
 ## PortalItem.ApiKey Property
 
-An authorization string used to access the portal item. API keys are generated and managed in the ArcGIS Developer dashboard. An API key is tied explicitly to an ArcGIS account; it is also used to monitor service usage.
+An authorization string used to access the portal item. API keys are generated and managed in the ArcGIS Developer  
+dashboard. An API key is tied explicitly to an ArcGIS account; it is also used to monitor service usage.
 
 ```csharp
 public string? ApiKey { get; set; }
@@ -131,4 +124,3 @@ The consumer needs to provide the missing child component
 
 [MissingRequiredOptionsChildElementException](dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException.html 'dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException')  
 The consumer needs to provide ONE of the options of child components
-

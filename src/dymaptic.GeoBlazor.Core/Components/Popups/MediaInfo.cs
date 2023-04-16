@@ -16,30 +16,29 @@ public abstract class MediaInfo : MapComponent
     ///     Indicates the type of media
     /// </summary>
     public abstract string Type { get; }
-    
+
     internal abstract MediaInfoSerializationRecord ToSerializationRecord();
 }
 
 [ProtoContract(Name = "MediaInfo")]
-internal record MediaInfoSerializationRecord([property: ProtoMember(1)]string Type) 
+internal record MediaInfoSerializationRecord([property: ProtoMember(1)] string Type)
     : MapComponentSerializationRecord
 {
     [ProtoMember(2)]
     public string? AltText { get; init; }
-    
+
     [ProtoMember(3)]
     public string? Caption { get; init; }
-    
+
     [ProtoMember(4)]
     public string? Title { get; init; }
-    
+
     [ProtoMember(5)]
     public ChartMediaInfoValueSerializationRecord? Value { get; init; }
-    
+
     [ProtoMember(6)]
     public double? RefreshInterval { get; init; }
 }
-
 
 /// <summary>
 ///     A BarChartMediaInfo is a type of chart media element that represents a bar chart displayed within a popup.
@@ -118,7 +117,7 @@ public class BarChartMediaInfo : MediaInfo
         base.ValidateRequiredChildren();
         Value?.ValidateRequiredChildren();
     }
-    
+
     internal override MediaInfoSerializationRecord ToSerializationRecord()
     {
         return new MediaInfoSerializationRecord("bar-chart")
@@ -217,27 +216,31 @@ public class ChartMediaInfoValue : MapComponent
             }
         }
     }
-    
+
     internal ChartMediaInfoValueSerializationRecord ToSerializationRecord()
     {
-        return new ChartMediaInfoValueSerializationRecord(Fields, NormalizeField, TooltipField, 
+        return new ChartMediaInfoValueSerializationRecord(Fields, NormalizeField, TooltipField,
             Series?.Select(s => s.ToSerializationRecord()));
     }
 }
 
 [ProtoContract(Name = "ChartMediaInfoValue")]
-internal record ChartMediaInfoValueSerializationRecord(
-    [property: ProtoMember(1)]IEnumerable<string>? Fields = null, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [property: ProtoMember(2)]string? NormalizeField = null, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [property: ProtoMember(3)]string? TooltipField = null, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [property: ProtoMember(4)]IEnumerable<ChartMediaInfoValueSeriesSerializationRecord>? Series = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [property: ProtoMember(5)]string? LinkURL = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [property: ProtoMember(6)]string? SourceURL = null)
+internal record ChartMediaInfoValueSerializationRecord([property: ProtoMember(1)] IEnumerable<string>? Fields = null,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [property: ProtoMember(2)]
+        string? NormalizeField = null,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [property: ProtoMember(3)]
+        string? TooltipField = null,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [property: ProtoMember(4)]
+        IEnumerable<ChartMediaInfoValueSeriesSerializationRecord>? Series = null,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [property: ProtoMember(5)]
+        string? LinkURL = null,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [property: ProtoMember(6)]
+        string? SourceURL = null)
     : MapComponentSerializationRecord;
 
 /// <summary>
@@ -299,7 +302,7 @@ public class ChartMediaInfoValueSeries : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? Value { get; set; }
-    
+
     internal ChartMediaInfoValueSeriesSerializationRecord ToSerializationRecord()
     {
         return new ChartMediaInfoValueSeriesSerializationRecord(FieldName, Tooltip, Value);
@@ -308,12 +311,15 @@ public class ChartMediaInfoValueSeries : MapComponent
 
 [ProtoContract(Name = "ChartMediaInfoValueSeries")]
 internal record ChartMediaInfoValueSeriesSerializationRecord(
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [property: ProtoMember(1)]string? FieldName, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [property: ProtoMember(2)]string? Tooltip, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [property: ProtoMember(3)]double? Value)
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [property: ProtoMember(1)]
+        string? FieldName,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [property: ProtoMember(2)]
+        string? Tooltip,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [property: ProtoMember(3)]
+        double? Value)
     : MapComponentSerializationRecord;
 
 /// <summary>
@@ -393,15 +399,12 @@ public class ColumnChartMediaInfo : MediaInfo
         base.ValidateRequiredChildren();
         Value?.ValidateRequiredChildren();
     }
-    
+
     internal override MediaInfoSerializationRecord ToSerializationRecord()
     {
         return new MediaInfoSerializationRecord("column-chart")
         {
-            AltText = AltText,
-            Caption = Caption,
-            Title = Title,
-            Value = Value?.ToSerializationRecord()
+            AltText = AltText, Caption = Caption, Title = Title, Value = Value?.ToSerializationRecord()
         };
     }
 }
@@ -492,7 +495,7 @@ public class ImageMediaInfo : MediaInfo
         base.ValidateRequiredChildren();
         Value?.ValidateRequiredChildren();
     }
-    
+
     internal override MediaInfoSerializationRecord ToSerializationRecord()
     {
         return new MediaInfoSerializationRecord("image-media")
@@ -528,16 +531,18 @@ public class ImageMediaInfoValue : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? SourceURL { get; set; }
-    
+
     internal ChartMediaInfoValueSerializationRecord ToSerializationRecord()
     {
-        return new(LinkURL: LinkURL, SourceURL: SourceURL);
+        return new ChartMediaInfoValueSerializationRecord(LinkURL: LinkURL, SourceURL: SourceURL);
     }
 }
 
 internal record ImageMediaInfoValueSerializationRecord(
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? LinkURL, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]string? SourceURL)
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        string? LinkURL,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        string? SourceURL)
     : MapComponentSerializationRecord;
 
 /// <summary>
@@ -617,15 +622,12 @@ public class LineChartMediaInfo : MediaInfo
         base.ValidateRequiredChildren();
         Value?.ValidateRequiredChildren();
     }
-    
+
     internal override MediaInfoSerializationRecord ToSerializationRecord()
     {
         return new MediaInfoSerializationRecord("line-chart")
         {
-            AltText = AltText,
-            Caption = Caption,
-            Title = Title,
-            Value = Value?.ToSerializationRecord()
+            AltText = AltText, Caption = Caption, Title = Title, Value = Value?.ToSerializationRecord()
         };
     }
 }
@@ -707,15 +709,12 @@ public class PieChartMediaInfo : MediaInfo
         base.ValidateRequiredChildren();
         Value?.ValidateRequiredChildren();
     }
-    
+
     internal override MediaInfoSerializationRecord ToSerializationRecord()
     {
         return new MediaInfoSerializationRecord("pie-chart")
         {
-            AltText = AltText,
-            Caption = Caption,
-            Title = Title,
-            Value = Value?.ToSerializationRecord()
+            AltText = AltText, Caption = Caption, Title = Title, Value = Value?.ToSerializationRecord()
         };
     }
 }

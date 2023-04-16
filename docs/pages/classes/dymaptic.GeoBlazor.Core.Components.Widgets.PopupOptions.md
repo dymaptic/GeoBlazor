@@ -3,21 +3,13 @@ layout: default
 title: PopupOptions
 parent: Classes
 ---
----
-layout: default
-title: PopupOptions
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Widgets](index.html#dymaptic.GeoBlazor.Core.Components.Widgets 'dymaptic.GeoBlazor.Core.Components.Widgets')
 
 ## PopupOptions Class
 
 A collection of options to define when creating a Popup.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html">ArcGIS JS API</a>
 
 ```csharp
 public class PopupOptions
@@ -75,4 +67,3 @@ public dymaptic.GeoBlazor.Core.Components.Widgets.PopupVisibleElements VisibleEl
 
 #### Property Value
 [PopupVisibleElements](dymaptic.GeoBlazor.Core.Components.Widgets.PopupVisibleElements.html 'dymaptic.GeoBlazor.Core.Components.Widgets.PopupVisibleElements')
-

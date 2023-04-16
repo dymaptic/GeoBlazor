@@ -12,12 +12,11 @@ using Microsoft.JSInterop;
 using ProtoBuf;
 using System.Diagnostics;
 using System.Reflection;
-#if NET7_0_OR_GREATER
-using Microsoft.JSInterop.Implementation;
-using System.Runtime.InteropServices.JavaScript;
-#endif
 using System.Text;
 using System.Text.Json;
+#if NET7_0_OR_GREATER
+using System.Runtime.InteropServices.JavaScript;
+#endif
 
 
 // ReSharper disable RedundantCast
@@ -108,6 +107,11 @@ public partial class MapView : MapComponent
     private Dictionary<string, StringBuilder> _layerViewCreateData = new();
     private HashSet<Graphic> _graphics = new();
     private HashSet<Widget> _widgets = new();
+
+    /// <summary>
+    ///    A reference to the JavaScript AbortManager for this component.
+    /// </summary>
+    protected AbortManager? AbortManager;
 
 
 #region Parameters
@@ -924,6 +928,9 @@ public partial class MapView : MapComponent
     [Parameter]
     public int? EventRateLimitInMilliseconds { get; set; }
 
+    /// <summary>
+    ///    Optional setting to control the number of graphics that are serialized in a single chunk. Tuning this value might help with performance when adding large graphic sets.
+    /// </summary>
     [Parameter]
     public int? GraphicSerializationChunkSize { get; set; }
 
@@ -1194,7 +1201,7 @@ public partial class MapView : MapComponent
     public async Task AddGraphics(IEnumerable<Graphic> graphics, CancellationToken cancellationToken = default)
     {
         AllowRender = false;
-        List<Graphic> newGraphics = graphics.ToList();
+        var newGraphics = graphics.ToList();
         _graphics.UnionWith(newGraphics);
 
         foreach (Graphic graphic in newGraphics)
@@ -1207,29 +1214,35 @@ public partial class MapView : MapComponent
 
         if (ViewJsModule is null) return;
 
-        List<GraphicSerializationRecord> records = newGraphics.Select(g => g.ToSerializationRecord()).ToList();
+        var records = newGraphics.Select(g => g.ToSerializationRecord()).ToList();
         int chunkSize = GraphicSerializationChunkSize ?? (IsMaui ? 100 : 200);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
 
         if (IsWebAssembly)
         {
-            for (int index = 0; index < records.Count; index += chunkSize)
+            for (var index = 0; index < records.Count; index += chunkSize)
             {
                 int skip = index;
 
                 if (cancellationToken.IsCancellationRequested ||
-                        CancellationTokenSource.Token.IsCancellationRequested) return;
+                    CancellationTokenSource.Token.IsCancellationRequested)
+                {
+                    return;
+                }
 
                 ProtoGraphicCollection collection =
                     new(records.Skip(skip).Take(chunkSize).ToArray());
                 MemoryStream ms = new();
                 Serializer.Serialize(ms, collection);
+
                 if (cancellationToken.IsCancellationRequested ||
                     CancellationTokenSource.Token.IsCancellationRequested)
                 {
-                    await ms.DisposeAsync();   
+                    await ms.DisposeAsync();
+
                     return;
                 }
+
                 ms.Seek(0, SeekOrigin.Begin);
 #if NET7_0_OR_GREATER
                 AddGraphicsSyncInterop(ms.ToArray(), Id.ToString());
@@ -1242,29 +1255,68 @@ public partial class MapView : MapComponent
 #endif
             }
         }
+        else if (IsMaui)
+        {
+            // MAUI at least on windows seems to occasionally throw an exception when adding graphics from multiple threads
+            for (var index = 0; index < records.Count; index += chunkSize)
+            {
+                int skip = index;
+
+                if (cancellationToken.IsCancellationRequested ||
+                    CancellationTokenSource.Token.IsCancellationRequested)
+                {
+                    return;
+                }
+
+                ProtoGraphicCollection collection =
+                    new(records.Skip(skip).Take(chunkSize).ToArray());
+                MemoryStream ms = new();
+                Serializer.Serialize(ms, collection);
+
+                if (cancellationToken.IsCancellationRequested ||
+                    CancellationTokenSource.Token.IsCancellationRequested)
+                {
+                    await ms.DisposeAsync();
+
+                    return;
+                }
+
+                ms.Seek(0, SeekOrigin.Begin);
+                using DotNetStreamReference streamRef = new(ms);
+
+                await ViewJsModule!.InvokeVoidAsync("addGraphicsFromStream", cancellationToken,
+                    streamRef, Id, abortSignal);
+            }
+        }
         else
         {
             List<Task> serializationTasks = new();
 
-            for (int index = 0; index < records.Count; index += chunkSize)
+            for (var index = 0; index < records.Count; index += chunkSize)
             {
                 int skip = index;
 
                 serializationTasks.Add(Task.Run(async () =>
                 {
                     if (cancellationToken.IsCancellationRequested ||
-                        CancellationTokenSource.Token.IsCancellationRequested) return;
+                        CancellationTokenSource.Token.IsCancellationRequested)
+                    {
+                        return;
+                    }
 
                     ProtoGraphicCollection collection =
                         new(records.Skip(skip).Take(chunkSize).ToArray());
                     MemoryStream ms = new();
                     Serializer.Serialize(ms, collection);
+
                     if (cancellationToken.IsCancellationRequested ||
                         CancellationTokenSource.Token.IsCancellationRequested)
                     {
                         await ms.DisposeAsync();
+
                         return;
                     }
+
                     ms.Seek(0, SeekOrigin.Begin);
                     using DotNetStreamReference streamRef = new(ms);
 
@@ -1272,13 +1324,13 @@ public partial class MapView : MapComponent
                         streamRef, Id, abortSignal);
                 }, cancellationToken));
             }
-            
+
             await Task.WhenAll(serializationTasks);
         }
-        
+
         AllowRender = true;
     }
-    
+
 #if NET7_0_OR_GREATER
 #pragma warning disable CA1416
     [JSImport("addGraphicsSyncInterop", "arcGisJsInterop")]
@@ -1302,12 +1354,14 @@ public partial class MapView : MapComponent
             _graphics.Add(graphic);
 
             if (ViewJsModule is null) return;
-            ProtoGraphicCollection collection = new(new []{graphic.ToSerializationRecord()});
+
+            ProtoGraphicCollection collection = new(new[] { graphic.ToSerializationRecord() });
             MemoryStream ms = new();
             Serializer.Serialize(ms, collection);
             ms.Seek(0, SeekOrigin.Begin);
             using DotNetStreamReference streamRef = new(ms);
-            await ViewJsModule!.InvokeVoidAsync("addGraphic", CancellationTokenSource.Token, 
+
+            await ViewJsModule!.InvokeVoidAsync("addGraphic", CancellationTokenSource.Token,
                 streamRef, Id);
         }
     }
@@ -1318,6 +1372,7 @@ public partial class MapView : MapComponent
     public async Task ClearGraphics()
     {
         AllowRender = false;
+
         foreach (Graphic graphic in _graphics)
         {
             graphic.View = null;
@@ -1477,7 +1532,8 @@ public partial class MapView : MapComponent
     public async Task RemoveGraphics(IEnumerable<Graphic> graphics)
     {
         AllowRender = false;
-        List<Graphic> oldGraphics= graphics.ToList();
+        var oldGraphics = graphics.ToList();
+
         foreach (Graphic graphic in oldGraphics)
         {
             _graphics.Remove(graphic);
@@ -1892,12 +1948,18 @@ public partial class MapView : MapComponent
         return new HitTestResult(new ViewHit[] { }, new ScreenPoint(1, 1));
     }
 
+    /// <summary>
+    ///     Converts the given screen point to a map point. The screen point represents a point in terms of pixels relative to the top-left corner of the view.
+    /// </summary>
     public async Task<Point> ToMap(ScreenPoint screenPoint)
     {
         return await ViewJsModule!.InvokeAsync<Point>("toMap",
             CancellationTokenSource.Token, screenPoint, Id);
     }
-    
+
+    /// <summary>
+    ///     Converts the given map point to a screen point. The screen point represents a point in terms of pixels relative to the top-left corner of the view.
+    /// </summary>
     public async Task<ScreenPoint> ToScreen(Point mapPoint)
     {
         return await ViewJsModule!.InvokeAsync<ScreenPoint>("toScreen",
@@ -1916,9 +1978,9 @@ public partial class MapView : MapComponent
     [JSInvokable]
     public void OnJavascriptHitTestResult(Guid eventId, string chunk)
     {
-        if (_hitTestResults.ContainsKey(eventId))
+        if (_hitTestResults.TryGetValue(eventId, out StringBuilder? result))
         {
-            _hitTestResults[eventId].Append(chunk);
+            result.Append(chunk);
         }
         else
         {
@@ -1980,7 +2042,8 @@ public partial class MapView : MapComponent
 
         await UpdateView();
     }
-    
+
+    /// <inheritdoc />
     protected override async Task OnInitializedAsync()
     {
 #if NET7_0_OR_GREATER
@@ -2000,10 +2063,7 @@ public partial class MapView : MapComponent
     {
         ApiKey = Configuration["ArcGISApiKey"];
 
-        if (AbortManager is null)
-        {
-            AbortManager = new AbortManager(JsRuntime);
-        }
+        AbortManager ??= new AbortManager(JsRuntime);
 
         if (!LoadOnRender && !_renderCalled)
         {
@@ -2183,7 +2243,5 @@ public partial class MapView : MapComponent
         return activeHandlers;
     }
 
-    #endregion
-
-    protected AbortManager? AbortManager;
+#endregion
 }

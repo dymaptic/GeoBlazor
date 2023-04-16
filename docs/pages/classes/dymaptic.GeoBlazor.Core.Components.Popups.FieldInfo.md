@@ -3,21 +3,13 @@ layout: default
 title: FieldInfo
 parent: Classes
 ---
----
-layout: default
-title: FieldInfo
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Popups](index.html#dymaptic.GeoBlazor.Core.Components.Popups 'dymaptic.GeoBlazor.Core.Components.Popups')
 
 ## FieldInfo Class
 
 The FieldInfo class defines how a Field participates, or in some cases, does not participate, in a PopupTemplate.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-FieldInfo.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-FieldInfo.html">ArcGIS JS API</a>
 
 ```csharp
 public class FieldInfo : dymaptic.GeoBlazor.Core.Components.MapComponent,
@@ -328,4 +320,3 @@ public static bool operator !=(dymaptic.GeoBlazor.Core.Components.Popups.FieldIn
 
 #### Returns
 [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
-

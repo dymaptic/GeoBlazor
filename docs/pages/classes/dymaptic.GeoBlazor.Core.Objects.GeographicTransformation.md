@@ -3,11 +3,6 @@ layout: default
 title: GeographicTransformation
 parent: Classes
 ---
----
-layout: default
-title: GeographicTransformation
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Objects](index.html#dymaptic.GeoBlazor.Core.Objects 'dymaptic.GeoBlazor.Core.Objects')
 
@@ -17,10 +12,7 @@ Projecting your data between coordinate systems sometimes requires transforming 
 systems. Geographic transformations are used to transform coordinates between spatial references that have  
 different geographic coordinate systems, and thus different datums. Using the most suitable transformation ensures  
 the best possible accuracy when converting geometries from one spatial reference to another.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-GeographicTransformation.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-GeographicTransformation.html">ArcGIS JS API</a>
 
 ```csharp
 public class GeographicTransformation
@@ -60,4 +52,3 @@ public dymaptic.GeoBlazor.Core.Objects.GeographicTransformation GetInverse();
 #### Exceptions
 
 [System.NotImplementedException](https://docs.microsoft.com/en-us/dotnet/api/System.NotImplementedException 'System.NotImplementedException')
-

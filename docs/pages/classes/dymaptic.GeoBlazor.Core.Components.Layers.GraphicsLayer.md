@@ -3,11 +3,6 @@ layout: default
 title: GraphicsLayer
 parent: Classes
 ---
----
-layout: default
-title: GraphicsLayer
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Layers](index.html#dymaptic.GeoBlazor.Core.Components.Layers 'dymaptic.GeoBlazor.Core.Components.Layers')
 
@@ -16,10 +11,7 @@ parent: Classes
 A GraphicsLayer contains one or more client-side Graphics. Each graphic in the GraphicsLayer is rendered in a  
 LayerView inside either a SceneView or a MapView. The graphics contain discrete vector geometries that represent  
 real-world phenomena.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GraphicsLayer.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GraphicsLayer.html">ArcGIS JS API</a>
 
 ```csharp
 public class GraphicsLayer : dymaptic.GeoBlazor.Core.Components.Layers.Layer
@@ -270,4 +262,3 @@ The consumer needs to provide the missing child component
 
 [MissingRequiredOptionsChildElementException](dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException.html 'dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException')  
 The consumer needs to provide ONE of the options of child components
-

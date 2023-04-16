@@ -3,11 +3,6 @@ layout: default
 title: SimpleLineSymbol
 parent: Classes
 ---
----
-layout: default
-title: SimpleLineSymbol
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Symbols](index.html#dymaptic.GeoBlazor.Core.Components.Symbols 'dymaptic.GeoBlazor.Core.Components.Symbols')
 
@@ -15,10 +10,7 @@ parent: Classes
 
 SimpleLineSymbol is used for rendering 2D polyline geometries in a 2D MapView. SimpleLineSymbol is also used for  
 rendering outlines for marker symbols and fill symbols.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleLineSymbol.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleLineSymbol.html">ArcGIS JS API</a>
 
 ```csharp
 public class SimpleLineSymbol : dymaptic.GeoBlazor.Core.Components.Symbols.LineSymbol,
@@ -179,4 +171,3 @@ public static bool operator !=(dymaptic.GeoBlazor.Core.Components.Symbols.Simple
 
 #### Returns
 [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
-

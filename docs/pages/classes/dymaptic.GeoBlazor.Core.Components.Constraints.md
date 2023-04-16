@@ -3,11 +3,6 @@ layout: default
 title: Constraints
 parent: Classes
 ---
----
-layout: default
-title: Constraints
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components](index.html#dymaptic.GeoBlazor.Core.Components 'dymaptic.GeoBlazor.Core.Components')
 
@@ -15,10 +10,7 @@ parent: Classes
 
 Specifies constraints to scale, zoom, and rotation that may be applied to the MapView. The constraints.lods should  
 be set in the MapView constructor, if the map does not have a basemap or when the basemap does not have tileInfo.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#constraints">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#constraints">ArcGIS JS API</a>
 
 ```csharp
 public class Constraints : dymaptic.GeoBlazor.Core.Components.MapComponent
@@ -199,4 +191,3 @@ The consumer needs to provide the missing child component
 
 [MissingRequiredOptionsChildElementException](dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException.html 'dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException')  
 The consumer needs to provide ONE of the options of child components
-

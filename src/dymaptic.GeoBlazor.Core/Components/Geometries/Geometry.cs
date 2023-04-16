@@ -36,17 +36,6 @@ public abstract class Geometry : MapComponent
     public virtual string Type => default!;
 
     /// <inheritdoc />
-    protected override async Task OnParametersSetAsync()
-    {
-        await base.OnParametersSetAsync();
-
-        if (Parent is not null)
-        {
-            await Parent.RegisterChildComponent(this);
-        }
-    }
-
-    /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
     {
         switch (child)
@@ -101,6 +90,17 @@ public abstract class Geometry : MapComponent
         SpatialReference?.ValidateRequiredChildren();
     }
 
+    /// <inheritdoc />
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+
+        if (Parent is not null)
+        {
+            await Parent.RegisterChildComponent(this);
+        }
+    }
+
     internal abstract GeometrySerializationRecord ToSerializationRecord();
 }
 
@@ -116,46 +116,46 @@ internal record GeometrySerializationRecord([property: ProtoMember(1)] string Ty
 {
     [ProtoMember(4)]
     public double? Longitude { get; init; }
-    
+
     [ProtoMember(5)]
     public double? Latitude { get; init; }
-    
+
     [ProtoMember(6)]
     public double? X { get; init; }
-    
+
     [ProtoMember(7)]
     public double? Y { get; init; }
-    
+
     [ProtoMember(8)]
     public double? Z { get; init; }
-    
+
     [ProtoMember(9)]
     public MapPathSerializationRecord[]? Paths { get; init; }
-    
+
     [ProtoMember(10)]
     public MapPathSerializationRecord[]? Rings { get; init; }
-    
+
     [ProtoMember(11)]
     public double? XMax { get; init; }
-    
+
     [ProtoMember(12)]
     public double? XMin { get; init; }
-    
+
     [ProtoMember(13)]
     public double? YMax { get; init; }
-    
+
     [ProtoMember(14)]
     public double? YMin { get; init; }
-    
+
     [ProtoMember(15)]
     public double? ZMax { get; init; }
-    
+
     [ProtoMember(16)]
     public double? ZMin { get; init; }
-    
+
     [ProtoMember(17)]
     public double? MMax { get; init; }
-    
+
     [ProtoMember(18)]
     public double? MMin { get; init; }
 }
@@ -177,9 +177,9 @@ internal class GeometryConverter : JsonConverter<Geometry>
             return null;
         }
 
-        if (temp.ContainsKey("type"))
+        if (temp.TryGetValue("type", out object? typeValue))
         {
-            switch (temp["type"]?.ToString())
+            switch (typeValue?.ToString())
             {
                 case "extent":
                     return JsonSerializer.Deserialize<Extent>(ref cloneReader, newOptions);

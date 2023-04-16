@@ -44,7 +44,6 @@ import Compass from "@arcgis/core/widgets/Compass";
 import LayerList from "@arcgis/core/widgets/LayerList";
 import ListItem from "@arcgis/core/widgets/LayerList/ListItem";
 import * as reactiveUtils from "@arcgis/core/core/reactiveUtils";
-import Geometry from "@arcgis/core/geometry/Geometry";
 import BasemapLayerList from "@arcgis/core/widgets/BasemapLayerList";
 import FeatureLayerWrapper from "./featureLayer";
 
@@ -56,7 +55,7 @@ import {
     buildDotNetHitTestResult,
     buildDotNetLayer,
     buildDotNetLayerView,
-    buildDotNetPoint, 
+    buildDotNetPoint,
     buildDotNetPopupTemplate,
     buildDotNetSpatialReference,
     buildViewExtentUpdate
@@ -73,17 +72,17 @@ import {
     buildJsPopupTemplate,
     buildJsPortalItem,
     buildJsRenderer,
-    buildJsSpatialReference, 
+    buildJsSpatialReference,
     buildJsSymbol
 } from "./jsBuilder";
 import {
     DotNetExtent,
     DotNetGeometry,
-    DotNetGraphic,
     DotNetHitTestOptions,
     DotNetHitTestResult,
     DotNetListItem,
-    DotNetPoint, DotNetPopupTemplate,
+    DotNetPoint,
+    DotNetPopupTemplate,
     DotNetSpatialReference,
     MapCollection
 } from "./definitions";
@@ -98,11 +97,10 @@ import FeatureLayerViewWrapper from "./featureLayerView";
 import Popup from "@arcgis/core/widgets/Popup";
 import ElevationLayer from "@arcgis/core/layers/ElevationLayer";
 import PopupWidgetWrapper from "./popupWidgetWrapper";
-import GraphicWrapper from "./graphic";
+import {load} from "protobufjs";
 import HitTestResult = __esri.HitTestResult;
 import MapViewHitTestOptions = __esri.MapViewHitTestOptions;
 import LegendLayerInfos = __esri.LegendLayerInfos;
-import { load } from "protobufjs";
 import ScreenPoint = __esri.ScreenPoint;
 
 export let arcGisObjectRefs: Record<string, Accessor> = {};
@@ -182,7 +180,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
         if (!projection.isLoaded()) {
             await projection.load();
         }
-        
+
         if (ProtoGraphicCollection === undefined) {
             await loadProtobuf();
         }
@@ -485,7 +483,7 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
         if (uploadingLayers.includes(layerUid)) {
             return;
         }
-        
+
         uploadingLayers.push(layerUid);
 
         if (!blazorServer) {
@@ -501,7 +499,7 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
         let jsonLayerViewResult = JSON.stringify(result.layerView);
         let chunkSize = 1000;
         let chunks = Math.ceil(jsonLayerResult.length / chunkSize);
-        
+
         for (let i = 0; i < chunks; i++) {
             let chunk = jsonLayerResult.slice(i * chunkSize, (i + 1) * chunkSize);
             await dotNetRef.invokeMethodAsync('OnJavascriptLayerCreateChunk', layerUid, chunk, i);
@@ -808,7 +806,7 @@ export function removeGraphic(graphicId: string, viewId: string, layerId?: strin
             view.graphics.remove(graphic);
         }
         delete graphicsRefs[graphicId];
-        
+
         unsetWaitCursor(viewId);
     } catch (error) {
         logError(error, viewId);
@@ -835,7 +833,7 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                         layerObject.portalItem.portal.url !== featureLayer.portalItem.portal?.url) {
                         featureLayer.portalItem.portal.url = layerObject.portalItem.portal.url;
                     }
-                    if (hasValue(layerObject.portalItem?.apiKey) && 
+                    if (hasValue(layerObject.portalItem?.apiKey) &&
                         layerObject.portalItem.apiKey !== featureLayer.portalItem.apiKey) {
                         featureLayer.portalItem.apiKey = layerObject.portalItem.apiKey;
                     }
@@ -967,7 +965,7 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
         if (hasValue(layerObject.visible) && layerObject.visible !== currentLayer.visible) {
             currentLayer.visible = layerObject.visible;
         }
-        
+
         unsetWaitCursor(viewId);
     } catch (error) {
         logError(error, viewId);
@@ -1213,9 +1211,9 @@ export function setGraphicGeometry(id: string, geometry: DotNetGeometry): void {
 export function getGraphicGeometry(id: string): DotNetGeometry | null {
     let graphic = graphicsRefs[id];
     if (hasValue(graphic)) {
-        return buildDotNetGeometry(graphic.geometry);    
+        return buildDotNetGeometry(graphic.geometry);
     }
-    
+
     return null;
 }
 
@@ -1811,7 +1809,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
         case 'feature':
             if (hasValue(layerObject.portalItem)) {
                 let portalItem = buildJsPortalItem(layerObject.portalItem);
-                
+
                 newLayer = new FeatureLayer({portalItem: portalItem});
             } else if (hasValue(layerObject.url)) {
                 newLayer = new FeatureLayer({
@@ -1828,7 +1826,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
                         }
                     }
                 }
-                
+
                 newLayer = new FeatureLayer({
                     source: source
                 });

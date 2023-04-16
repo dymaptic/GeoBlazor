@@ -70,7 +70,7 @@ public class RelationshipPopupContent : PopupContent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Title { get; set; }
-    
+
     internal override PopupContentSerializationRecord ToSerializationRecord()
     {
         return new PopupContentSerializationRecord(Type)
@@ -108,7 +108,7 @@ public class RelatedRecordsInfoFieldOrder : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public OrderBy? Order { get; set; }
-    
+
     internal RelatedRecordsInfoFieldOrderSerializationRecord ToSerializationRecord()
     {
         return new RelatedRecordsInfoFieldOrderSerializationRecord(Field, Order);

@@ -42,9 +42,7 @@ public class AttachmentsPopupContent : PopupContent
     {
         return new PopupContentSerializationRecord(Type)
         {
-            Description = Description, 
-            DisplayType = DisplayType, 
-            Title = Title
+            Description = Description, DisplayType = DisplayType, Title = Title
         };
     }
 }

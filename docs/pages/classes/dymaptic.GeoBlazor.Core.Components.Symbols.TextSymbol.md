@@ -3,11 +3,6 @@ layout: default
 title: TextSymbol
 parent: Classes
 ---
----
-layout: default
-title: TextSymbol
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Symbols](index.html#dymaptic.GeoBlazor.Core.Components.Symbols 'dymaptic.GeoBlazor.Core.Components.Symbols')
 
@@ -17,10 +12,7 @@ Text symbols are used to define the graphic for displaying labels on a FeatureLa
 StreamLayer in a 2D MapView. Text symbols can also be used to define the symbol property of Graphic if the geometry  
 type is Point or Multipoint. With this class, you may alter the color, font, halo, and other properties of the  
 label graphic.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-TextSymbol.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-TextSymbol.html">ArcGIS JS API</a>
 
 ```csharp
 public class TextSymbol : dymaptic.GeoBlazor.Core.Components.Symbols.Symbol,
@@ -293,4 +285,3 @@ public static bool operator !=(dymaptic.GeoBlazor.Core.Components.Symbols.TextSy
 
 #### Returns
 [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
-

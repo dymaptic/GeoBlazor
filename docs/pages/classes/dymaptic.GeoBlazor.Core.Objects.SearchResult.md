@@ -3,21 +3,13 @@ layout: default
 title: SearchResult
 parent: Classes
 ---
----
-layout: default
-title: SearchResult
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Objects](index.html#dymaptic.GeoBlazor.Core.Objects 'dymaptic.GeoBlazor.Core.Objects')
 
 ## SearchResult Class
 
 The result object returned from a search.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#SearchResult">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#SearchResult">ArcGIS JS API</a>
 
 ```csharp
 public class SearchResult
@@ -65,4 +57,3 @@ public string? Name { get; set; }
 
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
-

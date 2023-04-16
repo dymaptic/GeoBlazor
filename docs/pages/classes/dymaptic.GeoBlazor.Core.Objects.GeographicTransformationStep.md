@@ -3,11 +3,6 @@ layout: default
 title: GeographicTransformationStep
 parent: Classes
 ---
----
-layout: default
-title: GeographicTransformationStep
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Objects](index.html#dymaptic.GeoBlazor.Core.Objects 'dymaptic.GeoBlazor.Core.Objects')
 
@@ -16,10 +11,7 @@ parent: Classes
 Represents a step in the process of transforming coordinates from one geographic coordinate system to another. A  
 geographic transformation step can be constructed from a well-known ID (wkid) or a well known text (wkt) that  
 represents a geographic datum transformation.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-GeographicTransformationStep.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-GeographicTransformationStep.html">ArcGIS JS API</a>
 
 ```csharp
 public class GeographicTransformationStep
@@ -66,4 +58,3 @@ public string? Wkt { get; set; }
 
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
-

@@ -3,21 +3,13 @@ layout: default
 title: ViewHit
 parent: Classes
 ---
----
-layout: default
-title: ViewHit
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Events](index.html#dymaptic.GeoBlazor.Core.Events 'dymaptic.GeoBlazor.Core.Events')
 
 ## ViewHit Class
 
 Object specification for the [Results](dymaptic.GeoBlazor.Core.Events.HitTestResult.html#dymaptic.GeoBlazor.Core.Events.HitTestResult.Results 'dymaptic.GeoBlazor.Core.Events.HitTestResult.Results').  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#ViewHit">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#ViewHit">ArcGIS JS API</a>
 
 ```csharp
 public class ViewHit :
@@ -37,10 +29,7 @@ Implements [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/S
 ## ViewHit(string, Point) Constructor
 
 Object specification for the [Results](dymaptic.GeoBlazor.Core.Events.HitTestResult.html#dymaptic.GeoBlazor.Core.Events.HitTestResult.Results 'dymaptic.GeoBlazor.Core.Events.HitTestResult.Results').  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#ViewHit">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#ViewHit">ArcGIS JS API</a>
 
 ```csharp
 public ViewHit(string Type, dymaptic.GeoBlazor.Core.Components.Geometries.Point MapPoint);
@@ -85,4 +74,3 @@ public string Type { get; set; }
 
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
-

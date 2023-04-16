@@ -3,11 +3,6 @@ layout: default
 title: FieldsPopupContent
 parent: Classes
 ---
----
-layout: default
-title: FieldsPopupContent
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Popups](index.html#dymaptic.GeoBlazor.Core.Components.Popups 'dymaptic.GeoBlazor.Core.Components.Popups')
 
@@ -15,10 +10,7 @@ parent: Classes
 
 A FieldsContent popup element represents the FieldInfo associated with a feature. If this is not set within the  
 content, it will revert to whatever may be set within the PopupTemplate.fieldInfos property.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-FieldsContent.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-FieldsContent.html">ArcGIS JS API</a>
 
 ```csharp
 public class FieldsPopupContent : dymaptic.GeoBlazor.Core.Components.Popups.PopupContent
@@ -183,4 +175,3 @@ The consumer needs to provide the missing child component
 
 [MissingRequiredOptionsChildElementException](dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException.html 'dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException')  
 The consumer needs to provide ONE of the options of child components
-

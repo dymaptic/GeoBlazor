@@ -1,6 +1,5 @@
 ﻿using dymaptic.GeoBlazor.Core.Objects;
 using Microsoft.AspNetCore.Components;
-using ProtoBuf;
 
 
 namespace dymaptic.GeoBlazor.Core.Components.Geometries;
@@ -92,7 +91,7 @@ public class PolyLine : Geometry, IEquatable<PolyLine>
     {
         return Paths.GetHashCode();
     }
-    
+
     internal override GeometrySerializationRecord ToSerializationRecord()
     {
         return new GeometrySerializationRecord(Type, Extent?.ToSerializationRecord(),

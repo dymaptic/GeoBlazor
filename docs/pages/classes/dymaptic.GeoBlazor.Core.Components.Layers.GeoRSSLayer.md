@@ -3,11 +3,6 @@ layout: default
 title: GeoRSSLayer
 parent: Classes
 ---
----
-layout: default
-title: GeoRSSLayer
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Layers](index.html#dymaptic.GeoBlazor.Core.Components.Layers 'dymaptic.GeoBlazor.Core.Components.Layers')
 
@@ -15,10 +10,7 @@ parent: Classes
 
 The GeoRSSLayer class is used to create a layer based on GeoRSS. GeoRSS is a way to add geographic information to  
 an RSS feed. The GeoRSSLayer supports both GeoRSS-Simple and GeoRSS GML encodings, and multiple geometry types.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoRSSLayer.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoRSSLayer.html">ArcGIS JS API</a>
 
 ```csharp
 public class GeoRSSLayer : dymaptic.GeoBlazor.Core.Components.Layers.Layer
@@ -105,4 +97,3 @@ public string? Url { get; set; }
 
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
-

@@ -3,11 +3,6 @@ layout: default
 title: ElevationLayer
 parent: Classes
 ---
----
-layout: default
-title: ElevationLayer
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Layers](index.html#dymaptic.GeoBlazor.Core.Components.Layers 'dymaptic.GeoBlazor.Core.Components.Layers')
 
@@ -15,10 +10,7 @@ parent: Classes
 
 ElevationLayer is a tile layer used for rendering elevations in SceneViews. A default world elevation layer can be  
 added to the map by setting the map's ground property to world-elevation.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ElevationLayer.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ElevationLayer.html">ArcGIS JS API</a>
 
 ```csharp
 public class ElevationLayer : dymaptic.GeoBlazor.Core.Components.Layers.Layer
@@ -131,4 +123,3 @@ The consumer needs to provide the missing child component
 
 [MissingRequiredOptionsChildElementException](dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException.html 'dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException')  
 The consumer needs to provide ONE of the options of child components
-

@@ -3,11 +3,6 @@ layout: default
 title: LegendWidget
 parent: Classes
 ---
----
-layout: default
-title: LegendWidget
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Widgets](index.html#dymaptic.GeoBlazor.Core.Components.Widgets 'dymaptic.GeoBlazor.Core.Components.Widgets')
 
@@ -16,10 +11,7 @@ parent: Classes
 The Legend widget describes the symbols used to represent layers in a map. All symbols and text used in this widget  
 are configured in the Renderer of the layer. The legend will only display layers and sublayers that are visible in  
 the view.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">ArcGIS JS API</a>
 
 ```csharp
 public class LegendWidget : dymaptic.GeoBlazor.Core.Components.Widgets.Widget
@@ -120,4 +112,3 @@ The consumer needs to provide the missing child component
 
 [MissingRequiredOptionsChildElementException](dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException.html 'dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException')  
 The consumer needs to provide ONE of the options of child components
-

@@ -3,11 +3,6 @@ layout: default
 title: RelationshipPopupContent
 parent: Classes
 ---
----
-layout: default
-title: RelationshipPopupContent
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Popups](index.html#dymaptic.GeoBlazor.Core.Components.Popups 'dymaptic.GeoBlazor.Core.Components.Popups')
 
@@ -22,10 +17,7 @@ feature displays. The Related Destination Feature image shows the destination po
 FieldsContent and RelationshipContent configured. When exploring a related feature's RelationshipContent, one could  
 navigate into that feature's related records or exit the origin feature's related record exploration with the arrow  
 button.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-RelationshipContent.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-RelationshipContent.html">ArcGIS JS API</a>
 
 ```csharp
 public class RelationshipPopupContent : dymaptic.GeoBlazor.Core.Components.Popups.PopupContent
@@ -128,4 +120,3 @@ public override string Type { get; }
 
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
-

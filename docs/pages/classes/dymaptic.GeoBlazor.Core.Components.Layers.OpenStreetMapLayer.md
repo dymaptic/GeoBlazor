@@ -3,11 +3,6 @@ layout: default
 title: OpenStreetMapLayer
 parent: Classes
 ---
----
-layout: default
-title: OpenStreetMapLayer
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Layers](index.html#dymaptic.GeoBlazor.Core.Components.Layers 'dymaptic.GeoBlazor.Core.Components.Layers')
 
@@ -15,10 +10,7 @@ parent: Classes
 
 Allows you to use basemaps from OpenStreetMap. Set the tileservers property to change which OpenStreetMap tiles you  
 want to use.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-OpenStreetMapLayer.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-OpenStreetMapLayer.html">ArcGIS JS API</a>
 
 ```csharp
 public class OpenStreetMapLayer : dymaptic.GeoBlazor.Core.Components.Layers.WebTileLayer
@@ -136,4 +128,3 @@ public override string LayerType { get; }
 
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
-

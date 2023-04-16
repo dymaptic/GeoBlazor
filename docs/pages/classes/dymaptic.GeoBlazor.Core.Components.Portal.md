@@ -3,11 +3,6 @@ layout: default
 title: Portal
 parent: Classes
 ---
----
-layout: default
-title: Portal
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components](index.html#dymaptic.GeoBlazor.Core.Components 'dymaptic.GeoBlazor.Core.Components')
 
@@ -15,10 +10,7 @@ parent: Classes
 
 The Portal class is part of the ArcGIS Enterprise portal that provides a way to build applications that work with  
 content from ArcGIS Online or an ArcGIS Enterprise portal.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html">ArcGIS JS API</a>
 
 ```csharp
 public class Portal : dymaptic.GeoBlazor.Core.Components.MapComponent
@@ -42,4 +34,3 @@ public string? Url { get; set; }
 
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
-

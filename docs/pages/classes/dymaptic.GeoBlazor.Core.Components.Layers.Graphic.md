@@ -3,11 +3,6 @@ layout: default
 title: Graphic
 parent: Classes
 ---
----
-layout: default
-title: Graphic
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Layers](index.html#dymaptic.GeoBlazor.Core.Components.Layers 'dymaptic.GeoBlazor.Core.Components.Layers')
 
@@ -136,6 +131,21 @@ public dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate? PopupTemplate { 
 To retrieve a current popup template for a graphic, use [GetPopupTemplate()](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html#dymaptic.GeoBlazor.Core.Components.Layers.Graphic.GetPopupTemplate() 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic.GetPopupTemplate()') instead of calling this  
 Property directly.
 ### Methods
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.Graphic.DisposeAsync()'></a>
+
+## Graphic.DisposeAsync() Method
+
+Implements the `IAsyncDisposable` pattern.
+
+```csharp
+public override System.Threading.Tasks.ValueTask DisposeAsync();
+```
+
+Implements [DisposeAsync()](https://docs.microsoft.com/en-us/dotnet/api/System.IAsyncDisposable.DisposeAsync 'System.IAsyncDisposable.DisposeAsync')
+
+#### Returns
+[System.Threading.Tasks.ValueTask](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.ValueTask 'System.Threading.Tasks.ValueTask')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.Graphic.Equals(object)'></a>
 
@@ -377,4 +387,3 @@ public static bool operator !=(dymaptic.GeoBlazor.Core.Components.Layers.Graphic
 
 #### Returns
 [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
-

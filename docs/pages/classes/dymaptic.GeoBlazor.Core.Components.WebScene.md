@@ -3,11 +3,6 @@ layout: default
 title: WebScene
 parent: Classes
 ---
----
-layout: default
-title: WebScene
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components](index.html#dymaptic.GeoBlazor.Core.Components 'dymaptic.GeoBlazor.Core.Components')
 
@@ -15,10 +10,7 @@ parent: Classes
 
 The web scene is the core element of 3D mapping across ArcGIS. It defines the content, style, environment, and  
 slides of your scene and it can be shared across multiple ArcGIS web and desktop applications  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html">ArcGIS JS API</a>
 
 ```csharp
 public class WebScene : dymaptic.GeoBlazor.Core.Components.Map
@@ -104,4 +96,3 @@ The consumer needs to provide the missing child component
 
 [MissingRequiredOptionsChildElementException](dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException.html 'dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException')  
 The consumer needs to provide ONE of the options of child components
-

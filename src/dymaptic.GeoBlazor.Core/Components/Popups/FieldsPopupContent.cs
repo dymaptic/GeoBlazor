@@ -82,10 +82,7 @@ public class FieldsPopupContent : PopupContent
             case FieldInfo fieldInfo:
                 FieldInfos ??= new HashSet<FieldInfo>();
 
-                if (!FieldInfos.Contains(fieldInfo))
-                {
-                    FieldInfos.Add(fieldInfo);
-                }
+                FieldInfos.Add(fieldInfo);
 
                 break;
             default:
@@ -132,9 +129,7 @@ public class FieldsPopupContent : PopupContent
     {
         return new PopupContentSerializationRecord(Type)
         {
-            FieldInfos = FieldInfos?.ToArray(), 
-            Description = Description, 
-            Title = Title
+            FieldInfos = FieldInfos?.ToArray(), Description = Description, Title = Title
         };
     }
 }

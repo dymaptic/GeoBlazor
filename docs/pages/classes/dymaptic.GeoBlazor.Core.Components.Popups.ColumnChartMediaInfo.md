@@ -3,21 +3,13 @@ layout: default
 title: ColumnChartMediaInfo
 parent: Classes
 ---
----
-layout: default
-title: ColumnChartMediaInfo
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Popups](index.html#dymaptic.GeoBlazor.Core.Components.Popups 'dymaptic.GeoBlazor.Core.Components.Popups')
 
 ## ColumnChartMediaInfo Class
 
 A ColumnChartMediaInfo is a type of chart media element that represents a column chart displayed within a popup.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-ColumnChartMediaInfo.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-ColumnChartMediaInfo.html">ArcGIS JS API</a>
 
 ```csharp
 public class ColumnChartMediaInfo : dymaptic.GeoBlazor.Core.Components.Popups.MediaInfo
@@ -155,4 +147,3 @@ The consumer needs to provide the missing child component
 
 [MissingRequiredOptionsChildElementException](dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException.html 'dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException')  
 The consumer needs to provide ONE of the options of child components
-

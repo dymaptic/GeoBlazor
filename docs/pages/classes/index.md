@@ -4,12 +4,6 @@ title: Index
 nav_order: 1
 parent: Classes
 ---
----
-layout: default
-title: Index
-nav_order: 1
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 
 ## dymaptic.GeoBlazor.Core Assembly
@@ -341,5 +335,4 @@ parent: Classes
 | [SpatialRelationship](dymaptic.GeoBlazor.Core.Objects.SpatialRelationship.html 'dymaptic.GeoBlazor.Core.Objects.SpatialRelationship') | For spatial queries, this parameter defines the spatial relationship to query features in the layer or layer view<br/>against the input geometry. The spatial relationships discover how features are spatially related to each other.<br/><a target="_blank" href="The list of fields included in the returned result set. This list is a comma delimited list of field names. If you specify the shape field in the list of return fields, it is ignored. For non-intersection addresses you can specify the candidate fields as defined in the geocode service. For intersection addresses you can specify the intersection candidate fields."><br/>    ArcGIS<br/>    JS API<br/></a> |
 | [SqlFormat](dymaptic.GeoBlazor.Core.Objects.SqlFormat.html 'dymaptic.GeoBlazor.Core.Objects.SqlFormat') | This parameter can be either standard SQL92 standard or it can use the native SQL of the underlying datastore<br/>native. See the ArcGIS REST API documentation for more information. |
 | [StatisticType](dymaptic.GeoBlazor.Core.Objects.StatisticType.html 'dymaptic.GeoBlazor.Core.Objects.StatisticType') | Defines the type of statistic. |
-
 

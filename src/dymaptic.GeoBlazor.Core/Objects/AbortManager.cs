@@ -74,6 +74,7 @@ public class AbortManager : IAsyncDisposable
 
         await registration.DisposeAsync();
         await abortControllerRef.DisposeAsync();
+
         if (_tokensAndControllers.ContainsKey(cancellationToken))
         {
             _tokensAndControllers.Remove(cancellationToken);

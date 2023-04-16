@@ -3,11 +3,6 @@ layout: default
 title: MapView
 parent: Classes
 ---
----
-layout: default
-title: MapView
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Views](index.html#dymaptic.GeoBlazor.Core.Components.Views 'dymaptic.GeoBlazor.Core.Components.Views')
 
@@ -17,10 +12,7 @@ The Top-Level Map Component Container.
 A MapView displays a 2D view of a Map instance. An instance of MapView must be created to render a Map (along with  
 its operational and base layers) in 2D. To render a map and its layers in 3D, see the documentation for SceneView.  
 For a general overview of views, see View.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">ArcGIS JS API</a>
 
 ```csharp
 public class MapView : dymaptic.GeoBlazor.Core.Components.MapComponent
@@ -131,6 +123,19 @@ public System.Collections.Generic.IReadOnlyCollection<dymaptic.GeoBlazor.Core.Co
 
 #### Property Value
 [System.Collections.Generic.IReadOnlyCollection&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IReadOnlyCollection-1 'System.Collections.Generic.IReadOnlyCollection`1')[Graphic](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IReadOnlyCollection-1 'System.Collections.Generic.IReadOnlyCollection`1')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.GraphicSerializationChunkSize'></a>
+
+## MapView.GraphicSerializationChunkSize Property
+
+Optional setting to control the number of graphics that are serialized in a single chunk. Tuning this value might help with performance when adding large graphic sets.
+
+```csharp
+public System.Nullable<int> GraphicSerializationChunkSize { get; set; }
+```
+
+#### Property Value
+[System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.IsMaui'></a>
 
@@ -524,9 +529,12 @@ public Microsoft.AspNetCore.Components.EventCallback<dymaptic.GeoBlazor.Core.Eve
 The real-time nature of this handler make it a challenge to use continuously over SignalR in Blazor Server.  
 In this scenario, you should write a custom JavaScript handler instead.  
 See  
-<a target="_blank" href="https://github.com/dymaptic/GeoBlazor/blob/develop/samples/dymaptic.GeoBlazor.Core.Sample.Shared/Pages/DisplayProjection.razor">  
-    Display  
-    Projection  
+<a target="_blank" href="https://github.com/dymaptic/GeoBlazor/blob/develop/samples/dymaptic.GeoBlazor.Core.Sample.Shared/Pages/DisplayProjection.razor">
+  
+    Display
+  
+    Projection
+  
 </a>  
 code.
 
@@ -2060,6 +2068,42 @@ The [Symbol](dymaptic.GeoBlazor.Core.Components.Symbols.Symbol.html 'dymaptic.Ge
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
 
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.ToMap(dymaptic.GeoBlazor.Core.Events.ScreenPoint)'></a>
+
+## MapView.ToMap(ScreenPoint) Method
+
+Converts the given screen point to a map point. The screen point represents a point in terms of pixels relative to the top-left corner of the view.
+
+```csharp
+public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Geometries.Point> ToMap(dymaptic.GeoBlazor.Core.Events.ScreenPoint screenPoint);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.ToMap(dymaptic.GeoBlazor.Core.Events.ScreenPoint).screenPoint'></a>
+
+`screenPoint` [ScreenPoint](dymaptic.GeoBlazor.Core.Events.ScreenPoint.html 'dymaptic.GeoBlazor.Core.Events.ScreenPoint')
+
+#### Returns
+[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[Point](dymaptic.GeoBlazor.Core.Components.Geometries.Point.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Point')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.ToScreen(dymaptic.GeoBlazor.Core.Components.Geometries.Point)'></a>
+
+## MapView.ToScreen(Point) Method
+
+Converts the given map point to a screen point. The screen point represents a point in terms of pixels relative to the top-left corner of the view.
+
+```csharp
+public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Events.ScreenPoint> ToScreen(dymaptic.GeoBlazor.Core.Components.Geometries.Point mapPoint);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.ToScreen(dymaptic.GeoBlazor.Core.Components.Geometries.Point).mapPoint'></a>
+
+`mapPoint` [Point](dymaptic.GeoBlazor.Core.Components.Geometries.Point.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Point')
+
+#### Returns
+[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[ScreenPoint](dymaptic.GeoBlazor.Core.Events.ScreenPoint.html 'dymaptic.GeoBlazor.Core.Events.ScreenPoint')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')
+
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.UnregisterChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent)'></a>
 
 ## MapView.UnregisterChildComponent(MapComponent) Method
@@ -2098,4 +2142,3 @@ The consumer needs to provide the missing child component
 
 [MissingRequiredOptionsChildElementException](dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException.html 'dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException')  
 The consumer needs to provide ONE of the options of child components
-

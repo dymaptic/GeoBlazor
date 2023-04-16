@@ -3,11 +3,6 @@ layout: default
 title: TileInfo
 parent: Classes
 ---
----
-layout: default
-title: TileInfo
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Layers](index.html#dymaptic.GeoBlazor.Core.Components.Layers 'dymaptic.GeoBlazor.Core.Components.Layers')
 
@@ -15,10 +10,7 @@ parent: Classes
 
 Contains information about the tiling scheme for TileLayers, ElevationLayers, ImageryTileLayers, VectorTileLayers,  
 and WebTileLayers.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TileInfo.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TileInfo.html">ArcGIS JS API</a>
 
 ```csharp
 public class TileInfo : dymaptic.GeoBlazor.Core.Components.MapComponent
@@ -182,4 +174,3 @@ The consumer needs to provide the missing child component
 
 [MissingRequiredOptionsChildElementException](dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException.html 'dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException')  
 The consumer needs to provide ONE of the options of child components
-

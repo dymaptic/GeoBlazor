@@ -3,11 +3,6 @@ layout: default
 title: TopFilter
 parent: Classes
 ---
----
-layout: default
-title: TopFilter
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Objects](index.html#dymaptic.GeoBlazor.Core.Objects 'dymaptic.GeoBlazor.Core.Objects')
 
@@ -18,10 +13,7 @@ This parameter must be set on the TopFeaturesQuery object when calling any of to
 It is used to set the groupByFields, orderByFields, and count criteria used the top features query. For example,  
 you can use FeatureLayer's queryTopFeatures() method to query the most populous three counties in each state of the  
 United States.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFilter.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFilter.html">ArcGIS JS API</a>
 
 ```csharp
 public class TopFilter
@@ -70,4 +62,3 @@ public System.Nullable<int> TopCount { get; set; }
 
 #### Property Value
 [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
-

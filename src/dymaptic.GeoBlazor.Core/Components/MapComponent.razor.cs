@@ -111,7 +111,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
                 // it's fine
             }
         }
-        
+
         CancellationTokenSource.Cancel();
     }
 
@@ -249,16 +249,17 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         await JsModule!.InvokeVoidAsync("setVisibility", CancellationTokenSource.Token, Id, visible);
     }
 
+    /// <inheritdoc />
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
+
         if (Parent is not null && !_registered)
         {
             await Parent.RegisterChildComponent(this);
             _registered = true;
         }
     }
-    
 
     /// <summary>
     ///     Tells the <see cref="MapView" /> to completely re-render.
@@ -314,14 +315,14 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         }
     }
 
-    /// <summary>
-    ///    Creates a cancellation token to control external calls
-    /// </summary>
-    protected CancellationTokenSource CancellationTokenSource = new();
-
     private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _watchers = new();
     private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _listeners = new();
     private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _waiters = new();
+
+    /// <summary>
+    ///     Creates a cancellation token to control external calls
+    /// </summary>
+    protected readonly CancellationTokenSource CancellationTokenSource = new();
 
 
 #region Events
@@ -401,12 +402,16 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     {
         return AddReactiveWatcherImplementation(watchExpression, handler, targetName, once, initial);
     }
-    
+
+    /// <inheritdoc />
     protected override bool ShouldRender()
     {
         return AllowRender;
     }
 
+    /// <summary>
+    ///    Whether to allow the component to render on the next cycle.
+    /// </summary>
     public bool AllowRender = true;
     private bool _registered;
 

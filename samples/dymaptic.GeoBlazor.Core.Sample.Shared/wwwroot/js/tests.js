@@ -2,7 +2,7 @@
     const stream = await streamRef.stream();
     const reader = stream.getReader();
     let json = "";
-    reader.read().then(function processText({ done, value }) {
+    reader.read().then(function processText({done, value}) {
         if (done) {
             let graphics = JSON.parse(json);
             let elapsed = Date.now() - offset;

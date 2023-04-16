@@ -3,11 +3,6 @@ layout: default
 title: FieldInfoFormat
 parent: Classes
 ---
----
-layout: default
-title: FieldInfoFormat
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Popups](index.html#dymaptic.GeoBlazor.Core.Components.Popups 'dymaptic.GeoBlazor.Core.Components.Popups')
 
@@ -16,10 +11,7 @@ parent: Classes
 The FieldInfoFormat class is used with numerical or date fields to provide more detail about how the value should  
 be displayed in a popup. Use this class in place of the legacy formatting functions: DateString, DateFormat, and/or  
 NumberFormat.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-support-FieldInfoFormat.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-support-FieldInfoFormat.html">ArcGIS JS API</a>
 
 ```csharp
 public class FieldInfoFormat : dymaptic.GeoBlazor.Core.Components.MapComponent
@@ -106,4 +98,3 @@ public System.Nullable<int> Places { get; set; }
 
 #### Property Value
 [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
-

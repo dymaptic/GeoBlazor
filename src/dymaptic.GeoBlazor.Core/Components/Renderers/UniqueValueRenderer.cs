@@ -56,10 +56,7 @@ public class UniqueValueRenderer : Renderer
         switch (child)
         {
             case UniqueValueInfo uniqueValue:
-                if (!UniqueValueInfos.Contains(uniqueValue))
-                {
-                    UniqueValueInfos.Add(uniqueValue);
-                }
+                UniqueValueInfos.Add(uniqueValue);
 
                 break;
             case UniqueValueRendererLegendOptions legendOptions:

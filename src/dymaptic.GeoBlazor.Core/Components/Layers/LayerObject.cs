@@ -18,6 +18,11 @@ public abstract class LayerObject : MapComponent
     [JsonInclude]
     public Symbol? Symbol { get; protected set; }
 
+    /// <remarks>
+    ///     Since some layer objects like "Graphics" can be added programmatically, we can't depend on the cascading parameter
+    /// </remarks>
+    protected IJSObjectReference? LayerJsModule => JsModule ?? Parent?.JsModule;
+
     /// <summary>
     ///     Gets the current <see cref="Symbol" /> for the object.
     /// </summary>
@@ -38,7 +43,7 @@ public abstract class LayerObject : MapComponent
 
         if (LayerJsModule is not null)
         {
-            await LayerJsModule.InvokeVoidAsync("setGraphicSymbol", 
+            await LayerJsModule.InvokeVoidAsync("setGraphicSymbol",
                 Id, Symbol.ToSerializationRecord());
         }
         else
@@ -57,7 +62,7 @@ public abstract class LayerObject : MapComponent
                 {
                     return;
                 }
-                
+
                 await SetSymbol(symbol);
 
                 break;
@@ -91,8 +96,8 @@ public abstract class LayerObject : MapComponent
         Symbol?.ValidateRequiredChildren();
     }
 
-    /// <remarks>
-    ///    Since some layer objects like "Graphics" can be added programmatically, we can't depend on the cascading parameter
-    protected IJSObjectReference? LayerJsModule => JsModule ?? Parent?.JsModule;
+    /// <summary>
+    ///    Indicates whether the symbol should be updated on the next render cycle.
+    /// </summary>
     protected bool UpdateSymbol;
 }

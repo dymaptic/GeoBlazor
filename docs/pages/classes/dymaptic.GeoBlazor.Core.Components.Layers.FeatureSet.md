@@ -3,11 +3,6 @@ layout: default
 title: FeatureSet
 parent: Classes
 ---
----
-layout: default
-title: FeatureSet
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Layers](index.html#dymaptic.GeoBlazor.Core.Components.Layers 'dymaptic.GeoBlazor.Core.Components.Layers')
 
@@ -17,10 +12,7 @@ A collection of features returned from ArcGIS Server or used as input to methods
 may contain geometry, attributes, and symbology. If the FeatureSet does not contain geometry, and only contains  
 attributes, the FeatureSet can be treated as a table where each feature is a row object. Methods that return  
 FeatureSet include query.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FeatureSet.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FeatureSet.html">ArcGIS JS API</a>
 
 ```csharp
 public class FeatureSet :
@@ -40,10 +32,7 @@ A collection of features returned from ArcGIS Server or used as input to methods
 may contain geometry, attributes, and symbology. If the FeatureSet does not contain geometry, and only contains  
 attributes, the FeatureSet can be treated as a table where each feature is a row object. Methods that return  
 FeatureSet include query.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FeatureSet.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FeatureSet.html">ArcGIS JS API</a>
 
 ```csharp
 public FeatureSet(string? DisplayFieldName, System.Nullable<bool> ExceededTransferLimit, dymaptic.GeoBlazor.Core.Components.Layers.Graphic[]? Features, dymaptic.GeoBlazor.Core.Components.Layers.Field[]? Fields, System.Nullable<dymaptic.GeoBlazor.Core.Components.Geometries.GeometryType> GeometryType, dymaptic.GeoBlazor.Core.Components.Geometries.Geometry? QueryGeometry, dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference? SpatialReference);
@@ -203,4 +192,3 @@ public dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference? SpatialRe
 
 #### Property Value
 [SpatialReference](dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference.html 'dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference')
-

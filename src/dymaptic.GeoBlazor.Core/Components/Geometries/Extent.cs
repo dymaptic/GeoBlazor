@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Components;
-using ProtoBuf;
-using System.Text.Json.Serialization;
 
 
 namespace dymaptic.GeoBlazor.Core.Components.Geometries;

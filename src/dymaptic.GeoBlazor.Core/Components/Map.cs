@@ -97,18 +97,20 @@ public class Map : MapComponent
             layer.ValidateRequiredChildren();
         }
     }
-    
+
+    /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (!firstRender && _layersToRender.Any() && !_rendering)
         {
             _rendering = true;
             AllowRender = false;
+
             foreach (Layer layer in _layersToRender)
             {
                 await View!.AddLayer(layer);
             }
-            
+
             _layersToRender.Clear();
             AllowRender = true;
             _rendering = false;

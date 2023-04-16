@@ -21,6 +21,22 @@ namespace dymaptic.GeoBlazor.Core.Components.Popups;
 public class ExpressionInfo : MapComponent, IEquatable<ExpressionInfo>
 {
     /// <summary>
+    ///     Equality operator.
+    /// </summary>
+    public static bool operator ==(ExpressionInfo? left, ExpressionInfo? right)
+    {
+        return Equals(left, right);
+    }
+
+    /// <summary>
+    ///     Inequality operator.
+    /// </summary>
+    public static bool operator !=(ExpressionInfo? left, ExpressionInfo? right)
+    {
+        return !Equals(left, right);
+    }
+
+    /// <summary>
     ///     An Arcade expression following the specification defined by the Arcade Popup Profile. Expressions must return a
     ///     string or a number and may access data values from the feature, its layer, or other layers in the map or datastore
     ///     with the $feature, $layer, $map, and $datastore profile variables.
@@ -51,26 +67,21 @@ public class ExpressionInfo : MapComponent, IEquatable<ExpressionInfo>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ReturnType? ReturnType { get; set; }
-    
-    internal ExpressionInfoSerializationRecord ToSerializationRecord()
-    {
-        return new(Expression, Name, Title, ReturnType);
-    }
 
     /// <inheritdoc />
     public bool Equals(ExpressionInfo? other)
     {
         if (ReferenceEquals(null, other)) return false;
 
-        return Expression == other.Expression && Name == other.Name && Title == other.Title && 
-            ReturnType == other.ReturnType;
+        return (Expression == other.Expression) && (Name == other.Name) && (Title == other.Title) &&
+            (ReturnType == other.ReturnType);
     }
 
     /// <inheritdoc />
     public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
-        if (obj.GetType() != this.GetType()) return false;
+        if (obj.GetType() != GetType()) return false;
 
         return Equals((ExpressionInfo)obj);
     }
@@ -81,33 +92,26 @@ public class ExpressionInfo : MapComponent, IEquatable<ExpressionInfo>
         return HashCode.Combine(Expression, Name, Title, ReturnType);
     }
 
-    /// <summary>
-    ///    Equality operator.
-    /// </summary>
-    public static bool operator ==(ExpressionInfo? left, ExpressionInfo? right)
+    internal ExpressionInfoSerializationRecord ToSerializationRecord()
     {
-        return Equals(left, right);
-    }
-
-    /// <summary>
-    ///    Inequality operator.
-    /// </summary>
-    public static bool operator !=(ExpressionInfo? left, ExpressionInfo? right)
-    {
-        return !Equals(left, right);
+        return new ExpressionInfoSerializationRecord(Expression, Name, Title, ReturnType);
     }
 }
 
 [ProtoContract(Name = "ExpressionInfo")]
 internal record ExpressionInfoSerializationRecord(
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [property: ProtoMember(1)]string? Expression, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [property: ProtoMember(2)]string? Name, 
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [property: ProtoMember(3)]string? Title,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [property: ProtoMember(4)]ReturnType? ReturnType) 
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [property: ProtoMember(1)]
+        string? Expression,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [property: ProtoMember(2)]
+        string? Name,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [property: ProtoMember(3)]
+        string? Title,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [property: ProtoMember(4)]
+        ReturnType? ReturnType)
     : MapComponentSerializationRecord;
 
 /// <summary>

@@ -3,11 +3,6 @@ layout: default
 title: PictureMarkerSymbol
 parent: Classes
 ---
----
-layout: default
-title: PictureMarkerSymbol
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Symbols](index.html#dymaptic.GeoBlazor.Core.Components.Symbols 'dymaptic.GeoBlazor.Core.Components.Symbols')
 
@@ -15,10 +10,7 @@ parent: Classes
 
 PictureMarkerSymbol renders Point graphics in either a 2D MapView or 3D SceneView using an image. A url must point  
 to a valid image. PictureMarkerSymbols may be applied to point features in a FeatureLayer or individual graphics.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-PictureMarkerSymbol.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-PictureMarkerSymbol.html">ArcGIS JS API</a>
 
 ```csharp
 public class PictureMarkerSymbol : dymaptic.GeoBlazor.Core.Components.Symbols.MarkerSymbol,
@@ -220,4 +212,3 @@ public static bool operator !=(dymaptic.GeoBlazor.Core.Components.Symbols.Pictur
 
 #### Returns
 [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
-
