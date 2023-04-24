@@ -12,12 +12,17 @@ namespace dymaptic.GeoBlazor.Core.Components;
 ///         JS API
 ///     </a>
 /// </summary>
+/// <remarks>
+///     This component is not needed when using ArcGIS Online resources
+/// </remarks>
 public class Portal : MapComponent
 {
     /// <summary>
     ///     The URL to the portal instance.
     /// </summary>
     [Parameter]
+    [EditorRequired]
+    [RequiredProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Url { get; set; }
 }

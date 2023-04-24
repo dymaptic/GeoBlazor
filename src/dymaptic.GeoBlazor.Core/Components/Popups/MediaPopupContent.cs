@@ -92,4 +92,15 @@ public class MediaPopupContent : PopupContent
             }
         }
     }
+
+    internal override PopupContentSerializationRecord ToSerializationRecord()
+    {
+        return new PopupContentSerializationRecord(Type)
+        {
+            ActiveMediaInfoIndex = ActiveMediaInfoIndex,
+            Description = Description,
+            Title = Title,
+            MediaInfos = MediaInfos?.Select(x => x.ToSerializationRecord()).ToArray()
+        };
+    }
 }

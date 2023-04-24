@@ -70,9 +70,10 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     /// </summary>
     public virtual async ValueTask DisposeAsync()
     {
-        if (Parent is not null)
+        if (Parent is not null && _registered)
         {
             await Parent.UnregisterChildComponent(this);
+            _registered = false;
         }
 
         foreach ((Delegate Handler, IJSObjectReference JsObjRef) tuple in _watchers.Values)
@@ -110,6 +111,8 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
                 // it's fine
             }
         }
+
+        CancellationTokenSource.Cancel();
     }
 
     /// <summary>
@@ -124,7 +127,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     }
 
     /// <summary>
-    ///     Called from <see cref="MapComponent.OnAfterRenderAsync" /> to "Register" the current component with it's parent.
+    ///     Called from <see cref="MapComponent.OnInitializedAsync" /> to "Register" the current component with it's parent.
     /// </summary>
     /// <param name="child">
     ///     The calling, child component to register
@@ -243,31 +246,18 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     /// </param>
     public async Task SetVisibility(bool visible)
     {
-        await JsModule!.InvokeVoidAsync("setVisibility", Id, visible);
+        await JsModule!.InvokeVoidAsync("setVisibility", CancellationTokenSource.Token, Id, visible);
     }
 
     /// <inheritdoc />
-    protected override Task OnParametersSetAsync()
+    protected override async Task OnInitializedAsync()
     {
-        _needsUpdate = true;
+        await base.OnInitializedAsync();
 
-        return Task.CompletedTask;
-    }
-
-    /// <inheritdoc />
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender || _needsUpdate)
-        {
-            _needsUpdate = false;
-            StateHasChanged();
-
-            return;
-        }
-
-        if (Parent is not null)
+        if (Parent is not null && !_registered)
         {
             await Parent.RegisterChildComponent(this);
+            _registered = true;
         }
     }
 
@@ -297,13 +287,13 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
             case >= 100:
                 // this is here to support the pro extension library
                 IJSObjectReference proModule = await JsRuntime
-                    .InvokeAsync<IJSObjectReference>("import",
+                    .InvokeAsync<IJSObjectReference>("import", CancellationTokenSource.Token,
                         "./_content/dymaptic.GeoBlazor.Pro/js/arcGisPro.js");
 
                 return await proModule.InvokeAsync<IJSObjectReference>("getCore");
             default:
                 return await JsRuntime
-                    .InvokeAsync<IJSObjectReference>("import",
+                    .InvokeAsync<IJSObjectReference>("import", CancellationTokenSource.Token,
                         "./_content/dymaptic.GeoBlazor.Core/js/arcGisJsInterop.js");
         }
     }
@@ -318,7 +308,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         switch ((int)licenseType)
         {
             case >= 100:
-                return await JsRuntime.InvokeAsync<IJSObjectReference>("import",
+                return await JsRuntime.InvokeAsync<IJSObjectReference>("import", CancellationTokenSource.Token,
                     "./_content/dymaptic.GeoBlazor.Pro/js/arcGisPro.js");
             default:
                 return null;
@@ -329,7 +319,10 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _listeners = new();
     private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _waiters = new();
 
-    private bool _needsUpdate;
+    /// <summary>
+    ///     Creates a cancellation token to control external calls
+    /// </summary>
+    protected readonly CancellationTokenSource CancellationTokenSource = new();
 
 
 #region Events
@@ -409,6 +402,18 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     {
         return AddReactiveWatcherImplementation(watchExpression, handler, targetName, once, initial);
     }
+
+    /// <inheritdoc />
+    protected override bool ShouldRender()
+    {
+        return AllowRender;
+    }
+
+    /// <summary>
+    ///    Whether to allow the component to render on the next cycle.
+    /// </summary>
+    public bool AllowRender = true;
+    private bool _registered;
 
     private async Task AddReactiveWatcherImplementation(string watchExpression, Delegate handler, string? targetName,
         bool once, bool initial)
@@ -779,3 +784,5 @@ internal class MapComponentConverter : JsonConverter<MapComponent>
         writer.WriteRawValue(JsonSerializer.Serialize(value, typeof(object), newOptions));
     }
 }
+
+internal record MapComponentSerializationRecord;

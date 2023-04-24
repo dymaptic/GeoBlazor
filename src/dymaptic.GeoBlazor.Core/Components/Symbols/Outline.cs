@@ -30,5 +30,6 @@ public class Outline : SimpleLineSymbol
     public Outline(MapColor? color = null, double? width = null, LineStyle? lineStyle = null)
         : base(color, width, lineStyle)
     {
+        AllowRender = false;
     }
 }

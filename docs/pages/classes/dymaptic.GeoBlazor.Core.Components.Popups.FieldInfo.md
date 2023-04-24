@@ -9,16 +9,16 @@ parent: Classes
 ## FieldInfo Class
 
 The FieldInfo class defines how a Field participates, or in some cases, does not participate, in a PopupTemplate.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-FieldInfo.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-FieldInfo.html">ArcGIS JS API</a>
 
 ```csharp
-public class FieldInfo : dymaptic.GeoBlazor.Core.Components.MapComponent
+public class FieldInfo : dymaptic.GeoBlazor.Core.Components.MapComponent,
+System.IEquatable<dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo>
 ```
 
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [Microsoft.AspNetCore.Components.ComponentBase](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.ComponentBase 'Microsoft.AspNetCore.Components.ComponentBase') &#129106; [MapComponent](dymaptic.GeoBlazor.Core.Components.MapComponent.html 'dymaptic.GeoBlazor.Core.Components.MapComponent') &#129106; FieldInfo
+
+Implements [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.IEquatable-1 'System.IEquatable`1')[FieldInfo](dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo.html 'dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.IEquatable-1 'System.IEquatable`1')
 ### Constructors
 
 <a name='dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo.FieldInfo()'></a>
@@ -177,11 +177,46 @@ public System.Nullable<bool> Visible { get; set; }
 [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 ### Methods
 
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo.Equals(object)'></a>
+
+## FieldInfo.Equals(object) Method
+
+Determines whether the specified object is equal to the current object.
+
+```csharp
+public override bool Equals(object? obj);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo.Equals(object).obj'></a>
+
+`obj` [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object')
+
+The object to compare with the current object.
+
+#### Returns
+[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')  
+[true](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool') if the specified object  is equal to the current object; otherwise, [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool').
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo.GetHashCode()'></a>
+
+## FieldInfo.GetHashCode() Method
+
+Serves as the default hash function.
+
+```csharp
+public override int GetHashCode();
+```
+
+#### Returns
+[System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')  
+A hash code for the current object.
+
 <a name='dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo.RegisterChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent)'></a>
 
 ## FieldInfo.RegisterChildComponent(MapComponent) Method
 
-Called from [dymaptic.GeoBlazor.Core.Components.MapComponent.OnAfterRenderAsync(System.Boolean)](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Components.MapComponent.OnAfterRenderAsync#dymaptic_GeoBlazor_Core_Components_MapComponent_OnAfterRenderAsync_System_Boolean_ 'dymaptic.GeoBlazor.Core.Components.MapComponent.OnAfterRenderAsync(System.Boolean)') to "Register" the current component with it's parent.
+Called from [dymaptic.GeoBlazor.Core.Components.MapComponent.OnInitializedAsync](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Components.MapComponent.OnInitializedAsync 'dymaptic.GeoBlazor.Core.Components.MapComponent.OnInitializedAsync') to "Register" the current component with it's parent.
 
 ```csharp
 public override System.Threading.Tasks.Task RegisterChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent child);
@@ -240,3 +275,48 @@ The consumer needs to provide the missing child component
 
 [MissingRequiredOptionsChildElementException](dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException.html 'dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException')  
 The consumer needs to provide ONE of the options of child components
+### Operators
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo.op_Equality(dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo,dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo)'></a>
+
+## FieldInfo.operator ==(FieldInfo, FieldInfo) Operator
+
+Equality operator
+
+```csharp
+public static bool operator ==(dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo? left, dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo? right);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo.op_Equality(dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo,dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo).left'></a>
+
+`left` [FieldInfo](dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo.html 'dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo.op_Equality(dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo,dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo).right'></a>
+
+`right` [FieldInfo](dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo.html 'dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo')
+
+#### Returns
+[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo.op_Inequality(dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo,dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo)'></a>
+
+## FieldInfo.operator !=(FieldInfo, FieldInfo) Operator
+
+Inequality operator
+
+```csharp
+public static bool operator !=(dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo? left, dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo? right);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo.op_Inequality(dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo,dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo).left'></a>
+
+`left` [FieldInfo](dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo.html 'dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo.op_Inequality(dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo,dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo).right'></a>
+
+`right` [FieldInfo](dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo.html 'dymaptic.GeoBlazor.Core.Components.Popups.FieldInfo')
+
+#### Returns
+[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')

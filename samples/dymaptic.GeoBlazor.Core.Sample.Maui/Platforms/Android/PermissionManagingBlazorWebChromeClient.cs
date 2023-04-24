@@ -31,11 +31,11 @@ internal class PermissionManagingBlazorWebChromeClient : WebChromeClient, IActiv
             _activity.RegisterForActivityResult(new ActivityResultContracts.RequestPermission(), this);
     }
 
-    void IActivityResultCallback.OnActivityResult(Object isGranted)
+    void IActivityResultCallback.OnActivityResult(Object? isGranted)
     {
         Action<bool>? callback = _pendingPermissionRequestCallback;
         _pendingPermissionRequestCallback = null;
-        callback?.Invoke((bool)isGranted);
+        callback?.Invoke((bool)isGranted!);
     }
 
     public override void OnCloseWindow(WebView? window)
@@ -89,7 +89,7 @@ internal class PermissionManagingBlazorWebChromeClient : WebChromeClient, IActiv
         string currentResource = requestedResources.Span[0];
 
         string[] requiredPermissions =
-            s_requiredPermissionsByWebkitResource.GetValueOrDefault(currentResource, Array.Empty<string>());
+            requiredPermissionsByWebkitResource.GetValueOrDefault(currentResource, Array.Empty<string>());
 
         RequestAllPermissions(requiredPermissions, isGranted =>
         {
@@ -141,7 +141,7 @@ internal class PermissionManagingBlazorWebChromeClient : WebChromeClient, IActiv
             callback.Invoke(true);
         }
         else if (_activity.ShouldShowRequestPermissionRationale(permission) &&
-            s_rationalesByPermission.TryGetValue(permission, out string? rationale))
+            rationalesByPermission.TryGetValue(permission, out string? rationale))
         {
             new AlertDialog.Builder(_activity)
                 .SetTitle("Enable app permissions")!
@@ -167,14 +167,14 @@ internal class PermissionManagingBlazorWebChromeClient : WebChromeClient, IActiv
         _requestPermissionLauncher.Launch(permission);
     }
 
-    private static readonly Dictionary<string, string> s_rationalesByPermission = new()
+    private static readonly Dictionary<string, string> rationalesByPermission = new()
     {
         [Manifest.Permission.AccessFineLocation] = LocationAccessRationale
 
         // Add more rationales as you add more supported permissions.
     };
 
-    private static readonly Dictionary<string, string[]> s_requiredPermissionsByWebkitResource = new()
+    private static readonly Dictionary<string, string[]> requiredPermissionsByWebkitResource = new()
     {
         [PermissionRequest.ResourceVideoCapture] = new[] { Manifest.Permission.Camera },
         [PermissionRequest.ResourceAudioCapture] =

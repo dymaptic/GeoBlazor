@@ -55,7 +55,7 @@ public virtual System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Sy
 
 ## LayerObject.RegisterChildComponent(MapComponent) Method
 
-Called from [dymaptic.GeoBlazor.Core.Components.MapComponent.OnAfterRenderAsync(System.Boolean)](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Components.MapComponent.OnAfterRenderAsync#dymaptic_GeoBlazor_Core_Components_MapComponent_OnAfterRenderAsync_System_Boolean_ 'dymaptic.GeoBlazor.Core.Components.MapComponent.OnAfterRenderAsync(System.Boolean)') to "Register" the current component with it's parent.
+Called from [dymaptic.GeoBlazor.Core.Components.MapComponent.OnInitializedAsync](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Components.MapComponent.OnInitializedAsync 'dymaptic.GeoBlazor.Core.Components.MapComponent.OnInitializedAsync') to "Register" the current component with it's parent.
 
 ```csharp
 public override System.Threading.Tasks.Task RegisterChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent child);
@@ -83,7 +83,7 @@ Throws if the current child is not a valid sub-component to the parent.
 Sets the [Symbol](dymaptic.GeoBlazor.Core.Components.Layers.LayerObject.html#dymaptic.GeoBlazor.Core.Components.Layers.LayerObject.Symbol 'dymaptic.GeoBlazor.Core.Components.Layers.LayerObject.Symbol') for the object.
 
 ```csharp
-public System.Threading.Tasks.Task SetSymbol(dymaptic.GeoBlazor.Core.Components.Symbols.Symbol symbol);
+public virtual System.Threading.Tasks.Task SetSymbol(dymaptic.GeoBlazor.Core.Components.Symbols.Symbol symbol);
 ```
 #### Parameters
 

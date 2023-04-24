@@ -48,6 +48,7 @@ public class Point : Geometry, IEquatable<Point>
         double? z = null,
         SpatialReference? spatialReference = null, Extent? extent = null)
     {
+        AllowRender = false;
 #pragma warning disable BL0005
         Latitude = latitude;
         Longitude = longitude;
@@ -108,7 +109,6 @@ public class Point : Geometry, IEquatable<Point>
     public bool Equals(Point? other)
     {
         if (ReferenceEquals(null, other)) return false;
-        if (ReferenceEquals(this, other)) return true;
 
         return (Latitude.Equals(other.Latitude) && Longitude.Equals(other.Longitude)) ||
             (X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z));
@@ -118,7 +118,6 @@ public class Point : Geometry, IEquatable<Point>
     public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
-        if (ReferenceEquals(this, obj)) return true;
         if (obj.GetType() != GetType()) return false;
 
         return Equals((Point)obj);
@@ -128,5 +127,18 @@ public class Point : Geometry, IEquatable<Point>
     public override int GetHashCode()
     {
         return HashCode.Combine(base.GetHashCode(), Latitude, Longitude, X, Y, Z);
+    }
+
+    internal override GeometrySerializationRecord ToSerializationRecord()
+    {
+        return new GeometrySerializationRecord(Type, Extent?.ToSerializationRecord(),
+            SpatialReference?.ToSerializationRecord())
+        {
+            Longitude = Longitude,
+            Latitude = Latitude,
+            X = X,
+            Y = Y,
+            Z = Z
+        };
     }
 }

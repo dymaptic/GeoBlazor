@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using ProtoBuf;
 using System.Text.Json.Serialization;
 
 
@@ -14,7 +15,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Popups;
 ///         JS API
 ///     </a>
 /// </summary>
-public class PopupTemplate : MapComponent
+public class PopupTemplate : MapComponent, IEquatable<PopupTemplate>
 {
     /// <summary>
     ///     Parameterless constructor for using as a razor component
@@ -87,6 +88,22 @@ public class PopupTemplate : MapComponent
             Actions = actions.ToHashSet();
         }
 #pragma warning restore BL0005
+    }
+
+    /// <summary>
+    ///     Equality operator
+    /// </summary>
+    public static bool operator ==(PopupTemplate? left, PopupTemplate? right)
+    {
+        return Equals(left, right);
+    }
+
+    /// <summary>
+    ///     Inequality operator
+    /// </summary>
+    public static bool operator !=(PopupTemplate? left, PopupTemplate? right)
+    {
+        return !Equals(left, right);
     }
 
     /// <summary>
@@ -181,6 +198,17 @@ public class PopupTemplate : MapComponent
     /// </summary>
     public DotNetObjectReference<PopupTemplate> DotNetPopupTemplateReference => DotNetObjectReference.Create(this);
 
+    /// <inheritdoc />
+    public bool Equals(PopupTemplate? other)
+    {
+        if (ReferenceEquals(null, other)) return false;
+
+        return (StringContent == other.StringContent) && (Title == other.Title) && Equals(OutFields, other.OutFields) &&
+            (OverwriteActions == other.OverwriteActions) && (ReturnGeometry == other.ReturnGeometry) &&
+            Content.Equals(other.Content) && Equals(FieldInfos, other.FieldInfos) &&
+            Equals(ExpressionInfos, other.ExpressionInfos) && Equals(Actions, other.Actions);
+    }
+
     /// <summary>
     ///     JS-invokable method for triggering actions.
     /// </summary>
@@ -204,37 +232,25 @@ public class PopupTemplate : MapComponent
         switch (child)
         {
             case PopupContent popupContent:
-                if (!Content.Contains(popupContent))
-                {
-                    Content.Add(popupContent);
-                }
+                Content.Add(popupContent);
 
                 break;
             case FieldInfo fieldInfo:
                 FieldInfos ??= new HashSet<FieldInfo>();
 
-                if (!FieldInfos.Contains(fieldInfo))
-                {
-                    FieldInfos.Add(fieldInfo);
-                }
+                FieldInfos.Add(fieldInfo);
 
                 break;
             case ExpressionInfo expressionInfo:
                 ExpressionInfos ??= new HashSet<ExpressionInfo>();
 
-                if (!ExpressionInfos.Contains(expressionInfo))
-                {
-                    ExpressionInfos.Add(expressionInfo);
-                }
+                ExpressionInfos.Add(expressionInfo);
 
                 break;
             case ActionBase action:
                 Actions ??= new HashSet<ActionBase>();
 
-                if (!Actions.Contains(action))
-                {
-                    Actions.Add(action);
-                }
+                Actions.Add(action);
 
                 break;
             default:
@@ -309,4 +325,69 @@ public class PopupTemplate : MapComponent
             }
         }
     }
+
+    /// <inheritdoc />
+    public override bool Equals(object? obj)
+    {
+        if (ReferenceEquals(null, obj)) return false;
+        if (obj.GetType() != GetType()) return false;
+
+        return Equals((PopupTemplate)obj);
+    }
+
+    /// <inheritdoc />
+    public override int GetHashCode()
+    {
+        var hashCode = new HashCode();
+        hashCode.Add(StringContent);
+        hashCode.Add(Title);
+        hashCode.Add(OutFields);
+        hashCode.Add(OverwriteActions);
+        hashCode.Add(ReturnGeometry);
+        hashCode.Add(Content);
+        hashCode.Add(FieldInfos);
+        hashCode.Add(ExpressionInfos);
+        hashCode.Add(Actions);
+
+        return hashCode.ToHashCode();
+    }
+
+    internal PopupTemplateSerializationRecord ToSerializationRecord()
+    {
+        return new PopupTemplateSerializationRecord(Title, StringContent, OutFields,
+            FieldInfos?.Select(f => f.ToSerializationRecord()),
+            Content.Select(c => c.ToSerializationRecord()),
+            ExpressionInfos?.Select(e => e.ToSerializationRecord()), OverwriteActions,
+            ReturnGeometry, Actions?.Select(a => a.ToSerializationRecord()));
+    }
 }
+
+[ProtoContract(Name = "PopupTemplate")]
+internal record PopupTemplateSerializationRecord([property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [property: ProtoMember(1)]
+        string? Title,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [property: ProtoMember(2)]
+        string? StringContent = null,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [property: ProtoMember(3)]
+        IEnumerable<string>? OutFields = null,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [property: ProtoMember(4)]
+        IEnumerable<FieldInfoSerializationRecord>? FieldInfos = null,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [property: ProtoMember(5)]
+        IEnumerable<PopupContentSerializationRecord>? Content = null,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [property: ProtoMember(6)]
+        IEnumerable<ExpressionInfoSerializationRecord>? ExpressionInfos = null,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [property: ProtoMember(7)]
+        bool? OverwriteActions = null,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [property: ProtoMember(8)]
+        bool? ReturnGeometry = null,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [property: ProtoMember(9)]
+        IEnumerable<ActionBaseSerializationRecord>? Actions = null)
+    : MapComponentSerializationRecord;

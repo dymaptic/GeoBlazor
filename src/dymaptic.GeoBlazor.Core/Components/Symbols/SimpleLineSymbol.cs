@@ -1,6 +1,8 @@
-﻿using dymaptic.GeoBlazor.Core.Objects;
+﻿using dymaptic.GeoBlazor.Core.Extensions;
+using dymaptic.GeoBlazor.Core.Objects;
 using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
+using ProtoBuf;
 using System.Text.Json.Serialization;
 
 
@@ -37,9 +39,12 @@ public class SimpleLineSymbol : LineSymbol, IEquatable<SimpleLineSymbol>
     /// </param>
     public SimpleLineSymbol(MapColor? color = null, double? width = null, LineStyle? lineStyle = null)
     {
+        AllowRender = false;
+#pragma warning disable BL0005
         Color = color;
         Width = width;
         LineStyle = lineStyle;
+#pragma warning restore BL0005
     }
 
     /// <summary>
@@ -73,7 +78,6 @@ public class SimpleLineSymbol : LineSymbol, IEquatable<SimpleLineSymbol>
     public bool Equals(SimpleLineSymbol? other)
     {
         if (ReferenceEquals(null, other)) return false;
-        if (ReferenceEquals(this, other)) return true;
 
         return (LineStyle == other.LineStyle) && (Color == other.Color);
     }
@@ -82,7 +86,6 @@ public class SimpleLineSymbol : LineSymbol, IEquatable<SimpleLineSymbol>
     public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
-        if (ReferenceEquals(this, obj)) return true;
         if (obj.GetType() != GetType()) return false;
 
         return Equals((SimpleLineSymbol)obj);
@@ -91,7 +94,15 @@ public class SimpleLineSymbol : LineSymbol, IEquatable<SimpleLineSymbol>
     /// <inheritdoc />
     public override int GetHashCode()
     {
-        return LineStyle.GetHashCode();
+        return LineStyle.GetHashCode() + base.GetHashCode();
+    }
+
+    internal override SymbolSerializationRecord ToSerializationRecord()
+    {
+        return new SymbolSerializationRecord(Type, Color)
+        {
+            Width = Width, LineStyle = LineStyle?.ToString().ToKebabCase()
+        };
     }
 }
 
@@ -99,11 +110,15 @@ public class SimpleLineSymbol : LineSymbol, IEquatable<SimpleLineSymbol>
 ///     Possible line style values for <see cref="SimpleLineSymbol" />
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<LineStyle>))]
+[ProtoContract]
 public enum LineStyle
 {
 #pragma warning disable CS1591
+    [ProtoMember(0)]
     Solid,
+    [ProtoMember(1)]
     ShortDot,
+    [ProtoMember(2)]
     Dash
 #pragma warning restore CS1591
 }

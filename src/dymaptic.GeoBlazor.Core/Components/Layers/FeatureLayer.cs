@@ -477,7 +477,8 @@ public class FeatureLayer : Layer
     /// </param>
     public async Task<PopupTemplate> CreatePopupTemplate(CreatePopupTemplateOptions? options = null)
     {
-        return await JsLayerReference!.InvokeAsync<PopupTemplate>("createPopupTemplate", options);
+        return await JsLayerReference!.InvokeAsync<PopupTemplate>("createPopupTemplate",
+            CancellationTokenSource.Token, options);
     }
 
     /// <summary>
@@ -489,7 +490,7 @@ public class FeatureLayer : Layer
     /// </summary>
     public async Task<Query> CreateQuery()
     {
-        return await JsLayerReference!.InvokeAsync<Query>("createQuery");
+        return await JsLayerReference!.InvokeAsync<Query>("createQuery", CancellationTokenSource.Token);
     }
 
     /// <summary>

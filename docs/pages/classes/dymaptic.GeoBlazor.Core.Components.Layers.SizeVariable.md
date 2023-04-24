@@ -10,10 +10,7 @@ parent: Classes
 
 The size visual variable defines the size of individual features in a layer based on a numeric (often thematic)  
 value.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-SizeVariable.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-SizeVariable.html">ArcGIS JS API</a>
 
 ```csharp
 public class SizeVariable : dymaptic.GeoBlazor.Core.Components.Layers.VisualVariable

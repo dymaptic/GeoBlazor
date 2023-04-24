@@ -1,4 +1,5 @@
-﻿using dymaptic.GeoBlazor.Core.Objects;
+﻿using dymaptic.GeoBlazor.Core.Extensions;
+using dymaptic.GeoBlazor.Core.Objects;
 using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
 using System.Text.Json.Serialization;
@@ -38,9 +39,12 @@ public class SimpleFillSymbol : FillSymbol, IEquatable<SimpleFillSymbol>
     /// </param>
     public SimpleFillSymbol(Outline? outline = null, MapColor? color = null, FillStyle? fillStyle = null)
     {
+        AllowRender = false;
+#pragma warning disable BL0005
         Outline = outline;
         Color = color;
         FillStyle = fillStyle;
+#pragma warning restore BL0005
     }
 
     /// <summary>
@@ -69,8 +73,8 @@ public class SimpleFillSymbol : FillSymbol, IEquatable<SimpleFillSymbol>
     ///     The fill style.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [JsonPropertyName("style")]
     [Parameter]
+    [JsonPropertyName("style")]
     public FillStyle? FillStyle { get; set; }
 
     /// <inheritdoc />
@@ -80,7 +84,6 @@ public class SimpleFillSymbol : FillSymbol, IEquatable<SimpleFillSymbol>
     public bool Equals(SimpleFillSymbol? other)
     {
         if (ReferenceEquals(null, other)) return false;
-        if (ReferenceEquals(this, other)) return true;
 
         return Equals(Outline, other.Outline) && (FillStyle == other.FillStyle) && (Color == other.Color);
     }
@@ -131,7 +134,6 @@ public class SimpleFillSymbol : FillSymbol, IEquatable<SimpleFillSymbol>
     public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
-        if (ReferenceEquals(this, obj)) return true;
         if (obj.GetType() != GetType()) return false;
 
         return Equals((SimpleFillSymbol)obj);
@@ -141,6 +143,14 @@ public class SimpleFillSymbol : FillSymbol, IEquatable<SimpleFillSymbol>
     public override int GetHashCode()
     {
         return HashCode.Combine(Outline, FillStyle, Color);
+    }
+
+    internal override SymbolSerializationRecord ToSerializationRecord()
+    {
+        return new SymbolSerializationRecord(Type, Color)
+        {
+            Outline = Outline?.ToSerializationRecord(), Style = FillStyle?.ToString().ToKebabCase()
+        };
     }
 }
 

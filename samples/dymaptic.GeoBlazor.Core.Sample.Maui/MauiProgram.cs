@@ -1,5 +1,6 @@
 ﻿using dymaptic.GeoBlazor.Core.Sample.Shared;
 using Microsoft.Extensions.Configuration;
+using System.Reflection;
 
 
 namespace dymaptic.GeoBlazor.Core.Sample.Maui;
@@ -23,20 +24,20 @@ public static class MauiProgram
 #endif
 
         builder.Services.AddScoped<SharedFileProvider, MauiFileProvider>();
-        builder.Services.AddSingleton<IConfiguration>(_ => builder.Configuration);
         builder.Services.AddScoped<HttpClient>();
         builder.Services.AddGeoBlazor();
+        builder.Configuration.AddInMemoryCollection();
 
-        string? apiKey = Preferences.Get("ArcGISApiKey", null);
+        var executingAssembly = Assembly.GetExecutingAssembly();
 
-        if (apiKey is not null)
-        {
-            builder.Configuration.AddInMemoryCollection(new Dictionary<string, string> { { "ArcGISApiKey", apiKey } });
-        }
-        else
-        {
-            builder.Configuration.AddInMemoryCollection();
-        }
+        using Stream stream = executingAssembly
+            .GetManifestResourceStream("dymaptic.GeoBlazor.Core.Sample.Maui.appsettings.json")!;
+
+        IConfigurationRoot config = new ConfigurationBuilder()
+            .AddUserSecrets(executingAssembly)
+            .AddJsonStream(stream)
+            .Build();
+        builder.Configuration.AddConfiguration(config);
 
         return builder.Build();
     }

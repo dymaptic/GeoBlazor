@@ -10,10 +10,7 @@ parent: Classes
 
 Describes a layer's relationship with another layer or table. These relationships are listed in the ArcGIS Services  
 directory as described in the REST API documentation.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Relationship.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Relationship.html">ArcGIS JS API</a>
 
 ```csharp
 public class Relationship

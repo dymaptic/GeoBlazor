@@ -137,6 +137,13 @@ public abstract class Layer : MapComponent
             await AbortManager.DisposeAsync();
         }
 
+        LayerView?.Dispose();
+
+        if (JsLayerReference is not null)
+        {
+            await JsLayerReference.DisposeAsync();
+        }
+
         await base.DisposeAsync();
     }
 
@@ -194,7 +201,8 @@ public abstract class Layer : MapComponent
         if ((!MapRendered && JsLayerReference is null) || JsModule is null) return;
 
         // ReSharper disable once RedundantCast
-        await JsModule!.InvokeVoidAsync("updateLayer", (object)this, View!.Id);
+        await JsModule!.InvokeVoidAsync("updateLayer", CancellationTokenSource.Token,
+            (object)this, View!.Id);
     }
 
     /// <summary>
@@ -235,9 +243,9 @@ internal class LayerConverter : JsonConverter<Layer>
             return null;
         }
 
-        if (temp.ContainsKey("type"))
+        if (temp.TryGetValue("type", out object? typeValue))
         {
-            switch (temp["type"]?.ToString())
+            switch (typeValue?.ToString())
             {
                 case "feature":
                     return JsonSerializer.Deserialize<FeatureLayer>(ref cloneReader, newOptions);

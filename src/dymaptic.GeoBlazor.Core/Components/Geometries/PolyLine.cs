@@ -36,6 +36,7 @@ public class PolyLine : Geometry, IEquatable<PolyLine>
     public PolyLine(MapPath[] paths, SpatialReference? spatialReference = null,
         Extent? extent = null)
     {
+        AllowRender = false;
 #pragma warning disable BL0005
         Paths = paths;
         SpatialReference = spatialReference;
@@ -72,7 +73,6 @@ public class PolyLine : Geometry, IEquatable<PolyLine>
     public bool Equals(PolyLine? other)
     {
         if (ReferenceEquals(null, other)) return false;
-        if (ReferenceEquals(this, other)) return true;
 
         return Paths.Equals(other.Paths);
     }
@@ -81,7 +81,6 @@ public class PolyLine : Geometry, IEquatable<PolyLine>
     public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
-        if (ReferenceEquals(this, obj)) return true;
         if (obj.GetType() != GetType()) return false;
 
         return Equals((PolyLine)obj);
@@ -91,5 +90,14 @@ public class PolyLine : Geometry, IEquatable<PolyLine>
     public override int GetHashCode()
     {
         return Paths.GetHashCode();
+    }
+
+    internal override GeometrySerializationRecord ToSerializationRecord()
+    {
+        return new GeometrySerializationRecord(Type, Extent?.ToSerializationRecord(),
+            SpatialReference?.ToSerializationRecord())
+        {
+            Paths = Paths.Select(p => p.ToSerializationRecord()).ToArray()
+        };
     }
 }

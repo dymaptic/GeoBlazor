@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using ProtoBuf;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -14,8 +15,25 @@ namespace dymaptic.GeoBlazor.Core.Components;
 ///     </a>
 /// </summary>
 [JsonConverter(typeof(ActionBaseConverter))]
-public abstract class ActionBase : MapComponent
+public abstract class ActionBase : MapComponent, IEquatable<ActionBase>
 {
+    /// <summary>
+    ///     Determines whether the specified <see cref="ActionBase" /> is equal to the current <see cref="ActionBase" />.
+    /// </summary>
+    /// <returns></returns>
+    public static bool operator ==(ActionBase? left, ActionBase? right)
+    {
+        return Equals(left, right);
+    }
+
+    /// <summary>
+    ///     Determines whether the specified <see cref="ActionBase" /> is not equal to the current <see cref="ActionBase" />.
+    /// </summary>
+    public static bool operator !=(ActionBase? left, ActionBase? right)
+    {
+        return !Equals(left, right);
+    }
+
     /// <summary>
     ///     The title of the action.
     /// </summary>
@@ -73,6 +91,65 @@ public abstract class ActionBase : MapComponent
     ///     Specifies the type of action. Choose between "button" or "toggle".
     /// </summary>
     public virtual string Type { get; } = default!;
+
+    /// <inheritdoc />
+    public bool Equals(ActionBase? other)
+    {
+        if (ReferenceEquals(null, other)) return false;
+
+        return (Title == other.Title) && (ClassName == other.ClassName) && (Id == other.Id) &&
+            (Active == other.Active) &&
+            (Disabled == other.Disabled) && (Visible == other.Visible) &&
+            Equals(CallbackFunction, other.CallbackFunction) && (Type == other.Type);
+    }
+
+    /// <inheritdoc />
+    public override bool Equals(object? obj)
+    {
+        if (ReferenceEquals(null, obj)) return false;
+        if (obj.GetType() != GetType()) return false;
+
+        return Equals((ActionBase)obj);
+    }
+
+    /// <inheritdoc />
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Title, ClassName, Id, Active, Disabled, Visible, CallbackFunction, Type);
+    }
+
+    internal abstract ActionBaseSerializationRecord ToSerializationRecord();
+}
+
+[ProtoContract(Name = "Action")]
+internal record ActionBaseSerializationRecord([property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [property: ProtoMember(1)]
+        string Type,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [property: ProtoMember(2)]
+        string? Title,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [property: ProtoMember(3)]
+        string? ClassName,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [property: ProtoMember(4)]
+        bool? Active,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [property: ProtoMember(5)]
+        bool? Disabled,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [property: ProtoMember(6)]
+        bool? Visible,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [property: ProtoMember(7)]
+        string? Id)
+    : MapComponentSerializationRecord
+{
+    [ProtoMember(8)]
+    public string? Image { get; init; }
+
+    [ProtoMember(9)]
+    public bool? Value { get; init; }
 }
 
 /// <summary>
@@ -92,6 +169,14 @@ public class ActionButton : ActionBase
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Image { get; set; }
+
+    internal override ActionBaseSerializationRecord ToSerializationRecord()
+    {
+        return new ActionBaseSerializationRecord(Type, Title, ClassName, Active, Disabled, Visible, Id)
+        {
+            Image = Image
+        };
+    }
 }
 
 /// <summary>
@@ -108,6 +193,14 @@ public class ActionToggle : ActionBase
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? Value { get; set; }
+
+    internal override ActionBaseSerializationRecord ToSerializationRecord()
+    {
+        return new ActionBaseSerializationRecord(Type, Title, ClassName, Active, Disabled, Visible, Id)
+        {
+            Value = Value
+        };
+    }
 }
 
 internal class ActionBaseConverter : JsonConverter<ActionBase>
@@ -126,9 +219,9 @@ internal class ActionBaseConverter : JsonConverter<ActionBase>
             return null;
         }
 
-        if (temp.ContainsKey("type"))
+        if (temp.TryGetValue("type", out object? typeValue))
         {
-            switch (temp["type"]?.ToString())
+            switch (typeValue?.ToString())
             {
                 case "button":
                     return JsonSerializer.Deserialize<ActionButton>(ref cloneReader, newOptions);

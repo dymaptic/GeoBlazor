@@ -45,12 +45,15 @@ public class PictureMarkerSymbol : MarkerSymbol, IEquatable<PictureMarkerSymbol>
     public PictureMarkerSymbol(string url, double? width = null, double? height = null,
         double? angle = null, double? xOffset = null, double? yOffset = null)
     {
+        AllowRender = false;
+#pragma warning disable BL0005
         Url = url;
         Width = width;
         Height = height;
         Angle = angle;
         XOffset = xOffset;
         YOffset = yOffset;
+#pragma warning restore BL0005
     }
 
     /// <summary>
@@ -96,7 +99,6 @@ public class PictureMarkerSymbol : MarkerSymbol, IEquatable<PictureMarkerSymbol>
     public bool Equals(PictureMarkerSymbol? other)
     {
         if (ReferenceEquals(null, other)) return false;
-        if (ReferenceEquals(this, other)) return true;
 
         return Nullable.Equals(Height, other.Height) && Nullable.Equals(Width, other.Width) && (Url == other.Url) &&
             (Color == other.Color);
@@ -106,7 +108,6 @@ public class PictureMarkerSymbol : MarkerSymbol, IEquatable<PictureMarkerSymbol>
     public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
-        if (ReferenceEquals(this, obj)) return true;
         if (obj.GetType() != GetType()) return false;
 
         return Equals((PictureMarkerSymbol)obj);
@@ -116,5 +117,18 @@ public class PictureMarkerSymbol : MarkerSymbol, IEquatable<PictureMarkerSymbol>
     public override int GetHashCode()
     {
         return HashCode.Combine(Height, Width, Url, Color);
+    }
+
+    internal override SymbolSerializationRecord ToSerializationRecord()
+    {
+        return new SymbolSerializationRecord(Type, null)
+        {
+            Url = Url,
+            Width = Width,
+            Height = Height,
+            Angle = Angle,
+            XOffset = XOffset,
+            YOffset = YOffset
+        };
     }
 }

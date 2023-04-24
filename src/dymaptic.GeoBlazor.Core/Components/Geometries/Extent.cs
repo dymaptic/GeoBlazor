@@ -53,6 +53,7 @@ public class Extent : Geometry, IEquatable<Extent>
     public Extent(double xmax, double xmin, double ymax, double ymin, double? zmax = null, double? zmin = null,
         double? mmax = null, double? mmin = null, SpatialReference? spatialReference = null)
     {
+        AllowRender = false;
 #pragma warning disable BL0005
         Xmax = xmax;
         Xmin = xmin;
@@ -137,7 +138,6 @@ public class Extent : Geometry, IEquatable<Extent>
     public bool Equals(Extent? other)
     {
         if (ReferenceEquals(null, other)) return false;
-        if (ReferenceEquals(this, other)) return true;
 
         return Xmax.Equals(other.Xmax) && Xmin.Equals(other.Xmin) && Ymax.Equals(other.Ymax) &&
             Ymin.Equals(other.Ymin) && Nullable.Equals(Zmax, other.Zmax) && Nullable.Equals(Zmin, other.Zmin) &&
@@ -148,7 +148,6 @@ public class Extent : Geometry, IEquatable<Extent>
     public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
-        if (ReferenceEquals(this, obj)) return true;
         if (obj.GetType() != GetType()) return false;
 
         return Equals((Extent)obj);
@@ -158,5 +157,20 @@ public class Extent : Geometry, IEquatable<Extent>
     public override int GetHashCode()
     {
         return HashCode.Combine(Xmax, Xmin, Ymax, Ymin, Zmax, Zmin, Mmax, Mmin);
+    }
+
+    internal override GeometrySerializationRecord ToSerializationRecord()
+    {
+        return new GeometrySerializationRecord(Type, null, SpatialReference?.ToSerializationRecord())
+        {
+            XMax = Xmax,
+            XMin = Xmin,
+            YMax = Ymax,
+            YMin = Ymin,
+            ZMax = Zmax,
+            ZMin = Zmin,
+            MMax = Mmax,
+            MMin = Mmin
+        };
     }
 }

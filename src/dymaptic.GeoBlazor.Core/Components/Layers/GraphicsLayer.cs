@@ -1,4 +1,7 @@
-﻿using Microsoft.JSInterop;
+﻿using dymaptic.GeoBlazor.Core.Components.Views;
+using Microsoft.JSInterop;
+using ProtoBuf;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 
@@ -58,6 +61,7 @@ public class GraphicsLayer : Layer
     /// <summary>
     ///     A collection of <see cref="Graphic" />s in the layer.
     /// </summary>
+    [JsonConverter(typeof(GraphicsToSerializationConverter))]
     public IReadOnlyCollection<Graphic> Graphics
     {
         get => _graphics;
@@ -76,7 +80,7 @@ public class GraphicsLayer : Layer
     /// </param>
     public Task Add(Graphic graphic)
     {
-        return RegisterChildComponent(graphic);
+        return Add(new[] { graphic });
     }
 
     /// <summary>
@@ -85,11 +89,142 @@ public class GraphicsLayer : Layer
     /// <param name="graphics">
     ///     The graphics to add
     /// </param>
-    public async Task Add(IEnumerable<Graphic> graphics)
+    /// <param name="cancellationToken">
+    ///     A CancellationToken to cancel the operation
+    /// </param>
+    public async Task Add(IEnumerable<Graphic> graphics, CancellationToken cancellationToken = default)
     {
-        foreach (Graphic graphic in graphics)
+        AllowRender = false;
+        var newGraphics = graphics.ToList();
+        _graphics.UnionWith(newGraphics);
+
+        foreach (Graphic graphic in newGraphics)
         {
-            await RegisterChildComponent(graphic);
+            graphic.View = View;
+            graphic.JsModule = JsModule;
+            graphic.LayerId = Id;
+            graphic.Parent = this;
+        }
+
+        if (JsModule is null)
+        {
+            LayerChanged = true;
+            StateHasChanged();
+
+            return;
+        }
+
+        var records = newGraphics.Select(g => g.ToSerializationRecord()).ToList();
+        int chunkSize = View!.GraphicSerializationChunkSize ?? (View.IsMaui ? 100 : 200);
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+
+        if (View.IsWebAssembly)
+        {
+            for (var index = 0; index < records.Count; index += chunkSize)
+            {
+                int skip = index;
+
+                if (cancellationToken.IsCancellationRequested ||
+                    CancellationTokenSource.Token.IsCancellationRequested)
+                {
+                    return;
+                }
+
+                ProtoGraphicCollection collection =
+                    new(records.Skip(skip).Take(chunkSize).ToArray());
+                MemoryStream ms = new();
+                Serializer.Serialize(ms, collection);
+
+                if (cancellationToken.IsCancellationRequested ||
+                    CancellationTokenSource.Token.IsCancellationRequested)
+                {
+                    await ms.DisposeAsync();
+
+                    return;
+                }
+
+                ms.Seek(0, SeekOrigin.Begin);
+#if NET7_0_OR_GREATER
+                MapView.AddGraphicsSyncInterop(ms.ToArray(), View!.Id.ToString(), Id.ToString());
+                await ms.DisposeAsync();
+                await Task.Delay(1, cancellationToken);
+#else
+                using DotNetStreamReference streamRef = new(ms);
+                await JsModule!.InvokeVoidAsync("addGraphicsFromStream", 
+                        cancellationToken, streamRef, View?.Id, abortSignal, Id);
+#endif
+            }
+        }
+        else if (View.IsMaui)
+        {
+            for (var index = 0; index < records.Count; index += chunkSize)
+            {
+                int skip = index;
+
+                if (cancellationToken.IsCancellationRequested ||
+                    CancellationTokenSource.Token.IsCancellationRequested)
+                {
+                    return;
+                }
+
+                GraphicSerializationRecord[] recordChunk = records.Skip(skip).Take(chunkSize).ToArray();
+                ProtoGraphicCollection collection = new(recordChunk);
+                MemoryStream ms = new();
+                Serializer.Serialize(ms, collection);
+
+                if (cancellationToken.IsCancellationRequested ||
+                    CancellationTokenSource.Token.IsCancellationRequested)
+                {
+                    await ms.DisposeAsync();
+
+                    return;
+                }
+
+                ms.Seek(0, SeekOrigin.Begin);
+                using DotNetStreamReference streamRef = new(ms);
+
+                await JsModule!.InvokeVoidAsync("addGraphicsFromStream",
+                    cancellationToken, streamRef, View?.Id, abortSignal, Id);
+            }
+        }
+        else
+        {
+            List<Task> serializationTasks = new();
+
+            for (var index = 0; index < records.Count; index += chunkSize)
+            {
+                int skip = index;
+
+                serializationTasks.Add(Task.Run(async () =>
+                {
+                    if (cancellationToken.IsCancellationRequested ||
+                        CancellationTokenSource.Token.IsCancellationRequested)
+                    {
+                        return;
+                    }
+
+                    GraphicSerializationRecord[] recordChunk = records.Skip(skip).Take(chunkSize).ToArray();
+                    ProtoGraphicCollection collection = new(recordChunk);
+                    MemoryStream ms = new();
+                    Serializer.Serialize(ms, collection);
+
+                    if (cancellationToken.IsCancellationRequested ||
+                        CancellationTokenSource.Token.IsCancellationRequested)
+                    {
+                        await ms.DisposeAsync();
+
+                        return;
+                    }
+
+                    ms.Seek(0, SeekOrigin.Begin);
+                    using DotNetStreamReference streamRef = new(ms);
+
+                    await JsModule!.InvokeVoidAsync("addGraphicsFromStream",
+                        cancellationToken, streamRef, View?.Id, abortSignal, Id);
+                }, cancellationToken));
+            }
+
+            await Task.WhenAll(serializationTasks);
         }
     }
 
@@ -112,10 +247,12 @@ public class GraphicsLayer : Layer
     /// </param>
     public async Task Remove(IEnumerable<Graphic> graphics)
     {
-        foreach (Graphic graphic in graphics)
-        {
-            await UnregisterChildComponent(graphic);
-        }
+        AllowRender = false;
+        var removedGraphics = graphics.ToList();
+        var wrapperIds = removedGraphics.Select(g => g.Id).ToList();
+        await JsModule!.InvokeVoidAsync("removeGraphics", wrapperIds);
+        _graphics.ExceptWith(removedGraphics);
+        AllowRender = true;
     }
 
     /// <summary>
@@ -123,10 +260,11 @@ public class GraphicsLayer : Layer
     /// </summary>
     public async Task Clear()
     {
-        foreach (Graphic graphic in _graphics)
-        {
-            await UnregisterChildComponent(graphic);
-        }
+        AllowRender = false;
+        await JsModule!.InvokeVoidAsync("clearGraphics", View!.Id, Id);
+        _graphicsToRender.Clear();
+        _graphics.Clear();
+        AllowRender = true;
     }
 
     /// <inheritdoc />
@@ -135,23 +273,8 @@ public class GraphicsLayer : Layer
         switch (child)
         {
             case Graphic graphic:
-                if (!_graphics.Any(g => g.Equals(graphic)))
-                {
-                    graphic.View ??= View;
-                    graphic.JsModule ??= JsModule;
-                    graphic.LayerId ??= Id;
-                    graphic.Parent ??= this;
-                    _graphics.Add(graphic);
-
-                    if (JsLayerReference is not null)
-                    {
-                        await JsLayerReference.InvokeVoidAsync("add", graphic, View?.Id);
-                    }
-                    else
-                    {
-                        LayerChanged = true;
-                    }
-                }
+                _graphicsToRender.Add(graphic);
+                StateHasChanged();
 
                 break;
             default:
@@ -167,9 +290,19 @@ public class GraphicsLayer : Layer
         switch (child)
         {
             case Graphic graphic:
-                if (_graphics.Remove(graphic) && JsLayerReference is not null)
+                if (_graphics.Remove(graphic) && JsModule is not null)
                 {
-                    await JsLayerReference.InvokeVoidAsync("remove", graphic);
+                    try
+                    {
+                        _graphicsToRender.Remove(graphic);
+
+                        await JsModule.InvokeVoidAsync("removeGraphic",
+                            CancellationTokenSource.Token, graphic.Id, View?.Id, Id);
+                    }
+                    catch
+                    {
+                        // object disposed
+                    }
                 }
                 else
                 {
@@ -195,18 +328,17 @@ public class GraphicsLayer : Layer
         }
     }
 
-    /// <summary>
-    ///     Register a graphic that was created in JavaScript
-    /// </summary>
-    public void RegisterExistingGraphicFromJavaScript(Graphic graphic)
+    /// <inheritdoc />
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (!_graphics.Any(g => g.Equals(graphic)))
+        if (!firstRender && _graphicsToRender.Any() && !_rendering)
         {
-            graphic.View ??= View;
-            graphic.JsModule ??= JsModule;
-            graphic.LayerId ??= Id;
-            graphic.Parent ??= this;
-            _graphics.Add(graphic);
+            _rendering = true;
+            AllowRender = false;
+            await Add(_graphicsToRender);
+            _graphicsToRender.Clear();
+            AllowRender = true;
+            _rendering = false;
         }
     }
 
@@ -214,15 +346,51 @@ public class GraphicsLayer : Layer
     internal override async Task UpdateFromJavaScript(Layer renderedLayer)
     {
         await base.UpdateFromJavaScript(renderedLayer);
-
-        foreach (Graphic graphic in _graphics)
-        {
-            if (!graphic.IsRendered)
-            {
-                await JsLayerReference!.InvokeVoidAsync("add", graphic);
-            }
-        }
     }
 
     private HashSet<Graphic> _graphics = new();
+    private HashSet<Graphic> _graphicsToRender = new();
+    private bool _rendering;
 }
+
+internal class GraphicsToSerializationConverter : JsonConverter<IReadOnlyCollection<Graphic>>
+{
+    public override IReadOnlyCollection<Graphic>? Read(ref Utf8JsonReader reader, Type typeToConvert,
+        JsonSerializerOptions options)
+    {
+        if (reader.TokenType != JsonTokenType.StartArray)
+        {
+            return null;
+        }
+
+        List<Graphic> graphics = new();
+
+        while (reader.Read())
+        {
+            if (reader.TokenType == JsonTokenType.EndArray)
+            {
+                break;
+            }
+
+            Graphic graphic = JsonSerializer.Deserialize<Graphic>(ref reader, options)!;
+            graphics.Add(graphic);
+        }
+
+        return graphics;
+    }
+
+    public override void Write(Utf8JsonWriter writer, IReadOnlyCollection<Graphic> value, JsonSerializerOptions options)
+    {
+        writer.WriteStartArray();
+
+        foreach (Graphic graphic in value)
+        {
+            JsonSerializer.Serialize(writer, graphic.ToSerializationRecord(), options);
+        }
+
+        writer.WriteEndArray();
+    }
+}
+
+[ProtoContract]
+internal record ProtoGraphicCollection([property: ProtoMember(1)] GraphicSerializationRecord[] Graphics);

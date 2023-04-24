@@ -3,6 +3,7 @@ layout: page
 title: "Events and Property Changes"
 nav_order: 7
 ---
+
 # Reacting to Events and Property Changes
 
 There are several ways to listen for events and property changes in GeoBlazor.
@@ -106,7 +107,8 @@ private void PopupWatchHandler()
 
 ### Listening to an event
 
-Listeners (called `on` events in Javascript) support all the same return types as described in `View EventCallbacks` above.
+Listeners (called `on` events in Javascript) support all the same return types as described in `View EventCallbacks`
+above.
 You can also return the value as a `string?`, which will return the un-parsed JSON of the event object, `object?`,
 or `dynamic?`. You should always mark your return type as nullable (`?`).
 
@@ -123,7 +125,8 @@ private void DragHandler(DragEvent? result)
 ```
 
 All of these reactive methods above support attaching to other components besides the `MapView` or `SceneView`. However,
-you should always provide the optional parameter `targetName` and make sure it matches the named object in your `expression`.
+you should always provide the optional parameter `targetName` and make sure it matches the named object in
+your `expression`.
 For example:
 
 ```csharp
@@ -138,7 +141,8 @@ private void WidgetHandler()
 }
 ```
 
-There is also a "Fire Once" method, `AwaitReactiveSingleWatchUpdate`. Unlike the other methods, this one returns the value
+There is also a "Fire Once" method, `AwaitReactiveSingleWatchUpdate`. Unlike the other methods, this one returns the
+value
 asynchronously but inline, without a handler.
 
 ```csharp

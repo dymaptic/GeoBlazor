@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using System.Text.Json.Serialization;
 
 
 namespace dymaptic.GeoBlazor.Core.Components;
@@ -21,4 +22,57 @@ public class PortalItem : MapComponent
     [EditorRequired]
     [RequiredProperty]
     public new string Id { get; set; } = default!;
+
+    /// <summary>
+    ///     An authorization string used to access the portal item. API keys are generated and managed in the ArcGIS Developer
+    ///     dashboard. An API key is tied explicitly to an ArcGIS account; it is also used to monitor service usage.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? ApiKey { get; set; }
+
+    /// <summary>
+    ///     The portal that contains the item. It uses Portal.getDefault().
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Portal? Portal { get; set; }
+
+    /// <inheritdoc />
+    public override async Task RegisterChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case Portal portal:
+                Portal = portal;
+
+                break;
+            default:
+                await base.RegisterChildComponent(child);
+
+                break;
+        }
+    }
+
+    /// <inheritdoc />
+    public override async Task UnregisterChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case Portal _:
+                Portal = null;
+
+                break;
+            default:
+                await base.UnregisterChildComponent(child);
+
+                break;
+        }
+    }
+
+    /// <inheritdoc />
+    public override void ValidateRequiredChildren()
+    {
+        base.ValidateRequiredChildren();
+        Portal?.ValidateRequiredChildren();
+    }
 }

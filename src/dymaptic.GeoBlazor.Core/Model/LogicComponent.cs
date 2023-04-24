@@ -8,7 +8,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// <summary>
 ///     A base class for non-map components, such as GeometryEngine, Projection, etc.
 /// </summary>
-public abstract class LogicComponent
+public abstract class LogicComponent : IDisposable
 {
     /// <summary>
     ///     Default constructor
@@ -52,6 +52,14 @@ public abstract class LogicComponent
     protected virtual string Library => "Core";
 
     /// <summary>
+    ///     Disposes of the Logic Component and cancels all external calls
+    /// </summary>
+    public void Dispose()
+    {
+        CancellationTokenSource.Dispose();
+    }
+
+    /// <summary>
     ///     A JavaScript invokable method that returns a JS Error and converts it to an Exception.
     /// </summary>
     /// <param name="error">
@@ -91,10 +99,10 @@ public abstract class LogicComponent
             IJSObjectReference module = await GetArcGisJsInterop();
 
             Component = await module.InvokeAsync<IJSObjectReference>($"get{ComponentName}Wrapper",
-                DotNetObjectReference, ApiKey);
+                CancellationTokenSource.Token, DotNetObjectReference, ApiKey);
         }
 
-        await Component.InvokeVoidAsync(method, parameters);
+        await Component.InvokeVoidAsync(method, CancellationTokenSource.Token, parameters);
     }
 
     /// <summary>
@@ -113,10 +121,10 @@ public abstract class LogicComponent
             IJSObjectReference module = await GetArcGisJsInterop();
 
             Component = await module.InvokeAsync<IJSObjectReference>($"get{ComponentName}Wrapper",
-                DotNetObjectReference, ApiKey);
+                CancellationTokenSource.Token, DotNetObjectReference, ApiKey);
         }
 
-        return await Component.InvokeAsync<T>(method, parameters);
+        return await Component.InvokeAsync<T>(method, CancellationTokenSource.Token, parameters);
     }
 
     private async Task<IJSObjectReference> GetArcGisJsInterop()
@@ -128,13 +136,13 @@ public abstract class LogicComponent
             case >= 100:
                 // this is here to support the pro extension library
                 IJSObjectReference proModule = await JsRuntime
-                    .InvokeAsync<IJSObjectReference>("import",
+                    .InvokeAsync<IJSObjectReference>("import", CancellationTokenSource.Token,
                         "./_content/dymaptic.GeoBlazor.Pro/js/arcGisPro.js");
 
                 return await proModule.InvokeAsync<IJSObjectReference>("getCore");
             default:
                 return await JsRuntime
-                    .InvokeAsync<IJSObjectReference>("import",
+                    .InvokeAsync<IJSObjectReference>("import", CancellationTokenSource.Token,
                         "./_content/dymaptic.GeoBlazor.Core/js/arcGisJsInterop.js");
         }
     }
@@ -147,4 +155,9 @@ public abstract class LogicComponent
     ///     The ArcGIS API Key.
     /// </summary>
     protected string? ApiKey { get; set; }
+
+    /// <summary>
+    ///     Creates a cancellation token to control external calls
+    /// </summary>
+    protected CancellationTokenSource CancellationTokenSource = new();
 }

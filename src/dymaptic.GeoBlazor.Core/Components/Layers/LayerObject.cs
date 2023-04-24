@@ -1,4 +1,5 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Symbols;
+using Microsoft.JSInterop;
 using System.Text.Json.Serialization;
 
 
@@ -17,6 +18,11 @@ public abstract class LayerObject : MapComponent
     [JsonInclude]
     public Symbol? Symbol { get; protected set; }
 
+    /// <remarks>
+    ///     Since some layer objects like "Graphics" can be added programmatically, we can't depend on the cascading parameter
+    /// </remarks>
+    protected IJSObjectReference? LayerJsModule => JsModule ?? Parent?.JsModule;
+
     /// <summary>
     ///     Gets the current <see cref="Symbol" /> for the object.
     /// </summary>
@@ -31,9 +37,19 @@ public abstract class LayerObject : MapComponent
     /// <param name="symbol">
     ///     The <see cref="Symbol" /> for the object.
     /// </param>
-    public async Task SetSymbol(Symbol symbol)
+    public virtual async Task SetSymbol(Symbol symbol)
     {
-        await RegisterChildComponent(symbol);
+        Symbol = symbol;
+
+        if (LayerJsModule is not null)
+        {
+            await LayerJsModule.InvokeVoidAsync("setGraphicSymbol",
+                Id, Symbol.ToSerializationRecord());
+        }
+        else
+        {
+            UpdateSymbol = true;
+        }
     }
 
     /// <inheritdoc />
@@ -42,10 +58,12 @@ public abstract class LayerObject : MapComponent
         switch (child)
         {
             case Symbol symbol:
-                if (!symbol.Equals(Symbol))
+                if (View?.ExtentChangedInJs == true)
                 {
-                    Symbol = symbol;
+                    return;
                 }
+
+                await SetSymbol(symbol);
 
                 break;
             default:
@@ -77,4 +95,9 @@ public abstract class LayerObject : MapComponent
         base.ValidateRequiredChildren();
         Symbol?.ValidateRequiredChildren();
     }
+
+    /// <summary>
+    ///    Indicates whether the symbol should be updated on the next render cycle.
+    /// </summary>
+    protected bool UpdateSymbol;
 }

@@ -8,6 +8,11 @@
 
 [Join our Discord Server!](https://discord.gg/hcmbPzn4VW)
 
+## Using GeoBlazor
+
+Please read the [Getting Started](https://docs.geoblazor.com/pages/gettingStarted.html) page in the documentation on how
+to get started using the GeoBlazor nuget package. The following sections are for developers who want to build the code from source.
+
 ## Build Requirements
 
 For the Asp.NET projects, including the core library, you can run on the

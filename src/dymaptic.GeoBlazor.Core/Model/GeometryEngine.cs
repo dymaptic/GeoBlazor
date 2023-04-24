@@ -70,7 +70,8 @@ public class GeometryEngine : LogicComponent
     public async Task<Polygon[]> Buffer(IEnumerable<Geometry> geometries, IEnumerable<double> distances,
         LinearUnit? unit = null, bool? unionResults = null)
     {
-        return await InvokeAsync<Polygon[]>("buffer", geometries, distances, unit, unionResults);
+        return await InvokeAsync<Polygon[]>("buffer", CancellationTokenSource.Token,
+            geometries, distances, unit, unionResults);
     }
 
     /// <summary>

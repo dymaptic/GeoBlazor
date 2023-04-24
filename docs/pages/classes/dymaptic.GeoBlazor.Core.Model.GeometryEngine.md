@@ -11,10 +11,7 @@ parent: Classes
 A client-side geometry engine for testing, measuring, and analyzing the spatial relationship between two or more 2D  
 geometries. If more than one geometry is required for any of the methods below, all geometries must have the same  
 spatial reference for the methods to work as expected.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-geometryEngine.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-geometryEngine.html">ArcGIS JS API</a>
 
 ```csharp
 public class GeometryEngine : dymaptic.GeoBlazor.Core.Model.LogicComponent
@@ -1244,9 +1241,12 @@ each of the following DE-9IM string codes are valid for testing whether a polygo
 line geometry: TTTFFTFFT (Boolean), 'T******FF*' (ignore irrelevant intersections), or '102FF*FF*' (dimension  
 form). Each returns the same result. See  
 <a target="_blank" href="https://en.wikipedia.org/wiki/DE-9IM">this article</a> and  
-<a target="_blank" href="https://desktop.arcgis.com/en/arcmap/latest/manage-data/using-sql-with-gdbs/relational-functions-for-st-geometry.htm">  
-    this  
-    ArcGIS help page  
+<a target="_blank" href="https://desktop.arcgis.com/en/arcmap/latest/manage-data/using-sql-with-gdbs/relational-functions-for-st-geometry.htm">
+  
+    this
+  
+    ArcGIS help page
+  
 </a>  
 for more information about the DE-9IM model and how string codes are constructed.
 

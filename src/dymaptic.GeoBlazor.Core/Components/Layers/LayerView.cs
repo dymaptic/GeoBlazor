@@ -10,7 +10,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 ///         JS API
 ///     </a>
 /// </summary>
-public class LayerView
+public class LayerView : IDisposable
 {
     /// <summary>
     ///     The layer being viewed.
@@ -41,6 +41,28 @@ public class LayerView
     ///     Value is true when the layer is updating; for example, if it is in the process of fetching data.
     /// </summary>
     public bool Visible { get; init; }
+
+    /// <summary>
+    ///     Disposes the LayerView.
+    /// </summary>
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    private void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            CancellationTokenSource.Cancel();
+        }
+    }
+
+    /// <summary>
+    ///     Creates a cancellation token to control external calls
+    /// </summary>
+    protected CancellationTokenSource CancellationTokenSource = new();
 }
 
 #pragma warning disable CS1574, CS0419

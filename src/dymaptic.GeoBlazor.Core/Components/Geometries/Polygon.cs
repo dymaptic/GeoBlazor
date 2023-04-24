@@ -35,6 +35,7 @@ public class Polygon : Geometry, IEquatable<Polygon>
     /// </param>
     public Polygon(MapPath[] rings, SpatialReference? spatialReference = null, Extent? extent = null)
     {
+        AllowRender = false;
 #pragma warning disable BL0005
         Rings = rings;
         SpatialReference = spatialReference;
@@ -71,7 +72,6 @@ public class Polygon : Geometry, IEquatable<Polygon>
     public bool Equals(Polygon? other)
     {
         if (ReferenceEquals(null, other)) return false;
-        if (ReferenceEquals(this, other)) return true;
 
         return Rings.Equals(other.Rings);
     }
@@ -80,7 +80,6 @@ public class Polygon : Geometry, IEquatable<Polygon>
     public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
-        if (ReferenceEquals(this, obj)) return true;
         if (obj.GetType() != GetType()) return false;
 
         return Equals((Polygon)obj);
@@ -90,5 +89,14 @@ public class Polygon : Geometry, IEquatable<Polygon>
     public override int GetHashCode()
     {
         return Rings.GetHashCode();
+    }
+
+    internal override GeometrySerializationRecord ToSerializationRecord()
+    {
+        return new GeometrySerializationRecord(Type, Extent?.ToSerializationRecord(),
+            SpatialReference?.ToSerializationRecord())
+        {
+            Rings = Rings.Select(p => p.ToSerializationRecord()).ToArray()
+        };
     }
 }

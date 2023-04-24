@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using ProtoBuf;
 using System.Text.Json.Serialization;
 
 
@@ -11,7 +12,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Popups;
 ///         JS API
 ///     </a>
 /// </summary>
-public class FieldInfo : MapComponent
+public class FieldInfo : MapComponent, IEquatable<FieldInfo>
 {
     /// <summary>
     ///     Parameterless constructor for using as a razor component
@@ -57,6 +58,22 @@ public class FieldInfo : MapComponent
         IsEditable = isEditable;
         Visible = visible;
 #pragma warning restore BL0005
+    }
+
+    /// <summary>
+    ///     Equality operator
+    /// </summary>
+    public static bool operator ==(FieldInfo? left, FieldInfo? right)
+    {
+        return Equals(left, right);
+    }
+
+    /// <summary>
+    ///     Inequality operator
+    /// </summary>
+    public static bool operator !=(FieldInfo? left, FieldInfo? right)
+    {
+        return !Equals(left, right);
     }
 
     /// <summary>
@@ -108,6 +125,16 @@ public class FieldInfo : MapComponent
     public FieldInfoFormat? Format { get; set; }
 
     /// <inheritdoc />
+    public bool Equals(FieldInfo? other)
+    {
+        if (ReferenceEquals(null, other)) return false;
+
+        return (FieldName == other.FieldName) && (Label == other.Label) && (IsEditable == other.IsEditable) &&
+            (Tooltip == other.Tooltip) && (Visible == other.Visible) &&
+            (StringFieldOption == other.StringFieldOption) && Equals(Format, other.Format);
+    }
+
+    /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
     {
         switch (child)
@@ -149,4 +176,49 @@ public class FieldInfo : MapComponent
         base.ValidateRequiredChildren();
         Format?.ValidateRequiredChildren();
     }
+
+    /// <inheritdoc />
+    public override bool Equals(object? obj)
+    {
+        if (ReferenceEquals(null, obj)) return false;
+        if (obj.GetType() != GetType()) return false;
+
+        return Equals((FieldInfo)obj);
+    }
+
+    /// <inheritdoc />
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(FieldName, Label, IsEditable, Tooltip, Visible, StringFieldOption, Format);
+    }
+
+    internal FieldInfoSerializationRecord ToSerializationRecord()
+    {
+        return new FieldInfoSerializationRecord(FieldName, Label, Tooltip, StringFieldOption,
+            Format?.ToSerializationRecord(), IsEditable, Visible);
+    }
 }
+
+[ProtoContract(Name = "FieldInfo")]
+internal record FieldInfoSerializationRecord([property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [property: ProtoMember(1)]
+        string? FieldName = null,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [property: ProtoMember(2)]
+        string? Label = null,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [property: ProtoMember(3)]
+        string? Tooltip = null,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [property: ProtoMember(4)]
+        string? StringFieldOption = null,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [property: ProtoMember(5)]
+        FieldInfoFormatSerializationRecord? Format = null,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [property: ProtoMember(6)]
+        bool? IsEditable = null,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [property: ProtoMember(7)]
+        bool? Visible = null)
+    : MapComponentSerializationRecord;

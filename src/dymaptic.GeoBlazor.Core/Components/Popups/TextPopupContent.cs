@@ -29,4 +29,9 @@ public class TextPopupContent : PopupContent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Text { get; set; }
+
+    internal override PopupContentSerializationRecord ToSerializationRecord()
+    {
+        return new PopupContentSerializationRecord(Type) { Text = Text };
+    }
 }

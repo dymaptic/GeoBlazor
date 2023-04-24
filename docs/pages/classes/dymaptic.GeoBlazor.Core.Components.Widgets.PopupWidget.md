@@ -337,6 +337,61 @@ public override string WidgetType { get; }
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 ### Methods
 
+<a name='dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.Clear()'></a>
+
+## PopupWidget.Clear() Method
+
+Removes promises, features, content, title and location from the Popup.
+
+```csharp
+public System.Threading.Tasks.Task Clear();
+```
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.Close()'></a>
+
+## PopupWidget.Close() Method
+
+Closes the popup by setting its visible property to false. Users can alternatively close the popup by directly  
+setting the visible property to false.
+
+```csharp
+public System.Threading.Tasks.Task Close();
+```
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.FetchFeatures()'></a>
+
+## PopupWidget.FetchFeatures() Method
+
+Use this method to return feature(s) at a given screen location. These features are fetched from all of the  
+LayerViews in the view. In order to use this, a layer must already have an associated PopupTemplate and have its  
+popupEnabled. These features can then be used within a custom Popup or Feature widget experience.
+
+```csharp
+public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Layers.Graphic[]> FetchFeatures();
+```
+
+#### Returns
+[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[Graphic](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.GetFeatureCount()'></a>
+
+## PopupWidget.GetFeatureCount() Method
+
+The number of selected features available to the popup.
+
+```csharp
+public System.Threading.Tasks.Task<int> GetFeatureCount();
+```
+
+#### Returns
+[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')
+
 <a name='dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.GetSelectedFeature()'></a>
 
 ## PopupWidget.GetSelectedFeature() Method
@@ -350,6 +405,32 @@ public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Layers.Gra
 
 #### Returns
 [System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[Graphic](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.GetSelectedFeatureIndex()'></a>
+
+## PopupWidget.GetSelectedFeatureIndex() Method
+
+Index of the feature that is selected. When features are set, the first index is automatically selected.
+
+```csharp
+public System.Threading.Tasks.Task<int> GetSelectedFeatureIndex();
+```
+
+#### Returns
+[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.GetVisibility()'></a>
+
+## PopupWidget.GetVisibility() Method
+
+Index of the feature that is selected. When features are set, the first index is automatically selected.
+
+```csharp
+public System.Threading.Tasks.Task<bool> GetVisibility();
+```
+
+#### Returns
+[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.OnTriggerAction(string)'></a>
 
@@ -371,11 +452,26 @@ The action ID.
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
 
+<a name='dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.Open()'></a>
+
+## PopupWidget.Open() Method
+
+Opens the popup at the given location with content defined either explicitly with content or driven from the  
+PopupTemplate of input features. This method sets the popup's visible property to true. Users can alternatively  
+open the popup by directly setting the visible property to true.
+
+```csharp
+public System.Threading.Tasks.Task Open();
+```
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
 <a name='dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.RegisterChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent)'></a>
 
 ## PopupWidget.RegisterChildComponent(MapComponent) Method
 
-Called from [dymaptic.GeoBlazor.Core.Components.MapComponent.OnAfterRenderAsync(System.Boolean)](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Components.MapComponent.OnAfterRenderAsync#dymaptic_GeoBlazor_Core_Components_MapComponent_OnAfterRenderAsync_System_Boolean_ 'dymaptic.GeoBlazor.Core.Components.MapComponent.OnAfterRenderAsync(System.Boolean)') to "Register" the current component with it's parent.
+Called from [dymaptic.GeoBlazor.Core.Components.MapComponent.OnInitializedAsync](https://docs.microsoft.com/en-us/dotnet/api/dymaptic.GeoBlazor.Core.Components.MapComponent.OnInitializedAsync 'dymaptic.GeoBlazor.Core.Components.MapComponent.OnInitializedAsync') to "Register" the current component with it's parent.
 
 ```csharp
 public override System.Threading.Tasks.Task RegisterChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent child);

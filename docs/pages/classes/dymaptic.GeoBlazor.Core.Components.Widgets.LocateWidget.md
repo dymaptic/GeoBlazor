@@ -10,10 +10,7 @@ parent: Classes
 
 Provides a simple widget that animates the View to the user's current location. The view rotates according to the  
 direction where the tracked device is heading towards.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate.html">ArcGIS JS API</a>
 
 ```csharp
 public class LocateWidget : dymaptic.GeoBlazor.Core.Components.Widgets.Widget

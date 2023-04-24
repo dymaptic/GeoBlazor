@@ -50,6 +50,8 @@ public class SimpleMarkerSymbol : MarkerSymbol, IEquatable<SimpleMarkerSymbol>
     public SimpleMarkerSymbol(Outline? outline = null, MapColor? color = null, double? size = null,
         string? style = null, double? angle = null, double? xOffset = null, double? yOffset = null)
     {
+        AllowRender = false;
+#pragma warning disable BL0005
         Outline = outline;
         Color = color;
         Size = size;
@@ -57,6 +59,7 @@ public class SimpleMarkerSymbol : MarkerSymbol, IEquatable<SimpleMarkerSymbol>
         Angle = angle;
         XOffset = xOffset;
         YOffset = yOffset;
+#pragma warning restore BL0005
     }
 
     /// <summary>
@@ -102,7 +105,6 @@ public class SimpleMarkerSymbol : MarkerSymbol, IEquatable<SimpleMarkerSymbol>
     public bool Equals(SimpleMarkerSymbol? other)
     {
         if (ReferenceEquals(null, other)) return false;
-        if (ReferenceEquals(this, other)) return true;
 
         return Equals(Outline, other.Outline) &&
             Nullable.Equals(Size, other.Size) &&
@@ -156,7 +158,6 @@ public class SimpleMarkerSymbol : MarkerSymbol, IEquatable<SimpleMarkerSymbol>
     public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
-        if (ReferenceEquals(this, obj)) return true;
         if (obj.GetType() != GetType()) return false;
 
         return Equals((SimpleMarkerSymbol)obj);
@@ -191,5 +192,18 @@ public class SimpleMarkerSymbol : MarkerSymbol, IEquatable<SimpleMarkerSymbol>
         }
 
         return style1 == style2;
+    }
+
+    internal override SymbolSerializationRecord ToSerializationRecord()
+    {
+        return new SymbolSerializationRecord(Type, Color)
+        {
+            Outline = Outline?.ToSerializationRecord(),
+            Size = Size,
+            Style = Style,
+            Angle = Angle,
+            XOffset = XOffset,
+            YOffset = YOffset
+        };
     }
 }

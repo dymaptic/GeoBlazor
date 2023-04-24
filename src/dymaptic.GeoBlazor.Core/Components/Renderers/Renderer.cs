@@ -40,9 +40,9 @@ internal class RendererConverter : JsonConverter<Renderer>
             return null;
         }
 
-        if (temp.ContainsKey("type"))
+        if (temp.TryGetValue("type", out object? typeValue))
         {
-            switch (temp["type"]?.ToString())
+            switch (typeValue?.ToString())
             {
                 case "simple":
                     return JsonSerializer.Deserialize<SimpleRenderer>(ref cloneReader, newOptions);

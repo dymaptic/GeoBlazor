@@ -18,6 +18,7 @@ export interface DotNetGraphic {
     geometry: any;
     attributes: any;
 
+    dotNetGraphicReference: any;
     symbol: DotNetSymbol;
 }
 
@@ -81,8 +82,8 @@ export interface DotNetSimpleMarkerSymbol extends DotNetSymbol {
     path: string;
     size: number;
     style: string;
-    xoffset: number;
-    yoffset: number;
+    xOffset: number;
+    yOffset: number;
 }
 
 export interface DotNetSimpleLineSymbol extends DotNetSymbol {
@@ -96,8 +97,8 @@ export interface DotNetSimpleLineSymbol extends DotNetSymbol {
 
 export interface DotNetPictureMarkerSymbol extends DotNetSymbol {
     angle: number;
-    xoffset: number;
-    yoffset: number;
+    xOffset: number;
+    yOffset: number;
 
     height: number;
 
@@ -126,8 +127,8 @@ export interface DotNetTextSymbol extends DotNetSymbol {
     rotated: boolean;
     text: string;
     verticalAlignment: string;
-    xoffset: number;
-    yoffset: number;
+    xOffset: number;
+    yOffset: number;
 }
 
 export interface DotNetSpatialReference {

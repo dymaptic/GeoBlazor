@@ -45,11 +45,14 @@ public class TextSymbol : Symbol, IEquatable<TextSymbol>
     public TextSymbol(string text, MapColor? color = null, MapColor? haloColor = null, int? haloSize = null,
         MapFont? font = null)
     {
+        AllowRender = false;
+#pragma warning disable BL0005
         Text = text;
         Color = color;
         HaloColor = haloColor;
         HaloSize = haloSize;
         Font = font;
+#pragma warning restore BL0005
     }
 
     /// <summary>
@@ -102,7 +105,6 @@ public class TextSymbol : Symbol, IEquatable<TextSymbol>
     public bool Equals(TextSymbol? other)
     {
         if (ReferenceEquals(null, other)) return false;
-        if (ReferenceEquals(this, other)) return true;
 
         return Equals(HaloColor, other.HaloColor) && (HaloSize == other.HaloSize) && (Text == other.Text) &&
             Equals(Font, other.Font) && Equals(Color, other.Color);
@@ -154,7 +156,6 @@ public class TextSymbol : Symbol, IEquatable<TextSymbol>
     public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
-        if (ReferenceEquals(this, obj)) return true;
         if (obj.GetType() != GetType()) return false;
 
         return Equals((TextSymbol)obj);
@@ -164,5 +165,13 @@ public class TextSymbol : Symbol, IEquatable<TextSymbol>
     public override int GetHashCode()
     {
         return HashCode.Combine(HaloColor, HaloSize, Text, Font, Color);
+    }
+
+    internal override SymbolSerializationRecord ToSerializationRecord()
+    {
+        return new SymbolSerializationRecord(Type, Color)
+        {
+            Text = Text, HaloColor = HaloColor, HaloSize = HaloSize, MapFont = Font
+        };
     }
 }
