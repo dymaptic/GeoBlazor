@@ -7,19 +7,7 @@ export default class OAuthAuthenticationWrapper {
     private appId: string;
     private info: OAuthInfo;
 
-    constructor(dotNetReference, apiKey) {
-        // We don't want to store the apiKey
-        // so we just ignore this constructor.
-        this.appId = "";
-        this.info = new OAuthInfo({
-            appId: "",
-            flowType: "auto",
-            popup: false,
-        });
-        
-    }
-    
-    initialize(appId) {
+    constructor(dotNetReference, appId) {
         this.appId = appId;
         this.info = new OAuthInfo({
             appId: appId,

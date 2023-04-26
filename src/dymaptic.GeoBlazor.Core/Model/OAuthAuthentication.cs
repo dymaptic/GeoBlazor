@@ -1,3 +1,4 @@
+using dymaptic.GeoBlazor.Core.Exceptions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.JSInterop;
 
@@ -21,33 +22,12 @@ public class OAuthAuthentication : LogicComponent
     public OAuthAuthentication(IJSRuntime jsRuntime, IConfiguration config) : base(jsRuntime, config)
     {
         _config = config;
-#pragma warning disable CS4014
-        if (!string.IsNullOrEmpty(AppId))
-        {
-            Initialize();
-        }
-#pragma warning restore CS4014
     }
 
     /// <inheritdoc />
     protected override string ComponentName => nameof(OAuthAuthentication);
-    private string AppId => _config["ArcGISAppId"];
-
-    /// <summary>
-    ///     Initializes the OAuth Authentication component with the ArcGIS App ID.
-    /// </summary>
-    /// <returns></returns>
-    public async Task Initialize()
-    {
-        if (_initializedAppId.Equals(AppId))
-        {
-            return;
-        }
-
-        await InvokeVoidAsync("initialize", AppId);
-        _initializedAppId = AppId;
-        Console.WriteLine("Initialized OAuth");
-    }
+    private string? AppId => _config["ArcGISAppId"];
+    
 
     /// <summary>
     ///     Tests to see if the user is logged in. True if yes, false if otherwise.
@@ -57,8 +37,6 @@ public class OAuthAuthentication : LogicComponent
     /// </returns>
     public async Task<bool> IsLoggedIn()
     {
-        await Initialize();
-
         return await InvokeAsync<bool>("isLoggedIn");
     }
 
@@ -67,7 +45,6 @@ public class OAuthAuthentication : LogicComponent
     /// </summary>
     public async Task Login()
     {
-        await Initialize();
         await InvokeVoidAsync("doLogin");
     }
 
@@ -90,9 +67,31 @@ public class OAuthAuthentication : LogicComponent
     /// </returns>
     public async Task<string> GetCurrentToken()
     {
-        await Initialize();
-
         return await InvokeAsync<string>("getToken");
+    }
+
+    /// <inheritdoc />
+    public override async Task Initialize()
+    {
+        if (Component is null)
+        {
+            IJSObjectReference module = await GetArcGisJsInterop();
+
+            Component = await module.InvokeAsync<IJSObjectReference>($"get{ComponentName}Wrapper",
+                CancellationTokenSource.Token, DotNetObjectReference, AppId);
+        }
+        
+        if (string.IsNullOrEmpty(AppId))
+        {
+            throw new MissingAppIdException();
+        } 
+        if (_initializedAppId.Equals(AppId))
+        {
+            return;
+        }
+        
+        _initializedAppId = AppId;
+        Console.WriteLine("Initialized OAuth");
     }
 
     private readonly IConfiguration _config;

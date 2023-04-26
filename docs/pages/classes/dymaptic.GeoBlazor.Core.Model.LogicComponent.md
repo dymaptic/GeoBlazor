@@ -19,6 +19,7 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 
 Derived  
 &#8627; [GeometryEngine](dymaptic.GeoBlazor.Core.Model.GeometryEngine.html 'dymaptic.GeoBlazor.Core.Model.GeometryEngine')  
+&#8627; [OAuthAuthentication](dymaptic.GeoBlazor.Core.Model.OAuthAuthentication.html 'dymaptic.GeoBlazor.Core.Model.OAuthAuthentication')  
 &#8627; [Projection](dymaptic.GeoBlazor.Core.Model.Projection.html 'dymaptic.GeoBlazor.Core.Model.Projection')
 
 Implements [System.IDisposable](https://docs.microsoft.com/en-us/dotnet/api/System.IDisposable 'System.IDisposable')
@@ -73,6 +74,19 @@ public void Dispose();
 ```
 
 Implements [Dispose()](https://docs.microsoft.com/en-us/dotnet/api/System.IDisposable.Dispose 'System.IDisposable.Dispose')
+
+<a name='dymaptic.GeoBlazor.Core.Model.LogicComponent.Initialize()'></a>
+
+## LogicComponent.Initialize() Method
+
+Initializes the JavaScript reference component, if not already initialized.
+
+```csharp
+public virtual System.Threading.Tasks.Task Initialize();
+```
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
 
 <a name='dymaptic.GeoBlazor.Core.Model.LogicComponent.OnJavascriptError(dymaptic.GeoBlazor.Core.Exceptions.JavascriptError)'></a>
 

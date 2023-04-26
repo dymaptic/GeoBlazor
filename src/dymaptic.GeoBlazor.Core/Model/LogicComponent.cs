@@ -94,15 +94,9 @@ public abstract class LogicComponent : IDisposable
     /// </param>
     protected virtual async Task InvokeVoidAsync(string method, params object?[] parameters)
     {
-        if (Component is null)
-        {
-            IJSObjectReference module = await GetArcGisJsInterop();
+        await Initialize();
 
-            Component = await module.InvokeAsync<IJSObjectReference>($"get{ComponentName}Wrapper",
-                CancellationTokenSource.Token, DotNetObjectReference, ApiKey);
-        }
-
-        await Component.InvokeVoidAsync(method, CancellationTokenSource.Token, parameters);
+        await Component!.InvokeVoidAsync(method, CancellationTokenSource.Token, parameters);
     }
 
     /// <summary>
@@ -116,6 +110,16 @@ public abstract class LogicComponent : IDisposable
     /// </param>
     protected virtual async Task<T> InvokeAsync<T>(string method, params object?[] parameters)
     {
+        await Initialize();
+
+        return await Component!.InvokeAsync<T>(method, CancellationTokenSource.Token, parameters);
+    }
+
+    /// <summary>
+    ///    Initializes the JavaScript reference component, if not already initialized.
+    /// </summary>
+    public virtual async Task Initialize()
+    {
         if (Component is null)
         {
             IJSObjectReference module = await GetArcGisJsInterop();
@@ -123,11 +127,12 @@ public abstract class LogicComponent : IDisposable
             Component = await module.InvokeAsync<IJSObjectReference>($"get{ComponentName}Wrapper",
                 CancellationTokenSource.Token, DotNetObjectReference, ApiKey);
         }
-
-        return await Component.InvokeAsync<T>(method, CancellationTokenSource.Token, parameters);
     }
 
-    private async Task<IJSObjectReference> GetArcGisJsInterop()
+    /// <summary>
+    ///    Retrieves the correct copy of the ArcGisJsInterop based on the nuget package
+    /// </summary>
+    protected async Task<IJSObjectReference> GetArcGisJsInterop()
     {
         LicenseType licenseType = Licensing.GetLicenseType();
 

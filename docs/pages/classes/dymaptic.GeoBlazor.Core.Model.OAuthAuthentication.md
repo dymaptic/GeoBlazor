@@ -72,10 +72,10 @@ A string containing the current OAuth Token.
 
 ## OAuthAuthentication.Initialize() Method
 
-Initializes the OAuth Authentication component with the ArcGIS App ID.
+Initializes the JavaScript reference component, if not already initialized.
 
 ```csharp
-public System.Threading.Tasks.Task Initialize();
+public override System.Threading.Tasks.Task Initialize();
 ```
 
 #### Returns

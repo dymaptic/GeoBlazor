@@ -1,4 +1,4 @@
-﻿$SourceFiles = "./node_modules/@arcgis/core/assets"
+﻿$SourceFiles = "./node_modules/@arcgis/core/assets/*"
 $OutputDir = "./wwwroot/assets"
 
 If ((Get-Content "$OutputDir/ArcGISAssetsVersion.txt") -ne "4.26.2")

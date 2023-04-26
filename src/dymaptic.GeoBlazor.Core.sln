@@ -22,6 +22,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dymaptic.GeoBlazor.Core.Tes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dymaptic.GeoBlazor.Core.Sample.WasmOAuth", "..\samples\dymaptic.GeoBlazor.Core.Sample.WasmOAuth\dymaptic.GeoBlazor.Core.Sample.WasmOAuth.csproj", "{AB39692F-F4D9-48EF-907C-9D9E65E82A32}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dymaptic.GeoBlazor.Core.Sample.ServerOAuth", "..\samples\dymaptic.GeoBlazor.Core.Sample.ServerOAuth\dymaptic.GeoBlazor.Core.Sample.ServerOAuth.csproj", "{3DED106E-5ED1-4506-87CA-50C40465D6A1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,6 +60,10 @@ Global
 		{AB39692F-F4D9-48EF-907C-9D9E65E82A32}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AB39692F-F4D9-48EF-907C-9D9E65E82A32}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AB39692F-F4D9-48EF-907C-9D9E65E82A32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3DED106E-5ED1-4506-87CA-50C40465D6A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3DED106E-5ED1-4506-87CA-50C40465D6A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3DED106E-5ED1-4506-87CA-50C40465D6A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3DED106E-5ED1-4506-87CA-50C40465D6A1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

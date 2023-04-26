@@ -5,6 +5,7 @@ using dymaptic.GeoBlazor.Core.Components.Symbols;
 using dymaptic.GeoBlazor.Core.Components.Widgets;
 using dymaptic.GeoBlazor.Core.Events;
 using dymaptic.GeoBlazor.Core.Exceptions;
+using dymaptic.GeoBlazor.Core.Model;
 using dymaptic.GeoBlazor.Core.Objects;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
@@ -44,6 +45,12 @@ public partial class MapView : MapComponent
     /// </summary>
     [Inject]
     public IConfiguration Configuration { get; set; } = default!;
+    
+    /// <summary>
+    ///     Handles OAuth authentication
+    /// </summary>
+    [Inject]
+    public OAuthAuthentication OAuthAuthentication { get; set; } = default!;
 
     /// <summary>
     ///     Boolean flag to identify if GeoBlazor is running in Blazor Server mode
@@ -198,6 +205,13 @@ public partial class MapView : MapComponent
     /// </remarks>
     [Parameter]
     public bool? PromptForArcGISKey { get; set; }
+    
+    /// <summary>
+    ///     If you set an `AppId` in your configuration, setting this to true will cause the app to attempt to auto-login
+    ///     using ArcGIS OAuth.
+    /// </summary>
+    [Parameter]
+    public bool? PromptForOAuthLogin { get; set; }
 
 #endregion
 
@@ -2099,6 +2113,16 @@ public partial class MapView : MapComponent
 
             // the first render never has all the child components registered
             Rendering = false;
+
+            if (!string.IsNullOrEmpty(AppId))
+            {
+                await OAuthAuthentication.Initialize();
+
+                if (PromptForOAuthLogin == true)
+                {
+                    await OAuthAuthentication.Login();
+                }
+            }
             StateHasChanged();
 
             return;
