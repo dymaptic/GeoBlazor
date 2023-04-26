@@ -2290,9 +2290,10 @@ export function encodeProtobufGraphics(graphics: any[]): Uint8Array {
 }
 
 let _oauthWrapper:OAuthAuthenticationWrapper | null = null;
-export function getOAuthAuthenticationWrapper(doNetRef:any, appId: string): OAuthAuthenticationWrapper {
+export function getOAuthAuthenticationWrapper(doNetRef:any, appId: string, portalUrl?: string | null)
+    : OAuthAuthenticationWrapper {
     if (_oauthWrapper == null) {
-        _oauthWrapper = new OAuthAuthenticationWrapper(doNetRef, appId);
+        _oauthWrapper = new OAuthAuthenticationWrapper(doNetRef, appId, portalUrl);
     }
     return _oauthWrapper
 }

@@ -27,6 +27,7 @@ public class OAuthAuthentication : LogicComponent
     /// <inheritdoc />
     protected override string ComponentName => nameof(OAuthAuthentication);
     private string? AppId => _config["ArcGISAppId"];
+    private string? PortalUrl => _config["ArcGISPortalUrl"];
     
 
     /// <summary>
@@ -78,7 +79,7 @@ public class OAuthAuthentication : LogicComponent
             IJSObjectReference module = await GetArcGisJsInterop();
 
             Component = await module.InvokeAsync<IJSObjectReference>($"get{ComponentName}Wrapper",
-                CancellationTokenSource.Token, DotNetObjectReference, AppId);
+                CancellationTokenSource.Token, DotNetObjectReference, AppId, PortalUrl);
         }
         
         if (string.IsNullOrEmpty(AppId))

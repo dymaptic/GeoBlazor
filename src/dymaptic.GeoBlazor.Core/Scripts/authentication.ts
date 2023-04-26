@@ -7,13 +7,16 @@ export default class OAuthAuthenticationWrapper {
     private appId: string;
     private info: OAuthInfo;
 
-    constructor(dotNetReference, appId) {
+    constructor(dotNetReference, appId, portalUrl) {
         this.appId = appId;
         this.info = new OAuthInfo({
             appId: appId,
             flowType: "auto",
-            popup: false,
+            popup: false
         });
+        if (portalUrl !== undefined && portalUrl !== null) {
+            this.info.portalUrl = portalUrl;
+        }
         IdentityManager.registerOAuthInfos([this.info]);
     }
 
