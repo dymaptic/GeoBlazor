@@ -327,6 +327,14 @@ public class GraphicsLayer : Layer
             graphic.ValidateRequiredChildren();
         }
     }
+    
+    public void RegisterExistingGraphicsFromJavaScript(IEnumerable<Graphic> graphics)
+    {
+        foreach (Graphic graphic in graphics)
+        {
+            _graphics.Add(graphic);
+        }
+    }
 
     /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
