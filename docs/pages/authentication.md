@@ -53,7 +53,7 @@ You generate a new OAuth `Application` in the [ArcGIS Developer Dashboard](https
 and then store the `ClientId` in your application configuration as `ArcGISAppId`.
 
 Users will be prompted to log in automatically on the first map load if you add `PromptForOAuthLogin="true"` to your `MapView`, 
-or you can use the `OAuthAuthentication.Login()` method to trigger the login prompt.
+or you can use the `AuthenticationManager.Login()` method to trigger the login prompt.
 
 ```html
 <MapView PromptForOAuthLogin="true">
