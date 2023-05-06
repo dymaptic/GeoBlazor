@@ -4,7 +4,7 @@
 namespace dymaptic.GeoBlazor.Core.Exceptions;
 
 /// <summary>
-///     Exception thrown when an application calls <see cref="OAuthAuthentication.Initialize()"/> without first setting an APP Id in the configuration.
+///     Exception thrown when an application calls <see cref="AuthenticationManager.Initialize()"/> without first setting an APP Id in the configuration.
 /// </summary>
 public class MissingAppIdException: Exception
 {
