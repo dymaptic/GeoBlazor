@@ -198,10 +198,17 @@ public class SceneView : MapView
         if (Rendering || Map is null || ViewJsModule is null) return;
 
         if (string.IsNullOrWhiteSpace(ApiKey) && AllowDefaultEsriLogin is null or false &&
-            PromptForArcGISKey is null or true)
+            PromptForArcGISKey is null or true && string.IsNullOrWhiteSpace(AppId))
         {
-            ErrorMessage =
+            var newErrorMessage =
                 "No ArcGIS API Key Found. See https://docs.geoblazor.com/pages/authentication.html for instructions on providing an API Key or suppressing this message.";
+
+            if (ErrorMessage == newErrorMessage)
+            {
+                return;
+            }
+
+            ErrorMessage = newErrorMessage;
             Debug.WriteLine(ErrorMessage);
             StateHasChanged();
 
@@ -228,12 +235,12 @@ public class SceneView : MapView
 
             await ViewJsModule!.InvokeVoidAsync("setAssetsPath", CancellationTokenSource.Token,
                 Configuration.GetValue<string?>("ArcGISAssetsPath",
-                    "./_content/dymaptic.GeoBlazor.Core/assets"));
+                    "/_content/dymaptic.GeoBlazor.Core/assets"));
 
             await ViewJsModule!.InvokeVoidAsync("buildMapView",
                 CancellationTokenSource.Token, Id, DotNetObjectReference,
                 Longitude, Latitude, Rotation, Map, Zoom, Scale,
-                ApiKey, mapType, Widgets, Graphics, SpatialReference, Constraints, Extent,
+                mapType, Widgets, Graphics, SpatialReference, Constraints, Extent,
                 EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions, ZIndex, Tilt);
             Rendering = false;
             MapRendered = true;

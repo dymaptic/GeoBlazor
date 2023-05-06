@@ -50,7 +50,7 @@ public partial class MapView : MapComponent
     ///     Handles OAuth authentication
     /// </summary>
     [Inject]
-    public OAuthAuthentication OAuthAuthentication { get; set; } = default!;
+    public AuthenticationManager AuthenticationManager { get; set; } = default!;
 
     /// <summary>
     ///     Boolean flag to identify if GeoBlazor is running in Blazor Server mode
@@ -105,8 +105,6 @@ public partial class MapView : MapComponent
     ///     Indicates that the pointer is currently down, to prevent updating the extent during this action.
     /// </summary>
     protected bool PointerDown;
-    private string? _apiKey;
-    private string? _appId;
     private SpatialReference? _spatialReference;
     private Dictionary<Guid, StringBuilder> _hitTestResults = new();
     private bool _renderCalled;
@@ -275,16 +273,8 @@ public partial class MapView : MapComponent
     /// </summary>
     protected string? ApiKey
     {
-        get => _apiKey;
-        set
-        {
-            _apiKey = value;
-
-            if (!string.IsNullOrWhiteSpace(_apiKey))
-            {
-                Configuration["ArcGISApiKey"] = value;
-            }
-        }
+        get => AuthenticationManager.ApiKey;
+        set => AuthenticationManager.ApiKey = value;
     }
     
     /// <summary>
@@ -292,16 +282,8 @@ public partial class MapView : MapComponent
     /// </summary>
     protected string? AppId
     {
-        get => _appId;
-        set
-        {
-            _appId = value;
-
-            if (!string.IsNullOrWhiteSpace(_appId))
-            {
-                Configuration["ArcGISAppId"] = value;
-            }
-        }
+        get => AuthenticationManager.AppId;
+        set => AuthenticationManager.AppId = value;
     }
 
     /// <summary>
@@ -2093,9 +2075,6 @@ public partial class MapView : MapComponent
     /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        ApiKey = Configuration["ArcGISApiKey"];
-        AppId = Configuration["ArcGISAppId"];
-
         AbortManager ??= new AbortManager(JsRuntime);
 
         if (!LoadOnRender && !_renderCalled)
@@ -2114,14 +2093,10 @@ public partial class MapView : MapComponent
             // the first render never has all the child components registered
             Rendering = false;
 
-            if (!string.IsNullOrEmpty(AppId))
+            await AuthenticationManager.Initialize();
+            if (!string.IsNullOrEmpty(AppId) && PromptForOAuthLogin == true)
             {
-                await OAuthAuthentication.Initialize();
-
-                if (PromptForOAuthLogin == true)
-                {
-                    await OAuthAuthentication.Login();
-                }
+                await AuthenticationManager.Login();
             }
             StateHasChanged();
 
@@ -2186,7 +2161,7 @@ public partial class MapView : MapComponent
 
             await ViewJsModule.InvokeVoidAsync("buildMapView", CancellationTokenSource.Token, Id,
                 DotNetObjectReference, Longitude, Latitude, Rotation, Map, Zoom, Scale,
-                ApiKey, mapType, Widgets, Graphics, SpatialReference, Constraints, Extent,
+                mapType, Widgets, Graphics, SpatialReference, Constraints, Extent,
                 EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions);
             Rendering = false;
             MapRendered = true;

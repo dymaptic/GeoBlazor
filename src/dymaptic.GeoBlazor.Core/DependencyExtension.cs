@@ -24,6 +24,6 @@ public static class DependencyExtension
         return serviceCollection.AddScoped<GeometryEngine>()
             .AddScoped<Projection>()
             .AddScoped<AbortManager>()
-            .AddScoped<OAuthAuthentication>();
+            .AddScoped<AuthenticationManager>();
     }
 }

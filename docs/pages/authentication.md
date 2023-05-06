@@ -55,11 +55,22 @@ and then store the `ClientId` in your application configuration as `ArcGISAppId`
 Users will be prompted to log in automatically on the first map load if you add `PromptForOAuthLogin="true"` to your `MapView`, 
 or you can use the `OAuthAuthentication.Login()` method to trigger the login prompt.
 
-```csharp
+```html
 <MapView PromptForOAuthLogin="true">
     <Map ArcGISDefaultBasemap="arcgis-topographic"></Map>
 </MapView>
 ```
+
+For ArcGIS Enterprise logins, you need to provide one more item in the application configuration, `ArcGISPortalUrl`. 
+This will ensure that when the OAuth login is triggered, the user is directed to the correct portal.
+
+```json
+{
+    "ArcGISAppId": "yourClientId",
+    "ArcGISPortalUrl": "https://arcgis.yourcompany.com"
+}
+```
+
 
 ### Pros
 
@@ -73,37 +84,26 @@ or you can use the `OAuthAuthentication.Login()` method to trigger the login pro
 - Requires registered ArcGIS Accounts for all users
 - Not currently supported for Blazor Hybrid in MAUI
 
-# Custom Token Injection
+# Authentication Manager Class
+
+The `AuthenticationManager` is a DI-injected class that handles all authentication for GeoBlazor. It is responsible for 
+both the Api Key and OAuth authentication methods. It also allows you to retrieve the current authentication token with 
+`GetCurrentToken` regardless of how that token was generated.
+
+## Custom Token Injection
 
 If you don't want to store a token long-term, or want to inject an API Key or OAuth token from a custom source, you can
-add the following code in `Program.cs`.
+simply set the value in `AuthenticationManager`
 
 ```csharp
-builder.Configuration.AddInMemoryCollection();
+authenticationManager.ApiKey = "yourKeyValue";
+//or
+authenticationManager.AppId = "yourClientId";
+// then call
+authenticationManager.Initialize();
 ```
 
-This allows you to not only read from `IConfiguration`, but also write to it. Next, set up your custom logic for
-retrieving
-an OAuth or API token. There is a simple example of OAuth code in
-[dymaptic.GeoBlazor.Core.Sample.Shared.Shared.MainLayout.razor](https://github.com/dymaptic/GeoBlazor/blob/develop/samples/dymaptic.GeoBlazor.Core.Sample.Shared/Shared/MainLayout.razor).
-
-Once you have the token, inject `IConfiguration` into your class, and set the value.
-
-```csharp
-@page "authenticate"
-@inject IConfiguration Configuration
-
-@code {
-    private void SetConfiguration(string yourKeyValue)
-    {
-        Configuration["ArcGISApiKey"] = yourKeyValue;
-    }
-}
-
-```
-
-Once the token is registered by one of these methods, it will be picked up automatically by every `MapView`
-and `SceneView`.
+Once the token is initialized, it will be picked up automatically by every `MapView`, `SceneView`, and logic component.
 
 ## Allow Default Esri Login
 

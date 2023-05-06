@@ -8,7 +8,7 @@ parent: Classes
 
 ## MissingAppIdException Class
 
-Exception thrown when an application calls [Initialize()](dymaptic.GeoBlazor.Core.Model.OAuthAuthentication.html#dymaptic.GeoBlazor.Core.Model.OAuthAuthentication.Initialize() 'dymaptic.GeoBlazor.Core.Model.OAuthAuthentication.Initialize()') without first setting an APP Id in the configuration.
+Exception thrown when an application calls [OAuthAuthentication.Initialize()](https://docs.microsoft.com/en-us/dotnet/api/OAuthAuthentication.Initialize#OAuthAuthentication_Initialize__ 'OAuthAuthentication.Initialize()') without first setting an APP Id in the configuration.
 
 ```csharp
 public class MissingAppIdException : System.Exception

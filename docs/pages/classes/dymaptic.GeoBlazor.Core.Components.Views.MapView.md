@@ -55,6 +55,19 @@ public System.Nullable<bool> AllowDefaultEsriLogin { get; set; }
 #### Property Value
 [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.AuthenticationManager'></a>
+
+## MapView.AuthenticationManager Property
+
+Handles OAuth authentication
+
+```csharp
+public dymaptic.GeoBlazor.Core.Model.AuthenticationManager AuthenticationManager { get; set; }
+```
+
+#### Property Value
+[AuthenticationManager](dymaptic.GeoBlazor.Core.Model.AuthenticationManager.html 'dymaptic.GeoBlazor.Core.Model.AuthenticationManager')
+
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.Center'></a>
 
 ## MapView.Center Property
@@ -228,19 +241,6 @@ public virtual dymaptic.GeoBlazor.Core.Components.Map? Map { get; set; }
 
 #### Property Value
 [Map](dymaptic.GeoBlazor.Core.Components.Map.html 'dymaptic.GeoBlazor.Core.Components.Map')
-
-<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OAuthAuthentication'></a>
-
-## MapView.OAuthAuthentication Property
-
-Handles OAuth authentication
-
-```csharp
-public dymaptic.GeoBlazor.Core.Model.OAuthAuthentication OAuthAuthentication { get; set; }
-```
-
-#### Property Value
-[OAuthAuthentication](dymaptic.GeoBlazor.Core.Model.OAuthAuthentication.html 'dymaptic.GeoBlazor.Core.Model.OAuthAuthentication')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnBlur'></a>
 

@@ -47,8 +47,6 @@ import * as reactiveUtils from "@arcgis/core/core/reactiveUtils";
 import BasemapLayerList from "@arcgis/core/widgets/BasemapLayerList";
 import FeatureLayerWrapper from "./featureLayer";
 
-import OAuthAuthenticationWrapper from "./authentication";
-
 import {
     buildDotNetExtent,
     buildDotNetFeature,
@@ -104,6 +102,7 @@ import HitTestResult = __esri.HitTestResult;
 import MapViewHitTestOptions = __esri.MapViewHitTestOptions;
 import LegendLayerInfos = __esri.LegendLayerInfos;
 import ScreenPoint = __esri.ScreenPoint;
+import AuthenticationManager from "./authenticationManager";
 
 export let arcGisObjectRefs: Record<string, Accessor> = {};
 export let graphicsRefs: Record<string, Graphic> = {};
@@ -157,19 +156,19 @@ export function getSerializedDotNetObject(id: string): any {
     return objectRef;
 }
 
-export function getProjectionWrapper(dotNetRef: any, apiKey: string): ProjectionWrapper {
-    let wrapper = new ProjectionWrapper(dotNetRef, apiKey);
+export function getProjectionWrapper(dotNetRef: any): ProjectionWrapper {
+    let wrapper = new ProjectionWrapper(dotNetRef);
     return wrapper;
 }
 
-export function getGeometryEngineWrapper(dotNetRef: any, apiKey: string): GeometryEngineWrapper {
-    let wrapper = new GeometryEngineWrapper(dotNetRef, apiKey);
+export function getGeometryEngineWrapper(dotNetRef: any): GeometryEngineWrapper {
+    let wrapper = new GeometryEngineWrapper(dotNetRef);
     return wrapper;
 }
 
 export async function buildMapView(id: string, dotNetReference: any, long: number | null, lat: number | null,
                                    rotation: number, mapObject: any, zoom: number | null, scale: number,
-                                   apiKey: string, mapType: string, widgets: any, graphics: any,
+                                   mapType: string, widgets: any, graphics: any,
                                    spatialReference: any, constraints: any, extent: any,
                                    eventRateLimitInMilliseconds: number | null, activeEventHandlers: Array<string>,
                                    isServer: boolean, highlightOptions?: any | null, zIndex?: number, tilt?: number)
@@ -189,9 +188,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
 
         checkConnectivity(id);
         dotNetRefs[id] = dotNetRef;
-        if (esriConfig.apiKey === undefined) {
-            esriConfig.apiKey = apiKey;
-        }
+        
         disposeView(id);
         let view: View;
 
@@ -2289,11 +2286,11 @@ export function encodeProtobufGraphics(graphics: any[]): Uint8Array {
     return encoded;
 }
 
-let _oauthWrapper:OAuthAuthenticationWrapper | null = null;
-export function getOAuthAuthenticationWrapper(doNetRef:any, appId: string, portalUrl?: string | null)
-    : OAuthAuthenticationWrapper {
-    if (_oauthWrapper == null) {
-        _oauthWrapper = new OAuthAuthenticationWrapper(doNetRef, appId, portalUrl);
+let _authenticationManager: AuthenticationManager | null = null;
+export function getAuthenticationManager(dotNetRef: any, apiKey: string | null, appId: string | null, 
+                                   portalUrl: string | null): AuthenticationManager {
+    if (_authenticationManager === null) {
+        _authenticationManager = new AuthenticationManager(dotNetRef, apiKey, appId, portalUrl);
     }
-    return _oauthWrapper
+    return _authenticationManager;
 }

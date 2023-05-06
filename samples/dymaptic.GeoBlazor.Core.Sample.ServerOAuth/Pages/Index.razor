@@ -1,6 +1,6 @@
 ﻿@page "/"
 @using dymaptic.GeoBlazor.Core.Model
-@inject OAuthAuthentication Authentication
+@inject AuthenticationManager AuthenticationManager
 
 <h1>Hello, GeoBlazor!</h1>
 <div>
@@ -12,7 +12,7 @@
 {
     if (!_isLoggedIn.Value)
     {
-        <button class="btn btn-primary" @onclick="async () => { await Authentication.Login(); }">Login</button>
+        <button class="btn btn-primary" @onclick="async () => { await AuthenticationManager.Login(); }">Login</button>
     }
     else
     {
@@ -33,13 +33,13 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        bool isNowLoggedIn = await Authentication.IsLoggedIn();
+        bool isNowLoggedIn = await AuthenticationManager.IsLoggedIn();
         if (_isLoggedIn != isNowLoggedIn)
         {
             _isLoggedIn = isNowLoggedIn;
             if (_isLoggedIn.Value)
             {
-                _token = await Authentication.GetCurrentToken();
+                _token = await AuthenticationManager.GetCurrentToken();
             }
             StateHasChanged();
         }
