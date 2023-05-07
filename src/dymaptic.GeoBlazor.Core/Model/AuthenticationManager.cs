@@ -34,7 +34,7 @@ public class AuthenticationManager
         {
             IJSObjectReference arcGisJsInterop = await GetArcGisJsInterop();
 
-            _module = await arcGisJsInterop.InvokeAsync<IJSObjectReference>("getIdentityManager",
+            _module = await arcGisJsInterop.InvokeAsync<IJSObjectReference>("getAuthenticationManager",
                 _cancellationTokenSource.Token, DotNetObjectReference.Create(this), ApiKey, AppId, PortalUrl);
         }
     }
