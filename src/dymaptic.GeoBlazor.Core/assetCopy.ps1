@@ -1,7 +1,7 @@
 ﻿$SourceFiles = "./node_modules/@arcgis/core/assets/*"
 $OutputDir = "./wwwroot/assets"
 
-If ((Get-Content "$OutputDir/ArcGISAssetsVersion.txt") -ne "4.26.2")
+If ((Get-Content "$OutputDir/ArcGISAssetsVersion.txt") -ne "4.26.5")
 {
     Write-Output "Deleting old assets"
     Remove-Item './wwwroot/assets/*' -Recurse -Verbose
@@ -22,7 +22,7 @@ If ((Test-Path -Path './wwwroot/assets/*') -eq $false)
         pause
     }
 
-    Write-Output "4.26.2" | Out-File -FilePath "$OutputDir/ArcGISAssetsVersion.txt"
+    Write-Output "4.26.5" | Out-File -FilePath "$OutputDir/ArcGISAssetsVersion.txt"
 }
 Else
 {

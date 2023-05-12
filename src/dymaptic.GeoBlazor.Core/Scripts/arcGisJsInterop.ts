@@ -1864,8 +1864,16 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             }
             break;
         case 'tile':
-            let portalItem = buildJsPortalItem(layerObject.portalItem);
-            newLayer = new TileLayer({portalItem: portalItem});
+            if (hasValue(layerObject.portalItem)) {
+                let portalItem = buildJsPortalItem(layerObject.portalItem);
+
+                newLayer = new TileLayer({portalItem: portalItem});
+            } else {
+                newLayer = new TileLayer({
+                    url: layerObject.url
+                });
+            }
+            copyValuesIfExists(layerObject, newLayer, 'minScale', 'maxScale', 'opacity');
             break;
         case 'elevation':
             if (hasValue(layerObject.portalItem)) {

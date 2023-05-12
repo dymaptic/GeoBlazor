@@ -312,6 +312,15 @@ public partial class MapView : MapComponent
     }
 
     /// <summary>
+    ///     JS-Invokable method to generate a new GUID Id
+    /// </summary>
+    [JSInvokable]
+    public string GetId()
+    {
+        return Guid.NewGuid().ToString();
+    }
+
+    /// <summary>
     ///     Implement this handler in your calling code to catch and handle Javascript errors.
     /// </summary>
     [Parameter]
@@ -2145,8 +2154,14 @@ public partial class MapView : MapComponent
                 DotNetObjectReference, Longitude, Latitude, Rotation, Map, Zoom, Scale,
                 ApiKey, mapType, Widgets, Graphics, SpatialReference, Constraints, Extent,
                 EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions);
+
             Rendering = false;
             MapRendered = true;
+            
+            foreach (Widget widget in Widgets.Where(w => !w.GetType().Namespace!.Contains("Core")))
+            {
+                await AddWidget(widget);
+            }
         });
     }
 

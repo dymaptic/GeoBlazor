@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace dymaptic.GeoBlazor.Core.Serialization;
 
-internal class EnumToKebabCaseStringConverter<T> : JsonConverter<T> where T : notnull
+public class EnumToKebabCaseStringConverter<T> : JsonConverter<T> where T : notnull
 {
     public override T Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
