@@ -13,7 +13,7 @@ Get-ChildItem -Path $SourcePath -Filter "*.md" |
             $Title = $NameComponents[-1];
             $Folder = $NameComponents[-2];
             Write-Output "- $_.BaseName"
-            "$( $FrontMatter )$( $_.BaseName -eq 'index' ? $Index : $Title )$( $Parent )Classes$( $EndMatter )$( Get-Content $_.FullName -raw )" -replace '.md', '.html' |
+            "$( $FrontMatter )$( $_.BaseName -eq 'index' ? $Index : $Title )$( $Parent )Classes$( $EndMatter )$( Get-Content $_.FullName -raw )" -replace '.md', '.html' -replace '>[\s]*ArcGIS[\s]*JS API[\s]*</a>', '>ArcGIS JS API</a>' |
                     Out-File $_.FullName -Encoding utf8NoBOM;
             Copy-Item -Path $_.FullName -Destination "$( $OutPath )" -Force
         }

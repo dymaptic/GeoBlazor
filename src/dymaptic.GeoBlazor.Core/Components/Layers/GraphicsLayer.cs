@@ -330,6 +330,9 @@ public class GraphicsLayer : Layer
         }
     }
     
+    /// <summary>
+    ///    Registers a set of graphics that were created from JavaScript
+    /// </summary>
     public void RegisterExistingGraphicsFromJavaScript(IEnumerable<Graphic> graphics)
     {
         foreach (Graphic graphic in graphics)

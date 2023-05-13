@@ -5,8 +5,15 @@ using System.Text.Json.Serialization;
 
 namespace dymaptic.GeoBlazor.Core.Serialization;
 
+/// <summary>
+///     Converts an enum to a kebab case string for serialization.
+/// </summary>
+/// <typeparam name="T">
+///     The enum type to convert.
+/// </typeparam>
 public class EnumToKebabCaseStringConverter<T> : JsonConverter<T> where T : notnull
 {
+    /// <inheritdoc />
     public override T Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         string? value = reader.GetString()
@@ -26,6 +33,7 @@ public class EnumToKebabCaseStringConverter<T> : JsonConverter<T> where T : notn
         }
     }
 
+    /// <inheritdoc />
     public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
     {
         string? stringVal = Enum.GetName(typeof(T), value);

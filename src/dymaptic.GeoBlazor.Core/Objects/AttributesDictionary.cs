@@ -8,13 +8,11 @@ using System.Text.Json.Serialization;
 namespace dymaptic.GeoBlazor.Core.Objects;
 
 /// <summary>
-///     Observable Dictionary
+///     Dictionary of Graphic Attributes that can be asynchronously updated
 /// </summary>
 [JsonConverter(typeof(AttributesDictionaryConverter))]
 public class AttributesDictionary : IEquatable<AttributesDictionary>
 {
-    private readonly Dictionary<string, object> _backingDictionary;
-
     /// <summary>
     ///     Constructor
     /// </summary>
@@ -58,76 +56,66 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
             }
         }
     }
-    
+
+    /// <summary>
+    ///     Implicit conversion from <see cref="Dictionary{TKey,TValue}"/> to AttributesDictionary.
+    ///     This is only provided for backwards compatibility and may be removed in a future release.
+    /// </summary>
     [Obsolete("Using a Dictionary<string, object> for attributes is deprecated. Use an AttributesDictionary(Dictionary<string, object> dictionary) instead.")]
     public static implicit operator AttributesDictionary(Dictionary<string, object> dictionary)
     {
-        Debug.WriteLine("Using a Dictionary<string, object> for attributes is deprecated. Use an AttributesDictionary(Dictionary<string, object> dictionary) instead.");
+        Debug.WriteLine(
+            "Using a Dictionary<string, object> for attributes is deprecated. Use an AttributesDictionary(Dictionary<string, object> dictionary) instead.");
+
         return new AttributesDictionary(dictionary);
     }
-    
+
+    /// <summary>
+    ///    Implicit conversion from AttributesDictionary to <see cref="Dictionary{TKey,TValue}"/>.
+    /// </summary>
     public static explicit operator Dictionary<string, object>(AttributesDictionary attributesDictionary)
     {
         return attributesDictionary._backingDictionary;
     }
 
-    [JsonIgnore]
-    public EventCallback OnChange { get; set; }
-    
-    public int Count => _backingDictionary.Count;
-    
-    public bool TryGetValue(string key, out object? value) => _backingDictionary.TryGetValue(key, out value);
-    
-    public async Task AddOrUpdate(string key, object value)
-    {
-        _backingDictionary[key] = value;
-
-        await OnChange.InvokeAsync();
-    }
-
-    public async Task Remove(string key)
-    {
-        _backingDictionary.Remove(key);
-
-        await OnChange.InvokeAsync();
-    }
-
-    public async Task Clear()
-    {
-        _backingDictionary.Clear();
-
-        await OnChange.InvokeAsync();
-    }
-    
-    public object this[string key] => _backingDictionary[key];
-    
-    public Dictionary<string, object>.KeyCollection Keys => _backingDictionary.Keys;
-    
-    public Dictionary<string, object>.ValueCollection Values => _backingDictionary.Values;
-
-    public bool ContainsKey(string key) => _backingDictionary.ContainsKey(key);
-    
-    public bool ContainsValue(object value) => _backingDictionary.ContainsValue(value);
-
-    internal AttributeSerializationRecord[] ToSerializationRecord()
-    {
-        return _backingDictionary
-            .Select(kvp =>
-                new AttributeSerializationRecord(kvp.Key, kvp.Value.ToString(), 
-                    kvp.Value.GetType().ToString()))
-            .ToArray();
-    }
-
+    /// <summary>
+    ///     Equality operator
+    /// </summary>
     public static bool operator ==(AttributesDictionary left, AttributesDictionary right)
     {
         return Equals(left, right);
     }
 
+    /// <summary>
+    ///     Inequality operator
+    /// </summary>
     public static bool operator !=(AttributesDictionary? left, AttributesDictionary? right)
     {
         return !Equals(left, right);
     }
 
+    /// <summary>
+    ///    Event that is fired when an attribute is added, updated or removed
+    /// </summary>
+    [JsonIgnore]
+    public EventCallback OnChange { get; set; }
+
+    /// <summary>
+    ///     The number of attribute entries in the dictionary
+    /// </summary>
+    public int Count => _backingDictionary.Count;
+
+    /// <summary>
+    ///     Returns all the keys in the dictionary
+    /// </summary>
+    public Dictionary<string, object>.KeyCollection Keys => _backingDictionary.Keys;
+
+    /// <summary>
+    ///     Returns all the values in the dictionary
+    /// </summary>
+    public Dictionary<string, object>.ValueCollection Values => _backingDictionary.Values;
+
+    /// <inheritdoc />
     public bool Equals(AttributesDictionary? other)
     {
         if (ReferenceEquals(null, other)) return false;
@@ -149,6 +137,91 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
         return true;
     }
 
+    /// <summary>
+    ///     Attempts to get the value associated with the specified key from the dictionary.
+    /// </summary>
+    /// <param name="key">
+    ///     The key to search for
+    /// </param>
+    /// <param name="value">
+    ///     Out parameter for the found value, if any. If not found, returns the default value for the type.
+    /// </param>
+    /// <returns>
+    ///     True if the key was found, false otherwise.
+    /// </returns>
+    public bool TryGetValue(string key, out object? value)
+    {
+        return _backingDictionary.TryGetValue(key, out value);
+    }
+
+    /// <summary>
+    ///     Adds or updates the value associated with the specified key.
+    /// </summary>
+    /// <param name="key">
+    ///     The key to add or update
+    /// </param>
+    /// <param name="value">
+    ///     The value to add or update
+    /// </param>
+    public async Task AddOrUpdate(string key, object value)
+    {
+        _backingDictionary[key] = value;
+
+        await OnChange.InvokeAsync();
+    }
+
+    /// <summary>
+    ///     Removes the value associated with the specified key.
+    /// </summary>
+    /// <param name="key">
+    ///    The key to remove
+    /// </param>
+    public async Task Remove(string key)
+    {
+        _backingDictionary.Remove(key);
+
+        await OnChange.InvokeAsync();
+    }
+
+    /// <summary>
+    ///     Removes all keys and values from the dictionary.
+    /// </summary>
+    public async Task Clear()
+    {
+        _backingDictionary.Clear();
+
+        await OnChange.InvokeAsync();
+    }
+
+    /// <summary>
+    ///     Determines whether the dictionary contains the specified key.
+    /// </summary>
+    /// <param name="key">
+    ///     The key to locate in the dictionary
+    /// </param>
+    /// <returns>
+    ///     True if the key was found, false otherwise.
+    /// </returns>
+    public bool ContainsKey(string key)
+    {
+        return _backingDictionary.ContainsKey(key);
+    }
+
+    /// <summary>
+    ///     Determines whether the dictionary contains the specified value.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to locate in the dictionary
+    /// </param>
+    /// <returns>
+    ///     True if the value was found, false otherwise.
+    /// </returns>
+    public bool ContainsValue(object value)
+    {
+        return _backingDictionary.ContainsValue(value);
+    }
+
+    /// <inheritdoc />
     public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
@@ -158,6 +231,9 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
         return Equals((AttributesDictionary)obj);
     }
 
+    /// <summary>
+    ///   Determines whether the dictionary contains the same keys and values as the specified dictionary.
+    /// </summary>
     public bool Equals(Dictionary<string, object> otherDictionary)
     {
         if (otherDictionary.Count != Count) return false;
@@ -172,10 +248,30 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
         return true;
     }
 
+    /// <inheritdoc />
     public override int GetHashCode()
     {
         return base.GetHashCode();
     }
+
+    internal AttributeSerializationRecord[] ToSerializationRecord()
+    {
+        return _backingDictionary
+            .Select(kvp =>
+                new AttributeSerializationRecord(kvp.Key, kvp.Value.ToString(),
+                    kvp.Value.GetType().ToString()))
+            .ToArray();
+    }
+
+    private readonly Dictionary<string, object> _backingDictionary;
+
+    /// <summary>
+    ///    Gets or the value associated with the specified key.
+    /// </summary>
+    /// <param name="key">
+    ///     The key to get the value for
+    /// </param>
+    public object this[string key] => _backingDictionary[key];
 }
 
 [ProtoContract(Name = "Attribute")]
@@ -184,10 +280,12 @@ internal record AttributeSerializationRecord([property: ProtoMember(1)] string K
 
 internal class AttributesDictionaryConverter : JsonConverter<AttributesDictionary>
 {
-    public override AttributesDictionary? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    public override AttributesDictionary? Read(ref Utf8JsonReader reader, Type typeToConvert,
+        JsonSerializerOptions options)
     {
         // read as a dictionary
-        Dictionary<string, object>? dictionary = JsonSerializer.Deserialize<Dictionary<string, object>>(ref reader, options);
+        Dictionary<string, object>? dictionary =
+            JsonSerializer.Deserialize<Dictionary<string, object>>(ref reader, options);
 
         if (dictionary is null)
         {
@@ -200,7 +298,8 @@ internal class AttributesDictionaryConverter : JsonConverter<AttributesDictionar
     public override void Write(Utf8JsonWriter writer, AttributesDictionary value, JsonSerializerOptions options)
     {
         writer.WriteStartArray();
-        foreach (var entry in (Dictionary<string, object>)value)
+
+        foreach (KeyValuePair<string, object> entry in (Dictionary<string, object>)value)
         {
             writer.WriteStartObject();
             writer.WriteString("key", entry.Key);
@@ -208,6 +307,7 @@ internal class AttributesDictionaryConverter : JsonConverter<AttributesDictionar
             writer.WriteString("valueType", entry.Value.GetType().ToString());
             writer.WriteEndObject();
         }
+
         writer.WriteEndArray();
     }
 }
