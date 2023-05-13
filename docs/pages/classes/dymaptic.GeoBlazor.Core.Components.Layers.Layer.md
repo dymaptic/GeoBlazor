@@ -11,10 +11,7 @@ parent: Classes
 The layer is the most fundamental component of a Map. It is a collection of spatial data in the form of vector  
 graphics or raster images that represent real-world phenomena. Layers may contain discrete features that store  
 vector data or continuous cells/pixels that store raster data.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html">ArcGIS JS API</a>
 
 ```csharp
 public abstract class Layer : dymaptic.GeoBlazor.Core.Components.MapComponent

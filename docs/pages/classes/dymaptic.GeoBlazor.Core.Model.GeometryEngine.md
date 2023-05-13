@@ -11,10 +11,7 @@ parent: Classes
 A client-side geometry engine for testing, measuring, and analyzing the spatial relationship between two or more 2D  
 geometries. If more than one geometry is required for any of the methods below, all geometries must have the same  
 spatial reference for the methods to work as expected.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-geometryEngine.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-geometryEngine.html">ArcGIS JS API</a>
 
 ```csharp
 public class GeometryEngine : dymaptic.GeoBlazor.Core.Model.LogicComponent
@@ -330,6 +327,33 @@ The envelope used to clip.
 #### Returns
 [System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[Geometry](dymaptic.GeoBlazor.Core.Components.Geometries.Geometry.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Geometry')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
 Clipped geometry.
+
+<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.Clone_T_(T)'></a>
+
+## GeometryEngine.Clone<T>(T) Method
+
+Creates a deep clone of the geometry.
+
+```csharp
+public System.Threading.Tasks.Task<T> Clone<T>(T geometry)
+    where T : dymaptic.GeoBlazor.Core.Components.Geometries.Geometry;
+```
+#### Type parameters
+
+<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.Clone_T_(T).T'></a>
+
+`T`
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.Clone_T_(T).geometry'></a>
+
+`geometry` [T](dymaptic.GeoBlazor.Core.Model.GeometryEngine.html#dymaptic.GeoBlazor.Core.Model.GeometryEngine.Clone_T_(T).T 'dymaptic.GeoBlazor.Core.Model.GeometryEngine.Clone<T>(T).T')
+
+#### Returns
+[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[T](dymaptic.GeoBlazor.Core.Model.GeometryEngine.html#dymaptic.GeoBlazor.Core.Model.GeometryEngine.Clone_T_(T).T 'dymaptic.GeoBlazor.Core.Model.GeometryEngine.Clone<T>(T).T')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')
+
+### Remarks
+Unlike the Clone methods in the Geometry classes, this method does a loop through the ArcGIS JS SDK. Therefore, if you are having issues with unpopulated fields in the geometry, try using this method instead.
 
 <a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.Contains(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,dymaptic.GeoBlazor.Core.Components.Geometries.Geometry)'></a>
 
@@ -751,27 +775,6 @@ A JSON representation of the instance in the ArcGIS format. See the <a target="_
 #### Returns
 [System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[T](dymaptic.GeoBlazor.Core.Model.GeometryEngine.html#dymaptic.GeoBlazor.Core.Model.GeometryEngine.FromArcGisJson_T_(string).T 'dymaptic.GeoBlazor.Core.Model.GeometryEngine.FromArcGisJson<T>(string).T')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
 Returns a new geometry instance.
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.FromExtent(dymaptic.GeoBlazor.Core.Components.Geometries.Extent)'></a>
-
-## GeometryEngine.FromExtent(Extent) Method
-
-Converts the given Extent to a Polygon instance. This is useful for scenarios in which you would like to display an area of interest, which is typically defined by an Extent or bounding box, as a polygon with a fill symbol in the view. Some geoprocessing tools require input geometries to be of a Polygon type and not an Extent.
-
-```csharp
-public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Geometries.Polygon> FromExtent(dymaptic.GeoBlazor.Core.Components.Geometries.Extent extent);
-```
-#### Parameters
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.FromExtent(dymaptic.GeoBlazor.Core.Components.Geometries.Extent).extent'></a>
-
-`extent` [Extent](dymaptic.GeoBlazor.Core.Components.Geometries.Extent.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Extent')
-
-An extent object to convert to a polygon.
-
-#### Returns
-[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[Polygon](dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Polygon')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
-A polygon instance representing the given extent.
 
 <a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.Generalize(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,double,System.Nullable_bool_,System.Nullable_dymaptic.GeoBlazor.Core.Objects.LinearUnit_)'></a>
 
@@ -1242,18 +1245,24 @@ The geometry being intersected.
 [System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
 Returns true if the input geometries intersect each other.
 
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.IsClockwise(dymaptic.GeoBlazor.Core.Components.Geometries.Point[])'></a>
+<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.IsClockwise(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon,dymaptic.GeoBlazor.Core.Components.Geometries.Point[])'></a>
 
-## GeometryEngine.IsClockwise(Point[]) Method
+## GeometryEngine.IsClockwise(Polygon, Point[]) Method
 
 Checks if a Polygon ring is clockwise
 
 ```csharp
-public System.Threading.Tasks.Task<bool> IsClockwise(dymaptic.GeoBlazor.Core.Components.Geometries.Point[] ring);
+public System.Threading.Tasks.Task<bool> IsClockwise(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon polygon, dymaptic.GeoBlazor.Core.Components.Geometries.Point[] ring);
 ```
 #### Parameters
 
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.IsClockwise(dymaptic.GeoBlazor.Core.Components.Geometries.Point[]).ring'></a>
+<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.IsClockwise(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon,dymaptic.GeoBlazor.Core.Components.Geometries.Point[]).polygon'></a>
+
+`polygon` [Polygon](dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Polygon')
+
+The polygon to check the ring on.
+
+<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.IsClockwise(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon,dymaptic.GeoBlazor.Core.Components.Geometries.Point[]).ring'></a>
 
 `ring` [Point](dymaptic.GeoBlazor.Core.Components.Geometries.Point.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Point')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')
 
@@ -1263,18 +1272,24 @@ A polygon ring defined as an array of [Point](dymaptic.GeoBlazor.Core.Components
 [System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
 Returns true if the ring is clockwise and false for counterclockwise.
 
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.IsClockwise(dymaptic.GeoBlazor.Core.Objects.MapPath)'></a>
+<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.IsClockwise(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon,dymaptic.GeoBlazor.Core.Objects.MapPath)'></a>
 
-## GeometryEngine.IsClockwise(MapPath) Method
+## GeometryEngine.IsClockwise(Polygon, MapPath) Method
 
 Checks if a Polygon ring is clockwise
 
 ```csharp
-public System.Threading.Tasks.Task<bool> IsClockwise(dymaptic.GeoBlazor.Core.Objects.MapPath ring);
+public System.Threading.Tasks.Task<bool> IsClockwise(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon polygon, dymaptic.GeoBlazor.Core.Objects.MapPath ring);
 ```
 #### Parameters
 
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.IsClockwise(dymaptic.GeoBlazor.Core.Objects.MapPath).ring'></a>
+<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.IsClockwise(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon,dymaptic.GeoBlazor.Core.Objects.MapPath).polygon'></a>
+
+`polygon` [Polygon](dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Polygon')
+
+The polygon to check the ring on.
+
+<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.IsClockwise(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon,dymaptic.GeoBlazor.Core.Objects.MapPath).ring'></a>
 
 `ring` [MapPath](dymaptic.GeoBlazor.Core.Objects.MapPath.html 'dymaptic.GeoBlazor.Core.Objects.MapPath')
 
@@ -1565,7 +1580,7 @@ The offset geometries.
 Modifies the extent geometry in-place with X and Y offsets in map units.
 
 ```csharp
-public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Geometries.Extent> OffsetExtent(dymaptic.GeoBlazor.Core.Components.Geometries.Extent extent, double dx, double dy, double dz);
+public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Geometries.Extent> OffsetExtent(dymaptic.GeoBlazor.Core.Components.Geometries.Extent extent, double dx, double dy, double dz=0.0);
 ```
 #### Parameters
 
@@ -1684,6 +1699,27 @@ Measurement unit of the return value. Defaults to the units of the input geometr
 #### Returns
 [System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
 The length of the input geometry.
+
+<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.PolygonFromExtent(dymaptic.GeoBlazor.Core.Components.Geometries.Extent)'></a>
+
+## GeometryEngine.PolygonFromExtent(Extent) Method
+
+Converts the given Extent to a Polygon instance. This is useful for scenarios in which you would like to display an area of interest, which is typically defined by an Extent or bounding box, as a polygon with a fill symbol in the view. Some geoprocessing tools require input geometries to be of a Polygon type and not an Extent.
+
+```csharp
+public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Geometries.Polygon> PolygonFromExtent(dymaptic.GeoBlazor.Core.Components.Geometries.Extent extent);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.PolygonFromExtent(dymaptic.GeoBlazor.Core.Components.Geometries.Extent).extent'></a>
+
+`extent` [Extent](dymaptic.GeoBlazor.Core.Components.Geometries.Extent.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Extent')
+
+An extent object to convert to a polygon.
+
+#### Returns
+[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[Polygon](dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Polygon')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
+A polygon instance representing the given extent.
 
 <a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.Relate(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,string)'></a>
 

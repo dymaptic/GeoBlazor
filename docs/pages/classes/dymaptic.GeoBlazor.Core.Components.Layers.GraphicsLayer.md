@@ -11,10 +11,7 @@ parent: Classes
 A GraphicsLayer contains one or more client-side Graphics. Each graphic in the GraphicsLayer is rendered in a  
 LayerView inside either a SceneView or a MapView. The graphics contain discrete vector geometries that represent  
 real-world phenomena.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GraphicsLayer.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GraphicsLayer.html">ArcGIS JS API</a>
 
 ```csharp
 public class GraphicsLayer : dymaptic.GeoBlazor.Core.Components.Layers.Layer

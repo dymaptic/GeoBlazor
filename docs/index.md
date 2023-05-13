@@ -14,11 +14,11 @@ application with the full power of ArcGIS.
 - [Getting Started](pages/gettingStarted) - How to set up your first GeoBlazor application
 - [Features](pages/features) - Available features supported by GeoBlazor
 - [Authentication](pages/authentication) - Advanced options for authenticating with ArcGIS
-- [Managing Extent](pages/managingExtent) - Methods to set and retrieve the extent of a view in GeoBlazor
-- [Custom Graphics](pages/customGraphics) - Customizing your graphics with GeoBlazor
+- [GeometryEngine](pages/geometryEngine) - Methods to perform geometric operations in GeoBlazor
+- [Managing View Extent](pages/managingExtent) - Methods to set and retrieve the extent of a view in GeoBlazor
+- [Custom Graphics](pages/customGraphics) - Customizing and updating your graphics with GeoBlazor
 - [Events and Property Changes](pages/reactive) - Methods to listen for event and property changes in GeoBlazor
 - [Queries and Hit Test](pages/hitTestAndQueries) - A variety of queries supported by GeoBlazor
-- [Managing Extent](pages/managingExtent) - Methods to set and retrieve the extent of a view in GeoBlazor
 - [Asset Files](pages/assetFiles) - Description of default and customized asset loading
 - [Blazor Hybrid in MAUI](pages/maui) - How to use GeoBlazor with the Blazor Hybrid MAUI templates
 - [Full API Documentation](pages/classes/index) - Detailed technical specification for GeoBlazor types and classes

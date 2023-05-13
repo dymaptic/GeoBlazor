@@ -12,10 +12,7 @@ WebTileLayer provides a simple way to add non-ArcGIS Server map tiles as a layer
 URL template that usually follows a pattern of http://some.domain.com/{level}/{col}/{row}/ where level corresponds  
 to a zoom level, and column and row represent tile column and row, respectively. This pattern is not required, but  
 is the most common one currently on the web.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WebTileLayer.html#urlTemplate">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WebTileLayer.html#urlTemplate">ArcGIS JS API</a>
 
 ```csharp
 public class WebTileLayer : dymaptic.GeoBlazor.Core.Components.Layers.Layer

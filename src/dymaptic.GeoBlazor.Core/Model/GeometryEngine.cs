@@ -1008,6 +1008,17 @@ public class GeometryEngine : LogicComponent
     {
         return await InvokeAsync<string>("toJSON", geometry);
     }
+    
+    /// <summary>
+    ///     Creates a deep clone of the geometry.
+    /// </summary>
+    /// <remarks>
+    ///     Unlike the Clone methods in the Geometry classes, this method does a loop through the ArcGIS JS SDK. Therefore, if you are having issues with unpopulated fields in the geometry, try using this method instead.
+    /// </remarks>
+    public async Task<T> Clone<T>(T geometry) where T : Geometry
+    {
+        return await InvokeAsync<T>("clone", geometry);
+    }
 
     /// <summary>
     ///     Centers the given extent to the given point, and returns a new extent.
@@ -1282,7 +1293,7 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     A polygon instance representing the given extent.
     /// </returns>
-    public async Task<Polygon> FromExtent(Extent extent)
+    public async Task<Polygon> PolygonFromExtent(Extent extent)
     {
         return await InvokeAsync<Polygon>("fromExtent", extent);
     }
@@ -1329,38 +1340,44 @@ public class GeometryEngine : LogicComponent
     {
         return await InvokeAsync<Polygon>("insertPointOnPolygon", polygon, ringIndex, pointIndex, point);
     }
-    
+
     /// <summary>
     ///     Checks if a Polygon ring is clockwise
     /// </summary>
+    /// <param name="polygon">
+    ///     The polygon to check the ring on.
+    /// </param>
     /// <param name="ring">
     ///     A polygon ring defined as a <see cref="MapPath"/>. The first and last coordinates/points in the ring must be the same.
     /// </param>
     /// <returns>
     ///     Returns true if the ring is clockwise and false for counterclockwise.
     /// </returns>
-    public async Task<bool> IsClockwise(MapPath ring)
+    public async Task<bool> IsClockwise(Polygon polygon, MapPath ring)
     {
-        return await InvokeAsync<bool>("isClockwise", ring);
+        return await InvokeAsync<bool>("isClockwise", polygon, ring);
     }
     
     /// <summary>
     ///    Checks if a Polygon ring is clockwise
     /// </summary>
+    /// <param name="polygon">
+    ///     The polygon to check the ring on.
+    /// </param>
     /// <param name="ring">
     ///     A polygon ring defined as an array of <see cref="Point"/>s. The first and last coordinates/points in the ring must be the same.
     /// </param>
     /// <returns>
     ///     Returns true if the ring is clockwise and false for counterclockwise.
     /// </returns>
-    public async Task<bool> IsClockwise(Point[] ring)
+    public async Task<bool> IsClockwise(Polygon polygon, Point[] ring)
     {
         List<MapPoint> mapPoints = new List<MapPoint>();
         foreach (Point p in ring)
         {
             mapPoints.Add(new MapPoint(p.X!.Value, p.Y!.Value));
         }
-        return await IsClockwise(new MapPath(mapPoints));
+        return await IsClockwise(polygon, new MapPath(mapPoints));
     }
     
     /// <summary>

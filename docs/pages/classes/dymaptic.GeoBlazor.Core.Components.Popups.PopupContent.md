@@ -9,10 +9,7 @@ parent: Classes
 ## PopupContent Class
 
 Abstract base class, PopupContent elements define what should display within the PopupTemplate content.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-Content.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-Content.html">ArcGIS JS API</a>
 
 ```csharp
 public abstract class PopupContent : dymaptic.GeoBlazor.Core.Components.MapComponent

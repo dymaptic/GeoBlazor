@@ -12,10 +12,7 @@ The Top-Level Map Component Container.
 A MapView displays a 2D view of a Map instance. An instance of MapView must be created to render a Map (along with  
 its operational and base layers) in 2D. To render a map and its layers in 3D, see the documentation for SceneView.  
 For a general overview of views, see View.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">ArcGIS JS API</a>
 
 ```csharp
 public class MapView : dymaptic.GeoBlazor.Core.Components.MapComponent

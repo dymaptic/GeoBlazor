@@ -9,10 +9,7 @@ parent: Classes
 ## ExpandWidget Class
 
 The Expand widget acts as a clickable button for opening a widget.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Expand.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Expand.html">ArcGIS JS API</a>
 
 ```csharp
 public class ExpandWidget : dymaptic.GeoBlazor.Core.Components.Widgets.Widget

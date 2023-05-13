@@ -9,10 +9,7 @@ parent: Classes
 ## FieldInfo Class
 
 The FieldInfo class defines how a Field participates, or in some cases, does not participate, in a PopupTemplate.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-FieldInfo.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-FieldInfo.html">ArcGIS JS API</a>
 
 ```csharp
 public class FieldInfo : dymaptic.GeoBlazor.Core.Components.MapComponent,

@@ -9,10 +9,7 @@ parent: Classes
 ## LineChartMediaInfo Class
 
 A LineChartMediaInfo is a type of chart media element that represents a line chart displayed within a popup.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-LineChartMediaInfo.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-LineChartMediaInfo.html">ArcGIS JS API</a>
 
 ```csharp
 public class LineChartMediaInfo : dymaptic.GeoBlazor.Core.Components.Popups.MediaInfo

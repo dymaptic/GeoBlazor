@@ -9,10 +9,7 @@ parent: Classes
 ## ImageMediaInfo Class
 
 An ImageMediaInfo is a type of media element that represents images to display within a popup.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-ImageMediaInfo.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-ImageMediaInfo.html">ArcGIS JS API</a>
 
 ```csharp
 public class ImageMediaInfo : dymaptic.GeoBlazor.Core.Components.Popups.MediaInfo

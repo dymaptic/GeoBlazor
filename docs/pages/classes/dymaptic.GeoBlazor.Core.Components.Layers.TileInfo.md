@@ -10,10 +10,7 @@ parent: Classes
 
 Contains information about the tiling scheme for TileLayers, ElevationLayers, ImageryTileLayers, VectorTileLayers,  
 and WebTileLayers.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TileInfo.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TileInfo.html">ArcGIS JS API</a>
 
 ```csharp
 public class TileInfo : dymaptic.GeoBlazor.Core.Components.MapComponent

@@ -14,10 +14,7 @@ which can return a FeatureSet containing features within a group. For example, y
 queryTopFeatures() method to query the most populous three counties in each state of the United States.  
 This class has many of the same properties as Query class. However, unlike the Query class, this class does not  
 support properties such as outStatistics and its related parameters or returnDistinctValues.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFeaturesQuery.html">  
-    ArcGIS  
-    JS API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFeaturesQuery.html">ArcGIS JS API</a>
 
 ```csharp
 public class TopFeaturesQuery

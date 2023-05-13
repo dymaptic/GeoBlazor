@@ -1,7 +1,7 @@
 ---
 layout: page
 title: "Queries and Hit Tests"
-nav_order: 8
+nav_order: 9
 ---
 
 # Queries and Hit Tests

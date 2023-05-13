@@ -544,6 +544,17 @@ export default class GeometryEngineWrapper {
         }
     }
     
+    async clone(geometry: DotNetGeometry): Promise<DotNetGeometry | null> {
+        try {
+            let jsGeometry = buildJsGeometry(geometry) as Geometry;
+            let clonedGeometry = jsGeometry.clone();
+            return buildDotNetGeometry(clonedGeometry);
+        } catch (error) {
+            this.logError(error);
+            return null;
+        }
+    }
+    
     async centerExtentAt(extent: DotNetExtent, center: DotNetPoint): Promise<DotNetExtent | null> {
         try {
             let jsExtent = buildJsExtent(extent, null) as Extent;
@@ -718,6 +729,17 @@ export default class GeometryEngineWrapper {
             let jsPoint = buildJsPoint(point) as Point;
             let newPolygon = jsPolygon.insertPoint(ringIndex, pointIndex, jsPoint);
             return buildDotNetPolygon(newPolygon);
+        } catch (error) {
+            this.logError(error);
+            return null;
+        }
+    }
+    
+    
+    async isClockwise(polygon: DotNetPolygon, ring: any) : Promise<boolean | null> {
+        try {
+            let jsPolygon = buildJsPolygon(polygon) as Polygon;
+            return jsPolygon.isClockwise(ring);
         } catch (error) {
             this.logError(error);
             return null;

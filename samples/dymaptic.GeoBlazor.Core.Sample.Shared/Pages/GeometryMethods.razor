@@ -4,26 +4,6 @@
 <h1>Geometry Methods</h1>
 
 <div class="form-group" style="border: 1px solid black; padding: 0.5rem;">
-    <h2>JSON Conversions</h2>
-    <code>Point point = new Point(longitude: -117.08, latitude: 34.1)</code>
-    <br/>
-    <label>
-        Point to JSON: <button @onclick="PointToJson">Convert</button>
-    </label>
-    <br/>
-    <label>
-        JSON: <code>@_pointJson</code>
-    </label>
-    <br/>
-    <label>
-        JSON to Point: <button disabled="@(_pointJson is null)" @onclick="JsonToPoint">Convert</button>
-    </label>
-    <br/>
-    <label>
-        C# Point: <code>@_jsonToPointSuccess</code>
-    </label>
-</div>
-<div class="form-group" style="border: 1px solid black; padding: 0.5rem;">
     <h2>Extent Methods</h2>
     <code>Extent extent = new Extent(xmax: 4120960.074670904, xmin: -3412935.278412999, ymax: 8963926.222211033, ymin: 6049459.93475111)</code>
     <br/>
@@ -52,6 +32,98 @@
     <br/>
     <label>
         Offset Extent: <code>@_offsetExtent</code>
+    </label>
+</div>
+<div class="form-group" style="border: 1px solid black; padding: 0.5rem;">
+    <h2>Point Methods</h2>
+    <p><i>JSON methods are avaible for all geometry types</i></p>
+    <code>Point point = new Point(longitude: -117.08, latitude: 34.1)</code>
+    <br/>
+    <label>
+        Point to JSON: <button @onclick="PointToJson">Convert</button>
+    </label>
+    <br/>
+    <label>
+        JSON: <code>@_pointJson</code>
+    </label>
+    <br/>
+    <label>
+        JSON to Point: <button disabled="@(_pointJson is null)" @onclick="JsonToPoint">Convert</button>
+    </label>
+    <br/>
+    <label>
+        C# Point: <code>@_jsonToPointSuccess</code>
+    </label>
+</div>
+<div class="form-group" style="border: 1px solid black; padding: 0.5rem;">
+    <h2>PolyLine Methods</h2>
+    <code>
+        PolyLine polyline = new PolyLine(new[]
+        {
+            new MapPath(new MapPoint(11, 52),
+                new MapPoint(11.5, 53),
+                new MapPoint(12, 55),
+                new MapPoint(10, 55),
+                new MapPoint(10.5, 51),
+                new MapPoint(11, 56))
+        });
+    </code>
+    <br/>
+    <label>
+        Add Path: <button @onclick="AddPath">Add Path</button>
+    </label>
+    <br/>
+    <label>
+        New Path: <code>@_addedPath</code>
+    </label>
+    <br/>
+    <label>
+        Get Point: <button @onclick="GetLinePoint">Get Point</button>
+    </label>
+    <br/>
+    <label>
+        Point: <code>@_linePoint</code>
+    </label>
+    <br/>
+    <code>
+        Polygon _polygon = new(new MapPath[]
+        {
+        new MapPath
+        {
+        new(8.4598, 48.5621),
+        new(1.6279, 59.3947),
+        new(20.0018, 42.6334),
+        new(-4.2473, 42.7392),
+        new(8.4598, 48.5621)
+        }
+        });
+    </code>
+    <br/>
+    <label>
+        Insert Point: <button @onclick="InsertPoint">Insert Point</button>
+    </label>
+    <br/>
+    <label>
+        New Polygon: <code>@_newPolygon</code>
+    </label>
+</div>
+<div class="form-group" style="border: 1px solid black; padding: 0.5rem;">
+    <h2>Polygon Methods</h2>
+    <code>Extent extent = new Extent(xmax: 4120960.074670904, xmin: -3412935.278412999, ymax: 8963926.222211033, ymin: 6049459.93475111)</code>
+    <label>
+        Polygon from Extent: <button @onclick="PolygonFromExtent">Convert</button>
+    </label>
+    <br/>
+    <label>
+        Polygon: @_insertPoint
+    </label>
+    <br/>
+    <label>
+        Check if Clockwise: <button @onclick="IsClockwise">Check</button>
+    </label>
+    <br/>
+    <label>
+        Is Clockwise: <code>@_isClockwise</code>
     </label>
 </div>
 
@@ -87,6 +159,42 @@
         _offsetExtent = $"XMax: {offsetExtent.Xmax}, XMin: {offsetExtent.Xmin}, YMax: {offsetExtent.Ymax}, YMin: {offsetExtent.Ymin}";
     }
 
+    private async Task AddPath()
+    {
+        PolyLine newLine = await GeometryEngine.AddPath(_polyLine, new MapPath
+        {
+            new(11, 52),
+            new(11.5, 53),
+            new(12, 55),
+            new(10, 55)
+        });
+        
+        _addedPath = string.Join(", ", newLine.Paths.Last().Select(p => $"[{p[0]}, {p[1]}]"));
+    }
+    
+    private async Task GetLinePoint()
+    {
+        Point point = await GeometryEngine.GetPoint(_polyLine, 0, 2);
+        _linePoint = $"X: {point.X}, Y: {point.Y}";
+    }
+
+    private async Task PolygonFromExtent()
+    {
+        Polygon polygon = await GeometryEngine.PolygonFromExtent(_extent);
+        _newPolygon = string.Join(", ", polygon.Rings.First().Select(p => $"[{p[0]}, {p[1]}]"));
+    }
+
+    private async Task InsertPoint()
+    {
+        Polygon newPolygon = await GeometryEngine.InsertPoint(_polygon, 0, 3, new Point(33, 43));
+        _insertPoint = string.Join(", ", newPolygon.Rings.First().Select(p => $"[{p[0]}, {p[1]}]"));
+    }
+    
+    private async Task IsClockwise()
+    {
+        _isClockwise = await GeometryEngine.IsClockwise(_polygon, _polygon.Rings.First());
+    }
+
     private string? _pointJson;
     private string? _jsonToPointSuccess;
     private double _centerLong = 0;
@@ -97,5 +205,30 @@
     private double _dx = 50;
     private double _dy = 50;
     private string? _offsetExtent;
-    private Extent _extent = new Extent(4120960.074670904, -3412935.278412999, 8963926.222211033, 6049459.93475111);
+    private string? _addedPath;
+    private string? _linePoint;
+    private string? _newPolygon;
+    private string? _insertPoint;
+    private bool? _isClockwise;
+    private readonly Extent _extent = new Extent(4120960.074670904, -3412935.278412999, 8963926.222211033, 6049459.93475111);
+    private readonly PolyLine _polyLine = new PolyLine(new[]
+    {
+        new MapPath(new MapPoint(11, 52),
+            new MapPoint(11.5, 53),
+            new MapPoint(12, 55),
+            new MapPoint(10, 55),
+            new MapPoint(10.5, 51),
+            new MapPoint(11, 56))
+    });
+    private readonly Polygon _polygon = new(new MapPath[]
+    {
+        new MapPath
+        {
+            new(8.4598, 48.5621),
+            new(1.6279, 59.3947),
+            new(20.0018, 42.6334),
+            new(-4.2473, 42.7392),
+            new(8.4598, 48.5621)
+        }
+    });
 }
