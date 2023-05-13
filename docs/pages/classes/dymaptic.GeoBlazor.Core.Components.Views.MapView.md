@@ -55,6 +55,19 @@ public System.Nullable<bool> AllowDefaultEsriLogin { get; set; }
 #### Property Value
 [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.AuthenticationManager'></a>
+
+## MapView.AuthenticationManager Property
+
+Handles OAuth authentication
+
+```csharp
+public dymaptic.GeoBlazor.Core.Model.AuthenticationManager AuthenticationManager { get; set; }
+```
+
+#### Property Value
+[AuthenticationManager](dymaptic.GeoBlazor.Core.Model.AuthenticationManager.html 'dymaptic.GeoBlazor.Core.Model.AuthenticationManager')
+
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.Center'></a>
 
 ## MapView.Center Property
@@ -608,6 +621,20 @@ public System.Nullable<bool> PromptForArcGISKey { get; set; }
 ### Remarks
 Setting this to "false" is the same as setting [AllowDefaultEsriLogin](dymaptic.GeoBlazor.Core.Components.Views.MapView.html#dymaptic.GeoBlazor.Core.Components.Views.MapView.AllowDefaultEsriLogin 'dymaptic.GeoBlazor.Core.Components.Views.MapView.AllowDefaultEsriLogin') to "true". This is provided  
 simply for convenience of discovery.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.PromptForOAuthLogin'></a>
+
+## MapView.PromptForOAuthLogin Property
+
+If you set an `AppId` in your configuration, setting this to true will cause the app to attempt to auto-login  
+using ArcGIS OAuth.
+
+```csharp
+public System.Nullable<bool> PromptForOAuthLogin { get; set; }
+```
+
+#### Property Value
+[System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.Rotation'></a>
 

@@ -28,10 +28,10 @@ public class GeometryEngine : LogicComponent
     /// <param name="jsRuntime">
     ///     Injected JavaScript Runtime reference
     /// </param>
-    /// <param name="configuration">
-    ///     Injected configuration object
+    /// <param name="authenticationManager">
+    ///     Injected Identity Manager reference
     /// </param>
-    public GeometryEngine(IJSRuntime jsRuntime, IConfiguration configuration) : base(jsRuntime, configuration)
+    public GeometryEngine(IJSRuntime jsRuntime, AuthenticationManager authenticationManager) : base(jsRuntime, authenticationManager)
     {
     }
 

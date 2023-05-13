@@ -6,19 +6,19 @@
 
 
     <ItemGroup>
-        <SupportedPlatform Include="browser" />
+        <SupportedPlatform Include="browser"/>
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Markdig" Version="0.30.4" />
-        <PackageReference Include="MarkdigExtensions.SyntaxHighlighting" Version="1.0.3" />
-        <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="7.0.5" />
-        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.5" />
-        <PackageReference Include="Microsoft.Extensions.FileProviders.Abstractions" Version="6.0.0" />
+        <PackageReference Include="Markdig" Version="0.30.4"/>
+        <PackageReference Include="MarkdigExtensions.SyntaxHighlighting" Version="1.0.3"/>
+        <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="7.0.5"/>
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.5"/>
+        <PackageReference Include="Microsoft.Extensions.FileProviders.Abstractions" Version="7.0.0"/>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\src\dymaptic.GeoBlazor.Core\dymaptic.GeoBlazor.Core.csproj" />
+        <ProjectReference Include="..\..\src\dymaptic.GeoBlazor.Core\dymaptic.GeoBlazor.Core.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
@@ -29,10 +29,10 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="wwwroot\pages" />
+        <Folder Include="wwwroot\pages"/>
     </ItemGroup>
 
     <Target Name="Copy Razor Files" AfterTargets="Build" Condition="$(TargetFrameworks.StartsWith($(TargetFramework)))">
-        <Exec Command="pwsh ./razorCopy.ps1" />
+        <Exec Command="pwsh ./razorCopy.ps1"/>
     </Target>
 </Project>

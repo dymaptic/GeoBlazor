@@ -20,28 +20,28 @@ public class GeometryEngine : dymaptic.GeoBlazor.Core.Model.LogicComponent
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [LogicComponent](dymaptic.GeoBlazor.Core.Model.LogicComponent.html 'dymaptic.GeoBlazor.Core.Model.LogicComponent') &#129106; GeometryEngine
 ### Constructors
 
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.GeometryEngine(Microsoft.JSInterop.IJSRuntime,Microsoft.Extensions.Configuration.IConfiguration)'></a>
+<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.GeometryEngine(Microsoft.JSInterop.IJSRuntime,dymaptic.GeoBlazor.Core.Model.AuthenticationManager)'></a>
 
-## GeometryEngine(IJSRuntime, IConfiguration) Constructor
+## GeometryEngine(IJSRuntime, AuthenticationManager) Constructor
 
 Default Constructor
 
 ```csharp
-public GeometryEngine(Microsoft.JSInterop.IJSRuntime jsRuntime, Microsoft.Extensions.Configuration.IConfiguration configuration);
+public GeometryEngine(Microsoft.JSInterop.IJSRuntime jsRuntime, dymaptic.GeoBlazor.Core.Model.AuthenticationManager authenticationManager);
 ```
 #### Parameters
 
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.GeometryEngine(Microsoft.JSInterop.IJSRuntime,Microsoft.Extensions.Configuration.IConfiguration).jsRuntime'></a>
+<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.GeometryEngine(Microsoft.JSInterop.IJSRuntime,dymaptic.GeoBlazor.Core.Model.AuthenticationManager).jsRuntime'></a>
 
 `jsRuntime` [Microsoft.JSInterop.IJSRuntime](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.JSInterop.IJSRuntime 'Microsoft.JSInterop.IJSRuntime')
 
 Injected JavaScript Runtime reference
 
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.GeometryEngine(Microsoft.JSInterop.IJSRuntime,Microsoft.Extensions.Configuration.IConfiguration).configuration'></a>
+<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.GeometryEngine(Microsoft.JSInterop.IJSRuntime,dymaptic.GeoBlazor.Core.Model.AuthenticationManager).authenticationManager'></a>
 
-`configuration` [Microsoft.Extensions.Configuration.IConfiguration](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.Extensions.Configuration.IConfiguration 'Microsoft.Extensions.Configuration.IConfiguration')
+`authenticationManager` [AuthenticationManager](dymaptic.GeoBlazor.Core.Model.AuthenticationManager.html 'dymaptic.GeoBlazor.Core.Model.AuthenticationManager')
 
-Injected configuration object
+Injected Identity Manager reference
 ### Methods
 
 <a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.AddPath(dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine,dymaptic.GeoBlazor.Core.Components.Geometries.Point[])'></a>

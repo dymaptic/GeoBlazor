@@ -76,9 +76,23 @@ nav_order: 2
    ```
 6. In `Program.cs`, add the following line to your `builder.Services` to inject logic components like `GeometryEngine`.
 
-```csharp
+   ```csharp
    builder.Services.AddGeoBlazor();
-```
+   ```
+
+   If you are using Blazor Server, you should also add the following lines to `Program.cs` to support the `.wsv` file type.
+
+   ```csharp
+   var provider = new FileExtensionContentTypeProvider();
+   provider.Mappings[".wsv"] = "application/octet-stream";
+
+   app.UseStaticFiles();
+   // NOTE: for some reason, you still need the plain "UseStaticFiles" call above
+   app.UseStaticFiles(new StaticFileOptions
+   {
+       ContentTypeProvider = provider
+   });
+   ```
 
 7. Create a new Razor Component in the `Pages` folder, or just use `Index.razor`. Add a `MapView`. Give it basic
 
@@ -109,14 +123,14 @@ nav_order: 2
    ```
 10. Add a Widget to the `MapView`, after the `WebMap`.
 
-```html
-<MapView Longitude="_longitude" Latitude="_latitude" Zoom="11" Style="height: 400px; width: 100%;"> 
-    <WebMap>
-        <PortalItem Id="4a6cb60ebbe3483a805999d481c2daa5" />
-    </WebMap>
-    <ScaleBarWidget Position="OverlayPosition.BottomLeft" />
-</MapView>
-```
+   ```html
+   <MapView Longitude="_longitude" Latitude="_latitude" Zoom="11" Style="height: 400px; width: 100%;"> 
+       <WebMap>
+           <PortalItem Id="4a6cb60ebbe3483a805999d481c2daa5" />
+       </WebMap>
+       <ScaleBarWidget Position="OverlayPosition.BottomLeft" />
+   </MapView>
+   ```
 11. Run your application and make sure you can see your map!
     ![Web Map Sample](../assets/images/webmap.png)
 12. Now that you have a great starting point, you can now start to customize the features available in your new app
