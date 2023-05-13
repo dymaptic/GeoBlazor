@@ -70,7 +70,7 @@ public class BasemapToggleWidget : Widget
     }
 
     /// <inheritdoc />
-    public override void ValidateRequiredChildren()
+    internal override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();
         NextBasemap?.ValidateRequiredChildren();

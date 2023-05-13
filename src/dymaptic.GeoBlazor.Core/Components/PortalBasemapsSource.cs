@@ -77,7 +77,7 @@ public class PortalBasemapsSource : MapComponent
     }
 
     /// <inheritdoc />
-    public override void ValidateRequiredChildren()
+    internal override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();
         Portal?.ValidateRequiredChildren();

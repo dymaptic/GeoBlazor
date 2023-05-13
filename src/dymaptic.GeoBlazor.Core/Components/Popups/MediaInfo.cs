@@ -112,7 +112,7 @@ public class BarChartMediaInfo : MediaInfo
     }
 
     /// <inheritdoc />
-    public override void ValidateRequiredChildren()
+    internal override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();
         Value?.ValidateRequiredChildren();
@@ -204,7 +204,7 @@ public class ChartMediaInfoValue : MapComponent
     }
 
     /// <inheritdoc />
-    public override void ValidateRequiredChildren()
+    internal override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();
 
@@ -394,7 +394,7 @@ public class ColumnChartMediaInfo : MediaInfo
     }
 
     /// <inheritdoc />
-    public override void ValidateRequiredChildren()
+    internal override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();
         Value?.ValidateRequiredChildren();
@@ -490,7 +490,7 @@ public class ImageMediaInfo : MediaInfo
     }
 
     /// <inheritdoc />
-    public override void ValidateRequiredChildren()
+    internal override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();
         Value?.ValidateRequiredChildren();
@@ -617,7 +617,7 @@ public class LineChartMediaInfo : MediaInfo
     }
 
     /// <inheritdoc />
-    public override void ValidateRequiredChildren()
+    internal override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();
         Value?.ValidateRequiredChildren();
@@ -704,7 +704,7 @@ public class PieChartMediaInfo : MediaInfo
     }
 
     /// <inheritdoc />
-    public override void ValidateRequiredChildren()
+    internal override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();
         Value?.ValidateRequiredChildren();

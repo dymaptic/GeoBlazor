@@ -124,7 +124,7 @@ public class SimpleFillSymbol : FillSymbol, IEquatable<SimpleFillSymbol>
     }
 
     /// <inheritdoc />
-    public override void ValidateRequiredChildren()
+    internal override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();
         Outline?.ValidateRequiredChildren();

@@ -361,7 +361,7 @@ public class PopupWidget : Widget
     }
 
     /// <inheritdoc />
-    public override void ValidateRequiredChildren()
+    internal override void ValidateRequiredChildren()
     {
         WidgetContent?.ValidateRequiredChildren();
         DockOptions?.ValidateRequiredChildren();

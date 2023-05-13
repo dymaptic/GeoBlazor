@@ -171,7 +171,7 @@ public class FieldInfo : MapComponent, IEquatable<FieldInfo>
     }
 
     /// <inheritdoc />
-    public override void ValidateRequiredChildren()
+    internal override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();
         Format?.ValidateRequiredChildren();

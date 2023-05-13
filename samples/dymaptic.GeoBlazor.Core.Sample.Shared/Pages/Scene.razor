@@ -1,32 +1,63 @@
 @page "/scene"
+@using System.Globalization
 
 <PageTitle>Scene</PageTitle>
 <h1>Scene</h1>
 
 <div class="links-div">
     <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/display-a-scene/">ArcGIS API for JavaScript Reference</a>
-    <a class="btn btn-primary" target="_blank" href="https://www.arcgis.com/home/item.html?id=ff52218580f94d89851563f50cd1a2b2">Imagery Hybrid BaseMap</a>
 </div>
 <p class="instructions">
     A simple demo of a 3D Scene View with a basemap from ArcGIS Online and an added polygon graphic. Drag to pan.
 </p>
+<h1>Attributes</h1>
+<div class="links-div">
+    <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Graphic.html#attributes">ArcGIS API for JavaScript Reference</a>
+</div>
+<p class="instructions">
+    The popup template is bound to the graphic's attributes. The attributes are updated when the input fields are changed.
+</p>
 
+<div class="form-group">
+    <label>
+        Popup Title: <input width="100px;" type="text" value="@(_graphicAttributes["Name"])" @onchange="@(v => UpdateAttribute(v, "Name"))" />
+    </label>
+    <label>
+        Popup Description: <input width="140px;" type="text" value="@(_graphicAttributes["Description"])" @onchange="@(v => UpdateAttribute(v, "Description"))" />
+    </label>
+    <label>
+        Popup Number: <input width="60px;" type="number" value="@(_graphicAttributes["Number"])" @onchange="@(v => UpdateAttribute(v, "Number"))" />
+    </label>
+    <label>
+        Popup Date: <input width="100px;" type="date" value="@(((DateTime)_graphicAttributes["Date"]).ToString("yyyy-MM-dd"))" @onchange="@(v => UpdateAttribute(v, "Date"))" />
+    </label>
+    <label>
+        Popup Time: <input width="100px;" type="time" value="@(((DateTime)_graphicAttributes["Date"]).ToString("HH:mm"))" @onchange="@(v => UpdateAttribute(v, "Time"))" />
+    </label>
+    <label>
+        Popup Boolean: <input width="100px;" type="checkbox" checked="@(_graphicAttributes["Boolean"])" @onchange="@(v => UpdateAttribute(v, "Boolean"))" />
+    </label>
+</div>
+<div class="form-group" style="margin-top: 2rem;">
+    <label>Test Object type in C#: </label><br/>
+    <code>record TestObject(string Name, string Description, int Number, DateTime Date, bool Boolean)</code>
+    <label style="margin-top: 1rem;">Test Object instantiation: </label><br/>
+    <code>new TestObject("T1", "Test Object", 42, DateTime.UtcNow, false)</code>
+</div>
 <SceneView Longitude="_longitude" Latitude="_latitude" Class="map-view"
            ZIndex="2000" Tilt="76">
-    <Map Ground="world-elevation">
-        <Basemap>
-            <PortalItem Id="ff52218580f94d89851563f50cd1a2b2" />
-        </Basemap>
+    <Map Ground="world-elevation" ArcGISDefaultBasemap="satellite">
         <GraphicsLayer>
-            <Graphic Attributes="_graphicAttributes">
+            <Graphic @ref="_polygonGraphic" Attributes="_graphicAttributes">
                 <Polygon Rings="@(new[] { _mapRings })" />
                 <SimpleFillSymbol Color="@(new MapColor(81, 46, 132, 0.8))">
                     <Outline Color="@(new MapColor(255, 255, 255))" Width="1" />
                 </SimpleFillSymbol>
-                <PopupTemplate Title="{Name}" StringContent="{Description}" />
+                <PopupTemplate Title="{Name}" StringContent="{Description}<br/>Number: {Number}<br/>{Date}: {Date}<br/>Bool: {Boolean}</br>Object: {Object}" />
             </Graphic>
         </GraphicsLayer>
     </Map>
+    
 </SceneView>
 
 
@@ -43,6 +74,40 @@
     private readonly Dictionary<string, object> _graphicAttributes = new()
     {
         { "Name", "This is a Title" },
-        { "Description", "And a Description" }
+        { "Description", "And a Description" },
+        { "Number", 1 },
+        { "Date", DateTime.Now },
+        { "Boolean", true },
+        { "Object", new TestObject("T1", "Test Object", 42, DateTime.UtcNow, false) }
     };
+
+    private Graphic? _polygonGraphic;
+
+    private async Task UpdateAttribute(ChangeEventArgs arg, string attributeName)
+    {
+        if (attributeName == "Date")
+        {
+            if (DateTime.TryParseExact(arg.Value!.ToString(), "yyyy-MM-dd", CultureInfo.CurrentCulture, DateTimeStyles.None, out var newDate))
+            {
+                var currentDate = (DateTime)_graphicAttributes["Date"];
+                var dt = new DateTime(newDate.Year, newDate.Month, newDate.Day, currentDate.Hour, currentDate.Minute, 0);
+                await _polygonGraphic!.Attributes.AddOrUpdate(attributeName, dt);
+            }
+        }
+        else if (attributeName == "Time")
+        {
+            if (DateTime.TryParseExact(arg.Value!.ToString(), "HH:mm:ss", CultureInfo.CurrentCulture, DateTimeStyles.None, out var newDate))
+            {
+                var currentDate = (DateTime)_graphicAttributes["Date"];
+                var dt = new DateTime(currentDate.Year, currentDate.Month, currentDate.Day, newDate.Hour, newDate.Minute, 0);
+                await _polygonGraphic!.Attributes.AddOrUpdate("Date", dt);
+            }
+        }
+        else
+        {
+            await _polygonGraphic!.Attributes.AddOrUpdate(attributeName, arg.Value!);
+        }
+    }
+
+    private record TestObject(string Name, string Description, int Number, DateTime Date, bool Boolean);
 }

@@ -123,7 +123,7 @@ public abstract class Layer : MapComponent
     }
 
     /// <inheritdoc />
-    public override void ValidateRequiredChildren()
+    internal override void ValidateRequiredChildren()
     {
         FullExtent?.ValidateRequiredChildren();
         base.ValidateRequiredChildren();

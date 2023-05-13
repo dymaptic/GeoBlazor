@@ -90,7 +90,7 @@ public abstract class LayerObject : MapComponent
     }
 
     /// <inheritdoc />
-    public override void ValidateRequiredChildren()
+    internal override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();
         Symbol?.ValidateRequiredChildren();
