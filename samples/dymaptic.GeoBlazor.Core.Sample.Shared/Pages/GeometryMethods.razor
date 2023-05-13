@@ -1,0 +1,101 @@
+﻿@page "/geometry-methods"
+@inject GeometryEngine GeometryEngine
+<PageTitle>Geometry Methods</PageTitle>
+<h1>Geometry Methods</h1>
+
+<div class="form-group" style="border: 1px solid black; padding: 0.5rem;">
+    <h2>JSON Conversions</h2>
+    <code>Point point = new Point(longitude: -117.08, latitude: 34.1)</code>
+    <br/>
+    <label>
+        Point to JSON: <button @onclick="PointToJson">Convert</button>
+    </label>
+    <br/>
+    <label>
+        JSON: <code>@_pointJson</code>
+    </label>
+    <br/>
+    <label>
+        JSON to Point: <button disabled="@(_pointJson is null)" @onclick="JsonToPoint">Convert</button>
+    </label>
+    <br/>
+    <label>
+        C# Point: <code>@_jsonToPointSuccess</code>
+    </label>
+</div>
+<div class="form-group" style="border: 1px solid black; padding: 0.5rem;">
+    <h2>Extent Methods</h2>
+    <code>Extent extent = new Extent(xmax: 4120960.074670904, xmin: -3412935.278412999, ymax: 8963926.222211033, ymin: 6049459.93475111)</code>
+    <br/>
+    <label>
+        Center Extent At Point Long: <input type="number" @bind="_centerLong" /> Lat: <input type="number" @bind="_centerLat" />
+        <button @onclick="CenterExtent">Center</button>
+    </label>
+    <br/>
+    <label>
+        Centered Extent: <code>@_centeredExtent</code>
+    </label>
+    <br/>
+    <label>
+        Expand Extent by factor: <input type="number" @bind="_expandFactor" />
+        <button @onclick="ExpandExtent">Expand</button>
+    </label>
+    <br/>
+    <label>
+        Expanded Extent: <code>@_expandedExtent</code>
+    </label>
+    <br/>
+    <label>
+        Offset Extent by distance X: <input type="number" @bind="_dx" /> Y: <input type="number" @bind="_dy" />
+        <button @onclick="OffsetExtent">Offset</button>
+    </label>
+    <br/>
+    <label>
+        Offset Extent: <code>@_offsetExtent</code>
+    </label>
+</div>
+
+@code {
+
+    private async Task PointToJson()
+    {
+        Point point = new Point(-117.08, 34.1);
+        _pointJson = await GeometryEngine.ToArcGisJson(point);
+    }
+
+    private async Task JsonToPoint()
+    {
+        Point point = await GeometryEngine.FromArcGisJson<Point>(_pointJson!);
+        _jsonToPointSuccess = $"Longitude {point.Longitude}, Latitude {point.Latitude}";
+    }
+
+    private async Task CenterExtent()
+    {
+        Extent centeredExtent = await GeometryEngine.CenterExtentAt(_extent, new Point(_centerLong, _centerLat));
+        _centeredExtent = $"XMax: {centeredExtent.Xmax}, XMin: {centeredExtent.Xmin}, YMax: {centeredExtent.Ymax}, YMin: {centeredExtent.Ymin}";
+    }
+
+    private async Task ExpandExtent()
+    {
+        Extent expandedExtent = await GeometryEngine.Expand(_extent, _expandFactor);
+        _expandedExtent = $"XMax: {expandedExtent.Xmax}, XMin: {expandedExtent.Xmin}, YMax: {expandedExtent.Ymax}, YMin: {expandedExtent.Ymin}";
+    }
+
+    private async Task OffsetExtent()
+    {
+        Extent offsetExtent = await GeometryEngine.OffsetExtent(_extent, _dx, _dy);
+        _offsetExtent = $"XMax: {offsetExtent.Xmax}, XMin: {offsetExtent.Xmin}, YMax: {offsetExtent.Ymax}, YMin: {offsetExtent.Ymin}";
+    }
+
+    private string? _pointJson;
+    private string? _jsonToPointSuccess;
+    private double _centerLong = 0;
+    private double _centerLat = 7000000;
+    private string? _centeredExtent;
+    private double _expandFactor = 1.5;
+    private string? _expandedExtent;
+    private double _dx = 50;
+    private double _dy = 50;
+    private string? _offsetExtent;
+    private Extent _extent = new Extent(4120960.074670904, -3412935.278412999, 8963926.222211033, 6049459.93475111);
+}

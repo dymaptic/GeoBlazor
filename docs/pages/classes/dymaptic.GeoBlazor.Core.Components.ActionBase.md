@@ -10,7 +10,10 @@ parent: Classes
 
 Actions are customizable behavior which can be executed in certain widgets such as Popups, a BasemapLayerList, or a  
 LayerList.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionBase.html">ArcGIS JS API</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionBase.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public abstract class ActionBase : dymaptic.GeoBlazor.Core.Components.MapComponent,

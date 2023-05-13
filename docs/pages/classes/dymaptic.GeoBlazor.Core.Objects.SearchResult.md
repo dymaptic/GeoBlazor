@@ -9,7 +9,10 @@ parent: Classes
 ## SearchResult Class
 
 The result object returned from a search.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#SearchResult">ArcGIS JS API</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#SearchResult">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class SearchResult

@@ -10,7 +10,10 @@ parent: Classes
 
 The minimum and maximum X and Y coordinates of a bounding box. Extent is used to describe the visible portion of a  
 MapView. When working in a SceneView, Camera is used to define the visible part of the map within the view.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Extent.html">ArcGIS JS API</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Extent.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class Extent : dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,
@@ -215,6 +218,19 @@ public System.Nullable<double> Zmin { get; set; }
 #### Property Value
 [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 ### Methods
+
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.Extent.Clone()'></a>
+
+## Extent.Clone() Method
+
+Returns a deep clone of the geometry.
+
+```csharp
+public dymaptic.GeoBlazor.Core.Components.Geometries.Extent Clone();
+```
+
+#### Returns
+[Extent](dymaptic.GeoBlazor.Core.Components.Geometries.Extent.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Extent')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Geometries.Extent.Equals(object)'></a>
 

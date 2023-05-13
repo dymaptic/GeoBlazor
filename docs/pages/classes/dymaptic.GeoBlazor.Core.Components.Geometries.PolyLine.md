@@ -10,7 +10,10 @@ parent: Classes
 
 A polyline contains an array of paths and spatialReference. Each path is represented as an array of points. A  
 polyline also has boolean-valued hasM and hasZ properties.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polyline.html">ArcGIS JS API</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polyline.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class PolyLine : dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,
@@ -88,6 +91,19 @@ public override string Type { get; }
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 ### Methods
+
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine.Clone()'></a>
+
+## PolyLine.Clone() Method
+
+Returns a deep clone of the geometry.
+
+```csharp
+public dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine Clone();
+```
+
+#### Returns
+[PolyLine](dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine.html 'dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine.Equals(object)'></a>
 

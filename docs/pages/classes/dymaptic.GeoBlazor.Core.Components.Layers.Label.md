@@ -10,7 +10,10 @@ parent: Classes
 
 Defines label expressions, symbols, scale ranges, label priorities, and label placement options for labels on a  
 layer. See the Labeling guide for more information about labeling.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LabelClass.html">ArcGIS JS API</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LabelClass.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class Label : dymaptic.GeoBlazor.Core.Components.Layers.LayerObject,

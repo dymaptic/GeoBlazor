@@ -12,7 +12,10 @@ The Top-Level Map Component Container.
 A MapView displays a 2D view of a Map instance. An instance of MapView must be created to render a Map (along with  
 its operational and base layers) in 2D. To render a map and its layers in 3D, see the documentation for SceneView.  
 For a general overview of views, see View.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">ArcGIS JS API</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class MapView : dymaptic.GeoBlazor.Core.Components.MapComponent
@@ -529,12 +532,9 @@ public Microsoft.AspNetCore.Components.EventCallback<dymaptic.GeoBlazor.Core.Eve
 The real-time nature of this handler make it a challenge to use continuously over SignalR in Blazor Server.  
 In this scenario, you should write a custom JavaScript handler instead.  
 See  
-<a target="_blank" href="https://github.com/dymaptic/GeoBlazor/blob/develop/samples/dymaptic.GeoBlazor.Core.Sample.Shared/Pages/DisplayProjection.razor">
-  
-    Display
-  
-    Projection
-  
+<a target="_blank" href="https://github.com/dymaptic/GeoBlazor/blob/develop/samples/dymaptic.GeoBlazor.Core.Sample.Shared/Pages/DisplayProjection.razor">  
+    Display  
+    Projection  
 </a>  
 code.
 
@@ -873,6 +873,19 @@ public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Geometries
 
 #### Returns
 [System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[Extent](dymaptic.GeoBlazor.Core.Components.Geometries.Extent.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Extent')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.GetId()'></a>
+
+## MapView.GetId() Method
+
+JS-Invokable method to generate a new GUID Id
+
+```csharp
+public string GetId();
+```
+
+#### Returns
+[System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.GetPopupWidget()'></a>
 

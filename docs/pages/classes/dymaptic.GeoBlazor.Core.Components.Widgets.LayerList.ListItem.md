@@ -12,7 +12,10 @@ The ListItem class represents one of the operationalItems in the LayerListViewMo
 the list item represents a layer displayed in the view. It provides access to the associated layer's properties,  
 allows the developer to configure actions related to the layer, and allows the developer to add content to the item  
 related to the layer.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html#actionsSections">ArcGIS JS API</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html#actionsSections">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class ListItem

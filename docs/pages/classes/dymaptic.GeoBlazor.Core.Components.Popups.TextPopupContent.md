@@ -11,7 +11,10 @@ parent: Classes
 A TextContent popup element is used to define descriptive text as an element within a PopupTemplate's content. The  
 text may reference values returned from a field attribute or an Arcade expression defined in a PopupTemplate's  
 expressionInfos property.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-TextContent.html">ArcGIS JS API</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-TextContent.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class TextPopupContent : dymaptic.GeoBlazor.Core.Components.Popups.PopupContent

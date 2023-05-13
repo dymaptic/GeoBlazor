@@ -12,7 +12,10 @@ The TileLayer allows you work with a cached map service exposed by the ArcGIS Se
 as a tile layer. A cached service accesses tiles from a cache instead of dynamically rendering images. Because they  
 are cached, tiled layers render faster than MapImageLayers. To create an instance of TileLayer, you must reference  
 the URL of the cached map service.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-TileLayer.html">ArcGIS JS API</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-TileLayer.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class TileLayer : dymaptic.GeoBlazor.Core.Components.Layers.Layer
@@ -36,6 +39,32 @@ public override string LayerType { get; }
 
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.TileLayer.MaxScale'></a>
+
+## TileLayer.MaxScale Property
+
+The maximum scale (most zoomed in) at which the layer is visible in the view. If the map is zoomed in beyond this scale, the layer will not be visible. A value of 0 means the layer does not have a maximum scale. The maxScale value should always be smaller than the minScale value, and greater than or equal to the service specification.
+
+```csharp
+public System.Nullable<double> MaxScale { get; set; }
+```
+
+#### Property Value
+[System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.TileLayer.MinScale'></a>
+
+## TileLayer.MinScale Property
+
+The minimum scale (most zoomed out) at which the layer is visible in the view. If the map is zoomed out beyond this scale, the layer will not be visible. A value of 0 means the layer does not have a minimum scale. The minScale value should always be larger than the maxScale value, and lesser than or equal to the service specification.
+
+```csharp
+public System.Nullable<double> MinScale { get; set; }
+```
+
+#### Property Value
+[System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.TileLayer.PortalItem'></a>
 

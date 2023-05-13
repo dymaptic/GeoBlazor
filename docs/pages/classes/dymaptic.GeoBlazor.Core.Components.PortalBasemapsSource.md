@@ -10,7 +10,10 @@ parent: Classes
 
 The PortalBasemapsSource class is a Portal-driven Basemap source in the BasemapGalleryViewModel or BasemapGallery  
 widget.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-support-PortalBasemapsSource.html">ArcGIS JS API</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-support-PortalBasemapsSource.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class PortalBasemapsSource : dymaptic.GeoBlazor.Core.Components.MapComponent

@@ -10,7 +10,10 @@ parent: Classes
 
 A polygon contains an array of rings and a spatialReference. Each ring is represented as an array of points. The  
 first and last points of a ring must be the same. A polygon also has boolean-valued hasM and hasZ fields.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polygon.html">ArcGIS JS API</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polygon.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class Polygon : dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,
@@ -88,6 +91,19 @@ public override string Type { get; }
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 ### Methods
+
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.Clone()'></a>
+
+## Polygon.Clone() Method
+
+Returns a deep clone of the geometry.
+
+```csharp
+public dymaptic.GeoBlazor.Core.Components.Geometries.Polygon Clone();
+```
+
+#### Returns
+[Polygon](dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Polygon')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.Equals(object)'></a>
 

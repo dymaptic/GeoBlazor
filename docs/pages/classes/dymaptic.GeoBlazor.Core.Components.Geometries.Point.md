@@ -9,7 +9,10 @@ parent: Classes
 ## Point Class
 
 A location defined by X, Y, and Z coordinates.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Point.html">ArcGIS JS API</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Point.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class Point : dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,
@@ -176,6 +179,19 @@ public System.Nullable<double> Z { get; set; }
 #### Property Value
 [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 ### Methods
+
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.Point.Clone()'></a>
+
+## Point.Clone() Method
+
+Returns a deep clone of the geometry.
+
+```csharp
+public dymaptic.GeoBlazor.Core.Components.Geometries.Point Clone();
+```
+
+#### Returns
+[Point](dymaptic.GeoBlazor.Core.Components.Geometries.Point.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Point')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Geometries.Point.Equals(dymaptic.GeoBlazor.Core.Components.Geometries.Point)'></a>
 

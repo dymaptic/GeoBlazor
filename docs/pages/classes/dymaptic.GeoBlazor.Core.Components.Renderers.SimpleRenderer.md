@@ -10,7 +10,10 @@ parent: Classes
 
 SimpleRenderer renders all features in a Layer with one Symbol. This renderer may be used to simply visualize the  
 location of geographic features.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-SimpleRenderer.html">ArcGIS JS API</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-SimpleRenderer.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class SimpleRenderer : dymaptic.GeoBlazor.Core.Components.Renderers.Renderer

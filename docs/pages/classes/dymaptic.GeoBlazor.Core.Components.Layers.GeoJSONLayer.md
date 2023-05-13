@@ -11,7 +11,10 @@ parent: Classes
 The GeoJSONLayer class is used to create a layer based on GeoJSON. GeoJSON is a format for encoding a variety of  
 geographic data structures. The GeoJSON data must comply with the RFC 7946 specification which states that the  
 coordinates are in SpatialReference.WGS84.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html">ArcGIS JS API</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class GeoJSONLayer : dymaptic.GeoBlazor.Core.Components.Layers.Layer

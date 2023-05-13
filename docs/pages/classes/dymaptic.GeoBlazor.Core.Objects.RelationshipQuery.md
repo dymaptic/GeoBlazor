@@ -11,7 +11,10 @@ parent: Classes
 This class defines parameters for executing queries for related records from a layer. Once a RelationshipQuery  
 object's properties are defined, it can then be passed into the query.executeRelationshipQuery() and  
 FeatureLayer.queryRelatedFeatures() methods, which will return FeatureSets grouped by source layer/table objectIds.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-RelationshipQuery.html#maxAllowableOffset">ArcGIS JS API</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-RelationshipQuery.html#maxAllowableOffset">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class RelationshipQuery

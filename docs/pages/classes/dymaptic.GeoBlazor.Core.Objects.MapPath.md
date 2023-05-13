@@ -10,7 +10,10 @@ parent: Classes
 
 Represents both [Paths](dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine.html#dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine.Paths 'dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine.Paths') and [Rings](dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.html#dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.Rings 'dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.Rings'), as a two-dimensional array of  
 number coordinates.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polyline.html#paths">ArcGIS JS API</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polyline.html#paths">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class MapPath : System.Collections.Generic.List<dymaptic.GeoBlazor.Core.Objects.MapPoint>,
@@ -53,14 +56,14 @@ public MapPath(System.Collections.Generic.IEnumerable<dymaptic.GeoBlazor.Core.Ob
 `p` [System.Collections.Generic.IEnumerable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IEnumerable-1 'System.Collections.Generic.IEnumerable`1')[MapPoint](dymaptic.GeoBlazor.Core.Objects.MapPoint.html 'dymaptic.GeoBlazor.Core.Objects.MapPoint')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IEnumerable-1 'System.Collections.Generic.IEnumerable`1')
 ### Methods
 
-<a name='dymaptic.GeoBlazor.Core.Objects.MapPath.DeepCopy()'></a>
+<a name='dymaptic.GeoBlazor.Core.Objects.MapPath.Clone()'></a>
 
-## MapPath.DeepCopy() Method
+## MapPath.Clone() Method
 
 Clones a path and returns the new copy.
 
 ```csharp
-public dymaptic.GeoBlazor.Core.Objects.MapPath DeepCopy();
+public dymaptic.GeoBlazor.Core.Objects.MapPath Clone();
 ```
 
 #### Returns

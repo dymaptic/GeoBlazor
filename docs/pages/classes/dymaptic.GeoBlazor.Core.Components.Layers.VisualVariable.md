@@ -10,7 +10,10 @@ parent: Classes
 
 The visual variable base class. See each of the subclasses that extend this class to learn how to create continuous  
 data-driven thematic visualizations.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-VisualVariable.html">ArcGIS JS API</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-VisualVariable.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public abstract class VisualVariable : dymaptic.GeoBlazor.Core.Components.MapComponent

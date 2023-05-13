@@ -117,6 +117,14 @@ public class SpatialReference : MapComponent, IEquatable<SpatialReference>
     [Parameter]
     public string? Wkt { get; set; }
 
+    /// <summary>
+    ///     Returns a deep clone of the Spatial Reference.
+    /// </summary>
+    public SpatialReference Clone()
+    {
+        return Wkid.HasValue ? new SpatialReference(Wkid!.Value) : new SpatialReference();
+    }
+    
     /// <inheritdoc />
     public bool Equals(SpatialReference? other)
     {

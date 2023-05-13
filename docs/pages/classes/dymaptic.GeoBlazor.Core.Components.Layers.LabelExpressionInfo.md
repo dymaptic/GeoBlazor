@@ -11,7 +11,10 @@ parent: Classes
 If working with a MapImageLayer that supports Arcade, you can also use labelExpressionInfo. To determine this,  
 check the supportsArcadeExpressionForLabeling property. If true, then labelExpression or labelExpressionInfo can be  
 used. If false, then only labelExpression can be used.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LabelClass.html#labelExpressionInfo">ArcGIS JS API</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LabelClass.html#labelExpressionInfo">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class LabelExpressionInfo : dymaptic.GeoBlazor.Core.Components.MapComponent

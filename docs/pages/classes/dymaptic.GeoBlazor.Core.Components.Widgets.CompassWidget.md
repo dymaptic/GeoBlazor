@@ -13,7 +13,10 @@ the Compass widget rotates the view to face north (heading = 0). This widget is 
 The icon for the Compass widget is determined based upon the view's spatial reference. If the view's spatial  
 reference is not Web Mercator or WGS84 a dial icon will be used, however when the spatial reference is Web Mercator  
 or WGS84 the icon will be a north arrow.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Compass.html">ArcGIS JS API</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Compass.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class CompassWidget : dymaptic.GeoBlazor.Core.Components.Widgets.Widget

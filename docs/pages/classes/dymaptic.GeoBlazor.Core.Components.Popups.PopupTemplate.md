@@ -11,7 +11,10 @@ parent: Classes
 A PopupTemplate formats and defines the content of a Popup for a specific Layer or Graphic. The user can also use  
 the PopupTemplate to access values from feature attributes and values returned from Arcade expressions when a  
 feature in the view is selected.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html">ArcGIS JS API</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class PopupTemplate : dymaptic.GeoBlazor.Core.Components.MapComponent,

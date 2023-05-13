@@ -9,7 +9,10 @@ parent: Classes
 ## BarChartMediaInfo Class
 
 A BarChartMediaInfo is a type of chart media element that represents a bar chart displayed within a popup.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-BarChartMediaInfo.html">ArcGIS JS API</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-BarChartMediaInfo.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class BarChartMediaInfo : dymaptic.GeoBlazor.Core.Components.Popups.MediaInfo

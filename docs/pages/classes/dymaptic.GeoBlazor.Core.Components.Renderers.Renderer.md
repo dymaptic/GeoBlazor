@@ -10,7 +10,10 @@ parent: Classes
 
 Abstract base class, renderers define how to visually represent each feature in one of the following layer types:  
 FeatureLayer, SceneLayer, MapImageLayer, CSVLayer, GeoJSONLayer, OGCFeatureLayer, StreamLayer, WFSLayer.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-Renderer.html">ArcGIS JS API</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-Renderer.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public abstract class Renderer : dymaptic.GeoBlazor.Core.Components.Layers.LayerObject

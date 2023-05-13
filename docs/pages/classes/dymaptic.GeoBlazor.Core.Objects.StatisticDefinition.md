@@ -9,7 +9,10 @@ parent: Classes
 ## StatisticDefinition Class
 
 This class defines the parameters for querying a layer or layer view for statistics.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-StatisticDefinition.html">ArcGIS JS API</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-StatisticDefinition.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class StatisticDefinition :
@@ -26,7 +29,10 @@ Implements [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/S
 ## StatisticDefinition(string, string, StatisticType, StatisticParameters) Constructor
 
 This class defines the parameters for querying a layer or layer view for statistics.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-StatisticDefinition.html">ArcGIS JS API</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-StatisticDefinition.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public StatisticDefinition(string OnStatisticField, string OutStatisticFieldName, dymaptic.GeoBlazor.Core.Objects.StatisticType StatisticType, dymaptic.GeoBlazor.Core.Objects.StatisticParameters StatisticParameters);

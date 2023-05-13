@@ -9,7 +9,10 @@ parent: Classes
 ## ChartMediaInfoValue Class
 
 The ChartMediaInfoValue class contains information for popups regarding how charts should be constructed.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-support-ChartMediaInfoValue.html">ArcGIS JS API</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-support-ChartMediaInfoValue.html">  
+    ArcGIS  
+    JS API  
+</a>
 
 ```csharp
 public class ChartMediaInfoValue : dymaptic.GeoBlazor.Core.Components.MapComponent
