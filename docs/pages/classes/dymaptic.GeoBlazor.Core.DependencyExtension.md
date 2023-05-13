@@ -35,3 +35,8 @@ public static Microsoft.Extensions.DependencyInjection.IServiceCollection AddGeo
 
 #### Returns
 [Microsoft.Extensions.DependencyInjection.IServiceCollection](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.Extensions.DependencyInjection.IServiceCollection 'Microsoft.Extensions.DependencyInjection.IServiceCollection')
+
+### Remarks
+Since Scoped services behave like singletons in client applications (wasm, maui), registering the OAuthAuthentication  
+service as scoped is safe for all implementations.  
+https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals/dependency-injection?view=aspnetcore-7.0#service-lifetime

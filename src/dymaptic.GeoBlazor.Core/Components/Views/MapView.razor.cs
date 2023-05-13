@@ -5,6 +5,7 @@ using dymaptic.GeoBlazor.Core.Components.Symbols;
 using dymaptic.GeoBlazor.Core.Components.Widgets;
 using dymaptic.GeoBlazor.Core.Events;
 using dymaptic.GeoBlazor.Core.Exceptions;
+using dymaptic.GeoBlazor.Core.Model;
 using dymaptic.GeoBlazor.Core.Objects;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
@@ -44,6 +45,12 @@ public partial class MapView : MapComponent
     /// </summary>
     [Inject]
     public IConfiguration Configuration { get; set; } = default!;
+    
+    /// <summary>
+    ///     Handles OAuth authentication
+    /// </summary>
+    [Inject]
+    public AuthenticationManager AuthenticationManager { get; set; } = default!;
 
     /// <summary>
     ///     Boolean flag to identify if GeoBlazor is running in Blazor Server mode
@@ -98,7 +105,6 @@ public partial class MapView : MapComponent
     ///     Indicates that the pointer is currently down, to prevent updating the extent during this action.
     /// </summary>
     protected bool PointerDown;
-    private string? _apiKey;
     private SpatialReference? _spatialReference;
     private Dictionary<Guid, StringBuilder> _hitTestResults = new();
     private bool _renderCalled;
@@ -197,6 +203,13 @@ public partial class MapView : MapComponent
     /// </remarks>
     [Parameter]
     public bool? PromptForArcGISKey { get; set; }
+    
+    /// <summary>
+    ///     If you set an `AppId` in your configuration, setting this to true will cause the app to attempt to auto-login
+    ///     using ArcGIS OAuth.
+    /// </summary>
+    [Parameter]
+    public bool? PromptForOAuthLogin { get; set; }
 
 #endregion
 
@@ -260,16 +273,17 @@ public partial class MapView : MapComponent
     /// </summary>
     protected string? ApiKey
     {
-        get => _apiKey;
-        set
-        {
-            _apiKey = value;
-
-            if (!string.IsNullOrWhiteSpace(_apiKey))
-            {
-                Configuration["ArcGISApiKey"] = value;
-            }
-        }
+        get => AuthenticationManager.ApiKey;
+        set => AuthenticationManager.ApiKey = value;
+    }
+    
+    /// <summary>
+    ///     The ArcGIS AppId for OAuth2 login
+    /// </summary>
+    protected string? AppId
+    {
+        get => AuthenticationManager.AppId;
+        set => AuthenticationManager.AppId = value;
     }
 
     /// <summary>
@@ -2070,8 +2084,6 @@ public partial class MapView : MapComponent
     /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        ApiKey = Configuration["ArcGISApiKey"];
-
         AbortManager ??= new AbortManager(JsRuntime);
 
         if (!LoadOnRender && !_renderCalled)
@@ -2089,6 +2101,12 @@ public partial class MapView : MapComponent
 
             // the first render never has all the child components registered
             Rendering = false;
+
+            await AuthenticationManager.Initialize();
+            if (!string.IsNullOrEmpty(AppId) && PromptForOAuthLogin == true)
+            {
+                await AuthenticationManager.Login();
+            }
             StateHasChanged();
 
             return;
@@ -2111,7 +2129,7 @@ public partial class MapView : MapComponent
         if (Rendering || Map is null || ViewJsModule is null) return;
 
         if (string.IsNullOrWhiteSpace(ApiKey) && AllowDefaultEsriLogin is null or false &&
-            PromptForArcGISKey is null or true)
+            PromptForArcGISKey is null or true && string.IsNullOrWhiteSpace(AppId))
         {
             var newErrorMessage =
                 "No ArcGIS API Key Found. See https://docs.geoblazor.com/pages/authentication.html for instructions on providing an API Key or suppressing this message.";
@@ -2152,7 +2170,7 @@ public partial class MapView : MapComponent
 
             await ViewJsModule.InvokeVoidAsync("buildMapView", CancellationTokenSource.Token, Id,
                 DotNetObjectReference, Longitude, Latitude, Rotation, Map, Zoom, Scale,
-                ApiKey, mapType, Widgets, Graphics, SpatialReference, Constraints, Extent,
+                mapType, Widgets, Graphics, SpatialReference, Constraints, Extent,
                 EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions);
 
             Rendering = false;
