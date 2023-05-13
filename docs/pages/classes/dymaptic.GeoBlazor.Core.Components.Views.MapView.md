@@ -542,12 +542,9 @@ public Microsoft.AspNetCore.Components.EventCallback<dymaptic.GeoBlazor.Core.Eve
 The real-time nature of this handler make it a challenge to use continuously over SignalR in Blazor Server.  
 In this scenario, you should write a custom JavaScript handler instead.  
 See  
-<a target="_blank" href="https://github.com/dymaptic/GeoBlazor/blob/develop/samples/dymaptic.GeoBlazor.Core.Sample.Shared/Pages/DisplayProjection.razor">
-  
-    Display
-  
-    Projection
-  
+<a target="_blank" href="https://github.com/dymaptic/GeoBlazor/blob/develop/samples/dymaptic.GeoBlazor.Core.Sample.Shared/Pages/DisplayProjection.razor">  
+    Display  
+    Projection  
 </a>  
 code.
 
