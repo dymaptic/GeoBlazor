@@ -1,4 +1,5 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Views;
+using dymaptic.GeoBlazor.Core.Objects;
 using Microsoft.JSInterop;
 using ProtoBuf;
 using System.Text.Json;
@@ -106,7 +107,7 @@ public class GraphicsLayer : Layer
             graphic.Parent = this;
         }
 
-        if (JsModule is null)
+        if (JsModule is null || View is null)
         {
             LayerChanged = true;
             StateHasChanged();
@@ -116,6 +117,7 @@ public class GraphicsLayer : Layer
 
         var records = newGraphics.Select(g => g.ToSerializationRecord()).ToList();
         int chunkSize = View!.GraphicSerializationChunkSize ?? (View.IsMaui ? 100 : 200);
+        AbortManager ??= new AbortManager(JsRuntime);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
 
         if (View.IsWebAssembly)
@@ -318,7 +320,7 @@ public class GraphicsLayer : Layer
     }
 
     /// <inheritdoc />
-    public override void ValidateRequiredChildren()
+    internal override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();
 

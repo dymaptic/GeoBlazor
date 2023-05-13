@@ -59,7 +59,7 @@ public class LegendWidget : Widget
     }
 
     /// <inheritdoc />
-    public override void ValidateRequiredChildren()
+    internal override void ValidateRequiredChildren()
     {
         foreach (LayerInfo layerInfo in LayerInfos)
 
