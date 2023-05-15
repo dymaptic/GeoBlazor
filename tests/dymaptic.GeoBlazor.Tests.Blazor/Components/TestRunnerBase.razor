@@ -1,0 +1,40 @@
+﻿@using System.Reflection
+@using System.Text
+<h2>@ClassName</h2>
+<button @onclick="RunTests">Run Tests</button>
+<div style="border: 1px solid black; padding: 1rem; margin: 1rem 0;">
+    @((MarkupString)TestResults)
+</div>
+
+@code {
+    public async Task RunTests()
+    {
+        ResultBuilder = new();
+        TestResults = string.Empty;
+        MethodInfo[] methods = GetType()
+            .GetMethods()
+            .Where(m => m.GetCustomAttribute(typeof(TestMethodAttribute), false) != null)
+            .ToArray();
+
+        foreach (MethodInfo method in methods)
+        {
+            ResultBuilder.AppendLine($"<h3>{method.Name}</h3>");
+            try
+            {
+                await (Task)method.Invoke(this, null)!;
+                ResultBuilder.AppendLine("<p style=\"color: green;\">Passed</p>");
+            }
+            catch (Exception ex)
+            {
+                ResultBuilder.AppendLine($"<p style=\"color: red;\">{(ex.Message.Replace(Environment.NewLine, "<br/>"))}</p>");
+            }
+            
+            TestResults = ResultBuilder.ToString();
+            StateHasChanged();
+        }
+    }
+    
+    protected string ClassName => GetType().Name;
+    protected string TestResults = string.Empty;
+    protected StringBuilder ResultBuilder = new();
+}

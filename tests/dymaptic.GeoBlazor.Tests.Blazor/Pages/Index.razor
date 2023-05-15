@@ -1,0 +1,14 @@
+﻿@page "/"
+
+<h1>Unit Tests</h1>
+<button @onclick="RunTests">Run All Tests</button>
+
+<GeometryEngineTests @ref="_geometryEngineTests" />
+@code {
+    private async Task RunTests()
+    {
+        await _geometryEngineTests!.RunTests();
+    }
+
+    private GeometryEngineTests? _geometryEngineTests;
+}

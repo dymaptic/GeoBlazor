@@ -29,6 +29,7 @@ public abstract class LogicComponent : IDisposable
     /// <summary>
     ///     Implement this handler in your calling code to catch and handle Javascript errors.
     /// </summary>
+    [Obsolete("Methods now pass on JavaScript errors as exceptions")]
     public Func<JavascriptException, Task>? OnJavascriptErrorHandler { get; set; }
 
     /// <summary>
