@@ -5,6 +5,7 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <UserSecretsId>f4d3c64c-5267-42db-94c9-e0ebec987571</UserSecretsId>
+        <RootNamespace>dymaptic.GeoBlazor.Core.Test.Blazor</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

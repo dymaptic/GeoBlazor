@@ -1,3 +1,29 @@
+html {
+    background-color: #1e1f22;
+    color: white;
+}
+
+h1, h2, h3 {
+    color: #a9a9ff;
+}
+
+button {
+    background-color: #a9a9ff;
+    color: black;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    cursor: pointer;
+}
+
+.result-section {
+    border: 1px solid white; 
+    padding: 1rem; 
+    margin: 1rem 0; 
+    max-height: 400px; 
+    overflow-y: auto;
+}
+
 #blazor-error-ui {
     background: lightyellow;
     bottom: 0;

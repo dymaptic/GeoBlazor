@@ -508,17 +508,17 @@ public class GeometryEngine : LogicComponent
     ///     The maximum segment length allowed (in meters if a maxSegmentLengthUnit is not provided). This must be a positive
     ///     value.
     /// </param>
-    /// <param name="maxSegmentLenghtUnit">
+    /// <param name="maxSegmentLengthUnit">
     ///     Measurement unit for maxSegmentLength. If not provided, the unit will default to meters.
     /// </param>
     /// <returns>
     ///     Returns the densified geometry.
     /// </returns>
     public async Task<Geometry> GeodesicDensify(Geometry geometry, double maxSegmentLength,
-        LinearUnit? maxSegmentLenghtUnit = null)
+        LinearUnit? maxSegmentLengthUnit = null)
     {
         return await InvokeAsync<Geometry>("geodesicDensify", geometry, maxSegmentLength,
-            maxSegmentLenghtUnit);
+            maxSegmentLengthUnit);
     }
 
     /// <summary>

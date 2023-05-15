@@ -24,7 +24,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dymaptic.GeoBlazor.Core.Sam
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dymaptic.GeoBlazor.Core.Sample.ServerOAuth", "..\samples\dymaptic.GeoBlazor.Core.Sample.ServerOAuth\dymaptic.GeoBlazor.Core.Sample.ServerOAuth.csproj", "{3DED106E-5ED1-4506-87CA-50C40465D6A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dymaptic.GeoBlazor.Tests.Blazor", "..\tests\dymaptic.GeoBlazor.Tests.Blazor\dymaptic.GeoBlazor.Tests.Blazor.csproj", "{FACB8396-34A0-4BB0-98B0-463BC26BE349}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dymaptic.GeoBlazor.Core.Test.Blazor", "..\tests\dymaptic.GeoBlazor.Core.Test.Blazor\dymaptic.GeoBlazor.Core.Test.Blazor.csproj", "{FACB8396-34A0-4BB0-98B0-463BC26BE349}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
