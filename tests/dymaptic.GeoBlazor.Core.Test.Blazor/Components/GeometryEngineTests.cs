@@ -686,25 +686,25 @@ public class GeometryEngineTests: TestRunnerBase
         Assert.AreNotEqual(bufferedGeometries[0], bufferedGeometries[1]);
     }
 
-    // [TestMethod]
-    // public async Task GeodesicDensify()
-    // {
-    //     Polygon polygon = new Polygon(new MapPath[]
-    //     {
-    //         new MapPath
-    //         {
-    //             new MapPoint(0, 0),
-    //             new MapPoint(0, 10),
-    //             new MapPoint(10, 10),
-    //             new MapPoint(10, 0)
-    //         }
-    //     });
-    //     
-    //     Polygon? densifiedPolygon = await GeometryEngine.GeodesicDensify(polygon, 100, LinearUnit.Feet) as Polygon;
-    //     
-    //     Assert.IsNotNull(densifiedPolygon);
-    //     Assert.AreNotEqual(densifiedPolygon, polygon);
-    // }
+    [TestMethod]
+    public async Task GeodesicDensify()
+    {
+        Polygon polygon = new Polygon(new MapPath[]
+        {
+            new MapPath
+            {
+                new MapPoint(0, 0),
+                new MapPoint(0, 10),
+                new MapPoint(10, 10),
+                new MapPoint(10, 0)
+            }
+        }, spatialReference: new SpatialReference(102100));
+        
+        Polygon? densifiedPolygon = await GeometryEngine.GeodesicDensify(polygon, 100, LinearUnit.Feet) as Polygon;
+        
+        Assert.IsNotNull(densifiedPolygon);
+        Assert.AreNotEqual(densifiedPolygon, polygon);
+    }
     
     private readonly Random _random = new();
 }
