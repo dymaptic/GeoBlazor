@@ -687,7 +687,7 @@ public class GeometryEngineTests: TestRunnerBase
     }
 
     [TestMethod]
-    public async Task GeodesicDensify()
+    public async Task TestGeodesicDensify()
     {
         Polygon polygon = new Polygon(new MapPath[]
         {
@@ -705,6 +705,819 @@ public class GeometryEngineTests: TestRunnerBase
         Assert.IsNotNull(densifiedPolygon);
         Assert.AreNotEqual(densifiedPolygon, polygon);
     }
+
+    [TestMethod]
+    public async Task TestGeodesicLength()
+    {
+        Polygon polygon = new Polygon(new MapPath[]
+        {
+            new MapPath
+            {
+                new MapPoint(0, 0),
+                new MapPoint(0, 10),
+                new MapPoint(10, 10),
+                new MapPoint(10, 0),
+                new MapPoint(0, 0)
+            }
+        });
+        
+        double length = await GeometryEngine.GeodesicLength(polygon, LinearUnit.Feet);
+        
+        Assert.IsTrue(length > 0);
+    }
+
+    [TestMethod]
+    public async Task TestIntersectTrue()
+    {
+        Polygon polygon = new Polygon(new MapPath[]
+        {
+            new MapPath
+            {
+                new MapPoint(0, 0),
+                new MapPoint(0, 10),
+                new MapPoint(10, 10),
+                new MapPoint(10, 0)
+            }
+        });
+        
+        Polygon intersectingPolygon = new Polygon(new MapPath[]
+        {
+            new MapPath
+            {
+                new MapPoint(5, 5),
+                new MapPoint(5, 15),
+                new MapPoint(15, 15),
+                new MapPoint(15, 5)
+            }
+        });
+        
+        Polygon? intersect = await GeometryEngine.Intersect(polygon, intersectingPolygon) as Polygon;
+
+        Assert.IsNotNull(intersect);
+    }
+
+    [TestMethod]
+    public async Task TestIntersectFalse()
+    {
+        Polygon polygon = new Polygon(new MapPath[]
+        {
+            new MapPath
+            {
+                new MapPoint(0, 0),
+                new MapPoint(0, 10),
+                new MapPoint(10, 10),
+                new MapPoint(10, 0)
+            }
+        });
+        
+        Polygon intersectingPolygon = new Polygon(new MapPath[]
+        {
+            new MapPath
+            {
+                new MapPoint(15, 15),
+                new MapPoint(15, 25),
+                new MapPoint(25, 25),
+                new MapPoint(25, 15)
+            }
+        });
+        
+        Polygon? intersect = await GeometryEngine.Intersect(polygon, intersectingPolygon) as Polygon;
+
+        Assert.IsNull(intersect);
+    }
+
+    [TestMethod]
+    public async Task TestIntersectMultipleGeometries()
+    {
+        Polygon polygon = new Polygon(new MapPath[]
+        {
+            new MapPath
+            {
+                new MapPoint(0, 0),
+                new MapPoint(0, 10),
+                new MapPoint(10, 10),
+                new MapPoint(10, 0)
+            }
+        });
+        
+        PolyLine polyline = new PolyLine(new MapPath[] 
+        {
+            new MapPath
+            {
+                new MapPoint(5, 5),
+                new MapPoint(5, 15),
+                new MapPoint(15, 15),
+                new MapPoint(15, 5)
+            }
+        });
+        
+        Polygon intersectingPolygon = new Polygon(new MapPath[]
+        {
+            new MapPath
+            {
+                new MapPoint(5, 5),
+                new MapPoint(5, 15),
+                new MapPoint(15, 15),
+                new MapPoint(15, 5)
+            }
+        });
+        
+        Geometry[] intersect = await GeometryEngine.Intersect(new Geometry[] {polygon, polyline}, intersectingPolygon);
+
+        Assert.IsNotNull(intersect);
+        Assert.AreEqual(2, intersect.Length);
+        Assert.IsInstanceOfType<Polygon>(intersect[0]);
+        Assert.IsInstanceOfType<PolyLine>(intersect[1]);
+    }
+
+    [TestMethod]
+    public async Task TestIntersectsTrue()
+    {
+        Polygon polygon = new Polygon(new MapPath[]
+        {
+            new MapPath
+            {
+                new MapPoint(0, 0),
+                new MapPoint(0, 10),
+                new MapPoint(10, 10),
+                new MapPoint(10, 0)
+            }
+        });
+        
+        Polygon intersectingPolygon = new Polygon(new MapPath[]
+        {
+            new MapPath
+            {
+                new MapPoint(5, 5),
+                new MapPoint(5, 15),
+                new MapPoint(15, 15),
+                new MapPoint(15, 5)
+            }
+        });
+        
+        bool intersects = await GeometryEngine.Intersects(polygon, intersectingPolygon);
+        
+        Assert.IsTrue(intersects);
+    }
+
+    [TestMethod]
+    public async Task TestIntersectsFalse()
+    {
+        Polygon polygon = new Polygon(new MapPath[]
+        {
+            new MapPath
+            {
+                new MapPoint(0, 0),
+                new MapPoint(0, 10),
+                new MapPoint(10, 10),
+                new MapPoint(10, 0)
+            }
+        });
+        
+        Polygon intersectingPolygon = new Polygon(new MapPath[]
+        {
+            new MapPath
+            {
+                new MapPoint(15, 15),
+                new MapPoint(15, 25),
+                new MapPoint(25, 25),
+                new MapPoint(25, 15)
+            }
+        });
+        
+        bool intersects = await GeometryEngine.Intersects(polygon, intersectingPolygon);
+        
+        Assert.IsFalse(intersects);
+    }
+
+    [TestMethod]
+    public async Task TestIsSimpleTrue()
+    {
+        Polygon polygon = new Polygon(new MapPath[]
+        {
+            new MapPath
+            {
+                new MapPoint(0, 0),
+                new MapPoint(0, 10),
+                new MapPoint(10, 10),
+                new MapPoint(10, 0)
+            }
+        });
+        
+        bool isSimple = await GeometryEngine.IsSimple(polygon);
+        
+        Assert.IsTrue(isSimple);
+    }
+
+    [TestMethod]
+    public async Task TestIsSimpleFalse()
+    {
+        Polygon polygon = new Polygon(new MapPath[]
+        {
+            new MapPath
+            {
+                new MapPoint(0, 0),
+                new MapPoint(-10, 10),
+                new MapPoint(10, 10),
+                new MapPoint(5, 5),
+                new MapPoint(-10, 5),
+                new MapPoint(10, 0)
+            }
+        });
+        
+        bool isSimple = await GeometryEngine.IsSimple(polygon);
+        
+        Assert.IsFalse(isSimple);
+    }
+
+    [TestMethod]
+    public async Task TestNearestCoordinate()
+    {
+        Polygon polygon = new Polygon(new MapPath[]
+        {
+            new MapPath
+            {
+                new MapPoint(0, 0),
+                new MapPoint(0, 10),
+                new MapPoint(10, 10),
+                new MapPoint(10, 0)
+            }
+        });
+        
+        Point point = new Point(15, 15);
+        
+        NearestPointResult result = await GeometryEngine.NearestCoordinate(polygon, point);
+        
+        Assert.AreEqual(10, result.Coordinate.X);
+        Assert.AreEqual(10,result.Coordinate.Y);
+        Assert.AreNotEqual(4, result.VertexIndex);
+    }
+
+    [TestMethod]
+    public async Task TestNearestVertex()
+    {
+        Polygon polygon = new Polygon(new MapPath[]
+        {
+            new MapPath
+            {
+                new MapPoint(0, 0),
+                new MapPoint(0, 10),
+                new MapPoint(10, 10),
+                new MapPoint(10, 0)
+            }
+        });
+        
+        Point point = new Point(15, 5);
+        
+        NearestPointResult result = await GeometryEngine.NearestVertex(polygon, point);
+        
+        Assert.AreEqual(10, result.Coordinate.X);
+        Assert.AreEqual(10,result.Coordinate.Y);
+        Assert.AreEqual(2, result.VertexIndex);
+    }
+
+    [TestMethod]
+    public async Task TestNearestVertices()
+    {
+        Polygon polygon = new Polygon(new MapPath[]
+        {
+            new MapPath
+            {
+                new MapPoint(0, 0),
+                new MapPoint(-10, 10),
+                new MapPoint(10, 10),
+                new MapPoint(5, 5),
+                new MapPoint(-10, 5),
+                new MapPoint(10, 0)
+            }
+        });
+        
+        Point point = new Point(15, 5);
+        
+        NearestPointResult[] result = await GeometryEngine.NearestVertices(polygon, point, 200, 100);
+
+        Assert.AreEqual(6, result.Length);
+    }
     
+    [TestMethod]
+    public async Task TestOffset()
+    {
+        Polygon polygon = new Polygon(new MapPath[]
+        {
+            new MapPath
+            {
+                new MapPoint(0, 0),
+                new MapPoint(0, 10),
+                new MapPoint(10, 10),
+                new MapPoint(10, 0),
+                new MapPoint(0, 0)
+            }
+        }, spatialReference: new SpatialReference(102100));
+        
+        Geometry offset = await GeometryEngine.Offset(polygon, 10, LinearUnit.Feet, JoinType.Bevel);
+        
+        Assert.IsNotNull(offset);
+        Assert.AreNotEqual(polygon, offset);
+    }
+
+    [TestMethod]
+    public async Task TestOffsetMultipleGeometries()
+    {
+        Polygon polygon1 = new Polygon(new MapPath[]
+        {
+            new MapPath
+            {
+                new MapPoint(0, 0),
+                new MapPoint(-10, 10),
+                new MapPoint(10, 10),
+                new MapPoint(5, 5),
+                new MapPoint(-10, 5),
+                new MapPoint(10, 0)
+            }
+        }, spatialReference: new SpatialReference(102100));
+        
+        Polygon polygon2 = new Polygon(new MapPath[]
+        {
+            new MapPath
+            {
+                new MapPoint(0, 0),
+                new MapPoint(-10, 10),
+                new MapPoint(10, 10),
+                new MapPoint(5, 5),
+                new MapPoint(-10, 5),
+                new MapPoint(10, 0)
+            }
+        }, spatialReference: new SpatialReference(102100));
+        
+        Geometry[] geometries = new Geometry[] { polygon1, polygon2 };
+        
+        Geometry[] offset = await GeometryEngine.Offset(geometries, 10, LinearUnit.Feet, JoinType.Bevel);
+        
+        Assert.IsNotNull(offset);
+        
+        foreach (Geometry geometry in offset)
+        {
+            Assert.AreNotEqual(polygon1, geometry);
+            Assert.AreNotEqual(polygon2, geometry);
+        }
+    }
+
+    [TestMethod]
+    public async Task TestOverlapsTrue()
+    {
+        Polygon polygon = new Polygon(new MapPath[]
+        {
+            new MapPath
+            {
+                new MapPoint(0, 0),
+                new MapPoint(0, 10),
+                new MapPoint(10, 10),
+                new MapPoint(10, 0)
+            }
+        });
+        
+        Polygon overlappingPolygon = new Polygon(new MapPath[]
+        {
+            new MapPath
+            {
+                new MapPoint(5, 5),
+                new MapPoint(5, 15),
+                new MapPoint(15, 15),
+                new MapPoint(15, 5)
+            }
+        });
+        
+        bool overlaps = await GeometryEngine.Overlaps(polygon, overlappingPolygon);
+        
+        Assert.IsTrue(overlaps);
+    }
+
+    [TestMethod]
+    public async Task TestOverlapsFalse()
+    {
+        Polygon polygon = new Polygon(new MapPath[]
+        {
+            new MapPath
+            {
+                new MapPoint(0, 0),
+                new MapPoint(0, 10),
+                new MapPoint(10, 10),
+                new MapPoint(10, 0)
+            }
+        });
+        
+        Polygon overlappingPolygon = new Polygon(new MapPath[]
+        {
+            new MapPath
+            {
+                new MapPoint(15, 15),
+                new MapPoint(15, 25),
+                new MapPoint(25, 25),
+                new MapPoint(25, 15)
+            }
+        });
+        
+        bool overlaps = await GeometryEngine.Overlaps(polygon, overlappingPolygon);
+        
+        Assert.IsFalse(overlaps);
+    }
+    
+    [TestMethod]
+    public async Task TestPlanarArea(){
+        Polygon polygon = new Polygon(new MapPath[]
+        {
+            new MapPath
+            {
+                new MapPoint(0, 0),
+                new MapPoint(0, 10),
+                new MapPoint(10, 10),
+                new MapPoint(10, 0),
+                new MapPoint(0, 0)
+            }
+        }, spatialReference: new SpatialReference(102100));
+        
+        double area = await GeometryEngine.PlanarArea(polygon, ArealUnit.SquareKilometers);
+        
+        Assert.IsTrue(area > 0);
+    }
+
+    [TestMethod]
+    public async Task TestPlanarLength()
+    {
+        PolyLine polyline = new PolyLine(new MapPath[]
+        {
+            new MapPath
+            {
+                new MapPoint(0, 0),
+                new MapPoint(0, 10),
+                new MapPoint(10, 10),
+                new MapPoint(10, 0)
+            }
+        }, spatialReference: new SpatialReference(102100));
+        
+        double length = await GeometryEngine.PlanarLength(polyline, LinearUnit.Kilometers);
+        
+        Assert.IsTrue(length > 0);
+    }
+    
+    [TestMethod]
+    public async Task TestRelateTrue()
+    {
+        Polygon polygon1 = new Polygon(new MapPath[]
+        {
+            new MapPath
+            {
+                new MapPoint(0, 0),
+                new MapPoint(-10, 10),
+                new MapPoint(10, 10),
+                new MapPoint(5, 5),
+                new MapPoint(-10, 5),
+                new MapPoint(10, 0)
+            }
+        }, spatialReference: new SpatialReference(102100));
+        
+        Polygon polygon2 = new Polygon(new MapPath[]
+        {
+            new MapPath
+            {
+                new MapPoint(0, 0),
+                new MapPoint(-10, 10),
+                new MapPoint(10, 10),
+                new MapPoint(5, 5),
+                new MapPoint(-10, 5),
+                new MapPoint(10, 0)
+            }
+        }, spatialReference: new SpatialReference(102100));
+        
+        bool relate = await GeometryEngine.Relate(polygon1, polygon2, "T*F**F***");
+        
+        Assert.IsTrue(relate);
+    }
+    
+    [TestMethod]
+    public async Task TestRelateFalse()
+    {
+        Polygon polygon1 = new Polygon(new MapPath[]
+        {
+            new MapPath
+            {
+                new MapPoint(0, 0),
+                new MapPoint(-10, 10),
+                new MapPoint(10, 10),
+                new MapPoint(5, 5),
+                new MapPoint(-10, 5),
+                new MapPoint(10, 0)
+            }
+        }, spatialReference: new SpatialReference(102100));
+        
+        Polygon polygon2 = new Polygon(new MapPath[]
+        {
+            new MapPath
+            {
+                new MapPoint(100, 100),
+                new MapPoint(200, 100),
+                new MapPoint(200, 200),
+                new MapPoint(100, 100)
+            }
+        }, spatialReference: new SpatialReference(102100));
+        
+        bool relate = await GeometryEngine.Relate(polygon1, polygon2, "T*F**F***");
+        
+        Assert.IsFalse(relate);
+    }
+    
+    [TestMethod]
+    public async Task TestRotate()
+    {
+        Polygon polygon = new Polygon(new MapPath[]
+        {
+            new MapPath
+            {
+                new MapPoint(0, 0),
+                new MapPoint(-10, 10),
+                new MapPoint(10, 10),
+                new MapPoint(5, 5),
+                new MapPoint(-10, 5),
+                new MapPoint(10, 0)
+            }
+        }, spatialReference: new SpatialReference(102100));
+        
+        Point origin = new Point(0, 0, spatialReference: new SpatialReference(102100));
+        
+        Polygon? rotatedPolygon = await GeometryEngine.Rotate(polygon, 45, origin) as Polygon;
+        
+        Assert.IsNotNull(rotatedPolygon);
+        Assert.AreNotEqual(polygon, rotatedPolygon);
+    }
+    
+    [TestMethod]
+    public async Task TestSimplify()
+    {
+        Polygon polygon = new Polygon(new MapPath[]
+        {
+            new MapPath
+            {
+                new MapPoint(0, 0),
+                new MapPoint(-10, 10),
+                new MapPoint(10, 10),
+                new MapPoint(5, 5),
+                new MapPoint(-10, 5),
+                new MapPoint(10, 0)
+            }
+        }, spatialReference: new SpatialReference(102100));
+        
+        Geometry? simplifiedGeometry = await GeometryEngine.Simplify(polygon);
+        
+        Assert.IsNotNull(simplifiedGeometry);
+        Assert.AreNotEqual(polygon, simplifiedGeometry);
+    }
+    
+    [TestMethod]
+    public async Task TestSymmetricDifference()
+    {
+        Polygon polygon1 = new Polygon(new MapPath[]
+        {
+            new MapPath
+            {
+                new MapPoint(0, 0),
+                new MapPoint(-10, 10),
+                new MapPoint(10, 10),
+                new MapPoint(5, 5),
+                new MapPoint(-10, 5),
+                new MapPoint(10, 0)
+            }
+        }, spatialReference: new SpatialReference(102100));
+        
+        Polygon polygon2 = new Polygon(new MapPath[]
+        {
+            new MapPath
+            {
+                new MapPoint(100, 100),
+                new MapPoint(200, 100),
+                new MapPoint(200, 200),
+                new MapPoint(100, 100)
+            }
+        }, spatialReference: new SpatialReference(102100));
+        
+        Geometry? symmetricDifference = await GeometryEngine.SymmetricDifference(polygon1, polygon2);
+        
+        Assert.IsNotNull(symmetricDifference);
+        Assert.AreNotEqual(polygon1, symmetricDifference);
+        Assert.AreNotEqual(polygon2, symmetricDifference);
+    }
+
+    [TestMethod]
+    public async Task TestSymmetricDifferences()
+    {
+        Polygon polygon1 = new Polygon(new MapPath[]
+        {
+            new MapPath
+            {
+                new MapPoint(0, 0),
+                new MapPoint(-10, 10),
+                new MapPoint(10, 10),
+                new MapPoint(5, 5),
+                new MapPoint(-10, 5),
+                new MapPoint(10, 0)
+            }
+        }, spatialReference: new SpatialReference(102100));
+        
+        Polygon polygon2 = new Polygon(new MapPath[]
+        {
+            new MapPath
+            {
+                new MapPoint(100, 100),
+                new MapPoint(200, 100),
+                new MapPoint(200, 200),
+                new MapPoint(100, 100)
+            }
+        }, spatialReference: new SpatialReference(102100));
+        
+        Polygon polygon3 = new Polygon(new MapPath[]
+        {
+            new MapPath
+            {
+                new MapPoint(100, 100),
+                new MapPoint(200, 100),
+                new MapPoint(200, 200),
+                new MapPoint(100, 100)
+            }
+        }, spatialReference: new SpatialReference(102100));
+
+        Geometry[]? symmetricDifferences =
+            await GeometryEngine.SymmetricDifference(new Geometry[] { polygon1, polygon2 }, polygon3);
+        
+        Assert.IsNotNull(symmetricDifferences);
+        
+        foreach (Geometry symmetricDifference in symmetricDifferences)
+        {
+            Assert.AreNotEqual(polygon1, symmetricDifference);
+            Assert.AreNotEqual(polygon2, symmetricDifference);
+            Assert.AreNotEqual(polygon3, symmetricDifference);
+        }
+    }
+    
+    [TestMethod]
+    public async Task TestTouchesTrue()
+    {
+        Polygon polygon1 = new Polygon(new MapPath[]
+        {
+            new MapPath
+            {
+                new MapPoint(0, 0),
+                new MapPoint(0, 10),
+                new MapPoint(10, 10),
+                new MapPoint(10, 0),
+                new MapPoint(0, 0)
+            }
+        }, spatialReference: new SpatialReference(102100));
+        
+        Polygon polygon2 = new Polygon(new MapPath[]
+        {
+            new MapPath
+            {
+                new MapPoint(10, 0),
+                new MapPoint(20, 0),
+                new MapPoint(20, 10),
+                new MapPoint(10, 10),
+                new MapPoint(10, 0)
+            }
+        }, spatialReference: new SpatialReference(102100));
+        
+        bool touches = await GeometryEngine.Touches(polygon1, polygon2);
+        
+        Assert.IsTrue(touches);
+    }
+    
+    [TestMethod]
+    public async Task TestTouchesFalse()
+    {
+        Polygon polygon1 = new Polygon(new MapPath[]
+        {
+            new MapPath
+            {
+                new MapPoint(0, 0),
+                new MapPoint(0, 10),
+                new MapPoint(10, 10),
+                new MapPoint(10, 0),
+                new MapPoint(0, 0)
+            }
+        }, spatialReference: new SpatialReference(102100));
+        
+        Polygon polygon2 = new Polygon(new MapPath[]
+        {
+            new MapPath
+            {
+                new MapPoint(20, 20),
+                new MapPoint(30, 20),
+                new MapPoint(30, 30),
+                new MapPoint(20, 30),
+                new MapPoint(20, 20)
+            }
+        }, spatialReference: new SpatialReference(102100));
+        
+        bool touches = await GeometryEngine.Touches(polygon2, polygon1);
+        
+        Assert.IsFalse(touches);
+    }
+    
+    [TestMethod]
+    public async Task TestUnion()
+    {
+        Polygon polygon1 = new Polygon(new MapPath[]
+        {
+            new MapPath
+            {
+                new MapPoint(0, 0),
+                new MapPoint(0, 10),
+                new MapPoint(10, 10),
+                new MapPoint(10, 0),
+                new MapPoint(0, 0)
+            }
+        }, spatialReference: new SpatialReference(102100));
+        
+        Polygon polygon2 = new Polygon(new MapPath[]
+        {
+            new MapPath
+            {
+                new MapPoint(10, 0),
+                new MapPoint(20, 0),
+                new MapPoint(20, 10),
+                new MapPoint(10, 10),
+                new MapPoint(10, 0)
+            }
+        }, spatialReference: new SpatialReference(102100));
+        
+        Geometry? union = await GeometryEngine.Union(polygon1, polygon2);
+        
+        Assert.IsNotNull(union);
+        Assert.AreNotEqual(polygon1, union);
+        Assert.AreNotEqual(polygon2, union);
+    }
+    
+    [TestMethod]
+    public async Task TestWithinTrue()
+    {
+        Polygon polygon1 = new Polygon(new MapPath[]
+        {
+            new MapPath
+            {
+                new MapPoint(0, 0),
+                new MapPoint(0, 10),
+                new MapPoint(10, 10),
+                new MapPoint(10, 0),
+                new MapPoint(0, 0)
+            }
+        }, spatialReference: new SpatialReference(102100));
+        
+        Polygon polygon2 = new Polygon(new MapPath[]
+        {
+            new MapPath
+            {
+                new MapPoint(1, 1),
+                new MapPoint(1, 9),
+                new MapPoint(9, 9),
+                new MapPoint(9, 1),
+                new MapPoint(1, 1)
+            }
+        }, spatialReference: new SpatialReference(102100));
+        
+        bool within = await GeometryEngine.Within(polygon2, polygon1);
+        
+        Assert.IsTrue(within);
+    }
+    
+    [TestMethod]
+    public async Task TestWithinFalse()
+    {
+        Polygon polygon1 = new Polygon(new MapPath[]
+        {
+            new MapPath
+            {
+                new MapPoint(0, 0),
+                new MapPoint(0, 10),
+                new MapPoint(10, 10),
+                new MapPoint(10, 0),
+                new MapPoint(0, 0)
+            }
+        }, spatialReference: new SpatialReference(102100));
+        
+        Polygon polygon2 = new Polygon(new MapPath[]
+        {
+            new MapPath
+            {
+                new MapPoint(1, 1),
+                new MapPoint(1, 9),
+                new MapPoint(9, 9),
+                new MapPoint(9, 1),
+                new MapPoint(1, 1)
+            }
+        }, spatialReference: new SpatialReference(102100));
+        
+        bool within = await GeometryEngine.Within(polygon1, polygon2);
+        
+        Assert.IsFalse(within);
+    }
+
     private readonly Random _random = new();
 }

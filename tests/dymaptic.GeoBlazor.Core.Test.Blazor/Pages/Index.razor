@@ -3,9 +3,10 @@
 <h1>Unit Tests</h1>
 <button @onclick="RunTests">Run All Tests</button>
 <div class="result-section">
-	@foreach (var result in _results)
+	@foreach (KeyValuePair<string, string> result in _results)
     {
-        @((MarkupString)result)
+        <p><b>@result.Key - @((MarkupString)result.Value)</b></p> 
+        
     }
 </div>
 
@@ -17,11 +18,13 @@
         await _geometryEngineTests!.RunTests();
     }
 
-	private async Task OnTestResults(TestResult result)
+	private void OnTestResults(TestResult result)
 	{
-		_results.Add($"<p><b>{result.ClassName} - <span style=\"color: green;\">Passed: {result.Passed},</span> <span style=\"color: red;\">Failed: {result.Failed}</span></b></p>");
+	    _results[result.ClassName] = 
+	        $"<span style=\"color: green;\">Passed: {result.Passed},</span> <span style=\"color: red;\">Failed: {result.Failed}</span>";
+	    StateHasChanged();
 	}
 
     private GeometryEngineTests? _geometryEngineTests;
-	private List<string> _results = new List<string>();
+	private Dictionary<string, string> _results = new();
 }

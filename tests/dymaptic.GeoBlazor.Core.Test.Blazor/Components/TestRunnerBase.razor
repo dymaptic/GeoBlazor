@@ -20,15 +20,10 @@
     {
         ResultBuilder = new();
 
-        _passed = 0;
-		_failed = 0;
-
         foreach (MethodInfo method in _methodInfos!)
         {
             await RunTest(method);
         }
-
-		await OnTestResults.InvokeAsync(new TestResult(ClassName, _passed, _failed));
     }
 
     protected override void OnInitialized()
@@ -43,27 +38,31 @@
 
     private async Task RunTest(MethodInfo methodInfo)
     {
+        _testResults[methodInfo.Name] = "<p style=\"color: orange; font-weight: bold\">Running...</p>";
         ResultBuilder = new StringBuilder();
         try
         {
             await (Task)methodInfo.Invoke(this, null)!;
             ResultBuilder.AppendLine("<p style=\"color: green; font-weight: bold\">Passed</p>");
-        	_passed++;
+        	_passed.Add(methodInfo.Name);
+            _failed.Remove(methodInfo.Name);
         }
         catch (Exception ex)
         {
-            ResultBuilder.AppendLine($"<p style=\"color: red; font-weight: bold\">{(ex.Message.Replace(Environment.NewLine, "<br/>"))}</p>");
-        	_failed++;
+            ResultBuilder.AppendLine($"<p style=\"color: red; font-weight: bold\">{ex.Message?.Replace(Environment.NewLine, "<br/>")}<br/>{(ex.StackTrace?.Replace(Environment.NewLine, "<br/>"))}</p>");
+        	_failed.Add(methodInfo.Name);
+            _passed.Remove(methodInfo.Name);
         }
         
         _testResults[methodInfo.Name] = ResultBuilder.ToString();
         StateHasChanged();
+        await OnTestResults.InvokeAsync(new TestResult(ClassName, _passed.Count, _failed.Count));
     }
     
     protected string ClassName => GetType().Name;
     protected StringBuilder ResultBuilder = new();
     private MethodInfo[]? _methodInfos;
     private Dictionary<string, string> _testResults = new();
-    private int _passed;
-    private int _failed;
+    private HashSet<string> _passed = new();
+    private HashSet<string> _failed = new();
 }
