@@ -52,7 +52,7 @@ public class WebScene : Map
     }
 
     /// <inheritdoc />
-    public override void ValidateRequiredChildren()
+    internal override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();
         PortalItem?.ValidateRequiredChildren();

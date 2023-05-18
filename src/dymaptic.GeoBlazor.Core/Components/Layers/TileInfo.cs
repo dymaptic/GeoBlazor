@@ -111,7 +111,7 @@ public class TileInfo : MapComponent
     }
 
     /// <inheritdoc />
-    public override void ValidateRequiredChildren()
+    internal override void ValidateRequiredChildren()
     {
         Origin?.ValidateRequiredChildren();
         SpatialReference?.ValidateRequiredChildren();

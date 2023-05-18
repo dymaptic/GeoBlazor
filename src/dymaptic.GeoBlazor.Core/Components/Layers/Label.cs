@@ -92,7 +92,7 @@ public class Label : LayerObject, IEquatable<Label>
     }
 
     /// <inheritdoc />
-    public override void ValidateRequiredChildren()
+    internal override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();
         LabelExpressionInfo?.ValidateRequiredChildren();

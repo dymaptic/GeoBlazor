@@ -94,7 +94,7 @@ public Microsoft.AspNetCore.Components.RenderFragment? ChildContent { get; set; 
 A unique identifier, used to track components across .NET and JavaScript.
 
 ```csharp
-public System.Guid Id { get; }
+public System.Guid Id { get; set; }
 ```
 
 #### Property Value
@@ -836,22 +836,3 @@ The child to unregister
 
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
-
-<a name='dymaptic.GeoBlazor.Core.Components.MapComponent.ValidateRequiredChildren()'></a>
-
-## MapComponent.ValidateRequiredChildren() Method
-
-When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the  
-[RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
-
-```csharp
-public virtual void ValidateRequiredChildren();
-```
-
-#### Exceptions
-
-[MissingRequiredChildElementException](dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredChildElementException.html 'dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredChildElementException')  
-The consumer needs to provide the missing child component
-
-[MissingRequiredOptionsChildElementException](dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException.html 'dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException')  
-The consumer needs to provide ONE of the options of child components
