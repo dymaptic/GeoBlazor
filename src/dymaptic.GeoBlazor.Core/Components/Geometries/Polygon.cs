@@ -68,6 +68,14 @@ public class Polygon : Geometry, IEquatable<Polygon>
     /// <inheritdoc />
     public override string Type => "polygon";
 
+    /// <summary>
+    ///     Returns a deep clone of the geometry.
+    /// </summary>
+    public Polygon Clone()
+    {
+        return new Polygon(Rings.Select(p => p.Clone()).ToArray(), SpatialReference?.Clone(), Extent?.Clone());
+    }
+
     /// <inheritdoc />
     public bool Equals(Polygon? other)
     {
