@@ -1,4 +1,5 @@
 ﻿using dymaptic.GeoBlazor.Core.Exceptions;
+using dymaptic.GeoBlazor.Core.Objects;
 using Microsoft.Extensions.Configuration;
 using Microsoft.JSInterop;
 
@@ -16,13 +17,13 @@ public abstract class LogicComponent : IDisposable
     /// <param name="jsRuntime">
     ///     Injected JavaScript Runtime reference
     /// </param>
-    /// <param name="configuration">
-    ///     Injected configuration object
+    /// <param name="authenticationManager">
+    ///     Injected Identity Manager reference
     /// </param>
-    public LogicComponent(IJSRuntime jsRuntime, IConfiguration configuration)
+    public LogicComponent(IJSRuntime jsRuntime, AuthenticationManager authenticationManager)
     {
         JsRuntime = jsRuntime;
-        ApiKey = configuration["ArcGISApiKey"];
+        _authenticationManager = authenticationManager;
     }
 
     /// <summary>
@@ -94,15 +95,9 @@ public abstract class LogicComponent : IDisposable
     /// </param>
     protected virtual async Task InvokeVoidAsync(string method, params object?[] parameters)
     {
-        if (Component is null)
-        {
-            IJSObjectReference module = await GetArcGisJsInterop();
+        await Initialize();
 
-            Component = await module.InvokeAsync<IJSObjectReference>($"get{ComponentName}Wrapper",
-                CancellationTokenSource.Token, DotNetObjectReference, ApiKey);
-        }
-
-        await Component.InvokeVoidAsync(method, CancellationTokenSource.Token, parameters);
+        await Component!.InvokeVoidAsync(method, CancellationTokenSource.Token, parameters);
     }
 
     /// <summary>
@@ -116,34 +111,23 @@ public abstract class LogicComponent : IDisposable
     /// </param>
     protected virtual async Task<T> InvokeAsync<T>(string method, params object?[] parameters)
     {
-        if (Component is null)
-        {
-            IJSObjectReference module = await GetArcGisJsInterop();
+        await Initialize();
 
-            Component = await module.InvokeAsync<IJSObjectReference>($"get{ComponentName}Wrapper",
-                CancellationTokenSource.Token, DotNetObjectReference, ApiKey);
-        }
-
-        return await Component.InvokeAsync<T>(method, CancellationTokenSource.Token, parameters);
+        return await Component!.InvokeAsync<T>(method, CancellationTokenSource.Token, parameters);
     }
 
-    private async Task<IJSObjectReference> GetArcGisJsInterop()
+    /// <summary>
+    ///    Initializes the JavaScript reference component, if not already initialized.
+    /// </summary>
+    public virtual async Task Initialize()
     {
-        LicenseType licenseType = Licensing.GetLicenseType();
-
-        switch ((int)licenseType)
+        if (Component is null)
         {
-            case >= 100:
-                // this is here to support the pro extension library
-                IJSObjectReference proModule = await JsRuntime
-                    .InvokeAsync<IJSObjectReference>("import", CancellationTokenSource.Token,
-                        "./_content/dymaptic.GeoBlazor.Pro/js/arcGisPro.js");
+            await _authenticationManager.Initialize();
+            IJSObjectReference module = await _authenticationManager.GetArcGisJsInterop();
 
-                return await proModule.InvokeAsync<IJSObjectReference>("getCore");
-            default:
-                return await JsRuntime
-                    .InvokeAsync<IJSObjectReference>("import", CancellationTokenSource.Token,
-                        "./_content/dymaptic.GeoBlazor.Core/js/arcGisJsInterop.js");
+            Component = await module.InvokeAsync<IJSObjectReference>($"get{ComponentName}Wrapper",
+                CancellationTokenSource.Token, DotNetObjectReference);
         }
     }
 
@@ -151,13 +135,10 @@ public abstract class LogicComponent : IDisposable
     ///     The reference to the JS Runtime.
     /// </summary>
     protected readonly IJSRuntime JsRuntime;
-    /// <summary>
-    ///     The ArcGIS API Key.
-    /// </summary>
-    protected readonly string? ApiKey;
+    private readonly AuthenticationManager _authenticationManager;
 
     /// <summary>
     ///     Creates a cancellation token to control external calls
     /// </summary>
-    protected CancellationTokenSource CancellationTokenSource = new();
+    protected readonly CancellationTokenSource CancellationTokenSource = new();
 }

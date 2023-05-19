@@ -146,7 +146,7 @@ public class TextSymbol : Symbol, IEquatable<TextSymbol>
     }
 
     /// <inheritdoc />
-    public override void ValidateRequiredChildren()
+    internal override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();
         Font?.ValidateRequiredChildren();

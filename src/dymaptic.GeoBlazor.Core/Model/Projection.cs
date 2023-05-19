@@ -23,10 +23,10 @@ public class Projection : LogicComponent
     /// <param name="jsRuntime">
     ///     Injected JavaScript Runtime reference
     /// </param>
-    /// <param name="configuration">
-    ///     Injected configuration object
+    /// <param name="authenticationManager">
+    ///     Injected Identity Manager reference
     /// </param>
-    public Projection(IJSRuntime jsRuntime, IConfiguration configuration) : base(jsRuntime, configuration)
+    public Projection(IJSRuntime jsRuntime, AuthenticationManager authenticationManager) : base(jsRuntime, authenticationManager)
     {
     }
 

@@ -292,7 +292,7 @@ public class PopupTemplate : MapComponent, IEquatable<PopupTemplate>
     }
 
     /// <inheritdoc />
-    public override void ValidateRequiredChildren()
+    internal override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();
 

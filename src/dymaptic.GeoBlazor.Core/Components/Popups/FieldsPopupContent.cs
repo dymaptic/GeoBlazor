@@ -112,7 +112,7 @@ public class FieldsPopupContent : PopupContent
     }
 
     /// <inheritdoc />
-    public override void ValidateRequiredChildren()
+    internal override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();
 

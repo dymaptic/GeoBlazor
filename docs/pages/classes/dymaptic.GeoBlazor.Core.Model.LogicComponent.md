@@ -24,28 +24,28 @@ Derived
 Implements [System.IDisposable](https://docs.microsoft.com/en-us/dotnet/api/System.IDisposable 'System.IDisposable')
 ### Constructors
 
-<a name='dymaptic.GeoBlazor.Core.Model.LogicComponent.LogicComponent(Microsoft.JSInterop.IJSRuntime,Microsoft.Extensions.Configuration.IConfiguration)'></a>
+<a name='dymaptic.GeoBlazor.Core.Model.LogicComponent.LogicComponent(Microsoft.JSInterop.IJSRuntime,dymaptic.GeoBlazor.Core.Model.AuthenticationManager)'></a>
 
-## LogicComponent(IJSRuntime, IConfiguration) Constructor
+## LogicComponent(IJSRuntime, AuthenticationManager) Constructor
 
 Default constructor
 
 ```csharp
-public LogicComponent(Microsoft.JSInterop.IJSRuntime jsRuntime, Microsoft.Extensions.Configuration.IConfiguration configuration);
+public LogicComponent(Microsoft.JSInterop.IJSRuntime jsRuntime, dymaptic.GeoBlazor.Core.Model.AuthenticationManager authenticationManager);
 ```
 #### Parameters
 
-<a name='dymaptic.GeoBlazor.Core.Model.LogicComponent.LogicComponent(Microsoft.JSInterop.IJSRuntime,Microsoft.Extensions.Configuration.IConfiguration).jsRuntime'></a>
+<a name='dymaptic.GeoBlazor.Core.Model.LogicComponent.LogicComponent(Microsoft.JSInterop.IJSRuntime,dymaptic.GeoBlazor.Core.Model.AuthenticationManager).jsRuntime'></a>
 
 `jsRuntime` [Microsoft.JSInterop.IJSRuntime](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.JSInterop.IJSRuntime 'Microsoft.JSInterop.IJSRuntime')
 
 Injected JavaScript Runtime reference
 
-<a name='dymaptic.GeoBlazor.Core.Model.LogicComponent.LogicComponent(Microsoft.JSInterop.IJSRuntime,Microsoft.Extensions.Configuration.IConfiguration).configuration'></a>
+<a name='dymaptic.GeoBlazor.Core.Model.LogicComponent.LogicComponent(Microsoft.JSInterop.IJSRuntime,dymaptic.GeoBlazor.Core.Model.AuthenticationManager).authenticationManager'></a>
 
-`configuration` [Microsoft.Extensions.Configuration.IConfiguration](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.Extensions.Configuration.IConfiguration 'Microsoft.Extensions.Configuration.IConfiguration')
+`authenticationManager` [AuthenticationManager](dymaptic.GeoBlazor.Core.Model.AuthenticationManager.html 'dymaptic.GeoBlazor.Core.Model.AuthenticationManager')
 
-Injected configuration object
+Injected Identity Manager reference
 ### Properties
 
 <a name='dymaptic.GeoBlazor.Core.Model.LogicComponent.OnJavascriptErrorHandler'></a>
@@ -73,6 +73,19 @@ public void Dispose();
 ```
 
 Implements [Dispose()](https://docs.microsoft.com/en-us/dotnet/api/System.IDisposable.Dispose 'System.IDisposable.Dispose')
+
+<a name='dymaptic.GeoBlazor.Core.Model.LogicComponent.Initialize()'></a>
+
+## LogicComponent.Initialize() Method
+
+Initializes the JavaScript reference component, if not already initialized.
+
+```csharp
+public virtual System.Threading.Tasks.Task Initialize();
+```
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
 
 <a name='dymaptic.GeoBlazor.Core.Model.LogicComponent.OnJavascriptError(dymaptic.GeoBlazor.Core.Exceptions.JavascriptError)'></a>
 

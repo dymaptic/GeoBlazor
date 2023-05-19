@@ -70,7 +70,7 @@ public class PortalItem : MapComponent
     }
 
     /// <inheritdoc />
-    public override void ValidateRequiredChildren()
+    internal override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();
         Portal?.ValidateRequiredChildren();

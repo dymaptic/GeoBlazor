@@ -1,5 +1,4 @@
-﻿import esriConfig from "@arcgis/core/config";
-import * as engine from "@arcgis/core/geometry/geometryEngine";
+﻿import * as engine from "@arcgis/core/geometry/geometryEngine";
 import Geometry from "@arcgis/core/geometry/Geometry";
 import Polygon from "@arcgis/core/geometry/Polygon";
 import Polyline from "@arcgis/core/geometry/Polyline";
@@ -9,15 +8,14 @@ import {buildJsExtent, buildJsGeometry, buildJsPoint, buildJsPolygon, buildJsPol
 import {DotNetExtent, DotNetGeometry, DotNetPoint, DotNetPolygon, DotNetPolyline} from "./definitions";
 import LinearUnits = __esri.LinearUnits;
 import SpatialReferenceInfo = __esri.SpatialReferenceInfo;
-import ArealUnits = __esri.ArealUnits;
+import AreaUnits = __esri.AreaUnits;
 import NearestPointResult = __esri.NearestPointResult;
 
 export default class GeometryEngineWrapper {
     private dotNetRef: any;
 
-    constructor(dotNetReference, apiKey) {
+    constructor(dotNetReference) {
         this.dotNetRef = dotNetReference;
-        esriConfig.apiKey = apiKey;
     }
 
     async buffer(geometries: DotNetGeometry | Array<DotNetGeometry>, distances: number | Array<number>,
@@ -224,7 +222,7 @@ export default class GeometryEngineWrapper {
         }
     }
 
-    async geodesicArea(geometry: DotNetPolygon, unit: ArealUnits | null): Promise<number | null> {
+    async geodesicArea(geometry: DotNetPolygon, unit: AreaUnits | null): Promise<number | null> {
         try {
             if (unit === null) {
                 return engine.geodesicArea(buildJsPolygon(geometry) as Polygon);
@@ -394,7 +392,7 @@ export default class GeometryEngineWrapper {
         }
     }
 
-    async planarArea(geometry: DotNetPolygon, unit: ArealUnits | null): Promise<number | null> {
+    async planarArea(geometry: DotNetPolygon, unit: AreaUnits | null): Promise<number | null> {
         try {
             if (unit === null) {
                 return engine.planarArea(buildJsPolygon(geometry) as Polygon);

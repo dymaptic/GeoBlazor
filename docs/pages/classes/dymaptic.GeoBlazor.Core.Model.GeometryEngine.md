@@ -20,28 +20,28 @@ public class GeometryEngine : dymaptic.GeoBlazor.Core.Model.LogicComponent
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [LogicComponent](dymaptic.GeoBlazor.Core.Model.LogicComponent.html 'dymaptic.GeoBlazor.Core.Model.LogicComponent') &#129106; GeometryEngine
 ### Constructors
 
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.GeometryEngine(Microsoft.JSInterop.IJSRuntime,Microsoft.Extensions.Configuration.IConfiguration)'></a>
+<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.GeometryEngine(Microsoft.JSInterop.IJSRuntime,dymaptic.GeoBlazor.Core.Model.AuthenticationManager)'></a>
 
-## GeometryEngine(IJSRuntime, IConfiguration) Constructor
+## GeometryEngine(IJSRuntime, AuthenticationManager) Constructor
 
 Default Constructor
 
 ```csharp
-public GeometryEngine(Microsoft.JSInterop.IJSRuntime jsRuntime, Microsoft.Extensions.Configuration.IConfiguration configuration);
+public GeometryEngine(Microsoft.JSInterop.IJSRuntime jsRuntime, dymaptic.GeoBlazor.Core.Model.AuthenticationManager authenticationManager);
 ```
 #### Parameters
 
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.GeometryEngine(Microsoft.JSInterop.IJSRuntime,Microsoft.Extensions.Configuration.IConfiguration).jsRuntime'></a>
+<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.GeometryEngine(Microsoft.JSInterop.IJSRuntime,dymaptic.GeoBlazor.Core.Model.AuthenticationManager).jsRuntime'></a>
 
 `jsRuntime` [Microsoft.JSInterop.IJSRuntime](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.JSInterop.IJSRuntime 'Microsoft.JSInterop.IJSRuntime')
 
 Injected JavaScript Runtime reference
 
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.GeometryEngine(Microsoft.JSInterop.IJSRuntime,Microsoft.Extensions.Configuration.IConfiguration).configuration'></a>
+<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.GeometryEngine(Microsoft.JSInterop.IJSRuntime,dymaptic.GeoBlazor.Core.Model.AuthenticationManager).authenticationManager'></a>
 
-`configuration` [Microsoft.Extensions.Configuration.IConfiguration](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.Extensions.Configuration.IConfiguration 'Microsoft.Extensions.Configuration.IConfiguration')
+`authenticationManager` [AuthenticationManager](dymaptic.GeoBlazor.Core.Model.AuthenticationManager.html 'dymaptic.GeoBlazor.Core.Model.AuthenticationManager')
 
-Injected configuration object
+Injected Identity Manager reference
 ### Methods
 
 <a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.AreEqual(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,dymaptic.GeoBlazor.Core.Components.Geometries.Geometry)'></a>
@@ -1241,12 +1241,9 @@ each of the following DE-9IM string codes are valid for testing whether a polygo
 line geometry: TTTFFTFFT (Boolean), 'T******FF*' (ignore irrelevant intersections), or '102FF*FF*' (dimension  
 form). Each returns the same result. See  
 <a target="_blank" href="https://en.wikipedia.org/wiki/DE-9IM">this article</a> and  
-<a target="_blank" href="https://desktop.arcgis.com/en/arcmap/latest/manage-data/using-sql-with-gdbs/relational-functions-for-st-geometry.htm">
-  
-    this
-  
-    ArcGIS help page
-  
+<a target="_blank" href="https://desktop.arcgis.com/en/arcmap/latest/manage-data/using-sql-with-gdbs/relational-functions-for-st-geometry.htm">  
+    this  
+    ArcGIS help page  
 </a>  
 for more information about the DE-9IM model and how string codes are constructed.
 

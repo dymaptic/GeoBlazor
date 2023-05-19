@@ -63,6 +63,7 @@ import {
 } from "./dotNetBuilder";
 
 import {
+    buildJsAttributes,
     buildJsExtent,
     buildJsFields,
     buildJsGeometry,
@@ -103,6 +104,7 @@ import HitTestResult = __esri.HitTestResult;
 import MapViewHitTestOptions = __esri.MapViewHitTestOptions;
 import LegendLayerInfos = __esri.LegendLayerInfos;
 import ScreenPoint = __esri.ScreenPoint;
+import AuthenticationManager from "./authenticationManager";
 
 export let arcGisObjectRefs: Record<string, Accessor> = {};
 export let graphicsRefs: Record<string, Graphic> = {};
@@ -156,19 +158,19 @@ export function getSerializedDotNetObject(id: string): any {
     return objectRef;
 }
 
-export function getProjectionWrapper(dotNetRef: any, apiKey: string): ProjectionWrapper {
-    let wrapper = new ProjectionWrapper(dotNetRef, apiKey);
+export function getProjectionWrapper(dotNetRef: any): ProjectionWrapper {
+    let wrapper = new ProjectionWrapper(dotNetRef);
     return wrapper;
 }
 
-export function getGeometryEngineWrapper(dotNetRef: any, apiKey: string): GeometryEngineWrapper {
-    let wrapper = new GeometryEngineWrapper(dotNetRef, apiKey);
+export function getGeometryEngineWrapper(dotNetRef: any): GeometryEngineWrapper {
+    let wrapper = new GeometryEngineWrapper(dotNetRef);
     return wrapper;
 }
 
 export async function buildMapView(id: string, dotNetReference: any, long: number | null, lat: number | null,
                                    rotation: number, mapObject: any, zoom: number | null, scale: number,
-                                   apiKey: string, mapType: string, widgets: any, graphics: any,
+                                   mapType: string, widgets: any, graphics: any,
                                    spatialReference: any, constraints: any, extent: any,
                                    eventRateLimitInMilliseconds: number | null, activeEventHandlers: Array<string>,
                                    isServer: boolean, highlightOptions?: any | null, zIndex?: number, tilt?: number)
@@ -188,9 +190,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
 
         checkConnectivity(id);
         dotNetRefs[id] = dotNetRef;
-        if (esriConfig.apiKey === undefined) {
-            esriConfig.apiKey = apiKey;
-        }
+        
         disposeView(id);
         let view: View;
 
@@ -1186,21 +1186,6 @@ export function addGraphicsSyncInterop(graphicsArray: Uint8Array, viewId: string
     }
 }
 
-export function setGraphicAttribute(id: string, name: string, value: any): void {
-    let graphic = graphicsRefs[id];
-    if (hasValue(graphic)) {
-        graphic.attributes[name] = value;
-    }
-}
-
-export function getGraphicAttribute(id: string, name: string): any {
-    return graphicsRefs[id]?.attributes[name];
-}
-
-export function removeGraphicAttribute(id: string, name: string): void {
-    delete graphicsRefs[id]?.attributes[name];
-}
-
 export function setGraphicGeometry(id: string, geometry: DotNetGeometry): void {
     let jsGeometry = buildJsGeometry(geometry);
     let graphic = graphicsRefs[id];
@@ -1241,8 +1226,9 @@ export function getGraphicVisibility(id: string): boolean {
     return graphicsRefs[id]?.visible;
 }
 
-export function setGraphicPopupTemplate(id: string, popupTemplate: DotNetPopupTemplate, viewId: string): void {
+export function setGraphicPopupTemplate(id: string, popupTemplate: DotNetPopupTemplate, dotNetRef: any, viewId: string): void {
     let graphic = graphicsRefs[id];
+    popupTemplate.dotNetPopupTemplateReference = dotNetRef;
     let jsPopupTemplate = buildJsPopupTemplate(popupTemplate, viewId);
     if (hasValue(graphic) && hasValue(popupTemplate) && graphic.popupTemplate !== jsPopupTemplate) {
         graphic.popupTemplate = jsPopupTemplate;
@@ -1253,6 +1239,13 @@ export function getGraphicPopupTemplate(id: string): DotNetPopupTemplate | null 
     let graphic = graphicsRefs[id];
     if (!hasValue(graphic)) return null;
     return buildDotNetPopupTemplate(graphic.popupTemplate);
+}
+
+export function setGraphicAttributes(Id: string, attributes: any): void {
+    let graphic = graphicsRefs[Id];
+    if (hasValue(graphic)) {
+        graphic.attributes = buildJsAttributes(attributes);
+    }
 }
 
 
@@ -2310,4 +2303,13 @@ export function encodeProtobufGraphics(graphics: any[]): Uint8Array {
     let collection = ProtoGraphicCollection.fromObject(obj);
     let encoded = ProtoGraphicCollection.encode(collection).finish();
     return encoded;
+}
+
+let _authenticationManager: AuthenticationManager | null = null;
+export function getAuthenticationManager(dotNetRef: any, apiKey: string | null, appId: string | null, 
+                                   portalUrl: string | null): AuthenticationManager {
+    if (_authenticationManager === null) {
+        _authenticationManager = new AuthenticationManager(dotNetRef, apiKey, appId, portalUrl);
+    }
+    return _authenticationManager;
 }

@@ -77,6 +77,7 @@ await graphic.SetGeometry(new Point
     Longitude = -118.80500,
     Latitude = 34.02700
 });
+
 await graphic.SetSymbol(new SimpleMarkerSymbol
 {
     Color = new MapColor("red"),
@@ -86,13 +87,37 @@ await graphic.SetSymbol(new SimpleMarkerSymbol
         Color = new MapColor("white")
     }
 });
-await graphic.SetAttributes(new Dictionary<string, object>
-{
-    { "name", "My Graphic" }
-});
+
 await graphic.SetPopupTemplate(new PopupTemplate
 {
     Title = "My Graphic",
     Content = "This is my graphic."
 });
+```
+
+## Attributes
+
+Graphic attributes are a key/value collection of data stored with the graphic. They can be displayed
+using a `PopupTemplate` or used to filter the `FeatureLayer` or `GraphicsLayer` source. Changes to attributes
+after first render should be achieved with the async methods on `AttributeDictionary`, `AddOrUpdate`, `Remove`, and `Clear`.
+
+```csharp
+<Graphic @ref="_graphic" Attributes="_attributes" />
+
+@code {
+    private Graphic? _graphic;
+    private AttributesDictionary _attributes = new AttributesDictionary(
+        new Dictionary<string, object>
+        {
+            { "Name", "My Graphic" },
+            { "Description", "This is my graphic." }
+        });
+
+    private async Task ChangeAttributes()
+    {
+        await _attributes.AddOrUpdate("Name", "My New Graphic");
+        // or
+        await _graphic.Attributes.AddOrUpdate("Description", "This is my new graphic.");
+    }
+}
 ```

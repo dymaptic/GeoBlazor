@@ -169,7 +169,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     /// <exception cref="MissingRequiredOptionsChildElementException">
     ///     The consumer needs to provide ONE of the options of child components
     /// </exception>
-    public virtual void ValidateRequiredChildren()
+    internal virtual void ValidateRequiredChildren()
     {
         Type thisType = GetType();
 
