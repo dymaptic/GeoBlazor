@@ -36,18 +36,18 @@ export default class GeometryEngineWrapper {
             } else {
                 jsGeometries = buildJsGeometry(geometries) as Geometry;
             }
-            if (unit === null) {
-                if (unionResults === null) {
+            if (unit === null || unit === undefined) {
+                if (unionResults === null || unionResults === undefined) {
                     return engine.buffer(jsGeometries, distances);
                 }
                 return engine.buffer(jsGeometries, distances, undefined, unionResults);
-            } else if (unionResults === null) {
+            } else if (unionResults === null || unionResults === undefined) {
                 return engine.buffer(jsGeometries, distances, unit);
             }
             return engine.buffer(jsGeometries, distances, unit, unionResults);
         } catch (error) {
             this.logError(error);
-            return null;
+            throw error;
         }
     }
 
@@ -56,7 +56,7 @@ export default class GeometryEngineWrapper {
             return engine.clip(buildJsGeometry(geometry) as Geometry, buildJsExtent(extent, null));
         } catch (error) {
             this.logError(error);
-            return null;
+            throw error;
         }
     }
 
@@ -66,7 +66,7 @@ export default class GeometryEngineWrapper {
                 buildJsGeometry(insideGeometry) as Geometry);
         } catch (error) {
             this.logError(error);
-            return null;
+            throw error;
         }
     }
 
@@ -87,7 +87,7 @@ export default class GeometryEngineWrapper {
             return engine.convexHull(jsGeometries, merge);
         } catch (error) {
             this.logError(error);
-            return null;
+            throw error;
         }
     }
 
@@ -96,7 +96,7 @@ export default class GeometryEngineWrapper {
             return engine.crosses(buildJsGeometry(geometry1) as Geometry, buildJsGeometry(geometry2) as Geometry);
         } catch (error) {
             this.logError(error);
-            return null;
+            throw error;
         }
     }
 
@@ -105,7 +105,7 @@ export default class GeometryEngineWrapper {
             return engine.cut(buildJsGeometry(geometry) as Geometry, buildJsPolyline(cutter) as Polyline);
         } catch (error) {
             this.logError(error);
-            return null;
+            throw error;
         }
     }
 
@@ -119,7 +119,7 @@ export default class GeometryEngineWrapper {
             return engine.densify(jsGeometry, maxSegmentLength, maxSegmentLengthUnit);
         } catch (error) {
             this.logError(error);
-            return null;
+            throw error;
         }
     }
 
@@ -136,7 +136,7 @@ export default class GeometryEngineWrapper {
             return engine.difference(jsGeometries, buildJsGeometry(subtractor) as Geometry);
         } catch (error) {
             this.logError(error);
-            return null;
+            throw error;
         }
     }
 
@@ -145,7 +145,7 @@ export default class GeometryEngineWrapper {
             return engine.disjoint(buildJsGeometry(geometry1) as Geometry, buildJsGeometry(geometry2) as Geometry);
         } catch (error) {
             this.logError(error);
-            return null;
+            throw error;
         }
     }
 
@@ -160,7 +160,7 @@ export default class GeometryEngineWrapper {
             return engine.distance(jsGeometry1, jsGeometry2, distanceUnit);
         } catch (error) {
             this.logError(error);
-            return null;
+            throw error;
         }
     }
 
@@ -169,7 +169,7 @@ export default class GeometryEngineWrapper {
             return engine.equals(buildJsGeometry(geometry1) as Geometry, buildJsGeometry(geometry2) as Geometry);
         } catch (error) {
             this.logError(error);
-            return null;
+            throw error;
         }
     }
 
@@ -179,7 +179,7 @@ export default class GeometryEngineWrapper {
             return engine.extendedSpatialReferenceInfo(spatialReference);
         } catch (error) {
             this.logError(error);
-            return null;
+            throw error;
         }
     }
 

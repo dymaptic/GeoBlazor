@@ -1,0 +1,30 @@
+﻿@page "/"
+
+<h1>Unit Tests</h1>
+<button @onclick="RunTests">Run All Tests</button>
+<div class="result-section">
+	@foreach (KeyValuePair<string, string> result in _results)
+    {
+        <p><b>@result.Key - @((MarkupString)result.Value)</b></p> 
+        
+    }
+</div>
+
+<GeometryEngineTests @ref="_geometryEngineTests" OnTestResults="OnTestResults" />
+@code {
+    private async Task RunTests()
+    {
+		_results.Clear();
+        await _geometryEngineTests!.RunTests();
+    }
+
+	private void OnTestResults(TestResult result)
+	{
+	    _results[result.ClassName] = 
+	        $"<span style=\"color: green;\">Passed: {result.Passed},</span> <span style=\"color: red;\">Failed: {result.Failed}</span>";
+	    StateHasChanged();
+	}
+
+    private GeometryEngineTests? _geometryEngineTests;
+	private Dictionary<string, string> _results = new();
+}

@@ -20,12 +20,18 @@ public class PlaywrightTests
         StartServer();
         string? apiKey = new ConfigurationBuilder().AddUserSecrets<PlaywrightTests>().Build()["ArcGISApiKey"];
 
-        // move current screenshots to previous folder
-        FileInfo[] screenshots = new DirectoryInfo(_screenShotsFolder).GetFiles();
-
-        foreach (FileInfo ssFile in screenshots)
+        if (!Directory.Exists(_screenShotsFolder))
         {
-            File.Move(ssFile.FullName, Path.Combine(_screenShotsFolder, "Previous", ssFile.Name), true);
+            Directory.CreateDirectory(_screenShotsFolder);
+        }
+        else
+        {
+            // move current screenshots to previous folder
+            FileInfo[] screenshots = new DirectoryInfo(_screenShotsFolder).GetFiles();
+            foreach (FileInfo ssFile in screenshots)
+            {
+                File.Move(ssFile.FullName, Path.Combine(_screenShotsFolder, "Previous", ssFile.Name), true);
+            }
         }
 
         IPlaywright playwright = await Playwright.CreateAsync()!;
