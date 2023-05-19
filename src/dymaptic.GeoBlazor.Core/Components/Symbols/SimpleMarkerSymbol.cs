@@ -148,7 +148,7 @@ public class SimpleMarkerSymbol : MarkerSymbol, IEquatable<SimpleMarkerSymbol>
     }
 
     /// <inheritdoc />
-    public override void ValidateRequiredChildren()
+    internal override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();
         Outline?.ValidateRequiredChildren();

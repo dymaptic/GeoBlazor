@@ -35,38 +35,38 @@ Parameterless constructor for using as a razor component
 public Graphic();
 ```
 
-<a name='dymaptic.GeoBlazor.Core.Components.Layers.Graphic.Graphic(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,dymaptic.GeoBlazor.Core.Components.Symbols.Symbol,dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate,System.Collections.Generic.Dictionary_string,object_)'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.Graphic.Graphic(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,dymaptic.GeoBlazor.Core.Components.Symbols.Symbol,dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate,dymaptic.GeoBlazor.Core.Objects.AttributesDictionary)'></a>
 
-## Graphic(Geometry, Symbol, PopupTemplate, Dictionary<string,object>) Constructor
+## Graphic(Geometry, Symbol, PopupTemplate, AttributesDictionary) Constructor
 
 Constructs a new Graphic in code with parameters
 
 ```csharp
-public Graphic(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry? geometry=null, dymaptic.GeoBlazor.Core.Components.Symbols.Symbol? symbol=null, dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate? popupTemplate=null, System.Collections.Generic.Dictionary<string,object>? attributes=null);
+public Graphic(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry? geometry=null, dymaptic.GeoBlazor.Core.Components.Symbols.Symbol? symbol=null, dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate? popupTemplate=null, dymaptic.GeoBlazor.Core.Objects.AttributesDictionary? attributes=null);
 ```
 #### Parameters
 
-<a name='dymaptic.GeoBlazor.Core.Components.Layers.Graphic.Graphic(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,dymaptic.GeoBlazor.Core.Components.Symbols.Symbol,dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate,System.Collections.Generic.Dictionary_string,object_).geometry'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.Graphic.Graphic(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,dymaptic.GeoBlazor.Core.Components.Symbols.Symbol,dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate,dymaptic.GeoBlazor.Core.Objects.AttributesDictionary).geometry'></a>
 
 `geometry` [Geometry](dymaptic.GeoBlazor.Core.Components.Geometries.Geometry.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Geometry')
 
 The geometry that defines the graphic's location.
 
-<a name='dymaptic.GeoBlazor.Core.Components.Layers.Graphic.Graphic(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,dymaptic.GeoBlazor.Core.Components.Symbols.Symbol,dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate,System.Collections.Generic.Dictionary_string,object_).symbol'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.Graphic.Graphic(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,dymaptic.GeoBlazor.Core.Components.Symbols.Symbol,dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate,dymaptic.GeoBlazor.Core.Objects.AttributesDictionary).symbol'></a>
 
 `symbol` [Symbol](dymaptic.GeoBlazor.Core.Components.Symbols.Symbol.html 'dymaptic.GeoBlazor.Core.Components.Symbols.Symbol')
 
 The [Symbol](dymaptic.GeoBlazor.Core.Components.Symbols.Symbol.html 'dymaptic.GeoBlazor.Core.Components.Symbols.Symbol') for the object.
 
-<a name='dymaptic.GeoBlazor.Core.Components.Layers.Graphic.Graphic(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,dymaptic.GeoBlazor.Core.Components.Symbols.Symbol,dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate,System.Collections.Generic.Dictionary_string,object_).popupTemplate'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.Graphic.Graphic(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,dymaptic.GeoBlazor.Core.Components.Symbols.Symbol,dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate,dymaptic.GeoBlazor.Core.Objects.AttributesDictionary).popupTemplate'></a>
 
 `popupTemplate` [PopupTemplate](dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.html 'dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate')
 
 The [PopupTemplate](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html#dymaptic.GeoBlazor.Core.Components.Layers.Graphic.PopupTemplate 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic.PopupTemplate') for displaying content in a Popup when the graphic is selected.
 
-<a name='dymaptic.GeoBlazor.Core.Components.Layers.Graphic.Graphic(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,dymaptic.GeoBlazor.Core.Components.Symbols.Symbol,dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate,System.Collections.Generic.Dictionary_string,object_).attributes'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.Graphic.Graphic(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,dymaptic.GeoBlazor.Core.Components.Symbols.Symbol,dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate,dymaptic.GeoBlazor.Core.Objects.AttributesDictionary).attributes'></a>
 
-`attributes` [System.Collections.Generic.Dictionary&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.Dictionary-2 'System.Collections.Generic.Dictionary`2')[System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')[,](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.Dictionary-2 'System.Collections.Generic.Dictionary`2')[System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.Dictionary-2 'System.Collections.Generic.Dictionary`2')
+`attributes` [AttributesDictionary](dymaptic.GeoBlazor.Core.Objects.AttributesDictionary.html 'dymaptic.GeoBlazor.Core.Objects.AttributesDictionary')
 
 Name-value pairs of fields and field values associated with the graphic.
 ### Properties
@@ -78,11 +78,11 @@ Name-value pairs of fields and field values associated with the graphic.
 Name-value pairs of fields and field values associated with the graphic.
 
 ```csharp
-public System.Collections.Generic.Dictionary<string,object>? Attributes { get; set; }
+public dymaptic.GeoBlazor.Core.Objects.AttributesDictionary Attributes { get; set; }
 ```
 
 #### Property Value
-[System.Collections.Generic.Dictionary&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.Dictionary-2 'System.Collections.Generic.Dictionary`2')[System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')[,](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.Dictionary-2 'System.Collections.Generic.Dictionary`2')[System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.Dictionary-2 'System.Collections.Generic.Dictionary`2')
+[AttributesDictionary](dymaptic.GeoBlazor.Core.Objects.AttributesDictionary.html 'dymaptic.GeoBlazor.Core.Objects.AttributesDictionary')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.Graphic.Geometry'></a>
 
@@ -264,6 +264,39 @@ public System.Threading.Tasks.Task SetGeometry(dymaptic.GeoBlazor.Core.Component
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
 
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.Graphic.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView)'></a>
+
+## Graphic.SetParametersAsync(ParameterView) Method
+
+Sets parameters supplied by the component's parent in the render tree.
+
+```csharp
+public override System.Threading.Tasks.Task SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView parameters);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.Graphic.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView).parameters'></a>
+
+`parameters` [Microsoft.AspNetCore.Components.ParameterView](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.ParameterView 'Microsoft.AspNetCore.Components.ParameterView')
+
+The parameters.
+
+Implements [SetParametersAsync(ParameterView)](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.IComponent.SetParametersAsync#Microsoft_AspNetCore_Components_IComponent_SetParametersAsync_Microsoft_AspNetCore_Components_ParameterView_ 'Microsoft.AspNetCore.Components.IComponent.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView)')
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')  
+A [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task') that completes when the component has finished updating and rendering itself.
+
+### Remarks
+  
+Parameters are passed when [Microsoft.AspNetCore.Components.ComponentBase.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView)](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.ComponentBase.SetParametersAsync#Microsoft_AspNetCore_Components_ComponentBase_SetParametersAsync_Microsoft_AspNetCore_Components_ParameterView_ 'Microsoft.AspNetCore.Components.ComponentBase.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView)') is called. It is not required that  
+the caller supply a parameter value for all of the parameters that are logically understood by the component.  
+  
+The default implementation of [Microsoft.AspNetCore.Components.ComponentBase.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView)](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.ComponentBase.SetParametersAsync#Microsoft_AspNetCore_Components_ComponentBase_SetParametersAsync_Microsoft_AspNetCore_Components_ParameterView_ 'Microsoft.AspNetCore.Components.ComponentBase.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView)') will set the value of each property  
+decorated with [Microsoft.AspNetCore.Components.ParameterAttribute](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.ParameterAttribute 'Microsoft.AspNetCore.Components.ParameterAttribute') or [Microsoft.AspNetCore.Components.CascadingParameterAttribute](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.CascadingParameterAttribute 'Microsoft.AspNetCore.Components.CascadingParameterAttribute') that has  
+a corresponding value in the [Microsoft.AspNetCore.Components.ParameterView](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.ParameterView 'Microsoft.AspNetCore.Components.ParameterView'). Parameters that do not have a corresponding value  
+will be unchanged.
+
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.Graphic.SetPopupTemplate(dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate)'></a>
 
 ## Graphic.SetPopupTemplate(PopupTemplate) Method
@@ -323,25 +356,6 @@ The child to unregister
 
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
-
-<a name='dymaptic.GeoBlazor.Core.Components.Layers.Graphic.ValidateRequiredChildren()'></a>
-
-## Graphic.ValidateRequiredChildren() Method
-
-When a [MapView](dymaptic.GeoBlazor.Core.Components.Views.MapView.html 'dymaptic.GeoBlazor.Core.Components.Views.MapView') is prepared to render, this will check to make sure that all properties with the  
-[RequiredPropertyAttribute](dymaptic.GeoBlazor.Core.RequiredPropertyAttribute.html 'dymaptic.GeoBlazor.Core.RequiredPropertyAttribute') are provided.
-
-```csharp
-public override void ValidateRequiredChildren();
-```
-
-#### Exceptions
-
-[MissingRequiredChildElementException](dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredChildElementException.html 'dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredChildElementException')  
-The consumer needs to provide the missing child component
-
-[MissingRequiredOptionsChildElementException](dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException.html 'dymaptic.GeoBlazor.Core.Exceptions.MissingRequiredOptionsChildElementException')  
-The consumer needs to provide ONE of the options of child components
 ### Operators
 
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.Graphic.op_Equality(dymaptic.GeoBlazor.Core.Components.Layers.Graphic,dymaptic.GeoBlazor.Core.Components.Layers.Graphic)'></a>

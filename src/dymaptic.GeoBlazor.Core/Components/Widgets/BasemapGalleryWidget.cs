@@ -73,7 +73,7 @@ public class BasemapGalleryWidget : Widget
     }
 
     /// <inheritdoc />
-    public override void ValidateRequiredChildren()
+    internal override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();
         PortalBasemapsSource?.ValidateRequiredChildren();

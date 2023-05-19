@@ -62,6 +62,7 @@ import {
 } from "./dotNetBuilder";
 
 import {
+    buildJsAttributes,
     buildJsExtent,
     buildJsFields,
     buildJsGeometry,
@@ -1184,21 +1185,6 @@ export function addGraphicsSyncInterop(graphicsArray: Uint8Array, viewId: string
     }
 }
 
-export function setGraphicAttribute(id: string, name: string, value: any): void {
-    let graphic = graphicsRefs[id];
-    if (hasValue(graphic)) {
-        graphic.attributes[name] = value;
-    }
-}
-
-export function getGraphicAttribute(id: string, name: string): any {
-    return graphicsRefs[id]?.attributes[name];
-}
-
-export function removeGraphicAttribute(id: string, name: string): void {
-    delete graphicsRefs[id]?.attributes[name];
-}
-
 export function setGraphicGeometry(id: string, geometry: DotNetGeometry): void {
     let jsGeometry = buildJsGeometry(geometry);
     let graphic = graphicsRefs[id];
@@ -1239,8 +1225,9 @@ export function getGraphicVisibility(id: string): boolean {
     return graphicsRefs[id]?.visible;
 }
 
-export function setGraphicPopupTemplate(id: string, popupTemplate: DotNetPopupTemplate, viewId: string): void {
+export function setGraphicPopupTemplate(id: string, popupTemplate: DotNetPopupTemplate, dotNetRef: any, viewId: string): void {
     let graphic = graphicsRefs[id];
+    popupTemplate.dotNetPopupTemplateReference = dotNetRef;
     let jsPopupTemplate = buildJsPopupTemplate(popupTemplate, viewId);
     if (hasValue(graphic) && hasValue(popupTemplate) && graphic.popupTemplate !== jsPopupTemplate) {
         graphic.popupTemplate = jsPopupTemplate;
@@ -1251,6 +1238,13 @@ export function getGraphicPopupTemplate(id: string): DotNetPopupTemplate | null 
     let graphic = graphicsRefs[id];
     if (!hasValue(graphic)) return null;
     return buildDotNetPopupTemplate(graphic.popupTemplate);
+}
+
+export function setGraphicAttributes(Id: string, attributes: any): void {
+    let graphic = graphicsRefs[Id];
+    if (hasValue(graphic)) {
+        graphic.attributes = buildJsAttributes(attributes);
+    }
 }
 
 

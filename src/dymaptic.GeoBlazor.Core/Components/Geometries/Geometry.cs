@@ -83,7 +83,7 @@ public abstract class Geometry : MapComponent
     }
 
     /// <inheritdoc />
-    public override void ValidateRequiredChildren()
+    internal override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();
         Extent?.ValidateRequiredChildren();
