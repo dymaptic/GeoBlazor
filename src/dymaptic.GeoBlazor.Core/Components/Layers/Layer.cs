@@ -141,7 +141,14 @@ public abstract class Layer : MapComponent
 
         if (JsLayerReference is not null)
         {
-            await JsLayerReference.DisposeAsync();
+            try
+            {
+                await JsLayerReference.DisposeAsync();
+            }
+            catch (JSDisconnectedException)
+            {
+                // ignore, we have disconnected from the JS runtime
+            }
         }
 
         await base.DisposeAsync();

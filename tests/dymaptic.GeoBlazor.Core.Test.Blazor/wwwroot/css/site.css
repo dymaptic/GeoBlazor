@@ -19,9 +19,43 @@ button {
 .result-section {
     border: 1px solid white; 
     padding: 1rem; 
-    margin: 1rem 0; 
-    max-height: 400px; 
+    margin: 1rem 0;
+}
+
+.detail-results {
+    max-height: 600px;
     overflow-y: auto;
+}
+
+.test-results-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    min-height: 100px;
+    justify-content: space-between;
+}
+
+.test-results-row {
+    display: flex;
+    flex-direction: column;
+    min-height: 100px;
+    min-width: 50%;
+    overflow-y: auto;
+}
+
+.test-results-row button {
+    width: 100px;
+}
+
+.map-view {
+    height: 200px;
+    width: 200px;
+    position: absolute;
+}
+
+.collapsed {
+    visibility: collapse;
+    height: 0;
 }
 
 #blazor-error-ui {

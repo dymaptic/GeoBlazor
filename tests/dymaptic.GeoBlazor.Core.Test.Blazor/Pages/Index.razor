@@ -5,17 +5,20 @@
 <div class="result-section">
 	@foreach (KeyValuePair<string, string> result in _results)
     {
-        <p><b>@result.Key - @((MarkupString)result.Value)</b></p> 
-        
+        <p><b>@result.Key - @((MarkupString)result.Value)</b></p>
     }
 </div>
 
+<TestSetupTests @ref="_testSetupTests" OnTestResults="OnTestResults" />
 <GeometryEngineTests @ref="_geometryEngineTests" OnTestResults="OnTestResults" />
+<BaseMapTests @ref="_baseMapTests" OnTestResults="OnTestResults" />
 @code {
     private async Task RunTests()
     {
 		_results.Clear();
+        await _testSetupTests!.RunTests();
         await _geometryEngineTests!.RunTests();
+        await _baseMapTests!.RunTests();
     }
 
 	private void OnTestResults(TestResult result)
@@ -25,6 +28,8 @@
 	    StateHasChanged();
 	}
 
+    private TestSetupTests? _testSetupTests;
     private GeometryEngineTests? _geometryEngineTests;
-	private Dictionary<string, string> _results = new();
+    private BaseMapTests? _baseMapTests;
+	private readonly Dictionary<string, string> _results = new();
 }

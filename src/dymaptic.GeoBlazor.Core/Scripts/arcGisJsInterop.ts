@@ -2070,7 +2070,7 @@ function waitForRender(viewId: string, dotNetRef: any): void {
                 console.debug(new Date() + " - View Render Complete");
                 try {
                     rendering = true;
-                    await dotNetRef.invokeMethodAsync('OnViewRendered');
+                    await dotNetRef.invokeMethodAsync('OnJsViewRendered');
                 } catch {
                     // we must be disconnected
                 }

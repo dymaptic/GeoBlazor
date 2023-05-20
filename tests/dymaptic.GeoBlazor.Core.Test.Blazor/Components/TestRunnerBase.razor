@@ -1,18 +1,43 @@
-﻿@using System.Reflection
-@using System.Text
-<h2>@ClassName</h2>
-<button @onclick="RunTests">Run Class Tests</button>
+﻿@using System.Runtime.ExceptionServices
 <div class="result-section">
-    @foreach (KeyValuePair<string, string> entry in _testResults)
-    {
-        MethodInfo methodInfo = _methodInfos!.First(mi => mi.Name == entry.Key);
-        <h3>@entry.Key</h3>
-        <button @onclick="@(() => RunTest(methodInfo))">Run Test</button>
-        @((MarkupString)entry.Value)
-    }
+    <h2>@ClassName</h2>
+    <div @onclick="@(() => _collapsed = !_collapsed)" style="cursor: pointer; display: inline; font-weight: bold; color: white; padding: 5px; border-radius: 5px; margin-bottom: 5px;">@(_collapsed ? "\u25b6" : "\u25bc")</div>
+    <button @onclick="RunTests">Run Class Tests</button>
+    <p>
+        @if (_passed.Any() || _failed.Any())
+        {
+            <span style="color: green;">Passed: @_passed.Count,</span> <span style="color: red;">Failed: @_failed.Count</span>
+        }
+    </p>
+    <div class="detail-results @(_collapsed ? "collapsed" : "")">
+        @foreach (KeyValuePair<string, string> entry in _testResults)
+        {
+            MethodInfo methodInfo = _methodInfos!.First(mi => mi.Name == entry.Key);
+            <h3>@entry.Key</h3>
+            <div class="test-results-container">
+                <div class="test-results-row">
+                    <button @onclick="@(() => RunTest(methodInfo))">Run Test</button>
+                    @((MarkupString)entry.Value)        
+                </div>
+                @if (_testRenderFragments.TryGetValue(entry.Key, out RenderFragment? fragment))
+                {
+                     <div style="display: flex; justify-content: center; position: relative;">
+                         <div style="position: absolute; top: -40px; right: 10px;">
+                             <MapView @ref="_mapViews[entry.Key]" OnViewRendered="@_mapViewRenderHandlers[entry.Key]" class="map-view">
+                                @fragment   
+                             </MapView>
+                         </div>
+                     </div>
+                }
+            </div>
+        }
+    </div>
 </div>
 
 @code {
+    [Inject]
+    public IJSRuntime JsRuntime { get; set; } = null!;
+    
 	[Parameter]
 	public EventCallback<TestResult> OnTestResults { get; set; }
 
@@ -33,7 +58,73 @@
             .Where(m => m.GetCustomAttribute(typeof(TestMethodAttribute), false) != null)
             .ToArray();
 
-        _testResults = _methodInfos.ToDictionary(m => m.Name, m => string.Empty);
+        _testResults = _methodInfos.ToDictionary(m => m.Name, _ => string.Empty);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        _jsObjectReference ??= await JsRuntime.InvokeAsync<IJSObjectReference>("import", "./testRunner.js");
+    }
+
+    protected void AddMapRenderFragment(RenderFragment fragment, 
+        [CallerMemberName] string? methodName = null)
+    {
+        _mapViews[methodName!] = new MapView();
+        _testRenderFragments[methodName!] = fragment;
+    }
+
+    protected void CreateViewRenderedHandler(Func<Task>? asserts = null, 
+        [CallerMemberName] string? methodName = null)
+    {
+        async Task Handler()
+        {
+            try
+            {
+                MapView mapView = _mapViews[methodName!];
+                Assert.IsNotNull(mapView);
+                if (asserts is not null)
+                {
+                    await asserts();
+                }
+                await mapView.DisposeAsync();
+                _methodsWithRenderedMaps.Add(methodName!);
+            }
+            catch (Exception ex)
+            {
+                _mapRenderingExceptions[methodName!] = ex;
+            }
+            finally
+            {
+                _testRenderFragments.Remove(methodName!);
+            }
+        }
+
+        _mapViewRenderHandlers[methodName!] = Handler;
+    }
+    
+    protected async Task WaitForMapToRender([CallerMemberName] string? methodName = null)
+    {
+        StateHasChanged();
+        int tries = 300;
+        while (!_methodsWithRenderedMaps.Contains(methodName!) && tries > 0)
+        {
+            if (_mapRenderingExceptions.TryGetValue(methodName!, out Exception? ex))
+            {
+                _mapRenderingExceptions.Remove(methodName!);
+                ExceptionDispatchInfo.Capture(ex).Throw();
+            }
+            await Task.Delay(100);
+            tries--;
+        }
+        
+        Assert.IsTrue(_methodsWithRenderedMaps.Contains(methodName!));
+        _methodsWithRenderedMaps.Remove(methodName!);
+    }
+
+    protected async Task AssertJavaScript(string jsAssertFunction, [CallerMemberName]string? methodName = null, params object[] args)
+    {
+        await _jsObjectReference!.InvokeVoidAsync(jsAssertFunction, _mapViews[methodName!].Id, args);
     }
 
     private async Task RunTest(MethodInfo methodInfo)
@@ -49,7 +140,7 @@
         }
         catch (Exception ex)
         {
-            ResultBuilder.AppendLine($"<p style=\"color: red; font-weight: bold\">{ex.Message?.Replace(Environment.NewLine, "<br/>")}<br/>{(ex.StackTrace?.Replace(Environment.NewLine, "<br/>"))}</p>");
+            ResultBuilder.AppendLine($"<p style=\"color: red; font-weight: bold\">{ex.Message.Replace(Environment.NewLine, "<br/>")}<br/>{(ex.StackTrace?.Replace(Environment.NewLine, "<br/>"))}</p>");
         	_failed.Add(methodInfo.Name);
             _passed.Remove(methodInfo.Name);
         }
@@ -58,11 +149,18 @@
         StateHasChanged();
         await OnTestResults.InvokeAsync(new TestResult(ClassName, _passed.Count, _failed.Count));
     }
-    
-    protected string ClassName => GetType().Name;
+
+    private string ClassName => GetType().Name;
     protected StringBuilder ResultBuilder = new();
     private MethodInfo[]? _methodInfos;
     private Dictionary<string, string> _testResults = new();
-    private HashSet<string> _passed = new();
-    private HashSet<string> _failed = new();
+    private bool _collapsed = true;
+    private IJSObjectReference? _jsObjectReference;
+    private readonly Dictionary<string, RenderFragment> _testRenderFragments = new();
+    private readonly Dictionary<string, MapView> _mapViews = new();
+    private readonly List<string> _methodsWithRenderedMaps = new();
+    private readonly Dictionary<string, Exception> _mapRenderingExceptions = new();
+    private readonly HashSet<string> _passed = new();
+    private readonly HashSet<string> _failed = new();
+    private readonly Dictionary<string, Func<Task>> _mapViewRenderHandlers = new();
 }
