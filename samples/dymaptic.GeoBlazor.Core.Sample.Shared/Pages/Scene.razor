@@ -45,9 +45,9 @@
     <code>new TestObject("T1", "Test Object", 42, DateTime.UtcNow, false)</code>
 </div>
 <SceneView Longitude="_longitude" Latitude="_latitude" Class="map-view"
-           ZIndex="2000" Tilt="76">
+           ZIndex="2000" Tilt="76" OnMapRendered="OnMapRendered">
     <Map Ground="world-elevation" ArcGISDefaultBasemap="satellite">
-        <GraphicsLayer>
+        <GraphicsLayer @ref="_graphicsLayer">
             <Graphic @ref="_polygonGraphic" Attributes="_graphicAttributes">
                 <Polygon Rings="@(new[] { _mapRings })" />
                 <SimpleFillSymbol Color="@(new MapColor(81, 46, 132, 0.8))">
@@ -63,6 +63,48 @@
 
 @code
 {
+    private async Task OnMapRendered()
+    {
+        if (_cSharpGraphic is null)
+        {
+            _cSharpGraphic = new Graphic(new Point(-118.83, 34.027),
+                new SimpleMarkerSymbol(color: new MapColor("green")),
+                new PopupTemplate("{Name}", 
+                    "{Description}<br/>Number: {Number}<br/>{Date}: {Date}<br/>Bool: {Boolean}</br>Object: {Object}"),
+                _graphicAttributes);
+            await _graphicsLayer!.Add(_cSharpGraphic);
+        }
+    }
+    
+    private async Task UpdateAttribute(ChangeEventArgs arg, string attributeName)
+    {
+        if (attributeName == "Date")
+        {
+            if (DateTime.TryParseExact(arg.Value!.ToString(), "yyyy-MM-dd", CultureInfo.CurrentCulture, DateTimeStyles.None, out var newDate))
+            {
+                var currentDate = (DateTime)_graphicAttributes["Date"];
+                var dt = new DateTime(newDate.Year, newDate.Month, newDate.Day, currentDate.Hour, currentDate.Minute, 0);
+                await _polygonGraphic!.Attributes.AddOrUpdate(attributeName, dt);
+                await _cSharpGraphic!.Attributes.AddOrUpdate(attributeName, dt);
+            }
+        }
+        else if (attributeName == "Time")
+        {
+            if (DateTime.TryParseExact(arg.Value!.ToString(), "HH:mm:ss", CultureInfo.CurrentCulture, DateTimeStyles.None, out var newDate))
+            {
+                var currentDate = (DateTime)_graphicAttributes["Date"];
+                var dt = new DateTime(currentDate.Year, currentDate.Month, currentDate.Day, newDate.Hour, newDate.Minute, 0);
+                await _polygonGraphic!.Attributes.AddOrUpdate("Date", dt);
+                await _cSharpGraphic!.Attributes.AddOrUpdate("Date", dt);
+            }
+        }
+        else
+        {
+            await _polygonGraphic!.Attributes.AddOrUpdate(attributeName, arg.Value!);
+            await _cSharpGraphic!.Attributes.AddOrUpdate(attributeName, arg.Value!);
+        }
+    }
+    
     private readonly double _latitude = 33.95;
     private readonly double _longitude = -118.805;
 
@@ -82,32 +124,7 @@
     };
 
     private Graphic? _polygonGraphic;
-
-    private async Task UpdateAttribute(ChangeEventArgs arg, string attributeName)
-    {
-        if (attributeName == "Date")
-        {
-            if (DateTime.TryParseExact(arg.Value!.ToString(), "yyyy-MM-dd", CultureInfo.CurrentCulture, DateTimeStyles.None, out var newDate))
-            {
-                var currentDate = (DateTime)_graphicAttributes["Date"];
-                var dt = new DateTime(newDate.Year, newDate.Month, newDate.Day, currentDate.Hour, currentDate.Minute, 0);
-                await _polygonGraphic!.Attributes.AddOrUpdate(attributeName, dt);
-            }
-        }
-        else if (attributeName == "Time")
-        {
-            if (DateTime.TryParseExact(arg.Value!.ToString(), "HH:mm:ss", CultureInfo.CurrentCulture, DateTimeStyles.None, out var newDate))
-            {
-                var currentDate = (DateTime)_graphicAttributes["Date"];
-                var dt = new DateTime(currentDate.Year, currentDate.Month, currentDate.Day, newDate.Hour, newDate.Minute, 0);
-                await _polygonGraphic!.Attributes.AddOrUpdate("Date", dt);
-            }
-        }
-        else
-        {
-            await _polygonGraphic!.Attributes.AddOrUpdate(attributeName, arg.Value!);
-        }
-    }
-
+    private Graphic? _cSharpGraphic;
+    private GraphicsLayer? _graphicsLayer;
     private record TestObject(string Name, string Description, int Number, DateTime Date, bool Boolean);
 }
