@@ -40,6 +40,7 @@
         <div id="gallery-box"></div>
     </div>
 </div>
+<button @onclick="@(() => MapView!.Refresh())">Refresh</button>
 
 <MapView @ref="MapView" Longitude="-40" Latitude="28" Zoom="2" Class="map-view">
     <Map ArcGISDefaultBasemap="arcgis-navigation" />
