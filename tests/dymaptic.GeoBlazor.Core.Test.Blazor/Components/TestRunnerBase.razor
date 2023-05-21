@@ -1,12 +1,19 @@
 ﻿@using System.Runtime.ExceptionServices
+@using ErrorEventArgs = dymaptic.GeoBlazor.Core.Test.Blazor.ErrorEventArgs
+@attribute [TestClass]
 <div class="result-section">
     <h2>@ClassName</h2>
     <div @onclick="@(() => _collapsed = !_collapsed)" style="cursor: pointer; display: inline; font-weight: bold; color: white; padding: 5px; border-radius: 5px; margin-bottom: 5px;">@(_collapsed ? "\u25b6" : "\u25bc")</div>
     <button @onclick="RunTests">Run Class Tests</button>
     <p>
+        @if (_running)
+        {
+            <span style="color: orange; font-weight: bold">Running...&nbsp;</span>
+        }
         @if (_passed.Any() || _failed.Any())
         {
-            <span style="color: green;">Passed: @_passed.Count,</span> <span style="color: red;">Failed: @_failed.Count</span>
+            <span style="color: green;">Passed: @_passed.Count,</span>
+            <span style="color: red;">Failed: @_failed.Count</span>
         }
     </p>
     <div class="detail-results @(_collapsed ? "collapsed" : "")">
@@ -21,13 +28,18 @@
                 </div>
                 @if (_testRenderFragments.TryGetValue(entry.Key, out RenderFragment? fragment))
                 {
-                     <div style="display: flex; justify-content: center; position: relative;">
-                         <div style="position: absolute; top: -40px; right: 10px;">
-                             <MapView @ref="_mapViews[entry.Key]" OnViewRendered="@_mapViewRenderHandlers[entry.Key]" class="map-view">
-                                @fragment   
-                             </MapView>
-                         </div>
-                     </div>
+                    <ErrorHandler MethodName="@entry.Key" OnError="OnRenderError">
+                        <ChildContent>
+                            <div style="display: flex; justify-content: center; position: relative;">
+                                <div style="position: absolute; top: -100px; right: 10px;">
+                                    <MapView @ref="_mapViews[entry.Key]" OnViewRendered="@_mapViewRenderHandlers[entry.Key]" class="map-view">
+                                        @fragment   
+                                    </MapView>
+                                </div>
+                            </div>
+                        </ChildContent>
+                        <ErrorContent></ErrorContent>
+                    </ErrorHandler>
                 }
             </div>
         }
@@ -43,12 +55,20 @@
 
     public async Task RunTests()
     {
+        _running = true;
         ResultBuilder = new();
+        _passed.Clear();
+        _failed.Clear();
+        foreach (string key in _testResults.Keys)
+        {
+            _testResults[key] = string.Empty;
+        }
 
         foreach (MethodInfo method in _methodInfos!)
         {
             await RunTest(method);
         }
+        _running = false;
     }
 
     protected override void OnInitialized()
@@ -105,7 +125,7 @@
     
     protected async Task WaitForMapToRender([CallerMemberName] string? methodName = null)
     {
-        StateHasChanged();
+        await InvokeAsync(StateHasChanged);
         int tries = 300;
         while (!_methodsWithRenderedMaps.Contains(methodName!) && tries > 0)
         {
@@ -124,30 +144,40 @@
 
     protected async Task AssertJavaScript(string jsAssertFunction, [CallerMemberName]string? methodName = null, params object[] args)
     {
-        await _jsObjectReference!.InvokeVoidAsync(jsAssertFunction, _mapViews[methodName!].Id, args);
+        List<object> jsArgs = new() {_mapViews[methodName!].Id};
+        jsArgs.AddRange(args);
+        await _jsObjectReference!.InvokeVoidAsync(jsAssertFunction, jsArgs.ToArray());
     }
 
     private async Task RunTest(MethodInfo methodInfo)
     {
         _testResults[methodInfo.Name] = "<p style=\"color: orange; font-weight: bold\">Running...</p>";
         ResultBuilder = new StringBuilder();
+        _passed.Remove(methodInfo.Name);
+        _failed.Remove(methodInfo.Name);
         try
         {
             await (Task)methodInfo.Invoke(this, null)!;
+            _passed[methodInfo.Name] = ResultBuilder.ToString();
             ResultBuilder.AppendLine("<p style=\"color: green; font-weight: bold\">Passed</p>");
-        	_passed.Add(methodInfo.Name);
-            _failed.Remove(methodInfo.Name);
         }
         catch (Exception ex)
         {
+            _failed[methodInfo.Name] = $"{ResultBuilder}{Environment.NewLine}{ex.StackTrace}";
             ResultBuilder.AppendLine($"<p style=\"color: red; font-weight: bold\">{ex.Message.Replace(Environment.NewLine, "<br/>")}<br/>{(ex.StackTrace?.Replace(Environment.NewLine, "<br/>"))}</p>");
-        	_failed.Add(methodInfo.Name);
-            _passed.Remove(methodInfo.Name);
         }
         
         _testResults[methodInfo.Name] = ResultBuilder.ToString();
-        StateHasChanged();
-        await OnTestResults.InvokeAsync(new TestResult(ClassName, _passed.Count, _failed.Count));
+        await InvokeAsync(async () =>
+        {
+            StateHasChanged();
+            await OnTestResults.InvokeAsync(new TestResult(ClassName, _passed, _failed));
+        });
+    }
+    
+    private void OnRenderError(ErrorEventArgs arg)
+    {
+        _mapRenderingExceptions[arg.MethodName] = arg.Exception;
     }
 
     private string ClassName => GetType().Name;
@@ -155,12 +185,13 @@
     private MethodInfo[]? _methodInfos;
     private Dictionary<string, string> _testResults = new();
     private bool _collapsed = true;
+    private bool _running;
     private IJSObjectReference? _jsObjectReference;
     private readonly Dictionary<string, RenderFragment> _testRenderFragments = new();
     private readonly Dictionary<string, MapView> _mapViews = new();
     private readonly List<string> _methodsWithRenderedMaps = new();
     private readonly Dictionary<string, Exception> _mapRenderingExceptions = new();
-    private readonly HashSet<string> _passed = new();
-    private readonly HashSet<string> _failed = new();
+    private readonly Dictionary<string, string?> _passed = new();
+    private readonly Dictionary<string, string?> _failed = new();
     private readonly Dictionary<string, Func<Task>> _mapViewRenderHandlers = new();
 }

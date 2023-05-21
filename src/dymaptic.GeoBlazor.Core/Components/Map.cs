@@ -20,6 +20,7 @@ public class Map : MapComponent
     ///     Either <see cref="ArcGISDefaultBasemap" /> or <see cref="Basemap" /> should be set, but not both.
     /// </remarks>
     [Parameter]
+    [RequiredProperty(nameof(Basemap), nameof(WebMap.PortalItem))]
     public string? ArcGISDefaultBasemap { get; set; }
 
     /// <summary>
@@ -34,6 +35,7 @@ public class Map : MapComponent
     /// <remarks>
     ///     Either <see cref="ArcGISDefaultBasemap" /> or <see cref="Basemap" /> should be set, but not both.
     /// </remarks>
+    [RequiredProperty(nameof(ArcGISDefaultBasemap), nameof(WebMap.PortalItem))]
     public Basemap? Basemap { get; set; }
 
     /// <summary>

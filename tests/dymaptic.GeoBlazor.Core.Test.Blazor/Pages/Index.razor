@@ -1,35 +1,102 @@
 ﻿@page "/"
+@inject IConfiguration Configuration
+@inject IHostApplicationLifetime HostApplicationLifetime
+@inject IJSRuntime JsRuntime
 
 <h1>Unit Tests</h1>
 <button @onclick="RunTests">Run All Tests</button>
 <div class="result-section">
-	@foreach (KeyValuePair<string, string> result in _results)
+    @if (_running)
     {
-        <p><b>@result.Key - @((MarkupString)result.Value)</b></p>
+        <span style="color: orange; font-weight: bold">Running...&nbsp;</span>
+    }
+    @foreach (KeyValuePair<string, TestResult> result in _results)
+    {
+        <p><b>@result.Key - @((MarkupString)$"<span style=\"color: green;\">Passed: {result.Value.Passed.Count},</span> <span style=\"color: red;\">Failed: {result.Value.Failed.Count}</span>")</b></p>
     }
 </div>
 
-<TestSetupTests @ref="_testSetupTests" OnTestResults="OnTestResults" />
-<GeometryEngineTests @ref="_geometryEngineTests" OnTestResults="OnTestResults" />
-<BaseMapTests @ref="_baseMapTests" OnTestResults="OnTestResults" />
+@foreach (Type type in _testClassTypes)
+{
+    <DynamicComponent Type="@type" @ref="_testClasses[type.Name]" 
+                      Parameters="@(new Dictionary<string, object>
+                                  {
+                                      {"OnTestResults", EventCallback.Factory.Create<TestResult>(this, OnTestResults)}
+                                  })" />
+}
+
 @code {
-    private async Task RunTests()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-		_results.Clear();
-        await _testSetupTests!.RunTests();
-        await _geometryEngineTests!.RunTests();
-        await _baseMapTests!.RunTests();
+        if (firstRender)
+        {
+            FindAllTests();
+            
+            if (Configuration["runOnStart"] == "true")
+            {
+                await RunTests();
+                HostApplicationLifetime.StopApplication();
+            }
+        }
     }
 
-	private void OnTestResults(TestResult result)
+    private void FindAllTests()
+    {
+        Assembly assembly = Assembly.GetExecutingAssembly();
+        Type[] types = assembly.GetTypes();
+        foreach (Type type in types)
+        {
+            if (type.IsDefined(typeof(TestClassAttribute), true) && type.Name != nameof(TestRunnerBase))
+            {
+                _testClassTypes.Add(type);
+                _testClasses[type.Name] = null;
+            }
+        }
+        StateHasChanged();
+    }
+
+    private async Task RunTests()
+    {
+        _running = true;
+		_results.Clear();
+        List<Task> runnerTasks = new();
+        foreach (KeyValuePair<string, DynamicComponent?> kvp in _testClasses)
+        {
+            if (kvp.Value != null)
+            {
+                runnerTasks.Add(Task.Run(async() => await (kvp.Value!.Instance as TestRunnerBase)!.RunTests()));
+            }
+        }
+        await Task.WhenAll(runnerTasks);
+        _running = false;
+        StringBuilder resultBuilder = new StringBuilder($@"
+# GeoBlazor Unit Test Results
+{DateTime.Now}
+Passed: {_results.Values.Select(r => r.Passed.Count).Sum()}
+Failed: {_results.Values.Select(r => r.Failed.Count).Sum()}");
+        foreach (KeyValuePair<string, TestResult> result in _results)
+        {
+            resultBuilder.AppendLine($@"
+## {result.Key}
+Passed: {result.Value.Passed.Count}
+Failed: {result.Value.Failed.Count}");
+            foreach (KeyValuePair<string, string?> methodResult in result.Value.Passed)
+            {
+                resultBuilder.AppendLine($@"### {methodResult.Key} - Passed
+{methodResult.Value}");
+            }
+        }
+        Console.WriteLine(resultBuilder.ToString());
+    }
+
+	private async Task OnTestResults(TestResult result)
 	{
-	    _results[result.ClassName] = 
-	        $"<span style=\"color: green;\">Passed: {result.Passed},</span> <span style=\"color: red;\">Failed: {result.Failed}</span>";
-	    StateHasChanged();
+	    _results[result.ClassName] = result;
+	    await InvokeAsync(StateHasChanged);
 	}
 
-    private TestSetupTests? _testSetupTests;
-    private GeometryEngineTests? _geometryEngineTests;
-    private BaseMapTests? _baseMapTests;
-	private readonly Dictionary<string, string> _results = new();
+    private bool _running;
+    private readonly List<Type> _testClassTypes = new();
+    private readonly Dictionary<string, DynamicComponent?> _testClasses = new();
+    private readonly Dictionary<string, TestResult> _results = new();
 }

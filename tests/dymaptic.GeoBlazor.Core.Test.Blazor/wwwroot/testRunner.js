@@ -9,6 +9,14 @@ export function assertBasemapHasTwoLayers(viewId) {
     }
 }
 
+export function assertWidgetExists(viewId, widgetClass) {
+    let view = arcGisObjectRefs[viewId];
+    let widget = view.ui._components.find(c => c.widget.declaredClass === widgetClass)
+    if (!widget) {
+        throw new Error("Widget does not exist");
+    }
+}
+
 export function testThrow() {
     throw new Error("Test throw");
 }

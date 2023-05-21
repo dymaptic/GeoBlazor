@@ -13,6 +13,7 @@ public class WebMap : Map
     /// <summary>
     ///     The portal item from which the WebMap is loaded.
     /// </summary>
+    [RequiredProperty(nameof(Basemap), nameof(ArcGISDefaultBasemap))]
     [RequiredProperty]
     public PortalItem? PortalItem { get; set; }
 

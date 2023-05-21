@@ -30,5 +30,10 @@
         </div>
 
         <script src="_framework/blazor.server.js"></script>
+        <script>
+            window.returnHtml = () => {
+                return document.getElementsByTagName('main')[0].innerHTML;
+            }
+        </script>
     </body>
 </html>

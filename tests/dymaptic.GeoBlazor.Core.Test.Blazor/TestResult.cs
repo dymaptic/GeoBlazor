@@ -1,6 +1,6 @@
 ﻿namespace dymaptic.GeoBlazor.Core.Test.Blazor;
 
-public record TestResult(string ClassName, int Passed, int Failed);
+public record TestResult(string ClassName, Dictionary<string, string?> Passed, Dictionary<string, string?> Failed);
 
 public class TestException: Exception
 {
@@ -8,3 +8,5 @@ public class TestException: Exception
     {
     }
 }
+
+public record ErrorEventArgs(Exception Exception, string MethodName);

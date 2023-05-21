@@ -193,7 +193,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
         disposeView(id);
         let view: View;
 
-        let basemap: Basemap | null = null;
+        let basemap: Basemap | undefined = undefined;
         let basemapLayers: any[] = [];
         if (!mapType.startsWith('web')) {
             if (mapObject.arcGISDefaultBasemap !== undefined &&
@@ -202,12 +202,10 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
             } else if (hasValue(mapObject.basemap?.portalItem?.id)) {
                 let portalItem = buildJsPortalItem(mapObject.basemap.portalItem);
                 basemap = new Basemap({portalItem: portalItem});
-            } else {
-                if (mapObject.basemap?.layers.length > 0) {
-                    for (let i = 0; i < mapObject.basemap.layers.length; i++) {
-                        const layerObject = mapObject.basemap.layers[i];
-                        basemapLayers.push(layerObject);
-                    }
+            } else if (mapObject.basemap?.layers.length > 0) {
+                for (let i = 0; i < mapObject.basemap.layers.length; i++) {
+                    const layerObject = mapObject.basemap.layers[i];
+                    basemapLayers.push(layerObject);
                 }
                 basemap = new Basemap({
                     baseLayers: []
@@ -236,7 +234,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
                 break;
             case 'scene':
                 const scene = new Map({
-                    basemap: basemap!,
+                    basemap: basemap,
                     ground: mapObject.ground
                 });
                 view = new SceneView({
@@ -256,7 +254,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
                 break;
             default:
                 const map = new Map({
-                    basemap: basemap!,
+                    basemap: basemap,
                     ground: mapObject.ground
                 });
 
@@ -1655,10 +1653,10 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
             });
             newWidget = basemapLayerListWidget;
 
-            if (hasValue(widget.HasCustomBaseListHandler)) {
+            if (hasValue(widget.hasCustomBaseListHandler)) {
                 basemapLayerListWidget.baseListItemCreatedFunction = async (evt) => {
                     let dotNetBaseListItem = buildDotNetListItem(evt.item);
-                    let returnItem = await widget.layerListWidgetObjectReference.invokeMethodAsync('OnBaseListItemCreated', dotNetBaseListItem) as DotNetListItem;
+                    let returnItem = await widget.baseLayerListWidgetObjectReference.invokeMethodAsync('OnBaseListItemCreated', dotNetBaseListItem) as DotNetListItem;
                     evt.item.title = returnItem.title;
                     evt.item.visible = returnItem.visible;
                     // basemap will require additional implementation (similar to layerlist above) to activate additional layer and action sections.
@@ -1667,10 +1665,10 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
                     // evt.item.actionSections = returnItem.actionSections as any;
                 };
             }
-            if (hasValue(widget.HasCustomReferenceListHandler)) {
+            if (hasValue(widget.hasCustomReferenceListHandler)) {
                 basemapLayerListWidget.baseListItemCreatedFunction = async (evt) => {
                     let dotNetReferenceListItem = buildDotNetListItem(evt.item);
-                    let returnItem = await widget.layerListWidgetObjectReference.invokeMethodAsync('OnReferenceListItemCreated', dotNetReferenceListItem) as DotNetListItem;
+                    let returnItem = await widget.baseLayerListWidgetObjectReference.invokeMethodAsync('OnReferenceListItemCreated', dotNetReferenceListItem) as DotNetListItem;
                     evt.item.title = returnItem.title;
                     evt.item.visible = returnItem.visible;
                     // basemap will require additional implementation (similar to layerlist above) to activate additional layer and action sections.
