@@ -17,6 +17,14 @@ export function assertWidgetExists(viewId, widgetClass) {
     }
 }
 
+export function assertGraphicExistsInView(viewId, geometryType, count) {
+    let view = arcGisObjectRefs[viewId];
+    let graphics = view.graphics.items.filter(g => g.geometry.type === geometryType);
+    if (graphics.length !== count) {
+        throw new Error(`Expected ${count} graphics of type ${geometryType} but found ${graphics.length}`);
+    }
+}
+
 export function testThrow() {
     throw new Error("Test throw");
 }

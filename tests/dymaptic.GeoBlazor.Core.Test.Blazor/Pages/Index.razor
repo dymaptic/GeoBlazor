@@ -10,7 +10,11 @@
     {
         <span style="color: orange; font-weight: bold">Running...&nbsp;</span>
     }
-    @foreach (KeyValuePair<string, TestResult> result in _results)
+    else if (_results.Any())
+    {
+        <span style="color: orange; font-weight: bold">Complete</span>
+    }
+    @foreach (KeyValuePair<string, TestResult> result in _results.OrderBy(kvp => kvp.Key))
     {
         <p><b>@result.Key - @((MarkupString)$"<span style=\"color: green;\">Passed: {result.Value.Passed.Count},</span> <span style=\"color: red;\">Failed: {result.Value.Failed.Count}</span>")</b></p>
     }
@@ -69,6 +73,7 @@
         }
         await Task.WhenAll(runnerTasks);
         _running = false;
+        await InvokeAsync(StateHasChanged);
         StringBuilder resultBuilder = new StringBuilder($@"
 # GeoBlazor Unit Test Results
 {DateTime.Now}

@@ -93,12 +93,23 @@
         _mapViews[methodName!] = new MapView();
         _testRenderFragments[methodName!] = fragment;
     }
+    
+    protected MapView GetMapView([CallerMemberName] string? methodName = null)
+    {
+        return _mapViews[methodName!];
+    }
 
     protected void CreateViewRenderedHandler(Func<Task>? asserts = null, 
-        [CallerMemberName] string? methodName = null)
+        [CallerMemberName] string? methodName = null, int renderCount = 0)
     {
         async Task Handler()
         {
+            _methodRenderCount.TryGetValue(methodName!, out int currentCount);
+            if (currentCount < renderCount)
+            {
+                _methodRenderCount[methodName!] = currentCount + 1;
+                return;
+            }
             try
             {
                 MapView mapView = _mapViews[methodName!];
@@ -107,23 +118,19 @@
                 {
                     await asserts();
                 }
-                await mapView.DisposeAsync();
+                
                 _methodsWithRenderedMaps.Add(methodName!);
             }
             catch (Exception ex)
             {
                 _mapRenderingExceptions[methodName!] = ex;
             }
-            finally
-            {
-                _testRenderFragments.Remove(methodName!);
-            }
         }
 
         _mapViewRenderHandlers[methodName!] = Handler;
     }
-    
-    protected async Task WaitForMapToRender([CallerMemberName] string? methodName = null)
+
+    protected async Task WaitForMapToRender([CallerMemberName] string? methodName = null, bool cleanupFragment = true)
     {
         await InvokeAsync(StateHasChanged);
         int tries = 300;
@@ -140,6 +147,11 @@
         
         Assert.IsTrue(_methodsWithRenderedMaps.Contains(methodName!));
         _methodsWithRenderedMaps.Remove(methodName!);
+        if (cleanupFragment)
+        {
+            await _mapViews[methodName!].DisposeAsync();
+            _testRenderFragments.Remove(methodName!);
+        }
     }
 
     protected async Task AssertJavaScript(string jsAssertFunction, [CallerMemberName]string? methodName = null, params object[] args)
@@ -155,6 +167,12 @@
         ResultBuilder = new StringBuilder();
         _passed.Remove(methodInfo.Name);
         _failed.Remove(methodInfo.Name);
+        _testRenderFragments.Remove(methodInfo.Name);
+        _mapViews.Remove(methodInfo.Name);
+        _mapRenderingExceptions.Remove(methodInfo.Name);
+        _mapViewRenderHandlers.Remove(methodInfo.Name);
+        _methodsWithRenderedMaps.Remove(methodInfo.Name);
+        _methodRenderCount.Remove(methodInfo.Name);
         try
         {
             await (Task)methodInfo.Invoke(this, null)!;
@@ -194,4 +212,5 @@
     private readonly Dictionary<string, string?> _passed = new();
     private readonly Dictionary<string, string?> _failed = new();
     private readonly Dictionary<string, Func<Task>> _mapViewRenderHandlers = new();
+    private readonly Dictionary<string, int> _methodRenderCount = new();
 }
