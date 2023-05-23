@@ -9,8 +9,8 @@
         </Description>
         <Title>GeoBlazor</Title>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <PackageVersion>2.2.0-beta-3</PackageVersion>
-        <Version>2.2.0-beta-3</Version>
+        <PackageVersion>2.2.0-beta-4</PackageVersion>
+        <Version>2.2.0-beta-4</Version>
         <Authors>Tim Purdum, Christopher Moravec, Mara Stoica, Tim Rawson</Authors>
         <Company>dymaptic</Company>
         <Copyright>©2023 by dymaptic</Copyright>
@@ -24,7 +24,6 @@
     </PropertyGroup>
     <PropertyGroup>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-        <DefaultItemExcludes>wwwroot/js/**</DefaultItemExcludes>
     </PropertyGroup>
 
     <ItemGroup>
