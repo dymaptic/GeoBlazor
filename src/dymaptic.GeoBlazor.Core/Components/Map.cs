@@ -111,7 +111,6 @@ public class Map : MapComponent
                 await View!.AddLayer(layer);
             }
 
-            _layersToRender.Clear();
             AllowRender = true;
             _rendering = false;
         }

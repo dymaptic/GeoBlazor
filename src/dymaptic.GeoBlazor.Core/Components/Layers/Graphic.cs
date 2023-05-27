@@ -374,7 +374,7 @@ public class Graphic : LayerObject, IEquatable<Graphic>
 
     private async Task OnAttributesChanged()
     {
-        if (Parent?.MapRendered == false || LayerJsModule is null) return;
+        if (LayerJsModule is null) return;
 
         await LayerJsModule.InvokeVoidAsync("setGraphicAttributes",
             CancellationTokenSource.Token, Id, Attributes);

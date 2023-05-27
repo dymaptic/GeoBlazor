@@ -660,7 +660,7 @@ export function disposeGraphic(graphicId: string) {
 
 export function updateView(viewObject: any) {
     try {
-        setWaitCursor(viewObject.Id);
+        setWaitCursor(viewObject.id);
         notifyExtentChanged = false;
         let view = arcGisObjectRefs[viewObject.id] as View;
 
