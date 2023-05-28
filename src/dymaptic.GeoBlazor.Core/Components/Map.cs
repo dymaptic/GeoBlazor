@@ -75,8 +75,8 @@ public class Map : MapComponent
 
                 break;
             case Layer layer:
-                await View!.RemoveLayer(layer);
                 _layersToRender.Remove(layer);
+                await View!.RemoveLayer(layer);
 
                 break;
             default:
@@ -111,6 +111,7 @@ public class Map : MapComponent
                 await View!.AddLayer(layer);
             }
 
+            _layersToRender.Clear();
             AllowRender = true;
             _rendering = false;
         }

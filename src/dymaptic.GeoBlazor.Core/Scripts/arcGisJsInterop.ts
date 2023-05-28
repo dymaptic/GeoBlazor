@@ -820,7 +820,7 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
         let view = arcGisObjectRefs[viewId] as View;
 
         if (currentLayer === undefined) {
-            await addLayer(layerObject, viewId);
+            unsetWaitCursor(viewId);
             return;
         }
 
@@ -850,9 +850,10 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                 if (hasValue(layerObject.popupTemplate)) {
                     featureLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId);
                 }
-                if (hasValue(layerObject.renderer)) {
+                // on first pass the renderer is often left blank, but it fills in when the round trip happens to the server
+                if (hasValue(layerObject.renderer) && layerObject.renderer.type !== featureLayer.renderer.type) {
                     let renderer = buildJsRenderer(layerObject.renderer);
-                    if (renderer !== null) {
+                    if (renderer !== null && featureLayer.renderer !== renderer) {
                         featureLayer.renderer = renderer;
                     }
                 }
@@ -948,8 +949,7 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
 
                 break;
         }
-
-
+        
         if (hasValue(layerObject.opacity) && layerObject.opacity !== currentLayer.opacity &&
             layerObject.opacity >= 0 && layerObject.opacity <= 1) {
             currentLayer.opacity = layerObject.opacity;
@@ -1109,7 +1109,10 @@ export async function addGraphic(streamRefOrGraphicObject: any, viewId: string, 
             let layer = arcGisObjectRefs[layerId as string] as GraphicsLayer;
             layer.add(graphic);
         } else {
-            if (!hasValue(view?.graphics)) return;
+            if (!hasValue(view?.graphics)) {
+                unsetWaitCursor(viewId);
+                return;
+            }
             view.graphics?.add(graphic);
         }
         graphicsRefs[graphicId] = graphic;

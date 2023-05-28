@@ -1832,6 +1832,14 @@ public partial class MapView : MapComponent
         {
             var popupWidget = new PopupWidget();
             await AddWidget(popupWidget);
+
+            // we have to update the layers to make sure the popupTemplates aren't unset by this action
+            foreach (Layer layer in Map!.Layers.Where(l => l is FeatureLayer { PopupTemplate: not null }))
+            {
+                // ReSharper disable once RedundantCast
+                await JsModule!.InvokeVoidAsync("updateLayer", CancellationTokenSource.Token,
+                    (object)layer, Id);
+            }
         }
 
         return Widgets.FirstOrDefault(w => w is PopupWidget) as PopupWidget;

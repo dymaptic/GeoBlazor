@@ -50,6 +50,11 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
                 };
                 _backingDictionary[kvp.Key] = (typedValue ?? default(object))!;
             }
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
+            else if (kvp.Value is null) // could be null from serialization
+            {
+                _backingDictionary[kvp.Key] = string.Empty;
+            }
             else
             {
                 _backingDictionary[kvp.Key] = kvp.Value;
@@ -286,7 +291,7 @@ internal class AttributesDictionaryConverter : JsonConverter<AttributesDictionar
         // read as a dictionary
         Dictionary<string, object>? dictionary =
             JsonSerializer.Deserialize<Dictionary<string, object>>(ref reader, options);
-
+        
         if (dictionary is null)
         {
             return null;
