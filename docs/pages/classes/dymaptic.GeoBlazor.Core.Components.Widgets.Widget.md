@@ -19,6 +19,7 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 
 Derived  
 &#8627; [BasemapGalleryWidget](dymaptic.GeoBlazor.Core.Components.Widgets.BasemapGalleryWidget.html 'dymaptic.GeoBlazor.Core.Components.Widgets.BasemapGalleryWidget')  
+&#8627; [BasemapLayerListWidget](dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html 'dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget')  
 &#8627; [BasemapToggleWidget](dymaptic.GeoBlazor.Core.Components.Widgets.BasemapToggleWidget.html 'dymaptic.GeoBlazor.Core.Components.Widgets.BasemapToggleWidget')  
 &#8627; [CompassWidget](dymaptic.GeoBlazor.Core.Components.Widgets.CompassWidget.html 'dymaptic.GeoBlazor.Core.Components.Widgets.CompassWidget')  
 &#8627; [ExpandWidget](dymaptic.GeoBlazor.Core.Components.Widgets.ExpandWidget.html 'dymaptic.GeoBlazor.Core.Components.Widgets.ExpandWidget')  

@@ -189,7 +189,7 @@ input[type="text"], input[type="number"] {
 }
 
 /*noinspection CssInvalidMediaFeature*/
-@media (vertical-viewport-segments: 2) or (screen-spanning: ) {
+@media (vertical-viewport-segments: 2) {
     .map-wrapper {
         position: fixed !important;
         bottom: 10px;

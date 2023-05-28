@@ -9,6 +9,8 @@
 *.user
 *.userosscache
 *.sln.docstates
+.DS_Store
+appsettings.json
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
@@ -351,6 +353,7 @@ MigrationBackup/
 *.idea/
 **/.idea/**/*
 **/.vs/**/*
+**/.vscode/**/*
 
 */dymaptic.GeoBlazor.Core.Sample.Shared/wwwroot/pages/**/*
 */dymaptic.GeoBlazor.Core.Sample.Wasm/dymaptic.GeoBlazor.Core.Sample.Wasm.csproj.user

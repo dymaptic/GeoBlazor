@@ -90,14 +90,14 @@ public abstract class LayerObject : MapComponent
     }
 
     /// <inheritdoc />
-    public override void ValidateRequiredChildren()
+    internal override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();
         Symbol?.ValidateRequiredChildren();
     }
 
     /// <summary>
-    ///    Indicates whether the symbol should be updated on the next render cycle.
+    ///     Indicates whether the symbol should be updated on the next render cycle.
     /// </summary>
     protected bool UpdateSymbol;
 }

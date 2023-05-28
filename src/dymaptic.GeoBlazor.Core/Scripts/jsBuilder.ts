@@ -140,40 +140,46 @@ export function buildJsGraphic(graphicObject: any, viewId: string | null)
         symbol: buildJsSymbol(graphicObject.symbol) as Symbol ?? null,
     });
 
-    if (hasValue(graphicObject.attributes)) {
-        if (graphicObject.attributes instanceof Array) {
-            graphic.attributes = {};
-            graphicObject.attributes.forEach((attr: any) => {
-                switch (attr.valueType) {
-                    case "number":
-                        graphic.attributes[attr.key] = Number(attr.value);
-                        break;
-                    case "boolean":
-                        graphic.attributes[attr.key] = Boolean(attr.value);
-                        break;
-                    case "date":
-                        graphic.attributes[attr.key] = new Date(attr.value);
-                        break;
-                    case "dateTime":
-                        graphic.attributes[attr.key] = new Date(attr.value);
-                        break;
-                    case "object":
-                        graphic.attributes[attr.key] = JSON.parse(attr.value);
-                        break;
-                    default:
-                        graphic.attributes[attr.key] = attr.value;
-                }
-            });
-        } else {
-            graphic.attributes = graphicObject.attributes;
-        }
-    }
+    graphic.attributes = buildJsAttributes(graphicObject.attributes);
 
     if (hasValue(graphicObject.popupTemplate)) {
         graphic.popupTemplate = buildJsPopupTemplate(graphicObject.popupTemplate, viewId);
     }
 
     return graphic;
+}
+
+export function buildJsAttributes(attributes: any): any {
+    if (hasValue(attributes)) {
+        if (attributes instanceof Array) {
+            let graphicAttributes = {};
+            attributes.forEach((attr: any) => {
+                switch (attr.valueType.toLowerCase().replace('system.', '')) {
+                    case "number":
+                    case "int32":
+                    case "int64":
+                        graphicAttributes[attr.key] = Number(attr.value);
+                        break;
+                    case "boolean":
+                        graphicAttributes[attr.key] = attr.value.toLowerCase() === "true";
+                        break;
+                    case "date":
+                    case "datetime":
+                    case "dateonly":
+                        graphicAttributes[attr.key] = new Date(attr.value);
+                        break;
+                    case "object":
+                        graphicAttributes[attr.key] = JSON.stringify(attr.value, null, 2);
+                        break;
+                    default:
+                        graphicAttributes[attr.key] = attr.value;
+                }
+            });
+            return graphicAttributes;
+        } else {
+            return attributes;
+        }
+    }
 }
 
 export function buildJsPopupTemplate(popupTemplateObject: DotNetPopupTemplate, viewId: string | null): PopupTemplate {

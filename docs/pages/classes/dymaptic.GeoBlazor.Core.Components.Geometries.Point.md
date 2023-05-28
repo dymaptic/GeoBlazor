@@ -177,6 +177,19 @@ public System.Nullable<double> Z { get; set; }
 [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 ### Methods
 
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.Point.Clone()'></a>
+
+## Point.Clone() Method
+
+Returns a deep clone of the geometry.
+
+```csharp
+public dymaptic.GeoBlazor.Core.Components.Geometries.Point Clone();
+```
+
+#### Returns
+[Point](dymaptic.GeoBlazor.Core.Components.Geometries.Point.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Point')
+
 <a name='dymaptic.GeoBlazor.Core.Components.Geometries.Point.Equals(dymaptic.GeoBlazor.Core.Components.Geometries.Point)'></a>
 
 ## Point.Equals(Point) Method

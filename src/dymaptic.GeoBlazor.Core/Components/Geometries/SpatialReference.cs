@@ -126,6 +126,14 @@ public class SpatialReference : MapComponent, IEquatable<SpatialReference>
         return Nullable.Equals(Wkid, other.Wkid);
     }
 
+    /// <summary>
+    ///     Returns a deep clone of the Spatial Reference.
+    /// </summary>
+    public SpatialReference Clone()
+    {
+        return Wkid.HasValue ? new SpatialReference(Wkid!.Value) : new SpatialReference();
+    }
+
     /// <inheritdoc />
     public override bool Equals(object? obj)
     {

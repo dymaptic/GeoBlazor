@@ -1,7 +1,7 @@
 ---
 layout: page
 title: "GeoBlazor Hybrid in MAUI"
-nav_order: 10
+nav_order: 11
 ---
 
 # GeoBlazor Hybrid in MAUI

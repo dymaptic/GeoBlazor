@@ -14,7 +14,7 @@
 <div class="form-group">
     <div class="form-group">
         <EditForm Model="this">
-            <InputRadioGroup Name="points" @bind-Value="_showPopupOption">
+            <InputRadioGroup disabled="@(MapView is null)" Name="points" @bind-Value="_showPopupOption" @bind:after="@(MapView!.ClosePopup())">
                 <div class="form-group">
                     <label class="radio-container">
                         Display Attributes Popup:

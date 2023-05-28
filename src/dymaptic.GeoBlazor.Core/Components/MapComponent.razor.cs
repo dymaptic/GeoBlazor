@@ -63,7 +63,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     /// <summary>
     ///     A unique identifier, used to track components across .NET and JavaScript.
     /// </summary>
-    public Guid Id { get; } = Guid.NewGuid();
+    public Guid Id { get; init; } = Guid.NewGuid();
 
     /// <summary>
     ///     Implements the `IAsyncDisposable` pattern.
@@ -135,6 +135,9 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     /// <exception cref="InvalidChildElementException">
     ///     Throws if the current child is not a valid sub-component to the parent.
     /// </exception>
+    /// <remarks>
+    ///     This method is an implementation detail and should not be called directly by consumers. In future versions, this may be changed to an internal method. If you see no other way to register a child component, please open an issue on GitHub.
+    /// </remarks>
     public virtual Task RegisterChildComponent(MapComponent child)
     {
         throw new InvalidChildElementException(GetType().Name, child.GetType().Name);
@@ -146,6 +149,9 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     /// <param name="child">
     ///     The child to unregister
     /// </param>
+    /// <remarks>
+    ///     This method is an implementation detail and should not be called directly by consumers. In future versions, this may be changed to an internal method.
+    /// </remarks>
     public virtual Task UnregisterChildComponent(MapComponent child)
     {
         throw new InvalidChildElementException(GetType().Name, child.GetType().Name);
@@ -160,6 +166,17 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     }
 
     /// <summary>
+    ///     Toggles the visibility of the component.
+    /// </summary>
+    /// <param name="visible">
+    ///     The new value to set for visibility of the component.
+    /// </param>
+    public async Task SetVisibility(bool visible)
+    {
+        await JsModule!.InvokeVoidAsync("setVisibility", CancellationTokenSource.Token, Id, visible);
+    }
+
+    /// <summary>
     ///     When a <see cref="MapView" /> is prepared to render, this will check to make sure that all properties with the
     ///     <see cref="RequiredPropertyAttribute" /> are provided.
     /// </summary>
@@ -169,7 +186,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     /// <exception cref="MissingRequiredOptionsChildElementException">
     ///     The consumer needs to provide ONE of the options of child components
     /// </exception>
-    public virtual void ValidateRequiredChildren()
+    internal virtual void ValidateRequiredChildren()
     {
         Type thisType = GetType();
 
@@ -236,17 +253,6 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
                 throw new MissingRequiredOptionsChildElementException(thisType.Name, option.Options);
             }
         }
-    }
-
-    /// <summary>
-    ///     Toggles the visibility of the component.
-    /// </summary>
-    /// <param name="visible">
-    ///     The new value to set for visibility of the component.
-    /// </param>
-    public async Task SetVisibility(bool visible)
-    {
-        await JsModule!.InvokeVoidAsync("setVisibility", CancellationTokenSource.Token, Id, visible);
     }
 
     /// <inheritdoc />
@@ -410,7 +416,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     }
 
     /// <summary>
-    ///    Whether to allow the component to render on the next cycle.
+    ///     Whether to allow the component to render on the next cycle.
     /// </summary>
     public bool AllowRender = true;
     private bool _registered;

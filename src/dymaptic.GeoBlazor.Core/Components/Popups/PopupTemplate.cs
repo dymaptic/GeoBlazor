@@ -292,7 +292,33 @@ public class PopupTemplate : MapComponent, IEquatable<PopupTemplate>
     }
 
     /// <inheritdoc />
-    public override void ValidateRequiredChildren()
+    public override bool Equals(object? obj)
+    {
+        if (ReferenceEquals(null, obj)) return false;
+        if (obj.GetType() != GetType()) return false;
+
+        return Equals((PopupTemplate)obj);
+    }
+
+    /// <inheritdoc />
+    public override int GetHashCode()
+    {
+        var hashCode = new HashCode();
+        hashCode.Add(StringContent);
+        hashCode.Add(Title);
+        hashCode.Add(OutFields);
+        hashCode.Add(OverwriteActions);
+        hashCode.Add(ReturnGeometry);
+        hashCode.Add(Content);
+        hashCode.Add(FieldInfos);
+        hashCode.Add(ExpressionInfos);
+        hashCode.Add(Actions);
+
+        return hashCode.ToHashCode();
+    }
+
+    /// <inheritdoc />
+    internal override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();
 
@@ -324,32 +350,6 @@ public class PopupTemplate : MapComponent, IEquatable<PopupTemplate>
                 action.ValidateRequiredChildren();
             }
         }
-    }
-
-    /// <inheritdoc />
-    public override bool Equals(object? obj)
-    {
-        if (ReferenceEquals(null, obj)) return false;
-        if (obj.GetType() != GetType()) return false;
-
-        return Equals((PopupTemplate)obj);
-    }
-
-    /// <inheritdoc />
-    public override int GetHashCode()
-    {
-        var hashCode = new HashCode();
-        hashCode.Add(StringContent);
-        hashCode.Add(Title);
-        hashCode.Add(OutFields);
-        hashCode.Add(OverwriteActions);
-        hashCode.Add(ReturnGeometry);
-        hashCode.Add(Content);
-        hashCode.Add(FieldInfos);
-        hashCode.Add(ExpressionInfos);
-        hashCode.Add(Actions);
-
-        return hashCode.ToHashCode();
     }
 
     internal PopupTemplateSerializationRecord ToSerializationRecord()

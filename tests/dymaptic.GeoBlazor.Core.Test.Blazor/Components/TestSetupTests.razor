@@ -1,0 +1,29 @@
+﻿@inherits TestRunnerBase
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+
+    [TestMethod]
+    public async Task TestCanThrowExceptionFromOnViewRendered()
+    {
+        CreateViewRenderedHandler(() => throw new TestException("Test Exception"));
+
+        AddMapRenderFragment(@<Map ArcGISDefaultBasemap="arcgis-imagery" />);
+
+        await Assert.ThrowsExceptionAsync<TestException>(async () => await WaitForMapToRender());
+    }
+
+    [TestMethod]
+    public async Task TestCanThrowJavaScriptExceptionFromOnViewRendered()
+    {
+        CreateViewRenderedHandler(async () => await AssertJavaScript("testThrow"));
+
+        AddMapRenderFragment(@<Map ArcGISDefaultBasemap="arcgis-imagery" />);
+
+        await Assert.ThrowsExceptionAsync<JSException>(async () => await WaitForMapToRender());
+    }
+
+}

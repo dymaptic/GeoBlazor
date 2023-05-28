@@ -1,7 +1,6 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
 using dymaptic.GeoBlazor.Core.Objects;
 using dymaptic.GeoBlazor.Core.Serialization;
-using Microsoft.Extensions.Configuration;
 using Microsoft.JSInterop;
 using System.Text.Json.Serialization;
 
@@ -27,10 +26,11 @@ public class GeometryEngine : LogicComponent
     /// <param name="jsRuntime">
     ///     Injected JavaScript Runtime reference
     /// </param>
-    /// <param name="configuration">
-    ///     Injected configuration object
+    /// <param name="authenticationManager">
+    ///     Injected Identity Manager reference
     /// </param>
-    public GeometryEngine(IJSRuntime jsRuntime, IConfiguration configuration) : base(jsRuntime, configuration)
+    public GeometryEngine(IJSRuntime jsRuntime, AuthenticationManager authenticationManager) : base(jsRuntime,
+        authenticationManager)
     {
     }
 
@@ -70,8 +70,7 @@ public class GeometryEngine : LogicComponent
     public async Task<Polygon[]> Buffer(IEnumerable<Geometry> geometries, IEnumerable<double> distances,
         LinearUnit? unit = null, bool? unionResults = null)
     {
-        return await InvokeAsync<Polygon[]>("buffer", CancellationTokenSource.Token,
-            geometries, distances, unit, unionResults);
+        return await InvokeAsync<Polygon[]>("buffer", geometries, distances, unit, unionResults);
     }
 
     /// <summary>
@@ -113,9 +112,9 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Clipped geometry.
     /// </returns>
-    public async Task<Geometry> Clip(Geometry geometry, Extent extent)
+    public async Task<Geometry?> Clip(Geometry geometry, Extent extent)
     {
-        return await InvokeAsync<Geometry>("clip", geometry, extent);
+        return await InvokeAsync<Geometry?>("clip", geometry, extent);
     }
 
     /// <summary>
@@ -509,17 +508,17 @@ public class GeometryEngine : LogicComponent
     ///     The maximum segment length allowed (in meters if a maxSegmentLengthUnit is not provided). This must be a positive
     ///     value.
     /// </param>
-    /// <param name="maxSegmentLenghtUnit">
+    /// <param name="maxSegmentLengthUnit">
     ///     Measurement unit for maxSegmentLength. If not provided, the unit will default to meters.
     /// </param>
     /// <returns>
     ///     Returns the densified geometry.
     /// </returns>
     public async Task<Geometry> GeodesicDensify(Geometry geometry, double maxSegmentLength,
-        LinearUnit? maxSegmentLenghtUnit = null)
+        LinearUnit? maxSegmentLengthUnit = null)
     {
         return await InvokeAsync<Geometry>("geodesicDensify", geometry, maxSegmentLength,
-            maxSegmentLenghtUnit);
+            maxSegmentLengthUnit);
     }
 
     /// <summary>
@@ -978,6 +977,473 @@ public class GeometryEngine : LogicComponent
     public async Task<bool> Within(Geometry innerGeometry, Geometry outerGeometry)
     {
         return await InvokeAsync<bool>("within", innerGeometry, outerGeometry);
+    }
+
+    /// <summary>
+    ///     Creates a new instance of this class and initializes it with values from a JSON object generated from an ArcGIS product. The object passed into the input json parameter often comes from a response to a query operation in the REST API or a toJSON() method from another ArcGIS product. See the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/programming-patterns/#using-fromjson">Using fromJSON()</a> topic in the Guide for details and examples of when and how to use this function.
+    /// </summary>
+    /// <param name="json">
+    ///     A JSON representation of the instance in the ArcGIS format. See the <a target="_blank" href="https://developers.arcgis.com/documentation/common-data-types/overview-of-common-data-types.htm">ArcGIS REST API documentation</a> for examples of the structure of various input JSON objects.
+    /// </param>
+    /// <returns>
+    ///     Returns a new geometry instance.
+    /// </returns>
+    public async Task<T> FromArcGisJson<T>(string json) where T : Geometry
+    {
+        return await InvokeAsync<T>("fromJSON", json, typeof(T).Name);
+    }
+
+    /// <summary>
+    ///     Converts an instance of this class to its ArcGIS portal JSON representation. See the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/programming-patterns/#using-fromjson">Using fromJSON()</a> guide topic for more information.
+    /// </summary>
+    /// <param name="geometry">
+    ///     The geometry to convert.
+    /// </param>
+    /// <returns>
+    ///     The <a target="_blank" href="https://developers.arcgis.com/documentation/common-data-types/geometry-objects.htm">ArcGIS portal JSON</a> representation of an instance of this class.
+    /// </returns>
+    public async Task<string> ToArcGisJson<T>(T geometry) where T : Geometry
+    {
+        return await InvokeAsync<string>("toJSON", geometry);
+    }
+
+    /// <summary>
+    ///     Creates a deep clone of the geometry.
+    /// </summary>
+    /// <remarks>
+    ///     Unlike the Clone methods in the Geometry classes, this method does a loop through the ArcGIS JS SDK. Therefore, if you are having issues with unpopulated fields in the geometry, try using this method instead.
+    /// </remarks>
+    public async Task<T> Clone<T>(T geometry) where T : Geometry
+    {
+        return await InvokeAsync<T>("clone", geometry);
+    }
+
+    /// <summary>
+    ///     Centers the given extent to the given point, and returns a new extent.
+    /// </summary>
+    /// <param name="extent">
+    ///     The input extent.
+    /// </param>
+    /// <param name="point">
+    ///     The point to center the extent on.
+    /// </param>
+    /// <returns>
+    ///     The centered extent.
+    /// </returns>
+    public async Task<Extent> CenterExtentAt(Extent extent, Point point)
+    {
+        return await InvokeAsync<Extent>("centerExtentAt", extent, point);
+    }
+
+    /// <summary>
+    ///     Expands the extent by the given factor. For example, a value of 1.5 will expand the extent to be 50 percent larger than the original extent.
+    /// </summary>
+    /// <param name="extent">
+    ///     The input extent.
+    /// </param>
+    /// <param name="factor">
+    ///     The factor by which to expand the extent.
+    /// </param>
+    /// <returns>
+    ///     The expanded extent.
+    /// </returns>
+    public async Task<Extent> Expand(Extent extent, double factor)
+    {
+        return await InvokeAsync<Extent>("expand", extent, factor);
+    }
+
+    /// <summary>
+    ///     Returns an array with either one Extent that's been shifted to within +/- 180 or two Extents if the original extent intersects the International Dateline.
+    /// </summary>
+    /// <param name="extent">
+    ///     The input extent.
+    /// </param>
+    /// <returns>
+    ///     An array with either one Extent that's been shifted to within +/- 180 or two Extents if the original extent intersects the International Dateline.
+    /// </returns>
+    public async Task<Extent[]> NormalizeExtent(Extent extent)
+    {
+        return await InvokeAsync<Extent[]>("normalizeExtent", extent);
+    }
+
+    /// <summary>
+    ///     Modifies the extent geometry in-place with X and Y offsets in map units.
+    /// </summary>
+    /// <param name="extent">
+    ///     The input extent.
+    /// </param>
+    /// <param name="dx">
+    ///     The offset distance in map units for the X-coordinate.
+    /// </param>
+    /// <param name="dy">
+    ///     The offset distance in map units for the Y-coordinate.
+    /// </param>
+    /// <param name="dz">
+    ///     The offset distance in map units for the Z-coordinate.
+    /// </param>
+    /// <returns></returns>
+    public async Task<Extent> OffsetExtent(Extent extent, double dx, double dy, double dz = 0)
+    {
+        return await InvokeAsync<Extent>("offsetExtent", extent, dx, dy, dz);
+    }
+
+    /// <summary>
+    ///     Modifies the point geometry in-place by shifting the X-coordinate to within +/- 180 span in map units.
+    /// </summary>
+    /// <param name="point">
+    ///     The input point.
+    /// </param>
+    /// <returns>
+    ///     Returns a point with a normalized x-value.
+    /// </returns>
+    public async Task<Point> NormalizePoint(Point point)
+    {
+        return await InvokeAsync<Point>("normalizePoint", point);
+    }
+
+    /// <summary>
+    ///     Adds a path, or line segment, to the polyline. When added, the index of the path is incremented by one.
+    /// </summary>
+    /// <param name="polyLine">
+    ///     The polyline to add the path to. Will return a new modified copy.
+    /// </param>
+    /// <param name="points">
+    ///     The polyline path to add as a <see cref="MapPath" />.
+    /// </param>
+    /// <returns>
+    ///     Returns a new polyline with the added path.
+    /// </returns>
+    public async Task<PolyLine> AddPath(PolyLine polyLine, MapPath points)
+    {
+        return await InvokeAsync<PolyLine>("addPath", polyLine, points);
+    }
+
+    /// <summary>
+    ///     Adds a path, or line segment, to the polyline. When added, the index of the path is incremented by one.
+    /// </summary>
+    /// <param name="polyLine">
+    ///     The polyline to add the path to. Will return a new modified copy.
+    /// </param>
+    /// <param name="points">
+    ///     The polyline path to add as an array of <see cref="Point" />s.
+    /// </param>
+    /// <returns>
+    ///     Returns a new polyline with the added path.
+    /// </returns>
+    public async Task<PolyLine> AddPath(PolyLine polyLine, Point[] points)
+    {
+        var mapPoints = new List<MapPoint>();
+
+        foreach (Point p in points)
+        {
+            mapPoints.Add(new MapPoint(p.X!.Value, p.Y!.Value));
+        }
+
+        return await AddPath(polyLine, new MapPath(mapPoints));
+    }
+
+    /// <summary>
+    ///     Returns a point specified by a path and point in the path.
+    /// </summary>
+    /// <param name="polyLine">
+    ///     The polyline to get the point from.
+    /// </param>
+    /// <param name="pathIndex">
+    ///     The index of the path in the polyline.
+    /// </param>
+    /// <param name="pointIndex">
+    ///     The index of the point in the path.
+    /// </param>
+    /// <returns>
+    ///     Returns the point along the Polyline located in the given path and point indices.
+    /// </returns>
+    public async Task<Point> GetPoint(PolyLine polyLine, int pathIndex, int pointIndex)
+    {
+        return await InvokeAsync<Point>("getPointOnPolyline", polyLine, pathIndex, pointIndex);
+    }
+
+    /// <summary>
+    ///     Inserts a new point into a polyline and returns the modified line.
+    /// </summary>
+    /// <param name="polyLine">
+    ///     The polyline to insert the point into.
+    /// </param>
+    /// <param name="pathIndex">
+    ///     The index of the path in which to insert a point.
+    /// </param>
+    /// <param name="pointIndex">
+    ///     The index of the inserted point in the path.
+    /// </param>
+    /// <param name="point">
+    ///     The point to insert into the polyline.
+    /// </param>
+    /// <returns>
+    ///     Returns a new polyline with the inserted point.
+    /// </returns>
+    public async Task<PolyLine> InsertPoint(PolyLine polyLine, int pathIndex, int pointIndex, Point point)
+    {
+        return await InvokeAsync<PolyLine>("insertPointOnPolyline", polyLine, pathIndex, pointIndex, point);
+    }
+
+    /// <summary>
+    ///     Removes a path from the Polyline. The index specifies which path to remove.
+    /// </summary>
+    /// <param name="polyLine">
+    ///     The polyline to remove the path from.
+    /// </param>
+    /// <param name="index">
+    ///     The index of the path to remove.
+    /// </param>
+    /// <returns>
+    ///     Returns an object with the modified polyline and the removed path.
+    /// </returns>
+    public async Task<(PolyLine PolyLine, Point[] Path)> RemovePath(PolyLine polyLine, int index)
+    {
+        return await InvokeAsync<(PolyLine PolyLine, Point[] Path)>("removePath", polyLine, index);
+    }
+
+    /// <summary>
+    ///     Removes a point from the polyline at the given pointIndex within the path identified by the given pathIndex.
+    /// </summary>
+    /// <param name="polyLine">
+    ///     The polyline to remove the point from.
+    /// </param>
+    /// <param name="pathIndex">
+    ///     The index of the path in which to remove a point.
+    /// </param>
+    /// <param name="pointIndex">
+    ///     The index of the point in the path to remove.
+    /// </param>
+    /// <returns>
+    ///     Returns an object with the modified polyline and the removed point.
+    /// </returns>
+    public async Task<(PolyLine PolyLine, Point Point)> RemovePoint(PolyLine polyLine, int pathIndex, int pointIndex)
+    {
+        return await InvokeAsync<(PolyLine PolyLine, Point Point)>("removePointOnPolyline", polyLine, pathIndex,
+            pointIndex);
+    }
+
+    /// <summary>
+    ///     Updates a point in a polyline and returns the modified polyline.
+    /// </summary>
+    /// <param name="polyLine">
+    ///     The polyline to update the point in.
+    /// </param>
+    /// <param name="pathIndex">
+    ///     The index of the path in which to update a point.
+    /// </param>
+    /// <param name="pointIndex">
+    ///     The index of the point in the path to update.
+    /// </param>
+    /// <param name="point">
+    ///     The new point to update the polyline with.
+    /// </param>
+    /// <returns>
+    ///     Returns a new polyline with the updated point.
+    /// </returns>
+    public async Task<PolyLine> SetPoint(PolyLine polyLine, int pathIndex, int pointIndex, Point point)
+    {
+        return await InvokeAsync<PolyLine>("setPointOnPolyline", polyLine, pathIndex, pointIndex, point);
+    }
+
+    /// <summary>
+    ///     Adds a ring to the Polygon. The ring can be one of the following: an array of numbers or an array of points. When added the index of the ring is incremented by one.
+    /// </summary>
+    /// <param name="polygon">
+    ///     The polygon to add the ring to.
+    /// </param>
+    /// <param name="points">
+    ///     A polygon ring. The first and last coordinates/points in the ring must be the same.
+    /// </param>
+    /// <returns>
+    ///     Returns a new polygon with the added ring.
+    /// </returns>
+    public async Task<Polygon> AddRing(Polygon polygon, MapPath points)
+    {
+        return await InvokeAsync<Polygon>("addRing", polygon, points);
+    }
+
+    /// <summary>
+    ///     Adds a ring to the Polygon. The ring can be one of the following: an array of numbers or an array of points. When added the index of the ring is incremented by one.
+    /// </summary>
+    /// <param name="polygon">
+    ///     The polygon to add the ring to.
+    /// </param>
+    /// <param name="points">
+    ///     A polygon ring. The first and last coordinates/points in the ring must be the same.
+    /// </param>
+    /// <returns>
+    ///     Returns a new polygon with the added ring.
+    /// </returns>
+    public async Task<Polygon> AddRing(Polygon polygon, Point[] points)
+    {
+        var mapPoints = new List<MapPoint>();
+
+        foreach (Point p in points)
+        {
+            mapPoints.Add(new MapPoint(p.X!.Value, p.Y!.Value));
+        }
+
+        return await AddRing(polygon, new MapPath(mapPoints));
+    }
+
+    /// <summary>
+    ///     Converts the given Extent to a Polygon instance. This is useful for scenarios in which you would like to display an area of interest, which is typically defined by an Extent or bounding box, as a polygon with a fill symbol in the view. Some geoprocessing tools require input geometries to be of a Polygon type and not an Extent.
+    /// </summary>
+    /// <param name="extent">
+    ///     An extent object to convert to a polygon.
+    /// </param>
+    /// <returns>
+    ///     A polygon instance representing the given extent.
+    /// </returns>
+    public async Task<Polygon> PolygonFromExtent(Extent extent)
+    {
+        return await InvokeAsync<Polygon>("fromExtent", extent);
+    }
+
+    /// <summary>
+    ///     Returns a point specified by a ring and point in the ring.
+    /// </summary>
+    /// <param name="polygon">
+    ///     The polygon to get the point from.
+    /// </param>
+    /// <param name="ringIndex">
+    ///     The index of the ring containing the desired point.
+    /// </param>
+    /// <param name="pointIndex">
+    ///     The index of the desired point within the ring.
+    /// </param>
+    /// <returns>
+    ///     Returns the point at the specified ring index and point index.
+    /// </returns>
+    public async Task<Point> GetPoint(Polygon polygon, int ringIndex, int pointIndex)
+    {
+        return await InvokeAsync<Point>("getPointOnPolygon", polygon, ringIndex, pointIndex);
+    }
+
+    /// <summary>
+    ///     Inserts a new point into the polygon.
+    /// </summary>
+    /// <param name="polygon">
+    ///     The polygon to insert the point into.
+    /// </param>
+    /// <param name="ringIndex">
+    ///     The index of the ring in which to insert the point.
+    /// </param>
+    /// <param name="pointIndex">
+    ///     The index of the point to insert within the ring.
+    /// </param>
+    /// <param name="point">
+    ///     The point to insert into the polygon.
+    /// </param>
+    /// <returns>
+    ///     Returns a new polygon with the inserted point.
+    /// </returns>
+    public async Task<Polygon> InsertPoint(Polygon polygon, int ringIndex, int pointIndex, Point point)
+    {
+        return await InvokeAsync<Polygon>("insertPointOnPolygon", polygon, ringIndex, pointIndex, point);
+    }
+
+    /// <summary>
+    ///     Checks if a Polygon ring is clockwise
+    /// </summary>
+    /// <param name="polygon">
+    ///     The polygon to check the ring on.
+    /// </param>
+    /// <param name="ring">
+    ///     A polygon ring defined as a <see cref="MapPath"/>. The first and last coordinates/points in the ring must be the same.
+    /// </param>
+    /// <returns>
+    ///     Returns true if the ring is clockwise and false for counterclockwise.
+    /// </returns>
+    public async Task<bool> IsClockwise(Polygon polygon, MapPath ring)
+    {
+        return await InvokeAsync<bool>("isClockwise", polygon, ring);
+    }
+
+    /// <summary>
+    ///     Checks if a Polygon ring is clockwise
+    /// </summary>
+    /// <param name="polygon">
+    ///     The polygon to check the ring on.
+    /// </param>
+    /// <param name="ring">
+    ///     A polygon ring defined as an array of <see cref="Point"/>s. The first and last coordinates/points in the ring must be the same.
+    /// </param>
+    /// <returns>
+    ///     Returns true if the ring is clockwise and false for counterclockwise.
+    /// </returns>
+    public async Task<bool> IsClockwise(Polygon polygon, Point[] ring)
+    {
+        var mapPoints = new List<MapPoint>();
+
+        foreach (Point p in ring)
+        {
+            mapPoints.Add(new MapPoint(p.X!.Value, p.Y!.Value));
+        }
+
+        return await IsClockwise(polygon, new MapPath(mapPoints));
+    }
+
+    /// <summary>
+    ///     Removes a point from the polygon at the given pointIndex within the ring identified by the given ringIndex.
+    /// </summary>
+    /// <param name="polygon">
+    ///     The polyline to remove the point from.
+    /// </param>
+    /// <param name="ringIndex">
+    ///     The index of the ring containing the point to remove.
+    /// </param>
+    /// <param name="pointIndex">
+    ///     The index of the point to remove within the ring.
+    /// </param>
+    /// <returns>
+    ///     Returns an object with the modified polygon and the removed point.
+    /// </returns>
+    public async Task<(Polygon Polygon, Point Point)> RemovePoint(Polygon polygon, int ringIndex, int pointIndex)
+    {
+        return await InvokeAsync<(Polygon Polygon, Point Point)>("removePointOnPolygon", polygon, ringIndex,
+            pointIndex);
+    }
+
+    /// <summary>
+    ///     Removes a ring from the Polygon. The index specifies which ring to remove.
+    /// </summary>
+    /// <param name="polygon">
+    ///     The polygon to remove the ring from.
+    /// </param>
+    /// <param name="index">
+    ///     The index of the ring to remove.
+    /// </param>
+    /// <returns>
+    ///     Returns an object with the modified polygon and the removed ring.
+    /// </returns>
+    public async Task<(Polygon Polygon, Point[] Ring)> RemoveRing(Polygon polygon, int index)
+    {
+        return await InvokeAsync<(Polygon Polygon, Point[] Ring)>("removeRing", polygon, index);
+    }
+
+    /// <summary>
+    ///     Updates a point in a polygon and returns the modified polygon.
+    /// </summary>
+    /// <param name="polygon">
+    ///     The polygon to update the point in.
+    /// </param>
+    /// <param name="ringIndex">
+    ///     The index of the ring containing the point to update.
+    /// </param>
+    /// <param name="pointIndex">
+    ///     The index of the point to update within the ring.
+    /// </param>
+    /// <param name="point">
+    ///     The new point to update the polygon with.
+    /// </param>
+    /// <returns>
+    ///     Returns a new polygon with the updated point.
+    /// </returns>
+    public async Task<Polygon> SetPoint(Polygon polygon, int ringIndex, int pointIndex, Point point)
+    {
+        return await InvokeAsync<Polygon>("setPointOnPolygon", polygon, ringIndex, pointIndex, point);
     }
 }
 

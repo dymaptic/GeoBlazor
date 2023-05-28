@@ -1,4 +1,5 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Views;
+using dymaptic.GeoBlazor.Core.Objects;
 using Microsoft.JSInterop;
 using ProtoBuf;
 using System.Text.Json;
@@ -106,7 +107,7 @@ public class GraphicsLayer : Layer
             graphic.Parent = this;
         }
 
-        if (JsModule is null)
+        if (JsModule is null || View is null)
         {
             LayerChanged = true;
             StateHasChanged();
@@ -116,6 +117,7 @@ public class GraphicsLayer : Layer
 
         var records = newGraphics.Select(g => g.ToSerializationRecord()).ToList();
         int chunkSize = View!.GraphicSerializationChunkSize ?? (View.IsMaui ? 100 : 200);
+        AbortManager ??= new AbortManager(JsRuntime);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
 
         if (View.IsWebAssembly)
@@ -150,8 +152,9 @@ public class GraphicsLayer : Layer
                 await Task.Delay(1, cancellationToken);
 #else
                 using DotNetStreamReference streamRef = new(ms);
-                await JsModule!.InvokeVoidAsync("addGraphicsFromStream", 
-                        cancellationToken, streamRef, View?.Id, abortSignal, Id);
+
+                await JsModule!.InvokeVoidAsync("addGraphicsFromStream",
+                    cancellationToken, streamRef, View?.Id, abortSignal, Id);
 #endif
             }
         }
@@ -317,8 +320,19 @@ public class GraphicsLayer : Layer
         }
     }
 
+    /// <summary>
+    ///     Registers a set of graphics that were created from JavaScript
+    /// </summary>
+    public void RegisterExistingGraphicsFromJavaScript(IEnumerable<Graphic> graphics)
+    {
+        foreach (Graphic graphic in graphics)
+        {
+            _graphics.Add(graphic);
+        }
+    }
+
     /// <inheritdoc />
-    public override void ValidateRequiredChildren()
+    internal override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();
 
@@ -326,6 +340,12 @@ public class GraphicsLayer : Layer
         {
             graphic.ValidateRequiredChildren();
         }
+    }
+
+    /// <inheritdoc />
+    internal override async Task UpdateFromJavaScript(Layer renderedLayer)
+    {
+        await base.UpdateFromJavaScript(renderedLayer);
     }
 
     /// <inheritdoc />
@@ -340,12 +360,6 @@ public class GraphicsLayer : Layer
             AllowRender = true;
             _rendering = false;
         }
-    }
-
-    /// <inheritdoc />
-    internal override async Task UpdateFromJavaScript(Layer renderedLayer)
-    {
-        await base.UpdateFromJavaScript(renderedLayer);
     }
 
     private HashSet<Graphic> _graphics = new();

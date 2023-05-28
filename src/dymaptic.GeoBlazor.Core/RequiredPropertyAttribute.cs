@@ -10,6 +10,7 @@ namespace dymaptic.GeoBlazor.Core;
 ///     or <see cref="MissingRequiredOptionsChildElementException" />. This works for both `[Parameter]`
 ///     properties as well as Child Components registered with `RegisterChildComponent`
 /// </summary>
+[AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
 public class RequiredPropertyAttribute : Attribute
 {
     /// <param name="otherOptions">

@@ -1,5 +1,4 @@
-﻿import esriConfig from "@arcgis/core/config";
-import * as projection from "@arcgis/core/geometry/projection";
+﻿import * as projection from "@arcgis/core/geometry/projection";
 import Geometry from "@arcgis/core/geometry/Geometry";
 import {buildDotNetGeographicTransformation, buildDotNetGeometry} from "./dotNetBuilder";
 import {buildJsExtent, buildJsSpatialReference} from "./jsBuilder";
@@ -8,9 +7,8 @@ import {DotNetGeographicTransformation, DotNetGeometry} from "./definitions";
 export default class ProjectionWrapper {
     private dotNetRef: any;
 
-    constructor(dotNetReference, apiKey) {
+    constructor(dotNetReference) {
         this.dotNetRef = dotNetReference;
-        esriConfig.apiKey = apiKey;
     }
 
     async project(geometry: any[] | any, outSpatialReference, geographicTransformation?):

@@ -1,5 +1,4 @@
 ﻿using dymaptic.GeoBlazor.Core.Exceptions;
-using Microsoft.Extensions.Configuration;
 using Microsoft.JSInterop;
 
 
@@ -16,18 +15,19 @@ public abstract class LogicComponent : IDisposable
     /// <param name="jsRuntime">
     ///     Injected JavaScript Runtime reference
     /// </param>
-    /// <param name="configuration">
-    ///     Injected configuration object
+    /// <param name="authenticationManager">
+    ///     Injected Identity Manager reference
     /// </param>
-    public LogicComponent(IJSRuntime jsRuntime, IConfiguration configuration)
+    public LogicComponent(IJSRuntime jsRuntime, AuthenticationManager authenticationManager)
     {
         JsRuntime = jsRuntime;
-        ApiKey = configuration["ArcGISApiKey"];
+        _authenticationManager = authenticationManager;
     }
 
     /// <summary>
     ///     Implement this handler in your calling code to catch and handle Javascript errors.
     /// </summary>
+    [Obsolete("Methods now pass on JavaScript errors as exceptions")]
     public Func<JavascriptException, Task>? OnJavascriptErrorHandler { get; set; }
 
     /// <summary>
@@ -73,13 +73,32 @@ public abstract class LogicComponent : IDisposable
     {
         var exception = new JavascriptException(error);
 
+#pragma warning disable CS0618
         if (OnJavascriptErrorHandler is not null)
+
         {
             OnJavascriptErrorHandler?.Invoke(exception);
         }
+#pragma warning restore CS0618
         else
         {
             throw exception;
+        }
+#pragma warning restore CS0618
+    }
+
+    /// <summary>
+    ///     Initializes the JavaScript reference component, if not already initialized.
+    /// </summary>
+    public virtual async Task Initialize()
+    {
+        if (Component is null)
+        {
+            await _authenticationManager.Initialize();
+            IJSObjectReference module = await _authenticationManager.GetArcGisJsInterop();
+
+            Component = await module.InvokeAsync<IJSObjectReference>($"get{ComponentName}Wrapper",
+                CancellationTokenSource.Token, DotNetObjectReference);
         }
     }
 
@@ -94,15 +113,9 @@ public abstract class LogicComponent : IDisposable
     /// </param>
     protected virtual async Task InvokeVoidAsync(string method, params object?[] parameters)
     {
-        if (Component is null)
-        {
-            IJSObjectReference module = await GetArcGisJsInterop();
+        await Initialize();
 
-            Component = await module.InvokeAsync<IJSObjectReference>($"get{ComponentName}Wrapper",
-                CancellationTokenSource.Token, DotNetObjectReference, ApiKey);
-        }
-
-        await Component.InvokeVoidAsync(method, CancellationTokenSource.Token, parameters);
+        await Component!.InvokeVoidAsync(method, CancellationTokenSource.Token, parameters);
     }
 
     /// <summary>
@@ -116,48 +129,19 @@ public abstract class LogicComponent : IDisposable
     /// </param>
     protected virtual async Task<T> InvokeAsync<T>(string method, params object?[] parameters)
     {
-        if (Component is null)
-        {
-            IJSObjectReference module = await GetArcGisJsInterop();
+        await Initialize();
 
-            Component = await module.InvokeAsync<IJSObjectReference>($"get{ComponentName}Wrapper",
-                CancellationTokenSource.Token, DotNetObjectReference, ApiKey);
-        }
-
-        return await Component.InvokeAsync<T>(method, CancellationTokenSource.Token, parameters);
-    }
-
-    private async Task<IJSObjectReference> GetArcGisJsInterop()
-    {
-        LicenseType licenseType = Licensing.GetLicenseType();
-
-        switch ((int)licenseType)
-        {
-            case >= 100:
-                // this is here to support the pro extension library
-                IJSObjectReference proModule = await JsRuntime
-                    .InvokeAsync<IJSObjectReference>("import", CancellationTokenSource.Token,
-                        "./_content/dymaptic.GeoBlazor.Pro/js/arcGisPro.js");
-
-                return await proModule.InvokeAsync<IJSObjectReference>("getCore");
-            default:
-                return await JsRuntime
-                    .InvokeAsync<IJSObjectReference>("import", CancellationTokenSource.Token,
-                        "./_content/dymaptic.GeoBlazor.Core/js/arcGisJsInterop.js");
-        }
+        return await Component!.InvokeAsync<T>(method, CancellationTokenSource.Token, parameters);
     }
 
     /// <summary>
     ///     The reference to the JS Runtime.
     /// </summary>
     protected readonly IJSRuntime JsRuntime;
-    /// <summary>
-    ///     The ArcGIS API Key.
-    /// </summary>
-    protected readonly string? ApiKey;
+    private readonly AuthenticationManager _authenticationManager;
 
     /// <summary>
     ///     Creates a cancellation token to control external calls
     /// </summary>
-    protected CancellationTokenSource CancellationTokenSource = new();
+    protected readonly CancellationTokenSource CancellationTokenSource = new();
 }

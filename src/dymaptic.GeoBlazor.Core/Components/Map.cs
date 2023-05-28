@@ -75,8 +75,8 @@ public class Map : MapComponent
 
                 break;
             case Layer layer:
-                await View!.RemoveLayer(layer);
                 _layersToRender.Remove(layer);
+                await View!.RemoveLayer(layer);
 
                 break;
             default:
@@ -87,7 +87,7 @@ public class Map : MapComponent
     }
 
     /// <inheritdoc />
-    public override void ValidateRequiredChildren()
+    internal override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();
         Basemap?.ValidateRequiredChildren();

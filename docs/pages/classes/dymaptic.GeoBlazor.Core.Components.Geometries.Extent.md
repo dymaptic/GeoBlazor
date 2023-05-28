@@ -216,6 +216,19 @@ public System.Nullable<double> Zmin { get; set; }
 [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 ### Methods
 
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.Extent.Clone()'></a>
+
+## Extent.Clone() Method
+
+Returns a deep clone of the geometry.
+
+```csharp
+public dymaptic.GeoBlazor.Core.Components.Geometries.Extent Clone();
+```
+
+#### Returns
+[Extent](dymaptic.GeoBlazor.Core.Components.Geometries.Extent.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Extent')
+
 <a name='dymaptic.GeoBlazor.Core.Components.Geometries.Extent.Equals(object)'></a>
 
 ## Extent.Equals(object) Method
