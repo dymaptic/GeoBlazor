@@ -1476,6 +1476,11 @@ export async function addWidget(widget: any, viewId: string): Promise<void> {
         if (hasValue(widget.containerId)) {
             let container = document.getElementById(widget.containerId);
             let innerContainer = document.createElement('div');
+            innerContainer.id = `widget-${widget.type}`;
+            let existingWidget = document.getElementById(`widget-${widget.type}`);
+            if (existingWidget !== null) {
+                container?.removeChild(existingWidget);
+            }
             container?.appendChild(innerContainer);
             newWidget.container = innerContainer;
         } else {
@@ -1488,12 +1493,7 @@ export async function addWidget(widget: any, viewId: string): Promise<void> {
 
 async function createWidget(widget: any, viewId: string): Promise<Widget | null> {
     let view = arcGisObjectRefs[viewId] as MapView;
-    if (arcGisObjectRefs.hasOwnProperty(widget.id)) {
-        // for now just skip if it already exists
-        // later we may want to replace it with a remove and add
-        // if new values are added
-        return null;
-    }
+    
     let newWidget: Widget;
     switch (widget.type) {
         case 'locate':
