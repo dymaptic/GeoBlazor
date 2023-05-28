@@ -462,6 +462,9 @@ public Microsoft.AspNetCore.Components.EventCallback OnMapRendered { get; set; }
 #### Property Value
 [Microsoft.AspNetCore.Components.EventCallback](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback 'Microsoft.AspNetCore.Components.EventCallback')
 
+### Remarks
+OBSOLETE: The naming of this method was inconsistent with ArcGIS and the name of this class. It has been replaced by [OnViewRendered](dymaptic.GeoBlazor.Core.Components.Views.MapView.html#dymaptic.GeoBlazor.Core.Components.Views.MapView.OnViewRendered 'dymaptic.GeoBlazor.Core.Components.Views.MapView.OnViewRendered') which also returns the Id of the view for handling multi-view scenarios.
+
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnMouseWheel'></a>
 
 ## MapView.OnMouseWheel Property
@@ -603,6 +606,19 @@ public Microsoft.AspNetCore.Components.EventCallback OnViewInitialized { get; se
 
 #### Property Value
 [Microsoft.AspNetCore.Components.EventCallback](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback 'Microsoft.AspNetCore.Components.EventCallback')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnViewRendered'></a>
+
+## MapView.OnViewRendered Property
+
+Handler delegate for when the map view is fully rendered. Must return a [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task').
+
+```csharp
+public Microsoft.AspNetCore.Components.EventCallback<System.Guid> OnViewRendered { get; set; }
+```
+
+#### Property Value
+[Microsoft.AspNetCore.Components.EventCallback&lt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback-1 'Microsoft.AspNetCore.Components.EventCallback`1')[System.Guid](https://docs.microsoft.com/en-us/dotnet/api/System.Guid 'System.Guid')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback-1 'Microsoft.AspNetCore.Components.EventCallback`1')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.PromptForArcGISKey'></a>
 
@@ -1703,14 +1719,14 @@ public System.Threading.Tasks.Task OnJsViewInitialized();
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
 
-<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnViewRendered()'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJsViewRendered()'></a>
 
-## MapView.OnViewRendered() Method
+## MapView.OnJsViewRendered() Method
 
 JS-Invokable method to return when the map view is fully rendered.
 
 ```csharp
-public System.Threading.Tasks.Task OnViewRendered();
+public System.Threading.Tasks.Task OnJsViewRendered();
 ```
 
 #### Returns
