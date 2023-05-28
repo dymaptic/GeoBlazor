@@ -780,6 +780,9 @@ The calling, child component to register
 [InvalidChildElementException](dymaptic.GeoBlazor.Core.Exceptions.InvalidChildElementException.html 'dymaptic.GeoBlazor.Core.Exceptions.InvalidChildElementException')  
 Throws if the current child is not a valid sub-component to the parent.
 
+### Remarks
+This method is an implementation detail and should not be called directly by consumers. In future versions, this may be changed to an internal method. If you see no other way to register a child component, please open an issue on GitHub.
+
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.Remove(dymaptic.GeoBlazor.Core.Components.Layers.Field)'></a>
 
 ## FeatureLayer.Remove(Field) Method
@@ -820,6 +823,26 @@ The graphic to remove
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
 
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.SetPopupTemplate(dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate)'></a>
+
+## FeatureLayer.SetPopupTemplate(PopupTemplate) Method
+
+Updates the [PopupTemplate](dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html#dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.PopupTemplate 'dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.PopupTemplate') for this layer.
+
+```csharp
+public System.Threading.Tasks.Task SetPopupTemplate(dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate template);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.SetPopupTemplate(dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate).template'></a>
+
+`template` [PopupTemplate](dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.html 'dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate')
+
+The new template to use.
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.UnregisterChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent)'></a>
 
 ## FeatureLayer.UnregisterChildComponent(MapComponent) Method
@@ -839,3 +862,6 @@ The child to unregister
 
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
+### Remarks
+This method is an implementation detail and should not be called directly by consumers. In future versions, this may be changed to an internal method.

@@ -97,7 +97,7 @@ public abstract class LayerObject : MapComponent
     }
 
     /// <summary>
-    ///    Indicates whether the symbol should be updated on the next render cycle.
+    ///     Indicates whether the symbol should be updated on the next render cycle.
     /// </summary>
     protected bool UpdateSymbol;
 }

@@ -6,10 +6,11 @@
 }
 
 @code {
+
     [TestMethod]
     public async Task TestCanRenderBasemapGalleryWidget()
     {
-        CreateViewRenderedHandler(async () => 
+        CreateViewRenderedHandler(async () =>
             await AssertJavaScript("assertWidgetExists", args: "esri.widgets.BasemapGallery"));
 
         AddMapRenderFragment(
@@ -20,28 +21,29 @@
 
         await WaitForMapToRender();
     }
-    
+
     [TestMethod]
     public async Task TestCanRenderBasemapLayerListWidget()
     {
-        CreateViewRenderedHandler(async () => 
+        CreateViewRenderedHandler(async () =>
             await AssertJavaScript("assertWidgetExists", args: "esri.widgets.BasemapLayerList"));
-        
-        bool handlerWasCalled = false;
+
+        var handlerWasCalled = false;
+
         Task<ListItem> OnReferenceListItemCreatedHandler(ListItem item)
         {
             Assert.IsNotNull(item);
             handlerWasCalled = true;
             return Task.FromResult(item);
         }
-        
+
         AddMapRenderFragment(
             @<div>
                 <Map>
                     <Basemap>
-                         <TileLayer>
-                             <PortalItem Id="1b243539f4514b6ba35e7d995890db1d" />
-                         </TileLayer>
+                        <TileLayer>
+                            <PortalItem Id="1b243539f4514b6ba35e7d995890db1d" />
+                        </TileLayer>
                         <VectorTileLayer Opacity="0.75">
                             <PortalItem Id="6976148c11bd497d8624206f9ee03e30" />
                         </VectorTileLayer>
@@ -53,11 +55,11 @@
         await WaitForMapToRender();
         Assert.IsTrue(handlerWasCalled);
     }
-    
+
     [TestMethod]
     public async Task TestBasemapToggleFailsWithoutNextBasemap()
     {
-        CreateViewRenderedHandler(async () => 
+        CreateViewRenderedHandler(async () =>
             await AssertJavaScript("assertWidgetExists", args: "esri.widgets.BasemapToggle"));
 
         AddMapRenderFragment(
@@ -66,14 +68,14 @@
                 <BasemapToggleWidget />
             </div>);
 
-        await Assert.ThrowsExceptionAsync<AggregateException>(async() => 
+        await Assert.ThrowsExceptionAsync<AggregateException>(async () =>
             await WaitForMapToRender());
     }
-    
+
     [TestMethod]
     public async Task TestCanRenderBasemapToggleWidget()
     {
-        CreateViewRenderedHandler(async () => 
+        CreateViewRenderedHandler(async () =>
             await AssertJavaScript("assertWidgetExists", args: "esri.widgets.BasemapToggle"));
 
         AddMapRenderFragment(
@@ -84,11 +86,11 @@
 
         await WaitForMapToRender();
     }
-    
+
     [TestMethod]
     public async Task TestCanRenderCompassWidget()
     {
-        CreateViewRenderedHandler(async () => 
+        CreateViewRenderedHandler(async () =>
             await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Compass"));
 
         AddMapRenderFragment(
@@ -99,11 +101,11 @@
 
         await WaitForMapToRender();
     }
-    
+
     [TestMethod]
     public async Task TestExpandWidgetRequiresContent()
     {
-        CreateViewRenderedHandler(async () => 
+        CreateViewRenderedHandler(async () =>
             await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Expand"));
 
         AddMapRenderFragment(
@@ -115,11 +117,11 @@
         await Assert.ThrowsExceptionAsync<AggregateException>(async () =>
             await WaitForMapToRender());
     }
-    
+
     [TestMethod]
     public async Task TestCanRenderExpandWidget()
     {
-        CreateViewRenderedHandler(async () => 
+        CreateViewRenderedHandler(async () =>
             await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Expand"));
 
         AddMapRenderFragment(
@@ -132,11 +134,11 @@
 
         await WaitForMapToRender();
     }
-    
+
     [TestMethod]
     public async Task TestCanRenderHomeWidget()
     {
-        CreateViewRenderedHandler(async () => 
+        CreateViewRenderedHandler(async () =>
             await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Home"));
 
         AddMapRenderFragment(
@@ -147,21 +149,22 @@
 
         await WaitForMapToRender();
     }
-    
+
     [TestMethod]
     public async Task TestCanRenderLayerListWidget()
     {
-        CreateViewRenderedHandler(async () => 
+        CreateViewRenderedHandler(async () =>
             await AssertJavaScript("assertWidgetExists", args: "esri.widgets.LayerList"));
 
-        bool handlerWasCalled = false;
+        var handlerWasCalled = false;
+
         Task<ListItem> OnListItemCreatedHandler(ListItem item)
         {
             Assert.IsNotNull(item);
             handlerWasCalled = true;
             return Task.FromResult(item);
         }
-        
+
         AddMapRenderFragment(
             @<div>
                 <WebMap>
@@ -173,11 +176,11 @@
         await WaitForMapToRender();
         Assert.IsTrue(handlerWasCalled);
     }
-    
+
     [TestMethod]
     public async Task TestCanRenderLegendWidget()
     {
-        CreateViewRenderedHandler(async () => 
+        CreateViewRenderedHandler(async () =>
             await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Legend"));
 
         AddMapRenderFragment(
@@ -188,11 +191,11 @@
 
         await WaitForMapToRender();
     }
-    
+
     [TestMethod]
     public async Task TestCanRenderLocateWidget()
     {
-        CreateViewRenderedHandler(async () => 
+        CreateViewRenderedHandler(async () =>
             await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Locate"));
 
         AddMapRenderFragment(
@@ -203,11 +206,11 @@
 
         await WaitForMapToRender();
     }
-    
+
     [TestMethod]
     public async Task TestCanRenderPopupWidget()
     {
-        CreateViewRenderedHandler(async () => 
+        CreateViewRenderedHandler(async () =>
             await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Popup"));
 
         AddMapRenderFragment(
@@ -218,11 +221,11 @@
 
         await WaitForMapToRender();
     }
-    
+
     [TestMethod]
     public async Task TestCanRenderScaleBarWidget()
     {
-        CreateViewRenderedHandler(async () => 
+        CreateViewRenderedHandler(async () =>
             await AssertJavaScript("assertWidgetExists", args: "esri.widgets.ScaleBar"));
 
         AddMapRenderFragment(
@@ -233,11 +236,11 @@
 
         await WaitForMapToRender();
     }
-    
+
     [TestMethod]
     public async Task TestCanRenderSearchWidget()
     {
-        CreateViewRenderedHandler(async () => 
+        CreateViewRenderedHandler(async () =>
             await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Search"));
 
         AddMapRenderFragment(
@@ -248,4 +251,5 @@
 
         await WaitForMapToRender();
     }
+
 }

@@ -45,7 +45,7 @@ public partial class MapView : MapComponent
     /// </summary>
     [Inject]
     public IConfiguration Configuration { get; set; } = default!;
-    
+
     /// <summary>
     ///     Handles OAuth authentication
     /// </summary>
@@ -115,7 +115,7 @@ public partial class MapView : MapComponent
     private HashSet<Widget> _widgets = new();
 
     /// <summary>
-    ///    A reference to the JavaScript AbortManager for this component.
+    ///     A reference to the JavaScript AbortManager for this component.
     /// </summary>
     protected AbortManager? AbortManager;
 
@@ -203,7 +203,7 @@ public partial class MapView : MapComponent
     /// </remarks>
     [Parameter]
     public bool? PromptForArcGISKey { get; set; }
-    
+
     /// <summary>
     ///     If you set an `AppId` in your configuration, setting this to true will cause the app to attempt to auto-login
     ///     using ArcGIS OAuth.
@@ -276,7 +276,7 @@ public partial class MapView : MapComponent
         get => AuthenticationManager.ApiKey;
         set => AuthenticationManager.ApiKey = value;
     }
-    
+
     /// <summary>
     ///     The ArcGIS AppId for OAuth2 login
     /// </summary>
@@ -696,7 +696,7 @@ public partial class MapView : MapComponent
     /// </summary>
     [Parameter]
     public EventCallback<Guid> OnViewRendered { get; set; }
-    
+
     /// <summary>
     ///     JS-Invokable method to return when the map view Spatial Reference changes.
     /// </summary>
@@ -1286,8 +1286,9 @@ public partial class MapView : MapComponent
                 await Task.Delay(1, cancellationToken);
 #else
                 using DotNetStreamReference streamRef = new(ms);
+
                 await ViewJsModule!.InvokeVoidAsync("addGraphicsFromStream", cancellationToken,
-                        streamRef, Id, abortSignal);
+                    streamRef, Id, abortSignal);
 #endif
             }
         }
@@ -2114,10 +2115,12 @@ public partial class MapView : MapComponent
             Rendering = false;
 
             await AuthenticationManager.Initialize();
-            if (!string.IsNullOrEmpty(AppId) && PromptForOAuthLogin == true)
+
+            if (!string.IsNullOrEmpty(AppId) && (PromptForOAuthLogin == true))
             {
                 await AuthenticationManager.Login();
             }
+
             StateHasChanged();
 
             return;
@@ -2186,7 +2189,7 @@ public partial class MapView : MapComponent
 
             Rendering = false;
             MapRendered = true;
-            
+
             foreach (Widget widget in Widgets.Where(w => !w.GetType().Namespace!.Contains("Core")))
             {
                 await AddWidget(widget);

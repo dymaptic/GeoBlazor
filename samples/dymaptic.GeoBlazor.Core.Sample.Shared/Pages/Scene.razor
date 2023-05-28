@@ -39,10 +39,10 @@
     </label>
 </div>
 <div class="form-group" style="margin-top: 2rem;">
-    <label>Test Object type in C#: </label><br/>
+    <label>Test Object type in C#: </label><br />
     <code>record TestObject(string Name, string Description, int Number, DateTime Date, bool Boolean)</code>
-    <br/>
-    <label style="margin-top: 1rem;">Test Object instantiation: </label><br/>
+    <br />
+    <label style="margin-top: 1rem;">Test Object instantiation: </label><br />
     <code>new TestObject("T1", "Test Object", 42, DateTime.UtcNow, false)</code>
 </div>
 <SceneView @ref="_view" Longitude="_longitude" Latitude="_latitude" Class="map-view"
@@ -58,7 +58,7 @@
             </Graphic>
         </GraphicsLayer>
     </Map>
-    
+
 </SceneView>
 
 
@@ -70,20 +70,20 @@
         {
             _cSharpGraphic = new Graphic(new Point(-118.83, 34.027),
                 new SimpleMarkerSymbol(color: new MapColor("green")),
-                new PopupTemplate("{Name}", 
+                new PopupTemplate("{Name}",
                     "{Description}<br/>Number: {Number}<br/>{Date}: {Date}<br/>Bool: {Boolean}</br>Object: {Object}"),
                 _graphicAttributes);
             await _graphicsLayer!.Add(_cSharpGraphic);
             _rendered = true;
         }
     }
-    
+
     private async Task UpdateAttribute(ChangeEventArgs arg, string attributeName)
     {
         await _view!.ClosePopup();
         if (attributeName == "Date")
         {
-            if (DateTime.TryParseExact(arg.Value!.ToString(), "yyyy-MM-dd", CultureInfo.CurrentCulture, DateTimeStyles.None, out var newDate))
+            if (DateTime.TryParseExact(arg.Value!.ToString(), "yyyy-MM-dd", CultureInfo.CurrentCulture, DateTimeStyles.None, out DateTime newDate))
             {
                 var currentDate = (DateTime)_graphicAttributes["Date"];
                 var dt = new DateTime(newDate.Year, newDate.Month, newDate.Day, currentDate.Hour, currentDate.Minute, 0);
@@ -93,7 +93,7 @@
         }
         else if (attributeName == "Time")
         {
-            if (DateTime.TryParseExact(arg.Value!.ToString(), "HH:mm:ss", CultureInfo.CurrentCulture, DateTimeStyles.None, out var newDate))
+            if (DateTime.TryParseExact(arg.Value!.ToString(), "HH:mm:ss", CultureInfo.CurrentCulture, DateTimeStyles.None, out DateTime newDate))
             {
                 var currentDate = (DateTime)_graphicAttributes["Date"];
                 var dt = new DateTime(currentDate.Year, currentDate.Month, currentDate.Day, newDate.Hour, newDate.Minute, 0);
@@ -107,7 +107,7 @@
             await _cSharpGraphic!.Attributes.AddOrUpdate(attributeName, arg.Value!);
         }
     }
-    
+
     private readonly double _latitude = 33.95;
     private readonly double _longitude = -118.805;
 

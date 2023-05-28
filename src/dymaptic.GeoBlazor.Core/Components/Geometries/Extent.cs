@@ -134,14 +134,6 @@ public class Extent : Geometry, IEquatable<Extent>
     /// <inheritdoc />
     public override string Type => "extent";
 
-    /// <summary>
-    ///     Returns a deep clone of the geometry.
-    /// </summary>
-    public Extent Clone()
-    {
-        return new Extent(Xmax, Xmin, Ymax, Ymin, Zmax, Zmin, Mmax, Mmin, SpatialReference?.Clone());
-    }
-    
     /// <inheritdoc />
     public bool Equals(Extent? other)
     {
@@ -150,6 +142,14 @@ public class Extent : Geometry, IEquatable<Extent>
         return Xmax.Equals(other.Xmax) && Xmin.Equals(other.Xmin) && Ymax.Equals(other.Ymax) &&
             Ymin.Equals(other.Ymin) && Nullable.Equals(Zmax, other.Zmax) && Nullable.Equals(Zmin, other.Zmin) &&
             Nullable.Equals(Mmax, other.Mmax) && Nullable.Equals(Mmin, other.Mmin);
+    }
+
+    /// <summary>
+    ///     Returns a deep clone of the geometry.
+    /// </summary>
+    public Extent Clone()
+    {
+        return new Extent(Xmax, Xmin, Ymax, Ymin, Zmax, Zmin, Mmax, Mmin, SpatialReference?.Clone());
     }
 
     /// <inheritdoc />

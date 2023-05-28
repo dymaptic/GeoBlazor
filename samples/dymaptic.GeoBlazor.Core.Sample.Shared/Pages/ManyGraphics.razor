@@ -170,6 +170,6 @@
     private int _chunkSize = 200;
     private CancellationTokenSource _cts = new();
     private string _geometryType = "Point";
-    private List<Graphic> _graphics = new();
+    private readonly List<Graphic> _graphics = new();
     private bool _generating;
 }

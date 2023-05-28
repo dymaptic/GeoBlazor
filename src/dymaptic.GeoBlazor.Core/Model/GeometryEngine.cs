@@ -1,8 +1,6 @@
-﻿using dymaptic.GeoBlazor.Core.Components;
-using dymaptic.GeoBlazor.Core.Components.Geometries;
+﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
 using dymaptic.GeoBlazor.Core.Objects;
 using dymaptic.GeoBlazor.Core.Serialization;
-using Microsoft.Extensions.Configuration;
 using Microsoft.JSInterop;
 using System.Text.Json.Serialization;
 
@@ -31,7 +29,8 @@ public class GeometryEngine : LogicComponent
     /// <param name="authenticationManager">
     ///     Injected Identity Manager reference
     /// </param>
-    public GeometryEngine(IJSRuntime jsRuntime, AuthenticationManager authenticationManager) : base(jsRuntime, authenticationManager)
+    public GeometryEngine(IJSRuntime jsRuntime, AuthenticationManager authenticationManager) : base(jsRuntime,
+        authenticationManager)
     {
     }
 
@@ -993,7 +992,7 @@ public class GeometryEngine : LogicComponent
     {
         return await InvokeAsync<T>("fromJSON", json, typeof(T).Name);
     }
-    
+
     /// <summary>
     ///     Converts an instance of this class to its ArcGIS portal JSON representation. See the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/programming-patterns/#using-fromjson">Using fromJSON()</a> guide topic for more information.
     /// </summary>
@@ -1007,7 +1006,7 @@ public class GeometryEngine : LogicComponent
     {
         return await InvokeAsync<string>("toJSON", geometry);
     }
-    
+
     /// <summary>
     ///     Creates a deep clone of the geometry.
     /// </summary>
@@ -1109,7 +1108,7 @@ public class GeometryEngine : LogicComponent
     ///     The polyline to add the path to. Will return a new modified copy.
     /// </param>
     /// <param name="points">
-    ///     The polyline path to add as a <see cref="MapPath"/>.
+    ///     The polyline path to add as a <see cref="MapPath" />.
     /// </param>
     /// <returns>
     ///     Returns a new polyline with the added path.
@@ -1118,7 +1117,7 @@ public class GeometryEngine : LogicComponent
     {
         return await InvokeAsync<PolyLine>("addPath", polyLine, points);
     }
-    
+
     /// <summary>
     ///     Adds a path, or line segment, to the polyline. When added, the index of the path is incremented by one.
     /// </summary>
@@ -1126,21 +1125,23 @@ public class GeometryEngine : LogicComponent
     ///     The polyline to add the path to. Will return a new modified copy.
     /// </param>
     /// <param name="points">
-    ///     The polyline path to add as an array of <see cref="Point"/>s.
+    ///     The polyline path to add as an array of <see cref="Point" />s.
     /// </param>
     /// <returns>
     ///     Returns a new polyline with the added path.
     /// </returns>
     public async Task<PolyLine> AddPath(PolyLine polyLine, Point[] points)
     {
-        List<MapPoint> mapPoints = new List<MapPoint>();
+        var mapPoints = new List<MapPoint>();
+
         foreach (Point p in points)
         {
             mapPoints.Add(new MapPoint(p.X!.Value, p.Y!.Value));
         }
+
         return await AddPath(polyLine, new MapPath(mapPoints));
     }
-    
+
     /// <summary>
     ///     Returns a point specified by a path and point in the path.
     /// </summary>
@@ -1160,7 +1161,7 @@ public class GeometryEngine : LogicComponent
     {
         return await InvokeAsync<Point>("getPointOnPolyline", polyLine, pathIndex, pointIndex);
     }
-    
+
     /// <summary>
     ///     Inserts a new point into a polyline and returns the modified line.
     /// </summary>
@@ -1191,7 +1192,7 @@ public class GeometryEngine : LogicComponent
     ///     The polyline to remove the path from.
     /// </param>
     /// <param name="index">
-    ///    The index of the path to remove.
+    ///     The index of the path to remove.
     /// </param>
     /// <returns>
     ///     Returns an object with the modified polyline and the removed path.
@@ -1200,7 +1201,7 @@ public class GeometryEngine : LogicComponent
     {
         return await InvokeAsync<(PolyLine PolyLine, Point[] Path)>("removePath", polyLine, index);
     }
-    
+
     /// <summary>
     ///     Removes a point from the polyline at the given pointIndex within the path identified by the given pathIndex.
     /// </summary>
@@ -1218,9 +1219,10 @@ public class GeometryEngine : LogicComponent
     /// </returns>
     public async Task<(PolyLine PolyLine, Point Point)> RemovePoint(PolyLine polyLine, int pathIndex, int pointIndex)
     {
-        return await InvokeAsync<(PolyLine PolyLine, Point Point)>("removePointOnPolyline", polyLine, pathIndex, pointIndex);
+        return await InvokeAsync<(PolyLine PolyLine, Point Point)>("removePointOnPolyline", polyLine, pathIndex,
+            pointIndex);
     }
-    
+
     /// <summary>
     ///     Updates a point in a polyline and returns the modified polyline.
     /// </summary>
@@ -1243,7 +1245,7 @@ public class GeometryEngine : LogicComponent
     {
         return await InvokeAsync<PolyLine>("setPointOnPolyline", polyLine, pathIndex, pointIndex, point);
     }
-    
+
     /// <summary>
     ///     Adds a ring to the Polygon. The ring can be one of the following: an array of numbers or an array of points. When added the index of the ring is incremented by one.
     /// </summary>
@@ -1260,7 +1262,7 @@ public class GeometryEngine : LogicComponent
     {
         return await InvokeAsync<Polygon>("addRing", polygon, points);
     }
-    
+
     /// <summary>
     ///     Adds a ring to the Polygon. The ring can be one of the following: an array of numbers or an array of points. When added the index of the ring is incremented by one.
     /// </summary>
@@ -1275,11 +1277,13 @@ public class GeometryEngine : LogicComponent
     /// </returns>
     public async Task<Polygon> AddRing(Polygon polygon, Point[] points)
     {
-        List<MapPoint> mapPoints = new List<MapPoint>();
+        var mapPoints = new List<MapPoint>();
+
         foreach (Point p in points)
         {
             mapPoints.Add(new MapPoint(p.X!.Value, p.Y!.Value));
         }
+
         return await AddRing(polygon, new MapPath(mapPoints));
     }
 
@@ -1296,7 +1300,7 @@ public class GeometryEngine : LogicComponent
     {
         return await InvokeAsync<Polygon>("fromExtent", extent);
     }
-    
+
     /// <summary>
     ///     Returns a point specified by a ring and point in the ring.
     /// </summary>
@@ -1316,7 +1320,7 @@ public class GeometryEngine : LogicComponent
     {
         return await InvokeAsync<Point>("getPointOnPolygon", polygon, ringIndex, pointIndex);
     }
-    
+
     /// <summary>
     ///     Inserts a new point into the polygon.
     /// </summary>
@@ -1356,9 +1360,9 @@ public class GeometryEngine : LogicComponent
     {
         return await InvokeAsync<bool>("isClockwise", polygon, ring);
     }
-    
+
     /// <summary>
-    ///    Checks if a Polygon ring is clockwise
+    ///     Checks if a Polygon ring is clockwise
     /// </summary>
     /// <param name="polygon">
     ///     The polygon to check the ring on.
@@ -1371,14 +1375,16 @@ public class GeometryEngine : LogicComponent
     /// </returns>
     public async Task<bool> IsClockwise(Polygon polygon, Point[] ring)
     {
-        List<MapPoint> mapPoints = new List<MapPoint>();
+        var mapPoints = new List<MapPoint>();
+
         foreach (Point p in ring)
         {
             mapPoints.Add(new MapPoint(p.X!.Value, p.Y!.Value));
         }
+
         return await IsClockwise(polygon, new MapPath(mapPoints));
     }
-    
+
     /// <summary>
     ///     Removes a point from the polygon at the given pointIndex within the ring identified by the given ringIndex.
     /// </summary>
@@ -1396,7 +1402,8 @@ public class GeometryEngine : LogicComponent
     /// </returns>
     public async Task<(Polygon Polygon, Point Point)> RemovePoint(Polygon polygon, int ringIndex, int pointIndex)
     {
-        return await InvokeAsync<(Polygon Polygon, Point Point)>("removePointOnPolygon", polygon, ringIndex, pointIndex);
+        return await InvokeAsync<(Polygon Polygon, Point Point)>("removePointOnPolygon", polygon, ringIndex,
+            pointIndex);
     }
 
     /// <summary>
@@ -1406,7 +1413,7 @@ public class GeometryEngine : LogicComponent
     ///     The polygon to remove the ring from.
     /// </param>
     /// <param name="index">
-    ///    The index of the ring to remove.
+    ///     The index of the ring to remove.
     /// </param>
     /// <returns>
     ///     Returns an object with the modified polygon and the removed ring.
@@ -1415,7 +1422,7 @@ public class GeometryEngine : LogicComponent
     {
         return await InvokeAsync<(Polygon Polygon, Point[] Ring)>("removeRing", polygon, index);
     }
-    
+
     /// <summary>
     ///     Updates a point in a polygon and returns the modified polygon.
     /// </summary>

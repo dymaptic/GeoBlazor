@@ -1,6 +1,4 @@
-﻿import {
-    arcGisObjectRefs
-} from "./_content/dymaptic.GeoBlazor.Core/js/arcGisJsInterop.js";
+﻿import {arcGisObjectRefs} from "./_content/dymaptic.GeoBlazor.Core/js/arcGisJsInterop.js";
 
 export function assertBasemapHasTwoLayers(viewId) {
     let view = arcGisObjectRefs[viewId];

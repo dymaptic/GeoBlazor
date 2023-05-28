@@ -104,14 +104,6 @@ public class Point : Geometry, IEquatable<Point>
     public override string Type => "point";
 
     /// <summary>
-    ///     Returns a deep clone of the geometry.
-    /// </summary>
-    public Point Clone()
-    {
-        return new Point(Longitude, Latitude, X, Y, Z, SpatialReference?.Clone(), Extent?.Clone());
-    }
-
-    /// <summary>
     ///     Implements custom equality checks
     /// </summary>
     public bool Equals(Point? other)
@@ -120,6 +112,14 @@ public class Point : Geometry, IEquatable<Point>
 
         return (Latitude.Equals(other.Latitude) && Longitude.Equals(other.Longitude)) ||
             (X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z));
+    }
+
+    /// <summary>
+    ///     Returns a deep clone of the geometry.
+    /// </summary>
+    public Point Clone()
+    {
+        return new Point(Longitude, Latitude, X, Y, Z, SpatialReference?.Clone(), Extent?.Clone());
     }
 
     /// <inheritdoc />

@@ -104,9 +104,9 @@
         Point? center = await View!.GetCenter();
         await DisplayCoordinates(center);
 
-        // This is an example of how to extend GeoBlazor with your own custom JavaScript.
-        // In this case, this was chosen over handling the event in C# because in some scenarios (e.g., Blazor Server),
-        // the latency of the call is noticeable for a real-time event like pointer-move.
+    // This is an example of how to extend GeoBlazor with your own custom JavaScript.
+    // In this case, this was chosen over handling the event in C# because in some scenarios (e.g., Blazor Server),
+    // the latency of the call is noticeable for a real-time event like pointer-move.
         IJSObjectReference module = await JsRuntime.InvokeAsync<IJSObjectReference>("import",
             "./_content/dymaptic.GeoBlazor.Core.Sample.Shared/js/extensions.js");
         await module.InvokeVoidAsync("drawWithGeodesicBufferOnPointer", PointSym, PolySym, 1000,

@@ -1,5 +1,5 @@
-﻿@using System.Runtime.ExceptionServices
-@using ErrorEventArgs = dymaptic.GeoBlazor.Core.Test.Blazor.ErrorEventArgs
+﻿@using ErrorEventArgs = dymaptic.GeoBlazor.Core.Test.Blazor.ErrorEventArgs
+@using System.Runtime.ExceptionServices
 @attribute [TestClass]
 <div class="result-section">
     <h2>@ClassName</h2>
@@ -24,7 +24,7 @@
             <div class="test-results-container">
                 <div class="test-results-row">
                     <button @onclick="@(() => RunTest(methodInfo))">Run Test</button>
-                    @((MarkupString)entry.Value)        
+                    @((MarkupString)entry.Value)
                 </div>
                 @if (_testRenderFragments.TryGetValue(entry.Key, out RenderFragment? fragment))
                 {
@@ -33,7 +33,7 @@
                             <div style="display: flex; justify-content: center; position: relative;">
                                 <div style="position: absolute; top: -100px; right: 10px;">
                                     <MapView @ref="_mapViews[entry.Key]" OnViewRendered="@_mapViewRenderHandlers[entry.Key]" class="map-view">
-                                        @fragment   
+                                        @fragment
                                     </MapView>
                                 </div>
                             </div>
@@ -49,14 +49,14 @@
 @code {
     [Inject]
     public IJSRuntime JsRuntime { get; set; } = null!;
-    
-	[Parameter]
-	public EventCallback<TestResult> OnTestResults { get; set; }
+
+    [Parameter]
+    public EventCallback<TestResult> OnTestResults { get; set; }
 
     public async Task RunTests()
     {
         _running = true;
-        ResultBuilder = new();
+        ResultBuilder = new StringBuilder();
         _passed.Clear();
         _failed.Clear();
         foreach (string key in _testResults.Keys)
@@ -87,19 +87,19 @@
         _jsObjectReference ??= await JsRuntime.InvokeAsync<IJSObjectReference>("import", "./testRunner.js");
     }
 
-    protected void AddMapRenderFragment(RenderFragment fragment, 
+    protected void AddMapRenderFragment(RenderFragment fragment,
         [CallerMemberName] string? methodName = null)
     {
         _mapViews[methodName!] = new MapView();
         _testRenderFragments[methodName!] = fragment;
     }
-    
+
     protected MapView GetMapView([CallerMemberName] string? methodName = null)
     {
         return _mapViews[methodName!];
     }
 
-    protected void CreateViewRenderedHandler(Func<Task>? asserts = null, 
+    protected void CreateViewRenderedHandler(Func<Task>? asserts = null,
         [CallerMemberName] string? methodName = null, int renderCount = 0)
     {
         async Task Handler()
@@ -118,7 +118,7 @@
                 {
                     await asserts();
                 }
-                
+
                 _methodsWithRenderedMaps.Add(methodName!);
             }
             catch (Exception ex)
@@ -133,8 +133,8 @@
     protected async Task WaitForMapToRender([CallerMemberName] string? methodName = null, bool cleanupFragment = true)
     {
         await InvokeAsync(StateHasChanged);
-        int tries = 300;
-        while (!_methodsWithRenderedMaps.Contains(methodName!) && tries > 0)
+        var tries = 300;
+        while (!_methodsWithRenderedMaps.Contains(methodName!) && (tries > 0))
         {
             if (_mapRenderingExceptions.TryGetValue(methodName!, out Exception? ex))
             {
@@ -144,7 +144,7 @@
             await Task.Delay(100);
             tries--;
         }
-        
+
         Assert.IsTrue(_methodsWithRenderedMaps.Contains(methodName!));
         _methodsWithRenderedMaps.Remove(methodName!);
         if (cleanupFragment)
@@ -154,9 +154,9 @@
         }
     }
 
-    protected async Task AssertJavaScript(string jsAssertFunction, [CallerMemberName]string? methodName = null, params object[] args)
+    protected async Task AssertJavaScript(string jsAssertFunction, [CallerMemberName] string? methodName = null, params object[] args)
     {
-        List<object> jsArgs = new() {_mapViews[methodName!].Id};
+        List<object> jsArgs = new() { _mapViews[methodName!].Id };
         jsArgs.AddRange(args);
         await _jsObjectReference!.InvokeVoidAsync(jsAssertFunction, jsArgs.ToArray());
     }
@@ -182,9 +182,9 @@
         catch (Exception ex)
         {
             _failed[methodInfo.Name] = $"{ResultBuilder}{Environment.NewLine}{ex.StackTrace}";
-            ResultBuilder.AppendLine($"<p style=\"color: red; font-weight: bold\">{ex.Message.Replace(Environment.NewLine, "<br/>")}<br/>{(ex.StackTrace?.Replace(Environment.NewLine, "<br/>"))}</p>");
+            ResultBuilder.AppendLine($"<p style=\"color: red; font-weight: bold\">{ex.Message.Replace(Environment.NewLine, "<br/>")}<br/>{ex.StackTrace?.Replace(Environment.NewLine, "<br/>")}</p>");
         }
-        
+
         _testResults[methodInfo.Name] = ResultBuilder.ToString();
         await InvokeAsync(async () =>
         {
@@ -192,7 +192,7 @@
             await OnTestResults.InvokeAsync(new TestResult(ClassName, _passed, _failed));
         });
     }
-    
+
     private void OnRenderError(ErrorEventArgs arg)
     {
         _mapRenderingExceptions[arg.MethodName] = arg.Exception;

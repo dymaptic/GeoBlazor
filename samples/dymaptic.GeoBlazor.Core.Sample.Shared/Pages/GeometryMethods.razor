@@ -6,51 +6,53 @@
 <div class="form-group" style="border: 1px solid black; padding: 0.5rem;">
     <h2>Extent Methods</h2>
     <code>Extent extent = new Extent(xmax: 4120960.074670904, xmin: -3412935.278412999, ymax: 8963926.222211033, ymin: 6049459.93475111)</code>
-    <br/>
+    <br />
     <label>
         Center Extent At Point Long: <input type="number" @bind="_centerLong" /> Lat: <input type="number" @bind="_centerLat" />
         <button @onclick="CenterExtent">Center</button>
     </label>
-    <br/>
+    <br />
     <label>
         Centered Extent: <code>@_centeredExtent</code>
     </label>
-    <br/>
+    <br />
     <label>
         Expand Extent by factor: <input type="number" @bind="_expandFactor" />
         <button @onclick="ExpandExtent">Expand</button>
     </label>
-    <br/>
+    <br />
     <label>
         Expanded Extent: <code>@_expandedExtent</code>
     </label>
-    <br/>
+    <br />
     <label>
         Offset Extent by distance X: <input type="number" @bind="_dx" /> Y: <input type="number" @bind="_dy" />
         <button @onclick="OffsetExtent">Offset</button>
     </label>
-    <br/>
+    <br />
     <label>
         Offset Extent: <code>@_offsetExtent</code>
     </label>
 </div>
 <div class="form-group" style="border: 1px solid black; padding: 0.5rem;">
     <h2>Point Methods</h2>
-    <p><i>JSON methods are avaible for all geometry types</i></p>
+    <p>
+        <i>JSON methods are avaible for all geometry types</i>
+    </p>
     <code>Point point = new Point(longitude: -117.08, latitude: 34.1)</code>
-    <br/>
+    <br />
     <label>
         Point to JSON: <button @onclick="PointToJson">Convert</button>
     </label>
-    <br/>
+    <br />
     <label>
         JSON: <code>@_pointJson</code>
     </label>
-    <br/>
+    <br />
     <label>
         JSON to Point: <button disabled="@(_pointJson is null)" @onclick="JsonToPoint">Convert</button>
     </label>
-    <br/>
+    <br />
     <label>
         C# Point: <code>@_jsonToPointSuccess</code>
     </label>
@@ -68,23 +70,23 @@
                 new MapPoint(11, 56))
         });
     </code>
-    <br/>
+    <br />
     <label>
         Add Path: <button @onclick="AddPath">Add Path</button>
     </label>
-    <br/>
+    <br />
     <label>
         New Path: <code>@_addedPath</code>
     </label>
-    <br/>
+    <br />
     <label>
         Get Point: <button @onclick="GetLinePoint">Get Point</button>
     </label>
-    <br/>
+    <br />
     <label>
         Point: <code>@_linePoint</code>
     </label>
-    <br/>
+    <br />
     <code>
         Polygon _polygon = new(new MapPath[]
         {
@@ -98,11 +100,11 @@
         }
         });
     </code>
-    <br/>
+    <br />
     <label>
         Insert Point: <button @onclick="InsertPoint">Insert Point</button>
     </label>
-    <br/>
+    <br />
     <label>
         New Polygon: <code>@_insertPoint</code>
     </label>
@@ -113,15 +115,15 @@
     <label>
         Polygon from Extent: <button @onclick="PolygonFromExtent">Convert</button>
     </label>
-    <br/>
+    <br />
     <label>
         Polygon: @_newPolygon
     </label>
-    <br/>
+    <br />
     <label>
         Check if Clockwise: <button @onclick="IsClockwise">Check</button>
     </label>
-    <br/>
+    <br />
     <label>
         Is Clockwise: <code>@_isClockwise</code>
     </label>
@@ -131,7 +133,7 @@
 
     private async Task PointToJson()
     {
-        Point point = new Point(-117.08, 34.1);
+        var point = new Point(-117.08, 34.1);
         _pointJson = await GeometryEngine.ToArcGisJson(point);
     }
 
@@ -168,10 +170,10 @@
             new(12, 55),
             new(10, 55)
         });
-        
+
         _addedPath = string.Join(", ", newLine.Paths.Last().Select(p => $"[{p[0]}, {p[1]}]"));
     }
-    
+
     private async Task GetLinePoint()
     {
         Point point = await GeometryEngine.GetPoint(_polyLine, 0, 2);
@@ -189,7 +191,7 @@
         Polygon newPolygon = await GeometryEngine.InsertPoint(_polygon, 0, 3, new Point(33, 43));
         _insertPoint = string.Join(", ", newPolygon.Rings.First().Select(p => $"[{p[0]}, {p[1]}]"));
     }
-    
+
     private async Task IsClockwise()
     {
         _isClockwise = await GeometryEngine.IsClockwise(_polygon, _polygon.Rings.First());
@@ -197,7 +199,7 @@
 
     private string? _pointJson;
     private string? _jsonToPointSuccess;
-    private double _centerLong = 0;
+    private double _centerLong;
     private double _centerLat = 7000000;
     private string? _centeredExtent;
     private double _expandFactor = 1.5;
@@ -210,8 +212,8 @@
     private string? _newPolygon;
     private string? _insertPoint;
     private bool? _isClockwise;
-    private readonly Extent _extent = new Extent(4120960.074670904, -3412935.278412999, 8963926.222211033, 6049459.93475111);
-    private readonly PolyLine _polyLine = new PolyLine(new[]
+    private readonly Extent _extent = new(4120960.074670904, -3412935.278412999, 8963926.222211033, 6049459.93475111);
+    private readonly PolyLine _polyLine = new(new[]
     {
         new MapPath(new MapPoint(11, 52),
             new MapPoint(11.5, 53),

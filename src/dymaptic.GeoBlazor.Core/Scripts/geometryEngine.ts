@@ -6,10 +6,6 @@ import SpatialReference from "@arcgis/core/geometry/SpatialReference";
 import Point from "@arcgis/core/geometry/Point";
 import {buildJsExtent, buildJsGeometry, buildJsPoint, buildJsPolygon, buildJsPolyline} from "./jsBuilder";
 import {DotNetExtent, DotNetGeometry, DotNetPoint, DotNetPolygon, DotNetPolyline} from "./definitions";
-import LinearUnits = __esri.LinearUnits;
-import SpatialReferenceInfo = __esri.SpatialReferenceInfo;
-import AreaUnits = __esri.AreaUnits;
-import NearestPointResult = __esri.NearestPointResult;
 import Extent from "@arcgis/core/geometry/Extent";
 import {
     buildDotNetExtent,
@@ -18,6 +14,10 @@ import {
     buildDotNetPolygon,
     buildDotNetPolyline
 } from "./dotNetBuilder";
+import LinearUnits = __esri.LinearUnits;
+import SpatialReferenceInfo = __esri.SpatialReferenceInfo;
+import AreaUnits = __esri.AreaUnits;
+import NearestPointResult = __esri.NearestPointResult;
 
 export default class GeometryEngineWrapper {
     private dotNetRef: any;
@@ -504,10 +504,10 @@ export default class GeometryEngineWrapper {
             return null;
         }
     }
-    
+
     async fromJSON(json: string, typeName: string): Promise<DotNetGeometry | null> {
         try {
-            let jsGeometry : Geometry;
+            let jsGeometry: Geometry;
             let jsonObject = JSON.parse(json);
             switch (typeName) {
                 case "Point":
@@ -531,7 +531,7 @@ export default class GeometryEngineWrapper {
             return null;
         }
     }
-    
+
     async toJSON(geometry: any): Promise<string | null> {
         try {
             let jsGeometry = buildJsGeometry(geometry) as Geometry;
@@ -541,7 +541,7 @@ export default class GeometryEngineWrapper {
             return null;
         }
     }
-    
+
     async clone(geometry: DotNetGeometry): Promise<DotNetGeometry | null> {
         try {
             let jsGeometry = buildJsGeometry(geometry) as Geometry;
@@ -552,7 +552,7 @@ export default class GeometryEngineWrapper {
             return null;
         }
     }
-    
+
     async centerExtentAt(extent: DotNetExtent, center: DotNetPoint): Promise<DotNetExtent | null> {
         try {
             let jsExtent = buildJsExtent(extent, null) as Extent;
@@ -563,8 +563,8 @@ export default class GeometryEngineWrapper {
             return null;
         }
     }
-    
-    async expand(extent: DotNetExtent, factor: number) : Promise<DotNetExtent | null> {
+
+    async expand(extent: DotNetExtent, factor: number): Promise<DotNetExtent | null> {
         try {
             let jsExtent = buildJsExtent(extent, null) as Extent;
             let newExtent = jsExtent.expand(factor);
@@ -573,9 +573,9 @@ export default class GeometryEngineWrapper {
             this.logError(error);
             return null;
         }
-    } 
-    
-    async normalizeExtent(extent: DotNetExtent) : Promise<DotNetExtent[] | null> {
+    }
+
+    async normalizeExtent(extent: DotNetExtent): Promise<DotNetExtent[] | null> {
         try {
             let jsExtent = buildJsExtent(extent, null) as Extent;
             let newExtents = jsExtent.normalize();
@@ -585,20 +585,19 @@ export default class GeometryEngineWrapper {
             return null;
         }
     }
-    
-    async offsetExtent(extent: DotNetExtent, dx: number, dy: number, dz: number) : Promise<DotNetExtent | null> {
+
+    async offsetExtent(extent: DotNetExtent, dx: number, dy: number, dz: number): Promise<DotNetExtent | null> {
         try {
             let jsExtent = buildJsExtent(extent, null) as Extent;
             let newExtent = jsExtent.offset(dx, dy, dz);
             return buildDotNetExtent(newExtent);
-        }
-        catch (error) {
+        } catch (error) {
             this.logError(error);
             return null;
         }
     }
-    
-    async normalizePoint(point: DotNetPoint) : Promise<DotNetPoint | null> {
+
+    async normalizePoint(point: DotNetPoint): Promise<DotNetPoint | null> {
         try {
             let jsPoint = buildJsPoint(point) as Point;
             let newPoint = jsPoint.normalize();
@@ -608,8 +607,8 @@ export default class GeometryEngineWrapper {
             return null;
         }
     }
-    
-    async addPath(polyline: DotNetPolyline, path: any) : Promise<DotNetPolyline | null> {
+
+    async addPath(polyline: DotNetPolyline, path: any): Promise<DotNetPolyline | null> {
         try {
             let jsPolyline = buildJsPolyline(polyline) as Polyline;
             let newPolyline = jsPolyline.addPath(path);
@@ -619,8 +618,8 @@ export default class GeometryEngineWrapper {
             return null;
         }
     }
-    
-    async getPointOnPolyline(polyline: DotNetPolyline, pathIndex: number, pointIndex: number) 
+
+    async getPointOnPolyline(polyline: DotNetPolyline, pathIndex: number, pointIndex: number)
         : Promise<DotNetPoint | null> {
         try {
             let jsPolyline = buildJsPolyline(polyline) as Polyline;
@@ -631,7 +630,7 @@ export default class GeometryEngineWrapper {
             return null;
         }
     }
-    
+
     async insertPointOnPolyline(polyline: DotNetPolyline, pathIndex: number, pointIndex: number, point: DotNetPoint)
         : Promise<DotNetPolyline | null> {
         try {
@@ -644,8 +643,8 @@ export default class GeometryEngineWrapper {
             return null;
         }
     }
-    
-    async removePath(polyline: DotNetPolyline, pathIndex: number) : Promise<any | null> {
+
+    async removePath(polyline: DotNetPolyline, pathIndex: number): Promise<any | null> {
         try {
             let jsPolyline = buildJsPolyline(polyline) as Polyline;
             let path = jsPolyline.removePath(pathIndex);
@@ -659,8 +658,8 @@ export default class GeometryEngineWrapper {
             return null;
         }
     }
-    
-    async removePointOnPolyline(polyline: DotNetPolyline, pathIndex: number, pointIndex: number) : Promise<any | null> {
+
+    async removePointOnPolyline(polyline: DotNetPolyline, pathIndex: number, pointIndex: number): Promise<any | null> {
         try {
             let jsPolyline = buildJsPolyline(polyline) as Polyline;
             let point = jsPolyline.removePoint(pathIndex, pointIndex);
@@ -673,7 +672,7 @@ export default class GeometryEngineWrapper {
             return null;
         }
     }
-    
+
     async setPointOnPolyline(polyline: DotNetPolyline, pathIndex: number, pointIndex: number, point: DotNetPoint)
         : Promise<DotNetPolyline | null> {
         try {
@@ -686,8 +685,8 @@ export default class GeometryEngineWrapper {
             return null;
         }
     }
-    
-    async addRing(polygon: DotNetPolygon, ring: any) : Promise<DotNetPolygon | null> {
+
+    async addRing(polygon: DotNetPolygon, ring: any): Promise<DotNetPolygon | null> {
         try {
             let jsPolygon = buildJsPolygon(polygon) as Polygon;
             let newPolygon = jsPolygon.addRing(ring);
@@ -697,7 +696,7 @@ export default class GeometryEngineWrapper {
             return null;
         }
     }
-    
+
     async fromExtent(extent: DotNetExtent): Promise<DotNetPolygon | null> {
         try {
             let jsExtent = buildJsExtent(extent, null) as Extent;
@@ -708,8 +707,8 @@ export default class GeometryEngineWrapper {
             return null;
         }
     }
-    
-    async getPointOnPolygon(polygon: DotNetPolygon, ringIndex: number, pointIndex: number) : Promise<DotNetPoint | null> {
+
+    async getPointOnPolygon(polygon: DotNetPolygon, ringIndex: number, pointIndex: number): Promise<DotNetPoint | null> {
         try {
             let jsPolygon = buildJsPolygon(polygon) as Polygon;
             let jsPoint = jsPolygon.getPoint(ringIndex, pointIndex);
@@ -719,7 +718,7 @@ export default class GeometryEngineWrapper {
             return null;
         }
     }
-    
+
     async insertPointOnPolygon(polygon: DotNetPolygon, ringIndex: number, pointIndex: number, point: DotNetPoint)
         : Promise<DotNetPolygon | null> {
         try {
@@ -732,9 +731,9 @@ export default class GeometryEngineWrapper {
             return null;
         }
     }
-    
-    
-    async isClockwise(polygon: DotNetPolygon, ring: any) : Promise<boolean | null> {
+
+
+    async isClockwise(polygon: DotNetPolygon, ring: any): Promise<boolean | null> {
         try {
             let jsPolygon = buildJsPolygon(polygon) as Polygon;
             return jsPolygon.isClockwise(ring);
@@ -743,8 +742,8 @@ export default class GeometryEngineWrapper {
             return null;
         }
     }
-    
-    async removePointOnPolygon(polygon: DotNetPolygon, ringIndex: number, pointIndex: number) : Promise<any | null> {
+
+    async removePointOnPolygon(polygon: DotNetPolygon, ringIndex: number, pointIndex: number): Promise<any | null> {
         try {
             let jsPolygon = buildJsPolygon(polygon) as Polygon;
             let point = jsPolygon.removePoint(ringIndex, pointIndex);
@@ -757,8 +756,8 @@ export default class GeometryEngineWrapper {
             return null;
         }
     }
-    
-    async removeRing(polygon: DotNetPolygon, index: number) : Promise<any | null> {
+
+    async removeRing(polygon: DotNetPolygon, index: number): Promise<any | null> {
         try {
             let jsPolygon = buildJsPolygon(polygon) as Polygon;
             let ring = jsPolygon.removeRing(index);
@@ -771,7 +770,7 @@ export default class GeometryEngineWrapper {
             return null;
         }
     }
-    
+
     async setPointOnPolygon(polygon: DotNetPolygon, ringIndex: number, pointIndex: number, point: DotNetPoint)
         : Promise<DotNetPolygon | null> {
         try {

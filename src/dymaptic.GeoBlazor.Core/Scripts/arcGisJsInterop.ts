@@ -99,11 +99,11 @@ import Popup from "@arcgis/core/widgets/Popup";
 import ElevationLayer from "@arcgis/core/layers/ElevationLayer";
 import PopupWidgetWrapper from "./popupWidgetWrapper";
 import {load} from "protobufjs";
+import AuthenticationManager from "./authenticationManager";
 import HitTestResult = __esri.HitTestResult;
 import MapViewHitTestOptions = __esri.MapViewHitTestOptions;
 import LegendLayerInfos = __esri.LegendLayerInfos;
 import ScreenPoint = __esri.ScreenPoint;
-import AuthenticationManager from "./authenticationManager";
 
 export let arcGisObjectRefs: Record<string, Accessor> = {};
 export let graphicsRefs: Record<string, Graphic> = {};
@@ -189,7 +189,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
 
         checkConnectivity(id);
         dotNetRefs[id] = dotNetRef;
-        
+
         disposeView(id);
         let view: View;
 
@@ -947,7 +947,7 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
 
                 break;
         }
-        
+
         if (hasValue(layerObject.opacity) && layerObject.opacity !== currentLayer.opacity &&
             layerObject.opacity >= 0 && layerObject.opacity <= 1) {
             currentLayer.opacity = layerObject.opacity;
@@ -1494,7 +1494,7 @@ export async function addWidget(widget: any, viewId: string): Promise<void> {
 
 async function createWidget(widget: any, viewId: string): Promise<Widget | null> {
     let view = arcGisObjectRefs[viewId] as MapView;
-    
+
     let newWidget: Widget;
     switch (widget.type) {
         case 'locate':
@@ -2290,8 +2290,9 @@ export function encodeProtobufGraphics(graphics: any[]): Uint8Array {
 }
 
 let _authenticationManager: AuthenticationManager | null = null;
-export function getAuthenticationManager(dotNetRef: any, apiKey: string | null, appId: string | null, 
-                                   portalUrl: string | null): AuthenticationManager {
+
+export function getAuthenticationManager(dotNetRef: any, apiKey: string | null, appId: string | null,
+                                         portalUrl: string | null): AuthenticationManager {
     if (_authenticationManager === null) {
         _authenticationManager = new AuthenticationManager(dotNetRef, apiKey, appId, portalUrl);
     }

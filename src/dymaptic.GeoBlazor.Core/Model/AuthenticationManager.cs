@@ -26,66 +26,6 @@ public class AuthenticationManager
     }
 
     /// <summary>
-    ///     Initializes authentication based on either an OAuth App ID or an API Key. This is called automatically by <see cref="MapView"/> on first render, but can also be called manually for other actions such as rest calls.
-    /// </summary>
-    public async Task Initialize()
-    {
-        if (_module is null)
-        {
-            IJSObjectReference arcGisJsInterop = await GetArcGisJsInterop();
-
-            _module = await arcGisJsInterop.InvokeAsync<IJSObjectReference>("getAuthenticationManager",
-                _cancellationTokenSource.Token, DotNetObjectReference.Create(this), ApiKey, AppId, PortalUrl);
-        }
-    }
-
-    /// <summary>
-    ///     Initiates an OAuth login flow
-    /// </summary>
-    public async Task Login()
-    {
-        await Initialize();
-        await _module!.InvokeVoidAsync("doLogin");
-    }
-    
-    /// <summary>
-    ///     Provides an implementation-agnostic way to fetch the current authentication token, whether it's an OAuth token or an API Key
-    /// </summary>
-    public async Task<string?> GetCurrentToken()
-    {
-        if (!string.IsNullOrWhiteSpace(ApiKey))
-        {
-            return ApiKey;
-        }
-        await Initialize();
-        return await _module!.InvokeAsync<string?>("getToken");
-    }
-    
-    /// <summary>
-    ///     Tests to see if the user is logged in. True if yes, false if otherwise.
-    /// </summary>
-    /// <returns>
-    ///     Returns a boolean value indicating whether or not the user is logged in.
-    /// </returns>
-    public async Task<bool> IsLoggedIn()
-    {
-        if (!string.IsNullOrWhiteSpace(ApiKey)) return true;
-        await Initialize();
-        return await _module!.InvokeAsync<bool>("isLoggedIn");
-    }
-    
-    /// <summary>
-    ///     Ensures that the user is logged in. If not, it will attempt to log them in.
-    /// </summary>
-    public async Task EnsureLoggedIn()
-    {
-        if (!await IsLoggedIn())
-        {
-            await Login();
-        }
-    }
-    
-    /// <summary>
     ///     Get or set the OAuth App ID.
     /// </summary>
     public string? AppId
@@ -130,7 +70,7 @@ public class AuthenticationManager
             }
         }
     }
-    
+
     /// <summary>
     ///     Get or set the ArcGIS Application Api Key.
     /// </summary>
@@ -153,9 +93,73 @@ public class AuthenticationManager
             }
         }
     }
-    
+
     /// <summary>
-    ///    Retrieves the correct copy of the ArcGisJsInterop based on the nuget package
+    ///     Initializes authentication based on either an OAuth App ID or an API Key. This is called automatically by <see cref="MapView" /> on first render, but can also be called manually for other actions such as rest calls.
+    /// </summary>
+    public async Task Initialize()
+    {
+        if (_module is null)
+        {
+            IJSObjectReference arcGisJsInterop = await GetArcGisJsInterop();
+
+            _module = await arcGisJsInterop.InvokeAsync<IJSObjectReference>("getAuthenticationManager",
+                _cancellationTokenSource.Token, DotNetObjectReference.Create(this), ApiKey, AppId, PortalUrl);
+        }
+    }
+
+    /// <summary>
+    ///     Initiates an OAuth login flow
+    /// </summary>
+    public async Task Login()
+    {
+        await Initialize();
+        await _module!.InvokeVoidAsync("doLogin");
+    }
+
+    /// <summary>
+    ///     Provides an implementation-agnostic way to fetch the current authentication token, whether it's an OAuth token or an API Key
+    /// </summary>
+    public async Task<string?> GetCurrentToken()
+    {
+        if (!string.IsNullOrWhiteSpace(ApiKey))
+        {
+            return ApiKey;
+        }
+
+        await Initialize();
+
+        return await _module!.InvokeAsync<string?>("getToken");
+    }
+
+    /// <summary>
+    ///     Tests to see if the user is logged in. True if yes, false if otherwise.
+    /// </summary>
+    /// <returns>
+    ///     Returns a boolean value indicating whether or not the user is logged in.
+    /// </returns>
+    public async Task<bool> IsLoggedIn()
+    {
+        if (!string.IsNullOrWhiteSpace(ApiKey)) return true;
+
+        await Initialize();
+
+        return await _module!.InvokeAsync<bool>("isLoggedIn");
+    }
+
+    /// <summary>
+    ///     Ensures that the user is logged in. If not, it will attempt to log them in.
+    /// </summary>
+    public async Task EnsureLoggedIn()
+    {
+        if (!await IsLoggedIn())
+        {
+            await Login();
+        }
+    }
+
+    /// <summary>
+    ///     Retrieves the correct copy of the ArcGisJsInterop based on the nuget package
     /// </summary>
     public async Task<IJSObjectReference> GetArcGisJsInterop()
     {
@@ -179,9 +183,9 @@ public class AuthenticationManager
 
     private readonly IJSRuntime _jsRuntime;
     private readonly IConfiguration _configuration;
+    private readonly CancellationTokenSource _cancellationTokenSource = new();
     private string? _appId;
     private string? _apiKey;
     private string? _portalUrl;
     private IJSObjectReference? _module;
-    private readonly CancellationTokenSource _cancellationTokenSource = new();
 }

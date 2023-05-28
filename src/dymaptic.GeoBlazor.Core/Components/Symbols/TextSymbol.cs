@@ -146,13 +146,6 @@ public class TextSymbol : Symbol, IEquatable<TextSymbol>
     }
 
     /// <inheritdoc />
-    internal override void ValidateRequiredChildren()
-    {
-        base.ValidateRequiredChildren();
-        Font?.ValidateRequiredChildren();
-    }
-
-    /// <inheritdoc />
     public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
@@ -165,6 +158,13 @@ public class TextSymbol : Symbol, IEquatable<TextSymbol>
     public override int GetHashCode()
     {
         return HashCode.Combine(HaloColor, HaloSize, Text, Font, Color);
+    }
+
+    /// <inheritdoc />
+    internal override void ValidateRequiredChildren()
+    {
+        base.ValidateRequiredChildren();
+        Font?.ValidateRequiredChildren();
     }
 
     internal override SymbolSerializationRecord ToSerializationRecord()

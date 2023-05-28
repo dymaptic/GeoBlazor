@@ -31,6 +31,7 @@ var provider = new FileExtensionContentTypeProvider();
 provider.Mappings[".wsv"] = "application/octet-stream";
 
 app.UseStaticFiles();
+
 app.UseStaticFiles(new StaticFileOptions // NOTE: for some reason, you still need the plain "UseStaticFiles" call above
 {
     ContentTypeProvider = provider

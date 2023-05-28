@@ -5,6 +5,7 @@
 }
 
 @code {
+
     [TestMethod]
     public async Task TestCanRenderArcGisDefaultBasemap()
     {
@@ -14,7 +15,7 @@
 
         await WaitForMapToRender();
     }
-    
+
     [TestMethod]
     public async Task TestCanRenderBasemapFromPortalId()
     {
@@ -29,7 +30,7 @@
         
         await WaitForMapToRender();
     }
-    
+
     [TestMethod]
     public async Task TestCanRenderBasemapFromTileLayers()
     {
@@ -52,4 +53,5 @@
 
         await WaitForMapToRender();
     }
+
 }

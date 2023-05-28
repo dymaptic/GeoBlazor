@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-using ProtoBuf;
+﻿using ProtoBuf;
 using System.Diagnostics;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -50,6 +49,7 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
                 };
                 _backingDictionary[kvp.Key] = (typedValue ?? default(object))!;
             }
+
             // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
             else if (kvp.Value is null) // could be null from serialization
             {
@@ -63,7 +63,7 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
     }
 
     /// <summary>
-    ///     Implicit conversion from <see cref="Dictionary{TKey,TValue}"/> to AttributesDictionary.
+    ///     Implicit conversion from <see cref="Dictionary{TKey,TValue}" /> to AttributesDictionary.
     ///     This is only provided for backwards compatibility and may be removed in a future release.
     /// </summary>
     [Obsolete("Using a Dictionary<string, object> for attributes is deprecated. Use an AttributesDictionary(Dictionary<string, object> dictionary) instead.")]
@@ -76,7 +76,7 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
     }
 
     /// <summary>
-    ///    Implicit conversion from AttributesDictionary to <see cref="Dictionary{TKey,TValue}"/>.
+    ///     Implicit conversion from AttributesDictionary to <see cref="Dictionary{TKey,TValue}" />.
     /// </summary>
     public static explicit operator Dictionary<string, object>(AttributesDictionary attributesDictionary)
     {
@@ -100,7 +100,7 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
     }
 
     /// <summary>
-    ///    Event that is fired when an attribute is added, updated or removed
+    ///     Event that is fired when an attribute is added, updated or removed
     /// </summary>
     [JsonIgnore]
     public Func<Task>? OnChange { get; set; }
@@ -179,7 +179,7 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
     }
 
     /// <summary>
-    ///     Updates the AttributesDictionary with new key/value pairs from a <see cref="Dictionary{TKey,TValue}"/>
+    ///     Updates the AttributesDictionary with new key/value pairs from a <see cref="Dictionary{TKey,TValue}" />
     /// </summary>
     /// <param name="newEntries">
     ///     The new key/value pairs to add or update
@@ -190,7 +190,7 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
         {
             _backingDictionary[kvp.Key] = kvp.Value;
         }
-        
+
         if (OnChange is not null)
         {
             await OnChange();
@@ -201,7 +201,7 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
     ///     Removes the value associated with the specified key.
     /// </summary>
     /// <param name="key">
-    ///    The key to remove
+    ///     The key to remove
     /// </param>
     public async Task Remove(string key)
     {
@@ -265,7 +265,7 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
     }
 
     /// <summary>
-    ///   Determines whether the dictionary contains the same keys and values as the specified dictionary.
+    ///     Determines whether the dictionary contains the same keys and values as the specified dictionary.
     /// </summary>
     public bool Equals(Dictionary<string, object> otherDictionary)
     {
@@ -299,7 +299,7 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
     private readonly Dictionary<string, object> _backingDictionary;
 
     /// <summary>
-    ///    Gets or sets the value associated with the specified key.
+    ///     Gets or sets the value associated with the specified key.
     /// </summary>
     /// <remarks>
     ///     Setter is obsolete and potentially unstable due to calling async from sync code.
@@ -313,10 +313,11 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
         [Obsolete("Use AddOrUpdate instead")]
         set
         {
-            if (_backingDictionary.ContainsKey(key) && _backingDictionary[key] == value)
+            if (_backingDictionary.ContainsKey(key) && (_backingDictionary[key] == value))
             {
                 return;
             }
+
             _backingDictionary[key] = value;
 
             if (OnChange is not null)
@@ -339,7 +340,7 @@ internal class AttributesDictionaryConverter : JsonConverter<AttributesDictionar
         // read as a dictionary
         Dictionary<string, object>? dictionary =
             JsonSerializer.Deserialize<Dictionary<string, object>>(ref reader, options);
-        
+
         if (dictionary is null)
         {
             return null;

@@ -16,7 +16,9 @@
     }
     @foreach (KeyValuePair<string, TestResult> result in _results.OrderBy(kvp => kvp.Key))
     {
-        <p><b>@result.Key - @((MarkupString)$"<span style=\"color: green;\">Passed: {result.Value.Passed.Count},</span> <span style=\"color: red;\">Failed: {result.Value.Failed.Count}</span>")</b></p>
+        <p>
+            <b>@result.Key - @((MarkupString)$"<span style=\"color: green;\">Passed: {result.Value.Passed.Count},</span> <span style=\"color: red;\">Failed: {result.Value.Failed.Count}</span>")</b>
+        </p>
     }
 </div>
 
@@ -30,12 +32,13 @@
 }
 
 @code {
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
             FindAllTests();
-            
+
             if (Configuration["runOnStart"] == "true")
             {
                 await RunTests();
@@ -46,11 +49,11 @@
 
     private void FindAllTests()
     {
-        Assembly assembly = Assembly.GetExecutingAssembly();
+        var assembly = Assembly.GetExecutingAssembly();
         Type[] types = assembly.GetTypes();
         foreach (Type type in types)
         {
-            if (type.IsDefined(typeof(TestClassAttribute), true) && type.Name != nameof(TestRunnerBase))
+            if (type.IsDefined(typeof(TestClassAttribute), true) && (type.Name != nameof(TestRunnerBase)))
             {
                 _testClassTypes.Add(type);
                 _testClasses[type.Name] = null;
@@ -62,19 +65,19 @@
     private async Task RunTests()
     {
         _running = true;
-		_results.Clear();
+        _results.Clear();
         List<Task> runnerTasks = new();
         foreach (KeyValuePair<string, DynamicComponent?> kvp in _testClasses)
         {
             if (kvp.Value != null)
             {
-                runnerTasks.Add(Task.Run(async() => await (kvp.Value!.Instance as TestRunnerBase)!.RunTests()));
+                runnerTasks.Add(Task.Run(async () => await (kvp.Value!.Instance as TestRunnerBase)!.RunTests()));
             }
         }
         await Task.WhenAll(runnerTasks);
         _running = false;
         await InvokeAsync(StateHasChanged);
-        StringBuilder resultBuilder = new StringBuilder($@"
+        var resultBuilder = new StringBuilder($@"
 # GeoBlazor Unit Test Results
 {DateTime.Now}
 Passed: {_results.Values.Select(r => r.Passed.Count).Sum()}
@@ -94,11 +97,11 @@ Failed: {result.Value.Failed.Count}");
         Console.WriteLine(resultBuilder.ToString());
     }
 
-	private async Task OnTestResults(TestResult result)
-	{
-	    _results[result.ClassName] = result;
-	    await InvokeAsync(StateHasChanged);
-	}
+    private async Task OnTestResults(TestResult result)
+    {
+        _results[result.ClassName] = result;
+        await InvokeAsync(StateHasChanged);
+    }
 
     private bool _running;
     private readonly List<Type> _testClassTypes = new();

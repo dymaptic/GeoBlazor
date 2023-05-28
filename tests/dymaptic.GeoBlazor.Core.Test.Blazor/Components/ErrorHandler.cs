@@ -4,11 +4,11 @@ using Microsoft.AspNetCore.Components.Web;
 
 namespace dymaptic.GeoBlazor.Core.Test.Blazor.Components;
 
-public class ErrorHandler: ErrorBoundary
+public class ErrorHandler : ErrorBoundary
 {
     [Parameter]
     public string MethodName { get; set; } = default!;
-    
+
     [Parameter]
     public EventCallback<ErrorEventArgs> OnError { get; set; }
 

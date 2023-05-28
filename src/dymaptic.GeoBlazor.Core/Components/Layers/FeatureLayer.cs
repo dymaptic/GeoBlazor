@@ -289,6 +289,17 @@ public class FeatureLayer : Layer
         return UnregisterChildComponent(field);
     }
 
+    /// <summary>
+    ///     Updates the <see cref="PopupTemplate"/> for this layer.
+    /// </summary>
+    /// <param name="template">
+    ///     The new template to use.
+    /// </param>
+    public async Task SetPopupTemplate(PopupTemplate template)
+    {
+        await RegisterChildComponent(template);
+    }
+
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
     {
@@ -433,39 +444,6 @@ public class FeatureLayer : Layer
                 await base.UnregisterChildComponent(child);
 
                 break;
-        }
-    }
-
-    /// <inheritdoc />
-    internal override void ValidateRequiredChildren()
-    {
-        base.ValidateRequiredChildren();
-        PopupTemplate?.ValidateRequiredChildren();
-        Renderer?.ValidateRequiredChildren();
-        PortalItem?.ValidateRequiredChildren();
-
-        if (LabelingInfo is not null)
-        {
-            foreach (Label label in LabelingInfo)
-            {
-                label.ValidateRequiredChildren();
-            }
-        }
-
-        if (Source is not null)
-        {
-            foreach (Graphic graphic in Source)
-            {
-                graphic.ValidateRequiredChildren();
-            }
-        }
-
-        if (Fields is not null)
-        {
-            foreach (Field field in Fields)
-            {
-                field.ValidateRequiredChildren();
-            }
         }
     }
 
@@ -808,6 +786,39 @@ public class FeatureLayer : Layer
         await AbortManager.DisposeAbortController(cancellationToken);
 
         return result;
+    }
+
+    /// <inheritdoc />
+    internal override void ValidateRequiredChildren()
+    {
+        base.ValidateRequiredChildren();
+        PopupTemplate?.ValidateRequiredChildren();
+        Renderer?.ValidateRequiredChildren();
+        PortalItem?.ValidateRequiredChildren();
+
+        if (LabelingInfo is not null)
+        {
+            foreach (Label label in LabelingInfo)
+            {
+                label.ValidateRequiredChildren();
+            }
+        }
+
+        if (Source is not null)
+        {
+            foreach (Graphic graphic in Source)
+            {
+                graphic.ValidateRequiredChildren();
+            }
+        }
+
+        if (Fields is not null)
+        {
+            foreach (Field field in Fields)
+            {
+                field.ValidateRequiredChildren();
+            }
+        }
     }
 
     /// <inheritdoc />

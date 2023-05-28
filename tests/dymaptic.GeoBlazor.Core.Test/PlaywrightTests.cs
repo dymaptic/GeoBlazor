@@ -28,6 +28,7 @@ public class PlaywrightTests
         {
             // move current screenshots to previous folder
             FileInfo[] screenshots = new DirectoryInfo(_screenShotsFolder).GetFiles();
+
             foreach (FileInfo ssFile in screenshots)
             {
                 File.Move(ssFile.FullName, Path.Combine(_screenShotsFolder, "Previous", ssFile.Name), true);
