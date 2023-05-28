@@ -58,7 +58,7 @@ public class Graphic : LayerObject, IEquatable<Graphic>
             Attributes = attributes;
         }
 #pragma warning restore BL0005
-    Attributes.OnChange = EventCallback.Factory.Create(this, OnAttributesChanged);
+        Attributes.OnChange = OnAttributesChanged;
         ToSerializationRecord();
     }
     
@@ -81,6 +81,10 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     /// <summary>
     ///     Name-value pairs of fields and field values associated with the graphic.
     /// </summary>
+    /// <remarks>
+    ///     This collection should only be set via the constructor or as a markup parameter/attribute. To add or remove
+    ///     members, use the methods defined in <see cref="AttributesDictionary"/>
+    /// </remarks>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public AttributesDictionary Attributes { get; set; } = new();
@@ -316,11 +320,8 @@ public class Graphic : LayerObject, IEquatable<Graphic>
 
                     _updateAttributes = true;
                 }
-                
-                if (!Attributes.OnChange.HasDelegate)
-                {
-                    Attributes.OnChange = EventCallback.Factory.Create(this, OnAttributesChanged);
-                }
+
+                Attributes.OnChange ??= OnAttributesChanged;
             }
         }
     }

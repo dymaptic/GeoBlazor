@@ -84,6 +84,10 @@ public dymaptic.GeoBlazor.Core.Objects.AttributesDictionary Attributes { get; se
 #### Property Value
 [AttributesDictionary](dymaptic.GeoBlazor.Core.Objects.AttributesDictionary.html 'dymaptic.GeoBlazor.Core.Objects.AttributesDictionary')
 
+### Remarks
+This collection should only be set via the constructor or as a markup parameter/attribute. To add or remove  
+members, use the methods defined in [AttributesDictionary](dymaptic.GeoBlazor.Core.Objects.AttributesDictionary.html 'dymaptic.GeoBlazor.Core.Objects.AttributesDictionary')
+
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.Graphic.Geometry'></a>
 
 ## Graphic.Geometry Property
