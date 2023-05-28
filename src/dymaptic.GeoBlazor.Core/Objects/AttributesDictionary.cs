@@ -50,6 +50,11 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
                 };
                 _backingDictionary[kvp.Key] = (typedValue ?? default(object))!;
             }
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
+            else if (kvp.Value is null) // could be null from serialization
+            {
+                _backingDictionary[kvp.Key] = string.Empty;
+            }
             else
             {
                 _backingDictionary[kvp.Key] = kvp.Value;
@@ -98,7 +103,7 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
     ///    Event that is fired when an attribute is added, updated or removed
     /// </summary>
     [JsonIgnore]
-    public EventCallback OnChange { get; set; }
+    public Func<Task>? OnChange { get; set; }
 
     /// <summary>
     ///     The number of attribute entries in the dictionary
@@ -167,7 +172,29 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
     {
         _backingDictionary[key] = value;
 
-        await OnChange.InvokeAsync();
+        if (OnChange is not null)
+        {
+            await OnChange();
+        }
+    }
+
+    /// <summary>
+    ///     Updates the AttributesDictionary with new key/value pairs from a <see cref="Dictionary{TKey,TValue}"/>
+    /// </summary>
+    /// <param name="newEntries">
+    ///     The new key/value pairs to add or update
+    /// </param>
+    public async Task AddOrUpdate(Dictionary<string, object> newEntries)
+    {
+        foreach (KeyValuePair<string, object> kvp in newEntries)
+        {
+            _backingDictionary[kvp.Key] = kvp.Value;
+        }
+        
+        if (OnChange is not null)
+        {
+            await OnChange();
+        }
     }
 
     /// <summary>
@@ -180,7 +207,10 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
     {
         _backingDictionary.Remove(key);
 
-        await OnChange.InvokeAsync();
+        if (OnChange is not null)
+        {
+            await OnChange();
+        }
     }
 
     /// <summary>
@@ -190,7 +220,10 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
     {
         _backingDictionary.Clear();
 
-        await OnChange.InvokeAsync();
+        if (OnChange is not null)
+        {
+            await OnChange();
+        }
     }
 
     /// <summary>
@@ -266,12 +299,32 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
     private readonly Dictionary<string, object> _backingDictionary;
 
     /// <summary>
-    ///    Gets or the value associated with the specified key.
+    ///    Gets or sets the value associated with the specified key.
     /// </summary>
+    /// <remarks>
+    ///     Setter is obsolete and potentially unstable due to calling async from sync code.
+    /// </remarks>
     /// <param name="key">
     ///     The key to get the value for
     /// </param>
-    public object this[string key] => _backingDictionary[key];
+    public object this[string key]
+    {
+        get => _backingDictionary[key];
+        [Obsolete("Use AddOrUpdate instead")]
+        set
+        {
+            if (_backingDictionary.ContainsKey(key) && _backingDictionary[key] == value)
+            {
+                return;
+            }
+            _backingDictionary[key] = value;
+
+            if (OnChange is not null)
+            {
+                Task.Run(OnChange);
+            }
+        }
+    }
 }
 
 [ProtoContract(Name = "Attribute")]
@@ -286,7 +339,7 @@ internal class AttributesDictionaryConverter : JsonConverter<AttributesDictionar
         // read as a dictionary
         Dictionary<string, object>? dictionary =
             JsonSerializer.Deserialize<Dictionary<string, object>>(ref reader, options);
-
+        
         if (dictionary is null)
         {
             return null;

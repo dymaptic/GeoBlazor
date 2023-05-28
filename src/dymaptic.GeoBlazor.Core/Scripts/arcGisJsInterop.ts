@@ -658,7 +658,7 @@ export function disposeGraphic(graphicId: string) {
 
 export function updateView(viewObject: any) {
     try {
-        setWaitCursor(viewObject.Id);
+        setWaitCursor(viewObject.id);
         notifyExtentChanged = false;
         let view = arcGisObjectRefs[viewObject.id] as View;
 
@@ -818,7 +818,7 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
         let view = arcGisObjectRefs[viewId] as View;
 
         if (currentLayer === undefined) {
-            await addLayer(layerObject, viewId);
+            unsetWaitCursor(viewId);
             return;
         }
 
@@ -848,9 +848,10 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                 if (hasValue(layerObject.popupTemplate)) {
                     featureLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId);
                 }
-                if (hasValue(layerObject.renderer)) {
+                // on first pass the renderer is often left blank, but it fills in when the round trip happens to the server
+                if (hasValue(layerObject.renderer) && layerObject.renderer.type !== featureLayer.renderer.type) {
                     let renderer = buildJsRenderer(layerObject.renderer);
-                    if (renderer !== null) {
+                    if (renderer !== null && featureLayer.renderer !== renderer) {
                         featureLayer.renderer = renderer;
                     }
                 }
@@ -946,8 +947,7 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
 
                 break;
         }
-
-
+        
         if (hasValue(layerObject.opacity) && layerObject.opacity !== currentLayer.opacity &&
             layerObject.opacity >= 0 && layerObject.opacity <= 1) {
             currentLayer.opacity = layerObject.opacity;
@@ -1107,7 +1107,10 @@ export async function addGraphic(streamRefOrGraphicObject: any, viewId: string, 
             let layer = arcGisObjectRefs[layerId as string] as GraphicsLayer;
             layer.add(graphic);
         } else {
-            if (!hasValue(view?.graphics)) return;
+            if (!hasValue(view?.graphics)) {
+                unsetWaitCursor(viewId);
+                return;
+            }
             view.graphics?.add(graphic);
         }
         graphicsRefs[graphicId] = graphic;
@@ -1474,6 +1477,11 @@ export async function addWidget(widget: any, viewId: string): Promise<void> {
         if (hasValue(widget.containerId)) {
             let container = document.getElementById(widget.containerId);
             let innerContainer = document.createElement('div');
+            innerContainer.id = `widget-${widget.type}`;
+            let existingWidget = document.getElementById(`widget-${widget.type}`);
+            if (existingWidget !== null) {
+                container?.removeChild(existingWidget);
+            }
             container?.appendChild(innerContainer);
             newWidget.container = innerContainer;
         } else {
@@ -1486,12 +1494,7 @@ export async function addWidget(widget: any, viewId: string): Promise<void> {
 
 async function createWidget(widget: any, viewId: string): Promise<Widget | null> {
     let view = arcGisObjectRefs[viewId] as MapView;
-    if (arcGisObjectRefs.hasOwnProperty(widget.id)) {
-        // for now just skip if it already exists
-        // later we may want to replace it with a remove and add
-        // if new values are added
-        return null;
-    }
+    
     let newWidget: Widget;
     switch (widget.type) {
         case 'locate':

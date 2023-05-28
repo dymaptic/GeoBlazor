@@ -31,7 +31,7 @@ public class SharedFileProvider : IFileProvider
     public virtual async Task<Stream> GetFileStreamAsync(IFileInfo fileInfo)
     {
         HttpResponseMessage pageResponse = await _httpClient.GetAsync(
-            Path.Combine(_navigationManager.BaseUri, fileInfo.PhysicalPath));
+            Path.Combine(_navigationManager.BaseUri, fileInfo.PhysicalPath!));
 
         return await pageResponse.Content.ReadAsStreamAsync();
     }

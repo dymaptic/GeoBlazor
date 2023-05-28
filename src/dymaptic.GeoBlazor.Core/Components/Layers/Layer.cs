@@ -205,7 +205,7 @@ public abstract class Layer : MapComponent
     {
         LayerChanged = false;
 
-        if ((!MapRendered && JsLayerReference is null) || JsModule is null) return;
+        if (JsModule is null) return;
 
         // ReSharper disable once RedundantCast
         await JsModule!.InvokeVoidAsync("updateLayer", CancellationTokenSource.Token,

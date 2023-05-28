@@ -13,8 +13,8 @@
     Chunk sizes are set by default to 200 (Server, WASM) and 100 (MAUI) based on internal testing.
 </p>
 
-<label>Number of Graphics: <input @bind="_numberOfGraphics" /></label>
-<label>Chunk Size: <input @bind="_chunkSize" /></label>
+<label>Number of Graphics: <input disabled="@_generating" @bind="_numberOfGraphics" @bind:after="SetGraphics" /></label>
+<label>Chunk Size: <input disabled="@_generating" @bind="_chunkSize" /></label>
 
 <MapView @ref="_view" Style="height: 600px; width: 100%;" GraphicSerializationChunkSize="_chunkSize">
     <Extent Xmin="-41525513" Ymin="4969181" Xmax="-36687355" Ymax="9024624">
@@ -25,12 +25,12 @@
         <GraphicsLayer @ref="_graphicsLayer" />
     </Map>
 </MapView>
-<button @onclick="AddGraphicsToView">Add Graphics To View</button>
-<button @onclick="AddGraphicsToLayer">Add Graphics To Layer</button>
+<button disabled="@_generating" @onclick="AddGraphicsToView">Add Graphics To View</button>
+<button disabled="@_generating" @onclick="AddGraphicsToLayer">Add Graphics To Layer</button>
 <button @onclick="ClearGraphics">Clear Graphics</button>
 <label>
     Select Geometry Type:
-    <select @bind="_geometryType">
+    <select disabled="@_generating" @bind="_geometryType" @bind:after="SetGraphics">
         <option value="Point">Point</option>
         <option value="Polyline">Polyline</option>
         <option value="Polygon">Polygon</option>
@@ -38,6 +38,11 @@
 </label>
 
 @code {
+
+    protected override void OnInitialized()
+    {
+        SetGraphics();
+    }
 
     protected override void OnAfterRender(bool firstRender)
     {
@@ -47,28 +52,41 @@
         }
     }
 
-    private async Task AddGraphicsToView()
+    private void SetGraphics()
     {
-        _cts.Cancel();
-        _cts = new CancellationTokenSource();
-        List<Graphic> graphics = new();
+        _graphics.Clear();
         for (var i = 0; i < _numberOfGraphics; i++)
         {
-            graphics.Add(GenerateGraphic());
+            _graphics.Add(GenerateGraphic());
         }
-        await _view!.AddGraphics(graphics, _cts.Token);
+    }
+
+    private async Task AddGraphicsToView()
+    {
+        _generating = true;
+        StateHasChanged();
+        _cts.Cancel();
+        _cts = new CancellationTokenSource();
+        await _view!.AddGraphics(_graphics, _cts.Token);
+        await InvokeAsync(() =>
+        {
+            _generating = false;
+            StateHasChanged();
+        });
     }
 
     private async Task AddGraphicsToLayer()
     {
+        _generating = true;
+        StateHasChanged();
         _cts.Cancel();
         _cts = new CancellationTokenSource();
-        List<Graphic> graphics = new();
-        for (var i = 0; i < _numberOfGraphics; i++)
+        await _graphicsLayer!.Add(_graphics, _cts.Token);
+        await InvokeAsync(() =>
         {
-            graphics.Add(GenerateGraphic());
-        }
-        await _graphicsLayer!.Add(graphics, _cts.Token);
+            _generating = false;
+            StateHasChanged();
+        });
     }
 
     private async Task ClearGraphics()
@@ -77,6 +95,8 @@
         _cts = new CancellationTokenSource();
         await _graphicsLayer!.Clear();
         await _view!.ClearGraphics();
+        _generating = false;
+        StateHasChanged();
     }
 
     private Graphic GenerateGraphic()
@@ -138,9 +158,9 @@
         return new PopupTemplate("Test", "Test Content<br/>{testString}<br/>{testNumber}", new[] { "*" });
     }
 
-    private Dictionary<string, object> GenerateAttributes()
+    private AttributesDictionary GenerateAttributes()
     {
-        return new Dictionary<string, object> { { "testString", "test" }, { "testNumber", 123 } };
+        return new AttributesDictionary(new Dictionary<string, object> { { "testString", "test" }, { "testNumber", 123 } });
     }
 
     private readonly Random _random = new();
@@ -150,4 +170,6 @@
     private int _chunkSize = 200;
     private CancellationTokenSource _cts = new();
     private string _geometryType = "Point";
+    private List<Graphic> _graphics = new();
+    private bool _generating;
 }

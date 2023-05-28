@@ -1434,26 +1434,16 @@ public partial class MapView : MapComponent
     /// </param>
     public async Task AddLayer(Layer layer, bool isBasemapLayer = false)
     {
-        var added = false;
-
         if (isBasemapLayer)
         {
-            if (Map?.Basemap?.Layers.Contains(layer) == false)
-            {
-                Map.Basemap.Layers.Add(layer);
-                added = true;
-            }
+            Map!.Basemap?.Layers.Add(layer);
         }
         else
         {
-            if (Map?.Layers.Contains(layer) == false)
-            {
-                Map.Layers.Add(layer);
-                added = true;
-            }
+            Map!.Layers.Add(layer);
         }
 
-        if (ViewJsModule is null || !added) return;
+        if (ViewJsModule is null) return;
 
         await ViewJsModule!.InvokeVoidAsync("addLayer", CancellationTokenSource.Token,
             (object)layer, Id, isBasemapLayer);
@@ -1855,6 +1845,14 @@ public partial class MapView : MapComponent
         {
             var popupWidget = new PopupWidget();
             await AddWidget(popupWidget);
+
+            // we have to update the layers to make sure the popupTemplates aren't unset by this action
+            foreach (Layer layer in Map!.Layers.Where(l => l is FeatureLayer { PopupTemplate: not null }))
+            {
+                // ReSharper disable once RedundantCast
+                await JsModule!.InvokeVoidAsync("updateLayer", CancellationTokenSource.Token,
+                    (object)layer, Id);
+            }
         }
 
         return Widgets.FirstOrDefault(w => w is PopupWidget) as PopupWidget;
