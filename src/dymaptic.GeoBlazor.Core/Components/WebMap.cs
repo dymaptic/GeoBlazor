@@ -14,7 +14,7 @@ public class WebMap : Map
     ///     The portal item from which the WebMap is loaded.
     /// </summary>
     [RequiredProperty(nameof(Basemap), nameof(ArcGISDefaultBasemap))]
-    [RequiredProperty]
+    [RequiredProperty] // the extra required here is for WebMap only, whereas the previous allows a check against the Map base type
     public PortalItem? PortalItem { get; set; }
 
     /// <inheritdoc />
