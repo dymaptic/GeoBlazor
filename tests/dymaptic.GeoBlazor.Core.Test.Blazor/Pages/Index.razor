@@ -1,0 +1,110 @@
+﻿@page "/"
+@inject IConfiguration Configuration
+@inject IHostApplicationLifetime HostApplicationLifetime
+@inject IJSRuntime JsRuntime
+
+<h1>Unit Tests</h1>
+<button @onclick="RunTests">Run All Tests</button>
+<div class="result-section">
+    @if (_running)
+    {
+        <span style="color: orange; font-weight: bold">Running...&nbsp;</span>
+    }
+    else if (_results.Any())
+    {
+        <span style="color: orange; font-weight: bold">Complete</span>
+    }
+    @foreach (KeyValuePair<string, TestResult> result in _results.OrderBy(kvp => kvp.Key))
+    {
+        <p>
+            <b>@result.Key - @((MarkupString)$"<span style=\"color: green;\">Passed: {result.Value.Passed.Count},</span> <span style=\"color: red;\">Failed: {result.Value.Failed.Count}</span>")</b>
+        </p>
+    }
+</div>
+
+@foreach (Type type in _testClassTypes)
+{
+    <DynamicComponent Type="@type" @ref="_testClasses[type.Name]" 
+                      Parameters="@(new Dictionary<string, object>
+                                  {
+                                      {"OnTestResults", EventCallback.Factory.Create<TestResult>(this, OnTestResults)}
+                                  })" />
+}
+
+@code {
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            FindAllTests();
+
+            if (Configuration["runOnStart"] == "true")
+            {
+                await RunTests();
+                HostApplicationLifetime.StopApplication();
+            }
+        }
+    }
+
+    private void FindAllTests()
+    {
+        var assembly = Assembly.GetExecutingAssembly();
+        Type[] types = assembly.GetTypes();
+        foreach (Type type in types)
+        {
+            if (type.IsDefined(typeof(TestClassAttribute), true) && (type.Name != nameof(TestRunnerBase)))
+            {
+                _testClassTypes.Add(type);
+                _testClasses[type.Name] = null;
+            }
+        }
+        StateHasChanged();
+    }
+
+    private async Task RunTests()
+    {
+        _running = true;
+        _results.Clear();
+        List<Task> runnerTasks = new();
+        foreach (KeyValuePair<string, DynamicComponent?> kvp in _testClasses)
+        {
+            if (kvp.Value != null)
+            {
+                runnerTasks.Add(Task.Run(async () => await (kvp.Value!.Instance as TestRunnerBase)!.RunTests()));
+            }
+        }
+        await Task.WhenAll(runnerTasks);
+        _running = false;
+        await InvokeAsync(StateHasChanged);
+        var resultBuilder = new StringBuilder($@"
+# GeoBlazor Unit Test Results
+{DateTime.Now}
+Passed: {_results.Values.Select(r => r.Passed.Count).Sum()}
+Failed: {_results.Values.Select(r => r.Failed.Count).Sum()}");
+        foreach (KeyValuePair<string, TestResult> result in _results)
+        {
+            resultBuilder.AppendLine($@"
+## {result.Key}
+Passed: {result.Value.Passed.Count}
+Failed: {result.Value.Failed.Count}");
+            foreach (KeyValuePair<string, string?> methodResult in result.Value.Passed)
+            {
+                resultBuilder.AppendLine($@"### {methodResult.Key} - Passed
+{methodResult.Value}");
+            }
+        }
+        Console.WriteLine(resultBuilder.ToString());
+    }
+
+    private async Task OnTestResults(TestResult result)
+    {
+        _results[result.ClassName] = result;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private bool _running;
+    private readonly List<Type> _testClassTypes = new();
+    private readonly Dictionary<string, DynamicComponent?> _testClasses = new();
+    private readonly Dictionary<string, TestResult> _results = new();
+}

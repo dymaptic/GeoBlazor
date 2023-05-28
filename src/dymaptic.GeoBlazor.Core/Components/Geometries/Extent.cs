@@ -144,6 +144,14 @@ public class Extent : Geometry, IEquatable<Extent>
             Nullable.Equals(Mmax, other.Mmax) && Nullable.Equals(Mmin, other.Mmin);
     }
 
+    /// <summary>
+    ///     Returns a deep clone of the geometry.
+    /// </summary>
+    public Extent Clone()
+    {
+        return new Extent(Xmax, Xmin, Ymax, Ymin, Zmax, Zmin, Mmax, Mmin, SpatialReference?.Clone());
+    }
+
     /// <inheritdoc />
     public override bool Equals(object? obj)
     {

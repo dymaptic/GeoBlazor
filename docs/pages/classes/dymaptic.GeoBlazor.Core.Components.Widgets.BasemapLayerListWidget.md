@@ -16,10 +16,10 @@ developer to add content to the item related to the layer.
 <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html">ArcGIS JS API</a>
 
 ```csharp
-public class BasemapLayerListWidget : dymaptic.GeoBlazor.Core.Components.Widgets.LayerListWidget
+public class BasemapLayerListWidget : dymaptic.GeoBlazor.Core.Components.Widgets.Widget
 ```
 
-Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [Microsoft.AspNetCore.Components.ComponentBase](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.ComponentBase 'Microsoft.AspNetCore.Components.ComponentBase') &#129106; [MapComponent](dymaptic.GeoBlazor.Core.Components.MapComponent.html 'dymaptic.GeoBlazor.Core.Components.MapComponent') &#129106; [Widget](dymaptic.GeoBlazor.Core.Components.Widgets.Widget.html 'dymaptic.GeoBlazor.Core.Components.Widgets.Widget') &#129106; [LayerListWidget](dymaptic.GeoBlazor.Core.Components.Widgets.LayerListWidget.html 'dymaptic.GeoBlazor.Core.Components.Widgets.LayerListWidget') &#129106; BasemapLayerListWidget
+Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [Microsoft.AspNetCore.Components.ComponentBase](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.ComponentBase 'Microsoft.AspNetCore.Components.ComponentBase') &#129106; [MapComponent](dymaptic.GeoBlazor.Core.Components.MapComponent.html 'dymaptic.GeoBlazor.Core.Components.MapComponent') &#129106; [Widget](dymaptic.GeoBlazor.Core.Components.Widgets.Widget.html 'dymaptic.GeoBlazor.Core.Components.Widgets.Widget') &#129106; BasemapLayerListWidget
 ### Properties
 
 <a name='dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.BaseLayerListWidgetObjectReference'></a>
@@ -61,6 +61,32 @@ public bool HasCustomReferenceListHandler { get; }
 
 #### Property Value
 [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.IconClass'></a>
+
+## BasemapLayerListWidget.IconClass Property
+
+The widget's default CSS icon class.
+
+```csharp
+public string? IconClass { get; set; }
+```
+
+#### Property Value
+[System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.Label'></a>
+
+## BasemapLayerListWidget.Label Property
+
+The widget's default label.
+
+```csharp
+public string? Label { get; set; }
+```
+
+#### Property Value
+[System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.OnBaseListItemCreatedHandler'></a>
 

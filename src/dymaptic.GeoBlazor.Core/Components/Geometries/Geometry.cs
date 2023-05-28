@@ -83,12 +83,14 @@ public abstract class Geometry : MapComponent
     }
 
     /// <inheritdoc />
-    public override void ValidateRequiredChildren()
+    internal override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();
         Extent?.ValidateRequiredChildren();
         SpatialReference?.ValidateRequiredChildren();
     }
+
+    internal abstract GeometrySerializationRecord ToSerializationRecord();
 
     /// <inheritdoc />
     protected override async Task OnParametersSetAsync()
@@ -100,8 +102,6 @@ public abstract class Geometry : MapComponent
             await Parent.RegisterChildComponent(this);
         }
     }
-
-    internal abstract GeometrySerializationRecord ToSerializationRecord();
 }
 
 [ProtoContract(Name = "Geometry")]

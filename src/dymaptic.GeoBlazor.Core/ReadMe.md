@@ -15,9 +15,8 @@ ArcGIS JavaScript API, but without having to write a single line of JavaScript.
 
 [Join our Discord Server!](https://discord.gg/hcmbPzn4VW)
 
+## Getting Started
 
-
-## Getting Started 
 (from https://docs.geoblazor.com/pages/gettingStarted.html)
 
 1. Create a new Blazor Server, Blazor Wasm, or Blazor Hybrid (MAUI) project, using the templates provided in your IDE or
@@ -126,6 +125,7 @@ ArcGIS JavaScript API, but without having to write a single line of JavaScript.
     <ScaleBarWidget Position="OverlayPosition.BottomLeft" />
 </MapView>
 ```
+
 11. Run your application and make sure you can see your map!
 12. Now that you have a great starting point, you can now start to customize the features available in your new app
     using Geoblazor's capabilites:<br/>

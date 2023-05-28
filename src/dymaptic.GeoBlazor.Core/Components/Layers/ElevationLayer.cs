@@ -70,7 +70,7 @@ public class ElevationLayer : Layer
     }
 
     /// <inheritdoc />
-    public override void ValidateRequiredChildren()
+    internal override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();
         PortalItem?.ValidateRequiredChildren();

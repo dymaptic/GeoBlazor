@@ -92,13 +92,6 @@ public class Label : LayerObject, IEquatable<Label>
     }
 
     /// <inheritdoc />
-    public override void ValidateRequiredChildren()
-    {
-        base.ValidateRequiredChildren();
-        LabelExpressionInfo?.ValidateRequiredChildren();
-    }
-
-    /// <inheritdoc />
     public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
@@ -112,5 +105,12 @@ public class Label : LayerObject, IEquatable<Label>
     public override int GetHashCode()
     {
         return Id.GetHashCode();
+    }
+
+    /// <inheritdoc />
+    internal override void ValidateRequiredChildren()
+    {
+        base.ValidateRequiredChildren();
+        LabelExpressionInfo?.ValidateRequiredChildren();
     }
 }

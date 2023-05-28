@@ -67,7 +67,7 @@ public class MapPath : List<MapPoint>, IEquatable<MapPath>
     /// <summary>
     ///     Clones a path and returns the new copy.
     /// </summary>
-    public MapPath DeepCopy()
+    public MapPath Clone()
     {
         var newPath = new MapPath();
 

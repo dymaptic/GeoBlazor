@@ -171,13 +171,6 @@ public class FieldInfo : MapComponent, IEquatable<FieldInfo>
     }
 
     /// <inheritdoc />
-    public override void ValidateRequiredChildren()
-    {
-        base.ValidateRequiredChildren();
-        Format?.ValidateRequiredChildren();
-    }
-
-    /// <inheritdoc />
     public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
@@ -190,6 +183,13 @@ public class FieldInfo : MapComponent, IEquatable<FieldInfo>
     public override int GetHashCode()
     {
         return HashCode.Combine(FieldName, Label, IsEditable, Tooltip, Visible, StringFieldOption, Format);
+    }
+
+    /// <inheritdoc />
+    internal override void ValidateRequiredChildren()
+    {
+        base.ValidateRequiredChildren();
+        Format?.ValidateRequiredChildren();
     }
 
     internal FieldInfoSerializationRecord ToSerializationRecord()

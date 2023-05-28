@@ -172,6 +172,19 @@ public string? Wkt { get; set; }
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 ### Methods
 
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference.Clone()'></a>
+
+## SpatialReference.Clone() Method
+
+Returns a deep clone of the Spatial Reference.
+
+```csharp
+public dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference Clone();
+```
+
+#### Returns
+[SpatialReference](dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference.html 'dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference')
+
 <a name='dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference.Equals(object)'></a>
 
 ## SpatialReference.Equals(object) Method

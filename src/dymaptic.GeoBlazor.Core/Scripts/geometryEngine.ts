@@ -6,6 +6,14 @@ import SpatialReference from "@arcgis/core/geometry/SpatialReference";
 import Point from "@arcgis/core/geometry/Point";
 import {buildJsExtent, buildJsGeometry, buildJsPoint, buildJsPolygon, buildJsPolyline} from "./jsBuilder";
 import {DotNetExtent, DotNetGeometry, DotNetPoint, DotNetPolygon, DotNetPolyline} from "./definitions";
+import Extent from "@arcgis/core/geometry/Extent";
+import {
+    buildDotNetExtent,
+    buildDotNetGeometry,
+    buildDotNetPoint,
+    buildDotNetPolygon,
+    buildDotNetPolyline
+} from "./dotNetBuilder";
 import LinearUnits = __esri.LinearUnits;
 import SpatialReferenceInfo = __esri.SpatialReferenceInfo;
 import AreaUnits = __esri.AreaUnits;
@@ -28,18 +36,18 @@ export default class GeometryEngineWrapper {
             } else {
                 jsGeometries = buildJsGeometry(geometries) as Geometry;
             }
-            if (unit === null) {
-                if (unionResults === null) {
+            if (unit === null || unit === undefined) {
+                if (unionResults === null || unionResults === undefined) {
                     return engine.buffer(jsGeometries, distances);
                 }
                 return engine.buffer(jsGeometries, distances, undefined, unionResults);
-            } else if (unionResults === null) {
+            } else if (unionResults === null || unionResults === undefined) {
                 return engine.buffer(jsGeometries, distances, unit);
             }
             return engine.buffer(jsGeometries, distances, unit, unionResults);
         } catch (error) {
             this.logError(error);
-            return null;
+            throw error;
         }
     }
 
@@ -48,7 +56,7 @@ export default class GeometryEngineWrapper {
             return engine.clip(buildJsGeometry(geometry) as Geometry, buildJsExtent(extent, null));
         } catch (error) {
             this.logError(error);
-            return null;
+            throw error;
         }
     }
 
@@ -58,7 +66,7 @@ export default class GeometryEngineWrapper {
                 buildJsGeometry(insideGeometry) as Geometry);
         } catch (error) {
             this.logError(error);
-            return null;
+            throw error;
         }
     }
 
@@ -79,7 +87,7 @@ export default class GeometryEngineWrapper {
             return engine.convexHull(jsGeometries, merge);
         } catch (error) {
             this.logError(error);
-            return null;
+            throw error;
         }
     }
 
@@ -88,7 +96,7 @@ export default class GeometryEngineWrapper {
             return engine.crosses(buildJsGeometry(geometry1) as Geometry, buildJsGeometry(geometry2) as Geometry);
         } catch (error) {
             this.logError(error);
-            return null;
+            throw error;
         }
     }
 
@@ -97,7 +105,7 @@ export default class GeometryEngineWrapper {
             return engine.cut(buildJsGeometry(geometry) as Geometry, buildJsPolyline(cutter) as Polyline);
         } catch (error) {
             this.logError(error);
-            return null;
+            throw error;
         }
     }
 
@@ -111,7 +119,7 @@ export default class GeometryEngineWrapper {
             return engine.densify(jsGeometry, maxSegmentLength, maxSegmentLengthUnit);
         } catch (error) {
             this.logError(error);
-            return null;
+            throw error;
         }
     }
 
@@ -128,7 +136,7 @@ export default class GeometryEngineWrapper {
             return engine.difference(jsGeometries, buildJsGeometry(subtractor) as Geometry);
         } catch (error) {
             this.logError(error);
-            return null;
+            throw error;
         }
     }
 
@@ -137,7 +145,7 @@ export default class GeometryEngineWrapper {
             return engine.disjoint(buildJsGeometry(geometry1) as Geometry, buildJsGeometry(geometry2) as Geometry);
         } catch (error) {
             this.logError(error);
-            return null;
+            throw error;
         }
     }
 
@@ -152,7 +160,7 @@ export default class GeometryEngineWrapper {
             return engine.distance(jsGeometry1, jsGeometry2, distanceUnit);
         } catch (error) {
             this.logError(error);
-            return null;
+            throw error;
         }
     }
 
@@ -161,7 +169,7 @@ export default class GeometryEngineWrapper {
             return engine.equals(buildJsGeometry(geometry1) as Geometry, buildJsGeometry(geometry2) as Geometry);
         } catch (error) {
             this.logError(error);
-            return null;
+            throw error;
         }
     }
 
@@ -171,7 +179,7 @@ export default class GeometryEngineWrapper {
             return engine.extendedSpatialReferenceInfo(spatialReference);
         } catch (error) {
             this.logError(error);
-            return null;
+            throw error;
         }
     }
 
@@ -491,6 +499,285 @@ export default class GeometryEngineWrapper {
         try {
             return engine.within(buildJsGeometry(innerGeometry) as Geometry,
                 buildJsGeometry(outerGeometry) as Geometry);
+        } catch (error) {
+            this.logError(error);
+            return null;
+        }
+    }
+
+    async fromJSON(json: string, typeName: string): Promise<DotNetGeometry | null> {
+        try {
+            let jsGeometry: Geometry;
+            let jsonObject = JSON.parse(json);
+            switch (typeName) {
+                case "Point":
+                    jsGeometry = Point.fromJSON(jsonObject);
+                    break;
+                case "PolyLine":
+                    jsGeometry = Polyline.fromJSON(jsonObject);
+                    break;
+                case "Polygon":
+                    jsGeometry = Polygon.fromJSON(jsonObject);
+                    break;
+                case "Extent":
+                    jsGeometry = Extent.fromJSON(jsonObject);
+                    break;
+                default:
+                    throw new Error("Invalid geometry type");
+            }
+            return buildDotNetGeometry(jsGeometry);
+        } catch (error) {
+            this.logError(error);
+            return null;
+        }
+    }
+
+    async toJSON(geometry: any): Promise<string | null> {
+        try {
+            let jsGeometry = buildJsGeometry(geometry) as Geometry;
+            return JSON.stringify(jsGeometry.toJSON());
+        } catch (error) {
+            this.logError(error);
+            return null;
+        }
+    }
+
+    async clone(geometry: DotNetGeometry): Promise<DotNetGeometry | null> {
+        try {
+            let jsGeometry = buildJsGeometry(geometry) as Geometry;
+            let clonedGeometry = jsGeometry.clone();
+            return buildDotNetGeometry(clonedGeometry);
+        } catch (error) {
+            this.logError(error);
+            return null;
+        }
+    }
+
+    async centerExtentAt(extent: DotNetExtent, center: DotNetPoint): Promise<DotNetExtent | null> {
+        try {
+            let jsExtent = buildJsExtent(extent, null) as Extent;
+            let newExtent = jsExtent.centerAt(buildJsPoint(center) as Point);
+            return buildDotNetExtent(newExtent);
+        } catch (error) {
+            this.logError(error);
+            return null;
+        }
+    }
+
+    async expand(extent: DotNetExtent, factor: number): Promise<DotNetExtent | null> {
+        try {
+            let jsExtent = buildJsExtent(extent, null) as Extent;
+            let newExtent = jsExtent.expand(factor);
+            return buildDotNetExtent(newExtent);
+        } catch (error) {
+            this.logError(error);
+            return null;
+        }
+    }
+
+    async normalizeExtent(extent: DotNetExtent): Promise<DotNetExtent[] | null> {
+        try {
+            let jsExtent = buildJsExtent(extent, null) as Extent;
+            let newExtents = jsExtent.normalize();
+            return newExtents.map(e => buildDotNetExtent(e) as DotNetExtent);
+        } catch (error) {
+            this.logError(error);
+            return null;
+        }
+    }
+
+    async offsetExtent(extent: DotNetExtent, dx: number, dy: number, dz: number): Promise<DotNetExtent | null> {
+        try {
+            let jsExtent = buildJsExtent(extent, null) as Extent;
+            let newExtent = jsExtent.offset(dx, dy, dz);
+            return buildDotNetExtent(newExtent);
+        } catch (error) {
+            this.logError(error);
+            return null;
+        }
+    }
+
+    async normalizePoint(point: DotNetPoint): Promise<DotNetPoint | null> {
+        try {
+            let jsPoint = buildJsPoint(point) as Point;
+            let newPoint = jsPoint.normalize();
+            return buildDotNetPoint(newPoint);
+        } catch (error) {
+            this.logError(error);
+            return null;
+        }
+    }
+
+    async addPath(polyline: DotNetPolyline, path: any): Promise<DotNetPolyline | null> {
+        try {
+            let jsPolyline = buildJsPolyline(polyline) as Polyline;
+            let newPolyline = jsPolyline.addPath(path);
+            return buildDotNetPolyline(newPolyline);
+        } catch (error) {
+            this.logError(error);
+            return null;
+        }
+    }
+
+    async getPointOnPolyline(polyline: DotNetPolyline, pathIndex: number, pointIndex: number)
+        : Promise<DotNetPoint | null> {
+        try {
+            let jsPolyline = buildJsPolyline(polyline) as Polyline;
+            let jsPoint = jsPolyline.getPoint(pathIndex, pointIndex);
+            return buildDotNetPoint(jsPoint);
+        } catch (error) {
+            this.logError(error);
+            return null;
+        }
+    }
+
+    async insertPointOnPolyline(polyline: DotNetPolyline, pathIndex: number, pointIndex: number, point: DotNetPoint)
+        : Promise<DotNetPolyline | null> {
+        try {
+            let jsPolyline = buildJsPolyline(polyline) as Polyline;
+            let jsPoint = buildJsPoint(point) as Point;
+            let newPolyline = jsPolyline.insertPoint(pathIndex, pointIndex, jsPoint);
+            return buildDotNetPolyline(newPolyline);
+        } catch (error) {
+            this.logError(error);
+            return null;
+        }
+    }
+
+    async removePath(polyline: DotNetPolyline, pathIndex: number): Promise<any | null> {
+        try {
+            let jsPolyline = buildJsPolyline(polyline) as Polyline;
+            let path = jsPolyline.removePath(pathIndex);
+            let newLine = buildDotNetPolyline(jsPolyline) as DotNetPolyline;
+            return {
+                polyLine: newLine,
+                path: path.map(p => buildDotNetPoint(p) as DotNetPoint)
+            }
+        } catch (error) {
+            this.logError(error);
+            return null;
+        }
+    }
+
+    async removePointOnPolyline(polyline: DotNetPolyline, pathIndex: number, pointIndex: number): Promise<any | null> {
+        try {
+            let jsPolyline = buildJsPolyline(polyline) as Polyline;
+            let point = jsPolyline.removePoint(pathIndex, pointIndex);
+            return {
+                polyLine: buildDotNetPolyline(jsPolyline) as DotNetPolyline,
+                point: buildDotNetPoint(point) as DotNetPoint
+            };
+        } catch (error) {
+            this.logError(error);
+            return null;
+        }
+    }
+
+    async setPointOnPolyline(polyline: DotNetPolyline, pathIndex: number, pointIndex: number, point: DotNetPoint)
+        : Promise<DotNetPolyline | null> {
+        try {
+            let jsPolyline = buildJsPolyline(polyline) as Polyline;
+            let jsPoint = buildJsPoint(point) as Point;
+            let newPolyline = jsPolyline.setPoint(pathIndex, pointIndex, jsPoint);
+            return buildDotNetPolyline(newPolyline);
+        } catch (error) {
+            this.logError(error);
+            return null;
+        }
+    }
+
+    async addRing(polygon: DotNetPolygon, ring: any): Promise<DotNetPolygon | null> {
+        try {
+            let jsPolygon = buildJsPolygon(polygon) as Polygon;
+            let newPolygon = jsPolygon.addRing(ring);
+            return buildDotNetPolygon(newPolygon);
+        } catch (error) {
+            this.logError(error);
+            return null;
+        }
+    }
+
+    async fromExtent(extent: DotNetExtent): Promise<DotNetPolygon | null> {
+        try {
+            let jsExtent = buildJsExtent(extent, null) as Extent;
+            let jsPolygon = Polygon.fromExtent(jsExtent);
+            return buildDotNetPolygon(jsPolygon);
+        } catch (error) {
+            this.logError(error);
+            return null;
+        }
+    }
+
+    async getPointOnPolygon(polygon: DotNetPolygon, ringIndex: number, pointIndex: number): Promise<DotNetPoint | null> {
+        try {
+            let jsPolygon = buildJsPolygon(polygon) as Polygon;
+            let jsPoint = jsPolygon.getPoint(ringIndex, pointIndex);
+            return buildDotNetPoint(jsPoint);
+        } catch (error) {
+            this.logError(error);
+            return null;
+        }
+    }
+
+    async insertPointOnPolygon(polygon: DotNetPolygon, ringIndex: number, pointIndex: number, point: DotNetPoint)
+        : Promise<DotNetPolygon | null> {
+        try {
+            let jsPolygon = buildJsPolygon(polygon) as Polygon;
+            let jsPoint = buildJsPoint(point) as Point;
+            let newPolygon = jsPolygon.insertPoint(ringIndex, pointIndex, jsPoint);
+            return buildDotNetPolygon(newPolygon);
+        } catch (error) {
+            this.logError(error);
+            return null;
+        }
+    }
+
+
+    async isClockwise(polygon: DotNetPolygon, ring: any): Promise<boolean | null> {
+        try {
+            let jsPolygon = buildJsPolygon(polygon) as Polygon;
+            return jsPolygon.isClockwise(ring);
+        } catch (error) {
+            this.logError(error);
+            return null;
+        }
+    }
+
+    async removePointOnPolygon(polygon: DotNetPolygon, ringIndex: number, pointIndex: number): Promise<any | null> {
+        try {
+            let jsPolygon = buildJsPolygon(polygon) as Polygon;
+            let point = jsPolygon.removePoint(ringIndex, pointIndex);
+            return {
+                polygon: buildDotNetPolygon(jsPolygon) as DotNetPolygon,
+                point: buildDotNetPoint(point[0]) as DotNetPoint
+            };
+        } catch (error) {
+            this.logError(error);
+            return null;
+        }
+    }
+
+    async removeRing(polygon: DotNetPolygon, index: number): Promise<any | null> {
+        try {
+            let jsPolygon = buildJsPolygon(polygon) as Polygon;
+            let ring = jsPolygon.removeRing(index);
+            return {
+                polygon: buildDotNetPolygon(jsPolygon) as DotNetPolygon,
+                ring: ring.map(p => buildDotNetPoint(p) as DotNetPoint)
+            };
+        } catch (error) {
+            this.logError(error);
+            return null;
+        }
+    }
+
+    async setPointOnPolygon(polygon: DotNetPolygon, ringIndex: number, pointIndex: number, point: DotNetPoint)
+        : Promise<DotNetPolygon | null> {
+        try {
+            let jsPolygon = buildJsPolygon(polygon) as Polygon;
+            let jsPoint = buildJsPoint(point) as Point;
+            let newPolygon = jsPolygon.setPoint(ringIndex, pointIndex, jsPoint);
+            return buildDotNetPolygon(newPolygon);
         } catch (error) {
             this.logError(error);
             return null;

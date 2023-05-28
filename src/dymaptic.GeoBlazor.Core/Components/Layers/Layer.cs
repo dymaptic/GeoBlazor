@@ -123,13 +123,6 @@ public abstract class Layer : MapComponent
     }
 
     /// <inheritdoc />
-    public override void ValidateRequiredChildren()
-    {
-        FullExtent?.ValidateRequiredChildren();
-        base.ValidateRequiredChildren();
-    }
-
-    /// <inheritdoc />
     public override async ValueTask DisposeAsync()
     {
         if (AbortManager != null)
@@ -141,7 +134,14 @@ public abstract class Layer : MapComponent
 
         if (JsLayerReference is not null)
         {
-            await JsLayerReference.DisposeAsync();
+            try
+            {
+                await JsLayerReference.DisposeAsync();
+            }
+            catch (JSDisconnectedException)
+            {
+                // ignore, we have disconnected from the JS runtime
+            }
         }
 
         await base.DisposeAsync();
@@ -177,6 +177,29 @@ public abstract class Layer : MapComponent
     }
 
     /// <inheritdoc />
+    internal override void ValidateRequiredChildren()
+    {
+        FullExtent?.ValidateRequiredChildren();
+        base.ValidateRequiredChildren();
+    }
+
+    /// <summary>
+    ///     Copies values from the rendered JavaScript layer back to the .NET implementation.
+    /// </summary>
+    /// <param name="renderedLayer">
+    ///     The layer deserialized from JavaScript
+    /// </param>
+    internal virtual Task UpdateFromJavaScript(Layer renderedLayer)
+    {
+        if (renderedLayer.FullExtent is not null)
+        {
+            FullExtent = renderedLayer.FullExtent;
+        }
+
+        return Task.CompletedTask;
+    }
+
+    /// <inheritdoc />
     protected override async Task OnParametersSetAsync()
     {
         LayerChanged = true;
@@ -198,27 +221,11 @@ public abstract class Layer : MapComponent
     {
         LayerChanged = false;
 
-        if ((!MapRendered && JsLayerReference is null) || JsModule is null) return;
+        if (JsModule is null) return;
 
         // ReSharper disable once RedundantCast
         await JsModule!.InvokeVoidAsync("updateLayer", CancellationTokenSource.Token,
             (object)this, View!.Id);
-    }
-
-    /// <summary>
-    ///     Copies values from the rendered JavaScript layer back to the .NET implementation.
-    /// </summary>
-    /// <param name="renderedLayer">
-    ///     The layer deserialized from JavaScript
-    /// </param>
-    internal virtual Task UpdateFromJavaScript(Layer renderedLayer)
-    {
-        if (renderedLayer.FullExtent is not null)
-        {
-            FullExtent = renderedLayer.FullExtent;
-        }
-
-        return Task.CompletedTask;
     }
 
     /// <summary>

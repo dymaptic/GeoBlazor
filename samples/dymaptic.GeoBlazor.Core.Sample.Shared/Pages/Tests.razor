@@ -69,20 +69,6 @@
 
 </MapView>
 
-<h2>Delayed Render with Graphics</h2>
-<MapView @ref="_delayedMapView" Style="height: 600px; width: 100%;">
-    <Extent Xmin="-41525513" Ymin="4969181" Xmax="-36687355" Ymax="9024624">
-        <SpatialReference Wkid="102100" />
-    </Extent>
-    <Map>
-        <OpenStreetMapLayer />
-        <GraphicsLayer @ref="_delayedGraphicsLayer" />
-    </Map>
-</MapView>
-<button @onclick="AddGraphicsToView">Add Graphics To View</button>
-<button @onclick="AddGraphicsToLayer">Add Graphics To Layer</button>
-<button @onclick="ClearGraphics">Clear Graphics</button>
-
 <h2>Enterprise-Hosted Layer Test</h2>
 <MapView Style="height: 600px; width: 100%;">
     <Extent Xmax="-12316914.7038" Xmin="-14596572.5354" Ymax="6562278.17835" Ymin="4992526.63148">

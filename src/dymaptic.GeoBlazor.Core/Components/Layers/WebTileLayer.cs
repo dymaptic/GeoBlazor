@@ -143,7 +143,7 @@ public class WebTileLayer : Layer
     }
 
     /// <inheritdoc />
-    public override void ValidateRequiredChildren()
+    internal override void ValidateRequiredChildren()
     {
         PortalItem?.ValidateRequiredChildren();
         TileInfo?.ValidateRequiredChildren();

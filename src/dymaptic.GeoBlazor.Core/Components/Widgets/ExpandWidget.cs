@@ -67,6 +67,7 @@ public class ExpandWidget : Widget
     ///     container of the widget must have a width set in CSS for it to render inside the Expand widget.
     /// </remarks>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [RequiredProperty]
     public Widget? Content { get; set; }
 
     /// <inheritdoc />

@@ -62,6 +62,7 @@ import {
 } from "./dotNetBuilder";
 
 import {
+    buildJsAttributes,
     buildJsExtent,
     buildJsFields,
     buildJsGeometry,
@@ -98,11 +99,11 @@ import Popup from "@arcgis/core/widgets/Popup";
 import ElevationLayer from "@arcgis/core/layers/ElevationLayer";
 import PopupWidgetWrapper from "./popupWidgetWrapper";
 import {load} from "protobufjs";
+import AuthenticationManager from "./authenticationManager";
 import HitTestResult = __esri.HitTestResult;
 import MapViewHitTestOptions = __esri.MapViewHitTestOptions;
 import LegendLayerInfos = __esri.LegendLayerInfos;
 import ScreenPoint = __esri.ScreenPoint;
-import AuthenticationManager from "./authenticationManager";
 
 export let arcGisObjectRefs: Record<string, Accessor> = {};
 export let graphicsRefs: Record<string, Graphic> = {};
@@ -188,11 +189,11 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
 
         checkConnectivity(id);
         dotNetRefs[id] = dotNetRef;
-        
+
         disposeView(id);
         let view: View;
 
-        let basemap: Basemap | null = null;
+        let basemap: Basemap | undefined = undefined;
         let basemapLayers: any[] = [];
         if (!mapType.startsWith('web')) {
             if (mapObject.arcGISDefaultBasemap !== undefined &&
@@ -201,12 +202,10 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
             } else if (hasValue(mapObject.basemap?.portalItem?.id)) {
                 let portalItem = buildJsPortalItem(mapObject.basemap.portalItem);
                 basemap = new Basemap({portalItem: portalItem});
-            } else {
-                if (mapObject.basemap?.layers.length > 0) {
-                    for (let i = 0; i < mapObject.basemap.layers.length; i++) {
-                        const layerObject = mapObject.basemap.layers[i];
-                        basemapLayers.push(layerObject);
-                    }
+            } else if (mapObject.basemap?.layers.length > 0) {
+                for (let i = 0; i < mapObject.basemap.layers.length; i++) {
+                    const layerObject = mapObject.basemap.layers[i];
+                    basemapLayers.push(layerObject);
                 }
                 basemap = new Basemap({
                     baseLayers: []
@@ -235,7 +234,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
                 break;
             case 'scene':
                 const scene = new Map({
-                    basemap: basemap!,
+                    basemap: basemap,
                     ground: mapObject.ground
                 });
                 view = new SceneView({
@@ -255,7 +254,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
                 break;
             default:
                 const map = new Map({
-                    basemap: basemap!,
+                    basemap: basemap,
                     ground: mapObject.ground
                 });
 
@@ -659,7 +658,7 @@ export function disposeGraphic(graphicId: string) {
 
 export function updateView(viewObject: any) {
     try {
-        setWaitCursor(viewObject.Id);
+        setWaitCursor(viewObject.id);
         notifyExtentChanged = false;
         let view = arcGisObjectRefs[viewObject.id] as View;
 
@@ -819,7 +818,7 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
         let view = arcGisObjectRefs[viewId] as View;
 
         if (currentLayer === undefined) {
-            await addLayer(layerObject, viewId);
+            unsetWaitCursor(viewId);
             return;
         }
 
@@ -849,9 +848,10 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                 if (hasValue(layerObject.popupTemplate)) {
                     featureLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId);
                 }
-                if (hasValue(layerObject.renderer)) {
+                // on first pass the renderer is often left blank, but it fills in when the round trip happens to the server
+                if (hasValue(layerObject.renderer) && layerObject.renderer.type !== featureLayer.renderer.type) {
                     let renderer = buildJsRenderer(layerObject.renderer);
-                    if (renderer !== null) {
+                    if (renderer !== null && featureLayer.renderer !== renderer) {
                         featureLayer.renderer = renderer;
                     }
                 }
@@ -947,7 +947,6 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
 
                 break;
         }
-
 
         if (hasValue(layerObject.opacity) && layerObject.opacity !== currentLayer.opacity &&
             layerObject.opacity >= 0 && layerObject.opacity <= 1) {
@@ -1108,7 +1107,10 @@ export async function addGraphic(streamRefOrGraphicObject: any, viewId: string, 
             let layer = arcGisObjectRefs[layerId as string] as GraphicsLayer;
             layer.add(graphic);
         } else {
-            if (!hasValue(view?.graphics)) return;
+            if (!hasValue(view?.graphics)) {
+                unsetWaitCursor(viewId);
+                return;
+            }
             view.graphics?.add(graphic);
         }
         graphicsRefs[graphicId] = graphic;
@@ -1184,21 +1186,6 @@ export function addGraphicsSyncInterop(graphicsArray: Uint8Array, viewId: string
     }
 }
 
-export function setGraphicAttribute(id: string, name: string, value: any): void {
-    let graphic = graphicsRefs[id];
-    if (hasValue(graphic)) {
-        graphic.attributes[name] = value;
-    }
-}
-
-export function getGraphicAttribute(id: string, name: string): any {
-    return graphicsRefs[id]?.attributes[name];
-}
-
-export function removeGraphicAttribute(id: string, name: string): void {
-    delete graphicsRefs[id]?.attributes[name];
-}
-
 export function setGraphicGeometry(id: string, geometry: DotNetGeometry): void {
     let jsGeometry = buildJsGeometry(geometry);
     let graphic = graphicsRefs[id];
@@ -1239,8 +1226,9 @@ export function getGraphicVisibility(id: string): boolean {
     return graphicsRefs[id]?.visible;
 }
 
-export function setGraphicPopupTemplate(id: string, popupTemplate: DotNetPopupTemplate, viewId: string): void {
+export function setGraphicPopupTemplate(id: string, popupTemplate: DotNetPopupTemplate, dotNetRef: any, viewId: string): void {
     let graphic = graphicsRefs[id];
+    popupTemplate.dotNetPopupTemplateReference = dotNetRef;
     let jsPopupTemplate = buildJsPopupTemplate(popupTemplate, viewId);
     if (hasValue(graphic) && hasValue(popupTemplate) && graphic.popupTemplate !== jsPopupTemplate) {
         graphic.popupTemplate = jsPopupTemplate;
@@ -1251,6 +1239,13 @@ export function getGraphicPopupTemplate(id: string): DotNetPopupTemplate | null 
     let graphic = graphicsRefs[id];
     if (!hasValue(graphic)) return null;
     return buildDotNetPopupTemplate(graphic.popupTemplate);
+}
+
+export function setGraphicAttributes(Id: string, attributes: any): void {
+    let graphic = graphicsRefs[Id];
+    if (hasValue(graphic)) {
+        graphic.attributes = buildJsAttributes(attributes);
+    }
 }
 
 
@@ -1482,6 +1477,11 @@ export async function addWidget(widget: any, viewId: string): Promise<void> {
         if (hasValue(widget.containerId)) {
             let container = document.getElementById(widget.containerId);
             let innerContainer = document.createElement('div');
+            innerContainer.id = `widget-${widget.type}`;
+            let existingWidget = document.getElementById(`widget-${widget.type}`);
+            if (existingWidget !== null) {
+                container?.removeChild(existingWidget);
+            }
             container?.appendChild(innerContainer);
             newWidget.container = innerContainer;
         } else {
@@ -1494,12 +1494,7 @@ export async function addWidget(widget: any, viewId: string): Promise<void> {
 
 async function createWidget(widget: any, viewId: string): Promise<Widget | null> {
     let view = arcGisObjectRefs[viewId] as MapView;
-    if (arcGisObjectRefs.hasOwnProperty(widget.id)) {
-        // for now just skip if it already exists
-        // later we may want to replace it with a remove and add
-        // if new values are added
-        return null;
-    }
+
     let newWidget: Widget;
     switch (widget.type) {
         case 'locate':
@@ -1661,10 +1656,10 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
             });
             newWidget = basemapLayerListWidget;
 
-            if (hasValue(widget.HasCustomBaseListHandler)) {
+            if (hasValue(widget.hasCustomBaseListHandler)) {
                 basemapLayerListWidget.baseListItemCreatedFunction = async (evt) => {
                     let dotNetBaseListItem = buildDotNetListItem(evt.item);
-                    let returnItem = await widget.layerListWidgetObjectReference.invokeMethodAsync('OnBaseListItemCreated', dotNetBaseListItem) as DotNetListItem;
+                    let returnItem = await widget.baseLayerListWidgetObjectReference.invokeMethodAsync('OnBaseListItemCreated', dotNetBaseListItem) as DotNetListItem;
                     evt.item.title = returnItem.title;
                     evt.item.visible = returnItem.visible;
                     // basemap will require additional implementation (similar to layerlist above) to activate additional layer and action sections.
@@ -1673,10 +1668,10 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
                     // evt.item.actionSections = returnItem.actionSections as any;
                 };
             }
-            if (hasValue(widget.HasCustomReferenceListHandler)) {
+            if (hasValue(widget.hasCustomReferenceListHandler)) {
                 basemapLayerListWidget.baseListItemCreatedFunction = async (evt) => {
                     let dotNetReferenceListItem = buildDotNetListItem(evt.item);
-                    let returnItem = await widget.layerListWidgetObjectReference.invokeMethodAsync('OnReferenceListItemCreated', dotNetReferenceListItem) as DotNetListItem;
+                    let returnItem = await widget.baseLayerListWidgetObjectReference.invokeMethodAsync('OnReferenceListItemCreated', dotNetReferenceListItem) as DotNetListItem;
                     evt.item.title = returnItem.title;
                     evt.item.visible = returnItem.visible;
                     // basemap will require additional implementation (similar to layerlist above) to activate additional layer and action sections.
@@ -2076,7 +2071,7 @@ function waitForRender(viewId: string, dotNetRef: any): void {
                 console.debug(new Date() + " - View Render Complete");
                 try {
                     rendering = true;
-                    await dotNetRef.invokeMethodAsync('OnViewRendered');
+                    await dotNetRef.invokeMethodAsync('OnJsViewRendered');
                 } catch {
                     // we must be disconnected
                 }
@@ -2295,8 +2290,9 @@ export function encodeProtobufGraphics(graphics: any[]): Uint8Array {
 }
 
 let _authenticationManager: AuthenticationManager | null = null;
-export function getAuthenticationManager(dotNetRef: any, apiKey: string | null, appId: string | null, 
-                                   portalUrl: string | null): AuthenticationManager {
+
+export function getAuthenticationManager(dotNetRef: any, apiKey: string | null, appId: string | null,
+                                         portalUrl: string | null): AuthenticationManager {
     if (_authenticationManager === null) {
         _authenticationManager = new AuthenticationManager(dotNetRef, apiKey, appId, portalUrl);
     }

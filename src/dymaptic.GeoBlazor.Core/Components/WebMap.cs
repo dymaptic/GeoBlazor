@@ -13,7 +13,8 @@ public class WebMap : Map
     /// <summary>
     ///     The portal item from which the WebMap is loaded.
     /// </summary>
-    [RequiredProperty]
+    [RequiredProperty(nameof(Basemap), nameof(ArcGISDefaultBasemap))]
+    [RequiredProperty] // the extra required here is for WebMap only, whereas the previous allows a check against the Map base type
     public PortalItem? PortalItem { get; set; }
 
     /// <inheritdoc />
@@ -52,7 +53,7 @@ public class WebMap : Map
     }
 
     /// <inheritdoc />
-    public override void ValidateRequiredChildren()
+    internal override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();
         PortalItem?.ValidateRequiredChildren();

@@ -114,6 +114,14 @@ public class Point : Geometry, IEquatable<Point>
             (X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z));
     }
 
+    /// <summary>
+    ///     Returns a deep clone of the geometry.
+    /// </summary>
+    public Point Clone()
+    {
+        return new Point(Longitude, Latitude, X, Y, Z, SpatialReference?.Clone(), Extent?.Clone());
+    }
+
     /// <inheritdoc />
     public override bool Equals(object? obj)
     {

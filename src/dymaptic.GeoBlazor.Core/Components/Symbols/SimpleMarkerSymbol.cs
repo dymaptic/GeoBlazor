@@ -148,13 +148,6 @@ public class SimpleMarkerSymbol : MarkerSymbol, IEquatable<SimpleMarkerSymbol>
     }
 
     /// <inheritdoc />
-    public override void ValidateRequiredChildren()
-    {
-        base.ValidateRequiredChildren();
-        Outline?.ValidateRequiredChildren();
-    }
-
-    /// <inheritdoc />
     public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
@@ -167,6 +160,26 @@ public class SimpleMarkerSymbol : MarkerSymbol, IEquatable<SimpleMarkerSymbol>
     public override int GetHashCode()
     {
         return HashCode.Combine(Outline, Size, Style, Color);
+    }
+
+    /// <inheritdoc />
+    internal override void ValidateRequiredChildren()
+    {
+        base.ValidateRequiredChildren();
+        Outline?.ValidateRequiredChildren();
+    }
+
+    internal override SymbolSerializationRecord ToSerializationRecord()
+    {
+        return new SymbolSerializationRecord(Type, Color)
+        {
+            Outline = Outline?.ToSerializationRecord(),
+            Size = Size,
+            Style = Style,
+            Angle = Angle,
+            XOffset = XOffset,
+            YOffset = YOffset
+        };
     }
 
     private bool StylesEqual(string? style1, string? style2)
@@ -192,18 +205,5 @@ public class SimpleMarkerSymbol : MarkerSymbol, IEquatable<SimpleMarkerSymbol>
         }
 
         return style1 == style2;
-    }
-
-    internal override SymbolSerializationRecord ToSerializationRecord()
-    {
-        return new SymbolSerializationRecord(Type, Color)
-        {
-            Outline = Outline?.ToSerializationRecord(),
-            Size = Size,
-            Style = Style,
-            Angle = Angle,
-            XOffset = XOffset,
-            YOffset = YOffset
-        };
     }
 }

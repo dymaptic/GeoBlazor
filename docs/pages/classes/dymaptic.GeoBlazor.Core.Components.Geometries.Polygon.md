@@ -89,6 +89,19 @@ public override string Type { get; }
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 ### Methods
 
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.Clone()'></a>
+
+## Polygon.Clone() Method
+
+Returns a deep clone of the geometry.
+
+```csharp
+public dymaptic.GeoBlazor.Core.Components.Geometries.Polygon Clone();
+```
+
+#### Returns
+[Polygon](dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Polygon')
+
 <a name='dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.Equals(object)'></a>
 
 ## Polygon.Equals(object) Method
