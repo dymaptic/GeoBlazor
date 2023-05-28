@@ -152,117 +152,6 @@ A polygon ring. The first and last coordinates/points in the ring must be the sa
 [System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[Polygon](dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Polygon')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
 Returns a new polygon with the added ring.
 
-<<<<<<< HEAD
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.AddPath(dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine,dymaptic.GeoBlazor.Core.Components.Geometries.Point[])'></a>
-
-## GeometryEngine.AddPath(PolyLine, Point[]) Method
-
-Adds a path, or line segment, to the polyline. When added, the index of the path is incremented by one.
-
-```csharp
-public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine> AddPath(dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine polyLine, dymaptic.GeoBlazor.Core.Components.Geometries.Point[] points);
-```
-#### Parameters
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.AddPath(dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine,dymaptic.GeoBlazor.Core.Components.Geometries.Point[]).polyLine'></a>
-
-`polyLine` [PolyLine](dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine.html 'dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine')
-
-The polyline to add the path to. Will return a new modified copy.
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.AddPath(dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine,dymaptic.GeoBlazor.Core.Components.Geometries.Point[]).points'></a>
-
-`points` [Point](dymaptic.GeoBlazor.Core.Components.Geometries.Point.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Point')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')
-
-The polyline path to add as an array of [Point](dymaptic.GeoBlazor.Core.Components.Geometries.Point.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Point')s.
-
-#### Returns
-[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[PolyLine](dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine.html 'dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
-Returns a new polyline with the added path.
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.AddPath(dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine,dymaptic.GeoBlazor.Core.Objects.MapPath)'></a>
-
-## GeometryEngine.AddPath(PolyLine, MapPath) Method
-
-Adds a path, or line segment, to the polyline. When added, the index of the path is incremented by one.
-
-```csharp
-public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine> AddPath(dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine polyLine, dymaptic.GeoBlazor.Core.Objects.MapPath points);
-```
-#### Parameters
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.AddPath(dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine,dymaptic.GeoBlazor.Core.Objects.MapPath).polyLine'></a>
-
-`polyLine` [PolyLine](dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine.html 'dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine')
-
-The polyline to add the path to. Will return a new modified copy.
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.AddPath(dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine,dymaptic.GeoBlazor.Core.Objects.MapPath).points'></a>
-
-`points` [MapPath](dymaptic.GeoBlazor.Core.Objects.MapPath.html 'dymaptic.GeoBlazor.Core.Objects.MapPath')
-
-The polyline path to add as a [MapPath](dymaptic.GeoBlazor.Core.Objects.MapPath.html 'dymaptic.GeoBlazor.Core.Objects.MapPath').
-
-#### Returns
-[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[PolyLine](dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine.html 'dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
-Returns a new polyline with the added path.
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.AddRing(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon,dymaptic.GeoBlazor.Core.Components.Geometries.Point[])'></a>
-
-## GeometryEngine.AddRing(Polygon, Point[]) Method
-
-Adds a ring to the Polygon. The ring can be one of the following: an array of numbers or an array of points. When added the index of the ring is incremented by one.
-
-```csharp
-public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Geometries.Polygon> AddRing(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon polygon, dymaptic.GeoBlazor.Core.Components.Geometries.Point[] points);
-```
-#### Parameters
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.AddRing(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon,dymaptic.GeoBlazor.Core.Components.Geometries.Point[]).polygon'></a>
-
-`polygon` [Polygon](dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Polygon')
-
-The polygon to add the ring to.
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.AddRing(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon,dymaptic.GeoBlazor.Core.Components.Geometries.Point[]).points'></a>
-
-`points` [Point](dymaptic.GeoBlazor.Core.Components.Geometries.Point.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Point')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')
-
-A polygon ring. The first and last coordinates/points in the ring must be the same.
-
-#### Returns
-[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[Polygon](dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Polygon')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
-Returns a new polygon with the added ring.
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.AddRing(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon,dymaptic.GeoBlazor.Core.Objects.MapPath)'></a>
-
-## GeometryEngine.AddRing(Polygon, MapPath) Method
-
-Adds a ring to the Polygon. The ring can be one of the following: an array of numbers or an array of points. When added the index of the ring is incremented by one.
-
-```csharp
-public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Geometries.Polygon> AddRing(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon polygon, dymaptic.GeoBlazor.Core.Objects.MapPath points);
-```
-#### Parameters
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.AddRing(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon,dymaptic.GeoBlazor.Core.Objects.MapPath).polygon'></a>
-
-`polygon` [Polygon](dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Polygon')
-
-The polygon to add the ring to.
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.AddRing(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon,dymaptic.GeoBlazor.Core.Objects.MapPath).points'></a>
-
-`points` [MapPath](dymaptic.GeoBlazor.Core.Objects.MapPath.html 'dymaptic.GeoBlazor.Core.Objects.MapPath')
-
-A polygon ring. The first and last coordinates/points in the ring must be the same.
-
-#### Returns
-[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[Polygon](dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Polygon')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
-Returns a new polygon with the added ring.
-
-=======
->>>>>>> develop
 <a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.AreEqual(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,dymaptic.GeoBlazor.Core.Components.Geometries.Geometry)'></a>
 
 ## GeometryEngine.AreEqual(Geometry, Geometry) Method
@@ -385,7 +274,6 @@ reference of either WGS84 (wkid: 4326) or Web Mercator. Only use buffer (this me
 geometries with a projected coordinate system other than Web Mercator. If you need to buffer geometries with a  
 geographic coordinate system other than WGS84 (wkid: 4326), use geometryService.buffer().
 
-<<<<<<< HEAD
 <a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.CenterExtentAt(dymaptic.GeoBlazor.Core.Components.Geometries.Extent,dymaptic.GeoBlazor.Core.Components.Geometries.Point)'></a>
 
 ## GeometryEngine.CenterExtentAt(Extent, Point) Method
@@ -413,8 +301,6 @@ The point to center the extent on.
 [System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[Extent](dymaptic.GeoBlazor.Core.Components.Geometries.Extent.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Extent')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
 The centered extent.
 
-=======
->>>>>>> develop
 <a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.Clip(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,dymaptic.GeoBlazor.Core.Components.Geometries.Extent)'></a>
 
 ## GeometryEngine.Clip(Geometry, Extent) Method
@@ -422,7 +308,7 @@ The centered extent.
 Calculates the clipped geometry from a target geometry by an envelope.
 
 ```csharp
-public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Geometries.Geometry> Clip(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry geometry, dymaptic.GeoBlazor.Core.Components.Geometries.Extent extent);
+public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Geometries.Geometry?> Clip(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry geometry, dymaptic.GeoBlazor.Core.Components.Geometries.Extent extent);
 ```
 #### Parameters
 
@@ -442,7 +328,6 @@ The envelope used to clip.
 [System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[Geometry](dymaptic.GeoBlazor.Core.Components.Geometries.Geometry.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Geometry')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
 Clipped geometry.
 
-<<<<<<< HEAD
 <a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.Clone_T_(T)'></a>
 
 ## GeometryEngine.Clone<T>(T) Method
@@ -470,8 +355,6 @@ public System.Threading.Tasks.Task<T> Clone<T>(T geometry)
 ### Remarks
 Unlike the Clone methods in the Geometry classes, this method does a loop through the ArcGIS JS SDK. Therefore, if you are having issues with unpopulated fields in the geometry, try using this method instead.
 
-=======
->>>>>>> develop
 <a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.Contains(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,dymaptic.GeoBlazor.Core.Components.Geometries.Geometry)'></a>
 
 ## GeometryEngine.Contains(Geometry, Geometry) Method
@@ -764,7 +647,6 @@ Measurement unit of the return value. Defaults to the units of the input geometr
 [System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
 Distance between the two input geometries.
 
-<<<<<<< HEAD
 <a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.Expand(dymaptic.GeoBlazor.Core.Components.Geometries.Extent,double)'></a>
 
 ## GeometryEngine.Expand(Extent, double) Method
@@ -792,8 +674,6 @@ The factor by which to expand the extent.
 [System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[Extent](dymaptic.GeoBlazor.Core.Components.Geometries.Extent.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Extent')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
 The expanded extent.
 
-=======
->>>>>>> develop
 <a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.ExtendedSpatialReferenceInfo(dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference)'></a>
 
 ## GeometryEngine.ExtendedSpatialReferenceInfo(SpatialReference) Method
@@ -869,7 +749,6 @@ Point to flip the geometry around. Defaults to the centroid of the geometry.
 [System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[Geometry](dymaptic.GeoBlazor.Core.Components.Geometries.Geometry.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Geometry')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
 The flipped geometry.
 
-<<<<<<< HEAD
 <a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.FromArcGisJson_T_(string)'></a>
 
 ## GeometryEngine.FromArcGisJson<T>(string) Method
@@ -897,8 +776,6 @@ A JSON representation of the instance in the ArcGIS format. See the <a target="_
 [System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[T](dymaptic.GeoBlazor.Core.Model.GeometryEngine.html#dymaptic.GeoBlazor.Core.Model.GeometryEngine.FromArcGisJson_T_(string).T 'dymaptic.GeoBlazor.Core.Model.GeometryEngine.FromArcGisJson<T>(string).T')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
 Returns a new geometry instance.
 
-=======
->>>>>>> develop
 <a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.Generalize(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,double,System.Nullable_bool_,System.Nullable_dymaptic.GeoBlazor.Core.Objects.LinearUnit_)'></a>
 
 ## GeometryEngine.Generalize(Geometry, double, Nullable<bool>, Nullable<LinearUnit>) Method
@@ -1078,7 +955,7 @@ Returns a geodesically densified version of the input geometry. Use this functio
 geometry along great circles.
 
 ```csharp
-public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Geometries.Geometry> GeodesicDensify(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry geometry, double maxSegmentLength, System.Nullable<dymaptic.GeoBlazor.Core.Objects.LinearUnit> maxSegmentLenghtUnit=null);
+public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Geometries.Geometry> GeodesicDensify(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry geometry, double maxSegmentLength, System.Nullable<dymaptic.GeoBlazor.Core.Objects.LinearUnit> maxSegmentLengthUnit=null);
 ```
 #### Parameters
 
@@ -1095,9 +972,9 @@ A polyline or polygon to densify.
 The maximum segment length allowed (in meters if a maxSegmentLengthUnit is not provided). This must be a positive  
 value.
 
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.GeodesicDensify(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,double,System.Nullable_dymaptic.GeoBlazor.Core.Objects.LinearUnit_).maxSegmentLenghtUnit'></a>
+<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.GeodesicDensify(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,double,System.Nullable_dymaptic.GeoBlazor.Core.Objects.LinearUnit_).maxSegmentLengthUnit'></a>
 
-`maxSegmentLenghtUnit` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[LinearUnit](dymaptic.GeoBlazor.Core.Objects.LinearUnit.html 'dymaptic.GeoBlazor.Core.Objects.LinearUnit')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
+`maxSegmentLengthUnit` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[LinearUnit](dymaptic.GeoBlazor.Core.Objects.LinearUnit.html 'dymaptic.GeoBlazor.Core.Objects.LinearUnit')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 
 Measurement unit for maxSegmentLength. If not provided, the unit will default to meters.
 
@@ -1139,7 +1016,6 @@ Length of the input geometry.
 ### Remarks
 This method only works with WGS84 (wkid: 4326) and Web Mercator spatial references.
 
-<<<<<<< HEAD
 <a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.GetPoint(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon,int,int)'></a>
 
 ## GeometryEngine.GetPoint(Polygon, int, int) Method
@@ -1284,8 +1160,6 @@ The point to insert into the polyline.
 [System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[PolyLine](dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine.html 'dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
 Returns a new polyline with the inserted point.
 
-=======
->>>>>>> develop
 <a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.Intersect(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,dymaptic.GeoBlazor.Core.Components.Geometries.Geometry)'></a>
 
 ## GeometryEngine.Intersect(Geometry, Geometry) Method
@@ -1371,7 +1245,6 @@ The geometry being intersected.
 [System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
 Returns true if the input geometries intersect each other.
 
-<<<<<<< HEAD
 <a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.IsClockwise(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon,dymaptic.GeoBlazor.Core.Components.Geometries.Point[])'></a>
 
 ## GeometryEngine.IsClockwise(Polygon, Point[]) Method
@@ -1426,8 +1299,6 @@ A polygon ring defined as a [MapPath](dymaptic.GeoBlazor.Core.Objects.MapPath.ht
 [System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
 Returns true if the ring is clockwise and false for counterclockwise.
 
-=======
->>>>>>> develop
 <a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.IsSimple(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry)'></a>
 
 ## GeometryEngine.IsSimple(Geometry) Method
@@ -1544,7 +1415,6 @@ The maximum number of vertices to return.
 [System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[NearestPointResult](dymaptic.GeoBlazor.Core.Objects.NearestPointResult.html 'dymaptic.GeoBlazor.Core.Objects.NearestPointResult')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
 An array of objects containing the nearest vertices within the given searchRadius.
 
-<<<<<<< HEAD
 <a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.NormalizeExtent(dymaptic.GeoBlazor.Core.Components.Geometries.Extent)'></a>
 
 ## GeometryEngine.NormalizeExtent(Extent) Method
@@ -1587,8 +1457,6 @@ The input point.
 [System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[Point](dymaptic.GeoBlazor.Core.Components.Geometries.Point.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Point')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
 Returns a point with a normalized x-value.
 
-=======
->>>>>>> develop
 <a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.Offset(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,double,System.Nullable_dymaptic.GeoBlazor.Core.Objects.LinearUnit_,System.Nullable_dymaptic.GeoBlazor.Core.Model.JoinType_,System.Nullable_double_,System.Nullable_double_)'></a>
 
 ## GeometryEngine.Offset(Geometry, double, Nullable<LinearUnit>, Nullable<JoinType>, Nullable<double>, Nullable<double>) Method
@@ -1705,7 +1573,6 @@ to the true circular arc. The algorithm never produces more than around 180 vert
 [System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[Geometry](dymaptic.GeoBlazor.Core.Components.Geometries.Geometry.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Geometry')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
 The offset geometries.
 
-<<<<<<< HEAD
 <a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.OffsetExtent(dymaptic.GeoBlazor.Core.Components.Geometries.Extent,double,double,double)'></a>
 
 ## GeometryEngine.OffsetExtent(Extent, double, double, double) Method
@@ -1744,8 +1611,6 @@ The offset distance in map units for the Z-coordinate.
 #### Returns
 [System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[Extent](dymaptic.GeoBlazor.Core.Components.Geometries.Extent.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Extent')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')
 
-=======
->>>>>>> develop
 <a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.Overlaps(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,dymaptic.GeoBlazor.Core.Components.Geometries.Geometry)'></a>
 
 ## GeometryEngine.Overlaps(Geometry, Geometry) Method
@@ -1835,7 +1700,6 @@ Measurement unit of the return value. Defaults to the units of the input geometr
 [System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
 The length of the input geometry.
 
-<<<<<<< HEAD
 <a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.PolygonFromExtent(dymaptic.GeoBlazor.Core.Components.Geometries.Extent)'></a>
 
 ## GeometryEngine.PolygonFromExtent(Extent) Method
@@ -1857,8 +1721,6 @@ An extent object to convert to a polygon.
 [System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[Polygon](dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Polygon')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
 A polygon instance representing the given extent.
 
-=======
->>>>>>> develop
 <a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.Relate(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,string)'></a>
 
 ## GeometryEngine.Relate(Geometry, Geometry, string) Method
@@ -1894,12 +1756,9 @@ each of the following DE-9IM string codes are valid for testing whether a polygo
 line geometry: TTTFFTFFT (Boolean), 'T******FF*' (ignore irrelevant intersections), or '102FF*FF*' (dimension  
 form). Each returns the same result. See  
 <a target="_blank" href="https://en.wikipedia.org/wiki/DE-9IM">this article</a> and  
-<a target="_blank" href="https://desktop.arcgis.com/en/arcmap/latest/manage-data/using-sql-with-gdbs/relational-functions-for-st-geometry.htm">
-  
-    this
-  
-    ArcGIS help page
-  
+<a target="_blank" href="https://desktop.arcgis.com/en/arcmap/latest/manage-data/using-sql-with-gdbs/relational-functions-for-st-geometry.htm">  
+    this  
+    ArcGIS help page  
 </a>  
 for more information about the DE-9IM model and how string codes are constructed.
 
@@ -1907,7 +1766,6 @@ for more information about the DE-9IM model and how string codes are constructed
 [System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
 Returns true if the relation of the input geometries is accurate.
 
-<<<<<<< HEAD
 <a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.RemovePath(dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine,int)'></a>
 
 ## GeometryEngine.RemovePath(PolyLine, int) Method
@@ -2028,8 +1886,6 @@ The index of the ring to remove.
 [System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.ValueTuple 'System.ValueTuple')[Polygon](dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Polygon')[,](https://docs.microsoft.com/en-us/dotnet/api/System.ValueTuple 'System.ValueTuple')[Point](dymaptic.GeoBlazor.Core.Components.Geometries.Point.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Point')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.ValueTuple 'System.ValueTuple')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
 Returns an object with the modified polygon and the removed ring.
 
-=======
->>>>>>> develop
 <a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.Rotate(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry,double,dymaptic.GeoBlazor.Core.Components.Geometries.Point)'></a>
 
 ## GeometryEngine.Rotate(Geometry, double, Point) Method
@@ -2064,7 +1920,6 @@ Point to rotate the geometry around. Defaults to the centroid of the geometry.
 [System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[Geometry](dymaptic.GeoBlazor.Core.Components.Geometries.Geometry.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Geometry')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
 The rotated geometry.
 
-<<<<<<< HEAD
 <a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.SetPoint(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon,int,int,dymaptic.GeoBlazor.Core.Components.Geometries.Point)'></a>
 
 ## GeometryEngine.SetPoint(Polygon, int, int, Point) Method
@@ -2143,8 +1998,6 @@ The new point to update the polyline with.
 [System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[PolyLine](dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine.html 'dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
 Returns a new polyline with the updated point.
 
-=======
->>>>>>> develop
 <a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.Simplify(dymaptic.GeoBlazor.Core.Components.Geometries.Geometry)'></a>
 
 ## GeometryEngine.Simplify(Geometry) Method
@@ -2223,641 +2076,6 @@ One of the Geometry instances in the XOR operation.
 #### Returns
 [System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[Geometry](dymaptic.GeoBlazor.Core.Components.Geometries.Geometry.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Geometry')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
 The symmetric differences of the two geometries.
-
-<<<<<<< HEAD
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.ToArcGisJson_T_(T)'></a>
-
-## GeometryEngine.ToArcGisJson<T>(T) Method
-
-Converts an instance of this class to its ArcGIS portal JSON representation. See the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/programming-patterns/#using-fromjson">Using fromJSON()</a> guide topic for more information.
-
-```csharp
-public System.Threading.Tasks.Task<string> ToArcGisJson<T>(T geometry)
-    where T : dymaptic.GeoBlazor.Core.Components.Geometries.Geometry;
-```
-#### Type parameters
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.ToArcGisJson_T_(T).T'></a>
-
-`T`
-#### Parameters
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.ToArcGisJson_T_(T).geometry'></a>
-
-`geometry` [T](dymaptic.GeoBlazor.Core.Model.GeometryEngine.html#dymaptic.GeoBlazor.Core.Model.GeometryEngine.ToArcGisJson_T_(T).T 'dymaptic.GeoBlazor.Core.Model.GeometryEngine.ToArcGisJson<T>(T).T')
-
-The geometry to convert.
-
-#### Returns
-[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
-The <a target="_blank" href="https://developers.arcgis.com/documentation/common-data-types/geometry-objects.htm">ArcGIS portal JSON</a> representation of an instance of this class.
-
-=======
->>>>>>> develop
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.CenterExtentAt(dymaptic.GeoBlazor.Core.Components.Geometries.Extent,dymaptic.GeoBlazor.Core.Components.Geometries.Point)'></a>
-
-## GeometryEngine.CenterExtentAt(Extent, Point) Method
-
-Centers the given extent to the given point, and returns a new extent.
-
-```csharp
-public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Geometries.Extent> CenterExtentAt(dymaptic.GeoBlazor.Core.Components.Geometries.Extent extent, dymaptic.GeoBlazor.Core.Components.Geometries.Point point);
-```
-#### Parameters
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.CenterExtentAt(dymaptic.GeoBlazor.Core.Components.Geometries.Extent,dymaptic.GeoBlazor.Core.Components.Geometries.Point).extent'></a>
-
-`extent` [Extent](dymaptic.GeoBlazor.Core.Components.Geometries.Extent.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Extent')
-
-The input extent.
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.CenterExtentAt(dymaptic.GeoBlazor.Core.Components.Geometries.Extent,dymaptic.GeoBlazor.Core.Components.Geometries.Point).point'></a>
-
-`point` [Point](dymaptic.GeoBlazor.Core.Components.Geometries.Point.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Point')
-
-The point to center the extent on.
-
-#### Returns
-[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[Extent](dymaptic.GeoBlazor.Core.Components.Geometries.Extent.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Extent')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
-The centered extent.
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.Clone_T_(T)'></a>
-
-## GeometryEngine.Clone<T>(T) Method
-
-Creates a deep clone of the geometry.
-
-```csharp
-public System.Threading.Tasks.Task<T> Clone<T>(T geometry)
-    where T : dymaptic.GeoBlazor.Core.Components.Geometries.Geometry;
-```
-#### Type parameters
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.Clone_T_(T).T'></a>
-
-`T`
-#### Parameters
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.Clone_T_(T).geometry'></a>
-
-`geometry` [T](dymaptic.GeoBlazor.Core.Model.GeometryEngine.html#dymaptic.GeoBlazor.Core.Model.GeometryEngine.Clone_T_(T).T 'dymaptic.GeoBlazor.Core.Model.GeometryEngine.Clone<T>(T).T')
-
-#### Returns
-[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[T](dymaptic.GeoBlazor.Core.Model.GeometryEngine.html#dymaptic.GeoBlazor.Core.Model.GeometryEngine.Clone_T_(T).T 'dymaptic.GeoBlazor.Core.Model.GeometryEngine.Clone<T>(T).T')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')
-
-### Remarks
-Unlike the Clone methods in the Geometry classes, this method does a loop through the ArcGIS JS SDK. Therefore, if you are having issues with unpopulated fields in the geometry, try using this method instead.
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.Expand(dymaptic.GeoBlazor.Core.Components.Geometries.Extent,double)'></a>
-
-## GeometryEngine.Expand(Extent, double) Method
-
-Expands the extent by the given factor. For example, a value of 1.5 will expand the extent to be 50 percent larger than the original extent.
-
-```csharp
-public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Geometries.Extent> Expand(dymaptic.GeoBlazor.Core.Components.Geometries.Extent extent, double factor);
-```
-#### Parameters
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.Expand(dymaptic.GeoBlazor.Core.Components.Geometries.Extent,double).extent'></a>
-
-`extent` [Extent](dymaptic.GeoBlazor.Core.Components.Geometries.Extent.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Extent')
-
-The input extent.
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.Expand(dymaptic.GeoBlazor.Core.Components.Geometries.Extent,double).factor'></a>
-
-`factor` [System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')
-
-The factor by which to expand the extent.
-
-#### Returns
-[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[Extent](dymaptic.GeoBlazor.Core.Components.Geometries.Extent.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Extent')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
-The expanded extent.
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.FromArcGisJson_T_(string)'></a>
-
-## GeometryEngine.FromArcGisJson<T>(string) Method
-
-Creates a new instance of this class and initializes it with values from a JSON object generated from an ArcGIS product. The object passed into the input json parameter often comes from a response to a query operation in the REST API or a toJSON() method from another ArcGIS product. See the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/programming-patterns/#using-fromjson">Using fromJSON()</a> topic in the Guide for details and examples of when and how to use this function.
-
-```csharp
-public System.Threading.Tasks.Task<T> FromArcGisJson<T>(string json)
-    where T : dymaptic.GeoBlazor.Core.Components.Geometries.Geometry;
-```
-#### Type parameters
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.FromArcGisJson_T_(string).T'></a>
-
-`T`
-#### Parameters
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.FromArcGisJson_T_(string).json'></a>
-
-`json` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
-
-A JSON representation of the instance in the ArcGIS format. See the <a target="_blank" href="https://developers.arcgis.com/documentation/common-data-types/overview-of-common-data-types.htm">ArcGIS REST API documentation</a> for examples of the structure of various input JSON objects.
-
-#### Returns
-[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[T](dymaptic.GeoBlazor.Core.Model.GeometryEngine.html#dymaptic.GeoBlazor.Core.Model.GeometryEngine.FromArcGisJson_T_(string).T 'dymaptic.GeoBlazor.Core.Model.GeometryEngine.FromArcGisJson<T>(string).T')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
-Returns a new geometry instance.
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.GetPoint(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon,int,int)'></a>
-
-## GeometryEngine.GetPoint(Polygon, int, int) Method
-
-Returns a point specified by a ring and point in the ring.
-
-```csharp
-public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Geometries.Point> GetPoint(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon polygon, int ringIndex, int pointIndex);
-```
-#### Parameters
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.GetPoint(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon,int,int).polygon'></a>
-
-`polygon` [Polygon](dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Polygon')
-
-The polygon to get the point from.
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.GetPoint(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon,int,int).ringIndex'></a>
-
-`ringIndex` [System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')
-
-The index of the ring containing the desired point.
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.GetPoint(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon,int,int).pointIndex'></a>
-
-`pointIndex` [System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')
-
-The index of the desired point within the ring.
-
-#### Returns
-[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[Point](dymaptic.GeoBlazor.Core.Components.Geometries.Point.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Point')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
-Returns the point at the specified ring index and point index.
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.GetPoint(dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine,int,int)'></a>
-
-## GeometryEngine.GetPoint(PolyLine, int, int) Method
-
-Returns a point specified by a path and point in the path.
-
-```csharp
-public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Geometries.Point> GetPoint(dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine polyLine, int pathIndex, int pointIndex);
-```
-#### Parameters
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.GetPoint(dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine,int,int).polyLine'></a>
-
-`polyLine` [PolyLine](dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine.html 'dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine')
-
-The polyline to get the point from.
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.GetPoint(dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine,int,int).pathIndex'></a>
-
-`pathIndex` [System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')
-
-The index of the path in the polyline.
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.GetPoint(dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine,int,int).pointIndex'></a>
-
-`pointIndex` [System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')
-
-The index of the point in the path.
-
-#### Returns
-[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[Point](dymaptic.GeoBlazor.Core.Components.Geometries.Point.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Point')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
-Returns the point along the Polyline located in the given path and point indices.
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.InsertPoint(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon,int,int,dymaptic.GeoBlazor.Core.Components.Geometries.Point)'></a>
-
-## GeometryEngine.InsertPoint(Polygon, int, int, Point) Method
-
-Inserts a new point into the polygon.
-
-```csharp
-public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Geometries.Polygon> InsertPoint(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon polygon, int ringIndex, int pointIndex, dymaptic.GeoBlazor.Core.Components.Geometries.Point point);
-```
-#### Parameters
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.InsertPoint(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon,int,int,dymaptic.GeoBlazor.Core.Components.Geometries.Point).polygon'></a>
-
-`polygon` [Polygon](dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Polygon')
-
-The polygon to insert the point into.
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.InsertPoint(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon,int,int,dymaptic.GeoBlazor.Core.Components.Geometries.Point).ringIndex'></a>
-
-`ringIndex` [System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')
-
-The index of the ring in which to insert the point.
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.InsertPoint(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon,int,int,dymaptic.GeoBlazor.Core.Components.Geometries.Point).pointIndex'></a>
-
-`pointIndex` [System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')
-
-The index of the point to insert within the ring.
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.InsertPoint(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon,int,int,dymaptic.GeoBlazor.Core.Components.Geometries.Point).point'></a>
-
-`point` [Point](dymaptic.GeoBlazor.Core.Components.Geometries.Point.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Point')
-
-The point to insert into the polygon.
-
-#### Returns
-[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[Polygon](dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Polygon')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
-Returns a new polygon with the inserted point.
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.InsertPoint(dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine,int,int,dymaptic.GeoBlazor.Core.Components.Geometries.Point)'></a>
-
-## GeometryEngine.InsertPoint(PolyLine, int, int, Point) Method
-
-Inserts a new point into a polyline and returns the modified line.
-
-```csharp
-public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine> InsertPoint(dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine polyLine, int pathIndex, int pointIndex, dymaptic.GeoBlazor.Core.Components.Geometries.Point point);
-```
-#### Parameters
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.InsertPoint(dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine,int,int,dymaptic.GeoBlazor.Core.Components.Geometries.Point).polyLine'></a>
-
-`polyLine` [PolyLine](dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine.html 'dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine')
-
-The polyline to insert the point into.
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.InsertPoint(dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine,int,int,dymaptic.GeoBlazor.Core.Components.Geometries.Point).pathIndex'></a>
-
-`pathIndex` [System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')
-
-The index of the path in which to insert a point.
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.InsertPoint(dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine,int,int,dymaptic.GeoBlazor.Core.Components.Geometries.Point).pointIndex'></a>
-
-`pointIndex` [System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')
-
-The index of the inserted point in the path.
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.InsertPoint(dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine,int,int,dymaptic.GeoBlazor.Core.Components.Geometries.Point).point'></a>
-
-`point` [Point](dymaptic.GeoBlazor.Core.Components.Geometries.Point.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Point')
-
-The point to insert into the polyline.
-
-#### Returns
-[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[PolyLine](dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine.html 'dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
-Returns a new polyline with the inserted point.
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.IsClockwise(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon,dymaptic.GeoBlazor.Core.Components.Geometries.Point[])'></a>
-
-## GeometryEngine.IsClockwise(Polygon, Point[]) Method
-
-Checks if a Polygon ring is clockwise
-
-```csharp
-public System.Threading.Tasks.Task<bool> IsClockwise(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon polygon, dymaptic.GeoBlazor.Core.Components.Geometries.Point[] ring);
-```
-#### Parameters
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.IsClockwise(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon,dymaptic.GeoBlazor.Core.Components.Geometries.Point[]).polygon'></a>
-
-`polygon` [Polygon](dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Polygon')
-
-The polygon to check the ring on.
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.IsClockwise(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon,dymaptic.GeoBlazor.Core.Components.Geometries.Point[]).ring'></a>
-
-`ring` [Point](dymaptic.GeoBlazor.Core.Components.Geometries.Point.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Point')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')
-
-A polygon ring defined as an array of [Point](dymaptic.GeoBlazor.Core.Components.Geometries.Point.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Point')s. The first and last coordinates/points in the ring must be the same.
-
-#### Returns
-[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
-Returns true if the ring is clockwise and false for counterclockwise.
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.IsClockwise(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon,dymaptic.GeoBlazor.Core.Objects.MapPath)'></a>
-
-## GeometryEngine.IsClockwise(Polygon, MapPath) Method
-
-Checks if a Polygon ring is clockwise
-
-```csharp
-public System.Threading.Tasks.Task<bool> IsClockwise(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon polygon, dymaptic.GeoBlazor.Core.Objects.MapPath ring);
-```
-#### Parameters
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.IsClockwise(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon,dymaptic.GeoBlazor.Core.Objects.MapPath).polygon'></a>
-
-`polygon` [Polygon](dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Polygon')
-
-The polygon to check the ring on.
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.IsClockwise(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon,dymaptic.GeoBlazor.Core.Objects.MapPath).ring'></a>
-
-`ring` [MapPath](dymaptic.GeoBlazor.Core.Objects.MapPath.html 'dymaptic.GeoBlazor.Core.Objects.MapPath')
-
-A polygon ring defined as a [MapPath](dymaptic.GeoBlazor.Core.Objects.MapPath.html 'dymaptic.GeoBlazor.Core.Objects.MapPath'). The first and last coordinates/points in the ring must be the same.
-
-#### Returns
-[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
-Returns true if the ring is clockwise and false for counterclockwise.
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.NormalizeExtent(dymaptic.GeoBlazor.Core.Components.Geometries.Extent)'></a>
-
-## GeometryEngine.NormalizeExtent(Extent) Method
-
-Returns an array with either one Extent that's been shifted to within +/- 180 or two Extents if the original extent intersects the International Dateline.
-
-```csharp
-public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Geometries.Extent[]> NormalizeExtent(dymaptic.GeoBlazor.Core.Components.Geometries.Extent extent);
-```
-#### Parameters
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.NormalizeExtent(dymaptic.GeoBlazor.Core.Components.Geometries.Extent).extent'></a>
-
-`extent` [Extent](dymaptic.GeoBlazor.Core.Components.Geometries.Extent.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Extent')
-
-The input extent.
-
-#### Returns
-[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[Extent](dymaptic.GeoBlazor.Core.Components.Geometries.Extent.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Extent')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
-An array with either one Extent that's been shifted to within +/- 180 or two Extents if the original extent intersects the International Dateline.
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.NormalizePoint(dymaptic.GeoBlazor.Core.Components.Geometries.Point)'></a>
-
-## GeometryEngine.NormalizePoint(Point) Method
-
-Modifies the point geometry in-place by shifting the X-coordinate to within +/- 180 span in map units.
-
-```csharp
-public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Geometries.Point> NormalizePoint(dymaptic.GeoBlazor.Core.Components.Geometries.Point point);
-```
-#### Parameters
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.NormalizePoint(dymaptic.GeoBlazor.Core.Components.Geometries.Point).point'></a>
-
-`point` [Point](dymaptic.GeoBlazor.Core.Components.Geometries.Point.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Point')
-
-The input point.
-
-#### Returns
-[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[Point](dymaptic.GeoBlazor.Core.Components.Geometries.Point.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Point')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
-Returns a point with a normalized x-value.
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.OffsetExtent(dymaptic.GeoBlazor.Core.Components.Geometries.Extent,double,double,double)'></a>
-
-## GeometryEngine.OffsetExtent(Extent, double, double, double) Method
-
-Modifies the extent geometry in-place with X and Y offsets in map units.
-
-```csharp
-public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Geometries.Extent> OffsetExtent(dymaptic.GeoBlazor.Core.Components.Geometries.Extent extent, double dx, double dy, double dz=0.0);
-```
-#### Parameters
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.OffsetExtent(dymaptic.GeoBlazor.Core.Components.Geometries.Extent,double,double,double).extent'></a>
-
-`extent` [Extent](dymaptic.GeoBlazor.Core.Components.Geometries.Extent.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Extent')
-
-The input extent.
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.OffsetExtent(dymaptic.GeoBlazor.Core.Components.Geometries.Extent,double,double,double).dx'></a>
-
-`dx` [System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')
-
-The offset distance in map units for the X-coordinate.
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.OffsetExtent(dymaptic.GeoBlazor.Core.Components.Geometries.Extent,double,double,double).dy'></a>
-
-`dy` [System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')
-
-The offset distance in map units for the Y-coordinate.
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.OffsetExtent(dymaptic.GeoBlazor.Core.Components.Geometries.Extent,double,double,double).dz'></a>
-
-`dz` [System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')
-
-The offset distance in map units for the Z-coordinate.
-
-#### Returns
-[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[Extent](dymaptic.GeoBlazor.Core.Components.Geometries.Extent.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Extent')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.PolygonFromExtent(dymaptic.GeoBlazor.Core.Components.Geometries.Extent)'></a>
-
-## GeometryEngine.PolygonFromExtent(Extent) Method
-
-Converts the given Extent to a Polygon instance. This is useful for scenarios in which you would like to display an area of interest, which is typically defined by an Extent or bounding box, as a polygon with a fill symbol in the view. Some geoprocessing tools require input geometries to be of a Polygon type and not an Extent.
-
-```csharp
-public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Geometries.Polygon> PolygonFromExtent(dymaptic.GeoBlazor.Core.Components.Geometries.Extent extent);
-```
-#### Parameters
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.PolygonFromExtent(dymaptic.GeoBlazor.Core.Components.Geometries.Extent).extent'></a>
-
-`extent` [Extent](dymaptic.GeoBlazor.Core.Components.Geometries.Extent.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Extent')
-
-An extent object to convert to a polygon.
-
-#### Returns
-[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[Polygon](dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Polygon')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
-A polygon instance representing the given extent.
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.RemovePath(dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine,int)'></a>
-
-## GeometryEngine.RemovePath(PolyLine, int) Method
-
-Removes a path from the Polyline. The index specifies which path to remove.
-
-```csharp
-public System.Threading.Tasks.Task<(dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine PolyLine,dymaptic.GeoBlazor.Core.Components.Geometries.Point[] Path)> RemovePath(dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine polyLine, int index);
-```
-#### Parameters
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.RemovePath(dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine,int).polyLine'></a>
-
-`polyLine` [PolyLine](dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine.html 'dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine')
-
-The polyline to remove the path from.
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.RemovePath(dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine,int).index'></a>
-
-`index` [System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')
-
-The index of the path to remove.
-
-#### Returns
-[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.ValueTuple 'System.ValueTuple')[PolyLine](dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine.html 'dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine')[,](https://docs.microsoft.com/en-us/dotnet/api/System.ValueTuple 'System.ValueTuple')[Point](dymaptic.GeoBlazor.Core.Components.Geometries.Point.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Point')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.ValueTuple 'System.ValueTuple')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
-Returns an object with the modified polyline and the removed path.
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.RemovePoint(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon,int,int)'></a>
-
-## GeometryEngine.RemovePoint(Polygon, int, int) Method
-
-Removes a point from the polygon at the given pointIndex within the ring identified by the given ringIndex.
-
-```csharp
-public System.Threading.Tasks.Task<(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon Polygon,dymaptic.GeoBlazor.Core.Components.Geometries.Point Point)> RemovePoint(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon polygon, int ringIndex, int pointIndex);
-```
-#### Parameters
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.RemovePoint(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon,int,int).polygon'></a>
-
-`polygon` [Polygon](dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Polygon')
-
-The polyline to remove the point from.
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.RemovePoint(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon,int,int).ringIndex'></a>
-
-`ringIndex` [System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')
-
-The index of the ring containing the point to remove.
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.RemovePoint(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon,int,int).pointIndex'></a>
-
-`pointIndex` [System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')
-
-The index of the point to remove within the ring.
-
-#### Returns
-[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.ValueTuple 'System.ValueTuple')[Polygon](dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Polygon')[,](https://docs.microsoft.com/en-us/dotnet/api/System.ValueTuple 'System.ValueTuple')[Point](dymaptic.GeoBlazor.Core.Components.Geometries.Point.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Point')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.ValueTuple 'System.ValueTuple')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
-Returns an object with the modified polygon and the removed point.
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.RemovePoint(dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine,int,int)'></a>
-
-## GeometryEngine.RemovePoint(PolyLine, int, int) Method
-
-Removes a point from the polyline at the given pointIndex within the path identified by the given pathIndex.
-
-```csharp
-public System.Threading.Tasks.Task<(dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine PolyLine,dymaptic.GeoBlazor.Core.Components.Geometries.Point Point)> RemovePoint(dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine polyLine, int pathIndex, int pointIndex);
-```
-#### Parameters
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.RemovePoint(dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine,int,int).polyLine'></a>
-
-`polyLine` [PolyLine](dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine.html 'dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine')
-
-The polyline to remove the point from.
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.RemovePoint(dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine,int,int).pathIndex'></a>
-
-`pathIndex` [System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')
-
-The index of the path in which to remove a point.
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.RemovePoint(dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine,int,int).pointIndex'></a>
-
-`pointIndex` [System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')
-
-The index of the point in the path to remove.
-
-#### Returns
-[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.ValueTuple 'System.ValueTuple')[PolyLine](dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine.html 'dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine')[,](https://docs.microsoft.com/en-us/dotnet/api/System.ValueTuple 'System.ValueTuple')[Point](dymaptic.GeoBlazor.Core.Components.Geometries.Point.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Point')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.ValueTuple 'System.ValueTuple')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
-Returns an object with the modified polyline and the removed point.
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.RemoveRing(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon,int)'></a>
-
-## GeometryEngine.RemoveRing(Polygon, int) Method
-
-Removes a ring from the Polygon. The index specifies which ring to remove.
-
-```csharp
-public System.Threading.Tasks.Task<(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon Polygon,dymaptic.GeoBlazor.Core.Components.Geometries.Point[] Ring)> RemoveRing(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon polygon, int index);
-```
-#### Parameters
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.RemoveRing(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon,int).polygon'></a>
-
-`polygon` [Polygon](dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Polygon')
-
-The polygon to remove the ring from.
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.RemoveRing(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon,int).index'></a>
-
-`index` [System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')
-
-The index of the ring to remove.
-
-#### Returns
-[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.ValueTuple 'System.ValueTuple')[Polygon](dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Polygon')[,](https://docs.microsoft.com/en-us/dotnet/api/System.ValueTuple 'System.ValueTuple')[Point](dymaptic.GeoBlazor.Core.Components.Geometries.Point.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Point')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.ValueTuple 'System.ValueTuple')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
-Returns an object with the modified polygon and the removed ring.
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.SetPoint(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon,int,int,dymaptic.GeoBlazor.Core.Components.Geometries.Point)'></a>
-
-## GeometryEngine.SetPoint(Polygon, int, int, Point) Method
-
-Updates a point in a polygon and returns the modified polygon.
-
-```csharp
-public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Geometries.Polygon> SetPoint(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon polygon, int ringIndex, int pointIndex, dymaptic.GeoBlazor.Core.Components.Geometries.Point point);
-```
-#### Parameters
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.SetPoint(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon,int,int,dymaptic.GeoBlazor.Core.Components.Geometries.Point).polygon'></a>
-
-`polygon` [Polygon](dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Polygon')
-
-The polygon to update the point in.
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.SetPoint(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon,int,int,dymaptic.GeoBlazor.Core.Components.Geometries.Point).ringIndex'></a>
-
-`ringIndex` [System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')
-
-The index of the ring containing the point to update.
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.SetPoint(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon,int,int,dymaptic.GeoBlazor.Core.Components.Geometries.Point).pointIndex'></a>
-
-`pointIndex` [System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')
-
-The index of the point to update within the ring.
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.SetPoint(dymaptic.GeoBlazor.Core.Components.Geometries.Polygon,int,int,dymaptic.GeoBlazor.Core.Components.Geometries.Point).point'></a>
-
-`point` [Point](dymaptic.GeoBlazor.Core.Components.Geometries.Point.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Point')
-
-The new point to update the polygon with.
-
-#### Returns
-[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[Polygon](dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Polygon')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
-Returns a new polygon with the updated point.
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.SetPoint(dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine,int,int,dymaptic.GeoBlazor.Core.Components.Geometries.Point)'></a>
-
-## GeometryEngine.SetPoint(PolyLine, int, int, Point) Method
-
-Updates a point in a polyline and returns the modified polyline.
-
-```csharp
-public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine> SetPoint(dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine polyLine, int pathIndex, int pointIndex, dymaptic.GeoBlazor.Core.Components.Geometries.Point point);
-```
-#### Parameters
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.SetPoint(dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine,int,int,dymaptic.GeoBlazor.Core.Components.Geometries.Point).polyLine'></a>
-
-`polyLine` [PolyLine](dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine.html 'dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine')
-
-The polyline to update the point in.
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.SetPoint(dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine,int,int,dymaptic.GeoBlazor.Core.Components.Geometries.Point).pathIndex'></a>
-
-`pathIndex` [System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')
-
-The index of the path in which to update a point.
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.SetPoint(dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine,int,int,dymaptic.GeoBlazor.Core.Components.Geometries.Point).pointIndex'></a>
-
-`pointIndex` [System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')
-
-The index of the point in the path to update.
-
-<a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.SetPoint(dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine,int,int,dymaptic.GeoBlazor.Core.Components.Geometries.Point).point'></a>
-
-`point` [Point](dymaptic.GeoBlazor.Core.Components.Geometries.Point.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Point')
-
-The new point to update the polyline with.
-
-#### Returns
-[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[PolyLine](dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine.html 'dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
-Returns a new polyline with the updated point.
 
 <a name='dymaptic.GeoBlazor.Core.Model.GeometryEngine.ToArcGisJson_T_(T)'></a>
 

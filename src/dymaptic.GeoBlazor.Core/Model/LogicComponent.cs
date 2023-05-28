@@ -75,10 +75,13 @@ public abstract class LogicComponent : IDisposable
     {
         var exception = new JavascriptException(error);
 
+#pragma warning disable CS0618
         if (OnJavascriptErrorHandler is not null)
+
         {
             OnJavascriptErrorHandler?.Invoke(exception);
         }
+#pragma warning restore CS0618        
         else
         {
             throw exception;
