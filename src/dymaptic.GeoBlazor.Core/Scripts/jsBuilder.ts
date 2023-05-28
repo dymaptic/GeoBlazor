@@ -81,6 +81,7 @@ import PopupOpenOptions = __esri.PopupOpenOptions;
 import PopupDockOptions = __esri.PopupDockOptions;
 import ContentProperties = __esri.ContentProperties;
 import PopupTriggerActionEvent = __esri.PopupTriggerActionEvent;
+import { buildDotNetGraphic } from "./dotNetBuilder";
 
 export function buildJsSpatialReference(dotNetSpatialReference: DotNetSpatialReference): SpatialReference {
     if (dotNetSpatialReference === undefined || dotNetSpatialReference === null) {
@@ -180,8 +181,14 @@ export function buildJsPopupTemplate(popupTemplateObject: DotNetPopupTemplate, v
     let content;
     if (popupTemplateObject.stringContent !== undefined && popupTemplateObject.stringContent !== null) {
         content = popupTemplateObject.stringContent;
-    } else {
+    } else if (hasValue(popupTemplateObject.content) && popupTemplateObject.content.length > 0) {
         content = popupTemplateObject.content?.map(c => buildJsPopupContent(c));
+    } else {
+        content = async (feature) => {
+            let results : DotNetPopupContent[] | null = await popupTemplateObject.dotNetPopupTemplateReference
+                .invokeMethodAsync("OnContentFunction", buildDotNetGraphic(feature));
+            return results?.map(r => buildJsPopupContent(r));
+        }
     }
     let template = new PopupTemplate({
         title: popupTemplateObject.title ?? undefined,

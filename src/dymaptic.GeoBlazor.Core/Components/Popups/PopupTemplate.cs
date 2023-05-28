@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using dymaptic.GeoBlazor.Core.Components.Layers;
+using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using ProtoBuf;
 using System.Text.Json.Serialization;
@@ -154,6 +155,9 @@ public class PopupTemplate : MapComponent, IEquatable<PopupTemplate>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? ReturnGeometry { get; set; }
+    
+    [Parameter]
+    public Func<Graphic, Task<PopupContent[]?>>? ContentFunction { get; set; }
 
     /// <summary>
     ///     The template for defining and formatting a popup's content, provided as a collection of <see cref="PopupContent" />
@@ -224,6 +228,19 @@ public class PopupTemplate : MapComponent, IEquatable<PopupTemplate>
         {
             await action.CallbackFunction!.Invoke();
         }
+    }
+    
+    [JSInvokable]
+    public async Task<PopupContent[]?> OnContentFunction(Graphic graphic)
+    {
+        PopupContent[]? content = null;
+
+        if (ContentFunction is not null)
+        {
+            content = await ContentFunction.Invoke(graphic);
+        }
+        
+        return content;
     }
 
     /// <inheritdoc />
