@@ -3,6 +3,11 @@ layout: default
 title: WebTileLayer
 parent: Classes
 ---
+---
+layout: default
+title: WebTileLayer
+parent: Classes
+---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Layers](index.html#dymaptic.GeoBlazor.Core.Components.Layers 'dymaptic.GeoBlazor.Core.Components.Layers')
 
@@ -214,3 +219,4 @@ The child to unregister
 
 ### Remarks
 This method is an implementation detail and should not be called directly by consumers. In future versions, this may be changed to an internal method.
+

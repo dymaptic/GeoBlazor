@@ -3,6 +3,11 @@ layout: default
 title: Outline
 parent: Classes
 ---
+---
+layout: default
+title: Outline
+parent: Classes
+---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Symbols](index.html#dymaptic.GeoBlazor.Core.Components.Symbols 'dymaptic.GeoBlazor.Core.Components.Symbols')
 
@@ -55,3 +60,4 @@ The width of the outline in points.
 `lineStyle` [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[LineStyle](dymaptic.GeoBlazor.Core.Components.Symbols.LineStyle.html 'dymaptic.GeoBlazor.Core.Components.Symbols.LineStyle')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 
 The style of the outline.
+

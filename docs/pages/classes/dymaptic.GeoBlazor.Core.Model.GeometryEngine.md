@@ -3,6 +3,11 @@ layout: default
 title: GeometryEngine
 parent: Classes
 ---
+---
+layout: default
+title: GeometryEngine
+parent: Classes
+---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Model](index.html#dymaptic.GeoBlazor.Core.Model 'dymaptic.GeoBlazor.Core.Model')
 
@@ -2199,3 +2204,4 @@ The comparison geometry that is tested for the "contains" relationship to the ot
 #### Returns
 [System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
 Returns true if innerGeometry is within outerGeometry.
+

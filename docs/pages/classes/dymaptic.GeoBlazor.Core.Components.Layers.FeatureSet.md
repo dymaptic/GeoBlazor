@@ -3,6 +3,11 @@ layout: default
 title: FeatureSet
 parent: Classes
 ---
+---
+layout: default
+title: FeatureSet
+parent: Classes
+---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Layers](index.html#dymaptic.GeoBlazor.Core.Components.Layers 'dymaptic.GeoBlazor.Core.Components.Layers')
 
@@ -192,3 +197,4 @@ public dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference? SpatialRe
 
 #### Property Value
 [SpatialReference](dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference.html 'dymaptic.GeoBlazor.Core.Components.Geometries.SpatialReference')
+

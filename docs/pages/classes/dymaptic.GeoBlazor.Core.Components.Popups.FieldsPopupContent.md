@@ -3,6 +3,11 @@ layout: default
 title: FieldsPopupContent
 parent: Classes
 ---
+---
+layout: default
+title: FieldsPopupContent
+parent: Classes
+---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Popups](index.html#dymaptic.GeoBlazor.Core.Components.Popups 'dymaptic.GeoBlazor.Core.Components.Popups')
 
@@ -162,3 +167,4 @@ The child to unregister
 
 ### Remarks
 This method is an implementation detail and should not be called directly by consumers. In future versions, this may be changed to an internal method.
+

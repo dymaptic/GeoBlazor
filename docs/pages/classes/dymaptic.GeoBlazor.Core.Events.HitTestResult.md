@@ -3,6 +3,11 @@ layout: default
 title: HitTestResult
 parent: Classes
 ---
+---
+layout: default
+title: HitTestResult
+parent: Classes
+---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Events](index.html#dymaptic.GeoBlazor.Core.Events 'dymaptic.GeoBlazor.Core.Events')
 
@@ -87,3 +92,4 @@ public dymaptic.GeoBlazor.Core.Events.ScreenPoint ScreenPoint { get; set; }
 
 #### Property Value
 [ScreenPoint](dymaptic.GeoBlazor.Core.Events.ScreenPoint.html 'dymaptic.GeoBlazor.Core.Events.ScreenPoint')
+

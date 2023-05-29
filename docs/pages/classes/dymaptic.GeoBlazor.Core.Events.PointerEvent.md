@@ -3,6 +3,11 @@ layout: default
 title: PointerEvent
 parent: Classes
 ---
+---
+layout: default
+title: PointerEvent
+parent: Classes
+---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Events](index.html#dymaptic.GeoBlazor.Core.Events 'dymaptic.GeoBlazor.Core.Events')
 
@@ -164,3 +169,4 @@ public double Y { get; set; }
 
 #### Property Value
 [System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')
+

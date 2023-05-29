@@ -3,6 +3,11 @@ layout: default
 title: AuthenticationManager
 parent: Classes
 ---
+---
+layout: default
+title: AuthenticationManager
+parent: Classes
+---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Model](index.html#dymaptic.GeoBlazor.Core.Model 'dymaptic.GeoBlazor.Core.Model')
 
@@ -159,3 +164,4 @@ public System.Threading.Tasks.Task Login();
 
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+

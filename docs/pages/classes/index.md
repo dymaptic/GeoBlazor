@@ -4,6 +4,12 @@ title: Index
 nav_order: 1
 parent: Classes
 ---
+---
+layout: default
+title: Index
+nav_order: 1
+parent: Classes
+---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 
 ## dymaptic.GeoBlazor.Core Assembly
@@ -345,4 +351,5 @@ parent: Classes
 | Classes | |
 | :--- | :--- |
 | [EnumToKebabCaseStringConverter&lt;T&gt;](dymaptic.GeoBlazor.Core.Serialization.EnumToKebabCaseStringConverter_T_.html 'dymaptic.GeoBlazor.Core.Serialization.EnumToKebabCaseStringConverter<T>') | Converts an enum to a kebab case string for serialization. |
+
 

@@ -3,6 +3,11 @@ layout: default
 title: LayerViewCreateEvent
 parent: Classes
 ---
+---
+layout: default
+title: LayerViewCreateEvent
+parent: Classes
+---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Events](index.html#dymaptic.GeoBlazor.Core.Events 'dymaptic.GeoBlazor.Core.Events')
 
@@ -69,3 +74,4 @@ public dymaptic.GeoBlazor.Core.Components.Layers.LayerView? LayerView { get; set
 
 #### Property Value
 [LayerView](dymaptic.GeoBlazor.Core.Components.Layers.LayerView.html 'dymaptic.GeoBlazor.Core.Components.Layers.LayerView')
+

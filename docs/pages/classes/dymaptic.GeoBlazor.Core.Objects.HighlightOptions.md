@@ -3,6 +3,11 @@ layout: default
 title: HighlightOptions
 parent: Classes
 ---
+---
+layout: default
+title: HighlightOptions
+parent: Classes
+---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Objects](index.html#dymaptic.GeoBlazor.Core.Objects 'dymaptic.GeoBlazor.Core.Objects')
 
@@ -185,3 +190,4 @@ public System.Nullable<double> ShadowOpacity { get; set; }
 
 ### Remarks
 Only supported on 3D scene views.
+
