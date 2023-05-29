@@ -58,6 +58,13 @@ public class ExpandWidget : Widget
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? CloseOnEsc { get; set; }
+    
+    /// <summary>
+    ///     The custom HTML content to display within the expanded Expand widget.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? HtmlContent { get; set; }
 
     /// <summary>
     ///     The content to display within the expanded Expand widget.
@@ -67,8 +74,7 @@ public class ExpandWidget : Widget
     ///     container of the widget must have a width set in CSS for it to render inside the Expand widget.
     /// </remarks>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [RequiredProperty]
-    public Widget? Content { get; set; }
+    public Widget? WidgetContent { get; set; }
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
@@ -76,9 +82,9 @@ public class ExpandWidget : Widget
         switch (child)
         {
             case Widget widget:
-                if (!widget.Equals(Content))
+                if (!widget.Equals(WidgetContent))
                 {
-                    Content = widget;
+                    WidgetContent = widget;
                 }
 
                 break;
@@ -95,7 +101,7 @@ public class ExpandWidget : Widget
         switch (child)
         {
             case Widget _:
-                Content = null;
+                WidgetContent = null;
 
                 break;
             default:

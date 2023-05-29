@@ -1,5 +1,6 @@
 @page "/scene"
 @using System.Globalization
+@using System.Diagnostics.CodeAnalysis
 
 <PageTitle>Scene</PageTitle>
 <h1>Scene</h1>
@@ -132,5 +133,6 @@
     private SceneView? _view;
     private bool _rendered;
 
+    [SuppressMessage("ReSharper", "NotAccessedPositionalProperty.Local")]
     private record TestObject(string Name, string Description, int Number, DateTime Date, bool Boolean);
 }
