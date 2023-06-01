@@ -125,8 +125,8 @@ function buildDotNetSymbol(symbol: Symbol): DotNetSymbol {
             size: symbol.size,
             style: symbol.style,
             path: symbol.path,
-            xoffset: symbol.xoffset,
-            yoffset: symbol.yoffset,
+            xOffset: symbol.xoffset,
+            yOffset: symbol.yoffset,
         } as DotNetSimpleMarkerSymbol;
         if (symbol.outline !== undefined && symbol.outline !== null) {
             dnMarkerSymbol.outline = buildDotNetSymbol(symbol.outline) as DotNetSimpleLineSymbol;
@@ -163,8 +163,8 @@ function buildDotNetSymbol(symbol: Symbol): DotNetSymbol {
             width: symbol.width,
             height: symbol.height,
             angle: symbol.angle,
-            xoffset: symbol.xoffset,
-            yoffset: symbol.yoffset
+            xOffset: symbol.xoffset,
+            yOffset: symbol.yoffset
         } as DotNetPictureMarkerSymbol;
     }
     if (symbol instanceof TextSymbol) {
@@ -177,8 +177,8 @@ function buildDotNetSymbol(symbol: Symbol): DotNetSymbol {
             kerning: symbol.kerning,
             rotated: symbol.rotated,
             text: symbol.text,
-            xoffset: symbol.xoffset,
-            yoffset: symbol.yoffset,
+            xOffset: symbol.xoffset,
+            yOffset: symbol.yoffset,
             font: {
                 family: symbol.font.family,
                 size: symbol.font.size,
@@ -221,8 +221,8 @@ export function buildDotNetFeature(feature: any): DotNetFeature {
     return dotNetFeature;
 }
 
-export function buildDotNetGeometry(geometry: Geometry): DotNetGeometry | null {
-    switch (geometry.type) {
+export function buildDotNetGeometry(geometry: Geometry | null): DotNetGeometry | null {
+    switch (geometry?.type) {
         case "point":
             return buildDotNetPoint(geometry as Point);
         case "polyline":
@@ -473,7 +473,7 @@ export function buildDotNetPopupTemplate(popupTemplate: PopupTemplate): DotNetPo
 
     if (typeof popupTemplate.content === "string") {
         template.stringContent = popupTemplate.content as string;
-    } else {
+    } else if (typeof popupTemplate.content !== "function") {
         template.content = (popupTemplate.content as any[])?.map(c => buildDotNetPopupContent(c));
     }
 

@@ -169,7 +169,7 @@ export function getGeometryEngineWrapper(dotNetRef: any): GeometryEngineWrapper 
 
 export async function buildMapView(id: string, dotNetReference: any, long: number | null, lat: number | null,
                                    rotation: number, mapObject: any, zoom: number | null, scale: number,
-                                   mapType: string, widgets: any, graphics: any,
+                                   mapType: string, widgets: any[], graphics: any,
                                    spatialReference: any, constraints: any, extent: any,
                                    eventRateLimitInMilliseconds: number | null, activeEventHandlers: Array<string>,
                                    isServer: boolean, highlightOptions?: any | null, zIndex?: number, tilt?: number)
@@ -280,6 +280,12 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
 
         setEventListeners(view, dotNetRef, eventRateLimitInMilliseconds, activeEventHandlers);
 
+        // popup widget needs to be registered before adding layers to not overwrite the popupTemplates
+        let popupWidget = widgets.find(w => w.type === 'popup');
+        if (hasValue(popupWidget)) {
+            await addWidget(popupWidget, id);
+        }
+        
         if (hasValue(mapObject.layers) && mapType !== 'webmap' && mapType !== 'webscene') {
             for (const layerObject of mapObject.layers) {
                 await addLayer(layerObject, id);
@@ -290,7 +296,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
             await addLayer(l, id, true);
         }
 
-        for (const widget of widgets) {
+        for (const widget of widgets.filter(w => w.type !== 'popup')) {
             await addWidget(widget, id);
         }
 
@@ -641,6 +647,7 @@ export function disposeMapComponent(componentId: string, viewId: string): void {
         delete arcGisObjectRefs[componentId];
         let view = arcGisObjectRefs[viewId] as View;
         view?.ui?.remove(component as any);
+        disposeGraphic(componentId);
     } catch (error) {
         logError(error, viewId);
     }
@@ -649,7 +656,7 @@ export function disposeMapComponent(componentId: string, viewId: string): void {
 export function disposeGraphic(graphicId: string) {
     try {
         let graphic = graphicsRefs[graphicId];
-        graphic.destroy();
+        graphic?.destroy();
         delete graphicsRefs[graphicId];
     } catch (error) {
         logError(error, graphicId);
@@ -1689,8 +1696,13 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
             }
             break;
         case 'expand':
-            await createWidget(widget.content, viewId);
-            let content = arcGisObjectRefs[widget.content.id] as Widget;
+            let content: any;
+            if (hasValue(widget.widgetContent)) {
+                await createWidget(widget.widgetContent, viewId);
+                content = arcGisObjectRefs[widget.widgetContent.id] as Widget;
+            } else {
+                content = widget.htmlContent;
+            }
             view.ui.remove(content);
             const expand = new Expand({
                 view,

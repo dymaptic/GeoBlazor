@@ -1,6 +1,7 @@
 ﻿import Popup from "@arcgis/core/widgets/Popup";
 import {buildDotNetGraphic} from "./dotNetBuilder";
 import {DotNetGraphic} from "./definitions";
+import {dotNetRefs, graphicsRefs} from "./arcGisJsInterop";
 
 export default class PopupWidgetWrapper {
     private popup: Popup;
@@ -31,8 +32,14 @@ export default class PopupWidgetWrapper {
         return this.popup.featureCount;
     }
 
-    getSelectedFeature(): DotNetGraphic {
-        return buildDotNetGraphic(this.popup.selectedFeature);
+    async getSelectedFeature(viewId: string | null): Promise<DotNetGraphic> {
+        let feature = this.popup.selectedFeature;
+        let graphic = buildDotNetGraphic(feature);
+        if (viewId !== null) {
+            graphic.id = await dotNetRefs[viewId].invokeMethodAsync('GetId');
+            graphicsRefs[graphic.id as string] = feature;
+        }
+        return graphic;
     }
 
     getSelectedFeatureIndex(): number {

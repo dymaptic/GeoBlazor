@@ -81,6 +81,10 @@ import PopupOpenOptions = __esri.PopupOpenOptions;
 import PopupDockOptions = __esri.PopupDockOptions;
 import ContentProperties = __esri.ContentProperties;
 import PopupTriggerActionEvent = __esri.PopupTriggerActionEvent;
+import { buildDotNetGraphic } from "./dotNetBuilder";
+import ActionBase from "@arcgis/core/support/actions/ActionBase";
+import ActionButton from "@arcgis/core/support/actions/ActionButton";
+import ActionToggle from "@arcgis/core/support/actions/ActionToggle";
 
 export function buildJsSpatialReference(dotNetSpatialReference: DotNetSpatialReference): SpatialReference {
     if (dotNetSpatialReference === undefined || dotNetSpatialReference === null) {
@@ -186,8 +190,19 @@ export function buildJsPopupTemplate(popupTemplateObject: DotNetPopupTemplate, v
     let content;
     if (popupTemplateObject.stringContent !== undefined && popupTemplateObject.stringContent !== null) {
         content = popupTemplateObject.stringContent;
-    } else {
+    } else if (hasValue(popupTemplateObject.content) && popupTemplateObject.content.length > 0) {
         content = popupTemplateObject.content?.map(c => buildJsPopupContent(c));
+    } else {
+        content = async (featureSelection) => {
+            try {
+                let results : DotNetPopupContent[] | null = await popupTemplateObject.dotNetPopupTemplateReference
+                    .invokeMethodAsync("OnContentFunction", buildDotNetGraphic(featureSelection.graphic));
+                return results?.map(r => buildJsPopupContent(r));   
+            } catch (error) {
+                console.error(error);
+                return null;
+            }
+        }
     }
     let template = new PopupTemplate({
         title: popupTemplateObject.title ?? undefined,

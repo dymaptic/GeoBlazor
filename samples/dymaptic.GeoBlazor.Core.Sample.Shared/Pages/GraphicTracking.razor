@@ -46,7 +46,7 @@
             var attributes = new Dictionary<string, object> { { i.ToString(), i } };
             var graphic = new Graphic(
                 new Point(_lon + _random.NextDouble() / 100, _lat + _random.NextDouble() / 100),
-                attributes: attributes);
+                attributes: (AttributesDictionary)attributes);
             graphics.Add(graphic);
         }
         await _graphicsLayer!.Add(graphics);
@@ -58,7 +58,7 @@
         while (_isMoving)
         {
             Graphic? graphic = _graphicsLayer!.Graphics
-                .FirstOrDefault(x => x.Attributes!.ContainsKey(_index.ToString()));
+                .FirstOrDefault(x => x.Attributes.ContainsKey(_index.ToString()));
             if (graphic is null) continue;
 
             var currentPoint = (Point)graphic.Geometry!;

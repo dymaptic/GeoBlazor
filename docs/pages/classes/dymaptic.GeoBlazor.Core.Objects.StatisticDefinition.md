@@ -3,6 +3,11 @@ layout: default
 title: StatisticDefinition
 parent: Classes
 ---
+---
+layout: default
+title: StatisticDefinition
+parent: Classes
+---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Objects](index.html#dymaptic.GeoBlazor.Core.Objects 'dymaptic.GeoBlazor.Core.Objects')
 
@@ -117,3 +122,4 @@ public dymaptic.GeoBlazor.Core.Objects.StatisticType StatisticType { get; set; }
 
 #### Property Value
 [StatisticType](dymaptic.GeoBlazor.Core.Objects.StatisticType.html 'dymaptic.GeoBlazor.Core.Objects.StatisticType')
+

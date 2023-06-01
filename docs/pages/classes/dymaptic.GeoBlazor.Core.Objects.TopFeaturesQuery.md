@@ -3,6 +3,11 @@ layout: default
 title: TopFeaturesQuery
 parent: Classes
 ---
+---
+layout: default
+title: TopFeaturesQuery
+parent: Classes
+---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Objects](index.html#dymaptic.GeoBlazor.Core.Objects 'dymaptic.GeoBlazor.Core.Objects')
 
@@ -310,3 +315,4 @@ public string? Where { get; set; }
 
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+

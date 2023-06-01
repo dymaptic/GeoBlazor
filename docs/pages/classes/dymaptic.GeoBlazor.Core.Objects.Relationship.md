@@ -3,6 +3,11 @@ layout: default
 title: Relationship
 parent: Classes
 ---
+---
+layout: default
+title: Relationship
+parent: Classes
+---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Objects](index.html#dymaptic.GeoBlazor.Core.Objects 'dymaptic.GeoBlazor.Core.Objects')
 
@@ -139,3 +144,4 @@ public System.Nullable<dymaptic.GeoBlazor.Core.Objects.Role> Role { get; set; }
 
 #### Property Value
 [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[Role](dymaptic.GeoBlazor.Core.Objects.Role.html 'dymaptic.GeoBlazor.Core.Objects.Role')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
+

@@ -101,41 +101,7 @@
             _longs.Add(_random.NextDouble() * 10 + 11.0);
         }
     }
-
-    private async Task AddGraphicsToView()
-    {
-        List<Graphic> graphics = new();
-        for (var i = 0; i < 10_000; i++)
-        {
-            graphics.Add(new Graphic(new Point(_random.NextDouble() * 10 + 11.0,
-                _random.NextDouble() * 10 + 50.0), new SimpleMarkerSymbol(
-                    new Outline(new MapColor("green")), new MapColor("red"), 10),
-                new PopupTemplate("Test", "Test Content<br/>{testString}<br/>{testNumber}", new[] { "*" }),
-                new Dictionary<string, object> { { "testString", "test" }, { "testNumber", 123 } }));
-        }
-        await _delayedMapView!.AddGraphics(graphics);
-    }
-
-    private async Task AddGraphicsToLayer()
-    {
-        List<Graphic> graphics = new();
-        for (var i = 0; i < 10_000; i++)
-        {
-            graphics.Add(new Graphic(new Point(_random.NextDouble() * 10 + 11.0,
-                _random.NextDouble() * 10 + 50.0), new SimpleMarkerSymbol(
-                    new Outline(new MapColor("green")), new MapColor("red"), 10),
-                new PopupTemplate("Test", "Test Content<br/>{testString}<br/>{testNumber}", new[] { "*" }),
-                new Dictionary<string, object> { { "testString", "test" }, { "testNumber", 123 } }));
-        }
-        await _delayedGraphicsLayer!.Add(graphics);
-    }
-
-    private async Task ClearGraphics()
-    {
-        await _delayedGraphicsLayer!.Clear();
-        await _delayedMapView!.ClearGraphics();
-    }
-
+    
     private Task OnExtentChanged(Extent extent)
     {
         return Task.CompletedTask;
@@ -213,6 +179,4 @@
     private readonly List<double> _lats = new();
     private readonly List<double> _longs = new();
     private MapView? _view3;
-    private MapView? _delayedMapView;
-    private GraphicsLayer? _delayedGraphicsLayer;
 }

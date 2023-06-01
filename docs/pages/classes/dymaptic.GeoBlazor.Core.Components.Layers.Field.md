@@ -3,6 +3,11 @@ layout: default
 title: Field
 parent: Classes
 ---
+---
+layout: default
+title: Field
+parent: Classes
+---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Layers](index.html#dymaptic.GeoBlazor.Core.Components.Layers 'dymaptic.GeoBlazor.Core.Components.Layers')
 
@@ -211,3 +216,4 @@ public System.Nullable<dymaptic.GeoBlazor.Core.Components.Layers.FieldValueType>
 
 #### Property Value
 [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[FieldValueType](dymaptic.GeoBlazor.Core.Components.Layers.FieldValueType.html 'dymaptic.GeoBlazor.Core.Components.Layers.FieldValueType')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
+
