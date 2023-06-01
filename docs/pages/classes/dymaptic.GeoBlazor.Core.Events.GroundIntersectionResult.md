@@ -3,11 +3,6 @@ layout: default
 title: GroundIntersectionResult
 parent: Classes
 ---
----
-layout: default
-title: GroundIntersectionResult
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Events](index.html#dymaptic.GeoBlazor.Core.Events 'dymaptic.GeoBlazor.Core.Events')
 
@@ -45,4 +40,3 @@ public GroundIntersectionResult(dymaptic.GeoBlazor.Core.Components.Geometries.Po
 <a name='dymaptic.GeoBlazor.Core.Events.GroundIntersectionResult.GroundIntersectionResult(dymaptic.GeoBlazor.Core.Components.Geometries.Point,double).Distance'></a>
 
 `Distance` [System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')
-

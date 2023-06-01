@@ -3,11 +3,6 @@ layout: default
 title: DefaultSymbol
 parent: Classes
 ---
----
-layout: default
-title: DefaultSymbol
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Renderers](index.html#dymaptic.GeoBlazor.Core.Components.Renderers 'dymaptic.GeoBlazor.Core.Components.Renderers')
 
@@ -86,4 +81,3 @@ The child to unregister
 
 ### Remarks
 This method is an implementation detail and should not be called directly by consumers. In future versions, this may be changed to an internal method.
-

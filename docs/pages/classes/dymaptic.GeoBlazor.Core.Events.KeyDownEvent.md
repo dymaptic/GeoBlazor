@@ -3,11 +3,6 @@ layout: default
 title: KeyDownEvent
 parent: Classes
 ---
----
-layout: default
-title: KeyDownEvent
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Events](index.html#dymaptic.GeoBlazor.Core.Events 'dymaptic.GeoBlazor.Core.Events')
 
@@ -120,4 +115,3 @@ public bool Repeat { get; set; }
 
 #### Property Value
 [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
-

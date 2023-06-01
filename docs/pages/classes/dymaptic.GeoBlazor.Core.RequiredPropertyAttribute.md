@@ -3,11 +3,6 @@ layout: default
 title: RequiredPropertyAttribute
 parent: Classes
 ---
----
-layout: default
-title: RequiredPropertyAttribute
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core](index.html#dymaptic.GeoBlazor.Core 'dymaptic.GeoBlazor.Core')
 
@@ -54,4 +49,3 @@ public string[]? OtherOptions { get; }
 
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')
-

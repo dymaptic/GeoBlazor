@@ -3,11 +3,6 @@ layout: default
 title: UnMatchedTargetNameException
 parent: Classes
 ---
----
-layout: default
-title: UnMatchedTargetNameException
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Exceptions](index.html#dymaptic.GeoBlazor.Core.Exceptions 'dymaptic.GeoBlazor.Core.Exceptions')
 
@@ -44,4 +39,3 @@ The targetName parameter from the throwing method.
 `watchExpression` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 
 The watchExpression parameter from the throwing method.
-

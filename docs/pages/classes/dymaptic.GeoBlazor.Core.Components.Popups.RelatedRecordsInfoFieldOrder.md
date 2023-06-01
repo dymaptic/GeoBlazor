@@ -3,11 +3,6 @@ layout: default
 title: RelatedRecordsInfoFieldOrder
 parent: Classes
 ---
----
-layout: default
-title: RelatedRecordsInfoFieldOrder
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Popups](index.html#dymaptic.GeoBlazor.Core.Components.Popups 'dymaptic.GeoBlazor.Core.Components.Popups')
 
@@ -49,4 +44,3 @@ public System.Nullable<dymaptic.GeoBlazor.Core.Objects.OrderBy> Order { get; set
 
 #### Property Value
 [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[OrderBy](dymaptic.GeoBlazor.Core.Objects.OrderBy.html 'dymaptic.GeoBlazor.Core.Objects.OrderBy')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
-

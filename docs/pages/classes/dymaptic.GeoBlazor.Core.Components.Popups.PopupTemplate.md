@@ -3,11 +3,6 @@ layout: default
 title: PopupTemplate
 parent: Classes
 ---
----
-layout: default
-title: PopupTemplate
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Popups](index.html#dymaptic.GeoBlazor.Core.Components.Popups 'dymaptic.GeoBlazor.Core.Components.Popups')
 
@@ -314,6 +309,25 @@ public override int GetHashCode();
 [System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')  
 A hash code for the current object.
 
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.OnContentFunction(dymaptic.GeoBlazor.Core.Components.Layers.Graphic)'></a>
+
+## PopupTemplate.OnContentFunction(Graphic) Method
+
+JS-invokable method that triggers a custom [ContentFunction](dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.html#dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.ContentFunction 'dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.ContentFunction') for building the popup content.  
+Should not be called by consuming code.
+
+```csharp
+public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Popups.PopupContent[]?> OnContentFunction(dymaptic.GeoBlazor.Core.Components.Layers.Graphic graphic);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.OnContentFunction(dymaptic.GeoBlazor.Core.Components.Layers.Graphic).graphic'></a>
+
+`graphic` [Graphic](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic')
+
+#### Returns
+[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[PopupContent](dymaptic.GeoBlazor.Core.Components.Popups.PopupContent.html 'dymaptic.GeoBlazor.Core.Components.Popups.PopupContent')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')
+
 <a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.OnTriggerAction(string)'></a>
 
 ## PopupTemplate.OnTriggerAction(string) Method
@@ -429,4 +443,3 @@ public static bool operator !=(dymaptic.GeoBlazor.Core.Components.Popups.PopupTe
 
 #### Returns
 [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
-

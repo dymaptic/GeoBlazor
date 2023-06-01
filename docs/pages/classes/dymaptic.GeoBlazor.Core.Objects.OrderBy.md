@@ -3,11 +3,6 @@ layout: default
 title: OrderBy
 parent: Classes
 ---
----
-layout: default
-title: OrderBy
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Objects](index.html#dymaptic.GeoBlazor.Core.Objects 'dymaptic.GeoBlazor.Core.Objects')
 
@@ -20,4 +15,3 @@ to descending (DESC) the result is 2. The default is ASC.
 ```csharp
 public enum OrderBy
 ```
-

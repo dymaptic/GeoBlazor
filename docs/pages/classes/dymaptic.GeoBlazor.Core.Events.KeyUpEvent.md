@@ -3,11 +3,6 @@ layout: default
 title: KeyUpEvent
 parent: Classes
 ---
----
-layout: default
-title: KeyUpEvent
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Events](index.html#dymaptic.GeoBlazor.Core.Events 'dymaptic.GeoBlazor.Core.Events')
 
@@ -101,4 +96,3 @@ public string Key { get; set; }
 
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
-
