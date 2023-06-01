@@ -138,6 +138,10 @@ public abstract class LogicComponent : IDisposable
     ///     The reference to the JS Runtime.
     /// </summary>
     protected readonly IJSRuntime JsRuntime;
+    
+    /// <summary>
+    ///    The reference to the Authentication Manager.
+    /// </summary>
     protected readonly AuthenticationManager AuthenticationManager;
 
     /// <summary>
