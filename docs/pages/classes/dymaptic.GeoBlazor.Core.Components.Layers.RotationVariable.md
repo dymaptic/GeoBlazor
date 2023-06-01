@@ -3,6 +3,11 @@ layout: default
 title: RotationVariable
 parent: Classes
 ---
+---
+layout: default
+title: RotationVariable
+parent: Classes
+---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Layers](index.html#dymaptic.GeoBlazor.Core.Components.Layers 'dymaptic.GeoBlazor.Core.Components.Layers')
 
@@ -58,3 +63,4 @@ public override dymaptic.GeoBlazor.Core.Components.Layers.VisualVariableType Var
 
 #### Property Value
 [VisualVariableType](dymaptic.GeoBlazor.Core.Components.Layers.VisualVariableType.html 'dymaptic.GeoBlazor.Core.Components.Layers.VisualVariableType')
+

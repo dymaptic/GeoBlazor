@@ -3,6 +3,11 @@ layout: default
 title: AttributesDictionary
 parent: Classes
 ---
+---
+layout: default
+title: AttributesDictionary
+parent: Classes
+---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Objects](index.html#dymaptic.GeoBlazor.Core.Objects 'dymaptic.GeoBlazor.Core.Objects')
 
@@ -406,3 +411,4 @@ public static bool operator !=(dymaptic.GeoBlazor.Core.Objects.AttributesDiction
 
 #### Returns
 [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
+

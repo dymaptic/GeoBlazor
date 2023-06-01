@@ -3,6 +3,11 @@ layout: default
 title: TimeExtent
 parent: Classes
 ---
+---
+layout: default
+title: TimeExtent
+parent: Classes
+---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Objects](index.html#dymaptic.GeoBlazor.Core.Objects 'dymaptic.GeoBlazor.Core.Objects')
 
@@ -40,3 +45,4 @@ public TimeExtent(System.DateTime Start, System.DateTime End);
 <a name='dymaptic.GeoBlazor.Core.Objects.TimeExtent.TimeExtent(System.DateTime,System.DateTime).End'></a>
 
 `End` [System.DateTime](https://docs.microsoft.com/en-us/dotnet/api/System.DateTime 'System.DateTime')
+

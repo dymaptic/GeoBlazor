@@ -3,6 +3,11 @@ layout: default
 title: LayerView
 parent: Classes
 ---
+---
+layout: default
+title: LayerView
+parent: Classes
+---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Layers](index.html#dymaptic.GeoBlazor.Core.Components.Layers 'dymaptic.GeoBlazor.Core.Components.Layers')
 
@@ -114,3 +119,4 @@ public void Dispose();
 ```
 
 Implements [Dispose()](https://docs.microsoft.com/en-us/dotnet/api/System.IDisposable.Dispose 'System.IDisposable.Dispose')
+

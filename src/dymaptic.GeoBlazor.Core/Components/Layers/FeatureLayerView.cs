@@ -248,7 +248,7 @@ public class FeatureLayerView : LayerView
             await _abortManager.CreateAbortSignal(cancellationToken);
 
         FeatureSet? result = await JsObjectReference!.InvokeAsync<FeatureSet?>("queryFeatures", cancellationToken,
-            query, new { signal = abortSignal }, DotNetObjectReference.Create(this));
+            query, new { signal = abortSignal }, DotNetObjectReference.Create(this), Layer.View?.Id);
 
         if (_isServer && result is null)
         {

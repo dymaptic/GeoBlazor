@@ -2,13 +2,27 @@
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import Query from "@arcgis/core/rest/support/Query";
 import FeatureSet from "@arcgis/core/rest/support/FeatureSet";
-import {DotNetPopupTemplate, DotNetQuery, DotNetRelationshipQuery, DotNetTopFeaturesQuery} from "./definitions";
+import {
+    DotNetFeatureSet,
+    DotNetGraphic,
+    DotNetPopupTemplate,
+    DotNetQuery,
+    DotNetRelationshipQuery,
+    DotNetTopFeaturesQuery
+} from "./definitions";
 import {buildJsQuery, buildJsRelationshipQuery, buildJsTopFeaturesQuery} from "./jsBuilder";
-import {buildDotNetExtent, buildDotNetPopupTemplate} from "./dotNetBuilder";
-import {blazorServer} from "./arcGisJsInterop";
+import {
+    buildDotNetExtent,
+    buildDotNetGeometry,
+    buildDotNetGraphic,
+    buildDotNetPopupTemplate,
+    buildDotNetSpatialReference
+} from "./dotNetBuilder";
+import {blazorServer, dotNetRefs, graphicsRefs} from "./arcGisJsInterop";
+import Graphic from "@arcgis/core/Graphic";
 
 export default class FeatureLayerWrapper {
-    private layer: FeatureLayer;
+    public layer: FeatureLayer;
 
     constructor(layer: FeatureLayer) {
         this.layer = layer;
@@ -44,14 +58,35 @@ export default class FeatureLayerWrapper {
         };
     }
 
-    async queryFeatures(query: DotNetQuery, options: any, dotNetRef: any): Promise<FeatureSet | null> {
+    async queryFeatures(query: DotNetQuery, options: any, dotNetRef: any, viewId: string | null)
+        : Promise<DotNetFeatureSet | null> {
         try {
             let jsQuery = buildJsQuery(query);
             let featureSet = await this.layer.queryFeatures(jsQuery, options);
-            if (!blazorServer) {
-                return featureSet;
+            let dotNetFeatureSet : DotNetFeatureSet = {
+                features: [],
+                displayFieldName: featureSet.displayFieldName,
+                exceededTransferLimit: featureSet.exceededTransferLimit,
+                fields: featureSet.fields,
+                geometryType: featureSet.geometryType,
+                queryGeometry: buildDotNetGeometry(featureSet.queryGeometry),
+                spatialReference: buildDotNetSpatialReference(featureSet.spatialReference)
+            };
+            let graphics : DotNetGraphic[] = [];
+            for (let i = 0; i < featureSet.features.length; i++) {
+                let feature = featureSet.features[i];
+                let graphic : DotNetGraphic = buildDotNetGraphic(feature) as DotNetGraphic;
+                if (viewId !== undefined && viewId !== null) {
+                    graphic.id = await dotNetRefs[viewId].invokeMethodAsync('GetId');
+                    graphicsRefs[graphic.id as string] = feature;
+                }
+                graphics.push(graphic);
             }
-            let jsonSet = JSON.stringify(featureSet);
+            dotNetFeatureSet.features = graphics;
+            if (!blazorServer || dotNetRef === undefined || dotNetRef === null) {
+                return dotNetFeatureSet;
+            }
+            let jsonSet = JSON.stringify(dotNetFeatureSet);
             let chunkSize = 1000;
             let chunks = Math.ceil(jsonSet.length / chunkSize);
             for (let i = 0; i < chunks; i++) {
@@ -75,14 +110,42 @@ export default class FeatureLayerWrapper {
         return await this.layer.queryObjectIds(jsQuery, options);
     }
 
-    async queryRelatedFeatures(query: DotNetRelationshipQuery, options: any, dotNetRef: any): Promise<FeatureSet | null> {
+    async queryRelatedFeatures(query: DotNetRelationshipQuery, options: any, dotNetRef: any, viewId: string | null)
+        : Promise<any | null> {
         try {
             let jsQuery = buildJsRelationshipQuery(query);
-            let featureSetsDisctionary = await this.layer.queryRelatedFeatures(jsQuery, options);
-            if (!blazorServer) {
-                return featureSetsDisctionary;
+            let featureSetsDictionary = await this.layer.queryRelatedFeatures(jsQuery, options);
+            let graphicsDictionary : any = {};
+            for (let prop in featureSetsDictionary) {
+                if (featureSetsDictionary.hasOwnProperty(prop)) {
+                    let featureSet = featureSetsDictionary[prop] as FeatureSet;
+                    let dotNetFeatureSet : DotNetFeatureSet = {
+                        features: [],
+                        displayFieldName: featureSet.displayFieldName,
+                        exceededTransferLimit: featureSet.exceededTransferLimit,
+                        fields: featureSet.fields,
+                        geometryType: featureSet.geometryType,
+                        queryGeometry: buildDotNetGeometry(featureSet.queryGeometry),
+                        spatialReference: buildDotNetSpatialReference(featureSet.spatialReference)
+                    };
+                    let graphics : DotNetGraphic[] = [];
+                    for (let i = 0; i < featureSet.features.length; i++) {
+                        let feature = featureSet.features[i];
+                        let graphic : DotNetGraphic = buildDotNetGraphic(feature) as DotNetGraphic;
+                        if (viewId !== undefined && viewId !== null) {
+                            graphic.id = await dotNetRefs[viewId].invokeMethodAsync('GetId');
+                            graphicsRefs[graphic.id as string] = feature;
+                        }
+                        graphics.push(graphic);
+                    }
+                    dotNetFeatureSet.features = graphics;
+                    graphicsDictionary[prop] = dotNetFeatureSet;
+                }
             }
-            let jsonSet = JSON.stringify(featureSetsDisctionary);
+            if (!blazorServer) {
+                return graphicsDictionary;
+            }
+            let jsonSet = JSON.stringify(graphicsDictionary);
             let chunkSize = 1000;
             let chunks = Math.ceil(jsonSet.length / chunkSize);
             for (let i = 0; i < chunks; i++) {
@@ -102,14 +165,35 @@ export default class FeatureLayerWrapper {
     }
 
 
-    async queryTopFeatures(query: DotNetTopFeaturesQuery, options: any, dotNetRef: any): Promise<FeatureSet | null> {
+    async queryTopFeatures(query: DotNetTopFeaturesQuery, options: any, dotNetRef: any, viewId: string | null)
+        : Promise<DotNetFeatureSet | null> {
         try {
             let jsQuery = buildJsTopFeaturesQuery(query);
             let featureSet = await this.layer.queryTopFeatures(jsQuery, options);
-            if (!blazorServer) {
-                return featureSet;
+            let dotNetFeatureSet : DotNetFeatureSet = {
+                features: [],
+                displayFieldName: featureSet.displayFieldName,
+                exceededTransferLimit: featureSet.exceededTransferLimit,
+                fields: featureSet.fields,
+                geometryType: featureSet.geometryType,
+                queryGeometry: buildDotNetGeometry(featureSet.queryGeometry),
+                spatialReference: buildDotNetSpatialReference(featureSet.spatialReference)
+            };
+            let graphics : DotNetGraphic[] = [];
+            for (let i = 0; i < featureSet.features.length; i++) {
+                let feature = featureSet.features[i];
+                let graphic : DotNetGraphic = buildDotNetGraphic(feature) as DotNetGraphic;
+                if (viewId !== undefined && viewId !== null) {
+                    graphic.id = await dotNetRefs[viewId].invokeMethodAsync('GetId');
+                    graphicsRefs[graphic.id as string] = feature;
+                }
+                graphics.push(graphic);
             }
-            let jsonSet = JSON.stringify(featureSet);
+            dotNetFeatureSet.features = graphics;
+            if (!blazorServer) {
+                return dotNetFeatureSet;
+            }
+            let jsonSet = JSON.stringify(dotNetFeatureSet);
             let chunkSize = 1000;
             let chunks = Math.ceil(jsonSet.length / chunkSize);
             for (let i = 0; i < chunks; i++) {

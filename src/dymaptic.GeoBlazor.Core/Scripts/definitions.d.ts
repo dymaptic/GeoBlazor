@@ -28,6 +28,16 @@ export interface DotNetFeature {
     attributes: any;
 }
 
+export interface DotNetFeatureSet {
+    features: DotNetGraphic[];
+    displayFieldName: string;
+    exceededTransferLimit: boolean;
+    fields: any[];
+    geometryType: string;
+    queryGeometry: DotNetGeometry | null;
+    spatialReference: DotNetSpatialReference | null;
+}
+
 export interface DotNetGeometry {
     type: string;
     spatialReference: DotNetSpatialReference;

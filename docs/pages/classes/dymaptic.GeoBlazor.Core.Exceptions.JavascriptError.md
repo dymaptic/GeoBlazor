@@ -3,6 +3,11 @@ layout: default
 title: JavascriptError
 parent: Classes
 ---
+---
+layout: default
+title: JavascriptError
+parent: Classes
+---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Exceptions](index.html#dymaptic.GeoBlazor.Core.Exceptions 'dymaptic.GeoBlazor.Core.Exceptions')
 
@@ -88,3 +93,4 @@ public string? Stack { get; set; }
 
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
