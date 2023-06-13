@@ -1749,7 +1749,7 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
             if (hasValue(widget.label)) {
                 bookmarksWidget.label = widget.label;
             }
-            if ()
+            
             break;
         default:
             return null;
