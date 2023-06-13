@@ -1738,6 +1738,19 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
         case 'popup':
             newWidget = await setPopup(widget, viewId) as Popup;
             break;
+        case 'bookmarks':
+            const bookmarksWidget = new BookmarksWidget({
+                view: view
+            });
+            newWidget = bookmarksWidget;
+            if (hasValue(widget.iconClass)) {
+                bookmarksWidget.iconClass = widget.iconClass;
+            }
+            if (hasValue(widget.label)) {
+                bookmarksWidget.label = widget.label;
+            }
+            if ()
+            break;
         default:
             return null;
     }
