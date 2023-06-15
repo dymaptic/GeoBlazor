@@ -2,7 +2,7 @@
 import Extent from "@arcgis/core/geometry/Extent";
 import Graphic from "@arcgis/core/Graphic";
 import PopupTemplate from "@arcgis/core/PopupTemplate";
-import {arcGisObjectRefs} from "./arcGisJsInterop";
+import {arcGisObjectRefs, triggerActionHandler} from "./arcGisJsInterop";
 import Geometry from "@arcgis/core/geometry/Geometry";
 import Point from "@arcgis/core/geometry/Point";
 import Polyline from "@arcgis/core/geometry/Polyline";
@@ -227,7 +227,13 @@ export function buildJsPopupTemplate(popupTemplateObject: DotNetPopupTemplate, v
     if (viewId !== null) {
         let view = arcGisObjectRefs[viewId] as View;
         if (hasValue(view)) {
-            view.popup.on("trigger-action", async (event: PopupTriggerActionEvent) => {
+            if (hasValue(triggerActionHandler)) {
+                triggerActionHandler.remove();
+            }
+            if (hasValue(templateTriggerActionHandler)) {
+                templateTriggerActionHandler.remove();
+            }
+            templateTriggerActionHandler = view.popup.on("trigger-action", async (event: PopupTriggerActionEvent) => {
                 await popupTemplateObject.dotNetPopupTemplateReference.invokeMethodAsync("OnTriggerAction", event.action.id);
             });
         }
@@ -235,6 +241,8 @@ export function buildJsPopupTemplate(popupTemplateObject: DotNetPopupTemplate, v
 
     return template;
 }
+
+export let templateTriggerActionHandler: IHandle;
 
 export function buildJsPopupContent(popupContentObject: DotNetPopupContent): ContentProperties | null {
     switch (popupContentObject?.type) {
