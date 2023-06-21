@@ -9,15 +9,15 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\src\dymaptic.GeoBlazor.Core\dymaptic.GeoBlazor.Core.csproj"/>
+        <ProjectReference Include="..\..\src\dymaptic.GeoBlazor.Core\dymaptic.GeoBlazor.Core.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="MSTest.TestFramework" Version="3.0.2"/>
+        <PackageReference Include="MSTest.TestFramework" Version="3.0.2" />
     </ItemGroup>
 
     <ItemGroup>
-        <None Remove="TestResults.md"/>
+        <None Remove="TestResults.md" />
     </ItemGroup>
 
 </Project>

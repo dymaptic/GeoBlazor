@@ -1533,21 +1533,14 @@ public partial class MapView : MapComponent
     /// </param>
     public async Task RemoveGraphic(Graphic graphic)
     {
-        try
-        {
-            _graphics.Remove(graphic);
-            graphic.Parent = null;
-            graphic.View = null;
+        _graphics.Remove(graphic);
+        graphic.Parent = null;
+        graphic.View = null;
 
-            if (ViewJsModule is null) return;
+        if (ViewJsModule is null) return;
 
-            await ViewJsModule!.InvokeVoidAsync("removeGraphic", CancellationTokenSource.Token,
-                graphic.Id, View!.Id, Id);
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex);
-        }
+        await ViewJsModule!.InvokeVoidAsync("removeGraphic", CancellationTokenSource.Token,
+            graphic.Id, Id);
     }
 
     /// <summary>
