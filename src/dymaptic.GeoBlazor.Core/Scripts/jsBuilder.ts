@@ -2,7 +2,7 @@
 import Extent from "@arcgis/core/geometry/Extent";
 import Graphic from "@arcgis/core/Graphic";
 import PopupTemplate from "@arcgis/core/PopupTemplate";
-import {arcGisObjectRefs} from "./arcGisJsInterop";
+import {arcGisObjectRefs, triggerActionHandler} from "./arcGisJsInterop";
 import Geometry from "@arcgis/core/geometry/Geometry";
 import Point from "@arcgis/core/geometry/Point";
 import Polyline from "@arcgis/core/geometry/Polyline";
@@ -81,6 +81,10 @@ import PopupOpenOptions = __esri.PopupOpenOptions;
 import PopupDockOptions = __esri.PopupDockOptions;
 import ContentProperties = __esri.ContentProperties;
 import PopupTriggerActionEvent = __esri.PopupTriggerActionEvent;
+import { buildDotNetGraphic } from "./dotNetBuilder";
+import ActionBase from "@arcgis/core/support/actions/ActionBase";
+import ActionButton from "@arcgis/core/support/actions/ActionButton";
+import ActionToggle from "@arcgis/core/support/actions/ActionToggle";
 
 export function buildJsSpatialReference(dotNetSpatialReference: DotNetSpatialReference): SpatialReference {
     if (dotNetSpatialReference === undefined || dotNetSpatialReference === null) {
@@ -100,31 +104,31 @@ export function buildJsSpatialReference(dotNetSpatialReference: DotNetSpatialRef
 
 export function buildJsExtent(dotNetExtent: DotNetExtent, currentSpatialReference: SpatialReference | null): Extent {
     let extent = new Extent();
-    if (dotNetExtent.xmax !== undefined && dotNetExtent.xmax !== null) {
+    if (hasValue(dotNetExtent.xmax)) {
         extent.xmax = dotNetExtent.xmax;
     }
-    if (dotNetExtent.xmin !== undefined && dotNetExtent.xmin !== null) {
+    if (hasValue(dotNetExtent.xmin)) {
         extent.xmin = dotNetExtent.xmin;
     }
-    if (dotNetExtent.ymax !== undefined && dotNetExtent.ymax !== null) {
+    if (hasValue(dotNetExtent.ymax)) {
         extent.ymax = dotNetExtent.ymax;
     }
-    if (dotNetExtent.ymin !== undefined && dotNetExtent.ymin !== null) {
+    if (hasValue(dotNetExtent.ymin)) {
         extent.ymin = dotNetExtent.ymin;
     }
-    if (dotNetExtent.zmax !== undefined && dotNetExtent.zmax !== null) {
+    if (hasValue(dotNetExtent.zmax)) {
         extent.zmax = dotNetExtent.zmax;
     }
-    if (dotNetExtent.zmin !== undefined && dotNetExtent.zmin !== null) {
+    if (hasValue(dotNetExtent.zmin)) {
         extent.zmin = dotNetExtent.zmin;
     }
-    if (dotNetExtent.mmax !== undefined && dotNetExtent.mmax !== null) {
+    if (hasValue(dotNetExtent.mmax)) {
         extent.mmax = dotNetExtent.mmax;
     }
-    if (dotNetExtent.mmin !== undefined && dotNetExtent.mmin !== null) {
+    if (hasValue(dotNetExtent.mmin)) {
         extent.mmin = dotNetExtent.mmin;
     }
-    if (dotNetExtent.spatialReference !== undefined && dotNetExtent.spatialReference !== null) {
+    if (hasValue(dotNetExtent.spatialReference)) {
         extent.spatialReference = buildJsSpatialReference(dotNetExtent.spatialReference)
     } else if (currentSpatialReference !== null) {
         extent.spatialReference = currentSpatialReference;
@@ -184,10 +188,21 @@ export function buildJsAttributes(attributes: any): any {
 
 export function buildJsPopupTemplate(popupTemplateObject: DotNetPopupTemplate, viewId: string | null): PopupTemplate {
     let content;
-    if (popupTemplateObject.stringContent !== undefined && popupTemplateObject.stringContent !== null) {
+    if (hasValue(popupTemplateObject.stringContent)) {
         content = popupTemplateObject.stringContent;
-    } else {
+    } else if (hasValue(popupTemplateObject.content) && popupTemplateObject.content.length > 0) {
         content = popupTemplateObject.content?.map(c => buildJsPopupContent(c));
+    } else {
+        content = async (featureSelection) => {
+            try {
+                let results : DotNetPopupContent[] | null = await popupTemplateObject.dotNetPopupTemplateReference
+                    .invokeMethodAsync("OnContentFunction", buildDotNetGraphic(featureSelection.graphic));
+                return results?.map(r => buildJsPopupContent(r));
+            } catch (error) {
+                console.error(error);
+                return null;
+            }
+        }
     }
     let template = new PopupTemplate({
         title: popupTemplateObject.title ?? undefined,
@@ -197,22 +212,28 @@ export function buildJsPopupTemplate(popupTemplateObject: DotNetPopupTemplate, v
         returnGeometry: popupTemplateObject.returnGeometry ?? false
     });
 
-    if (popupTemplateObject.fieldInfos !== undefined && popupTemplateObject.fieldInfos !== null) {
+    if (hasValue(popupTemplateObject.fieldInfos)) {
         template.fieldInfos = popupTemplateObject.fieldInfos.map(f => buildJsFieldInfo(f));
     }
 
-    if (popupTemplateObject.expressionInfos !== undefined && popupTemplateObject.expressionInfos !== null) {
+    if (hasValue(popupTemplateObject.expressionInfos)) {
         template.expressionInfos = popupTemplateObject.expressionInfos.map(e => buildJsExpressionInfo(e));
     }
 
-    if (popupTemplateObject.actions !== undefined && popupTemplateObject.actions !== null) {
+    if (hasValue(popupTemplateObject.actions)) {
         template.actions = popupTemplateObject.actions as any;
     }
 
     if (viewId !== null) {
         let view = arcGisObjectRefs[viewId] as View;
         if (hasValue(view)) {
-            view.popup.on("trigger-action", async (event: PopupTriggerActionEvent) => {
+            if (hasValue(triggerActionHandler)) {
+                triggerActionHandler.remove();
+            }
+            if (hasValue(templateTriggerActionHandler)) {
+                templateTriggerActionHandler.remove();
+            }
+            templateTriggerActionHandler = view.popup.on("trigger-action", async (event: PopupTriggerActionEvent) => {
                 await popupTemplateObject.dotNetPopupTemplateReference.invokeMethodAsync("OnTriggerAction", event.action.id);
             });
         }
@@ -220,6 +241,8 @@ export function buildJsPopupTemplate(popupTemplateObject: DotNetPopupTemplate, v
 
     return template;
 }
+
+export let templateTriggerActionHandler: IHandle;
 
 export function buildJsPopupContent(popupContentObject: DotNetPopupContent): ContentProperties | null {
     switch (popupContentObject?.type) {
@@ -261,7 +284,7 @@ export function buildJsPopupContent(popupContentObject: DotNetPopupContent): Con
         case "expression":
             let dnExpressionContent = popupContentObject as DotNetExpressionPopupContent;
             let expressionContent = new ExpressionContent();
-            if (dnExpressionContent.expressionInfo !== undefined && dnExpressionContent.expressionInfo !== null) {
+            if (hasValue(dnExpressionContent.expressionInfo)) {
                 expressionContent.expressionInfo = buildJsElementExpressionInfo(dnExpressionContent.expressionInfo);
             }
             return expressionContent;
@@ -279,7 +302,7 @@ export function buildJsFieldInfo(fieldInfoObject: DotNetFieldInfo): FieldInfo {
         isEditable: fieldInfoObject.isEditable ?? false
     });
 
-    if (fieldInfoObject.format !== undefined && fieldInfoObject.format !== null) {
+    if (hasValue(fieldInfoObject.format)) {
         fieldInfo.format = buildJsFieldInfoFormat(fieldInfoObject.format);
     }
 
@@ -319,7 +342,7 @@ export function buildJsSymbol(symbol: DotNetSymbol | null): Symbol | null {
                 yoffset: dnSimpleMarkerSymbol.yOffset ?? 0
             });
 
-            if (dnSimpleMarkerSymbol.outline !== undefined && dnSimpleMarkerSymbol.outline !== null) {
+            if (hasValue(dnSimpleMarkerSymbol.outline)) {
                 jsSimpleMarkerSymbol.outline = buildJsSymbol(dnSimpleMarkerSymbol.outline) as any;
             }
             return jsSimpleMarkerSymbol;
@@ -356,7 +379,7 @@ export function buildJsSymbol(symbol: DotNetSymbol | null): Symbol | null {
                 style: dnSimpleFillSymbol.style as any ?? "solid"
             });
 
-            if (dnSimpleFillSymbol.outline !== undefined && dnSimpleFillSymbol.outline !== null) {
+            if (hasValue(dnSimpleFillSymbol.outline)) {
                 jsSimpleFillSymbol.outline = buildJsSymbol(dnSimpleFillSymbol.outline) as any;
             }
             return jsSimpleFillSymbol;
@@ -368,7 +391,7 @@ export function buildJsSymbol(symbol: DotNetSymbol | null): Symbol | null {
                 haloSize: dotNetTextSymbol.haloSize ?? undefined,
                 text: dotNetTextSymbol.text ?? undefined
             });
-            if (dotNetTextSymbol.font !== undefined && dotNetTextSymbol.font !== null) {
+            if (hasValue(dotNetTextSymbol.font)) {
                 jsTextSymbol.font = buildJsFont(dotNetTextSymbol.font);
             }
 
@@ -404,7 +427,7 @@ export function buildJsPoint(dnPoint: DotNetPoint): Point | null {
         y: dnPoint.y ?? undefined
     });
 
-    if (dnPoint.spatialReference !== undefined && dnPoint.spatialReference !== null) {
+    if (hasValue(dnPoint.spatialReference)) {
         point.spatialReference = buildJsSpatialReference(dnPoint.spatialReference);
     } else {
         point.spatialReference = new SpatialReference({wkid: 4326});
@@ -418,7 +441,7 @@ export function buildJsPolyline(dnPolyline: DotNetPolyline): Polyline | null {
     let polyline = new Polyline({
         paths: buildJsPathsOrRings(dnPolyline.paths) ?? undefined
     });
-    if (dnPolyline.spatialReference !== undefined && dnPolyline.spatialReference !== null) {
+    if (hasValue(dnPolyline.spatialReference)) {
         polyline.spatialReference = buildJsSpatialReference(dnPolyline.spatialReference);
     } else {
         polyline.spatialReference = new SpatialReference({wkid: 4326});
@@ -431,7 +454,7 @@ export function buildJsPolygon(dnPolygon: DotNetPolygon): Polygon | null {
     let polygon = new Polygon({
         rings: buildJsPathsOrRings(dnPolygon.rings) ?? undefined
     });
-    if (dnPolygon.spatialReference !== undefined && dnPolygon.spatialReference !== null) {
+    if (hasValue(dnPolygon.spatialReference)) {
         polygon.spatialReference = buildJsSpatialReference(dnPolygon.spatialReference);
     } else {
         polygon.spatialReference = new SpatialReference({wkid: 4326});
@@ -500,15 +523,15 @@ export async function buildJsPopup(dotNetPopup: any, viewId: string): Promise<Po
         spinnerEnabled: dotNetPopup.spinnerEnabled ?? true
     });
 
-    if (dotNetPopup.location !== undefined && dotNetPopup.location !== null) {
+    if (hasValue(dotNetPopup.location)) {
         popup.location = buildJsPoint(dotNetPopup.location) as Point;
     }
 
-    if (dotNetPopup.dockOptions !== undefined && dotNetPopup.dockOptions !== null) {
+    if (hasValue(dotNetPopup.dockOptions)) {
         popup.dockOptions = buildJsDockOptions(dotNetPopup.dockOptions);
     }
 
-    if (dotNetPopup.features !== undefined && dotNetPopup.features !== null) {
+    if (hasValue(dotNetPopup.features)) {
         let features: Graphic[] = [];
         for (const f of dotNetPopup.features) {
             delete f.dotNetGraphicReference;
@@ -518,7 +541,7 @@ export async function buildJsPopup(dotNetPopup: any, viewId: string): Promise<Po
         popup.features = features;
     }
 
-    if (dotNetPopup.visibleElements !== undefined && dotNetPopup.visibleElements !== null) {
+    if (hasValue(dotNetPopup.visibleElements)) {
         popup.visibleElements = dotNetPopup.visibleElements;
     }
 
@@ -538,37 +561,37 @@ function buildJsDockOptions(dotNetDockOptions: any): PopupDockOptions {
 export async function buildJsPopupOptions(dotNetPopupOptions: any): Promise<PopupOpenOptions> {
     let options: PopupOpenOptions = {};
 
-    if (dotNetPopupOptions.title !== undefined && dotNetPopupOptions.title !== null) {
+    if (hasValue(dotNetPopupOptions.title)) {
         options.title = dotNetPopupOptions.title;
     }
-    if (dotNetPopupOptions.stringContent !== undefined && dotNetPopupOptions.stringContent !== null) {
+    if (hasValue(dotNetPopupOptions.stringContent)) {
         options.content = dotNetPopupOptions.content;
     }
-    if (dotNetPopupOptions.fetchFeatures !== undefined && dotNetPopupOptions.fetchFeatures !== null) {
+    if (hasValue(dotNetPopupOptions.fetchFeatures)) {
         options.fetchFeatures = dotNetPopupOptions.fetchFeatures;
     }
 
-    if (dotNetPopupOptions.featureMenuOpen !== undefined && dotNetPopupOptions.featureMenuOpen !== null) {
+    if (hasValue(dotNetPopupOptions.featureMenuOpen)) {
         options.featureMenuOpen = dotNetPopupOptions.featureMenuOpen;
     }
 
-    if (dotNetPopupOptions.updateLocationEnabled !== undefined && dotNetPopupOptions.updateLocationEnabled !== null) {
+    if (hasValue(dotNetPopupOptions.updateLocationEnabled)) {
         options.updateLocationEnabled = dotNetPopupOptions.updateLocationEnabled;
     }
 
-    if (dotNetPopupOptions.collapsed !== undefined && dotNetPopupOptions.collapsed !== null) {
+    if (hasValue(dotNetPopupOptions.collapsed)) {
         options.collapsed = dotNetPopupOptions.collapsed;
     }
 
-    if (dotNetPopupOptions.shouldFocus !== undefined && dotNetPopupOptions.shouldFocus !== null) {
+    if (hasValue(dotNetPopupOptions.shouldFocus)) {
         options.shouldFocus = dotNetPopupOptions.shouldFocus;
     }
 
-    if (dotNetPopupOptions.location !== undefined && dotNetPopupOptions.location !== null) {
+    if (hasValue(dotNetPopupOptions.location)) {
         options.location = buildJsPoint(dotNetPopupOptions.location) as Point;
     }
 
-    if (dotNetPopupOptions.features !== undefined && dotNetPopupOptions.features !== null) {
+    if (hasValue(dotNetPopupOptions.features)) {
         let features: Graphic[] = [];
         for (const f of dotNetPopupOptions.features) {
             delete f.dotNetGraphicReference;
@@ -630,11 +653,11 @@ export function buildJsQuery(dotNetQuery: DotNetQuery): Query {
         start: dotNetQuery.start ?? undefined
     });
 
-    if (dotNetQuery.geometry !== undefined && dotNetQuery.geometry !== null) {
+    if (hasValue(dotNetQuery.geometry)) {
         query.geometry = buildJsGeometry(dotNetQuery.geometry) as Geometry;
     }
 
-    if (dotNetQuery.outSpatialReference !== undefined && dotNetQuery.outSpatialReference !== null) {
+    if (hasValue(dotNetQuery.outSpatialReference)) {
         query.outSpatialReference = buildJsSpatialReference(dotNetQuery.outSpatialReference);
     }
 
@@ -660,7 +683,7 @@ export function buildJsRelationshipQuery(dotNetRelationshipQuery: DotNetRelation
         where: dotNetRelationshipQuery.where ?? undefined
     });
 
-    if (dotNetRelationshipQuery.outSpatialReference !== undefined && dotNetRelationshipQuery.outSpatialReference !== null) {
+    if (hasValue(dotNetRelationshipQuery.outSpatialReference)) {
         relationshipQuery.outSpatialReference = buildJsSpatialReference(dotNetRelationshipQuery.outSpatialReference);
     }
 
@@ -687,15 +710,15 @@ export function buildJsTopFeaturesQuery(dnQuery: DotNetTopFeaturesQuery): TopFea
         units: dnQuery.units as any ?? null
     });
 
-    if (dnQuery.where !== undefined && dnQuery.where !== null) {
+    if (hasValue(dnQuery.where)) {
         query.where = dnQuery.where;
     }
 
-    if (dnQuery.geometry !== undefined && dnQuery.geometry !== null) {
+    if (hasValue(dnQuery.geometry)) {
         query.geometry = buildJsGeometry(dnQuery.geometry) as Geometry;
     }
 
-    if (dnQuery.outSpatialReference !== undefined && dnQuery.outSpatialReference !== null) {
+    if (hasValue(dnQuery.outSpatialReference)) {
         query.outSpatialReference = buildJsSpatialReference(dnQuery.outSpatialReference);
     }
 
@@ -759,7 +782,7 @@ export function buildJsChartMediaInfoValue(dotNetChartMediaInfoValue: DotNetChar
         tooltipField: dotNetChartMediaInfoValue?.tooltipField ?? undefined
     });
 
-    if (dotNetChartMediaInfoValue?.series !== undefined && dotNetChartMediaInfoValue?.series !== null) {
+    if (hasValue(dotNetChartMediaInfoValue?.series)) {
         value.series = dotNetChartMediaInfoValue.series.map(s => {
             let series = new ChartMediaInfoValueSeries({
                 tooltip: s.tooltip ?? undefined,

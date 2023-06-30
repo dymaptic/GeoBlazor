@@ -5,7 +5,6 @@ using dymaptic.GeoBlazor.Core.Objects;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using ProtoBuf;
-using System.Collections.Specialized;
 using System.Text.Json.Serialization;
 using ParameterValue = Microsoft.AspNetCore.Components.ParameterValue;
 
@@ -58,10 +57,10 @@ public class Graphic : LayerObject, IEquatable<Graphic>
             Attributes = attributes;
         }
 #pragma warning restore BL0005
-    Attributes.OnChange = EventCallback.Factory.Create(this, OnAttributesChanged);
+        Attributes.OnChange = OnAttributesChanged;
         ToSerializationRecord();
     }
-    
+
     /// <summary>
     ///     Compares two <see cref="Graphic" /> instances for equality.
     /// </summary>
@@ -81,6 +80,10 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     /// <summary>
     ///     Name-value pairs of fields and field values associated with the graphic.
     /// </summary>
+    /// <remarks>
+    ///     This collection should only be set via the constructor or as a markup parameter/attribute. To add or remove
+    ///     members, use the methods defined in <see cref="AttributesDictionary" />
+    /// </remarks>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public AttributesDictionary Attributes { get; set; } = new();
@@ -118,7 +121,7 @@ public class Graphic : LayerObject, IEquatable<Graphic>
         return (other?.Id == Id) ||
             (other is not null &&
                 (other.Geometry?.Equals(Geometry) == true) &&
-                (other.Attributes.Equals(Attributes) == true));
+                other.Attributes.Equals(Attributes));
     }
 
     /// <summary>
@@ -268,14 +271,6 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     }
 
     /// <inheritdoc />
-    internal override void ValidateRequiredChildren()
-    {
-        base.ValidateRequiredChildren();
-        Geometry?.ValidateRequiredChildren();
-        PopupTemplate?.ValidateRequiredChildren();
-    }
-
-    /// <inheritdoc />
     public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
@@ -306,6 +301,7 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     public override async Task SetParametersAsync(ParameterView parameters)
     {
         await base.SetParametersAsync(parameters);
+
         foreach (ParameterValue parameterValue in parameters)
         {
             if (parameterValue is { Name: nameof(Attributes), Value: AttributesDictionary attributeDictionary })
@@ -316,13 +312,32 @@ public class Graphic : LayerObject, IEquatable<Graphic>
 
                     _updateAttributes = true;
                 }
-                
-                if (!Attributes.OnChange.HasDelegate)
-                {
-                    Attributes.OnChange = EventCallback.Factory.Create(this, OnAttributesChanged);
-                }
+
+                Attributes.OnChange ??= OnAttributesChanged;
             }
         }
+    }
+
+    /// <inheritdoc />
+    internal override void ValidateRequiredChildren()
+    {
+        base.ValidateRequiredChildren();
+        Geometry?.ValidateRequiredChildren();
+        PopupTemplate?.ValidateRequiredChildren();
+    }
+
+    internal GraphicSerializationRecord ToSerializationRecord(bool refresh = false)
+    {
+        if (_serializationRecord is null || refresh)
+        {
+            _serializationRecord = new GraphicSerializationRecord(Id.ToString(),
+                Geometry?.ToSerializationRecord(),
+                Symbol?.ToSerializationRecord(),
+                PopupTemplate?.ToSerializationRecord(),
+                Attributes.ToSerializationRecord());
+        }
+
+        return _serializationRecord;
     }
 
     /// <inheritdoc />
@@ -358,23 +373,9 @@ public class Graphic : LayerObject, IEquatable<Graphic>
         }
     }
 
-    internal GraphicSerializationRecord ToSerializationRecord(bool refresh = false)
-    {
-        if (_serializationRecord is null || refresh)
-        {
-            _serializationRecord = new GraphicSerializationRecord(Id.ToString(),
-                Geometry?.ToSerializationRecord(),
-                Symbol?.ToSerializationRecord(),
-                PopupTemplate?.ToSerializationRecord(),
-                Attributes.ToSerializationRecord());
-        }
-
-        return _serializationRecord;
-    }
-
     private async Task OnAttributesChanged()
     {
-        if (Parent?.MapRendered == false || LayerJsModule is null) return;
+        if (LayerJsModule is null) return;
 
         await LayerJsModule.InvokeVoidAsync("setGraphicAttributes",
             CancellationTokenSource.Token, Id, Attributes);

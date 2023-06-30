@@ -42,13 +42,6 @@ public abstract class ActionBase : MapComponent, IEquatable<ActionBase>
     public string? Title { get; set; }
 
     /// <summary>
-    ///     This adds a CSS class to the ActionButton's node.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? ClassName { get; set; }
-
-    /// <summary>
     ///     The name of the ID assigned to this action.
     /// </summary>
     [Parameter]
@@ -97,7 +90,7 @@ public abstract class ActionBase : MapComponent, IEquatable<ActionBase>
     {
         if (ReferenceEquals(null, other)) return false;
 
-        return (Title == other.Title) && (ClassName == other.ClassName) && (Id == other.Id) &&
+        return (Title == other.Title) && (Id == other.Id) &&
             (Active == other.Active) &&
             (Disabled == other.Disabled) && (Visible == other.Visible) &&
             Equals(CallbackFunction, other.CallbackFunction) && (Type == other.Type);
@@ -115,7 +108,7 @@ public abstract class ActionBase : MapComponent, IEquatable<ActionBase>
     /// <inheritdoc />
     public override int GetHashCode()
     {
-        return HashCode.Combine(Title, ClassName, Id, Active, Disabled, Visible, CallbackFunction, Type);
+        return HashCode.Combine(Title, Id, Active, Disabled, Visible, CallbackFunction, Type);
     }
 
     internal abstract ActionBaseSerializationRecord ToSerializationRecord();
@@ -169,6 +162,13 @@ public class ActionButton : ActionBase
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Image { get; set; }
+    
+    /// <summary>
+    ///     This adds a CSS class to the ActionButton's node.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? ClassName { get; set; }
 
     internal override ActionBaseSerializationRecord ToSerializationRecord()
     {
@@ -196,7 +196,7 @@ public class ActionToggle : ActionBase
 
     internal override ActionBaseSerializationRecord ToSerializationRecord()
     {
-        return new ActionBaseSerializationRecord(Type, Title, ClassName, Active, Disabled, Visible, Id)
+        return new ActionBaseSerializationRecord(Type, Title, null, Active, Disabled, Visible, Id)
         {
             Value = Value
         };

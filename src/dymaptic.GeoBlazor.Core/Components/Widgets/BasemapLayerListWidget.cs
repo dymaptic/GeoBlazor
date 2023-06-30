@@ -17,11 +17,25 @@ namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 ///         JS API
 ///     </a>
 /// </summary>
-public class BasemapLayerListWidget : LayerListWidget
+public class BasemapLayerListWidget : Widget
 {
     /// <inheritdoc />
     [JsonPropertyName("type")]
     public override string WidgetType => "basemapLayerList";
+
+    /// <summary>
+    ///     The widget's default CSS icon class.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? IconClass { get; set; }
+
+    /// <summary>
+    ///     The widget's default label.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Label { get; set; }
 
     /// <summary>
     ///     A delegate to implement a custom handler for setting up a base type of<see cref="ListItem" />.
@@ -68,7 +82,7 @@ public class BasemapLayerListWidget : LayerListWidget
     [JSInvokable]
     public Task<ListItem>? OnBaseListItemCreated(ListItem item)
     {
-        return OnListItemCreatedHandler?.Invoke(item);
+        return OnBaseListItemCreatedHandler?.Invoke(item);
     }
 
     /// <summary>

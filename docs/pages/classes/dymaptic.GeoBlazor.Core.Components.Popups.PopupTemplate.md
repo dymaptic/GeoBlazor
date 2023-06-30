@@ -3,6 +3,11 @@ layout: default
 title: PopupTemplate
 parent: Classes
 ---
+---
+layout: default
+title: PopupTemplate
+parent: Classes
+---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Popups](index.html#dymaptic.GeoBlazor.Core.Components.Popups 'dymaptic.GeoBlazor.Core.Components.Popups')
 
@@ -130,6 +135,19 @@ public System.Collections.Generic.HashSet<dymaptic.GeoBlazor.Core.Components.Pop
 
 ### Remarks
 Either [Content](dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.html#dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.Content 'dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.Content') or [StringContent](dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.html#dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.StringContent 'dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.StringContent') should be defined, but not both.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.ContentFunction'></a>
+
+## PopupTemplate.ContentFunction Property
+
+Defines a delegate function which will generate the [PopupContent](dymaptic.GeoBlazor.Core.Components.Popups.PopupContent.html 'dymaptic.GeoBlazor.Core.Components.Popups.PopupContent')s for the template.
+
+```csharp
+public System.Func<dymaptic.GeoBlazor.Core.Components.Layers.Graphic,System.Threading.Tasks.ValueTask<dymaptic.GeoBlazor.Core.Components.Popups.PopupContent[]?>>? ContentFunction { get; set; }
+```
+
+#### Property Value
+[System.Func&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Func-2 'System.Func`2')[Graphic](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic')[,](https://docs.microsoft.com/en-us/dotnet/api/System.Func-2 'System.Func`2')[System.Threading.Tasks.ValueTask&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.ValueTask-1 'System.Threading.Tasks.ValueTask`1')[PopupContent](dymaptic.GeoBlazor.Core.Components.Popups.PopupContent.html 'dymaptic.GeoBlazor.Core.Components.Popups.PopupContent')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.ValueTask-1 'System.Threading.Tasks.ValueTask`1')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Func-2 'System.Func`2')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.DotNetPopupTemplateReference'></a>
 
@@ -341,6 +359,9 @@ The calling, child component to register
 [InvalidChildElementException](dymaptic.GeoBlazor.Core.Exceptions.InvalidChildElementException.html 'dymaptic.GeoBlazor.Core.Exceptions.InvalidChildElementException')  
 Throws if the current child is not a valid sub-component to the parent.
 
+### Remarks
+This method is an implementation detail and should not be called directly by consumers. In future versions, this may be changed to an internal method. If you see no other way to register a child component, please open an issue on GitHub.
+
 <a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.UnregisterChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent)'></a>
 
 ## PopupTemplate.UnregisterChildComponent(MapComponent) Method
@@ -360,6 +381,9 @@ The child to unregister
 
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
+### Remarks
+This method is an implementation detail and should not be called directly by consumers. In future versions, this may be changed to an internal method.
 ### Operators
 
 <a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.op_Equality(dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate,dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate)'></a>
@@ -405,3 +429,4 @@ public static bool operator !=(dymaptic.GeoBlazor.Core.Components.Popups.PopupTe
 
 #### Returns
 [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
+

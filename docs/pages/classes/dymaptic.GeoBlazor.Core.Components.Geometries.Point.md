@@ -3,6 +3,11 @@ layout: default
 title: Point
 parent: Classes
 ---
+---
+layout: default
+title: Point
+parent: Classes
+---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Geometries](index.html#dymaptic.GeoBlazor.Core.Components.Geometries 'dymaptic.GeoBlazor.Core.Components.Geometries')
 
@@ -177,6 +182,19 @@ public System.Nullable<double> Z { get; set; }
 [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 ### Methods
 
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.Point.Clone()'></a>
+
+## Point.Clone() Method
+
+Returns a deep clone of the geometry.
+
+```csharp
+public dymaptic.GeoBlazor.Core.Components.Geometries.Point Clone();
+```
+
+#### Returns
+[Point](dymaptic.GeoBlazor.Core.Components.Geometries.Point.html 'dymaptic.GeoBlazor.Core.Components.Geometries.Point')
+
 <a name='dymaptic.GeoBlazor.Core.Components.Geometries.Point.Equals(dymaptic.GeoBlazor.Core.Components.Geometries.Point)'></a>
 
 ## Point.Equals(Point) Method
@@ -229,3 +247,4 @@ public override int GetHashCode();
 #### Returns
 [System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')  
 A hash code for the current object.
+

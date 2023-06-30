@@ -1,7 +1,7 @@
 ---
 layout: page
 title: "Custom Graphics"
-nav_order: 6
+nav_order: 7
 ---
 
 # Custom Graphics

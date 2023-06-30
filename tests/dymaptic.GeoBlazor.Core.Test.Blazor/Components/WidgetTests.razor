@@ -1,0 +1,255 @@
+﻿@using dymaptic.GeoBlazor.Core.Components.Widgets.LayerList
+@inherits TestRunnerBase
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+
+    [TestMethod]
+    public async Task TestCanRenderBasemapGalleryWidget()
+    {
+        CreateViewRenderedHandler(async () =>
+            await AssertJavaScript("assertWidgetExists", args: "esri.widgets.BasemapGallery"));
+
+        AddMapRenderFragment(
+            @<div>
+                <Map ArcGISDefaultBasemap="arcgis-imagery" />
+                <BasemapGalleryWidget />
+            </div>);
+
+        await WaitForMapToRender();
+    }
+
+    [TestMethod]
+    public async Task TestCanRenderBasemapLayerListWidget()
+    {
+        CreateViewRenderedHandler(async () =>
+            await AssertJavaScript("assertWidgetExists", args: "esri.widgets.BasemapLayerList"));
+
+        var handlerWasCalled = false;
+
+        Task<ListItem> OnReferenceListItemCreatedHandler(ListItem item)
+        {
+            Assert.IsNotNull(item);
+            handlerWasCalled = true;
+            return Task.FromResult(item);
+        }
+
+        AddMapRenderFragment(
+            @<div>
+                <Map>
+                    <Basemap>
+                        <TileLayer>
+                            <PortalItem Id="1b243539f4514b6ba35e7d995890db1d" />
+                        </TileLayer>
+                        <VectorTileLayer Opacity="0.75">
+                            <PortalItem Id="6976148c11bd497d8624206f9ee03e30" />
+                        </VectorTileLayer>
+                    </Basemap>
+                </Map>
+                <BasemapLayerListWidget OnReferenceListItemCreatedHandler="OnReferenceListItemCreatedHandler" />
+            </div>);
+
+        await WaitForMapToRender();
+        Assert.IsTrue(handlerWasCalled);
+    }
+
+    [TestMethod]
+    public async Task TestBasemapToggleFailsWithoutNextBasemap()
+    {
+        CreateViewRenderedHandler(async () =>
+            await AssertJavaScript("assertWidgetExists", args: "esri.widgets.BasemapToggle"));
+
+        AddMapRenderFragment(
+            @<div>
+                <Map ArcGISDefaultBasemap="arcgis-imagery" />
+                <BasemapToggleWidget />
+            </div>);
+
+        await Assert.ThrowsExceptionAsync<AggregateException>(async () =>
+            await WaitForMapToRender());
+    }
+
+    [TestMethod]
+    public async Task TestCanRenderBasemapToggleWidget()
+    {
+        CreateViewRenderedHandler(async () =>
+            await AssertJavaScript("assertWidgetExists", args: "esri.widgets.BasemapToggle"));
+
+        AddMapRenderFragment(
+            @<div>
+                <Map ArcGISDefaultBasemap="arcgis-imagery" />
+                <BasemapToggleWidget NextBasemapName="arcgis-topographic" />
+            </div>);
+
+        await WaitForMapToRender();
+    }
+
+    [TestMethod]
+    public async Task TestCanRenderCompassWidget()
+    {
+        CreateViewRenderedHandler(async () =>
+            await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Compass"));
+
+        AddMapRenderFragment(
+            @<div>
+                <Map ArcGISDefaultBasemap="arcgis-imagery" />
+                <CompassWidget />
+            </div>);
+
+        await WaitForMapToRender();
+    }
+
+    [TestMethod]
+    public async Task TestExpandWidgetRequiresContent()
+    {
+        CreateViewRenderedHandler(async () =>
+            await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Expand"));
+
+        AddMapRenderFragment(
+            @<div>
+                <Map ArcGISDefaultBasemap="arcgis-imagery" />
+                <ExpandWidget />
+            </div>);
+
+        await Assert.ThrowsExceptionAsync<AggregateException>(async () =>
+            await WaitForMapToRender());
+    }
+
+    [TestMethod]
+    public async Task TestCanRenderExpandWidget()
+    {
+        CreateViewRenderedHandler(async () =>
+            await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Expand"));
+
+        AddMapRenderFragment(
+            @<div>
+                <Map ArcGISDefaultBasemap="arcgis-imagery" />
+                <ExpandWidget>
+                    <LayerListWidget />
+                </ExpandWidget>
+            </div>);
+
+        await WaitForMapToRender();
+    }
+
+    [TestMethod]
+    public async Task TestCanRenderHomeWidget()
+    {
+        CreateViewRenderedHandler(async () =>
+            await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Home"));
+
+        AddMapRenderFragment(
+            @<div>
+                <Map ArcGISDefaultBasemap="arcgis-imagery" />
+                <HomeWidget />
+            </div>);
+
+        await WaitForMapToRender();
+    }
+
+    [TestMethod]
+    public async Task TestCanRenderLayerListWidget()
+    {
+        CreateViewRenderedHandler(async () =>
+            await AssertJavaScript("assertWidgetExists", args: "esri.widgets.LayerList"));
+
+        var handlerWasCalled = false;
+
+        Task<ListItem> OnListItemCreatedHandler(ListItem item)
+        {
+            Assert.IsNotNull(item);
+            handlerWasCalled = true;
+            return Task.FromResult(item);
+        }
+
+        AddMapRenderFragment(
+            @<div>
+                <WebMap>
+                    <PortalItem Id="31cfc5b138e24dee866c457948773ac4" />
+                </WebMap>
+                <LayerListWidget OnListItemCreatedHandler="OnListItemCreatedHandler" />
+            </div>);
+
+        await WaitForMapToRender();
+        Assert.IsTrue(handlerWasCalled);
+    }
+
+    [TestMethod]
+    public async Task TestCanRenderLegendWidget()
+    {
+        CreateViewRenderedHandler(async () =>
+            await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Legend"));
+
+        AddMapRenderFragment(
+            @<div>
+                <Map ArcGISDefaultBasemap="arcgis-imagery" />
+                <LegendWidget />
+            </div>);
+
+        await WaitForMapToRender();
+    }
+
+    [TestMethod]
+    public async Task TestCanRenderLocateWidget()
+    {
+        CreateViewRenderedHandler(async () =>
+            await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Locate"));
+
+        AddMapRenderFragment(
+            @<div>
+                <Map ArcGISDefaultBasemap="arcgis-imagery" />
+                <LocateWidget />
+            </div>);
+
+        await WaitForMapToRender();
+    }
+
+    [TestMethod]
+    public async Task TestCanRenderPopupWidget()
+    {
+        CreateViewRenderedHandler(async () =>
+            await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Popup"));
+
+        AddMapRenderFragment(
+            @<div>
+                <Map ArcGISDefaultBasemap="arcgis-imagery" />
+                <PopupWidget />
+            </div>);
+
+        await WaitForMapToRender();
+    }
+
+    [TestMethod]
+    public async Task TestCanRenderScaleBarWidget()
+    {
+        CreateViewRenderedHandler(async () =>
+            await AssertJavaScript("assertWidgetExists", args: "esri.widgets.ScaleBar"));
+
+        AddMapRenderFragment(
+            @<div>
+                <Map ArcGISDefaultBasemap="arcgis-imagery" />
+                <ScaleBarWidget />
+            </div>);
+
+        await WaitForMapToRender();
+    }
+
+    [TestMethod]
+    public async Task TestCanRenderSearchWidget()
+    {
+        CreateViewRenderedHandler(async () =>
+            await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Search"));
+
+        AddMapRenderFragment(
+            @<div>
+                <Map ArcGISDefaultBasemap="arcgis-imagery" />
+                <SearchWidget />
+            </div>);
+
+        await WaitForMapToRender();
+    }
+
+}

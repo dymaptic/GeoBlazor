@@ -152,8 +152,9 @@ public class GraphicsLayer : Layer
                 await Task.Delay(1, cancellationToken);
 #else
                 using DotNetStreamReference streamRef = new(ms);
-                await JsModule!.InvokeVoidAsync("addGraphicsFromStream", 
-                        cancellationToken, streamRef, View?.Id, abortSignal, Id);
+
+                await JsModule!.InvokeVoidAsync("addGraphicsFromStream",
+                    cancellationToken, streamRef, View?.Id, abortSignal, Id);
 #endif
             }
         }
@@ -319,6 +320,17 @@ public class GraphicsLayer : Layer
         }
     }
 
+    /// <summary>
+    ///     Registers a set of graphics that were created from JavaScript
+    /// </summary>
+    public void RegisterExistingGraphicsFromJavaScript(IEnumerable<Graphic> graphics)
+    {
+        foreach (Graphic graphic in graphics)
+        {
+            _graphics.Add(graphic);
+        }
+    }
+
     /// <inheritdoc />
     internal override void ValidateRequiredChildren()
     {
@@ -329,16 +341,11 @@ public class GraphicsLayer : Layer
             graphic.ValidateRequiredChildren();
         }
     }
-    
-    /// <summary>
-    ///    Registers a set of graphics that were created from JavaScript
-    /// </summary>
-    public void RegisterExistingGraphicsFromJavaScript(IEnumerable<Graphic> graphics)
+
+    /// <inheritdoc />
+    internal override async Task UpdateFromJavaScript(Layer renderedLayer)
     {
-        foreach (Graphic graphic in graphics)
-        {
-            _graphics.Add(graphic);
-        }
+        await base.UpdateFromJavaScript(renderedLayer);
     }
 
     /// <inheritdoc />
@@ -353,12 +360,6 @@ public class GraphicsLayer : Layer
             AllowRender = true;
             _rendering = false;
         }
-    }
-
-    /// <inheritdoc />
-    internal override async Task UpdateFromJavaScript(Layer renderedLayer)
-    {
-        await base.UpdateFromJavaScript(renderedLayer);
     }
 
     private HashSet<Graphic> _graphics = new();

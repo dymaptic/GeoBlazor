@@ -1,7 +1,7 @@
 ---
 layout: page
 title: "Managing View Extent"
-nav_order: 5
+nav_order: 6
 ---
 
 # Managing View Extent

@@ -45,7 +45,7 @@ public partial class MapView : MapComponent
     /// </summary>
     [Inject]
     public IConfiguration Configuration { get; set; } = default!;
-    
+
     /// <summary>
     ///     Handles OAuth authentication
     /// </summary>
@@ -115,7 +115,7 @@ public partial class MapView : MapComponent
     private HashSet<Widget> _widgets = new();
 
     /// <summary>
-    ///    A reference to the JavaScript AbortManager for this component.
+    ///     A reference to the JavaScript AbortManager for this component.
     /// </summary>
     protected AbortManager? AbortManager;
 
@@ -203,7 +203,7 @@ public partial class MapView : MapComponent
     /// </remarks>
     [Parameter]
     public bool? PromptForArcGISKey { get; set; }
-    
+
     /// <summary>
     ///     If you set an `AppId` in your configuration, setting this to true will cause the app to attempt to auto-login
     ///     using ArcGIS OAuth.
@@ -276,7 +276,7 @@ public partial class MapView : MapComponent
         get => AuthenticationManager.ApiKey;
         set => AuthenticationManager.ApiKey = value;
     }
-    
+
     /// <summary>
     ///     The ArcGIS AppId for OAuth2 login
     /// </summary>
@@ -673,16 +673,29 @@ public partial class MapView : MapComponent
     ///     JS-Invokable method to return when the map view is fully rendered.
     /// </summary>
     [JSInvokable]
-    public async Task OnViewRendered()
+    public async Task OnJsViewRendered()
     {
+#pragma warning disable CS0618
         await OnMapRendered.InvokeAsync();
+#pragma warning restore CS0618
+        await OnViewRendered.InvokeAsync(Id);
     }
 
     /// <summary>
     ///     Handler delegate for when the map view is fully rendered. Must return a <see cref="Task" />.
     /// </summary>
+    /// <remarks>
+    ///     OBSOLETE: The naming of this method was inconsistent with ArcGIS and the name of this class. It has been replaced by <see cref="OnViewRendered"/> which also returns the Id of the view for handling multi-view scenarios.
+    /// </remarks>
     [Parameter]
+    [Obsolete("Use OnViewRendered instead.")]
     public EventCallback OnMapRendered { get; set; }
+
+    /// <summary>
+    ///     Handler delegate for when the map view is fully rendered. Must return a <see cref="Task" />.
+    /// </summary>
+    [Parameter]
+    public EventCallback<Guid> OnViewRendered { get; set; }
 
     /// <summary>
     ///     JS-Invokable method to return when the map view Spatial Reference changes.
@@ -1273,8 +1286,9 @@ public partial class MapView : MapComponent
                 await Task.Delay(1, cancellationToken);
 #else
                 using DotNetStreamReference streamRef = new(ms);
+
                 await ViewJsModule!.InvokeVoidAsync("addGraphicsFromStream", cancellationToken,
-                        streamRef, Id, abortSignal);
+                    streamRef, Id, abortSignal);
 #endif
             }
         }
@@ -1421,26 +1435,16 @@ public partial class MapView : MapComponent
     /// </param>
     public async Task AddLayer(Layer layer, bool isBasemapLayer = false)
     {
-        var added = false;
-
         if (isBasemapLayer)
         {
-            if (Map?.Basemap?.Layers.Contains(layer) == false)
-            {
-                Map.Basemap.Layers.Add(layer);
-                added = true;
-            }
+            Map!.Basemap?.Layers.Add(layer);
         }
         else
         {
-            if (Map?.Layers.Contains(layer) == false)
-            {
-                Map.Layers.Add(layer);
-                added = true;
-            }
+            Map!.Layers.Add(layer);
         }
 
-        if (ViewJsModule is null || !added) return;
+        if (ViewJsModule is null) return;
 
         await ViewJsModule!.InvokeVoidAsync("addLayer", CancellationTokenSource.Token,
             (object)layer, Id, isBasemapLayer);
@@ -1529,21 +1533,14 @@ public partial class MapView : MapComponent
     /// </param>
     public async Task RemoveGraphic(Graphic graphic)
     {
-        try
-        {
-            _graphics.Remove(graphic);
-            graphic.Parent = null;
-            graphic.View = null;
+        _graphics.Remove(graphic);
+        graphic.Parent = null;
+        graphic.View = null;
 
-            if (ViewJsModule is null) return;
+        if (ViewJsModule is null) return;
 
-            await ViewJsModule!.InvokeVoidAsync("removeGraphic", CancellationTokenSource.Token,
-                graphic.Id, View!.Id, Id);
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex);
-        }
+        await ViewJsModule!.InvokeVoidAsync("removeGraphic", CancellationTokenSource.Token,
+            graphic.Id, Id);
     }
 
     /// <summary>
@@ -2103,10 +2100,12 @@ public partial class MapView : MapComponent
             Rendering = false;
 
             await AuthenticationManager.Initialize();
-            if (!string.IsNullOrEmpty(AppId) && PromptForOAuthLogin == true)
+
+            if (!string.IsNullOrEmpty(AppId) && (PromptForOAuthLogin == true))
             {
                 await AuthenticationManager.Login();
             }
+
             StateHasChanged();
 
             return;
@@ -2175,7 +2174,7 @@ public partial class MapView : MapComponent
 
             Rendering = false;
             MapRendered = true;
-            
+
             foreach (Widget widget in Widgets.Where(w => !w.GetType().Namespace!.Contains("Core")))
             {
                 await AddWidget(widget);
@@ -2213,6 +2212,17 @@ public partial class MapView : MapComponent
                     CancellationTokenSource.Token, widget, Id);
             }
         });
+
+        if (widget is PopupWidget)
+        {
+            // we have to update the layers to make sure the popupTemplates aren't unset by this action
+            foreach (Layer layer in Map!.Layers.Where(l => l is FeatureLayer { PopupTemplate: not null }))
+            {
+                // ReSharper disable once RedundantCast
+                await JsModule!.InvokeVoidAsync("updateLayer", CancellationTokenSource.Token,
+                    (object)layer, Id);
+            }
+        }
     }
 
     private async Task RemoveWidget(Widget widget)

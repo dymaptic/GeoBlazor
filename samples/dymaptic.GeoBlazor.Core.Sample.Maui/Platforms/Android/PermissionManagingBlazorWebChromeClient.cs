@@ -31,13 +31,6 @@ internal class PermissionManagingBlazorWebChromeClient : WebChromeClient, IActiv
             _activity.RegisterForActivityResult(new ActivityResultContracts.RequestPermission(), this);
     }
 
-    void IActivityResultCallback.OnActivityResult(Object? isGranted)
-    {
-        Action<bool>? callback = _pendingPermissionRequestCallback;
-        _pendingPermissionRequestCallback = null;
-        callback?.Invoke((bool)isGranted!);
-    }
-
     public override void OnCloseWindow(WebView? window)
     {
         _blazorWebChromeClient.OnCloseWindow(window);
@@ -74,6 +67,13 @@ internal class PermissionManagingBlazorWebChromeClient : WebChromeClient, IActiv
                 request.Grant(grantedResources.ToArray());
             }
         });
+    }
+
+    void IActivityResultCallback.OnActivityResult(Object? isGranted)
+    {
+        Action<bool>? callback = _pendingPermissionRequestCallback;
+        _pendingPermissionRequestCallback = null;
+        callback?.Invoke((bool)isGranted!);
     }
 
     private void RequestAllResources(Memory<string> requestedResources, Action<List<string>> callback)

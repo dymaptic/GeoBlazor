@@ -43,7 +43,7 @@
         Geometry geom = selectedFeature.Geometry!;
         double initDistance = await GeometryEngine.GeodesicLength(geom, LinearUnit.Miles);
         var distance = (Math.Round(initDistance * 100) / 100).ToString("F2");
-        await _popup.SetContent($"{selectedFeature.Attributes?["name"]}<div style='background-color:DarkGray;color:white'>{distance} miles.</div>");
+        await _popup.SetContent($"{selectedFeature.Attributes["name"]}<div style='background-color:DarkGray;color:white'>{distance} miles.</div>");
     }
 
     private PopupWidget? _popup;

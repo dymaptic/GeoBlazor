@@ -24,7 +24,7 @@
 
         foreach (IFileInfo? page in pages)
         {
-            if (page is null || !page.Exists) continue;
+            if (!page.Exists) continue;
 
             try
             {

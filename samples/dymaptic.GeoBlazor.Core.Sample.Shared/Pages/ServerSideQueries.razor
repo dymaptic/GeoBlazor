@@ -56,8 +56,8 @@
         {
             await _featureLayer!.Load();
             PopupTemplate popupTemplate = await _featureLayer.CreatePopupTemplate();
-            await _featureLayer!.RegisterChildComponent(popupTemplate);
-            await _mapView!.RegisterChildComponent(_featureLayer!.FullExtent!);
+            await _featureLayer!.SetPopupTemplate(popupTemplate);
+            await _mapView!.SetExtent(_featureLayer!.FullExtent!);
             _fullyLoaded = true;
         }
     }

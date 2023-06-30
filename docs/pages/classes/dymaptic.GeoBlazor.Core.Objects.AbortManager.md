@@ -3,6 +3,11 @@ layout: default
 title: AbortManager
 parent: Classes
 ---
+---
+layout: default
+title: AbortManager
+parent: Classes
+---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Objects](index.html#dymaptic.GeoBlazor.Core.Objects 'dymaptic.GeoBlazor.Core.Objects')
 
@@ -97,3 +102,4 @@ Implements [DisposeAsync()](https://docs.microsoft.com/en-us/dotnet/api/System.I
 
 #### Returns
 [System.Threading.Tasks.ValueTask](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.ValueTask 'System.Threading.Tasks.ValueTask')
+

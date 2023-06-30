@@ -70,20 +70,6 @@
 
 </MapView>
 
-<h2>Delayed Render with Graphics</h2>
-<MapView @ref="_delayedMapView" Style="height: 600px; width: 100%;">
-    <Extent Xmin="-41525513" Ymin="4969181" Xmax="-36687355" Ymax="9024624">
-        <SpatialReference Wkid="102100" />
-    </Extent>
-    <Map>
-        <OpenStreetMapLayer />
-        <GraphicsLayer @ref="_delayedGraphicsLayer" />
-    </Map>
-</MapView>
-<button @onclick="AddGraphicsToView">Add Graphics To View</button>
-<button @onclick="AddGraphicsToLayer">Add Graphics To Layer</button>
-<button @onclick="ClearGraphics">Clear Graphics</button>
-
 <h2>Enterprise-Hosted Layer Test</h2>
 <MapView Style="height: 600px; width: 100%;">
     <Extent Xmax="-12316914.7038" Xmin="-14596572.5354" Ymax="6562278.17835" Ymin="4992526.63148">
@@ -116,41 +102,7 @@
             _longs.Add(_random.NextDouble() * 10 + 11.0);
         }
     }
-
-    private async Task AddGraphicsToView()
-    {
-        List<Graphic> graphics = new();
-        for (var i = 0; i < 10_000; i++)
-        {
-            graphics.Add(new Graphic(new Point(_random.NextDouble() * 10 + 11.0,
-                _random.NextDouble() * 10 + 50.0), new SimpleMarkerSymbol(
-                    new Outline(new MapColor("green")), new MapColor("red"), 10),
-                new PopupTemplate("Test", "Test Content<br/>{testString}<br/>{testNumber}", new[] { "*" }),
-                new Dictionary<string, object> { { "testString", "test" }, { "testNumber", 123 } }));
-        }
-        await _delayedMapView!.AddGraphics(graphics);
-    }
-
-    private async Task AddGraphicsToLayer()
-    {
-        List<Graphic> graphics = new();
-        for (var i = 0; i < 10_000; i++)
-        {
-            graphics.Add(new Graphic(new Point(_random.NextDouble() * 10 + 11.0,
-                _random.NextDouble() * 10 + 50.0), new SimpleMarkerSymbol(
-                    new Outline(new MapColor("green")), new MapColor("red"), 10),
-                new PopupTemplate("Test", "Test Content<br/>{testString}<br/>{testNumber}", new[] { "*" }),
-                new Dictionary<string, object> { { "testString", "test" }, { "testNumber", 123 } }));
-        }
-        await _delayedGraphicsLayer!.Add(graphics);
-    }
-
-    private async Task ClearGraphics()
-    {
-        await _delayedGraphicsLayer!.Clear();
-        await _delayedMapView!.ClearGraphics();
-    }
-
+    
     private Task OnExtentChanged(Extent extent)
     {
         return Task.CompletedTask;
@@ -230,6 +182,4 @@
     private readonly List<double> _lats = new();
     private readonly List<double> _longs = new();
     private MapView? _view3;
-    private MapView? _delayedMapView;
-    private GraphicsLayer? _delayedGraphicsLayer;
 }

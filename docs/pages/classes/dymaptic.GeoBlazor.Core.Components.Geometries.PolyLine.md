@@ -3,6 +3,11 @@ layout: default
 title: PolyLine
 parent: Classes
 ---
+---
+layout: default
+title: PolyLine
+parent: Classes
+---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Geometries](index.html#dymaptic.GeoBlazor.Core.Components.Geometries 'dymaptic.GeoBlazor.Core.Components.Geometries')
 
@@ -89,6 +94,19 @@ public override string Type { get; }
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 ### Methods
 
+<a name='dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine.Clone()'></a>
+
+## PolyLine.Clone() Method
+
+Returns a deep clone of the geometry.
+
+```csharp
+public dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine Clone();
+```
+
+#### Returns
+[PolyLine](dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine.html 'dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine')
+
 <a name='dymaptic.GeoBlazor.Core.Components.Geometries.PolyLine.Equals(object)'></a>
 
 ## PolyLine.Equals(object) Method
@@ -168,3 +186,4 @@ public static bool operator !=(dymaptic.GeoBlazor.Core.Components.Geometries.Pol
 
 #### Returns
 [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
+

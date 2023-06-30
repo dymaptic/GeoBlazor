@@ -1,11 +1,12 @@
 using dymaptic.GeoBlazor.Core;
 
-var builder = WebApplication.CreateBuilder(args);
+
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddGeoBlazor();
 
-var app = builder.Build();
+WebApplication app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
 {

@@ -90,6 +90,8 @@ public abstract class Geometry : MapComponent
         SpatialReference?.ValidateRequiredChildren();
     }
 
+    internal abstract GeometrySerializationRecord ToSerializationRecord();
+
     /// <inheritdoc />
     protected override async Task OnParametersSetAsync()
     {
@@ -100,8 +102,6 @@ public abstract class Geometry : MapComponent
             await Parent.RegisterChildComponent(this);
         }
     }
-
-    internal abstract GeometrySerializationRecord ToSerializationRecord();
 }
 
 [ProtoContract(Name = "Geometry")]

@@ -1,6 +1,4 @@
 ﻿using dymaptic.GeoBlazor.Core.Exceptions;
-using dymaptic.GeoBlazor.Core.Objects;
-using Microsoft.Extensions.Configuration;
 using Microsoft.JSInterop;
 
 
@@ -23,12 +21,13 @@ public abstract class LogicComponent : IDisposable
     public LogicComponent(IJSRuntime jsRuntime, AuthenticationManager authenticationManager)
     {
         JsRuntime = jsRuntime;
-        _authenticationManager = authenticationManager;
+        AuthenticationManager = authenticationManager;
     }
 
     /// <summary>
     ///     Implement this handler in your calling code to catch and handle Javascript errors.
     /// </summary>
+    [Obsolete("Methods now pass on JavaScript errors as exceptions")]
     public Func<JavascriptException, Task>? OnJavascriptErrorHandler { get; set; }
 
     /// <summary>
@@ -74,13 +73,32 @@ public abstract class LogicComponent : IDisposable
     {
         var exception = new JavascriptException(error);
 
+#pragma warning disable CS0618
         if (OnJavascriptErrorHandler is not null)
+
         {
             OnJavascriptErrorHandler?.Invoke(exception);
         }
+#pragma warning restore CS0618
         else
         {
             throw exception;
+        }
+#pragma warning restore CS0618
+    }
+
+    /// <summary>
+    ///     Initializes the JavaScript reference component, if not already initialized.
+    /// </summary>
+    public virtual async Task Initialize()
+    {
+        if (Component is null)
+        {
+            await AuthenticationManager.Initialize();
+            IJSObjectReference module = await AuthenticationManager.GetArcGisJsInterop();
+
+            Component = await module.InvokeAsync<IJSObjectReference>($"get{ComponentName}Wrapper",
+                CancellationTokenSource.Token, DotNetObjectReference);
         }
     }
 
@@ -117,25 +135,10 @@ public abstract class LogicComponent : IDisposable
     }
 
     /// <summary>
-    ///    Initializes the JavaScript reference component, if not already initialized.
-    /// </summary>
-    public virtual async Task Initialize()
-    {
-        if (Component is null)
-        {
-            await _authenticationManager.Initialize();
-            IJSObjectReference module = await _authenticationManager.GetArcGisJsInterop();
-
-            Component = await module.InvokeAsync<IJSObjectReference>($"get{ComponentName}Wrapper",
-                CancellationTokenSource.Token, DotNetObjectReference);
-        }
-    }
-
-    /// <summary>
     ///     The reference to the JS Runtime.
     /// </summary>
     protected readonly IJSRuntime JsRuntime;
-    private readonly AuthenticationManager _authenticationManager;
+    protected readonly AuthenticationManager AuthenticationManager;
 
     /// <summary>
     ///     Creates a cancellation token to control external calls

@@ -64,16 +64,17 @@ nav_order: 2
    </div>
 5. In `_Imports.razor`, add the following lines, or add as needed to resolve code that you consume.
 
-   ```csharp
-   @using dymaptic.GeoBlazor.Core.Components
-   @using dymaptic.GeoBlazor.Core.Components.Geometries
-   @using dymaptic.GeoBlazor.Core.Components.Layers
-   @using dymaptic.GeoBlazor.Core.Components.Popups
-   @using dymaptic.GeoBlazor.Core.Components.Symbols
-   @using dymaptic.GeoBlazor.Core.Components.Views
-   @using dymaptic.GeoBlazor.Core.Components.Widgets
-   @using dymaptic.GeoBlazor.Core.Objects
-   ```
+    ```csharp
+    @using dymaptic.GeoBlazor.Core.Components
+    @using dymaptic.GeoBlazor.Core.Components.Geometries
+    @using dymaptic.GeoBlazor.Core.Components.Layers
+    @using dymaptic.GeoBlazor.Core.Components.Popups
+    @using dymaptic.GeoBlazor.Core.Components.Symbols
+    @using dymaptic.GeoBlazor.Core.Components.Views
+    @using dymaptic.GeoBlazor.Core.Components.Widgets
+    @using dymaptic.GeoBlazor.Core.Events
+    @using dymaptic.GeoBlazor.Core.Objects
+    ```
 6. In `Program.cs`, add the following line to your `builder.Services` to inject logic components like `GeometryEngine`.
 
    ```csharp

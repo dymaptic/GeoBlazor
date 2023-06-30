@@ -14,8 +14,9 @@ public class UnMatchedTargetNameException : Exception
     /// <param name="watchExpression">
     ///     The watchExpression parameter from the throwing method.
     /// </param>
-    public UnMatchedTargetNameException(string targetName, string watchExpression) : 
-        base($"The watch expression \"{watchExpression}\" does not target the target name \"{targetName}\". Make sure these parameters match.")
+    public UnMatchedTargetNameException(string targetName, string watchExpression) :
+        base(
+            $"The watch expression \"{watchExpression}\" does not target the target name \"{targetName}\". Make sure these parameters match.")
     {
     }
 }

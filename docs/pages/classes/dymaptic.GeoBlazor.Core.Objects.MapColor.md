@@ -3,6 +3,11 @@ layout: default
 title: MapColor
 parent: Classes
 ---
+---
+layout: default
+title: MapColor
+parent: Classes
+---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Objects](index.html#dymaptic.GeoBlazor.Core.Objects 'dymaptic.GeoBlazor.Core.Objects')
 
@@ -10,10 +15,7 @@ parent: Classes
 
 Creates a new color object by passing either a hex, rgb(a), hsl(a) or named color value. Hex, hsl(a) and named  
 color values can be passed as a string:  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Color.html">  
-    ArcGIS JS  
-    API  
-</a>
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Color.html">ArcGIS JS API</a>
 
 ```csharp
 public class MapColor :
@@ -166,3 +168,4 @@ public static bool operator !=(dymaptic.GeoBlazor.Core.Objects.MapColor? left, d
 
 #### Returns
 [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
+

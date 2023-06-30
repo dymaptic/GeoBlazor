@@ -10,5 +10,5 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddGeoBlazor();
 
-var app = builder.Build();
+WebAssemblyHost app = builder.Build();
 await app.RunAsync();

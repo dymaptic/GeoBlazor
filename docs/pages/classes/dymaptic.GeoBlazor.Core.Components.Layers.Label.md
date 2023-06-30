@@ -3,6 +3,11 @@ layout: default
 title: Label
 parent: Classes
 ---
+---
+layout: default
+title: Label
+parent: Classes
+---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Layers](index.html#dymaptic.GeoBlazor.Core.Components.Layers 'dymaptic.GeoBlazor.Core.Components.Layers')
 
@@ -125,6 +130,9 @@ The calling, child component to register
 [InvalidChildElementException](dymaptic.GeoBlazor.Core.Exceptions.InvalidChildElementException.html 'dymaptic.GeoBlazor.Core.Exceptions.InvalidChildElementException')  
 Throws if the current child is not a valid sub-component to the parent.
 
+### Remarks
+This method is an implementation detail and should not be called directly by consumers. In future versions, this may be changed to an internal method. If you see no other way to register a child component, please open an issue on GitHub.
+
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.Label.UnregisterChildComponent(dymaptic.GeoBlazor.Core.Components.MapComponent)'></a>
 
 ## Label.UnregisterChildComponent(MapComponent) Method
@@ -144,6 +152,9 @@ The child to unregister
 
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
+### Remarks
+This method is an implementation detail and should not be called directly by consumers. In future versions, this may be changed to an internal method.
 ### Operators
 
 <a name='dymaptic.GeoBlazor.Core.Components.Layers.Label.op_Equality(dymaptic.GeoBlazor.Core.Components.Layers.Label,dymaptic.GeoBlazor.Core.Components.Layers.Label)'></a>
@@ -189,3 +200,4 @@ public static bool operator !=(dymaptic.GeoBlazor.Core.Components.Layers.Label? 
 
 #### Returns
 [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
+

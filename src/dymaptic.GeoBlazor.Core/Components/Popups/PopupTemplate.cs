@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using dymaptic.GeoBlazor.Core.Components.Layers;
+using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using ProtoBuf;
 using System.Text.Json.Serialization;
@@ -113,7 +114,7 @@ public class PopupTemplate : MapComponent, IEquatable<PopupTemplate>
     ///     Either <see cref="Content" /> or <see cref="StringContent" /> should be defined, but not both.
     /// </remarks>
     [Parameter]
-    [RequiredProperty(nameof(Content))]
+    [RequiredProperty(nameof(Content), nameof(ContentFunction))]
     public string? StringContent { get; set; }
 
     /// <summary>
@@ -154,6 +155,14 @@ public class PopupTemplate : MapComponent, IEquatable<PopupTemplate>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? ReturnGeometry { get; set; }
+    
+    /// <summary>
+    ///     Defines a delegate function which will generate the <see cref="PopupContent"/>s for the template.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore]
+    [RequiredProperty(nameof(Content), nameof(StringContent))]
+    public Func<Graphic, ValueTask<PopupContent[]?>>? ContentFunction { get; set; }
 
     /// <summary>
     ///     The template for defining and formatting a popup's content, provided as a collection of <see cref="PopupContent" />
@@ -162,7 +171,7 @@ public class PopupTemplate : MapComponent, IEquatable<PopupTemplate>
     /// <remarks>
     ///     Either <see cref="Content" /> or <see cref="StringContent" /> should be defined, but not both.
     /// </remarks>
-    [RequiredProperty(nameof(StringContent))]
+    [RequiredProperty(nameof(StringContent), nameof(ContentFunction))]
     public HashSet<PopupContent> Content { get; set; } = new();
 
     /// <summary>
@@ -224,6 +233,19 @@ public class PopupTemplate : MapComponent, IEquatable<PopupTemplate>
         {
             await action.CallbackFunction!.Invoke();
         }
+    }
+    
+    [JSInvokable]
+    public async Task<PopupContent[]?> OnContentFunction(Graphic graphic)
+    {
+        PopupContent[]? content = null;
+
+        if (ContentFunction is not null)
+        {
+            content = await ContentFunction.Invoke(graphic);
+        }
+        
+        return content;
     }
 
     /// <inheritdoc />
@@ -292,6 +314,32 @@ public class PopupTemplate : MapComponent, IEquatable<PopupTemplate>
     }
 
     /// <inheritdoc />
+    public override bool Equals(object? obj)
+    {
+        if (ReferenceEquals(null, obj)) return false;
+        if (obj.GetType() != GetType()) return false;
+
+        return Equals((PopupTemplate)obj);
+    }
+
+    /// <inheritdoc />
+    public override int GetHashCode()
+    {
+        var hashCode = new HashCode();
+        hashCode.Add(StringContent);
+        hashCode.Add(Title);
+        hashCode.Add(OutFields);
+        hashCode.Add(OverwriteActions);
+        hashCode.Add(ReturnGeometry);
+        hashCode.Add(Content);
+        hashCode.Add(FieldInfos);
+        hashCode.Add(ExpressionInfos);
+        hashCode.Add(Actions);
+
+        return hashCode.ToHashCode();
+    }
+
+    /// <inheritdoc />
     internal override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();
@@ -324,32 +372,6 @@ public class PopupTemplate : MapComponent, IEquatable<PopupTemplate>
                 action.ValidateRequiredChildren();
             }
         }
-    }
-
-    /// <inheritdoc />
-    public override bool Equals(object? obj)
-    {
-        if (ReferenceEquals(null, obj)) return false;
-        if (obj.GetType() != GetType()) return false;
-
-        return Equals((PopupTemplate)obj);
-    }
-
-    /// <inheritdoc />
-    public override int GetHashCode()
-    {
-        var hashCode = new HashCode();
-        hashCode.Add(StringContent);
-        hashCode.Add(Title);
-        hashCode.Add(OutFields);
-        hashCode.Add(OverwriteActions);
-        hashCode.Add(ReturnGeometry);
-        hashCode.Add(Content);
-        hashCode.Add(FieldInfos);
-        hashCode.Add(ExpressionInfos);
-        hashCode.Add(Actions);
-
-        return hashCode.ToHashCode();
     }
 
     internal PopupTemplateSerializationRecord ToSerializationRecord()

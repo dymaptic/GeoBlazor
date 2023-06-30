@@ -3,6 +3,11 @@ layout: default
 title: AttributesDictionary
 parent: Classes
 ---
+---
+layout: default
+title: AttributesDictionary
+parent: Classes
+---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Objects](index.html#dymaptic.GeoBlazor.Core.Objects 'dymaptic.GeoBlazor.Core.Objects')
 
@@ -81,20 +86,20 @@ public System.Collections.Generic.Dictionary<string,object>.KeyCollection Keys {
 Event that is fired when an attribute is added, updated or removed
 
 ```csharp
-public Microsoft.AspNetCore.Components.EventCallback OnChange { get; set; }
+public System.Func<System.Threading.Tasks.Task>? OnChange { get; set; }
 ```
 
 #### Property Value
-[Microsoft.AspNetCore.Components.EventCallback](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback 'Microsoft.AspNetCore.Components.EventCallback')
+[System.Func&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Func-1 'System.Func`1')[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Func-1 'System.Func`1')
 
 <a name='dymaptic.GeoBlazor.Core.Objects.AttributesDictionary.this[string]'></a>
 
 ## AttributesDictionary.this[string] Property
 
-Gets or the value associated with the specified key.
+Gets or sets the value associated with the specified key.
 
 ```csharp
-public object this[string key] { get; }
+public object this[string key] { get; set; }
 ```
 #### Parameters
 
@@ -106,6 +111,9 @@ The key to get the value for
 
 #### Property Value
 [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object')
+
+### Remarks
+Setter is obsolete and potentially unstable due to calling async from sync code.
 
 <a name='dymaptic.GeoBlazor.Core.Objects.AttributesDictionary.Values'></a>
 
@@ -143,6 +151,26 @@ The key to add or update
 `value` [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object')
 
 The value to add or update
+
+#### Returns
+[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
+<a name='dymaptic.GeoBlazor.Core.Objects.AttributesDictionary.AddOrUpdate(System.Collections.Generic.Dictionary_string,object_)'></a>
+
+## AttributesDictionary.AddOrUpdate(Dictionary<string,object>) Method
+
+Updates the AttributesDictionary with new key/value pairs from a [System.Collections.Generic.Dictionary&lt;&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.Dictionary-2 'System.Collections.Generic.Dictionary`2')
+
+```csharp
+public System.Threading.Tasks.Task AddOrUpdate(System.Collections.Generic.Dictionary<string,object> newEntries);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Objects.AttributesDictionary.AddOrUpdate(System.Collections.Generic.Dictionary_string,object_).newEntries'></a>
+
+`newEntries` [System.Collections.Generic.Dictionary&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.Dictionary-2 'System.Collections.Generic.Dictionary`2')[System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')[,](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.Dictionary-2 'System.Collections.Generic.Dictionary`2')[System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.Dictionary-2 'System.Collections.Generic.Dictionary`2')
+
+The new key/value pairs to add or update
 
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
@@ -383,3 +411,4 @@ public static bool operator !=(dymaptic.GeoBlazor.Core.Objects.AttributesDiction
 
 #### Returns
 [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
+

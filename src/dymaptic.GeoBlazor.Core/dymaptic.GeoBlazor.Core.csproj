@@ -9,8 +9,8 @@
         </Description>
         <Title>GeoBlazor</Title>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <PackageVersion>2.1.1-beta-1</PackageVersion>
-        <Version>2.1.1-beta-1</Version>
+        <PackageVersion>2.2.1-beta-1.1</PackageVersion>
+        <Version>2.2.1-beta-1.1</Version>
         <Authors>Tim Purdum, Christopher Moravec, Mara Stoica, Tim Rawson</Authors>
         <Company>dymaptic</Company>
         <Copyright>©2023 by dymaptic</Copyright>
@@ -21,13 +21,15 @@
         <PackageIcon>Blazor-API-500px.png</PackageIcon>
         <GeneratePackageOnBuild Condition="$(Configuration) == 'RELEASE'">true</GeneratePackageOnBuild>
         <TargetFrameworks>net7.0;net6.0</TargetFrameworks>
-    </PropertyGroup>
-    <PropertyGroup>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    </PropertyGroup>
+    <PropertyGroup Condition="$(Configuration) == 'DEBUG'">
+        <DefaultItemExcludes>wwwroot/js/**</DefaultItemExcludes>
     </PropertyGroup>
 
     <ItemGroup>
         <SupportedPlatform Include="browser" />
+        <InternalsVisibleTo Include="dymaptic.GeoBlazor.Pro" />
         <InternalsVisibleTo Include="dymaptic.GeoBlazor.Core.Sample.Shared" />
         <InternalsVisibleTo Include="dymaptic.GeoBlazor.Core.Test" />
     </ItemGroup>

@@ -3,6 +3,11 @@ layout: default
 title: MapView
 parent: Classes
 ---
+---
+layout: default
+title: MapView
+parent: Classes
+---
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Views](index.html#dymaptic.GeoBlazor.Core.Components.Views 'dymaptic.GeoBlazor.Core.Components.Views')
 
@@ -462,6 +467,9 @@ public Microsoft.AspNetCore.Components.EventCallback OnMapRendered { get; set; }
 #### Property Value
 [Microsoft.AspNetCore.Components.EventCallback](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback 'Microsoft.AspNetCore.Components.EventCallback')
 
+### Remarks
+OBSOLETE: The naming of this method was inconsistent with ArcGIS and the name of this class. It has been replaced by [OnViewRendered](dymaptic.GeoBlazor.Core.Components.Views.MapView.html#dymaptic.GeoBlazor.Core.Components.Views.MapView.OnViewRendered 'dymaptic.GeoBlazor.Core.Components.Views.MapView.OnViewRendered') which also returns the Id of the view for handling multi-view scenarios.
+
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnMouseWheel'></a>
 
 ## MapView.OnMouseWheel Property
@@ -603,6 +611,19 @@ public Microsoft.AspNetCore.Components.EventCallback OnViewInitialized { get; se
 
 #### Property Value
 [Microsoft.AspNetCore.Components.EventCallback](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback 'Microsoft.AspNetCore.Components.EventCallback')
+
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnViewRendered'></a>
+
+## MapView.OnViewRendered Property
+
+Handler delegate for when the map view is fully rendered. Must return a [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task').
+
+```csharp
+public Microsoft.AspNetCore.Components.EventCallback<System.Guid> OnViewRendered { get; set; }
+```
+
+#### Property Value
+[Microsoft.AspNetCore.Components.EventCallback&lt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback-1 'Microsoft.AspNetCore.Components.EventCallback`1')[System.Guid](https://docs.microsoft.com/en-us/dotnet/api/System.Guid 'System.Guid')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.EventCallback-1 'Microsoft.AspNetCore.Components.EventCallback`1')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.PromptForArcGISKey'></a>
 
@@ -1703,14 +1724,14 @@ public System.Threading.Tasks.Task OnJsViewInitialized();
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
 
-<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnViewRendered()'></a>
+<a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.OnJsViewRendered()'></a>
 
-## MapView.OnViewRendered() Method
+## MapView.OnJsViewRendered() Method
 
 JS-Invokable method to return when the map view is fully rendered.
 
 ```csharp
-public System.Threading.Tasks.Task OnViewRendered();
+public System.Threading.Tasks.Task OnJsViewRendered();
 ```
 
 #### Returns
@@ -1810,6 +1831,9 @@ The calling, child component to register
 
 [InvalidChildElementException](dymaptic.GeoBlazor.Core.Exceptions.InvalidChildElementException.html 'dymaptic.GeoBlazor.Core.Exceptions.InvalidChildElementException')  
 Throws if the current child is not a valid sub-component to the parent.
+
+### Remarks
+This method is an implementation detail and should not be called directly by consumers. In future versions, this may be changed to an internal method. If you see no other way to register a child component, please open an issue on GitHub.
 
 <a name='dymaptic.GeoBlazor.Core.Components.Views.MapView.RemoveGraphic(dymaptic.GeoBlazor.Core.Components.Layers.Graphic)'></a>
 
@@ -2160,3 +2184,7 @@ The child to unregister
 
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
+
+### Remarks
+This method is an implementation detail and should not be called directly by consumers. In future versions, this may be changed to an internal method.
+
