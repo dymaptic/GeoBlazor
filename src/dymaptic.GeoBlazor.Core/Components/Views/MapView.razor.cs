@@ -2264,19 +2264,31 @@ public partial class MapView : MapComponent
 
         foreach (PropertyInfo callbackInfo in callbacks)
         {
-            dynamic? callback = callbackInfo.GetValue(this);
+            object? callback = callbackInfo.GetValue(this);
 
-            try
+            if(callback != null)
             {
-                if (callback is not null && callback.HasDelegate)
+                var hasDelegate = callback switch
                 {
-                    activeHandlers.Add(callbackInfo.Name);
-                }
-            }
-            catch
-            {
-                // Funcs don't have "HasDelegate"
-                if (callback is not null && callback.GetType().Name.StartsWith("Func"))
+                    EventCallback e => e.HasDelegate,
+                    EventCallback<ClickEvent> e => e.HasDelegate,
+                    EventCallback<BlurEvent> e => e.HasDelegate,
+                    EventCallback<DragEvent> e => e.HasDelegate,
+                    EventCallback<PointerEvent> e => e.HasDelegate,
+                    EventCallback<KeyDownEvent> e => e.HasDelegate,
+                    EventCallback<KeyUpEvent> e => e.HasDelegate,
+                    EventCallback<Guid> e => e.HasDelegate,
+                    EventCallback<SpatialReference> e => e.HasDelegate,
+                    EventCallback<Extent> e => e.HasDelegate,
+                    EventCallback<ResizeEvent> e => e.HasDelegate,
+                    EventCallback<MouseWheelEvent> e => e.HasDelegate,
+                    EventCallback<LayerViewCreateEvent> e => e.HasDelegate,
+                    EventCallback<LayerViewDestroyEvent> e => e.HasDelegate,
+                    EventCallback<LayerViewCreateErrorEvent> e => e.HasDelegate,
+                    _ => false
+                };
+
+                if(hasDelegate || callback.GetType().Name.StartsWith("Func"))
                 {
                     activeHandlers.Add(callbackInfo.Name);
                 }
