@@ -3,11 +3,6 @@ layout: default
 title: BlendMode
 parent: Classes
 ---
----
-layout: default
-title: BlendMode
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Layers](index.html#dymaptic.GeoBlazor.Core.Components.Layers 'dymaptic.GeoBlazor.Core.Components.Layers')
 
@@ -23,8 +18,10 @@ public enum BlendMode
 
 ### Remarks
 See more at  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WebTileLayer.html#blendMode">  
-    ArcGIS  
-    JS API: Blend Mode  
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WebTileLayer.html#blendMode">
+  
+    ArcGIS
+  
+    JS API: Blend Mode
+  
 </a>
-

@@ -3,11 +3,6 @@ layout: default
 title: DependencyExtension
 parent: Classes
 ---
----
-layout: default
-title: DependencyExtension
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core](index.html#dymaptic.GeoBlazor.Core 'dymaptic.GeoBlazor.Core')
 
@@ -45,4 +40,3 @@ public static Microsoft.Extensions.DependencyInjection.IServiceCollection AddGeo
 Since Scoped services behave like singletons in client applications (wasm, maui), registering the OAuthAuthentication  
 service as scoped is safe for all implementations.  
 https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals/dependency-injection?view=aspnetcore-7.0#service-lifetime
-

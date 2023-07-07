@@ -3,11 +3,6 @@ layout: default
 title: MapPoint
 parent: Classes
 ---
----
-layout: default
-title: MapPoint
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Objects](index.html#dymaptic.GeoBlazor.Core.Objects 'dymaptic.GeoBlazor.Core.Objects')
 
@@ -121,4 +116,3 @@ public override int GetHashCode();
 #### Returns
 [System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')  
 A hash code for the current object.
-

@@ -3,11 +3,6 @@ layout: default
 title: ViewExtentUpdate
 parent: Classes
 ---
----
-layout: default
-title: ViewExtentUpdate
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Views](index.html#dymaptic.GeoBlazor.Core.Components.Views 'dymaptic.GeoBlazor.Core.Components.Views')
 
@@ -150,4 +145,3 @@ public double Zoom { get; set; }
 
 #### Property Value
 [System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')
-

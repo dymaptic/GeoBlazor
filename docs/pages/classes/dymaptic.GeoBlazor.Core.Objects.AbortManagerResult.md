@@ -3,11 +3,6 @@ layout: default
 title: AbortManagerResult
 parent: Classes
 ---
----
-layout: default
-title: AbortManagerResult
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Objects](index.html#dymaptic.GeoBlazor.Core.Objects 'dymaptic.GeoBlazor.Core.Objects')
 
@@ -74,4 +69,3 @@ public Microsoft.JSInterop.IJSObjectReference AbortSignalRef { get; set; }
 
 #### Property Value
 [Microsoft.JSInterop.IJSObjectReference](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.JSInterop.IJSObjectReference 'Microsoft.JSInterop.IJSObjectReference')
-
