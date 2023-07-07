@@ -2277,6 +2277,7 @@ public partial class MapView : MapComponent
                     EventCallback<ClickEvent> e => e.HasDelegate,
                     EventCallback<BlurEvent> e => e.HasDelegate,
                     EventCallback<DragEvent> e => e.HasDelegate,
+                    EventCallback<FocusEvent> e => e.HasDelegate,
                     EventCallback<PointerEvent> e => e.HasDelegate,
                     EventCallback<KeyDownEvent> e => e.HasDelegate,
                     EventCallback<KeyUpEvent> e => e.HasDelegate,
