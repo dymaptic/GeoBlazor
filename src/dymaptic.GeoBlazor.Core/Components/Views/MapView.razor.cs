@@ -2257,16 +2257,21 @@ public partial class MapView : MapComponent
     {
         List<string> activeHandlers = new();
 
-        IEnumerable<PropertyInfo> callbacks = GetType()
+        IEnumerable<PropertyInfo> funcCallbacks = GetType()
             .GetProperties()
-            .Where(p => p.PropertyType.Name.StartsWith(nameof(EventCallback)) ||
-                p.PropertyType.Name.StartsWith("Func"));
+            .Where(p => p.PropertyType.Name.StartsWith("Func"));
 
-        foreach (PropertyInfo callbackInfo in callbacks)
+        activeHandlers.AddRange(funcCallbacks.Select(x => x.Name));
+
+        IEnumerable<PropertyInfo> eventCallbacks = GetType()
+            .GetProperties()
+            .Where(p => p.PropertyType.Name.StartsWith(nameof(EventCallback)));
+
+        foreach (PropertyInfo callbackInfo in eventCallbacks)
         {
             object? callback = callbackInfo.GetValue(this);
 
-            if(callback != null)
+            if(callback is not null)
             {
                 var hasDelegate = callback switch
                 {
@@ -2288,7 +2293,7 @@ public partial class MapView : MapComponent
                     _ => false
                 };
 
-                if(hasDelegate || callback.GetType().Name.StartsWith("Func"))
+                if(hasDelegate)
                 {
                     activeHandlers.Add(callbackInfo.Name);
                 }
