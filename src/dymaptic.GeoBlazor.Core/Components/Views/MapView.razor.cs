@@ -2257,15 +2257,13 @@ public partial class MapView : MapComponent
     {
         List<string> activeHandlers = new();
 
-        IEnumerable<PropertyInfo> funcCallbacks = GetType()
-            .GetProperties()
-            .Where(p => p.PropertyType.Name.StartsWith("Func"));
+        var properties = GetType().GetProperties();
+
+        IEnumerable<PropertyInfo> funcCallbacks = properties.Where(p => p.PropertyType.Name.StartsWith("Func"));
 
         activeHandlers.AddRange(funcCallbacks.Select(x => x.Name));
 
-        IEnumerable<PropertyInfo> eventCallbacks = GetType()
-            .GetProperties()
-            .Where(p => p.PropertyType.Name.StartsWith(nameof(EventCallback)));
+        IEnumerable<PropertyInfo> eventCallbacks = properties.Where(p => p.PropertyType.Name.StartsWith(nameof(EventCallback)));
 
         foreach (PropertyInfo callbackInfo in eventCallbacks)
         {
