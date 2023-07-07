@@ -18,7 +18,10 @@ public enum BlendMode
 
 ### Remarks
 See more at  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WebTileLayer.html#blendMode">  
-    ArcGIS  
-    JS API: Blend Mode  
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WebTileLayer.html#blendMode">
+  
+    ArcGIS
+  
+    JS API: Blend Mode
+  
 </a>

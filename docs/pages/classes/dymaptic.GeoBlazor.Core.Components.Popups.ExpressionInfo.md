@@ -14,9 +14,12 @@ other layers in the map or datastore with the $feature, $layer, $map, and $datas
 Expression names are referenced in a layer's PopupTemplate and execute once a layer's popup is opened. The values  
 display within the view's popup as if they are field values. They can be displayed in a table using the FieldInfo  
 of the popupTemplate's content or referenced within a simple string.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-ExpressionInfo.html">  
-    ArcGIS  
-    API for JS  
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-ExpressionInfo.html">
+  
+    ArcGIS
+  
+    API for JS
+  
 </a>
 
 ```csharp

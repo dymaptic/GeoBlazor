@@ -11,12 +11,18 @@ parent: Classes
 Options for configuring the highlight. Use the highlight method on the appropriate LayerView to highlight a  
 feature. With version 4.19, highlighting a feature influences the shadow of the feature as well. By default, the  
 shadow of the highlighted feature is displayed in a darker shade.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#highlightOptions">  
-    ArcGIS  
-    JS API (LayerView)  
-</a><a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html#highlightOptions">  
-    ArcGIS  
-    JS API (SceneView)  
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#highlightOptions">
+  
+    ArcGIS
+  
+    JS API (LayerView)
+  
+</a><a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html#highlightOptions">
+  
+    ArcGIS
+  
+    JS API (SceneView)
+  
 </a>
 
 ```csharp

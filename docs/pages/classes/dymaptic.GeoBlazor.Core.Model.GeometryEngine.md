@@ -1756,9 +1756,12 @@ each of the following DE-9IM string codes are valid for testing whether a polygo
 line geometry: TTTFFTFFT (Boolean), 'T******FF*' (ignore irrelevant intersections), or '102FF*FF*' (dimension  
 form). Each returns the same result. See  
 <a target="_blank" href="https://en.wikipedia.org/wiki/DE-9IM">this article</a> and  
-<a target="_blank" href="https://desktop.arcgis.com/en/arcmap/latest/manage-data/using-sql-with-gdbs/relational-functions-for-st-geometry.htm">  
-    this  
-    ArcGIS help page  
+<a target="_blank" href="https://desktop.arcgis.com/en/arcmap/latest/manage-data/using-sql-with-gdbs/relational-functions-for-st-geometry.htm">
+  
+    this
+  
+    ArcGIS help page
+  
 </a>  
 for more information about the DE-9IM model and how string codes are constructed.
 
