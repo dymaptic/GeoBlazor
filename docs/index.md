@@ -23,6 +23,7 @@ application with the full power of ArcGIS.
 - [Blazor Hybrid in MAUI](pages/maui) - How to use GeoBlazor with the Blazor Hybrid MAUI templates
 - [Writing Your Own JavaScript Extensions](pages/jsExtensions) - How to write your own JavaScript extensions for GeoBlazor
 - [Full API Documentation](pages/classes/index) - Detailed technical specification for GeoBlazor types and classes
+- [GeoBlazor Pro](pages/pro) - Information about the GeoBlazor Pro advanced beta subscription package
 
 ## Useful Links
 
