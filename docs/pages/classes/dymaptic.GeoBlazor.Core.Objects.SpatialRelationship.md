@@ -3,11 +3,6 @@ layout: default
 title: SpatialRelationship
 parent: Classes
 ---
----
-layout: default
-title: SpatialRelationship
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Objects](index.html#dymaptic.GeoBlazor.Core.Objects 'dymaptic.GeoBlazor.Core.Objects')
 
@@ -20,4 +15,3 @@ against the input geometry. The spatial relationships discover how features are 
 ```csharp
 public enum SpatialRelationship
 ```
-

@@ -3,11 +3,6 @@ layout: default
 title: MarkerSymbol
 parent: Classes
 ---
----
-layout: default
-title: MarkerSymbol
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Symbols](index.html#dymaptic.GeoBlazor.Core.Components.Symbols 'dymaptic.GeoBlazor.Core.Components.Symbols')
 
@@ -66,4 +61,3 @@ public System.Nullable<double> YOffset { get; set; }
 
 #### Property Value
 [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
-

@@ -235,6 +235,10 @@ public class PopupTemplate : MapComponent, IEquatable<PopupTemplate>
         }
     }
     
+    /// <summary>
+    ///     JS-invokable method that triggers a custom <see cref="ContentFunction"/> for building the popup content.
+    ///     Should not be called by consuming code.
+    /// </summary>
     [JSInvokable]
     public async Task<PopupContent[]?> OnContentFunction(Graphic graphic)
     {

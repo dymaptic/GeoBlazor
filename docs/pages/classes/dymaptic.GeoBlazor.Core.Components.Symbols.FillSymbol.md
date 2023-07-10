@@ -3,11 +3,6 @@ layout: default
 title: FillSymbol
 parent: Classes
 ---
----
-layout: default
-title: FillSymbol
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Symbols](index.html#dymaptic.GeoBlazor.Core.Components.Symbols 'dymaptic.GeoBlazor.Core.Components.Symbols')
 
@@ -25,4 +20,3 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 
 Derived  
 &#8627; [SimpleFillSymbol](dymaptic.GeoBlazor.Core.Components.Symbols.SimpleFillSymbol.html 'dymaptic.GeoBlazor.Core.Components.Symbols.SimpleFillSymbol')
-

@@ -3,11 +3,6 @@ layout: default
 title: NearestPointResult
 parent: Classes
 ---
----
-layout: default
-title: NearestPointResult
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Objects](index.html#dymaptic.GeoBlazor.Core.Objects 'dymaptic.GeoBlazor.Core.Objects')
 
@@ -74,4 +69,3 @@ public int VertexIndex { get; set; }
 
 #### Property Value
 [System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')
-

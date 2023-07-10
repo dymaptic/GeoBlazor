@@ -3,11 +3,6 @@ layout: default
 title: Cardinality
 parent: Classes
 ---
----
-layout: default
-title: Cardinality
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Objects](index.html#dymaptic.GeoBlazor.Core.Objects 'dymaptic.GeoBlazor.Core.Objects')
 
@@ -38,4 +33,3 @@ One-to-many
 `OneToOne` 0
 
 One-to-one
-

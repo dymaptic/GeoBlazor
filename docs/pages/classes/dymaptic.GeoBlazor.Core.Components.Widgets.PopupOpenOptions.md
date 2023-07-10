@@ -3,11 +3,6 @@ layout: default
 title: PopupOpenOptions
 parent: Classes
 ---
----
-layout: default
-title: PopupOpenOptions
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Widgets](index.html#dymaptic.GeoBlazor.Core.Components.Widgets 'dymaptic.GeoBlazor.Core.Components.Widgets')
 
@@ -156,4 +151,3 @@ public dymaptic.GeoBlazor.Core.Components.Widgets.Widget? WidgetContent { get; s
 
 #### Property Value
 [Widget](dymaptic.GeoBlazor.Core.Components.Widgets.Widget.html 'dymaptic.GeoBlazor.Core.Components.Widgets.Widget')
-

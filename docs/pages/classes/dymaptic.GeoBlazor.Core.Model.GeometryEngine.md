@@ -3,11 +3,6 @@ layout: default
 title: GeometryEngine
 parent: Classes
 ---
----
-layout: default
-title: GeometryEngine
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Model](index.html#dymaptic.GeoBlazor.Core.Model 'dymaptic.GeoBlazor.Core.Model')
 
@@ -1761,9 +1756,12 @@ each of the following DE-9IM string codes are valid for testing whether a polygo
 line geometry: TTTFFTFFT (Boolean), 'T******FF*' (ignore irrelevant intersections), or '102FF*FF*' (dimension  
 form). Each returns the same result. See  
 <a target="_blank" href="https://en.wikipedia.org/wiki/DE-9IM">this article</a> and  
-<a target="_blank" href="https://desktop.arcgis.com/en/arcmap/latest/manage-data/using-sql-with-gdbs/relational-functions-for-st-geometry.htm">  
-    this  
-    ArcGIS help page  
+<a target="_blank" href="https://desktop.arcgis.com/en/arcmap/latest/manage-data/using-sql-with-gdbs/relational-functions-for-st-geometry.htm">
+  
+    this
+  
+    ArcGIS help page
+  
 </a>  
 for more information about the DE-9IM model and how string codes are constructed.
 
@@ -2204,4 +2202,3 @@ The comparison geometry that is tested for the "contains" relationship to the ot
 #### Returns
 [System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
 Returns true if innerGeometry is within outerGeometry.
-

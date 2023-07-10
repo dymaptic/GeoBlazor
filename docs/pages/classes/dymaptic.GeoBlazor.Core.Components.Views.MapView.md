@@ -3,11 +3,6 @@ layout: default
 title: MapView
 parent: Classes
 ---
----
-layout: default
-title: MapView
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Views](index.html#dymaptic.GeoBlazor.Core.Components.Views 'dymaptic.GeoBlazor.Core.Components.Views')
 
@@ -550,9 +545,12 @@ public Microsoft.AspNetCore.Components.EventCallback<dymaptic.GeoBlazor.Core.Eve
 The real-time nature of this handler make it a challenge to use continuously over SignalR in Blazor Server.  
 In this scenario, you should write a custom JavaScript handler instead.  
 See  
-<a target="_blank" href="https://github.com/dymaptic/GeoBlazor/blob/develop/samples/dymaptic.GeoBlazor.Core.Sample.Shared/Pages/DisplayProjection.razor">  
-    Display  
-    Projection  
+<a target="_blank" href="https://github.com/dymaptic/GeoBlazor/blob/develop/samples/dymaptic.GeoBlazor.Core.Sample.Shared/Pages/DisplayProjection.razor">
+  
+    Display
+  
+    Projection
+  
 </a>  
 code.
 
@@ -2187,4 +2185,3 @@ The child to unregister
 
 ### Remarks
 This method is an implementation detail and should not be called directly by consumers. In future versions, this may be changed to an internal method.
-

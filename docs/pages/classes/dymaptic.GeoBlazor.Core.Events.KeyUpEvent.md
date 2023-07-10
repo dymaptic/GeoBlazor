@@ -3,11 +3,6 @@ layout: default
 title: KeyUpEvent
 parent: Classes
 ---
----
-layout: default
-title: KeyUpEvent
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Events](index.html#dymaptic.GeoBlazor.Core.Events 'dymaptic.GeoBlazor.Core.Events')
 
@@ -59,9 +54,12 @@ Whether the event can be cancelled once begun.
 `Key` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 
 The key value that was pressed, according to the  
-<a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values">  
-   .htmlN  
-    full list of key values  
+<a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values">
+  
+   .htmlN
+  
+    full list of key values
+  
 </a>  
 .
 
@@ -89,9 +87,12 @@ Indicates the pointer type.
 ## KeyUpEvent.Key Property
 
 The key value that was pressed, according to the  
-<a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values">  
-   .htmlN  
-    full list of key values  
+<a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values">
+  
+   .htmlN
+  
+    full list of key values
+  
 </a>  
 .
 
@@ -101,4 +102,3 @@ public string Key { get; set; }
 
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
-
