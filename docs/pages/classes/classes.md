@@ -2,7 +2,7 @@
 layout: page
 title: Classes
 has_children: true
-nav_order: 12
+nav_order: 14
 ---
 
 [Index](index) has a complete list of classes ordered by Namespace.
