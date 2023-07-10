@@ -3,11 +3,6 @@ layout: default
 title: UniqueValueRendererLegendOptions
 parent: Classes
 ---
----
-layout: default
-title: UniqueValueRendererLegendOptions
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Renderers](index.html#dymaptic.GeoBlazor.Core.Components.Renderers 'dymaptic.GeoBlazor.Core.Components.Renderers')
 
@@ -34,4 +29,3 @@ public string? Title { get; set; }
 
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
-

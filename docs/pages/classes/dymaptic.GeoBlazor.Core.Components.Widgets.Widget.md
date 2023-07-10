@@ -3,11 +3,6 @@ layout: default
 title: Widget
 parent: Classes
 ---
----
-layout: default
-title: Widget
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Widgets](index.html#dymaptic.GeoBlazor.Core.Components.Widgets 'dymaptic.GeoBlazor.Core.Components.Widgets')
 
@@ -111,4 +106,3 @@ public void OnWidgetCreated(Microsoft.JSInterop.IJSObjectReference jsObjectRefer
 <a name='dymaptic.GeoBlazor.Core.Components.Widgets.Widget.OnWidgetCreated(Microsoft.JSInterop.IJSObjectReference).jsObjectReference'></a>
 
 `jsObjectReference` [Microsoft.JSInterop.IJSObjectReference](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.JSInterop.IJSObjectReference 'Microsoft.JSInterop.IJSObjectReference')
-

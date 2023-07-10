@@ -3,11 +3,6 @@ layout: default
 title: LegendWidget
 parent: Classes
 ---
----
-layout: default
-title: LegendWidget
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Widgets](index.html#dymaptic.GeoBlazor.Core.Components.Widgets 'dymaptic.GeoBlazor.Core.Components.Widgets')
 
@@ -104,4 +99,3 @@ The child to unregister
 
 ### Remarks
 This method is an implementation detail and should not be called directly by consumers. In future versions, this may be changed to an internal method.
-

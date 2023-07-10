@@ -3,11 +3,6 @@ layout: default
 title: KeyDownEvent
 parent: Classes
 ---
----
-layout: default
-title: KeyDownEvent
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Events](index.html#dymaptic.GeoBlazor.Core.Events 'dymaptic.GeoBlazor.Core.Events')
 
@@ -65,9 +60,12 @@ Indicates whether this is the first event emitted due to the key press, or a rep
 `Key` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 
 The key value that was pressed, according to the  
-<a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values">  
-   .htmlN  
-    full list of key values  
+<a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values">
+  
+   .htmlN
+  
+    full list of key values
+  
 </a>  
 .
 
@@ -95,9 +93,12 @@ Indicates the pointer type.
 ## KeyDownEvent.Key Property
 
 The key value that was pressed, according to the  
-<a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values">  
-   .htmlN  
-    full list of key values  
+<a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values">
+  
+   .htmlN
+  
+    full list of key values
+  
 </a>  
 .
 
@@ -120,4 +121,3 @@ public bool Repeat { get; set; }
 
 #### Property Value
 [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
-

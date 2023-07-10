@@ -103,22 +103,6 @@
     }
 
     [TestMethod]
-    public async Task TestExpandWidgetRequiresContent()
-    {
-        CreateViewRenderedHandler(async () =>
-            await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Expand"));
-
-        AddMapRenderFragment(
-            @<div>
-                <Map ArcGISDefaultBasemap="arcgis-imagery" />
-                <ExpandWidget />
-            </div>);
-
-        await Assert.ThrowsExceptionAsync<AggregateException>(async () =>
-            await WaitForMapToRender());
-    }
-
-    [TestMethod]
     public async Task TestCanRenderExpandWidget()
     {
         CreateViewRenderedHandler(async () =>

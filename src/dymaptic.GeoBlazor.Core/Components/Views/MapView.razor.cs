@@ -2257,26 +2257,42 @@ public partial class MapView : MapComponent
     {
         List<string> activeHandlers = new();
 
-        IEnumerable<PropertyInfo> callbacks = GetType()
-            .GetProperties()
-            .Where(p => p.PropertyType.Name.StartsWith(nameof(EventCallback)) ||
-                p.PropertyType.Name.StartsWith("Func"));
+        var properties = GetType().GetProperties();
 
-        foreach (PropertyInfo callbackInfo in callbacks)
+        IEnumerable<PropertyInfo> funcCallbacks = properties.Where(p => p.PropertyType.Name.StartsWith("Func"));
+
+        activeHandlers.AddRange(funcCallbacks.Select(x => x.Name));
+
+        IEnumerable<PropertyInfo> eventCallbacks = properties.Where(p => p.PropertyType.Name.StartsWith(nameof(EventCallback)));
+
+        foreach (PropertyInfo callbackInfo in eventCallbacks)
         {
-            dynamic? callback = callbackInfo.GetValue(this);
+            object? callback = callbackInfo.GetValue(this);
 
-            try
+            if(callback is not null)
             {
-                if (callback is not null && callback.HasDelegate)
+                var hasDelegate = callback switch
                 {
-                    activeHandlers.Add(callbackInfo.Name);
-                }
-            }
-            catch
-            {
-                // Funcs don't have "HasDelegate"
-                if (callback is not null && callback.GetType().Name.StartsWith("Func"))
+                    EventCallback e => e.HasDelegate,
+                    EventCallback<ClickEvent> e => e.HasDelegate,
+                    EventCallback<BlurEvent> e => e.HasDelegate,
+                    EventCallback<DragEvent> e => e.HasDelegate,
+                    EventCallback<FocusEvent> e => e.HasDelegate,
+                    EventCallback<PointerEvent> e => e.HasDelegate,
+                    EventCallback<KeyDownEvent> e => e.HasDelegate,
+                    EventCallback<KeyUpEvent> e => e.HasDelegate,
+                    EventCallback<Guid> e => e.HasDelegate,
+                    EventCallback<SpatialReference> e => e.HasDelegate,
+                    EventCallback<Extent> e => e.HasDelegate,
+                    EventCallback<ResizeEvent> e => e.HasDelegate,
+                    EventCallback<MouseWheelEvent> e => e.HasDelegate,
+                    EventCallback<LayerViewCreateEvent> e => e.HasDelegate,
+                    EventCallback<LayerViewDestroyEvent> e => e.HasDelegate,
+                    EventCallback<LayerViewCreateErrorEvent> e => e.HasDelegate,
+                    _ => false
+                };
+
+                if(hasDelegate)
                 {
                     activeHandlers.Add(callbackInfo.Name);
                 }

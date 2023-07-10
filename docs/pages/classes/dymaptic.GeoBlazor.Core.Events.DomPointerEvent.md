@@ -3,11 +3,6 @@ layout: default
 title: DomPointerEvent
 parent: Classes
 ---
----
-layout: default
-title: DomPointerEvent
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Events](index.html#dymaptic.GeoBlazor.Core.Events 'dymaptic.GeoBlazor.Core.Events')
 
@@ -255,4 +250,3 @@ public System.Nullable<double> Width { get; set; }
 
 #### Property Value
 [System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
-

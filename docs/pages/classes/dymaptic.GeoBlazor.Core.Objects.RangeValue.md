@@ -3,11 +3,6 @@ layout: default
 title: RangeValue
 parent: Classes
 ---
----
-layout: default
-title: RangeValue
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Objects](index.html#dymaptic.GeoBlazor.Core.Objects 'dymaptic.GeoBlazor.Core.Objects')
 
@@ -76,4 +71,3 @@ public object Value { get; set; }
 
 #### Property Value
 [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object')
-

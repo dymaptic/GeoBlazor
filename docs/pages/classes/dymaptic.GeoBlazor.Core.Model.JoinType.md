@@ -3,11 +3,6 @@ layout: default
 title: JoinType
 parent: Classes
 ---
----
-layout: default
-title: JoinType
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Model](index.html#dymaptic.GeoBlazor.Core.Model 'dymaptic.GeoBlazor.Core.Model')
 
@@ -18,4 +13,3 @@ Join types for creating an offset geometry in [GeometryEngine](dymaptic.GeoBlazo
 ```csharp
 public enum JoinType
 ```
-

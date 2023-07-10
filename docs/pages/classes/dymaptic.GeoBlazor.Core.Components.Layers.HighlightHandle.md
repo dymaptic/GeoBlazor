@@ -3,11 +3,6 @@ layout: default
 title: HighlightHandle
 parent: Classes
 ---
----
-layout: default
-title: HighlightHandle
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Layers](index.html#dymaptic.GeoBlazor.Core.Components.Layers 'dymaptic.GeoBlazor.Core.Components.Layers')
 
@@ -71,4 +66,3 @@ public System.Threading.Tasks.Task Remove();
 
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
-

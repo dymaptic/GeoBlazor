@@ -3,11 +3,6 @@ layout: default
 title: JsEvent
 parent: Classes
 ---
----
-layout: default
-title: JsEvent
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Events](index.html#dymaptic.GeoBlazor.Core.Events 'dymaptic.GeoBlazor.Core.Events')
 
@@ -160,4 +155,3 @@ public string Type { get; set; }
 
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
-

@@ -3,11 +3,6 @@ layout: default
 title: HighlightOptions
 parent: Classes
 ---
----
-layout: default
-title: HighlightOptions
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Objects](index.html#dymaptic.GeoBlazor.Core.Objects 'dymaptic.GeoBlazor.Core.Objects')
 
@@ -16,12 +11,18 @@ parent: Classes
 Options for configuring the highlight. Use the highlight method on the appropriate LayerView to highlight a  
 feature. With version 4.19, highlighting a feature influences the shadow of the feature as well. By default, the  
 shadow of the highlighted feature is displayed in a darker shade.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#highlightOptions">  
-    ArcGIS  
-    JS API (LayerView)  
-</a><a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html#highlightOptions">  
-    ArcGIS  
-    JS API (SceneView)  
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#highlightOptions">
+  
+    ArcGIS
+  
+    JS API (LayerView)
+  
+</a><a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html#highlightOptions">
+  
+    ArcGIS
+  
+    JS API (SceneView)
+  
 </a>
 
 ```csharp
@@ -190,4 +191,3 @@ public System.Nullable<double> ShadowOpacity { get; set; }
 
 ### Remarks
 Only supported on 3D scene views.
-

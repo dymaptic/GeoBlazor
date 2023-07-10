@@ -3,11 +3,6 @@ layout: default
 title: SpatialReference
 parent: Classes
 ---
----
-layout: default
-title: SpatialReference
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Geometries](index.html#dymaptic.GeoBlazor.Core.Components.Geometries 'dymaptic.GeoBlazor.Core.Components.Geometries')
 
@@ -269,4 +264,3 @@ public static bool operator !=(dymaptic.GeoBlazor.Core.Components.Geometries.Spa
 
 #### Returns
 [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
-

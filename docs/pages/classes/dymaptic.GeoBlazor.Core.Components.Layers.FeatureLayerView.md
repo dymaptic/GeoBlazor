@@ -3,11 +3,6 @@ layout: default
 title: FeatureLayerView
 parent: Classes
 ---
----
-layout: default
-title: FeatureLayerView
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Layers](index.html#dymaptic.GeoBlazor.Core.Components.Layers 'dymaptic.GeoBlazor.Core.Components.Layers')
 
@@ -346,4 +341,3 @@ The new filter (or null to clear) to apply to this view.
 
 #### Returns
 [System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')
-

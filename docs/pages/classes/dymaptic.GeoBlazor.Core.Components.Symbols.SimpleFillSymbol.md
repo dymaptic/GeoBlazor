@@ -3,11 +3,6 @@ layout: default
 title: SimpleFillSymbol
 parent: Classes
 ---
----
-layout: default
-title: SimpleFillSymbol
-parent: Classes
----
 #### [dymaptic.GeoBlazor.Core](index.html 'index')
 ### [dymaptic.GeoBlazor.Core.Components.Symbols](index.html#dymaptic.GeoBlazor.Core.Components.Symbols 'dymaptic.GeoBlazor.Core.Components.Symbols')
 
@@ -238,4 +233,3 @@ public static bool operator !=(dymaptic.GeoBlazor.Core.Components.Symbols.Simple
 
 #### Returns
 [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
-
