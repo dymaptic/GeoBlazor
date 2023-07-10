@@ -11,9 +11,12 @@ parent: Classes
 The Popup widget allows users to view content from feature attributes. Popups enhance web applications by providing  
 users with a simple way to interact with and view attributes in a layer. They play an important role in relaying  
 information to the user, which improves the storytelling capabilities of the application.  
-<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html">  
-    ArcGIS  
-    API  
+<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html">
+  
+    ArcGIS
+  
+    API
+  
 </a>
 
 ```csharp

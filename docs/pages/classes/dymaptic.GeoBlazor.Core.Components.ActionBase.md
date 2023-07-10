@@ -54,19 +54,6 @@ public System.Func<System.Threading.Tasks.Task>? CallbackFunction { get; set; }
 #### Property Value
 [System.Func&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Func-1 'System.Func`1')[System.Threading.Tasks.Task](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task 'System.Threading.Tasks.Task')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Func-1 'System.Func`1')
 
-<a name='dymaptic.GeoBlazor.Core.Components.ActionBase.ClassName'></a>
-
-## ActionBase.ClassName Property
-
-This adds a CSS class to the ActionButton's node.
-
-```csharp
-public string? ClassName { get; set; }
-```
-
-#### Property Value
-[System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
-
 <a name='dymaptic.GeoBlazor.Core.Components.ActionBase.Disabled'></a>
 
 ## ActionBase.Disabled Property

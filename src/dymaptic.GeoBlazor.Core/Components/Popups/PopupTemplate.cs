@@ -114,7 +114,7 @@ public class PopupTemplate : MapComponent, IEquatable<PopupTemplate>
     ///     Either <see cref="Content" /> or <see cref="StringContent" /> should be defined, but not both.
     /// </remarks>
     [Parameter]
-    [RequiredProperty(nameof(Content))]
+    [RequiredProperty(nameof(Content), nameof(ContentFunction))]
     public string? StringContent { get; set; }
 
     /// <summary>
@@ -156,8 +156,13 @@ public class PopupTemplate : MapComponent, IEquatable<PopupTemplate>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? ReturnGeometry { get; set; }
     
+    /// <summary>
+    ///     Defines a delegate function which will generate the <see cref="PopupContent"/>s for the template.
+    /// </summary>
     [Parameter]
-    public Func<Graphic, Task<PopupContent[]?>>? ContentFunction { get; set; }
+    [JsonIgnore]
+    [RequiredProperty(nameof(Content), nameof(StringContent))]
+    public Func<Graphic, ValueTask<PopupContent[]?>>? ContentFunction { get; set; }
 
     /// <summary>
     ///     The template for defining and formatting a popup's content, provided as a collection of <see cref="PopupContent" />
@@ -166,7 +171,7 @@ public class PopupTemplate : MapComponent, IEquatable<PopupTemplate>
     /// <remarks>
     ///     Either <see cref="Content" /> or <see cref="StringContent" /> should be defined, but not both.
     /// </remarks>
-    [RequiredProperty(nameof(StringContent))]
+    [RequiredProperty(nameof(StringContent), nameof(ContentFunction))]
     public HashSet<PopupContent> Content { get; set; } = new();
 
     /// <summary>
@@ -230,6 +235,10 @@ public class PopupTemplate : MapComponent, IEquatable<PopupTemplate>
         }
     }
     
+    /// <summary>
+    ///     JS-invokable method that triggers a custom <see cref="ContentFunction"/> for building the popup content.
+    ///     Should not be called by consuming code.
+    /// </summary>
     [JSInvokable]
     public async Task<PopupContent[]?> OnContentFunction(Graphic graphic)
     {

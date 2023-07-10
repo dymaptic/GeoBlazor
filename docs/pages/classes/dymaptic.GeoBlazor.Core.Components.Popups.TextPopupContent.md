@@ -18,6 +18,34 @@ public class TextPopupContent : dymaptic.GeoBlazor.Core.Components.Popups.PopupC
 ```
 
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [Microsoft.AspNetCore.Components.ComponentBase](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.ComponentBase 'Microsoft.AspNetCore.Components.ComponentBase') &#129106; [MapComponent](dymaptic.GeoBlazor.Core.Components.MapComponent.html 'dymaptic.GeoBlazor.Core.Components.MapComponent') &#129106; [PopupContent](dymaptic.GeoBlazor.Core.Components.Popups.PopupContent.html 'dymaptic.GeoBlazor.Core.Components.Popups.PopupContent') &#129106; TextPopupContent
+### Constructors
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.TextPopupContent.TextPopupContent()'></a>
+
+## TextPopupContent() Constructor
+
+Parameterless constructor for use as a razor component.
+
+```csharp
+public TextPopupContent();
+```
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.TextPopupContent.TextPopupContent(string)'></a>
+
+## TextPopupContent(string) Constructor
+
+Constructor for creating a TextPopupContent in code.
+
+```csharp
+public TextPopupContent(string? text=null);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.TextPopupContent.TextPopupContent(string).text'></a>
+
+`text` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+The formatted string content to display.
 ### Properties
 
 <a name='dymaptic.GeoBlazor.Core.Components.Popups.TextPopupContent.Text'></a>

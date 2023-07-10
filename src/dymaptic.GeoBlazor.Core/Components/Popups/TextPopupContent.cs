@@ -15,6 +15,26 @@ namespace dymaptic.GeoBlazor.Core.Components.Popups;
 /// </summary>
 public class TextPopupContent : PopupContent
 {
+    /// <summary>
+    ///     Parameterless constructor for use as a razor component.
+    /// </summary>
+    public TextPopupContent()
+    {
+    }
+
+    /// <summary>
+    ///     Constructor for creating a TextPopupContent in code.
+    /// </summary>
+    /// <param name="text">
+    ///     The formatted string content to display.
+    /// </param>
+    public TextPopupContent(string? text = null)
+    {
+#pragma warning disable BL0005
+        Text = text;
+#pragma warning restore BL0005
+    }
+
     /// <inheritdoc />
     public override string Type => "text";
 

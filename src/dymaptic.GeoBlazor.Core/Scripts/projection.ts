@@ -79,14 +79,8 @@ export default class ProjectionWrapper {
     }
 
     logError(error) {
-        error.message ??= error.toString();
         console.debug(error);
-        try {
-            this.dotNetRef.invokeMethodAsync('OnJavascriptError', {
-                message: error.message, name: error.name, stack: error.stack
-            });
-        } catch {
-        }
+        throw error;
     }
 }
 

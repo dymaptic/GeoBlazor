@@ -21,7 +21,7 @@ public abstract class LogicComponent : IDisposable
     public LogicComponent(IJSRuntime jsRuntime, AuthenticationManager authenticationManager)
     {
         JsRuntime = jsRuntime;
-        _authenticationManager = authenticationManager;
+        AuthenticationManager = authenticationManager;
     }
 
     /// <summary>
@@ -94,8 +94,8 @@ public abstract class LogicComponent : IDisposable
     {
         if (Component is null)
         {
-            await _authenticationManager.Initialize();
-            IJSObjectReference module = await _authenticationManager.GetArcGisJsInterop();
+            await AuthenticationManager.Initialize();
+            IJSObjectReference module = await AuthenticationManager.GetArcGisJsInterop();
 
             Component = await module.InvokeAsync<IJSObjectReference>($"get{ComponentName}Wrapper",
                 CancellationTokenSource.Token, DotNetObjectReference);
@@ -138,7 +138,11 @@ public abstract class LogicComponent : IDisposable
     ///     The reference to the JS Runtime.
     /// </summary>
     protected readonly IJSRuntime JsRuntime;
-    private readonly AuthenticationManager _authenticationManager;
+    
+    /// <summary>
+    ///    The reference to the Authentication Manager.
+    /// </summary>
+    protected readonly AuthenticationManager AuthenticationManager;
 
     /// <summary>
     ///     Creates a cancellation token to control external calls

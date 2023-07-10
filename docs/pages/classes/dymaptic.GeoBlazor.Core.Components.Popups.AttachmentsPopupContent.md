@@ -17,6 +17,46 @@ public class AttachmentsPopupContent : dymaptic.GeoBlazor.Core.Components.Popups
 ```
 
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [Microsoft.AspNetCore.Components.ComponentBase](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Components.ComponentBase 'Microsoft.AspNetCore.Components.ComponentBase') &#129106; [MapComponent](dymaptic.GeoBlazor.Core.Components.MapComponent.html 'dymaptic.GeoBlazor.Core.Components.MapComponent') &#129106; [PopupContent](dymaptic.GeoBlazor.Core.Components.Popups.PopupContent.html 'dymaptic.GeoBlazor.Core.Components.Popups.PopupContent') &#129106; AttachmentsPopupContent
+### Constructors
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.AttachmentsPopupContent.AttachmentsPopupContent()'></a>
+
+## AttachmentsPopupContent() Constructor
+
+Parameterless constructor for use as a razor component.
+
+```csharp
+public AttachmentsPopupContent();
+```
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.AttachmentsPopupContent.AttachmentsPopupContent(string,string,string)'></a>
+
+## AttachmentsPopupContent(string, string, string) Constructor
+
+Constructor for creating a AttachmentsPopupContent in code.
+
+```csharp
+public AttachmentsPopupContent(string? title=null, string? description=null, string? displayType=null);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.AttachmentsPopupContent.AttachmentsPopupContent(string,string,string).title'></a>
+
+`title` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+A heading indicating what the attachment's content represents.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.AttachmentsPopupContent.AttachmentsPopupContent(string,string,string).description'></a>
+
+`description` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+Describes the attachment's content in detail.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.AttachmentsPopupContent.AttachmentsPopupContent(string,string,string).displayType'></a>
+
+`displayType` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+A string value indicating how to display an attachment.
 ### Properties
 
 <a name='dymaptic.GeoBlazor.Core.Components.Popups.AttachmentsPopupContent.Description'></a>

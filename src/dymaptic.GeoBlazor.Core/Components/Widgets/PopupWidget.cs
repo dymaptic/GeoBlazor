@@ -186,7 +186,7 @@ public class PopupWidget : Widget
     public async Task<Graphic> GetSelectedFeature()
     {
         return await JsObjectReference!.InvokeAsync<Graphic>("getSelectedFeature",
-            CancellationTokenSource.Token);
+            CancellationTokenSource.Token, View?.Id);
     }
 
     /// <summary>

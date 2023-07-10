@@ -543,7 +543,7 @@ public class FeatureLayer : Layer
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
 
         FeatureSet? result = await JsLayerReference!.InvokeAsync<FeatureSet?>("queryFeatures", cancellationToken,
-            query, new { signal = abortSignal }, DotNetObjectReference.Create(this));
+            query, new { signal = abortSignal }, DotNetObjectReference.Create(this), View?.Id);
 
         if (View!.IsServer && result is null)
         {
@@ -624,7 +624,7 @@ public class FeatureLayer : Layer
 
         Dictionary<int, FeatureSet?>? result = await JsLayerReference!.InvokeAsync<Dictionary<int, FeatureSet?>?>(
             "queryRelatedFeatures", cancellationToken, query, new { signal = abortSignal },
-            DotNetObjectReference.Create(this));
+            DotNetObjectReference.Create(this), View?.Id);
 
         if (View!.IsServer && result is null)
         {
@@ -723,7 +723,7 @@ public class FeatureLayer : Layer
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
 
         FeatureSet? result = await JsLayerReference!.InvokeAsync<FeatureSet?>("queryTopFeatures", cancellationToken,
-            query, new { signal = abortSignal }, DotNetObjectReference.Create(this));
+            query, new { signal = abortSignal }, DotNetObjectReference.Create(this), View?.Id);
 
         if (View!.IsServer && result is null)
         {

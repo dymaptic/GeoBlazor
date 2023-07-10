@@ -131,6 +131,19 @@ public System.Collections.Generic.HashSet<dymaptic.GeoBlazor.Core.Components.Pop
 ### Remarks
 Either [Content](dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.html#dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.Content 'dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.Content') or [StringContent](dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.html#dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.StringContent 'dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.StringContent') should be defined, but not both.
 
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.ContentFunction'></a>
+
+## PopupTemplate.ContentFunction Property
+
+Defines a delegate function which will generate the [PopupContent](dymaptic.GeoBlazor.Core.Components.Popups.PopupContent.html 'dymaptic.GeoBlazor.Core.Components.Popups.PopupContent')s for the template.
+
+```csharp
+public System.Func<dymaptic.GeoBlazor.Core.Components.Layers.Graphic,System.Threading.Tasks.ValueTask<dymaptic.GeoBlazor.Core.Components.Popups.PopupContent[]?>>? ContentFunction { get; set; }
+```
+
+#### Property Value
+[System.Func&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Func-2 'System.Func`2')[Graphic](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic')[,](https://docs.microsoft.com/en-us/dotnet/api/System.Func-2 'System.Func`2')[System.Threading.Tasks.ValueTask&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.ValueTask-1 'System.Threading.Tasks.ValueTask`1')[PopupContent](dymaptic.GeoBlazor.Core.Components.Popups.PopupContent.html 'dymaptic.GeoBlazor.Core.Components.Popups.PopupContent')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.ValueTask-1 'System.Threading.Tasks.ValueTask`1')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Func-2 'System.Func`2')
+
 <a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.DotNetPopupTemplateReference'></a>
 
 ## PopupTemplate.DotNetPopupTemplateReference Property
@@ -295,6 +308,25 @@ public override int GetHashCode();
 #### Returns
 [System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')  
 A hash code for the current object.
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.OnContentFunction(dymaptic.GeoBlazor.Core.Components.Layers.Graphic)'></a>
+
+## PopupTemplate.OnContentFunction(Graphic) Method
+
+JS-invokable method that triggers a custom [ContentFunction](dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.html#dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.ContentFunction 'dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.ContentFunction') for building the popup content.  
+Should not be called by consuming code.
+
+```csharp
+public System.Threading.Tasks.Task<dymaptic.GeoBlazor.Core.Components.Popups.PopupContent[]?> OnContentFunction(dymaptic.GeoBlazor.Core.Components.Layers.Graphic graphic);
+```
+#### Parameters
+
+<a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.OnContentFunction(dymaptic.GeoBlazor.Core.Components.Layers.Graphic).graphic'></a>
+
+`graphic` [Graphic](dymaptic.GeoBlazor.Core.Components.Layers.Graphic.html 'dymaptic.GeoBlazor.Core.Components.Layers.Graphic')
+
+#### Returns
+[System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[PopupContent](dymaptic.GeoBlazor.Core.Components.Popups.PopupContent.html 'dymaptic.GeoBlazor.Core.Components.Popups.PopupContent')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')
 
 <a name='dymaptic.GeoBlazor.Core.Components.Popups.PopupTemplate.OnTriggerAction(string)'></a>
 
