@@ -179,6 +179,7 @@ commercial) packages.
 | **Track**                      | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      |
 | **Editor**                     |                                                                       | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      |
 | **Sketch**                     |                                                                       | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      |
+| **Swipe**                      |                                                                       | <img src="/assets/images/checkmark.svg" style="height: 40px;" />      |
 | **Attachments**                |                                                                       | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> |
 | **Feature Form**               |                                                                       | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> |
 | **Feature Templates**          |                                                                       | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> |
@@ -197,7 +198,6 @@ commercial) packages.
 | **Utility Network Trace**      |                                                                       | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> |
 | **Weather**                    |                                                                       | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> |
 | **Directions**                 |                                                                       | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> |
-| **Swipe**                      |                                                                       | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> |
 | **Time Slider**                |                                                                       | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> |
 | **Layer List with Legend**     |                                                                       | <img src="/assets/images/emptyCheckmark.svg" style="height: 40px;" /> |
 
