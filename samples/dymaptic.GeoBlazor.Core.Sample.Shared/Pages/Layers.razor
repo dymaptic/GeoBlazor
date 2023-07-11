@@ -1,0 +1,44 @@
+﻿@page "/layers"
+<h3>Layers</h3>
+
+<div class="links-div">
+    <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/layers-and-data/">ArcGIS API for JavaScript</a>
+</div>
+
+<button disabled="@(!_mapRendered)" @onclick="() => ToggleLayer(_csvLayer)">Show CSV Layer</button>
+
+<MapView @ref="_view" class="map-view" OnMapRendered="OnMapRendered">
+    <Extent Xmin="-41525513" Ymin="4969181" Xmax="-36687355" Ymax="9024624">
+        <SpatialReference Wkid="102100" />
+    </Extent>
+    <Map ArcGISDefaultBasemap="arcgis-topographic">
+    </Map>
+</MapView>
+
+@code {
+
+    private void OnMapRendered()
+    {
+        _mapRendered = true;
+    }
+
+    private async Task ToggleLayer(Layer layer)
+    {
+        if (_view!.Map!.Layers.Contains(layer))
+        {
+            await _view.RemoveLayer(layer);
+        }
+        else
+        {
+            await _view.AddLayer(layer);
+        }
+    }
+
+    private MapView? _view;
+
+    //we create a custom CSVLayer from a CSV file
+    private readonly CSVLayer _csvLayer =
+        new("https://developers.arcgis.com/javascript/latest//sample-code/layers-csv/live/earthquakes.csv");
+
+    private bool _mapRendered;
+}
