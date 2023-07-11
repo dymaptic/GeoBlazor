@@ -64,7 +64,7 @@ import {
 import {
     buildJsAttributes,
     buildJsExtent,
-    buildJsFields,
+    buildJsFields, buildJsFormTemplate,
     buildJsGeometry,
     buildJsGraphic,
     buildJsPoint,
@@ -1853,6 +1853,11 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
 
             copyValuesIfExists(layerObject, featureLayer, 'minScale', 'maxScale', 'orderBy', 'objectIdField',
                 'definitionExpression', 'labelingInfo', 'outFields');
+            
+            if (hasValue(layerObject.formTemplate)) {
+                featureLayer.formTemplate = buildJsFormTemplate(layerObject.formTemplate);
+                console.log('feature form: ' + JSON.stringify(featureLayer.formTemplate.toJSON()));
+            }
 
             if (hasValue(layerObject.popupTemplate)) {
                 featureLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId ?? null);

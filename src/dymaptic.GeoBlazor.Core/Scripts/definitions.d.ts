@@ -465,3 +465,25 @@ export interface DotNetRelatedRecordsInfoFieldOrder {
     field: string;
     order: string;
 }
+
+export interface DotNetApplyEdits {
+    addFeatures: DotNetGraphic[];
+    updateFeatures: DotNetGraphic[];
+    deleteFeatures: DotNetGraphic[];
+    addAttachments: DotNetAttachmentsEdit[];
+    updateAttachments: DotNetAttachmentsEdit[];
+    deleteAttachments: string[];
+}
+
+export interface DotNetAttachmentsEdit {
+    feature: DotNetGraphic | number | string;
+    attachment: DotNetAttachment;
+}
+
+export interface DotNetAttachment {
+    globalId: string;
+    name: string;
+    contentType: string;
+    uploadId: string;
+    data: string;
+}

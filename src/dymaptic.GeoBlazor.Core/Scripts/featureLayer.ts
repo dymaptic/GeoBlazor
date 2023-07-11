@@ -3,6 +3,7 @@ import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import Query from "@arcgis/core/rest/support/Query";
 import FeatureSet from "@arcgis/core/rest/support/FeatureSet";
 import {
+    DotNetApplyEdits,
     DotNetFeatureSet,
     DotNetGraphic,
     DotNetPopupTemplate,
@@ -10,7 +11,7 @@ import {
     DotNetRelationshipQuery,
     DotNetTopFeaturesQuery
 } from "./definitions";
-import {buildJsQuery, buildJsRelationshipQuery, buildJsTopFeaturesQuery} from "./jsBuilder";
+import {buildJsApplyEdits, buildJsQuery, buildJsRelationshipQuery, buildJsTopFeaturesQuery} from "./jsBuilder";
 import {
     buildDotNetExtent,
     buildDotNetGeometry,
@@ -224,5 +225,10 @@ export default class FeatureLayerWrapper {
             count: result.count,
             extent: buildDotNetExtent(result.extent)
         };
+    }
+    
+    applyEdits(edits: DotNetApplyEdits, options: any, viewId: string): Promise<any> {
+        let jsEdits = buildJsApplyEdits(edits, viewId);
+        return this.layer.applyEdits(jsEdits, options);
     }
 }

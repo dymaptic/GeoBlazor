@@ -1,6 +1,7 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
 using dymaptic.GeoBlazor.Core.Components.Popups;
 using dymaptic.GeoBlazor.Core.Components.Renderers;
+using dymaptic.GeoBlazor.Core.Components.Widgets;
 using dymaptic.GeoBlazor.Core.Exceptions;
 using dymaptic.GeoBlazor.Core.Objects;
 using Microsoft.AspNetCore.Components;
@@ -227,6 +228,8 @@ public class FeatureLayer : Layer
     ///     another layer or table.
     /// </summary>
     public Relationship[]? Relationships { get; set; }
+    
+    public FormTemplate? FormTemplate { get; set; }
 
     /// <inheritdoc />
     public override string LayerType => "feature";
@@ -298,6 +301,12 @@ public class FeatureLayer : Layer
     public async Task SetPopupTemplate(PopupTemplate template)
     {
         await RegisterChildComponent(template);
+    }
+
+    public async Task<FeatureEditsResult> ApplyEdits(FeatureEdits edits, FeatureEditOptions? options = null)
+    {
+        return await JsLayerReference!.InvokeAsync<FeatureEditsResult>("applyEdits", edits, options, 
+            View!.Id);
     }
 
     /// <inheritdoc />
@@ -378,6 +387,14 @@ public class FeatureLayer : Layer
                 if (!_fields.Contains(field))
                 {
                     _fields.Add(field);
+                    LayerChanged = true;
+                }
+
+                break;
+            case FormTemplate formTemplate:
+                if (!formTemplate.Equals(FormTemplate))
+                {
+                    FormTemplate = formTemplate;
                     LayerChanged = true;
                 }
 
@@ -826,7 +843,8 @@ public class FeatureLayer : Layer
     {
         await base.UpdateFromJavaScript(renderedLayer);
         var renderedFeatureLayer = (FeatureLayer)renderedLayer;
-        Url = renderedFeatureLayer.Url;
+        Url ??= renderedFeatureLayer.Url;
+        Title ??= renderedFeatureLayer.Title;
 
         if (renderedFeatureLayer.Source is not null && renderedFeatureLayer.Source.Any() &&
             Source is null)
@@ -964,3 +982,55 @@ public class CreatePopupTemplateOptions
     /// </summary>
     public HashSet<string>? VisibleFieldNames { get; set; }
 }
+
+public class FeatureEdits
+{
+    public IEnumerable<Graphic>? AddFeatures { get; set; }
+    public IEnumerable<Graphic>? UpdateFeatures { get; set; }
+    public IEnumerable<Graphic>? DeleteFeatures { get; set; }
+    public IEnumerable<AttachmentEdit>? AddAttachments { get; set; }
+    public IEnumerable<AttachmentEdit>? UpdateAttachments { get; set; }
+    public IEnumerable<string>? DeleteAttachments { get; set; }
+}
+
+public class AttachmentEdit
+{
+    public Graphic Feature { get; set; } = default!;
+    public Attachment Attachment { get; set; } = default!;
+}
+
+public class Attachment
+{
+    public string GlobalId { get; set; } = default!;
+    public string? Name { get; set; }
+    public string? ContentType { get; set; }
+    public string? UploadId { get; set; }
+    public string? Data { get; set; }
+}
+
+public class FeatureEditOptions
+{
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? GdbVersion { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? ReturnEditMoment { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? ReturnServiceEditsOption { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? RollbackOnFailureEnabled { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? GlobalIdUsed { get; set; }
+}
+
+public record FeatureEditsResult(FeatureEditResult[] AddFeatureResults, FeatureEditResult[] UpdateFeatureResults, 
+    FeatureEditResult[] DeleteFeatureResults, FeatureEditResult[] AddAttachmentResults, 
+    FeatureEditResult[] UpdateAttachmentResults, FeatureEditResult[] DeleteAttachmentResults,
+    EditedFeatureResult[]? EditedFeatureResults, long? EditMoment);
+
+public record FeatureEditResult(long? ObjectId, string? GlobalId, EditError? Error);
+public record EditError(string? Name, string? Message);
+public record EditedFeatureResult(long? LayerId, EditedFeatures? EditedFeatures);
+
+public record EditedFeatures(Graphic[] Adds, EditedFeatureUpdate[] Updates, Graphic[] Deletes,
+    SpatialReference SpatialReference);
+public record EditedFeatureUpdate(Graphic[] Original, Graphic[] Current);

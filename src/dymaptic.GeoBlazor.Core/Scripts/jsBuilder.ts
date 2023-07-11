@@ -13,6 +13,8 @@ import Renderer from "@arcgis/core/renderers/Renderer";
 import Field from "@arcgis/core/layers/support/Field";
 import Font from "@arcgis/core/symbols/Font";
 import {
+    DotNetApplyEdits,
+    DotNetAttachmentsEdit,
     DotNetAttachmentsPopupContent,
     DotNetBarChartMediaInfo,
     DotNetChartMediaInfoValue,
@@ -76,15 +78,29 @@ import SimpleLineSymbol from "@arcgis/core/symbols/SimpleLineSymbol";
 import ElementExpressionInfo from "@arcgis/core/popup/ElementExpressionInfo";
 import ChartMediaInfoValueSeries from "@arcgis/core/popup/content/support/ChartMediaInfoValueSeries";
 import View from "@arcgis/core/views/View";
+import {buildDotNetGraphic} from "./dotNetBuilder";
 import ViewClickEvent = __esri.ViewClickEvent;
 import PopupOpenOptions = __esri.PopupOpenOptions;
 import PopupDockOptions = __esri.PopupDockOptions;
 import ContentProperties = __esri.ContentProperties;
 import PopupTriggerActionEvent = __esri.PopupTriggerActionEvent;
-import { buildDotNetGraphic } from "./dotNetBuilder";
-import ActionBase from "@arcgis/core/support/actions/ActionBase";
-import ActionButton from "@arcgis/core/support/actions/ActionButton";
-import ActionToggle from "@arcgis/core/support/actions/ActionToggle";
+import FeatureLayerBaseApplyEditsEdits = __esri.FeatureLayerBaseApplyEditsEdits;
+import AttachmentEdit = __esri.AttachmentEdit;
+import FormTemplate from "@arcgis/core/form/FormTemplate";
+import ElementProperties = __esri.ElementProperties;
+import Element from "@arcgis/core/form/elements/Element";
+import GroupElement from "@arcgis/core/form/elements/GroupElement";
+import FieldElement from "@arcgis/core/form/elements/FieldElement";
+import CodedValueDomain from "@arcgis/core/layers/support/CodedValueDomain";
+import RangeDomain from "@arcgis/core/layers/support/RangeDomain";
+import CodedValue = __esri.CodedValue;
+import TextBoxInput from "@arcgis/core/form/elements/inputs/TextBoxInput";
+import TextAreaInput from "@arcgis/core/form/elements/inputs/TextAreaInput";
+import DateTimePickerInput from "@arcgis/core/form/elements/inputs/DateTimePickerInput";
+import BarcodeScannerInput from "@arcgis/core/form/elements/inputs/BarcodeScannerInput";
+import ComboBoxInput from "@arcgis/core/form/elements/inputs/ComboBoxInput";
+import RadioButtonsInput from "@arcgis/core/form/elements/inputs/RadioButtonsInput";
+import SwitchInput from "@arcgis/core/form/elements/inputs/SwitchInput";
 
 export function buildJsSpatialReference(dotNetSpatialReference: DotNetSpatialReference): SpatialReference {
     if (dotNetSpatialReference === undefined || dotNetSpatialReference === null) {
@@ -321,8 +337,7 @@ export function buildJsExpressionInfo(expressionInfoObject: DotNetExpressionInfo
     return {
         name: expressionInfoObject.name ?? undefined,
         title: expressionInfoObject.title ?? undefined,
-        expression: expressionInfoObject.expression ?? undefined,
-        returnType: expressionInfoObject.returnType as any ?? undefined
+        expression: expressionInfoObject.expression ?? undefined
     } as popupExpressionInfo;
 }
 
@@ -805,7 +820,6 @@ export function buildJsImageMediaInfoValue(dotNetImageMediaInfoValue: DotNetImag
 export function buildJsElementExpressionInfo(dotNetExpressionInfo: DotNetElementExpressionInfo): ElementExpressionInfo {
     let info = new ElementExpressionInfo({
         expression: dotNetExpressionInfo.expression ?? undefined,
-        returnType: dotNetExpressionInfo.returnType as any ?? undefined,
         title: dotNetExpressionInfo.title ?? undefined
     });
 
@@ -829,8 +843,161 @@ export function buildJsPortalItem(dotNetPortalItem: any): any {
     return portalItem;
 }
 
+export function buildJsApplyEdits(dotNetApplyEdits: DotNetApplyEdits, viewId: string): FeatureLayerBaseApplyEditsEdits {
+    let addFeatures = dotNetApplyEdits.addFeatures?.map(f => buildJsGraphic(f, viewId)!);
+    let deleteFeatures = dotNetApplyEdits.deleteFeatures?.map(f => buildJsGraphic(f, viewId)!);
+    let updateFeatures = dotNetApplyEdits.updateFeatures?.map(f => buildJsGraphic(f, viewId)!);
+    let addAttachments = dotNetApplyEdits.addAttachments?.map(a => buildJsAttachmentEdit(a, viewId)!);
+    let updateAttachments = dotNetApplyEdits.updateAttachments?.map(a => buildJsAttachmentEdit(a, viewId)!);
+
+    return {
+        addFeatures: addFeatures ?? undefined,
+        deleteFeatures: deleteFeatures ?? undefined,
+        updateFeatures: updateFeatures ?? undefined,
+        addAttachments: addAttachments ?? undefined,
+        updateAttachments: updateAttachments ?? undefined,
+        deleteAttachments: dotNetApplyEdits.deleteAttachments ?? undefined
+    };
+}
+
+export function buildJsFormTemplate(dotNetFormTemplate: any): FormTemplate {
+    let formTemplate = new FormTemplate({
+        title: dotNetFormTemplate.title ?? undefined,
+        description: dotNetFormTemplate.description ?? undefined,
+        preserveFieldValuesWhenHidden: dotNetFormTemplate.preserveFieldValuesWhenHidden ?? undefined
+    });
+    if (hasValue(dotNetFormTemplate?.elements)) {
+        formTemplate.elements = dotNetFormTemplate.elements.map(e => buildJsFormTemplateElement(e));
+    }
+    if (hasValue(dotNetFormTemplate.expressionInfos)) {
+        formTemplate.expressionInfos = dotNetFormTemplate.expressionInfos.map(e => buildJsExpressionInfo(e));
+    }
+    return formTemplate;
+}
+
+function buildJsFormTemplateElement(dotNetFormTemplateElement: any): Element {
+    switch (dotNetFormTemplateElement.type){
+        case 'group':
+            return new GroupElement({
+                label: dotNetFormTemplateElement.label ?? undefined,
+                description: dotNetFormTemplateElement.description ?? undefined,
+                elements: dotNetFormTemplateElement.elements?.map(e => buildJsFormTemplateElement(e)) ?? []
+            });
+    }
+    let fieldElement: any = {
+        type: 'field'
+    };
+    if (hasValue(dotNetFormTemplateElement.description)) {
+        fieldElement.description = dotNetFormTemplateElement.description;
+    }
+    if (hasValue(dotNetFormTemplateElement.label)) {
+        fieldElement.label = dotNetFormTemplateElement.label;
+    }
+    if (hasValue(dotNetFormTemplateElement.visibilityExpression)) {
+        fieldElement.visibilityExpression = dotNetFormTemplateElement.visibilityExpression;
+    }
+    if (hasValue(dotNetFormTemplateElement.editableExpression)) {
+        fieldElement.editableExpression = dotNetFormTemplateElement.editableExpression;
+    }
+    if (hasValue(dotNetFormTemplateElement.requiredExpression)) {
+        fieldElement.requiredExpression = dotNetFormTemplateElement.requiredExpression;
+    }
+    if (hasValue(dotNetFormTemplateElement.fieldName)) {
+        fieldElement.fieldName = dotNetFormTemplateElement.fieldName;
+    }
+    if (hasValue(dotNetFormTemplateElement.hint)) {
+        fieldElement.hint = dotNetFormTemplateElement.hint;
+    }
+    if (hasValue(dotNetFormTemplateElement.valueExpression)) {
+        fieldElement.valueExpression = dotNetFormTemplateElement.valueExpression;
+    }
+    if (hasValue(dotNetFormTemplateElement?.domain)) {
+        fieldElement.domain = buildJsDomain(dotNetFormTemplateElement.domain);
+    }
+    if (hasValue(dotNetFormTemplateElement?.input)) {
+        fieldElement.input = buildJsFormInput(dotNetFormTemplateElement.input);
+    }
+    return fieldElement;
+}
+
+function buildJsDomain(dotNetDomain: any): any {
+    switch (dotNetDomain?.type){
+        case 'coded-value':
+            return new CodedValueDomain({
+                name: dotNetDomain.name ?? undefined,
+                codedValues: dotNetDomain.codedValues?.map(c => buildJsCodedValue(c)) ?? undefined
+            });
+        case 'range':
+            return new RangeDomain({
+                name: dotNetDomain.name ?? undefined,
+                maxValue: dotNetDomain.maxValue ?? undefined,
+                minValue: dotNetDomain.minValue ?? undefined
+            });
+    }
+    
+    return undefined;
+}
+
+function buildJsCodedValue(dotNetCodedValue: any): CodedValue {
+    return {
+        name: dotNetCodedValue.name ?? undefined,
+        code: dotNetCodedValue.code ?? undefined
+    };
+}
+
+function buildJsFormInput(dotNetFormInput: any): any {
+    switch (dotNetFormInput?.type) {
+        case 'text-box':
+            return new TextBoxInput({
+                maxLength: dotNetFormInput.maxLength ?? undefined,
+                minLength: dotNetFormInput.minLength ?? undefined
+            });
+        case 'text-area':
+            return new TextAreaInput({
+                maxLength: dotNetFormInput.maxLength ?? undefined,
+                minLength: dotNetFormInput.minLength ?? undefined
+            });
+        case 'datetime-picker':
+            return new DateTimePickerInput({
+                includeTime: dotNetFormInput.includeTime ?? undefined,
+                max: dotNetFormInput.max ?? undefined,
+                min: dotNetFormInput.min ?? undefined
+            });
+        case 'barcode-scanner':
+            return new BarcodeScannerInput({
+                maxLength: dotNetFormInput.maxLength ?? undefined,
+                minLength: dotNetFormInput.minLength ?? undefined
+            });
+        case 'combo-box':
+            return new ComboBoxInput({
+                noValueOptionLabel: dotNetFormInput.noValueOptionLabel ?? undefined,
+                showNoValueOption: dotNetFormInput.showNoValueOption ?? undefined
+            });
+        case 'radio-buttons':
+            return new RadioButtonsInput({
+                noValueOptionLabel: dotNetFormInput.noValueOptionLabel ?? undefined,
+                showNoValueOption: dotNetFormInput.showNoValueOption ?? undefined
+            });
+        case 'switch':
+            return new SwitchInput({
+                offValue: dotNetFormInput.offValue ?? undefined,
+                onValue: dotNetFormInput.onValue ?? undefined
+            });
+    }
+    
+    return undefined;
+}
+
+function buildJsAttachmentEdit(dotNetAttachmentEdit: DotNetAttachmentsEdit, viewId: string): AttachmentEdit {
+    return {
+        feature: buildJsGraphic(dotNetAttachmentEdit.feature, viewId)!,
+        attachment: dotNetAttachmentEdit.attachment
+    };
+}
+
 function buildJsColor(color: any) {
     if (!hasValue(color)) return null;
+    // @ts-ignore
     if (typeof color === "string" || color instanceof Array<number>) return color;
     if (hasValue(color?.hexOrNameValue)) {
         return color.hexOrNameValue;
