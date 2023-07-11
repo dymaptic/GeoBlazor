@@ -17,6 +17,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 public class BookmarkWidget : Widget
 {
     ///<inheritdoc/>
+    [JsonPropertyName("type")]
     public override string WidgetType => "bookmark";
 
     [Parameter]
@@ -38,5 +39,8 @@ public class BookmarkWidget : Widget
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Label { get; set; }
 
+    public DotNetObjectReference<BookmarkWidget> BookmarkWidgetObjectReference => DotNetObjectReference.Create(this);
+
+    public bool HasCustomBookmarkHandler => OnBookmarkCreatedHandler is not null;
 }
 
