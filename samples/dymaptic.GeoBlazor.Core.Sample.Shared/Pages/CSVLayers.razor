@@ -1,0 +1,53 @@
+﻿@page "/csv-layer"
+@using System.Reflection.Metadata
+@using dymaptic.GeoBlazor.Core.Components
+@using dymaptic.GeoBlazor.Core.Components.Geometries
+@using dymaptic.GeoBlazor.Core.Components.Views
+@using Microsoft.AspNetCore.Components
+@using Microsoft.AspNetCore.Components.Forms
+<h3>CSV Layers</h3>
+
+<div class="links-div">
+    <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/layers-and-data/">ArcGIS API for JavaScript</a>
+</div>
+<Label>Enter CSV Layer URL:</Label>
+<InputText @bind-Value="_csvLayerUrl"></InputText>
+<button disabled="@(!_mapRendered)" @onclick="AddLayer">Add new CSV Layer!</button>
+
+
+<MapView @ref="_view" class="map-view" OnMapRendered="OnMapRendered">
+    <Extent Xmin="-41525513" Ymin="4969181" Xmax="-36687355" Ymax="9024624">
+        <SpatialReference Wkid="102100" />
+    </Extent>
+    <Map ArcGISDefaultBasemap="arcgis-topographic">
+        <CSVLayer Url="https://developers.arcgis.com/javascript/latest//sample-code/layers-csv/live/earthquakes.csv" Title="Earth Quakes" Copyright="Esri"></CSVLayer>
+    </Map>
+</MapView>
+
+@code {
+
+    private void OnMapRendered()
+    {
+        _mapRendered = true;
+    }
+
+    private async Task AddLayer()
+    {
+        if (!string.IsNullOrEmpty(_csvLayerUrl))
+        {
+            //we create a custom CSVLayer from a CSV url
+            var csvLayer = new CSVLayer(_csvLayerUrl);
+
+            if (_mapRendered)
+            {
+                await _view.AddLayer(csvLayer);
+            }
+        }
+    }
+
+    private string? _csvLayerUrl;
+
+    private MapView? _view;
+
+    private bool _mapRendered;
+}

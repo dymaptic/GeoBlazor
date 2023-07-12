@@ -32,6 +32,9 @@ public class CSVLayer : Layer
     /// <param name="title">
     ///     The title of the layer used to identify it in places such as the Legend and LayerList widgets.
     /// </param>
+    /// <param name="copyright">
+    ///     A copyright string to identify ownership of the data.
+    /// </param>
     /// <param name="opacity">
     ///     The opacity of the layer.
     /// </param>
@@ -42,7 +45,7 @@ public class CSVLayer : Layer
     /// <param name="listMode">
     ///     Indicates how the layer should display in the LayerList widget. The possible values are listed below.
     /// </param>
-    public CSVLayer(string url, string? title = null,
+    public CSVLayer(string url, string? title = null, string? copyright = null,
         double? opacity = null, bool? visible = null, ListMode? listMode = null)
     {
 #pragma warning disable BL0005
@@ -51,6 +54,7 @@ public class CSVLayer : Layer
         Opacity = opacity;
         Visible = visible;
         ListMode = listMode;
+        Copyright = copyright;
 #pragma warning restore BL0005
     }
 
@@ -64,4 +68,11 @@ public class CSVLayer : Layer
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Url { get; set; }
+
+    /// <summary>
+    ///     A copyright string to identify ownership of the data.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Copyright { get; set; }
 }
