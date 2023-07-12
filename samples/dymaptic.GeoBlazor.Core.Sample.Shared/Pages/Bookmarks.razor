@@ -1,0 +1,31 @@
+@page "/Bookmarks"
+
+<PageTitle>Bookmarks and Bookmarks Widget</PageTitle>
+<h1>Bookmarks Widget</h1>
+
+<div class="links-div">
+    <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks.html">ArcGIS API for JavaScript Reference</a>
+    <a class="btn btn-primary" target="_blank" href="https://www.arcgis.com/home/item.html?id=70b726074af04a7e9839d8a07f64c039">Bookmarks widget</a>
+</div>
+
+<p class="instructions">
+    Sample demonstrates the use of the Bookmarks widget and Bookmark actions.
+</p>
+
+<div class="form-group">
+    <label>Show Bookmarks and Bookmarks Widget: <input type="checkbox" class="form-check-input" @onchange="@(() => _showBookmarks = !_showBookmarks)"></label>
+</div>
+<MapView @ref="MapView" Longitude="-118.80543" Latitude="34.02700" Zoom="13" Class="map-view">
+    <Map ArcGISDefaultBasemap="arcgis-topographic">
+        @if (_showBookmarks)
+        {
+            <Bookmarks Url="https://www.arcgis.com/home/item.html?id=70b726074af04a7e9839d8a07f64c039" />
+        }
+    </Map>
+</MapView>
+
+@code {
+    private MapView? MapView { get; set; }
+    private bool _showBookmarks;
+
+}

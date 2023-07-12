@@ -14,7 +14,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 /// It displays a list of bookmarks, which are typically defined inside the WebMap.
 /// <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks.html#properties-summary">
 /// </summary>
-public class Bookmarks : Widget
+public class BookmarksWidget : Widget
 {
     ///<inheritdoc/>
     [JsonPropertyName("type")]

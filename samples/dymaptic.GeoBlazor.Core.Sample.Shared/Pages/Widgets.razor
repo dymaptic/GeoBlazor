@@ -38,7 +38,7 @@
             <label>Compass: <input type="checkbox" class="form-check-input" @onchange="@(() => ToggleWidget(nameof(CompassWidget)))"></label>
         </div>
         <div class="form-group">
-           <label>Bookmarks: <input type="checkbox" class="form-check-input" @onchange="@(() => ToggleWidget(nameof(BookmarkWidget)))"></label>
+           <label>Bookmarks: <input type="checkbox" class="form-check-input" @onchange="@(() => ToggleWidget(nameof(Bookmarks)))"></label>
         </div>
         <div id="gallery-box"></div>
     </div>
@@ -81,7 +81,7 @@
     }
 @if (_showBookmarks)
     {
-        <BookmarkWidget Position="OverlayPosition.TopRight" />
+        <BookmarksWidget Position="OverlayPosition.TopRight" />
     }
 </MapView>
 
@@ -116,7 +116,7 @@
             case nameof(CompassWidget):
                 _showCompass = !_showCompass;
                 break;
-            case nameof(BookmarkWidget):
+            case nameof(Bookmarks):
                 _showBookmarks = !_showBookmarks;
                 break;
         }
