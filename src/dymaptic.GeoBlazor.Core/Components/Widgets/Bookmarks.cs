@@ -14,7 +14,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 /// It displays a list of bookmarks, which are typically defined inside the WebMap.
 /// <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks.html#properties-summary">
 /// </summary>
-public class BookmarkWidget : Widget
+public class Bookmarks : Widget
 {
     ///<inheritdoc/>
     [JsonPropertyName("type")]
@@ -39,8 +39,6 @@ public class BookmarkWidget : Widget
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Label { get; set; }
 
-    public DotNetObjectReference<BookmarkWidget> BookmarkWidgetObjectReference => DotNetObjectReference.Create(this);
 
-    public bool HasCustomBookmarkHandler => OnBookmarkCreatedHandler is not null;
 }
 

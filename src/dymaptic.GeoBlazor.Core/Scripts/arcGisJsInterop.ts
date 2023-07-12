@@ -46,7 +46,8 @@ import ListItem from "@arcgis/core/widgets/LayerList/ListItem";
 import * as reactiveUtils from "@arcgis/core/core/reactiveUtils";
 import BasemapLayerList from "@arcgis/core/widgets/BasemapLayerList";
 import FeatureLayerWrapper from "./featureLayer";
-import Bookmarks from "@arcgis/core/widgets/BookmarkWidget";
+import Bookmarks from "@arcgis/core/widgets/Bookmarks";
+import Bookmark from "@arcgis/core/webmap/Bookmark";
 
 import {
     buildDotNetExtent,
@@ -1752,8 +1753,11 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
             newWidget = await setPopup(widget, viewId) as Popup;
             break;
         case 'bookmarks':
+            
+            //need to check if bookmarks widget has any bookmarks with content?
             const bookmarksWidget = new Bookmarks({
                 view: view
+                // create a bookmark?
             });
             newWidget = bookmarksWidget;
             if (hasValue(widget.iconClass)) {
@@ -1761,8 +1765,7 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
             }
             if (hasValue(widget.label)) {
                 bookmarksWidget.label = widget.label;
-            }
-            
+            }            
             break;
         default:
             return null;
