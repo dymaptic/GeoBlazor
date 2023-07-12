@@ -5,6 +5,11 @@ using System.Text.Json.Serialization;
 
 
 namespace dymaptic.GeoBlazor.Core.Components.Widgets;
+
+/// <summary>
+///     Form elements define what should display within the FormTemplate elements. There are three specific element types:
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-form-elements-Element.html">ArcGIS JS API</a>
+/// </summary>
 [JsonConverter(typeof(FormElementConverter))]
 public abstract class FormElement: MapComponent
 {
@@ -131,11 +136,21 @@ public class FieldElement : FormElement
     }
 }
 
+/// <summary>
+///     A GroupElement form element defines a container that holds a set of form elements that can be expanded, collapsed, or displayed together. This is the preferred way to set grouped field configurations within a FeatureForm or Featurelayer formTemplate.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-form-elements-GroupElement.html">ArcGIS JS API</a>
+/// </summary>
 public class GroupElement : FormElement
 {
     /// <inheritdoc />
     public override string Type => "group";
     
+    /// <summary>
+    ///     An array of field elements to display as grouped. These objects represent an ordered list of form elements.
+    /// </summary>
+    /// <remarks>
+    ///     Nested group elements are not supported.
+    /// </remarks>
     public List<FieldElement>? Elements { get; set; }
 
     /// <inheritdoc />
@@ -203,7 +218,22 @@ internal class FormElementConverter : JsonConverter<FormElement>
 {
     public override FormElement? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        throw new NotImplementedException();
+        using JsonDocument document = JsonDocument.ParseValue(ref reader);
+        JsonElement element = document.RootElement;
+
+        if (element.TryGetProperty("type", out JsonElement typeElement))
+        {
+            string type = typeElement.GetString() ?? string.Empty;
+
+            return type switch
+            {
+                "field" => JsonSerializer.Deserialize<FieldElement>(element.GetRawText(), options),
+                "group" => JsonSerializer.Deserialize<GroupElement>(element.GetRawText(), options),
+                _ => throw new JsonException($"Unknown type: {type}")
+            };
+        }
+
+        return null;
     }
 
     public override void Write(Utf8JsonWriter writer, FormElement value, JsonSerializerOptions options)

@@ -16,7 +16,6 @@ using WebView = Android.Webkit.WebView;
 
 namespace dymaptic.GeoBlazor.Core.Sample.Maui.Platforms.Android;
 
-#nullable enable
 /// <summary>
 ///     Borrowed from https://github.com/MackinnonBuck/MauiBlazorPermissionsExample
 /// </summary>
