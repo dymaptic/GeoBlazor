@@ -85,6 +85,7 @@ import { buildDotNetGraphic } from "./dotNetBuilder";
 import ActionBase from "@arcgis/core/support/actions/ActionBase";
 import ActionButton from "@arcgis/core/support/actions/ActionButton";
 import ActionToggle from "@arcgis/core/support/actions/ActionToggle";
+import Bookmark from "@arcgis/core/bookmark";
 
 export function buildJsSpatialReference(dotNetSpatialReference: DotNetSpatialReference): SpatialReference {
     if (dotNetSpatialReference === undefined || dotNetSpatialReference === null) {

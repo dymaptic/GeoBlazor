@@ -18,7 +18,7 @@ public class BookmarkWidget : Widget
 {
     ///<inheritdoc/>
     [JsonPropertyName("type")]
-    public override string WidgetType => "bookmark";
+    public override string WidgetType => "bookmarks";
 
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

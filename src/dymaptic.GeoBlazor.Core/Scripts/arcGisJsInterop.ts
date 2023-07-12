@@ -46,6 +46,7 @@ import ListItem from "@arcgis/core/widgets/LayerList/ListItem";
 import * as reactiveUtils from "@arcgis/core/core/reactiveUtils";
 import BasemapLayerList from "@arcgis/core/widgets/BasemapLayerList";
 import FeatureLayerWrapper from "./featureLayer";
+import Bookmarks from "@arcgis/core/widgets/BookmarkWidget";
 
 import {
     buildDotNetExtent,
@@ -1751,7 +1752,7 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
             newWidget = await setPopup(widget, viewId) as Popup;
             break;
         case 'bookmarks':
-            const bookmarksWidget = new BookmarksWidget({
+            const bookmarksWidget = new Bookmarks({
                 view: view
             });
             newWidget = bookmarksWidget;

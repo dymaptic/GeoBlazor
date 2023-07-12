@@ -465,3 +465,9 @@ export interface DotNetRelatedRecordsInfoFieldOrder {
     field: string;
     order: string;
 }
+
+export interface DotNetBookmark {
+    name: string;
+    thumbnail: string;
+    viewpoint: DotNetViewpoint;
+}
