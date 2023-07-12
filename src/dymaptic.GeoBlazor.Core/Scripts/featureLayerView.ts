@@ -2,10 +2,11 @@
 import FeatureEffect from "@arcgis/core/layers/support/FeatureEffect";
 import Query from "@arcgis/core/rest/support/Query";
 import {DotNetFeatureSet, DotNetGraphic, DotNetQuery} from "./definitions";
-import {buildJsQuery} from "./jsBuilder";
+import {buildJsGraphic, buildJsQuery} from "./jsBuilder";
 import {blazorServer, dotNetRefs, graphicsRefs} from "./arcGisJsInterop";
 import Handle = __esri.Handle;
 import {buildDotNetGeometry, buildDotNetGraphic, buildDotNetSpatialReference} from "./dotNetBuilder";
+import Graphic from "@arcgis/core/Graphic";
 
 export default class FeatureLayerViewWrapper {
     private featureLayerView: FeatureLayerView;
@@ -41,7 +42,23 @@ export default class FeatureLayerViewWrapper {
     }
 
     highlight(target: any): Handle {
-        return this.featureLayerView.highlight(target);
+        let graphics: Graphic[] = [];
+        if (Array.isArray(target)) {
+            target.forEach(t => {
+                if (graphicsRefs.hasOwnProperty(t.id)) {
+                    graphics.push(graphicsRefs[t.id]);
+                } else {
+                    graphics.push(buildJsGraphic(t, null) as Graphic);
+                }
+            });
+        } else {
+            if (graphicsRefs.hasOwnProperty(target.id)) {
+                graphics.push(graphicsRefs[target.id]);
+            } else {
+                graphics.push(buildJsGraphic(target, null) as Graphic);
+            }
+        }
+        return this.featureLayerView.highlight(graphics);
     }
 
     async queryExtent(query: DotNetQuery, options: any): Promise<any> {

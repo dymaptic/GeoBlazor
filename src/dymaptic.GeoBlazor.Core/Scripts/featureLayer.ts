@@ -229,6 +229,13 @@ export default class FeatureLayerWrapper {
     
     applyEdits(edits: DotNetApplyEdits, options: any, viewId: string): Promise<any> {
         let jsEdits = buildJsApplyEdits(edits, viewId);
-        return this.layer.applyEdits(jsEdits, options);
+        let result;
+        if (options !== null) {
+            result = this.layer.applyEdits(jsEdits, options);
+        } else {
+            result = this.layer.applyEdits(jsEdits);
+        }
+        
+        return result;
     }
 }

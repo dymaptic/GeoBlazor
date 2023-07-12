@@ -101,6 +101,7 @@ import BarcodeScannerInput from "@arcgis/core/form/elements/inputs/BarcodeScanne
 import ComboBoxInput from "@arcgis/core/form/elements/inputs/ComboBoxInput";
 import RadioButtonsInput from "@arcgis/core/form/elements/inputs/RadioButtonsInput";
 import SwitchInput from "@arcgis/core/form/elements/inputs/SwitchInput";
+import Domain from "@arcgis/core/layers/support/Domain";
 
 export function buildJsSpatialReference(dotNetSpatialReference: DotNetSpatialReference): SpatialReference {
     if (dotNetSpatialReference === undefined || dotNetSpatialReference === null) {
@@ -495,16 +496,65 @@ export function buildJsRenderer(dotNetRenderer: any): Renderer | null {
 export function buildJsFields(dotNetFields: any): Array<Field> {
     let fields: Array<Field> = [];
     dotNetFields.forEach(dnField => {
-        let field = new Field();
-        for (const prop in dnField) {
-            if (Object.prototype.hasOwnProperty.call(dnField, prop) && prop !== 'id') {
-                field[prop] = dnField[prop];
-            }
-        }
+        let field = buildJsField(dnField);
         fields.push(field);
     });
 
     return fields;
+}
+
+function buildJsField(dotNetField: any): Field {
+    let field = new Field();
+    if (hasValue(dotNetField.type)) {
+        field.type = dotNetField.type;
+    }
+    if (hasValue(dotNetField.alias)) {
+        field.alias = dotNetField.alias;
+    }
+    if (hasValue(dotNetField.name)) {
+        field.name = dotNetField.name;
+    }
+    if (hasValue(dotNetField.length)) {
+        field.length = dotNetField.length;
+    }
+    if (hasValue(dotNetField.nullable)) {
+        field.nullable = dotNetField.nullable;
+    }
+    if (hasValue(dotNetField.domain)) {
+        switch (dotNetField.domain.type) {
+            case "coded-value":
+                let codedValueDomain = new CodedValueDomain();
+                codedValueDomain.name = dotNetField.domain.name;
+                codedValueDomain.codedValues = dotNetField.domain.codedValues.map(cv => {
+                    return {
+                        name: cv.name,
+                        code: cv.code
+                    }
+                });
+                field.domain = codedValueDomain;
+                break;
+            case "range":
+                let rangeDomain = new RangeDomain();
+                rangeDomain.name = dotNetField.domain.name;
+                rangeDomain.minValue = dotNetField.domain.minValue;
+                rangeDomain.maxValue = dotNetField.domain.maxValue;
+                field.domain = rangeDomain;
+                break;
+        }
+    }
+    if (hasValue(dotNetField.defaultValue)) {
+        field.defaultValue = dotNetField.defaultValue;
+    }
+    if (hasValue(dotNetField.description)) {
+        field.description = dotNetField.description;
+    }
+    if (hasValue(dotNetField.editable)) {
+        field.editable = dotNetField.editable;
+    }
+    if (hasValue(dotNetField.valueType)) {
+        field.valueType = dotNetField.valueType;
+    }
+    return field;
 }
 
 export function buildJsViewClickEvent(dotNetClickEvent: any): ViewClickEvent {

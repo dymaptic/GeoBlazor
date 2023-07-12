@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 
 namespace dymaptic.GeoBlazor.Core.Components.Widgets;
@@ -7,6 +9,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 ///     Domains define constraints on a layer field. There are two types of domains: coded values and range domains. This is an abstract class.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Domain.html">ArcGIS JS API</a>
 /// </summary>
+[JsonConverter(typeof(DomainConverter))]
 public abstract class Domain : MapComponent
 {
     /// <summary>
@@ -109,4 +112,25 @@ public class RangeDomain : Domain
     /// </summary>
     [Parameter]
     public double? MinValue { get; set; }
+}
+
+internal class DomainConverter : JsonConverter<Domain>
+{
+    public override Domain? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        var json = JsonDocument.ParseValue(ref reader);
+        var type = json.RootElement.GetProperty("type").GetString();
+
+        return type switch
+        {
+            "coded-value" => JsonSerializer.Deserialize<CodedValueDomain>(json.RootElement.GetRawText(), options),
+            "range" => JsonSerializer.Deserialize<RangeDomain>(json.RootElement.GetRawText(), options),
+            _ => null
+        };
+    }
+
+    public override void Write(Utf8JsonWriter writer, Domain value, JsonSerializerOptions options)
+    {
+        JsonSerializer.Serialize(writer, (object)value, options);
+    }
 }
