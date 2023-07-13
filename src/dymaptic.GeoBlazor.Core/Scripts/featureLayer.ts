@@ -227,13 +227,13 @@ export default class FeatureLayerWrapper {
         };
     }
     
-    applyEdits(edits: DotNetApplyEdits, options: any, viewId: string): Promise<any> {
+    async applyEdits(edits: DotNetApplyEdits, options: any, viewId: string): Promise<any> {
         let jsEdits = buildJsApplyEdits(edits, viewId);
         let result;
         if (options !== null) {
-            result = this.layer.applyEdits(jsEdits, options);
+            result = await this.layer.applyEdits(jsEdits, options);
         } else {
-            result = this.layer.applyEdits(jsEdits);
+            result = await this.layer.applyEdits(jsEdits);
         }
         
         return result;

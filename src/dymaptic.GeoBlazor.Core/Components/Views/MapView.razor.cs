@@ -1987,6 +1987,24 @@ public partial class MapView : MapComponent
     }
 
     /// <summary>
+    ///     Returns the current cursor when hovering over the view.
+    /// </summary>
+    public async Task<string> GetCursor()
+    {
+        return await ViewJsModule!.InvokeAsync<string>("getCursor",
+            CancellationTokenSource.Token, Id);
+    }
+    
+    /// <summary>
+    ///     Sets the cursor for the view.
+    /// </summary>
+    public async Task SetCursor(string cursor)
+    {
+        await ViewJsModule!.InvokeVoidAsync("setCursor",
+            CancellationTokenSource.Token, cursor, Id);
+    }
+
+    /// <summary>
     ///     The callback method for returning a chunk of data from a Blazor Server hit test.
     /// </summary>
     /// <param name="eventId">

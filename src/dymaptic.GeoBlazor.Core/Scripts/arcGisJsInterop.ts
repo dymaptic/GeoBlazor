@@ -2330,3 +2330,13 @@ export function getAuthenticationManager(dotNetRef: any, apiKey: string | null, 
     }
     return _authenticationManager;
 }
+
+export function getCursor(viewId: string): string {
+    let view = arcGisObjectRefs[viewId] as MapView;
+    return view.container.style.cursor;
+}
+
+export function setCursor(cursorType: string, viewId: string) {
+    let view = arcGisObjectRefs[viewId] as MapView;
+    view.container.style.cursor = cursorType;
+}
