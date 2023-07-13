@@ -158,7 +158,7 @@ public class Query
     ///     An array of ObjectIDs to be used to query for features in a layer.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IEnumerable<int>? ObjectIds { get; set; }
+    public IEnumerable<long>? ObjectIds { get; set; }
 
     /// <summary>
     ///     One or more field names used to order the query results. Specify ASC (ascending) or DESC (descending) after the

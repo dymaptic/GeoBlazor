@@ -272,6 +272,8 @@ internal class LayerConverter : JsonConverter<Layer>
                     return JsonSerializer.Deserialize<OpenStreetMapLayer>(ref cloneReader, newOptions);
                 case "elevation":
                     return JsonSerializer.Deserialize<ElevationLayer>(ref cloneReader, newOptions);
+                case "csv":
+                    return JsonSerializer.Deserialize<CSVLayer>(ref cloneReader, newOptions);
             }
         }
 
