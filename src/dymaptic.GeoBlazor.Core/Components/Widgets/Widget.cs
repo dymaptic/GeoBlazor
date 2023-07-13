@@ -37,6 +37,14 @@ public abstract class Widget : MapComponent
     public string? ContainerId { get; set; }
 
     /// <summary>
+    /// Icon which represents the widget. It is typically used when the widget is controlled by another one (e.g. in the Expand widget).
+    /// <a href="https://developers.arcgis.com/calcite-design-system/icons/">Calcite Icons</a>
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Icon { get; set; }
+
+    /// <summary>
     ///     The type of widget
     /// </summary>
     [JsonPropertyName("type")]
