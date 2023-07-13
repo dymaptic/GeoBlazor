@@ -1,4 +1,5 @@
-﻿using dymaptic.GeoBlazor.Core.Serialization;
+﻿using dymaptic.GeoBlazor.Core.Components.Widgets;
+using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
 using System.Text.Json.Serialization;
 
@@ -8,10 +9,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 /// <summary>
 ///     Information about each field in a layer. Field objects must be constructed when creating a FeatureLayer from
 ///     client-side graphics. This class allows you to define the schema of each field in the FeatureLayer.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Field.html">
-///         ArcGIS
-///         JS API
-///     </a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Field.html">ArcGIS JS API</a>
 /// </summary>
 public class Field : MapComponent
 {
@@ -131,6 +129,49 @@ public class Field : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public FieldValueType? ValueType { get; set; }
+    
+    /// <summary>
+    ///     The domain associated with the field. Domains are used to constrain the values allowed in a field. There are two types of domains: RangeDomain and CodedValueDomain.
+    /// </summary>
+    public Domain? Domain { get; set; }
+
+    /// <inheritdoc />
+    public override async Task RegisterChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case Domain domain:
+                if (!domain.Equals(Domain))
+                {
+                    Domain = domain;
+                }
+
+                break;
+            default:
+                await base.RegisterChildComponent(child);
+
+                break;
+        }
+    }
+    
+    /// <inheritdoc />
+    public override async Task UnregisterChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case Domain domain:
+                if (domain.Equals(Domain))
+                {
+                    Domain = null;
+                }
+
+                break;
+            default:
+                await base.UnregisterChildComponent(child);
+
+                break;
+        }
+    }
 }
 
 /// <summary>

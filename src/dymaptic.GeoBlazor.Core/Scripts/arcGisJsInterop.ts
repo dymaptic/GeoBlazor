@@ -65,7 +65,7 @@ import {
 import {
     buildJsAttributes,
     buildJsExtent,
-    buildJsFields,
+    buildJsFields, buildJsFormTemplate,
     buildJsGeometry,
     buildJsGraphic,
     buildJsPoint,
@@ -833,43 +833,47 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
         switch (layerObject.type) {
             case 'feature':
                 let featureLayer = currentLayer as FeatureLayer;
-                if (hasValue(layerObject.portalItem) && layerObject.portalItem.id !== featureLayer.portalItem.id) {
-                    featureLayer.portalItem.id = layerObject.portalItem.id;
-                    if (hasValue(layerObject.portalItem?.portal.url) &&
-                        layerObject.portalItem.portal.url !== featureLayer.portalItem.portal?.url) {
-                        featureLayer.portalItem.portal.url = layerObject.portalItem.portal.url;
+                if (hasValue(layerObject.portalItem)) {
+                    if (layerObject.portalItem.id !== featureLayer.portalItem.id) {
+                        featureLayer.portalItem.id = layerObject.portalItem.id;
+                        if (hasValue(layerObject.portalItem?.portal.url) &&
+                            layerObject.portalItem.portal.url !== featureLayer.portalItem.portal?.url) {
+                            featureLayer.portalItem.portal.url = layerObject.portalItem.portal.url;
+                        }
+                        if (hasValue(layerObject.portalItem?.apiKey) &&
+                            layerObject.portalItem.apiKey !== featureLayer.portalItem.apiKey) {
+                            featureLayer.portalItem.apiKey = layerObject.portalItem.apiKey;
+                        }
                     }
-                    if (hasValue(layerObject.portalItem?.apiKey) &&
-                        layerObject.portalItem.apiKey !== featureLayer.portalItem.apiKey) {
-                        featureLayer.portalItem.apiKey = layerObject.portalItem.apiKey;
+                } else if (hasValue(layerObject.url)) {
+                    if (layerObject.url !== featureLayer.url) {
+                        featureLayer.url = layerObject.url;
                     }
-                }
-                if (hasValue(layerObject.url) && layerObject.url !== featureLayer.url) {
-                    featureLayer.url = layerObject.url;
+                } else {
+                    copyValuesIfExists(layerObject, featureLayer, 'minScale', 'maxScale', 'orderBy', 'objectIdField',
+                        'definitionExpression', 'labelingInfo', 'outFields');
+                    if (hasValue(layerObject.fullExtent) && layerObject.fullExtent !== currentLayer.fullExtent) {
+                        currentLayer.fullExtent = buildJsExtent(layerObject.fullExtent, view.spatialReference);
+                    }
+                    if (hasValue(layerObject.popupTemplate)) {
+                        featureLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId);
+                    }
+                    // on first pass the renderer is often left blank, but it fills in when the round trip happens to the server
+                    if (hasValue(layerObject.renderer) && layerObject.renderer.type !== featureLayer.renderer.type) {
+                        let renderer = buildJsRenderer(layerObject.renderer);
+                        if (renderer !== null && featureLayer.renderer !== renderer) {
+                            featureLayer.renderer = renderer;
+                        }
+                    }
+                    if (hasValue(layerObject.fields) && layerObject.fields.length > 0) {
+                        featureLayer.fields = buildJsFields(layerObject.fields);
+                    }
+                    if (hasValue(layerObject.spatialReference) &&
+                        layerObject.spatialReference.wkid !== featureLayer.spatialReference.wkid) {
+                        featureLayer.spatialReference = buildJsSpatialReference(layerObject.spatialReference);
+                    }
                 }
 
-                copyValuesIfExists(layerObject, featureLayer, 'minScale', 'maxScale', 'orderBy', 'objectIdField',
-                    'definitionExpression', 'labelingInfo', 'outFields');
-                if (hasValue(layerObject.fullExtent) && layerObject.fullExtent !== currentLayer.fullExtent) {
-                    currentLayer.fullExtent = buildJsExtent(layerObject.fullExtent, view.spatialReference);
-                }
-                if (hasValue(layerObject.popupTemplate)) {
-                    featureLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId);
-                }
-                // on first pass the renderer is often left blank, but it fills in when the round trip happens to the server
-                if (hasValue(layerObject.renderer) && layerObject.renderer.type !== featureLayer.renderer.type) {
-                    let renderer = buildJsRenderer(layerObject.renderer);
-                    if (renderer !== null && featureLayer.renderer !== renderer) {
-                        featureLayer.renderer = renderer;
-                    }
-                }
-                if (hasValue(layerObject.fields) && layerObject.fields.length > 0) {
-                    featureLayer.fields = buildJsFields(layerObject.fields);
-                }
-                if (hasValue(layerObject.spatialReference) &&
-                    layerObject.spatialReference.wkid !== featureLayer.spatialReference.wkid) {
-                    featureLayer.spatialReference = buildJsSpatialReference(layerObject.spatialReference);
-                }
                 break;
             case 'geo-json':
                 let geoJsonLayer = currentLayer as GeoJSONLayer;
@@ -1854,6 +1858,10 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
 
             copyValuesIfExists(layerObject, featureLayer, 'minScale', 'maxScale', 'orderBy', 'objectIdField',
                 'definitionExpression', 'labelingInfo', 'outFields');
+            
+            if (hasValue(layerObject.formTemplate)) {
+                featureLayer.formTemplate = buildJsFormTemplate(layerObject.formTemplate);
+            }
 
             if (hasValue(layerObject.popupTemplate)) {
                 featureLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId ?? null);
@@ -2338,4 +2346,14 @@ export function getAuthenticationManager(dotNetRef: any, apiKey: string | null, 
         _authenticationManager = new AuthenticationManager(dotNetRef, apiKey, appId, portalUrl);
     }
     return _authenticationManager;
+}
+
+export function getCursor(viewId: string): string {
+    let view = arcGisObjectRefs[viewId] as MapView;
+    return view.container.style.cursor;
+}
+
+export function setCursor(cursorType: string, viewId: string) {
+    let view = arcGisObjectRefs[viewId] as MapView;
+    view.container.style.cursor = cursorType;
 }

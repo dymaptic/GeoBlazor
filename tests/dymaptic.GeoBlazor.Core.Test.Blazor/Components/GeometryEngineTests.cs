@@ -175,7 +175,6 @@ public class GeometryEngineTests : TestRunnerBase
             }
         };
         var polyline = new PolyLine(mapPaths, new SpatialReference(102100));
-        PolyLine densifiedLine = (PolyLine)await GeometryEngine.Densify(polyline, 0.1, LinearUnit.Miles);
         Polygon buffer = await GeometryEngine.Buffer(polyline, 20, LinearUnit.Yards);
         Assert.IsNotNull(buffer);
     }
@@ -1318,7 +1317,7 @@ public class GeometryEngineTests : TestRunnerBase
                     }
                 }, new SpatialReference(102100));
 
-        Geometry? simplifiedGeometry = await GeometryEngine.Simplify(polygon);
+        Geometry simplifiedGeometry = await GeometryEngine.Simplify(polygon);
 
         Assert.IsNotNull(simplifiedGeometry);
         Assert.AreNotEqual(polygon, simplifiedGeometry);
@@ -1355,7 +1354,7 @@ public class GeometryEngineTests : TestRunnerBase
                     }
                 }, new SpatialReference(102100));
 
-        Geometry? symmetricDifference = await GeometryEngine.SymmetricDifference(polygon1, polygon2);
+        Geometry symmetricDifference = await GeometryEngine.SymmetricDifference(polygon1, polygon2);
 
         Assert.IsNotNull(symmetricDifference);
         Assert.AreNotEqual(polygon1, symmetricDifference);
@@ -1406,7 +1405,7 @@ public class GeometryEngineTests : TestRunnerBase
                     }
                 }, new SpatialReference(102100));
 
-        Geometry[]? symmetricDifferences =
+        Geometry[] symmetricDifferences =
             await GeometryEngine.SymmetricDifference(new Geometry[] { polygon1, polygon2 }, polygon3);
 
         Assert.IsNotNull(symmetricDifferences);
@@ -1522,7 +1521,7 @@ public class GeometryEngineTests : TestRunnerBase
                     }
                 }, new SpatialReference(102100));
 
-        Geometry? union = await GeometryEngine.Union(polygon1, polygon2);
+        Geometry union = await GeometryEngine.Union(polygon1, polygon2);
 
         Assert.IsNotNull(union);
         Assert.AreNotEqual(polygon1, union);
@@ -1600,11 +1599,6 @@ public class GeometryEngineTests : TestRunnerBase
 
         Assert.IsFalse(within);
     }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        await base.OnAfterRenderAsync(firstRender);
-    }
-
+    
     private readonly Random _random = new();
 }
