@@ -32,6 +32,10 @@ public class Bookmark : WebMap
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Bookmark[]? Bookmarks { get; set; }
 
+    [CascadingParameter(Name="Bookmarks")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Url { get; set; }
+
     public Task FromJson ()
     {
         return Task.CompletedTask;

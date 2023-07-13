@@ -1,4 +1,5 @@
 @page "/Bookmarks"
+@using dymaptic.GeoBlazor.Core.Components.Bookmark;
 
 <PageTitle>Bookmarks and Bookmarks Widget</PageTitle>
 <h1>Bookmarks Widget</h1>
@@ -16,17 +17,22 @@
     <label>Show Bookmarks and Bookmarks Widget: <input type="checkbox" class="form-check-input" @onchange="@(() => _showBookmarks = !_showBookmarks)"></label>
 </div>
 <MapView @ref="MapView" Zoom="2" Class="map-view">
-    <Map ArcGISDefaultBasemap="dark-gray-vector">
-        @if (_showBookmarks)
-        {
-            <Bookmarks Url="https://www.arcgis.com/home/item.html?id=70b726074af04a7e9839d8a07f64c039" />
-        }
+    <Map>
+        <Basemap>           
+            <PortalItem Id="70b726074af04a7e9839d8a07f64c039" />
+        </Basemap>
     </Map>
+    @if (_showBookmarks)
+    {
+        <BookmarksWidget Position="OverlayPosition.TopRight" />
+    }
 </MapView>
 
 @code {
     private MapView? MapView { get; set; }
     private string? Url { get; set; }
     private bool _showBookmarks;
+    private Bookmark? Bookmark { get; set; }
+
 
 }
