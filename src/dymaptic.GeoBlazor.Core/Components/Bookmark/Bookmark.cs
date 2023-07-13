@@ -1,7 +1,5 @@
 using dymaptic.GeoBlazor.Core.Components.Views;
 using dymaptic.GeoBlazor.Core.Objects;
-using dymaptic.GeoBlazor.Core.Components.View;
-using dymaptic.GeoBlazor.Core.Components.WebMap;
 using Microsoft.AspNetCore.Components;
 using System.Runtime.InteropServices;
 using System.Text.Json;
@@ -32,15 +30,7 @@ public class Bookmark : WebMap
 
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public MapView MapView { get; set; }
-
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Bookmark[]? Bookmarks { get; set; }
-
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public VisibleElements? VisibleElements { get; set; }
 
     public Task FromJson ()
     {

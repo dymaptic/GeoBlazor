@@ -32,13 +32,15 @@ public class BookmarksWidget : Widget
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? IconClass { get; set; }
 
-    [Parameter]
-    public new MapView? View { get; set; }
+    //[Parameter]
+    //public new MapView? View { get; set; }
 
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Label { get; set; }
 
+    [CascadingParameter(Name="Bookmark")]
+    public string? Url { get; set; }
 
 }
 
