@@ -76,7 +76,7 @@
     </ProjectExtensions>
 
     <Target Name="Copy Source Files" BeforeTargets="DispatchToInnerBuilds">
-        <Message Importance="high" Text="Running NPM Install"/>
+        <Message Importance="high" Text="Copying examples for source display"/>
         <Exec ContinueOnError="true" Command="robocopy ..\dymaptic.GeoBlazor.Core.Sample.Shared\wwwroot\pages\ Resources\Raw\"/>
     </Target>
 

@@ -32,6 +32,7 @@ import Layer from "@arcgis/core/layers/Layer";
 import VectorTileLayer from "@arcgis/core/layers/VectorTileLayer";
 import TileLayer from "@arcgis/core/layers/TileLayer";
 import GeoJSONLayer from "@arcgis/core/layers/GeoJSONLayer";
+import CSVLayer from "@arcgis/core/layers/CSVLayer";
 import GeoRSSLayer from "@arcgis/core/layers/GeoRSSLayer";
 import PopupTemplate from "@arcgis/core/PopupTemplate";
 import Query from "@arcgis/core/rest/support/Query";
@@ -1966,7 +1967,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
                 });
             } else if (hasValue(layerObject.portalItem)) {
                 let portalItem = buildJsPortalItem(layerObject.portalItem);
-                openStreetMapLayer = new OpenStreetMapLayer({portalItem: portalItem});
+                openStreetMapLayer = new OpenStreetMapLayer({ portalItem: portalItem });
             } else {
                 openStreetMapLayer = new OpenStreetMapLayer();
             }
@@ -1995,6 +1996,22 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
                 if (hasValue(layerObject.tileInfo.spatialReference)) {
                     openStreetMapLayer.tileInfo.spatialReference = buildJsSpatialReference(layerObject.tileInfo.spatialReference);
                 }
+            }
+
+            break;
+        case 'csv':
+            newLayer = new CSVLayer({
+                url: layerObject.url,
+                copyright: layerObject.copyright
+            });
+            let csvLayer = newLayer as CSVLayer;
+            if (hasValue(layerObject.renderer)) {
+                csvLayer.renderer = layerObject.renderer;
+            }
+            if (hasValue(layerObject.spatialReference)) {
+                csvLayer.spatialReference = new SpatialReference({
+                    wkid: layerObject.spatialReference.wkid
+                });
             }
 
             break;
