@@ -46,7 +46,7 @@ import ListItem from "@arcgis/core/widgets/LayerList/ListItem";
 import * as reactiveUtils from "@arcgis/core/core/reactiveUtils";
 import BasemapLayerList from "@arcgis/core/widgets/BasemapLayerList";
 import FeatureLayerWrapper from "./featureLayer";
-import Bookmarks from "@arcgis/core/widgets/Bookmarks";
+import BookmarksWidget from "@arcgis/core/widgets/Bookmarks";
 import Bookmark from "@arcgis/core/webmap/Bookmark";
 
 import {
@@ -1755,7 +1755,7 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
         case 'bookmarks':
             
             //need to check if bookmarks widget has any bookmarks with content?
-            const bookmarksWidget = new Bookmarks({
+            const bookmarksWidget = new BookmarksWidget({
                 view: view
                 // create a bookmark?
             });
