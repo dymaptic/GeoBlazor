@@ -1,5 +1,5 @@
 @page "/Bookmarks"
-@using dymaptic.GeoBlazor.Core.Components.Bookmark;
+@using dymaptic.GeoBlazor.Core.Components.Widgets;
 
 <PageTitle>Bookmarks and Bookmarks Widget</PageTitle>
 <h1>Bookmarks Widget</h1>
@@ -14,10 +14,10 @@
 </p>
 
 <div class="form-group">
-    <label>Show Bookmarks and Bookmarks Widget: <input type="checkbox" class="form-check-input" @onchange="@(() => _showBookmarks = !_showBookmarks)"></label>
+    <label>Show Bookmarks and Bookmarks Widget: <input type="checkbox" class="form-check-input" @onchange="@(()=> _showBookmarks = !_showBookmarks)"></label>
 </div>
 
-<MapView @ref="MapView" Zoom="2" Class="map-view">
+<MapView @ref="MapView" Class="map-view">
     <Map>
         <Basemap>           
             <PortalItem Id="70b726074af04a7e9839d8a07f64c039" />
@@ -25,23 +25,29 @@
     </Map>
     @if (_showBookmarks)
     {
-        <ExpandWidget ContainerId="BookmarkDiv" Position="OverlayPosition.TopRight" HtmlContent="Hurricanes" >
-            
+        <ExpandWidget ContainerId="BookmarkDiv" Position="OverlayPosition.TopRight">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <p>Click on a bookmark to navigate to its location.</p>
+                        <BookmarksWidget  />
+                    </div>
+                </div>
+            </div>
         </ExpandWidget>
-    }
+    }   
+    
+
+     
+    
+
     
 </MapView>
 
 @code {
     private MapView? MapView { get; set; }
-    private string? Url { get; set; }
     private bool _showBookmarks;
-    private Bookmark? Bookmark { get; set; }
-    private Bookmarks[]? HurricaneBookmarks { get; set; }
-    private Geometry? Viewpoint;
-    //private ExpandWidget? HurricaneExpand = new ExpandWidget()
-    private string? Hurricanes = "<div class='hurricane-expand'><h1>Hurricane Tracker</h1><p>Track hurricanes in the Atlantic and Pacific Oceans</p></div>";
 
-    // need to have the expand widget open the content of the bookmarks container
-    // bookmarks container needs to have the list of bookmarks contained in the hurricane map.
+
+
 }

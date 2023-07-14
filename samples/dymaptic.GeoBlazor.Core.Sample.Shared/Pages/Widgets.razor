@@ -124,13 +124,13 @@
         }
     }
 
-    protected override void OnAfterRender(bool firstRender)
-    {
-        if (_showBookmarks)
-        {
-            _bookmarkWidget!.Bookmarks = _bookmarks;
-        }
-    }
+    // protected override void OnAfterRender(bool firstRender)
+    // {
+    //     if (_showBookmarks)
+    //     {
+    //         _bookmarkWidget!.Bookmarks = _bookmarks;
+    //     }
+    // }
 
     private List<Bookmark> _bookmarks = new List<Bookmark>()
     {
