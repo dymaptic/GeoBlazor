@@ -48,6 +48,8 @@ import ListItem from "@arcgis/core/widgets/LayerList/ListItem";
 import * as reactiveUtils from "@arcgis/core/core/reactiveUtils";
 import BasemapLayerList from "@arcgis/core/widgets/BasemapLayerList";
 import FeatureLayerWrapper from "./featureLayer";
+import BookmarksWidget from "@arcgis/core/widgets/Bookmarks";
+import Bookmark from "@arcgis/core/webmap/Bookmark";
 
 import {
     buildDotNetExtent,

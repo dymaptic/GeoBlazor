@@ -1,4 +1,5 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
+using dymaptic.GeoBlazor.Core.Components.Views;
 using dymaptic.GeoBlazor.Core.Objects;
 using Microsoft.AspNetCore.Components;
 using System.Text.Json.Serialization;
@@ -69,115 +70,6 @@ public class BookmarksWidget : Widget
                 await base.UnregisterChildComponent(child);
                 break;
         }
-
     }
 }
 
-public class Bookmark : MapComponent
-{
-    /// <summary>
-    ///    ///     The extent of the specified bookmark.
-    ///    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public TimeExtent? TimeExtent { get; set; }
-    ///
-    ///    /// <summary>
-    ///    ///     The name of the bookmark.
-    ///    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? Name { get; set; }
-
-    /// <summary>
-    /// The URL for a thumbnail image.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? Thumbnail { get; set; }
-
-    /// <summary>
-    /// The URL for a thumbnail image.
-    /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Viewpoint? ViewPoint { get; set; }
-
-    public override async Task RegisterChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case Viewpoint viewPoint:
-                ViewPoint = viewPoint;
-                break;
-            default:
-                await base.RegisterChildComponent(child);
-                break;
-        }
-    }
-
-    public override async Task UnregisterChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case Viewpoint viewPoint:
-                ViewPoint = null;
-                break;
-            default:
-                await base.UnregisterChildComponent(child);
-                break;
-        }
-
-    }
-
-}
-
-public class Viewpoint : MapComponent
-{
-    ///public Camera Camera { get; set; }
-
-    /// <summary>
-    /// The rotation of due north in relation to the top of the view in degrees.
-    /// </summary>
-    [Parameter]
-    public int Rotation { get; set; } = 0;
-
-    /// <summary>
-    ///  The scale of the viewpoint.
-    /// </summary>
-    [Parameter]
-    public int Scale { get; set; } = 0;
-
-    /// <summary>
-    /// The target geometry framed by the viewpoint.
-    /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Geometry? TargetGeometry { get; set; }
-
-    public override async Task RegisterChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case Geometry geometry:
-                TargetGeometry = geometry;
-                break;
-            default:
-                await base.RegisterChildComponent(child);
-                break;
-        }
-    }
-
-    public override async Task UnregisterChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case Geometry geometry:
-                TargetGeometry = null;
-                break;
-            default:
-                await base.UnregisterChildComponent(child);
-                break;
-        }
-
-    }
-
-}

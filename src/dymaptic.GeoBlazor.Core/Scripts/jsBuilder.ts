@@ -107,6 +107,7 @@ import RadioButtonsInput from "@arcgis/core/form/elements/inputs/RadioButtonsInp
 import SwitchInput from "@arcgis/core/form/elements/inputs/SwitchInput";
 import Domain from "@arcgis/core/layers/support/Domain";
 
+
 export function buildJsSpatialReference(dotNetSpatialReference: DotNetSpatialReference): SpatialReference {
     if (dotNetSpatialReference === undefined || dotNetSpatialReference === null) {
         return new SpatialReference({ wkid: 4326 });
@@ -604,7 +605,7 @@ export async function buildJsPopup(dotNetPopup: any, viewId: string): Promise<Po
         autoCloseEnabled: dotNetPopup.autoCloseEnabled ?? false,
         autoOpenEnabled: dotNetPopup.autoOpenEnabled ?? true,
         collapseEnabled: dotNetPopup.collapseEnabled ?? true,
-        collapsed: dotNetPopup.collapsed ?? false,
+        //collapsed: dotNetPopup.collapsed ?? false,
         defaultPopupTemplateEnabled: dotNetPopup.defaultPopupTemplateEnabled ?? false,
         headingLevel: dotNetPopup.headingLevel ?? 2,
         highlightEnabled: dotNetPopup.highlightEnabled ?? true,
