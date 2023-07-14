@@ -487,3 +487,11 @@ export interface DotNetAttachment {
     uploadId: string;
     data: string;
 }
+
+export interface DotNetBookmark {
+    globalId: string;
+    name: string;
+    contentType: string;
+    uploadId: string;
+    data: string;
+}
