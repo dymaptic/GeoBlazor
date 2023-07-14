@@ -1770,7 +1770,10 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
             }
             if (hasValue(widget.label)) {
                 bookmarksWidget.label = widget.label;
-            }            
+            }
+            if (hasValue(widget.bookmarks)) {
+                bookmarksWidget.bookmarks = widget.bookmarks;
+            }
             break;
         default:
             return null;

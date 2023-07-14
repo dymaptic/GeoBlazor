@@ -16,6 +16,7 @@
 <div class="form-group">
     <label>Show Bookmarks and Bookmarks Widget: <input type="checkbox" class="form-check-input" @onchange="@(() => _showBookmarks = !_showBookmarks)"></label>
 </div>
+
 <MapView @ref="MapView" Zoom="2" Class="map-view">
     <Map>
         <Basemap>           
@@ -24,8 +25,11 @@
     </Map>
     @if (_showBookmarks)
     {
-        <BookmarksWidget Position="OverlayPosition.TopRight" />
+        <ExpandWidget Position="OverlayPosition.TopRight" HtmlContent="Hurricanes" WidgetContent="Bookmark">
+            
+        </ExpandWidget>
     }
+    
 </MapView>
 
 @code {
@@ -33,6 +37,11 @@
     private string? Url { get; set; }
     private bool _showBookmarks;
     private Bookmark? Bookmark { get; set; }
+    private Bookmarks[]? HurricaneBookmarks { get; set; }
+    private Geometry? Viewpoint;
+    //private ExpandWidget? HurricaneExpand = new ExpandWidget()
+    private string? Hurricanes = "<div class='hurricane-expand'><h1>Hurricane Tracker</h1><p>Track hurricanes in the Atlantic and Pacific Oceans</p></div>";
 
-
+    // need to have the expand widget open the content of the bookmarks container
+    // bookmarks container needs to have the list of bookmarks contained in the hurricane map.
 }

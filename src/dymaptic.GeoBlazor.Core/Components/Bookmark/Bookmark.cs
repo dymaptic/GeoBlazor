@@ -6,6 +6,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.IO.MemoryMappedFiles;
+using dymaptic.GeoBlazor.Core.Components.Geometries;
 
 namespace dymaptic.GeoBlazor.Core.Components.Bookmark;
 
@@ -36,6 +37,10 @@ public class Bookmark : WebMap
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Url { get; set; }
 
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Geometry? Viewpoint { get; set; }
+
     public Task FromJson ()
     {
         return Task.CompletedTask;
@@ -44,5 +49,10 @@ public class Bookmark : WebMap
     public Task ToJson ()
     {
         return Task.CompletedTask;
+    }
+
+    public Bookmark(string name, Geometry viewpoint)
+    {
+        
     }
 }
