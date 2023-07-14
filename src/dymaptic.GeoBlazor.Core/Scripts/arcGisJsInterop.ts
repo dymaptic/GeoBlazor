@@ -66,7 +66,8 @@ import {
 import {
     buildJsAttributes,
     buildJsExtent,
-    buildJsFields, buildJsFormTemplate,
+    buildJsFields, 
+    buildJsFormTemplate,
     buildJsGeometry,
     buildJsGraphic,
     buildJsPoint,
@@ -76,7 +77,10 @@ import {
     buildJsPortalItem,
     buildJsRenderer,
     buildJsSpatialReference,
-    buildJsSymbol, templateTriggerActionHandler
+    buildJsSymbol, 
+    templateTriggerActionHandler,
+    buildJsBookmark,
+    buildJsViewpoint,
 } from "./jsBuilder";
 import {
     DotNetExtent,
@@ -1756,14 +1760,14 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
         case 'popup':
             newWidget = await setPopup(widget, viewId) as Popup;
             break;
-        case 'bookmarks':
+        case 'bookmarks':            
              const bookmarks = new Bookmarks({
                 view: view,
                 editingEnabled: widget.editingEnabled,
                 disabled: widget.disabled,
                 icon:widget.icon,
                 label:widget.label,
-                bookmarks:widget.bookmarks
+                bookmarks:widget.bookmarks.map(buildJsBookmark)
 
             });
             newWidget = bookmarks;

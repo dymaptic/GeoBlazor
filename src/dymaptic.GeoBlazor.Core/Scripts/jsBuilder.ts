@@ -2,7 +2,7 @@
 import Extent from "@arcgis/core/geometry/Extent";
 import Graphic from "@arcgis/core/Graphic";
 import PopupTemplate from "@arcgis/core/PopupTemplate";
-import {arcGisObjectRefs, triggerActionHandler} from "./arcGisJsInterop";
+import { arcGisObjectRefs, triggerActionHandler } from "./arcGisJsInterop";
 import Geometry from "@arcgis/core/geometry/Geometry";
 import Point from "@arcgis/core/geometry/Point";
 import Polyline from "@arcgis/core/geometry/Polyline";
@@ -12,6 +12,8 @@ import SimpleRenderer from "@arcgis/core/renderers/SimpleRenderer";
 import Renderer from "@arcgis/core/renderers/Renderer";
 import Field from "@arcgis/core/layers/support/Field";
 import Font from "@arcgis/core/symbols/Font";
+import Bookmark from "@arcgis/core/webmap/Bookmark";
+import Viewpoint from "@arcgis/core/Viewpoint";
 import {
     DotNetApplyEdits,
     DotNetAttachmentsEdit,
@@ -48,7 +50,9 @@ import {
     DotNetSymbol,
     DotNetTextPopupContent,
     DotNetTextSymbol,
-    DotNetTopFeaturesQuery
+    DotNetTopFeaturesQuery,
+    DotNetBookmark,
+    DotNetViewPoint
 } from "./definitions";
 import PictureMarkerSymbol from "@arcgis/core/symbols/PictureMarkerSymbol";
 import Popup from "@arcgis/core/widgets/Popup";
@@ -78,7 +82,7 @@ import SimpleLineSymbol from "@arcgis/core/symbols/SimpleLineSymbol";
 import ElementExpressionInfo from "@arcgis/core/popup/ElementExpressionInfo";
 import ChartMediaInfoValueSeries from "@arcgis/core/popup/content/support/ChartMediaInfoValueSeries";
 import View from "@arcgis/core/views/View";
-import {buildDotNetGraphic} from "./dotNetBuilder";
+import { buildDotNetGraphic } from "./dotNetBuilder";
 import ViewClickEvent = __esri.ViewClickEvent;
 import PopupOpenOptions = __esri.PopupOpenOptions;
 import PopupDockOptions = __esri.PopupDockOptions;
@@ -105,7 +109,7 @@ import Domain from "@arcgis/core/layers/support/Domain";
 
 export function buildJsSpatialReference(dotNetSpatialReference: DotNetSpatialReference): SpatialReference {
     if (dotNetSpatialReference === undefined || dotNetSpatialReference === null) {
-        return new SpatialReference({wkid: 4326});
+        return new SpatialReference({ wkid: 4326 });
     }
     let jsSpatialRef = new SpatialReference();
     if (dotNetSpatialReference.wkid !== null) {
@@ -212,7 +216,7 @@ export function buildJsPopupTemplate(popupTemplateObject: DotNetPopupTemplate, v
     } else {
         content = async (featureSelection) => {
             try {
-                let results : DotNetPopupContent[] | null = await popupTemplateObject.dotNetPopupTemplateReference
+                let results: DotNetPopupContent[] | null = await popupTemplateObject.dotNetPopupTemplateReference
                     .invokeMethodAsync("OnContentFunction", buildDotNetGraphic(featureSelection.graphic));
                 return results?.map(r => buildJsPopupContent(r));
             } catch (error) {
@@ -434,6 +438,26 @@ export function buildJsGeometry(geometry: DotNetGeometry): Geometry | null {
     return geometry as any;
 }
 
+export function buildJsBookmark(dnBookmark: DotNetBookmark): Bookmark | null {
+    if (dnBookmark === undefined || dnBookmark === null) return null;
+    let bookmark = new Bookmark();
+    bookmark.name = dnBookmark.name ?? undefined;
+    //TODO: add thumbnail
+    //bookmark.thumbnail = new thumbnail(dnBookmark.thumbnail ?? undefined);
+    bookmark.viewpoint = buildJsViewpoint(dnBookmark.viewPoint);
+
+    return bookmark as Bookmark;
+}
+
+export function buildJsViewpoint(dnViewpoint: DotNetViewPoint): Viewpoint | null {
+    if (dnViewpoint === undefined || dnViewpoint === null) return null;
+    let viewpoint = new Viewpoint();
+    viewpoint.rotation = dnViewpoint.rotation ?? undefined;
+    viewpoint.scale = dnViewpoint.scale ?? undefined;
+    viewpoint.targetGeometry = buildJsGeometry(dnViewpoint.targetGeometry);
+    return viewpoint as Viewpoint;
+}
+
 export function buildJsPoint(dnPoint: DotNetPoint): Point | null {
     if (dnPoint === undefined || dnPoint === null) return null;
     let point = new Point({
@@ -446,7 +470,7 @@ export function buildJsPoint(dnPoint: DotNetPoint): Point | null {
     if (hasValue(dnPoint.spatialReference)) {
         point.spatialReference = buildJsSpatialReference(dnPoint.spatialReference);
     } else {
-        point.spatialReference = new SpatialReference({wkid: 4326});
+        point.spatialReference = new SpatialReference({ wkid: 4326 });
     }
 
     return point;
@@ -460,7 +484,7 @@ export function buildJsPolyline(dnPolyline: DotNetPolyline): Polyline | null {
     if (hasValue(dnPolyline.spatialReference)) {
         polyline.spatialReference = buildJsSpatialReference(dnPolyline.spatialReference);
     } else {
-        polyline.spatialReference = new SpatialReference({wkid: 4326});
+        polyline.spatialReference = new SpatialReference({ wkid: 4326 });
     }
     return polyline;
 }
@@ -473,7 +497,7 @@ export function buildJsPolygon(dnPolygon: DotNetPolygon): Polygon | null {
     if (hasValue(dnPolygon.spatialReference)) {
         polygon.spatialReference = buildJsSpatialReference(dnPolygon.spatialReference);
     } else {
-        polygon.spatialReference = new SpatialReference({wkid: 4326});
+        polygon.spatialReference = new SpatialReference({ wkid: 4326 });
     }
     return polygon;
 }
@@ -566,7 +590,7 @@ export function buildJsViewClickEvent(dotNetClickEvent: any): ViewClickEvent {
         button: dotNetClickEvent.button ?? undefined,
         buttons: dotNetClickEvent.buttons ?? undefined,
         timestamp: dotNetClickEvent.timestamp ?? undefined
-    } as ViewClickEvent
+    } as ViewClickEvent;
 }
 
 export async function buildJsPopup(dotNetPopup: any, viewId: string): Promise<Popup> {
@@ -926,7 +950,7 @@ export function buildJsFormTemplate(dotNetFormTemplate: any): FormTemplate {
 }
 
 function buildJsFormTemplateElement(dotNetFormTemplateElement: any): Element {
-    switch (dotNetFormTemplateElement.type){
+    switch (dotNetFormTemplateElement.type) {
         case 'group':
             return new GroupElement({
                 label: dotNetFormTemplateElement.label ?? undefined,
@@ -971,7 +995,7 @@ function buildJsFormTemplateElement(dotNetFormTemplateElement: any): Element {
 }
 
 function buildJsDomain(dotNetDomain: any): any {
-    switch (dotNetDomain?.type){
+    switch (dotNetDomain?.type) {
         case 'coded-value':
             return new CodedValueDomain({
                 name: dotNetDomain.name ?? undefined,
@@ -984,7 +1008,7 @@ function buildJsDomain(dotNetDomain: any): any {
                 minValue: dotNetDomain.minValue ?? undefined
             });
     }
-    
+
     return undefined;
 }
 
@@ -1034,7 +1058,7 @@ function buildJsFormInput(dotNetFormInput: any): any {
                 onValue: dotNetFormInput.onValue ?? undefined
             });
     }
-    
+
     return undefined;
 }
 

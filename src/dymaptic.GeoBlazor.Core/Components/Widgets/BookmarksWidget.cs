@@ -87,7 +87,7 @@ public class Bookmark : MapComponent
     ///    /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// The URL for a thumbnail image.
@@ -100,13 +100,13 @@ public class Bookmark : MapComponent
     /// The URL for a thumbnail image.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public ViewPoint? ViewPoint { get; set; }
+    public Viewpoint? ViewPoint { get; set; }
 
     public override async Task RegisterChildComponent(MapComponent child)
     {
         switch (child)
         {
-            case ViewPoint viewPoint:
+            case Viewpoint viewPoint:
                 ViewPoint = viewPoint;
                 break;
             default:
@@ -119,7 +119,7 @@ public class Bookmark : MapComponent
     {
         switch (child)
         {
-            case ViewPoint viewPoint:
+            case Viewpoint viewPoint:
                 ViewPoint = null;
                 break;
             default:
@@ -131,7 +131,7 @@ public class Bookmark : MapComponent
 
 }
 
-public class ViewPoint : MapComponent
+public class Viewpoint : MapComponent
 {
     ///public Camera Camera { get; set; }
 
@@ -139,15 +139,13 @@ public class ViewPoint : MapComponent
     /// The rotation of due north in relation to the top of the view in degrees.
     /// </summary>
     [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public int? Rotation { get; set; }
+    public int Rotation { get; set; } = 0;
 
     /// <summary>
     ///  The scale of the viewpoint.
     /// </summary>
     [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public int? Scale { get; set; }
+    public int Scale { get; set; } = 0;
 
     /// <summary>
     /// The target geometry framed by the viewpoint.

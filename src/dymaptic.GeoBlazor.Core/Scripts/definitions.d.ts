@@ -489,9 +489,15 @@ export interface DotNetAttachment {
 }
 
 export interface DotNetBookmark {
-    globalId: string;
     name: string;
-    contentType: string;
-    uploadId: string;
-    data: string;
+    thumbnail: string;
+    viewPoint: DotNetViewPoint;
+    //TODO: add timeExtent
+    //  timeExtent: DotNetTimeExtent;
+}
+
+export interface DotNetViewPoint {
+    rotation: number;
+    scale: number;
+    targetGeometry: DotNetGeometry;
 }
