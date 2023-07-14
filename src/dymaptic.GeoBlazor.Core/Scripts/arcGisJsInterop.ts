@@ -1757,6 +1757,14 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
         default:
             return null;
     }
+    
+    if (hasValue(widget.icon)) {
+        newWidget.icon = widget.icon;
+    }
+    
+    if (hasValue(widget.widgetId)) {
+        newWidget.id = widget.widgetId;
+    }
 
     arcGisObjectRefs[widget.id] = newWidget;
     dotNetRefs[widget.id] = widget.dotNetComponentReference;
