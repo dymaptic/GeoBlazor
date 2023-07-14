@@ -20,11 +20,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dymaptic.GeoBlazor.Core.Sam
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dymaptic.GeoBlazor.Core.Test", "..\tests\dymaptic.GeoBlazor.Core.Test\dymaptic.GeoBlazor.Core.Test.csproj", "{48E045E3-F3FF-4D50-8987-83C1B8663E39}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dymaptic.GeoBlazor.Core.Sample.WasmOAuth", "..\samples\dymaptic.GeoBlazor.Core.Sample.WasmOAuth\dymaptic.GeoBlazor.Core.Sample.WasmOAuth.csproj", "{AB39692F-F4D9-48EF-907C-9D9E65E82A32}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dymaptic.GeoBlazor.Core.Sample.WasmOAuth", "..\samples\dymaptic.GeoBlazor.Core.Sample.WasmOAuth\dymaptic.GeoBlazor.Core.Sample.WasmOAuth.csproj", "{AB39692F-F4D9-48EF-907C-9D9E65E82A32}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dymaptic.GeoBlazor.Core.Sample.ServerOAuth", "..\samples\dymaptic.GeoBlazor.Core.Sample.ServerOAuth\dymaptic.GeoBlazor.Core.Sample.ServerOAuth.csproj", "{3DED106E-5ED1-4506-87CA-50C40465D6A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dymaptic.GeoBlazor.Core.Sample.ServerOAuth", "..\samples\dymaptic.GeoBlazor.Core.Sample.ServerOAuth\dymaptic.GeoBlazor.Core.Sample.ServerOAuth.csproj", "{3DED106E-5ED1-4506-87CA-50C40465D6A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dymaptic.GeoBlazor.Core.Test.Blazor", "..\tests\dymaptic.GeoBlazor.Core.Test.Blazor\dymaptic.GeoBlazor.Core.Test.Blazor.csproj", "{FACB8396-34A0-4BB0-98B0-463BC26BE349}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dymaptic.GeoBlazor.Core.Test.Blazor", "..\tests\dymaptic.GeoBlazor.Core.Test.Blazor\dymaptic.GeoBlazor.Core.Test.Blazor.csproj", "{FACB8396-34A0-4BB0-98B0-463BC26BE349}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
