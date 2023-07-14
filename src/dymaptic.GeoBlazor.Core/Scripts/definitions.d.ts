@@ -489,7 +489,9 @@ export interface DotNetAttachment {
 }
 
 export interface DotNetBookmark {
+    globalId: string;
     name: string;
-    thumbnail: string;
-    viewpoint: DotNetExtent;
+    contentType: string;
+    uploadId: string;
+    data: string;
 }

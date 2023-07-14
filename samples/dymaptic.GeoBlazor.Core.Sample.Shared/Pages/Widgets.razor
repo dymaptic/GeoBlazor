@@ -37,8 +37,9 @@
         <div class="form-group">
             <label>Compass: <input type="checkbox" class="form-check-input" @onchange="@(() => ToggleWidget(nameof(CompassWidget)))"></label>
         </div>
+
         <div class="form-group">
-           <label>Bookmarks: <input type="checkbox" class="form-check-input" @onchange="@(() => ToggleWidget(nameof(Bookmarks)))"></label>
+            <label>Bookmarks: <input type="checkbox" class="form-check-input" @onchange="@(() => ToggleWidget(nameof(BookmarksWidget)))"></label>
         </div>
         <div id="gallery-box"></div>
     </div>
@@ -79,9 +80,10 @@
     {
         <CompassWidget Position="OverlayPosition.TopLeft" />
     }
-@if (_showBookmarks)
+    @if (_showBookmarks)
     {
-        <BookmarksWidget Position="OverlayPosition.TopRight" />
+        <BookmarksWidget @ref="_bookmarkWidget" Position="OverlayPosition.TopLeft">
+        </BookmarksWidget>
     }
 </MapView>
 
@@ -116,11 +118,119 @@
             case nameof(CompassWidget):
                 _showCompass = !_showCompass;
                 break;
-            case nameof(Bookmarks):
+            case nameof(BookmarksWidget):
                 _showBookmarks = !_showBookmarks;
                 break;
         }
     }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (_showBookmarks)
+        {
+            _bookmarkWidget!.Bookmarks = _bookmarks;
+        }
+    }
+
+    private List<Bookmark> _bookmarks = new List<Bookmark>()
+    {
+        new Bookmark()
+        {
+            Name="Angeles National Forest",
+            ViewPoint = new ViewPoint()
+            {
+                TargetGeometry = new Extent()
+                {
+                    SpatialReference = new SpatialReference(102100),
+                    Xmin = -13139131.948889678,
+                    Ymin = 4047767.23531948,
+                    Xmax = -13092887.54677721,
+                    Ymax = 4090610.189673263
+                }
+            }
+        },
+        new Bookmark()
+        {
+            Name = "Crystal Lake",
+ViewPoint = new ViewPoint()
+            {
+                TargetGeometry = new Extent()
+                {
+                    SpatialReference = new SpatialReference(102100),
+                    Xmin = -13125852.551697943,
+                    Ymin = 4066904.1101411926,
+                    Xmax = -13114291.451169826,
+                    Ymax = 4077614.8487296384
+                }
+            }
+        },
+        new Bookmark()
+        {
+            Name = "Mt. Waterman",
+            ViewPoint = new ViewPoint()
+            {
+                TargetGeometry = new Extent()
+                {
+                    SpatialReference = new SpatialReference(102100),
+                    Xmin= -13185668.186639601,
+                    Ymin= 4066176.418652561,
+                    Xmax= -13183855.195875114,
+                    Ymax= 4067515.260976006
+                }
+            }
+        }
+    };
+
+    /*
+     *   new Bookmark({
+              name: "Angeles National Forest",
+              viewpoint: {
+                targetGeometry: {
+                  type: "extent",
+                  spatialReference: {
+                    wkid: 102100
+                  },
+                  xmin: -13139131.948889678,
+                  ymin: 4047767.23531948,
+                  xmax: -13092887.54677721,
+                  ymax: 4090610.189673263
+                }
+              }
+            }),
+            new Bookmark({
+              name: "Crystal Lake",
+              viewpoint: {
+                targetGeometry: {
+                  type: "extent",
+                  spatialReference: {
+                    wkid: 102100
+                  },
+                  xmin: -13125852.551697943,
+                  ymin: 4066904.1101411926,
+                  xmax: -13114291.451169826,
+                  ymax: 4077614.8487296384
+                }
+              }
+            }),
+            new Bookmark({
+              name: "San Fernando",
+              viewpoint: {
+                targetGeometry: {
+                  type: "extent",
+                  spatialReference: {
+                    latestWkid: 3857,
+                    wkid: 102100
+                  },
+                  xmin: -13185668.186639601,
+                  ymin: 4066176.418652561,
+                  xmax: -13183855.195875114,
+                  ymax: 4067515.260976006
+                }
+              }
+            })
+          ]
+        });
+     */
 
     private bool _showSearch;
     private bool _showLocate;
@@ -131,4 +241,6 @@
     private bool _showHome;
     private bool _showCompass;
     private bool _showBookmarks;
+
+    private BookmarksWidget? _bookmarkWidget;
 }

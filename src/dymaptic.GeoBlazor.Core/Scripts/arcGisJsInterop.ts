@@ -26,6 +26,7 @@ import Expand from "@arcgis/core/widgets/Expand";
 import Search from "@arcgis/core/widgets/Search";
 import Locate from "@arcgis/core/widgets/Locate";
 import Widget from "@arcgis/core/widgets/Widget";
+import Bookmarks from "@arcgis/core/widgets/Bookmarks";
 import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import Layer from "@arcgis/core/layers/Layer";
@@ -1758,22 +1759,16 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
             newWidget = await setPopup(widget, viewId) as Popup;
             break;
         case 'bookmarks':
-            
-            //need to check if bookmarks widget has any bookmarks with content?
-            const bookmarksWidget = new BookmarksWidget({
-                view: view
-                // create a bookmark?
+             const bookmarks = new Bookmarks({
+                view: view,
+                editingEnabled: widget.editingEnabled,
+                disabled: widget.disabled,
+                icon:widget.icon,
+                label:widget.label,
+                bookmarks:widget.bookmarks
+
             });
-            newWidget = bookmarksWidget;
-            if (hasValue(widget.iconClass)) {
-                bookmarksWidget.iconClass = widget.iconClass;
-            }
-            if (hasValue(widget.label)) {
-                bookmarksWidget.label = widget.label;
-            }
-            if (hasValue(widget.bookmarks)) {
-                bookmarksWidget.bookmarks = widget.bookmarks;
-            }
+            newWidget = bookmarks;
             break;
         default:
             return null;
