@@ -1,4 +1,5 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
+using dymaptic.GeoBlazor.Core.Components.Widgets;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
@@ -33,6 +34,13 @@ public class ViewPoint : MapComponent
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Geometry? TargetGeometry { get; set; }
 
+    public ViewPoint(Geometry targetGeometry, int rotation, int scale)
+    {
+        Scale = scale;
+        Rotation = rotation;
+        TargetGeometry = targetGeometry;
+
+    }
     //public ViewPoint(int? scale, int? rotation, Geometry? targetGeometry)
     //{
     //    Scale = scale;

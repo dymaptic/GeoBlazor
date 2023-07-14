@@ -39,13 +39,18 @@ public class Bookmark : MapComponent
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ViewPoint? ViewPoint { get; set; }
 
-    public Bookmark(string name, ViewPoint viewPoint, string thumbnail, TimeExtent timeExtent)
+    public Bookmark(string name, ViewPoint viewPoint)
     {
-        Name = name;
-        ViewPoint = viewPoint;
-        Thumbnail = thumbnail;
-        TimeExtent = timeExtent;
+            Name = name;
+            ViewPoint = viewPoint;
     }
+    //public Bookmark(string name, ViewPoint viewPoint, string thumbnail, TimeExtent timeExtent)
+    //{
+    //    Name = name;
+    //    ViewPoint = viewPoint;
+    //    Thumbnail = thumbnail;
+    //    TimeExtent = timeExtent;
+    //}
 
     public override async Task RegisterChildComponent(MapComponent child)
     {
