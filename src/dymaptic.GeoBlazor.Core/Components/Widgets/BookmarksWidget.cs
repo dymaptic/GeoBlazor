@@ -1,7 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
-using dymaptic.GeoBlazor.Core.Components.Views;
-using dymaptic.GeoBlazor.Core.Objects;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using System.Text.Json.Serialization;
 
 
@@ -42,16 +39,21 @@ public class BookmarksWidget : Widget
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? HeadingLevel { get; set; }
 
-
+    /// <summary>
+    /// A collection of Bookmarks.
+    /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public List<Bookmark> Bookmarks { get; set; } = new();
 
+
+    /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
     {
         switch (child)
         {
             case Bookmark bookmark:
                 if (!Bookmarks.Contains(bookmark)) Bookmarks.Add(bookmark);
+                WidgetChanged = true;
                 break;
             default:
                 await base.RegisterChildComponent(child);
@@ -59,12 +61,15 @@ public class BookmarksWidget : Widget
         }
     }
 
+
+    /// <inheritdoc />
     public override async Task UnregisterChildComponent(MapComponent child)
     {
         switch (child)
         {
             case Bookmark bookmark:
                 if (Bookmarks.Contains(bookmark)) Bookmarks.Remove(bookmark);
+                WidgetChanged = true;
                 break;
             default:
                 await base.UnregisterChildComponent(child);
@@ -72,4 +77,3 @@ public class BookmarksWidget : Widget
         }
     }
 }
-

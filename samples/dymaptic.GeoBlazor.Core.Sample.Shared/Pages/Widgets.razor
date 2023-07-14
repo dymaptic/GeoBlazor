@@ -81,7 +81,7 @@
     {
         <CompassWidget Position="OverlayPosition.TopLeft" />
     }
-    @if (_showBookmarks)
+    @if(_showBookmarks)
     {
         <BookmarksWidget @ref="_bookmarkWidget" Position="OverlayPosition.TopLeft">
 
@@ -133,20 +133,12 @@
         }
     }
 
-    protected override void OnAfterRender(bool firstRender)
-    {
-        if (_showBookmarks)
-        {
-            _bookmarkWidget!.Bookmarks = _bookmarks;
-        }
-    }
-
     private List<Bookmark> _bookmarks = new List<Bookmark>()
     {
         new Bookmark()
         {
             Name="Angeles National Forest",
-            ViewPoint = new Viewpoint()
+            Viewpoint = new Viewpoint()
             {
                 Scale = 1,
                 TargetGeometry = new Extent()
@@ -162,7 +154,7 @@
         new Bookmark()
         {
             Name = "Crystal Lake",
-            ViewPoint = new Viewpoint()
+            Viewpoint = new Viewpoint()
             {
                 TargetGeometry = new Extent()
                 {
@@ -177,7 +169,7 @@
         new Bookmark()
         {
             Name = "Mt. Waterman",
-            ViewPoint = new Viewpoint()
+            Viewpoint = new Viewpoint()
             {
                 TargetGeometry = new Extent()
                 {

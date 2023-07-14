@@ -68,7 +68,7 @@ import {
 import {
     buildJsAttributes,
     buildJsExtent,
-    buildJsFields, 
+    buildJsFields,
     buildJsFormTemplate,
     buildJsGeometry,
     buildJsGraphic,
@@ -79,7 +79,7 @@ import {
     buildJsPortalItem,
     buildJsRenderer,
     buildJsSpatialReference,
-    buildJsSymbol, 
+    buildJsSymbol,
     templateTriggerActionHandler,
     buildJsBookmark,
     buildJsViewpoint,
@@ -106,7 +106,7 @@ import FeatureLayerViewWrapper from "./featureLayerView";
 import Popup from "@arcgis/core/widgets/Popup";
 import ElevationLayer from "@arcgis/core/layers/ElevationLayer";
 import PopupWidgetWrapper from "./popupWidgetWrapper";
-import {load} from "protobufjs";
+import { load } from "protobufjs";
 import AuthenticationManager from "./authenticationManager";
 import HitTestResult = __esri.HitTestResult;
 import MapViewHitTestOptions = __esri.MapViewHitTestOptions;
@@ -118,7 +118,7 @@ export let graphicsRefs: Record<string, Graphic> = {};
 export let dotNetRefs = {};
 export let queryLayer: FeatureLayer;
 export let blazorServer: boolean = false;
-export {projection, geometryEngine, Graphic};
+export { projection, geometryEngine, Graphic };
 let notifyExtentChanged: boolean = true;
 let uploadingLayers: Array<string> = [];
 
@@ -176,11 +176,11 @@ export function getGeometryEngineWrapper(dotNetRef: any): GeometryEngineWrapper 
 }
 
 export async function buildMapView(id: string, dotNetReference: any, long: number | null, lat: number | null,
-                                   rotation: number, mapObject: any, zoom: number | null, scale: number,
-                                   mapType: string, widgets: any[], graphics: any,
-                                   spatialReference: any, constraints: any, extent: any,
-                                   eventRateLimitInMilliseconds: number | null, activeEventHandlers: Array<string>,
-                                   isServer: boolean, highlightOptions?: any | null, zIndex?: number, tilt?: number)
+    rotation: number, mapObject: any, zoom: number | null, scale: number,
+    mapType: string, widgets: any[], graphics: any,
+    spatialReference: any, constraints: any, extent: any,
+    eventRateLimitInMilliseconds: number | null, activeEventHandlers: Array<string>,
+    isServer: boolean, highlightOptions?: any | null, zIndex?: number, tilt?: number)
     : Promise<void> {
     console.debug("render map");
     try {
@@ -209,7 +209,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
                 basemap = mapObject.arcGISDefaultBasemap;
             } else if (hasValue(mapObject.basemap?.portalItem?.id)) {
                 let portalItem = buildJsPortalItem(mapObject.basemap.portalItem);
-                basemap = new Basemap({portalItem: portalItem});
+                basemap = new Basemap({ portalItem: portalItem });
             } else if (mapObject.basemap?.layers.length > 0) {
                 for (let i = 0; i < mapObject.basemap.layers.length; i++) {
                     const layerObject = mapObject.basemap.layers[i];
@@ -225,7 +225,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
             case 'webmap':
                 let webMap: WebMap;
                 let portalItem = buildJsPortalItem(mapObject.portalItem);
-                webMap = new WebMap({portalItem: portalItem});
+                webMap = new WebMap({ portalItem: portalItem });
                 view = new MapView({
                     container: `map-container-${id}`,
                     map: webMap
@@ -234,7 +234,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
             case 'webscene':
                 let webScene: WebScene;
                 let scenePortalItem = buildJsPortalItem(mapObject.portalItem);
-                webScene = new WebScene({portalItem: scenePortalItem});
+                webScene = new WebScene({ portalItem: scenePortalItem });
                 view = new SceneView({
                     container: `map-container-${id}`,
                     map: webScene
@@ -293,7 +293,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
         if (hasValue(popupWidget)) {
             await addWidget(popupWidget, id);
         }
-        
+
         if (hasValue(mapObject.layers) && mapType !== 'webmap' && mapType !== 'webscene') {
             for (const layerObject of mapObject.layers) {
                 await addLayer(layerObject, id);
@@ -357,7 +357,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
 }
 
 function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: number | null,
-                           activeEventHandlers: Array<string>): void {
+    activeEventHandlers: Array<string>): void {
     if (activeEventHandlers.includes('OnClick')) {
         view.on('click', (evt) => {
             evt.mapPoint = buildDotNetPoint(evt.mapPoint) as any;
@@ -591,10 +591,10 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
 }
 
 export async function hitTest(pointObject: any, eventId: string | null, viewId: string,
-                              isEvent: boolean, options: DotNetHitTestOptions | null): Promise<DotNetHitTestResult | void> {
+    isEvent: boolean, options: DotNetHitTestOptions | null): Promise<DotNetHitTestResult | void> {
     let view = arcGisObjectRefs[viewId] as MapView;
     let result: HitTestResult;
-    let screenPoint = isEvent ? pointObject : {x: pointObject.x, y: pointObject.y};
+    let screenPoint = isEvent ? pointObject : { x: pointObject.x, y: pointObject.y };
 
     if (options !== null) {
         let hitOptions = buildHitTestOptions(options, view);
@@ -759,7 +759,7 @@ export function setSpatialReference(spatialReferenceObject: any, viewId: string)
 }
 
 export async function queryFeatureLayer(queryObject: any, layerObject: any, symbol: any, popupTemplateObject: any,
-                                        viewId: string): Promise<void> {
+    viewId: string): Promise<void> {
     try {
         setWaitCursor(viewId);
         let query = new Query({
@@ -989,6 +989,28 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
     }
 }
 
+export async function updateWidget(widgetObject: any, viewId: string): Promise<void> {
+    try {
+        setWaitCursor(viewId);
+        let currentWidget = arcGisObjectRefs[widgetObject.id] as Widget;
+        let view = arcGisObjectRefs[viewId] as View;
+
+        if (currentWidget === undefined) {
+            unsetWaitCursor(viewId);
+            return;
+        }
+
+        switch (widgetObject.type) {
+            case 'bookmarks':
+                 let bookmarks = currentWidget as BookmarksWidget;
+                 bookmarks.bookmarks = widgetObject.bookmarks.map(buildJsBookmark)
+                break;
+        }
+        unsetWaitCursor(viewId);
+    } catch (error) {
+        logError(error, viewId);
+    }
+}
 export function findPlaces(addressQueryParams: any, symbol: any, popupTemplateObject: any, viewId: string): void {
     try {
         setWaitCursor(viewId);
@@ -1014,8 +1036,8 @@ export function findPlaces(addressQueryParams: any, symbol: any, popupTemplateOb
                 });
                 unsetWaitCursor(viewId);
             }).catch((error) => {
-            logError(error, viewId)
-        });
+                logError(error, viewId)
+            });
     } catch (error) {
         logError(error, viewId);
     }
@@ -1489,8 +1511,8 @@ export function displayQueryResults(query: Query, symbol: ArcGisSymbol, popupTem
             view.graphics.addMany(results.features);
             unsetWaitCursor(viewId);
         }).catch((error) => {
-        logError(error, viewId);
-    });
+            logError(error, viewId);
+        });
 }
 
 export async function addWidget(widget: any, viewId: string): Promise<void> {
@@ -1762,14 +1784,14 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
         case 'popup':
             newWidget = await setPopup(widget, viewId) as Popup;
             break;
-        case 'bookmarks':            
-             const bookmarks = new Bookmarks({
+        case 'bookmarks':
+            const bookmarks = new Bookmarks({
                 view: view,
                 editingEnabled: widget.editingEnabled,
                 disabled: widget.disabled,
-                icon:widget.icon,
-                label:widget.label,
-                bookmarks:widget.bookmarks.map(buildJsBookmark)
+                icon: widget.icon,
+                label: widget.label,
+                bookmarks: widget.bookmarks.map(buildJsBookmark)
 
             });
             newWidget = bookmarks;
@@ -1798,7 +1820,7 @@ export function removeWidget(widgetId: string, viewId: string): void {
 }
 
 export async function addLayer(layerObject: any, viewId: string, isBasemapLayer?: boolean, isQueryLayer?: boolean,
-                               callback?: Function): Promise<void> {
+    callback?: Function): Promise<void> {
     try {
         let view = arcGisObjectRefs[viewId] as View;
         if (!hasValue(view?.map)) return;
@@ -1852,7 +1874,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             if (hasValue(layerObject.portalItem)) {
                 let portalItem = buildJsPortalItem(layerObject.portalItem);
 
-                newLayer = new FeatureLayer({portalItem: portalItem});
+                newLayer = new FeatureLayer({ portalItem: portalItem });
             } else if (hasValue(layerObject.url)) {
                 newLayer = new FeatureLayer({
                     url: layerObject.url
@@ -1877,7 +1899,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
 
             copyValuesIfExists(layerObject, featureLayer, 'minScale', 'maxScale', 'orderBy', 'objectIdField',
                 'definitionExpression', 'labelingInfo', 'outFields');
-            
+
             if (hasValue(layerObject.formTemplate)) {
                 featureLayer.formTemplate = buildJsFormTemplate(layerObject.formTemplate);
             }
@@ -1901,7 +1923,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
         case 'vector-tile':
             if (hasValue(layerObject.portalItem)) {
                 let portalItem = buildJsPortalItem(layerObject.portalItem);
-                newLayer = new VectorTileLayer({portalItem: portalItem});
+                newLayer = new VectorTileLayer({ portalItem: portalItem });
             } else {
                 newLayer = new VectorTileLayer({
                     url: layerObject.url
@@ -1912,7 +1934,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             if (hasValue(layerObject.portalItem)) {
                 let portalItem = buildJsPortalItem(layerObject.portalItem);
 
-                newLayer = new TileLayer({portalItem: portalItem});
+                newLayer = new TileLayer({ portalItem: portalItem });
             } else {
                 newLayer = new TileLayer({
                     url: layerObject.url
@@ -1923,7 +1945,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
         case 'elevation':
             if (hasValue(layerObject.portalItem)) {
                 let portalItem = buildJsPortalItem(layerObject.portalItem);
-                newLayer = new ElevationLayer({portalItem: portalItem});
+                newLayer = new ElevationLayer({ portalItem: portalItem });
             } else {
                 newLayer = new ElevationLayer({
                     url: layerObject.url
@@ -1946,7 +1968,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             }
             break;
         case 'geo-rss':
-            newLayer = new GeoRSSLayer({url: layerObject.url});
+            newLayer = new GeoRSSLayer({ url: layerObject.url });
             break;
         case 'web-tile':
             let webTileLayer: WebTileLayer;
@@ -1956,7 +1978,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
                 });
             } else {
                 let portalItem = buildJsPortalItem(layerObject.portalItem);
-                webTileLayer = new WebTileLayer({portalItem: portalItem});
+                webTileLayer = new WebTileLayer({ portalItem: portalItem });
             }
             newLayer = webTileLayer;
 
@@ -2215,7 +2237,7 @@ function checkConnectivity(viewId) {
 
 
 export function addReactiveWatcher(targetId: string, targetName: string, watchExpression: string, once: boolean,
-                                   initial: boolean, dotNetRef: any): any {
+    initial: boolean, dotNetRef: any): any {
     let target = arcGisObjectRefs[targetId];
     console.debug(`Adding watch: "${watchExpression}"`);
     const watcherFunc = new Function(targetName, 'reactiveUtils', 'dotNetRef',
@@ -2236,7 +2258,7 @@ export function addReactiveListener(targetId: string, eventName: string, once: b
 }
 
 export async function awaitReactiveSingleWatchUpdate(targetId: string, targetName: string, watchExpression: string,
-                                                     dotNetRef: any): Promise<any> {
+    dotNetRef: any): Promise<any> {
     let target = arcGisObjectRefs[targetId];
     console.debug(`Adding once watcher: "${watchExpression}"`);
     const AsyncFunction = (async function () {
@@ -2248,7 +2270,7 @@ export async function awaitReactiveSingleWatchUpdate(targetId: string, targetNam
 }
 
 export function addReactiveWaiter(targetId: string, targetName: string, watchExpression: string, once: boolean,
-                                  initial: boolean, dotNetRef: any): any {
+    initial: boolean, dotNetRef: any): any {
     let target = arcGisObjectRefs[targetId];
     console.debug(`Adding when waiter: "${watchExpression}"`);
     const whenFunc = new Function(targetName, 'reactiveUtils', 'dotNetRef',
@@ -2360,7 +2382,7 @@ export function encodeProtobufGraphics(graphics: any[]): Uint8Array {
 let _authenticationManager: AuthenticationManager | null = null;
 
 export function getAuthenticationManager(dotNetRef: any, apiKey: string | null, appId: string | null,
-                                         portalUrl: string | null): AuthenticationManager {
+    portalUrl: string | null): AuthenticationManager {
     if (_authenticationManager === null) {
         _authenticationManager = new AuthenticationManager(dotNetRef, apiKey, appId, portalUrl);
     }

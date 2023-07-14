@@ -37,27 +37,15 @@ public class Bookmark : MapComponent
     /// The URL for a thumbnail image.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public ViewPoint? ViewPoint { get; set; }
+    public Viewpoint? Viewpoint { get; set; }
 
-    public Bookmark(string name, ViewPoint viewPoint)
-    {
-            Name = name;
-            ViewPoint = viewPoint;
-    }
-    //public Bookmark(string name, ViewPoint viewPoint, string thumbnail, TimeExtent timeExtent)
-    //{
-    //    Name = name;
-    //    ViewPoint = viewPoint;
-    //    Thumbnail = thumbnail;
-    //    TimeExtent = timeExtent;
-    //}
 
     public override async Task RegisterChildComponent(MapComponent child)
     {
         switch (child)
         {
-            case ViewPoint viewPoint:
-                ViewPoint = viewPoint;
+            case Viewpoint viewpoint:
+                Viewpoint = viewpoint;
                 break;
             default:
                 await base.RegisterChildComponent(child);
@@ -69,24 +57,13 @@ public class Bookmark : MapComponent
     {
         switch (child)
         {
-            case ViewPoint viewPoint:
-                ViewPoint = null;
+            case Viewpoint viewpoint:
+                Viewpoint = null;
                 break;
             default:
                 await base.UnregisterChildComponent(child);
                 break;
         }
-    }
-
-    public Task FromJson()
-    {
-        Bookmark bookmark = this;
-        bookmark.Name = this.Name;
-        bookmark.Thumbnail = this.Thumbnail;
-        bookmark.TimeExtent = this.TimeExtent;
-        bookmark.ViewPoint = this.ViewPoint;
-
-        return Task.CompletedTask;
     }
 }
 
