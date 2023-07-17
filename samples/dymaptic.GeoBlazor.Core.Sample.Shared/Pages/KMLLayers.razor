@@ -7,21 +7,16 @@
 </div>
 <Label>Add the sample KML Layer URL to see major earthquakes for latest 30 days from USGS to the map database :</Label>
 <InputText @bind-Value="_kmlLayerUrl"></InputText>
-<button disabled="@(!_mapRendered)" @onclick="(()=>AddKMlLayer())">Add new KML Layer!</button>
+<button disabled="@(!_mapRendered)" @onclick="(()=>AddKMLLayer())">Add new KML Layer!</button>
 
 
-<MapView @ref="_view" class="map-view" OnMapRendered="OnMapRendered">
-    <Extent Xmin="-41525513" Ymin="4969181" Xmax="-36687355" Ymax="9024624">
-        <SpatialReference Wkid="102100" />
-    </Extent>
+<MapView @ref="_view" class="map-view" OnMapRendered="OnMapRendered" Scale="0">
     <Map ArcGISDefaultBasemap="dark-gray-vector">
-        
-    
+        @if (_visible)
+        {
+            <KMLLayer Url="https://earthquake.usgs.gov/fdsnws/event/1/query?format=kml&minmagnitude=5.8" Title="Major EarthQuakes Query Result"></KMLLayer>
+        }
     </Map>
-    @if (_visible)
-    {
-        <KMLLayer Visible="_visible" Url="https://earthquake.usgs.gov/fdsnws/event/1/query?format=kml&minmagnitude=5.8" Title="Major EarthQuakes Query Result" Copyright="Esri"></KMLLayer>
-    }
 </MapView>
 
 
@@ -29,12 +24,17 @@
 @code {
     private void OnMapRendered() => _mapRendered = true;
 
-    public void AddKMlLayer()
+    public async Task AddKMLLayer()
+    {
+        _visible = true;
+        await LoadKMlLayer();
+        _view.Refresh();
+    }
+
+    public async Task LoadKMlLayer()
     {
         if (!string.IsNullOrEmpty(_kmlLayerUrl))
-            _view.Map.Add(new KMLLayer() { Url = _kmlLayerUrl });
-        _visible = true;
-        _view.Refresh();
+        await _view.AddLayer(new KMLLayer() { Url = _kmlLayerUrl });
     }
 
 

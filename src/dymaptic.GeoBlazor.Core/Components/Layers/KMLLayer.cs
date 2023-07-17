@@ -15,15 +15,10 @@ public class KMLLayer : Layer
     }
 
     // Effect property is one items that can be added in the future 
-    public KMLLayer (string url, string? copyright = null) //string? title = null, string? blendMode, int? maxscale, int? minscale
+    public KMLLayer (string url)
     {
 #pragma warning disable BL0005
         Url = url;
-        //Title = title;
-        Copyright = copyright;
-        //BlendMode = blendMode;
-        //MaxScale = maxscale;
-        //MinScale = minscale;
 #pragma warning restore BL0005
     }
 
@@ -31,21 +26,27 @@ public class KMLLayer : Layer
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Url { get; set; }
 
-    //[Parameter]
-    //[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    //public string? BlendMode { get; set; }
-
-    //[Parameter]
-    //[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    //public int? MaxScale { get; set; }
-
-    //[Parameter]
-    //[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    //public int? MinScale { get; set; }
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? Copyright { get; set; }
+    public string? BlendMode { get; set; }
 
+
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public List<KMLLayer>? Sublayers { get; set; }
+
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public PortalItem? PortalItem { get; set; }
+
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? MaxScale { get; set; }
+
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? MinScale { get; set; }
+    
     [JsonPropertyName("type")]
     public override string LayerType => "kml";
 }
