@@ -491,12 +491,12 @@ export interface DotNetAttachment {
 export interface DotNetBookmark {
     name: string;
     thumbnail: string;
-    viewPoint: DotNetViewPoint;
+    viewpoint: DotNetViewpoint;
     //TODO: add timeExtent
     //  timeExtent: DotNetTimeExtent;
 }
 
-export interface DotNetViewPoint {
+export interface DotNetViewpoint {
     rotation: number;
     scale: number;
     targetGeometry: DotNetGeometry;

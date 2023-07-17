@@ -1792,7 +1792,6 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
                 icon: widget.icon,
                 label: widget.label,
                 bookmarks: widget.bookmarks.map(buildJsBookmark)
-
             });
             newWidget = bookmarks;
             break;

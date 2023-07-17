@@ -85,13 +85,13 @@
     {
         <BookmarksWidget @ref="_bookmarkWidget" Position="OverlayPosition.TopLeft">
 
-            <Bookmark Name="Test1234">
+            @*<Bookmark Name="Test1234">
                 <Viewpoint  >
                     <Extent Xmin="-13139131.948889678" Ymin="4047767.307589972" Xmax="-13105131.948889678" Ymax="4067767.307589972">
                         <SpatialReference Wkid="102100"></SpatialReference>
                     </Extent>
                 </Viewpoint>
-            </Bookmark>
+            </Bookmark>*@
         </BookmarksWidget>
     }
 </MapView>
@@ -133,6 +133,15 @@
         }
     }
 
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (_showBookmarks)
+        {
+            _bookmarkWidget!.Bookmarks = _bookmarks;
+            MapView!.Refresh();
+        }
+    }
+
     private List<Bookmark> _bookmarks = new List<Bookmark>()
     {
         new Bookmark()
@@ -140,7 +149,6 @@
             Name="Angeles National Forest",
             Viewpoint = new Viewpoint()
             {
-                Scale = 1,
                 TargetGeometry = new Extent()
                 {
                     SpatialReference = new SpatialReference(102100),
@@ -182,57 +190,6 @@
             }
         }
     };
-
-    /*
-     *   new Bookmark({
-              name: "Angeles National Forest",
-              viewpoint: {
-                targetGeometry: {
-                  type: "extent",
-                  spatialReference: {
-                    wkid: 102100
-                  },
-                  xmin: -13139131.948889678,
-                  ymin: 4047767.23531948,
-                  xmax: -13092887.54677721,
-                  ymax: 4090610.189673263
-                }
-              }
-            }),
-            new Bookmark({
-              name: "Crystal Lake",
-              viewpoint: {
-                targetGeometry: {
-                  type: "extent",
-                  spatialReference: {
-                    wkid: 102100
-                  },
-                  xmin: -13125852.551697943,
-                  ymin: 4066904.1101411926,
-                  xmax: -13114291.451169826,
-                  ymax: 4077614.8487296384
-                }
-              }
-            }),
-            new Bookmark({
-              name: "San Fernando",
-              viewpoint: {
-                targetGeometry: {
-                  type: "extent",
-                  spatialReference: {
-                    latestWkid: 3857,
-                    wkid: 102100
-                  },
-                  xmin: -13185668.186639601,
-                  ymin: 4066176.418652561,
-                  xmax: -13183855.195875114,
-                  ymax: 4067515.260976006
-                }
-              }
-            })
-          ]
-        });
-     */
 
     private bool _showSearch;
     private bool _showLocate;

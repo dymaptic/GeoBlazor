@@ -52,7 +52,7 @@ import {
     DotNetTextSymbol,
     DotNetTopFeaturesQuery,
     DotNetBookmark,
-    DotNetViewPoint
+    DotNetViewpoint
 } from "./definitions";
 import PictureMarkerSymbol from "@arcgis/core/symbols/PictureMarkerSymbol";
 import Popup from "@arcgis/core/widgets/Popup";
@@ -445,12 +445,12 @@ export function buildJsBookmark(dnBookmark: DotNetBookmark): Bookmark | null {
     bookmark.name = dnBookmark.name ?? undefined;
     //TODO: add thumbnail
     //bookmark.thumbnail = new thumbnail(dnBookmark.thumbnail ?? undefined);
-    bookmark.viewpoint = buildJsViewpoint(dnBookmark.viewPoint);
+    bookmark.viewpoint = buildJsViewpoint(dnBookmark.viewpoint);
 
     return bookmark as Bookmark;
 }
 
-export function buildJsViewpoint(dnViewpoint: DotNetViewPoint): Viewpoint | null {
+export function buildJsViewpoint(dnViewpoint: DotNetViewpoint): Viewpoint | null {
     if (dnViewpoint === undefined || dnViewpoint === null) return null;
     let viewpoint = new Viewpoint();
     viewpoint.rotation = dnViewpoint.rotation ?? undefined;
