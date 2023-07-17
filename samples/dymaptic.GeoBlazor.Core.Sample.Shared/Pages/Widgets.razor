@@ -85,7 +85,7 @@
     {
         <BookmarksWidget @ref="_bookmarkWidget" Position="OverlayPosition.TopLeft">
 
-            @*<Bookmark Name="Test1234">
+            @*<Bookmark Name="InlineExample">
                 <Viewpoint  >
                     <Extent Xmin="-13139131.948889678" Ymin="4047767.307589972" Xmax="-13105131.948889678" Ymax="4067767.307589972">
                         <SpatialReference Wkid="102100"></SpatialReference>
@@ -137,6 +137,7 @@
     {
         if (_showBookmarks)
         {
+            //the MapView.Refresh() is needed because the bookmarks are added after the BookmarksWidget is rendered
             _bookmarkWidget!.Bookmarks = _bookmarks;
             MapView!.Refresh();
         }
@@ -147,6 +148,7 @@
         new Bookmark()
         {
             Name="Angeles National Forest",
+            Thumbnail="/_content/dymaptic.GeoBlazor.Core.Sample.Shared/images/Blazor-API-60px.png",
             Viewpoint = new Viewpoint()
             {
                 TargetGeometry = new Extent()

@@ -492,8 +492,7 @@ export interface DotNetBookmark {
     name: string;
     thumbnail: string;
     viewpoint: DotNetViewpoint;
-    //TODO: add timeExtent
-    //  timeExtent: DotNetTimeExtent;
+    timeExtent: any;
 }
 
 export interface DotNetViewpoint {

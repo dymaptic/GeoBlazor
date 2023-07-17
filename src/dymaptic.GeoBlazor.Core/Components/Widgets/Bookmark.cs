@@ -24,7 +24,7 @@ public class Bookmark : MapComponent
     ///    /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// The URL for a thumbnail image.

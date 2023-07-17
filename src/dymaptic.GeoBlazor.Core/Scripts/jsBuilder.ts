@@ -12,7 +12,7 @@ import SimpleRenderer from "@arcgis/core/renderers/SimpleRenderer";
 import Renderer from "@arcgis/core/renderers/Renderer";
 import Field from "@arcgis/core/layers/support/Field";
 import Font from "@arcgis/core/symbols/Font";
-import Bookmark from "@arcgis/core/webmap/Bookmark";
+import Bookmark from "@arcgis/core/webmap/Bookmark"
 import Viewpoint from "@arcgis/core/Viewpoint";
 import {
     DotNetApplyEdits,
@@ -443,8 +443,17 @@ export function buildJsBookmark(dnBookmark: DotNetBookmark): Bookmark | null {
     if (dnBookmark === undefined || dnBookmark === null) return null;
     let bookmark = new Bookmark();
     bookmark.name = dnBookmark.name ?? undefined;
-    //TODO: add thumbnail
-    //bookmark.thumbnail = new thumbnail(dnBookmark.thumbnail ?? undefined);
+    bookmark.timeExtent = dnBookmark.timeExtent ?? undefined;
+
+    if (!(dnBookmark.thumbnail == null)) {
+        //ESRI has this as an "object" with url property
+        let thumbnail = new Object();
+        thumbnail.url = dnBookmark.thumbnail;
+        bookmark.thumbnail = thumbnail;
+    } else {
+        bookmark.thumbnail = undefined;
+    }
+
     bookmark.viewpoint = buildJsViewpoint(dnBookmark.viewpoint);
 
     return bookmark as Bookmark;
