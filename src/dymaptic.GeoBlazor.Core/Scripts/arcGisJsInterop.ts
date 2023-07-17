@@ -2022,14 +2022,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
                     wkid: layerObject.spatialReference.wkid
                 });
             }
-
             break;
-        //case 'kml':
-        //    newLayer = new KMLLayer({
-        //        url: layerObject.url,
-        //    });
-        //    let kmlLayer = newLayer as KMLLayer;
-        //    break;
         case 'kml':
             let kmlLayer: KMLLayer;
             if (hasValue(layerObject.url)) {
