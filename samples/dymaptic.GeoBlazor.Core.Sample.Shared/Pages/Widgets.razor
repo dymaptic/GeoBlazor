@@ -40,7 +40,7 @@
         </div>
 
         <div class="form-group">
-            <label>Bookmarks: <input type="checkbox" class="form-check-input" @onchange="@(() => ToggleWidget(nameof(BookmarksWidget)))"></label>
+            <label>Bookmarks + Expander: <input type="checkbox" class="form-check-input" @onchange="@(() => ToggleWidget(nameof(BookmarksWidget)))"></label>
         </div>
         <div id="gallery-box"></div>
     </div>
@@ -81,18 +81,19 @@
     {
         <CompassWidget Position="OverlayPosition.TopLeft" />
     }
-    @if(_showBookmarks)
+    @if (_showBookmarks)
     {
-        <BookmarksWidget @ref="_bookmarkWidget" Position="OverlayPosition.TopLeft">
-
-            @*<Bookmark Name="InlineExample">
-                <Viewpoint  >
-                    <Extent Xmin="-13139131.948889678" Ymin="4047767.307589972" Xmax="-13105131.948889678" Ymax="4067767.307589972">
-                        <SpatialReference Wkid="102100"></SpatialReference>
-                    </Extent>
-                </Viewpoint>
+        <ExpandWidget Position="OverlayPosition.TopRight" Expanded="true" ExpandIcon="refresh" CollapseIcon="submit" >
+            <BookmarksWidget @ref="_bookmarkWidget"  EditingEnabled="true">
+                @*<Bookmark Name="InlineExample">
+            <Viewpoint  >
+            <Extent Xmin="-13139131.948889678" Ymin="4047767.307589972" Xmax="-13105131.948889678" Ymax="4067767.307589972">
+            <SpatialReference Wkid="102100"></SpatialReference>
+            </Extent>
+            </Viewpoint>
             </Bookmark>*@
-        </BookmarksWidget>
+            </BookmarksWidget>
+        </ExpandWidget>
     }
 </MapView>
 

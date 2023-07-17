@@ -1002,8 +1002,8 @@ export async function updateWidget(widgetObject: any, viewId: string): Promise<v
 
         switch (widgetObject.type) {
             case 'bookmarks':
-                 let bookmarks = currentWidget as BookmarksWidget;
-                 bookmarks.bookmarks = widgetObject.bookmarks.map(buildJsBookmark)
+                let bookmarks = currentWidget as BookmarksWidget;
+                bookmarks.bookmarks = widgetObject.bookmarks.map(buildJsBookmark)
                 break;
         }
         unsetWaitCursor(viewId);
@@ -1752,7 +1752,8 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
             view.ui.remove(content);
             const expand = new Expand({
                 view,
-                content: content
+                content: content,
+                expanded: widget.expanded
             });
 
             if (hasValue(widget.autoCollapse)) {
@@ -1769,6 +1770,14 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
 
             if (hasValue(widget.collapseIconClass)) {
                 expand.collapseIconClass = widget.collapseIconClass;
+            }
+
+            if (hasValue(widget.expandIcon)) {
+                expand.expandIcon = widget.expandIcon;
+            }
+
+            if (hasValue(widget.collapseIcon)) {
+                expand.collapseIcon = widget.collapseIcon;
             }
 
             if (hasValue(widget.expandTooltip)) {
