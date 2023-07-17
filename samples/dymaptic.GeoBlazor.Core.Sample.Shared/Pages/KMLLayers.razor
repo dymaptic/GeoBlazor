@@ -7,7 +7,7 @@
 </div>
 <Label>Add the sample KML Layer URL to see major earthquakes for latest 30 days from USGS database :</Label>
 <InputText @bind-Value="_kmlLayerUrl"></InputText>
-<button disabled="@(!_mapRendered)" @onclick="AddLayer">Add new KML Layer!</button>
+<button disabled="@(!_mapRendered)" @onclick="(()=>AddKMlLayer())">Add new KML Layer!</button>
 
 
 <MapView @ref="_view" class="map-view" OnMapRendered="OnMapRendered">
@@ -16,6 +16,8 @@
     </Extent>
     <Map ArcGISDefaultBasemap="dark-gray-vector">
         <!--<KMLLayer Url="https://earthquake.usgs.gov/fdsnws/event/1/query?format=kml&minmagnitude=5.8" Title="Major EarthQuakes Query Result" Copyright="Esri"></KMLLayer>-->
+    
+    
     </Map>
 </MapView>
 
@@ -24,16 +26,16 @@
 @code {
     private void OnMapRendered() => _mapRendered = true;
 
-    private void AddKMlLayer()
+    public void AddKMlLayer()
     {
         if (!string.IsNullOrEmpty(_kmlLayerUrl))
-        _view.Map.OperationalLayers.Add(new KmlLayer() { Url = _kmlLayerUrl });
+        _view.Map.Add(new KMLLayer() { Url = _kmlLayerUrl });
     }
 
 
 private MapView _view;
 
-    private bool _mapRendered = false;
+private bool _mapRendered = false;
 
-    private string _kmlLayerUrl = "https://earthquake.usgs.gov/fdsnws/event/1/query?format=kml&minmagnitude=5.8";
+private string _kmlLayerUrl = "https://earthquake.usgs.gov/fdsnws/event/1/query?format=kml&minmagnitude=5.8";
 }

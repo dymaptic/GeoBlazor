@@ -47,6 +47,7 @@ import ListItem from "@arcgis/core/widgets/LayerList/ListItem";
 import * as reactiveUtils from "@arcgis/core/core/reactiveUtils";
 import BasemapLayerList from "@arcgis/core/widgets/BasemapLayerList";
 import FeatureLayerWrapper from "./featureLayer";
+import KMLLayer from "@arcgis/core/layers/KMLLayer";
 
 import {
     buildDotNetExtent,
@@ -2023,6 +2024,13 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             }
 
             break;
+//        case 'kml':
+
+//            newLayer = new KMLLayer({
+//                url: layerObject.url,
+//            });
+
+//}
         default:
             return null;
     }
