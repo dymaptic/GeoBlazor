@@ -2024,13 +2024,12 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             }
 
             break;
-//        case 'kml':
-
-//            newLayer = new KMLLayer({
-//                url: layerObject.url,
-//            });
-
-//}
+        case 'csv':
+            newLayer = new KMLLayer({
+                url: layerObject.url,
+            });
+            let kmlLayer = newLayer as KMLLayer;
+            break;
         default:
             return null;
     }
