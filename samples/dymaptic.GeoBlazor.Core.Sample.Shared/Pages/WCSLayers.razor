@@ -1,0 +1,48 @@
+@page "/wcslayers"
+
+<h3>Kml Layers</h3>
+
+<div class="links-div">
+    <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html">ArcGIS API for JavaScript</a>
+</div>
+<Label>Add the sample WCS Layer URL to see global sea temperature data:</Label>
+<InputText @bind-Value="_wcsLayerUrl"></InputText>
+<button disabled="@(!_mapRendered)" @onclick="(()=>AddWCSLayer())">Add the WCS Layer!</button>
+
+
+<MapView @ref="_view" class="map-view" OnMapRendered="OnMapRendered" Scale="0">
+    <Map ArcGISDefaultBasemap="dark-gray-vector">
+        @if (_visible)
+        {
+            <!--<KMLLayer Url="https://earthquake.usgs.gov/fdsnws/event/1/query?format=kml&minmagnitude=5.8" Title="Major EarthQuakes Query Result"></KMLLayer>-->
+        }
+    </Map>
+</MapView>
+
+@code {
+
+
+private string _wcsLayerUrl = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/WCS/SeaTemperature/ImageServer";
+    private bool _mapRendered = false;
+
+    private async Task AddWCSLayer()
+    {
+        await _map.AddWCSLayer(_wcsLayerUrl);
+    }
+
+    private Map _map;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _map = await Map.CreateAsync();
+            _mapRendered = true;
+        }
+    }
+private MapView _view;
+private bool _visible = false;
+private bool _mapRendered = false;
+
+private string _wcsLayerUrl = "https://sampleserver6.arcgisonline.com/arcgis/services/ScientificData/SeaTemperature/ImageServer/WCSServer";
+}
