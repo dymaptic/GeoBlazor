@@ -754,7 +754,7 @@ public class GeometryEngineTests : TestRunnerBase
     }
 
     [TestMethod]
-    public async Task TestGeodesicArea()
+    public async Task TestGeodesicArealUnit()
     {
         var polygon = new Polygon(new MapPath[]
         {
@@ -769,6 +769,26 @@ public class GeometryEngineTests : TestRunnerBase
         });
 
         double area = await GeometryEngine.GeodesicArea(polygon, ArealUnit.SquareFeet);
+
+        Assert.AreNotEqual(0, area);
+    }
+
+    [TestMethod]
+    public async Task TestGeodesicAreaUnit()
+    {
+        var polygon = new Polygon(new MapPath[]
+        {
+            new()
+            {
+                new MapPoint(0, 0),
+                new MapPoint(0, 10),
+                new MapPoint(10, 10),
+                new MapPoint(10, 0),
+                new MapPoint(0, 0)
+            }
+        });
+
+        double area = await GeometryEngine.GeodesicArea(polygon, GeometryEngineAreaUnit.SquareFeet);
 
         Assert.AreNotEqual(0, area);
     }
@@ -1163,7 +1183,7 @@ public class GeometryEngineTests : TestRunnerBase
     }
 
     [TestMethod]
-    public async Task TestPlanarArea()
+    public async Task TestPlanarAreal()
     {
         var polygon =
             new Polygon(
@@ -1180,6 +1200,28 @@ public class GeometryEngineTests : TestRunnerBase
                 }, new SpatialReference(102100));
 
         double area = await GeometryEngine.PlanarArea(polygon, ArealUnit.SquareKilometers);
+
+        Assert.IsTrue(area > 0);
+    }
+
+    [TestMethod]
+    public async Task TestPlanarAreaUnit()
+    {
+        var polygon =
+            new Polygon(
+                new MapPath[]
+                {
+                    new()
+                    {
+                        new MapPoint(0, 0),
+                        new MapPoint(0, 10),
+                        new MapPoint(10, 10),
+                        new MapPoint(10, 0),
+                        new MapPoint(0, 0)
+                    }
+                }, new SpatialReference(102100));
+
+        double area = await GeometryEngine.PlanarArea(polygon, GeometryEngineAreaUnit.SquareKilometers);
 
         Assert.IsTrue(area > 0);
     }

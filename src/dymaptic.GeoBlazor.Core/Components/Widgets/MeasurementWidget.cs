@@ -26,19 +26,30 @@ public class MeasurementWidget : Widget
     /// </summary>
     public DotNetObjectReference<MeasurementWidget> MeasurementWidgetObjectReference => DotNetObjectReference.Create(this);
 
+    /// <summary>
+    /// Specifies the current measurement tool to display.
+    /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ActiveTool? ActiveTool { get; set; }
 
+    /// <summary>
+    /// Unit system (imperial, metric) or specific unit used for displaying the area values.
+    /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public AreaUnit? AreaUnit { get; set; }
 
+    /// <summary>
+    /// Unit system (imperial, metric) or specific unit used for displaying the distance values.
+    /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public LinearUnit? LinearUnit { get; set; }
+    public LengthUnit? LinearUnit { get; set; }
 
-
+    /// <summary>
+    /// The widget's default label.
+    /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Label { get; set; }

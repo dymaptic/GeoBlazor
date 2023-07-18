@@ -12,8 +12,10 @@ namespace dymaptic.GeoBlazor.Core.Objects;
 ///         ArcGIS
 ///         JS API
 ///     </a>
+/// Used by the Geometry Engine.
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<ArealUnit>))]
+[Obsolete("Replaced by GeometryEngineAreaUnit for clarity.")]
 public enum ArealUnit
 {
 #pragma warning disable CS1591
@@ -30,17 +32,16 @@ public enum ArealUnit
 
 /// <summary>
 /// Units for area measurement. Use one of the possible values listed below or any of the numeric codes for area units.
-///  <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-units.htm">
+///  <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-geometryEngine.html#AreaUnits">
 ///         ArcGIS
 ///         JS API
 ///     </a>
+/// Used by Widgets.
 /// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<AreaUnit>))]
-public enum AreaUnit
+[JsonConverter(typeof(EnumToKebabCaseStringConverter<GeometryEngineAreaUnit>))]
+public enum GeometryEngineAreaUnit
 {
 #pragma warning disable CS1591
-    Metric,
-    Imperial,
     Acres,
     Ares,
     Hectares,
@@ -48,33 +49,6 @@ public enum AreaUnit
     SquareMeters,
     SquareYards,
     SquareKilometers,
-    SquareMiles,
-    SquareInches,
-    SquareUSFeet,
-#pragma warning restore CS1591
+    SquareMiles
 }
-
-/// <summary>
-/// Units for linear measurement. Use one of the possible values listed below or any of the numeric codes for linear units.
-///  <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-units.htm">
-///         ArcGIS
-///         JS API
-///     </a>`
-/// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<LengthUnit>))]
-public enum LengthUnit
-{
-#pragma warning disable CS1591
-    Millimeters,
-    Centimeters,
-    Decimeters,
-    Meters,
-    Kilometers,
-    Inches,
-    Feet,
-    Yards,
-    Miles,
-    NauticalMiles,
-    USFeet
 #pragma warning restore CS1591
-}

@@ -1759,21 +1759,21 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
         case 'measurement':
             newWidget = new Measurement({
                 view: view,
-                activeTool: widget.activeTool,
-                areaUnit: widget.areaUnit,
-                linearUnit: widget.linearUnit,
-                label: widget.label,
-                icon: widget.icon,
+                activeTool: widget.activeTool ?? undefined,
+                areaUnit: widget.areaUnit ?? undefined,
+                linearUnit: widget.linearUnit ?? undefined,
+                label: widget.label ?? undefined,
+                icon: widget.icon ?? undefined,
             });
             break;
         default:
             return null;
     }
-    
+
     if (hasValue(widget.icon)) {
         newWidget.icon = widget.icon;
     }
-    
+
     if (hasValue(widget.widgetId)) {
         newWidget.id = widget.widgetId;
     }
@@ -1877,7 +1877,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
 
             copyValuesIfExists(layerObject, featureLayer, 'minScale', 'maxScale', 'orderBy', 'objectIdField',
                 'definitionExpression', 'labelingInfo', 'outFields');
-            
+
             if (hasValue(layerObject.formTemplate)) {
                 featureLayer.formTemplate = buildJsFormTemplate(layerObject.formTemplate);
             }
