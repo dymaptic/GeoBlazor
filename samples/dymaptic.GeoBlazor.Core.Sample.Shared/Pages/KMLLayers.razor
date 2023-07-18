@@ -7,15 +7,18 @@
 </div>
 <Label>Add the sample KML Layer URL to see major earthquakes for latest 30 days from USGS to the map database :</Label>
 <InputText @bind-Value="_kmlLayerUrl"></InputText>
-<button disabled="@(!_mapRendered)" @onclick="(()=>AddKMLLayer())">Add new KML Layer!</button>
+<button disabled="@(!_mapRendered)" @onclick="(()=>AddRemoveKMLLayer())">Add or Remove KML Layer in code</button>
+<button disabled="@(!_mapRendered)" @onclick="(()=>_markup = !_markup)">Add new KML Layer in Markup</button>
 
 
 <MapView @ref="_view" class="map-view" OnMapRendered="OnMapRendered" Scale="0">
     <Map ArcGISDefaultBasemap="dark-gray-vector">
-        @if (_visible)
+        @if (_markup)
         {
             <KMLLayer Url="https://earthquake.usgs.gov/fdsnws/event/1/query?format=kml&minmagnitude=5.8" Title="Major EarthQuakes Query Result"></KMLLayer>
         }
+        @AddRemoveKMLLayer()
+
     </Map>
 </MapView>
 
@@ -24,22 +27,30 @@
 @code {
     private void OnMapRendered() => _mapRendered = true;
 
-    public async Task AddKMLLayer()
+    public async Task AddRemoveKMLLayer()
     {
-        _visible = true;
-        await LoadKMlLayer();
+        KMLLayer kmlSampleLayer = new() { Url = _kmlLayerUrl };
+        if (!string.IsNullOrEmpty(_kmlLayerUrl))
+        {
+            await _view.AddLayer(kmlSampleLayer);
+        }
+        else
+        {
+            await _view.RemoveLayer(kmlSampleLayer);
+        }
         _view.Refresh();
     }
 
-    public async Task LoadKMlLayer()
-    {
-        if (!string.IsNullOrEmpty(_kmlLayerUrl))
-        await _view.AddLayer(new KMLLayer() { Url = _kmlLayerUrl });
-    }
+    // public async Task LoadKMlLayer()
+    // {
+    //     if (!string.IsNullOrEmpty(_kmlLayerUrl))
+    //         await _view.AddLayer(new KMLLayer() { Url = _kmlLayerUrl });
+    // }
 
 private MapView _view;
-private bool _visible = false;
+//private bool _loadingLayer;
 private bool _mapRendered = false;
+private bool _markup = false;
 
 private string _kmlLayerUrl = "https://earthquake.usgs.gov/fdsnws/event/1/query?format=kml&minmagnitude=5.8";
 }
