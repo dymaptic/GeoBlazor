@@ -244,15 +244,20 @@ export function buildJsPopupTemplate(popupTemplateObject: DotNetPopupTemplate, v
     if (viewId !== null) {
         let view = arcGisObjectRefs[viewId] as View;
         if (hasValue(view)) {
-            if (hasValue(triggerActionHandler)) {
-                triggerActionHandler.remove();
+            try {
+                if (hasValue(triggerActionHandler)) {
+                    triggerActionHandler.remove();
+                }
+                if (hasValue(templateTriggerActionHandler)) {
+                    templateTriggerActionHandler.remove();
+                }
+                templateTriggerActionHandler = view.popup.on("trigger-action", async (event: PopupTriggerActionEvent) => {
+                    await popupTemplateObject.dotNetPopupTemplateReference.invokeMethodAsync("OnTriggerAction", event.action.id);
+                });
             }
-            if (hasValue(templateTriggerActionHandler)) {
-                templateTriggerActionHandler.remove();
+            catch (error) {
+                console.debug(error);
             }
-            templateTriggerActionHandler = view.popup.on("trigger-action", async (event: PopupTriggerActionEvent) => {
-                await popupTemplateObject.dotNetPopupTemplateReference.invokeMethodAsync("OnTriggerAction", event.action.id);
-            });
         }
     }
 

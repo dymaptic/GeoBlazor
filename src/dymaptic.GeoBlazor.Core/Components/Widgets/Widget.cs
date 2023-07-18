@@ -41,6 +41,19 @@ public abstract class Widget : MapComponent
     /// </summary>
     [JsonPropertyName("type")]
     public abstract string WidgetType { get; }
+    
+    /// <summary>
+    ///     Icon which represents the widget. It is typically used when the widget is controlled by another one (e.g. in the Expand widget).
+    ///     Default Value:null
+    /// </summary>
+    [Parameter]
+    public string? Icon { get; set; }
+    
+    /// <summary>
+    ///     The unique ID assigned to the widget when the widget is created. If not set by the developer, it will default to the container ID, or if that is not present then it will be automatically generated.
+    /// </summary>
+    [Parameter]
+    public string? WidgetId { get; set; }
 
     /// <summary>
     ///     DotNet Object Reference to the widget
