@@ -1753,7 +1753,8 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
             const expand = new Expand({
                 view,
                 content: content,
-                expanded: widget.expanded
+                expanded: widget.expanded,
+                mode: widget.mode,
             });
 
             if (hasValue(widget.autoCollapse)) {

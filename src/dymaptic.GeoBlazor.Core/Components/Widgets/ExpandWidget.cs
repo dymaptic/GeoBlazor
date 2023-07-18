@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using dymaptic.GeoBlazor.Core.Serialization;
+using Microsoft.AspNetCore.Components;
 using System.Text.Json.Serialization;
 
 
@@ -99,6 +100,12 @@ public class ExpandWidget : Widget
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? CollapseIcon { get; set; }
 
+    /// <summary>
+    ///   The mode in which the widget displays. These modes are listed below.
+    /// </summary>
+    [Parameter]
+    public Mode Mode { get; set; } = Mode.Auto;
+
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
     {
@@ -133,4 +140,12 @@ public class ExpandWidget : Widget
                 break;
         }
     }
+}
+
+[JsonConverter(typeof(EnumToKebabCaseStringConverter<Mode>))]
+public enum Mode
+{
+    Auto,
+    Floating,
+    Drawer
 }
