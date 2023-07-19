@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using dymaptic.GeoBlazor.Core.Exceptions;
+using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,10 +29,15 @@ public class KMLLayer : Layer
     ///     Constructor for use in code
     /// </summary>
     /// <param name="url">
-    ///     The url for the GeoRSS source data.
+    ///     The url for the KML Layer source data.
     /// </param>
-    public KMLLayer (string url)
+    public KMLLayer (string? url = null, PortalItem? portalItem = null)
     {
+        if (url is null && portalItem is null)
+        {
+            throw new MissingRequiredOptionsChildElementException(nameof(FeatureLayer),
+                new[] { nameof(Url), nameof(PortalItem) });
+        }
 #pragma warning disable BL0005
         Url = url;
 #pragma warning restore BL0005
@@ -46,6 +52,7 @@ public class KMLLayer : Layer
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [RequiredProperty(nameof(PortalItem))]
     public string? Url { get; set; }
 
 }
