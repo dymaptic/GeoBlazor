@@ -17,8 +17,6 @@
         {
             <KMLLayer Url="https://earthquake.usgs.gov/fdsnws/event/1/query?format=kml&minmagnitude=5.8" Title="Major EarthQuakes Query Result"></KMLLayer>
         }
-        @AddRemoveKMLLayer()
-
     </Map>
 </MapView>
 
@@ -30,26 +28,22 @@
     public async Task AddRemoveKMLLayer()
     {
         KMLLayer kmlSampleLayer = new() { Url = _kmlLayerUrl };
-        //if (!string.IsNullOrEmpty(_kmlLayerUrl))
-        if (_view.Map.Layers.Contains(kmlSampleLayer))
+
+        if (!_view.Map.Layers.Any())
         {
             await _view.AddLayer(kmlSampleLayer);
         }
         else
         {
-            await _view.RemoveLayer(kmlSampleLayer);
+            _view.Map.Layers.Clear();
         }
         _view.Refresh();
     }
 
-    // public async Task LoadKMlLayer()
-    // {
-    //     if (!string.IsNullOrEmpty(_kmlLayerUrl))
-    //         await _view.AddLayer(new KMLLayer() { Url = _kmlLayerUrl });
-    // }
+
 
 private MapView _view;
-//private bool _loadingLayer;
+
 private bool _mapRendered = false;
 private bool _markup = false;
 
