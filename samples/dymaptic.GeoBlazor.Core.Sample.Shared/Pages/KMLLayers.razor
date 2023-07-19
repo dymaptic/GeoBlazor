@@ -30,7 +30,8 @@
     public async Task AddRemoveKMLLayer()
     {
         KMLLayer kmlSampleLayer = new() { Url = _kmlLayerUrl };
-        if (!string.IsNullOrEmpty(_kmlLayerUrl))
+        //if (!string.IsNullOrEmpty(_kmlLayerUrl))
+        if (_view.Map.Layers.Contains(kmlSampleLayer))
         {
             await _view.AddLayer(kmlSampleLayer);
         }
