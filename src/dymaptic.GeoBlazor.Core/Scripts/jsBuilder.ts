@@ -452,8 +452,7 @@ export function buildJsBookmark(dnBookmark: DotNetBookmark): Bookmark | null {
 
     if (!(dnBookmark.thumbnail == null)) {
         //ESRI has this as an "object" with url property
-        let thumbnail = new Object();
-        thumbnail.url = dnBookmark.thumbnail;
+        let thumbnail = { url: dnBookmark.thumbnail  };
         bookmark.thumbnail = thumbnail;
     } else {
         bookmark.thumbnail = undefined;

@@ -22,19 +22,19 @@ public class ExpandWidget : Widget
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [Obsolete("Use ExpandIcon instead")]
     public string? ExpandIconClass { get; set; }
 
     /// <summary>
     ///     Icon font used to style the Expand button when collapsed.
-    ///     Deprecated
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [Obsolete("Use CollapseIcon instead")]
     public string? CollapseIconClass { get; set; }
 
     /// <summary>
-    ///     Tooltip to display to indicate Expand widget can be expanded.
-    ///     Deprecated
+    ///     Tooltip to display to indicate Expand widget can be expanded
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -142,6 +142,12 @@ public class ExpandWidget : Widget
     }
 }
 
+
+/// <summary>
+/// The mode in which the Expander widget displays. These modes are listed below.
+/// Possible Values:"auto"|"floating"|"drawer"
+//Default Value:"auto"
+/// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<Mode>))]
 public enum Mode
 {

@@ -23,8 +23,7 @@ public class BookmarksWidget : Widget
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? Disabled { get; set; }
-
-
+    
     /// <summary>
     ///    Indicates whether the bookmarks are able to be edited.
     /// </summary>

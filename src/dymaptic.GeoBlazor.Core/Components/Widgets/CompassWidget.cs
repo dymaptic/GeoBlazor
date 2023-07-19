@@ -22,10 +22,10 @@ public class CompassWidget : Widget
 
     /// <summary>
     ///     The widget's default CSS icon class.
-    ///     Deprecated
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [Obsolete("Use Icon instead")]
     public string? IconClass { get; set; }
 
     /// <summary>
