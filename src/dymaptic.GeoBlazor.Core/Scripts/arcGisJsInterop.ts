@@ -2023,6 +2023,18 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             }
 
             break;
+        case 'wcs':
+            let wcsLayer: WCSLayer;
+            if (hasValue(layerObject.url)) {
+                wcsLayer = new WCSLayer({
+                    url: layerObject.url
+                });
+            } else {
+                let portalItem = buildJsPortalItem(layerObject.portalItem);
+                wcsLayer = new WCSLayer({ portalItem: portalItem });
+            }
+            newLayer = wcsLayer;
+            copyValuesIfExists(layerObject, wcsLayer, 'bandIds', 'copyright', 'coverageId', 'coverageInfo', 'customParameters', 'fields', 'interpolation', 'maxScale', 'minscale', 'multidimensionalDefinition', 'rasterInfo', 'renderer');
         default:
             return null;
     }

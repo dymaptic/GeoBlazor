@@ -22,27 +22,27 @@
 @code {
 
 
-private string _wcsLayerUrl = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/WCS/SeaTemperature/ImageServer";
-    private bool _mapRendered = false;
 
-    private async Task AddWCSLayer()
+    private void OnMapRendered() => _mapRendered = true;
+
+    public async Task AddRemoveKMLLayer()
     {
-        await _map.AddWCSLayer(_wcsLayerUrl);
-    }
+        WCSLayer kmlSampleLayer = new() { Url = _wcsLayerUrl };
 
-    private Map _map;
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
+        if (!_view.Map.Layers.Any())
         {
-            _map = await Map.CreateAsync();
-            _mapRendered = true;
+            await _view.AddLayer(kmlSampleLayer);
         }
+        else
+        {
+            _view.Map.Layers.Clear();
+        }
+        _view.Refresh();
     }
 private MapView _view;
 private bool _visible = false;
 private bool _mapRendered = false;
 
-private string _wcsLayerUrl = "https://sampleserver6.arcgisonline.com/arcgis/services/ScientificData/SeaTemperature/ImageServer/WCSServer";
+private string _wcsLayerUrl = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/WCS/SeaTemperature/ImageServer";
+private string _wcsLayerUrl2 = "https://sampleserver6.arcgisonline.com/arcgis/services/ScientificData/SeaTemperature/ImageServer/WCSServer";
 }
