@@ -1,11 +1,7 @@
 ﻿using dymaptic.GeoBlazor.Core.Exceptions;
 using Microsoft.AspNetCore.Components;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
+
 
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
@@ -47,7 +43,7 @@ public class WCSLayer
 
     /// <inheritdoc />
     [JsonPropertyName("type")]
-    public override string LayerType => "wcs";
+    public string? LayerType => "wcs";
 
     /// <summary>
     ///     The absolute URL of the REST endpoint of the layer, non-spatial table or service

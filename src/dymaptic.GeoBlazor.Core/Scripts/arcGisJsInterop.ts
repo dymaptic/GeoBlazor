@@ -47,6 +47,7 @@ import ListItem from "@arcgis/core/widgets/LayerList/ListItem";
 import * as reactiveUtils from "@arcgis/core/core/reactiveUtils";
 import BasemapLayerList from "@arcgis/core/widgets/BasemapLayerList";
 import FeatureLayerWrapper from "./featureLayer";
+import WCSLayer from "@arcgis/core/layers/WCSLayer";
 
 import {
     buildDotNetExtent,

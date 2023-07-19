@@ -7,14 +7,14 @@
 </div>
 <Label>Add the sample WCS Layer URL to see global sea temperature data:</Label>
 <InputText @bind-Value="_wcsLayerUrl"></InputText>
-<button disabled="@(!_mapRendered)" @onclick="(()=>AddWCSLayer())">Add the WCS Layer!</button>
-
+<!--<button disabled="@(!_mapRendered)" @onclick="(()=>AddRemoveWCSLayer())">Add the WCS Layer!</button>-->
+<button disabled="@(!_mapRendered)" @onclick="(()=>_markup = !_markup)">Add new KML Layer in Markup</button>
 
 <MapView @ref="_view" class="map-view" OnMapRendered="OnMapRendered" Scale="0">
     <Map ArcGISDefaultBasemap="dark-gray-vector">
         @if (_visible)
         {
-            <!--<KMLLayer Url="https://earthquake.usgs.gov/fdsnws/event/1/query?format=kml&minmagnitude=5.8" Title="Major EarthQuakes Query Result"></KMLLayer>-->
+            <WCSLayer Url="https://earthquake.usgs.gov/fdsnws/event/1/query?format=kml&minmagnitude=5.8" Title="Major EarthQuakes Query Result"></WCSLayer>
         }
     </Map>
 </MapView>
@@ -25,21 +25,22 @@
 
     private void OnMapRendered() => _mapRendered = true;
 
-    public async Task AddRemoveKMLLayer()
-    {
-        WCSLayer kmlSampleLayer = new() { Url = _wcsLayerUrl };
+    // public async Task AddRemoveWCSLayer()
+    // {
+    //     WCSLayer wcsSampleLayer = new() { Url = _wcsLayerUrl };
 
-        if (!_view.Map.Layers.Any())
-        {
-            await _view.AddLayer(kmlSampleLayer);
-        }
-        else
-        {
-            _view.Map.Layers.Clear();
-        }
-        _view.Refresh();
-    }
+    //     if (!_view.Map.Layers.Any())
+    //     {
+    //         await _view.;
+    //     }
+    //     else
+    //     {
+    //         _view.Map.Layers.Clear();
+    //     }
+    //     _view.Refresh();
+    // }
 private MapView _view;
+private bool _markup = false;
 private bool _visible = false;
 private bool _mapRendered = false;
 
