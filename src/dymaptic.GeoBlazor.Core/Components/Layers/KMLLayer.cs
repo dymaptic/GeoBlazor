@@ -1,11 +1,8 @@
-﻿using dymaptic.GeoBlazor.Core.Exceptions;
+﻿
+using dymaptic.GeoBlazor.Core.Exceptions;
 using Microsoft.AspNetCore.Components;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
+
 
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
@@ -19,12 +16,16 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 /// </summary>
 public class KMLLayer : Layer
 {
+    /// <inheritdoc />
+    [JsonPropertyName("type")]
+    public override string LayerType => "kml";
+
     /// <summary>
     ///     Parameterless constructor for use as a razor component
     /// </summary>
-    public KMLLayer()
-    {
-    }
+    //public KMLLayer()
+    //{
+    //}
     /// <summary>
     ///     Constructor for use in code
     /// </summary>
@@ -38,21 +39,63 @@ public class KMLLayer : Layer
             throw new MissingRequiredOptionsChildElementException(nameof(KMLLayer),
                 new[] { nameof(Url), nameof(PortalItem) });
         }
-#pragma warning disable BL0005
         Url = url;
-#pragma warning restore BL0005
+        PortalItem = portalItem;
     }
-
-    /// <inheritdoc />
-    [JsonPropertyName("type")]
-    public override string LayerType => "kml";
 
     /// <summary>
     ///     The url for the KML Layer source data.
     /// </summary>
-    [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [RequiredProperty(nameof(PortalItem))]
     public string? Url { get; set; }
+
+    /// <summary>
+    ///     The portal item for the KML Layer source data.
+    /// </summary>
+    [RequiredProperty(nameof(PortalItem))]
+    public PortalItem? PortalItem { get; set; }
+
+    /// <inheritdoc />
+    protected override async Task RegisterChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case PortalItem portalItem:
+                if (!portalItem.Equals(PortalItem))
+                {
+                    PortalItem = portalItem;
+                    LayerChanged = true;
+                }
+
+                break;
+            default:
+                await base.RegisterChildComponent(child);
+
+                break;
+        }
+    }
+    /// <inheritdoc />
+    protected override async Task UnRegisterChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case PortalItem _:
+                PortalItem = null;
+                LayerChanged = true;
+
+                break;
+            default:
+                await base.UnregisterChildComponent(child);
+
+                break;
+        }
+    }
+    /// <inheritdoc />
+    internal void ValidateRequiredChildren()
+    {
+        base.ValidateRequiredChildren();
+        PortalItem?.ValidateRequiredChildren();
+    }   
 
 }
