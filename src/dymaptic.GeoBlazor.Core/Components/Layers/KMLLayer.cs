@@ -35,7 +35,7 @@ public class KMLLayer : Layer
     {
         if (url is null && portalItem is null)
         {
-            throw new MissingRequiredOptionsChildElementException(nameof(FeatureLayer),
+            throw new MissingRequiredOptionsChildElementException(nameof(KMLLayer),
                 new[] { nameof(Url), nameof(PortalItem) });
         }
 #pragma warning disable BL0005
