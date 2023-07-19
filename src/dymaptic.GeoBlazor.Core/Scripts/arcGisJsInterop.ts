@@ -2035,18 +2035,6 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             }
             newLayer = kmlLayer;
             copyValuesIfExists(layerObject, kmlLayer, 'sublayers', 'blendMode', 'maxScale', 'minScale', 'title', 'visible');
-            if (hasValue(layerObject.Sublayers)) {
-                kmlLayer.sublayers = layerObject.SubLayers;
-            }
-            if (hasValue(layerObject.renderer)) {
-                kmlLayer.blendMode = layerObject.blendMode;
-            }
-            if (hasValue(layerObject.maxScale)) {
-                kmlLayer.maxScale = layerObject.maxScale;
-            }
-            if (hasValue(layerObject.minScale)) {
-                kmlLayer.minScale = layerObject.minScale;
-            }
             break;
         default:
             return null;

@@ -8,13 +8,28 @@ using System.Threading.Tasks;
 
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
+/// <summary>
+///     The KMLLayer class is used to create a layer based on a KML file (.kml, .kmz). KML is an XML-based file format used
+///     to represent geographic features.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-KMLLayer.html">
+///         ArcGIS
+///         JS API
+///     </a>
+/// </summary>
 public class KMLLayer : Layer
 {
+    /// <summary>
+    ///     Parameterless constructor for use as a razor component
+    /// </summary>
     public KMLLayer()
     {
     }
-
-    // Effect property is one items that can be added in the future 
+    /// <summary>
+    ///     Constructor for use in code
+    /// </summary>
+    /// <param name="url">
+    ///     The url for the GeoRSS source data.
+    /// </param>
     public KMLLayer (string url)
     {
 #pragma warning disable BL0005
@@ -22,31 +37,15 @@ public class KMLLayer : Layer
 #pragma warning restore BL0005
     }
 
+    /// <inheritdoc />
+    [JsonPropertyName("type")]
+    public override string LayerType => "kml";
+
+    /// <summary>
+    ///     The url for the KML Layer source data.
+    /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Url { get; set; }
 
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? BlendMode { get; set; }
-
-
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public List<KMLLayer>? Sublayers { get; set; }
-
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public PortalItem? PortalItem { get; set; }
-
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? MaxScale { get; set; }
-
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? MinScale { get; set; }
-    
-    [JsonPropertyName("type")]
-    public override string LayerType => "kml";
 }
