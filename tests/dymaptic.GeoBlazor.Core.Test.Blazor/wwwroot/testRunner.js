@@ -29,7 +29,7 @@ export function assertLayerExists(viewId) {
     if (layers > 0) {
         throw new Error(`There are no Layers in this view`);
     }
-})
+}
 
 export function testThrow() {
     throw new Error("Test throw");
