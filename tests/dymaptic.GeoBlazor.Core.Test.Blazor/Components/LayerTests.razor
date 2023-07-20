@@ -1,0 +1,26 @@
+﻿@inherits TestRunnerBase
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+
+    [TestMethod]
+    public async Task TestCanRenderKMLLayerWithPortalId()
+    {
+        CreateViewRenderedHandler(async () =>
+        {
+            await AssertJavaScript("assertLayerExists");
+        });
+        AddMapRenderFragment(
+            @<Map>
+                <Basemap>
+                    <KMLLayer>
+                        <PortalItem Id="d5b3b9a6a6a24c5f9b1c8cf056a3a5f0" />
+                    </KMLLayer>
+                </Basemap>
+            </Map>);
+        await WaitForMapToRender();
+    }
+}

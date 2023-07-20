@@ -5,7 +5,7 @@
 <div class="links-div">
     <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-KMLLayer.html">ArcGIS API for JavaScript</a>
 </div>
-<Label>Add the sample KML Layer URL to see major earthquakes for latest 30 days from USGS to the map database :</Label>
+<Label>Add the sample KML Layer using a URL to see major earthquakes for latest 30 days from USGS to the map database :</Label>
 <InputText @bind-Value="_kmlLayerUrl"></InputText>
 <button disabled="@(!_mapRendered)" @onclick="(()=>AddRemoveKMLLayer())">Add or Remove KML Layer in code</button>
 <button disabled="@(!_mapRendered)" @onclick="(()=>_markup = !_markup)">Add new KML Layer in Markup</button>
@@ -38,6 +38,24 @@
             _view.Map.Layers.Clear();
         }
         _view.Refresh();
+        FindLayer();
+    }
+
+    public void FindLayer(){
+
+        var layer = _view.Map.Layers.Count();
+        if (layer > 0)
+        {
+            var result = _view.Map.Layers.GetType();
+            var result2 = _view.Map.Layers.FirstOrDefault().LayerType;
+            var result3 = _view.Map.Layers.Get.Id;
+            var result4 = _view.Map.Layers.GetType().Name;
+        }
+        else
+        {
+            Console.WriteLine("Layer removed");
+        }
+
     }
 
 

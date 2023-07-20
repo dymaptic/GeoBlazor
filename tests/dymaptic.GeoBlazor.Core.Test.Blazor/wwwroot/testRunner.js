@@ -23,6 +23,14 @@ export function assertGraphicExistsInView(viewId, geometryType, count) {
     }
 }
 
+export function assertLayerExists(viewId) {
+    let view = arcGisObjectRefs[viewId];
+    let layers = view.map.layers.count();
+    if (layers > 0) {
+        throw new Error(`There are no Layers in this view`);
+    }
+})
+
 export function testThrow() {
     throw new Error("Test throw");
 }
