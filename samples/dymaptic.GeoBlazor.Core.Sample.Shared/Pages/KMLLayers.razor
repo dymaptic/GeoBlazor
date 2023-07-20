@@ -15,7 +15,10 @@
     <Map ArcGISDefaultBasemap="dark-gray-vector">
         @if (_markup)
         {
-            <KMLLayer Url="https://earthquake.usgs.gov/fdsnws/event/1/query?format=kml&minmagnitude=5.8" Title="Major EarthQuakes Query Result"></KMLLayer>
+            <KMLLayer>
+                <@Url ="https://earthquake.usgs.gov/fdsnws/event/1/query?format=kml&minmagnitude=5.8" />
+            </KMLLayer>
+            <!-- <KMLLayer Url="https://earthquake.usgs.gov/fdsnws/event/1/query?format=kml&minmagnitude=5.8" Title="Major EarthQuakes Query Result"></KMLLayer>-->
         }
     </Map>
 </MapView>
@@ -38,25 +41,9 @@
             _view.Map.Layers.Clear();
         }
         _view.Refresh();
-        FindLayer();
-    }
-
-    public void FindLayer(){
-
-        var layer = _view.Map.Layers.Count();
-        if (layer > 0)
-        {
-            var result = _view.Map.Layers.GetType();
-            var result2 = _view.Map.Layers.FirstOrDefault().LayerType;
-            var result3 = _view.Map.Layers.Get.Id;
-            var result4 = _view.Map.Layers.GetType().Name;
-        }
-        else
-        {
-            Console.WriteLine("Layer removed");
-        }
 
     }
+
 
 
 

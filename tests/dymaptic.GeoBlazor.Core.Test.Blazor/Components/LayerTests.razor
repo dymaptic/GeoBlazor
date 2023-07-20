@@ -14,13 +14,15 @@
             await AssertJavaScript("assertLayerExists");
         });
         AddMapRenderFragment(
-            @<Map>
-                <Basemap>
-                    <KMLLayer>
-                        <PortalItem Id="d5b3b9a6a6a24c5f9b1c8cf056a3a5f0" />
-                    </KMLLayer>
-                </Basemap>
-            </Map>);
+            @<MapView>
+                <Map ArcGISDefaultBasemap="dark-gray-vector">
+
+                        <KMLLayer>
+                            <@Url="https://earthquake.usgs.gov/fdsnws/event/1/query?format=kml&minmagnitude=5.8"/>
+                        </KMLLayer>
+
+                </Map>
+            </MapView>);
         await WaitForMapToRender();
     }
 }
