@@ -1,5 +1,4 @@
-﻿
-using dymaptic.GeoBlazor.Core.Exceptions;
+﻿using dymaptic.GeoBlazor.Core.Exceptions;
 using Microsoft.AspNetCore.Components;
 using System.Text.Json.Serialization;
 
@@ -23,16 +22,16 @@ public class KMLLayer : Layer
     /// <summary>
     ///     Parameterless constructor for use as a razor component
     /// </summary>
-    //public KMLLayer()
-    //{
-    //}
+    public KMLLayer()
+    {
+    }
     /// <summary>
     ///     Constructor for use in code
     /// </summary>
     /// <param name="url">
     ///     The url for the KML Layer source data.
     /// </param>
-    public KMLLayer (string? url = null, PortalItem? portalItem = null)
+    public KMLLayer(string? url = null, PortalItem? portalItem = null)
     {
         if (url is null && portalItem is null)
         {
@@ -46,6 +45,7 @@ public class KMLLayer : Layer
     /// <summary>
     ///     The url for the KML Layer source data.
     /// </summary>
+    [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [RequiredProperty(nameof(PortalItem))]
     public string? Url { get; set; }
@@ -53,11 +53,11 @@ public class KMLLayer : Layer
     /// <summary>
     ///     The portal item for the KML Layer source data.
     /// </summary>
-    [RequiredProperty(nameof(PortalItem))]
+    [RequiredProperty(nameof(Url))]
     public PortalItem? PortalItem { get; set; }
 
     /// <inheritdoc />
-    protected override async Task RegisterChildComponent(MapComponent child)
+    public override async Task RegisterChildComponent(MapComponent child)
     {
         switch (child)
         {
@@ -76,7 +76,7 @@ public class KMLLayer : Layer
         }
     }
     /// <inheritdoc />
-    protected override async Task UnRegisterChildComponent(MapComponent child)
+    public override async Task UnregisterChildComponent(MapComponent child)
     {
         switch (child)
         {
@@ -92,7 +92,7 @@ public class KMLLayer : Layer
         }
     }
     /// <inheritdoc />
-    internal void ValidateRequiredChildren()
+    internal override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();
         PortalItem?.ValidateRequiredChildren();
