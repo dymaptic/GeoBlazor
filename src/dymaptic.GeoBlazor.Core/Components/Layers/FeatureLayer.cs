@@ -464,6 +464,11 @@ public class FeatureLayer : Layer
                 }
 
                 break;
+            case FormTemplate _:
+                FormTemplate = null;
+                LayerChanged = true;
+
+                break;
             default:
                 await base.UnregisterChildComponent(child);
 
