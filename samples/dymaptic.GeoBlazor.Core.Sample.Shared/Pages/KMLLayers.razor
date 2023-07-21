@@ -15,10 +15,7 @@
     <Map ArcGISDefaultBasemap="dark-gray-vector">
         @if (_markup)
         {
-            <KMLLayer>
-                <@Url ="https://earthquake.usgs.gov/fdsnws/event/1/query?format=kml&minmagnitude=5.8" />
-            </KMLLayer>
-            <!-- <KMLLayer Url="https://earthquake.usgs.gov/fdsnws/event/1/query?format=kml&minmagnitude=5.8" Title="Major EarthQuakes Query Result"></KMLLayer>-->
+            <KMLLayer Url="https://earthquake.usgs.gov/fdsnws/event/1/query?format=kml&minmagnitude=5.8" Title="Major EarthQuakes Query Result"></KMLLayer>
         }
     </Map>
 </MapView>

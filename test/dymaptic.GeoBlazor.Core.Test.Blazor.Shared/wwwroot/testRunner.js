@@ -25,8 +25,8 @@ export function assertGraphicExistsInView(viewId, geometryType, count) {
 
 export function assertLayerExists(viewId) {
     let view = arcGisObjectRefs[viewId];
-    let layers = view.map.layers.items.count();
-    if (layers > 0) {
+    let layers = view.map.layers;
+    if (!layers) {
         throw new Error(`There are no Layers in this view`);
     }
 }

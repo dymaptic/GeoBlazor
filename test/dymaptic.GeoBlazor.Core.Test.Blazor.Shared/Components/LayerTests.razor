@@ -7,22 +7,21 @@
 @code {
 
     [TestMethod]
-    public async Task TestCanRenderKMLLayerWithPortalId()
+    public async Task TestCanRenderKMLLayerWithUrl()
     {
         CreateViewRenderedHandler(async () =>
     {
         await AssertJavaScript("assertLayerExists");
     });
         AddMapRenderFragment(
-    @<MapView>
-        <Map ArcGISDefaultBasemap="dark-gray-vector">
+            @<Map>
+                <Basemap>
+                    <PortalItem Id="55ebf90799fa4a3fa57562700a68c405" />
+                </Basemap>
+                <KMLLayer Url="https://earthquake.usgs.gov/fdsnws/event/1/query?format=kml&minmagnitude=5.8" />
+            </Map>
 
-            <KMLLayer>
-                <@Url ="https://earthquake.usgs.gov/fdsnws/event/1/query?format=kml&minmagnitude=5.8" />
-            </KMLLayer>
-
-        </Map>
-    </MapView>);
+    );
         await WaitForMapToRender();
     }
 }
