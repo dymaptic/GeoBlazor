@@ -44,37 +44,28 @@ public class BookmarksWidget : Widget
     /// A collection of Bookmarks.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public List<Bookmark>? Bookmarks { get; set; } 
+    public List<Bookmark>? Bookmarks { get; set; }
 
     /// <summary>
     ///     Handler delegate for click events on the view.
     /// </summary>
     [Parameter]
-    public EventCallback<BookmarkSelectEvent> OnClick { get; set; }
+    public EventCallback<BookmarkSelectEvent> OnBookmarkSelect { get; set; }
 
     /// <summary>
-    ///     JS-Invokable method to return view clicks.
+    ///     JS-Invokable method to return a selected bookmark
     /// </summary>
-    /// <param name="clickEvent">
-    ///     The <see cref="ClickEvent" /> return meta object.
+    /// <param name="bookmarkSelectEvent">
+    ///     The <see cref="BookmarkSelectEvent" /> return meta object.
     /// </param>
     /// <remarks>
-    ///     Fires after a user clicks on the view. This event emits slightly slower than an immediate-click event to make sure
-    ///     that a double-click event isn't triggered instead. The immediate-click event can be used for responding to a click
-    ///     event without delay.
+    ///     Fires after a user clicks on a bookmark.
     /// </remarks>
     [JSInvokable]
-    public async Task OnJavascriptClick(BookmarkSelectEvent clickEvent)
+    public async Task OnJavascriptBookmarkSelect(BookmarkSelectEvent bookmarkSelectEvent)
     {
-        await OnClick.InvokeAsync(clickEvent);
+        await OnBookmarkSelect.InvokeAsync(bookmarkSelectEvent);
     }
-
-
-    /// <summary>
-    ///     A .NET object reference for calling this class from JavaScript.
-    /// </summary>
-    public DotNetObjectReference<BookmarksWidget> BookmarksWidgetObjectReference => DotNetObjectReference.Create(this);
-
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
@@ -98,7 +89,7 @@ public class BookmarksWidget : Widget
         switch (child)
         {
             case Bookmark bookmark:
-                if (Bookmarks.Contains(bookmark)) Bookmarks.Remove(bookmark);
+                if (Bookmarks!.Contains(bookmark)) Bookmarks.Remove(bookmark);
                 WidgetChanged = true;
                 break;
             default:

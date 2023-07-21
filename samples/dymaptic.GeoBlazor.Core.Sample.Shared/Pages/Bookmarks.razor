@@ -13,15 +13,11 @@
         height: 100%;
         width: 100%;
     }
-
-    #timeSliderDiv {
-        width: 300px;
-    }
 </style>
 
 <div class="links-div">
     <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks.html">ArcGIS API for JavaScript Reference</a>
-    <a class="btn btn-primary" target="_blank" href="https://www.arcgis.com/home/item.html?id=70b726074af04a7e9839d8a07f64c039">Bookmarks widget</a>
+    <a class="btn btn-primary" target="_blank" href="https://developers.arcgis.com/javascript/latest/sample-code/widgets-bookmarks/">Bookmarks Sample</a>
 </div>
 
 <p class="instructions">
@@ -33,7 +29,7 @@
         <PortalItem Id="70b726074af04a7e9839d8a07f64c039" />
     </WebMap>
     <ExpandWidget Expanded="true" Position="OverlayPosition.TopRight">
-        <BookmarksWidget OnClick="OnBookmarkClick" EditingEnabled="true">
+        <BookmarksWidget OnBookmarkSelect="OnBookmarkClick" EditingEnabled="true">
         </BookmarksWidget>
     </ExpandWidget>
 
@@ -65,7 +61,7 @@
             {
                 Filter = new FeatureFilter()
                 {
-                    Where = "Name = '" + hurricaneName.ToUpper() + "'"
+                    Where = $"Name = '{hurricaneName.ToUpper()}'"
                 },
                 ExcludedEffect = new() { new Effect() { Value = "grayscale(100%) opacity(30%)" } }
             };

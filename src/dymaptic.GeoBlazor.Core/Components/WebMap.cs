@@ -65,6 +65,10 @@ public class WebMap : Map
         PortalItem?.ValidateRequiredChildren();
     }
 
+    /// <summary>
+    /// Gets the bookmarks defined in the WebMap from layers
+    /// </summary>
+    /// <returns>A list of bookmarks or null</returns>
     public async Task<List<Bookmark>> GetBookmarks()
     {
         var bookmarks = new List<Bookmark>();

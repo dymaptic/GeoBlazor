@@ -1817,7 +1817,7 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
             }
 
             bookmarkWidget.on('bookmark-select', (event) => {
-                widget.dotNetWidgetReference.invokeMethodAsync('OnJavascriptClick', {
+                widget.dotNetWidgetReference.invokeMethodAsync('OnJavascriptBookmarkSelect', {
                     bookmark: buildDotNetBookmark(event.bookmark)
                 });
             });

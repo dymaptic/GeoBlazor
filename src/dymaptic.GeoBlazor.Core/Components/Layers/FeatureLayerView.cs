@@ -54,6 +54,14 @@ public class FeatureLayerView : LayerView
         Filter = filter;
     }
 
+
+    /// <summary>
+    ///  Sets the <see cref="FeatureEffect" /> for this view.
+    /// </summary>
+    /// <param name="featureEffect">
+    /// The new effect (or null to clear) to apply to this view.
+    /// </param>
+
     public async Task SetFeatureEffect(FeatureEffect? featureEffect)
     {
         await JsObjectReference!.InvokeVoidAsync("setFeatureEffect", CancellationTokenSource.Token, featureEffect);

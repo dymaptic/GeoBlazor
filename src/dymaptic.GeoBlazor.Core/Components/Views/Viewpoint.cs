@@ -4,6 +4,11 @@ using System.Text.Json.Serialization;
 
 namespace dymaptic.GeoBlazor.Core.Components.Views;
 
+/// <summary>
+/// Describes a point of view for a 2D or 3D view. In a 2D view, the viewpoint is determined using a center point and scale value.
+/// In a 3D view, it is determined using a camera position.
+/// The Viewpoint can be bookmarked for later use, or used for navigation purposes.
+/// </summary>
 public class Viewpoint : MapComponent
 {
     ///public Camera Camera { get; set; }
@@ -26,6 +31,7 @@ public class Viewpoint : MapComponent
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Geometry? TargetGeometry { get; set; }
 
+    /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
     {
         switch (child)
@@ -39,6 +45,7 @@ public class Viewpoint : MapComponent
         }
     }
 
+    /// <inheritdoc />
     public override async Task UnregisterChildComponent(MapComponent child)
     {
         switch (child)

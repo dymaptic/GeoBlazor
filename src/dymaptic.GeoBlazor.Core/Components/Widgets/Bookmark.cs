@@ -5,18 +5,23 @@ using System.Text.Json.Serialization;
 
 namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
+/// <summary>
+/// A bookmark is a saved map extent that allows end users to quickly navigate
+/// to a particular area of interest using the Bookmarks widget.
+/// They are usually defined part of the WebMap.
+/// </summary>
 public class Bookmark : MapComponent
 {
     /// <summary>
-    ///    ///     The extent of the specified bookmark.
-    ///    /// </summary>
+    /// The extent of the specified bookmark.
+    /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public TimeExtent? TimeExtent { get; set; }
-    ///
-    ///    /// <summary>
-    ///    ///     The name of the bookmark.
-    ///    /// </summary>
+
+    /// <summary>
+    /// The name of the bookmark.
+    /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Name { get; set; }
@@ -29,11 +34,12 @@ public class Bookmark : MapComponent
     public string? Thumbnail { get; set; }
 
     /// <summary>
-    /// The URL for a thumbnail image.
+    /// The viewpoint of the bookmark item. Defines the rotation, scale, and target geometry of the bookmark.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Viewpoint? Viewpoint { get; set; }
 
+    /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
     {
         switch (child)
@@ -47,6 +53,7 @@ public class Bookmark : MapComponent
         }
     }
 
+    /// <inheritdoc />
     public override async Task UnregisterChildComponent(MapComponent child)
     {
         switch (child)
@@ -59,8 +66,4 @@ public class Bookmark : MapComponent
                 break;
         }
     }
-
 }
-
-
-
