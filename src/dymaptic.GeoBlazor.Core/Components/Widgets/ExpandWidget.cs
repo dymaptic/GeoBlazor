@@ -101,7 +101,7 @@ public class ExpandWidget : Widget
     public string? CollapseIcon { get; set; }
 
     /// <summary>
-    ///   The mode in which the widget displays. These modes are listed below.
+    ///   The mode in which the widget displays.
     /// </summary>
     [Parameter]
     public Mode Mode { get; set; } = Mode.Auto;
