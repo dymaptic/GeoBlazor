@@ -48,6 +48,7 @@ import ListItem from "@arcgis/core/widgets/LayerList/ListItem";
 import * as reactiveUtils from "@arcgis/core/core/reactiveUtils";
 import BasemapLayerList from "@arcgis/core/widgets/BasemapLayerList";
 import FeatureLayerWrapper from "./featureLayer";
+import KMLLayer from "@arcgis/core/layers/KMLLayer";
 import WCSLayer from "@arcgis/core/layers/WCSLayer";
 
 import {
@@ -2041,7 +2042,19 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
                     wkid: layerObject.spatialReference.wkid
                 });
             }
-
+            break;
+        case 'kml':
+            let kmlLayer: KMLLayer;
+            if (hasValue(layerObject.url)) {
+                kmlLayer = new KMLLayer({
+                    url: layerObject.url
+                });
+            } else {
+                let portalItem = buildJsPortalItem(layerObject.portalItem);
+                kmlLayer = new KMLLayer({ portalItem: portalItem });
+            }
+            newLayer = kmlLayer;
+            copyValuesIfExists(layerObject, kmlLayer, 'sublayers', 'blendMode', 'maxScale', 'minScale', 'title', 'visible');
             break;
         case 'wcs':
             let wcsLayer: WCSLayer;
