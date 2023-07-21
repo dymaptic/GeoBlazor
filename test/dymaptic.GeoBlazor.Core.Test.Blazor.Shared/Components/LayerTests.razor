@@ -1,0 +1,28 @@
+﻿@inherits TestRunnerBase
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+
+    [TestMethod]
+    public async Task TestCanRenderKMLLayerWithPortalId()
+    {
+        CreateViewRenderedHandler(async () =>
+    {
+        await AssertJavaScript("assertLayerExists");
+    });
+        AddMapRenderFragment(
+    @<MapView>
+        <Map ArcGISDefaultBasemap="dark-gray-vector">
+
+            <KMLLayer>
+                <@Url ="https://earthquake.usgs.gov/fdsnws/event/1/query?format=kml&minmagnitude=5.8" />
+            </KMLLayer>
+
+        </Map>
+    </MapView>);
+        await WaitForMapToRender();
+    }
+}
