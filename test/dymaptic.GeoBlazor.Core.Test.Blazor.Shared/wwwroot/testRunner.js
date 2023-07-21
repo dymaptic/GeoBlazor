@@ -23,10 +23,10 @@ export function assertGraphicExistsInView(viewId, geometryType, count) {
     }
 }
 
-export function assertLayerExists(viewId) {
+export function assertKmlLayerExists(viewId) {
     let view = arcGisObjectRefs[viewId];
-    let layers = view.map.layers;
-    if (!layers) {
+    let layers = view.map.layers.items[0].type;
+    if (layers !== 'kml') {
         throw new Error(`There are no Layers in this view`);
     }
 }
