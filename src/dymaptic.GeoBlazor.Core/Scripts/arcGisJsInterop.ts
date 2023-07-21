@@ -26,6 +26,7 @@ import Expand from "@arcgis/core/widgets/Expand";
 import Search from "@arcgis/core/widgets/Search";
 import Locate from "@arcgis/core/widgets/Locate";
 import Widget from "@arcgis/core/widgets/Widget";
+import Measurement from "@arcgis/core/widgets/Measurement";
 import Bookmarks from "@arcgis/core/widgets/Bookmarks";
 import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
@@ -48,6 +49,7 @@ import ListItem from "@arcgis/core/widgets/LayerList/ListItem";
 import * as reactiveUtils from "@arcgis/core/core/reactiveUtils";
 import BasemapLayerList from "@arcgis/core/widgets/BasemapLayerList";
 import FeatureLayerWrapper from "./featureLayer";
+import KMLLayer from "@arcgis/core/layers/KMLLayer";
 
 import {
     buildDotNetExtent,
@@ -1792,6 +1794,16 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
         case 'popup':
             newWidget = await setPopup(widget, viewId) as Popup;
             break;
+        case 'measurement':
+            newWidget = new Measurement({
+                view: view,
+                activeTool: widget.activeTool ?? undefined,
+                areaUnit: widget.areaUnit ?? undefined,
+                linearUnit: widget.linearUnit ?? undefined,
+                label: widget.label ?? undefined,
+                icon: widget.icon ?? undefined,
+            });
+            break;
         case 'bookmarks':
             const bookmarkWidget = new Bookmarks({
                 view: view,
@@ -2086,7 +2098,19 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
                     wkid: layerObject.spatialReference.wkid
                 });
             }
-
+            break;
+        case 'kml':
+            let kmlLayer: KMLLayer;
+            if (hasValue(layerObject.url)) {
+                kmlLayer = new KMLLayer({
+                    url: layerObject.url
+                });
+            } else {
+                let portalItem = buildJsPortalItem(layerObject.portalItem);
+                kmlLayer = new KMLLayer({ portalItem: portalItem });
+            }
+            newLayer = kmlLayer;
+            copyValuesIfExists(layerObject, kmlLayer, 'sublayers', 'blendMode', 'maxScale', 'minScale', 'title', 'visible');
             break;
         default:
             return null;
