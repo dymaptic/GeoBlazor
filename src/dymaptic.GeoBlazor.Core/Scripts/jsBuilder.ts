@@ -14,6 +14,8 @@ import Field from "@arcgis/core/layers/support/Field";
 import Font from "@arcgis/core/symbols/Font";
 import Bookmark from "@arcgis/core/webmap/Bookmark"
 import Viewpoint from "@arcgis/core/Viewpoint";
+import FeatureEffect from "@arcgis/core/layers/support/FeatureEffect";
+import FeatureFilter from "@arcgis/core/layers/support/FeatureFilter";
 import {
     DotNetApplyEdits,
     DotNetAttachmentsEdit,
@@ -52,7 +54,9 @@ import {
     DotNetTextSymbol,
     DotNetTopFeaturesQuery,
     DotNetBookmark,
-    DotNetViewpoint
+    DotNetViewpoint,
+    DotNetFeatureEffect,
+    DotNetFeatureFilter
 } from "./definitions";
 import PictureMarkerSymbol from "@arcgis/core/symbols/PictureMarkerSymbol";
 import Popup from "@arcgis/core/widgets/Popup";
@@ -452,7 +456,7 @@ export function buildJsBookmark(dnBookmark: DotNetBookmark): Bookmark | null {
 
     if (!(dnBookmark.thumbnail == null)) {
         //ESRI has this as an "object" with url property
-        let thumbnail = { url: dnBookmark.thumbnail  };
+        let thumbnail = { url: dnBookmark.thumbnail };
         bookmark.thumbnail = thumbnail;
     } else {
         bookmark.thumbnail = undefined;
@@ -1112,4 +1116,62 @@ function buildJsPathsOrRings(pathsOrRings: any) {
 
 function hasValue(prop: any): boolean {
     return prop !== undefined && prop !== null;
+}
+
+export function buildJsFeatureEffect(dnFeatureEffect: DotNetFeatureEffect): FeatureEffect | null {
+    if (dnFeatureEffect === undefined || dnFeatureEffect === null) return null;
+    let featureEffect = new FeatureEffect();
+
+    //if there is a single effect, its a string, if there are effects based on scale its an array and has scale and value.
+    if (dnFeatureEffect.excludedEffect != null) {
+        if (dnFeatureEffect.excludedEffect.length === 1) {
+            featureEffect.excludedEffect = buildJsEffect(dnFeatureEffect.excludedEffect[0]);
+        } else {
+            featureEffect.excludedEffect = dnFeatureEffect.excludedEffect.map(buildJsEffect);
+        }
+
+    } else {
+        featureEffect.excludedEffect = undefined;
+    }
+    featureEffect.excludedLabelsVisible = dnFeatureEffect.excludedLabelsVisible ?? undefined;
+    featureEffect.filter = buildJsFeatureFilter(dnFeatureEffect.filter) ?? undefined;
+
+    if (dnFeatureEffect.includedEffect != null) {
+        if (dnFeatureEffect.includedEffect.length === 1) {
+            featureEffect.includedEffect = buildJsEffect(dnFeatureEffect.includedEffect[0]);
+        } else {
+            featureEffect.includedEffect = dnFeatureEffect.includedEffect.map(buildJsEffect);
+        }
+
+    } else {
+        featureEffect.includedEffect = undefined;
+    }
+
+    return featureEffect;
+}
+
+export function buildJsFeatureFilter(dnFeatureFilter: DotNetFeatureFilter): FeatureFilter | null {
+    if (dnFeatureFilter === undefined || dnFeatureFilter === null) return null;
+
+    let featureFilter = new FeatureFilter();
+    featureFilter.distance = dnFeatureFilter.distance ?? undefined;
+    featureFilter.geometry = buildJsGeometry(dnFeatureFilter.geometry);
+    featureFilter.objectIds = dnFeatureFilter.objectIds ?? undefined;
+    featureFilter.spatialRelationship = dnFeatureFilter.spatialRelationship ?? undefined;
+    featureFilter.timeExtent = dnFeatureFilter.timeExtent ?? undefined;
+    featureFilter.units = dnFeatureFilter.units ?? undefined;
+    featureFilter.where = dnFeatureFilter.where ?? undefined;
+    return featureFilter;
+}
+
+export function buildJsEffect(dnEffect: any): any {
+
+    if (dnEffect.scale != null) {
+        return {
+            value: dnEffect.value,
+            scale: dnEffect.scale
+        };
+    } else {
+        return dnEffect.value;
+    }
 }

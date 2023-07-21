@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using dymaptic.GeoBlazor.Core.Events;
+using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using System.Text.Json.Serialization;
 
 
@@ -23,7 +25,7 @@ public class BookmarksWidget : Widget
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? Disabled { get; set; }
-    
+
     /// <summary>
     ///    Indicates whether the bookmarks are able to be edited.
     /// </summary>
@@ -42,7 +44,36 @@ public class BookmarksWidget : Widget
     /// A collection of Bookmarks.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public List<Bookmark> Bookmarks { get; set; } = new();
+    public List<Bookmark>? Bookmarks { get; set; } 
+
+    /// <summary>
+    ///     Handler delegate for click events on the view.
+    /// </summary>
+    [Parameter]
+    public EventCallback<BookmarkSelectEvent> OnClick { get; set; }
+
+    /// <summary>
+    ///     JS-Invokable method to return view clicks.
+    /// </summary>
+    /// <param name="clickEvent">
+    ///     The <see cref="ClickEvent" /> return meta object.
+    /// </param>
+    /// <remarks>
+    ///     Fires after a user clicks on the view. This event emits slightly slower than an immediate-click event to make sure
+    ///     that a double-click event isn't triggered instead. The immediate-click event can be used for responding to a click
+    ///     event without delay.
+    /// </remarks>
+    [JSInvokable]
+    public async Task OnJavascriptClick(BookmarkSelectEvent clickEvent)
+    {
+        await OnClick.InvokeAsync(clickEvent);
+    }
+
+
+    /// <summary>
+    ///     A .NET object reference for calling this class from JavaScript.
+    /// </summary>
+    public DotNetObjectReference<BookmarksWidget> BookmarksWidgetObjectReference => DotNetObjectReference.Create(this);
 
 
     /// <inheritdoc />

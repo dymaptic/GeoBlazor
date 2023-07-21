@@ -1,8 +1,9 @@
 ﻿import FeatureLayerView from "@arcgis/core/views/layers/FeatureLayerView";
 import FeatureEffect from "@arcgis/core/layers/support/FeatureEffect";
+import FeatureFilter from "@arcgis/core/layers/support/FeatureFilter";
 import Query from "@arcgis/core/rest/support/Query";
-import {DotNetFeatureSet, DotNetGraphic, DotNetQuery} from "./definitions";
-import {buildJsGraphic, buildJsQuery} from "./jsBuilder";
+import {DotNetFeatureSet, DotNetGraphic, DotNetQuery, DotNetFeatureEffect, DotNetFeatureFilter} from "./definitions";
+import {buildJsGraphic, buildJsQuery, buildJsFeatureEffect, buildJsFeatureFilter} from "./jsBuilder";
 import {blazorServer, dotNetRefs, graphicsRefs} from "./arcGisJsInterop";
 import Handle = __esri.Handle;
 import {buildDotNetGeometry, buildDotNetGraphic, buildDotNetSpatialReference} from "./dotNetBuilder";
@@ -21,12 +22,14 @@ export default class FeatureLayerViewWrapper {
         }
     }
 
-    setFeatureEffect(featureEffect: FeatureEffect): void {
+    setFeatureEffect(dnfeatureEffect: DotNetFeatureEffect): void {
+        let featureEffect = buildJsFeatureEffect(dnfeatureEffect);
         this.featureLayerView.featureEffect = featureEffect;
     }
 
-    setFilter(filter: any): void {
-        this.featureLayerView.filter = filter;
+    setFilter(dnDeatureFilter: DotNetFeatureFilter): void {
+        let featureFilter = buildJsFeatureFilter(dnDeatureFilter);
+        this.featureLayerView.filter = featureFilter;
     }
 
     setMaximumNumberOfFeatures(maximumNumberOfFeatures: number): void {

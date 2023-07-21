@@ -48,8 +48,6 @@ import ListItem from "@arcgis/core/widgets/LayerList/ListItem";
 import * as reactiveUtils from "@arcgis/core/core/reactiveUtils";
 import BasemapLayerList from "@arcgis/core/widgets/BasemapLayerList";
 import FeatureLayerWrapper from "./featureLayer";
-import BookmarksWidget from "@arcgis/core/widgets/Bookmarks";
-import Bookmark from "@arcgis/core/webmap/Bookmark";
 
 import {
     buildDotNetExtent,
@@ -62,7 +60,8 @@ import {
     buildDotNetPoint,
     buildDotNetPopupTemplate,
     buildDotNetSpatialReference,
-    buildViewExtentUpdate
+    buildViewExtentUpdate,
+    buildDotNetBookmark
 } from "./dotNetBuilder";
 
 import {
@@ -81,8 +80,7 @@ import {
     buildJsSpatialReference,
     buildJsSymbol,
     templateTriggerActionHandler,
-    buildJsBookmark,
-    buildJsViewpoint,
+    buildJsBookmark
 } from "./jsBuilder";
 import {
     DotNetExtent,
@@ -1002,7 +1000,7 @@ export async function updateWidget(widgetObject: any, viewId: string): Promise<v
 
         switch (widgetObject.type) {
             case 'bookmarks':
-                let bookmarks = currentWidget as BookmarksWidget;
+                let bookmarks = currentWidget as Bookmarks;
                 bookmarks.bookmarks = widgetObject.bookmarks.map(buildJsBookmark)
                 break;
         }
@@ -1795,24 +1793,33 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
             newWidget = await setPopup(widget, viewId) as Popup;
             break;
         case 'bookmarks':
-            const bookmarks = new Bookmarks({
+            const bookmarkWidget = new Bookmarks({
                 view: view,
                 editingEnabled: widget.editingEnabled,
                 disabled: widget.disabled,
                 icon: widget.icon,
-                label: widget.label,
-                bookmarks: widget.bookmarks.map(buildJsBookmark)
+                label: widget.label
             });
-            newWidget = bookmarks;
+            if (widget.bookmarks != null) {
+                bookmarkWidget.bookmarks = widget.bookmarks.map(buildJsBookmark);
+            }
+
+            bookmarkWidget.on('bookmark-select', (event) => {
+                widget.dotNetWidgetReference.invokeMethodAsync('OnJavascriptClick', {
+                    bookmark: buildDotNetBookmark(event.bookmark)
+                });
+            });
+
+            newWidget = bookmarkWidget;
             break;
         default:
             return null;
     }
-    
+
     if (hasValue(widget.icon)) {
         newWidget.icon = widget.icon;
     }
-    
+
     if (hasValue(widget.widgetId)) {
         newWidget.id = widget.widgetId;
     }
@@ -2414,4 +2421,19 @@ export function getCursor(viewId: string): string {
 export function setCursor(cursorType: string, viewId: string) {
     let view = arcGisObjectRefs[viewId] as MapView;
     view.container.style.cursor = cursorType;
+}
+
+export function getWebMapBookmarks(viewId: string) {
+    let view = arcGisObjectRefs[viewId] as MapView;
+    if (view != null) {
+        let webMap = view.map as WebMap;
+        if (webMap != null) {
+            let arr = webMap.bookmarks.toArray();
+            if (arr instanceof Array) {
+                let abc = arr.map(buildDotNetBookmark);
+                return abc;
+            }
+        }
+    }
+    return null;
 }

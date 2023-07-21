@@ -1,12 +1,7 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Views;
 using dymaptic.GeoBlazor.Core.Objects;
 using Microsoft.AspNetCore.Components;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
@@ -39,7 +34,6 @@ public class Bookmark : MapComponent
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Viewpoint? Viewpoint { get; set; }
 
-
     public override async Task RegisterChildComponent(MapComponent child)
     {
         switch (child)
@@ -65,6 +59,7 @@ public class Bookmark : MapComponent
                 break;
         }
     }
+
 }
 
 

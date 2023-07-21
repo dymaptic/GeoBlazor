@@ -39,7 +39,9 @@ import {
     DotNetTextPopupContent,
     DotNetTextSymbol,
     DotNetViewHit,
-    MapCollection
+    MapCollection,
+    DotNetBookmark,
+    DotNetViewpoint
 } from "./definitions";
 import Point from "@arcgis/core/geometry/Point";
 import Polyline from "@arcgis/core/geometry/Polyline";
@@ -68,7 +70,7 @@ import ExpressionContent from "@arcgis/core/popup/content/ExpressionContent";
 import ElementExpressionInfo from "@arcgis/core/popup/ElementExpressionInfo";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
-import {arcGisObjectRefs} from "./arcGisJsInterop";
+import { arcGisObjectRefs } from "./arcGisJsInterop";
 import SimpleMarkerSymbol from "@arcgis/core/symbols/SimpleMarkerSymbol";
 import Symbol from "@arcgis/core/symbols/Symbol";
 import Graphic from "@arcgis/core/Graphic";
@@ -628,4 +630,30 @@ export function buildViewExtentUpdate(view: View): any {
             tilt: view.camera?.tilt
         }
     }
+}
+
+export function buildDotNetBookmark(bookmark: any): DotNetBookmark {
+    return {
+        name: bookmark.name,
+        thumbnail: bookmark.thumbnail != null ? bookmark.thumbnail.url : null,
+        timeExtent: buildDotNetTimeExtent(bookmark.timeExtent),
+        viewpoint: buildDotNetViewpoint(bookmark.viewpoint)
+    } as DotNetBookmark;
+}
+
+export function buildDotNetViewpoint(viewpoint: any): DotNetViewpoint | null {
+    if (viewpoint === null) return null;
+    return {
+        rotation: viewpoint.rotation,
+        scale: viewpoint.scale,
+        targetGeometry: buildDotNetGeometry(viewpoint.targetGeometry)
+    } as DotNetViewpoint;
+}
+
+export function buildDotNetTimeExtent(timeExtent: any): any | null {
+    if (timeExtent === null) return null;
+    return {
+        start: timeExtent.start.toISOString(),
+        end: timeExtent.end.toISOString()
+    } as any;
 }

@@ -12,13 +12,13 @@ public class Viewpoint : MapComponent
     /// The rotation of due north in relation to the top of the view in degrees.
     /// </summary>
     [Parameter]
-    public int? Rotation { get; set; } = 0;
+    public double? Rotation { get; set; } = 0;
 
     /// <summary>
     ///  The scale of the viewpoint.
     /// </summary>
     [Parameter]
-    public int Scale { get; set; } = 0;
+    public double? Scale { get; set; } = 0;
 
     /// <summary>
     /// The target geometry framed by the viewpoint.

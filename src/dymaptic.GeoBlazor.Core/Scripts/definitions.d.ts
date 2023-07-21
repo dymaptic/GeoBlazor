@@ -500,3 +500,25 @@ export interface DotNetViewpoint {
     scale: number;
     targetGeometry: DotNetGeometry;
 }
+
+export interface DotNetFeatureEffect {
+    excludedEffect: DotNetEffect[];
+    excludedLabelsVisible: boolean;
+    filter: DotNetFeatureFilter;
+    includedEffect: DotNetEffect[];
+}
+
+export interface DotNetEffect {
+    scale: number;
+    value: string;
+}
+
+export interface DotNetFeatureFilter {
+    distance: number;
+    geometry: DotNetGeometry;
+    objectIds: number[];
+    spatialRelationship: string;
+    timeExtent: any;
+    units: string;
+    where: string;
+}
