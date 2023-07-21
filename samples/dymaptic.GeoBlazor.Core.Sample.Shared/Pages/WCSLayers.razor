@@ -5,7 +5,7 @@
 <div class="links-div">
     <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html">ArcGIS API for JavaScript</a>
 </div>
-<Label>Add the sample WCS Layer URL to see global sea temperature data:</Label>
+<Label>Add the sample WCS Layer URL to see a visualization of global sea surface temperature data:</Label>
 <InputText @bind-Value="_wcsLayerUrl"></InputText>
 <!--<button disabled="@(!_mapRendered)" @onclick="(()=>AddRemoveWCSLayer())">Add the WCS Layer!</button>-->
 <button disabled="@(!_mapRendered)" @onclick="(()=>_markup = !_markup)">Add new KML Layer in Markup</button>
@@ -14,7 +14,7 @@
     <Map ArcGISDefaultBasemap="dark-gray-vector">
         @if (_visible)
         {
-            <WCSLayer Url="https://earthquake.usgs.gov/fdsnws/event/1/query?format=kml&minmagnitude=5.8" Title="Major EarthQuakes Query Result"></WCSLayer>
+            <WCSLayer Url="@_wcsLayerUrl2" Title="Global Sea Surface Temperature Data Visualization"></WCSLayer>
         }
     </Map>
 </MapView>
