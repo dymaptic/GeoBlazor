@@ -1,4 +1,10 @@
-﻿namespace dymaptic.GeoBlazor.Core.Components;
+﻿using dymaptic.GeoBlazor.Core.Components.Widgets;
+using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
+using System.Text.Json.Serialization;
+
+
+namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     Loads a WebMap from ArcGIS Online or ArcGIS Enterprise portal into a MapView. It defines the content, style, and
@@ -57,5 +63,17 @@ public class WebMap : Map
     {
         base.ValidateRequiredChildren();
         PortalItem?.ValidateRequiredChildren();
+    }
+
+    public async Task<List<Bookmark>> GetBookmarks()
+    {
+        var bookmarks = new List<Bookmark>();
+
+        if (JsModule != null)
+        {
+            bookmarks =
+                await JsModule!.InvokeAsync<List<Bookmark>>("getWebMapBookmarks", CancellationTokenSource.Token, this.View?.Id);
+        }
+        return bookmarks;
     }
 }
