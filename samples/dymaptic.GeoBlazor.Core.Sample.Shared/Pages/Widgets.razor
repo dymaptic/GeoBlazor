@@ -37,6 +37,9 @@
         <div class="form-group">
             <label>Compass: <input type="checkbox" class="form-check-input" @onchange="@(() => ToggleWidget(nameof(CompassWidget)))"></label>
         </div>
+        <div class="form-group">
+            <label>Measurement: <input type="checkbox" class="form-check-input" @onchange="@(() => ToggleWidget(nameof(MeasurementWidget)))"></label>
+        </div>
         <div id="gallery-box"></div>
     </div>
 </div>
@@ -76,6 +79,10 @@
     {
         <CompassWidget Position="OverlayPosition.TopLeft" />
     }
+    @if (_showMeasurement)
+    {
+        <MeasurementWidget ActiveTool="ActiveTool.Distance" Label="asdasdasdsds" LinearUnit="LengthUnit.NauticalMiles" AreaUnit="AreaUnit.SquareInches" Position="OverlayPosition.TopLeft" />
+    }
 </MapView>
 
 @code {
@@ -109,6 +116,9 @@
             case nameof(CompassWidget):
                 _showCompass = !_showCompass;
                 break;
+            case nameof(MeasurementWidget):
+                _showMeasurement = !_showMeasurement;
+                break;
         }
     }
 
@@ -120,4 +130,5 @@
     private bool _showLegend;
     private bool _showHome;
     private bool _showCompass;
+    private bool _showMeasurement;
 }
