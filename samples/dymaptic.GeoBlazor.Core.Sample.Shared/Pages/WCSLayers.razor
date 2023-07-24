@@ -12,7 +12,7 @@
 
 <MapView @ref="_view" class="map-view" OnMapRendered="OnMapRendered" Scale="0">
     <Map>
-        @if (_visible)
+        @if (_markup)
         {
             <WCSLayer Url="@_wcsLayerUrl2" Title="Global Sea Surface Temperature Data Visualization"></WCSLayer>
         }
@@ -25,20 +25,21 @@
 
     private void OnMapRendered() => _mapRendered = true;
 
-    // public async Task AddRemoveWCSLayer()
-    // {
-    //     WCSLayer wcsSampleLayer = new() { Url = _wcsLayerUrl };
+    public async Task AddRemoveKMLLayer()
+    {
+        WCSLayer wcsSampleLayer = new() { Url = _wcsLayerUrl };
 
-    //     if (!_view.Map.Layers.Any())
-    //     {
-    //         await _view.;
-    //     }
-    //     else
-    //     {
-    //         _view.Map.Layers.Clear();
-    //     }
-    //     _view.Refresh();
-    // }
+        if (!_view.Map.Layers.Any())
+        {
+            await _view.AddLayer(wcsSampleLayer);
+        }
+        else
+        {
+            _view.Map.Layers.Clear();
+        }
+        _view.Refresh();
+
+    }
 private MapView _view;
 private bool _markup = false;
 private bool _visible = false;
