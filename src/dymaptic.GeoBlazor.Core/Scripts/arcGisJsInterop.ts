@@ -2125,7 +2125,8 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             }
             newLayer = wcsLayer;
             copyValuesIfExists(layerObject, wcsLayer, 'bandIds', 'copyright', 'coverageId', 'coverageInfo', 'customParameters', 'fields', 'interpolation', 'maxScale', 'minscale', 'multidimensionalDefinition', 'rasterInfo', 'renderer');
-        default:
+                break;
+         default:
             return null;
     }
 

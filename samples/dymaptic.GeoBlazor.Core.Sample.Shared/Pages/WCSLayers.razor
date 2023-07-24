@@ -11,11 +11,12 @@
 <button disabled="@(!_mapRendered)" @onclick="(()=>_markup = !_markup)">Add new WCS Layer in Markup</button>
 
 <MapView @ref="_view" class="map-view" OnMapRendered="OnMapRendered" Scale="0">
-    <Map>
+    <Map ArcGISDefaultBasemap="arcgis-light-gray">
+@*         
         @if (_markup)
-        {
-            <WCSLayer Url="@_wcsLayerUrl2" Title="Global Sea Surface Temperature Data Visualization"></WCSLayer>
-        }
+        { *@
+        <WCSLayer Url="https://sampleserver6.arcgisonline.com/arcgis/services/ScientificData/SeaTemperature/ImageServer/WCSServer?request=GetCapabilities&service=WCS"></WCSLayer>
+@*         } *@
     </Map>
 </MapView>
 
@@ -25,21 +26,21 @@
 
     private void OnMapRendered() => _mapRendered = true;
 
-    public async Task AddRemoveKMLLayer()
-    {
-        WCSLayer wcsSampleLayer = new() { Url = _wcsLayerUrl };
+    // public async Task AddRemoveWCSLayer()
+    // {
+    //     WCSLayer wcsSampleLayer = new() { Url = _wcsLayerUrl };
 
-        if (!_view.Map.Layers.Any())
-        {
-            await _view.AddLayer(wcsSampleLayer);
-        }
-        else
-        {
-            _view.Map.Layers.Clear();
-        }
-        _view.Refresh();
+    //     if (!_view.Map.Layers.Any())
+    //     {
+    //         await _view.AddLayer(wcsSampleLayer);
+    //     }
+    //     else
+    //     {
+    //         _view.Map.Layers.Clear();
+    //     }
+    //     _view.Refresh();
 
-    }
+    // }
 private MapView _view;
 private bool _markup = false;
 private bool _visible = false;

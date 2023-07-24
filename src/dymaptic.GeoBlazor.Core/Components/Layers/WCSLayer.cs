@@ -1,4 +1,5 @@
-﻿using dymaptic.GeoBlazor.Core.Exceptions;
+﻿using dymaptic.GeoBlazor.Core.Components.Renderers;
+using dymaptic.GeoBlazor.Core.Exceptions;
 using Microsoft.AspNetCore.Components;
 using System.Text.Json.Serialization;
 
@@ -14,44 +15,90 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 ///         JS API
 ///     </a>
 /// </summary>
-public class WCSLayer
+public class WCSLayer : Layer
 {
+    /// <inheritdoc />
+    [JsonPropertyName("type")]
+    public string? LayerType => "wcs";
+
     /// <summary>
     ///     Constructor for use as a razor component
     /// </summary>
     public WCSLayer()
     {
     }
-
     /// <summary>
     ///     Constructor for use in code
     /// </summary>
     /// <param name="url">
-    ///     The url for the KML Layer source data.
+    ///     The url for the WCS Layer source data.
     /// </param>
+
     public WCSLayer(string? url = null, PortalItem? portalItem = null)
     {
         if (url is null && portalItem is null)
         {
             throw new MissingRequiredOptionsChildElementException(nameof(WCSLayer),
-                new[] { nameof(Url), nameof(PortalItem) });
+                new[] {nameof(Url), nameof(PortalItem)});
         }
-#pragma warning disable BL0005
         Url = url;
-#pragma warning restore BL0005
+        PortalItem = portalItem;
     }
 
-    /// <inheritdoc />
-    [JsonPropertyName("type")]
-    public string? LayerType => "wcs";
-
-    /// <summary>
-    ///     The absolute URL of the REST endpoint of the layer, non-spatial table or service
-    /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [RequiredProperty(nameof(PortalItem))]
     public string? Url { get; set; }
+
+    /// <summary>
+    ///     The portal item for the KML Layer source data.
+    /// </summary>
+    [RequiredProperty(nameof(Url))]
+    public PortalItem? PortalItem { get; set; }
+
+    public DimensionalDefinition[]? MultidimensionalDefinition { get; set; }
+    public RasterStretchRenderer Renderers { get; set; }
+    /// <inheritdoc />
+    public override async Task RegisterChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case PortalItem portalItem:
+                if (!portalItem.Equals(PortalItem))
+                {
+                    PortalItem = portalItem;
+                    LayerChanged = true;
+                }
+
+                break;
+            default:
+                await base.RegisterChildComponent(child);
+
+                break;
+        }
+    }
+    /// <inheritdoc />
+    public override async Task UnregisterChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case PortalItem _:
+                PortalItem = null;
+                LayerChanged = true;
+
+                break;
+            default:
+                await base.UnregisterChildComponent(child);
+
+                break;
+        }
+    }
+    /// <inheritdoc />
+    internal override void ValidateRequiredChildren()
+    {
+        base.ValidateRequiredChildren();
+        PortalItem?.ValidateRequiredChildren();
+    }
 
 
 }

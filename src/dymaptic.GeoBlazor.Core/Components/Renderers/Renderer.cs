@@ -48,6 +48,8 @@ internal class RendererConverter : JsonConverter<Renderer>
                     return JsonSerializer.Deserialize<SimpleRenderer>(ref cloneReader, newOptions);
                 case "unique-value":
                     return JsonSerializer.Deserialize<UniqueValueRenderer>(ref cloneReader, newOptions);
+                case "raster-stretch":
+                    return JsonSerializer.Deserialize<RasterStretchRenderer>(ref cloneReader, newOptions);
             }
         }
 
@@ -72,6 +74,7 @@ public enum RendererType
 {
 #pragma warning disable CS1591
     Simple,
-    UniqueValue
+    UniqueValue,
+    RasterStretch
 #pragma warning restore CS1591
 }
