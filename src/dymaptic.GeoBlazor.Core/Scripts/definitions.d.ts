@@ -528,3 +528,7 @@ export interface DotNetDimensionDefinition {
     values: Tuple<int, int>[];
     variableName: string;
 }
+
+export interface DotNetRasterStretchRenderer {
+
+}
