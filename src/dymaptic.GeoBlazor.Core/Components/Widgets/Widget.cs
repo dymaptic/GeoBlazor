@@ -69,6 +69,34 @@ public abstract class Widget : MapComponent
         JsObjectReference = jsObjectReference;
     }
 
+    /// <inheritdoc />
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (WidgetChanged && MapRendered)
+        {
+            await UpdateWidget();
+        }
+    }
+
+    
+    private async Task UpdateWidget()
+    {
+        WidgetChanged = false;
+
+        if (JsModule is null) return;
+
+        // ReSharper disable once RedundantCast
+        await JsModule!.InvokeVoidAsync("updateWidget", CancellationTokenSource.Token,
+            (object)this, View!.Id);
+    }
+
+    /// <summary>
+    ///     Indicates if the widget has changed since the last render.
+    /// </summary>
+    protected bool WidgetChanged;
+
     /// <summary>
     ///     JS Object Reference to the widget
     /// </summary>

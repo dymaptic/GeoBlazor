@@ -2,7 +2,7 @@
 import Extent from "@arcgis/core/geometry/Extent";
 import Graphic from "@arcgis/core/Graphic";
 import PopupTemplate from "@arcgis/core/PopupTemplate";
-import {arcGisObjectRefs, triggerActionHandler} from "./arcGisJsInterop";
+import { arcGisObjectRefs, triggerActionHandler } from "./arcGisJsInterop";
 import Geometry from "@arcgis/core/geometry/Geometry";
 import Point from "@arcgis/core/geometry/Point";
 import Polyline from "@arcgis/core/geometry/Polyline";
@@ -12,6 +12,10 @@ import SimpleRenderer from "@arcgis/core/renderers/SimpleRenderer";
 import Renderer from "@arcgis/core/renderers/Renderer";
 import Field from "@arcgis/core/layers/support/Field";
 import Font from "@arcgis/core/symbols/Font";
+import Bookmark from "@arcgis/core/webmap/Bookmark"
+import Viewpoint from "@arcgis/core/Viewpoint";
+import FeatureEffect from "@arcgis/core/layers/support/FeatureEffect";
+import FeatureFilter from "@arcgis/core/layers/support/FeatureFilter";
 import {
     DotNetApplyEdits,
     DotNetAttachmentsEdit,
@@ -48,7 +52,11 @@ import {
     DotNetSymbol,
     DotNetTextPopupContent,
     DotNetTextSymbol,
-    DotNetTopFeaturesQuery
+    DotNetTopFeaturesQuery,
+    DotNetBookmark,
+    DotNetViewpoint,
+    DotNetFeatureEffect,
+    DotNetFeatureFilter
 } from "./definitions";
 import PictureMarkerSymbol from "@arcgis/core/symbols/PictureMarkerSymbol";
 import Popup from "@arcgis/core/widgets/Popup";
@@ -78,7 +86,7 @@ import SimpleLineSymbol from "@arcgis/core/symbols/SimpleLineSymbol";
 import ElementExpressionInfo from "@arcgis/core/popup/ElementExpressionInfo";
 import ChartMediaInfoValueSeries from "@arcgis/core/popup/content/support/ChartMediaInfoValueSeries";
 import View from "@arcgis/core/views/View";
-import {buildDotNetGraphic} from "./dotNetBuilder";
+import { buildDotNetGraphic } from "./dotNetBuilder";
 import ViewClickEvent = __esri.ViewClickEvent;
 import PopupOpenOptions = __esri.PopupOpenOptions;
 import PopupDockOptions = __esri.PopupDockOptions;
@@ -103,9 +111,10 @@ import RadioButtonsInput from "@arcgis/core/form/elements/inputs/RadioButtonsInp
 import SwitchInput from "@arcgis/core/form/elements/inputs/SwitchInput";
 import Domain from "@arcgis/core/layers/support/Domain";
 
+
 export function buildJsSpatialReference(dotNetSpatialReference: DotNetSpatialReference): SpatialReference {
     if (dotNetSpatialReference === undefined || dotNetSpatialReference === null) {
-        return new SpatialReference({wkid: 4326});
+        return new SpatialReference({ wkid: 4326 });
     }
     let jsSpatialRef = new SpatialReference();
     if (dotNetSpatialReference.wkid !== null) {
@@ -212,7 +221,7 @@ export function buildJsPopupTemplate(popupTemplateObject: DotNetPopupTemplate, v
     } else {
         content = async (featureSelection) => {
             try {
-                let results : DotNetPopupContent[] | null = await popupTemplateObject.dotNetPopupTemplateReference
+                let results: DotNetPopupContent[] | null = await popupTemplateObject.dotNetPopupTemplateReference
                     .invokeMethodAsync("OnContentFunction", buildDotNetGraphic(featureSelection.graphic));
                 return results?.map(r => buildJsPopupContent(r));
             } catch (error) {
@@ -439,6 +448,34 @@ export function buildJsGeometry(geometry: DotNetGeometry): Geometry | null {
     return geometry as any;
 }
 
+export function buildJsBookmark(dnBookmark: DotNetBookmark): Bookmark | null {
+    if (dnBookmark === undefined || dnBookmark === null) return null;
+    let bookmark = new Bookmark();
+    bookmark.name = dnBookmark.name ?? undefined;
+    bookmark.timeExtent = dnBookmark.timeExtent ?? undefined;
+
+    if (!(dnBookmark.thumbnail == null)) {
+        //ESRI has this as an "object" with url property
+        let thumbnail = { url: dnBookmark.thumbnail };
+        bookmark.thumbnail = thumbnail;
+    } else {
+        bookmark.thumbnail = undefined;
+    }
+
+    bookmark.viewpoint = buildJsViewpoint(dnBookmark.viewpoint);
+
+    return bookmark as Bookmark;
+}
+
+export function buildJsViewpoint(dnViewpoint: DotNetViewpoint): Viewpoint | null {
+    if (dnViewpoint === undefined || dnViewpoint === null) return null;
+    let viewpoint = new Viewpoint();
+    viewpoint.rotation = dnViewpoint.rotation ?? undefined;
+    viewpoint.scale = dnViewpoint.scale ?? undefined;
+    viewpoint.targetGeometry = buildJsGeometry(dnViewpoint.targetGeometry);
+    return viewpoint as Viewpoint;
+}
+
 export function buildJsPoint(dnPoint: DotNetPoint): Point | null {
     if (dnPoint === undefined || dnPoint === null) return null;
     let point = new Point({
@@ -451,7 +488,7 @@ export function buildJsPoint(dnPoint: DotNetPoint): Point | null {
     if (hasValue(dnPoint.spatialReference)) {
         point.spatialReference = buildJsSpatialReference(dnPoint.spatialReference);
     } else {
-        point.spatialReference = new SpatialReference({wkid: 4326});
+        point.spatialReference = new SpatialReference({ wkid: 4326 });
     }
 
     return point;
@@ -465,7 +502,7 @@ export function buildJsPolyline(dnPolyline: DotNetPolyline): Polyline | null {
     if (hasValue(dnPolyline.spatialReference)) {
         polyline.spatialReference = buildJsSpatialReference(dnPolyline.spatialReference);
     } else {
-        polyline.spatialReference = new SpatialReference({wkid: 4326});
+        polyline.spatialReference = new SpatialReference({ wkid: 4326 });
     }
     return polyline;
 }
@@ -478,7 +515,7 @@ export function buildJsPolygon(dnPolygon: DotNetPolygon): Polygon | null {
     if (hasValue(dnPolygon.spatialReference)) {
         polygon.spatialReference = buildJsSpatialReference(dnPolygon.spatialReference);
     } else {
-        polygon.spatialReference = new SpatialReference({wkid: 4326});
+        polygon.spatialReference = new SpatialReference({ wkid: 4326 });
     }
     return polygon;
 }
@@ -571,7 +608,7 @@ export function buildJsViewClickEvent(dotNetClickEvent: any): ViewClickEvent {
         button: dotNetClickEvent.button ?? undefined,
         buttons: dotNetClickEvent.buttons ?? undefined,
         timestamp: dotNetClickEvent.timestamp ?? undefined
-    } as ViewClickEvent
+    } as ViewClickEvent;
 }
 
 export async function buildJsPopup(dotNetPopup: any, viewId: string): Promise<Popup> {
@@ -931,7 +968,7 @@ export function buildJsFormTemplate(dotNetFormTemplate: any): FormTemplate {
 }
 
 function buildJsFormTemplateElement(dotNetFormTemplateElement: any): Element {
-    switch (dotNetFormTemplateElement.type){
+    switch (dotNetFormTemplateElement.type) {
         case 'group':
             return new GroupElement({
                 label: dotNetFormTemplateElement.label ?? undefined,
@@ -976,7 +1013,7 @@ function buildJsFormTemplateElement(dotNetFormTemplateElement: any): Element {
 }
 
 function buildJsDomain(dotNetDomain: any): any {
-    switch (dotNetDomain?.type){
+    switch (dotNetDomain?.type) {
         case 'coded-value':
             return new CodedValueDomain({
                 name: dotNetDomain.name ?? undefined,
@@ -989,7 +1026,7 @@ function buildJsDomain(dotNetDomain: any): any {
                 minValue: dotNetDomain.minValue ?? undefined
             });
     }
-    
+
     return undefined;
 }
 
@@ -1039,7 +1076,7 @@ function buildJsFormInput(dotNetFormInput: any): any {
                 onValue: dotNetFormInput.onValue ?? undefined
             });
     }
-    
+
     return undefined;
 }
 
@@ -1079,4 +1116,62 @@ function buildJsPathsOrRings(pathsOrRings: any) {
 
 function hasValue(prop: any): boolean {
     return prop !== undefined && prop !== null;
+}
+
+export function buildJsFeatureEffect(dnFeatureEffect: DotNetFeatureEffect): FeatureEffect | null {
+    if (dnFeatureEffect === undefined || dnFeatureEffect === null) return null;
+    let featureEffect = new FeatureEffect();
+
+    //if there is a single effect, its a string, if there are effects based on scale its an array and has scale and value.
+    if (dnFeatureEffect.excludedEffect != null) {
+        if (dnFeatureEffect.excludedEffect.length === 1) {
+            featureEffect.excludedEffect = buildJsEffect(dnFeatureEffect.excludedEffect[0]);
+        } else {
+            featureEffect.excludedEffect = dnFeatureEffect.excludedEffect.map(buildJsEffect);
+        }
+
+    } else {
+        featureEffect.excludedEffect = undefined;
+    }
+    featureEffect.excludedLabelsVisible = dnFeatureEffect.excludedLabelsVisible ?? undefined;
+    featureEffect.filter = buildJsFeatureFilter(dnFeatureEffect.filter) ?? undefined;
+
+    if (dnFeatureEffect.includedEffect != null) {
+        if (dnFeatureEffect.includedEffect.length === 1) {
+            featureEffect.includedEffect = buildJsEffect(dnFeatureEffect.includedEffect[0]);
+        } else {
+            featureEffect.includedEffect = dnFeatureEffect.includedEffect.map(buildJsEffect);
+        }
+
+    } else {
+        featureEffect.includedEffect = undefined;
+    }
+
+    return featureEffect;
+}
+
+export function buildJsFeatureFilter(dnFeatureFilter: DotNetFeatureFilter): FeatureFilter | null {
+    if (dnFeatureFilter === undefined || dnFeatureFilter === null) return null;
+
+    let featureFilter = new FeatureFilter();
+    featureFilter.distance = dnFeatureFilter.distance ?? undefined;
+    featureFilter.geometry = buildJsGeometry(dnFeatureFilter.geometry);
+    featureFilter.objectIds = dnFeatureFilter.objectIds ?? undefined;
+    featureFilter.spatialRelationship = dnFeatureFilter.spatialRelationship ?? undefined;
+    featureFilter.timeExtent = dnFeatureFilter.timeExtent ?? undefined;
+    featureFilter.units = dnFeatureFilter.units ?? undefined;
+    featureFilter.where = dnFeatureFilter.where ?? undefined;
+    return featureFilter;
+}
+
+export function buildJsEffect(dnEffect: any): any {
+
+    if (dnEffect.scale != null) {
+        return {
+            value: dnEffect.value,
+            scale: dnEffect.scale
+        };
+    } else {
+        return dnEffect.value;
+    }
 }

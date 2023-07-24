@@ -27,6 +27,7 @@ import Search from "@arcgis/core/widgets/Search";
 import Locate from "@arcgis/core/widgets/Locate";
 import Widget from "@arcgis/core/widgets/Widget";
 import Measurement from "@arcgis/core/widgets/Measurement";
+import Bookmarks from "@arcgis/core/widgets/Bookmarks";
 import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import Layer from "@arcgis/core/layers/Layer";
@@ -62,13 +63,15 @@ import {
     buildDotNetPoint,
     buildDotNetPopupTemplate,
     buildDotNetSpatialReference,
-    buildViewExtentUpdate
+    buildViewExtentUpdate,
+    buildDotNetBookmark
 } from "./dotNetBuilder";
 
 import {
     buildJsAttributes,
     buildJsExtent,
-    buildJsFields, buildJsFormTemplate,
+    buildJsFields,
+    buildJsFormTemplate,
     buildJsGeometry,
     buildJsGraphic,
     buildJsPoint,
@@ -78,7 +81,9 @@ import {
     buildJsPortalItem,
     buildJsRenderer,
     buildJsSpatialReference,
-    buildJsSymbol, templateTriggerActionHandler
+    buildJsSymbol,
+    templateTriggerActionHandler,
+    buildJsBookmark
 } from "./jsBuilder";
 import {
     DotNetExtent,
@@ -985,6 +990,28 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
     }
 }
 
+export async function updateWidget(widgetObject: any, viewId: string): Promise<void> {
+    try {
+        setWaitCursor(viewId);
+        let currentWidget = arcGisObjectRefs[widgetObject.id] as Widget;
+        let view = arcGisObjectRefs[viewId] as View;
+
+        if (currentWidget === undefined) {
+            unsetWaitCursor(viewId);
+            return;
+        }
+
+        switch (widgetObject.type) {
+            case 'bookmarks':
+                let bookmarks = currentWidget as Bookmarks;
+                bookmarks.bookmarks = widgetObject.bookmarks.map(buildJsBookmark)
+                break;
+        }
+        unsetWaitCursor(viewId);
+    } catch (error) {
+        logError(error, viewId);
+    }
+}
 export function findPlaces(addressQueryParams: any, symbol: any, popupTemplateObject: any, viewId: string): void {
     try {
         setWaitCursor(viewId);
@@ -1726,7 +1753,9 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
             view.ui.remove(content);
             const expand = new Expand({
                 view,
-                content: content
+                content: content,
+                expanded: widget.expanded,
+                mode: widget.mode,
             });
 
             if (hasValue(widget.autoCollapse)) {
@@ -1743,6 +1772,14 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
 
             if (hasValue(widget.collapseIconClass)) {
                 expand.collapseIconClass = widget.collapseIconClass;
+            }
+
+            if (hasValue(widget.expandIcon)) {
+                expand.expandIcon = widget.expandIcon;
+            }
+
+            if (hasValue(widget.collapseIcon)) {
+                expand.collapseIcon = widget.collapseIcon;
             }
 
             if (hasValue(widget.expandTooltip)) {
@@ -1767,6 +1804,26 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
                 label: widget.label ?? undefined,
                 icon: widget.icon ?? undefined,
             });
+            break;
+        case 'bookmarks':
+            const bookmarkWidget = new Bookmarks({
+                view: view,
+                editingEnabled: widget.editingEnabled,
+                disabled: widget.disabled,
+                icon: widget.icon,
+                label: widget.label
+            });
+            if (widget.bookmarks != null) {
+                bookmarkWidget.bookmarks = widget.bookmarks.map(buildJsBookmark);
+            }
+
+            bookmarkWidget.on('bookmark-select', (event) => {
+                widget.dotNetWidgetReference.invokeMethodAsync('OnJavascriptBookmarkSelect', {
+                    bookmark: buildDotNetBookmark(event.bookmark)
+                });
+            });
+
+            newWidget = bookmarkWidget;
             break;
         default:
             return null;
@@ -2401,4 +2458,19 @@ export function getCursor(viewId: string): string {
 export function setCursor(cursorType: string, viewId: string) {
     let view = arcGisObjectRefs[viewId] as MapView;
     view.container.style.cursor = cursorType;
+}
+
+export function getWebMapBookmarks(viewId: string) {
+    let view = arcGisObjectRefs[viewId] as MapView;
+    if (view != null) {
+        let webMap = view.map as WebMap;
+        if (webMap != null) {
+            let arr = webMap.bookmarks.toArray();
+            if (arr instanceof Array) {
+                let abc = arr.map(buildDotNetBookmark);
+                return abc;
+            }
+        }
+    }
+    return null;
 }
