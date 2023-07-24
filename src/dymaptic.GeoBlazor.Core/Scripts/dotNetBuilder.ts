@@ -41,7 +41,8 @@ import {
     DotNetViewHit,
     MapCollection,
     DotNetBookmark,
-    DotNetViewpoint
+    DotNetViewpoint,
+    DotNetDimensionDefinition
 } from "./definitions";
 import Point from "@arcgis/core/geometry/Point";
 import Polyline from "@arcgis/core/geometry/Polyline";
@@ -656,4 +657,14 @@ export function buildDotNetTimeExtent(timeExtent: any): any | null {
         start: timeExtent.start.toISOString(),
         end: timeExtent.end.toISOString()
     } as any;
+}
+
+export function buildDotNetDimensionDefinition(dimensionDefinition: any): any | null {
+    if (dimensionDefinition === null) return null;
+    return {
+        dimensionName: dimensionDefinition.dimensionName,
+        isSlice: dimensionDefinition.isSlice,
+        values: dimensionDefinition.values,
+        variableName: dimensionDefinition.variableName
+    } as DotNetDimensionDefinition;
 }

@@ -522,3 +522,9 @@ export interface DotNetFeatureFilter {
     units: string;
     where: string;
 }
+export interface DotNetDimensionDefinition {
+    dimensionName: string;
+    isSlice: boolean;
+    values: Tuple<int, int>[];
+    variableName: string;
+}
