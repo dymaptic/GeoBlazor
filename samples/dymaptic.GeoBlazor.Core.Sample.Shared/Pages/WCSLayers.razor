@@ -7,16 +7,14 @@
 </div>
 <Label>Add the sample WCS Layer URL to see a visualization of global sea surface temperature data:</Label>
 <InputText @bind-Value="_wcsLayerUrl"></InputText>
-<!--<button disabled="@(!_mapRendered)" @onclick="(()=>AddRemoveWCSLayer())">Add the WCS Layer!</button>-->
-<button disabled="@(!_mapRendered)" @onclick="(()=>_markup = !_markup)">Add new WCS Layer in Markup</button>
-
+<!--<button disabled="@(!_mapRendered)" @onclick="(()=>AddRemoveWCSLayer())">Add the WCS Layer!</button>
+<button disabled="@(!_mapRendered)" @onclick="(()=>_markup = !_markup)">Add new WCS Layer in Markup</button>-->
+<button @onclick="(()=>AddRemoveWCSLayer())">Add new WCS Layer in Markup</button>
 <MapView @ref="_view" class="map-view" OnMapRendered="OnMapRendered" Scale="0">
     <Map ArcGISDefaultBasemap="arcgis-light-gray">
-@*         
-        @if (_markup)
-        { *@
+
         <WCSLayer Url="https://sampleserver6.arcgisonline.com/arcgis/services/ScientificData/SeaTemperature/ImageServer/WCSServer?request=GetCapabilities&service=WCS"></WCSLayer>
-@*         } *@
+
     </Map>
 </MapView>
 
@@ -26,21 +24,22 @@
 
     private void OnMapRendered() => _mapRendered = true;
 
-    // public async Task AddRemoveWCSLayer()
-    // {
-    //     WCSLayer wcsSampleLayer = new() { Url = _wcsLayerUrl };
+    public async Task AddRemoveWCSLayer()
+    {
+        WCSLayer wcsSampleLayer = new() { Url = _wcsLayerUrl };
 
-    //     if (!_view.Map.Layers.Any())
-    //     {
-    //         await _view.AddLayer(wcsSampleLayer);
-    //     }
-    //     else
-    //     {
-    //         _view.Map.Layers.Clear();
-    //     }
-    //     _view.Refresh();
+        if (!_view.Map.Layers.Any())
+        {
+            await _view.AddLayer(wcsSampleLayer);
+        }
+        else
+        {
+            _view.Map.Layers.Clear();
+        }
+        _view.Refresh();
 
-    // }
+    }
+
 private MapView _view;
 private bool _markup = false;
 private bool _visible = false;
