@@ -56,7 +56,7 @@ public class WCSLayer : Layer
     [RequiredProperty(nameof(Url))]
     public PortalItem? PortalItem { get; set; }
 
-    public DimensionalDefinition[]? MultidimensionalDefinition { get; set; }
+    public DimensionalDefinition? MultidimensionalDefinition { get; set; }
     public RasterStretchRenderer Renderers { get; set; }
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
@@ -69,7 +69,20 @@ public class WCSLayer : Layer
                     PortalItem = portalItem;
                     LayerChanged = true;
                 }
-
+                break;
+            case DimensionalDefinition dimensionalDefinition:
+                if (!dimensionalDefinition.Equals(MultidimensionalDefinition))
+                {
+                    MultidimensionalDefinition = dimensionalDefinition;
+                    LayerChanged = true;
+                }
+                break;
+            case RasterStretchRenderer rasterStretchRenderer:
+                if (!rasterStretchRenderer.Equals(Renderers))
+                {
+                    Renderers = rasterStretchRenderer;
+                    LayerChanged = true;
+                }
                 break;
             default:
                 await base.RegisterChildComponent(child);
@@ -85,7 +98,14 @@ public class WCSLayer : Layer
             case PortalItem _:
                 PortalItem = null;
                 LayerChanged = true;
-
+                break;
+            case DimensionalDefinition _:
+                MultidimensionalDefinition = null;
+                LayerChanged = true;
+                break;
+            case RasterStretchRenderer _:
+                Renderers = null;
+                LayerChanged = true;
                 break;
             default:
                 await base.UnregisterChildComponent(child);
@@ -96,8 +116,10 @@ public class WCSLayer : Layer
     /// <inheritdoc />
     internal override void ValidateRequiredChildren()
     {
-        base.ValidateRequiredChildren();
         PortalItem?.ValidateRequiredChildren();
+        MultidimensionalDefinition?.ValidateRequiredChildren();
+        Renderers?.ValidateRequiredChildren();
+        base.ValidateRequiredChildren();
     }
 
 

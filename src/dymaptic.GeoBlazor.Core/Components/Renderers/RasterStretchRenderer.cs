@@ -1,7 +1,9 @@
-﻿using System;
+﻿using dymaptic.GeoBlazor.Core.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
@@ -53,6 +55,30 @@ public class RasterStretchRenderer : Renderer
     /// </summary>
     public string? StretchType { get; set; }
 
+}
 
+[JsonConverter(typeof(StretchTypeConverter))]
+public enum StretchType
+{
+    None,
+    StandardDeviation,
+    HistogramEqualization,
+    MinMax,
+    PercentClip,
+    Sigmoid
+}
 
+internal class StretchTypeConverter : JsonConverter<StretchType>
+{
+    public override StretchType Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override void Write(Utf8JsonWriter writer, StretchType value, JsonSerializerOptions options)
+    {
+        string? stringVal = Enum.GetName(typeof(StretchType), value);
+        string resultString = stringVal!.ToKebabCase();
+        writer.WriteRawValue($"\"{resultString}\"");
+    }
 }

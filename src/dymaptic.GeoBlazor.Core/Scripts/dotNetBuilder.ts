@@ -692,4 +692,5 @@ export function buildDotNetRasterStretchRenderer(rasterStretchRenderer: RasterSt
         outputMin: rasterStretchRenderer.outputMin,
         stretchType: rasterStretchRenderer.stretchType
     } as DotNetRasterStretchRenderer;
+
 }
