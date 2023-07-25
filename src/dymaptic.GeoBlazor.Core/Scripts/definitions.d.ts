@@ -525,10 +525,20 @@ export interface DotNetFeatureFilter {
 export interface DotNetDimensionDefinition {
     dimensionName: string;
     isSlice: boolean;
-    values: Tuple<int, int>[];
+    values: [number, number];
     variableName: string;
 }
 
 export interface DotNetRasterStretchRenderer {
+    colorRamp: DotNetColorRamp;
+    computeGamma: boolean;
+    dynamicRangeAdjustment: boolean;
+    gamma: number[];
+    outputMax: number;
+    outputMin: number;
+    stretchType: string;
+}
 
+export interface DotNetColorRamp {
+    type: string;
 }

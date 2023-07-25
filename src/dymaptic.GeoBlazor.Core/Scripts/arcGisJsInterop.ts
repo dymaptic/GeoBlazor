@@ -64,7 +64,10 @@ import {
     buildDotNetPopupTemplate,
     buildDotNetSpatialReference,
     buildViewExtentUpdate,
-    buildDotNetBookmark
+    buildDotNetBookmark,
+    DotNetRasterStretchRenderer,
+    DotNetDimensionDefinition,
+    DotNetColorRamp
 } from "./dotNetBuilder";
 
 import {
@@ -83,7 +86,10 @@ import {
     buildJsSpatialReference,
     buildJsSymbol,
     templateTriggerActionHandler,
-    buildJsBookmark
+    buildJsBookmark,
+    DotNetRasterStretchRenderer,
+    DotNetDimensionDefinition,
+    DotNetColorRamp
 } from "./jsBuilder";
 import {
     DotNetExtent,

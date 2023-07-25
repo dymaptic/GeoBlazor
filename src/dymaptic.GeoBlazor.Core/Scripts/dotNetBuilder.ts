@@ -42,7 +42,9 @@ import {
     MapCollection,
     DotNetBookmark,
     DotNetViewpoint,
-    DotNetDimensionDefinition
+    DotNetDimensionDefinition,
+    DotNetColorRamp,
+    DotNetRasterStretchRenderer
 } from "./definitions";
 import Point from "@arcgis/core/geometry/Point";
 import Polyline from "@arcgis/core/geometry/Polyline";
@@ -84,6 +86,9 @@ import MapView from "@arcgis/core/views/MapView";
 import SceneView from "@arcgis/core/views/SceneView";
 import HitTestResult = __esri.HitTestResult;
 import ViewHit = __esri.ViewHit;
+import RasterStretchRenderer from "@arcgis/core/renderers/RasterStretchRenderer.js"
+import ColorRamp from "@arcgis/core/rest/support/ColorRamp.js";
+import DimensionalDefinition from "@arcgis/core/layers/support/DimensionalDefinition.js";
 
 export function buildDotNetGraphic(graphic: Graphic): DotNetGraphic {
     let dotNetGraphic = {} as DotNetGraphic;
@@ -659,7 +664,7 @@ export function buildDotNetTimeExtent(timeExtent: any): any | null {
     } as any;
 }
 
-export function buildDotNetDimensionDefinition(dimensionDefinition: any): any | null {
+export function buildDotNetDimensionDefinition(dimensionDefinition: DimensionalDefinition): any | null {
     if (dimensionDefinition === null) return null;
     return {
         dimensionName: dimensionDefinition.dimensionName,
@@ -667,4 +672,24 @@ export function buildDotNetDimensionDefinition(dimensionDefinition: any): any | 
         values: dimensionDefinition.values,
         variableName: dimensionDefinition.variableName
     } as DotNetDimensionDefinition;
+}
+
+export function buildDotNetColorRamp(colorRamp: ColorRamp): any | null {
+    if (colorRamp === null) return null;
+    return {
+        type: colorRamp.type
+    } as DotNetColorRamp;
+}
+
+export function buildDotNetRasterStretchRenderer(rasterStretchRenderer: RasterStretchRenderer): any | null {
+    if (rasterStretchRenderer === null) return null;
+    return {
+        colorRamp: rasterStretchRenderer.colorRamp,
+        computeGamma: rasterStretchRenderer.computeGamma,
+        dynamicRangeAdjustment: rasterStretchRenderer.dynamicRangeAdjustment,
+        gamma: rasterStretchRenderer.gamma,
+        outputMax: rasterStretchRenderer.outputMax,
+        outputMin: rasterStretchRenderer.outputMin,
+        stretchType: rasterStretchRenderer.stretchType
+    } as DotNetRasterStretchRenderer;
 }

@@ -16,6 +16,9 @@ import Bookmark from "@arcgis/core/webmap/Bookmark"
 import Viewpoint from "@arcgis/core/Viewpoint";
 import FeatureEffect from "@arcgis/core/layers/support/FeatureEffect";
 import FeatureFilter from "@arcgis/core/layers/support/FeatureFilter";
+import RasterStretchRenderer from "@arcgis/core/renderers/RasterStretchRenderer.js"
+import ColorRamp from "@arcgis/core/rest/support/ColorRamp.js";
+import DimensionalDefinition from "@arcgis/core/layers/support/DimensionalDefinition.js";
 import {
     DotNetApplyEdits,
     DotNetAttachmentsEdit,
@@ -56,7 +59,10 @@ import {
     DotNetBookmark,
     DotNetViewpoint,
     DotNetFeatureEffect,
-    DotNetFeatureFilter
+    DotNetFeatureFilter,
+    DotNetRasterStretchRenderer,
+    DotNetDimensionDefinition,
+    DotNetColorRamp
 } from "./definitions";
 import PictureMarkerSymbol from "@arcgis/core/symbols/PictureMarkerSymbol";
 import Popup from "@arcgis/core/widgets/Popup";
