@@ -18,7 +18,7 @@
         {
             <WCSLayer Url="https://sampleserver6.arcgisonline.com/arcgis/services/ScientificData/SeaTemperature/ImageServer/WCSServer?request=GetCapabilities&service=WCS"></WCSLayer>
         }
-        
+
 
     </Map>
 </MapView>
@@ -45,67 +45,72 @@
 
     }
 
-    public Task<RasterStretchRenderer> CreateRenderer()
+    public DimensionalDefinition CreateDimensionalDefinition()
     {
-        RasterStretchRenderer displayRenderer = new();
-        ColorRamp colorRamp = new();
-        //MultipartColorRamp colorRamps = new();
-        var colorRamps = new List<AlgorithmicColorRamp>
-        {
+        // initializes the dimensional filter for the raster display
+        DimensionalDefinition? multidimensionalDefinition = new DimensionalDefinition()
             {
-                    fromColor: [0, 0, 255],
-                    toColor: [0, 255, 255]
-                },
-                {
-                    fromColor: [0, 255, 255],
-                    toColor: [255, 255, 0]
-                },
-                {
-                    fromColor: [255, 255, 0],
-                    toColor: [255, 0, 0]
-                }
-        };
-        foreach (var colors in colorRamps)
-
-           
-
-
-
-    return displayRenderer;
-
-        }
+                VariableName = "water_temp", // water temp at sea level
+                DimensionName = "StdZ",
+                Values = new List<int>(0)
+            };
+        return multidimensionalDefinition;
     }
-    //     RasterStretchRenderer renderer =
-//     {
-//         type: "raster-stretch",
-//         stretchType: "standard-deviation",
-// //         statistics: [[-3, 37, 1, 1]],
-// //         numberOfStandardDeviations: 3,
-//         colorRamp: 
-//         {
-//             type: "multipart",
-//             colorRamps: 
-//             [
-//                 {
-//                     fromColor: [0, 0, 255],
-//                     toColor: [0, 255, 255]
-//                 },
-//                 {
-//                     fromColor: [0, 255, 255],
-//                     toColor: [255, 255, 0]
-//                 },
-//                 {
-//                     fromColor: [255, 255, 0],
-//                     toColor: [255, 0, 0]
-//                 }
-//             ]
-//         }
-//     }
+
+
+    public RasterStretchRenderer CreateRenderer()
+    {
+        // This initializes the renderer as a standard deviation type
+        var displayRenderer = new RasterStretchRenderer
+            {
+                Type = "raster-stretch",
+                StretchType = StretchType.StandardDeviation,
+                Statistics = new List<int>{-3, 37, 1, 1}
+            };
+
+        var toFromColor1 = new AlgorithmicColorRamp
+            {
+                FromColor = new List<int> { 0, 0, 255 },
+                ToColor = new List<int> { 0, 255, 255 }
+            };
+        multipartColorRamp.ColorRamps?.Append(toFromColor1);
+        var toFromColor2 = new AlgorithmicColorRamp
+            {
+                FromColor = new List<int> { 0, 255, 255 },
+                ToColor = new List<int> { 255, 255, 0 }
+            };
+        multipartColorRamp.ColorRamps?.Append(toFromColor2);
+        var toFromColor3 = new AlgorithmicColorRamp
+            {
+                FromColor = new List<int> { 255, 255, 0 },
+                ToColor = new List<int> {255, 0, 0 }
+            };
+        multipartColorRamp.ColorRamps?.Append(toFromColor3);
+
+        // initializes the colorRamp for the renderer, the color ramp contains the type and specific colorizing details for the renderer
+        var colorRamp = new ColorRamp
+            {
+                Type = "multipart",
+                ColorRamps = multipartColorRamp
+
+            };
+        //finalizes the renderer with all the color ramp values
+        displayRenderer.ColorRamp = colorRamp;
+
+
+        return displayRenderer;
+    }
+
+    private AlgorithmicColorRamp[]? _colorRampsList;
+    private MultipartColorRamp? multipartColorRamp;
+
+    
 
     private MapView _view;
     private bool _markup = false;
     private bool _visible = false;
     private bool _mapRendered = false;
+
 
     //private string _wcsLayerUrl = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/WCS/SeaTemperature/ImageServer";
     private string _wcsLayerUrl2 = "https://sampleserver6.arcgisonline.com/arcgis/services/ScientificData/SeaTemperature/ImageServer/WCSServer";

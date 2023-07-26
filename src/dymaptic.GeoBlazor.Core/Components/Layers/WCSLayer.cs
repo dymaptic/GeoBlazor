@@ -19,7 +19,7 @@ public class WCSLayer : Layer
 {
     /// <inheritdoc />
     [JsonPropertyName("type")]
-    public override string? LayerType => "wcs";
+    public override string LayerType => "wcs";
 
     /// <summary>
     ///     Constructor for use as a razor component

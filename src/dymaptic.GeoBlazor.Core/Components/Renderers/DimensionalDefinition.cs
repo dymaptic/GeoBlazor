@@ -40,5 +40,5 @@ public class DimensionalDefinition : LayerObject
     ///     An array of single values or tuples [min, max] each defining a range of valid values along the specified dimension.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Tuple<int, int>[]? Values { get; set; }
+    public List<int>? Values { get; set; }
 }

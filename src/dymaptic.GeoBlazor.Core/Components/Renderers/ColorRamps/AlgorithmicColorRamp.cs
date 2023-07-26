@@ -35,11 +35,11 @@ public class AlgorithmicColorRamp : ColorRamp
     /// <summary>
     ///     The first color in the color ramp.
     /// </summary>
-    public Tuple<int, int, int>? FromColor { get; set; }
+    public List<int>? FromColor { get; set; }
     /// <summary>
     ///     The last color in the color ramp.
     /// </summary>
-    public Tuple<int, int, int>? ToColor { get; set; }
+    public List<int>? ToColor { get; set; }
 }
 
 [JsonConverter(typeof(Algorithm))]

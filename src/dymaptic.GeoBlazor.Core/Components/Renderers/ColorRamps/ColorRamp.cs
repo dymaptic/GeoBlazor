@@ -23,43 +23,6 @@ public class ColorRamp
     [Parameter]
     public string? Type { get; set; }
 
-    ///// <inheritdoc />
-    //public override async Task RegisterChildComponent(MapComponent child)
-    //{
-    //    switch (child)
-    //    {
-    //        case colorRampType:
-    //            if (!algorithmicColorRamp.Equals(ColorRamps))
-    //            {
-    //                ColorRamps = algorithmicColorRamp;
-    //                LayerChanged = true;
-    //            }
-    //            break;
-    //        default:
-    //            await base.RegisterChildComponent(child);
-
-    //            break;
-    //    }
-    //}
-    ///// <inheritdoc />
-    //public override async Task UnregisterChildComponent(MapComponent child)
-    //{
-    //    switch (child)
-    //    {
-    //        case AlgorithmicColorRamp _:
-    //            ColorRamps = null;
-    //            LayerChanged = true;
-    //            break;
-    //        default:
-    //            await base.UnregisterChildComponent(child);
-
-    //            break;
-    //    }
-    //}
-    ///// <inheritdoc />
-    //internal override void ValidateRequiredChildren()
-    //{
-    //    Type?.ValidateRequiredChildren();
-    //    base.ValidateRequiredChildren();
-    //}
+    public MultipartColorRamp? ColorRamps { get; set; }
+    
 }
