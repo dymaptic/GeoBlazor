@@ -1,19 +1,24 @@
 @page "/wcslayers"
+@using dymaptic.GeoBlazor.Core.Components.Renderers.ColorRamps;
 
-<h3>Kml Layers</h3>
+<h3>WCS Layers</h3>
 
 <div class="links-div">
     <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html">ArcGIS API for JavaScript</a>
+    <a class="btn btn-primary" target="_blank" href="something">NOAA Sea Surface Temperature Charts</a>
 </div>
 <Label>Add the sample WCS Layer URL to see a visualization of global sea surface temperature data:</Label>
 <InputText @bind-Value="_wcsLayerUrl"></InputText>
-<!--<button disabled="@(!_mapRendered)" @onclick="(()=>AddRemoveWCSLayer())">Add the WCS Layer!</button>
-<button disabled="@(!_mapRendered)" @onclick="(()=>_markup = !_markup)">Add new WCS Layer in Markup</button>-->
-<button @onclick="(()=>AddRemoveWCSLayer())">Add new WCS Layer in Markup</button>
+<button disabled="@(!_mapRendered)" @onclick="(()=>AddRemoveWCSLayer())">Add the WCS Layer with color ramp enabled</button>
+<button disabled="@(!_mapRendered)" @onclick="(()=>_markup = !_markup)">Add new WCS Layer in Markup without colorizing</button>
+
 <MapView @ref="_view" class="map-view" OnMapRendered="OnMapRendered" Scale="0">
     <Map ArcGISDefaultBasemap="arcgis-light-gray">
-
-        <WCSLayer Url="https://sampleserver6.arcgisonline.com/arcgis/services/ScientificData/SeaTemperature/ImageServer/WCSServer?request=GetCapabilities&service=WCS"></WCSLayer>
+        @if (_markup)
+        {
+            <WCSLayer Url="https://sampleserver6.arcgisonline.com/arcgis/services/ScientificData/SeaTemperature/ImageServer/WCSServer?request=GetCapabilities&service=WCS"></WCSLayer>
+        }
+        
 
     </Map>
 </MapView>
@@ -40,11 +45,69 @@
 
     }
 
-private MapView _view;
-private bool _markup = false;
-private bool _visible = false;
-private bool _mapRendered = false;
+    public Task<RasterStretchRenderer> CreateRenderer()
+    {
+        RasterStretchRenderer displayRenderer = new();
+        ColorRamp colorRamp = new();
+        //MultipartColorRamp colorRamps = new();
+        var colorRamps = new List<AlgorithmicColorRamp>
+        {
+            {
+                    fromColor: [0, 0, 255],
+                    toColor: [0, 255, 255]
+                },
+                {
+                    fromColor: [0, 255, 255],
+                    toColor: [255, 255, 0]
+                },
+                {
+                    fromColor: [255, 255, 0],
+                    toColor: [255, 0, 0]
+                }
+        };
+        foreach (var colors in colorRamps)
 
-private string _wcsLayerUrl = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/WCS/SeaTemperature/ImageServer";
-private string _wcsLayerUrl2 = "https://sampleserver6.arcgisonline.com/arcgis/services/ScientificData/SeaTemperature/ImageServer/WCSServer";
+           
+
+
+
+    return displayRenderer;
+
+        }
+    }
+    //     RasterStretchRenderer renderer =
+//     {
+//         type: "raster-stretch",
+//         stretchType: "standard-deviation",
+// //         statistics: [[-3, 37, 1, 1]],
+// //         numberOfStandardDeviations: 3,
+//         colorRamp: 
+//         {
+//             type: "multipart",
+//             colorRamps: 
+//             [
+//                 {
+//                     fromColor: [0, 0, 255],
+//                     toColor: [0, 255, 255]
+//                 },
+//                 {
+//                     fromColor: [0, 255, 255],
+//                     toColor: [255, 255, 0]
+//                 },
+//                 {
+//                     fromColor: [255, 255, 0],
+//                     toColor: [255, 0, 0]
+//                 }
+//             ]
+//         }
+//     }
+
+    private MapView _view;
+    private bool _markup = false;
+    private bool _visible = false;
+    private bool _mapRendered = false;
+
+    //private string _wcsLayerUrl = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/WCS/SeaTemperature/ImageServer";
+    private string _wcsLayerUrl2 = "https://sampleserver6.arcgisonline.com/arcgis/services/ScientificData/SeaTemperature/ImageServer/WCSServer";
+    private string _wcsLayerUrl = "https://sampleserver6.arcgisonline.com/arcgis/services/ScientificData/SeaTemperature/ImageServer/WCSServer?request=GetCapabilities&service=WCS";
 }

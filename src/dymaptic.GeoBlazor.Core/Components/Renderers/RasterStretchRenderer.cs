@@ -1,4 +1,5 @@
-﻿using dymaptic.GeoBlazor.Core.Extensions;
+﻿using dymaptic.GeoBlazor.Core.Components.Renderers.ColorRamps;
+using dymaptic.GeoBlazor.Core.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,11 +20,13 @@ namespace dymaptic.GeoBlazor.Core.Components.Renderers;
 /// 
 public class RasterStretchRenderer : Renderer
 {
+    public RasterStretchRenderer() { }
+
     /// <inheritdoc />
     [JsonPropertyName("type")]
     public override RendererType RendererType => RendererType.RasterStretch;
 
-    public ColorRamp ColorRamp { get; set; }
+    public ColorRamp? ColorRamp { get; set; }
 
     /// <summary>
     ///     The computeGamma automatically calculates best gamma value to render exported image based on empirical model. This is applicable to any stretch type when useGamma is true.
@@ -53,7 +56,7 @@ public class RasterStretchRenderer : Renderer
     /// <summary>
     ///     The stretch type defines a histogram stretch that will be applied to the rasters to enhance their appearance. Stretching improves the appearance of the data by spreading the pixel values along a histogram from the minimum and maximum values defined by their bit depth.
     /// </summary>
-    public string? StretchType { get; set; }
+    public StretchType StretchType { get; set; }
 
 }
 

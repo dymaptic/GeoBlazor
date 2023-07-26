@@ -541,4 +541,17 @@ export interface DotNetRasterStretchRenderer {
 
 export interface DotNetColorRamp {
     type: string;
+
+}
+
+export interface DotNetAlgorithmicColorRamp {
+    type: string;
+    algorithm: string;
+    fromColor: [number, number, number];
+    toColor: [number, number, number];
+}
+
+export interface DotNetMultiPartColorRamp {
+    type: string;
+    colorRamps: DotNetAlgorithmicColorRamp[]
 }
