@@ -31,7 +31,12 @@
 
     public async Task AddRemoveWCSLayer()
     {
-        WCSLayer wcsSampleLayer = new() { Url = _wcsLayerUrl };
+        WCSLayer wcsSampleLayer = new()
+            {
+                Url = _wcsLayerUrl,
+                Renderers = CreateRenderer(),
+                MultidimensionalDefinition = CreateDimensionalDefinition()
+            };
 
         if (!_view.Map.Layers.Any())
         {
@@ -73,21 +78,32 @@
                 FromColor = new List<int> { 0, 0, 255 },
                 ToColor = new List<int> { 0, 255, 255 }
             };
-        multipartColorRamp.ColorRamps?.Append(toFromColor1);
+        //multipartColorRamp.ColorRamps?.Append(toFromColor1);
         var toFromColor2 = new AlgorithmicColorRamp
             {
                 FromColor = new List<int> { 0, 255, 255 },
                 ToColor = new List<int> { 255, 255, 0 }
             };
-        multipartColorRamp.ColorRamps?.Append(toFromColor2);
+        //multipartColorRamp.ColorRamps?.Append(toFromColor2);
         var toFromColor3 = new AlgorithmicColorRamp
             {
                 FromColor = new List<int> { 255, 255, 0 },
                 ToColor = new List<int> {255, 0, 0 }
             };
-        multipartColorRamp.ColorRamps?.Append(toFromColor3);
+        //multipartColorRamp.ColorRamps?.Append(toFromColor3);
 
-        // initializes the colorRamp for the renderer, the color ramp contains the type and specific colorizing details for the renderer
+        // Builds the multipart color ramp
+        MultipartColorRamp? multipartColorRamp = new()
+            {
+                ColorRamps = new AlgorithmicColorRamp[]
+                {
+                    toFromColor1,
+                    toFromColor2,
+                    toFromColor3
+                }
+            };
+
+        // initializes the colorRamp for the renderer, the color ramp contains the type and specific colorizing details from the MultipartColorRamp collection for the renderer
         var colorRamp = new ColorRamp
             {
                 Type = "multipart",
@@ -96,8 +112,6 @@
             };
         //finalizes the renderer with all the color ramp values
         displayRenderer.ColorRamp = colorRamp;
-
-
         return displayRenderer;
     }
 

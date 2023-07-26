@@ -41,7 +41,9 @@ public class AlgorithmicColorRamp : ColorRamp
     /// </summary>
     public List<int>? ToColor { get; set; }
 }
-
+/// <summary>
+/// The algorithm used to generate the colors between the fromColor and toColor. Each algorithm uses different methods for generating the intervening colors.
+/// </summary>
 [JsonConverter(typeof(Algorithm))]
 public enum Algorithm
 {

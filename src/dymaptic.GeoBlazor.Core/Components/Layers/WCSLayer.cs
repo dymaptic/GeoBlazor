@@ -55,9 +55,15 @@ public class WCSLayer : Layer
     /// </summary>
     [RequiredProperty(nameof(Url))]
     public PortalItem? PortalItem { get; set; }
-
+    /// <summary>
+    ///     The multidimensional definitions associated with the layer.
+    /// </summary>
     public DimensionalDefinition? MultidimensionalDefinition { get; set; }
+    /// <summary>
+    ///     The renderer assigned to the layer.
+    /// </summary>
     public RasterStretchRenderer Renderers { get; set; }
+
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
     {

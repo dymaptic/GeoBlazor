@@ -60,8 +60,14 @@ public class RasterStretchRenderer : Renderer
     /// </summary>
     public StretchType StretchType { get; set; }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public List<int>? Statistics { get; set; }
-
+    
+    /// <summary>
+    /// 
+    /// </summary>
     public bool? UseGamma { get; set; }
 
 }

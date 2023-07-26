@@ -23,6 +23,9 @@ public class ColorRamp
     [Parameter]
     public string? Type { get; set; }
 
+    /// <summary>
+    ///     Define an array of algorithmic color ramps used to generate the multi part ramp.
+    /// </summary>
     public MultipartColorRamp? ColorRamps { get; set; }
     
 }
