@@ -35,7 +35,8 @@
             {
                 Url = _wcsLayerUrl,
                 Renderers = CreateRenderer(),
-                MultidimensionalDefinition = CreateDimensionalDefinition()
+                MultidimensionalDefinition = CreateDimensionalDefinition(),
+                Opacity = 0.5
             };
 
         if (!_view.Map.Layers.Any())
@@ -68,7 +69,6 @@
         // This initializes the renderer as a standard deviation type
         var displayRenderer = new RasterStretchRenderer
             {
-                Type = "raster-stretch",
                 StretchType = StretchType.StandardDeviation,
                 Statistics = new List<int>{-3, 37, 1, 1}
             };

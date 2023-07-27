@@ -22,6 +22,7 @@
         <GeneratePackageOnBuild Condition="$(Configuration) == 'RELEASE'">true</GeneratePackageOnBuild>
         <TargetFrameworks>net7.0;net6.0</TargetFrameworks>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <UserSecretsId>364f0380-f3fa-441e-8138-e888b38a26c4</UserSecretsId>
     </PropertyGroup>
     <PropertyGroup Condition="$(Configuration) == 'DEBUG'">
         <DefaultItemExcludes>wwwroot/js/**</DefaultItemExcludes>
@@ -36,6 +37,7 @@
 
     <ItemGroup>
         <PackageReference Include="DefaultDocumentation" Version="0.8.2" PrivateAssets="all" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.1" />
         <PackageReference Include="protobuf-net" Version="3.2.16" />
     </ItemGroup>
     <ItemGroup Condition=" '$(TargetFramework)' == 'net6.0' ">

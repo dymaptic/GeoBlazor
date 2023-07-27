@@ -191,7 +191,7 @@ public abstract class Layer : MapComponent
     /// </param>
     internal virtual Task UpdateFromJavaScript(Layer renderedLayer)
     {
-        if (renderedLayer.FullExtent is not null)
+        if (renderedLayer?.FullExtent is not null)
         {
             FullExtent = renderedLayer.FullExtent;
         }

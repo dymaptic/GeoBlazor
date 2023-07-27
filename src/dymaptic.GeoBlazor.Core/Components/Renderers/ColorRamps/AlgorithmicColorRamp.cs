@@ -1,4 +1,6 @@
 ﻿using dymaptic.GeoBlazor.Core.Extensions;
+using dymaptic.GeoBlazor.Core.Objects;
+using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
@@ -35,16 +37,16 @@ public class AlgorithmicColorRamp : ColorRamp
     /// <summary>
     ///     The first color in the color ramp.
     /// </summary>
-    public List<int>? FromColor { get; set; }
+    public MapColor? FromColor { get; set; }
     /// <summary>
     ///     The last color in the color ramp.
     /// </summary>
-    public List<int>? ToColor { get; set; }
+    public MapColor? ToColor { get; set; }
 }
 /// <summary>
 /// The algorithm used to generate the colors between the fromColor and toColor. Each algorithm uses different methods for generating the intervening colors.
 /// </summary>
-[JsonConverter(typeof(Algorithm))]
+[JsonConverter(typeof(EnumToKebabCaseStringConverter<Algorithm>))]
 public enum Algorithm
 {
     CieLab,
@@ -52,17 +54,17 @@ public enum Algorithm
     Hsv
 }
 
-internal class AlgorithmConverter : JsonConverter<Algorithm>
-{
-    public override Algorithm Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        throw new NotImplementedException();
-    }
+//internal class AlgorithmConverter : JsonConverter<Algorithm>
+//{
+//    public override Algorithm Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+//    {
+//        throw new NotImplementedException();
+//    }
 
-    public override void Write(Utf8JsonWriter writer, Algorithm value, JsonSerializerOptions options)
-    {
-        string? stringVal = Enum.GetName(typeof(StretchType), value);
-        string resultString = stringVal!.ToKebabCase();
-        writer.WriteRawValue($"\"{resultString}\"");
-    }
-}
+//    public override void Write(Utf8JsonWriter writer, Algorithm value, JsonSerializerOptions options)
+//    {
+//        string? stringVal = Enum.GetName(typeof(Algorithm), value);
+//        string resultString = stringVal!.ToKebabCase();
+//        writer.WriteRawValue($"\"{resultString}\"");
+//    }
+//}

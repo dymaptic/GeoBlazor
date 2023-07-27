@@ -1,5 +1,6 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Renderers.ColorRamps;
 using dymaptic.GeoBlazor.Core.Extensions;
+using dymaptic.GeoBlazor.Core.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,8 +24,8 @@ public class RasterStretchRenderer : Renderer
     public RasterStretchRenderer() { }
 
     /// <inheritdoc />
-    [JsonPropertyName("type")]
-    public string Type { get; set; }
+    //[JsonPropertyName("type")]
+    //public string Type { get; set; }
 
     public override RendererType RendererType => RendererType.RasterStretch;
 
@@ -72,7 +73,7 @@ public class RasterStretchRenderer : Renderer
 
 }
 
-[JsonConverter(typeof(StretchTypeConverter))]
+[JsonConverter(typeof(EnumToKebabCaseStringConverter<StretchType>))]
 public enum StretchType
 {
     None,
@@ -83,17 +84,17 @@ public enum StretchType
     Sigmoid
 }
 
-internal class StretchTypeConverter : JsonConverter<StretchType>
-{
-    public override StretchType Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        throw new NotImplementedException();
-    }
+//internal class StretchTypeConverter : JsonConverter<StretchType>
+//{
+//    public override StretchType Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+//    {
+//        throw new NotImplementedException();
+//    }
 
-    public override void Write(Utf8JsonWriter writer, StretchType value, JsonSerializerOptions options)
-    {
-        string? stringVal = Enum.GetName(typeof(StretchType), value);
-        string resultString = stringVal!.ToKebabCase();
-        writer.WriteRawValue($"\"{resultString}\"");
-    }
-}
+//    public override void Write(Utf8JsonWriter writer, StretchType value, JsonSerializerOptions options)
+//    {
+//        string? stringVal = Enum.GetName(typeof(StretchType), value);
+//        string resultString = stringVal!.ToKebabCase();
+//        writer.WriteRawValue($"\"{resultString}\"");
+//    }
+//}

@@ -19,6 +19,8 @@ import FeatureFilter from "@arcgis/core/layers/support/FeatureFilter";
 import RasterStretchRenderer from "@arcgis/core/renderers/RasterStretchRenderer.js"
 import ColorRamp from "@arcgis/core/rest/support/ColorRamp.js";
 import DimensionalDefinition from "@arcgis/core/layers/support/DimensionalDefinition.js";
+import MultipartColorRamp from "@arcgis/core/rest/support/MultipartColorRamp.js";
+import AlgorithmicColorRamp from "@arcgis/core/rest/support/AlgorithmicColorRamp.js";
 import {
     DotNetApplyEdits,
     DotNetAttachmentsEdit,
@@ -535,6 +537,9 @@ export function buildJsRenderer(dotNetRenderer: any): Renderer | null {
             let renderer = new SimpleRenderer();
             renderer.visualVariables = dotNetRenderer.visualVariables;
             renderer.symbol = buildJsSymbol(dotNetSymbol) as Symbol;
+        case 'raster-stretch':
+            let renderer = new RasterStretchRenderer();
+            renderer.colorRamp = 
     }
 
     return dotNetRenderer

@@ -44,7 +44,8 @@ import {
     DotNetViewpoint,
     DotNetDimensionDefinition,
     DotNetColorRamp,
-    DotNetRasterStretchRenderer
+    DotNetRasterStretchRenderer,
+    DotNetAlgorithmicColorRamp
 } from "./definitions";
 import Point from "@arcgis/core/geometry/Point";
 import Polyline from "@arcgis/core/geometry/Polyline";
@@ -89,6 +90,8 @@ import ViewHit = __esri.ViewHit;
 import RasterStretchRenderer from "@arcgis/core/renderers/RasterStretchRenderer.js"
 import ColorRamp from "@arcgis/core/rest/support/ColorRamp.js";
 import DimensionalDefinition from "@arcgis/core/layers/support/DimensionalDefinition.js";
+import AlgorithmicColorRamp from "@arcgis/core/rest/support/AlgorithmicColorRamp";
+import MultipartColorRamp from "@arcgis/core/rest/support/MultipartColorRamp";
 
 export function buildDotNetGraphic(graphic: Graphic): DotNetGraphic {
     let dotNetGraphic = {} as DotNetGraphic;
@@ -673,11 +676,29 @@ export function buildDotNetDimensionDefinition(dimensionDefinition: DimensionalD
         variableName: dimensionDefinition.variableName
     } as DotNetDimensionDefinition;
 }
+export function buildDotNetAlgorithmicColorRamp(algorithmicColorRamp: AlgorithmicColorRamp): any | null {
+    if (algorithmicColorRamp === null) return null;
+    return {
+        type: algorithmicColorRamp.type,
+        algorithm: algorithmicColorRamp.algorithm as string,
+        fromColor: algorithmicColorRamp.fromColor.setColor(),
+        toColor: algorithmicColorRamp.toColor.setColor()
+    } as DotNetAlgorithmicColorRamp;
+}
+
+export function buildDotNetMultipartColorRamp(multipartColorRamp: MultipartColorRamp): any | null {
+    if (multipartColorRamp === null) return null;
+    return {
+        type: multipartColorRamp.type,
+        colorRamps: multipartColorRamp.colorRamps 
+    } as DotNetMultipartColorRamp;
+}
 
 export function buildDotNetColorRamp(colorRamp: ColorRamp): any | null {
     if (colorRamp === null) return null;
     return {
-        type: colorRamp.type
+        type: colorRamp.type,
+        colorRamps: buildDotNetMultipartColorRamp(colorRamp.)
     } as DotNetColorRamp;
 }
 

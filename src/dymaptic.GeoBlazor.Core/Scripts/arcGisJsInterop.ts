@@ -2114,15 +2114,12 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             copyValuesIfExists(layerObject, kmlLayer, 'sublayers', 'blendMode', 'maxScale', 'minScale', 'title', 'visible');
             break;
         case 'wcs':
-            let wcsLayer: WCSLayer;
-            if (hasValue(layerObject.url)) {
-                wcsLayer = new WCSLayer({
-                    url: layerObject.url
-                });
-            } else {
-                let portalItem = buildJsPortalItem(layerObject.portalItem);
-                wcsLayer = new WCSLayer({ portalItem: portalItem });
-            }
+            newLayer = new WCSLayer({
+                url: layerObject.url,
+                renderer: layerObject.renderer,
+                multidimensionalDefinition: layerObject.multidimensionalDefinition
+            });
+            let wcsLayer = newLayer as WCSLayer;
             newLayer = wcsLayer;
             copyValuesIfExists(layerObject, wcsLayer, 'bandIds', 'copyright', 'coverageId', 'coverageInfo', 'customParameters', 'fields', 'interpolation', 'maxScale', 'minscale', 'multidimensionalDefinition', 'rasterInfo', 'renderer');
                 break;
