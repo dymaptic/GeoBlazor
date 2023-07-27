@@ -26,8 +26,8 @@ public class AlgorithmicColorRamp : ColorRamp
     /// <summary>
     ///     A string value representing the color ramp type.
     /// </summary>
-    [JsonPropertyName("type")]
-    public string? Type { get; set; }
+    //[JsonPropertyName("type")]
+    //public string? Type { get; set; }
 
     /// <summary>
     ///     The algorithm used to generate the colors between the fromColor and toColor.

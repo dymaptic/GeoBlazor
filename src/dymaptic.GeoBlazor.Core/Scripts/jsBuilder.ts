@@ -537,14 +537,45 @@ export function buildJsRenderer(dotNetRenderer: any): Renderer | null {
             let renderer = new SimpleRenderer();
             renderer.visualVariables = dotNetRenderer.visualVariables;
             renderer.symbol = buildJsSymbol(dotNetSymbol) as Symbol;
+            break;
         case 'raster-stretch':
-            let renderer = new RasterStretchRenderer();
-            renderer.colorRamp = 
+            let rasterStretchrenderer = new RasterStretchRenderer();
+            if (hasValue(dotNetRenderer.colorRamp)) {
+                rasterStretchrenderer.colorRamp = buildJsColorRamp(dotNetRenderer.colorRamp) as ColorRamp;
+            }
+            if (hasValue(dotNetRenderer.computeGamma)) {
+                rasterStretchrenderer.computeGamma;
+            }
+            if (hasValue(dotNetRenderer.gamma)) {
+                rasterStretchrenderer.gamma;
+            }
+            if (hasValue(dotNetRenderer.useGamma)) {
+                rasterStretchrenderer.useGamma;
+            }
+            if (hasValue(dotNetRenderer.outputMax)) {
+                rasterStretchrenderer.outputMax;
+            }
+            if (hasValue(dotNetRenderer.outputMin)) {
+                rasterStretchrenderer.outputMin;
+            }
+            if (hasValue(dotNetRenderer.stretchType)) {
+                rasterStretchrenderer.stretchType;
+            }
+            if (hasValue(dotNetRenderer.statistics)) {
+                rasterStretchrenderer.statistics;
+            }
+            break;
     }
 
     return dotNetRenderer
 }
 
+export function buildJsColorRamp(dotNetColorRamp: any): ColorRamp | null {
+    if (dotNetColorRamp === undefined) return null;
+    let colorRamp = new ColorRamp();
+    colorRamp = dotNetColorRamp;
+    return colorRamp
+}
 
 export function buildJsFields(dotNetFields: any): Array<Field> {
     let fields: Array<Field> = [];

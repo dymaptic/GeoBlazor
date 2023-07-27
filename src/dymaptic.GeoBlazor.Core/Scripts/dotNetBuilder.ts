@@ -43,9 +43,10 @@ import {
     DotNetBookmark,
     DotNetViewpoint,
     DotNetDimensionDefinition,
-    DotNetColorRamp,
     DotNetRasterStretchRenderer,
-    DotNetAlgorithmicColorRamp
+    DotNetAlgorithmicColorRamp,
+    DotNetColorRamp,
+    DotNetMultiPartColorRamp
 } from "./definitions";
 import Point from "@arcgis/core/geometry/Point";
 import Polyline from "@arcgis/core/geometry/Polyline";
@@ -92,6 +93,7 @@ import ColorRamp from "@arcgis/core/rest/support/ColorRamp.js";
 import DimensionalDefinition from "@arcgis/core/layers/support/DimensionalDefinition.js";
 import AlgorithmicColorRamp from "@arcgis/core/rest/support/AlgorithmicColorRamp";
 import MultipartColorRamp from "@arcgis/core/rest/support/MultipartColorRamp";
+import Color from "@arcgis/core/Color.js";
 
 export function buildDotNetGraphic(graphic: Graphic): DotNetGraphic {
     let dotNetGraphic = {} as DotNetGraphic;
@@ -679,10 +681,10 @@ export function buildDotNetDimensionDefinition(dimensionDefinition: DimensionalD
 export function buildDotNetAlgorithmicColorRamp(algorithmicColorRamp: AlgorithmicColorRamp): any | null {
     if (algorithmicColorRamp === null) return null;
     return {
-        type: algorithmicColorRamp.type,
-        algorithm: algorithmicColorRamp.algorithm as string,
-        fromColor: algorithmicColorRamp.fromColor.setColor(),
-        toColor: algorithmicColorRamp.toColor.setColor()
+
+        algorithm: algorithmicColorRamp.algorithm,
+        fromColor: algorithmicColorRamp.fromColor as Color,
+        toColor: algorithmicColorRamp.toColor as Color
     } as DotNetAlgorithmicColorRamp;
 }
 
@@ -690,22 +692,23 @@ export function buildDotNetMultipartColorRamp(multipartColorRamp: MultipartColor
     if (multipartColorRamp === null) return null;
     return {
         type: multipartColorRamp.type,
-        colorRamps: multipartColorRamp.colorRamps 
-    } as DotNetMultipartColorRamp;
+        colorRamps: (multipartColorRamp.colorRamps as any[])?.map(c => buildDotNetAlgorithmicColorRamp(c))
+    } as DotNetMultiPartColorRamp;
 }
 
+// template.content = (popupTemplate.content as any[])?.map(c => buildDotNetPopupContent(c));
 export function buildDotNetColorRamp(colorRamp: ColorRamp): any | null {
     if (colorRamp === null) return null;
     return {
         type: colorRamp.type,
-        colorRamps: buildDotNetMultipartColorRamp(colorRamp.)
+        colorRamps: (colorRamp.colorRamps as any[])?.map(c => buildDotNetMultipartColorRamp(c))
     } as DotNetColorRamp;
 }
 
 export function buildDotNetRasterStretchRenderer(rasterStretchRenderer: RasterStretchRenderer): any | null {
     if (rasterStretchRenderer === null) return null;
     return {
-        colorRamp: rasterStretchRenderer.colorRamp,
+        colorRamp: rasterStretchRenderer.colorRamp as ColorRamp,
         computeGamma: rasterStretchRenderer.computeGamma,
         dynamicRangeAdjustment: rasterStretchRenderer.dynamicRangeAdjustment,
         gamma: rasterStretchRenderer.gamma,

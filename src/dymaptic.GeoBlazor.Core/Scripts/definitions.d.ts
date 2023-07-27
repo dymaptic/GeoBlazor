@@ -530,6 +530,7 @@ export interface DotNetDimensionDefinition {
 }
 
 export interface DotNetRasterStretchRenderer {
+    type: string;
     colorRamp: DotNetColorRamp;
     computeGamma: boolean;
     dynamicRangeAdjustment: boolean;
@@ -541,17 +542,17 @@ export interface DotNetRasterStretchRenderer {
 
 export interface DotNetColorRamp {
     type: string;
-    colorRamps: DotNetMultiPartColorRamp[]
+    colorRamps: DotNetMultiPartColorRamp[];
 }
 
 export interface DotNetAlgorithmicColorRamp {
-    type: string;
+    //type: string;
     algorithm: string;
-    fromColor: [number, number, number];
-    toColor: [number, number, number];
+    fromColor: color;
+    toColor: color;
 }
 
 export interface DotNetMultiPartColorRamp {
-    type: string;
-    colorRamps: DotNetAlgorithmicColorRamp[]
+    //type: string;
+    colorRamps: DotNetAlgorithmicColorRamp[];
 }
