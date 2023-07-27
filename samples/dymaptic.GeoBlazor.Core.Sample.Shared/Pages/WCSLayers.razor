@@ -34,7 +34,7 @@
         WCSLayer wcsSampleLayer = new()
             {
                 Url = _wcsLayerUrl,
-                Renderers = CreateRenderer(),
+                Renderer = CreateRenderer(),
                 MultidimensionalDefinition = CreateDimensionalDefinition(),
                 Opacity = 0.5
             };
@@ -95,7 +95,7 @@
         // Builds the multipart color ramp
         MultipartColorRamp? multipartColorRamp = new()
             {
-                ColorRamps = new AlgorithmicColorRamp[]
+                AlgorithmicColorRamps = new AlgorithmicColorRamp[]
                 {
                     toFromColor1,
                     toFromColor2,
@@ -107,11 +107,11 @@
         var colorRamp = new ColorRamp
             {
                 Type = "multipart",
-                ColorRamps = multipartColorRamp
+                MultipartColorRamps = multipartColorRamp
 
             };
         //finalizes the renderer with all the color ramp values
-        displayRenderer.ColorRamp = colorRamp;
+        displayRenderer.ColorRamps = colorRamp;
         return displayRenderer;
     }
 

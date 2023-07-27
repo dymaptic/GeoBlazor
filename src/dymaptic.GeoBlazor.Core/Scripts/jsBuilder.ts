@@ -534,9 +534,11 @@ export function buildJsRenderer(dotNetRenderer: any): Renderer | null {
     let dotNetSymbol = dotNetRenderer.symbol;
     switch (dotNetRenderer.type) {
         case 'simple':
-            let renderer = new SimpleRenderer();
-            renderer.visualVariables = dotNetRenderer.visualVariables;
-            renderer.symbol = buildJsSymbol(dotNetSymbol) as Symbol;
+            let simpleRenderer = new SimpleRenderer();
+            simpleRenderer.visualVariables = dotNetRenderer.visualVariables;
+            simpleRenderer.symbol = buildJsSymbol(dotNetSymbol) as Symbol;
+            simpleRenderer.authoringInfo = dotNetRenderer.authoringInfo;
+            return simpleRenderer;
             break;
         case 'raster-stretch':
             let rasterStretchrenderer = new RasterStretchRenderer();
@@ -564,6 +566,7 @@ export function buildJsRenderer(dotNetRenderer: any): Renderer | null {
             if (hasValue(dotNetRenderer.statistics)) {
                 rasterStretchrenderer.statistics;
             }
+            return rasterStretchrenderer;
             break;
     }
 

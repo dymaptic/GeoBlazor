@@ -29,7 +29,7 @@ public class RasterStretchRenderer : Renderer
 
     public override RendererType RendererType => RendererType.RasterStretch;
 
-    public ColorRamp? ColorRamp { get; set; }
+    public ColorRamp? ColorRamps { get; set; }
 
     /// <summary>
     ///     The computeGamma automatically calculates best gamma value to render exported image based on empirical model. This is applicable to any stretch type when useGamma is true.
@@ -70,6 +70,8 @@ public class RasterStretchRenderer : Renderer
     /// 
     /// </summary>
     public bool? UseGamma { get; set; }
+    
+
 
 }
 

@@ -19,9 +19,9 @@ public class MultipartColorRamp : ColorRamp
     ///     A string value representing the color ramp type.
     /// </summary>
     //[JsonPropertyName("type")]
-    //public string? Type { get; set; }
+    public string? Type { get; set; }
 
-    public AlgorithmicColorRamp[]? ColorRamps { get; set; }
+    public AlgorithmicColorRamp[]? AlgorithmicColorRamps { get; set; }
 
     ///// <inheritdoc />
     //public override async Task RegisterChildComponent(MapComponent child)

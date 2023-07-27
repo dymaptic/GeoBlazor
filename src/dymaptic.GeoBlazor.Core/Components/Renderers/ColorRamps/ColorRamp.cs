@@ -26,6 +26,6 @@ public class ColorRamp
     /// <summary>
     ///     Define an array of algorithmic color ramps used to generate the multi part ramp.
     /// </summary>
-    public MultipartColorRamp? ColorRamps { get; set; }
+    public MultipartColorRamp? MultipartColorRamps { get; set; }
     
 }

@@ -692,29 +692,30 @@ export function buildDotNetMultipartColorRamp(multipartColorRamp: MultipartColor
     if (multipartColorRamp === null) return null;
     return {
         type: multipartColorRamp.type,
-        colorRamps: (multipartColorRamp.colorRamps as any[])?.map(c => buildDotNetAlgorithmicColorRamp(c))
-    } as DotNetMultiPartColorRamp;
+        colorRamps: (multipartColorRamp.colorRamps as AlgorithmicColorRamp[])?.map(c => buildDotNetAlgorithmicColorRamp(c))
+    } as unknown as DotNetMultiPartColorRamp;
 }
 
 // template.content = (popupTemplate.content as any[])?.map(c => buildDotNetPopupContent(c));
 export function buildDotNetColorRamp(colorRamp: ColorRamp): any | null {
     if (colorRamp === null) return null;
     return {
-        type: colorRamp.type,
-        colorRamps: (colorRamp.colorRamps as any[])?.map(c => buildDotNetMultipartColorRamp(c))
-    } as DotNetColorRamp;
+
+        colorRamps: (colorRamp.multipartColorRamp as MultipartColorRamp[])?.map(c => buildDotNetMultipartColorRamp(c))
+    } as unknown as DotNetColorRamp;
 }
 
 export function buildDotNetRasterStretchRenderer(rasterStretchRenderer: RasterStretchRenderer): any | null {
     if (rasterStretchRenderer === null) return null;
     return {
-        colorRamp: rasterStretchRenderer.colorRamp as ColorRamp,
+        type: rasterStretchRenderer.type,
+        colorRamp: rasterStretchRenderer.colorRamp,
         computeGamma: rasterStretchRenderer.computeGamma,
         dynamicRangeAdjustment: rasterStretchRenderer.dynamicRangeAdjustment,
         gamma: rasterStretchRenderer.gamma,
         outputMax: rasterStretchRenderer.outputMax,
         outputMin: rasterStretchRenderer.outputMin,
-        stretchType: rasterStretchRenderer.stretchType
-    } as DotNetRasterStretchRenderer;
+        stretchType: rasterStretchRenderer.stretchType,
+    } as unknown as DotNetRasterStretchRenderer;
 
 }

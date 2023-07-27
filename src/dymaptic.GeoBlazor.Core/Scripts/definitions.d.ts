@@ -525,7 +525,7 @@ export interface DotNetFeatureFilter {
 export interface DotNetDimensionDefinition {
     dimensionName: string;
     isSlice: boolean;
-    values: [number, number];
+    values: number[];
     variableName: string;
 }
 
@@ -542,17 +542,17 @@ export interface DotNetRasterStretchRenderer {
 
 export interface DotNetColorRamp {
     type: string;
-    colorRamps: DotNetMultiPartColorRamp[];
+    multipartColorRamps: DotNetMultiPartColorRamp[];
 }
 
 export interface DotNetAlgorithmicColorRamp {
-    //type: string;
+    type: string;
     algorithm: string;
     fromColor: color;
     toColor: color;
 }
 
 export interface DotNetMultiPartColorRamp {
-    //type: string;
-    colorRamps: DotNetAlgorithmicColorRamp[];
+    type: string;
+    algorithmicColorRamps: DotNetAlgorithmicColorRamp[];
 }

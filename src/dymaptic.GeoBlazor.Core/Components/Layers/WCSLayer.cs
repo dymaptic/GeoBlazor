@@ -62,7 +62,7 @@ public class WCSLayer : Layer
     /// <summary>
     ///     The renderer assigned to the layer.
     /// </summary>
-    public RasterStretchRenderer Renderers { get; set; }
+    public RasterStretchRenderer Renderer { get; set; }
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
@@ -84,9 +84,9 @@ public class WCSLayer : Layer
                 }
                 break;
             case RasterStretchRenderer rasterStretchRenderer:
-                if (!rasterStretchRenderer.Equals(Renderers))
+                if (!rasterStretchRenderer.Equals(Renderer))
                 {
-                    Renderers = rasterStretchRenderer;
+                    Renderer = rasterStretchRenderer;
                     LayerChanged = true;
                 }
                 break;
@@ -110,7 +110,7 @@ public class WCSLayer : Layer
                 LayerChanged = true;
                 break;
             case RasterStretchRenderer _:
-                Renderers = null;
+                Renderer = null;
                 LayerChanged = true;
                 break;
             default:
@@ -124,7 +124,7 @@ public class WCSLayer : Layer
     {
         PortalItem?.ValidateRequiredChildren();
         MultidimensionalDefinition?.ValidateRequiredChildren();
-        Renderers?.ValidateRequiredChildren();
+        Renderer?.ValidateRequiredChildren();
         base.ValidateRequiredChildren();
     }
 
