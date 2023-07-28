@@ -24,7 +24,7 @@ public class RasterStretchRenderer : Renderer
     public RasterStretchRenderer() { }
 
     /// <inheritdoc />
-    [JsonPropertyName("type")]
+    //[JsonPropertyName("type")]
     //public string Type { get; set; }
 
     public override RendererType RendererType => RendererType.RasterStretch;
@@ -71,7 +71,7 @@ public class RasterStretchRenderer : Renderer
     /// </summary>
     public bool? UseGamma { get; set; }
     
-
+    
 
 }
 

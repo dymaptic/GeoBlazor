@@ -539,9 +539,10 @@ export function buildJsRenderer(dotNetRenderer: any): Renderer | null {
             simpleRenderer.symbol = buildJsSymbol(dotNetSymbol) as Symbol;
             simpleRenderer.authoringInfo = dotNetRenderer.authoringInfo;
             return simpleRenderer;
-            break;
+
         case 'raster-stretch':
             let rasterStretchrenderer = new RasterStretchRenderer();
+
             if (hasValue(dotNetRenderer.colorRamp)) {
                 rasterStretchrenderer.colorRamp = buildJsColorRamp(dotNetRenderer.colorRamp) as ColorRamp;
             }
@@ -566,8 +567,9 @@ export function buildJsRenderer(dotNetRenderer: any): Renderer | null {
             if (hasValue(dotNetRenderer.statistics)) {
                 rasterStretchrenderer.statistics;
             }
+
             return rasterStretchrenderer;
-            break;
+
     }
 
     return dotNetRenderer

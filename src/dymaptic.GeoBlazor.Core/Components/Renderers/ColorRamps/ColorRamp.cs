@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using dymaptic.GeoBlazor.Core.Components.Renderers.ColorRamps;
+using Microsoft.AspNetCore.Components;
 using System.Text.Json.Serialization;
 
 namespace dymaptic.GeoBlazor.Core.Components.Renderers.ColorRamps;
@@ -27,5 +28,8 @@ public class ColorRamp
     ///     Define an array of algorithmic color ramps used to generate the multi part ramp.
     /// </summary>
     public MultipartColorRamp? MultipartColorRamps { get; set; }
+
+    /// <inheritdoc />
+    
     
 }
