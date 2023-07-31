@@ -18,7 +18,7 @@ public class MultipartColorRamp : ColorRamp
     /// <summary>
     ///     A string value representing the color ramp type.
     /// </summary>
-    //[JsonPropertyName("type")]
+    [JsonPropertyName("type")]
     public string? Type { get; set; }
 
     public AlgorithmicColorRamp[]? AlgorithmicColorRamps { get; set; }

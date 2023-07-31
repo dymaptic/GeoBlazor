@@ -85,6 +85,9 @@ import {
     templateTriggerActionHandler,
     buildJsBookmark,
     buildJsDimensionalDefinition,
+    buildJsColorRamp,
+    buildJsAlgorithmicColorRamp,
+    buildJSMultipartColorRamp,
 } from "./jsBuilder";
 import {
     DotNetExtent,
@@ -116,6 +119,9 @@ import LegendLayerInfos = __esri.LegendLayerInfos;
 import ScreenPoint = __esri.ScreenPoint;
 import RasterStretchRenderer from "@arcgis/core/renderers/RasterStretchRenderer";
 import DimensionalDefinition from "@arcgis/core/layers/support/DimensionalDefinition";
+import ColorRamp from "@arcgis/core/rest/support/ColorRamp";
+import MultipartColorRamp from "@arcgis/core/rest/support/MultipartColorRamp";
+import AlgorithmicColorRamp from "@arcgis/core/rest/support/AlgorithmicColorRamp";
 
 export let arcGisObjectRefs: Record<string, Accessor> = {};
 export let graphicsRefs: Record<string, Graphic> = {};
@@ -2126,9 +2132,28 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             let wcsLayer = newLayer as WCSLayer;
 
             if (hasValue(layerObject.renderer && layerObject.renderer == 'raster-stretch')) {
-                
-                wcsLayer.renderer = buildJsRenderer(layerObject.renderer) as unknown as RasterStretchRenderer;
+                // assembles the color ramps used in a multipart colorramp
 
+                if (hasValue(layerObject.renderer.colorRamps)) {
+                    let wcsAlgorithmicColorRamps = new Array<AlgorithmicColorRamp>();
+                    if (hasValue(layerObject.renderer.colorRamps.multipartColorRamps && layerObject.renderer.colorRamps.multipartColorRamps.algorithmicColorRamps.length > 1)) {
+                        for (const acr of layerObject.renderer.colorRamps.multipartColorRamps.algorithmicColorRamps) {
+                            let singleAlgorithmicColorRamp = buildJsAlgorithmicColorRamp(acr) as AlgorithmicColorRamp;
+                            wcsAlgorithmicColorRamps.push(singleAlgorithmicColorRamp);
+                        }
+                    }
+                    let wcsMultipartColorRamp = buildJSMultipartColorRamp(wcsAlgorithmicColorRamps) as MultipartColorRamp;
+
+                    //let wcsMultipartColorRamp = new MultipartColorRamp();
+                    let wcsColorRamp = buildJsColorRamp({
+                        type: layerObject.renderer.colorRamps.type,
+                        multipartColorRamp: wcsMultipartColorRamp
+                    }) as ColorRamp;
+                    wcsLayer.renderer = buildJsRenderer(layerObject.renderer) as unknown as RasterStretchRenderer;
+                    wcsLayer.renderer.colorRamp = wcsColorRamp;
+                }
+
+            
             }
             if (hasValue(layerObject.multidimensionalDefinition)) {
                 let wcsMDD = new DimensionalDefinition;
@@ -2147,7 +2172,8 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
                 //wcsLayer.multidimensionalDefinition[] = new DimensionalDefinition();
                 wcsLayer.multidimensionalDefinition.push(wcsMDD);
             }
-            
+
+/*            wcsLayer.renderer = buildJsRenderer(layerObject.renderer) as unknown as RasterStretchRenderer;*/
             copyValuesIfExists(layerObject, wcsLayer, 'bandIds', 'copyright', 'coverageId', 'coverageInfo', 'customParameters', 'fields', 'interpolation', 'maxScale', 'minscale', 'multidimensionalDefinition', 'rasterInfo', 'renderer');
             
             newLayer = wcsLayer;
