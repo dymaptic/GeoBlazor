@@ -71,7 +71,7 @@ public class RasterStretchRenderer : Renderer
     /// </summary>
     public bool? UseGamma { get; set; }
     
-    
+    public int? NumberOfStandardDeviations { get; set; }
 
 }
 

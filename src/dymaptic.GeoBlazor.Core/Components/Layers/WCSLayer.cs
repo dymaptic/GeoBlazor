@@ -1,6 +1,7 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Renderers;
 using dymaptic.GeoBlazor.Core.Exceptions;
 using Microsoft.AspNetCore.Components;
+using System.Security.Cryptography.X509Certificates;
 using System.Text.Json.Serialization;
 
 
@@ -59,6 +60,8 @@ public class WCSLayer : Layer
     ///     The multidimensional definitions associated with the layer.
     /// </summary>
     public DimensionalDefinition? MultidimensionalDefinition { get; set; }
+
+    public string Title { get; set; }
     /// <summary>
     ///     The renderer assigned to the layer.
     /// </summary>

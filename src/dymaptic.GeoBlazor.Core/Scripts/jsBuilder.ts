@@ -567,6 +567,9 @@ export function buildJsRenderer(dotNetRenderer: any): Renderer | null {
             if (hasValue(dotNetRenderer.statistics)) {
                 rasterStretchrenderer.statistics;
             }
+            if (hasValue(dotNetRenderer.numberOfStandardDeviations)) {
+                rasterStretchrenderer.numberOfStandardDeviations;
+            }
 
             return rasterStretchrenderer;
 
@@ -580,6 +583,27 @@ export function buildJsColorRamp(dotNetColorRamp: any): ColorRamp | null {
     let colorRamp = new ColorRamp();
     colorRamp = dotNetColorRamp;
     return colorRamp
+}
+
+export function buildJsAlgorithmicColorRamp(dotNetAlgorithmicColorRamp: any): AlgorithmicColorRamp | null {
+    if (dotNetAlgorithmicColorRamp === undefined) return null;
+    let algorithmicColorRamp = new AlgorithmicColorRamp();
+    algorithmicColorRamp = dotNetAlgorithmicColorRamp;
+    return algorithmicColorRamp;
+}
+
+export function buildJsDimensionalDefinition(dotNetMultidimensionalDefinition: any): DimensionalDefinition | null {
+    if (dotNetMultidimensionalDefinition == undefined) return null;
+    let multidimensionalDefinition = new DimensionalDefinition();
+    multidimensionalDefinition = dotNetMultidimensionalDefinition;
+    return multidimensionalDefinition;
+}
+
+export function buildJSMultipartColorRamp(dotNetMultipartColorRamp: any): MultipartColorRamp | null {
+    if (dotNetMultipartColorRamp === undefined) return null;
+    let multipartColorRamp = new MultipartColorRamp();
+    
+    return multipartColorRamp;
 }
 
 export function buildJsFields(dotNetFields: any): Array<Field> {

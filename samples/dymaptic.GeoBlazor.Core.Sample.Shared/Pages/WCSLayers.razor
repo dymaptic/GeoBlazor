@@ -36,12 +36,14 @@
                 Url = _wcsLayerUrl,
                 Renderer = CreateRenderer(),
                 MultidimensionalDefinition = CreateDimensionalDefinition(),
-                Opacity = 0.5
+                Opacity = 0.5,
+                Title = "Sea temperature - sea level"
             };
 
         if (!_view.Map.Layers.Any())
         {
             await _view.AddLayer(wcsSampleLayer);
+
         }
         else
         {
@@ -58,7 +60,7 @@
             {
                 VariableName = "water_temp", // water temp at sea level
                 DimensionName = "StdZ",
-                Values = new List<int>(0)
+                Values = new List<int> { 0 }
             };
         return multidimensionalDefinition;
     }
@@ -70,7 +72,8 @@
         var displayRenderer = new RasterStretchRenderer
             {
                 StretchType = StretchType.StandardDeviation,
-                Statistics = new List<int>{-3, 37, 1, 1}
+                Statistics = new List<int>{-3, 37, 1, 1},
+                NumberOfStandardDeviations = 3
             };
 
         var toFromColor1 = new AlgorithmicColorRamp
@@ -126,7 +129,7 @@
     private bool _mapRendered = false;
 
 
-    //private string _wcsLayerUrl = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/WCS/SeaTemperature/ImageServer";
+    //private string _wcsLayerUrl = "https://sampleserver6.arcgisonline.com/arcgis/services/ScientificData/SeaTemperature/ImageServer/WCSServer";
     private string _wcsLayerUrl2 = "https://sampleserver6.arcgisonline.com/arcgis/services/ScientificData/SeaTemperature/ImageServer/WCSServer";
     private string _wcsLayerUrl = "https://sampleserver6.arcgisonline.com/arcgis/services/ScientificData/SeaTemperature/ImageServer/WCSServer?request=GetCapabilities&service=WCS";
 }

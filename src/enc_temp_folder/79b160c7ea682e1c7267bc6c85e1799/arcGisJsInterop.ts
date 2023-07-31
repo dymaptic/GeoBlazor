@@ -2126,28 +2126,13 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             let wcsLayer = newLayer as WCSLayer;
 
             if (hasValue(layerObject.renderer && layerObject.renderer == 'raster-stretch')) {
-                
                 wcsLayer.renderer = buildJsRenderer(layerObject.renderer) as unknown as RasterStretchRenderer;
-
             }
             if (hasValue(layerObject.multidimensionalDefinition)) {
-                let wcsMDD = new DimensionalDefinition;
-                if (hasValue(layerObject.multidimensionalDefinition.VariableName)) {
-                    wcsMDD.variableName = layerObject.multidimensionalDefinition.VariableName;
-                }
-                if (hasValue(layerObject.multidimensionalDefinition.DimensionName)) {
-                    wcsMDD.dimensionName = layerObject.multidimensionalDefinition.DimensionName;
-                }
-                if (hasValue(layerObject.multidimensionalDefinition.Values)) {
-                    wcsMDD.values = layerObject.multidimensionalDefinition.Values;
-                }
-                if (hasValue(layerObject.multidimensionalDefinition.isSlice)) {
-                    wcsMDD.isSlice = layerObject.multidimensionalDefinition.isSlice;
-                }
+                /*let multidimensionalDefiniton = new DimensionalDefinition()*/
                 //wcsLayer.multidimensionalDefinition[] = new DimensionalDefinition();
-                wcsLayer.multidimensionalDefinition.push(wcsMDD);
+                
             }
-            
             copyValuesIfExists(layerObject, wcsLayer, 'bandIds', 'copyright', 'coverageId', 'coverageInfo', 'customParameters', 'fields', 'interpolation', 'maxScale', 'minscale', 'multidimensionalDefinition', 'rasterInfo', 'renderer');
             
             newLayer = wcsLayer;
