@@ -224,6 +224,15 @@ export interface DotNetFeatureLayer extends DotNetLayer {
     source: any[];
     fields: any[];
     relationships: any[];
+    timeInfo: DotNetTimeInfo;
+}
+
+export interface DotNetTimeInfo {
+    endField: string;
+    startField: string;
+    trackIdField: string;
+    fullTimeExtent: any;
+    interval: any;
 }
 
 export interface DotNetGraphicsLayer extends DotNetLayer {

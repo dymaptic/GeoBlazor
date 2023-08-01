@@ -967,6 +967,30 @@ export function buildJsFormTemplate(dotNetFormTemplate: any): FormTemplate {
     return formTemplate;
 }
 
+export function buildJsTimeSliderStops(dotNetStop: any): any | null {
+    if (dotNetStop === null) return null;
+    switch (dotNetStop.type) {
+        case "stops-by-dates":
+            return {
+                dates: dotNetStop.dates,
+            }
+            break;
+        case "stops-by-count":
+            return {
+                count: dotNetStop.count,
+                timeExtent: dotNetStop.timeExtent ?? undefined,
+            }
+            break;
+        case "stops-by-interval":
+            return {
+                interval: dotNetStop.interval,
+                timeExtent: dotNetStop.timeExtent ?? undefined,
+            }
+            break;
+    }
+    return null;
+}
+
 function buildJsFormTemplateElement(dotNetFormTemplateElement: any): Element {
     switch (dotNetFormTemplateElement.type) {
         case 'group':
