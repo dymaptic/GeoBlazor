@@ -712,10 +712,11 @@ export function buildDotNetRasterStretchRenderer(rasterStretchRenderer: RasterSt
         colorRamp: rasterStretchRenderer.colorRamp,
         computeGamma: rasterStretchRenderer.computeGamma,
         dynamicRangeAdjustment: rasterStretchRenderer.dynamicRangeAdjustment,
+        statistics: rasterStretchRenderer.statistics,
         gamma: rasterStretchRenderer.gamma,
         outputMax: rasterStretchRenderer.outputMax,
         outputMin: rasterStretchRenderer.outputMin,
-        stretchType: rasterStretchRenderer.stretchType,
-    } as unknown as DotNetRasterStretchRenderer;
+        stretchType: rasterStretchRenderer.stretchType.toString(),
+    }  as any as DotNetRasterStretchRenderer;
 
 }

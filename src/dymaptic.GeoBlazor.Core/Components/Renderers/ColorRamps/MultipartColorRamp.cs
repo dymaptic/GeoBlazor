@@ -19,11 +19,11 @@ public class MultipartColorRamp : ColorRamp
     /// <summary>
     ///     A string value representing the color ramp type.
     /// </summary>
-    //[JsonPropertyName("type")]
     public override ColorRampType ColorRampType => ColorRampType.Multipart;
 
+    /// <summary>
+    ///     Define an array of algorithmic color ramps used to generate the multi part ramp.
+    /// </summary>
     public AlgorithmicColorRamp[]? ColorRamps { get; set; }
-
-    /// <inheritdoc />
     
 }

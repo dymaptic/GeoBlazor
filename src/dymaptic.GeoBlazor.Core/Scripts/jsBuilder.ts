@@ -551,31 +551,31 @@ export function buildJsRasterStretchRenderer(dotNetRasterStretchRenderer: DotNet
         rasterStretchRenderer.colorRamp = buildJsColorRamp(dotNetRasterStretchRenderer.colorRamp) as ColorRamp;
     }
     if (hasValue(dotNetRasterStretchRenderer.computeGamma)) {
-        rasterStretchRenderer.computeGamma;
+        rasterStretchRenderer.computeGamma = dotNetRasterStretchRenderer.computeGamma;
     }
     if (hasValue(dotNetRasterStretchRenderer.dynamicRangeAdjustment)) {
-        rasterStretchRenderer.dynamicRangeAdjustment;
+        rasterStretchRenderer.dynamicRangeAdjustment = dotNetRasterStretchRenderer.dynamicRangeAdjustment;
     }
     if (hasValue(dotNetRasterStretchRenderer.gamma)) {
-        rasterStretchRenderer.gamma;
+        rasterStretchRenderer.gamma = dotNetRasterStretchRenderer.gamma;
     }
     if (hasValue(dotNetRasterStretchRenderer.useGamma)) {
-        rasterStretchRenderer.useGamma;
+        rasterStretchRenderer.useGamma = dotNetRasterStretchRenderer.useGamma;
     }
     if (hasValue(dotNetRasterStretchRenderer.outputMax)) {
-        rasterStretchRenderer.outputMax;
+        rasterStretchRenderer.outputMax = dotNetRasterStretchRenderer.outputMax;
     }
     if (hasValue(dotNetRasterStretchRenderer.outputMin)) {
-        rasterStretchRenderer.outputMin;
+        rasterStretchRenderer.outputMin = dotNetRasterStretchRenderer.outputMin;
     }
     if (hasValue(dotNetRasterStretchRenderer.stretchType)) {
-        rasterStretchRenderer.stretchType;
+        rasterStretchRenderer.stretchType = dotNetRasterStretchRenderer.stretchType;
     }
     if (hasValue(dotNetRasterStretchRenderer.statistics)) {
-        rasterStretchRenderer.statistics;
+        rasterStretchRenderer.statistics = dotNetRasterStretchRenderer.statistics;
     }
     if (hasValue(dotNetRasterStretchRenderer.numberOfStandardDeviations)) {
-        rasterStretchRenderer.numberOfStandardDeviations;
+        rasterStretchRenderer.numberOfStandardDeviations = dotNetRasterStretchRenderer.numberOfStandardDeviations;
     }
     return rasterStretchRenderer;
 }

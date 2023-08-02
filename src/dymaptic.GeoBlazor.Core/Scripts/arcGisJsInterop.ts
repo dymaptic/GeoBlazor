@@ -2129,9 +2129,16 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
                 title: layerObject.title
             });
             let wcsLayer = newLayer as WCSLayer;
-            // need to implement class breaks renderer
-            if (hasValue(layerObject.renderer) && (layerObject.renderer.rendererType == 'raster-stretch')) {
+            
+            if (hasValue(layerObject.renderer) && (layerObject.renderer.type == 'raster-stretch')) {
                 wcsLayer.renderer = buildJsRasterStretchRenderer(layerObject.renderer) as RasterStretchRenderer;
+
+                if (hasValue(layerObject.renderer.stretchType)) {
+                    wcsLayer.renderer.stretchType = layerObject.renderer.stretchType;
+                }
+                if (hasValue(layerObject.renderer.statistics)) {
+                    wcsLayer.renderer.statistics = layerObject.renderer.statistics;
+                }
             }
             if (hasValue(layerObject.multidimensionalDefinition) && layerObject.multidimensionalDefinition.length > 0) {
                 wcsLayer.multidimensionalDefinition = [];
@@ -2152,14 +2159,10 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
                     }
                     wcsLayer.multidimensionalDefinition.push(wcsMDD);
                 }
-                //wcsLayer.multidimensionalDefinition[] = new DimensionalDefinition();
             }
+            copyValuesIfExists(layerObject, 'bandIds', 'copyright', 'coverageId', 'coverageInfo', 'customParameters', 'fields', 'interpolation', 'maxScale', 'minscale', 'rasterInfo');
 
-/*            wcsLayer.renderer = buildJsRenderer(layerObject.renderer) as unknown as RasterStretchRenderer;*/
-            copyValuesIfExists(layerObject, wcsLayer, 'bandIds', 'copyright', 'coverageId', 'coverageInfo', 'customParameters', 'fields', 'interpolation', 'maxScale', 'minscale', 'rasterInfo');
-            
             newLayer = wcsLayer;
-
             break;
          default:
             return null;

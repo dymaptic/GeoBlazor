@@ -63,8 +63,12 @@ public class WCSLayer : Layer
 
     public string? Title { get; set; }
     /// <summary>
-    ///     The renderer assigned to the layer.
+    ///     The renderer assigned to the layer. The renderer defines how to visualize pixels in the WCSLayer. 
+    ///     Depending on the renderer type, the pixels may be stretched across the color ramp or classified.
+    ///     Currently, only the RasterStretchRenderer has been implemented, ClassBreaksRenderer will be implemented
+    ///     in the future.
     /// </summary>
+    // Class Breaks renderer still needs to be added to this layer for a classified pixel render.
     public RasterStretchRenderer Renderer { get; set; }
 
     /// <inheritdoc />

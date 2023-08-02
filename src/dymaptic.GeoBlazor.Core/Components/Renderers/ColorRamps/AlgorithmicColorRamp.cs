@@ -22,7 +22,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Renderers.ColorRamps;
 /// </summary>
 public class AlgorithmicColorRamp : ColorRamp
 {
-    //public AlgorithmicColorRamp() { }
+
     /// <summary>
     ///     A string value representing the color ramp type.
     /// </summary>
@@ -53,18 +53,3 @@ public enum Algorithm
     LabLch,
     Hsv
 }
-
-//internal class AlgorithmConverter : JsonConverter<Algorithm>
-//{
-//    public override Algorithm Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-//    {
-//        throw new NotImplementedException();
-//    }
-
-//    public override void Write(Utf8JsonWriter writer, Algorithm value, JsonSerializerOptions options)
-//    {
-//        string? stringVal = Enum.GetName(typeof(Algorithm), value);
-//        string resultString = stringVal!.ToKebabCase();
-//        writer.WriteRawValue($"\"{resultString}\"");
-//    }
-//}

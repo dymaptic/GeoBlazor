@@ -13,7 +13,10 @@ using System.Threading.Tasks;
 namespace dymaptic.GeoBlazor.Core.Components.Renderers;
 
 /// <summary>
-///     RasterStretchRenderer defines the symbology with a gradual ramp of colors for each pixel in a ImageryLayer, ImageryTileLayer, and WCSLayer based on the pixel value. The RasterStretchRenderer works well when you have a large range of values to display, such as in imagery, aerial photographs, or elevation models.
+///     RasterStretchRenderer defines the symbology with a gradual ramp of colors for each pixel in a ImageryLayer, ImageryTileLayer,
+///     and WCSLayer based on the pixel value. The RasterStretchRenderer works well when you have a large range of values to display,
+///     such as in imagery, aerial photographs, or elevation models. Important to note that RasterStretchRenderer does not inherit from
+///     Renderer class.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-RasterStretchRenderer.html">
 ///         ArcGIS
 ///         JS API
@@ -26,9 +29,7 @@ public class RasterStretchRenderer : LayerObject
 
     /// <inheritdoc />
     [JsonPropertyName("type")]
-    public static string Type => "raster-stretch";
-
-    //public override RendererType RendererType => RendererType.RasterStretch;
+    public string Type => "raster-stretch";
 
     public MultipartColorRamp? ColorRamp { get; set; }
 
@@ -63,12 +64,12 @@ public class RasterStretchRenderer : LayerObject
     public StretchType StretchType { get; set; }
 
     /// <summary>
-    /// 
+    ///     The input statistics can be specified through the statistics property.
     /// </summary>
     public List<List<int>>? Statistics { get; set; }
-    
+
     /// <summary>
-    /// 
+    ///     Denotes whether the gamma value should be used.
     /// </summary>
     public bool? UseGamma { get; set; }
     
