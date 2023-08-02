@@ -110,6 +110,7 @@ import ComboBoxInput from "@arcgis/core/form/elements/inputs/ComboBoxInput";
 import RadioButtonsInput from "@arcgis/core/form/elements/inputs/RadioButtonsInput";
 import SwitchInput from "@arcgis/core/form/elements/inputs/SwitchInput";
 import Domain from "@arcgis/core/layers/support/Domain";
+import * as reactiveUtils from "@arcgis/core/core/reactiveUtils";
 
 
 export function buildJsSpatialReference(dotNetSpatialReference: DotNetSpatialReference): SpatialReference {
@@ -260,9 +261,12 @@ export function buildJsPopupTemplate(popupTemplateObject: DotNetPopupTemplate, v
                 if (hasValue(templateTriggerActionHandler)) {
                     templateTriggerActionHandler.remove();
                 }
-                templateTriggerActionHandler = view.popup.on("trigger-action", async (event: PopupTriggerActionEvent) => {
-                    await popupTemplateObject.dotNetPopupTemplateReference.invokeMethodAsync("OnTriggerAction", event.action.id);
-                });
+                reactiveUtils.once(() => view.popup.on !== undefined)
+                    .then(() => {
+                        templateTriggerActionHandler = view.popup.on("trigger-action", async (event: PopupTriggerActionEvent) => {
+                            await popupTemplateObject.dotNetPopupTemplateReference.invokeMethodAsync("OnTriggerAction", event.action.id);
+                        });
+                    })
             }
             catch (error) {
                 console.debug(error);
@@ -727,9 +731,9 @@ export function buildJsQuery(dotNetQuery: DotNetQuery): Query {
         where: dotNetQuery.where ?? "1=1",
         spatialRelationship: dotNetQuery.spatialRelationship as any ?? "intersects",
         distance: dotNetQuery.distance ?? undefined,
-        units: dotNetQuery.units as any ?? null,
+        units: dotNetQuery.units as any ?? undefined,
         returnGeometry: dotNetQuery.returnGeometry ?? false,
-        outFields: dotNetQuery.outFields ?? null,
+        outFields: dotNetQuery.outFields ?? undefined,
         orderByFields: dotNetQuery.orderByFields ?? undefined,
         outStatistics: dotNetQuery.outStatistics ?? undefined,
         groupByFieldsForStatistics: dotNetQuery.groupByFieldsForStatistics ?? undefined,
@@ -748,7 +752,7 @@ export function buildJsQuery(dotNetQuery: DotNetQuery): Query {
         having: dotNetQuery.having ?? undefined,
         historicMoment: dotNetQuery.historicMoment ?? undefined,
         maxRecordCountFactor: dotNetQuery.maxRecordCountFactor ?? 1,
-        text: dotNetQuery.text ?? null,
+        text: dotNetQuery.text ?? undefined,
         parameterValues: dotNetQuery.parameterValues ?? undefined,
         quantizationParameters: dotNetQuery.quantizationParameters ?? undefined,
         rangeValues: dotNetQuery.rangeValues ?? undefined,
