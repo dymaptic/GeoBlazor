@@ -7,7 +7,7 @@
     <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html">ArcGIS API for JavaScript</a>
     <a class="btn btn-primary" target="_blank" href="something">NOAA Sea Surface Temperature Charts</a>
 </div>
-<Label>Add the sample WCS Layer URL to see a visualization of global sea surface temperature data with or without color rendering:</Label>
+<Label>Add the sample WCS Layer URL to see a visualization of global sea surface temperature data with or without color rendering using the RasterStretch:</Label>
 <InputText @bind-Value="_wcsLayerUrl"></InputText>
 <button disabled="@(!_mapRendered)" @onclick="(()=>AddRemoveWCSLayer())">Add/Remove the WCS Layer with color ramp enabled</button>
 <button disabled="@(!_mapRendered)" @onclick="(()=>_markup = !_markup)">Add/Remove new WCS Layer in Markup without colorizing</button>
@@ -18,7 +18,6 @@
         {
             <WCSLayer Url="https://sampleserver6.arcgisonline.com/arcgis/services/ScientificData/SeaTemperature/ImageServer/WCSServer?request=GetCapabilities&service=WCS"></WCSLayer>
         }
-
 
     </Map>
 </MapView>
@@ -84,19 +83,19 @@
                 FromColor = new MapColor( 0, 0, 255 ),
                 ToColor = new MapColor ( 0, 255, 255 )
             };
-        //multipartColorRamp.ColorRamps?.Append(toFromColor1);
+
         var toFromColor2 = new AlgorithmicColorRamp
             {
                 FromColor = new MapColor ( 0, 255, 255 ),
                 ToColor = new MapColor ( 255, 255, 0 )
             };
-        //multipartColorRamp.ColorRamps?.Append(toFromColor2);
+
         var toFromColor3 = new AlgorithmicColorRamp
             {
                 FromColor = new MapColor ( 255, 255, 0 ),
                 ToColor = new MapColor ( 255, 0, 0 )
             };
-        //multipartColorRamp.ColorRamps?.Append(toFromColor3);
+
 
         // Builds the multipart color ramp
         var colorRamp = new MultipartColorRamp
@@ -109,31 +108,17 @@
                 }
             };
 
-        // initializes the colorRamp for the renderer, the color ramp contains the type and specific colorizing details from the MultipartColorRamp collection for the renderer
-        // var colorRamp = new ColorRamp
-        //     {
-
-        //         ColorRamps = multipartColorRamp
-
-        //     };
-        //finalizes the renderer with all the color ramp values
-        //displayRenderer.ColorRamp = colorRamp;
         displayRenderer.ColorRamp = colorRamp;
         return displayRenderer;
     }
 
     private AlgorithmicColorRamp[]? _colorRampsList;
     private MultipartColorRamp? multipartColorRamp;
-
-    
-
     private MapView _view;
     private bool _markup = false;
     private bool _visible = false;
     private bool _mapRendered = false;
 
-
-    //private string _wcsLayerUrl = "https://sampleserver6.arcgisonline.com/arcgis/services/ScientificData/SeaTemperature/ImageServer/WCSServer";
     private string _wcsLayerUrl2 = "https://sampleserver6.arcgisonline.com/arcgis/services/ScientificData/SeaTemperature/ImageServer/WCSServer";
     private string _wcsLayerUrl = "https://sampleserver6.arcgisonline.com/arcgis/services/ScientificData/SeaTemperature/ImageServer/WCSServer?request=GetCapabilities&service=WCS";
 }
