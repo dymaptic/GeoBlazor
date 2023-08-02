@@ -88,6 +88,7 @@ import {
     buildJsColorRamp,
     buildJsAlgorithmicColorRamp,
     buildJSMultipartColorRamp,
+    buildJsRasterStretchRenderer
 } from "./jsBuilder";
 import {
     DotNetExtent,
@@ -2129,8 +2130,8 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             });
             let wcsLayer = newLayer as WCSLayer;
             // need to implement class breaks renderer
-            if (hasValue(layerObject.renderer) && (layerObject.renderer.renderType == 'raster-stretch')) {
-                wcsLayer.renderer = buildJsRenderer(layerObject.renderer) as any as RasterStretchRenderer;
+            if (hasValue(layerObject.renderer) && (layerObject.renderer.rendererType == 'raster-stretch')) {
+                wcsLayer.renderer = buildJsRasterStretchRenderer(layerObject.renderer) as RasterStretchRenderer;
             }
             if (hasValue(layerObject.multidimensionalDefinition) && layerObject.multidimensionalDefinition.length > 0) {
                 wcsLayer.multidimensionalDefinition = [];

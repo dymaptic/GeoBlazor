@@ -534,10 +534,13 @@ export interface DotNetRasterStretchRenderer {
     colorRamp: DotNetColorRamp;
     computeGamma: boolean;
     dynamicRangeAdjustment: boolean;
+    statistics: [number[]];
     gamma: number[];
+    useGamma: boolean;
     outputMax: number;
     outputMin: number;
     stretchType: string;
+    numberOfStandardDeviations: number;
 }
 
 export interface DotNetColorRamp {

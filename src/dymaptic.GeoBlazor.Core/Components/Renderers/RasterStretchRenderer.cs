@@ -1,4 +1,5 @@
-﻿using dymaptic.GeoBlazor.Core.Components.Renderers.ColorRamps;
+﻿using dymaptic.GeoBlazor.Core.Components.Layers;
+using dymaptic.GeoBlazor.Core.Components.Renderers.ColorRamps;
 using dymaptic.GeoBlazor.Core.Extensions;
 using dymaptic.GeoBlazor.Core.Serialization;
 using System;
@@ -19,15 +20,15 @@ namespace dymaptic.GeoBlazor.Core.Components.Renderers;
 ///     </a>
 /// </summary>
 /// 
-public class RasterStretchRenderer : Renderer
+public class RasterStretchRenderer : LayerObject
 {
     public RasterStretchRenderer() { }
 
     /// <inheritdoc />
-    //[JsonPropertyName("type")]
-    //public string Type => "raster-stretch";
+    [JsonPropertyName("type")]
+    public static string Type => "raster-stretch";
 
-    public override RendererType RendererType => RendererType.RasterStretch;
+    //public override RendererType RendererType => RendererType.RasterStretch;
 
     public MultipartColorRamp? ColorRamp { get; set; }
 

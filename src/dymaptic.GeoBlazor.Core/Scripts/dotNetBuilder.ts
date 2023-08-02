@@ -693,16 +693,16 @@ export function buildDotNetMultipartColorRamp(multipartColorRamp: MultipartColor
     return {
         type: multipartColorRamp.type,
         colorRamps: (multipartColorRamp.colorRamps as AlgorithmicColorRamp[])?.map(c => buildDotNetAlgorithmicColorRamp(c))
-    } as unknown as DotNetMultiPartColorRamp;
+    } as any as DotNetMultiPartColorRamp;
 }
 
 // template.content = (popupTemplate.content as any[])?.map(c => buildDotNetPopupContent(c));
 export function buildDotNetColorRamp(colorRamp: ColorRamp): any | null {
     if (colorRamp === null) return null;
     return {
-        //type: colorRamp.type,
-        colorRamps: (colorRamp.colorRamps as MultipartColorRamp[])?.map(c => buildDotNetMultipartColorRamp(c))
-    } as DotNetColorRamp;
+        type: colorRamp.type,
+        colorRamps: colorRamp.colorRamps as MultipartColorRamp
+    } as any as DotNetColorRamp;
 }
 
 export function buildDotNetRasterStretchRenderer(rasterStretchRenderer: RasterStretchRenderer): any | null {

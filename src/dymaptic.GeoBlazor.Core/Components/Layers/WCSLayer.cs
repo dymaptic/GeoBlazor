@@ -61,7 +61,7 @@ public class WCSLayer : Layer
     /// </summary>
     public List<DimensionalDefinition>? MultidimensionalDefinition { get; set; }
 
-    public string Title { get; set; }
+    public string? Title { get; set; }
     /// <summary>
     ///     The renderer assigned to the layer.
     /// </summary>

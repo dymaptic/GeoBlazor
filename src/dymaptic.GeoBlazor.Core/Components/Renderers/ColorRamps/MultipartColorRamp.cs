@@ -22,7 +22,7 @@ public class MultipartColorRamp : ColorRamp
     //[JsonPropertyName("type")]
     public override ColorRampType ColorRampType => ColorRampType.Multipart;
 
-    public AlgorithmicColorRamp[]? AlgorithmicColorRamps { get; set; }
+    public AlgorithmicColorRamp[]? ColorRamps { get; set; }
 
     /// <inheritdoc />
     

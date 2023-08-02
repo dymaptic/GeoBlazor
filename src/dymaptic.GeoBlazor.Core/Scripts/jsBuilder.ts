@@ -539,43 +539,45 @@ export function buildJsRenderer(dotNetRenderer: any): Renderer | null {
             simpleRenderer.symbol = buildJsSymbol(dotNetSymbol) as Symbol;
             simpleRenderer.authoringInfo = dotNetRenderer.authoringInfo;
             return simpleRenderer;
-
-        case 'raster-stretch':
-            let rasterStretchrenderer = new RasterStretchRenderer();
-
-            if (hasValue(dotNetRenderer.colorRamp)) {
-                rasterStretchrenderer.colorRamp = buildJsColorRamp(dotNetRenderer.colorRamp) as ColorRamp;
-            }
-            if (hasValue(dotNetRenderer.computeGamma)) {
-                rasterStretchrenderer.computeGamma;
-            }
-            if (hasValue(dotNetRenderer.gamma)) {
-                rasterStretchrenderer.gamma;
-            }
-            if (hasValue(dotNetRenderer.useGamma)) {
-                rasterStretchrenderer.useGamma;
-            }
-            if (hasValue(dotNetRenderer.outputMax)) {
-                rasterStretchrenderer.outputMax;
-            }
-            if (hasValue(dotNetRenderer.outputMin)) {
-                rasterStretchrenderer.outputMin;
-            }
-            if (hasValue(dotNetRenderer.stretchType)) {
-                rasterStretchrenderer.stretchType;
-            }
-            if (hasValue(dotNetRenderer.statistics)) {
-                rasterStretchrenderer.statistics;
-            }
-            if (hasValue(dotNetRenderer.numberOfStandardDeviations)) {
-                rasterStretchrenderer.numberOfStandardDeviations;
-            }
-
-            return rasterStretchrenderer;
-
     }
-
     return dotNetRenderer
+}
+
+export function buildJsRasterStretchRenderer(dotNetRasterStretchRenderer: DotNetRasterStretchRenderer): RasterStretchRenderer | null {
+    if (dotNetRasterStretchRenderer === undefined) return null;
+    let rasterStretchRenderer = new RasterStretchRenderer();
+
+    if (hasValue(dotNetRasterStretchRenderer.colorRamp)) {
+        rasterStretchRenderer.colorRamp = buildJsColorRamp(dotNetRasterStretchRenderer.colorRamp) as ColorRamp;
+    }
+    if (hasValue(dotNetRasterStretchRenderer.computeGamma)) {
+        rasterStretchRenderer.computeGamma;
+    }
+    if (hasValue(dotNetRasterStretchRenderer.dynamicRangeAdjustment)) {
+        rasterStretchRenderer.dynamicRangeAdjustment;
+    }
+    if (hasValue(dotNetRasterStretchRenderer.gamma)) {
+        rasterStretchRenderer.gamma;
+    }
+    if (hasValue(dotNetRasterStretchRenderer.useGamma)) {
+        rasterStretchRenderer.useGamma;
+    }
+    if (hasValue(dotNetRasterStretchRenderer.outputMax)) {
+        rasterStretchRenderer.outputMax;
+    }
+    if (hasValue(dotNetRasterStretchRenderer.outputMin)) {
+        rasterStretchRenderer.outputMin;
+    }
+    if (hasValue(dotNetRasterStretchRenderer.stretchType)) {
+        rasterStretchRenderer.stretchType;
+    }
+    if (hasValue(dotNetRasterStretchRenderer.statistics)) {
+        rasterStretchRenderer.statistics;
+    }
+    if (hasValue(dotNetRasterStretchRenderer.numberOfStandardDeviations)) {
+        rasterStretchRenderer.numberOfStandardDeviations;
+    }
+    return rasterStretchRenderer;
 }
 
 export function buildJsColorRamp(dotNetColorRamp: any): ColorRamp | null {
