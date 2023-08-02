@@ -75,46 +75,6 @@ public class RasterStretchRenderer : LayerObject
     
     public int? NumberOfStandardDeviations { get; set; }
 
-    //public override async Task RegisterChildComponent(MapComponent child)
-    //{
-    //    switch (child)
-    //    {
-    //        case ColorRamp colorRamp:
-    //            if (!colorRamp.Equals(ColorRamp))
-    //            {
-    //                ColorRamp = colorRamp;
-    //                LayerChanged = true;
-    //            }
-    //            break;
-    //        default:
-    //            await base.RegisterChildComponent(child);
-
-    //            break;
-    //    }
-    //}
-    ///// <inheritdoc />
-    //public override async Task UnregisterChildComponent(MapComponent child)
-    //{
-    //    switch (child)
-    //    {
-    //        case ColorRamp _:
-    //            ColorRamp = null;
-    //            LayerChanged = true;
-    //            break;
-    //        default:
-    //            await base.UnregisterChildComponent(child);
-
-    //            break;
-    //    }
-    //}
-    ///// <inheritdoc />
-    //internal override void ValidateRequiredChildren()
-    //{
-    //    ColorRamp?.ValidateRequiredChildren();
-    //    base.ValidateRequiredChildren();
-    //}
-
-
 }
 
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<StretchType>))]
@@ -128,17 +88,3 @@ public enum StretchType
     Sigmoid
 }
 
-//internal class StretchTypeConverter : JsonConverter<StretchType>
-//{
-//    public override StretchType Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-//    {
-//        throw new NotImplementedException();
-//    }
-
-//    public override void Write(Utf8JsonWriter writer, StretchType value, JsonSerializerOptions options)
-//    {
-//        string? stringVal = Enum.GetName(typeof(StretchType), value);
-//        string resultString = stringVal!.ToKebabCase();
-//        writer.WriteRawValue($"\"{resultString}\"");
-//    }
-//}

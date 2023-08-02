@@ -16,6 +16,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Renderers.ColorRamps;
 public class MultipartColorRamp : ColorRamp
 {
     public MultipartColorRamp() { }
+
     /// <summary>
     ///     A string value representing the color ramp type.
     /// </summary>

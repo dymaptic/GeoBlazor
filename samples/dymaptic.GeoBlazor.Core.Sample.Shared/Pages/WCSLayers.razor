@@ -8,7 +8,7 @@
     <a class="btn btn-primary" target="_blank" href="something">NOAA Sea Surface Temperature Charts</a>
 </div>
 <Label>Add the sample WCS Layer URL to see a visualization of global sea surface temperature data with or without color rendering using the RasterStretch:</Label>
-<InputText @bind-Value="_wcsLayerUrl"></InputText>
+<br />
 <button disabled="@(!_mapRendered)" @onclick="(()=>AddRemoveWCSLayer())">Add/Remove the WCS Layer with color ramp enabled</button>
 <button disabled="@(!_mapRendered)" @onclick="(()=>_markup = !_markup)">Add/Remove new WCS Layer in Markup without colorizing</button>
 
@@ -72,7 +72,7 @@
         // This initializes the renderer as a standard deviation type
         var displayRenderer = new RasterStretchRenderer
             {
-                
+
                 StretchType = StretchType.StandardDeviation,
                 Statistics = new List<List<int>>{ new List<int> { -3, 37, 1, 1 } },
                 NumberOfStandardDeviations = 3
@@ -112,13 +112,10 @@
         return displayRenderer;
     }
 
-    private AlgorithmicColorRamp[]? _colorRampsList;
-    private MultipartColorRamp? multipartColorRamp;
+
+
     private MapView _view;
     private bool _markup = false;
-    private bool _visible = false;
     private bool _mapRendered = false;
-
-    private string _wcsLayerUrl2 = "https://sampleserver6.arcgisonline.com/arcgis/services/ScientificData/SeaTemperature/ImageServer/WCSServer";
     private string _wcsLayerUrl = "https://sampleserver6.arcgisonline.com/arcgis/services/ScientificData/SeaTemperature/ImageServer/WCSServer?request=GetCapabilities&service=WCS";
 }

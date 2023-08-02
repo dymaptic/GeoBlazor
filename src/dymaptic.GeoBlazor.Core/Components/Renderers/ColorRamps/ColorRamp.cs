@@ -18,11 +18,13 @@ namespace dymaptic.GeoBlazor.Core.Components.Renderers.ColorRamps;
 public abstract class ColorRamp
 {
     public ColorRamp() { }
+
     /// <summary>
     ///     A string value representing the color ramp type.  Possible Values:"algorithmic"|"multipart"
     /// </summary>
     [JsonPropertyName("type")]
     public abstract ColorRampType ColorRampType { get; }
+
     /// <summary>
     ///     Define an array of algorithmic color ramps used to generate the multi part ramp.
     /// </summary>

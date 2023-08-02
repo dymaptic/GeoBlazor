@@ -28,13 +28,13 @@ public class WCSLayer : Layer
     public WCSLayer()
     {
     }
+
     /// <summary>
     ///     Constructor for use in code
     /// </summary>
     /// <param name="url">
     ///     The url for the WCS Layer source data.
     /// </param>
-
     public WCSLayer(string? url = null, PortalItem? portalItem = null)
     {
         if (url is null && portalItem is null)
@@ -56,12 +56,14 @@ public class WCSLayer : Layer
     /// </summary>
     [RequiredProperty(nameof(Url))]
     public PortalItem? PortalItem { get; set; }
+
     /// <summary>
     ///     The multidimensional definitions associated with the layer.
     /// </summary>
     public List<DimensionalDefinition>? MultidimensionalDefinition { get; set; }
 
     public string? Title { get; set; }
+
     /// <summary>
     ///     The renderer assigned to the layer. The renderer defines how to visualize pixels in the WCSLayer. 
     ///     Depending on the renderer type, the pixels may be stretched across the color ramp or classified.

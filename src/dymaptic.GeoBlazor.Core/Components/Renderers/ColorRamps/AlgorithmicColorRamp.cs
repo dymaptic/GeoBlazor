@@ -32,19 +32,21 @@ public class AlgorithmicColorRamp : ColorRamp
     /// <summary>
     ///     The algorithm used to generate the colors between the fromColor and toColor.
     /// </summary>
-
     public Algorithm Algorithm { get; set; }
+
     /// <summary>
     ///     The first color in the color ramp.
     /// </summary>
     public MapColor? FromColor { get; set; }
+
     /// <summary>
     ///     The last color in the color ramp.
     /// </summary>
     public MapColor? ToColor { get; set; }
 }
 /// <summary>
-/// The algorithm used to generate the colors between the fromColor and toColor. Each algorithm uses different methods for generating the intervening colors.
+///     The algorithms used to generate the colors between the fromColor and toColor. Each algorithm uses different methods for generating the intervening colors.
+///     Read more in the link above.
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<Algorithm>))]
 public enum Algorithm
