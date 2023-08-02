@@ -34,3 +34,13 @@ export function assertKmlLayerExists(viewId) {
 export function testThrow() {
     throw new Error("Test throw");
 }
+
+export async function assertPopupCallback(viewId, layerId) {
+    let view = arcGisObjectRefs[viewId];
+    let layer = view.map.layers.items[0];
+    let featureSet = await layer.queryFeatures();
+    view.popup.open({
+        features: [ featureSet.features[0] ]
+    });
+    view.popup.triggerAction(0);
+}
