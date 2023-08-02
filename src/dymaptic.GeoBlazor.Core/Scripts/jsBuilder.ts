@@ -1199,3 +1199,27 @@ export function buildJsEffect(dnEffect: any): any {
         return dnEffect.value;
     }
 }
+
+export function buildJsTickConfigs(dotNetTickConfig: any): any {
+    if (dotNetTickConfig === undefined || dotNetTickConfig === null) return null;
+
+    let tickCreatedFunction = null;
+    if (dotNetTickConfig.tickCreatedFunction != null) {
+        tickCreatedFunction = eval(dotNetTickConfig.tickCreatedFunction);
+    }
+
+    let labelFormatFunction = null;
+    if (dotNetTickConfig.labelFormatFunction != null) {
+        labelFormatFunction = eval(dotNetTickConfig.labelFormatFunction);
+    }
+
+    let tickConfig = {
+        mode: dotNetTickConfig.mode ?? undefined,
+        count: dotNetTickConfig.count ?? undefined,
+        values: dotNetTickConfig.values ?? undefined,
+        labelsVisible: dotNetTickConfig.labelsVisible ?? undefined,
+        tickCreatedFunction: tickCreatedFunction ?? undefined,
+        labelFormatFunction: labelFormatFunction ?? undefined
+    }
+    return tickConfig;
+}
