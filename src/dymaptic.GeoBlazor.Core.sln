@@ -24,8 +24,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dymaptic.GeoBlazor.Core.Sam
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dymaptic.GeoBlazor.Core.Sample.ServerOAuth", "..\samples\dymaptic.GeoBlazor.Core.Sample.ServerOAuth\dymaptic.GeoBlazor.Core.Sample.ServerOAuth.csproj", "{3DED106E-5ED1-4506-87CA-50C40465D6A1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dymaptic.GeoBlazor.Core.Test.Blazor", "..\tests\dymaptic.GeoBlazor.Core.Test.Blazor\dymaptic.GeoBlazor.Core.Test.Blazor.csproj", "{FACB8396-34A0-4BB0-98B0-463BC26BE349}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dymaptic.GeoBlazor.Core.Test.Blazor.Server", "..\test\dymaptic.GeoBlazor.Core.Test.Blazor.Server\dymaptic.GeoBlazor.Core.Test.Blazor.Server.csproj", "{915558F0-1755-42D9-81EC-805774ECEB42}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dymaptic.GeoBlazor.Core.Test.Blazor.Shared", "..\test\dymaptic.GeoBlazor.Core.Test.Blazor.Shared\dymaptic.GeoBlazor.Core.Test.Blazor.Shared.csproj", "{41CD66DB-1487-4F37-B2C6-3DB569116E89}"
@@ -72,10 +70,6 @@ Global
 		{3DED106E-5ED1-4506-87CA-50C40465D6A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3DED106E-5ED1-4506-87CA-50C40465D6A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3DED106E-5ED1-4506-87CA-50C40465D6A1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FACB8396-34A0-4BB0-98B0-463BC26BE349}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FACB8396-34A0-4BB0-98B0-463BC26BE349}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FACB8396-34A0-4BB0-98B0-463BC26BE349}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FACB8396-34A0-4BB0-98B0-463BC26BE349}.Release|Any CPU.Build.0 = Release|Any CPU
 		{915558F0-1755-42D9-81EC-805774ECEB42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{915558F0-1755-42D9-81EC-805774ECEB42}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{915558F0-1755-42D9-81EC-805774ECEB42}.Release|Any CPU.ActiveCfg = Release|Any CPU
