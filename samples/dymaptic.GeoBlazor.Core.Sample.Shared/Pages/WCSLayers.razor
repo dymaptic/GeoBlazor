@@ -36,7 +36,7 @@
                 Url = _wcsLayerUrl,
                 Renderer = CreateRenderer(),
                 MultidimensionalDefinition = CreateDimensionalDefinition(),
-                //Opacity = 1,
+                Opacity = 0.5,
                 Title = "Sea temperature - sea level"
             };
 
@@ -53,14 +53,18 @@
 
     }
 
-    public DimensionalDefinition CreateDimensionalDefinition()
+    public List<DimensionalDefinition> CreateDimensionalDefinition()
     {
         // initializes the dimensional filter for the raster display
-        DimensionalDefinition? multidimensionalDefinition = new DimensionalDefinition()
+        List<DimensionalDefinition>? multidimensionalDefinition = new()
             {
-                VariableName = "water_temp", // water temp at sea level
-                DimensionName = "StdZ",
-                Values = new List<int> { 0 }
+                new()
+                {
+                    VariableName = "water_temp", // water temp at sea level
+                    DimensionName = "StdZ",
+                    Values = new List<int> { 0 }
+                }
+
             };
         return multidimensionalDefinition;
     }
@@ -71,8 +75,9 @@
         // This initializes the renderer as a standard deviation type
         var displayRenderer = new RasterStretchRenderer
             {
+
                 StretchType = StretchType.StandardDeviation,
-                Statistics = new List<int>{-3, 37, 1, 1},
+                Statistics = new List<List<int>>{ new List<int> { -3, 37, 1, 1 } },
                 NumberOfStandardDeviations = 3
             };
 
@@ -96,7 +101,7 @@
         //multipartColorRamp.ColorRamps?.Append(toFromColor3);
 
         // Builds the multipart color ramp
-        MultipartColorRamp? multipartColorRamp = new()
+        var colorRamp = new MultipartColorRamp
             {
                 AlgorithmicColorRamps = new AlgorithmicColorRamp[]
                 {
@@ -107,14 +112,15 @@
             };
 
         // initializes the colorRamp for the renderer, the color ramp contains the type and specific colorizing details from the MultipartColorRamp collection for the renderer
-        var colorRamp = new ColorRamp
-            {
-                Type = "multipart",
-                MultipartColorRamps = multipartColorRamp
+        // var colorRamp = new ColorRamp
+        //     {
 
-            };
+        //         ColorRamps = multipartColorRamp
+
+        //     };
         //finalizes the renderer with all the color ramp values
-        displayRenderer.ColorRamps = colorRamp;
+        //displayRenderer.ColorRamp = colorRamp;
+        displayRenderer.ColorRamp = colorRamp;
         return displayRenderer;
     }
 

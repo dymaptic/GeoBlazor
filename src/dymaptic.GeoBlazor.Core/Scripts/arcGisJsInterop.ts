@@ -2125,56 +2125,37 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
         case 'wcs':
             newLayer = new WCSLayer({
                 url: layerObject.url,
-                //renderer: layerObject.renderer,
-                multidimensionalDefinition: layerObject.multidimensionalDefinition,
                 title: layerObject.title
             });
             let wcsLayer = newLayer as WCSLayer;
-
-            if (hasValue(layerObject.renderer && layerObject.renderer == 'raster-stretch')) {
-                // assembles the color ramps used in a multipart colorramp
-
-                if (hasValue(layerObject.renderer.colorRamps)) {
-                    let wcsAlgorithmicColorRamps = new Array<AlgorithmicColorRamp>();
-                    if (hasValue(layerObject.renderer.colorRamps.multipartColorRamps && layerObject.renderer.colorRamps.multipartColorRamps.algorithmicColorRamps.length > 1)) {
-                        for (const acr of layerObject.renderer.colorRamps.multipartColorRamps.algorithmicColorRamps) {
-                            let singleAlgorithmicColorRamp = buildJsAlgorithmicColorRamp(acr) as AlgorithmicColorRamp;
-                            wcsAlgorithmicColorRamps.push(singleAlgorithmicColorRamp);
-                        }
-                    }
-                    let wcsMultipartColorRamp = buildJSMultipartColorRamp(wcsAlgorithmicColorRamps) as MultipartColorRamp;
-
-                    //let wcsMultipartColorRamp = new MultipartColorRamp();
-                    let wcsColorRamp = buildJsColorRamp({
-                        type: layerObject.renderer.colorRamps.type,
-                        multipartColorRamp: wcsMultipartColorRamp
-                    }) as ColorRamp;
-                    wcsLayer.renderer = buildJsRenderer(layerObject.renderer) as unknown as RasterStretchRenderer;
-                    wcsLayer.renderer.colorRamp = wcsColorRamp;
-                }
-
-            
+            // need to implement class breaks renderer
+            if (hasValue(layerObject.renderer) && (layerObject.renderer.renderType == 'raster-stretch')) {
+                wcsLayer.renderer = buildJsRenderer(layerObject.renderer) as any as RasterStretchRenderer;
             }
-            if (hasValue(layerObject.multidimensionalDefinition)) {
-                let wcsMDD = new DimensionalDefinition;
-                if (hasValue(layerObject.multidimensionalDefinition.VariableName)) {
-                    wcsMDD.variableName = layerObject.multidimensionalDefinition.VariableName;
-                }
-                if (hasValue(layerObject.multidimensionalDefinition.DimensionName)) {
-                    wcsMDD.dimensionName = layerObject.multidimensionalDefinition.DimensionName;
-                }
-                if (hasValue(layerObject.multidimensionalDefinition.Values)) {
-                    wcsMDD.values = layerObject.multidimensionalDefinition.Values;
-                }
-                if (hasValue(layerObject.multidimensionalDefinition.isSlice)) {
-                    wcsMDD.isSlice = layerObject.multidimensionalDefinition.isSlice;
+            if (hasValue(layerObject.multidimensionalDefinition) && layerObject.multidimensionalDefinition.length > 0) {
+                wcsLayer.multidimensionalDefinition = [];
+                for (let i = 0; i < layerObject.multidimensionalDefinition.length; i++) {
+
+                    let wcsMDD = new DimensionalDefinition;
+                    if (hasValue(layerObject.multidimensionalDefinition.VariableName)) {
+                        wcsMDD.variableName = layerObject.multidimensionalDefinition.VariableName;
+                    }
+                    if (hasValue(layerObject.multidimensionalDefinition.DimensionName)) {
+                        wcsMDD.dimensionName = layerObject.multidimensionalDefinition.DimensionName;
+                    }
+                    if (hasValue(layerObject.multidimensionalDefinition.Values)) {
+                        wcsMDD.values = layerObject.multidimensionalDefinition.Values;
+                    }
+                    if (hasValue(layerObject.multidimensionalDefinition.isSlice)) {
+                        wcsMDD.isSlice = layerObject.multidimensionalDefinition.isSlice;
+                    }
+                    wcsLayer.multidimensionalDefinition.push(wcsMDD);
                 }
                 //wcsLayer.multidimensionalDefinition[] = new DimensionalDefinition();
-                wcsLayer.multidimensionalDefinition.push(wcsMDD);
             }
 
 /*            wcsLayer.renderer = buildJsRenderer(layerObject.renderer) as unknown as RasterStretchRenderer;*/
-            copyValuesIfExists(layerObject, wcsLayer, 'bandIds', 'copyright', 'coverageId', 'coverageInfo', 'customParameters', 'fields', 'interpolation', 'maxScale', 'minscale', 'multidimensionalDefinition', 'rasterInfo', 'renderer');
+            copyValuesIfExists(layerObject, wcsLayer, 'bandIds', 'copyright', 'coverageId', 'coverageInfo', 'customParameters', 'fields', 'interpolation', 'maxScale', 'minscale', 'rasterInfo');
             
             newLayer = wcsLayer;
 

@@ -59,7 +59,7 @@ public class WCSLayer : Layer
     /// <summary>
     ///     The multidimensional definitions associated with the layer.
     /// </summary>
-    public DimensionalDefinition? MultidimensionalDefinition { get; set; }
+    public List<DimensionalDefinition>? MultidimensionalDefinition { get; set; }
 
     public string Title { get; set; }
     /// <summary>
@@ -80,9 +80,10 @@ public class WCSLayer : Layer
                 }
                 break;
             case DimensionalDefinition dimensionalDefinition:
-                if (!dimensionalDefinition.Equals(MultidimensionalDefinition))
+                MultidimensionalDefinition ??= new List<DimensionalDefinition>();
+                if (!MultidimensionalDefinition.Contains(dimensionalDefinition))
                 {
-                    MultidimensionalDefinition = dimensionalDefinition;
+                    MultidimensionalDefinition.Add(dimensionalDefinition);
                     LayerChanged = true;
                 }
                 break;
@@ -126,7 +127,14 @@ public class WCSLayer : Layer
     internal override void ValidateRequiredChildren()
     {
         PortalItem?.ValidateRequiredChildren();
-        MultidimensionalDefinition?.ValidateRequiredChildren();
+        if (MultidimensionalDefinition != null)
+        {
+            foreach (var definition in MultidimensionalDefinition)
+            {
+                definition.ValidateRequiredChildren();
+            }
+        }
+        
         Renderer?.ValidateRequiredChildren();
         base.ValidateRequiredChildren();
     }

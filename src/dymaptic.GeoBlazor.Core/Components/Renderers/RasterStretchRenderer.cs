@@ -25,11 +25,11 @@ public class RasterStretchRenderer : Renderer
 
     /// <inheritdoc />
     //[JsonPropertyName("type")]
-    //public string Type { get; set; }
+    //public string Type => "raster-stretch";
 
     public override RendererType RendererType => RendererType.RasterStretch;
 
-    public ColorRamp? ColorRamps { get; set; }
+    public MultipartColorRamp? ColorRamp { get; set; }
 
     /// <summary>
     ///     The computeGamma automatically calculates best gamma value to render exported image based on empirical model. This is applicable to any stretch type when useGamma is true.
@@ -64,7 +64,7 @@ public class RasterStretchRenderer : Renderer
     /// <summary>
     /// 
     /// </summary>
-    public List<int>? Statistics { get; set; }
+    public List<List<int>>? Statistics { get; set; }
     
     /// <summary>
     /// 
@@ -72,6 +72,46 @@ public class RasterStretchRenderer : Renderer
     public bool? UseGamma { get; set; }
     
     public int? NumberOfStandardDeviations { get; set; }
+
+    //public override async Task RegisterChildComponent(MapComponent child)
+    //{
+    //    switch (child)
+    //    {
+    //        case ColorRamp colorRamp:
+    //            if (!colorRamp.Equals(ColorRamp))
+    //            {
+    //                ColorRamp = colorRamp;
+    //                LayerChanged = true;
+    //            }
+    //            break;
+    //        default:
+    //            await base.RegisterChildComponent(child);
+
+    //            break;
+    //    }
+    //}
+    ///// <inheritdoc />
+    //public override async Task UnregisterChildComponent(MapComponent child)
+    //{
+    //    switch (child)
+    //    {
+    //        case ColorRamp _:
+    //            ColorRamp = null;
+    //            LayerChanged = true;
+    //            break;
+    //        default:
+    //            await base.UnregisterChildComponent(child);
+
+    //            break;
+    //    }
+    //}
+    ///// <inheritdoc />
+    //internal override void ValidateRequiredChildren()
+    //{
+    //    ColorRamp?.ValidateRequiredChildren();
+    //    base.ValidateRequiredChildren();
+    //}
+
 
 }
 

@@ -1,4 +1,5 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Renderers.ColorRamps;
+using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
 using System.Text.Json.Serialization;
 
@@ -14,22 +15,27 @@ namespace dymaptic.GeoBlazor.Core.Components.Renderers.ColorRamps;
 ///         JS API
 ///     </a>
 /// </summary>
-public class ColorRamp 
+public abstract class ColorRamp
 {
     public ColorRamp() { }
     /// <summary>
     ///     A string value representing the color ramp type.  Possible Values:"algorithmic"|"multipart"
     /// </summary>
     [JsonPropertyName("type")]
-    [Parameter]
-    public string? Type { get; set; }
-
+    public abstract ColorRampType ColorRampType { get; }
     /// <summary>
     ///     Define an array of algorithmic color ramps used to generate the multi part ramp.
     /// </summary>
-    public MultipartColorRamp? MultipartColorRamps { get; set; }
+    public MultipartColorRamp? ColorRamps { get; set; }
 
     /// <inheritdoc />
     
     
+}
+
+[JsonConverter(typeof(EnumToKebabCaseStringConverter<ColorRampType>))]
+public enum ColorRampType
+{
+    Algorithmic,
+    Multipart
 }

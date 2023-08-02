@@ -580,15 +580,19 @@ export function buildJsRenderer(dotNetRenderer: any): Renderer | null {
 
 export function buildJsColorRamp(dotNetColorRamp: any): ColorRamp | null {
     if (dotNetColorRamp === undefined) return null;
-    let colorRamp = new ColorRamp();
-    colorRamp = dotNetColorRamp;
-    return colorRamp
+    switch (dotNetColorRamp.type) {
+        case 'multipart':
+            return buildJSMultipartColorRamp(dotNetColorRamp);
+        default:
+            return buildJsAlgorithmicColorRamp(dotNetColorRamp);
+    }
 }
 
 export function buildJsAlgorithmicColorRamp(dotNetAlgorithmicColorRamp: any): AlgorithmicColorRamp | null {
     if (dotNetAlgorithmicColorRamp === undefined) return null;
     let algorithmicColorRamp = new AlgorithmicColorRamp();
-    algorithmicColorRamp = dotNetAlgorithmicColorRamp;
+    algorithmicColorRamp.fromColor = dotNetAlgorithmicColorRamp.fromColor;
+    algorithmicColorRamp.toColor = dotNetAlgorithmicColorRamp.toColor;
     return algorithmicColorRamp;
 }
 
@@ -602,7 +606,7 @@ export function buildJsDimensionalDefinition(dotNetMultidimensionalDefinition: a
 export function buildJSMultipartColorRamp(dotNetMultipartColorRamp: any): MultipartColorRamp | null {
     if (dotNetMultipartColorRamp === undefined) return null;
     let multipartColorRamp = new MultipartColorRamp();
-    
+    multipartColorRamp.colorRamps = dotNetMultipartColorRamp.colorRamps.map(buildJsAlgorithmicColorRamp);
     return multipartColorRamp;
 }
 

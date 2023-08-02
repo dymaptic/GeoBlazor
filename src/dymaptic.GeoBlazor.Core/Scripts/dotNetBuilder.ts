@@ -700,9 +700,9 @@ export function buildDotNetMultipartColorRamp(multipartColorRamp: MultipartColor
 export function buildDotNetColorRamp(colorRamp: ColorRamp): any | null {
     if (colorRamp === null) return null;
     return {
-
-        colorRamps: (colorRamp.multipartColorRamp as MultipartColorRamp[])?.map(c => buildDotNetMultipartColorRamp(c))
-    } as unknown as DotNetColorRamp;
+        //type: colorRamp.type,
+        colorRamps: (colorRamp.colorRamps as MultipartColorRamp[])?.map(c => buildDotNetMultipartColorRamp(c))
+    } as DotNetColorRamp;
 }
 
 export function buildDotNetRasterStretchRenderer(rasterStretchRenderer: RasterStretchRenderer): any | null {

@@ -22,12 +22,12 @@ namespace dymaptic.GeoBlazor.Core.Components.Renderers.ColorRamps;
 /// </summary>
 public class AlgorithmicColorRamp : ColorRamp
 {
-    public AlgorithmicColorRamp() { }
+    //public AlgorithmicColorRamp() { }
     /// <summary>
     ///     A string value representing the color ramp type.
     /// </summary>
-    //[JsonPropertyName("type")]
-    //public string? Type { get; set; }
+    [JsonPropertyName("type")]
+    public override ColorRampType ColorRampType => ColorRampType.Algorithmic;
 
     /// <summary>
     ///     The algorithm used to generate the colors between the fromColor and toColor.

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using dymaptic.GeoBlazor.Core.Serialization;
+using Microsoft.AspNetCore.Components;
 using System.Text.Json.Serialization;
 
 
@@ -18,8 +19,8 @@ public class MultipartColorRamp : ColorRamp
     /// <summary>
     ///     A string value representing the color ramp type.
     /// </summary>
-    [JsonPropertyName("type")]
-    public string? Type { get; set; }
+    //[JsonPropertyName("type")]
+    public override ColorRampType ColorRampType => ColorRampType.Multipart;
 
     public AlgorithmicColorRamp[]? AlgorithmicColorRamps { get; set; }
 
