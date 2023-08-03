@@ -5,6 +5,7 @@ development and refactoring of existing code, but may not be adhered to by all e
 ## MapComponents
 - A `MapComponent` is a Razor (aka Blazor) Component that can be declared in Razor markup. For example, `MapView`, 
   `Map`, `FeatureLayer`, and `Graphic` are all `MapComponent`s.
+- `MapComponent`s are usually 1-1 with ArcGIS JavaScript classes.
 - `MapComponent`s, with a few top-level exceptions (e.g., `MapView`, `Map`), can also be declared in C# code.
 - There should always be two constructors, an empty one for razor, and one that sets all public properties that should be used
   when creating the component in C#.
@@ -69,3 +70,32 @@ development and refactoring of existing code, but may not be adhered to by all e
   and `Widgets`, this is often done by providing a `wrapper`. This is a separate TypeScript class file that has a reference
   to the original JS object, and replicates the method calls while allows for building custom types. See `featureLayerWrapper.ts` for an example.
 - If an object has no functions that we want to support, or if the functions only take primitive types, you do not really need a wrapper.
+
+## Adding a New Layer Type
+- Create a new C# class in the `dymaptic.GeoBlazor.Core/Components/Layers` folder that inherits from `Layer`.
+- Implement the `LayerType` property. The type value should match the layer `type` value in ArcGIS.
+  ```csharp
+    /// <inheritdoc />
+    [JsonPropertyName("type")]
+    public override string LayerType => "layer-type";
+  ```
+- Add your new layer type to `LayerConverter` for serialization.
+- Implement all properties from the ArcGIS Layer class. Use the `MapComponents` rules outlined above.
+- Add your layer to the switch statement in the `createLayer` function of `arcGisJsInterop.ts`. Use the `Converting GeoBlazor Objects to ArcGIS` rules outlined above.
+- If the layer has methods that we want to support, create a `wrapper` class for it. See `The JavaScript Wrapper Pattern` above.
+- Create a new Layer samples page in `dymaptic.GeoBlazor.Core.Samples.Shared/Pages`. Also add to the `NavMenu.razor`.
+- Create a new unit test in `dymaptic.GeoBlazor.Core.Tests.Blazor.Shared/Components/LayerTests.razor`.
+
+## Adding a New Widget
+- Create a new C# class in the `dymaptic.GeoBlazor.Core/Components/Widgets` folder that inherits from `Widget`.
+- Implement the `WidgetType` property. The type value should match the widget `type` value in ArcGIS.
+  ```csharp
+    /// <inheritdoc />
+    [JsonPropertyName("type")]
+    public override string WidgetType => "widget-type";
+  ```
+- Add your widget to the switch statement in the `createWidget` function of `arcGisJsInterop.ts`. Use the `Converting GeoBlazor Objects to ArcGIS` rules outlined above.
+- If the widget has methods that we want to support, create a `wrapper` class for it. See `The JavaScript Wrapper Pattern` above.
+- Create a new Widget samples page in `dymaptic.GeoBlazor.Core.Samples.Shared/Pages`. Also add to the `NavMenu.razor`.
+- Alternatively, for simple widgets, you can add them to the `Widgets.razor` sample.
+- Create a new unit test in `dymaptic.GeoBlazor.Core.Tests.Blazor.Shared/Components/WidgetTests.razor`.
