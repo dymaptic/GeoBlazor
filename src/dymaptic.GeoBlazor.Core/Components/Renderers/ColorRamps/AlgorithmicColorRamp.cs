@@ -22,6 +22,9 @@ namespace dymaptic.GeoBlazor.Core.Components.Renderers.ColorRamps;
 /// </summary>
 public class AlgorithmicColorRamp : ColorRamp
 {
+    /// <summary>
+    ///     Constructor for use in code
+    /// </summary>
     public AlgorithmicColorRamp() { }
 
     public AlgorithmicColorRamp(Algorithm algorithm, MapColor? fromColor, MapColor? toColor)

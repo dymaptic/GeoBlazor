@@ -15,6 +15,9 @@ namespace dymaptic.GeoBlazor.Core.Components.Renderers.ColorRamps;
 /// </summary>
 public class MultipartColorRamp : ColorRamp
 {
+    /// <summary>
+    ///     Constructor for use in code
+    /// </summary>
     public MultipartColorRamp() { }
 
     public MultipartColorRamp(List<AlgorithmicColorRamp>? colorRamps)
@@ -32,6 +35,7 @@ public class MultipartColorRamp : ColorRamp
     /// </summary>
     public List<AlgorithmicColorRamp>? ColorRamps { get; private set; }
 
+    /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
     {
         switch (child)

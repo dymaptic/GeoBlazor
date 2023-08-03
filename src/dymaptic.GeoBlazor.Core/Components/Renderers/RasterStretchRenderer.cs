@@ -3,7 +3,12 @@ using dymaptic.GeoBlazor.Core.Components.Renderers.ColorRamps;
 using dymaptic.GeoBlazor.Core.Extensions;
 using dymaptic.GeoBlazor.Core.Serialization;
 using System;
+using System.Buffers.Text;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
+using System.Diagnostics.Contracts;
+using System.Diagnostics.Metrics;
+using System.IO.Pipelines;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
@@ -25,6 +30,9 @@ namespace dymaptic.GeoBlazor.Core.Components.Renderers;
 /// 
 public class RasterStretchRenderer : LayerObject
 {
+    /// <summary>
+    ///     Constructor for use in code
+    /// </summary>
     public RasterStretchRenderer() { }
 
     public RasterStretchRenderer(MultipartColorRamp? colorRamp = null, bool? computeGamma = null, bool? dynamicRangeAdjustment = null, List<int>? gamma = null, int? outputMax = null, int? outputMin = null,
@@ -103,6 +111,7 @@ public class RasterStretchRenderer : LayerObject
     /// </summary>
     public int? NumberOfStandardDeviations { get; private set; }
 
+    /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
     {
         switch (child)
@@ -145,6 +154,10 @@ public class RasterStretchRenderer : LayerObject
     
 }
 
+/// <summary>
+/// The stretch type defines a histogram stretch that will be applied to the rasters to enhance their appearance. Stretching improves the appearance of the data by spreading the
+/// pixel values along a histogram from the minimum and maximum values defined by their bit depth. 
+/// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<StretchType>))]
 public enum StretchType
 {

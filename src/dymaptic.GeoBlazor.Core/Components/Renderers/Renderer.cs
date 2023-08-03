@@ -73,7 +73,6 @@ public enum RendererType
 {
 #pragma warning disable CS1591
     Simple,
-    UniqueValue,
-    RasterStretch
+    UniqueValue
 #pragma warning restore CS1591
 }

@@ -71,15 +71,6 @@
 
     public RasterStretchRenderer CreateRenderer()
     {
-        // This initializes the renderer as a standard deviation type
-
-        // {
-
-        //         StretchType : StretchType.StandardDeviation,
-        //         Statistics = new List<List<int>>{ new List<int> { -3, 37, 1, 1 } },
-        //         NumberOfStandardDeviations = 3
-        //     };
-
         var toFromColor1 = new AlgorithmicColorRamp
             {
                 FromColor = new MapColor( 0, 0, 255 ),
@@ -103,6 +94,7 @@
         MultipartColorRamp wcsLayercolorRamp = new(wcsLayerColorRamps);
         List<List<int>> wcsLayerStatistics = new() { new List<int> { -3, 37, 1, 1 } };
         RasterStretchRenderer displayRenderer = new(colorRamp: wcsLayercolorRamp, stretchType: StretchType.StandardDeviation, statistics: wcsLayerStatistics, numberOfStandardDeviations: 3);
+        
         return displayRenderer;
     }
 

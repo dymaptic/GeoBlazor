@@ -67,8 +67,14 @@ public class WCSLayer : Layer
     /// </summary>
     public List<DimensionalDefinition>? MultidimensionalDefinition { get; private set; }
 
+    /// <summary>
+    ///     The opacity of the layer.
+    /// </summary>
     public double? Opacity { get; private set; }
 
+    /// <summary>
+    ///     The title of the layer used to identify it in places such as the LayerList widget.
+    /// </summary>
     public string? Title { get; private set; }
 
     /// <summary>
@@ -77,8 +83,8 @@ public class WCSLayer : Layer
     ///     Currently, only the RasterStretchRenderer has been implemented, ClassBreaksRenderer will be implemented
     ///     in the future.
     /// </summary>
-    // Class Breaks renderer still needs to be added to this layer for a classified pixel render.
     public RasterStretchRenderer Renderer { get; private set; }
+    // Class Breaks renderer still needs to be added to this layer for a classified pixel render.
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
