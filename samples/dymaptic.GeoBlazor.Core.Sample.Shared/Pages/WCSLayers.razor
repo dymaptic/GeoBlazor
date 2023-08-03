@@ -12,7 +12,7 @@
 <button disabled="@(!_mapRendered)" @onclick="(()=>AddRemoveWCSLayer())">Add/Remove the WCS Layer with color ramp enabled</button>
 <button disabled="@(!_mapRendered)" @onclick="(()=>_markup = !_markup)">Add/Remove new WCS Layer in Markup without colorizing</button>
 
-<MapView @ref="_view" class="map-view" OnMapRendered="OnMapRendered" Scale="0">
+<MapView @ref="_view" class="map-view" OnMapRendered="OnMapRendered">
     <Map ArcGISDefaultBasemap="arcgis-light-gray">
         @if (_markup)
         {
@@ -28,14 +28,10 @@
 
     public async Task AddRemoveWCSLayer()
     {
-        WCSLayer wcsSampleLayer = new()
-            {
-                Url = _wcsLayerUrl,
-                Renderer = CreateRenderer(),
-                MultidimensionalDefinition = CreateDimensionalDefinition(),
-                Opacity = 0.5,
-                Title = "Sea temperature - sea level"
-            };
+        _wcsSampleRenderer = CreateRenderer();
+        _wcsSampleDimensionalDefinition = CreateDimensionalDefinition();
+
+        WCSLayer wcsSampleLayer = new(_wcsLayerUrl, _wcsSampleDimensionalDefinition, _wcsSampleRenderer, _wcsSampleOpacity, _wcsSampleTitle);
 
         if (!_view.Map.Layers.Any())
         {
@@ -59,7 +55,13 @@
                 {
                     VariableName = "water_temp", // water temp at sea level
                     DimensionName = "StdZ",
-                    Values = new List<int> { 0 }
+                    Values = new List<long> { 0 }
+                },
+                new()
+                {
+                    VariableName = "temperature",
+                    DimensionName = "Std_Time",
+                    Values = new List<long>{ 1396828800000 }
                 }
 
             };
@@ -118,4 +120,9 @@
     private bool _markup = false;
     private bool _mapRendered = false;
     private string _wcsLayerUrl = "https://sampleserver6.arcgisonline.com/arcgis/services/ScientificData/SeaTemperature/ImageServer/WCSServer?request=GetCapabilities&service=WCS";
+    private double _wcsSampleOpacity = 0.5;
+    private string _wcsSampleTitle = "Sea temperature - sea level";
+    private RasterStretchRenderer? _wcsSampleRenderer = null;
+    private List<DimensionalDefinition>? _wcsSampleDimensionalDefinition = null;
+    
 }

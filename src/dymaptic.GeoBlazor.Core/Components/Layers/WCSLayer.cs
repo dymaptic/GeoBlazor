@@ -35,7 +35,8 @@ public class WCSLayer : Layer
     /// <param name="url">
     ///     The url for the WCS Layer source data.
     /// </param>
-    public WCSLayer(string? url = null, PortalItem? portalItem = null)
+    public WCSLayer(string? url = null, List<DimensionalDefinition>? multidimensionalDefinition = null, RasterStretchRenderer? renderer = null,
+        double? opacity = null, string? title = null, PortalItem? portalItem = null)
     {
         if (url is null && portalItem is null)
         {
@@ -44,6 +45,10 @@ public class WCSLayer : Layer
         }
         Url = url;
         PortalItem = portalItem;
+        MultidimensionalDefinition = multidimensionalDefinition;
+        Renderer = renderer;
+        Opacity = opacity;
+        Title = title;
     }
 
     [Parameter]
@@ -60,9 +65,11 @@ public class WCSLayer : Layer
     /// <summary>
     ///     The multidimensional definitions associated with the layer.
     /// </summary>
-    public List<DimensionalDefinition>? MultidimensionalDefinition { get; set; }
+    public List<DimensionalDefinition>? MultidimensionalDefinition { get; private set; }
 
-    public string? Title { get; set; }
+    public double? Opacity { get; private set; }
+
+    public string? Title { get; private set; }
 
     /// <summary>
     ///     The renderer assigned to the layer. The renderer defines how to visualize pixels in the WCSLayer. 
@@ -71,7 +78,7 @@ public class WCSLayer : Layer
     ///     in the future.
     /// </summary>
     // Class Breaks renderer still needs to be added to this layer for a classified pixel render.
-    public RasterStretchRenderer Renderer { get; set; }
+    public RasterStretchRenderer Renderer { get; private set; }
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
