@@ -1,5 +1,5 @@
 @page "/wcslayers"
-@using dymaptic.GeoBlazor.Core.Components.Renderers.ColorRamps;
+
 
 <h3>WCS Layers</h3>
 
@@ -72,13 +72,13 @@
     public RasterStretchRenderer CreateRenderer()
     {
         // This initializes the renderer as a standard deviation type
-        var displayRenderer = new RasterStretchRenderer
-            {
 
-                StretchType = StretchType.StandardDeviation,
-                Statistics = new List<List<int>>{ new List<int> { -3, 37, 1, 1 } },
-                NumberOfStandardDeviations = 3
-            };
+        // {
+
+        //         StretchType : StretchType.StandardDeviation,
+        //         Statistics = new List<List<int>>{ new List<int> { -3, 37, 1, 1 } },
+        //         NumberOfStandardDeviations = 3
+        //     };
 
         var toFromColor1 = new AlgorithmicColorRamp
             {
@@ -98,23 +98,13 @@
                 ToColor = new MapColor ( 255, 0, 0 )
             };
 
+        List<AlgorithmicColorRamp> wcsLayerColorRamps = new() {toFromColor1,toFromColor2,toFromColor3};
 
-        // Builds the multipart color ramp
-        var colorRamp = new MultipartColorRamp
-            {
-                ColorRamps = new AlgorithmicColorRamp[]
-                {
-                    toFromColor1,
-                    toFromColor2,
-                    toFromColor3
-                }
-            };
-
-        displayRenderer.ColorRamp = colorRamp;
+        MultipartColorRamp wcsLayercolorRamp = new(wcsLayerColorRamps);
+        List<List<int>> wcsLayerStatistics = new() { new List<int> { -3, 37, 1, 1 } };
+        RasterStretchRenderer displayRenderer = new(colorRamp: wcsLayercolorRamp, stretchType: StretchType.StandardDeviation, statistics: wcsLayerStatistics, numberOfStandardDeviations: 3);
         return displayRenderer;
     }
-
-
 
     private MapView _view;
     private bool _markup = false;

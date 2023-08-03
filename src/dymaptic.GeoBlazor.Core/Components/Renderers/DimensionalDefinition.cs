@@ -18,6 +18,15 @@ namespace dymaptic.GeoBlazor.Core.Components.Renderers;
 /// </summary>
 public class DimensionalDefinition : LayerObject
 {
+    public DimensionalDefinition() { }
+
+    public DimensionalDefinition(string dimensionName, bool isSlice, string variableName, List<long> values)
+    {
+        DimensionName = dimensionName;
+        IsSlice = isSlice;
+        VariableName = variableName;
+        Values = values;
+    }
     /// <summary>
     ///     The dimension associated with the variable..
     /// </summary>

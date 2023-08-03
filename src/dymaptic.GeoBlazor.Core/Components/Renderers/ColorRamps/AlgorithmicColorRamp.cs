@@ -22,7 +22,15 @@ namespace dymaptic.GeoBlazor.Core.Components.Renderers.ColorRamps;
 /// </summary>
 public class AlgorithmicColorRamp : ColorRamp
 {
+    public AlgorithmicColorRamp() { }
 
+    public AlgorithmicColorRamp(Algorithm algorithm, MapColor? fromColor, MapColor? toColor)
+    {
+        Algorithm = algorithm;
+        FromColor = fromColor;
+        ToColor = toColor;
+    }
+    /// <inheritdoc />
     /// <summary>
     ///     A string value representing the color ramp type.
     /// </summary>
@@ -32,18 +40,23 @@ public class AlgorithmicColorRamp : ColorRamp
     /// <summary>
     ///     The algorithm used to generate the colors between the fromColor and toColor.
     /// </summary>
+    [Parameter]
     public Algorithm Algorithm { get; set; }
 
     /// <summary>
     ///     The first color in the color ramp.
     /// </summary>
+    [Parameter]
     public MapColor? FromColor { get; set; }
 
     /// <summary>
     ///     The last color in the color ramp.
     /// </summary>
+    [Parameter]
     public MapColor? ToColor { get; set; }
+
 }
+
 /// <summary>
 ///     The algorithms used to generate the colors between the fromColor and toColor. Each algorithm uses different methods for generating the intervening colors.
 ///     Read more in the link above.

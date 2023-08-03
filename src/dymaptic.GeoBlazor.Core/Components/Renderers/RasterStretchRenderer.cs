@@ -27,54 +27,122 @@ public class RasterStretchRenderer : LayerObject
 {
     public RasterStretchRenderer() { }
 
+    public RasterStretchRenderer(MultipartColorRamp? colorRamp = null, bool? computeGamma = null, bool? dynamicRangeAdjustment = null, List<int>? gamma = null, int? outputMax = null, int? outputMin = null,
+        StretchType? stretchType = null, List<List<int>>? statistics = null, bool? useGamma = null, int? numberOfStandardDeviations = null)
+    {
+        ColorRamp = colorRamp;
+        ComputeGamma = computeGamma;
+        DynamicRangeAdjustment = dynamicRangeAdjustment;
+        Gamma = gamma;
+        OutputMax = outputMax;
+        OutputMin = outputMin;
+        StretchType = stretchType;
+        Statistics = statistics;
+        UseGamma = useGamma;
+        NumberOfStandardDeviations = numberOfStandardDeviations;
+    }
+
     /// <inheritdoc />
     [JsonPropertyName("type")]
     public string Type => "raster-stretch";
 
-    public MultipartColorRamp? ColorRamp { get; set; }
+    /// <summary>
+    ///     The stretched values are mapped to this specified color ramp.
+    /// </summary>
+    public MultipartColorRamp? ColorRamp { get; private set; }
 
     /// <summary>
     ///     The computeGamma automatically calculates best gamma value to render exported image based on empirical model. This is applicable to any stretch type when useGamma is true.
     /// </summary>
-    public bool ComputeGamma { get; set; }
+    public bool? ComputeGamma { get; private set; }
 
     /// <summary>
-    ///    When Dynamic Range Adjustment is true, the statistics based on the current display extent are calculated as you zoom and pan around the image. This property only applies to images in 2D MapView.
+    ///    When Dynamic Range Adjustment is true, the statistics based on the current display extent are calculated as you zoom and pan around the image. This property only applies
+    ///    to images in 2D MapView.
     /// </summary>
-    public bool DynamicRangeAdjustment { get; set; } = false;
+    public bool? DynamicRangeAdjustment { get; private set; } = false;
 
     /// <summary>
-    ///     The gamma values to be used if useGamma is set to true. Gamma refers to the degree of contrast between the mid-level gray values of a raster dataset. Gamma does not affect the black or white values in a raster dataset, only the middle values. By applying a gamma correction, you can control the overall brightness of a layer. Gamma stretching is only valid with the none, standard-deviation, and min-max stretch
+    ///     The gamma values to be used if useGamma is set to true. Gamma refers to the degree of contrast between the mid-level gray values of a raster dataset. Gamma does not
+    ///     affect the black or white values in a raster dataset, only the middle values. By applying a gamma correction, you can control the overall brightness of a layer. 
+    ///     Gamma stretching is only valid with the none, standard-deviation, and min-max stretch
     /// </summary>
-    public List<int>? Gamma { get; set; }
+    public List<int>? Gamma { get; private set; }
 
     /// <summary>
-    ///     The outputMax denotes the output maximum, which is the highest pixel value. The outputMin and outputMax will set the range of values that will then be linearly contrast stretched. The outputMax value ranges from 0-255.
+    ///     The outputMax denotes the output maximum, which is the highest pixel value. The outputMin and outputMax will set the range of values that will then be linearly contrast
+    ///     stretched. The outputMax value ranges from 0-255.
     /// </summary>
-    public int? OutputMax { get; set; }
+    public int? OutputMax { get; private set; }
 
     /// <summary>
-    ///     The outputMin denotes the output minimum, which is the lowest pixel value. The outputMin and outputMax will set the range of values that will then be linearly contrast stretched. The outputMin value ranges from 0-255.
+    ///     The outputMin denotes the output minimum, which is the lowest pixel value. The outputMin and outputMax will set the range of values that will then be linearly contrast
+    ///     stretched. The outputMin value ranges from 0-255.
     /// </summary>
-    public int? OutputMin { get; set; }
+    public int? OutputMin { get; private set; }
 
     /// <summary>
-    ///     The stretch type defines a histogram stretch that will be applied to the rasters to enhance their appearance. Stretching improves the appearance of the data by spreading the pixel values along a histogram from the minimum and maximum values defined by their bit depth.
+    ///     The stretch type defines a histogram stretch that will be applied to the rasters to enhance their appearance. Stretching improves the appearance of the data by spreading the
+    ///     pixel values along a histogram from the minimum and maximum values defined by their bit depth.
     /// </summary>
-    public StretchType StretchType { get; set; }
+    public StretchType? StretchType { get; private set; }
 
     /// <summary>
     ///     The input statistics can be specified through the statistics property.
     /// </summary>
-    public List<List<int>>? Statistics { get; set; }
+    public List<List<int>>? Statistics { get; private set; }
 
     /// <summary>
     ///     Denotes whether the gamma value should be used.
     /// </summary>
-    public bool? UseGamma { get; set; }
-    
-    public int? NumberOfStandardDeviations { get; set; }
+    public bool? UseGamma { get; private set; }
 
+    /// <summary>
+    ///     Applicable when stretchType is standard-deviation. Specifies the number of standard deviations to use. The values beyond the number of standard deviations become the outputMin
+    ///     and outputMax. The remaining values are linearly stretched between outputMin and outputMax.
+    /// </summary>
+    public int? NumberOfStandardDeviations { get; private set; }
+
+    public override async Task RegisterChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case MultipartColorRamp colorRamp:
+                if (!colorRamp.Equals(ColorRamp))
+                {
+                    ColorRamp = colorRamp;
+                }
+                break;
+            default:
+                await base.RegisterChildComponent(child);
+
+                break;
+        }
+    }
+    /// <inheritdoc />
+    public override async Task UnregisterChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case MultipartColorRamp _:
+                ColorRamp = null;
+                break;
+            default:
+                await base.UnregisterChildComponent(child);
+
+                break;
+        }
+    }
+/// <inheritdoc />
+    internal override void ValidateRequiredChildren()
+    {
+        ColorRamp?.ValidateRequiredChildren();
+        base.ValidateRequiredChildren();
+    }
+
+
+
+    
 }
 
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<StretchType>))]

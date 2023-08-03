@@ -15,10 +15,17 @@ namespace dymaptic.GeoBlazor.Core.Components.Renderers.ColorRamps;
 ///         JS API
 ///     </a>
 /// </summary>
-public abstract class ColorRamp
+public abstract class ColorRamp : MapComponent
 {
     public ColorRamp() { }
 
+    public ColorRamp(ColorRampType colorRampType, MultipartColorRamp colorRamps)
+    {
+
+        ColorRamps = colorRamps;
+    }
+
+    /// <inheritdoc />
     /// <summary>
     ///     A string value representing the color ramp type.  Possible Values:"algorithmic"|"multipart"
     /// </summary>
@@ -29,9 +36,12 @@ public abstract class ColorRamp
     ///     Define an array of algorithmic color ramps used to generate the multi part ramp.
     /// </summary>
     public MultipartColorRamp? ColorRamps { get; set; } 
-    
+
 }
 
+/// <summary>
+///     An enum converter containing the string values representing the color ramp type.  Possible Values:"algorithmic"|"multipart"
+/// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<ColorRampType>))]
 public enum ColorRampType
 {

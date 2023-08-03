@@ -17,6 +17,11 @@ public class MultipartColorRamp : ColorRamp
 {
     public MultipartColorRamp() { }
 
+    public MultipartColorRamp(List<AlgorithmicColorRamp>? colorRamps)
+    {
+        ColorRamps = colorRamps;
+    }
+    /// <inheritdoc />
     /// <summary>
     ///     A string value representing the color ramp type.
     /// </summary>
@@ -25,6 +30,56 @@ public class MultipartColorRamp : ColorRamp
     /// <summary>
     ///     Define an array of algorithmic color ramps used to generate the multi part ramp.
     /// </summary>
-    public AlgorithmicColorRamp[]? ColorRamps { get; set; }
-    
+    public List<AlgorithmicColorRamp>? ColorRamps { get; private set; }
+
+    public override async Task RegisterChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case AlgorithmicColorRamp colorRamps:
+                ColorRamps ??= new List<AlgorithmicColorRamp>();
+                if (!ColorRamps.Contains(colorRamps))
+                {
+                    ColorRamps.Add(colorRamps);
+                }
+                break;
+            default:
+                await base.RegisterChildComponent(child);
+
+                break;
+        }
+    }
+    /// <inheritdoc />
+    public override async Task UnregisterChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case AlgorithmicColorRamp colorRamps:
+                ColorRamps?.Remove(colorRamps);
+
+                if (ColorRamps is not null && !ColorRamps.Any())
+                {
+                    ColorRamps = null;
+                }
+
+                break;
+            default:
+                await base.UnregisterChildComponent(child);
+
+                break;
+        }
+    }
+    /// <inheritdoc />
+    internal override void ValidateRequiredChildren()
+    {
+        base.ValidateRequiredChildren();
+
+        if (ColorRamps is not null)
+        {
+            foreach (AlgorithmicColorRamp colorRamp in ColorRamps)
+            {
+                colorRamp.ValidateRequiredChildren();
+            }
+        }
+    }
 }
