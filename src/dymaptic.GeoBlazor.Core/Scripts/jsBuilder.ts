@@ -261,6 +261,8 @@ export function buildJsPopupTemplate(popupTemplateObject: DotNetPopupTemplate, v
                 if (hasValue(templateTriggerActionHandler)) {
                     templateTriggerActionHandler.remove();
                 }
+                
+                // we need to wait for the popup to be initialized before we can add the trigger-action handler
                 reactiveUtils.once(() => view.popup.on !== undefined)
                     .then(() => {
                         templateTriggerActionHandler = view.popup.on("trigger-action", async (event: PopupTriggerActionEvent) => {

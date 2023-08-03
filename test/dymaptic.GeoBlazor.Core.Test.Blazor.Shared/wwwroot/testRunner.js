@@ -42,5 +42,10 @@ export async function assertPopupCallback(viewId, layerId) {
     view.popup.open({
         features: [ featureSet.features[0] ]
     });
-    view.popup.triggerAction(0);
+    let button = null;
+    while (button === null) {
+        await new Promise(resolve => setTimeout(resolve, 100));
+        button = document.querySelector('[title="Measure Length"]');
+    }
+    button.click();
 }
