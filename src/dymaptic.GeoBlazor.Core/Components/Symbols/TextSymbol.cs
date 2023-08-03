@@ -15,7 +15,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 ///         JS API
 ///     </a>
 /// </summary>
-public class TextSymbol : Symbol, IEquatable<TextSymbol>
+public class TextSymbol : Symbol
 {
     /// <summary>
     ///     Parameterless constructor for use as a razor component
@@ -55,22 +55,6 @@ public class TextSymbol : Symbol, IEquatable<TextSymbol>
 #pragma warning restore BL0005
     }
 
-    /// <summary>
-    ///     Compares two <see cref="TextSymbol" /> objects for equality.
-    /// </summary>
-    public static bool operator ==(TextSymbol? left, TextSymbol? right)
-    {
-        return Equals(left, right);
-    }
-
-    /// <summary>
-    ///     Compares two <see cref="TextSymbol" /> objects for inequality.
-    /// </summary>
-    public static bool operator !=(TextSymbol? left, TextSymbol? right)
-    {
-        return !Equals(left, right);
-    }
-
     /// <inheritdoc />
     public override string Type => "text";
 
@@ -100,15 +84,6 @@ public class TextSymbol : Symbol, IEquatable<TextSymbol>
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public MapFont? Font { get; set; }
-
-    /// <inheritdoc />
-    public bool Equals(TextSymbol? other)
-    {
-        if (ReferenceEquals(null, other)) return false;
-
-        return Equals(HaloColor, other.HaloColor) && (HaloSize == other.HaloSize) && (Text == other.Text) &&
-            Equals(Font, other.Font) && Equals(Color, other.Color);
-    }
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
@@ -143,21 +118,6 @@ public class TextSymbol : Symbol, IEquatable<TextSymbol>
 
                 break;
         }
-    }
-
-    /// <inheritdoc />
-    public override bool Equals(object? obj)
-    {
-        if (ReferenceEquals(null, obj)) return false;
-        if (obj.GetType() != GetType()) return false;
-
-        return Equals((TextSymbol)obj);
-    }
-
-    /// <inheritdoc />
-    public override int GetHashCode()
-    {
-        return HashCode.Combine(HaloColor, HaloSize, Text, Font, Color);
     }
 
     /// <inheritdoc />

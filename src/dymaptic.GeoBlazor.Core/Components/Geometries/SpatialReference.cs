@@ -18,7 +18,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 ///     </a>
 /// </summary>
 [JsonConverter(typeof(SpatialReferenceConverter))]
-public class SpatialReference : MapComponent, IEquatable<SpatialReference>
+public class SpatialReference : MapComponent
 {
     /// <summary>
     ///     Parameterless constructor for use as a razor component
@@ -38,22 +38,6 @@ public class SpatialReference : MapComponent, IEquatable<SpatialReference>
 #pragma warning disable BL0005
         Wkid = wkid;
 #pragma warning restore BL0005
-    }
-
-    /// <summary>
-    ///     Compares two SpatialReference objects for equality
-    /// </summary>
-    public static bool operator ==(SpatialReference? left, SpatialReference? right)
-    {
-        return Equals(left, right);
-    }
-
-    /// <summary>
-    ///     Compares two SpatialReference objects for inequality
-    /// </summary>
-    public static bool operator !=(SpatialReference? left, SpatialReference? right)
-    {
-        return !Equals(left, right);
     }
 
     /// <summary>
@@ -116,38 +100,13 @@ public class SpatialReference : MapComponent, IEquatable<SpatialReference>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [Parameter]
     public string? Wkt { get; set; }
-
-    /// <inheritdoc />
-    public bool Equals(SpatialReference? other)
-    {
-        if (ReferenceEquals(null, other)) return false;
-        if (ReferenceEquals(this, other)) return true;
-
-        return Nullable.Equals(Wkid, other.Wkid);
-    }
-
+    
     /// <summary>
     ///     Returns a deep clone of the Spatial Reference.
     /// </summary>
     public SpatialReference Clone()
     {
         return Wkid.HasValue ? new SpatialReference(Wkid!.Value) : new SpatialReference();
-    }
-
-    /// <inheritdoc />
-    public override bool Equals(object? obj)
-    {
-        if (ReferenceEquals(null, obj)) return false;
-        if (ReferenceEquals(this, obj)) return true;
-        if (obj.GetType() != GetType()) return false;
-
-        return Equals((SpatialReference)obj);
-    }
-
-    /// <inheritdoc />
-    public override int GetHashCode()
-    {
-        return Wkid.GetHashCode();
     }
 
     internal SpatialReferenceSerializationRecord ToSerializationRecord()

@@ -12,7 +12,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 ///         JS API
 ///     </a>
 /// </summary>
-public class Polygon : Geometry, IEquatable<Polygon>
+public class Polygon : Geometry
 {
     /// <summary>
     ///     Parameterless constructor for use as a razor component
@@ -68,14 +68,6 @@ public class Polygon : Geometry, IEquatable<Polygon>
     /// <inheritdoc />
     public override string Type => "polygon";
 
-    /// <inheritdoc />
-    public bool Equals(Polygon? other)
-    {
-        if (ReferenceEquals(null, other)) return false;
-
-        return Rings.Equals(other.Rings);
-    }
-
     /// <summary>
     ///     Returns a deep clone of the geometry.
     /// </summary>
@@ -83,22 +75,7 @@ public class Polygon : Geometry, IEquatable<Polygon>
     {
         return new Polygon(Rings.Select(p => p.Clone()).ToArray(), SpatialReference?.Clone(), Extent?.Clone());
     }
-
-    /// <inheritdoc />
-    public override bool Equals(object? obj)
-    {
-        if (ReferenceEquals(null, obj)) return false;
-        if (obj.GetType() != GetType()) return false;
-
-        return Equals((Polygon)obj);
-    }
-
-    /// <inheritdoc />
-    public override int GetHashCode()
-    {
-        return Rings.GetHashCode();
-    }
-
+    
     internal override GeometrySerializationRecord ToSerializationRecord()
     {
         return new GeometrySerializationRecord(Type, Extent?.ToSerializationRecord(),

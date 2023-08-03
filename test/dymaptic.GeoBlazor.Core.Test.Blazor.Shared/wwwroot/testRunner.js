@@ -23,6 +23,14 @@ export function assertGraphicExistsInView(viewId, geometryType, count) {
     }
 }
 
+export function assertGraphicExistsInLayer(viewId, layerId, geometryType, count) {
+    let layer = arcGisObjectRefs[layerId];
+    let graphics = layer.graphics.items.filter(g => g.geometry.type === geometryType);
+    if (graphics.length !== count) {
+        throw new Error(`Expected ${count} graphics of type ${geometryType} but found ${graphics.length}`);
+    }
+}
+
 export function assertKmlLayerExists(viewId) {
     let view = arcGisObjectRefs[viewId];
     let layers = view.map.layers.items[0].type;

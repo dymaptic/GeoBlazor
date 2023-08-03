@@ -12,7 +12,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 ///         JS API
 ///     </a>
 /// </summary>
-public class PolyLine : Geometry, IEquatable<PolyLine>
+public class PolyLine : Geometry
 {
     /// <summary>
     ///     A parameterless constructor for using as a razor component
@@ -45,22 +45,6 @@ public class PolyLine : Geometry, IEquatable<PolyLine>
     }
 
     /// <summary>
-    ///     Compares two <see cref="PolyLine" /> objects for equality
-    /// </summary>
-    public static bool operator ==(PolyLine? left, PolyLine? right)
-    {
-        return Equals(left, right);
-    }
-
-    /// <summary>
-    ///     Compares two <see cref="PolyLine" /> objects for inequality
-    /// </summary>
-    public static bool operator !=(PolyLine? left, PolyLine? right)
-    {
-        return !Equals(left, right);
-    }
-
-    /// <summary>
     ///     An array of <see cref="MapPath" /> paths, or line segments, that make up the polyline.
     /// </summary>
     [Parameter]
@@ -69,14 +53,6 @@ public class PolyLine : Geometry, IEquatable<PolyLine>
     /// <inheritdoc />
     public override string Type => "polyline";
 
-    /// <inheritdoc />
-    public bool Equals(PolyLine? other)
-    {
-        if (ReferenceEquals(null, other)) return false;
-
-        return Paths.Equals(other.Paths);
-    }
-
     /// <summary>
     ///     Returns a deep clone of the geometry.
     /// </summary>
@@ -84,22 +60,7 @@ public class PolyLine : Geometry, IEquatable<PolyLine>
     {
         return new PolyLine(Paths.Select(p => p.Clone()).ToArray(), SpatialReference?.Clone(), Extent?.Clone());
     }
-
-    /// <inheritdoc />
-    public override bool Equals(object? obj)
-    {
-        if (ReferenceEquals(null, obj)) return false;
-        if (obj.GetType() != GetType()) return false;
-
-        return Equals((PolyLine)obj);
-    }
-
-    /// <inheritdoc />
-    public override int GetHashCode()
-    {
-        return Paths.GetHashCode();
-    }
-
+    
     internal override GeometrySerializationRecord ToSerializationRecord()
     {
         return new GeometrySerializationRecord(Type, Extent?.ToSerializationRecord(),

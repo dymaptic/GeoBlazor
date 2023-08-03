@@ -16,7 +16,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 ///         JS API
 ///     </a>
 /// </summary>
-public class SimpleLineSymbol : LineSymbol, IEquatable<SimpleLineSymbol>
+public class SimpleLineSymbol : LineSymbol
 {
     /// <summary>
     ///     Parameterless constructor for using as a razor component
@@ -46,23 +46,7 @@ public class SimpleLineSymbol : LineSymbol, IEquatable<SimpleLineSymbol>
         LineStyle = lineStyle;
 #pragma warning restore BL0005
     }
-
-    /// <summary>
-    ///     Compares two <see cref="SimpleLineSymbol" />s for equality
-    /// </summary>
-    public static bool operator ==(SimpleLineSymbol? left, SimpleLineSymbol? right)
-    {
-        return Equals(left, right);
-    }
-
-    /// <summary>
-    ///     Compares two <see cref="SimpleLineSymbol" />s for inequality
-    /// </summary>
-    public static bool operator !=(SimpleLineSymbol? left, SimpleLineSymbol? right)
-    {
-        return !Equals(left, right);
-    }
-
+    
     /// <inheritdoc />
     public override string Type => "simple-line";
 
@@ -73,29 +57,6 @@ public class SimpleLineSymbol : LineSymbol, IEquatable<SimpleLineSymbol>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [Parameter]
     public LineStyle? LineStyle { get; set; }
-
-    /// <inheritdoc />
-    public bool Equals(SimpleLineSymbol? other)
-    {
-        if (ReferenceEquals(null, other)) return false;
-
-        return (LineStyle == other.LineStyle) && (Color == other.Color);
-    }
-
-    /// <inheritdoc />
-    public override bool Equals(object? obj)
-    {
-        if (ReferenceEquals(null, obj)) return false;
-        if (obj.GetType() != GetType()) return false;
-
-        return Equals((SimpleLineSymbol)obj);
-    }
-
-    /// <inheritdoc />
-    public override int GetHashCode()
-    {
-        return LineStyle.GetHashCode() + base.GetHashCode();
-    }
 
     internal override SymbolSerializationRecord ToSerializationRecord()
     {

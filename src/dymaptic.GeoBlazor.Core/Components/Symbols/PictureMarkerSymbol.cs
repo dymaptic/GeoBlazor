@@ -12,7 +12,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 ///         JS API
 ///     </a>
 /// </summary>
-public class PictureMarkerSymbol : MarkerSymbol, IEquatable<PictureMarkerSymbol>
+public class PictureMarkerSymbol : MarkerSymbol
 {
     /// <summary>
     ///     Parameterless constructor for use as a razor component
@@ -55,23 +55,7 @@ public class PictureMarkerSymbol : MarkerSymbol, IEquatable<PictureMarkerSymbol>
         YOffset = yOffset;
 #pragma warning restore BL0005
     }
-
-    /// <summary>
-    ///     Compares two PictureMarkerSymbols for equality
-    /// </summary>
-    public static bool operator ==(PictureMarkerSymbol? left, PictureMarkerSymbol? right)
-    {
-        return Equals(left, right);
-    }
-
-    /// <summary>
-    ///     Compares two PictureMarkerSymbols for inequality
-    /// </summary>
-    public static bool operator !=(PictureMarkerSymbol? left, PictureMarkerSymbol? right)
-    {
-        return !Equals(left, right);
-    }
-
+    
     /// <summary>
     ///     The height of the image in points.
     /// </summary>
@@ -94,30 +78,6 @@ public class PictureMarkerSymbol : MarkerSymbol, IEquatable<PictureMarkerSymbol>
     /// </summary>
     [Parameter]
     public string Url { get; set; } = default!;
-
-    /// <inheritdoc />
-    public bool Equals(PictureMarkerSymbol? other)
-    {
-        if (ReferenceEquals(null, other)) return false;
-
-        return Nullable.Equals(Height, other.Height) && Nullable.Equals(Width, other.Width) && (Url == other.Url) &&
-            (Color == other.Color);
-    }
-
-    /// <inheritdoc />
-    public override bool Equals(object? obj)
-    {
-        if (ReferenceEquals(null, obj)) return false;
-        if (obj.GetType() != GetType()) return false;
-
-        return Equals((PictureMarkerSymbol)obj);
-    }
-
-    /// <inheritdoc />
-    public override int GetHashCode()
-    {
-        return HashCode.Combine(Height, Width, Url, Color);
-    }
 
     internal override SymbolSerializationRecord ToSerializationRecord()
     {

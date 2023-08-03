@@ -11,7 +11,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 ///         JS API
 ///     </a>
 /// </summary>
-public class Point : Geometry, IEquatable<Point>
+public class Point : Geometry
 {
     /// <summary>
     ///     Parameterless constructor for use as a razor component
@@ -104,37 +104,11 @@ public class Point : Geometry, IEquatable<Point>
     public override string Type => "point";
 
     /// <summary>
-    ///     Implements custom equality checks
-    /// </summary>
-    public bool Equals(Point? other)
-    {
-        if (ReferenceEquals(null, other)) return false;
-
-        return (Latitude.Equals(other.Latitude) && Longitude.Equals(other.Longitude)) ||
-            (X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z));
-    }
-
-    /// <summary>
     ///     Returns a deep clone of the geometry.
     /// </summary>
     public Point Clone()
     {
         return new Point(Longitude, Latitude, X, Y, Z, SpatialReference?.Clone(), Extent?.Clone());
-    }
-
-    /// <inheritdoc />
-    public override bool Equals(object? obj)
-    {
-        if (ReferenceEquals(null, obj)) return false;
-        if (obj.GetType() != GetType()) return false;
-
-        return Equals((Point)obj);
-    }
-
-    /// <inheritdoc />
-    public override int GetHashCode()
-    {
-        return HashCode.Combine(base.GetHashCode(), Latitude, Longitude, X, Y, Z);
     }
 
     internal override GeometrySerializationRecord ToSerializationRecord()

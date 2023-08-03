@@ -11,7 +11,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 ///         JS API
 ///     </a>
 /// </summary>
-public class Extent : Geometry, IEquatable<Extent>
+public class Extent : Geometry
 {
     /// <summary>
     ///     Parameterless constructor for use as a razor component
@@ -68,22 +68,6 @@ public class Extent : Geometry, IEquatable<Extent>
     }
 
     /// <summary>
-    ///     Compares two Extent objects for equality
-    /// </summary>
-    public static bool operator ==(Extent? left, Extent? right)
-    {
-        return Equals(left, right);
-    }
-
-    /// <summary>
-    ///     Compares two Extent objects for inequality
-    /// </summary>
-    public static bool operator !=(Extent? left, Extent? right)
-    {
-        return !Equals(left, right);
-    }
-
-    /// <summary>
     ///     The maximum X-coordinate of an extent envelope.
     /// </summary>
     [Parameter]
@@ -134,37 +118,12 @@ public class Extent : Geometry, IEquatable<Extent>
     /// <inheritdoc />
     public override string Type => "extent";
 
-    /// <inheritdoc />
-    public bool Equals(Extent? other)
-    {
-        if (ReferenceEquals(null, other)) return false;
-
-        return Xmax.Equals(other.Xmax) && Xmin.Equals(other.Xmin) && Ymax.Equals(other.Ymax) &&
-            Ymin.Equals(other.Ymin) && Nullable.Equals(Zmax, other.Zmax) && Nullable.Equals(Zmin, other.Zmin) &&
-            Nullable.Equals(Mmax, other.Mmax) && Nullable.Equals(Mmin, other.Mmin);
-    }
-
     /// <summary>
     ///     Returns a deep clone of the geometry.
     /// </summary>
     public Extent Clone()
     {
         return new Extent(Xmax, Xmin, Ymax, Ymin, Zmax, Zmin, Mmax, Mmin, SpatialReference?.Clone());
-    }
-
-    /// <inheritdoc />
-    public override bool Equals(object? obj)
-    {
-        if (ReferenceEquals(null, obj)) return false;
-        if (obj.GetType() != GetType()) return false;
-
-        return Equals((Extent)obj);
-    }
-
-    /// <inheritdoc />
-    public override int GetHashCode()
-    {
-        return HashCode.Combine(Xmax, Xmin, Ymax, Ymin, Zmax, Zmin, Mmax, Mmin);
     }
 
     internal override GeometrySerializationRecord ToSerializationRecord()
