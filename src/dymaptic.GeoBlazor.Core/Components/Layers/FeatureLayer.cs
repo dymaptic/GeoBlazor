@@ -228,7 +228,7 @@ public class FeatureLayer : Layer
     ///     another layer or table.
     /// </summary>
     public Relationship[]? Relationships { get; set; }
-    
+
     /// <summary>
     ///     The template used in an associated layer's FeatureForm Widget (Available in GeoBlazor Pro). All of the properties and field configurations set on the layer's FeatureForm are handled via the FormTemplate.
     /// </summary>
@@ -312,7 +312,7 @@ public class FeatureLayer : Layer
     /// </summary>
     public async Task<FeatureEditsResult> ApplyEdits(FeatureEdits edits, FeatureEditOptions? options = null)
     {
-        return await JsLayerReference!.InvokeAsync<FeatureEditsResult>("applyEdits", edits, options, 
+        return await JsLayerReference!.InvokeAsync<FeatureEditsResult>("applyEdits", edits, options,
             View!.Id);
     }
 
@@ -817,6 +817,11 @@ public class FeatureLayer : Layer
         return result;
     }
 
+    /// <summary>
+    /// TimeInfo provides information such as date fields that store start and end time for each feature and the fullTimeExtent for the layer.
+    /// </summary>
+    public TimeInfo? TimeInfo { get; set; }
+
     /// <inheritdoc />
     internal override void ValidateRequiredChildren()
     {
@@ -960,6 +965,11 @@ public class FeatureLayer : Layer
         {
             Relationships = renderedFeatureLayer.Relationships;
         }
+
+        if (renderedFeatureLayer.TimeInfo is not null)
+        {
+            TimeInfo = renderedFeatureLayer.TimeInfo;
+        }
     }
 
     private HashSet<Graphic>? _source;
@@ -1039,7 +1049,7 @@ public class AttachmentEdit
     ///     The feature, objectId or globalId of feature associated with the attachment.
     /// </summary>
     public Graphic Feature { get; set; } = default!;
-    
+
     /// <summary>
     ///     The attachment to be added, updated or deleted.
     /// </summary>
@@ -1055,26 +1065,67 @@ public class Attachment
     ///     The globalId of the attachment to be added or updated. These Global IDs must be from the Global ID field created by ArcGIS. For more information on ArcGIS generated Global IDs, see the Global IDs and Attachments and relationship classes sections in the <a target="_blank" href="https://enterprise.arcgis.com/en/server/latest/publish-services/windows/prepare-data-for-offline-use.htm#ESRI_SECTION1_CDC34577197B43A980E4B5021DB1C32A">Data Preparation</a> documentation.
     /// </summary>
     public string GlobalId { get; set; } = default!;
-    
+
     /// <summary>
     ///     The name of the attachment. This parameter must be set if the attachment type is Blob.
     /// </summary>
     public string? Name { get; set; }
-    
+
     /// <summary>
     ///     The content type of the attachment. For example, 'image/jpeg'. See the ArcGIS REST API documentation for more information on supported attachment types.
     /// </summary>
     public string? ContentType { get; set; }
-    
+
     /// <summary>
     ///     The id of pre-loaded attachment.
     /// </summary>
     public string? UploadId { get; set; }
-    
+
     /// <summary>
     ///     The attachment data.
     /// </summary>
     public string? Data { get; set; }
+}
+
+/// <summary>
+/// Time info represents the temporal data of a time-aware layer. The time info class provides information such
+/// as date fields that store the start and end times for each feature and the total time span for the layer.
+/// </summary>
+public class TimeInfo
+{
+    public TimeInfo(string? startField, string? endField)
+    {
+        StartField = startField;
+        EndField = endField;
+    }
+
+
+    /// <summary>
+    ///   The name of the field containing the end time information.
+    /// </summary>
+    public string? EndField { get; set; }
+
+    /// <summary>
+    ///  The time extent defines the start time and end time for all data in the layer.
+    ///  The fullTimeExtent for timeInfo is automatically calculated based on its startField and endField properties.
+    ///  The timeInfo parameters cannot be changed after the layer is loaded.
+    /// </summary>
+    public TimeExtent? FullTimeExtent { get; set; }
+
+    /// <summary>
+    ///   The time interval defines the granularity of the temporal data and allows you to visualize the data at specified intervals using the time slider widget.
+    /// </summary>
+    public TimeInterval? Interval { get; set; }
+
+    /// <summary>
+    ///  The name of the field containing the start time information.
+    /// </summary>
+    public string? StartField { get; set; }
+
+    /// <summary>
+    /// The name of the field used to join or group discrete locations.
+    /// </summary>
+    public string? TrackIdField { get; set; }
 }
 
 /// <summary>
@@ -1087,13 +1138,13 @@ public class FeatureEditOptions
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? GdbVersion { get; set; }
-    
+
     /// <summary>
     ///     Indicates whether the edit results should return the time edits were applied. If true, the feature service will return the time edits were applied in the edit result's editMoment property. Only applicable with ArcGIS Server services only.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? ReturnEditMoment { get; set; }
-    
+
     /// <summary>
     ///     If set to original-and-current-features, the EditedFeatureResult parameter will be included in the applyEdits response. It contains all edited features participating in composite relationships in a database as result of editing a feature. Note that even for deletions, the geometry and attributes of the deleted feature are returned. The original-and-current-features option is only valid when rollbackOnFailureEnabled is true. The default value is none, which will not include the EditedFeatureResult parameter in the response. This is only applicable with ArcGIS Server services only.
     /// </summary>
@@ -1102,13 +1153,13 @@ public class FeatureEditOptions
     /// </remarks>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? ReturnServiceEditsOption { get; set; }
-    
+
     /// <summary>
     ///     Indicates whether the edits should be applied only if all submitted edits succeed. If false, the server will apply the edits that succeed even if some of the submitted edits fail. If true, the server will apply the edits only if all edits succeed. The layer's capabilities.editing.supportsRollbackOnFailure property must be true if using this parameter. If supportsRollbackOnFailure is false for a layer, then rollbackOnFailureEnabled will always be true, regardless of how the parameter is set.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? RollbackOnFailureEnabled { get; set; }
-    
+
     /// <summary>
     ///     Indicates whether the edits can be applied using globalIds of features or attachments. This parameter applies only if the layer's capabilities.editing.supportsGlobalId property is true. When false, globalIds submitted with the features are ignored and the service assigns new globalIds to the new features. When true, the globalIds must be submitted with the new features. When updating existing features, if the globalIdUsed is false, the objectIds of the features to be updated must be provided. If the globalIdUsed is true, globalIds of features to be updated must be provided. When deleting existing features, set this property to false as deletes operation only accepts objectIds at the current version of the API.
     ///     When adding, updating or deleting attachments, globalIdUsed parameter must be set to true and the attachment globalId must be set. For new attachments, the user must provide globalIds. In order for an attachment to be updated or deleted, clients must include its globalId. Attachments are not supported in an edit payload when globalIdUsed is false.
@@ -1145,8 +1196,8 @@ public class FeatureEditOptions
 /// <param name="EditMoment">
 ///     The time edits were applied to the feature service. This parameter is returned only when the returnEditMoment parameter of the applyEdits() method is set to true.
 /// </param>
-public record FeatureEditsResult(FeatureEditResult[] AddFeatureResults, FeatureEditResult[] UpdateFeatureResults, 
-    FeatureEditResult[] DeleteFeatureResults, FeatureEditResult[] AddAttachmentResults, 
+public record FeatureEditsResult(FeatureEditResult[] AddFeatureResults, FeatureEditResult[] UpdateFeatureResults,
+    FeatureEditResult[] DeleteFeatureResults, FeatureEditResult[] AddAttachmentResults,
     FeatureEditResult[] UpdateAttachmentResults, FeatureEditResult[] DeleteAttachmentResults,
     EditedFeatureResult[]? EditedFeatureResults, long? EditMoment);
 

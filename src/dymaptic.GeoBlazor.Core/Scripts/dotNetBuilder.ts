@@ -39,6 +39,7 @@ import {
     DotNetTextPopupContent,
     DotNetTextSymbol,
     DotNetViewHit,
+    DotNetTimeInfo,
     MapCollection,
     DotNetBookmark,
     DotNetViewpoint
@@ -402,6 +403,9 @@ export function buildDotNetFeatureLayer(layer: FeatureLayer): DotNetFeatureLayer
     if (layer.spatialReference !== undefined && layer.spatialReference !== null) {
         dotNetLayer.spatialReference = buildDotNetSpatialReference(layer.spatialReference) as DotNetSpatialReference;
     }
+    if (layer.timeInfo !== undefined && layer.timeInfo !== null) {
+        dotNetLayer.timeInfo = buildDotNetTimeInfo(layer.timeInfo) as DotNetTimeInfo;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(layer)) {
         for (const k of Object.keys(arcGisObjectRefs)) {
@@ -655,5 +659,24 @@ export function buildDotNetTimeExtent(timeExtent: any): any | null {
     return {
         start: timeExtent.start.toISOString(),
         end: timeExtent.end.toISOString()
+    } as any;
+}
+
+export function buildDotNetTimeInfo(timeInfo: any): DotNetTimeInfo {
+
+    return {
+        endField: timeInfo.endField,
+        startField: timeInfo.startField,
+        interval: buildDotNetTimeInterval(timeInfo.interval),
+        fullTimeExtent: buildDotNetTimeExtent(timeInfo.fullTimeExtent),
+        trackIdField: timeInfo.trackIdField
+    } as DotNetTimeInfo;
+}
+
+export function buildDotNetTimeInterval(interval: any): any | null {
+    if (interval === null) return null;
+    return {
+        unit: interval.unit,
+        value: interval.value
     } as any;
 }

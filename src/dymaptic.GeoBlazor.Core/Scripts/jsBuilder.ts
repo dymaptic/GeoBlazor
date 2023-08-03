@@ -973,6 +973,30 @@ export function buildJsFormTemplate(dotNetFormTemplate: any): FormTemplate {
     return formTemplate;
 }
 
+export function buildJsTimeSliderStops(dotNetStop: any): any | null {
+    if (dotNetStop === null) return null;
+    switch (dotNetStop.type) {
+        case "stops-by-dates":
+            return {
+                dates: dotNetStop.dates,
+            }
+            break;
+        case "stops-by-count":
+            return {
+                count: dotNetStop.count,
+                timeExtent: dotNetStop.timeExtent ?? undefined,
+            }
+            break;
+        case "stops-by-interval":
+            return {
+                interval: dotNetStop.interval,
+                timeExtent: dotNetStop.timeExtent ?? undefined,
+            }
+            break;
+    }
+    return null;
+}
+
 function buildJsFormTemplateElement(dotNetFormTemplateElement: any): Element {
     switch (dotNetFormTemplateElement.type) {
         case 'group':
@@ -1180,4 +1204,28 @@ export function buildJsEffect(dnEffect: any): any {
     } else {
         return dnEffect.value;
     }
+}
+
+export function buildJsTickConfigs(dotNetTickConfig: any): any {
+    if (dotNetTickConfig === undefined || dotNetTickConfig === null) return null;
+
+    let tickCreatedFunction = null;
+    if (dotNetTickConfig.tickCreatedFunction != null) {
+        tickCreatedFunction = eval(dotNetTickConfig.tickCreatedFunction);
+    }
+
+    let labelFormatFunction = null;
+    if (dotNetTickConfig.labelFormatFunction != null) {
+        labelFormatFunction = eval(dotNetTickConfig.labelFormatFunction);
+    }
+
+    let tickConfig = {
+        mode: dotNetTickConfig.mode ?? undefined,
+        count: dotNetTickConfig.count ?? undefined,
+        values: dotNetTickConfig.values ?? undefined,
+        labelsVisible: dotNetTickConfig.labelsVisible ?? undefined,
+        tickCreatedFunction: tickCreatedFunction ?? undefined,
+        labelFormatFunction: labelFormatFunction ?? undefined
+    }
+    return tickConfig;
 }
