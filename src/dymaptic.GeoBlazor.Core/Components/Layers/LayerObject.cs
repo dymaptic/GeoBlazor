@@ -58,11 +58,6 @@ public abstract class LayerObject : MapComponent
         switch (child)
         {
             case Symbol symbol:
-                //this was changed so that if the Symbol has already been added to the layer, we don't want to force an update on the client.
-                if (View?.ExtentChangedInJs == true && Symbol == symbol)
-                {
-                    return;
-                }
 
                 await SetSymbol(symbol);
 
