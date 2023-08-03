@@ -42,7 +42,9 @@ import {
     DotNetTimeInfo,
     MapCollection,
     DotNetBookmark,
-    DotNetViewpoint
+    DotNetViewpoint,
+    DotNetField,
+    DotNetDomain, DotNetCodedValueDomain, DotNetCodedValue, DotNetInheritedDomain, DotNetRangeDomain
 } from "./definitions";
 import Point from "@arcgis/core/geometry/Point";
 import Polyline from "@arcgis/core/geometry/Polyline";
@@ -84,6 +86,12 @@ import MapView from "@arcgis/core/views/MapView";
 import SceneView from "@arcgis/core/views/SceneView";
 import HitTestResult = __esri.HitTestResult;
 import ViewHit = __esri.ViewHit;
+import Renderer from "@arcgis/core/renderers/Renderer";
+import Field from "@arcgis/core/layers/support/Field";
+import Domain from "@arcgis/core/layers/support/Domain";
+import CodedValueDomain from "@arcgis/core/layers/support/CodedValueDomain";
+import InheritedDomain from "@arcgis/core/layers/support/InheritedDomain";
+import RangeDomain from "@arcgis/core/layers/support/RangeDomain";
 
 export function buildDotNetGraphic(graphic: Graphic): DotNetGraphic {
     let dotNetGraphic = {} as DotNetGraphic;
@@ -386,9 +394,8 @@ export function buildDotNetFeatureLayer(layer: FeatureLayer): DotNetFeatureLayer
         geometryType: layer.geometryType,
         orderBy: layer.orderBy,
         labelingInfo: layer.labelingInfo,
-        renderer: layer.renderer,
         portalItem: layer.portalItem,
-        fields: layer.fields,
+        fields: buildDotNetFields(layer.fields),
         relationships: layer.relationships
     } as DotNetFeatureLayer;
 
@@ -417,6 +424,67 @@ export function buildDotNetFeatureLayer(layer: FeatureLayer): DotNetFeatureLayer
     }
 
     return dotNetLayer;
+}
+
+export function buildDotNetFields(fields: Array<Field>): Array<DotNetField> {
+    let dotNetFields: Array<DotNetField> = [];
+    fields.forEach(f => {
+        dotNetFields.push({
+            name: f.name,
+            alias: f.alias,
+            type: f.type,
+            domain: buildDotNetDomain(f.domain),
+            editable: f.editable,
+            nullable: f.nullable,
+            length: f.length,
+            defaultValue: f.defaultValue,
+            description: f.description,
+            valueType: f.valueType
+        } as DotNetField)
+    });
+    return dotNetFields;
+}
+
+function buildDotNetDomain(domain: Domain): DotNetDomain | null {
+    if (domain === undefined || domain === null) return null;
+    switch (domain.type) {
+        case 'coded-value':
+            return buildDotNetCodedValueDomain(domain as CodedValueDomain);
+        case 'inherited':
+            return buildDotNetInheritedDomain(domain as InheritedDomain);
+        case 'range':
+            return buildDotNetRangeDomain(domain as RangeDomain);
+    }
+    return null;
+}
+
+function buildDotNetCodedValueDomain(domain: CodedValueDomain): DotNetCodedValueDomain {
+    return {
+        type: domain.type,
+        name: domain.name,
+        codedValues: domain.codedValues.map(cv => {
+            return {
+                name: cv.name,
+                code: cv.code
+            } as DotNetCodedValue
+        })
+    } as DotNetCodedValueDomain;
+}
+
+function buildDotNetInheritedDomain(domain: InheritedDomain): DotNetInheritedDomain {
+    return {
+        type: domain.type,
+        name: domain.name,
+    } as DotNetInheritedDomain;
+}
+
+function buildDotNetRangeDomain(domain: RangeDomain): DotNetRangeDomain {
+    return {
+        type: domain.type,
+        name: domain.name,
+        maxValue: domain.maxValue,
+        minValue: domain.minValue
+    } as DotNetRangeDomain;
 }
 
 export function buildDotNetGraphicsLayer(layer: GraphicsLayer): DotNetGraphicsLayer {
