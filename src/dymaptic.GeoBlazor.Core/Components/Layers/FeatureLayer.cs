@@ -1093,6 +1093,15 @@ public class Attachment
 /// </summary>
 public class TimeInfo
 {
+    /// <summary>
+    ///     Public constructor
+    /// </summary>
+    /// <param name="startField">
+    ///     The name of the field containing the start time information.
+    /// </param>
+    /// <param name="endField">
+    ///     The name of the field containing the end time information.
+    /// </param>
     public TimeInfo(string? startField, string? endField)
     {
         StartField = startField;
