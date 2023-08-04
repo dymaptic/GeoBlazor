@@ -262,13 +262,19 @@ export function buildJsPopupTemplate(popupTemplateObject: DotNetPopupTemplate, v
                     templateTriggerActionHandler.remove();
                 }
                 
-                // we need to wait for the popup to be initialized before we can add the trigger-action handler
-                reactiveUtils.once(() => view.popup.on !== undefined)
-                    .then(() => {
-                        templateTriggerActionHandler = view.popup.on("trigger-action", async (event: PopupTriggerActionEvent) => {
-                            await popupTemplateObject.dotNetPopupTemplateReference.invokeMethodAsync("OnTriggerAction", event.action.id);
-                        });
-                    })
+                if (view.popup.on === undefined) {
+                    // we need to wait for the popup to be initialized before we can add the trigger-action handler
+                    reactiveUtils.once(() => view.popup.on !== undefined)
+                        .then(() => {
+                            templateTriggerActionHandler = view.popup.on("trigger-action", async (event: PopupTriggerActionEvent) => {
+                                await popupTemplateObject.dotNetPopupTemplateReference.invokeMethodAsync("OnTriggerAction", event.action.id);
+                            });
+                        })
+                } else {
+                    templateTriggerActionHandler = view.popup.on("trigger-action", async (event: PopupTriggerActionEvent) => {
+                        await popupTemplateObject.dotNetPopupTemplateReference.invokeMethodAsync("OnTriggerAction", event.action.id);
+                    });
+                }
             }
             catch (error) {
                 console.debug(error);
