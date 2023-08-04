@@ -95,10 +95,8 @@ import PopupTriggerActionEvent = __esri.PopupTriggerActionEvent;
 import FeatureLayerBaseApplyEditsEdits = __esri.FeatureLayerBaseApplyEditsEdits;
 import AttachmentEdit = __esri.AttachmentEdit;
 import FormTemplate from "@arcgis/core/form/FormTemplate";
-import ElementProperties = __esri.ElementProperties;
 import Element from "@arcgis/core/form/elements/Element";
 import GroupElement from "@arcgis/core/form/elements/GroupElement";
-import FieldElement from "@arcgis/core/form/elements/FieldElement";
 import CodedValueDomain from "@arcgis/core/layers/support/CodedValueDomain";
 import RangeDomain from "@arcgis/core/layers/support/RangeDomain";
 import CodedValue = __esri.CodedValue;
@@ -109,7 +107,6 @@ import BarcodeScannerInput from "@arcgis/core/form/elements/inputs/BarcodeScanne
 import ComboBoxInput from "@arcgis/core/form/elements/inputs/ComboBoxInput";
 import RadioButtonsInput from "@arcgis/core/form/elements/inputs/RadioButtonsInput";
 import SwitchInput from "@arcgis/core/form/elements/inputs/SwitchInput";
-import Domain from "@arcgis/core/layers/support/Domain";
 import * as reactiveUtils from "@arcgis/core/core/reactiveUtils";
 
 
@@ -470,11 +467,11 @@ export function buildJsBookmark(dnBookmark: DotNetBookmark): Bookmark | null {
         //ESRI has this as an "object" with url property
         let thumbnail = { url: dnBookmark.thumbnail };
         bookmark.thumbnail = thumbnail;
-    } else {
-        bookmark.thumbnail = undefined;
     }
 
-    bookmark.viewpoint = buildJsViewpoint(dnBookmark.viewpoint);
+    if (hasValue(dnBookmark.viewpoint)) {
+        bookmark.viewpoint = buildJsViewpoint(dnBookmark.viewpoint) as Viewpoint;
+    }
 
     return bookmark as Bookmark;
 }
@@ -484,7 +481,7 @@ export function buildJsViewpoint(dnViewpoint: DotNetViewpoint): Viewpoint | null
     let viewpoint = new Viewpoint();
     viewpoint.rotation = dnViewpoint.rotation ?? undefined;
     viewpoint.scale = dnViewpoint.scale ?? undefined;
-    viewpoint.targetGeometry = buildJsGeometry(dnViewpoint.targetGeometry);
+    viewpoint.targetGeometry = buildJsGeometry(dnViewpoint.targetGeometry) as Geometry;
     return viewpoint as Viewpoint;
 }
 
@@ -634,7 +631,6 @@ export async function buildJsPopup(dotNetPopup: any, viewId: string): Promise<Po
         autoCloseEnabled: dotNetPopup.autoCloseEnabled ?? false,
         autoOpenEnabled: dotNetPopup.autoOpenEnabled ?? true,
         collapseEnabled: dotNetPopup.collapseEnabled ?? true,
-        collapsed: dotNetPopup.collapsed ?? false,
         defaultPopupTemplateEnabled: dotNetPopup.defaultPopupTemplateEnabled ?? false,
         headingLevel: dotNetPopup.headingLevel ?? 2,
         highlightEnabled: dotNetPopup.highlightEnabled ?? true,
@@ -986,19 +982,16 @@ export function buildJsTimeSliderStops(dotNetStop: any): any | null {
             return {
                 dates: dotNetStop.dates,
             }
-            break;
         case "stops-by-count":
             return {
                 count: dotNetStop.count,
                 timeExtent: dotNetStop.timeExtent ?? undefined,
             }
-            break;
         case "stops-by-interval":
             return {
                 interval: dotNetStop.interval,
                 timeExtent: dotNetStop.timeExtent ?? undefined,
             }
-            break;
     }
     return null;
 }
@@ -1165,12 +1158,11 @@ export function buildJsFeatureEffect(dnFeatureEffect: DotNetFeatureEffect): Feat
         } else {
             featureEffect.excludedEffect = dnFeatureEffect.excludedEffect.map(buildJsEffect);
         }
-
-    } else {
-        featureEffect.excludedEffect = undefined;
     }
     featureEffect.excludedLabelsVisible = dnFeatureEffect.excludedLabelsVisible ?? undefined;
-    featureEffect.filter = buildJsFeatureFilter(dnFeatureEffect.filter) ?? undefined;
+    if (hasValue(dnFeatureEffect?.excludedLabelsVisible)) {
+        featureEffect.filter = buildJsFeatureFilter(dnFeatureEffect.filter) as FeatureFilter;
+    }
 
     if (dnFeatureEffect.includedEffect != null) {
         if (dnFeatureEffect.includedEffect.length === 1) {
@@ -1178,9 +1170,6 @@ export function buildJsFeatureEffect(dnFeatureEffect: DotNetFeatureEffect): Feat
         } else {
             featureEffect.includedEffect = dnFeatureEffect.includedEffect.map(buildJsEffect);
         }
-
-    } else {
-        featureEffect.includedEffect = undefined;
     }
 
     return featureEffect;
@@ -1191,11 +1180,15 @@ export function buildJsFeatureFilter(dnFeatureFilter: DotNetFeatureFilter): Feat
 
     let featureFilter = new FeatureFilter();
     featureFilter.distance = dnFeatureFilter.distance ?? undefined;
-    featureFilter.geometry = buildJsGeometry(dnFeatureFilter.geometry);
+    if (hasValue(dnFeatureFilter.geometry)) {
+        featureFilter.geometry = buildJsGeometry(dnFeatureFilter.geometry) as Geometry;
+    }
     featureFilter.objectIds = dnFeatureFilter.objectIds ?? undefined;
     featureFilter.spatialRelationship = dnFeatureFilter.spatialRelationship ?? undefined;
     featureFilter.timeExtent = dnFeatureFilter.timeExtent ?? undefined;
-    featureFilter.units = dnFeatureFilter.units ?? undefined;
+    if (hasValue(dnFeatureFilter.where)) {
+        featureFilter.units = dnFeatureFilter.units as any;
+    }
     featureFilter.where = dnFeatureFilter.where ?? undefined;
     return featureFilter;
 }
@@ -1215,14 +1208,14 @@ export function buildJsEffect(dnEffect: any): any {
 export function buildJsTickConfigs(dotNetTickConfig: any): any {
     if (dotNetTickConfig === undefined || dotNetTickConfig === null) return null;
 
-    let tickCreatedFunction = null;
+    let tickCreatedFunction : Function | null = null;
     if (dotNetTickConfig.tickCreatedFunction != null) {
-        tickCreatedFunction = eval(dotNetTickConfig.tickCreatedFunction);
+        tickCreatedFunction = new Function(dotNetTickConfig.tickCreatedFunction);
     }
 
-    let labelFormatFunction = null;
+    let labelFormatFunction : Function | null = null;
     if (dotNetTickConfig.labelFormatFunction != null) {
-        labelFormatFunction = eval(dotNetTickConfig.labelFormatFunction);
+        labelFormatFunction = new Function(dotNetTickConfig.labelFormatFunction);
     }
 
     let tickConfig = {

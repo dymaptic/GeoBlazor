@@ -1,19 +1,7 @@
 @page "/Bookmarks"
-@using dymaptic.GeoBlazor.Core.Components.Widgets;
 
 <PageTitle>Bookmarks and Bookmarks Widget</PageTitle>
 <h1>Bookmarks Widget</h1>
-<link rel="stylesheet" href="https://js.arcgis.com/4.27/esri/themes/dark/main.css" />
-<style>
-    html,
-    body,
-    #viewDiv {
-        padding: 0;
-        margin: 0;
-        height: 100%;
-        width: 100%;
-    }
-</style>
 
 <div class="links-div">
     <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks.html">ArcGIS API for JavaScript Reference</a>
@@ -22,9 +10,9 @@
 
 <p class="instructions">
     Sample demonstrates the use of the Bookmarks widget and Bookmark actions.
-    This follows the ESRI eample, but the Timeline Widget is included with GeoBlazor pro.
+    This follows the ESRI sample, but the Timeline Widget is included with GeoBlazor pro.
 </p>
-<MapView @ref="MapView" OnClick="OnMapClick" Class="map-view" OnLayerViewCreate="OnLayerViewCreate">
+<MapView @ref="_mapView" Class="map-view" OnLayerViewCreate="OnLayerViewCreate">
     <WebMap>
         <PortalItem Id="70b726074af04a7e9839d8a07f64c039" />
     </WebMap>
@@ -36,23 +24,17 @@
 </MapView>
 
 @code {
-    private MapView? MapView { get; set; }
+    private MapView? _mapView;
 
-    private FeatureLayerView? _layerView { get; set; }
+    private FeatureLayerView? _layerView;
 
     private void OnLayerViewCreate(LayerViewCreateEvent evt)
     {
         _layerView = evt.LayerView as FeatureLayerView;
     }
 
-    private async void OnMapClick()
-    {
-        var bookmarks = await ((WebMap)MapView?.Map).GetBookmarks();
-    }
-
     private void OnBookmarkClick(BookmarkSelectEvent eventArgs)
     {
-        var layer = MapView!.Map!.Layers.FirstOrDefault();
         if (_layerView is null) return;
 
         var hurricaneName = eventArgs.Bookmark.Name;
@@ -61,7 +43,7 @@
             {
                 Filter = new FeatureFilter()
                 {
-                    Where = $"Name = '{hurricaneName.ToUpper()}'"
+                    Where = $"Name = '{hurricaneName!.ToUpper()}'"
                 },
                 ExcludedEffect = new() { new Effect() { Value = "grayscale(100%) opacity(30%)" } }
             };

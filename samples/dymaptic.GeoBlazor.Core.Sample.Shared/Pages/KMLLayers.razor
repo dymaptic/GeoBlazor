@@ -28,11 +28,12 @@
 @code {
     private void OnMapRendered() => _mapRendered = true;
 
+    // ReSharper disable once InconsistentNaming
     public async Task AddRemoveKMLLayer()
     {
-        KMLLayer kmlSampleLayer = new() { Url = _kmlLayerUrl };
+        KMLLayer kmlSampleLayer = new(_kmlLayerUrl);
 
-        if (!_view.Map.Layers.Any())
+        if (!_view!.Map!.Layers.Any())
         {
             await _view.AddLayer(kmlSampleLayer);
         }
@@ -46,11 +47,10 @@
 
 
 
+private MapView? _view;
 
-private MapView _view;
-
-private bool _mapRendered = false;
-private bool _markup = false;
+private bool _mapRendered;
+private bool _markup;
 
 private string _kmlLayerUrl = "https://earthquake.usgs.gov/fdsnws/event/1/query?format=kml&minmagnitude=5.8";
 }

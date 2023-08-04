@@ -22,6 +22,7 @@
         <GeneratePackageOnBuild Condition="$(Configuration) == 'RELEASE'">true</GeneratePackageOnBuild>
         <TargetFrameworks>net7.0;net6.0</TargetFrameworks>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     </PropertyGroup>
     <PropertyGroup Condition="$(Configuration) == 'DEBUG'">
         <DefaultItemExcludes>wwwroot/js/**</DefaultItemExcludes>
