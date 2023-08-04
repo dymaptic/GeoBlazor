@@ -73,7 +73,7 @@ public class BookmarksWidget : Widget
         switch (child)
         {
             case Bookmark bookmark:
-                if (!Bookmarks.Contains(bookmark)) Bookmarks.Add(bookmark);
+                if (!Bookmarks!.Contains(bookmark)) Bookmarks.Add(bookmark);
                 WidgetChanged = true;
                 break;
             default:
