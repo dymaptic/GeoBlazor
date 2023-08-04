@@ -1209,14 +1209,14 @@ export function buildJsEffect(dnEffect: any): any {
 export function buildJsTickConfigs(dotNetTickConfig: any): any {
     if (dotNetTickConfig === undefined || dotNetTickConfig === null) return null;
 
-    let tickCreatedFunction = null;
+    let tickCreatedFunction : Function | null = null;
     if (dotNetTickConfig.tickCreatedFunction != null) {
-        tickCreatedFunction = eval(dotNetTickConfig.tickCreatedFunction);
+        tickCreatedFunction = new Function(dotNetTickConfig.tickCreatedFunction);
     }
 
-    let labelFormatFunction = null;
+    let labelFormatFunction : Function | null = null;
     if (dotNetTickConfig.labelFormatFunction != null) {
-        labelFormatFunction = eval(dotNetTickConfig.labelFormatFunction);
+        labelFormatFunction = new Function(dotNetTickConfig.labelFormatFunction);
     }
 
     let tickConfig = {
