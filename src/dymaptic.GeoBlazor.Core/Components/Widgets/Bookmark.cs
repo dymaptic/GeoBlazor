@@ -13,6 +13,38 @@ namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 public class Bookmark : MapComponent
 {
     /// <summary>
+    ///     Parameterless constructor for use as a Blazor component.
+    /// </summary>
+    public Bookmark()
+    {
+    }
+    
+    /// <summary>
+    ///     Constructor for building in C#.
+    /// </summary>
+    /// <param name="name">
+    ///     The name of the bookmark.
+    /// </param>
+    /// <param name="timeExtent">
+    ///     The extent of the specified bookmark.
+    /// </param>
+    /// <param name="thumbnail">
+    ///     The URL for a thumbnail image.
+    /// </param>
+    /// <param name="viewpoint">
+    ///     The viewpoint of the bookmark item. Defines the rotation, scale, and target geometry of the bookmark.
+    /// </param>
+    public Bookmark(string? name = null, TimeExtent? timeExtent = null, string? thumbnail = null, Viewpoint? viewpoint = null)
+    {
+#pragma warning disable BL0005
+        Name = name;
+        TimeExtent = timeExtent;
+        Thumbnail = thumbnail;
+        Viewpoint = viewpoint;
+#pragma warning restore BL0005
+    }
+    
+    /// <summary>
     /// The extent of the specified bookmark.
     /// </summary>
     [Parameter]
@@ -58,7 +90,7 @@ public class Bookmark : MapComponent
     {
         switch (child)
         {
-            case Viewpoint viewpoint:
+            case Viewpoint _:
                 Viewpoint = null;
                 break;
             default:

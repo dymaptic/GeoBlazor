@@ -1,5 +1,4 @@
 ﻿@page "/widgets"
-@using GeoBlazor.Core.Components.Widgets;
 
 <PageTitle>Widgets</PageTitle>
 <h1>Widgets</h1>
@@ -144,54 +143,18 @@
         }
     }
 
-    private List<Bookmark> _bookmarks = new List<Bookmark>()
+    private readonly List<Bookmark> _bookmarks = new List<Bookmark>()
     {
-        new Bookmark()
-        {
-            Name="Angeles National Forest",
-            Thumbnail="/_content/dymaptic.GeoBlazor.Core.Sample.Shared/images/Blazor-API-60px.png",
-            Viewpoint = new Viewpoint()
-            {
-                TargetGeometry = new Extent()
-                {
-                    SpatialReference = new SpatialReference(102100),
-                    Xmin = -13139131.948889678,
-                    Ymin = 4047767.23531948,
-                    Xmax = -13092887.54677721,
-                    Ymax = 4090610.189673263,
-                }
-            }
-        },
-        new Bookmark()
-        {
-            Name = "Crystal Lake",
-            Viewpoint = new Viewpoint()
-            {
-                TargetGeometry = new Extent()
-                {
-                    SpatialReference = new SpatialReference(102100),
-                    Xmin = -13125852.551697943,
-                    Ymin = 4066904.1101411926,
-                    Xmax = -13114291.451169826,
-                    Ymax = 4077614.8487296384
-                }
-            }
-        },
-        new Bookmark()
-        {
-            Name = "Mt. Waterman",
-            Viewpoint = new Viewpoint()
-            {
-                TargetGeometry = new Extent()
-                {
-                    SpatialReference = new SpatialReference(102100),
-                    Xmin= -13185668.186639601,
-                    Ymin= 4066176.418652561,
-                    Xmax= -13183855.195875114,
-                    Ymax= 4067515.260976006
-                }
-            }
-        }
+        new Bookmark("Angeles National Forest",
+            thumbnail: "/_content/dymaptic.GeoBlazor.Core.Sample.Shared/images/Blazor-API-60px.png",
+            viewpoint: new Viewpoint(new Extent(-13092887.54677721, -13139131.948889678, 
+                4090610.189673263, 4047767.23531948, spatialReference: new SpatialReference(102100)))),
+        new Bookmark("Crystal Lake",
+            viewpoint: new Viewpoint(new Extent(-13114291.451169826, -13125852.551697943,
+                4077614.8487296384, 4066904.1101411926, spatialReference: new SpatialReference(102100)))),
+        new Bookmark("Mt. Waterman",
+            viewpoint: new Viewpoint(new Extent(-13183855.195875114, -13185668.186639601,
+                4067515.260976006, 4066176.418652561, spatialReference: new SpatialReference(102100))))
     };
 
     private bool _showSearch;

@@ -2,6 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     </PropertyGroup>
 
 

@@ -25,11 +25,15 @@ public class KMLLayer : Layer
     public KMLLayer()
     {
     }
+
     /// <summary>
     ///     Constructor for use in code
     /// </summary>
     /// <param name="url">
     ///     The url for the KML Layer source data.
+    /// </param>
+    /// <param name="portalItem">
+    ///     The portal item for the KML Layer source data.
     /// </param>
     public KMLLayer(string? url = null, PortalItem? portalItem = null)
     {
