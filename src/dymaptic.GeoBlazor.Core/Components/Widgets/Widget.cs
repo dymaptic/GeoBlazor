@@ -68,6 +68,13 @@ public abstract class Widget : MapComponent
     {
         JsObjectReference = jsObjectReference;
     }
+    
+    /// <inheritdoc />
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        WidgetChanged = true;
+    }
 
     /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -79,7 +86,6 @@ public abstract class Widget : MapComponent
             await UpdateWidget();
         }
     }
-
     
     private async Task UpdateWidget()
     {

@@ -531,3 +531,39 @@ export interface DotNetFeatureFilter {
     units: string;
     where: string;
 }
+
+export interface DotNetField {
+    alias: string;
+    defaultValue: any;
+    description: string;
+    domain: DotNetDomain;
+    editable: boolean;
+    length: number;
+    name: string;
+    type: "small-integer"|"integer"|"single"|"double"|"long"|"string"|"date"|"oid"|"geometry"|"blob"|"raster"|"guid"|"global-id"|"xml";
+    valueType: string;
+}
+
+export interface DotNetDomain {
+    type: string;
+}
+
+export interface DotNetCodedValueDomain extends DotNetDomain {
+    codedValues: DotNetCodedValue[];
+    name: string;
+}
+
+export interface DotNetCodedValue {
+    name: string;
+    code: any;
+}
+
+export interface DotNetRangeDomain extends DotNetDomain {
+    maxValue: number;
+    minValue: number;
+    name: string;
+}
+
+export interface DotNetInheritedDomain extends DotNetDomain {
+    name: string;
+}
