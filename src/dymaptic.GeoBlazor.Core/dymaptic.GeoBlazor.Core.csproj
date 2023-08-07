@@ -22,7 +22,6 @@
         <GeneratePackageOnBuild Condition="$(Configuration) == 'RELEASE'">true</GeneratePackageOnBuild>
         <TargetFrameworks>net7.0;net6.0</TargetFrameworks>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-        <UserSecretsId>364f0380-f3fa-441e-8138-e888b38a26c4</UserSecretsId>
     </PropertyGroup>
     <PropertyGroup Condition="$(Configuration) == 'DEBUG'">
         <DefaultItemExcludes>wwwroot/js/**</DefaultItemExcludes>

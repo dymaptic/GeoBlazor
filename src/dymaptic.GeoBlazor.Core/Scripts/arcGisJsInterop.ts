@@ -87,7 +87,7 @@ import {
     buildJsDimensionalDefinition,
     buildJsColorRamp,
     buildJsAlgorithmicColorRamp,
-    buildJSMultipartColorRamp,
+    buildJsMultipartColorRamp,
     buildJsRasterStretchRenderer
 } from "./jsBuilder";
 import {

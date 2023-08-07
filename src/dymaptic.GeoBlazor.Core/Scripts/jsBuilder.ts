@@ -584,7 +584,7 @@ export function buildJsColorRamp(dotNetColorRamp: any): ColorRamp | null {
     if (dotNetColorRamp === undefined) return null;
     switch (dotNetColorRamp.type) {
         case 'multipart':
-            return buildJSMultipartColorRamp(dotNetColorRamp);
+            return buildJsMultipartColorRamp(dotNetColorRamp);
         default:
             return buildJsAlgorithmicColorRamp(dotNetColorRamp);
     }
@@ -605,7 +605,7 @@ export function buildJsDimensionalDefinition(dotNetMultidimensionalDefinition: a
     return multidimensionalDefinition;
 }
 
-export function buildJSMultipartColorRamp(dotNetMultipartColorRamp: any): MultipartColorRamp | null {
+export function buildJsMultipartColorRamp(dotNetMultipartColorRamp: any): MultipartColorRamp | null {
     if (dotNetMultipartColorRamp === undefined) return null;
     let multipartColorRamp = new MultipartColorRamp();
     multipartColorRamp.colorRamps = dotNetMultipartColorRamp.colorRamps.map(buildJsAlgorithmicColorRamp);

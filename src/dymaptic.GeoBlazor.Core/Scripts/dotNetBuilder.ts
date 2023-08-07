@@ -42,11 +42,6 @@ import {
     MapCollection,
     DotNetBookmark,
     DotNetViewpoint,
-    DotNetDimensionDefinition,
-    DotNetRasterStretchRenderer,
-    DotNetAlgorithmicColorRamp,
-    DotNetColorRamp,
-    DotNetMultiPartColorRamp
 } from "./definitions";
 import Point from "@arcgis/core/geometry/Point";
 import Polyline from "@arcgis/core/geometry/Polyline";
@@ -88,12 +83,7 @@ import MapView from "@arcgis/core/views/MapView";
 import SceneView from "@arcgis/core/views/SceneView";
 import HitTestResult = __esri.HitTestResult;
 import ViewHit = __esri.ViewHit;
-import RasterStretchRenderer from "@arcgis/core/renderers/RasterStretchRenderer.js"
-import ColorRamp from "@arcgis/core/rest/support/ColorRamp.js";
-import DimensionalDefinition from "@arcgis/core/layers/support/DimensionalDefinition.js";
-import AlgorithmicColorRamp from "@arcgis/core/rest/support/AlgorithmicColorRamp";
-import MultipartColorRamp from "@arcgis/core/rest/support/MultipartColorRamp";
-import Color from "@arcgis/core/Color.js";
+
 
 export function buildDotNetGraphic(graphic: Graphic): DotNetGraphic {
     let dotNetGraphic = {} as DotNetGraphic;
@@ -669,54 +659,3 @@ export function buildDotNetTimeExtent(timeExtent: any): any | null {
     } as any;
 }
 
-export function buildDotNetDimensionDefinition(dimensionDefinition: DimensionalDefinition): any | null {
-    if (dimensionDefinition === null) return null;
-    return {
-        dimensionName: dimensionDefinition.dimensionName,
-        isSlice: dimensionDefinition.isSlice,
-        values: dimensionDefinition.values,
-        variableName: dimensionDefinition.variableName
-    } as DotNetDimensionDefinition;
-}
-export function buildDotNetAlgorithmicColorRamp(algorithmicColorRamp: AlgorithmicColorRamp): any | null {
-    if (algorithmicColorRamp === null) return null;
-    return {
-
-        algorithm: algorithmicColorRamp.algorithm,
-        fromColor: algorithmicColorRamp.fromColor as Color,
-        toColor: algorithmicColorRamp.toColor as Color
-    } as DotNetAlgorithmicColorRamp;
-}
-
-export function buildDotNetMultipartColorRamp(multipartColorRamp: MultipartColorRamp): any | null {
-    if (multipartColorRamp === null) return null;
-    return {
-        type: multipartColorRamp.type,
-        colorRamps: (multipartColorRamp.colorRamps as AlgorithmicColorRamp[])?.map(c => buildDotNetAlgorithmicColorRamp(c))
-    } as any as DotNetMultiPartColorRamp;
-}
-
-// template.content = (popupTemplate.content as any[])?.map(c => buildDotNetPopupContent(c));
-export function buildDotNetColorRamp(colorRamp: ColorRamp): any | null {
-    if (colorRamp === null) return null;
-    return {
-        type: colorRamp.type,
-        colorRamps: colorRamp.colorRamps as MultipartColorRamp
-    } as any as DotNetColorRamp;
-}
-
-export function buildDotNetRasterStretchRenderer(rasterStretchRenderer: RasterStretchRenderer): any | null {
-    if (rasterStretchRenderer === null) return null;
-    return {
-        type: rasterStretchRenderer.type,
-        colorRamp: rasterStretchRenderer.colorRamp,
-        computeGamma: rasterStretchRenderer.computeGamma,
-        dynamicRangeAdjustment: rasterStretchRenderer.dynamicRangeAdjustment,
-        statistics: rasterStretchRenderer.statistics,
-        gamma: rasterStretchRenderer.gamma,
-        outputMax: rasterStretchRenderer.outputMax,
-        outputMin: rasterStretchRenderer.outputMin,
-        stretchType: rasterStretchRenderer.stretchType.toString(),
-    }  as any as DotNetRasterStretchRenderer;
-
-}
