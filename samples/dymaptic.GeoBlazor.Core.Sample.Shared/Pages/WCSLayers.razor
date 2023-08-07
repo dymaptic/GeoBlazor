@@ -28,26 +28,23 @@
 
     public async Task AddRemoveWCSLayer()
     {
-        _wcsSampleRenderer = CreateRenderer();
-        _wcsSampleDimensionalDefinition = CreateDimensionalDefinition();
-
-        WCSLayer wcsSampleLayer = new(_wcsLayerUrl, _wcsSampleDimensionalDefinition, _wcsSampleRenderer, _wcsSampleOpacity, _wcsSampleTitle);
-
         if (!_view!.Map!.Layers.Any())
         {
-            await _view.AddLayer(wcsSampleLayer);
+            _wcsSampleRenderer = CreateRenderer();
+            _wcsSampleDimensionalDefinition = CreateDimensionalDefinition();
+            _wcsSampleLayer = new(_wcsLayerUrl, _wcsSampleDimensionalDefinition, _wcsSampleRenderer, _wcsSampleOpacity, _wcsSampleTitle);
+            await _view.AddLayer(_wcsSampleLayer);
         }
         else
         {
-            _view.Map.Layers.Clear();
+            await _view.RemoveLayer(_wcsSampleLayer!);
         }
-        _view.Refresh();
     }
 
     public List<DimensionalDefinition> CreateDimensionalDefinition()
     {
         // initializes the dimensional filter for the raster display
-        List<DimensionalDefinition>? multidimensionalDefinition = new()
+        List<DimensionalDefinition> multidimensionalDefinition = new()
             {
                 new(dimensionName: "StdZ", variableName: "water_temp", values: new List<long> { 0 }), 
                 new(dimensionName: "Std_Time", variableName: "temperature", values: new List<long>{ 1396828800000 } )
@@ -74,13 +71,14 @@
     }
 
     private MapView? _view;
-    private bool _markup = false;
-    private bool _mapRendered = false;
+    private bool _markup;
+    private bool _mapRendered;
     private string _wcsLayerUrl = "https://sampleserver6.arcgisonline.com/arcgis/services/ScientificData/SeaTemperature/ImageServer/WCSServer?request=GetCapabilities&service=WCS";
     private double _wcsSampleOpacity = 0.5;
     private string _wcsSampleTitle = "Sea temperature - sea level";
-    private RasterStretchRenderer? _wcsSampleRenderer = null;
-    private List<DimensionalDefinition>? _wcsSampleDimensionalDefinition = null;
+    private RasterStretchRenderer? _wcsSampleRenderer;
+    private List<DimensionalDefinition>? _wcsSampleDimensionalDefinition;
+    private WCSLayer? _wcsSampleLayer;
 
 
 }

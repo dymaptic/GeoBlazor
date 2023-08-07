@@ -1,20 +1,9 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Layers;
 using dymaptic.GeoBlazor.Core.Components.Renderers.ColorRamps;
-using dymaptic.GeoBlazor.Core.Extensions;
 using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
-using System;
-using System.Buffers.Text;
-using System.Collections.Generic;
-using System.ComponentModel.Design;
-using System.Diagnostics.Contracts;
-using System.Diagnostics.Metrics;
-using System.IO.Pipelines;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
+
 
 namespace dymaptic.GeoBlazor.Core.Components.Renderers;
 
@@ -56,7 +45,9 @@ public class RasterStretchRenderer : LayerObject
 #pragma warning restore BL0005
     }
 
-    /// <inheritdoc />
+    /// <summary>
+    ///     The type of renderer.
+    /// </summary>
     [JsonPropertyName("type")]
     public string Type => "raster-stretch";
 

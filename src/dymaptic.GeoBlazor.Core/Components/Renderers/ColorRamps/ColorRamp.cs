@@ -1,6 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Components.Renderers.ColorRamps;
-using dymaptic.GeoBlazor.Core.Serialization;
-using Microsoft.AspNetCore.Components;
+﻿using dymaptic.GeoBlazor.Core.Serialization;
 using System.Text.Json.Serialization;
 
 namespace dymaptic.GeoBlazor.Core.Components.Renderers.ColorRamps;
@@ -17,8 +15,6 @@ namespace dymaptic.GeoBlazor.Core.Components.Renderers.ColorRamps;
 /// </summary>
 public abstract class ColorRamp : MapComponent
 {
-
-    /// <inheritdoc />
     /// <summary>
     ///     A string value representing the color ramp type.  Possible Values:"algorithmic"|"multipart"
     /// </summary>

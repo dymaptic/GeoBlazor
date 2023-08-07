@@ -1,9 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Serialization;
-using Microsoft.AspNetCore.Components;
-using System.Text.Json.Serialization;
-
-
-namespace dymaptic.GeoBlazor.Core.Components.Renderers.ColorRamps;
+﻿namespace dymaptic.GeoBlazor.Core.Components.Renderers.ColorRamps;
 
 /// <summary>
 ///     Creates a color ramp for use in a raster renderer. The algorithmic color ramp is defined by specifying two colors and the
