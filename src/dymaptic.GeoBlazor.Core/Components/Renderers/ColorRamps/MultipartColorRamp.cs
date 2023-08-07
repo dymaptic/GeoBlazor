@@ -20,9 +20,14 @@ public class MultipartColorRamp : ColorRamp
     /// </summary>
     public MultipartColorRamp() { }
 
+    /// <summary>
+    ///     Constructor for use in code
+    /// </summary>
     public MultipartColorRamp(List<AlgorithmicColorRamp>? colorRamps)
     {
+#pragma warning disable BL0005
         ColorRamps = colorRamps;
+#pragma warning restore BL0005
     }
     /// <inheritdoc />
     /// <summary>

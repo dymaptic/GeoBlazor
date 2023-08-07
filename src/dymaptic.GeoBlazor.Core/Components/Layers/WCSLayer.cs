@@ -35,6 +35,11 @@ public class WCSLayer : Layer
     /// <param name="url">
     ///     The url for the WCS Layer source data.
     /// </param>
+    /// <param name="multidimensionalDefinition"></param>
+    /// <param name="renderer"></param>
+    /// <param name="opacity"></param>
+    /// <param name="title"></param>
+    /// <param name="portalItem"></param>
     public WCSLayer(string? url = null, List<DimensionalDefinition>? multidimensionalDefinition = null, RasterStretchRenderer? renderer = null,
         double? opacity = null, string? title = null, PortalItem? portalItem = null)
     {
@@ -43,21 +48,26 @@ public class WCSLayer : Layer
             throw new MissingRequiredOptionsChildElementException(nameof(WCSLayer),
                 new[] {nameof(Url), nameof(PortalItem)});
         }
+#pragma warning disable BL0005
         Url = url;
         PortalItem = portalItem;
         MultidimensionalDefinition = multidimensionalDefinition;
         Renderer = renderer;
         Opacity = opacity;
         Title = title;
+#pragma warning restore BL0005
     }
 
+    /// <summary>
+    ///  The url for the particular WCS Layer source data.
+    /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [RequiredProperty(nameof(PortalItem))]
     public string? Url { get; set; }
 
     /// <summary>
-    ///     The portal item for the KML Layer source data.
+    ///     The portal item for the WCS Layer source data.
     /// </summary>
     [RequiredProperty(nameof(Url))]
     public PortalItem? PortalItem { get; set; }
@@ -65,17 +75,7 @@ public class WCSLayer : Layer
     /// <summary>
     ///     The multidimensional definitions associated with the layer.
     /// </summary>
-    public List<DimensionalDefinition>? MultidimensionalDefinition { get; private set; }
-
-    /// <summary>
-    ///     The opacity of the layer.
-    /// </summary>
-    public double? Opacity { get; private set; }
-
-    /// <summary>
-    ///     The title of the layer used to identify it in places such as the LayerList widget.
-    /// </summary>
-    public string? Title { get; private set; }
+    public List<DimensionalDefinition>? MultidimensionalDefinition { get; set; }
 
     /// <summary>
     ///     The renderer assigned to the layer. The renderer defines how to visualize pixels in the WCSLayer. 
@@ -83,7 +83,7 @@ public class WCSLayer : Layer
     ///     Currently, only the RasterStretchRenderer has been implemented, ClassBreaksRenderer will be implemented
     ///     in the future.
     /// </summary>
-    public RasterStretchRenderer Renderer { get; private set; }
+    public RasterStretchRenderer? Renderer { get; set; }
     // Class Breaks renderer still needs to be added to this layer for a classified pixel render.
 
     /// <inheritdoc />

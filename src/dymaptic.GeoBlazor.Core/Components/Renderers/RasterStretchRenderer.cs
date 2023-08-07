@@ -36,9 +36,13 @@ public class RasterStretchRenderer : LayerObject
     /// </summary>
     public RasterStretchRenderer() { }
 
+    /// <summary>
+    ///     Constructor for use in code
+    /// </summary>
     public RasterStretchRenderer(MultipartColorRamp? colorRamp = null, bool? computeGamma = null, bool? dynamicRangeAdjustment = null, List<int>? gamma = null, int? outputMax = null, int? outputMin = null,
         StretchType? stretchType = null, List<List<int>>? statistics = null, bool? useGamma = null, int? numberOfStandardDeviations = null)
     {
+#pragma warning disable BL0005
         ColorRamp = colorRamp;
         ComputeGamma = computeGamma;
         DynamicRangeAdjustment = dynamicRangeAdjustment;
@@ -49,6 +53,7 @@ public class RasterStretchRenderer : LayerObject
         Statistics = statistics;
         UseGamma = useGamma;
         NumberOfStandardDeviations = numberOfStandardDeviations;
+#pragma warning restore BL0005
     }
 
     /// <inheritdoc />
@@ -159,9 +164,6 @@ public class RasterStretchRenderer : LayerObject
         base.ValidateRequiredChildren();
     }
 
-
-
-    
 }
 
 /// <summary>
@@ -171,11 +173,13 @@ public class RasterStretchRenderer : LayerObject
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<StretchType>))]
 public enum StretchType
 {
+#pragma warning disable CS1591
     None,
     StandardDeviation,
     HistogramEqualization,
     MinMax,
     PercentClip,
     Sigmoid
+#pragma warning restore CS1591
 }
 

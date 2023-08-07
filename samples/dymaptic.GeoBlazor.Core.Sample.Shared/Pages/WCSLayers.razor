@@ -12,7 +12,7 @@
 <button disabled="@(!_mapRendered)" @onclick="(()=>AddRemoveWCSLayer())">Add/Remove the WCS Layer with color ramp enabled</button>
 <button disabled="@(!_mapRendered)" @onclick="(()=>_markup = !_markup)">Add/Remove new WCS Layer in Markup without colorizing</button>
 
-<MapView @ref="_view" class="map-view" OnMapRendered="OnMapRendered">
+<MapView @ref="_view" class="map-view" OnViewRendered="OnMapRendered">
     <Map ArcGISDefaultBasemap="arcgis-light-gray">
         @if (_markup)
         {
@@ -33,17 +33,15 @@
 
         WCSLayer wcsSampleLayer = new(_wcsLayerUrl, _wcsSampleDimensionalDefinition, _wcsSampleRenderer, _wcsSampleOpacity, _wcsSampleTitle);
 
-        if (!_view.Map.Layers.Any())
+        if (!_view!.Map!.Layers.Any())
         {
             await _view.AddLayer(wcsSampleLayer);
-
         }
         else
         {
             _view.Map.Layers.Clear();
         }
         _view.Refresh();
-
     }
 
     public List<DimensionalDefinition> CreateDimensionalDefinition()
@@ -51,19 +49,8 @@
         // initializes the dimensional filter for the raster display
         List<DimensionalDefinition>? multidimensionalDefinition = new()
             {
-                new()
-                {
-                    VariableName = "water_temp", // water temp at sea level
-                    DimensionName = "StdZ",
-                    Values = new List<long> { 0 }
-                },
-                new()
-                {
-                    VariableName = "temperature",
-                    DimensionName = "Std_Time",
-                    Values = new List<long>{ 1396828800000 }
-                }
-
+                new(dimensionName: "StdZ", variableName: "water_temp", values: new List<long> { 0 }), 
+                new(dimensionName: "Std_Time", variableName: "temperature", values: new List<long>{ 1396828800000 } )
             };
         return multidimensionalDefinition;
     }
@@ -71,34 +58,22 @@
 
     public RasterStretchRenderer CreateRenderer()
     {
-        var toFromColor1 = new AlgorithmicColorRamp
-            {
-                FromColor = new MapColor( 0, 0, 255 ),
-                ToColor = new MapColor ( 0, 255, 255 )
-            };
+        var toFromColor1 = new AlgorithmicColorRamp(algorithm: Algorithm.Hsv, fromColor: new MapColor(0, 0, 255), toColor: new MapColor(0, 255, 255));
 
-        var toFromColor2 = new AlgorithmicColorRamp
-            {
-                FromColor = new MapColor ( 0, 255, 255 ),
-                ToColor = new MapColor ( 255, 255, 0 )
-            };
+        var toFromColor2 = new AlgorithmicColorRamp(algorithm: Algorithm.Hsv, fromColor: new MapColor(0, 255, 255), toColor: new MapColor(255, 255, 0));
 
-        var toFromColor3 = new AlgorithmicColorRamp
-            {
-                FromColor = new MapColor ( 255, 255, 0 ),
-                ToColor = new MapColor ( 255, 0, 0 )
-            };
+        var toFromColor3 = new AlgorithmicColorRamp(algorithm: Algorithm.Hsv, fromColor: new MapColor(255, 255, 0), toColor: new MapColor(255, 0, 0));
 
         List<AlgorithmicColorRamp> wcsLayerColorRamps = new() {toFromColor1,toFromColor2,toFromColor3};
 
         MultipartColorRamp wcsLayercolorRamp = new(wcsLayerColorRamps);
         List<List<int>> wcsLayerStatistics = new() { new List<int> { -3, 37, 1, 1 } };
         RasterStretchRenderer displayRenderer = new(colorRamp: wcsLayercolorRamp, stretchType: StretchType.StandardDeviation, statistics: wcsLayerStatistics, numberOfStandardDeviations: 3);
-        
+
         return displayRenderer;
     }
 
-    private MapView _view;
+    private MapView? _view;
     private bool _markup = false;
     private bool _mapRendered = false;
     private string _wcsLayerUrl = "https://sampleserver6.arcgisonline.com/arcgis/services/ScientificData/SeaTemperature/ImageServer/WCSServer?request=GetCapabilities&service=WCS";
@@ -106,5 +81,6 @@
     private string _wcsSampleTitle = "Sea temperature - sea level";
     private RasterStretchRenderer? _wcsSampleRenderer = null;
     private List<DimensionalDefinition>? _wcsSampleDimensionalDefinition = null;
-    
+
+
 }

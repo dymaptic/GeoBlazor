@@ -24,7 +24,6 @@ public abstract class ColorRamp : MapComponent
     /// </summary>
     [JsonPropertyName("type")]
     public abstract ColorRampType ColorRampType { get; }
-
 }
 
 /// <summary>
@@ -33,6 +32,8 @@ public abstract class ColorRamp : MapComponent
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<ColorRampType>))]
 public enum ColorRampType
 {
+#pragma warning disable CS1591
     Algorithmic,
     Multipart
+#pragma warning restore CS1591
 }

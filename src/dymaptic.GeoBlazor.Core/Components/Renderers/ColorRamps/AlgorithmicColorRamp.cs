@@ -27,11 +27,16 @@ public class AlgorithmicColorRamp : ColorRamp
     /// </summary>
     public AlgorithmicColorRamp() { }
 
-    public AlgorithmicColorRamp(Algorithm algorithm, MapColor? fromColor, MapColor? toColor)
+    /// <summary>
+    ///     Constructor for use in code
+    /// </summary>
+    public AlgorithmicColorRamp(Algorithm algorithm, MapColor? fromColor = null, MapColor? toColor = null)
     {
+#pragma warning disable BL0005
         Algorithm = algorithm;
         FromColor = fromColor;
         ToColor = toColor;
+#pragma warning restore BL0005
     }
     /// <inheritdoc />
     /// <summary>
