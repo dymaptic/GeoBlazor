@@ -567,3 +567,40 @@ export interface DotNetRangeDomain extends DotNetDomain {
 export interface DotNetInheritedDomain extends DotNetDomain {
     name: string;
 }
+export interface DotNetDimensionDefinition {
+    dimensionName: string;
+    isSlice: boolean;
+    values: number[];
+    variableName: string;
+}
+
+export interface DotNetRasterStretchRenderer {
+    type: string;
+    colorRamp: DotNetColorRamp;
+    computeGamma: boolean;
+    dynamicRangeAdjustment: boolean;
+    statistics: [number[]];
+    gamma: number[];
+    useGamma: boolean;
+    outputMax: number;
+    outputMin: number;
+    stretchType: string;
+    numberOfStandardDeviations: number;
+}
+
+export interface DotNetColorRamp {
+    type: string;
+    multipartColorRamps: DotNetMultiPartColorRamp[];
+}
+
+export interface DotNetAlgorithmicColorRamp {
+    type: string;
+    algorithm: string;
+    fromColor: color;
+    toColor: color;
+}
+
+export interface DotNetMultiPartColorRamp {
+    type: string;
+    algorithmicColorRamps: DotNetAlgorithmicColorRamp[];
+}

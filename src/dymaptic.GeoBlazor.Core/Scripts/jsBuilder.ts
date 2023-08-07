@@ -16,6 +16,11 @@ import Bookmark from "@arcgis/core/webmap/Bookmark"
 import Viewpoint from "@arcgis/core/Viewpoint";
 import FeatureEffect from "@arcgis/core/layers/support/FeatureEffect";
 import FeatureFilter from "@arcgis/core/layers/support/FeatureFilter";
+import RasterStretchRenderer from "@arcgis/core/renderers/RasterStretchRenderer.js"
+import ColorRamp from "@arcgis/core/rest/support/ColorRamp.js";
+import DimensionalDefinition from "@arcgis/core/layers/support/DimensionalDefinition.js";
+import MultipartColorRamp from "@arcgis/core/rest/support/MultipartColorRamp.js";
+import AlgorithmicColorRamp from "@arcgis/core/rest/support/AlgorithmicColorRamp.js";
 import {
     DotNetApplyEdits,
     DotNetAttachmentsEdit,
@@ -56,7 +61,10 @@ import {
     DotNetBookmark,
     DotNetViewpoint,
     DotNetFeatureEffect,
-    DotNetFeatureFilter
+    DotNetFeatureFilter,
+    DotNetRasterStretchRenderer,
+    DotNetDimensionDefinition,
+    DotNetColorRamp
 } from "./definitions";
 import PictureMarkerSymbol from "@arcgis/core/symbols/PictureMarkerSymbol";
 import Popup from "@arcgis/core/widgets/Popup";
@@ -535,14 +543,83 @@ export function buildJsRenderer(dotNetRenderer: any): Renderer | null {
     let dotNetSymbol = dotNetRenderer.symbol;
     switch (dotNetRenderer.type) {
         case 'simple':
-            let renderer = new SimpleRenderer();
-            renderer.visualVariables = dotNetRenderer.visualVariables;
-            renderer.symbol = buildJsSymbol(dotNetSymbol) as Symbol;
+            let simpleRenderer = new SimpleRenderer();
+            simpleRenderer.visualVariables = dotNetRenderer.visualVariables;
+            simpleRenderer.symbol = buildJsSymbol(dotNetSymbol) as Symbol;
+            simpleRenderer.authoringInfo = dotNetRenderer.authoringInfo;
+            return simpleRenderer;
     }
-
     return dotNetRenderer
 }
 
+export function buildJsRasterStretchRenderer(dotNetRasterStretchRenderer: DotNetRasterStretchRenderer): RasterStretchRenderer | null {
+    if (dotNetRasterStretchRenderer === undefined) return null;
+    let rasterStretchRenderer = new RasterStretchRenderer();
+
+    if (hasValue(dotNetRasterStretchRenderer.colorRamp)) {
+        rasterStretchRenderer.colorRamp = buildJsColorRamp(dotNetRasterStretchRenderer.colorRamp) as ColorRamp;
+    }
+    if (hasValue(dotNetRasterStretchRenderer.computeGamma)) {
+        rasterStretchRenderer.computeGamma = dotNetRasterStretchRenderer.computeGamma;
+    }
+    if (hasValue(dotNetRasterStretchRenderer.dynamicRangeAdjustment)) {
+        rasterStretchRenderer.dynamicRangeAdjustment = dotNetRasterStretchRenderer.dynamicRangeAdjustment;
+    }
+    if (hasValue(dotNetRasterStretchRenderer.gamma)) {
+        rasterStretchRenderer.gamma = dotNetRasterStretchRenderer.gamma;
+    }
+    if (hasValue(dotNetRasterStretchRenderer.useGamma)) {
+        rasterStretchRenderer.useGamma = dotNetRasterStretchRenderer.useGamma;
+    }
+    if (hasValue(dotNetRasterStretchRenderer.outputMax)) {
+        rasterStretchRenderer.outputMax = dotNetRasterStretchRenderer.outputMax;
+    }
+    if (hasValue(dotNetRasterStretchRenderer.outputMin)) {
+        rasterStretchRenderer.outputMin = dotNetRasterStretchRenderer.outputMin;
+    }
+    if (hasValue(dotNetRasterStretchRenderer.stretchType)) {
+        rasterStretchRenderer.stretchType = dotNetRasterStretchRenderer.stretchType;
+    }
+    if (hasValue(dotNetRasterStretchRenderer.statistics)) {
+        rasterStretchRenderer.statistics = dotNetRasterStretchRenderer.statistics;
+    }
+    if (hasValue(dotNetRasterStretchRenderer.numberOfStandardDeviations)) {
+        rasterStretchRenderer.numberOfStandardDeviations = dotNetRasterStretchRenderer.numberOfStandardDeviations;
+    }
+    return rasterStretchRenderer;
+}
+
+export function buildJsColorRamp(dotNetColorRamp: any): ColorRamp | null {
+    if (dotNetColorRamp === undefined) return null;
+    switch (dotNetColorRamp.type) {
+        case 'multipart':
+            return buildJsMultipartColorRamp(dotNetColorRamp);
+        default:
+            return buildJsAlgorithmicColorRamp(dotNetColorRamp);
+    }
+}
+
+export function buildJsAlgorithmicColorRamp(dotNetAlgorithmicColorRamp: any): AlgorithmicColorRamp | null {
+    if (dotNetAlgorithmicColorRamp === undefined) return null;
+    let algorithmicColorRamp = new AlgorithmicColorRamp();
+    algorithmicColorRamp.fromColor = dotNetAlgorithmicColorRamp.fromColor;
+    algorithmicColorRamp.toColor = dotNetAlgorithmicColorRamp.toColor;
+    return algorithmicColorRamp;
+}
+
+export function buildJsDimensionalDefinition(dotNetMultidimensionalDefinition: any): DimensionalDefinition | null {
+    if (dotNetMultidimensionalDefinition == undefined) return null;
+    let multidimensionalDefinition = new DimensionalDefinition();
+    multidimensionalDefinition = dotNetMultidimensionalDefinition;
+    return multidimensionalDefinition;
+}
+
+export function buildJsMultipartColorRamp(dotNetMultipartColorRamp: any): MultipartColorRamp | null {
+    if (dotNetMultipartColorRamp === undefined) return null;
+    let multipartColorRamp = new MultipartColorRamp();
+    multipartColorRamp.colorRamps = dotNetMultipartColorRamp.colorRamps.map(buildJsAlgorithmicColorRamp);
+    return multipartColorRamp;
+}
 
 export function buildJsFields(dotNetFields: any): Array<Field> {
     let fields: Array<Field> = [];

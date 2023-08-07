@@ -26,8 +26,8 @@ public class SerializationUnitTests
         string json = JsonSerializer.Serialize(graphic.ToSerializationRecord());
         byte[] data = Encoding.UTF8.GetBytes(json);
         sw.Stop();
-        Debug.WriteLine($"SerializeGraphicToJson: {sw.ElapsedMilliseconds}ms");
-        Debug.WriteLine($"Size: {data.Length} bytes");
+        Console.WriteLine($"SerializeGraphicToJson: {sw.ElapsedMilliseconds}ms");
+        Console.WriteLine($"Size: {data.Length} bytes");
     }
 
     [TestMethod]
@@ -44,8 +44,8 @@ public class SerializationUnitTests
         Serializer.Serialize(ms, collection);
         byte[] data = ms.ToArray();
         sw.Stop();
-        Debug.WriteLine($"SerializeGraphicToJson: {sw.ElapsedMilliseconds}ms");
-        Debug.WriteLine($"Size: {data.Length} bytes");
+        Console.WriteLine($"SerializeGraphicToJson: {sw.ElapsedMilliseconds}ms");
+        Console.WriteLine($"Size: {data.Length} bytes");
     }
 
     private readonly Random _random = new();

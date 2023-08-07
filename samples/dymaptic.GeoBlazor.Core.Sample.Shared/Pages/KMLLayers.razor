@@ -31,26 +31,24 @@
     // ReSharper disable once InconsistentNaming
     public async Task AddRemoveKMLLayer()
     {
-        KMLLayer kmlSampleLayer = new(_kmlLayerUrl);
-
         if (!_view!.Map!.Layers.Any())
         {
-            await _view.AddLayer(kmlSampleLayer);
+            _kmlSampleLayer = new(_kmlLayerUrl);
+            await _view.AddLayer(_kmlSampleLayer);
         }
         else
         {
-            _view.Map.Layers.Clear();
+            await _view.RemoveLayer(_kmlSampleLayer!);
         }
-        _view.Refresh();
-
     }
 
 
 
-private MapView? _view;
+    private MapView? _view;
 
-private bool _mapRendered;
-private bool _markup;
+    private bool _mapRendered;
+    private bool _markup;
 
-private string _kmlLayerUrl = "https://earthquake.usgs.gov/fdsnws/event/1/query?format=kml&minmagnitude=5.8";
+    private string _kmlLayerUrl = "https://earthquake.usgs.gov/fdsnws/event/1/query?format=kml&minmagnitude=5.8";
+    private KMLLayer? _kmlSampleLayer;
 }

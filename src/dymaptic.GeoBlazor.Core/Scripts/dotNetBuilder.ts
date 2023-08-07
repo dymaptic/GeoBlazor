@@ -93,6 +93,7 @@ import CodedValueDomain from "@arcgis/core/layers/support/CodedValueDomain";
 import InheritedDomain from "@arcgis/core/layers/support/InheritedDomain";
 import RangeDomain from "@arcgis/core/layers/support/RangeDomain";
 
+
 export function buildDotNetGraphic(graphic: Graphic): DotNetGraphic {
     let dotNetGraphic = {} as DotNetGraphic;
 
