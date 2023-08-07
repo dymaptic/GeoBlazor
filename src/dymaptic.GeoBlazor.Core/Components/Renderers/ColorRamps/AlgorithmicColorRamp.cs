@@ -67,7 +67,9 @@ public class AlgorithmicColorRamp : ColorRamp
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<Algorithm>))]
 public enum Algorithm
 {
+#pragma warning disable CS1591
     CieLab,
     LabLch,
     Hsv
+#pragma warning restore CS1591
 }
