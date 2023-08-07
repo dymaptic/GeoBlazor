@@ -11,7 +11,33 @@ namespace dymaptic.GeoBlazor.Core.Components.Views;
 /// </summary>
 public class Viewpoint : MapComponent
 {
-    ///public Camera Camera { get; set; }
+    /// <summary>
+    ///     Parameterless constructor for use as a Blazor component.
+    /// </summary>
+    public Viewpoint()
+    {
+    }
+    
+    /// <summary>
+    ///     Constructor for C# use.
+    /// </summary>
+    /// <param name="targetGeometry">
+    ///     The target geometry framed by the viewpoint.
+    /// </param>
+    /// <param name="scale">
+    ///     The scale of the viewpoint.
+    /// </param>
+    /// <param name="rotation">
+    ///     The rotation of due north in relation to the top of the view in degrees.
+    /// </param>
+    public Viewpoint(Geometry? targetGeometry = null, double? scale = null, double? rotation = null)
+    {
+#pragma warning disable BL0005
+        TargetGeometry = targetGeometry;
+        Scale = scale;
+        Rotation = rotation;
+#pragma warning restore BL0005
+    }
 
     /// <summary>
     /// The rotation of due north in relation to the top of the view in degrees.
@@ -50,7 +76,7 @@ public class Viewpoint : MapComponent
     {
         switch (child)
         {
-            case Geometry geometry:
+            case Geometry:
                 TargetGeometry = null;
                 break;
             default:

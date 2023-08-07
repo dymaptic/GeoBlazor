@@ -768,7 +768,7 @@ public class GeometryEngineTests : TestRunnerBase
             }
         });
 
-        double area = await GeometryEngine.GeodesicArea(polygon, ArealUnit.SquareFeet);
+        double area = await GeometryEngine.GeodesicArea(polygon, GeometryEngineAreaUnit.SquareFeet);
 
         Assert.AreNotEqual(0, area);
     }
@@ -1199,7 +1199,7 @@ public class GeometryEngineTests : TestRunnerBase
                     }
                 }, new SpatialReference(102100));
 
-        double area = await GeometryEngine.PlanarArea(polygon, ArealUnit.SquareKilometers);
+        double area = await GeometryEngine.PlanarArea(polygon, GeometryEngineAreaUnit.SquareKilometers);
 
         Assert.IsTrue(area > 0);
     }

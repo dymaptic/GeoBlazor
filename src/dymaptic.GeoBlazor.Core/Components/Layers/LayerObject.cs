@@ -58,10 +58,6 @@ public abstract class LayerObject : MapComponent
         switch (child)
         {
             case Symbol symbol:
-                if (View?.ExtentChangedInJs == true)
-                {
-                    return;
-                }
 
                 await SetSymbol(symbol);
 
