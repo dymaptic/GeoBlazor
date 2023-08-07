@@ -567,7 +567,6 @@ export interface DotNetRangeDomain extends DotNetDomain {
 export interface DotNetInheritedDomain extends DotNetDomain {
     name: string;
 }
-}
 export interface DotNetDimensionDefinition {
     dimensionName: string;
     isSlice: boolean;
