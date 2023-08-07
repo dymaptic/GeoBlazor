@@ -34,3 +34,18 @@ export function assertKmlLayerExists(viewId) {
 export function testThrow() {
     throw new Error("Test throw");
 }
+
+export async function assertPopupCallback(viewId, layerId) {
+    let view = arcGisObjectRefs[viewId];
+    let layer = view.map.layers.items[0];
+    let featureSet = await layer.queryFeatures();
+    view.popup.open({
+        features: [ featureSet.features[0] ]
+    });
+    let button = null;
+    while (button === null) {
+        await new Promise(resolve => setTimeout(resolve, 100));
+        button = document.querySelector('[title="Measure Length"]');
+    }
+    button.click();
+}

@@ -1,10 +1,4 @@
 ﻿@page "/csv-layer"
-@using System.Reflection.Metadata
-@using dymaptic.GeoBlazor.Core.Components
-@using dymaptic.GeoBlazor.Core.Components.Geometries
-@using dymaptic.GeoBlazor.Core.Components.Views
-@using Microsoft.AspNetCore.Components
-@using Microsoft.AspNetCore.Components.Forms
 <h3>CSV Layers</h3>
 
 <div class="links-div">
@@ -40,7 +34,7 @@
 
             if (_mapRendered)
             {
-                await _view.AddLayer(csvLayer);
+                await _view!.AddLayer(csvLayer);
             }
         }
     }

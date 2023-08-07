@@ -1,0 +1,43 @@
+﻿@inherits TestRunnerBase
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+
+    [TestMethod]
+    public async Task TestCanActivatePopupAction()
+    {
+        bool callbackCalled = false;
+        CreateViewRenderedHandler(async () =>
+        {
+            await AssertJavaScript("assertPopupCallback");
+            Assert.IsTrue(callbackCalled);
+        });
+        
+        Task MeasureThis()
+        {
+            callbackCalled = true;
+            return Task.CompletedTask;
+        }
+        
+        AddMapRenderFragment(
+            @<Map>
+                 <Basemap>
+                     <PortalItem Id="f35ef07c9ed24020aadd65c8a65d3754" />
+                 </Basemap>
+                 <FeatureLayer Url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/TrailRuns/FeatureServer/0">
+                     <PopupTemplate Title="Trail Run" StringContent="{name}">
+                         <ActionButton Image="_content/dymaptic.GeoBlazor.Core.Sample.Shared/images/Measure_Distance16.png"
+                                       Title="Measure Length"
+                                       Id="measure-this"
+                                       CallbackFunction="MeasureThis" />
+                     </PopupTemplate>
+                 </FeatureLayer>
+            </Map>);
+
+        await WaitForMapToRender();
+        
+    }
+}

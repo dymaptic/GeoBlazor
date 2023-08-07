@@ -230,10 +230,10 @@
     private Graphic? _pointGraphic;
     private Graphic? _polylineGraphic;
     private string? _geometry;
-    private readonly Dictionary<string, object> _graphicAttributes = new()
+    private readonly AttributesDictionary _graphicAttributes = new(new Dictionary<string, object>
     {
         { "Name", "Sample Polygon" },
         { "Description", "This is where you can describe the polygon." }
-    };
+    });
 
 }
