@@ -1,4 +1,5 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Layers;
+using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
 using System.Text.Json.Serialization;
 
@@ -25,6 +26,18 @@ public class LegendWidget : Widget
     ///     layers if basemapLegendVisible is true.
     /// </summary>
     public HashSet<LayerInfo> LayerInfos { get; set; } = new();
+
+    /// <summary>
+    /// Indicates the style of the legend. The style determines the legend's layout and behavior.
+    /// You can either specify a string or an object to indicate the style.
+    /// The known string values are the same values listed in the table within the type property.
+    /// <a target="_blank" href=" https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#style">
+    ///         ArcGIS
+    ///         JS API
+    ///     </a>
+    /// </summary>
+    [Parameter]
+    public LegendStyle? Style { get; set; }
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
@@ -99,4 +112,47 @@ public class LayerInfo : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int[]? SublayerIds { get; set; }
+}
+
+/// <summary>
+/// The widget legend style, sets the display style of the legend widget.
+/// <a target="_blank" href=" https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#style">
+///         ArcGIS
+///         JS API
+///     </a>
+/// </summary>
+public class LegendStyle
+{
+    public LegendStyleType? Type { get; set; }
+    public LegendStyleLayout? Layout { get; set; }
+}
+
+
+/// <summary>
+/// The Legend style type.
+/// <a target="_blank" href=" https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#style">
+///         ArcGIS
+///         JS API
+///     </a>
+/// </summary>
+[JsonConverter(typeof(EnumToKebabCaseStringConverter<LegendStyleType>))]
+public enum LegendStyleType
+{
+    Card,
+    Classic,
+}
+
+/// <summary>
+/// The legend style layout when there are multiple legends
+/// <a target="_blank" href=" https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#style">
+///         ArcGIS
+///         JS API
+///     </a>
+/// </summary>
+[JsonConverter(typeof(EnumToKebabCaseStringConverter<LegendStyleLayout>))]
+public enum LegendStyleLayout
+{
+    Auto,
+    SideBySide,
+    Stack
 }
