@@ -48,22 +48,6 @@ public class SimpleFillSymbol : FillSymbol
     }
 
     /// <summary>
-    ///     Compares two <see cref="SimpleFillSymbol" />s for equality
-    /// </summary>
-    public static bool operator ==(SimpleFillSymbol? left, SimpleFillSymbol? right)
-    {
-        return Equals(left, right);
-    }
-
-    /// <summary>
-    ///     Compares two <see cref="SimpleFillSymbol" />s for inequality
-    /// </summary>
-    public static bool operator !=(SimpleFillSymbol? left, SimpleFillSymbol? right)
-    {
-        return !Equals(left, right);
-    }
-
-    /// <summary>
     ///     The outline of the polygon.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

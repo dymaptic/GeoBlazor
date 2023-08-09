@@ -12,7 +12,7 @@
 <button disabled="@(!_mapRendered)" @onclick="() => ToggleLayer(_osmLayer)">OpenStreetMaps Layer</button>
 <h2>Markup Layers</h2>
 <button disabled="@(!_mapRendered)" @onclick="() => _showGraphicsMarkupLayer = !_showGraphicsMarkupLayer">Graphics Layer</button>
-<button disabled="@(!_mapRendered)" @onclick="() => { _graphicsCount = 1; _graphicsLayer.Refresh(); }">Reset Graphic</button>
+<button disabled="@(!_mapRendered)" @onclick="() => { _graphicsCount = 0; StateHasChanged(); _graphicsCount = 1; }">Reset Graphic</button>
 
 <MapView @ref="_view" class="map-view" OnMapRendered="OnMapRendered">
     <Extent Xmin="-41525513" Ymin="4969181" Xmax="-36687355" Ymax="9024624">
@@ -23,7 +23,7 @@
             @for (var i = 0; i < _graphicsCount; i++)
             {
                 <Graphic>
-                    <Point Longitude="11.967162" Latitude="49.201448" />
+                    <Point Longitude="_longs[i]" Latitude="_lats[i]" />
                 </Graphic>
             }
         </GraphicsLayer>
@@ -188,8 +188,8 @@
     private bool _map3Rendered;
     private bool _showGraphicsMarkupLayer;
     private readonly Random _random = new();
-    private readonly List<double> _lats = new();
-    private readonly List<double> _longs = new();
+    private readonly List<double> _lats = new() { 49.201448, 52.451825, 59.614991, 55.469513 };
+    private readonly List<double> _longs = new() { 11.967162, 11.888650, 7.274721, 29.437639 };
     private MapView? _view3;
     private int _graphicsCount = 1;
     private GraphicsLayer? _refreshableGraphicsLayer;

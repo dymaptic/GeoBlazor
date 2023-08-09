@@ -44,22 +44,6 @@ public class Polygon : Geometry
     }
 
     /// <summary>
-    ///     Override equality operator
-    /// </summary>
-    public static bool operator ==(Polygon? left, Polygon? right)
-    {
-        return Equals(left, right);
-    }
-
-    /// <summary>
-    ///     Override inequality operator
-    /// </summary>
-    public static bool operator !=(Polygon? left, Polygon? right)
-    {
-        return !Equals(left, right);
-    }
-
-    /// <summary>
     ///     An array of <see cref="MapPath" /> rings.
     /// </summary>
     [Parameter]

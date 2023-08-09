@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
+using dymaptic.GeoBlazor.Core.Components.Popups;
+using dymaptic.GeoBlazor.Core.Components.Renderers;
+using Microsoft.AspNetCore.Components;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 
@@ -45,8 +49,16 @@ public class CSVLayer : Layer
     /// <param name="listMode">
     ///     Indicates how the layer should display in the LayerList widget. The possible values are listed below.
     /// </param>
+    /// <param name="blendMode">
+    ///     Blend modes are used to blend layers together to create an interesting effect in a layer, or even to produce what
+    ///     seems like a new layer.
+    /// </param>
+    /// <param name="popupTemplate">
+    ///     A PopupTemplate allows you to specify the content that appears in the popup dialog window.
+    /// </param>
     public CSVLayer(string url, string? title = null, string? copyright = null,
-        double? opacity = null, bool? visible = null, ListMode? listMode = null)
+        double? opacity = null, bool? visible = null, ListMode? listMode = null,
+        BlendMode? blendMode = null, PopupTemplate? popupTemplate = null)
     {
 #pragma warning disable BL0005
         Url = url;
@@ -55,6 +67,8 @@ public class CSVLayer : Layer
         Visible = visible;
         ListMode = listMode;
         Copyright = copyright;
+        BlendMode = blendMode;
+        PopupTemplate = popupTemplate;
 #pragma warning restore BL0005
     }
 
@@ -75,4 +89,140 @@ public class CSVLayer : Layer
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Copyright { get; set; }
+    
+    /// <summary>
+    ///     Blend modes are used to blend layers together to create an interesting effect in a layer, or even to produce what
+    ///     seems like a new layer.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public BlendMode? BlendMode { get; set; }
+    
+    /// <summary>
+    ///     The column delimiter. Default is comma (,).
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public CSVDelimiter? Delimiter { get; set; }
+    
+    /// <summary>
+    ///     The name of the layer's primary display field. The value of this property matches the name of one of the fields of the layer.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? DisplayField { get; set; }
+    
+    /// <summary>
+    ///     The <see cref="PopupTemplate" /> for the layer.
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public PopupTemplate? PopupTemplate { get; set; }
+    
+    /// <summary>
+    ///     The renderer assigned to the layer. The renderer defines how to visualize each feature in the layer. Depending on the renderer type, features may be visualized with the same symbol, or with varying symbols based on the values of provided attribute fields or functions.
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Renderer? Renderer { get; set; }
+
+    /// <inheritdoc />
+    public override async Task RegisterChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case PopupTemplate popupTemplate:
+                if (!popupTemplate.Equals(PopupTemplate))
+                {
+                    PopupTemplate = popupTemplate;
+                }
+
+                break;
+            case Renderer renderer:
+                if (!renderer.Equals(Renderer))
+                {
+                    Renderer = renderer;
+                }
+
+                break;
+            default:
+                await base.RegisterChildComponent(child);
+
+                break;
+        }
+    }
+    
+    /// <inheritdoc />
+    public override async Task UnregisterChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case PopupTemplate _:
+                PopupTemplate = null;
+
+                break;
+            case Renderer _:
+                Renderer = null;
+
+                break;
+            default:
+                await base.UnregisterChildComponent(child);
+
+                break;
+        }
+    }
+
+    /// <inheritdoc />
+    internal override void ValidateRequiredChildren()
+    {
+        PopupTemplate?.ValidateRequiredChildren();
+        Renderer?.ValidateRequiredChildren();
+        base.ValidateRequiredChildren();
+    }
+}
+
+/// <summary>
+///     Possible Column Delimiters for CSVLayer
+/// </summary>
+[JsonConverter(typeof(CSVDelimiterConverter))]
+public enum CSVDelimiter
+{
+    Comma,
+    Space,
+    Semicolon,
+    Pipe,
+    TabDelimited
+}
+
+internal class CSVDelimiterConverter : JsonConverter<CSVDelimiter>
+{
+    public override CSVDelimiter Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override void Write(Utf8JsonWriter writer, CSVDelimiter value, JsonSerializerOptions options)
+    {
+        switch (value)
+        {
+            case CSVDelimiter.Comma:
+                writer.WriteStringValue(",");
+
+                break;
+            case CSVDelimiter.Space:
+                writer.WriteStringValue(" ");
+
+                break;
+            case CSVDelimiter.Semicolon:
+                writer.WriteStringValue(";");
+
+                break;
+            case CSVDelimiter.Pipe:
+                writer.WriteStringValue("|");
+
+                break;
+            case CSVDelimiter.TabDelimited:
+                writer.WriteStringValue("\t");
+
+                break;
+        }
+    }
 }
