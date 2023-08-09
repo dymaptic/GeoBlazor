@@ -30,6 +30,7 @@
 
     private void OnLayerViewCreate(LayerViewCreateEvent evt)
     {
+        if (evt.Layer is not FeatureLayer layer) return;
         _layerView = evt.LayerView as FeatureLayerView;
     }
 

@@ -1014,7 +1014,9 @@ export async function updateWidget(widgetObject: any, viewId: string): Promise<v
         switch (widgetObject.type) {
             case 'bookmarks':
                 let bookmarks = currentWidget as Bookmarks;
-                bookmarks.bookmarks = widgetObject.bookmarks.map(buildJsBookmark)
+                if (hasValue(widgetObject.bookmarks)) {
+                    bookmarks.bookmarks = widgetObject.bookmarks.map(buildJsBookmark);
+                }
                 break;
         }
         unsetWaitCursor(viewId);
@@ -1652,6 +1654,17 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
 
                     return jsLayerInfo;
                 });
+            }
+            if (hasValue(widget.style)) {
+                if (hasValue(widget.style.layout)) {
+                    legend.style = {
+                        type: widget.style.type,
+                        layout: widget.style.layout
+                    };
+                }
+                else {
+                    legend.style = widget.style.type;
+                }
             }
             break;
         case 'home':

@@ -1,4 +1,6 @@
-﻿using dymaptic.GeoBlazor.Core.Serialization;
+﻿using dymaptic.GeoBlazor.Core.Extensions;
+using dymaptic.GeoBlazor.Core.Serialization;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 
@@ -35,9 +37,7 @@ public class TimeInterval
 ///     </a>
 /// Used by Feature Layer.
 /// </summary>
-
-
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<TemporalTime>))]
+[JsonConverter(typeof(TimeEnumToKebabCaseStringConverter<TemporalTime>))]
 public enum TemporalTime
 {
 #pragma warning disable CS1591

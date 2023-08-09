@@ -1,4 +1,5 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Layers;
+using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
 using System.Text.Json.Serialization;
 
@@ -26,6 +27,17 @@ public class LegendWidget : Widget
     /// </summary>
     public HashSet<LayerInfo> LayerInfos { get; set; } = new();
 
+    /// <summary>
+    /// Indicates the style of the legend. The style determines the legend's layout and behavior.
+    /// You can either specify a string or an object to indicate the style.
+    /// The known string values are the same values listed in the table within the type property.
+    /// <a target="_blank" href=" https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#style">
+    ///         ArcGIS
+    ///         JS API
+    ///     </a>
+    /// </summary>
+    public LegendStyle? Style { get; set; }
+
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
     {
@@ -33,6 +45,10 @@ public class LegendWidget : Widget
         {
             case LayerInfo layerInfo:
                 LayerInfos.Add(layerInfo);
+
+                break;
+            case LegendStyle style:
+                Style = style;
 
                 break;
             default:
@@ -51,6 +67,10 @@ public class LegendWidget : Widget
                 LayerInfos.Remove(layerInfo);
 
                 break;
+            case LegendStyle:
+                Style = null;
+
+                break;
             default:
                 await base.UnregisterChildComponent(child);
 
@@ -66,6 +86,8 @@ public class LegendWidget : Widget
         {
             layerInfo.ValidateRequiredChildren();
         }
+
+        Style?.ValidateRequiredChildren();
 
         base.ValidateRequiredChildren();
     }
@@ -99,4 +121,60 @@ public class LayerInfo : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int[]? SublayerIds { get; set; }
+}
+
+/// <summary>
+/// The widget legend style, sets the display style of the legend widget.
+/// <a target="_blank" href=" https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#style">
+///         ArcGIS
+///         JS API
+///     </a>
+/// </summary>
+public class LegendStyle : MapComponent
+{
+    /// <summary>
+    /// The Legend style type.
+    /// </summary>
+    [Parameter]
+    public LegendStyleType? Type { get; set; }
+
+    /// <summary>
+    /// The legend style layout when there are multiple legends
+    /// </summary>
+    [Parameter]
+    public LegendStyleLayout? Layout { get; set; }
+}
+
+
+/// <summary>
+/// The Legend style type.
+/// <a target="_blank" href=" https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#style">
+///         ArcGIS
+///         JS API
+///     </a>
+/// </summary>
+[JsonConverter(typeof(EnumToKebabCaseStringConverter<LegendStyleType>))]
+public enum LegendStyleType
+{
+#pragma warning disable CS1591
+    Card,
+    Classic,
+#pragma warning restore CS1591
+}
+
+/// <summary>
+/// The legend style layout when there are multiple legends
+/// <a target="_blank" href=" https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#style">
+///         ArcGIS
+///         JS API
+///     </a>
+/// </summary>
+[JsonConverter(typeof(EnumToKebabCaseStringConverter<LegendStyleLayout>))]
+public enum LegendStyleLayout
+{
+#pragma warning disable CS1591
+    Auto,
+    SideBySide,
+    Stack
+#pragma warning restore CS1591
 }

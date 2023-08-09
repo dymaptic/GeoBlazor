@@ -1237,7 +1237,7 @@ export function buildJsFeatureEffect(dnFeatureEffect: DotNetFeatureEffect): Feat
         }
     }
     featureEffect.excludedLabelsVisible = dnFeatureEffect.excludedLabelsVisible ?? undefined;
-    if (hasValue(dnFeatureEffect?.excludedLabelsVisible)) {
+    if (hasValue(dnFeatureEffect?.filter)) {
         featureEffect.filter = buildJsFeatureFilter(dnFeatureEffect.filter) as FeatureFilter;
     }
 

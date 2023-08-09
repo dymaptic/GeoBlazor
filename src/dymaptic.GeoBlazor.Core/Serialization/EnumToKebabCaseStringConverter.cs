@@ -41,3 +41,31 @@ public class EnumToKebabCaseStringConverter<T> : JsonConverter<T> where T : notn
         writer.WriteStringValue(resultString);
     }
 }
+
+
+/// <summary>
+/// Converts an enum to a kebab case string for serialization. Used with TimeInerval which returns esriTimeUnits from the ESRI JS.
+/// </summary>
+/// <typeparam name="T"></typeparam>
+public class TimeEnumToKebabCaseStringConverter<T> : EnumToKebabCaseStringConverter<T> where T : notnull
+{
+    /// <inheritdoc />
+    public override T Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        string? value = reader.GetString()
+            ?.Replace("-", string.Empty)
+            .Replace("esriTimeUnits", string.Empty)
+            .Replace(typeof(T).Name, string.Empty);
+
+        try
+        {
+            return value is not null ? (T)Enum.Parse(typeof(T), value, true) : default(T)!;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+
+            return default(T)!;
+        }
+    }
+}
