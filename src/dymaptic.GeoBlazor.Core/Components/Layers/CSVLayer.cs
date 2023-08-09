@@ -185,11 +185,13 @@ public class CSVLayer : Layer
 [JsonConverter(typeof(CSVDelimiterConverter))]
 public enum CSVDelimiter
 {
+#pragma warning disable CS1591
     Comma,
     Space,
     Semicolon,
     Pipe,
     TabDelimited
+#pragma warning restore CS1591
 }
 
 internal class CSVDelimiterConverter : JsonConverter<CSVDelimiter>
