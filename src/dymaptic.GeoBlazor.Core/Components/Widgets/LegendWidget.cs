@@ -36,7 +36,6 @@ public class LegendWidget : Widget
     ///         JS API
     ///     </a>
     /// </summary>
-    [Parameter]
     public LegendStyle? Style { get; set; }
 
     /// <inheritdoc />
@@ -46,6 +45,10 @@ public class LegendWidget : Widget
         {
             case LayerInfo layerInfo:
                 LayerInfos.Add(layerInfo);
+
+                break;
+            case LegendStyle style:
+                Style = style;
 
                 break;
             default:
@@ -64,6 +67,10 @@ public class LegendWidget : Widget
                 LayerInfos.Remove(layerInfo);
 
                 break;
+            case LegendStyle:
+                Style = null;
+
+                break;
             default:
                 await base.UnregisterChildComponent(child);
 
@@ -79,6 +86,8 @@ public class LegendWidget : Widget
         {
             layerInfo.ValidateRequiredChildren();
         }
+
+        Style?.ValidateRequiredChildren();
 
         base.ValidateRequiredChildren();
     }
@@ -121,9 +130,18 @@ public class LayerInfo : MapComponent
 ///         JS API
 ///     </a>
 /// </summary>
-public class LegendStyle
+public class LegendStyle : MapComponent
 {
+    /// <summary>
+    /// The Legend style type.
+    /// </summary>
+    [Parameter]
     public LegendStyleType? Type { get; set; }
+
+    /// <summary>
+    /// The legend style layout when there are multiple legends
+    /// </summary>
+    [Parameter]
     public LegendStyleLayout? Layout { get; set; }
 }
 
@@ -138,8 +156,10 @@ public class LegendStyle
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<LegendStyleType>))]
 public enum LegendStyleType
 {
+#pragma warning disable CS1591
     Card,
     Classic,
+#pragma warning restore CS1591
 }
 
 /// <summary>
@@ -152,7 +172,9 @@ public enum LegendStyleType
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<LegendStyleLayout>))]
 public enum LegendStyleLayout
 {
+#pragma warning disable CS1591
     Auto,
     SideBySide,
     Stack
+#pragma warning restore CS1591
 }
