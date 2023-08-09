@@ -39,7 +39,12 @@ import {
     DotNetTextPopupContent,
     DotNetTextSymbol,
     DotNetViewHit,
-    MapCollection
+    DotNetTimeInfo,
+    MapCollection,
+    DotNetBookmark,
+    DotNetViewpoint,
+    DotNetField,
+    DotNetDomain, DotNetCodedValueDomain, DotNetCodedValue, DotNetInheritedDomain, DotNetRangeDomain
 } from "./definitions";
 import Point from "@arcgis/core/geometry/Point";
 import Polyline from "@arcgis/core/geometry/Polyline";
@@ -68,7 +73,7 @@ import ExpressionContent from "@arcgis/core/popup/content/ExpressionContent";
 import ElementExpressionInfo from "@arcgis/core/popup/ElementExpressionInfo";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
-import {arcGisObjectRefs} from "./arcGisJsInterop";
+import { arcGisObjectRefs } from "./arcGisJsInterop";
 import SimpleMarkerSymbol from "@arcgis/core/symbols/SimpleMarkerSymbol";
 import Symbol from "@arcgis/core/symbols/Symbol";
 import Graphic from "@arcgis/core/Graphic";
@@ -81,6 +86,13 @@ import MapView from "@arcgis/core/views/MapView";
 import SceneView from "@arcgis/core/views/SceneView";
 import HitTestResult = __esri.HitTestResult;
 import ViewHit = __esri.ViewHit;
+import Renderer from "@arcgis/core/renderers/Renderer";
+import Field from "@arcgis/core/layers/support/Field";
+import Domain from "@arcgis/core/layers/support/Domain";
+import CodedValueDomain from "@arcgis/core/layers/support/CodedValueDomain";
+import InheritedDomain from "@arcgis/core/layers/support/InheritedDomain";
+import RangeDomain from "@arcgis/core/layers/support/RangeDomain";
+
 
 export function buildDotNetGraphic(graphic: Graphic): DotNetGraphic {
     let dotNetGraphic = {} as DotNetGraphic;
@@ -383,9 +395,8 @@ export function buildDotNetFeatureLayer(layer: FeatureLayer): DotNetFeatureLayer
         geometryType: layer.geometryType,
         orderBy: layer.orderBy,
         labelingInfo: layer.labelingInfo,
-        renderer: layer.renderer,
         portalItem: layer.portalItem,
-        fields: layer.fields,
+        fields: buildDotNetFields(layer.fields),
         relationships: layer.relationships
     } as DotNetFeatureLayer;
 
@@ -400,6 +411,9 @@ export function buildDotNetFeatureLayer(layer: FeatureLayer): DotNetFeatureLayer
     if (layer.spatialReference !== undefined && layer.spatialReference !== null) {
         dotNetLayer.spatialReference = buildDotNetSpatialReference(layer.spatialReference) as DotNetSpatialReference;
     }
+    if (layer.timeInfo !== undefined && layer.timeInfo !== null) {
+        dotNetLayer.timeInfo = buildDotNetTimeInfo(layer.timeInfo) as DotNetTimeInfo;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(layer)) {
         for (const k of Object.keys(arcGisObjectRefs)) {
@@ -411,6 +425,67 @@ export function buildDotNetFeatureLayer(layer: FeatureLayer): DotNetFeatureLayer
     }
 
     return dotNetLayer;
+}
+
+export function buildDotNetFields(fields: Array<Field>): Array<DotNetField> {
+    let dotNetFields: Array<DotNetField> = [];
+    fields.forEach(f => {
+        dotNetFields.push({
+            name: f.name,
+            alias: f.alias,
+            type: f.type,
+            domain: buildDotNetDomain(f.domain),
+            editable: f.editable,
+            nullable: f.nullable,
+            length: f.length,
+            defaultValue: f.defaultValue,
+            description: f.description,
+            valueType: f.valueType
+        } as DotNetField)
+    });
+    return dotNetFields;
+}
+
+function buildDotNetDomain(domain: Domain): DotNetDomain | null {
+    if (domain === undefined || domain === null) return null;
+    switch (domain.type) {
+        case 'coded-value':
+            return buildDotNetCodedValueDomain(domain as CodedValueDomain);
+        case 'inherited':
+            return buildDotNetInheritedDomain(domain as InheritedDomain);
+        case 'range':
+            return buildDotNetRangeDomain(domain as RangeDomain);
+    }
+    return null;
+}
+
+function buildDotNetCodedValueDomain(domain: CodedValueDomain): DotNetCodedValueDomain {
+    return {
+        type: domain.type,
+        name: domain.name,
+        codedValues: domain.codedValues.map(cv => {
+            return {
+                name: cv.name,
+                code: cv.code
+            } as DotNetCodedValue
+        })
+    } as DotNetCodedValueDomain;
+}
+
+function buildDotNetInheritedDomain(domain: InheritedDomain): DotNetInheritedDomain {
+    return {
+        type: domain.type,
+        name: domain.name,
+    } as DotNetInheritedDomain;
+}
+
+function buildDotNetRangeDomain(domain: RangeDomain): DotNetRangeDomain {
+    return {
+        type: domain.type,
+        name: domain.name,
+        maxValue: domain.maxValue,
+        minValue: domain.minValue
+    } as DotNetRangeDomain;
 }
 
 export function buildDotNetGraphicsLayer(layer: GraphicsLayer): DotNetGraphicsLayer {
@@ -628,4 +703,49 @@ export function buildViewExtentUpdate(view: View): any {
             tilt: view.camera?.tilt
         }
     }
+}
+
+export function buildDotNetBookmark(bookmark: any): DotNetBookmark {
+    return {
+        name: bookmark.name,
+        thumbnail: bookmark.thumbnail != null ? bookmark.thumbnail.url : null,
+        timeExtent: buildDotNetTimeExtent(bookmark.timeExtent),
+        viewpoint: buildDotNetViewpoint(bookmark.viewpoint)
+    } as DotNetBookmark;
+}
+
+export function buildDotNetViewpoint(viewpoint: any): DotNetViewpoint | null {
+    if (viewpoint === null) return null;
+    return {
+        rotation: viewpoint.rotation,
+        scale: viewpoint.scale,
+        targetGeometry: buildDotNetGeometry(viewpoint.targetGeometry)
+    } as DotNetViewpoint;
+}
+
+export function buildDotNetTimeExtent(timeExtent: any): any | null {
+    if (timeExtent === null) return null;
+    return {
+        start: timeExtent.start.toISOString(),
+        end: timeExtent.end.toISOString()
+    } as any;
+}
+
+export function buildDotNetTimeInfo(timeInfo: any): DotNetTimeInfo {
+
+    return {
+        endField: timeInfo.endField,
+        startField: timeInfo.startField,
+        interval: buildDotNetTimeInterval(timeInfo.interval),
+        fullTimeExtent: buildDotNetTimeExtent(timeInfo.fullTimeExtent),
+        trackIdField: timeInfo.trackIdField
+    } as DotNetTimeInfo;
+}
+
+export function buildDotNetTimeInterval(interval: any): any | null {
+    if (interval === null) return null;
+    return {
+        unit: interval.unit,
+        value: interval.value
+    } as any;
 }

@@ -26,12 +26,15 @@ import Expand from "@arcgis/core/widgets/Expand";
 import Search from "@arcgis/core/widgets/Search";
 import Locate from "@arcgis/core/widgets/Locate";
 import Widget from "@arcgis/core/widgets/Widget";
+import Measurement from "@arcgis/core/widgets/Measurement";
+import Bookmarks from "@arcgis/core/widgets/Bookmarks";
 import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import Layer from "@arcgis/core/layers/Layer";
 import VectorTileLayer from "@arcgis/core/layers/VectorTileLayer";
 import TileLayer from "@arcgis/core/layers/TileLayer";
 import GeoJSONLayer from "@arcgis/core/layers/GeoJSONLayer";
+import CSVLayer from "@arcgis/core/layers/CSVLayer";
 import GeoRSSLayer from "@arcgis/core/layers/GeoRSSLayer";
 import PopupTemplate from "@arcgis/core/PopupTemplate";
 import Query from "@arcgis/core/rest/support/Query";
@@ -46,6 +49,8 @@ import ListItem from "@arcgis/core/widgets/LayerList/ListItem";
 import * as reactiveUtils from "@arcgis/core/core/reactiveUtils";
 import BasemapLayerList from "@arcgis/core/widgets/BasemapLayerList";
 import FeatureLayerWrapper from "./featureLayer";
+import KMLLayer from "@arcgis/core/layers/KMLLayer";
+import WCSLayer from "@arcgis/core/layers/WCSLayer";
 
 import {
     buildDotNetExtent,
@@ -58,13 +63,15 @@ import {
     buildDotNetPoint,
     buildDotNetPopupTemplate,
     buildDotNetSpatialReference,
-    buildViewExtentUpdate
+    buildViewExtentUpdate,
+    buildDotNetBookmark
 } from "./dotNetBuilder";
 
 import {
     buildJsAttributes,
     buildJsExtent,
     buildJsFields,
+    buildJsFormTemplate,
     buildJsGeometry,
     buildJsGraphic,
     buildJsPoint,
@@ -74,7 +81,14 @@ import {
     buildJsPortalItem,
     buildJsRenderer,
     buildJsSpatialReference,
-    buildJsSymbol, templateTriggerActionHandler
+    buildJsSymbol,
+    templateTriggerActionHandler,
+    buildJsBookmark,
+    buildJsDimensionalDefinition,
+    buildJsColorRamp,
+    buildJsAlgorithmicColorRamp,
+    buildJsMultipartColorRamp,
+    buildJsRasterStretchRenderer
 } from "./jsBuilder";
 import {
     DotNetExtent,
@@ -98,19 +112,25 @@ import FeatureLayerViewWrapper from "./featureLayerView";
 import Popup from "@arcgis/core/widgets/Popup";
 import ElevationLayer from "@arcgis/core/layers/ElevationLayer";
 import PopupWidgetWrapper from "./popupWidgetWrapper";
-import {load} from "protobufjs";
+import { load } from "protobufjs";
 import AuthenticationManager from "./authenticationManager";
 import HitTestResult = __esri.HitTestResult;
 import MapViewHitTestOptions = __esri.MapViewHitTestOptions;
 import LegendLayerInfos = __esri.LegendLayerInfos;
 import ScreenPoint = __esri.ScreenPoint;
+import RasterStretchRenderer from "@arcgis/core/renderers/RasterStretchRenderer";
+import DimensionalDefinition from "@arcgis/core/layers/support/DimensionalDefinition";
+import ColorRamp from "@arcgis/core/rest/support/ColorRamp";
+import MultipartColorRamp from "@arcgis/core/rest/support/MultipartColorRamp";
+import AlgorithmicColorRamp from "@arcgis/core/rest/support/AlgorithmicColorRamp";
+import Renderer from "@arcgis/core/renderers/Renderer";
 
 export let arcGisObjectRefs: Record<string, Accessor> = {};
 export let graphicsRefs: Record<string, Graphic> = {};
 export let dotNetRefs = {};
 export let queryLayer: FeatureLayer;
 export let blazorServer: boolean = false;
-export {projection, geometryEngine, Graphic};
+export { projection, geometryEngine, Graphic };
 let notifyExtentChanged: boolean = true;
 let uploadingLayers: Array<string> = [];
 
@@ -168,11 +188,11 @@ export function getGeometryEngineWrapper(dotNetRef: any): GeometryEngineWrapper 
 }
 
 export async function buildMapView(id: string, dotNetReference: any, long: number | null, lat: number | null,
-                                   rotation: number, mapObject: any, zoom: number | null, scale: number,
-                                   mapType: string, widgets: any[], graphics: any,
-                                   spatialReference: any, constraints: any, extent: any,
-                                   eventRateLimitInMilliseconds: number | null, activeEventHandlers: Array<string>,
-                                   isServer: boolean, highlightOptions?: any | null, zIndex?: number, tilt?: number)
+    rotation: number, mapObject: any, zoom: number | null, scale: number,
+    mapType: string, widgets: any[], graphics: any,
+    spatialReference: any, constraints: any, extent: any,
+    eventRateLimitInMilliseconds: number | null, activeEventHandlers: Array<string>,
+    isServer: boolean, highlightOptions?: any | null, zIndex?: number, tilt?: number)
     : Promise<void> {
     console.debug("render map");
     try {
@@ -201,7 +221,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
                 basemap = mapObject.arcGISDefaultBasemap;
             } else if (hasValue(mapObject.basemap?.portalItem?.id)) {
                 let portalItem = buildJsPortalItem(mapObject.basemap.portalItem);
-                basemap = new Basemap({portalItem: portalItem});
+                basemap = new Basemap({ portalItem: portalItem });
             } else if (mapObject.basemap?.layers.length > 0) {
                 for (let i = 0; i < mapObject.basemap.layers.length; i++) {
                     const layerObject = mapObject.basemap.layers[i];
@@ -217,7 +237,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
             case 'webmap':
                 let webMap: WebMap;
                 let portalItem = buildJsPortalItem(mapObject.portalItem);
-                webMap = new WebMap({portalItem: portalItem});
+                webMap = new WebMap({ portalItem: portalItem });
                 view = new MapView({
                     container: `map-container-${id}`,
                     map: webMap
@@ -226,7 +246,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
             case 'webscene':
                 let webScene: WebScene;
                 let scenePortalItem = buildJsPortalItem(mapObject.portalItem);
-                webScene = new WebScene({portalItem: scenePortalItem});
+                webScene = new WebScene({ portalItem: scenePortalItem });
                 view = new SceneView({
                     container: `map-container-${id}`,
                     map: webScene
@@ -285,8 +305,8 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
         if (hasValue(popupWidget)) {
             await addWidget(popupWidget, id);
         }
-        
-        if (hasValue(mapObject.layers) && mapType !== 'webmap' && mapType !== 'webscene') {
+
+        if (hasValue(mapObject.layers)) {
             for (const layerObject of mapObject.layers) {
                 await addLayer(layerObject, id);
             }
@@ -349,7 +369,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
 }
 
 function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: number | null,
-                           activeEventHandlers: Array<string>): void {
+    activeEventHandlers: Array<string>): void {
     if (activeEventHandlers.includes('OnClick')) {
         view.on('click', (evt) => {
             evt.mapPoint = buildDotNetPoint(evt.mapPoint) as any;
@@ -583,10 +603,10 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
 }
 
 export async function hitTest(pointObject: any, eventId: string | null, viewId: string,
-                              isEvent: boolean, options: DotNetHitTestOptions | null): Promise<DotNetHitTestResult | void> {
+    isEvent: boolean, options: DotNetHitTestOptions | null): Promise<DotNetHitTestResult | void> {
     let view = arcGisObjectRefs[viewId] as MapView;
     let result: HitTestResult;
-    let screenPoint = isEvent ? pointObject : {x: pointObject.x, y: pointObject.y};
+    let screenPoint = isEvent ? pointObject : { x: pointObject.x, y: pointObject.y };
 
     if (options !== null) {
         let hitOptions = buildHitTestOptions(options, view);
@@ -751,7 +771,7 @@ export function setSpatialReference(spatialReferenceObject: any, viewId: string)
 }
 
 export async function queryFeatureLayer(queryObject: any, layerObject: any, symbol: any, popupTemplateObject: any,
-                                        viewId: string): Promise<void> {
+    viewId: string): Promise<void> {
     try {
         setWaitCursor(viewId);
         let query = new Query({
@@ -832,23 +852,27 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
         switch (layerObject.type) {
             case 'feature':
                 let featureLayer = currentLayer as FeatureLayer;
-                if (hasValue(layerObject.portalItem) && layerObject.portalItem.id !== featureLayer.portalItem.id) {
-                    featureLayer.portalItem.id = layerObject.portalItem.id;
-                    if (hasValue(layerObject.portalItem?.portal.url) &&
-                        layerObject.portalItem.portal.url !== featureLayer.portalItem.portal?.url) {
-                        featureLayer.portalItem.portal.url = layerObject.portalItem.portal.url;
+                if (hasValue(layerObject.portalItem)) {
+                    if (layerObject.portalItem.id !== featureLayer.portalItem.id) {
+                        featureLayer.portalItem.id = layerObject.portalItem.id;
+                        if (hasValue(layerObject.portalItem?.portal.url) &&
+                            layerObject.portalItem.portal.url !== featureLayer.portalItem.portal?.url) {
+                            featureLayer.portalItem.portal.url = layerObject.portalItem.portal.url;
+                        }
+                        if (hasValue(layerObject.portalItem?.apiKey) &&
+                            layerObject.portalItem.apiKey !== featureLayer.portalItem.apiKey) {
+                            featureLayer.portalItem.apiKey = layerObject.portalItem.apiKey;
+                        }
                     }
-                    if (hasValue(layerObject.portalItem?.apiKey) &&
-                        layerObject.portalItem.apiKey !== featureLayer.portalItem.apiKey) {
-                        featureLayer.portalItem.apiKey = layerObject.portalItem.apiKey;
-                    }
-                }
-                if (hasValue(layerObject.url) && layerObject.url !== featureLayer.url) {
+                } else if (hasValue(layerObject.url) && layerObject.url !== featureLayer.url) {
                     featureLayer.url = layerObject.url;
+                } else {
+                    if (hasValue(layerObject.spatialReference) &&
+                        layerObject.spatialReference.wkid !== featureLayer.spatialReference.wkid) {
+                        featureLayer.spatialReference = buildJsSpatialReference(layerObject.spatialReference);
+                    }
                 }
 
-                copyValuesIfExists(layerObject, featureLayer, 'minScale', 'maxScale', 'orderBy', 'objectIdField',
-                    'definitionExpression', 'labelingInfo', 'outFields');
                 if (hasValue(layerObject.fullExtent) && layerObject.fullExtent !== currentLayer.fullExtent) {
                     currentLayer.fullExtent = buildJsExtent(layerObject.fullExtent, view.spatialReference);
                 }
@@ -865,10 +889,10 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                 if (hasValue(layerObject.fields) && layerObject.fields.length > 0) {
                     featureLayer.fields = buildJsFields(layerObject.fields);
                 }
-                if (hasValue(layerObject.spatialReference) &&
-                    layerObject.spatialReference.wkid !== featureLayer.spatialReference.wkid) {
-                    featureLayer.spatialReference = buildJsSpatialReference(layerObject.spatialReference);
-                }
+
+                copyValuesIfExists(layerObject, featureLayer, 'minScale', 'maxScale', 'orderBy', 'objectIdField',
+                    'definitionExpression', 'labelingInfo', 'outFields');
+
                 break;
             case 'geo-json':
                 let geoJsonLayer = currentLayer as GeoJSONLayer;
@@ -977,6 +1001,30 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
     }
 }
 
+export async function updateWidget(widgetObject: any, viewId: string): Promise<void> {
+    try {
+        setWaitCursor(viewId);
+        let currentWidget = arcGisObjectRefs[widgetObject.id] as Widget;
+        let view = arcGisObjectRefs[viewId] as View;
+
+        if (currentWidget === undefined) {
+            unsetWaitCursor(viewId);
+            return;
+        }
+
+        switch (widgetObject.type) {
+            case 'bookmarks':
+                let bookmarks = currentWidget as Bookmarks;
+                if (hasValue(widgetObject.bookmarks)) {
+                    bookmarks.bookmarks = widgetObject.bookmarks.map(buildJsBookmark);
+                }
+                break;
+        }
+        unsetWaitCursor(viewId);
+    } catch (error) {
+        logError(error, viewId);
+    }
+}
 export function findPlaces(addressQueryParams: any, symbol: any, popupTemplateObject: any, viewId: string): void {
     try {
         setWaitCursor(viewId);
@@ -1002,8 +1050,8 @@ export function findPlaces(addressQueryParams: any, symbol: any, popupTemplateOb
                 });
                 unsetWaitCursor(viewId);
             }).catch((error) => {
-            logError(error, viewId)
-        });
+                logError(error, viewId)
+            });
     } catch (error) {
         logError(error, viewId);
     }
@@ -1477,8 +1525,8 @@ export function displayQueryResults(query: Query, symbol: ArcGisSymbol, popupTem
             view.graphics.addMany(results.features);
             unsetWaitCursor(viewId);
         }).catch((error) => {
-        logError(error, viewId);
-    });
+            logError(error, viewId);
+        });
 }
 
 export async function addWidget(widget: any, viewId: string): Promise<void> {
@@ -1608,6 +1656,17 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
                     return jsLayerInfo;
                 });
             }
+            if (hasValue(widget.style)) {
+                if (hasValue(widget.style.layout)) {
+                    legend.style = {
+                        type: widget.style.type,
+                        layout: widget.style.layout
+                    };
+                }
+                else {
+                    legend.style = widget.style.type;
+                }
+            }
             break;
         case 'home':
             const homeBtn = new Home({
@@ -1718,7 +1777,9 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
             view.ui.remove(content);
             const expand = new Expand({
                 view,
-                content: content
+                content: content,
+                expanded: widget.expanded,
+                mode: widget.mode,
             });
 
             if (hasValue(widget.autoCollapse)) {
@@ -1737,6 +1798,14 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
                 expand.collapseIconClass = widget.collapseIconClass;
             }
 
+            if (hasValue(widget.expandIcon)) {
+                expand.expandIcon = widget.expandIcon;
+            }
+
+            if (hasValue(widget.collapseIcon)) {
+                expand.collapseIcon = widget.collapseIcon;
+            }
+
             if (hasValue(widget.expandTooltip)) {
                 expand.expandTooltip = widget.expandTooltip;
             }
@@ -1750,8 +1819,46 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
         case 'popup':
             newWidget = await setPopup(widget, viewId) as Popup;
             break;
+        case 'measurement':
+            newWidget = new Measurement({
+                view: view,
+                activeTool: widget.activeTool ?? undefined,
+                areaUnit: widget.areaUnit ?? undefined,
+                linearUnit: widget.linearUnit ?? undefined,
+                label: widget.label ?? undefined,
+                icon: widget.icon ?? undefined,
+            });
+            break;
+        case 'bookmarks':
+            const bookmarkWidget = new Bookmarks({
+                view: view,
+                editingEnabled: widget.editingEnabled,
+                disabled: widget.disabled,
+                icon: widget.icon,
+                label: widget.label
+            });
+            if (widget.bookmarks != null) {
+                bookmarkWidget.bookmarks = widget.bookmarks.map(buildJsBookmark);
+            }
+
+            bookmarkWidget.on('bookmark-select', (event) => {
+                widget.dotNetWidgetReference.invokeMethodAsync('OnJavascriptBookmarkSelect', {
+                    bookmark: buildDotNetBookmark(event.bookmark)
+                });
+            });
+
+            newWidget = bookmarkWidget;
+            break;
         default:
             return null;
+    }
+
+    if (hasValue(widget.icon)) {
+        newWidget.icon = widget.icon;
+    }
+
+    if (hasValue(widget.widgetId)) {
+        newWidget.id = widget.widgetId;
     }
 
     arcGisObjectRefs[widget.id] = newWidget;
@@ -1774,7 +1881,7 @@ export function removeWidget(widgetId: string, viewId: string): void {
 }
 
 export async function addLayer(layerObject: any, viewId: string, isBasemapLayer?: boolean, isQueryLayer?: boolean,
-                               callback?: Function): Promise<void> {
+    callback?: Function): Promise<void> {
     try {
         let view = arcGisObjectRefs[viewId] as View;
         if (!hasValue(view?.map)) return;
@@ -1828,7 +1935,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             if (hasValue(layerObject.portalItem)) {
                 let portalItem = buildJsPortalItem(layerObject.portalItem);
 
-                newLayer = new FeatureLayer({portalItem: portalItem});
+                newLayer = new FeatureLayer({ portalItem: portalItem });
             } else if (hasValue(layerObject.url)) {
                 newLayer = new FeatureLayer({
                     url: layerObject.url
@@ -1854,6 +1961,10 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             copyValuesIfExists(layerObject, featureLayer, 'minScale', 'maxScale', 'orderBy', 'objectIdField',
                 'definitionExpression', 'labelingInfo', 'outFields');
 
+            if (hasValue(layerObject.formTemplate)) {
+                featureLayer.formTemplate = buildJsFormTemplate(layerObject.formTemplate);
+            }
+
             if (hasValue(layerObject.popupTemplate)) {
                 featureLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId ?? null);
             }
@@ -1873,7 +1984,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
         case 'vector-tile':
             if (hasValue(layerObject.portalItem)) {
                 let portalItem = buildJsPortalItem(layerObject.portalItem);
-                newLayer = new VectorTileLayer({portalItem: portalItem});
+                newLayer = new VectorTileLayer({ portalItem: portalItem });
             } else {
                 newLayer = new VectorTileLayer({
                     url: layerObject.url
@@ -1884,7 +1995,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             if (hasValue(layerObject.portalItem)) {
                 let portalItem = buildJsPortalItem(layerObject.portalItem);
 
-                newLayer = new TileLayer({portalItem: portalItem});
+                newLayer = new TileLayer({ portalItem: portalItem });
             } else {
                 newLayer = new TileLayer({
                     url: layerObject.url
@@ -1895,7 +2006,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
         case 'elevation':
             if (hasValue(layerObject.portalItem)) {
                 let portalItem = buildJsPortalItem(layerObject.portalItem);
-                newLayer = new ElevationLayer({portalItem: portalItem});
+                newLayer = new ElevationLayer({ portalItem: portalItem });
             } else {
                 newLayer = new ElevationLayer({
                     url: layerObject.url
@@ -1918,7 +2029,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             }
             break;
         case 'geo-rss':
-            newLayer = new GeoRSSLayer({url: layerObject.url});
+            newLayer = new GeoRSSLayer({ url: layerObject.url });
             break;
         case 'web-tile':
             let webTileLayer: WebTileLayer;
@@ -1928,7 +2039,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
                 });
             } else {
                 let portalItem = buildJsPortalItem(layerObject.portalItem);
-                webTileLayer = new WebTileLayer({portalItem: portalItem});
+                webTileLayer = new WebTileLayer({ portalItem: portalItem });
             }
             newLayer = webTileLayer;
 
@@ -1966,7 +2077,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
                 });
             } else if (hasValue(layerObject.portalItem)) {
                 let portalItem = buildJsPortalItem(layerObject.portalItem);
-                openStreetMapLayer = new OpenStreetMapLayer({portalItem: portalItem});
+                openStreetMapLayer = new OpenStreetMapLayer({ portalItem: portalItem });
             } else {
                 openStreetMapLayer = new OpenStreetMapLayer();
             }
@@ -1998,7 +2109,81 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             }
 
             break;
-        default:
+        case 'csv':
+            newLayer = new CSVLayer({
+                url: layerObject.url,
+                copyright: layerObject.copyright
+            });
+            let csvLayer = newLayer as CSVLayer;
+            if (hasValue(layerObject.renderer)) {
+                csvLayer.renderer = buildJsRenderer(layerObject.renderer) as Renderer;
+            }
+            if (hasValue(layerObject.spatialReference)) {
+                csvLayer.spatialReference = new SpatialReference({
+                    wkid: layerObject.spatialReference.wkid
+                });
+            }
+            if (hasValue(layerObject.popupTemplate)) {
+                csvLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId ?? null);
+            }
+            
+            copyValuesIfExists(layerObject, csvLayer, 'blendMode', 'copyright', 'delimiter', 'displayField');
+            break;
+        case 'kml':
+            let kmlLayer: KMLLayer;
+            if (hasValue(layerObject.url)) {
+                kmlLayer = new KMLLayer({
+                    url: layerObject.url
+                });
+            } else {
+                let portalItem = buildJsPortalItem(layerObject.portalItem);
+                kmlLayer = new KMLLayer({ portalItem: portalItem });
+            }
+            newLayer = kmlLayer;
+            copyValuesIfExists(layerObject, kmlLayer, 'sublayers', 'blendMode', 'maxScale', 'minScale', 'title', 'visible');
+            break;
+        case 'wcs':
+            newLayer = new WCSLayer({
+                url: layerObject.url,
+                title: layerObject.title
+            });
+            let wcsLayer = newLayer as WCSLayer;
+            
+            if (hasValue(layerObject.renderer) && (layerObject.renderer.type == 'raster-stretch')) {
+                wcsLayer.renderer = buildJsRasterStretchRenderer(layerObject.renderer) as RasterStretchRenderer;
+
+                if (hasValue(layerObject.renderer.stretchType)) {
+                    wcsLayer.renderer.stretchType = layerObject.renderer.stretchType;
+                }
+                if (hasValue(layerObject.renderer.statistics)) {
+                    wcsLayer.renderer.statistics = layerObject.renderer.statistics;
+                }
+            }
+            if (hasValue(layerObject.multidimensionalDefinition) && layerObject.multidimensionalDefinition.length > 0) {
+                wcsLayer.multidimensionalDefinition = [];
+                for (let i = 0; i < layerObject.multidimensionalDefinition.length; i++) {
+
+                    let wcsMDD = new DimensionalDefinition;
+                    if (hasValue(layerObject.multidimensionalDefinition.VariableName)) {
+                        wcsMDD.variableName = layerObject.multidimensionalDefinition.VariableName;
+                    }
+                    if (hasValue(layerObject.multidimensionalDefinition.DimensionName)) {
+                        wcsMDD.dimensionName = layerObject.multidimensionalDefinition.DimensionName;
+                    }
+                    if (hasValue(layerObject.multidimensionalDefinition.Values)) {
+                        wcsMDD.values = layerObject.multidimensionalDefinition.Values;
+                    }
+                    if (hasValue(layerObject.multidimensionalDefinition.isSlice)) {
+                        wcsMDD.isSlice = layerObject.multidimensionalDefinition.isSlice;
+                    }
+                    wcsLayer.multidimensionalDefinition.push(wcsMDD);
+                }
+            }
+            copyValuesIfExists(layerObject, 'bandIds', 'copyright', 'coverageId', 'coverageInfo', 'customParameters', 'fields', 'interpolation', 'maxScale', 'minscale', 'rasterInfo');
+
+            newLayer = wcsLayer;
+            break;
+         default:
             return null;
     }
 
@@ -2171,7 +2356,7 @@ function checkConnectivity(viewId) {
 
 
 export function addReactiveWatcher(targetId: string, targetName: string, watchExpression: string, once: boolean,
-                                   initial: boolean, dotNetRef: any): any {
+    initial: boolean, dotNetRef: any): any {
     let target = arcGisObjectRefs[targetId];
     console.debug(`Adding watch: "${watchExpression}"`);
     const watcherFunc = new Function(targetName, 'reactiveUtils', 'dotNetRef',
@@ -2192,7 +2377,7 @@ export function addReactiveListener(targetId: string, eventName: string, once: b
 }
 
 export async function awaitReactiveSingleWatchUpdate(targetId: string, targetName: string, watchExpression: string,
-                                                     dotNetRef: any): Promise<any> {
+    dotNetRef: any): Promise<any> {
     let target = arcGisObjectRefs[targetId];
     console.debug(`Adding once watcher: "${watchExpression}"`);
     const AsyncFunction = (async function () {
@@ -2204,7 +2389,7 @@ export async function awaitReactiveSingleWatchUpdate(targetId: string, targetNam
 }
 
 export function addReactiveWaiter(targetId: string, targetName: string, watchExpression: string, once: boolean,
-                                  initial: boolean, dotNetRef: any): any {
+    initial: boolean, dotNetRef: any): any {
     let target = arcGisObjectRefs[targetId];
     console.debug(`Adding when waiter: "${watchExpression}"`);
     const whenFunc = new Function(targetName, 'reactiveUtils', 'dotNetRef',
@@ -2316,9 +2501,34 @@ export function encodeProtobufGraphics(graphics: any[]): Uint8Array {
 let _authenticationManager: AuthenticationManager | null = null;
 
 export function getAuthenticationManager(dotNetRef: any, apiKey: string | null, appId: string | null,
-                                         portalUrl: string | null): AuthenticationManager {
+    portalUrl: string | null): AuthenticationManager {
     if (_authenticationManager === null) {
         _authenticationManager = new AuthenticationManager(dotNetRef, apiKey, appId, portalUrl);
     }
     return _authenticationManager;
+}
+
+export function getCursor(viewId: string): string {
+    let view = arcGisObjectRefs[viewId] as MapView;
+    return view.container.style.cursor;
+}
+
+export function setCursor(cursorType: string, viewId: string) {
+    let view = arcGisObjectRefs[viewId] as MapView;
+    view.container.style.cursor = cursorType;
+}
+
+export function getWebMapBookmarks(viewId: string) {
+    let view = arcGisObjectRefs[viewId] as MapView;
+    if (view != null) {
+        let webMap = view.map as WebMap;
+        if (webMap != null) {
+            let arr = webMap.bookmarks.toArray();
+            if (arr instanceof Array) {
+                let abc = arr.map(buildDotNetBookmark);
+                return abc;
+            }
+        }
+    }
+    return null;
 }

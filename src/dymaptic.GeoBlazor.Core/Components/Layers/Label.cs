@@ -11,24 +11,8 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 ///         JS API
 ///     </a>
 /// </summary>
-public class Label : LayerObject, IEquatable<Label>
+public class Label : LayerObject
 {
-    /// <summary>
-    ///     Compares two <see cref="Label" />s for equality.
-    /// </summary>
-    public static bool operator ==(Label? left, Label? right)
-    {
-        return Equals(left, right);
-    }
-
-    /// <summary>
-    ///     Compares two <see cref="Label" />s for inequality.
-    /// </summary>
-    public static bool operator !=(Label? left, Label? right)
-    {
-        return !Equals(left, right);
-    }
-
     /// <summary>
     ///     The position of the label.
     /// </summary>
@@ -48,12 +32,6 @@ public class Label : LayerObject, IEquatable<Label>
     ///     Defines the labels for a <see cref="FeatureLayer" />.
     /// </summary>
     public LabelExpressionInfo? LabelExpressionInfo { get; set; }
-
-    /// <inheritdoc />
-    public bool Equals(Label? other)
-    {
-        return other?.Id == Id;
-    }
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
@@ -89,22 +67,6 @@ public class Label : LayerObject, IEquatable<Label>
 
                 break;
         }
-    }
-
-    /// <inheritdoc />
-    public override bool Equals(object? obj)
-    {
-        if (ReferenceEquals(null, obj)) return false;
-        if (ReferenceEquals(this, obj)) return true;
-        if (obj.GetType() != GetType()) return false;
-
-        return Equals((Label)obj);
-    }
-
-    /// <inheritdoc />
-    public override int GetHashCode()
-    {
-        return Id.GetHashCode();
     }
 
     /// <inheritdoc />

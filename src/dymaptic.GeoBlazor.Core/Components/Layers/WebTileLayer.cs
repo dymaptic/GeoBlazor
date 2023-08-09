@@ -1,6 +1,5 @@
-﻿using dymaptic.GeoBlazor.Core.Extensions;
+﻿using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
-using System.Text.Json;
 using System.Text.Json.Serialization;
 
 
@@ -163,7 +162,7 @@ public class WebTileLayer : Layer
 ///         JS API: Blend Mode
 ///     </a>
 /// </remarks>
-[JsonConverter(typeof(BlendModeConverter))]
+[JsonConverter(typeof(EnumToKebabCaseStringConverter<BlendMode>))]
 public enum BlendMode
 {
 #pragma warning disable CS1591
@@ -199,19 +198,4 @@ public enum BlendMode
     VividLight,
     Xor
 #pragma warning restore CS1591
-}
-
-internal class BlendModeConverter : JsonConverter<BlendMode>
-{
-    public override BlendMode Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        throw new NotImplementedException();
-    }
-
-    public override void Write(Utf8JsonWriter writer, BlendMode value, JsonSerializerOptions options)
-    {
-        string? stringVal = Enum.GetName(typeof(BlendMode), value);
-        string resultString = stringVal!.ToKebabCase();
-        writer.WriteRawValue($"\"{resultString}\"");
-    }
 }

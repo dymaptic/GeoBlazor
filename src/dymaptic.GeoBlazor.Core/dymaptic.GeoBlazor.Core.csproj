@@ -9,8 +9,8 @@
         </Description>
         <Title>GeoBlazor</Title>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <PackageVersion>2.2.1</PackageVersion>
-        <Version>2.2.1</Version>
+        <PackageVersion>2.3.0</PackageVersion>
+        <Version>2.3.0</Version>
         <Authors>Tim Purdum, Christopher Moravec, Mara Stoica, Tim Rawson</Authors>
         <Company>dymaptic</Company>
         <Copyright>©2023 by dymaptic</Copyright>
@@ -22,6 +22,7 @@
         <GeneratePackageOnBuild Condition="$(Configuration) == 'RELEASE'">true</GeneratePackageOnBuild>
         <TargetFrameworks>net7.0;net6.0</TargetFrameworks>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     </PropertyGroup>
     <PropertyGroup Condition="$(Configuration) == 'DEBUG'">
         <DefaultItemExcludes>wwwroot/js/**</DefaultItemExcludes>
@@ -36,6 +37,7 @@
 
     <ItemGroup>
         <PackageReference Include="DefaultDocumentation" Version="0.8.2" PrivateAssets="all" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.1" />
         <PackageReference Include="protobuf-net" Version="3.2.16" />
     </ItemGroup>
     <ItemGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
@@ -68,7 +70,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="wwwroot\assets" />
         <Content Remove="node_modules\**" />
     </ItemGroup>
 
@@ -78,12 +79,12 @@
         <Exec Command="npm install" />
     </Target>
 
-    <Target Name="Copy Assets Debug" AfterTargets="NPM Install" Condition="$(Configuration) == 'DEBUG' AND $(TargetFrameworks.StartsWith($(TargetFramework))) AND '$(OptOutFromCoreEsBuild)' != 'true'">
+    <Target Name="Copy Assets Debug" AfterTargets="PreBuildEvent" Condition="$(Configuration) == 'DEBUG' AND $(TargetFrameworks.StartsWith($(TargetFramework)))">
         <Message Importance="high" Text="Copying Asset files" />
         <ExecAsync FilePath="pwsh" Arguments="./assetCopy.ps1" />
     </Target>
 
-    <Target Name="Copy Assets Release" AfterTargets="NPM Install" Condition="$(Configuration) == 'RELEASE' AND $(TargetFrameworks.StartsWith($(TargetFramework))) AND '$(OptOutFromCoreEsBuild)' != 'true'">
+    <Target Name="Copy Assets Release" AfterTargets="PreBuildEvent" Condition="$(Configuration) == 'RELEASE' AND $(TargetFrameworks.StartsWith($(TargetFramework)))">
         <Message Importance="high" Text="Copying Asset files" />
         <Exec Command="pwsh ./assetCopy.ps1" />
     </Target>

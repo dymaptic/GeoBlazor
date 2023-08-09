@@ -37,6 +37,12 @@
         <div class="form-group">
             <label>Compass: <input type="checkbox" class="form-check-input" @onchange="@(() => ToggleWidget(nameof(CompassWidget)))"></label>
         </div>
+        <div class="form-group">
+            <label>Bookmarks: <input type="checkbox" class="form-check-input" @onchange="@(() => ToggleWidget(nameof(BookmarksWidget)))"></label>
+        </div>
+        <div class="form-group">
+            <label>Measurement: <input type="checkbox" class="form-check-input" @onchange="@(() => ToggleWidget(nameof(MeasurementWidget)))"></label>
+        </div>
         <div id="gallery-box"></div>
     </div>
 </div>
@@ -76,6 +82,15 @@
     {
         <CompassWidget Position="OverlayPosition.TopLeft" />
     }
+    @if (_showMeasurement)
+    {
+        <MeasurementWidget ActiveTool="ActiveTool.Distance" Label="asdasdasdsds" LinearUnit="LengthUnit.NauticalMiles" AreaUnit="AreaUnit.SquareInches" Position="OverlayPosition.TopLeft" />
+    }
+    @if (_showBookmarks)
+    {
+        <BookmarksWidget Position="OverlayPosition.TopRight" @ref="_bookmarkWidget" EditingEnabled="true">
+        </BookmarksWidget>
+    }
 </MapView>
 
 @code {
@@ -109,8 +124,38 @@
             case nameof(CompassWidget):
                 _showCompass = !_showCompass;
                 break;
+            case nameof(MeasurementWidget):
+                _showMeasurement = !_showMeasurement;
+                break;
+            case nameof(BookmarksWidget):
+                _showBookmarks = !_showBookmarks;
+                break;
         }
     }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (_showBookmarks)
+        {
+            //the MapView.Refresh() is needed because the bookmarks are added after the BookmarksWidget is rendered
+            _bookmarkWidget!.Bookmarks = _bookmarks;
+            MapView!.Refresh();
+        }
+    }
+
+    private readonly List<Bookmark> _bookmarks = new List<Bookmark>()
+    {
+        new Bookmark("Angeles National Forest",
+            thumbnail: "/_content/dymaptic.GeoBlazor.Core.Sample.Shared/images/Blazor-API-60px.png",
+            viewpoint: new Viewpoint(new Extent(-13092887.54677721, -13139131.948889678, 
+                4090610.189673263, 4047767.23531948, spatialReference: new SpatialReference(102100)))),
+        new Bookmark("Crystal Lake",
+            viewpoint: new Viewpoint(new Extent(-13114291.451169826, -13125852.551697943,
+                4077614.8487296384, 4066904.1101411926, spatialReference: new SpatialReference(102100)))),
+        new Bookmark("Mt. Waterman",
+            viewpoint: new Viewpoint(new Extent(-13183855.195875114, -13185668.186639601,
+                4067515.260976006, 4066176.418652561, spatialReference: new SpatialReference(102100))))
+    };
 
     private bool _showSearch;
     private bool _showLocate;
@@ -120,4 +165,8 @@
     private bool _showLegend;
     private bool _showHome;
     private bool _showCompass;
+    private bool _showMeasurement;
+    private bool _showBookmarks;
+
+    private BookmarksWidget? _bookmarkWidget;
 }

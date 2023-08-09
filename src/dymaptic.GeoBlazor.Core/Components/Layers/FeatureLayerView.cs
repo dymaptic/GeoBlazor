@@ -36,6 +36,12 @@ public class FeatureLayerView : LayerView
     /// </summary>
     public FeatureFilter? Filter { get; private set; }
 
+
+    /// <summary>
+    ///     The featureEffect can be used to draw attention features of interest.
+    /// </summary>
+    public FeatureEffect? FeatureEffect { get; private set; }
+
     /// <summary>
     ///     Sets the <see cref="FeatureFilter" /> for this view.
     /// </summary>
@@ -46,6 +52,20 @@ public class FeatureLayerView : LayerView
     {
         await JsObjectReference!.InvokeVoidAsync("setFilter", CancellationTokenSource.Token, filter);
         Filter = filter;
+    }
+
+
+    /// <summary>
+    ///  Sets the <see cref="FeatureEffect" /> for this view.
+    /// </summary>
+    /// <param name="featureEffect">
+    /// The new effect (or null to clear) to apply to this view.
+    /// </param>
+
+    public async Task SetFeatureEffect(FeatureEffect? featureEffect)
+    {
+        await JsObjectReference!.InvokeVoidAsync("setFeatureEffect", CancellationTokenSource.Token, featureEffect);
+        FeatureEffect = featureEffect;
     }
 
     /// <summary>
@@ -377,4 +397,52 @@ public class FeatureFilter
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Where { get; set; }
+}
+
+/// <summary>
+///  <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureEffect.html">
+///     ArcGIS
+///     JS API
+/// </a>
+/// </summary>
+public class FeatureEffect
+{
+    /// <summary>
+    /// The effect applied to features that do not meet the filter requirements.
+    /// </summary>
+    public List<Effect>? ExcludedEffect { get; set; }
+
+    /// <summary>
+    /// Indicates if labels are visible for features that are excluded from the filter.
+    /// </summary>
+    public bool? ExcludedLabelsVisible { get; set; }
+
+    /// <summary>
+    ///  The filter that drives the effect.
+    /// </summary>
+    public FeatureFilter? Filter { get; set; }
+
+    /// <summary>
+    /// The effect applied to features that meet the filter requirements.
+    /// </summary>
+    public List<Effect>? IncludedEffect { get; set; }
+
+}
+
+/// <summary>
+///  <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureEffect.html#Effect">
+///     ArcGIS
+///     JS API
+/// </a>
+/// </summary>
+public class Effect
+{
+    /// <summary>
+    /// The scale of the view for the effect to take place. Use only when setting a scale dependent effect.
+    /// </summary>
+    public double? Scale { get; set; }
+    /// <summary>
+    /// The effect to be applied to a layer or layerView at the corresponding scale. Use only when setting a scale dependent effect.
+    /// </summary>
+    public string? Value { get; set; }
 }

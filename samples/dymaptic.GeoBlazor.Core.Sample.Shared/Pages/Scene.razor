@@ -21,22 +21,22 @@
 
 <div class="form-group">
     <label>
-        Popup Title: <input disabled="@(!_rendered)" width="100px;" type="text" value="@(_graphicAttributes["Name"])" @onchange="@(v => UpdateAttribute(v, "Name"))" />
+        Popup Title: <input disabled="@(!_rendered)" width="100px;" type="text" value="@(_graphic1Attributes["Name"])" @onchange="@(v => UpdateAttribute(v, "Name"))" />
     </label>
     <label>
-        Popup Description: <input disabled="@(!_rendered)" width="140px;" type="text" value="@(_graphicAttributes["Description"])" @onchange="@(v => UpdateAttribute(v, "Description"))" />
+        Popup Description: <input disabled="@(!_rendered)" width="140px;" type="text" value="@(_graphic1Attributes["Description"])" @onchange="@(v => UpdateAttribute(v, "Description"))" />
     </label>
     <label>
-        Popup Number: <input disabled="@(!_rendered)" width="60px;" type="number" value="@(_graphicAttributes["Number"])" @onchange="@(v => UpdateAttribute(v, "Number"))" />
+        Popup Number: <input disabled="@(!_rendered)" width="60px;" type="number" value="@(_graphic1Attributes["Number"])" @onchange="@(v => UpdateAttribute(v, "Number"))" />
     </label>
     <label>
-        Popup Date: <input disabled="@(!_rendered)" width="100px;" type="date" value="@(((DateTime)_graphicAttributes["Date"]).ToString("yyyy-MM-dd"))" @onchange="@(v => UpdateAttribute(v, "Date"))" />
+        Popup Date: <input disabled="@(!_rendered)" width="100px;" type="date" value="@(((DateTime)_graphic1Attributes["Date"]).ToString("yyyy-MM-dd"))" @onchange="@(v => UpdateAttribute(v, "Date"))" />
     </label>
     <label>
-        Popup Time: <input disabled="@(!_rendered)" width="100px;" type="time" value="@(((DateTime)_graphicAttributes["Date"]).ToString("HH:mm"))" @onchange="@(v => UpdateAttribute(v, "Time"))" />
+        Popup Time: <input disabled="@(!_rendered)" width="100px;" type="time" value="@(((DateTime)_graphic1Attributes["Date"]).ToString("HH:mm"))" @onchange="@(v => UpdateAttribute(v, "Time"))" />
     </label>
     <label>
-        Popup Boolean: <input disabled="@(!_rendered)" width="100px;" type="checkbox" checked="@(_graphicAttributes["Boolean"])" @onchange="@(v => UpdateAttribute(v, "Boolean"))" />
+        Popup Boolean: <input disabled="@(!_rendered)" width="100px;" type="checkbox" checked="@(_graphic1Attributes["Boolean"])" @onchange="@(v => UpdateAttribute(v, "Boolean"))" />
     </label>
 </div>
 <div class="form-group" style="margin-top: 2rem;">
@@ -50,7 +50,7 @@
            ZIndex="2000" Tilt="76" OnMapRendered="OnMapRendered">
     <Map Ground="world-elevation" ArcGISDefaultBasemap="satellite">
         <GraphicsLayer @ref="_graphicsLayer">
-            <Graphic @ref="_polygonGraphic" Attributes="_graphicAttributes">
+            <Graphic @ref="_polygonGraphic" Attributes="_graphic1Attributes">
                 <Polygon Rings="@(new[] { _mapRings })" />
                 <SimpleFillSymbol Color="@(new MapColor(81, 46, 132, 0.8))">
                     <Outline Color="@(new MapColor(255, 255, 255))" Width="1" />
@@ -73,7 +73,7 @@
                 new SimpleMarkerSymbol(color: new MapColor("green")),
                 new PopupTemplate("{Name}",
                     "{Description}<br/>Number: {Number}<br/>{Date}: {Date}<br/>Bool: {Boolean}</br>Object: {Object}"),
-                _graphicAttributes);
+                _graphic2Attributes);
             await _graphicsLayer!.Add(_cSharpGraphic);
             _rendered = true;
         }
@@ -86,7 +86,7 @@
         {
             if (DateTime.TryParseExact(arg.Value!.ToString(), "yyyy-MM-dd", CultureInfo.CurrentCulture, DateTimeStyles.None, out DateTime newDate))
             {
-                var currentDate = (DateTime)_graphicAttributes["Date"];
+                var currentDate = (DateTime)_graphic1Attributes["Date"];
                 var dt = new DateTime(newDate.Year, newDate.Month, newDate.Day, currentDate.Hour, currentDate.Minute, 0);
                 await _polygonGraphic!.Attributes.AddOrUpdate(attributeName, dt);
                 await _cSharpGraphic!.Attributes.AddOrUpdate(attributeName, dt);
@@ -96,7 +96,7 @@
         {
             if (DateTime.TryParseExact(arg.Value!.ToString(), "HH:mm:ss", CultureInfo.CurrentCulture, DateTimeStyles.None, out DateTime newDate))
             {
-                var currentDate = (DateTime)_graphicAttributes["Date"];
+                var currentDate = (DateTime)_graphic1Attributes["Date"];
                 var dt = new DateTime(currentDate.Year, currentDate.Month, currentDate.Day, newDate.Hour, newDate.Minute, 0);
                 await _polygonGraphic!.Attributes.AddOrUpdate("Date", dt);
                 await _cSharpGraphic!.Attributes.AddOrUpdate("Date", dt);
@@ -117,7 +117,7 @@
         new MapPoint(-118.791432890735, 34.0163883241613),
         new MapPoint(-118.79596686535, 34.008564864635),
         new MapPoint(-118.808558110679, 34.0035027131376));
-    private readonly Dictionary<string, object> _graphicAttributes = new()
+    private readonly AttributesDictionary _graphic1Attributes = new(new Dictionary<string, object>
     {
         { "Name", "This is a Title" },
         { "Description", "And a Description" },
@@ -125,7 +125,17 @@
         { "Date", DateTime.Now },
         { "Boolean", true },
         { "Object", new TestObject("T1", "Test Object", 42, DateTime.UtcNow, false) }
-    };
+    });
+    
+    private readonly AttributesDictionary _graphic2Attributes = new(new Dictionary<string, object>
+    {
+        { "Name", "This is a Title" },
+        { "Description", "And a Description" },
+        { "Number", 1 },
+        { "Date", DateTime.Now },
+        { "Boolean", true },
+        { "Object", new TestObject("T1", "Test Object", 42, DateTime.UtcNow, false) }
+    });
 
     private Graphic? _polygonGraphic;
     private Graphic? _cSharpGraphic;

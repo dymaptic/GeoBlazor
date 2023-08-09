@@ -224,6 +224,15 @@ export interface DotNetFeatureLayer extends DotNetLayer {
     source: any[];
     fields: any[];
     relationships: any[];
+    timeInfo: DotNetTimeInfo;
+}
+
+export interface DotNetTimeInfo {
+    endField: string;
+    startField: string;
+    trackIdField: string;
+    fullTimeExtent: any;
+    interval: any;
 }
 
 export interface DotNetGraphicsLayer extends DotNetLayer {
@@ -464,4 +473,134 @@ export interface DotNetRelationshipPopupContent extends DotNetPopupContent {
 export interface DotNetRelatedRecordsInfoFieldOrder {
     field: string;
     order: string;
+}
+
+export interface DotNetApplyEdits {
+    addFeatures: DotNetGraphic[];
+    updateFeatures: DotNetGraphic[];
+    deleteFeatures: DotNetGraphic[];
+    addAttachments: DotNetAttachmentsEdit[];
+    updateAttachments: DotNetAttachmentsEdit[];
+    deleteAttachments: string[];
+}
+
+export interface DotNetAttachmentsEdit {
+    feature: DotNetGraphic | number | string;
+    attachment: DotNetAttachment;
+}
+
+export interface DotNetAttachment {
+    globalId: string;
+    name: string;
+    contentType: string;
+    uploadId: string;
+    data: string;
+}
+
+export interface DotNetBookmark {
+    name: string;
+    thumbnail: string;
+    viewpoint: DotNetViewpoint;
+    timeExtent: any;
+}
+
+export interface DotNetViewpoint {
+    rotation: number;
+    scale: number;
+    targetGeometry: DotNetGeometry;
+}
+
+export interface DotNetFeatureEffect {
+    excludedEffect: DotNetEffect[];
+    excludedLabelsVisible: boolean;
+    filter: DotNetFeatureFilter;
+    includedEffect: DotNetEffect[];
+}
+
+export interface DotNetEffect {
+    scale: number;
+    value: string;
+}
+
+export interface DotNetFeatureFilter {
+    distance: number;
+    geometry: DotNetGeometry;
+    objectIds: number[];
+    spatialRelationship: string;
+    timeExtent: any;
+    units: string;
+    where: string;
+}
+
+export interface DotNetField {
+    alias: string;
+    defaultValue: any;
+    description: string;
+    domain: DotNetDomain;
+    editable: boolean;
+    length: number;
+    name: string;
+    type: "small-integer"|"integer"|"single"|"double"|"long"|"string"|"date"|"oid"|"geometry"|"blob"|"raster"|"guid"|"global-id"|"xml";
+    valueType: string;
+}
+
+export interface DotNetDomain {
+    type: string;
+}
+
+export interface DotNetCodedValueDomain extends DotNetDomain {
+    codedValues: DotNetCodedValue[];
+    name: string;
+}
+
+export interface DotNetCodedValue {
+    name: string;
+    code: any;
+}
+
+export interface DotNetRangeDomain extends DotNetDomain {
+    maxValue: number;
+    minValue: number;
+    name: string;
+}
+
+export interface DotNetInheritedDomain extends DotNetDomain {
+    name: string;
+}
+export interface DotNetDimensionDefinition {
+    dimensionName: string;
+    isSlice: boolean;
+    values: number[];
+    variableName: string;
+}
+
+export interface DotNetRasterStretchRenderer {
+    type: string;
+    colorRamp: DotNetColorRamp;
+    computeGamma: boolean;
+    dynamicRangeAdjustment: boolean;
+    statistics: [number[]];
+    gamma: number[];
+    useGamma: boolean;
+    outputMax: number;
+    outputMin: number;
+    stretchType: string;
+    numberOfStandardDeviations: number;
+}
+
+export interface DotNetColorRamp {
+    type: string;
+    multipartColorRamps: DotNetMultiPartColorRamp[];
+}
+
+export interface DotNetAlgorithmicColorRamp {
+    type: string;
+    algorithm: string;
+    fromColor: color;
+    toColor: color;
+}
+
+export interface DotNetMultiPartColorRamp {
+    type: string;
+    algorithmicColorRamps: DotNetAlgorithmicColorRamp[];
 }

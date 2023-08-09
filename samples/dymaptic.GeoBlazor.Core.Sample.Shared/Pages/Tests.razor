@@ -8,15 +8,25 @@
 <button disabled="@(!_mapRendered)" @onclick="() => ToggleLayer(_graphicsLayer)">Graphics Layer</button>
 <button disabled="@(!_mapRendered)" @onclick="() => ToggleLayer(_geoJsonLayer)">GeoJSON Layer</button>
 <button disabled="@(!_mapRendered)" @onclick="() => ToggleLayer(_geoRssLayer)">GeoRSS Layer</button>
+<button disabled="@(!_mapRendered)" @onclick="() => ToggleLayer(_csvLayer)">CSV Layer</button>
 <button disabled="@(!_mapRendered)" @onclick="() => ToggleLayer(_osmLayer)">OpenStreetMaps Layer</button>
 <h2>Markup Layers</h2>
 <button disabled="@(!_mapRendered)" @onclick="() => _showGraphicsMarkupLayer = !_showGraphicsMarkupLayer">Graphics Layer</button>
+<button disabled="@(!_mapRendered)" @onclick="() => { _graphicsCount = 0; StateHasChanged(); _graphicsCount = 1; }">Reset Graphic</button>
 
 <MapView @ref="_view" class="map-view" OnMapRendered="OnMapRendered">
     <Extent Xmin="-41525513" Ymin="4969181" Xmax="-36687355" Ymax="9024624">
         <SpatialReference Wkid="102100" />
     </Extent>
     <Map ArcGISDefaultBasemap="arcgis-topographic">
+        <GraphicsLayer @ref="_refreshableGraphicsLayer">
+            @for (var i = 0; i < _graphicsCount; i++)
+            {
+                <Graphic>
+                    <Point Longitude="_longs[i]" Latitude="_lats[i]" />
+                </Graphic>
+            }
+        </GraphicsLayer>
         @if (_showGraphicsMarkupLayer)
         {
             <GraphicsLayer>
@@ -170,13 +180,17 @@
         new("https://services3.arcgis.com/GVgbJbqm8hXASVYi/ArcGIS/rest/services/World_Countries_(Generalized)/FeatureServer/0/query?where=1%3D1&outFields=*&f=geojson");
     private readonly GeoRSSLayer _geoRssLayer =
         new("https://disasterscharter.org/charter-portlets/cpi-mvc/activations/feed/rss/");
+    private readonly CSVLayer _csvLayer =
+        new("https://developers.arcgis.com/javascript/latest//sample-code/layers-csv/live/earthquakes.csv");
     private readonly OpenStreetMapLayer _osmLayer = new();
 
     private bool _mapRendered;
     private bool _map3Rendered;
     private bool _showGraphicsMarkupLayer;
     private readonly Random _random = new();
-    private readonly List<double> _lats = new();
-    private readonly List<double> _longs = new();
+    private readonly List<double> _lats = new() { 49.201448, 52.451825, 59.614991, 55.469513 };
+    private readonly List<double> _longs = new() { 11.967162, 11.888650, 7.274721, 29.437639 };
     private MapView? _view3;
+    private int _graphicsCount = 1;
+    private GraphicsLayer? _refreshableGraphicsLayer;
 }

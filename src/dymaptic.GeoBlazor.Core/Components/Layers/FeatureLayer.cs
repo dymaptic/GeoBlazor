@@ -1,6 +1,7 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
 using dymaptic.GeoBlazor.Core.Components.Popups;
 using dymaptic.GeoBlazor.Core.Components.Renderers;
+using dymaptic.GeoBlazor.Core.Components.Widgets;
 using dymaptic.GeoBlazor.Core.Exceptions;
 using dymaptic.GeoBlazor.Core.Objects;
 using Microsoft.AspNetCore.Components;
@@ -228,6 +229,11 @@ public class FeatureLayer : Layer
     /// </summary>
     public Relationship[]? Relationships { get; set; }
 
+    /// <summary>
+    ///     The template used in an associated layer's FeatureForm Widget (Available in GeoBlazor Pro). All of the properties and field configurations set on the layer's FeatureForm are handled via the FormTemplate.
+    /// </summary>
+    public FormTemplate? FormTemplate { get; set; }
+
     /// <inheritdoc />
     public override string LayerType => "feature";
 
@@ -298,6 +304,16 @@ public class FeatureLayer : Layer
     public async Task SetPopupTemplate(PopupTemplate template)
     {
         await RegisterChildComponent(template);
+    }
+
+    /// <summary>
+    ///     Applies edits to features in a layer. New features can be created and existing features can be updated or deleted. Feature geometries and/or attributes may be modified. Only applicable to layers in a feature service and client-side features set through the FeatureLayer's source property. Attachments can also be added, updated or deleted.
+    ///     If client-side features are added, removed or updated at runtime using applyEdits() then use FeatureLayer's queryFeatures() method to return updated features.
+    /// </summary>
+    public async Task<FeatureEditsResult> ApplyEdits(FeatureEdits edits, FeatureEditOptions? options = null)
+    {
+        return await JsLayerReference!.InvokeAsync<FeatureEditsResult>("applyEdits", edits, options,
+            View!.Id);
     }
 
     /// <inheritdoc />
@@ -382,6 +398,14 @@ public class FeatureLayer : Layer
                 }
 
                 break;
+            case FormTemplate formTemplate:
+                if (!formTemplate.Equals(FormTemplate))
+                {
+                    FormTemplate = formTemplate;
+                    LayerChanged = true;
+                }
+
+                break;
             default:
                 await base.RegisterChildComponent(child);
 
@@ -438,6 +462,11 @@ public class FeatureLayer : Layer
                     _fields.Remove(field);
                     LayerChanged = true;
                 }
+
+                break;
+            case FormTemplate _:
+                FormTemplate = null;
+                LayerChanged = true;
 
                 break;
             default:
@@ -788,6 +817,11 @@ public class FeatureLayer : Layer
         return result;
     }
 
+    /// <summary>
+    /// TimeInfo provides information such as date fields that store start and end time for each feature and the fullTimeExtent for the layer.
+    /// </summary>
+    public TimeInfo? TimeInfo { get; set; }
+
     /// <inheritdoc />
     internal override void ValidateRequiredChildren()
     {
@@ -826,7 +860,8 @@ public class FeatureLayer : Layer
     {
         await base.UpdateFromJavaScript(renderedLayer);
         var renderedFeatureLayer = (FeatureLayer)renderedLayer;
-        Url = renderedFeatureLayer.Url;
+        Url ??= renderedFeatureLayer.Url;
+        Title ??= renderedFeatureLayer.Title;
 
         if (renderedFeatureLayer.Source is not null && renderedFeatureLayer.Source.Any() &&
             Source is null)
@@ -930,6 +965,11 @@ public class FeatureLayer : Layer
         {
             Relationships = renderedFeatureLayer.Relationships;
         }
+
+        if (renderedFeatureLayer.TimeInfo is not null)
+        {
+            TimeInfo = renderedFeatureLayer.TimeInfo;
+        }
     }
 
     private HashSet<Graphic>? _source;
@@ -964,3 +1004,276 @@ public class CreatePopupTemplateOptions
     /// </summary>
     public HashSet<string>? VisibleFieldNames { get; set; }
 }
+
+/// <summary>
+///     Object containing features and attachments to be added, updated or deleted.
+///     For use with <see cref="FeatureLayer.ApplyEdits"/>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#applyEdits">ArcGIS JS API</a>
+/// </summary>
+public class FeatureEdits
+{
+    /// <summary>
+    ///     An array or a collection of features to be added. Values of non nullable fields must be provided when adding new features. Date fields must have numeric values representing universal time.
+    /// </summary>
+    public IEnumerable<Graphic>? AddFeatures { get; set; }
+    /// <summary>
+    ///     An array or a collection of features to be updated. Each feature must have valid objectId. Values of non nullable fields must be provided when updating features. Date fields must have numeric values representing universal time.
+    /// </summary>
+    public IEnumerable<Graphic>? UpdateFeatures { get; set; }
+    /// <summary>
+    ///     An array or a collection of features, or an array of objects with objectId or globalId of each feature to be deleted. When an array or collection of features is passed, each feature must have a valid objectId. When an array of objects is used, each object must have a valid value set for objectId or globalId property.
+    /// </summary>
+    public IEnumerable<Graphic>? DeleteFeatures { get; set; }
+    /// <summary>
+    ///     An array of attachments to be added. Applies only when the options.globalIdUsed parameter is set to true. User must provide globalIds for all attachments to be added.
+    /// </summary>
+    public IEnumerable<AttachmentEdit>? AddAttachments { get; set; }
+    /// <summary>
+    ///     An array of attachments to be updated. Applies only when the options.globalIdUsed parameter is set to true. User must provide globalIds for all attachments to be updated.
+    /// </summary>
+    public IEnumerable<AttachmentEdit>? UpdateAttachments { get; set; }
+    /// <summary>
+    ///     An array of globalIds for attachments to be deleted. Applies only when the options.globalIdUsed parameter is set to true.
+    /// </summary>
+    public IEnumerable<string>? DeleteAttachments { get; set; }
+}
+
+
+/// <summary>
+///     AttachmentEdit represents an attachment that can be added, updated or deleted via applyEdits. This object can be either pre-uploaded data or base 64 encoded data.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#AttachmentEdit">ArcGIS JS API</a>
+/// </summary>
+public class AttachmentEdit
+{
+    /// <summary>
+    ///     The feature, objectId or globalId of feature associated with the attachment.
+    /// </summary>
+    public Graphic Feature { get; set; } = default!;
+
+    /// <summary>
+    ///     The attachment to be added, updated or deleted.
+    /// </summary>
+    public Attachment Attachment { get; set; } = default!;
+}
+
+/// <summary>
+///     The attachment to be added, updated or deleted in an <see cref="AttachmentEdit"/>.
+/// </summary>
+public class Attachment
+{
+    /// <summary>
+    ///     The globalId of the attachment to be added or updated. These Global IDs must be from the Global ID field created by ArcGIS. For more information on ArcGIS generated Global IDs, see the Global IDs and Attachments and relationship classes sections in the <a target="_blank" href="https://enterprise.arcgis.com/en/server/latest/publish-services/windows/prepare-data-for-offline-use.htm#ESRI_SECTION1_CDC34577197B43A980E4B5021DB1C32A">Data Preparation</a> documentation.
+    /// </summary>
+    public string GlobalId { get; set; } = default!;
+
+    /// <summary>
+    ///     The name of the attachment. This parameter must be set if the attachment type is Blob.
+    /// </summary>
+    public string? Name { get; set; }
+
+    /// <summary>
+    ///     The content type of the attachment. For example, 'image/jpeg'. See the ArcGIS REST API documentation for more information on supported attachment types.
+    /// </summary>
+    public string? ContentType { get; set; }
+
+    /// <summary>
+    ///     The id of pre-loaded attachment.
+    /// </summary>
+    public string? UploadId { get; set; }
+
+    /// <summary>
+    ///     The attachment data.
+    /// </summary>
+    public string? Data { get; set; }
+}
+
+/// <summary>
+/// Time info represents the temporal data of a time-aware layer. The time info class provides information such
+/// as date fields that store the start and end times for each feature and the total time span for the layer.
+/// </summary>
+public class TimeInfo
+{
+    /// <summary>
+    ///     Public constructor
+    /// </summary>
+    /// <param name="startField">
+    ///     The name of the field containing the start time information.
+    /// </param>
+    /// <param name="endField">
+    ///     The name of the field containing the end time information.
+    /// </param>
+    public TimeInfo(string? startField, string? endField)
+    {
+        StartField = startField;
+        EndField = endField;
+    }
+
+
+    /// <summary>
+    ///   The name of the field containing the end time information.
+    /// </summary>
+    public string? EndField { get; set; }
+
+    /// <summary>
+    ///  The time extent defines the start time and end time for all data in the layer.
+    ///  The fullTimeExtent for timeInfo is automatically calculated based on its startField and endField properties.
+    ///  The timeInfo parameters cannot be changed after the layer is loaded.
+    /// </summary>
+    public TimeExtent? FullTimeExtent { get; set; }
+
+    /// <summary>
+    ///   The time interval defines the granularity of the temporal data and allows you to visualize the data at specified intervals using the time slider widget.
+    /// </summary>
+    public TimeInterval? Interval { get; set; }
+
+    /// <summary>
+    ///  The name of the field containing the start time information.
+    /// </summary>
+    public string? StartField { get; set; }
+
+    /// <summary>
+    /// The name of the field used to join or group discrete locations.
+    /// </summary>
+    public string? TrackIdField { get; set; }
+}
+
+/// <summary>
+///     The options to use with <see cref="FeatureLayer.ApplyEdits"/>.
+/// </summary>
+public class FeatureEditOptions
+{
+    /// <summary>
+    ///     The geodatabase version to apply the edits. This parameter applies only if the capabilities.data.isVersioned property of the layer is true. If the gdbVersion parameter is not specified, edits are made to the published map’s version.
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? GdbVersion { get; set; }
+
+    /// <summary>
+    ///     Indicates whether the edit results should return the time edits were applied. If true, the feature service will return the time edits were applied in the edit result's editMoment property. Only applicable with ArcGIS Server services only.
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? ReturnEditMoment { get; set; }
+
+    /// <summary>
+    ///     If set to original-and-current-features, the EditedFeatureResult parameter will be included in the applyEdits response. It contains all edited features participating in composite relationships in a database as result of editing a feature. Note that even for deletions, the geometry and attributes of the deleted feature are returned. The original-and-current-features option is only valid when rollbackOnFailureEnabled is true. The default value is none, which will not include the EditedFeatureResult parameter in the response. This is only applicable with ArcGIS Server services only.
+    /// </summary>
+    /// <remarks>
+    ///     Possible values: "none" | "original-and-current-features"
+    /// </remarks>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? ReturnServiceEditsOption { get; set; }
+
+    /// <summary>
+    ///     Indicates whether the edits should be applied only if all submitted edits succeed. If false, the server will apply the edits that succeed even if some of the submitted edits fail. If true, the server will apply the edits only if all edits succeed. The layer's capabilities.editing.supportsRollbackOnFailure property must be true if using this parameter. If supportsRollbackOnFailure is false for a layer, then rollbackOnFailureEnabled will always be true, regardless of how the parameter is set.
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? RollbackOnFailureEnabled { get; set; }
+
+    /// <summary>
+    ///     Indicates whether the edits can be applied using globalIds of features or attachments. This parameter applies only if the layer's capabilities.editing.supportsGlobalId property is true. When false, globalIds submitted with the features are ignored and the service assigns new globalIds to the new features. When true, the globalIds must be submitted with the new features. When updating existing features, if the globalIdUsed is false, the objectIds of the features to be updated must be provided. If the globalIdUsed is true, globalIds of features to be updated must be provided. When deleting existing features, set this property to false as deletes operation only accepts objectIds at the current version of the API.
+    ///     When adding, updating or deleting attachments, globalIdUsed parameter must be set to true and the attachment globalId must be set. For new attachments, the user must provide globalIds. In order for an attachment to be updated or deleted, clients must include its globalId. Attachments are not supported in an edit payload when globalIdUsed is false.
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? GlobalIdUsed { get; set; }
+}
+
+/// <summary>
+///     The result of <see cref="FeatureLayer.ApplyEdits"/>.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#EditsResult">ArcGIS JS API</a>
+/// </summary>
+/// <param name="AddFeatureResults">
+///     Result of adding features.     
+/// </param>
+/// <param name="UpdateFeatureResults">
+///     Result of updating features.
+/// </param>
+/// <param name="DeleteFeatureResults">
+///     Result of deleting features.
+/// </param>
+/// <param name="AddAttachmentResults">
+///     Result of adding attachments.
+/// </param>
+/// <param name="UpdateAttachmentResults">
+///     Result of updating attachments.
+/// </param>
+/// <param name="DeleteAttachmentResults">
+///     Result of deleting attachments.
+/// </param>
+/// <param name="EditedFeatureResults">
+///     Edited features as result of editing a feature that participates in composite relationships in a database. This parameter is returned only when the returnServiceEditsOption parameter of the applyEdits() method is set to original-and-current-features.
+/// </param>
+/// <param name="EditMoment">
+///     The time edits were applied to the feature service. This parameter is returned only when the returnEditMoment parameter of the applyEdits() method is set to true.
+/// </param>
+public record FeatureEditsResult(FeatureEditResult[] AddFeatureResults, FeatureEditResult[] UpdateFeatureResults,
+    FeatureEditResult[] DeleteFeatureResults, FeatureEditResult[] AddAttachmentResults,
+    FeatureEditResult[] UpdateAttachmentResults, FeatureEditResult[] DeleteAttachmentResults,
+    EditedFeatureResult[]? EditedFeatureResults, long? EditMoment);
+
+/// <summary>
+///     FeatureEditResult represents the result of adding, updating or deleting a feature or an attachment.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#FeatureEditResult">ArcGIS JS API</a>
+/// </summary>
+/// <param name="ObjectId">
+///     The objectId of the feature or the attachmentId of the attachment that was edited.
+/// </param>
+/// <param name="GlobalId">
+///     The globalId of the feature or the attachment that was edited.
+/// </param>
+/// <param name="Error">
+///     If the edit failed, the edit result includes an error.
+/// </param>
+public record FeatureEditResult(long? ObjectId, string? GlobalId, EditError? Error);
+
+/// <summary>
+///     The error object in a <see cref="FeatureEditResult"/>
+/// </summary>
+/// <param name="Name">
+///     Error name.
+/// </param>
+/// <param name="Message">
+///     Message describing the error.
+/// </param>
+public record EditError(string? Name, string? Message);
+
+/// <summary>
+///     Results returned from the applyEdits method if the returnServiceEditsOption parameter is set to original-and-current-features. It contains features that were added, deleted or updated in different feature layers of a feature service as a result of editing a single feature that participates in a composite relationship in a database. The results are organized by each layer affected by the edit. For example, if a feature is deleted and it is the origin in a composite relationship, the edited features as a result of this deletion are returned.
+///     The editedFeatures object returns full features including newly added features, the original features prior to delete, the original and current features for updates.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#EditedFeatureResult">ArcGIS JS API</a>
+/// </summary>
+/// <param name="LayerId">
+///     The layerId of the feature layer where features were edited.
+/// </param>
+/// <param name="EditedFeatures">
+///     Object containing all edited features belonging to the specified layer.
+/// </param>
+public record EditedFeatureResult(long? LayerId, EditedFeatures? EditedFeatures);
+
+/// <summary>
+///     The edited features of an <see cref="EditedFeatureResult"/>
+/// </summary>
+/// <param name="Adds">
+///     Newly added features as a result of editing a feature that participates in a composite relationship.
+/// </param>
+/// <param name="Updates">
+///     Object containing original and updated features as a result of editing a feature that participates in a composite relationship.
+/// </param>
+/// <param name="Deletes">
+///     Deleted features as a result of editing a feature that participates in a composite relationship.
+/// </param>
+/// <param name="SpatialReference">
+///     Edited features are returned in the spatial reference of the feature service.
+/// </param>
+public record EditedFeatures(Graphic[] Adds, EditedFeatureUpdate[] Updates, Graphic[] Deletes,
+    SpatialReference SpatialReference);
+
+/// <summary>
+///     The update object of a <see cref="EditedFeatures"/>.
+/// </summary>
+/// <param name="Original">
+///     Original feature before the update took place.
+/// </param>
+/// <param name="Current">
+///     Updated feature as a result of editing a feature that participates in a composite relationship.
+/// </param>
+public record EditedFeatureUpdate(Graphic[] Original, Graphic[] Current);

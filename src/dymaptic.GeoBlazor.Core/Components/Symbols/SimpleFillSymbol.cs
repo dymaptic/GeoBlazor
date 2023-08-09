@@ -16,7 +16,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 ///         JS API
 ///     </a>
 /// </summary>
-public class SimpleFillSymbol : FillSymbol, IEquatable<SimpleFillSymbol>
+public class SimpleFillSymbol : FillSymbol
 {
     /// <summary>
     ///     Parameterless constructor for using as a razor component
@@ -48,22 +48,6 @@ public class SimpleFillSymbol : FillSymbol, IEquatable<SimpleFillSymbol>
     }
 
     /// <summary>
-    ///     Compares two <see cref="SimpleFillSymbol" />s for equality
-    /// </summary>
-    public static bool operator ==(SimpleFillSymbol? left, SimpleFillSymbol? right)
-    {
-        return Equals(left, right);
-    }
-
-    /// <summary>
-    ///     Compares two <see cref="SimpleFillSymbol" />s for inequality
-    /// </summary>
-    public static bool operator !=(SimpleFillSymbol? left, SimpleFillSymbol? right)
-    {
-        return !Equals(left, right);
-    }
-
-    /// <summary>
     ///     The outline of the polygon.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -79,14 +63,6 @@ public class SimpleFillSymbol : FillSymbol, IEquatable<SimpleFillSymbol>
 
     /// <inheritdoc />
     public override string Type => "simple-fill";
-
-    /// <inheritdoc />
-    public bool Equals(SimpleFillSymbol? other)
-    {
-        if (ReferenceEquals(null, other)) return false;
-
-        return Equals(Outline, other.Outline) && (FillStyle == other.FillStyle) && (Color == other.Color);
-    }
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
@@ -121,21 +97,6 @@ public class SimpleFillSymbol : FillSymbol, IEquatable<SimpleFillSymbol>
 
                 break;
         }
-    }
-
-    /// <inheritdoc />
-    public override bool Equals(object? obj)
-    {
-        if (ReferenceEquals(null, obj)) return false;
-        if (obj.GetType() != GetType()) return false;
-
-        return Equals((SimpleFillSymbol)obj);
-    }
-
-    /// <inheritdoc />
-    public override int GetHashCode()
-    {
-        return HashCode.Combine(Outline, FillStyle, Color);
     }
 
     /// <inheritdoc />

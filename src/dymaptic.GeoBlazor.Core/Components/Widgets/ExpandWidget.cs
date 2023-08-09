@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using dymaptic.GeoBlazor.Core.Serialization;
+using Microsoft.AspNetCore.Components;
 using System.Text.Json.Serialization;
 
 
@@ -21,6 +22,7 @@ public class ExpandWidget : Widget
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [Obsolete("Use ExpandIcon instead")]
     public string? ExpandIconClass { get; set; }
 
     /// <summary>
@@ -28,10 +30,11 @@ public class ExpandWidget : Widget
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [Obsolete("Use CollapseIcon instead")]
     public string? CollapseIconClass { get; set; }
 
     /// <summary>
-    ///     Tooltip to display to indicate Expand widget can be expanded.
+    ///     Tooltip to display to indicate Expand widget can be expanded
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -58,7 +61,7 @@ public class ExpandWidget : Widget
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? CloseOnEsc { get; set; }
-    
+
     /// <summary>
     ///     The custom HTML content to display within the expanded Expand widget.
     /// </summary>
@@ -75,6 +78,33 @@ public class ExpandWidget : Widget
     /// </remarks>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Widget? WidgetContent { get; set; }
+
+    /// <summary>
+    ///     Indicates whether the widget is currently expanded or not.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? Expanded { get; set; }
+
+    /// <summary>
+    ///    Calcite icon used when the widget is collapsed. Will automatically use the content's icon if it has one.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? ExpandIcon { get; set; }
+
+    /// <summary>
+    ///    Calcite icon used to style the Expand button when the content can be collapsed.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? CollapseIcon { get; set; }
+
+    /// <summary>
+    ///   The mode in which the widget displays.
+    /// </summary>
+    [Parameter]
+    public Mode Mode { get; set; } = Mode.Auto;
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
@@ -110,4 +140,20 @@ public class ExpandWidget : Widget
                 break;
         }
     }
+}
+
+
+/// <summary>
+/// The mode in which the Expander widget displays. These modes are listed below.
+/// Possible Values:"auto"|"floating"|"drawer"
+/// Default Value:"auto"
+/// </summary>
+[JsonConverter(typeof(EnumToKebabCaseStringConverter<Mode>))]
+public enum Mode
+{
+#pragma warning disable CS1591
+    Auto,
+    Floating,
+    Drawer
+#pragma warning restore CS1591
 }

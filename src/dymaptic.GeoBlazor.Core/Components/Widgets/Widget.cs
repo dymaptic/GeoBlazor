@@ -41,6 +41,19 @@ public abstract class Widget : MapComponent
     /// </summary>
     [JsonPropertyName("type")]
     public abstract string WidgetType { get; }
+    
+    /// <summary>
+    ///     Icon which represents the widget. It is typically used when the widget is controlled by another one (e.g. in the Expand widget).
+    ///     Default Value:null
+    /// </summary>
+    [Parameter]
+    public string? Icon { get; set; }
+    
+    /// <summary>
+    ///     The unique ID assigned to the widget when the widget is created. If not set by the developer, it will default to the container ID, or if that is not present then it will be automatically generated.
+    /// </summary>
+    [Parameter]
+    public string? WidgetId { get; set; }
 
     /// <summary>
     ///     DotNet Object Reference to the widget
@@ -55,6 +68,40 @@ public abstract class Widget : MapComponent
     {
         JsObjectReference = jsObjectReference;
     }
+    
+    /// <inheritdoc />
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        WidgetChanged = true;
+    }
+
+    /// <inheritdoc />
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (WidgetChanged && MapRendered)
+        {
+            await UpdateWidget();
+        }
+    }
+    
+    private async Task UpdateWidget()
+    {
+        WidgetChanged = false;
+
+        if (JsModule is null) return;
+
+        // ReSharper disable once RedundantCast
+        await JsModule!.InvokeVoidAsync("updateWidget", CancellationTokenSource.Token,
+            (object)this, View!.Id);
+    }
+
+    /// <summary>
+    ///     Indicates if the widget has changed since the last render.
+    /// </summary>
+    protected bool WidgetChanged;
 
     /// <summary>
     ///     JS Object Reference to the widget

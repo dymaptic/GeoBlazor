@@ -57,6 +57,7 @@ public class GeoJSONLayer : Layer
         Opacity = opacity;
         Visible = visible;
         ListMode = listMode;
+        Copyright = copyright;
     }
 
     /// <inheritdoc />

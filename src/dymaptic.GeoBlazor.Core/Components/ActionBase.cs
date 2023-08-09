@@ -15,25 +15,8 @@ namespace dymaptic.GeoBlazor.Core.Components;
 ///     </a>
 /// </summary>
 [JsonConverter(typeof(ActionBaseConverter))]
-public abstract class ActionBase : MapComponent, IEquatable<ActionBase>
+public abstract class ActionBase : MapComponent
 {
-    /// <summary>
-    ///     Determines whether the specified <see cref="ActionBase" /> is equal to the current <see cref="ActionBase" />.
-    /// </summary>
-    /// <returns></returns>
-    public static bool operator ==(ActionBase? left, ActionBase? right)
-    {
-        return Equals(left, right);
-    }
-
-    /// <summary>
-    ///     Determines whether the specified <see cref="ActionBase" /> is not equal to the current <see cref="ActionBase" />.
-    /// </summary>
-    public static bool operator !=(ActionBase? left, ActionBase? right)
-    {
-        return !Equals(left, right);
-    }
-
     /// <summary>
     ///     The title of the action.
     /// </summary>
@@ -84,33 +67,7 @@ public abstract class ActionBase : MapComponent, IEquatable<ActionBase>
     ///     Specifies the type of action. Choose between "button" or "toggle".
     /// </summary>
     public virtual string Type { get; } = default!;
-
-    /// <inheritdoc />
-    public bool Equals(ActionBase? other)
-    {
-        if (ReferenceEquals(null, other)) return false;
-
-        return (Title == other.Title) && (Id == other.Id) &&
-            (Active == other.Active) &&
-            (Disabled == other.Disabled) && (Visible == other.Visible) &&
-            Equals(CallbackFunction, other.CallbackFunction) && (Type == other.Type);
-    }
-
-    /// <inheritdoc />
-    public override bool Equals(object? obj)
-    {
-        if (ReferenceEquals(null, obj)) return false;
-        if (obj.GetType() != GetType()) return false;
-
-        return Equals((ActionBase)obj);
-    }
-
-    /// <inheritdoc />
-    public override int GetHashCode()
-    {
-        return HashCode.Combine(Title, Id, Active, Disabled, Visible, CallbackFunction, Type);
-    }
-
+    
     internal abstract ActionBaseSerializationRecord ToSerializationRecord();
 }
 

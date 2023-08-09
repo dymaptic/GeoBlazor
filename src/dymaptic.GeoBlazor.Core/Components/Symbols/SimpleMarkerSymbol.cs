@@ -14,7 +14,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 ///         JS API
 ///     </a>
 /// </summary>
-public class SimpleMarkerSymbol : MarkerSymbol, IEquatable<SimpleMarkerSymbol>
+public class SimpleMarkerSymbol : MarkerSymbol
 {
     /// <summary>
     ///     Parameterless constructor for using as a razor component
@@ -61,23 +61,7 @@ public class SimpleMarkerSymbol : MarkerSymbol, IEquatable<SimpleMarkerSymbol>
         YOffset = yOffset;
 #pragma warning restore BL0005
     }
-
-    /// <summary>
-    ///     Compares two SimpleMarkerSymbol objects for equality
-    /// </summary>
-    public static bool operator ==(SimpleMarkerSymbol? left, SimpleMarkerSymbol? right)
-    {
-        return Equals(left, right);
-    }
-
-    /// <summary>
-    ///     Compares two SimpleMarkerSymbol objects for inequality
-    /// </summary>
-    public static bool operator !=(SimpleMarkerSymbol? left, SimpleMarkerSymbol? right)
-    {
-        return !Equals(left, right);
-    }
-
+    
     /// <summary>
     ///     The outline of the marker symbol.
     /// </summary>
@@ -100,18 +84,7 @@ public class SimpleMarkerSymbol : MarkerSymbol, IEquatable<SimpleMarkerSymbol>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [Parameter]
     public string? Style { get; set; }
-
-    /// <inheritdoc />
-    public bool Equals(SimpleMarkerSymbol? other)
-    {
-        if (ReferenceEquals(null, other)) return false;
-
-        return Equals(Outline, other.Outline) &&
-            Nullable.Equals(Size, other.Size) &&
-            (Color == other.Color) &&
-            StylesEqual(Style, other.Style);
-    }
-
+    
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
     {
@@ -146,22 +119,7 @@ public class SimpleMarkerSymbol : MarkerSymbol, IEquatable<SimpleMarkerSymbol>
                 break;
         }
     }
-
-    /// <inheritdoc />
-    public override bool Equals(object? obj)
-    {
-        if (ReferenceEquals(null, obj)) return false;
-        if (obj.GetType() != GetType()) return false;
-
-        return Equals((SimpleMarkerSymbol)obj);
-    }
-
-    /// <inheritdoc />
-    public override int GetHashCode()
-    {
-        return HashCode.Combine(Outline, Size, Style, Color);
-    }
-
+    
     /// <inheritdoc />
     internal override void ValidateRequiredChildren()
     {

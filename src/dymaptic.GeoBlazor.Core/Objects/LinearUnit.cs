@@ -6,6 +6,11 @@ namespace dymaptic.GeoBlazor.Core.Objects;
 
 /// <summary>
 ///     A collection of units for measuring Linear distances.
+/// <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-geometryEngine.html#LinearUnits">
+///         ArcGIS
+///         JS API
+///     </a>
+/// Used by the Geometry Engine.
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<LinearUnit>))]
 public enum LinearUnit
