@@ -50,6 +50,7 @@ import * as reactiveUtils from "@arcgis/core/core/reactiveUtils";
 import BasemapLayerList from "@arcgis/core/widgets/BasemapLayerList";
 import FeatureLayerWrapper from "./featureLayer";
 import KMLLayer from "@arcgis/core/layers/KMLLayer";
+import WCSLayer from "@arcgis/core/layers/WCSLayer";
 
 import {
     buildDotNetExtent,
@@ -82,7 +83,12 @@ import {
     buildJsSpatialReference,
     buildJsSymbol,
     templateTriggerActionHandler,
-    buildJsBookmark
+    buildJsBookmark,
+    buildJsDimensionalDefinition,
+    buildJsColorRamp,
+    buildJsAlgorithmicColorRamp,
+    buildJsMultipartColorRamp,
+    buildJsRasterStretchRenderer
 } from "./jsBuilder";
 import {
     DotNetExtent,
@@ -112,6 +118,11 @@ import HitTestResult = __esri.HitTestResult;
 import MapViewHitTestOptions = __esri.MapViewHitTestOptions;
 import LegendLayerInfos = __esri.LegendLayerInfos;
 import ScreenPoint = __esri.ScreenPoint;
+import RasterStretchRenderer from "@arcgis/core/renderers/RasterStretchRenderer";
+import DimensionalDefinition from "@arcgis/core/layers/support/DimensionalDefinition";
+import ColorRamp from "@arcgis/core/rest/support/ColorRamp";
+import MultipartColorRamp from "@arcgis/core/rest/support/MultipartColorRamp";
+import AlgorithmicColorRamp from "@arcgis/core/rest/support/AlgorithmicColorRamp";
 
 export let arcGisObjectRefs: Record<string, Accessor> = {};
 export let graphicsRefs: Record<string, Graphic> = {};
@@ -852,34 +863,34 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                             featureLayer.portalItem.apiKey = layerObject.portalItem.apiKey;
                         }
                     }
-                } else if (hasValue(layerObject.url)) {
-                    if (layerObject.url !== featureLayer.url) {
-                        featureLayer.url = layerObject.url;
-                    }
+                } else if (hasValue(layerObject.url) && layerObject.url !== featureLayer.url) {
+                    featureLayer.url = layerObject.url;
                 } else {
-                    copyValuesIfExists(layerObject, featureLayer, 'minScale', 'maxScale', 'orderBy', 'objectIdField',
-                        'definitionExpression', 'labelingInfo', 'outFields');
-                    if (hasValue(layerObject.fullExtent) && layerObject.fullExtent !== currentLayer.fullExtent) {
-                        currentLayer.fullExtent = buildJsExtent(layerObject.fullExtent, view.spatialReference);
-                    }
-                    if (hasValue(layerObject.popupTemplate)) {
-                        featureLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId);
-                    }
-                    // on first pass the renderer is often left blank, but it fills in when the round trip happens to the server
-                    if (hasValue(layerObject.renderer) && layerObject.renderer.type !== featureLayer.renderer.type) {
-                        let renderer = buildJsRenderer(layerObject.renderer);
-                        if (renderer !== null && featureLayer.renderer !== renderer) {
-                            featureLayer.renderer = renderer;
-                        }
-                    }
-                    if (hasValue(layerObject.fields) && layerObject.fields.length > 0) {
-                        featureLayer.fields = buildJsFields(layerObject.fields);
-                    }
                     if (hasValue(layerObject.spatialReference) &&
                         layerObject.spatialReference.wkid !== featureLayer.spatialReference.wkid) {
                         featureLayer.spatialReference = buildJsSpatialReference(layerObject.spatialReference);
                     }
                 }
+
+                if (hasValue(layerObject.fullExtent) && layerObject.fullExtent !== currentLayer.fullExtent) {
+                    currentLayer.fullExtent = buildJsExtent(layerObject.fullExtent, view.spatialReference);
+                }
+                if (hasValue(layerObject.popupTemplate)) {
+                    featureLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId);
+                }
+                // on first pass the renderer is often left blank, but it fills in when the round trip happens to the server
+                if (hasValue(layerObject.renderer) && layerObject.renderer.type !== featureLayer.renderer.type) {
+                    let renderer = buildJsRenderer(layerObject.renderer);
+                    if (renderer !== null && featureLayer.renderer !== renderer) {
+                        featureLayer.renderer = renderer;
+                    }
+                }
+                if (hasValue(layerObject.fields) && layerObject.fields.length > 0) {
+                    featureLayer.fields = buildJsFields(layerObject.fields);
+                }
+
+                copyValuesIfExists(layerObject, featureLayer, 'minScale', 'maxScale', 'orderBy', 'objectIdField',
+                    'definitionExpression', 'labelingInfo', 'outFields');
 
                 break;
             case 'geo-json':
@@ -2112,7 +2123,48 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             newLayer = kmlLayer;
             copyValuesIfExists(layerObject, kmlLayer, 'sublayers', 'blendMode', 'maxScale', 'minScale', 'title', 'visible');
             break;
-        default:
+        case 'wcs':
+            newLayer = new WCSLayer({
+                url: layerObject.url,
+                title: layerObject.title
+            });
+            let wcsLayer = newLayer as WCSLayer;
+            
+            if (hasValue(layerObject.renderer) && (layerObject.renderer.type == 'raster-stretch')) {
+                wcsLayer.renderer = buildJsRasterStretchRenderer(layerObject.renderer) as RasterStretchRenderer;
+
+                if (hasValue(layerObject.renderer.stretchType)) {
+                    wcsLayer.renderer.stretchType = layerObject.renderer.stretchType;
+                }
+                if (hasValue(layerObject.renderer.statistics)) {
+                    wcsLayer.renderer.statistics = layerObject.renderer.statistics;
+                }
+            }
+            if (hasValue(layerObject.multidimensionalDefinition) && layerObject.multidimensionalDefinition.length > 0) {
+                wcsLayer.multidimensionalDefinition = [];
+                for (let i = 0; i < layerObject.multidimensionalDefinition.length; i++) {
+
+                    let wcsMDD = new DimensionalDefinition;
+                    if (hasValue(layerObject.multidimensionalDefinition.VariableName)) {
+                        wcsMDD.variableName = layerObject.multidimensionalDefinition.VariableName;
+                    }
+                    if (hasValue(layerObject.multidimensionalDefinition.DimensionName)) {
+                        wcsMDD.dimensionName = layerObject.multidimensionalDefinition.DimensionName;
+                    }
+                    if (hasValue(layerObject.multidimensionalDefinition.Values)) {
+                        wcsMDD.values = layerObject.multidimensionalDefinition.Values;
+                    }
+                    if (hasValue(layerObject.multidimensionalDefinition.isSlice)) {
+                        wcsMDD.isSlice = layerObject.multidimensionalDefinition.isSlice;
+                    }
+                    wcsLayer.multidimensionalDefinition.push(wcsMDD);
+                }
+            }
+            copyValuesIfExists(layerObject, 'bandIds', 'copyright', 'coverageId', 'coverageInfo', 'customParameters', 'fields', 'interpolation', 'maxScale', 'minscale', 'rasterInfo');
+
+            newLayer = wcsLayer;
+            break;
+         default:
             return null;
     }
 

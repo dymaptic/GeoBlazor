@@ -16,6 +16,11 @@ import Bookmark from "@arcgis/core/webmap/Bookmark"
 import Viewpoint from "@arcgis/core/Viewpoint";
 import FeatureEffect from "@arcgis/core/layers/support/FeatureEffect";
 import FeatureFilter from "@arcgis/core/layers/support/FeatureFilter";
+import RasterStretchRenderer from "@arcgis/core/renderers/RasterStretchRenderer.js"
+import ColorRamp from "@arcgis/core/rest/support/ColorRamp.js";
+import DimensionalDefinition from "@arcgis/core/layers/support/DimensionalDefinition.js";
+import MultipartColorRamp from "@arcgis/core/rest/support/MultipartColorRamp.js";
+import AlgorithmicColorRamp from "@arcgis/core/rest/support/AlgorithmicColorRamp.js";
 import {
     DotNetApplyEdits,
     DotNetAttachmentsEdit,
@@ -56,7 +61,10 @@ import {
     DotNetBookmark,
     DotNetViewpoint,
     DotNetFeatureEffect,
-    DotNetFeatureFilter
+    DotNetFeatureFilter,
+    DotNetRasterStretchRenderer,
+    DotNetDimensionDefinition,
+    DotNetColorRamp
 } from "./definitions";
 import PictureMarkerSymbol from "@arcgis/core/symbols/PictureMarkerSymbol";
 import Popup from "@arcgis/core/widgets/Popup";
@@ -95,10 +103,8 @@ import PopupTriggerActionEvent = __esri.PopupTriggerActionEvent;
 import FeatureLayerBaseApplyEditsEdits = __esri.FeatureLayerBaseApplyEditsEdits;
 import AttachmentEdit = __esri.AttachmentEdit;
 import FormTemplate from "@arcgis/core/form/FormTemplate";
-import ElementProperties = __esri.ElementProperties;
 import Element from "@arcgis/core/form/elements/Element";
 import GroupElement from "@arcgis/core/form/elements/GroupElement";
-import FieldElement from "@arcgis/core/form/elements/FieldElement";
 import CodedValueDomain from "@arcgis/core/layers/support/CodedValueDomain";
 import RangeDomain from "@arcgis/core/layers/support/RangeDomain";
 import CodedValue = __esri.CodedValue;
@@ -109,7 +115,6 @@ import BarcodeScannerInput from "@arcgis/core/form/elements/inputs/BarcodeScanne
 import ComboBoxInput from "@arcgis/core/form/elements/inputs/ComboBoxInput";
 import RadioButtonsInput from "@arcgis/core/form/elements/inputs/RadioButtonsInput";
 import SwitchInput from "@arcgis/core/form/elements/inputs/SwitchInput";
-import Domain from "@arcgis/core/layers/support/Domain";
 import * as reactiveUtils from "@arcgis/core/core/reactiveUtils";
 
 
@@ -262,13 +267,19 @@ export function buildJsPopupTemplate(popupTemplateObject: DotNetPopupTemplate, v
                     templateTriggerActionHandler.remove();
                 }
                 
-                // we need to wait for the popup to be initialized before we can add the trigger-action handler
-                reactiveUtils.once(() => view.popup.on !== undefined)
-                    .then(() => {
-                        templateTriggerActionHandler = view.popup.on("trigger-action", async (event: PopupTriggerActionEvent) => {
-                            await popupTemplateObject.dotNetPopupTemplateReference.invokeMethodAsync("OnTriggerAction", event.action.id);
-                        });
-                    })
+                if (view.popup.on === undefined) {
+                    // we need to wait for the popup to be initialized before we can add the trigger-action handler
+                    reactiveUtils.once(() => view.popup.on !== undefined)
+                        .then(() => {
+                            templateTriggerActionHandler = view.popup.on("trigger-action", async (event: PopupTriggerActionEvent) => {
+                                await popupTemplateObject.dotNetPopupTemplateReference.invokeMethodAsync("OnTriggerAction", event.action.id);
+                            });
+                        })
+                } else {
+                    templateTriggerActionHandler = view.popup.on("trigger-action", async (event: PopupTriggerActionEvent) => {
+                        await popupTemplateObject.dotNetPopupTemplateReference.invokeMethodAsync("OnTriggerAction", event.action.id);
+                    });
+                }
             }
             catch (error) {
                 console.debug(error);
@@ -464,11 +475,11 @@ export function buildJsBookmark(dnBookmark: DotNetBookmark): Bookmark | null {
         //ESRI has this as an "object" with url property
         let thumbnail = { url: dnBookmark.thumbnail };
         bookmark.thumbnail = thumbnail;
-    } else {
-        bookmark.thumbnail = undefined;
     }
 
-    bookmark.viewpoint = buildJsViewpoint(dnBookmark.viewpoint);
+    if (hasValue(dnBookmark.viewpoint)) {
+        bookmark.viewpoint = buildJsViewpoint(dnBookmark.viewpoint) as Viewpoint;
+    }
 
     return bookmark as Bookmark;
 }
@@ -478,7 +489,7 @@ export function buildJsViewpoint(dnViewpoint: DotNetViewpoint): Viewpoint | null
     let viewpoint = new Viewpoint();
     viewpoint.rotation = dnViewpoint.rotation ?? undefined;
     viewpoint.scale = dnViewpoint.scale ?? undefined;
-    viewpoint.targetGeometry = buildJsGeometry(dnViewpoint.targetGeometry);
+    viewpoint.targetGeometry = buildJsGeometry(dnViewpoint.targetGeometry) as Geometry;
     return viewpoint as Viewpoint;
 }
 
@@ -532,14 +543,83 @@ export function buildJsRenderer(dotNetRenderer: any): Renderer | null {
     let dotNetSymbol = dotNetRenderer.symbol;
     switch (dotNetRenderer.type) {
         case 'simple':
-            let renderer = new SimpleRenderer();
-            renderer.visualVariables = dotNetRenderer.visualVariables;
-            renderer.symbol = buildJsSymbol(dotNetSymbol) as Symbol;
+            let simpleRenderer = new SimpleRenderer();
+            simpleRenderer.visualVariables = dotNetRenderer.visualVariables;
+            simpleRenderer.symbol = buildJsSymbol(dotNetSymbol) as Symbol;
+            simpleRenderer.authoringInfo = dotNetRenderer.authoringInfo;
+            return simpleRenderer;
     }
-
     return dotNetRenderer
 }
 
+export function buildJsRasterStretchRenderer(dotNetRasterStretchRenderer: DotNetRasterStretchRenderer): RasterStretchRenderer | null {
+    if (dotNetRasterStretchRenderer === undefined) return null;
+    let rasterStretchRenderer = new RasterStretchRenderer();
+
+    if (hasValue(dotNetRasterStretchRenderer.colorRamp)) {
+        rasterStretchRenderer.colorRamp = buildJsColorRamp(dotNetRasterStretchRenderer.colorRamp) as ColorRamp;
+    }
+    if (hasValue(dotNetRasterStretchRenderer.computeGamma)) {
+        rasterStretchRenderer.computeGamma = dotNetRasterStretchRenderer.computeGamma;
+    }
+    if (hasValue(dotNetRasterStretchRenderer.dynamicRangeAdjustment)) {
+        rasterStretchRenderer.dynamicRangeAdjustment = dotNetRasterStretchRenderer.dynamicRangeAdjustment;
+    }
+    if (hasValue(dotNetRasterStretchRenderer.gamma)) {
+        rasterStretchRenderer.gamma = dotNetRasterStretchRenderer.gamma;
+    }
+    if (hasValue(dotNetRasterStretchRenderer.useGamma)) {
+        rasterStretchRenderer.useGamma = dotNetRasterStretchRenderer.useGamma;
+    }
+    if (hasValue(dotNetRasterStretchRenderer.outputMax)) {
+        rasterStretchRenderer.outputMax = dotNetRasterStretchRenderer.outputMax;
+    }
+    if (hasValue(dotNetRasterStretchRenderer.outputMin)) {
+        rasterStretchRenderer.outputMin = dotNetRasterStretchRenderer.outputMin;
+    }
+    if (hasValue(dotNetRasterStretchRenderer.stretchType)) {
+        rasterStretchRenderer.stretchType = dotNetRasterStretchRenderer.stretchType;
+    }
+    if (hasValue(dotNetRasterStretchRenderer.statistics)) {
+        rasterStretchRenderer.statistics = dotNetRasterStretchRenderer.statistics;
+    }
+    if (hasValue(dotNetRasterStretchRenderer.numberOfStandardDeviations)) {
+        rasterStretchRenderer.numberOfStandardDeviations = dotNetRasterStretchRenderer.numberOfStandardDeviations;
+    }
+    return rasterStretchRenderer;
+}
+
+export function buildJsColorRamp(dotNetColorRamp: any): ColorRamp | null {
+    if (dotNetColorRamp === undefined) return null;
+    switch (dotNetColorRamp.type) {
+        case 'multipart':
+            return buildJsMultipartColorRamp(dotNetColorRamp);
+        default:
+            return buildJsAlgorithmicColorRamp(dotNetColorRamp);
+    }
+}
+
+export function buildJsAlgorithmicColorRamp(dotNetAlgorithmicColorRamp: any): AlgorithmicColorRamp | null {
+    if (dotNetAlgorithmicColorRamp === undefined) return null;
+    let algorithmicColorRamp = new AlgorithmicColorRamp();
+    algorithmicColorRamp.fromColor = dotNetAlgorithmicColorRamp.fromColor;
+    algorithmicColorRamp.toColor = dotNetAlgorithmicColorRamp.toColor;
+    return algorithmicColorRamp;
+}
+
+export function buildJsDimensionalDefinition(dotNetMultidimensionalDefinition: any): DimensionalDefinition | null {
+    if (dotNetMultidimensionalDefinition == undefined) return null;
+    let multidimensionalDefinition = new DimensionalDefinition();
+    multidimensionalDefinition = dotNetMultidimensionalDefinition;
+    return multidimensionalDefinition;
+}
+
+export function buildJsMultipartColorRamp(dotNetMultipartColorRamp: any): MultipartColorRamp | null {
+    if (dotNetMultipartColorRamp === undefined) return null;
+    let multipartColorRamp = new MultipartColorRamp();
+    multipartColorRamp.colorRamps = dotNetMultipartColorRamp.colorRamps.map(buildJsAlgorithmicColorRamp);
+    return multipartColorRamp;
+}
 
 export function buildJsFields(dotNetFields: any): Array<Field> {
     let fields: Array<Field> = [];
@@ -628,7 +708,6 @@ export async function buildJsPopup(dotNetPopup: any, viewId: string): Promise<Po
         autoCloseEnabled: dotNetPopup.autoCloseEnabled ?? false,
         autoOpenEnabled: dotNetPopup.autoOpenEnabled ?? true,
         collapseEnabled: dotNetPopup.collapseEnabled ?? true,
-        collapsed: dotNetPopup.collapsed ?? false,
         defaultPopupTemplateEnabled: dotNetPopup.defaultPopupTemplateEnabled ?? false,
         headingLevel: dotNetPopup.headingLevel ?? 2,
         highlightEnabled: dotNetPopup.highlightEnabled ?? true,
@@ -973,6 +1052,27 @@ export function buildJsFormTemplate(dotNetFormTemplate: any): FormTemplate {
     return formTemplate;
 }
 
+export function buildJsTimeSliderStops(dotNetStop: any): any | null {
+    if (dotNetStop === null) return null;
+    switch (dotNetStop.type) {
+        case "stops-by-dates":
+            return {
+                dates: dotNetStop.dates,
+            }
+        case "stops-by-count":
+            return {
+                count: dotNetStop.count,
+                timeExtent: dotNetStop.timeExtent ?? undefined,
+            }
+        case "stops-by-interval":
+            return {
+                interval: dotNetStop.interval,
+                timeExtent: dotNetStop.timeExtent ?? undefined,
+            }
+    }
+    return null;
+}
+
 function buildJsFormTemplateElement(dotNetFormTemplateElement: any): Element {
     switch (dotNetFormTemplateElement.type) {
         case 'group':
@@ -1135,12 +1235,11 @@ export function buildJsFeatureEffect(dnFeatureEffect: DotNetFeatureEffect): Feat
         } else {
             featureEffect.excludedEffect = dnFeatureEffect.excludedEffect.map(buildJsEffect);
         }
-
-    } else {
-        featureEffect.excludedEffect = undefined;
     }
     featureEffect.excludedLabelsVisible = dnFeatureEffect.excludedLabelsVisible ?? undefined;
-    featureEffect.filter = buildJsFeatureFilter(dnFeatureEffect.filter) ?? undefined;
+    if (hasValue(dnFeatureEffect?.excludedLabelsVisible)) {
+        featureEffect.filter = buildJsFeatureFilter(dnFeatureEffect.filter) as FeatureFilter;
+    }
 
     if (dnFeatureEffect.includedEffect != null) {
         if (dnFeatureEffect.includedEffect.length === 1) {
@@ -1148,9 +1247,6 @@ export function buildJsFeatureEffect(dnFeatureEffect: DotNetFeatureEffect): Feat
         } else {
             featureEffect.includedEffect = dnFeatureEffect.includedEffect.map(buildJsEffect);
         }
-
-    } else {
-        featureEffect.includedEffect = undefined;
     }
 
     return featureEffect;
@@ -1161,11 +1257,15 @@ export function buildJsFeatureFilter(dnFeatureFilter: DotNetFeatureFilter): Feat
 
     let featureFilter = new FeatureFilter();
     featureFilter.distance = dnFeatureFilter.distance ?? undefined;
-    featureFilter.geometry = buildJsGeometry(dnFeatureFilter.geometry);
+    if (hasValue(dnFeatureFilter.geometry)) {
+        featureFilter.geometry = buildJsGeometry(dnFeatureFilter.geometry) as Geometry;
+    }
     featureFilter.objectIds = dnFeatureFilter.objectIds ?? undefined;
     featureFilter.spatialRelationship = dnFeatureFilter.spatialRelationship ?? undefined;
     featureFilter.timeExtent = dnFeatureFilter.timeExtent ?? undefined;
-    featureFilter.units = dnFeatureFilter.units ?? undefined;
+    if (hasValue(dnFeatureFilter.where)) {
+        featureFilter.units = dnFeatureFilter.units as any;
+    }
     featureFilter.where = dnFeatureFilter.where ?? undefined;
     return featureFilter;
 }
@@ -1180,4 +1280,28 @@ export function buildJsEffect(dnEffect: any): any {
     } else {
         return dnEffect.value;
     }
+}
+
+export function buildJsTickConfigs(dotNetTickConfig: any): any {
+    if (dotNetTickConfig === undefined || dotNetTickConfig === null) return null;
+
+    let tickCreatedFunction : Function | null = null;
+    if (dotNetTickConfig.tickCreatedFunction != null) {
+        tickCreatedFunction = new Function(dotNetTickConfig.tickCreatedFunction);
+    }
+
+    let labelFormatFunction : Function | null = null;
+    if (dotNetTickConfig.labelFormatFunction != null) {
+        labelFormatFunction = new Function(dotNetTickConfig.labelFormatFunction);
+    }
+
+    let tickConfig = {
+        mode: dotNetTickConfig.mode ?? undefined,
+        count: dotNetTickConfig.count ?? undefined,
+        values: dotNetTickConfig.values ?? undefined,
+        labelsVisible: dotNetTickConfig.labelsVisible ?? undefined,
+        tickCreatedFunction: tickCreatedFunction ?? undefined,
+        labelFormatFunction: labelFormatFunction ?? undefined
+    }
+    return tickConfig;
 }

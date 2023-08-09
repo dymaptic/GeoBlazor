@@ -10,6 +10,7 @@
         <UseMaui>true</UseMaui>
         <SingleProject>true</SingleProject>
         <EnableDefaultCssItems>false</EnableDefaultCssItems>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 
         <!-- Display name -->
         <ApplicationTitle>GeoBlazor Core Samples</ApplicationTitle>

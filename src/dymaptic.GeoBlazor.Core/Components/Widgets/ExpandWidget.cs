@@ -146,12 +146,14 @@ public class ExpandWidget : Widget
 /// <summary>
 /// The mode in which the Expander widget displays. These modes are listed below.
 /// Possible Values:"auto"|"floating"|"drawer"
-//Default Value:"auto"
+/// Default Value:"auto"
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<Mode>))]
 public enum Mode
 {
+#pragma warning disable CS1591
     Auto,
     Floating,
     Drawer
+#pragma warning restore CS1591
 }

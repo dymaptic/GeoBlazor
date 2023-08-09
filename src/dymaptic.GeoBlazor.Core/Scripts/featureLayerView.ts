@@ -1,13 +1,12 @@
 ﻿import FeatureLayerView from "@arcgis/core/views/layers/FeatureLayerView";
+import Query from "@arcgis/core/rest/support/Query";
+import {DotNetFeatureEffect, DotNetFeatureFilter, DotNetFeatureSet, DotNetGraphic, DotNetQuery} from "./definitions";
+import {buildJsFeatureEffect, buildJsFeatureFilter, buildJsQuery} from "./jsBuilder";
+import {blazorServer, dotNetRefs, graphicsRefs} from "./arcGisJsInterop";
+import {buildDotNetGeometry, buildDotNetGraphic, buildDotNetSpatialReference} from "./dotNetBuilder";
 import FeatureEffect from "@arcgis/core/layers/support/FeatureEffect";
 import FeatureFilter from "@arcgis/core/layers/support/FeatureFilter";
-import Query from "@arcgis/core/rest/support/Query";
-import {DotNetFeatureSet, DotNetGraphic, DotNetQuery, DotNetFeatureEffect, DotNetFeatureFilter} from "./definitions";
-import {buildJsGraphic, buildJsQuery, buildJsFeatureEffect, buildJsFeatureFilter} from "./jsBuilder";
-import {blazorServer, dotNetRefs, graphicsRefs} from "./arcGisJsInterop";
 import Handle = __esri.Handle;
-import {buildDotNetGeometry, buildDotNetGraphic, buildDotNetSpatialReference} from "./dotNetBuilder";
-import Graphic from "@arcgis/core/Graphic";
 
 export default class FeatureLayerViewWrapper {
     private featureLayerView: FeatureLayerView;
@@ -23,13 +22,11 @@ export default class FeatureLayerViewWrapper {
     }
 
     setFeatureEffect(dnfeatureEffect: DotNetFeatureEffect): void {
-        let featureEffect = buildJsFeatureEffect(dnfeatureEffect);
-        this.featureLayerView.featureEffect = featureEffect;
+        this.featureLayerView.featureEffect = buildJsFeatureEffect(dnfeatureEffect) as FeatureEffect;
     }
 
     setFilter(dnDeatureFilter: DotNetFeatureFilter): void {
-        let featureFilter = buildJsFeatureFilter(dnDeatureFilter);
-        this.featureLayerView.filter = featureFilter;
+        this.featureLayerView.filter = buildJsFeatureFilter(dnDeatureFilter) as FeatureFilter;
     }
 
     setMaximumNumberOfFeatures(maximumNumberOfFeatures: number): void {
@@ -45,23 +42,7 @@ export default class FeatureLayerViewWrapper {
     }
 
     highlight(target: any): Handle {
-        let graphics: Graphic[] = [];
-        if (Array.isArray(target)) {
-            target.forEach(t => {
-                if (graphicsRefs.hasOwnProperty(t.id)) {
-                    graphics.push(graphicsRefs[t.id]);
-                } else {
-                    graphics.push(buildJsGraphic(t, null) as Graphic);
-                }
-            });
-        } else {
-            if (graphicsRefs.hasOwnProperty(target.id)) {
-                graphics.push(graphicsRefs[target.id]);
-            } else {
-                graphics.push(buildJsGraphic(target, null) as Graphic);
-            }
-        }
-        return this.featureLayerView.highlight(graphics);
+        return this.featureLayerView.highlight(target);
     }
 
     async queryExtent(query: DotNetQuery, options: any): Promise<any> {

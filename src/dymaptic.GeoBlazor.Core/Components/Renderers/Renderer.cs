@@ -48,6 +48,7 @@ internal class RendererConverter : JsonConverter<Renderer>
                     return JsonSerializer.Deserialize<SimpleRenderer>(ref cloneReader, newOptions);
                 case "unique-value":
                     return JsonSerializer.Deserialize<UniqueValueRenderer>(ref cloneReader, newOptions);
+                
             }
         }
 

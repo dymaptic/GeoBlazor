@@ -145,11 +145,11 @@
         await WaitForMapToRender();
     }
 
-    private readonly Dictionary<string, object> _attributes = new()
+    private readonly AttributesDictionary _attributes = new(new Dictionary<string, object>()
     {
         { "Name", "name" },
         { "Description", "description" }
-    };
+    });
 
     private readonly MapPath[] _paths =
     {
