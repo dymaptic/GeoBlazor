@@ -2,21 +2,32 @@
 <h3>CSV Layers</h3>
 
 <div class="links-div">
-    <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/layers-and-data/">ArcGIS API for JavaScript</a>
+    <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/sample-code/layers-csv/">ArcGIS API for JavaScript</a>
+    <a class="btn btn-primary" target="_blank" href="https://developers.arcgis.com/javascript/latest//sample-code/layers-csv/live/earthquakes.csv">CSV Earthquakes</a>
+    <a class="btn" target="_blank" href="https://www.arcgis.com/home/item.html?id=a467ef1140de4e88acf34d38df9fb869">Web Scene</a>
 </div>
+<p class="instructions">
+    This sample shows a CSV layer of earthquake data. You can add a new CSV layer by entering a CSV url in the input below.
+</p>
 <Label>Enter CSV Layer URL:</Label>
 <InputText @bind-Value="_csvLayerUrl"></InputText>
 <button disabled="@(!_mapRendered)" @onclick="AddLayer">Add new CSV Layer!</button>
 
 
-<MapView @ref="_view" class="map-view" OnMapRendered="OnMapRendered">
+<SceneView @ref="_view" class="map-view" OnMapRendered="OnMapRendered">
     <Extent Xmin="-41525513" Ymin="4969181" Xmax="-36687355" Ymax="9024624">
         <SpatialReference Wkid="102100" />
     </Extent>
-    <Map ArcGISDefaultBasemap="arcgis-topographic">
-        <CSVLayer Url="https://developers.arcgis.com/javascript/latest//sample-code/layers-csv/live/earthquakes.csv" Title="Earth Quakes" Copyright="Esri"></CSVLayer>
-    </Map>
-</MapView>
+    <WebScene>
+        <PortalItem Id="a467ef1140de4e88acf34d38df9fb869" />
+        <CSVLayer Url="https://developers.arcgis.com/javascript/latest//sample-code/layers-csv/live/earthquakes.csv" Title="Earth Quakes" Copyright="USGS Earthquakes">
+            <PopupTemplate Title="Earthquake Info" StringContent="Magnitude {mag} {type} hit {place} on {time}." />
+            <SimpleRenderer>
+                <SimpleMarkerSymbol Color="@(new MapColor(255, 84, 54))" Size="5" />
+            </SimpleRenderer>
+        </CSVLayer>
+    </WebScene>
+</SceneView>
 
 @code {
 

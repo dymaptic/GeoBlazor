@@ -19,7 +19,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 ///         API
 ///     </a>
 /// </summary>
-public class Graphic : LayerObject, IEquatable<Graphic>
+public class Graphic : LayerObject
 {
     /// <summary>
     ///     Parameterless constructor for using as a razor component
@@ -60,23 +60,7 @@ public class Graphic : LayerObject, IEquatable<Graphic>
         Attributes.OnChange = OnAttributesChanged;
         ToSerializationRecord();
     }
-
-    /// <summary>
-    ///     Compares two <see cref="Graphic" /> instances for equality.
-    /// </summary>
-    public static bool operator ==(Graphic? left, Graphic? right)
-    {
-        return Equals(left, right);
-    }
-
-    /// <summary>
-    ///     Compares two <see cref="Graphic" /> instances for inequality.
-    /// </summary>
-    public static bool operator !=(Graphic? left, Graphic? right)
-    {
-        return !Equals(left, right);
-    }
-
+    
     /// <summary>
     ///     Name-value pairs of fields and field values associated with the graphic.
     /// </summary>
@@ -114,16 +98,7 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     ///     The GeoBlazor Id of the parent layer, used when serializing the graphic to/from JavaScript.
     /// </summary>
     public Guid? LayerId { get; set; }
-
-    /// <inheritdoc />
-    public bool Equals(Graphic? other)
-    {
-        return (other?.Id == Id) ||
-            (other is not null &&
-                (other.Geometry?.Equals(Geometry) == true) &&
-                other.Attributes.Equals(Attributes));
-    }
-
+    
     /// <summary>
     ///     Retrieves the <see cref="Geometry" /> from the rendered graphic.
     /// </summary>
@@ -269,23 +244,7 @@ public class Graphic : LayerObject, IEquatable<Graphic>
                 break;
         }
     }
-
-    /// <inheritdoc />
-    public override bool Equals(object? obj)
-    {
-        if (ReferenceEquals(null, obj)) return false;
-        if (ReferenceEquals(this, obj)) return true;
-        if (obj.GetType() != GetType()) return false;
-
-        return Equals((Graphic)obj);
-    }
-
-    /// <inheritdoc />
-    public override int GetHashCode()
-    {
-        return Id.GetHashCode();
-    }
-
+    
     /// <inheritdoc />
     public override async ValueTask DisposeAsync()
     {

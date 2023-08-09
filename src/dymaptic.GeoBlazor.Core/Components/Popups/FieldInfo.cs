@@ -12,7 +12,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Popups;
 ///         JS API
 ///     </a>
 /// </summary>
-public class FieldInfo : MapComponent, IEquatable<FieldInfo>
+public class FieldInfo : MapComponent
 {
     /// <summary>
     ///     Parameterless constructor for using as a razor component
@@ -59,23 +59,7 @@ public class FieldInfo : MapComponent, IEquatable<FieldInfo>
         Visible = visible;
 #pragma warning restore BL0005
     }
-
-    /// <summary>
-    ///     Equality operator
-    /// </summary>
-    public static bool operator ==(FieldInfo? left, FieldInfo? right)
-    {
-        return Equals(left, right);
-    }
-
-    /// <summary>
-    ///     Inequality operator
-    /// </summary>
-    public static bool operator !=(FieldInfo? left, FieldInfo? right)
-    {
-        return !Equals(left, right);
-    }
-
+    
     /// <summary>
     ///     The field name as defined by the service or the name of an Arcade expression.
     /// </summary>
@@ -123,17 +107,7 @@ public class FieldInfo : MapComponent, IEquatable<FieldInfo>
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public FieldInfoFormat? Format { get; set; }
-
-    /// <inheritdoc />
-    public bool Equals(FieldInfo? other)
-    {
-        if (ReferenceEquals(null, other)) return false;
-
-        return (FieldName == other.FieldName) && (Label == other.Label) && (IsEditable == other.IsEditable) &&
-            (Tooltip == other.Tooltip) && (Visible == other.Visible) &&
-            (StringFieldOption == other.StringFieldOption) && Equals(Format, other.Format);
-    }
-
+    
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
     {
@@ -168,21 +142,6 @@ public class FieldInfo : MapComponent, IEquatable<FieldInfo>
 
                 break;
         }
-    }
-
-    /// <inheritdoc />
-    public override bool Equals(object? obj)
-    {
-        if (ReferenceEquals(null, obj)) return false;
-        if (obj.GetType() != GetType()) return false;
-
-        return Equals((FieldInfo)obj);
-    }
-
-    /// <inheritdoc />
-    public override int GetHashCode()
-    {
-        return HashCode.Combine(FieldName, Label, IsEditable, Tooltip, Visible, StringFieldOption, Format);
     }
 
     /// <inheritdoc />

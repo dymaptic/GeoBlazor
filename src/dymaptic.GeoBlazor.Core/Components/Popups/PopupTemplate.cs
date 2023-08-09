@@ -16,7 +16,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Popups;
 ///         JS API
 ///     </a>
 /// </summary>
-public class PopupTemplate : MapComponent, IEquatable<PopupTemplate>
+public class PopupTemplate : MapComponent
 {
     /// <summary>
     ///     Parameterless constructor for using as a razor component
@@ -89,22 +89,6 @@ public class PopupTemplate : MapComponent, IEquatable<PopupTemplate>
             Actions = actions.ToHashSet();
         }
 #pragma warning restore BL0005
-    }
-
-    /// <summary>
-    ///     Equality operator
-    /// </summary>
-    public static bool operator ==(PopupTemplate? left, PopupTemplate? right)
-    {
-        return Equals(left, right);
-    }
-
-    /// <summary>
-    ///     Inequality operator
-    /// </summary>
-    public static bool operator !=(PopupTemplate? left, PopupTemplate? right)
-    {
-        return !Equals(left, right);
     }
 
     /// <summary>
@@ -207,17 +191,6 @@ public class PopupTemplate : MapComponent, IEquatable<PopupTemplate>
     /// </summary>
     public DotNetObjectReference<PopupTemplate> DotNetPopupTemplateReference => DotNetObjectReference.Create(this);
 
-    /// <inheritdoc />
-    public bool Equals(PopupTemplate? other)
-    {
-        if (ReferenceEquals(null, other)) return false;
-
-        return (StringContent == other.StringContent) && (Title == other.Title) && Equals(OutFields, other.OutFields) &&
-            (OverwriteActions == other.OverwriteActions) && (ReturnGeometry == other.ReturnGeometry) &&
-            Content.Equals(other.Content) && Equals(FieldInfos, other.FieldInfos) &&
-            Equals(ExpressionInfos, other.ExpressionInfos) && Equals(Actions, other.Actions);
-    }
-
     /// <summary>
     ///     JS-invokable method for triggering actions.
     /// </summary>
@@ -315,32 +288,6 @@ public class PopupTemplate : MapComponent, IEquatable<PopupTemplate>
 
                 break;
         }
-    }
-
-    /// <inheritdoc />
-    public override bool Equals(object? obj)
-    {
-        if (ReferenceEquals(null, obj)) return false;
-        if (obj.GetType() != GetType()) return false;
-
-        return Equals((PopupTemplate)obj);
-    }
-
-    /// <inheritdoc />
-    public override int GetHashCode()
-    {
-        var hashCode = new HashCode();
-        hashCode.Add(StringContent);
-        hashCode.Add(Title);
-        hashCode.Add(OutFields);
-        hashCode.Add(OverwriteActions);
-        hashCode.Add(ReturnGeometry);
-        hashCode.Add(Content);
-        hashCode.Add(FieldInfos);
-        hashCode.Add(ExpressionInfos);
-        hashCode.Add(Actions);
-
-        return hashCode.ToHashCode();
     }
 
     /// <inheritdoc />

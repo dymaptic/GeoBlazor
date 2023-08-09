@@ -123,6 +123,7 @@ import DimensionalDefinition from "@arcgis/core/layers/support/DimensionalDefini
 import ColorRamp from "@arcgis/core/rest/support/ColorRamp";
 import MultipartColorRamp from "@arcgis/core/rest/support/MultipartColorRamp";
 import AlgorithmicColorRamp from "@arcgis/core/rest/support/AlgorithmicColorRamp";
+import Renderer from "@arcgis/core/renderers/Renderer";
 
 export let arcGisObjectRefs: Record<string, Accessor> = {};
 export let graphicsRefs: Record<string, Graphic> = {};
@@ -305,7 +306,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
             await addWidget(popupWidget, id);
         }
 
-        if (hasValue(mapObject.layers) && mapType !== 'webmap' && mapType !== 'webscene') {
+        if (hasValue(mapObject.layers)) {
             for (const layerObject of mapObject.layers) {
                 await addLayer(layerObject, id);
             }
@@ -2115,13 +2116,18 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             });
             let csvLayer = newLayer as CSVLayer;
             if (hasValue(layerObject.renderer)) {
-                csvLayer.renderer = layerObject.renderer;
+                csvLayer.renderer = buildJsRenderer(layerObject.renderer) as Renderer;
             }
             if (hasValue(layerObject.spatialReference)) {
                 csvLayer.spatialReference = new SpatialReference({
                     wkid: layerObject.spatialReference.wkid
                 });
             }
+            if (hasValue(layerObject.popupTemplate)) {
+                csvLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId ?? null);
+            }
+            
+            copyValuesIfExists(layerObject, csvLayer, 'blendMode', 'copyright', 'delimiter', 'displayField');
             break;
         case 'kml':
             let kmlLayer: KMLLayer;

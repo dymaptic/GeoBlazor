@@ -15,24 +15,8 @@ namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 ///     </a>
 /// </summary>
 [ProtoContract]
-public class MapFont : MapComponent, IEquatable<MapFont>
+public class MapFont : MapComponent
 {
-    /// <summary>
-    ///     Compares two MapFont objects for equality
-    /// </summary>
-    public static bool operator ==(MapFont? left, MapFont? right)
-    {
-        return Equals(left, right);
-    }
-
-    /// <summary>
-    ///     Compares two MapFont objects for inequality
-    /// </summary>
-    public static bool operator !=(MapFont? left, MapFont? right)
-    {
-        return !Equals(left, right);
-    }
-
     /// <summary>
     ///     The font size in points.
     /// </summary>
@@ -61,32 +45,6 @@ public class MapFont : MapComponent, IEquatable<MapFont>
     [Parameter]
     [ProtoMember(4)]
     public string? Weight { get; set; }
-
-    /// <inheritdoc />
-    public bool Equals(MapFont? other)
-    {
-        if (ReferenceEquals(null, other)) return false;
-        if (ReferenceEquals(this, other)) return true;
-
-        return (Size == other.Size) && (Family == other.Family) && (FontStyle == other.FontStyle) &&
-            (Weight == other.Weight);
-    }
-
-    /// <inheritdoc />
-    public override bool Equals(object? obj)
-    {
-        if (ReferenceEquals(null, obj)) return false;
-        if (ReferenceEquals(this, obj)) return true;
-        if (obj.GetType() != GetType()) return false;
-
-        return Equals((MapFont)obj);
-    }
-
-    /// <inheritdoc />
-    public override int GetHashCode()
-    {
-        return HashCode.Combine(Size, Family, FontStyle, Weight);
-    }
 
     internal MapFontSerializationRecord ToSerializationRecord()
     {
