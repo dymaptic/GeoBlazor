@@ -1,0 +1,64 @@
+﻿@page "/click-to-add"
+<PageTitle>Click to Add Points</PageTitle>
+<h1>Click To Add Points</h1>
+<div class="links-div">
+    <a class="btn btn-primary" target="_blank" href="https://www.arcgis.com/home/item.html?id=1e126e7520f9466c9ca28b8f28b5e500">World Ocean Basemap</a>
+</div>
+
+<p class="instructions">
+    Click anywhere to see a point added to the map. Click on the point again to see a popup. Click on the popup action to add the point to the list below.
+</p>
+
+<MapView Class="map-view" OnClick="OnClick" Zoom="4">
+    <Map>
+        <Basemap>
+            <TileLayer>
+                <PortalItem Id="1e126e7520f9466c9ca28b8f28b5e500" />
+            </TileLayer>
+        </Basemap>
+        <GraphicsLayer @ref="_graphicsLayer" />
+    </Map>
+</MapView>
+
+<div>
+    <h2>Points Clicked</h2>
+    @foreach (Point point in _points)
+    {
+        <p>Long: @point.Longitude!.Value.ToString("N2") Lat: @point.Latitude!.Value.ToString("N2")</p>
+    }
+</div>
+
+@code {
+    private async Task OnClick(ClickEvent arg)
+    {
+        Point point = arg.MapPoint;
+        if (_graphic is null)
+        {
+            _graphic = new Graphic(point);
+            await _graphicsLayer!.Add(_graphic);
+        }
+
+        SimpleMarkerSymbol symbol = new SimpleMarkerSymbol(new Outline(new MapColor("blue")),
+            new MapColor("yellow"), 10);
+        
+        ActionButton actionButton = new ActionButton("Click to Add to List",
+            "./_content/dymaptic.GeoBlazor.Core.Sample.Shared/images/dymaptic_logo.png", "test-1", AddPoint);
+        PopupTemplate popupTemplate = new PopupTemplate(
+            $"New Point at Long: {point.Longitude!.Value:N2} Lat: {point.Latitude!.Value:N2}", 
+            actions: new[]{ actionButton });
+        
+        await _graphic.SetPopupTemplate(popupTemplate);
+        await _graphic.SetSymbol(symbol);
+        await _graphic.SetGeometry(point);
+    }
+
+    private async Task AddPoint()
+    {
+        _points.Add(((Point)_graphic!.Geometry!).Clone());
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private Graphic? _graphic;
+    private GraphicsLayer? _graphicsLayer;
+    private readonly List<Point> _points = new();
+}
