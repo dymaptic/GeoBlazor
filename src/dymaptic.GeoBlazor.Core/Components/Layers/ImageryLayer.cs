@@ -20,7 +20,7 @@ public class ImageryLayer : Layer
     public override string LayerType => "imagery";
 
     /// <summary>
-    ///     Constructor for use as a razor component
+    ///     Parameterless constructor for use as a razor component
     /// </summary>
     public ImageryLayer()
     {
