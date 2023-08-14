@@ -3,17 +3,46 @@
 <h3>Imagery Layers</h3>
 
 <div class="links-div">
-    <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-KMLLayer.html">ArcGIS API for JavaScript</a>
-    <a class="btn btn-primary" target="_blank" href="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/US_National_Parks_Annual_Visitation/FeatureServer/0">USGS Earthquake Hazards Program Monitoring Center</a>
+    <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html">ArcGIS API for JavaScript</a>
+    <a class="btn btn-primary" target="_blank" href="https://elevation.arcgis.com/arcgis/rest/services/WorldElevation/Terrain/ImageServer">Terrain: Image Data Server</a>
 </div>
-<Label>The sample Imagery Layer uses a URL to see major earthquakes for latest 30 days from USGS to the map database :</Label>
-<InputText @bind-Value="_ImageryLayerUrl"></InputText>
+<Label>The sample Imagery Layer uses a URL to provide a colorized representation of slope, generated dynamically using server-side slope function on Terrain service. :</Label>
+<InputText @bind-Value="_imageryLayerUrl"></InputText>
 <br />
 <Label>Click the buttons below to see the different ways to display a Imagery layer</Label>
 <button disabled="@(!_mapRendered)" @onclick="(()=>AddRemoveImageryLayer())">Add or Remove Imagery Layer in code</button>
-<button disabled="@(!_mapRendered)" @onclick="(()=>_markup = !_markup)">Add new KML Layer in Markup</button>
+<button disabled="@(!_mapRendered)" @onclick="(()=>_markup = !_markup)">Add new Imagery Layer in Markup</button>
+
+<MapView @ref="_view" class="map-view" OnViewRendered="OnMapRendered">
+    <Map ArcGISDefaultBasemap="arcgis-light-gray">
+        @if (_markup)
+        {
+            <ImageryLayer Url="@_imageryLayerUrl" Title="WorldElevation/Terrain Service"></ImageryLayer>
+        }
+    </Map>
+</MapView>
 
 
 @code {
+    private void OnMapRendered() => _mapRendered = true;
 
+    public async Task AddRemoveImageryLayer()
+    {
+        if (!_view!.Map!.Layers.Any())
+        {
+           
+            await _view.AddLayer(_imagerySampleLayer);
+        }
+        else
+        {
+            await _view.RemoveLayer(_imagerySampleLayer!);
+        }
+    }
+
+    private MapView? _view;
+    private bool _mapRendered;
+    private bool _markup;
+
+    private string _imageryLayerUrl = "https://earthquake.usgs.gov/fdsnws/event/1/query?format=kml&minmagnitude=5.8";
+    private ImageryLayer? _imagerySampleLayer;
 }
