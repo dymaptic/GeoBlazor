@@ -969,6 +969,49 @@ public partial class MapView : MapComponent
     /// </summary>
     [Parameter]
     public int? GraphicSerializationChunkSize { get; set; }
+    
+    /// <summary>
+    ///     For internal use only, this looks up a missing <see cref="DotNetObjectReference"/> for a <see cref="PopupTemplate"/>
+    ///     and returns it to JavaScript.
+    /// </summary>
+    [JSInvokable]
+    public DotNetObjectReference<PopupTemplate>? GetDotNetPopupTemplateObjectReference(Guid popupTemplateId)
+    {
+        foreach (Graphic graphic in Graphics)
+        {
+            if (graphic.PopupTemplate?.Id == popupTemplateId)
+            {
+                return graphic.PopupTemplate.DotNetPopupTemplateReference;
+            }
+        }
+
+        foreach (Layer layer in Map!.Layers)
+        {
+            if (layer is FeatureLayer { Source: not null } featureLayer)
+            {
+                foreach (Graphic graphic in featureLayer.Source)
+                {
+                    if (graphic.PopupTemplate?.Id == popupTemplateId)
+                    {
+                        return graphic.PopupTemplate.DotNetPopupTemplateReference;
+                    }
+                }
+            }
+
+            if (layer is GraphicsLayer graphicsLayer)
+            {
+                foreach (Graphic graphic in graphicsLayer.Graphics)
+                {
+                    if (graphic.PopupTemplate?.Id == popupTemplateId)
+                    {
+                        return graphic.PopupTemplate.DotNetPopupTemplateReference;
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
 
 #endregion
 

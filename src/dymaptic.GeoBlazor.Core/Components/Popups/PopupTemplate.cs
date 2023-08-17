@@ -331,7 +331,7 @@ public class PopupTemplate : MapComponent
             FieldInfos?.Select(f => f.ToSerializationRecord()),
             Content.Select(c => c.ToSerializationRecord()),
             ExpressionInfos?.Select(e => e.ToSerializationRecord()), OverwriteActions,
-            ReturnGeometry, Actions?.Select(a => a.ToSerializationRecord()));
+            ReturnGeometry, Actions?.Select(a => a.ToSerializationRecord()), Id.ToString());
     }
 }
 
@@ -362,5 +362,8 @@ internal record PopupTemplateSerializationRecord([property: JsonIgnore(Condition
         bool? ReturnGeometry = null,
         [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         [property: ProtoMember(9)]
-        IEnumerable<ActionBaseSerializationRecord>? Actions = null)
+        IEnumerable<ActionBaseSerializationRecord>? Actions = null,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [property: ProtoMember(10)]
+        string? id = null)
     : MapComponentSerializationRecord;
