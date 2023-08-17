@@ -1,4 +1,5 @@
-﻿using dymaptic.GeoBlazor.Core.Exceptions;
+﻿using dymaptic.GeoBlazor.Core.Components.Renderers;
+using dymaptic.GeoBlazor.Core.Exceptions;
 using Microsoft.AspNetCore.Components;
 using System.Text.Json.Serialization;
 
@@ -45,6 +46,8 @@ public class ImageryLayer : Layer
         PortalItem = portalItem;
     }
 
+
+
     /// <summary>
     ///     The url for the Imagery Layer source data.
     /// </summary>
@@ -59,6 +62,11 @@ public class ImageryLayer : Layer
     [RequiredProperty(nameof(Url))]
     public PortalItem? PortalItem { get; set; }
 
+    /// <summary>
+    ///     An interface that implements the various imagery renderers.
+    /// </summary>
+    public IImageryRenderer? Renderer { get; set; }
+
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
     {
@@ -71,6 +79,13 @@ public class ImageryLayer : Layer
                     LayerChanged = true;
                 }
 
+                break;
+            case IImageryRenderer renderer:
+                if (!renderer.Equals(Renderer))
+                {
+                    Renderer = renderer;
+                    LayerChanged = true;
+                }
                 break;
             default:
                 await base.RegisterChildComponent(child);
@@ -86,7 +101,10 @@ public class ImageryLayer : Layer
             case PortalItem _:
                 PortalItem = null;
                 LayerChanged = true;
-
+                break;
+            case IImageryRenderer renderer:
+                Renderer = null;
+                LayerChanged = true;
                 break;
             default:
                 await base.UnregisterChildComponent(child);
@@ -99,5 +117,6 @@ public class ImageryLayer : Layer
     {
         base.ValidateRequiredChildren();
         PortalItem?.ValidateRequiredChildren();
+        Renderer?.ValidateRequiredChildren();
     }
 }
