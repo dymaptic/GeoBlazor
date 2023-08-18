@@ -987,26 +987,28 @@ public partial class MapView : MapComponent
 
         foreach (Layer layer in Map!.Layers)
         {
-            if (layer is FeatureLayer { Source: not null } featureLayer)
+            switch (layer)
             {
-                foreach (Graphic graphic in featureLayer.Source)
-                {
-                    if (graphic.PopupTemplate?.Id == popupTemplateId)
+                case FeatureLayer { Source: not null } featureLayer:
+                    foreach (Graphic graphic in featureLayer.Source)
                     {
-                        return graphic.PopupTemplate.DotNetPopupTemplateReference;
+                        if (graphic.PopupTemplate?.Id == popupTemplateId)
+                        {
+                            return graphic.PopupTemplate.DotNetPopupTemplateReference;
+                        }
                     }
-                }
-            }
 
-            if (layer is GraphicsLayer graphicsLayer)
-            {
-                foreach (Graphic graphic in graphicsLayer.Graphics)
-                {
-                    if (graphic.PopupTemplate?.Id == popupTemplateId)
+                    break;
+                case GraphicsLayer graphicsLayer:
+                    foreach (Graphic graphic in graphicsLayer.Graphics)
                     {
-                        return graphic.PopupTemplate.DotNetPopupTemplateReference;
+                        if (graphic.PopupTemplate?.Id == popupTemplateId)
+                        {
+                            return graphic.PopupTemplate.DotNetPopupTemplateReference;
+                        }
                     }
-                }
+
+                    break;
             }
         }
 
