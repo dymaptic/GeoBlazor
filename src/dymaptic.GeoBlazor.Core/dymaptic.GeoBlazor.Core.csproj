@@ -100,11 +100,6 @@
         <Exec Command="npm run releaseBuild" />
     </Target>
 
-    <Target Name="Copy Files" AfterTargets="Build" Condition="$(Configuration) == 'RELEASE' AND $(TargetFrameworks.StartsWith($(TargetFramework))) AND '$(OptOutFromCoreEsBuild)' != 'true'">
-        <Message Importance="high" Text="Launching Async File Copy Script" />
-        <ExecAsync FilePath="pwsh" Arguments="./docCopy.ps1" ContinueOnError="true" />
-    </Target>
-
     <!--Launch a Process in Parallel-->
     <UsingTask TaskName="ExecAsync" TaskFactory="RoslynCodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
         <ParameterGroup>
