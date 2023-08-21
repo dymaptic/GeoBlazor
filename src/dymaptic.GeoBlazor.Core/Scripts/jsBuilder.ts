@@ -558,115 +558,115 @@ export function buildJsRenderer(dotNetRenderer: any): Renderer | null {
     return dotNetRenderer
 }
 
-export function buildJsRasterColormapRenderer(dotNetRasterColormapRenderer: DotNetRasterColormapRenderer): RasterColormapRenderer | null {
-    if (dotNetRasterColormapRenderer === undefined) return null;
-    let rasterColormapRender = new RasterColormapRenderer();
+//export function buildJsRasterColormapRenderer(dotNetRasterColormapRenderer: DotNetRasterColormapRenderer): RasterColormapRenderer | null {
+//    if (dotNetRasterColormapRenderer === undefined) return null;
+//    let rasterColormapRender = new RasterColormapRenderer();
 
-    if (hasValue(dotNetRasterColormapRenderer.colormapInfos)) {
-        rasterColormapRender.colormapInfos = buildJsColormapInfo(dotNetRasterColormapRenderer.colormapInfos) as ColormapInfo;
-    }
-}
+//    if (hasValue(dotNetRasterColormapRenderer.colormapInfos)) {
+//        rasterColormapRender.colormapInfos = buildJsColormapInfo(dotNetRasterColormapRenderer.colormapInfos) as ColormapInfo;
+//    }
+//}
 
-export function buildJsColormapInfo(dotNetColormapInfo: DotNetColormapInfo): ColormapInfo | null {
-    if (dotNetColormapInfo === undefined) return null;
-    let colormapInfo = new ColormapInfo();
+//export function buildJsColormapInfo(dotNetColormapInfo: DotNetColormapInfo): ColormapInfo | null {
+//    if (dotNetColormapInfo === undefined) return null;
+//    let colormapInfo = new ColormapInfo();
 
-    if (hasValue(dotNetColormapInfo.mapColor)) {
-        colormapInfo.color = dotNetColormapInfo.color;
-    }
-    if (hasValue(dotNetColormapInfo.label)) {
-        colormapInfo.label = dotNetColormapInfo.label;
-    }
-    if (hasValue(dotNetColormapInfo.value)) {
-        colormapInfo.value = dotNetColormapInfo.value;
-    }
-}
+//    if (hasValue(dotNetColormapInfo.mapColor)) {
+//        colormapInfo.color = dotNetColormapInfo.color;
+//    }
+//    if (hasValue(dotNetColormapInfo.label)) {
+//        colormapInfo.label = dotNetColormapInfo.label;
+//    }
+//    if (hasValue(dotNetColormapInfo.value)) {
+//        colormapInfo.value = dotNetColormapInfo.value;
+//    }
+//}
 
-export function buildJsRasterShadedReliefRenderer(dotNetRasterShadedReliefRenderer: DotNetRasterShadedReliefRenderer): RasterShadedReliefRenderer | null {
-    if (dotNetRasterShadedReliefRenderer === undefined) return null;
-    let rasterShadedReliefRenderer = new RasterShadedReliefRenderer();
+//export function buildJsRasterShadedReliefRenderer(dotNetRasterShadedReliefRenderer: DotNetRasterShadedReliefRenderer): RasterShadedReliefRenderer | null {
+//    if (dotNetRasterShadedReliefRenderer === undefined) return null;
+//    let rasterShadedReliefRenderer = new RasterShadedReliefRenderer();
 
     
-}
+//}
 
-export function buildJsVectorFieldRenderer(dotNetVectorFieldRenderer: DotNetVectorFieldRenderer): VectorFieldRenderer | null {
-    if (dotNetVectorFieldRenderer === undefined) return null;
-    let vectorFieldRenderer = new VectorFieldRenderer();
+//export function buildJsVectorFieldRenderer(dotNetVectorFieldRenderer: DotNetVectorFieldRenderer): VectorFieldRenderer | null {
+//    if (dotNetVectorFieldRenderer === undefined) return null;
+//    let vectorFieldRenderer = new VectorFieldRenderer();
 
-    if (hasValue(dotNetVectorFieldRenderer.attributeField)) {
-        vectorFieldRenderer.attributeField = dotNetVectorFieldRenderer.attributeField;
-    }
-    if (hasValue(dotNetVectorFieldRenderer.flowRepresentation)) {
-        vectorFieldRenderer.flowRepresentation = dotNetVectorFieldRenderer.flowRepresentation;
-    }
-    if (hasValue(dotNetVectorFieldRenderer.style)) {
-        vectorFieldRenderer.style = dotNetVectorFieldRenderer.style;
-    }
-    if (hasValue(dotNetVectorFieldRenderer.symbolTileSize)) {
-        vectorFieldRenderer.symbolTileSize = dotNetVectorFieldRenderer.symbolTileSize;
-    }
-    if (hasValue(dotNetVectorFieldRenderer.visualVariables)) {
-        vectorFieldRenderer.visualVariables = dotNetVectorFieldRenderer.visualVariables;
-    }
-}
+//    if (hasValue(dotNetVectorFieldRenderer.attributeField)) {
+//        vectorFieldRenderer.attributeField = dotNetVectorFieldRenderer.attributeField;
+//    }
+//    if (hasValue(dotNetVectorFieldRenderer.flowRepresentation)) {
+//        vectorFieldRenderer.flowRepresentation = dotNetVectorFieldRenderer.flowRepresentation;
+//    }
+//    if (hasValue(dotNetVectorFieldRenderer.style)) {
+//        vectorFieldRenderer.style = dotNetVectorFieldRenderer.style;
+//    }
+//    if (hasValue(dotNetVectorFieldRenderer.symbolTileSize)) {
+//        vectorFieldRenderer.symbolTileSize = dotNetVectorFieldRenderer.symbolTileSize;
+//    }
+//    if (hasValue(dotNetVectorFieldRenderer.visualVariables)) {
+//        vectorFieldRenderer.visualVariables = dotNetVectorFieldRenderer.visualVariables;
+//    }
+//}
 
-export function buildJsVisualVariable(dotNetVisualVariable: DotNetVisualVariable): VisualVariable | null {
-    if (dotNetVisualVariable === undefined) return null;
-    let visualVariable = new VisualVariable();
+//export function buildJsVisualVariable(dotNetVisualVariable: DotNetVisualVariable): VisualVariable | null {
+//    if (dotNetVisualVariable === undefined) return null;
+//    let visualVariable = new VisualVariable();
 
-    if (hasValue(dotNetVisualVariable.field)) {
-        dotNetVisualVariable.field = visualVariable.field;
-    }
-    if (hasValue(dotNetVisualVariable.legendOptions)) {
-        dotNetVisualVariable.legendOptions = visualVariable.legendOptions;
-    }
-    if (hasValue(dotNetVisualVariable.valueExpression)) {
-        dotNetVisualVariable.valueExpression = visualVariable.valueExpression;
-    }
-    if (hasValue(dotNetVisualVariable.valueExpressionTitle)) {
-        dotNetVisualVariable.valueExpressionTitle = visualVariable.valueExpressionTitle;
-    }
-}
+//    if (hasValue(dotNetVisualVariable.field)) {
+//        dotNetVisualVariable.field = visualVariable.field;
+//    }
+//    if (hasValue(dotNetVisualVariable.legendOptions)) {
+//        dotNetVisualVariable.legendOptions = visualVariable.legendOptions;
+//    }
+//    if (hasValue(dotNetVisualVariable.valueExpression)) {
+//        dotNetVisualVariable.valueExpression = visualVariable.valueExpression;
+//    }
+//    if (hasValue(dotNetVisualVariable.valueExpressionTitle)) {
+//        dotNetVisualVariable.valueExpressionTitle = visualVariable.valueExpressionTitle;
+//    }
+//}
 
-export function buildJsFlowRenderer(dotNetFlowRenderer: DotNetFlowRenderer): FlowRenderer | null {
-    if (dotNetFlowRenderer === undefined) return null;
-    let flowRenderer = new FlowRenderer();
+//export function buildJsFlowRenderer(dotNetFlowRenderer: DotNetFlowRenderer): FlowRenderer | null {
+//    if (dotNetFlowRenderer === undefined) return null;
+//    let flowRenderer = new FlowRenderer();
 
-    if (hasValue(dotNetFlowRenderer.authoringInfo)) {
-        dotNetFlowRenderer.authoringInfo = flowRenderer.authoringInfo;
-    }
-    if (hasValue(dotNetFlowRenderer.color)) {
-        dotNetFlowRenderer.color = flowRenderer.color;
-    }
-    if (hasValue(dotNetFlowRenderer.density)) {
-        dotNetFlowRenderer.density = flowRenderer.density;
-    }
-    if (hasValue(dotNetFlowRenderer.flowRepresentation)) {
-        dotNetFlowRenderer.flowRepresentation = flowRenderer.flowRepresentation;
-    }
-    if (hasValue(dotNetFlowRenderer.flowSpeed)) {
-        dotNetFlowRenderer.flowSpeed = flowRenderer.flowSpeed;
-    }
-    if (hasValue(dotNetFlowRenderer.legendOptions)) {
-        dotNetFlowRenderer.legendOptions = flowRenderer.legendOptions;
-    }
-    if (hasValue(dotNetFlowRenderer.maxPathLength)) {
-        dotNetFlowRenderer.maxPathLength = flowRenderer.maxPathLength;
-    }
-    if (hasValue(dotNetFlowRenderer.trailCap)) {
-        dotNetFlowRenderer.trailCap = flowRenderer.trailCap;
-    }
-    if (hasValue(dotNetFlowRenderer.trailLength)) {
-        dotNetFlowRenderer.trailLength = flowRenderer.trailLength;
-    }
-    if (hasValue(dotNetFlowRenderer.trailWidth)) {
-        dotNetFlowRenderer.trailWidth = flowRenderer.trailWidth;
-    }
-    if (hasValue(dotNetFlowRenderer.visualVariables)) {
-        dotNetFlowRenderer.visualVariables = flowRenderer.visualVariables;
-    }
+//    if (hasValue(dotNetFlowRenderer.authoringInfo)) {
+//        dotNetFlowRenderer.authoringInfo = flowRenderer.authoringInfo;
+//    }
+//    if (hasValue(dotNetFlowRenderer.color)) {
+//        dotNetFlowRenderer.color = flowRenderer.color;
+//    }
+//    if (hasValue(dotNetFlowRenderer.density)) {
+//        dotNetFlowRenderer.density = flowRenderer.density;
+//    }
+//    if (hasValue(dotNetFlowRenderer.flowRepresentation)) {
+//        dotNetFlowRenderer.flowRepresentation = flowRenderer.flowRepresentation;
+//    }
+//    if (hasValue(dotNetFlowRenderer.flowSpeed)) {
+//        dotNetFlowRenderer.flowSpeed = flowRenderer.flowSpeed;
+//    }
+//    if (hasValue(dotNetFlowRenderer.legendOptions)) {
+//        dotNetFlowRenderer.legendOptions = flowRenderer.legendOptions;
+//    }
+//    if (hasValue(dotNetFlowRenderer.maxPathLength)) {
+//        dotNetFlowRenderer.maxPathLength = flowRenderer.maxPathLength;
+//    }
+//    if (hasValue(dotNetFlowRenderer.trailCap)) {
+//        dotNetFlowRenderer.trailCap = flowRenderer.trailCap;
+//    }
+//    if (hasValue(dotNetFlowRenderer.trailLength)) {
+//        dotNetFlowRenderer.trailLength = flowRenderer.trailLength;
+//    }
+//    if (hasValue(dotNetFlowRenderer.trailWidth)) {
+//        dotNetFlowRenderer.trailWidth = flowRenderer.trailWidth;
+//    }
+//    if (hasValue(dotNetFlowRenderer.visualVariables)) {
+//        dotNetFlowRenderer.visualVariables = flowRenderer.visualVariables;
+//    }
 
-}
+//}
 
 export function buildJsRasterStretchRenderer(dotNetRasterStretchRenderer: DotNetRasterStretchRenderer): RasterStretchRenderer | null {
     if (dotNetRasterStretchRenderer === undefined) return null;

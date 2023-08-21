@@ -604,3 +604,4 @@ export interface DotNetMultiPartColorRamp {
     type: string;
     algorithmicColorRamps: DotNetAlgorithmicColorRamp[];
 }
+

@@ -155,6 +155,10 @@ public class RasterStretchRenderer : LayerObject, IImageryRenderer
         base.ValidateRequiredChildren();
     }
 
+    void IImageryRenderer.ValidateRequiredChildren()
+    {
+        throw new NotImplementedException();
+    }
 }
 
 /// <summary>

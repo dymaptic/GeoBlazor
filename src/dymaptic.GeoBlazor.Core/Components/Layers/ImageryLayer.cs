@@ -1,5 +1,6 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Renderers;
 using dymaptic.GeoBlazor.Core.Exceptions;
+using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
 using System.Text.Json.Serialization;
 
@@ -30,20 +31,21 @@ public class ImageryLayer : Layer
     /// <summary>
     ///     Constructor for use in code
     /// </summary>
-    /// <param name="url">
-    ///     The url for the Imagery Layer source data.</param>    
-    /// /// <param name="portalItem">
-    ///     The portal item for the Imagery Layer source data.</param>
-
-    public ImageryLayer(string? url = null, PortalItem? portalItem = null)
+    /// <param name="url"></param>  
+    /// <param name="portalItem"></param>
+    /// <param name="renderer"></param>
+    /// <param name="format"></param>
+    public ImageryLayer(string? url = null, PortalItem? portalItem = null, IImageryRenderer? renderer = null, string? format = null)
     {
         if (url is null && portalItem is null)
         {
             throw new MissingRequiredOptionsChildElementException(nameof(KMLLayer),
                 new[] { nameof(Url), nameof(PortalItem) });
         }
+        Renderer = renderer;
         Url = url;
         PortalItem = portalItem;
+        Format = format;
     }
 
 
@@ -66,6 +68,11 @@ public class ImageryLayer : Layer
     ///     An interface that implements the various imagery renderers.
     /// </summary>
     public IImageryRenderer? Renderer { get; set; }
+
+    /// <summary>
+    ///     The format of the exported image from the server.
+    /// </summary>
+    public string? Format { get; set; }
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
@@ -102,7 +109,7 @@ public class ImageryLayer : Layer
                 PortalItem = null;
                 LayerChanged = true;
                 break;
-            case IImageryRenderer renderer:
+            case IImageryRenderer _:
                 Renderer = null;
                 LayerChanged = true;
                 break;
@@ -119,4 +126,24 @@ public class ImageryLayer : Layer
         PortalItem?.ValidateRequiredChildren();
         Renderer?.ValidateRequiredChildren();
     }
+}
+
+/// <summary>
+/// The format of the data sent by the server.
+/// </summary>
+[JsonConverter(typeof(EnumToKebabCaseStringConverter<Format>))]
+public enum Format
+{
+#pragma warning disable CS1591
+    Png,
+    Png8,
+    Png24,
+    Png32,
+    Jpg,
+    Bmp,
+    Gif,
+    Jpgpng,
+    Lerc,
+    Tiff
+#pragma warning restore CS1591
 }
