@@ -35,11 +35,12 @@ public class ImageryLayer : Layer
     /// <param name="portalItem"></param>
     /// <param name="renderer"></param>
     /// <param name="format"></param>
-    public ImageryLayer(string? url = null, PortalItem? portalItem = null, IImageryRenderer? renderer = null, string? format = null)
+    public ImageryLayer(string? url = null, PortalItem? portalItem = null, IImageryRenderer? renderer = null,
+        Format? format = null)
     {
         if (url is null && portalItem is null)
         {
-            throw new MissingRequiredOptionsChildElementException(nameof(KMLLayer),
+            throw new MissingRequiredOptionsChildElementException(nameof(ImageryLayer),
                 new[] { nameof(Url), nameof(PortalItem) });
         }
         Renderer = renderer;
@@ -47,8 +48,6 @@ public class ImageryLayer : Layer
         PortalItem = portalItem;
         Format = format;
     }
-
-
 
     /// <summary>
     ///     The url for the Imagery Layer source data.
@@ -72,7 +71,7 @@ public class ImageryLayer : Layer
     /// <summary>
     ///     The format of the exported image from the server.
     /// </summary>
-    public string? Format { get; set; }
+    public Format? Format { get; set; }
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
@@ -87,13 +86,13 @@ public class ImageryLayer : Layer
                 }
 
                 break;
-            case IImageryRenderer renderer:
-                if (!renderer.Equals(Renderer))
-                {
-                    Renderer = renderer;
-                    LayerChanged = true;
-                }
-                break;
+            //case IImageryRenderer renderer:
+            //    if (!renderer.Equals(Renderer))
+            //    {
+            //        Renderer = renderer;
+            //        LayerChanged = true;
+            //    }
+            //    break;
             default:
                 await base.RegisterChildComponent(child);
 
@@ -109,10 +108,10 @@ public class ImageryLayer : Layer
                 PortalItem = null;
                 LayerChanged = true;
                 break;
-            case IImageryRenderer _:
-                Renderer = null;
-                LayerChanged = true;
-                break;
+            //case IImageryRenderer _:
+            //    Renderer = null;
+            //    LayerChanged = true;
+            //    break;
             default:
                 await base.UnregisterChildComponent(child);
 
@@ -124,7 +123,7 @@ public class ImageryLayer : Layer
     {
         base.ValidateRequiredChildren();
         PortalItem?.ValidateRequiredChildren();
-        Renderer?.ValidateRequiredChildren();
+        //Renderer?.ValidateRequiredChildren();
     }
 }
 

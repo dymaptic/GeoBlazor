@@ -2186,6 +2186,26 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
 
             newLayer = wcsLayer;
             break;
+        case 'imagery':
+            newLayer = new ImageryLayer({
+                url: layerObject.url,
+
+            });
+
+            let imageryLayer = newLayer as ImageryLayer;
+            //if (hasValue(layerObject.renderer)) {
+            //    imageryLayer.renderer = buildJsRasterStretchRenderer(layerObject.renderer) as RasterStretchRenderer;
+            //}
+            copyValuesIfExists(layerObject, 'bandIds', 'blendMode', 'capabilities', 'compressionQuality', 'compressionTolerance',
+                'copyright', 'customParameters', 'definitionExpression', 'effect', 'fields', 'fieldsIndex', 'format',
+                'hasMultidimensions', 'imageMaxHeight', 'imageMaxWidth', 'interpolation', 'legendEnabled', 'maxScale', 'minScale',
+                'mosaicRule', 'multidimensionalInfo', 'multidimensionsionalSubset', 'noData', 'noDataInterpretation', 'objectIdField',
+                'pixelFilter', 'pixelType', 'popupEnabled', 'popupTemplate', 'rasterFields', 'rasterFunction', 'rasterFunctionInfos',
+                'refreshInterval', 'renderingRule', 'serviceRasterInfo', 'sourceJSON', 'spatialReference', 'timeExtent', 'timeInfo',
+                'timeOffset', 'type', 'useViewTime', 'version')
+            //copyValuesIfExists(layerObject, 'format')
+            newLayer = imageryLayer;
+            break;
          default:
             return null;
     }
