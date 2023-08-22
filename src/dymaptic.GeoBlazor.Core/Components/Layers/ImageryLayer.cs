@@ -35,8 +35,8 @@ public class ImageryLayer : Layer
     /// <param name="portalItem"></param>
     /// <param name="renderer"></param>
     /// <param name="format"></param>
-    public ImageryLayer(string? url = null, PortalItem? portalItem = null, IImageryRenderer? renderer = null,
-        Format? format = null)
+    public ImageryLayer(string? url = null, PortalItem? portalItem = null, IImageryRenderer? renderer = null
+        ) 
     {
         if (url is null && portalItem is null)
         {
@@ -46,7 +46,7 @@ public class ImageryLayer : Layer
         Renderer = renderer;
         Url = url;
         PortalItem = portalItem;
-        Format = format;
+
     }
 
     /// <summary>
@@ -67,11 +67,6 @@ public class ImageryLayer : Layer
     ///     An interface that implements the various imagery renderers.
     /// </summary>
     public IImageryRenderer? Renderer { get; set; }
-
-    /// <summary>
-    ///     The format of the exported image from the server.
-    /// </summary>
-    public Format? Format { get; set; }
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)

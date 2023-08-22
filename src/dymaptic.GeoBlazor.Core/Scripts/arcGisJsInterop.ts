@@ -2188,8 +2188,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             break;
         case 'imagery':
             newLayer = new ImageryLayer({
-                url: layerObject.url,
-
+                url: layerObject.url
             });
 
             let imageryLayer = newLayer as ImageryLayer;
@@ -2202,8 +2201,8 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
                 'mosaicRule', 'multidimensionalInfo', 'multidimensionsionalSubset', 'noData', 'noDataInterpretation', 'objectIdField',
                 'pixelFilter', 'pixelType', 'popupEnabled', 'popupTemplate', 'rasterFields', 'rasterFunction', 'rasterFunctionInfos',
                 'refreshInterval', 'renderingRule', 'serviceRasterInfo', 'sourceJSON', 'spatialReference', 'timeExtent', 'timeInfo',
-                'timeOffset', 'type', 'useViewTime', 'version')
-            //copyValuesIfExists(layerObject, 'format')
+                'timeOffset', 'useViewTime', 'version')
+
             newLayer = imageryLayer;
             break;
          default:
