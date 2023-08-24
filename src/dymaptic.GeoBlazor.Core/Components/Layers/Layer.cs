@@ -278,6 +278,8 @@ internal class LayerConverter : JsonConverter<Layer>
                     return JsonSerializer.Deserialize<KMLLayer>(ref cloneReader, newOptions);
                 case "wcs":
                     return JsonSerializer.Deserialize<WCSLayer>(ref cloneReader, newOptions);
+                case "bing":
+                    return JsonSerializer.Deserialize<BingMapsLayer>(ref cloneReader, newOptions);
             }
         }
 

@@ -36,6 +36,7 @@ import TileLayer from "@arcgis/core/layers/TileLayer";
 import GeoJSONLayer from "@arcgis/core/layers/GeoJSONLayer";
 import CSVLayer from "@arcgis/core/layers/CSVLayer";
 import GeoRSSLayer from "@arcgis/core/layers/GeoRSSLayer";
+import BingMapsLayer from "@arcgis/core/layers/BingMapsLayer";
 import PopupTemplate from "@arcgis/core/PopupTemplate";
 import Query from "@arcgis/core/rest/support/Query";
 import View from "@arcgis/core/views/View";
@@ -2182,6 +2183,12 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             copyValuesIfExists(layerObject, 'bandIds', 'copyright', 'coverageId', 'coverageInfo', 'customParameters', 'fields', 'interpolation', 'maxScale', 'minscale', 'rasterInfo');
 
             newLayer = wcsLayer;
+            break;
+        case 'bing':
+            newLayer = new BingMapsLayer({
+                key: layerObject.key,
+                style: layerObject.style
+            });
             break;
          default:
             return null;
