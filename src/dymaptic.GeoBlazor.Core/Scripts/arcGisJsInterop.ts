@@ -2199,8 +2199,8 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
                 'copyright', 'customParameters', 'definitionExpression', 'effect', 'fields', 'fieldsIndex', 'format',
                 'hasMultidimensions', 'imageMaxHeight', 'imageMaxWidth', 'interpolation', 'legendEnabled', 'maxScale', 'minScale',
                 'mosaicRule', 'multidimensionalInfo', 'multidimensionsionalSubset', 'noData', 'noDataInterpretation', 'objectIdField',
-                'pixelFilter', 'pixelType', 'popupEnabled', 'popupTemplate', 'rasterFields', 'rasterFunction', 'rasterFunctionInfos',
-                'refreshInterval', 'renderingRule', 'serviceRasterInfo', 'sourceJSON', 'spatialReference', 'timeExtent', 'timeInfo',
+                'pixelFilter', 'pixelType', 'popupEnabled', 'rasterFields', 'rasterFunction', 'rasterFunctionInfos',
+                'refreshInterval', 'renderingRule', 'serviceRasterInfo', 'sourceJSON', 'timeExtent', 'timeInfo',
                 'timeOffset', 'useViewTime', 'version')
 
             newLayer = imageryLayer;

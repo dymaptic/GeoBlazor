@@ -605,3 +605,27 @@ export interface DotNetMultiPartColorRamp {
     algorithmicColorRamps: DotNetAlgorithmicColorRamp[];
 }
 
+export interface DotNetRasterColorMapRenderer {
+    type: string;
+    colormapInfos: DotNetColormapInfo;
+}
+
+export interface DotnetColormapInfo {
+    type: string;
+    color: color;
+    label: string;
+}
+
+export interface DotNetFlowRenderer {
+    type: string;
+    flowRepresentation: string;
+    density: number;
+    flowSpeed: number;
+    maxPathLength: number;
+    legendOptions: string;
+    trailCap: string;
+    trailLength: number;
+    trailWidth: number;
+    visualVariables: DotNetVisualVariables;
+}
+

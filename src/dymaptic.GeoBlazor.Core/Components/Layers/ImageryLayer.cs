@@ -31,11 +31,17 @@ public class ImageryLayer : Layer
     /// <summary>
     ///     Constructor for use in code
     /// </summary>
-    /// <param name="url"></param>  
-    /// <param name="portalItem"></param>
-    /// <param name="renderer"></param>
-    /// <param name="format"></param>
-    public ImageryLayer(string? url = null, PortalItem? portalItem = null, IImageryRenderer? renderer = null
+    /// <param name="url">
+    ///     The absolute URL of the REST endpoint of the layer, non-spatial table or service
+    /// </param>  
+    /// <param name="portalItem">
+    ///     The <see cref="PortalItem" /> from which the layer is loaded.
+    /// </param>
+    /// <param name="renderer">
+    ///     An abstract base class that implements a variety of imagery renderers.
+    /// </param>
+
+    public ImageryLayer(string? url = null, PortalItem? portalItem = null, ImageryRenderer? renderer = null
         ) 
     {
         if (url is null && portalItem is null)
@@ -66,7 +72,7 @@ public class ImageryLayer : Layer
     /// <summary>
     ///     An interface that implements the various imagery renderers.
     /// </summary>
-    public IImageryRenderer? Renderer { get; set; }
+    public ImageryRenderer? Renderer { get; set; }
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
@@ -79,15 +85,14 @@ public class ImageryLayer : Layer
                     PortalItem = portalItem;
                     LayerChanged = true;
                 }
-
                 break;
-            //case IImageryRenderer renderer:
-            //    if (!renderer.Equals(Renderer))
-            //    {
-            //        Renderer = renderer;
-            //        LayerChanged = true;
-            //    }
-            //    break;
+            case ImageryRenderer renderer:
+                if (!renderer.Equals(Renderer))
+                {
+                    Renderer = renderer;
+                    LayerChanged = true;
+                }
+                break;
             default:
                 await base.RegisterChildComponent(child);
 
@@ -103,10 +108,10 @@ public class ImageryLayer : Layer
                 PortalItem = null;
                 LayerChanged = true;
                 break;
-            //case IImageryRenderer _:
-            //    Renderer = null;
-            //    LayerChanged = true;
-            //    break;
+            case ImageryRenderer _:
+                Renderer = null;
+                LayerChanged = true;
+                break;
             default:
                 await base.UnregisterChildComponent(child);
 
@@ -118,15 +123,15 @@ public class ImageryLayer : Layer
     {
         base.ValidateRequiredChildren();
         PortalItem?.ValidateRequiredChildren();
-        //Renderer?.ValidateRequiredChildren();
+        Renderer?.ValidateRequiredChildren();
     }
 }
 
 /// <summary>
 /// The format of the data sent by the server.
 /// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<Format>))]
-public enum Format
+[JsonConverter(typeof(EnumToKebabCaseStringConverter<ImageFormat>))]
+public enum ImageFormat
 {
 #pragma warning disable CS1591
     Png,

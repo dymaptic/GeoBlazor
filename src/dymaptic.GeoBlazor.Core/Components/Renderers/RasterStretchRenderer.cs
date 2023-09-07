@@ -18,7 +18,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Renderers;
 ///     </a>
 /// </summary>
 /// 
-public class RasterStretchRenderer : LayerObject, IImageryRenderer
+public class RasterStretchRenderer : LayerObject
 {
     /// <summary>
     ///     Constructor for use in code
@@ -155,10 +155,10 @@ public class RasterStretchRenderer : LayerObject, IImageryRenderer
         base.ValidateRequiredChildren();
     }
 
-    void IImageryRenderer.ValidateRequiredChildren()
-    {
-        throw new NotImplementedException();
-    }
+    //void ImageryRenderer.ValidateRequiredChildren()
+    //{
+    //    throw new NotImplementedException();
+    //}
 }
 
 /// <summary>
