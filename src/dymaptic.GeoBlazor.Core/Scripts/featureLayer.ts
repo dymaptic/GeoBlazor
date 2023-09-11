@@ -9,17 +9,31 @@ import {
     DotNetPopupTemplate,
     DotNetQuery,
     DotNetRelationshipQuery,
-    DotNetTopFeaturesQuery
+    DotNetTopFeaturesQuery,
+    DotNetField,
+    DotNetDomain,
+    DotNetFeatureLayer
 } from "./definitions";
-import {buildJsApplyEdits, buildJsQuery, buildJsRelationshipQuery, buildJsTopFeaturesQuery} from "./jsBuilder";
+import {
+    buildJsApplyEdits,
+    buildJsQuery,
+    buildJsRelationshipQuery,
+    buildJsTopFeaturesQuery,
+    buildJsPortalItem,
+    buildJsGraphic
+} from "./jsBuilder";
 import {
     buildDotNetExtent,
     buildDotNetGeometry,
     buildDotNetGraphic,
     buildDotNetPopupTemplate,
-    buildDotNetSpatialReference
+    buildDotNetSpatialReference,
+    buildDotNetFields,
+    buildDotNetFeatureLayer,
+    buildDotNetDomain,
+    buildDotNetFeatureType,
 } from "./dotNetBuilder";
-import {blazorServer, dotNetRefs, graphicsRefs} from "./arcGisJsInterop";
+import { blazorServer, dotNetRefs, graphicsRefs } from "./arcGisJsInterop";
 import Graphic from "@arcgis/core/Graphic";
 
 export default class FeatureLayerWrapper {
@@ -59,12 +73,18 @@ export default class FeatureLayerWrapper {
         };
     }
 
-    async queryFeatures(query: DotNetQuery, options: any, dotNetRef: any, viewId: string | null)
-        : Promise<DotNetFeatureSet | null> {
+    async queryFeatures(query: DotNetQuery | null, options: any, dotNetRef: any, viewId: string | null):
+        Promise<DotNetFeatureSet | null> {
         try {
-            let jsQuery = buildJsQuery(query);
+            let jsQuery: Query | undefined = undefined;
+
+            if (this.hasValue(query)) {
+                jsQuery = buildJsQuery(query as DotNetQuery);
+            }
+
             let featureSet = await this.layer.queryFeatures(jsQuery, options);
-            let dotNetFeatureSet : DotNetFeatureSet = {
+
+            let dotNetFeatureSet: DotNetFeatureSet = {
                 features: [],
                 displayFieldName: featureSet.displayFieldName,
                 exceededTransferLimit: featureSet.exceededTransferLimit,
@@ -73,10 +93,10 @@ export default class FeatureLayerWrapper {
                 queryGeometry: buildDotNetGeometry(featureSet.queryGeometry),
                 spatialReference: buildDotNetSpatialReference(featureSet.spatialReference)
             };
-            let graphics : DotNetGraphic[] = [];
+            let graphics: DotNetGraphic[] = [];
             for (let i = 0; i < featureSet.features.length; i++) {
                 let feature = featureSet.features[i];
-                let graphic : DotNetGraphic = buildDotNetGraphic(feature) as DotNetGraphic;
+                let graphic: DotNetGraphic = buildDotNetGraphic(feature) as DotNetGraphic;
                 if (viewId !== undefined && viewId !== null) {
                     graphic.id = await dotNetRefs[viewId].invokeMethodAsync('GetId');
                     graphicsRefs[graphic.id as string] = feature;
@@ -111,16 +131,16 @@ export default class FeatureLayerWrapper {
         return await this.layer.queryObjectIds(jsQuery, options);
     }
 
-    async queryRelatedFeatures(query: DotNetRelationshipQuery, options: any, dotNetRef: any, viewId: string | null)
-        : Promise<any | null> {
+    async queryRelatedFeatures(query: DotNetRelationshipQuery, options: any, dotNetRef: any, viewId: string | null):
+        Promise<any | null> {
         try {
             let jsQuery = buildJsRelationshipQuery(query);
             let featureSetsDictionary = await this.layer.queryRelatedFeatures(jsQuery, options);
-            let graphicsDictionary : any = {};
+            let graphicsDictionary: any = {};
             for (let prop in featureSetsDictionary) {
                 if (featureSetsDictionary.hasOwnProperty(prop)) {
                     let featureSet = featureSetsDictionary[prop] as FeatureSet;
-                    let dotNetFeatureSet : DotNetFeatureSet = {
+                    let dotNetFeatureSet: DotNetFeatureSet = {
                         features: [],
                         displayFieldName: featureSet.displayFieldName,
                         exceededTransferLimit: featureSet.exceededTransferLimit,
@@ -129,10 +149,10 @@ export default class FeatureLayerWrapper {
                         queryGeometry: buildDotNetGeometry(featureSet.queryGeometry),
                         spatialReference: buildDotNetSpatialReference(featureSet.spatialReference)
                     };
-                    let graphics : DotNetGraphic[] = [];
+                    let graphics: DotNetGraphic[] = [];
                     for (let i = 0; i < featureSet.features.length; i++) {
                         let feature = featureSet.features[i];
-                        let graphic : DotNetGraphic = buildDotNetGraphic(feature) as DotNetGraphic;
+                        let graphic: DotNetGraphic = buildDotNetGraphic(feature) as DotNetGraphic;
                         if (viewId !== undefined && viewId !== null) {
                             graphic.id = await dotNetRefs[viewId].invokeMethodAsync('GetId');
                             graphicsRefs[graphic.id as string] = feature;
@@ -166,12 +186,12 @@ export default class FeatureLayerWrapper {
     }
 
 
-    async queryTopFeatures(query: DotNetTopFeaturesQuery, options: any, dotNetRef: any, viewId: string | null)
-        : Promise<DotNetFeatureSet | null> {
+    async queryTopFeatures(query: DotNetTopFeaturesQuery, options: any, dotNetRef: any, viewId: string | null):
+        Promise<DotNetFeatureSet | null> {
         try {
             let jsQuery = buildJsTopFeaturesQuery(query);
             let featureSet = await this.layer.queryTopFeatures(jsQuery, options);
-            let dotNetFeatureSet : DotNetFeatureSet = {
+            let dotNetFeatureSet: DotNetFeatureSet = {
                 features: [],
                 displayFieldName: featureSet.displayFieldName,
                 exceededTransferLimit: featureSet.exceededTransferLimit,
@@ -180,10 +200,10 @@ export default class FeatureLayerWrapper {
                 queryGeometry: buildDotNetGeometry(featureSet.queryGeometry),
                 spatialReference: buildDotNetSpatialReference(featureSet.spatialReference)
             };
-            let graphics : DotNetGraphic[] = [];
+            let graphics: DotNetGraphic[] = [];
             for (let i = 0; i < featureSet.features.length; i++) {
                 let feature = featureSet.features[i];
-                let graphic : DotNetGraphic = buildDotNetGraphic(feature) as DotNetGraphic;
+                let graphic: DotNetGraphic = buildDotNetGraphic(feature) as DotNetGraphic;
                 if (viewId !== undefined && viewId !== null) {
                     graphic.id = await dotNetRefs[viewId].invokeMethodAsync('GetId');
                     graphicsRefs[graphic.id as string] = feature;
@@ -226,7 +246,7 @@ export default class FeatureLayerWrapper {
             extent: buildDotNetExtent(result.extent)
         };
     }
-    
+
     async applyEdits(edits: DotNetApplyEdits, options: any, viewId: string): Promise<any> {
         let jsEdits = buildJsApplyEdits(edits, viewId);
         let result;
@@ -235,7 +255,96 @@ export default class FeatureLayerWrapper {
         } else {
             result = await this.layer.applyEdits(jsEdits);
         }
-        
+
         return result;
+    }
+
+    async save(ignoreUnsupported: any) {
+        if (ignoreUnsupported != undefined && ignoreUnsupported != null) {
+
+            let options = {
+                validationOptions: {
+                    ignoreUnsupported: ignoreUnsupported
+                }
+            };
+
+            this.layer.save(options);
+        } else {
+            this.layer.save();
+        }
+    }
+
+    async saveAs(dotNetPortalItem: any, portalFolder: any, ignoreUnsupported: any): Promise<any> {
+        let portalItem = buildJsPortalItem(dotNetPortalItem);
+
+        if (ignoreUnsupported != undefined && ignoreUnsupported != null) {
+
+            let options = {
+                folder: portalFolder,
+                validationOptions: {
+                    ignoreUnsupported: ignoreUnsupported
+                }
+            };
+            return await this.layer.saveAs(portalItem, options);
+        }
+
+        return await this.layer.saveAs(portalItem);
+    }
+
+    async getFeatureType(graphic: DotNetGraphic): Promise<any> {
+
+        let feature = graphicsRefs[graphic.id as string] as Graphic;
+
+        let result = this.layer.getFeatureType(feature);
+
+        return buildDotNetFeatureType(result);
+    }
+
+    async getField(fieldName: string): Promise<DotNetField | null> {
+
+        let result = await this.layer.getField(fieldName);
+
+        if (result != undefined) {
+            let field = buildDotNetFields(Array(result));
+
+            return field[0];
+        }
+        return null;
+    }
+
+    async getFieldDomain(fieldName: string, graphic: DotNetGraphic): Promise<DotNetDomain | null> {
+
+        let options: any | undefined = undefined;
+        if (graphic != null && graphic != undefined) {
+            let featureGraphic = buildJsGraphic(graphic, null) as Graphic;
+            options = {
+                feature: featureGraphic
+            };
+        }
+        let result = await this.layer.getFieldDomain(fieldName, options);
+
+        let domain = buildDotNetDomain(result);
+
+        return domain;
+    }
+
+
+
+    async clone(): Promise<DotNetFeatureLayer> {
+
+        let result = await this.layer.clone();
+
+        return buildDotNetFeatureLayer(result);
+    }
+
+    async refresh(): Promise<DotNetFeatureLayer> {
+
+        await this.layer.refresh();
+
+        return buildDotNetFeatureLayer(this.layer);
+    }
+
+    hasValue(prop: any): boolean {
+        return prop !== undefined && prop !== null;
     }
 }

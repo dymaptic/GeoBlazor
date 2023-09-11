@@ -14,7 +14,7 @@
 <button disabled="@(!_mapRendered)" @onclick="AddLayer">Add new CSV Layer!</button>
 
 
-<SceneView @ref="_view" class="map-view" OnMapRendered="OnMapRendered">
+<SceneView @ref="_view" class="map-view" OnViewRendered="OnMapRendered">
     <Extent Xmin="-41525513" Ymin="4969181" Xmax="-36687355" Ymax="9024624">
         <SpatialReference Wkid="102100" />
     </Extent>

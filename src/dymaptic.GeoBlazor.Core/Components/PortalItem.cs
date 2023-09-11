@@ -37,6 +37,12 @@ public class PortalItem : MapComponent
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Portal? Portal { get; set; }
 
+    /// <summary>
+    ///     service URL of this item.
+    /// </summary>
+    [Parameter]
+    public string Url { get; set; } = default!;
+
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
     {
