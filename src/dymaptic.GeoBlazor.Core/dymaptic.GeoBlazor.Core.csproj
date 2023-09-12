@@ -9,8 +9,8 @@
         </Description>
         <Title>GeoBlazor</Title>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <PackageVersion>2.3.0</PackageVersion>
-        <Version>2.3.0</Version>
+        <PackageVersion>2.3.2</PackageVersion>
+        <Version>2.3.2</Version>
         <Authors>Tim Purdum, Christopher Moravec, Mara Stoica, Tim Rawson</Authors>
         <Company>dymaptic</Company>
         <Copyright>©2023 by dymaptic</Copyright>
@@ -98,11 +98,6 @@
     <Target Name="NPM Release Build" AfterTargets="Copy Assets Release" Condition="$(Configuration) == 'RELEASE' AND $(TargetFrameworks.StartsWith($(TargetFramework))) AND '$(OptOutFromCoreEsBuild)' != 'true'">
         <!-- Runs synchronously to ensure all files are ready for nuget packaging in release mode -->
         <Exec Command="npm run releaseBuild" />
-    </Target>
-
-    <Target Name="Copy Files" AfterTargets="Build" Condition="$(Configuration) == 'RELEASE' AND $(TargetFrameworks.StartsWith($(TargetFramework))) AND '$(OptOutFromCoreEsBuild)' != 'true'">
-        <Message Importance="high" Text="Launching Async File Copy Script" />
-        <ExecAsync FilePath="pwsh" Arguments="./docCopy.ps1" ContinueOnError="true" />
     </Target>
 
     <!--Launch a Process in Parallel-->

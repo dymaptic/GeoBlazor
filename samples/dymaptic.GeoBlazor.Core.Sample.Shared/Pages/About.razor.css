@@ -49,6 +49,16 @@
     font: normal normal normal 12px/18px 'Helvetica Neue', Arial, sans-serif;
 }
 
+.pro {
+    color: gold;
+    font-style: italic;
+    font-weight: bold;
+    padding: 1rem 0;
+}
+
+.pro a {
+    color: gold!important;
+}
 
 @media (max-width: 799px) {
     #feature-inset {
