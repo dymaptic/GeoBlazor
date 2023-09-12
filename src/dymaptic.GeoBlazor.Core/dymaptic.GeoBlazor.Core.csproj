@@ -9,8 +9,8 @@
         </Description>
         <Title>GeoBlazor</Title>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <PackageVersion>2.3.1-beta-1</PackageVersion>
-        <Version>2.3.1-beta-1</Version>
+        <PackageVersion>2.3.2</PackageVersion>
+        <Version>2.3.2</Version>
         <Authors>Tim Purdum, Christopher Moravec, Mara Stoica, Tim Rawson</Authors>
         <Company>dymaptic</Company>
         <Copyright>©2023 by dymaptic</Copyright>
