@@ -323,28 +323,6 @@ public class FeatureLayer : Layer
             View!.Id);
     }
 
-    //TODO: needs more testing
-    /// <summary>
-    ///     Saves the layer to its existing portal item in the Portal authenticated within the user's current session. If the layer is not saved to a PortalItem, then you should use saveAs.
-    ///     Known Limitations:
-    ///     You can only save service-backed FeatureLayers. Client-side layers cannot be saved.
-    /// </summary>
-    public async Task Save(bool? ignoreUnsupported)
-    {
-        await JsLayerReference!.InvokeVoidAsync("save", ignoreUnsupported);
-    }
-
-    //TODO: needs more testing
-    /// <summary>
-    ///     Saves the layer to its existing portal item in the Portal authenticated within the user's current session. If the layer is not saved to a PortalItem, then you should use saveAs.
-    ///     Known Limitations:
-    ///     You can only save service-backed FeatureLayers. Client-side layers cannot be saved.
-    /// </summary>
-    public async Task<PortalItem> SaveAs(PortalItem portalItem, PortalFolder? portalFolder, bool? ignoreUnsupported)
-    {
-        return await JsLayerReference!.InvokeAsync<PortalItem>("saveAs", portalItem, portalFolder, ignoreUnsupported);
-    }
-
     /// <summary>
     /// Returns a FeatureType describing the feature's type. This is applicable if the layer containing the feature has a typeIdField.
     /// </summary>

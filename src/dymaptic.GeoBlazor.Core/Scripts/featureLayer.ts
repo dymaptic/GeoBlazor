@@ -259,38 +259,6 @@ export default class FeatureLayerWrapper {
         return result;
     }
 
-    async save(ignoreUnsupported: any) {
-        if (ignoreUnsupported != undefined && ignoreUnsupported != null) {
-
-            let options = {
-                validationOptions: {
-                    ignoreUnsupported: ignoreUnsupported
-                }
-            };
-
-            this.layer.save(options);
-        } else {
-            this.layer.save();
-        }
-    }
-
-    async saveAs(dotNetPortalItem: any, portalFolder: any, ignoreUnsupported: any): Promise<any> {
-        let portalItem = buildJsPortalItem(dotNetPortalItem);
-
-        if (ignoreUnsupported != undefined && ignoreUnsupported != null) {
-
-            let options = {
-                folder: portalFolder,
-                validationOptions: {
-                    ignoreUnsupported: ignoreUnsupported
-                }
-            };
-            return await this.layer.saveAs(portalItem, options);
-        }
-
-        return await this.layer.saveAs(portalItem);
-    }
-
     async getFeatureType(graphic: DotNetGraphic): Promise<any> {
 
         let feature = graphicsRefs[graphic.id as string] as Graphic;
