@@ -1676,8 +1676,7 @@ public partial class MapView : MapComponent
             ExtentSetByCode = true;
 
             ViewExtentUpdate change =
-                await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("setZoom", Zoom,
-                    CancellationTokenSource.Token, Id);
+                await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("setZoom", CancellationTokenSource.Token, Zoom, Id);
             Extent = change.Extent;
             Latitude = change.Center?.Latitude;
             Longitude = change.Center?.Longitude;
