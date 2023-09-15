@@ -23,6 +23,7 @@
         <TargetFrameworks>net7.0;net6.0</TargetFrameworks>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+	    <UserSecretsId>9ebf8cd4-ec74-46b1-95be-809da8cfe903</UserSecretsId>
     </PropertyGroup>
     <PropertyGroup Condition="$(Configuration) == 'DEBUG'">
         <DefaultItemExcludes>wwwroot/js/**</DefaultItemExcludes>

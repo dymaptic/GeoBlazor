@@ -2192,9 +2192,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             });
 
             let imageryLayer = newLayer as ImageryLayer;
-            //if (hasValue(layerObject.renderer)) {
-            //    imageryLayer.renderer = buildJsRasterStretchRenderer(layerObject.renderer) as RasterStretchRenderer;
-            //}
+
             copyValuesIfExists(layerObject, 'bandIds', 'blendMode', 'capabilities', 'compressionQuality', 'compressionTolerance',
                 'copyright', 'customParameters', 'definitionExpression', 'effect', 'fields', 'fieldsIndex', 'format',
                 'hasMultidimensions', 'imageMaxHeight', 'imageMaxWidth', 'interpolation', 'legendEnabled', 'maxScale', 'minScale',
