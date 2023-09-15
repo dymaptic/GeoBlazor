@@ -52,12 +52,14 @@ public class GeoJSONLayer : Layer
     public GeoJSONLayer(string? url = null, string? copyright = null, string? title = null,
         double? opacity = null, bool? visible = null, ListMode? listMode = null)
     {
+#pragma warning disable BL0005
         Url = url;
         Title = title;
         Opacity = opacity;
         Visible = visible;
         ListMode = listMode;
         Copyright = copyright;
+#pragma warning restore BL0005
     }
 
     /// <inheritdoc />

@@ -37,13 +37,16 @@ public class KMLLayer : Layer
     /// </param>
     public KMLLayer(string? url = null, PortalItem? portalItem = null)
     {
+
         if (url is null && portalItem is null)
         {
             throw new MissingRequiredOptionsChildElementException(nameof(KMLLayer),
                 new[] { nameof(Url), nameof(PortalItem) });
         }
+#pragma warning disable BL0005
         Url = url;
         PortalItem = portalItem;
+#pragma warning restore BL0005
     }
 
     /// <summary>

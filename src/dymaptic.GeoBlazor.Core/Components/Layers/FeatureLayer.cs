@@ -88,7 +88,7 @@ public class FeatureLayer : Layer
             throw new MissingRequiredOptionsChildElementException(nameof(FeatureLayer),
                 new[] { nameof(Url), nameof(PortalItem), nameof(Source) });
         }
-
+#pragma warning disable BL0005
         Url = url;
         Source = source;
         PortalItem = portalItem;
@@ -102,6 +102,7 @@ public class FeatureLayer : Layer
         Opacity = opacity;
         Visible = visible;
         ListMode = listMode;
+#pragma warning restore BL0005
     }
 
     /// <summary>

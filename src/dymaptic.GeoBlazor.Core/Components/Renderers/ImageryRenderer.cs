@@ -9,11 +9,12 @@ namespace dymaptic.GeoBlazor.Core.Components.Renderers;
 ///         JS API
 ///     </a>
 /// </summary>
+/// 
+/// <summary>
+///     The ImageryRenderer is an abstract class to aide understanding that a number of different "renderers"
+///     inherit from the MapComponent class vs the Renderer class.
+/// </summary>
 public abstract class ImageryRenderer: MapComponent
 {
 
-    /// <summary>
-    ///     The method to enable the Renderer to validate.
-    /// </summary>
-    //void ValidateRequiredChildren();
 }

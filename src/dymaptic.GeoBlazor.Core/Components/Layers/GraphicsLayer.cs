@@ -48,6 +48,7 @@ public class GraphicsLayer : Layer
     public GraphicsLayer(IReadOnlyCollection<Graphic>? graphics = null, string? title = null,
         double? opacity = null, bool? visible = null, ListMode? listMode = null)
     {
+#pragma warning disable BL0005
         Title = title;
         Opacity = opacity;
         Visible = visible;
@@ -57,6 +58,7 @@ public class GraphicsLayer : Layer
         {
             Graphics = graphics;
         }
+#pragma warning restore BL0005
     }
 
     /// <summary>
