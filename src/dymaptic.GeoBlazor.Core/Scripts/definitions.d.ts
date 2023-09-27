@@ -605,12 +605,12 @@ export interface DotNetMultiPartColorRamp {
     algorithmicColorRamps: DotNetAlgorithmicColorRamp[];
 }
 
-export interface DotNetRasterColorMapRenderer {
+export interface DotNetRasterColormapRenderer {
     type: string;
     colormapInfos: DotNetColormapInfo;
 }
 
-export interface DotnetColormapInfo {
+export interface DotNetColormapInfo {
     type: string;
     color: color;
     label: string;
@@ -627,5 +627,43 @@ export interface DotNetFlowRenderer {
     trailLength: number;
     trailWidth: number;
     visualVariables: DotNetVisualVariables;
+}
+
+export interface DotNetVectorFieldRenderer {
+    type: string;
+    
+
+}
+
+
+
+export interface DotNetClassBreaksInfo {
+    label: string;
+    maxValue: number;
+    minValue: number;
+    symbol: DotNetSymbol;
+}
+
+export interface DotNetClassBreaksRenderer {
+    type: string;
+    backgroundFillSymbol: DotNetSimpleFillSymbol;
+    classBreaksInfos: DotNetClassBreaksInfo[];
+    defaultLabel: string;
+    defaultSymbol: DotNetSymbol;
+    field: string;
+    legendOptions: object;
+    normalizationField: string;
+    normalizationTotal: number;
+    valueExpression: string;
+    valueExpressionTitle: string;
+    visualVariables: DotNetVisualVariable[]
+}
+
+export interface DotNetVisualVariable {
+    field: string;
+    legendOptions: object;
+    type: string;
+    valueExpression: string;
+    vaueExpressionTitle: string;
 }
 

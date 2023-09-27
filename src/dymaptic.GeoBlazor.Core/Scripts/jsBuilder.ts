@@ -69,6 +69,9 @@ import {
     DotNetFeatureEffect,
     DotNetFeatureFilter,
     DotNetRasterStretchRenderer,
+    DotNetRasterColormapRenderer,
+    DotNetVectorFieldRenderer,
+    DotNetFlowRenderer,
     DotNetDimensionDefinition,
     DotNetColorRamp
 } from "./definitions";

@@ -89,7 +89,11 @@ import {
     buildJsColorRamp,
     buildJsAlgorithmicColorRamp,
     buildJsMultipartColorRamp,
-    buildJsRasterStretchRenderer
+    buildJsRasterStretchRenderer,
+    buildJsRasterShadedReliefRenderer,
+    buildJsRasterColormapRenderer,
+    buildJsVectorFieldRenderer,
+    buildJsFlowRenderer
 } from "./jsBuilder";
 import {
     DotNetExtent,
@@ -126,6 +130,9 @@ import MultipartColorRamp from "@arcgis/core/rest/support/MultipartColorRamp";
 import AlgorithmicColorRamp from "@arcgis/core/rest/support/AlgorithmicColorRamp";
 import Renderer from "@arcgis/core/renderers/Renderer";
 import RasterShadedReliefRenderer from "@arcgis/core/renderers/RasterShadedReliefRenderer.js";
+import VectorFieldRenderer from "@arcgis/core/renderers/VectorFieldRenderer";
+import RasterColormapRenderer from "@arcgis/core/renderers/RasterColormapRenderer";
+import FlowRenderer from "@arcgis/core/renderers/FlowRenderer";
 
 
 export let arcGisObjectRefs: Record<string, Accessor> = {};
@@ -2193,13 +2200,33 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
 
             let imageryLayer = newLayer as ImageryLayer;
 
-            copyValuesIfExists(layerObject, 'bandIds', 'blendMode', 'capabilities', 'compressionQuality', 'compressionTolerance',
-                'copyright', 'customParameters', 'definitionExpression', 'effect', 'fields', 'fieldsIndex', 'format',
+                if (hasValue(layerObject.renderer)) {
+                    switch (layerObject.renderer) {
+                        case 'class-breaks-renderer':
+                            imageryLayer.renderer = buildJsClassBreaksRenderer(layerObject.renderer) as ClassBreaksRenderer;
+                            break;
+                        case 'unique-value-renderer':
+                            imageryLayer.renderer = buildJsUniqueValueRenderer(layerObject.renderer) as UniqueValueRenderer;
+                            break;
+                        case 'raster-shaded-relief-renderer':
+                            imageryLayer.renderer = buildJsRasterShadedReliefRenderer(layerObject.renderer) as RasterShadedReliefRenderer;
+                            break;
+                        case 'raster-colormap-renderer':
+                            imageryLayer.renderer = buildJsRasterColormapRenderer(layerObject.renderer) as RasterColormapRenderer;
+                            break;
+                        case 'vector-field-renderer':
+                            imageryLayer.renderer = buildJsVectorFieldRenderer(layerObject.renderer) as VectorFieldRenderer;
+                            break;
+                        case 'flow-renderer':
+                            imageryLayer.renderer = buildJsFlowRenderer(layerObject.renderer) as FlowRenderer;
+                            break;
+                    }
+                }
+
+
+            copyValuesIfExists(layerObject, 'bandIds', 'blendMode', 'compressionQuality', 'compressionTolerance', 'copyright', 'definitionExpression', 'effect', 'format',
                 'hasMultidimensions', 'imageMaxHeight', 'imageMaxWidth', 'interpolation', 'legendEnabled', 'maxScale', 'minScale',
-                'mosaicRule', 'multidimensionalInfo', 'multidimensionsionalSubset', 'noData', 'noDataInterpretation', 'objectIdField',
-                'pixelFilter', 'pixelType', 'popupEnabled', 'rasterFields', 'rasterFunction', 'rasterFunctionInfos',
-                'refreshInterval', 'renderingRule', 'serviceRasterInfo', 'sourceJSON', 'timeExtent', 'timeInfo',
-                'timeOffset', 'useViewTime', 'version')
+                'noDataInterpretation', 'objectIdField', 'pixelType', 'popupEnabled', 'refreshInterval', 'useViewTime', 'version')
 
             newLayer = imageryLayer;
             break;
