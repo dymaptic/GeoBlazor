@@ -25,6 +25,8 @@ import RasterShadedReliefRenderer from "@arcgis/core/renderers/RasterShadedRelie
 import RasterColormapRenderer from "@arcgis/core/renderers/RasterColormapRenderer.js";
 import VectorFieldRenderer from "@arcgis/core/renderers/VectorFieldRenderer.js";
 import FlowRenderer from "@arcgis/core/renderers/FlowRenderer.js";
+import ClassBreaksRenderer from "@arcgis/core/renderers/ClassBreaksRenderer.js";
+import UniqueValueRenderer from "@arcgis/core/renderers/UniqueValueRenderer.js";
 import ColormapInfo from "@arcgis/core/renderers/support/ColormapInfo.js";
 import VisualVariable from "@arcgis/core/renderers/visualVariables/VisualVariable.js";
 import {
@@ -72,8 +74,16 @@ import {
     DotNetRasterColormapRenderer,
     DotNetVectorFieldRenderer,
     DotNetFlowRenderer,
-    DotNetDimensionDefinition,
-    DotNetColorRamp
+    DotNetDimensionalDefinition,
+    DotNetColorRamp,
+    DotNetVisualVariable,
+    DotNetColormapInfo,
+    DotNetClassBreaksRenderer,
+    DotNetClassBreaksInfo,
+    DotNetMultidimensionalSubset,
+    DotNetSubsetDimension,
+    DotNetRasterFunction,
+    DotNetRasterFunctionInfo
 } from "./definitions";
 import PictureMarkerSymbol from "@arcgis/core/symbols/PictureMarkerSymbol";
 import Popup from "@arcgis/core/widgets/Popup";
@@ -546,7 +556,6 @@ export function buildJsPolygon(dnPolygon: DotNetPolygon): Polygon | null {
     return polygon;
 }
 
-
 export function buildJsRenderer(dotNetRenderer: any): Renderer | null {
     if (dotNetRenderer === undefined) return null;
     let dotNetSymbol = dotNetRenderer.symbol;
@@ -558,7 +567,7 @@ export function buildJsRenderer(dotNetRenderer: any): Renderer | null {
             simpleRenderer.authoringInfo = dotNetRenderer.authoringInfo;
             return simpleRenderer;
     }
-    return dotNetRenderer
+    return dotNetRenderer;
 }
 
 export function buildJsRasterColormapRenderer(dotNetRasterColormapRenderer: DotNetRasterColormapRenderer): RasterColormapRenderer | null {
@@ -592,6 +601,19 @@ export function buildJsRasterShadedReliefRenderer(dotNetRasterShadedReliefRender
     let rasterShadedReliefRenderer = new RasterShadedReliefRenderer();
 
     return rasterShadedReliefRenderer;
+}
+
+export function buildJsSimpleFillSymbol(dnSimpleFillSymbol: DotNetSimpleFillSymbol): SimpleFillSymbol | null {
+
+}
+
+export function buildJsClassBreaksRenderer(dnClassBreaksRenderer: DotNetClassBreaksRenderer): ClassBreaksRenderer | null {
+    if (dnClassBreaksRenderer === undefined) return null;
+    let classBreaksRenderer = new ClassBreaksRenderer();
+    //may need to have a build js fx for fill symbol
+    if (hasValue(dnClassBreaksRenderer.backgroundFillSymbol)) {
+        classBreaksRenderer.backgroundFillSymbol = dnClassBreaksRenderer.backgroundFillSymbol;
+    }
 }
 
 export function buildJsVectorFieldRenderer(dotNetVectorFieldRenderer: DotNetVectorFieldRenderer): VectorFieldRenderer | null {
@@ -744,15 +766,12 @@ export function buildJsMultipartColorRamp(dotNetMultipartColorRamp: any): Multip
     return multipartColorRamp;
 }
 
-
-
 export function buildJsFields(dotNetFields: any): Array<Field> {
     let fields: Array<Field> = [];
     dotNetFields.forEach(dnField => {
         let field = buildJsField(dnField);
         fields.push(field);
     });
-
     return fields;
 }
 

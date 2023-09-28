@@ -2224,8 +2224,8 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
                 }
 
 
-            copyValuesIfExists(layerObject, 'bandIds', 'blendMode', 'compressionQuality', 'compressionTolerance', 'copyright', 'definitionExpression', 'effect', 'format',
-                'hasMultidimensions', 'imageMaxHeight', 'imageMaxWidth', 'interpolation', 'legendEnabled', 'maxScale', 'minScale',
+            copyValuesIfExists(layerObject, 'bandIds', 'blendMode', 'compressionQuality', 'compressionTolerance', 'copyright', 'definitionExpression',
+                'effect', 'format', 'hasMultidimensions', 'imageMaxHeight', 'imageMaxWidth', 'interpolation', 'legendEnabled', 'maxScale', 'minScale',
                 'noDataInterpretation', 'objectIdField', 'pixelType', 'popupEnabled', 'refreshInterval', 'useViewTime', 'version')
 
             newLayer = imageryLayer;

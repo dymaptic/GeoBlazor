@@ -567,7 +567,7 @@ export interface DotNetRangeDomain extends DotNetDomain {
 export interface DotNetInheritedDomain extends DotNetDomain {
     name: string;
 }
-export interface DotNetDimensionDefinition {
+export interface DotNetDimensionalDefinition {
     dimensionName: string;
     isSlice: boolean;
     values: number[];
@@ -626,7 +626,7 @@ export interface DotNetFlowRenderer {
     trailCap: string;
     trailLength: number;
     trailWidth: number;
-    visualVariables: DotNetVisualVariables;
+    visualVariables: DotNetVisualVariable[];
 }
 
 export interface DotNetVectorFieldRenderer {
@@ -664,6 +664,40 @@ export interface DotNetVisualVariable {
     legendOptions: object;
     type: string;
     valueExpression: string;
-    vaueExpressionTitle: string;
+    valueExpressionTitle: string;
 }
+
+export interface DotNetMultidimensionalSubset {
+    areaOfInterest: DotNetExtent;
+    dimensions: DotNetSubsetDimension[];
+    subsetDefinitions: DotNetDimensionalDefinition[];
+    variables: string[];
+}
+
+export interface DotNetSubsetDimension {
+    name: string;
+    extent: DotNetExtent;
+    subsetDefinitions: DotNetDimensionalDefinition[];
+    variables: string[];
+}
+
+export interface DotNetRasterFunction {
+    functionName: string;
+    functionArguments: object;
+}
+
+export interface DotNetRasterFunctionInfo {
+    name: string;
+    description: string;
+    help: string;
+    functionType: number;
+    thumbnail: string;
+}
+
+
+
+
+
+
+
 
