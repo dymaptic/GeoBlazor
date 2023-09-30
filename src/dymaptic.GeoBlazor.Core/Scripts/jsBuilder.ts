@@ -2,7 +2,7 @@
 import Extent from "@arcgis/core/geometry/Extent";
 import Graphic from "@arcgis/core/Graphic";
 import PopupTemplate from "@arcgis/core/PopupTemplate";
-import { arcGisObjectRefs, triggerActionHandler } from "./arcGisJsInterop";
+import {arcGisObjectRefs, dotNetRefs, triggerActionHandler} from "./arcGisJsInterop";
 import Geometry from "@arcgis/core/geometry/Geometry";
 import Point from "@arcgis/core/geometry/Point";
 import Polyline from "@arcgis/core/geometry/Polyline";
@@ -227,6 +227,7 @@ export function buildJsPopupTemplate(popupTemplateObject: DotNetPopupTemplate, v
     } else {
         content = async (featureSelection) => {
             try {
+                await lookupDotNetRefForPopupTemplate(popupTemplateObject, viewId as string);
                 let results: DotNetPopupContent[] | null = await popupTemplateObject.dotNetPopupTemplateReference
                     .invokeMethodAsync("OnContentFunction", buildDotNetGraphic(featureSelection.graphic));
                 return results?.map(r => buildJsPopupContent(r));
@@ -272,11 +273,13 @@ export function buildJsPopupTemplate(popupTemplateObject: DotNetPopupTemplate, v
                     reactiveUtils.once(() => view.popup.on !== undefined)
                         .then(() => {
                             templateTriggerActionHandler = view.popup.on("trigger-action", async (event: PopupTriggerActionEvent) => {
+                                await lookupDotNetRefForPopupTemplate(popupTemplateObject, viewId as string);
                                 await popupTemplateObject.dotNetPopupTemplateReference.invokeMethodAsync("OnTriggerAction", event.action.id);
                             });
                         })
                 } else {
                     templateTriggerActionHandler = view.popup.on("trigger-action", async (event: PopupTriggerActionEvent) => {
+                        await lookupDotNetRefForPopupTemplate(popupTemplateObject, viewId as string);
                         await popupTemplateObject.dotNetPopupTemplateReference.invokeMethodAsync("OnTriggerAction", event.action.id);
                     });
                 }
@@ -288,6 +291,14 @@ export function buildJsPopupTemplate(popupTemplateObject: DotNetPopupTemplate, v
     }
 
     return template;
+}
+
+async function lookupDotNetRefForPopupTemplate(popupTemplateObject: DotNetPopupTemplate, viewId: string) {
+    if (!hasValue(popupTemplateObject.dotNetPopupTemplateReference)) {
+        let viewRef = dotNetRefs[viewId];
+        popupTemplateObject.dotNetPopupTemplateReference =
+            await viewRef.invokeMethodAsync('GetDotNetPopupTemplateObjectReference', popupTemplateObject.id);
+    }
 }
 
 export let templateTriggerActionHandler: IHandle;

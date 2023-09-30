@@ -108,6 +108,56 @@ internal record ActionBaseSerializationRecord([property: JsonIgnore(Condition = 
 /// </summary>
 public class ActionButton : ActionBase
 {
+    /// <summary>
+    ///     Parameterless constructor for use as a razor component.
+    /// </summary>
+    public ActionButton()
+    {
+    }
+
+    /// <summary>
+    ///    Constructor for use in code.
+    /// </summary>
+    /// <param name="title">
+    ///     The title of the action.
+    /// </param>
+    /// <param name="image">
+    ///     The URL to an image that will be used to represent the action. This property will be used as a background image
+    /// </param>
+    /// <param name="id">
+    ///     The name of the ID assigned to this action.
+    /// </param>
+    /// <param name="callbackFunction">
+    ///     The action function to perform on click.
+    /// </param>
+    /// <param name="className">
+    ///     This adds a CSS class to the ActionButton's node.
+    /// </param>
+    /// <param name="active">
+    ///     Set this property to true to display a spinner icon.
+    /// </param>
+    /// <param name="disabled">
+    ///     Indicates whether this action is disabled.
+    /// </param>
+    /// <param name="visible">
+    ///     Indicates if the action is visible.
+    /// </param>
+    public ActionButton(string? title = null, string? image = null, string? id = null,
+        Func<Task>? callbackFunction = null, string? className = null, bool? active = null, bool? disabled = null,
+        bool? visible = null)
+    {
+#pragma warning disable BL0005
+        Title = title;
+        Image = image;
+        Id = id;
+        CallbackFunction = callbackFunction;
+        ClassName = className;
+        Active = active;
+        Disabled = disabled;
+        Visible = visible;
+#pragma warning restore BL0005
+    }
+    
     /// <inheritdoc />
     public override string Type => "button";
 
@@ -141,6 +191,51 @@ public class ActionButton : ActionBase
 /// </summary>
 public class ActionToggle : ActionBase
 {
+    /// <summary>
+    ///     Parameterless constructor for use as a razor component.
+    /// </summary>
+    public ActionToggle()
+    {
+    }
+
+    /// <summary>
+    ///    Constructor for use in code.
+    /// </summary>
+    /// <param name="title">
+    ///     The title of the action.
+    /// </param>
+    /// <param name="id">
+    ///     The name of the ID assigned to this action.
+    /// </param>
+    /// <param name="callbackFunction">
+    ///     The action function to perform on click.
+    /// </param>
+    /// <param name="value">
+    ///     Indicates the value of whether the action is toggled on/off.
+    /// </param>
+    /// <param name="active">
+    ///     Set this property to true to display a spinner icon.
+    /// </param>
+    /// <param name="disabled">
+    ///     Indicates whether this action is disabled.
+    /// </param>
+    /// <param name="visible">
+    ///     Indicates if the action is visible.
+    /// </param>
+    public ActionToggle(string? title = null, string? id = null, Func<Task>? callbackFunction = null,
+        bool? value = null, bool? active = null, bool? disabled = null, bool? visible = null)
+    {
+#pragma warning disable BL0005
+        Title = title;
+        Id = id;
+        CallbackFunction = callbackFunction;
+        Value = value;
+        Active = active;
+        Disabled = disabled;
+        Visible = visible;
+#pragma warning restore BL0005
+    }
+
     /// <inheritdoc />
     public override string Type => "toggle";
 
