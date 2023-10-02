@@ -6,10 +6,13 @@ $ArcGISVersion = $packageJson.dependencies."@arcgis/core"
 # remove the ^ from the version
 $ArcGISVersion = $ArcGISVersion.Replace("^", "")
 
-If ((Get-Content "$OutputDir/ArcGISAssetsVersion.txt") -ne $ArcGISVersion)
+if ((Test-Path -Path "$OutputDir/ArcGISAssetsVersion.txt") -eq $true)
 {
-    Write-Output "Deleting old assets"
-    Remove-Item './wwwroot/assets/*' -Recurse -Verbose
+    If ((Get-Content "$OutputDir/ArcGISAssetsVersion.txt") -ne $ArcGISVersion)
+    {
+        Write-Output "Deleting old assets"
+        Remove-Item './wwwroot/assets/*' -Recurse -Verbose
+    }
 }
 
 If ((Test-Path -Path './wwwroot/assets/*') -eq $false)
