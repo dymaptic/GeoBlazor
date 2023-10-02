@@ -236,4 +236,46 @@
         await WaitForMapToRender();
     }
 
+    [TestMethod]
+    public async Task TestSearchWidgetMethods()
+    {
+        SearchWidget? widget = null;
+        var resultsHandlerWasCalled = false;
+        var suggestionsHandlerWasCalled = false;
+
+        Task<IList<SearchResult>> GetResultsHandler(GetResultsParameters parameters)
+        {
+            Assert.IsNotNull(parameters);
+            resultsHandlerWasCalled = true;
+            return Task.FromResult<IList<SearchResult>>(new List<SearchResult>());
+        }
+        
+        Task<IList<SuggestResult>> GetSuggestionsHandler(GetSuggestionsParameters parameters)
+        {
+            Assert.IsNotNull(parameters);
+            suggestionsHandlerWasCalled = true;
+            return Task.FromResult<IList<SuggestResult>>(new List<SuggestResult>());
+        }
+        
+        CreateViewRenderedHandler(async () =>
+            await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Search"));
+        
+        AddMapRenderFragment(
+            @<div>
+                <Map ArcGISDefaultBasemap="arcgis-imagery" />
+                <SearchWidget @ref="widget">
+                    <SearchSource GetResultsHandler="GetResultsHandler"
+                                  GetSuggestionsHandler="GetSuggestionsHandler" />
+                </SearchWidget>
+            </div>);
+        
+        await WaitForMapToRender(cleanupFragment: false);
+        await widget!.Search("test");
+        await widget.SetSearchTerm("test1");
+        Assert.AreEqual("test1", widget.SearchTerm);
+        await WaitForMapToRender();
+        Assert.IsTrue(resultsHandlerWasCalled);
+        Assert.IsTrue(suggestionsHandlerWasCalled);
+    }
+
 }

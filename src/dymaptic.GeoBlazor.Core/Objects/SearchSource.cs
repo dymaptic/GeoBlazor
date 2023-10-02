@@ -1,8 +1,8 @@
-﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
+﻿using dymaptic.GeoBlazor.Core.Components;
+using dymaptic.GeoBlazor.Core.Components.Geometries;
 using dymaptic.GeoBlazor.Core.Components.Layers;
 using dymaptic.GeoBlazor.Core.Components.Popups;
 using dymaptic.GeoBlazor.Core.Components.Symbols;
-using dymaptic.GeoBlazor.Core.Objects;
 using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -11,7 +11,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 
 
-namespace dymaptic.GeoBlazor.Core.Components.Widgets;
+namespace dymaptic.GeoBlazor.Core.Objects;
 
 /// <summary>
 ///     The following properties define generic sources properties for use in the Search widget. Please see the subclasses that extend this class for more information about working with Search widget sources.
@@ -560,21 +560,6 @@ public enum LocatorSearchLocationType
 /// </param>
 public record GetResultsParameters(bool? ExactMatch, Point? Location, int? MaxResults, int? SourceIndex, 
     SpatialReference? SpatialReference, SuggestResult SuggestResult, Guid? ViewId);
-    
-/// <summary>
-///     The result object returned from a suggest().
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#SuggestResult">ArcGIS JS API</a>
-/// </summary>
-/// <param name="Key">
-///     The key related to the suggest result.
-/// </param>
-/// <param name="Text">
-///     The key related to the suggest result.
-/// </param>
-/// <param name="SourceIndex">
-///     The key related to the suggest result.
-/// </param>
-public record SuggestResult(string Key, string Text, int SourceIndex);
 
 /// <summary>
 ///     An object that is passed as a parameter to get search suggestions.
@@ -609,14 +594,20 @@ internal class SearchSourceConverter : JsonConverter<SearchSource>
         
         using var jsonDocument = JsonDocument.ParseValue(ref reader);
         var rootElement = jsonDocument.RootElement;
-        var type = rootElement.GetProperty("type").GetString();
-        return type switch
+
+        if (rootElement.TryGetProperty("url", out JsonElement _))
         {
-            "layer" => JsonSerializer.Deserialize<LayerSearchSource>(rootElement.GetRawText(), options),
-            "locator" => JsonSerializer.Deserialize<LocatorSearchSource>(rootElement.GetRawText(), options),
-            "" => MapFrom<BaseSearchSource, SearchSource>(JsonSerializer.Deserialize<BaseSearchSource>(rootElement.GetRawText(), options)),
-            _ => null
-        };
+            return JsonSerializer.Deserialize<LocatorSearchSource>(rootElement.GetRawText(), options);
+        }
+
+        if (rootElement.TryGetProperty("layer", out JsonElement _) ||
+            rootElement.TryGetProperty("layerId", out JsonElement _))
+        {
+            return JsonSerializer.Deserialize<LayerSearchSource>(rootElement.GetRawText(), options);
+        }
+
+        return MapFrom<BaseSearchSource, SearchSource>(
+            JsonSerializer.Deserialize<BaseSearchSource>(rootElement.GetRawText(), options));
     }
 
     public override void Write(Utf8JsonWriter writer, SearchSource value, JsonSerializerOptions options)

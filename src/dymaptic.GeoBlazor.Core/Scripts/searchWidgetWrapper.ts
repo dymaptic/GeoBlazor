@@ -5,13 +5,14 @@ import {
     buildDotNetSearchSource,
     buildDotNetSuggestResult
 } from "./dotNetBuilder";
+import {buildJsGeometry} from "./jsBuilder";
 
 
 export default class SearchWidgetWrapper {
-    private search: Search;
+    private searchWidget: Search;
 
     constructor(search: Search) {
-        this.search = search;
+        this.searchWidget = search;
         // set all properties from graphic
         for (let prop in search) {
             if (prop.hasOwnProperty(prop)) {
@@ -21,20 +22,20 @@ export default class SearchWidgetWrapper {
     }
 
     getActiveSource() {
-        let jsSource = this.search.activeSource;
+        let jsSource = this.searchWidget.activeSource;
         return buildDotNetSearchSource(jsSource);
     }
     
     getActiveMenu() {
-        return this.search.activeMenu;
+        return this.searchWidget.activeMenu;
     }
     
     getActiveSourceIndex(): number {
-        return this.search.activeSourceIndex;
+        return this.searchWidget.activeSourceIndex;
     }
     
     getAllSources() {
-        let jsSources = this.search.allSources;
+        let jsSources = this.searchWidget.allSources;
         let dotNetSources: any[] = [];
         for (let jsSource of jsSources) {
             dotNetSources.push(buildDotNetSearchSource(jsSource));
@@ -44,7 +45,7 @@ export default class SearchWidgetWrapper {
     }
     
     getDefaultSources() {
-        let jsSources = this.search.defaultSources;
+        let jsSources = this.searchWidget.defaultSources;
         let dotNetSources: any[] = [];
         for (let jsSource of jsSources) {
             dotNetSources.push(buildDotNetSearchSource(jsSource));
@@ -54,11 +55,11 @@ export default class SearchWidgetWrapper {
     }
     
     getResultGraphic() {
-        return buildDotNetGraphic(this.search.resultGraphic);
+        return buildDotNetGraphic(this.searchWidget.resultGraphic);
     }
     
     getResults() {
-        let jsResults = this.search.results;
+        let jsResults = this.searchWidget.results;
         let dnResults: any[] = [];
         for (let jsResult of jsResults) {
             let searchResults: any[] = [];
@@ -77,16 +78,36 @@ export default class SearchWidgetWrapper {
     }
     
     getSelectedResult() {
-        return buildDotNetSearchResult(this.search.selectedResult);
+        return buildDotNetSearchResult(this.searchWidget.selectedResult);
     }
     
     getSuggestions() {
-        let jsSuggestions = this.search.suggestions;
+        let jsSuggestions = this.searchWidget.suggestions;
         let dnSuggestions: any[] = [];
         for (let jsSuggestion of jsSuggestions) {
             dnSuggestions.push(buildDotNetSuggestResult(jsSuggestion));
         }
         
         return dnSuggestions;
+    }
+    
+    setSearchTerm(term: string) {
+        this.searchWidget.searchTerm = term;
+    }
+    
+    getSearchTerm() {
+        return this.searchWidget.searchTerm;
+    }
+    
+    search(term: any) {
+        if (term.hasOwnProperty('id') && term.hasOwnProperty('type')) {
+            // if there's an id, this is probably a geometry, we should convert it
+            term = buildJsGeometry(term);
+        }
+        return this.searchWidget.search(term);
+    }
+    
+    suggest(term: string) {
+        return this.searchWidget.suggest(term);
     }
 }

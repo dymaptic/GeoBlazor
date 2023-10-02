@@ -2,6 +2,7 @@
 using dymaptic.GeoBlazor.Core.Components.Layers;
 using dymaptic.GeoBlazor.Core.Components.Popups;
 using dymaptic.GeoBlazor.Core.Components.Symbols;
+using dymaptic.GeoBlazor.Core.Exceptions;
 using dymaptic.GeoBlazor.Core.Objects;
 using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
@@ -140,6 +141,9 @@ public class SearchWidget : Widget
     /// <summary>
     ///     The value of the search box input text string.
     /// </summary>
+    /// <remarks>
+    ///     Only use to set an initial value. Use SetSearchTerm() and GetSearchTerm() to update or read.
+    /// </remarks>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? SearchTerm { get; set; }
@@ -194,6 +198,86 @@ public class SearchWidget : Widget
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Portal? Portal { get; set; }
+
+    /// <summary>
+    ///     Set the value of the search text box programmatically.
+    /// </summary>
+    public async Task SetSearchTerm(string searchTerm)
+    {
+#pragma warning disable BL0005
+        SearchTerm = searchTerm;
+#pragma warning restore BL0005
+        await JsWidgetReference!.InvokeVoidAsync("setSearchTerm", searchTerm);
+    }
+
+    /// <summary>
+    ///     Retrieves the current value of the search text box.
+    /// </summary>
+    public async Task<string> GetSearchTerm()
+    {
+#pragma warning disable BL0005
+        SearchTerm = await JsWidgetReference!.InvokeAsync<string>("getSearchTerm");
+#pragma warning restore BL0005
+        return SearchTerm;
+    }
+
+    /// <summary>
+    ///     Depending on the sources specified, search() queries the feature layer(s) and/or performs address matching using any specified locator(s) and returns any applicable results.
+    /// </summary>
+    /// <param name="searchTerm">
+    ///     The term to search for.
+    /// </param>
+    public async Task<SearchResponse> Search(string searchTerm)
+    {
+        return await JsWidgetReference!.InvokeAsync<SearchResponse>("search", searchTerm);
+    }
+    
+    /// <summary>
+    ///     Depending on the sources specified, search() queries the feature layer(s) and/or performs address matching using any specified locator(s) and returns any applicable results.
+    /// </summary>
+    /// <param name="searchTerm">
+    ///     The geometry to search for.
+    /// </param>
+    public async Task<SearchResponse> Search(Geometry searchTerm)
+    {
+        return await JsWidgetReference!.InvokeAsync<SearchResponse>("search", searchTerm);
+    }
+    
+    /// <summary>
+    ///     Depending on the sources specified, search() queries the feature layer(s) and/or performs address matching using any specified locator(s) and returns any applicable results.
+    /// </summary>
+    /// <param name="searchTerm">
+    ///     The <see cref="SuggestResult"/> to search for.
+    /// </param>
+    public async Task<SearchResponse> Search(SuggestResult searchTerm)
+    {
+        return await JsWidgetReference!.InvokeAsync<SearchResponse>("search", searchTerm);
+    }
+    
+    /// <summary>
+    ///     Depending on the sources specified, search() queries the feature layer(s) and/or performs address matching using any specified locator(s) and returns any applicable results.
+    /// </summary>
+    /// <param name="searchTerm">
+    ///     The array of long/lat coordinate pairs to search for.
+    /// </param>
+    public async Task<SearchResponse> Search(double[][] searchTerm)
+    {
+        return await JsWidgetReference!.InvokeAsync<SearchResponse>("search", searchTerm);
+    }
+    
+    /// <summary>
+    ///     Performs a suggest() request on the active Locator. It also uses the current value of the widget or one that is passed in.
+    /// </summary>
+    /// <remarks>
+    ///     Suggestions are available if working with a 10.3 or greater geocoding service that has suggest capability loaded or a 10.3 or greater feature layer that supports pagination, i.e. supportsPagination = true.
+    /// </remarks>
+    /// <param name="value">
+    ///     The string value used to suggest() on an active Locator or feature layer. If nothing is passed in, takes the current value of the widget.
+    /// </param>
+    public async Task<SuggestResponse> Suggest(string? value = null)
+    {
+        return await JsWidgetReference!.InvokeAsync<SuggestResponse>("suggest", value);
+    }
 
     /// <summary>
     ///     Retrieves the source object currently selected. Can be either a LayerSearchSource or a LocatorSearchSource.
