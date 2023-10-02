@@ -27,9 +27,10 @@ export default class GeometryEngineWrapper {
     }
 
     async buffer(geometries: DotNetGeometry | Array<DotNetGeometry>, distances: number | Array<number>,
-                 unit: LinearUnits | null, unionResults: boolean | null): Promise<Polygon | Array<Polygon> | null> {
+                 unit: LinearUnits | null, unionResults: boolean | null): Promise<DotNetPolygon | DotNetPolygon[] | null> {
         try {
-            let jsGeometries: Geometry | Array<Geometry>
+            let jsGeometries: Geometry | Array<Geometry>;
+            let jsBuffer: Polygon | Polygon[];
             if (Array.isArray(geometries)) {
                 jsGeometries = [];
                 geometries.forEach(g => (jsGeometries as Array<Geometry>).push(buildJsGeometry(g) as Geometry));
@@ -38,22 +39,30 @@ export default class GeometryEngineWrapper {
             }
             if (unit === null || unit === undefined) {
                 if (unionResults === null || unionResults === undefined) {
-                    return engine.buffer(jsGeometries, distances);
+                    jsBuffer = engine.buffer(jsGeometries, distances);
+                } else {
+                    jsBuffer = engine.buffer(jsGeometries, distances, undefined, unionResults as boolean);
                 }
-                return engine.buffer(jsGeometries, distances, undefined, unionResults);
             } else if (unionResults === null || unionResults === undefined) {
-                return engine.buffer(jsGeometries, distances, unit);
+                jsBuffer = engine.buffer(jsGeometries, distances, unit as LinearUnits);
+            } else {
+                jsBuffer = engine.buffer(jsGeometries, distances, unit, unionResults);
             }
-            return engine.buffer(jsGeometries, distances, unit, unionResults);
+            
+            if (Array.isArray(jsBuffer)) {
+                return jsBuffer.map(g => buildDotNetPolygon(g) as DotNetPolygon);
+            }
+            return buildDotNetPolygon(jsBuffer);
         } catch (error) {
             this.logError(error);
             throw error;
         }
     }
 
-    async clip(geometry: DotNetGeometry, extent: DotNetExtent): Promise<Geometry | null> {
+    async clip(geometry: DotNetGeometry, extent: DotNetExtent): Promise<DotNetGeometry | null> {
         try {
-            return engine.clip(buildJsGeometry(geometry) as Geometry, buildJsExtent(extent, null));
+            let jsClip = engine.clip(buildJsGeometry(geometry) as Geometry, buildJsExtent(extent, null));
+            return buildDotNetGeometry(jsClip);
         } catch (error) {
             this.logError(error);
             throw error;
@@ -71,9 +80,10 @@ export default class GeometryEngineWrapper {
     }
 
     async convexHull(geometries: Array<DotNetGeometry> | DotNetGeometry, merge: boolean | null):
-        Promise<Geometry | Array<Geometry> | null> {
+        Promise<DotNetGeometry | Array<DotNetGeometry> | null> {
         try {
-            let jsGeometries: Geometry | Array<Geometry>
+            let jsGeometries: Geometry | Array<Geometry>;
+            let jsHull: Geometry | Array<Geometry>;
             if (Array.isArray(geometries)) {
                 jsGeometries = [];
                 geometries.forEach(g => (jsGeometries as Array<Geometry>).push(buildJsGeometry(g) as Geometry));
@@ -81,10 +91,15 @@ export default class GeometryEngineWrapper {
                 jsGeometries = buildJsGeometry(geometries) as Geometry;
             }
             if (merge === null) {
-                return engine.convexHull(jsGeometries);
+                jsHull = engine.convexHull(jsGeometries);
+            } else {
+                jsHull = engine.convexHull(jsGeometries, merge);
             }
 
-            return engine.convexHull(jsGeometries, merge);
+            if (Array.isArray(jsHull)) {
+                return jsHull.map(g => buildDotNetGeometry(g) as DotNetGeometry);
+            }
+            return buildDotNetGeometry(jsHull);
         } catch (error) {
             this.logError(error);
             throw error;
@@ -100,9 +115,10 @@ export default class GeometryEngineWrapper {
         }
     }
 
-    async cut(geometry: DotNetGeometry, cutter: DotNetPolyline): Promise<Array<Geometry> | null> {
+    async cut(geometry: DotNetGeometry, cutter: DotNetPolyline): Promise<Array<DotNetGeometry> | null> {
         try {
-            return engine.cut(buildJsGeometry(geometry) as Geometry, buildJsPolyline(cutter) as Polyline);
+            let jsCut = engine.cut(buildJsGeometry(geometry) as Geometry, buildJsPolyline(cutter) as Polyline);
+            return jsCut.map(g => buildDotNetGeometry(g) as DotNetGeometry);
         } catch (error) {
             this.logError(error);
             throw error;
@@ -110,13 +126,17 @@ export default class GeometryEngineWrapper {
     }
 
     async densify(geometry: DotNetGeometry, maxSegmentLength: number, maxSegmentLengthUnit: LinearUnits | null)
-        : Promise<Geometry | null> {
+        : Promise<DotNetGeometry | null> {
         try {
-            let jsGeometry = buildJsGeometry(geometry) as Geometry
+            let jsGeometry = buildJsGeometry(geometry) as Geometry;
+            let jsDensified: Geometry;
             if (maxSegmentLengthUnit === null) {
-                return engine.densify(jsGeometry, maxSegmentLength);
+                jsDensified = engine.densify(jsGeometry, maxSegmentLength);
+            } else {
+                jsDensified = engine.densify(jsGeometry, maxSegmentLength, maxSegmentLengthUnit);
             }
-            return engine.densify(jsGeometry, maxSegmentLength, maxSegmentLengthUnit);
+            
+            return buildDotNetGeometry(jsDensified);
         } catch (error) {
             this.logError(error);
             throw error;
@@ -124,16 +144,22 @@ export default class GeometryEngineWrapper {
     }
 
     async difference(geometries: Array<DotNetGeometry> | DotNetGeometry, subtractor: DotNetGeometry)
-        : Promise<Array<Geometry> | Geometry | null> {
+        : Promise<Array<DotNetGeometry> | DotNetGeometry | null> {
         try {
-            let jsGeometries: Geometry | Array<Geometry>
+            let jsGeometries: Geometry | Array<Geometry>;
             if (Array.isArray(geometries)) {
                 jsGeometries = [];
                 geometries.forEach(g => (jsGeometries as Array<Geometry>).push(buildJsGeometry(g) as Geometry));
             } else {
                 jsGeometries = buildJsGeometry(geometries) as Geometry;
             }
-            return engine.difference(jsGeometries, buildJsGeometry(subtractor) as Geometry);
+            
+            let jsDifference = engine.difference(jsGeometries, buildJsGeometry(subtractor) as Geometry);
+            if (Array.isArray(jsDifference)) {
+                return jsDifference.map(g => buildDotNetGeometry(g) as DotNetGeometry);
+            }
+            
+            return buildDotNetGeometry(jsDifference);
         } catch (error) {
             this.logError(error);
             throw error;
@@ -183,28 +209,36 @@ export default class GeometryEngineWrapper {
         }
     }
 
-    async flipHorizontal(geometry: DotNetGeometry, flipOrigin: DotNetPoint | null): Promise<Geometry | null> {
+    async flipHorizontal(geometry: DotNetGeometry, flipOrigin: DotNetPoint | null): Promise<DotNetGeometry | null> {
         try {
             let jsGeometry = buildJsGeometry(geometry) as Geometry;
+            let jsFlip: Geometry;
             if (flipOrigin === null) {
-                return engine.flipHorizontal(jsGeometry);
+                jsFlip = engine.flipHorizontal(jsGeometry);
+            } else {
+                let jsOrigin = buildJsPoint(flipOrigin) as Point;
+                jsFlip = engine.flipHorizontal(jsGeometry, jsOrigin);
             }
-            let jsOrigin = buildJsPoint(flipOrigin) as Point;
-            return engine.flipHorizontal(jsGeometry, jsOrigin);
+            
+            return buildDotNetGeometry(jsFlip);
         } catch (error) {
             this.logError(error);
             return null;
         }
     }
 
-    async flipVertical(geometry: DotNetGeometry, flipOrigin: DotNetPoint | null): Promise<Geometry | null> {
+    async flipVertical(geometry: DotNetGeometry, flipOrigin: DotNetPoint | null): Promise<DotNetGeometry | null> {
         try {
             let jsGeometry = buildJsGeometry(geometry) as Geometry;
+            let jsFlip: Geometry;
             if (flipOrigin === null) {
-                return engine.flipVertical(jsGeometry);
+                jsFlip = engine.flipVertical(jsGeometry);
+            } else {
+                let jsOrigin = buildJsPoint(flipOrigin) as Point;
+                jsFlip = engine.flipVertical(jsGeometry, jsOrigin);
             }
-            let jsOrigin = buildJsPoint(flipOrigin) as Point;
-            return engine.flipVertical(jsGeometry, jsOrigin);
+            
+            return buildDotNetGeometry(jsFlip);
         } catch (error) {
             this.logError(error);
             return null;
@@ -212,18 +246,23 @@ export default class GeometryEngineWrapper {
     }
 
     async generalize(geometry: DotNetGeometry, maxDeviation: number, removeDegenerateParts: boolean | null,
-                     maxDeviationUnit: LinearUnits | null): Promise<Geometry | null> {
+                     maxDeviationUnit: LinearUnits | null): Promise<DotNetGeometry | null> {
         try {
             let jsGeometry = buildJsGeometry(geometry) as Geometry;
+            let jsGeneralize: Geometry;
             if (removeDegenerateParts === null) {
                 if (maxDeviationUnit === null) {
-                    return engine.generalize(jsGeometry, maxDeviation);
+                    jsGeneralize = engine.generalize(jsGeometry, maxDeviation);
+                } else {
+                    jsGeneralize = engine.generalize(jsGeometry, maxDeviation, undefined, maxDeviationUnit);
                 }
-                return engine.generalize(jsGeometry, maxDeviation, undefined, maxDeviationUnit);
             } else if (maxDeviationUnit === null) {
-                return engine.generalize(jsGeometry, maxDeviation, removeDegenerateParts);
+                jsGeneralize = engine.generalize(jsGeometry, maxDeviation, removeDegenerateParts);
+            } else {
+                jsGeneralize = engine.generalize(jsGeometry, maxDeviation, removeDegenerateParts, maxDeviationUnit);
             }
-            return engine.generalize(jsGeometry, maxDeviation, removeDegenerateParts, maxDeviationUnit);
+            
+            return buildDotNetGeometry(jsGeneralize); 
         } catch (error) {
             this.logError(error);
             return null;
@@ -244,9 +283,10 @@ export default class GeometryEngineWrapper {
 
     async geodesicBuffer(geometries: Array<DotNetGeometry> | DotNetGeometry, distances: Array<number> | number,
                          unit: LinearUnits | null, unionResults: boolean | null)
-        : Promise<Array<Geometry> | Geometry | null> {
+        : Promise<DotNetPolygon | DotNetPolygon[] | null> {
         try {
-            let jsGeometries: Geometry | Array<Geometry>
+            let jsGeometries: Geometry | Array<Geometry>;
+            let jsBuffer: Polygon | Polygon[];
             if (Array.isArray(geometries)) {
                 jsGeometries = [];
                 geometries.forEach(g => (jsGeometries as Array<Geometry>).push(buildJsGeometry(g) as Geometry));
@@ -255,13 +295,21 @@ export default class GeometryEngineWrapper {
             }
             if (unit === null) {
                 if (unionResults === null) {
-                    return engine.geodesicBuffer(jsGeometries, distances);
+                    jsBuffer = engine.geodesicBuffer(jsGeometries, distances);
+                } else {
+                    jsBuffer = engine.geodesicBuffer(jsGeometries, distances, undefined, unionResults as boolean);
                 }
-                return engine.geodesicBuffer(jsGeometries, distances, undefined, unionResults);
             } else if (unionResults === null) {
-                return engine.geodesicBuffer(jsGeometries, distances, unit);
+                jsBuffer = engine.geodesicBuffer(jsGeometries, distances, unit);
+            } else {
+                jsBuffer = engine.geodesicBuffer(jsGeometries, distances, unit as LinearUnits, unionResults as boolean);
             }
-            return engine.geodesicBuffer(jsGeometries, distances, unit, unionResults);
+            
+            if (Array.isArray(jsBuffer)) {
+                return jsBuffer.map(g => buildDotNetPolygon(g) as DotNetPolygon);
+            }
+            
+            return buildDotNetPolygon(jsBuffer);
         } catch (error) {
             this.logError(error);
             return null;
@@ -269,12 +317,16 @@ export default class GeometryEngineWrapper {
     }
 
     async geodesicDensify(geometry: DotNetGeometry, maxSegmentLength: number,
-                          maxSegmentLengthUnit: LinearUnits | null): Promise<Geometry | null> {
+                          maxSegmentLengthUnit: LinearUnits | null): Promise<DotNetGeometry | null> {
         try {
+            let jsDensify: Geometry;
             if (maxSegmentLengthUnit === null) {
-                return engine.geodesicDensify(buildJsGeometry(geometry) as Polygon | Polyline, maxSegmentLength);
+                jsDensify = engine.geodesicDensify(buildJsGeometry(geometry) as Polygon | Polyline, maxSegmentLength);
+            } else {
+                jsDensify = engine.geodesicDensify(buildJsGeometry(geometry) as Polygon | Polyline, maxSegmentLength, maxSegmentLengthUnit);
             }
-            return engine.geodesicDensify(buildJsGeometry(geometry) as Polygon | Polyline, maxSegmentLength, maxSegmentLengthUnit);
+            
+            return buildDotNetGeometry(jsDensify);
         } catch (error) {
             this.logError(error);
             return null;
@@ -294,16 +346,22 @@ export default class GeometryEngineWrapper {
     }
 
     async intersect(geometry1: DotNetGeometry | Array<DotNetGeometry>, geometry2: DotNetGeometry)
-        : Promise<Geometry | Array<Geometry> | null> {
+        : Promise<DotNetGeometry | Array<DotNetGeometry> | null> {
         try {
-            let jsGeometries: Geometry | Array<Geometry>
+            let jsGeometries: Geometry | Array<Geometry>;
             if (Array.isArray(geometry1)) {
                 jsGeometries = [];
                 geometry1.forEach(g => (jsGeometries as Array<Geometry>).push(buildJsGeometry(g) as Geometry));
             } else {
                 jsGeometries = buildJsGeometry(geometry1) as Geometry;
             }
-            return engine.intersect(jsGeometries, buildJsGeometry(geometry2) as Geometry);
+            let jsIntersection = engine.intersect(jsGeometries, buildJsGeometry(geometry2) as Geometry);
+            
+            if (Array.isArray(jsIntersection)) {
+                return jsIntersection.map(g => buildDotNetGeometry(g) as DotNetGeometry);
+            }
+
+            return buildDotNetGeometry(jsIntersection);
         } catch (error) {
             this.logError(error);
             return null;
@@ -339,9 +397,15 @@ export default class GeometryEngineWrapper {
     }
 
     async nearestVertex(geometry: DotNetGeometry, inputPoint: DotNetPoint)
-        : Promise<NearestPointResult | null> {
+        : Promise<any | null> {
         try {
-            return engine.nearestVertex(buildJsGeometry(geometry) as Geometry, buildJsPoint(inputPoint) as Point);
+            let jsResult = engine.nearestVertex(buildJsGeometry(geometry) as Geometry, buildJsPoint(inputPoint) as Point);
+            return {
+                coordinate: buildDotNetPoint(jsResult.coordinate) as DotNetPoint,
+                distance: jsResult.distance,
+                vertexIndex: jsResult.vertexIndex,
+                isEmpty: jsResult.isEmpty
+            }
         } catch (error) {
             this.logError(error);
             return null;
@@ -350,10 +414,18 @@ export default class GeometryEngineWrapper {
 
     async nearestVertices(geometry: DotNetGeometry, inputPoint: DotNetPoint, searchRadius: number,
                           maxVertexCountToReturn: number)
-        : Promise<Array<NearestPointResult> | null> {
+        : Promise<Array<any> | null> {
         try {
-            return engine.nearestVertices(buildJsGeometry(geometry) as Geometry, buildJsPoint(inputPoint) as Point,
+            let jsResult = engine.nearestVertices(buildJsGeometry(geometry) as Geometry, buildJsPoint(inputPoint) as Point,
                 searchRadius, maxVertexCountToReturn);
+            return jsResult.map(r =>  {
+                return {
+                    coordinate: buildDotNetPoint(r.coordinate) as DotNetPoint,
+                    distance: r.distance,
+                    vertexIndex: r.vertexIndex,
+                    isEmpty: r.isEmpty
+                }
+            });
         } catch (error) {
             this.logError(error);
             return null;
@@ -363,7 +435,7 @@ export default class GeometryEngineWrapper {
     async offset(geometries: Array<DotNetGeometry> | DotNetGeometry, offsetDistance: number,
                  offsetUnit: LinearUnits | null | undefined, joinType: any | null | undefined,
                  bevelRatio: number | null | undefined, flattenError: number | null | undefined)
-        : Promise<Geometry | Array<Geometry> | null> {
+        : Promise<DotNetGeometry | Array<DotNetGeometry> | null> {
         try {
             let jsGeometries: Geometry | Array<Geometry>
             if (Array.isArray(geometries)) {
@@ -384,7 +456,12 @@ export default class GeometryEngineWrapper {
             if (flattenError === null) {
                 flattenError = void 0;
             }
-            return engine.offset(jsGeometries, offsetDistance, offsetUnit, joinType as any, bevelRatio, flattenError);
+            let jsOffset = engine.offset(jsGeometries, offsetDistance, offsetUnit, joinType as any, bevelRatio, flattenError);
+            if (Array.isArray(jsOffset)) {
+                return jsOffset.map(g => buildDotNetGeometry(g) as DotNetGeometry);
+            }
+            
+            return buildDotNetGeometry(jsOffset);
         } catch (error) {
             this.logError(error);
             return null;
@@ -434,18 +511,20 @@ export default class GeometryEngineWrapper {
         }
     }
 
-    async rotate(geometry: DotNetGeometry, angle: number, rotationOrigin: DotNetPoint): Promise<Geometry | null> {
+    async rotate(geometry: DotNetGeometry, angle: number, rotationOrigin: DotNetPoint): Promise<DotNetGeometry | null> {
         try {
-            return engine.rotate(buildJsGeometry(geometry) as Geometry, angle, buildJsPoint(rotationOrigin) as Point);
+            let jsRotated = engine.rotate(buildJsGeometry(geometry) as Geometry, angle, buildJsPoint(rotationOrigin) as Point);
+            return buildDotNetGeometry(jsRotated);
         } catch (error) {
             this.logError(error);
             return null;
         }
     }
 
-    async simplify(geometry: DotNetGeometry): Promise<Geometry | null> {
+    async simplify(geometry: DotNetGeometry): Promise<DotNetGeometry | null> {
         try {
-            return engine.simplify(buildJsGeometry(geometry) as Geometry);
+            let jsSimplified = engine.simplify(buildJsGeometry(geometry) as Geometry);
+            return buildDotNetGeometry(jsSimplified);
         } catch (error) {
             this.logError(error);
             return null;
@@ -453,7 +532,7 @@ export default class GeometryEngineWrapper {
     }
 
     async symmetricDifference(leftGeometry: Array<DotNetGeometry> | DotNetGeometry, rightGeometry: DotNetGeometry)
-        : Promise<Geometry | Array<Geometry> | null> {
+        : Promise<DotNetGeometry | Array<DotNetGeometry> | null> {
         try {
             let jsGeometries: Geometry | Array<Geometry>
             if (Array.isArray(leftGeometry)) {
@@ -462,7 +541,13 @@ export default class GeometryEngineWrapper {
             } else {
                 jsGeometries = buildJsGeometry(leftGeometry) as Geometry;
             }
-            return engine.symmetricDifference(jsGeometries, buildJsGeometry(rightGeometry) as Geometry);
+            let jsDifference = engine.symmetricDifference(jsGeometries, buildJsGeometry(rightGeometry) as Geometry);
+            
+            if (Array.isArray(jsDifference)) {
+                return jsDifference.map(g => buildDotNetGeometry(g) as DotNetGeometry);
+            }
+            
+            return buildDotNetGeometry(jsDifference);
         } catch (error) {
             this.logError(error);
             return null;
@@ -479,7 +564,7 @@ export default class GeometryEngineWrapper {
         }
     }
 
-    async union(...args: Array<any>): Promise<Geometry | null> {
+    async union(...args: Array<any>): Promise<DotNetGeometry | null> {
         try {
             let jsGeometries: Array<Geometry> = [];
             if (Array.isArray(args[0])) {
@@ -488,7 +573,8 @@ export default class GeometryEngineWrapper {
                 args.forEach(g => (jsGeometries as Array<Geometry>).push(buildJsGeometry(g) as Geometry));
             }
 
-            return engine.union(jsGeometries);
+            let jsUnion = engine.union(jsGeometries);
+            return buildDotNetGeometry(jsUnion);
         } catch (error) {
             this.logError(error);
             return null;

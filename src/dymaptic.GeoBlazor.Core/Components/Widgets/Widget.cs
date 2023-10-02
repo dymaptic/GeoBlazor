@@ -66,7 +66,7 @@ public abstract class Widget : MapComponent
     [JSInvokable]
     public void OnWidgetCreated(IJSObjectReference jsObjectReference)
     {
-        JsObjectReference = jsObjectReference;
+        JsWidgetReference = jsObjectReference;
     }
     
     /// <inheritdoc />
@@ -106,7 +106,7 @@ public abstract class Widget : MapComponent
     /// <summary>
     ///     JS Object Reference to the widget
     /// </summary>
-    protected IJSObjectReference? JsObjectReference;
+    protected IJSObjectReference? JsWidgetReference;
 }
 
 internal class WidgetConverter : JsonConverter<Widget>
