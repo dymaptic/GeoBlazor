@@ -339,6 +339,7 @@ export interface DotNetPopupTemplate {
     overwriteActions: boolean;
     returnGeometry: boolean;
     dotNetPopupTemplateReference: any;
+    id: string;
 
     actions: any[];
 }
