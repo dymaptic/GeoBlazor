@@ -11,10 +11,10 @@
 </p>
 <Label>Enter CSV Layer URL:</Label>
 <InputText @bind-Value="_csvLayerUrl"></InputText>
-<button disabled="@(!_mapRendered)" @onclick="AddLayer">Add new CSV Layer!</button>
+<button disabled="@(!_viewRendered)" @onclick="AddLayer">Add new CSV Layer!</button>
 
 
-<SceneView @ref="_view" class="map-view" OnViewRendered="OnMapRendered">
+<SceneView @ref="_view" class="map-view" OnViewRendered="OnViewRendered">
     <Extent Xmin="-41525513" Ymin="4969181" Xmax="-36687355" Ymax="9024624">
         <SpatialReference Wkid="102100" />
     </Extent>
@@ -31,9 +31,9 @@
 
 @code {
 
-    private void OnMapRendered()
+    private void OnViewRendered()
     {
-        _mapRendered = true;
+        _viewRendered = true;
     }
 
     private async Task AddLayer()
@@ -43,7 +43,7 @@
             //we create a custom CSVLayer from a CSV url
             var csvLayer = new CSVLayer(_csvLayerUrl);
 
-            if (_mapRendered)
+            if (_viewRendered)
             {
                 await _view!.AddLayer(csvLayer);
             }
@@ -54,5 +54,5 @@
 
     private MapView? _view;
 
-    private bool _mapRendered;
+    private bool _viewRendered;
 }

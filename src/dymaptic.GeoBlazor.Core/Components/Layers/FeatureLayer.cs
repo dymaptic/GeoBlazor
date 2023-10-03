@@ -5,7 +5,6 @@ using dymaptic.GeoBlazor.Core.Components.Widgets;
 using dymaptic.GeoBlazor.Core.Exceptions;
 using dymaptic.GeoBlazor.Core.Objects;
 using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.Options;
 using Microsoft.JSInterop;
 using System.Text;
 using System.Text.Json;
@@ -1340,8 +1339,21 @@ public record EditedFeatures(Graphic[] Adds, EditedFeatureUpdate[] Updates, Grap
 /// </param>
 public record EditedFeatureUpdate(Graphic[] Original, Graphic[] Current);
 
+/// <summary>
+///     FeatureType is a subset of features defined in a FeatureLayer that share the same attributes.
+///     They are used as a way to categorize your data. For example, the streets in a city streets feature layer
+///     could be categorized into three feature types: local streets, collector streets, and arterial streets.
+/// </summary>
 public record FeatureType(object Id, string DeclaredCLass, string Name, FeatureTemplate[] Templates, Dictionary<string, Domain?> Domains);
 
+/// <summary>
+///     Feature templates define all the information required to create a new feature in
+///     a feature layer. These include information such as the default attribute values with
+///     which a feature will be created, and the default tool used to create that feature.
+/// </summary>
 public record FeatureTemplate(string DeclaredClass, string Name, string Description, string DrawingTool, Thumbnail Thumbnail, dynamic Prototype);
 
+/// <summary>
+///     An object used to create a thumbnail image that represents a feature type in the feature template.
+/// </summary>
 public record Thumbnail(string ContentType, string ImageData, double Height, double Width);
