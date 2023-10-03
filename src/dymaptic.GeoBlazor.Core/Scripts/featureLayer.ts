@@ -273,7 +273,7 @@ export default class FeatureLayerWrapper {
         let result = await this.layer.getField(fieldName);
 
         if (result != undefined) {
-            let field = buildDotNetFields(Array(result));
+            let field = buildDotNetFields([result]);
 
             return field[0];
         }
