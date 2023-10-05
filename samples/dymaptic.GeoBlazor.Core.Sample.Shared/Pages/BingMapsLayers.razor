@@ -1,0 +1,45 @@
+﻿@page "/bingmaps-layer"
+<PageTitle>BingMapsLayer</PageTitle>
+<h1>Bing Maps Layer</h1>
+<div class="links-div">
+    <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-BingMapsLayer.html">ArcGIS API for JavaScript Reference</a>
+</div>
+<p class="instructions">
+    A simple demo displaying a Bing Maps Layer.
+</p>
+
+<Label>Enter a valid Bing Maps Key:</Label>
+<InputText @bind-Value="_bingMapsKey"></InputText>
+<button @onclick="AddLayer">Add new Bing Maps Basemap</button>
+
+<MapView @ref="_view" OnMapRendered="OnMapRendered"
+         Longitude="-107.95166" Latitude="43.18083" Zoom="4" Class="map-view">
+    <Map>
+    </Map>
+</MapView>
+
+@code {
+    private void OnMapRendered()
+    {
+        _mapRendered = true;
+    }
+
+    private async Task AddLayer()
+    {
+        if (!string.IsNullOrEmpty(_bingMapsKey))
+        {
+            var bingMapsLayer = new BingMapsLayer(_bingMapsKey, "aerial");
+
+            if (_mapRendered)
+            {
+                await _view!.AddLayer(bingMapsLayer, true);
+            }
+        }
+    }
+
+    private string? _bingMapsKey;
+
+    private MapView? _view;
+
+    private bool _mapRendered;
+}
