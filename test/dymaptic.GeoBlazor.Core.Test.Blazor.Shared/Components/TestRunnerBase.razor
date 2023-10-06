@@ -200,6 +200,7 @@
         catch (Exception ex)
         {
             _failed[methodInfo.Name] = $"{ResultBuilder}{Environment.NewLine}{ex.StackTrace}";
+            await CleanupFragment(methodInfo.Name);
             ResultBuilder.AppendLine($"<p style=\"color: red; font-weight: bold\">{ex.Message.Replace(Environment.NewLine, "<br/>")}<br/>{ex.StackTrace?.Replace(Environment.NewLine, "<br/>")}</p>");
         }
 
@@ -211,7 +212,7 @@
         });
     }
 
-    private void OnRenderError(ErrorEventArgs arg)
+    private async Task OnRenderError(ErrorEventArgs arg)
     {
         _mapRenderingExceptions[arg.MethodName] = arg.Exception;
     }

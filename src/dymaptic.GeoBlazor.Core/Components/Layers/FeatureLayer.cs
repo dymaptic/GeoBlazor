@@ -78,17 +78,20 @@ public class FeatureLayer : Layer
     /// <param name="listMode">
     ///     Indicates how the layer should display in the LayerList widget. The possible values are listed below.
     /// </param>
+    /// <param name="popupTemplate">
+    ///     The <see cref="PopupTemplate" /> for the layer.
+    /// </param>
     public FeatureLayer(string? url = null, PortalItem? portalItem = null, IReadOnlyCollection<Graphic>? source = null,
         string[]? outFields = null, string? definitionExpression = null, double? minScale = null,
         double? maxScale = null, string? objectIdField = null, GeometryType? geometryType = null, string? title = null,
-        double? opacity = null, bool? visible = null, ListMode? listMode = null)
+        double? opacity = null, bool? visible = null, ListMode? listMode = null, PopupTemplate? popupTemplate = null)
     {
         if (url is null && portalItem is null && source is null)
         {
             throw new MissingRequiredOptionsChildElementException(nameof(FeatureLayer),
                 new[] { nameof(Url), nameof(PortalItem), nameof(Source) });
         }
-
+#pragma warning disable BL0005 // Component parameter should not be set outside of its component.
         Url = url;
         Source = source;
         PortalItem = portalItem;
@@ -102,6 +105,8 @@ public class FeatureLayer : Layer
         Opacity = opacity;
         Visible = visible;
         ListMode = listMode;
+        PopupTemplate = popupTemplate;
+#pragma warning restore BL0005 // Component parameter should not be set outside of its component.
     }
 
     /// <summary>
@@ -367,6 +372,7 @@ public class FeatureLayer : Layer
         base.Refresh();
     }
 
+    /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (_refreshRequired)

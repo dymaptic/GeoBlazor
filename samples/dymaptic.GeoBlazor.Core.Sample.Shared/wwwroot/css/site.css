@@ -172,7 +172,7 @@ input[type=radio] {
     font-size: 1em
 }
 
-input[type="text"], input[type="number"] {
+input[type="text"]:not(.esri-search__input), input[type="number"]:not(.esri-search__input) {
     width: 8rem;
 }
 

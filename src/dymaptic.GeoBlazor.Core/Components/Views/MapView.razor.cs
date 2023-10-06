@@ -733,8 +733,7 @@ public partial class MapView : MapComponent
 
         if (center is not null)
         {
-            Latitude = center.Latitude;
-            Longitude = center.Longitude;
+            Center = center;
         }
 
         Zoom = zoom;
