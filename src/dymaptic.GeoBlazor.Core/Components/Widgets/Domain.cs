@@ -98,6 +98,7 @@ public class CodedValue<T> : MapComponent
 /// </summary>
 public class InheritedDomain : Domain
 {
+    /// <inheritdoc />
     public override string Type => "inherited";
 }
 

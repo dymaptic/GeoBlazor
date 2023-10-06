@@ -372,6 +372,7 @@ public class FeatureLayer : Layer
         base.Refresh();
     }
 
+    /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (_refreshRequired)
