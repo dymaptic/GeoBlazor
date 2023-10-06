@@ -1,5 +1,7 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
 using dymaptic.GeoBlazor.Core.Components.Layers;
+using dymaptic.GeoBlazor.Core.Components.Widgets;
+using dymaptic.GeoBlazor.Core.Exceptions;
 using System.Text.Json.Serialization;
 
 
@@ -32,4 +34,44 @@ public class SearchResult
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Name { get; set; }
+    
+    /// <summary>
+    ///     The target of the result, which is a Graphic used for either MapView goTo() or SceneView goTo() navigation.
+    /// </summary>
+    public Graphic? Target { get; set; }
 }
+
+/// <summary>
+///     A collection of <see cref="SearchResult"/>s for each <see cref="SearchSource"/>
+/// </summary>
+/// <param name="Results">
+///     The results of the search
+/// </param>
+/// <param name="Source">
+///     The source of the search
+/// </param>
+/// <param name="SourceIndex">
+///     The index of the source
+/// </param>
+public record SearchResultResponse(SearchResult[] Results, SearchSource Source, int SourceIndex);
+
+/// <summary>
+///     When resolved, returns this response after calling search.
+/// </summary>
+/// <param name="ActiveSourceIndex">
+///     The index of the source from which the search result was obtained.
+/// </param>
+/// <param name="Errors">
+///     An array of error objects returned from the search results.
+/// </param>
+/// <param name="NumResults">
+///     The number of search results.
+/// </param>
+/// <param name="SearchTerm">
+///     The searched expression.
+/// </param>
+/// <param name="Results">
+///     An array of objects representing the results of the search.
+/// </param>
+public record SearchResponse(int ActiveSourceIndex, JavascriptError[] Errors, int NumResults, string SearchTerm, 
+    SearchResultResponse[] Results);
