@@ -1482,7 +1482,8 @@ public partial class MapView : MapComponent
     {
         if (isBasemapLayer)
         {
-            Map!.Basemap?.Layers.Add(layer);
+            Map!.Basemap ??= new Basemap();
+            Map.Basemap.Layers.Add(layer);
         }
         else
         {

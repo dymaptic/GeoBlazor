@@ -3,37 +3,73 @@
 <h1>Bing Maps Layer</h1>
 <div class="links-div">
     <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-BingMapsLayer.html">ArcGIS API for JavaScript Reference</a>
+    <a class="btn btn-primary" target="_blank" href="https://www.microsoft.com/en-us/maps/bing-maps/choose-your-bing-maps-api">Bing Maps API</a>
 </div>
 <p class="instructions">
-    A simple demo displaying a Bing Maps Layer.
+    A simple demo displaying a Bing Maps Layer. You can generate a free Bing Maps Key <a target="_blank" href="https://www.bingmapsportal.com/">here</a>.
 </p>
 
-<Label>Enter a valid Bing Maps Key:</Label>
-<InputText @bind-Value="_bingMapsKey"></InputText>
-<button @onclick="AddLayer">Add new Bing Maps Basemap</button>
+<div class="form-group">
+    <Label>Enter a valid Bing Maps Key:</Label>
+    <InputText @bind-Value="_bingMapsKey"></InputText>
+    <button @onclick="AddRemoveLayer">
+        @(_bingMapsLayer is null ? "Add Bing Maps Basemap Layer" : "Remove Bing Maps Layer")
+    </button>
+</div>
 
-<MapView @ref="_view" OnMapRendered="OnMapRendered"
+<div class="form-group">
+    <label>Select an Imagery Style</label>
+    <select @onchange="OnStyleChanged">
+        @foreach (BingImageryStyle style in Enum.GetValues(typeof(BingImageryStyle)).Cast<BingImageryStyle>())
+        {
+            if (style == _style)
+            {
+                <option value="@style" selected>@style</option>
+            }
+            else
+            {
+                <option value="@style">@style</option>
+            }
+        }
+    </select>
+</div>
+
+<MapView @ref="_view" OnViewRendered="OnViewRendered"
          Longitude="-107.95166" Latitude="43.18083" Zoom="4" Class="map-view">
-    <Map>
+    <Map ArcGISDefaultBasemap="arcgis-topographic">
     </Map>
 </MapView>
 
 @code {
-    private void OnMapRendered()
+    private void OnViewRendered()
     {
-        _mapRendered = true;
+        _viewRendered = true;
     }
 
-    private async Task AddLayer()
+    private async Task AddRemoveLayer()
     {
-        if (!string.IsNullOrEmpty(_bingMapsKey))
+        if (!string.IsNullOrEmpty(_bingMapsKey) && _viewRendered)
         {
-            var bingMapsLayer = new BingMapsLayer(_bingMapsKey, "aerial");
-
-            if (_mapRendered)
+            if (_bingMapsLayer is null)
             {
-                await _view!.AddLayer(bingMapsLayer, true);
+                _bingMapsLayer = new BingMapsLayer(_bingMapsKey, _style);
+                await _view!.AddLayer(_bingMapsLayer, true);
             }
+            else
+            {
+                await _view!.RemoveLayer(_bingMapsLayer, true);
+                _bingMapsLayer = null;
+            }
+        }
+    }
+    
+    private async Task OnStyleChanged(ChangeEventArgs a)
+    {
+        _style = Enum.Parse<BingImageryStyle>(a.Value!.ToString()!);
+        if (_bingMapsLayer is not null)
+        {
+            await AddRemoveLayer();
+            await AddRemoveLayer();
         }
     }
 
@@ -41,5 +77,8 @@
 
     private MapView? _view;
 
-    private bool _mapRendered;
+    private bool _viewRendered;
+    private BingImageryStyle _style = BingImageryStyle.Aerial;
+    private BingMapsLayer? _bingMapsLayer;
+
 }

@@ -22,7 +22,14 @@
         {
             <div class="nav-item px-3">
                 <NavLink class="nav-link" href="@(page.Href)">
-                    <span class="oi @(page.IconClass)" aria-hidden="true"></span>&nbsp;@(page.Title)
+                    @if (page.IconClass is not null)
+                    {
+                        <text><span class="oi @(page.IconClass)" aria-hidden="true"></span>&nbsp;@(page.Title)</text>
+                    }
+                    else
+                    {
+                        <text><span class="oi"><img src="_content/dymaptic.GeoBlazor.Core.Sample.Shared/images/@(page.ImageFile)" alt="@(page.Title)" /></span>&nbsp;@(page.Title)</text>
+                    }
                 </NavLink>
             </div>
         }
@@ -87,9 +94,9 @@
         new("csv-layer", "CSV Layers", "oi-grid-four-up"),
         new("kmllayers", "KML Layers", "oi-excerpt"),
         new("georss-layer", "GeoRSS Layer", "oi-rss"),
-        new("osm-layer", "OpenStreetMaps Layer", "oi-envelope-open"),
+        new("osm-layer", "OpenStreetMaps Layer", null, "osm.png"),
         new("wcslayers", "WCS Layers", "oi-project"),
-        new("bingmaps-layer", "Bing Maps Layer", "oi-layers"),
+        new("bingmaps-layer", "Bing Maps Layer", null, "bing.png"),
         new("web-map", "Web Map", "oi-browser"),
         new("web-scene", "Web Scene", "oi-box"),
         new("events", "Events", "oi-flash"),
@@ -114,6 +121,6 @@
         new("tests", "Tests", "oi-check")
     };
 
-    private record PageLink(string Href, string Title, string IconClass);
+    private record PageLink(string Href, string Title, string? IconClass, string? ImageFile = null);
 
 }
