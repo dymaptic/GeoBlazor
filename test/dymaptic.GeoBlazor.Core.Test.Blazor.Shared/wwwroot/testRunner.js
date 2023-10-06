@@ -1,4 +1,4 @@
-﻿import {arcGisObjectRefs} from "../dymaptic.GeoBlazor.Core/js/arcGisJsInterop.js";
+﻿import {arcGisObjectRefs, Color} from "../dymaptic.GeoBlazor.Core/js/arcGisJsInterop.js";
 
 export function assertBasemapHasTwoLayers(viewId) {
     let view = arcGisObjectRefs[viewId];
@@ -31,12 +31,82 @@ export function assertGraphicExistsInLayer(viewId, layerId, geometryType, count)
     }
 }
 
-export function assertKmlLayerExists(viewId) {
-    let view = arcGisObjectRefs[viewId];
-    let layers = view.map.layers.items[0].type;
-    if (layers !== 'kml') {
-        throw new Error(`There are no Layers in this view`);
+export function assertSymbolOnLayer(viewId, layerId, symbolType, dnSymbol) {
+    let layer = arcGisObjectRefs[layerId];
+    if (layer.renderer.symbol.type !== symbolType) {
+        throw new Error(`Expected symbol type ${symbolType} but found ${layer.renderer.symbol.type}`);
     }
+    
+    if (dnSymbol !== undefined && dnSymbol !== null) {
+        Object.getOwnPropertyNames(dnSymbol).forEach((propertyName) => {
+            let isMatch = false;
+            switch (propertyName) {
+                case "color":
+                case "backgroundColor":
+                case "borderLineColor":
+                case "haloColor":
+                    let dnColor = new Color(dnSymbol[propertyName]);
+                    if (layer.renderer.symbol[propertyName]?.toHex() === dnColor.toHex()) {
+                        isMatch = true;
+                    }
+                    break;
+                case "lineWidth":
+                    let lineVal = dnSymbol[propertyName];
+
+                    if (lineVal.includes("px")) {
+                        lineVal = lineVal.replace("px", "");
+                        lineVal = lineVal * 0.75;
+                    } else {
+                        lineVal = lineVal.replace("pt", "");
+                    }
+
+                    // noinspection EqualityComparisonWithCoercionJS
+                    isMatch = layer.renderer.symbol[propertyName] == lineVal;
+                    break;
+                case "xOffset":
+                case "yOffset":
+                    let val = dnSymbol[propertyName];
+                    
+                    if (val.includes("px")) {
+                        val = val.replace("px", "");
+                        val = val * 0.75;
+                    } else {
+                        val = val.replace("pt", "");
+                    }
+
+                    // noinspection EqualityComparisonWithCoercionJS
+                    isMatch = layer.renderer.symbol[propertyName.toLowerCase()] == val;
+                    break;
+                case "font":
+                    let dnFont = dnSymbol[propertyName];
+                    isMatch = layer.renderer.symbol[propertyName].family === dnFont.family;
+                    break;
+                case "id":
+                    isMatch = true;
+                    break;
+                default:
+                    isMatch = layer.renderer.symbol[propertyName] === dnSymbol[propertyName];
+                    break;
+            }
+            
+            if (!isMatch) {
+                throw new Error(`Expected symbol property ${propertyName} to be ${dnSymbol[propertyName]} but found ${layer.renderer.symbol[propertyName]}`);
+            }
+        });
+    }
+}
+
+export function assertLayerExists(viewId, layerType) {
+    let view = arcGisObjectRefs[viewId];
+    let layers = view.map.layers;
+    for (let i = 0; i < layers.items.length; i++) {
+        let layer = layers.items[i];
+        if (layer.type === layerType) {
+            return;
+        }
+    }
+    
+    throw new Error(`Expected layer of type ${layerType} but found none`);
 }
 
 export function testThrow() {

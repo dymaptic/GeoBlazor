@@ -125,6 +125,7 @@ import ColorRamp from "@arcgis/core/rest/support/ColorRamp";
 import MultipartColorRamp from "@arcgis/core/rest/support/MultipartColorRamp";
 import AlgorithmicColorRamp from "@arcgis/core/rest/support/AlgorithmicColorRamp";
 import Renderer from "@arcgis/core/renderers/Renderer";
+import Color from "@arcgis/core/Color";
 import SearchWidgetWrapper from "./searchWidgetWrapper";
 import Geometry from "@arcgis/core/geometry/Geometry";
 import SearchSource from "@arcgis/core/widgets/Search/SearchSource";
@@ -134,7 +135,7 @@ export let graphicsRefs: Record<string, Graphic> = {};
 export let dotNetRefs = {};
 export let queryLayer: FeatureLayer;
 export let blazorServer: boolean = false;
-export { projection, geometryEngine, Graphic };
+export { projection, geometryEngine, Graphic, Color };
 let notifyExtentChanged: boolean = true;
 let uploadingLayers: Array<string> = [];
 
@@ -1127,9 +1128,9 @@ export async function openPopup(viewId: string, options: any | null): Promise<vo
                     jsOptions.content = widgetContent as Widget;
                 }
             }
-            view.popup.open(jsOptions);
+            await view.openPopup(jsOptions);
         } else {
-            view.popup.open();
+            await view.openPopup();
         }
     } catch (error) {
         logError(error, options.viewId);

@@ -37,6 +37,7 @@ public class PortalItem : MapComponent
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Portal? Portal { get; set; }
 
+
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
     {

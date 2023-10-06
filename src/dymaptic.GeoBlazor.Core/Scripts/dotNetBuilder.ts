@@ -434,24 +434,27 @@ export function buildDotNetFeatureLayer(layer: FeatureLayer): DotNetFeatureLayer
 
 export function buildDotNetFields(fields: Array<Field>): Array<DotNetField> {
     let dotNetFields: Array<DotNetField> = [];
-    fields.forEach(f => {
-        dotNetFields.push({
-            name: f.name,
-            alias: f.alias,
-            type: f.type,
-            domain: buildDotNetDomain(f.domain),
-            editable: f.editable,
-            nullable: f.nullable,
-            length: f.length,
-            defaultValue: f.defaultValue,
-            description: f.description,
-            valueType: f.valueType
-        } as DotNetField)
-    });
+    if (hasValue(fields)) {
+        fields.forEach(f => {
+            dotNetFields.push({
+                name: f.name,
+                alias: f.alias,
+                type: f.type,
+                domain: buildDotNetDomain(f.domain),
+                editable: f.editable,
+                nullable: f.nullable,
+                length: f.length,
+                defaultValue: f.defaultValue,
+                description: f.description,
+                valueType: f.valueType
+            } as DotNetField)
+        });
+    }
     return dotNetFields;
 }
 
-function buildDotNetDomain(domain: Domain): DotNetDomain | null {
+
+export function buildDotNetDomain(domain: Domain): DotNetDomain | null {
     if (domain === undefined || domain === null) return null;
     switch (domain.type) {
         case 'coded-value':
@@ -464,7 +467,7 @@ function buildDotNetDomain(domain: Domain): DotNetDomain | null {
     return null;
 }
 
-function buildDotNetCodedValueDomain(domain: CodedValueDomain): DotNetCodedValueDomain {
+export function buildDotNetCodedValueDomain(domain: CodedValueDomain): DotNetCodedValueDomain {
     return {
         type: domain.type,
         name: domain.name,
@@ -477,14 +480,14 @@ function buildDotNetCodedValueDomain(domain: CodedValueDomain): DotNetCodedValue
     } as DotNetCodedValueDomain;
 }
 
-function buildDotNetInheritedDomain(domain: InheritedDomain): DotNetInheritedDomain {
+export function buildDotNetInheritedDomain(domain: InheritedDomain): DotNetInheritedDomain {
     return {
         type: domain.type,
         name: domain.name,
     } as DotNetInheritedDomain;
 }
 
-function buildDotNetRangeDomain(domain: RangeDomain): DotNetRangeDomain {
+export function buildDotNetRangeDomain(domain: RangeDomain): DotNetRangeDomain {
     return {
         type: domain.type,
         name: domain.name,
@@ -753,6 +756,32 @@ export function buildDotNetTimeInterval(interval: any): any | null {
         unit: interval.unit,
         value: interval.value
     } as any;
+}
+
+export function buildDotNetFeatureType(result: any) {
+
+    if (!hasValue(result)) {
+        return null;
+    }
+    let dotNetDomains = {};
+    for (var domain in result.domains) {
+        if (Object.prototype.hasOwnProperty.call(result.domains, domain)) {
+
+            dotNetDomains[domain] =  buildDotNetDomain(result.domains[domain]);
+        }
+    }
+
+    return {
+        id: result.id,
+        domains: dotNetDomains,
+        declaredClass: result.declaredClass,
+        name: result.name,
+        templates: result.templates,
+    }
+}
+
+export function hasValue(prop: any): boolean {
+    return prop !== undefined && prop !== null;
 }
 
 export function buildDotNetSearchSource(jsSource: LayerSearchSource | LocatorSearchSource): any {
