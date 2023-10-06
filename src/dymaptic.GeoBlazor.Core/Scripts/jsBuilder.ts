@@ -26,9 +26,15 @@ import RasterColormapRenderer from "@arcgis/core/renderers/RasterColormapRendere
 import VectorFieldRenderer from "@arcgis/core/renderers/VectorFieldRenderer.js";
 import FlowRenderer from "@arcgis/core/renderers/FlowRenderer.js";
 import ClassBreaksRenderer from "@arcgis/core/renderers/ClassBreaksRenderer.js";
+import AuthoringInfo from "@arcgis/core/renderers/support/AuthoringInfo.js";
+import ClassBreakInfo from "@arcgis/core/renderers/support/ClassBreakInfo.js";
 import UniqueValueRenderer from "@arcgis/core/renderers/UniqueValueRenderer.js";
 import ColormapInfo from "@arcgis/core/renderers/support/ColormapInfo.js";
 import VisualVariable from "@arcgis/core/renderers/visualVariables/VisualVariable.js";
+import MultidimensionalSubset from "@arcgis/core/layers/support/MultidimensionalSubset.js";
+import PolygonSymbol3D from "@arcgis/core/symbols/PolygonSymbol3D.js";
+import FieldsIndex from "@arcgis/core/layers/support/FieldsIndex.js";
+import AuthoringInfoVisualVariable from "@arcgis/core/renderers/support/AuthoringInfoVisualVariable.js";
 import {
     DotNetApplyEdits,
     DotNetAttachmentsEdit,
@@ -653,6 +659,9 @@ export function buildJsVisualVariable(dotNetVisualVariable: DotNetVisualVariable
     if (dotNetVisualVariable === undefined) return null;
     let visualVariable = new VisualVariable();
 
+    if (hasValue(dotNetVisualVariable.type)) {
+        dotNetVisualVariable.field = visualVariable.type;
+    }
     if (hasValue(dotNetVisualVariable.field)) {
         dotNetVisualVariable.field = visualVariable.field;
     }
