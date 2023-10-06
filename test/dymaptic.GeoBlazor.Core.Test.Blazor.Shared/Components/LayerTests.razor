@@ -12,7 +12,7 @@
     {
         CreateViewRenderedHandler(async () =>
         {
-            await AssertJavaScript("assertKmlLayerExists");
+            await AssertJavaScript("assertLayerExists", args: "kml");
         });
         AddMapRenderFragment(
             @<Map>

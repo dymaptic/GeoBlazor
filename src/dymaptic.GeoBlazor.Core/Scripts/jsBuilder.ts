@@ -444,10 +444,22 @@ export function buildJsSymbol(symbol: DotNetSymbol | null): Symbol | null {
         case "text":
             let dotNetTextSymbol = symbol as DotNetTextSymbol;
             let jsTextSymbol = new TextSymbol({
-                color: buildJsColor(dotNetTextSymbol.color) ?? "black",
+                angle: dotNetTextSymbol.angle ?? undefined,
+                backgroundColor: buildJsColor(dotNetTextSymbol.backgroundColor) ?? undefined,
+                borderLineColor: buildJsColor(dotNetTextSymbol.borderLineColor) ?? undefined,
+                borderLineSize: dotNetTextSymbol.borderLineSize ?? undefined,
+                color: buildJsColor(dotNetTextSymbol.color) ?? undefined,
                 haloColor: buildJsColor(dotNetTextSymbol.haloColor) ?? undefined,
                 haloSize: dotNetTextSymbol.haloSize ?? undefined,
-                text: dotNetTextSymbol.text ?? undefined
+                horizontalAlignment: dotNetTextSymbol.horizontalAlignment as any ?? undefined,
+                kerning: dotNetTextSymbol.kerning ?? undefined,
+                lineHeight: dotNetTextSymbol.lineHeight ?? undefined,
+                lineWidth: dotNetTextSymbol.lineWidth ?? undefined,
+                rotated: dotNetTextSymbol.rotated ?? undefined,
+                text: dotNetTextSymbol.text ?? undefined,
+                verticalAlignment: dotNetTextSymbol.verticalAlignment as any ?? undefined,
+                xoffset: dotNetTextSymbol.xOffset ?? undefined,
+                yoffset: dotNetTextSymbol.yOffset ?? undefined
             });
             if (hasValue(dotNetTextSymbol.font)) {
                 jsTextSymbol.font = buildJsFont(dotNetTextSymbol.font);
@@ -589,7 +601,7 @@ export function buildJsRasterStretchRenderer(dotNetRasterStretchRenderer: DotNet
         rasterStretchRenderer.outputMin = dotNetRasterStretchRenderer.outputMin;
     }
     if (hasValue(dotNetRasterStretchRenderer.stretchType)) {
-        rasterStretchRenderer.stretchType = dotNetRasterStretchRenderer.stretchType;
+        rasterStretchRenderer.stretchType = dotNetRasterStretchRenderer.stretchType as any;
     }
     if (hasValue(dotNetRasterStretchRenderer.statistics)) {
         rasterStretchRenderer.statistics = dotNetRasterStretchRenderer.statistics;

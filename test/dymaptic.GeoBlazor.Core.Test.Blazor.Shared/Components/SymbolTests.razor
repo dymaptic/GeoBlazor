@@ -1,0 +1,75 @@
+﻿@inherits TestRunnerBase
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+
+    [TestMethod]
+    public async Task CanRenderTextSymbol()
+    {
+        FeatureLayer? layer = null;
+        CreateViewRenderedHandler(async () =>
+        {
+            await AssertJavaScript("assertSymbolOnLayer", nameof(CanRenderTextSymbol), layer!.Id, "text");
+        });
+        AddMapRenderFragment(
+            @<Map ArcGISDefaultBasemap="arcgis-topographic">
+                <FeatureLayer @ref="layer" 
+                              Url="https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trailheads/FeatureServer/0">
+                    <SimpleRenderer>
+                        <TextSymbol Text="Hello" />
+                    </SimpleRenderer>
+                </FeatureLayer>
+            </Map>, new Dictionary<string, object>
+                  {
+                      { nameof(MapView.Latitude), 34.02700 },
+                      { nameof(MapView.Longitude), -118.80543 },
+                      { nameof(MapView.Zoom), 13.0 }
+                  });
+        await WaitForMapToRender();
+    }
+    
+    [TestMethod]
+    public async Task CanSetPropertiesOnTextSymbol()
+    {
+        FeatureLayer? layer = null;
+        TextSymbol? textSymbol = null;
+        CreateViewRenderedHandler(async () =>
+        {
+            await AssertJavaScript("assertSymbolOnLayer", nameof(CanSetPropertiesOnTextSymbol), layer!.Id, "text", textSymbol);
+        });
+        AddMapRenderFragment(
+            @<Map ArcGISDefaultBasemap="arcgis-topographic">
+                <FeatureLayer @ref="layer" 
+                              Url="https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trailheads/FeatureServer/0">
+                    <SimpleRenderer>
+                        <TextSymbol @ref="textSymbol" Text="Hello"
+                                    Angle="39"
+                                    BackgroundColor="@(new MapColor("red"))"
+                                    BorderLineColor="@(new MapColor("blue"))"
+                                    BorderLineSize="2"
+                                    HaloColor="@(new MapColor("green"))"
+                                    HaloSize="4"
+                                    HorizontalAlignment="HorizontalAlignment.Left"
+                                    VerticalAlignment="VerticalAlignment.Top"
+                                    Kerning="false"
+                                    LineHeight="2.3"
+                                    LineWidth="120px"
+                                    Rotated="true"
+                                    XOffset="23pt"
+                                    YOffset="23pt">
+                            <MapFont Family="San Serif" />
+                        </TextSymbol>
+                    </SimpleRenderer>
+                </FeatureLayer>
+            </Map>, new Dictionary<string, object>
+                  {
+                      { nameof(MapView.Latitude), 34.02700 },
+                      { nameof(MapView.Longitude), -118.80543 },
+                      { nameof(MapView.Zoom), 13.0 }
+                  });
+        await WaitForMapToRender();
+    }
+}
