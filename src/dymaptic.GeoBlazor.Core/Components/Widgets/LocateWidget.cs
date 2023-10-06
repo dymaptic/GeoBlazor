@@ -21,6 +21,9 @@ public class LocateWidget : Widget
     /// <summary>
     ///     Indicates whether the widget will automatically rotate to user's direction.
     /// </summary>
+    /// <remarks>
+    ///     This property is deprecated. Use <see cref="RotationEnabled" /> instead.
+    /// </remarks>
     [Parameter]
     public bool UseHeadingEnabled { get; set; }
 
