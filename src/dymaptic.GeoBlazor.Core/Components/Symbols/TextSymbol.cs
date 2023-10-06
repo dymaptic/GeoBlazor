@@ -43,8 +43,47 @@ public class TextSymbol : Symbol
     /// <param name="font">
     ///     The <see cref="MapFont" /> used to style the text.
     /// </param>
+    /// <param name="angle">
+    ///     The angle of the text. 0 is horizontal and the angle moves clockwise.
+    /// </param>
+    /// <param name="backgroundColor">
+    ///     The background color of the label's bounding box.
+    /// </param>
+    /// <param name="borderLineColor">
+    ///     The border color of the label's bounding box.
+    /// </param>
+    /// <param name="borderLineSize">
+    ///     The border size or width of the label's bounding box.
+    /// </param>
+    /// <param name="horizontalAlignment">
+    ///     Adjusts the horizontal alignment of the text in multi-lines. Default value is Center.
+    /// </param>
+    /// <param name="kerning">
+    ///     Determines whether to adjust the spacing between characters in the text string. Default value is true.
+    /// </param>
+    /// <param name="lineHeight">
+    ///     The height of the space between each line of text. Only applies to multiline text.
+    /// </param>
+    /// <param name="lineWidth">
+    ///     The maximum length in points for each line of text. This value is a string expressing size in points or pixels (e.g.
+    /// </param>
+    /// <param name="rotated">
+    ///     Determines whether every character in the text string is rotated. Default value is false.
+    /// </param>
+    /// <param name="verticalAlignment">
+    ///     Adjusts the vertical alignment of the text. Default value is Baseline.
+    /// </param>
+    /// <param name="xOffset">
+    ///     The offset on the x-axis in points. This value is a string expressing size in points or pixels (e.g. "12px", "12pt"),
+    /// </param>
+    /// <param name="yOffset">
+    ///     The offset on the y-axis in points. This value is a string expressing size in points or pixels (e.g. "12px", "12pt"),
+    /// </param>
     public TextSymbol(string text, MapColor? color = null, MapColor? haloColor = null, int? haloSize = null,
-        MapFont? font = null)
+        MapFont? font = null, double? angle = null, MapColor? backgroundColor = null, MapColor? borderLineColor = null,
+        double? borderLineSize = null, HorizontalAlignment? horizontalAlignment = null, bool? kerning = null,
+        double? lineHeight = null, string? lineWidth = null, bool? rotated = null, 
+        VerticalAlignment? verticalAlignment = null, string? xOffset = null, string? yOffset = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -53,6 +92,18 @@ public class TextSymbol : Symbol
         HaloColor = haloColor;
         HaloSize = haloSize;
         Font = font;
+        Angle = angle;
+        BackgroundColor = backgroundColor;
+        BorderLineColor = borderLineColor;
+        BorderLineSize = borderLineSize;
+        HorizontalAlignment = horizontalAlignment;
+        Kerning = kerning;
+        LineHeight = lineHeight;
+        LineWidth = lineWidth;
+        Rotated = rotated;
+        VerticalAlignment = verticalAlignment;
+        XOffset = xOffset;
+        YOffset = yOffset;
 #pragma warning restore BL0005
     }
 
