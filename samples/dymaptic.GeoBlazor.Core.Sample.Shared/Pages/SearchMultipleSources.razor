@@ -1,0 +1,62 @@
+﻿@page "/search-multi-source"
+
+<PageTitle>Search with Multiple Sources</PageTitle>
+<h1>Search with Multiple Sources</h1>
+
+<div class="links-div">
+    <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/sample-code/widgets-search-multiplesource/">ArcGIS API for JavaScript Reference</a>
+    <a class="btn btn-primary" target="_blank" href="https://www.arcgis.com/home/item.html?id=1970c1995b8f44749f4b9b6e81b5ba45">Dark Gray BaseMap</a>
+</div>
+<p class="instructions">
+    Demonstrates how to use the Search Widget with multiple sources.
+</p>
+
+<MapView Class="map-view"
+         Center="@(new Point(-97, 38))"
+         Scale="10000000">
+    <Map ArcGISDefaultBasemap="dark-gray-vector" />
+    <SearchWidget AllPlaceholder="District or Senator"
+                  IncludeDefaultSources="false"
+                  Position="OverlayPosition.TopRight">
+        <LayerSearchSource SearchFields="@(new [] {"DISTRICTID"})"
+                           DisplayField="DISTRICTID"
+                           ExactMatch="false"
+                           OutFields="@(new [] {"DISTRICTID", "NAME", "PARTY"})"
+                           Name="Congressional Districts"
+                           Placeholder="example: 3708">
+            <FeatureLayer Url="https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_117th_Congressional_Districts_all/FeatureServer/0">
+                <PopupTemplate Title="Congressional District {DISTRICTID} </br>{NAME}, ({PARTY})" OverwriteActions="true" />
+            </FeatureLayer>
+        </LayerSearchSource>
+        <LayerSearchSource SearchFields="@(new [] {"Name", "Party"})"
+                           SuggestionTemplate="{Name}, Party: {Party}"
+                           ExactMatch="false"
+                           OutFields="@(new [] {"*"})"
+                           Name="Senators"
+                           Placeholder="example: Casey"
+                           ZoomScale="500000">
+            <FeatureLayer Url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/US_Senators_2020/FeatureServer/0">
+                <PopupTemplate Title="<a href={Web_Page} target='_blank'> {Name}</a>, ({Party}-{State}) " OverwriteActions="true" />
+            </FeatureLayer>
+            <PictureMarkerSymbol Url="https://developers.arcgis.com/javascript/latest//sample-code/widgets-search-multiplesource/live/images/senate.png"
+                                 Height="36"
+                                 Width="36" />
+        </LayerSearchSource>
+        <LocatorSearchSource Name="ArcGIS World Geocoding Service"
+                             Placeholder="example: Nuuk, GRL"
+                             SingleLineFieldName="SingleLine"
+                             Url="https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer" />
+    </SearchWidget>
+</MapView>
+
+@code {
+    private readonly FeatureLayer _districtsLayer = new(
+        "",
+        popupTemplate: new PopupTemplate("", 
+            overwriteActions: true));
+
+    private readonly FeatureLayer _senatorsLayer = new(
+        "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/US_Senators_2020/FeatureServer/0",
+        popupTemplate: new PopupTemplate("<a href={Web_Page} target='_blank'> {Name}</a>, ({Party}-{State}) ", 
+            overwriteActions: true));
+}

@@ -2,7 +2,7 @@
 import Extent from "@arcgis/core/geometry/Extent";
 import Graphic from "@arcgis/core/Graphic";
 import PopupTemplate from "@arcgis/core/PopupTemplate";
-import {arcGisObjectRefs, dotNetRefs, triggerActionHandler} from "./arcGisJsInterop";
+import {arcGisObjectRefs, createLayer, dotNetRefs, triggerActionHandler} from "./arcGisJsInterop";
 import Geometry from "@arcgis/core/geometry/Geometry";
 import Point from "@arcgis/core/geometry/Point";
 import Polyline from "@arcgis/core/geometry/Polyline";
@@ -94,7 +94,7 @@ import SimpleLineSymbol from "@arcgis/core/symbols/SimpleLineSymbol";
 import ElementExpressionInfo from "@arcgis/core/popup/ElementExpressionInfo";
 import ChartMediaInfoValueSeries from "@arcgis/core/popup/content/support/ChartMediaInfoValueSeries";
 import View from "@arcgis/core/views/View";
-import { buildDotNetGraphic } from "./dotNetBuilder";
+import {buildDotNetGraphic, buildDotNetPoint, buildDotNetSpatialReference} from "./dotNetBuilder";
 import ViewClickEvent = __esri.ViewClickEvent;
 import PopupOpenOptions = __esri.PopupOpenOptions;
 import PopupDockOptions = __esri.PopupDockOptions;
@@ -116,6 +116,10 @@ import ComboBoxInput from "@arcgis/core/form/elements/inputs/ComboBoxInput";
 import RadioButtonsInput from "@arcgis/core/form/elements/inputs/RadioButtonsInput";
 import SwitchInput from "@arcgis/core/form/elements/inputs/SwitchInput";
 import * as reactiveUtils from "@arcgis/core/core/reactiveUtils";
+import SearchSource from "@arcgis/core/widgets/Search/SearchSource";
+import SearchSourceFilter = __esri.SearchSourceFilter;
+import SearchResult = __esri.SearchResult;
+import SuggestResult = __esri.SuggestResult;
 
 
 export function buildJsSpatialReference(dotNetSpatialReference: DotNetSpatialReference): SpatialReference {
@@ -1327,4 +1331,151 @@ export function buildJsTickConfigs(dotNetTickConfig: any): any {
         labelFormatFunction: labelFormatFunction ?? undefined
     }
     return tickConfig;
+}
+
+export async function buildJsSearchSource(dotNetSource: any, viewId: string): Promise<SearchSource> {
+    let source: any = {
+        autoNavigate: dotNetSource.autoNavigate ?? undefined,
+        filter: buildJsSearchSourceFilter(dotNetSource.filter) ?? undefined,
+        maxResults: dotNetSource.maxResults ?? undefined,
+        minSuggestCharacters: dotNetSource.minSuggestCharacters ?? undefined,
+        name: dotNetSource.name ?? undefined,
+        outFields: dotNetSource.outFields ?? undefined,
+        placeholder: dotNetSource.placeholder ?? undefined,
+        popupEnabled: dotNetSource.popupEnabled ?? undefined,
+        prefix: dotNetSource.prefix ?? undefined,
+        resultGraphicEnabled: dotNetSource.resultGraphicEnabled ?? undefined,
+        searchTemplate: dotNetSource.searchTemplate ?? undefined,
+        suffix: dotNetSource.suffix ?? undefined,
+        suggestionsEnabled: dotNetSource.suggestionsEnabled ?? undefined,
+        zoomScale: dotNetSource.zoomScale ?? undefined
+    };
+    
+    if (hasValue(dotNetSource.popupTemplate)) {
+        source.popupTemplate = buildJsPopupTemplate(dotNetSource.popupTemplate, viewId);
+    }
+    
+    if (hasValue(dotNetSource.resultSymbol)) {
+        source.resultSymbol = buildJsSymbol(dotNetSource.resultSymbol);
+    }
+    
+    if (dotNetSource.hasGetResultsHandler) {
+        source.getResults = async (params: any) => {
+            let viewId: string | null = null;
+            
+            for (let key in arcGisObjectRefs) {
+                if (arcGisObjectRefs[key] === params.view) {
+                    viewId = key;
+                    break;
+                }
+            }
+            
+            let dnParams = {
+                exactMatch: params.exactMatch,
+                location: buildDotNetPoint(params.location),
+                maxResults: params.maxResults,
+                sourceIndex: params.sourceIndex,
+                spatialReference: buildDotNetSpatialReference(params.spatialReference),
+                suggestResult: {
+                    key: params.suggestResult.key,
+                    text: params.suggestResult.text,
+                    sourceIndex: params.suggestResult.sourceIndex
+                },
+                viewId: viewId
+            }
+            let dnResults = await dotNetSource.searchSourceObjectReference.invokeMethodAsync('OnJavaScriptGetResults', dnParams);
+            
+            let results: SearchResult[] = [];
+            
+            for (let dnResult of dnResults) {
+                let result: any = {
+                    extent: buildJsExtent(dnResult.extent, null) ?? undefined,
+                    name: dnResult.name ?? undefined,
+                };
+                if (hasValue(dnResult.feature)) {
+                    result.feature = buildJsGraphic(dnResult.feature, viewId) as Graphic;
+                }
+                results.push(result);
+            }
+            
+            return results;
+        }
+    }
+
+    if (dotNetSource.hasGetSuggestionsHandler) {
+        source.getSuggestions = async (params: any) => {
+            let viewId: string | null = null;
+
+            for (let key in arcGisObjectRefs) {
+                if (arcGisObjectRefs[key] === params.view) {
+                    viewId = key;
+                    break;
+                }
+            }
+
+            let dnParams = {
+                maxSuggestions: params.maxSuggestions,
+                sourceIndex: params.sourceIndex,
+                spatialReference: buildDotNetSpatialReference(params.spatialReference),
+                suggestTerm: params.suggestTerm,
+                viewId: viewId
+            }
+            let dnResults = await dotNetSource.searchSourceObjectReference.invokeMethodAsync('OnJavaScriptGetSuggestions', dnParams);
+
+            let results: SuggestResult[] = [];
+
+            for (let dnResult of dnResults) {
+                results.push({
+                    key: dnResult.key,
+                    text: dnResult.text,
+                    sourceIndex: dnResult.sourceIndex
+                })
+            }
+
+            return results;
+        }
+    }
+    
+    switch (dotNetSource.type) {
+        case "layer":
+            let layer: Layer | null = null;
+            if (hasValue(dotNetSource.layerId)) {
+                layer = arcGisObjectRefs[dotNetSource.layerId] as Layer;
+            }
+            if (!hasValue(layer) && hasValue(dotNetSource.layer)) {
+                layer = await createLayer(dotNetSource.layer, false, viewId);
+            }
+            source.layer = layer;
+            source.displayField = dotNetSource.displayField ?? undefined;
+            source.exactMatch = dotNetSource.exactMatch ?? undefined;
+            source.orderByFields = dotNetSource.orderByFields ?? undefined;
+            source.searchFields = dotNetSource.searchFields ?? undefined;
+            source.suggestionTemplate = dotNetSource.suggestionTemplate ?? undefined;
+            
+            break;
+        case "locator":
+            source.apiKey = dotNetSource.apiKey ?? undefined;
+            source.categories = dotNetSource.categories ?? undefined;
+            source.countryCode = dotNetSource.countryCode ?? undefined;
+            source.defaultZoomScale = dotNetSource.defaultZoomScale ?? undefined;
+            source.localSearchDisabled = dotNetSource.localSearchDisabled ?? undefined;
+            source.locationType = dotNetSource.locationType ?? undefined;
+            source.singleLineFieldName = dotNetSource.singleLineFieldName ?? undefined;
+            source.url = dotNetSource.url ?? undefined;
+            
+            break;
+    }
+    
+    return source as SearchSource;
+}
+
+function buildJsSearchSourceFilter(dotNetFilter: any): SearchSourceFilter | null {
+    if (!hasValue(dotNetFilter)) return null;
+
+    let filter: SearchSourceFilter = {
+        where: dotNetFilter.where ?? undefined,
+        geometry: buildJsGeometry(dotNetFilter.geometry) ?? undefined
+    };
+
+    return filter;
 }
