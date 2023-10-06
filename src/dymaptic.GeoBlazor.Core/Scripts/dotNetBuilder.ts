@@ -796,8 +796,8 @@ export function buildDotNetSearchSource(jsSource: LayerSearchSource | LocatorSea
         dnSource.searchFields = jsSource.searchFields;
         dnSource.suggestionTemplate = jsSource.suggestionTemplate;
         dnSource.filter = {
-            where: jsSource.filter.where,
-            geometry: buildDotNetGeometry(jsSource.filter.geometry ?? null),
+            where: jsSource.filter?.where,
+            geometry: buildDotNetGeometry(jsSource.filter?.geometry ?? null),
         }
     } else {
         dnSource.type = 'locator';
@@ -810,7 +810,7 @@ export function buildDotNetSearchSource(jsSource: LayerSearchSource | LocatorSea
         dnSource.singleLineFieldName = jsSource.singleLineFieldName;
         dnSource.url = jsSource.url;
         dnSource.filter = {
-            geometry: buildDotNetGeometry(jsSource.filter.geometry ?? null)
+            geometry: buildDotNetGeometry(jsSource.filter?.geometry ?? null)
         }
     }
 

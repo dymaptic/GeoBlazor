@@ -237,11 +237,10 @@
     }
 
     [TestMethod]
-    public async Task TestSearchWidgetMethods()
+    public async Task TestSearchWidgetGetResultsHandler()
     {
         SearchWidget? widget = null;
         var resultsHandlerWasCalled = false;
-        var suggestionsHandlerWasCalled = false;
 
         Task<IList<SearchResult>> GetResultsHandler(GetResultsParameters parameters)
         {
@@ -249,6 +248,31 @@
             resultsHandlerWasCalled = true;
             return Task.FromResult<IList<SearchResult>>(new List<SearchResult>());
         }
+        
+        CreateViewRenderedHandler(async () =>
+        {
+            await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Search");
+        });
+        
+        AddMapRenderFragment(
+            @<div>
+                <Map ArcGISDefaultBasemap="arcgis-imagery" />
+                <SearchWidget @ref="widget">
+                    <SearchSource GetResultsHandler="GetResultsHandler" />
+                </SearchWidget>
+            </div>);
+        
+        await WaitForMapToRender(cleanupFragment: false);
+        await widget!.Search("test");
+        await WaitForMapToRender();
+        Assert.IsTrue(resultsHandlerWasCalled);
+    }
+
+    [TestMethod]
+    public async Task TestSearchWidgetGetSuggestionsHandler()
+    {
+        SearchWidget? widget = null;
+        var suggestionsHandlerWasCalled = false;
         
         Task<IList<SuggestResult>> GetSuggestionsHandler(GetSuggestionsParameters parameters)
         {
@@ -258,24 +282,73 @@
         }
         
         CreateViewRenderedHandler(async () =>
-            await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Search"));
+        {
+            await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Search");
+            await AssertJavaScript("triggerSearchHandlers");
+        });
         
         AddMapRenderFragment(
             @<div>
                 <Map ArcGISDefaultBasemap="arcgis-imagery" />
                 <SearchWidget @ref="widget">
-                    <SearchSource GetResultsHandler="GetResultsHandler"
-                                  GetSuggestionsHandler="GetSuggestionsHandler" />
+                    <SearchSource GetSuggestionsHandler="GetSuggestionsHandler" />
                 </SearchWidget>
             </div>);
         
         await WaitForMapToRender(cleanupFragment: false);
-        await widget!.Search("test");
-        await widget.SetSearchTerm("test1");
-        Assert.AreEqual("test1", widget.SearchTerm);
-        await WaitForMapToRender();
-        Assert.IsTrue(resultsHandlerWasCalled);
+
+        var tries = 50;
+        while (!suggestionsHandlerWasCalled && tries > 0)
+        {
+            await Task.Delay(100);
+            tries--;
+        }
+        await CleanupFragment();
         Assert.IsTrue(suggestionsHandlerWasCalled);
     }
-
+    
+    [TestMethod]
+    public async Task TestSearchWidgetMethods()
+    {
+        SearchWidget? widget = null;
+        
+        CreateViewRenderedHandler(async () =>
+        {
+            await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Search");
+        });
+        
+        AddMapRenderFragment(
+            @<div>
+                <Map ArcGISDefaultBasemap="arcgis-imagery" />
+                <SearchWidget @ref="widget" />
+            </div>);
+        
+        await WaitForMapToRender(cleanupFragment: false);
+        await widget!.SetSearchTerm("testSearchTerm");
+        string searchTerm = await widget.GetSearchTerm();
+        Assert.AreEqual("testSearchTerm", searchTerm);
+        SuggestResponse suggestResponse = await widget!.Suggest("test");
+        Assert.IsNotNull(suggestResponse);
+        SearchResponse searchResponse = await widget!.Search("test");
+        Assert.IsNotNull(searchResponse);
+        IReadOnlyList<SearchResultResponse> searchResultResponse = await widget.GetResults();
+        Assert.IsNotNull(searchResultResponse);
+        SuggestResult[] suggestResults = await widget.GetSuggestions();
+        Assert.IsNotNull(suggestResults);
+        SearchMenu activeMenu = await widget.GetActiveMenu();
+        Assert.IsNotNull(activeMenu);
+        SearchSource? activeSource = await widget.GetActiveSource();
+        Assert.IsNotNull(activeSource);
+        int activeSourceIndex = await widget.GetActiveSourceIndex();
+        Assert.AreEqual(0, activeSourceIndex);
+        IReadOnlyList<SearchSource>? allSources = await widget.GetAllSources();
+        Assert.AreEqual(1, allSources.Count);
+        IReadOnlyList<SearchSource>? defaultSources = await widget.GetDefaultSources();
+        Assert.AreEqual(1, defaultSources.Count);
+        Graphic resultGraphic = await widget.GetResultGraphic();
+        Assert.IsNotNull(resultGraphic);
+        SearchResult selectedResult = await widget.GetSelectedResult();
+        Assert.IsNotNull(selectedResult);
+        await CleanupFragment();
+    }
 }

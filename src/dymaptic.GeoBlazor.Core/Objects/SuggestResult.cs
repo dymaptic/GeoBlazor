@@ -17,7 +17,7 @@ namespace dymaptic.GeoBlazor.Core.Objects;
 /// <param name="SourceIndex">
 ///     The key related to the suggest result.
 /// </param>
-public record SuggestResult(string Key, string Text, int SourceIndex);
+public record SuggestResult(string? Key, string? Text, int? SourceIndex);
 
 /// <summary>
 ///     A collection of <see cref="SuggestResult"/>s

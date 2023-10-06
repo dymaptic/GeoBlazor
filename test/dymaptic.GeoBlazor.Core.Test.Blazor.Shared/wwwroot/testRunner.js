@@ -57,3 +57,12 @@ export async function assertPopupCallback(viewId, layerId) {
     }
     button.click();
 }
+
+export async function triggerSearchHandlers() {
+    let searchInput = document.querySelector('.esri-search__input');
+    searchInput.value = 'testFromJavascript';
+    searchInput.dispatchEvent(new Event('input'));
+    await new Promise(resolve => setTimeout(resolve, 100));
+    searchInput.value = 'testFromJavascript1';
+    searchInput.dispatchEvent(new Event('input'));
+}

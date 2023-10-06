@@ -306,17 +306,17 @@ public class SearchWidget : Widget
     /// <summary>
     ///     Retrieves the combined collection of defaultSources and sources. The defaultSources displays first in the Search UI.
     /// </summary>
-    public async Task<SearchSource> GetAllSources()
+    public async Task<IReadOnlyList<SearchSource>> GetAllSources()
     {
-        return await JsWidgetReference!.InvokeAsync<SearchSource>("getAllSources");
+        return await JsWidgetReference!.InvokeAsync<IReadOnlyList<SearchSource>>("getAllSources");
     }
 
     /// <summary>
     ///     Retrieves a Collection of LayerSearchSource and/or LocatorSearchSource. This may contain ArcGIS Portal locators and any web map or web scene configurable search sources. Web maps or web scenes may contain map/feature service feature layer(s), and/or table(s) as sources.
     /// </summary>
-    public async Task<SearchSource> GetDefaultSources()
+    public async Task<IReadOnlyList<SearchSource>> GetDefaultSources()
     {
-        return await JsWidgetReference!.InvokeAsync<SearchSource>("getDefaultSources");
+        return await JsWidgetReference!.InvokeAsync<IReadOnlyList<SearchSource>>("getDefaultSources");
     }
 
     /// <summary>
@@ -333,9 +333,9 @@ public class SearchWidget : Widget
     /// <summary>
     ///     Retrieves an array of objects, each containing a SearchResult from the search.
     /// </summary>
-    public async Task<SearchResultResponse> GetResults()
+    public async Task<IReadOnlyList<SearchResultResponse>> GetResults()
     {
-        return await JsWidgetReference!.InvokeAsync<SearchResultResponse>("getResults");
+        return await JsWidgetReference!.InvokeAsync<IReadOnlyList<SearchResultResponse>>("getResults");
     }
 
     /// <summary>
