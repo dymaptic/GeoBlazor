@@ -26,11 +26,17 @@
                 </div>
                 @if (_testRenderFragments.TryGetValue(entry.Key, out RenderFragment? fragment))
                 {
+                    MapView mapView = _mapViews[entry.Key];
                     <ErrorHandler MethodName="@entry.Key" OnError="OnRenderError">
                         <ChildContent>
                             <div style="display: flex; justify-content: center; position: relative;">
                                 <div style="position: absolute; top: -100px; right: 10px;">
-                                    <MapView @ref="_mapViews[entry.Key]" OnViewRendered="@_mapViewRenderHandlers[entry.Key]" class="map-view">
+                                    <MapView @ref="_mapViews[entry.Key]" 
+                                             OnViewRendered="@_mapViewRenderHandlers[entry.Key]" 
+                                             class="map-view"
+                                             Latitude="mapView.Latitude"
+                                             Longitude="mapView.Longitude"
+                                             Zoom="mapView.Zoom">
                                         @fragment
                                     </MapView>
                                 </div>
@@ -85,10 +91,19 @@
         _jsObjectReference ??= await JsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/dymaptic.GeoBlazor.Core.Test.Blazor.Shared/testRunner.js");
     }
 
-    protected void AddMapRenderFragment(RenderFragment fragment,
+    protected void AddMapRenderFragment(RenderFragment fragment, Dictionary<string, object>? viewProperties = null,
         [CallerMemberName] string? methodName = null)
     {
-        _mapViews[methodName!] = new MapView();
+        MapView newMapView = new();
+        if (viewProperties is not null)
+        {
+            foreach (KeyValuePair<string, object> kvp in viewProperties)
+            {
+                // set property via reflection
+                newMapView.GetType().GetProperty(kvp.Key)?.SetValue(newMapView, kvp.Value);
+            }
+        }
+        _mapViews[methodName!] = newMapView;
         _testRenderFragments[methodName!] = fragment;
     }
 

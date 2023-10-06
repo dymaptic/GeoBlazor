@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using dymaptic.GeoBlazor.Core.Components.Symbols;
+using Microsoft.AspNetCore.Components;
 
 
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
@@ -13,6 +14,35 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 /// </summary>
 public class Label : LayerObject
 {
+    /// <summary>
+    ///     Parameterless constructor for use as a Blazor component.
+    /// </summary>
+    public Label()
+    {
+    }
+    
+    /// <summary>
+    ///    Constructor for generating in code.
+    /// </summary>
+    /// <param name="labelPlacement">
+    ///     The position of the label.
+    /// </param>
+    /// <param name="labelExpression">
+    ///     Defines the labels for a MapImageLayer.
+    /// </param>
+    /// <param name="labelExpressionInfo">
+    ///     Defines the labels for a <see cref="FeatureLayer" />.
+    /// </param>
+    public Label(string? labelPlacement = null, string? labelExpression = null, 
+        LabelExpressionInfo? labelExpressionInfo = null)
+    {
+#pragma warning disable BL0005 // Component parameter should not be set outside of its component.
+        LabelPlacement = labelPlacement;
+        LabelExpression = labelExpression;
+        LabelExpressionInfo = labelExpressionInfo;
+#pragma warning restore BL0005
+    }
+    
     /// <summary>
     ///     The position of the label.
     /// </summary>

@@ -238,6 +238,12 @@ public class FeatureLayer : Layer
     public override string LayerType => "feature";
 
     /// <summary>
+    /// TimeInfo provides information such as date fields that store start and end time for each feature and the fullTimeExtent for the layer.
+    /// </summary>
+    public TimeInfo? TimeInfo { get; set; }
+
+
+    /// <summary>
     ///     Add a graphic to the current layer's source
     /// </summary>
     /// <param name="graphic">
@@ -315,6 +321,65 @@ public class FeatureLayer : Layer
         return await JsLayerReference!.InvokeAsync<FeatureEditsResult>("applyEdits", edits, options,
             View!.Id);
     }
+
+    /// <summary>
+    /// Returns a FeatureType describing the feature's type. This is applicable if the layer containing the feature has a typeIdField.
+    /// </summary>
+    /// <param name="feature"></param>
+    /// <returns></returns>
+    public async Task<FeatureType?> GetFeatureType(Graphic feature)
+    {
+        return await JsLayerReference!.InvokeAsync<FeatureType>("getFeatureType", feature);
+    }
+
+    /// <summary>
+    /// Returns the Field instance for a field name (case-insensitive).
+    /// </summary>
+    /// <param name="fieldName">the field name (case-insensitive).</param>
+    public async Task<Field?> GetField(string fieldName)
+    {
+        return await JsLayerReference!.InvokeAsync<Field?>("getField", fieldName);
+    }
+
+    /// <summary>
+    /// Returns the Domain associated with the given field name. The domain can be either a CodedValueDomain or RangeDomain.
+    /// </summary>
+    public async Task<Domain?> GetFieldDomain(string fieldName, Graphic? feature = null)
+    {
+        return await JsLayerReference!.InvokeAsync<Domain?>("getFieldDomain", fieldName, feature);
+    }
+
+    /// <summary>
+    /// Creates a deep clone of the javascript FeatureLayer object.
+    /// </summary>
+    /// <returns></returns>
+    public async Task<FeatureLayer> Clone()
+    {
+        return await JsLayerReference!.InvokeAsync<FeatureLayer>("clone");
+    }
+
+    /// <summary>
+    /// Fetches all the data for the layer. Calls 'refresh' on the layer.
+    /// </summary>
+    public override void Refresh()
+    {
+        _refreshRequired = true;
+        base.Refresh();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (_refreshRequired)
+        {
+            _refreshRequired = false;
+            var newLayer = await JsLayerReference!.InvokeAsync<FeatureLayer>("refresh");
+            await this.UpdateFromJavaScript(newLayer);
+        }
+
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
@@ -568,7 +633,6 @@ public class FeatureLayer : Layer
     /// <returns></returns>
     public async Task<FeatureSet?> QueryFeatures(Query? query = null, CancellationToken cancellationToken = default)
     {
-        query ??= new Query();
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
 
         FeatureSet? result = await JsLayerReference!.InvokeAsync<FeatureSet?>("queryFeatures", cancellationToken,
@@ -817,10 +881,6 @@ public class FeatureLayer : Layer
         return result;
     }
 
-    /// <summary>
-    /// TimeInfo provides information such as date fields that store start and end time for each feature and the fullTimeExtent for the layer.
-    /// </summary>
-    public TimeInfo? TimeInfo { get; set; }
 
     /// <inheritdoc />
     internal override void ValidateRequiredChildren()
@@ -975,6 +1035,7 @@ public class FeatureLayer : Layer
     private HashSet<Graphic>? _source;
     private HashSet<Field>? _fields;
     private StringBuilder? _queryFeatureData;
+    private bool _refreshRequired = false;
 }
 
 /// <summary>
@@ -1277,3 +1338,22 @@ public record EditedFeatures(Graphic[] Adds, EditedFeatureUpdate[] Updates, Grap
 ///     Updated feature as a result of editing a feature that participates in a composite relationship.
 /// </param>
 public record EditedFeatureUpdate(Graphic[] Original, Graphic[] Current);
+
+/// <summary>
+///     FeatureType is a subset of features defined in a FeatureLayer that share the same attributes.
+///     They are used as a way to categorize your data. For example, the streets in a city streets feature layer
+///     could be categorized into three feature types: local streets, collector streets, and arterial streets.
+/// </summary>
+public record FeatureType(object Id, string DeclaredCLass, string Name, FeatureTemplate[] Templates, Dictionary<string, Domain?> Domains);
+
+/// <summary>
+///     Feature templates define all the information required to create a new feature in
+///     a feature layer. These include information such as the default attribute values with
+///     which a feature will be created, and the default tool used to create that feature.
+/// </summary>
+public record FeatureTemplate(string DeclaredClass, string Name, string Description, string DrawingTool, Thumbnail Thumbnail, dynamic Prototype);
+
+/// <summary>
+///     An object used to create a thumbnail image that represents a feature type in the feature template.
+/// </summary>
+public record Thumbnail(string ContentType, string ImageData, double Height, double Width);

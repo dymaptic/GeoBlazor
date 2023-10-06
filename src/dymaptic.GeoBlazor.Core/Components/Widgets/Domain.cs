@@ -2,7 +2,6 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-
 namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
 /// <summary>
@@ -16,7 +15,7 @@ public abstract class Domain : MapComponent
     ///     The domain type.
     /// </summary>
     public abstract string Type { get; }
-    
+
     /// <summary>
     ///     The domain name.
     /// </summary>
@@ -28,24 +27,24 @@ public abstract class Domain : MapComponent
 ///     Information about the coded values belonging to the domain. Coded value domains specify a valid set of values for a field. Each valid value is assigned a unique name. For example, in a layer for water mains, water main features may be buried under different types of surfaces as signified by a GroundSurfaceType field: pavement, gravel, sand, or none (for exposed water mains). The coded value domain includes both the actual value that is stored in the database (for example, 1 for pavement) and a more user-friendly description of what that value actually means.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-CodedValueDomain.html">ArcGIS JS API</a>
 /// </summary>
-public class CodedValueDomain : Domain
+public class CodedValueDomain<T> : Domain
 {
     /// <inheritdoc />
     public override string Type => "coded-value";
-    
+
     /// <summary>
     ///     An array of the coded values in the domain.
     /// </summary>
-    public HashSet<CodedValue>? CodedValues { get; set; }
+    public HashSet<CodedValue<T>>? CodedValues { get; set; }
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
     {
         switch (child)
         {
-            case CodedValue codedValue:
-                CodedValues ??= new HashSet<CodedValue>();
-                
+            case CodedValue<T> codedValue:
+                CodedValues ??= new HashSet<CodedValue<T>>();
+
                 CodedValues.Add(codedValue);
 
                 break;
@@ -55,13 +54,13 @@ public class CodedValueDomain : Domain
                 break;
         }
     }
-    
+
     /// <inheritdoc />
     public override async Task UnregisterChildComponent(MapComponent child)
     {
         switch (child)
         {
-            case CodedValue codedValue:
+            case CodedValue<T> codedValue:
                 CodedValues?.Remove(codedValue);
 
                 break;
@@ -77,19 +76,29 @@ public class CodedValueDomain : Domain
 ///     The coded value in a domain.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-CodedValueDomain.html#CodedValue">ArcGIS JS API</a>
 /// </summary>
-public class CodedValue : MapComponent
+public class CodedValue<T> : MapComponent
 {
     /// <summary>
     ///     The name of the coded value.
     /// </summary>
     [Parameter]
     public string? Name { get; set; }
-    
+
     /// <summary>
     ///     The value of the code.
     /// </summary>
     [Parameter]
-    public string? Code { get; set; }
+    public T? Code { get; set; }
+}
+
+/// <summary>
+///     Inherited domains apply to domains at the feature type level. It implies that the domain for a given field at the feature
+///     type level is the same as the domain for the field at the layer level.
+///     NOTE: Name is not used and will always be null.
+/// </summary>
+public class InheritedDomain : Domain
+{
+    public override string Type => "inherited";
 }
 
 /// <summary>
@@ -100,13 +109,13 @@ public class RangeDomain : Domain
 {
     /// <inheritdoc />
     public override string Type => "range";
-    
+
     /// <summary>
     ///     The maximum valid value.
     /// </summary>
     [Parameter]
     public double? MaxValue { get; set; }
-    
+
     /// <summary>
     ///     The minimum valid value.
     /// </summary>
@@ -121,12 +130,34 @@ internal class DomainConverter : JsonConverter<Domain>
         var json = JsonDocument.ParseValue(ref reader);
         var type = json.RootElement.GetProperty("type").GetString();
 
-        return type switch
+        Domain? result = null;
+
+        switch (type)
         {
-            "coded-value" => JsonSerializer.Deserialize<CodedValueDomain>(json.RootElement.GetRawText(), options),
-            "range" => JsonSerializer.Deserialize<RangeDomain>(json.RootElement.GetRawText(), options),
-            _ => null
-        };
+            //coded values can be numbers or strings, so we can look ahead to see which type we need to deserialize
+            case "coded-value":
+                {
+                    if (json.RootElement.TryGetProperty("codedValues", out JsonElement valueArray) && valueArray.EnumerateArray().FirstOrDefault().TryGetProperty("code", out JsonElement code))
+                    {
+                        result = code.ValueKind == JsonValueKind.String
+                            ? JsonSerializer.Deserialize<CodedValueDomain<string>>(json.RootElement.GetRawText(),
+                                options)
+                            : JsonSerializer.Deserialize<CodedValueDomain<double>>(json.RootElement.GetRawText(),
+                                options);
+                    }
+                    break;
+                }
+            case "range":
+                result = JsonSerializer.Deserialize<RangeDomain>(json.RootElement.GetRawText(), options);
+                break;
+            case "inherited":
+                result = JsonSerializer.Deserialize<InheritedDomain>(json.RootElement.GetRawText(), options);
+                break;
+            default:
+                return null;
+        }
+
+        return result;
     }
 
     public override void Write(Utf8JsonWriter writer, Domain value, JsonSerializerOptions options)
