@@ -39,8 +39,8 @@
 @code {
     private string? NavMenuCssClass => _collapseNavMenu ? "collapse" : null;
     private IEnumerable<PageLink> FilteredPages => string.IsNullOrWhiteSpace(_searchValue)
-        ? _pages
-        : _pages.Where(p => p.Title.Contains(_searchValue, StringComparison.OrdinalIgnoreCase));
+        ? Pages
+        : Pages.Where(p => p.Title.Contains(_searchValue, StringComparison.OrdinalIgnoreCase));
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -73,7 +73,7 @@
     private bool _collapseNavMenu = true;
     private ElementReference _searchField;
     private string _searchValue = string.Empty;
-    private readonly PageLink[] _pages =
+    public static readonly PageLink[] Pages =
     {
         new("", "Home", "oi-home"),
         new("navigation", "Navigation", "oi-compass"),
@@ -118,10 +118,8 @@
         new("marker-rotation", "Marker Rotation", "oi-loop-circular"),
         new("graphic-tracking", "Graphic Tracking", "oi-move"),
         new("geometry-methods", "Geometry Methods", "oi-task"),
-        new("search-multi-source", "Search Multiple Sources", "oi-magnifying-glass"),
-        new("tests", "Tests", "oi-check")
+        new("search-multi-source", "Search Multiple Sources", "oi-magnifying-glass")
     };
 
-    private record PageLink(string Href, string Title, string? IconClass, string? ImageFile = null);
-
+    public record PageLink(string Href, string Title, string? IconClass, string? ImageFile = null, bool Pro = false);
 }

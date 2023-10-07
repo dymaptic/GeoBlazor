@@ -4,6 +4,7 @@ using dymaptic.GeoBlazor.Core.Components.Renderers;
 using dymaptic.GeoBlazor.Core.Components.Widgets;
 using dymaptic.GeoBlazor.Core.Exceptions;
 using dymaptic.GeoBlazor.Core.Objects;
+using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System.Text;
@@ -1350,16 +1351,68 @@ public record EditedFeatureUpdate(Graphic[] Original, Graphic[] Current);
 ///     They are used as a way to categorize your data. For example, the streets in a city streets feature layer
 ///     could be categorized into three feature types: local streets, collector streets, and arterial streets.
 /// </summary>
-public record FeatureType(object Id, string DeclaredCLass, string Name, FeatureTemplate[] Templates, Dictionary<string, Domain?> Domains);
+public record FeatureType(string Id, string Name, FeatureTemplate[] Templates, Dictionary<string, Domain?> Domains);
 
 /// <summary>
 ///     Feature templates define all the information required to create a new feature in
 ///     a feature layer. These include information such as the default attribute values with
 ///     which a feature will be created, and the default tool used to create that feature.
 /// </summary>
-public record FeatureTemplate(string DeclaredClass, string Name, string Description, string DrawingTool, Thumbnail Thumbnail, dynamic Prototype);
+/// <param name="Name">
+///     Name of the feature template.
+/// </param>
+/// <param name="Description">
+///     Description of the feature template.
+/// </param>
+/// <param name="DrawingTool">
+///     Name of the default drawing tool defined for the template to create a feature.
+/// </param>
+/// <param name="Thumbnail">
+///     An object used to create a thumbnail image that represents a feature type in the feature template.
+/// </param>
+/// <param name="Prototype">    
+///     An instance of the prototypical feature described by the feature template. It specifies default values for the attribute fields and does not contain geometry.
+/// </param>
+public record FeatureTemplate(string Name, string Description, DrawingTool DrawingTool, Thumbnail Thumbnail, Graphic Prototype);
 
 /// <summary>
 ///     An object used to create a thumbnail image that represents a feature type in the feature template.
 /// </summary>
+/// <param name="ContentType">
+///     The MIME type of the image.
+/// </param>
+/// <param name="ImageData">
+///     The base64EncodedImageData presenting the thumbnail image.
+/// </param>
+/// <param name="Height">
+///     The height of the thumbnail.
+/// </param>
+/// <param name="Width">
+///     The width of the thumbnail.
+/// </param>
 public record Thumbnail(string ContentType, string ImageData, double Height, double Width);
+
+/// <summary>
+///     Name of the default drawing tool defined for the template to create a feature.
+/// </summary>
+[JsonConverter(typeof(EnumToKebabCaseStringConverter<DrawingTool>))]
+public enum DrawingTool
+{
+#pragma warning disable CS1591
+    AutoCompletePolygon,
+    Circle,
+    Ellipse,
+    Freehand,
+    Line,
+    None,
+    Point,
+    Polygon,
+    Rectangle,
+    Arrow,
+    Triangle,
+    LeftArrow,
+    RightArrow,
+    UpArrow,
+    DownArrow
+#pragma warning restore CS1591
+}

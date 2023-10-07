@@ -497,7 +497,8 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
         // find objectRef id by layer
         let layerGeoBlazorId = Object.keys(arcGisObjectRefs).find(key => arcGisObjectRefs[key] === evt.layer);
         let isBasemapLayer = false;
-        if (view.map.basemap.baseLayers.includes(evt.layer) || view.map.basemap.referenceLayers.includes(evt.layer)) {
+        if (hasValue(view.map.basemap) && 
+                (view.map.basemap.baseLayers?.includes(evt.layer) || view.map.basemap.referenceLayers?.includes(evt.layer))) {
             isBasemapLayer = true;
         }
         let layerRef;
