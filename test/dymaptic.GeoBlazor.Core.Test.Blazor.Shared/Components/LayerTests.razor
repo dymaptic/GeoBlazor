@@ -23,4 +23,52 @@
             </Map>);
         await WaitForMapToRender();
     }
+    
+    [TestMethod]
+    public async Task TestCanRenderFeatureLayer()
+    {
+        CreateViewRenderedHandler(async () =>
+        {
+            await AssertJavaScript("assertLayerExists", args: "feature");
+        });
+        AddMapRenderFragment(
+            @<Map>
+                <FeatureLayer Url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/TrailRuns/FeatureServer/0" />
+            </Map>);
+        await WaitForMapToRender();
+    }
+    
+    [TestMethod]
+    public async Task TestCanRunFeatureLayerMethods()
+    {
+        FeatureLayer? layer = null;
+        CreateViewRenderedHandler(async () =>
+        {
+            await AssertJavaScript("assertLayerExists", args: "feature");
+        });
+        AddMapRenderFragment(
+            @<Map>
+                <FeatureLayer @ref="layer">
+                    <PortalItem Id="449887ea7d60429fbf6f0c67881f2758" />
+                </FeatureLayer>
+            </Map>);
+        await WaitForMapToRender(cleanupFragment: false);
+        Query query = await layer!.CreateQuery();
+        Assert.IsNotNull(query);
+        query.Num = 5;
+        query.OutFields = new[] { "*" };
+        FeatureSet? featureSet = await layer!.QueryFeatures(query);
+        Assert.IsNotNull(featureSet);
+        foreach (Graphic feature in featureSet.Features!)
+        {
+            FeatureType? featureType = await layer!.GetFeatureType(feature);
+            Assert.IsNotNull(featureType);
+        }
+        var fieldName = "strinsur";
+        Field? field = await layer.GetField(fieldName);
+        Assert.IsNotNull(field);
+        Domain? domain = await layer.GetFieldDomain(fieldName);
+        Assert.IsNotNull(domain);
+        await CleanupFragment();
+    }
 }

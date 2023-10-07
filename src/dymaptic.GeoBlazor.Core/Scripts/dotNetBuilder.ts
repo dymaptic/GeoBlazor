@@ -44,12 +44,13 @@ import {
     DotNetBookmark,
     DotNetViewpoint,
     DotNetField,
-    DotNetDomain, 
-    DotNetCodedValueDomain, 
-    DotNetCodedValue, 
-    DotNetInheritedDomain, 
-    DotNetRangeDomain, 
-    DotNetEffect
+    DotNetDomain,
+    DotNetCodedValueDomain,
+    DotNetCodedValue,
+    DotNetInheritedDomain,
+    DotNetRangeDomain,
+    DotNetEffect, 
+    DotNetFeatureTemplate
 } from "./definitions";
 import Point from "@arcgis/core/geometry/Point";
 import Polyline from "@arcgis/core/geometry/Polyline";
@@ -104,6 +105,9 @@ import SearchSource from "@arcgis/core/widgets/Search/SearchSource";
 import LocatorSearchSource from "@arcgis/core/widgets/Search/LocatorSearchSource";
 import SearchResult = __esri.SearchResult;
 import SuggestResult = __esri.SuggestResult;
+import FeatureType from "@arcgis/core/layers/support/FeatureType";
+import FeatureTemplate from "@arcgis/core/layers/support/FeatureTemplate";
+import FeatureTemplateThumbnail = __esri.FeatureTemplateThumbnail;
 
 
 export function buildDotNetGraphic(graphic: Graphic): DotNetGraphic {
@@ -764,7 +768,7 @@ export function buildDotNetTimeInterval(interval: any): any | null {
     } as any;
 }
 
-export function buildDotNetFeatureType(result: any) {
+export function buildDotNetFeatureType(result: FeatureType) {
 
     if (!hasValue(result)) {
         return null;
@@ -782,8 +786,19 @@ export function buildDotNetFeatureType(result: any) {
         domains: dotNetDomains,
         declaredClass: result.declaredClass,
         name: result.name,
-        templates: result.templates,
+        templates: result.templates?.map(buildDotNetFeatureTemplate)
     }
+}
+
+export function buildDotNetFeatureTemplate(jsFeatureTemplate: FeatureTemplate): DotNetFeatureTemplate | null {
+    if (!hasValue(jsFeatureTemplate)) return null;
+    return {
+        name: jsFeatureTemplate.name,
+        description: jsFeatureTemplate.description,
+        prototype: buildDotNetGraphic(jsFeatureTemplate.prototype),
+        drawingTool: jsFeatureTemplate.drawingTool,
+        thumbnail: jsFeatureTemplate.thumbnail,
+    } as DotNetFeatureTemplate
 }
 
 export function buildDotNetEffect(jsEffect: any): DotNetEffect | null {

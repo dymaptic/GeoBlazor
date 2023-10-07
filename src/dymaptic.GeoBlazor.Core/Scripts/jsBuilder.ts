@@ -64,7 +64,8 @@ import {
     DotNetFeatureFilter,
     DotNetRasterStretchRenderer,
     DotNetDimensionDefinition,
-    DotNetColorRamp
+    DotNetColorRamp,
+    DotNetFeatureTemplate
 } from "./definitions";
 import PictureMarkerSymbol from "@arcgis/core/symbols/PictureMarkerSymbol";
 import Popup from "@arcgis/core/widgets/Popup";
@@ -120,6 +121,7 @@ import SearchSource from "@arcgis/core/widgets/Search/SearchSource";
 import SearchSourceFilter = __esri.SearchSourceFilter;
 import SearchResult = __esri.SearchResult;
 import SuggestResult = __esri.SuggestResult;
+import FeatureTemplate from "@arcgis/core/layers/support/FeatureTemplate";
 
 
 export function buildJsSpatialReference(dotNetSpatialReference: DotNetSpatialReference): SpatialReference {
@@ -1277,6 +1279,16 @@ export function buildJsFeatureEffect(dnFeatureEffect: DotNetFeatureEffect): Feat
     }
 
     return featureEffect;
+}
+
+export function buildJsFeatureTemplate(dnFeatureTemplate: DotNetFeatureTemplate, viewId: string | null): FeatureTemplate {
+    return {
+        name: dnFeatureTemplate.name,
+        description: dnFeatureTemplate.description,
+        drawingTool: dnFeatureTemplate.drawingTool as any,
+        thumbnail: dnFeatureTemplate.thumbnail as any,
+        prototype: buildJsGraphic(dnFeatureTemplate.prototype, viewId)
+    } as FeatureTemplate
 }
 
 export function buildJsFeatureFilter(dnFeatureFilter: DotNetFeatureFilter): FeatureFilter | null {
