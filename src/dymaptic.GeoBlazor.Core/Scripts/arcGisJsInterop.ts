@@ -36,6 +36,7 @@ import TileLayer from "@arcgis/core/layers/TileLayer";
 import GeoJSONLayer from "@arcgis/core/layers/GeoJSONLayer";
 import CSVLayer from "@arcgis/core/layers/CSVLayer";
 import GeoRSSLayer from "@arcgis/core/layers/GeoRSSLayer";
+import BingMapsLayer from "@arcgis/core/layers/BingMapsLayer";
 import PopupTemplate from "@arcgis/core/PopupTemplate";
 import Query from "@arcgis/core/rest/support/Query";
 import View from "@arcgis/core/views/View";
@@ -88,6 +89,7 @@ import {
     buildJsColorRamp,
     buildJsAlgorithmicColorRamp,
     buildJsMultipartColorRamp,
+    buildJsEffect,
     buildJsRasterStretchRenderer,
     buildJsSearchSource
 } from "./jsBuilder";
@@ -121,11 +123,10 @@ import LegendLayerInfos = __esri.LegendLayerInfos;
 import ScreenPoint = __esri.ScreenPoint;
 import RasterStretchRenderer from "@arcgis/core/renderers/RasterStretchRenderer";
 import DimensionalDefinition from "@arcgis/core/layers/support/DimensionalDefinition";
-import ColorRamp from "@arcgis/core/rest/support/ColorRamp";
-import MultipartColorRamp from "@arcgis/core/rest/support/MultipartColorRamp";
-import AlgorithmicColorRamp from "@arcgis/core/rest/support/AlgorithmicColorRamp";
 import Renderer from "@arcgis/core/renderers/Renderer";
 import Color from "@arcgis/core/Color";
+import BingMapsLayerWrapper from "./bingMapsLayer";
+import FeatureLayerView from "@arcgis/core/views/layers/FeatureLayerView";
 import SearchWidgetWrapper from "./searchWidgetWrapper";
 import Geometry from "@arcgis/core/geometry/Geometry";
 import SearchSource from "@arcgis/core/widgets/Search/SearchSource";
@@ -153,25 +154,36 @@ export function setAssetsPath(path: string) {
     }
 }
 
-export function getObjectReference(id: string): any {
-    let objectRef = arcGisObjectRefs[id];
-    if (objectRef instanceof Layer) {
-        if (objectRef instanceof FeatureLayer) {
-            return new FeatureLayerWrapper(objectRef);
-        }
+function getObjectReference(objectRef: any) {
+    if (!hasValue(objectRef)) return objectRef;
+    try {
+        if (objectRef instanceof Layer) {
+            if (objectRef instanceof FeatureLayer) {
+                return new FeatureLayerWrapper(objectRef);
+            }
+            if (objectRef instanceof BingMapsLayer) {
+                return new BingMapsLayerWrapper(objectRef);
+            }
 
-        return buildDotNetLayer(objectRef);
+            return buildDotNetLayer(objectRef);
+        }
+        if (objectRef instanceof Graphic) {
+            return buildDotNetGraphic(objectRef);
+        }
+        if (objectRef instanceof Popup) {
+            return new PopupWidgetWrapper(objectRef);
+        }
+        if (objectRef instanceof Search) {
+            return new SearchWidgetWrapper(objectRef);
+        }
+        if (objectRef instanceof FeatureLayerView) {
+            return new FeatureLayerViewWrapper(objectRef);
+        }
+        return objectRef;
     }
-    if (objectRef instanceof Graphic) {
-        return buildDotNetGraphic(objectRef);
+    catch {
+        return objectRef;
     }
-    if (objectRef instanceof Popup) {
-        return new PopupWidgetWrapper(objectRef);
-    }
-    if (objectRef instanceof Search) {
-        return new SearchWidgetWrapper(objectRef);
-    }
-    return objectRef;
 }
 
 export function getSerializedDotNetObject(id: string): any {
@@ -490,17 +502,10 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
         }
         let layerRef;
         let layerViewRef;
-        if (evt.layer instanceof FeatureLayer) {
-            // @ts-ignore
-            layerRef = DotNet.createJSObjectReference(new FeatureLayerWrapper(evt.layer));
-            // @ts-ignore
-            layerViewRef = DotNet.createJSObjectReference(new FeatureLayerViewWrapper(evt.layerView));
-        } else {
-            // @ts-ignore
-            layerRef = DotNet.createJSObjectReference(evt.layer);
-            // @ts-ignore
-            layerViewRef = DotNet.createJSObjectReference(evt.layerView);
-        }
+        // @ts-ignore
+        layerRef = DotNet.createJSObjectReference(getObjectReference(evt.layer));
+        // @ts-ignore
+        layerViewRef = DotNet.createJSObjectReference(getObjectReference(evt.layerView));
 
         let result = {
             layerObjectRef: layerRef,
@@ -1930,7 +1935,7 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
     arcGisObjectRefs[widget.id] = newWidget;
     dotNetRefs[widget.id] = widget.dotNetComponentReference;
     // @ts-ignore
-    let jsRef = DotNet.createJSObjectReference(getObjectReference(widget.id));
+    let jsRef = DotNet.createJSObjectReference(getObjectReference(newWidget));
     await widget.dotNetWidgetReference.invokeMethodAsync('OnWidgetCreated', jsRef);
     return newWidget;
 }
@@ -2249,6 +2254,24 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
 
             newLayer = wcsLayer;
             break;
+        case 'bing-maps':
+            const bing = new BingMapsLayer({
+                key: layerObject.key,
+                style: layerObject.style
+            });
+            
+            newLayer = bing;
+
+            if (hasValue(layerObject.spatialReference)) {
+                bing.spatialReference = buildJsSpatialReference(layerObject.spatialReference);
+            }
+            
+            if (hasValue(layerObject.effect)) {
+                bing.effect = buildJsEffect(layerObject.effect);
+            }
+            
+            copyValuesIfExists('blendMode', 'maxScale', 'minScale', 'refreshInterval');
+            break;
          default:
             return null;
     }
@@ -2275,7 +2298,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
     arcGisObjectRefs[layerObject.id] = newLayer;
 
     if (wrap) {
-        return getObjectReference(layerObject.id);
+        return getObjectReference(newLayer);
     }
 
     return newLayer;

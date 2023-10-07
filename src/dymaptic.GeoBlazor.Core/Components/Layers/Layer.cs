@@ -165,7 +165,6 @@ public abstract class Layer : MapComponent
         IJSObjectReference arcGisJsInterop = await GetArcGisJsInterop();
 
         JsLayerReference = await arcGisJsInterop.InvokeAsync<IJSObjectReference>("createLayer",
-
             // ReSharper disable once RedundantCast
             cancellationToken, (object)this, true, View?.Id);
         await JsLayerReference.InvokeVoidAsync("load", cancellationToken, abortSignal);
@@ -278,6 +277,8 @@ internal class LayerConverter : JsonConverter<Layer>
                     return JsonSerializer.Deserialize<KMLLayer>(ref cloneReader, newOptions);
                 case "wcs":
                     return JsonSerializer.Deserialize<WCSLayer>(ref cloneReader, newOptions);
+                case "bing-maps":
+                    return JsonSerializer.Deserialize<BingMapsLayer>(ref cloneReader, newOptions);
             }
         }
 

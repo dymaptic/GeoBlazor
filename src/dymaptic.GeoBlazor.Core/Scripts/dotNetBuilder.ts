@@ -44,7 +44,12 @@ import {
     DotNetBookmark,
     DotNetViewpoint,
     DotNetField,
-    DotNetDomain, DotNetCodedValueDomain, DotNetCodedValue, DotNetInheritedDomain, DotNetRangeDomain
+    DotNetDomain, 
+    DotNetCodedValueDomain, 
+    DotNetCodedValue, 
+    DotNetInheritedDomain, 
+    DotNetRangeDomain, 
+    DotNetEffect
 } from "./definitions";
 import Point from "@arcgis/core/geometry/Point";
 import Polyline from "@arcgis/core/geometry/Polyline";
@@ -86,12 +91,14 @@ import MapView from "@arcgis/core/views/MapView";
 import SceneView from "@arcgis/core/views/SceneView";
 import HitTestResult = __esri.HitTestResult;
 import ViewHit = __esri.ViewHit;
-import Renderer from "@arcgis/core/renderers/Renderer";
 import Field from "@arcgis/core/layers/support/Field";
 import Domain from "@arcgis/core/layers/support/Domain";
 import CodedValueDomain from "@arcgis/core/layers/support/CodedValueDomain";
 import InheritedDomain from "@arcgis/core/layers/support/InheritedDomain";
 import RangeDomain from "@arcgis/core/layers/support/RangeDomain";
+import Effect = __esri.Effect;
+import TileInfo from "@arcgis/core/layers/support/TileInfo";
+import LOD from "@arcgis/core/layers/support/LOD";
 import LayerSearchSource from "@arcgis/core/widgets/Search/LayerSearchSource";
 import SearchSource from "@arcgis/core/widgets/Search/SearchSource";
 import LocatorSearchSource from "@arcgis/core/widgets/Search/LocatorSearchSource";
@@ -464,7 +471,6 @@ export function buildDotNetDomain(domain: Domain): DotNetDomain | null {
         case 'range':
             return buildDotNetRangeDomain(domain as RangeDomain);
     }
-    return null;
 }
 
 export function buildDotNetCodedValueDomain(domain: CodedValueDomain): DotNetCodedValueDomain {
@@ -777,6 +783,44 @@ export function buildDotNetFeatureType(result: any) {
         declaredClass: result.declaredClass,
         name: result.name,
         templates: result.templates,
+    }
+}
+
+export function buildDotNetEffect(jsEffect: any): DotNetEffect | null {
+    if (!hasValue(jsEffect)) {
+        return null;
+    }
+    
+    if (jsEffect instanceof String) {
+        return {
+            value: jsEffect
+        } as DotNetEffect;
+    }
+    
+    return {
+        value: jsEffect.value,
+        scale: jsEffect.scale
+    }
+}
+
+export function buildDotNetTileInfo(tileInfo: TileInfo): any | null {
+    return {
+        dpi: tileInfo.dpi,
+        format: tileInfo.format,
+        isWrappable: tileInfo.isWrappable,
+        lods: tileInfo.lods?.map(buildDotNetLod),
+        origin: buildDotNetPoint(tileInfo.origin),
+        size: tileInfo.size,
+        spatialReference: buildDotNetSpatialReference(tileInfo.spatialReference)
+    }
+}
+
+export function buildDotNetLod(lod: LOD) {
+    return {
+        level: lod.level,
+        levelValue: lod.levelValue,
+        resolution: lod.resolution,
+        scale: lod.scale
     }
 }
 
