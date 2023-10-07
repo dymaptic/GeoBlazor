@@ -89,7 +89,7 @@ import {
     buildJsColorRamp,
     buildJsAlgorithmicColorRamp,
     buildJsMultipartColorRamp,
-    buildJsRasterStretchRenderer, buildJsEffect
+    buildJsEffect,
     buildJsRasterStretchRenderer,
     buildJsSearchSource
 } from "./jsBuilder";
@@ -167,9 +167,6 @@ function getObjectReference(objectRef: any) {
 
             return buildDotNetLayer(objectRef);
         }
-        if (objectRef instanceof FeatureLayerView) {
-            return new FeatureLayerViewWrapper(objectRef);
-        }
         if (objectRef instanceof Graphic) {
             return buildDotNetGraphic(objectRef);
         }
@@ -178,6 +175,9 @@ function getObjectReference(objectRef: any) {
         }
         if (objectRef instanceof Search) {
             return new SearchWidgetWrapper(objectRef);
+        }
+        if (objectRef instanceof FeatureLayerView) {
+            return new FeatureLayerViewWrapper(objectRef);
         }
         return objectRef;
     }

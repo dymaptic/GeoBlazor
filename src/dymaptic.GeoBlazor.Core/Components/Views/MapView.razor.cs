@@ -1475,7 +1475,7 @@ public partial class MapView : MapComponent
     ///     The layer to add
     /// </param>
     /// <param name="isBasemapLayer">
-    ///     If true, adds the layer as a Basemap
+    ///     If true, adds the layer as a Basemap. If there is no Basemap yet, one will be created.
     /// </param>
     public async Task AddLayer(Layer layer, bool isBasemapLayer = false)
     {

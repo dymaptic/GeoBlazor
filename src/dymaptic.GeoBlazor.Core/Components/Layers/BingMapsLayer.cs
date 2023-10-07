@@ -25,6 +25,33 @@ public class BingMapsLayer : BaseTileLayer
     {
     }
     
+    /// <summary>
+    ///     Constructor for use in code
+    /// </summary>
+    /// <param name="key">
+    ///     Bing Maps Key.
+    /// </param>
+    /// <param name="style">
+    ///     For more information on Bing map styles please visit: <a target="_blank" href="https://learn.microsoft.com/en-us/bingmaps/rest-services/imagery/get-imagery-metadata">https://learn.microsoft.com/en-us/bingmaps/rest-services/imagery/get-imagery-metadata</a>
+    /// </param>
+    /// <param name="blendMode">
+    ///     Blend mode for the layer. Default Value: "normal"
+    /// </param>
+    /// <param name="effect">
+    ///     The blend effect applied to the layer. Default Value: "none"
+    /// </param>
+    /// <param name="maxScale">
+    ///     The maximum scale (most zoomed in) at which the layer is visible. If the map is zoomed in beyond this scale, the layer will not be visible. A value of 0 means the layer does not have a maximum scale. Default Value: 0
+    /// </param>
+    /// <param name="minScale">
+    ///     The minimum scale (most zoomed out) at which the layer is visible. If the map is zoomed out beyond this scale, the layer will not be visible. A value of 0 means the layer does not have a minimum scale. Default Value: 0
+    /// </param>
+    /// <param name="refreshInterval">
+    ///     Refresh interval of the layer in minutes. Non-zero value indicates automatic layer refresh at the specified interval. Value of 0 indicates auto refresh is not enabled. Default Value: 0
+    /// </param>
+    /// <param name="spatialReference">
+    ///     The spatial reference of the layer. Default Value: 102100
+    /// </param>
     public BingMapsLayer(string key, BingImageryStyle? style = null, BlendMode? blendMode = null, Effect? effect = null, 
         double? maxScale = null, double? minScale = null, double? refreshInterval = null, 
         SpatialReference? spatialReference = null)
