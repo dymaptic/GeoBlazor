@@ -7,10 +7,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Popups;
 /// <summary>
 ///     A FieldsContent popup element represents the FieldInfo associated with a feature. If this is not set within the
 ///     content, it will revert to whatever may be set within the PopupTemplate.fieldInfos property.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-FieldsContent.html">
-///         ArcGIS
-///         JS API
-///     </a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-FieldsContent.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class FieldsPopupContent : PopupContent
 {

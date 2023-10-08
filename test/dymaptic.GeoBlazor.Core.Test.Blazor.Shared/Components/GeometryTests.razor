@@ -7,13 +7,11 @@
 @code {
 
     [TestMethod]
-    public async Task TestCanAddPointGraphicToViewInMarkup()
+    public async Task TestCanAddPointGraphicToViewInMarkup(Action renderHandler)
     {
-        CreateViewRenderedHandler(() =>
-            AssertJavaScript("assertGraphicExistsInView", args: new object[] { "point", 1 }));
-
         AddMapRenderFragment(
-            @<div>
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+
                 <Map ArcGISDefaultBasemap="arcgis-imagery" />
                 <Graphic Attributes="_attributes">
                     <Point Latitude="100" Longitude="12" />
@@ -22,38 +20,35 @@
                     </SimpleMarkerSymbol>
                     <PopupTemplate Title="{Name}" StringContent="{Description}" />
                 </Graphic>
-            </div>);
+
+            </MapView>);
 
         await WaitForMapToRender();
+        await AssertJavaScript("assertGraphicExistsInView", args: new object[] { "point", 1 });
     }
 
     [TestMethod]
-    public async Task TestCanAddPolyLineGraphicToViewInMarkup()
+    public async Task TestCanAddPolyLineGraphicToViewInMarkup(Action renderHandler)
     {
-        CreateViewRenderedHandler(() =>
-            AssertJavaScript("assertGraphicExistsInView", args: new object[] { "polyline", 1 }));
-
         AddMapRenderFragment(
-            @<div>
+            @<MapView class="map-view" OnViewRendered="renderHandler">
                 <Map ArcGISDefaultBasemap="arcgis-imagery" />
                 <Graphic Attributes="_attributes">
                     <PolyLine Paths="_paths" />
                     <SimpleLineSymbol Color="@(new MapColor("ffffff"))"></SimpleLineSymbol>
                     <PopupTemplate Title="{Name}" StringContent="{Description}" />
                 </Graphic>
-            </div>);
+            </MapView>);
 
         await WaitForMapToRender();
+        await AssertJavaScript("assertGraphicExistsInView", args: new object[] { "polyline", 1 });
     }
 
     [TestMethod]
-    public async Task TestCanAddPolygonGraphicToViewInMarkup()
+    public async Task TestCanAddPolygonGraphicToViewInMarkup(Action renderHandler)
     {
-        CreateViewRenderedHandler(() =>
-            AssertJavaScript("assertGraphicExistsInView", args: new object[] { "polygon", 1 }));
-
         AddMapRenderFragment(
-            @<div>
+            @<MapView class="map-view" OnViewRendered="renderHandler">
                 <Map ArcGISDefaultBasemap="arcgis-imagery" />
                 <Graphic Attributes="_attributes">
                     <Polygon Rings="_rings" />
@@ -62,23 +57,18 @@
                     </SimpleFillSymbol>
                     <PopupTemplate Title="{Name}" StringContent="{Description}" />
                 </Graphic>
-            </div>);
+
+            </MapView>);
 
         await WaitForMapToRender();
+        await AssertJavaScript("assertGraphicExistsInView", args: new object[] { "polygon", 1 });
     }
 
     [TestMethod]
-    public async Task TestCanAddMultipleGraphicsToViewInMarkup()
+    public async Task TestCanAddMultipleGraphicsToViewInMarkup(Action renderHandler)
     {
-        CreateViewRenderedHandler(async () =>
-        {
-            await AssertJavaScript("assertGraphicExistsInView", args: new object[] { "point", 1 });
-            await AssertJavaScript("assertGraphicExistsInView", args: new object[] { "polyline", 1 });
-            await AssertJavaScript("assertGraphicExistsInView", args: new object[] { "polygon", 1 });
-        });
-
         AddMapRenderFragment(
-            @<div>
+            @<MapView class="map-view" OnViewRendered="renderHandler">
                 <Map ArcGISDefaultBasemap="arcgis-imagery" />
                 <Graphic>
                     <Point Latitude="100" Longitude="12" />
@@ -89,63 +79,70 @@
                 <Graphic>
                     <Polygon Rings="_rings" />
                 </Graphic>
-            </div>);
+
+            </MapView>);
 
         await WaitForMapToRender();
+        await AssertJavaScript("assertGraphicExistsInView", args: new object[] { "point", 1 });
+        await AssertJavaScript("assertGraphicExistsInView", args: new object[] { "polyline", 1 });
+        await AssertJavaScript("assertGraphicExistsInView", args: new object[] { "polygon", 1 });
     }
 
     [TestMethod]
-    public async Task TestCanAddPointGraphicToViewInCode()
+    public async Task TestCanAddPointGraphicToViewInCode(Action renderHandler)
     {
-        CreateViewRenderedHandler();
-        AddMapRenderFragment(@<Map ArcGISDefaultBasemap="arcgis-imagery" />);
-        await WaitForMapToRender(cleanupFragment: false);
+        MapView? mapView = null;        
+        AddMapRenderFragment( 
+            @<MapView @ref=" mapView" class="map-view" OnViewRendered="renderHandler">
+                <Map ArcGISDefaultBasemap="arcgis-imagery" />
+            </MapView>);
+        await WaitForMapToRender();
 
-        MapView mapView = GetMapView();
-        CreateViewRenderedHandler(() =>
-            AssertJavaScript("assertGraphicExistsInView", args: new object[] { "point", 1 }));
-        await mapView.AddGraphic(new Graphic(new Point(100, 12),
+        await mapView!.AddGraphic(new Graphic(new Point(100, 12),
             new SimpleMarkerSymbol(color: new MapColor("purple")),
             new PopupTemplate("title", "content"), _attributes));
 
         await WaitForMapToRender();
+        await AssertJavaScript("assertGraphicExistsInView", args: new object[] { "point", 1 });
     }
 
     [TestMethod]
-    public async Task TestCanAddPolyLineGraphicToViewInCode()
+    public async Task TestCanAddPolyLineGraphicToViewInCode(Action renderHandler)
     {
-        CreateViewRenderedHandler();
-        AddMapRenderFragment(@<Map ArcGISDefaultBasemap="arcgis-imagery" />);
-        await WaitForMapToRender(cleanupFragment: false);
+        MapView? mapView = null;
+        AddMapRenderFragment(
+            @<MapView @ref="mapView" class="map-view" OnViewRendered="renderHandler">
+                <Map ArcGISDefaultBasemap="arcgis-imagery" />
+            </MapView>);
+        await WaitForMapToRender();
 
-        MapView mapView = GetMapView();
-        CreateViewRenderedHandler(() =>
-            AssertJavaScript("assertGraphicExistsInView", args: new object[] { "polyline", 1 }));
-        await mapView.AddGraphic(new Graphic(new PolyLine(_paths),
+        await mapView!.AddGraphic(new Graphic(new PolyLine(_paths),
             new SimpleLineSymbol(new MapColor("purple")),
             new PopupTemplate("title", "content"), _attributes));
 
         await WaitForMapToRender();
+        await AssertJavaScript("assertGraphicExistsInView", args: new object[] { "polyline", 1 });
     }
 
     [TestMethod]
-    public async Task TestCanAddPolygonGraphicToViewInCode()
+    public async Task TestCanAddPolygonGraphicToViewInCode(Action renderHandler)
     {
-        CreateViewRenderedHandler();
-        AddMapRenderFragment(@<Map ArcGISDefaultBasemap="arcgis-imagery" />);
-        await WaitForMapToRender(cleanupFragment: false);
+        MapView? mapView = null;
+        AddMapRenderFragment(
+            @<MapView @ref="mapView" class="map-view" OnViewRendered="renderHandler">
+                <Map ArcGISDefaultBasemap="arcgis-imagery" />
+            </MapView>);
+        await WaitForMapToRender();
 
-        MapView mapView = GetMapView();
-        CreateViewRenderedHandler(() =>
-            AssertJavaScript("assertGraphicExistsInView", args: new object[] { "polygon", 1 }));
-        await mapView.AddGraphic(new Graphic(new Polygon(_rings),
+        await mapView!.AddGraphic(new Graphic(new Polygon(_rings),
             new SimpleFillSymbol(color: new MapColor("purple")),
             new PopupTemplate("title", "content"), _attributes));
 
         await WaitForMapToRender();
+        await AssertJavaScript("assertGraphicExistsInView", args: new object[] { "polygon", 1 });
     }
 
-    private readonly AttributesDictionary _attributes = new(new Dictionary<string, object>()
+    private readonly AttributesDictionary _attributes = new(new Dictionary<string, object>
     {
         { "Name", "name" },
         { "Description", "description" }

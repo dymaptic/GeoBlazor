@@ -14,10 +14,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Views;
 /// <summary>
 ///     A SceneView displays a 3D view of a Map or WebScene instance using WebGL. To render a map and its layers in 2D, see
 ///     the documentation for MapView. For a general overview of views, see View.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">
-///         ArcGIS
-///         JS API
-///     </a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <example>
 ///     <a target="_blank" href="https://samples.geoblazor.com/web-scene">Sample - Web Scene</a>

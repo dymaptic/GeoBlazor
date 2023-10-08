@@ -11,10 +11,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 ///     SimpleFillSymbol is used for rendering 2D polygons in either a MapView or a SceneView. It can be filled with a
 ///     solid color, or a pattern. In addition, the symbol can have an optional outline, which is defined by a
 ///     SimpleLineSymbol.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleFillSymbol.html">
-///         ArcGIS
-///         JS API
-///     </a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleFillSymbol.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class SimpleFillSymbol : FillSymbol
 {

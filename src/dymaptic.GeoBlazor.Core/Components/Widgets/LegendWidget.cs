@@ -10,10 +10,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 ///     The Legend widget describes the symbols used to represent layers in a map. All symbols and text used in this widget
 ///     are configured in the Renderer of the layer. The legend will only display layers and sublayers that are visible in
 ///     the view.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">
-///         ArcGIS
-///         JS API
-///     </a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class LegendWidget : Widget
 {
@@ -31,10 +28,7 @@ public class LegendWidget : Widget
     /// Indicates the style of the legend. The style determines the legend's layout and behavior.
     /// You can either specify a string or an object to indicate the style.
     /// The known string values are the same values listed in the table within the type property.
-    /// <a target="_blank" href=" https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#style">
-    ///         ArcGIS
-    ///         JS API
-    ///     </a>
+    /// <a target="_blank" href=" https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#style">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public LegendStyle? Style { get; set; }
 
@@ -125,10 +119,7 @@ public class LayerInfo : MapComponent
 
 /// <summary>
 /// The widget legend style, sets the display style of the legend widget.
-/// <a target="_blank" href=" https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#style">
-///         ArcGIS
-///         JS API
-///     </a>
+/// <a target="_blank" href=" https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#style">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class LegendStyle : MapComponent
 {
@@ -148,10 +139,7 @@ public class LegendStyle : MapComponent
 
 /// <summary>
 /// The Legend style type.
-/// <a target="_blank" href=" https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#style">
-///         ArcGIS
-///         JS API
-///     </a>
+/// <a target="_blank" href=" https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#style">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<LegendStyleType>))]
 public enum LegendStyleType
@@ -164,10 +152,7 @@ public enum LegendStyleType
 
 /// <summary>
 /// The legend style layout when there are multiple legends
-/// <a target="_blank" href=" https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#style">
-///         ArcGIS
-///         JS API
-///     </a>
+/// <a target="_blank" href=" https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#style">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<LegendStyleLayout>))]
 public enum LegendStyleLayout

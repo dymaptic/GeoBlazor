@@ -9,10 +9,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 ///     SimpleMarkerSymbol is used for rendering 2D Point geometries with a simple shape and color in either a MapView or a
 ///     SceneView. It may be filled with a solid color and have an optional outline, which is defined with a
 ///     SimpleLineSymbol.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleMarkerSymbol.html">
-///         ArcGIS
-///         JS API
-///     </a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleMarkerSymbol.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class SimpleMarkerSymbol : MarkerSymbol
 {

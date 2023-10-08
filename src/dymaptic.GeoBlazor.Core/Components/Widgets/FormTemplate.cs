@@ -7,7 +7,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 /// <summary>
 ///     A FormTemplate formats and defines the content of a FeatureForm for a specific Layer or Graphic. A FormTemplate allows the user to access values from feature attributes when a feature in the view is selected.
 ///     The FormTemplate can be set directly on a FeatureLayer, a FeatureForm, or its view model. The template consists of various elements that display a specific type of form data.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-form-FormTemplate.html">ArcGIS JS API</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-form-FormTemplate.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class FormTemplate : MapComponent
 {

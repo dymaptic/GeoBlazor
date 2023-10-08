@@ -9,10 +9,7 @@ namespace dymaptic.GeoBlazor.Core.Objects;
 
 /// <summary>
 ///     The result object returned from a search.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#SearchResult">
-///         ArcGIS
-///         JS API
-///     </a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#SearchResult">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class SearchResult
 {

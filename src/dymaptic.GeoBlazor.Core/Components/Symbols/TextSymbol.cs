@@ -11,10 +11,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 ///     StreamLayer in a 2D MapView. Text symbols can also be used to define the symbol property of Graphic if the geometry
 ///     type is Point or Multipoint. With this class, you may alter the color, font, halo, and other properties of the
 ///     label graphic.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-TextSymbol.html">
-///         ArcGIS
-///         JS API
-///     </a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-TextSymbol.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class TextSymbol : Symbol
 {

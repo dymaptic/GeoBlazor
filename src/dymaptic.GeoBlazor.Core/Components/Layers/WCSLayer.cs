@@ -11,10 +11,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 ///     WCS presents raster data from a OGC Web Coverage Service. Raster data are projected and rendered on the client-side.
 ///     It supports versions 1.0.0, 1.1.0, 1.1.1, 1.1.2 and 2.0.1. For version 2.0.1, it supports servers that support 
 ///     GEOTIFF coverage and implements the following extensions: Scaling, Interpolation, Range Subsetting, CRS, and KVP/Get.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html">
-///         ArcGIS
-///         JS API
-///     </a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class WCSLayer : Layer
 {

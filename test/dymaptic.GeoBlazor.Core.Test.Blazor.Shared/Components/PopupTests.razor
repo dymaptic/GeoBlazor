@@ -7,36 +7,41 @@
 @code {
 
     [TestMethod]
-    public async Task TestCanActivatePopupAction()
+    public async Task TestCanActivatePopupAction(Action renderHandler)
     {
-        bool callbackCalled = false;
-        CreateViewRenderedHandler(async () =>
-        {
-            await AssertJavaScript("assertPopupCallback");
-            Assert.IsTrue(callbackCalled);
-        });
-        
+        var callbackCalled = false;
+
         Task MeasureThis()
         {
             callbackCalled = true;
             return Task.CompletedTask;
         }
-        
+
         AddMapRenderFragment(
-            @<Map>
-                 <Basemap>
-                     <PortalItem Id="f35ef07c9ed24020aadd65c8a65d3754" />
-                 </Basemap>
-                 <FeatureLayer Url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/TrailRuns/FeatureServer/0">
-                     <PopupTemplate Title="Trail Run" StringContent="{name}">
-                         <ActionButton Title="Measure Length"
-                                       Id="measure-this"
-                                       CallbackFunction="MeasureThis" />
-                     </PopupTemplate>
-                 </FeatureLayer>
-            </Map>);
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <PortalItem Id="f35ef07c9ed24020aadd65c8a65d3754" />
+                    </Basemap>
+                    <FeatureLayer Url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/TrailRuns/FeatureServer/0">
+                        <PopupTemplate Title="Trail Run" StringContent="{name}">
+                            <ActionButton Title="Measure Length"
+                                          Id="measure-this"
+                                          CallbackFunction="MeasureThis" />
+                        </PopupTemplate>
+                    </FeatureLayer>
+                </Map>
+            </MapView>);
 
         await WaitForMapToRender();
-        
+        await AssertJavaScript("assertPopupCallback");
+        var tries = 10;
+        while (!callbackCalled && (tries > 0))
+        {
+            await Task.Delay(1000);
+            tries--;
+        }
+        Assert.IsTrue(callbackCalled);
     }
+
 }

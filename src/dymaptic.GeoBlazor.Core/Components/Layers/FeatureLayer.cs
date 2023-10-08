@@ -18,10 +18,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 ///     A FeatureLayer is a single layer that can be created from a Map Service or Feature Service; ArcGIS Online or ArcGIS
 ///     Enterprise portal items; or from an array of client-side features. The layer can be either a spatial (has
 ///     geographic features) or non-spatial (table).
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html">
-///         ArcGIS
-///         JS API
-///     </a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <example>
 ///     <a target="_blank" href="https://samples.geoblazor.com/feature-layers">Sample - Feature Layers</a>
@@ -1076,7 +1073,7 @@ public class CreatePopupTemplateOptions
 /// <summary>
 ///     Object containing features and attachments to be added, updated or deleted.
 ///     For use with <see cref="FeatureLayer.ApplyEdits"/>
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#applyEdits">ArcGIS JS API</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#applyEdits">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class FeatureEdits
 {
@@ -1109,7 +1106,7 @@ public class FeatureEdits
 
 /// <summary>
 ///     AttachmentEdit represents an attachment that can be added, updated or deleted via applyEdits. This object can be either pre-uploaded data or base 64 encoded data.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#AttachmentEdit">ArcGIS JS API</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#AttachmentEdit">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class AttachmentEdit
 {
@@ -1247,7 +1244,7 @@ public class FeatureEditOptions
 
 /// <summary>
 ///     The result of <see cref="FeatureLayer.ApplyEdits"/>.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#EditsResult">ArcGIS JS API</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#EditsResult">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="AddFeatureResults">
 ///     Result of adding features.     
@@ -1280,7 +1277,7 @@ public record FeatureEditsResult(FeatureEditResult[] AddFeatureResults, FeatureE
 
 /// <summary>
 ///     FeatureEditResult represents the result of adding, updating or deleting a feature or an attachment.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#FeatureEditResult">ArcGIS JS API</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#FeatureEditResult">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="ObjectId">
 ///     The objectId of the feature or the attachmentId of the attachment that was edited.
@@ -1307,7 +1304,7 @@ public record EditError(string? Name, string? Message);
 /// <summary>
 ///     Results returned from the applyEdits method if the returnServiceEditsOption parameter is set to original-and-current-features. It contains features that were added, deleted or updated in different feature layers of a feature service as a result of editing a single feature that participates in a composite relationship in a database. The results are organized by each layer affected by the edit. For example, if a feature is deleted and it is the origin in a composite relationship, the edited features as a result of this deletion are returned.
 ///     The editedFeatures object returns full features including newly added features, the original features prior to delete, the original and current features for updates.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#EditedFeatureResult">ArcGIS JS API</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#EditedFeatureResult">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="LayerId">
 ///     The layerId of the feature layer where features were edited.

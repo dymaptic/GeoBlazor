@@ -15,7 +15,7 @@ namespace dymaptic.GeoBlazor.Core.Objects;
 
 /// <summary>
 ///     The following properties define generic sources properties for use in the Search widget. Please see the subclasses that extend this class for more information about working with Search widget sources.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html">ArcGIS JS API</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 [JsonConverter(typeof(SearchSourceConverter))]
 public class SearchSource : MapComponent
@@ -247,7 +247,7 @@ public class SearchSource : MapComponent
 /// <summary>
 ///     The following properties define a Layer-based source whose features may be searched by a Search widget instance.
 ///     For string field searches, there is no leading wildcard. This effectively makes exactMatch true, which will remove unnecessary search results and suggestions.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-LayerSearchSource.html">ArcGIS JS API</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-LayerSearchSource.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <remarks>
 ///     Layers created from client-side graphics are not supported.
@@ -374,7 +374,7 @@ public class LayerSearchSource : SearchSource
 
 /// <summary>
 ///     The following properties define a source pointing to a url that represents a locator service, which may be used to geocode locations with a Search widget instance.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-LocatorSearchSource.html">ArcGIS JS API</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-LocatorSearchSource.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class LocatorSearchSource : SearchSource
 {
@@ -535,7 +535,7 @@ public enum LocatorSearchLocationType
 
 /// <summary>
 ///     An object that is passed as a parameter to get search results.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html#GetResultsHandler">ArcGIS JS API</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html#GetResultsHandler">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="ExactMatch">
 ///     The key field used to find the result.
@@ -563,7 +563,7 @@ public record GetResultsParameters(bool? ExactMatch, Point? Location, int? MaxRe
 
 /// <summary>
 ///     An object that is passed as a parameter to get search suggestions.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html#GetSuggestionsParameters">ArcGIS JS API</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html#GetSuggestionsParameters">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="MaxSuggestions">
 ///     Indicates the maximum number of suggestions to return for the widget's input.

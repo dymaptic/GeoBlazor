@@ -7,10 +7,7 @@ namespace dymaptic.GeoBlazor.Core.Objects;
 /// <summary>
 ///     Units for areal measurements. Use one of the possible values listed below or any of the numeric codes for area
 ///     units.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-geometryEngine.html#ArealUnits">
-///         ArcGIS
-///         JS API
-///     </a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-geometryEngine.html#ArealUnits">ArcGIS Maps SDK for JavaScript</a>
 /// Used by the Geometry Engine.
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<ArealUnit>))]
@@ -31,10 +28,7 @@ public enum ArealUnit
 
 /// <summary>
 /// Units for area measurement. Use one of the possible values listed below or any of the numeric codes for area units.
-///  <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-geometryEngine.html#AreaUnits">
-///         ArcGIS
-///         JS API
-///     </a>
+///  <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-geometryEngine.html#AreaUnits">ArcGIS Maps SDK for JavaScript</a>
 /// Used by Widgets.
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<GeometryEngineAreaUnit>))]

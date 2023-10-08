@@ -8,7 +8,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
 /// <summary>
 ///     Form elements define what should display within the FormTemplate elements. There are three specific element types:
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-form-elements-Element.html">ArcGIS JS API</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-form-elements-Element.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 [JsonConverter(typeof(FormElementConverter))]
 public abstract class FormElement: MapComponent
@@ -43,7 +43,7 @@ public abstract class FormElement: MapComponent
 
 /// <summary>
 ///     A FieldElement form element defines how a feature layer's field participates in the FeatureForm. This is the recommended approach to set field configurations within a feature form's or feature layer's formTemplate.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-form-elements-FieldElement.html">ArcGIS JS API</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-form-elements-FieldElement.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class FieldElement : FormElement
 {
@@ -146,7 +146,7 @@ public class FieldElement : FormElement
 
 /// <summary>
 ///     A GroupElement form element defines a container that holds a set of form elements that can be expanded, collapsed, or displayed together. This is the preferred way to set grouped field configurations within a FeatureForm or Featurelayer formTemplate.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-form-elements-GroupElement.html">ArcGIS JS API</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-form-elements-GroupElement.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class GroupElement : FormElement
 {

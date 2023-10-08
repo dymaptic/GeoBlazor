@@ -8,10 +8,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// <summary>
 ///     Specifies constraints to scale, zoom, and rotation that may be applied to the MapView. The constraints.lods should
 ///     be set in the MapView constructor, if the map does not have a basemap or when the basemap does not have tileInfo.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#constraints">
-///         ArcGIS
-///         JS API
-///     </a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#constraints">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class Constraints : MapComponent
 {

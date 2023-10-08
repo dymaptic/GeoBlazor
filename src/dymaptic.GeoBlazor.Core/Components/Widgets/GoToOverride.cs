@@ -6,7 +6,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
 /// <summary>
 ///     The following properties define a goTo override function.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-support-widget.html#GoToOverride">ArcGIS JS API</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-support-widget.html#GoToOverride">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="ViewId">
 ///     A reference Id to the MapView or SceneView where the navigation takes place.

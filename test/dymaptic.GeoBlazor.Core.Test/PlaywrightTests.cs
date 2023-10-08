@@ -14,6 +14,10 @@ public class PlaywrightTests
     ///     This also takes screenshots for used in <see cref="PlaywrightTests.CompareScreenShots" />.
     ///     This test will likely break on changes to the repository, so don't rely on for stability.
     /// </summary>
+    /// <remarks>
+    ///     For faster and more reliable testing, use the blazor test runner in `dymaptic.GeoBlazor.Core.Test.Blazor.Server`
+    ///     or `dymaptic.GeoBlazor.Core.Test.Blazor.Wasm`.
+    /// </remarks>
     [TestMethod]
     public async Task RunThroughScreens()
     {
@@ -41,7 +45,7 @@ public class PlaywrightTests
 
         var renderMessage = new PageWaitForConsoleMessageOptions
         {
-            Predicate = m => m.Text.Equals("View Render Complete"), Timeout = 60000
+            Predicate = m => m.Text.Contains("View Render Complete"), Timeout = 60000
         };
         await Task.Delay(1000);
         Task waitForRenderTask = page.WaitForConsoleMessageAsync(renderMessage);

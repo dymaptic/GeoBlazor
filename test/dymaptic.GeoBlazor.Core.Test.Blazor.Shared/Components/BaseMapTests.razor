@@ -7,51 +7,49 @@
 @code {
 
     [TestMethod]
-    public async Task TestCanRenderArcGisDefaultBasemap()
+    public async Task TestCanRenderArcGisDefaultBasemap(Action renderHandler)
     {
-        CreateViewRenderedHandler();
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map ArcGISDefaultBasemap="arcgis-imagery" />
+            </MapView>);
+        await WaitForMapToRender();
+    }
 
-        AddMapRenderFragment(@<Map ArcGISDefaultBasemap="arcgis-imagery" />);
+    [TestMethod]
+    public async Task TestCanRenderBasemapFromPortalId(Action renderHandler)
+    {
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <PortalItem Id="55ebf90799fa4a3fa57562700a68c405" />
+                    </Basemap>
+                </Map>
+            </MapView>);
 
         await WaitForMapToRender();
     }
 
     [TestMethod]
-    public async Task TestCanRenderBasemapFromPortalId()
+    public async Task TestCanRenderBasemapFromTileLayers(Action renderHandler)
     {
-        CreateViewRenderedHandler();
-
         AddMapRenderFragment(
-            @<Map>
-                 <Basemap>
-                     <PortalItem Id="55ebf90799fa4a3fa57562700a68c405" />
-                 </Basemap>
-             </Map>);
-        
-        await WaitForMapToRender();
-    }
-
-    [TestMethod]
-    public async Task TestCanRenderBasemapFromTileLayers()
-    {
-        CreateViewRenderedHandler(async () =>
-        {
-            await AssertJavaScript("assertBasemapHasTwoLayers");
-        });
-
-        AddMapRenderFragment(
-            @<Map>
-                 <Basemap>
-                     <TileLayer>
-                         <PortalItem Id="1b243539f4514b6ba35e7d995890db1d" />
-                     </TileLayer>
-                     <VectorTileLayer Opacity="0.75">
-                         <PortalItem Id="6976148c11bd497d8624206f9ee03e30" />
-                     </VectorTileLayer>
-                 </Basemap>
-             </Map>);
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <TileLayer>
+                            <PortalItem Id="1b243539f4514b6ba35e7d995890db1d" />
+                        </TileLayer>
+                        <VectorTileLayer Opacity="0.75">
+                            <PortalItem Id="6976148c11bd497d8624206f9ee03e30" />
+                        </VectorTileLayer>
+                    </Basemap>
+                </Map>
+            </MapView>);
 
         await WaitForMapToRender();
+        await AssertJavaScript("assertBasemapHasTwoLayers");
     }
 
 }
