@@ -7,10 +7,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Popups;
 /// <summary>
 ///     A MediaContent popup element contains an individual or array of chart and/or image media elements to display within
 ///     a popup's content.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-MediaContent.html">
-///         ArcGIS
-///         JS API
-///     </a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-MediaContent.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class MediaPopupContent : PopupContent
 {

@@ -12,10 +12,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 ///     The FeatureLayerView is responsible for rendering a FeatureLayer's features as graphics in the View. The methods in
 ///     the FeatureLayerView provide developers with the ability to query and highlight graphics in the view. See the code
 ///     snippets in the methods below for examples of how to access client-side graphics from the view.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#whenLayerView">
-///         ArcGIS
-///         JS API
-///     </a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#whenLayerView">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class FeatureLayerView : LayerView
 {
@@ -331,10 +328,7 @@ public class FeatureLayerView : LayerView
 }
 
 /// <summary>
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html">
-///         ArcGIS
-///         JS API
-///     </a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class FeatureFilter
 {
@@ -400,10 +394,7 @@ public class FeatureFilter
 }
 
 /// <summary>
-///  <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureEffect.html">
-///     ArcGIS
-///     JS API
-/// </a>
+///  <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureEffect.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class FeatureEffect
 {
@@ -430,10 +421,7 @@ public class FeatureEffect
 }
 
 /// <summary>
-///  <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureEffect.html#Effect">
-///     ArcGIS
-///     JS API
-/// </a>
+///  <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureEffect.html#Effect">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class Effect
 {

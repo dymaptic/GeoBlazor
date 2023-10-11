@@ -5,49 +5,50 @@
 }
 
 @code {
+
     [TestMethod]
-    public async Task TestCanDeleteGraphicWithNewGeometry()
+    public async Task TestCanDeleteGraphicWithNewGeometry(Action renderHandler)
     {
-        CreateViewRenderedHandler();
+        MapView? mapView = null;
+        AddMapRenderFragment( 
+            @<MapView @ref="mapView" class="map-view" OnViewRendered="renderHandler">
+                <Map ArcGISDefaultBasemap="arcgis-imagery" />
+            </MapView>);
 
-        AddMapRenderFragment(@<Map ArcGISDefaultBasemap="arcgis-imagery" />);
+        await WaitForMapToRender();
 
-        await WaitForMapToRender(cleanupFragment: false);
-        CreateViewRenderedHandler();
-        MapView mapView = GetMapView();
-        Graphic testGraphic = new Graphic(new Point(0, 0), 
+        var testGraphic = new Graphic(new Point(0, 0),
             new SimpleMarkerSymbol(color: new MapColor("red"), size: 10));
-        await mapView.AddGraphic(testGraphic);
-        await WaitForMapToRender(cleanupFragment: false);
-        CreateViewRenderedHandler();
+        await mapView!.AddGraphic(testGraphic);
+        await WaitForMapToRender();
         await testGraphic.SetGeometry(new Point(1, 1));
         await WaitForMapToRender();
         await mapView.RemoveGraphic(testGraphic);
     }
 
     [TestMethod]
-    public async Task TestGraphicsAddedViaMarkupAreOnlyAddedOnce()
+    public async Task TestGraphicsAddedViaMarkupAreOnlyAddedOnce(Action renderHandler)
     {
         Graphic? graphic = null;
         GraphicsLayer? graphicsLayer = null;
-        CreateViewRenderedHandler(async () =>
-        {
-            Assert.AreEqual(1, graphicsLayer!.Graphics.Count);
-            graphic!.Refresh();
-            await AssertJavaScript("assertGraphicExistsInLayer", args: new  object[] { graphicsLayer.Id, "point", 1 });
-        });
-        
+
         AddMapRenderFragment(
-            @<Map ArcGISDefaultBasemap="arcgis-imagery">
-                <GraphicsLayer @ref="graphicsLayer">
-                    <Graphics>
-                        <Graphic @ref="graphic">
-                            <Point X="0" Y="0" />
-                        </Graphic>
-                    </Graphics>
-                </GraphicsLayer>
-            </Map>);
-        
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map ArcGISDefaultBasemap="arcgis-imagery">
+                    <GraphicsLayer @ref="graphicsLayer">
+                        <Graphics>
+                            <Graphic @ref="graphic">
+                                <Point X="0" Y="0" />
+                            </Graphic>
+                        </Graphics>
+                    </GraphicsLayer>
+                </Map>
+            </MapView>);
+
         await WaitForMapToRender();
+        Assert.AreEqual(1, graphicsLayer!.Graphics.Count);
+        graphic!.Refresh();
+        await AssertJavaScript("assertGraphicExistsInLayer", args: new object[] { graphicsLayer.Id, "point", 1 });
     }
+
 }

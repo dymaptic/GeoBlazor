@@ -7,10 +7,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 /// <summary>
 ///     ElevationLayer is a tile layer used for rendering elevations in SceneViews. A default world elevation layer can be
 ///     added to the map by setting the map's ground property to world-elevation.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ElevationLayer.html">
-///         ArcGIS
-///         JS API
-///     </a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ElevationLayer.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class ElevationLayer : Layer
 {

@@ -13,10 +13,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 ///     represent tabular data, including geographic point features (latitude, longitude). Typically the latitude
 ///     coordinate is the Y value, and the longitude coordinate is the X value. The X, Y coordinates must be stored
 ///     in SpatialReference.WGS84 in csv feed.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html">
-///         ArcGIS
-///         JS API
-///     </a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class CSVLayer : Layer
 {

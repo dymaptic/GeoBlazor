@@ -16,10 +16,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Popups;
 ///     dynamically create a table consisting only of fields containing valid data values. You can also use this element to
 ///     create charts or other content types consisting of aggregated data values. This can be especially useful in cluster
 ///     popups.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-ExpressionContent.html">
-///         ArcGIS
-///         JS API
-///     </a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-ExpressionContent.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class ExpressionPopupContent : PopupContent
 {
@@ -47,10 +44,7 @@ public class ExpressionPopupContent : PopupContent
 ///     This expression may access data values from the feature, its layer, or other layers in the map or datastore with
 ///     the $feature, $layer, $map, and $datastore profile variables. See the Popup Element Arcade Profile specification
 ///     for more information and examples of valid return dictionaries.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-ElementExpressionInfo.html">
-///         ArcGIS
-///         JS API
-///     </a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-ElementExpressionInfo.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 [ProtoContract]
 public class ElementExpressionInfo

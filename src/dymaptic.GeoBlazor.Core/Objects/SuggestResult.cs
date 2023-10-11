@@ -6,7 +6,7 @@ namespace dymaptic.GeoBlazor.Core.Objects;
 
 /// <summary>
 ///     The result object returned from a suggest().
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#SuggestResult">ArcGIS JS API</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#SuggestResult">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="Key">
 ///     The key related to the suggest result.

@@ -11,10 +11,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 /// <summary>
 ///     SimpleLineSymbol is used for rendering 2D polyline geometries in a 2D MapView. SimpleLineSymbol is also used for
 ///     rendering outlines for marker symbols and fill symbols.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleLineSymbol.html">
-///         ArcGIS
-///         JS API
-///     </a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleLineSymbol.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class SimpleLineSymbol : LineSymbol
 {

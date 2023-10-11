@@ -11,10 +11,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 /// <summary>
 ///     This layer supports Microsoft's Bing tiled map content. Three map styles are supported - road, aerial and hybrid.
 ///     Please note that a valid Bing Maps key is required to use this layer.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-BingMapsLayer.html">
-///         ArcGIS
-///         JS API
-///     </a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-BingMapsLayer.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class BingMapsLayer : BaseTileLayer
 {
@@ -127,7 +124,7 @@ public class BingMapsLayer : BaseTileLayer
 
 /// <summary>
 ///     The Bing Maps Imagery Set Styles. ArcGIS currently only supports 3 options.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-BingMapsLayer.html#style">ArcGIS JS API</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-BingMapsLayer.html#style">ArcGIS Maps SDK for JavaScript</a>
 ///     <a target="_blank" href="https://learn.microsoft.com/en-us/bingmaps/rest-services/imagery/get-imagery-metadata#template-parameters">Bing Maps Imagery Set Styles</a>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<BingImageryStyle>))]

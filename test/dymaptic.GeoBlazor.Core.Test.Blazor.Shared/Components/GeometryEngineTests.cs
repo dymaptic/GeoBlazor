@@ -4,6 +4,10 @@ using dymaptic.GeoBlazor.Core.Objects;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 
 namespace dymaptic.GeoBlazor.Core.Test.Blazor.Shared.Components;
@@ -1641,6 +1645,6 @@ public class GeometryEngineTests : TestRunnerBase
 
         Assert.IsFalse(within);
     }
-    
+
     private readonly Random _random = new();
 }

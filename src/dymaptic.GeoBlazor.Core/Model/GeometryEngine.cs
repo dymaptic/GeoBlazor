@@ -13,10 +13,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     A client-side geometry engine for testing, measuring, and analyzing the spatial relationship between two or more 2D
 ///     geometries. If more than one geometry is required for any of the methods below, all geometries must have the same
 ///     spatial reference for the methods to work as expected.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-geometryEngine.html">
-///         ArcGIS
-///         JS API
-///     </a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-geometryEngine.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class GeometryEngine : LogicComponent
 {

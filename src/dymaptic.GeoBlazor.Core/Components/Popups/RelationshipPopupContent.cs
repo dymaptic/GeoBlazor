@@ -15,10 +15,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Popups;
 ///     FieldsContent and RelationshipContent configured. When exploring a related feature's RelationshipContent, one could
 ///     navigate into that feature's related records or exit the origin feature's related record exploration with the arrow
 ///     button.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-RelationshipContent.html">
-///         ArcGIS
-///         JS API
-///     </a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-RelationshipContent.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class RelationshipPopupContent : PopupContent
 {
@@ -88,10 +85,7 @@ public class RelationshipPopupContent : PopupContent
 /// <summary>
 ///     The RelatedRecordsInfoFieldOrder class indicates the field display order for the related records in a layer's
 ///     PopupTemplate.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-support-RelatedRecordsInfoFieldOrder.html">
-///         ArcGIS
-///         JS API
-///     </a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-support-RelatedRecordsInfoFieldOrder.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class RelatedRecordsInfoFieldOrder : MapComponent
 {

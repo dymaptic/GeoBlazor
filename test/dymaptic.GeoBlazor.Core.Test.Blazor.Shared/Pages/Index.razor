@@ -2,9 +2,11 @@
 
 @inject IConfiguration Configuration
 @inject IHostApplicationLifetime HostApplicationLifetime
+@inject IJSRuntime JsRuntime
 
 <h1>Unit Tests</h1>
 <button @onclick="RunTests">Run All Tests</button>
+<button @onclick="ToggleAll">@(_showAll ? "Collapse" : "Expand") All</button>
 <div class="result-section">
     @if (_running)
     {
@@ -16,19 +18,22 @@
     }
     @foreach (KeyValuePair<string, TestResult> result in _results.OrderBy(kvp => kvp.Key))
     {
-        <p>
-            <b>@result.Key - @((MarkupString)$"<span style=\"color: green;\">Passed: {result.Value.Passed.Count},</span> <span style=\"color: red;\">Failed: {result.Value.Failed.Count}</span>")</b>
+        <p style="cursor: pointer;" @onclick="@(() => ScrollAndOpenClass(result.Key))">
+            <a>
+                <b>@result.Key - @((MarkupString)$"<span style=\"color: green;\">Passed: {result.Value.Passed.Count},</span> <span style=\"color: red;\">Failed: {result.Value.Failed.Count}</span>")</b>
+            </a>
         </p>
     }
 </div>
 
 @foreach (Type type in _testClassTypes)
 {
-    <DynamicComponent Type="@type" @ref="_testClasses[type.Name]" 
-                      Parameters="@(new Dictionary<string, object>
-                                  {
-                                      {"OnTestResults", EventCallback.Factory.Create<TestResult>(this, OnTestResults)}
-                                  })" />
+    Dictionary<string, object> parameters = new()
+    {
+        { "OnTestResults", EventCallback.Factory.Create<TestResult>(this, OnTestResults) }
+    };
+    
+    <DynamicComponent Type="@type" @ref="_testClasses[type.Name]" Parameters="@parameters" />
 }
 
 @code {
@@ -45,12 +50,24 @@
                 HostApplicationLifetime.StopApplication();
             }
         }
+
+        _jsObjectReference ??= await JsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/dymaptic.GeoBlazor.Core.Test.Blazor.Shared/testRunner.js");
     }
 
     private void FindAllTests()
     {
         var assembly = Assembly.GetExecutingAssembly();
         Type[] types = assembly.GetTypes();
+        try
+        {
+            var proAssembly = Assembly.Load("dymaptic.GeoBlazor.Pro.Test.Blazor.Shared");
+            types = types.Concat(proAssembly.GetTypes()
+                .Where(t => t.Name != "ProTestRunnerBase")).ToArray();
+        }
+        catch
+        {
+            //ignore if not running pro
+        }
         foreach (Type type in types)
         {
             if (type.IsDefined(typeof(TestClassAttribute), true) && (type.Name != nameof(TestRunnerBase)))
@@ -103,8 +120,27 @@ Failed: {result.Value.Failed.Count}");
         await InvokeAsync(StateHasChanged);
     }
 
+    private void ToggleAll()
+    {
+        _showAll = !_showAll;
+        foreach (DynamicComponent? component in _testClasses.Values)
+        {
+            var testClass = (TestRunnerBase)component!.Instance!;
+            testClass.Toggle(_showAll);
+        }
+    }
+
+    private async Task ScrollAndOpenClass(string className)
+    {
+        await _jsObjectReference!.InvokeVoidAsync("scrollToTestClass", className);
+        var testClass = (TestRunnerBase)_testClasses[className]!.Instance!;
+        testClass.Toggle(true);
+    }
+
+    private IJSObjectReference? _jsObjectReference;
     private bool _running;
     private readonly List<Type> _testClassTypes = new();
     private readonly Dictionary<string, DynamicComponent?> _testClasses = new();
     private readonly Dictionary<string, TestResult> _results = new();
+    private bool _showAll;
 }

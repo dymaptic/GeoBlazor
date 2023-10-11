@@ -1,58 +1,73 @@
-﻿@inherits TestRunnerBase
+﻿@using dymaptic.GeoBlazor.Core.Events
+@inherits TestRunnerBase
 
 @{
     base.BuildRenderTree(__builder);
 }
 
 @* ReSharper disable once InconsistentNaming *@
+
 @code {
 
     [TestMethod]
-    public async Task TestCanRenderKMLLayerWithUrl()
+    public async Task TestCanRenderKMLLayerWithUrl(Action renderHandler)
     {
-        CreateViewRenderedHandler(async () =>
-        {
-            await AssertJavaScript("assertLayerExists", args: "kml");
-        });
         AddMapRenderFragment(
-            @<Map>
-                <Basemap>
-                    <PortalItem Id="55ebf90799fa4a3fa57562700a68c405" />
-                </Basemap>
-                <KMLLayer Url="https://earthquake.usgs.gov/fdsnws/event/1/query?format=kml&minmagnitude=5.8" />
-            </Map>);
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <PortalItem Id="55ebf90799fa4a3fa57562700a68c405" />
+                    </Basemap>
+                    <KMLLayer Url="https://earthquake.usgs.gov/fdsnws/event/1/query?format=kml&minmagnitude=5.8" />
+                </Map>
+            </MapView>);
         await WaitForMapToRender();
+        await AssertJavaScript("assertLayerExists", args: "kml");
     }
-    
+
     [TestMethod]
-    public async Task TestCanRenderFeatureLayer()
+    public async Task TestCanRenderFeatureLayer(Action renderHandler)
     {
-        CreateViewRenderedHandler(async () =>
-        {
-            await AssertJavaScript("assertLayerExists", args: "feature");
-        });
         AddMapRenderFragment(
-            @<Map>
-                <FeatureLayer Url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/TrailRuns/FeatureServer/0" />
-            </Map>);
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <FeatureLayer Url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/TrailRuns/FeatureServer/0" />
+                </Map>
+            </MapView>);
         await WaitForMapToRender();
+        await AssertJavaScript("assertLayerExists", args: "feature");
     }
-    
+
     [TestMethod]
-    public async Task TestCanRunFeatureLayerMethods()
+    public async Task TestCanRunFeatureLayerMethods(Action renderHandler)
     {
         FeatureLayer? layer = null;
-        CreateViewRenderedHandler(async () =>
+        var callbackCalled = false;
+
+        Task OnLayerViewCreate(LayerViewCreateEvent layerViewCreateEvent)
         {
-            await AssertJavaScript("assertLayerExists", args: "feature");
-        });
+            callbackCalled = true;
+            return Task.CompletedTask;
+        }
+
         AddMapRenderFragment(
-            @<Map>
-                <FeatureLayer @ref="layer">
-                    <PortalItem Id="449887ea7d60429fbf6f0c67881f2758" />
-                </FeatureLayer>
-            </Map>);
-        await WaitForMapToRender(cleanupFragment: false);
+            @<MapView class="map-view" OnViewRendered="renderHandler" OnLayerViewCreate="OnLayerViewCreate">
+                <Map>
+                    <FeatureLayer @ref="layer">
+                        <PortalItem Id="449887ea7d60429fbf6f0c67881f2758" />
+                    </FeatureLayer>
+                </Map>
+            </MapView>);
+
+        await WaitForMapToRender();
+
+        var tries = 100;
+        while (!callbackCalled && (tries > 0))
+        {
+            await Task.Delay(100);
+            tries--;
+        }
+        await AssertJavaScript("assertLayerExists", args: "feature");
         Query query = await layer!.CreateQuery();
         Assert.IsNotNull(query);
         query.Num = 5;
@@ -69,6 +84,6 @@
         Assert.IsNotNull(field);
         Domain? domain = await layer.GetFieldDomain(fieldName);
         Assert.IsNotNull(domain);
-        await CleanupFragment();
     }
+
 }

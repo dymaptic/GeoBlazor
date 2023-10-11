@@ -7,10 +7,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Popups;
 
 /// <summary>
 ///     The FieldInfo class defines how a Field participates, or in some cases, does not participate, in a PopupTemplate.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-FieldInfo.html">
-///         ArcGIS
-///         JS API
-///     </a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-FieldInfo.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class FieldInfo : MapComponent
 {

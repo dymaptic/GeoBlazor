@@ -7,10 +7,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 /// <summary>
 ///     The GeoRSSLayer class is used to create a layer based on GeoRSS. GeoRSS is a way to add geographic information to
 ///     an RSS feed. The GeoRSSLayer supports both GeoRSS-Simple and GeoRSS GML encodings, and multiple geometry types.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoRSSLayer.html">
-///         ArcGIS
-///         JS API
-///     </a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoRSSLayer.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class GeoRSSLayer : Layer
 {

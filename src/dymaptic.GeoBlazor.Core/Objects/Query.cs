@@ -9,10 +9,7 @@ namespace dymaptic.GeoBlazor.Core.Objects;
 ///     This class defines parameters for executing queries for features from a layer or layer view. Once a Query object's
 ///     properties are defined, it can then be passed into an executable function, which will return the features in a
 ///     FeatureSet.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">
-///         ArcGIS
-///         JS API
-///     </a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class Query
 {
@@ -375,10 +372,7 @@ public record Address(string Street, string City, string State, string Zone);
 
 /// <summary>
 ///     This class defines the parameters for querying a layer or layer view for statistics.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-StatisticDefinition.html">
-///         ArcGIS
-///         JS API
-///     </a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-StatisticDefinition.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="OnStatisticField">
 ///     Defines the field for which statistics will be calculated. This can be service field names or SQL expressions. See

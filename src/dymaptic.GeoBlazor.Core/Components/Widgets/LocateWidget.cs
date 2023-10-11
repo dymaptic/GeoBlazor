@@ -8,10 +8,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 /// <summary>
 ///     Provides a simple widget that animates the View to the user's current location. The view rotates according to the
 ///     direction where the tracked device is heading towards.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate.html">
-///         ArcGIS
-///         JS API
-///     </a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class LocateWidget : Widget
 {

@@ -9,7 +9,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 /// <summary>
 ///     Information about each field in a layer. Field objects must be constructed when creating a FeatureLayer from
 ///     client-side graphics. This class allows you to define the schema of each field in the FeatureLayer.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Field.html">ArcGIS JS API</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Field.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class Field : MapComponent
 {

@@ -8,10 +8,7 @@ namespace dymaptic.GeoBlazor.Core.Events;
 
 /// <summary>
 ///     Object specification for the result of the MapView.HitTest method.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#HitTestResult">
-///         ArcGIS
-///         JS API
-///     </a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#HitTestResult">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="Results">
 ///     An array of result objects returned from the hitTest(). Results are returned when the location of the input screen
@@ -37,10 +34,7 @@ public record GroundIntersectionResult(Point MapPoint, double Distance);
 
 /// <summary>
 ///     Object specification for the <see cref="HitTestResult.Results" />.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#ViewHit">
-///         ArcGIS
-///         JS API
-///     </a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#ViewHit">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="Type">
 ///     The type of hit result. Currently only supporting "graphic".
