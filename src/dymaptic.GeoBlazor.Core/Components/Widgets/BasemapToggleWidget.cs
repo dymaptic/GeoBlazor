@@ -7,10 +7,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 /// <summary>
 ///     The BasemapToggle provides a widget which allows an end-user to switch between two basemaps. The toggled basemap is
 ///     set inside the view's map object.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapToggle.html">
-///         ArcGIS
-///         JS API
-///     </a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapToggle.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class BasemapToggleWidget : Widget
 {

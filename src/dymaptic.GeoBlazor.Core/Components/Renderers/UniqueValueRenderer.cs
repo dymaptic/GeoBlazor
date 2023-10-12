@@ -9,10 +9,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Renderers;
 ///     UniqueValueRenderer allows you to symbolize features in a Layer based on one or more matching string attributes.
 ///     This is typically done by using unique colors, fill styles, or images to represent features with equal values in a
 ///     string field.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html">
-///         ArcGIS
-///         JS API
-///     </a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class UniqueValueRenderer : Renderer
 {

@@ -1,4 +1,8 @@
-﻿namespace dymaptic.GeoBlazor.Core.Test.Blazor.Shared;
+﻿using System;
+using System.Collections.Generic;
+
+
+namespace dymaptic.GeoBlazor.Core.Test.Blazor.Shared;
 
 public record TestResult(string ClassName, Dictionary<string, string?> Passed, Dictionary<string, string?> Failed);
 

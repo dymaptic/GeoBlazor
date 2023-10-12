@@ -42,10 +42,7 @@ internal record MediaInfoSerializationRecord([property: ProtoMember(1)] string T
 
 /// <summary>
 ///     A BarChartMediaInfo is a type of chart media element that represents a bar chart displayed within a popup.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-BarChartMediaInfo.html">
-///         ArcGIS
-///         JS API
-///     </a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-BarChartMediaInfo.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class BarChartMediaInfo : MediaInfo
 {
@@ -129,10 +126,7 @@ public class BarChartMediaInfo : MediaInfo
 
 /// <summary>
 ///     The ChartMediaInfoValue class contains information for popups regarding how charts should be constructed.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-support-ChartMediaInfoValue.html">
-///         ArcGIS
-///         JS API
-///     </a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-support-ChartMediaInfoValue.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class ChartMediaInfoValue : MapComponent
 {
@@ -246,10 +240,7 @@ internal record ChartMediaInfoValueSerializationRecord([property: ProtoMember(1)
 /// <summary>
 ///     The ChartMediaInfoValueSeries class is a read-only support class that represents information specific to how data
 ///     should be plotted in a chart. It helps provide a consistent API for plotting charts used by the Popup widget.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-support-ChartMediaInfoValueSeries.html">
-///         ArcGIS
-///         JS API
-///     </a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-support-ChartMediaInfoValueSeries.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class ChartMediaInfoValueSeries : MapComponent
 {
@@ -324,10 +315,7 @@ internal record ChartMediaInfoValueSeriesSerializationRecord(
 
 /// <summary>
 ///     A ColumnChartMediaInfo is a type of chart media element that represents a column chart displayed within a popup.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-ColumnChartMediaInfo.html">
-///         ArcGIS
-///         JS API
-///     </a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-ColumnChartMediaInfo.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class ColumnChartMediaInfo : MediaInfo
 {
@@ -411,10 +399,7 @@ public class ColumnChartMediaInfo : MediaInfo
 
 /// <summary>
 ///     An ImageMediaInfo is a type of media element that represents images to display within a popup.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-ImageMediaInfo.html">
-///         ArcGIS
-///         JS API
-///     </a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-ImageMediaInfo.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class ImageMediaInfo : MediaInfo
 {
@@ -511,10 +496,7 @@ public class ImageMediaInfo : MediaInfo
 
 /// <summary>
 ///     The ImageMediaInfoValue class contains information for popups regarding how images should be retrieved.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-support-ImageMediaInfoValue.html">
-///         ArcGIS
-///         JS API
-///     </a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-support-ImageMediaInfoValue.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class ImageMediaInfoValue : MapComponent
 {
@@ -547,10 +529,7 @@ internal record ImageMediaInfoValueSerializationRecord(
 
 /// <summary>
 ///     A LineChartMediaInfo is a type of chart media element that represents a line chart displayed within a popup.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-LineChartMediaInfo.html">
-///         ArcGIS
-///         JS API
-///     </a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-LineChartMediaInfo.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class LineChartMediaInfo : MediaInfo
 {
@@ -634,10 +613,7 @@ public class LineChartMediaInfo : MediaInfo
 
 /// <summary>
 ///     A PieChartMediaInfo is a type of chart media element that represents a pie chart displayed within a popup.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-PieChartMediaInfo.html">
-///         ArcGIS
-///         JS API
-///     </a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-PieChartMediaInfo.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class PieChartMediaInfo : MediaInfo
 {

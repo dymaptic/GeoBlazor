@@ -9,10 +9,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     A client-side projection engine for converting geometries from one SpatialReference to another. When projecting
 ///     geometries the starting spatial reference must be specified on the input geometry. You can specify a specific
 ///     geographic (datum) transformation for the project operation, or accept the default transformation if one is needed.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-projection.html">
-///         ArcGIS
-///         JS API
-///     </a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-projection.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class Projection : LogicComponent
 {

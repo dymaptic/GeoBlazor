@@ -7,10 +7,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// <summary>
 ///     The PortalBasemapsSource class is a Portal-driven Basemap source in the BasemapGalleryViewModel or BasemapGallery
 ///     widget.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-support-PortalBasemapsSource.html">
-///         ArcGIS
-///         JS API
-///     </a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-support-PortalBasemapsSource.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class PortalBasemapsSource : MapComponent
 {

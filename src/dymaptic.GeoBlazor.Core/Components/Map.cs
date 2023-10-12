@@ -9,7 +9,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 ///     viewing. Layers can be added and removed from the map, but are rendered via a MapView (for viewing data in 2D) or a
 ///     SceneView (for viewing data in 3D). Thus a map instance is a simple container that holds the layers, while the View
 ///     is the means of displaying and interacting with a map's layers and basemap.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html">ArcGIS JS API</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class Map : MapComponent
 {

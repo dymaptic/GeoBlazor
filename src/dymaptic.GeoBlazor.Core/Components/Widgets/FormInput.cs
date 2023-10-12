@@ -16,7 +16,7 @@ public abstract class FormInput : MapComponent
 
 /// <summary>
 ///     The TextBoxInput class defines the desired user interface as a single-line text box.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-form-elements-inputs-TextBoxInput.html">ArcGIS JS API</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-form-elements-inputs-TextBoxInput.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class TextBoxInput : FormInput
 {
@@ -38,7 +38,7 @@ public class TextBoxInput : FormInput
 
 /// <summary>
 ///     The TextAreaInput class defines the desired user interface as a multi-line text area.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-form-elements-inputs-TextAreaInput.html">ArcGIS JS API</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-form-elements-inputs-TextAreaInput.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class TextAreaInput : FormInput
 {
@@ -60,7 +60,7 @@ public class TextAreaInput : FormInput
 
 /// <summary>
 ///     The DateTimePickerInput class defines the desired user interface for editing date fields in a form.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-form-elements-inputs-DateTimePickerInput.html">ArcGIS JS API</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-form-elements-inputs-DateTimePickerInput.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class DateTimePickerInput : FormInput
 {
@@ -88,7 +88,7 @@ public class DateTimePickerInput : FormInput
 
 /// <summary>
 ///     The BarcodeScannerInput class defines the desired user interface for a barcode or QR code scanner. This input type will default to the TextBoxInput type as the API does not currently support bar code scanning.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-form-elements-inputs-BarcodeScannerInput.html">ArcGIS JS API</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-form-elements-inputs-BarcodeScannerInput.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class BarcodeScannerInput : FormInput
 {
@@ -110,7 +110,7 @@ public class BarcodeScannerInput : FormInput
 
 /// <summary>
 ///     The ComboBoxInput class defines the desired user interface for a combo box group.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-form-elements-inputs-ComboBoxInput.html">ArcGIS JS API</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-form-elements-inputs-ComboBoxInput.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <remarks>
 ///     Coded-value domains are required when using this input type. Previously, fields containing values that weren't compatible with their associated coded-value domain(s) displayed the option and would remove it once a user updated the value. The ComboBoxInput will now display and keep the value but will disable it.
@@ -135,7 +135,7 @@ public class ComboBoxInput : FormInput
 
 /// <summary>
 ///     https://developers.arcgis.com/javascript/latest/api-reference/esri-form-elements-inputs-RadioButtonsInput.html
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-form-elements-inputs-RadioButtonsInput.html">ArcGIS JS API</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-form-elements-inputs-RadioButtonsInput.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <remarks>
 ///     Coded-value domains are required when using this input type. Previously, fields containing values that weren't compatible with their associated coded-value domain(s) displayed the option and would remove it once a user updated the value. The RadioButtonsInput will now keep the value, but it will not display an option in the user interface.
@@ -160,7 +160,7 @@ public class RadioButtonsInput : FormInput
 
 /// <summary>
 ///     The SwitchInput class defines the desired user interface for a binary switch or toggle. This should be used when selecting between two options.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-form-elements-inputs-SwitchInput.html">ArcGIS JS API</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-form-elements-inputs-SwitchInput.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <remarks>
 ///     Coded-value domains are required when using this input type.

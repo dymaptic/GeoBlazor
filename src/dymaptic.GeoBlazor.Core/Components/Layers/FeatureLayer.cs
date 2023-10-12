@@ -4,6 +4,7 @@ using dymaptic.GeoBlazor.Core.Components.Renderers;
 using dymaptic.GeoBlazor.Core.Components.Widgets;
 using dymaptic.GeoBlazor.Core.Exceptions;
 using dymaptic.GeoBlazor.Core.Objects;
+using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System.Text;
@@ -17,10 +18,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 ///     A FeatureLayer is a single layer that can be created from a Map Service or Feature Service; ArcGIS Online or ArcGIS
 ///     Enterprise portal items; or from an array of client-side features. The layer can be either a spatial (has
 ///     geographic features) or non-spatial (table).
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html">
-///         ArcGIS
-///         JS API
-///     </a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <example>
 ///     <a target="_blank" href="https://samples.geoblazor.com/feature-layers">Sample - Feature Layers</a>
@@ -78,17 +76,20 @@ public class FeatureLayer : Layer
     /// <param name="listMode">
     ///     Indicates how the layer should display in the LayerList widget. The possible values are listed below.
     /// </param>
+    /// <param name="popupTemplate">
+    ///     The <see cref="PopupTemplate" /> for the layer.
+    /// </param>
     public FeatureLayer(string? url = null, PortalItem? portalItem = null, IReadOnlyCollection<Graphic>? source = null,
         string[]? outFields = null, string? definitionExpression = null, double? minScale = null,
         double? maxScale = null, string? objectIdField = null, GeometryType? geometryType = null, string? title = null,
-        double? opacity = null, bool? visible = null, ListMode? listMode = null)
+        double? opacity = null, bool? visible = null, ListMode? listMode = null, PopupTemplate? popupTemplate = null)
     {
         if (url is null && portalItem is null && source is null)
         {
             throw new MissingRequiredOptionsChildElementException(nameof(FeatureLayer),
                 new[] { nameof(Url), nameof(PortalItem), nameof(Source) });
         }
-
+#pragma warning disable BL0005 // Component parameter should not be set outside of its component.
         Url = url;
         Source = source;
         PortalItem = portalItem;
@@ -102,6 +103,8 @@ public class FeatureLayer : Layer
         Opacity = opacity;
         Visible = visible;
         ListMode = listMode;
+        PopupTemplate = popupTemplate;
+#pragma warning restore BL0005 // Component parameter should not be set outside of its component.
     }
 
     /// <summary>
@@ -238,6 +241,12 @@ public class FeatureLayer : Layer
     public override string LayerType => "feature";
 
     /// <summary>
+    /// TimeInfo provides information such as date fields that store start and end time for each feature and the fullTimeExtent for the layer.
+    /// </summary>
+    public TimeInfo? TimeInfo { get; set; }
+
+
+    /// <summary>
     ///     Add a graphic to the current layer's source
     /// </summary>
     /// <param name="graphic">
@@ -315,6 +324,66 @@ public class FeatureLayer : Layer
         return await JsLayerReference!.InvokeAsync<FeatureEditsResult>("applyEdits", edits, options,
             View!.Id);
     }
+
+    /// <summary>
+    /// Returns a FeatureType describing the feature's type. This is applicable if the layer containing the feature has a typeIdField.
+    /// </summary>
+    /// <param name="feature"></param>
+    /// <returns></returns>
+    public async Task<FeatureType?> GetFeatureType(Graphic feature)
+    {
+        return await JsLayerReference!.InvokeAsync<FeatureType>("getFeatureType", feature);
+    }
+
+    /// <summary>
+    /// Returns the Field instance for a field name (case-insensitive).
+    /// </summary>
+    /// <param name="fieldName">the field name (case-insensitive).</param>
+    public async Task<Field?> GetField(string fieldName)
+    {
+        return await JsLayerReference!.InvokeAsync<Field?>("getField", fieldName);
+    }
+
+    /// <summary>
+    /// Returns the Domain associated with the given field name. The domain can be either a CodedValueDomain or RangeDomain.
+    /// </summary>
+    public async Task<Domain?> GetFieldDomain(string fieldName, Graphic? feature = null)
+    {
+        return await JsLayerReference!.InvokeAsync<Domain?>("getFieldDomain", fieldName, feature);
+    }
+
+    /// <summary>
+    /// Creates a deep clone of the javascript FeatureLayer object.
+    /// </summary>
+    /// <returns></returns>
+    public async Task<FeatureLayer> Clone()
+    {
+        return await JsLayerReference!.InvokeAsync<FeatureLayer>("clone");
+    }
+
+    /// <summary>
+    /// Fetches all the data for the layer. Calls 'refresh' on the layer.
+    /// </summary>
+    public override void Refresh()
+    {
+        _refreshRequired = true;
+        base.Refresh();
+    }
+
+    /// <inheritdoc />
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (_refreshRequired)
+        {
+            _refreshRequired = false;
+            var newLayer = await JsLayerReference!.InvokeAsync<FeatureLayer>("refresh");
+            await this.UpdateFromJavaScript(newLayer);
+        }
+
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
@@ -568,7 +637,6 @@ public class FeatureLayer : Layer
     /// <returns></returns>
     public async Task<FeatureSet?> QueryFeatures(Query? query = null, CancellationToken cancellationToken = default)
     {
-        query ??= new Query();
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
 
         FeatureSet? result = await JsLayerReference!.InvokeAsync<FeatureSet?>("queryFeatures", cancellationToken,
@@ -817,10 +885,6 @@ public class FeatureLayer : Layer
         return result;
     }
 
-    /// <summary>
-    /// TimeInfo provides information such as date fields that store start and end time for each feature and the fullTimeExtent for the layer.
-    /// </summary>
-    public TimeInfo? TimeInfo { get; set; }
 
     /// <inheritdoc />
     internal override void ValidateRequiredChildren()
@@ -975,6 +1039,7 @@ public class FeatureLayer : Layer
     private HashSet<Graphic>? _source;
     private HashSet<Field>? _fields;
     private StringBuilder? _queryFeatureData;
+    private bool _refreshRequired = false;
 }
 
 /// <summary>
@@ -1008,7 +1073,7 @@ public class CreatePopupTemplateOptions
 /// <summary>
 ///     Object containing features and attachments to be added, updated or deleted.
 ///     For use with <see cref="FeatureLayer.ApplyEdits"/>
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#applyEdits">ArcGIS JS API</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#applyEdits">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class FeatureEdits
 {
@@ -1041,7 +1106,7 @@ public class FeatureEdits
 
 /// <summary>
 ///     AttachmentEdit represents an attachment that can be added, updated or deleted via applyEdits. This object can be either pre-uploaded data or base 64 encoded data.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#AttachmentEdit">ArcGIS JS API</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#AttachmentEdit">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class AttachmentEdit
 {
@@ -1179,7 +1244,7 @@ public class FeatureEditOptions
 
 /// <summary>
 ///     The result of <see cref="FeatureLayer.ApplyEdits"/>.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#EditsResult">ArcGIS JS API</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#EditsResult">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="AddFeatureResults">
 ///     Result of adding features.     
@@ -1212,7 +1277,7 @@ public record FeatureEditsResult(FeatureEditResult[] AddFeatureResults, FeatureE
 
 /// <summary>
 ///     FeatureEditResult represents the result of adding, updating or deleting a feature or an attachment.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#FeatureEditResult">ArcGIS JS API</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#FeatureEditResult">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="ObjectId">
 ///     The objectId of the feature or the attachmentId of the attachment that was edited.
@@ -1239,7 +1304,7 @@ public record EditError(string? Name, string? Message);
 /// <summary>
 ///     Results returned from the applyEdits method if the returnServiceEditsOption parameter is set to original-and-current-features. It contains features that were added, deleted or updated in different feature layers of a feature service as a result of editing a single feature that participates in a composite relationship in a database. The results are organized by each layer affected by the edit. For example, if a feature is deleted and it is the origin in a composite relationship, the edited features as a result of this deletion are returned.
 ///     The editedFeatures object returns full features including newly added features, the original features prior to delete, the original and current features for updates.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#EditedFeatureResult">ArcGIS JS API</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#EditedFeatureResult">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="LayerId">
 ///     The layerId of the feature layer where features were edited.
@@ -1277,3 +1342,74 @@ public record EditedFeatures(Graphic[] Adds, EditedFeatureUpdate[] Updates, Grap
 ///     Updated feature as a result of editing a feature that participates in a composite relationship.
 /// </param>
 public record EditedFeatureUpdate(Graphic[] Original, Graphic[] Current);
+
+/// <summary>
+///     FeatureType is a subset of features defined in a FeatureLayer that share the same attributes.
+///     They are used as a way to categorize your data. For example, the streets in a city streets feature layer
+///     could be categorized into three feature types: local streets, collector streets, and arterial streets.
+/// </summary>
+public record FeatureType(string Id, string Name, FeatureTemplate[] Templates, Dictionary<string, Domain?> Domains);
+
+/// <summary>
+///     Feature templates define all the information required to create a new feature in
+///     a feature layer. These include information such as the default attribute values with
+///     which a feature will be created, and the default tool used to create that feature.
+/// </summary>
+/// <param name="Name">
+///     Name of the feature template.
+/// </param>
+/// <param name="Description">
+///     Description of the feature template.
+/// </param>
+/// <param name="DrawingTool">
+///     Name of the default drawing tool defined for the template to create a feature.
+/// </param>
+/// <param name="Thumbnail">
+///     An object used to create a thumbnail image that represents a feature type in the feature template.
+/// </param>
+/// <param name="Prototype">    
+///     An instance of the prototypical feature described by the feature template. It specifies default values for the attribute fields and does not contain geometry.
+/// </param>
+public record FeatureTemplate(string Name, string Description, DrawingTool DrawingTool, Thumbnail Thumbnail, Graphic Prototype);
+
+/// <summary>
+///     An object used to create a thumbnail image that represents a feature type in the feature template.
+/// </summary>
+/// <param name="ContentType">
+///     The MIME type of the image.
+/// </param>
+/// <param name="ImageData">
+///     The base64EncodedImageData presenting the thumbnail image.
+/// </param>
+/// <param name="Height">
+///     The height of the thumbnail.
+/// </param>
+/// <param name="Width">
+///     The width of the thumbnail.
+/// </param>
+public record Thumbnail(string ContentType, string ImageData, double Height, double Width);
+
+/// <summary>
+///     Name of the default drawing tool defined for the template to create a feature.
+/// </summary>
+[JsonConverter(typeof(EnumToKebabCaseStringConverter<DrawingTool>))]
+public enum DrawingTool
+{
+#pragma warning disable CS1591
+    AutoCompletePolygon,
+    Circle,
+    Ellipse,
+    Freehand,
+    Line,
+    None,
+    Point,
+    Polygon,
+    Rectangle,
+    Arrow,
+    Triangle,
+    LeftArrow,
+    RightArrow,
+    UpArrow,
+    DownArrow
+#pragma warning restore CS1591
+}

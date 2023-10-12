@@ -7,10 +7,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Popups;
 /// <summary>
 ///     An AttachmentsContent popup element represents an attachment element associated with a feature. This resource is
 ///     available only if the FeatureLayer.capabilities.data.supportsAttachment is true.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-AttachmentsContent.html">
-///         ArcGIS
-///         JS API
-///     </a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-AttachmentsContent.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class AttachmentsPopupContent : PopupContent
 {

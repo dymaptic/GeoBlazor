@@ -9,10 +9,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 ///     The rotation visual variable defines how features rendered with marker symbols or text symbols in a MapView are
 ///     rotated. The rotation value is determined by mapping the values to data in a field, or by other arithmetic means
 ///     with an Arcade expression.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-RotationVariable.html">
-///         ArcGIS
-///         JS API
-///     </a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-RotationVariable.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class RotationVariable : VisualVariable
 {

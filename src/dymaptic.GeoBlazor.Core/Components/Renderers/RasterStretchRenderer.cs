@@ -12,10 +12,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Renderers;
 ///     and WCSLayer based on the pixel value. The RasterStretchRenderer works well when you have a large range of values to display,
 ///     such as in imagery, aerial photographs, or elevation models. Important to note that RasterStretchRenderer does not inherit from
 ///     Renderer class.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-RasterStretchRenderer.html">
-///         ArcGIS
-///         JS API
-///     </a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-RasterStretchRenderer.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// 
 public class RasterStretchRenderer : LayerObject

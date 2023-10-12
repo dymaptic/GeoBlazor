@@ -10,10 +10,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 /// <summary>
 ///     The base class for geometry objects. This class has no constructor. To construct geometries see
 ///     <see cref="Point" />, <see cref="PolyLine" />, or <see cref="Polygon" />.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Geometry.html">
-///         ArcGIS
-///         JS API
-///     </a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Geometry.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 [JsonConverter(typeof(GeometryConverter))]
 public abstract class Geometry : MapComponent

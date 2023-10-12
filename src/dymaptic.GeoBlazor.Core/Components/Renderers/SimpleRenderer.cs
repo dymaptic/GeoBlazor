@@ -7,10 +7,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Renderers;
 /// <summary>
 ///     SimpleRenderer renders all features in a Layer with one Symbol. This renderer may be used to simply visualize the
 ///     location of geographic features.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-SimpleRenderer.html">
-///         ArcGIS
-///         JS API
-///     </a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-SimpleRenderer.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class SimpleRenderer : Renderer
 {

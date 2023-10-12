@@ -29,10 +29,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Views;
 ///     A MapView displays a 2D view of a Map instance. An instance of MapView must be created to render a Map (along with
 ///     its operational and base layers) in 2D. To render a map and its layers in 3D, see the documentation for SceneView.
 ///     For a general overview of views, see View.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">
-///         ArcGIS
-///         JS API
-///     </a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <example>
 ///     <a target="_blank" href="https://samples.geoblazor.com/navigation">Sample - Navigation</a>
@@ -733,8 +730,7 @@ public partial class MapView : MapComponent
 
         if (center is not null)
         {
-            Latitude = center.Latitude;
-            Longitude = center.Longitude;
+            Center = center;
         }
 
         Zoom = zoom;
@@ -1476,13 +1472,14 @@ public partial class MapView : MapComponent
     ///     The layer to add
     /// </param>
     /// <param name="isBasemapLayer">
-    ///     If true, adds the layer as a Basemap
+    ///     If true, adds the layer as a Basemap. If there is no Basemap yet, one will be created.
     /// </param>
     public async Task AddLayer(Layer layer, bool isBasemapLayer = false)
     {
         if (isBasemapLayer)
         {
-            Map!.Basemap?.Layers.Add(layer);
+            Map!.Basemap ??= new Basemap();
+            Map.Basemap.Layers.Add(layer);
         }
         else
         {
