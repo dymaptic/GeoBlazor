@@ -89,7 +89,9 @@ import {
     DotNetMultidimensionalSubset,
     DotNetSubsetDimension,
     DotNetRasterFunction,
-    DotNetRasterFunctionInfo
+    DotNetRasterFunctionInfo,
+    DotNetAuthoringInfo,
+    DotNetFieldsIndex
 } from "./definitions";
 import PictureMarkerSymbol from "@arcgis/core/symbols/PictureMarkerSymbol";
 import Popup from "@arcgis/core/widgets/Popup";

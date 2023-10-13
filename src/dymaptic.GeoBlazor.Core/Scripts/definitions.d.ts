@@ -693,10 +693,6 @@ export interface DotNetRasterFunctionInfo {
     thumbnail: string;
 }
 
-export interface DotNetAuthoringInfoVisualVariable {
-
-}
-
 export interface DotNetAuthoringInfo {
     classificationMethod: string;
     colorRamp: DotNetColorRamp;
@@ -716,11 +712,15 @@ export interface DotNetAuthoringInfo {
     type: string;
     univariateSymbolStyle: string;
     univariateTheme: string;
-    visualVariables: DotNetAuthoringInfoVisualVariable[]
+    visualVariables: DotNetVisualVariable[]
 }
 
 export interface DotNetFieldsIndex {
     dateFields: object[];
+}
+
+export interface DotNetUniqueValueRenderer {
+
 }
 
 
