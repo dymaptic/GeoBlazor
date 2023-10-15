@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <base href="/" />
+        <link rel="icon" href="_content/dymaptic.GeoBlazor.Core.Sample.Shared/favicon.ico" />
+        <link rel="stylesheet" href="_content/dymaptic.GeoBlazor.Core.Sample.Shared/css/bootstrap/bootstrap.min.css" />
+        <link href="_content/dymaptic.GeoBlazor.Core.Sample.Shared/css/site.css" rel="stylesheet" />
+        <link href="dymaptic.GeoBlazor.Core.Sample.WebApp.styles.css" rel="stylesheet" />
+        <link href="_content/dymaptic.GeoBlazor.Core" />
+        <link href="_content/dymaptic.GeoBlazor.Core.Sample.Shared" />
+        <script src="_content/dymaptic.GeoBlazor.Core.Sample.Shared/functions.js"></script>
+        <link href="_content/dymaptic.GeoBlazor.Core/assets/esri/themes/light/main.css" rel="stylesheet" />
+        <script type="module" src="https://js.arcgis.com/calcite-components/1.0.0-beta.97/calcite.esm.js"></script>
+        <link rel="stylesheet" type="text/css"
+              href="https://js.arcgis.com/calcite-components/1.0.0-beta.97/calcite.css" />
+        @if (_configuredRenderMode is not null)
+        {
+            <HeadOutlet @rendermode="@_configuredRenderMode" />
+        }
+        else
+        {
+            <HeadOutlet />
+        }
+    </head>
+
+    <body>
+        <RenderModeSelector @rendermode="InteractiveServer" />
+        @if (_configuredRenderMode is not null)
+        {
+            <Routes @rendermode="@_configuredRenderMode" />
+        }
+        else
+        {
+            <Routes />
+        }
+        <script src="_framework/blazor.web.js"></script>
+    </body>
+</html>
+
+@code {
+
+    [Inject]
+    private IConfiguration Configuration { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _configuredRenderMode = Configuration.GetValue<string?>("RenderMode") switch
+        {
+            "Server" => RenderMode.InteractiveServer,
+            "WebAssembly" => RenderMode.InteractiveWebAssembly,
+            "Auto" => RenderMode.InteractiveAuto,
+            _ => null
+        };
+    }
+
+    private IComponentRenderMode? _configuredRenderMode;
+}
