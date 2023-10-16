@@ -4,21 +4,23 @@
 <CascadingValue Name="View" Value="this">
     <CascadingValue Name="Parent" Value="this">
         <CascadingValue Name="JsModule" Value="ViewJsModule">
-            <CascadingValue Name="MapRendered" Value="MapRendered">
-                <div class="@Class map-wrapper" style="@Style">
-                    <div class="map-container" id="@($"map-container-{Id}")">
-                        @ChildContent
+            <CascadingValue Name="ProJsModule" Value="ProJsViewModule">
+                <CascadingValue Name="MapRendered" Value="MapRendered">
+                    <div class="@Class map-wrapper" style="@Style">
+                        <div class="map-container" id="@($"map-container-{Id}")">
+                            @ChildContent
+                        </div>
+                        <div class="dymaptic-branding">
+                            <a href="https://www.geoblazor.com">
+                                <img height="12" src="_content/dymaptic.GeoBlazor.Core/images/Blazor-API-60px.png" /> GeoBlazor
+                            </a>
+                            by
+                            <a href="https://www.dymaptic.com">
+                                <img height="12" src="_content/dymaptic.GeoBlazor.Core/images/dymaptic-logo-circle-icon.png" /> dymaptic
+                            </a>
+                        </div>
                     </div>
-                    <div class="dymaptic-branding">
-                        <a href="https://www.geoblazor.com">
-                            <img height="12" src="_content/dymaptic.GeoBlazor.Core/images/Blazor-API-60px.png" /> GeoBlazor
-                        </a>
-                        by
-                        <a href="https://www.dymaptic.com">
-                            <img height="12" src="_content/dymaptic.GeoBlazor.Core/images/dymaptic-logo-circle-icon.png" /> dymaptic
-                        </a>
-                    </div>
-                </div>
+                </CascadingValue>
             </CascadingValue>
         </CascadingValue>
     </CascadingValue>

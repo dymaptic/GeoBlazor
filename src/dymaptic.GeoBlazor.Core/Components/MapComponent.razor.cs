@@ -52,6 +52,13 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     [CascadingParameter(Name = "JsModule")]
     [JsonIgnore]
     public IJSObjectReference? JsModule { get; set; }
+    
+    /// <summary>
+    ///     Optional JsModule for GeoBlazor Pro
+    /// </summary>
+    [CascadingParameter(Name = "ProJsModule")]
+    [JsonIgnore]
+    public IJSObjectReference? ProJsModule { get; set; }
 
     /// <summary>
     ///     The parent <see cref="MapView" /> of the current component.
@@ -138,8 +145,12 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     /// <remarks>
     ///     This method is an implementation detail and should not be called directly by consumers. In future versions, this may be changed to an internal method. If you see no other way to register a child component, please open an issue on GitHub.
     /// </remarks>
-    public virtual Task RegisterChildComponent(MapComponent child)
+    public virtual async Task RegisterChildComponent(MapComponent child)
     {
+        if (ProJsModule is not null)
+        {
+            await ProJsModule.InvokeVoidAsync("registerProComponent", Id, (object)child);
+        }
         throw new InvalidChildElementException(GetType().Name, child.GetType().Name);
     }
 

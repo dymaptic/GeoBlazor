@@ -77,7 +77,7 @@ public partial class MapView : MapComponent
     /// <summary>
     ///     Optional reference to the Pro library JS module
     /// </summary>
-    protected IJSObjectReference? ProJsModule;
+    protected IJSObjectReference? ProJsViewModule;
 
     /// <summary>
     ///     A boolean flag to indicate that rendering is underway
@@ -1488,8 +1488,16 @@ public partial class MapView : MapComponent
 
         if (ViewJsModule is null) return;
 
-        await ViewJsModule!.InvokeVoidAsync("addLayer", CancellationTokenSource.Token,
-            (object)layer, Id, isBasemapLayer);
+        if (layer.GetType().Namespace!.Contains("Core"))
+        {
+            await ViewJsModule!.InvokeVoidAsync("addLayer", CancellationTokenSource.Token,
+                (object)layer, Id, isBasemapLayer);
+        }
+        else
+        {
+            await ProJsViewModule!.InvokeVoidAsync("addProLayer", CancellationTokenSource.Token, 
+                (object)layer, Id, isBasemapLayer);
+        }
     }
 
     /// <summary>
@@ -2153,7 +2161,7 @@ public partial class MapView : MapComponent
 
             JsModule = ViewJsModule;
 
-            ProJsModule = await GetArcGisJsPro();
+            ProJsViewModule = await GetArcGisJsPro();
 
             // the first render never has all the child components registered
             Rendering = false;
@@ -2234,9 +2242,23 @@ public partial class MapView : MapComponent
             Rendering = false;
             MapRendered = true;
 
+            // register pro layers and widgets
             foreach (Widget widget in Widgets.Where(w => !w.GetType().Namespace!.Contains("Core")))
             {
                 await AddWidget(widget);
+            }
+
+            foreach (Layer layer in Map.Layers.Where(l => !l.GetType().Namespace!.Contains("Core")))
+            {
+                await AddLayer(layer);
+            }
+
+            if (Map.Basemap?.Layers is not null)
+            {
+                foreach (Layer layer in Map.Basemap!.Layers.Where(l => !l.GetType().Namespace!.Contains("Core")))
+                {
+                    await AddLayer(layer, true);
+                }
             }
         });
     }
@@ -2267,7 +2289,7 @@ public partial class MapView : MapComponent
             }
             else
             {
-                await ProJsModule!.InvokeVoidAsync("addProWidget",
+                await ProJsViewModule!.InvokeVoidAsync("addProWidget",
                     CancellationTokenSource.Token, widget, Id);
             }
         });

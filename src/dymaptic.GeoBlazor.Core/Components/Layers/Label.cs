@@ -1,5 +1,6 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Symbols;
 using Microsoft.AspNetCore.Components;
+using System.Text.Json.Serialization;
 
 
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
@@ -39,6 +40,17 @@ public class Label : LayerObject
         LabelExpressionInfo = labelExpressionInfo;
 #pragma warning restore BL0005
     }
+    
+    /// <summary>
+    ///     Defines how labels should be placed relative to one another. By default, labels have a static deconfliction strategy, meaning labels that overlap are dropped to make them easier to read.
+    ///     In some cases where few labels overlap, it may be preferable to turn off label deconfliction with the none option. It is also advisable to turn off deconfliction when labeling clusters with a count of features in the center of the cluster.
+    /// </summary>
+    /// <remarks>
+    ///     Currently, this property only applies to FeatureLayer, CSVLayer, and StreamLayer in 2D MapViews.
+    /// </remarks>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public DeconflictionStrategy? DeconflictionStrategy { get; set; }
     
     /// <summary>
     ///     The position of the label.
@@ -102,4 +114,16 @@ public class Label : LayerObject
         base.ValidateRequiredChildren();
         LabelExpressionInfo?.ValidateRequiredChildren();
     }
+}
+
+/// <summary>
+///     Defines how labels should be placed relative to one another. By default, labels have a static deconfliction strategy, meaning labels that overlap are dropped to make them easier to read.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LabelClass.html#deconflictionStrategy">ArcGIS Maps SDK for JavaScript</a>
+/// </summary>
+public enum DeconflictionStrategy
+{
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+    None,
+    Static
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 }

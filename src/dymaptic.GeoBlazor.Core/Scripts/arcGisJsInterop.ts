@@ -154,7 +154,7 @@ export function setAssetsPath(path: string) {
     }
 }
 
-function getObjectReference(objectRef: any) {
+export function getObjectReference(objectRef: any) {
     if (!hasValue(objectRef)) return objectRef;
     try {
         if (objectRef instanceof Layer) {
@@ -800,7 +800,7 @@ export async function queryFeatureLayer(queryObject: any, layerObject: any, symb
         } else if (hasValue(queryObject.geometry)) {
             query.geometry = buildJsGeometry(queryObject.geometry)!;
         }
-        let popupTemplate = buildJsPopupTemplate(popupTemplateObject, viewId);
+        let popupTemplate = buildJsPopupTemplate(popupTemplateObject, viewId) as PopupTemplate;
         await addLayer(layerObject, viewId, false, true, () => {
             displayQueryResults(query, symbol, popupTemplate, viewId);
         });
@@ -891,7 +891,7 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                     currentLayer.fullExtent = buildJsExtent(layerObject.fullExtent, view.spatialReference);
                 }
                 if (hasValue(layerObject.popupTemplate)) {
-                    featureLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId);
+                    featureLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId) as PopupTemplate;
                 }
                 // on first pass the renderer is often left blank, but it fills in when the round trip happens to the server
                 if (hasValue(layerObject.renderer) && layerObject.renderer.type !== featureLayer.renderer.type) {
@@ -899,7 +899,7 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                     if (renderer !== null && featureLayer.renderer !== renderer) {
                         featureLayer.renderer = renderer;
                     }
-                }
+                } else
                 if (hasValue(layerObject.fields) && layerObject.fields.length > 0) {
                     featureLayer.fields = buildJsFields(layerObject.fields);
                 }
@@ -921,6 +921,9 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                     geoJsonLayer.spatialReference = new SpatialReference({
                         wkid: layerObject.spatialReference.wkid
                     });
+                }
+                if (hasValue(layerObject.popupTemplate)) {
+                    geoJsonLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId ?? null) as PopupTemplate;
                 }
                 if (hasValue(layerObject.fullExtent) && layerObject.fullExtent !== currentLayer.fullExtent) {
                     currentLayer.fullExtent = buildJsExtent(layerObject.fullExtent, view.spatialReference);
@@ -1046,7 +1049,7 @@ export async function updateWidget(widgetObject: any, viewId: string): Promise<v
                 }
 
                 if (hasValue(widgetObject.popupTemplate)) {
-                    search.popupTemplate = buildJsPopupTemplate(widgetObject.popupTemplate, viewId);
+                    search.popupTemplate = buildJsPopupTemplate(widgetObject.popupTemplate, viewId) as PopupTemplate;
                 }
 
                 if (hasValue(widgetObject.portal)) {
@@ -1074,7 +1077,7 @@ export function findPlaces(addressQueryParams: any, symbol: any, popupTemplateOb
             .then(function (results) {
                 view.popup.close();
                 view.graphics.removeAll();
-                let popupTemplate = buildJsPopupTemplate(popupTemplateObject, viewId);
+                let popupTemplate = buildJsPopupTemplate(popupTemplateObject, viewId) as PopupTemplate;
                 results.forEach(function (result) {
                     view.graphics.add(new Graphic({
                         attributes: result.attributes,
@@ -1155,7 +1158,7 @@ export function closePopup(viewId: string): void {
 export async function showPopup(popupTemplateObject: any, location: DotNetPoint, viewId: string): Promise<void> {
     try {
         setWaitCursor(viewId);
-        let popupTemplate = buildJsPopupTemplate(popupTemplateObject, viewId);
+        let popupTemplate = buildJsPopupTemplate(popupTemplateObject, viewId) as PopupTemplate;
         (arcGisObjectRefs[viewId] as View).popup.open({
             title: popupTemplate.title as string,
             content: popupTemplate.content as string,
@@ -1326,7 +1329,7 @@ export function getGraphicVisibility(id: string): boolean {
 export function setGraphicPopupTemplate(id: string, popupTemplate: DotNetPopupTemplate, dotNetRef: any, viewId: string): void {
     let graphic = graphicsRefs[id];
     popupTemplate.dotNetPopupTemplateReference = dotNetRef;
-    let jsPopupTemplate = buildJsPopupTemplate(popupTemplate, viewId);
+    let jsPopupTemplate = buildJsPopupTemplate(popupTemplate, viewId) as PopupTemplate;
     if (hasValue(graphic) && hasValue(popupTemplate) && graphic.popupTemplate !== jsPopupTemplate) {
         graphic.popupTemplate = jsPopupTemplate;
     }
@@ -1627,7 +1630,7 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
             }
             
             if (hasValue(widget.popupTemplate)) {
-                search.popupTemplate = buildJsPopupTemplate(widget.popupTemplate, viewId);
+                search.popupTemplate = buildJsPopupTemplate(widget.popupTemplate, viewId) as PopupTemplate;
             }
             
             if (hasValue(widget.portal)) {
@@ -2031,14 +2034,14 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             let featureLayer = newLayer as FeatureLayer;
 
             copyValuesIfExists(layerObject, featureLayer, 'minScale', 'maxScale', 'orderBy', 'objectIdField',
-                'definitionExpression', 'labelingInfo', 'outFields');
+                'definitionExpression', 'labelingInfo', 'outFields', 'legendEnabled', 'popupEnabled');
 
             if (hasValue(layerObject.formTemplate)) {
                 featureLayer.formTemplate = buildJsFormTemplate(layerObject.formTemplate);
             }
 
             if (hasValue(layerObject.popupTemplate)) {
-                featureLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId ?? null);
+                featureLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId ?? null) as PopupTemplate;
             }
             if (hasValue(layerObject.renderer)) {
                 let renderer = buildJsRenderer(layerObject.renderer);
@@ -2087,18 +2090,20 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             break;
         case 'geo-json':
             newLayer = new GeoJSONLayer({
-                url: layerObject.url,
-                copyright: layerObject.copyright
+                url: layerObject.url
             });
             let gjLayer = newLayer as GeoJSONLayer;
             if (hasValue(layerObject.renderer)) {
-                gjLayer.renderer = layerObject.renderer;
+                gjLayer.renderer = buildJsRenderer(layerObject.renderer) as Renderer;
             }
             if (hasValue(layerObject.spatialReference)) {
-                gjLayer.spatialReference = new SpatialReference({
-                    wkid: layerObject.spatialReference.wkid
-                });
+                gjLayer.spatialReference = buildJsSpatialReference(layerObject.spatialReference);
             }
+            if (hasValue(layerObject.popupTemplate)) {
+                gjLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId ?? null) as PopupTemplate;
+            }
+            
+            copyValuesIfExists(layerObject, gjLayer, 'copyright');
             break;
         case 'geo-rss':
             newLayer = new GeoRSSLayer({ url: layerObject.url });
@@ -2196,7 +2201,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
                 });
             }
             if (hasValue(layerObject.popupTemplate)) {
-                csvLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId ?? null);
+                csvLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId ?? null) as PopupTemplate;
             }
             
             copyValuesIfExists(layerObject, csvLayer, 'blendMode', 'copyright', 'delimiter', 'displayField');

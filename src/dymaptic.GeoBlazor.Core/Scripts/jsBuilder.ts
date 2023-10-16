@@ -26,12 +26,16 @@ import {
     DotNetAttachmentsEdit,
     DotNetAttachmentsPopupContent,
     DotNetBarChartMediaInfo,
+    DotNetBookmark,
     DotNetChartMediaInfoValue,
     DotNetColumnChartMediaInfo,
     DotNetElementExpressionInfo,
     DotNetExpressionInfo,
     DotNetExpressionPopupContent,
     DotNetExtent,
+    DotNetFeatureEffect,
+    DotNetFeatureFilter,
+    DotNetFeatureTemplate,
     DotNetFieldInfo,
     DotNetFieldInfoFormat,
     DotNetFieldsPopupContent,
@@ -49,6 +53,7 @@ import {
     DotNetPopupContent,
     DotNetPopupTemplate,
     DotNetQuery,
+    DotNetRasterStretchRenderer,
     DotNetRelationshipQuery,
     DotNetSimpleFillSymbol,
     DotNetSimpleLineSymbol,
@@ -58,14 +63,7 @@ import {
     DotNetTextPopupContent,
     DotNetTextSymbol,
     DotNetTopFeaturesQuery,
-    DotNetBookmark,
-    DotNetViewpoint,
-    DotNetFeatureEffect,
-    DotNetFeatureFilter,
-    DotNetRasterStretchRenderer,
-    DotNetDimensionDefinition,
-    DotNetColorRamp,
-    DotNetFeatureTemplate
+    DotNetViewpoint
 } from "./definitions";
 import PictureMarkerSymbol from "@arcgis/core/symbols/PictureMarkerSymbol";
 import Popup from "@arcgis/core/widgets/Popup";
@@ -96,19 +94,11 @@ import ElementExpressionInfo from "@arcgis/core/popup/ElementExpressionInfo";
 import ChartMediaInfoValueSeries from "@arcgis/core/popup/content/support/ChartMediaInfoValueSeries";
 import View from "@arcgis/core/views/View";
 import {buildDotNetGraphic, buildDotNetPoint, buildDotNetSpatialReference} from "./dotNetBuilder";
-import ViewClickEvent = __esri.ViewClickEvent;
-import PopupOpenOptions = __esri.PopupOpenOptions;
-import PopupDockOptions = __esri.PopupDockOptions;
-import ContentProperties = __esri.ContentProperties;
-import PopupTriggerActionEvent = __esri.PopupTriggerActionEvent;
-import FeatureLayerBaseApplyEditsEdits = __esri.FeatureLayerBaseApplyEditsEdits;
-import AttachmentEdit = __esri.AttachmentEdit;
 import FormTemplate from "@arcgis/core/form/FormTemplate";
 import Element from "@arcgis/core/form/elements/Element";
 import GroupElement from "@arcgis/core/form/elements/GroupElement";
 import CodedValueDomain from "@arcgis/core/layers/support/CodedValueDomain";
 import RangeDomain from "@arcgis/core/layers/support/RangeDomain";
-import CodedValue = __esri.CodedValue;
 import TextBoxInput from "@arcgis/core/form/elements/inputs/TextBoxInput";
 import TextAreaInput from "@arcgis/core/form/elements/inputs/TextAreaInput";
 import DateTimePickerInput from "@arcgis/core/form/elements/inputs/DateTimePickerInput";
@@ -118,10 +108,18 @@ import RadioButtonsInput from "@arcgis/core/form/elements/inputs/RadioButtonsInp
 import SwitchInput from "@arcgis/core/form/elements/inputs/SwitchInput";
 import * as reactiveUtils from "@arcgis/core/core/reactiveUtils";
 import SearchSource from "@arcgis/core/widgets/Search/SearchSource";
+import FeatureTemplate from "@arcgis/core/layers/support/FeatureTemplate";
+import ViewClickEvent = __esri.ViewClickEvent;
+import PopupOpenOptions = __esri.PopupOpenOptions;
+import PopupDockOptions = __esri.PopupDockOptions;
+import ContentProperties = __esri.ContentProperties;
+import PopupTriggerActionEvent = __esri.PopupTriggerActionEvent;
+import FeatureLayerBaseApplyEditsEdits = __esri.FeatureLayerBaseApplyEditsEdits;
+import AttachmentEdit = __esri.AttachmentEdit;
+import CodedValue = __esri.CodedValue;
 import SearchSourceFilter = __esri.SearchSourceFilter;
 import SearchResult = __esri.SearchResult;
 import SuggestResult = __esri.SuggestResult;
-import FeatureTemplate from "@arcgis/core/layers/support/FeatureTemplate";
 
 
 export function buildJsSpatialReference(dotNetSpatialReference: DotNetSpatialReference): SpatialReference {
@@ -185,7 +183,7 @@ export function buildJsGraphic(graphicObject: any, viewId: string | null)
     graphic.attributes = buildJsAttributes(graphicObject.attributes);
 
     if (hasValue(graphicObject.popupTemplate)) {
-        graphic.popupTemplate = buildJsPopupTemplate(graphicObject.popupTemplate, viewId);
+        graphic.popupTemplate = buildJsPopupTemplate(graphicObject.popupTemplate, viewId) as PopupTemplate;
     }
 
     return graphic;
@@ -224,7 +222,9 @@ export function buildJsAttributes(attributes: any): any {
     }
 }
 
-export function buildJsPopupTemplate(popupTemplateObject: DotNetPopupTemplate, viewId: string | null): PopupTemplate {
+export function buildJsPopupTemplate(popupTemplateObject: DotNetPopupTemplate, viewId: string | null): PopupTemplate | null {
+    if (!hasValue(popupTemplateObject)) return null;
+    
     let content;
     if (hasValue(popupTemplateObject.stringContent)) {
         content = popupTemplateObject.stringContent;
@@ -325,11 +325,9 @@ export function buildJsPopupContent(popupContentObject: DotNetPopupContent): Con
             return fieldsContent;
         case "text":
             let dnTextContent = popupContentObject as DotNetTextPopupContent;
-            let textContent = new TextContent({
+            return new TextContent({
                 text: dnTextContent.text ?? null
             });
-
-            return textContent;
         case "media":
             let dnMediaContent = popupContentObject as DotNetMediaPopupContent;
             let mediaContent = new MediaContent();
@@ -340,12 +338,11 @@ export function buildJsPopupContent(popupContentObject: DotNetPopupContent): Con
             return mediaContent;
         case "attachments":
             let dnAttachmentsContent = popupContentObject as DotNetAttachmentsPopupContent;
-            let attachmentsContent = new AttachmentsContent({
+            return new AttachmentsContent({
                 description: dnAttachmentsContent.description ?? '',
                 title: dnAttachmentsContent.title ?? '',
                 displayType: dnAttachmentsContent.displayType as any ?? "auto",
             });
-            return attachmentsContent;
         case "expression":
             let dnExpressionContent = popupContentObject as DotNetExpressionPopupContent;
             let expressionContent = new ExpressionContent();
@@ -359,9 +356,9 @@ export function buildJsPopupContent(popupContentObject: DotNetPopupContent): Con
 
 export function buildJsFieldInfo(fieldInfoObject: DotNetFieldInfo): FieldInfo {
     let fieldInfo = new FieldInfo({
-        fieldName: fieldInfoObject.fieldName ?? '',
-        label: fieldInfoObject.label ?? '',
-        tooltip: fieldInfoObject.tooltip ?? '',
+        fieldName: fieldInfoObject.fieldName ?? undefined,
+        label: fieldInfoObject.label ?? undefined,
+        tooltip: fieldInfoObject.tooltip ?? undefined,
         stringFieldOption: fieldInfoObject.stringFieldOption as any ?? "text-box",
         visible: fieldInfoObject.visible ?? true,
         isEditable: fieldInfoObject.isEditable ?? false
@@ -412,7 +409,7 @@ export function buildJsSymbol(symbol: DotNetSymbol | null): Symbol | null {
             return jsSimpleMarkerSymbol;
         case "simple-line":
             let dnSimpleLineSymbol = symbol as DotNetSimpleLineSymbol;
-            let jsSimpleLineSymbol = new SimpleLineSymbol({
+            return new SimpleLineSymbol({
                 color: buildJsColor(dnSimpleLineSymbol.color) ?? "black",
                 cap: dnSimpleLineSymbol.cap as any ?? "round",
                 join: dnSimpleLineSymbol.join as any ?? "round",
@@ -421,11 +418,9 @@ export function buildJsSymbol(symbol: DotNetSymbol | null): Symbol | null {
                 style: dnSimpleLineSymbol.style as any ?? "solid",
                 width: dnSimpleLineSymbol.width ?? 0.75
             });
-
-            return jsSimpleLineSymbol;
         case "picture-marker":
             let dnPictureMarkerSymbol = symbol as DotNetPictureMarkerSymbol;
-            let jsPictureMarkerSymbol = new PictureMarkerSymbol({
+            return new PictureMarkerSymbol({
                 angle: dnPictureMarkerSymbol.angle ?? 0,
                 xoffset: dnPictureMarkerSymbol.xOffset ?? 0,
                 yoffset: dnPictureMarkerSymbol.yOffset ?? 0,
@@ -433,8 +428,6 @@ export function buildJsSymbol(symbol: DotNetSymbol | null): Symbol | null {
                 width: dnPictureMarkerSymbol.width ?? 12,
                 url: dnPictureMarkerSymbol.url
             });
-
-            return jsPictureMarkerSymbol;
 
         case "simple-fill":
             let dnSimpleFillSymbol = symbol as DotNetSimpleFillSymbol;
@@ -502,8 +495,7 @@ export function buildJsBookmark(dnBookmark: DotNetBookmark): Bookmark | null {
 
     if (!(dnBookmark.thumbnail == null)) {
         //ESRI has this as an "object" with url property
-        let thumbnail = { url: dnBookmark.thumbnail };
-        bookmark.thumbnail = thumbnail;
+        bookmark.thumbnail = {url: dnBookmark.thumbnail};
     }
 
     if (hasValue(dnBookmark.viewpoint)) {
