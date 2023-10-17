@@ -1,133 +1,54 @@
 ﻿@page "/feature-layers"
+<PageTitle>FeatureLayer</PageTitle>
 
-<PageTitle>Feature Layers</PageTitle>
-<h1>Feature Layers</h1>
+<h1>Events</h1>
 
-<div class="links-div">
-    <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/add-a-feature-layer/">ArcGIS API for JavaScript Reference</a>
-    <a class="btn btn-primary" target="_blank" href="https://www.arcgis.com/home/item.html?id=67372ff42cd145319639a99152b15bc3">Topographic BaseMap</a>
-</div>
-<p class="instructions">
-    Use the radio buttons to toggle various feature layers.
-</p>
-<div>
-    <div class="form-group">
-        <label>Show Trailheads Points Layer: <input type="checkbox" class="form-check-input" @onchange="@(() => _showPointsLayer = !_showPointsLayer)"></label>
-    </div>
-    <div class="form-group">
-        <EditForm Model="this">
-            <InputRadioGroup Name="points" @bind-Value="_showLinesLayer">
-                <label class="radio-container">
-                    Show Trailheads Lines Layer:
-                    <InputRadio Name="points" Value="1" />
-                    <div class="radio-box" />
-                </label>
-                <label class="radio-container">
-                    Show Trailheads Lines With Elevation Style Renderer:
-                    <InputRadio Name="points" Value="2" />
-                    <div class="radio-box" />
-                </label>
-                <label class="radio-container">
-                    Show Trailheads Lines With Bike Trails Styled:
-                    <InputRadio Name="points" Value="3" />
-                    <div class="radio-box" />
-                </label>
-            </InputRadioGroup>
-        </EditForm>
-    </div>
-    <div class="form-group">
-        <label>Show Trailheads Polygons Layer: <input type="checkbox" class="form-check-input" @onchange="@(() => _showPolygonLayer = !_showPolygonLayer)"></label>
-    </div>
-    <div class="form-group">
-        <label>Show Client-Side Graphics Layer: <input type="checkbox" class="form-check-input" @onchange="@(() => _showGraphics = !_showGraphics)"></label>
-    </div>
-</div>
-
-<MapView @ref="MapView" Longitude="-118.80543" Latitude="34.02700" Zoom="13" Class="map-view">
-    <Map ArcGISDefaultBasemap="arcgis-topographic">
-        @if (_showPolygonLayer)
-        {
-            <FeatureLayer Url="https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Parks_and_Open_Space/FeatureServer/0" />
-        }
-        @if (_showLinesLayer == 1)
-        {
-            <FeatureLayer Url="https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trails/FeatureServer/0" />
-        }
-        else if (_showLinesLayer == 2)
-        {
-            <FeatureLayer Url="https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trails/FeatureServer/0"
-                          Opacity="0.75">
-                <SimpleRenderer>
-                    <SimpleLineSymbol Color="@(new MapColor("#BA55D3"))"
-                                      LineStyle="LineStyle.Solid" />
-                    <SizeVariable Field="ELEV_GAIN"
-                                  MinDataValue="0"
-                                  MaxDataValue="2300"
-                                  MinSize="3"
-                                  MaxSize="7" />
-                </SimpleRenderer>
-            </FeatureLayer>
-        }
-        else if (_showLinesLayer == 3)
-        {
-            <FeatureLayer Url="https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trails/FeatureServer/0"
-                          DefinitionExpression="USE_BIKE = 'YES'">
-                <SimpleRenderer>
-                    <SimpleLineSymbol Color="@(new MapColor("#FF91FF"))"
-                                      LineStyle="LineStyle.ShortDot"
-                                      Width="1" />
-                </SimpleRenderer>
-            </FeatureLayer>
-        }
-        @if (_showPointsLayer)
-        {
-            <FeatureLayer Url="https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trailheads/FeatureServer/0" />
-        }
-        @if (_showGraphics)
-        {
-            <FeatureLayer @ref="_graphicsFeatureLayer" ObjectIdField="ObjectID" GeometryType="GeometryType.Point">
-                <SpatialReference Wkid="4326" />
-                <PopupTemplate Title="Custom Point {ObjectID}" StringContent="<img src='{url}' />" />
-                <SimpleRenderer>
-                    <TextSymbol Color="@(new MapColor("#7A003C"))"
-                                Text="">
-                        <MapFont Size="20" Family="CalciteWebCoreIcons" />
-                    </TextSymbol>
-                </SimpleRenderer>
-                <Field Name="ObjectID" Type="FieldType.Oid" />
-                <Field Name="url" Type="FieldType.String" />
-                <Graphic Attributes="@(new AttributesDictionary(new Dictionary<string, object>
-                                     {
-                                         { "ObjectID", "6" },
-                                         { "url", "https://arcgis.github.io/arcgis-samples-javascript/sample-data/featurelayer-collection/photo-6.jpg" }
-                                     }))">
-                    <Point Longitude="-118.805" Latitude="34.027" />
-                </Graphic>
-                <Graphic Attributes="@(new AttributesDictionary(new Dictionary<string, object>
-                                     {
-                                         { "ObjectID", "5" },
-                                         { "url", "https://arcgis.github.io/arcgis-samples-javascript/sample-data/featurelayer-collection/photo-5.jpg" }
-                                     }))">
-                    <Point Longitude="-118.815" Latitude="34.017" />
-                </Graphic>
-                <Graphic Attributes="@(new AttributesDictionary(new Dictionary<string, object>
-                                     {
-                                         { "ObjectID", "4" },
-                                         { "url", "https://arcgis.github.io/arcgis-samples-javascript/sample-data/featurelayer-collection/photo-4.jpg" }
-                                     }))">
-                    <Point Longitude="-118.795" Latitude="34.027" />
-                </Graphic>
-            </FeatureLayer>
-        }
-    </Map>
+<button class="btn btn-primary" @onclick="AddGraphics">Graphic 1</button>
+<button class="btn btn-primary" @onclick="AddSecondGraphic">Graphic 2</button>
+<MapView @ref="_view" Longitude="_longitude" Latitude="_latitude" Zoom="11" Style="height: 400px; width: 100%;" > 
+    <WebMap>
+        <PortalItem Id="fae788aa91e54244b161b59725dcbb2a" />
+        <GraphicsLayer @ref="_graphicLayer1" Title="Graphic 1"></GraphicsLayer>
+    </WebMap>
+    <ScaleBarWidget Position="OverlayPosition.BottomLeft" />
+    <LayerListWidget Position="OverlayPosition.TopRight" />
 </MapView>
 
 @code {
-    private MapView? MapView { get; set; }
+    private readonly double _latitude = 34.027;
+    private readonly double _longitude = -118.805;
+    private MapView? _view;
+    private GraphicsLayer? _graphicLayer1;
 
-    private bool _showPointsLayer;
-    private int _showLinesLayer;
-    private bool _showPolygonLayer;
-    private bool _showGraphics;
-    private FeatureLayer? _graphicsFeatureLayer;
+    private async Task ActionNo2CallbackFunction()
+    {
+
+        Console.WriteLine("Action2");
+        await Task.CompletedTask;
+    }
+
+    private async Task AddGraphics()
+    {
+        var firstGraphic = new Graphic(new Point(-118.805, 34.027), new SimpleMarkerSymbol(null, new MapColor("red"), 8), new PopupTemplate("Graphic #1", overwriteActions: false, actions: new List<ActionBase>()
+        {
+            new ActionButton("Action no.1", id: $"graphic-1-1", callbackFunction: ActionNo2CallbackFunction)
+        }));
+        await _graphicLayer1!.Add(firstGraphic);
+    }
+
+    private async Task AddSecondGraphic()
+    {
+        var graphics = new List<Graphic>();
+        foreach (var num in Enumerable.Range(1, 2))
+        {
+            var num1 = (double)num / (double)2;
+            graphics.Add(new Graphic(new Point(-118.80500 + num1, 34.037), new SimpleMarkerSymbol(null, new MapColor("blue"), 8), new PopupTemplate($"Graphic #2-{num}", overwriteActions:false, actions: new List<ActionBase>()
+            {
+                new ActionButton("Action no.2", id: $"graphic-2-{num}", callbackFunction: ActionNo2CallbackFunction)
+            })));
+
+        }
+        var secondGraphicLayer = new GraphicsLayer(graphics, "Second Graphic Layer");
+        await _view!.AddLayer(secondGraphicLayer);
+    }
 }
