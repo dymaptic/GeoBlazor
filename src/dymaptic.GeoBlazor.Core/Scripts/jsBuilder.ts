@@ -761,6 +761,11 @@ export function buildJsRasterStretchRenderer(dotNetRasterStretchRenderer: DotNet
     return rasterStretchRenderer;
 }
 
+export function buildJsSubsetDimension(dotNetSubsetDimension: any): SubsetDimension | null {
+    if (dotNetSubsetDimension === undefined) return null;
+    let subsetDimension = new 
+}
+
 export function buildJsColorRamp(dotNetColorRamp: any): ColorRamp | null {
     if (dotNetColorRamp === undefined) return null;
     switch (dotNetColorRamp.type) {
