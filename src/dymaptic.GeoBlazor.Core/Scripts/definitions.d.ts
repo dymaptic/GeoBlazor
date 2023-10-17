@@ -719,8 +719,40 @@ export interface DotNetFieldsIndex {
     dateFields: object[];
 }
 
-export interface DotNetUniqueValueRenderer {
+// UniqueValueClass and UniqueValueInfo seem to have the same properties including "values" accepts strings or numbers so this was defaulted to object
+// see https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValue.html
+export interface DotNetUniqueValueClass {
+    label: string;
+    symbol: DotNetSymbol;
+    values: object[];
+}
+export interface DotNetUniqueValueInfo {
+    label: string;
+    symbol: DotNetSymbol;
+    values: object[];
+}
 
+export interface DotNetUniqueValueGroup {
+    classes: DotNetUniqueValueClass[];
+    heading: string;
+}
+
+export interface DotNetUniqueValueRenderer {
+    backgroundFillSymbol: DotNetSimpleFillSymbol;
+    defaultLabel: string;
+    defaultSymbol: DotNetSymbol;
+    field: string;
+    field2: string;
+    field3: string;
+    fieldDelimiter: string;
+    legendOptions: object;
+    orderByClassesEnabled: boolean;
+    type: string;
+    uniqueValueGroups: DotNetValueGroup[];
+    uniqueValueInfos: DotNetUniqueValueInfo[];
+    valueExpression: string;
+    valueExpressionTitle: string;
+    visualVariables: DotNetVisualVariable[];
 }
 
 

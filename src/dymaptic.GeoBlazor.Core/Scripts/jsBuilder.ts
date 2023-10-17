@@ -35,6 +35,10 @@ import MultidimensionalSubset from "@arcgis/core/layers/support/Multidimensional
 import PolygonSymbol3D from "@arcgis/core/symbols/PolygonSymbol3D.js";
 import FieldsIndex from "@arcgis/core/layers/support/FieldsIndex.js";
 import AuthoringInfoVisualVariable from "@arcgis/core/renderers/support/AuthoringInfoVisualVariable.js";
+import UniqueValue from "@arcgis/core/renderers/support/UniqueValue.js";
+import UniqueValueInfo from "@arcgis/core/renderers/support/UniqueValueInfo.js";
+import UniqueValueClass from "@arcgis/core/renderers/support/UniqueValueClass.js";
+import UniqueValueGroup from "@arcgis/core/renderers/support/UniqueValueGroup.js";
 import {
     DotNetApplyEdits,
     DotNetAttachmentsEdit,
@@ -91,7 +95,8 @@ import {
     DotNetRasterFunction,
     DotNetRasterFunctionInfo,
     DotNetAuthoringInfo,
-    DotNetFieldsIndex
+    DotNetFieldsIndex,
+    DotNetUniqueValueRenderer
 } from "./definitions";
 import PictureMarkerSymbol from "@arcgis/core/symbols/PictureMarkerSymbol";
 import Popup from "@arcgis/core/widgets/Popup";
