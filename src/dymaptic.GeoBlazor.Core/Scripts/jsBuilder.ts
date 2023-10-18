@@ -620,10 +620,15 @@ export function buildJsColormapInfo(dotNetColormapInfo: DotNetColormapInfo): Col
     return colormapInfo;
 }
 
-export function buildJsRasterShadedReliefRenderer(dotNetRasterShadedReliefRenderer: DotNetRasterShadedReliefRenderer): RasterShadedReliefRenderer | null {
-    if (dotNetRasterShadedReliefRenderer === undefined) return null;
+export function buildJsRasterShadedReliefRenderer(dnRasterShadedReliefRenderer: DotNetRasterShadedReliefRenderer): RasterShadedReliefRenderer | null {
+    if (dnRasterShadedReliefRenderer === undefined) return null;
     let rasterShadedReliefRenderer = new RasterShadedReliefRenderer();
-
+    if (hasValue(dnRasterShadedReliefRenderer.altitude)) {
+        rasterShadedReliefRenderer.altitude = dnRasterShadedReliefRenderer.altitude;
+    }
+    if (hasValue(dnRasterShadedReliefRenderer.azimuth)) {
+        rasterShadedReliefRenderer.azimuth
+    }
     return rasterShadedReliefRenderer;
 }
 
@@ -634,10 +639,47 @@ export function buildJsSimpleFillSymbol(dnSimpleFillSymbol: DotNetSimpleFillSymb
 export function buildJsClassBreaksRenderer(dnClassBreaksRenderer: DotNetClassBreaksRenderer): ClassBreaksRenderer | null {
     if (dnClassBreaksRenderer === undefined) return null;
     let classBreaksRenderer = new ClassBreaksRenderer();
-    //may need to have a build js fx for fill symbol
+    //Implements only the simple fill symbol PolygonSymbol3d is another option but can be implemented later
     if (hasValue(dnClassBreaksRenderer.backgroundFillSymbol)) {
-        classBreaksRenderer.backgroundFillSymbol = dnClassBreaksRenderer.backgroundFillSymbol;
+        classBreaksRenderer.backgroundFillSymbol = dnClassBreaksRenderer.backgroundFillSymbol as DotNetSimpleFillSymbol;
     }
+    if (hasValue(dnClassBreaksRenderer.classBreakInfos)) {
+        classBreaksRenderer.classBreakInfos = dnClassBreaksRenderer.classBreakInfos;
+    }
+    if (hasValue(dnClassBreaksRenderer.defaultLabel)) {
+        classBreaksRenderer.defaultLabel = dnClassBreaksRenderer.defaultLabel;
+    }
+    if (hasValue(dnClassBreaksRenderer.defaultSymbol)) {
+        classBreaksRenderer.defaultSymbol = dnClassBreaksRenderer.defaultSymbol;
+    }
+    if (hasValue(dnClassBreaksRenderer.field)) {
+        classBreaksRenderer.field = dnClassBreaksRenderer.field;
+    }
+    if (hasValue(dnClassBreaksRenderer.legendOptions)) {
+        classBreaksRenderer.legendOptions = dnClassBreaksRenderer.legendOptions;
+    }
+    if (hasValue(dnClassBreaksRenderer.normalizationField)) {
+        classBreaksRenderer.normalizationField = dnClassBreaksRenderer.normalizationField;
+    }
+    if (hasValue(dnClassBreaksRenderer.normalizationTotal)) {
+        classBreaksRenderer.normalizationTotal = dnClassBreaksRenderer.normalizationTotal;
+    }
+    if (hasValue(dnClassBreaksRenderer.normalizationType)) {
+        classBreaksRenderer.normalizationType = dnClassBreaksRenderer.normalizationType;
+    }
+    if (hasValue(dnClassBreaksRenderer.type)) {
+        classBreaksRenderer.type = dnClassBreaksRenderer.type;
+    }
+    if (hasValue(dnClassBreaksRenderer.valueExpression)) {
+        classBreaksRenderer.valueExpression = dnClassBreaksRenderer.valueExpression;
+    }
+    if (hasValue(dnClassBreaksRenderer.valueExpressionTitle)) {
+        classBreaksRenderer.valueExpressionTitle = dnClassBreaksRenderer.valueExpressionTitle;
+    }
+    if (hasValue(dnClassBreaksRenderer.visualVariables)) {
+        classBreaksRenderer.visualVariables = dnClassBreaksRenderer.visualVariables;
+    }
+    return classBreaksRenderer;
 }
 
 export function buildJsVectorFieldRenderer(dotNetVectorFieldRenderer: DotNetVectorFieldRenderer): VectorFieldRenderer | null {
@@ -759,11 +801,6 @@ export function buildJsRasterStretchRenderer(dotNetRasterStretchRenderer: DotNet
         rasterStretchRenderer.numberOfStandardDeviations = dotNetRasterStretchRenderer.numberOfStandardDeviations;
     }
     return rasterStretchRenderer;
-}
-
-export function buildJsSubsetDimension(dotNetSubsetDimension: any): SubsetDimension | null {
-    if (dotNetSubsetDimension === undefined) return null;
-    let subsetDimension = new 
 }
 
 export function buildJsColorRamp(dotNetColorRamp: any): ColorRamp | null {

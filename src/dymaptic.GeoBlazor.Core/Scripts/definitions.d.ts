@@ -653,6 +653,7 @@ export interface DotNetClassBreaksRenderer {
     legendOptions: object;
     normalizationField: string;
     normalizationTotal: number;
+    normalizationType: string;
     valueExpression: string;
     valueExpressionTitle: string;
     visualVariables: DotNetVisualVariable[]
@@ -719,8 +720,6 @@ export interface DotNetFieldsIndex {
     dateFields: object[];
 }
 
-// UniqueValueClass and UniqueValueInfo seem to have the same properties including "values" accepts strings or numbers so this was defaulted to object
-// see https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValue.html
 export interface DotNetUniqueValueClass {
     label: string;
     symbol: DotNetSymbol;
