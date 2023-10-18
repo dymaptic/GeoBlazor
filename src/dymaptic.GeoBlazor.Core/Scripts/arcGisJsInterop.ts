@@ -1146,7 +1146,7 @@ async function setPopupHandler(viewId: string, dotNetPopup: any | null) {
                     await dotNetPopup.dotNetWidgetReference.invokeMethodAsync("OnTriggerAction", event.action.id);
                 }
                 for (var index in popupDotNetObjects) {
-                     //we need to lookup the ref, because they can disappear if the popup has never been opened
+                    //we need to lookup the ref, because they can disappear if the popup has never been opened
                     await lookupDotNetRefForPopupTemplate(popupDotNetObjects[index], viewId as string);
                     await popupDotNetObjects[index].dotNetPopupTemplateReference.invokeMethodAsync("OnTriggerAction", event.action.id);
                 }
@@ -1374,6 +1374,17 @@ export function setGraphicPopupTemplate(id: string, popupTemplate: DotNetPopupTe
     let jsPopupTemplate = buildJsPopupTemplate(popupTemplate, viewId);
     if (hasValue(graphic) && hasValue(popupTemplate) && graphic.popupTemplate !== jsPopupTemplate) {
         graphic.popupTemplate = jsPopupTemplate;
+    }
+}
+
+export function removeGraphicPopupTemplate(id: string, popupTemplate: DotNetPopupTemplate, dotNetRef: any, viewId: string): void {
+
+    var arrItem = popupDotNetObjects.find(x => x.id === popupTemplate.id)
+    if (hasValue(arrItem)) {
+        var index = popupDotNetObjects.indexOf(arrItem)
+        if (index > -1) {
+            popupDotNetObjects.splice(index, 1);
+        }
     }
 }
 
