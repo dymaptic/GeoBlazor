@@ -149,7 +149,15 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     {
         if (ProJsModule is not null)
         {
-            await ProJsModule.InvokeVoidAsync("registerProComponent", Id, (object)child);
+            _proExtensions ??= Type.GetType("dymaptic.GeoBlazor.Pro.ProExtensions");
+            MethodInfo? method = _proExtensions?.GetMethod("RegisterProChildComponent");
+
+            if (method is not null)
+            {
+                await (Task)method.Invoke(null, new object?[] { this, child })!;
+
+                return;
+            }
         }
         throw new InvalidChildElementException(GetType().Name, child.GetType().Name);
     }
@@ -163,8 +171,20 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     /// <remarks>
     ///     This method is an implementation detail and should not be called directly by consumers. In future versions, this may be changed to an internal method.
     /// </remarks>
-    public virtual Task UnregisterChildComponent(MapComponent child)
+    public virtual async Task UnregisterChildComponent(MapComponent child)
     {
+        if (ProJsModule is not null)
+        {
+            _proExtensions ??= Type.GetType("dymaptic.GeoBlazor.Pro.ProExtensions");
+            MethodInfo? method = _proExtensions?.GetMethod("UnregisterProChildComponent");
+
+            if (method is not null)
+            {
+                await (Task)method.Invoke(null, new object?[] { this, child })!;
+
+                return;
+            }
+        }
         throw new InvalidChildElementException(GetType().Name, child.GetType().Name);
     }
 
@@ -335,6 +355,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _watchers = new();
     private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _listeners = new();
     private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _waiters = new();
+    private Type? _proExtensions;
 
     /// <summary>
     ///     Creates a cancellation token to control external calls
