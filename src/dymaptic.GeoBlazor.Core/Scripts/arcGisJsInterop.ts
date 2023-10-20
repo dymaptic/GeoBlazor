@@ -83,7 +83,6 @@ import {
     buildJsRenderer,
     buildJsSpatialReference,
     buildJsSymbol,
-    templateTriggerActionHandler,
     buildJsBookmark,
     buildJsDimensionalDefinition,
     buildJsColorRamp,
@@ -132,6 +131,7 @@ import Geometry from "@arcgis/core/geometry/Geometry";
 import SearchSource from "@arcgis/core/widgets/Search/SearchSource";
 
 export let arcGisObjectRefs: Record<string, Accessor> = {};
+export let popupDotNetObjects: any[] = [];
 export let graphicsRefs: Record<string, Graphic> = {};
 export let dotNetRefs = {};
 export let queryLayer: FeatureLayer;
@@ -324,6 +324,8 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
         let popupWidget = widgets.find(w => w.type === 'popup');
         if (hasValue(popupWidget)) {
             await addWidget(popupWidget, id);
+        } else {
+            setPopupHandler(id);
         }
 
         if (hasValue(mapObject.layers)) {
@@ -497,8 +499,8 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
         // find objectRef id by layer
         let layerGeoBlazorId = Object.keys(arcGisObjectRefs).find(key => arcGisObjectRefs[key] === evt.layer);
         let isBasemapLayer = false;
-        if (hasValue(view.map.basemap) && 
-                (view.map.basemap.baseLayers?.includes(evt.layer) || view.map.basemap.referenceLayers?.includes(evt.layer))) {
+        if (hasValue(view.map.basemap) &&
+            (view.map.basemap.baseLayers?.includes(evt.layer) || view.map.basemap.referenceLayers?.includes(evt.layer))) {
             isBasemapLayer = true;
         }
         let layerRef;
@@ -1092,32 +1094,75 @@ export function findPlaces(addressQueryParams: any, symbol: any, popupTemplateOb
     }
 }
 
-export async function setPopup(popup: any, viewId: string): Promise<Popup | null> {
+export async function setPopup(dotNetPopup: any, viewId: string): Promise<Popup | null> {
     try {
         let view = arcGisObjectRefs[viewId] as View;
 
-        let jsPopup = await buildJsPopup(popup, viewId);
-        if (hasValue(popup.widgetContent)) {
-            let widgetContent = await createWidget(popup.widgetContent, popup.viewId);
+        let jsPopup = await buildJsPopup(dotNetPopup, viewId);
+        if (hasValue(dotNetPopup.widgetContent)) {
+            let widgetContent = await createWidget(dotNetPopup.widgetContent, dotNetPopup.viewId);
             if (hasValue(widgetContent)) {
                 jsPopup.content = widgetContent as Widget;
             }
         }
 
         view.popup = jsPopup;
+
+        setPopupHandler(viewId, dotNetPopup);
+
+        return jsPopup;
+    } catch (error) {
+        logError(error, dotNetPopup.viewId);
+        return null;
+    }
+}
+
+async function setPopupHandler(viewId: string, dotNetPopup: any | null) {
+    try {
+        let view = arcGisObjectRefs[viewId] as View;
+
         if (hasValue(triggerActionHandler)) {
             triggerActionHandler.remove();
         }
-        if (hasValue(templateTriggerActionHandler)) {
-            templateTriggerActionHandler.remove();
+
+        if (!hasValue(view.popup.on)) {
+            reactiveUtils.once(() => view.popup.on !== undefined)
+                .then(() => {
+                    triggerActionHandler = view.popup.on("trigger-action", async (event) => {
+                        if (hasValue(dotNetPopup)) {
+                            await dotNetPopup.dotNetWidgetReference.invokeMethodAsync("OnTriggerAction", event.action.id);
+                        }
+                        for (var index in popupDotNetObjects) {
+                            //we need to lookup the ref, because they can disappear if the popup has never been opened
+                            await lookupDotNetRefForPopupTemplate(popupDotNetObjects[index], viewId as string);
+                            await popupDotNetObjects[index].dotNetPopupTemplateReference.invokeMethodAsync("OnTriggerAction", event.action.id);
+
+                        }
+                    });
+                })
+        } else {
+            triggerActionHandler = view.popup.on("trigger-action", async (event) => {
+                if (hasValue(dotNetPopup)) {
+                    await dotNetPopup.dotNetWidgetReference.invokeMethodAsync("OnTriggerAction", event.action.id);
+                }
+                for (var index in popupDotNetObjects) {
+                    //we need to lookup the ref, because they can disappear if the popup has never been opened
+                    await lookupDotNetRefForPopupTemplate(popupDotNetObjects[index], viewId as string);
+                    await popupDotNetObjects[index].dotNetPopupTemplateReference.invokeMethodAsync("OnTriggerAction", event.action.id);
+                }
+            });
         }
-        triggerActionHandler = view.popup.on("trigger-action", async (event) => {
-            await popup.dotNetWidgetReference.invokeMethodAsync("OnTriggerAction", event.action.id);
-        });
-        return jsPopup;
-    } catch (error) {
-        logError(error, popup.viewId);
-        return null;
+    }
+    catch (error) {
+        logError(error, viewId);
+    }
+}
+
+async function lookupDotNetRefForPopupTemplate(popupTemplateObject: DotNetPopupTemplate, viewId: string) {
+    if (!hasValue(popupTemplateObject.dotNetPopupTemplateReference)) {
+        let viewRef = dotNetRefs[viewId];
+        popupTemplateObject.dotNetPopupTemplateReference =
+            await viewRef.invokeMethodAsync('GetDotNetPopupTemplateObjectReference', popupTemplateObject.id);
     }
 }
 
@@ -1329,6 +1374,17 @@ export function setGraphicPopupTemplate(id: string, popupTemplate: DotNetPopupTe
     let jsPopupTemplate = buildJsPopupTemplate(popupTemplate, viewId);
     if (hasValue(graphic) && hasValue(popupTemplate) && graphic.popupTemplate !== jsPopupTemplate) {
         graphic.popupTemplate = jsPopupTemplate;
+    }
+}
+
+export function removeGraphicPopupTemplate(id: string, popupTemplate: DotNetPopupTemplate, dotNetRef: any, viewId: string): void {
+
+    var arrItem = popupDotNetObjects.find(x => x.id === popupTemplate.id)
+    if (hasValue(arrItem)) {
+        var index = popupDotNetObjects.indexOf(arrItem)
+        if (index > -1) {
+            popupDotNetObjects.splice(index, 1);
+        }
     }
 }
 
@@ -1625,17 +1681,17 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
                 }
                 search.sources.addMany(sources);
             }
-            
+
             if (hasValue(widget.popupTemplate)) {
                 search.popupTemplate = buildJsPopupTemplate(widget.popupTemplate, viewId);
             }
-            
+
             if (hasValue(widget.portal)) {
                 search.portal = new Portal({
                     url: widget.portal.url
                 });
             }
-            
+
             if (widget.hasGoToOverride) {
                 search.goToOverride = async (view, parameters) => {
                     let dnParams = buildDotNetGoToOverrideParameters(parameters, viewId);
@@ -1650,7 +1706,7 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
                     name: evt.result.name
                 });
             });
-            
+
             copyValuesIfExists(widget, search, 'activeMenu', 'activeSourceIndex', 'allPlaceholder',
                 'autoSelect', 'disabled', 'includeDefaultSources', 'label', 'locationEnabled', 'maxResults',
                 'maxSuggestions', 'minSuggestCharacters', 'popupEnabled', 'resultGraphicEnabled', 'searchAllEnabled',
@@ -2198,7 +2254,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             if (hasValue(layerObject.popupTemplate)) {
                 csvLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId ?? null);
             }
-            
+
             copyValuesIfExists(layerObject, csvLayer, 'blendMode', 'copyright', 'delimiter', 'displayField');
             break;
         case 'kml':
@@ -2220,7 +2276,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
                 title: layerObject.title
             });
             let wcsLayer = newLayer as WCSLayer;
-            
+
             if (hasValue(layerObject.renderer) && (layerObject.renderer.type == 'raster-stretch')) {
                 wcsLayer.renderer = buildJsRasterStretchRenderer(layerObject.renderer) as RasterStretchRenderer;
 
@@ -2260,20 +2316,20 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
                 key: layerObject.key,
                 style: layerObject.style
             });
-            
+
             newLayer = bing;
 
             if (hasValue(layerObject.spatialReference)) {
                 bing.spatialReference = buildJsSpatialReference(layerObject.spatialReference);
             }
-            
+
             if (hasValue(layerObject.effect)) {
                 bing.effect = buildJsEffect(layerObject.effect);
             }
-            
+
             copyValuesIfExists('blendMode', 'maxScale', 'minScale', 'refreshInterval');
             break;
-         default:
+        default:
             return null;
     }
 
