@@ -632,8 +632,23 @@ export interface DotNetFlowRenderer {
 
 export interface DotNetVectorFieldRenderer {
     type: string;
-    
+    attributeField: string;
+    flowRepresentation: string;
+    style: string;
+    symbolTileSize: number;
+    visualVariables: DotNetVisualVariable[];
+}
 
+export interface DotNetRasterShadedReliefRenderer {
+    altitude: number;
+    azimuth: number;
+    colorRamp: DotNetColorRamp;
+    hillshadeType: string;
+    pixelSizeFactor: number;
+    pixelSizePower: number;
+    scalingType: string;
+    type: string;
+    zFactor: number;
 }
 
 export interface DotNetClassBreaksInfo {
@@ -747,7 +762,7 @@ export interface DotNetUniqueValueRenderer {
     legendOptions: object;
     orderByClassesEnabled: boolean;
     type: string;
-    uniqueValueGroups: DotNetValueGroup[];
+    uniqueValueGroups: DotNetUniqueValueGroup[];
     uniqueValueInfos: DotNetUniqueValueInfo[];
     valueExpression: string;
     valueExpressionTitle: string;

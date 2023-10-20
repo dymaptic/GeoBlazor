@@ -599,6 +599,7 @@ export function buildJsRasterColormapRenderer(dotNetRasterColormapRenderer: DotN
     let rasterColormapRender = new RasterColormapRenderer();
 
     if (hasValue(dotNetRasterColormapRenderer.colormapInfos)) {
+        
         rasterColormapRender.colormapInfos = buildJsColormapInfo(dotNetRasterColormapRenderer.colormapInfos) as ColormapInfo;
     }
     return rasterColormapRender;
@@ -627,13 +628,78 @@ export function buildJsRasterShadedReliefRenderer(dnRasterShadedReliefRenderer: 
         rasterShadedReliefRenderer.altitude = dnRasterShadedReliefRenderer.altitude;
     }
     if (hasValue(dnRasterShadedReliefRenderer.azimuth)) {
-        rasterShadedReliefRenderer.azimuth
+        rasterShadedReliefRenderer.azimuth = dnRasterShadedReliefRenderer.azimuth;
+    }
+    if (hasValue(dnRasterShadedReliefRenderer.colorRamp)) {
+        rasterShadedReliefRenderer.colorRamp = dnRasterShadedReliefRenderer.colorRamp as DotNetColorRamp;
+    }
+    if (hasValue(dnRasterShadedReliefRenderer.hillshadeType)) {
+        rasterShadedReliefRenderer.hillshadeType = dnRasterShadedReliefRenderer.hillshadeType;
+    }
+    if (hasValue(dnRasterShadedReliefRenderer.pixelSizeFactor)) {
+        rasterShadedReliefRenderer.pixelSizeFactor = dnRasterShadedReliefRenderer.pixelSizeFactor;
+    }
+    if (hasValue(dnRasterShadedReliefRenderer.pixelSizePower)) {
+        rasterShadedReliefRenderer.pixelSizePower = dnRasterShadedReliefRenderer.pixelSizePower;
+    }
+    if (hasValue(dnRasterShadedReliefRenderer.pixelSizePower)) {
+        rasterShadedReliefRenderer.pixelSizePower = dnRasterShadedReliefRenderer.pixelSizePower;
+    }
+    if (hasValue(dnRasterShadedReliefRenderer.scalingType)) {
+        rasterShadedReliefRenderer.scalingType = dnRasterShadedReliefRenderer.scalingType;
+    }
+    if (hasValue(dnRasterShadedReliefRenderer.zFactor)) {
+        rasterShadedReliefRenderer.zFactor = dnRasterShadedReliefRenderer.zFactor;
     }
     return rasterShadedReliefRenderer;
 }
 
-export function buildJsSimpleFillSymbol(dnSimpleFillSymbol: DotNetSimpleFillSymbol): SimpleFillSymbol | null {
-
+export function buildJsUniqueValueRenderer(dnUniqueValueRenderer: DotNetUniqueValueRenderer): UniqueValueRenderer | null {
+    if (dnUniqueValueRenderer === undefined) return null;
+    let uniqueValueRenderer = new UniqueValueRenderer();
+    if (hasValue(dnUniqueValueRenderer.backgroundFillSymbol)) {
+        uniqueValueRenderer.backgroundFillSymbol = dnUniqueValueRenderer.backgroundFillSymbol;
+    }
+    if (hasValue(dnUniqueValueRenderer.defaultLabel)) {
+        uniqueValueRenderer.defaultLabel = dnUniqueValueRenderer.defaultLabel;
+    }
+    if (hasValue(dnUniqueValueRenderer.defaultSymbol)) {
+        uniqueValueRenderer.defaultSymbol = dnUniqueValueRenderer.defaultSymbol as DotNetSymbol;
+    }
+    if (hasValue(dnUniqueValueRenderer.field)) {
+        uniqueValueRenderer.field = dnUniqueValueRenderer.field;
+    }
+    if (hasValue(dnUniqueValueRenderer.field2)) {
+        uniqueValueRenderer.field2 = dnUniqueValueRenderer.field2;
+    }
+    if (hasValue(dnUniqueValueRenderer.field3)) {
+        uniqueValueRenderer.field3 = dnUniqueValueRenderer.field3;
+    }
+    if (hasValue(dnUniqueValueRenderer.fieldDelimiter)) {
+        uniqueValueRenderer.fieldDelimiter = dnUniqueValueRenderer.fieldDelimiter;
+    }
+    if (hasValue(dnUniqueValueRenderer.legendOptions)) {
+        uniqueValueRenderer.legendOptions = dnUniqueValueRenderer.legendOptions;
+    }
+    if (hasValue(dnUniqueValueRenderer.orderByClassesEnabled)) {
+        uniqueValueRenderer.orderByClassesEnabled = dnUniqueValueRenderer.orderByClassesEnabled;
+    }
+    if (hasValue(dnUniqueValueRenderer.uniqueValueGroups)) {
+        uniqueValueRenderer.uniqueValueGroups = dnUniqueValueRenderer.uniqueValueGroups;
+    }
+    if (hasValue(dnUniqueValueRenderer.uniqueValueInfos)) {
+        uniqueValueRenderer.uniqueValueInfos = dnUniqueValueRenderer.uniqueValueInfos;
+    }
+    if (hasValue(dnUniqueValueRenderer.valueExpression)) {
+        uniqueValueRenderer.valueExpression = dnUniqueValueRenderer.valueExpression;
+    }
+    if (hasValue(dnUniqueValueRenderer.valueExpressionTitle)) {
+        uniqueValueRenderer.valueExpressionTitle = dnUniqueValueRenderer.valueExpressionTitle;
+    }
+    if (hasValue(dnUniqueValueRenderer.visualVariables)) {
+        uniqueValueRenderer.visualVariables = dnUniqueValueRenderer.visualVariables;
+    }
+    return uniqueValueRenderer;
 }
 
 export function buildJsClassBreaksRenderer(dnClassBreaksRenderer: DotNetClassBreaksRenderer): ClassBreaksRenderer | null {

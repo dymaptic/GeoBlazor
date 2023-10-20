@@ -104,7 +104,11 @@ import {
     DotNetPoint,
     DotNetPopupTemplate,
     DotNetSpatialReference,
-    MapCollection
+    MapCollection,
+    DotNetDimensionalDefinition,
+    DotNetRasterColormapRenderer,
+    DotNetAlgorithmicColorRamp,
+
 } from "./definitions";
 import WebTileLayer from "@arcgis/core/layers/WebTileLayer";
 import TileInfo from "@arcgis/core/layers/support/TileInfo";
