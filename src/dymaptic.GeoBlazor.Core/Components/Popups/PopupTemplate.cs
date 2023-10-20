@@ -362,5 +362,5 @@ internal record PopupTemplateSerializationRecord([property: JsonIgnore(Condition
         IEnumerable<ActionBaseSerializationRecord>? Actions = null,
         [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         [property: ProtoMember(10)]
-        string? id = null)
+        string? Id = null)
     : MapComponentSerializationRecord;

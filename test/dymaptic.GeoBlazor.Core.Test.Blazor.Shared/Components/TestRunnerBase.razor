@@ -113,7 +113,7 @@
         {
             throw new TimeoutException("Map did not render in allotted time.");
         }
-        _methodsWithRenderedMaps.Remove(methodName!);
+        _methodsWithRenderedMaps.Remove(methodName);
     }
 
     protected async Task AssertJavaScript(string jsAssertFunction, [CallerMemberName] string methodName = "", 

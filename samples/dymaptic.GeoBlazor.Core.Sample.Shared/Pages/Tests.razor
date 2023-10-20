@@ -22,8 +22,9 @@
         <GraphicsLayer @ref="_refreshableGraphicsLayer">
             @for (var i = 0; i < _graphicsCount; i++)
             {
+                var index = i;
                 <Graphic>
-                    <Point Longitude="_longs[i]" Latitude="_lats[i]" />
+                    <Point Longitude="_longs[index]" Latitude="_lats[index]" />
                 </Graphic>
             }
         </GraphicsLayer>

@@ -161,18 +161,19 @@ public abstract class Layer : MapComponent
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         IJSObjectReference arcGisJsInterop = await GetArcGisJsInterop();
 
-        if (GetType().Namespace!.Contains("Core"))
-        {
-            JsLayerReference = await arcGisJsInterop.InvokeAsync<IJSObjectReference>("createLayer",
-                // ReSharper disable once RedundantCast
-                cancellationToken, (object)this, true, View?.Id);
-        }
-        else
+        if (ProProperties.Any() || GetType().Namespace!.Contains("Pro"))
         {
             JsLayerReference = await (await GetArcGisJsPro())!.InvokeAsync<IJSObjectReference>("createProLayer",
                 // ReSharper disable once RedundantCast
                 cancellationToken, (object)this, true, View?.Id);
         }
+        else
+        {
+            JsLayerReference = await arcGisJsInterop.InvokeAsync<IJSObjectReference>("createLayer",
+                // ReSharper disable once RedundantCast
+                cancellationToken, (object)this, true, View?.Id);
+        }
+
         await JsLayerReference.InvokeVoidAsync("load", cancellationToken, abortSignal);
 
         Layer loadedLayer = await arcGisJsInterop.InvokeAsync<Layer>("getSerializedDotNetObject",

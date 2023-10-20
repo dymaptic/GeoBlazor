@@ -2,7 +2,7 @@
 import Extent from "@arcgis/core/geometry/Extent";
 import Graphic from "@arcgis/core/Graphic";
 import PopupTemplate from "@arcgis/core/PopupTemplate";
-import {arcGisObjectRefs, createLayer, dotNetRefs, triggerActionHandler} from "./arcGisJsInterop";
+import {arcGisObjectRefs, createLayer, dotNetRefs, hasValue, triggerActionHandler} from "./arcGisJsInterop";
 import Geometry from "@arcgis/core/geometry/Geometry";
 import Point from "@arcgis/core/geometry/Point";
 import Polyline from "@arcgis/core/geometry/Polyline";
@@ -120,6 +120,12 @@ import CodedValue = __esri.CodedValue;
 import SearchSourceFilter = __esri.SearchSourceFilter;
 import SearchResult = __esri.SearchResult;
 import SuggestResult = __esri.SuggestResult;
+import LabelClass from "@arcgis/core/layers/support/LabelClass";
+import VisualVariable from "@arcgis/core/renderers/visualVariables/VisualVariable";
+import ColorVariable from "@arcgis/core/renderers/visualVariables/ColorVariable";
+import RotationVariable from "@arcgis/core/renderers/visualVariables/RotationVariable";
+import SizeVariable from "@arcgis/core/renderers/visualVariables/SizeVariable";
+import OpacityVariable from "@arcgis/core/renderers/visualVariables/OpacityVariable";
 
 
 export function buildJsSpatialReference(dotNetSpatialReference: DotNetSpatialReference): SpatialReference {
@@ -256,7 +262,7 @@ export function buildJsPopupTemplate(popupTemplateObject: DotNetPopupTemplate, v
     }
 
     if (hasValue(popupTemplateObject.expressionInfos)) {
-        template.expressionInfos = popupTemplateObject.expressionInfos.map(e => buildJsExpressionInfo(e));
+        template.expressionInfos = popupTemplateObject.expressionInfos.map(buildJsExpressionInfo);
     }
 
     if (hasValue(popupTemplateObject.actions)) {
@@ -397,8 +403,8 @@ export function buildJsSymbol(symbol: DotNetSymbol | null): Symbol | null {
             let jsSimpleMarkerSymbol = new SimpleMarkerSymbol({
                 color: buildJsColor(dnSimpleMarkerSymbol.color) ?? [255, 255, 255, 0.25],
                 path: dnSimpleMarkerSymbol.path ?? undefined,
-                size: dnSimpleMarkerSymbol.size ?? 12,
-                style: dnSimpleMarkerSymbol.style as any ?? "circle",
+                size: dnSimpleMarkerSymbol.size ?? undefined,
+                style: dnSimpleMarkerSymbol.markerStyle as any ?? dnSimpleMarkerSymbol.style as any ?? undefined,
                 xoffset: dnSimpleMarkerSymbol.xOffset ?? 0,
                 yoffset: dnSimpleMarkerSymbol.yOffset ?? 0
             });
@@ -565,12 +571,102 @@ export function buildJsRenderer(dotNetRenderer: any): Renderer | null {
     switch (dotNetRenderer.type) {
         case 'simple':
             let simpleRenderer = new SimpleRenderer();
-            simpleRenderer.visualVariables = dotNetRenderer.visualVariables;
+            simpleRenderer.label = dotNetRenderer.label ?? undefined;
+            simpleRenderer.visualVariables = dotNetRenderer.visualVariables?.map(buildVisualVariable) ?? undefined
             simpleRenderer.symbol = buildJsSymbol(dotNetSymbol) as Symbol;
             simpleRenderer.authoringInfo = dotNetRenderer.authoringInfo;
             return simpleRenderer;
     }
     return dotNetRenderer
+}
+
+export function buildJsLabelClass(dotNetLabel: any): LabelClass | null {
+    if (!hasValue(dotNetLabel)) return null;
+    let labelClass = new LabelClass();
+    labelClass.labelExpression = dotNetLabel.labelExpression ?? undefined;
+    labelClass.labelPlacement = dotNetLabel.labelPlacement ?? undefined;
+    labelClass.labelPosition = dotNetLabel.labelPosition ?? undefined;
+    labelClass.maxScale = dotNetLabel.maxScale ?? undefined;
+    labelClass.minScale = dotNetLabel.minScale ?? undefined;
+    labelClass.repeatLabel = dotNetLabel.repeatLabel ?? undefined;
+    labelClass.repeatLabelDistance = dotNetLabel.repeatLabelDistance ?? undefined;
+    labelClass.symbol = buildJsSymbol(dotNetLabel.symbol) as any ?? undefined;
+    labelClass.useCodedValues = dotNetLabel.useCodedValues ?? undefined;
+    labelClass.where = dotNetLabel.where ?? undefined;
+    labelClass.deconflictionStrategy = dotNetLabel.deconflictionStrategy as any ?? undefined;
+    labelClass.labelExpressionInfo = buildJsLabelExpressionInfo(dotNetLabel.labelExpressionInfo) ?? undefined;
+    return labelClass;
+}
+
+export function buildJsLabelExpressionInfo(dotNetLabelExpressionInfo: any): any {
+    if (!hasValue(dotNetLabelExpressionInfo)) return null;
+    return {
+        expression: dotNetLabelExpressionInfo.expression ?? undefined,
+        title: dotNetLabelExpressionInfo.title ?? undefined
+    };
+}
+
+export function buildVisualVariable(dnVV: any): VisualVariable | null {
+    if (!hasValue(dnVV)) return null;
+    let variable = {
+        type: dnVV.type,
+        field: dnVV.field ?? undefined,
+        legendOptions: dnVV.legendOptions ?? undefined,
+        valueExpression: dnVV.valueExpression ?? undefined,
+        valueExpressionTitle: dnVV.valueExpressionTitle ?? undefined
+    } as VisualVariable;
+    switch (dnVV.type) {
+        case "color":
+            let colorVariable = variable as ColorVariable;
+            colorVariable.normalizationField = dnVV.normalizationField ?? undefined;
+            colorVariable.stops = dnVV.stops.map((stop: any) => {
+                return {
+                    color: buildJsColor(stop.color) ?? undefined,
+                    label: stop.label ?? undefined,
+                    value: stop.value ?? undefined
+                }
+            });
+            
+            return colorVariable;
+        case "rotation":
+            let rotationVariable = variable as RotationVariable;
+            rotationVariable.axis = dnVV.axis ?? undefined;
+            rotationVariable.rotationType = dnVV.rotationType ?? undefined;
+            return rotationVariable;
+        case "size":
+            let sizeVariable = variable as SizeVariable;
+            sizeVariable.axis = dnVV.axis ?? undefined;
+            sizeVariable.maxDataValue = dnVV.maxDataValue ?? undefined;
+            sizeVariable.minDataValue = dnVV.minDataValue ?? undefined;
+            sizeVariable.minSize = dnVV.minSize ?? undefined;
+            sizeVariable.maxSize = dnVV.maxSize ?? undefined;
+            sizeVariable.normalizationField = dnVV.normalizationField ?? undefined;
+            sizeVariable.stops = dnVV.stops.map((stop: any) => {
+                return {
+                    label: stop.label ?? undefined,
+                    size: stop.size ?? undefined,
+                    value: stop.value ?? undefined
+                }
+            });
+            sizeVariable.target = dnVV.target ?? undefined;
+            sizeVariable.useSymbolValue = dnVV.useSymbolValue ?? undefined;
+            sizeVariable.valueRepresentation = dnVV.valueRepresentation ?? undefined;
+            sizeVariable.valueUnit = dnVV.valueUnit ?? undefined;
+            return sizeVariable;
+        case "opacity":
+            let opacityVariable = variable as OpacityVariable;
+            opacityVariable.stops = dnVV.stops.map((stop: any) => {
+                return {
+                    label: stop.label ?? undefined,
+                    opacity: stop.opacity ?? undefined,
+                    value: stop.value ?? undefined
+                }
+            });
+            opacityVariable.normalizationField = dnVV.normalizationField ?? undefined;
+            return opacityVariable;
+    }
+    
+    return null;
 }
 
 export function buildJsRasterStretchRenderer(dotNetRasterStretchRenderer: DotNetRasterStretchRenderer): RasterStretchRenderer | null {
@@ -1065,10 +1161,10 @@ export function buildJsFormTemplate(dotNetFormTemplate: any): FormTemplate {
         preserveFieldValuesWhenHidden: dotNetFormTemplate.preserveFieldValuesWhenHidden ?? undefined
     });
     if (hasValue(dotNetFormTemplate?.elements)) {
-        formTemplate.elements = dotNetFormTemplate.elements.map(e => buildJsFormTemplateElement(e));
+        formTemplate.elements = dotNetFormTemplate.elements.map(buildJsFormTemplateElement);
     }
     if (hasValue(dotNetFormTemplate.expressionInfos)) {
-        formTemplate.expressionInfos = dotNetFormTemplate.expressionInfos.map(e => buildJsExpressionInfo(e));
+        formTemplate.expressionInfos = dotNetFormTemplate.expressionInfos.map(buildJsExpressionInfo);
     }
     return formTemplate;
 }

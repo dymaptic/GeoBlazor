@@ -1488,14 +1488,14 @@ public partial class MapView : MapComponent
 
         if (ViewJsModule is null) return;
 
-        if (layer.GetType().Namespace!.Contains("Core"))
+        if (layer.ProProperties.Any() || layer.GetType().Namespace!.Contains("Pro"))
         {
-            await ViewJsModule!.InvokeVoidAsync("addLayer", CancellationTokenSource.Token,
+            await ProJsViewModule!.InvokeVoidAsync("addProLayer", CancellationTokenSource.Token, 
                 (object)layer, Id, isBasemapLayer);
         }
         else
         {
-            await ProJsViewModule!.InvokeVoidAsync("addProLayer", CancellationTokenSource.Token, 
+            await ViewJsModule!.InvokeVoidAsync("addLayer", CancellationTokenSource.Token,
                 (object)layer, Id, isBasemapLayer);
         }
     }

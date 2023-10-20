@@ -1,4 +1,6 @@
-﻿using dymaptic.GeoBlazor.Core.Objects;
+﻿using dymaptic.GeoBlazor.Core.Extensions;
+using dymaptic.GeoBlazor.Core.Objects;
+using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
 using System.Text.Json.Serialization;
 
@@ -44,18 +46,25 @@ public class SimpleMarkerSymbol : MarkerSymbol
     /// <param name="yOffset">
     ///     The offset on the y-axis in points.
     /// </param>
+    /// <param name="markerStyle">
+    ///     The marker style.
+    /// </param>
     public SimpleMarkerSymbol(Outline? outline = null, MapColor? color = null, double? size = null,
-        string? style = null, double? angle = null, double? xOffset = null, double? yOffset = null)
+        string? style = null, double? angle = null, double? xOffset = null, double? yOffset = null,
+        SimpleMarkerStyle? markerStyle = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         Outline = outline;
         Color = color;
         Size = size;
+#pragma warning disable CS0618 // Type or member is obsolete
         Style = style;
+#pragma warning restore CS0618 // Type or member is obsolete
         Angle = angle;
         XOffset = xOffset;
         YOffset = yOffset;
+        MarkerStyle = markerStyle;
 #pragma warning restore BL0005
     }
     
@@ -80,7 +89,15 @@ public class SimpleMarkerSymbol : MarkerSymbol
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [Parameter]
+    [Obsolete("Use MarkerStyle instead")]
     public string? Style { get; set; }
+    
+    /// <summary>
+    ///     The marker style
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition= JsonIgnoreCondition.WhenWritingNull)]
+    public SimpleMarkerStyle? MarkerStyle { get; set; }
     
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
@@ -130,7 +147,7 @@ public class SimpleMarkerSymbol : MarkerSymbol
         {
             Outline = Outline?.ToSerializationRecord(),
             Size = Size,
-            Style = Style,
+            Style = MarkerStyle?.ToString().ToKebabCase(),
             Angle = Angle,
             XOffset = XOffset,
             YOffset = YOffset
@@ -161,4 +178,21 @@ public class SimpleMarkerSymbol : MarkerSymbol
 
         return style1 == style2;
     }
+}
+
+/// <summary>
+///     The marker style.
+/// </summary>
+[JsonConverter(typeof(EnumToKebabCaseStringConverter<SimpleMarkerStyle>))]
+public enum SimpleMarkerStyle
+{
+#pragma warning disable CS1591
+    Circle,
+    Square,
+    Cross,
+    X,
+    Diamond,
+    Triangle,
+    Path
+#pragma warning restore CS1591
 }

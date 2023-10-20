@@ -91,7 +91,8 @@ import {
     buildJsMultipartColorRamp,
     buildJsEffect,
     buildJsRasterStretchRenderer,
-    buildJsSearchSource
+    buildJsSearchSource,
+    buildJsLabelClass
 } from "./jsBuilder";
 import {
     DotNetExtent,
@@ -904,8 +905,12 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                     featureLayer.fields = buildJsFields(layerObject.fields);
                 }
 
+                if (hasValue(layerObject.labelingInfo)) {
+                    featureLayer.labelingInfo = layerObject.labelingInfo.map(buildJsLabelClass);
+                }
+
                 copyValuesIfExists(layerObject, featureLayer, 'minScale', 'maxScale', 'orderBy', 'objectIdField',
-                    'definitionExpression', 'labelingInfo', 'outFields');
+                    'definitionExpression', 'outFields');
 
                 break;
             case 'geo-json':
@@ -2034,7 +2039,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             let featureLayer = newLayer as FeatureLayer;
 
             copyValuesIfExists(layerObject, featureLayer, 'minScale', 'maxScale', 'orderBy', 'objectIdField',
-                'definitionExpression', 'labelingInfo', 'outFields', 'legendEnabled', 'popupEnabled');
+                'definitionExpression', 'outFields', 'legendEnabled', 'popupEnabled');
 
             if (hasValue(layerObject.formTemplate)) {
                 featureLayer.formTemplate = buildJsFormTemplate(layerObject.formTemplate);
@@ -2054,6 +2059,10 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             }
             if (hasValue(layerObject.spatialReference)) {
                 featureLayer.spatialReference = buildJsSpatialReference(layerObject.spatialReference);
+            }
+            
+            if (hasValue(layerObject.labelingInfo)) {
+                featureLayer.labelingInfo = layerObject.labelingInfo.map(buildJsLabelClass);
             }
             break;
         case 'vector-tile':

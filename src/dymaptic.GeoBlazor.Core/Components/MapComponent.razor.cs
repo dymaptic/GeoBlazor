@@ -71,6 +71,11 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     ///     A unique identifier, used to track components across .NET and JavaScript.
     /// </summary>
     public Guid Id { get; init; } = Guid.NewGuid();
+    
+    /// <summary>
+    ///     Extension properties for GeoBlazor Pro
+    /// </summary>
+    public Dictionary<string, object?> ProProperties { get; init; }= new();
 
     /// <summary>
     ///     Implements the `IAsyncDisposable` pattern.

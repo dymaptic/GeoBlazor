@@ -333,9 +333,9 @@
         Assert.IsNotNull(activeSource);
         int activeSourceIndex = await widget.GetActiveSourceIndex();
         Assert.AreEqual(0, activeSourceIndex);
-        IReadOnlyList<SearchSource>? allSources = await widget.GetAllSources();
+        IReadOnlyList<SearchSource> allSources = await widget.GetAllSources();
         Assert.AreEqual(1, allSources.Count);
-        IReadOnlyList<SearchSource>? defaultSources = await widget.GetDefaultSources();
+        IReadOnlyList<SearchSource> defaultSources = await widget.GetDefaultSources();
         Assert.AreEqual(1, defaultSources.Count);
         Graphic resultGraphic = await widget.GetResultGraphic();
         Assert.IsNotNull(resultGraphic);
