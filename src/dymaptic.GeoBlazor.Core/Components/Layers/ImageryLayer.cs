@@ -75,6 +75,7 @@ public class ImageryLayer : Layer
     ///     An interface that implements the various imagery renderers.
     /// </summary>
     public ImageryRenderer? Renderer { get; set; }
+   
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
