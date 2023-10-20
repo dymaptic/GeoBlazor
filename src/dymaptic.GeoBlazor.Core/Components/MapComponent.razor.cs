@@ -162,7 +162,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     /// </summary>
     public virtual void Refresh()
     {
-        StateHasChanged();
+        InvokeAsync(StateHasChanged);
     }
 
     /// <summary>

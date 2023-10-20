@@ -8,10 +8,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 /// <summary>
 ///     The KMLLayer class is used to create a layer based on a KML file (.kml, .kmz). KML is an XML-based file format used
 ///     to represent geographic features.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-KMLLayer.html">
-///         ArcGIS
-///         JS API
-///     </a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-KMLLayer.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class KMLLayer : Layer
 {

@@ -15,10 +15,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 ///     The Popup widget allows users to view content from feature attributes. Popups enhance web applications by providing
 ///     users with a simple way to interact with and view attributes in a layer. They play an important role in relaying
 ///     information to the user, which improves the storytelling capabilities of the application.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html">
-///         ArcGIS
-///         API
-///     </a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <remarks>
 ///     All Views contain a default popup. This popup can display generic content, which is set in its title and content
@@ -185,7 +182,7 @@ public class PopupWidget : Widget
     /// </summary>
     public async Task<Graphic> GetSelectedFeature()
     {
-        return await JsObjectReference!.InvokeAsync<Graphic>("getSelectedFeature",
+        return await JsWidgetReference!.InvokeAsync<Graphic>("getSelectedFeature",
             CancellationTokenSource.Token, View?.Id);
     }
 
@@ -194,7 +191,7 @@ public class PopupWidget : Widget
     /// </summary>
     public async Task SetContent(string stringContent)
     {
-        await JsObjectReference!.InvokeVoidAsync("setContent", CancellationTokenSource.Token, stringContent);
+        await JsWidgetReference!.InvokeVoidAsync("setContent", CancellationTokenSource.Token, stringContent);
     }
 
     /// <summary>
@@ -202,7 +199,7 @@ public class PopupWidget : Widget
     /// </summary>
     public async Task Clear()
     {
-        await JsObjectReference!.InvokeVoidAsync("clear", CancellationTokenSource.Token);
+        await JsWidgetReference!.InvokeVoidAsync("clear", CancellationTokenSource.Token);
     }
 
     /// <summary>
@@ -212,7 +209,7 @@ public class PopupWidget : Widget
     /// </summary>
     public async Task<Graphic[]> FetchFeatures()
     {
-        return await JsObjectReference!.InvokeAsync<Graphic[]>("fetchFeatures", CancellationTokenSource.Token);
+        return await JsWidgetReference!.InvokeAsync<Graphic[]>("fetchFeatures", CancellationTokenSource.Token);
     }
 
     /// <summary>
@@ -220,7 +217,7 @@ public class PopupWidget : Widget
     /// </summary>
     public async Task<int> GetFeatureCount()
     {
-        return await JsObjectReference!.InvokeAsync<int>("getFeatureCount", CancellationTokenSource.Token);
+        return await JsWidgetReference!.InvokeAsync<int>("getFeatureCount", CancellationTokenSource.Token);
     }
 
     /// <summary>
@@ -228,7 +225,7 @@ public class PopupWidget : Widget
     /// </summary>
     public async Task<int> GetSelectedFeatureIndex()
     {
-        return await JsObjectReference!.InvokeAsync<int>("getSelectedFeatureIndex", CancellationTokenSource.Token);
+        return await JsWidgetReference!.InvokeAsync<int>("getSelectedFeatureIndex", CancellationTokenSource.Token);
     }
 
     /// <summary>
@@ -236,7 +233,7 @@ public class PopupWidget : Widget
     /// </summary>
     public async Task<bool> GetVisibility()
     {
-        return await JsObjectReference!.InvokeAsync<bool>("getVisibility", CancellationTokenSource.Token);
+        return await JsWidgetReference!.InvokeAsync<bool>("getVisibility", CancellationTokenSource.Token);
     }
 
     /// <summary>
@@ -246,7 +243,7 @@ public class PopupWidget : Widget
     /// </summary>
     public async Task Open()
     {
-        await JsObjectReference!.InvokeVoidAsync("open", CancellationTokenSource.Token);
+        await JsWidgetReference!.InvokeVoidAsync("open", CancellationTokenSource.Token);
     }
 
     /// <summary>
@@ -255,7 +252,7 @@ public class PopupWidget : Widget
     /// </summary>
     public async Task Close()
     {
-        await JsObjectReference!.InvokeVoidAsync("close", CancellationTokenSource.Token);
+        await JsWidgetReference!.InvokeVoidAsync("close", CancellationTokenSource.Token);
     }
 
     /// <summary>

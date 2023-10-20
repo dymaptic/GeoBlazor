@@ -2,10 +2,7 @@
 
 /// <summary>
 ///     A collection of options to define when creating a Popup.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html">
-///         ArcGIS
-///         JS API
-///     </a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class PopupOptions
 {

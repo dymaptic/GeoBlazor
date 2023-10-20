@@ -6,7 +6,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
 /// <summary>
 ///     Domains define constraints on a layer field. There are two types of domains: coded values and range domains. This is an abstract class.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Domain.html">ArcGIS JS API</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Domain.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 [JsonConverter(typeof(DomainConverter))]
 public abstract class Domain : MapComponent
@@ -25,7 +25,7 @@ public abstract class Domain : MapComponent
 
 /// <summary>
 ///     Information about the coded values belonging to the domain. Coded value domains specify a valid set of values for a field. Each valid value is assigned a unique name. For example, in a layer for water mains, water main features may be buried under different types of surfaces as signified by a GroundSurfaceType field: pavement, gravel, sand, or none (for exposed water mains). The coded value domain includes both the actual value that is stored in the database (for example, 1 for pavement) and a more user-friendly description of what that value actually means.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-CodedValueDomain.html">ArcGIS JS API</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-CodedValueDomain.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class CodedValueDomain<T> : Domain
 {
@@ -74,7 +74,7 @@ public class CodedValueDomain<T> : Domain
 
 /// <summary>
 ///     The coded value in a domain.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-CodedValueDomain.html#CodedValue">ArcGIS JS API</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-CodedValueDomain.html#CodedValue">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class CodedValue<T> : MapComponent
 {
@@ -98,12 +98,13 @@ public class CodedValue<T> : MapComponent
 /// </summary>
 public class InheritedDomain : Domain
 {
+    /// <inheritdoc />
     public override string Type => "inherited";
 }
 
 /// <summary>
 ///     Range domains specify a valid minimum and maximum valid value that can be stored in numeric and date fields.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RangeDomain.html">ArcGIS JS API</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RangeDomain.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class RangeDomain : Domain
 {

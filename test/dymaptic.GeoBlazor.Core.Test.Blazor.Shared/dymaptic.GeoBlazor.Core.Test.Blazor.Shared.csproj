@@ -13,23 +13,21 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.9"/>
-        <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="7.0.0" />
-        <PackageReference Include="MSTest.TestFramework" Version="3.1.1" />
+        <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="7.0.0"/>
+        <PackageReference Include="MSTest.TestFramework" Version="3.1.1"/>
     </ItemGroup>
 
     <ItemGroup>
-      <AdditionalFiles Include="Components\BaseMapTests.razor" />
-      <AdditionalFiles Include="Components\GeometryTests.razor" />
-      <AdditionalFiles Include="Components\GraphicsTests.razor" />
-      <AdditionalFiles Include="Components\TestRunnerBase.razor" />
-      <AdditionalFiles Include="Components\TestSetupTests.razor" />
-      <AdditionalFiles Include="Components\WidgetTests.razor" />
+        <AdditionalFiles Include="Components\BaseMapTests.razor"/>
+        <AdditionalFiles Include="Components\GeometryTests.razor"/>
+        <AdditionalFiles Include="Components\GraphicsTests.razor"/>
+        <AdditionalFiles Include="Components\TestRunnerBase.razor"/>
+        <AdditionalFiles Include="Components\WidgetTests.razor"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\dymaptic.GeoBlazor.Core\dymaptic.GeoBlazor.Core.csproj" />
+        <ProjectReference Include="..\..\src\dymaptic.GeoBlazor.Core\dymaptic.GeoBlazor.Core.csproj"/>
     </ItemGroup>
-
 
 
 </Project>

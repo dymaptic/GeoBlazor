@@ -12,10 +12,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 ///     defined by either a well-known ID (WKID) or a definition string (WKT). Note that for versions prior to ArcGIS 10,
 ///     only WKID was supported. For a full list of supported spatial reference IDs and their corresponding definition
 ///     strings, see Using spatial references.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-SpatialReference.html">
-///         ArcGIS
-///         JS API
-///     </a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-SpatialReference.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 [JsonConverter(typeof(SpatialReferenceConverter))]
 public class SpatialReference : MapComponent

@@ -8,10 +8,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 ///     may contain geometry, attributes, and symbology. If the FeatureSet does not contain geometry, and only contains
 ///     attributes, the FeatureSet can be treated as a table where each feature is a row object. Methods that return
 ///     FeatureSet include query.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FeatureSet.html">
-///         ArcGIS
-///         JS API
-///     </a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FeatureSet.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="DisplayFieldName">
 ///     The name of the layer's primary display field. The value of this property matches the name of one of the fields of

@@ -38,6 +38,14 @@ export interface DotNetFeatureSet {
     spatialReference: DotNetSpatialReference | null;
 }
 
+export interface DotNetFeatureTemplate {
+    name: string;
+    description: string;
+    drawingTool: any;
+    thumbnail: any;
+    prototype: DotNetGraphic;
+}
+
 export interface DotNetGeometry {
     type: string;
     spatialReference: DotNetSpatialReference;

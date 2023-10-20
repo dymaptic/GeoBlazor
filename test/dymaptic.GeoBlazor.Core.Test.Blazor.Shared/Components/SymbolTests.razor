@@ -1,0 +1,74 @@
+﻿@inherits TestRunnerBase
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+
+    [TestMethod]
+    public async Task CanRenderTextSymbol(Action renderHandler)
+    {
+        FeatureLayer? layer = null;
+
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler"
+                      Latitude="34.02700"
+                      Longitude="-118.80543"
+                      Zoom="13">
+                <Map ArcGISDefaultBasemap="arcgis-topographic">
+                    <FeatureLayer @ref="layer"
+                                  Url="https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trailheads/FeatureServer/0">
+                        <SimpleRenderer>
+                            <TextSymbol Text="Hello" />
+                        </SimpleRenderer>
+                    </FeatureLayer>
+                </Map>
+            </MapView>);
+
+        await WaitForMapToRender();
+        await AssertJavaScript("assertSymbolOnLayer", nameof(CanRenderTextSymbol), layer!.Id, "text");
+    }
+
+    [TestMethod]
+    public async Task CanSetPropertiesOnTextSymbol(Action renderHandler)
+    {
+        FeatureLayer? layer = null;
+        TextSymbol? textSymbol = null;
+
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler"
+                      Latitude="34.02700"
+                      Longitude="-118.80543"
+                      Zoom="13">
+                <Map ArcGISDefaultBasemap="arcgis-topographic">
+                    <FeatureLayer @ref="layer"
+                                  Url="https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trailheads/FeatureServer/0">
+                        <SimpleRenderer>
+                            <TextSymbol @ref="textSymbol" Text="Hello"
+                                        Angle="39"
+                                        BackgroundColor="@(new MapColor("red"))"
+                                        BorderLineColor="@(new MapColor("blue"))"
+                                        BorderLineSize="2"
+                                        HaloColor="@(new MapColor("green"))"
+                                        HaloSize="4"
+                                        HorizontalAlignment="HorizontalAlignment.Left"
+                                        VerticalAlignment="VerticalAlignment.Top"
+                                        Kerning="false"
+                                        LineHeight="2.3"
+                                        LineWidth="120px"
+                                        Rotated="true"
+                                        XOffset="23pt"
+                                        YOffset="23pt">
+                                <MapFont Family="San Serif" />
+                            </TextSymbol>
+                        </SimpleRenderer>
+                    </FeatureLayer>
+                </Map>
+            </MapView>);
+
+        await WaitForMapToRender();
+        await AssertJavaScript("assertSymbolOnLayer", nameof(CanSetPropertiesOnTextSymbol), layer!.Id, "text", textSymbol!);
+    }
+
+}

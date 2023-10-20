@@ -44,7 +44,13 @@ import {
     DotNetBookmark,
     DotNetViewpoint,
     DotNetField,
-    DotNetDomain, DotNetCodedValueDomain, DotNetCodedValue, DotNetInheritedDomain, DotNetRangeDomain
+    DotNetDomain,
+    DotNetCodedValueDomain,
+    DotNetCodedValue,
+    DotNetInheritedDomain,
+    DotNetRangeDomain,
+    DotNetEffect, 
+    DotNetFeatureTemplate
 } from "./definitions";
 import Point from "@arcgis/core/geometry/Point";
 import Polyline from "@arcgis/core/geometry/Polyline";
@@ -73,7 +79,7 @@ import ExpressionContent from "@arcgis/core/popup/content/ExpressionContent";
 import ElementExpressionInfo from "@arcgis/core/popup/ElementExpressionInfo";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
-import { arcGisObjectRefs } from "./arcGisJsInterop";
+import {arcGisObjectRefs, hasValue} from "./arcGisJsInterop";
 import SimpleMarkerSymbol from "@arcgis/core/symbols/SimpleMarkerSymbol";
 import Symbol from "@arcgis/core/symbols/Symbol";
 import Graphic from "@arcgis/core/Graphic";
@@ -86,12 +92,22 @@ import MapView from "@arcgis/core/views/MapView";
 import SceneView from "@arcgis/core/views/SceneView";
 import HitTestResult = __esri.HitTestResult;
 import ViewHit = __esri.ViewHit;
-import Renderer from "@arcgis/core/renderers/Renderer";
 import Field from "@arcgis/core/layers/support/Field";
 import Domain from "@arcgis/core/layers/support/Domain";
 import CodedValueDomain from "@arcgis/core/layers/support/CodedValueDomain";
 import InheritedDomain from "@arcgis/core/layers/support/InheritedDomain";
 import RangeDomain from "@arcgis/core/layers/support/RangeDomain";
+import Effect = __esri.Effect;
+import TileInfo from "@arcgis/core/layers/support/TileInfo";
+import LOD from "@arcgis/core/layers/support/LOD";
+import LayerSearchSource from "@arcgis/core/widgets/Search/LayerSearchSource";
+import SearchSource from "@arcgis/core/widgets/Search/SearchSource";
+import LocatorSearchSource from "@arcgis/core/widgets/Search/LocatorSearchSource";
+import SearchResult = __esri.SearchResult;
+import SuggestResult = __esri.SuggestResult;
+import FeatureType from "@arcgis/core/layers/support/FeatureType";
+import FeatureTemplate from "@arcgis/core/layers/support/FeatureTemplate";
+import FeatureTemplateThumbnail = __esri.FeatureTemplateThumbnail;
 
 
 export function buildDotNetGraphic(graphic: Graphic): DotNetGraphic {
@@ -129,7 +145,7 @@ export function buildDotNetGraphic(graphic: Graphic): DotNetGraphic {
     return dotNetGraphic;
 }
 
-function buildDotNetSymbol(symbol: Symbol): DotNetSymbol {
+export function buildDotNetSymbol(symbol: Symbol): DotNetSymbol {
     if (symbol instanceof SimpleMarkerSymbol) {
         let dnMarkerSymbol = {
             type: 'simple-marker',
@@ -459,7 +475,6 @@ export function buildDotNetDomain(domain: Domain): DotNetDomain | null {
         case 'range':
             return buildDotNetRangeDomain(domain as RangeDomain);
     }
-    return null;
 }
 
 export function buildDotNetCodedValueDomain(domain: CodedValueDomain): DotNetCodedValueDomain {
@@ -753,7 +768,7 @@ export function buildDotNetTimeInterval(interval: any): any | null {
     } as any;
 }
 
-export function buildDotNetFeatureType(result: any) {
+export function buildDotNetFeatureType(result: FeatureType) {
 
     if (!hasValue(result)) {
         return null;
@@ -771,10 +786,177 @@ export function buildDotNetFeatureType(result: any) {
         domains: dotNetDomains,
         declaredClass: result.declaredClass,
         name: result.name,
-        templates: result.templates,
+        templates: result.templates?.map(buildDotNetFeatureTemplate)
+    }
+}
+
+export function buildDotNetFeatureTemplate(jsFeatureTemplate: FeatureTemplate): DotNetFeatureTemplate | null {
+    if (!hasValue(jsFeatureTemplate)) return null;
+    return {
+        name: jsFeatureTemplate.name,
+        description: jsFeatureTemplate.description,
+        prototype: buildDotNetGraphic(jsFeatureTemplate.prototype),
+        drawingTool: jsFeatureTemplate.drawingTool,
+        thumbnail: jsFeatureTemplate.thumbnail,
+    } as DotNetFeatureTemplate
+}
+
+export function buildDotNetEffect(jsEffect: any): DotNetEffect | null {
+    if (!hasValue(jsEffect)) {
+        return null;
+    }
+    
+    if (jsEffect instanceof String) {
+        return {
+            value: jsEffect
+        } as DotNetEffect;
+    }
+    
+    return {
+        value: jsEffect.value,
+        scale: jsEffect.scale
+    }
+}
+
+export function buildDotNetTileInfo(tileInfo: TileInfo): any | null {
+    return {
+        dpi: tileInfo.dpi,
+        format: tileInfo.format,
+        isWrappable: tileInfo.isWrappable,
+        lods: tileInfo.lods?.map(buildDotNetLod),
+        origin: buildDotNetPoint(tileInfo.origin),
+        size: tileInfo.size,
+        spatialReference: buildDotNetSpatialReference(tileInfo.spatialReference)
+    }
+}
+
+export function buildDotNetLod(lod: LOD) {
+    return {
+        level: lod.level,
+        levelValue: lod.levelValue,
+        resolution: lod.resolution,
+        scale: lod.scale
     }
 }
 
 export function hasValue(prop: any): boolean {
     return prop !== undefined && prop !== null;
+}
+
+export function buildDotNetSearchSource(jsSource: LayerSearchSource | LocatorSearchSource): any {
+    let dnSource: any =  {
+        autoNavigate: jsSource.autoNavigate,
+        maxResults: jsSource.maxResults,
+        minSuggestCharacters: jsSource.minSuggestCharacters,
+        name: jsSource.name,
+        outFields: jsSource.outFields,
+        placeholder: jsSource.placeholder,
+        popupEnabled: jsSource.popupEnabled,
+        prefix: jsSource.prefix,
+        resultGraphicEnabled: jsSource.resultGraphicEnabled,
+        searchTemplate: jsSource.searchTemplate,
+        suffix: jsSource.suffix,
+        suggestionsEnabled: jsSource.suggestionsEnabled,
+        withinViewEnabled: jsSource.withinViewEnabled,
+        zoomScale: jsSource.zoomScale,
+    }
+
+    if (hasValue(jsSource.popupTemplate)) {
+        dnSource.popupTemplate = buildDotNetPopupTemplate(jsSource.popupTemplate);
+    }
+
+    if (hasValue(jsSource.resultSymbol)) {
+        dnSource.resultSymbol = buildDotNetSymbol(jsSource.resultSymbol);
+    }
+
+    if (jsSource instanceof LayerSearchSource) {
+        dnSource.type = 'layer';
+        dnSource.displayField = jsSource.displayField;
+        dnSource.exactMatch = jsSource.exactMatch;
+        dnSource.layer = buildDotNetLayer(jsSource.layer);
+        for (let key in arcGisObjectRefs) {
+            if (arcGisObjectRefs[key] === jsSource.layer) {
+                dnSource.layerId = key;
+                break;
+            }
+        }
+        dnSource.orderByFields = jsSource.orderByFields;
+        dnSource.searchFields = jsSource.searchFields;
+        dnSource.suggestionTemplate = jsSource.suggestionTemplate;
+        dnSource.filter = {
+            where: jsSource.filter?.where,
+            geometry: buildDotNetGeometry(jsSource.filter?.geometry ?? null),
+        }
+    } else {
+        dnSource.type = 'locator';
+        dnSource.apiKey = jsSource.apiKey;
+        dnSource.categories = jsSource.categories;
+        dnSource.countryCode = jsSource.countryCode;
+        dnSource.defaultZoomScale = jsSource.defaultZoomScale;
+        dnSource.localSearchDisabled = jsSource.localSearchDisabled;
+        dnSource.locationType = jsSource.locationType;
+        dnSource.singleLineFieldName = jsSource.singleLineFieldName;
+        dnSource.url = jsSource.url;
+        dnSource.filter = {
+            geometry: buildDotNetGeometry(jsSource.filter?.geometry ?? null)
+        }
+    }
+
+    return dnSource;
+}
+
+export function buildDotNetGoToOverrideParameters(parameters: any, viewId: string): any {
+    let dnParams: any = {
+        viewId: viewId
+    }
+    if (hasValue(parameters.target)) {
+        let target: any = {
+            target: parameters.target.target,
+            center: parameters.target.center,
+            scale: parameters.target.scale,
+            zoom: parameters.target.zoom,
+            heading: parameters.target.heading,
+            tilt: parameters.target.tilt,
+            position: buildDotNetPoint(parameters.target.position)
+        };
+        if (Array.isArray(parameters.target.target) && parameters.target.target.length > 0) {
+            let firstObject = parameters.target.target[0];
+            if (firstObject instanceof Graphic) {
+                target.targetGraphics = [];
+                for (let g: Graphic in parameters.target.target as Graphic[]) {
+                    target.targetGraphics.push(buildDotNetGraphic(g));
+                }
+            } else if (firstObject instanceof Geometry) {
+                target.targetGeometries = [];
+                for (let g: Geometry in parameters.target.target as Geometry[]) {
+                    target.targetGeometries.push(buildDotNetGeometry(g));
+                }
+            } else {
+                target.targetCoordinates = parameters.target.target;
+            }
+        } else if (parameters.target.target instanceof Graphic) {
+            target.targetGraphic = buildDotNetGraphic(parameters.target.target);
+        } else if (parameters.target.target instanceof Geometry) {
+            target.targetGeometry = buildDotNetGeometry(parameters.target.target);
+        }
+    }
+}
+
+export function buildDotNetSearchResult(jsSearchResult: SearchResult) {
+    let dnSearchResult: any = {
+        extent: buildDotNetExtent(jsSearchResult.extent),
+        feature: buildDotNetGraphic(jsSearchResult.feature),
+        name: jsSearchResult.name,
+        target: buildDotNetGraphic(jsSearchResult.target)
+    }
+
+    return dnSearchResult;
+}
+
+export function buildDotNetSuggestResult(jsSuggestResult: SuggestResult) {
+    return {
+        text: jsSuggestResult.text,
+        key: jsSuggestResult.key,
+        sourceIndex: jsSuggestResult.sourceIndex
+    }
 }

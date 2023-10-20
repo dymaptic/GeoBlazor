@@ -1,0 +1,35 @@
+﻿@page "/labels"
+<PageTitle>Labels</PageTitle>
+<h1>Labels</h1>
+
+<div class="links-div">
+    <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/sample-code/labels-basic/">ArcGIS API for JavaScript Reference</a>
+    <a class="btn btn-primary" target="_blank" href="https://www.arcgis.com/home/item.html?id=372b7caa8fe340b0a6300df93ef18a7e">Labels BaseMap</a>
+</div>
+<p class="instructions">
+    Demonstrates how to add labels to a map.
+</p>
+
+<MapView Center="@(new Point(-116.925, 34.2501))" Zoom="12" Class="map-view"> 
+    <WebMap>
+        <PortalItem Id="372b7caa8fe340b0a6300df93ef18a7e" />
+        <FeatureLayer>
+            <PortalItem Id="6012738cd1c74582a5f98ea30ae9876f" />
+            <Label LabelPlacement="above-center">
+                <TextSymbol Color="@(new MapColor("green"))" 
+                            BackgroundColor="@(new MapColor(213, 184, 255, 0.75))"
+                            BorderLineColor="@(new MapColor("green"))"
+                            BorderLineSize="1"
+                            YOffset="5">
+                    <MapFont Family="Playfair Display" Size="12" Weight="bold" />
+                </TextSymbol>
+                <LabelExpressionInfo Expression="$feature.MARKER_ACTIVITY" />
+            </Label>
+            <SimpleRenderer>
+                <SimpleMarkerSymbol Color="@(new MapColor(0, 100, 0, 0.6))" Size="3">
+                    <Outline Color="@(new MapColor(0, 0, 0, 0.1))" Width="0.5" />
+                </SimpleMarkerSymbol>
+            </SimpleRenderer>
+        </FeatureLayer>
+    </WebMap>
+</MapView>

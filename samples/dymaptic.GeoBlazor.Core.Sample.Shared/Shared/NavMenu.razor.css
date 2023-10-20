@@ -29,6 +29,10 @@
     padding-bottom: 0.5rem;
 }
 
+.nav-item ::deep img {
+    height: 1.1rem;
+}
+
 .nav-item:first-of-type {
     padding-top: 1rem;
 }

@@ -7,10 +7,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 /// <summary>
 ///     A polyline contains an array of paths and spatialReference. Each path is represented as an array of points. A
 ///     polyline also has boolean-valued hasM and hasZ properties.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polyline.html">
-///         ArcGIS
-///         JS API
-///     </a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polyline.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class PolyLine : Geometry
 {

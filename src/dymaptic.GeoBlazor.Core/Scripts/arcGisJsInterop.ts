@@ -36,6 +36,7 @@ import TileLayer from "@arcgis/core/layers/TileLayer";
 import GeoJSONLayer from "@arcgis/core/layers/GeoJSONLayer";
 import CSVLayer from "@arcgis/core/layers/CSVLayer";
 import GeoRSSLayer from "@arcgis/core/layers/GeoRSSLayer";
+import BingMapsLayer from "@arcgis/core/layers/BingMapsLayer";
 import PopupTemplate from "@arcgis/core/PopupTemplate";
 import Query from "@arcgis/core/rest/support/Query";
 import View from "@arcgis/core/views/View";
@@ -65,7 +66,7 @@ import {
     buildDotNetPopupTemplate,
     buildDotNetSpatialReference,
     buildViewExtentUpdate,
-    buildDotNetBookmark
+    buildDotNetBookmark, buildDotNetGoToOverrideParameters
 } from "./dotNetBuilder";
 
 import {
@@ -89,11 +90,13 @@ import {
     buildJsColorRamp,
     buildJsAlgorithmicColorRamp,
     buildJsMultipartColorRamp,
+    buildJsEffect,
     buildJsRasterStretchRenderer,
+    buildJsSearchSource,
     buildJsRasterShadedReliefRenderer,
     buildJsRasterColormapRenderer,
     buildJsVectorFieldRenderer,
-    buildJsFlowRenderer
+    buildJsFlowRenderer, buildJsClassBreaksRenderer, buildJsUniqueValueRenderer
 } from "./jsBuilder";
 import {
     DotNetExtent,
@@ -133,10 +136,18 @@ import ColorRamp from "@arcgis/core/rest/support/ColorRamp";
 import MultipartColorRamp from "@arcgis/core/rest/support/MultipartColorRamp";
 import AlgorithmicColorRamp from "@arcgis/core/rest/support/AlgorithmicColorRamp";
 import Renderer from "@arcgis/core/renderers/Renderer";
+import Color from "@arcgis/core/Color";
+import BingMapsLayerWrapper from "./bingMapsLayer";
+import FeatureLayerView from "@arcgis/core/views/layers/FeatureLayerView";
+import SearchWidgetWrapper from "./searchWidgetWrapper";
+import Geometry from "@arcgis/core/geometry/Geometry";
+import SearchSource from "@arcgis/core/widgets/Search/SearchSource";
 import RasterShadedReliefRenderer from "@arcgis/core/renderers/RasterShadedReliefRenderer.js";
 import VectorFieldRenderer from "@arcgis/core/renderers/VectorFieldRenderer";
 import RasterColormapRenderer from "@arcgis/core/renderers/RasterColormapRenderer";
 import FlowRenderer from "@arcgis/core/renderers/FlowRenderer";
+import UniqueValueRenderer from "@arcgis/core/renderers/UniqueValueRenderer.js";
+import ClassBreaksRenderer from "@arcgis/core/renderers/ClassBreaksRenderer.js";
 
 
 export let arcGisObjectRefs: Record<string, Accessor> = {};
@@ -144,7 +155,7 @@ export let graphicsRefs: Record<string, Graphic> = {};
 export let dotNetRefs = {};
 export let queryLayer: FeatureLayer;
 export let blazorServer: boolean = false;
-export { projection, geometryEngine, Graphic };
+export { projection, geometryEngine, Graphic, Color };
 let notifyExtentChanged: boolean = true;
 let uploadingLayers: Array<string> = [];
 
@@ -162,22 +173,36 @@ export function setAssetsPath(path: string) {
     }
 }
 
-export function getObjectReference(id: string): any {
-    let objectRef = arcGisObjectRefs[id];
-    if (objectRef instanceof Layer) {
-        if (objectRef instanceof FeatureLayer) {
-            return new FeatureLayerWrapper(objectRef);
-        }
+function getObjectReference(objectRef: any) {
+    if (!hasValue(objectRef)) return objectRef;
+    try {
+        if (objectRef instanceof Layer) {
+            if (objectRef instanceof FeatureLayer) {
+                return new FeatureLayerWrapper(objectRef);
+            }
+            if (objectRef instanceof BingMapsLayer) {
+                return new BingMapsLayerWrapper(objectRef);
+            }
 
-        return buildDotNetLayer(objectRef);
+            return buildDotNetLayer(objectRef);
+        }
+        if (objectRef instanceof Graphic) {
+            return buildDotNetGraphic(objectRef);
+        }
+        if (objectRef instanceof Popup) {
+            return new PopupWidgetWrapper(objectRef);
+        }
+        if (objectRef instanceof Search) {
+            return new SearchWidgetWrapper(objectRef);
+        }
+        if (objectRef instanceof FeatureLayerView) {
+            return new FeatureLayerViewWrapper(objectRef);
+        }
+        return objectRef;
     }
-    if (objectRef instanceof Graphic) {
-        return buildDotNetGraphic(objectRef);
+    catch {
+        return objectRef;
     }
-    if (objectRef instanceof Popup) {
-        return new PopupWidgetWrapper(objectRef);
-    }
-    return objectRef;
 }
 
 export function getSerializedDotNetObject(id: string): any {
@@ -491,22 +516,16 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
         // find objectRef id by layer
         let layerGeoBlazorId = Object.keys(arcGisObjectRefs).find(key => arcGisObjectRefs[key] === evt.layer);
         let isBasemapLayer = false;
-        if (view.map.basemap.baseLayers.includes(evt.layer) || view.map.basemap.referenceLayers.includes(evt.layer)) {
+        if (hasValue(view.map.basemap) && 
+                (view.map.basemap.baseLayers?.includes(evt.layer) || view.map.basemap.referenceLayers?.includes(evt.layer))) {
             isBasemapLayer = true;
         }
         let layerRef;
         let layerViewRef;
-        if (evt.layer instanceof FeatureLayer) {
-            // @ts-ignore
-            layerRef = DotNet.createJSObjectReference(new FeatureLayerWrapper(evt.layer));
-            // @ts-ignore
-            layerViewRef = DotNet.createJSObjectReference(new FeatureLayerViewWrapper(evt.layerView));
-        } else {
-            // @ts-ignore
-            layerRef = DotNet.createJSObjectReference(evt.layer);
-            // @ts-ignore
-            layerViewRef = DotNet.createJSObjectReference(evt.layerView);
-        }
+        // @ts-ignore
+        layerRef = DotNet.createJSObjectReference(getObjectReference(evt.layer));
+        // @ts-ignore
+        layerViewRef = DotNet.createJSObjectReference(getObjectReference(evt.layerView));
 
         let result = {
             layerObjectRef: layerRef,
@@ -1033,6 +1052,27 @@ export async function updateWidget(widgetObject: any, viewId: string): Promise<v
                     bookmarks.bookmarks = widgetObject.bookmarks.map(buildJsBookmark);
                 }
                 break;
+            case 'search':
+                let search = currentWidget as Search;
+                if (hasValue(widgetObject.sources)) {
+                    let sources: SearchSource[] = [];
+                    for (const source of widgetObject.sources) {
+                        let jsSource = await buildJsSearchSource(source, viewId);
+                        sources.push(jsSource);
+                    }
+                    search.sources.removeAll();
+                    search.sources.addMany(sources);
+                }
+
+                if (hasValue(widgetObject.popupTemplate)) {
+                    search.popupTemplate = buildJsPopupTemplate(widgetObject.popupTemplate, viewId);
+                }
+
+                if (hasValue(widgetObject.portal)) {
+                    search.portal = new Portal({
+                        url: widgetObject.portal.url
+                    });
+                }
         }
         unsetWaitCursor(viewId);
     } catch (error) {
@@ -1113,9 +1153,9 @@ export async function openPopup(viewId: string, options: any | null): Promise<vo
                     jsOptions.content = widgetContent as Widget;
                 }
             }
-            view.popup.open(jsOptions);
+            await view.openPopup(jsOptions);
         } else {
-            view.popup.open();
+            await view.openPopup();
         }
     } catch (error) {
         logError(error, options.viewId);
@@ -1574,14 +1614,20 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
     let newWidget: Widget;
     switch (widget.type) {
         case 'locate':
-            newWidget = new Locate({
+            const locate = new Locate({
                 view: view,
                 useHeadingEnabled: widget.useHeadingEnabled,
-                goToOverride: function (view, options) {
-                    options.target.scale = widget.scale;
-                    return view.goTo(options.target);
-                }
+                rotationEnabled: widget.rotationEnabled ?? undefined,
+                scale: widget.scale ?? undefined
             });
+            newWidget = locate;
+
+            if (widget.hasGoToOverride) {
+                locate.goToOverride = async (view, parameters) => {
+                    let dnParams = buildDotNetGoToOverrideParameters(parameters, viewId);
+                    await widget.locateWidgetObjectReference.invokeMethodAsync('OnJavaScriptGoToOverride', dnParams);
+                }
+            }
 
             break;
         case 'search':
@@ -1590,6 +1636,32 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
             });
             newWidget = search;
 
+            if (hasValue(widget.sources)) {
+                let sources: SearchSource[] = [];
+                for (const source of widget.sources) {
+                    let jsSource = await buildJsSearchSource(source, viewId);
+                    sources.push(jsSource);
+                }
+                search.sources.addMany(sources);
+            }
+            
+            if (hasValue(widget.popupTemplate)) {
+                search.popupTemplate = buildJsPopupTemplate(widget.popupTemplate, viewId);
+            }
+            
+            if (hasValue(widget.portal)) {
+                search.portal = new Portal({
+                    url: widget.portal.url
+                });
+            }
+            
+            if (widget.hasGoToOverride) {
+                search.goToOverride = async (view, parameters) => {
+                    let dnParams = buildDotNetGoToOverrideParameters(parameters, viewId);
+                    await widget.searchWidgetObjectReference.invokeMethodAsync('OnJavaScriptGoToOverride', dnParams);
+                }
+            }
+
             search.on('select-result', (evt) => {
                 widget.searchWidgetObjectReference.invokeMethodAsync('OnJavaScriptSearchSelectResult', {
                     extent: buildDotNetExtent(evt.result.extent),
@@ -1597,6 +1669,11 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
                     name: evt.result.name
                 });
             });
+            
+            copyValuesIfExists(widget, search, 'activeMenu', 'activeSourceIndex', 'allPlaceholder',
+                'autoSelect', 'disabled', 'includeDefaultSources', 'label', 'locationEnabled', 'maxResults',
+                'maxSuggestions', 'minSuggestCharacters', 'popupEnabled', 'resultGraphicEnabled', 'searchAllEnabled',
+                'searchTerm', 'suggestionsEnabled');
             break;
         case 'basemapToggle':
             // the esri definition file is missing basemapToggle.nextBasemap, but it is in the docs.
@@ -1878,7 +1955,7 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
     arcGisObjectRefs[widget.id] = newWidget;
     dotNetRefs[widget.id] = widget.dotNetComponentReference;
     // @ts-ignore
-    let jsRef = DotNet.createJSObjectReference(getObjectReference(widget.id));
+    let jsRef = DotNet.createJSObjectReference(getObjectReference(newWidget));
     await widget.dotNetWidgetReference.invokeMethodAsync('OnWidgetCreated', jsRef);
     return newWidget;
 }
@@ -2197,6 +2274,24 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
 
             newLayer = wcsLayer;
             break;
+        case 'bing-maps':
+            const bing = new BingMapsLayer({
+                key: layerObject.key,
+                style: layerObject.style
+            });
+            
+            newLayer = bing;
+
+            if (hasValue(layerObject.spatialReference)) {
+                bing.spatialReference = buildJsSpatialReference(layerObject.spatialReference);
+            }
+            
+            if (hasValue(layerObject.effect)) {
+                bing.effect = buildJsEffect(layerObject.effect);
+            }
+            
+            copyValuesIfExists('blendMode', 'maxScale', 'minScale', 'refreshInterval');
+            break;
         case 'imagery':
             newLayer = new ImageryLayer({
                 url: layerObject.url
@@ -2260,7 +2355,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
     arcGisObjectRefs[layerObject.id] = newLayer;
 
     if (wrap) {
-        return getObjectReference(layerObject.id);
+        return getObjectReference(newLayer);
     }
 
     return newLayer;
@@ -2344,7 +2439,7 @@ function waitForRender(viewId: string, dotNetRef: any): void {
     })
 }
 
-function hasValue(prop: any): boolean {
+export function hasValue(prop: any): boolean {
     return prop !== undefined && prop !== null;
 }
 

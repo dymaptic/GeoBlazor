@@ -8,10 +8,7 @@ namespace dymaptic.GeoBlazor.Core.Objects;
 /// <summary>
 ///     Creates a new color object by passing either a hex, rgb(a), hsl(a) or named color value. Hex, hsl(a) and named
 ///     color values can be passed as a string:
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Color.html">
-///         ArcGIS JS
-///         API
-///     </a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Color.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 [JsonConverter(typeof(MapColorConverter))]
 [ProtoContract]
