@@ -2,7 +2,7 @@
 import Extent from "@arcgis/core/geometry/Extent";
 import Graphic from "@arcgis/core/Graphic";
 import PopupTemplate from "@arcgis/core/PopupTemplate";
-import {arcGisObjectRefs, createLayer, dotNetRefs, hasValue, triggerActionHandler} from "./arcGisJsInterop";
+import { arcGisObjectRefs, popupDotNetObjects, createLayer, dotNetRefs, triggerActionHandler } from "./arcGisJsInterop";
 import Geometry from "@arcgis/core/geometry/Geometry";
 import Point from "@arcgis/core/geometry/Point";
 import Polyline from "@arcgis/core/geometry/Polyline";
@@ -93,7 +93,14 @@ import SimpleLineSymbol from "@arcgis/core/symbols/SimpleLineSymbol";
 import ElementExpressionInfo from "@arcgis/core/popup/ElementExpressionInfo";
 import ChartMediaInfoValueSeries from "@arcgis/core/popup/content/support/ChartMediaInfoValueSeries";
 import View from "@arcgis/core/views/View";
-import {buildDotNetGraphic, buildDotNetPoint, buildDotNetSpatialReference} from "./dotNetBuilder";
+import { buildDotNetGraphic, buildDotNetPoint, buildDotNetSpatialReference } from "./dotNetBuilder";
+import ViewClickEvent = __esri.ViewClickEvent;
+import PopupOpenOptions = __esri.PopupOpenOptions;
+import PopupDockOptions = __esri.PopupDockOptions;
+import ContentProperties = __esri.ContentProperties;
+import PopupTriggerActionEvent = __esri.PopupTriggerActionEvent;
+import FeatureLayerBaseApplyEditsEdits = __esri.FeatureLayerBaseApplyEditsEdits;
+import AttachmentEdit = __esri.AttachmentEdit;
 import FormTemplate from "@arcgis/core/form/FormTemplate";
 import Element from "@arcgis/core/form/elements/Element";
 import GroupElement from "@arcgis/core/form/elements/GroupElement";
@@ -267,41 +274,10 @@ export function buildJsPopupTemplate(popupTemplateObject: DotNetPopupTemplate, v
 
     if (hasValue(popupTemplateObject.actions)) {
         template.actions = popupTemplateObject.actions as any;
-    }
+    } 
 
-    if (viewId !== null) {
-        let view = arcGisObjectRefs[viewId] as View;
-        if (hasValue(view)) {
-            try {
-                if (hasValue(triggerActionHandler)) {
-                    triggerActionHandler.remove();
-                }
-                if (hasValue(templateTriggerActionHandler)) {
-                    templateTriggerActionHandler.remove();
-                }
-                
-                if (view.popup.on === undefined) {
-                    // we need to wait for the popup to be initialized before we can add the trigger-action handler
-                    reactiveUtils.once(() => view.popup.on !== undefined)
-                        .then(() => {
-                            templateTriggerActionHandler = view.popup.on("trigger-action", async (event: PopupTriggerActionEvent) => {
-                                await lookupDotNetRefForPopupTemplate(popupTemplateObject, viewId as string);
-                                await popupTemplateObject.dotNetPopupTemplateReference.invokeMethodAsync("OnTriggerAction", event.action.id);
-                            });
-                        })
-                } else {
-                    templateTriggerActionHandler = view.popup.on("trigger-action", async (event: PopupTriggerActionEvent) => {
-                        await lookupDotNetRefForPopupTemplate(popupTemplateObject, viewId as string);
-                        await popupTemplateObject.dotNetPopupTemplateReference.invokeMethodAsync("OnTriggerAction", event.action.id);
-                    });
-                }
-            }
-            catch (error) {
-                console.debug(error);
-            }
-        }
-    }
-
+    popupDotNetObjects.push(popupTemplateObject);
+    
     return template;
 }
 
@@ -312,8 +288,6 @@ async function lookupDotNetRefForPopupTemplate(popupTemplateObject: DotNetPopupT
             await viewRef.invokeMethodAsync('GetDotNetPopupTemplateObjectReference', popupTemplateObject.id);
     }
 }
-
-export let templateTriggerActionHandler: IHandle;
 
 export function buildJsPopupContent(popupContentObject: DotNetPopupContent): ContentProperties | null {
     switch (popupContentObject?.type) {
@@ -1412,12 +1386,12 @@ export function buildJsEffect(dnEffect: any): any {
 export function buildJsTickConfigs(dotNetTickConfig: any): any {
     if (dotNetTickConfig === undefined || dotNetTickConfig === null) return null;
 
-    let tickCreatedFunction : Function | null = null;
+    let tickCreatedFunction: Function | null = null;
     if (dotNetTickConfig.tickCreatedFunction != null) {
         tickCreatedFunction = new Function(dotNetTickConfig.tickCreatedFunction);
     }
 
-    let labelFormatFunction : Function | null = null;
+    let labelFormatFunction: Function | null = null;
     if (dotNetTickConfig.labelFormatFunction != null) {
         labelFormatFunction = new Function(dotNetTickConfig.labelFormatFunction);
     }
@@ -1450,26 +1424,26 @@ export async function buildJsSearchSource(dotNetSource: any, viewId: string): Pr
         suggestionsEnabled: dotNetSource.suggestionsEnabled ?? undefined,
         zoomScale: dotNetSource.zoomScale ?? undefined
     };
-    
+
     if (hasValue(dotNetSource.popupTemplate)) {
         source.popupTemplate = buildJsPopupTemplate(dotNetSource.popupTemplate, viewId);
     }
-    
+
     if (hasValue(dotNetSource.resultSymbol)) {
         source.resultSymbol = buildJsSymbol(dotNetSource.resultSymbol);
     }
-    
+
     if (dotNetSource.hasGetResultsHandler) {
         source.getResults = async (params: any) => {
             let viewId: string | null = null;
-            
+
             for (let key in arcGisObjectRefs) {
                 if (arcGisObjectRefs[key] === params.view) {
                     viewId = key;
                     break;
                 }
             }
-            
+
             let dnParams = {
                 exactMatch: params.exactMatch,
                 location: buildDotNetPoint(params.location),
@@ -1484,9 +1458,9 @@ export async function buildJsSearchSource(dotNetSource: any, viewId: string): Pr
                 viewId: viewId
             }
             let dnResults = await dotNetSource.searchSourceObjectReference.invokeMethodAsync('OnJavaScriptGetResults', dnParams);
-            
+
             let results: SearchResult[] = [];
-            
+
             for (let dnResult of dnResults) {
                 let result: any = {
                     extent: buildJsExtent(dnResult.extent, null) ?? undefined,
@@ -1497,7 +1471,7 @@ export async function buildJsSearchSource(dotNetSource: any, viewId: string): Pr
                 }
                 results.push(result);
             }
-            
+
             return results;
         }
     }
@@ -1535,7 +1509,7 @@ export async function buildJsSearchSource(dotNetSource: any, viewId: string): Pr
             return results;
         }
     }
-    
+
     switch (dotNetSource.type) {
         case "layer":
             let layer: Layer | null = null;
@@ -1551,7 +1525,7 @@ export async function buildJsSearchSource(dotNetSource: any, viewId: string): Pr
             source.orderByFields = dotNetSource.orderByFields ?? undefined;
             source.searchFields = dotNetSource.searchFields ?? undefined;
             source.suggestionTemplate = dotNetSource.suggestionTemplate ?? undefined;
-            
+
             break;
         case "locator":
             source.apiKey = dotNetSource.apiKey ?? undefined;
@@ -1562,10 +1536,10 @@ export async function buildJsSearchSource(dotNetSource: any, viewId: string): Pr
             source.locationType = dotNetSource.locationType ?? undefined;
             source.singleLineFieldName = dotNetSource.singleLineFieldName ?? undefined;
             source.url = dotNetSource.url ?? undefined;
-            
+
             break;
     }
-    
+
     return source as SearchSource;
 }
 
