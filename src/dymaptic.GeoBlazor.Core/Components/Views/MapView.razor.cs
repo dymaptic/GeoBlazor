@@ -1488,7 +1488,7 @@ public partial class MapView : MapComponent
 
         if (ViewJsModule is null) return;
 
-        if (layer.ProProperties.Any() || layer.GetType().Namespace!.Contains("Pro"))
+        if (ProJsViewModule is not null && layer.GetType().Namespace!.Contains("Pro"))
         {
             await ProJsViewModule!.InvokeVoidAsync("addProLayer", CancellationTokenSource.Token, 
                 (object)layer, Id, isBasemapLayer);
@@ -2242,28 +2242,23 @@ public partial class MapView : MapComponent
             Rendering = false;
             MapRendered = true;
 
-            // register pro layers and widgets
-            foreach (Widget widget in Widgets.Where(w => !w.GetType().Namespace!.Contains("Core")))
+            if (ProJsViewModule is not null)
             {
-                await AddWidget(widget);
-            }
-
-            foreach (Layer layer in Map.Layers.Where(l => !l.GetType().Namespace!.Contains("Core")))
-            {
-                await AddLayer(layer);
-            }
-
-            if (Map.Basemap?.Layers is not null)
-            {
-                foreach (Layer layer in Map.Basemap!.Layers.Where(l => !l.GetType().Namespace!.Contains("Core")))
+                // register pro widgets
+                foreach (Widget widget in Widgets.Where(w => !w.GetType().Namespace!.Contains("Core")))
                 {
-                    await AddLayer(layer, true);
+                    await AddWidget(widget);
                 }
             }
+           
+          
         });
     }
 
-    private async Task AddWidget(Widget widget)
+    /// <summary>
+    ///     Adds a widget to the view.
+    /// </summary>
+    public async Task AddWidget(Widget widget)
     {
         if (!_widgets.Contains(widget))
         {
@@ -2306,7 +2301,10 @@ public partial class MapView : MapComponent
         }
     }
 
-    private async Task RemoveWidget(Widget widget)
+    /// <summary>
+    ///     Removes a widget from the view.
+    /// </summary>
+    public async Task RemoveWidget(Widget widget)
     {
         if (ViewJsModule is null) return;
 

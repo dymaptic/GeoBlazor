@@ -152,9 +152,10 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     /// </remarks>
     public virtual async Task RegisterChildComponent(MapComponent child)
     {
-        if (ProJsModule is not null)
+        try
         {
-            _proExtensions ??= Type.GetType("dymaptic.GeoBlazor.Pro.ProExtensions");
+            Assembly proAssembly = Assembly.Load("dymaptic.GeoBlazor.Pro");
+            _proExtensions ??= proAssembly.GetType("dymaptic.GeoBlazor.Pro.ProExtensions");
             MethodInfo? method = _proExtensions?.GetMethod("RegisterProChildComponent");
 
             if (method is not null)
@@ -163,6 +164,10 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
 
                 return;
             }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
         }
         throw new InvalidChildElementException(GetType().Name, child.GetType().Name);
     }
@@ -178,9 +183,10 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     /// </remarks>
     public virtual async Task UnregisterChildComponent(MapComponent child)
     {
-        if (ProJsModule is not null)
+        try
         {
-            _proExtensions ??= Type.GetType("dymaptic.GeoBlazor.Pro.ProExtensions");
+            Assembly proAssembly = Assembly.Load("dymaptic.GeoBlazor.Pro");
+            _proExtensions ??= proAssembly.GetType("dymaptic.GeoBlazor.Pro.ProExtensions");
             MethodInfo? method = _proExtensions?.GetMethod("UnregisterProChildComponent");
 
             if (method is not null)
@@ -189,6 +195,10 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
 
                 return;
             }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
         }
         throw new InvalidChildElementException(GetType().Name, child.GetType().Name);
     }

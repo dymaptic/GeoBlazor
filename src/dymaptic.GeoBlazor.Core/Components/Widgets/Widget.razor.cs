@@ -11,7 +11,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 [JsonConverter(typeof(WidgetConverter))]
-public abstract class Widget : MapComponent
+public abstract partial class Widget : MapComponent
 {
     /// <summary>
     ///     The position of the widget in relation to the map view.
@@ -28,6 +28,7 @@ public abstract class Widget : MapComponent
     /// </summary>
     /// <remarks>
     ///     Either <see cref="Position" /> or <see cref="ContainerId" /> should be set, but not both.
+    ///     This parameter is no longer needed if a Widget is defined in Razor markup within an HTML element.
     /// </remarks>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -57,6 +58,8 @@ public abstract class Widget : MapComponent
     /// </summary>
     public DotNetObjectReference<Widget> DotNetWidgetReference => DotNetObjectReference.Create(this);
 
+    protected virtual bool Hidden => false;
+    
     /// <summary>
     ///     JS-invokable callback to register a JS Object Reference
     /// </summary>

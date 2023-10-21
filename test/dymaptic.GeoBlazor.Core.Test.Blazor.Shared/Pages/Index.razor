@@ -20,7 +20,7 @@
     {
         <p style="cursor: pointer;" @onclick="@(() => ScrollAndOpenClass(result.Key))">
             <a>
-                <b>@result.Key - @((MarkupString)$"<span style=\"color: green;\">Passed: {result.Value.Passed.Count},</span> <span style=\"color: red;\">Failed: {result.Value.Failed.Count}</span>")</b>
+                <b>@Extensions.CamelCaseToSpaces(result.Key) - @((MarkupString)$"<span style=\"color: green;\">Passed: {result.Value.Passed.Count},</span> <span style=\"color: red;\">Failed: {result.Value.Failed.Count}</span>")</b>
             </a>
         </p>
     }

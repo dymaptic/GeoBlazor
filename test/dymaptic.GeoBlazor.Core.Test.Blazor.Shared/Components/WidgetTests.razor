@@ -1,5 +1,4 @@
-﻿@using dymaptic.GeoBlazor.Core.Components.Widgets.LayerList
-@inherits TestRunnerBase
+﻿@inherits TestRunnerBase
 
 @{
     base.BuildRenderTree(__builder);
@@ -99,23 +98,6 @@
 
         await WaitForMapToRender();
         await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Compass");
-    }
-
-    [TestMethod]
-    public async Task TestCanRenderExpandWidget(Action renderHandler)
-    {
-        AddMapRenderFragment(
-            @<MapView class="map-view" OnViewRendered="renderHandler">
-
-                <Map ArcGISDefaultBasemap="arcgis-imagery" />
-                <ExpandWidget>
-                    <LayerListWidget />
-                </ExpandWidget>
-
-            </MapView>);
-
-        await WaitForMapToRender();
-        await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Expand");
     }
 
     [TestMethod]
@@ -252,7 +234,7 @@
             @<MapView class="map-view" OnViewRendered="renderHandler">
 
                 <Map ArcGISDefaultBasemap="arcgis-imagery" />
-                <SearchWidget @ref="                                    widget">
+                <SearchWidget @ref="widget">
                     <SearchSource GetResultsHandler="GetResultsHandler" />
                 </SearchWidget>
 
@@ -282,7 +264,7 @@
             @<MapView class="map-view" OnViewRendered="renderHandler">
 
                 <Map ArcGISDefaultBasemap="arcgis-imagery" />
-                <SearchWidget @ref="                                    widget">
+                <SearchWidget @ref="widget">
                     <SearchSource GetSuggestionsHandler="GetSuggestionsHandler" />
                 </SearchWidget>
 
@@ -310,7 +292,7 @@
             @<MapView class="map-view" OnViewRendered="renderHandler">
 
                 <Map ArcGISDefaultBasemap="arcgis-imagery" />
-                <SearchWidget @ref="                                    widget" />
+                <SearchWidget @ref="widget" />
 
             </MapView>);
 

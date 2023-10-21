@@ -161,7 +161,7 @@ public abstract class Layer : MapComponent
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         IJSObjectReference arcGisJsInterop = await GetArcGisJsInterop();
 
-        if (ProProperties.Any() || GetType().Namespace!.Contains("Pro"))
+        if (GetType().Namespace!.Contains("Pro"))
         {
             JsLayerReference = await (await GetArcGisJsPro())!.InvokeAsync<IJSObjectReference>("createProLayer",
                 // ReSharper disable once RedundantCast
@@ -235,16 +235,16 @@ public abstract class Layer : MapComponent
 
         if (JsModule is null) return;
 
-        if (GetType().Namespace!.Contains("Core"))
+        if (GetType().Namespace!.Contains("Pro"))
         {
             // ReSharper disable once RedundantCast
-            await JsModule!.InvokeVoidAsync("updateLayer", CancellationTokenSource.Token,
+            await ProJsModule!.InvokeVoidAsync("updateProLayer", CancellationTokenSource.Token,
                 (object)this, View!.Id);
         }
         else
         {
             // ReSharper disable once RedundantCast
-            await ProJsModule!.InvokeVoidAsync("updateProLayer", CancellationTokenSource.Token,
+            await JsModule!.InvokeVoidAsync("updateLayer", CancellationTokenSource.Token,
                 (object)this, View!.Id);
         }
     }

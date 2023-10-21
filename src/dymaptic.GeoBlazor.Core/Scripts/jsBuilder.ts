@@ -94,13 +94,6 @@ import ElementExpressionInfo from "@arcgis/core/popup/ElementExpressionInfo";
 import ChartMediaInfoValueSeries from "@arcgis/core/popup/content/support/ChartMediaInfoValueSeries";
 import View from "@arcgis/core/views/View";
 import { buildDotNetGraphic, buildDotNetPoint, buildDotNetSpatialReference } from "./dotNetBuilder";
-import ViewClickEvent = __esri.ViewClickEvent;
-import PopupOpenOptions = __esri.PopupOpenOptions;
-import PopupDockOptions = __esri.PopupDockOptions;
-import ContentProperties = __esri.ContentProperties;
-import PopupTriggerActionEvent = __esri.PopupTriggerActionEvent;
-import FeatureLayerBaseApplyEditsEdits = __esri.FeatureLayerBaseApplyEditsEdits;
-import AttachmentEdit = __esri.AttachmentEdit;
 import FormTemplate from "@arcgis/core/form/FormTemplate";
 import Element from "@arcgis/core/form/elements/Element";
 import GroupElement from "@arcgis/core/form/elements/GroupElement";
@@ -133,6 +126,11 @@ import ColorVariable from "@arcgis/core/renderers/visualVariables/ColorVariable"
 import RotationVariable from "@arcgis/core/renderers/visualVariables/RotationVariable";
 import SizeVariable from "@arcgis/core/renderers/visualVariables/SizeVariable";
 import OpacityVariable from "@arcgis/core/renderers/visualVariables/OpacityVariable";
+import FeatureReductionCluster from "@arcgis/core/layers/support/FeatureReductionCluster";
+import FeatureReductionBinning from "@arcgis/core/layers/support/FeatureReductionBinning";
+import FeatureReductionSelection from "@arcgis/core/layers/support/FeatureReductionSelection";
+import AggregateField from "@arcgis/core/layers/support/AggregateField";
+import supportExpressionInfo from "@arcgis/core/layers/support/ExpressionInfo";
 
 
 export function buildJsSpatialReference(dotNetSpatialReference: DotNetSpatialReference): SpatialReference {
@@ -378,7 +376,7 @@ export function buildJsSymbol(symbol: DotNetSymbol | null): Symbol | null {
                 color: buildJsColor(dnSimpleMarkerSymbol.color) ?? [255, 255, 255, 0.25],
                 path: dnSimpleMarkerSymbol.path ?? undefined,
                 size: dnSimpleMarkerSymbol.size ?? undefined,
-                style: dnSimpleMarkerSymbol.markerStyle as any ?? dnSimpleMarkerSymbol.style as any ?? undefined,
+                style: dnSimpleMarkerSymbol.markerStyle as any ?? dnSimpleMarkerSymbol.style as any ?? 'circle', // undefined breaks this
                 xoffset: dnSimpleMarkerSymbol.xOffset ?? 0,
                 yoffset: dnSimpleMarkerSymbol.yOffset ?? 0
             });
@@ -546,7 +544,9 @@ export function buildJsRenderer(dotNetRenderer: any): Renderer | null {
         case 'simple':
             let simpleRenderer = new SimpleRenderer();
             simpleRenderer.label = dotNetRenderer.label ?? undefined;
-            simpleRenderer.visualVariables = dotNetRenderer.visualVariables?.map(buildVisualVariable) ?? undefined
+            if (hasValue(dotNetRenderer.visualVariables) && dotNetRenderer.visualVariables.length > 0) {
+                simpleRenderer.visualVariables = dotNetRenderer.visualVariables.map(buildVisualVariable);
+            }
             simpleRenderer.symbol = buildJsSymbol(dotNetSymbol) as Symbol;
             simpleRenderer.authoringInfo = dotNetRenderer.authoringInfo;
             return simpleRenderer;
@@ -1552,4 +1552,59 @@ function buildJsSearchSourceFilter(dotNetFilter: any): SearchSourceFilter | null
     };
 
     return filter;
+}
+
+export function buildJsFeatureReduction(dnFeatureReduction: any, viewId: string | null) : any {
+    if (!hasValue(dnFeatureReduction)) return null;
+    switch (dnFeatureReduction.type) {
+        case 'cluster':
+            return {
+                type: 'cluster',
+                clusterMaxSize: dnFeatureReduction.clusterMaxSize ?? undefined,
+                clusterMinSize: dnFeatureReduction.clusterMinSize ?? undefined,
+                clusterRadius: dnFeatureReduction.clusterRadius ?? undefined,
+                fields: dnFeatureReduction.fields?.map(buildJsAggregateField) ?? undefined,
+                labelingInfo: dnFeatureReduction.labelingInfo?.map(buildJsLabelClass) ?? undefined,
+                labelsVisible: dnFeatureReduction.labelsVisible ?? undefined,
+                maxScale: dnFeatureReduction.maxScale ?? undefined,
+                popupEnabled: dnFeatureReduction.popupEnabled ?? true,
+                popupTemplate: buildJsPopupTemplate(dnFeatureReduction.popupTemplate, viewId) ?? undefined,
+                renderer: buildJsRenderer(dnFeatureReduction.renderer) ?? undefined,
+                symbol: buildJsSymbol(dnFeatureReduction.symbol) ?? undefined,
+            } as FeatureReductionCluster;
+        case 'binning':
+            return {
+                type: 'binning',
+                fields: dnFeatureReduction.fields?.map(buildJsAggregateField) ?? undefined,
+                fixedBinLevel: dnFeatureReduction.fixedBinLevel ?? undefined,
+                labelingInfo: dnFeatureReduction.labelingInfo?.map(buildJsLabelClass) ?? undefined,
+                labelsVisible: dnFeatureReduction.labelsVisible ?? undefined,
+                maxScale: dnFeatureReduction.maxScale ?? undefined,
+                popupEnabled: dnFeatureReduction.popupEnabled ?? true,
+                popupTemplate: buildJsPopupTemplate(dnFeatureReduction.popupTemplate, viewId) ?? undefined,
+                renderer: buildJsRenderer(dnFeatureReduction.renderer) ?? undefined
+            } as FeatureReductionBinning;
+        case 'selection':
+            return new FeatureReductionSelection();
+    }
+}
+
+function buildJsAggregateField(dnAggregateField: any): AggregateField {
+    return new AggregateField({
+        alias: dnAggregateField.alias ?? undefined,
+        isAutoGenerated: dnAggregateField.isAutoGenerated ?? undefined,
+        name: dnAggregateField.name ?? undefined,
+        onStatisticExpression: buildJsSupportExpressionInfo(dnAggregateField.onStatisticExpression) ?? undefined,
+        onStatisticField: dnAggregateField.onStatisticField ?? undefined,
+        statisticType: dnAggregateField.statisticType ?? undefined
+    });
+}
+
+function buildJsSupportExpressionInfo(dnEI: any): supportExpressionInfo | null {
+    if (!hasValue(dnEI)) return null;
+    return {
+        expression: dnEI.expression ?? undefined,
+        returnType: dnEI.returnType ?? undefined,
+        title: dnEI.title ?? undefined
+    } as supportExpressionInfo;
 }

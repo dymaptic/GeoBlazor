@@ -1,0 +1,7 @@
+﻿@inherits MapComponent
+
+<CascadingValue Name="Parent" Value="this">
+    <div id="@($"widget-container-{Id}")" class="esri-widget" hidden="@Hidden">
+        @ChildContent
+    </div>
+</CascadingValue>

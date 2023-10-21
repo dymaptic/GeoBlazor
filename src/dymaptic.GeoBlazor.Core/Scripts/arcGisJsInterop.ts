@@ -91,7 +91,8 @@ import {
     buildJsEffect,
     buildJsRasterStretchRenderer,
     buildJsSearchSource,
-    buildJsLabelClass
+    buildJsLabelClass,
+    buildJsFeatureReduction
 } from "./jsBuilder";
 import {
     DotNetExtent,
@@ -326,7 +327,11 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
         if (hasValue(popupWidget)) {
             await addWidget(popupWidget, id);
         } else {
-            setPopupHandler(id);
+            await setPopupHandler(id, null);
+        }
+
+        for (const widget of widgets.filter(w => w.type !== 'popup')) {
+            await addWidget(widget, id);
         }
 
         if (hasValue(mapObject.layers)) {
@@ -337,10 +342,6 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
 
         for (const l of basemapLayers) {
             await addLayer(l, id, true);
-        }
-
-        for (const widget of widgets.filter(w => w.type !== 'popup')) {
-            await addWidget(widget, id);
         }
 
         for (let i = 0; i < graphics.length; i++) {
@@ -911,6 +912,13 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                     featureLayer.labelingInfo = layerObject.labelingInfo.map(buildJsLabelClass);
                 }
 
+                if (hasValue(layerObject.proProperties.FeatureReduction)) {
+                    featureLayer.featureReduction = buildJsFeatureReduction(layerObject.proProperties.FeatureReduction, viewId);
+                } else {
+                    // @ts-ignore
+                    featureLayer.featureReduction = null;
+                }
+
                 copyValuesIfExists(layerObject, featureLayer, 'minScale', 'maxScale', 'orderBy', 'objectIdField',
                     'definitionExpression', 'outFields');
 
@@ -934,6 +942,12 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                 }
                 if (hasValue(layerObject.fullExtent) && layerObject.fullExtent !== currentLayer.fullExtent) {
                     currentLayer.fullExtent = buildJsExtent(layerObject.fullExtent, view.spatialReference);
+                }
+                if (hasValue(layerObject.proProperties.FeatureReduction)) {
+                    geoJsonLayer.featureReduction = buildJsFeatureReduction(layerObject.proProperties.FeatureReduction, viewId);
+                } else {
+                    // @ts-ignore
+                    geoJsonLayer.featureReduction = null;
                 }
                 break;
             case 'web-tile':
@@ -1001,6 +1015,13 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                 }
 
                 break;
+            case 'csv':
+                if (hasValue(layerObject.proProperties.FeatureReduction)) {
+                    (currentLayer as CSVLayer).featureReduction = buildJsFeatureReduction(layerObject.proProperties.FeatureReduction, viewId);
+                } else {
+                    // @ts-ignore
+                    (currentLayer as CSVLayer).featureReduction = null;
+                }
         }
 
         if (hasValue(layerObject.opacity) && layerObject.opacity !== currentLayer.opacity &&
@@ -1029,7 +1050,6 @@ export async function updateWidget(widgetObject: any, viewId: string): Promise<v
     try {
         setWaitCursor(viewId);
         let currentWidget = arcGisObjectRefs[widgetObject.id] as Widget;
-        let view = arcGisObjectRefs[viewId] as View;
 
         if (currentWidget === undefined) {
             unsetWaitCursor(viewId);
@@ -1628,7 +1648,8 @@ export function displayQueryResults(query: Query, symbol: ArcGisSymbol, popupTem
         });
 }
 
-export async function addWidget(widget: any, viewId: string): Promise<void> {
+export async function addWidget(widget: any, viewId: string, setInContainerByDefault: boolean = false)
+    : Promise<void> {
     try {
         let view = arcGisObjectRefs[viewId] as MapView;
         if (view === undefined || view === null) return;
@@ -1646,7 +1667,16 @@ export async function addWidget(widget: any, viewId: string): Promise<void> {
             container?.appendChild(innerContainer);
             newWidget.container = innerContainer;
         } else {
-            view.ui.add(newWidget, widget.position);
+            // check if widget is defined inside mapview
+            let inMapWidget = view.container.querySelector(`#widget-container-${widget.id}`);
+            let widgetContainer: HTMLElement = document.getElementById(`widget-container-${widget.id}`)!;
+            if ((hasValue(inMapWidget) || !hasValue(widgetContainer)) && !setInContainerByDefault) {
+                view.ui.add(newWidget, widget.position);
+            } else {
+                // default to using the pre-defined widget container
+                widgetContainer.innerHTML = '';
+                newWidget.container = widgetContainer;
+            }
         }
     } catch (error) {
         logError(error, viewId);
@@ -1661,7 +1691,7 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
         case 'locate':
             const locate = new Locate({
                 view: view,
-                useHeadingEnabled: widget.useHeadingEnabled,
+                useHeadingEnabled: widget.useHeadingEnabled ?? undefined,
                 rotationEnabled: widget.rotationEnabled ?? undefined,
                 scale: widget.scale ?? undefined
             });
@@ -1777,19 +1807,21 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
             });
             newWidget = legend;
 
-            if (hasValue(widget.layerInfos)) {
-                legend.layerInfos = widget.layerInfos.forEach(li => {
-                    let jsLayerInfo = {
-                        layer: arcGisObjectRefs[li.layerId]
-                    } as LegendLayerInfos;
-                    if (hasValue(li.title)) {
-                        jsLayerInfo.title = li.title;
-                    }
-                    if (hasValue(li.sublayerIds)) {
-                        jsLayerInfo.sublayerIds = li.sublayerIds;
-                    }
+            if (hasValue(widget.layerInfos) && widget.layerInfos.length > 0) {
+                view.when(() => {
+                    legend.layerInfos = widget.layerInfos.map(li => {
+                        let jsLayerInfo = {
+                            layer: arcGisObjectRefs[li.layer.id]
+                        } as LegendLayerInfos;
+                        if (hasValue(li.title)) {
+                            jsLayerInfo.title = li.title;
+                        }
+                        if (hasValue(li.sublayerIds)) {
+                            jsLayerInfo.sublayerIds = li.sublayerIds;
+                        }
 
-                    return jsLayerInfo;
+                        return jsLayerInfo;
+                    });
                 });
             }
             if (hasValue(widget.style)) {
@@ -1904,16 +1936,34 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
             break;
         case 'expand':
             let content: any;
+            let expandWidgetDiv = 
+                document.getElementById(`widget-container-${widget.id}`) as HTMLElement;
+            if (expandWidgetDiv === null) {
+                return null;
+            }
+            
+            // remove comment nodes
+            for (let i = 0; i < expandWidgetDiv.childNodes.length; i++) {
+                let childNode = expandWidgetDiv.childNodes[i];
+                if (childNode.nodeType === 8) {
+                    expandWidgetDiv.removeChild(childNode);
+                    i --;
+                }
+            }
+            expandWidgetDiv.hidden = false;
+            if (hasValue(widget.htmlContent)) {
+                let templatedContent = document.createElement('template');
+                templatedContent.innerHTML = widget.htmlContent;
+                expandWidgetDiv.appendChild(templatedContent.content.firstChild!);
+            }
+            
             if (hasValue(widget.widgetContent)) {
-                await createWidget(widget.widgetContent, viewId);
-                content = arcGisObjectRefs[widget.widgetContent.id] as Widget;
-            } else {
-                content = widget.htmlContent;
+                await addWidget(widget.widgetContent, viewId, true);
             }
             view.ui.remove(content);
             const expand = new Expand({
                 view,
-                content: content,
+                content: expandWidgetDiv,
                 expanded: widget.expanded,
                 mode: widget.mode,
             });
@@ -2120,6 +2170,10 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             if (hasValue(layerObject.labelingInfo)) {
                 featureLayer.labelingInfo = layerObject.labelingInfo.map(buildJsLabelClass);
             }
+
+            if (hasValue(layerObject.proProperties.FeatureReduction)) {
+                (newLayer as FeatureLayer).featureReduction = buildJsFeatureReduction(layerObject.proProperties.FeatureReduction, viewId!);
+            }
             break;
         case 'vector-tile':
             if (hasValue(layerObject.portalItem)) {
@@ -2166,6 +2220,9 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             }
             if (hasValue(layerObject.popupTemplate)) {
                 gjLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId ?? null) as PopupTemplate;
+            }
+            if (hasValue(layerObject.proProperties.FeatureReduction)) {
+                (newLayer as GeoJSONLayer).featureReduction = buildJsFeatureReduction(layerObject.proProperties.FeatureReduction, viewId!);
             }
             
             copyValuesIfExists(layerObject, gjLayer, 'copyright');
@@ -2267,6 +2324,9 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             }
             if (hasValue(layerObject.popupTemplate)) {
                 csvLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId ?? null) as PopupTemplate;
+            }
+            if (hasValue(layerObject.proProperties.FeatureReduction)) {
+                (newLayer as CSVLayer).featureReduction = buildJsFeatureReduction(layerObject.proProperties.FeatureReduction, viewId!);
             }
 
             copyValuesIfExists(layerObject, csvLayer, 'blendMode', 'copyright', 'delimiter', 'displayField');
