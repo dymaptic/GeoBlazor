@@ -2,7 +2,12 @@
 import Extent from "@arcgis/core/geometry/Extent";
 import Graphic from "@arcgis/core/Graphic";
 import PopupTemplate from "@arcgis/core/PopupTemplate";
-import { arcGisObjectRefs, popupDotNetObjects, createLayer, dotNetRefs, triggerActionHandler } from "./arcGisJsInterop";
+import { 
+    arcGisObjectRefs, 
+    popupDotNetObjects, 
+    createLayer, 
+    dotNetRefs
+} from "./arcGisJsInterop";
 import Geometry from "@arcgis/core/geometry/Geometry";
 import Point from "@arcgis/core/geometry/Point";
 import Polyline from "@arcgis/core/geometry/Polyline";
@@ -106,14 +111,12 @@ import BarcodeScannerInput from "@arcgis/core/form/elements/inputs/BarcodeScanne
 import ComboBoxInput from "@arcgis/core/form/elements/inputs/ComboBoxInput";
 import RadioButtonsInput from "@arcgis/core/form/elements/inputs/RadioButtonsInput";
 import SwitchInput from "@arcgis/core/form/elements/inputs/SwitchInput";
-import * as reactiveUtils from "@arcgis/core/core/reactiveUtils";
 import SearchSource from "@arcgis/core/widgets/Search/SearchSource";
 import FeatureTemplate from "@arcgis/core/layers/support/FeatureTemplate";
 import ViewClickEvent = __esri.ViewClickEvent;
 import PopupOpenOptions = __esri.PopupOpenOptions;
 import PopupDockOptions = __esri.PopupDockOptions;
 import ContentProperties = __esri.ContentProperties;
-import PopupTriggerActionEvent = __esri.PopupTriggerActionEvent;
 import FeatureLayerBaseApplyEditsEdits = __esri.FeatureLayerBaseApplyEditsEdits;
 import AttachmentEdit = __esri.AttachmentEdit;
 import CodedValue = __esri.CodedValue;

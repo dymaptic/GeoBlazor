@@ -65,7 +65,8 @@ import {
     buildDotNetPopupTemplate,
     buildDotNetSpatialReference,
     buildViewExtentUpdate,
-    buildDotNetBookmark, buildDotNetGoToOverrideParameters
+    buildDotNetBookmark, 
+    buildDotNetGoToOverrideParameters
 } from "./dotNetBuilder";
 
 import {
@@ -84,10 +85,6 @@ import {
     buildJsSpatialReference,
     buildJsSymbol,
     buildJsBookmark,
-    buildJsDimensionalDefinition,
-    buildJsColorRamp,
-    buildJsAlgorithmicColorRamp,
-    buildJsMultipartColorRamp,
     buildJsEffect,
     buildJsRasterStretchRenderer,
     buildJsSearchSource,
@@ -129,7 +126,6 @@ import Color from "@arcgis/core/Color";
 import BingMapsLayerWrapper from "./bingMapsLayer";
 import FeatureLayerView from "@arcgis/core/views/layers/FeatureLayerView";
 import SearchWidgetWrapper from "./searchWidgetWrapper";
-import Geometry from "@arcgis/core/geometry/Geometry";
 import SearchSource from "@arcgis/core/widgets/Search/SearchSource";
 
 export let arcGisObjectRefs: Record<string, Accessor> = {};
@@ -330,10 +326,6 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
             await setPopupHandler(id, null);
         }
 
-        for (const widget of widgets.filter(w => w.type !== 'popup')) {
-            await addWidget(widget, id);
-        }
-
         if (hasValue(mapObject.layers)) {
             for (const layerObject of mapObject.layers) {
                 await addLayer(layerObject, id);
@@ -342,6 +334,10 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
 
         for (const l of basemapLayers) {
             await addLayer(l, id, true);
+        }
+
+        for (const widget of widgets.filter(w => w.type !== 'popup')) {
+            await addWidget(widget, id);
         }
 
         for (let i = 0; i < graphics.length; i++) {
@@ -903,7 +899,7 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                     if (renderer !== null && featureLayer.renderer !== renderer) {
                         featureLayer.renderer = renderer;
                     }
-                } else
+                }
                 if (hasValue(layerObject.fields) && layerObject.fields.length > 0) {
                     featureLayer.fields = buildJsFields(layerObject.fields);
                 }
@@ -2145,7 +2141,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             let featureLayer = newLayer as FeatureLayer;
 
             copyValuesIfExists(layerObject, featureLayer, 'minScale', 'maxScale', 'orderBy', 'objectIdField',
-                'definitionExpression', 'outFields', 'legendEnabled', 'popupEnabled');
+                'definitionExpression', 'outFields', 'legendEnabled', 'popupEnabled', 'apiKey', 'blendMode');
 
             if (hasValue(layerObject.formTemplate)) {
                 featureLayer.formTemplate = buildJsFormTemplate(layerObject.formTemplate);
