@@ -174,6 +174,13 @@ export function scrollToTestClass(id) {
     }
 }
 
+export function elementExists(id) {
+    let element = document.getElementById(id);
+    if (element === null) {
+        throw new Error(`Element with id ${id} does not exist`);
+    }
+}
+
 export function getView(methodName) {
     const testDiv = document.getElementById(methodName);
     const mapContainer = testDiv.getElementsByClassName('map-container')[0];

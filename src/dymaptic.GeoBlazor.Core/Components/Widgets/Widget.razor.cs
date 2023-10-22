@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using dymaptic.GeoBlazor.Core.Components.Views;
+using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -26,13 +27,16 @@ public abstract partial class Widget : MapComponent
     ///     The id of an external HTML Element (div). If provided, the widget will be placed inside that element, instead of on
     ///     the map.
     /// </summary>
-    /// <remarks>
-    ///     Either <see cref="Position" /> or <see cref="ContainerId" /> should be set, but not both.
-    ///     This parameter is no longer needed if a Widget is defined in Razor markup within an HTML element.
-    /// </remarks>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? ContainerId { get; set; }
+    
+    /// <summary>
+    ///     If the Widget is defined outside of the MapView, this link is required to connect them together.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore]
+    public MapView? MapView { get; set; }
 
     /// <summary>
     ///     The type of widget
@@ -52,6 +56,12 @@ public abstract partial class Widget : MapComponent
     /// </summary>
     [Parameter]
     public string? WidgetId { get; set; }
+    
+    /// <summary>
+    ///     Event handler to know when the widget has been created.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnWidgetCreated { get; set; }
 
     /// <summary>
     ///     DotNet Object Reference to the widget
@@ -64,11 +74,24 @@ public abstract partial class Widget : MapComponent
     ///     JS-invokable callback to register a JS Object Reference
     /// </summary>
     [JSInvokable]
-    public void OnWidgetCreated(IJSObjectReference jsObjectReference)
+    public async Task OnJsWidgetCreated(IJSObjectReference jsObjectReference)
     {
         JsWidgetReference = jsObjectReference;
+        await OnWidgetCreated.InvokeAsync();
     }
-    
+
+    /// <inheritdoc />
+    public override async Task SetParametersAsync(ParameterView parameters)
+    {
+        await base.SetParametersAsync(parameters);
+        IReadOnlyDictionary<string, object> dictionary = parameters.ToDictionary();
+
+        if (!dictionary.ContainsKey(nameof(View)) && !dictionary.ContainsKey(nameof(MapView)))
+        {
+            throw new MissingMapViewReferenceException("Widgets outside the MapView must have the MapView parameter set.");
+        }
+    }
+
     /// <inheritdoc />
     protected override void OnParametersSet()
     {
@@ -84,6 +107,12 @@ public abstract partial class Widget : MapComponent
         if (WidgetChanged && MapRendered)
         {
             await UpdateWidget();
+        }
+        
+        if (View is null && MapView is not null && !_externalWidgetRegistered)
+        {
+            await MapView!.AddWidget(this);
+            _externalWidgetRegistered = true;
         }
     }
     
@@ -107,6 +136,8 @@ public abstract partial class Widget : MapComponent
     ///     JS Object Reference to the widget
     /// </summary>
     protected IJSObjectReference? JsWidgetReference;
+
+    private bool _externalWidgetRegistered;
 }
 
 internal class WidgetConverter : JsonConverter<Widget>
@@ -119,5 +150,15 @@ internal class WidgetConverter : JsonConverter<Widget>
     public override void Write(Utf8JsonWriter writer, Widget value, JsonSerializerOptions options)
     {
         writer.WriteRawValue(JsonSerializer.Serialize(value, typeof(object), options));
+    }
+}
+
+/// <summary>
+///     Exception raised if an external component is missing a required reference to a <see cref="MapView"/>
+/// </summary>
+public class MissingMapViewReferenceException: Exception
+{
+    public MissingMapViewReferenceException(string message) : base(message)
+    {
     }
 }

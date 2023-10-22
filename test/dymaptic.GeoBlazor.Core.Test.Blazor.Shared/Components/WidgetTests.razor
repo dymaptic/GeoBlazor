@@ -325,4 +325,75 @@
         Assert.IsNotNull(selectedResult);
     }
 
+    [TestMethod]
+    public async Task TestCanRenderOutsideOfMapViewWithViewRef(Action renderHandler)
+    {
+        HomeWidget? homeWidget = null;
+        MapView? mapView = null;
+        bool widgetCreated = false;
+        void OnWidgetCreated()
+        {
+            widgetCreated = true;
+        }
+        AddMapRenderFragment(
+            @<div>
+                <MapView @ref="mapView" class="map-view" OnViewRendered="renderHandler">
+                    <Map ArcGISDefaultBasemap="arcgis-imagery" />
+                </MapView>
+                <HomeWidget @ref="homeWidget" MapView="@mapView"
+                            OnWidgetCreated="OnWidgetCreated"/>
+            </div>);
+
+        await WaitForMapToRender();
+        while (!widgetCreated)
+        {
+            await Task.Delay(100);
+        }
+        await AssertJavaScript("elementExists", args: $"widget-container-{homeWidget!.Id}");
+    }
+    
+    [TestMethod]
+    public async Task TestRenderOutsideOfMapViewWithoutReferenceThrows(Action renderHandler)
+    {
+        HomeWidget? homeWidget = null;
+        MapView? mapView = null;
+
+        AddMapRenderFragment(
+            @<div>
+                <MapView @ref="mapView" class="map-view" OnViewRendered="renderHandler">
+                    <Map ArcGISDefaultBasemap="arcgis-imagery" />
+                </MapView>
+                <HomeWidget @ref="homeWidget" />
+            </div>);
+
+        await Assert.ThrowsExceptionAsync<MissingMapViewReferenceException>(async () => await WaitForMapToRender());
+    }
+    
+    [TestMethod]
+    public async Task TestCanRenderOutsideOfMapViewWithContainerId(Action renderHandler)
+    {
+        HomeWidget? homeWidget = null;
+        MapView? mapView = null;
+        bool widgetCreated = false;
+        void OnWidgetCreated()
+        {
+            widgetCreated = true;
+        }
+        AddMapRenderFragment(
+            @<div>
+                <div id="external-container" />
+                <MapView @ref="mapView" class="map-view" OnViewRendered="renderHandler">
+                    <Map ArcGISDefaultBasemap="arcgis-imagery" />
+                    <HomeWidget @ref="homeWidget" ContainerId="external-container"
+                                OnWidgetCreated="OnWidgetCreated" />
+                </MapView>
+            </div>);
+
+        await WaitForMapToRender();
+        while (!widgetCreated)
+        {
+            await Task.Delay(100);
+        }
+        await AssertJavaScript("elementExists", args: $"widget-container-{homeWidget!.Id}");
+    }
 }

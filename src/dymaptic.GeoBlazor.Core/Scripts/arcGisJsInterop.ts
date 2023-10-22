@@ -2051,7 +2051,7 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
     dotNetRefs[widget.id] = widget.dotNetComponentReference;
     // @ts-ignore
     let jsRef = DotNet.createJSObjectReference(getObjectReference(newWidget));
-    await widget.dotNetWidgetReference.invokeMethodAsync('OnWidgetCreated', jsRef);
+    await widget.dotNetWidgetReference.invokeMethodAsync('OnJsWidgetCreated', jsRef);
     return newWidget;
 }
 
