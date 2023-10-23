@@ -620,6 +620,7 @@ export interface DotNetRasterColormapRenderer {
 }
 
 export interface DotNetColormapInfo {
+    value: number;
     type: string;
     color: color;
     label: string;

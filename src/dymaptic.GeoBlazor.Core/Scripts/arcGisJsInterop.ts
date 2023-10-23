@@ -150,6 +150,7 @@ import RasterColormapRenderer from "@arcgis/core/renderers/RasterColormapRendere
 import FlowRenderer from "@arcgis/core/renderers/FlowRenderer";
 import UniqueValueRenderer from "@arcgis/core/renderers/UniqueValueRenderer.js";
 import ClassBreaksRenderer from "@arcgis/core/renderers/ClassBreaksRenderer.js";
+import MultidimensionalSubset from "@arcgis/core/layers/support/MultidimensionalSubset";
 
 
 export let arcGisObjectRefs: Record<string, Accessor> = {};
@@ -2342,7 +2343,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
                 imageryLayer.multidimensionalInfo = layerObject.multidimensionalInfo;
             }
             if (hasValue(layerObject.multidimensionsionalSubset)) {
-                imageryLayer.multidimensionsionalSubset = layerObject.multidimensionsionalSubset;
+                imageryLayer.multidimensionalSubset = layerObject.multidimensionsionalSubset;
             }
             if (hasValue(layerObject.noData)) {
                 imageryLayer.noData = layerObject.noData;
@@ -2382,9 +2383,6 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             }
             if (hasValue(layerObject.useViewTime)) {
                 imageryLayer.useViewTime = layerObject.useViewTime;
-            }
-            if (hasValue(layerObject.multidimensionalSubset)) {
-                imageryLayer.multidimensionalSubset = layerObject.multidimensionalSubset as DotNetMultidimensionalSubset;
             }
 
             copyValuesIfExists(layerObject, 'bandIds', 'blendMode', 'compressionQuality', 'compressionTolerance',

@@ -81,7 +81,7 @@ import {
     DotNetFeatureEffect,
     DotNetFeatureFilter,
     DotNetRasterStretchRenderer,
-    DotNetDimensionDefinition,
+    DotNetDimensionalDefinition,
     DotNetColorRamp,
     DotNetFeatureTemplate,
     DotNetRasterColormapRenderer,
@@ -97,7 +97,8 @@ import {
     DotNetRasterFunctionInfo,
     DotNetAuthoringInfo,
     DotNetFieldsIndex,
-    DotNetUniqueValueRenderer
+    DotNetUniqueValueRenderer,
+    DotNetRasterShadedReliefRenderer
 } from "./definitions";
 import PictureMarkerSymbol from "@arcgis/core/symbols/PictureMarkerSymbol";
 import Popup from "@arcgis/core/widgets/Popup";
@@ -616,10 +617,8 @@ export function buildJsRenderer(dotNetRenderer: any): Renderer | null {
 export function buildJsRasterColormapRenderer(dotNetRasterColormapRenderer: DotNetRasterColormapRenderer): RasterColormapRenderer | null {
     if (dotNetRasterColormapRenderer === undefined) return null;
     let rasterColormapRender = new RasterColormapRenderer();
-
     if (hasValue(dotNetRasterColormapRenderer.colormapInfos)) {
-        
-        rasterColormapRender.colormapInfos = buildJsColormapInfo(dotNetRasterColormapRenderer.colormapInfos) as ColormapInfo;
+        rasterColormapRender.colormapInfos = dotNetRasterColormapRenderer.colormapInfos;
     }
     return rasterColormapRender;
 }
@@ -628,7 +627,7 @@ export function buildJsColormapInfo(dotNetColormapInfo: DotNetColormapInfo): Col
     if (dotNetColormapInfo === undefined) return null;
     let colormapInfo = new ColormapInfo();
 
-    if (hasValue(dotNetColormapInfo.mapColor)) {
+    if (hasValue(dotNetColormapInfo.color)) {
         colormapInfo.color = dotNetColormapInfo.color;
     }
     if (hasValue(dotNetColormapInfo.label)) {
@@ -650,7 +649,7 @@ export function buildJsRasterShadedReliefRenderer(dnRasterShadedReliefRenderer: 
         rasterShadedReliefRenderer.azimuth = dnRasterShadedReliefRenderer.azimuth;
     }
     if (hasValue(dnRasterShadedReliefRenderer.colorRamp)) {
-        rasterShadedReliefRenderer.colorRamp = dnRasterShadedReliefRenderer.colorRamp as DotNetColorRamp;
+        rasterShadedReliefRenderer.colorRamp = buildJsColorRamp(dnRasterShadedReliefRenderer.colorRamp) as ColorRamp;
     }
     if (hasValue(dnRasterShadedReliefRenderer.hillshadeType)) {
         rasterShadedReliefRenderer.hillshadeType = dnRasterShadedReliefRenderer.hillshadeType;
@@ -677,7 +676,10 @@ export function buildJsUniqueValueRenderer(dnUniqueValueRenderer: DotNetUniqueVa
     if (dnUniqueValueRenderer === undefined) return null;
     let uniqueValueRenderer = new UniqueValueRenderer();
     if (hasValue(dnUniqueValueRenderer.backgroundFillSymbol)) {
-        uniqueValueRenderer.backgroundFillSymbol = dnUniqueValueRenderer.backgroundFillSymbol;
+        if (dnUniqueValueRenderer.backgroundFillSymbol.type == "FillSymbol") {
+            uniqueValueRenderer.backgroundFillSymbol = dnUniqueValueRenderer.backgroundFillSymbol as DotNetSimpleFillSymbol;
+        }
+        // Note: The PolygonSymbol3d is not currently supported
     }
     if (hasValue(dnUniqueValueRenderer.defaultLabel)) {
         uniqueValueRenderer.defaultLabel = dnUniqueValueRenderer.defaultLabel;
@@ -728,14 +730,14 @@ export function buildJsClassBreaksRenderer(dnClassBreaksRenderer: DotNetClassBre
     if (hasValue(dnClassBreaksRenderer.backgroundFillSymbol)) {
         classBreaksRenderer.backgroundFillSymbol = dnClassBreaksRenderer.backgroundFillSymbol as DotNetSimpleFillSymbol;
     }
-    if (hasValue(dnClassBreaksRenderer.classBreakInfos)) {
-        classBreaksRenderer.classBreakInfos = dnClassBreaksRenderer.classBreakInfos;
+    if (hasValue(dnClassBreaksRenderer.classBreaksInfos)) {
+        classBreaksRenderer.classBreaksInfos = dnClassBreaksRenderer.classBreaksInfos;
     }
     if (hasValue(dnClassBreaksRenderer.defaultLabel)) {
         classBreaksRenderer.defaultLabel = dnClassBreaksRenderer.defaultLabel;
     }
     if (hasValue(dnClassBreaksRenderer.defaultSymbol)) {
-        classBreaksRenderer.defaultSymbol = dnClassBreaksRenderer.defaultSymbol;
+        classBreaksRenderer.defaultSymbol = buildJsSymbol(dnClassBreaksRenderer.defaultSymbol) as Symbol;
     }
     if (hasValue(dnClassBreaksRenderer.field)) {
         classBreaksRenderer.field = dnClassBreaksRenderer.field;
