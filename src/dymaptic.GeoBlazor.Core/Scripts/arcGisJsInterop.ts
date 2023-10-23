@@ -2339,6 +2339,9 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             if (hasValue(layerObject.fieldsIndex)) {
                 imageryLayer.fieldsIndex = layerObject.fieldsIndex;
             }
+            if (hasValue(layerObject.mosaicRule)) {
+                imageryLayer.mosaicRule = layerObject.mosaicRule;
+            }
             if (hasValue(layerObject.multidimensionalInfo)) {
                 imageryLayer.multidimensionalInfo = layerObject.multidimensionalInfo;
             }
@@ -2360,29 +2363,20 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             if (hasValue(layerObject.rasterFunctionInfos)) {
                 imageryLayer.rasterFunctionInfos = layerObject.rasterFunctionInfos;
             }
-            if (hasValue(layerObject.maxScale)) {
-                imageryLayer.maxScale = layerObject.maxScale;
+            if (hasValue(layerObject.serviceRasterInfo)) {
+                imageryLayer.serviceRasterInfo = layerObject.serviceRasterInfo;
             }
-            if (hasValue(layerObject.minScale)) {
-                imageryLayer.minScale = layerObject.minScale;
+            if (hasValue(layerObject.sourceJSON)) {
+                imageryLayer.sourceJSON = layerObject.sourceJSON;
             }
-            if (hasValue(layerObject.noDataInterpretation)) {
-                imageryLayer.noDataInterpretation = layerObject.noDataInterpretation;
+            if (hasValue(layerObject.timeExtent)) {
+                imageryLayer.timeExtent = layerObject.timeExtent;
             }
-            if (hasValue(layerObject.objectIdField)) {
-                imageryLayer.objectIdField = layerObject.objectIdField;
+            if (hasValue(layerObject.timeInfo)) {
+                imageryLayer.timeInfo = layerObject.timeInfo;
             }
-            if (hasValue(layerObject.pixelType)) {
-                imageryLayer.pixelType = layerObject.pixelType;
-            }
-            if (hasValue(layerObject.popupEnabled)) {
-                imageryLayer.popupEnabled = layerObject.popupEnabled;
-            }
-            if (hasValue(layerObject.refreshInterval)) {
-                imageryLayer.refreshInterval = layerObject.refreshInterval;
-            }
-            if (hasValue(layerObject.useViewTime)) {
-                imageryLayer.useViewTime = layerObject.useViewTime;
+            if (hasValue(layerObject.timeOffset)) {
+                imageryLayer.timeOffset = layerObject.timeOffset;
             }
 
             copyValuesIfExists(layerObject, 'bandIds', 'blendMode', 'compressionQuality', 'compressionTolerance',
