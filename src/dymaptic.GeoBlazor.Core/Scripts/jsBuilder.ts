@@ -87,8 +87,6 @@ import {
     DotNetRasterColormapRenderer,
     DotNetVectorFieldRenderer,
     DotNetFlowRenderer,
-    DotNetDimensionalDefinition,
-    DotNetColorRamp,
     DotNetVisualVariable,
     DotNetColormapInfo,
     DotNetClassBreaksRenderer,

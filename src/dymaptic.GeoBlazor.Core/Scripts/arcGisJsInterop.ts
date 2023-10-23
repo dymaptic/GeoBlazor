@@ -111,6 +111,8 @@ import {
     DotNetDimensionalDefinition,
     DotNetRasterColormapRenderer,
     DotNetAlgorithmicColorRamp,
+    DotNetEffect,
+    DotNetMultidimensionalSubset,
 
 } from "./definitions";
 import WebTileLayer from "@arcgis/core/layers/WebTileLayer";
@@ -2299,33 +2301,96 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
 
             let imageryLayer = newLayer as ImageryLayer;
 
-                if (hasValue(layerObject.renderer)) {
-                    switch (layerObject.renderer) {
-                        case 'class-breaks-renderer':
-                            imageryLayer.renderer = buildJsClassBreaksRenderer(layerObject.renderer) as ClassBreaksRenderer;
-                            break;
-                        case 'unique-value-renderer':
-                            imageryLayer.renderer = buildJsUniqueValueRenderer(layerObject.renderer) as UniqueValueRenderer;
-                            break;
-                        case 'raster-shaded-relief-renderer':
-                            imageryLayer.renderer = buildJsRasterShadedReliefRenderer(layerObject.renderer) as RasterShadedReliefRenderer;
-                            break;
-                        case 'raster-colormap-renderer':
-                            imageryLayer.renderer = buildJsRasterColormapRenderer(layerObject.renderer) as RasterColormapRenderer;
-                            break;
-                        case 'vector-field-renderer':
-                            imageryLayer.renderer = buildJsVectorFieldRenderer(layerObject.renderer) as VectorFieldRenderer;
-                            break;
-                        case 'flow-renderer':
-                            imageryLayer.renderer = buildJsFlowRenderer(layerObject.renderer) as FlowRenderer;
-                            break;
-                    }
+            if (hasValue(layerObject.renderer)) {
+                switch (layerObject.renderer) {
+                    case 'class-breaks-renderer':
+                        imageryLayer.renderer = buildJsClassBreaksRenderer(layerObject.renderer) as ClassBreaksRenderer;
+                        break;
+                    case 'unique-value-renderer':
+                        imageryLayer.renderer = buildJsUniqueValueRenderer(layerObject.renderer) as UniqueValueRenderer;
+                        break;
+                    case 'raster-shaded-relief-renderer':
+                        imageryLayer.renderer = buildJsRasterShadedReliefRenderer(layerObject.renderer) as RasterShadedReliefRenderer;
+                        break;
+                    case 'raster-colormap-renderer':
+                        imageryLayer.renderer = buildJsRasterColormapRenderer(layerObject.renderer) as RasterColormapRenderer;
+                        break;
+                    case 'vector-field-renderer':
+                        imageryLayer.renderer = buildJsVectorFieldRenderer(layerObject.renderer) as VectorFieldRenderer;
+                        break;
+                    case 'flow-renderer':
+                        imageryLayer.renderer = buildJsFlowRenderer(layerObject.renderer) as FlowRenderer;
+                        break;
                 }
+            }
+            if (hasValue(layerObject.capabilities)) {
+                imageryLayer.capabilities = layerObject.capabilities;
+            }
+            if (hasValue(layerObject.customParameters)) {
+                imageryLayer.customParameters = layerObject.customParameters;
+            }
+            if (hasValue(layerObject.effect)) {
+                imageryLayer.effect = layerObject.effect;
+            }
+            if (hasValue(layerObject.fields)) {
+                imageryLayer.fields = layerObject.fields;
+            }
+            if (hasValue(layerObject.fieldsIndex)) {
+                imageryLayer.fieldsIndex = layerObject.fieldsIndex;
+            }
+            if (hasValue(layerObject.multidimensionalInfo)) {
+                imageryLayer.multidimensionalInfo = layerObject.multidimensionalInfo;
+            }
+            if (hasValue(layerObject.multidimensionsionalSubset)) {
+                imageryLayer.multidimensionsionalSubset = layerObject.multidimensionsionalSubset;
+            }
+            if (hasValue(layerObject.noData)) {
+                imageryLayer.noData = layerObject.noData;
+            }
+            if (hasValue(layerObject.pixelFilter)) {
+                imageryLayer.pixelFilter = layerObject.pixelFilter;
+            }
+            if (hasValue(layerObject.rasterFields)) {
+                imageryLayer.rasterFields = layerObject.rasterFields;
+            }
+            if (hasValue(layerObject.rasterFunction)) {
+                imageryLayer.rasterFunction = layerObject.rasterFunction;
+            }
+            if (hasValue(layerObject.rasterFunctionInfos)) {
+                imageryLayer.rasterFunctionInfos = layerObject.rasterFunctionInfos;
+            }
+            if (hasValue(layerObject.maxScale)) {
+                imageryLayer.maxScale = layerObject.maxScale;
+            }
+            if (hasValue(layerObject.minScale)) {
+                imageryLayer.minScale = layerObject.minScale;
+            }
+            if (hasValue(layerObject.noDataInterpretation)) {
+                imageryLayer.noDataInterpretation = layerObject.noDataInterpretation;
+            }
+            if (hasValue(layerObject.objectIdField)) {
+                imageryLayer.objectIdField = layerObject.objectIdField;
+            }
+            if (hasValue(layerObject.pixelType)) {
+                imageryLayer.pixelType = layerObject.pixelType;
+            }
+            if (hasValue(layerObject.popupEnabled)) {
+                imageryLayer.popupEnabled = layerObject.popupEnabled;
+            }
+            if (hasValue(layerObject.refreshInterval)) {
+                imageryLayer.refreshInterval = layerObject.refreshInterval;
+            }
+            if (hasValue(layerObject.useViewTime)) {
+                imageryLayer.useViewTime = layerObject.useViewTime;
+            }
+            if (hasValue(layerObject.multidimensionalSubset)) {
+                imageryLayer.multidimensionalSubset = layerObject.multidimensionalSubset as DotNetMultidimensionalSubset;
+            }
 
-
-            copyValuesIfExists(layerObject, 'bandIds', 'blendMode', 'compressionQuality', 'compressionTolerance', 'copyright', 'definitionExpression',
-                'effect', 'format', 'hasMultidimensions', 'imageMaxHeight', 'imageMaxWidth', 'interpolation', 'legendEnabled', 'maxScale', 'minScale',
-                'noDataInterpretation', 'objectIdField', 'pixelType', 'popupEnabled', 'refreshInterval', 'useViewTime', 'version')
+            copyValuesIfExists(layerObject, 'bandIds', 'blendMode', 'compressionQuality', 'compressionTolerance',
+                'copyright', 'definitionExpression', 'effect', 'format', 'hasMultidimensions', 'imageMaxHeight', 'imageMaxWidth',
+                'interpolation', 'legendEnabled', 'maxScale', 'minScale', 'multidimensionalInfo', 'noDataInterpretation',
+                'objectIdField', 'pixelType', 'popupEnabled', 'refreshInterval', 'useViewTime', 'version')
 
             newLayer = imageryLayer;
             break;
