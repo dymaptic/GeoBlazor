@@ -733,7 +733,7 @@ export function buildDotNetBookmark(bookmark: any): DotNetBookmark {
 }
 
 export function buildDotNetViewpoint(viewpoint: any): DotNetViewpoint | null {
-    if (viewpoint === null) return null;
+    if (!hasValue(viewpoint)) return null;
     return {
         rotation: viewpoint.rotation,
         scale: viewpoint.scale,
@@ -742,7 +742,7 @@ export function buildDotNetViewpoint(viewpoint: any): DotNetViewpoint | null {
 }
 
 export function buildDotNetTimeExtent(timeExtent: any): any | null {
-    if (timeExtent === null) return null;
+    if (!hasValue(timeExtent)) return null;
     return {
         start: timeExtent.start.toISOString(),
         end: timeExtent.end.toISOString()

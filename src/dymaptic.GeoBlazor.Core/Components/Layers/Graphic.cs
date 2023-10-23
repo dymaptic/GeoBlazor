@@ -57,7 +57,7 @@ public class Graphic : LayerObject
         Attributes.OnChange = OnAttributesChanged;
         ToSerializationRecord();
     }
-    
+
     /// <summary>
     ///     Name-value pairs of fields and field values associated with the graphic.
     /// </summary>
@@ -95,7 +95,7 @@ public class Graphic : LayerObject
     ///     The GeoBlazor Id of the parent layer, used when serializing the graphic to/from JavaScript.
     /// </summary>
     public Guid? LayerId { get; set; }
-    
+
     /// <summary>
     ///     Retrieves the <see cref="Geometry" /> from the rendered graphic.
     /// </summary>
@@ -162,10 +162,19 @@ public class Graphic : LayerObject
     /// </param>
     public async Task SetPopupTemplate(PopupTemplate popupTemplate)
     {
+        var oldTemplate = PopupTemplate;
+
         PopupTemplate = popupTemplate;
+
 
         if (LayerJsModule is not null)
         {
+            if (oldTemplate != null)
+            {
+                await LayerJsModule.InvokeVoidAsync("removeGraphicPopupTemplate", Id,
+                    oldTemplate.ToSerializationRecord(), oldTemplate.DotNetPopupTemplateReference, View?.Id);
+            }
+
             await LayerJsModule.InvokeVoidAsync("setGraphicPopupTemplate", Id,
                 PopupTemplate.ToSerializationRecord(), PopupTemplate.DotNetPopupTemplateReference, View?.Id);
         }
@@ -241,7 +250,7 @@ public class Graphic : LayerObject
                 break;
         }
     }
-    
+
     /// <inheritdoc />
     public override async ValueTask DisposeAsync()
     {
