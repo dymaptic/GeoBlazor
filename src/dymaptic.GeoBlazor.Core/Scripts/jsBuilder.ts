@@ -541,7 +541,7 @@ export function buildJsPolygon(dnPolygon: DotNetPolygon): Polygon | null {
 
 
 export function buildJsRenderer(dotNetRenderer: any): Renderer | null {
-    if (dotNetRenderer === undefined) return null;
+    if (!hasValue(dotNetRenderer)) return null;
     let dotNetSymbol = dotNetRenderer.symbol;
     switch (dotNetRenderer.type) {
         case 'simple':

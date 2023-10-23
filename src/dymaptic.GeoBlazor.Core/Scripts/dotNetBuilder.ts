@@ -49,7 +49,7 @@ import {
     DotNetCodedValue,
     DotNetInheritedDomain,
     DotNetRangeDomain,
-    DotNetEffect, 
+    DotNetEffect,
     DotNetFeatureTemplate
 } from "./definitions";
 import Point from "@arcgis/core/geometry/Point";
@@ -108,6 +108,7 @@ import SuggestResult = __esri.SuggestResult;
 import FeatureType from "@arcgis/core/layers/support/FeatureType";
 import FeatureTemplate from "@arcgis/core/layers/support/FeatureTemplate";
 import FeatureTemplateThumbnail = __esri.FeatureTemplateThumbnail;
+import LabelClass from "@arcgis/core/layers/support/LabelClass";
 
 
 export function buildDotNetGraphic(graphic: Graphic): DotNetGraphic {
@@ -805,13 +806,13 @@ export function buildDotNetEffect(jsEffect: any): DotNetEffect | null {
     if (!hasValue(jsEffect)) {
         return null;
     }
-    
+
     if (jsEffect instanceof String) {
         return {
             value: jsEffect
         } as DotNetEffect;
     }
-    
+
     return {
         value: jsEffect.value,
         scale: jsEffect.scale
@@ -958,5 +959,30 @@ export function buildDotNetSuggestResult(jsSuggestResult: SuggestResult) {
         text: jsSuggestResult.text,
         key: jsSuggestResult.key,
         sourceIndex: jsSuggestResult.sourceIndex
+    }
+}
+
+export function buildDotNetLabelClass(labelClass: LabelClass): any {
+    return {
+        labelExpression: labelClass.labelExpression,
+        labelExpressionInfo: buildDotNetLabelExpressionInfo(labelClass.labelExpressionInfo),
+        allowOverrun: labelClass.allowOverrun,
+        deconflictionStrategy: labelClass.deconflictionStrategy,
+        labelPlacement: labelClass.labelPlacement,
+        labelPosition: labelClass.labelPosition,
+        maxScale: labelClass.maxScale,
+        minScale: labelClass.minScale,
+        repeatLabel: labelClass.repeatLabel,
+        repeatLabelDistance: labelClass.repeatLabelDistance,
+        symbol: buildDotNetSymbol(labelClass.symbol),
+        useCodedValues: labelClass.useCodedValues,
+        where: labelClass.where
+    }
+}
+
+export function buildDotNetLabelExpressionInfo(labelExpressionInfo: any): any {
+    return {
+        value: labelExpressionInfo.value,
+        expression: labelExpressionInfo.expression
     }
 }

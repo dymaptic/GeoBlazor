@@ -1,6 +1,7 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
 using dymaptic.GeoBlazor.Core.Components.Layers;
 using dymaptic.GeoBlazor.Core.Components.Popups;
+using dymaptic.GeoBlazor.Core.Components.Symbols;
 using dymaptic.GeoBlazor.Core.Components.Views;
 using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
@@ -253,6 +254,16 @@ public class PopupWidget : Widget
     public async Task Close()
     {
         await JsWidgetReference!.InvokeVoidAsync("close", CancellationTokenSource.Token);
+    }
+
+    /// <summary>
+    ///     Override the default symbol of the displayed cluster extent. Only applies when a PopupTemplate is set on a FeatureReductionCluster instance.
+    /// </summary>
+    /// <param name="symbol"></param>
+    public async Task SetSelectedClusterBoundaryFeatureSymbol(Symbol symbol)
+    {
+        await JsWidgetReference!.InvokeVoidAsync("setSelectedClusterBoundaryFeatureSymbol",
+            CancellationTokenSource.Token, symbol);
     }
 
     /// <summary>
