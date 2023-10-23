@@ -627,6 +627,8 @@ export interface DotNetColormapInfo {
 }
 
 export interface DotNetFlowRenderer {
+    authoringInfo: DotNetAuthoringInfo;
+    color: color;
     type: string;
     flowRepresentation: string;
     density: number;
