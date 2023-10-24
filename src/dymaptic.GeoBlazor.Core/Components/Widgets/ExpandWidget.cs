@@ -14,6 +14,9 @@ public class ExpandWidget : Widget
     /// <inheritdoc />
     public override string WidgetType => "expand";
 
+    /// <summary>
+    ///     Internal mark for GeoBlazor rendering
+    /// </summary>
     protected override bool Hidden => true;
 
     /// <summary>

@@ -1245,7 +1245,7 @@ export async function showPopupWithGraphic(graphicObject: any, options: any, vie
         let graphic = arcGisObjectRefs[graphicObject.id] as Graphic;
         view.popup.dockOptions = options.dockOptions;
         view.popup.visibleElements = options.visibleElements;
-        view.popup.open({
+        await view.openPopup({
             features: [graphic]
         });
         unsetWaitCursor(viewId);

@@ -69,10 +69,20 @@
         <Content Include="tsconfig.json" Pack="false" />
         <None Remove="ReadMe.md" />
         <None Include="ReadMe.md" Pack="true" PackagePath="" />
+        <Content Remove="wwwroot\assets\**" />
+        <None Remove="wwwroot\assets\**" />
     </ItemGroup>
 
     <ItemGroup>
         <Content Remove="node_modules\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="wwwroot\assets\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="wwwroot\assets\**" />
     </ItemGroup>
 
     <Target Name="NPM Install" BeforeTargets="PreBuildEvent" Condition="$(TargetFrameworks.StartsWith($(TargetFramework))) AND '$(OptOutFromCoreEsBuild)' != 'true'">

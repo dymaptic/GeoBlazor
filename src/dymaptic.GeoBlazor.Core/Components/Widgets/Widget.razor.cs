@@ -68,6 +68,9 @@ public abstract partial class Widget : MapComponent
     /// </summary>
     public DotNetObjectReference<Widget> DotNetWidgetReference => DotNetObjectReference.Create(this);
 
+    /// <summary>
+    ///     Internal mark for GeoBlazor rendering
+    /// </summary>
     protected virtual bool Hidden => false;
     
     /// <summary>
@@ -158,6 +161,9 @@ internal class WidgetConverter : JsonConverter<Widget>
 /// </summary>
 public class MissingMapViewReferenceException: Exception
 {
+    /// <summary>
+    ///     Constructor
+    /// </summary>
     public MissingMapViewReferenceException(string message) : base(message)
     {
     }
