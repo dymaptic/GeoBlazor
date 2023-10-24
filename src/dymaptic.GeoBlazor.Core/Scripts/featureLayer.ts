@@ -296,7 +296,9 @@ export default class FeatureLayerWrapper {
         return domain;
     }
 
-
+    getCapabilities() {
+        return this.layer.capabilities;
+    }
 
     async clone(): Promise<DotNetFeatureLayer> {
 

@@ -36,11 +36,9 @@
             @<MapView class="map-view" OnViewRendered="renderHandler">
                 <Map ArcGISDefaultBasemap="arcgis-imagery">
                     <GraphicsLayer @ref="graphicsLayer">
-                        <Graphics>
-                            <Graphic @ref="graphic">
-                                <Point X="0" Y="0" />
-                            </Graphic>
-                        </Graphics>
+                        <Graphic @ref="graphic">
+                            <Point X="0" Y="0" />
+                        </Graphic>
                     </GraphicsLayer>
                 </Map>
             </MapView>);

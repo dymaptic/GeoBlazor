@@ -106,6 +106,20 @@ public class FeatureLayer : Layer
         PopupTemplate = popupTemplate;
 #pragma warning restore BL0005 // Component parameter should not be set outside of its component.
     }
+    
+    /// <summary>
+    ///     An authorization string used to access a resource or service. API keys are generated and managed in the ArcGIS Developer dashboard. An API key is tied explicitly to an ArcGIS account; it is also used to monitor service usage. Setting a fine-grained API key on a specific class overrides the global API key.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? ApiKey { get; set; }
+    
+    /// <summary>
+    ///     Blend modes are used to blend layers together to create an interesting effect in a layer, or even to produce what seems like a new layer. Unlike the method of using transparency which can result in a washed-out top layer, blend modes can create a variety of very vibrant and intriguing results by blending a layer with the layer(s) below it.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public BlendMode? BlendMode { get; set; }
 
     /// <summary>
     ///     The absolute URL of the REST endpoint of the layer, non-spatial table or service
@@ -156,6 +170,20 @@ public class FeatureLayer : Layer
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public GeometryType? GeometryType { get; set; }
+    
+    /// <summary>
+    ///     Indicates whether the layer will be included in the legend.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? LegendEnabled { get; set; }
+    
+    /// <summary>
+    ///     Indicates whether to display popups when features in the layer are clicked.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? PopupEnabled { get; set; }
 
     /// <summary>
     ///     Determines the order in which features are drawn in the view.
@@ -353,9 +381,16 @@ public class FeatureLayer : Layer
     }
 
     /// <summary>
+    ///    Describes the layer's supported capabilities.
+    /// </summary>
+    public async Task<FeatureLayerCapabilities> GetCapabilities()
+    {
+        return await JsLayerReference!.InvokeAsync<FeatureLayerCapabilities>("getCapabilities");
+    }
+
+    /// <summary>
     /// Creates a deep clone of the javascript FeatureLayer object.
     /// </summary>
-    /// <returns></returns>
     public async Task<FeatureLayer> Clone()
     {
         return await JsLayerReference!.InvokeAsync<FeatureLayer>("clone");

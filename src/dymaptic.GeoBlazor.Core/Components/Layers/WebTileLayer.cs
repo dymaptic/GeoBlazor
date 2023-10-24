@@ -155,8 +155,7 @@ public class WebTileLayer : Layer
 /// <remarks>
 ///     See more at
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WebTileLayer.html#blendMode">
-///         ArcGIS
-///         JS API: Blend Mode
+///         ArcGIS Maps SDK for JavaScript
 ///     </a>
 /// </remarks>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<BlendMode>))]

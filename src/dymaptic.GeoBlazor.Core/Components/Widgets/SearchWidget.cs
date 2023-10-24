@@ -259,7 +259,7 @@ public class SearchWidget : Widget
     /// </param>
     public async Task<SearchResponse> Search(double[][] searchTerm)
     {
-        return await JsWidgetReference!.InvokeAsync<SearchResponse>("search", searchTerm);
+        return await JsWidgetReference!.InvokeAsync<SearchResponse>("search", new object[]{searchTerm});
     }
     
     /// <summary>
