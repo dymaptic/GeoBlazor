@@ -380,6 +380,9 @@ public class FeatureLayer : Layer
         return await JsLayerReference!.InvokeAsync<Domain?>("getFieldDomain", fieldName, feature);
     }
 
+    /// <summary>
+    ///    Describes the layer's supported capabilities.
+    /// </summary>
     public async Task<FeatureLayerCapabilities> GetCapabilities()
     {
         return await JsLayerReference!.InvokeAsync<FeatureLayerCapabilities>("getCapabilities");
@@ -388,7 +391,6 @@ public class FeatureLayer : Layer
     /// <summary>
     /// Creates a deep clone of the javascript FeatureLayer object.
     /// </summary>
-    /// <returns></returns>
     public async Task<FeatureLayer> Clone()
     {
         return await JsLayerReference!.InvokeAsync<FeatureLayer>("clone");
