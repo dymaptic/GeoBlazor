@@ -1,6 +1,7 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
 using dymaptic.GeoBlazor.Core.Components.Popups;
 using dymaptic.GeoBlazor.Core.Components.Renderers;
+using dymaptic.GeoBlazor.Core.Interfaces;
 using Microsoft.AspNetCore.Components;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -15,7 +16,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 ///     in SpatialReference.WGS84 in csv feed.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public class CSVLayer : Layer
+public class CSVLayer : Layer, IFeatureReductionLayer
 {
     /// <summary>
     ///     Parameterless constructor for use as a razor component
