@@ -380,6 +380,9 @@ public class FeatureLayer : Layer
         return await JsLayerReference!.InvokeAsync<Domain?>("getFieldDomain", fieldName, feature);
     }
 
+    /// <summary>
+    ///    Describes the layer's supported capabilities.
+    /// </summary>
     public async Task<FeatureLayerCapabilities> GetCapabilities()
     {
         return await JsLayerReference!.InvokeAsync<FeatureLayerCapabilities>("getCapabilities");
