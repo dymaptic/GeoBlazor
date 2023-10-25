@@ -1,6 +1,6 @@
-﻿let Core;
-let arcGisObjectRefs;
-let Color;
+﻿export let Core;
+export let arcGisObjectRefs;
+export let Color;
 
 (async () => {
 
@@ -25,7 +25,7 @@ export function assertWidgetExists(methodName, widgetClass) {
     let view = getView(methodName);
     let widget = view.ui._components.find(c => c.widget.declaredClass === widgetClass)
     if (!widget) {
-        throw new Error("Widget does not exist");
+        throw new Error(`Widget ${widgetClass} does not exist`);
     }
 }
 
@@ -96,6 +96,9 @@ export function assertSymbolOnLayer(methodName, layerId, symbolType, dnSymbol) {
                     isMatch = layer.renderer.symbol[propertyName].family === dnFont.family;
                     break;
                 case "id":
+                    isMatch = true;
+                    break;
+                case "proProperties":
                     isMatch = true;
                     break;
                 default:
@@ -171,7 +174,14 @@ export function scrollToTestClass(id) {
     }
 }
 
-function getView(methodName) {
+export function elementExists(id) {
+    let element = document.getElementById(id);
+    if (element === null) {
+        throw new Error(`Element with id ${id} does not exist`);
+    }
+}
+
+export function getView(methodName) {
     const testDiv = document.getElementById(methodName);
     const mapContainer = testDiv.getElementsByClassName('map-container')[0];
     const viewId = mapContainer.id.replace('map-container-', '');

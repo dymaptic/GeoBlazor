@@ -1,5 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Components.Widgets;
-using dymaptic.GeoBlazor.Core.Exceptions;
+﻿using dymaptic.GeoBlazor.Core.Exceptions;
 
 
 namespace dymaptic.GeoBlazor.Core.Objects;

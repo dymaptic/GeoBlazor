@@ -2,7 +2,12 @@
 import Extent from "@arcgis/core/geometry/Extent";
 import Graphic from "@arcgis/core/Graphic";
 import PopupTemplate from "@arcgis/core/PopupTemplate";
-import { arcGisObjectRefs, popupDotNetObjects, createLayer, dotNetRefs, triggerActionHandler } from "./arcGisJsInterop";
+import { 
+    arcGisObjectRefs, 
+    popupDotNetObjects, 
+    createLayer, 
+    dotNetRefs
+} from "./arcGisJsInterop";
 import Geometry from "@arcgis/core/geometry/Geometry";
 import Point from "@arcgis/core/geometry/Point";
 import Polyline from "@arcgis/core/geometry/Polyline";
@@ -30,7 +35,6 @@ import AuthoringInfo from "@arcgis/core/renderers/support/AuthoringInfo.js";
 import ClassBreakInfo from "@arcgis/core/renderers/support/ClassBreakInfo.js";
 import UniqueValueRenderer from "@arcgis/core/renderers/UniqueValueRenderer.js";
 import ColormapInfo from "@arcgis/core/renderers/support/ColormapInfo.js";
-import VisualVariable from "@arcgis/core/renderers/visualVariables/VisualVariable.js";
 import MultidimensionalSubset from "@arcgis/core/layers/support/MultidimensionalSubset.js";
 import PolygonSymbol3D from "@arcgis/core/symbols/PolygonSymbol3D.js";
 import FieldsIndex from "@arcgis/core/layers/support/FieldsIndex.js";
@@ -41,24 +45,37 @@ import UniqueValueClass from "@arcgis/core/renderers/support/UniqueValueClass.js
 import UniqueValueGroup from "@arcgis/core/renderers/support/UniqueValueGroup.js";
 import {
     DotNetApplyEdits,
+    DotNetAuthoringInfo,
     DotNetAttachmentsEdit,
     DotNetAttachmentsPopupContent,
     DotNetBarChartMediaInfo,
+    DotNetBookmark,
     DotNetChartMediaInfoValue,
+    DotNetClassBreaksInfo,
+    DotNetClassBreaksRenderer,
+    DotNetColorRamp,
+    DotNetColormapInfo,
     DotNetColumnChartMediaInfo,
+    DotNetDimensionalDefinition,
     DotNetElementExpressionInfo,
     DotNetExpressionInfo,
     DotNetExpressionPopupContent,
     DotNetExtent,
+    DotNetFeatureEffect,
+    DotNetFeatureFilter,
+    DotNetFeatureTemplate,
     DotNetFieldInfo,
     DotNetFieldInfoFormat,
+    DotNetFieldsIndex,
     DotNetFieldsPopupContent,
+    DotNetFlowRenderer,
     DotNetGeometry,
     DotNetImageMediaInfo,
     DotNetImageMediaInfoValue,
     DotNetLineChartMediaInfo,
     DotNetMediaInfo,
     DotNetMediaPopupContent,
+    DotNetMultidimensionalSubset,
     DotNetPictureMarkerSymbol,
     DotNetPieChartMediaInfo,
     DotNetPoint,
@@ -67,38 +84,25 @@ import {
     DotNetPopupContent,
     DotNetPopupTemplate,
     DotNetQuery,
+    DotNetRasterColormapRenderer,
+    DotNetRasterFunction,
+    DotNetRasterFunctionInfo,
+    DotNetRasterShadedReliefRenderer,
+    DotNetRasterStretchRenderer,
     DotNetRelationshipQuery,
     DotNetSimpleFillSymbol,
     DotNetSimpleLineSymbol,
     DotNetSimpleMarkerSymbol,
     DotNetSpatialReference,
+    DotNetSubsetDimension,
     DotNetSymbol,
     DotNetTextPopupContent,
     DotNetTextSymbol,
     DotNetTopFeaturesQuery,
-    DotNetBookmark,
-    DotNetViewpoint,
-    DotNetFeatureEffect,
-    DotNetFeatureFilter,
-    DotNetRasterStretchRenderer,
-    DotNetDimensionalDefinition,
-    DotNetColorRamp,
-    DotNetFeatureTemplate,
-    DotNetRasterColormapRenderer,
-    DotNetVectorFieldRenderer,
-    DotNetFlowRenderer,
-    DotNetVisualVariable,
-    DotNetColormapInfo,
-    DotNetClassBreaksRenderer,
-    DotNetClassBreaksInfo,
-    DotNetMultidimensionalSubset,
-    DotNetSubsetDimension,
-    DotNetRasterFunction,
-    DotNetRasterFunctionInfo,
-    DotNetAuthoringInfo,
-    DotNetFieldsIndex,
     DotNetUniqueValueRenderer,
-    DotNetRasterShadedReliefRenderer
+    DotNetVectorFieldRenderer,
+    DotNetViewpoint,
+    DotNetVisualVariable,
 } from "./definitions";
 import PictureMarkerSymbol from "@arcgis/core/symbols/PictureMarkerSymbol";
 import Popup from "@arcgis/core/widgets/Popup";
@@ -129,19 +133,11 @@ import ElementExpressionInfo from "@arcgis/core/popup/ElementExpressionInfo";
 import ChartMediaInfoValueSeries from "@arcgis/core/popup/content/support/ChartMediaInfoValueSeries";
 import View from "@arcgis/core/views/View";
 import { buildDotNetGraphic, buildDotNetPoint, buildDotNetSpatialReference } from "./dotNetBuilder";
-import ViewClickEvent = __esri.ViewClickEvent;
-import PopupOpenOptions = __esri.PopupOpenOptions;
-import PopupDockOptions = __esri.PopupDockOptions;
-import ContentProperties = __esri.ContentProperties;
-import PopupTriggerActionEvent = __esri.PopupTriggerActionEvent;
-import FeatureLayerBaseApplyEditsEdits = __esri.FeatureLayerBaseApplyEditsEdits;
-import AttachmentEdit = __esri.AttachmentEdit;
 import FormTemplate from "@arcgis/core/form/FormTemplate";
 import Element from "@arcgis/core/form/elements/Element";
 import GroupElement from "@arcgis/core/form/elements/GroupElement";
 import CodedValueDomain from "@arcgis/core/layers/support/CodedValueDomain";
 import RangeDomain from "@arcgis/core/layers/support/RangeDomain";
-import CodedValue = __esri.CodedValue;
 import TextBoxInput from "@arcgis/core/form/elements/inputs/TextBoxInput";
 import TextAreaInput from "@arcgis/core/form/elements/inputs/TextAreaInput";
 import DateTimePickerInput from "@arcgis/core/form/elements/inputs/DateTimePickerInput";
@@ -149,12 +145,29 @@ import BarcodeScannerInput from "@arcgis/core/form/elements/inputs/BarcodeScanne
 import ComboBoxInput from "@arcgis/core/form/elements/inputs/ComboBoxInput";
 import RadioButtonsInput from "@arcgis/core/form/elements/inputs/RadioButtonsInput";
 import SwitchInput from "@arcgis/core/form/elements/inputs/SwitchInput";
-import * as reactiveUtils from "@arcgis/core/core/reactiveUtils";
 import SearchSource from "@arcgis/core/widgets/Search/SearchSource";
+import FeatureTemplate from "@arcgis/core/layers/support/FeatureTemplate";
+import ViewClickEvent = __esri.ViewClickEvent;
+import PopupOpenOptions = __esri.PopupOpenOptions;
+import PopupDockOptions = __esri.PopupDockOptions;
+import ContentProperties = __esri.ContentProperties;
+import FeatureLayerBaseApplyEditsEdits = __esri.FeatureLayerBaseApplyEditsEdits;
+import AttachmentEdit = __esri.AttachmentEdit;
+import CodedValue = __esri.CodedValue;
 import SearchSourceFilter = __esri.SearchSourceFilter;
 import SearchResult = __esri.SearchResult;
 import SuggestResult = __esri.SuggestResult;
-import FeatureTemplate from "@arcgis/core/layers/support/FeatureTemplate";
+import LabelClass from "@arcgis/core/layers/support/LabelClass";
+import VisualVariable from "@arcgis/core/renderers/visualVariables/VisualVariable";
+import ColorVariable from "@arcgis/core/renderers/visualVariables/ColorVariable";
+import RotationVariable from "@arcgis/core/renderers/visualVariables/RotationVariable";
+import SizeVariable from "@arcgis/core/renderers/visualVariables/SizeVariable";
+import OpacityVariable from "@arcgis/core/renderers/visualVariables/OpacityVariable";
+import FeatureReductionCluster from "@arcgis/core/layers/support/FeatureReductionCluster";
+import FeatureReductionBinning from "@arcgis/core/layers/support/FeatureReductionBinning";
+import FeatureReductionSelection from "@arcgis/core/layers/support/FeatureReductionSelection";
+import AggregateField from "@arcgis/core/layers/support/AggregateField";
+import supportExpressionInfo from "@arcgis/core/layers/support/ExpressionInfo";
 
 
 export function buildJsSpatialReference(dotNetSpatialReference: DotNetSpatialReference): SpatialReference {
@@ -218,7 +231,7 @@ export function buildJsGraphic(graphicObject: any, viewId: string | null)
     graphic.attributes = buildJsAttributes(graphicObject.attributes);
 
     if (hasValue(graphicObject.popupTemplate)) {
-        graphic.popupTemplate = buildJsPopupTemplate(graphicObject.popupTemplate, viewId);
+        graphic.popupTemplate = buildJsPopupTemplate(graphicObject.popupTemplate, viewId) as PopupTemplate;
     }
 
     return graphic;
@@ -257,7 +270,9 @@ export function buildJsAttributes(attributes: any): any {
     }
 }
 
-export function buildJsPopupTemplate(popupTemplateObject: DotNetPopupTemplate, viewId: string | null): PopupTemplate {
+export function buildJsPopupTemplate(popupTemplateObject: DotNetPopupTemplate, viewId: string | null): PopupTemplate | null {
+    if (!hasValue(popupTemplateObject)) return null;
+    
     let content;
     if (hasValue(popupTemplateObject.stringContent)) {
         content = popupTemplateObject.stringContent;
@@ -289,7 +304,7 @@ export function buildJsPopupTemplate(popupTemplateObject: DotNetPopupTemplate, v
     }
 
     if (hasValue(popupTemplateObject.expressionInfos)) {
-        template.expressionInfos = popupTemplateObject.expressionInfos.map(e => buildJsExpressionInfo(e));
+        template.expressionInfos = popupTemplateObject.expressionInfos.map(buildJsExpressionInfo);
     }
 
     if (hasValue(popupTemplateObject.actions)) {
@@ -325,11 +340,9 @@ export function buildJsPopupContent(popupContentObject: DotNetPopupContent): Con
             return fieldsContent;
         case "text":
             let dnTextContent = popupContentObject as DotNetTextPopupContent;
-            let textContent = new TextContent({
+            return new TextContent({
                 text: dnTextContent.text ?? null
             });
-
-            return textContent;
         case "media":
             let dnMediaContent = popupContentObject as DotNetMediaPopupContent;
             let mediaContent = new MediaContent();
@@ -340,12 +353,11 @@ export function buildJsPopupContent(popupContentObject: DotNetPopupContent): Con
             return mediaContent;
         case "attachments":
             let dnAttachmentsContent = popupContentObject as DotNetAttachmentsPopupContent;
-            let attachmentsContent = new AttachmentsContent({
+            return new AttachmentsContent({
                 description: dnAttachmentsContent.description ?? '',
                 title: dnAttachmentsContent.title ?? '',
                 displayType: dnAttachmentsContent.displayType as any ?? "auto",
             });
-            return attachmentsContent;
         case "expression":
             let dnExpressionContent = popupContentObject as DotNetExpressionPopupContent;
             let expressionContent = new ExpressionContent();
@@ -359,9 +371,9 @@ export function buildJsPopupContent(popupContentObject: DotNetPopupContent): Con
 
 export function buildJsFieldInfo(fieldInfoObject: DotNetFieldInfo): FieldInfo {
     let fieldInfo = new FieldInfo({
-        fieldName: fieldInfoObject.fieldName ?? '',
-        label: fieldInfoObject.label ?? '',
-        tooltip: fieldInfoObject.tooltip ?? '',
+        fieldName: fieldInfoObject.fieldName ?? undefined,
+        label: fieldInfoObject.label ?? undefined,
+        tooltip: fieldInfoObject.tooltip ?? undefined,
         stringFieldOption: fieldInfoObject.stringFieldOption as any ?? "text-box",
         visible: fieldInfoObject.visible ?? true,
         isEditable: fieldInfoObject.isEditable ?? false
@@ -400,8 +412,8 @@ export function buildJsSymbol(symbol: DotNetSymbol | null): Symbol | null {
             let jsSimpleMarkerSymbol = new SimpleMarkerSymbol({
                 color: buildJsColor(dnSimpleMarkerSymbol.color) ?? [255, 255, 255, 0.25],
                 path: dnSimpleMarkerSymbol.path ?? undefined,
-                size: dnSimpleMarkerSymbol.size ?? 12,
-                style: dnSimpleMarkerSymbol.style as any ?? "circle",
+                size: dnSimpleMarkerSymbol.size ?? 12, // undefined breaks this
+                style: dnSimpleMarkerSymbol.markerStyle as any ?? dnSimpleMarkerSymbol.style as any ?? 'circle', // undefined breaks this
                 xoffset: dnSimpleMarkerSymbol.xOffset ?? 0,
                 yoffset: dnSimpleMarkerSymbol.yOffset ?? 0
             });
@@ -412,7 +424,7 @@ export function buildJsSymbol(symbol: DotNetSymbol | null): Symbol | null {
             return jsSimpleMarkerSymbol;
         case "simple-line":
             let dnSimpleLineSymbol = symbol as DotNetSimpleLineSymbol;
-            let jsSimpleLineSymbol = new SimpleLineSymbol({
+            return new SimpleLineSymbol({
                 color: buildJsColor(dnSimpleLineSymbol.color) ?? "black",
                 cap: dnSimpleLineSymbol.cap as any ?? "round",
                 join: dnSimpleLineSymbol.join as any ?? "round",
@@ -421,11 +433,9 @@ export function buildJsSymbol(symbol: DotNetSymbol | null): Symbol | null {
                 style: dnSimpleLineSymbol.style as any ?? "solid",
                 width: dnSimpleLineSymbol.width ?? 0.75
             });
-
-            return jsSimpleLineSymbol;
         case "picture-marker":
             let dnPictureMarkerSymbol = symbol as DotNetPictureMarkerSymbol;
-            let jsPictureMarkerSymbol = new PictureMarkerSymbol({
+            return new PictureMarkerSymbol({
                 angle: dnPictureMarkerSymbol.angle ?? 0,
                 xoffset: dnPictureMarkerSymbol.xOffset ?? 0,
                 yoffset: dnPictureMarkerSymbol.yOffset ?? 0,
@@ -433,8 +443,6 @@ export function buildJsSymbol(symbol: DotNetSymbol | null): Symbol | null {
                 width: dnPictureMarkerSymbol.width ?? 12,
                 url: dnPictureMarkerSymbol.url
             });
-
-            return jsPictureMarkerSymbol;
 
         case "simple-fill":
             let dnSimpleFillSymbol = symbol as DotNetSimpleFillSymbol;
@@ -502,8 +510,7 @@ export function buildJsBookmark(dnBookmark: DotNetBookmark): Bookmark | null {
 
     if (!(dnBookmark.thumbnail == null)) {
         //ESRI has this as an "object" with url property
-        let thumbnail = { url: dnBookmark.thumbnail };
-        bookmark.thumbnail = thumbnail;
+        bookmark.thumbnail = {url: dnBookmark.thumbnail};
     }
 
     if (hasValue(dnBookmark.viewpoint)) {
@@ -573,7 +580,10 @@ export function buildJsRenderer(dotNetRenderer: any): Renderer | null {
     switch (dotNetRenderer.type) {
         case 'simple':
             let simpleRenderer = new SimpleRenderer();
-            simpleRenderer.visualVariables = dotNetRenderer.visualVariables;
+            simpleRenderer.label = dotNetRenderer.label ?? undefined;
+            if (hasValue(dotNetRenderer.visualVariables) && dotNetRenderer.visualVariables.length > 0) {
+                simpleRenderer.visualVariables = dotNetRenderer.visualVariables.map(buildVisualVariable);
+            }
             simpleRenderer.symbol = buildJsSymbol(dotNetSymbol) as Symbol;
             simpleRenderer.authoringInfo = dotNetRenderer.authoringInfo;
             return simpleRenderer;
@@ -818,6 +828,95 @@ export function buildJsFlowRenderer(dotNetFlowRenderer: DotNetFlowRenderer): Flo
         dotNetFlowRenderer.visualVariables = flowRenderer.visualVariables;
     }
     return flowRenderer;
+}
+
+export function buildJsLabelClass(dotNetLabel: any): LabelClass | null {
+    if (!hasValue(dotNetLabel)) return null;
+    let labelClass = new LabelClass();
+    labelClass.labelExpression = dotNetLabel.labelExpression ?? undefined;
+    labelClass.labelPlacement = dotNetLabel.labelPlacement ?? undefined;
+    labelClass.labelPosition = dotNetLabel.labelPosition ?? undefined;
+    labelClass.maxScale = dotNetLabel.maxScale ?? undefined;
+    labelClass.minScale = dotNetLabel.minScale ?? undefined;
+    labelClass.repeatLabel = dotNetLabel.repeatLabel ?? undefined;
+    labelClass.repeatLabelDistance = dotNetLabel.repeatLabelDistance ?? undefined;
+    labelClass.symbol = buildJsSymbol(dotNetLabel.symbol) as any ?? undefined;
+    labelClass.useCodedValues = dotNetLabel.useCodedValues ?? undefined;
+    labelClass.where = dotNetLabel.where ?? undefined;
+    labelClass.deconflictionStrategy = dotNetLabel.deconflictionStrategy as any ?? undefined;
+    labelClass.labelExpressionInfo = buildJsLabelExpressionInfo(dotNetLabel.labelExpressionInfo) ?? undefined;
+    return labelClass;
+}
+
+export function buildJsLabelExpressionInfo(dotNetLabelExpressionInfo: any): any {
+    if (!hasValue(dotNetLabelExpressionInfo)) return null;
+    return {
+        expression: dotNetLabelExpressionInfo.expression ?? undefined,
+        title: dotNetLabelExpressionInfo.title ?? undefined
+    };
+}
+
+export function buildVisualVariable(dnVV: any): VisualVariable | null {
+    if (!hasValue(dnVV)) return null;
+    let variable = {
+        type: dnVV.type,
+        field: dnVV.field ?? undefined,
+        legendOptions: dnVV.legendOptions ?? undefined,
+        valueExpression: dnVV.valueExpression ?? undefined,
+        valueExpressionTitle: dnVV.valueExpressionTitle ?? undefined
+    } as VisualVariable;
+    switch (dnVV.type) {
+        case "color":
+            let colorVariable = variable as ColorVariable;
+            colorVariable.normalizationField = dnVV.normalizationField ?? undefined;
+            colorVariable.stops = dnVV.stops.map((stop: any) => {
+                return {
+                    color: buildJsColor(stop.color) ?? undefined,
+                    label: stop.label ?? undefined,
+                    value: stop.value ?? undefined
+                }
+            });
+            
+            return colorVariable;
+        case "rotation":
+            let rotationVariable = variable as RotationVariable;
+            rotationVariable.axis = dnVV.axis ?? undefined;
+            rotationVariable.rotationType = dnVV.rotationType ?? undefined;
+            return rotationVariable;
+        case "size":
+            let sizeVariable = variable as SizeVariable;
+            sizeVariable.axis = dnVV.axis ?? undefined;
+            sizeVariable.maxDataValue = dnVV.maxDataValue ?? undefined;
+            sizeVariable.minDataValue = dnVV.minDataValue ?? undefined;
+            sizeVariable.minSize = dnVV.minSize ?? undefined;
+            sizeVariable.maxSize = dnVV.maxSize ?? undefined;
+            sizeVariable.normalizationField = dnVV.normalizationField ?? undefined;
+            sizeVariable.stops = dnVV.stops.map((stop: any) => {
+                return {
+                    label: stop.label ?? undefined,
+                    size: stop.size ?? undefined,
+                    value: stop.value ?? undefined
+                }
+            });
+            sizeVariable.target = dnVV.target ?? undefined;
+            sizeVariable.useSymbolValue = dnVV.useSymbolValue ?? undefined;
+            sizeVariable.valueRepresentation = dnVV.valueRepresentation ?? undefined;
+            sizeVariable.valueUnit = dnVV.valueUnit ?? undefined;
+            return sizeVariable;
+        case "opacity":
+            let opacityVariable = variable as OpacityVariable;
+            opacityVariable.stops = dnVV.stops.map((stop: any) => {
+                return {
+                    label: stop.label ?? undefined,
+                    opacity: stop.opacity ?? undefined,
+                    value: stop.value ?? undefined
+                }
+            });
+            opacityVariable.normalizationField = dnVV.normalizationField ?? undefined;
+            return opacityVariable;
+    }
+    
+    return null;
 }
 
 export function buildJsRasterStretchRenderer(dotNetRasterStretchRenderer: DotNetRasterStretchRenderer): RasterStretchRenderer | null {
@@ -1312,10 +1411,10 @@ export function buildJsFormTemplate(dotNetFormTemplate: any): FormTemplate {
         preserveFieldValuesWhenHidden: dotNetFormTemplate.preserveFieldValuesWhenHidden ?? undefined
     });
     if (hasValue(dotNetFormTemplate?.elements)) {
-        formTemplate.elements = dotNetFormTemplate.elements.map(e => buildJsFormTemplateElement(e));
+        formTemplate.elements = dotNetFormTemplate.elements.map(buildJsFormTemplateElement);
     }
     if (hasValue(dotNetFormTemplate.expressionInfos)) {
-        formTemplate.expressionInfos = dotNetFormTemplate.expressionInfos.map(e => buildJsExpressionInfo(e));
+        formTemplate.expressionInfos = dotNetFormTemplate.expressionInfos.map(buildJsExpressionInfo);
     }
     return formTemplate;
 }
@@ -1729,4 +1828,59 @@ function buildJsSearchSourceFilter(dotNetFilter: any): SearchSourceFilter | null
     };
 
     return filter;
+}
+
+export function buildJsFeatureReduction(dnFeatureReduction: any, viewId: string | null) : any {
+    if (!hasValue(dnFeatureReduction)) return null;
+    switch (dnFeatureReduction.type) {
+        case 'cluster':
+            return {
+                type: 'cluster',
+                clusterMaxSize: dnFeatureReduction.clusterMaxSize ?? undefined,
+                clusterMinSize: dnFeatureReduction.clusterMinSize ?? undefined,
+                clusterRadius: dnFeatureReduction.clusterRadius ?? undefined,
+                fields: dnFeatureReduction.fields?.map(buildJsAggregateField) ?? undefined,
+                labelingInfo: dnFeatureReduction.labelingInfo?.map(buildJsLabelClass) ?? undefined,
+                labelsVisible: dnFeatureReduction.labelsVisible ?? undefined,
+                maxScale: dnFeatureReduction.maxScale ?? undefined,
+                popupEnabled: dnFeatureReduction.popupEnabled ?? true,
+                popupTemplate: buildJsPopupTemplate(dnFeatureReduction.popupTemplate, viewId) ?? undefined,
+                renderer: buildJsRenderer(dnFeatureReduction.renderer) ?? undefined,
+                symbol: buildJsSymbol(dnFeatureReduction.symbol) ?? undefined,
+            } as FeatureReductionCluster;
+        case 'binning':
+            return {
+                type: 'binning',
+                fields: dnFeatureReduction.fields?.map(buildJsAggregateField) ?? undefined,
+                fixedBinLevel: dnFeatureReduction.fixedBinLevel ?? undefined,
+                labelingInfo: dnFeatureReduction.labelingInfo?.map(buildJsLabelClass) ?? undefined,
+                labelsVisible: dnFeatureReduction.labelsVisible ?? undefined,
+                maxScale: dnFeatureReduction.maxScale ?? undefined,
+                popupEnabled: dnFeatureReduction.popupEnabled ?? true,
+                popupTemplate: buildJsPopupTemplate(dnFeatureReduction.popupTemplate, viewId) ?? undefined,
+                renderer: buildJsRenderer(dnFeatureReduction.renderer) ?? undefined
+            } as FeatureReductionBinning;
+        case 'selection':
+            return new FeatureReductionSelection();
+    }
+}
+
+function buildJsAggregateField(dnAggregateField: any): AggregateField {
+    return new AggregateField({
+        alias: dnAggregateField.alias ?? undefined,
+        isAutoGenerated: dnAggregateField.isAutoGenerated ?? undefined,
+        name: dnAggregateField.name ?? undefined,
+        onStatisticExpression: buildJsSupportExpressionInfo(dnAggregateField.onStatisticExpression) ?? undefined,
+        onStatisticField: dnAggregateField.onStatisticField ?? undefined,
+        statisticType: dnAggregateField.statisticType ?? undefined
+    });
+}
+
+function buildJsSupportExpressionInfo(dnEI: any): supportExpressionInfo | null {
+    if (!hasValue(dnEI)) return null;
+    return {
+        expression: dnEI.expression ?? undefined,
+        returnType: dnEI.returnType ?? undefined,
+        title: dnEI.title ?? undefined
+    } as supportExpressionInfo;
 }

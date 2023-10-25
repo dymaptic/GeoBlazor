@@ -1,5 +1,4 @@
-﻿@using dymaptic.GeoBlazor.Core.Components.Widgets.LayerList
-@inherits TestRunnerBase
+﻿@inherits TestRunnerBase
 
 @{
     base.BuildRenderTree(__builder);
@@ -99,23 +98,6 @@
 
         await WaitForMapToRender();
         await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Compass");
-    }
-
-    [TestMethod]
-    public async Task TestCanRenderExpandWidget(Action renderHandler)
-    {
-        AddMapRenderFragment(
-            @<MapView class="map-view" OnViewRendered="renderHandler">
-
-                <Map ArcGISDefaultBasemap="arcgis-imagery" />
-                <ExpandWidget>
-                    <LayerListWidget />
-                </ExpandWidget>
-
-            </MapView>);
-
-        await WaitForMapToRender();
-        await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Expand");
     }
 
     [TestMethod]
@@ -252,7 +234,7 @@
             @<MapView class="map-view" OnViewRendered="renderHandler">
 
                 <Map ArcGISDefaultBasemap="arcgis-imagery" />
-                <SearchWidget @ref="                                    widget">
+                <SearchWidget @ref="widget">
                     <SearchSource GetResultsHandler="GetResultsHandler" />
                 </SearchWidget>
 
@@ -282,7 +264,7 @@
             @<MapView class="map-view" OnViewRendered="renderHandler">
 
                 <Map ArcGISDefaultBasemap="arcgis-imagery" />
-                <SearchWidget @ref="                                    widget">
+                <SearchWidget @ref="widget">
                     <SearchSource GetSuggestionsHandler="GetSuggestionsHandler" />
                 </SearchWidget>
 
@@ -310,7 +292,7 @@
             @<MapView class="map-view" OnViewRendered="renderHandler">
 
                 <Map ArcGISDefaultBasemap="arcgis-imagery" />
-                <SearchWidget @ref="                                    widget" />
+                <SearchWidget @ref="widget" />
 
             </MapView>);
 
@@ -333,9 +315,9 @@
         Assert.IsNotNull(activeSource);
         int activeSourceIndex = await widget.GetActiveSourceIndex();
         Assert.AreEqual(0, activeSourceIndex);
-        IReadOnlyList<SearchSource>? allSources = await widget.GetAllSources();
+        IReadOnlyList<SearchSource> allSources = await widget.GetAllSources();
         Assert.AreEqual(1, allSources.Count);
-        IReadOnlyList<SearchSource>? defaultSources = await widget.GetDefaultSources();
+        IReadOnlyList<SearchSource> defaultSources = await widget.GetDefaultSources();
         Assert.AreEqual(1, defaultSources.Count);
         Graphic resultGraphic = await widget.GetResultGraphic();
         Assert.IsNotNull(resultGraphic);
@@ -343,4 +325,75 @@
         Assert.IsNotNull(selectedResult);
     }
 
+    [TestMethod]
+    public async Task TestCanRenderOutsideOfMapViewWithViewRef(Action renderHandler)
+    {
+        HomeWidget? homeWidget = null;
+        MapView? mapView = null;
+        bool widgetCreated = false;
+        void OnWidgetCreated()
+        {
+            widgetCreated = true;
+        }
+        AddMapRenderFragment(
+            @<div>
+                <MapView @ref="mapView" class="map-view" OnViewRendered="renderHandler">
+                    <Map ArcGISDefaultBasemap="arcgis-imagery" />
+                </MapView>
+                <HomeWidget @ref="homeWidget" MapView="@mapView"
+                            OnWidgetCreated="OnWidgetCreated"/>
+            </div>);
+
+        await WaitForMapToRender();
+        while (!widgetCreated)
+        {
+            await Task.Delay(100);
+        }
+        await AssertJavaScript("elementExists", args: $"widget-container-{homeWidget!.Id}");
+    }
+    
+    [TestMethod]
+    public async Task TestRenderOutsideOfMapViewWithoutReferenceThrows(Action renderHandler)
+    {
+        HomeWidget? homeWidget = null;
+        MapView? mapView = null;
+
+        AddMapRenderFragment(
+            @<div>
+                <MapView @ref="mapView" class="map-view" OnViewRendered="renderHandler">
+                    <Map ArcGISDefaultBasemap="arcgis-imagery" />
+                </MapView>
+                <HomeWidget @ref="homeWidget" />
+            </div>);
+
+        await Assert.ThrowsExceptionAsync<MissingMapViewReferenceException>(async () => await WaitForMapToRender());
+    }
+    
+    [TestMethod]
+    public async Task TestCanRenderOutsideOfMapViewWithContainerId(Action renderHandler)
+    {
+        HomeWidget? homeWidget = null;
+        MapView? mapView = null;
+        bool widgetCreated = false;
+        void OnWidgetCreated()
+        {
+            widgetCreated = true;
+        }
+        AddMapRenderFragment(
+            @<div>
+                <div id="external-container" />
+                <MapView @ref="mapView" class="map-view" OnViewRendered="renderHandler">
+                    <Map ArcGISDefaultBasemap="arcgis-imagery" />
+                    <HomeWidget @ref="homeWidget" ContainerId="external-container"
+                                OnWidgetCreated="OnWidgetCreated" />
+                </MapView>
+            </div>);
+
+        await WaitForMapToRender();
+        while (!widgetCreated)
+        {
+            await Task.Delay(100);
+        }
+        await AssertJavaScript("elementExists", args: $"widget-container-{homeWidget!.Id}");
+    }
 }

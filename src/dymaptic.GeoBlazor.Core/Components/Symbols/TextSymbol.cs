@@ -159,7 +159,7 @@ public class TextSymbol : Symbol
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public int? HaloSize { get; set; }
+    public double? HaloSize { get; set; }
     
     /// <summary>
     ///     Adjusts the horizontal alignment of the text in multi-lines. Default value is Center.

@@ -1,5 +1,7 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
+using dymaptic.GeoBlazor.Core.Components.Popups;
 using dymaptic.GeoBlazor.Core.Components.Renderers;
+using dymaptic.GeoBlazor.Core.Interfaces;
 using Microsoft.AspNetCore.Components;
 using System.Text.Json.Serialization;
 
@@ -15,7 +17,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 /// <example>
 ///     <a target="_blank" href="https://samples.geoblazor.com/pro-projection">Sample - Display Projection</a>
 /// </example>
-public class GeoJSONLayer : Layer
+public class GeoJSONLayer : Layer, IFeatureReductionLayer
 {
     /// <summary>
     ///     Parameterless constructor for using as a razor component
@@ -88,6 +90,13 @@ public class GeoJSONLayer : Layer
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Renderer? Renderer { get; set; }
+    
+    /// <summary>
+    ///     The popup template for the layer. When set on the layer, the popupTemplate allows users to access attributes and display their values in the view's popup when a feature is selected using text and/or charts. See the PopupTemplate sample for an example of how PopupTemplate interacts with a FeatureLayer.
+    ///     A default popup template is automatically used if no popupTemplate has been defined when Popup.defaultPopupTemplateEnabled is set to true.
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public PopupTemplate? PopupTemplate { get; set; }
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
@@ -106,6 +115,14 @@ public class GeoJSONLayer : Layer
                 if (!spatialReference.Equals(SpatialReference))
                 {
                     SpatialReference = spatialReference;
+                    LayerChanged = true;
+                }
+
+                break;
+            case PopupTemplate popupTemplate:
+                if (!popupTemplate.Equals(PopupTemplate))
+                {
+                    PopupTemplate = popupTemplate;
                     LayerChanged = true;
                 }
 
@@ -132,10 +149,23 @@ public class GeoJSONLayer : Layer
                 LayerChanged = true;
 
                 break;
+            case PopupTemplate _:
+                PopupTemplate = null;
+                LayerChanged = true;
+
+                break;
             default:
                 await base.UnregisterChildComponent(child);
 
                 break;
         }
+    }
+
+    internal override void ValidateRequiredChildren()
+    {
+        Renderer?.ValidateRequiredChildren();
+        PopupTemplate?.ValidateRequiredChildren();
+        SpatialReference?.ValidateRequiredChildren();
+        base.ValidateRequiredChildren();
     }
 }
