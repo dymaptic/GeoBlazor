@@ -2430,6 +2430,9 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
 
             if (hasValue(layerObject.renderer)) {
                 switch (layerObject.renderer) {
+                    case 'raster-stretch':
+                        imageryLayer.renderer = buildJsRasterStretchRenderer(layerObject.renderer) as RasterStretchRenderer;
+                        break;
                     case 'class-breaks-renderer':
                         imageryLayer.renderer = buildJsClassBreaksRenderer(layerObject.renderer) as ClassBreaksRenderer;
                         break;
