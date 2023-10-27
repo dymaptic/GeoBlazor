@@ -2471,9 +2471,6 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             if (hasValue(layerObject.mosaicRule)) {
                 imageryLayer.mosaicRule = layerObject.mosaicRule;
             }
-            if (hasValue(layerObject.multidimensionalInfo)) {
-                imageryLayer.multidimensionalInfo = layerObject.multidimensionalInfo;
-            }
             if (hasValue(layerObject.multidimensionsionalSubset)) {
                 imageryLayer.multidimensionalSubset = layerObject.multidimensionsionalSubset;
             }
@@ -2483,6 +2480,9 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             if (hasValue(layerObject.pixelFilter)) {
                 imageryLayer.pixelFilter = layerObject.pixelFilter;
             }
+            if (hasValue(layerObject.popupTemplate)) {
+                imageryLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId ?? null) as PopupTemplate;
+            }
             if (hasValue(layerObject.rasterFields)) {
                 imageryLayer.rasterFields = layerObject.rasterFields;
             }
@@ -2491,9 +2491,6 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             }
             if (hasValue(layerObject.rasterFunctionInfos)) {
                 imageryLayer.rasterFunctionInfos = layerObject.rasterFunctionInfos;
-            }
-            if (hasValue(layerObject.serviceRasterInfo)) {
-                imageryLayer.serviceRasterInfo = layerObject.serviceRasterInfo;
             }
             if (hasValue(layerObject.sourceJSON)) {
                 imageryLayer.sourceJSON = layerObject.sourceJSON;
@@ -2511,7 +2508,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             copyValuesIfExists(layerObject, 'bandIds', 'blendMode', 'compressionQuality', 'compressionTolerance',
                 'copyright', 'definitionExpression', 'effect', 'format', 'hasMultidimensions', 'imageMaxHeight', 'imageMaxWidth',
                 'interpolation', 'legendEnabled', 'maxScale', 'minScale', 'multidimensionalInfo', 'noDataInterpretation',
-                'objectIdField', 'pixelType', 'popupEnabled', 'refreshInterval', 'useViewTime', 'version')
+                'objectIdField', 'persistenceEnabled', 'pixelType', 'popupEnabled', 'refreshInterval', 'serviceRasterInfo', 'useViewTime', 'version')
 
             newLayer = imageryLayer;
             break;

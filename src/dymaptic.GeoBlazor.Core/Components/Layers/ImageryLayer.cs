@@ -44,12 +44,6 @@ public class ImageryLayer : Layer
     public ImageryLayer(string? url = null, PortalItem? portalItem = null, ImageryRenderer? renderer = null
         ) 
     {
-
-        if (url is null && portalItem is null)
-        {
-            throw new MissingRequiredOptionsChildElementException(nameof(ImageryLayer),
-                new[] { nameof(Url), nameof(PortalItem) });
-        }
 #pragma warning disable BL0005
         Renderer = renderer;
         Url = url;
