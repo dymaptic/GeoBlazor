@@ -378,7 +378,7 @@ export function buildJsSymbol(symbol: DotNetSymbol | null): Symbol | null {
             let jsSimpleMarkerSymbol = new SimpleMarkerSymbol({
                 color: buildJsColor(dnSimpleMarkerSymbol.color) ?? [255, 255, 255, 0.25],
                 path: dnSimpleMarkerSymbol.path ?? undefined,
-                size: dnSimpleMarkerSymbol.size ?? undefined,
+                size: dnSimpleMarkerSymbol.size ?? 12, // undefined breaks this
                 style: dnSimpleMarkerSymbol.markerStyle as any ?? dnSimpleMarkerSymbol.style as any ?? 'circle', // undefined breaks this
                 xoffset: dnSimpleMarkerSymbol.xOffset ?? 0,
                 yoffset: dnSimpleMarkerSymbol.yOffset ?? 0

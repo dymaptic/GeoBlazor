@@ -1,6 +1,7 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
 using dymaptic.GeoBlazor.Core.Components.Popups;
 using dymaptic.GeoBlazor.Core.Components.Renderers;
+using dymaptic.GeoBlazor.Core.Interfaces;
 using Microsoft.AspNetCore.Components;
 using System.Text.Json.Serialization;
 
@@ -16,7 +17,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 /// <example>
 ///     <a target="_blank" href="https://samples.geoblazor.com/pro-projection">Sample - Display Projection</a>
 /// </example>
-public class GeoJSONLayer : Layer
+public class GeoJSONLayer : Layer, IFeatureReductionLayer
 {
     /// <summary>
     ///     Parameterless constructor for using as a razor component

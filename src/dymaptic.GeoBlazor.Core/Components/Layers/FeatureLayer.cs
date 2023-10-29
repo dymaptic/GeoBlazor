@@ -3,6 +3,7 @@ using dymaptic.GeoBlazor.Core.Components.Popups;
 using dymaptic.GeoBlazor.Core.Components.Renderers;
 using dymaptic.GeoBlazor.Core.Components.Widgets;
 using dymaptic.GeoBlazor.Core.Exceptions;
+using dymaptic.GeoBlazor.Core.Interfaces;
 using dymaptic.GeoBlazor.Core.Objects;
 using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
@@ -23,7 +24,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 /// <example>
 ///     <a target="_blank" href="https://samples.geoblazor.com/feature-layers">Sample - Feature Layers</a>
 /// </example>
-public class FeatureLayer : Layer
+public class FeatureLayer : Layer, IFeatureReductionLayer
 {
     /// <summary>
     ///     Constructor for use as a razor component
@@ -391,7 +392,6 @@ public class FeatureLayer : Layer
     /// <summary>
     /// Creates a deep clone of the javascript FeatureLayer object.
     /// </summary>
-    /// <returns></returns>
     public async Task<FeatureLayer> Clone()
     {
         return await JsLayerReference!.InvokeAsync<FeatureLayer>("clone");

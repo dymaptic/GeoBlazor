@@ -348,6 +348,7 @@ public class GraphicsLayer : Layer
     /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        await base.OnAfterRenderAsync(firstRender);
         if (!firstRender && _graphicsToRender.Any() && !_rendering)
         {
             _rendering = true;
