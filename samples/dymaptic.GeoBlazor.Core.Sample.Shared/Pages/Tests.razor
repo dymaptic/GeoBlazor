@@ -19,7 +19,7 @@
         <SpatialReference Wkid="102100" />
     </Extent>
     <Map ArcGISDefaultBasemap="arcgis-topographic">
-        <GraphicsLayer @ref="_refreshableGraphicsLayer">
+        <GraphicsLayer>
             @for (var i = 0; i < _graphicsCount; i++)
             {
                 var index = i;
@@ -193,5 +193,4 @@
     private readonly List<double> _longs = new() { 11.967162, 11.888650, 7.274721, 29.437639 };
     private MapView? _view3;
     private int _graphicsCount = 1;
-    private GraphicsLayer? _refreshableGraphicsLayer;
 }

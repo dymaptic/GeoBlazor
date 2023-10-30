@@ -426,11 +426,25 @@ public class FeatureEffect
 public class Effect
 {
     /// <summary>
-    /// The scale of the view for the effect to take place. Use only when setting a scale dependent effect.
+    ///     Constructor
+    /// </summary>
+    /// <param name="value">
+    ///     The effect to be applied to a layer or layerView at the corresponding scale. Use only when setting a scale dependent effect.
+    /// </param>
+    /// <param name="scale">
+    ///     The scale of the view for the effect to take place. Use only when setting a scale dependent effect.
+    /// </param>
+    public Effect(string value, double? scale = null)
+    {
+        Value = value;
+    }
+    
+    /// <summary>
+    ///     The scale of the view for the effect to take place. Use only when setting a scale dependent effect.
     /// </summary>
     public double? Scale { get; set; }
     /// <summary>
-    /// The effect to be applied to a layer or layerView at the corresponding scale. Use only when setting a scale dependent effect.
+    ///     The effect to be applied to a layer or layerView at the corresponding scale. Use only when setting a scale dependent effect.
     /// </summary>
     public string? Value { get; set; }
 }

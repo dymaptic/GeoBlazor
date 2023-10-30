@@ -840,10 +840,6 @@ export function buildDotNetLod(lod: LOD) {
     }
 }
 
-export function hasValue(prop: any): boolean {
-    return prop !== undefined && prop !== null;
-}
-
 export function buildDotNetSearchSource(jsSource: LayerSearchSource | LocatorSearchSource): any {
     let dnSource: any =  {
         autoNavigate: jsSource.autoNavigate,

@@ -70,6 +70,7 @@ public enum RendererType
 {
 #pragma warning disable CS1591
     Simple,
-    UniqueValue
+    UniqueValue,
+    PieChart
 #pragma warning restore CS1591
 }

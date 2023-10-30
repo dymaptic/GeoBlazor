@@ -50,7 +50,7 @@
                 </GeoJSONLayer>
                 <GraphicsLayer>
                     <Graphic @ref="_graphic1">
-                        <Point @ref="_point1" Latitude="_startingLat" Longitude="_startingLong" />
+                        <Point Latitude="_startingLat" Longitude="_startingLong" />
                         <SimpleMarkerSymbol Color="@(new MapColor(81, 46, 132))" />
                     </Graphic>
                 </GraphicsLayer>
@@ -80,7 +80,7 @@
                 </GeoJSONLayer>
                 <GraphicsLayer>
                     <Graphic @ref="_graphic1">
-                        <Point @ref="_point1" Latitude="_startingLat" Longitude="_startingLong" />
+                        <Point Latitude="_startingLat" Longitude="_startingLong" />
                         <SimpleMarkerSymbol Color="@(new MapColor(81, 46, 132))" />
                     </Graphic>
                 </GraphicsLayer>
@@ -111,7 +111,6 @@ else
 
     private MapView? _view1;
     private MapView? _view2;
-    private Point? _point1;
     private Graphic? _graphic1;
     private double StartingLat
     {

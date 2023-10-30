@@ -20,7 +20,7 @@
          Class="map-view"
          Style="background-color: lightblue;">
     <SpatialReference Wkid="@Wkid" />
-    <Graphic @ref="ProjectionBoundary">
+    <Graphic>
         <SimpleFillSymbol Color="@(new MapColor("transparent"))">
             <Outline Width="0.5" Color="@(new MapColor(50, 50, 50, 0.75))" LineStyle="LineStyle.Dash" />
         </SimpleFillSymbol>
@@ -40,7 +40,7 @@
             </SimpleRenderer>
         </GeoJSONLayer>
     </Map>
-    <CustomOverlay @ref="Overlay" Position="OverlayPosition.TopRight">
+    <CustomOverlay Position="OverlayPosition.TopRight">
         <select id="wkid" class="esri-widget esri-select" @bind="Wkid">
             <option value="3857" disabled>Select a projection</option>
             <optgroup label="Equidistant (maintain length)">
@@ -79,9 +79,7 @@
 {
     private Symbol? PolySym { get; set; }
     private Symbol? PointSym { get; set; }
-    private Graphic? ProjectionBoundary { get; set; }
     private MapView? View { get; set; }
-    private CustomOverlay? Overlay { get; set; }
 
     private int Wkid
     {

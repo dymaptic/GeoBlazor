@@ -155,6 +155,12 @@ export function setAssetsPath(path: string) {
 export function getObjectReference(objectRef: any) {
     if (!hasValue(objectRef)) return objectRef;
     try {
+        // check the class name first, as some esri types fail the `instanceof` check
+        switch (objectRef?.__proto__.declaredClass) {
+            case 'esri.views.2d.layers.FeatureLayerView2D':
+                return new FeatureLayerViewWrapper(objectRef);
+        }
+        
         if (objectRef instanceof Layer) {
             if (objectRef instanceof FeatureLayer) {
                 return new FeatureLayerWrapper(objectRef);
@@ -174,14 +180,17 @@ export function getObjectReference(objectRef: any) {
         if (objectRef instanceof Search) {
             return new SearchWidgetWrapper(objectRef);
         }
-        if (objectRef instanceof FeatureLayerView) {
-            return new FeatureLayerViewWrapper(objectRef);
-        }
         return objectRef;
     }
     catch {
-        return objectRef;
+        try{
+            
+        }
+        catch {
+            // do nothing
+        }
     }
+    return objectRef;
 }
 
 export function getSerializedDotNetObject(id: string): any {
@@ -2170,6 +2179,10 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             if (hasValue(layerObject.proProperties.FeatureReduction)) {
                 (newLayer as FeatureLayer).featureReduction = buildJsFeatureReduction(layerObject.proProperties.FeatureReduction, viewId!);
             }
+            
+            if (hasValue(layerObject.effect)) {
+                featureLayer.effect = buildJsEffect(layerObject.effect);
+            }
             break;
         case 'vector-tile':
             if (hasValue(layerObject.portalItem)) {
@@ -2532,7 +2545,8 @@ function buildDotNetListItem(item: ListItem): DotNetListItem | null {
     } as DotNetListItem;
 }
 
-function copyValuesIfExists(originalObject: any, newObject: any, ...params: Array<string>) {
+// this function should only be used for simple types that are guaranteed to succeed in serialization and conversion
+export function copyValuesIfExists(originalObject: any, newObject: any, ...params: Array<string>) {
     params.forEach(p => {
         if (hasValue(originalObject[p]) && originalObject[p] !== newObject[p]) {
             newObject[p] = originalObject[p];

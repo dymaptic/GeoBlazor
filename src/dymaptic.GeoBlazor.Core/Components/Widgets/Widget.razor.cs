@@ -68,6 +68,9 @@ public abstract partial class Widget : MapComponent
     /// </summary>
     public DotNetObjectReference<Widget> DotNetWidgetReference => DotNetObjectReference.Create(this);
 
+    /// <summary>
+    ///     Indicates if the widget is hidden. For internal use only.
+    /// </summary>
     protected virtual bool Hidden => false;
     
     /// <summary>
@@ -158,6 +161,9 @@ internal class WidgetConverter : JsonConverter<Widget>
 /// </summary>
 public class MissingMapViewReferenceException: Exception
 {
+    /// <summary>
+    ///    Exception raised if an external component is missing a required reference to a <see cref="MapView"/>
+    /// </summary>
     public MissingMapViewReferenceException(string message) : base(message)
     {
     }

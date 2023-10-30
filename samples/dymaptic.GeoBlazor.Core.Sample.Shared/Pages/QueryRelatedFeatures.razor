@@ -10,8 +10,7 @@
     This sample demonstrates querying related features on a layer that lives on a server. On the click action, the feature layer is queried to find which features were clicked, and then the results are used to update the population table.
 </p>
 
-<MapView @ref="_mapView"
-         Class="map-view"
+<MapView Class="map-view"
          OnClick="OnClick"
          Longitude="-98.5795" Latitude="39.8282"
          Zoom="3">
@@ -127,7 +126,6 @@
         _relatedFeatures = await _featureLayer.QueryRelatedFeatures(relationshipQuery);
     }
 
-    private MapView? _mapView;
     private FeatureLayer? _featureLayer;
     private HighlightHandle? _highlight;
     Dictionary<int, FeatureSet?>? _relatedFeatures;
