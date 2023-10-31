@@ -2157,6 +2157,8 @@ public partial class MapView : MapComponent
 
         if (firstRender)
         {
+            bool isRegistered = await LicenseValidator.ValidateLicense();
+            
             ViewJsModule = await GetArcGisJsInterop();
 
             JsModule = ViewJsModule;
