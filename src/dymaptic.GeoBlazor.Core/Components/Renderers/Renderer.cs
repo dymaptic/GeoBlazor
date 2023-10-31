@@ -1,5 +1,6 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Layers;
 using dymaptic.GeoBlazor.Core.Serialization;
+using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -45,7 +46,26 @@ internal class RendererConverter : JsonConverter<Renderer>
                     return JsonSerializer.Deserialize<SimpleRenderer>(ref cloneReader, newOptions);
                 case "unique-value":
                     return JsonSerializer.Deserialize<UniqueValueRenderer>(ref cloneReader, newOptions);
-                
+                case null:
+                    return null;
+                default:
+                    // try to turn the typeValue into a Type
+                    try
+                    {
+                        string typeName = typeof(RendererType).GetMember(typeValue.ToString()!).First()
+                            .GetCustomAttribute<LookupTypeAttribute>()!.TypeName;
+                        Type? type = Type.GetType(typeName);
+                        if (type is not null)
+                        {
+                            return JsonSerializer.Deserialize(ref cloneReader, type, newOptions) as Renderer;
+                        }
+                    }
+                    catch
+                    {
+                        // ignored
+                    }
+
+                    break;
             }
         }
 
@@ -71,6 +91,17 @@ public enum RendererType
 #pragma warning disable CS1591
     Simple,
     UniqueValue,
+    [LookupType("dymaptic.GeoBlazor.Pro.Components.Renderers.PieChartRenderer")]
     PieChart
 #pragma warning restore CS1591
+}
+
+public class LookupTypeAttribute : Attribute
+{
+    public LookupTypeAttribute(string typeName)
+    {
+        TypeName = typeName;
+    }
+
+    public string TypeName { get; set; }
 }
