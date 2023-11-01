@@ -438,6 +438,14 @@ public class Effect
     {
         Value = value;
     }
+
+    /// <summary>
+    ///     Constructor
+    /// </summary>
+    public Effect()
+    {
+        
+    }
     
     /// <summary>
     ///     The scale of the view for the effect to take place. Use only when setting a scale dependent effect.

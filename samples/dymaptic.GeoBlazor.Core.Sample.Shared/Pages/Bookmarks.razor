@@ -45,7 +45,7 @@
                 {
                     Where = $"Name = '{hurricaneName!.ToUpper()}'"
                 },
-                ExcludedEffect = new() { new Effect() { Value = "grayscale(100%) opacity(30%)" } }
+                ExcludedEffect = new() { new Effect("grayscale(100%) opacity(30%)") }
             };
         _ = _layerView.SetFeatureEffect(featureEffect);
     }

@@ -520,12 +520,13 @@ export function buildJsRenderer(dotNetRenderer: any): Renderer | null {
     switch (dotNetRenderer.type) {
         case 'simple':
             let simpleRenderer = new SimpleRenderer();
-            simpleRenderer.label = dotNetRenderer.label ?? undefined;
             if (hasValue(dotNetRenderer.visualVariables) && dotNetRenderer.visualVariables.length > 0) {
                 simpleRenderer.visualVariables = dotNetRenderer.visualVariables.map(buildVisualVariable);
             }
-            simpleRenderer.symbol = buildJsSymbol(dotNetSymbol) as Symbol;
-            simpleRenderer.authoringInfo = dotNetRenderer.authoringInfo;
+            if (hasValue(dotNetSymbol)) {
+                simpleRenderer.symbol = buildJsSymbol(dotNetSymbol) as Symbol;
+            }
+            copyValuesIfExists(dotNetRenderer, simpleRenderer, 'label', 'authoringInfo');
             return simpleRenderer;
         case 'pie-chart':
             let pieChartRenderer = new PieChartRenderer();
@@ -654,69 +655,62 @@ export function buildJsLabelClass(dotNetLabel: any): LabelClass | null {
 
 export function buildJsLabelExpressionInfo(dotNetLabelExpressionInfo: any): any {
     if (!hasValue(dotNetLabelExpressionInfo)) return null;
-    return {
-        expression: dotNetLabelExpressionInfo.expression ?? undefined,
-        title: dotNetLabelExpressionInfo.title ?? undefined
-    };
+    let jsLabelExpressionInfo = {};
+    copyValuesIfExists(dotNetLabelExpressionInfo, jsLabelExpressionInfo, 'expression', 'title');
+    return jsLabelExpressionInfo;
 }
 
 export function buildVisualVariable(dnVV: any): VisualVariable | null {
     if (!hasValue(dnVV)) return null;
     let variable = {
-        type: dnVV.type,
-        field: dnVV.field ?? undefined,
-        legendOptions: dnVV.legendOptions ?? undefined,
-        valueExpression: dnVV.valueExpression ?? undefined,
-        valueExpressionTitle: dnVV.valueExpressionTitle ?? undefined
+        type: dnVV.type
     } as VisualVariable;
+    copyValuesIfExists(dnVV, variable, 'field', 'legendOptions', 'valueExpression', 'valueExpressionTitle');
     switch (dnVV.type) {
         case "color":
             let colorVariable = variable as ColorVariable;
             colorVariable.normalizationField = dnVV.normalizationField ?? undefined;
-            colorVariable.stops = dnVV.stops.map((stop: any) => {
-                return {
-                    color: buildJsColor(stop.color) ?? undefined,
-                    label: stop.label ?? undefined,
-                    value: stop.value ?? undefined
-                }
-            });
+            if (hasValue(dnVV.stops) && dnVV.stops.length > 0) {
+                colorVariable.stops = dnVV.stops.map((stop: any) => {
+                    let dnStop: any = {};
+                    copyValuesIfExists(stop, dnStop, 'label', 'value');
+                    if (hasValue(stop.color)) {
+                        dnStop.color = buildJsColor(stop.color);
+                    }
+                    return dnStop;
+                });
+            }
             
             return colorVariable;
         case "rotation":
             let rotationVariable = variable as RotationVariable;
-            rotationVariable.axis = dnVV.axis ?? undefined;
-            rotationVariable.rotationType = dnVV.rotationType ?? undefined;
+            copyValuesIfExists(dnVV, rotationVariable, 'axis', 'rotationType');
             return rotationVariable;
         case "size":
             let sizeVariable = variable as SizeVariable;
-            sizeVariable.axis = dnVV.axis ?? undefined;
-            sizeVariable.maxDataValue = dnVV.maxDataValue ?? undefined;
-            sizeVariable.minDataValue = dnVV.minDataValue ?? undefined;
-            sizeVariable.minSize = dnVV.minSize ?? undefined;
-            sizeVariable.maxSize = dnVV.maxSize ?? undefined;
-            sizeVariable.normalizationField = dnVV.normalizationField ?? undefined;
-            sizeVariable.stops = dnVV.stops.map((stop: any) => {
-                return {
-                    label: stop.label ?? undefined,
-                    size: stop.size ?? undefined,
-                    value: stop.value ?? undefined
-                }
-            });
-            sizeVariable.target = dnVV.target ?? undefined;
-            sizeVariable.useSymbolValue = dnVV.useSymbolValue ?? undefined;
-            sizeVariable.valueRepresentation = dnVV.valueRepresentation ?? undefined;
-            sizeVariable.valueUnit = dnVV.valueUnit ?? undefined;
+            copyValuesIfExists(dnVV, sizeVariable, 'axis', 'maxDataValue', 'minDataValue', 'minSize', 'maxSize',
+                'normalizationField', 'target', 'useSymbolValue', 'valueUnit');
+            
+            if (hasValue(dnVV.stops) && dnVV.stops.length > 0) {
+                sizeVariable.stops = dnVV.stops.map((stop: any) => {
+                    let dnStop = {};
+                    copyValuesIfExists(stop, dnStop, 'label', 'size', 'value');
+                    return dnStop;
+                });
+            }
             return sizeVariable;
         case "opacity":
             let opacityVariable = variable as OpacityVariable;
-            opacityVariable.stops = dnVV.stops.map((stop: any) => {
-                return {
-                    label: stop.label ?? undefined,
-                    opacity: stop.opacity ?? undefined,
-                    value: stop.value ?? undefined
-                }
-            });
-            opacityVariable.normalizationField = dnVV.normalizationField ?? undefined;
+            if (hasValue(dnVV.stops) && dnVV.stops.length > 0) {
+                opacityVariable.stops = dnVV.stops.map((stop: any) => {
+                    let dnStop: any = {};
+                    copyValuesIfExists(stop, dnStop, 'label', 'opacity', 'value');
+                    return dnStop;
+                });
+            }
+            if (hasValue(opacityVariable.normalizationField)) {
+                opacityVariable.normalizationField = dnVV.normalizationField;
+            }
             return opacityVariable;
     }
     

@@ -168,8 +168,6 @@ export function getObjectReference(objectRef: any) {
             if (objectRef instanceof BingMapsLayer) {
                 return new BingMapsLayerWrapper(objectRef);
             }
-
-            return buildDotNetLayer(objectRef);
         }
         if (objectRef instanceof Graphic) {
             return buildDotNetGraphic(objectRef);
@@ -183,12 +181,7 @@ export function getObjectReference(objectRef: any) {
         return objectRef;
     }
     catch {
-        try{
-            
-        }
-        catch {
-            // do nothing
-        }
+        // do nothing
     }
     return objectRef;
 }
@@ -505,11 +498,13 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
     view.on('layerview-create', async (evt) => {
         // find objectRef id by layer
         let layerGeoBlazorId = Object.keys(arcGisObjectRefs).find(key => arcGisObjectRefs[key] === evt.layer);
+
         let isBasemapLayer = false;
         if (hasValue(view.map.basemap) &&
             (view.map.basemap.baseLayers?.includes(evt.layer) || view.map.basemap.referenceLayers?.includes(evt.layer))) {
             isBasemapLayer = true;
         }
+        
         let layerRef;
         let layerViewRef;
         // @ts-ignore
@@ -623,6 +618,16 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
             buildDotNetPoint((view as MapView).center), (view as MapView).zoom, (view as MapView).scale,
             (view as MapView).rotation, null);
     });
+}
+
+export function registerWebLayer(layerJsRef: any, layerId: string) {
+    if (layerJsRef instanceof Layer) {
+        arcGisObjectRefs[layerId] = layerJsRef;
+    } else if (layerJsRef instanceof FeatureLayerWrapper) {
+        arcGisObjectRefs[layerId] = layerJsRef.layer;
+    } else if (layerJsRef instanceof BingMapsLayerWrapper) {
+        arcGisObjectRefs[layerId] = layerJsRef.layer;
+    }
 }
 
 export async function hitTest(pointObject: any, eventId: string | null, viewId: string,
