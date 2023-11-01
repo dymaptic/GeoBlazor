@@ -1173,8 +1173,9 @@ async function setPopupHandler(viewId: string, dotNetPopup: any | null) {
                         for (var index in popupDotNetObjects) {
                             //we need to lookup the ref, because they can disappear if the popup has never been opened
                             await lookupDotNetRefForPopupTemplate(popupDotNetObjects[index], viewId as string);
-                            await popupDotNetObjects[index].dotNetPopupTemplateReference.invokeMethodAsync("OnTriggerAction", event.action.id);
-
+                            if (hasValue(popupDotNetObjects[index].dotNetPopupTemplateReference)) {
+                                await popupDotNetObjects[index].dotNetPopupTemplateReference.invokeMethodAsync("OnTriggerAction", event.action.id);
+                            }
                         }
                     });
                 })
@@ -1186,7 +1187,9 @@ async function setPopupHandler(viewId: string, dotNetPopup: any | null) {
                 for (var index in popupDotNetObjects) {
                     //we need to lookup the ref, because they can disappear if the popup has never been opened
                     await lookupDotNetRefForPopupTemplate(popupDotNetObjects[index], viewId as string);
-                    await popupDotNetObjects[index].dotNetPopupTemplateReference.invokeMethodAsync("OnTriggerAction", event.action.id);
+                    if (hasValue(popupDotNetObjects[index].dotNetPopupTemplateReference)) {
+                        await popupDotNetObjects[index].dotNetPopupTemplateReference.invokeMethodAsync("OnTriggerAction", event.action.id);
+                    }
                 }
             });
         }
@@ -2611,16 +2614,14 @@ export function addReactiveListener(targetId: string, eventName: string, once: b
     return listenerFunc(target, reactiveUtils, dotNetRef);
 }
 
-export async function awaitReactiveSingleWatchUpdate(targetId: string, targetName: string, watchExpression: string,
-    dotNetRef: any): Promise<any> {
+export async function awaitReactiveSingleWatchUpdate(targetId: string, targetName: string, watchExpression: string): Promise<any> {
     let target = arcGisObjectRefs[targetId];
     console.debug(`Adding once watcher: "${watchExpression}"`);
-    const AsyncFunction = (async function () {
-    }).constructor;
+    const AsyncFunction = async function () {}.constructor;
     // @ts-ignore
-    const onceFunc = new AsyncFunction(targetName, 'reactiveUtils', 'dotNetRef',
-        `return await reactiveUtils.once(() => ${watchExpression});`);
-    return await onceFunc(target, reactiveUtils, dotNetRef);
+    const onceFunc = new AsyncFunction(targetName, 'reactiveUtils',
+        `return reactiveUtils.once(() => ${watchExpression});`);
+    return await onceFunc(target, reactiveUtils);
 }
 
 export function addReactiveWaiter(targetId: string, targetName: string, watchExpression: string, once: boolean,
