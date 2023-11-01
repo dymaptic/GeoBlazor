@@ -138,7 +138,7 @@ public abstract partial class Widget : MapComponent
     /// <summary>
     ///     JS Object Reference to the widget
     /// </summary>
-    protected IJSObjectReference? JsWidgetReference;
+    public IJSObjectReference? JsWidgetReference;
 
     private bool _externalWidgetRegistered;
 }

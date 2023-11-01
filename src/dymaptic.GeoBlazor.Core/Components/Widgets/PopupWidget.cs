@@ -257,16 +257,6 @@ public class PopupWidget : Widget
     }
 
     /// <summary>
-    ///     Override the default symbol of the displayed cluster extent. Only applies when a PopupTemplate is set on a FeatureReductionCluster instance.
-    /// </summary>
-    /// <param name="symbol"></param>
-    public async Task SetSelectedClusterBoundaryFeatureSymbol(Symbol symbol)
-    {
-        await JsWidgetReference!.InvokeVoidAsync("setSelectedClusterBoundaryFeatureSymbol",
-            CancellationTokenSource.Token, symbol);
-    }
-
-    /// <summary>
     ///     JS-invokable method for triggering actions.
     /// </summary>
     /// <param name="actionId">
