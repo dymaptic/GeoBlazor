@@ -1,0 +1,48 @@
+﻿@inherits TestRunnerBase
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+
+    [TestMethod]
+    public async Task TestCanRenderImageryLayerFromUrl(Action renderHandler)
+    {
+        ImageryLayer? layer = null;
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <ImageryLayer @ref="layer"
+                                  Url="https://sampleserver6.arcgisonline.com/arcgis/rest/services/NLCDLandCover2001/ImageServer"
+                                  Opacity="0.6" />
+                </Map>
+            </MapView>);
+        await WaitForMapToRender();
+        await AssertJavaScript("assertLayerExists", args: "imagery");
+        await AssertJavaScript("assertObjectHasPropertyWithValue", nameof(TestCanRenderImageryLayerFromUrl),
+            layer!.Id, "url", "https://sampleserver6.arcgisonline.com/arcgis/rest/services/NLCDLandCover2001/ImageServer");
+        await AssertJavaScript("assertObjectHasPropertyWithValue", nameof(TestCanRenderImageryLayerFromUrl),
+            layer!.Id, "opacity", 0.6);
+    }
+    
+    [TestMethod]
+    public async Task TestCanRenderImageryLayerFromPortalItem(Action renderHandler)
+    {
+        ImageryLayer? layer = null;
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <ImageryLayer @ref="layer" Title="Test Layer">
+                        <PortalItem Id="fd61b9e0c69c4e14bebd50a9a968348c" />
+                    </ImageryLayer>
+                </Map>
+            </MapView>);
+        await WaitForMapToRender();
+        await AssertJavaScript("assertLayerExists", args: "imagery");
+        await AssertJavaScript("assertObjectHasPropertyWithValue", nameof(TestCanRenderImageryLayerFromPortalItem),
+            layer!.Id, "portalItem.id", "fd61b9e0c69c4e14bebd50a9a968348c");
+        await AssertJavaScript("assertObjectHasPropertyWithValue", nameof(TestCanRenderImageryLayerFromPortalItem),
+            layer!.Id, "title", "Test Layer");
+    }
+}

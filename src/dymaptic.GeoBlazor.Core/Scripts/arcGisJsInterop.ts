@@ -2422,9 +2422,14 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             copyValuesIfExists('blendMode', 'maxScale', 'minScale', 'refreshInterval');
             break;
         case 'imagery':
-            newLayer = new ImageryLayer({
-                url: layerObject.url
-            });
+            if (hasValue(layerObject.url)) {
+                newLayer = new ImageryLayer({
+                    url: layerObject.url
+                });
+            } else {
+                let portalItem = buildJsPortalItem(layerObject.portalItem);
+                newLayer = new ImageryLayer({ portalItem: portalItem });
+            }
 
             let imageryLayer = newLayer as ImageryLayer;
 

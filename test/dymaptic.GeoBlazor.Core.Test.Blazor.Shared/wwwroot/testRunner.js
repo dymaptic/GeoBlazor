@@ -126,6 +126,23 @@ export function assertLayerExists(methodName, layerType) {
     throw new Error(`Expected layer of type ${layerType} but found none`);
 }
 
+export function assertObjectHasPropertyWithValue(methodName, objectId, propertyName, expectedValue) {
+    let props = propertyName.split('.');
+    let obj = arcGisObjectRefs[objectId];
+    for (var i = 0; i < props.length; i++) {
+        let prop = props[i];
+        let candidate = obj[prop];
+        if (candidate === undefined) {
+            throw new Error(`Expected ${propertyName} to be ${expectedValue} but found undefined part ${prop}`);
+        }
+        obj = candidate;
+    }
+    
+    if (obj !== expectedValue) {
+        throw new Error(`Expected ${propertyName} to be ${expectedValue} but found ${obj[propertyName]}`);
+    }
+}
+
 export function testThrow() {
     throw new Error("Test throw");
 }
