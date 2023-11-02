@@ -14,6 +14,7 @@ public class ExpandWidget : Widget
     /// <inheritdoc />
     public override string WidgetType => "expand";
 
+    /// <inheritdoc />
     protected override bool Hidden => true;
 
     /// <summary>
