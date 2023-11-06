@@ -85,7 +85,7 @@ ArcGIS JavaScript API, but without having to write a single line of JavaScript.
 6. In `Program.cs`, add the following line to your `builder.Services` to inject logic components like `GeometryEngine`.
 
 ```csharp
-   builder.Services.AddGeoBlazor();
+   builder.Services.AddGeoBlazor(builder.Configuration);
 ```
 
 7. Create a new Razor Component in the `Pages` folder, or just use `Index.razor`. Add a `MapView`. Give it basic

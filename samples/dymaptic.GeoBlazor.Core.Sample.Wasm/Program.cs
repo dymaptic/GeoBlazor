@@ -13,6 +13,6 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddScoped<SharedFileProvider>();
 builder.Services.AddSingleton<IConfiguration>(_ => builder.Configuration);
 builder.Services.AddScoped<HttpClient>();
-builder.Services.AddGeoBlazor();
+builder.Services.AddGeoBlazor(builder.Configuration);
 
 await builder.Build().RunAsync();

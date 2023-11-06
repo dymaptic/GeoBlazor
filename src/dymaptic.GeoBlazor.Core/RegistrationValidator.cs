@@ -99,8 +99,7 @@ internal class RegistrationValidator
                 {
                     { "licenseKey", HttpUtility.UrlEncode(_settings.RegistrationKey) },
                     { "licenseTypeName", "Free" },
-                    { "softwareName", "GeoBlazorCore" },
-                    { "blazorMode", blazorMode.ToString() }
+                    { "softwareName", "GeoBlazorCore" }
                 };
 
                 if (!string.IsNullOrWhiteSpace(_settings.MauiAppName))
@@ -108,7 +107,7 @@ internal class RegistrationValidator
                     queryString["mauiAppName"] = HttpUtility.UrlEncode(_settings.MauiAppName);
                 }
 
-                // build query string without QueryHelpers, which is only available in aspnetcore framework
+                // build query string without QueryHelpers, which is not available in WebAssembly
                 var queryStringString = string.Join("&", queryString.Select(kvp => $"{kvp.Key}={kvp.Value}"));
 #if DEBUG
                 var url = $"{_licenseServerUrl}/api/validate?{queryStringString}";
@@ -238,7 +237,7 @@ internal class RegistrationValidator
     private readonly string _machineName;
     private const string ServerFileName = "geoblazor-registration-validation";
     private readonly string _registrationMessage =
-        "Thank you for using GeoBlazor! Please visit https://licensing.dymaptic.com to register.";
+        "Thank you for using GeoBlazor! Please visit https://licensing.dymaptic.com/geoblazor-core to register.";
     private static bool _messageShown;
 #if DEBUG
     private readonly string _licenseServerUrl;
