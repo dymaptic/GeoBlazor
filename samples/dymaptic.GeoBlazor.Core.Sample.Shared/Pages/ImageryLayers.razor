@@ -13,8 +13,8 @@
 <button disabled="@(!_mapRendered)" @onclick="(()=>AddRemoveImageryLayer())">Add or Remove Imagery Layer in code</button>
 <button disabled="@(!_mapRendered)" @onclick="(()=>_markup = !_markup)">Add new Imagery Layer in Markup</button>
 
-<MapView @ref="_view" class="map-view" Longitude="-98.5795" Latitude="39.8282"
-         Zoom="3" OnViewRendered="OnMapRendered">
+<MapView @ref="_view" class="map-view" 
+         OnViewRendered="OnMapRendered">
     <Map ArcGISDefaultBasemap="arcgis-light-gray">
         @if (_markup)
         {
@@ -48,6 +48,7 @@
     private bool _markup;
 
     //private RasterStretchRenderer? _imagerySampleRenderer;
-    private string _imageryLayerUrl = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/NLCDLandCover2001/ImageServer";
+    // private string _imageryLayerUrl = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/NLCDLandCover2001/ImageServer";
+    private string _imageryLayerUrl = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Toronto/ImageServer";
     private ImageryLayer? _imagerySampleLayer;
 }

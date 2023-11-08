@@ -2465,10 +2465,10 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
                 imageryLayer.customParameters = layerObject.customParameters;
             }
             if (hasValue(layerObject.effect)) {
-                imageryLayer.effect = layerObject.effect;
+                imageryLayer.effect = buildJsEffect(layerObject.effect);
             }
-            if (hasValue(layerObject.fields)) {
-                imageryLayer.fields = layerObject.fields;
+            if (hasValue(layerObject.fields && layerObject.fields.length > 0)) {
+                imageryLayer.fields = buildJsFields(layerObject.fields);
             }
             if (hasValue(layerObject.fieldsIndex)) {
                 imageryLayer.fieldsIndex = layerObject.fieldsIndex;
@@ -2500,6 +2500,9 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             if (hasValue(layerObject.sourceJSON)) {
                 imageryLayer.sourceJSON = layerObject.sourceJSON;
             }
+            if (hasValue(layerObject.spatialReference)) {
+                imageryLayer.spatialReference = buildJsSpatialReference(layerObject.spatialReference);
+            }
             if (hasValue(layerObject.timeExtent)) {
                 imageryLayer.timeExtent = layerObject.timeExtent;
             }
@@ -2510,7 +2513,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
                 imageryLayer.timeOffset = layerObject.timeOffset;
             }
 
-            copyValuesIfExists(layerObject, 'bandIds', 'blendMode', 'compressionQuality', 'compressionTolerance',
+            copyValuesIfExists('bandIds', 'blendMode', 'compressionQuality', 'compressionTolerance',
                 'copyright', 'definitionExpression', 'effect', 'format', 'hasMultidimensions', 'imageMaxHeight', 'imageMaxWidth',
                 'interpolation', 'legendEnabled', 'maxScale', 'minScale', 'multidimensionalInfo', 'noDataInterpretation',
                 'objectIdField', 'persistenceEnabled', 'pixelType', 'popupEnabled', 'refreshInterval', 'serviceRasterInfo', 'useViewTime', 'version')

@@ -15,7 +15,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Renderers;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-RasterStretchRenderer.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// 
-public class RasterStretchRenderer : LayerObject
+public class RasterStretchRenderer : ImageryRenderer
 {
     /// <summary>
     ///     Constructor for use in code

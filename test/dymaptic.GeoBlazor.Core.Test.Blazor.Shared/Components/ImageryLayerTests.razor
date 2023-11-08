@@ -45,4 +45,30 @@
         await AssertJavaScript("assertObjectHasPropertyWithValue", nameof(TestCanRenderImageryLayerFromPortalItem),
             layer!.Id, "title", "Test Layer");
     }
+
+    [TestMethod]
+    public async Task TestCanRenderImageryLayerCheckType(Action renderHandler)
+    {
+        ImageryLayer? layer = null;
+        AddMapRenderFragment(
+    @<MapView class="map-view" OnViewRendered="renderHandler">
+        <Map>
+            <ImageryLayer @ref="layer"
+                          Url="https://sampleserver6.arcgisonline.com/arcgis/rest/services/NLCDLandCover2001/ImageServer"
+                          BandIds="null"
+                          ImageMaxHeight=4100
+                          ImageMaxWidth=5000
+                          />
+        </Map>
+    </MapView>);
+        await WaitForMapToRender();
+        await AssertJavaScript("assertLayerExists", args: "imagery");
+        await AssertJavaScript("assertObjectHasPropertyWithValue", nameof(TestCanRenderImageryLayerCheckType),
+            layer!.Id, "url", "https://sampleserver6.arcgisonline.com/arcgis/rest/services/NLCDLandCover2001/ImageServer");
+        await AssertJavaScript("assertObjectHasPropertyWithValue", nameof(TestCanRenderImageryLayerCheckType),
+            layer!.ImageMaxHeight, "ImageMaxHeight", 4100);
+        await AssertJavaScript("assertObjectHasPropertyWithValue", nameof(TestCanRenderImageryLayerCheckType),
+            layer!.ImageMaxWidth, "ImageMaxWidth", 5000);
+
+    }
 }
