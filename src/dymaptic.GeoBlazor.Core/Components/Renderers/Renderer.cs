@@ -15,10 +15,13 @@ namespace dymaptic.GeoBlazor.Core.Components.Renderers;
 [JsonConverter(typeof(RendererConverter))]
 public abstract class Renderer : LayerObject
 {
+   
     /// <summary>
     ///     The subclass Renderer type
     /// </summary>
     [JsonPropertyName("type")]
+    // TODO: Setting this as an enum was a mistake that caused much more work when using this for reflection and deserialization
+    // in a future version, we should replace with a string.
     public abstract RendererType RendererType { get; }
 }
 
