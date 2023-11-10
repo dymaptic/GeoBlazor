@@ -2,11 +2,11 @@
 import Extent from "@arcgis/core/geometry/Extent";
 import Graphic from "@arcgis/core/Graphic";
 import PopupTemplate from "@arcgis/core/PopupTemplate";
-import { 
-    arcGisObjectRefs, 
-    popupDotNetObjects, 
-    createLayer, 
-    dotNetRefs
+import {
+    arcGisObjectRefs,
+    popupDotNetObjects,
+    createLayer,
+    dotNetRefs, copyValuesIfExists
 } from "./arcGisJsInterop";
 import Geometry from "@arcgis/core/geometry/Geometry";
 import Point from "@arcgis/core/geometry/Point";
@@ -134,6 +134,10 @@ import FeatureReductionBinning from "@arcgis/core/layers/support/FeatureReductio
 import FeatureReductionSelection from "@arcgis/core/layers/support/FeatureReductionSelection";
 import AggregateField from "@arcgis/core/layers/support/AggregateField";
 import supportExpressionInfo from "@arcgis/core/layers/support/ExpressionInfo";
+import PieChartRenderer from "@arcgis/core/renderers/PieChartRenderer";
+import AttributeColorInfo from "@arcgis/core/renderers/support/AttributeColorInfo";
+import AuthoringInfo from "@arcgis/core/renderers/support/AuthoringInfo";
+import AuthoringInfoVisualVariable from "@arcgis/core/renderers/support/AuthoringInfoVisualVariable";
 
 
 export function buildJsSpatialReference(dotNetSpatialReference: DotNetSpatialReference): SpatialReference {
@@ -154,30 +158,8 @@ export function buildJsSpatialReference(dotNetSpatialReference: DotNetSpatialRef
 
 export function buildJsExtent(dotNetExtent: DotNetExtent, currentSpatialReference: SpatialReference | null): Extent {
     let extent = new Extent();
-    if (hasValue(dotNetExtent.xmax)) {
-        extent.xmax = dotNetExtent.xmax;
-    }
-    if (hasValue(dotNetExtent.xmin)) {
-        extent.xmin = dotNetExtent.xmin;
-    }
-    if (hasValue(dotNetExtent.ymax)) {
-        extent.ymax = dotNetExtent.ymax;
-    }
-    if (hasValue(dotNetExtent.ymin)) {
-        extent.ymin = dotNetExtent.ymin;
-    }
-    if (hasValue(dotNetExtent.zmax)) {
-        extent.zmax = dotNetExtent.zmax;
-    }
-    if (hasValue(dotNetExtent.zmin)) {
-        extent.zmin = dotNetExtent.zmin;
-    }
-    if (hasValue(dotNetExtent.mmax)) {
-        extent.mmax = dotNetExtent.mmax;
-    }
-    if (hasValue(dotNetExtent.mmin)) {
-        extent.mmin = dotNetExtent.mmin;
-    }
+    copyValuesIfExists(dotNetExtent, extent, 'xmax', 'xmin', 'ymax', 'ymin', 'zmax', 'zmin', 'mmax', 'mmin');
+    
     if (hasValue(dotNetExtent.spatialReference)) {
         extent.spatialReference = buildJsSpatialReference(dotNetExtent.spatialReference)
     } else if (currentSpatialReference !== null) {
@@ -336,14 +318,8 @@ export function buildJsPopupContent(popupContentObject: DotNetPopupContent): Con
 }
 
 export function buildJsFieldInfo(fieldInfoObject: DotNetFieldInfo): FieldInfo {
-    let fieldInfo = new FieldInfo({
-        fieldName: fieldInfoObject.fieldName ?? undefined,
-        label: fieldInfoObject.label ?? undefined,
-        tooltip: fieldInfoObject.tooltip ?? undefined,
-        stringFieldOption: fieldInfoObject.stringFieldOption as any ?? "text-box",
-        visible: fieldInfoObject.visible ?? true,
-        isEditable: fieldInfoObject.isEditable ?? false
-    });
+    let fieldInfo = new FieldInfo();
+    copyValuesIfExists(fieldInfoObject, fieldInfo, 'fieldName', 'label', 'tooltip', 'stringFieldOption', 'visible', 'isEditable');
 
     if (hasValue(fieldInfoObject.format)) {
         fieldInfo.format = buildJsFieldInfoFormat(fieldInfoObject.format);
@@ -353,11 +329,9 @@ export function buildJsFieldInfo(fieldInfoObject: DotNetFieldInfo): FieldInfo {
 }
 
 export function buildJsFieldInfoFormat(formatObject: DotNetFieldInfoFormat): FieldInfoFormat {
-    return new FieldInfoFormat({
-        dateFormat: formatObject.dateFormat as any ?? undefined,
-        places: formatObject.places ?? undefined,
-        digitSeparator: formatObject.digitSeparator ?? undefined
-    });
+    let format = new FieldInfoFormat();
+    copyValuesIfExists(formatObject, format, 'dateFormat', 'places', 'digitSeparator');
+    return format;
 }
 
 export function buildJsExpressionInfo(expressionInfoObject: DotNetExpressionInfo): popupExpressionInfo {
@@ -541,105 +515,202 @@ export function buildJsPolygon(dnPolygon: DotNetPolygon): Polygon | null {
 
 
 export function buildJsRenderer(dotNetRenderer: any): Renderer | null {
-    if (dotNetRenderer === undefined) return null;
+    if (!hasValue(dotNetRenderer)) return null;
     let dotNetSymbol = dotNetRenderer.symbol;
     switch (dotNetRenderer.type) {
         case 'simple':
             let simpleRenderer = new SimpleRenderer();
-            simpleRenderer.label = dotNetRenderer.label ?? undefined;
             if (hasValue(dotNetRenderer.visualVariables) && dotNetRenderer.visualVariables.length > 0) {
                 simpleRenderer.visualVariables = dotNetRenderer.visualVariables.map(buildVisualVariable);
             }
-            simpleRenderer.symbol = buildJsSymbol(dotNetSymbol) as Symbol;
-            simpleRenderer.authoringInfo = dotNetRenderer.authoringInfo;
+            if (hasValue(dotNetSymbol)) {
+                simpleRenderer.symbol = buildJsSymbol(dotNetSymbol) as Symbol;
+            }
+            copyValuesIfExists(dotNetRenderer, simpleRenderer, 'label', 'authoringInfo');
             return simpleRenderer;
+        case 'pie-chart':
+            let pieChartRenderer = new PieChartRenderer();
+            if (hasValue(dotNetRenderer.attributes) && dotNetRenderer.attributes.length > 0) {
+                pieChartRenderer.attributes = dotNetRenderer.attributes.map(buildJsAttributeColorInfo);
+            }
+            if (hasValue(dotNetRenderer.authoringInfo)) {
+                pieChartRenderer.authoringInfo = buildJsAuthoringInfo(dotNetRenderer.authoringInfo);
+            }
+            if (hasValue(dotNetRenderer.backgroundFillSymbol)) {
+                pieChartRenderer.backgroundFillSymbol = buildJsSymbol(dotNetRenderer.backgroundFillSymbol) as SimpleFillSymbol;
+            }
+            if (hasValue(dotNetRenderer.defaultColor)) {
+                pieChartRenderer.defaultColor = buildJsColor(dotNetRenderer.defaultColor);
+            }
+            if (hasValue(dotNetRenderer.legendOptions)) {
+                pieChartRenderer.legendOptions = {
+                    title: dotNetRenderer.legendOptions.title
+                };
+            }
+            if (hasValue(dotNetRenderer.othersCategory)) {
+                pieChartRenderer.othersCategory = {};
+                if (hasValue(dotNetRenderer.othersCategory.color)) {
+                    pieChartRenderer.othersCategory.color = buildJsColor(dotNetRenderer.othersCategory.color);
+                }
+                if (hasValue(dotNetRenderer.othersCategory.label)) {
+                    pieChartRenderer.othersCategory.label = dotNetRenderer.othersCategory.label;
+                }
+                if (hasValue(dotNetRenderer.othersCategory.threshold)) {
+                    pieChartRenderer.othersCategory.threshold = dotNetRenderer.othersCategory.threshold;
+                }
+            }
+            if (hasValue(dotNetRenderer.outline)) {
+                pieChartRenderer.outline = buildJsSymbol(dotNetRenderer.outline) as SimpleLineSymbol;
+            }
+            if (hasValue(dotNetRenderer.visualVariables) && dotNetRenderer.visualVariables.length > 0) {
+                pieChartRenderer.visualVariables = dotNetRenderer.visualVariables.map(buildVisualVariable);
+            }
+            copyValuesIfExists(dotNetRenderer, pieChartRenderer, 'defaultLabel', 'holePercentage', 'size');
+            
+            return pieChartRenderer;
     }
     return dotNetRenderer
+}
+
+function buildJsAttributeColorInfo(dnColorInfo: any): AttributeColorInfo {
+  
+    let attributeColorInfo = new AttributeColorInfo();
+    if (hasValue(dnColorInfo.color)) {
+        attributeColorInfo.color = buildJsColor(dnColorInfo.color);
+    }
+    copyValuesIfExists(dnColorInfo, attributeColorInfo, 'field', 'label', 'valueExpression', 
+        'valueExpressionTitle');
+    return attributeColorInfo;
+}
+
+function buildJsAuthoringInfo(dnAuthoringInfo: any): AuthoringInfo {
+    let authoringInfo = new AuthoringInfo();
+    copyValuesIfExists(dnAuthoringInfo, authoringInfo, 'classificationMethod', 'fadeRatio', 'fields',
+        'flowTheme', 'focus', 'isAutoGenerated', 'lengthUnit', 'maxSliderValue', 'minSliderValue', 
+        'standardDeviationInterval', 'type', 'univariateSymbolStyle', 'univariateTheme');
+    if (hasValue(dnAuthoringInfo.colorRamp)) {
+        authoringInfo.colorRamp = buildJsColorRamp(dnAuthoringInfo.colorRamp) as ColorRamp;
+    }
+    if (hasValue(dnAuthoringInfo.field1)) {
+        authoringInfo.field1 = {
+            field: dnAuthoringInfo.field1.field,
+            normalizationField: dnAuthoringInfo.field1.normalizationField,
+            classBreakInfos: dnAuthoringInfo.field1.classBreakInfos.map((cbi: any) => {
+                return {
+                    maxValue: cbi.maxValue,
+                    minValue: cbi.minValue
+                }
+            }),
+            label: dnAuthoringInfo.field1.label
+        }
+    }
+    if (hasValue(dnAuthoringInfo.field2)) {
+        authoringInfo.field2 = {
+            field: dnAuthoringInfo.field2.field,
+            normalizationField: dnAuthoringInfo.field2.normalizationField,
+            classBreakInfos: dnAuthoringInfo.field2.classBreakInfos.map((cbi: any) => {
+                return {
+                    maxValue: cbi.maxValue,
+                    minValue: cbi.minValue
+                }
+            }),
+            label: dnAuthoringInfo.field2.label
+        }
+    }
+    
+    if (hasValue(dnAuthoringInfo.statistics)) {
+        authoringInfo.statistics = {
+            max: dnAuthoringInfo.statistics.max,
+            min: dnAuthoringInfo.statistics.min
+        };
+    }
+    
+    if (hasValue(dnAuthoringInfo.visualVariables)) {
+        authoringInfo.visualVariables = dnAuthoringInfo.visualVariables.map(buildAuthoringVisualVariable);
+    }
+    
+    return authoringInfo;
+}
+
+function buildAuthoringVisualVariable(dnVV: any): AuthoringInfoVisualVariable {
+    let authVV = new AuthoringInfoVisualVariable();
+    copyValuesIfExists(dnVV, authVV, 'endTime', 'field', 'maxSliderValue', 'minSliderValue', 'startTime',
+        'style', 'theme', 'type', 'units');
+    return authVV;
 }
 
 export function buildJsLabelClass(dotNetLabel: any): LabelClass | null {
     if (!hasValue(dotNetLabel)) return null;
     let labelClass = new LabelClass();
-    labelClass.labelExpression = dotNetLabel.labelExpression ?? undefined;
-    labelClass.labelPlacement = dotNetLabel.labelPlacement ?? undefined;
-    labelClass.labelPosition = dotNetLabel.labelPosition ?? undefined;
-    labelClass.maxScale = dotNetLabel.maxScale ?? undefined;
-    labelClass.minScale = dotNetLabel.minScale ?? undefined;
-    labelClass.repeatLabel = dotNetLabel.repeatLabel ?? undefined;
-    labelClass.repeatLabelDistance = dotNetLabel.repeatLabelDistance ?? undefined;
-    labelClass.symbol = buildJsSymbol(dotNetLabel.symbol) as any ?? undefined;
-    labelClass.useCodedValues = dotNetLabel.useCodedValues ?? undefined;
-    labelClass.where = dotNetLabel.where ?? undefined;
-    labelClass.deconflictionStrategy = dotNetLabel.deconflictionStrategy as any ?? undefined;
-    labelClass.labelExpressionInfo = buildJsLabelExpressionInfo(dotNetLabel.labelExpressionInfo) ?? undefined;
+    copyValuesIfExists(dotNetLabel, labelClass, 'labelExpression', 'labelPlacement', 'labelPosition', 'maxScale',
+        'minScale', 'repeatLabel', 'repeatLabelDistance', 'useCodedValues', 'where', 'deconflictionStrategy');
+    if (hasValue(dotNetLabel.symbol)) {
+        labelClass.symbol = buildJsSymbol(dotNetLabel.symbol) as any;
+    }
+    if (hasValue(dotNetLabel.labelExpressionInfo)) {
+        labelClass.labelExpressionInfo = buildJsLabelExpressionInfo(dotNetLabel.labelExpressionInfo);
+    }
     return labelClass;
 }
 
 export function buildJsLabelExpressionInfo(dotNetLabelExpressionInfo: any): any {
     if (!hasValue(dotNetLabelExpressionInfo)) return null;
-    return {
-        expression: dotNetLabelExpressionInfo.expression ?? undefined,
-        title: dotNetLabelExpressionInfo.title ?? undefined
-    };
+    let jsLabelExpressionInfo = {};
+    copyValuesIfExists(dotNetLabelExpressionInfo, jsLabelExpressionInfo, 'expression', 'title');
+    return jsLabelExpressionInfo;
 }
 
 export function buildVisualVariable(dnVV: any): VisualVariable | null {
     if (!hasValue(dnVV)) return null;
     let variable = {
-        type: dnVV.type,
-        field: dnVV.field ?? undefined,
-        legendOptions: dnVV.legendOptions ?? undefined,
-        valueExpression: dnVV.valueExpression ?? undefined,
-        valueExpressionTitle: dnVV.valueExpressionTitle ?? undefined
+        type: dnVV.type
     } as VisualVariable;
+    copyValuesIfExists(dnVV, variable, 'field', 'legendOptions', 'valueExpression', 'valueExpressionTitle');
     switch (dnVV.type) {
         case "color":
             let colorVariable = variable as ColorVariable;
             colorVariable.normalizationField = dnVV.normalizationField ?? undefined;
-            colorVariable.stops = dnVV.stops.map((stop: any) => {
-                return {
-                    color: buildJsColor(stop.color) ?? undefined,
-                    label: stop.label ?? undefined,
-                    value: stop.value ?? undefined
-                }
-            });
+            if (hasValue(dnVV.stops) && dnVV.stops.length > 0) {
+                colorVariable.stops = dnVV.stops.map((stop: any) => {
+                    let dnStop: any = {};
+                    copyValuesIfExists(stop, dnStop, 'label', 'value');
+                    if (hasValue(stop.color)) {
+                        dnStop.color = buildJsColor(stop.color);
+                    }
+                    return dnStop;
+                });
+            }
             
             return colorVariable;
         case "rotation":
             let rotationVariable = variable as RotationVariable;
-            rotationVariable.axis = dnVV.axis ?? undefined;
-            rotationVariable.rotationType = dnVV.rotationType ?? undefined;
+            copyValuesIfExists(dnVV, rotationVariable, 'axis', 'rotationType');
             return rotationVariable;
         case "size":
             let sizeVariable = variable as SizeVariable;
-            sizeVariable.axis = dnVV.axis ?? undefined;
-            sizeVariable.maxDataValue = dnVV.maxDataValue ?? undefined;
-            sizeVariable.minDataValue = dnVV.minDataValue ?? undefined;
-            sizeVariable.minSize = dnVV.minSize ?? undefined;
-            sizeVariable.maxSize = dnVV.maxSize ?? undefined;
-            sizeVariable.normalizationField = dnVV.normalizationField ?? undefined;
-            sizeVariable.stops = dnVV.stops.map((stop: any) => {
-                return {
-                    label: stop.label ?? undefined,
-                    size: stop.size ?? undefined,
-                    value: stop.value ?? undefined
-                }
-            });
-            sizeVariable.target = dnVV.target ?? undefined;
-            sizeVariable.useSymbolValue = dnVV.useSymbolValue ?? undefined;
-            sizeVariable.valueRepresentation = dnVV.valueRepresentation ?? undefined;
-            sizeVariable.valueUnit = dnVV.valueUnit ?? undefined;
+            copyValuesIfExists(dnVV, sizeVariable, 'axis', 'maxDataValue', 'minDataValue', 'minSize', 'maxSize',
+                'normalizationField', 'target', 'useSymbolValue', 'valueUnit');
+            
+            if (hasValue(dnVV.stops) && dnVV.stops.length > 0) {
+                sizeVariable.stops = dnVV.stops.map((stop: any) => {
+                    let dnStop = {};
+                    copyValuesIfExists(stop, dnStop, 'label', 'size', 'value');
+                    return dnStop;
+                });
+            }
             return sizeVariable;
         case "opacity":
             let opacityVariable = variable as OpacityVariable;
-            opacityVariable.stops = dnVV.stops.map((stop: any) => {
-                return {
-                    label: stop.label ?? undefined,
-                    opacity: stop.opacity ?? undefined,
-                    value: stop.value ?? undefined
-                }
-            });
-            opacityVariable.normalizationField = dnVV.normalizationField ?? undefined;
+            if (hasValue(dnVV.stops) && dnVV.stops.length > 0) {
+                opacityVariable.stops = dnVV.stops.map((stop: any) => {
+                    let dnStop: any = {};
+                    copyValuesIfExists(stop, dnStop, 'label', 'opacity', 'value');
+                    return dnStop;
+                });
+            }
+            if (hasValue(opacityVariable.normalizationField)) {
+                opacityVariable.normalizationField = dnVV.normalizationField;
+            }
             return opacityVariable;
     }
     
@@ -1561,20 +1632,25 @@ export function buildJsFeatureReduction(dnFeatureReduction: any, viewId: string 
     if (!hasValue(dnFeatureReduction)) return null;
     switch (dnFeatureReduction.type) {
         case 'cluster':
-            return {
-                type: 'cluster',
-                clusterMaxSize: dnFeatureReduction.clusterMaxSize ?? undefined,
-                clusterMinSize: dnFeatureReduction.clusterMinSize ?? undefined,
-                clusterRadius: dnFeatureReduction.clusterRadius ?? undefined,
-                fields: dnFeatureReduction.fields?.map(buildJsAggregateField) ?? undefined,
-                labelingInfo: dnFeatureReduction.labelingInfo?.map(buildJsLabelClass) ?? undefined,
-                labelsVisible: dnFeatureReduction.labelsVisible ?? undefined,
-                maxScale: dnFeatureReduction.maxScale ?? undefined,
-                popupEnabled: dnFeatureReduction.popupEnabled ?? true,
-                popupTemplate: buildJsPopupTemplate(dnFeatureReduction.popupTemplate, viewId) ?? undefined,
-                renderer: buildJsRenderer(dnFeatureReduction.renderer) ?? undefined,
-                symbol: buildJsSymbol(dnFeatureReduction.symbol) ?? undefined,
-            } as FeatureReductionCluster;
+            let cluster = new FeatureReductionCluster();
+            if (hasValue(dnFeatureReduction.fields) && dnFeatureReduction.fields.length > 0) {
+                cluster.fields = dnFeatureReduction.fields.map(buildJsAggregateField);
+            }
+            if (hasValue(dnFeatureReduction.labelingInfo) && dnFeatureReduction.labelingInfo.length > 0) {
+                cluster.labelingInfo = dnFeatureReduction.labelingInfo.map(buildJsLabelClass);
+            }
+            if (hasValue(dnFeatureReduction.popupTemplate)) {
+                cluster.popupTemplate = buildJsPopupTemplate(dnFeatureReduction.popupTemplate, viewId) as PopupTemplate;
+            }
+            if (hasValue(dnFeatureReduction.renderer)) {
+                cluster.renderer = buildJsRenderer(dnFeatureReduction.renderer) as Renderer;
+            }
+            if (hasValue(dnFeatureReduction.symbol)) {
+                cluster.symbol = buildJsSymbol(dnFeatureReduction.symbol) as any;
+            }
+            copyValuesIfExists(dnFeatureReduction, cluster, 'clusterMaxSize', 'clusterMinSize', 'clusterRadius', 
+                'labelsVisible', 'maxScale', 'popupEnabled');
+            return cluster;
         case 'binning':
             return {
                 type: 'binning',
@@ -1587,6 +1663,19 @@ export function buildJsFeatureReduction(dnFeatureReduction: any, viewId: string 
                 popupTemplate: buildJsPopupTemplate(dnFeatureReduction.popupTemplate, viewId) ?? undefined,
                 renderer: buildJsRenderer(dnFeatureReduction.renderer) ?? undefined
             } as FeatureReductionBinning;
+            let binning = new FeatureReductionBinning();
+            if (hasValue(dnFeatureReduction.fields) && dnFeatureReduction.fields.length > 0) {
+                binning.fields = dnFeatureReduction.fields.map(buildJsAggregateField);
+            }
+            if (hasValue(dnFeatureReduction.labelingInfo) && dnFeatureReduction.labelingInfo.length > 0) {
+                binning.labelingInfo = dnFeatureReduction.labelingInfo.map(buildJsLabelClass);
+            }
+            if (hasValue(dnFeatureReduction.popupTemplate)) {
+                binning.popupTemplate = buildJsPopupTemplate(dnFeatureReduction.popupTemplate, viewId) as PopupTemplate;
+            }
+            if (hasValue(dnFeatureReduction.renderer)) {
+                binning.renderer = buildJsRenderer(dnFeatureReduction.renderer) as Renderer;
+            }
         case 'selection':
             return new FeatureReductionSelection();
     }

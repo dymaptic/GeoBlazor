@@ -859,7 +859,7 @@ public partial class MapView : MapComponent
             ? Map?.Basemap?.Layers.FirstOrDefault(l => l.Id == layerViewCreateEvent.LayerGeoBlazorId)
             : Map?.Layers.FirstOrDefault(l => l.Id == layerViewCreateEvent.LayerGeoBlazorId);
 
-        if (createdLayer is not null)
+        if (createdLayer is not null) // layer already exists in C#
         {
             createdLayer.LayerView = layerView;
 
@@ -873,7 +873,7 @@ public partial class MapView : MapComponent
                 layerView.Layer = createdLayer;
             }
         }
-        else
+        else // this should be a web-hosted layer that came via JS
         {
             Layer? layer = layerViewCreateEvent.Layer;
 
@@ -882,6 +882,8 @@ public partial class MapView : MapComponent
                 layer.LayerView = layerView;
                 layer.AbortManager = new AbortManager(JsRuntime);
                 layer.JsLayerReference = layerViewCreateEvent.LayerObjectRef;
+                layer.JsModule = ViewJsModule;
+                layer.ProJsModule = ProJsViewModule;
                 layer.Imported = true;
 
                 if (layerView is not null)
@@ -905,6 +907,8 @@ public partial class MapView : MapComponent
                         Map!.Layers.Add(layer);
                     }
                 }
+                
+                await JsModule!.InvokeVoidAsync("registerWebLayer", layerViewCreateEvent.LayerObjectRef, layer.Id);
             }
         }
 

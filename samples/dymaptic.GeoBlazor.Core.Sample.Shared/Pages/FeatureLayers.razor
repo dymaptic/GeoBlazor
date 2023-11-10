@@ -42,7 +42,7 @@
     </div>
 </div>
 
-<MapView @ref="MapView" Longitude="-118.80543" Latitude="34.02700" Zoom="13" Class="map-view">
+<MapView Longitude="-118.80543" Latitude="34.02700" Zoom="13" Class="map-view">
     <Map ArcGISDefaultBasemap="arcgis-topographic">
         @if (_showPolygonLayer)
         {
@@ -84,7 +84,7 @@
         }
         @if (_showGraphics)
         {
-            <FeatureLayer @ref="_graphicsFeatureLayer" ObjectIdField="ObjectID" GeometryType="GeometryType.Point">
+            <FeatureLayer ObjectIdField="ObjectID" GeometryType="GeometryType.Point">
                 <SpatialReference Wkid="4326" />
                 <PopupTemplate Title="Custom Point {ObjectID}" StringContent="<img src='{url}' />" />
                 <SimpleRenderer>
@@ -122,11 +122,8 @@
 </MapView>
 
 @code {
-    private MapView? MapView { get; set; }
-
     private bool _showPointsLayer;
     private int _showLinesLayer;
     private bool _showPolygonLayer;
     private bool _showGraphics;
-    private FeatureLayer? _graphicsFeatureLayer;
 }

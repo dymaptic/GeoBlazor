@@ -12,7 +12,7 @@
     Sample demonstrates the use of the Bookmarks widget and Bookmark actions.
     This follows the ESRI sample, but the Timeline Widget is included with GeoBlazor pro.
 </p>
-<MapView @ref="_mapView" Class="map-view" OnLayerViewCreate="OnLayerViewCreate">
+<MapView Class="map-view" OnLayerViewCreate="OnLayerViewCreate">
     <WebMap>
         <PortalItem Id="70b726074af04a7e9839d8a07f64c039" />
     </WebMap>
@@ -24,7 +24,6 @@
 </MapView>
 
 @code {
-    private MapView? _mapView;
 
     private FeatureLayerView? _layerView;
 
@@ -46,7 +45,7 @@
                 {
                     Where = $"Name = '{hurricaneName!.ToUpper()}'"
                 },
-                ExcludedEffect = new() { new Effect() { Value = "grayscale(100%) opacity(30%)" } }
+                ExcludedEffect = new() { new Effect("grayscale(100%) opacity(30%)") }
             };
         _ = _layerView.SetFeatureEffect(featureEffect);
     }

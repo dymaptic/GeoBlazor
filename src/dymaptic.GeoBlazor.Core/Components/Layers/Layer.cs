@@ -182,6 +182,7 @@ public abstract class Layer : MapComponent
         await AbortManager.DisposeAbortController(cancellationToken);
     }
 
+    /// <inheritdoc />
     public override void Refresh()
     {
         LayerChanged = true;

@@ -774,7 +774,6 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     [JSInvokable]
     public void OnReactiveWaiterTrue(string waitExpression)
     {
-        Console.WriteLine($"Reactive Waiter Triggered for wait expression \"{waitExpression}\"");
         Delegate handler = _waiters[waitExpression].Handler;
         handler.DynamicInvoke();
     }
@@ -815,7 +814,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         }
 
         return await JsModule!.InvokeAsync<T>("awaitReactiveSingleWatchUpdate", token, Id, targetName,
-            watchExpression, DotNetObjectReference.Create(this));
+            watchExpression);
     }
 
 #endregion
