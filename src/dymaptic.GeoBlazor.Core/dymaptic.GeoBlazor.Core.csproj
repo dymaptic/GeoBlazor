@@ -9,8 +9,8 @@
         </Description>
         <Title>GeoBlazor</Title>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <PackageVersion>2.4.1-beta-1</PackageVersion>
-        <Version>2.4.1-beta-1</Version>
+        <PackageVersion>2.4.1-beta-2</PackageVersion>
+        <Version>2.4.1-beta-2</Version>
         <Authors>dymaptic</Authors>
         <Company>dymaptic</Company>
         <Copyright>©2023 by dymaptic</Copyright>
@@ -78,11 +78,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Remove="wwwroot\assets\**" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <EmbeddedResource Remove="wwwroot\assets\**" />
+      <Folder Include="wwwroot\assets\" />
     </ItemGroup>
 
     <Target Name="NPM Install" BeforeTargets="PreBuildEvent" Condition="$(TargetFrameworks.StartsWith($(TargetFramework))) AND '$(OptOutFromCoreEsBuild)' != 'true'">

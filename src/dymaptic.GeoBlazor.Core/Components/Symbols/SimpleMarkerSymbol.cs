@@ -147,7 +147,9 @@ public class SimpleMarkerSymbol : MarkerSymbol
         {
             Outline = Outline?.ToSerializationRecord(),
             Size = Size,
-            Style = MarkerStyle?.ToString().ToKebabCase(),
+#pragma warning disable CS0618 // Type or member is obsolete
+            Style = MarkerStyle?.ToString().ToKebabCase() ?? Style,
+#pragma warning restore CS0618 // Type or member is obsolete
             Angle = Angle,
             XOffset = XOffset,
             YOffset = YOffset

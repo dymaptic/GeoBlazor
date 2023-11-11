@@ -11,6 +11,44 @@ namespace dymaptic.GeoBlazor.Core.Components.Popups;
 /// </summary>
 public class MediaPopupContent : PopupContent
 {
+    /// <summary>
+    ///     Parameterless constructor for use as a Razor Component
+    /// </summary>
+    public MediaPopupContent()
+    {
+    }
+
+    /// <summary>
+    ///     Constructor for creating content in C# code.
+    /// </summary>
+    /// <param name="title">
+    ///     Heading indicating what the media's content represents.
+    /// </param>
+    /// <param name="description">
+    ///     Describes the media's content in detail.
+    /// </param>
+    /// <param name="mediaInfos">
+    ///     Contains the media elements representing images or charts to display within the PopupTemplate. This can be an
+    /// </param>
+    /// <param name="activeMediaInfoIndex">
+    ///     Index of the current active media within the popup's media content. This will be the media that is currently viewed
+    /// </param>
+    public MediaPopupContent(string? title = null, string? description = null, 
+        IReadOnlyCollection<MediaInfo>? mediaInfos = null, string? activeMediaInfoIndex = null)
+    {
+#pragma warning disable BL0005
+        Title = title;
+        Description = description;
+        ActiveMediaInfoIndex = activeMediaInfoIndex;
+#pragma warning restore BL0005
+
+        if (mediaInfos is not null)
+        {
+            MediaInfos = new HashSet<MediaInfo>(mediaInfos);
+        }
+        
+    }
+    
     /// <inheritdoc />
     public override string Type => "media";
 

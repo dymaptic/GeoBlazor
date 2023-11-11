@@ -1,4 +1,5 @@
-﻿using dymaptic.GeoBlazor.Core.Objects;
+﻿using dymaptic.GeoBlazor.Core.Extensions;
+using dymaptic.GeoBlazor.Core.Objects;
 using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
 using System.Text.Json.Serialization;
@@ -199,6 +200,7 @@ public class TextSymbol : Symbol
     /// </remarks>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonConverter(typeof(NumberToStringConverter))]
     public string? LineWidth { get; set; }
     
     /// <summary>
@@ -236,6 +238,7 @@ public class TextSymbol : Symbol
     /// </remarks>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonConverter(typeof(NumberToStringConverter))]
     public string? XOffset { get; set; }
     
     /// <summary>
@@ -246,6 +249,7 @@ public class TextSymbol : Symbol
     /// </remarks>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonConverter(typeof(NumberToStringConverter))]
     public string? YOffset { get; set; }
 
     /// <summary>

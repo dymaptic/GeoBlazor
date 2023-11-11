@@ -15,8 +15,7 @@
     and finding the union of two polygons.
 </p>
 
-<MapView @ref="View"
-         Class="map-view"
+<MapView Class="map-view"
          Style="min-height: 450px;"
          Longitude="_longitude"
          Latitude="_latitude"
@@ -127,7 +126,6 @@
         new MapPoint(-118.79596686535, 34.008564864635),
         new MapPoint(-118.808558110679, 34.0035027131376));
 
-    private MapView? View { get; set; }
     private Point? PointGeometry { get; set; }
     private Polygon? PolygonGeometry { get; set; }
     private GraphicsLayer? GraphicsLayer { get; set; }

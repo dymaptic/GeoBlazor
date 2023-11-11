@@ -155,6 +155,12 @@ export function setAssetsPath(path: string) {
 export function getObjectReference(objectRef: any) {
     if (!hasValue(objectRef)) return objectRef;
     try {
+        // check the class name first, as some esri types fail the `instanceof` check
+        switch (objectRef?.__proto__.declaredClass) {
+            case 'esri.views.2d.layers.FeatureLayerView2D':
+                return new FeatureLayerViewWrapper(objectRef);
+        }
+        
         if (objectRef instanceof Layer) {
             if (objectRef instanceof FeatureLayer) {
                 return new FeatureLayerWrapper(objectRef);
@@ -162,8 +168,6 @@ export function getObjectReference(objectRef: any) {
             if (objectRef instanceof BingMapsLayer) {
                 return new BingMapsLayerWrapper(objectRef);
             }
-
-            return buildDotNetLayer(objectRef);
         }
         if (objectRef instanceof Graphic) {
             return buildDotNetGraphic(objectRef);
@@ -174,14 +178,12 @@ export function getObjectReference(objectRef: any) {
         if (objectRef instanceof Search) {
             return new SearchWidgetWrapper(objectRef);
         }
-        if (objectRef instanceof FeatureLayerView) {
-            return new FeatureLayerViewWrapper(objectRef);
-        }
         return objectRef;
     }
     catch {
-        return objectRef;
+        // do nothing
     }
+    return objectRef;
 }
 
 export function getSerializedDotNetObject(id: string): any {
@@ -496,11 +498,13 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
     view.on('layerview-create', async (evt) => {
         // find objectRef id by layer
         let layerGeoBlazorId = Object.keys(arcGisObjectRefs).find(key => arcGisObjectRefs[key] === evt.layer);
+
         let isBasemapLayer = false;
         if (hasValue(view.map.basemap) &&
             (view.map.basemap.baseLayers?.includes(evt.layer) || view.map.basemap.referenceLayers?.includes(evt.layer))) {
             isBasemapLayer = true;
         }
+        
         let layerRef;
         let layerViewRef;
         // @ts-ignore
@@ -614,6 +618,16 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
             buildDotNetPoint((view as MapView).center), (view as MapView).zoom, (view as MapView).scale,
             (view as MapView).rotation, null);
     });
+}
+
+export function registerWebLayer(layerJsRef: any, layerId: string) {
+    if (layerJsRef instanceof Layer) {
+        arcGisObjectRefs[layerId] = layerJsRef;
+    } else if (layerJsRef instanceof FeatureLayerWrapper) {
+        arcGisObjectRefs[layerId] = layerJsRef.layer;
+    } else if (layerJsRef instanceof BingMapsLayerWrapper) {
+        arcGisObjectRefs[layerId] = layerJsRef.layer;
+    }
 }
 
 export async function hitTest(pointObject: any, eventId: string | null, viewId: string,
@@ -1159,8 +1173,9 @@ async function setPopupHandler(viewId: string, dotNetPopup: any | null) {
                         for (var index in popupDotNetObjects) {
                             //we need to lookup the ref, because they can disappear if the popup has never been opened
                             await lookupDotNetRefForPopupTemplate(popupDotNetObjects[index], viewId as string);
-                            await popupDotNetObjects[index].dotNetPopupTemplateReference.invokeMethodAsync("OnTriggerAction", event.action.id);
-
+                            if (hasValue(popupDotNetObjects[index].dotNetPopupTemplateReference)) {
+                                await popupDotNetObjects[index].dotNetPopupTemplateReference.invokeMethodAsync("OnTriggerAction", event.action.id);
+                            }
                         }
                     });
                 })
@@ -1172,7 +1187,9 @@ async function setPopupHandler(viewId: string, dotNetPopup: any | null) {
                 for (var index in popupDotNetObjects) {
                     //we need to lookup the ref, because they can disappear if the popup has never been opened
                     await lookupDotNetRefForPopupTemplate(popupDotNetObjects[index], viewId as string);
-                    await popupDotNetObjects[index].dotNetPopupTemplateReference.invokeMethodAsync("OnTriggerAction", event.action.id);
+                    if (hasValue(popupDotNetObjects[index].dotNetPopupTemplateReference)) {
+                        await popupDotNetObjects[index].dotNetPopupTemplateReference.invokeMethodAsync("OnTriggerAction", event.action.id);
+                    }
                 }
             });
         }
@@ -2170,6 +2187,10 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             if (hasValue(layerObject.proProperties.FeatureReduction)) {
                 (newLayer as FeatureLayer).featureReduction = buildJsFeatureReduction(layerObject.proProperties.FeatureReduction, viewId!);
             }
+            
+            if (hasValue(layerObject.effect)) {
+                featureLayer.effect = buildJsEffect(layerObject.effect);
+            }
             break;
         case 'vector-tile':
             if (hasValue(layerObject.portalItem)) {
@@ -2532,7 +2553,8 @@ function buildDotNetListItem(item: ListItem): DotNetListItem | null {
     } as DotNetListItem;
 }
 
-function copyValuesIfExists(originalObject: any, newObject: any, ...params: Array<string>) {
+// this function should only be used for simple types that are guaranteed to succeed in serialization and conversion
+export function copyValuesIfExists(originalObject: any, newObject: any, ...params: Array<string>) {
     params.forEach(p => {
         if (hasValue(originalObject[p]) && originalObject[p] !== newObject[p]) {
             newObject[p] = originalObject[p];
@@ -2592,16 +2614,14 @@ export function addReactiveListener(targetId: string, eventName: string, once: b
     return listenerFunc(target, reactiveUtils, dotNetRef);
 }
 
-export async function awaitReactiveSingleWatchUpdate(targetId: string, targetName: string, watchExpression: string,
-    dotNetRef: any): Promise<any> {
+export async function awaitReactiveSingleWatchUpdate(targetId: string, targetName: string, watchExpression: string): Promise<any> {
     let target = arcGisObjectRefs[targetId];
     console.debug(`Adding once watcher: "${watchExpression}"`);
-    const AsyncFunction = (async function () {
-    }).constructor;
+    const AsyncFunction = async function () {}.constructor;
     // @ts-ignore
-    const onceFunc = new AsyncFunction(targetName, 'reactiveUtils', 'dotNetRef',
-        `return await reactiveUtils.once(() => ${watchExpression});`);
-    return await onceFunc(target, reactiveUtils, dotNetRef);
+    const onceFunc = new AsyncFunction(targetName, 'reactiveUtils',
+        `return reactiveUtils.once(() => ${watchExpression});`);
+    return await onceFunc(target, reactiveUtils);
 }
 
 export function addReactiveWaiter(targetId: string, targetName: string, watchExpression: string, once: boolean,
