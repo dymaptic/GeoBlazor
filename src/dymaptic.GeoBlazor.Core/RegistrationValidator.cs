@@ -244,6 +244,9 @@ internal class RegistrationValidator
 #endif
 }
 
+/// <summary>
+///     For internal use only
+/// </summary>
 public record ValidationResult(bool IsValid, DateTime ExpirationDate, string? Message = null)
 {
     public string MachineName { get; set; } = string.Empty;
