@@ -26,9 +26,6 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
-<!--    <PropertyGroup Condition="$(Configuration) == 'DEBUG' AND $(IncludeJsInBuilds) != 'true'">-->
-<!--        <DefaultItemExcludes>wwwroot/js/**</DefaultItemExcludes>-->
-<!--    </PropertyGroup>-->
 
     <ItemGroup>
         <SupportedPlatform Include="browser" />
