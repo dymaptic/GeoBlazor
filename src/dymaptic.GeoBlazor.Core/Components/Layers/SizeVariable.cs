@@ -1,4 +1,5 @@
-﻿using dymaptic.GeoBlazor.Core.Serialization;
+﻿using dymaptic.GeoBlazor.Core.Extensions;
+using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
 using System.Text.Json.Serialization;
 
@@ -38,18 +39,24 @@ public class SizeVariable : VisualVariable
     public double? MaxDataValue { get; set; }
 
     /// <summary>
-    ///     The size used to render a feature containing the minimum data value
+    ///     The size used to render a feature containing the minimum data value.
+    ///     When setting a number, sizes are expressed in points for all 2D symbols and 3D flat symbol layers; size is expressed in meters for all 3D volumetric symbols.
+    ///     String values are only supported for 2D symbols and 3D flat symbol layers. Strings may specify size in either points or pixels (e.g. minSize: "16pt", minSize: "12px").
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public double? MinSize { get; set; }
+    [JsonConverter(typeof(NumberToStringConverter))]
+    public string? MinSize { get; set; }
 
     /// <summary>
-    ///     The size used to render a feature containing the maximum data value
+    ///     The size used to render a feature containing the maximum data value.
+    ///     When setting a number, sizes are expressed in points for all 2D symbols and 3D flat symbol layers; size is expressed in meters for all 3D volumetric symbols.
+    ///     String values are only supported for 2D symbols and 3D flat symbol layers. Strings may specify size in either points or pixels (e.g. minSize: "16pt", minSize: "12px").
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public double? MaxSize { get; set; }
+    [JsonConverter(typeof(NumberToStringConverter))]
+    public string? MaxSize { get; set; }
     
     /// <summary>
     ///     The name of the numeric attribute field used to normalize the data in the given field. If this field is used, then the values in maxDataValue and minDataValue or stops should be normalized as percentages or ratios.

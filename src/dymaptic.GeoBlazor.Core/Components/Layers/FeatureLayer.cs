@@ -121,6 +121,13 @@ public class FeatureLayer : Layer, IFeatureReductionLayer
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public BlendMode? BlendMode { get; set; }
+    
+    /// <summary>
+    ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to how image filters work. This powerful capability allows you to apply css filter-like functions to layers to create custom visual effects to enhance the cartographic quality of your maps. This is done by applying the desired effect to the layer's effect property as a string or an array of objects to set scale dependent effects.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Effect? Effect { get; set; }
 
     /// <summary>
     ///     The absolute URL of the REST endpoint of the layer, non-spatial table or service
@@ -404,6 +411,17 @@ public class FeatureLayer : Layer, IFeatureReductionLayer
     {
         _refreshRequired = true;
         base.Refresh();
+    }
+    
+    /// <summary>
+    ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to how image filters work. This powerful capability allows you to apply css filter-like functions to layers to create custom visual effects to enhance the cartographic quality of your maps. This is done by applying the desired effect to the layer's effect property as a string or an array of objects to set scale dependent effects.
+    /// </summary>
+    /// <param name="effect">
+    ///     The effect to apply to the layer.
+    /// </param>
+    public async Task SetEffect(Effect effect)
+    {
+        await JsLayerReference!.InvokeVoidAsync("setEffect", effect);
     }
 
     /// <inheritdoc />
