@@ -105,7 +105,7 @@
         <Basemap>
             <PortalItem Id="716b600dbbac433faa4bec9220c76b3a" />
         </Basemap>
-        <GraphicsLayer @ref="_graphicsLayer">
+        <GraphicsLayer>
             @if (_showPoint)
             {
                 <Graphic @ref="_pointGraphic">
@@ -225,7 +225,6 @@
     private bool _showPointSection;
     private bool _showLineSection;
     private bool _showPolygonSection;
-    private GraphicsLayer? _graphicsLayer;
     private Graphic? _polygonGraphic;
     private Graphic? _pointGraphic;
     private Graphic? _polylineGraphic;

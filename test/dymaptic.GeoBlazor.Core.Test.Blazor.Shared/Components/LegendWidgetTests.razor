@@ -9,7 +9,6 @@
     [TestMethod]
     public async Task TestLegendHasContentFromLayer(Action renderHandler)
     {
-        LegendWidget? legend = null;
         AddMapRenderFragment(
             @<MapView class="map-view" OnViewRendered="renderHandler">
 
@@ -17,7 +16,7 @@
                     <GeoJSONLayer Title="Earthquakes from the last month"
                                   Url="https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson" />
                 </Map>
-                <LegendWidget @ref="legend" />
+                <LegendWidget />
 
             </MapView>);
 

@@ -68,6 +68,9 @@ public abstract partial class Widget : MapComponent
     /// </summary>
     public DotNetObjectReference<Widget> DotNetWidgetReference => DotNetObjectReference.Create(this);
 
+    /// <summary>
+    ///     Indicates if the widget is hidden. For internal use only.
+    /// </summary>
     protected virtual bool Hidden => false;
     
     /// <summary>
@@ -83,13 +86,13 @@ public abstract partial class Widget : MapComponent
     /// <inheritdoc />
     public override async Task SetParametersAsync(ParameterView parameters)
     {
-        await base.SetParametersAsync(parameters);
         IReadOnlyDictionary<string, object> dictionary = parameters.ToDictionary();
 
         if (!dictionary.ContainsKey(nameof(View)) && !dictionary.ContainsKey(nameof(MapView)))
         {
             throw new MissingMapViewReferenceException("Widgets outside the MapView must have the MapView parameter set.");
         }
+        await base.SetParametersAsync(parameters);
     }
 
     /// <inheritdoc />
@@ -135,7 +138,7 @@ public abstract partial class Widget : MapComponent
     /// <summary>
     ///     JS Object Reference to the widget
     /// </summary>
-    protected IJSObjectReference? JsWidgetReference;
+    public IJSObjectReference? JsWidgetReference;
 
     private bool _externalWidgetRegistered;
 }
@@ -158,6 +161,9 @@ internal class WidgetConverter : JsonConverter<Widget>
 /// </summary>
 public class MissingMapViewReferenceException: Exception
 {
+    /// <summary>
+    ///    Exception raised if an external component is missing a required reference to a <see cref="MapView"/>
+    /// </summary>
     public MissingMapViewReferenceException(string message) : base(message)
     {
     }
