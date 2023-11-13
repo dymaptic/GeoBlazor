@@ -377,3 +377,5 @@ MigrationBackup/
 !/templates/content/GeoBlazor.Template.WebAssembly/wwwroot/appsettings.json
 !/templates/content/GeoBlazor.Template.Server/appsettings.json
 !/templates/content/GeoBlazor.Template.Maui/appsettings.json
+!/templates/content/GeoBlazor.Template.WebApp/GeoBlazor.Template.WebApp/appsettings.json
+!/templates/content/GeoBlazor.Template.WebApp/GeoBlazor.Template.WebApp.Client/wwwroot/appsettings.json

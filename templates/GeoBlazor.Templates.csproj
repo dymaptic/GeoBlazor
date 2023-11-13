@@ -2,14 +2,14 @@
 
 	<PropertyGroup>
 		<PackageId>GeoBlazor.Templates</PackageId>
-		<Title>Geoblazor Project Templates</Title>
+		<Title>GeoBlazor Project Templates</Title>
 		<PackageVersion>1.0</PackageVersion>
 		<Version>1.0</Version>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<Company>dymaptic</Company>
 		<Copyright>©2023 by dymaptic</Copyright>
 		<Authors>dymaptic</Authors>
-		<Description>Sample project templates for Geoblazor</Description>
+		<Description>Sample project templates for GeoBlazor</Description>
 		<PackageTags>dotnet-new;templates;</PackageTags>
 		<RepositoryUrl>https://github.com/dymaptic/GeoBlazor</RepositoryUrl>
 		<PackageProjectUrl>https://geoblazor.com</PackageProjectUrl>

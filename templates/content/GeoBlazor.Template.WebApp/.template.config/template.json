@@ -1,10 +1,10 @@
 {
   "$schema": "http://json.schemastore.org/template",
   "author": "dymaptic",
-  "classifications": [ "Common", "ArcGis", "Geoblazor", "GeoBlazor Template", "Blazor" ],
+  "classifications": [ "Common", "ArcGis", "GeoBlazor", "GeoBlazor Template", "Blazor" ],
   "identity": "Geoblazor.Template.WebApp",
   "name": "Example Geoblazor templates: Web App project",
-  "shortName": "geoblazortemplatewebapp",
+  "shortName": "geoblazor-webapp",
   "sourceName": "GeoBlazor.Template.WebApp",
   "tags": {
     "language": "C#",

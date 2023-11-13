@@ -1,10 +1,10 @@
 {
   "$schema": "http://json.schemastore.org/template",
   "author": "dymaptic",
-  "classifications": [ "Common", "ArcGis", "Geoblazor", "GeoBlazor Template", "Blazor" ],
+  "classifications": [ "Common", "ArcGis", "GeoBlazor", "GeoBlazor Template", "Blazor" ],
   "identity": "Geoblazor.Template.Maui",
   "name": "Example Geoblazor templates: Maui project",
-  "shortName": "geoblazortemplatemaui",
+  "shortName": "geoblazor-maui",
   "sourceName": "GeoBlazor.Template.Maui",
   "tags": {
     "language": "C#",

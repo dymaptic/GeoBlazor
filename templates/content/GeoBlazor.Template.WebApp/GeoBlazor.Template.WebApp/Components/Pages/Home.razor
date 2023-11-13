@@ -1,4 +1,5 @@
 ﻿@page "/"
+@attribute [RenderModeInteractiveServer(prerender: false)]
 
 <PageTitle>Home</PageTitle>
 
@@ -15,4 +16,4 @@ Welcome to your new app.
 @code {
     private readonly double _latitude = 34.027;
     private readonly double _longitude = -118.805;
-} 
+}
