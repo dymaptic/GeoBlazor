@@ -33,14 +33,13 @@
 
     <ItemGroup>
         <!-- App Icon -->
-        <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
-
+        <MauiIcon Include="Resources\AppIcon\appiconfg.svg" Color="White" />
         <!-- Splash Screen -->
-        <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
+        <MauiSplashScreen Include="Resources\Splash\geoblazor.png" Color="Black" BaseSize="64,64" />
 
         <!-- Images -->
         <MauiImage Include="Resources\Images\*" />
-        <MauiImage Update="Resources\Images\dotnet_bot.svg" BaseSize="168,208" />
+        <MauiImage Update="Resources\Images\dymaptic.svg" BaseSize="168,208" />
 
         <!-- Custom Fonts -->
         <MauiFont Include="Resources\Fonts\*" />
@@ -50,7 +49,20 @@
     </ItemGroup>
 
     <ItemGroup>
+      <AndroidResource Remove="Resources\ImagesImagesAppIcon\**" />
+      <Compile Remove="Resources\ImagesImagesAppIcon\**" />
+      <Content Remove="Resources\ImagesImagesAppIcon\**" />
+      <EmbeddedResource Remove="Resources\ImagesImagesAppIcon\**" />
+      <MauiXaml Remove="Resources\ImagesImagesAppIcon\**" />
+      <None Remove="Resources\ImagesImagesAppIcon\**" />
+    </ItemGroup>
+
+    <ItemGroup>
       <Content Remove="appsettings.json" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <MauiImage Remove="Resources\Images\dymaptic.svg" />
     </ItemGroup>
 
     <ItemGroup>
