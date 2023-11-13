@@ -34,7 +34,7 @@
 
     <ItemGroup>
         <!-- App Icon -->
-        <MauiIcon Include="Resources\appicon.svg" ForegroundFile="Resources\appiconfg.svg" Color="Black"/>
+        <MauiIcon Include="Resources\appicon.svg" ForegroundFile="Resources\appiconfg.svg" />
 
         <!-- Splash Screen -->
         <MauiSplashScreen Include="Resources\Splash\geoblazor.png" Color="Black" BaseSize="64,64"/>
