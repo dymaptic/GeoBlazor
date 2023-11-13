@@ -49,8 +49,11 @@ public partial class MapView : MapComponent
     [Inject]
     public AuthenticationManager AuthenticationManager { get; set; } = default!;
 
+    /// <summary>
+    ///     Validates GeoBlazor Registration or Pro Licensing
+    /// </summary>
     [Inject]
-    private RegistrationValidator RegistrationValidator { get; set; } = default!;
+    private IAppValidator AppValidator { get; set; } = default!;
 
     /// <summary>
     ///     Boolean flag to identify if GeoBlazor is running in Blazor Server mode
@@ -2170,9 +2173,14 @@ public partial class MapView : MapComponent
 
             ProJsViewModule = await GetArcGisJsPro();
 
-            if (ProJsViewModule is null)
+            try
             {
-                await RegistrationValidator.ValidateLicense();
+                await AppValidator.ValidateLicense();
+            }
+            catch (Exception ex)
+            {
+                // only write exceptions out, don't throw.
+                Console.WriteLine(ex);
             }
 
             // the first render never has all the child components registered

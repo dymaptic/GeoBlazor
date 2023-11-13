@@ -31,6 +31,6 @@ public static class DependencyExtension
             .AddScoped<Projection>()
             .AddScoped<AbortManager>()
             .AddScoped<AuthenticationManager>()
-            .AddScoped<RegistrationValidator>();
+            .AddScoped<IAppValidator, RegistrationValidator>();
     }
 }

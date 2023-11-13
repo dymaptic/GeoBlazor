@@ -10,7 +10,12 @@ using System.Web;
 
 namespace dymaptic.GeoBlazor.Core;
 
-internal class RegistrationValidator
+public interface IAppValidator
+{
+    public Task ValidateLicense();
+}
+
+internal class RegistrationValidator: IAppValidator
 {
     public RegistrationValidator(GeoBlazorSettings settings, IJSRuntime jsRuntime, HttpClient httpClient,
         NavigationManager navigationManager, IConfiguration configuration)
