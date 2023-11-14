@@ -1,19 +1,21 @@
 ﻿@page "/"
-@attribute [RenderModeInteractiveServer(prerender: false)]
-
+@rendermode renderMode
 <PageTitle>Home</PageTitle>
 
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
 
-<MapView Longitude="_longitude" Latitude="_latitude" Zoom="11" Style="height: 400px; width: 100%;">
+<MapView Longitude="_longitude" Latitude="_latitude" Zoom="11" Style="height: 400px; width: 100%;" >
     <WebMap>
         <PortalItem Id="4a6cb60ebbe3483a805999d481c2daa5" />
     </WebMap>
 </MapView>
 
 @code {
+     private static IComponentRenderMode renderMode = new InteractiveServerRenderMode(prerender: false);
+
     private readonly double _latitude = 34.027;
     private readonly double _longitude = -118.805;
+   
 }
