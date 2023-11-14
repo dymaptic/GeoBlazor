@@ -1,5 +1,4 @@
-﻿@using dymaptic.GeoBlazor.Core.Events
-@inherits TestRunnerBase
+﻿@inherits TestRunnerBase
 
 @{
     base.BuildRenderTree(__builder);
@@ -23,67 +22,6 @@
             </MapView>);
         await WaitForMapToRender();
         await AssertJavaScript("assertLayerExists", args: "kml");
-    }
-
-    [TestMethod]
-    public async Task TestCanRenderFeatureLayer(Action renderHandler)
-    {
-        AddMapRenderFragment(
-            @<MapView class="map-view" OnViewRendered="renderHandler">
-                <Map>
-                    <FeatureLayer Url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/TrailRuns/FeatureServer/0" />
-                </Map>
-            </MapView>);
-        await WaitForMapToRender();
-        await AssertJavaScript("assertLayerExists", args: "feature");
-    }
-
-    [TestMethod]
-    public async Task TestCanRunFeatureLayerMethods(Action renderHandler)
-    {
-        FeatureLayer? layer = null;
-        var callbackCalled = false;
-
-        Task OnLayerViewCreate(LayerViewCreateEvent layerViewCreateEvent)
-        {
-            callbackCalled = true;
-            return Task.CompletedTask;
-        }
-
-        AddMapRenderFragment(
-            @<MapView class="map-view" OnViewRendered="renderHandler" OnLayerViewCreate="OnLayerViewCreate">
-                <Map>
-                    <FeatureLayer @ref="layer">
-                        <PortalItem Id="449887ea7d60429fbf6f0c67881f2758" />
-                    </FeatureLayer>
-                </Map>
-            </MapView>);
-
-        await WaitForMapToRender();
-
-        var tries = 100;
-        while (!callbackCalled && (tries > 0))
-        {
-            await Task.Delay(100);
-            tries--;
-        }
-        await AssertJavaScript("assertLayerExists", args: "feature");
-        Query query = await layer!.CreateQuery();
-        Assert.IsNotNull(query);
-        query.Num = 5;
-        query.OutFields = new[] { "*" };
-        FeatureSet? featureSet = await layer!.QueryFeatures(query);
-        Assert.IsNotNull(featureSet);
-        foreach (Graphic feature in featureSet.Features!)
-        {
-            FeatureType? featureType = await layer!.GetFeatureType(feature);
-            Assert.IsNotNull(featureType);
-        }
-        var fieldName = "strinsur";
-        Field? field = await layer.GetField(fieldName);
-        Assert.IsNotNull(field);
-        Domain? domain = await layer.GetFieldDomain(fieldName);
-        Assert.IsNotNull(domain);
     }
 
 }

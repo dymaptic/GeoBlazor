@@ -77,7 +77,7 @@ public partial class MapView : MapComponent
     /// <summary>
     ///     Optional reference to the Pro library JS module
     /// </summary>
-    protected IJSObjectReference? ProJsModule;
+    protected IJSObjectReference? ProJsViewModule;
 
     /// <summary>
     ///     A boolean flag to indicate that rendering is underway
@@ -859,7 +859,7 @@ public partial class MapView : MapComponent
             ? Map?.Basemap?.Layers.FirstOrDefault(l => l.Id == layerViewCreateEvent.LayerGeoBlazorId)
             : Map?.Layers.FirstOrDefault(l => l.Id == layerViewCreateEvent.LayerGeoBlazorId);
 
-        if (createdLayer is not null)
+        if (createdLayer is not null) // layer already exists in C#
         {
             createdLayer.LayerView = layerView;
 
@@ -873,7 +873,7 @@ public partial class MapView : MapComponent
                 layerView.Layer = createdLayer;
             }
         }
-        else
+        else // this should be a web-hosted layer that came via JS
         {
             Layer? layer = layerViewCreateEvent.Layer;
 
@@ -882,6 +882,8 @@ public partial class MapView : MapComponent
                 layer.LayerView = layerView;
                 layer.AbortManager = new AbortManager(JsRuntime);
                 layer.JsLayerReference = layerViewCreateEvent.LayerObjectRef;
+                layer.JsModule = ViewJsModule;
+                layer.ProJsModule = ProJsViewModule;
                 layer.Imported = true;
 
                 if (layerView is not null)
@@ -905,6 +907,8 @@ public partial class MapView : MapComponent
                         Map!.Layers.Add(layer);
                     }
                 }
+                
+                await JsModule!.InvokeVoidAsync("registerWebLayer", layerViewCreateEvent.LayerObjectRef, layer.Id);
             }
         }
 
@@ -1488,8 +1492,16 @@ public partial class MapView : MapComponent
 
         if (ViewJsModule is null) return;
 
-        await ViewJsModule!.InvokeVoidAsync("addLayer", CancellationTokenSource.Token,
-            (object)layer, Id, isBasemapLayer);
+        if (ProJsViewModule is not null && layer.GetType().Namespace!.Contains("Pro"))
+        {
+            await ProJsViewModule!.InvokeVoidAsync("addProLayer", CancellationTokenSource.Token, 
+                (object)layer, Id, isBasemapLayer);
+        }
+        else
+        {
+            await ViewJsModule!.InvokeVoidAsync("addLayer", CancellationTokenSource.Token,
+                (object)layer, Id, isBasemapLayer);
+        }
     }
 
     /// <summary>
@@ -2153,7 +2165,7 @@ public partial class MapView : MapComponent
 
             JsModule = ViewJsModule;
 
-            ProJsModule = await GetArcGisJsPro();
+            ProJsViewModule = await GetArcGisJsPro();
 
             // the first render never has all the child components registered
             Rendering = false;
@@ -2234,14 +2246,23 @@ public partial class MapView : MapComponent
             Rendering = false;
             MapRendered = true;
 
-            foreach (Widget widget in Widgets.Where(w => !w.GetType().Namespace!.Contains("Core")))
+            if (ProJsViewModule is not null)
             {
-                await AddWidget(widget);
+                // register pro widgets
+                foreach (Widget widget in Widgets.Where(w => !w.GetType().Namespace!.Contains("Core")))
+                {
+                    await AddWidget(widget);
+                }
             }
+           
+          
         });
     }
 
-    private async Task AddWidget(Widget widget)
+    /// <summary>
+    ///     Adds a widget to the view.
+    /// </summary>
+    public async Task AddWidget(Widget widget)
     {
         if (!_widgets.Contains(widget))
         {
@@ -2267,7 +2288,7 @@ public partial class MapView : MapComponent
             }
             else
             {
-                await ProJsModule!.InvokeVoidAsync("addProWidget",
+                await ProJsViewModule!.InvokeVoidAsync("addProWidget",
                     CancellationTokenSource.Token, widget, Id);
             }
         });
@@ -2284,7 +2305,10 @@ public partial class MapView : MapComponent
         }
     }
 
-    private async Task RemoveWidget(Widget widget)
+    /// <summary>
+    ///     Removes a widget from the view.
+    /// </summary>
+    public async Task RemoveWidget(Widget widget)
     {
         if (ViewJsModule is null) return;
 

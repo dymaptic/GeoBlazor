@@ -1,4 +1,5 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Layers;
+using Microsoft.AspNetCore.Components;
 using System.Text.Json.Serialization;
 
 
@@ -14,6 +15,13 @@ public class SimpleRenderer : Renderer
     /// <inheritdoc />
     [JsonPropertyName("type")]
     public override RendererType RendererType => RendererType.Simple;
+    
+    /// <summary>
+    ///     The label for the renderer. This describes what features with the given symbol represent in the real world. This will display next to the layer's symbol inside the Legend widget.
+    ///     This text is not displayed in the Legend when visualVariables are used. When the renderer contains visualVariables, you should set the title property in legendOptions on each visual variable to describe the visualization.
+    /// </summary>
+    [Parameter]
+    public string? Label { get; set; }
 
     /// <summary>
     ///     A collection of <see cref="VisualVariable" /> objects.

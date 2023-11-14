@@ -49,7 +49,7 @@ import {
     DotNetCodedValue,
     DotNetInheritedDomain,
     DotNetRangeDomain,
-    DotNetEffect, 
+    DotNetEffect,
     DotNetFeatureTemplate
 } from "./definitions";
 import Point from "@arcgis/core/geometry/Point";
@@ -79,7 +79,7 @@ import ExpressionContent from "@arcgis/core/popup/content/ExpressionContent";
 import ElementExpressionInfo from "@arcgis/core/popup/ElementExpressionInfo";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
-import {arcGisObjectRefs, hasValue} from "./arcGisJsInterop";
+import {arcGisObjectRefs, copyValuesIfExists, hasValue} from "./arcGisJsInterop";
 import SimpleMarkerSymbol from "@arcgis/core/symbols/SimpleMarkerSymbol";
 import Symbol from "@arcgis/core/symbols/Symbol";
 import Graphic from "@arcgis/core/Graphic";
@@ -108,6 +108,18 @@ import SuggestResult = __esri.SuggestResult;
 import FeatureType from "@arcgis/core/layers/support/FeatureType";
 import FeatureTemplate from "@arcgis/core/layers/support/FeatureTemplate";
 import FeatureTemplateThumbnail = __esri.FeatureTemplateThumbnail;
+import LabelClass from "@arcgis/core/layers/support/LabelClass";
+import Renderer from "@arcgis/core/renderers/Renderer";
+import PieChartRenderer from "@arcgis/core/renderers/PieChartRenderer";
+import AggregateField from "@arcgis/core/layers/support/AggregateField";
+import sizeVisualVariableResult = __esri.sizeVisualVariableResult;
+import SizeVariable from "@arcgis/core/renderers/visualVariables/SizeVariable";
+import PieChartScheme = __esri.PieChartScheme;
+import SizeScheme = __esri.SizeScheme;
+import SizeSchemeForPoint = __esri.SizeSchemeForPoint;
+import SizeSchemeForPolygon = __esri.SizeSchemeForPolygon;
+import UniqueValuesResult = __esri.UniqueValuesResult;
+import AuthoringInfo from "@arcgis/core/renderers/support/AuthoringInfo";
 
 
 export function buildDotNetGraphic(graphic: Graphic): DotNetGraphic {
@@ -733,7 +745,7 @@ export function buildDotNetBookmark(bookmark: any): DotNetBookmark {
 }
 
 export function buildDotNetViewpoint(viewpoint: any): DotNetViewpoint | null {
-    if (viewpoint === null) return null;
+    if (!hasValue(viewpoint)) return null;
     return {
         rotation: viewpoint.rotation,
         scale: viewpoint.scale,
@@ -742,7 +754,7 @@ export function buildDotNetViewpoint(viewpoint: any): DotNetViewpoint | null {
 }
 
 export function buildDotNetTimeExtent(timeExtent: any): any | null {
-    if (timeExtent === null) return null;
+    if (!hasValue(timeExtent)) return null;
     return {
         start: timeExtent.start.toISOString(),
         end: timeExtent.end.toISOString()
@@ -805,13 +817,13 @@ export function buildDotNetEffect(jsEffect: any): DotNetEffect | null {
     if (!hasValue(jsEffect)) {
         return null;
     }
-    
+
     if (jsEffect instanceof String) {
         return {
             value: jsEffect
         } as DotNetEffect;
     }
-    
+
     return {
         value: jsEffect.value,
         scale: jsEffect.scale
@@ -837,10 +849,6 @@ export function buildDotNetLod(lod: LOD) {
         resolution: lod.resolution,
         scale: lod.scale
     }
-}
-
-export function hasValue(prop: any): boolean {
-    return prop !== undefined && prop !== null;
 }
 
 export function buildDotNetSearchSource(jsSource: LayerSearchSource | LocatorSearchSource): any {
@@ -959,4 +967,181 @@ export function buildDotNetSuggestResult(jsSuggestResult: SuggestResult) {
         key: jsSuggestResult.key,
         sourceIndex: jsSuggestResult.sourceIndex
     }
+}
+
+export function buildDotNetLabelClass(labelClass: LabelClass): any {
+    return {
+        labelExpression: labelClass.labelExpression,
+        labelExpressionInfo: buildDotNetLabelExpressionInfo(labelClass.labelExpressionInfo),
+        allowOverrun: labelClass.allowOverrun,
+        deconflictionStrategy: labelClass.deconflictionStrategy,
+        labelPlacement: labelClass.labelPlacement,
+        labelPosition: labelClass.labelPosition,
+        maxScale: labelClass.maxScale,
+        minScale: labelClass.minScale,
+        repeatLabel: labelClass.repeatLabel,
+        repeatLabelDistance: labelClass.repeatLabelDistance,
+        symbol: buildDotNetSymbol(labelClass.symbol),
+        useCodedValues: labelClass.useCodedValues,
+        where: labelClass.where
+    }
+}
+
+export function buildDotNetLabelExpressionInfo(labelExpressionInfo: any): any {
+    return {
+        value: labelExpressionInfo.value,
+        expression: labelExpressionInfo.expression
+    }
+}
+
+export function buildDotNetRenderer(jsRenderer: Renderer): any {
+    switch (jsRenderer?.type) {
+        case "pie-chart":
+            return buildDotNetPieChartRenderer(jsRenderer as PieChartRenderer);
+    }
+    
+    return jsRenderer;
+}
+
+function buildDotNetPieChartRenderer(jsRenderer: PieChartRenderer): any {
+    let dnRenderer: any = {};
+    dnRenderer.type = jsRenderer.type;
+    if (hasValue(jsRenderer.attributes) && jsRenderer.attributes.length > 0) {
+        dnRenderer.attributes = jsRenderer.attributes.map(a => {
+            return {
+                color: a.color.toHex(),
+                field: a.field,
+                label: a.label,
+                valueExpression: a.valueExpression,
+                valueExpressionTitle: a.valueExpressionTitle
+            }
+        });
+    }
+    if (hasValue(jsRenderer.authoringInfo)) {
+        dnRenderer.authoringInfo = buildDotNetAuthoringInfo(jsRenderer.authoringInfo);
+    }
+    if (hasValue(jsRenderer.backgroundFillSymbol)) {
+        dnRenderer.backgroundFillSymbol = buildDotNetSymbol(jsRenderer.backgroundFillSymbol);
+    }
+    if (hasValue(jsRenderer.defaultColor)) {
+        dnRenderer.defaultColor = jsRenderer.defaultColor.toHex();
+    }
+    if (hasValue(jsRenderer.othersCategory)) {
+        dnRenderer.othersCategory = {
+            color: jsRenderer.othersCategory.color?.toHex(),
+            label: jsRenderer.othersCategory.label,
+            threshold: jsRenderer.othersCategory.threshold
+        }
+    }
+    if (hasValue(jsRenderer.outline)) {
+        dnRenderer.outline = buildDotNetSymbol(jsRenderer.outline);
+    }
+
+    copyValuesIfExists(jsRenderer, dnRenderer, 'defaultLabel', 'holePercentage', 'legendOptions',
+        'size', 'type', 'visualVariables');    
+    
+    return dnRenderer;
+}
+
+export function buildDotNetAggregateField(jsField: AggregateField): any {
+    let dnField : any = {};
+    
+    if (hasValue(jsField.onStatisticExpression)) {
+        dnField.onStatisticExpression = buildDotNetExpressionInfo(jsField.onStatisticExpression);
+    }
+    
+    copyValuesIfExists(jsField, dnField, 'alias', 'isAutoGenerated', 'name', 'onStatisticField', 'statisticType');
+    return dnField;
+}
+
+export function buildDotNetVisualVariableResult(jsResult: sizeVisualVariableResult) : any {
+    let dnResult: any = {};
+    if (hasValue(jsResult.visualVariables) && jsResult.visualVariables.length > 0) {
+        dnResult.visualVariables = jsResult.visualVariables.map(buildDotNetSizeVariable);
+    }
+    if (hasValue(jsResult.sizeScheme)) {
+        dnResult.sizeScheme = buildDotNetSizeScheme(jsResult.sizeScheme);
+    }
+    if (hasValue(jsResult.authoringInfo)) {
+        dnResult.authoringInfo = buildDotNetAuthoringInfo(jsResult.authoringInfo);
+    }
+    copyValuesIfExists(jsResult, dnResult, 'defaultValuesUsed', 'basemapId', 'basemapTheme', 'statistics');
+    return dnResult;
+}
+
+export function buildDotNetSizeVariable(jsSizeVariable: SizeVariable): any {
+    let dnSizeVariable: any = {};
+    copyValuesIfExists(jsSizeVariable, dnSizeVariable, 'axis', 'field', 'legendOptions', 'maxDataValue', 
+        'maxSize', 'minDataValue', 'minSize', 'normalizationField', 'stops', 'target', 'type', 'useSymbolValue',
+        'valueExpression', 'valueExpressionTitle', 'valueRepresentation', 'valueUnit');
+    return dnSizeVariable;
+}
+
+export function buildDotNetSizeScheme(jsSizeScheme: SizeScheme) : any {
+    let dnSizeScheme: any = {};
+    copyValuesIfExists(jsSizeScheme, dnSizeScheme, 'size', 'noDataSize', 'minSize', 'maxSize', 'opacity',
+        'width', 'noDataWidth', 'minWidth', 'maxWidth');
+    copyColorIfExists(jsSizeScheme, dnSizeScheme, 'color', 'noDataColor');
+    if (jsSizeScheme.hasOwnProperty('outline')) {
+        dnSizeScheme.outline = {
+            color: (jsSizeScheme as SizeSchemeForPoint).outline.color.toHex(),
+            width: (jsSizeScheme as SizeSchemeForPoint).outline.width
+        };
+    }
+    if (jsSizeScheme.hasOwnProperty('background')) {
+        dnSizeScheme.background = {
+            color: (jsSizeScheme as SizeSchemeForPolygon).background.color.toHex(),
+            outline: {
+                color: (jsSizeScheme as SizeSchemeForPolygon).background.outline.color.toHex(),
+                width: (jsSizeScheme as SizeSchemeForPolygon).background.outline.width
+            }
+        }
+    }
+    
+    return dnSizeScheme;
+}
+
+function copyColorIfExists(jsObject: any, dnObject: any, ...params: Array<string>) {
+    params.forEach(p => {
+        if (hasValue(jsObject[p]) && jsObject[p] !== dnObject[p]) {
+            dnObject[p] = jsObject[p].toHex();
+        }
+    });
+}
+
+export function buildDotNetPieChartScheme(jsPieChartScheme: PieChartScheme): any {
+    let dnPieChartScheme: any = {};
+    copyValuesIfExists(jsPieChartScheme, dnPieChartScheme, 'name', 'tags', 'size');
+    if (hasValue(jsPieChartScheme.colorForOthersCategory)) {
+        dnPieChartScheme.colorForOthersCategory = jsPieChartScheme.colorForOthersCategory.toHex();
+    }
+    if (hasValue(jsPieChartScheme.colors) && jsPieChartScheme.colors.length > 0) {
+        dnPieChartScheme.colors = jsPieChartScheme.colors.map(c => c.toHex());
+    }
+    if (hasValue(jsPieChartScheme.outline)) {
+        dnPieChartScheme.outline = {
+            color: jsPieChartScheme.outline.color.toHex(),
+            width: jsPieChartScheme.outline.width
+        };
+    }
+    if (hasValue(jsPieChartScheme.sizeScheme)) {
+        dnPieChartScheme.sizeScheme = buildDotNetSizeScheme(jsPieChartScheme.sizeScheme);
+    }
+    
+    return dnPieChartScheme;
+}
+
+export function buildDotNetAuthoringInfo(jsAuthoringInfo: AuthoringInfo): any {
+    let dnAuthoringInfo: any = {};
+    copyValuesIfExists(jsAuthoringInfo, dnAuthoringInfo, 'classificationMethod', 'fadeRatio', 'field1', 
+        'field2', 'fields', 'flowTheme', 'focus', 'isAutoGenerated', 'lengthUnit', 'maxSliderValue', 'minSliderValue',
+        'numClasses', 'standardDeviationInterval', 'statistics', 'type');
+    
+    if (hasValue(jsAuthoringInfo.colorRamp)) {
+        dnAuthoringInfo.colorRamp = {
+            type: jsAuthoringInfo.colorRamp.type
+        };
+    }
+    
+    return dnAuthoringInfo;
 }

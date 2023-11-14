@@ -2,6 +2,8 @@
 import {buildDotNetGraphic} from "./dotNetBuilder";
 import {DotNetGraphic} from "./definitions";
 import {dotNetRefs, graphicsRefs} from "./arcGisJsInterop";
+import {buildJsSymbol} from "./jsBuilder";
+import Symbol from "@arcgis/core/symbols/Symbol";
 
 export default class PopupWidgetWrapper {
     private popup: Popup;
@@ -56,5 +58,9 @@ export default class PopupWidgetWrapper {
 
     setContent(content: string) {
         this.popup.content = content;
+    }
+    
+    setSelectedClusterBoundaryFeatureSymbol(symbol: any) {
+        this.popup.viewModel.selectedClusterBoundaryFeature.symbol = buildJsSymbol(symbol) as Symbol;
     }
 }

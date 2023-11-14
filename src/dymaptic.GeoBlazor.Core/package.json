@@ -1,6 +1,6 @@
 {
   "name": "dymaptic.GeoBlazor.Core",
-  "version": "2.4.0",
+  "version": "2.4.1-beta-1",
   "description": "https://www.geoblazor.com",
   "main": "arcGisInterop.js",
   "scripts": {
@@ -12,7 +12,7 @@
   "author": "Tim Purdum",
   "license": "ISC",
   "dependencies": {
-    "@arcgis/core": "^4.27.6",
+    "@arcgis/core": "4.27.6",
     "esbuild": "^0.17.19",
     "protobufjs": "^7.2.4",
     "protobufjs-cli": "^1.1.1"

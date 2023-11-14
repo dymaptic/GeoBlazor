@@ -52,6 +52,13 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     [CascadingParameter(Name = "JsModule")]
     [JsonIgnore]
     public IJSObjectReference? JsModule { get; set; }
+    
+    /// <summary>
+    ///     Optional JsModule for GeoBlazor Pro
+    /// </summary>
+    [CascadingParameter(Name = "ProJsModule")]
+    [JsonIgnore]
+    public IJSObjectReference? ProJsModule { get; set; }
 
     /// <summary>
     ///     The parent <see cref="MapView" /> of the current component.
@@ -64,6 +71,11 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     ///     A unique identifier, used to track components across .NET and JavaScript.
     /// </summary>
     public Guid Id { get; init; } = Guid.NewGuid();
+    
+    /// <summary>
+    ///     Extension properties for GeoBlazor Pro
+    /// </summary>
+    public Dictionary<string, object?> ProProperties { get; init; }= new();
 
     /// <summary>
     ///     Implements the `IAsyncDisposable` pattern.
@@ -138,8 +150,25 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     /// <remarks>
     ///     This method is an implementation detail and should not be called directly by consumers. In future versions, this may be changed to an internal method. If you see no other way to register a child component, please open an issue on GitHub.
     /// </remarks>
-    public virtual Task RegisterChildComponent(MapComponent child)
+    public virtual async Task RegisterChildComponent(MapComponent child)
     {
+        try
+        {
+            Assembly proAssembly = Assembly.Load("dymaptic.GeoBlazor.Pro");
+            _proExtensions ??= proAssembly.GetType("dymaptic.GeoBlazor.Pro.ProExtensions");
+            MethodInfo? method = _proExtensions?.GetMethod("RegisterProChildComponent");
+
+            if (method is not null)
+            {
+                await (Task)method.Invoke(null, new object?[] { this, child })!;
+
+                return;
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
         throw new InvalidChildElementException(GetType().Name, child.GetType().Name);
     }
 
@@ -152,8 +181,25 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     /// <remarks>
     ///     This method is an implementation detail and should not be called directly by consumers. In future versions, this may be changed to an internal method.
     /// </remarks>
-    public virtual Task UnregisterChildComponent(MapComponent child)
+    public virtual async Task UnregisterChildComponent(MapComponent child)
     {
+        try
+        {
+            Assembly proAssembly = Assembly.Load("dymaptic.GeoBlazor.Pro");
+            _proExtensions ??= proAssembly.GetType("dymaptic.GeoBlazor.Pro.ProExtensions");
+            MethodInfo? method = _proExtensions?.GetMethod("UnregisterProChildComponent");
+
+            if (method is not null)
+            {
+                await (Task)method.Invoke(null, new object?[] { this, child })!;
+
+                return;
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
         throw new InvalidChildElementException(GetType().Name, child.GetType().Name);
     }
 
@@ -324,6 +370,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _watchers = new();
     private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _listeners = new();
     private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _waiters = new();
+    private Type? _proExtensions;
 
     /// <summary>
     ///     Creates a cancellation token to control external calls
@@ -727,7 +774,6 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     [JSInvokable]
     public void OnReactiveWaiterTrue(string waitExpression)
     {
-        Console.WriteLine($"Reactive Waiter Triggered for wait expression \"{waitExpression}\"");
         Delegate handler = _waiters[waitExpression].Handler;
         handler.DynamicInvoke();
     }
@@ -768,7 +814,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         }
 
         return await JsModule!.InvokeAsync<T>("awaitReactiveSingleWatchUpdate", token, Id, targetName,
-            watchExpression, DotNetObjectReference.Create(this));
+            watchExpression);
     }
 
 #endregion

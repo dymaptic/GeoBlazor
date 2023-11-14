@@ -20,7 +20,7 @@ import {
     buildJsRelationshipQuery,
     buildJsTopFeaturesQuery,
     buildJsPortalItem,
-    buildJsGraphic
+    buildJsGraphic, buildJsEffect
 } from "./jsBuilder";
 import {
     buildDotNetExtent,
@@ -296,7 +296,9 @@ export default class FeatureLayerWrapper {
         return domain;
     }
 
-
+    getCapabilities() {
+        return this.layer.capabilities;
+    }
 
     async clone(): Promise<DotNetFeatureLayer> {
 
@@ -312,6 +314,10 @@ export default class FeatureLayerWrapper {
         return buildDotNetFeatureLayer(this.layer);
     }
 
+    setEffect(dnEffect: any): void {
+        let jsEffect = buildJsEffect(dnEffect);
+        this.layer.effect = jsEffect;
+    }
     hasValue(prop: any): boolean {
         return prop !== undefined && prop !== null;
     }

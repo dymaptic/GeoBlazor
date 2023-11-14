@@ -48,15 +48,3 @@
                              Url="https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer" />
     </SearchWidget>
 </MapView>
-
-@code {
-    private readonly FeatureLayer _districtsLayer = new(
-        "",
-        popupTemplate: new PopupTemplate("", 
-            overwriteActions: true));
-
-    private readonly FeatureLayer _senatorsLayer = new(
-        "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/US_Senators_2020/FeatureServer/0",
-        popupTemplate: new PopupTemplate("<a href={Web_Page} target='_blank'> {Name}</a>, ({Party}-{State}) ", 
-            overwriteActions: true));
-}
