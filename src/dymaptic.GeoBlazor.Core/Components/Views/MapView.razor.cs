@@ -50,6 +50,12 @@ public partial class MapView : MapComponent
     public AuthenticationManager AuthenticationManager { get; set; } = default!;
 
     /// <summary>
+    ///     Validates GeoBlazor Registration or Pro Licensing
+    /// </summary>
+    [Inject]
+    private IAppValidator AppValidator { get; set; } = default!;
+
+    /// <summary>
     ///     Boolean flag to identify if GeoBlazor is running in Blazor Server mode
     /// </summary>
     public bool IsServer => JsRuntime.GetType().Name.Contains("Remote");
@@ -2168,6 +2174,16 @@ public partial class MapView : MapComponent
             ViewJsModule = await JsModuleManager.GetArcGisJsCore(JsRuntime, ProJsViewModule, CancellationTokenSource.Token);
 
             JsModule = ViewJsModule;
+
+            try
+            {
+                await AppValidator.ValidateLicense();
+            }
+            catch (Exception ex)
+            {
+                // only write exceptions out, don't throw.
+                Console.WriteLine(ex);
+            }
 
             // the first render never has all the child components registered
             Rendering = false;

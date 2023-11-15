@@ -82,12 +82,13 @@ ArcGIS JavaScript API, but without having to write a single line of JavaScript.
    @using dymaptic.GeoBlazor.Core.Components.Symbols
    @using dymaptic.GeoBlazor.Core.Components.Views
    @using dymaptic.GeoBlazor.Core.Components.Widgets
+   @using dymaptic.GeoBlazor.Core.Events
    @using dymaptic.GeoBlazor.Core.Objects
    ```
 6. In `Program.cs` (for each executable project), add the following line to your `builder.Services` to inject logic components like `GeometryEngine`.
 
    ```csharp
-      builder.Services.AddGeoBlazor();
+      builder.Services.AddGeoBlazor(builder.Configuration);
    ```
 
    If you are using Blazor Server or InteractiveServer mode in Blazor Web Apps, you should also add the following lines
@@ -134,17 +135,38 @@ ArcGIS JavaScript API, but without having to write a single line of JavaScript.
    ```
 10. Add a Widget to the `MapView`, after the `WebMap`.
 
-```html
-<MapView Longitude="_longitude" Latitude="_latitude" Zoom="11" Style="height: 400px; width: 100%;"> 
-    <WebMap>
-        <PortalItem Id="4a6cb60ebbe3483a805999d481c2daa5" />
-    </WebMap>
-    <ScaleBarWidget Position="OverlayPosition.BottomLeft" />
-</MapView>
-```
+   ```html
+   <MapView Longitude="_longitude" Latitude="_latitude" Zoom="11" Style="height: 400px; width: 100%;"> 
+       <WebMap>
+           <PortalItem Id="4a6cb60ebbe3483a805999d481c2daa5" />
+       </WebMap>
+       <ScaleBarWidget Position="OverlayPosition.BottomLeft" />
+   </MapView>
+   ```
 
 11. Run your application and make sure you can see your map!
 12. Now that you have a great starting point, you can now start to customize the features available in your new app
     using Geoblazor's capabilites:<br/>
-    -Take a look at the [Documentation](https://docs.geoblazor.com/index.html) pages to learn more.<br/>
+    -Take a look at the [Documentation](https://docs.geoblazor.com/index.html) pages to learn more.
+13. _Optional_: To remove the `Thank You` message from your console messages, please consider registering your application
+    on the [dymaptic licensing server](https://licensing.dymaptic.com). After registering and filling out a small questionnaire,
+    you will receive a registration key, which you can add to any configuration (e.g., `appsettings.json`) to remove the
+    message.
+   
+   ```json
+   "Logging": ...,
+    "AllowedHosts": ...,
+    "ArcGISApiKey": "YOUR_ARCGIS_API_KEY",
+    "GeoBlazor": {
+        "RegistrationKey": "YOUR_REGISTRATION_KEY",
+        "ValidationServerStoragePath": "YOUR_VALIDATION_SERVER_STORAGE_PATH"
+    }
+   ```
+   <code>ValidationServerStoragePath</code> is optional to define where
+   a Blazor Server application will store the validated license result
+   (defaults to <code>Path.GetTempPath()</code>). You must ensure
+   that your server has write access to this path.
+
+   You should also update your `Program.cs` code, and replace any existing `builder.Services.AddGeoBlazor()` calls
+   with `builder.Services.AddGeoBlazor(builder.Configuration)`.
      
