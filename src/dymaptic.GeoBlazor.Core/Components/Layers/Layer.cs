@@ -159,11 +159,12 @@ public abstract class Layer : MapComponent
     {
         AbortManager = new AbortManager(JsRuntime);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        IJSObjectReference arcGisJsInterop = await GetArcGisJsInterop();
+        IJSObjectReference? arcGisPro = await JsModuleManager.GetArcGisJsPro(JsRuntime, cancellationToken);
+        IJSObjectReference arcGisJsInterop = await JsModuleManager.GetArcGisJsCore(JsRuntime, arcGisPro, cancellationToken);
 
-        if (GetType().Namespace!.Contains("Pro"))
+        if (arcGisPro is not null)
         {
-            JsLayerReference = await (await GetArcGisJsPro())!.InvokeAsync<IJSObjectReference>("createProLayer",
+            JsLayerReference = await arcGisPro.InvokeAsync<IJSObjectReference>("createProLayer",
                 // ReSharper disable once RedundantCast
                 cancellationToken, (object)this, true, View?.Id);
         }
