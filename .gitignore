@@ -373,3 +373,4 @@ MigrationBackup/
 /docs/.DS_Store
 /src/dymaptic.GeoBlazor.Core/Documentation/**/*
 /test/dymaptic.GeoBlazor.Core.Test.Blazor.Wasm/wwwroot/appsettings.json
+/samples/dymaptic.GeoBlazor.Core.Sample.WebApp.Client/wwwroot/appsettings.json

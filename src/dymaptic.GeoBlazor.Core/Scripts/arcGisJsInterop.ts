@@ -2696,8 +2696,13 @@ let ProtoGraphicCollection;
 
 export async function loadProtobuf() {
     load("_content/dymaptic.GeoBlazor.Core/graphic.json", function (err, root) {
-        if (err) throw err;
-        ProtoGraphicCollection = root?.lookupType("ProtoGraphicCollection");
+        try {
+            if (err) throw err;
+            ProtoGraphicCollection = root?.lookupType("ProtoGraphicCollection");
+            console.debug('Protobuf graphics json loaded');
+        } catch (error) {
+            logError(error, null);
+        }    
     });
 }
 
