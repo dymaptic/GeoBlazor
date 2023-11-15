@@ -121,6 +121,7 @@ public partial class MapView : MapComponent
     ///     A reference to the JavaScript AbortManager for this component.
     /// </summary>
     protected AbortManager? AbortManager;
+    private bool _authenticationInitialized;
 
 
 #region Parameters
@@ -1420,9 +1421,24 @@ public partial class MapView : MapComponent
     }
 
 #if NET7_0_OR_GREATER
+    internal void AddGraphicsSyncInterop(byte[] graphics, string id, string? layerId = null)
+    {
+        if (ProJsViewModule is not null)
+        {
+            AddGraphicsProSyncInterop(graphics, id, layerId);
+        }
+        else
+        {
+            AddGraphicsCoreSyncInterop(graphics, id, layerId);
+        }
+    }
+
 #pragma warning disable CA1416
-    [JSImport("addGraphicsSyncInterop", "arcGisJsInterop")]
-    internal static partial void AddGraphicsSyncInterop(byte[] graphics, string id, string? layerId = null);
+    [JSImport("addGraphicsCoreSyncInterop", "arcGisJsInterop")]
+    internal static partial void AddGraphicsCoreSyncInterop(byte[] graphics, string id, string? layerId = null);
+
+    [JSImport("addGraphicsProSyncInterop", "arcGisPro")]
+    internal static partial void AddGraphicsProSyncInterop(byte[] graphics, string id, string? layerId = null);
 #pragma warning restore CA1416
 #endif
 
@@ -2140,20 +2156,6 @@ public partial class MapView : MapComponent
         await UpdateView();
     }
 
-    /// <inheritdoc />
-    protected override async Task OnInitializedAsync()
-    {
-#if NET7_0_OR_GREATER
-        if (IsWebAssembly)
-        {
-#pragma warning disable CA1416
-            await JSHost.ImportAsync("arcGisJsInterop", "../_content/dymaptic.GeoBlazor.Core/js/arcGisJsInterop.js");
-#pragma warning restore CA1416
-        }
-#else
-        await Task.Run(() => Task.CompletedTask);
-#endif
-    }
 
     /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -2167,11 +2169,11 @@ public partial class MapView : MapComponent
 
         if (firstRender)
         {
-            ViewJsModule = await GetArcGisJsInterop();
+            ProJsViewModule = await JsModuleManager.GetArcGisJsPro(JsRuntime, CancellationTokenSource.Token);
+
+            ViewJsModule = await JsModuleManager.GetArcGisJsCore(JsRuntime, ProJsViewModule, CancellationTokenSource.Token);
 
             JsModule = ViewJsModule;
-
-            ProJsViewModule = await GetArcGisJsPro();
 
             try
             {
@@ -2186,7 +2188,7 @@ public partial class MapView : MapComponent
             // the first render never has all the child components registered
             Rendering = false;
 
-            await AuthenticationManager.Initialize();
+            _authenticationInitialized = await AuthenticationManager.Initialize();
 
             if (!string.IsNullOrEmpty(AppId) && (PromptForOAuthLogin == true))
             {
@@ -2212,7 +2214,7 @@ public partial class MapView : MapComponent
             return;
         }
 
-        if (Rendering || Map is null || ViewJsModule is null) return;
+        if (!_authenticationInitialized || Rendering || Map is null || ViewJsModule is null) return;
 
         if (string.IsNullOrWhiteSpace(ApiKey) && AllowDefaultEsriLogin is null or false &&
             PromptForArcGISKey is null or true && string.IsNullOrWhiteSpace(AppId))

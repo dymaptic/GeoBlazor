@@ -19,10 +19,11 @@ ArcGIS JavaScript API, but without having to write a single line of JavaScript.
 
 (from https://docs.geoblazor.com/pages/gettingStarted.html)
 
-1. Create a new Blazor Server, Blazor Wasm, or Blazor Hybrid (MAUI) project, using the templates provided in your IDE or
-   the `dotnet` CLI.
-2. Add a `PackageReference` to the latest version of the `dymaptic.GeoBlazor.Core` package via your IDE's Nuget Package
-   Manager or `dotnet add package dymaptic.GeoBlazor.Core`.
+1. Create a new Blazor Web App (.NET 8), Blazor Server, Blazor Wasm, or Blazor Hybrid (MAUI) project,
+   using the templates provided in your IDE or the `dotnet` CLI.
+2. add a `PackageReference` to the latest version of the `dymaptic.GeoBlazor.Core` package via your IDE's Nuget Package
+   Manager or `dotnet add package dymaptic.GeoBlazor.Core`. For Blazor Web Apps supporting WebAssembly, add this
+   reference to the `.Client` WebAssembly project.
 3. The ArcGIS API requires some form of authentication. The simplest is to use an API Key. Generate a key from
    the [ArcGIS Developer Dashboard](https://developers.arcgis.com/api-keys/). For Blazor Server, place it in your
    appsettings.json, like this:
@@ -35,8 +36,8 @@ ArcGIS JavaScript API, but without having to write a single line of JavaScript.
    <div style="font-size: 0.8rem; font-style: italic; margin-bottom: 1rem;">
 
    Note: If you are using Blazor WASM, there are several issues with this approach. First, <code>appsettings.json</code>
-   is not added by default to the template.
-   If you want to add it yourself, you need to add it inside the <code>wwwroot</code> folder.
+   is not added by default to all templates. If you want to add it yourself, you need to add it inside the
+   <code>wwwroot</code> folder. For Blazor Web Apps with WebAssembly, you must define the API key in _both_ projects.
 
    <span style="color:red;">Be Aware</span> that the API key will be exposed in the browser
    (just like it would with Javascript). Even when using Blazor Server, the API key may be present in HTTP requests
@@ -50,7 +51,8 @@ ArcGIS JavaScript API, but without having to write a single line of JavaScript.
    but this is more complex. You can read about all the authentication options in <a href="https://docs.geoblazor.com/pages/authentication.html">Authentication</a>.
    </div>
 4. In the root file that defines your html, add the following lines to the `<head>` section.
-   This would be `_Layout.cshtml` for Blazor Server, or `index.html` for Blazor Wasm and Blazor Hybrid.
+   This would be `_Layout.cshtml` for Blazor Server, `index.html` for Blazor Wasm and Blazor Hybrid,
+   or `App.razor` for Blazor Web Apps.
    Note that `YourProject` is the namespace for the application that you are creating.
 
     ```html
@@ -70,7 +72,7 @@ ArcGIS JavaScript API, but without having to write a single line of JavaScript.
    <div style="font-size: 0.8rem; font-style: italic; margin-bottom: 1rem;">
    Note: You may already have the `YourProject.styles.css` file. If so, you can just add the two lines to the existing file. In some .Net templates, this file is commented out by default and you will need to add it.
    </div>
-5. In `_Imports.razor`, add the following lines, or add as needed to resolve code that you consume.
+5. In `_Imports.razor` (for each executable project), add the following lines, or add as needed to resolve code that you consume.
 
    ```csharp
    @using dymaptic.GeoBlazor.Core.Components
@@ -83,10 +85,25 @@ ArcGIS JavaScript API, but without having to write a single line of JavaScript.
    @using dymaptic.GeoBlazor.Core.Events
    @using dymaptic.GeoBlazor.Core.Objects
    ```
-6. In `Program.cs`, add the following line to your `builder.Services` to inject logic components like `GeometryEngine`.
+6. In `Program.cs` (for each executable project), add the following line to your `builder.Services` to inject logic components like `GeometryEngine`.
 
    ```csharp
       builder.Services.AddGeoBlazor(builder.Configuration);
+   ```
+
+   If you are using Blazor Server or InteractiveServer mode in Blazor Web Apps, you should also add the following lines
+   to `Program.cs` to support the `.wsv` file type.
+
+   ```csharp
+   var provider = new FileExtensionContentTypeProvider();
+   provider.Mappings[".wsv"] = "application/octet-stream";
+
+   app.UseStaticFiles();
+   // NOTE: for some reason, you still need the plain "UseStaticFiles" call above
+   app.UseStaticFiles(new StaticFileOptions
+   {
+       ContentTypeProvider = provider
+   });
    ```
 
 7. Create a new Razor Component in the `Pages` folder, or just use `Index.razor`. Add a `MapView`. Give it basic

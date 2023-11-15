@@ -9,8 +9,8 @@
         </Description>
         <Title>GeoBlazor</Title>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <PackageVersion>2.4.1-beta-2</PackageVersion>
-        <Version>2.4.1-beta-2</Version>
+        <PackageVersion>2.4.1-beta-3</PackageVersion>
+        <Version>2.4.0-beta-3</Version>
         <Authors>dymaptic</Authors>
         <Company>dymaptic</Company>
         <Copyright>©2023 by dymaptic</Copyright>
@@ -20,7 +20,7 @@
         <RepositoryType>git</RepositoryType>
         <PackageIcon>Blazor-API-500px.png</PackageIcon>
         <GeneratePackageOnBuild Condition="$(Configuration) == 'RELEASE'">true</GeneratePackageOnBuild>
-        <TargetFrameworks>net7.0;net6.0</TargetFrameworks>
+        <TargetFrameworks>net8.0;net7.0;net6.0</TargetFrameworks>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <Nullable>enable</Nullable>
@@ -36,8 +36,7 @@
 
     <ItemGroup>
         <PackageReference Include="DefaultDocumentation" Version="0.8.2" PrivateAssets="all" />
-        <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.1" />
-        <PackageReference Include="protobuf-net" Version="3.2.16" />
+        <PackageReference Include="protobuf-net" Version="3.2.26" />
     </ItemGroup>
     <ItemGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
         <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.16" />
@@ -48,6 +47,11 @@
         <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.5" />
         <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
         <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="7.0.4" />
+    </ItemGroup>
+    <ItemGroup Condition=" '$(TargetFramework)' == 'net8.0' ">
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.0" />
     </ItemGroup>
     <PropertyGroup Condition="$(Configuration) == 'RELEASE' AND $(TargetFrameworks.StartsWith($(TargetFramework)))">
         <GenerateDocumentationFile>true</GenerateDocumentationFile>

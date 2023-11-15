@@ -1,9 +1,6 @@
-﻿@using Microsoft.AspNetCore.Components.Web
-@namespace dymaptic.GeoBlazor.Core.Sample.Pages
-@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
+
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -11,7 +8,7 @@
         <link rel="icon" href="_content/dymaptic.GeoBlazor.Core.Sample.Shared/favicon.ico" />
         <link rel="stylesheet" href="_content/dymaptic.GeoBlazor.Core.Sample.Shared/css/bootstrap/bootstrap.min.css" />
         <link href="_content/dymaptic.GeoBlazor.Core.Sample.Shared/css/site.css" rel="stylesheet" />
-        <link href="dymaptic.GeoBlazor.Core.Sample.Server.styles.css" rel="stylesheet" />
+        <link href="dymaptic.GeoBlazor.Core.Sample.WebApp.styles.css" rel="stylesheet" />
         <link href="_content/dymaptic.GeoBlazor.Core" />
         <link href="_content/dymaptic.GeoBlazor.Core.Sample.Shared" />
         <script src="_content/dymaptic.GeoBlazor.Core.Sample.Shared/functions.js"></script>
@@ -19,22 +16,32 @@
         <script type="module" src="https://js.arcgis.com/calcite-components/1.10.0/calcite.esm.js"></script>
         <link rel="stylesheet" type="text/css"
               href="https://js.arcgis.com/calcite-components/1.10.0/calcite.css" />
-        <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />
+        <HeadOutlet @rendermode="@_configuredRenderMode" />
     </head>
+
     <body>
-        @RenderBody()
-
-        <div id="blazor-error-ui">
-            <environment include="Staging,Production">
-                An error has occurred. This application may no longer respond until reloaded.
-            </environment>
-            <environment include="Development">
-                An unhandled exception has occurred. See browser dev tools for details.
-            </environment>
-            <a href="" class="reload">Reload</a>
-            <a class="dismiss">🗙</a>
-        </div>
-
-        <script src="_framework/blazor.server.js"></script>
+        <RenderModeSelector @rendermode="InteractiveServer" />
+        <Routes @rendermode="@_configuredRenderMode" />
+        <script src="_framework/blazor.web.js"></script>
     </body>
 </html>
+
+@code {
+
+    [Inject]
+    private IConfiguration Configuration { get; set; } = default!;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _configuredRenderMode = Configuration.GetValue<string?>("RenderMode") switch
+        {
+            "Server" => InteractiveServer,
+            "WebAssembly" => InteractiveWebAssembly,
+            "Auto" => InteractiveAuto,
+            _ => throw new InvalidOperationException("Invalid RenderMode configuration")
+        };
+    }
+
+    private IComponentRenderMode _configuredRenderMode = InteractiveWebAssembly;
+}
