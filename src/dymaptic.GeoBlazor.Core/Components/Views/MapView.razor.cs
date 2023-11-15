@@ -115,6 +115,7 @@ public partial class MapView : MapComponent
     ///     A reference to the JavaScript AbortManager for this component.
     /// </summary>
     protected AbortManager? AbortManager;
+    private bool _authenticationInitialized;
 
 
 #region Parameters
@@ -2170,7 +2171,7 @@ public partial class MapView : MapComponent
             // the first render never has all the child components registered
             Rendering = false;
 
-            await AuthenticationManager.Initialize();
+            _authenticationInitialized = await AuthenticationManager.Initialize();
 
             if (!string.IsNullOrEmpty(AppId) && (PromptForOAuthLogin == true))
             {
@@ -2196,7 +2197,7 @@ public partial class MapView : MapComponent
             return;
         }
 
-        if (Rendering || Map is null || ViewJsModule is null) return;
+        if (!_authenticationInitialized || Rendering || Map is null || ViewJsModule is null) return;
 
         if (string.IsNullOrWhiteSpace(ApiKey) && AllowDefaultEsriLogin is null or false &&
             PromptForArcGISKey is null or true && string.IsNullOrWhiteSpace(AppId))
