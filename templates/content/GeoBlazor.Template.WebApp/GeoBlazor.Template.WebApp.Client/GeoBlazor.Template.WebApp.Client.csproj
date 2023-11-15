@@ -10,7 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="dymaptic.GeoBlazor.Core" Version="2.4.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.0-rc.2.23480.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.0" />
   </ItemGroup>
 
 </Project>
