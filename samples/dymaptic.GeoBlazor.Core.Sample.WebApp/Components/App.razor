@@ -16,26 +16,12 @@
         <script type="module" src="https://js.arcgis.com/calcite-components/1.0.0-beta.97/calcite.esm.js"></script>
         <link rel="stylesheet" type="text/css"
               href="https://js.arcgis.com/calcite-components/1.0.0-beta.97/calcite.css" />
-        @if (_configuredRenderMode is not null)
-        {
-            <HeadOutlet @rendermode="@_configuredRenderMode" />
-        }
-        else
-        {
-            <HeadOutlet />
-        }
+        <HeadOutlet @rendermode="@_configuredRenderMode" />
     </head>
 
     <body>
         <RenderModeSelector @rendermode="InteractiveServer" />
-        @if (_configuredRenderMode is not null)
-        {
-            <Routes @rendermode="@_configuredRenderMode" />
-        }
-        else
-        {
-            <Routes />
-        }
+        <Routes @rendermode="@_configuredRenderMode" />
         <script src="_framework/blazor.web.js"></script>
     </body>
 </html>
@@ -43,19 +29,19 @@
 @code {
 
     [Inject]
-    private IConfiguration Configuration { get; set; }
+    private IConfiguration Configuration { get; set; } = default!;
 
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
         _configuredRenderMode = Configuration.GetValue<string?>("RenderMode") switch
         {
-            "Server" => RenderMode.InteractiveServer,
-            "WebAssembly" => RenderMode.InteractiveWebAssembly,
-            "Auto" => RenderMode.InteractiveAuto,
-            _ => null
+            "Server" => InteractiveServer,
+            "WebAssembly" => InteractiveWebAssembly,
+            "Auto" => InteractiveAuto,
+            _ => throw new InvalidOperationException("Invalid RenderMode configuration")
         };
     }
 
-    private IComponentRenderMode? _configuredRenderMode;
+    private IComponentRenderMode _configuredRenderMode = InteractiveWebAssembly;
 }

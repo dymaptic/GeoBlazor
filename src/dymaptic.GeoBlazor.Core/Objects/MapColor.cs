@@ -89,6 +89,9 @@ public class MapColor : IEquatable<MapColor>
         return HashCode.Combine(Values, HexOrNameValue);
     }
 
+    /// <summary>
+    ///     Clones the color object.
+    /// </summary>
     public MapColor Clone()
     {
         return Values.Any() ? new MapColor(Values.ToArray()) : new MapColor(HexOrNameValue!);
