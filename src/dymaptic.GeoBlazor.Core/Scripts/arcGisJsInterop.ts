@@ -1242,7 +1242,8 @@ export async function showPopup(popupTemplateObject: any, location: DotNetPoint,
     try {
         setWaitCursor(viewId);
         let popupTemplate = buildJsPopupTemplate(popupTemplateObject, viewId) as PopupTemplate;
-        (arcGisObjectRefs[viewId] as View).popup.open({
+
+        await (arcGisObjectRefs[viewId] as View).openPopup({
             title: popupTemplate.title as string,
             content: popupTemplate.content as string,
             location: buildJsPoint(location)!
@@ -1262,7 +1263,7 @@ export async function showPopupWithGraphic(graphicObject: any, options: any, vie
         let graphic = arcGisObjectRefs[graphicObject.id] as Graphic;
         view.popup.dockOptions = options.dockOptions;
         view.popup.visibleElements = options.visibleElements;
-        view.popup.open({
+        await view.openPopup({
             features: [graphic]
         });
         unsetWaitCursor(viewId);

@@ -12,12 +12,12 @@
   "author": "Tim Purdum",
   "license": "ISC",
   "dependencies": {
-    "@arcgis/core": "4.27.6",
-    "esbuild": "^0.17.19",
-    "protobufjs": "^7.2.4",
-    "protobufjs-cli": "^1.1.1"
+    "@arcgis/core": "^4.28",
+    "esbuild": "^0.19.5",
+    "protobufjs": "^7.2.5",
+    "protobufjs-cli": "^1.1.2"
   },
   "devDependencies": {
-    "@types/node": "^18.11.18"
+    "@types/node": "^20.8.8"
   }
 }
