@@ -107,7 +107,7 @@ public class GraphicsLayer : Layer
         if (JsModule is null || View is null)
         {
             LayerChanged = true;
-            StateHasChanged();
+            UpdateState();
 
             return;
         }
@@ -143,16 +143,9 @@ public class GraphicsLayer : Layer
                 }
 
                 ms.Seek(0, SeekOrigin.Begin);
-#if NET7_0_OR_GREATER
-                View.AddGraphicsSyncInterop(ms.ToArray(), View!.Id.ToString(), Id.ToString());
+                ((IJSInProcessObjectReference)JsModule!).InvokeVoid("addGraphicsSynchronously", ms.ToArray(), View.Id, Id);
                 await ms.DisposeAsync();
                 await Task.Delay(1, cancellationToken);
-#else
-                using DotNetStreamReference streamRef = new(ms);
-
-                await JsModule!.InvokeVoidAsync("addGraphicsFromStream",
-                    cancellationToken, streamRef, View?.Id, abortSignal, Id);
-#endif
             }
         }
         else if (View.IsMaui)
@@ -274,7 +267,7 @@ public class GraphicsLayer : Layer
         {
             case Graphic graphic:
                 _graphicsToRender.Add(graphic);
-                StateHasChanged();
+                UpdateState();
 
                 break;
             default:

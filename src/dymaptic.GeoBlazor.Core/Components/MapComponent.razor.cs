@@ -208,7 +208,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     /// </summary>
     public virtual void Refresh()
     {
-        InvokeAsync(StateHasChanged);
+        UpdateState();
     }
 
     /// <summary>
@@ -311,6 +311,13 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
             await Parent.RegisterChildComponent(this);
             _registered = true;
         }
+    }
+
+    /// <inheritdoc />
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+        IsRenderedBlazorComponent = true;
     }
 
     /// <summary>
@@ -421,12 +428,29 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     {
         return AllowRender;
     }
+    
+    /// <summary>
+    ///     Updates the state of the component, but only if it was added in normal Blazor Markup.
+    /// </summary>
+    protected void UpdateState()
+    {
+        if (IsRenderedBlazorComponent)
+        {
+            InvokeAsync(StateHasChanged);
+        }
+    }
 
     /// <summary>
     ///     Whether to allow the component to render on the next cycle.
     /// </summary>
     public bool AllowRender = true;
+    
+    /// <summary>
+    ///     Determines whether the component was added as a markup Blazor component or programmatically.
+    /// </summary>
+    protected bool IsRenderedBlazorComponent;
     private bool _registered;
+    
 
     private async Task AddReactiveWatcherImplementation(string watchExpression, Delegate handler, string? targetName,
         bool once, bool initial)

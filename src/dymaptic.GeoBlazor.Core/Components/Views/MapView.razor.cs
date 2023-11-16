@@ -15,9 +15,6 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Text;
 using System.Text.Json;
-#if NET7_0_OR_GREATER
-using System.Runtime.InteropServices.JavaScript;
-#endif
 
 
 // ReSharper disable RedundantCast
@@ -1332,16 +1329,9 @@ public partial class MapView : MapComponent
                 }
 
                 ms.Seek(0, SeekOrigin.Begin);
-#if NET7_0_OR_GREATER
-                AddGraphicsSyncInterop(ms.ToArray(), Id.ToString());
+                ((IJSInProcessObjectReference)JsModule!).InvokeVoid("addGraphicsSynchronously", ms.ToArray(), Id);
                 await ms.DisposeAsync();
                 await Task.Delay(1, cancellationToken);
-#else
-                using DotNetStreamReference streamRef = new(ms);
-
-                await ViewJsModule!.InvokeVoidAsync("addGraphicsFromStream", cancellationToken,
-                    streamRef, Id, abortSignal);
-#endif
             }
         }
         else if (IsMaui)
@@ -1419,28 +1409,6 @@ public partial class MapView : MapComponent
 
         AllowRender = true;
     }
-
-#if NET7_0_OR_GREATER
-    internal void AddGraphicsSyncInterop(byte[] graphics, string id, string? layerId = null)
-    {
-        if (ProJsViewModule is not null)
-        {
-            AddGraphicsProSyncInterop(graphics, id, layerId);
-        }
-        else
-        {
-            AddGraphicsCoreSyncInterop(graphics, id, layerId);
-        }
-    }
-
-#pragma warning disable CA1416
-    [JSImport("addGraphicsCoreSyncInterop", "arcGisJsInterop")]
-    internal static partial void AddGraphicsCoreSyncInterop(byte[] graphics, string id, string? layerId = null);
-
-    [JSImport("addGraphicsProSyncInterop", "arcGisPro")]
-    internal static partial void AddGraphicsProSyncInterop(byte[] graphics, string id, string? layerId = null);
-#pragma warning restore CA1416
-#endif
 
     /// <summary>
     ///     Adds a <see cref="Graphic" /> to the current view, or to a <see cref="GraphicsLayer" />.

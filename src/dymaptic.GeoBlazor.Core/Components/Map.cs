@@ -55,7 +55,7 @@ public class Map : MapComponent
                 break;
             case Layer layer:
                 _layersToRender.Add(layer);
-                StateHasChanged();
+                UpdateState();
 
                 break;
             default:
