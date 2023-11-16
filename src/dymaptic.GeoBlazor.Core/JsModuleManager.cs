@@ -1,33 +1,36 @@
 using Microsoft.JSInterop;
 
-
 namespace dymaptic.GeoBlazor.Core;
 
 internal static class JsModuleManager
 {
-    public static async Task<IJSObjectReference> GetJsModule(IJSRuntime jsRuntime)
+    public static async Task<IJSObjectReference> GetArcGisJsCore(IJSRuntime jsRuntime, IJSObjectReference? proModule, CancellationToken cancellationToken)
+    {
+        if (proModule is null)
+        {
+            return await jsRuntime
+                    .InvokeAsync<IJSObjectReference>("import", cancellationToken, 
+                        "./_content/dymaptic.GeoBlazor.Core/js/arcGisJsInterop.js");
+        }
+
+        return await proModule.InvokeAsync<IJSObjectReference>("getCore", cancellationToken);
+    }
+
+    /// <summary>
+    ///     Retrieves the main entry point for the optional GeoBlazor Pro JavaScript module.
+    /// </summary>
+    public static async Task<IJSObjectReference?> GetArcGisJsPro(IJSRuntime jsRuntime, CancellationToken cancellationToken)
     {
         LicenseType licenseType = Licensing.GetLicenseType();
-        IJSObjectReference jsModule;
 
         switch ((int)licenseType)
         {
             case >= 100:
-                // this is here to support the pro extension library
-                IJSObjectReference proModule = await jsRuntime
-                    .InvokeAsync<IJSObjectReference>("import",
-                        "./_content/dymaptic.GeoBlazor.Pro/js/arcGisPro.js");
-                jsModule = await proModule.InvokeAsync<IJSObjectReference>("getCore");
-
-                break;
+                
+                return await jsRuntime.InvokeAsync<IJSObjectReference>("import", cancellationToken,
+                    "./_content/dymaptic.GeoBlazor.Pro/js/arcGisPro.js");
             default:
-                jsModule = await jsRuntime
-                    .InvokeAsync<IJSObjectReference>("import",
-                        "./_content/dymaptic.GeoBlazor.Core/js/arcGisJsInterop.js");
-
-                break;
+                return null;
         }
-
-        return jsModule;
     }
 }

@@ -1,5 +1,6 @@
 ﻿using dymaptic.GeoBlazor.Core.Model;
 using dymaptic.GeoBlazor.Core.Objects;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 
@@ -19,11 +20,17 @@ public static class DependencyExtension
     ///     service as scoped is safe for all implementations.
     ///     https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals/dependency-injection?view=aspnetcore-7.0#service-lifetime
     /// </remarks>
-    public static IServiceCollection AddGeoBlazor(this IServiceCollection serviceCollection)
+    public static IServiceCollection AddGeoBlazor(this IServiceCollection serviceCollection,
+        IConfiguration? configuration = null)
     {
-        return serviceCollection.AddScoped<GeometryEngine>()
+        GeoBlazorSettings settings = configuration?.GetSection("GeoBlazor").Get<GeoBlazorSettings>() ?? new();
+        serviceCollection.AddHttpClient<IAppValidator, RegistrationValidator>();
+        return serviceCollection
+            .AddSingleton<GeoBlazorSettings>(_ => settings)
+            .AddScoped<GeometryEngine>()
             .AddScoped<Projection>()
             .AddScoped<AbortManager>()
-            .AddScoped<AuthenticationManager>();
+            .AddScoped<AuthenticationManager>()
+            .AddScoped<IAppValidator, RegistrationValidator>();
     }
 }

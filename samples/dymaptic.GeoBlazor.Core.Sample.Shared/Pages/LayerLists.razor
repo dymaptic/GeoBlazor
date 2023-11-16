@@ -17,7 +17,7 @@
 {
     if (_windowWidth >= 800)
     {
-        <SceneView @ref="_view" Class="map-view">
+        <SceneView Class="map-view">
             <WebScene>
                 <PortalItem Id="adfad6ee6c6043238ea64e121bb6429a" />
             </WebScene>
@@ -27,7 +27,7 @@
     else // for mobile, move the widget off of the map so you can see the whole map
     {
         <div id="widget-holder" />
-        <SceneView @ref="_view" Class="map-view">
+        <SceneView Class="map-view">
             <WebScene>
                 <PortalItem Id="adfad6ee6c6043238ea64e121bb6429a" />
             </WebScene>
@@ -49,7 +49,6 @@
     }
 
     private int? _windowWidth;
-    private SceneView? _view;
 
     private Task<ListItem> OnListItemCreated(ListItem item)
     {

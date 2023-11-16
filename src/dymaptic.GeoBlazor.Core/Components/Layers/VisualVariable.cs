@@ -28,6 +28,21 @@ public abstract class VisualVariable : MapComponent
     [EditorRequired]
     [RequiredProperty]
     public string Field { get; set; } = default!;
+    
+    /// <summary>
+    ///     An Arcade expression following the specification defined by the Arcade Visualization Profile. Expressions in visual variables may reference field values using the $feature profile variable and must return a number.
+    ///     The values returned from this expression are the data used to drive the visualization as defined in the stops. This takes precedence over field. Therefore, this property is typically used as an alternative to field in visual variables.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? ValueExpression { get; set; }
+    
+    /// <summary>
+    ///     The title identifying and describing the associated Arcade expression as defined in the valueExpression property. This is displayed as the title of the corresponding visual variable in the Legend in the absence of a provided title in the legendOptions property.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? ValueExpressionTitle { get; set; }
 
     /// <summary>
     ///     An object providing options for displaying the visual variable in the Legend.
@@ -81,7 +96,7 @@ public class LegendOptions : MapComponent
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool ShowLegend { get; set; }
+    public bool? ShowLegend { get; set; }
 
     /// <summary>
     ///     The title describing the visualization of the visual variable in the Legend. This takes precedence over a field
@@ -100,7 +115,9 @@ public enum VisualVariableType
 {
 #pragma warning disable CS1591
     Size,
-    Rotation
+    Rotation,
+    Color,
+    Opacity
 #pragma warning restore CS1591
 }
 

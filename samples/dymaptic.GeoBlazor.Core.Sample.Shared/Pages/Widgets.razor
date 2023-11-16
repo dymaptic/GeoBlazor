@@ -137,9 +137,7 @@
     {
         if (_showBookmarks)
         {
-            //the MapView.Refresh() is needed because the bookmarks are added after the BookmarksWidget is rendered
             _bookmarkWidget!.Bookmarks = _bookmarks;
-            MapView!.Refresh();
         }
     }
 

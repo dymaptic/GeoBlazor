@@ -52,6 +52,7 @@ import BasemapLayerList from "@arcgis/core/widgets/BasemapLayerList";
 import FeatureLayerWrapper from "./featureLayer";
 import KMLLayer from "@arcgis/core/layers/KMLLayer";
 import WCSLayer from "@arcgis/core/layers/WCSLayer";
+import ImageryLayer from "@arcgis/core/layers/ImageryLayer.js";
 
 import {
     buildDotNetExtent,
@@ -64,8 +65,12 @@ import {
     buildDotNetPoint,
     buildDotNetPopupTemplate,
     buildDotNetSpatialReference,
+    buildDotNetTimeExtent,
+    buildDotNetTimeInfo,
+    buildDotNetTimeInterval,
     buildViewExtentUpdate,
-    buildDotNetBookmark, buildDotNetGoToOverrideParameters
+    buildDotNetBookmark, 
+    buildDotNetGoToOverrideParameters
 } from "./dotNetBuilder";
 
 import {
@@ -83,15 +88,16 @@ import {
     buildJsRenderer,
     buildJsSpatialReference,
     buildJsSymbol,
-    templateTriggerActionHandler,
     buildJsBookmark,
-    buildJsDimensionalDefinition,
-    buildJsColorRamp,
-    buildJsAlgorithmicColorRamp,
-    buildJsMultipartColorRamp,
     buildJsEffect,
     buildJsRasterStretchRenderer,
-    buildJsSearchSource
+    buildJsSearchSource,
+    buildJsLabelClass,
+    buildJsFeatureReduction,
+    buildJsRasterShadedReliefRenderer,
+    buildJsRasterColormapRenderer,
+    buildJsVectorFieldRenderer,
+    buildJsFlowRenderer, buildJsClassBreaksRenderer, buildJsUniqueValueRenderer
 } from "./jsBuilder";
 import {
     DotNetExtent,
@@ -102,7 +108,13 @@ import {
     DotNetPoint,
     DotNetPopupTemplate,
     DotNetSpatialReference,
-    MapCollection
+    MapCollection,
+    DotNetDimensionalDefinition,
+    DotNetRasterColormapRenderer,
+    DotNetAlgorithmicColorRamp,
+    DotNetEffect,
+    DotNetMultidimensionalSubset,
+
 } from "./definitions";
 import WebTileLayer from "@arcgis/core/layers/WebTileLayer";
 import TileInfo from "@arcgis/core/layers/support/TileInfo";
@@ -123,15 +135,26 @@ import LegendLayerInfos = __esri.LegendLayerInfos;
 import ScreenPoint = __esri.ScreenPoint;
 import RasterStretchRenderer from "@arcgis/core/renderers/RasterStretchRenderer";
 import DimensionalDefinition from "@arcgis/core/layers/support/DimensionalDefinition";
+import ColorRamp from "@arcgis/core/rest/support/ColorRamp";
+import MultipartColorRamp from "@arcgis/core/rest/support/MultipartColorRamp";
+import AlgorithmicColorRamp from "@arcgis/core/rest/support/AlgorithmicColorRamp";
 import Renderer from "@arcgis/core/renderers/Renderer";
 import Color from "@arcgis/core/Color";
 import BingMapsLayerWrapper from "./bingMapsLayer";
 import FeatureLayerView from "@arcgis/core/views/layers/FeatureLayerView";
 import SearchWidgetWrapper from "./searchWidgetWrapper";
-import Geometry from "@arcgis/core/geometry/Geometry";
 import SearchSource from "@arcgis/core/widgets/Search/SearchSource";
+import RasterShadedReliefRenderer from "@arcgis/core/renderers/RasterShadedReliefRenderer.js";
+import VectorFieldRenderer from "@arcgis/core/renderers/VectorFieldRenderer";
+import RasterColormapRenderer from "@arcgis/core/renderers/RasterColormapRenderer";
+import FlowRenderer from "@arcgis/core/renderers/FlowRenderer";
+import UniqueValueRenderer from "@arcgis/core/renderers/UniqueValueRenderer.js";
+import ClassBreaksRenderer from "@arcgis/core/renderers/ClassBreaksRenderer.js";
+import MultidimensionalSubset from "@arcgis/core/layers/support/MultidimensionalSubset";
+
 
 export let arcGisObjectRefs: Record<string, Accessor> = {};
+export let popupDotNetObjects: any[] = [];
 export let graphicsRefs: Record<string, Graphic> = {};
 export let dotNetRefs = {};
 export let queryLayer: FeatureLayer;
@@ -154,9 +177,15 @@ export function setAssetsPath(path: string) {
     }
 }
 
-function getObjectReference(objectRef: any) {
+export function getObjectReference(objectRef: any) {
     if (!hasValue(objectRef)) return objectRef;
     try {
+        // check the class name first, as some esri types fail the `instanceof` check
+        switch (objectRef?.__proto__.declaredClass) {
+            case 'esri.views.2d.layers.FeatureLayerView2D':
+                return new FeatureLayerViewWrapper(objectRef);
+        }
+        
         if (objectRef instanceof Layer) {
             if (objectRef instanceof FeatureLayer) {
                 return new FeatureLayerWrapper(objectRef);
@@ -164,8 +193,6 @@ function getObjectReference(objectRef: any) {
             if (objectRef instanceof BingMapsLayer) {
                 return new BingMapsLayerWrapper(objectRef);
             }
-
-            return buildDotNetLayer(objectRef);
         }
         if (objectRef instanceof Graphic) {
             return buildDotNetGraphic(objectRef);
@@ -176,14 +203,12 @@ function getObjectReference(objectRef: any) {
         if (objectRef instanceof Search) {
             return new SearchWidgetWrapper(objectRef);
         }
-        if (objectRef instanceof FeatureLayerView) {
-            return new FeatureLayerViewWrapper(objectRef);
-        }
         return objectRef;
     }
     catch {
-        return objectRef;
+        // do nothing
     }
+    return objectRef;
 }
 
 export function getSerializedDotNetObject(id: string): any {
@@ -324,6 +349,8 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
         let popupWidget = widgets.find(w => w.type === 'popup');
         if (hasValue(popupWidget)) {
             await addWidget(popupWidget, id);
+        } else {
+            await setPopupHandler(id, null);
         }
 
         if (hasValue(mapObject.layers)) {
@@ -496,11 +523,13 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
     view.on('layerview-create', async (evt) => {
         // find objectRef id by layer
         let layerGeoBlazorId = Object.keys(arcGisObjectRefs).find(key => arcGisObjectRefs[key] === evt.layer);
+
         let isBasemapLayer = false;
-        if (hasValue(view.map.basemap) && 
-                (view.map.basemap.baseLayers?.includes(evt.layer) || view.map.basemap.referenceLayers?.includes(evt.layer))) {
+        if (hasValue(view.map.basemap) &&
+            (view.map.basemap.baseLayers?.includes(evt.layer) || view.map.basemap.referenceLayers?.includes(evt.layer))) {
             isBasemapLayer = true;
         }
+        
         let layerRef;
         let layerViewRef;
         // @ts-ignore
@@ -614,6 +643,16 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
             buildDotNetPoint((view as MapView).center), (view as MapView).zoom, (view as MapView).scale,
             (view as MapView).rotation, null);
     });
+}
+
+export function registerWebLayer(layerJsRef: any, layerId: string) {
+    if (layerJsRef instanceof Layer) {
+        arcGisObjectRefs[layerId] = layerJsRef;
+    } else if (layerJsRef instanceof FeatureLayerWrapper) {
+        arcGisObjectRefs[layerId] = layerJsRef.layer;
+    } else if (layerJsRef instanceof BingMapsLayerWrapper) {
+        arcGisObjectRefs[layerId] = layerJsRef.layer;
+    }
 }
 
 export async function hitTest(pointObject: any, eventId: string | null, viewId: string,
@@ -800,7 +839,7 @@ export async function queryFeatureLayer(queryObject: any, layerObject: any, symb
         } else if (hasValue(queryObject.geometry)) {
             query.geometry = buildJsGeometry(queryObject.geometry)!;
         }
-        let popupTemplate = buildJsPopupTemplate(popupTemplateObject, viewId);
+        let popupTemplate = buildJsPopupTemplate(popupTemplateObject, viewId) as PopupTemplate;
         await addLayer(layerObject, viewId, false, true, () => {
             displayQueryResults(query, symbol, popupTemplate, viewId);
         });
@@ -891,7 +930,7 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                     currentLayer.fullExtent = buildJsExtent(layerObject.fullExtent, view.spatialReference);
                 }
                 if (hasValue(layerObject.popupTemplate)) {
-                    featureLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId);
+                    featureLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId) as PopupTemplate;
                 }
                 // on first pass the renderer is often left blank, but it fills in when the round trip happens to the server
                 if (hasValue(layerObject.renderer) && layerObject.renderer.type !== featureLayer.renderer.type) {
@@ -904,8 +943,19 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                     featureLayer.fields = buildJsFields(layerObject.fields);
                 }
 
+                if (hasValue(layerObject.labelingInfo)) {
+                    featureLayer.labelingInfo = layerObject.labelingInfo.map(buildJsLabelClass);
+                }
+
+                if (hasValue(layerObject.proProperties.FeatureReduction)) {
+                    featureLayer.featureReduction = buildJsFeatureReduction(layerObject.proProperties.FeatureReduction, viewId);
+                } else {
+                    // @ts-ignore
+                    featureLayer.featureReduction = null;
+                }
+
                 copyValuesIfExists(layerObject, featureLayer, 'minScale', 'maxScale', 'orderBy', 'objectIdField',
-                    'definitionExpression', 'labelingInfo', 'outFields');
+                    'definitionExpression', 'outFields');
 
                 break;
             case 'geo-json':
@@ -922,8 +972,17 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                         wkid: layerObject.spatialReference.wkid
                     });
                 }
+                if (hasValue(layerObject.popupTemplate)) {
+                    geoJsonLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId ?? null) as PopupTemplate;
+                }
                 if (hasValue(layerObject.fullExtent) && layerObject.fullExtent !== currentLayer.fullExtent) {
                     currentLayer.fullExtent = buildJsExtent(layerObject.fullExtent, view.spatialReference);
+                }
+                if (hasValue(layerObject.proProperties.FeatureReduction)) {
+                    geoJsonLayer.featureReduction = buildJsFeatureReduction(layerObject.proProperties.FeatureReduction, viewId);
+                } else {
+                    // @ts-ignore
+                    geoJsonLayer.featureReduction = null;
                 }
                 break;
             case 'web-tile':
@@ -991,6 +1050,13 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                 }
 
                 break;
+            case 'csv':
+                if (hasValue(layerObject.proProperties.FeatureReduction)) {
+                    (currentLayer as CSVLayer).featureReduction = buildJsFeatureReduction(layerObject.proProperties.FeatureReduction, viewId);
+                } else {
+                    // @ts-ignore
+                    (currentLayer as CSVLayer).featureReduction = null;
+                }
         }
 
         if (hasValue(layerObject.opacity) && layerObject.opacity !== currentLayer.opacity &&
@@ -1019,7 +1085,6 @@ export async function updateWidget(widgetObject: any, viewId: string): Promise<v
     try {
         setWaitCursor(viewId);
         let currentWidget = arcGisObjectRefs[widgetObject.id] as Widget;
-        let view = arcGisObjectRefs[viewId] as View;
 
         if (currentWidget === undefined) {
             unsetWaitCursor(viewId);
@@ -1046,7 +1111,7 @@ export async function updateWidget(widgetObject: any, viewId: string): Promise<v
                 }
 
                 if (hasValue(widgetObject.popupTemplate)) {
-                    search.popupTemplate = buildJsPopupTemplate(widgetObject.popupTemplate, viewId);
+                    search.popupTemplate = buildJsPopupTemplate(widgetObject.popupTemplate, viewId) as PopupTemplate;
                 }
 
                 if (hasValue(widgetObject.portal)) {
@@ -1074,7 +1139,7 @@ export function findPlaces(addressQueryParams: any, symbol: any, popupTemplateOb
             .then(function (results) {
                 view.popup.close();
                 view.graphics.removeAll();
-                let popupTemplate = buildJsPopupTemplate(popupTemplateObject, viewId);
+                let popupTemplate = buildJsPopupTemplate(popupTemplateObject, viewId) as PopupTemplate;
                 results.forEach(function (result) {
                     view.graphics.add(new Graphic({
                         attributes: result.attributes,
@@ -1092,32 +1157,78 @@ export function findPlaces(addressQueryParams: any, symbol: any, popupTemplateOb
     }
 }
 
-export async function setPopup(popup: any, viewId: string): Promise<Popup | null> {
+export async function setPopup(dotNetPopup: any, viewId: string): Promise<Popup | null> {
     try {
         let view = arcGisObjectRefs[viewId] as View;
 
-        let jsPopup = await buildJsPopup(popup, viewId);
-        if (hasValue(popup.widgetContent)) {
-            let widgetContent = await createWidget(popup.widgetContent, popup.viewId);
+        let jsPopup = await buildJsPopup(dotNetPopup, viewId);
+        if (hasValue(dotNetPopup.widgetContent)) {
+            let widgetContent = await createWidget(dotNetPopup.widgetContent, dotNetPopup.viewId);
             if (hasValue(widgetContent)) {
                 jsPopup.content = widgetContent as Widget;
             }
         }
 
         view.popup = jsPopup;
+
+        setPopupHandler(viewId, dotNetPopup);
+
+        return jsPopup;
+    } catch (error) {
+        logError(error, dotNetPopup.viewId);
+        return null;
+    }
+}
+
+async function setPopupHandler(viewId: string, dotNetPopup: any | null) {
+    try {
+        let view = arcGisObjectRefs[viewId] as View;
+
         if (hasValue(triggerActionHandler)) {
             triggerActionHandler.remove();
         }
-        if (hasValue(templateTriggerActionHandler)) {
-            templateTriggerActionHandler.remove();
+
+        if (!hasValue(view.popup.on)) {
+            reactiveUtils.once(() => view.popup.on !== undefined)
+                .then(() => {
+                    triggerActionHandler = view.popup.on("trigger-action", async (event) => {
+                        if (hasValue(dotNetPopup)) {
+                            await dotNetPopup.dotNetWidgetReference.invokeMethodAsync("OnTriggerAction", event.action.id);
+                        }
+                        for (var index in popupDotNetObjects) {
+                            //we need to lookup the ref, because they can disappear if the popup has never been opened
+                            await lookupDotNetRefForPopupTemplate(popupDotNetObjects[index], viewId as string);
+                            if (hasValue(popupDotNetObjects[index].dotNetPopupTemplateReference)) {
+                                await popupDotNetObjects[index].dotNetPopupTemplateReference.invokeMethodAsync("OnTriggerAction", event.action.id);
+                            }
+                        }
+                    });
+                })
+        } else {
+            triggerActionHandler = view.popup.on("trigger-action", async (event) => {
+                if (hasValue(dotNetPopup)) {
+                    await dotNetPopup.dotNetWidgetReference.invokeMethodAsync("OnTriggerAction", event.action.id);
+                }
+                for (var index in popupDotNetObjects) {
+                    //we need to lookup the ref, because they can disappear if the popup has never been opened
+                    await lookupDotNetRefForPopupTemplate(popupDotNetObjects[index], viewId as string);
+                    if (hasValue(popupDotNetObjects[index].dotNetPopupTemplateReference)) {
+                        await popupDotNetObjects[index].dotNetPopupTemplateReference.invokeMethodAsync("OnTriggerAction", event.action.id);
+                    }
+                }
+            });
         }
-        triggerActionHandler = view.popup.on("trigger-action", async (event) => {
-            await popup.dotNetWidgetReference.invokeMethodAsync("OnTriggerAction", event.action.id);
-        });
-        return jsPopup;
-    } catch (error) {
-        logError(error, popup.viewId);
-        return null;
+    }
+    catch (error) {
+        logError(error, viewId);
+    }
+}
+
+async function lookupDotNetRefForPopupTemplate(popupTemplateObject: DotNetPopupTemplate, viewId: string) {
+    if (!hasValue(popupTemplateObject.dotNetPopupTemplateReference)) {
+        let viewRef = dotNetRefs[viewId];
+        popupTemplateObject.dotNetPopupTemplateReference =
+            await viewRef.invokeMethodAsync('GetDotNetPopupTemplateObjectReference', popupTemplateObject.id);
     }
 }
 
@@ -1155,8 +1266,9 @@ export function closePopup(viewId: string): void {
 export async function showPopup(popupTemplateObject: any, location: DotNetPoint, viewId: string): Promise<void> {
     try {
         setWaitCursor(viewId);
-        let popupTemplate = buildJsPopupTemplate(popupTemplateObject, viewId);
-        (arcGisObjectRefs[viewId] as View).popup.open({
+        let popupTemplate = buildJsPopupTemplate(popupTemplateObject, viewId) as PopupTemplate;
+
+        await (arcGisObjectRefs[viewId] as View).openPopup({
             title: popupTemplate.title as string,
             content: popupTemplate.content as string,
             location: buildJsPoint(location)!
@@ -1176,7 +1288,7 @@ export async function showPopupWithGraphic(graphicObject: any, options: any, vie
         let graphic = arcGisObjectRefs[graphicObject.id] as Graphic;
         view.popup.dockOptions = options.dockOptions;
         view.popup.visibleElements = options.visibleElements;
-        view.popup.open({
+        await view.openPopup({
             features: [graphic]
         });
         unsetWaitCursor(viewId);
@@ -1256,7 +1368,7 @@ export async function addGraphicsFromStream(streamRef: any, viewId: string, abor
     }
 }
 
-export function addGraphicsSyncInterop(graphicsArray: Uint8Array, viewId: string, layerId?: string | null): void {
+export function addGraphicsSynchronously(graphicsArray: Uint8Array, viewId: string, layerId?: string | null): void {
     try {
         let graphics = decodeProtobufGraphics(graphicsArray);
         let jsGraphics: Graphic[] = [];
@@ -1326,9 +1438,20 @@ export function getGraphicVisibility(id: string): boolean {
 export function setGraphicPopupTemplate(id: string, popupTemplate: DotNetPopupTemplate, dotNetRef: any, viewId: string): void {
     let graphic = graphicsRefs[id];
     popupTemplate.dotNetPopupTemplateReference = dotNetRef;
-    let jsPopupTemplate = buildJsPopupTemplate(popupTemplate, viewId);
+    let jsPopupTemplate = buildJsPopupTemplate(popupTemplate, viewId) as PopupTemplate;
     if (hasValue(graphic) && hasValue(popupTemplate) && graphic.popupTemplate !== jsPopupTemplate) {
         graphic.popupTemplate = jsPopupTemplate;
+    }
+}
+
+export function removeGraphicPopupTemplate(id: string, popupTemplate: DotNetPopupTemplate, dotNetRef: any, viewId: string): void {
+
+    var arrItem = popupDotNetObjects.find(x => x.id === popupTemplate.id)
+    if (hasValue(arrItem)) {
+        var index = popupDotNetObjects.indexOf(arrItem)
+        if (index > -1) {
+            popupDotNetObjects.splice(index, 1);
+        }
     }
 }
 
@@ -1564,7 +1687,8 @@ export function displayQueryResults(query: Query, symbol: ArcGisSymbol, popupTem
         });
 }
 
-export async function addWidget(widget: any, viewId: string): Promise<void> {
+export async function addWidget(widget: any, viewId: string, setInContainerByDefault: boolean = false)
+    : Promise<void> {
     try {
         let view = arcGisObjectRefs[viewId] as MapView;
         if (view === undefined || view === null) return;
@@ -1582,7 +1706,16 @@ export async function addWidget(widget: any, viewId: string): Promise<void> {
             container?.appendChild(innerContainer);
             newWidget.container = innerContainer;
         } else {
-            view.ui.add(newWidget, widget.position);
+            // check if widget is defined inside mapview
+            let inMapWidget = view.container?.querySelector(`#widget-container-${widget.id}`);
+            let widgetContainer: HTMLElement = document.getElementById(`widget-container-${widget.id}`)!;
+            if ((hasValue(inMapWidget) || !hasValue(widgetContainer)) && !setInContainerByDefault) {
+                view.ui.add(newWidget, widget.position);
+            } else {
+                // default to using the pre-defined widget container
+                widgetContainer.innerHTML = '';
+                newWidget.container = widgetContainer;
+            }
         }
     } catch (error) {
         logError(error, viewId);
@@ -1597,7 +1730,7 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
         case 'locate':
             const locate = new Locate({
                 view: view,
-                useHeadingEnabled: widget.useHeadingEnabled,
+                useHeadingEnabled: widget.useHeadingEnabled ?? undefined,
                 rotationEnabled: widget.rotationEnabled ?? undefined,
                 scale: widget.scale ?? undefined
             });
@@ -1625,17 +1758,17 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
                 }
                 search.sources.addMany(sources);
             }
-            
+
             if (hasValue(widget.popupTemplate)) {
-                search.popupTemplate = buildJsPopupTemplate(widget.popupTemplate, viewId);
+                search.popupTemplate = buildJsPopupTemplate(widget.popupTemplate, viewId) as PopupTemplate;
             }
-            
+
             if (hasValue(widget.portal)) {
                 search.portal = new Portal({
                     url: widget.portal.url
                 });
             }
-            
+
             if (widget.hasGoToOverride) {
                 search.goToOverride = async (view, parameters) => {
                     let dnParams = buildDotNetGoToOverrideParameters(parameters, viewId);
@@ -1650,7 +1783,7 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
                     name: evt.result.name
                 });
             });
-            
+
             copyValuesIfExists(widget, search, 'activeMenu', 'activeSourceIndex', 'allPlaceholder',
                 'autoSelect', 'disabled', 'includeDefaultSources', 'label', 'locationEnabled', 'maxResults',
                 'maxSuggestions', 'minSuggestCharacters', 'popupEnabled', 'resultGraphicEnabled', 'searchAllEnabled',
@@ -1713,19 +1846,21 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
             });
             newWidget = legend;
 
-            if (hasValue(widget.layerInfos)) {
-                legend.layerInfos = widget.layerInfos.forEach(li => {
-                    let jsLayerInfo = {
-                        layer: arcGisObjectRefs[li.layerId]
-                    } as LegendLayerInfos;
-                    if (hasValue(li.title)) {
-                        jsLayerInfo.title = li.title;
-                    }
-                    if (hasValue(li.sublayerIds)) {
-                        jsLayerInfo.sublayerIds = li.sublayerIds;
-                    }
+            if (hasValue(widget.layerInfos) && widget.layerInfos.length > 0) {
+                view.when(() => {
+                    legend.layerInfos = widget.layerInfos.map(li => {
+                        let jsLayerInfo = {
+                            layer: arcGisObjectRefs[li.layer.id]
+                        } as LegendLayerInfos;
+                        if (hasValue(li.title)) {
+                            jsLayerInfo.title = li.title;
+                        }
+                        if (hasValue(li.sublayerIds)) {
+                            jsLayerInfo.sublayerIds = li.sublayerIds;
+                        }
 
-                    return jsLayerInfo;
+                        return jsLayerInfo;
+                    });
                 });
             }
             if (hasValue(widget.style)) {
@@ -1840,16 +1975,34 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
             break;
         case 'expand':
             let content: any;
+            let expandWidgetDiv = 
+                document.getElementById(`widget-container-${widget.id}`) as HTMLElement;
+            if (expandWidgetDiv === null) {
+                return null;
+            }
+            
+            // remove comment nodes
+            for (let i = 0; i < expandWidgetDiv.childNodes.length; i++) {
+                let childNode = expandWidgetDiv.childNodes[i];
+                if (childNode.nodeType === 8) {
+                    expandWidgetDiv.removeChild(childNode);
+                    i --;
+                }
+            }
+            expandWidgetDiv.hidden = false;
+            if (hasValue(widget.htmlContent)) {
+                let templatedContent = document.createElement('template');
+                templatedContent.innerHTML = widget.htmlContent;
+                expandWidgetDiv.appendChild(templatedContent.content.firstChild!);
+            }
+            
             if (hasValue(widget.widgetContent)) {
-                await createWidget(widget.widgetContent, viewId);
-                content = arcGisObjectRefs[widget.widgetContent.id] as Widget;
-            } else {
-                content = widget.htmlContent;
+                await addWidget(widget.widgetContent, viewId, true);
             }
             view.ui.remove(content);
             const expand = new Expand({
                 view,
-                content: content,
+                content: expandWidgetDiv,
                 expanded: widget.expanded,
                 mode: widget.mode,
             });
@@ -1937,7 +2090,7 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
     dotNetRefs[widget.id] = widget.dotNetComponentReference;
     // @ts-ignore
     let jsRef = DotNet.createJSObjectReference(getObjectReference(newWidget));
-    await widget.dotNetWidgetReference.invokeMethodAsync('OnWidgetCreated', jsRef);
+    await widget.dotNetWidgetReference.invokeMethodAsync('OnJsWidgetCreated', jsRef);
     return newWidget;
 }
 
@@ -2031,14 +2184,14 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             let featureLayer = newLayer as FeatureLayer;
 
             copyValuesIfExists(layerObject, featureLayer, 'minScale', 'maxScale', 'orderBy', 'objectIdField',
-                'definitionExpression', 'labelingInfo', 'outFields');
+                'definitionExpression', 'outFields', 'legendEnabled', 'popupEnabled', 'apiKey', 'blendMode');
 
             if (hasValue(layerObject.formTemplate)) {
                 featureLayer.formTemplate = buildJsFormTemplate(layerObject.formTemplate);
             }
 
             if (hasValue(layerObject.popupTemplate)) {
-                featureLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId ?? null);
+                featureLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId ?? null) as PopupTemplate;
             }
             if (hasValue(layerObject.renderer)) {
                 let renderer = buildJsRenderer(layerObject.renderer);
@@ -2051,6 +2204,18 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             }
             if (hasValue(layerObject.spatialReference)) {
                 featureLayer.spatialReference = buildJsSpatialReference(layerObject.spatialReference);
+            }
+            
+            if (hasValue(layerObject.labelingInfo)) {
+                featureLayer.labelingInfo = layerObject.labelingInfo.map(buildJsLabelClass);
+            }
+
+            if (hasValue(layerObject.proProperties.FeatureReduction)) {
+                (newLayer as FeatureLayer).featureReduction = buildJsFeatureReduction(layerObject.proProperties.FeatureReduction, viewId!);
+            }
+            
+            if (hasValue(layerObject.effect)) {
+                featureLayer.effect = buildJsEffect(layerObject.effect);
             }
             break;
         case 'vector-tile':
@@ -2087,18 +2252,23 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             break;
         case 'geo-json':
             newLayer = new GeoJSONLayer({
-                url: layerObject.url,
-                copyright: layerObject.copyright
+                url: layerObject.url
             });
             let gjLayer = newLayer as GeoJSONLayer;
             if (hasValue(layerObject.renderer)) {
-                gjLayer.renderer = layerObject.renderer;
+                gjLayer.renderer = buildJsRenderer(layerObject.renderer) as Renderer;
             }
             if (hasValue(layerObject.spatialReference)) {
-                gjLayer.spatialReference = new SpatialReference({
-                    wkid: layerObject.spatialReference.wkid
-                });
+                gjLayer.spatialReference = buildJsSpatialReference(layerObject.spatialReference);
             }
+            if (hasValue(layerObject.popupTemplate)) {
+                gjLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId ?? null) as PopupTemplate;
+            }
+            if (hasValue(layerObject.proProperties.FeatureReduction)) {
+                (newLayer as GeoJSONLayer).featureReduction = buildJsFeatureReduction(layerObject.proProperties.FeatureReduction, viewId!);
+            }
+            
+            copyValuesIfExists(layerObject, gjLayer, 'copyright');
             break;
         case 'geo-rss':
             newLayer = new GeoRSSLayer({ url: layerObject.url });
@@ -2196,9 +2366,12 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
                 });
             }
             if (hasValue(layerObject.popupTemplate)) {
-                csvLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId ?? null);
+                csvLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId ?? null) as PopupTemplate;
             }
-            
+            if (hasValue(layerObject.proProperties.FeatureReduction)) {
+                (newLayer as CSVLayer).featureReduction = buildJsFeatureReduction(layerObject.proProperties.FeatureReduction, viewId!);
+            }
+
             copyValuesIfExists(layerObject, csvLayer, 'blendMode', 'copyright', 'delimiter', 'displayField');
             break;
         case 'kml':
@@ -2220,7 +2393,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
                 title: layerObject.title
             });
             let wcsLayer = newLayer as WCSLayer;
-            
+
             if (hasValue(layerObject.renderer) && (layerObject.renderer.type == 'raster-stretch')) {
                 wcsLayer.renderer = buildJsRasterStretchRenderer(layerObject.renderer) as RasterStretchRenderer;
 
@@ -2260,18 +2433,117 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
                 key: layerObject.key,
                 style: layerObject.style
             });
-            
+
             newLayer = bing;
 
             if (hasValue(layerObject.spatialReference)) {
                 bing.spatialReference = buildJsSpatialReference(layerObject.spatialReference);
             }
-            
+
             if (hasValue(layerObject.effect)) {
                 bing.effect = buildJsEffect(layerObject.effect);
             }
-            
+
             copyValuesIfExists('blendMode', 'maxScale', 'minScale', 'refreshInterval');
+            break;
+        case 'imagery':
+            if (hasValue(layerObject.url)) {
+                newLayer = new ImageryLayer({
+                    url: layerObject.url
+                });
+            } else {
+                let portalItem = buildJsPortalItem(layerObject.portalItem);
+                newLayer = new ImageryLayer({ portalItem: portalItem });
+            }
+
+            let imageryLayer = newLayer as ImageryLayer;
+
+            if (hasValue(layerObject.renderer)) {
+                switch (layerObject.renderer) {
+                    case 'raster-stretch':
+                        imageryLayer.renderer = buildJsRasterStretchRenderer(layerObject.renderer) as RasterStretchRenderer;
+                        break;
+                    case 'class-breaks-renderer':
+                        imageryLayer.renderer = buildJsClassBreaksRenderer(layerObject.renderer) as ClassBreaksRenderer;
+                        break;
+                    case 'unique-value-renderer':
+                        imageryLayer.renderer = buildJsUniqueValueRenderer(layerObject.renderer) as UniqueValueRenderer;
+                        break;
+                    case 'raster-shaded-relief-renderer':
+                        imageryLayer.renderer = buildJsRasterShadedReliefRenderer(layerObject.renderer) as RasterShadedReliefRenderer;
+                        break;
+                    case 'raster-colormap-renderer':
+                        imageryLayer.renderer = buildJsRasterColormapRenderer(layerObject.renderer) as RasterColormapRenderer;
+                        break;
+                    case 'vector-field-renderer':
+                        imageryLayer.renderer = buildJsVectorFieldRenderer(layerObject.renderer) as VectorFieldRenderer;
+                        break;
+                    case 'flow-renderer':
+                        imageryLayer.renderer = buildJsFlowRenderer(layerObject.renderer) as FlowRenderer;
+                        break;
+                }
+            }
+            if (hasValue(layerObject.capabilities)) {
+                imageryLayer.capabilities = layerObject.capabilities;
+            }
+            if (hasValue(layerObject.customParameters)) {
+                imageryLayer.customParameters = layerObject.customParameters;
+            }
+            if (hasValue(layerObject.effect)) {
+                imageryLayer.effect = buildJsEffect(layerObject.effect);
+            }
+            if (hasValue(layerObject.fields && layerObject.fields.length > 0)) {
+                imageryLayer.fields = buildJsFields(layerObject.fields);
+            }
+            if (hasValue(layerObject.fieldsIndex)) {
+                imageryLayer.fieldsIndex = layerObject.fieldsIndex;
+            }
+            if (hasValue(layerObject.mosaicRule)) {
+                imageryLayer.mosaicRule = layerObject.mosaicRule;
+            }
+            if (hasValue(layerObject.multidimensionsionalSubset)) {
+                imageryLayer.multidimensionalSubset = layerObject.multidimensionsionalSubset;
+            }
+            if (hasValue(layerObject.noData)) {
+                imageryLayer.noData = layerObject.noData;
+            }
+            if (hasValue(layerObject.pixelFilter)) {
+                imageryLayer.pixelFilter = layerObject.pixelFilter;
+            }
+            if (hasValue(layerObject.popupTemplate)) {
+                imageryLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId ?? null) as PopupTemplate;
+            }
+            if (hasValue(layerObject.rasterFields)) {
+                imageryLayer.rasterFields = layerObject.rasterFields;
+            }
+            if (hasValue(layerObject.rasterFunction)) {
+                imageryLayer.rasterFunction = layerObject.rasterFunction;
+            }
+            if (hasValue(layerObject.rasterFunctionInfos)) {
+                imageryLayer.rasterFunctionInfos = layerObject.rasterFunctionInfos;
+            }
+            if (hasValue(layerObject.sourceJSON)) {
+                imageryLayer.sourceJSON = layerObject.sourceJSON;
+            }
+            if (hasValue(layerObject.spatialReference)) {
+                imageryLayer.spatialReference = buildJsSpatialReference(layerObject.spatialReference) as SpatialReference;
+            }
+            if (hasValue(layerObject.timeExtent)) {
+                imageryLayer.timeExtent = layerObject.timeExtent;
+            }
+            if (hasValue(layerObject.timeInfo)) {
+                imageryLayer.timeInfo = layerObject.timeInfo;
+            }
+            if (hasValue(layerObject.timeOffset)) {
+                imageryLayer.timeOffset = layerObject.timeOffset;
+            }
+
+            copyValuesIfExists('bandIds', 'blendMode', 'compressionQuality', 'compressionTolerance',
+                'copyright', 'definitionExpression', 'effect', 'format', 'hasMultidimensions', 'imageMaxHeight', 'imageMaxWidth',
+                'interpolation', 'legendEnabled', 'maxScale', 'minScale', 'multidimensionalInfo', 'noDataInterpretation',
+                'objectIdField', 'persistenceEnabled', 'pixelType', 'popupEnabled', 'refreshInterval', 'serviceRasterInfo', 'useViewTime', 'version')
+
+            newLayer = imageryLayer;
             break;
          default:
             return null;
@@ -2406,7 +2678,8 @@ function buildDotNetListItem(item: ListItem): DotNetListItem | null {
     } as DotNetListItem;
 }
 
-function copyValuesIfExists(originalObject: any, newObject: any, ...params: Array<string>) {
+// this function should only be used for simple types that are guaranteed to succeed in serialization and conversion
+export function copyValuesIfExists(originalObject: any, newObject: any, ...params: Array<string>) {
     params.forEach(p => {
         if (hasValue(originalObject[p]) && originalObject[p] !== newObject[p]) {
             newObject[p] = originalObject[p];
@@ -2466,16 +2739,14 @@ export function addReactiveListener(targetId: string, eventName: string, once: b
     return listenerFunc(target, reactiveUtils, dotNetRef);
 }
 
-export async function awaitReactiveSingleWatchUpdate(targetId: string, targetName: string, watchExpression: string,
-    dotNetRef: any): Promise<any> {
+export async function awaitReactiveSingleWatchUpdate(targetId: string, targetName: string, watchExpression: string): Promise<any> {
     let target = arcGisObjectRefs[targetId];
     console.debug(`Adding once watcher: "${watchExpression}"`);
-    const AsyncFunction = (async function () {
-    }).constructor;
+    const AsyncFunction = async function () {}.constructor;
     // @ts-ignore
-    const onceFunc = new AsyncFunction(targetName, 'reactiveUtils', 'dotNetRef',
-        `return await reactiveUtils.once(() => ${watchExpression});`);
-    return await onceFunc(target, reactiveUtils, dotNetRef);
+    const onceFunc = new AsyncFunction(targetName, 'reactiveUtils',
+        `return reactiveUtils.once(() => ${watchExpression});`);
+    return await onceFunc(target, reactiveUtils);
 }
 
 export function addReactiveWaiter(targetId: string, targetName: string, watchExpression: string, once: boolean,
@@ -2550,8 +2821,13 @@ let ProtoGraphicCollection;
 
 export async function loadProtobuf() {
     load("_content/dymaptic.GeoBlazor.Core/graphic.json", function (err, root) {
-        if (err) throw err;
-        ProtoGraphicCollection = root?.lookupType("ProtoGraphicCollection");
+        try {
+            if (err) throw err;
+            ProtoGraphicCollection = root?.lookupType("ProtoGraphicCollection");
+            console.debug('Protobuf graphics json loaded');
+        } catch (error) {
+            logError(error, null);
+        }    
     });
 }
 

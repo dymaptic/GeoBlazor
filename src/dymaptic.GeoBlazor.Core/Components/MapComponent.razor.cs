@@ -52,6 +52,13 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     [CascadingParameter(Name = "JsModule")]
     [JsonIgnore]
     public IJSObjectReference? JsModule { get; set; }
+    
+    /// <summary>
+    ///     Optional JsModule for GeoBlazor Pro
+    /// </summary>
+    [CascadingParameter(Name = "ProJsModule")]
+    [JsonIgnore]
+    public IJSObjectReference? ProJsModule { get; set; }
 
     /// <summary>
     ///     The parent <see cref="MapView" /> of the current component.
@@ -64,6 +71,11 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     ///     A unique identifier, used to track components across .NET and JavaScript.
     /// </summary>
     public Guid Id { get; init; } = Guid.NewGuid();
+    
+    /// <summary>
+    ///     Extension properties for GeoBlazor Pro
+    /// </summary>
+    public Dictionary<string, object?> ProProperties { get; init; }= new();
 
     /// <summary>
     ///     Implements the `IAsyncDisposable` pattern.
@@ -138,8 +150,25 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     /// <remarks>
     ///     This method is an implementation detail and should not be called directly by consumers. In future versions, this may be changed to an internal method. If you see no other way to register a child component, please open an issue on GitHub.
     /// </remarks>
-    public virtual Task RegisterChildComponent(MapComponent child)
+    public virtual async Task RegisterChildComponent(MapComponent child)
     {
+        try
+        {
+            Assembly proAssembly = Assembly.Load("dymaptic.GeoBlazor.Pro");
+            _proExtensions ??= proAssembly.GetType("dymaptic.GeoBlazor.Pro.ProExtensions");
+            MethodInfo? method = _proExtensions?.GetMethod("RegisterProChildComponent");
+
+            if (method is not null)
+            {
+                await (Task)method.Invoke(null, new object?[] { this, child })!;
+
+                return;
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
         throw new InvalidChildElementException(GetType().Name, child.GetType().Name);
     }
 
@@ -152,8 +181,25 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     /// <remarks>
     ///     This method is an implementation detail and should not be called directly by consumers. In future versions, this may be changed to an internal method.
     /// </remarks>
-    public virtual Task UnregisterChildComponent(MapComponent child)
+    public virtual async Task UnregisterChildComponent(MapComponent child)
     {
+        try
+        {
+            Assembly proAssembly = Assembly.Load("dymaptic.GeoBlazor.Pro");
+            _proExtensions ??= proAssembly.GetType("dymaptic.GeoBlazor.Pro.ProExtensions");
+            MethodInfo? method = _proExtensions?.GetMethod("UnregisterProChildComponent");
+
+            if (method is not null)
+            {
+                await (Task)method.Invoke(null, new object?[] { this, child })!;
+
+                return;
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
         throw new InvalidChildElementException(GetType().Name, child.GetType().Name);
     }
 
@@ -162,7 +208,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     /// </summary>
     public virtual void Refresh()
     {
-        InvokeAsync(StateHasChanged);
+        UpdateState();
     }
 
     /// <summary>
@@ -267,6 +313,13 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         }
     }
 
+    /// <inheritdoc />
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+        IsRenderedBlazorComponent = true;
+    }
+
     /// <summary>
     ///     Tells the <see cref="MapView" /> to completely re-render.
     /// </summary>
@@ -281,49 +334,10 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         }
     }
 
-    /// <summary>
-    ///     Retrieves the main entry point for the JavaScript interop.
-    /// </summary>
-    protected async Task<IJSObjectReference> GetArcGisJsInterop()
-    {
-        LicenseType licenseType = Licensing.GetLicenseType();
-
-        switch ((int)licenseType)
-        {
-            case >= 100:
-                // this is here to support the pro extension library
-                IJSObjectReference proModule = await JsRuntime
-                    .InvokeAsync<IJSObjectReference>("import", CancellationTokenSource.Token,
-                        "./_content/dymaptic.GeoBlazor.Pro/js/arcGisPro.js");
-
-                return await proModule.InvokeAsync<IJSObjectReference>("getCore");
-            default:
-                return await JsRuntime
-                    .InvokeAsync<IJSObjectReference>("import", CancellationTokenSource.Token,
-                        "./_content/dymaptic.GeoBlazor.Core/js/arcGisJsInterop.js");
-        }
-    }
-
-    /// <summary>
-    ///     Retrieves the main entry point for the optional GeoBlazor Pro JavaScript module.
-    /// </summary>
-    protected async Task<IJSObjectReference?> GetArcGisJsPro()
-    {
-        LicenseType licenseType = Licensing.GetLicenseType();
-
-        switch ((int)licenseType)
-        {
-            case >= 100:
-                return await JsRuntime.InvokeAsync<IJSObjectReference>("import", CancellationTokenSource.Token,
-                    "./_content/dymaptic.GeoBlazor.Pro/js/arcGisPro.js");
-            default:
-                return null;
-        }
-    }
-
     private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _watchers = new();
     private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _listeners = new();
     private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _waiters = new();
+    private Type? _proExtensions;
 
     /// <summary>
     ///     Creates a cancellation token to control external calls
@@ -414,12 +428,29 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     {
         return AllowRender;
     }
+    
+    /// <summary>
+    ///     Updates the state of the component, but only if it was added in normal Blazor Markup.
+    /// </summary>
+    protected void UpdateState(bool mainThread = true)
+    {
+        if (IsRenderedBlazorComponent)
+        {
+            InvokeAsync(StateHasChanged);
+        }
+    }
 
     /// <summary>
     ///     Whether to allow the component to render on the next cycle.
     /// </summary>
     public bool AllowRender = true;
+    
+    /// <summary>
+    ///     Determines whether the component was added as a markup Blazor component or programmatically.
+    /// </summary>
+    protected bool IsRenderedBlazorComponent;
     private bool _registered;
+    
 
     private async Task AddReactiveWatcherImplementation(string watchExpression, Delegate handler, string? targetName,
         bool once, bool initial)
@@ -727,7 +758,6 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     [JSInvokable]
     public void OnReactiveWaiterTrue(string waitExpression)
     {
-        Console.WriteLine($"Reactive Waiter Triggered for wait expression \"{waitExpression}\"");
         Delegate handler = _waiters[waitExpression].Handler;
         handler.DynamicInvoke();
     }
@@ -768,7 +798,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         }
 
         return await JsModule!.InvokeAsync<T>("awaitReactiveSingleWatchUpdate", token, Id, targetName,
-            watchExpression, DotNetObjectReference.Create(this));
+            watchExpression);
     }
 
 #endregion

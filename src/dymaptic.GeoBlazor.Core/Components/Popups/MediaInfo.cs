@@ -131,6 +131,46 @@ public class BarChartMediaInfo : MediaInfo
 public class ChartMediaInfoValue : MapComponent
 {
     /// <summary>
+    ///     Parameterless constructor for use as a razor component.
+    /// </summary>
+    public ChartMediaInfoValue()
+    {
+    }
+
+    /// <summary>
+    ///     Constructor for building a <see cref="ChartMediaInfoValue" /> in code.
+    /// </summary>
+    /// <param name="fields">
+    ///     An array of strings, with each string containing the name of a field to display in the chart.
+    /// </param>
+    /// <param name="normalizeField">
+    ///     A string containing the name of a field. The values of all fields in the chart will be normalized (divided) by the
+    /// </param>
+    /// <param name="tooltipField">
+    ///     String value indicating the tooltip for a chart specified from another field. It is used for showing tooltips from
+    /// </param>
+    /// <param name="series">
+    ///     An array of ChartMediaInfoValueSeries objects which provide information of x/y data that is plotted in a chart.
+    /// </param>
+    public ChartMediaInfoValue(IReadOnlyCollection<string>? fields = null, string? normalizeField = null,
+        string? tooltipField = null, IReadOnlyCollection<ChartMediaInfoValueSeries>? series = null)
+    {
+#pragma warning disable BL0005
+        if (fields is not null)
+        {
+            Fields = fields.ToList();
+        }
+        NormalizeField = normalizeField;
+        TooltipField = tooltipField;
+
+        if (series is not null)
+        {
+            Series = series.ToHashSet();
+        }
+#pragma warning restore BL0005
+    }
+
+    /// <summary>
     ///     An array of strings, with each string containing the name of a field to display in the chart.
     /// </summary>
     /// <remarks>
@@ -617,6 +657,39 @@ public class LineChartMediaInfo : MediaInfo
 /// </summary>
 public class PieChartMediaInfo : MediaInfo
 {
+    /// <summary>
+    ///     Parameterless constructor for use as a razor component.
+    /// </summary>
+    public PieChartMediaInfo()
+    {
+    }
+
+    /// <summary>
+    ///     Constructor for building a <see cref="PieChartMediaInfo" /> in code.
+    /// </summary>
+    /// <param name="title">
+    ///     The title of the media element.
+    /// </param>
+    /// <param name="caption">
+    ///     Defines a caption for the media.
+    /// </param>
+    /// <param name="altText">
+    ///     Provides an alternate text for an image if the image cannot be displayed.
+    /// </param>
+    /// <param name="value">
+    ///     Defines the chart value.
+    /// </param>
+    public PieChartMediaInfo(string? title = null, string? caption = null, string? altText = null, 
+        ChartMediaInfoValue? value = null)
+    {
+#pragma warning disable BL0005
+        Title = title;
+        Caption = caption;
+        AltText = altText;
+        Value = value;
+#pragma warning restore BL0005
+    }
+
     /// <inheritdoc />
     public override string Type => "pie-chart";
 

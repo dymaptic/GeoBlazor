@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using dymaptic.GeoBlazor.Core.Components.Views;
+using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -11,7 +12,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 [JsonConverter(typeof(WidgetConverter))]
-public abstract class Widget : MapComponent
+public abstract partial class Widget : MapComponent
 {
     /// <summary>
     ///     The position of the widget in relation to the map view.
@@ -26,12 +27,16 @@ public abstract class Widget : MapComponent
     ///     The id of an external HTML Element (div). If provided, the widget will be placed inside that element, instead of on
     ///     the map.
     /// </summary>
-    /// <remarks>
-    ///     Either <see cref="Position" /> or <see cref="ContainerId" /> should be set, but not both.
-    /// </remarks>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? ContainerId { get; set; }
+    
+    /// <summary>
+    ///     If the Widget is defined outside of the MapView, this link is required to connect them together.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore]
+    public MapView? MapView { get; set; }
 
     /// <summary>
     ///     The type of widget
@@ -51,6 +56,12 @@ public abstract class Widget : MapComponent
     /// </summary>
     [Parameter]
     public string? WidgetId { get; set; }
+    
+    /// <summary>
+    ///     Event handler to know when the widget has been created.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnWidgetCreated { get; set; }
 
     /// <summary>
     ///     DotNet Object Reference to the widget
@@ -58,14 +69,36 @@ public abstract class Widget : MapComponent
     public DotNetObjectReference<Widget> DotNetWidgetReference => DotNetObjectReference.Create(this);
 
     /// <summary>
+    ///     Indicates if the widget is hidden. For internal use only.
+    /// </summary>
+    protected virtual bool Hidden => false;
+    
+    /// <summary>
     ///     JS-invokable callback to register a JS Object Reference
     /// </summary>
     [JSInvokable]
-    public void OnWidgetCreated(IJSObjectReference jsObjectReference)
+    public async Task OnJsWidgetCreated(IJSObjectReference jsObjectReference)
     {
         JsWidgetReference = jsObjectReference;
+        await OnWidgetCreated.InvokeAsync();
     }
-    
+
+    /// <inheritdoc />
+    public override async Task SetParametersAsync(ParameterView parameters)
+    {
+#if NET8_0_OR_GREATER
+        IReadOnlyDictionary<string, object?> dictionary = parameters.ToDictionary();
+#else
+        IReadOnlyDictionary<string, object> dictionary = parameters.ToDictionary();
+#endif
+
+        if (!dictionary.ContainsKey(nameof(View)) && !dictionary.ContainsKey(nameof(MapView)))
+        {
+            throw new MissingMapViewReferenceException("Widgets outside the MapView must have the MapView parameter set.");
+        }
+        await base.SetParametersAsync(parameters);
+    }
+
     /// <inheritdoc />
     protected override void OnParametersSet()
     {
@@ -81,6 +114,12 @@ public abstract class Widget : MapComponent
         if (WidgetChanged && MapRendered)
         {
             await UpdateWidget();
+        }
+        
+        if (View is null && MapView is not null && !_externalWidgetRegistered)
+        {
+            await MapView!.AddWidget(this);
+            _externalWidgetRegistered = true;
         }
     }
     
@@ -103,7 +142,9 @@ public abstract class Widget : MapComponent
     /// <summary>
     ///     JS Object Reference to the widget
     /// </summary>
-    protected IJSObjectReference? JsWidgetReference;
+    public IJSObjectReference? JsWidgetReference;
+
+    private bool _externalWidgetRegistered;
 }
 
 internal class WidgetConverter : JsonConverter<Widget>
@@ -116,5 +157,18 @@ internal class WidgetConverter : JsonConverter<Widget>
     public override void Write(Utf8JsonWriter writer, Widget value, JsonSerializerOptions options)
     {
         writer.WriteRawValue(JsonSerializer.Serialize(value, typeof(object), options));
+    }
+}
+
+/// <summary>
+///     Exception raised if an external component is missing a required reference to a <see cref="MapView"/>
+/// </summary>
+public class MissingMapViewReferenceException: Exception
+{
+    /// <summary>
+    ///    Exception raised if an external component is missing a required reference to a <see cref="MapView"/>
+    /// </summary>
+    public MissingMapViewReferenceException(string message) : base(message)
+    {
     }
 }

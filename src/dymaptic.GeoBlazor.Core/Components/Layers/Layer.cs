@@ -159,17 +159,35 @@ public abstract class Layer : MapComponent
     {
         AbortManager = new AbortManager(JsRuntime);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        IJSObjectReference arcGisJsInterop = await GetArcGisJsInterop();
+        IJSObjectReference? arcGisPro = await JsModuleManager.GetArcGisJsPro(JsRuntime, cancellationToken);
+        IJSObjectReference arcGisJsInterop = await JsModuleManager.GetArcGisJsCore(JsRuntime, arcGisPro, cancellationToken);
 
-        JsLayerReference = await arcGisJsInterop.InvokeAsync<IJSObjectReference>("createLayer",
-            // ReSharper disable once RedundantCast
-            cancellationToken, (object)this, true, View?.Id);
+        if (arcGisPro is not null)
+        {
+            JsLayerReference = await arcGisPro.InvokeAsync<IJSObjectReference>("createProLayer",
+                // ReSharper disable once RedundantCast
+                cancellationToken, (object)this, true, View?.Id);
+        }
+        else
+        {
+            JsLayerReference = await arcGisJsInterop.InvokeAsync<IJSObjectReference>("createLayer",
+                // ReSharper disable once RedundantCast
+                cancellationToken, (object)this, true, View?.Id);
+        }
+
         await JsLayerReference.InvokeVoidAsync("load", cancellationToken, abortSignal);
 
         Layer loadedLayer = await arcGisJsInterop.InvokeAsync<Layer>("getSerializedDotNetObject",
             cancellationToken, Id);
         await UpdateFromJavaScript(loadedLayer);
         await AbortManager.DisposeAbortController(cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public override void Refresh()
+    {
+        LayerChanged = true;
+        base.Refresh();
     }
 
     /// <inheritdoc />
@@ -219,15 +237,24 @@ public abstract class Layer : MapComponent
 
         if (JsModule is null) return;
 
-        // ReSharper disable once RedundantCast
-        await JsModule!.InvokeVoidAsync("updateLayer", CancellationTokenSource.Token,
-            (object)this, View!.Id);
+        if (GetType().Namespace!.Contains("Pro"))
+        {
+            // ReSharper disable once RedundantCast
+            await ProJsModule!.InvokeVoidAsync("updateProLayer", CancellationTokenSource.Token,
+                (object)this, View!.Id);
+        }
+        else
+        {
+            // ReSharper disable once RedundantCast
+            await JsModule!.InvokeVoidAsync("updateLayer", CancellationTokenSource.Token,
+                (object)this, View!.Id);
+        }
     }
 
     /// <summary>
     ///     Indicates if the layer has changed since the last render.
     /// </summary>
-    protected bool LayerChanged;
+    public bool LayerChanged;
 }
 
 internal class LayerConverter : JsonConverter<Layer>
@@ -276,6 +303,8 @@ internal class LayerConverter : JsonConverter<Layer>
                     return JsonSerializer.Deserialize<WCSLayer>(ref cloneReader, newOptions);
                 case "bing-maps":
                     return JsonSerializer.Deserialize<BingMapsLayer>(ref cloneReader, newOptions);
+                case "imagery":
+                    return JsonSerializer.Deserialize<ImageryLayer>(ref cloneReader, newOptions);
             }
         }
 

@@ -21,7 +21,7 @@
         @foreach (PageLink page in FilteredPages)
         {
             <div class="nav-item px-3">
-                <NavLink class="nav-link" href="@(page.Href)">
+                <NavLink class="nav-link" href="@(page.Href)" Match="NavLinkMatch.All">
                     @if (page.IconClass is not null)
                     {
                         <text><span class="oi @(page.IconClass)" aria-hidden="true"></span>&nbsp;@(page.Title)</text>
@@ -97,6 +97,7 @@
         new("osm-layer", "OpenStreetMaps Layer", null, "osm.png"),
         new("wcslayers", "WCS Layers", "oi-project"),
         new("bingmaps-layer", "Bing Maps Layer", null, "bing.png"),
+        new("imagerylayer", "Imagery Layers", "oi-image"),
         new("web-map", "Web Map", "oi-browser"),
         new("web-scene", "Web Scene", "oi-box"),
         new("events", "Events", "oi-flash"),

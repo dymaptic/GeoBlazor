@@ -1,0 +1,31 @@
+﻿@page "/counter"
+@rendermode renderMode
+
+<PageTitle>Counter</PageTitle>
+
+<h1>Counter</h1>
+
+<p role="status">Current count: @currentCount</p>
+
+<button class="btn btn-primary" style="margin-bottom:5px;" @onclick="IncrementCount">Click me</button>
+<br/>
+
+<MapView Longitude="_longitude" Latitude="_latitude" Zoom="11" Style="height: 400px; width: 100%;">
+    <WebMap>
+        <PortalItem Id="4a6cb60ebbe3483a805999d481c2daa5" />
+    </WebMap>
+</MapView>
+
+@code {
+    private static IComponentRenderMode renderMode = new InteractiveAutoRenderMode();
+
+    private readonly double _latitude = 34.027;
+    private readonly double _longitude = -118.805;
+
+    private int currentCount = 0;
+
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+}

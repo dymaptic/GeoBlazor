@@ -38,7 +38,8 @@ internal class SymbolJsonConverter : JsonConverter<Symbol>
         // deserialize based on the subclass type
         var newOptions = new JsonSerializerOptions(options)
         {
-            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+            NumberHandling = JsonNumberHandling.AllowReadingFromString
         };
         Utf8JsonReader cloneReader = reader;
 

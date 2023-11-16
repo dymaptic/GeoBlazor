@@ -15,6 +15,11 @@ public class ExpandWidget : Widget
     public override string WidgetType => "expand";
 
     /// <summary>
+    ///     Internal mark for GeoBlazor rendering
+    /// </summary>
+    protected override bool Hidden => true;
+
+    /// <summary>
     ///     Icon font used to style the Expand button when expanded.
     /// </summary>
     [Parameter]
@@ -62,6 +67,9 @@ public class ExpandWidget : Widget
     /// <summary>
     ///     The custom HTML content to display within the expanded Expand widget.
     /// </summary>
+    /// <remarks>
+    ///     You can now define custom HTML inline in Razor markup inside an Expand widget, instead of using this parameter. 
+    /// </remarks>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? HtmlContent { get; set; }

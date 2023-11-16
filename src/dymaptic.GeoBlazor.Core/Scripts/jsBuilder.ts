@@ -2,7 +2,12 @@
 import Extent from "@arcgis/core/geometry/Extent";
 import Graphic from "@arcgis/core/Graphic";
 import PopupTemplate from "@arcgis/core/PopupTemplate";
-import {arcGisObjectRefs, createLayer, dotNetRefs, triggerActionHandler} from "./arcGisJsInterop";
+import {
+    arcGisObjectRefs,
+    popupDotNetObjects,
+    createLayer,
+    dotNetRefs, copyValuesIfExists
+} from "./arcGisJsInterop";
 import Geometry from "@arcgis/core/geometry/Geometry";
 import Point from "@arcgis/core/geometry/Point";
 import Polyline from "@arcgis/core/geometry/Polyline";
@@ -21,26 +26,56 @@ import ColorRamp from "@arcgis/core/rest/support/ColorRamp.js";
 import DimensionalDefinition from "@arcgis/core/layers/support/DimensionalDefinition.js";
 import MultipartColorRamp from "@arcgis/core/rest/support/MultipartColorRamp.js";
 import AlgorithmicColorRamp from "@arcgis/core/rest/support/AlgorithmicColorRamp.js";
+import RasterShadedReliefRenderer from "@arcgis/core/renderers/RasterShadedReliefRenderer.js";
+import RasterColormapRenderer from "@arcgis/core/renderers/RasterColormapRenderer.js";
+import VectorFieldRenderer from "@arcgis/core/renderers/VectorFieldRenderer.js";
+import FlowRenderer from "@arcgis/core/renderers/FlowRenderer.js";
+import ClassBreaksRenderer from "@arcgis/core/renderers/ClassBreaksRenderer.js";
+import AuthoringInfo from "@arcgis/core/renderers/support/AuthoringInfo.js";
+import ClassBreakInfo from "@arcgis/core/renderers/support/ClassBreakInfo.js";
+import UniqueValueRenderer from "@arcgis/core/renderers/UniqueValueRenderer.js";
+import ColormapInfo from "@arcgis/core/renderers/support/ColormapInfo.js";
+import MultidimensionalSubset from "@arcgis/core/layers/support/MultidimensionalSubset.js";
+import PolygonSymbol3D from "@arcgis/core/symbols/PolygonSymbol3D.js";
+import FieldsIndex from "@arcgis/core/layers/support/FieldsIndex.js";
+import AuthoringInfoVisualVariable from "@arcgis/core/renderers/support/AuthoringInfoVisualVariable.js";
+import UniqueValue from "@arcgis/core/renderers/support/UniqueValue.js";
+import UniqueValueInfo from "@arcgis/core/renderers/support/UniqueValueInfo.js";
+import UniqueValueClass from "@arcgis/core/renderers/support/UniqueValueClass.js";
+import UniqueValueGroup from "@arcgis/core/renderers/support/UniqueValueGroup.js";
 import {
     DotNetApplyEdits,
+    DotNetAuthoringInfo,
     DotNetAttachmentsEdit,
     DotNetAttachmentsPopupContent,
     DotNetBarChartMediaInfo,
+    DotNetBookmark,
     DotNetChartMediaInfoValue,
+    DotNetClassBreaksInfo,
+    DotNetClassBreaksRenderer,
+    DotNetColorRamp,
+    DotNetColormapInfo,
     DotNetColumnChartMediaInfo,
+    DotNetDimensionalDefinition,
     DotNetElementExpressionInfo,
     DotNetExpressionInfo,
     DotNetExpressionPopupContent,
     DotNetExtent,
+    DotNetFeatureEffect,
+    DotNetFeatureFilter,
+    DotNetFeatureTemplate,
     DotNetFieldInfo,
     DotNetFieldInfoFormat,
+    DotNetFieldsIndex,
     DotNetFieldsPopupContent,
+    DotNetFlowRenderer,
     DotNetGeometry,
     DotNetImageMediaInfo,
     DotNetImageMediaInfoValue,
     DotNetLineChartMediaInfo,
     DotNetMediaInfo,
     DotNetMediaPopupContent,
+    DotNetMultidimensionalSubset,
     DotNetPictureMarkerSymbol,
     DotNetPieChartMediaInfo,
     DotNetPoint,
@@ -49,23 +84,25 @@ import {
     DotNetPopupContent,
     DotNetPopupTemplate,
     DotNetQuery,
+    DotNetRasterColormapRenderer,
+    DotNetRasterFunction,
+    DotNetRasterFunctionInfo,
+    DotNetRasterShadedReliefRenderer,
+    DotNetRasterStretchRenderer,
     DotNetRelationshipQuery,
     DotNetSimpleFillSymbol,
     DotNetSimpleLineSymbol,
     DotNetSimpleMarkerSymbol,
     DotNetSpatialReference,
+    DotNetSubsetDimension,
     DotNetSymbol,
     DotNetTextPopupContent,
     DotNetTextSymbol,
     DotNetTopFeaturesQuery,
-    DotNetBookmark,
+    DotNetUniqueValueRenderer,
+    DotNetVectorFieldRenderer,
     DotNetViewpoint,
-    DotNetFeatureEffect,
-    DotNetFeatureFilter,
-    DotNetRasterStretchRenderer,
-    DotNetDimensionDefinition,
-    DotNetColorRamp,
-    DotNetFeatureTemplate
+    DotNetVisualVariable,
 } from "./definitions";
 import PictureMarkerSymbol from "@arcgis/core/symbols/PictureMarkerSymbol";
 import Popup from "@arcgis/core/widgets/Popup";
@@ -95,20 +132,12 @@ import SimpleLineSymbol from "@arcgis/core/symbols/SimpleLineSymbol";
 import ElementExpressionInfo from "@arcgis/core/popup/ElementExpressionInfo";
 import ChartMediaInfoValueSeries from "@arcgis/core/popup/content/support/ChartMediaInfoValueSeries";
 import View from "@arcgis/core/views/View";
-import {buildDotNetGraphic, buildDotNetPoint, buildDotNetSpatialReference} from "./dotNetBuilder";
-import ViewClickEvent = __esri.ViewClickEvent;
-import PopupOpenOptions = __esri.PopupOpenOptions;
-import PopupDockOptions = __esri.PopupDockOptions;
-import ContentProperties = __esri.ContentProperties;
-import PopupTriggerActionEvent = __esri.PopupTriggerActionEvent;
-import FeatureLayerBaseApplyEditsEdits = __esri.FeatureLayerBaseApplyEditsEdits;
-import AttachmentEdit = __esri.AttachmentEdit;
+import { buildDotNetGraphic, buildDotNetPoint, buildDotNetSpatialReference } from "./dotNetBuilder";
 import FormTemplate from "@arcgis/core/form/FormTemplate";
 import Element from "@arcgis/core/form/elements/Element";
 import GroupElement from "@arcgis/core/form/elements/GroupElement";
 import CodedValueDomain from "@arcgis/core/layers/support/CodedValueDomain";
 import RangeDomain from "@arcgis/core/layers/support/RangeDomain";
-import CodedValue = __esri.CodedValue;
 import TextBoxInput from "@arcgis/core/form/elements/inputs/TextBoxInput";
 import TextAreaInput from "@arcgis/core/form/elements/inputs/TextAreaInput";
 import DateTimePickerInput from "@arcgis/core/form/elements/inputs/DateTimePickerInput";
@@ -116,12 +145,33 @@ import BarcodeScannerInput from "@arcgis/core/form/elements/inputs/BarcodeScanne
 import ComboBoxInput from "@arcgis/core/form/elements/inputs/ComboBoxInput";
 import RadioButtonsInput from "@arcgis/core/form/elements/inputs/RadioButtonsInput";
 import SwitchInput from "@arcgis/core/form/elements/inputs/SwitchInput";
-import * as reactiveUtils from "@arcgis/core/core/reactiveUtils";
 import SearchSource from "@arcgis/core/widgets/Search/SearchSource";
+import FeatureTemplate from "@arcgis/core/layers/support/FeatureTemplate";
+import ViewClickEvent = __esri.ViewClickEvent;
+import PopupOpenOptions = __esri.PopupOpenOptions;
+import PopupDockOptions = __esri.PopupDockOptions;
+import ContentProperties = __esri.ContentProperties;
+import FeatureLayerBaseApplyEditsEdits = __esri.FeatureLayerBaseApplyEditsEdits;
+import AttachmentEdit = __esri.AttachmentEdit;
+import CodedValue = __esri.CodedValue;
 import SearchSourceFilter = __esri.SearchSourceFilter;
 import SearchResult = __esri.SearchResult;
 import SuggestResult = __esri.SuggestResult;
-import FeatureTemplate from "@arcgis/core/layers/support/FeatureTemplate";
+import LabelClass from "@arcgis/core/layers/support/LabelClass";
+import VisualVariable from "@arcgis/core/renderers/visualVariables/VisualVariable";
+import ColorVariable from "@arcgis/core/renderers/visualVariables/ColorVariable";
+import RotationVariable from "@arcgis/core/renderers/visualVariables/RotationVariable";
+import SizeVariable from "@arcgis/core/renderers/visualVariables/SizeVariable";
+import OpacityVariable from "@arcgis/core/renderers/visualVariables/OpacityVariable";
+import FeatureReductionCluster from "@arcgis/core/layers/support/FeatureReductionCluster";
+import FeatureReductionBinning from "@arcgis/core/layers/support/FeatureReductionBinning";
+import FeatureReductionSelection from "@arcgis/core/layers/support/FeatureReductionSelection";
+import AggregateField from "@arcgis/core/layers/support/AggregateField";
+import supportExpressionInfo from "@arcgis/core/layers/support/ExpressionInfo";
+import PieChartRenderer from "@arcgis/core/renderers/PieChartRenderer";
+import AttributeColorInfo from "@arcgis/core/renderers/support/AttributeColorInfo";
+import AuthoringInfo from "@arcgis/core/renderers/support/AuthoringInfo";
+import AuthoringInfoVisualVariable from "@arcgis/core/renderers/support/AuthoringInfoVisualVariable";
 
 
 export function buildJsSpatialReference(dotNetSpatialReference: DotNetSpatialReference): SpatialReference {
@@ -142,30 +192,8 @@ export function buildJsSpatialReference(dotNetSpatialReference: DotNetSpatialRef
 
 export function buildJsExtent(dotNetExtent: DotNetExtent, currentSpatialReference: SpatialReference | null): Extent {
     let extent = new Extent();
-    if (hasValue(dotNetExtent.xmax)) {
-        extent.xmax = dotNetExtent.xmax;
-    }
-    if (hasValue(dotNetExtent.xmin)) {
-        extent.xmin = dotNetExtent.xmin;
-    }
-    if (hasValue(dotNetExtent.ymax)) {
-        extent.ymax = dotNetExtent.ymax;
-    }
-    if (hasValue(dotNetExtent.ymin)) {
-        extent.ymin = dotNetExtent.ymin;
-    }
-    if (hasValue(dotNetExtent.zmax)) {
-        extent.zmax = dotNetExtent.zmax;
-    }
-    if (hasValue(dotNetExtent.zmin)) {
-        extent.zmin = dotNetExtent.zmin;
-    }
-    if (hasValue(dotNetExtent.mmax)) {
-        extent.mmax = dotNetExtent.mmax;
-    }
-    if (hasValue(dotNetExtent.mmin)) {
-        extent.mmin = dotNetExtent.mmin;
-    }
+    copyValuesIfExists(dotNetExtent, extent, 'xmax', 'xmin', 'ymax', 'ymin', 'zmax', 'zmin', 'mmax', 'mmin');
+    
     if (hasValue(dotNetExtent.spatialReference)) {
         extent.spatialReference = buildJsSpatialReference(dotNetExtent.spatialReference)
     } else if (currentSpatialReference !== null) {
@@ -185,7 +213,7 @@ export function buildJsGraphic(graphicObject: any, viewId: string | null)
     graphic.attributes = buildJsAttributes(graphicObject.attributes);
 
     if (hasValue(graphicObject.popupTemplate)) {
-        graphic.popupTemplate = buildJsPopupTemplate(graphicObject.popupTemplate, viewId);
+        graphic.popupTemplate = buildJsPopupTemplate(graphicObject.popupTemplate, viewId) as PopupTemplate;
     }
 
     return graphic;
@@ -224,7 +252,9 @@ export function buildJsAttributes(attributes: any): any {
     }
 }
 
-export function buildJsPopupTemplate(popupTemplateObject: DotNetPopupTemplate, viewId: string | null): PopupTemplate {
+export function buildJsPopupTemplate(popupTemplateObject: DotNetPopupTemplate, viewId: string | null): PopupTemplate | null {
+    if (!hasValue(popupTemplateObject)) return null;
+    
     let content;
     if (hasValue(popupTemplateObject.stringContent)) {
         content = popupTemplateObject.stringContent;
@@ -256,46 +286,15 @@ export function buildJsPopupTemplate(popupTemplateObject: DotNetPopupTemplate, v
     }
 
     if (hasValue(popupTemplateObject.expressionInfos)) {
-        template.expressionInfos = popupTemplateObject.expressionInfos.map(e => buildJsExpressionInfo(e));
+        template.expressionInfos = popupTemplateObject.expressionInfos.map(buildJsExpressionInfo);
     }
 
     if (hasValue(popupTemplateObject.actions)) {
         template.actions = popupTemplateObject.actions as any;
-    }
+    } 
 
-    if (viewId !== null) {
-        let view = arcGisObjectRefs[viewId] as View;
-        if (hasValue(view)) {
-            try {
-                if (hasValue(triggerActionHandler)) {
-                    triggerActionHandler.remove();
-                }
-                if (hasValue(templateTriggerActionHandler)) {
-                    templateTriggerActionHandler.remove();
-                }
-                
-                if (view.popup.on === undefined) {
-                    // we need to wait for the popup to be initialized before we can add the trigger-action handler
-                    reactiveUtils.once(() => view.popup.on !== undefined)
-                        .then(() => {
-                            templateTriggerActionHandler = view.popup.on("trigger-action", async (event: PopupTriggerActionEvent) => {
-                                await lookupDotNetRefForPopupTemplate(popupTemplateObject, viewId as string);
-                                await popupTemplateObject.dotNetPopupTemplateReference.invokeMethodAsync("OnTriggerAction", event.action.id);
-                            });
-                        })
-                } else {
-                    templateTriggerActionHandler = view.popup.on("trigger-action", async (event: PopupTriggerActionEvent) => {
-                        await lookupDotNetRefForPopupTemplate(popupTemplateObject, viewId as string);
-                        await popupTemplateObject.dotNetPopupTemplateReference.invokeMethodAsync("OnTriggerAction", event.action.id);
-                    });
-                }
-            }
-            catch (error) {
-                console.debug(error);
-            }
-        }
-    }
-
+    popupDotNetObjects.push(popupTemplateObject);
+    
     return template;
 }
 
@@ -306,8 +305,6 @@ async function lookupDotNetRefForPopupTemplate(popupTemplateObject: DotNetPopupT
             await viewRef.invokeMethodAsync('GetDotNetPopupTemplateObjectReference', popupTemplateObject.id);
     }
 }
-
-export let templateTriggerActionHandler: IHandle;
 
 export function buildJsPopupContent(popupContentObject: DotNetPopupContent): ContentProperties | null {
     switch (popupContentObject?.type) {
@@ -325,11 +322,9 @@ export function buildJsPopupContent(popupContentObject: DotNetPopupContent): Con
             return fieldsContent;
         case "text":
             let dnTextContent = popupContentObject as DotNetTextPopupContent;
-            let textContent = new TextContent({
+            return new TextContent({
                 text: dnTextContent.text ?? null
             });
-
-            return textContent;
         case "media":
             let dnMediaContent = popupContentObject as DotNetMediaPopupContent;
             let mediaContent = new MediaContent();
@@ -340,12 +335,11 @@ export function buildJsPopupContent(popupContentObject: DotNetPopupContent): Con
             return mediaContent;
         case "attachments":
             let dnAttachmentsContent = popupContentObject as DotNetAttachmentsPopupContent;
-            let attachmentsContent = new AttachmentsContent({
+            return new AttachmentsContent({
                 description: dnAttachmentsContent.description ?? '',
                 title: dnAttachmentsContent.title ?? '',
                 displayType: dnAttachmentsContent.displayType as any ?? "auto",
             });
-            return attachmentsContent;
         case "expression":
             let dnExpressionContent = popupContentObject as DotNetExpressionPopupContent;
             let expressionContent = new ExpressionContent();
@@ -358,14 +352,8 @@ export function buildJsPopupContent(popupContentObject: DotNetPopupContent): Con
 }
 
 export function buildJsFieldInfo(fieldInfoObject: DotNetFieldInfo): FieldInfo {
-    let fieldInfo = new FieldInfo({
-        fieldName: fieldInfoObject.fieldName ?? '',
-        label: fieldInfoObject.label ?? '',
-        tooltip: fieldInfoObject.tooltip ?? '',
-        stringFieldOption: fieldInfoObject.stringFieldOption as any ?? "text-box",
-        visible: fieldInfoObject.visible ?? true,
-        isEditable: fieldInfoObject.isEditable ?? false
-    });
+    let fieldInfo = new FieldInfo();
+    copyValuesIfExists(fieldInfoObject, fieldInfo, 'fieldName', 'label', 'tooltip', 'stringFieldOption', 'visible', 'isEditable');
 
     if (hasValue(fieldInfoObject.format)) {
         fieldInfo.format = buildJsFieldInfoFormat(fieldInfoObject.format);
@@ -375,11 +363,9 @@ export function buildJsFieldInfo(fieldInfoObject: DotNetFieldInfo): FieldInfo {
 }
 
 export function buildJsFieldInfoFormat(formatObject: DotNetFieldInfoFormat): FieldInfoFormat {
-    return new FieldInfoFormat({
-        dateFormat: formatObject.dateFormat as any ?? undefined,
-        places: formatObject.places ?? undefined,
-        digitSeparator: formatObject.digitSeparator ?? undefined
-    });
+    let format = new FieldInfoFormat();
+    copyValuesIfExists(formatObject, format, 'dateFormat', 'places', 'digitSeparator');
+    return format;
 }
 
 export function buildJsExpressionInfo(expressionInfoObject: DotNetExpressionInfo): popupExpressionInfo {
@@ -400,8 +386,8 @@ export function buildJsSymbol(symbol: DotNetSymbol | null): Symbol | null {
             let jsSimpleMarkerSymbol = new SimpleMarkerSymbol({
                 color: buildJsColor(dnSimpleMarkerSymbol.color) ?? [255, 255, 255, 0.25],
                 path: dnSimpleMarkerSymbol.path ?? undefined,
-                size: dnSimpleMarkerSymbol.size ?? 12,
-                style: dnSimpleMarkerSymbol.style as any ?? "circle",
+                size: dnSimpleMarkerSymbol.size ?? 12, // undefined breaks this
+                style: dnSimpleMarkerSymbol.markerStyle as any ?? dnSimpleMarkerSymbol.style as any ?? 'circle', // undefined breaks this
                 xoffset: dnSimpleMarkerSymbol.xOffset ?? 0,
                 yoffset: dnSimpleMarkerSymbol.yOffset ?? 0
             });
@@ -412,7 +398,7 @@ export function buildJsSymbol(symbol: DotNetSymbol | null): Symbol | null {
             return jsSimpleMarkerSymbol;
         case "simple-line":
             let dnSimpleLineSymbol = symbol as DotNetSimpleLineSymbol;
-            let jsSimpleLineSymbol = new SimpleLineSymbol({
+            return new SimpleLineSymbol({
                 color: buildJsColor(dnSimpleLineSymbol.color) ?? "black",
                 cap: dnSimpleLineSymbol.cap as any ?? "round",
                 join: dnSimpleLineSymbol.join as any ?? "round",
@@ -421,11 +407,9 @@ export function buildJsSymbol(symbol: DotNetSymbol | null): Symbol | null {
                 style: dnSimpleLineSymbol.style as any ?? "solid",
                 width: dnSimpleLineSymbol.width ?? 0.75
             });
-
-            return jsSimpleLineSymbol;
         case "picture-marker":
             let dnPictureMarkerSymbol = symbol as DotNetPictureMarkerSymbol;
-            let jsPictureMarkerSymbol = new PictureMarkerSymbol({
+            return new PictureMarkerSymbol({
                 angle: dnPictureMarkerSymbol.angle ?? 0,
                 xoffset: dnPictureMarkerSymbol.xOffset ?? 0,
                 yoffset: dnPictureMarkerSymbol.yOffset ?? 0,
@@ -433,8 +417,6 @@ export function buildJsSymbol(symbol: DotNetSymbol | null): Symbol | null {
                 width: dnPictureMarkerSymbol.width ?? 12,
                 url: dnPictureMarkerSymbol.url
             });
-
-            return jsPictureMarkerSymbol;
 
         case "simple-fill":
             let dnSimpleFillSymbol = symbol as DotNetSimpleFillSymbol;
@@ -502,8 +484,7 @@ export function buildJsBookmark(dnBookmark: DotNetBookmark): Bookmark | null {
 
     if (!(dnBookmark.thumbnail == null)) {
         //ESRI has this as an "object" with url property
-        let thumbnail = { url: dnBookmark.thumbnail };
-        bookmark.thumbnail = thumbnail;
+        bookmark.thumbnail = {url: dnBookmark.thumbnail};
     }
 
     if (hasValue(dnBookmark.viewpoint)) {
@@ -568,17 +549,445 @@ export function buildJsPolygon(dnPolygon: DotNetPolygon): Polygon | null {
 
 
 export function buildJsRenderer(dotNetRenderer: any): Renderer | null {
-    if (dotNetRenderer === undefined) return null;
+    if (!hasValue(dotNetRenderer)) return null;
     let dotNetSymbol = dotNetRenderer.symbol;
     switch (dotNetRenderer.type) {
         case 'simple':
             let simpleRenderer = new SimpleRenderer();
-            simpleRenderer.visualVariables = dotNetRenderer.visualVariables;
-            simpleRenderer.symbol = buildJsSymbol(dotNetSymbol) as Symbol;
-            simpleRenderer.authoringInfo = dotNetRenderer.authoringInfo;
+            if (hasValue(dotNetRenderer.visualVariables) && dotNetRenderer.visualVariables.length > 0) {
+                simpleRenderer.visualVariables = dotNetRenderer.visualVariables.map(buildVisualVariable);
+            }
+            if (hasValue(dotNetSymbol)) {
+                simpleRenderer.symbol = buildJsSymbol(dotNetSymbol) as Symbol;
+            }
+            copyValuesIfExists(dotNetRenderer, simpleRenderer, 'label', 'authoringInfo');
             return simpleRenderer;
+        case 'pie-chart':
+            let pieChartRenderer = new PieChartRenderer();
+            if (hasValue(dotNetRenderer.attributes) && dotNetRenderer.attributes.length > 0) {
+                pieChartRenderer.attributes = dotNetRenderer.attributes.map(buildJsAttributeColorInfo);
+            }
+            if (hasValue(dotNetRenderer.authoringInfo)) {
+                pieChartRenderer.authoringInfo = buildJsAuthoringInfo(dotNetRenderer.authoringInfo);
+            }
+            if (hasValue(dotNetRenderer.backgroundFillSymbol)) {
+                pieChartRenderer.backgroundFillSymbol = buildJsSymbol(dotNetRenderer.backgroundFillSymbol) as SimpleFillSymbol;
+            }
+            if (hasValue(dotNetRenderer.defaultColor)) {
+                pieChartRenderer.defaultColor = buildJsColor(dotNetRenderer.defaultColor);
+            }
+            if (hasValue(dotNetRenderer.legendOptions)) {
+                pieChartRenderer.legendOptions = {
+                    title: dotNetRenderer.legendOptions.title
+                };
+            }
+            if (hasValue(dotNetRenderer.othersCategory)) {
+                pieChartRenderer.othersCategory = {};
+                if (hasValue(dotNetRenderer.othersCategory.color)) {
+                    pieChartRenderer.othersCategory.color = buildJsColor(dotNetRenderer.othersCategory.color);
+                }
+                if (hasValue(dotNetRenderer.othersCategory.label)) {
+                    pieChartRenderer.othersCategory.label = dotNetRenderer.othersCategory.label;
+                }
+                if (hasValue(dotNetRenderer.othersCategory.threshold)) {
+                    pieChartRenderer.othersCategory.threshold = dotNetRenderer.othersCategory.threshold;
+                }
+            }
+            if (hasValue(dotNetRenderer.outline)) {
+                pieChartRenderer.outline = buildJsSymbol(dotNetRenderer.outline) as SimpleLineSymbol;
+            }
+            if (hasValue(dotNetRenderer.visualVariables) && dotNetRenderer.visualVariables.length > 0) {
+                pieChartRenderer.visualVariables = dotNetRenderer.visualVariables.map(buildVisualVariable);
+            }
+            copyValuesIfExists(dotNetRenderer, pieChartRenderer, 'defaultLabel', 'holePercentage', 'size');
+            
+            return pieChartRenderer;
     }
-    return dotNetRenderer
+    return dotNetRenderer;
+}
+
+export function buildJsRasterColormapRenderer(dotNetRasterColormapRenderer: DotNetRasterColormapRenderer): RasterColormapRenderer | null {
+    if (dotNetRasterColormapRenderer === undefined) return null;
+    let rasterColormapRender = new RasterColormapRenderer();
+    if (hasValue(dotNetRasterColormapRenderer.colormapInfos)) {
+        rasterColormapRender.colormapInfos = dotNetRasterColormapRenderer.colormapInfos;
+    }
+    return rasterColormapRender;
+}
+
+export function buildJsColormapInfo(dotNetColormapInfo: DotNetColormapInfo): ColormapInfo | null {
+    if (dotNetColormapInfo === undefined) return null;
+    let colormapInfo = new ColormapInfo();
+
+    if (hasValue(dotNetColormapInfo.color)) {
+        colormapInfo.color = dotNetColormapInfo.color;
+    }
+    if (hasValue(dotNetColormapInfo.label)) {
+        colormapInfo.label = dotNetColormapInfo.label;
+    }
+    if (hasValue(dotNetColormapInfo.value)) {
+        colormapInfo.value = dotNetColormapInfo.value;
+    }
+    return colormapInfo;
+}
+
+export function buildJsRasterShadedReliefRenderer(dnRasterShadedReliefRenderer: DotNetRasterShadedReliefRenderer): RasterShadedReliefRenderer | null {
+    if (dnRasterShadedReliefRenderer === undefined) return null;
+    let rasterShadedReliefRenderer = new RasterShadedReliefRenderer();
+    if (hasValue(dnRasterShadedReliefRenderer.altitude)) {
+        rasterShadedReliefRenderer.altitude = dnRasterShadedReliefRenderer.altitude;
+    }
+    if (hasValue(dnRasterShadedReliefRenderer.azimuth)) {
+        rasterShadedReliefRenderer.azimuth = dnRasterShadedReliefRenderer.azimuth;
+    }
+    if (hasValue(dnRasterShadedReliefRenderer.colorRamp)) {
+        rasterShadedReliefRenderer.colorRamp = buildJsColorRamp(dnRasterShadedReliefRenderer.colorRamp) as ColorRamp;
+    }
+    if (hasValue(dnRasterShadedReliefRenderer.hillshadeType)) {
+        rasterShadedReliefRenderer.hillshadeType = dnRasterShadedReliefRenderer.hillshadeType;
+    }
+    if (hasValue(dnRasterShadedReliefRenderer.pixelSizeFactor)) {
+        rasterShadedReliefRenderer.pixelSizeFactor = dnRasterShadedReliefRenderer.pixelSizeFactor;
+    }
+    if (hasValue(dnRasterShadedReliefRenderer.pixelSizePower)) {
+        rasterShadedReliefRenderer.pixelSizePower = dnRasterShadedReliefRenderer.pixelSizePower;
+    }
+    if (hasValue(dnRasterShadedReliefRenderer.pixelSizePower)) {
+        rasterShadedReliefRenderer.pixelSizePower = dnRasterShadedReliefRenderer.pixelSizePower;
+    }
+    if (hasValue(dnRasterShadedReliefRenderer.scalingType)) {
+        rasterShadedReliefRenderer.scalingType = dnRasterShadedReliefRenderer.scalingType;
+    }
+    if (hasValue(dnRasterShadedReliefRenderer.zFactor)) {
+        rasterShadedReliefRenderer.zFactor = dnRasterShadedReliefRenderer.zFactor;
+    }
+    return rasterShadedReliefRenderer;
+}
+
+export function buildJsUniqueValueRenderer(dnUniqueValueRenderer: DotNetUniqueValueRenderer): UniqueValueRenderer | null {
+    if (dnUniqueValueRenderer === undefined) return null;
+    let uniqueValueRenderer = new UniqueValueRenderer();
+    if (hasValue(dnUniqueValueRenderer.backgroundFillSymbol)) {
+        if (dnUniqueValueRenderer.backgroundFillSymbol.type == "FillSymbol") {
+            uniqueValueRenderer.backgroundFillSymbol = dnUniqueValueRenderer.backgroundFillSymbol as DotNetSimpleFillSymbol;
+        }
+        // Note: The PolygonSymbol3d is not currently supported
+    }
+    if (hasValue(dnUniqueValueRenderer.defaultLabel)) {
+        uniqueValueRenderer.defaultLabel = dnUniqueValueRenderer.defaultLabel;
+    }
+    if (hasValue(dnUniqueValueRenderer.defaultSymbol)) {
+        uniqueValueRenderer.defaultSymbol = dnUniqueValueRenderer.defaultSymbol as DotNetSymbol;
+    }
+    if (hasValue(dnUniqueValueRenderer.field)) {
+        uniqueValueRenderer.field = dnUniqueValueRenderer.field;
+    }
+    if (hasValue(dnUniqueValueRenderer.field2)) {
+        uniqueValueRenderer.field2 = dnUniqueValueRenderer.field2;
+    }
+    if (hasValue(dnUniqueValueRenderer.field3)) {
+        uniqueValueRenderer.field3 = dnUniqueValueRenderer.field3;
+    }
+    if (hasValue(dnUniqueValueRenderer.fieldDelimiter)) {
+        uniqueValueRenderer.fieldDelimiter = dnUniqueValueRenderer.fieldDelimiter;
+    }
+    if (hasValue(dnUniqueValueRenderer.legendOptions)) {
+        uniqueValueRenderer.legendOptions = dnUniqueValueRenderer.legendOptions;
+    }
+    if (hasValue(dnUniqueValueRenderer.orderByClassesEnabled)) {
+        uniqueValueRenderer.orderByClassesEnabled = dnUniqueValueRenderer.orderByClassesEnabled;
+    }
+    if (hasValue(dnUniqueValueRenderer.uniqueValueGroups)) {
+        uniqueValueRenderer.uniqueValueGroups = dnUniqueValueRenderer.uniqueValueGroups;
+    }
+    if (hasValue(dnUniqueValueRenderer.uniqueValueInfos)) {
+        uniqueValueRenderer.uniqueValueInfos = dnUniqueValueRenderer.uniqueValueInfos;
+    }
+    if (hasValue(dnUniqueValueRenderer.valueExpression)) {
+        uniqueValueRenderer.valueExpression = dnUniqueValueRenderer.valueExpression;
+    }
+    if (hasValue(dnUniqueValueRenderer.valueExpressionTitle)) {
+        uniqueValueRenderer.valueExpressionTitle = dnUniqueValueRenderer.valueExpressionTitle;
+    }
+    if (hasValue(dnUniqueValueRenderer.visualVariables)) {
+        uniqueValueRenderer.visualVariables = dnUniqueValueRenderer.visualVariables;
+    }
+    return uniqueValueRenderer;
+}
+
+export function buildJsClassBreaksRenderer(dnClassBreaksRenderer: DotNetClassBreaksRenderer): ClassBreaksRenderer | null {
+    if (dnClassBreaksRenderer === undefined) return null;
+    let classBreaksRenderer = new ClassBreaksRenderer();
+    //Implements only the simple fill symbol PolygonSymbol3d is another option but can be implemented later
+    if (hasValue(dnClassBreaksRenderer.backgroundFillSymbol)) {
+        classBreaksRenderer.backgroundFillSymbol = dnClassBreaksRenderer.backgroundFillSymbol as DotNetSimpleFillSymbol;
+    }
+    if (hasValue(dnClassBreaksRenderer.classBreaksInfos)) {
+        classBreaksRenderer.classBreaksInfos = dnClassBreaksRenderer.classBreaksInfos;
+    }
+    if (hasValue(dnClassBreaksRenderer.defaultLabel)) {
+        classBreaksRenderer.defaultLabel = dnClassBreaksRenderer.defaultLabel;
+    }
+    if (hasValue(dnClassBreaksRenderer.defaultSymbol)) {
+        classBreaksRenderer.defaultSymbol = buildJsSymbol(dnClassBreaksRenderer.defaultSymbol) as Symbol;
+    }
+    if (hasValue(dnClassBreaksRenderer.field)) {
+        classBreaksRenderer.field = dnClassBreaksRenderer.field;
+    }
+    if (hasValue(dnClassBreaksRenderer.legendOptions)) {
+        classBreaksRenderer.legendOptions = dnClassBreaksRenderer.legendOptions;
+    }
+    if (hasValue(dnClassBreaksRenderer.normalizationField)) {
+        classBreaksRenderer.normalizationField = dnClassBreaksRenderer.normalizationField;
+    }
+    if (hasValue(dnClassBreaksRenderer.normalizationTotal)) {
+        classBreaksRenderer.normalizationTotal = dnClassBreaksRenderer.normalizationTotal;
+    }
+    if (hasValue(dnClassBreaksRenderer.normalizationType)) {
+        classBreaksRenderer.normalizationType = dnClassBreaksRenderer.normalizationType;
+    }
+    if (hasValue(dnClassBreaksRenderer.type)) {
+        classBreaksRenderer.type = dnClassBreaksRenderer.type;
+    }
+    if (hasValue(dnClassBreaksRenderer.valueExpression)) {
+        classBreaksRenderer.valueExpression = dnClassBreaksRenderer.valueExpression;
+    }
+    if (hasValue(dnClassBreaksRenderer.valueExpressionTitle)) {
+        classBreaksRenderer.valueExpressionTitle = dnClassBreaksRenderer.valueExpressionTitle;
+    }
+    if (hasValue(dnClassBreaksRenderer.visualVariables)) {
+        classBreaksRenderer.visualVariables = dnClassBreaksRenderer.visualVariables;
+    }
+    return classBreaksRenderer;
+}
+
+export function buildJsVectorFieldRenderer(dotNetVectorFieldRenderer: DotNetVectorFieldRenderer): VectorFieldRenderer | null {
+    if (dotNetVectorFieldRenderer === undefined) return null;
+    let vectorFieldRenderer = new VectorFieldRenderer();
+
+    if (hasValue(dotNetVectorFieldRenderer.attributeField)) {
+        vectorFieldRenderer.attributeField = dotNetVectorFieldRenderer.attributeField;
+    }
+    if (hasValue(dotNetVectorFieldRenderer.flowRepresentation)) {
+        vectorFieldRenderer.flowRepresentation = dotNetVectorFieldRenderer.flowRepresentation;
+    }
+    if (hasValue(dotNetVectorFieldRenderer.style)) {
+        vectorFieldRenderer.style = dotNetVectorFieldRenderer.style;
+    }
+    if (hasValue(dotNetVectorFieldRenderer.symbolTileSize)) {
+        vectorFieldRenderer.symbolTileSize = dotNetVectorFieldRenderer.symbolTileSize;
+    }
+    if (hasValue(dotNetVectorFieldRenderer.visualVariables)) {
+        vectorFieldRenderer.visualVariables = dotNetVectorFieldRenderer.visualVariables;
+    }
+    return vectorFieldRenderer;
+}
+
+export function buildJsVisualVariable(dotNetVisualVariable: DotNetVisualVariable): VisualVariable | null {
+    if (dotNetVisualVariable === undefined) return null;
+    let visualVariable = new VisualVariable();
+
+    if (hasValue(dotNetVisualVariable.type)) {
+        dotNetVisualVariable.field = visualVariable.type;
+    }
+    if (hasValue(dotNetVisualVariable.field)) {
+        dotNetVisualVariable.field = visualVariable.field;
+    }
+    if (hasValue(dotNetVisualVariable.legendOptions)) {
+        dotNetVisualVariable.legendOptions = visualVariable.legendOptions;
+    }
+    if (hasValue(dotNetVisualVariable.valueExpression)) {
+        dotNetVisualVariable.valueExpression = visualVariable.valueExpression;
+    }
+    if (hasValue(dotNetVisualVariable.valueExpressionTitle)) {
+        dotNetVisualVariable.valueExpressionTitle = visualVariable.valueExpressionTitle;
+    }
+    return visualVariable;
+}
+
+export function buildJsFlowRenderer(dotNetFlowRenderer: DotNetFlowRenderer): FlowRenderer | null {
+    if (dotNetFlowRenderer === undefined) return null;
+    let flowRenderer = new FlowRenderer();
+
+    if (hasValue(dotNetFlowRenderer.authoringInfo)) {
+        dotNetFlowRenderer.authoringInfo = flowRenderer.authoringInfo;
+    }
+    if (hasValue(dotNetFlowRenderer.color)) {
+        dotNetFlowRenderer.color = flowRenderer.color;
+    }
+    if (hasValue(dotNetFlowRenderer.density)) {
+        dotNetFlowRenderer.density = flowRenderer.density;
+    }
+    if (hasValue(dotNetFlowRenderer.flowRepresentation)) {
+        dotNetFlowRenderer.flowRepresentation = flowRenderer.flowRepresentation;
+    }
+    if (hasValue(dotNetFlowRenderer.flowSpeed)) {
+        dotNetFlowRenderer.flowSpeed = flowRenderer.flowSpeed;
+    }
+    if (hasValue(dotNetFlowRenderer.legendOptions)) {
+        dotNetFlowRenderer.legendOptions = flowRenderer.legendOptions;
+    }
+    if (hasValue(dotNetFlowRenderer.maxPathLength)) {
+        dotNetFlowRenderer.maxPathLength = flowRenderer.maxPathLength;
+    }
+    if (hasValue(dotNetFlowRenderer.trailCap)) {
+        dotNetFlowRenderer.trailCap = flowRenderer.trailCap;
+    }
+    if (hasValue(dotNetFlowRenderer.trailLength)) {
+        dotNetFlowRenderer.trailLength = flowRenderer.trailLength;
+    }
+    if (hasValue(dotNetFlowRenderer.trailWidth)) {
+        dotNetFlowRenderer.trailWidth = flowRenderer.trailWidth;
+    }
+    if (hasValue(dotNetFlowRenderer.visualVariables)) {
+        dotNetFlowRenderer.visualVariables = flowRenderer.visualVariables;
+    }
+    return flowRenderer;
+}
+
+function buildJsAttributeColorInfo(dnColorInfo: any): AttributeColorInfo {
+  
+    let attributeColorInfo = new AttributeColorInfo();
+    if (hasValue(dnColorInfo.color)) {
+        attributeColorInfo.color = buildJsColor(dnColorInfo.color);
+    }
+    copyValuesIfExists(dnColorInfo, attributeColorInfo, 'field', 'label', 'valueExpression', 
+        'valueExpressionTitle');
+    return attributeColorInfo;
+}
+
+function buildJsAuthoringInfo(dnAuthoringInfo: any): AuthoringInfo {
+    let authoringInfo = new AuthoringInfo();
+    copyValuesIfExists(dnAuthoringInfo, authoringInfo, 'classificationMethod', 'fadeRatio', 'fields',
+        'flowTheme', 'focus', 'isAutoGenerated', 'lengthUnit', 'maxSliderValue', 'minSliderValue', 
+        'standardDeviationInterval', 'type', 'univariateSymbolStyle', 'univariateTheme');
+    if (hasValue(dnAuthoringInfo.colorRamp)) {
+        authoringInfo.colorRamp = buildJsColorRamp(dnAuthoringInfo.colorRamp) as ColorRamp;
+    }
+    if (hasValue(dnAuthoringInfo.field1)) {
+        authoringInfo.field1 = {
+            field: dnAuthoringInfo.field1.field,
+            normalizationField: dnAuthoringInfo.field1.normalizationField,
+            classBreakInfos: dnAuthoringInfo.field1.classBreakInfos.map((cbi: any) => {
+                return {
+                    maxValue: cbi.maxValue,
+                    minValue: cbi.minValue
+                }
+            }),
+            label: dnAuthoringInfo.field1.label
+        }
+    }
+    if (hasValue(dnAuthoringInfo.field2)) {
+        authoringInfo.field2 = {
+            field: dnAuthoringInfo.field2.field,
+            normalizationField: dnAuthoringInfo.field2.normalizationField,
+            classBreakInfos: dnAuthoringInfo.field2.classBreakInfos.map((cbi: any) => {
+                return {
+                    maxValue: cbi.maxValue,
+                    minValue: cbi.minValue
+                }
+            }),
+            label: dnAuthoringInfo.field2.label
+        }
+    }
+    
+    if (hasValue(dnAuthoringInfo.statistics)) {
+        authoringInfo.statistics = {
+            max: dnAuthoringInfo.statistics.max,
+            min: dnAuthoringInfo.statistics.min
+        };
+    }
+    
+    if (hasValue(dnAuthoringInfo.visualVariables)) {
+        authoringInfo.visualVariables = dnAuthoringInfo.visualVariables.map(buildAuthoringVisualVariable);
+    }
+    
+    return authoringInfo;
+}
+
+function buildAuthoringVisualVariable(dnVV: any): AuthoringInfoVisualVariable {
+    let authVV = new AuthoringInfoVisualVariable();
+    copyValuesIfExists(dnVV, authVV, 'endTime', 'field', 'maxSliderValue', 'minSliderValue', 'startTime',
+        'style', 'theme', 'type', 'units');
+    return authVV;
+}
+
+export function buildJsLabelClass(dotNetLabel: any): LabelClass | null {
+    if (!hasValue(dotNetLabel)) return null;
+    let labelClass = new LabelClass();
+    copyValuesIfExists(dotNetLabel, labelClass, 'labelExpression', 'labelPlacement', 'labelPosition', 'maxScale',
+        'minScale', 'repeatLabel', 'repeatLabelDistance', 'useCodedValues', 'where', 'deconflictionStrategy');
+    if (hasValue(dotNetLabel.symbol)) {
+        labelClass.symbol = buildJsSymbol(dotNetLabel.symbol) as any;
+    }
+    if (hasValue(dotNetLabel.labelExpressionInfo)) {
+        labelClass.labelExpressionInfo = buildJsLabelExpressionInfo(dotNetLabel.labelExpressionInfo);
+    }
+    return labelClass;
+}
+
+export function buildJsLabelExpressionInfo(dotNetLabelExpressionInfo: any): any {
+    if (!hasValue(dotNetLabelExpressionInfo)) return null;
+    let jsLabelExpressionInfo = {};
+    copyValuesIfExists(dotNetLabelExpressionInfo, jsLabelExpressionInfo, 'expression', 'title');
+    return jsLabelExpressionInfo;
+}
+
+export function buildVisualVariable(dnVV: any): VisualVariable | null {
+    if (!hasValue(dnVV)) return null;
+    let variable = {
+        type: dnVV.type
+    } as VisualVariable;
+    copyValuesIfExists(dnVV, variable, 'field', 'legendOptions', 'valueExpression', 'valueExpressionTitle');
+    switch (dnVV.type) {
+        case "color":
+            let colorVariable = variable as ColorVariable;
+            colorVariable.normalizationField = dnVV.normalizationField ?? undefined;
+            if (hasValue(dnVV.stops) && dnVV.stops.length > 0) {
+                colorVariable.stops = dnVV.stops.map((stop: any) => {
+                    let dnStop: any = {};
+                    copyValuesIfExists(stop, dnStop, 'label', 'value');
+                    if (hasValue(stop.color)) {
+                        dnStop.color = buildJsColor(stop.color);
+                    }
+                    return dnStop;
+                });
+            }
+            
+            return colorVariable;
+        case "rotation":
+            let rotationVariable = variable as RotationVariable;
+            copyValuesIfExists(dnVV, rotationVariable, 'axis', 'rotationType');
+            return rotationVariable;
+        case "size":
+            let sizeVariable = variable as SizeVariable;
+            copyValuesIfExists(dnVV, sizeVariable, 'axis', 'maxDataValue', 'minDataValue', 'minSize', 'maxSize',
+                'normalizationField', 'target', 'useSymbolValue', 'valueUnit');
+            
+            if (hasValue(dnVV.stops) && dnVV.stops.length > 0) {
+                sizeVariable.stops = dnVV.stops.map((stop: any) => {
+                    let dnStop = {};
+                    copyValuesIfExists(stop, dnStop, 'label', 'size', 'value');
+                    return dnStop;
+                });
+            }
+            return sizeVariable;
+        case "opacity":
+            let opacityVariable = variable as OpacityVariable;
+            if (hasValue(dnVV.stops) && dnVV.stops.length > 0) {
+                opacityVariable.stops = dnVV.stops.map((stop: any) => {
+                    let dnStop: any = {};
+                    copyValuesIfExists(stop, dnStop, 'label', 'opacity', 'value');
+                    return dnStop;
+                });
+            }
+            if (hasValue(opacityVariable.normalizationField)) {
+                opacityVariable.normalizationField = dnVV.normalizationField;
+            }
+            return opacityVariable;
+    }
+    
+    return null;
 }
 
 export function buildJsRasterStretchRenderer(dotNetRasterStretchRenderer: DotNetRasterStretchRenderer): RasterStretchRenderer | null {
@@ -1073,10 +1482,10 @@ export function buildJsFormTemplate(dotNetFormTemplate: any): FormTemplate {
         preserveFieldValuesWhenHidden: dotNetFormTemplate.preserveFieldValuesWhenHidden ?? undefined
     });
     if (hasValue(dotNetFormTemplate?.elements)) {
-        formTemplate.elements = dotNetFormTemplate.elements.map(e => buildJsFormTemplateElement(e));
+        formTemplate.elements = dotNetFormTemplate.elements.map(buildJsFormTemplateElement);
     }
     if (hasValue(dotNetFormTemplate.expressionInfos)) {
-        formTemplate.expressionInfos = dotNetFormTemplate.expressionInfos.map(e => buildJsExpressionInfo(e));
+        formTemplate.expressionInfos = dotNetFormTemplate.expressionInfos.map(buildJsExpressionInfo);
     }
     return formTemplate;
 }
@@ -1324,12 +1733,12 @@ export function buildJsEffect(dnEffect: any): any {
 export function buildJsTickConfigs(dotNetTickConfig: any): any {
     if (dotNetTickConfig === undefined || dotNetTickConfig === null) return null;
 
-    let tickCreatedFunction : Function | null = null;
+    let tickCreatedFunction: Function | null = null;
     if (dotNetTickConfig.tickCreatedFunction != null) {
         tickCreatedFunction = new Function(dotNetTickConfig.tickCreatedFunction);
     }
 
-    let labelFormatFunction : Function | null = null;
+    let labelFormatFunction: Function | null = null;
     if (dotNetTickConfig.labelFormatFunction != null) {
         labelFormatFunction = new Function(dotNetTickConfig.labelFormatFunction);
     }
@@ -1362,26 +1771,26 @@ export async function buildJsSearchSource(dotNetSource: any, viewId: string): Pr
         suggestionsEnabled: dotNetSource.suggestionsEnabled ?? undefined,
         zoomScale: dotNetSource.zoomScale ?? undefined
     };
-    
+
     if (hasValue(dotNetSource.popupTemplate)) {
         source.popupTemplate = buildJsPopupTemplate(dotNetSource.popupTemplate, viewId);
     }
-    
+
     if (hasValue(dotNetSource.resultSymbol)) {
         source.resultSymbol = buildJsSymbol(dotNetSource.resultSymbol);
     }
-    
+
     if (dotNetSource.hasGetResultsHandler) {
         source.getResults = async (params: any) => {
             let viewId: string | null = null;
-            
+
             for (let key in arcGisObjectRefs) {
                 if (arcGisObjectRefs[key] === params.view) {
                     viewId = key;
                     break;
                 }
             }
-            
+
             let dnParams = {
                 exactMatch: params.exactMatch,
                 location: buildDotNetPoint(params.location),
@@ -1396,9 +1805,9 @@ export async function buildJsSearchSource(dotNetSource: any, viewId: string): Pr
                 viewId: viewId
             }
             let dnResults = await dotNetSource.searchSourceObjectReference.invokeMethodAsync('OnJavaScriptGetResults', dnParams);
-            
+
             let results: SearchResult[] = [];
-            
+
             for (let dnResult of dnResults) {
                 let result: any = {
                     extent: buildJsExtent(dnResult.extent, null) ?? undefined,
@@ -1409,7 +1818,7 @@ export async function buildJsSearchSource(dotNetSource: any, viewId: string): Pr
                 }
                 results.push(result);
             }
-            
+
             return results;
         }
     }
@@ -1447,7 +1856,7 @@ export async function buildJsSearchSource(dotNetSource: any, viewId: string): Pr
             return results;
         }
     }
-    
+
     switch (dotNetSource.type) {
         case "layer":
             let layer: Layer | null = null;
@@ -1463,7 +1872,7 @@ export async function buildJsSearchSource(dotNetSource: any, viewId: string): Pr
             source.orderByFields = dotNetSource.orderByFields ?? undefined;
             source.searchFields = dotNetSource.searchFields ?? undefined;
             source.suggestionTemplate = dotNetSource.suggestionTemplate ?? undefined;
-            
+
             break;
         case "locator":
             source.apiKey = dotNetSource.apiKey ?? undefined;
@@ -1474,10 +1883,10 @@ export async function buildJsSearchSource(dotNetSource: any, viewId: string): Pr
             source.locationType = dotNetSource.locationType ?? undefined;
             source.singleLineFieldName = dotNetSource.singleLineFieldName ?? undefined;
             source.url = dotNetSource.url ?? undefined;
-            
+
             break;
     }
-    
+
     return source as SearchSource;
 }
 
@@ -1490,4 +1899,77 @@ function buildJsSearchSourceFilter(dotNetFilter: any): SearchSourceFilter | null
     };
 
     return filter;
+}
+
+export function buildJsFeatureReduction(dnFeatureReduction: any, viewId: string | null) : any {
+    if (!hasValue(dnFeatureReduction)) return null;
+    switch (dnFeatureReduction.type) {
+        case 'cluster':
+            let cluster = new FeatureReductionCluster();
+            if (hasValue(dnFeatureReduction.fields) && dnFeatureReduction.fields.length > 0) {
+                cluster.fields = dnFeatureReduction.fields.map(buildJsAggregateField);
+            }
+            if (hasValue(dnFeatureReduction.labelingInfo) && dnFeatureReduction.labelingInfo.length > 0) {
+                cluster.labelingInfo = dnFeatureReduction.labelingInfo.map(buildJsLabelClass);
+            }
+            if (hasValue(dnFeatureReduction.popupTemplate)) {
+                cluster.popupTemplate = buildJsPopupTemplate(dnFeatureReduction.popupTemplate, viewId) as PopupTemplate;
+            }
+            if (hasValue(dnFeatureReduction.renderer)) {
+                cluster.renderer = buildJsRenderer(dnFeatureReduction.renderer) as Renderer;
+            }
+            if (hasValue(dnFeatureReduction.symbol)) {
+                cluster.symbol = buildJsSymbol(dnFeatureReduction.symbol) as any;
+            }
+            copyValuesIfExists(dnFeatureReduction, cluster, 'clusterMaxSize', 'clusterMinSize', 'clusterRadius', 
+                'labelsVisible', 'maxScale', 'popupEnabled');
+            return cluster;
+        case 'binning':
+            return {
+                type: 'binning',
+                fields: dnFeatureReduction.fields?.map(buildJsAggregateField) ?? undefined,
+                fixedBinLevel: dnFeatureReduction.fixedBinLevel ?? undefined,
+                labelingInfo: dnFeatureReduction.labelingInfo?.map(buildJsLabelClass) ?? undefined,
+                labelsVisible: dnFeatureReduction.labelsVisible ?? undefined,
+                maxScale: dnFeatureReduction.maxScale ?? undefined,
+                popupEnabled: dnFeatureReduction.popupEnabled ?? true,
+                popupTemplate: buildJsPopupTemplate(dnFeatureReduction.popupTemplate, viewId) ?? undefined,
+                renderer: buildJsRenderer(dnFeatureReduction.renderer) ?? undefined
+            } as FeatureReductionBinning;
+            let binning = new FeatureReductionBinning();
+            if (hasValue(dnFeatureReduction.fields) && dnFeatureReduction.fields.length > 0) {
+                binning.fields = dnFeatureReduction.fields.map(buildJsAggregateField);
+            }
+            if (hasValue(dnFeatureReduction.labelingInfo) && dnFeatureReduction.labelingInfo.length > 0) {
+                binning.labelingInfo = dnFeatureReduction.labelingInfo.map(buildJsLabelClass);
+            }
+            if (hasValue(dnFeatureReduction.popupTemplate)) {
+                binning.popupTemplate = buildJsPopupTemplate(dnFeatureReduction.popupTemplate, viewId) as PopupTemplate;
+            }
+            if (hasValue(dnFeatureReduction.renderer)) {
+                binning.renderer = buildJsRenderer(dnFeatureReduction.renderer) as Renderer;
+            }
+        case 'selection':
+            return new FeatureReductionSelection();
+    }
+}
+
+function buildJsAggregateField(dnAggregateField: any): AggregateField {
+    return new AggregateField({
+        alias: dnAggregateField.alias ?? undefined,
+        isAutoGenerated: dnAggregateField.isAutoGenerated ?? undefined,
+        name: dnAggregateField.name ?? undefined,
+        onStatisticExpression: buildJsSupportExpressionInfo(dnAggregateField.onStatisticExpression) ?? undefined,
+        onStatisticField: dnAggregateField.onStatisticField ?? undefined,
+        statisticType: dnAggregateField.statisticType ?? undefined
+    });
+}
+
+function buildJsSupportExpressionInfo(dnEI: any): supportExpressionInfo | null {
+    if (!hasValue(dnEI)) return null;
+    return {
+        expression: dnEI.expression ?? undefined,
+        returnType: dnEI.returnType ?? undefined,
+        title: dnEI.title ?? undefined
+    } as supportExpressionInfo;
 }

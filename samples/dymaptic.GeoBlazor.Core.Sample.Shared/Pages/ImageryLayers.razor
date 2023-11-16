@@ -1,0 +1,50 @@
+﻿@page "/imagerylayer"
+
+<h3>Imagery Layers</h3>
+
+<div class="links-div">
+    <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html">ArcGIS API for JavaScript</a>
+    <a class="btn btn-primary" target="_blank" href="https://sampleserver6.arcgisonline.com/arcgis/rest/services/NLCDLandCover2001/ImageServer">National Ground Land Cover: 2001</a>
+</div>
+<Label>The sample Imagery Layer depicts the land cover classification rasters of the conterminous U.S. :</Label>
+<InputText @bind-Value="_imageryLayerUrl"></InputText>
+<br />
+<Label>Click the buttons below to see the different ways to display a Imagery layer</Label>
+<button disabled="@(!_mapRendered)" @onclick="(()=>AddRemoveImageryLayer())">Add or Remove Imagery Layer in code</button>
+<button disabled="@(!_mapRendered)" @onclick="(()=>_markup = !_markup)">Add new Imagery Layer in Markup</button>
+
+<MapView @ref="_view" class="map-view" 
+         OnViewRendered="OnMapRendered">
+    <Map ArcGISDefaultBasemap="arcgis-light-gray">
+        @if (_markup)
+        {
+            <ImageryLayer Url="https://sampleserver6.arcgisonline.com/arcgis/rest/services/NLCDLandCover2001/ImageServer" Opacity="0.6"></ImageryLayer>
+        }
+    </Map>
+</MapView>
+
+
+@code {
+
+    private void OnMapRendered() => _mapRendered = true;
+
+    public async Task AddRemoveImageryLayer()
+    {
+        if (!_view!.Map!.Layers.Any())
+        {
+            _imagerySampleLayer = new(_imageryLayerUrl);
+            await _view.AddLayer(_imagerySampleLayer);
+        }
+        else
+        {
+            await _view.RemoveLayer(_imagerySampleLayer!);
+        }
+    }
+
+    private MapView? _view;
+    private bool _mapRendered;
+    private bool _markup;
+
+    private string _imageryLayerUrl = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/NLCDLandCover2001/ImageServer";
+    private ImageryLayer? _imagerySampleLayer;
+}
