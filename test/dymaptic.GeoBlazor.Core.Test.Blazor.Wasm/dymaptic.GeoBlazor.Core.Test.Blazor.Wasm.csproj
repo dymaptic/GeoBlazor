@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\dymaptic.GeoBlazor.Core\dymaptic.GeoBlazor.Core.csproj" />
     <ProjectReference Include="..\..\test\dymaptic.GeoBlazor.Core.Test.Blazor.Shared\dymaptic.GeoBlazor.Core.Test.Blazor.Shared.csproj" />
   </ItemGroup>
   

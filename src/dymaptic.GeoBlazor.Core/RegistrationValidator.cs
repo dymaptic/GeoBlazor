@@ -6,9 +6,10 @@ using System.Net.Http.Json;
 using System.Security;
 using System.Text.Json;
 using System.Web;
-
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
 namespace dymaptic.GeoBlazor.Core;
+
 
 public interface IAppValidator
 {
