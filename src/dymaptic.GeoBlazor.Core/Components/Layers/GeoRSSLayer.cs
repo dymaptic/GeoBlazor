@@ -40,11 +40,13 @@ public class GeoRSSLayer : Layer
     public GeoRSSLayer(string url, string? title = null,
         double? opacity = null, bool? visible = null, ListMode? listMode = null)
     {
+#pragma warning disable BL0005
         Url = url;
         Title = title;
         Opacity = opacity;
         Visible = visible;
         ListMode = listMode;
+#pragma warning restore BL0005
     }
 
     /// <inheritdoc />

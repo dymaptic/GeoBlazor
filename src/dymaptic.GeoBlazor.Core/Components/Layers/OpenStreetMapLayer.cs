@@ -61,6 +61,7 @@ public class OpenStreetMapLayer : WebTileLayer
         IList<string>? subDomains = null, TileInfo? tileInfo = null, double? opacity = null, bool? visible = null,
         ListMode? listMode = null)
     {
+#pragma warning disable BL0005
         Title = title;
         Opacity = opacity;
         Visible = visible;
@@ -73,6 +74,7 @@ public class OpenStreetMapLayer : WebTileLayer
         MinScale = minScale;
         RefreshInterval = refreshInterval;
         SubDomains = subDomains;
+#pragma warning restore BL0005
     }
 
     /// <inheritdoc />

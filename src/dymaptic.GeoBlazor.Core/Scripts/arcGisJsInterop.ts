@@ -52,6 +52,7 @@ import BasemapLayerList from "@arcgis/core/widgets/BasemapLayerList";
 import FeatureLayerWrapper from "./featureLayer";
 import KMLLayer from "@arcgis/core/layers/KMLLayer";
 import WCSLayer from "@arcgis/core/layers/WCSLayer";
+import ImageryLayer from "@arcgis/core/layers/ImageryLayer.js";
 
 import {
     buildDotNetExtent,
@@ -64,6 +65,9 @@ import {
     buildDotNetPoint,
     buildDotNetPopupTemplate,
     buildDotNetSpatialReference,
+    buildDotNetTimeExtent,
+    buildDotNetTimeInfo,
+    buildDotNetTimeInterval,
     buildViewExtentUpdate,
     buildDotNetBookmark, 
     buildDotNetGoToOverrideParameters
@@ -89,7 +93,11 @@ import {
     buildJsRasterStretchRenderer,
     buildJsSearchSource,
     buildJsLabelClass,
-    buildJsFeatureReduction
+    buildJsFeatureReduction,
+    buildJsRasterShadedReliefRenderer,
+    buildJsRasterColormapRenderer,
+    buildJsVectorFieldRenderer,
+    buildJsFlowRenderer, buildJsClassBreaksRenderer, buildJsUniqueValueRenderer
 } from "./jsBuilder";
 import {
     DotNetExtent,
@@ -100,7 +108,13 @@ import {
     DotNetPoint,
     DotNetPopupTemplate,
     DotNetSpatialReference,
-    MapCollection
+    MapCollection,
+    DotNetDimensionalDefinition,
+    DotNetRasterColormapRenderer,
+    DotNetAlgorithmicColorRamp,
+    DotNetEffect,
+    DotNetMultidimensionalSubset,
+
 } from "./definitions";
 import WebTileLayer from "@arcgis/core/layers/WebTileLayer";
 import TileInfo from "@arcgis/core/layers/support/TileInfo";
@@ -121,12 +135,23 @@ import LegendLayerInfos = __esri.LegendLayerInfos;
 import ScreenPoint = __esri.ScreenPoint;
 import RasterStretchRenderer from "@arcgis/core/renderers/RasterStretchRenderer";
 import DimensionalDefinition from "@arcgis/core/layers/support/DimensionalDefinition";
+import ColorRamp from "@arcgis/core/rest/support/ColorRamp";
+import MultipartColorRamp from "@arcgis/core/rest/support/MultipartColorRamp";
+import AlgorithmicColorRamp from "@arcgis/core/rest/support/AlgorithmicColorRamp";
 import Renderer from "@arcgis/core/renderers/Renderer";
 import Color from "@arcgis/core/Color";
 import BingMapsLayerWrapper from "./bingMapsLayer";
 import FeatureLayerView from "@arcgis/core/views/layers/FeatureLayerView";
 import SearchWidgetWrapper from "./searchWidgetWrapper";
 import SearchSource from "@arcgis/core/widgets/Search/SearchSource";
+import RasterShadedReliefRenderer from "@arcgis/core/renderers/RasterShadedReliefRenderer.js";
+import VectorFieldRenderer from "@arcgis/core/renderers/VectorFieldRenderer";
+import RasterColormapRenderer from "@arcgis/core/renderers/RasterColormapRenderer";
+import FlowRenderer from "@arcgis/core/renderers/FlowRenderer";
+import UniqueValueRenderer from "@arcgis/core/renderers/UniqueValueRenderer.js";
+import ClassBreaksRenderer from "@arcgis/core/renderers/ClassBreaksRenderer.js";
+import MultidimensionalSubset from "@arcgis/core/layers/support/MultidimensionalSubset";
+
 
 export let arcGisObjectRefs: Record<string, Accessor> = {};
 export let popupDotNetObjects: any[] = [];
@@ -2421,7 +2446,106 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
 
             copyValuesIfExists('blendMode', 'maxScale', 'minScale', 'refreshInterval');
             break;
-        default:
+        case 'imagery':
+            if (hasValue(layerObject.url)) {
+                newLayer = new ImageryLayer({
+                    url: layerObject.url
+                });
+            } else {
+                let portalItem = buildJsPortalItem(layerObject.portalItem);
+                newLayer = new ImageryLayer({ portalItem: portalItem });
+            }
+
+            let imageryLayer = newLayer as ImageryLayer;
+
+            if (hasValue(layerObject.renderer)) {
+                switch (layerObject.renderer) {
+                    case 'raster-stretch':
+                        imageryLayer.renderer = buildJsRasterStretchRenderer(layerObject.renderer) as RasterStretchRenderer;
+                        break;
+                    case 'class-breaks-renderer':
+                        imageryLayer.renderer = buildJsClassBreaksRenderer(layerObject.renderer) as ClassBreaksRenderer;
+                        break;
+                    case 'unique-value-renderer':
+                        imageryLayer.renderer = buildJsUniqueValueRenderer(layerObject.renderer) as UniqueValueRenderer;
+                        break;
+                    case 'raster-shaded-relief-renderer':
+                        imageryLayer.renderer = buildJsRasterShadedReliefRenderer(layerObject.renderer) as RasterShadedReliefRenderer;
+                        break;
+                    case 'raster-colormap-renderer':
+                        imageryLayer.renderer = buildJsRasterColormapRenderer(layerObject.renderer) as RasterColormapRenderer;
+                        break;
+                    case 'vector-field-renderer':
+                        imageryLayer.renderer = buildJsVectorFieldRenderer(layerObject.renderer) as VectorFieldRenderer;
+                        break;
+                    case 'flow-renderer':
+                        imageryLayer.renderer = buildJsFlowRenderer(layerObject.renderer) as FlowRenderer;
+                        break;
+                }
+            }
+            if (hasValue(layerObject.capabilities)) {
+                imageryLayer.capabilities = layerObject.capabilities;
+            }
+            if (hasValue(layerObject.customParameters)) {
+                imageryLayer.customParameters = layerObject.customParameters;
+            }
+            if (hasValue(layerObject.effect)) {
+                imageryLayer.effect = buildJsEffect(layerObject.effect);
+            }
+            if (hasValue(layerObject.fields && layerObject.fields.length > 0)) {
+                imageryLayer.fields = buildJsFields(layerObject.fields);
+            }
+            if (hasValue(layerObject.fieldsIndex)) {
+                imageryLayer.fieldsIndex = layerObject.fieldsIndex;
+            }
+            if (hasValue(layerObject.mosaicRule)) {
+                imageryLayer.mosaicRule = layerObject.mosaicRule;
+            }
+            if (hasValue(layerObject.multidimensionsionalSubset)) {
+                imageryLayer.multidimensionalSubset = layerObject.multidimensionsionalSubset;
+            }
+            if (hasValue(layerObject.noData)) {
+                imageryLayer.noData = layerObject.noData;
+            }
+            if (hasValue(layerObject.pixelFilter)) {
+                imageryLayer.pixelFilter = layerObject.pixelFilter;
+            }
+            if (hasValue(layerObject.popupTemplate)) {
+                imageryLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId ?? null) as PopupTemplate;
+            }
+            if (hasValue(layerObject.rasterFields)) {
+                imageryLayer.rasterFields = layerObject.rasterFields;
+            }
+            if (hasValue(layerObject.rasterFunction)) {
+                imageryLayer.rasterFunction = layerObject.rasterFunction;
+            }
+            if (hasValue(layerObject.rasterFunctionInfos)) {
+                imageryLayer.rasterFunctionInfos = layerObject.rasterFunctionInfos;
+            }
+            if (hasValue(layerObject.sourceJSON)) {
+                imageryLayer.sourceJSON = layerObject.sourceJSON;
+            }
+            if (hasValue(layerObject.spatialReference)) {
+                imageryLayer.spatialReference = buildJsSpatialReference(layerObject.spatialReference) as SpatialReference;
+            }
+            if (hasValue(layerObject.timeExtent)) {
+                imageryLayer.timeExtent = layerObject.timeExtent;
+            }
+            if (hasValue(layerObject.timeInfo)) {
+                imageryLayer.timeInfo = layerObject.timeInfo;
+            }
+            if (hasValue(layerObject.timeOffset)) {
+                imageryLayer.timeOffset = layerObject.timeOffset;
+            }
+
+            copyValuesIfExists('bandIds', 'blendMode', 'compressionQuality', 'compressionTolerance',
+                'copyright', 'definitionExpression', 'effect', 'format', 'hasMultidimensions', 'imageMaxHeight', 'imageMaxWidth',
+                'interpolation', 'legendEnabled', 'maxScale', 'minScale', 'multidimensionalInfo', 'noDataInterpretation',
+                'objectIdField', 'persistenceEnabled', 'pixelType', 'popupEnabled', 'refreshInterval', 'serviceRasterInfo', 'useViewTime', 'version')
+
+            newLayer = imageryLayer;
+            break;
+         default:
             return null;
     }
 

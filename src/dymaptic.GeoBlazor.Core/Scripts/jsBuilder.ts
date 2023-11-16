@@ -26,14 +26,37 @@ import ColorRamp from "@arcgis/core/rest/support/ColorRamp.js";
 import DimensionalDefinition from "@arcgis/core/layers/support/DimensionalDefinition.js";
 import MultipartColorRamp from "@arcgis/core/rest/support/MultipartColorRamp.js";
 import AlgorithmicColorRamp from "@arcgis/core/rest/support/AlgorithmicColorRamp.js";
+import RasterShadedReliefRenderer from "@arcgis/core/renderers/RasterShadedReliefRenderer.js";
+import RasterColormapRenderer from "@arcgis/core/renderers/RasterColormapRenderer.js";
+import VectorFieldRenderer from "@arcgis/core/renderers/VectorFieldRenderer.js";
+import FlowRenderer from "@arcgis/core/renderers/FlowRenderer.js";
+import ClassBreaksRenderer from "@arcgis/core/renderers/ClassBreaksRenderer.js";
+import AuthoringInfo from "@arcgis/core/renderers/support/AuthoringInfo.js";
+import ClassBreakInfo from "@arcgis/core/renderers/support/ClassBreakInfo.js";
+import UniqueValueRenderer from "@arcgis/core/renderers/UniqueValueRenderer.js";
+import ColormapInfo from "@arcgis/core/renderers/support/ColormapInfo.js";
+import MultidimensionalSubset from "@arcgis/core/layers/support/MultidimensionalSubset.js";
+import PolygonSymbol3D from "@arcgis/core/symbols/PolygonSymbol3D.js";
+import FieldsIndex from "@arcgis/core/layers/support/FieldsIndex.js";
+import AuthoringInfoVisualVariable from "@arcgis/core/renderers/support/AuthoringInfoVisualVariable.js";
+import UniqueValue from "@arcgis/core/renderers/support/UniqueValue.js";
+import UniqueValueInfo from "@arcgis/core/renderers/support/UniqueValueInfo.js";
+import UniqueValueClass from "@arcgis/core/renderers/support/UniqueValueClass.js";
+import UniqueValueGroup from "@arcgis/core/renderers/support/UniqueValueGroup.js";
 import {
     DotNetApplyEdits,
+    DotNetAuthoringInfo,
     DotNetAttachmentsEdit,
     DotNetAttachmentsPopupContent,
     DotNetBarChartMediaInfo,
     DotNetBookmark,
     DotNetChartMediaInfoValue,
+    DotNetClassBreaksInfo,
+    DotNetClassBreaksRenderer,
+    DotNetColorRamp,
+    DotNetColormapInfo,
     DotNetColumnChartMediaInfo,
+    DotNetDimensionalDefinition,
     DotNetElementExpressionInfo,
     DotNetExpressionInfo,
     DotNetExpressionPopupContent,
@@ -43,13 +66,16 @@ import {
     DotNetFeatureTemplate,
     DotNetFieldInfo,
     DotNetFieldInfoFormat,
+    DotNetFieldsIndex,
     DotNetFieldsPopupContent,
+    DotNetFlowRenderer,
     DotNetGeometry,
     DotNetImageMediaInfo,
     DotNetImageMediaInfoValue,
     DotNetLineChartMediaInfo,
     DotNetMediaInfo,
     DotNetMediaPopupContent,
+    DotNetMultidimensionalSubset,
     DotNetPictureMarkerSymbol,
     DotNetPieChartMediaInfo,
     DotNetPoint,
@@ -58,17 +84,25 @@ import {
     DotNetPopupContent,
     DotNetPopupTemplate,
     DotNetQuery,
+    DotNetRasterColormapRenderer,
+    DotNetRasterFunction,
+    DotNetRasterFunctionInfo,
+    DotNetRasterShadedReliefRenderer,
     DotNetRasterStretchRenderer,
     DotNetRelationshipQuery,
     DotNetSimpleFillSymbol,
     DotNetSimpleLineSymbol,
     DotNetSimpleMarkerSymbol,
     DotNetSpatialReference,
+    DotNetSubsetDimension,
     DotNetSymbol,
     DotNetTextPopupContent,
     DotNetTextSymbol,
     DotNetTopFeaturesQuery,
-    DotNetViewpoint
+    DotNetUniqueValueRenderer,
+    DotNetVectorFieldRenderer,
+    DotNetViewpoint,
+    DotNetVisualVariable,
 } from "./definitions";
 import PictureMarkerSymbol from "@arcgis/core/symbols/PictureMarkerSymbol";
 import Popup from "@arcgis/core/widgets/Popup";
@@ -569,7 +603,246 @@ export function buildJsRenderer(dotNetRenderer: any): Renderer | null {
             
             return pieChartRenderer;
     }
-    return dotNetRenderer
+    return dotNetRenderer;
+}
+
+export function buildJsRasterColormapRenderer(dotNetRasterColormapRenderer: DotNetRasterColormapRenderer): RasterColormapRenderer | null {
+    if (dotNetRasterColormapRenderer === undefined) return null;
+    let rasterColormapRender = new RasterColormapRenderer();
+    if (hasValue(dotNetRasterColormapRenderer.colormapInfos)) {
+        rasterColormapRender.colormapInfos = dotNetRasterColormapRenderer.colormapInfos;
+    }
+    return rasterColormapRender;
+}
+
+export function buildJsColormapInfo(dotNetColormapInfo: DotNetColormapInfo): ColormapInfo | null {
+    if (dotNetColormapInfo === undefined) return null;
+    let colormapInfo = new ColormapInfo();
+
+    if (hasValue(dotNetColormapInfo.color)) {
+        colormapInfo.color = dotNetColormapInfo.color;
+    }
+    if (hasValue(dotNetColormapInfo.label)) {
+        colormapInfo.label = dotNetColormapInfo.label;
+    }
+    if (hasValue(dotNetColormapInfo.value)) {
+        colormapInfo.value = dotNetColormapInfo.value;
+    }
+    return colormapInfo;
+}
+
+export function buildJsRasterShadedReliefRenderer(dnRasterShadedReliefRenderer: DotNetRasterShadedReliefRenderer): RasterShadedReliefRenderer | null {
+    if (dnRasterShadedReliefRenderer === undefined) return null;
+    let rasterShadedReliefRenderer = new RasterShadedReliefRenderer();
+    if (hasValue(dnRasterShadedReliefRenderer.altitude)) {
+        rasterShadedReliefRenderer.altitude = dnRasterShadedReliefRenderer.altitude;
+    }
+    if (hasValue(dnRasterShadedReliefRenderer.azimuth)) {
+        rasterShadedReliefRenderer.azimuth = dnRasterShadedReliefRenderer.azimuth;
+    }
+    if (hasValue(dnRasterShadedReliefRenderer.colorRamp)) {
+        rasterShadedReliefRenderer.colorRamp = buildJsColorRamp(dnRasterShadedReliefRenderer.colorRamp) as ColorRamp;
+    }
+    if (hasValue(dnRasterShadedReliefRenderer.hillshadeType)) {
+        rasterShadedReliefRenderer.hillshadeType = dnRasterShadedReliefRenderer.hillshadeType;
+    }
+    if (hasValue(dnRasterShadedReliefRenderer.pixelSizeFactor)) {
+        rasterShadedReliefRenderer.pixelSizeFactor = dnRasterShadedReliefRenderer.pixelSizeFactor;
+    }
+    if (hasValue(dnRasterShadedReliefRenderer.pixelSizePower)) {
+        rasterShadedReliefRenderer.pixelSizePower = dnRasterShadedReliefRenderer.pixelSizePower;
+    }
+    if (hasValue(dnRasterShadedReliefRenderer.pixelSizePower)) {
+        rasterShadedReliefRenderer.pixelSizePower = dnRasterShadedReliefRenderer.pixelSizePower;
+    }
+    if (hasValue(dnRasterShadedReliefRenderer.scalingType)) {
+        rasterShadedReliefRenderer.scalingType = dnRasterShadedReliefRenderer.scalingType;
+    }
+    if (hasValue(dnRasterShadedReliefRenderer.zFactor)) {
+        rasterShadedReliefRenderer.zFactor = dnRasterShadedReliefRenderer.zFactor;
+    }
+    return rasterShadedReliefRenderer;
+}
+
+export function buildJsUniqueValueRenderer(dnUniqueValueRenderer: DotNetUniqueValueRenderer): UniqueValueRenderer | null {
+    if (dnUniqueValueRenderer === undefined) return null;
+    let uniqueValueRenderer = new UniqueValueRenderer();
+    if (hasValue(dnUniqueValueRenderer.backgroundFillSymbol)) {
+        if (dnUniqueValueRenderer.backgroundFillSymbol.type == "FillSymbol") {
+            uniqueValueRenderer.backgroundFillSymbol = dnUniqueValueRenderer.backgroundFillSymbol as DotNetSimpleFillSymbol;
+        }
+        // Note: The PolygonSymbol3d is not currently supported
+    }
+    if (hasValue(dnUniqueValueRenderer.defaultLabel)) {
+        uniqueValueRenderer.defaultLabel = dnUniqueValueRenderer.defaultLabel;
+    }
+    if (hasValue(dnUniqueValueRenderer.defaultSymbol)) {
+        uniqueValueRenderer.defaultSymbol = dnUniqueValueRenderer.defaultSymbol as DotNetSymbol;
+    }
+    if (hasValue(dnUniqueValueRenderer.field)) {
+        uniqueValueRenderer.field = dnUniqueValueRenderer.field;
+    }
+    if (hasValue(dnUniqueValueRenderer.field2)) {
+        uniqueValueRenderer.field2 = dnUniqueValueRenderer.field2;
+    }
+    if (hasValue(dnUniqueValueRenderer.field3)) {
+        uniqueValueRenderer.field3 = dnUniqueValueRenderer.field3;
+    }
+    if (hasValue(dnUniqueValueRenderer.fieldDelimiter)) {
+        uniqueValueRenderer.fieldDelimiter = dnUniqueValueRenderer.fieldDelimiter;
+    }
+    if (hasValue(dnUniqueValueRenderer.legendOptions)) {
+        uniqueValueRenderer.legendOptions = dnUniqueValueRenderer.legendOptions;
+    }
+    if (hasValue(dnUniqueValueRenderer.orderByClassesEnabled)) {
+        uniqueValueRenderer.orderByClassesEnabled = dnUniqueValueRenderer.orderByClassesEnabled;
+    }
+    if (hasValue(dnUniqueValueRenderer.uniqueValueGroups)) {
+        uniqueValueRenderer.uniqueValueGroups = dnUniqueValueRenderer.uniqueValueGroups;
+    }
+    if (hasValue(dnUniqueValueRenderer.uniqueValueInfos)) {
+        uniqueValueRenderer.uniqueValueInfos = dnUniqueValueRenderer.uniqueValueInfos;
+    }
+    if (hasValue(dnUniqueValueRenderer.valueExpression)) {
+        uniqueValueRenderer.valueExpression = dnUniqueValueRenderer.valueExpression;
+    }
+    if (hasValue(dnUniqueValueRenderer.valueExpressionTitle)) {
+        uniqueValueRenderer.valueExpressionTitle = dnUniqueValueRenderer.valueExpressionTitle;
+    }
+    if (hasValue(dnUniqueValueRenderer.visualVariables)) {
+        uniqueValueRenderer.visualVariables = dnUniqueValueRenderer.visualVariables;
+    }
+    return uniqueValueRenderer;
+}
+
+export function buildJsClassBreaksRenderer(dnClassBreaksRenderer: DotNetClassBreaksRenderer): ClassBreaksRenderer | null {
+    if (dnClassBreaksRenderer === undefined) return null;
+    let classBreaksRenderer = new ClassBreaksRenderer();
+    //Implements only the simple fill symbol PolygonSymbol3d is another option but can be implemented later
+    if (hasValue(dnClassBreaksRenderer.backgroundFillSymbol)) {
+        classBreaksRenderer.backgroundFillSymbol = dnClassBreaksRenderer.backgroundFillSymbol as DotNetSimpleFillSymbol;
+    }
+    if (hasValue(dnClassBreaksRenderer.classBreaksInfos)) {
+        classBreaksRenderer.classBreaksInfos = dnClassBreaksRenderer.classBreaksInfos;
+    }
+    if (hasValue(dnClassBreaksRenderer.defaultLabel)) {
+        classBreaksRenderer.defaultLabel = dnClassBreaksRenderer.defaultLabel;
+    }
+    if (hasValue(dnClassBreaksRenderer.defaultSymbol)) {
+        classBreaksRenderer.defaultSymbol = buildJsSymbol(dnClassBreaksRenderer.defaultSymbol) as Symbol;
+    }
+    if (hasValue(dnClassBreaksRenderer.field)) {
+        classBreaksRenderer.field = dnClassBreaksRenderer.field;
+    }
+    if (hasValue(dnClassBreaksRenderer.legendOptions)) {
+        classBreaksRenderer.legendOptions = dnClassBreaksRenderer.legendOptions;
+    }
+    if (hasValue(dnClassBreaksRenderer.normalizationField)) {
+        classBreaksRenderer.normalizationField = dnClassBreaksRenderer.normalizationField;
+    }
+    if (hasValue(dnClassBreaksRenderer.normalizationTotal)) {
+        classBreaksRenderer.normalizationTotal = dnClassBreaksRenderer.normalizationTotal;
+    }
+    if (hasValue(dnClassBreaksRenderer.normalizationType)) {
+        classBreaksRenderer.normalizationType = dnClassBreaksRenderer.normalizationType;
+    }
+    if (hasValue(dnClassBreaksRenderer.type)) {
+        classBreaksRenderer.type = dnClassBreaksRenderer.type;
+    }
+    if (hasValue(dnClassBreaksRenderer.valueExpression)) {
+        classBreaksRenderer.valueExpression = dnClassBreaksRenderer.valueExpression;
+    }
+    if (hasValue(dnClassBreaksRenderer.valueExpressionTitle)) {
+        classBreaksRenderer.valueExpressionTitle = dnClassBreaksRenderer.valueExpressionTitle;
+    }
+    if (hasValue(dnClassBreaksRenderer.visualVariables)) {
+        classBreaksRenderer.visualVariables = dnClassBreaksRenderer.visualVariables;
+    }
+    return classBreaksRenderer;
+}
+
+export function buildJsVectorFieldRenderer(dotNetVectorFieldRenderer: DotNetVectorFieldRenderer): VectorFieldRenderer | null {
+    if (dotNetVectorFieldRenderer === undefined) return null;
+    let vectorFieldRenderer = new VectorFieldRenderer();
+
+    if (hasValue(dotNetVectorFieldRenderer.attributeField)) {
+        vectorFieldRenderer.attributeField = dotNetVectorFieldRenderer.attributeField;
+    }
+    if (hasValue(dotNetVectorFieldRenderer.flowRepresentation)) {
+        vectorFieldRenderer.flowRepresentation = dotNetVectorFieldRenderer.flowRepresentation;
+    }
+    if (hasValue(dotNetVectorFieldRenderer.style)) {
+        vectorFieldRenderer.style = dotNetVectorFieldRenderer.style;
+    }
+    if (hasValue(dotNetVectorFieldRenderer.symbolTileSize)) {
+        vectorFieldRenderer.symbolTileSize = dotNetVectorFieldRenderer.symbolTileSize;
+    }
+    if (hasValue(dotNetVectorFieldRenderer.visualVariables)) {
+        vectorFieldRenderer.visualVariables = dotNetVectorFieldRenderer.visualVariables;
+    }
+    return vectorFieldRenderer;
+}
+
+export function buildJsVisualVariable(dotNetVisualVariable: DotNetVisualVariable): VisualVariable | null {
+    if (dotNetVisualVariable === undefined) return null;
+    let visualVariable = new VisualVariable();
+
+    if (hasValue(dotNetVisualVariable.type)) {
+        dotNetVisualVariable.field = visualVariable.type;
+    }
+    if (hasValue(dotNetVisualVariable.field)) {
+        dotNetVisualVariable.field = visualVariable.field;
+    }
+    if (hasValue(dotNetVisualVariable.legendOptions)) {
+        dotNetVisualVariable.legendOptions = visualVariable.legendOptions;
+    }
+    if (hasValue(dotNetVisualVariable.valueExpression)) {
+        dotNetVisualVariable.valueExpression = visualVariable.valueExpression;
+    }
+    if (hasValue(dotNetVisualVariable.valueExpressionTitle)) {
+        dotNetVisualVariable.valueExpressionTitle = visualVariable.valueExpressionTitle;
+    }
+    return visualVariable;
+}
+
+export function buildJsFlowRenderer(dotNetFlowRenderer: DotNetFlowRenderer): FlowRenderer | null {
+    if (dotNetFlowRenderer === undefined) return null;
+    let flowRenderer = new FlowRenderer();
+
+    if (hasValue(dotNetFlowRenderer.authoringInfo)) {
+        dotNetFlowRenderer.authoringInfo = flowRenderer.authoringInfo;
+    }
+    if (hasValue(dotNetFlowRenderer.color)) {
+        dotNetFlowRenderer.color = flowRenderer.color;
+    }
+    if (hasValue(dotNetFlowRenderer.density)) {
+        dotNetFlowRenderer.density = flowRenderer.density;
+    }
+    if (hasValue(dotNetFlowRenderer.flowRepresentation)) {
+        dotNetFlowRenderer.flowRepresentation = flowRenderer.flowRepresentation;
+    }
+    if (hasValue(dotNetFlowRenderer.flowSpeed)) {
+        dotNetFlowRenderer.flowSpeed = flowRenderer.flowSpeed;
+    }
+    if (hasValue(dotNetFlowRenderer.legendOptions)) {
+        dotNetFlowRenderer.legendOptions = flowRenderer.legendOptions;
+    }
+    if (hasValue(dotNetFlowRenderer.maxPathLength)) {
+        dotNetFlowRenderer.maxPathLength = flowRenderer.maxPathLength;
+    }
+    if (hasValue(dotNetFlowRenderer.trailCap)) {
+        dotNetFlowRenderer.trailCap = flowRenderer.trailCap;
+    }
+    if (hasValue(dotNetFlowRenderer.trailLength)) {
+        dotNetFlowRenderer.trailLength = flowRenderer.trailLength;
+    }
+    if (hasValue(dotNetFlowRenderer.trailWidth)) {
+        dotNetFlowRenderer.trailWidth = flowRenderer.trailWidth;
+    }
+    if (hasValue(dotNetFlowRenderer.visualVariables)) {
+        dotNetFlowRenderer.visualVariables = flowRenderer.visualVariables;
+    }
+    return flowRenderer;
 }
 
 function buildJsAttributeColorInfo(dnColorInfo: any): AttributeColorInfo {
