@@ -30,7 +30,7 @@ namespace GeoBlazor.Template.Maui
                 .Build();
             builder.Configuration.AddConfiguration(config);
 
-            builder.Services.AddGeoBlazor();
+            builder.Services.AddGeoBlazor(builder.Configuration);
 #if DEBUG
             builder.Services.AddBlazorWebViewDeveloperTools();
     		builder.Logging.AddDebug();
