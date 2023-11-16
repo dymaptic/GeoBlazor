@@ -1242,7 +1242,8 @@ export async function showPopup(popupTemplateObject: any, location: DotNetPoint,
     try {
         setWaitCursor(viewId);
         let popupTemplate = buildJsPopupTemplate(popupTemplateObject, viewId) as PopupTemplate;
-        (arcGisObjectRefs[viewId] as View).popup.open({
+
+        await (arcGisObjectRefs[viewId] as View).openPopup({
             title: popupTemplate.title as string,
             content: popupTemplate.content as string,
             location: buildJsPoint(location)!
