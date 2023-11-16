@@ -36,6 +36,12 @@ let projection;
 // Calling code is in DisplayProjection.razor
 export function drawWithGeodesicBufferOnPointer(cursorSymbol, bufferSymbol, geodesicBufferDistance,
                                                 geodesicBufferUnit, viewId) {
+    
+    if (arcGisObjectRefs === undefined) {
+        setTimeout(() => drawWithGeodesicBufferOnPointer(cursorSymbol, bufferSymbol,
+            geodesicBufferDistance, geodesicBufferUnit, viewId), 500);
+        return;
+    }
     let view = arcGisObjectRefs[viewId];
     let cursorSymbolGraphic;
     let bufferSymbolGraphic;
