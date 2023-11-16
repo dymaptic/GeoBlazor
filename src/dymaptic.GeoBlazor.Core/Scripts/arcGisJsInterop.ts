@@ -65,6 +65,9 @@ import {
     buildDotNetPoint,
     buildDotNetPopupTemplate,
     buildDotNetSpatialReference,
+    buildDotNetTimeExtent,
+    buildDotNetTimeInfo,
+    buildDotNetTimeInterval,
     buildViewExtentUpdate,
     buildDotNetBookmark, 
     buildDotNetGoToOverrideParameters
@@ -2523,7 +2526,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
                 imageryLayer.sourceJSON = layerObject.sourceJSON;
             }
             if (hasValue(layerObject.spatialReference)) {
-                imageryLayer.spatialReference = buildJsSpatialReference(layerObject.spatialReference);
+                imageryLayer.spatialReference = buildJsSpatialReference(layerObject.spatialReference) as SpatialReference;
             }
             if (hasValue(layerObject.timeExtent)) {
                 imageryLayer.timeExtent = layerObject.timeExtent;

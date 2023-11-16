@@ -118,15 +118,15 @@ public class ImageryLayer : Layer
     /// <param name="spatialReference">
     ///    The spatial reference of the image service.
     /// </param>
-    /// <param name="timeExtent">
-    ///     The layer's time extent.
-    /// </param>
-    /// <param name="timeInfo">
-    ///     TimeInfo provides information such as date fields.
-    /// </param>
-    /// <param name="timeOffset">
-    ///      A temporary offset of the time.
-    /// </param>
+    ///// <param name="timeExtent">
+    /////     The layer's time extent.
+    ///// </param>
+    ///// <param name="timeInfo">
+    /////     TimeInfo provides information such as date fields.
+    ///// </param>
+    ///// <param name="timeOffset">
+    /////      A temporary offset of the time.
+    ///// </param>
     /// <param name="useViewTime">
     ///      Determines if the layer will update its temporal data based on the view's timeExtent.
     /// </param>
@@ -137,7 +137,7 @@ public class ImageryLayer : Layer
         int? imageMaxWidth = null, int? interpolation = null, bool? legendEnabled = null, int? maxScale = null, int? minScale = null,
         IReadOnlyCollection<int>? noData = null, string? noDataInterpretation = null, string? objectIdField = null, bool? persistenceEnabled = null,
         string? pixelType = null, bool? popupEnabled = null, IReadOnlyCollection<Field>? rasterFields = null, double? refreshInterval = null,
-        SpatialReference? spatialReference = null, TimeExtent? timeExtent = null, TimeInfo? timeInfo = null, TimeInterval? timeOffset = null, bool? useViewTime = null
+        SpatialReference? spatialReference = null, bool? useViewTime = null
         ) 
     {
 #pragma warning disable BL0005
@@ -169,9 +169,6 @@ public class ImageryLayer : Layer
         RasterFields = rasterFields;
         RefreshInterval = refreshInterval;
         SpatialReference = spatialReference;
-        TimeExtent = timeExtent;
-        TimeInfo = timeInfo;
-        TimeOffset = timeOffset;
         UseViewTime = useViewTime;
 #pragma warning restore BL0005
     }
@@ -373,23 +370,23 @@ public class ImageryLayer : Layer
     /// <summary>
     ///    The layer's time extent. 
     /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public TimeExtent? TimeExtent { get; set; }
+    //[Parameter]
+    //[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    //public TimeExtent? TimeExtent { get; set; }
 
     /// <summary>
     ///    TimeInfo provides information such as date fields that store start and end time for each feature and the fullTimeExtent for the layer.  
     /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public TimeInfo? TimeInfo { get; set; }
+    //[Parameter]
+    //[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    //public TimeInfo? TimeInfo { get; set; }
 
     /// <summary>
     ///    A temporary offset of the time data based on a certain TimeInterval.
     /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public TimeInterval? TimeOffset { get; set; }
+    //[Parameter]
+    //[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    //public TimeInterval? TimeOffset { get; set; }
 
     /// <summary>
     ///    Determines if the layer will update its temporal data based on the view's timeExtent. 
