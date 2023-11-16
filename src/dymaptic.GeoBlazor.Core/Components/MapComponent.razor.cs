@@ -432,7 +432,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     /// <summary>
     ///     Updates the state of the component, but only if it was added in normal Blazor Markup.
     /// </summary>
-    protected void UpdateState()
+    protected void UpdateState(bool mainThread = true)
     {
         if (IsRenderedBlazorComponent)
         {

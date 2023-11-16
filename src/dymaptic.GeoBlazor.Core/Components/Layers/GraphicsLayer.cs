@@ -267,7 +267,7 @@ public class GraphicsLayer : Layer
         {
             case Graphic graphic:
                 _graphicsToRender.Add(graphic);
-                UpdateState();
+                UpdateState(false);
 
                 break;
             default:

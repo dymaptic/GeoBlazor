@@ -1682,7 +1682,7 @@ export async function addWidget(widget: any, viewId: string, setInContainerByDef
             newWidget.container = innerContainer;
         } else {
             // check if widget is defined inside mapview
-            let inMapWidget = view.container.querySelector(`#widget-container-${widget.id}`);
+            let inMapWidget = view.container?.querySelector(`#widget-container-${widget.id}`);
             let widgetContainer: HTMLElement = document.getElementById(`widget-container-${widget.id}`)!;
             if ((hasValue(inMapWidget) || !hasValue(widgetContainer)) && !setInContainerByDefault) {
                 view.ui.add(newWidget, widget.position);
