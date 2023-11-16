@@ -15,7 +15,7 @@
                 <Map>
                     <ImageryLayer @ref="layer"
                                   Url="https://sampleserver6.arcgisonline.com/arcgis/rest/services/NLCDLandCover2001/ImageServer"
-                                  Opacity="0.6" />
+                                  Opacity="0.6" Title="Test Layer" ImageMaxHeight=4100 ImageMaxWidth=5000 />
                 </Map>
             </MapView>);
         await WaitForMapToRender();
@@ -24,6 +24,8 @@
             layer!.Id, "url", "https://sampleserver6.arcgisonline.com/arcgis/rest/services/NLCDLandCover2001/ImageServer");
         await AssertJavaScript("assertObjectHasPropertyWithValue", nameof(TestCanRenderImageryLayerFromUrl),
             layer!.Id, "opacity", 0.6);
+        await AssertJavaScript("assertObjectHasPropertyWithValue", nameof(TestCanRenderImageryLayerFromUrl),
+            layer!.Id, "title", "Test Layer");
     }
     
     [TestMethod]
@@ -33,8 +35,8 @@
         AddMapRenderFragment(
             @<MapView class="map-view" OnViewRendered="renderHandler">
                 <Map>
-                    <ImageryLayer @ref="layer" Title="Test Layer">
-                        <PortalItem Id="fd61b9e0c69c4e14bebd50a9a968348c" />
+            <ImageryLayer @ref="layer" Title="Test Layer" ImageMaxHeight=4100 ImageMaxWidth=5000>
+                <PortalItem Id="fd61b9e0c69c4e14bebd50a9a968348c"  />
                     </ImageryLayer>
                 </Map>
             </MapView>);
@@ -47,40 +49,36 @@
     }
 
     [TestMethod]
-    public async Task TestCanRenderImageryLayerCheckHeightValue(Action renderHandler)
+    public async Task TestCanTestMultipleUserSetPropertyValuesAndBuiltInValuesInAnImageryLayer(Action renderHandler)
     {
         ImageryLayer? layer = null;
         AddMapRenderFragment(
     @<MapView class="map-view" OnViewRendered="renderHandler">
         <Map>
-            <ImageryLayer @ref="layer" ImageMaxHeight=4100 ImageMaxWidth=5000 
+            <ImageryLayer @ref="layer"
                           Url="https://sampleserver6.arcgisonline.com/arcgis/rest/services/NLCDLandCover2001/ImageServer"
-
-                          />
+                          Opacity="0.6" Title="Test Layer" 
+                          ImageMaxHeight="4100"
+                          ImageMaxWidth="5000"
+                          PopupEnabled="true"
+                          >
+            </ImageryLayer>
         </Map>
     </MapView>);
         await WaitForMapToRender();
         await AssertJavaScript("assertLayerExists", args: "imagery");
-        await AssertJavaScript("assertObjectHasPropertyWithValue", nameof(TestCanRenderImageryLayerCheckHeightValue),
+        await AssertJavaScript("assertObjectHasPropertyWithValue", nameof(TestCanTestMultipleUserSetPropertyValuesAndBuiltInValuesInAnImageryLayer),
+            layer!.Id, "url", "https://sampleserver6.arcgisonline.com/arcgis/rest/services/NLCDLandCover2001/ImageServer");
+        await AssertJavaScript("assertObjectHasPropertyWithValue", nameof(TestCanTestMultipleUserSetPropertyValuesAndBuiltInValuesInAnImageryLayer),
+            layer!.Id, "opacity", 0.6);
+        await AssertJavaScript("assertObjectHasPropertyWithValue", nameof(TestCanTestMultipleUserSetPropertyValuesAndBuiltInValuesInAnImageryLayer),
+            layer!.Id, "title", "Test Layer");
+        await AssertJavaScript("assertObjectHasPropertyWithValue", nameof(TestCanTestMultipleUserSetPropertyValuesAndBuiltInValuesInAnImageryLayer),
             layer!.Id, "imageMaxHeight", 4100);
-
-    }
-
-    [TestMethod]
-    public async Task TestCanRenderImageryLayerCheckAFullExtentValue(Action renderHandler)
-    {
-        ImageryLayer? layer = null;
-        AddMapRenderFragment(
-    @<MapView class="map-view" OnViewRendered="renderHandler">
-        <Map>
-            <ImageryLayer @ref="layer" 
-                          Url="https://sampleserver6.arcgisonline.com/arcgis/rest/services/NLCDLandCover2001/ImageServer" />
-        </Map>
-    </MapView>);
-        await WaitForMapToRender();
-        await AssertJavaScript("assertLayerExists", args: "imagery");
-        await AssertJavaScript("assertObjectHasPropertyWithValue", nameof(TestCanRenderImageryLayerCheckAFullExtentValue),
+        await AssertJavaScript("assertObjectHasPropertyWithValue", nameof(TestCanTestMultipleUserSetPropertyValuesAndBuiltInValuesInAnImageryLayer),
+            layer!.Id, "PopupEnabled", true);
+        await AssertJavaScript("assertObjectHasPropertyWithValue", nameof(TestCanTestMultipleUserSetPropertyValuesAndBuiltInValuesInAnImageryLayer),
             layer!.Id, "fullExtent.xmax", 2266845);
-
     }
+
 }
