@@ -24,7 +24,7 @@ public static class DependencyExtension
         IConfiguration? configuration = null)
     {
         GeoBlazorSettings settings = configuration?.GetSection("GeoBlazor").Get<GeoBlazorSettings>() ?? new();
-        
+        serviceCollection.AddHttpClient<IAppValidator, RegistrationValidator>();
         return serviceCollection
             .AddSingleton<GeoBlazorSettings>(_ => settings)
             .AddScoped<GeometryEngine>()

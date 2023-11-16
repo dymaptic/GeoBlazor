@@ -1365,7 +1365,7 @@ export async function addGraphicsFromStream(streamRef: any, viewId: string, abor
     }
 }
 
-export function addGraphicsCoreSyncInterop(graphicsArray: Uint8Array, viewId: string, layerId?: string | null): void {
+export function addGraphicsSynchronously(graphicsArray: Uint8Array, viewId: string, layerId?: string | null): void {
     try {
         let graphics = decodeProtobufGraphics(graphicsArray);
         let jsGraphics: Graphic[] = [];
