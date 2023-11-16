@@ -86,13 +86,17 @@ public abstract partial class Widget : MapComponent
     /// <inheritdoc />
     public override async Task SetParametersAsync(ParameterView parameters)
     {
-        await base.SetParametersAsync(parameters);
+#if NET8_0_OR_GREATER
+        IReadOnlyDictionary<string, object?> dictionary = parameters.ToDictionary();
+#else
         IReadOnlyDictionary<string, object> dictionary = parameters.ToDictionary();
+#endif
 
         if (!dictionary.ContainsKey(nameof(View)) && !dictionary.ContainsKey(nameof(MapView)))
         {
             throw new MissingMapViewReferenceException("Widgets outside the MapView must have the MapView parameter set.");
         }
+        await base.SetParametersAsync(parameters);
     }
 
     /// <inheritdoc />
@@ -138,7 +142,7 @@ public abstract partial class Widget : MapComponent
     /// <summary>
     ///     JS Object Reference to the widget
     /// </summary>
-    protected IJSObjectReference? JsWidgetReference;
+    public IJSObjectReference? JsWidgetReference;
 
     private bool _externalWidgetRegistered;
 }

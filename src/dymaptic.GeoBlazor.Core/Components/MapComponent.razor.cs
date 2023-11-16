@@ -327,46 +327,6 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         }
     }
 
-    /// <summary>
-    ///     Retrieves the main entry point for the JavaScript interop.
-    /// </summary>
-    protected async Task<IJSObjectReference> GetArcGisJsInterop()
-    {
-        LicenseType licenseType = Licensing.GetLicenseType();
-
-        switch ((int)licenseType)
-        {
-            case >= 100:
-                // this is here to support the pro extension library
-                IJSObjectReference proModule = await JsRuntime
-                    .InvokeAsync<IJSObjectReference>("import", CancellationTokenSource.Token,
-                        "./_content/dymaptic.GeoBlazor.Pro/js/arcGisPro.js");
-
-                return await proModule.InvokeAsync<IJSObjectReference>("getCore");
-            default:
-                return await JsRuntime
-                    .InvokeAsync<IJSObjectReference>("import", CancellationTokenSource.Token,
-                        "./_content/dymaptic.GeoBlazor.Core/js/arcGisJsInterop.js");
-        }
-    }
-
-    /// <summary>
-    ///     Retrieves the main entry point for the optional GeoBlazor Pro JavaScript module.
-    /// </summary>
-    protected async Task<IJSObjectReference?> GetArcGisJsPro()
-    {
-        LicenseType licenseType = Licensing.GetLicenseType();
-
-        switch ((int)licenseType)
-        {
-            case >= 100:
-                return await JsRuntime.InvokeAsync<IJSObjectReference>("import", CancellationTokenSource.Token,
-                    "./_content/dymaptic.GeoBlazor.Pro/js/arcGisPro.js");
-            default:
-                return null;
-        }
-    }
-
     private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _watchers = new();
     private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _listeners = new();
     private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _waiters = new();
@@ -774,7 +734,6 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     [JSInvokable]
     public void OnReactiveWaiterTrue(string waitExpression)
     {
-        Console.WriteLine($"Reactive Waiter Triggered for wait expression \"{waitExpression}\"");
         Delegate handler = _waiters[waitExpression].Handler;
         handler.DynamicInvoke();
     }
@@ -815,7 +774,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         }
 
         return await JsModule!.InvokeAsync<T>("awaitReactiveSingleWatchUpdate", token, Id, targetName,
-            watchExpression, DotNetObjectReference.Create(this));
+            watchExpression);
     }
 
 #endregion

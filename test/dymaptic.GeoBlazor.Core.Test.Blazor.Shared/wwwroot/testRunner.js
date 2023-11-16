@@ -139,7 +139,7 @@ export function assertObjectHasPropertyWithValue(methodName, objectId, propertyN
     }
     
     if (obj !== expectedValue) {
-        throw new Error(`Expected ${propertyName} to be ${expectedValue} but found ${obj[propertyName]}`);
+        throw new Error(`Expected ${propertyName} to be ${expectedValue} but found ${obj}`);
     }
 }
 

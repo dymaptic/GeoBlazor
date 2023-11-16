@@ -250,7 +250,6 @@
     [TestMethod]
     public async Task TestSearchWidgetGetSuggestionsHandler(Action renderHandler)
     {
-        SearchWidget? widget = null;
         var suggestionsHandlerWasCalled = false;
 
         Task<IList<SuggestResult>> GetSuggestionsHandler(GetSuggestionsParameters parameters)
@@ -264,7 +263,7 @@
             @<MapView class="map-view" OnViewRendered="renderHandler">
 
                 <Map ArcGISDefaultBasemap="arcgis-imagery" />
-                <SearchWidget @ref="widget">
+                <SearchWidget>
                     <SearchSource GetSuggestionsHandler="GetSuggestionsHandler" />
                 </SearchWidget>
 
@@ -355,15 +354,12 @@
     [TestMethod]
     public async Task TestRenderOutsideOfMapViewWithoutReferenceThrows(Action renderHandler)
     {
-        HomeWidget? homeWidget = null;
-        MapView? mapView = null;
-
         AddMapRenderFragment(
             @<div>
-                <MapView @ref="mapView" class="map-view" OnViewRendered="renderHandler">
+                <MapView class="map-view" OnViewRendered="renderHandler">
                     <Map ArcGISDefaultBasemap="arcgis-imagery" />
                 </MapView>
-                <HomeWidget @ref="homeWidget" />
+                <HomeWidget />
             </div>);
 
         await Assert.ThrowsExceptionAsync<MissingMapViewReferenceException>(async () => await WaitForMapToRender());
@@ -373,7 +369,6 @@
     public async Task TestCanRenderOutsideOfMapViewWithContainerId(Action renderHandler)
     {
         HomeWidget? homeWidget = null;
-        MapView? mapView = null;
         bool widgetCreated = false;
         void OnWidgetCreated()
         {
@@ -382,7 +377,7 @@
         AddMapRenderFragment(
             @<div>
                 <div id="external-container" />
-                <MapView @ref="mapView" class="map-view" OnViewRendered="renderHandler">
+                <MapView class="map-view" OnViewRendered="renderHandler">
                     <Map ArcGISDefaultBasemap="arcgis-imagery" />
                     <HomeWidget @ref="homeWidget" ContainerId="external-container"
                                 OnWidgetCreated="OnWidgetCreated" />

@@ -146,7 +146,7 @@ public class GraphicsLayer : Layer
 
                 ms.Seek(0, SeekOrigin.Begin);
 #if NET7_0_OR_GREATER
-                MapView.AddGraphicsSyncInterop(ms.ToArray(), View!.Id.ToString(), Id.ToString());
+                View.AddGraphicsSyncInterop(ms.ToArray(), View!.Id.ToString(), Id.ToString());
                 await ms.DisposeAsync();
                 await Task.Delay(1, cancellationToken);
 #else
