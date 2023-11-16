@@ -24,6 +24,7 @@
 		<NoWarn>$(NoWarn);NU5128</NoWarn>
 		<NoDefaultExcludes>true</NoDefaultExcludes>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<GeneratePackageOnBuild Condition="$(Configuration) == 'RELEASE'">true</GeneratePackageOnBuild>
 	</PropertyGroup>
 
 	<PropertyGroup>
