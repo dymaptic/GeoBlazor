@@ -49,4 +49,21 @@
         await AssertJavaScript("assertGraphicExistsInLayer", args: new object[] { graphicsLayer.Id, "point", 1 });
     }
 
+    [TestMethod]
+    public async Task TestCanAddGraphicsToRenderedMap(Action renderHandler)
+    {
+        MapView? mapView = null;
+        AddMapRenderFragment( 
+            @<MapView @ref="mapView" class="map-view" OnViewRendered="renderHandler">
+                <Map ArcGISDefaultBasemap="arcgis-imagery" />
+            </MapView>);
+
+        await WaitForMapToRender();
+
+        var testGraphic = new Graphic(new Point(0, 0),
+            new SimpleMarkerSymbol(color: new MapColor("red"), size: 10));
+        await mapView!.AddGraphic(testGraphic);
+        await WaitForMapToRender();
+        await AssertJavaScript("assertGraphicExistsInView", args: new object[] { "point", 1 });
+    }
 }

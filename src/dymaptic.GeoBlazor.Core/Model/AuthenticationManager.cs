@@ -97,7 +97,7 @@ public class AuthenticationManager
     /// <summary>
     ///     Initializes authentication based on either an OAuth App ID or an API Key. This is called automatically by <see cref="MapView" /> on first render, but can also be called manually for other actions such as rest calls.
     /// </summary>
-    public async Task Initialize()
+    public async Task<bool> Initialize()
     {
         if (_module is null)
         {
@@ -106,6 +106,8 @@ public class AuthenticationManager
             _module = await arcGisJsInterop.InvokeAsync<IJSObjectReference>("getAuthenticationManager",
                 _cancellationTokenSource.Token, DotNetObjectReference.Create(this), ApiKey, AppId, PortalUrl);
         }
+        
+        return true;
     }
 
     /// <summary>

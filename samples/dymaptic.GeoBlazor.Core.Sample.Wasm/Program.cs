@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
 
-var builder = WebAssemblyHostBuilder.CreateDefault(args);
+WebAssemblyHostBuilder builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.Configuration.AddInMemoryCollection();
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
@@ -13,6 +13,6 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddScoped<SharedFileProvider>();
 builder.Services.AddSingleton<IConfiguration>(_ => builder.Configuration);
 builder.Services.AddScoped<HttpClient>();
-builder.Services.AddGeoBlazor();
+builder.Services.AddGeoBlazor(builder.Configuration);
 
 await builder.Build().RunAsync();

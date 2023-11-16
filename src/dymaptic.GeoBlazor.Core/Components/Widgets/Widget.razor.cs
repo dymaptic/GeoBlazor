@@ -86,7 +86,11 @@ public abstract partial class Widget : MapComponent
     /// <inheritdoc />
     public override async Task SetParametersAsync(ParameterView parameters)
     {
+#if NET8_0_OR_GREATER
+        IReadOnlyDictionary<string, object?> dictionary = parameters.ToDictionary();
+#else
         IReadOnlyDictionary<string, object> dictionary = parameters.ToDictionary();
+#endif
 
         if (!dictionary.ContainsKey(nameof(View)) && !dictionary.ContainsKey(nameof(MapView)))
         {

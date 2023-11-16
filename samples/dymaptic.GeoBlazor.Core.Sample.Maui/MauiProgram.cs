@@ -25,7 +25,7 @@ public static class MauiProgram
 
         builder.Services.AddScoped<SharedFileProvider, MauiFileProvider>();
         builder.Services.AddScoped<HttpClient>();
-        builder.Services.AddGeoBlazor();
+        builder.Services.AddGeoBlazor(builder.Configuration);
         builder.Configuration.AddInMemoryCollection();
 
         var executingAssembly = Assembly.GetExecutingAssembly();
