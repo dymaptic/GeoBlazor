@@ -1,10 +1,7 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
 using dymaptic.GeoBlazor.Core.Components.Renderers;
-using dymaptic.GeoBlazor.Core.Exceptions;
-using dymaptic.GeoBlazor.Core.Objects;
 using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
-using System.IO.Pipelines;
 using System.Text.Json.Serialization;
 
 
@@ -30,24 +27,24 @@ public class ImageryLayer : Layer
     public ImageryLayer()
     {
     }
-
+    
     /// <summary>
-    ///     Constructor for use in code
+    ///     Construct an Imagery Layer in code
     /// </summary>
     /// <param name="url">
-    ///     The absolute URL of the REST endpoint of the layer, non-spatial table or service
-    /// </param>  
+    ///     The url for the Imagery Layer source data.
+    /// </param>
     /// <param name="portalItem">
-    ///     The <see cref="PortalItem" /> from which the layer is loaded.
+    ///     The portal item for the Imagery Layer source data.
     /// </param>
     /// <param name="renderer">
-    ///     An abstract base class that implements a variety of imagery renderers.
+    ///     An interface that implements the various imagery renderers.
     /// </param>
     /// <param name="bandIds">
     ///     Defines a band combination using 0-based band indexes.
     /// </param>
     /// <param name="blendMode">
-    ///     Blend modes are used to blend layers together to create an interesting effect in a layer.
+    ///     Blend modes are used to blend layers together to create an interesting effect in a layer, or even to produce what seems like a new layer.
     /// </param>
     /// <param name="compressionQuality">
     ///     The compression quality value.
@@ -56,28 +53,28 @@ public class ImageryLayer : Layer
     ///     Controls the tolerance of the lerc compression algorithm.
     /// </param>
     /// <param name="copyright">
-    ///     The copyright text.
+    ///     The SQL where clause used to filter rasters.
     /// </param>
     /// <param name="definitionExpression">
     ///     The SQL where clause used to filter rasters.
     /// </param>
     /// <param name="effect">
-    ///     Effect provides various filter functions that can be performed on the layer.
+    ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to how image filters work.
     /// </param>
     /// <param name="fields">
-    ///     array of fields in the layer.
+    ///     An array of fields in the layer.
     /// </param>
     /// <param name="format">
-    ///     format of the exported image.
+    ///     The format of the exported image.
     /// </param>
     /// <param name="hasMultidimensions">
     ///     Indicates if the layer has multidimensionalInfo.
     /// </param>
     /// <param name="imageMaxHeight">
-    ///      Indicates the maximum height of the image.
+    ///     Indicates the maximum height of the image exported by the service.
     /// </param>
     /// <param name="imageMaxWidth">
-    ///      Indicates the maximum width of the image.
+    ///     Indicates the maximum width of the image exported by the service.
     /// </param>
     /// <param name="interpolation">
     ///     Defines how to interpolate pixel values.
@@ -86,19 +83,19 @@ public class ImageryLayer : Layer
     ///     Indicates whether the layer will be included in the legend.
     /// </param>
     /// <param name="maxScale">
-    ///     maximum scale (most zoomed in) at which the layer is visible.
+    ///     The maximum scale (most zoomed in) at which the layer is visible in the view.
     /// </param>
     /// <param name="minScale">
-    ///     minimum scale (most zoomed out) at which the layer is visible.
+    ///     The minimum scale (most zoomed out) at which the layer is visible in the view.
     /// </param>
     /// <param name="noData">
-    ///      The pixel value representing no available information.
+    ///     The pixel value representing no available information.
     /// </param>
     /// <param name="noDataInterpretation">
     ///     Interpretation of the noData setting.
     /// </param>
     /// <param name="objectIdField">
-    ///     The name of an oid field containing a unique value or identifier for each raster.
+    ///     The name of an oid field containing a unique value or identifier for each raster in the layer..
     /// </param>
     /// <param name="persistenceEnabled">
     ///     Enable persistence of the layer in a WebMap or WebScene.
@@ -107,30 +104,20 @@ public class ImageryLayer : Layer
     ///     Raster source pixel type.
     /// </param>
     /// <param name="popupEnabled">
-    ///     Indicates whether to display popups.
+    ///     Indicates whether to display popups when features in the layer are clicked.
     /// </param>
     /// <param name="rasterFields">
-    ///     A complete list of fields that consists of raster attribute table fields, item pixel value, service pixel value, service pixel value.
+    ///     A complete list of fields that consists of raster attribute table fields, item pixel value, service pixel value, service pixel value with various server defined function templates, and raster attribute table fields.
     /// </param>
     /// <param name="refreshInterval">
-    ///     Refresh interval of the layer in minutes.
+    ///     Refresh interval of the layer in minutes. Value of 0 indicates no refresh.
     /// </param>
     /// <param name="spatialReference">
-    ///    The spatial reference of the image service.
+    ///     The spatial reference of the image service.
     /// </param>
-    ///// <param name="timeExtent">
-    /////     The layer's time extent.
-    ///// </param>
-    ///// <param name="timeInfo">
-    /////     TimeInfo provides information such as date fields.
-    ///// </param>
-    ///// <param name="timeOffset">
-    /////      A temporary offset of the time.
-    ///// </param>
     /// <param name="useViewTime">
-    ///      Determines if the layer will update its temporal data based on the view's timeExtent.
+    ///     Determines if the layer will update its temporal data based on the view's timeExtent.
     /// </param>
-
     public ImageryLayer(string? url = null, PortalItem? portalItem = null, ImageryRenderer? renderer = null, IReadOnlyCollection<int>? bandIds = null,
         string? blendMode = null, int? compressionQuality = null, double? compressionTolerance = null, string? copyright = null, string? definitionExpression = null,
         Effect? effect = null, Field[]? fields = null, ImageFormat? format = null, bool? hasMultidimensions = null, int? imageMaxHeight = null,
@@ -368,47 +355,11 @@ public class ImageryLayer : Layer
     public SpatialReference? SpatialReference { get; set; }
 
     /// <summary>
-    ///    The layer's time extent. 
-    /// </summary>
-    //[Parameter]
-    //[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    //public TimeExtent? TimeExtent { get; set; }
-
-    /// <summary>
-    ///    TimeInfo provides information such as date fields that store start and end time for each feature and the fullTimeExtent for the layer.  
-    /// </summary>
-    //[Parameter]
-    //[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    //public TimeInfo? TimeInfo { get; set; }
-
-    /// <summary>
-    ///    A temporary offset of the time data based on a certain TimeInterval.
-    /// </summary>
-    //[Parameter]
-    //[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    //public TimeInterval? TimeOffset { get; set; }
-
-    /// <summary>
     ///    Determines if the layer will update its temporal data based on the view's timeExtent. 
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? UseViewTime { get; set; }
-
-    //The Following Parameters will be included in Future Implementations:
-    /// <summary>
-    ///     The multidimensional information associated with the layer if the layer's hasMultidimensions property is true.
-    /// </summary>
-    //[Parameter]
-    //[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    //public RasterMultidimensionalInfo? multidimensionalInfo { get; set; }
-
-    /// <summary>
-    ///     Represents a multidimensional subset of raster data.
-    /// </summary>
-    //[Parameter]
-    //[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    //public MultidimensionalSubset? MultidimensionalSubset { get; set; }
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
