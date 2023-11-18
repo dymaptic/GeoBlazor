@@ -39,9 +39,9 @@
             "Server" => InteractiveServer,
             "WebAssembly" => InteractiveWebAssembly,
             "Auto" => InteractiveAuto,
-            _ => throw new InvalidOperationException("Invalid RenderMode configuration")
+            _ => _configuredRenderMode
         };
     }
 
-    private IComponentRenderMode _configuredRenderMode = InteractiveWebAssembly;
+    private IComponentRenderMode _configuredRenderMode = InteractiveAuto;
 }
