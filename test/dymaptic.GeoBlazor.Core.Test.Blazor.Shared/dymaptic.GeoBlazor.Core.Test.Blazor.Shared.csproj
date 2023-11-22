@@ -25,10 +25,10 @@
         <AdditionalFiles Include="Components\WidgetTests.razor"/>
     </ItemGroup>
 
-    <ItemGroup Condition="$(Configuration) == 'DEBUG'">
+    <ItemGroup Condition="$(Configuration) == 'DEBUG' OR $(UseProjectReference) == 'true'">
         <ProjectReference Include="..\..\src\dymaptic.GeoBlazor.Core\dymaptic.GeoBlazor.Core.csproj"/>
     </ItemGroup>
-    <ItemGroup Condition="$(Configuration) == 'RELEASE'">
+    <ItemGroup Condition="$(Configuration) == 'RELEASE' AND $(UseProjectReference) != 'true'">
         <PackageReference Include="dymaptic.GeoBlazor.Core"  Version="$(CoreVersion)" />
     </ItemGroup>
 
