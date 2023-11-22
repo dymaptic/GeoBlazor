@@ -11,7 +11,7 @@ if ((Test-Path -Path "$OutputDir/ArcGISAssetsVersion.txt") -eq $true)
     If ((Get-Content "$OutputDir/ArcGISAssetsVersion.txt") -ne $ArcGISVersion)
     {
         Write-Output "Deleting old assets"
-        Remove-Item './wwwroot/assets/*' -Recurse -Verbose
+        Remove-Item './wwwroot/assets/*' -Recurse
     }
 }
 
@@ -20,13 +20,13 @@ If ((Test-Path -Path './wwwroot/assets/*') -eq $false)
     Try
     {
         Write-Output "Copying Assets to wwwroot/assets"
-        Copy-Item -Path $SourceFiles -Destination $OutputDir -Recurse -Verbose
+        Copy-Item -Path $SourceFiles -Destination $OutputDir -Recurse
     }
     Catch
     {
         Write-Output $_
         Write-Output "We ran into an issue while copying assets to wwwroot/assets. Deleting the copied files..."
-        Remove-Item './wwwroot/assets/*' -Recurse -Verbose
+        Remove-Item './wwwroot/assets/*' -Recurse
         pause
     }
 
