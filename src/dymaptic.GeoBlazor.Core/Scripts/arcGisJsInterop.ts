@@ -123,6 +123,7 @@ import OpenStreetMapLayer from "@arcgis/core/layers/OpenStreetMapLayer";
 import Camera from "@arcgis/core/Camera";
 import ProjectionWrapper from "./projection";
 import GeometryEngineWrapper from "./geometryEngine";
+import LocatorWrapper from "./locator";
 import FeatureLayerViewWrapper from "./featureLayerView";
 import Popup from "@arcgis/core/widgets/Popup";
 import ElevationLayer from "@arcgis/core/layers/ElevationLayer";
@@ -229,6 +230,11 @@ export function getProjectionWrapper(dotNetRef: any): ProjectionWrapper {
 
 export function getGeometryEngineWrapper(dotNetRef: any): GeometryEngineWrapper {
     let wrapper = new GeometryEngineWrapper(dotNetRef);
+    return wrapper;
+}
+
+export function getLocatorWrapper(dotNetRef: any): LocatorWrapper {
+    let wrapper = new LocatorWrapper(dotNetRef);
     return wrapper;
 }
 

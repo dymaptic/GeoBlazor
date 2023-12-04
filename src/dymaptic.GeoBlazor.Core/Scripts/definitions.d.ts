@@ -550,7 +550,7 @@ export interface DotNetField {
     editable: boolean;
     length: number;
     name: string;
-    type: "small-integer"|"integer"|"single"|"double"|"long"|"string"|"date"|"oid"|"geometry"|"blob"|"raster"|"guid"|"global-id"|"xml";
+    type: "small-integer" | "integer" | "single" | "double" | "long" | "string" | "date" | "oid" | "geometry" | "blob" | "raster" | "guid" | "global-id" | "xml";
     valueType: string;
 }
 
@@ -781,7 +781,13 @@ export interface DotNetUniqueValueRenderer {
     visualVariables: DotNetVisualVariable[];
 }
 
-
+export interface DotNetAddressCandidate {
+    address: string;
+    attributes?: any;
+    extent?: DotNetExtent;
+    location?: DotNetPoint;
+    score: number;
+}
 
 
 
