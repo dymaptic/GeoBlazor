@@ -11,15 +11,9 @@ Maui Hybrid Blazor App
 Web App (Client/Server hybrid Blazor)
 
 
-to install this template package from this folder, run:
+to install this template package run:
 ```
-dotnet new install .\
-```
-(MacOS\Linux users should reverse the slash)
-
-to install from nuget package, run:
-```
-dotnet new install ..PATH_TO_NUGET_SOURCE\GeoBlazor.Templates.1.0.0.nupkg
+dotnet new install GeoBlazor.Templates
 ```
 
 to create a new GeoBlazor Server project run:
