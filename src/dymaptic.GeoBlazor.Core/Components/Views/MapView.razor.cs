@@ -212,9 +212,9 @@ public partial class MapView : MapComponent
     [Parameter]
     public bool? PromptForOAuthLogin { get; set; }
     
-    [Parameter(CaptureUnmatchedValues = true)]
+    [Parameter]
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+    public string? WhiteLabel { get; set; }
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
 #endregion
