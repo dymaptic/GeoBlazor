@@ -99,7 +99,7 @@
         <Exec Command="pwsh ./assetCopy.ps1" />
     </Target>
 
-    <Target Name="Copy Assets Release" AfterTargets="PreBuildEvent" Condition="$(Configuration) == 'RELEASE' AND $(TargetFrameworks.StartsWith($(TargetFramework)))">
+    <Target Name="Copy Assets Release" AfterTargets="PreBuildEvent" Condition="$(Configuration) == 'RELEASE' AND $(TargetFrameworks.StartsWith($(TargetFramework))) AND '$(UpdateTemplates)' == 'true'">
         <Message Importance="high" Text="Update Template Versions" />
         <Exec Command="pwsh ./updateTemplates.ps1 $(CoreVersion)" />
     </Target>

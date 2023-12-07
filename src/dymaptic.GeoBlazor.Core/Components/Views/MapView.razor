@@ -10,7 +10,7 @@
                         <div class="map-container" id="@($"map-container-{Id}")">
                             @ChildContent
                         </div>
-                        @if (WhiteLabel is null || ProJsViewModule is null)
+                        @if (WhiteLabel is null || !IsPro())
                         {
                             <div class="dymaptic-branding">
                                 <a href="https://www.geoblazor.com">

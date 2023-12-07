@@ -2376,5 +2376,26 @@ public partial class MapView : MapComponent
         return activeHandlers;
     }
 
+    private bool IsPro()
+    {
+        if (_isPro is null)
+        {
+            try
+            {
+                Assembly _ = Assembly.Load("dymaptic.GeoBlazor.Pro");
+
+                _isPro = true;
+            }
+            catch
+            {
+                _isPro = false;
+            }
+        }
+        
+        return _isPro.Value;
+    }
+
+    private bool? _isPro;
+
 #endregion
 }
