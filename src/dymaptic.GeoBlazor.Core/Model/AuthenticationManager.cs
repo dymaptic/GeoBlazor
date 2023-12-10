@@ -1,4 +1,5 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Views;
+using dymaptic.GeoBlazor.Core.Objects;
 using Microsoft.Extensions.Configuration;
 using Microsoft.JSInterop;
 
@@ -106,7 +107,7 @@ public class AuthenticationManager
             _module = await arcGisJsInterop.InvokeAsync<IJSObjectReference>("getAuthenticationManager",
                 _cancellationTokenSource.Token, DotNetObjectReference.Create(this), ApiKey, AppId, PortalUrl);
         }
-        
+
         return true;
     }
 
@@ -167,20 +168,11 @@ public class AuthenticationManager
     {
         LicenseType licenseType = Licensing.GetLicenseType();
 
-        switch ((int)licenseType)
-        {
-            case >= 100:
-                // this is here to support the pro extension library
-                IJSObjectReference proModule = await _jsRuntime
-                    .InvokeAsync<IJSObjectReference>("import", _cancellationTokenSource.Token,
-                        "./_content/dymaptic.GeoBlazor.Pro/js/arcGisPro.js");
-
-                return await proModule.InvokeAsync<IJSObjectReference>("getCore");
-            default:
-                return await _jsRuntime
-                    .InvokeAsync<IJSObjectReference>("import", _cancellationTokenSource.Token,
-                        "./_content/dymaptic.GeoBlazor.Core/js/arcGisJsInterop.js");
-        }
+        var token = new CancellationToken();
+        IJSObjectReference? arcGisPro = await JsModuleManager.GetArcGisJsPro(_jsRuntime, token);
+        IJSObjectReference arcGisJsInterop = await JsModuleManager.GetArcGisJsCore(_jsRuntime, arcGisPro, token);
+        
+        return arcGisJsInterop;
     }
 
     private readonly IJSRuntime _jsRuntime;
