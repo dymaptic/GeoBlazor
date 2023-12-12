@@ -211,6 +211,11 @@ public partial class MapView : MapComponent
     /// </summary>
     [Parameter]
     public bool? PromptForOAuthLogin { get; set; }
+    
+    [Parameter]
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+    public string? WhiteLabel { get; set; }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
 #endregion
 
@@ -2370,6 +2375,27 @@ public partial class MapView : MapComponent
 
         return activeHandlers;
     }
+
+    private bool IsPro()
+    {
+        if (_isPro is null)
+        {
+            try
+            {
+                Assembly _ = Assembly.Load("dymaptic.GeoBlazor.Pro");
+
+                _isPro = true;
+            }
+            catch
+            {
+                _isPro = false;
+            }
+        }
+        
+        return _isPro.Value;
+    }
+
+    private bool? _isPro;
 
 #endregion
 }
