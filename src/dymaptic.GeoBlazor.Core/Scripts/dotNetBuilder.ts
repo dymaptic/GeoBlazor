@@ -562,7 +562,7 @@ function buildDotNetViewHit(viewHit: ViewHit): DotNetViewHit | null {
             return {
                 type: "graphic",
                 graphic: buildDotNetGraphic(viewHit.graphic),
-                layer: buildDotNetLayer(viewHit.layer),
+                layer: buildDotNetLayer(viewHit.layer ?? viewHit.graphic.layer),
                 mapPoint: buildDotNetPoint(viewHit.mapPoint)
             } as DotNetGraphicHit;
             break;
