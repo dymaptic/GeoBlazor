@@ -157,23 +157,19 @@ public abstract class Layer : MapComponent
     /// </remarks>
     public async Task Load(CancellationToken cancellationToken = default)
     {
+        if (JsLayerReference is not null)
+        {
+            // this layer has already been loaded
+            return;
+        }
         AbortManager = new AbortManager(JsRuntime);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         IJSObjectReference? arcGisPro = await JsModuleManager.GetArcGisJsPro(JsRuntime, cancellationToken);
         IJSObjectReference arcGisJsInterop = await JsModuleManager.GetArcGisJsCore(JsRuntime, arcGisPro, cancellationToken);
 
-        if (arcGisPro is not null)
-        {
-            JsLayerReference = await arcGisPro.InvokeAsync<IJSObjectReference>("createProLayer",
-                // ReSharper disable once RedundantCast
-                cancellationToken, (object)this, true, View?.Id);
-        }
-        else
-        {
-            JsLayerReference = await arcGisJsInterop.InvokeAsync<IJSObjectReference>("createLayer",
-                // ReSharper disable once RedundantCast
-                cancellationToken, (object)this, true, View?.Id);
-        }
+        JsLayerReference = await arcGisJsInterop.InvokeAsync<IJSObjectReference>("createLayer",
+            // ReSharper disable once RedundantCast
+            cancellationToken, (object)this, true, View?.Id);
 
         await JsLayerReference.InvokeVoidAsync("load", cancellationToken, abortSignal);
 

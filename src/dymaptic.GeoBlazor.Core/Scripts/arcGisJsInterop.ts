@@ -2139,6 +2139,12 @@ export async function addLayer(layerObject: any, viewId: string, isBasemapLayer?
 }
 
 export async function createLayer(layerObject: any, wrap?: boolean | null, viewId?: string | null): Promise<Layer | null> {
+    if (arcGisObjectRefs.hasOwnProperty(layerObject.id)) {
+        if (wrap) {
+            return getObjectReference(arcGisObjectRefs[layerObject.id] as Layer);
+        }
+        return arcGisObjectRefs[layerObject.id] as Layer;
+    }
     let newLayer: Layer;
     switch (layerObject.type) {
         case 'graphics':
@@ -2184,7 +2190,8 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             let featureLayer = newLayer as FeatureLayer;
 
             copyValuesIfExists(layerObject, featureLayer, 'minScale', 'maxScale', 'orderBy', 'objectIdField',
-                'definitionExpression', 'outFields', 'legendEnabled', 'popupEnabled', 'apiKey', 'blendMode');
+                'definitionExpression', 'outFields', 'legendEnabled', 'popupEnabled', 'apiKey', 'blendMode',
+                'geometryType');
 
             if (hasValue(layerObject.formTemplate)) {
                 featureLayer.formTemplate = buildJsFormTemplate(layerObject.formTemplate);
@@ -2495,9 +2502,6 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             if (hasValue(layerObject.fields && layerObject.fields.length > 0)) {
                 imageryLayer.fields = buildJsFields(layerObject.fields);
             }
-            if (hasValue(layerObject.fieldsIndex)) {
-                imageryLayer.fieldsIndex = layerObject.fieldsIndex;
-            }
             if (hasValue(layerObject.mosaicRule)) {
                 imageryLayer.mosaicRule = layerObject.mosaicRule;
             }
@@ -2513,20 +2517,11 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             if (hasValue(layerObject.popupTemplate)) {
                 imageryLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId ?? null) as PopupTemplate;
             }
-            if (hasValue(layerObject.rasterFields)) {
-                imageryLayer.rasterFields = layerObject.rasterFields;
-            }
             if (hasValue(layerObject.rasterFunction)) {
                 imageryLayer.rasterFunction = layerObject.rasterFunction;
             }
-            if (hasValue(layerObject.rasterFunctionInfos)) {
-                imageryLayer.rasterFunctionInfos = layerObject.rasterFunctionInfos;
-            }
             if (hasValue(layerObject.sourceJSON)) {
                 imageryLayer.sourceJSON = layerObject.sourceJSON;
-            }
-            if (hasValue(layerObject.spatialReference)) {
-                imageryLayer.spatialReference = buildJsSpatialReference(layerObject.spatialReference) as SpatialReference;
             }
             if (hasValue(layerObject.timeExtent)) {
                 imageryLayer.timeExtent = layerObject.timeExtent;

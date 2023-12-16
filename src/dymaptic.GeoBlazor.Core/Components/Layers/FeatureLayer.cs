@@ -233,9 +233,12 @@ public class FeatureLayer : Layer, IFeatureReductionLayer
     /// <summary>
     ///     A collection of Graphic objects used to create a FeatureLayer.
     /// </summary>
+    [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [RequiredProperty(nameof(Url), nameof(PortalItem))]
+#pragma warning disable BL0007
     public IReadOnlyCollection<Graphic>? Source
+#pragma warning restore BL0007
     {
         get => _source;
         set
@@ -288,8 +291,15 @@ public class FeatureLayer : Layer, IFeatureReductionLayer
     /// <param name="graphic">
     ///     The graphic to add
     /// </param>
+    /// <exception cref="InvalidOperationException">
+    ///     If the layer is already loaded, you must use <see cref="ApplyEdits"/> to add graphics.
+    /// </exception>
     public Task Add(Graphic graphic)
     {
+        if (JsLayerReference is not null)
+        {
+            throw new InvalidOperationException("Cannot add graphics to a feature layer that is already loaded. Use ApplyEdits instead.");
+        }
         return RegisterChildComponent(graphic);
     }
 
@@ -299,23 +309,19 @@ public class FeatureLayer : Layer, IFeatureReductionLayer
     /// <param name="graphics">
     ///     The graphics to add
     /// </param>
+    /// <exception cref="InvalidOperationException">
+    ///     If the layer is already loaded, you must use <see cref="ApplyEdits"/> to add graphics.
+    /// </exception>
     public async Task Add(IEnumerable<Graphic> graphics)
     {
+        if (JsLayerReference is not null)
+        {
+            throw new InvalidOperationException("Cannot add graphics to a feature layer that is already loaded. Use ApplyEdits instead.");
+        }
         foreach (Graphic graphic in graphics)
         {
             await RegisterChildComponent(graphic);
         }
-    }
-
-    /// <summary>
-    ///     Remove a graphic from the current layer
-    /// </summary>
-    /// <param name="graphic">
-    ///     The graphic to remove
-    /// </param>
-    public Task Remove(Graphic graphic)
-    {
-        return UnregisterChildComponent(graphic);
     }
 
     /// <summary>
@@ -357,6 +363,13 @@ public class FeatureLayer : Layer, IFeatureReductionLayer
     /// </summary>
     public async Task<FeatureEditsResult> ApplyEdits(FeatureEdits edits, FeatureEditOptions? options = null)
     {
+        // Verify that the layer is loaded. Layers with no graphics are not rendered and therefore not loaded
+        // as far as GeoBlazor is concerned
+        if (JsModule is not null && JsLayerReference is null)
+        {
+            await Load();
+        }
+        
         return await JsLayerReference!.InvokeAsync<FeatureEditsResult>("applyEdits", edits, options,
             View!.Id);
     }
@@ -489,9 +502,8 @@ public class FeatureLayer : Layer, IFeatureReductionLayer
             case OrderedLayerOrderBy orderBy:
                 OrderBy ??= new HashSet<OrderedLayerOrderBy>();
 
-                if (!OrderBy.Contains(orderBy))
+                if (OrderBy.Add(orderBy))
                 {
-                    OrderBy.Add(orderBy);
                     LayerChanged = true;
                 }
 
@@ -514,9 +526,8 @@ public class FeatureLayer : Layer, IFeatureReductionLayer
             case Field field:
                 _fields ??= new HashSet<Field>();
 
-                if (!_fields.Contains(field))
+                if (_fields.Add(field))
                 {
-                    _fields.Add(field);
                     LayerChanged = true;
                 }
 
