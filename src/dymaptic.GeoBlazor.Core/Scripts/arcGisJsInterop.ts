@@ -659,7 +659,7 @@ export async function hitTest(pointObject: any, eventId: string | null, viewId: 
     isEvent: boolean, options: DotNetHitTestOptions | null): Promise<DotNetHitTestResult | void> {
     let view = arcGisObjectRefs[viewId] as MapView;
     let result: HitTestResult;
-    let screenPoint = isEvent ? pointObject : { x: pointObject.x, y: pointObject.y };
+    let screenPoint = isEvent ? pointObject : view.toScreen(buildJsPoint(pointObject) as Point); 
 
     if (options !== null) {
         let hitOptions = buildHitTestOptions(options, view);
@@ -694,7 +694,7 @@ export function toMap(screenPoint: any, viewId: string): DotNetPoint | null {
 
 export function toScreen(mapPoint: any, viewId: string): ScreenPoint {
     let view = arcGisObjectRefs[viewId] as MapView;
-    return view.toScreen(mapPoint);
+    return view.toScreen(buildJsPoint(mapPoint) as Point);
 }
 
 export function disposeView(viewId: string): void {

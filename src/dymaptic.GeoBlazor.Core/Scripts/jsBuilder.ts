@@ -213,6 +213,8 @@ export function buildJsGraphic(graphicObject: any, viewId: string | null)
     if (hasValue(graphicObject.popupTemplate)) {
         graphic.popupTemplate = buildJsPopupTemplate(graphicObject.popupTemplate, viewId) as PopupTemplate;
     }
+    
+    copyValuesIfExists(graphicObject, graphic, 'visible');
 
     return graphic;
 }
