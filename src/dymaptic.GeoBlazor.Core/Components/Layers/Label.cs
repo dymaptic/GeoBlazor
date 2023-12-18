@@ -32,7 +32,7 @@ public class Label : LayerObject
     /// <param name="labelExpressionInfo">
     ///     Defines the labels for a <see cref="FeatureLayer" />.
     /// </param>
-    public Label(string? labelPlacement = null, string? labelExpression = null, 
+    public Label(LabelPlacement? labelPlacement = null, string? labelExpression = null, 
         LabelExpressionInfo? labelExpressionInfo = null)
     {
 #pragma warning disable BL0005 // Component parameter should not be set outside of its component.
@@ -58,7 +58,7 @@ public class Label : LayerObject
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? LabelPlacement { get; set; }
+    public LabelPlacement? LabelPlacement { get; set; }
 
     /// <summary>
     ///     Defines the labels for a MapImageLayer.
