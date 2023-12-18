@@ -162,6 +162,8 @@ export let blazorServer: boolean = false;
 export { projection, geometryEngine, Graphic, Color };
 let notifyExtentChanged: boolean = true;
 let uploadingLayers: Array<string> = [];
+let userChangedViewExtent: boolean = false;
+let pointerDown: boolean = false;
 
 export function getProperty(obj, prop) {
     return obj[prop];
@@ -242,6 +244,8 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
     console.debug("render map");
     try {
         setWaitCursor(id);
+        notifyExtentChanged = false;
+        userChangedViewExtent = false;
         blazorServer = isServer;
         let dotNetRef = dotNetReference;
         if (!projection.isLoaded()) {
@@ -417,19 +421,16 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
 
 function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: number | null,
     activeEventHandlers: Array<string>): void {
-    if (activeEventHandlers.includes('OnClick')) {
-        view.on('click', (evt) => {
-            evt.mapPoint = buildDotNetPoint(evt.mapPoint) as any;
-            dotNetRef.invokeMethodAsync('OnJavascriptClick', evt);
-        });
-    }
+    view.on('click', (evt) => {
+        evt.mapPoint = buildDotNetPoint(evt.mapPoint) as any;
+        dotNetRef.invokeMethodAsync('OnJavascriptClick', evt);
+    });
 
-    if (activeEventHandlers.includes('OnDoubleClick')) {
-        view.on('double-click', (evt) => {
-            evt.mapPoint = buildDotNetPoint(evt.mapPoint) as any;
-            dotNetRef.invokeMethodAsync('OnJavascriptDoubleClick', evt);
-        });
-    }
+    view.on('double-click', (evt) => {
+        userChangedViewExtent = true;
+        evt.mapPoint = buildDotNetPoint(evt.mapPoint) as any;
+        dotNetRef.invokeMethodAsync('OnJavascriptDoubleClick', evt);
+    });
 
     if (activeEventHandlers.includes('OnHold')) {
         view.on('hold', (evt) => {
@@ -466,6 +467,7 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
 
     let lastDragCall: number = 0;
     view.on('drag', (evt) => {
+        userChangedViewExtent = true;
         let now = Date.now();
         if (eventRateLimit !== undefined && eventRateLimit !== null &&
             lastDragCall + eventRateLimit > now) {
@@ -476,6 +478,7 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
     });
 
     view.on('pointer-down', (evt) => {
+        pointerDown = true;
         dotNetRef.invokeMethodAsync('OnJavascriptPointerDown', evt);
     });
 
@@ -485,26 +488,27 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
         });
     }
 
-    if (activeEventHandlers.includes('OnPointerLeave')) {
-        view.on('pointer-leave', (evt) => {
-            dotNetRef.invokeMethodAsync('OnJavascriptPointerLeave', evt);
-        });
-    }
+    view.on('pointer-leave', (evt) => {
+        pointerDown = false;
+        dotNetRef.invokeMethodAsync('OnJavascriptPointerLeave', evt);
+    });
 
-    if (activeEventHandlers.includes('OnPointerMove')) {
-        let lastPointerMoveCall: number = 0;
-        view.on('pointer-move', (evt) => {
-            let now = Date.now();
-            if (eventRateLimit !== undefined && eventRateLimit !== null &&
-                lastPointerMoveCall + eventRateLimit > now) {
-                return;
-            }
-            lastPointerMoveCall = now;
-            dotNetRef.invokeMethodAsync('OnJavascriptPointerMove', evt);
-        });
-    }
+    let lastPointerMoveCall: number = 0;
+    view.on('pointer-move', (evt) => {
+        if (pointerDown) {
+            userChangedViewExtent = true;
+        }
+        let now = Date.now();
+        if (eventRateLimit !== undefined && eventRateLimit !== null &&
+            lastPointerMoveCall + eventRateLimit > now) {
+            return;
+        }
+        lastPointerMoveCall = now;
+        dotNetRef.invokeMethodAsync('OnJavascriptPointerMove', evt);
+    });
 
     view.on('pointer-up', (evt) => {
+        pointerDown = false;
         dotNetRef.invokeMethodAsync('OnJavascriptPointerUp', evt);
     });
 
@@ -595,31 +599,29 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
         });
     }
 
-    if (activeEventHandlers.includes('OnMouseWheel')) {
-        let lastMouseWheelCall = 0;
-        view.on('mouse-wheel', (evt) => {
-            let now = Date.now();
-            if (eventRateLimit !== undefined && eventRateLimit !== null &&
-                lastMouseWheelCall + eventRateLimit > now) {
-                return;
-            }
-            lastMouseWheelCall = now;
-            dotNetRef.invokeMethodAsync('OnJavascriptMouseWheel', evt);
-        });
-    }
+    let lastMouseWheelCall = 0;
+    view.on('mouse-wheel', (evt) => {
+        userChangedViewExtent = true;
+        let now = Date.now();
+        if (eventRateLimit !== undefined && eventRateLimit !== null &&
+            lastMouseWheelCall + eventRateLimit > now) {
+            return;
+        }
+        lastMouseWheelCall = now;
+        dotNetRef.invokeMethodAsync('OnJavascriptMouseWheel', evt);
+    });
 
-    if (activeEventHandlers.includes('OnResize')) {
-        let lastResizeCall = 0;
-        view.on('resize', (evt) => {
-            let now = Date.now();
-            if (eventRateLimit !== undefined && eventRateLimit !== null &&
-                lastResizeCall + eventRateLimit > now) {
-                return;
-            }
-            lastResizeCall = now;
-            dotNetRef.invokeMethodAsync('OnJavascriptResize', evt);
-        });
-    }
+    let lastResizeCall = 0;
+    view.on('resize', (evt) => {
+        userChangedViewExtent = true;
+        let now = Date.now();
+        if (eventRateLimit !== undefined && eventRateLimit !== null &&
+            lastResizeCall + eventRateLimit > now) {
+            return;
+        }
+        lastResizeCall = now;
+        dotNetRef.invokeMethodAsync('OnJavascriptResize', evt);
+    });
 
     view.watch('spatialReference', () => {
         dotNetRef.invokeMethodAsync('OnJavascriptSpatialReferenceChanged', buildDotNetSpatialReference(view.spatialReference));
@@ -628,6 +630,7 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
     let lastExtentChangeCall = 0;
     view.watch('extent', () => {
         if (!notifyExtentChanged) return;
+        userChangedViewExtent = true;
         let now = Date.now();
         if (eventRateLimit !== undefined && eventRateLimit !== null &&
             lastExtentChangeCall + eventRateLimit > now) {
@@ -738,6 +741,9 @@ export function disposeGraphic(graphicId: string) {
 
 export function updateView(viewObject: any) {
     try {
+        if (userChangedViewExtent) {
+            return;
+        }
         setWaitCursor(viewObject.id);
         notifyExtentChanged = false;
         let view = arcGisObjectRefs[viewObject.id] as View;
@@ -2639,6 +2645,12 @@ function waitForRender(viewId: string, dotNetRef: any): void {
             }
             if (!view.updating && !isRendered && !rendering) {
                 notifyExtentChanged = true;
+                // listen for click on zoom widget
+                let zoomWidgetButtons =  document.querySelectorAll('[title="Zoom in"], [title="Zoom out"]');
+                for (let i = 0; i < zoomWidgetButtons.length; i++) {
+                    zoomWidgetButtons[i].removeEventListener('click', setUserChangedViewExtent);
+                    zoomWidgetButtons[i].addEventListener('click', setUserChangedViewExtent);
+                }
                 console.debug(new Date() + " - View Render Complete");
                 try {
                     rendering = true;
@@ -2653,6 +2665,11 @@ function waitForRender(viewId: string, dotNetRef: any): void {
             }
         }, 100);
     })
+}
+
+function setUserChangedViewExtent() {
+    console.log('user changed view extent');
+    userChangedViewExtent = true;
 }
 
 export function hasValue(prop: any): boolean {
