@@ -953,11 +953,8 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                     featureLayer.labelingInfo = layerObject.labelingInfo.map(buildJsLabelClass);
                 }
 
-                if (hasValue(layerObject.proProperties.FeatureReduction)) {
+                if (hasValue(layerObject.proProperties?.FeatureReduction)) {
                     featureLayer.featureReduction = buildJsFeatureReduction(layerObject.proProperties.FeatureReduction, viewId);
-                } else {
-                    // @ts-ignore
-                    featureLayer.featureReduction = null;
                 }
 
                 copyValuesIfExists(layerObject, featureLayer, 'minScale', 'maxScale', 'orderBy', 'objectIdField',
@@ -984,7 +981,7 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                 if (hasValue(layerObject.fullExtent) && layerObject.fullExtent !== currentLayer.fullExtent) {
                     currentLayer.fullExtent = buildJsExtent(layerObject.fullExtent, view.spatialReference);
                 }
-                if (hasValue(layerObject.proProperties.FeatureReduction)) {
+                if (hasValue(layerObject.proProperties?.FeatureReduction)) {
                     geoJsonLayer.featureReduction = buildJsFeatureReduction(layerObject.proProperties.FeatureReduction, viewId);
                 } else {
                     // @ts-ignore
@@ -1057,7 +1054,7 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
 
                 break;
             case 'csv':
-                if (hasValue(layerObject.proProperties.FeatureReduction)) {
+                if (hasValue(layerObject.proProperties?.FeatureReduction)) {
                     (currentLayer as CSVLayer).featureReduction = buildJsFeatureReduction(layerObject.proProperties.FeatureReduction, viewId);
                 } else {
                     // @ts-ignore
@@ -2216,7 +2213,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
                 featureLayer.labelingInfo = layerObject.labelingInfo.map(buildJsLabelClass);
             }
 
-            if (hasValue(layerObject.proProperties.FeatureReduction)) {
+            if (hasValue(layerObject.proProperties?.FeatureReduction)) {
                 (newLayer as FeatureLayer).featureReduction = buildJsFeatureReduction(layerObject.proProperties.FeatureReduction, viewId!);
             }
             
@@ -2270,7 +2267,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             if (hasValue(layerObject.popupTemplate)) {
                 gjLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId ?? null) as PopupTemplate;
             }
-            if (hasValue(layerObject.proProperties.FeatureReduction)) {
+            if (hasValue(layerObject.proProperties?.FeatureReduction)) {
                 (newLayer as GeoJSONLayer).featureReduction = buildJsFeatureReduction(layerObject.proProperties.FeatureReduction, viewId!);
             }
             
@@ -2374,7 +2371,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             if (hasValue(layerObject.popupTemplate)) {
                 csvLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId ?? null) as PopupTemplate;
             }
-            if (hasValue(layerObject.proProperties.FeatureReduction)) {
+            if (hasValue(layerObject.proProperties?.FeatureReduction)) {
                 (newLayer as CSVLayer).featureReduction = buildJsFeatureReduction(layerObject.proProperties.FeatureReduction, viewId!);
             }
 
