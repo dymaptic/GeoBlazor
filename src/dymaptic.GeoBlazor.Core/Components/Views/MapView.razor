@@ -10,15 +10,24 @@
                         <div class="map-container" id="@($"map-container-{Id}")">
                             @ChildContent
                         </div>
-                        <div class="dymaptic-branding">
-                            <a href="https://www.geoblazor.com">
-                                <img height="12" src="_content/dymaptic.GeoBlazor.Core/images/Blazor-API-60px.png" /> GeoBlazor
-                            </a>
-                            by
-                            <a href="https://www.dymaptic.com">
-                                <img height="12" src="_content/dymaptic.GeoBlazor.Core/images/dymaptic-logo-circle-icon.png" /> dymaptic
-                            </a>
-                        </div>
+                        @if (WhiteLabel is null || !IsPro())
+                        {
+                            <div class="dymaptic-branding">
+                                <a href="https://www.geoblazor.com">
+                                    <img height="12" src="_content/dymaptic.GeoBlazor.Core/images/Blazor-API-60px.png" /> GeoBlazor
+                                </a>
+                                by
+                                <a href="https://www.dymaptic.com">
+                                    <img height="12" src="_content/dymaptic.GeoBlazor.Core/images/dymaptic-logo-circle-icon.png" /> dymaptic
+                                </a>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="white-label">
+                                @((MarkupString)WhiteLabel)
+                            </div>
+                        }
                     </div>
                 </CascadingValue>
             </CascadingValue>

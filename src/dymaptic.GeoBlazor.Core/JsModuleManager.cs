@@ -3,11 +3,17 @@ using System.Security.Claims;
 
 namespace dymaptic.GeoBlazor.Core;
 
-internal static class JsModuleManager
+/// <summary>
+///     Static class for managing the JavaScript modules used by GeoBlazor.
+/// </summary>
+public static class JsModuleManager
 {
+    /// <summary>
+    ///     Retrieves the main entry point for the GeoBlazor Core JavaScript module.
+    /// </summary>
     public static async Task<IJSObjectReference> GetArcGisJsCore(IJSRuntime jsRuntime, IJSObjectReference? proModule, CancellationToken cancellationToken)
     {
-        var version = System.Reflection.Assembly.GetAssembly(typeof(JsModuleManager))!.GetName().Version;
+        Version? version = System.Reflection.Assembly.GetAssembly(typeof(JsModuleManager))!.GetName().Version;
 
         if (proModule is null)
         {
@@ -24,7 +30,7 @@ internal static class JsModuleManager
     /// </summary>
     public static async Task<IJSObjectReference?> GetArcGisJsPro(IJSRuntime jsRuntime, CancellationToken cancellationToken)
     {
-        var version = System.Reflection.Assembly.GetAssembly(typeof(JsModuleManager))!.GetName().Version;
+        Version? version = System.Reflection.Assembly.GetAssembly(typeof(JsModuleManager))!.GetName().Version;
 
         LicenseType licenseType = Licensing.GetLicenseType();
 

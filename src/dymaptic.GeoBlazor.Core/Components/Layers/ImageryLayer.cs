@@ -336,7 +336,6 @@ public class ImageryLayer : Layer
     /// <summary>
     ///     A complete list of fields that consists of raster attribute table fields, item pixel value, service pixel value, service pixel value with various server defined function templates, and raster attribute table fields. 
     /// </summary>
-    [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyCollection<Field>? RasterFields { get; set; }
 
@@ -350,9 +349,8 @@ public class ImageryLayer : Layer
     /// <summary>
     ///    The spatial reference of the image service.
     /// </summary>
-    [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public SpatialReference? SpatialReference { get; set; }
+    public SpatialReference? SpatialReference { get; internal set; }
 
     /// <summary>
     ///    Determines if the layer will update its temporal data based on the view's timeExtent. 
