@@ -162,6 +162,8 @@ export let blazorServer: boolean = false;
 export { projection, geometryEngine, Graphic, Color };
 let notifyExtentChanged: boolean = true;
 let uploadingLayers: Array<string> = [];
+let userChangedViewExtent: boolean = false;
+let pointerDown: boolean = false;
 
 export function getProperty(obj, prop) {
     return obj[prop];
@@ -242,6 +244,8 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
     console.debug("render map");
     try {
         setWaitCursor(id);
+        notifyExtentChanged = false;
+        userChangedViewExtent = false;
         blazorServer = isServer;
         let dotNetRef = dotNetReference;
         if (!projection.isLoaded()) {
@@ -417,19 +421,16 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
 
 function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: number | null,
     activeEventHandlers: Array<string>): void {
-    if (activeEventHandlers.includes('OnClick')) {
-        view.on('click', (evt) => {
-            evt.mapPoint = buildDotNetPoint(evt.mapPoint) as any;
-            dotNetRef.invokeMethodAsync('OnJavascriptClick', evt);
-        });
-    }
+    view.on('click', (evt) => {
+        evt.mapPoint = buildDotNetPoint(evt.mapPoint) as any;
+        dotNetRef.invokeMethodAsync('OnJavascriptClick', evt);
+    });
 
-    if (activeEventHandlers.includes('OnDoubleClick')) {
-        view.on('double-click', (evt) => {
-            evt.mapPoint = buildDotNetPoint(evt.mapPoint) as any;
-            dotNetRef.invokeMethodAsync('OnJavascriptDoubleClick', evt);
-        });
-    }
+    view.on('double-click', (evt) => {
+        userChangedViewExtent = true;
+        evt.mapPoint = buildDotNetPoint(evt.mapPoint) as any;
+        dotNetRef.invokeMethodAsync('OnJavascriptDoubleClick', evt);
+    });
 
     if (activeEventHandlers.includes('OnHold')) {
         view.on('hold', (evt) => {
@@ -466,6 +467,7 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
 
     let lastDragCall: number = 0;
     view.on('drag', (evt) => {
+        userChangedViewExtent = true;
         let now = Date.now();
         if (eventRateLimit !== undefined && eventRateLimit !== null &&
             lastDragCall + eventRateLimit > now) {
@@ -476,6 +478,7 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
     });
 
     view.on('pointer-down', (evt) => {
+        pointerDown = true;
         dotNetRef.invokeMethodAsync('OnJavascriptPointerDown', evt);
     });
 
@@ -485,26 +488,27 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
         });
     }
 
-    if (activeEventHandlers.includes('OnPointerLeave')) {
-        view.on('pointer-leave', (evt) => {
-            dotNetRef.invokeMethodAsync('OnJavascriptPointerLeave', evt);
-        });
-    }
+    view.on('pointer-leave', (evt) => {
+        pointerDown = false;
+        dotNetRef.invokeMethodAsync('OnJavascriptPointerLeave', evt);
+    });
 
-    if (activeEventHandlers.includes('OnPointerMove')) {
-        let lastPointerMoveCall: number = 0;
-        view.on('pointer-move', (evt) => {
-            let now = Date.now();
-            if (eventRateLimit !== undefined && eventRateLimit !== null &&
-                lastPointerMoveCall + eventRateLimit > now) {
-                return;
-            }
-            lastPointerMoveCall = now;
-            dotNetRef.invokeMethodAsync('OnJavascriptPointerMove', evt);
-        });
-    }
+    let lastPointerMoveCall: number = 0;
+    view.on('pointer-move', (evt) => {
+        if (pointerDown) {
+            userChangedViewExtent = true;
+        }
+        let now = Date.now();
+        if (eventRateLimit !== undefined && eventRateLimit !== null &&
+            lastPointerMoveCall + eventRateLimit > now) {
+            return;
+        }
+        lastPointerMoveCall = now;
+        dotNetRef.invokeMethodAsync('OnJavascriptPointerMove', evt);
+    });
 
     view.on('pointer-up', (evt) => {
+        pointerDown = false;
         dotNetRef.invokeMethodAsync('OnJavascriptPointerUp', evt);
     });
 
@@ -595,31 +599,29 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
         });
     }
 
-    if (activeEventHandlers.includes('OnMouseWheel')) {
-        let lastMouseWheelCall = 0;
-        view.on('mouse-wheel', (evt) => {
-            let now = Date.now();
-            if (eventRateLimit !== undefined && eventRateLimit !== null &&
-                lastMouseWheelCall + eventRateLimit > now) {
-                return;
-            }
-            lastMouseWheelCall = now;
-            dotNetRef.invokeMethodAsync('OnJavascriptMouseWheel', evt);
-        });
-    }
+    let lastMouseWheelCall = 0;
+    view.on('mouse-wheel', (evt) => {
+        userChangedViewExtent = true;
+        let now = Date.now();
+        if (eventRateLimit !== undefined && eventRateLimit !== null &&
+            lastMouseWheelCall + eventRateLimit > now) {
+            return;
+        }
+        lastMouseWheelCall = now;
+        dotNetRef.invokeMethodAsync('OnJavascriptMouseWheel', evt);
+    });
 
-    if (activeEventHandlers.includes('OnResize')) {
-        let lastResizeCall = 0;
-        view.on('resize', (evt) => {
-            let now = Date.now();
-            if (eventRateLimit !== undefined && eventRateLimit !== null &&
-                lastResizeCall + eventRateLimit > now) {
-                return;
-            }
-            lastResizeCall = now;
-            dotNetRef.invokeMethodAsync('OnJavascriptResize', evt);
-        });
-    }
+    let lastResizeCall = 0;
+    view.on('resize', (evt) => {
+        userChangedViewExtent = true;
+        let now = Date.now();
+        if (eventRateLimit !== undefined && eventRateLimit !== null &&
+            lastResizeCall + eventRateLimit > now) {
+            return;
+        }
+        lastResizeCall = now;
+        dotNetRef.invokeMethodAsync('OnJavascriptResize', evt);
+    });
 
     view.watch('spatialReference', () => {
         dotNetRef.invokeMethodAsync('OnJavascriptSpatialReferenceChanged', buildDotNetSpatialReference(view.spatialReference));
@@ -628,6 +630,7 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
     let lastExtentChangeCall = 0;
     view.watch('extent', () => {
         if (!notifyExtentChanged) return;
+        userChangedViewExtent = true;
         let now = Date.now();
         if (eventRateLimit !== undefined && eventRateLimit !== null &&
             lastExtentChangeCall + eventRateLimit > now) {
@@ -738,6 +741,9 @@ export function disposeGraphic(graphicId: string) {
 
 export function updateView(viewObject: any) {
     try {
+        if (userChangedViewExtent) {
+            return;
+        }
         setWaitCursor(viewObject.id);
         notifyExtentChanged = false;
         let view = arcGisObjectRefs[viewObject.id] as View;
@@ -947,11 +953,8 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                     featureLayer.labelingInfo = layerObject.labelingInfo.map(buildJsLabelClass);
                 }
 
-                if (hasValue(layerObject.proProperties.FeatureReduction)) {
+                if (hasValue(layerObject.proProperties?.FeatureReduction)) {
                     featureLayer.featureReduction = buildJsFeatureReduction(layerObject.proProperties.FeatureReduction, viewId);
-                } else {
-                    // @ts-ignore
-                    featureLayer.featureReduction = null;
                 }
 
                 copyValuesIfExists(layerObject, featureLayer, 'minScale', 'maxScale', 'orderBy', 'objectIdField',
@@ -978,7 +981,7 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                 if (hasValue(layerObject.fullExtent) && layerObject.fullExtent !== currentLayer.fullExtent) {
                     currentLayer.fullExtent = buildJsExtent(layerObject.fullExtent, view.spatialReference);
                 }
-                if (hasValue(layerObject.proProperties.FeatureReduction)) {
+                if (hasValue(layerObject.proProperties?.FeatureReduction)) {
                     geoJsonLayer.featureReduction = buildJsFeatureReduction(layerObject.proProperties.FeatureReduction, viewId);
                 } else {
                     // @ts-ignore
@@ -1051,7 +1054,7 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
 
                 break;
             case 'csv':
-                if (hasValue(layerObject.proProperties.FeatureReduction)) {
+                if (hasValue(layerObject.proProperties?.FeatureReduction)) {
                     (currentLayer as CSVLayer).featureReduction = buildJsFeatureReduction(layerObject.proProperties.FeatureReduction, viewId);
                 } else {
                     // @ts-ignore
@@ -2217,7 +2220,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
                 featureLayer.labelingInfo = layerObject.labelingInfo.map(buildJsLabelClass);
             }
 
-            if (hasValue(layerObject.proProperties.FeatureReduction)) {
+            if (hasValue(layerObject.proProperties?.FeatureReduction)) {
                 (newLayer as FeatureLayer).featureReduction = buildJsFeatureReduction(layerObject.proProperties.FeatureReduction, viewId!);
             }
             
@@ -2271,7 +2274,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             if (hasValue(layerObject.popupTemplate)) {
                 gjLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId ?? null) as PopupTemplate;
             }
-            if (hasValue(layerObject.proProperties.FeatureReduction)) {
+            if (hasValue(layerObject.proProperties?.FeatureReduction)) {
                 (newLayer as GeoJSONLayer).featureReduction = buildJsFeatureReduction(layerObject.proProperties.FeatureReduction, viewId!);
             }
             
@@ -2375,7 +2378,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             if (hasValue(layerObject.popupTemplate)) {
                 csvLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId ?? null) as PopupTemplate;
             }
-            if (hasValue(layerObject.proProperties.FeatureReduction)) {
+            if (hasValue(layerObject.proProperties?.FeatureReduction)) {
                 (newLayer as CSVLayer).featureReduction = buildJsFeatureReduction(layerObject.proProperties.FeatureReduction, viewId!);
             }
 
@@ -2634,6 +2637,12 @@ function waitForRender(viewId: string, dotNetRef: any): void {
             }
             if (!view.updating && !isRendered && !rendering) {
                 notifyExtentChanged = true;
+                // listen for click on zoom widget
+                let zoomWidgetButtons =  document.querySelectorAll('[title="Zoom in"], [title="Zoom out"]');
+                for (let i = 0; i < zoomWidgetButtons.length; i++) {
+                    zoomWidgetButtons[i].removeEventListener('click', setUserChangedViewExtent);
+                    zoomWidgetButtons[i].addEventListener('click', setUserChangedViewExtent);
+                }
                 console.debug(new Date() + " - View Render Complete");
                 try {
                     rendering = true;
@@ -2648,6 +2657,10 @@ function waitForRender(viewId: string, dotNetRef: any): void {
             }
         }, 100);
     })
+}
+
+function setUserChangedViewExtent() {
+    userChangedViewExtent = true;
 }
 
 export function hasValue(prop: any): boolean {

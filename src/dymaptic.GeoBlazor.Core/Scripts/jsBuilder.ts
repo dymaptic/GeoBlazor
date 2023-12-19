@@ -170,6 +170,8 @@ import PieChartRenderer from "@arcgis/core/renderers/PieChartRenderer";
 import AttributeColorInfo from "@arcgis/core/renderers/support/AttributeColorInfo";
 import AuthoringInfo from "@arcgis/core/renderers/support/AuthoringInfo";
 import AuthoringInfoVisualVariable from "@arcgis/core/renderers/support/AuthoringInfoVisualVariable";
+import ActionButton from "@arcgis/core/support/actions/ActionButton";
+import ActionToggle from "@arcgis/core/support/actions/ActionToggle";
 
 
 export function buildJsSpatialReference(dotNetSpatialReference: DotNetSpatialReference): SpatialReference {
@@ -259,14 +261,14 @@ export function buildJsPopupTemplate(popupTemplateObject: DotNetPopupTemplate, v
     if (hasValue(popupTemplateObject.stringContent)) {
         content = popupTemplateObject.stringContent;
     } else if (hasValue(popupTemplateObject.content) && popupTemplateObject.content.length > 0) {
-        content = popupTemplateObject.content?.map(c => buildJsPopupContent(c));
+        content = popupTemplateObject.content?.map(buildJsPopupContent);
     } else {
         content = async (featureSelection) => {
             try {
                 await lookupDotNetRefForPopupTemplate(popupTemplateObject, viewId as string);
                 let results: DotNetPopupContent[] | null = await popupTemplateObject.dotNetPopupTemplateReference
                     .invokeMethodAsync("OnContentFunction", buildDotNetGraphic(featureSelection.graphic));
-                return results?.map(r => buildJsPopupContent(r));
+                return results?.map(buildJsPopupContent);
             } catch (error) {
                 console.error(error);
                 return null;
@@ -282,7 +284,7 @@ export function buildJsPopupTemplate(popupTemplateObject: DotNetPopupTemplate, v
     });
 
     if (hasValue(popupTemplateObject.fieldInfos)) {
-        template.fieldInfos = popupTemplateObject.fieldInfos.map(f => buildJsFieldInfo(f));
+        template.fieldInfos = popupTemplateObject.fieldInfos.map(buildJsFieldInfo);
     }
 
     if (hasValue(popupTemplateObject.expressionInfos)) {
@@ -290,12 +292,25 @@ export function buildJsPopupTemplate(popupTemplateObject: DotNetPopupTemplate, v
     }
 
     if (hasValue(popupTemplateObject.actions)) {
-        template.actions = popupTemplateObject.actions as any;
+        template.actions = popupTemplateObject.actions.map(buildJsPopupAction) as any;
     } 
 
     popupDotNetObjects.push(popupTemplateObject);
     
     return template;
+}
+
+function buildJsPopupAction(dnAction: any): ActionButton | ActionToggle {
+    if (dnAction.type === "button") {
+        let jsAction = new ActionButton();
+        copyValuesIfExists(dnAction, jsAction, 'active', 'className', 'disabled', 'icon', 'id', 'image', 'title', 
+            'visible');
+        return jsAction;
+    }
+
+    let jsAction = new ActionToggle();
+    copyValuesIfExists(dnAction, jsAction, 'active', 'disabled', 'icon', 'id', 'title', 'value', 'visible');
+    return jsAction;
 }
 
 async function lookupDotNetRefForPopupTemplate(popupTemplateObject: DotNetPopupTemplate, viewId: string) {
@@ -1113,7 +1128,6 @@ export function buildJsViewClickEvent(dotNetClickEvent: any): ViewClickEvent {
 
 export async function buildJsPopup(dotNetPopup: any, viewId: string): Promise<Popup> {
     let popup = new Popup({
-        actions: dotNetPopup.actions ?? [],
         alignment: dotNetPopup.alignment ?? "auto",
         content: dotNetPopup.content ?? null,
         title: dotNetPopup.title ?? null,
@@ -1128,6 +1142,10 @@ export async function buildJsPopup(dotNetPopup: any, viewId: string): Promise<Po
         label: dotNetPopup.label ?? '',
         spinnerEnabled: dotNetPopup.spinnerEnabled ?? true
     });
+    
+    if (hasValue(dotNetPopup.actions)) {
+        popup.actions = dotNetPopup.actions.map(buildJsPopupAction) as any;
+    }
 
     if (hasValue(dotNetPopup.location)) {
         popup.location = buildJsPoint(dotNetPopup.location) as Point;

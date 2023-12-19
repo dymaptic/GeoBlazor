@@ -75,7 +75,8 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     /// <summary>
     ///     Extension properties for GeoBlazor Pro
     /// </summary>
-    public Dictionary<string, object?> ProProperties { get; init; }= new();
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Dictionary<string, object?>? ProProperties { get; set; }
 
     /// <summary>
     ///     Implements the `IAsyncDisposable` pattern.
