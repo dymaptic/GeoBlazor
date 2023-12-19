@@ -32,7 +32,7 @@ public class Label : LayerObject
     /// <param name="labelExpressionInfo">
     ///     Defines the labels for a <see cref="FeatureLayer" />.
     /// </param>
-    public Label(string? labelPlacement = null, string? labelExpression = null, 
+    public Label(LabelPlacement? labelPlacement = null, string? labelExpression = null, 
         LabelExpressionInfo? labelExpressionInfo = null)
     {
 #pragma warning disable BL0005 // Component parameter should not be set outside of its component.
@@ -58,7 +58,7 @@ public class Label : LayerObject
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? LabelPlacement { get; set; }
+    public LabelPlacement? LabelPlacement { get; set; }
 
     /// <summary>
     ///     Defines the labels for a MapImageLayer.
@@ -204,5 +204,40 @@ public enum LabelPosition
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     Curved,
     Parallel
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
+}
+
+/// <summary>
+///     The position of the <see cref="Label"/>. Possible values are based on the feature type. This property requires a value.
+/// </summary>
+[JsonConverter(typeof(LabelPlacementStringConverter))]
+public enum LabelPlacement
+{
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+    AboveCenter,
+    AboveLeft,
+    AboveRight,
+    BelowCenter,
+    BelowLeft,
+    BelowRight,
+    CenterCenter,
+    CenterLeft,
+    CenterRight,
+    AboveAfter,
+    AboveAlong,
+    AboveBefore,
+    AboveStart,
+    AboveEnd,
+    BelowAfter,
+    BelowAlong,
+    BelowBefore,
+    BelowStart,
+    BelowEnd,
+    CenterAfter,
+    CenterAlong,
+    CenterBefore,
+    CenterStart,
+    CenterEnd,
+    AlwaysHorizontal
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 }

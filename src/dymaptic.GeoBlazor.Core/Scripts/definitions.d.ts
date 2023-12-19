@@ -606,8 +606,8 @@ export interface DotNetColorRamp {
 export interface DotNetAlgorithmicColorRamp {
     type: string;
     algorithm: string;
-    fromColor: color;
-    toColor: color;
+    fromColor: string;
+    toColor: string;
 }
 
 export interface DotNetMultiPartColorRamp {
@@ -617,19 +617,19 @@ export interface DotNetMultiPartColorRamp {
 
 export interface DotNetRasterColormapRenderer {
     type: string;
-    colormapInfos: DotNetColormapInfo;
+    colormapInfos: DotNetColormapInfo[];
 }
 
 export interface DotNetColormapInfo {
     value: number;
     type: string;
-    color: color;
+    color: string;
     label: string;
 }
 
 export interface DotNetFlowRenderer {
     authoringInfo: DotNetAuthoringInfo;
-    color: color;
+    color: string;
     type: string;
     flowRepresentation: string;
     density: number;
