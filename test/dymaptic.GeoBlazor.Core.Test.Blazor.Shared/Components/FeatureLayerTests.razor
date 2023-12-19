@@ -69,4 +69,49 @@
         Assert.IsNotNull(capabilities);
     }
 
+    [TestMethod]
+    public async Task TestCanAddFeatureWithApplyEdits(Action renderHandler)
+    {
+        FeatureLayer? layer = null;
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map ArcGISDefaultBasemap="topo-vector">
+                    <FeatureLayer @ref="layer" Source="@([])" 
+                                  GeometryType="GeometryType.Point"
+                                  ObjectIdField="OBJECT_ID">
+                    </FeatureLayer>
+                </Map>
+            </MapView>);
+        await WaitForMapToRender();
+        await AssertJavaScript("assertLayerExists", args: "feature");
+        FeatureEdits edits = new() { 
+            AddFeatures = [
+                new Graphic(new Point(0, 0), 
+                    new SimpleMarkerSymbol(color: new MapColor("black")))
+            ] 
+        };
+        await layer!.ApplyEdits(edits);
+        await WaitForMapToRender();
+        await AssertJavaScript("assertGraphicExistsInLayer", args: new object[] { layer!.Id, "point", 1 });
+    }
+    
+    [TestMethod]
+    public async Task TestCannotAddFeaturesWithAddMethodAfterRender(Action renderHandler)
+    {
+        FeatureLayer? layer = null;
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map ArcGISDefaultBasemap="topo-vector">
+                    <FeatureLayer @ref="layer" Source="@([])" 
+                                  GeometryType="GeometryType.Point"
+                                  ObjectIdField="OBJECT_ID">
+                    </FeatureLayer>
+                </Map>
+            </MapView>);
+        await WaitForMapToRender();
+        await AssertJavaScript("assertLayerExists", args: "feature");
+
+        await Assert.ThrowsExceptionAsync<InvalidOperationException>(() => layer!.Add(new Graphic(new Point(0, 0),
+            new SimpleMarkerSymbol(color: new MapColor("black")))));
+    }
 }

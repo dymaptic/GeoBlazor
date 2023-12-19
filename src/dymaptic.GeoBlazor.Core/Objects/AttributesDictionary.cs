@@ -47,6 +47,10 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
                     JsonValueKind.String => jsonElement.ToString(),
                     _ => jsonElement
                 };
+                if (typedValue is string stringValue && Guid.TryParse(stringValue, out Guid guidValue))
+                {
+                    typedValue = guidValue;
+                }
                 _backingDictionary[kvp.Key] = (typedValue ?? default(object))!;
             }
 
