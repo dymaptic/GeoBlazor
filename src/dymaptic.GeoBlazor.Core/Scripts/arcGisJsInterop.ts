@@ -2660,7 +2660,6 @@ function waitForRender(viewId: string, dotNetRef: any): void {
 }
 
 function setUserChangedViewExtent() {
-    console.log('user changed view extent');
     userChangedViewExtent = true;
 }
 
