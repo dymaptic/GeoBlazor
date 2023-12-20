@@ -31,14 +31,12 @@ import RasterColormapRenderer from "@arcgis/core/renderers/RasterColormapRendere
 import VectorFieldRenderer from "@arcgis/core/renderers/VectorFieldRenderer.js";
 import FlowRenderer from "@arcgis/core/renderers/FlowRenderer.js";
 import ClassBreaksRenderer from "@arcgis/core/renderers/ClassBreaksRenderer.js";
-import AuthoringInfo from "@arcgis/core/renderers/support/AuthoringInfo.js";
 import ClassBreakInfo from "@arcgis/core/renderers/support/ClassBreakInfo.js";
 import UniqueValueRenderer from "@arcgis/core/renderers/UniqueValueRenderer.js";
 import ColormapInfo from "@arcgis/core/renderers/support/ColormapInfo.js";
 import MultidimensionalSubset from "@arcgis/core/layers/support/MultidimensionalSubset.js";
 import PolygonSymbol3D from "@arcgis/core/symbols/PolygonSymbol3D.js";
 import FieldsIndex from "@arcgis/core/layers/support/FieldsIndex.js";
-import AuthoringInfoVisualVariable from "@arcgis/core/renderers/support/AuthoringInfoVisualVariable.js";
 import UniqueValue from "@arcgis/core/renderers/support/UniqueValue.js";
 import UniqueValueInfo from "@arcgis/core/renderers/support/UniqueValueInfo.js";
 import UniqueValueClass from "@arcgis/core/renderers/support/UniqueValueClass.js";
@@ -172,6 +170,8 @@ import PieChartRenderer from "@arcgis/core/renderers/PieChartRenderer";
 import AttributeColorInfo from "@arcgis/core/renderers/support/AttributeColorInfo";
 import AuthoringInfo from "@arcgis/core/renderers/support/AuthoringInfo";
 import AuthoringInfoVisualVariable from "@arcgis/core/renderers/support/AuthoringInfoVisualVariable";
+import ActionButton from "@arcgis/core/support/actions/ActionButton";
+import ActionToggle from "@arcgis/core/support/actions/ActionToggle";
 
 
 export function buildJsSpatialReference(dotNetSpatialReference: DotNetSpatialReference): SpatialReference {
@@ -215,6 +215,8 @@ export function buildJsGraphic(graphicObject: any, viewId: string | null)
     if (hasValue(graphicObject.popupTemplate)) {
         graphic.popupTemplate = buildJsPopupTemplate(graphicObject.popupTemplate, viewId) as PopupTemplate;
     }
+    
+    copyValuesIfExists(graphicObject, graphic, 'visible');
 
     return graphic;
 }
@@ -259,14 +261,14 @@ export function buildJsPopupTemplate(popupTemplateObject: DotNetPopupTemplate, v
     if (hasValue(popupTemplateObject.stringContent)) {
         content = popupTemplateObject.stringContent;
     } else if (hasValue(popupTemplateObject.content) && popupTemplateObject.content.length > 0) {
-        content = popupTemplateObject.content?.map(c => buildJsPopupContent(c));
+        content = popupTemplateObject.content?.map(buildJsPopupContent);
     } else {
         content = async (featureSelection) => {
             try {
                 await lookupDotNetRefForPopupTemplate(popupTemplateObject, viewId as string);
                 let results: DotNetPopupContent[] | null = await popupTemplateObject.dotNetPopupTemplateReference
                     .invokeMethodAsync("OnContentFunction", buildDotNetGraphic(featureSelection.graphic));
-                return results?.map(r => buildJsPopupContent(r));
+                return results?.map(buildJsPopupContent);
             } catch (error) {
                 console.error(error);
                 return null;
@@ -282,7 +284,7 @@ export function buildJsPopupTemplate(popupTemplateObject: DotNetPopupTemplate, v
     });
 
     if (hasValue(popupTemplateObject.fieldInfos)) {
-        template.fieldInfos = popupTemplateObject.fieldInfos.map(f => buildJsFieldInfo(f));
+        template.fieldInfos = popupTemplateObject.fieldInfos.map(buildJsFieldInfo);
     }
 
     if (hasValue(popupTemplateObject.expressionInfos)) {
@@ -290,12 +292,25 @@ export function buildJsPopupTemplate(popupTemplateObject: DotNetPopupTemplate, v
     }
 
     if (hasValue(popupTemplateObject.actions)) {
-        template.actions = popupTemplateObject.actions as any;
+        template.actions = popupTemplateObject.actions.map(buildJsPopupAction) as any;
     } 
 
     popupDotNetObjects.push(popupTemplateObject);
     
     return template;
+}
+
+function buildJsPopupAction(dnAction: any): ActionButton | ActionToggle {
+    if (dnAction.type === "button") {
+        let jsAction = new ActionButton();
+        copyValuesIfExists(dnAction, jsAction, 'active', 'className', 'disabled', 'icon', 'id', 'image', 'title', 
+            'visible');
+        return jsAction;
+    }
+
+    let jsAction = new ActionToggle();
+    copyValuesIfExists(dnAction, jsAction, 'active', 'disabled', 'icon', 'id', 'title', 'value', 'visible');
+    return jsAction;
 }
 
 async function lookupDotNetRefForPopupTemplate(popupTemplateObject: DotNetPopupTemplate, viewId: string) {
@@ -610,7 +625,7 @@ export function buildJsRasterColormapRenderer(dotNetRasterColormapRenderer: DotN
     if (dotNetRasterColormapRenderer === undefined) return null;
     let rasterColormapRender = new RasterColormapRenderer();
     if (hasValue(dotNetRasterColormapRenderer.colormapInfos)) {
-        rasterColormapRender.colormapInfos = dotNetRasterColormapRenderer.colormapInfos;
+        rasterColormapRender.colormapInfos = dotNetRasterColormapRenderer.colormapInfos.map(buildJsColormapInfo) as ColormapInfo[];
     }
     return rasterColormapRender;
 }
@@ -620,7 +635,7 @@ export function buildJsColormapInfo(dotNetColormapInfo: DotNetColormapInfo): Col
     let colormapInfo = new ColormapInfo();
 
     if (hasValue(dotNetColormapInfo.color)) {
-        colormapInfo.color = dotNetColormapInfo.color;
+        colormapInfo.color = buildJsColor(dotNetColormapInfo.color);
     }
     if (hasValue(dotNetColormapInfo.label)) {
         colormapInfo.label = dotNetColormapInfo.label;
@@ -644,7 +659,7 @@ export function buildJsRasterShadedReliefRenderer(dnRasterShadedReliefRenderer: 
         rasterShadedReliefRenderer.colorRamp = buildJsColorRamp(dnRasterShadedReliefRenderer.colorRamp) as ColorRamp;
     }
     if (hasValue(dnRasterShadedReliefRenderer.hillshadeType)) {
-        rasterShadedReliefRenderer.hillshadeType = dnRasterShadedReliefRenderer.hillshadeType;
+        rasterShadedReliefRenderer.hillshadeType = dnRasterShadedReliefRenderer.hillshadeType as any;
     }
     if (hasValue(dnRasterShadedReliefRenderer.pixelSizeFactor)) {
         rasterShadedReliefRenderer.pixelSizeFactor = dnRasterShadedReliefRenderer.pixelSizeFactor;
@@ -656,7 +671,7 @@ export function buildJsRasterShadedReliefRenderer(dnRasterShadedReliefRenderer: 
         rasterShadedReliefRenderer.pixelSizePower = dnRasterShadedReliefRenderer.pixelSizePower;
     }
     if (hasValue(dnRasterShadedReliefRenderer.scalingType)) {
-        rasterShadedReliefRenderer.scalingType = dnRasterShadedReliefRenderer.scalingType;
+        rasterShadedReliefRenderer.scalingType = dnRasterShadedReliefRenderer.scalingType as any;
     }
     if (hasValue(dnRasterShadedReliefRenderer.zFactor)) {
         rasterShadedReliefRenderer.zFactor = dnRasterShadedReliefRenderer.zFactor;
@@ -669,7 +684,7 @@ export function buildJsUniqueValueRenderer(dnUniqueValueRenderer: DotNetUniqueVa
     let uniqueValueRenderer = new UniqueValueRenderer();
     if (hasValue(dnUniqueValueRenderer.backgroundFillSymbol)) {
         if (dnUniqueValueRenderer.backgroundFillSymbol.type == "FillSymbol") {
-            uniqueValueRenderer.backgroundFillSymbol = dnUniqueValueRenderer.backgroundFillSymbol as DotNetSimpleFillSymbol;
+            uniqueValueRenderer.backgroundFillSymbol = buildJsSymbol(dnUniqueValueRenderer.backgroundFillSymbol) as SimpleFillSymbol;
         }
         // Note: The PolygonSymbol3d is not currently supported
     }
@@ -677,7 +692,7 @@ export function buildJsUniqueValueRenderer(dnUniqueValueRenderer: DotNetUniqueVa
         uniqueValueRenderer.defaultLabel = dnUniqueValueRenderer.defaultLabel;
     }
     if (hasValue(dnUniqueValueRenderer.defaultSymbol)) {
-        uniqueValueRenderer.defaultSymbol = dnUniqueValueRenderer.defaultSymbol as DotNetSymbol;
+        uniqueValueRenderer.defaultSymbol = buildJsSymbol(dnUniqueValueRenderer.defaultSymbol) as Symbol;
     }
     if (hasValue(dnUniqueValueRenderer.field)) {
         uniqueValueRenderer.field = dnUniqueValueRenderer.field;
@@ -697,12 +712,6 @@ export function buildJsUniqueValueRenderer(dnUniqueValueRenderer: DotNetUniqueVa
     if (hasValue(dnUniqueValueRenderer.orderByClassesEnabled)) {
         uniqueValueRenderer.orderByClassesEnabled = dnUniqueValueRenderer.orderByClassesEnabled;
     }
-    if (hasValue(dnUniqueValueRenderer.uniqueValueGroups)) {
-        uniqueValueRenderer.uniqueValueGroups = dnUniqueValueRenderer.uniqueValueGroups;
-    }
-    if (hasValue(dnUniqueValueRenderer.uniqueValueInfos)) {
-        uniqueValueRenderer.uniqueValueInfos = dnUniqueValueRenderer.uniqueValueInfos;
-    }
     if (hasValue(dnUniqueValueRenderer.valueExpression)) {
         uniqueValueRenderer.valueExpression = dnUniqueValueRenderer.valueExpression;
     }
@@ -710,7 +719,7 @@ export function buildJsUniqueValueRenderer(dnUniqueValueRenderer: DotNetUniqueVa
         uniqueValueRenderer.valueExpressionTitle = dnUniqueValueRenderer.valueExpressionTitle;
     }
     if (hasValue(dnUniqueValueRenderer.visualVariables)) {
-        uniqueValueRenderer.visualVariables = dnUniqueValueRenderer.visualVariables;
+        uniqueValueRenderer.visualVariables = dnUniqueValueRenderer.visualVariables.map(buildJsVisualVariable) as VisualVariable[];
     }
     return uniqueValueRenderer;
 }
@@ -719,12 +728,6 @@ export function buildJsClassBreaksRenderer(dnClassBreaksRenderer: DotNetClassBre
     if (dnClassBreaksRenderer === undefined) return null;
     let classBreaksRenderer = new ClassBreaksRenderer();
     //Implements only the simple fill symbol PolygonSymbol3d is another option but can be implemented later
-    if (hasValue(dnClassBreaksRenderer.backgroundFillSymbol)) {
-        classBreaksRenderer.backgroundFillSymbol = dnClassBreaksRenderer.backgroundFillSymbol as DotNetSimpleFillSymbol;
-    }
-    if (hasValue(dnClassBreaksRenderer.classBreaksInfos)) {
-        classBreaksRenderer.classBreaksInfos = dnClassBreaksRenderer.classBreaksInfos;
-    }
     if (hasValue(dnClassBreaksRenderer.defaultLabel)) {
         classBreaksRenderer.defaultLabel = dnClassBreaksRenderer.defaultLabel;
     }
@@ -734,9 +737,6 @@ export function buildJsClassBreaksRenderer(dnClassBreaksRenderer: DotNetClassBre
     if (hasValue(dnClassBreaksRenderer.field)) {
         classBreaksRenderer.field = dnClassBreaksRenderer.field;
     }
-    if (hasValue(dnClassBreaksRenderer.legendOptions)) {
-        classBreaksRenderer.legendOptions = dnClassBreaksRenderer.legendOptions;
-    }
     if (hasValue(dnClassBreaksRenderer.normalizationField)) {
         classBreaksRenderer.normalizationField = dnClassBreaksRenderer.normalizationField;
     }
@@ -744,10 +744,7 @@ export function buildJsClassBreaksRenderer(dnClassBreaksRenderer: DotNetClassBre
         classBreaksRenderer.normalizationTotal = dnClassBreaksRenderer.normalizationTotal;
     }
     if (hasValue(dnClassBreaksRenderer.normalizationType)) {
-        classBreaksRenderer.normalizationType = dnClassBreaksRenderer.normalizationType;
-    }
-    if (hasValue(dnClassBreaksRenderer.type)) {
-        classBreaksRenderer.type = dnClassBreaksRenderer.type;
+        classBreaksRenderer.normalizationType = dnClassBreaksRenderer.normalizationType as any;
     }
     if (hasValue(dnClassBreaksRenderer.valueExpression)) {
         classBreaksRenderer.valueExpression = dnClassBreaksRenderer.valueExpression;
@@ -756,7 +753,7 @@ export function buildJsClassBreaksRenderer(dnClassBreaksRenderer: DotNetClassBre
         classBreaksRenderer.valueExpressionTitle = dnClassBreaksRenderer.valueExpressionTitle;
     }
     if (hasValue(dnClassBreaksRenderer.visualVariables)) {
-        classBreaksRenderer.visualVariables = dnClassBreaksRenderer.visualVariables;
+        classBreaksRenderer.visualVariables = dnClassBreaksRenderer.visualVariables.map(buildJsVisualVariable) as VisualVariable[];
     }
     return classBreaksRenderer;
 }
@@ -765,20 +762,17 @@ export function buildJsVectorFieldRenderer(dotNetVectorFieldRenderer: DotNetVect
     if (dotNetVectorFieldRenderer === undefined) return null;
     let vectorFieldRenderer = new VectorFieldRenderer();
 
-    if (hasValue(dotNetVectorFieldRenderer.attributeField)) {
-        vectorFieldRenderer.attributeField = dotNetVectorFieldRenderer.attributeField;
-    }
     if (hasValue(dotNetVectorFieldRenderer.flowRepresentation)) {
-        vectorFieldRenderer.flowRepresentation = dotNetVectorFieldRenderer.flowRepresentation;
+        vectorFieldRenderer.flowRepresentation = dotNetVectorFieldRenderer.flowRepresentation as any;
     }
     if (hasValue(dotNetVectorFieldRenderer.style)) {
-        vectorFieldRenderer.style = dotNetVectorFieldRenderer.style;
+        vectorFieldRenderer.style = dotNetVectorFieldRenderer.style as any;
     }
     if (hasValue(dotNetVectorFieldRenderer.symbolTileSize)) {
         vectorFieldRenderer.symbolTileSize = dotNetVectorFieldRenderer.symbolTileSize;
     }
     if (hasValue(dotNetVectorFieldRenderer.visualVariables)) {
-        vectorFieldRenderer.visualVariables = dotNetVectorFieldRenderer.visualVariables;
+        vectorFieldRenderer.visualVariables = dotNetVectorFieldRenderer.visualVariables.map(buildJsVisualVariable) as VisualVariable[];
     }
     return vectorFieldRenderer;
 }
@@ -810,37 +804,34 @@ export function buildJsFlowRenderer(dotNetFlowRenderer: DotNetFlowRenderer): Flo
     let flowRenderer = new FlowRenderer();
 
     if (hasValue(dotNetFlowRenderer.authoringInfo)) {
-        dotNetFlowRenderer.authoringInfo = flowRenderer.authoringInfo;
+        flowRenderer.authoringInfo = buildJsAuthoringInfo(dotNetFlowRenderer.authoringInfo);
     }
     if (hasValue(dotNetFlowRenderer.color)) {
-        dotNetFlowRenderer.color = flowRenderer.color;
+        flowRenderer.color = buildJsColor(dotNetFlowRenderer.color);
     }
     if (hasValue(dotNetFlowRenderer.density)) {
-        dotNetFlowRenderer.density = flowRenderer.density;
+        flowRenderer.density = dotNetFlowRenderer.density;
     }
     if (hasValue(dotNetFlowRenderer.flowRepresentation)) {
-        dotNetFlowRenderer.flowRepresentation = flowRenderer.flowRepresentation;
+        flowRenderer.flowRepresentation = dotNetFlowRenderer.flowRepresentation as any;
     }
     if (hasValue(dotNetFlowRenderer.flowSpeed)) {
-        dotNetFlowRenderer.flowSpeed = flowRenderer.flowSpeed;
-    }
-    if (hasValue(dotNetFlowRenderer.legendOptions)) {
-        dotNetFlowRenderer.legendOptions = flowRenderer.legendOptions;
+        flowRenderer.flowSpeed = dotNetFlowRenderer.flowSpeed;
     }
     if (hasValue(dotNetFlowRenderer.maxPathLength)) {
-        dotNetFlowRenderer.maxPathLength = flowRenderer.maxPathLength;
+        flowRenderer.maxPathLength = dotNetFlowRenderer.maxPathLength;
     }
     if (hasValue(dotNetFlowRenderer.trailCap)) {
-        dotNetFlowRenderer.trailCap = flowRenderer.trailCap;
+        flowRenderer.trailCap = dotNetFlowRenderer.trailCap as any;
     }
     if (hasValue(dotNetFlowRenderer.trailLength)) {
-        dotNetFlowRenderer.trailLength = flowRenderer.trailLength;
+        flowRenderer.trailLength = dotNetFlowRenderer.trailLength;
     }
     if (hasValue(dotNetFlowRenderer.trailWidth)) {
-        dotNetFlowRenderer.trailWidth = flowRenderer.trailWidth;
+        flowRenderer.trailWidth = dotNetFlowRenderer.trailWidth;
     }
     if (hasValue(dotNetFlowRenderer.visualVariables)) {
-        dotNetFlowRenderer.visualVariables = flowRenderer.visualVariables;
+        flowRenderer.visualVariables = dotNetFlowRenderer.visualVariables.map(buildJsVisualVariable) as VisualVariable[];
     }
     return flowRenderer;
 }
@@ -1137,7 +1128,6 @@ export function buildJsViewClickEvent(dotNetClickEvent: any): ViewClickEvent {
 
 export async function buildJsPopup(dotNetPopup: any, viewId: string): Promise<Popup> {
     let popup = new Popup({
-        actions: dotNetPopup.actions ?? [],
         alignment: dotNetPopup.alignment ?? "auto",
         content: dotNetPopup.content ?? null,
         title: dotNetPopup.title ?? null,
@@ -1152,6 +1142,10 @@ export async function buildJsPopup(dotNetPopup: any, viewId: string): Promise<Po
         label: dotNetPopup.label ?? '',
         spinnerEnabled: dotNetPopup.spinnerEnabled ?? true
     });
+    
+    if (hasValue(dotNetPopup.actions)) {
+        popup.actions = dotNetPopup.actions.map(buildJsPopupAction) as any;
+    }
 
     if (hasValue(dotNetPopup.location)) {
         popup.location = buildJsPoint(dotNetPopup.location) as Point;

@@ -1,18 +1,12 @@
-﻿export let Core;
+﻿let Core;
 export let arcGisObjectRefs;
-export let Color;
+let Color;
 
-(async () => {
-
-    try {
-        let Pro = await import("../dymaptic.GeoBlazor.Pro/js/arcGisPro.js");
-        Core = await Pro.getCore();
-    } catch {
-        Core = await import("../dymaptic.GeoBlazor.Core/js/arcGisJsInterop.js");
-    }
+export function initialize(core) {
+    Core = core;
     arcGisObjectRefs = Core.arcGisObjectRefs;
     Color = Core.Color;
-})();
+}
 
 export function assertBasemapHasTwoLayers(methodName) {
     let view = getView(methodName);
@@ -37,9 +31,16 @@ export function assertGraphicExistsInView(methodName, geometryType, count) {
     }
 }
 
-export function assertGraphicExistsInLayer(methodName, layerId, geometryType, count) {
+export async function assertGraphicExistsInLayer(methodName, layerId, geometryType, count) {
     let layer = arcGisObjectRefs[layerId];
-    let graphics = layer.graphics.items.filter(g => g.geometry.type === geometryType);
+    let graphics;
+    if (layer.declaredClass === 'esri.layers.FeatureLayer') {
+        let featureSet = await layer.queryFeatures();
+        graphics = featureSet.features;
+    } else {
+        graphics = layer.graphics.items.filter(g => g.geometry.type === geometryType);
+    }
+    
     if (graphics.length !== count) {
         throw new Error(`Expected ${count} graphics of type ${geometryType} but found ${graphics.length}`);
     }

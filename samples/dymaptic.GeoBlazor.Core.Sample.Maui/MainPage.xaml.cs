@@ -6,10 +6,6 @@ public partial class MainPage
     {
         InitializeComponent();
 
-        if (DeviceInfo.Model.Contains("Surface Duo"))
-        {
-            BlazorWebView.HostPage = "wwwroot/surface_duo_index.html";
-        }
 #if ANDROID26_0_OR_GREATER
         BlazorWebView.BlazorWebViewInitialized += OnBlazorWebViewInitialized;
 #endif

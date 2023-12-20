@@ -24,7 +24,8 @@
          Longitude="_longitude"
          Latitude="_latitude"
          Zoom="_zoom"
-         Rotation="_rotation">
+         Rotation="_rotation"
+         OnViewRendered="OnViewRendered">
     <Map>
         <Basemap>
             <PortalItem Id="826498a48bd0424f9c9315214f2165d4" />
@@ -43,6 +44,11 @@
 
 @code
 {
+    private void OnViewRendered()
+    {
+        Console.WriteLine("View Rendered");
+    }
+    
     private async Task GetExtent()
     {
         Extent? extent = await MapView!.GetExtent();
