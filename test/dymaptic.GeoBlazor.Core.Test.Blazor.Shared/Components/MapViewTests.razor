@@ -1,0 +1,27 @@
+﻿@inherits TestRunnerBase
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+
+    [TestMethod]
+    public async Task TestCanSetCenter(Action renderHandler)
+    {
+        MapView? view = null;
+        AddMapRenderFragment(
+        @<MapView @ref="view" class="map-view" OnViewRendered="renderHandler">
+            <Map ArcGISDefaultBasemap="arcgis-imagery" />
+        </MapView>);
+        await WaitForMapToRender();
+
+        Point center = (await view!.GetCenter())!;
+        Extent extent = (await view!.GetExtent())!;
+        Point newCenter = new Point(center.X + 10, center.Y + 10);
+        await view!.SetCenter(newCenter);
+        Extent newExtent = (await view.GetExtent())!;
+        Assert.AreNotEqual(extent, newExtent);
+    }
+
+}

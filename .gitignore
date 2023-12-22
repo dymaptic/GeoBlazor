@@ -375,8 +375,8 @@ MigrationBackup/
 /test/dymaptic.GeoBlazor.Core.Test.Blazor.Wasm/wwwroot/appsettings.json
 /samples/dymaptic.GeoBlazor.Core.Sample.WebApp.Client/wwwroot/appsettings.json
 
-!/templates/content/GeoBlazor.Template.WebAssembly/wwwroot/appsettings.json
-!/templates/content/GeoBlazor.Template.Server/appsettings.json
-!/templates/content/GeoBlazor.Template.Maui/appsettings.json
-!/templates/content/GeoBlazor.Template.WebApp/GeoBlazor.Template.WebApp/appsettings.json
-!/templates/content/GeoBlazor.Template.WebApp/GeoBlazor.Template.WebApp.Client/wwwroot/appsettings.json
+!/templates/content/dymaptic.GeoBlazor.Template.WebAssembly/wwwroot/appsettings.json
+!/templates/content/dymaptic.GeoBlazor.Template.Server/appsettings.json
+!/templates/content/dymaptic.GeoBlazor.Template.Maui/appsettings.json
+!/templates/content/dymaptic.GeoBlazor.Template.WebApp/dymaptic.GeoBlazor.Template.WebApp/appsettings.json
+!/templates/content/dymaptic.GeoBlazor.Template.WebApp/dymaptic.GeoBlazor.Template.WebApp.Client/wwwroot/appsettings.json

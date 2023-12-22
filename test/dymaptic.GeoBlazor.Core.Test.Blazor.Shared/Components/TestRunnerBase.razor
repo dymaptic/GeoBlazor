@@ -88,8 +88,15 @@
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
-        _jsObjectReference ??= await JsRuntime.InvokeAsync<IJSObjectReference>("import", 
-            "./_content/dymaptic.GeoBlazor.Core.Test.Blazor.Shared/testRunner.js");
+
+        if (_jsObjectReference is null)
+        {
+            IJSObjectReference? proJs = await JsModuleManager.GetArcGisJsPro(JsRuntime, default);
+            IJSObjectReference coreJs = await JsModuleManager.GetArcGisJsCore(JsRuntime, proJs, default);
+            _jsObjectReference = await JsRuntime.InvokeAsync<IJSObjectReference>("import", 
+                "./_content/dymaptic.GeoBlazor.Core.Test.Blazor.Shared/testRunner.js");
+            await _jsObjectReference.InvokeVoidAsync("initialize", coreJs);
+        }
     }
 
     protected void AddMapRenderFragment(RenderFragment fragment, [CallerMemberName] string methodName = "")

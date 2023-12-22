@@ -40,14 +40,18 @@ public class Graphic : LayerObject
     /// <param name="attributes">
     ///     Name-value pairs of fields and field values associated with the graphic.
     /// </param>
+    /// <param name="visible">
+    ///     Indicates the visibility of the graphic.
+    /// </param>
     public Graphic(Geometry? geometry = null, Symbol? symbol = null, PopupTemplate? popupTemplate = null,
-        AttributesDictionary? attributes = null)
+        AttributesDictionary? attributes = null, bool? visible = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         Geometry = geometry;
         Symbol = symbol;
         PopupTemplate = popupTemplate;
+        Visible = visible;
 
         if (attributes is not null)
         {
@@ -68,6 +72,13 @@ public class Graphic : LayerObject
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public AttributesDictionary Attributes { get; set; } = new();
+    
+    /// <summary>
+    ///     Indicates the visibility of the graphic. Default value: true.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? Visible { get; set; }
 
     /// <summary>
     ///     The geometry that defines the graphic's location.

@@ -33,6 +33,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Views;
 /// </example>
 public partial class MapView : MapComponent
 {
+#region Injected Services
     /// <summary>
     ///     A set of key/value application configuration properties, that can be populated from `appsettings.json, environment
     ///     variables, or other sources.
@@ -51,74 +52,8 @@ public partial class MapView : MapComponent
     /// </summary>
     [Inject]
     private IAppValidator AppValidator { get; set; } = default!;
-
-    /// <summary>
-    ///     Boolean flag to identify if GeoBlazor is running in Blazor Server mode
-    /// </summary>
-    public bool IsServer => JsRuntime.GetType().Name.Contains("Remote");
-
-    /// <summary>
-    ///     Boolean flag to identify if GeoBlazor is running in Blazor WebAssembly (client) mode
-    /// </summary>
-    public bool IsWebAssembly => OperatingSystem.IsBrowser();
-
-    /// <summary>
-    ///     Boolean flag to identify if GeoBlazor is running in Blazor Hybrid (MAUI) mode
-    /// </summary>
-    public bool IsMaui => JsRuntime.GetType().Name.Contains("WebView");
-    /// <summary>
-    ///     A boolean flag to indicate that the map extent has been modified in JavaScript, and therefore should not be
-    ///     modifiable by markup until <see cref="Refresh" /> is called
-    /// </summary>
-    public bool ExtentChangedInJs = false;
-
-    /// <summary>
-    ///     A reference to the arcGisJsInterop module
-    /// </summary>
-    protected IJSObjectReference? ViewJsModule;
-
-    /// <summary>
-    ///     Optional reference to the Pro library JS module
-    /// </summary>
-    protected IJSObjectReference? ProJsViewModule;
-
-    /// <summary>
-    ///     A boolean flag to indicate that rendering is underway
-    /// </summary>
-    protected bool Rendering;
-
-    /// <summary>
-    ///     A boolean flag to indicate a "dirty" state that needs to be re-rendered
-    /// </summary>
-    protected bool NeedsRender = true;
-
-    /// <summary>
-    ///     A boolean flag to indicate that the map should update parameters (lat, lon, zoom, etc)
-    /// </summary>
-    protected bool ShouldUpdate = true;
-    /// <summary>
-    ///     A boolean flag to indicate that the map extent has been modified in code, and therefore should not be modifiable by
-    ///     markup until <see cref="Refresh" /> is called
-    /// </summary>
-    protected bool ExtentSetByCode = false;
-    /// <summary>
-    ///     Indicates that the pointer is currently down, to prevent updating the extent during this action.
-    /// </summary>
-    protected bool PointerDown;
-    private SpatialReference? _spatialReference;
-    private Dictionary<Guid, StringBuilder> _hitTestResults = new();
-    private bool _renderCalled;
-    private bool _shouldRender = true;
-    private Dictionary<string, StringBuilder> _layerCreateData = new();
-    private Dictionary<string, StringBuilder> _layerViewCreateData = new();
-    private HashSet<Graphic> _graphics = new();
-    private HashSet<Widget> _widgets = new();
-
-    /// <summary>
-    ///     A reference to the JavaScript AbortManager for this component.
-    /// </summary>
-    protected AbortManager? AbortManager;
-    private bool _authenticationInitialized;
+#endregion
+    
 
 
 #region Parameters
@@ -211,11 +146,16 @@ public partial class MapView : MapComponent
     /// </summary>
     [Parameter]
     public bool? PromptForOAuthLogin { get; set; }
+    
+    [Parameter]
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+    public string? WhiteLabel { get; set; }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
 #endregion
 
 
-#region Properties
+#region Public Properties
 
     /// <summary>
     ///     The collection of <see cref="Widget" />s in the view.
@@ -241,7 +181,31 @@ public partial class MapView : MapComponent
     /// </summary>
     [RequiredProperty]
     public virtual Map? Map { get; private set; }
+    
+    /// <summary>
+    ///     Boolean flag to identify if GeoBlazor is running in Blazor Server mode
+    /// </summary>
+    public bool IsServer => JsRuntime.GetType().Name.Contains("Remote");
 
+    /// <summary>
+    ///     Boolean flag to identify if GeoBlazor is running in Blazor WebAssembly (client) mode
+    /// </summary>
+    public bool IsWebAssembly => OperatingSystem.IsBrowser();
+
+    /// <summary>
+    ///     Boolean flag to identify if GeoBlazor is running in Blazor Hybrid (MAUI) mode
+    /// </summary>
+    public bool IsMaui => JsRuntime.GetType().Name.Contains("WebView");
+    
+    /// <summary>
+    ///     A boolean flag to indicate that the map extent has been modified in JavaScript, and therefore should not be
+    ///     modifiable by markup until <see cref="Refresh" /> is called
+    /// </summary>
+    public bool ExtentChangedInJs { get; set; }
+    
+#endregion
+    
+#region Internal Properties
     /// <summary>
     ///     The extent represents the visible portion of a map within the view as an instance of Extent.
     /// </summary>
@@ -1022,7 +986,7 @@ public partial class MapView : MapComponent
 #endregion
 
 
-#region Methods
+#region Public Methods
 
     /// <inheritdoc />
     public override void Refresh()
@@ -1042,149 +1006,6 @@ public partial class MapView : MapComponent
         _renderCalled = true;
         NeedsRender = true;
         StateHasChanged();
-    }
-
-    /// <summary>
-    ///     Updates properties directly on the view.
-    /// </summary>
-    protected virtual async Task UpdateView()
-    {
-        if (!MapRendered || !ShouldUpdate || ExtentSetByCode || ExtentChangedInJs || PointerDown)
-        {
-            return;
-        }
-
-        ShouldUpdate = false;
-
-        ViewExtentUpdate change = await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("updateView",
-            CancellationTokenSource.Token,
-            new
-            {
-                Id,
-                Latitude,
-                Longitude,
-                Zoom,
-                Rotation
-            });
-        Extent = change.Extent;
-        ShouldUpdate = true;
-    }
-
-    /// <inheritdoc />
-    protected override bool ShouldRender()
-    {
-        return _shouldRender;
-    }
-
-    /// <inheritdoc />
-    public override async Task RegisterChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case Map m:
-                if (!m.Equals(Map))
-                {
-                    Map = m;
-                    await RenderView();
-                }
-
-                break;
-
-            case Widget widget:
-                await AddWidget(widget);
-
-                break;
-            case Graphic graphic:
-                await AddGraphic(graphic);
-
-                break;
-            case SpatialReference spatialReference:
-                await SetSpatialReference(spatialReference);
-
-                break;
-            case Constraints constraints:
-                await SetConstraints(constraints);
-
-                break;
-            case Extent extent:
-                if (ExtentChangedInJs)
-                {
-                    return; // once a user has moved the map, we shouldn't be able to re-use the originally set extent in markup
-                }
-
-                await SetExtent(extent);
-
-                break;
-            case HighlightOptions highlightOptions:
-                await SetHighlightOptions(highlightOptions);
-
-                break;
-            default:
-                await base.RegisterChildComponent(child);
-
-                break;
-        }
-    }
-
-    /// <inheritdoc />
-    public override async Task UnregisterChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case Map _:
-                Map = null;
-
-                break;
-
-            case Widget widget:
-                await RemoveWidget(widget);
-
-                break;
-            case Graphic graphic:
-                await RemoveGraphic(graphic);
-
-                break;
-            case Constraints _:
-                Constraints = null;
-
-                break;
-            case SpatialReference _:
-                SpatialReference = null;
-
-                break;
-            case Extent _:
-                Extent = null;
-
-                break;
-            case HighlightOptions _:
-                HighlightOptions = null;
-
-                break;
-            default:
-                await base.UnregisterChildComponent(child);
-
-                break;
-        }
-    }
-
-    /// <inheritdoc />
-    internal override void ValidateRequiredChildren()
-    {
-        base.ValidateRequiredChildren();
-        Map?.ValidateRequiredChildren();
-        Constraints?.ValidateRequiredChildren();
-        SpatialReference?.ValidateRequiredChildren();
-        Extent?.ValidateRequiredChildren();
-
-        foreach (Graphic graphic in Graphics)
-        {
-            graphic.ValidateRequiredChildren();
-        }
-
-        foreach (Widget widget in Widgets)
-        {
-            widget.ValidateRequiredChildren();
-        }
     }
 
     /// <summary>
@@ -1982,35 +1803,6 @@ public partial class MapView : MapComponent
         return await HitTestImplementation(screenPoint, options, false);
     }
 
-    private async Task<HitTestResult> HitTestImplementation(object pointObject, HitTestOptions? options,
-        bool isEvent)
-    {
-        try
-        {
-            if (IsServer)
-            {
-                var eventId = Guid.NewGuid();
-
-                await ViewJsModule!.InvokeVoidAsync("hitTest", CancellationTokenSource.Token,
-                    pointObject, eventId, Id, isEvent, options);
-                var json = _hitTestResults[eventId].ToString();
-                _hitTestResults.Remove(eventId);
-
-                return JsonSerializer.Deserialize<HitTestResult>(json,
-                    new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
-            }
-
-            return await ViewJsModule!.InvokeAsync<HitTestResult>("hitTest",
-                CancellationTokenSource.Token, pointObject, null, Id, isEvent, options);
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex);
-        }
-
-        return new HitTestResult(new ViewHit[] { }, new ScreenPoint(1, 1));
-    }
-
     /// <summary>
     ///     Converts the given screen point to a map point. The screen point represents a point in terms of pixels relative to the top-left corner of the view.
     /// </summary>
@@ -2086,6 +1878,82 @@ public partial class MapView : MapComponent
         }
     }
 
+    /// <summary>
+    ///     Adds a widget to the view.
+    /// </summary>
+    public async Task AddWidget(Widget widget)
+    {
+        if (!_widgets.Contains(widget))
+        {
+            _widgets.Add(widget);
+            widget.Parent ??= this;
+            widget.View ??= this;
+            widget.JsModule ??= ViewJsModule;
+        }
+
+        if (ViewJsModule is null) return;
+
+        while (Rendering)
+        {
+            await Task.Delay(100);
+        }
+
+        await InvokeAsync(async () =>
+        {
+            if (widget.GetType().Namespace!.Contains("Core"))
+            {
+                await ViewJsModule!.InvokeVoidAsync("addWidget",
+                    CancellationTokenSource.Token, widget, Id);
+            }
+            else
+            {
+                await ProJsViewModule!.InvokeVoidAsync("addProWidget",
+                    CancellationTokenSource.Token, widget, Id);
+            }
+        });
+
+        if (widget is PopupWidget)
+        {
+            // we have to update the layers to make sure the popupTemplates aren't unset by this action
+            foreach (Layer layer in Map!.Layers.Where(l => l is FeatureLayer { PopupTemplate: not null }))
+            {
+                // ReSharper disable once RedundantCast
+                await JsModule!.InvokeVoidAsync("updateLayer", CancellationTokenSource.Token,
+                    (object)layer, Id);
+            }
+        }
+    }
+
+    /// <summary>
+    ///     Removes a widget from the view.
+    /// </summary>
+    public async Task RemoveWidget(Widget widget)
+    {
+        if (ViewJsModule is null) return;
+
+        if (_widgets.Contains(widget))
+        {
+            _widgets.Remove(widget);
+            widget.Parent = null;
+        }
+
+        await InvokeAsync(async () =>
+        {
+            try
+            {
+                await ViewJsModule!.InvokeVoidAsync("removeWidget",
+                    CancellationTokenSource.Token, widget.Id, Id);
+            }
+            catch (JSDisconnectedException)
+            {
+                // ignore, dispose is called by Blazor too early
+            }
+        });
+    }
+
+#endregion
+    
+#region Lifecycle Methods
     /// <inheritdoc />
     protected override async Task OnParametersSetAsync()
     {
@@ -2244,80 +2112,204 @@ public partial class MapView : MapComponent
           
         });
     }
-
+#endregion
+    
+#region Internal Methods
     /// <summary>
-    ///     Adds a widget to the view.
+    ///     Updates properties directly on the view.
     /// </summary>
-    public async Task AddWidget(Widget widget)
+    protected virtual async Task UpdateView()
     {
-        if (!_widgets.Contains(widget))
+        if (!MapRendered || !ShouldUpdate || ExtentSetByCode || ExtentChangedInJs || PointerDown)
         {
-            _widgets.Add(widget);
-            widget.Parent ??= this;
-            widget.View ??= this;
-            widget.JsModule ??= ViewJsModule;
+            return;
         }
 
-        if (ViewJsModule is null) return;
+        ShouldUpdate = false;
 
-        while (Rendering)
+        ViewExtentUpdate? change = await ViewJsModule!.InvokeAsync<ViewExtentUpdate?>("updateView",
+            CancellationTokenSource.Token,
+            new
+            {
+                Id,
+                Latitude,
+                Longitude,
+                Zoom,
+                Rotation
+            });
+
+        if (change is not null)
         {
-            await Task.Delay(100);
+            Extent = change.Extent;
         }
+        ShouldUpdate = true;
+    }
 
-        await InvokeAsync(async () =>
-        {
-            if (widget.GetType().Namespace!.Contains("Core"))
-            {
-                await ViewJsModule!.InvokeVoidAsync("addWidget",
-                    CancellationTokenSource.Token, widget, Id);
-            }
-            else
-            {
-                await ProJsViewModule!.InvokeVoidAsync("addProWidget",
-                    CancellationTokenSource.Token, widget, Id);
-            }
-        });
+    /// <inheritdoc />
+    protected override bool ShouldRender()
+    {
+        return _shouldRender;
+    }
 
-        if (widget is PopupWidget)
+    /// <inheritdoc />
+    public override async Task RegisterChildComponent(MapComponent child)
+    {
+        switch (child)
         {
-            // we have to update the layers to make sure the popupTemplates aren't unset by this action
-            foreach (Layer layer in Map!.Layers.Where(l => l is FeatureLayer { PopupTemplate: not null }))
-            {
-                // ReSharper disable once RedundantCast
-                await JsModule!.InvokeVoidAsync("updateLayer", CancellationTokenSource.Token,
-                    (object)layer, Id);
-            }
+            case Map m:
+                if (!m.Equals(Map))
+                {
+                    Map = m;
+                    await RenderView();
+                }
+
+                break;
+
+            case Widget widget:
+                await AddWidget(widget);
+
+                break;
+            case Graphic graphic:
+                await AddGraphic(graphic);
+
+                break;
+            case SpatialReference spatialReference:
+                await SetSpatialReference(spatialReference);
+
+                break;
+            case Constraints constraints:
+                await SetConstraints(constraints);
+
+                break;
+            case Extent extent:
+                if (ExtentChangedInJs)
+                {
+                    return; // once a user has moved the map, we shouldn't be able to re-use the originally set extent in markup
+                }
+
+                await SetExtent(extent);
+
+                break;
+            case HighlightOptions highlightOptions:
+                await SetHighlightOptions(highlightOptions);
+
+                break;
+            default:
+                await base.RegisterChildComponent(child);
+
+                break;
         }
     }
 
-    /// <summary>
-    ///     Removes a widget from the view.
-    /// </summary>
-    public async Task RemoveWidget(Widget widget)
+    /// <inheritdoc />
+    public override async Task UnregisterChildComponent(MapComponent child)
     {
-        if (ViewJsModule is null) return;
-
-        if (_widgets.Contains(widget))
+        switch (child)
         {
-            _widgets.Remove(widget);
-            widget.Parent = null;
+            case Map _:
+                Map = null;
+
+                break;
+
+            case Widget widget:
+                await RemoveWidget(widget);
+
+                break;
+            case Graphic graphic:
+                await RemoveGraphic(graphic);
+
+                break;
+            case Constraints _:
+                Constraints = null;
+
+                break;
+            case SpatialReference _:
+                SpatialReference = null;
+
+                break;
+            case Extent _:
+                Extent = null;
+
+                break;
+            case HighlightOptions _:
+                HighlightOptions = null;
+
+                break;
+            default:
+                await base.UnregisterChildComponent(child);
+
+                break;
+        }
+    }
+
+    /// <inheritdoc />
+    internal override void ValidateRequiredChildren()
+    {
+        base.ValidateRequiredChildren();
+        Map?.ValidateRequiredChildren();
+        Constraints?.ValidateRequiredChildren();
+        SpatialReference?.ValidateRequiredChildren();
+        Extent?.ValidateRequiredChildren();
+
+        foreach (Graphic graphic in Graphics)
+        {
+            graphic.ValidateRequiredChildren();
         }
 
-        await InvokeAsync(async () =>
+        foreach (Widget widget in Widgets)
+        {
+            widget.ValidateRequiredChildren();
+        }
+    }
+    
+    private async Task<HitTestResult> HitTestImplementation(object pointObject, HitTestOptions? options,
+        bool isEvent)
+    {
+        try
+        {
+            if (IsServer)
+            {
+                var eventId = Guid.NewGuid();
+
+                await ViewJsModule!.InvokeVoidAsync("hitTest", CancellationTokenSource.Token,
+                    pointObject, eventId, Id, isEvent, options);
+                var json = _hitTestResults[eventId].ToString();
+                _hitTestResults.Remove(eventId);
+
+                return JsonSerializer.Deserialize<HitTestResult>(json,
+                    new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
+            }
+
+            return await ViewJsModule!.InvokeAsync<HitTestResult>("hitTest",
+                CancellationTokenSource.Token, pointObject, null, Id, isEvent, options);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+        }
+
+        return new HitTestResult(new ViewHit[] { }, new ScreenPoint(1, 1));
+    }
+    
+    private bool IsPro()
+    {
+        if (_isPro is null)
         {
             try
             {
-                await ViewJsModule!.InvokeVoidAsync("removeWidget",
-                    CancellationTokenSource.Token, widget.Id, Id);
-            }
-            catch (JSDisconnectedException)
-            {
-                // ignore, dispose is called by Blazor too early
-            }
-        });
-    }
+                Assembly _ = Assembly.Load("dymaptic.GeoBlazor.Pro");
 
+                _isPro = true;
+            }
+            catch
+            {
+                _isPro = false;
+            }
+        }
+        
+        return _isPro.Value;
+    }
+    
     /// <summary>
     ///     Retrieves all <see cref="EventCallback" />s and <see cref="Func{TResult}" />s that are listening for JavaScript
     ///     events.
@@ -2370,6 +2362,58 @@ public partial class MapView : MapComponent
 
         return activeHandlers;
     }
+    
+#endregion
+    
+#region Internal Fields
+    /// <summary>
+    ///     A reference to the arcGisJsInterop module
+    /// </summary>
+    protected IJSObjectReference? ViewJsModule;
 
+    /// <summary>
+    ///     Optional reference to the Pro library JS module
+    /// </summary>
+    protected IJSObjectReference? ProJsViewModule;
+
+    /// <summary>
+    ///     A boolean flag to indicate that rendering is underway
+    /// </summary>
+    protected bool Rendering;
+
+    /// <summary>
+    ///     A boolean flag to indicate a "dirty" state that needs to be re-rendered
+    /// </summary>
+    protected bool NeedsRender = true;
+
+    /// <summary>
+    ///     A boolean flag to indicate that the map should update parameters (lat, lon, zoom, etc)
+    /// </summary>
+    protected bool ShouldUpdate = true;
+    /// <summary>
+    ///     A boolean flag to indicate that the map extent has been modified in code, and therefore should not be modifiable by
+    ///     markup until <see cref="Refresh" /> is called
+    /// </summary>
+    protected bool ExtentSetByCode = false;
+    /// <summary>
+    ///     Indicates that the pointer is currently down, to prevent updating the extent during this action.
+    /// </summary>
+    protected bool PointerDown;
+    /// <summary>
+    ///     A reference to the JavaScript AbortManager for this component.
+    /// </summary>
+    protected AbortManager? AbortManager;
+    
+    private SpatialReference? _spatialReference;
+    private Dictionary<Guid, StringBuilder> _hitTestResults = new();
+    private bool _renderCalled;
+    private bool _shouldRender = true;
+    private Dictionary<string, StringBuilder> _layerCreateData = new();
+    private Dictionary<string, StringBuilder> _layerViewCreateData = new();
+    private HashSet<Graphic> _graphics = new();
+    private HashSet<Widget> _widgets = new();
+    private bool? _isPro;
+    private bool _authenticationInitialized;
+    
 #endregion
 }
