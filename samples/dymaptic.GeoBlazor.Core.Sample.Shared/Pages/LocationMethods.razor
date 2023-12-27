@@ -6,13 +6,31 @@
 
 <div class="form-group" style="border: 1px solid black; padding: 0.5rem;">
 
-    <h2>Address To Locations method</h2>
-    <code>var address = await Location.LocationToAddress(new Point(longitude: -111.93, latitude: 40.74));</code>
+    <h2>Addresses To Locations method</h2>
+    <code>var locations =  _locations2 = await Location.AddressesToLocations([new Address("380 New York Street", "Redlands", "CA", "92373"), new Address("400 New York Street", "Redlands", "CA", "92373")]);</code>
     <br />
     <br />
     <label>
 
-        <button @onclick="AddressToLocation">Address To Locations</button>
+        <button @onclick="AddressesToLocations">Addresses To Locations</button>
+        <br />
+        <b>Address Candidates:</b>
+        @foreach (var location in _locations2)
+        {
+            <div>@location?.Address  @location?.Score</div>
+            <br />
+        }
+    </label>
+</div>
+<div class="form-group" style="border: 1px solid black; padding: 0.5rem;">
+
+    <h2>Address To Locations method</h2>
+    <code>var locations = await Location.AddressToLocations(new Address("380 New York Street", "Redlands", "CA", "92373"), outFields:new(){"*"});</code>
+    <br />
+    <br />
+    <label>
+
+        <button @onclick="AddressToLocations">Address To Locations</button>
         <br />
         <b>Address Candidates:</b>
         @foreach (var location in _locations1)
@@ -68,6 +86,20 @@
     List<SuggestionResult> _suggestions = new();
     AddressCandidate? _address = null;
     List<AddressCandidate> _locations1 = new();
+    List<AddressCandidate> _locations2 = new();
+
+
+
+
+    private async Task AddressesToLocations()
+    {
+        _locations2 = await Location.AddressesToLocations([new Address("380 New York Street", "Redlands", "CA", "92373"), new Address("400 New York Street", "Redlands", "CA", "92373")]);
+    }
+
+    private async Task AddressToLocations()
+    {
+        _locations1 = await Location.AddressToLocations(new Address("380 New York Street", "Redlands", "CA", "92373"), outFields: new() { "*" });
+    }
 
     private async Task SuggestLocations()
     {
@@ -79,9 +111,5 @@
         _address = await Location.LocationToAddress(new Point(longitude: -111.93, latitude: 40.74));
     }
 
-    private async Task AddressToLocation()
-    {
-        _locations1 = await Location.AddressToLocations(new Address("380 New York Street", "Redlands", "CA", "92373"));
-    }
 
 }

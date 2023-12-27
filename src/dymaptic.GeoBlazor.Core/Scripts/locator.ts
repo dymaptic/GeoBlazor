@@ -3,9 +3,7 @@ import SpatialReference from "@arcgis/core/geometry/SpatialReference";
 import Point from "@arcgis/core/geometry/Point";
 import { buildJsPoint, buildJsSpatialReference, buildJsExtent } from "./jsBuilder";
 import { DotNetPoint, DotNetSpatialReference, DotNetAddressCandidate, DotNetExtent } from "./definitions";
-import {
-    buildDotNetPoint, buildDotNetAddressCandidate
-} from "./dotNetBuilder";
+import { buildDotNetAddressCandidate } from "./dotNetBuilder";
 import { arcGisObjectRefs, copyValuesIfExists, hasValue } from "./arcGisJsInterop";
 import locatorSuggestLocationsParams = __esri.locatorSuggestLocationsParams;
 import locatorLocationToAddressParams = __esri.locatorLocationToAddressParams
@@ -23,7 +21,39 @@ export default class LocatorWrapper {
     //TODO
     url = "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer";
 
-    async addressToLocations(address: any, categories: string[], countryCode: string, forStorage: boolean, location: Point, locationType: string, magicKey: string, maxLocations: number, outFields: string[], outSpatialReference: DotNetSpatialReference, searchExtent: DotNetExtent): Promise<DotNetAddressCandidate[] | null> {
+    async addressesToLocations(addresses: object[], categories: string[], countryCode: string, locationType: string, outSpatialReference: DotNetSpatialReference): Promise<DotNetAddressCandidate[] | null> {
+        try {
+            var asd = [
+                {
+                    "OBJECTID": 0,
+                    "Single Line Input": "77 Main St, Plymouth, NH 03264"
+                }];
+            var params = { addresses: asd } as locatorAddressesToLocationsParams;
+            if (hasValue(categories)) {
+                params.categories = categories;
+            }
+            if (hasValue(countryCode)) {
+                params.countryCode = countryCode;
+            }
+
+            if (hasValue(locationType)) {
+                params.locationType = locationType;
+            }
+            if (hasValue(outSpatialReference)) {
+                params.outSpatialReference = buildJsSpatialReference(outSpatialReference);
+            }
+
+            var result = await locator.addressesToLocations(this.url, params);
+
+            return result.map(r => buildDotNetAddressCandidate(r));
+
+        } catch (error) {
+            this.logError(error);
+            throw error;
+        }
+    }
+
+    async addressToLocations(address: any, categories: string[], countryCode: string, forStorage: boolean, location: DotNetPoint, locationType: string, magicKey: string, maxLocations: number, outFields: string[], outSpatialReference: DotNetSpatialReference, searchExtent: DotNetExtent): Promise<DotNetAddressCandidate[] | null> {
         try {
             var params = { address: address } as locatorAddressToLocationsParams;
             if (hasValue(categories)) {
@@ -59,10 +89,7 @@ export default class LocatorWrapper {
 
             var result = await locator.addressToLocations(this.url, params);
 
-
-            var asd = result.map(r => buildDotNetAddressCandidate(r));
-
-            return null;
+            return result.map(r => buildDotNetAddressCandidate(r));
 
         } catch (error) {
             this.logError(error);
@@ -91,11 +118,11 @@ export default class LocatorWrapper {
 
     async suggestLocations(location: DotNetPoint, text: string, categories: string[]): Promise<SuggestionResult[] | null> {
         try {
+
             var params = { location: buildJsPoint(location), text: text } as locatorSuggestLocationsParams;
             if (hasValue(categories)) {
                 params.categories = categories;
             }
-
             return await locator.suggestLocations(this.url, params);
 
         } catch (error) {
@@ -103,7 +130,6 @@ export default class LocatorWrapper {
             throw error;
         }
     }
-
 
     logError(error) {
         error.message ??= error.toString();

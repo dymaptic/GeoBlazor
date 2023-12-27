@@ -472,7 +472,7 @@ export function buildDotNetFields(fields: Array<Field>): Array<DotNetField> {
                 defaultValue: f.defaultValue,
                 description: f.description,
                 valueType: f.valueType
-            } as DotNetField)
+            } as DotNetField);
         });
     }
     return dotNetFields;
@@ -1150,8 +1150,7 @@ export function buildDotNetAuthoringInfo(jsAuthoringInfo: AuthoringInfo): any {
 
 export function buildDotNetAddressCandidate(addressCandidate: AddressCandidate): DotNetAddressCandidate | null {
     if (addressCandidate === undefined || addressCandidate === null) return null;
-    
-    //TODO these are name/value pairs
+
     return {
         address: addressCandidate.address,
         attributes: addressCandidate.attributes,
