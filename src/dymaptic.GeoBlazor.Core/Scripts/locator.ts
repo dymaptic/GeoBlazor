@@ -18,17 +18,10 @@ export default class LocatorWrapper {
         this.dotNetRef = dotNetReference;
     }
 
-    //TODO
-    url = "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer";
-
-    async addressesToLocations(addresses: object[], categories: string[], countryCode: string, locationType: string, outSpatialReference: DotNetSpatialReference): Promise<DotNetAddressCandidate[] | null> {
+    async addressesToLocations(url: string, addresses: object[], categories: string[], countryCode: string, locationType: string, outSpatialReference: DotNetSpatialReference): Promise<DotNetAddressCandidate[] | null> {
         try {
-            var asd = [
-                {
-                    "OBJECTID": 0,
-                    "Single Line Input": "77 Main St, Plymouth, NH 03264"
-                }];
-            var params = { addresses: asd } as locatorAddressesToLocationsParams;
+
+            var params = { addresses: addresses } as locatorAddressesToLocationsParams;
             if (hasValue(categories)) {
                 params.categories = categories;
             }
@@ -43,7 +36,7 @@ export default class LocatorWrapper {
                 params.outSpatialReference = buildJsSpatialReference(outSpatialReference);
             }
 
-            var result = await locator.addressesToLocations(this.url, params);
+            var result = await locator.addressesToLocations(url, params);
 
             return result.map(r => buildDotNetAddressCandidate(r));
 
@@ -53,7 +46,7 @@ export default class LocatorWrapper {
         }
     }
 
-    async addressToLocations(address: any, categories: string[], countryCode: string, forStorage: boolean, location: DotNetPoint, locationType: string, magicKey: string, maxLocations: number, outFields: string[], outSpatialReference: DotNetSpatialReference, searchExtent: DotNetExtent): Promise<DotNetAddressCandidate[] | null> {
+    async addressToLocations(url: string, address: any, categories: string[], countryCode: string, forStorage: boolean, location: DotNetPoint, locationType: string, magicKey: string, maxLocations: number, outFields: string[], outSpatialReference: DotNetSpatialReference, searchExtent: DotNetExtent): Promise<DotNetAddressCandidate[] | null> {
         try {
             var params = { address: address } as locatorAddressToLocationsParams;
             if (hasValue(categories)) {
@@ -87,7 +80,7 @@ export default class LocatorWrapper {
                 params.searchExtent = buildJsExtent(searchExtent, null);
             }
 
-            var result = await locator.addressToLocations(this.url, params);
+            var result = await locator.addressToLocations(url, params);
 
             return result.map(r => buildDotNetAddressCandidate(r));
 
@@ -97,7 +90,7 @@ export default class LocatorWrapper {
         }
     }
 
-    async locationToAddress(location: DotNetPoint, locationType: string, outSpatialReference: DotNetSpatialReference): Promise<DotNetAddressCandidate | null> {
+    async locationToAddress(url: string, location: DotNetPoint, locationType: string, outSpatialReference: DotNetSpatialReference): Promise<DotNetAddressCandidate | null> {
         try {
             var params = { location: buildJsPoint(location) } as locatorLocationToAddressParams;
             if (hasValue(locationType)) {
@@ -106,7 +99,7 @@ export default class LocatorWrapper {
             if (hasValue(outSpatialReference)) {
                 params.outSpatialReference = buildJsSpatialReference(outSpatialReference);
             }
-            var result = await locator.locationToAddress(this.url, params);
+            var result = await locator.locationToAddress(url, params);
 
             return buildDotNetAddressCandidate(result);
 
@@ -116,14 +109,14 @@ export default class LocatorWrapper {
         }
     }
 
-    async suggestLocations(location: DotNetPoint, text: string, categories: string[]): Promise<SuggestionResult[] | null> {
+    async suggestLocations(url: string, location: DotNetPoint, text: string, categories: string[]): Promise<SuggestionResult[] | null> {
         try {
 
             var params = { location: buildJsPoint(location), text: text } as locatorSuggestLocationsParams;
             if (hasValue(categories)) {
                 params.categories = categories;
             }
-            return await locator.suggestLocations(this.url, params);
+            return await locator.suggestLocations(url, params);
 
         } catch (error) {
             this.logError(error);
