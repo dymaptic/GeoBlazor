@@ -20,7 +20,7 @@ import {
     buildJsRelationshipQuery,
     buildJsTopFeaturesQuery,
     buildJsPortalItem,
-    buildJsGraphic, buildJsEffect
+    buildJsGraphic, buildJsEffect, buildJsAttachmentEdit
 } from "./jsBuilder";
 import {
     buildDotNetExtent,
@@ -32,8 +32,14 @@ import {
     buildDotNetFeatureLayer,
     buildDotNetDomain,
     buildDotNetFeatureType,
+    buildDotNetEditsResult,
 } from "./dotNetBuilder";
-import { blazorServer, dotNetRefs, graphicsRefs } from "./arcGisJsInterop";
+import {
+    blazorServer,
+    dotNetRefs,
+    graphicsRefs,
+    getGraphicsFromProtobufStream, arcGisObjectRefs, hasValue, decodeProtobufGraphics
+} from "./arcGisJsInterop";
 import Graphic from "@arcgis/core/Graphic";
 
 export default class FeatureLayerWrapper {
@@ -246,17 +252,102 @@ export default class FeatureLayerWrapper {
             extent: buildDotNetExtent(result.extent)
         };
     }
-
-    async applyEdits(edits: DotNetApplyEdits, options: any, viewId: string): Promise<any> {
-        let jsEdits = buildJsApplyEdits(edits, viewId);
-        let result;
+    
+    async applyGraphicEditsFromStream(streamRef: any, editType: string, options: any, 
+                               viewId: string, abortSignal: AbortSignal): Promise<any> {
+        if (abortSignal.aborted) {
+            return;
+        }
+        let graphics = await getGraphicsFromProtobufStream(streamRef) as any[];
+        return await this.applyGraphicEdits(graphics, editType, options, viewId, abortSignal);
+    }
+    
+    async applyGraphicEditsSynchronously(graphicsArray: Uint8Array, editType: string, options: any, 
+                                  viewId: string, abortSignal: AbortSignal): Promise<any> {
+        if (abortSignal.aborted) {
+            return;
+        }
+        let graphics = decodeProtobufGraphics(graphicsArray);
+        return await this.applyGraphicEdits(graphics, editType, options, viewId, abortSignal);
+    }
+    
+    async applyGraphicEdits(graphics: any[], editType: string, options: any, viewId: string,
+        abortSignal: AbortSignal): Promise<any> {
+        let jsGraphics: Graphic[] = [];
+        for (const g of graphics) {
+            if (graphicsRefs.hasOwnProperty(g.id)) {
+                let graphic = graphicsRefs[g.id] as Graphic;
+                if (graphic !== undefined && graphic !== null) {
+                    jsGraphics.push(graphic);
+                    continue;
+                }
+            }
+            let jsGraphic = buildJsGraphic(g, viewId) as Graphic;
+            jsGraphics.push(jsGraphic);
+        }
+        if (abortSignal.aborted) {
+            return;
+        }
+        let featureEdits = {};
+        switch (editType) {
+            case 'add':
+                featureEdits['addFeatures'] = jsGraphics;
+                break;
+            case 'update':
+                featureEdits['updateFeatures'] = jsGraphics;
+                break;
+            case 'delete':
+                featureEdits['deleteFeatures'] = jsGraphics;
+                break;
+        }
+        let result: __esri.EditsResult;
+        if (hasValue(options)) {
+            result = await this.layer.applyEdits(featureEdits, options);
+        } else {
+            result = await this.layer.applyEdits(featureEdits);
+        }
+        if (abortSignal.aborted) return;
+        (async () => {
+            for (let i = 0; i < jsGraphics.length; i++) {
+                let graphic = jsGraphics[i];
+                let graphicObject = graphics[i];
+                graphicsRefs[graphicObject.id] = graphic;
+            }
+        })();
+        let dnResult = buildDotNetEditsResult(result);
+        return dnResult;
+    }
+    
+    async applyAttachmentEdits(edits: any, options: any, viewId: string,
+                                abortSignal: AbortSignal): Promise<any> {
+        if (abortSignal.aborted) return;
+        let addAttachments = edits.addAttachments?.map(e => {
+            return {
+                feature: graphicsRefs[e.feature],
+                attachment: e.attachment
+            }
+        });
+        let updateAttachments = edits.updateAttachments?.map(e => {
+            return {
+                feature: graphicsRefs[e.feature],
+                attachment: e.attachment
+            }
+        });
+        let jsEdits = {
+            addAttachments: addAttachments,
+            updateAttachments: updateAttachments,
+            deleteAttachments: edits.deleteAttachments
+        };
+        let result: __esri.EditsResult;
         if (options !== null) {
             result = await this.layer.applyEdits(jsEdits, options);
         } else {
             result = await this.layer.applyEdits(jsEdits);
         }
+        if (abortSignal.aborted) return;
 
-        return result;
+        let dnResult = buildDotNetEditsResult(result);
+        return dnResult;
     }
 
     async getFeatureType(graphic: DotNetGraphic): Promise<any> {

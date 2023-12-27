@@ -96,7 +96,7 @@
     }
     
     [TestMethod]
-    public async Task TestCannotAddFeaturesWithAddMethodAfterRender(Action renderHandler)
+    public async Task TestCanAddFeaturesWithAddMethodAfterRender(Action renderHandler)
     {
         FeatureLayer? layer = null;
         AddMapRenderFragment(
@@ -111,7 +111,137 @@
         await WaitForMapToRender();
         await AssertJavaScript("assertLayerExists", args: "feature");
 
-        await Assert.ThrowsExceptionAsync<InvalidOperationException>(() => layer!.Add(new Graphic(new Point(0, 0),
-            new SimpleMarkerSymbol(color: new MapColor("black")))));
+        await layer!.Add(new Graphic(new Point(0, 0),
+            new SimpleMarkerSymbol(color: new MapColor("black"))));
+        await WaitForMapToRender();
+        await AssertJavaScript("assertGraphicExistsInLayer", args: new object[] { layer!.Id, "point", 1 });
+    }
+    
+    [TestMethod]
+    public async Task TestCanAddManyFeaturesWithApplyEdits(Action renderHandler)
+    {
+        FeatureLayer? layer = null;
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map ArcGISDefaultBasemap="topo-vector">
+                    <FeatureLayer @ref="layer" Source="@([])" 
+                                  GeometryType="GeometryType.Point"
+                                  ObjectIdField="OBJECT_ID">
+                    </FeatureLayer>
+                </Map>
+            </MapView>);
+        await WaitForMapToRender();
+        await AssertJavaScript("assertLayerExists", args: "feature");
+
+        List<Graphic> graphics = [];
+        Random random = new();
+        for (var i = 0; i < 2000; i++)
+        {
+            Point point = new Point(random.Next(-180, 180), random.Next(-80, 80));
+            Graphic graphic = new(point);
+            graphics.Add(graphic);
+        }
+        FeatureEdits edits = new()
+        {
+            AddFeatures = graphics
+        };
+        FeatureEditsResult result = await layer!.ApplyEdits(edits);
+        await WaitForMapToRender();
+        await AssertJavaScript("assertGraphicExistsInLayer", args: new object[] { layer!.Id, "point", 2000 });
+        Assert.AreEqual(2000, result.AddFeatureResults.Length);
+        Assert.AreEqual(2000, layer.Source!.Count);
+    }
+
+    [TestMethod]
+    public async Task TestCanUpdateManyFeaturesWithApplyEdits(Action renderHandler)
+    {
+        FeatureLayer? layer = null;
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map ArcGISDefaultBasemap="topo-vector">
+                    <FeatureLayer @ref="layer" Source="@([])" 
+                                  GeometryType="GeometryType.Point"
+                                  ObjectIdField="OBJECT_ID">
+                    </FeatureLayer>
+                </Map>
+            </MapView>);
+        await WaitForMapToRender();
+        await AssertJavaScript("assertLayerExists", args: "feature");
+
+        List<Graphic> graphics = [];
+        Random random = new();
+        for (var i = 0; i < 2000; i++)
+        {
+            Point point = new Point(random.Next(-180, 180), random.Next(-80, 80));
+            Graphic graphic = new(point);
+            graphics.Add(graphic);
+        }
+        FeatureEdits edits = new()
+        {
+            AddFeatures = graphics
+        };
+        FeatureEditsResult result = await layer!.ApplyEdits(edits);
+        await WaitForMapToRender();
+        await AssertJavaScript("assertGraphicExistsInLayer", args: new object[] { layer!.Id, "point", 2000 });
+        Assert.AreEqual(2000, result.AddFeatureResults.Length);
+        
+        foreach (Graphic graphic in graphics)
+        {
+            ((Point)graphic.Geometry!).X += 1;
+            ((Point)graphic.Geometry!).Y += 1;
+        }
+        
+        edits = new()
+        {
+            UpdateFeatures = graphics
+        };
+        result = await layer!.ApplyEdits(edits);
+        await WaitForMapToRender();
+        await AssertJavaScript("assertGraphicExistsInLayer", args: new object[] { layer!.Id, "point", 2000 });
+        Assert.AreEqual(2000, result.UpdateFeatureResults.Length);
+    }
+
+    [TestMethod]
+    public async Task TestCanDeleteManyFeaturesWithApplyEdits(Action renderHandler)
+    {
+        FeatureLayer? layer = null;
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map ArcGISDefaultBasemap="topo-vector">
+                    <FeatureLayer @ref="layer" Source="@([])" 
+                                  GeometryType="GeometryType.Point"
+                                  ObjectIdField="OBJECT_ID">
+                    </FeatureLayer>
+                </Map>
+            </MapView>);
+        await WaitForMapToRender();
+        await AssertJavaScript("assertLayerExists", args: "feature");
+
+        List<Graphic> graphics = [];
+        Random random = new();
+        for (var i = 0; i < 2000; i++)
+        {
+            Point point = new Point(random.Next(-180, 180), random.Next(-80, 80));
+            Graphic graphic = new(point);
+            graphics.Add(graphic);
+        }
+        FeatureEdits edits = new()
+        {
+            AddFeatures = graphics
+        };
+        FeatureEditsResult result = await layer!.ApplyEdits(edits);
+        await WaitForMapToRender();
+        await AssertJavaScript("assertGraphicExistsInLayer", args: new object[] { layer!.Id, "point", 2000 });
+        Assert.AreEqual(2000, result.AddFeatureResults.Length);
+        
+        edits = new()
+        {
+            DeleteFeatures = graphics
+        };
+        result = await layer!.ApplyEdits(edits);
+        await WaitForMapToRender();
+        await Assert.ThrowsExceptionAsync<JSException>(async() =>
+            await AssertJavaScript("assertGraphicExistsInLayer", args: new object[] { layer!.Id, "point", 2000 }));
+        Assert.AreEqual(2000, result.DeleteFeatureResults.Length);
     }
 }
