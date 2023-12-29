@@ -43,8 +43,11 @@ public class Graphic : LayerObject
     /// <param name="visible">
     ///     Indicates the visibility of the graphic.
     /// </param>
+    /// <param name="legendLabel">
+    ///     Optional label override for this graphic in the GeoBlazor Pro GraphicsLegendWidget.
+    /// </param>
     public Graphic(Geometry? geometry = null, Symbol? symbol = null, PopupTemplate? popupTemplate = null,
-        AttributesDictionary? attributes = null, bool? visible = null)
+        AttributesDictionary? attributes = null, bool? visible = null, string? legendLabel = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -52,6 +55,7 @@ public class Graphic : LayerObject
         Symbol = symbol;
         PopupTemplate = popupTemplate;
         Visible = visible;
+        LegendLabel = legendLabel;
 
         if (attributes is not null)
         {
@@ -74,11 +78,12 @@ public class Graphic : LayerObject
     public AttributesDictionary Attributes { get; set; } = new();
     
     /// <summary>
-    ///     Indicates the visibility of the graphic. Default value: true.
+    ///     Legend label override for this graphic in the GeoBlazor Pro Graphics Legend Widget.
+    ///     Supports attribute substitution using the syntax {attributeName}.
     /// </summary>
     [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? Visible { get; set; }
+    [JsonIgnore]
+    public string? LegendLabel { get; set; }
 
     /// <summary>
     ///     The geometry that defines the graphic's location.

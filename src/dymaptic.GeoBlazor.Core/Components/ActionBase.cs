@@ -45,13 +45,6 @@ public abstract class ActionBase : MapComponent
     public bool? Disabled { get; set; }
 
     /// <summary>
-    ///     Indicates if the action is visible.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? Visible { get; set; }
-
-    /// <summary>
     ///     The action function to perform on click.
     /// </summary>
     [Parameter]
