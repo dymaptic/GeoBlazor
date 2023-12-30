@@ -1,4 +1,12 @@
-﻿$SourceFiles = "./node_modules/@arcgis/core/assets/"
+﻿if ($IsWindows)
+{
+    $SourceFiles = "./node_modules/@arcgis/core/assets/*"    
+}
+else
+{
+    $SourceFiles = "./node_modules/@arcgis/core/assets/"
+}
+
 $OutputDir = "./wwwroot/assets"
 $packageJson = (Get-Content "package.json" -Raw) | ConvertFrom-Json
 # read the version from package.json
