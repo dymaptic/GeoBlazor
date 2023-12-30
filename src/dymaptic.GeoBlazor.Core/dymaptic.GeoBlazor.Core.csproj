@@ -80,7 +80,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="wwwroot\assets\" />
+        <Folder Include="wwwroot\assets\" />
     </ItemGroup>
 
     <Target Name="NPM Install" BeforeTargets="PreBuildEvent" Condition="$(TargetFrameworks.StartsWith($(TargetFramework))) AND '$(OptOutFromCoreEsBuild)' != 'true'">
