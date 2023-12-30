@@ -1618,7 +1618,7 @@ function buildJsFormInput(dotNetFormInput: any): any {
     return undefined;
 }
 
-function buildJsAttachmentEdit(dotNetAttachmentEdit: DotNetAttachmentsEdit, viewId: string): AttachmentEdit {
+export function buildJsAttachmentEdit(dotNetAttachmentEdit: DotNetAttachmentsEdit, viewId: string): AttachmentEdit {
     return {
         feature: buildJsGraphic(dotNetAttachmentEdit.feature, viewId)!,
         attachment: dotNetAttachmentEdit.attachment

@@ -1,5 +1,9 @@
 $CoreVersion = $args[0]
 
+(Get-Content ..\..\templates\dymaptic.GeoBlazor.Templates.csproj) `
+-replace '\<PackageVersion\>[\d\.]*', ('<PackageVersion>' + $CoreVersion) |
+Set-Content ..\..\templates\dymaptic.GeoBlazor.Templates.csproj
+
 (Get-Content ..\..\templates\content\dymaptic.GeoBlazor.Template.Maui\dymaptic.GeoBlazor.Template.Maui.csproj) `
 -replace '\<PackageReference Include="dymaptic.GeoBlazor.Core" Version="[\d\.]*"', ('<PackageReference Include="dymaptic.GeoBlazor.Core" Version="' + $CoreVersion + '"') | 
 Set-Content ..\..\templates\content\dymaptic.GeoBlazor.Template.Maui\dymaptic.GeoBlazor.Template.Maui.csproj

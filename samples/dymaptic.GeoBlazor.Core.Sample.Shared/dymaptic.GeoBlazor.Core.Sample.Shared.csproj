@@ -18,12 +18,18 @@
         <PackageReference Include="Microsoft.Extensions.FileProviders.Abstractions" Version="8.0.0"/>
     </ItemGroup>
 
-    <ItemGroup Condition="$(Configuration) == 'DEBUG'">
-        <ProjectReference Include="..\..\src\dymaptic.GeoBlazor.Core\dymaptic.GeoBlazor.Core.csproj"/>
-    </ItemGroup>
-    <ItemGroup Condition="$(Configuration) == 'RELEASE'">
-        <PackageReference Include="dymaptic.GeoBlazor.Core" Version="$(CoreVersion)" />
-    </ItemGroup>
+    <Choose>
+        <When Condition="$(Configuration) == 'RELEASE' AND '$(UsePackageReferences)' == 'true'">
+            <ItemGroup Condition="$(Configuration) == 'RELEASE'">
+                <PackageReference Include="dymaptic.GeoBlazor.Core"  Version="$(CoreVersion)" />
+            </ItemGroup>
+        </When>
+        <Otherwise>
+            <ItemGroup Condition="$(Configuration) == 'DEBUG'">
+                <ProjectReference Include="..\..\src\dymaptic.GeoBlazor.Core\dymaptic.GeoBlazor.Core.csproj"/>
+            </ItemGroup>
+        </Otherwise>
+    </Choose>
 
     <ItemGroup>
         <Content Update="wwwroot\images\dymaptic_logo.png">
