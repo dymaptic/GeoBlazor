@@ -127,14 +127,14 @@ public class Extent : Geometry
     {
         return new GeometrySerializationRecord(Type, null, SpatialReference?.ToSerializationRecord())
         {
-            XMax = Xmax,
-            XMin = Xmin,
-            YMax = Ymax,
-            YMin = Ymin,
-            ZMax = Zmax,
-            ZMin = Zmin,
-            MMax = Mmax,
-            MMin = Mmin
+            Xmax = Xmax,
+            Xmin = Xmin,
+            Ymax = Ymax,
+            Ymin = Ymin,
+            Zmax = Zmax,
+            Zmin = Zmin,
+            Mmax = Mmax,
+            Mmin = Mmin
         };
     }
 }

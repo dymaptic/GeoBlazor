@@ -18,6 +18,38 @@ namespace dymaptic.GeoBlazor.Core.Components.Popups;
 public class ExpressionInfo : MapComponent
 {
     /// <summary>
+    ///     Parameterless constructor for using as a razor component
+    /// </summary>
+    public ExpressionInfo()
+    {
+    }
+
+    /// <summary>
+    ///     Constructor for creating a new ExpressionInfo in code with parameters
+    /// </summary>
+    /// <param name="expression">
+    ///     An Arcade expression following the specification defined by the Arcade Popup Profile. Expressions must return a
+    /// </param>
+    /// <param name="name">
+    ///     The name of the expression. This is used to reference the value of the given expression in the popupTemplate's
+    /// </param>
+    /// <param name="title">
+    ///     The title used to describe the value returned by the expression in the popup. This will display if the value is
+    /// </param>
+    /// <param name="returnType">
+    ///     Indicates the return type of the Arcade expression.
+    /// </param>
+    public ExpressionInfo(string? expression, string? name, string? title, ReturnType? returnType)
+    {
+#pragma warning disable BL0005
+        Expression = expression;
+        Name = name;
+        Title = title;
+        ReturnType = returnType;
+#pragma warning restore BL0005
+    }
+
+    /// <summary>
     ///     An Arcade expression following the specification defined by the Arcade Popup Profile. Expressions must return a
     ///     string or a number and may access data values from the feature, its layer, or other layers in the map or datastore
     ///     with the $feature, $layer, $map, and $datastore profile variables.
@@ -56,20 +88,41 @@ public class ExpressionInfo : MapComponent
 }
 
 [ProtoContract(Name = "ExpressionInfo")]
-internal record ExpressionInfoSerializationRecord(
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(1)]
-        string? Expression,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(2)]
+internal record ExpressionInfoSerializationRecord : MapComponentSerializationRecord
+{
+    public ExpressionInfoSerializationRecord()
+    {
+    }
+    
+    public ExpressionInfoSerializationRecord(string? Expression,
         string? Name,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(3)]
         string? Title,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(4)]
         ReturnType? ReturnType)
-    : MapComponentSerializationRecord;
+    {
+        this.Expression = Expression;
+        this.Name = Name;
+        this.Title = Title;
+        this.ReturnType = ReturnType;
+    }
+
+    public ExpressionInfo FromSerializationRecord()
+    {
+        return new ExpressionInfo();
+    }
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(1)]
+    public string? Expression { get; init; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(2)]
+    public string? Name { get; init; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(3)]
+    public string? Title { get; init; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(4)]
+    public ReturnType? ReturnType { get; init; }
+}
 
 /// <summary>
 ///     Indicates the return type of the Arcade expression.

@@ -50,7 +50,7 @@ import {
     DotNetInheritedDomain,
     DotNetRangeDomain,
     DotNetEffect,
-    DotNetFeatureTemplate
+    DotNetFeatureTemplate, DotNetFeatureSet
 } from "./definitions";
 import Point from "@arcgis/core/geometry/Point";
 import Polyline from "@arcgis/core/geometry/Polyline";
@@ -79,7 +79,7 @@ import ExpressionContent from "@arcgis/core/popup/content/ExpressionContent";
 import ElementExpressionInfo from "@arcgis/core/popup/ElementExpressionInfo";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
-import {arcGisObjectRefs, copyValuesIfExists, hasValue} from "./arcGisJsInterop";
+import {arcGisObjectRefs, copyValuesIfExists, dotNetRefs, graphicsRefs, hasValue} from "./arcGisJsInterop";
 import SimpleMarkerSymbol from "@arcgis/core/symbols/SimpleMarkerSymbol";
 import Symbol from "@arcgis/core/symbols/Symbol";
 import Graphic from "@arcgis/core/Graphic";
@@ -120,6 +120,8 @@ import SizeSchemeForPoint = __esri.SizeSchemeForPoint;
 import SizeSchemeForPolygon = __esri.SizeSchemeForPolygon;
 import UniqueValuesResult = __esri.UniqueValuesResult;
 import AuthoringInfo from "@arcgis/core/renderers/support/AuthoringInfo";
+import FeatureSet from "@arcgis/core/rest/support/FeatureSet";
+import DirectionsFeatureSet from "@arcgis/core/rest/support/DirectionsFeatureSet";
 
 
 export function buildDotNetGraphic(graphic: Graphic): DotNetGraphic {
@@ -1185,4 +1187,63 @@ export function buildDotNetEditsResult(jsResult: __esri.EditsResult): any {
         });
     }
     return dnResult;
+}
+
+export async function buildDotNetFeatureSet(jsFs: FeatureSet, viewId: string | null): Promise<DotNetFeatureSet> {
+    let dotNetFeatureSet: DotNetFeatureSet = {
+        features: [],
+        displayFieldName: jsFs.displayFieldName,
+        exceededTransferLimit: jsFs.exceededTransferLimit,
+        fields: jsFs.fields,
+        geometryType: jsFs.geometryType,
+        queryGeometry: buildDotNetGeometry(jsFs.queryGeometry),
+        spatialReference: buildDotNetSpatialReference(jsFs.spatialReference)
+    };
+    let graphics: DotNetGraphic[] = [];
+    for (let i = 0; i < jsFs.features.length; i++) {
+        let feature = jsFs.features[i];
+        let graphic: DotNetGraphic = buildDotNetGraphic(feature) as DotNetGraphic;
+        if (viewId !== undefined && viewId !== null) {
+            graphic.id = await dotNetRefs[viewId].invokeMethodAsync('GetId');
+            graphicsRefs[graphic.id as string] = feature;
+        }
+        graphics.push(graphic);
+    }
+    dotNetFeatureSet.features = graphics;
+    
+    return dotNetFeatureSet;
+}
+
+export async function buildDotNetDirectionsFeatureSet(jsFs: DirectionsFeatureSet, viewId: string | null): Promise<any> {
+    let dotNetFeatureSet: any = {
+        features: [],
+        displayFieldName: jsFs.displayFieldName,
+        exceededTransferLimit: jsFs.exceededTransferLimit,
+        fields: jsFs.fields,
+        geometryType: jsFs.geometryType,
+        queryGeometry: buildDotNetGeometry(jsFs.queryGeometry),
+        spatialReference: buildDotNetSpatialReference(jsFs.spatialReference)
+    };
+    let graphics: DotNetGraphic[] = [];
+    for (let i = 0; i < jsFs.features.length; i++) {
+        let feature = jsFs.features[i];
+        let graphic: DotNetGraphic = buildDotNetGraphic(feature) as DotNetGraphic;
+        if (viewId !== undefined && viewId !== null) {
+            graphic.id = await dotNetRefs[viewId].invokeMethodAsync('GetId');
+            graphicsRefs[graphic.id as string] = feature;
+        }
+        graphics.push(graphic);
+    }
+    dotNetFeatureSet.features = graphics;
+    if (hasValue(jsFs.extent)) {
+        dotNetFeatureSet.extent = buildDotNetExtent(jsFs.extent);
+    }
+    if (hasValue(jsFs.mergedGeometry)) {
+        dotNetFeatureSet.mergedGeometry = buildDotNetGeometry(jsFs.mergedGeometry);
+    }
+    
+    copyValuesIfExists(jsFs, dotNetFeatureSet, 'routeId', 'routeName', 'strings',
+        'totalDriveTime', 'totalLength', 'totalTime');
+
+    return dotNetFeatureSet;
 }

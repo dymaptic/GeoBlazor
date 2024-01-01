@@ -365,15 +365,44 @@ public class Graphic : LayerObject
 }
 
 [ProtoContract(Name = "Graphic")]
-internal record GraphicSerializationRecord([property: ProtoMember(1)] string Id,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(2)]
+internal record GraphicSerializationRecord : MapComponentSerializationRecord
+{
+    public GraphicSerializationRecord()
+    {
+    }
+    
+    public GraphicSerializationRecord(string Id,
         GeometrySerializationRecord? Geometry,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(3)]
         SymbolSerializationRecord? Symbol,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(4)]
         PopupTemplateSerializationRecord? PopupTemplate,
-        [property: ProtoMember(5)] AttributeSerializationRecord[]? Attributes)
-    : MapComponentSerializationRecord;
+        AttributeSerializationRecord[]? Attributes)
+    {
+        this.Id = Id;
+        this.Geometry = Geometry;
+        this.Symbol = Symbol;
+        this.PopupTemplate = PopupTemplate;
+        this.Attributes = Attributes;
+    }
+
+    public Graphic FromSerializationRecord()
+    {
+        return new Graphic(Geometry?.FromSerializationRecord(),
+            Symbol?.FromSerializationRecord(),
+            PopupTemplate?.FromSerializationRecord(),
+            new AttributesDictionary(Attributes));
+    }
+
+    [ProtoMember(1)]
+    public string Id { get; set; } = string.Empty;
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(2)]
+    public GeometrySerializationRecord? Geometry { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(3)]
+    public SymbolSerializationRecord? Symbol { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(4)]
+    public PopupTemplateSerializationRecord? PopupTemplate { get; set; }
+    [ProtoMember(5)]
+    public AttributeSerializationRecord[]? Attributes { get; set; }
+}

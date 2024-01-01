@@ -159,7 +159,11 @@
             if (hasParameters)
             {
                 void RenderHandler() => _methodsWithRenderedMaps.Add(methodInfo.Name);
-                await (Task)methodInfo.Invoke(this, new object[] { (Action)RenderHandler })!;
+                await (Task)methodInfo.Invoke(this, [(Action)RenderHandler])!;
+            }
+            else
+            {
+                await (Task)methodInfo.Invoke(this, null)!;
             }
 
             _passed[methodInfo.Name] = _resultBuilder.ToString();

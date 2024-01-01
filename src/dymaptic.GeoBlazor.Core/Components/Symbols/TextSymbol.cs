@@ -304,7 +304,20 @@ public class TextSymbol : Symbol
     {
         return new SymbolSerializationRecord(Type, Color)
         {
-            Text = Text, HaloColor = HaloColor, HaloSize = HaloSize, MapFont = Font
+            Text = Text, 
+            HaloColor = HaloColor, 
+            HaloSize = HaloSize is null ? null : (int)HaloSize.Value,
+            MapFont = Font,
+            Angle = Angle,
+            BackgroundColor = BackgroundColor,
+            BorderLineSize = BorderLineSize,
+            BorderLineColor = BorderLineColor,
+            HorizontalAlignment = HorizontalAlignment?.ToString(),
+            Kerning = Kerning,
+            LineHeight = LineHeight,
+            LineWidth = LineWidth,
+            Rotated = Rotated,
+            VerticalAlignment = VerticalAlignment?.ToString()
         };
     }
 }

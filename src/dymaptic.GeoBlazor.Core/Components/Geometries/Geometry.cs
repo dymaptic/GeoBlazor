@@ -102,59 +102,94 @@ public abstract class Geometry : MapComponent
 }
 
 [ProtoContract(Name = "Geometry")]
-internal record GeometrySerializationRecord([property: ProtoMember(1)] string Type,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(2)]
-        GeometrySerializationRecord? Extent,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(3)]
-        SpatialReferenceSerializationRecord? SpatialReference)
-    : MapComponentSerializationRecord
+internal record GeometrySerializationRecord : MapComponentSerializationRecord
 {
+    public GeometrySerializationRecord()
+    {
+    }
+    
+    public GeometrySerializationRecord(string Type,
+        GeometrySerializationRecord? Extent,
+        SpatialReferenceSerializationRecord? SpatialReference)
+    {
+        this.Type = Type;
+        this.Extent = Extent;
+        this.SpatialReference = SpatialReference;
+    }
+
+    [ProtoMember(1)]
+    public string Type { get; set; } = string.Empty;
+    
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(2)]
+    public GeometrySerializationRecord? Extent { get; set; }
+    
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(3)]
+    public SpatialReferenceSerializationRecord? SpatialReference { get; set; }
+
     [ProtoMember(4)]
-    public double? Longitude { get; init; }
+    public double? Longitude { get; set; }
 
     [ProtoMember(5)]
-    public double? Latitude { get; init; }
+    public double? Latitude { get; set; }
 
     [ProtoMember(6)]
-    public double? X { get; init; }
+    public double? X { get; set; }
 
     [ProtoMember(7)]
-    public double? Y { get; init; }
+    public double? Y { get; set; }
 
     [ProtoMember(8)]
-    public double? Z { get; init; }
+    public double? Z { get; set; }
 
     [ProtoMember(9)]
-    public MapPathSerializationRecord[]? Paths { get; init; }
+    public MapPathSerializationRecord[]? Paths { get; set; }
 
     [ProtoMember(10)]
-    public MapPathSerializationRecord[]? Rings { get; init; }
+    public MapPathSerializationRecord[]? Rings { get; set; }
 
     [ProtoMember(11)]
-    public double? XMax { get; init; }
+    public double? Xmax { get; set; }
 
     [ProtoMember(12)]
-    public double? XMin { get; init; }
+    public double? Xmin { get; set; }
 
     [ProtoMember(13)]
-    public double? YMax { get; init; }
+    public double? Ymax { get; set; }
 
     [ProtoMember(14)]
-    public double? YMin { get; init; }
+    public double? Ymin { get; set; }
 
     [ProtoMember(15)]
-    public double? ZMax { get; init; }
+    public double? Zmax { get; set; }
 
     [ProtoMember(16)]
-    public double? ZMin { get; init; }
+    public double? Zmin { get; set; }
 
     [ProtoMember(17)]
-    public double? MMax { get; init; }
+    public double? Mmax { get; set; }
 
     [ProtoMember(18)]
-    public double? MMin { get; init; }
+    public double? Mmin { get; set; }
+
+    public Geometry FromSerializationRecord()
+    {
+        return Type switch
+        {
+            "point" => new Point(Longitude, Latitude, X, Y, Z, SpatialReference?.FromSerializationRecord(),
+                Extent?.FromSerializationRecord() as Extent),
+            "polyline" => new PolyLine(Paths!.Select(x => x.FromSerializationRecord()).ToArray(),
+                SpatialReference?.FromSerializationRecord(),
+                Extent?.FromSerializationRecord() as Extent),
+            "polygon" => new Polygon(Rings!.Select(x => x.FromSerializationRecord()).ToArray(),
+                SpatialReference?.FromSerializationRecord(),
+                Extent?.FromSerializationRecord() as Extent),
+            "extent" => new Extent(Xmax!.Value, Xmin!.Value, Ymax!.Value, Ymin!.Value, Zmax, Zmin, 
+                Mmax, Mmin, SpatialReference?.FromSerializationRecord()),
+            _ => throw new ArgumentOutOfRangeException()
+        };
+    }
 }
 
 internal class GeometryConverter : JsonConverter<Geometry>

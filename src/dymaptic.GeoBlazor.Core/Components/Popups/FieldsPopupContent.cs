@@ -126,7 +126,8 @@ public class FieldsPopupContent : PopupContent
     {
         return new PopupContentSerializationRecord(Type)
         {
-            FieldInfos = FieldInfos?.ToArray(), Description = Description, Title = Title
+            FieldInfos = FieldInfos?.Select(i => i.ToSerializationRecord()).ToArray(), 
+            Description = Description, Title = Title
         };
     }
 }
