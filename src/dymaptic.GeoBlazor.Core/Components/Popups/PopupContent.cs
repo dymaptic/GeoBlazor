@@ -22,9 +22,20 @@ public abstract class PopupContent : MapComponent
 }
 
 [ProtoContract(Name = "PopupContent")]
-internal record PopupContentSerializationRecord([property: ProtoMember(1)] string Type)
-    : MapComponentSerializationRecord
+internal record PopupContentSerializationRecord : MapComponentSerializationRecord
 {
+    public PopupContentSerializationRecord()
+    {
+    }
+    
+    public PopupContentSerializationRecord(string Type)
+    {
+        this.Type = Type;
+    }
+
+    [ProtoMember(1)]
+    public string Type { get; init; } = string.Empty;
+    
     [ProtoMember(2)]
     public string? Description { get; init; }
 
@@ -38,7 +49,7 @@ internal record PopupContentSerializationRecord([property: ProtoMember(1)] strin
     public ElementExpressionInfo? ExpressionInfo { get; init; }
 
     [ProtoMember(6)]
-    public FieldInfo[]? FieldInfos { get; init; }
+    public FieldInfoSerializationRecord[]? FieldInfos { get; init; }
 
     [ProtoMember(7)]
     public string? ActiveMediaInfoIndex { get; init; }
@@ -57,6 +68,26 @@ internal record PopupContentSerializationRecord([property: ProtoMember(1)] strin
 
     [ProtoMember(12)]
     public string? Text { get; init; }
+
+    public PopupContent FromSerializationRecord()
+    {
+        return Type switch
+        {
+            "fields" => new FieldsPopupContent(FieldInfos?.Select(i => 
+                    i.FromSerializationRecord()).ToArray() ?? Array.Empty<FieldInfo>(),
+                Description, Title),
+            "text" => new TextPopupContent(Text),
+            "attachments" => new AttachmentsPopupContent(Title, Description, DisplayType),
+            "expression" => new ExpressionPopupContent(ExpressionInfo),
+            "media" => new MediaPopupContent(Title, Description,
+                MediaInfos?.Select(i => i.FromSerializationRecord()).ToArray(),
+                ActiveMediaInfoIndex),
+            "relationship" => new RelationshipPopupContent(Title, Description, DisplayCount,
+                DisplayType, OrderByFields?.Select(x => x.FromSerializationRecord()).ToHashSet(),
+                RelationshipId),
+            _ => throw new NotSupportedException($"PopupContent type {Type} is not supported")
+        };
+    }
 }
 
 internal class PopupContentConverter : JsonConverter<PopupContent>

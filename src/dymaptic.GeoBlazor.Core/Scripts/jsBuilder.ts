@@ -100,7 +100,7 @@ import {
     DotNetUniqueValueRenderer,
     DotNetVectorFieldRenderer,
     DotNetViewpoint,
-    DotNetVisualVariable,
+    DotNetVisualVariable, DotNetFeatureSet,
 } from "./definitions";
 import PictureMarkerSymbol from "@arcgis/core/symbols/PictureMarkerSymbol";
 import Popup from "@arcgis/core/widgets/Popup";
@@ -172,6 +172,7 @@ import AuthoringInfo from "@arcgis/core/renderers/support/AuthoringInfo";
 import AuthoringInfoVisualVariable from "@arcgis/core/renderers/support/AuthoringInfoVisualVariable";
 import ActionButton from "@arcgis/core/support/actions/ActionButton";
 import ActionToggle from "@arcgis/core/support/actions/ActionToggle";
+import FeatureSet from "@arcgis/core/rest/support/FeatureSet";
 
 
 export function buildJsSpatialReference(dotNetSpatialReference: DotNetSpatialReference): SpatialReference {
@@ -1966,4 +1967,23 @@ function buildJsSupportExpressionInfo(dnEI: any): supportExpressionInfo | null {
         returnType: dnEI.returnType ?? undefined,
         title: dnEI.title ?? undefined
     } as supportExpressionInfo;
+}
+
+export function buildJsFeatureSet(dnFs: DotNetFeatureSet, viewId: string | null): FeatureSet {
+    let jsFeatureSet = new FeatureSet();
+    copyValuesIfExists(dnFs, jsFeatureSet, 'displayFieldName', 'exceededTransferLimit',
+        'geometryType');
+    if (hasValue(dnFs.features)) {
+        jsFeatureSet.features = dnFs.features.map(f => buildJsGraphic(f, viewId) as Graphic);
+    }
+    if (hasValue(dnFs.fields)) {
+        jsFeatureSet.fields = dnFs.fields.map(f => buildJsField(f));
+    }
+    if (hasValue(dnFs.queryGeometry)) {
+        jsFeatureSet.queryGeometry = buildJsGeometry(dnFs.queryGeometry as DotNetGeometry) as Geometry;
+    }
+    if (hasValue(dnFs.spatialReference)) {
+        jsFeatureSet.spatialReference = buildJsSpatialReference(dnFs.spatialReference as DotNetSpatialReference);
+    }
+    return jsFeatureSet;
 }

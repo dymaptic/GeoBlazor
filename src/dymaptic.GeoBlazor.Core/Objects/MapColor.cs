@@ -14,6 +14,10 @@ namespace dymaptic.GeoBlazor.Core.Objects;
 [ProtoContract]
 public class MapColor : IEquatable<MapColor>
 {
+    public MapColor()
+    {
+    }
+    
     /// <summary>
     ///     Creates a new color with a collection of numeric values in rgb or rgba format.
     /// </summary>

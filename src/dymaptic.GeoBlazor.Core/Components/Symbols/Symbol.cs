@@ -80,12 +80,26 @@ internal class SymbolJsonConverter : JsonConverter<Symbol>
 }
 
 [ProtoContract(Name = "Symbol")]
-internal record SymbolSerializationRecord([property: ProtoMember(1)] string Type,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(2)]
-        MapColor? Color)
-    : MapComponentSerializationRecord
+internal record SymbolSerializationRecord : MapComponentSerializationRecord
 {
+    public SymbolSerializationRecord()
+    {
+    }
+    
+    public SymbolSerializationRecord(string Type,
+        MapColor? Color)
+    {
+        this.Type = Type;
+        this.Color = Color;
+    }
+
+    [ProtoMember(1)]
+    public string Type { get; init; } = string.Empty;
+    
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(2)]
+    public MapColor? Color { get; init; }
+    
     [ProtoMember(3)]
     public SymbolSerializationRecord? Outline { get; init; }
 
@@ -117,7 +131,7 @@ internal record SymbolSerializationRecord([property: ProtoMember(1)] string Type
     public MapColor? HaloColor { get; init; }
 
     [ProtoMember(13)]
-    public double? HaloSize { get; init; }
+    public int? HaloSize { get; init; }
 
     [ProtoMember(14)]
     public MapFont? MapFont { get; init; }
@@ -127,4 +141,53 @@ internal record SymbolSerializationRecord([property: ProtoMember(1)] string Type
 
     [ProtoMember(16)]
     public string? Url { get; init; }
+    
+    [ProtoMember(17)]
+    public MapColor? BackgroundColor { get; init; }
+    
+    [ProtoMember(18)]
+    public double? BorderLineSize { get; init; }
+    
+    [ProtoMember(19)]
+    public MapColor? BorderLineColor { get; init; }
+    
+    [ProtoMember(20)]
+    public string? HorizontalAlignment { get; init; }
+    
+    [ProtoMember(21)]
+    public bool? Kerning { get; init; }
+    
+    [ProtoMember(22)]
+    public double? LineHeight { get; init; }
+    
+    [ProtoMember(23)]
+    public string? LineWidth { get; init; }
+    
+    [ProtoMember(24)]
+    public bool? Rotated { get; init; }
+    
+    [ProtoMember(25)]
+    public string? VerticalAlignment { get; init; }
+
+
+    public Symbol FromSerializationRecord()
+    {
+        return Type switch
+        {
+            "outline" => new Outline(Color, Width, LineStyle is null ? null : Enum.Parse<LineStyle>(LineStyle!)),
+            "simple-marker" => new SimpleMarkerSymbol(Outline?.FromSerializationRecord() as Outline, Color, Size, Style, 
+                Angle, XOffset, YOffset, Style is null ? null : Enum.Parse<SimpleMarkerStyle>(Style!)),
+            "simple-line" => new SimpleLineSymbol(Color, Width, LineStyle is null ? null : Enum.Parse<LineStyle>(LineStyle!)),
+            "simple-fill" => new SimpleFillSymbol(Outline?.FromSerializationRecord() as Outline, Color, 
+                Style is null ? null : Enum.Parse<FillStyle>(Style!)),
+            "picture-marker" => new PictureMarkerSymbol(Url!, Height, Width),
+            "text" => new TextSymbol(Text ?? string.Empty, Color, HaloColor, HaloSize, 
+                MapFont, Angle, BackgroundColor, BorderLineColor,
+                BorderLineSize, HorizontalAlignment is null ? null : Enum.Parse<HorizontalAlignment>(HorizontalAlignment!),
+                Kerning, LineHeight, LineWidth, Rotated, 
+                VerticalAlignment is null ? null : Enum.Parse<VerticalAlignment>(VerticalAlignment!),
+                XOffset?.ToString(), YOffset?.ToString()),
+            _ => throw new ArgumentException($"Unknown symbol type: {Type}")
+        };
+    }
 }
