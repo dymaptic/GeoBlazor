@@ -1522,6 +1522,11 @@ public record FeatureEditsResult(
     EditedFeatureResult[]? EditedFeatureResults,
     long? EditMoment)
 {
+    /// <summary>
+    ///     Concatenates two <see cref="FeatureEditsResult"/>s.
+    /// </summary>
+    /// <param name="other"></param>
+    /// <returns></returns>
     public FeatureEditsResult Concat(FeatureEditsResult? other)
     {
         if (other is null) return this;
