@@ -14,14 +14,6 @@ public class HomeWidget : Widget
     public override string WidgetType => "home";
 
     /// <summary>
-    ///     The widget's default CSS icon class.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [Obsolete("Use Icon instead")]
-    public string? IconClass { get; set; }
-
-    /// <summary>
     ///     The widget's default label.
     /// </summary>
     [Parameter]

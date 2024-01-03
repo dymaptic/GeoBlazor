@@ -1733,7 +1733,6 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
         case 'locate':
             const locate = new Locate({
                 view: view,
-                useHeadingEnabled: widget.useHeadingEnabled ?? undefined,
                 rotationEnabled: widget.rotationEnabled ?? undefined,
                 scale: widget.scale ?? undefined
             });
@@ -1895,9 +1894,6 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
                 view: view
             });
             newWidget = compassWidget;
-            if (hasValue(widget.iconClass)) {
-                compassWidget.iconClass = widget.iconClass;
-            }
             if (hasValue(widget.label)) {
                 compassWidget.label = widget.label;
             }
@@ -1969,9 +1965,6 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
                 };
             }
 
-            if (widget.iconClass !== undefined && widget.iconClass !== null) {
-                basemapLayerListWidget.iconClass = widget.iconClass;
-            }
             if (widget.label !== undefined && widget.label !== null) {
                 basemapLayerListWidget.label = widget.label;
             }
@@ -2016,14 +2009,6 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
 
             if (hasValue(widget.closeOnEsc)) {
                 expand.closeOnEsc = widget.closeOnEsc;
-            }
-
-            if (hasValue(widget.expandIconClass)) {
-                expand.expandIconClass = widget.expandIconClass;
-            }
-
-            if (hasValue(widget.collapseIconClass)) {
-                expand.collapseIconClass = widget.collapseIconClass;
             }
 
             if (hasValue(widget.expandIcon)) {

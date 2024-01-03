@@ -77,11 +77,11 @@ public class TextSymbol : Symbol
     /// <param name="yOffset">
     ///     The offset on the y-axis in points. This value is a string expressing size in points or pixels (e.g. "12px", "12pt"),
     /// </param>
-    public TextSymbol(string text, MapColor? color = null, MapColor? haloColor = null, int? haloSize = null,
+    public TextSymbol(string text, MapColor? color = null, MapColor? haloColor = null, Dimension? haloSize = null,
         MapFont? font = null, double? angle = null, MapColor? backgroundColor = null, MapColor? borderLineColor = null,
         double? borderLineSize = null, HorizontalAlignment? horizontalAlignment = null, bool? kerning = null,
-        double? lineHeight = null, string? lineWidth = null, bool? rotated = null, 
-        VerticalAlignment? verticalAlignment = null, string? xOffset = null, string? yOffset = null)
+        double? lineHeight = null, Dimension? lineWidth = null, bool? rotated = null, 
+        VerticalAlignment? verticalAlignment = null, Dimension? xOffset = null, Dimension? yOffset = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -160,7 +160,7 @@ public class TextSymbol : Symbol
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public double? HaloSize { get; set; }
+    public Dimension? HaloSize { get; set; }
     
     /// <summary>
     ///     Adjusts the horizontal alignment of the text in multi-lines. Default value is Center.
@@ -200,8 +200,7 @@ public class TextSymbol : Symbol
     /// </remarks>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [JsonConverter(typeof(NumberToStringConverter))]
-    public string? LineWidth { get; set; }
+    public Dimension? LineWidth { get; set; }
     
     /// <summary>
     ///     Determines whether every character in the text string is rotated. Default value is false.
@@ -238,8 +237,7 @@ public class TextSymbol : Symbol
     /// </remarks>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [JsonConverter(typeof(NumberToStringConverter))]
-    public string? XOffset { get; set; }
+    public Dimension? XOffset { get; set; }
     
     /// <summary>
     ///     The offset on the y-axis in points. This value is a string expressing size in points or pixels (e.g. "12px", "12pt"), which defaults to points.
@@ -249,8 +247,7 @@ public class TextSymbol : Symbol
     /// </remarks>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [JsonConverter(typeof(NumberToStringConverter))]
-    public string? YOffset { get; set; }
+    public Dimension? YOffset { get; set; }
 
     /// <summary>
     ///     The <see cref="MapFont" /> used to style the text.
@@ -304,7 +301,10 @@ public class TextSymbol : Symbol
     {
         return new SymbolSerializationRecord(Type, Color)
         {
-            Text = Text, HaloColor = HaloColor, HaloSize = HaloSize, MapFont = Font
+            Text = Text, 
+            HaloColor = HaloColor, 
+            HaloSize = HaloSize?.Points, 
+            MapFont = Font
         };
     }
 }

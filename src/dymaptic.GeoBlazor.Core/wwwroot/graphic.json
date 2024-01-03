@@ -250,7 +250,7 @@
                     "MapFont": {
                       "fields": {
                         "size": {
-                          "type": "int32",
+                          "type": "string",
                           "id": 1
                         },
                         "family": {

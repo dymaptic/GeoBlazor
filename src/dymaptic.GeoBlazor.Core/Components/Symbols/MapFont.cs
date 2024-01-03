@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using dymaptic.GeoBlazor.Core.Extensions;
+using Microsoft.AspNetCore.Components;
 using ProtoBuf;
 using System.Text.Json.Serialization;
 
@@ -15,11 +16,11 @@ namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 public class MapFont : MapComponent
 {
     /// <summary>
-    ///     The font size in points.
+    ///     The font size in points. This value may be autocast with a string expressing size in points or pixels (e.g. 12px).
     /// </summary>
     [Parameter]
     [ProtoMember(1)]
-    public int? Size { get; set; }
+    public Dimension? Size { get; set; }
 
     /// <summary>
     ///     The font family of the text.
@@ -43,18 +44,4 @@ public class MapFont : MapComponent
     [ProtoMember(4)]
     public string? Weight { get; set; }
 
-    internal MapFontSerializationRecord ToSerializationRecord()
-    {
-        return new MapFontSerializationRecord(Size, Family, FontStyle, Weight);
-    }
 }
-
-internal record MapFontSerializationRecord([property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        int? Size,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        string? Family,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        string? Style,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        string? Weight)
-    : MapComponentSerializationRecord;

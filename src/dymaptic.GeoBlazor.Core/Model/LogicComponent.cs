@@ -25,12 +25,6 @@ public abstract class LogicComponent : IDisposable
     }
 
     /// <summary>
-    ///     Implement this handler in your calling code to catch and handle Javascript errors.
-    /// </summary>
-    [Obsolete("Methods now pass on JavaScript errors as exceptions")]
-    public Func<JavascriptException, Task>? OnJavascriptErrorHandler { get; set; }
-
-    /// <summary>
     ///     The name of the logic component.
     /// </summary>
     protected abstract string ComponentName { get; }
@@ -72,19 +66,7 @@ public abstract class LogicComponent : IDisposable
     public void OnJavascriptError(JavascriptError error)
     {
         var exception = new JavascriptException(error);
-
-#pragma warning disable CS0618
-        if (OnJavascriptErrorHandler is not null)
-
-        {
-            OnJavascriptErrorHandler?.Invoke(exception);
-        }
-#pragma warning restore CS0618
-        else
-        {
-            throw exception;
-        }
-#pragma warning restore CS0618
+        throw exception;
     }
 
     /// <summary>
