@@ -20,6 +20,26 @@ namespace dymaptic.GeoBlazor.Core.Components.Popups;
 /// </summary>
 public class ExpressionPopupContent : PopupContent
 {
+    /// <summary>
+    ///     Parameterless constructor for use as a razor component.
+    /// </summary>
+    public ExpressionPopupContent()
+    {
+    }
+
+    /// <summary>
+    ///     Constructor for creating a ExpressionPopupContent in code.
+    /// </summary>
+    /// <param name="expressionInfo">
+    ///     Contains the Arcade expression used to create a popup content element. See the ElementExpressionInfo documentation
+    /// </param>
+    public ExpressionPopupContent(ElementExpressionInfo? expressionInfo)
+    {
+#pragma warning disable BL0005
+        ExpressionInfo = expressionInfo;
+#pragma warning restore BL0005
+    }
+
     /// <inheritdoc />
     public override string Type => "expression";
 

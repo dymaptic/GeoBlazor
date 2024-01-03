@@ -303,8 +303,18 @@ public class TextSymbol : Symbol
         {
             Text = Text, 
             HaloColor = HaloColor, 
-            HaloSize = HaloSize?.Points, 
-            MapFont = Font
+            HaloSize = HaloSize?.Points,
+            MapFont = Font,
+            Angle = Angle,
+            BackgroundColor = BackgroundColor,
+            BorderLineSize = BorderLineSize,
+            BorderLineColor = BorderLineColor,
+            HorizontalAlignment = HorizontalAlignment?.ToString(),
+            Kerning = Kerning,
+            LineHeight = LineHeight,
+            LineWidth = LineWidth,
+            Rotated = Rotated,
+            VerticalAlignment = VerticalAlignment?.ToString()
         };
     }
 }

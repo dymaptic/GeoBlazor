@@ -3,7 +3,12 @@ import Query from "@arcgis/core/rest/support/Query";
 import {DotNetFeatureEffect, DotNetFeatureFilter, DotNetFeatureSet, DotNetGraphic, DotNetQuery} from "./definitions";
 import {buildJsFeatureEffect, buildJsFeatureFilter, buildJsQuery} from "./jsBuilder";
 import {blazorServer, dotNetRefs, graphicsRefs} from "./arcGisJsInterop";
-import {buildDotNetGeometry, buildDotNetGraphic, buildDotNetSpatialReference} from "./dotNetBuilder";
+import {
+    buildDotNetFeatureSet,
+    buildDotNetGeometry,
+    buildDotNetGraphic,
+    buildDotNetSpatialReference
+} from "./dotNetBuilder";
 import FeatureEffect from "@arcgis/core/layers/support/FeatureEffect";
 import FeatureFilter from "@arcgis/core/layers/support/FeatureFilter";
 import Handle = __esri.Handle;
@@ -64,26 +69,7 @@ export default class FeatureLayerViewWrapper {
         try {
             let jsQuery = buildJsQuery(query);
             let featureSet = await this.featureLayerView.queryFeatures(jsQuery, options);
-            let dotNetFeatureSet : DotNetFeatureSet = {
-                features: [],
-                displayFieldName: featureSet.displayFieldName,
-                exceededTransferLimit: featureSet.exceededTransferLimit,
-                fields: featureSet.fields,
-                geometryType: featureSet.geometryType,
-                queryGeometry: buildDotNetGeometry(featureSet.queryGeometry),
-                spatialReference: buildDotNetSpatialReference(featureSet.spatialReference)
-            };
-            let graphics : DotNetGraphic[] = [];
-            for (let i = 0; i < featureSet.features.length; i++) {
-                let feature = featureSet.features[i];
-                let graphic : DotNetGraphic = buildDotNetGraphic(feature) as DotNetGraphic;
-                if (viewId !== undefined && viewId !== null) {
-                    graphic.id = await dotNetRefs[viewId].invokeMethodAsync('GetId');
-                    graphicsRefs[graphic.id as string] = feature;
-                }
-                graphics.push(graphic);
-            }
-            dotNetFeatureSet.features = graphics;
+            let dotNetFeatureSet = await buildDotNetFeatureSet(featureSet, viewId);
             if (!blazorServer) {
                 return dotNetFeatureSet;
             }

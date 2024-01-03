@@ -102,35 +102,35 @@
                           "type": "MapPath",
                           "id": 10
                         },
-                        "xMax": {
+                        "xmax": {
                           "type": "double",
                           "id": 11
                         },
-                        "xMin": {
+                        "xmin": {
                           "type": "double",
                           "id": 12
                         },
-                        "yMax": {
+                        "ymax": {
                           "type": "double",
                           "id": 13
                         },
-                        "yMin": {
+                        "ymin": {
                           "type": "double",
                           "id": 14
                         },
-                        "zMax": {
+                        "zmax": {
                           "type": "double",
                           "id": 15
                         },
-                        "zMin": {
+                        "zmin": {
                           "type": "double",
                           "id": 16
                         },
-                        "mMax": {
+                        "mmax": {
                           "type": "double",
                           "id": 17
                         },
-                        "mMin": {
+                        "mmin": {
                           "type": "double",
                           "id": 18
                         }
@@ -231,6 +231,42 @@
                         "url": {
                           "type": "string",
                           "id": 16
+                        },
+                        "backgroundColor": {
+                          "type": "MapColor",
+                          "id": 17
+                        },
+                        "borderLineSize": {
+                          "type": "double",
+                          "id": 18
+                        },
+                        "borderLineColor": {
+                          "type": "MapColor",
+                          "id": 19
+                        },
+                        "horizontalAlignment": {
+                          "type": "string",
+                          "id": 20
+                        },
+                        "kerning": {
+                          "type": "bool",
+                          "id": 21
+                        },
+                        "lineHeight": {
+                          "type": "double",
+                          "id": 22
+                        },
+                        "lineWidth": {
+                          "type": "string",
+                          "id": 23
+                        },
+                        "rotated": {
+                          "type": "bool",
+                          "id": 24
+                        },
+                        "verticalAlignment": {
+                          "type": "string",
+                          "id": 25
                         }
                       }
                     },

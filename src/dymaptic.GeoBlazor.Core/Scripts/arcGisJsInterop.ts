@@ -113,7 +113,7 @@ import {
     DotNetRasterColormapRenderer,
     DotNetAlgorithmicColorRamp,
     DotNetEffect,
-    DotNetMultidimensionalSubset,
+    DotNetMultidimensionalSubset, DotNetGraphic, DotNetPolyline, DotNetPolygon,
 
 } from "./definitions";
 import WebTileLayer from "@arcgis/core/layers/WebTileLayer";
@@ -224,12 +224,18 @@ export function getSerializedDotNetObject(id: string): any {
     return objectRef;
 }
 
-export function getProjectionWrapper(dotNetRef: any): ProjectionWrapper {
+export async function getProjectionWrapper(dotNetRef: any): Promise<ProjectionWrapper> {
+    if (ProtoGraphicCollection === undefined) {
+        await loadProtobuf();
+    }
     let wrapper = new ProjectionWrapper(dotNetRef);
     return wrapper;
 }
 
-export function getGeometryEngineWrapper(dotNetRef: any): GeometryEngineWrapper {
+export async function getGeometryEngineWrapper(dotNetRef: any): Promise<GeometryEngineWrapper> {
+    if (ProtoGraphicCollection === undefined) {
+        await loadProtobuf();
+    }
     let wrapper = new GeometryEngineWrapper(dotNetRef);
     return wrapper;
 }
@@ -2810,7 +2816,7 @@ function buildHitTestOptions(options: DotNetHitTestOptions, view: MapView): MapV
     return hitOptions;
 }
 
-let ProtoGraphicCollection;
+export let ProtoGraphicCollection;
 
 export async function loadProtobuf() {
     load("_content/dymaptic.GeoBlazor.Core/graphic.json", function (err, root) {
@@ -2827,7 +2833,6 @@ export async function loadProtobuf() {
 export async function getGraphicsFromProtobufStream(streamRef): Promise<any[] | null> {
     try {
         const buffer = await streamRef.arrayBuffer();
-        console.debug(new Date() + " - " + buffer.byteLength + " bytes received from server.");
         return decodeProtobufGraphics(new Uint8Array(buffer));
     } catch (error) {
         logError(error, null);
@@ -2844,17 +2849,55 @@ export function decodeProtobufGraphics(uintArray: Uint8Array): any[] {
         arrays: false,
         objects: false
     });
-    console.debug(new Date() + " - " + array.graphics.length + " graphics decoded from protobuf.");
     return array.graphics;
 }
 
-export function encodeProtobufGraphics(graphics: any[]): Uint8Array {
+export function getProtobufGraphicStream(graphics: DotNetGraphic[]): any {
+    for (let i = 0; i < graphics.length; i++) {
+        let graphic = graphics[i];
+        if (hasValue(graphic.attributes)) {
+            graphic.attributes = Object.keys(graphic.attributes).map(attr => {
+                return {
+                    key: attr,
+                    value: graphic.attributes[attr]?.toString(),
+                    valueType: Object.prototype.toString.call(graphic.attributes[attr])
+                }
+            });
+        }
+        if (hasValue(graphic.geometry.paths)) {
+            graphic.geometry.paths = (graphic.geometry as DotNetPolyline).paths.map(p => {
+                return {
+                    points: p.map(pt => {
+                        return {
+                            coordinates: pt
+                        }
+                    })
+                }
+            });
+        } else {
+            graphic.geometry.paths = [];
+        }
+        if (hasValue(graphic.geometry.rings)) {
+            graphic.geometry.rings = (graphic.geometry as DotNetPolygon).rings.map(r => {
+                return {
+                    points: r.map(pt => {
+                        return {
+                            coordinates: pt
+                        }
+                    })
+                }
+            });
+        } else {
+            graphic.geometry.rings = [];
+        }
+    }
     let obj = {
         graphics: graphics
     };
     let collection = ProtoGraphicCollection.fromObject(obj);
     let encoded = ProtoGraphicCollection.encode(collection).finish();
-    return encoded;
+    // @ts-ignore
+    return DotNet.createJSStreamReference(encoded);
 }
 
 let _authenticationManager: AuthenticationManager | null = null;

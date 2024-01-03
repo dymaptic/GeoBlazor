@@ -1,5 +1,8 @@
-﻿using ProtoBuf;
+﻿using dymaptic.GeoBlazor.Core.Components;
+using ProtoBuf;
 using System.Diagnostics;
+using System.Reflection;
+using System.Reflection.Metadata;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -65,7 +68,51 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
             }
         }
     }
-    
+
+    internal AttributesDictionary(AttributeSerializationRecord[]? serializedAttributes)
+    {
+        _backingDictionary = new Dictionary<string, object>();
+
+        if (serializedAttributes is not null)
+        {
+            foreach (AttributeSerializationRecord record in serializedAttributes)
+            {
+                if (record.Value is null) continue;
+
+                switch (record.ValueType)
+                {
+                    case "[object Number]":
+                        _backingDictionary[record.Key] = double.Parse(record.Value);
+                        
+                        break;
+                    case "[object Boolean]":
+                        _backingDictionary[record.Key] = bool.Parse(record.Value);
+
+                        break;
+                    case "[object String]":
+                        if (Guid.TryParse(record.Value, out Guid guidValue))
+                        {
+                            _backingDictionary[record.Key] = guidValue;
+                        }
+                        else
+                        {
+                            _backingDictionary[record.Key] = record.Value;
+                        }
+
+                        break;
+                    case "[object Date]":
+                        _backingDictionary[record.Key] = DateTime.Parse(record.Value);
+
+                        break;
+                    default:
+                        _backingDictionary[record.Key] = record.Value;
+
+                        break;
+                }
+            }
+        }
+    }
+
     /// <summary>
     ///     Explicit conversion from AttributesDictionary to <see cref="Dictionary{TKey,TValue}" />.
     /// </summary>
@@ -299,8 +346,35 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
 }
 
 [ProtoContract(Name = "Attribute")]
-internal record AttributeSerializationRecord([property: ProtoMember(1)] string Key,
-    [property: ProtoMember(2)] string? Value, [property: ProtoMember(3)] string ValueType);
+internal record AttributeSerializationRecord : MapComponentSerializationRecord
+{
+    public AttributeSerializationRecord()
+    {
+    }
+    
+    public AttributeSerializationRecord(string Key,
+        string? Value,
+        string ValueType)
+    {
+        this.Key = Key;
+        this.Value = Value;
+        this.ValueType = ValueType;
+    }
+
+    [ProtoMember(1)]
+    public string Key { get; init; } = string.Empty;
+    [ProtoMember(2)]
+    public string? Value { get; init; }
+    [ProtoMember(3)]
+    public string ValueType { get; init; } = string.Empty;
+
+    public void Deconstruct(out string Key, out string? Value, out string ValueType)
+    {
+        Key = this.Key;
+        Value = this.Value;
+        ValueType = this.ValueType;
+    }
+}
 
 internal class AttributesDictionaryConverter : JsonConverter<AttributesDictionary>
 {

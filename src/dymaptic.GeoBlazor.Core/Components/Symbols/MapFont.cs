@@ -16,6 +16,38 @@ namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 public class MapFont : MapComponent
 {
     /// <summary>
+    ///     Parameterless constructor for using as a razor component
+    /// </summary>
+    public MapFont()
+    {
+    }
+    
+    /// <summary>
+    ///     Constructs a new MapFont in code with parameters
+    /// </summary>
+    /// <param name="size">
+    ///     The font size in points.
+    /// </param>
+    /// <param name="family">
+    ///     The font family of the text.
+    /// </param>
+    /// <param name="style">
+    ///     The text style.
+    /// </param>
+    /// <param name="weight">
+    ///     The text weight.
+    /// </param>
+    public MapFont(int? size, string? family, string? style, string? weight)
+    {
+#pragma warning disable BL0005
+        Size = size;
+        Family = family;
+        FontStyle = style;
+        Weight = weight;
+#pragma warning restore BL0005
+    }
+    
+    /// <summary>
     ///     The font size in points. This value may be autocast with a string expressing size in points or pixels (e.g. 12px).
     /// </summary>
     [Parameter]
