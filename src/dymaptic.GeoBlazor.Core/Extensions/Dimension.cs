@@ -8,6 +8,7 @@ namespace dymaptic.GeoBlazor.Core.Extensions;
 ///     Defines a screen measurement in points or pixels. Supports implicit conversion from string, int, or double.
 ///     Dimensions can include `pt` or `px` units. If no units are specified, `pt` is assumed.
 /// </summary>
+[JsonConverter(typeof(DimensionConverter))]
 public class Dimension
 {
     /// <summary>

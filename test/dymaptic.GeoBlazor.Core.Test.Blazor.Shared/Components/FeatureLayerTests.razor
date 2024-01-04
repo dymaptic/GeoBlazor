@@ -184,12 +184,13 @@
         await WaitForMapToRender();
         await AssertJavaScript("assertGraphicExistsInLayer", args: new object[] { layer!.Id, "point", 2000 });
         Assert.AreEqual(2000, result.AddFeatureResults.Length);
-        
+#pragma warning disable BL0005
         foreach (Graphic graphic in graphics)
         {
             ((Point)graphic.Geometry!).X += 1;
             ((Point)graphic.Geometry!).Y += 1;
         }
+#pragma warning restore BL0005
         
         edits = new()
         {

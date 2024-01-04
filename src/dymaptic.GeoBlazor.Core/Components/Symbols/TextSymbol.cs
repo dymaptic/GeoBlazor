@@ -158,6 +158,11 @@ public class TextSymbol : Symbol
     /// <summary>
     ///     The size in points of the text symbol's halo.
     /// </summary>
+    /// <remarks>
+    ///     Known Limitations
+    ///         - Sub-pixel halo (i.e. fractional size such as 1.25px) renders inconsistently in various browsers.
+    ///         - Halo size should not be 1/4 larger than the text size. For example, if your text size is 12, the halo size should not be larger than 3.
+    /// </remarks>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Dimension? HaloSize { get; set; }
@@ -312,7 +317,7 @@ public class TextSymbol : Symbol
             HorizontalAlignment = HorizontalAlignment?.ToString(),
             Kerning = Kerning,
             LineHeight = LineHeight,
-            LineWidth = LineWidth,
+            LineWidth = LineWidth?.Points,
             Rotated = Rotated,
             VerticalAlignment = VerticalAlignment?.ToString()
         };
