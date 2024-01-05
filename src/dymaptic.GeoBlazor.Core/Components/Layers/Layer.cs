@@ -58,14 +58,6 @@ public abstract class Layer : MapComponent
     public ListMode? ListMode { get; set; }
 
     /// <summary>
-    ///     Indicates if the layer is visible in the View. When false, the layer may still be added to a Map instance that is
-    ///     referenced in a view, but its features will not be visible in the view.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? Visible { get; set; }
-
-    /// <summary>
     ///     The full extent of the layer. By default, this is worldwide. This property may be used to set the extent of the
     ///     view to match a layer's extent so that its features appear to fill the view.
     /// </summary>
