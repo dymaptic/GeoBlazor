@@ -83,6 +83,21 @@ public class BarChartMediaInfo : MediaInfo
     {
     }
 
+    /// <summary>
+    ///     Constructor for building a <see cref="BarChartMediaInfo" /> in code.
+    /// </summary>
+    /// <param name="title">
+    ///     The title of the media element.
+    /// </param>
+    /// <param name="caption">
+    ///     Defines a caption for the media.
+    /// </param>
+    /// <param name="altText">
+    ///     Provides an alternate text for an image if the image cannot be displayed.
+    /// </param>
+    /// <param name="value">
+    ///     Defines the chart value.
+    /// </param>
     public BarChartMediaInfo(string? title = null, string? caption = null, string? altText = null,
         ChartMediaInfoValue? value = null)
     {
@@ -767,6 +782,21 @@ public class LineChartMediaInfo : MediaInfo
     {
     }
 
+    /// <summary>
+    ///     Constructor for building a <see cref="LineChartMediaInfo" /> in code.
+    /// </summary>
+    /// <param name="title">
+    ///     The title of the media element.
+    /// </param>
+    /// <param name="caption">
+    ///     Defines a caption for the media.
+    /// </param>
+    /// <param name="altText">
+    ///     Provides an alternate text for an image if the image cannot be displayed.
+    /// </param>
+    /// <param name="value">
+    ///     Defines the chart value.
+    /// </param>
     public LineChartMediaInfo(string? title = null, string? caption = null, string? altText = null,
         ChartMediaInfoValue? value = null)
     {
