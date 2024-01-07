@@ -13,7 +13,7 @@
         <Version>$(CoreVersion)</Version>
         <Authors>dymaptic</Authors>
         <Company>dymaptic</Company>
-        <Copyright>©2023 by dymaptic</Copyright>
+        <Copyright>©2024 by dymaptic</Copyright>
         <PackageReadmeFile>ReadMe.md</PackageReadmeFile>
         <RepositoryUrl>https://github.com/dymaptic/GeoBlazor</RepositoryUrl>
         <PackageProjectUrl>https://geoblazor.com</PackageProjectUrl>
@@ -111,7 +111,7 @@
         <ExecAsync FilePath="pwsh" Arguments="./npmDebugBuild.ps1" />
     </Target>
 
-    <Target Name="NPM Release Build" AfterTargets="Copy Assets Release" Condition="$(Configuration) == 'RELEASE' AND $(TargetFrameworks.StartsWith($(TargetFramework)))">
+    <Target Name="NPM Release Build" AfterTargets="Copy Assets Release" Condition="$(Configuration) == 'RELEASE' AND $(TargetFrameworks.StartsWith($(TargetFramework))) AND '$(OptOutFromCoreEsBuild)' != 'true'">
         <!-- Runs synchronously to ensure all files are ready for nuget packaging in release mode -->
         <Exec Command="npm run releaseBuild" ContinueOnError="false" />
     </Target>

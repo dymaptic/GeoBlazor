@@ -2767,6 +2767,13 @@ export function setVisibility(componentId: string, visible: boolean): void {
     let component: any | undefined = arcGisObjectRefs[componentId];
     if (component !== undefined) {
         component.visible = visible;
+        return;
+    }
+    // check graphics too
+    let graphic = graphicsRefs[componentId];
+    if (graphic !== undefined) {
+        graphic.visible = visible;
+        return;
     }
 }
 

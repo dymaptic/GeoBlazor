@@ -66,6 +66,13 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     [CascadingParameter(Name = "View")]
     [JsonIgnore]
     public MapView? View { get; set; }
+    
+    /// <summary>
+    ///     Indicates the visibility of the component. Default value: true.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? Visible { get; set; }
 
     /// <summary>
     ///     A unique identifier, used to track components across .NET and JavaScript.
@@ -221,6 +228,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     public async Task SetVisibility(bool visible)
     {
         await JsModule!.InvokeVoidAsync("setVisibility", CancellationTokenSource.Token, Id, visible);
+        Visible = visible;
     }
 
     /// <summary>

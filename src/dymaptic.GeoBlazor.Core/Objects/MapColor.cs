@@ -14,6 +14,10 @@ namespace dymaptic.GeoBlazor.Core.Objects;
 [ProtoContract]
 public class MapColor : IEquatable<MapColor>
 {
+    /// <summary>
+    ///     Parameterless constructor for Protobuf deserialization.
+    ///     Not intended for public use.
+    /// </summary>
     public MapColor()
     {
     }

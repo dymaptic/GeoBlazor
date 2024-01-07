@@ -86,13 +86,6 @@ public class FieldInfo : MapComponent
     public string? Tooltip { get; set; } = string.Empty;
 
     /// <summary>
-    ///     Indicates whether the field is visible in the popup window.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? Visible { get; set; }
-
-    /// <summary>
     ///     A string determining what type of input box editors see when editing the field.
     /// </summary>
     [Parameter]

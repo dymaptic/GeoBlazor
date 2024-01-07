@@ -25,7 +25,7 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore ./src/dymaptic.GeoBlazor.Core/dymaptic.GeoBlazor.Core.csproj
     - name: Build Core
-      run: dotnet build ./src/dymaptic.GeoBlazor.Core/dymaptic.GeoBlazor.Core.csproj --no-restore /p:OptOutFromCoreEsBuild=false /p:GenerateDocs=false /p:UpdateTemplates=true -c Release
+      run: dotnet build ./src/dymaptic.GeoBlazor.Core/dymaptic.GeoBlazor.Core.csproj --no-restore /p:OptOutFromCoreEsBuild=false /p:GenerateDocs=true /p:UpdateTemplates=true -c Release
     
     - name: Add & Commit
       # Saves updated template versions

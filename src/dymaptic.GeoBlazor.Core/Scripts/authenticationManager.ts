@@ -8,9 +8,7 @@ export default class AuthenticationManager {
     private dotNetRef: any;
 
     constructor(dotNetReference, apiKey, appId, portalUrl) {
-        if (apiKey !== null) {
-            esriConfig.apiKey = apiKey;
-        } else {
+        if (appId !== null) {
             this.appId = appId;
             this.info = new OAuthInfo({
                 appId: appId,
@@ -21,7 +19,10 @@ export default class AuthenticationManager {
                 this.info.portalUrl = portalUrl;
             }
             IdentityManager.registerOAuthInfos([this.info]);
+        } else if (apiKey !== null) {
+            esriConfig.apiKey = apiKey;
         }
+        
         this.dotNetRef = dotNetReference;
     }
 
