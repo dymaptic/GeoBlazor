@@ -16,7 +16,9 @@ public class WebMap : Map
     /// <summary>
     ///     The portal item from which the WebMap is loaded.
     /// </summary>
+#pragma warning disable CS0618 // Type or member is obsolete
     [RequiredProperty(nameof(Basemap), nameof(ArcGISDefaultBasemap))]
+#pragma warning restore CS0618 // Type or member is obsolete
     [RequiredProperty] // the extra required here is for WebMap only, whereas the previous allows a check against the Map base type
     public PortalItem? PortalItem { get; set; }
 
