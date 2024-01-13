@@ -1981,6 +1981,29 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
             if (widget.label !== undefined && widget.label !== null) {
                 basemapLayerListWidget.label = widget.label;
             }
+            
+            let visibleElements: any = {};
+            let hasVisibleElements = false;
+            if (hasValue(widget.showStatusIndicators)) {
+                visibleElements.statusIndicators = widget.showStatusIndicators;
+                hasVisibleElements = true;
+            }
+            if (hasValue(widget.showBaseLayers)) {
+                visibleElements.baseLayers = widget.showBaseLayers;
+                hasVisibleElements = true;
+            }
+            if (hasValue(widget.showReferenceLayers)) {
+                visibleElements.referenceLayers = widget.showReferenceLayers;
+                hasVisibleElements = true;
+            }
+            if (hasValue(widget.showErrors)) {
+                visibleElements.errors = widget.showErrors;
+                hasVisibleElements = true;
+            }
+            
+            if (hasVisibleElements) {
+                basemapLayerListWidget.visibleElements = visibleElements;
+            }
             break;
         case 'expand':
             let content: any;
@@ -2133,7 +2156,11 @@ export async function addLayer(layerObject: any, viewId: string, isBasemapLayer?
         if (newLayer === null) return;
 
         if (isBasemapLayer) {
-            view.map?.basemap.baseLayers.push(newLayer);
+            if (layerObject.isBasemapReferenceLayer) {
+                view.map?.basemap.referenceLayers.push(newLayer);
+            } else {
+                view.map?.basemap.baseLayers.push(newLayer);
+            }
         } else if (isQueryLayer) {
             queryLayer = newLayer as FeatureLayer;
             if (callback !== undefined) {
