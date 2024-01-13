@@ -33,6 +33,34 @@ public class BasemapLayerListWidget : Widget
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Label { get; set; }
+    
+    /// <summary>
+    ///     Indicates whether to the status indicators will be displayed. Default is true.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? ShowStatusIndicators { get; set; }
+    
+    /// <summary>
+    ///     Indicates whether to the base layers will be displayed. Default is true.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? ShowBaseLayers { get; set; }
+    
+    /// <summary>
+    ///     Indicates whether the reference layers will be displayed. Default is true.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? ShowReferenceLayers { get; set; }
+    
+    /// <summary>
+    ///     Indicates whether layer load errors will be displayed. Default is false.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? ShowErrors { get; set; }
 
     /// <summary>
     ///     A delegate to implement a custom handler for setting up a base type of<see cref="ListItem" />.
