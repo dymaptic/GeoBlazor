@@ -23,6 +23,7 @@ public class LayerListWidget : Widget
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [Obsolete("Use Icon instead")]
     public string? IconClass { get; set; }
 
     /// <summary>
