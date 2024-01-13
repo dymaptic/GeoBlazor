@@ -178,6 +178,10 @@ public class BasemapLayerListWidget : Widget
     }
 }
 
+/// <summary>
+///     The visible elements that are displayed within the widget. This property provides the ability to turn individual elements of the widget's display on/off.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
+/// </summary>
 public class BasemapLayerListWidgetVisibleElements: MapComponent
 {
     /// <summary>
