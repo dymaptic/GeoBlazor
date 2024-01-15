@@ -2886,31 +2886,33 @@ export function getProtobufGraphicStream(graphics: DotNetGraphic[]): any {
                 }
             });
         }
-        if (hasValue(graphic.geometry.paths)) {
-            graphic.geometry.paths = (graphic.geometry as DotNetPolyline).paths.map(p => {
-                return {
-                    points: p.map(pt => {
-                        return {
-                            coordinates: pt
-                        }
-                    })
-                }
-            });
-        } else {
-            graphic.geometry.paths = [];
-        }
-        if (hasValue(graphic.geometry.rings)) {
-            graphic.geometry.rings = (graphic.geometry as DotNetPolygon).rings.map(r => {
-                return {
-                    points: r.map(pt => {
-                        return {
-                            coordinates: pt
-                        }
-                    })
-                }
-            });
-        } else {
-            graphic.geometry.rings = [];
+        if (hasValue(graphic.geometry)) {
+            if (hasValue(graphic.geometry.paths)) {
+                graphic.geometry.paths = (graphic.geometry as DotNetPolyline).paths.map(p => {
+                    return {
+                        points: p.map(pt => {
+                            return {
+                                coordinates: pt
+                            }
+                        })
+                    }
+                });
+            } else {
+                graphic.geometry.paths = [];
+            }
+            if (hasValue(graphic.geometry.rings)) {
+                graphic.geometry.rings = (graphic.geometry as DotNetPolygon).rings.map(r => {
+                    return {
+                        points: r.map(pt => {
+                            return {
+                                coordinates: pt
+                            }
+                        })
+                    }
+                });
+            } else {
+                graphic.geometry.rings = [];
+            }
         }
     }
     let obj = {
