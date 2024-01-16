@@ -982,7 +982,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer
     }
     
     [JSInvokable]
-    public async Task OnQueryRelatedFeaturesStreamCallback(IJSStreamReference streamReference, Guid queryId, int objectId)
+    public async Task OnQueryRelatedFeaturesStreamCallback(IJSStreamReference streamReference, Guid queryId, string objectId)
     {
         await using Stream stream = await streamReference
             .OpenReadStreamAsync(1_000_000_000L);
@@ -997,7 +997,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer
             _activeRelatedQueries[queryId] = new Dictionary<int, Graphic[]>();
         }
 
-        _activeRelatedQueries[queryId][objectId] = graphics;
+        _activeRelatedQueries[queryId][int.Parse(objectId)] = graphics;
     }
 
     /// <summary>

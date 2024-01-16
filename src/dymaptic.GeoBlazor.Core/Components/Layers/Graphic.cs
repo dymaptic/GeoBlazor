@@ -394,7 +394,10 @@ internal record GraphicSerializationRecord : MapComponentSerializationRecord
         return new Graphic(Geometry?.FromSerializationRecord(),
             Symbol?.FromSerializationRecord(),
             PopupTemplate?.FromSerializationRecord(),
-            new AttributesDictionary(Attributes));
+            new AttributesDictionary(Attributes))
+        {
+            Id = Guid.Parse(Id)
+        };
     }
 
     [ProtoMember(1)]
