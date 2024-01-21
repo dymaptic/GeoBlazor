@@ -21,14 +21,6 @@ public class BasemapLayerListWidget : Widget
     public override string WidgetType => "basemapLayerList";
 
     /// <summary>
-    ///     The widget's default CSS icon class.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [Obsolete("Use Icon instead")]
-    public string? IconClass { get; set; }
-
-    /// <summary>
     ///     The widget's default label.
     /// </summary>
     [Parameter]
