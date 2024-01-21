@@ -103,7 +103,7 @@ export function assertSymbolOnLayer(methodName, layerId, symbolType, dnSymbol) {
                     isMatch = true;
                     break;
                 default:
-                    isMatch = layer.renderer.symbol[propertyName] === dnSymbol[propertyName];
+                    isMatch = layer.renderer.symbol[propertyName].toString() === dnSymbol[propertyName].toString();
                     break;
             }
 

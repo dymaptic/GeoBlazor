@@ -18,23 +18,7 @@ public class ExpandWidget : Widget
     ///     Internal mark for GeoBlazor rendering
     /// </summary>
     protected override bool Hidden => true;
-
-    /// <summary>
-    ///     Icon font used to style the Expand button when expanded.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [Obsolete("Use ExpandIcon instead")]
-    public string? ExpandIconClass { get; set; }
-
-    /// <summary>
-    ///     Icon font used to style the Expand button when collapsed.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [Obsolete("Use CollapseIcon instead")]
-    public string? CollapseIconClass { get; set; }
-
+    
     /// <summary>
     ///     Tooltip to display to indicate Expand widget can be expanded
     /// </summary>
