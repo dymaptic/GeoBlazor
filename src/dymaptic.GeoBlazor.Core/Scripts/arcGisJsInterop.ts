@@ -1128,7 +1128,26 @@ export async function updateWidget(widgetObject: any, viewId: string): Promise<v
                         url: widgetObject.portal.url
                     });
                 }
+                break;
+            case 'basemapLayerList':
+                let basemapLayerList = currentWidget as BasemapLayerList;
+                if (hasValue(widgetObject.visibleElements)) {
+                    basemapLayerList.visibleElements = {
+                        statusIndicators: widgetObject.visibleElements.statusIndicators,
+                        baseLayers: widgetObject.visibleElements.baseLayers,
+                        referenceLayers: widgetObject.visibleElements.referenceLayers,
+                        errors: widgetObject.errors
+                    };
+                }
+                copyValuesIfExists(widgetObject, basemapLayerList, 'basemapTitle', 'editingEnabled', 'headingLevel',
+                    'multipleSelectionEnabled');
+                break;
         }
+
+        if (hasValue(widgetObject.widgetId)) {
+            currentWidget.id = widgetObject.widgetId;
+        }
+        copyValuesIfExists(widgetObject, currentWidget, 'icon', 'label');
         unsetWaitCursor(viewId);
     } catch (error) {
         logError(error, viewId);
@@ -1888,9 +1907,6 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
                 view: view,
             });
             newWidget = homeBtn;
-            if (hasValue(widget.label)) {
-                homeBtn.label = widget.label;
-            }
             if (hasValue(widget.iconClass)) {
                 homeBtn.iconClass = widget.iconClass;
             }
@@ -1900,9 +1916,6 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
                 view: view
             });
             newWidget = compassWidget;
-            if (hasValue(widget.label)) {
-                compassWidget.label = widget.label;
-            }
             break;
         case 'layerList':
             const layerListWidget = new LayerList({
@@ -1931,9 +1944,6 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
 
             if (hasValue(widget.iconClass)) {
                 layerListWidget.iconClass = widget.iconClass;
-            }
-            if (hasValue(widget.label)) {
-                layerListWidget.label = widget.label;
             }
             break;
         case 'basemapLayerList':
@@ -1970,10 +1980,19 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
                     }
                 };
             }
-
-            if (widget.label !== undefined && widget.label !== null) {
-                basemapLayerListWidget.label = widget.label;
+            
+            if (hasValue(widget.visibleElements)) {
+                basemapLayerListWidget.visibleElements = {
+                    statusIndicators: widget.visibleElements.statusIndicators,
+                    baseLayers: widget.visibleElements.baseLayers,
+                    referenceLayers: widget.visibleElements.referenceLayers,
+                    errors: widget.visibleElements.errors
+                };
             }
+            
+            copyValuesIfExists(widget, basemapLayerListWidget, 'basemapTitle', 'editingEnabled', 'headingLevel',
+                'multipleSelectionEnabled');
+            
             break;
         case 'expand':
             let content: any;
@@ -2044,7 +2063,6 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
                 activeTool: widget.activeTool ?? undefined,
                 areaUnit: widget.areaUnit ?? undefined,
                 linearUnit: widget.linearUnit ?? undefined,
-                label: widget.label ?? undefined,
                 icon: widget.icon ?? undefined,
             });
             break;
@@ -2053,8 +2071,7 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
                 view: view,
                 editingEnabled: widget.editingEnabled,
                 disabled: widget.disabled,
-                icon: widget.icon,
-                label: widget.label
+                icon: widget.icon
             });
             if (widget.bookmarks != null) {
                 bookmarkWidget.bookmarks = widget.bookmarks.map(buildJsBookmark);
@@ -2072,13 +2089,11 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
             return null;
     }
 
-    if (hasValue(widget.icon)) {
-        newWidget.icon = widget.icon;
-    }
-
     if (hasValue(widget.widgetId)) {
         newWidget.id = widget.widgetId;
     }
+
+    copyValuesIfExists(widget, newWidget, 'icon', 'label');
 
     arcGisObjectRefs[widget.id] = newWidget;
     dotNetRefs[widget.id] = widget.dotNetComponentReference;
@@ -2118,7 +2133,11 @@ export async function addLayer(layerObject: any, viewId: string, isBasemapLayer?
         if (newLayer === null) return;
 
         if (isBasemapLayer) {
-            view.map?.basemap.baseLayers.push(newLayer);
+            if (layerObject.isBasemapReferenceLayer) {
+                view.map?.basemap.referenceLayers.push(newLayer);
+            } else {
+                view.map?.basemap.baseLayers.push(newLayer);
+            }
         } else if (isQueryLayer) {
             queryLayer = newLayer as FeatureLayer;
             if (callback !== undefined) {

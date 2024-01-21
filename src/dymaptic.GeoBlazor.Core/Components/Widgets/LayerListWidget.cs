@@ -19,13 +19,6 @@ public class LayerListWidget : Widget
     public override string WidgetType => "layerList";
 
     /// <summary>
-    ///     The widget's default CSS icon class.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? IconClass { get; set; }
-
-    /// <summary>
     ///     The widget's default label.
     /// </summary>
     [Parameter]
