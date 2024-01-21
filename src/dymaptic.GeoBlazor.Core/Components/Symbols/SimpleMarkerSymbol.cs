@@ -41,30 +41,23 @@ public class SimpleMarkerSymbol : MarkerSymbol
     ///     The angle of the marker relative to the screen in degrees.
     /// </param>
     /// <param name="xOffset">
-    ///     The offset on the x-axis in points.
+    ///     The offset on the x-axis in points. This value may be autocast with a string expressing size in points or pixels (e.g. 12px).
     /// </param>
     /// <param name="yOffset">
-    ///     The offset on the y-axis in points.
+    ///     The offset on the y-axis in points. This value may be autocast with a string expressing size in points or pixels (e.g. 12px).
     /// </param>
-    /// <param name="markerStyle">
-    ///     The marker style.
-    /// </param>
-    public SimpleMarkerSymbol(Outline? outline = null, MapColor? color = null, double? size = null,
-        string? style = null, double? angle = null, double? xOffset = null, double? yOffset = null,
-        SimpleMarkerStyle? markerStyle = null)
+    public SimpleMarkerSymbol(Outline? outline = null, MapColor? color = null, Dimension? size = null,
+        SimpleMarkerStyle? style = null, double? angle = null, Dimension? xOffset = null, Dimension? yOffset = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         Outline = outline;
         Color = color;
         Size = size;
-#pragma warning disable CS0618 // Type or member is obsolete
-        Style = style;
-#pragma warning restore CS0618 // Type or member is obsolete
         Angle = angle;
         XOffset = xOffset;
         YOffset = yOffset;
-        MarkerStyle = markerStyle;
+        Style = style;
 #pragma warning restore BL0005
     }
     
@@ -75,11 +68,11 @@ public class SimpleMarkerSymbol : MarkerSymbol
     public Outline? Outline { get; set; }
 
     /// <summary>
-    ///     The size of the marker in points.
+    ///     The size of the marker in points. This value may be autocast with a string expressing size in points or pixels (e.g. 12px).
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public double? Size { get; set; }
+    public Dimension? Size { get; set; }
 
     /// <inheritdoc />
     public override string Type => "simple-marker";
@@ -89,15 +82,7 @@ public class SimpleMarkerSymbol : MarkerSymbol
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [Parameter]
-    [Obsolete("Use MarkerStyle instead")]
-    public string? Style { get; set; }
-    
-    /// <summary>
-    ///     The marker style
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition= JsonIgnoreCondition.WhenWritingNull)]
-    public SimpleMarkerStyle? MarkerStyle { get; set; }
+    public SimpleMarkerStyle? Style { get; set; }
     
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
@@ -146,13 +131,11 @@ public class SimpleMarkerSymbol : MarkerSymbol
         return new SymbolSerializationRecord(Type, Color)
         {
             Outline = Outline?.ToSerializationRecord(),
-            Size = Size,
-#pragma warning disable CS0618 // Type or member is obsolete
-            Style = MarkerStyle?.ToString().ToKebabCase() ?? Style,
-#pragma warning restore CS0618 // Type or member is obsolete
+            Size = Size?.Points,
+            Style = Style?.ToString().ToKebabCase(),
             Angle = Angle,
-            XOffset = XOffset,
-            YOffset = YOffset
+            XOffset = XOffset?.Points,
+            YOffset = YOffset?.Points
         };
     }
 
