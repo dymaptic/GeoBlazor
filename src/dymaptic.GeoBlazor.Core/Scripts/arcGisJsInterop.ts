@@ -364,13 +364,16 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
         }
 
         if (hasValue(mapObject.layers)) {
-            for (const layerObject of mapObject.layers) {
+            // add layers in reverse order to match the expected order in the map
+            for (let i = mapObject.layers.length - 1; i >= 0; i--) {
+                const layerObject = mapObject.layers[i];
                 await addLayer(layerObject, id);
             }
         }
 
-        for (const l of basemapLayers) {
-            await addLayer(l, id, true);
+        for (let i = basemapLayers.length - 1; i >= 0; i--) {
+            const layerObject = basemapLayers[i];
+            await addLayer(layerObject, id, true);
         }
 
         for (const widget of widgets.filter(w => w.type !== 'popup')) {
