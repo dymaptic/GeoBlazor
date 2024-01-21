@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using dymaptic.GeoBlazor.Core.Extensions;
+using Microsoft.AspNetCore.Components;
 using System.Text.Json.Serialization;
 
 
@@ -39,8 +40,8 @@ public class PictureMarkerSymbol : MarkerSymbol
     /// <param name="yOffset">
     ///     The offset on the y-axis in points.
     /// </param>
-    public PictureMarkerSymbol(string url, double? width = null, double? height = null,
-        double? angle = null, double? xOffset = null, double? yOffset = null)
+    public PictureMarkerSymbol(string url, Dimension? width = null, Dimension? height = null,
+        double? angle = null, Dimension? xOffset = null, Dimension? yOffset = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -58,14 +59,14 @@ public class PictureMarkerSymbol : MarkerSymbol
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public double? Height { get; set; }
+    public Dimension? Height { get; set; }
 
     /// <summary>
     ///     The width of the image in points.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public double? Width { get; set; }
+    public Dimension? Width { get; set; }
 
     /// <inheritdoc />
     public override string Type => "picture-marker";
@@ -81,11 +82,11 @@ public class PictureMarkerSymbol : MarkerSymbol
         return new SymbolSerializationRecord(Type, null)
         {
             Url = Url,
-            Width = Width,
-            Height = Height,
+            Width = Width?.Points,
+            Height = Height?.Points,
             Angle = Angle,
-            XOffset = XOffset,
-            YOffset = YOffset
+            XOffset = XOffset?.Points,
+            YOffset = YOffset?.Points
         };
     }
 }

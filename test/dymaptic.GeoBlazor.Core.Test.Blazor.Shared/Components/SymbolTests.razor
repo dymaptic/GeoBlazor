@@ -1,4 +1,5 @@
-﻿@inherits TestRunnerBase
+﻿@using dymaptic.GeoBlazor.Core.Extensions
+@inherits TestRunnerBase
 
 @{
     base.BuildRenderTree(__builder);
@@ -56,10 +57,10 @@
                                         VerticalAlignment="VerticalAlignment.Top"
                                         Kerning="false"
                                         LineHeight="2.3"
-                                        LineWidth="120px"
+                                        LineWidth="@(new Dimension("120px"))"
                                         Rotated="true"
-                                        XOffset="23pt"
-                                        YOffset="23pt">
+                                        XOffset="@("23pt")"
+                                        YOffset="@("23pt")">
                                 <MapFont Family="San Serif" />
                             </TextSymbol>
                         </SimpleRenderer>
