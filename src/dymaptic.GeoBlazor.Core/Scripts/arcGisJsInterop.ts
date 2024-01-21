@@ -151,6 +151,7 @@ import FlowRenderer from "@arcgis/core/renderers/FlowRenderer";
 import UniqueValueRenderer from "@arcgis/core/renderers/UniqueValueRenderer.js";
 import ClassBreaksRenderer from "@arcgis/core/renderers/ClassBreaksRenderer.js";
 import MultidimensionalSubset from "@arcgis/core/layers/support/MultidimensionalSubset";
+import BasemapStyle from "@arcgis/core/support/BasemapStyle";
 
 
 export let arcGisObjectRefs: Record<string, Accessor> = {};
@@ -274,6 +275,17 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
             if (mapObject.arcGISDefaultBasemap !== undefined &&
                 mapObject.arcGISDefaultBasemap !== null) {
                 basemap = mapObject.arcGISDefaultBasemap;
+            } else if (hasValue(mapObject.basemap?.style)) {
+                let style = new BasemapStyle({
+                    id: mapObject.basemap.style.name
+                });
+                if (hasValue(mapObject.basemap.style.language)) {
+                    style.language = mapObject.basemap.style.language
+                }
+                if (hasValue(mapObject.basemap.style.serviceUrl)) {
+                    style.serviceUrl = mapObject.basemap.style.serviceUrl;
+                }
+                basemap = new Basemap({ style: style })
             } else if (hasValue(mapObject.basemap?.portalItem?.id)) {
                 let portalItem = buildJsPortalItem(mapObject.basemap.portalItem);
                 basemap = new Basemap({ portalItem: portalItem });

@@ -20,6 +20,7 @@ public class Map : MapComponent
     ///     Either <see cref="ArcGISDefaultBasemap" /> or <see cref="Basemap" /> should be set, but not both.
     /// </remarks>
     [Parameter]
+    [Obsolete("Define a Basemap with a BasemapStyle component instead.")]
     public string? ArcGISDefaultBasemap { get; set; }
 
     /// <summary>
@@ -31,9 +32,6 @@ public class Map : MapComponent
     /// <summary>
     ///     The <see cref="Basemap" /> for this map.
     /// </summary>
-    /// <remarks>
-    ///     Either <see cref="ArcGISDefaultBasemap" /> or <see cref="Basemap" /> should be set, but not both.
-    /// </remarks>
     public Basemap? Basemap { get; set; }
 
     /// <summary>
