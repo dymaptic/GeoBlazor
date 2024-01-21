@@ -25,7 +25,7 @@
             </ItemGroup>
         </When>
         <Otherwise>
-            <ItemGroup Condition="$(Configuration) == 'DEBUG'">
+            <ItemGroup Condition="$(Configuration) == 'DEBUG' OR '$(UsePackageReferences)' != 'true'">
                 <ProjectReference Include="..\..\src\dymaptic.GeoBlazor.Core\dymaptic.GeoBlazor.Core.csproj"/>
             </ItemGroup>
         </Otherwise>

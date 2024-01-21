@@ -265,15 +265,29 @@ export default class FeatureLayerWrapper {
                                 abortSignal: AbortSignal): Promise<any> {
         if (abortSignal.aborted) return;
         let addAttachments = edits.addAttachments?.map(e => {
-            return {
-                feature: graphicsRefs[e.feature],
-                attachment: e.attachment
+            if (hasValue(e.feature)) {
+                return {
+                    feature: graphicsRefs[e.feature],
+                    attachment: e.attachment
+                }
+            } else {
+                return {
+                    feature: e.objectId ?? e.globalId,
+                    attachment: e.attachment
+                }
             }
         });
         let updateAttachments = edits.updateAttachments?.map(e => {
-            return {
-                feature: graphicsRefs[e.feature],
-                attachment: e.attachment
+            if (hasValue(e.feature)) {
+                return {
+                    feature: graphicsRefs[e.feature],
+                    attachment: e.attachment
+                }
+            } else {
+                return {
+                    feature: e.objectId ?? e.globalId,
+                    attachment: e.attachment
+                }
             }
         });
         let jsEdits = {

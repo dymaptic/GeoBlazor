@@ -640,21 +640,8 @@ public partial class MapView : MapComponent
     [JSInvokable]
     public async Task OnJsViewRendered()
     {
-#pragma warning disable CS0618
-        await OnMapRendered.InvokeAsync();
-#pragma warning restore CS0618
         await OnViewRendered.InvokeAsync(Id);
     }
-
-    /// <summary>
-    ///     Handler delegate for when the map view is fully rendered. Must return a <see cref="Task" />.
-    /// </summary>
-    /// <remarks>
-    ///     OBSOLETE: The naming of this method was inconsistent with ArcGIS and the name of this class. It has been replaced by <see cref="OnViewRendered"/> which also returns the Id of the view for handling multi-view scenarios.
-    /// </remarks>
-    [Parameter]
-    [Obsolete("Use OnViewRendered instead.")]
-    public EventCallback OnMapRendered { get; set; }
 
     /// <summary>
     ///     Handler delegate for when the map view is fully rendered. Must return a <see cref="Task" />.

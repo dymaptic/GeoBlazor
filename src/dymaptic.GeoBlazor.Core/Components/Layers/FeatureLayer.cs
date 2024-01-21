@@ -1352,10 +1352,47 @@ public class FeatureEdits
 public class AttachmentEdit
 {
     /// <summary>
-    ///     The feature, objectId or globalId of feature associated with the attachment.
+    ///     Construct an AttachmentEdit from a <see cref="Graphic"/> "Feature" and its <see cref="Attachment"/>.
+    /// </summary>
+    public AttachmentEdit(Graphic feature, Attachment attachment)
+    {
+        Feature = feature;
+        Attachment = attachment;
+    }
+
+    /// <summary>
+    ///     Construct an AttachmentEdit from a Feature's `objectId` and its <see cref="Attachment"/>.
+    /// </summary>
+    public AttachmentEdit(int objectId, Attachment attachment)
+    {
+        ObjectId = objectId;
+        Attachment = attachment;
+    }
+
+    /// <summary>
+    ///     Construct an AttachmentEdit from a Feature's `globalId` and its <see cref="Attachment"/>.
+    /// </summary>
+    public AttachmentEdit(string globalId, Attachment attachment)
+    {
+        GlobalId = globalId;
+        Attachment = attachment;
+    }
+    
+    /// <summary>
+    ///     The feature of feature associated with the attachment.
     /// </summary>
     [JsonConverter(typeof(GraphicToIdConverter))]
     public Graphic? Feature { get; set; }
+    
+    /// <summary>
+    ///     The `objectId` of the feature associated with the attachment.
+    /// </summary>
+    public int? ObjectId { get; set; }
+    
+    /// <summary>
+    ///     The `globalId` of the feature associated with the attachment.
+    /// </summary>
+    public string? GlobalId { get; set; }
 
     /// <summary>
     ///     The attachment to be added, updated or deleted.
