@@ -112,20 +112,7 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
     }
 
     /// <summary>
-    ///     Implicit conversion from <see cref="Dictionary{TKey,TValue}" /> to AttributesDictionary.
-    ///     This is only provided for backwards compatibility and may be removed in a future release.
-    /// </summary>
-    [Obsolete("Using a Dictionary<string, object> for attributes is deprecated. Use an AttributesDictionary(Dictionary<string, object> dictionary) instead.")]
-    public static implicit operator AttributesDictionary(Dictionary<string, object?> dictionary)
-    {
-        Debug.WriteLine(
-            "Using a Dictionary<string, object> for attributes is deprecated. Use an AttributesDictionary(Dictionary<string, object> dictionary) instead.");
-
-        return new AttributesDictionary(dictionary);
-    }
-
-    /// <summary>
-    ///     Implicit conversion from AttributesDictionary to <see cref="Dictionary{TKey,TValue}" />.
+    ///     Explicit conversion from AttributesDictionary to <see cref="Dictionary{TKey,TValue}" />.
     /// </summary>
     public static explicit operator Dictionary<string, object?>(AttributesDictionary attributesDictionary)
     {
@@ -348,33 +335,12 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
     private readonly Dictionary<string, object?> _backingDictionary;
 
     /// <summary>
-    ///     Gets or sets the value associated with the specified key.
+    ///     Gets the value associated with the specified key.
     /// </summary>
-    /// <remarks>
-    ///     Setter is obsolete and potentially unstable due to calling async from sync code.
-    /// </remarks>
     /// <param name="key">
     ///     The key to get the value for
     /// </param>
-    public object? this[string key]
-    {
-        get => _backingDictionary[key];
-        [Obsolete("Use AddOrUpdate instead")]
-        set
-        {
-            if (_backingDictionary.ContainsKey(key) && (_backingDictionary[key] == value))
-            {
-                return;
-            }
-
-            _backingDictionary[key] = value;
-
-            if (OnChange is not null)
-            {
-                Task.Run(OnChange);
-            }
-        }
-    }
+    public object? this[string key] => _backingDictionary[key];
 }
 
 [ProtoContract(Name = "Attribute")]

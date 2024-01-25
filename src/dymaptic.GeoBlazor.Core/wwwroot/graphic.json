@@ -217,7 +217,7 @@
                           "id": 12
                         },
                         "haloSize": {
-                          "type": "int32",
+                          "type": "double",
                           "id": 13
                         },
                         "font": {
@@ -257,7 +257,7 @@
                           "id": 22
                         },
                         "lineWidth": {
-                          "type": "string",
+                          "type": "double",
                           "id": 23
                         },
                         "rotated": {
@@ -286,7 +286,7 @@
                     "MapFont": {
                       "fields": {
                         "size": {
-                          "type": "int32",
+                          "type": "string",
                           "id": 1
                         },
                         "family": {

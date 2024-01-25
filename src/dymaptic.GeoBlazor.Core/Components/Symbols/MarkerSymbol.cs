@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using dymaptic.GeoBlazor.Core.Extensions;
+using Microsoft.AspNetCore.Components;
 using System.Text.Json.Serialization;
 
 
@@ -19,16 +20,16 @@ public abstract class MarkerSymbol : Symbol
     public double? Angle { get; set; }
 
     /// <summary>
-    ///     The offset on the x-axis in points.
+    ///     The offset on the x-axis in points. This value may be autocast with a string expressing size in points or pixels (e.g. 12px).
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public double? XOffset { get; set; }
+    public Dimension? XOffset { get; set; }
 
     /// <summary>
-    ///     The offset on the y-axis in points.
+    ///     The offset on the y-axis in points. This value may be autocast with a string expressing size in points or pixels (e.g. 12px).
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public double? YOffset { get; set; }
+    public Dimension? YOffset { get; set; }
 }

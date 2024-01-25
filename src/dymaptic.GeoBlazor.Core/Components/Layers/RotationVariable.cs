@@ -13,6 +13,35 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 /// </summary>
 public class RotationVariable : VisualVariable
 {
+    /// <summary>
+    ///     Parameterless constructor for using as a razor component
+    /// </summary>
+    public RotationVariable()
+    {
+    }
+    
+    /// <summary>
+    ///     Constructs a new RotationVariable in code with parameters
+    /// </summary>
+    /// <param name="field">
+    ///     The name of the numeric attribute field that contains the data values used to determine the rotation of each feature.
+    /// </param>
+    /// <param name="axis">
+    ///     Only applicable when working in a SceneView.
+    /// </param>
+    /// <param name="rotationType">
+    ///     Defines the origin and direction of rotation depending on how the angle of rotation was measured.
+    /// </param>
+    public RotationVariable(string field, string? axis = null,
+        RotationType? rotationType = null)
+    {
+#pragma warning disable BL0005
+        Axis = axis;
+        Field = field;
+        RotationType = rotationType;
+#pragma warning restore BL0005
+    }
+    
     /// <inheritdoc />
     [JsonPropertyName("type")]
     public override VisualVariableType VariableType => VisualVariableType.Rotation;

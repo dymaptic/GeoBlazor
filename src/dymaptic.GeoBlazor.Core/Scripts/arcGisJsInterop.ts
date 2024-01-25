@@ -151,6 +151,7 @@ import FlowRenderer from "@arcgis/core/renderers/FlowRenderer";
 import UniqueValueRenderer from "@arcgis/core/renderers/UniqueValueRenderer.js";
 import ClassBreaksRenderer from "@arcgis/core/renderers/ClassBreaksRenderer.js";
 import MultidimensionalSubset from "@arcgis/core/layers/support/MultidimensionalSubset";
+import BasemapStyle from "@arcgis/core/support/BasemapStyle";
 
 
 export let arcGisObjectRefs: Record<string, Accessor> = {};
@@ -274,6 +275,17 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
             if (mapObject.arcGISDefaultBasemap !== undefined &&
                 mapObject.arcGISDefaultBasemap !== null) {
                 basemap = mapObject.arcGISDefaultBasemap;
+            } else if (hasValue(mapObject.basemap?.style)) {
+                let style = new BasemapStyle({
+                    id: mapObject.basemap.style.name
+                });
+                if (hasValue(mapObject.basemap.style.language)) {
+                    style.language = mapObject.basemap.style.language
+                }
+                if (hasValue(mapObject.basemap.style.serviceUrl)) {
+                    style.serviceUrl = mapObject.basemap.style.serviceUrl;
+                }
+                basemap = new Basemap({ style: style })
             } else if (hasValue(mapObject.basemap?.portalItem?.id)) {
                 let portalItem = buildJsPortalItem(mapObject.basemap.portalItem);
                 basemap = new Basemap({ portalItem: portalItem });
@@ -364,13 +376,16 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
         }
 
         if (hasValue(mapObject.layers)) {
-            for (const layerObject of mapObject.layers) {
+            // add layers in reverse order to match the expected order in the map
+            for (let i = mapObject.layers.length - 1; i >= 0; i--) {
+                const layerObject = mapObject.layers[i];
                 await addLayer(layerObject, id);
             }
         }
 
-        for (const l of basemapLayers) {
-            await addLayer(l, id, true);
+        for (let i = basemapLayers.length - 1; i >= 0; i--) {
+            const layerObject = basemapLayers[i];
+            await addLayer(layerObject, id, true);
         }
 
         for (const widget of widgets.filter(w => w.type !== 'popup')) {
@@ -1128,7 +1143,26 @@ export async function updateWidget(widgetObject: any, viewId: string): Promise<v
                         url: widgetObject.portal.url
                     });
                 }
+                break;
+            case 'basemapLayerList':
+                let basemapLayerList = currentWidget as BasemapLayerList;
+                if (hasValue(widgetObject.visibleElements)) {
+                    basemapLayerList.visibleElements = {
+                        statusIndicators: widgetObject.visibleElements.statusIndicators,
+                        baseLayers: widgetObject.visibleElements.baseLayers,
+                        referenceLayers: widgetObject.visibleElements.referenceLayers,
+                        errors: widgetObject.errors
+                    };
+                }
+                copyValuesIfExists(widgetObject, basemapLayerList, 'basemapTitle', 'editingEnabled', 'headingLevel',
+                    'multipleSelectionEnabled');
+                break;
         }
+
+        if (hasValue(widgetObject.widgetId)) {
+            currentWidget.id = widgetObject.widgetId;
+        }
+        copyValuesIfExists(widgetObject, currentWidget, 'icon', 'label');
         unsetWaitCursor(viewId);
     } catch (error) {
         logError(error, viewId);
@@ -1739,7 +1773,6 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
         case 'locate':
             const locate = new Locate({
                 view: view,
-                useHeadingEnabled: widget.useHeadingEnabled ?? undefined,
                 rotationEnabled: widget.rotationEnabled ?? undefined,
                 scale: widget.scale ?? undefined
             });
@@ -1889,9 +1922,6 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
                 view: view,
             });
             newWidget = homeBtn;
-            if (hasValue(widget.label)) {
-                homeBtn.label = widget.label;
-            }
             if (hasValue(widget.iconClass)) {
                 homeBtn.iconClass = widget.iconClass;
             }
@@ -1901,12 +1931,6 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
                 view: view
             });
             newWidget = compassWidget;
-            if (hasValue(widget.iconClass)) {
-                compassWidget.iconClass = widget.iconClass;
-            }
-            if (hasValue(widget.label)) {
-                compassWidget.label = widget.label;
-            }
             break;
         case 'layerList':
             const layerListWidget = new LayerList({
@@ -1935,9 +1959,6 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
 
             if (hasValue(widget.iconClass)) {
                 layerListWidget.iconClass = widget.iconClass;
-            }
-            if (hasValue(widget.label)) {
-                layerListWidget.label = widget.label;
             }
             break;
         case 'basemapLayerList':
@@ -1974,13 +1995,19 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
                     }
                 };
             }
-
-            if (widget.iconClass !== undefined && widget.iconClass !== null) {
-                basemapLayerListWidget.iconClass = widget.iconClass;
+            
+            if (hasValue(widget.visibleElements)) {
+                basemapLayerListWidget.visibleElements = {
+                    statusIndicators: widget.visibleElements.statusIndicators,
+                    baseLayers: widget.visibleElements.baseLayers,
+                    referenceLayers: widget.visibleElements.referenceLayers,
+                    errors: widget.visibleElements.errors
+                };
             }
-            if (widget.label !== undefined && widget.label !== null) {
-                basemapLayerListWidget.label = widget.label;
-            }
+            
+            copyValuesIfExists(widget, basemapLayerListWidget, 'basemapTitle', 'editingEnabled', 'headingLevel',
+                'multipleSelectionEnabled');
+            
             break;
         case 'expand':
             let content: any;
@@ -2024,14 +2051,6 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
                 expand.closeOnEsc = widget.closeOnEsc;
             }
 
-            if (hasValue(widget.expandIconClass)) {
-                expand.expandIconClass = widget.expandIconClass;
-            }
-
-            if (hasValue(widget.collapseIconClass)) {
-                expand.collapseIconClass = widget.collapseIconClass;
-            }
-
             if (hasValue(widget.expandIcon)) {
                 expand.expandIcon = widget.expandIcon;
             }
@@ -2059,7 +2078,6 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
                 activeTool: widget.activeTool ?? undefined,
                 areaUnit: widget.areaUnit ?? undefined,
                 linearUnit: widget.linearUnit ?? undefined,
-                label: widget.label ?? undefined,
                 icon: widget.icon ?? undefined,
             });
             break;
@@ -2068,8 +2086,7 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
                 view: view,
                 editingEnabled: widget.editingEnabled,
                 disabled: widget.disabled,
-                icon: widget.icon,
-                label: widget.label
+                icon: widget.icon
             });
             if (widget.bookmarks != null) {
                 bookmarkWidget.bookmarks = widget.bookmarks.map(buildJsBookmark);
@@ -2087,13 +2104,11 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
             return null;
     }
 
-    if (hasValue(widget.icon)) {
-        newWidget.icon = widget.icon;
-    }
-
     if (hasValue(widget.widgetId)) {
         newWidget.id = widget.widgetId;
     }
+
+    copyValuesIfExists(widget, newWidget, 'icon', 'label');
 
     arcGisObjectRefs[widget.id] = newWidget;
     dotNetRefs[widget.id] = widget.dotNetComponentReference;
@@ -2133,7 +2148,11 @@ export async function addLayer(layerObject: any, viewId: string, isBasemapLayer?
         if (newLayer === null) return;
 
         if (isBasemapLayer) {
-            view.map?.basemap.baseLayers.push(newLayer);
+            if (layerObject.isBasemapReferenceLayer) {
+                view.map?.basemap.referenceLayers.push(newLayer);
+            } else {
+                view.map?.basemap.baseLayers.push(newLayer);
+            }
         } else if (isQueryLayer) {
             queryLayer = newLayer as FeatureLayer;
             if (callback !== undefined) {

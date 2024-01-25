@@ -420,31 +420,6 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Area of the input geometry.
     /// </returns>
-    [Obsolete("Use the method with GeometryEngineAreaUnit instead.")]
-    public async Task<double> GeodesicArea(Polygon geometry, ArealUnit? unit = null)
-    {
-        return await InvokeAsync<double>("geodesicArea", geometry, unit);
-    }
-
-    /// <summary>
-    ///     Calculates the area of the input geometry. As opposed to planarArea(), geodesicArea takes into account the
-    ///     curvature of the earth when performing this calculation. Therefore, when using input geometries with a spatial
-    ///     reference of either WGS84 (wkid: 4326) or Web Mercator, it is best practice to calculate areas using
-    ///     geodesicArea(). If the input geometries have a projected coordinate system other than Web Mercator, use
-    ///     planarArea() instead.
-    /// </summary>
-    /// <remarks>
-    ///     This method only works with WGS84 (wkid: 4326) and Web Mercator spatial references.
-    /// </remarks>
-    /// <param name="geometry">
-    ///     The input polygon
-    /// </param>
-    /// <param name="unit">
-    ///     Measurement unit of the return value. Defaults to the units of the input geometries.
-    /// </param>
-    /// <returns>
-    ///     Area of the input geometry.
-    /// </returns>
     public async Task<double> GeodesicArea(Polygon geometry, GeometryEngineAreaUnit? unit = null)
     {
         return await InvokeAsync<double>("geodesicArea", geometry, unit);
@@ -790,28 +765,6 @@ public class GeometryEngine : LogicComponent
     public async Task<bool> Overlaps(Geometry geometry1, Geometry geometry2)
     {
         return await InvokeAsync<bool>("overlaps", geometry1, geometry2);
-    }
-
-    /// <summary>
-    ///     Calculates the area of the input geometry. As opposed to geodesicArea(), planarArea() performs this calculation
-    ///     using projected coordinates and does not take into account the earth's curvature. When using input geometries with
-    ///     a spatial reference of either WGS84 (wkid: 4326) or Web Mercator, it is best practice to calculate areas using
-    ///     geodesicArea(). If the input geometries have a projected coordinate system other than Web Mercator, use
-    ///     planarArea() instead.
-    /// </summary>
-    /// <param name="geometry">
-    ///     The input polygon.
-    /// </param>
-    /// <param name="unit">
-    ///     Measurement unit of the return value. Defaults to the units of the input geometries.
-    /// </param>
-    /// <returns>
-    ///     The area of the input geometry.
-    /// </returns>
-    [Obsolete("Use the methods with GeometryEngineAreaUnit instead")]
-    public async Task<double> PlanarArea(Polygon geometry, ArealUnit? unit = null)
-    {
-        return await InvokeAsync<double>("planarArea", geometry, unit);
     }
 
     /// <summary>

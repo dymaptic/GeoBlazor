@@ -56,6 +56,15 @@ public abstract class Layer : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ListMode? ListMode { get; set; }
+    
+    /// <summary>
+    ///     If the layer is added to the <see cref="Basemap"/>, this flag identifies the layer as a reference layer,
+    ///     which will sit on top of other layers to add labels.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html#referenceLayers">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? IsBasemapReferenceLayer { get; set; }
 
     /// <summary>
     ///     The full extent of the layer. By default, this is worldwide. This property may be used to set the extent of the

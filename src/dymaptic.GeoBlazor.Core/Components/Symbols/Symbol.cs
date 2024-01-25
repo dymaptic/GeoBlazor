@@ -1,4 +1,5 @@
-﻿using dymaptic.GeoBlazor.Core.Objects;
+﻿using dymaptic.GeoBlazor.Core.Extensions;
+using dymaptic.GeoBlazor.Core.Objects;
 using Microsoft.AspNetCore.Components;
 using ProtoBuf;
 using System.Text.Json;
@@ -131,7 +132,7 @@ internal record SymbolSerializationRecord : MapComponentSerializationRecord
     public MapColor? HaloColor { get; init; }
 
     [ProtoMember(13)]
-    public int? HaloSize { get; init; }
+    public double? HaloSize { get; init; }
 
     [ProtoMember(14)]
     public MapFont? MapFont { get; init; }
@@ -161,7 +162,7 @@ internal record SymbolSerializationRecord : MapComponentSerializationRecord
     public double? LineHeight { get; init; }
     
     [ProtoMember(23)]
-    public string? LineWidth { get; init; }
+    public double? LineWidth { get; init; }
     
     [ProtoMember(24)]
     public bool? Rotated { get; init; }
@@ -175,8 +176,8 @@ internal record SymbolSerializationRecord : MapComponentSerializationRecord
         return Type switch
         {
             "outline" => new Outline(Color, Width, LineStyle is null ? null : Enum.Parse<LineStyle>(LineStyle!)),
-            "simple-marker" => new SimpleMarkerSymbol(Outline?.FromSerializationRecord() as Outline, Color, Size, Style, 
-                Angle, XOffset, YOffset, Style is null ? null : Enum.Parse<SimpleMarkerStyle>(Style!)),
+            "simple-marker" => new SimpleMarkerSymbol(Outline?.FromSerializationRecord() as Outline, Color, Size, 
+                Style is null ? null : Enum.Parse<SimpleMarkerStyle>(Style!), Angle, XOffset, YOffset),
             "simple-line" => new SimpleLineSymbol(Color, Width, LineStyle is null ? null : Enum.Parse<LineStyle>(LineStyle!)),
             "simple-fill" => new SimpleFillSymbol(Outline?.FromSerializationRecord() as Outline, Color, 
                 Style is null ? null : Enum.Parse<FillStyle>(Style!)),
@@ -186,7 +187,7 @@ internal record SymbolSerializationRecord : MapComponentSerializationRecord
                 BorderLineSize, HorizontalAlignment is null ? null : Enum.Parse<HorizontalAlignment>(HorizontalAlignment!),
                 Kerning, LineHeight, LineWidth, Rotated, 
                 VerticalAlignment is null ? null : Enum.Parse<VerticalAlignment>(VerticalAlignment!),
-                XOffset?.ToString(), YOffset?.ToString()),
+                XOffset, YOffset),
             _ => throw new ArgumentException($"Unknown symbol type: {Type}")
         };
     }
