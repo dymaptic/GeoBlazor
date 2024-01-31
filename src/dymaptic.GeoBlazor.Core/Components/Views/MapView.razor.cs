@@ -2254,29 +2254,40 @@ public partial class MapView : MapComponent
     {
         try
         {
-            if (IsServer)
+            Guid hitTestId = Guid.NewGuid();
+            HitTestResult result = await ViewJsModule!.InvokeAsync<HitTestResult>("hitTest",
+                CancellationTokenSource.Token, pointObject, null, Id, isEvent, options,
+                hitTestId);
+
+            if (_activeHitTests.TryGetValue(hitTestId, out ViewHit[]? viewHits))
             {
-                var eventId = Guid.NewGuid();
-
-                await ViewJsModule!.InvokeVoidAsync("hitTest", CancellationTokenSource.Token,
-                    pointObject, eventId, Id, isEvent, options);
-                var json = _hitTestResults[eventId].ToString();
-                _hitTestResults.Remove(eventId);
-
-                return JsonSerializer.Deserialize<HitTestResult>(json,
-                    new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
+                result.Results = viewHits;
             }
 
-            return await ViewJsModule!.InvokeAsync<HitTestResult>("hitTest",
-                CancellationTokenSource.Token, pointObject, null, Id, isEvent, options);
+            return result;
         }
         catch (Exception ex)
         {
             Console.WriteLine(ex);
         }
 
-        return new HitTestResult(new ViewHit[] { }, new ScreenPoint(1, 1));
+        return new HitTestResult(new ScreenPoint(1, 1));
     }
+    
+    [JSInvokable]
+    public async Task OnHitTestStreamCallback(IJSStreamReference streamReference, Guid hitTestId)
+    {
+        await using Stream stream = await streamReference
+            .OpenReadStreamAsync(1_000_000_000L);
+        using var ms = new MemoryStream();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        ProtoViewHitCollection collection = Serializer.Deserialize<ProtoViewHitCollection>(ms);
+        ViewHit[] viewHits = collection.ViewHits!.Select(g => g.FromSerializationRecord()).ToArray();
+
+        _activeHitTests[hitTestId] = viewHits;
+    }
+
     
     private bool IsPro()
     {
@@ -2401,6 +2412,7 @@ public partial class MapView : MapComponent
     private HashSet<Widget> _widgets = new();
     private bool? _isPro;
     private bool _authenticationInitialized;
+    private Dictionary<Guid, ViewHit[]> _activeHitTests = new();
     
 #endregion
 }

@@ -1,5 +1,6 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
 using dymaptic.GeoBlazor.Core.Components.Layers;
+using ProtoBuf;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -17,13 +18,18 @@ namespace dymaptic.GeoBlazor.Core.Events;
 /// <param name="ScreenPoint">
 ///     The screen coordinates (or native mouse event) of the click on the view.
 /// </param>
-public record HitTestResult(ViewHit[] Results, ScreenPoint ScreenPoint)
+public record HitTestResult(ScreenPoint ScreenPoint)
 {
     /// <summary>
     ///     Ground intersection result, only applies to SceneViews. The ground hit result will always be returned, even if the
     ///     ground was excluded from the hitTest.
     /// </summary>
     public GroundIntersectionResult? Ground { get; init; }
+    /// <summary>
+    ///     An array of result objects returned from the hitTest(). Results are returned when the location of the input screen
+    ///     coordinates intersects a Graphic or media element in the view.
+    /// </summary>
+    public ViewHit[] Results { get; set; } = Array.Empty<ViewHit>();
 }
 
 /// <summary>
@@ -44,6 +50,28 @@ public record GroundIntersectionResult(Point MapPoint, double Distance);
 /// </param>
 [JsonConverter(typeof(ViewHitConverter))]
 public record ViewHit(string Type, Point MapPoint);
+
+[ProtoContract]
+internal record ProtoViewHitCollection
+{
+    [ProtoMember(1)]
+    public ProtoViewHit[]? ViewHits { get; set; }
+}
+
+[ProtoContract]
+internal record ProtoViewHit
+{
+    [ProtoMember(1)]
+    public string? Type { get; set; }
+    
+    [ProtoMember(2)]
+    public GeometrySerializationRecord? MapPoint { get; set; }
+
+    public ViewHit FromSerializationRecord()
+    {
+        return new ViewHit(Type!, (Point)MapPoint!.FromSerializationRecord());
+    }
+}
 
 /// <summary>
 ///     Object specification for the graphic hit result returned in HitTestResult of the hitTest() method.

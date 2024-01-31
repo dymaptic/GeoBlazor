@@ -8,6 +8,27 @@
               "nested": {
                 "proto": {
                   "nested": {
+                    "ProtoViewHitCollection": {
+                      "fields": {
+                        "viewHits": {
+                          "rule": "repeated",
+                          "type": "ViewHit",
+                          "id": 1
+                        }
+                      }
+                    },
+                    "ViewHit": {
+                      "fields": {
+                        "type": {
+                          "type": "string",
+                          "id": 1
+                        },
+                        "mapPoint": {
+                          "type": "Geometry",
+                          "id": 2
+                        }
+                      }
+                    },
                     "ProtoGraphicCollection": {
                       "fields": {
                         "graphics": {

@@ -680,7 +680,8 @@ export function registerWebLayer(layerJsRef: any, layerId: string) {
 }
 
 export async function hitTest(pointObject: any, eventId: string | null, viewId: string,
-    isEvent: boolean, options: DotNetHitTestOptions | null): Promise<DotNetHitTestResult | void> {
+    isEvent: boolean, options: DotNetHitTestOptions | null, hitTestId: string)
+    : Promise<DotNetHitTestResult | void> {
     let view = arcGisObjectRefs[viewId] as MapView;
     let result: HitTestResult;
     let screenPoint = isEvent ? pointObject : view.toScreen(buildJsPoint(pointObject) as Point); 
@@ -693,11 +694,12 @@ export async function hitTest(pointObject: any, eventId: string | null, viewId: 
     }
 
     let dotNetResult = buildDotNetHitTestResult(result);
+    let dotNetRef = dotNetRefs[viewId];
+    await dotNetRef.invokeMethodAsync('OnHitTestStreamCallback', streamRef, hitTestId);
     if (!blazorServer) {
         return dotNetResult;
     }
-
-    let dotNetRef = dotNetRefs[viewId];
+    
     let jsonResult = JSON.stringify(dotNetResult);
     // return dotNetResult in small chunks to avoid memory issues in Blazor Server
     // SignalR has a maximum message size of 32KB
@@ -2895,44 +2897,7 @@ export function decodeProtobufGraphics(uintArray: Uint8Array): any[] {
 
 export function getProtobufGraphicStream(graphics: DotNetGraphic[]): any {
     for (let i = 0; i < graphics.length; i++) {
-        let graphic = graphics[i];
-        if (hasValue(graphic.attributes)) {
-            graphic.attributes = Object.keys(graphic.attributes).map(attr => {
-                return {
-                    key: attr,
-                    value: graphic.attributes[attr]?.toString(),
-                    valueType: Object.prototype.toString.call(graphic.attributes[attr])
-                }
-            });
-        }
-        if (hasValue(graphic.geometry)) {
-            if (hasValue(graphic.geometry.paths)) {
-                graphic.geometry.paths = (graphic.geometry as DotNetPolyline).paths.map(p => {
-                    return {
-                        points: p.map(pt => {
-                            return {
-                                coordinates: pt
-                            }
-                        })
-                    }
-                });
-            } else {
-                graphic.geometry.paths = [];
-            }
-            if (hasValue(graphic.geometry.rings)) {
-                graphic.geometry.rings = (graphic.geometry as DotNetPolygon).rings.map(r => {
-                    return {
-                        points: r.map(pt => {
-                            return {
-                                coordinates: pt
-                            }
-                        })
-                    }
-                });
-            } else {
-                graphic.geometry.rings = [];
-            }
-        }
+        updateGraphicForProtobuf(graphics[i]);
     }
     let obj = {
         graphics: graphics
@@ -2941,6 +2906,48 @@ export function getProtobufGraphicStream(graphics: DotNetGraphic[]): any {
     let encoded = ProtoGraphicCollection.encode(collection).finish();
     // @ts-ignore
     return DotNet.createJSStreamReference(encoded);
+}
+
+export function getProtobufViewHitStream()
+
+function updateGraphicForProtobuf(graphic: DotNetGraphic) {
+    if (hasValue(graphic.attributes)) {
+        graphic.attributes = Object.keys(graphic.attributes).map(attr => {
+            return {
+                key: attr,
+                value: graphic.attributes[attr]?.toString(),
+                valueType: Object.prototype.toString.call(graphic.attributes[attr])
+            }
+        });
+    }
+    if (hasValue(graphic.geometry)) {
+        if (hasValue(graphic.geometry.paths)) {
+            graphic.geometry.paths = (graphic.geometry as DotNetPolyline).paths.map(p => {
+                return {
+                    points: p.map(pt => {
+                        return {
+                            coordinates: pt
+                        }
+                    })
+                }
+            });
+        } else {
+            graphic.geometry.paths = [];
+        }
+        if (hasValue(graphic.geometry.rings)) {
+            graphic.geometry.rings = (graphic.geometry as DotNetPolygon).rings.map(r => {
+                return {
+                    points: r.map(pt => {
+                        return {
+                            coordinates: pt
+                        }
+                    })
+                }
+            });
+        } else {
+            graphic.geometry.rings = [];
+        }
+    }
 }
 
 let _authenticationManager: AuthenticationManager | null = null;
