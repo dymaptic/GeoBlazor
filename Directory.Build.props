@@ -2,6 +2,6 @@
     <PropertyGroup>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
-        <CoreVersion>3.0.0-beta-1</CoreVersion>
+        <CoreVersion>3.0.0-beta-2</CoreVersion>
     </PropertyGroup>
 </Project>
