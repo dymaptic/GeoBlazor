@@ -267,6 +267,14 @@
                         "verticalAlignment": {
                           "type": "string",
                           "id": 25
+                        },
+                        "xscale": {
+                          "type": "int32",
+                          "id": 26
+                        },
+                        "yscale": {
+                          "type": "int32",
+                          "id": 27
                         }
                       }
                     },
