@@ -126,6 +126,17 @@ export interface DotNetPictureMarkerSymbol extends DotNetSymbol {
     url: string;
 }
 
+export interface DotNetPictureFillSymbol extends DotNetSymbol {
+    height: number;
+    width: number;
+    url: string;
+    xOffset: number;
+    yOffset: number;
+    xScale: number;
+    yScale: number;
+    outline: DotNetSimpleLineSymbol;
+}
+
 export interface DotNetSimpleFillSymbol extends DotNetSymbol {
     outline: DotNetSimpleLineSymbol;
     style: string;

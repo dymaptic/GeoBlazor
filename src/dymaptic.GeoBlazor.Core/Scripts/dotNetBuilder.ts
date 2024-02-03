@@ -376,12 +376,13 @@ export function buildDotNetLayerView(layerView: LayerView): DotNetLayerView {
     }
 }
 
-export function buildDotNetLayer(layer: Layer): DotNetLayer {
+export function buildDotNetLayer(layer: Layer, includeGraphics: boolean = true)
+    : DotNetLayer {
     switch (layer.type) {
         case 'feature':
             return buildDotNetFeatureLayer(layer as FeatureLayer);
         case 'graphics':
-            return buildDotNetGraphicsLayer(layer as GraphicsLayer);
+            return buildDotNetGraphicsLayer(layer as GraphicsLayer, includeGraphics);
         default:
 
             let dotNetLayer = {
@@ -408,7 +409,8 @@ export function buildDotNetLayer(layer: Layer): DotNetLayer {
     }
 }
 
-export function buildDotNetFeatureLayer(layer: FeatureLayer): DotNetFeatureLayer {
+export function buildDotNetFeatureLayer(layer: FeatureLayer)
+    : DotNetFeatureLayer {
 
     let dotNetLayer = {
         title: layer.title,
@@ -520,7 +522,8 @@ export function buildDotNetRangeDomain(domain: RangeDomain): DotNetRangeDomain {
     } as DotNetRangeDomain;
 }
 
-export function buildDotNetGraphicsLayer(layer: GraphicsLayer): DotNetGraphicsLayer {
+export function buildDotNetGraphicsLayer(layer: GraphicsLayer, includeGraphics: boolean = true)
+    : DotNetGraphicsLayer {
     let dotNetLayer = {
         title: layer.title,
         type: layer.type,
@@ -533,7 +536,7 @@ export function buildDotNetGraphicsLayer(layer: GraphicsLayer): DotNetGraphicsLa
         dotNetLayer.fullExtent = buildDotNetExtent(layer.fullExtent) as DotNetExtent;
     }
 
-    if (layer.graphics !== undefined && layer.graphics !== null) {
+    if (includeGraphics && layer.graphics !== undefined && layer.graphics !== null) {
         dotNetLayer.graphics = (layer.graphics as MapCollection).items.map(g => buildDotNetGraphic(g));
     }
 
@@ -564,10 +567,9 @@ function buildDotNetViewHit(viewHit: ViewHit): DotNetViewHit | null {
             return {
                 type: "graphic",
                 graphic: buildDotNetGraphic(viewHit.graphic),
-                layer: buildDotNetLayer(viewHit.layer ?? viewHit.graphic.layer),
+                layer: buildDotNetLayer(viewHit.layer ?? viewHit.graphic.layer, false),
                 mapPoint: buildDotNetPoint(viewHit.mapPoint)
             } as DotNetGraphicHit;
-            break;
     }
 
     return null;
@@ -933,13 +935,13 @@ export function buildDotNetGoToOverrideParameters(parameters: any, viewId: strin
             let firstObject = parameters.target.target[0];
             if (firstObject instanceof Graphic) {
                 target.targetGraphics = [];
-                for (let g: Graphic in parameters.target.target as Graphic[]) {
-                    target.targetGraphics.push(buildDotNetGraphic(g));
+                for (let g in parameters.target.target as Graphic[]) {
+                    target.targetGraphics.push(buildDotNetGraphic(g as any));
                 }
             } else if (firstObject instanceof Geometry) {
                 target.targetGeometries = [];
-                for (let g: Geometry in parameters.target.target as Geometry[]) {
-                    target.targetGeometries.push(buildDotNetGeometry(g));
+                for (let g in parameters.target.target as Geometry[]) {
+                    target.targetGeometries.push(buildDotNetGeometry(g as any));
                 }
             } else {
                 target.targetCoordinates = parameters.target.target;
