@@ -315,7 +315,7 @@ public class Graphic : LayerObject
                 Geometry?.ToSerializationRecord(),
                 Symbol?.ToSerializationRecord(),
                 PopupTemplate?.ToSerializationRecord(),
-                Attributes?.ToSerializationRecord());
+                Attributes.ToSerializationRecord());
         }
 
         return _serializationRecord;

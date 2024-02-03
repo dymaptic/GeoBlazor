@@ -420,7 +420,7 @@ export function buildJsSymbol(symbol: DotNetSymbol | null): Symbol | null {
                 join: dnSimpleLineSymbol.join as any ?? "round",
                 marker: dnSimpleLineSymbol.marker as any ?? null,
                 miterLimit: dnSimpleLineSymbol.miterLimit ?? 2,
-                style: dnSimpleLineSymbol.style as any ?? "solid",
+                style: dnSimpleLineSymbol.lineStyle as any ?? dnSimpleLineSymbol.style as any ?? "solid",
                 width: dnSimpleLineSymbol.width ?? 0.75
             });
         case "picture-marker":
