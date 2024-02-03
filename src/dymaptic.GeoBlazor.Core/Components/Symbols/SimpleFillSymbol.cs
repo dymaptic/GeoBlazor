@@ -107,7 +107,8 @@ public class SimpleFillSymbol : FillSymbol
     {
         return new SymbolSerializationRecord(Type, Color)
         {
-            Outline = Outline?.ToSerializationRecord(), Style = FillStyle?.ToString().ToKebabCase()
+            Outline = Outline?.ToSerializationRecord(), 
+            Style = FillStyle?.ToString().ToKebabCase()
         };
     }
 }
