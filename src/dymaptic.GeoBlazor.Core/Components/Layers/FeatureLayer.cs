@@ -9,6 +9,7 @@ using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using ProtoBuf;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -900,18 +901,28 @@ public class FeatureLayer : Layer, IFeatureReductionLayer
         return result;
     }
 
+    /// <summary>
+    ///     Internal use callback from JavaScript
+    /// </summary>
     [JSInvokable]
     public async Task OnQueryFeaturesStreamCallback(IJSStreamReference streamReference, Guid queryId)
     {
-        await using Stream stream = await streamReference
-            .OpenReadStreamAsync(1_000_000_000L);
-        using var ms = new MemoryStream();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        ProtoGraphicCollection collection = Serializer.Deserialize<ProtoGraphicCollection>(ms);
-        Graphic[] graphics = collection?.Graphics.Select(g => g.FromSerializationRecord()).ToArray()!;
+        try
+        {
+            await using Stream stream = await streamReference
+                .OpenReadStreamAsync(View?.QueryResultsMaxSizeLimit ?? 1_000_000_000L);
+            using var ms = new MemoryStream();
+            await stream.CopyToAsync(ms);
+            ms.Seek(0, SeekOrigin.Begin);
+            ProtoGraphicCollection collection = Serializer.Deserialize<ProtoGraphicCollection>(ms);
+            Graphic[] graphics = collection?.Graphics.Select(g => g.FromSerializationRecord()).ToArray()!;
 
-        _activeQueries[queryId] = graphics;
+            _activeQueries[queryId] = graphics;
+        }
+        catch (Exception ex)
+        {
+            throw new SerializationException("Error deserializing graphics from stream.", ex);   
+        }
     }
 
     /// <summary>
@@ -981,23 +992,33 @@ public class FeatureLayer : Layer, IFeatureReductionLayer
         return result;
     }
     
+    /// <summary>
+    ///     Internal use callback from JavaScript
+    /// </summary>
     [JSInvokable]
     public async Task OnQueryRelatedFeaturesStreamCallback(IJSStreamReference streamReference, Guid queryId, string objectId)
     {
-        await using Stream stream = await streamReference
-            .OpenReadStreamAsync(1_000_000_000L);
-        using var ms = new MemoryStream();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        ProtoGraphicCollection collection = Serializer.Deserialize<ProtoGraphicCollection>(ms);
-        Graphic[] graphics = collection?.Graphics.Select(g => g.FromSerializationRecord()).ToArray()!;
-
-        if (!_activeRelatedQueries.ContainsKey(queryId))
+        try
         {
-            _activeRelatedQueries[queryId] = new Dictionary<int, Graphic[]>();
-        }
+            await using Stream stream = await streamReference
+                .OpenReadStreamAsync(View?.QueryResultsMaxSizeLimit ?? 1_000_000_000L);
+            using var ms = new MemoryStream();
+            await stream.CopyToAsync(ms);
+            ms.Seek(0, SeekOrigin.Begin);
+            ProtoGraphicCollection collection = Serializer.Deserialize<ProtoGraphicCollection>(ms);
+            Graphic[] graphics = collection?.Graphics.Select(g => g.FromSerializationRecord()).ToArray()!;
 
-        _activeRelatedQueries[queryId][int.Parse(objectId)] = graphics;
+            if (!_activeRelatedQueries.ContainsKey(queryId))
+            {
+                _activeRelatedQueries[queryId] = new Dictionary<int, Graphic[]>();
+            }
+
+            _activeRelatedQueries[queryId][int.Parse(objectId)] = graphics;
+        }
+        catch (Exception ex)
+        {
+            throw new SerializationException("Error deserializing graphics from stream.", ex);   
+        }
     }
 
     /// <summary>

@@ -1,0 +1,48 @@
+﻿@inherits TestRunnerBase
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+    
+    [TestMethod]
+    public async Task TestCanQueryFeatures(Action renderHandler)
+    {
+        FeatureLayerView? layerView = null;
+        void OnLayerViewCreate(LayerViewCreateEvent createEvent)
+        {
+            layerView = createEvent.LayerView as FeatureLayerView;
+        }
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler"
+                      OnLayerViewCreate="OnLayerViewCreate">
+                <Map ArcGISDefaultBasemap="topo-vector">
+                    <FeatureLayer OutFields="@(new[] { "*" })">
+                        <PortalItem Id="234d2e3f6f554e0e84757662469c26d3" />
+                    </FeatureLayer>
+                </Map>
+                <Extent Xmax="-13620669.8431"
+                        Xmin="-13640432.281"
+                        Ymax="4556710.618000001"
+                        Ymin="4536523.6511999965">
+                    <SpatialReference Wkid="102100" />
+                </Extent>
+            </MapView>);
+        await WaitForMapToRender();
+        Point point = new(x: -13627933.093831237, y: 4547153.388126561, spatialReference: new(102100));
+        var query = new Query
+        {
+            Geometry = point,
+            Distance = 0.5,
+            Units = LinearUnit.Miles,
+            SpatialRelationship = SpatialRelationship.Intersects,
+            ReturnGeometry = false,
+            ReturnQueryGeometry = true,
+            OutFields = new HashSet<string> { "*" }
+        };
+        FeatureSet? result = await layerView!.QueryFeatures(query);
+        Assert.IsNotNull(result);
+        Assert.IsTrue(result.Features!.Length > 0);
+    }
+}
