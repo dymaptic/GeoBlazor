@@ -59,7 +59,8 @@ public class SimpleLineSymbol : LineSymbol
     {
         return new SymbolSerializationRecord(Type, Color)
         {
-            Width = Width?.Points, LineStyle = LineStyle?.ToString().ToKebabCase()
+            Width = Width?.Points, 
+            Style = LineStyle?.ToString().ToKebabCase()
         };
     }
 }

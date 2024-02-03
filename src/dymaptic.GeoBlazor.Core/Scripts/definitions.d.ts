@@ -112,6 +112,7 @@ export interface DotNetSimpleLineSymbol extends DotNetSymbol {
     miterLimit: number;
     style: string;
     width: number;
+    lineStyle: string;
 }
 
 export interface DotNetPictureMarkerSymbol extends DotNetSymbol {
@@ -124,6 +125,17 @@ export interface DotNetPictureMarkerSymbol extends DotNetSymbol {
     width: number;
 
     url: string;
+}
+
+export interface DotNetPictureFillSymbol extends DotNetSymbol {
+    height: number;
+    width: number;
+    url: string;
+    xOffset: number;
+    yOffset: number;
+    xScale: number;
+    yScale: number;
+    outline: DotNetSimpleLineSymbol;
 }
 
 export interface DotNetSimpleFillSymbol extends DotNetSymbol {

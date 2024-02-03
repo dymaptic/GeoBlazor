@@ -100,9 +100,10 @@ import {
     DotNetUniqueValueRenderer,
     DotNetVectorFieldRenderer,
     DotNetViewpoint,
-    DotNetVisualVariable, DotNetFeatureSet,
+    DotNetVisualVariable, DotNetFeatureSet, DotNetPictureFillSymbol,
 } from "./definitions";
 import PictureMarkerSymbol from "@arcgis/core/symbols/PictureMarkerSymbol";
+import PictureFillSymbol from "@arcgis/core/symbols/PictureFillSymbol";
 import Popup from "@arcgis/core/widgets/Popup";
 import Query from "@arcgis/core/rest/support/Query";
 import FieldsContent from "@arcgis/core/popup/content/FieldsContent";
@@ -423,7 +424,7 @@ export function buildJsSymbol(symbol: DotNetSymbol | null): Symbol | null {
                 join: dnSimpleLineSymbol.join as any ?? "round",
                 marker: dnSimpleLineSymbol.marker as any ?? null,
                 miterLimit: dnSimpleLineSymbol.miterLimit ?? 2,
-                style: dnSimpleLineSymbol.style as any ?? "solid",
+                style: dnSimpleLineSymbol.lineStyle as any ?? dnSimpleLineSymbol.style as any ?? "solid",
                 width: dnSimpleLineSymbol.width ?? 0.75
             });
         case "picture-marker":
@@ -436,6 +437,23 @@ export function buildJsSymbol(symbol: DotNetSymbol | null): Symbol | null {
                 width: dnPictureMarkerSymbol.width ?? 12,
                 url: dnPictureMarkerSymbol.url
             });
+            
+        case "picture-fill":
+            let dnPictureFillSymbol = symbol as DotNetPictureFillSymbol;
+            let jsFillSymbol = new PictureFillSymbol({
+                url: dnPictureFillSymbol.url,
+                width: dnPictureFillSymbol.width ?? 12,
+                height: dnPictureFillSymbol.height ?? 12,
+                xoffset: dnPictureFillSymbol.xOffset ?? 0,
+                yoffset: dnPictureFillSymbol.yOffset ?? 0,
+                xscale: dnPictureFillSymbol.xScale ?? 1,
+                yscale: dnPictureFillSymbol.yScale ?? 1
+            });
+            if (hasValue(dnPictureFillSymbol.outline)) {
+                jsFillSymbol.outline = buildJsSymbol(dnPictureFillSymbol.outline) as any;
+            }
+            
+            return jsFillSymbol;
 
         case "simple-fill":
             let dnSimpleFillSymbol = symbol as DotNetSimpleFillSymbol;

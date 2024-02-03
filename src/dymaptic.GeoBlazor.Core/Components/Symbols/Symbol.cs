@@ -169,7 +169,12 @@ internal record SymbolSerializationRecord : MapComponentSerializationRecord
     
     [ProtoMember(25)]
     public string? VerticalAlignment { get; init; }
-
+    
+    [ProtoMember(26)]
+    public int? XScale { get; init; }
+    
+    [ProtoMember(27)]
+    public int? YScale { get; init; }
 
     public Symbol FromSerializationRecord()
     {
@@ -181,7 +186,9 @@ internal record SymbolSerializationRecord : MapComponentSerializationRecord
             "simple-line" => new SimpleLineSymbol(Color, Width, LineStyle is null ? null : Enum.Parse<LineStyle>(LineStyle!)),
             "simple-fill" => new SimpleFillSymbol(Outline?.FromSerializationRecord() as Outline, Color, 
                 Style is null ? null : Enum.Parse<FillStyle>(Style!)),
-            "picture-marker" => new PictureMarkerSymbol(Url!, Height, Width),
+            "picture-marker" => new PictureMarkerSymbol(Url!, Width, Height, Angle, XOffset, YOffset),
+            "picture-fill" => new PictureFillSymbol(Url!, Width, Height, XOffset, YOffset, XScale, YScale, 
+                Outline?.FromSerializationRecord() as Outline),
             "text" => new TextSymbol(Text ?? string.Empty, Color, HaloColor, HaloSize, 
                 MapFont, Angle, BackgroundColor, BorderLineColor,
                 BorderLineSize, HorizontalAlignment is null ? null : Enum.Parse<HorizontalAlignment>(HorizontalAlignment!),

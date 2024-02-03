@@ -14,15 +14,4 @@ public class GeoBlazorSettings
     ///     The GeoBlazor Pro License Key, generated on the licensing server.
     /// </summary>
     public string? LicenseKey { get; set; }
-    
-    /// <summary>
-    ///     The Application Name for a MAUI application. Not required for Blazor Server or Blazor WebAssembly.
-    /// </summary>
-    public string? MauiAppName { get; set; }
-    
-    /// <summary>
-    ///     Optional setting to define where on your Blazor Server application the license validation file will be stored.
-    ///     If not set, the default is `Path.GetTempPath()`.
-    /// </summary>
-    public string? ValidationServerStoragePath { get; set; }
 }
