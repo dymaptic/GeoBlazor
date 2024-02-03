@@ -66,9 +66,20 @@ internal record ProtoViewHit
     
     [ProtoMember(2)]
     public GeometrySerializationRecord? MapPoint { get; set; }
+    
+    [ProtoMember(3)]
+    public GraphicSerializationRecord? Graphic { get; set; }
+    
+    [ProtoMember(4)]
+    public Guid? LayerId { get; set; }
 
     public ViewHit FromSerializationRecord()
     {
+        if (Type == "graphic")
+        {
+            return new GraphicHit(Graphic!.FromSerializationRecord(), LayerId, 
+                (Point)MapPoint!.FromSerializationRecord());
+        }
         return new ViewHit(Type!, (Point)MapPoint!.FromSerializationRecord());
     }
 }
@@ -83,13 +94,13 @@ internal record ProtoViewHit
 ///     returned with two attributes: layerId and layerName. These correspond to the name and id of the style-layer in the
 ///     vector tile style.
 /// </param>
-/// <param name="Layer">
-///     The layer that contains the feature/graphic.
+/// <param name="LayerId">
+///     The GeoBlazor Id for the layer that the graphic belongs to.
 /// </param>
 /// <param name="MapPoint">
 ///     The point geometry in the spatial reference of the view corresponding with the input screen coordinates.
 /// </param>
-public record GraphicHit(Graphic Graphic, Layer Layer, Point MapPoint) : ViewHit("graphic", MapPoint);
+public record GraphicHit(Graphic Graphic, Guid? LayerId, Point MapPoint) : ViewHit("graphic", MapPoint);
 
 /// <summary>
 ///     The screen coordinates (or native mouse event) of the click on the view.

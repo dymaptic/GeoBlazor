@@ -127,9 +127,9 @@ import DirectionsFeatureSet from "@arcgis/core/rest/support/DirectionsFeatureSet
 export function buildDotNetGraphic(graphic: Graphic): DotNetGraphic {
     let dotNetGraphic = {} as DotNetGraphic;
 
-    if (Object.values(arcGisObjectRefs).includes(graphic)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === graphic) {
+    if (Object.values(graphicsRefs).includes(graphic)) {
+        for (const k of Object.keys(graphicsRefs)) {
+            if (graphicsRefs[k] === graphic) {
                 dotNetGraphic.id = k;
                 break;
             }
@@ -564,10 +564,19 @@ export function buildDotNetHitTestResult(hitTestResult: HitTestResult): DotNetHi
 function buildDotNetViewHit(viewHit: ViewHit): DotNetViewHit | null {
     switch (viewHit.type) {
         case "graphic":
+            let layerId: string | null = null;
+            if (Object.values(arcGisObjectRefs).includes(viewHit.layer)) {
+                for (const k of Object.keys(arcGisObjectRefs)) {
+                    if (arcGisObjectRefs[k] === viewHit.layer) {
+                        layerId = k;
+                        break;
+                    }
+                }
+            }
             return {
                 type: "graphic",
                 graphic: buildDotNetGraphic(viewHit.graphic),
-                layer: buildDotNetLayer(viewHit.layer ?? viewHit.graphic.layer, false),
+                layerId: layerId,
                 mapPoint: buildDotNetPoint(viewHit.mapPoint)
             } as DotNetGraphicHit;
     }

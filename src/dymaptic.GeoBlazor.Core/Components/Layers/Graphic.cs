@@ -391,17 +391,21 @@ internal record GraphicSerializationRecord : MapComponentSerializationRecord
 
     public Graphic FromSerializationRecord()
     {
+        if (!Guid.TryParse(Id, out Guid graphicId))
+        {
+            graphicId = Guid.NewGuid();
+        }
         return new Graphic(Geometry?.FromSerializationRecord(),
             Symbol?.FromSerializationRecord(),
             PopupTemplate?.FromSerializationRecord(),
             new AttributesDictionary(Attributes))
         {
-            Id = Guid.Parse(Id)
+            Id = graphicId
         };
     }
 
     [ProtoMember(1)]
-    public string Id { get; set; } = string.Empty;
+    public string? Id { get; set; } = string.Empty;
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(2)]
     public GeometrySerializationRecord? Geometry { get; set; }

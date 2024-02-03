@@ -92,7 +92,7 @@ export interface DotNetPolyline extends DotNetGeometry {
 
 export interface DotNetSymbol {
     type: string;
-    color: string;
+    color: any;
 }
 
 export interface DotNetSimpleMarkerSymbol extends DotNetSymbol {
@@ -215,7 +215,7 @@ export interface DotNetViewHit {
 
 export interface DotNetGraphicHit extends DotNetViewHit {
     graphic: DotNetGraphic;
-    layer: DotNetLayer;
+    layerId: string;
 }
 
 export interface DotNetLayer {

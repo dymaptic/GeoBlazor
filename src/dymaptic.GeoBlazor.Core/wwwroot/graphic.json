@@ -26,6 +26,14 @@
                         "mapPoint": {
                           "type": "Geometry",
                           "id": 2
+                        },
+                        "graphic": {
+                          "type": "Graphic",
+                          "id": 3
+                        },
+                        "layerId": {
+                          "type": "string",
+                          "id": 4
                         }
                       }
                     },
