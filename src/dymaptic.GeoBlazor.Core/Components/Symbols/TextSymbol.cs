@@ -304,10 +304,6 @@ public class TextSymbol : Symbol
 
     internal override SymbolSerializationRecord ToSerializationRecord()
     {
-        double.TryParse(XOffset?.Replace("px", "").Replace("pt", ""),
-            out double xOffsetNum);
-        double.TryParse(YOffset?.Replace("px", "").Replace("pt", "")
-            , out double yOffsetNum);
         return new SymbolSerializationRecord(Type, Color)
         {
             Text = Text, 
@@ -324,8 +320,8 @@ public class TextSymbol : Symbol
             LineWidth = LineWidth?.Points,
             Rotated = Rotated,
             VerticalAlignment = VerticalAlignment?.ToString().ToKebabCase(),
-            XOffset = xOffsetNum,
-            YOffset = yOffsetNum
+            XOffset = XOffset?.Points,
+            YOffset = YOffset?.Points
         };
     }
 }
