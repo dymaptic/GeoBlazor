@@ -1891,7 +1891,7 @@ public partial class MapView : MapComponent
             widget.JsModule ??= ViewJsModule;
         }
 
-        if (ViewJsModule is null) return;
+        if (ViewJsModule is null || !widget.ArcGisWidget) return;
 
         while (Rendering)
         {

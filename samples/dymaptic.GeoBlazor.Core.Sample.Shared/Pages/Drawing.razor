@@ -17,8 +17,10 @@
             <span class="oi @(_showPointSection ? "oi-chevron-top" : "oi-chevron-bottom")"></span>
         </label>
         <div class="@(_showPointSection ? "" : "collapse")">
-            <label>Longitude:<input type="number" step="0.01" @bind="_pointLong" /></label>
-            <label>Latitude:<input type="number" step="0.01" @bind="_pointLat" /></label>
+            <label>Longitude:<input type="number" step="0.01" value="@_pointLong"
+                                    @onchange="SetPointLong" /></label>
+            <label>Latitude:<input type="number" step="0.01" value="@_pointLat"
+                                   @onchange="SetPointLat" /></label>
             <button class="btn btn-primary" @onclick="DrawPoint">@(_showPoint ? "Remove" : "Draw")</button>
         </div>
     </div>
@@ -42,16 +44,19 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @for (var i = 0; i < _mapPath.Count; i++)
+                    @for (var i = 0; i < mapPath.Count; i++)
                     {
-                        MapPoint path = _mapPath[i];
+                        int index = i;
+                        MapPoint path = mapPath[i];
                         <tr>
                             <td>@(i + 1)</td>
                             <td>
-                                <input type="number" step="0.01" @bind="@path[0]" />
+                                <input type="number" step="0.01" value="@path[0]"
+                                       @onchange="c => SetLinePath(c, index, 0)" />
                             </td>
                             <td>
-                                <input type="number" step="0.01" @bind="@path[1]" />
+                                <input type="number" step="0.01" value="@path[1]"
+                                       @onchange="c => SetLinePath(c, index, 1)" />
                             </td>
                         </tr>
                     }
@@ -77,16 +82,19 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @for (var i = 0; i < _mapRings.Count; i++)
+                    @for (var i = 0; i < mapRings.Count; i++)
                     {
-                        MapPoint path = _mapRings[i];
+                        int index = i;
+                        MapPoint path = mapRings[i];
                         <tr>
                             <td>@(i + 1)</td>
                             <td>
-                                <input type="number" step="0.01" @bind="@path[0]" />
+                                <input type="number" step="0.01" value="@path[0]"
+                                       @onchange="c => SetRingPath(c, index, 0)" />
                             </td>
                             <td>
-                                <input type="number" step="0.01" @bind="@path[1]" />
+                                <input type="number" step="0.01" value="@path[1]"
+                                       @onchange="c => SetRingPath(c, index, 1)" />
                             </td>
                         </tr>
                     }
@@ -105,34 +113,7 @@
         <Basemap>
             <PortalItem Id="716b600dbbac433faa4bec9220c76b3a" />
         </Basemap>
-        <GraphicsLayer>
-            @if (_showPoint)
-            {
-                <Graphic @ref="_pointGraphic">
-                    <Point Longitude="_pointLong" Latitude="_pointLat" />
-                    <SimpleMarkerSymbol Color="@(new MapColor(81, 46, 132))">
-                        <Outline Color="@(new MapColor(255, 255, 255))" Width="1" />
-                    </SimpleMarkerSymbol>
-                </Graphic>
-            }
-            @if (_showLine)
-            {
-                <Graphic @ref="_polylineGraphic">
-                    <PolyLine Paths="@(new[] { _mapPath })" />
-                    <SimpleLineSymbol Color="@(new MapColor("white"))" Width="2" />
-                </Graphic>
-            }
-            @if (_showPolygon)
-            {
-                <Graphic @ref="_polygonGraphic" Attributes="_graphicAttributes">
-                    <Polygon Rings="@(new[] { _mapRings })" />
-                    <SimpleFillSymbol Color="@(new MapColor(81, 46, 132, 0.8))">
-                        <Outline Color="@(new MapColor(255, 255, 255))" Width="1" />
-                    </SimpleFillSymbol>
-                    <PopupTemplate Title="{Name}" StringContent="{Description}" />
-                </Graphic>
-            }
-        </GraphicsLayer>
+        <GraphicsLayer @ref="_graphicsLayer" />
     </Map>
 </MapView>
 
@@ -145,57 +126,66 @@
 
 @code
 {
-    private readonly double _latitude = 34.027;
-    private readonly double _longitude = -118.805;
-    private double _pointLat = 34.027;
-    private double _pointLong = -118.805;
-    private bool _showPoint;
-    private bool _showLine;
-    private bool _showPolygon;
-
-    private readonly MapPath _mapPath = new(new MapPoint(-118.821527826096, 34.0139576938577),
-        new MapPoint(-118.814893761649, 34.0080602407843),
-        new MapPoint(-118.808878330345, 34.0016642996246));
-
-    private readonly MapPath _mapRings = new(new MapPoint(-118.818984489994, 34.0137559967283),
-        new MapPoint(-118.806796597377, 34.0215816298725),
-        new MapPoint(-118.791432890735, 34.0163883241613),
-        new MapPoint(-118.79596686535, 34.008564864635),
-        new MapPoint(-118.808558110679, 34.0035027131376));
-
-    private void DrawPoint()
+    private async Task DrawPoint()
     {
         _showPoint = !_showPoint;
+
+        if (_showPoint)
+        {
+            await _graphicsLayer!.Add(_pointGraphic);
+        }
+        else
+        {
+            await _graphicsLayer!.Remove(_pointGraphic);
+        }
     }
 
     private void DrawLine()
     {
         _showLine = !_showLine;
+        
+        if (_showLine)
+        {
+            _graphicsLayer!.Add(_polylineGraphic);
+        }
+        else
+        {
+            _graphicsLayer!.Remove(_polylineGraphic);
+        }
     }
 
     private void AddPoint()
     {
-        _mapPath.Add(new MapPoint(_mapPath[0][0] + 0.01, _mapPath[0][1] + 0.01));
+        mapPath.Add(new MapPoint(mapPath[0][0] + 0.01, mapPath[0][1] + 0.01));
     }
 
     private void RemovePoint()
     {
-        _mapPath.RemoveAt(_mapPath.Count - 1);
+        mapPath.RemoveAt(mapPath.Count - 1);
     }
 
     private void DrawPolygon()
     {
         _showPolygon = !_showPolygon;
+        
+        if (_showPolygon)
+        {
+            _graphicsLayer!.Add(_polygonGraphic);
+        }
+        else
+        {
+            _graphicsLayer!.Remove(_polygonGraphic);
+        }
     }
 
     private void AddPolygonPoint()
     {
-        _mapRings.Add(new MapPoint(_mapRings[0][0] + 0.01, _mapRings[0][1] + 0.01));
+        mapRings.Add(new MapPoint(mapRings[0][0] + 0.01, mapRings[0][1] + 0.01));
     }
 
     private void RemovePolygonPoint()
     {
-        _mapRings.RemoveAt(_mapRings.Count - 1);
+        mapRings.RemoveAt(mapRings.Count - 1);
     }
 
     private async Task GetPoint()
@@ -222,13 +212,60 @@
         _geometry = JsonSerializer.Serialize(geometry);
     }
 
+    private async Task SetPointLong(ChangeEventArgs args)
+    {
+        _pointLong = Convert.ToDouble(args.Value);
+        await _pointGraphic.SetGeometry(new Point(_pointLong, _pointLat));
+    }
+    
+    private async Task SetPointLat(ChangeEventArgs args)
+    {
+        _pointLat = Convert.ToDouble(args.Value);
+        await _pointGraphic.SetGeometry(new Point(_pointLong, _pointLat));
+    }
+
+    private async Task SetLinePath(ChangeEventArgs args, int i, int j)
+    {
+        mapPath[i][j] = Convert.ToDouble(args.Value);
+        await _polylineGraphic.SetGeometry(new PolyLine([mapPath]));
+    }
+    
+    private async Task SetRingPath(ChangeEventArgs args, int i, int j)
+    {
+        mapRings[i][j] = Convert.ToDouble(args.Value);
+        await _polygonGraphic.SetGeometry(new Polygon([mapRings]));
+    }
+
     private bool _showPointSection;
     private bool _showLineSection;
     private bool _showPolygonSection;
-    private Graphic? _polygonGraphic;
-    private Graphic? _pointGraphic;
-    private Graphic? _polylineGraphic;
+    private Graphic _polygonGraphic = new(new Polygon([ mapRings ]),
+        new SimpleFillSymbol(new Outline(new MapColor(255, 255, 255), 1),
+            new MapColor(81, 46, 132, 0.8)));
+    private Graphic _pointGraphic = new(new Point(_pointLong, _pointLat),
+        new SimpleMarkerSymbol(new Outline(new MapColor(255, 255, 255), 1), 
+            new MapColor(81, 46, 132)));
+    private Graphic _polylineGraphic = new(new PolyLine([mapPath]), 
+        new SimpleLineSymbol(new MapColor("white"), 2));
+    private GraphicsLayer? _graphicsLayer;
     private string? _geometry;
+    private readonly double _latitude = 34.027;
+    private readonly double _longitude = -118.805;
+    private static double _pointLat = 34.027;
+    private static double _pointLong = -118.805;
+    private bool _showPoint;
+    private bool _showLine;
+    private bool _showPolygon;
+
+    private static readonly MapPath mapPath = new(new MapPoint(-118.821527826096, 34.0139576938577),
+        new MapPoint(-118.814893761649, 34.0080602407843),
+        new MapPoint(-118.808878330345, 34.0016642996246));
+
+    private static readonly MapPath mapRings = new(new MapPoint(-118.818984489994, 34.0137559967283),
+        new MapPoint(-118.806796597377, 34.0215816298725),
+        new MapPoint(-118.791432890735, 34.0163883241613),
+        new MapPoint(-118.79596686535, 34.008564864635),
+        new MapPoint(-118.808558110679, 34.0035027131376));
     private readonly AttributesDictionary _graphicAttributes = new(new Dictionary<string, object>
     {
         { "Name", "Sample Polygon" },

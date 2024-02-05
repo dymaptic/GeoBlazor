@@ -218,13 +218,6 @@ export default class FeatureLayerWrapper {
         abortSignal: AbortSignal): Promise<any> {
         let jsGraphics: Graphic[] = [];
         for (const g of graphics) {
-            if (graphicsRefs.hasOwnProperty(g.id)) {
-                let graphic = graphicsRefs[g.id] as Graphic;
-                if (graphic !== undefined && graphic !== null) {
-                    jsGraphics.push(graphic);
-                    continue;
-                }
-            }
             let jsGraphic = buildJsGraphic(g, viewId) as Graphic;
             jsGraphics.push(jsGraphic);
         }

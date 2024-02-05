@@ -137,7 +137,7 @@ export function buildDotNetGraphic(graphic: Graphic): DotNetGraphic {
     }
 
     dotNetGraphic.uid = (graphic as any).uid;
-    dotNetGraphic.attributes = graphic.attributes;
+    dotNetGraphic.attributes = graphic.attributes ?? {};
     if (graphic.symbol !== undefined && graphic.symbol !== null) {
         dotNetGraphic.symbol = buildDotNetSymbol(graphic.symbol);
     }

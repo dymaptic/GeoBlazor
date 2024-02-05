@@ -2120,15 +2120,7 @@ export async function addLayer(layerObject: any, viewId: string, isBasemapLayer?
         let view = arcGisObjectRefs[viewId] as View;
         if (!hasValue(view?.map)) return;
 
-        let newLayer: Layer | null;
-        if (arcGisObjectRefs.hasOwnProperty(layerObject.id)) {
-            newLayer = arcGisObjectRefs[layerObject.id] as Layer;
-            if (newLayer.destroyed) {
-                newLayer = await createLayer(layerObject, null, viewId);
-            }
-        } else {
-            newLayer = await createLayer(layerObject, null, viewId);
-        }
+        let newLayer = await createLayer(layerObject, null, viewId);
 
         if (newLayer === null) return;
 
@@ -2149,10 +2141,13 @@ export async function addLayer(layerObject: any, viewId: string, isBasemapLayer?
 
 export async function createLayer(layerObject: any, wrap?: boolean | null, viewId?: string | null): Promise<Layer | null> {
     if (arcGisObjectRefs.hasOwnProperty(layerObject.id)) {
-        if (wrap) {
-            return getObjectReference(arcGisObjectRefs[layerObject.id] as Layer);
+        let oldLayer = arcGisObjectRefs[layerObject.id] as Layer;
+        if (!oldLayer.destroyed) {
+            if (wrap) {
+                return getObjectReference(arcGisObjectRefs[layerObject.id] as Layer);
+            }
+            return arcGisObjectRefs[layerObject.id] as Layer;
         }
-        return arcGisObjectRefs[layerObject.id] as Layer;
     }
     let newLayer: Layer;
     switch (layerObject.type) {
