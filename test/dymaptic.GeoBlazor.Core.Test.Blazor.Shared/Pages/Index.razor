@@ -46,7 +46,12 @@
 
             if (Configuration["runOnStart"] == "true")
             {
-                await RunTests();
+                bool passed = await RunTests();
+
+                if (!passed)
+                {
+                    Environment.ExitCode = 1;
+                }
                 HostApplicationLifetime.StopApplication();
             }
         }
@@ -79,7 +84,7 @@
         StateHasChanged();
     }
 
-    private async Task RunTests()
+    private async Task<bool> RunTests()
     {
         _running = true;
         _results.Clear();
@@ -110,8 +115,16 @@ Failed: {result.Value.Failed.Count}");
                 resultBuilder.AppendLine($@"### {methodResult.Key} - Passed
 {methodResult.Value}");
             }
+
+            foreach (KeyValuePair<string, string?> methodResult in result.Value.Failed)
+            {
+                resultBuilder.AppendLine($@"### {methodResult.Key} - Failed
+{methodResult.Value}");
+            }
         }
         Console.WriteLine(resultBuilder.ToString());
+
+        return _results.Values.All(r => r.Failed.Count == 0);
     }
 
     private async Task OnTestResults(TestResult result)

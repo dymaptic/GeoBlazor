@@ -333,34 +333,81 @@ public class PopupTemplate : MapComponent
 }
 
 [ProtoContract(Name = "PopupTemplate")]
-internal record PopupTemplateSerializationRecord([property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(1)]
-        string? Title,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(2)]
+internal record PopupTemplateSerializationRecord : MapComponentSerializationRecord
+{
+    public PopupTemplateSerializationRecord()
+    {
+    }
+    
+    public PopupTemplateSerializationRecord(string? Title,
         string? StringContent = null,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(3)]
         IEnumerable<string>? OutFields = null,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(4)]
         IEnumerable<FieldInfoSerializationRecord>? FieldInfos = null,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(5)]
         IEnumerable<PopupContentSerializationRecord>? Content = null,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(6)]
         IEnumerable<ExpressionInfoSerializationRecord>? ExpressionInfos = null,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(7)]
         bool? OverwriteActions = null,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(8)]
         bool? ReturnGeometry = null,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(9)]
         IEnumerable<ActionBaseSerializationRecord>? Actions = null,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(10)]
         string? Id = null)
-    : MapComponentSerializationRecord;
+    {
+        this.Title = Title;
+        this.StringContent = StringContent;
+        this.OutFields = OutFields;
+        this.FieldInfos = FieldInfos;
+        this.Content = Content;
+        this.ExpressionInfos = ExpressionInfos;
+        this.OverwriteActions = OverwriteActions;
+        this.ReturnGeometry = ReturnGeometry;
+        this.Actions = Actions;
+        this.Id = Id;
+    }
+
+    public PopupTemplate FromSerializationRecord()
+    {
+        return new PopupTemplate(Title, StringContent, OutFields,
+            FieldInfos?.Select(f => f.FromSerializationRecord()),
+            Content?.Select(c => c.FromSerializationRecord()),
+            ExpressionInfos?.Select(e => e.FromSerializationRecord()), OverwriteActions,
+            ReturnGeometry, Actions?.Select(a => a.FromSerializationRecord()));
+    }
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(1)]
+    public string? Title { get; init; }
+    
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(2)]
+    public string? StringContent { get; init; }
+    
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(3)]
+    public IEnumerable<string>? OutFields { get; init; }
+    
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(4)]
+    public IEnumerable<FieldInfoSerializationRecord>? FieldInfos { get; init; }
+    
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(5)]
+    public IEnumerable<PopupContentSerializationRecord>? Content { get; init; }
+    
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(6)]
+    public IEnumerable<ExpressionInfoSerializationRecord>? ExpressionInfos { get; init; }
+    
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(7)]
+    public bool? OverwriteActions { get; init; }
+    
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(8)]
+    public bool? ReturnGeometry { get; init; }
+    
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(9)]
+    public IEnumerable<ActionBaseSerializationRecord>? Actions { get; init; }
+    
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(10)]
+    public string? Id { get; init; }
+}

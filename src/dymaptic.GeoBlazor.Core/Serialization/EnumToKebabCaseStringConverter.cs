@@ -85,13 +85,42 @@ public class LabelPlacementStringConverter : EnumToKebabCaseStringConverter<Labe
 
         try
         {
-            return value is not null ? (LabelPlacement)Enum.Parse(typeof(LabelPlacement), value, true) : default(LabelPlacement)!;
+            return value is not null 
+                ? (LabelPlacement)Enum.Parse(typeof(LabelPlacement), value, true) 
+                : default(LabelPlacement);
         }
         catch (Exception ex)
         {
             Console.WriteLine(ex);
 
             return default(LabelPlacement);
+        }
+    }
+}
+
+/// <summary>
+///     Converts an enum to a kebab case string for serialization. Used with LabelPlacement which returns esriServerPointLabelPlacement from the ESRI JS.
+/// </summary>
+public class DrawingToolStringConverter : EnumToKebabCaseStringConverter<DrawingTool>
+{
+    /// <inheritdoc />
+    public override DrawingTool Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        string? value = reader.GetString()
+            ?.Replace("-", string.Empty)
+            .Replace("esriFeatureEditTool", string.Empty);
+
+        try
+        {
+            return value is not null 
+                ? (DrawingTool)Enum.Parse(typeof(DrawingTool), value, true) 
+                : default(DrawingTool);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+
+            return default(DrawingTool);
         }
     }
 }

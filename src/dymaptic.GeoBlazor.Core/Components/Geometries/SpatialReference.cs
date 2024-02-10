@@ -191,11 +191,28 @@ internal class SpatialReferenceConverter : JsonConverter<SpatialReference>
 }
 
 [ProtoContract(Name = "SpatialReference")]
-internal record SpatialReferenceSerializationRecord(
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(1)]
-        int? Wkid,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(2)]
+internal record SpatialReferenceSerializationRecord : MapComponentSerializationRecord
+{
+    public SpatialReferenceSerializationRecord()
+    {
+    }
+    
+    public SpatialReferenceSerializationRecord(int? Wkid,
         string? Wkt = null)
-    : MapComponentSerializationRecord;
+    {
+        this.Wkid = Wkid;
+        this.Wkt = Wkt;
+    }
+
+    public SpatialReference FromSerializationRecord()
+    {
+        return new SpatialReference(Wkid ?? 4326);
+    }
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(1)]
+    public int? Wkid { get; init; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(2)]
+    public string? Wkt { get; init; }
+}

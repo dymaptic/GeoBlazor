@@ -15,6 +15,14 @@ namespace dymaptic.GeoBlazor.Core.Objects;
 public class MapColor : IEquatable<MapColor>
 {
     /// <summary>
+    ///     Parameterless constructor for Protobuf deserialization.
+    ///     Not intended for public use.
+    /// </summary>
+    public MapColor()
+    {
+    }
+    
+    /// <summary>
     ///     Creates a new color with a collection of numeric values in rgb or rgba format.
     /// </summary>
     /// <param name="values">

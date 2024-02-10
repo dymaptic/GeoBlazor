@@ -69,14 +69,33 @@ public class FieldInfoFormat : MapComponent
 }
 
 [ProtoContract(Name = "FieldInfoFormat")]
-internal record FieldInfoFormatSerializationRecord(
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(1)]
-        int? Places,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(2)]
+internal record FieldInfoFormatSerializationRecord : MapComponentSerializationRecord
+{
+    public FieldInfoFormatSerializationRecord()
+    {
+    }
+    
+    public FieldInfoFormatSerializationRecord(int? Places,
         bool? DigitSeparator,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(3)]
         string? DateFormat)
-    : MapComponentSerializationRecord;
+    {
+        this.Places = Places;
+        this.DigitSeparator = DigitSeparator;
+        this.DateFormat = DateFormat;
+    }
+
+    public FieldInfoFormat FromSerializationRecord()
+    {
+        return new FieldInfoFormat(Places, DigitSeparator, DateFormat);
+    }
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(1)]
+    public int? Places { get; init; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(2)]
+    public bool? DigitSeparator { get; init; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(3)]
+    public string? DateFormat { get; init; }
+}

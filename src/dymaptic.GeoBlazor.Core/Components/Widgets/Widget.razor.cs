@@ -74,6 +74,11 @@ public abstract partial class Widget : MapComponent
     protected virtual bool Hidden => false;
     
     /// <summary>
+    ///     Indicates that the widget is sent to ArcGIS JS to render.
+    /// </summary>
+    protected internal virtual bool ArcGisWidget => true;
+    
+    /// <summary>
     ///     JS-invokable callback to register a JS Object Reference
     /// </summary>
     [JSInvokable]

@@ -15,6 +15,38 @@ namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 public class MapFont : MapComponent
 {
     /// <summary>
+    ///     Parameterless constructor for using as a razor component
+    /// </summary>
+    public MapFont()
+    {
+    }
+    
+    /// <summary>
+    ///     Constructs a new MapFont in code with parameters
+    /// </summary>
+    /// <param name="size">
+    ///     The font size in points.
+    /// </param>
+    /// <param name="family">
+    ///     The font family of the text.
+    /// </param>
+    /// <param name="style">
+    ///     The text style.
+    /// </param>
+    /// <param name="weight">
+    ///     The text weight.
+    /// </param>
+    public MapFont(int? size, string? family, string? style, string? weight)
+    {
+#pragma warning disable BL0005
+        Size = size;
+        Family = family;
+        FontStyle = style;
+        Weight = weight;
+#pragma warning restore BL0005
+    }
+    
+    /// <summary>
     ///     The font size in points.
     /// </summary>
     [Parameter]
@@ -43,18 +75,4 @@ public class MapFont : MapComponent
     [ProtoMember(4)]
     public string? Weight { get; set; }
 
-    internal MapFontSerializationRecord ToSerializationRecord()
-    {
-        return new MapFontSerializationRecord(Size, Family, FontStyle, Weight);
-    }
 }
-
-internal record MapFontSerializationRecord([property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        int? Size,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        string? Family,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        string? Style,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        string? Weight)
-    : MapComponentSerializationRecord;

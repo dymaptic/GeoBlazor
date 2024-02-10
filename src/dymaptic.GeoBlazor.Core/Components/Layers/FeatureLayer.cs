@@ -8,6 +8,7 @@ using dymaptic.GeoBlazor.Core.Objects;
 using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using ProtoBuf;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -243,7 +244,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer
         get => _source;
         set
         {
-            if (value is not null)
+            if (value is not null && (_source is null || !_source!.Any()))
             {
                 _source = new HashSet<Graphic>(value);
             }
@@ -294,13 +295,18 @@ public class FeatureLayer : Layer, IFeatureReductionLayer
     /// <exception cref="InvalidOperationException">
     ///     If the layer is already loaded, you must use <see cref="ApplyEdits"/> to add graphics.
     /// </exception>
-    public Task Add(Graphic graphic)
+    public async Task Add(Graphic graphic)
     {
         if (JsLayerReference is not null)
         {
-            throw new InvalidOperationException("Cannot add graphics to a feature layer that is already loaded. Use ApplyEdits instead.");
+            await ApplyEdits(new FeatureEdits
+            {
+                AddFeatures = new []{graphic}
+            });
+
+            return;
         }
-        return RegisterChildComponent(graphic);
+        await RegisterChildComponent(graphic);
     }
 
     /// <summary>
@@ -316,7 +322,12 @@ public class FeatureLayer : Layer, IFeatureReductionLayer
     {
         if (JsLayerReference is not null)
         {
-            throw new InvalidOperationException("Cannot add graphics to a feature layer that is already loaded. Use ApplyEdits instead.");
+            await ApplyEdits(new FeatureEdits
+            {
+                AddFeatures = graphics
+            });
+
+            return;
         }
         foreach (Graphic graphic in graphics)
         {
@@ -361,17 +372,182 @@ public class FeatureLayer : Layer, IFeatureReductionLayer
     ///     Applies edits to features in a layer. New features can be created and existing features can be updated or deleted. Feature geometries and/or attributes may be modified. Only applicable to layers in a feature service and client-side features set through the FeatureLayer's source property. Attachments can also be added, updated or deleted.
     ///     If client-side features are added, removed or updated at runtime using applyEdits() then use FeatureLayer's queryFeatures() method to return updated features.
     /// </summary>
-    public async Task<FeatureEditsResult> ApplyEdits(FeatureEdits edits, FeatureEditOptions? options = null)
+    public async Task<FeatureEditsResult> ApplyEdits(FeatureEdits edits, FeatureEditOptions? options = null,
+        CancellationToken cancellationToken = default)
     {
         // Verify that the layer is loaded. Layers with no graphics are not rendered and therefore not loaded
         // as far as GeoBlazor is concerned
         if (JsModule is not null && JsLayerReference is null)
         {
-            await Load();
+            await Load(cancellationToken);
         }
         
-        return await JsLayerReference!.InvokeAsync<FeatureEditsResult>("applyEdits", edits, options,
-            View!.Id);
+        FeatureEditsResult emptyResult = new FeatureEditsResult(Array.Empty<FeatureEditResult>(), 
+            Array.Empty<FeatureEditResult>(),
+            Array.Empty<FeatureEditResult>(),
+            Array.Empty<FeatureEditResult>(),
+            Array.Empty<FeatureEditResult>(),
+            Array.Empty<FeatureEditResult>(),
+            Array.Empty<EditedFeatureResult>(),
+            null);
+
+        if (cancellationToken.IsCancellationRequested ||
+            CancellationTokenSource.Token.IsCancellationRequested)
+        {
+            return emptyResult;
+        }
+
+        Graphic[] addedFeatures = edits.AddFeatures?.ToArray() ?? Array.Empty<Graphic>();
+        Graphic[] updatedFeatures = edits.UpdateFeatures?.ToArray() ?? Array.Empty<Graphic>();
+        Graphic[] deletedFeatures = edits.DeleteFeatures?.ToArray() ?? Array.Empty<Graphic>();
+        long? editMoment = null;
+        int chunkSize = View!.GraphicSerializationChunkSize ?? (View.IsMaui ? 100 : 200);
+        AbortManager ??= new AbortManager(JsRuntime);
+        
+        // return await JsLayerReference!.InvokeAsync<FeatureEditsResult>("applyEdits", edits, options,
+        //     View!.Id);
+        FeatureEditsResult? addFeatureResults = null;
+        FeatureEditsResult? updateFeatureResults = null;
+        FeatureEditsResult? deleteFeatureResults = null;
+        List<EditedFeatureResult> editedFeatureResults = new();
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        for (var index = 0; index < addedFeatures.Length; index += chunkSize)
+        {
+            int skip = index;
+
+            addFeatureResults = 
+                await SendEdits(addedFeatures.Skip(skip).Take(chunkSize)
+                        .Select(g => g.ToSerializationRecord()).ToArray(), "add", 
+                    options, addFeatureResults, abortSignal, cancellationToken);
+            editMoment ??= addFeatureResults?.EditMoment;
+        }
+        for (var index = 0; index < updatedFeatures.Length; index += chunkSize)
+        {
+            int skip = index;
+
+            updateFeatureResults = 
+                await SendEdits(updatedFeatures.Skip(skip).Take(chunkSize)
+                        .Select(g => g.ToSerializationRecord()).ToArray(), "update", 
+                    options, updateFeatureResults, abortSignal, cancellationToken);
+            editMoment ??= updateFeatureResults?.EditMoment;
+        }
+        for (var index = 0; index < deletedFeatures.Length; index += chunkSize)
+        {
+            int skip = index;
+
+            deleteFeatureResults = 
+                await SendEdits(deletedFeatures.Skip(skip).Take(chunkSize)
+                        .Select(g => g.ToSerializationRecord()).ToArray(), "delete", 
+                    options, deleteFeatureResults, abortSignal, cancellationToken);
+            editMoment ??= deleteFeatureResults?.EditMoment;
+        }
+        
+        if (addFeatureResults?.EditedFeatureResults is not null)
+        {
+            editedFeatureResults.AddRange(addFeatureResults.EditedFeatureResults);
+        }
+        if (updateFeatureResults?.EditedFeatureResults is not null)
+        {
+            editedFeatureResults.AddRange(updateFeatureResults.EditedFeatureResults);
+        }
+        if (deleteFeatureResults?.EditedFeatureResults is not null)
+        {
+            editedFeatureResults.AddRange(deleteFeatureResults.EditedFeatureResults);
+        }
+
+        FeatureEditsResult? attachmentResults = null;
+        if (edits.AddAttachments?.Any() == true ||
+            edits.UpdateAttachments?.Any() == true ||
+            edits.DeleteAttachments?.Any() == true)
+        {
+            FeatureEdits attachmentEdits = new()
+            {
+                AddAttachments = edits.AddAttachments,
+                UpdateAttachments = edits.UpdateAttachments,
+                DeleteAttachments = edits.DeleteAttachments
+            };
+            attachmentResults = await JsLayerReference!.InvokeAsync<FeatureEditsResult>(
+                "applyAttachmentEdits", cancellationToken, attachmentEdits, options, View!.Id,
+                abortSignal);
+            editMoment ??= attachmentResults.EditMoment;
+            if (attachmentResults.EditedFeatureResults is not null)
+            {
+                editedFeatureResults.AddRange(attachmentResults.EditedFeatureResults);
+            }
+        }
+        
+        if (_source is not null)
+        {
+            // update the in-memory collections:
+            foreach (Graphic addedGraphic in addedFeatures)
+            {
+                _source!.Add(addedGraphic);
+            }
+            foreach (Graphic updatedGraphic in updatedFeatures)
+            {
+                _source!.Remove(updatedGraphic);
+                _source!.Add(updatedGraphic);
+            }
+            foreach (Graphic deletedGraphic in deletedFeatures)
+            {
+                _source!.Remove(deletedGraphic);
+            }
+        }
+
+        return new FeatureEditsResult
+        (
+            addFeatureResults?.AddFeatureResults ?? Array.Empty<FeatureEditResult>(), 
+            updateFeatureResults?.UpdateFeatureResults ?? Array.Empty<FeatureEditResult>(), 
+            deleteFeatureResults?.DeleteFeatureResults ?? Array.Empty<FeatureEditResult>(), 
+            attachmentResults?.AddAttachmentResults ?? Array.Empty<FeatureEditResult>(),
+            attachmentResults?.UpdateAttachmentResults ?? Array.Empty<FeatureEditResult>(),
+            attachmentResults?.DeleteAttachmentResults ?? Array.Empty<FeatureEditResult>(),
+            editedFeatureResults.ToArray(),
+            editMoment
+        );
+    }
+
+    private async Task<FeatureEditsResult?> SendEdits(GraphicSerializationRecord[] graphics, 
+        string editType, FeatureEditOptions? options, FeatureEditsResult? currentResults, 
+        IJSObjectReference abortSignal, CancellationToken cancellationToken)
+    {
+        if (cancellationToken.IsCancellationRequested ||
+            CancellationTokenSource.Token.IsCancellationRequested)
+        {
+            return null;
+        }
+        
+        ProtoGraphicCollection collection = new(graphics);
+        MemoryStream ms = new();
+        Serializer.Serialize(ms, collection);
+
+        if (cancellationToken.IsCancellationRequested ||
+            CancellationTokenSource.Token.IsCancellationRequested)
+        {
+            await ms.DisposeAsync();
+            return null;
+        }
+        
+        ms.Seek(0, SeekOrigin.Begin);
+
+        FeatureEditsResult result;
+        if (View!.IsWebAssembly)
+        {
+            result = await JsLayerReference!.InvokeAsync<FeatureEditsResult>(
+                "applyGraphicEditsSynchronously", cancellationToken, ms.ToArray(), editType, options, 
+                View!.Id, abortSignal);
+            await ms.DisposeAsync();
+            await Task.Delay(1, cancellationToken);
+        }
+        else
+        {
+            using DotNetStreamReference streamRef = new(ms);
+            result = await JsLayerReference!.InvokeAsync<FeatureEditsResult>(
+                "applyGraphicEditsFromStream", cancellationToken, streamRef, editType, options, 
+                View!.Id, abortSignal);
+        }
+
+        return result.Concat(currentResults);
     }
 
     /// <summary>
@@ -1178,7 +1354,8 @@ public class AttachmentEdit
     /// <summary>
     ///     The feature, objectId or globalId of feature associated with the attachment.
     /// </summary>
-    public Graphic Feature { get; set; } = default!;
+    [JsonConverter(typeof(GraphicToIdConverter))]
+    public Graphic? Feature { get; set; }
 
     /// <summary>
     ///     The attachment to be added, updated or deleted.
@@ -1335,10 +1512,37 @@ public class FeatureEditOptions
 /// <param name="EditMoment">
 ///     The time edits were applied to the feature service. This parameter is returned only when the returnEditMoment parameter of the applyEdits() method is set to true.
 /// </param>
-public record FeatureEditsResult(FeatureEditResult[] AddFeatureResults, FeatureEditResult[] UpdateFeatureResults,
-    FeatureEditResult[] DeleteFeatureResults, FeatureEditResult[] AddAttachmentResults,
-    FeatureEditResult[] UpdateAttachmentResults, FeatureEditResult[] DeleteAttachmentResults,
-    EditedFeatureResult[]? EditedFeatureResults, long? EditMoment);
+public record FeatureEditsResult(
+    FeatureEditResult[] AddFeatureResults,
+    FeatureEditResult[] UpdateFeatureResults,
+    FeatureEditResult[] DeleteFeatureResults,
+    FeatureEditResult[] AddAttachmentResults,
+    FeatureEditResult[] UpdateAttachmentResults,
+    FeatureEditResult[] DeleteAttachmentResults,
+    EditedFeatureResult[]? EditedFeatureResults,
+    long? EditMoment)
+{
+    /// <summary>
+    ///     Concatenates two <see cref="FeatureEditsResult"/>s.
+    /// </summary>
+    /// <param name="other"></param>
+    /// <returns></returns>
+    public FeatureEditsResult Concat(FeatureEditsResult? other)
+    {
+        if (other is null) return this;
+        return this with
+        {
+            AddFeatureResults = AddFeatureResults.Concat(other.AddFeatureResults).ToArray(),
+            UpdateFeatureResults = UpdateFeatureResults.Concat(other.UpdateFeatureResults).ToArray(),
+            DeleteFeatureResults = DeleteFeatureResults.Concat(other.DeleteFeatureResults).ToArray(),
+            AddAttachmentResults = AddAttachmentResults.Concat(other.AddAttachmentResults).ToArray(),
+            UpdateAttachmentResults = UpdateAttachmentResults.Concat(other.UpdateAttachmentResults).ToArray(),
+            DeleteAttachmentResults = DeleteAttachmentResults.Concat(other.DeleteAttachmentResults).ToArray(),
+            EditedFeatureResults = (EditedFeatureResults ?? Array.Empty<EditedFeatureResult>())
+                .Concat(other.EditedFeatureResults ?? Array.Empty<EditedFeatureResult>()).ToArray()
+        };
+    }
+}
 
 /// <summary>
 ///     FeatureEditResult represents the result of adding, updating or deleting a feature or an attachment.
@@ -1457,7 +1661,7 @@ public record Thumbnail(string ContentType, string ImageData, double Height, dou
 /// <summary>
 ///     Name of the default drawing tool defined for the template to create a feature.
 /// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<DrawingTool>))]
+[JsonConverter(typeof(DrawingToolStringConverter))]
 public enum DrawingTool
 {
 #pragma warning disable CS1591
@@ -1477,4 +1681,20 @@ public enum DrawingTool
     UpArrow,
     DownArrow
 #pragma warning restore CS1591
+}
+
+/// <summary>
+///     One-directional converter to just send the component Id to JS
+/// </summary>
+internal class GraphicToIdConverter: JsonConverter<Graphic>
+{
+    public override Graphic? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override void Write(Utf8JsonWriter writer, Graphic value, JsonSerializerOptions options)
+    {
+        writer.WriteRawValue(value.Id.ToString());
+    }
 }

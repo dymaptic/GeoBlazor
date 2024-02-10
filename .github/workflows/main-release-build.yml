@@ -1,0 +1,51 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: Main Branch Release Build
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build: 
+    runs-on: ubuntu-latest
+    steps:
+        # Checkout the repository to the GitHub Actions runner
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        submodules: true
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 8.0.x
+    - name: Restore dependencies
+      run: dotnet restore ./src/dymaptic.GeoBlazor.Core/dymaptic.GeoBlazor.Core.csproj
+    - name: Build Core
+      run: dotnet build ./src/dymaptic.GeoBlazor.Core/dymaptic.GeoBlazor.Core.csproj --no-restore /p:OptOutFromCoreEsBuild=false /p:GenerateDocs=false /p:UpdateTemplates=false -c Release
+    - name: Build Templates
+      run: dotnet build ./templates/dymaptic.GeoBlazor.Templates.csproj -c Release
+    - name: Publish Core to Nuget
+      run: dotnet nuget push ./src/dymaptic.GeoBlazor.Core/bin/Release/dymaptic.GeoBlazor.Core.*.nupkg --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate
+    - name: Publish Templates to Nuget
+      run: dotnet nuget push ./templates/bin/Release/dymaptic.GeoBlazor.Templates.*.nupkg --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate
+    - name: Copy Build Versions
+      run: |
+        CORE_VERSION=$(xmllint --xpath "//PropertyGroup/CoreVersion/text()" ./Directory.Build.props)
+        echo "CORE_VERSION=$CORE_VERSION" >> $GITHUB_ENV
+    - name: Copy PR Release Notes
+      run: |
+        PR_DESCRIPTION=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+        "https://api.github.com/repos/${{ github.repository }}/pulls?state=closed&sort=updated&direction=desc" | \
+        jq -r '.[0].body')
+        echo "PR_DESCRIPTION=$PR_DESCRIPTION" >> $GITHUB_ENV
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
+      with:
+        body: ${{env.PR_DESCRIPTION}}
+        tag_name: "v${{env.PRO_VERSION}}"
+        generate_release_notes: true
+        prerelease: true
+        files: |
+          ./src/dymaptic.GeoBlazor.Core/bin/Release/dymaptic.GeoBlazor.Core.*.nupkg

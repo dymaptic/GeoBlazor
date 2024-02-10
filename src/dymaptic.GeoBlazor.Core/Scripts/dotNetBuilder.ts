@@ -50,7 +50,7 @@ import {
     DotNetInheritedDomain,
     DotNetRangeDomain,
     DotNetEffect,
-    DotNetFeatureTemplate
+    DotNetFeatureTemplate, DotNetFeatureSet
 } from "./definitions";
 import Point from "@arcgis/core/geometry/Point";
 import Polyline from "@arcgis/core/geometry/Polyline";
@@ -79,7 +79,7 @@ import ExpressionContent from "@arcgis/core/popup/content/ExpressionContent";
 import ElementExpressionInfo from "@arcgis/core/popup/ElementExpressionInfo";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
-import {arcGisObjectRefs, copyValuesIfExists, hasValue} from "./arcGisJsInterop";
+import {arcGisObjectRefs, copyValuesIfExists, dotNetRefs, graphicsRefs, hasValue} from "./arcGisJsInterop";
 import SimpleMarkerSymbol from "@arcgis/core/symbols/SimpleMarkerSymbol";
 import Symbol from "@arcgis/core/symbols/Symbol";
 import Graphic from "@arcgis/core/Graphic";
@@ -120,6 +120,8 @@ import SizeSchemeForPoint = __esri.SizeSchemeForPoint;
 import SizeSchemeForPolygon = __esri.SizeSchemeForPolygon;
 import UniqueValuesResult = __esri.UniqueValuesResult;
 import AuthoringInfo from "@arcgis/core/renderers/support/AuthoringInfo";
+import FeatureSet from "@arcgis/core/rest/support/FeatureSet";
+import DirectionsFeatureSet from "@arcgis/core/rest/support/DirectionsFeatureSet";
 
 
 export function buildDotNetGraphic(graphic: Graphic): DotNetGraphic {
@@ -135,7 +137,7 @@ export function buildDotNetGraphic(graphic: Graphic): DotNetGraphic {
     }
 
     dotNetGraphic.uid = (graphic as any).uid;
-    dotNetGraphic.attributes = graphic.attributes;
+    dotNetGraphic.attributes = graphic.attributes ?? {};
     if (graphic.symbol !== undefined && graphic.symbol !== null) {
         dotNetGraphic.symbol = buildDotNetSymbol(graphic.symbol);
     }
@@ -374,12 +376,13 @@ export function buildDotNetLayerView(layerView: LayerView): DotNetLayerView {
     }
 }
 
-export function buildDotNetLayer(layer: Layer): DotNetLayer {
+export function buildDotNetLayer(layer: Layer, includeGraphics: boolean = true)
+    : DotNetLayer {
     switch (layer.type) {
         case 'feature':
             return buildDotNetFeatureLayer(layer as FeatureLayer);
         case 'graphics':
-            return buildDotNetGraphicsLayer(layer as GraphicsLayer);
+            return buildDotNetGraphicsLayer(layer as GraphicsLayer, includeGraphics);
         default:
 
             let dotNetLayer = {
@@ -406,7 +409,8 @@ export function buildDotNetLayer(layer: Layer): DotNetLayer {
     }
 }
 
-export function buildDotNetFeatureLayer(layer: FeatureLayer): DotNetFeatureLayer {
+export function buildDotNetFeatureLayer(layer: FeatureLayer)
+    : DotNetFeatureLayer {
 
     let dotNetLayer = {
         title: layer.title,
@@ -518,7 +522,8 @@ export function buildDotNetRangeDomain(domain: RangeDomain): DotNetRangeDomain {
     } as DotNetRangeDomain;
 }
 
-export function buildDotNetGraphicsLayer(layer: GraphicsLayer): DotNetGraphicsLayer {
+export function buildDotNetGraphicsLayer(layer: GraphicsLayer, includeGraphics: boolean = true)
+    : DotNetGraphicsLayer {
     let dotNetLayer = {
         title: layer.title,
         type: layer.type,
@@ -531,7 +536,7 @@ export function buildDotNetGraphicsLayer(layer: GraphicsLayer): DotNetGraphicsLa
         dotNetLayer.fullExtent = buildDotNetExtent(layer.fullExtent) as DotNetExtent;
     }
 
-    if (layer.graphics !== undefined && layer.graphics !== null) {
+    if (includeGraphics && layer.graphics !== undefined && layer.graphics !== null) {
         dotNetLayer.graphics = (layer.graphics as MapCollection).items.map(g => buildDotNetGraphic(g));
     }
 
@@ -562,10 +567,9 @@ function buildDotNetViewHit(viewHit: ViewHit): DotNetViewHit | null {
             return {
                 type: "graphic",
                 graphic: buildDotNetGraphic(viewHit.graphic),
-                layer: buildDotNetLayer(viewHit.layer ?? viewHit.graphic.layer),
+                layer: buildDotNetLayer(viewHit.layer ?? viewHit.graphic.layer, false),
                 mapPoint: buildDotNetPoint(viewHit.mapPoint)
             } as DotNetGraphicHit;
-            break;
     }
 
     return null;
@@ -931,13 +935,13 @@ export function buildDotNetGoToOverrideParameters(parameters: any, viewId: strin
             let firstObject = parameters.target.target[0];
             if (firstObject instanceof Graphic) {
                 target.targetGraphics = [];
-                for (let g: Graphic in parameters.target.target as Graphic[]) {
-                    target.targetGraphics.push(buildDotNetGraphic(g));
+                for (let g in parameters.target.target as Graphic[]) {
+                    target.targetGraphics.push(buildDotNetGraphic(g as any));
                 }
             } else if (firstObject instanceof Geometry) {
                 target.targetGeometries = [];
-                for (let g: Geometry in parameters.target.target as Geometry[]) {
-                    target.targetGeometries.push(buildDotNetGeometry(g));
+                for (let g in parameters.target.target as Geometry[]) {
+                    target.targetGeometries.push(buildDotNetGeometry(g as any));
                 }
             } else {
                 target.targetCoordinates = parameters.target.target;
@@ -1144,4 +1148,104 @@ export function buildDotNetAuthoringInfo(jsAuthoringInfo: AuthoringInfo): any {
     }
     
     return dnAuthoringInfo;
+}
+
+export function buildDotNetEditsResult(jsResult: __esri.EditsResult): any {
+    let dnResult: any = {
+        addFeatureResults: jsResult.addFeatureResults,
+        deleteFeatureResults: jsResult.deleteFeatureResults,
+        updateFeatureResults: jsResult.updateFeatureResults,
+        addAttachmentResults: jsResult.addAttachmentResults,
+        updateAttachmentResults: jsResult.updateAttachmentResults,
+        deleteAttachmentResults: jsResult.deleteAttachmentResults
+    };
+    
+    if (hasValue(jsResult.editedFeatureResults)) {
+        dnResult.editedFeatureResults = jsResult.editedFeatureResults!.map(r =>{
+            let dnEditedFeatureResult: any = {
+                layerId: r.layerId
+            };
+            if (hasValue(r.editedFeatures.adds)) {
+                dnEditedFeatureResult.adds = r.editedFeatures.adds!.map(buildDotNetFeature);
+            }
+            if (hasValue(r.editedFeatures.deletes)) {
+                dnEditedFeatureResult.deletes = r.editedFeatures.deletes!.map(buildDotNetFeature);
+            }
+            if (hasValue(r.editedFeatures.updates)) {
+                dnEditedFeatureResult.updates = [];
+                for (let i = 0; i < r.editedFeatures.updates!.length; i++) {
+                    let jsFeature = r.editedFeatures.updates![i];
+                    dnEditedFeatureResult.updates.push({
+                        original: jsFeature.original?.map(buildDotNetFeature),
+                        current: jsFeature.current?.map(buildDotNetFeature)
+                    });
+                }
+            }
+            if (hasValue(r.editedFeatures.spatialReference)) {
+                dnEditedFeatureResult.spatialReference = buildDotNetSpatialReference(r.editedFeatures.spatialReference!);
+            }
+            
+            return dnEditedFeatureResult;
+        });
+    }
+    return dnResult;
+}
+
+export async function buildDotNetFeatureSet(jsFs: FeatureSet, viewId: string | null): Promise<DotNetFeatureSet> {
+    let dotNetFeatureSet: DotNetFeatureSet = {
+        features: [],
+        displayFieldName: jsFs.displayFieldName,
+        exceededTransferLimit: jsFs.exceededTransferLimit,
+        fields: jsFs.fields,
+        geometryType: jsFs.geometryType,
+        queryGeometry: buildDotNetGeometry(jsFs.queryGeometry),
+        spatialReference: buildDotNetSpatialReference(jsFs.spatialReference)
+    };
+    let graphics: DotNetGraphic[] = [];
+    for (let i = 0; i < jsFs.features.length; i++) {
+        let feature = jsFs.features[i];
+        let graphic: DotNetGraphic = buildDotNetGraphic(feature) as DotNetGraphic;
+        if (viewId !== undefined && viewId !== null) {
+            graphic.id = await dotNetRefs[viewId].invokeMethodAsync('GetId');
+            graphicsRefs[graphic.id as string] = feature;
+        }
+        graphics.push(graphic);
+    }
+    dotNetFeatureSet.features = graphics;
+    
+    return dotNetFeatureSet;
+}
+
+export async function buildDotNetDirectionsFeatureSet(jsFs: DirectionsFeatureSet, viewId: string | null): Promise<any> {
+    let dotNetFeatureSet: any = {
+        features: [],
+        displayFieldName: jsFs.displayFieldName,
+        exceededTransferLimit: jsFs.exceededTransferLimit,
+        fields: jsFs.fields,
+        geometryType: jsFs.geometryType,
+        queryGeometry: buildDotNetGeometry(jsFs.queryGeometry),
+        spatialReference: buildDotNetSpatialReference(jsFs.spatialReference)
+    };
+    let graphics: DotNetGraphic[] = [];
+    for (let i = 0; i < jsFs.features.length; i++) {
+        let feature = jsFs.features[i];
+        let graphic: DotNetGraphic = buildDotNetGraphic(feature) as DotNetGraphic;
+        if (viewId !== undefined && viewId !== null) {
+            graphic.id = await dotNetRefs[viewId].invokeMethodAsync('GetId');
+            graphicsRefs[graphic.id as string] = feature;
+        }
+        graphics.push(graphic);
+    }
+    dotNetFeatureSet.features = graphics;
+    if (hasValue(jsFs.extent)) {
+        dotNetFeatureSet.extent = buildDotNetExtent(jsFs.extent);
+    }
+    if (hasValue(jsFs.mergedGeometry)) {
+        dotNetFeatureSet.mergedGeometry = buildDotNetGeometry(jsFs.mergedGeometry);
+    }
+    
+    copyValuesIfExists(jsFs, dotNetFeatureSet, 'routeId', 'routeName', 'strings',
+        'totalDriveTime', 'totalLength', 'totalTime');
+
+    return dotNetFeatureSet;
 }

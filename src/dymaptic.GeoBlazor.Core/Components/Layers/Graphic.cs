@@ -43,8 +43,11 @@ public class Graphic : LayerObject
     /// <param name="visible">
     ///     Indicates the visibility of the graphic.
     /// </param>
+    /// <param name="legendLabel">
+    ///     Optional label override for this graphic in the GeoBlazor Pro GraphicsLegendWidget.
+    /// </param>
     public Graphic(Geometry? geometry = null, Symbol? symbol = null, PopupTemplate? popupTemplate = null,
-        AttributesDictionary? attributes = null, bool? visible = null)
+        AttributesDictionary? attributes = null, bool? visible = null, string? legendLabel = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -52,6 +55,7 @@ public class Graphic : LayerObject
         Symbol = symbol;
         PopupTemplate = popupTemplate;
         Visible = visible;
+        LegendLabel = legendLabel;
 
         if (attributes is not null)
         {
@@ -74,11 +78,12 @@ public class Graphic : LayerObject
     public AttributesDictionary Attributes { get; set; } = new();
     
     /// <summary>
-    ///     Indicates the visibility of the graphic. Default value: true.
+    ///     Legend label override for this graphic in the GeoBlazor Pro Graphics Legend Widget.
+    ///     Supports attribute substitution using the syntax {attributeName}.
     /// </summary>
     [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? Visible { get; set; }
+    [JsonIgnore]
+    public string? LegendLabel { get; set; }
 
     /// <summary>
     ///     The geometry that defines the graphic's location.
@@ -310,7 +315,7 @@ public class Graphic : LayerObject
                 Geometry?.ToSerializationRecord(),
                 Symbol?.ToSerializationRecord(),
                 PopupTemplate?.ToSerializationRecord(),
-                Attributes?.ToSerializationRecord());
+                Attributes.ToSerializationRecord());
         }
 
         return _serializationRecord;
@@ -365,15 +370,44 @@ public class Graphic : LayerObject
 }
 
 [ProtoContract(Name = "Graphic")]
-internal record GraphicSerializationRecord([property: ProtoMember(1)] string Id,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(2)]
+internal record GraphicSerializationRecord : MapComponentSerializationRecord
+{
+    public GraphicSerializationRecord()
+    {
+    }
+    
+    public GraphicSerializationRecord(string Id,
         GeometrySerializationRecord? Geometry,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(3)]
         SymbolSerializationRecord? Symbol,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(4)]
         PopupTemplateSerializationRecord? PopupTemplate,
-        [property: ProtoMember(5)] AttributeSerializationRecord[]? Attributes)
-    : MapComponentSerializationRecord;
+        AttributeSerializationRecord[]? Attributes)
+    {
+        this.Id = Id;
+        this.Geometry = Geometry;
+        this.Symbol = Symbol;
+        this.PopupTemplate = PopupTemplate;
+        this.Attributes = Attributes;
+    }
+
+    public Graphic FromSerializationRecord()
+    {
+        return new Graphic(Geometry?.FromSerializationRecord(),
+            Symbol?.FromSerializationRecord(),
+            PopupTemplate?.FromSerializationRecord(),
+            new AttributesDictionary(Attributes));
+    }
+
+    [ProtoMember(1)]
+    public string Id { get; set; } = string.Empty;
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(2)]
+    public GeometrySerializationRecord? Geometry { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(3)]
+    public SymbolSerializationRecord? Symbol { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(4)]
+    public PopupTemplateSerializationRecord? PopupTemplate { get; set; }
+    [ProtoMember(5)]
+    public AttributeSerializationRecord[]? Attributes { get; set; }
+}

@@ -13,7 +13,7 @@
         <Version>$(CoreVersion)</Version>
         <Authors>dymaptic</Authors>
         <Company>dymaptic</Company>
-        <Copyright>©2023 by dymaptic</Copyright>
+        <Copyright>©2024 by dymaptic</Copyright>
         <PackageReadmeFile>ReadMe.md</PackageReadmeFile>
         <RepositoryUrl>https://github.com/dymaptic/GeoBlazor</RepositoryUrl>
         <PackageProjectUrl>https://geoblazor.com</PackageProjectUrl>
@@ -32,6 +32,7 @@
         <InternalsVisibleTo Include="dymaptic.GeoBlazor.Pro" />
         <InternalsVisibleTo Include="dymaptic.GeoBlazor.Core.Sample.Shared" />
         <InternalsVisibleTo Include="dymaptic.GeoBlazor.Core.Test" />
+        <InternalsVisibleTo Include="dymaptic.GeoBlazor.Pro.Test.Unit" />
     </ItemGroup>
 
     <ItemGroup>
@@ -80,7 +81,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="wwwroot\assets\" />
+        <Folder Include="wwwroot\assets\" />
+        <Folder Include="Documentation\" />
     </ItemGroup>
 
     <Target Name="NPM Install" BeforeTargets="PreBuildEvent" Condition="$(TargetFrameworks.StartsWith($(TargetFramework))) AND '$(OptOutFromCoreEsBuild)' != 'true'">
@@ -89,19 +91,19 @@
         <Exec Command="npm install" />
     </Target>
 
-    <Target Name="Copy Assets Debug" AfterTargets="PreBuildEvent" Condition="$(Configuration) == 'DEBUG' AND $(TargetFrameworks.StartsWith($(TargetFramework)))">
+    <Target Name="Copy Assets Debug" AfterTargets="NPM Install" Condition="$(Configuration) == 'DEBUG' AND $(TargetFrameworks.StartsWith($(TargetFramework)))">
         <Message Importance="high" Text="Copying Asset files" />
         <ExecAsync FilePath="pwsh" Arguments="./assetCopy.ps1" />
     </Target>
 
-    <Target Name="Copy Assets Release" AfterTargets="PreBuildEvent" Condition="$(Configuration) == 'RELEASE' AND $(TargetFrameworks.StartsWith($(TargetFramework)))">
+    <Target Name="Copy Assets Release" AfterTargets="NPM Install" Condition="$(Configuration) == 'RELEASE' AND $(TargetFrameworks.StartsWith($(TargetFramework)))">
         <Message Importance="high" Text="Copying Asset files" />
-        <Exec Command="pwsh ./assetCopy.ps1" />
+        <Exec Command="pwsh ./assetCopy.ps1" ContinueOnError="false" />
     </Target>
 
-    <Target Name="Copy Assets Release" AfterTargets="PreBuildEvent" Condition="$(Configuration) == 'RELEASE' AND $(TargetFrameworks.StartsWith($(TargetFramework))) AND '$(UpdateTemplates)' == 'true'">
+    <Target Name="Update Templates" AfterTargets="PreBuildEvent" Condition="$(Configuration) == 'RELEASE' AND $(TargetFrameworks.StartsWith($(TargetFramework))) AND '$(UpdateTemplates)' == 'true'">
         <Message Importance="high" Text="Update Template Versions" />
-        <Exec Command="pwsh ./updateTemplates.ps1 $(CoreVersion)" />
+        <Exec Command="pwsh ./updateTemplates.ps1 $(CoreVersion)" ContinueOnError="false" />
     </Target>
 
     <Target Name="NPM Debug Build" AfterTargets="NPM Install" Condition="$(Configuration) == 'DEBUG' AND $(TargetFrameworks.StartsWith($(TargetFramework))) AND '$(OptOutFromCoreEsBuild)' != 'true'">
@@ -110,9 +112,9 @@
         <ExecAsync FilePath="pwsh" Arguments="./npmDebugBuild.ps1" />
     </Target>
 
-    <Target Name="NPM Release Build" AfterTargets="Copy Assets Release" Condition="$(Configuration) == 'RELEASE' AND $(TargetFrameworks.StartsWith($(TargetFramework)))">
+    <Target Name="NPM Release Build" AfterTargets="Copy Assets Release" Condition="$(Configuration) == 'RELEASE' AND $(TargetFrameworks.StartsWith($(TargetFramework))) AND '$(OptOutFromCoreEsBuild)' != 'true'">
         <!-- Runs synchronously to ensure all files are ready for nuget packaging in release mode -->
-        <Exec Command="npm run releaseBuild" />
+        <Exec Command="npm run releaseBuild" ContinueOnError="false" />
     </Target>
 
     <!--Launch a Process in Parallel-->

@@ -21,9 +21,20 @@ public abstract class MediaInfo : MapComponent
 }
 
 [ProtoContract(Name = "MediaInfo")]
-internal record MediaInfoSerializationRecord([property: ProtoMember(1)] string Type)
-    : MapComponentSerializationRecord
+internal record MediaInfoSerializationRecord : MapComponentSerializationRecord
 {
+    public MediaInfoSerializationRecord()
+    {
+    }
+    
+    public MediaInfoSerializationRecord(string Type)
+    {
+        this.Type = Type;
+    }
+
+    [ProtoMember(1)]
+    public string Type { get; init; } = string.Empty;
+    
     [ProtoMember(2)]
     public string? AltText { get; init; }
 
@@ -38,6 +49,25 @@ internal record MediaInfoSerializationRecord([property: ProtoMember(1)] string T
 
     [ProtoMember(6)]
     public double? RefreshInterval { get; init; }
+
+    public MediaInfo FromSerializationRecord()
+    {
+        return Type switch
+        {
+            "bar-chart" => new BarChartMediaInfo(Title, Caption, AltText,
+                Value?.FromSerializationRecord() as ChartMediaInfoValue),
+            "column-chart" => new ColumnChartMediaInfo(Title, Caption, AltText,
+                Value?.FromSerializationRecord() as ChartMediaInfoValue),
+            "pie-chart" => new PieChartMediaInfo(Title, Caption, AltText,
+                Value?.FromSerializationRecord() as ChartMediaInfoValue),
+            "line-chart" => new LineChartMediaInfo(Title, Caption, AltText,
+                Value?.FromSerializationRecord() as ChartMediaInfoValue),
+            "image-media" => new ImageMediaInfo(Title, Caption, AltText,
+                Value?.FromSerializationRecord() as ImageMediaInfoValue,
+                RefreshInterval),
+            _ => throw new NotSupportedException($"MediaInfo type {Type} is not supported.")
+        };
+    }
 }
 
 /// <summary>
@@ -46,6 +76,39 @@ internal record MediaInfoSerializationRecord([property: ProtoMember(1)] string T
 /// </summary>
 public class BarChartMediaInfo : MediaInfo
 {
+    /// <summary>
+    ///     Parameterless constructor for use as a razor component.
+    /// </summary>
+    public BarChartMediaInfo()
+    {
+    }
+
+    /// <summary>
+    ///     Constructor for building a <see cref="BarChartMediaInfo" /> in code.
+    /// </summary>
+    /// <param name="title">
+    ///     The title of the media element.
+    /// </param>
+    /// <param name="caption">
+    ///     Defines a caption for the media.
+    /// </param>
+    /// <param name="altText">
+    ///     Provides an alternate text for an image if the image cannot be displayed.
+    /// </param>
+    /// <param name="value">
+    ///     Defines the chart value.
+    /// </param>
+    public BarChartMediaInfo(string? title = null, string? caption = null, string? altText = null,
+        ChartMediaInfoValue? value = null)
+    {
+#pragma warning disable BL0005
+        Title = title;
+        Caption = caption;
+        AltText = altText;
+        Value = value;
+#pragma warning restore BL0005
+    }
+
     /// <inheritdoc />
     public override string Type => "bar-chart";
 
@@ -259,23 +322,56 @@ public class ChartMediaInfoValue : MapComponent
 }
 
 [ProtoContract(Name = "ChartMediaInfoValue")]
-internal record ChartMediaInfoValueSerializationRecord([property: ProtoMember(1)] IEnumerable<string>? Fields = null,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(2)]
+internal record ChartMediaInfoValueSerializationRecord : MapComponentSerializationRecord
+{
+    public ChartMediaInfoValueSerializationRecord()
+    {
+    }
+    
+    public ChartMediaInfoValueSerializationRecord(IEnumerable<string>? Fields = null,
         string? NormalizeField = null,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(3)]
         string? TooltipField = null,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(4)]
         IEnumerable<ChartMediaInfoValueSeriesSerializationRecord>? Series = null,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(5)]
         string? LinkURL = null,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(6)]
         string? SourceURL = null)
-    : MapComponentSerializationRecord;
+    {
+        this.Fields = Fields;
+        this.NormalizeField = NormalizeField;
+        this.TooltipField = TooltipField;
+        this.Series = Series;
+        this.LinkURL = LinkURL;
+        this.SourceURL = SourceURL;
+    }
+
+    public object FromSerializationRecord()
+    {
+        if (LinkURL is not null || SourceURL is not null)
+        {
+            return new ImageMediaInfoValue(LinkURL, SourceURL);
+        }
+
+        return new ChartMediaInfoValue(Fields?.ToArray(), NormalizeField, TooltipField,
+            Series?.Select(s => s.FromSerializationRecord()).ToArray());
+    }
+
+    [ProtoMember(1)]
+    public IEnumerable<string>? Fields { get; init; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(2)]
+    public string? NormalizeField { get; init; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(3)]
+    public string? TooltipField { get; init; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(4)]
+    public IEnumerable<ChartMediaInfoValueSeriesSerializationRecord>? Series { get; init; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(5)]
+    public string? LinkURL { get; init; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(6)]
+    public string? SourceURL { get; init; }
+}
 
 /// <summary>
 ///     The ChartMediaInfoValueSeries class is a read-only support class that represents information specific to how data
@@ -341,17 +437,36 @@ public class ChartMediaInfoValueSeries : MapComponent
 }
 
 [ProtoContract(Name = "ChartMediaInfoValueSeries")]
-internal record ChartMediaInfoValueSeriesSerializationRecord(
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(1)]
-        string? FieldName,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(2)]
+internal record ChartMediaInfoValueSeriesSerializationRecord : MapComponentSerializationRecord
+{
+    public ChartMediaInfoValueSeriesSerializationRecord()
+    {
+    }
+    
+    public ChartMediaInfoValueSeriesSerializationRecord(string? FieldName,
         string? Tooltip,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(3)]
         double? Value)
-    : MapComponentSerializationRecord;
+    {
+        this.FieldName = FieldName;
+        this.Tooltip = Tooltip;
+        this.Value = Value;
+    }
+
+    public ChartMediaInfoValueSeries FromSerializationRecord()
+    {
+        return new ChartMediaInfoValueSeries(FieldName, Tooltip, Value);
+    }
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(1)]
+    public string? FieldName { get; init; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(2)]
+    public string? Tooltip { get; init; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(3)]
+    public double? Value { get; init; }
+}
 
 /// <summary>
 ///     A ColumnChartMediaInfo is a type of chart media element that represents a column chart displayed within a popup.
@@ -359,6 +474,39 @@ internal record ChartMediaInfoValueSeriesSerializationRecord(
 /// </summary>
 public class ColumnChartMediaInfo : MediaInfo
 {
+    /// <summary>
+    ///     Parameterless constructor for use as a razor component.
+    /// </summary>
+    public ColumnChartMediaInfo()
+    {
+    }
+
+    /// <summary>
+    ///     Constructor for building a <see cref="ColumnChartMediaInfo" /> in code.
+    /// </summary>
+    /// <param name="title">
+    ///     The title of the media element.
+    /// </param>
+    /// <param name="caption">
+    ///     Defines a caption for the media.
+    /// </param>
+    /// <param name="altText">
+    ///     Provides an alternate text for an image if the image cannot be displayed.
+    /// </param>
+    /// <param name="value">
+    ///     Defines the chart value.
+    /// </param>
+    public ColumnChartMediaInfo(string? title = null, string? caption = null, string? altText = null,
+        ChartMediaInfoValue? value = null)
+    {
+#pragma warning disable BL0005
+        Title = title;
+        Caption = caption;
+        AltText = altText;
+        Value = value;
+#pragma warning restore BL0005
+    }
+
     /// <inheritdoc />
     public override string Type => "column-chart";
 
@@ -443,6 +591,43 @@ public class ColumnChartMediaInfo : MediaInfo
 /// </summary>
 public class ImageMediaInfo : MediaInfo
 {
+    /// <summary>
+    ///     Parameterless constructor for use as a razor component.
+    /// </summary>
+    public ImageMediaInfo()
+    {
+    }
+
+    /// <summary>
+    ///     Constructor for building a <see cref="ImageMediaInfo" /> in code.
+    /// </summary>
+    /// <param name="title">
+    ///     The title of the media element.
+    /// </param>
+    /// <param name="caption">
+    ///     Defines a caption for the media.
+    /// </param>
+    /// <param name="altText">
+    ///     Provides an alternate text for an image if the image cannot be displayed.
+    /// </param>
+    /// <param name="value">
+    ///     Defines the value format of the image media element and how the images should be retrieved.
+    /// </param>
+    /// <param name="refreshInterval">
+    ///     Refresh interval of the layer in minutes. Non-zero value indicates automatic layer refresh at the specified
+    /// </param>
+    public ImageMediaInfo(string? title = null, string? caption = null, string? altText = null,
+        ImageMediaInfoValue? value = null, double? refreshInterval = null)
+    {
+#pragma warning disable BL0005
+        Title = title;
+        Caption = caption;
+        AltText = altText;
+        Value = value;
+        RefreshInterval = refreshInterval;
+#pragma warning restore BL0005
+    }
+
     /// <inheritdoc />
     public override string Type => "image-media";
 
@@ -541,6 +726,30 @@ public class ImageMediaInfo : MediaInfo
 public class ImageMediaInfoValue : MapComponent
 {
     /// <summary>
+    ///     Parameterless constructor for use as a razor component.
+    /// </summary>
+    public ImageMediaInfoValue()
+    {
+    }
+
+    /// <summary>
+    ///     Constructor for building a <see cref="ImageMediaInfoValue" /> in code.
+    /// </summary>
+    /// <param name="linkURL">
+    ///     A string containing a URL to be launched in a browser when a user clicks the image.
+    /// </param>
+    /// <param name="sourceURL">
+    ///     A string containing the URL to the image.
+    /// </param>
+    public ImageMediaInfoValue(string? linkURL = null, string? sourceURL = null)
+    {
+#pragma warning disable BL0005
+        LinkURL = linkURL;
+        SourceURL = sourceURL;
+#pragma warning restore BL0005
+    }
+
+    /// <summary>
     ///     A string containing a URL to be launched in a browser when a user clicks the image.
     /// </summary>
     [Parameter]
@@ -560,19 +769,45 @@ public class ImageMediaInfoValue : MapComponent
     }
 }
 
-internal record ImageMediaInfoValueSerializationRecord(
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        string? LinkURL,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        string? SourceURL)
-    : MapComponentSerializationRecord;
-
 /// <summary>
 ///     A LineChartMediaInfo is a type of chart media element that represents a line chart displayed within a popup.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-LineChartMediaInfo.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public class LineChartMediaInfo : MediaInfo
 {
+    /// <summary>
+    ///     Parameterless constructor for use as a razor component.
+    /// </summary>
+    public LineChartMediaInfo()
+    {
+    }
+
+    /// <summary>
+    ///     Constructor for building a <see cref="LineChartMediaInfo" /> in code.
+    /// </summary>
+    /// <param name="title">
+    ///     The title of the media element.
+    /// </param>
+    /// <param name="caption">
+    ///     Defines a caption for the media.
+    /// </param>
+    /// <param name="altText">
+    ///     Provides an alternate text for an image if the image cannot be displayed.
+    /// </param>
+    /// <param name="value">
+    ///     Defines the chart value.
+    /// </param>
+    public LineChartMediaInfo(string? title = null, string? caption = null, string? altText = null,
+        ChartMediaInfoValue? value = null)
+    {
+#pragma warning disable BL0005
+        Title = title;
+        Caption = caption;
+        AltText = altText;
+        Value = value;
+#pragma warning restore BL0005
+    }
+
     /// <inheritdoc />
     public override string Type => "line-chart";
 
