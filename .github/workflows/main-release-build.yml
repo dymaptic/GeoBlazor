@@ -30,6 +30,11 @@ jobs:
       run: dotnet nuget push ./src/dymaptic.GeoBlazor.Core/bin/Release/dymaptic.GeoBlazor.Core.*.nupkg --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate
     - name: Publish Templates to Nuget
       run: dotnet nuget push ./templates/bin/Release/dymaptic.GeoBlazor.Templates.*.nupkg --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate
+    - name: Install xmllint
+      shell: bash
+      run: |
+        sudo apt update
+        sudo apt install -y libxml2-utils
     - name: Copy Build Versions
       run: |
         CORE_VERSION=$(xmllint --xpath "//PropertyGroup/CoreVersion/text()" ./Directory.Build.props)
