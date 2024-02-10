@@ -158,15 +158,6 @@ ArcGIS JavaScript API, but without having to write a single line of JavaScript.
     "AllowedHosts": ...,
     "ArcGISApiKey": "YOUR_ARCGIS_API_KEY",
     "GeoBlazor": {
-        "RegistrationKey": "YOUR_REGISTRATION_KEY",
-        "ValidationServerStoragePath": "YOUR_VALIDATION_SERVER_STORAGE_PATH"
+        "RegistrationKey": "YOUR_REGISTRATION_KEY"
     }
-   ```
-   <code>ValidationServerStoragePath</code> is optional to define where
-   a Blazor Server application will store the validated license result
-   (defaults to <code>Path.GetTempPath()</code>). You must ensure
-   that your server has write access to this path.
-
-   You should also update your `Program.cs` code, and replace any existing `builder.Services.AddGeoBlazor()` calls
-   with `builder.Services.AddGeoBlazor(builder.Configuration)`.
-     
+   ``` 

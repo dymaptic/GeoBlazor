@@ -15,6 +15,7 @@ public class Constraints : MapComponent
     /// <summary>
     ///     An array of LODs. If not specified, this value is read from the Map.
     /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public List<LOD>? Lods { get; set; }
 
     /// <summary>
