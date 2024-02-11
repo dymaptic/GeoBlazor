@@ -26,6 +26,7 @@ jobs:
       shell: pwsh
       run: |
         cd ./src/dymaptic.GeoBlazor.Core
+        npm install
         ./assetCopy.ps1
         cd ../..
     - name: Build Core
