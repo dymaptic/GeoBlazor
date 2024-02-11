@@ -28,6 +28,7 @@ jobs:
       run: dotnet build ./src/dymaptic.GeoBlazor.Core/dymaptic.GeoBlazor.Core.csproj --no-restore /p:OptOutFromCoreEsBuild=false /p:GenerateDocs=true /p:UpdateTemplates=true -c Release
     
     - name: Add & Commit
+      continue-on-error: true
       # Saves updated template versions
       # You may pin to the exact commit or the version.
       # uses: EndBug/add-and-commit@1bad3abcf0d6ec49a5857d124b0bfb52dc7bb081
