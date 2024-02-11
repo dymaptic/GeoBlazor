@@ -113,8 +113,12 @@ import {
     DotNetRasterColormapRenderer,
     DotNetAlgorithmicColorRamp,
     DotNetEffect,
-    DotNetMultidimensionalSubset, DotNetGraphic, DotNetPolyline, DotNetPolygon,
-
+    DotNetMultidimensionalSubset, 
+    DotNetGraphic, 
+    DotNetPolyline, 
+    DotNetPolygon, 
+    DotNetViewHit,
+    DotNetGraphicHit
 } from "./definitions";
 import WebTileLayer from "@arcgis/core/layers/WebTileLayer";
 import TileInfo from "@arcgis/core/layers/support/TileInfo";
@@ -680,33 +684,28 @@ export function registerWebLayer(layerJsRef: any, layerId: string) {
 }
 
 export async function hitTest(pointObject: any, eventId: string | null, viewId: string,
-    isEvent: boolean, options: DotNetHitTestOptions | null): Promise<DotNetHitTestResult | void> {
-    let view = arcGisObjectRefs[viewId] as MapView;
-    let result: HitTestResult;
-    let screenPoint = isEvent ? pointObject : view.toScreen(buildJsPoint(pointObject) as Point); 
+    isEvent: boolean, options: DotNetHitTestOptions | null, hitTestId: string)
+    : Promise<DotNetHitTestResult | void> {
+    try {
+        let view = arcGisObjectRefs[viewId] as MapView;
+        let result: HitTestResult;
+        let screenPoint = isEvent ? pointObject : view.toScreen(buildJsPoint(pointObject) as Point);
 
-    if (options !== null) {
-        let hitOptions = buildHitTestOptions(options, view);
-        result = await view.hitTest(screenPoint, hitOptions);
-    } else {
-        result = await view.hitTest(screenPoint);
-    }
+        if (options !== null) {
+            let hitOptions = buildHitTestOptions(options, view);
+            result = await view.hitTest(screenPoint, hitOptions);
+        } else {
+            result = await view.hitTest(screenPoint);
+        }
 
-    let dotNetResult = buildDotNetHitTestResult(result);
-    if (!blazorServer) {
+        let dotNetResult = buildDotNetHitTestResult(result);
+        let streamRef = getProtobufViewHitStream(dotNetResult.results);
+        dotNetResult.results = [];
+        let dotNetRef = dotNetRefs[viewId];
+        await dotNetRef.invokeMethodAsync('OnHitTestStreamCallback', streamRef, hitTestId);
         return dotNetResult;
-    }
-
-    let dotNetRef = dotNetRefs[viewId];
-    let jsonResult = JSON.stringify(dotNetResult);
-    // return dotNetResult in small chunks to avoid memory issues in Blazor Server
-    // SignalR has a maximum message size of 32KB
-    // https://github.com/dotnet/aspnetcore/issues/23179
-    let chunkSize = 1000;
-    let chunks = Math.ceil(jsonResult.length / chunkSize);
-    for (let i = 0; i < chunks; i++) {
-        let chunk = jsonResult.slice(i * chunkSize, (i + 1) * chunkSize);
-        await dotNetRef.invokeMethodAsync('OnJavascriptHitTestResult', eventId, chunk);
+    } catch (e) {
+        logError(e, viewId);
     }
 }
 
@@ -2858,12 +2857,14 @@ function buildHitTestOptions(options: DotNetHitTestOptions, view: MapView): MapV
 }
 
 export let ProtoGraphicCollection;
+export let ProtoViewHitCollection;
 
 export async function loadProtobuf() {
     load("_content/dymaptic.GeoBlazor.Core/graphic.json", function (err, root) {
         try {
             if (err) throw err;
             ProtoGraphicCollection = root?.lookupType("ProtoGraphicCollection");
+            ProtoViewHitCollection = root?.lookupType("ProtoViewHitCollection");
             console.debug('Protobuf graphics json loaded');
         } catch (error) {
             logError(error, null);
@@ -2895,16 +2896,46 @@ export function decodeProtobufGraphics(uintArray: Uint8Array): any[] {
 
 export function getProtobufGraphicStream(graphics: DotNetGraphic[]): any {
     for (let i = 0; i < graphics.length; i++) {
-        let graphic = graphics[i];
-        if (hasValue(graphic.attributes)) {
-            graphic.attributes = Object.keys(graphic.attributes).map(attr => {
-                return {
-                    key: attr,
-                    value: graphic.attributes[attr]?.toString(),
-                    valueType: Object.prototype.toString.call(graphic.attributes[attr])
-                }
-            });
+        updateGraphicForProtobuf(graphics[i]);
+    }
+    let obj = {
+        graphics: graphics
+    };
+    let collection = ProtoGraphicCollection.fromObject(obj);
+    let encoded = ProtoGraphicCollection.encode(collection).finish();
+    // @ts-ignore
+    return DotNet.createJSStreamReference(encoded);
+}
+
+function getProtobufViewHitStream(viewHits: DotNetViewHit[]): any{
+    for (let i = 0; i < viewHits.length; i++) {
+        let viewHit = viewHits[i];
+        if (viewHit.type === "graphic") {
+            let graphic = (viewHit as DotNetGraphicHit).graphic;
+            updateGraphicForProtobuf(graphic);
         }
+    }
+
+    let obj = {
+        viewHits: viewHits
+    };
+    let collection = ProtoViewHitCollection.fromObject(obj);
+    let encoded = ProtoViewHitCollection.encode(collection).finish();
+    // @ts-ignore
+    return DotNet.createJSStreamReference(encoded);
+}
+
+function updateGraphicForProtobuf(graphic: DotNetGraphic) {
+    if (hasValue(graphic.attributes)) {
+        graphic.attributes = Object.keys(graphic.attributes).map(attr => {
+            return {
+                key: attr,
+                value: graphic.attributes[attr]?.toString(),
+                valueType: Object.prototype.toString.call(graphic.attributes[attr])
+            }
+        });
+    }
+    if (hasValue(graphic.geometry)) {
         if (hasValue(graphic.geometry.paths)) {
             graphic.geometry.paths = (graphic.geometry as DotNetPolyline).paths.map(p => {
                 return {
@@ -2932,13 +2963,34 @@ export function getProtobufGraphicStream(graphics: DotNetGraphic[]): any {
             graphic.geometry.rings = [];
         }
     }
-    let obj = {
-        graphics: graphics
-    };
-    let collection = ProtoGraphicCollection.fromObject(obj);
-    let encoded = ProtoGraphicCollection.encode(collection).finish();
-    // @ts-ignore
-    return DotNet.createJSStreamReference(encoded);
+    let symbol: any = graphic.symbol;
+    if (hasValue(symbol)) {
+        if (hasValue(symbol.color)) {
+            symbol.color = {
+                hexOrNameValue: symbol.color
+            }
+        }
+        if (hasValue(symbol.haloColor)) {
+            symbol.haloColor = {
+                hexOrNameValue: symbol.haloColor
+            }
+        }
+        if (hasValue(symbol.backgroundColor)) {
+            symbol.backgroundColor = {
+                hexOrNameValue: symbol.backgroundColor
+            }
+        }
+        if (hasValue(symbol.borderLineColor)) {
+            symbol.borderLineColor = {
+                hexOrNameValue: symbol.borderLineColor
+            }
+        }
+        if (hasValue(symbol.outline?.color)) {
+            symbol.outline.color = {
+                hexOrNameValue: symbol.outline.color
+            }
+        }
+    }
 }
 
 let _authenticationManager: AuthenticationManager | null = null;

@@ -9,6 +9,7 @@ using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using ProtoBuf;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -879,23 +880,20 @@ public class FeatureLayer : Layer, IFeatureReductionLayer
     public async Task<FeatureSet?> QueryFeatures(Query? query = null, CancellationToken cancellationToken = default)
     {
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        Guid queryId = Guid.NewGuid();
 
-        FeatureSet? result = await JsLayerReference!.InvokeAsync<FeatureSet?>("queryFeatures", cancellationToken,
-            query, new { signal = abortSignal }, DotNetObjectReference.Create(this), View?.Id);
+        FeatureSet result = (await JsLayerReference!.InvokeAsync<FeatureSet?>("queryFeatures", cancellationToken,
+            query, new { signal = abortSignal }, DotNetObjectReference.Create(this), View?.Id, queryId))!;
 
-        if (View!.IsServer && result is null)
+        if (_activeQueries.ContainsKey(queryId))
         {
-            JsonSerializerOptions options = new() { PropertyNameCaseInsensitive = true };
-            result = JsonSerializer.Deserialize<FeatureSet>(_queryFeatureData!.ToString(), options)!;
-            _queryFeatureData = null;
+            result.Features = _activeQueries[queryId];
+            _activeQueries.Remove(queryId);
         }
-
-        if (result?.Features is not null)
+        
+        foreach (Graphic graphic in result.Features!)
         {
-            foreach (Graphic graphic in result.Features)
-            {
-                graphic.LayerId = Id;
-            }
+            graphic.LayerId = Id;
         }
 
         await AbortManager.DisposeAbortController(cancellationToken);
@@ -904,18 +902,26 @@ public class FeatureLayer : Layer, IFeatureReductionLayer
     }
 
     /// <summary>
-    ///     partial query result return for Blazor Server, to avoid SignalR size limits
+    ///     Internal use callback from JavaScript
     /// </summary>
     [JSInvokable]
-    public void OnQueryFeaturesCreateChunk(string chunk, int chunkIndex)
+    public async Task OnQueryFeaturesStreamCallback(IJSStreamReference streamReference, Guid queryId)
     {
-        if (chunkIndex == 0)
+        try
         {
-            _queryFeatureData = new StringBuilder(chunk);
+            await using Stream stream = await streamReference
+                .OpenReadStreamAsync(View?.QueryResultsMaxSizeLimit ?? 1_000_000_000L);
+            using var ms = new MemoryStream();
+            await stream.CopyToAsync(ms);
+            ms.Seek(0, SeekOrigin.Begin);
+            ProtoGraphicCollection collection = Serializer.Deserialize<ProtoGraphicCollection>(ms);
+            Graphic[] graphics = collection?.Graphics.Select(g => g.FromSerializationRecord()).ToArray()!;
+
+            _activeQueries[queryId] = graphics;
         }
-        else
+        catch (Exception ex)
         {
-            _queryFeatureData!.Append(chunk);
+            throw new SerializationException("Error deserializing graphics from stream.", ex);   
         }
     }
 
@@ -959,34 +965,60 @@ public class FeatureLayer : Layer, IFeatureReductionLayer
         CancellationToken cancellationToken = default)
     {
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-
-        Dictionary<int, FeatureSet?>? result = await JsLayerReference!.InvokeAsync<Dictionary<int, FeatureSet?>?>(
+        Guid queryId = Guid.NewGuid();
+        Dictionary<int, FeatureSet?> result = (await JsLayerReference!.InvokeAsync<Dictionary<int, FeatureSet?>?>(
             "queryRelatedFeatures", cancellationToken, query, new { signal = abortSignal },
-            DotNetObjectReference.Create(this), View?.Id);
+            DotNetObjectReference.Create(this), View?.Id, queryId))!;
 
-        if (View!.IsServer && result is null)
+        if (_activeRelatedQueries.ContainsKey(queryId))
         {
-            JsonSerializerOptions options = new() { PropertyNameCaseInsensitive = true };
-            result = JsonSerializer.Deserialize<Dictionary<int, FeatureSet?>>(_queryFeatureData!.ToString(), options)!;
-            _queryFeatureData = null;
-        }
-
-        if (result is not null)
-        {
-            foreach (FeatureSet? set in result.Values)
+            Dictionary<int, Graphic[]> relatedGraphics = _activeRelatedQueries[queryId];
+            foreach (KeyValuePair<int, FeatureSet?> kvp in result)
             {
-                if (set?.Features is null) continue;
+                if (kvp.Value is null || !relatedGraphics.ContainsKey(kvp.Key)) continue;
 
-                foreach (Graphic graphic in set.Features)
+                kvp.Value.Features = relatedGraphics[kvp.Key];
+
+                foreach (Graphic graphic in kvp.Value.Features)
                 {
                     graphic.LayerId = Id;
                 }
             }
+            _activeRelatedQueries.Remove(queryId);
         }
 
         await AbortManager.DisposeAbortController(cancellationToken);
 
         return result;
+    }
+    
+    /// <summary>
+    ///     Internal use callback from JavaScript
+    /// </summary>
+    [JSInvokable]
+    public async Task OnQueryRelatedFeaturesStreamCallback(IJSStreamReference streamReference, Guid queryId, string objectId)
+    {
+        try
+        {
+            await using Stream stream = await streamReference
+                .OpenReadStreamAsync(View?.QueryResultsMaxSizeLimit ?? 1_000_000_000L);
+            using var ms = new MemoryStream();
+            await stream.CopyToAsync(ms);
+            ms.Seek(0, SeekOrigin.Begin);
+            ProtoGraphicCollection collection = Serializer.Deserialize<ProtoGraphicCollection>(ms);
+            Graphic[] graphics = collection?.Graphics.Select(g => g.FromSerializationRecord()).ToArray()!;
+
+            if (!_activeRelatedQueries.ContainsKey(queryId))
+            {
+                _activeRelatedQueries[queryId] = new Dictionary<int, Graphic[]>();
+            }
+
+            _activeRelatedQueries[queryId][int.Parse(objectId)] = graphics;
+        }
+        catch (Exception ex)
+        {
+            throw new SerializationException("Error deserializing graphics from stream.", ex);   
+        }
     }
 
     /// <summary>
@@ -1059,23 +1091,19 @@ public class FeatureLayer : Layer, IFeatureReductionLayer
         CancellationToken cancellationToken = default)
     {
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        Guid queryId = Guid.NewGuid();
+        FeatureSet result = (await JsLayerReference!.InvokeAsync<FeatureSet?>("queryTopFeatures", cancellationToken,
+            query, new { signal = abortSignal }, DotNetObjectReference.Create(this), View?.Id, queryId))!;
 
-        FeatureSet? result = await JsLayerReference!.InvokeAsync<FeatureSet?>("queryTopFeatures", cancellationToken,
-            query, new { signal = abortSignal }, DotNetObjectReference.Create(this), View?.Id);
-
-        if (View!.IsServer && result is null)
+        if (_activeQueries.ContainsKey(queryId))
         {
-            JsonSerializerOptions options = new() { PropertyNameCaseInsensitive = true };
-            result = JsonSerializer.Deserialize<FeatureSet>(_queryFeatureData!.ToString(), options)!;
-            _queryFeatureData = null;
+            result.Features = _activeQueries[queryId];
+            _activeQueries.Remove(queryId);
         }
-
-        if (result?.Features is not null)
+        
+        foreach (Graphic graphic in result.Features!)
         {
-            foreach (Graphic graphic in result.Features)
-            {
-                graphic.LayerId = Id;
-            }
+            graphic.LayerId = Id;
         }
 
         await AbortManager.DisposeAbortController(cancellationToken);
@@ -1279,8 +1307,9 @@ public class FeatureLayer : Layer, IFeatureReductionLayer
 
     private HashSet<Graphic>? _source;
     private HashSet<Field>? _fields;
-    private StringBuilder? _queryFeatureData;
     private bool _refreshRequired = false;
+    private Dictionary<Guid, Graphic[]> _activeQueries = new();
+    private Dictionary<Guid, Dictionary<int, Graphic[]>> _activeRelatedQueries = new();
 }
 
 /// <summary>

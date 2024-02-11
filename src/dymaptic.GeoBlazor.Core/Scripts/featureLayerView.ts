@@ -2,7 +2,7 @@
 import Query from "@arcgis/core/rest/support/Query";
 import {DotNetFeatureEffect, DotNetFeatureFilter, DotNetFeatureSet, DotNetGraphic, DotNetQuery} from "./definitions";
 import {buildJsFeatureEffect, buildJsFeatureFilter, buildJsQuery} from "./jsBuilder";
-import {blazorServer, dotNetRefs, graphicsRefs} from "./arcGisJsInterop";
+import {blazorServer, dotNetRefs, getProtobufGraphicStream, graphicsRefs, hasValue} from "./arcGisJsInterop";
 import {
     buildDotNetFeatureSet,
     buildDotNetGeometry,
@@ -64,23 +64,25 @@ export default class FeatureLayerViewWrapper {
         return await this.featureLayerView.queryFeatureCount(jsQuery, options);
     }
 
-    async queryFeatures(query: DotNetQuery, options: any, dotNetRef: any, viewId: string | null)
+    async queryFeatures(query: DotNetQuery, options: any, dotNetRef: any, viewId: string | null, queryId: string)
         : Promise<DotNetFeatureSet | null> {
         try {
-            let jsQuery = buildJsQuery(query);
+            let jsQuery: Query | undefined = undefined;
+
+            if (hasValue(query)) {
+                jsQuery = buildJsQuery(query as DotNetQuery);
+            }
+
             let featureSet = await this.featureLayerView.queryFeatures(jsQuery, options);
+
             let dotNetFeatureSet = await buildDotNetFeatureSet(featureSet, viewId);
-            if (!blazorServer) {
-                return dotNetFeatureSet;
+            if (dotNetFeatureSet.features.length > 0) {
+                let graphics = getProtobufGraphicStream(dotNetFeatureSet.features);
+                await dotNetRef.invokeMethodAsync('OnQueryFeaturesStreamCallback', graphics, queryId);
+                dotNetFeatureSet.features = [];
             }
-            let jsonSet = JSON.stringify(dotNetFeatureSet);
-            let chunkSize = 1000;
-            let chunks = Math.ceil(jsonSet.length / chunkSize);
-            for (let i = 0; i < chunks; i++) {
-                let chunk = jsonSet.slice(i * chunkSize, (i + 1) * chunkSize);
-                await dotNetRef.invokeMethodAsync('OnQueryFeaturesCreateChunk', chunk, i);
-            }
-            return null;
+
+            return dotNetFeatureSet;
         } catch (error) {
             console.debug(error);
             throw error;

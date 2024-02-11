@@ -13,6 +13,7 @@ using Microsoft.JSInterop;
 using ProtoBuf;
 using System.Diagnostics;
 using System.Reflection;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Text.Json;
 
@@ -800,8 +801,7 @@ public partial class MapView : MapComponent
     {
         LayerView? layerView = layerViewCreateEvent.Layer switch
         {
-            FeatureLayer => new FeatureLayerView(layerViewCreateEvent.LayerView!, new AbortManager(JsRuntime),
-                IsServer),
+            FeatureLayer => new FeatureLayerView(layerViewCreateEvent.LayerView!, new AbortManager(JsRuntime)),
             _ => layerViewCreateEvent.LayerView
         };
 
@@ -924,6 +924,13 @@ public partial class MapView : MapComponent
     /// </summary>
     [Parameter]
     public int? GraphicSerializationChunkSize { get; set; }
+    
+    /// <summary>
+    ///     The maximum size of query results that will be returned in a stream. Note that setting this to a smaller
+    ///     value might create errors in query returns.
+    /// </summary>
+    [Parameter]
+    public long QueryResultsMaxSizeLimit { get; set; } = 1_000_000_000L;
     
     /// <summary>
     ///     For internal use only, this looks up a missing <see cref="DotNetObjectReference"/> for a <see cref="PopupTemplate"/>
@@ -2252,31 +2259,43 @@ public partial class MapView : MapComponent
     private async Task<HitTestResult> HitTestImplementation(object pointObject, HitTestOptions? options,
         bool isEvent)
     {
+        Guid hitTestId = Guid.NewGuid();
+        HitTestResult result = await ViewJsModule!.InvokeAsync<HitTestResult>("hitTest",
+            CancellationTokenSource.Token, pointObject, null, Id, isEvent, options,
+            hitTestId);
+
+        if (_activeHitTests.TryGetValue(hitTestId, out ViewHit[]? viewHits))
+        {
+            result.Results = viewHits;
+        }
+
+        return result;
+    }
+    
+    /// <summary>
+    ///     Internal use callback from JavaScript
+    /// </summary>
+    [JSInvokable]
+    public async Task OnHitTestStreamCallback(IJSStreamReference streamReference, Guid hitTestId)
+    {
         try
         {
-            if (IsServer)
-            {
-                var eventId = Guid.NewGuid();
+            await using Stream stream = await streamReference
+                .OpenReadStreamAsync(QueryResultsMaxSizeLimit);
+            using var ms = new MemoryStream();
+            await stream.CopyToAsync(ms);
+            ms.Seek(0, SeekOrigin.Begin);
+            ProtoViewHitCollection collection = Serializer.Deserialize<ProtoViewHitCollection>(ms);
+            ViewHit[] viewHits = collection.ViewHits!.Select(g => g.FromSerializationRecord()).ToArray();
 
-                await ViewJsModule!.InvokeVoidAsync("hitTest", CancellationTokenSource.Token,
-                    pointObject, eventId, Id, isEvent, options);
-                var json = _hitTestResults[eventId].ToString();
-                _hitTestResults.Remove(eventId);
-
-                return JsonSerializer.Deserialize<HitTestResult>(json,
-                    new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
-            }
-
-            return await ViewJsModule!.InvokeAsync<HitTestResult>("hitTest",
-                CancellationTokenSource.Token, pointObject, null, Id, isEvent, options);
+            _activeHitTests[hitTestId] = viewHits;
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex);
+            throw new SerializationException("Error deserializing graphics from stream.", ex);
         }
-
-        return new HitTestResult(new ViewHit[] { }, new ScreenPoint(1, 1));
     }
+
     
     private bool IsPro()
     {
@@ -2401,6 +2420,7 @@ public partial class MapView : MapComponent
     private HashSet<Widget> _widgets = new();
     private bool? _isPro;
     private bool _authenticationInitialized;
+    private Dictionary<Guid, ViewHit[]> _activeHitTests = new();
     
 #endregion
 }

@@ -38,7 +38,7 @@ import {
     blazorServer,
     dotNetRefs,
     graphicsRefs,
-    getGraphicsFromProtobufStream, arcGisObjectRefs, hasValue, decodeProtobufGraphics
+    getGraphicsFromProtobufStream, arcGisObjectRefs, hasValue, decodeProtobufGraphics, getProtobufGraphicStream
 } from "./arcGisJsInterop";
 import Graphic from "@arcgis/core/Graphic";
 
@@ -79,7 +79,7 @@ export default class FeatureLayerWrapper {
         };
     }
 
-    async queryFeatures(query: DotNetQuery | null, options: any, dotNetRef: any, viewId: string | null):
+    async queryFeatures(query: DotNetQuery | null, options: any, dotNetRef: any, viewId: string | null, queryId: string):
         Promise<DotNetFeatureSet | null> {
         try {
             let jsQuery: Query | undefined = undefined;
@@ -91,17 +91,13 @@ export default class FeatureLayerWrapper {
             let featureSet = await this.layer.queryFeatures(jsQuery, options);
 
             let dotNetFeatureSet = await buildDotNetFeatureSet(featureSet, viewId);
-            if (!blazorServer || dotNetRef === undefined || dotNetRef === null) {
-                return dotNetFeatureSet;
+            if (dotNetFeatureSet.features.length > 0) {
+                let graphics = getProtobufGraphicStream(dotNetFeatureSet.features);
+                await dotNetRef.invokeMethodAsync('OnQueryFeaturesStreamCallback', graphics, queryId);
+                dotNetFeatureSet.features = [];
             }
-            let jsonSet = JSON.stringify(dotNetFeatureSet);
-            let chunkSize = 1000;
-            let chunks = Math.ceil(jsonSet.length / chunkSize);
-            for (let i = 0; i < chunks; i++) {
-                let chunk = jsonSet.slice(i * chunkSize, (i + 1) * chunkSize);
-                await dotNetRef.invokeMethodAsync('OnQueryFeaturesCreateChunk', chunk, i);
-            }
-            return null;
+            
+            return dotNetFeatureSet;
         } catch (error) {
             console.debug(error);
             throw error;
@@ -118,8 +114,8 @@ export default class FeatureLayerWrapper {
         return await this.layer.queryObjectIds(jsQuery, options);
     }
 
-    async queryRelatedFeatures(query: DotNetRelationshipQuery, options: any, dotNetRef: any, viewId: string | null):
-        Promise<any | null> {
+    async queryRelatedFeatures(query: DotNetRelationshipQuery, options: any, dotNetRef: any, viewId: string | null, 
+                               queryId: string): Promise<any | null> {
         try {
             let jsQuery = buildJsRelationshipQuery(query);
             let featureSetsDictionary = await this.layer.queryRelatedFeatures(jsQuery, options);
@@ -128,20 +124,15 @@ export default class FeatureLayerWrapper {
                 if (featureSetsDictionary.hasOwnProperty(prop)) {
                     let featureSet = featureSetsDictionary[prop] as FeatureSet;
                     let dotNetFeatureSet = await buildDotNetFeatureSet(featureSet, viewId);
+                    if (dotNetFeatureSet.features.length > 0) {
+                        let graphics = getProtobufGraphicStream(dotNetFeatureSet.features);
+                        await dotNetRef.invokeMethodAsync('OnQueryRelatedFeaturesStreamCallback', graphics, queryId, prop);
+                        dotNetFeatureSet.features = [];
+                    }
                     graphicsDictionary[prop] = dotNetFeatureSet;
                 }
             }
-            if (!blazorServer) {
-                return graphicsDictionary;
-            }
-            let jsonSet = JSON.stringify(graphicsDictionary);
-            let chunkSize = 1000;
-            let chunks = Math.ceil(jsonSet.length / chunkSize);
-            for (let i = 0; i < chunks; i++) {
-                let chunk = jsonSet.slice(i * chunkSize, (i + 1) * chunkSize);
-                await dotNetRef.invokeMethodAsync('OnQueryFeaturesCreateChunk', chunk, i);
-            }
-            return null;
+            return graphicsDictionary;
         } catch (error) {
             console.debug(error);
             throw error;
@@ -154,23 +145,18 @@ export default class FeatureLayerWrapper {
     }
 
 
-    async queryTopFeatures(query: DotNetTopFeaturesQuery, options: any, dotNetRef: any, viewId: string | null):
-        Promise<DotNetFeatureSet | null> {
+    async queryTopFeatures(query: DotNetTopFeaturesQuery, options: any, dotNetRef: any, viewId: string | null,
+                           queryId: string): Promise<DotNetFeatureSet | null> {
         try {
             let jsQuery = buildJsTopFeaturesQuery(query);
             let featureSet = await this.layer.queryTopFeatures(jsQuery, options);
             let dotNetFeatureSet = await buildDotNetFeatureSet(featureSet, viewId);
-            if (!blazorServer) {
-                return dotNetFeatureSet;
+            if (dotNetFeatureSet.features.length > 0) {
+                let graphics = getProtobufGraphicStream(dotNetFeatureSet.features);
+                await dotNetRef.invokeMethodAsync('OnQueryFeaturesStreamCallback', graphics, queryId);
+                dotNetFeatureSet.features = [];
             }
-            let jsonSet = JSON.stringify(dotNetFeatureSet);
-            let chunkSize = 1000;
-            let chunks = Math.ceil(jsonSet.length / chunkSize);
-            for (let i = 0; i < chunks; i++) {
-                let chunk = jsonSet.slice(i * chunkSize, (i + 1) * chunkSize);
-                await dotNetRef.invokeMethodAsync('OnQueryFeaturesCreateChunk', chunk, i);
-            }
-            return null;
+            return dotNetFeatureSet;
         } catch (error) {
             console.debug(error);
             throw error;

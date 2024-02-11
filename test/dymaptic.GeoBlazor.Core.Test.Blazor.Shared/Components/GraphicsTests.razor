@@ -82,7 +82,7 @@
         Guid testGuid = Guid.NewGuid();
         Graphic testGraphic = new Graphic(point,
             new SimpleMarkerSymbol(color: new MapColor("red"), size: 10),
-            attributes: new AttributesDictionary(new Dictionary<string, object>()
+            attributes: new AttributesDictionary(new Dictionary<string, object?>()
             {
                 {"GUID_ID", testGuid}
             }));

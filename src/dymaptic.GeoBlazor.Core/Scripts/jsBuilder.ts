@@ -6,7 +6,7 @@ import {
     arcGisObjectRefs,
     popupDotNetObjects,
     createLayer,
-    dotNetRefs, copyValuesIfExists
+    dotNetRefs, copyValuesIfExists, graphicsRefs
 } from "./arcGisJsInterop";
 import Geometry from "@arcgis/core/geometry/Geometry";
 import Point from "@arcgis/core/geometry/Point";
@@ -207,6 +207,9 @@ export function buildJsExtent(dotNetExtent: DotNetExtent, currentSpatialReferenc
 
 export function buildJsGraphic(graphicObject: any, viewId: string | null)
     : Graphic | null {
+    if (graphicsRefs.hasOwnProperty(graphicObject.id)) {
+        return graphicsRefs[graphicObject.id];
+    }
     const graphic = new Graphic({
         geometry: buildJsGeometry(graphicObject.geometry) as Geometry ?? null,
         symbol: buildJsSymbol(graphicObject.symbol) as Symbol ?? null,
@@ -1237,7 +1240,6 @@ export async function buildJsPopupOptions(dotNetPopupOptions: any): Promise<Popu
     if (hasValue(dotNetPopupOptions.features)) {
         let features: Graphic[] = [];
         for (const f of dotNetPopupOptions.features) {
-            delete f.dotNetGraphicReference;
             let graphic = buildJsGraphic(f, null) as Graphic;
             graphic.layer = arcGisObjectRefs[f.layerId] as Layer;
             features.push(graphic);

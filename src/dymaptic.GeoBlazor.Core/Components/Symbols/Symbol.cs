@@ -180,20 +180,20 @@ internal record SymbolSerializationRecord : MapComponentSerializationRecord
     {
         return Type switch
         {
-            "outline" => new Outline(Color, Width, LineStyle is null ? null : Enum.Parse<LineStyle>(LineStyle!)),
+            "outline" => new Outline(Color, Width, LineStyle is null ? null : Enum.Parse<LineStyle>(LineStyle!, true)),
             "simple-marker" => new SimpleMarkerSymbol(Outline?.FromSerializationRecord() as Outline, Color, Size, 
-                Style is null ? null : Enum.Parse<SimpleMarkerStyle>(Style!), Angle, XOffset, YOffset),
-            "simple-line" => new SimpleLineSymbol(Color, Width, LineStyle is null ? null : Enum.Parse<LineStyle>(LineStyle!)),
+                Style is null ? null : Enum.Parse<SimpleMarkerStyle>(Style!, true), Angle, XOffset, YOffset),
+            "simple-line" => new SimpleLineSymbol(Color, Width, LineStyle is null ? null : Enum.Parse<LineStyle>(LineStyle!, true)),
             "simple-fill" => new SimpleFillSymbol(Outline?.FromSerializationRecord() as Outline, Color, 
-                Style is null ? null : Enum.Parse<FillStyle>(Style!)),
+                Style is null ? null : Enum.Parse<FillStyle>(Style!, true)),
             "picture-marker" => new PictureMarkerSymbol(Url!, Width, Height, Angle, XOffset, YOffset),
             "picture-fill" => new PictureFillSymbol(Url!, Width, Height, XOffset, YOffset, XScale, YScale, 
                 Outline?.FromSerializationRecord() as Outline),
             "text" => new TextSymbol(Text ?? string.Empty, Color, HaloColor, HaloSize, 
                 MapFont, Angle, BackgroundColor, BorderLineColor,
-                BorderLineSize, HorizontalAlignment is null ? null : Enum.Parse<HorizontalAlignment>(HorizontalAlignment!),
+                BorderLineSize, HorizontalAlignment is null ? null : Enum.Parse<HorizontalAlignment>(HorizontalAlignment!, true),
                 Kerning, LineHeight, LineWidth, Rotated, 
-                VerticalAlignment is null ? null : Enum.Parse<VerticalAlignment>(VerticalAlignment!),
+                VerticalAlignment is null ? null : Enum.Parse<VerticalAlignment>(VerticalAlignment!, true),
                 XOffset, YOffset),
             _ => throw new ArgumentException($"Unknown symbol type: {Type}")
         };

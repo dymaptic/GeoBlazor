@@ -106,7 +106,7 @@
     
     private void SelectStyleMapChanged(ChangeEventArgs obj)
     {
-        _basemapStyleName = (BasemapStyleName)Enum.Parse(typeof(BasemapStyleName), obj.Value!.ToString()!);
+        _basemapStyleName = (BasemapStyleName)Enum.Parse(typeof(BasemapStyleName), obj.Value!.ToString()!, true);
         _mapView1?.Refresh();
     }
 

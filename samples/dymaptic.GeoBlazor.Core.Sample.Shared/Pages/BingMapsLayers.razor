@@ -65,7 +65,7 @@
     
     private async Task OnStyleChanged(ChangeEventArgs a)
     {
-        _style = Enum.Parse<BingImageryStyle>(a.Value!.ToString()!);
+        _style = Enum.Parse<BingImageryStyle>(a.Value!.ToString()!, true);
         if (_bingMapsLayer is not null)
         {
             await AddRemoveLayer();
