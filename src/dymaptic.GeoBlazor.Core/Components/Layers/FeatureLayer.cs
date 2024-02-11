@@ -1727,7 +1727,7 @@ public record Thumbnail(string ContentType, string ImageData, double Height, dou
 /// <summary>
 ///     Name of the default drawing tool defined for the template to create a feature.
 /// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<DrawingTool>))]
+[JsonConverter(typeof(DrawingToolStringConverter))]
 public enum DrawingTool
 {
 #pragma warning disable CS1591
