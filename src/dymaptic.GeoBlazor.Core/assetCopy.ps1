@@ -8,7 +8,7 @@ else
 }
 
 $OutputDir = "./wwwroot/assets"
-$packageJson = (Get-Content "package.json" -Raw) | ConvertFrom-Json
+$packageJson = (Get-Content "./package.json" -Raw) | ConvertFrom-Json
 # read the version from package.json
 $ArcGISVersion = $packageJson.dependencies."@arcgis/core"
 # remove the ^ from the version

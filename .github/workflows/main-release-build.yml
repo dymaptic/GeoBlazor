@@ -25,7 +25,9 @@ jobs:
     - name: Copy Assets
       shell: pwsh
       run: |
-        ./src/dymaptic.GeoBlazor.Core/assetCopy.ps1
+        cd ./src/dymaptic.GeoBlazor.Core
+        ./assetCopy.ps1
+        cd ../..
     - name: Build Core
       run: dotnet build ./src/dymaptic.GeoBlazor.Core/dymaptic.GeoBlazor.Core.csproj --no-restore /p:OptOutFromCoreEsBuild=false /p:GenerateDocs=false /p:UpdateTemplates=false -c Release
     - name: Build Templates
