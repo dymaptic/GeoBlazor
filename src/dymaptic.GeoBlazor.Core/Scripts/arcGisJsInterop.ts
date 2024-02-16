@@ -490,16 +490,10 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
         });
     }
 
-    let lastDragCall: number = 0;
     view.on('drag', (evt) => {
         userChangedViewExtent = true;
-        let now = Date.now();
-        if (eventRateLimit !== undefined && eventRateLimit !== null &&
-            lastDragCall + eventRateLimit > now) {
-            return;
-        }
-        lastDragCall = now;
-        dotNetRef.invokeMethodAsync('OnJavascriptDrag', evt);
+        let dragCallback = () => dotNetRef.invokeMethodAsync('OnJavascriptDrag', evt);
+        debounce(dragCallback, eventRateLimit, !hasValue(eventRateLimit))();
     });
 
     view.on('pointer-down', (evt) => {
@@ -518,18 +512,12 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
         dotNetRef.invokeMethodAsync('OnJavascriptPointerLeave', evt);
     });
 
-    let lastPointerMoveCall: number = 0;
     view.on('pointer-move', (evt) => {
         if (pointerDown) {
             userChangedViewExtent = true;
         }
-        let now = Date.now();
-        if (eventRateLimit !== undefined && eventRateLimit !== null &&
-            lastPointerMoveCall + eventRateLimit > now) {
-            return;
-        }
-        lastPointerMoveCall = now;
-        dotNetRef.invokeMethodAsync('OnJavascriptPointerMove', evt);
+        let pointerMoveCallback = () => dotNetRef.invokeMethodAsync('OnJavascriptPointerMove', evt);
+        debounce(pointerMoveCallback, eventRateLimit, !hasValue(eventRateLimit))();
     });
 
     view.on('pointer-up', (evt) => {
@@ -570,7 +558,7 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
             layerObjectRef: layerRef,
             layerViewObjectRef: layerViewRef,
             layerView: buildDotNetLayerView(evt.layerView),
-            layer: buildDotNetLayer(evt.layer),
+            layer: buildDotNetLayer(evt.layer, false),
             layerGeoBlazorId: layerGeoBlazorId,
             isBasemapLayer: isBasemapLayer
         }
@@ -623,54 +611,84 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
             dotNetRef.invokeMethodAsync('OnJavascriptLayerViewDestroy', evt);
         });
     }
-
-    let lastMouseWheelCall = 0;
+    
     view.on('mouse-wheel', (evt) => {
         userChangedViewExtent = true;
-        let now = Date.now();
-        if (eventRateLimit !== undefined && eventRateLimit !== null &&
-            lastMouseWheelCall + eventRateLimit > now) {
-            return;
-        }
-        lastMouseWheelCall = now;
-        dotNetRef.invokeMethodAsync('OnJavascriptMouseWheel', evt);
+        let mouseWheelCallback = () => dotNetRef.invokeMethodAsync('OnJavascriptMouseWheel', evt);
+        debounce(mouseWheelCallback, eventRateLimit, !hasValue(eventRateLimit))();
     });
 
-    let lastResizeCall = 0;
     view.on('resize', (evt) => {
         userChangedViewExtent = true;
-        let now = Date.now();
-        if (eventRateLimit !== undefined && eventRateLimit !== null &&
-            lastResizeCall + eventRateLimit > now) {
-            return;
-        }
-        lastResizeCall = now;
-        dotNetRef.invokeMethodAsync('OnJavascriptResize', evt);
+        let resizeCallback = () => dotNetRef.invokeMethodAsync('OnJavascriptResize', evt);
+        debounce(resizeCallback, eventRateLimit, !hasValue(eventRateLimit))();
     });
 
     view.watch('spatialReference', () => {
         dotNetRef.invokeMethodAsync('OnJavascriptSpatialReferenceChanged', buildDotNetSpatialReference(view.spatialReference));
     });
 
-    let lastExtentChangeCall = 0;
     view.watch('extent', () => {
         if (!notifyExtentChanged) return;
         userChangedViewExtent = true;
-        let now = Date.now();
-        if (eventRateLimit !== undefined && eventRateLimit !== null &&
-            lastExtentChangeCall + eventRateLimit > now) {
-            return;
+        let extentCallback = () => {
+            if (view instanceof SceneView) {
+                dotNetRef.invokeMethodAsync('OnJavascriptExtentChanged', buildDotNetExtent(view.extent),
+                    buildDotNetPoint(view.camera.position), view.zoom, view.scale, null, view.camera.tilt);
+                return;
+            }
+            dotNetRef.invokeMethodAsync('OnJavascriptExtentChanged', buildDotNetExtent((view as MapView).extent),
+                buildDotNetPoint((view as MapView).center), (view as MapView).zoom, (view as MapView).scale,
+                (view as MapView).rotation, null);
         }
-        lastExtentChangeCall = now;
-        if (view instanceof SceneView) {
-            dotNetRef.invokeMethodAsync('OnJavascriptExtentChanged', buildDotNetExtent(view.extent),
-                buildDotNetPoint(view.camera.position), view.zoom, view.scale, null, view.camera.tilt);
-            return;
-        }
-        dotNetRef.invokeMethodAsync('OnJavascriptExtentChanged', buildDotNetExtent((view as MapView).extent),
-            buildDotNetPoint((view as MapView).center), (view as MapView).zoom, (view as MapView).scale,
-            (view as MapView).rotation, null);
+        
+        debounce(extentCallback, eventRateLimit, !hasValue(eventRateLimit))();
     });
+}
+
+function debounce(func: Function, wait: number | null, immediate: boolean) {
+    
+    // 'private' variable for instance
+    // The returned function will be able to reference this due to closure.
+    // Each call to the returned function will share this common timer.
+    let timeout;
+
+    // Calling debounce returns a new anonymous function
+    return () => {
+        // reference the context and args for the setTimeout function
+        // @ts-ignore
+        const context: any = this,
+            args = arguments;
+
+        // Should the function be called now? If immediate is true
+        //   and not already in a timeout then the answer is: Yes
+        if (immediate && !timeout) {
+            func.apply(context, args);
+            return;
+        }
+
+        // This is the basic debounce behaviour where you can call this
+        //   function several times, but it will only execute once
+        //   (before or after imposing a delay).
+        //   Each time the returned function is called, the timer starts over.
+        clearTimeout(timeout);
+
+        // Set the new timeout
+        timeout = setTimeout(function() {
+
+            // Inside the timeout function, clear the timeout variable
+            // which will let the next execution run when in 'immediate' mode
+            timeout = null;
+
+            // Check if the function already ran with the immediate flag
+            if (!immediate) {
+                // Call the original function with apply
+                // apply lets you define the 'this' object as well as the arguments
+                //    (both captured before setTimeout)
+                func.apply(context, args);
+            }
+        }, wait ?? 300);
+    }
 }
 
 export function registerWebLayer(layerJsRef: any, layerId: string) {
@@ -699,10 +717,13 @@ export async function hitTest(pointObject: any, eventId: string | null, viewId: 
         }
 
         let dotNetResult = buildDotNetHitTestResult(result);
-        let streamRef = getProtobufViewHitStream(dotNetResult.results);
-        dotNetResult.results = [];
-        let dotNetRef = dotNetRefs[viewId];
-        await dotNetRef.invokeMethodAsync('OnHitTestStreamCallback', streamRef, hitTestId);
+        if (dotNetResult.results.length > 0) {
+            let streamRef = getProtobufViewHitStream(dotNetResult.results);
+            dotNetResult.results = [];
+            let dotNetRef = dotNetRefs[viewId];
+            await dotNetRef.invokeMethodAsync('OnHitTestStreamCallback', streamRef, hitTestId);    
+        }
+        
         return dotNetResult;
     } catch (e) {
         logError(e, viewId);
@@ -2565,21 +2586,8 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
          default:
             return null;
     }
-
-    if (hasValue(layerObject.title)) {
-        newLayer.title = layerObject.title;
-    }
-
-    if (hasValue(layerObject.opacity)) {
-        newLayer.opacity = layerObject.opacity;
-    }
-
-    if (hasValue(layerObject.listMode)) {
-        newLayer.listMode = layerObject.listMode;
-    }
-    if (hasValue(layerObject.visible)) {
-        newLayer.visible = layerObject.visible;
-    }
+    
+    copyValuesIfExists(layerObject, newLayer, 'title', 'opacity', 'listMode', 'visible');
 
     if (hasValue(layerObject.fullExtent) && layerObject.type !== 'open-street-map') {
         newLayer.fullExtent = buildJsExtent(layerObject.fullExtent, null);
@@ -2931,32 +2939,7 @@ function updateGraphicForProtobuf(graphic: DotNetGraphic) {
         });
     }
     if (hasValue(graphic.geometry)) {
-        if (hasValue(graphic.geometry.paths)) {
-            graphic.geometry.paths = (graphic.geometry as DotNetPolyline).paths.map(p => {
-                return {
-                    points: p.map(pt => {
-                        return {
-                            coordinates: pt
-                        }
-                    })
-                }
-            });
-        } else {
-            graphic.geometry.paths = [];
-        }
-        if (hasValue(graphic.geometry.rings)) {
-            graphic.geometry.rings = (graphic.geometry as DotNetPolygon).rings.map(r => {
-                return {
-                    points: r.map(pt => {
-                        return {
-                            coordinates: pt
-                        }
-                    })
-                }
-            });
-        } else {
-            graphic.geometry.rings = [];
-        }
+        updateGeometryForProtobuf(graphic.geometry);
     }
     let symbol: any = graphic.symbol;
     if (hasValue(symbol)) {
@@ -2985,6 +2968,35 @@ function updateGraphicForProtobuf(graphic: DotNetGraphic) {
                 hexOrNameValue: symbol.outline.color
             }
         }
+    }
+}
+
+function updateGeometryForProtobuf(geometry) {
+    if (hasValue(geometry.paths)) {
+        geometry.paths = (geometry as DotNetPolyline).paths.map(p => {
+            return {
+                points: p.map(pt => {
+                    return {    
+                        coordinates: pt
+                    }
+                })
+            }
+        });
+    } else {
+        geometry.paths = [];
+    }
+    if (hasValue(geometry.rings)) {
+        geometry.rings = (geometry as DotNetPolygon).rings.map(r => {
+            return {
+                points: r.map(pt => {
+                    return {
+                        coordinates: pt
+                    }
+                })
+            }
+        });
+    } else {
+        geometry.rings = [];
     }
 }
 

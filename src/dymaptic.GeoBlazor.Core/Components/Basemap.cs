@@ -112,6 +112,9 @@ public class Basemap : MapComponent
 /// </summary>
 public class BasemapStyle : MapComponent
 {
+    /// <summary>
+    ///     The identifying name of the basemap style. The values are of the form {Provider}{Style} where provider is "Arcgis" or "osm". Examples include ArcgisNavigation and OsmStandard. See ArcGIS basemap styles and OSM basemap styles for the full list of available styles.
+    /// </summary>
     [Parameter]
     [EditorRequired]
     [RequiredProperty]

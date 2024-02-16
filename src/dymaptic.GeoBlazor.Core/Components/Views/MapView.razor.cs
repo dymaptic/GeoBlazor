@@ -917,7 +917,7 @@ public partial class MapView : MapComponent
     ///     <see cref="OnExtentChanged" />
     /// </summary>
     [Parameter]
-    public int? EventRateLimitInMilliseconds { get; set; }
+    public int? EventRateLimitInMilliseconds { get; set; } = 100;
 
     /// <summary>
     ///    Optional setting to control the number of graphics that are serialized in a single chunk. Tuning this value might help with performance when adding large graphic sets.

@@ -11,10 +11,6 @@ namespace dymaptic.GeoBlazor.Core.Events;
 ///     Object specification for the result of the MapView.HitTest method.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#HitTestResult">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-/// <param name="Results">
-///     An array of result objects returned from the hitTest(). Results are returned when the location of the input screen
-///     coordinates intersects a Graphic or media element in the view.
-/// </param>
 /// <param name="ScreenPoint">
 ///     The screen coordinates (or native mouse event) of the click on the view.
 /// </param>
@@ -71,13 +67,18 @@ internal record ProtoViewHit
     public GraphicSerializationRecord? Graphic { get; set; }
     
     [ProtoMember(4)]
-    public Guid? LayerId { get; set; }
+    public string? LayerId { get; set; }
 
     public ViewHit FromSerializationRecord()
     {
         if (Type == "graphic")
         {
-            return new GraphicHit(Graphic!.FromSerializationRecord(), LayerId, 
+            Guid? layerId = null;
+            if (Guid.TryParse(LayerId, out Guid layerGuid))
+            {
+                layerId = layerGuid;
+            }
+            return new GraphicHit(Graphic!.FromSerializationRecord(), layerId, 
                 (Point)MapPoint!.FromSerializationRecord());
         }
         return new ViewHit(Type!, (Point)MapPoint!.FromSerializationRecord());
