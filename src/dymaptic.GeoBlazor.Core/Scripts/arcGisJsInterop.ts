@@ -30,6 +30,7 @@ import Measurement from "@arcgis/core/widgets/Measurement";
 import Bookmarks from "@arcgis/core/widgets/Bookmarks";
 import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
+import MapImageLayer from "@arcgis/core/layers/MapImageLayer";
 import Layer from "@arcgis/core/layers/Layer";
 import VectorTileLayer from "@arcgis/core/layers/VectorTileLayer";
 import TileLayer from "@arcgis/core/layers/TileLayer";
@@ -2266,6 +2267,26 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             
             if (hasValue(layerObject.effect)) {
                 featureLayer.effect = buildJsEffect(layerObject.effect);
+            }
+            break;
+        case 'map-image':
+            if (hasValue(layerObject.portalItem)) {
+                let portalItem = buildJsPortalItem(layerObject.portalItem);
+
+                newLayer = new MapImageLayer({ portalItem: portalItem });
+            } else {
+                newLayer = new MapImageLayer({
+                    url: layerObject.url
+                });
+            }
+            
+            copyValuesIfExists(layerObject, newLayer, 'blendMode', 'customParameters', 'dpi',
+                'gdbVersion', 'imageFormat', 'imageMaxHeight', 'imageMaxWidth', 'imageTransparency', 'legendEnabled',
+                'maxScale', 'minScale', 'persistenceEnabled', 'refreshInterval', 'timeExtent', 'timeInfo',
+                'useViewTime');
+            
+            if (hasValue(layerObject.sublayers)) {
+                (newLayer as MapImageLayer).sublayers = layerObject.sublayers.map(buildJsSublayer);
             }
             break;
         case 'vector-tile':
