@@ -663,9 +663,11 @@ function debounce(func: Function, wait: number | null, immediate: boolean) {
 
         // Should the function be called now? If immediate is true
         //   and not already in a timeout then the answer is: Yes
-        if (immediate && !timeout) {
+        if (!timeout) {
             func.apply(context, args);
-            return;
+            if (immediate) {
+                return;
+            }
         }
 
         // This is the basic debounce behaviour where you can call this
@@ -2686,11 +2688,15 @@ function waitForRender(viewId: string, dotNetRef: any): void {
             if (!view.updating && !isRendered && !rendering) {
                 notifyExtentChanged = true;
                 // listen for click on zoom widget
-                let zoomWidgetButtons =  document.querySelectorAll('[title="Zoom in"], [title="Zoom out"]');
-                for (let i = 0; i < zoomWidgetButtons.length; i++) {
-                    zoomWidgetButtons[i].removeEventListener('click', setUserChangedViewExtent);
-                    zoomWidgetButtons[i].addEventListener('click', setUserChangedViewExtent);
+                if (!zoomWidgetListenerAdded) {
+                    let zoomWidgetButtons =  document.querySelectorAll('[title="Zoom in"], [title="Zoom out"]');
+                    for (let i = 0; i < zoomWidgetButtons.length; i++) {
+                        zoomWidgetButtons[i].removeEventListener('click', setUserChangedViewExtent);
+                        zoomWidgetButtons[i].addEventListener('click', setUserChangedViewExtent);
+                    }
+                    zoomWidgetListenerAdded = true;
                 }
+                
                 console.debug(new Date() + " - View Render Complete");
                 try {
                     rendering = true;
@@ -2706,6 +2712,8 @@ function waitForRender(viewId: string, dotNetRef: any): void {
         }, 100);
     })
 }
+
+let zoomWidgetListenerAdded = false;
 
 function setUserChangedViewExtent() {
     userChangedViewExtent = true;
