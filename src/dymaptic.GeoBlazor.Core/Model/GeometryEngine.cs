@@ -1442,6 +1442,30 @@ public class GeometryEngine : LogicComponent
     {
         return await InvokeAsync<Polygon>("setPointOnPolygon", polygon, ringIndex, pointIndex, point);
     }
+    
+    /// <summary>
+    ///     Retrieves the center point of the extent in map units.
+    /// </summary>
+    public async Task<Point?> GetExtentCenter(Extent extent)
+    {
+        return await InvokeAsync<Point?>("getExtentCenter", extent);
+    }
+    
+    /// <summary>
+    ///     Retrieves the height of the extent in map units (the distance between ymin and ymax).
+    /// </summary>
+    public async Task<double?> GetExtentHeight(Extent extent)
+    {
+        return await InvokeAsync<double?>("getExtentHeight", extent);
+    }
+    
+    /// <summary>
+    ///     Retrieves the width of the extent in map units (the distance between xmin and xmax).
+    /// </summary>
+    public async Task<double?> GetExtentWidth(Extent extent)
+    {
+        return await InvokeAsync<double?>("getExtentWidth", extent);
+    }
 }
 
 /// <summary>

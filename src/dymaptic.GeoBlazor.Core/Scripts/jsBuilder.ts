@@ -174,7 +174,15 @@ import AuthoringInfoVisualVariable from "@arcgis/core/renderers/support/Authorin
 import ActionButton from "@arcgis/core/support/actions/ActionButton";
 import ActionToggle from "@arcgis/core/support/actions/ActionToggle";
 import FeatureSet from "@arcgis/core/rest/support/FeatureSet";
-
+import Sublayer from "@arcgis/core/layers/support/Sublayer.js";
+import DynamicMapLayer = __esri.DynamicMapLayer;
+import DynamicDataLayer = __esri.DynamicDataLayer;
+import TableDataSource = __esri.TableDataSource;
+import QueryTableDataSource = __esri.QueryTableDataSource;
+import RasterDataSource = __esri.RasterDataSource;
+import JoinTableDataSource = __esri.JoinTableDataSource;
+import DynamicDataLayerFields = __esri.DynamicDataLayerFields;
+import TickConfig = __esri.TickConfig;
 
 export function buildJsSpatialReference(dotNetSpatialReference: DotNetSpatialReference): SpatialReference {
     if (dotNetSpatialReference === undefined || dotNetSpatialReference === null) {
@@ -297,7 +305,7 @@ export function buildJsPopupTemplate(popupTemplateObject: DotNetPopupTemplate, v
     }
 
     if (hasValue(popupTemplateObject.actions)) {
-        template.actions = popupTemplateObject.actions.map(buildJsPopupAction) as any;
+        template.actions = popupTemplateObject.actions.map(buildJsAction) as any;
     } 
 
     popupDotNetObjects.push(popupTemplateObject);
@@ -305,7 +313,7 @@ export function buildJsPopupTemplate(popupTemplateObject: DotNetPopupTemplate, v
     return template;
 }
 
-function buildJsPopupAction(dnAction: any): ActionButton | ActionToggle {
+export function buildJsAction(dnAction: any): ActionButton | ActionToggle {
     if (dnAction.type === "button") {
         let jsAction = new ActionButton();
         copyValuesIfExists(dnAction, jsAction, 'active', 'className', 'disabled', 'icon', 'id', 'image', 'title', 
@@ -469,25 +477,31 @@ export function buildJsSymbol(symbol: DotNetSymbol | null): Symbol | null {
         case "text":
             let dotNetTextSymbol = symbol as DotNetTextSymbol;
             let jsTextSymbol = new TextSymbol({
-                angle: dotNetTextSymbol.angle ?? undefined,
-                backgroundColor: buildJsColor(dotNetTextSymbol.backgroundColor) ?? undefined,
-                borderLineColor: buildJsColor(dotNetTextSymbol.borderLineColor) ?? undefined,
-                borderLineSize: dotNetTextSymbol.borderLineSize ?? undefined,
-                color: buildJsColor(dotNetTextSymbol.color) ?? undefined,
-                haloColor: buildJsColor(dotNetTextSymbol.haloColor) ?? undefined,
-                haloSize: dotNetTextSymbol.haloSize ?? undefined,
-                horizontalAlignment: dotNetTextSymbol.horizontalAlignment as any ?? undefined,
-                kerning: dotNetTextSymbol.kerning ?? undefined,
-                lineHeight: dotNetTextSymbol.lineHeight ?? undefined,
-                lineWidth: dotNetTextSymbol.lineWidth ?? undefined,
-                rotated: dotNetTextSymbol.rotated ?? undefined,
-                text: dotNetTextSymbol.text ?? undefined,
-                verticalAlignment: dotNetTextSymbol.verticalAlignment as any ?? undefined,
-                xoffset: dotNetTextSymbol.xOffset ?? undefined,
-                yoffset: dotNetTextSymbol.yOffset ?? undefined
+                text: dotNetTextSymbol.text ?? undefined
             });
+            copyValuesIfExists(dotNetTextSymbol, jsTextSymbol, 'angle', 'borderLineSize', 'haloSize',
+                'horizontalAlignment', 'kerning', 'lineHeight', 'lineWidth', 'rotated', 'text', 'verticalAlignment');
+            
+            if (hasValue(dotNetTextSymbol.backgroundColor)) {
+                jsTextSymbol.backgroundColor = buildJsColor(dotNetTextSymbol.backgroundColor);
+            }
+            if (hasValue(dotNetTextSymbol.borderLineColor)) {
+                jsTextSymbol.borderLineColor = buildJsColor(dotNetTextSymbol.borderLineColor);
+            }
+            if (hasValue(dotNetTextSymbol.color)) {
+                jsTextSymbol.color = buildJsColor(dotNetTextSymbol.color);
+            }
             if (hasValue(dotNetTextSymbol.font)) {
                 jsTextSymbol.font = buildJsFont(dotNetTextSymbol.font);
+            }
+            if (hasValue(dotNetTextSymbol.haloColor)) {
+                jsTextSymbol.haloColor = buildJsColor(dotNetTextSymbol.haloColor);
+            }
+            if (hasValue(dotNetTextSymbol.xOffset)) {
+                jsTextSymbol.xoffset = dotNetTextSymbol.xOffset;
+            }
+            if (hasValue(dotNetTextSymbol.yOffset)) {
+                jsTextSymbol.yoffset = dotNetTextSymbol.yOffset;
             }
 
             return jsTextSymbol;
@@ -1166,7 +1180,7 @@ export async function buildJsPopup(dotNetPopup: any, viewId: string): Promise<Po
     });
     
     if (hasValue(dotNetPopup.actions)) {
-        popup.actions = dotNetPopup.actions.map(buildJsPopupAction) as any;
+        popup.actions = dotNetPopup.actions.map(buildJsAction) as any;
     }
 
     if (hasValue(dotNetPopup.location)) {
@@ -2006,4 +2020,139 @@ export function buildJsFeatureSet(dnFs: DotNetFeatureSet, viewId: string | null)
         jsFeatureSet.spatialReference = buildJsSpatialReference(dnFs.spatialReference as DotNetSpatialReference);
     }
     return jsFeatureSet;
+}
+
+export function buildJsSublayer(dotNetSublayer: any): Sublayer {
+    let sublayer = new Sublayer({
+        id: dotNetSublayer.sublayerId
+    });
+    
+    copyValuesIfExists(dotNetSublayer, sublayer, 'maxScale', 'minScale', 'visible', 'labelsVisible',
+        'legendEnabled', 'listMode', 'opacity', 'popupEnabled', 'title', 'definitionExpression', 'url');
+    
+    if (hasValue(dotNetSublayer.floorInfo)) {
+        sublayer.floorInfo = {
+            floorField: dotNetSublayer.floorInfo.floorField ?? undefined
+        } as any;
+    }
+    
+    if (hasValue(dotNetSublayer.labelingInfo) && dotNetSublayer.labelingInfo.length > 0) {
+        sublayer.labelingInfo = dotNetSublayer.labelingInfo.map(buildJsLabelClass);
+    }
+    
+    if (hasValue(dotNetSublayer.sublayers) && dotNetSublayer.sublayers.length > 0) {
+        sublayer.sublayers = dotNetSublayer.sublayers.map(buildJsSublayer);
+    }
+    
+    if (hasValue(dotNetSublayer.renderer)) {
+        sublayer.renderer = buildJsRenderer(dotNetSublayer.renderer) as Renderer;
+    }
+    
+    if (hasValue(dotNetSublayer.popupTemplate)) {
+        sublayer.popupTemplate = buildJsPopupTemplate(dotNetSublayer.popupTemplate, null) as PopupTemplate;
+    }
+    
+    if (hasValue(dotNetSublayer.source)) {
+        sublayer.source = buildJsDynamicLayer(dotNetSublayer.source);
+    }
+    
+    arcGisObjectRefs[dotNetSublayer.id] = sublayer;
+    return sublayer;
+}
+
+function buildJsDynamicLayer(dotNetSource: any): DynamicMapLayer | DynamicDataLayer {
+    switch (dotNetSource.type) {
+        case 'map-layer':
+            return {
+                type: 'map-layer',
+                mapLayerId: dotNetSource.mapLayerId,
+                gdbVersion: dotNetSource.gdbVersion ?? undefined,
+            } as DynamicMapLayer;
+        default:
+            let dataLayer = {
+                type: 'data-layer'
+            } as DynamicDataLayer;
+            if (hasValue(dotNetSource?.dataSource)) {
+                dataLayer.dataSource = buildJsDynamicDataSource(dotNetSource.dataSource);
+            }
+            
+            if (hasValue(dotNetSource?.fields) && dotNetSource.fields.length > 0) {
+                dataLayer.fields = dotNetSource.fields.map(buildJsDynamicDataLayerField);
+            }
+
+            return dataLayer;
+    }
+}
+
+function buildJsDynamicDataSource(dotNetSource: any): any {
+    switch (dotNetSource.type) {
+        case 'table':
+            return {
+                type: 'table',
+                workspaceId: dotNetSource.workspaceId,
+                dataSourceName: dotNetSource.dataSourceName,
+                gdbVersion: dotNetSource.gdbVersion ?? undefined
+            } as TableDataSource;
+        case 'query-table':
+            let queryTable = {
+                type: 'query-table',
+                workspaceId: dotNetSource.workspaceId,
+                query: dotNetSource.query,
+                oidFields: dotNetSource.oidFields ?? undefined,
+                geometryType: dotNetSource.geometryType ?? undefined
+            } as QueryTableDataSource;
+            if (hasValue(dotNetSource.spatialReference)) {
+                queryTable.spatialReference = buildJsSpatialReference(dotNetSource.spatialReference);
+            }
+            return queryTable;
+        case 'raster':
+            return {
+                type: 'raster',
+                workspaceId: dotNetSource.workspaceId,
+                dataSourceName: dotNetSource.dataSourceName
+            } as RasterDataSource;
+        default:
+            let joinTable = {
+                type: 'join-table',
+                leftTableKey: dotNetSource.leftTableKey,
+                rightTableKey: dotNetSource.rightTableKey,
+                joinType: dotNetSource.joinType
+            } as JoinTableDataSource;
+            
+            if (hasValue(dotNetSource?.leftTableSource)) {
+                joinTable.leftTableSource = buildJsDynamicLayer(dotNetSource.leftTableSource);
+            }
+            if (hasValue(dotNetSource?.rightTableSource)) {
+                joinTable.rightTableSource = buildJsDynamicLayer(dotNetSource.rightTableSource);
+            }
+            
+            return joinTable;
+    }
+}
+
+function buildJsDynamicDataLayerField(dotNetField: any): DynamicDataLayerFields {
+    return {
+        name: dotNetField.name,
+        alias: dotNetField.alias ?? undefined
+    } as DynamicDataLayerFields;
+}
+
+export function buildJsTickConfig(dnTickConfig: any): TickConfig {
+    let tickConfig: TickConfig = {
+        mode: dnTickConfig.mode ?? undefined,
+        values: dnTickConfig.values ?? undefined
+    };
+    copyValuesIfExists(dnTickConfig, tickConfig, 'labelsVisible');
+    if (hasValue(dnTickConfig.tickCreatedFunction)) {
+        tickConfig.tickCreatedFunction = (value, tickElement, labelElement) => {
+            return new Function('value', 'tickElement', 'labelElement', dnTickConfig.tickCreatedFunction)(value, tickElement, labelElement);
+        };
+    }
+    if (hasValue(dnTickConfig.labelFormatFunction)) {
+        tickConfig.labelFormatFunction = (value, type, index) => {
+            return new Function('value', 'type', 'index', dnTickConfig.labelFormatFunction)(value, type, index);
+        };
+    }
+    
+    return tickConfig;
 }

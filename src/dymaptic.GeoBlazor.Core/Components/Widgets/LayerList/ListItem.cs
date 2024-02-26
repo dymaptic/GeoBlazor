@@ -18,12 +18,9 @@ public class ListItem
     public string? Title { get; set; }
 
     /// <summary>
-    ///     Sets the layer values for this item.
+    ///     Sets the relevant layer values for this item.
     /// </summary>
-    /// <remarks>
-    ///     Editing not currently supported.
-    /// </remarks>
-    public Layer? Layer { get; set; }
+    public Guid? LayerId { get; set; }
 
     /// <summary>
     ///     Determines whether the layer is visible on load.
@@ -42,10 +39,34 @@ public class ListItem
     ///     Sets the actions on click for the list item.
     /// </summary>
     /// <remarks>
-    ///     The Action Sections property and corresponding functionality will be fully implemented
+    ///     The Actions Sections property and corresponding functionality will be fully implemented
     ///     in a future iteration.  Currently, a user can view available layers in the layer list widget
     ///     and toggle the selected layer's visibility. More capabilities will be available after full
     ///     implementation of ActionSection.
     /// </remarks>
-    public ActionBase[][]? ActionSections { get; set; }
+    public ActionBase[][]? ActionsSections { get; set; }
+    
+    /// <summary>
+    ///     Indicates if the children of a list item (or sublayers in a GroupLayer) can be sorted or moved/reordered.
+    ///     Default Value:true
+    /// </summary>
+    public bool ChildrenSortable { get; set; }
+    
+    /// <summary>
+    ///     When true, hides the layer from the LayerList instance. This is an alternative to Layer.listMode, which hides a layer from all instances of LayerList that include the layer.
+    ///     Default Value:false
+    /// </summary>
+    public bool Hidden { get; set; }
+    
+    /// <summary>
+    ///     Whether the layer is open in the LayerList.
+    ///     Default Value:false
+    /// </summary>
+    public bool Open { get; set; }
+    
+    /// <summary>
+    ///     Indicates if the list item (or layer in the map) can be sorted or moved/reordered.
+    ///     Default Value:true
+    /// </summary>
+    public bool Sortable { get; set; }
 }
