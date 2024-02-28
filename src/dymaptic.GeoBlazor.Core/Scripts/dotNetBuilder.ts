@@ -127,9 +127,9 @@ import DirectionsFeatureSet from "@arcgis/core/rest/support/DirectionsFeatureSet
 export function buildDotNetGraphic(graphic: Graphic): DotNetGraphic {
     let dotNetGraphic = {} as DotNetGraphic;
 
-    if (Object.values(arcGisObjectRefs).includes(graphic)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === graphic) {
+    if (Object.values(graphicsRefs).includes(graphic)) {
+        for (const k of Object.keys(graphicsRefs)) {
+            if (graphicsRefs[k] === graphic) {
                 dotNetGraphic.id = k;
                 break;
             }

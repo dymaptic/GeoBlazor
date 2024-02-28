@@ -7,24 +7,67 @@
 @code {
 
     [TestMethod]
+    public async Task TestGraphicIdRemainsConsistentAfterOperations(Action renderHandler)
+    {
+        MapView? mapView = null;
+        Graphic? graphic = null;
+        GraphicsLayer? graphicsLayer = null;
+
+        AddMapRenderFragment(
+    @<MapView @ref="mapView" class="map-view" OnViewRendered="renderHandler">
+        <Map ArcGISDefaultBasemap="arcgis-imagery">
+            <GraphicsLayer @ref="graphicsLayer">
+                <Graphic @ref="graphic">
+                    <Point X="0" Y="0" />
+                </Graphic>
+            </GraphicsLayer>
+        </Map>
+    </MapView>
+    );
+
+        await WaitForMapToRender();
+
+        var hitTestOptions = new HitTestOptions()
+        {
+            IncludeLayersByArcGISId = new string[] { graphicsLayer!.Id.ToString() }
+        };
+
+        var hitTestResult = await mapView!.HitTest((Point)graphic!.Geometry!, hitTestOptions);
+
+        var graphicHit = hitTestResult.Results.OfType<GraphicHit>().ToArray();
+
+        Assert.AreEqual(1, graphicHit.Count());
+
+        var firstGraphic = graphicHit[0];
+
+        Assert.IsNotNull(firstGraphic.Layer);
+        Assert.IsNotNull(firstGraphic.MapPoint);
+        Assert.IsNotNull(firstGraphic.Graphic);
+
+
+        Assert.AreEqual<Guid>(graphic.Id, firstGraphic.Graphic.Id);
+    }
+
+    [TestMethod]
     public async Task TestCanDeleteGraphicWithNewGeometry(Action renderHandler)
     {
         MapView? mapView = null;
-        AddMapRenderFragment( 
-            @<MapView @ref="mapView" class="map-view" OnViewRendered="renderHandler">
-                <Map ArcGISDefaultBasemap="arcgis-imagery" />
-            </MapView>);
+        AddMapRenderFragment(
+    @<MapView @ref="mapView" class="map-view" OnViewRendered="renderHandler">
+        <Map ArcGISDefaultBasemap="arcgis-imagery" />
+    </MapView>);
 
         await WaitForMapToRender();
 
         var testGraphic = new Graphic(new Point(0, 0),
-            new SimpleMarkerSymbol(color: new MapColor("red"), size: 10));
+        new SimpleMarkerSymbol(color: new MapColor("red"), size: 10));
         await mapView!.AddGraphic(testGraphic);
         await WaitForMapToRender();
         await testGraphic.SetGeometry(new Point(1, 1));
         await WaitForMapToRender();
         await mapView.RemoveGraphic(testGraphic);
     }
+
 
     [TestMethod]
     public async Task TestGraphicsAddedViaMarkupAreOnlyAddedOnce(Action renderHandler)
