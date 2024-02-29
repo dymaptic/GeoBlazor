@@ -242,6 +242,7 @@ public class Sublayer: MapComponent
         ? sublayer.Layer
         : Parent as Layer;
 
+    /// <inheritdoc />
     public override void Refresh()
     {
         if (Layer is not null)
