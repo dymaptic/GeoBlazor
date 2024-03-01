@@ -2535,20 +2535,12 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
                         break;
                 }
             }
-            if (hasValue(layerObject.capabilities)) {
-                imageryLayer.capabilities = layerObject.capabilities;
-            }
-            if (hasValue(layerObject.customParameters)) {
-                imageryLayer.customParameters = layerObject.customParameters;
-            }
+            
             if (hasValue(layerObject.effect)) {
                 imageryLayer.effect = buildJsEffect(layerObject.effect);
             }
             if (hasValue(layerObject.fields && layerObject.fields.length > 0)) {
                 imageryLayer.fields = buildJsFields(layerObject.fields);
-            }
-            if (hasValue(layerObject.mosaicRule)) {
-                imageryLayer.mosaicRule = layerObject.mosaicRule;
             }
             if (hasValue(layerObject.multidimensionsionalSubset)) {
                 imageryLayer.multidimensionalSubset = layerObject.multidimensionsionalSubset;
@@ -2581,7 +2573,8 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             copyValuesIfExists('bandIds', 'blendMode', 'compressionQuality', 'compressionTolerance',
                 'copyright', 'definitionExpression', 'effect', 'format', 'hasMultidimensions', 'imageMaxHeight', 'imageMaxWidth',
                 'interpolation', 'legendEnabled', 'maxScale', 'minScale', 'multidimensionalInfo', 'noDataInterpretation',
-                'objectIdField', 'persistenceEnabled', 'pixelType', 'popupEnabled', 'refreshInterval', 'serviceRasterInfo', 'useViewTime', 'version')
+                'objectIdField', 'persistenceEnabled', 'pixelType', 'popupEnabled', 'refreshInterval', 
+                'serviceRasterInfo', 'useViewTime', 'version', 'capabilities', 'customParameters');
 
             newLayer = imageryLayer;
             break;

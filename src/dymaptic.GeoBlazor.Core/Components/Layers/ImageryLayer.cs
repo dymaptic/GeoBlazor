@@ -119,7 +119,7 @@ public class ImageryLayer : Layer
     ///     Determines if the layer will update its temporal data based on the view's timeExtent.
     /// </param>
     public ImageryLayer(string? url = null, PortalItem? portalItem = null, ImageryRenderer? renderer = null, IReadOnlyCollection<int>? bandIds = null,
-        string? blendMode = null, int? compressionQuality = null, double? compressionTolerance = null, string? copyright = null, string? definitionExpression = null,
+        BlendMode? blendMode = null, int? compressionQuality = null, double? compressionTolerance = null, string? copyright = null, string? definitionExpression = null,
         Effect? effect = null, Field[]? fields = null, ImageFormat? format = null, bool? hasMultidimensions = null, int? imageMaxHeight = null,
         int? imageMaxWidth = null, int? interpolation = null, bool? legendEnabled = null, int? maxScale = null, int? minScale = null,
         IReadOnlyCollection<int>? noData = null, string? noDataInterpretation = null, string? objectIdField = null, bool? persistenceEnabled = null,
@@ -191,7 +191,7 @@ public class ImageryLayer : Layer
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? BlendMode {  get; set; }
+    public BlendMode? BlendMode {  get; set; }
 
     /// <summary>
     ///     The compression quality value.
