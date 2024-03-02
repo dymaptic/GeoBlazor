@@ -8,6 +8,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
 /// <summary>
 ///     A slider widget that can be used for filtering data, or gathering numeric input from a user. The slider can have multiple thumbs, and provides you with the ability to format labels and control user input.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <remarks>
 ///     At a minimum, the slider's container or parent container must have a width set in CSS for it to render.
