@@ -1,0 +1,58 @@
+﻿.form-group {
+    padding: 0.5rem 0;
+    flex-direction: column;
+    display: flex;
+    border-bottom: 1px solid black;
+}
+
+::deep input[type=radio] {
+    visibility: hidden;
+}
+
+.footer {
+    height: 60px;
+    width: 100%;
+}
+
+#footer {
+    height: 100px;
+    width: 100%;
+    color: #0079c1;
+    padding: 10px;
+    font-weight: bold;
+    font-size: 12pt;
+    text-align: center;
+}
+
+#population-slider {
+    margin: auto;
+    height: 35px;
+    width: 95%;
+}
+
+.sublayers {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    overflow: auto;
+}
+
+.sublayers-item {
+    flex-grow: 4;
+    background-color: rgba(34, 111, 14, 0.5);
+    color: #fff;
+    margin: 1px;
+    width: 25%;
+    padding: 20px;
+    overflow: auto;
+    text-align: center;
+    cursor: pointer;
+    font-size: 0.9em;
+}
+
+.visible-layer {
+    color: #fff;
+    background-color: #226f0e;
+}

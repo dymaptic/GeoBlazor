@@ -122,6 +122,8 @@ import UniqueValuesResult = __esri.UniqueValuesResult;
 import AuthoringInfo from "@arcgis/core/renderers/support/AuthoringInfo";
 import FeatureSet from "@arcgis/core/rest/support/FeatureSet";
 import DirectionsFeatureSet from "@arcgis/core/rest/support/DirectionsFeatureSet";
+import MapImageLayer from "@arcgis/core/layers/MapImageLayer";
+import Sublayer from "@arcgis/core/layers/support/Sublayer.js";
 
 
 export function buildDotNetGraphic(graphic: Graphic): DotNetGraphic {
@@ -381,6 +383,8 @@ export function buildDotNetLayer(layer: Layer, includeGraphics: boolean = true)
     switch (layer.type) {
         case 'feature':
             return buildDotNetFeatureLayer(layer as FeatureLayer);
+        case 'map-image':
+            return buildDotNetMapImageLayer(layer as MapImageLayer);
         case 'graphics':
             return buildDotNetGraphicsLayer(layer as GraphicsLayer, includeGraphics);
         default:
@@ -457,6 +461,138 @@ export function buildDotNetFeatureLayer(layer: FeatureLayer)
     }
 
     return dotNetLayer;
+}
+
+function buildDotNetMapImageLayer(layer: MapImageLayer): any {
+    let dotNetLayer: any = {
+        type: layer.type,
+        url: layer.url,
+        portalItem: layer.portalItem,
+        blendMode: layer.blendMode,
+        customParameters: layer.customParameters,
+        dpi: layer.dpi,
+        gdbVersion: layer.gdbVersion,
+        imageFormat: layer.imageFormat,
+        imageMaxHeight: layer.imageMaxHeight,
+        imageMaxWidth: layer.imageMaxWidth,
+        imageTransparency: layer.imageTransparency,
+        legendEnabled: layer.legendEnabled,
+        maxScale: layer.maxScale,
+        minScale: layer.minScale,
+        persistenceEnabled: layer.persistenceEnabled,
+        refreshInterval: layer.refreshInterval,
+        useViewTime: layer.useViewTime,
+        listMode: layer.listMode,
+        visible: layer.visible,
+        opacity: layer.opacity
+    };
+
+    if (hasValue(layer.effect)) {
+        dotNetLayer.effect = buildDotNetEffect(layer.effect);
+    }
+    
+    if (hasValue(layer.fullExtent)) {
+        dotNetLayer.fullExtent = buildDotNetExtent(layer.fullExtent) as DotNetExtent;
+    }
+
+    if (hasValue(layer.spatialReference)) {
+        dotNetLayer.spatialReference = buildDotNetSpatialReference(layer.spatialReference) as DotNetSpatialReference;
+    }
+    
+    if (hasValue(layer.timeExtent)) {
+        dotNetLayer.timeExtent = buildDotNetTimeExtent(layer.timeExtent);
+    }
+    
+    if (hasValue(layer.timeInfo)) {
+        dotNetLayer.timeInfo = buildDotNetTimeInfo(layer.timeInfo) as DotNetTimeInfo;
+    }
+    
+    if (hasValue(layer.sublayers)) {
+        dotNetLayer.sublayers = layer.sublayers.map(buildDotNetSublayer);
+    }
+    
+    if (hasValue(layer.allSublayers)) {
+        dotNetLayer.allSublayers = layer.allSublayers.map(buildDotNetSublayer);
+    }
+
+    if (Object.values(arcGisObjectRefs).includes(layer)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === layer) {
+                dotNetLayer.id = k;
+                break;
+            }
+        }
+    }
+
+    return dotNetLayer;
+}
+
+function buildDotNetSublayer(sublayer: Sublayer): any {
+    let dotNetSublayer: any = {
+        sublayerId: sublayer.id,
+        labelsVisible: sublayer.labelsVisible,
+        legendEnabled: sublayer.legendEnabled,
+        listMode: sublayer.listMode,
+        maxScale: sublayer.maxScale,
+        minScale: sublayer.minScale,
+        popupEnabled: sublayer.popupEnabled,
+        visible: sublayer.visible,
+        opacity: sublayer.opacity,
+        title: sublayer.title,
+        definitionExpression: sublayer.definitionExpression,
+        floorInfo: sublayer.floorInfo,
+        capabilities: sublayer.capabilities,
+        fields: sublayer.fields,
+        fieldsIndex: sublayer.fieldsIndex,
+        objectIdField: sublayer.objectIdField,
+        sourceJSON: sublayer.sourceJSON,
+        typeIdField: sublayer.typeIdField,
+        url: sublayer.url
+    };
+    
+    if (hasValue(sublayer.types)) {
+        dotNetSublayer.types = sublayer.types.map(buildDotNetFeatureType);
+    }
+
+    if (hasValue(sublayer.labelingInfo)) {
+        dotNetSublayer.labelingInfo = sublayer.labelingInfo.map(buildDotNetLabelClass);
+    }
+    
+    if (hasValue(sublayer.popupTemplate)) {
+        dotNetSublayer.popupTemplate = buildDotNetPopupTemplate(sublayer.popupTemplate);
+    }
+    
+    if (hasValue(sublayer.renderer)) {
+        dotNetSublayer.renderer = buildDotNetRenderer(sublayer.renderer);
+    }
+
+    if (hasValue(sublayer.fullExtent)) {
+        dotNetSublayer.fullExtent = buildDotNetExtent(sublayer.fullExtent) as DotNetExtent;
+    }
+
+    if (hasValue(sublayer.sublayers)) {
+        dotNetSublayer.sublayers = sublayer.sublayers.map(buildDotNetSublayer);
+    }
+    
+    if (hasValue(sublayer.source)) {
+        dotNetSublayer.source = buildDotNetDynamicLayer(sublayer.source);
+    }
+
+    if (Object.values(arcGisObjectRefs).includes(sublayer)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === sublayer) {
+                dotNetSublayer.id = k;
+                break;
+            }
+        }
+    }
+
+    return dotNetSublayer;
+
+}
+
+function buildDotNetDynamicLayer(source: any): any {
+    
 }
 
 export function buildDotNetFields(fields: Array<Field>): Array<DotNetField> {
@@ -928,11 +1064,17 @@ export function buildDotNetSearchSource(jsSource: LayerSearchSource | LocatorSea
 
 export function buildDotNetGoToOverrideParameters(parameters: any, viewId: string): any {
     let dnParams: any = {
-        viewId: viewId
+        viewId: viewId,
+        options: {
+            animate: parameters.options.animate,
+            duration: parameters.options.duration,
+            easing: parameters.options.easing,
+            pickClosestTarget: parameters.options.pickClosestTarget
+        }
     }
     if (hasValue(parameters.target)) {
         let target: any = {
-            target: parameters.target.target,
+            target: parameters.target.target.toJSON(),
             center: parameters.target.center,
             scale: parameters.target.scale,
             zoom: parameters.target.zoom,
@@ -942,12 +1084,12 @@ export function buildDotNetGoToOverrideParameters(parameters: any, viewId: strin
         };
         if (Array.isArray(parameters.target.target) && parameters.target.target.length > 0) {
             let firstObject = parameters.target.target[0];
-            if (firstObject instanceof Graphic) {
+            if (firstObject instanceof Graphic || firstObject.declaredClass.includes('graphic')) {
                 target.targetGraphics = [];
                 for (let g in parameters.target.target as Graphic[]) {
                     target.targetGraphics.push(buildDotNetGraphic(g as any));
                 }
-            } else if (firstObject instanceof Geometry) {
+            } else if (firstObject instanceof Geometry || firstObject.declaredClass.includes('geometry')) {
                 target.targetGeometries = [];
                 for (let g in parameters.target.target as Geometry[]) {
                     target.targetGeometries.push(buildDotNetGeometry(g as any));
@@ -955,12 +1097,15 @@ export function buildDotNetGoToOverrideParameters(parameters: any, viewId: strin
             } else {
                 target.targetCoordinates = parameters.target.target;
             }
-        } else if (parameters.target.target instanceof Graphic) {
+        } else if (parameters.target.target instanceof Graphic || parameters.target.target.declaredClass.includes('graphic')) {
             target.targetGraphic = buildDotNetGraphic(parameters.target.target);
-        } else if (parameters.target.target instanceof Geometry) {
+        } else if (parameters.target.target instanceof Geometry || parameters.target.target.declaredClass.includes('geometry')) {
             target.targetGeometry = buildDotNetGeometry(parameters.target.target);
         }
+        dnParams.target = target;
     }
+    
+    return dnParams;
 }
 
 export function buildDotNetSearchResult(jsSearchResult: SearchResult) {
@@ -983,9 +1128,8 @@ export function buildDotNetSuggestResult(jsSuggestResult: SuggestResult) {
 }
 
 export function buildDotNetLabelClass(labelClass: LabelClass): any {
-    return {
+    let dnLabelClass: any = {
         labelExpression: labelClass.labelExpression,
-        labelExpressionInfo: buildDotNetLabelExpressionInfo(labelClass.labelExpressionInfo),
         allowOverrun: labelClass.allowOverrun,
         deconflictionStrategy: labelClass.deconflictionStrategy,
         labelPlacement: labelClass.labelPlacement,
@@ -994,9 +1138,16 @@ export function buildDotNetLabelClass(labelClass: LabelClass): any {
         minScale: labelClass.minScale,
         repeatLabel: labelClass.repeatLabel,
         repeatLabelDistance: labelClass.repeatLabelDistance,
-        symbol: buildDotNetSymbol(labelClass.symbol),
         useCodedValues: labelClass.useCodedValues,
         where: labelClass.where
+    }
+    
+    if (hasValue(labelClass.labelExpressionInfo)) {
+        dnLabelClass.labelExpressionInfo = buildDotNetLabelExpressionInfo(labelClass.labelExpressionInfo);
+    }
+    
+    if (hasValue(labelClass.symbol)) {
+        dnLabelClass.symbol = buildDotNetSymbol(labelClass.symbol);
     }
 }
 

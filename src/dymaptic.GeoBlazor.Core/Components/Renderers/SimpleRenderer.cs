@@ -1,4 +1,5 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Layers;
+using dymaptic.GeoBlazor.Core.Components.Symbols;
 using Microsoft.AspNetCore.Components;
 using System.Text.Json.Serialization;
 
@@ -12,6 +13,38 @@ namespace dymaptic.GeoBlazor.Core.Components.Renderers;
 /// </summary>
 public class SimpleRenderer : Renderer
 {
+    /// <summary>
+    ///     Parameterless constructor for use as a Razor component.
+    /// </summary>
+    public SimpleRenderer()
+    {
+    }
+
+    /// <summary>
+    ///     Constructor for a SimpleRenderer for use in code.
+    /// </summary>
+    /// <param name="symbol">
+    ///     The symbol for the renderer.
+    /// </param>
+    /// <param name="label">
+    ///     The label for the renderer.
+    /// </param>
+    /// <param name="visualVariables">
+    ///     An array of <see cref="VisualVariable" /> objects.
+    /// </param>
+    public SimpleRenderer(Symbol symbol, string? label = null,
+        VisualVariable[]? visualVariables = null)
+    {
+#pragma warning disable BL0005 // Set parameter or member default value.
+        Symbol = symbol;
+        Label = label;
+        if (visualVariables is not null)
+        {
+            VisualVariables = new HashSet<VisualVariable>(visualVariables);
+        }
+#pragma warning restore BL0005 // Set parameter or member default value.
+    }
+    
     /// <inheritdoc />
     [JsonPropertyName("type")]
     public override RendererType RendererType => RendererType.Simple;

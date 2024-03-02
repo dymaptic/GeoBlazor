@@ -30,6 +30,7 @@ import Measurement from "@arcgis/core/widgets/Measurement";
 import Bookmarks from "@arcgis/core/widgets/Bookmarks";
 import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
+import MapImageLayer from "@arcgis/core/layers/MapImageLayer";
 import Layer from "@arcgis/core/layers/Layer";
 import VectorTileLayer from "@arcgis/core/layers/VectorTileLayer";
 import TileLayer from "@arcgis/core/layers/TileLayer";
@@ -97,7 +98,12 @@ import {
     buildJsRasterShadedReliefRenderer,
     buildJsRasterColormapRenderer,
     buildJsVectorFieldRenderer,
-    buildJsFlowRenderer, buildJsClassBreaksRenderer, buildJsUniqueValueRenderer
+    buildJsFlowRenderer,
+    buildJsClassBreaksRenderer,
+    buildJsUniqueValueRenderer,
+    buildJsSublayer,
+    buildJsAction,
+    buildJsTickConfig
 } from "./jsBuilder";
 import {
     DotNetExtent,
@@ -156,6 +162,8 @@ import UniqueValueRenderer from "@arcgis/core/renderers/UniqueValueRenderer.js";
 import ClassBreaksRenderer from "@arcgis/core/renderers/ClassBreaksRenderer.js";
 import MultidimensionalSubset from "@arcgis/core/layers/support/MultidimensionalSubset";
 import BasemapStyle from "@arcgis/core/support/BasemapStyle";
+import Slider from "@arcgis/core/widgets/Slider";
+import SliderWidgetWrapper from "./sliderWidgetWrapper";
 
 
 export let arcGisObjectRefs: Record<string, Accessor> = {};
@@ -209,6 +217,9 @@ export function getObjectReference(objectRef: any) {
         }
         if (objectRef instanceof Search) {
             return new SearchWidgetWrapper(objectRef);
+        }
+        if (objectRef instanceof Slider) {
+            return new SliderWidgetWrapper(objectRef);
         }
         return objectRef;
     }
@@ -1103,6 +1114,19 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                     // @ts-ignore
                     (currentLayer as CSVLayer).featureReduction = null;
                 }
+                break;
+            case 'map-image':
+                copyValuesIfExists(layerObject, currentLayer, 'blendMode', 'customParameters', 'dpi',
+                    'gdbVersion', 'imageFormat', 'imageMaxHeight', 'imageMaxWidth', 'imageTransparency', 'legendEnabled',
+                    'maxScale', 'minScale', 'persistenceEnabled', 'refreshInterval', 'timeExtent', 'timeInfo',
+                    'useViewTime');
+
+                if (hasValue(layerObject.sublayers) && layerObject.sublayers.length > 0 &&
+                    (currentLayer as MapImageLayer).capabilities?.exportMap.supportsDynamicLayers &&
+                    (currentLayer as MapImageLayer).capabilities?.exportMap.supportsSublayersChanges) {
+                    (currentLayer as MapImageLayer).sublayers = layerObject.sublayers.map(buildJsSublayer);
+                }
+                break;
         }
 
         if (hasValue(layerObject.opacity) && layerObject.opacity !== currentLayer.opacity &&
@@ -1760,7 +1784,7 @@ export async function addWidget(widget: any, viewId: string, setInContainerByDef
         let newWidget = await createWidget(widget, viewId);
         if (newWidget === null || newWidget instanceof Popup) return;
 
-        if (hasValue(widget.containerId)) {
+        if (hasValue(widget.containerId) && !hasValue(newWidget.container)) {
             let container = document.getElementById(widget.containerId);
             let innerContainer = document.createElement('div');
             innerContainer.id = `widget-${widget.type}`;
@@ -1965,23 +1989,11 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
                     let dotNetListItem = buildDotNetListItem(evt.item);
                     let returnItem = await widget.layerListWidgetObjectReference.invokeMethodAsync('OnListItemCreated', dotNetListItem) as DotNetListItem;
                     if (hasValue(returnItem)) {
-                        evt.item.title = returnItem.title;
-                        evt.item.visible = returnItem.visible;
-                        //evt.item.layer = returnItem.layer; //--> needs implementation
-                        //evt.item.children = returnItem.children; //--> needs implementation
-                        /// <summary>
-                        ///     The Action Sections property and corresponding functionality will be fully implemented
-                        ///     in a future iteration.  Currently, a user can view available layers in the layer list widget
-                        ///     and toggle the selected layer's visiblity. More capabilities will be available after full
-                        ///     implementation of ActionSection.
-                        //evt.item.actionSections = returnItem.actionSections as any;
+                        updateListItem(evt.item, returnItem);
                     }
                 };
             }
 
-            if (hasValue(widget.iconClass)) {
-                layerListWidget.iconClass = widget.iconClass;
-            }
             break;
         case 'basemapLayerList':
             const basemapLayerListWidget = new BasemapLayerList({
@@ -1994,12 +2006,7 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
                     let dotNetBaseListItem = buildDotNetListItem(evt.item);
                     let returnItem = await widget.baseLayerListWidgetObjectReference.invokeMethodAsync('OnBaseListItemCreated', dotNetBaseListItem) as DotNetListItem;
                     if (hasValue(returnItem)) {
-                        evt.item.title = returnItem.title;
-                        evt.item.visible = returnItem.visible;
-                        // basemap will require additional implementation (similar to layerlist above) to activate additional layer and action sections.
-                        //evt.item.layer = returnItem.layer; //--> needs implementation
-                        // evt.item.children = returnItem.children; //--> needs implementation
-                        // evt.item.actionSections = returnItem.actionSections as any;
+                        updateListItem(evt.item, returnItem);
                     }
                 };
             }
@@ -2008,12 +2015,7 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
                     let dotNetReferenceListItem = buildDotNetListItem(evt.item);
                     let returnItem = await widget.baseLayerListWidgetObjectReference.invokeMethodAsync('OnReferenceListItemCreated', dotNetReferenceListItem) as DotNetListItem;
                     if (hasValue(returnItem)) {
-                        evt.item.title = returnItem.title;
-                        evt.item.visible = returnItem.visible;
-                        // basemap will require additional implementation (similar to layerlist above) to activate additional layer and action sections.
-                        // evt.item.layer = returnItem.layer; //--> needs implementation
-                        // evt.item.children = returnItem.children; //--> needs implementation
-                        // evt.item.actionSections = returnItem.actionSections as any;
+                        updateListItem(evt.item, returnItem);
                     }
                 };
             }
@@ -2122,6 +2124,122 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
 
             newWidget = bookmarkWidget;
             break;
+        case 'slider':
+            const slider = new Slider({
+                container: widget.containerId
+            });
+            newWidget = slider;
+            copyValuesIfExists(widget, slider, 'disabled', 'draggableSegmentsEnabled', 'effectiveMax',
+                'effectiveMin', 'labelInputsEnabled', 'layout', 'max', 'min', 'precision', 
+                'rangeLabelInputsEnabled', 'snapOnClickEnabled', 'syncedSegmentsEnabled', 'thumbsConstrained',
+                'values', 'visible', 'visibleElements');
+            
+            if (hasValue(widget.steps)) {
+                slider.steps = widget.steps;
+            } else if (hasValue(widget.stepInterval)) {
+                slider.steps = widget.stepInterval;
+            }
+            
+            if (hasValue(widget.inputCreatedFunction)) {
+                slider.inputCreatedFunction = (inputElement, type, thumbIndex) => {
+                    return new Function('inputElement', 'type', 'thumbIndex', widget.inputCreatedFunction)(inputElement, type, thumbIndex);
+                };
+            }
+            
+            if (hasValue(widget.inputFormatFunction)) {
+                slider.inputFormatFunction = (value, type, index) => {
+                    return new Function('value', 'type', 'index', widget.inputFormatFunction)(value, type, index);
+                };
+            }
+            if (hasValue(widget.inputParseFunction)) {
+                slider.inputParseFunction = (value, type, index) => {
+                    return new Function('value', 'type', 'index', widget.inputParseFunction)(value, type, index);
+                };
+            }
+            if (hasValue(widget.labelFormatFunction)) {
+                slider.labelFormatFunction = (value, type, index) => {
+                    return new Function('value', 'type', 'index', widget.labelFormatFunction)(value, type, index);
+                }
+            }
+            if (hasValue(widget.thumbCreatedFunction)) {
+                slider.thumbCreatedFunction = (index, value, thumbElement, labelElement) => {
+                    return new Function ('index', 'value', 'thumbElement', 'labelElement', widget.thumbCreatedFunction)(index, value, thumbElement, labelElement);
+                };
+            }
+            
+            if (hasValue(widget.tickConfigs) && widget.tickConfigs.length > 0) {
+                slider.tickConfigs = widget.tickConfigs.map(buildJsTickConfig);
+            }
+            
+            slider.on('max-change', async (event) => {
+                await widget.dotNetWidgetReference.invokeMethodAsync('OnJsMaxChange', {
+                    value: event.value,
+                    oldValue: event.oldValue
+                });
+            });
+            slider.on('max-click', async (event) => {
+                await widget.dotNetWidgetReference.invokeMethodAsync('OnJsMaxClick', {
+                    value: event.value
+                });                
+            });
+            slider.on('min-change', async (event) => {
+                await widget.dotNetWidgetReference.invokeMethodAsync('OnJsMinChange', {
+                    value: event.value,
+                    oldValue: event.oldValue
+                });
+            });
+            slider.on('min-click', async (event) => {
+                await widget.dotNetWidgetReference.invokeMethodAsync('OnJsMinClick', {
+                    value: event.value
+                });
+            });
+            slider.on('segment-click', async (event) => {
+                await widget.dotNetWidgetReference.invokeMethodAsync('OnJsSegmentClick', {
+                    index: event.index,
+                    thumbIndices: event.thumbIndices,
+                    value: event.value
+                });
+            });
+            slider.on('segment-drag', async (event) => {
+                await widget.dotNetWidgetReference.invokeMethodAsync('OnJsSegmentDrag', {
+                    index: event.index,
+                    state: event.state,
+                    thumbIndices: event.thumbIndices
+                });
+            });
+            slider.on('thumb-change', async (event) => {
+                await widget.dotNetWidgetReference.invokeMethodAsync('OnJsThumbChange', {
+                    index: event.index,
+                    value: event.value,
+                    oldValue: event.oldValue
+                });
+            });
+            slider.on('thumb-click', async (event) => {
+                await widget.dotNetWidgetReference.invokeMethodAsync('OnJsThumbClick', {
+                    index: event.index,
+                    value: event.value
+                });
+            });
+            slider.on('thumb-drag', async (event) => {
+                await widget.dotNetWidgetReference.invokeMethodAsync('OnJsThumbDrag', {
+                    index: event.index,
+                    state: event.state,
+                    value: event.value
+                });
+            });
+            slider.on('tick-click', async (event) => {
+                await widget.dotNetWidgetReference.invokeMethodAsync('OnJsTickClick', {
+                    value: event.value,
+                    configIndex: event.configIndex,
+                    groupIndex: event.groupIndex
+                });
+            });
+            slider.on('track-click', async (event) => {
+                await widget.dotNetWidgetReference.invokeMethodAsync('OnJsTrackClick', {
+                    value: event.value
+                });
+            });
+            break;
         default:
             return null;
     }
@@ -2138,6 +2256,37 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
     let jsRef = DotNet.createJSObjectReference(getObjectReference(newWidget));
     await widget.dotNetWidgetReference.invokeMethodAsync('OnJsWidgetCreated', jsRef);
     return newWidget;
+}
+
+function updateListItem(jsItem: ListItem, dnItem: DotNetListItem) {
+    copyValuesIfExists(dnItem, jsItem, 'title', 'visible', 'childrenSortable', 'hidden',
+        'open', 'sortable');
+    
+    if (hasValue(dnItem.children)) {
+        for (let i = 0; i < dnItem.children.length; i++) {
+            let child = dnItem.children[i];
+            let jsChild = jsItem.children[i];
+            updateListItem(jsChild, child);
+        }
+    }
+    if (hasValue(dnItem.actionsSections)) {
+        let actionsSections: any[] = [];
+        for (let i = 0; i < dnItem.actionsSections.length; i++) {
+            let section: any[] = [];
+            actionsSections.push(section);
+            let dnSection = dnItem.actionsSections[i];
+            for (let j = 0; j < dnSection.length; j++) {
+                let dnAction = dnSection[j];
+                let action = buildJsAction(dnAction);
+                section.push(action);
+            }
+        }
+        jsItem.actionsSections = actionsSections as any;
+    }
+    
+    if (hasValue(dnItem.layerId)) {
+        jsItem.layer = arcGisObjectRefs[dnItem.layerId] as Layer;
+    }
 }
 
 export function removeWidget(widgetId: string, viewId: string): void {
@@ -2268,6 +2417,25 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             
             if (hasValue(layerObject.effect)) {
                 featureLayer.effect = buildJsEffect(layerObject.effect);
+            }
+            break;
+        case 'map-image':
+            if (hasValue(layerObject.portalItem)) {
+                let portalItem = buildJsPortalItem(layerObject.portalItem);
+                newLayer = new MapImageLayer({ portalItem: portalItem });
+            } else {
+                newLayer = new MapImageLayer({
+                    url: layerObject.url
+                });
+            }
+            
+            copyValuesIfExists(layerObject, newLayer, 'blendMode', 'customParameters', 'dpi',
+                'gdbVersion', 'imageFormat', 'imageMaxHeight', 'imageMaxWidth', 'imageTransparency', 'legendEnabled',
+                'maxScale', 'minScale', 'persistenceEnabled', 'refreshInterval', 'timeExtent', 'timeInfo',
+                'useViewTime');
+            
+            if (hasValue(layerObject.sublayers) && layerObject.sublayers.length > 0) {
+                (newLayer as MapImageLayer).sublayers = layerObject.sublayers.map(buildJsSublayer);
             }
             break;
         case 'vector-tile':
@@ -2703,7 +2871,7 @@ export function hasValue(prop: any): boolean {
 }
 
 function buildDotNetListItem(item: ListItem): DotNetListItem | null {
-    if (item === undefined || item === null) return null;
+    if (!hasValue(item)) return null;
     let children: Array<DotNetListItem> = [];
     item.children.forEach(c => {
         let child = buildDotNetListItem(c);
@@ -2714,11 +2882,10 @@ function buildDotNetListItem(item: ListItem): DotNetListItem | null {
 
     return {
         title: item.title,
-        layer: item.layer,
         visible: item.visible,
         children: children,
         actionSections: item.actionsSections as any
-    } as DotNetListItem;
+    } as any as DotNetListItem;
 }
 
 // this function should only be used for simple types that are guaranteed to succeed in serialization and conversion

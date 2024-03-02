@@ -1289,10 +1289,12 @@ public partial class MapView : MapComponent
         {
             Map!.Basemap ??= new Basemap();
             Map.Basemap.Layers.Add(layer);
+            layer.Parent ??= Map.Basemap;
         }
         else
         {
             Map!.Layers.Add(layer);
+            layer.Parent ??= Map;
         }
 
         if (ViewJsModule is null) return;
@@ -1877,9 +1879,8 @@ public partial class MapView : MapComponent
     /// </summary>
     public async Task AddWidget(Widget widget)
     {
-        if (!_widgets.Contains(widget))
+        if (_widgets.Add(widget))
         {
-            _widgets.Add(widget);
             widget.Parent ??= this;
             widget.View ??= this;
             widget.JsModule ??= ViewJsModule;
