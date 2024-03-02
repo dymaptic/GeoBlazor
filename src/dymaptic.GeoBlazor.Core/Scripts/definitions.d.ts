@@ -190,10 +190,10 @@ export interface DotNetActionSection {
 
 export interface DotNetListItem {
     title: string;
-    layer: Layer;
+    layerId: string;
     visible: boolean;
     children: DotNetListItem[],
-    actionSections: DotNetActionSection[][]
+    actionsSections: DotNetActionSection[][]
 }
 
 export interface DotNetLayerView {

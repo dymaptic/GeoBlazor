@@ -228,6 +228,8 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     public async Task SetVisibility(bool visible)
     {
         await JsModule!.InvokeVoidAsync("setVisibility", CancellationTokenSource.Token, Id, visible);
+        _visible = visible;
+        _visibilityChanged = true;
         Visible = visible;
     }
 
@@ -323,6 +325,18 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     }
 
     /// <inheritdoc />
+    public override async Task SetParametersAsync(ParameterView parameters)
+    {
+        await base.SetParametersAsync(parameters);
+        
+        if (_visibilityChanged)
+        {
+            // once visibility has been changed by `SetVisibility`, it cannot be set by the incoming parameter
+            Visible = _visible;
+        }
+    }
+
+    /// <inheritdoc />
     protected override void OnAfterRender(bool firstRender)
     {
         base.OnAfterRender(firstRender);
@@ -347,6 +361,8 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _listeners = new();
     private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _waiters = new();
     private Type? _proExtensions;
+    private bool _visible;
+    private bool _visibilityChanged;
 
     /// <summary>
     ///     Creates a cancellation token to control external calls

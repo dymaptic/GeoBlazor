@@ -202,10 +202,7 @@ public abstract class Layer : MapComponent
     /// </param>
     internal virtual Task UpdateFromJavaScript(Layer renderedLayer)
     {
-        if (renderedLayer.FullExtent is not null)
-        {
-            FullExtent = renderedLayer.FullExtent;
-        }
+        FullExtent ??= renderedLayer.FullExtent;
 
         return Task.CompletedTask;
     }
@@ -302,6 +299,8 @@ internal class LayerConverter : JsonConverter<Layer>
                     return JsonSerializer.Deserialize<BingMapsLayer>(ref cloneReader, newOptions);
                 case "imagery":
                     return JsonSerializer.Deserialize<ImageryLayer>(ref cloneReader, newOptions);
+                case "map-image":
+                    return JsonSerializer.Deserialize<MapImageLayer>(ref cloneReader, newOptions);
             }
         }
 
