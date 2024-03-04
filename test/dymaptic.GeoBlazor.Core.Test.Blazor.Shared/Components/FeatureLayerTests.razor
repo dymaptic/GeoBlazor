@@ -149,6 +149,8 @@
         await WaitForMapToRender();
         await AssertJavaScript("assertGraphicExistsInLayer", args: new object[] { layer!.Id, "point", 2000 });
         Assert.AreEqual(2000, result.AddFeatureResults.Length);
+        Assert.IsTrue(result.AddFeatureResults.All(f => f.Error is null));
+        Assert.IsTrue(result.AddFeatureResults.All(f => f.ObjectId.HasValue));
         Assert.AreEqual(2000, layer.Source!.Count);
     }
 
@@ -191,14 +193,22 @@
             ((Point)graphic.Geometry!).Y += 1;
         }
         
+        FeatureSet? features = await layer.QueryFeatures();
+        Assert.IsNotNull(features);
+        Assert.IsNotNull(features.Features);
+        Assert.AreEqual(2000, features.Features.Length);
+
         edits = new()
         {
-            UpdateFeatures = graphics
+            UpdateFeatures = features.Features.ToArray()
         };
+
         result = await layer!.ApplyEdits(edits);
         await WaitForMapToRender();
         await AssertJavaScript("assertGraphicExistsInLayer", args: new object[] { layer!.Id, "point", 2000 });
         Assert.AreEqual(2000, result.UpdateFeatureResults.Length);
+        Assert.IsTrue(result.AddFeatureResults.All(f => f.Error is null));
+        Assert.IsTrue(result.AddFeatureResults.All(f => f.ObjectId.HasValue));
     }
 
     [TestMethod]
@@ -234,14 +244,22 @@
         await AssertJavaScript("assertGraphicExistsInLayer", args: new object[] { layer!.Id, "point", 2000 });
         Assert.AreEqual(2000, result.AddFeatureResults.Length);
         
+        FeatureSet? features = await layer.QueryFeatures();
+        Assert.IsNotNull(features);
+        Assert.IsNotNull(features.Features);
+        Assert.AreEqual(2000, features.Features.Length);
+
         edits = new()
         {
-            DeleteFeatures = graphics
+            DeleteFeatures = features.Features.ToArray()
         };
+
         result = await layer!.ApplyEdits(edits);
         await WaitForMapToRender();
         await Assert.ThrowsExceptionAsync<JSException>(async() =>
             await AssertJavaScript("assertGraphicExistsInLayer", args: new object[] { layer!.Id, "point", 2000 }));
         Assert.AreEqual(2000, result.DeleteFeatureResults.Length);
+        Assert.IsTrue(result.AddFeatureResults.All(f => f.Error is null));
+        Assert.IsTrue(result.AddFeatureResults.All(f => f.ObjectId.HasValue));
     }
 }
