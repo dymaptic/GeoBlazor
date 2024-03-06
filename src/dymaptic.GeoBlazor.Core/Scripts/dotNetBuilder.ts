@@ -126,7 +126,8 @@ import MapImageLayer from "@arcgis/core/layers/MapImageLayer";
 import Sublayer from "@arcgis/core/layers/support/Sublayer.js";
 
 
-export function buildDotNetGraphic(graphic: Graphic): DotNetGraphic {
+export function buildDotNetGraphic(graphic: Graphic): DotNetGraphic | null {
+    if (graphic === undefined || graphic === null) return null;
     let dotNetGraphic = {} as DotNetGraphic;
 
     if (Object.values(graphicsRefs).includes(graphic)) {
@@ -673,7 +674,7 @@ export function buildDotNetGraphicsLayer(layer: GraphicsLayer, includeGraphics: 
     }
 
     if (includeGraphics && layer.graphics !== undefined && layer.graphics !== null) {
-        dotNetLayer.graphics = (layer.graphics as MapCollection).items.map(g => buildDotNetGraphic(g));
+        dotNetLayer.graphics = (layer.graphics as MapCollection).items.map(g => buildDotNetGraphic(g) as DotNetGraphic);
     }
 
     if (Object.values(arcGisObjectRefs).includes(layer)) {
@@ -1149,6 +1150,8 @@ export function buildDotNetLabelClass(labelClass: LabelClass): any {
     if (hasValue(labelClass.symbol)) {
         dnLabelClass.symbol = buildDotNetSymbol(labelClass.symbol);
     }
+    
+    return dnLabelClass;
 }
 
 export function buildDotNetLabelExpressionInfo(labelExpressionInfo: any): any {

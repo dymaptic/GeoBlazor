@@ -1,9 +1,9 @@
 ﻿import Graphic from "@arcgis/core/Graphic";
-import {DotNetGeometry, DotNetPopupTemplate} from "./definitions";
+import {DotNetGeometry, DotNetPopupTemplate, IPropertyWrapper} from "./definitions";
 import {buildJsGeometry, buildJsPopupTemplate, buildJsSymbol} from "./jsBuilder";
 import {buildDotNetGeometry, buildDotNetPopupTemplate} from "./dotNetBuilder";
 
-export default class GraphicWrapper {
+export default class GraphicWrapper implements IPropertyWrapper {
     public graphic: Graphic;
 
     constructor(graphic: Graphic) {
@@ -68,5 +68,9 @@ export default class GraphicWrapper {
 
     getPopupTemplate(): DotNetPopupTemplate | null {
         return buildDotNetPopupTemplate(this.graphic.popupTemplate);
+    }
+
+    setProperty(prop: string, value: any): void {
+        this.graphic[prop] = value;
     }
 }

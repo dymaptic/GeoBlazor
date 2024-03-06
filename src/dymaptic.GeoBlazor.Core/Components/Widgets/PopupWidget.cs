@@ -181,9 +181,9 @@ public class PopupWidget : Widget
     ///     The selected feature accessed by the popup. The content of the Popup is determined based on the PopupTemplate
     ///     assigned to this feature.
     /// </summary>
-    public async Task<Graphic> GetSelectedFeature()
+    public async Task<Graphic?> GetSelectedFeature()
     {
-        return await JsWidgetReference!.InvokeAsync<Graphic>("getSelectedFeature",
+        return await JsWidgetReference!.InvokeAsync<Graphic?>("getSelectedFeature",
             CancellationTokenSource.Token, View?.Id);
     }
 

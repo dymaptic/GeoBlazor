@@ -1,6 +1,13 @@
 ﻿import FeatureLayerView from "@arcgis/core/views/layers/FeatureLayerView";
 import Query from "@arcgis/core/rest/support/Query";
-import {DotNetFeatureEffect, DotNetFeatureFilter, DotNetFeatureSet, DotNetGraphic, DotNetQuery} from "./definitions";
+import {
+    DotNetFeatureEffect,
+    DotNetFeatureFilter,
+    DotNetFeatureSet,
+    DotNetGraphic,
+    DotNetQuery,
+    IPropertyWrapper
+} from "./definitions";
 import {buildJsFeatureEffect, buildJsFeatureFilter, buildJsQuery} from "./jsBuilder";
 import {blazorServer, dotNetRefs, getProtobufGraphicStream, graphicsRefs, hasValue} from "./arcGisJsInterop";
 import {
@@ -13,7 +20,7 @@ import FeatureEffect from "@arcgis/core/layers/support/FeatureEffect";
 import FeatureFilter from "@arcgis/core/layers/support/FeatureFilter";
 import Handle = __esri.Handle;
 
-export default class FeatureLayerViewWrapper {
+export default class FeatureLayerViewWrapper implements IPropertyWrapper {
     private featureLayerView: FeatureLayerView;
 
     constructor(featureLayerView: FeatureLayerView) {
@@ -92,5 +99,9 @@ export default class FeatureLayerViewWrapper {
     async queryObjectIds(query: DotNetQuery, options: any): Promise<number[]> {
         let jsQuery = buildJsQuery(query);
         return await this.featureLayerView.queryObjectIds(jsQuery, options);
+    }
+
+    setProperty(prop: string, value: any): void {
+        this.featureLayerView[prop] = value;
     }
 }

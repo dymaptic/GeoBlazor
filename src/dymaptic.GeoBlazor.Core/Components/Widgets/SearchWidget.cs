@@ -322,9 +322,9 @@ public class SearchWidget : Widget
     /// <remarks>
     ///     A graphic will be placed in the View's graphics for layer views that do not support the highlight method.
     /// </remarks>
-    public async Task<Graphic> GetResultGraphic()
+    public async Task<Graphic?> GetResultGraphic()
     {
-        return await JsWidgetReference!.InvokeAsync<Graphic>("getResultGraphic");
+        return await JsWidgetReference!.InvokeAsync<Graphic?>("getResultGraphic");
     }
 
     /// <summary>
@@ -366,7 +366,7 @@ public class SearchWidget : Widget
     [JSInvokable]
     public async Task OnJavaScriptSearchSelectResult(SearchResult searchResult)
     {
-        await OnSearchSelectResultEvent.InvokeAsync();
+        await OnSearchSelectResultEvent.InvokeAsync(searchResult);
     }
     
     /// <summary>

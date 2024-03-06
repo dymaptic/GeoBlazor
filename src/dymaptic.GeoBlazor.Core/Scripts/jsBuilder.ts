@@ -215,14 +215,18 @@ export function buildJsExtent(dotNetExtent: DotNetExtent, currentSpatialReferenc
 
 export function buildJsGraphic(graphicObject: any, viewId: string | null)
     : Graphic | null {
+    let graphic: Graphic;
     if (graphicsRefs.hasOwnProperty(graphicObject.id)) {
-        return graphicsRefs[graphicObject.id];
+        graphic = graphicsRefs[graphicObject.id];
+        graphic.geometry = buildJsGeometry(graphicObject.geometry) as Geometry ?? graphic.geometry;
+        graphic.symbol = buildJsSymbol(graphicObject.symbol) as Symbol ?? graphic.symbol;
+    } else {
+        graphic = new Graphic({
+            geometry: buildJsGeometry(graphicObject.geometry) as Geometry ?? null,
+            symbol: buildJsSymbol(graphicObject.symbol) as Symbol ?? null,
+        });
     }
-    const graphic = new Graphic({
-        geometry: buildJsGeometry(graphicObject.geometry) as Geometry ?? null,
-        symbol: buildJsSymbol(graphicObject.symbol) as Symbol ?? null,
-    });
-
+    
     graphic.attributes = buildJsAttributes(graphicObject.attributes);
 
     if (hasValue(graphicObject.popupTemplate)) {
@@ -243,6 +247,10 @@ export function buildJsAttributes(attributes: any): any {
                     case "number":
                     case "int32":
                     case "int64":
+                    case "double":
+                    case "single":
+                    case "float":
+                    case "int":
                         graphicAttributes[attr.key] = Number(attr.value);
                         break;
                     case "boolean":
@@ -653,6 +661,8 @@ export function buildJsRenderer(dotNetRenderer: any): Renderer | null {
             copyValuesIfExists(dotNetRenderer, pieChartRenderer, 'defaultLabel', 'holePercentage', 'size');
             
             return pieChartRenderer;
+        case 'unique-value':
+            return buildJsUniqueValueRenderer(dotNetRenderer);
     }
     return dotNetRenderer;
 }
@@ -715,6 +725,17 @@ export function buildJsRasterShadedReliefRenderer(dnRasterShadedReliefRenderer: 
     return rasterShadedReliefRenderer;
 }
 
+export function buildJsImageryRenderer(dnRenderer: any) {
+    switch (dnRenderer?.imageryRendererType) {
+        case 'unique-value':
+            return buildJsUniqueValueRenderer(dnRenderer);
+        case 'raster-stretch':
+            return buildJsRasterStretchRenderer(dnRenderer);
+    }
+    
+    return null;
+}
+
 export function buildJsUniqueValueRenderer(dnUniqueValueRenderer: DotNetUniqueValueRenderer): UniqueValueRenderer | null {
     if (dnUniqueValueRenderer === undefined) return null;
     let uniqueValueRenderer = new UniqueValueRenderer();
@@ -724,37 +745,19 @@ export function buildJsUniqueValueRenderer(dnUniqueValueRenderer: DotNetUniqueVa
         }
         // Note: The PolygonSymbol3d is not currently supported
     }
-    if (hasValue(dnUniqueValueRenderer.defaultLabel)) {
-        uniqueValueRenderer.defaultLabel = dnUniqueValueRenderer.defaultLabel;
+    
+    copyValuesIfExists(dnUniqueValueRenderer, uniqueValueRenderer, 'defaultLabel', 'field', 'field2', 'field3',
+        'fieldDelimiter', 'legendOptions', 'orderByClassesEnabled', 'valueExpression', 'valueExpressionTitle');
+    
+    if (hasValue(dnUniqueValueRenderer.defaultSymbol?.symbol)) {
+        uniqueValueRenderer.defaultSymbol = buildJsSymbol(dnUniqueValueRenderer.defaultSymbol.symbol) as Symbol;
     }
-    if (hasValue(dnUniqueValueRenderer.defaultSymbol)) {
-        uniqueValueRenderer.defaultSymbol = buildJsSymbol(dnUniqueValueRenderer.defaultSymbol) as Symbol;
+    
+    if (hasValue(dnUniqueValueRenderer.uniqueValueInfos) && dnUniqueValueRenderer.uniqueValueInfos.length > 0) {
+        uniqueValueRenderer.uniqueValueInfos = dnUniqueValueRenderer.uniqueValueInfos as any[];
     }
-    if (hasValue(dnUniqueValueRenderer.field)) {
-        uniqueValueRenderer.field = dnUniqueValueRenderer.field;
-    }
-    if (hasValue(dnUniqueValueRenderer.field2)) {
-        uniqueValueRenderer.field2 = dnUniqueValueRenderer.field2;
-    }
-    if (hasValue(dnUniqueValueRenderer.field3)) {
-        uniqueValueRenderer.field3 = dnUniqueValueRenderer.field3;
-    }
-    if (hasValue(dnUniqueValueRenderer.fieldDelimiter)) {
-        uniqueValueRenderer.fieldDelimiter = dnUniqueValueRenderer.fieldDelimiter;
-    }
-    if (hasValue(dnUniqueValueRenderer.legendOptions)) {
-        uniqueValueRenderer.legendOptions = dnUniqueValueRenderer.legendOptions;
-    }
-    if (hasValue(dnUniqueValueRenderer.orderByClassesEnabled)) {
-        uniqueValueRenderer.orderByClassesEnabled = dnUniqueValueRenderer.orderByClassesEnabled;
-    }
-    if (hasValue(dnUniqueValueRenderer.valueExpression)) {
-        uniqueValueRenderer.valueExpression = dnUniqueValueRenderer.valueExpression;
-    }
-    if (hasValue(dnUniqueValueRenderer.valueExpressionTitle)) {
-        uniqueValueRenderer.valueExpressionTitle = dnUniqueValueRenderer.valueExpressionTitle;
-    }
-    if (hasValue(dnUniqueValueRenderer.visualVariables)) {
+    
+    if (hasValue(dnUniqueValueRenderer.visualVariables) && dnUniqueValueRenderer.visualVariables.length > 0) {
         uniqueValueRenderer.visualVariables = dnUniqueValueRenderer.visualVariables.map(buildJsVisualVariable) as VisualVariable[];
     }
     return uniqueValueRenderer;
@@ -1024,33 +1027,13 @@ export function buildJsRasterStretchRenderer(dotNetRasterStretchRenderer: DotNet
     if (hasValue(dotNetRasterStretchRenderer.colorRamp)) {
         rasterStretchRenderer.colorRamp = buildJsColorRamp(dotNetRasterStretchRenderer.colorRamp) as ColorRamp;
     }
-    if (hasValue(dotNetRasterStretchRenderer.computeGamma)) {
-        rasterStretchRenderer.computeGamma = dotNetRasterStretchRenderer.computeGamma;
-    }
-    if (hasValue(dotNetRasterStretchRenderer.dynamicRangeAdjustment)) {
-        rasterStretchRenderer.dynamicRangeAdjustment = dotNetRasterStretchRenderer.dynamicRangeAdjustment;
-    }
-    if (hasValue(dotNetRasterStretchRenderer.gamma)) {
-        rasterStretchRenderer.gamma = dotNetRasterStretchRenderer.gamma;
-    }
-    if (hasValue(dotNetRasterStretchRenderer.useGamma)) {
-        rasterStretchRenderer.useGamma = dotNetRasterStretchRenderer.useGamma;
-    }
-    if (hasValue(dotNetRasterStretchRenderer.outputMax)) {
-        rasterStretchRenderer.outputMax = dotNetRasterStretchRenderer.outputMax;
-    }
-    if (hasValue(dotNetRasterStretchRenderer.outputMin)) {
-        rasterStretchRenderer.outputMin = dotNetRasterStretchRenderer.outputMin;
-    }
-    if (hasValue(dotNetRasterStretchRenderer.stretchType)) {
-        rasterStretchRenderer.stretchType = dotNetRasterStretchRenderer.stretchType as any;
-    }
-    if (hasValue(dotNetRasterStretchRenderer.statistics)) {
-        rasterStretchRenderer.statistics = dotNetRasterStretchRenderer.statistics;
-    }
-    if (hasValue(dotNetRasterStretchRenderer.numberOfStandardDeviations)) {
-        rasterStretchRenderer.numberOfStandardDeviations = dotNetRasterStretchRenderer.numberOfStandardDeviations;
-    }
+    
+    copyValuesIfExists(dotNetRasterStretchRenderer, rasterStretchRenderer, 'computeGamma',
+        'dynamicRangeAdjustment', 'gamma', 'useGamma', 'outputMax', 'outputMin', 'stretchType',
+        'statistics', 'numberOfStandardDeviations');
+    
+    arcGisObjectRefs[dotNetRasterStretchRenderer.id] = rasterStretchRenderer;
+    
     return rasterStretchRenderer;
 }
 
@@ -2155,4 +2138,17 @@ export function buildJsTickConfig(dnTickConfig: any): TickConfig {
     }
     
     return tickConfig;
+}
+
+export function buildJsMultidimensionalSubset(dnSubSet: any): MultidimensionalSubset {
+    let subset = new MultidimensionalSubset();
+    if (hasValue(dnSubSet!.extentOfInterest)) {
+        subset.areaOfInterest = buildJsExtent(dnSubSet.extentOfInterest, null);
+    } else if (hasValue(dnSubSet.polygonOfInterest)) {
+        subset.areaOfInterest = buildJsPolygon(dnSubSet.polygonOfInterest) as Polygon;
+    }
+    if (hasValue(dnSubSet.subsetDefinitions) && dnSubSet.subsetDefinitions.length > 0) {
+        subset.subsetDefinitions = dnSubSet.subsetDefinitions.map(buildJsDimensionalDefinition);
+    }
+    return subset;
 }

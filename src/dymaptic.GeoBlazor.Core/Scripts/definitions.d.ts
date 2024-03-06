@@ -192,8 +192,9 @@ export interface DotNetListItem {
     title: string;
     layerId: string;
     visible: boolean;
-    children: DotNetListItem[],
-    actionsSections: DotNetActionSection[][]
+    children: DotNetListItem[];
+    actionsSections: DotNetActionSection[][];
+    panel: any;
 }
 
 export interface DotNetLayerView {
@@ -597,6 +598,7 @@ export interface DotNetDimensionalDefinition {
 }
 
 export interface DotNetRasterStretchRenderer {
+    id: string;
     type: string;
     colorRamp: DotNetColorRamp;
     computeGamma: boolean;
@@ -778,7 +780,7 @@ export interface DotNetUniqueValueGroup {
 export interface DotNetUniqueValueRenderer {
     backgroundFillSymbol: DotNetSimpleFillSymbol;
     defaultLabel: string;
-    defaultSymbol: DotNetSymbol;
+    defaultSymbol: any;
     field: string;
     field2: string;
     field3: string;
@@ -794,6 +796,9 @@ export interface DotNetUniqueValueRenderer {
 }
 
 
+export interface IPropertyWrapper {
+    setProperty(prop: string, value: any): void;
+}
 
 
 

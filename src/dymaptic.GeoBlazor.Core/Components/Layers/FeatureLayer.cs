@@ -418,7 +418,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer
 
             addFeatureResults = 
                 await SendEdits(addedFeatures.Skip(skip).Take(chunkSize)
-                        .Select(g => g.ToSerializationRecord()).ToArray(), "add", 
+                        .Select(g => g.ToSerializationRecord(true)).ToArray(), "add", 
                     options, addFeatureResults, abortSignal, cancellationToken);
             editMoment ??= addFeatureResults?.EditMoment;
         }
@@ -428,7 +428,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer
 
             updateFeatureResults = 
                 await SendEdits(updatedFeatures.Skip(skip).Take(chunkSize)
-                        .Select(g => g.ToSerializationRecord()).ToArray(), "update", 
+                        .Select(g => g.ToSerializationRecord(true)).ToArray(), "update", 
                     options, updateFeatureResults, abortSignal, cancellationToken);
             editMoment ??= updateFeatureResults?.EditMoment;
         }
@@ -438,7 +438,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer
 
             deleteFeatureResults = 
                 await SendEdits(deletedFeatures.Skip(skip).Take(chunkSize)
-                        .Select(g => g.ToSerializationRecord()).ToArray(), "delete", 
+                        .Select(g => g.ToSerializationRecord(true)).ToArray(), "delete", 
                     options, deleteFeatureResults, abortSignal, cancellationToken);
             editMoment ??= deleteFeatureResults?.EditMoment;
         }

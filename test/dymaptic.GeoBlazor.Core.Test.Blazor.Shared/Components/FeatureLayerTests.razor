@@ -181,7 +181,6 @@
             AddFeatures = graphics
         };
         FeatureEditsResult result = await layer!.ApplyEdits(edits);
-        await WaitForMapToRender();
         await AssertJavaScript("assertGraphicExistsInLayer", args: new object[] { layer!.Id, "point", 2000 });
         Assert.AreEqual(2000, result.AddFeatureResults.Length);
 #pragma warning disable BL0005
@@ -197,7 +196,6 @@
             UpdateFeatures = graphics
         };
         result = await layer!.ApplyEdits(edits);
-        await WaitForMapToRender();
         await AssertJavaScript("assertGraphicExistsInLayer", args: new object[] { layer!.Id, "point", 2000 });
         Assert.AreEqual(2000, result.UpdateFeatureResults.Length);
     }
@@ -222,8 +220,10 @@
         Random random = new();
         for (var i = 0; i < 2000; i++)
         {
+            AttributesDictionary attributes = new();
+            await attributes.AddOrUpdate("OBJECT_ID", i);
             Point point = new Point(random.Next(-180, 180), random.Next(-80, 80));
-            Graphic graphic = new(point);
+            Graphic graphic = new(point, attributes: attributes);
             graphics.Add(graphic);
         }
         FeatureEdits edits = new()
@@ -231,7 +231,6 @@
             AddFeatures = graphics
         };
         FeatureEditsResult result = await layer!.ApplyEdits(edits);
-        await WaitForMapToRender();
         await AssertJavaScript("assertGraphicExistsInLayer", args: new object[] { layer!.Id, "point", 2000 });
         Assert.AreEqual(2000, result.AddFeatureResults.Length);
         
@@ -240,7 +239,6 @@
             DeleteFeatures = graphics
         };
         result = await layer!.ApplyEdits(edits);
-        await WaitForMapToRender();
         await Assert.ThrowsExceptionAsync<JSException>(async() =>
             await AssertJavaScript("assertGraphicExistsInLayer", args: new object[] { layer!.Id, "point", 2000 }));
         Assert.AreEqual(2000, result.DeleteFeatureResults.Length);

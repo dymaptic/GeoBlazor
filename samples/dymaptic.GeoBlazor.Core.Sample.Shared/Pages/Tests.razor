@@ -14,7 +14,7 @@
 <button disabled="@(!_mapRendered)" @onclick="() => _showGraphicsMarkupLayer = !_showGraphicsMarkupLayer">Graphics Layer</button>
 <button disabled="@(!_mapRendered)" @onclick="() => { _graphicsCount = 0; StateHasChanged(); _graphicsCount = 1; }">Reset Graphic</button>
 
-<MapView @ref="_view" class="map-view" OnMapRendered="OnMapRendered">
+<MapView @ref="_view" class="map-view" OnViewRendered="OnViewRendered">
     <Extent Xmin="-41525513" Ymin="4969181" Xmax="-36687355" Ymax="9024624">
         <SpatialReference Wkid="102100" />
     </Extent>
@@ -60,7 +60,7 @@
 </MapView>
 
 <h2>MapRendered Test Map</h2>
-<MapView @ref="_view3" Style="height: 600px; width: 100%;" OnMapRendered="OnMap3Rendered" OnClick="On3Click">
+<MapView @ref="_view3" Style="height: 600px; width: 100%;" OnViewRendered="OnMap3Rendered" OnClick="On3Click">
     <Map ArcGISDefaultBasemap="arcgis-navigation">
     </Map>
     <Extent Xmax="4120960.074670904" Xmin="-3412935.278412999" Ymax="8963926.222211033" Ymin="6049459.93475111">
@@ -97,7 +97,7 @@
 
 @code {
 
-    private void OnMapRendered()
+    private void OnViewRendered()
     {
         _mapRendered = true;
     }

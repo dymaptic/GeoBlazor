@@ -12,7 +12,7 @@
     Popup actions create custom buttons or toggles within the popup, and allow the developer to call back to a custom function.
 </p>
 
-<MapView @ref="MapView" OnMapRendered="OnMapRendered"
+<MapView @ref="MapView" OnViewRendered="OnViewRendered"
          Center="new Point(-117.08, 34.1)" Zoom="11" Class="map-view">
     <Map>
         <Basemap>
@@ -32,14 +32,14 @@
 @code {
     private MapView? MapView { get; set; }
 
-    private async Task OnMapRendered()
+    private async Task OnViewRendered()
     {
         _popup = await MapView!.GetPopupWidget();
     }
 
     private async Task MeasureThis()
     {
-        Graphic selectedFeature = await _popup!.GetSelectedFeature();
+        Graphic selectedFeature = (await _popup!.GetSelectedFeature())!;
         Geometry geom = selectedFeature.Geometry!;
         double initDistance = await GeometryEngine.GeodesicLength(geom, LinearUnit.Miles);
         var distance = (Math.Round(initDistance * 100) / 100).ToString("F2");

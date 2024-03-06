@@ -1,11 +1,7 @@
-﻿import {buildDotNetGraphic} from "./dotNetBuilder";
-import {DotNetGraphic} from "./definitions";
-import {dotNetRefs, graphicsRefs} from "./arcGisJsInterop";
-import {buildJsSymbol} from "./jsBuilder";
-import Symbol from "@arcgis/core/symbols/Symbol";
-import Slider from "@arcgis/core/widgets/Slider";
+﻿import Slider from "@arcgis/core/widgets/Slider";
+import {IPropertyWrapper} from "./definitions";
 
-export default class SliderWidgetWrapper {
+export default class SliderWidgetWrapper implements IPropertyWrapper {
     private slider: Slider;
 
     constructor(slider: Slider) {
@@ -56,5 +52,9 @@ export default class SliderWidgetWrapper {
     
     getTrackElement() {
         return this.slider.trackElement;
+    }
+
+    setProperty(prop, value) {
+        this.slider[prop] = value;
     }
 }

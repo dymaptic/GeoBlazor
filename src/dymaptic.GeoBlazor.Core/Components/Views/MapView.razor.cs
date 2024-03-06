@@ -2019,7 +2019,7 @@ public partial class MapView : MapComponent
             // the first render never has all the child components registered
             Rendering = false;
 
-            _authenticationInitialized = await AuthenticationManager.Initialize();
+            AuthenticationInitialized = await AuthenticationManager.Initialize();
 
             if (!string.IsNullOrEmpty(AppId) && (PromptForOAuthLogin == true))
             {
@@ -2045,7 +2045,7 @@ public partial class MapView : MapComponent
             return;
         }
 
-        if (!_authenticationInitialized || Rendering || Map is null || ViewJsModule is null) return;
+        if (!AuthenticationInitialized || Rendering || Map is null || ViewJsModule is null) return;
 
         if (string.IsNullOrWhiteSpace(ApiKey) && AllowDefaultEsriLogin is null or false &&
             PromptForArcGISKey is null or true && string.IsNullOrWhiteSpace(AppId))
@@ -2420,7 +2420,7 @@ public partial class MapView : MapComponent
     private HashSet<Graphic> _graphics = new();
     private HashSet<Widget> _widgets = new();
     private bool? _isPro;
-    private bool _authenticationInitialized;
+    protected bool AuthenticationInitialized;
     private Dictionary<Guid, ViewHit[]> _activeHitTests = new();
     
 #endregion

@@ -22,8 +22,15 @@ public class BasemapToggleWidget : Widget
     ///     Set either <see cref="NextBasemapName" /> or <see cref="NextBasemap" />
     /// </remarks>
     [Parameter]
-    [RequiredProperty(nameof(NextBasemap))]
+    [Obsolete("Use NextBasemapStyle instead")]
+    [RequiredProperty(nameof(NextBasemap), nameof(NextBasemapStyle))]
     public string? NextBasemapName { get; set; }
+    
+    [Parameter]
+#pragma warning disable CS0618 // Type or member is obsolete
+    [RequiredProperty(nameof(NextBasemapName), nameof(NextBasemap))]
+#pragma warning restore CS0618 // Type or member is obsolete
+    public BasemapStyleName? NextBasemapStyle { get; set; }
 
     /// <summary>
     ///     The next <see cref="Basemap" /> for toggling.
@@ -31,7 +38,9 @@ public class BasemapToggleWidget : Widget
     /// <remarks>
     ///     Set either <see cref="NextBasemapName" /> or <see cref="NextBasemap" />
     /// </remarks>
-    [RequiredProperty(nameof(NextBasemapName))]
+#pragma warning disable CS0618 // Type or member is obsolete
+    [RequiredProperty(nameof(NextBasemapName), nameof(NextBasemapStyle))]
+#pragma warning restore CS0618 // Type or member is obsolete
     public Basemap? NextBasemap { get; set; }
 
     /// <inheritdoc />

@@ -107,9 +107,11 @@ public class BasemapLayerListWidget : Widget
     ///     Returns the modified base <see cref="ListItem" />
     /// </returns>
     [JSInvokable]
-    public Task<ListItem>? OnBaseListItemCreated(ListItem item)
+    public async Task<object> OnBaseListItemCreated(ListItem item)
     {
-        return OnBaseListItemCreatedHandler?.Invoke(item);
+        ListItem result = await OnBaseListItemCreatedHandler!.Invoke(item);
+
+        return (object)result;
     }
 
     /// <summary>
@@ -123,9 +125,11 @@ public class BasemapLayerListWidget : Widget
     ///     Returns the modified reference <see cref="ListItem" />
     /// </returns>
     [JSInvokable]
-    public Task<ListItem>? OnReferenceListItemCreated(ListItem item)
+    public async Task<object> OnReferenceListItemCreated(ListItem item)
     {
-        return OnReferenceListItemCreatedHandler?.Invoke(item);
+        ListItem result = await OnReferenceListItemCreatedHandler!.Invoke(item);
+        
+        return (object)result;
     }
 
     /// <inheritdoc />

@@ -1,8 +1,9 @@
 ﻿import BaseTileLayer from "@arcgis/core/layers/BaseTileLayer";
 import {buildDotNetEffect} from "./dotNetBuilder";
 import {buildJsEffect} from "./jsBuilder";
+import {IPropertyWrapper} from "./definitions";
 
-export default class BaseTileLayerWrapper {
+export default class BaseTileLayerWrapper implements IPropertyWrapper {
     public layer: BaseTileLayer;
 
     constructor(btLayer: BaseTileLayer) {
@@ -15,5 +16,9 @@ export default class BaseTileLayerWrapper {
     
     setEffect(effect: any) {
         this.layer.effect = buildJsEffect(effect);
+    }
+
+    setProperty(prop: string, value: any): void {
+        this.layer[prop] = value;
     }
 }

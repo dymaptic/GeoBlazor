@@ -20,9 +20,7 @@
         var testGraphic = new Graphic(new Point(0, 0),
             new SimpleMarkerSymbol(color: new MapColor("red"), size: 10));
         await mapView!.AddGraphic(testGraphic);
-        await WaitForMapToRender();
         await testGraphic.SetGeometry(new Point(1, 1));
-        await WaitForMapToRender();
         await mapView.RemoveGraphic(testGraphic);
     }
 
@@ -63,7 +61,6 @@
         var testGraphic = new Graphic(new Point(0, 0),
             new SimpleMarkerSymbol(color: new MapColor("red"), size: 10));
         await mapView!.AddGraphic(testGraphic);
-        await WaitForMapToRender();
         await AssertJavaScript("assertGraphicExistsInView", args: new object[] { "point", 1 });
     }
     
@@ -87,7 +84,6 @@
                 {"GUID_ID", testGuid}
             }));
         await mapView!.AddGraphic(testGraphic);
-        await WaitForMapToRender();
         HitTestResult result = await mapView.HitTest(point);
         GraphicHit graphicHit = (GraphicHit)result.Results[0];
         Assert.AreEqual(testGuid, graphicHit.Graphic.Attributes["GUID_ID"]);
