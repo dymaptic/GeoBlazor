@@ -2409,7 +2409,11 @@ public partial class MapView : MapComponent
     /// <summary>
     ///     A reference to the JavaScript AbortManager for this component.
     /// </summary>
-    protected AbortManager? AbortManager;
+    protected AbortManager? AbortManager; 
+    /// <summary>
+    ///     Marks that the authentication has been initialized.
+    /// </summary>
+    protected bool AuthenticationInitialized;
     
     private SpatialReference? _spatialReference;
     private Dictionary<Guid, StringBuilder> _hitTestResults = new();
@@ -2420,7 +2424,6 @@ public partial class MapView : MapComponent
     private HashSet<Graphic> _graphics = new();
     private HashSet<Widget> _widgets = new();
     private bool? _isPro;
-    protected bool AuthenticationInitialized;
     private Dictionary<Guid, ViewHit[]> _activeHitTests = new();
     
 #endregion

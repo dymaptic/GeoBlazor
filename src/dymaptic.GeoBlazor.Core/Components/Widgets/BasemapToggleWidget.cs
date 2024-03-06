@@ -26,6 +26,9 @@ public class BasemapToggleWidget : Widget
     [RequiredProperty(nameof(NextBasemap), nameof(NextBasemapStyle))]
     public string? NextBasemapName { get; set; }
     
+    /// <summary>
+    ///     The next <see cref="BasemapStyleName" /> for toggling.
+    /// </summary>
     [Parameter]
 #pragma warning disable CS0618 // Type or member is obsolete
     [RequiredProperty(nameof(NextBasemapName), nameof(NextBasemap))]
