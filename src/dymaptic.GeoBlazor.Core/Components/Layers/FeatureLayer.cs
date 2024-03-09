@@ -199,7 +199,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer
     ///     Determines the order in which features are drawn in the view.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public HashSet<OrderedLayerOrderBy>? OrderBy { get; set; }
+    public List<OrderedLayerOrderBy>? OrderBy { get; set; }
 
     /// <summary>
     ///     The <see cref="PopupTemplate" /> for the layer.
@@ -211,7 +211,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer
     ///     The label definition for this layer, specified as an array of <see cref="Label" />.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public HashSet<Label>? LabelingInfo { get; set; }
+    public List<Label>? LabelingInfo { get; set; }
 
     /// <summary>
     ///     The <see cref="Renderer" /> assigned to the layer.
@@ -643,7 +643,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer
 
                 break;
             case Label label:
-                LabelingInfo ??= new HashSet<Label>();
+                LabelingInfo ??= new List<Label>();
 
                 if (!LabelingInfo.Contains(label))
                 {
@@ -677,10 +677,11 @@ public class FeatureLayer : Layer, IFeatureReductionLayer
 
                 break;
             case OrderedLayerOrderBy orderBy:
-                OrderBy ??= new HashSet<OrderedLayerOrderBy>();
+                OrderBy ??= new List<OrderedLayerOrderBy>();
 
-                if (OrderBy.Add(orderBy))
+                if (!OrderBy.Contains(orderBy))
                 {
+                    OrderBy.Add(orderBy);
                     LayerChanged = true;
                 }
 
@@ -1270,7 +1271,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer
             }
             else
             {
-                LabelingInfo ??= new HashSet<Label>();
+                LabelingInfo ??= new List<Label>();
 
                 foreach (Label label in renderedFeatureLayer.LabelingInfo)
                 {

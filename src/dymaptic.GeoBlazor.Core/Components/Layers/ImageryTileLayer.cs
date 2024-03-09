@@ -100,7 +100,8 @@ public class ImageryTileLayer : Layer
         IReadOnlyCollection<int>? bandIds = null, BlendMode? blendMode = null, string? copyright = null, 
         Effect? effect = null, PixelInterpolation? interpolation = null, bool? legendEnabled = null, 
         ListMode? listMode = null, int? maxScale = null, int? minScale = null, 
-        DimensionalDefinition[]? multidimensionalDefinition = null, MultidimensionalSubset? multidimensionalSubset = null,
+        IReadOnlyList<DimensionalDefinition>? multidimensionalDefinition = null, 
+        MultidimensionalSubset? multidimensionalSubset = null,
         bool? persistenceEnabled = null, bool? popupEnabled = null, PopupTemplate? popupTemplate = null,
         bool? useViewTime = null, Dictionary<string, object>? customParameters = null,
         double? opacity = null, string? title = null
@@ -124,7 +125,7 @@ public class ImageryTileLayer : Layer
 
         if (multidimensionalDefinition is not null)
         {
-            MultidimensionalDefinition = new HashSet<DimensionalDefinition>(multidimensionalDefinition);
+            MultidimensionalDefinition = new List<DimensionalDefinition>(multidimensionalDefinition);
         }
 
         MultidimensionalSubset = multidimensionalSubset;
@@ -207,11 +208,11 @@ public class ImageryTileLayer : Layer
     /// </summary>
     [Parameter]
 #pragma warning disable BL0007
-    public IReadOnlyCollection<DimensionalDefinition> MultidimensionalDefinition
+    public IReadOnlyList<DimensionalDefinition> MultidimensionalDefinition
 #pragma warning restore BL0007
     {
         get => _multidimensionalDefinition;
-        set => _multidimensionalDefinition = new HashSet<DimensionalDefinition>(value);
+        set => _multidimensionalDefinition = new List<DimensionalDefinition>(value);
     }
 
     /// <summary>
@@ -351,8 +352,9 @@ public class ImageryTileLayer : Layer
 
                 break;
             case DimensionalDefinition definition:
-                if (_multidimensionalDefinition.Add(definition))
+                if (!_multidimensionalDefinition.Contains(definition))
                 {
+                    _multidimensionalDefinition.Add(definition);
                     LayerChanged = true;
                 }
 
@@ -413,7 +415,7 @@ public class ImageryTileLayer : Layer
         }
     }
     
-    private HashSet<DimensionalDefinition> _multidimensionalDefinition = new();
+    private List<DimensionalDefinition> _multidimensionalDefinition = new();
 }
 
 /// <summary>
@@ -465,11 +467,11 @@ public class MultidimensionalSubset : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
 #pragma warning disable BL0007
-    public IReadOnlyCollection<DimensionalDefinition> SubsetDefinitions
+    public IReadOnlyList<DimensionalDefinition> SubsetDefinitions
 #pragma warning restore BL0007
     {
         get => _subsetDefinitions;
-        set => _subsetDefinitions = new HashSet<DimensionalDefinition>(value);
+        set => _subsetDefinitions = new List<DimensionalDefinition>(value);
     }
 
     /// <inheritdoc />
@@ -514,7 +516,7 @@ public class MultidimensionalSubset : MapComponent
         base.ValidateRequiredChildren();
     }
 
-    private HashSet<DimensionalDefinition> _subsetDefinitions = new();
+    private List<DimensionalDefinition> _subsetDefinitions = new();
 }
 
 /// <summary>

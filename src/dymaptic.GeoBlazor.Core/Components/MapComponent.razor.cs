@@ -284,20 +284,18 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
                 {
                     optionSet.Found = true;
                 }
-                else
-                {
-                    continue;
-                }
+                continue;
             }
-            else if (value is null)
+            
+            if (value is null)
             {
-                throw new MissingRequiredChildElementException(thisType.Name, propType.Name);
+                throw new MissingRequiredChildElementException(thisType.Name, propName);
             }
 
             // lists, arrays
             if ((propType.GetInterface(nameof(ICollection)) != null) && (((ICollection)value).Count == 0))
             {
-                throw new MissingRequiredChildElementException(thisType.Name, propType.Name);
+                throw new MissingRequiredChildElementException(thisType.Name, propName);
             }
         }
 

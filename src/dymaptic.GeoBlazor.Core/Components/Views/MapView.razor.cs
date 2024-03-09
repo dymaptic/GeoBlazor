@@ -1766,7 +1766,7 @@ public partial class MapView : MapComponent
     /// </param>
     public async Task<HitTestResult> HitTest(ClickEvent clickEvent, HitTestOptions? options = null)
     {
-        return await HitTestImplementation(clickEvent, options, true);
+        return await HitTestImplementation(new ScreenPoint(clickEvent.X, clickEvent.Y), options);
     }
 
     /// <summary>
@@ -1781,7 +1781,7 @@ public partial class MapView : MapComponent
     /// </param>
     public async Task<HitTestResult> HitTest(PointerEvent pointerEvent, HitTestOptions? options = null)
     {
-        return await HitTestImplementation(pointerEvent, options, true);
+        return await HitTestImplementation(new ScreenPoint(pointerEvent.X, pointerEvent.Y), options);
     }
 
     /// <summary>
@@ -1794,9 +1794,25 @@ public partial class MapView : MapComponent
     /// <param name="options">
     ///     Options to specify what is included in or excluded from the hitTest.
     /// </param>
-    public async Task<HitTestResult> HitTest(Point screenPoint, HitTestOptions? options = null)
+    public async Task<HitTestResult> HitTest(ScreenPoint screenPoint, HitTestOptions? options = null)
     {
-        return await HitTestImplementation(screenPoint, options, false);
+        return await HitTestImplementation(screenPoint, options);
+    }
+    
+    /// <summary>
+    ///     Returns <see cref="HitTestResult" />s from each layer that intersects the specified screen coordinates. The results
+    ///     are organized as an array of objects containing different result types.
+    /// </summary>
+    /// <param name="mapPoint">
+    ///     The map point, in the same projection as the map, to check for hits.
+    /// </param>
+    /// <param name="options">
+    ///     Options to specify what is included in or excluded from the hitTest.
+    /// </param>
+    public async Task<HitTestResult> HitTest(Point mapPoint, HitTestOptions? options = null)
+    {
+        ScreenPoint screenPoint = await ToScreen(mapPoint);
+        return await HitTestImplementation(screenPoint, options);
     }
 
     /// <summary>
@@ -2066,8 +2082,8 @@ public partial class MapView : MapComponent
         }
 
         Rendering = true;
-        Map.Layers.RemoveWhere(l => l.Imported);
-        Map.Basemap?.Layers.RemoveWhere(l => l.Imported);
+        Map.Layers.RemoveAll(l => l.Imported);
+        Map.Basemap?.Layers.RemoveAll(l => l.Imported);
         ValidateRequiredChildren();
 
         await InvokeAsync(async () =>
@@ -2257,13 +2273,11 @@ public partial class MapView : MapComponent
         }
     }
     
-    private async Task<HitTestResult> HitTestImplementation(object pointObject, HitTestOptions? options,
-        bool isEvent)
+    private async Task<HitTestResult> HitTestImplementation(ScreenPoint screenPoint, HitTestOptions? options)
     {
         Guid hitTestId = Guid.NewGuid();
         HitTestResult result = await ViewJsModule!.InvokeAsync<HitTestResult>("hitTest",
-            CancellationTokenSource.Token, pointObject, null, Id, isEvent, options,
-            hitTestId);
+            CancellationTokenSource.Token, screenPoint, Id, options, hitTestId);
 
         if (_activeHitTests.TryGetValue(hitTestId, out ViewHit[]? viewHits))
         {

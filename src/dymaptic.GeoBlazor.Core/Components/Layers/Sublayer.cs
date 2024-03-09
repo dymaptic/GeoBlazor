@@ -107,7 +107,7 @@ public class Sublayer: MapComponent
 
         if (sublayers is not null)
         {
-            Sublayers = new HashSet<Sublayer>(sublayers);
+            Sublayers = new List<Sublayer>(sublayers);
         }
 #pragma warning restore BL0005 // Set parameter or member default value.
     }
@@ -228,10 +228,10 @@ public class Sublayer: MapComponent
     ///     If a sublayer contains sublayers, this property is a Collection of Sublayer objects belonging to the given sublayer with sublayers.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public IReadOnlyCollection<Sublayer> Sublayers
+    public IReadOnlyList<Sublayer> Sublayers
     {
         get => _sublayers;
-        set => _sublayers = new HashSet<Sublayer>(value);
+        set => _sublayers = new List<Sublayer>(value);
     }
 
     /// <summary>
@@ -443,7 +443,7 @@ public class Sublayer: MapComponent
     }
     
     private HashSet<Label> _labelingInfo = new();
-    private HashSet<Sublayer> _sublayers = new();
+    private List<Sublayer> _sublayers = new();
 }
 
 

@@ -113,7 +113,6 @@
 
         await layer!.Add(new Graphic(new Point(0, 0),
             new SimpleMarkerSymbol(color: new MapColor("black"))));
-        await WaitForMapToRender();
         await AssertJavaScript("assertGraphicExistsInLayer", args: new object[] { layer!.Id, "point", 1 });
     }
     
@@ -146,7 +145,6 @@
             AddFeatures = graphics
         };
         FeatureEditsResult result = await layer!.ApplyEdits(edits);
-        await WaitForMapToRender();
         await AssertJavaScript("assertGraphicExistsInLayer", args: new object[] { layer!.Id, "point", 2000 });
         Assert.AreEqual(2000, result.AddFeatureResults.Length);
         Assert.AreEqual(2000, layer.Source!.Count);

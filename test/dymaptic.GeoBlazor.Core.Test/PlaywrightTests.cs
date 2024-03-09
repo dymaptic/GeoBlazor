@@ -11,7 +11,6 @@ public class PlaywrightTests
 {
     /// <summary>
     ///     An automated, yet still tedious process of going through each screen and clicking on things.
-    ///     This also takes screenshots for used in <see cref="PlaywrightTests.CompareScreenShots" />.
     ///     This test will likely break on changes to the repository, so don't rely on for stability.
     /// </summary>
     /// <remarks>
@@ -837,36 +836,6 @@ public class PlaywrightTests
         });
 
         StopServer();
-    }
-
-    /// <summary>
-    ///     This comparison is challenging to tune in correctly, and should not be relied upon
-    ///     in production build pipelines, but just for manual testing.
-    /// </summary>
-    [TestMethod]
-    public async Task CompareScreenShots()
-    {
-        FileInfo[] screenshots = new DirectoryInfo(_screenShotsFolder).GetFiles();
-
-        foreach (FileInfo ssFileInfo in screenshots)
-        {
-            using Image newImage = await Image.LoadAsync(ssFileInfo.FullName);
-            using Image oldImage = await Image.LoadAsync(Path.Combine(_screenShotsFolder, "Previous", ssFileInfo.Name));
-
-            if (!ImageSharpCompare.ImagesAreEqual(newImage, oldImage))
-            {
-                try
-                {
-                    ICompareResult diff = ImageSharpCompare.CalcDiff(newImage, oldImage);
-                    Assert.IsTrue(diff.PixelErrorPercentage < 50, ssFileInfo.Name);
-                }
-                catch (ImageSharpCompareException e)
-                {
-                    Console.WriteLine($"ImageSharpCompare exception on {ssFileInfo.Name}");
-                    Console.WriteLine(e);
-                }
-            }
-        }
     }
 
     private static void StartServer()

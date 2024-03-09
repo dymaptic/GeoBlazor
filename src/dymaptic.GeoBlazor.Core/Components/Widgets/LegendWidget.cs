@@ -22,7 +22,7 @@ public class LegendWidget : Widget
     ///     in the legend. If this property is not set, all layers in the map will display in the legend, including basemap
     ///     layers if basemapLegendVisible is true.
     /// </summary>
-    public HashSet<LayerInfo> LayerInfos { get; set; } = new();
+    public List<LayerInfo> LayerInfos { get; set; } = new();
 
     /// <summary>
     /// Indicates the style of the legend. The style determines the legend's layout and behavior.

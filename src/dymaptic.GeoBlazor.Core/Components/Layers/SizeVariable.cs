@@ -172,14 +172,14 @@ public class SizeVariable : VisualVariable
     ///     An array of objects that defines the mapping of data values returned from field or valueExpression to icon sizes. You must specify 2 - 6 stops. The stops must be listed in ascending order based on the value of the value property in each stop.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyCollection<SizeStop>? Stops
+    public IReadOnlyList<SizeStop>? Stops
     {
         get => _stops;
         set
         {
             if (value is not null)
             {
-                _stops = new HashSet<SizeStop>(value);
+                _stops = new List<SizeStop>(value);
             }
             else
             {
@@ -194,7 +194,7 @@ public class SizeVariable : VisualVariable
         switch (child)
         {
             case SizeStop stop:
-                _stops ??= new HashSet<SizeStop>();
+                _stops ??= new List<SizeStop>();
                 _stops.Add(stop);
 
                 break;
@@ -234,7 +234,7 @@ public class SizeVariable : VisualVariable
         }
     }
 
-    private HashSet<SizeStop>? _stops;
+    private List<SizeStop>? _stops;
 }
 
 /// <summary>

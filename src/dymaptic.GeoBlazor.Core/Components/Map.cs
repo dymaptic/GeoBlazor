@@ -37,7 +37,7 @@ public class Map : MapComponent
     /// <summary>
     ///     A collection of operational <see cref="Layer" />s.
     /// </summary>
-    public HashSet<Layer> Layers { get; set; } = new();
+    public List<Layer> Layers { get; set; } = new();
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
@@ -115,6 +115,6 @@ public class Map : MapComponent
         }
     }
 
-    private HashSet<Layer> _layersToRender = new();
+    private List<Layer> _layersToRender = new();
     private bool _rendering;
 }

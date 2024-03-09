@@ -141,7 +141,7 @@ public class SliderWidget: Widget
 
         if (tickConfigs is not null)
         {
-            TickConfigs = new HashSet<SliderTickConfig>(tickConfigs);
+            TickConfigs = new List<SliderTickConfig>(tickConfigs);
         }
 
         VisibleElements = visibleElements;
@@ -578,10 +578,10 @@ public class SliderWidget: Widget
     /// <summary>
     ///     When set, renders ticks along the slider track. See the TickConfig documentation for more information on how to configure tick placement, style, and behavior.
     /// </summary>
-    public IReadOnlyCollection<SliderTickConfig> TickConfigs
+    public IReadOnlyList<SliderTickConfig> TickConfigs
     {
         get => _tickConfigs;
-        set => _tickConfigs = new HashSet<SliderTickConfig>(value);
+        set => _tickConfigs = new List<SliderTickConfig>(value);
     }
 
     /// <summary>
@@ -800,7 +800,7 @@ public class SliderWidget: Widget
         base.ValidateRequiredChildren();
     }
 
-    private HashSet<SliderTickConfig> _tickConfigs = new();
+    private List<SliderTickConfig> _tickConfigs = new();
 }
 
 /// <summary>

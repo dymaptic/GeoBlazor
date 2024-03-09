@@ -47,6 +47,60 @@ public abstract class FormElement: MapComponent
 /// </summary>
 public class FieldElement : FormElement
 {
+    /// <summary>
+    ///     Parameterless constructor for use as a razor component
+    /// </summary>
+    public FieldElement()
+    {
+    }
+
+    /// <summary>
+    ///     Creates a new FieldElement in code with parameters
+    /// </summary>
+    /// <param name="fieldName">
+    ///     The field name as defined by the feature layer. Set this property to indicate which field to edit.
+    /// </param>
+    /// <param name="label">
+    ///     The string template for defining how to format the title displayed at the top of a form.
+    /// </param>
+    /// <param name="description">
+    ///     The description of the form.
+    /// </param>
+    /// <param name="hint">
+    ///     Contains a hint used to help editors while editing fields. Set this as a temporary placeholder for text/number inputs in either TextAreaInput or TextBoxInput.
+    /// </param>
+    /// <param name="editableExpression">
+    ///     A reference to the name of an Arcade expression defined in the expressionInfos of the FormTemplate. The expression must follow the specification defined in the Form Constraint Profile. Expressions may reference field values using the $feature global input and must return either true or false.
+    /// </param>
+    /// <param name="requiredExpression">
+    ///     A reference to the name of an Arcade expression defined in the expressionInfos of the FormTemplate. The expression must follow the specification defined in the Form Constraint Profile. Expressions may reference field values using the $feature global input and must return either true or false.
+    /// </param>
+    /// <param name="valueExpression">
+    ///     A reference to the name of an Arcade expression defined in the expressionInfos of the FormTemplate. The expression must follow the specification defined in the Form Calculation Profile. This expression references field values within an individual feature or in other layers and must return either a date, number, or string value.
+    /// </param>
+    /// <param name="domain">
+    ///     The coded value domain or range domain of the field.
+    /// </param>
+    /// <param name="input">
+    ///     The input to use for the element. The client application is responsible for defining the default user interface.
+    /// </param>
+    public FieldElement(string? fieldName, string? label = null, string? description = null, string? hint = null,
+        string? editableExpression = null, string? requiredExpression = null, string? valueExpression = null,
+        Domain? domain = null, FormInput? input = null)
+    {
+#pragma warning disable BL0005
+        FieldName = fieldName;
+        Label = label;
+        Description = description;
+        Hint = hint;
+        EditableExpression = editableExpression;
+        RequiredExpression = requiredExpression;
+        ValueExpression = valueExpression;
+        Domain = domain;
+        Input = input;
+#pragma warning restore BL0005
+    }
+
     /// <inheritdoc />
     public override string Type => "field";
 

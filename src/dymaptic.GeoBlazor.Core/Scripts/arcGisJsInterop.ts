@@ -725,13 +725,11 @@ export function registerWebLayer(layerJsRef: any, layerId: string) {
     }
 }
 
-export async function hitTest(pointObject: any, eventId: string | null, viewId: string,
-    isEvent: boolean, options: DotNetHitTestOptions | null, hitTestId: string)
+export async function hitTest(screenPoint: any, viewId: string, options: DotNetHitTestOptions | null, hitTestId: string)
     : Promise<DotNetHitTestResult | void> {
     try {
         let view = arcGisObjectRefs[viewId] as MapView;
         let result: HitTestResult;
-        let screenPoint = isEvent ? pointObject : view.toScreen(buildJsPoint(pointObject) as Point);
 
         if (options !== null) {
             let hitOptions = buildHitTestOptions(options, view);

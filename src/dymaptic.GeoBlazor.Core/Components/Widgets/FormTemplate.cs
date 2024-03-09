@@ -12,6 +12,43 @@ namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 public class FormTemplate : MapComponent
 {
     /// <summary>
+    ///     Parameterless constructor for use as a razor component
+    /// </summary>
+    public FormTemplate()
+    {
+    }
+    
+    /// <summary>
+    ///     Creates a new FormTemplate in code with parameters
+    /// </summary>
+    /// <param name="title">
+    ///     The string template for defining how to format the title displayed at the top of a form.
+    /// </param>
+    /// <param name="description">
+    ///     The description of the form.
+    /// </param>
+    /// <param name="preserveFieldValuesWhenHidden">
+    ///     Indicates whether to retain or clear a form's field element values. Use this property when a field element initially displays as visible but then updates to not display as a result of an applied visibilityExpression.
+    /// </param>
+    /// <param name="elements">
+    ///     An array of form element objects that represent an ordered list of form elements.
+    /// </param>
+    /// <param name="expressionInfos">
+    ///     An array of objects or ExpressionInfo[] that reference Arcade expressions following the specification defined by the Form Constraint Profile or the Form Calculation Profile. Form Constraint expressions must return either true or false. Form Calculation expressions must return a string, date, or a number.
+    /// </param>
+    public FormTemplate(string? title = null, string? description = null, bool? preserveFieldValuesWhenHidden = null,
+        List<FormElement>? elements = null, List<ExpressionInfo>? expressionInfos = null)
+    {
+#pragma warning disable BL0005
+        Title = title;
+        Description = description;
+        PreserveFieldValuesWhenHidden = preserveFieldValuesWhenHidden;
+        Elements = elements;
+        ExpressionInfos = expressionInfos;
+#pragma warning restore BL0005
+    }
+    
+    /// <summary>
     ///     The description of the form.
     /// </summary>
     [Parameter]
@@ -36,12 +73,12 @@ public class FormTemplate : MapComponent
     /// <remarks>
     ///     Nested group elements are not supported.
     /// </remarks>
-    public HashSet<FormElement>? Elements { get; set; }
+    public List<FormElement>? Elements { get; set; }
     
     /// <summary>
     ///     An array of objects or ExpressionInfo[] that reference Arcade expressions following the specification defined by the Form Constraint Profile or the Form Calculation Profile. Form Constraint expressions must return either true or false. Form Calculation expressions must return a string, date, or a number.
     /// </summary>
-    public HashSet<ExpressionInfo>? ExpressionInfos { get; set; }
+    public List<ExpressionInfo>? ExpressionInfos { get; set; }
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
@@ -49,13 +86,13 @@ public class FormTemplate : MapComponent
         switch (child)
         {
             case FormElement formElement:
-                Elements ??= new HashSet<FormElement>();
+                Elements ??= new List<FormElement>();
                 
                 Elements.Add(formElement);
 
                 break;
             case ExpressionInfo expressionInfo:
-                ExpressionInfos ??= new HashSet<ExpressionInfo>();
+                ExpressionInfos ??= new List<ExpressionInfo>();
                 
                 ExpressionInfos.Add(expressionInfo);
 

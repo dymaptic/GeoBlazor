@@ -31,7 +31,7 @@ public class ColorVariable : VisualVariable
     ///     An array of sequential objects, or stops, that defines a continuous color ramp. You must specify 2 - 8 stops. In most cases, no more than five are needed. Features with values that fall between the given stops will be assigned colors linearly interpolated along the ramp in relation to the nearest stop values. The stops must be listed in ascending order based on the value of the value property in each stop.
     /// </param>
     public ColorVariable(string field, string? normalizationField = null,
-        IReadOnlyCollection<ColorStop>? stops = null)
+        IReadOnlyList<ColorStop>? stops = null)
     {
 #pragma warning disable BL0005
         NormalizationField = normalizationField;
@@ -54,14 +54,14 @@ public class ColorVariable : VisualVariable
     ///     An array of sequential objects, or stops, that defines a continuous color ramp. You must specify 2 - 8 stops. In most cases, no more than five are needed. Features with values that fall between the given stops will be assigned colors linearly interpolated along the ramp in relation to the nearest stop values. The stops must be listed in ascending order based on the value of the value property in each stop.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyCollection<ColorStop>? Stops
+    public IReadOnlyList<ColorStop>? Stops
     {
         get => _stops;
         set
         {
             if (value is not null)
             {
-                _stops = new HashSet<ColorStop>(value);
+                _stops = new List<ColorStop>(value);
             }
             else
             {
@@ -76,7 +76,7 @@ public class ColorVariable : VisualVariable
         switch (child)
         {
             case ColorStop stop:
-                _stops ??= new HashSet<ColorStop>();
+                _stops ??= new List<ColorStop>();
                 _stops.Add(stop);
 
                 break;
@@ -116,7 +116,7 @@ public class ColorVariable : VisualVariable
         }
     }
     
-    private HashSet<ColorStop>? _stops;
+    private List<ColorStop>? _stops;
 }
 
 /// <summary>

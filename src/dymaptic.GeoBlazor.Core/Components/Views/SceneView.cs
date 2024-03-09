@@ -217,8 +217,8 @@ public class SceneView : MapView
         }
 
         Rendering = true;
-        Map.Layers.RemoveWhere(l => l.Imported);
-        Map.Basemap?.Layers.RemoveWhere(l => l.Imported);
+        Map.Layers.RemoveAll(l => l.Imported);
+        Map.Basemap?.Layers.RemoveAll(l => l.Imported);
         ValidateRequiredChildren();
 
         await InvokeAsync(async () =>

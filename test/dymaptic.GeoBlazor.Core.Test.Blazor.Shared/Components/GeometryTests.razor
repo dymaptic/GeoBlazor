@@ -139,7 +139,7 @@
         await AssertJavaScript("assertGraphicExistsInView", args: new object[] { "polygon", 1 });
     }
 
-    private readonly AttributesDictionary _attributes = new(new Dictionary<string, object>
+    private readonly AttributesDictionary _attributes = new(new Dictionary<string, object?>
     {
         { "Name", "name" },
         { "Description", "description" }
