@@ -1,4 +1,5 @@
 ﻿using dymaptic.GeoBlazor.Core.Serialization;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace dymaptic.GeoBlazor.Core.Components.Renderers.ColorRamps;
@@ -10,6 +11,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Renderers.ColorRamps;
 ///     Multipart color ramp: A MultipartColorRamp is defined by a list of constituent color ramps.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ColorRamp.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
+[JsonConverter(typeof(ColorRampConverter))]
 public abstract class ColorRamp : MapComponent
 {
     /// <summary>
@@ -29,4 +31,44 @@ public enum ColorRampType
     Algorithmic,
     Multipart
 #pragma warning restore CS1591
+}
+
+internal class ColorRampConverter : JsonConverter<ColorRamp>
+{
+    public override ColorRamp? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        var newOptions = new JsonSerializerOptions(options)
+        {
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+        };
+        Utf8JsonReader cloneReader = reader;
+
+        if (JsonSerializer.Deserialize<Dictionary<string, object?>>(ref reader, newOptions) is not
+            IDictionary<string, object?> temp)
+        {
+            return null;
+        }
+
+        if (temp.TryGetValue("colorRampType", out object? typeValue))
+        {
+            switch (typeValue?.ToString())
+            {
+                case "algorithmic":
+                    return JsonSerializer.Deserialize<AlgorithmicColorRamp>(ref cloneReader, newOptions);
+                case "multipart":
+                    return JsonSerializer.Deserialize<MultipartColorRamp>(ref cloneReader, newOptions);
+            }
+        }
+
+        return null;
+    }
+
+    public override void Write(Utf8JsonWriter writer, ColorRamp value, JsonSerializerOptions options)
+    {
+        var newOptions = new JsonSerializerOptions(options)
+        {
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+        };
+        writer.WriteRawValue(JsonSerializer.Serialize(value, typeof(object), newOptions));
+    }
 }

@@ -57,7 +57,7 @@ public class SimpleMarkerSymbol : MarkerSymbol
         Angle = angle;
         XOffset = xOffset;
         YOffset = yOffset;
-        Style = style;
+        MarkerStyle = style;
 #pragma warning restore BL0005
     }
     
@@ -82,7 +82,7 @@ public class SimpleMarkerSymbol : MarkerSymbol
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [Parameter]
-    public SimpleMarkerStyle? Style { get; set; }
+    public SimpleMarkerStyle? MarkerStyle { get; set; }
     
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
@@ -132,7 +132,7 @@ public class SimpleMarkerSymbol : MarkerSymbol
         {
             Outline = Outline?.ToSerializationRecord(),
             Size = Size?.Points,
-            Style = Style?.ToString().ToKebabCase(),
+            Style = MarkerStyle?.ToString().ToKebabCase(),
             Angle = Angle,
             XOffset = XOffset?.Points,
             YOffset = YOffset?.Points

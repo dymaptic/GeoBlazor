@@ -53,8 +53,15 @@ public class LayerListWidget : Widget
     ///     Returns the modified <see cref="ListItem" />
     /// </returns>
     [JSInvokable]
-    public Task<ListItem>? OnListItemCreated(ListItem item)
+    public async Task<object?> OnListItemCreated(ListItem item)
     {
-        return OnListItemCreatedHandler?.Invoke(item);
+        if (OnListItemCreatedHandler is not null)
+        {
+            ListItem result = await OnListItemCreatedHandler!.Invoke(item);
+
+            return (object)result;
+        }
+
+        return null;
     }
 }

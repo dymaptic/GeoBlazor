@@ -41,6 +41,13 @@
             ReturnQueryGeometry = true,
             OutFields = new HashSet<string> { "*" }
         };
+
+        var tries = 200;
+        while (layerView is null && tries > 0)
+        {
+            await Task.Delay(100);
+            tries--;
+        }
         FeatureSet? result = await layerView!.QueryFeatures(query);
         Assert.IsNotNull(result);
         Assert.IsTrue(result.Features!.Length > 0);

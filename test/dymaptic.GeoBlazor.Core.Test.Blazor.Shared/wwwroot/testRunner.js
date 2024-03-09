@@ -148,7 +148,7 @@ export function testThrow() {
     throw new Error("Test throw");
 }
 
-export async function assertPopupCallback(methodName) {
+export async function clickOnPopupAction(methodName) {
     let view = getView(methodName);
     let layer = view.map.layers.items[0];
     let featureSet = await layer.queryFeatures();

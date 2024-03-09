@@ -199,7 +199,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer
     ///     Determines the order in which features are drawn in the view.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public HashSet<OrderedLayerOrderBy>? OrderBy { get; set; }
+    public List<OrderedLayerOrderBy>? OrderBy { get; set; }
 
     /// <summary>
     ///     The <see cref="PopupTemplate" /> for the layer.
@@ -211,7 +211,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer
     ///     The label definition for this layer, specified as an array of <see cref="Label" />.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public HashSet<Label>? LabelingInfo { get; set; }
+    public List<Label>? LabelingInfo { get; set; }
 
     /// <summary>
     ///     The <see cref="Renderer" /> assigned to the layer.
@@ -418,7 +418,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer
 
             addFeatureResults = 
                 await SendEdits(addedFeatures.Skip(skip).Take(chunkSize)
-                        .Select(g => g.ToSerializationRecord()).ToArray(), "add", 
+                        .Select(g => g.ToSerializationRecord(true)).ToArray(), "add", 
                     options, addFeatureResults, abortSignal, cancellationToken);
             editMoment ??= addFeatureResults?.EditMoment;
         }
@@ -428,7 +428,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer
 
             updateFeatureResults = 
                 await SendEdits(updatedFeatures.Skip(skip).Take(chunkSize)
-                        .Select(g => g.ToSerializationRecord()).ToArray(), "update", 
+                        .Select(g => g.ToSerializationRecord(true)).ToArray(), "update", 
                     options, updateFeatureResults, abortSignal, cancellationToken);
             editMoment ??= updateFeatureResults?.EditMoment;
         }
@@ -438,7 +438,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer
 
             deleteFeatureResults = 
                 await SendEdits(deletedFeatures.Skip(skip).Take(chunkSize)
-                        .Select(g => g.ToSerializationRecord()).ToArray(), "delete", 
+                        .Select(g => g.ToSerializationRecord(true)).ToArray(), "delete", 
                     options, deleteFeatureResults, abortSignal, cancellationToken);
             editMoment ??= deleteFeatureResults?.EditMoment;
         }
@@ -643,7 +643,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer
 
                 break;
             case Label label:
-                LabelingInfo ??= new HashSet<Label>();
+                LabelingInfo ??= new List<Label>();
 
                 if (!LabelingInfo.Contains(label))
                 {
@@ -677,10 +677,11 @@ public class FeatureLayer : Layer, IFeatureReductionLayer
 
                 break;
             case OrderedLayerOrderBy orderBy:
-                OrderBy ??= new HashSet<OrderedLayerOrderBy>();
+                OrderBy ??= new List<OrderedLayerOrderBy>();
 
-                if (OrderBy.Add(orderBy))
+                if (!OrderBy.Contains(orderBy))
                 {
+                    OrderBy.Add(orderBy);
                     LayerChanged = true;
                 }
 
@@ -1270,7 +1271,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer
             }
             else
             {
-                LabelingInfo ??= new HashSet<Label>();
+                LabelingInfo ??= new List<Label>();
 
                 foreach (Label label in renderedFeatureLayer.LabelingInfo)
                 {

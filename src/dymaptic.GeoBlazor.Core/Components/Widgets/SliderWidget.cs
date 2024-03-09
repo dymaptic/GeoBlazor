@@ -111,7 +111,7 @@ public class SliderWidget: Widget
         IReadOnlyCollection<double>? values = null, string? inputCreatedFunction = null, 
         string? inputFormatFunction = null, string? inputParseFunction = null, string? labelFormatFunction = null,
         string? thumbCreatedFunction = null, IReadOnlyCollection<SliderTickConfig>? tickConfigs = null,
-        bool? visible = null, IReadOnlyCollection<SliderVisibleElements>? visibleElements = null)
+        bool? visible = null, SliderVisibleElements? visibleElements = null)
     {
 #pragma warning disable BL0005
         ContainerId = containerId;
@@ -141,13 +141,10 @@ public class SliderWidget: Widget
 
         if (tickConfigs is not null)
         {
-            TickConfigs = new HashSet<SliderTickConfig>(tickConfigs);
+            TickConfigs = new List<SliderTickConfig>(tickConfigs);
         }
 
-        if (visibleElements is not null)
-        {
-            VisibleElements = new HashSet<SliderVisibleElements>(visibleElements);
-        }
+        VisibleElements = visibleElements;
 #pragma warning restore BL0005
     }
 
@@ -250,7 +247,7 @@ public class SliderWidget: Widget
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public double[]? Steps { get; set; }
+    public IReadOnlyCollection<double>? Steps { get; set; }
     
     /// <summary>
     ///     The interval in which slider thumbs can be moved. Use either this or <see cref="Steps"/>.
@@ -559,25 +556,39 @@ public class SliderWidget: Widget
     {
         await OnTrackClick.InvokeAsync(clickEvent);
     }
+    
+    /// <summary>
+    ///     Fires when a user changes the selected range or value of the slider.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore]
+    public EventCallback<double[]> ValueChanged { get; set; }
+
+    /// <summary>
+    ///     JS-invokable method, for internal use only.
+    /// </summary>
+    [JSInvokable]
+    public async Task OnJsValueChanged(double[] newValues)
+    {
+        Values = newValues;
+        await ValueChanged.InvokeAsync(newValues);
+    }
 #endregion
 
     /// <summary>
     ///     When set, renders ticks along the slider track. See the TickConfig documentation for more information on how to configure tick placement, style, and behavior.
     /// </summary>
-    public IReadOnlyCollection<SliderTickConfig> TickConfigs
+    public IReadOnlyList<SliderTickConfig> TickConfigs
     {
         get => _tickConfigs;
-        set => _tickConfigs = new HashSet<SliderTickConfig>(value);
+        set => _tickConfigs = new List<SliderTickConfig>(value);
     }
 
     /// <summary>
     ///     The visible elements that are displayed within the widget. This property provides the ability to turn individual elements of the widget's display on/off.
     /// </summary>
-    public IReadOnlyCollection<SliderVisibleElements> VisibleElements
-    {
-        get => _visibleElements;
-        set => _visibleElements = new HashSet<SliderVisibleElements>(value);
-    }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public SliderVisibleElements? VisibleElements { get; set; }
 
     /// <summary>
     ///     Retrieves references to the HTML Element nodes representing the slider segment between the min and effectiveMin, and the segment between the effectiveMax and max. You can use this method to customize the style and attach event handlers to these segments. This only applies to sliders where the effectiveMin and effectiveMax are specified.
@@ -679,6 +690,66 @@ public class SliderWidget: Widget
         return await JsWidgetReference.InvokeAsync<ElementReference>("getTrackElement");
     }
 
+    /// <summary>
+    ///     Updates the <see cref="Max"/> value after initial render.
+    /// </summary>
+    public async Task SetMax(double max)
+    {
+        Max = max;
+
+        if (JsWidgetReference is null) return;
+
+        await JsWidgetReference.InvokeVoidAsync("setProperty", "max", max);
+    }
+    
+    /// <summary>
+    ///     Updates the <see cref="Min"/> value after initial render.
+    /// </summary>
+    public async Task SetMin(double min)
+    {
+        Min = min;
+
+        if (JsWidgetReference is null) return;
+
+        await JsWidgetReference.InvokeVoidAsync("setProperty", "min", min);
+    }
+
+    /// <summary>
+    ///     Updates the <see cref="Values"/> after initial render.
+    /// </summary>
+    public async Task SetValues(IReadOnlyCollection<double> values)
+    {
+        Values = values;
+        
+        if (JsWidgetReference is null) return;
+        
+        await JsWidgetReference.InvokeVoidAsync("setProperty", "values", values);
+    }
+
+    /// <summary>
+    ///     Updates the <see cref="StepInterval"/> value after initial render.
+    /// </summary>
+    public async Task SetStepInterval(double stepInterval)
+    {
+        StepInterval = stepInterval;
+        
+        if (JsWidgetReference is null) return;
+        
+        await JsWidgetReference.InvokeVoidAsync("setProperty", "steps", stepInterval);
+    }
+    
+    /// <summary>
+    ///     Updates the <see cref="Steps"/> value after initial render.
+    /// </summary>
+    public async Task SetSteps(IReadOnlyCollection<double> steps)
+    {
+        Steps = steps;
+        
+        if (JsWidgetReference is null) return;
+        
+        await JsWidgetReference.InvokeVoidAsync("setProperty", "steps", steps);
+    }
+
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
     {
@@ -689,7 +760,7 @@ public class SliderWidget: Widget
                 
                 break;
             case SliderVisibleElements visibleElement:
-                _visibleElements.Add(visibleElement);
+                VisibleElements = visibleElement;
                 
                 break;
             default:
@@ -709,7 +780,7 @@ public class SliderWidget: Widget
                 
                 break;
             case SliderVisibleElements visibleElement:
-                _visibleElements.Remove(visibleElement);
+                VisibleElements = null;
                 
                 break;
             default:
@@ -725,15 +796,11 @@ public class SliderWidget: Widget
         {
             tickConfig.ValidateRequiredChildren();
         }
-        foreach (SliderVisibleElements visibleElement in _visibleElements)
-        {
-            visibleElement.ValidateRequiredChildren();
-        }
+        VisibleElements?.ValidateRequiredChildren();
         base.ValidateRequiredChildren();
     }
 
-    private HashSet<SliderTickConfig> _tickConfigs = new();
-    private HashSet<SliderVisibleElements> _visibleElements = new();
+    private List<SliderTickConfig> _tickConfigs = new();
 }
 
 /// <summary>

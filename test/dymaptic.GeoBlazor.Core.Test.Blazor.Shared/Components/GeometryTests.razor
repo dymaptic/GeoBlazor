@@ -102,7 +102,6 @@
             new SimpleMarkerSymbol(color: new MapColor("purple")),
             new PopupTemplate("title", "content"), _attributes));
 
-        await WaitForMapToRender();
         await AssertJavaScript("assertGraphicExistsInView", args: new object[] { "point", 1 });
     }
 
@@ -119,8 +118,7 @@
         await mapView!.AddGraphic(new Graphic(new PolyLine(_paths),
             new SimpleLineSymbol(new MapColor("purple")),
             new PopupTemplate("title", "content"), _attributes));
-
-        await WaitForMapToRender();
+        
         await AssertJavaScript("assertGraphicExistsInView", args: new object[] { "polyline", 1 });
     }
 
@@ -137,12 +135,11 @@
         await mapView!.AddGraphic(new Graphic(new Polygon(_rings),
             new SimpleFillSymbol(color: new MapColor("purple")),
             new PopupTemplate("title", "content"), _attributes));
-
-        await WaitForMapToRender();
+        
         await AssertJavaScript("assertGraphicExistsInView", args: new object[] { "polygon", 1 });
     }
 
-    private readonly AttributesDictionary _attributes = new(new Dictionary<string, object>
+    private readonly AttributesDictionary _attributes = new(new Dictionary<string, object?>
     {
         { "Name", "name" },
         { "Description", "description" }

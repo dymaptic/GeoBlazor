@@ -54,6 +54,7 @@ import FeatureLayerWrapper from "./featureLayer";
 import KMLLayer from "@arcgis/core/layers/KMLLayer";
 import WCSLayer from "@arcgis/core/layers/WCSLayer";
 import ImageryLayer from "@arcgis/core/layers/ImageryLayer.js";
+import ImageryTileLayer from "@arcgis/core/layers/ImageryTileLayer.js";
 
 import {
     buildDotNetExtent,
@@ -103,7 +104,7 @@ import {
     buildJsUniqueValueRenderer,
     buildJsSublayer,
     buildJsAction,
-    buildJsTickConfig
+    buildJsTickConfig, buildJsImageryRenderer, buildJsMultidimensionalSubset, buildJsDimensionalDefinition
 } from "./jsBuilder";
 import {
     DotNetExtent,
@@ -124,7 +125,8 @@ import {
     DotNetPolyline, 
     DotNetPolygon, 
     DotNetViewHit,
-    DotNetGraphicHit
+    DotNetGraphicHit,
+    IPropertyWrapper
 } from "./definitions";
 import WebTileLayer from "@arcgis/core/layers/WebTileLayer";
 import TileInfo from "@arcgis/core/layers/support/TileInfo";
@@ -164,6 +166,8 @@ import MultidimensionalSubset from "@arcgis/core/layers/support/Multidimensional
 import BasemapStyle from "@arcgis/core/support/BasemapStyle";
 import Slider from "@arcgis/core/widgets/Slider";
 import SliderWidgetWrapper from "./sliderWidgetWrapper";
+import ListItemPanel from "@arcgis/core/widgets/LayerList/ListItemPanel";
+import ImageryTileLayerWrapper from "./imageryTileLayer";
 
 
 export let arcGisObjectRefs: Record<string, Accessor> = {};
@@ -183,7 +187,11 @@ export function getProperty(obj, prop) {
 }
 
 export function setProperty(obj, prop, value) {
-    obj[prop] = value;
+    if ('setProperty' in obj) {
+        obj.setProperty(prop, value);
+    } else {
+        obj[prop] = value;
+    }
 }
 
 export function setAssetsPath(path: string) {
@@ -207,6 +215,9 @@ export function getObjectReference(objectRef: any) {
             }
             if (objectRef instanceof BingMapsLayer) {
                 return new BingMapsLayerWrapper(objectRef);
+            }
+            if (objectRef instanceof ImageryTileLayer) {
+                return new ImageryTileLayerWrapper(objectRef);
             }
         }
         if (objectRef instanceof Graphic) {
@@ -714,13 +725,11 @@ export function registerWebLayer(layerJsRef: any, layerId: string) {
     }
 }
 
-export async function hitTest(pointObject: any, eventId: string | null, viewId: string,
-    isEvent: boolean, options: DotNetHitTestOptions | null, hitTestId: string)
+export async function hitTest(screenPoint: any, viewId: string, options: DotNetHitTestOptions | null, hitTestId: string)
     : Promise<DotNetHitTestResult | void> {
     try {
         let view = arcGisObjectRefs[viewId] as MapView;
         let result: HitTestResult;
-        let screenPoint = isEvent ? pointObject : view.toScreen(buildJsPoint(pointObject) as Point);
 
         if (options !== null) {
             let hitOptions = buildHitTestOptions(options, view);
@@ -1126,6 +1135,37 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                     (currentLayer as MapImageLayer).capabilities?.exportMap.supportsSublayersChanges) {
                     (currentLayer as MapImageLayer).sublayers = layerObject.sublayers.map(buildJsSublayer);
                 }
+                break;
+                
+            case 'imagery':
+                copyValuesIfExists(layerObject, currentLayer, 'blendMode', 'maxScale', 'minScale', 'bandIds',
+                    'compressionQuality', 'compressionTolerance', 'copyright', 'definitionExpression', 'format',
+                    'hasMultidimensions', 'imageMaxHeight', 'imageMaxWidth', 'interpolation', 'legendEnabled',
+                    'noData', 'noDataInterpretation', 'objectIdField', 'persistenceEnabled', 'pixelType', 
+                    'popupEnabled', 'rasterFields', 'refreshInterval', 'useViewTime', 'tileInfo', 'timeExtent',
+                    'timeInfo', 'timeOffset', 'customParameters');
+                if (hasValue(layerObject.effect)) {
+                    (currentLayer as ImageryLayer).effect = buildJsEffect(layerObject.effect);
+                }
+                if (hasValue(layerObject.multidimensionalSubset)) {
+                    (currentLayer as ImageryLayer).multidimensionalSubset = buildJsMultidimensionalSubset(layerObject.multidimensionalSubset);
+                }
+                break;
+                
+            case 'imagery-tile':
+                copyValuesIfExists(layerObject, currentLayer, 'blendMode', 'maxScale', 'minScale', 'bandIds',
+                    'copyright', 'interpolation', 'legendEnabled', 'persistenceEnabled', 'useViewTime', 
+                    'customParameters');
+                if (hasValue(layerObject.effect)) {
+                    (currentLayer as ImageryTileLayer).effect = buildJsEffect(layerObject.effect);
+                }
+                if (hasValue(layerObject.multidimensionalDefinition) && layerObject.multidimensionalDefinition.length > 0) {
+                    (currentLayer as ImageryTileLayer).multidimensionalDefinition = layerObject.multidimensionalDefinition.map(buildJsDimensionalDefinition);
+                }
+                if (hasValue(layerObject.multidimensionalSubset)) {
+                    (currentLayer as ImageryTileLayer).multidimensionalSubset = buildJsMultidimensionalSubset(layerObject.multidimensionalSubset);
+                }
+                
                 break;
         }
 
@@ -1883,7 +1923,10 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
                 view: view
             });
             newWidget = basemapToggle;
-            if (hasValue(widget.nextBasemapName)) {
+            if (hasValue(widget.nextBasemapStyle)) {
+                basemapToggle.nextBasemap = widget.nextBasemapStyle;
+            }
+            else if (hasValue(widget.nextBasemapName)) {
                 // @ts-ignore
                 basemapToggle.nextBasemap = widget.nextBasemapName;
             } else {
@@ -2132,7 +2175,7 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
             copyValuesIfExists(widget, slider, 'disabled', 'draggableSegmentsEnabled', 'effectiveMax',
                 'effectiveMin', 'labelInputsEnabled', 'layout', 'max', 'min', 'precision', 
                 'rangeLabelInputsEnabled', 'snapOnClickEnabled', 'syncedSegmentsEnabled', 'thumbsConstrained',
-                'values', 'visible', 'visibleElements');
+                'values', 'visible');
             
             if (hasValue(widget.steps)) {
                 slider.steps = widget.steps;
@@ -2169,6 +2212,12 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
             
             if (hasValue(widget.tickConfigs) && widget.tickConfigs.length > 0) {
                 slider.tickConfigs = widget.tickConfigs.map(buildJsTickConfig);
+            }
+            if (hasValue(widget.visibleElements)) {
+                slider.visibleElements = {
+                    labels: widget.visibleElements.labels ?? false,
+                    rangeLabels: widget.visibleElements.rangeLabels ?? false
+                };
             }
             
             slider.on('max-change', async (event) => {
@@ -2239,6 +2288,13 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
                     value: event.value
                 });
             });
+
+            reactiveUtils.watch(
+                () => slider.values,
+                async () => {
+                    await widget.dotNetWidgetReference.invokeMethodAsync('OnJsValueChanged', slider.values);
+                }
+            );
             break;
         default:
             return null;
@@ -2286,6 +2342,62 @@ function updateListItem(jsItem: ListItem, dnItem: DotNetListItem) {
     
     if (hasValue(dnItem.layerId)) {
         jsItem.layer = arcGisObjectRefs[dnItem.layerId] as Layer;
+    }
+    
+    if (hasValue(dnItem.panel)) {
+        if (hasValue(dnItem.panel.contentDivId)) {
+            let contentDiv = document.getElementById(dnItem.panel.contentDivId);
+            if (contentDiv !== null) {
+                jsItem.panel = {
+                    content: contentDiv,
+                    visible: dnItem.panel.visible,
+                    className: dnItem.panel.className,
+                    disabled: dnItem.panel.disabled,
+                    flowEnabled: dnItem.panel.flowEnabled,
+                    open: dnItem.panel.open,
+                    image: dnItem.panel.image,
+                    icon: dnItem.panel.icon,
+                    label: dnItem.panel.label
+                } as ListItemPanel;
+            }
+        } else if (hasValue(dnItem.panel.contentWidgetId)) {
+            let contentWidget = arcGisObjectRefs[dnItem.panel.contentWidgetId] as Widget;
+            jsItem.panel = {
+                content: contentWidget,
+                visible: dnItem.panel.visible,
+                className: dnItem.panel.className,
+                disabled: dnItem.panel.disabled,
+                flowEnabled: dnItem.panel.flowEnabled,
+                open: dnItem.panel.open,
+                image: dnItem.panel.image,
+                icon: dnItem.panel.icon,
+                label: dnItem.panel.label
+            } as ListItemPanel;
+        } else if (hasValue(dnItem.panel.stringContent)) {
+            jsItem.panel = {
+                content: dnItem.panel.stringContent,
+                visible: dnItem.panel.visible,
+                className: dnItem.panel.className,
+                disabled: dnItem.panel.disabled,
+                flowEnabled: dnItem.panel.flowEnabled,
+                open: dnItem.panel.open,
+                image: dnItem.panel.image,
+                icon: dnItem.panel.icon,
+                label: dnItem.panel.label
+            } as ListItemPanel;
+        } else if (hasValue(dnItem.panel.showLegendContent) && dnItem.panel.showLegendContent) {
+            jsItem.panel = {
+                content: 'legend',
+                visible: dnItem.panel.visible,
+                className: dnItem.panel.className,
+                disabled: dnItem.panel.disabled,
+                flowEnabled: dnItem.panel.flowEnabled,
+                open: dnItem.panel.open,
+                image: dnItem.panel.image,
+                icon: dnItem.panel.icon,
+                label: dnItem.panel.label
+            } as ListItemPanel;
+        }
     }
 }
 
@@ -2616,13 +2728,6 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
 
             if (hasValue(layerObject.renderer) && (layerObject.renderer.type == 'raster-stretch')) {
                 wcsLayer.renderer = buildJsRasterStretchRenderer(layerObject.renderer) as RasterStretchRenderer;
-
-                if (hasValue(layerObject.renderer.stretchType)) {
-                    wcsLayer.renderer.stretchType = layerObject.renderer.stretchType;
-                }
-                if (hasValue(layerObject.renderer.statistics)) {
-                    wcsLayer.renderer.statistics = layerObject.renderer.statistics;
-                }
             }
             if (hasValue(layerObject.multidimensionalDefinition) && layerObject.multidimensionalDefinition.length > 0) {
                 wcsLayer.multidimensionalDefinition = [];
@@ -2679,79 +2784,67 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             let imageryLayer = newLayer as ImageryLayer;
 
             if (hasValue(layerObject.renderer)) {
-                switch (layerObject.renderer) {
-                    case 'raster-stretch':
-                        imageryLayer.renderer = buildJsRasterStretchRenderer(layerObject.renderer) as RasterStretchRenderer;
-                        break;
-                    case 'class-breaks-renderer':
-                        imageryLayer.renderer = buildJsClassBreaksRenderer(layerObject.renderer) as ClassBreaksRenderer;
-                        break;
-                    case 'unique-value-renderer':
-                        imageryLayer.renderer = buildJsUniqueValueRenderer(layerObject.renderer) as UniqueValueRenderer;
-                        break;
-                    case 'raster-shaded-relief-renderer':
-                        imageryLayer.renderer = buildJsRasterShadedReliefRenderer(layerObject.renderer) as RasterShadedReliefRenderer;
-                        break;
-                    case 'raster-colormap-renderer':
-                        imageryLayer.renderer = buildJsRasterColormapRenderer(layerObject.renderer) as RasterColormapRenderer;
-                        break;
-                    case 'vector-field-renderer':
-                        imageryLayer.renderer = buildJsVectorFieldRenderer(layerObject.renderer) as VectorFieldRenderer;
-                        break;
-                    case 'flow-renderer':
-                        imageryLayer.renderer = buildJsFlowRenderer(layerObject.renderer) as FlowRenderer;
-                        break;
-                }
+                imageryLayer.renderer = buildJsImageryRenderer(layerObject.renderer) as any;
             }
-            if (hasValue(layerObject.capabilities)) {
-                imageryLayer.capabilities = layerObject.capabilities;
-            }
-            if (hasValue(layerObject.customParameters)) {
-                imageryLayer.customParameters = layerObject.customParameters;
-            }
+            
             if (hasValue(layerObject.effect)) {
                 imageryLayer.effect = buildJsEffect(layerObject.effect);
             }
             if (hasValue(layerObject.fields && layerObject.fields.length > 0)) {
                 imageryLayer.fields = buildJsFields(layerObject.fields);
             }
-            if (hasValue(layerObject.mosaicRule)) {
-                imageryLayer.mosaicRule = layerObject.mosaicRule;
-            }
             if (hasValue(layerObject.multidimensionsionalSubset)) {
-                imageryLayer.multidimensionalSubset = layerObject.multidimensionsionalSubset;
+                imageryLayer.multidimensionalSubset = 
+                    buildJsMultidimensionalSubset(layerObject.multidimensionsionalSubset);
             }
             if (hasValue(layerObject.noData)) {
                 imageryLayer.noData = layerObject.noData;
             }
-            if (hasValue(layerObject.pixelFilter)) {
-                imageryLayer.pixelFilter = layerObject.pixelFilter;
-            }
+            
             if (hasValue(layerObject.popupTemplate)) {
                 imageryLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId ?? null) as PopupTemplate;
             }
-            if (hasValue(layerObject.rasterFunction)) {
-                imageryLayer.rasterFunction = layerObject.rasterFunction;
-            }
-            if (hasValue(layerObject.sourceJSON)) {
-                imageryLayer.sourceJSON = layerObject.sourceJSON;
-            }
-            if (hasValue(layerObject.timeExtent)) {
-                imageryLayer.timeExtent = layerObject.timeExtent;
-            }
-            if (hasValue(layerObject.timeInfo)) {
-                imageryLayer.timeInfo = layerObject.timeInfo;
-            }
-            if (hasValue(layerObject.timeOffset)) {
-                imageryLayer.timeOffset = layerObject.timeOffset;
-            }
 
             copyValuesIfExists('bandIds', 'blendMode', 'compressionQuality', 'compressionTolerance',
-                'copyright', 'definitionExpression', 'effect', 'format', 'hasMultidimensions', 'imageMaxHeight', 'imageMaxWidth',
+                'copyright', 'definitionExpression', 'format', 'hasMultidimensions', 'imageMaxHeight', 'imageMaxWidth',
                 'interpolation', 'legendEnabled', 'maxScale', 'minScale', 'multidimensionalInfo', 'noDataInterpretation',
-                'objectIdField', 'persistenceEnabled', 'pixelType', 'popupEnabled', 'refreshInterval', 'serviceRasterInfo', 'useViewTime', 'version')
+                'objectIdField', 'persistenceEnabled', 'pixelType', 'popupEnabled', 'refreshInterval', 
+                'serviceRasterInfo', 'useViewTime', 'version', 'capabilities', 'customParameters', 'timeExtent',
+                'timeInfo', 'timeOffset');
 
             newLayer = imageryLayer;
+            break;
+        case 'imagery-tile':
+            if (hasValue(layerObject.url)) {
+                newLayer = new ImageryTileLayer({
+                    url: layerObject.url
+                });
+            } else {
+                let portalItem = buildJsPortalItem(layerObject.portalItem);
+                newLayer = new ImageryLayer({ portalItem: portalItem });
+            }
+
+            let imageryTileLayer = newLayer as ImageryTileLayer;
+
+            if (hasValue(layerObject.renderer)) {
+                imageryTileLayer.renderer = buildJsImageryRenderer(layerObject.renderer) as any;
+            }
+
+            if (hasValue(layerObject.effect)) {
+                imageryTileLayer.effect = buildJsEffect(layerObject.effect);
+            }
+            if (hasValue(layerObject.multidimensionsionalSubset)) {
+                imageryTileLayer.multidimensionalSubset = buildJsMultidimensionalSubset(layerObject.multidimensionsionalSubset);
+            }
+            if (hasValue(layerObject.popupTemplate)) {
+                imageryTileLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId ?? null) as PopupTemplate;
+            }
+
+            copyValuesIfExists('bandIds', 'blendMode', 'copyright', 'interpolation', 
+                'legendEnabled', 'maxScale', 'minScale', 'persistenceEnabled', 'popupEnabled', 'serviceRasterInfo', 
+                'useViewTime', 'version', 'customParameters', 'timeExtent', 'timeInfo', 'timeOffset', 'interpolation');
+
+            newLayer = imageryTileLayer;
             break;
          default:
             return null;
@@ -2879,12 +2972,22 @@ function buildDotNetListItem(item: ListItem): DotNetListItem | null {
             children.push(child);
         }
     });
+    
+    let layerId: string | null = null;
+    // iterate through arcGisObjectRefs and find the value that equals the layer
+    for (let key in arcGisObjectRefs) {
+        if (arcGisObjectRefs[key] === item.layer) {
+            layerId = key;
+            break;
+        }
+    }
 
     return {
         title: item.title,
         visible: item.visible,
         children: children,
-        actionSections: item.actionsSections as any
+        actionSections: item.actionsSections as any,
+        layerId: layerId
     } as any as DotNetListItem;
 }
 
@@ -3208,4 +3311,9 @@ export function getWebMapBookmarks(viewId: string) {
         }
     }
     return null;
+}
+
+export function setStretchTypeForRenderer(rendererId, stretchType) {
+    let renderer = arcGisObjectRefs[rendererId] as RasterStretchRenderer;
+    renderer.stretchType = stretchType;
 }

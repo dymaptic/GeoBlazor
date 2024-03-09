@@ -144,7 +144,7 @@
                                 <SimpleRenderer Label="Cities">
                                     <SimpleMarkerSymbol Size="@(3)"
                                                         Color="@(new MapColor("white"))"
-                                                        Style="@SimpleMarkerStyle.Circle">
+                                                        MarkerStyle="@SimpleMarkerStyle.Circle">
                                         <Outline Width="@(0.5)"
                                                  Color="@(new MapColor("gray"))" />
                                     </SimpleMarkerSymbol>
@@ -204,9 +204,9 @@
                             </Sublayer>
                             <Sublayer SublayerId="0">
                                 <SimpleRenderer Label="Cities">
-                                    <SimpleMarkerSymbol Style="@SimpleMarkerStyle.Circle"
-                                                      Size="@(0.5)"
-                                                      Color="@(new MapColor("white"))" />
+                                    <SimpleMarkerSymbol MarkerStyle="@SimpleMarkerStyle.Circle"
+                                                        Size="@(0.5)"
+                                                        Color="@(new MapColor("white"))" />
                                 </SimpleRenderer>
                                 <Label Where="pop2000 > 500000"
                                        LabelExpression="[areaname]"

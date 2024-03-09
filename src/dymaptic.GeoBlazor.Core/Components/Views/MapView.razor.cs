@@ -1766,7 +1766,7 @@ public partial class MapView : MapComponent
     /// </param>
     public async Task<HitTestResult> HitTest(ClickEvent clickEvent, HitTestOptions? options = null)
     {
-        return await HitTestImplementation(clickEvent, options, true);
+        return await HitTestImplementation(new ScreenPoint(clickEvent.X, clickEvent.Y), options);
     }
 
     /// <summary>
@@ -1781,7 +1781,7 @@ public partial class MapView : MapComponent
     /// </param>
     public async Task<HitTestResult> HitTest(PointerEvent pointerEvent, HitTestOptions? options = null)
     {
-        return await HitTestImplementation(pointerEvent, options, true);
+        return await HitTestImplementation(new ScreenPoint(pointerEvent.X, pointerEvent.Y), options);
     }
 
     /// <summary>
@@ -1794,9 +1794,25 @@ public partial class MapView : MapComponent
     /// <param name="options">
     ///     Options to specify what is included in or excluded from the hitTest.
     /// </param>
-    public async Task<HitTestResult> HitTest(Point screenPoint, HitTestOptions? options = null)
+    public async Task<HitTestResult> HitTest(ScreenPoint screenPoint, HitTestOptions? options = null)
     {
-        return await HitTestImplementation(screenPoint, options, false);
+        return await HitTestImplementation(screenPoint, options);
+    }
+    
+    /// <summary>
+    ///     Returns <see cref="HitTestResult" />s from each layer that intersects the specified screen coordinates. The results
+    ///     are organized as an array of objects containing different result types.
+    /// </summary>
+    /// <param name="mapPoint">
+    ///     The map point, in the same projection as the map, to check for hits.
+    /// </param>
+    /// <param name="options">
+    ///     Options to specify what is included in or excluded from the hitTest.
+    /// </param>
+    public async Task<HitTestResult> HitTest(Point mapPoint, HitTestOptions? options = null)
+    {
+        ScreenPoint screenPoint = await ToScreen(mapPoint);
+        return await HitTestImplementation(screenPoint, options);
     }
 
     /// <summary>
@@ -2019,7 +2035,7 @@ public partial class MapView : MapComponent
             // the first render never has all the child components registered
             Rendering = false;
 
-            _authenticationInitialized = await AuthenticationManager.Initialize();
+            AuthenticationInitialized = await AuthenticationManager.Initialize();
 
             if (!string.IsNullOrEmpty(AppId) && (PromptForOAuthLogin == true))
             {
@@ -2045,7 +2061,7 @@ public partial class MapView : MapComponent
             return;
         }
 
-        if (!_authenticationInitialized || Rendering || Map is null || ViewJsModule is null) return;
+        if (!AuthenticationInitialized || Rendering || Map is null || ViewJsModule is null) return;
 
         if (string.IsNullOrWhiteSpace(ApiKey) && AllowDefaultEsriLogin is null or false &&
             PromptForArcGISKey is null or true && string.IsNullOrWhiteSpace(AppId))
@@ -2066,8 +2082,8 @@ public partial class MapView : MapComponent
         }
 
         Rendering = true;
-        Map.Layers.RemoveWhere(l => l.Imported);
-        Map.Basemap?.Layers.RemoveWhere(l => l.Imported);
+        Map.Layers.RemoveAll(l => l.Imported);
+        Map.Basemap?.Layers.RemoveAll(l => l.Imported);
         ValidateRequiredChildren();
 
         await InvokeAsync(async () =>
@@ -2257,13 +2273,11 @@ public partial class MapView : MapComponent
         }
     }
     
-    private async Task<HitTestResult> HitTestImplementation(object pointObject, HitTestOptions? options,
-        bool isEvent)
+    private async Task<HitTestResult> HitTestImplementation(ScreenPoint screenPoint, HitTestOptions? options)
     {
         Guid hitTestId = Guid.NewGuid();
         HitTestResult result = await ViewJsModule!.InvokeAsync<HitTestResult>("hitTest",
-            CancellationTokenSource.Token, pointObject, null, Id, isEvent, options,
-            hitTestId);
+            CancellationTokenSource.Token, screenPoint, Id, options, hitTestId);
 
         if (_activeHitTests.TryGetValue(hitTestId, out ViewHit[]? viewHits))
         {
@@ -2409,7 +2423,11 @@ public partial class MapView : MapComponent
     /// <summary>
     ///     A reference to the JavaScript AbortManager for this component.
     /// </summary>
-    protected AbortManager? AbortManager;
+    protected AbortManager? AbortManager; 
+    /// <summary>
+    ///     Marks that the authentication has been initialized.
+    /// </summary>
+    protected bool AuthenticationInitialized;
     
     private SpatialReference? _spatialReference;
     private Dictionary<Guid, StringBuilder> _hitTestResults = new();
@@ -2420,7 +2438,6 @@ public partial class MapView : MapComponent
     private HashSet<Graphic> _graphics = new();
     private HashSet<Widget> _widgets = new();
     private bool? _isPro;
-    private bool _authenticationInitialized;
     private Dictionary<Guid, ViewHit[]> _activeHitTests = new();
     
 #endregion

@@ -83,7 +83,7 @@ internal record PopupContentSerializationRecord : MapComponentSerializationRecor
                 MediaInfos?.Select(i => i.FromSerializationRecord()).ToArray(),
                 ActiveMediaInfoIndex),
             "relationship" => new RelationshipPopupContent(Title, Description, DisplayCount,
-                DisplayType, OrderByFields?.Select(x => x.FromSerializationRecord()).ToHashSet(),
+                DisplayType, OrderByFields?.Select(x => x.FromSerializationRecord()).ToList(),
                 RelationshipId),
             _ => throw new NotSupportedException($"PopupContent type {Type} is not supported")
         };

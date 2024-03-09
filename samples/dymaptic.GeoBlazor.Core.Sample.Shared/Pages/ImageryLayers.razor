@@ -14,7 +14,7 @@
 <button disabled="@(!_mapRendered)" @onclick="(()=>_markup = !_markup)">Add new Imagery Layer in Markup</button>
 
 <MapView @ref="_view" class="map-view" 
-         OnViewRendered="OnMapRendered">
+         OnViewRendered="OnViewRendered">
     <Map ArcGISDefaultBasemap="arcgis-light-gray">
         @if (_markup)
         {
@@ -26,7 +26,7 @@
 
 @code {
 
-    private void OnMapRendered() => _mapRendered = true;
+    private void OnViewRendered() => _mapRendered = true;
 
     public async Task AddRemoveImageryLayer()
     {

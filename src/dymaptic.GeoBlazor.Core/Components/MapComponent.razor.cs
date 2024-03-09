@@ -228,8 +228,6 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     public async Task SetVisibility(bool visible)
     {
         await JsModule!.InvokeVoidAsync("setVisibility", CancellationTokenSource.Token, Id, visible);
-        _visible = visible;
-        _visibilityChanged = true;
         Visible = visible;
     }
 
@@ -286,20 +284,18 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
                 {
                     optionSet.Found = true;
                 }
-                else
-                {
-                    continue;
-                }
+                continue;
             }
-            else if (value is null)
+            
+            if (value is null)
             {
-                throw new MissingRequiredChildElementException(thisType.Name, propType.Name);
+                throw new MissingRequiredChildElementException(thisType.Name, propName);
             }
 
             // lists, arrays
             if ((propType.GetInterface(nameof(ICollection)) != null) && (((ICollection)value).Count == 0))
             {
-                throw new MissingRequiredChildElementException(thisType.Name, propType.Name);
+                throw new MissingRequiredChildElementException(thisType.Name, propName);
             }
         }
 
@@ -329,10 +325,9 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     {
         await base.SetParametersAsync(parameters);
         
-        if (_visibilityChanged)
+        foreach (KeyValuePair<string, object?> kvp in ModifiedParameters)
         {
-            // once visibility has been changed by `SetVisibility`, it cannot be set by the incoming parameter
-            Visible = _visible;
+            GetType().GetProperty(kvp.Key)!.SetValue(this, kvp.Value);
         }
     }
 
@@ -361,8 +356,11 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _listeners = new();
     private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _waiters = new();
     private Type? _proExtensions;
-    private bool _visible;
-    private bool _visibilityChanged;
+
+    /// <summary>
+    ///     Properties that were modified in code, and should no longer be set via markup, but instead set to the value here.
+    /// </summary>
+    protected Dictionary<string, object?> ModifiedParameters = new();
 
     /// <summary>
     ///     Creates a cancellation token to control external calls

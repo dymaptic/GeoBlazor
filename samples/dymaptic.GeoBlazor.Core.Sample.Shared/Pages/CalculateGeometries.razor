@@ -24,6 +24,7 @@
         <Basemap>
             <PortalItem Id="d582a9e953c44c09bb998c7d9b66f8d4" />
         </Basemap>
+        <GraphicsLayer @ref="ResultsLayer" />
         <GraphicsLayer @ref="GraphicsLayer">
             <Graphic>
                 <Point @ref="PointGeometry" Longitude="-118.80657463861" Latitude="34.0005930608889" />
@@ -42,8 +43,6 @@
                 </SimpleFillSymbol>
             </Graphic>
         </GraphicsLayer>
-        <GraphicsLayer @ref="ResultsLayer">
-        </GraphicsLayer>
     </Map>
     <CustomOverlay Position="OverlayPosition.TopRight">
         <div id="controls" class="esri-widget">
@@ -55,13 +54,6 @@
     </CustomOverlay>
 </MapView>
 
-<SimpleFillSymbol @ref="BufferGraphicFill" Color="@(new MapColor(81, 46, 132, 0.5))">
-    <Outline Color="@(new MapColor(255, 255, 255, 255))" />
-</SimpleFillSymbol>
-<SimpleFillSymbol @ref="HighlightFill" FillStyle="FillStyle.Cross" Color="@(new MapColor(255, 255, 255))">
-    <Outline Color="@(new MapColor(255, 255, 255))" />
-</SimpleFillSymbol>
-
 @code {
 
     private async Task CreateBuffer()
@@ -69,7 +61,7 @@
         if (_bufferPolygon is not null) return;
 
         _bufferPolygon = await GeometryEngine.GeodesicBuffer(PointGeometry!, 1, LinearUnit.Kilometers);
-        _bufferGraphic = new Graphic(_bufferPolygon, BufferGraphicFill);
+        _bufferGraphic = new Graphic(_bufferPolygon, _bufferGraphicFill);
         await GraphicsLayer!.Add(_bufferGraphic);
     }
 
@@ -79,7 +71,7 @@
 
         await ClearResultsLayer();
         _highlightPolygon = await GeometryEngine.Intersect(PolygonGeometry!, _bufferPolygon) as Polygon;
-        _highlightGraphic = new Graphic(_highlightPolygon, HighlightFill);
+        _highlightGraphic = new Graphic(_highlightPolygon, _highlightFill);
         await ResultsLayer!.Add(_highlightGraphic);
     }
 
@@ -89,7 +81,7 @@
 
         await ClearResultsLayer();
         _highlightPolygon = await GeometryEngine.Union(PolygonGeometry!, _bufferPolygon) as Polygon;
-        _highlightGraphic = new Graphic(_highlightPolygon, HighlightFill);
+        _highlightGraphic = new Graphic(_highlightPolygon, _highlightFill);
         await ResultsLayer!.Add(_highlightGraphic);
     }
 
@@ -131,11 +123,13 @@
     private GraphicsLayer? GraphicsLayer { get; set; }
     private GraphicsLayer? ResultsLayer { get; set; }
 
-    private Symbol? BufferGraphicFill { get; set; }
+    private readonly Symbol _bufferGraphicFill = new SimpleFillSymbol(new Outline(new MapColor(255, 255, 255)),
+        new MapColor(81, 46, 132, 0.5));
     private Graphic? _bufferGraphic;
     private Polygon? _bufferPolygon;
 
-    private Symbol? HighlightFill { get; set; }
+    private readonly Symbol _highlightFill = new SimpleFillSymbol(new Outline(new MapColor(255, 255, 255)), 
+        new MapColor(255, 255, 255), FillStyle.Cross);
     private Polygon? _highlightPolygon;
     private Graphic? _highlightGraphic;
 }

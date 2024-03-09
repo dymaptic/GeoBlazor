@@ -24,7 +24,7 @@ public class Basemap : MapComponent
     /// <summary>
     ///     A collection of tile layers that make of the basemap's features.
     /// </summary>
-    public HashSet<Layer> Layers { get; set; } = new();
+    public List<Layer> Layers { get; set; } = new();
     
     /// <summary>
     ///     The style of the basemap from the basemap styles service (v2). The basemap styles service is a ready-to-use location service that serves vector and image tiles representing geographic features around the world.

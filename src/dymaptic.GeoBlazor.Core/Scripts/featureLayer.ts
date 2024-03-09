@@ -12,7 +12,7 @@ import {
     DotNetTopFeaturesQuery,
     DotNetField,
     DotNetDomain,
-    DotNetFeatureLayer
+    DotNetFeatureLayer, IPropertyWrapper
 } from "./definitions";
 import {
     buildJsApplyEdits,
@@ -41,8 +41,9 @@ import {
     getGraphicsFromProtobufStream, arcGisObjectRefs, hasValue, decodeProtobufGraphics, getProtobufGraphicStream
 } from "./arcGisJsInterop";
 import Graphic from "@arcgis/core/Graphic";
+import View from "@arcgis/core/views/View";
 
-export default class FeatureLayerWrapper {
+export default class FeatureLayerWrapper implements IPropertyWrapper {
     public layer: FeatureLayer;
 
     constructor(layer: FeatureLayer) {
@@ -188,7 +189,8 @@ export default class FeatureLayerWrapper {
             return;
         }
         let graphics = await getGraphicsFromProtobufStream(streamRef) as any[];
-        return await this.applyGraphicEdits(graphics, editType, options, viewId, abortSignal);
+        let result = await this.applyGraphicEdits(graphics, editType, options, viewId, abortSignal);
+        return result;
     }
     
     async applyGraphicEditsSynchronously(graphicsArray: Uint8Array, editType: string, options: any, 
@@ -347,5 +349,9 @@ export default class FeatureLayerWrapper {
     }
     hasValue(prop: any): boolean {
         return prop !== undefined && prop !== null;
+    }
+
+    setProperty(prop: string, value: any): void {
+        this.layer[prop] = value;
     }
 }

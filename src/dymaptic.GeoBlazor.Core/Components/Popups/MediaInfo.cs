@@ -216,7 +216,7 @@ public class ChartMediaInfoValue : MapComponent
     ///     An array of ChartMediaInfoValueSeries objects which provide information of x/y data that is plotted in a chart.
     /// </param>
     public ChartMediaInfoValue(IReadOnlyCollection<string>? fields = null, string? normalizeField = null,
-        string? tooltipField = null, IReadOnlyCollection<ChartMediaInfoValueSeries>? series = null)
+        string? tooltipField = null, IReadOnlyList<ChartMediaInfoValueSeries>? series = null)
     {
 #pragma warning disable BL0005
         if (fields is not null)
@@ -228,7 +228,7 @@ public class ChartMediaInfoValue : MapComponent
 
         if (series is not null)
         {
-            Series = series.ToHashSet();
+            Series = series.ToList();
         }
 #pragma warning restore BL0005
     }
@@ -265,7 +265,7 @@ public class ChartMediaInfoValue : MapComponent
     ///     An array of ChartMediaInfoValueSeries objects which provide information of x/y data that is plotted in a chart.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public HashSet<ChartMediaInfoValueSeries>? Series { get; set; }
+    public IList<ChartMediaInfoValueSeries>? Series { get; set; }
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
@@ -273,7 +273,7 @@ public class ChartMediaInfoValue : MapComponent
         switch (child)
         {
             case ChartMediaInfoValueSeries series:
-                Series ??= new HashSet<ChartMediaInfoValueSeries>();
+                Series ??= new List<ChartMediaInfoValueSeries>();
                 Series.Add(series);
 
                 break;

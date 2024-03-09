@@ -34,7 +34,7 @@ public class MediaPopupContent : PopupContent
     ///     Index of the current active media within the popup's media content. This will be the media that is currently viewed
     /// </param>
     public MediaPopupContent(string? title = null, string? description = null, 
-        IReadOnlyCollection<MediaInfo>? mediaInfos = null, string? activeMediaInfoIndex = null)
+        IReadOnlyList<MediaInfo>? mediaInfos = null, string? activeMediaInfoIndex = null)
     {
 #pragma warning disable BL0005
         Title = title;
@@ -44,7 +44,7 @@ public class MediaPopupContent : PopupContent
 
         if (mediaInfos is not null)
         {
-            MediaInfos = new HashSet<MediaInfo>(mediaInfos);
+            MediaInfos = new List<MediaInfo>(mediaInfos);
         }
         
     }
@@ -79,7 +79,7 @@ public class MediaPopupContent : PopupContent
     ///     individual chart or image element, or an array containing a combination of any of these types.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public HashSet<MediaInfo>? MediaInfos { get; set; }
+    public IList<MediaInfo>? MediaInfos { get; set; }
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
@@ -87,7 +87,7 @@ public class MediaPopupContent : PopupContent
         switch (child)
         {
             case MediaInfo mediaInfo:
-                MediaInfos ??= new HashSet<MediaInfo>();
+                MediaInfos ??= new List<MediaInfo>();
                 MediaInfos.Add(mediaInfo);
 
                 break;

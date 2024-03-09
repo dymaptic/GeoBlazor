@@ -14,7 +14,7 @@
 <button disabled="@(!_mapRendered)" @onclick="ToggleMovement">@(_mapRendered ? _isMoving ? "Stop" : "Start" : "Wait...")</button>
 <button @onclick="ResetGraphics">Reset</button>
 <button @onclick="CenterView">Center</button>
-<MapView @ref="_view" Class="map-view" Latitude="_lat" Longitude="_lon" Zoom="13" OnMapRendered="OnMapRendered">
+<MapView @ref="_view" Class="map-view" Latitude="_lat" Longitude="_lon" Zoom="13" OnViewRendered="OnViewRendered">
     <Map>
         <Basemap>
             <PortalItem Id="d582a9e953c44c09bb998c7d9b66f8d4" />
@@ -33,7 +33,7 @@
         }
     }
 
-    private void OnMapRendered()
+    private void OnViewRendered()
     {
         _mapRendered = true;
     }

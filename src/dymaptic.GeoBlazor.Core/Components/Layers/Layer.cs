@@ -186,6 +186,24 @@ public abstract class Layer : MapComponent
         LayerChanged = true;
         base.Refresh();
     }
+    
+    /// <summary>
+    ///     Sets any property to a new value after initial render. Supports all basic types (strings, numbers, booleans, dictionaries) and properties.
+    /// </summary>
+    /// <param name="propertyName">
+    ///     The name of the property to set.
+    /// </param>
+    /// <param name="value">
+    ///     The new value.
+    /// </param>
+    public async Task SetProperty(string propertyName, object? value)
+    {
+        ModifiedParameters[propertyName] = value;
+        
+        if (JsModule is null) return;
+        await JsModule!.InvokeVoidAsync("setProperty", JsLayerReference, 
+            propertyName.ToLowerFirstChar(), value);
+    }
 
     /// <inheritdoc />
     internal override void ValidateRequiredChildren()
@@ -301,6 +319,8 @@ internal class LayerConverter : JsonConverter<Layer>
                     return JsonSerializer.Deserialize<ImageryLayer>(ref cloneReader, newOptions);
                 case "map-image":
                     return JsonSerializer.Deserialize<MapImageLayer>(ref cloneReader, newOptions);
+                case "imagery-tile":
+                    return JsonSerializer.Deserialize<ImageryTileLayer>(ref cloneReader, newOptions);
             }
         }
 

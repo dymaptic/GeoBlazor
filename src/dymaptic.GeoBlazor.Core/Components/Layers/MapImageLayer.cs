@@ -104,7 +104,7 @@ public class MapImageLayer : Layer
         int? imageMaxWidth = null, bool? imageTransparency = null, bool? legendEnabled = null, int? maxScale = null,
         int? minScale = null, bool? persistenceEnabled = null, double? refreshInterval = null, 
         TimeExtent? timeExtent = null, TimeInfo? timeInfo = null, TimeInterval? timeInterval = null, 
-        bool? useViewTime = null, IEnumerable<Sublayer>? sublayers = null, ListMode? listMode = null,
+        bool? useViewTime = null, IReadOnlyList<Sublayer>? sublayers = null, ListMode? listMode = null,
         bool? visible = null, double? opacity = null)
     {
 #pragma warning disable BL0005 // Set parameter or member default value.
@@ -135,7 +135,7 @@ public class MapImageLayer : Layer
 
         if (sublayers is not null)
         {
-            Sublayers = new HashSet<Sublayer>(sublayers);
+            Sublayers = new List<Sublayer>(sublayers);
         }
 #pragma warning restore BL0005 // Set parameter or member default value.
     }
@@ -304,10 +304,10 @@ public class MapImageLayer : Layer
     ///     All sublayers are referenced in the order in which they are drawn in the view (bottom to top).
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public IReadOnlyCollection<Sublayer> Sublayers
+    public IReadOnlyList<Sublayer> Sublayers
     {
         get => _sublayers;
-        set => _sublayers = new HashSet<Sublayer>(value);
+        set => _sublayers = new List<Sublayer>(value);
     }
     
     //TODO: Add support for adding, removing, reordering sublayers
@@ -476,7 +476,7 @@ public class MapImageLayer : Layer
         }
     }
     
-    private HashSet<Sublayer> _sublayers = new();
+    private List<Sublayer> _sublayers = new();
 }
 
 /// <summary>

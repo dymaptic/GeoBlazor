@@ -12,11 +12,14 @@ namespace dymaptic.GeoBlazor.Core.Components.Renderers;
 ///     string field.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public class UniqueValueRenderer : Renderer
+public class UniqueValueRenderer : Renderer, IImageryRenderer
 {
     /// <inheritdoc />
     [JsonPropertyName("type")]
     public override RendererType RendererType => RendererType.UniqueValue;
+
+    /// <inheritdoc />
+    public string ImageryRendererType => "unique-value";
 
     /// <summary>
     ///     The name of the attribute field the renderer uses to match unique values or types.
@@ -40,7 +43,7 @@ public class UniqueValueRenderer : Renderer
     ///     The default symbol used to draw a feature whose value is not matched or specified by the renderer.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Symbol? DefaultSymbol => Symbol;
+    public DefaultSymbol? DefaultSymbol { get; set; }
 
     /// <summary>
     ///     An object providing options for displaying the renderer in the Legend.
@@ -65,9 +68,9 @@ public class UniqueValueRenderer : Renderer
 
                 break;
             case DefaultSymbol defaultSymbol:
-                if (defaultSymbol.Symbol is not null && !defaultSymbol.Symbol!.Equals(Symbol))
+                if (!defaultSymbol.Equals(DefaultSymbol))
                 {
-                    Symbol = defaultSymbol.Symbol;
+                    DefaultSymbol = defaultSymbol;
                 }
 
                 break;
@@ -92,7 +95,7 @@ public class UniqueValueRenderer : Renderer
 
                 break;
             case DefaultSymbol _:
-                Symbol = null;
+                DefaultSymbol = null;
 
                 break;
             default:

@@ -47,7 +47,7 @@
     <code>new TestObject("T1", "Test Object", 42, DateTime.UtcNow, false)</code>
 </div>
 <SceneView @ref="_view" Longitude="_longitude" Latitude="_latitude" Class="map-view"
-           ZIndex="2000" Tilt="76" OnMapRendered="OnMapRendered">
+           ZIndex="2000" Tilt="76" OnViewRendered="OnViewRendered">
     <Map Ground="world-elevation" ArcGISDefaultBasemap="satellite">
         <GraphicsLayer @ref="_graphicsLayer">
             <Graphic @ref="_polygonGraphic" Attributes="_graphic1Attributes">
@@ -65,7 +65,7 @@
 
 @code
 {
-    private async Task OnMapRendered()
+    private async Task OnViewRendered()
     {
         if (!_rendered)
         {
