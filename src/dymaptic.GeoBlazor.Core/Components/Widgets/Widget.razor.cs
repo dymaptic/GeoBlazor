@@ -1,4 +1,5 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Views;
+using dymaptic.GeoBlazor.Core.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System.Text.Json;
@@ -74,6 +75,11 @@ public abstract partial class Widget : MapComponent
     protected virtual bool Hidden => false;
     
     /// <summary>
+    ///     Indicates that the widget is sent to ArcGIS JS to render.
+    /// </summary>
+    protected internal virtual bool ArcGisWidget => true;
+    
+    /// <summary>
     ///     JS-invokable callback to register a JS Object Reference
     /// </summary>
     [JSInvokable]
@@ -81,6 +87,24 @@ public abstract partial class Widget : MapComponent
     {
         JsWidgetReference = jsObjectReference;
         await OnWidgetCreated.InvokeAsync();
+    }
+    
+    /// <summary>
+    ///     Sets any property to a new value after initial render. Supports all basic types (strings, numbers, booleans, dictionaries) and properties.
+    /// </summary>
+    /// <param name="propertyName">
+    ///     The name of the property to set.
+    /// </param>
+    /// <param name="value">
+    ///     The new value.
+    /// </param>
+    public async Task SetProperty(string propertyName, object? value)
+    {
+        ModifiedParameters[propertyName] = value;
+        
+        if (JsModule is null) return;
+        await JsModule!.InvokeVoidAsync("setProperty", JsWidgetReference, 
+            propertyName.ToLowerFirstChar(), value);
     }
 
     /// <inheritdoc />
@@ -137,7 +161,7 @@ public abstract partial class Widget : MapComponent
     /// <summary>
     ///     Indicates if the widget has changed since the last render.
     /// </summary>
-    protected bool WidgetChanged;
+    public bool WidgetChanged;
 
     /// <summary>
     ///     JS Object Reference to the widget

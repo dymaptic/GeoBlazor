@@ -34,7 +34,7 @@
             </MapView>);
 
         await WaitForMapToRender();
-        await AssertJavaScript("assertPopupCallback");
+        await AssertJavaScript("clickOnPopupAction");
         var tries = 10;
         while (!callbackCalled && (tries > 0))
         {

@@ -1,14 +1,26 @@
 ﻿import FeatureLayerView from "@arcgis/core/views/layers/FeatureLayerView";
 import Query from "@arcgis/core/rest/support/Query";
-import {DotNetFeatureEffect, DotNetFeatureFilter, DotNetFeatureSet, DotNetGraphic, DotNetQuery} from "./definitions";
+import {
+    DotNetFeatureEffect,
+    DotNetFeatureFilter,
+    DotNetFeatureSet,
+    DotNetGraphic,
+    DotNetQuery,
+    IPropertyWrapper
+} from "./definitions";
 import {buildJsFeatureEffect, buildJsFeatureFilter, buildJsQuery} from "./jsBuilder";
-import {blazorServer, dotNetRefs, graphicsRefs} from "./arcGisJsInterop";
-import {buildDotNetGeometry, buildDotNetGraphic, buildDotNetSpatialReference} from "./dotNetBuilder";
+import {blazorServer, dotNetRefs, getProtobufGraphicStream, graphicsRefs, hasValue} from "./arcGisJsInterop";
+import {
+    buildDotNetFeatureSet,
+    buildDotNetGeometry,
+    buildDotNetGraphic,
+    buildDotNetSpatialReference
+} from "./dotNetBuilder";
 import FeatureEffect from "@arcgis/core/layers/support/FeatureEffect";
 import FeatureFilter from "@arcgis/core/layers/support/FeatureFilter";
 import Handle = __esri.Handle;
 
-export default class FeatureLayerViewWrapper {
+export default class FeatureLayerViewWrapper implements IPropertyWrapper {
     private featureLayerView: FeatureLayerView;
 
     constructor(featureLayerView: FeatureLayerView) {
@@ -59,42 +71,25 @@ export default class FeatureLayerViewWrapper {
         return await this.featureLayerView.queryFeatureCount(jsQuery, options);
     }
 
-    async queryFeatures(query: DotNetQuery, options: any, dotNetRef: any, viewId: string | null)
+    async queryFeatures(query: DotNetQuery, options: any, dotNetRef: any, viewId: string | null, queryId: string)
         : Promise<DotNetFeatureSet | null> {
         try {
-            let jsQuery = buildJsQuery(query);
+            let jsQuery: Query | undefined = undefined;
+
+            if (hasValue(query)) {
+                jsQuery = buildJsQuery(query as DotNetQuery);
+            }
+
             let featureSet = await this.featureLayerView.queryFeatures(jsQuery, options);
-            let dotNetFeatureSet : DotNetFeatureSet = {
-                features: [],
-                displayFieldName: featureSet.displayFieldName,
-                exceededTransferLimit: featureSet.exceededTransferLimit,
-                fields: featureSet.fields,
-                geometryType: featureSet.geometryType,
-                queryGeometry: buildDotNetGeometry(featureSet.queryGeometry),
-                spatialReference: buildDotNetSpatialReference(featureSet.spatialReference)
-            };
-            let graphics : DotNetGraphic[] = [];
-            for (let i = 0; i < featureSet.features.length; i++) {
-                let feature = featureSet.features[i];
-                let graphic : DotNetGraphic = buildDotNetGraphic(feature) as DotNetGraphic;
-                if (viewId !== undefined && viewId !== null) {
-                    graphic.id = await dotNetRefs[viewId].invokeMethodAsync('GetId');
-                    graphicsRefs[graphic.id as string] = feature;
-                }
-                graphics.push(graphic);
+
+            let dotNetFeatureSet = await buildDotNetFeatureSet(featureSet, viewId);
+            if (dotNetFeatureSet.features.length > 0) {
+                let graphics = getProtobufGraphicStream(dotNetFeatureSet.features);
+                await dotNetRef.invokeMethodAsync('OnQueryFeaturesStreamCallback', graphics, queryId);
+                dotNetFeatureSet.features = [];
             }
-            dotNetFeatureSet.features = graphics;
-            if (!blazorServer) {
-                return dotNetFeatureSet;
-            }
-            let jsonSet = JSON.stringify(dotNetFeatureSet);
-            let chunkSize = 1000;
-            let chunks = Math.ceil(jsonSet.length / chunkSize);
-            for (let i = 0; i < chunks; i++) {
-                let chunk = jsonSet.slice(i * chunkSize, (i + 1) * chunkSize);
-                await dotNetRef.invokeMethodAsync('OnQueryFeaturesCreateChunk', chunk, i);
-            }
-            return null;
+
+            return dotNetFeatureSet;
         } catch (error) {
             console.debug(error);
             throw error;
@@ -104,5 +99,9 @@ export default class FeatureLayerViewWrapper {
     async queryObjectIds(query: DotNetQuery, options: any): Promise<number[]> {
         let jsQuery = buildJsQuery(query);
         return await this.featureLayerView.queryObjectIds(jsQuery, options);
+    }
+
+    setProperty(prop: string, value: any): void {
+        this.featureLayerView[prop] = value;
     }
 }

@@ -400,4 +400,17 @@ internal class GraphicsToSerializationConverter : JsonConverter<IReadOnlyCollect
 }
 
 [ProtoContract]
-internal record ProtoGraphicCollection([property: ProtoMember(1)] GraphicSerializationRecord[] Graphics);
+internal record ProtoGraphicCollection
+{
+    public ProtoGraphicCollection()
+    {
+    }
+    
+    public ProtoGraphicCollection(GraphicSerializationRecord[] graphics)
+    {
+        Graphics = graphics;
+    }
+
+    [property: ProtoMember(1)]
+    public GraphicSerializationRecord[] Graphics { get; set; } = Array.Empty<GraphicSerializationRecord>();
+}

@@ -45,13 +45,6 @@ public abstract class ActionBase : MapComponent
     public bool? Disabled { get; set; }
 
     /// <summary>
-    ///     Indicates if the action is visible.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? Visible { get; set; }
-
-    /// <summary>
     ///     The action function to perform on click.
     /// </summary>
     [Parameter]
@@ -69,34 +62,72 @@ public abstract class ActionBase : MapComponent
 }
 
 [ProtoContract(Name = "Action")]
-internal record ActionBaseSerializationRecord([property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(1)]
-        string Type,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(2)]
-        string? Title,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(3)]
-        string? ClassName,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(4)]
-        bool? Active,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(5)]
-        bool? Disabled,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(6)]
-        bool? Visible,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(7)]
-        string? Id)
-    : MapComponentSerializationRecord
+internal record ActionBaseSerializationRecord : MapComponentSerializationRecord
 {
+    public ActionBaseSerializationRecord()
+    {
+    }
+    
+    public ActionBaseSerializationRecord(string Type,
+        string? Title,
+        string? ClassName,
+        bool? Active,
+        bool? Disabled,
+        bool? Visible,
+        string? Id)
+    {
+        this.Type = Type;
+        this.Title = Title;
+        this.ClassName = ClassName;
+        this.Active = Active;
+        this.Disabled = Disabled;
+        this.Visible = Visible;
+        this.Id = Id;
+    }
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(1)]
+    public string Type { get; init; } = string.Empty;
+    
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(2)]
+    public string? Title { get; init; }
+    
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(3)]
+    public string? ClassName { get; init; }
+    
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(4)]
+    public bool? Active { get; init; }
+    
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(5)]
+    public bool? Disabled { get; init; }
+    
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(6)]
+    public bool? Visible { get; init; }
+    
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(7)]
+    public string? Id { get; init; }
+    
     [ProtoMember(8)]
     public string? Image { get; init; }
 
     [ProtoMember(9)]
     public bool? Value { get; init; }
+
+    public ActionBase FromSerializationRecord()
+    {
+        return Type switch
+        {
+            "button" => new ActionButton(Title, Image, Id, null, ClassName, Active, Disabled, Visible),
+            "toggle" => new ActionToggle(Title, Id, null, Value, Active, Disabled, Visible),
+            _ => throw new NotSupportedException()
+        };
+    }
 }
 
 /// <summary>

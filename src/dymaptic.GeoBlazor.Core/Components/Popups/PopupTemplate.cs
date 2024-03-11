@@ -55,9 +55,9 @@ public class PopupTemplate : MapComponent
     ///     Defines actions that may be executed by clicking the icon or image symbolizing them in the popup
     /// </param>
     public PopupTemplate(string? title = null, string? stringContent = null, IEnumerable<string>? outFields = null,
-        IEnumerable<FieldInfo>? fieldInfos = null, IEnumerable<PopupContent>? contents = null,
-        IEnumerable<ExpressionInfo>? expressionInfos = null, bool? overwriteActions = null,
-        bool? returnGeometry = null, IEnumerable<ActionBase>? actions = null)
+        IReadOnlyList<FieldInfo>? fieldInfos = null, IReadOnlyList<PopupContent>? contents = null,
+        IReadOnlyList<ExpressionInfo>? expressionInfos = null, bool? overwriteActions = null,
+        bool? returnGeometry = null, IReadOnlyList<ActionBase>? actions = null)
     {
 #pragma warning disable BL0005
         Title = title;
@@ -68,22 +68,22 @@ public class PopupTemplate : MapComponent
 
         if (contents is not null)
         {
-            Content = contents.ToHashSet();
+            Content = contents.ToList();
         }
 
         if (fieldInfos is not null)
         {
-            FieldInfos = fieldInfos.ToHashSet();
+            FieldInfos = fieldInfos.ToList();
         }
 
         if (expressionInfos is not null)
         {
-            ExpressionInfos = expressionInfos.ToHashSet();
+            ExpressionInfos = expressionInfos.ToList();
         }
 
         if (actions is not null)
         {
-            Actions = actions.ToHashSet();
+            Actions = actions.ToList();
         }
 #pragma warning restore BL0005
     }
@@ -153,7 +153,7 @@ public class PopupTemplate : MapComponent
     ///     Either <see cref="Content" /> or <see cref="StringContent" /> should be defined, but not both.
     /// </remarks>
     [RequiredProperty(nameof(StringContent), nameof(ContentFunction))]
-    public HashSet<PopupContent> Content { get; set; } = new();
+    public List<PopupContent> Content { get; set; } = new();
 
     /// <summary>
     ///     An array of FieldInfo that defines how fields in the dataset or values from Arcade expressions participate in a
@@ -168,20 +168,20 @@ public class PopupTemplate : MapComponent
     ///     Use this fieldInfos property to specify any formatting options for numbers displayed in chart or text elements.
     /// </remarks>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public HashSet<FieldInfo>? FieldInfos { get; set; }
+    public List<FieldInfo>? FieldInfos { get; set; }
 
     /// <summary>
     ///     An array of objects or ExpressionInfo[] that reference Arcade expressions following the specification defined by
     ///     the Arcade Popup Profile.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public HashSet<ExpressionInfo>? ExpressionInfos { get; set; }
+    public List<ExpressionInfo>? ExpressionInfos { get; set; }
 
     /// <summary>
     ///     Defines actions that may be executed by clicking the icon or image symbolizing them in the popup
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public HashSet<ActionBase>? Actions { get; set; }
+    public List<ActionBase>? Actions { get; set; }
 
     /// <summary>
     ///     Object reference for callbacks from JavaScript.
@@ -232,19 +232,19 @@ public class PopupTemplate : MapComponent
 
                 break;
             case FieldInfo fieldInfo:
-                FieldInfos ??= new HashSet<FieldInfo>();
+                FieldInfos ??= new List<FieldInfo>();
 
                 FieldInfos.Add(fieldInfo);
 
                 break;
             case ExpressionInfo expressionInfo:
-                ExpressionInfos ??= new HashSet<ExpressionInfo>();
+                ExpressionInfos ??= new List<ExpressionInfo>();
 
                 ExpressionInfos.Add(expressionInfo);
 
                 break;
             case ActionBase action:
-                Actions ??= new HashSet<ActionBase>();
+                Actions ??= new List<ActionBase>();
 
                 Actions.Add(action);
 
@@ -333,34 +333,82 @@ public class PopupTemplate : MapComponent
 }
 
 [ProtoContract(Name = "PopupTemplate")]
-internal record PopupTemplateSerializationRecord([property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(1)]
-        string? Title,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(2)]
+internal record PopupTemplateSerializationRecord : MapComponentSerializationRecord
+{
+    public PopupTemplateSerializationRecord()
+    {
+    }
+    
+    public PopupTemplateSerializationRecord(string? Title,
         string? StringContent = null,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(3)]
         IEnumerable<string>? OutFields = null,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(4)]
         IEnumerable<FieldInfoSerializationRecord>? FieldInfos = null,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(5)]
         IEnumerable<PopupContentSerializationRecord>? Content = null,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(6)]
         IEnumerable<ExpressionInfoSerializationRecord>? ExpressionInfos = null,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(7)]
         bool? OverwriteActions = null,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(8)]
         bool? ReturnGeometry = null,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(9)]
         IEnumerable<ActionBaseSerializationRecord>? Actions = null,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(10)]
         string? Id = null)
-    : MapComponentSerializationRecord;
+    {
+        this.Title = Title;
+        this.StringContent = StringContent;
+        this.OutFields = OutFields;
+        this.FieldInfos = FieldInfos;
+        this.Content = Content;
+        this.ExpressionInfos = ExpressionInfos;
+        this.OverwriteActions = OverwriteActions;
+        this.ReturnGeometry = ReturnGeometry;
+        this.Actions = Actions;
+        this.Id = Id;
+    }
+
+    public PopupTemplate FromSerializationRecord()
+    {
+        return new PopupTemplate(Title, StringContent, OutFields,
+            FieldInfos?.Select(f => f.FromSerializationRecord()).ToList(),
+            Content?.Select(c => c.FromSerializationRecord()).ToList(),
+            ExpressionInfos?.Select(e => e.FromSerializationRecord()).ToList(), 
+            OverwriteActions, ReturnGeometry, 
+            Actions?.Select(a => a.FromSerializationRecord()).ToList());
+    }
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(1)]
+    public string? Title { get; init; }
+    
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(2)]
+    public string? StringContent { get; init; }
+    
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(3)]
+    public IEnumerable<string>? OutFields { get; init; }
+    
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(4)]
+    public IEnumerable<FieldInfoSerializationRecord>? FieldInfos { get; init; }
+    
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(5)]
+    public IEnumerable<PopupContentSerializationRecord>? Content { get; init; }
+    
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(6)]
+    public IEnumerable<ExpressionInfoSerializationRecord>? ExpressionInfos { get; init; }
+    
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(7)]
+    public bool? OverwriteActions { get; init; }
+    
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(8)]
+    public bool? ReturnGeometry { get; init; }
+    
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(9)]
+    public IEnumerable<ActionBaseSerializationRecord>? Actions { get; init; }
+    
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(10)]
+    public string? Id { get; init; }
+}

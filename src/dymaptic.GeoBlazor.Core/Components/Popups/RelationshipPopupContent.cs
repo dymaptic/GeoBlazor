@@ -1,5 +1,6 @@
 ﻿using dymaptic.GeoBlazor.Core.Objects;
 using Microsoft.AspNetCore.Components;
+using ProtoBuf;
 using System.Text.Json.Serialization;
 
 
@@ -19,6 +20,51 @@ namespace dymaptic.GeoBlazor.Core.Components.Popups;
 /// </summary>
 public class RelationshipPopupContent : PopupContent
 {
+    /// <summary>
+    ///     Parameterless constructor for use as a razor component
+    /// </summary>
+    public RelationshipPopupContent()
+    {
+    }
+
+    /// <summary>
+    ///     Constructor for creating content in C# code.
+    /// </summary>
+    /// <param name="title">
+    ///     A heading indicating what the relationship's content represents.
+    /// </param>
+    /// <param name="description">
+    ///     Describes the relationship's content in detail.
+    /// </param>
+    /// <param name="displayCount">
+    ///     A numeric value indicating the maximum number of related features to display in the list of related records. The
+    /// </param>
+    /// <param name="displayType">
+    ///     A string value indicating how to display related records within the relationship content.
+    /// </param>
+    /// <param name="orderByFields">
+    ///     An array of RelatedRecordsInfoFieldOrder indicating the display order for the related records, and whether they
+    /// </param>
+    /// <param name="relationshipId">
+    ///     The numeric id value for the defined relationship. This value can be found on the service itself or on the
+    /// </param>
+    public RelationshipPopupContent(string? title = null, string? description = null, int? displayCount = null,
+        string? displayType = null, IReadOnlyList<RelatedRecordsInfoFieldOrder>? orderByFields = null,
+        int? relationshipId = null)
+    {
+#pragma warning disable BL0005
+        Title = title;
+        Description = description;
+        DisplayCount = displayCount;
+        DisplayType = displayType;
+        if (orderByFields is not null)
+        {
+            OrderByFields = orderByFields;
+        }
+        RelationshipId = relationshipId;
+#pragma warning restore BL0005
+    }
+
     /// <inheritdoc />
     public override string Type => "relationship";
 
@@ -51,7 +97,7 @@ public class RelationshipPopupContent : PopupContent
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public HashSet<RelatedRecordsInfoFieldOrder> OrderByFields { get; set; } = new();
+    public IReadOnlyList<RelatedRecordsInfoFieldOrder> OrderByFields { get; set; } = new List<RelatedRecordsInfoFieldOrder>();
 
     /// <summary>
     ///     The numeric id value for the defined relationship. This value can be found on the service itself or on the
@@ -90,6 +136,30 @@ public class RelationshipPopupContent : PopupContent
 public class RelatedRecordsInfoFieldOrder : MapComponent
 {
     /// <summary>
+    ///     Parameterless constructor for use as a razor component
+    /// </summary>
+    public RelatedRecordsInfoFieldOrder()
+    {
+    }
+
+    /// <summary>
+    ///     Constructor for creating a new RelatedRecordsInfoFieldOrder in code with parameters
+    /// </summary>
+    /// <param name="field">
+    ///     The attribute value of the field selected that will drive the sorting of related records.
+    /// </param>
+    /// <param name="order">
+    ///     Set the ascending or descending sort order of the returned related records.
+    /// </param>
+    public RelatedRecordsInfoFieldOrder(string? field = null, OrderBy? order = null)
+    {
+#pragma warning disable BL0005
+        Field = field;
+        Order = order;
+#pragma warning restore BL0005
+    }
+
+    /// <summary>
     ///     The attribute value of the field selected that will drive the sorting of related records.
     /// </summary>
     [Parameter]
@@ -109,4 +179,12 @@ public class RelatedRecordsInfoFieldOrder : MapComponent
     }
 }
 
-internal record RelatedRecordsInfoFieldOrderSerializationRecord(string? Field, OrderBy? Order);
+internal record RelatedRecordsInfoFieldOrderSerializationRecord(
+    [property: ProtoMember(1)] string? Field, 
+    [property: ProtoMember(2)] OrderBy? Order)
+{
+    public RelatedRecordsInfoFieldOrder FromSerializationRecord()
+    {
+        return new(Field, Order);
+    }
+}

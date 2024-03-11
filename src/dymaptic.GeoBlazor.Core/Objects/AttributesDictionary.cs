@@ -1,5 +1,8 @@
-﻿using ProtoBuf;
+﻿using dymaptic.GeoBlazor.Core.Components;
+using ProtoBuf;
 using System.Diagnostics;
+using System.Reflection;
+using System.Reflection.Metadata;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -17,7 +20,7 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
     /// </summary>
     public AttributesDictionary()
     {
-        _backingDictionary = new Dictionary<string, object>();
+        _backingDictionary = new Dictionary<string, object?>();
     }
 
     /// <summary>
@@ -26,12 +29,12 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
     /// <param name="dictionary">
     ///     The dictionary to use
     /// </param>
-    public AttributesDictionary(Dictionary<string, object> dictionary)
+    public AttributesDictionary(Dictionary<string, object?> dictionary)
     {
-        _backingDictionary = new Dictionary<string, object>();
+        _backingDictionary = new Dictionary<string, object?>();
         var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
-        foreach (KeyValuePair<string, object> kvp in dictionary)
+        foreach (KeyValuePair<string, object?> kvp in dictionary)
         {
             if (kvp.Value is JsonElement jsonElement)
             {
@@ -51,7 +54,7 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
                 {
                     typedValue = guidValue;
                 }
-                _backingDictionary[kvp.Key] = (typedValue ?? default(object))!;
+                _backingDictionary[kvp.Key] = (typedValue ?? default(object?))!;
             }
 
             // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
@@ -66,23 +69,52 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
         }
     }
 
-    /// <summary>
-    ///     Implicit conversion from <see cref="Dictionary{TKey,TValue}" /> to AttributesDictionary.
-    ///     This is only provided for backwards compatibility and may be removed in a future release.
-    /// </summary>
-    [Obsolete("Using a Dictionary<string, object> for attributes is deprecated. Use an AttributesDictionary(Dictionary<string, object> dictionary) instead.")]
-    public static implicit operator AttributesDictionary(Dictionary<string, object> dictionary)
+    internal AttributesDictionary(AttributeSerializationRecord[]? serializedAttributes)
     {
-        Debug.WriteLine(
-            "Using a Dictionary<string, object> for attributes is deprecated. Use an AttributesDictionary(Dictionary<string, object> dictionary) instead.");
+        _backingDictionary = new Dictionary<string, object?>();
 
-        return new AttributesDictionary(dictionary);
+        if (serializedAttributes is not null)
+        {
+            foreach (AttributeSerializationRecord record in serializedAttributes)
+            {
+                switch (record.ValueType)
+                {
+                    case "[object Number]":
+                        _backingDictionary[record.Key] = double.Parse(record.Value!);
+                        
+                        break;
+                    case "[object Boolean]":
+                        _backingDictionary[record.Key] = bool.Parse(record.Value!);
+
+                        break;
+                    case "[object String]":
+                        if (Guid.TryParse(record.Value, out Guid guidValue))
+                        {
+                            _backingDictionary[record.Key] = guidValue;
+                        }
+                        else
+                        {
+                            _backingDictionary[record.Key] = record.Value;
+                        }
+
+                        break;
+                    case "[object Date]":
+                        _backingDictionary[record.Key] = DateTime.Parse(record.Value!);
+
+                        break;
+                    default:
+                        _backingDictionary[record.Key] = record.Value;
+
+                        break;
+                }
+            }
+        }
     }
 
     /// <summary>
-    ///     Implicit conversion from AttributesDictionary to <see cref="Dictionary{TKey,TValue}" />.
+    ///     Explicit conversion from AttributesDictionary to <see cref="Dictionary{TKey,TValue}" />.
     /// </summary>
-    public static explicit operator Dictionary<string, object>(AttributesDictionary attributesDictionary)
+    public static explicit operator Dictionary<string, object?>(AttributesDictionary attributesDictionary)
     {
         return attributesDictionary._backingDictionary;
     }
@@ -117,12 +149,12 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
     /// <summary>
     ///     Returns all the keys in the dictionary
     /// </summary>
-    public Dictionary<string, object>.KeyCollection Keys => _backingDictionary.Keys;
+    public Dictionary<string, object?>.KeyCollection Keys => _backingDictionary.Keys;
 
     /// <summary>
     ///     Returns all the values in the dictionary
     /// </summary>
-    public Dictionary<string, object>.ValueCollection Values => _backingDictionary.Values;
+    public Dictionary<string, object?>.ValueCollection Values => _backingDictionary.Values;
 
     /// <inheritdoc />
     public bool Equals(AttributesDictionary? other)
@@ -131,7 +163,7 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
         if (ReferenceEquals(this, other)) return true;
         if (other.Count != Count) return false;
 
-        foreach (KeyValuePair<string, object> pair in _backingDictionary)
+        foreach (KeyValuePair<string, object?> pair in _backingDictionary)
         {
             if (!other.TryGetValue(pair.Key, out object? value)) return false;
 
@@ -275,7 +307,7 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
     {
         if (otherDictionary.Count != Count) return false;
 
-        foreach (KeyValuePair<string, object> pair in _backingDictionary)
+        foreach (KeyValuePair<string, object?> pair in _backingDictionary)
         {
             if (!otherDictionary.TryGetValue(pair.Key, out object? value)) return false;
 
@@ -295,46 +327,45 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
     {
         return _backingDictionary
             .Select(kvp =>
-                new AttributeSerializationRecord(kvp.Key, kvp.Value.ToString(),
-                    kvp.Value.GetType().ToString()))
+                new AttributeSerializationRecord(kvp.Key, kvp.Value?.ToString(),
+                    kvp.Value?.GetType().ToString() ?? "null"))
             .ToArray();
     }
 
-    private readonly Dictionary<string, object> _backingDictionary;
+    private readonly Dictionary<string, object?> _backingDictionary;
 
     /// <summary>
-    ///     Gets or sets the value associated with the specified key.
+    ///     Gets the value associated with the specified key.
     /// </summary>
-    /// <remarks>
-    ///     Setter is obsolete and potentially unstable due to calling async from sync code.
-    /// </remarks>
     /// <param name="key">
     ///     The key to get the value for
     /// </param>
-    public object this[string key]
-    {
-        get => _backingDictionary[key];
-        [Obsolete("Use AddOrUpdate instead")]
-        set
-        {
-            if (_backingDictionary.ContainsKey(key) && (_backingDictionary[key] == value))
-            {
-                return;
-            }
-
-            _backingDictionary[key] = value;
-
-            if (OnChange is not null)
-            {
-                Task.Run(OnChange);
-            }
-        }
-    }
+    public object? this[string key] => _backingDictionary[key];
 }
 
 [ProtoContract(Name = "Attribute")]
-internal record AttributeSerializationRecord([property: ProtoMember(1)] string Key,
-    [property: ProtoMember(2)] string? Value, [property: ProtoMember(3)] string ValueType);
+internal record AttributeSerializationRecord : MapComponentSerializationRecord
+{
+    public AttributeSerializationRecord()
+    {
+    }
+    
+    public AttributeSerializationRecord(string Key,
+        string? Value,
+        string ValueType)
+    {
+        this.Key = Key;
+        this.Value = Value;
+        this.ValueType = ValueType;
+    }
+
+    [ProtoMember(1)]
+    public string Key { get; init; } = string.Empty;
+    [ProtoMember(2)]
+    public string? Value { get; init; }
+    [ProtoMember(3)]
+    public string ValueType { get; init; } = string.Empty;
+}
 
 internal class AttributesDictionaryConverter : JsonConverter<AttributesDictionary>
 {
@@ -342,8 +373,8 @@ internal class AttributesDictionaryConverter : JsonConverter<AttributesDictionar
         JsonSerializerOptions options)
     {
         // read as a dictionary
-        Dictionary<string, object>? dictionary =
-            JsonSerializer.Deserialize<Dictionary<string, object>>(ref reader, options);
+        Dictionary<string, object?>? dictionary =
+            JsonSerializer.Deserialize<Dictionary<string, object?>>(ref reader, options);
 
         if (dictionary is null)
         {
@@ -357,12 +388,12 @@ internal class AttributesDictionaryConverter : JsonConverter<AttributesDictionar
     {
         writer.WriteStartArray();
 
-        foreach (KeyValuePair<string, object> entry in (Dictionary<string, object>)value)
+        foreach (KeyValuePair<string, object?> entry in (Dictionary<string, object?>)value)
         {
             writer.WriteStartObject();
             writer.WriteString("key", entry.Key);
-            writer.WriteString("value", entry.Value.ToString());
-            writer.WriteString("valueType", entry.Value.GetType().ToString());
+            writer.WriteString("value", entry.Value?.ToString());
+            writer.WriteString("valueType", entry.Value?.GetType().ToString() ?? "null");
             writer.WriteEndObject();
         }
 

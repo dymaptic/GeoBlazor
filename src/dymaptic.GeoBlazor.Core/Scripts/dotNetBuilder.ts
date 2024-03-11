@@ -52,6 +52,7 @@ import {
     DotNetEffect,
     DotNetFeatureTemplate,
     DotNetAddressCandidate
+    DotNetFeatureTemplate, DotNetFeatureSet
 } from "./definitions";
 import Point from "@arcgis/core/geometry/Point";
 import Polyline from "@arcgis/core/geometry/Polyline";
@@ -80,7 +81,7 @@ import ExpressionContent from "@arcgis/core/popup/content/ExpressionContent";
 import ElementExpressionInfo from "@arcgis/core/popup/ElementExpressionInfo";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
-import { arcGisObjectRefs, copyValuesIfExists, hasValue } from "./arcGisJsInterop";
+import { arcGisObjectRefs, copyValuesIfExists, dotNetRefs, graphicsRefs, hasValue} from "./arcGisJsInterop";
 import SimpleMarkerSymbol from "@arcgis/core/symbols/SimpleMarkerSymbol";
 import Symbol from "@arcgis/core/symbols/Symbol";
 import Graphic from "@arcgis/core/Graphic";
@@ -122,14 +123,19 @@ import SizeSchemeForPolygon = __esri.SizeSchemeForPolygon;
 import UniqueValuesResult = __esri.UniqueValuesResult;
 import AuthoringInfo from "@arcgis/core/renderers/support/AuthoringInfo";
 import AddressCandidate = __esri.AddressCandidate;
+import FeatureSet from "@arcgis/core/rest/support/FeatureSet";
+import DirectionsFeatureSet from "@arcgis/core/rest/support/DirectionsFeatureSet";
+import MapImageLayer from "@arcgis/core/layers/MapImageLayer";
+import Sublayer from "@arcgis/core/layers/support/Sublayer.js";
 
 
-export function buildDotNetGraphic(graphic: Graphic): DotNetGraphic {
+export function buildDotNetGraphic(graphic: Graphic): DotNetGraphic | null {
+    if (graphic === undefined || graphic === null) return null;
     let dotNetGraphic = {} as DotNetGraphic;
 
-    if (Object.values(arcGisObjectRefs).includes(graphic)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === graphic) {
+    if (Object.values(graphicsRefs).includes(graphic)) {
+        for (const k of Object.keys(graphicsRefs)) {
+            if (graphicsRefs[k] === graphic) {
                 dotNetGraphic.id = k;
                 break;
             }
@@ -137,7 +143,7 @@ export function buildDotNetGraphic(graphic: Graphic): DotNetGraphic {
     }
 
     dotNetGraphic.uid = (graphic as any).uid;
-    dotNetGraphic.attributes = graphic.attributes;
+    dotNetGraphic.attributes = graphic.attributes ?? {};
     if (graphic.symbol !== undefined && graphic.symbol !== null) {
         dotNetGraphic.symbol = buildDotNetSymbol(graphic.symbol);
     }
@@ -376,12 +382,15 @@ export function buildDotNetLayerView(layerView: LayerView): DotNetLayerView {
     }
 }
 
-export function buildDotNetLayer(layer: Layer): DotNetLayer {
+export function buildDotNetLayer(layer: Layer, includeGraphics: boolean = true)
+    : DotNetLayer {
     switch (layer.type) {
         case 'feature':
             return buildDotNetFeatureLayer(layer as FeatureLayer);
+        case 'map-image':
+            return buildDotNetMapImageLayer(layer as MapImageLayer);
         case 'graphics':
-            return buildDotNetGraphicsLayer(layer as GraphicsLayer);
+            return buildDotNetGraphicsLayer(layer as GraphicsLayer, includeGraphics);
         default:
 
             let dotNetLayer = {
@@ -408,7 +417,8 @@ export function buildDotNetLayer(layer: Layer): DotNetLayer {
     }
 }
 
-export function buildDotNetFeatureLayer(layer: FeatureLayer): DotNetFeatureLayer {
+export function buildDotNetFeatureLayer(layer: FeatureLayer)
+    : DotNetFeatureLayer {
 
     let dotNetLayer = {
         title: layer.title,
@@ -455,6 +465,138 @@ export function buildDotNetFeatureLayer(layer: FeatureLayer): DotNetFeatureLayer
     }
 
     return dotNetLayer;
+}
+
+function buildDotNetMapImageLayer(layer: MapImageLayer): any {
+    let dotNetLayer: any = {
+        type: layer.type,
+        url: layer.url,
+        portalItem: layer.portalItem,
+        blendMode: layer.blendMode,
+        customParameters: layer.customParameters,
+        dpi: layer.dpi,
+        gdbVersion: layer.gdbVersion,
+        imageFormat: layer.imageFormat,
+        imageMaxHeight: layer.imageMaxHeight,
+        imageMaxWidth: layer.imageMaxWidth,
+        imageTransparency: layer.imageTransparency,
+        legendEnabled: layer.legendEnabled,
+        maxScale: layer.maxScale,
+        minScale: layer.minScale,
+        persistenceEnabled: layer.persistenceEnabled,
+        refreshInterval: layer.refreshInterval,
+        useViewTime: layer.useViewTime,
+        listMode: layer.listMode,
+        visible: layer.visible,
+        opacity: layer.opacity
+    };
+
+    if (hasValue(layer.effect)) {
+        dotNetLayer.effect = buildDotNetEffect(layer.effect);
+    }
+    
+    if (hasValue(layer.fullExtent)) {
+        dotNetLayer.fullExtent = buildDotNetExtent(layer.fullExtent) as DotNetExtent;
+    }
+
+    if (hasValue(layer.spatialReference)) {
+        dotNetLayer.spatialReference = buildDotNetSpatialReference(layer.spatialReference) as DotNetSpatialReference;
+    }
+    
+    if (hasValue(layer.timeExtent)) {
+        dotNetLayer.timeExtent = buildDotNetTimeExtent(layer.timeExtent);
+    }
+    
+    if (hasValue(layer.timeInfo)) {
+        dotNetLayer.timeInfo = buildDotNetTimeInfo(layer.timeInfo) as DotNetTimeInfo;
+    }
+    
+    if (hasValue(layer.sublayers)) {
+        dotNetLayer.sublayers = layer.sublayers.map(buildDotNetSublayer);
+    }
+    
+    if (hasValue(layer.allSublayers)) {
+        dotNetLayer.allSublayers = layer.allSublayers.map(buildDotNetSublayer);
+    }
+
+    if (Object.values(arcGisObjectRefs).includes(layer)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === layer) {
+                dotNetLayer.id = k;
+                break;
+            }
+        }
+    }
+
+    return dotNetLayer;
+}
+
+function buildDotNetSublayer(sublayer: Sublayer): any {
+    let dotNetSublayer: any = {
+        sublayerId: sublayer.id,
+        labelsVisible: sublayer.labelsVisible,
+        legendEnabled: sublayer.legendEnabled,
+        listMode: sublayer.listMode,
+        maxScale: sublayer.maxScale,
+        minScale: sublayer.minScale,
+        popupEnabled: sublayer.popupEnabled,
+        visible: sublayer.visible,
+        opacity: sublayer.opacity,
+        title: sublayer.title,
+        definitionExpression: sublayer.definitionExpression,
+        floorInfo: sublayer.floorInfo,
+        capabilities: sublayer.capabilities,
+        fields: sublayer.fields,
+        fieldsIndex: sublayer.fieldsIndex,
+        objectIdField: sublayer.objectIdField,
+        sourceJSON: sublayer.sourceJSON,
+        typeIdField: sublayer.typeIdField,
+        url: sublayer.url
+    };
+    
+    if (hasValue(sublayer.types)) {
+        dotNetSublayer.types = sublayer.types.map(buildDotNetFeatureType);
+    }
+
+    if (hasValue(sublayer.labelingInfo)) {
+        dotNetSublayer.labelingInfo = sublayer.labelingInfo.map(buildDotNetLabelClass);
+    }
+    
+    if (hasValue(sublayer.popupTemplate)) {
+        dotNetSublayer.popupTemplate = buildDotNetPopupTemplate(sublayer.popupTemplate);
+    }
+    
+    if (hasValue(sublayer.renderer)) {
+        dotNetSublayer.renderer = buildDotNetRenderer(sublayer.renderer);
+    }
+
+    if (hasValue(sublayer.fullExtent)) {
+        dotNetSublayer.fullExtent = buildDotNetExtent(sublayer.fullExtent) as DotNetExtent;
+    }
+
+    if (hasValue(sublayer.sublayers)) {
+        dotNetSublayer.sublayers = sublayer.sublayers.map(buildDotNetSublayer);
+    }
+    
+    if (hasValue(sublayer.source)) {
+        dotNetSublayer.source = buildDotNetDynamicLayer(sublayer.source);
+    }
+
+    if (Object.values(arcGisObjectRefs).includes(sublayer)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === sublayer) {
+                dotNetSublayer.id = k;
+                break;
+            }
+        }
+    }
+
+    return dotNetSublayer;
+
+}
+
+function buildDotNetDynamicLayer(source: any): any {
+    
 }
 
 export function buildDotNetFields(fields: Array<Field>): Array<DotNetField> {
@@ -520,7 +662,8 @@ export function buildDotNetRangeDomain(domain: RangeDomain): DotNetRangeDomain {
     } as DotNetRangeDomain;
 }
 
-export function buildDotNetGraphicsLayer(layer: GraphicsLayer): DotNetGraphicsLayer {
+export function buildDotNetGraphicsLayer(layer: GraphicsLayer, includeGraphics: boolean = true)
+    : DotNetGraphicsLayer {
     let dotNetLayer = {
         title: layer.title,
         type: layer.type,
@@ -533,8 +676,8 @@ export function buildDotNetGraphicsLayer(layer: GraphicsLayer): DotNetGraphicsLa
         dotNetLayer.fullExtent = buildDotNetExtent(layer.fullExtent) as DotNetExtent;
     }
 
-    if (layer.graphics !== undefined && layer.graphics !== null) {
-        dotNetLayer.graphics = (layer.graphics as MapCollection).items.map(g => buildDotNetGraphic(g));
+    if (includeGraphics && layer.graphics !== undefined && layer.graphics !== null) {
+        dotNetLayer.graphics = (layer.graphics as MapCollection).items.map(g => buildDotNetGraphic(g) as DotNetGraphic);
     }
 
     if (Object.values(arcGisObjectRefs).includes(layer)) {
@@ -561,13 +704,21 @@ export function buildDotNetHitTestResult(hitTestResult: HitTestResult): DotNetHi
 function buildDotNetViewHit(viewHit: ViewHit): DotNetViewHit | null {
     switch (viewHit.type) {
         case "graphic":
+            let layerId: string | null = null;
+            if (Object.values(arcGisObjectRefs).includes(viewHit.layer)) {
+                for (const k of Object.keys(arcGisObjectRefs)) {
+                    if (arcGisObjectRefs[k] === viewHit.layer) {
+                        layerId = k;
+                        break;
+                    }
+                }
+            }
             return {
                 type: "graphic",
                 graphic: buildDotNetGraphic(viewHit.graphic),
-                layer: buildDotNetLayer(viewHit.layer ?? viewHit.graphic.layer),
+                layerId: layerId,
                 mapPoint: buildDotNetPoint(viewHit.mapPoint)
             } as DotNetGraphicHit;
-            break;
     }
 
     return null;
@@ -917,11 +1068,17 @@ export function buildDotNetSearchSource(jsSource: LayerSearchSource | LocatorSea
 
 export function buildDotNetGoToOverrideParameters(parameters: any, viewId: string): any {
     let dnParams: any = {
-        viewId: viewId
+        viewId: viewId,
+        options: {
+            animate: parameters.options.animate,
+            duration: parameters.options.duration,
+            easing: parameters.options.easing,
+            pickClosestTarget: parameters.options.pickClosestTarget
+        }
     }
     if (hasValue(parameters.target)) {
         let target: any = {
-            target: parameters.target.target,
+            target: parameters.target.target.toJSON(),
             center: parameters.target.center,
             scale: parameters.target.scale,
             zoom: parameters.target.zoom,
@@ -931,25 +1088,28 @@ export function buildDotNetGoToOverrideParameters(parameters: any, viewId: strin
         };
         if (Array.isArray(parameters.target.target) && parameters.target.target.length > 0) {
             let firstObject = parameters.target.target[0];
-            if (firstObject instanceof Graphic) {
+            if (firstObject instanceof Graphic || firstObject.declaredClass.includes('graphic')) {
                 target.targetGraphics = [];
-                for (let g: Graphic in parameters.target.target as Graphic[]) {
-                    target.targetGraphics.push(buildDotNetGraphic(g));
+                for (let g in parameters.target.target as Graphic[]) {
+                    target.targetGraphics.push(buildDotNetGraphic(g as any));
                 }
-            } else if (firstObject instanceof Geometry) {
+            } else if (firstObject instanceof Geometry || firstObject.declaredClass.includes('geometry')) {
                 target.targetGeometries = [];
-                for (let g: Geometry in parameters.target.target as Geometry[]) {
-                    target.targetGeometries.push(buildDotNetGeometry(g));
+                for (let g in parameters.target.target as Geometry[]) {
+                    target.targetGeometries.push(buildDotNetGeometry(g as any));
                 }
             } else {
                 target.targetCoordinates = parameters.target.target;
             }
-        } else if (parameters.target.target instanceof Graphic) {
+        } else if (parameters.target.target instanceof Graphic || parameters.target.target.declaredClass.includes('graphic')) {
             target.targetGraphic = buildDotNetGraphic(parameters.target.target);
-        } else if (parameters.target.target instanceof Geometry) {
+        } else if (parameters.target.target instanceof Geometry || parameters.target.target.declaredClass.includes('geometry')) {
             target.targetGeometry = buildDotNetGeometry(parameters.target.target);
         }
+        dnParams.target = target;
     }
+    
+    return dnParams;
 }
 
 export function buildDotNetSearchResult(jsSearchResult: SearchResult) {
@@ -972,9 +1132,8 @@ export function buildDotNetSuggestResult(jsSuggestResult: SuggestResult) {
 }
 
 export function buildDotNetLabelClass(labelClass: LabelClass): any {
-    return {
+    let dnLabelClass: any = {
         labelExpression: labelClass.labelExpression,
-        labelExpressionInfo: buildDotNetLabelExpressionInfo(labelClass.labelExpressionInfo),
         allowOverrun: labelClass.allowOverrun,
         deconflictionStrategy: labelClass.deconflictionStrategy,
         labelPlacement: labelClass.labelPlacement,
@@ -983,10 +1142,19 @@ export function buildDotNetLabelClass(labelClass: LabelClass): any {
         minScale: labelClass.minScale,
         repeatLabel: labelClass.repeatLabel,
         repeatLabelDistance: labelClass.repeatLabelDistance,
-        symbol: buildDotNetSymbol(labelClass.symbol),
         useCodedValues: labelClass.useCodedValues,
         where: labelClass.where
     }
+    
+    if (hasValue(labelClass.labelExpressionInfo)) {
+        dnLabelClass.labelExpressionInfo = buildDotNetLabelExpressionInfo(labelClass.labelExpressionInfo);
+    }
+    
+    if (hasValue(labelClass.symbol)) {
+        dnLabelClass.symbol = buildDotNetSymbol(labelClass.symbol);
+    }
+    
+    return dnLabelClass;
 }
 
 export function buildDotNetLabelExpressionInfo(labelExpressionInfo: any): any {
@@ -1158,4 +1326,104 @@ export function buildDotNetAddressCandidate(addressCandidate: AddressCandidate):
         location: buildDotNetPoint(addressCandidate.location),
         score: addressCandidate.score
     } as DotNetAddressCandidate;
+}
+
+export function buildDotNetEditsResult(jsResult: __esri.EditsResult): any {
+    let dnResult: any = {
+        addFeatureResults: jsResult.addFeatureResults,
+        deleteFeatureResults: jsResult.deleteFeatureResults,
+        updateFeatureResults: jsResult.updateFeatureResults,
+        addAttachmentResults: jsResult.addAttachmentResults,
+        updateAttachmentResults: jsResult.updateAttachmentResults,
+        deleteAttachmentResults: jsResult.deleteAttachmentResults
+    };
+    
+    if (hasValue(jsResult.editedFeatureResults)) {
+        dnResult.editedFeatureResults = jsResult.editedFeatureResults!.map(r =>{
+            let dnEditedFeatureResult: any = {
+                layerId: r.layerId
+            };
+            if (hasValue(r.editedFeatures.adds)) {
+                dnEditedFeatureResult.adds = r.editedFeatures.adds!.map(buildDotNetFeature);
+            }
+            if (hasValue(r.editedFeatures.deletes)) {
+                dnEditedFeatureResult.deletes = r.editedFeatures.deletes!.map(buildDotNetFeature);
+            }
+            if (hasValue(r.editedFeatures.updates)) {
+                dnEditedFeatureResult.updates = [];
+                for (let i = 0; i < r.editedFeatures.updates!.length; i++) {
+                    let jsFeature = r.editedFeatures.updates![i];
+                    dnEditedFeatureResult.updates.push({
+                        original: jsFeature.original?.map(buildDotNetFeature),
+                        current: jsFeature.current?.map(buildDotNetFeature)
+                    });
+                }
+            }
+            if (hasValue(r.editedFeatures.spatialReference)) {
+                dnEditedFeatureResult.spatialReference = buildDotNetSpatialReference(r.editedFeatures.spatialReference!);
+            }
+            
+            return dnEditedFeatureResult;
+        });
+    }
+    return dnResult;
+}
+
+export async function buildDotNetFeatureSet(jsFs: FeatureSet, viewId: string | null): Promise<DotNetFeatureSet> {
+    let dotNetFeatureSet: DotNetFeatureSet = {
+        features: [],
+        displayFieldName: jsFs.displayFieldName,
+        exceededTransferLimit: jsFs.exceededTransferLimit,
+        fields: jsFs.fields,
+        geometryType: jsFs.geometryType,
+        queryGeometry: buildDotNetGeometry(jsFs.queryGeometry),
+        spatialReference: buildDotNetSpatialReference(jsFs.spatialReference)
+    };
+    let graphics: DotNetGraphic[] = [];
+    for (let i = 0; i < jsFs.features.length; i++) {
+        let feature = jsFs.features[i];
+        let graphic: DotNetGraphic = buildDotNetGraphic(feature) as DotNetGraphic;
+        if (viewId !== undefined && viewId !== null) {
+            graphic.id = await dotNetRefs[viewId].invokeMethodAsync('GetId');
+            graphicsRefs[graphic.id as string] = feature;
+        }
+        graphics.push(graphic);
+    }
+    dotNetFeatureSet.features = graphics;
+    
+    return dotNetFeatureSet;
+}
+
+export async function buildDotNetDirectionsFeatureSet(jsFs: DirectionsFeatureSet, viewId: string | null): Promise<any> {
+    let dotNetFeatureSet: any = {
+        features: [],
+        displayFieldName: jsFs.displayFieldName,
+        exceededTransferLimit: jsFs.exceededTransferLimit,
+        fields: jsFs.fields,
+        geometryType: jsFs.geometryType,
+        queryGeometry: buildDotNetGeometry(jsFs.queryGeometry),
+        spatialReference: buildDotNetSpatialReference(jsFs.spatialReference)
+    };
+    let graphics: DotNetGraphic[] = [];
+    for (let i = 0; i < jsFs.features.length; i++) {
+        let feature = jsFs.features[i];
+        let graphic: DotNetGraphic = buildDotNetGraphic(feature) as DotNetGraphic;
+        if (viewId !== undefined && viewId !== null) {
+            graphic.id = await dotNetRefs[viewId].invokeMethodAsync('GetId');
+            graphicsRefs[graphic.id as string] = feature;
+        }
+        graphics.push(graphic);
+    }
+    dotNetFeatureSet.features = graphics;
+    if (hasValue(jsFs.extent)) {
+        dotNetFeatureSet.extent = buildDotNetExtent(jsFs.extent);
+    }
+    if (hasValue(jsFs.mergedGeometry)) {
+        dotNetFeatureSet.mergedGeometry = buildDotNetGeometry(jsFs.mergedGeometry);
+    }
+    
+    copyValuesIfExists(jsFs, dotNetFeatureSet, 'routeId', 'routeName', 'strings',
+        'totalDriveTime', 'totalLength', 'totalTime');
+
+    return dotNetFeatureSet;
 }

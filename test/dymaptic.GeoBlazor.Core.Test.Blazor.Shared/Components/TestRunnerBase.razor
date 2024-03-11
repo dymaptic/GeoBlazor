@@ -20,8 +20,18 @@
             MethodInfo methodInfo = _methodInfos!.First(mi => mi.Name == entry.Key);
             <h3>@Extensions.CamelCaseToSpaces(entry.Key)</h3>
             <div class="test-results-container" id="@entry.Key">
-                <div class="test-results-row">
-                    <button @onclick="@(() => RunTest(methodInfo))">Run Test</button>
+                <div class="test-results-col">
+                    <div class="button-row">
+                        <button @onclick="@(() => RunTest(methodInfo))">Run Test</button>
+                        <label>
+                            <input type="checkbox" @bind="@_interactionToggles[entry.Key]" />
+                            Pause for Interaction
+                        </label>
+                        @if (_currentTest == entry.Key)
+                        {
+                            <button @onclick="@(() => CleanupTest(entry.Key))">Stop</button>
+                        }
+                    </div>
                     @((MarkupString)entry.Value)
                 </div>
                 @if (_testRenderFragments.TryGetValue(entry.Key, out RenderFragment? fragment))
@@ -83,6 +93,7 @@
             .ToArray();
 
         _testResults = _methodInfos.ToDictionary(m => m.Name, _ => string.Empty);
+        _interactionToggles = _methodInfos.ToDictionary(m => m.Name, _ => false);
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -146,6 +157,7 @@
 
     private async Task RunTest(MethodInfo methodInfo)
     {
+        _currentTest = methodInfo.Name;
         _testResults[methodInfo.Name] = "<p style=\"color: orange; font-weight: bold\">Running...</p>";
         _resultBuilder = new StringBuilder();
         _passed.Remove(methodInfo.Name);
@@ -159,7 +171,11 @@
             if (hasParameters)
             {
                 void RenderHandler() => _methodsWithRenderedMaps.Add(methodInfo.Name);
-                await (Task)methodInfo.Invoke(this, new object[] { (Action)RenderHandler })!;
+                await (Task)methodInfo.Invoke(this, [(Action)RenderHandler])!;
+            }
+            else
+            {
+                await (Task)methodInfo.Invoke(this, null)!;
             }
 
             _passed[methodInfo.Name] = _resultBuilder.ToString();
@@ -167,20 +183,35 @@
         }
         catch (Exception ex)
         {
+            if (_currentTest is null)
+            {
+                return;
+            }
             _failed[methodInfo.Name] = $"{_resultBuilder}{Environment.NewLine}{ex.StackTrace}";
             _resultBuilder.AppendLine($"<p style=\"color: red; font-weight: bold\">{ex.Message.Replace(Environment.NewLine, "<br/>")}<br/>{ex.StackTrace?.Replace(Environment.NewLine, "<br/>")}</p>");
         }
 
-        _testResults[methodInfo.Name] = _resultBuilder.ToString();
-        if (_testRenderFragments.ContainsKey(methodInfo.Name))
+        if (!_interactionToggles[methodInfo.Name])
         {
-            _testRenderFragments.Remove(methodInfo.Name);
+            await CleanupTest(methodInfo.Name);
+        }
+    }
+
+    private async Task CleanupTest(string testName)
+    {
+        _methodsWithRenderedMaps.Remove(testName);
+        _testResults[testName] = _resultBuilder.ToString();
+        if (_testRenderFragments.ContainsKey(testName))
+        {
+            _testRenderFragments.Remove(testName);
         }
         await InvokeAsync(async () =>
         {
             StateHasChanged();
             await OnTestResults.InvokeAsync(new TestResult(ClassName, _passed, _failed));
         });
+        _interactionToggles[testName] = false;
+        _currentTest = null;
     }
 
     private void OnRenderError(ErrorEventArgs arg)
@@ -200,4 +231,6 @@
     private readonly Dictionary<string, Exception> _mapRenderingExceptions = new();
     private readonly Dictionary<string, string?> _passed = new();
     private readonly Dictionary<string, string?> _failed = new();
+    private Dictionary<string, bool> _interactionToggles = [];
+    private string? _currentTest;
 }

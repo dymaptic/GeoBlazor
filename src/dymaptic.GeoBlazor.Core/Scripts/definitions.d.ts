@@ -92,7 +92,7 @@ export interface DotNetPolyline extends DotNetGeometry {
 
 export interface DotNetSymbol {
     type: string;
-    color: string;
+    color: any;
 }
 
 export interface DotNetSimpleMarkerSymbol extends DotNetSymbol {
@@ -112,6 +112,7 @@ export interface DotNetSimpleLineSymbol extends DotNetSymbol {
     miterLimit: number;
     style: string;
     width: number;
+    lineStyle: string;
 }
 
 export interface DotNetPictureMarkerSymbol extends DotNetSymbol {
@@ -124,6 +125,17 @@ export interface DotNetPictureMarkerSymbol extends DotNetSymbol {
     width: number;
 
     url: string;
+}
+
+export interface DotNetPictureFillSymbol extends DotNetSymbol {
+    height: number;
+    width: number;
+    url: string;
+    xOffset: number;
+    yOffset: number;
+    xScale: number;
+    yScale: number;
+    outline: DotNetSimpleLineSymbol;
 }
 
 export interface DotNetSimpleFillSymbol extends DotNetSymbol {
@@ -178,10 +190,11 @@ export interface DotNetActionSection {
 
 export interface DotNetListItem {
     title: string;
-    layer: Layer;
+    layerId: string;
     visible: boolean;
-    children: DotNetListItem[],
-    actionSections: DotNetActionSection[][]
+    children: DotNetListItem[];
+    actionsSections: DotNetActionSection[][];
+    panel: any;
 }
 
 export interface DotNetLayerView {
@@ -203,7 +216,7 @@ export interface DotNetViewHit {
 
 export interface DotNetGraphicHit extends DotNetViewHit {
     graphic: DotNetGraphic;
-    layer: DotNetLayer;
+    layerId: string;
 }
 
 export interface DotNetLayer {
@@ -585,6 +598,7 @@ export interface DotNetDimensionalDefinition {
 }
 
 export interface DotNetRasterStretchRenderer {
+    id: string;
     type: string;
     colorRamp: DotNetColorRamp;
     computeGamma: boolean;
@@ -766,7 +780,7 @@ export interface DotNetUniqueValueGroup {
 export interface DotNetUniqueValueRenderer {
     backgroundFillSymbol: DotNetSimpleFillSymbol;
     defaultLabel: string;
-    defaultSymbol: DotNetSymbol;
+    defaultSymbol: any;
     field: string;
     field2: string;
     field3: string;
@@ -787,6 +801,10 @@ export interface DotNetAddressCandidate {
     extent?: DotNetExtent;
     location?: DotNetPoint;
     score: number;
+}
+
+export interface IPropertyWrapper {
+    setProperty(prop: string, value: any): void;
 }
 
 

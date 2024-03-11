@@ -56,14 +56,15 @@ public abstract class Layer : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ListMode? ListMode { get; set; }
-
+    
     /// <summary>
-    ///     Indicates if the layer is visible in the View. When false, the layer may still be added to a Map instance that is
-    ///     referenced in a view, but its features will not be visible in the view.
+    ///     If the layer is added to the <see cref="Basemap"/>, this flag identifies the layer as a reference layer,
+    ///     which will sit on top of other layers to add labels.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html#referenceLayers">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? Visible { get; set; }
+    public bool? IsBasemapReferenceLayer { get; set; }
 
     /// <summary>
     ///     The full extent of the layer. By default, this is worldwide. This property may be used to set the extent of the
@@ -185,6 +186,24 @@ public abstract class Layer : MapComponent
         LayerChanged = true;
         base.Refresh();
     }
+    
+    /// <summary>
+    ///     Sets any property to a new value after initial render. Supports all basic types (strings, numbers, booleans, dictionaries) and properties.
+    /// </summary>
+    /// <param name="propertyName">
+    ///     The name of the property to set.
+    /// </param>
+    /// <param name="value">
+    ///     The new value.
+    /// </param>
+    public async Task SetProperty(string propertyName, object? value)
+    {
+        ModifiedParameters[propertyName] = value;
+        
+        if (JsModule is null) return;
+        await JsModule!.InvokeVoidAsync("setProperty", JsLayerReference, 
+            propertyName.ToLowerFirstChar(), value);
+    }
 
     /// <inheritdoc />
     internal override void ValidateRequiredChildren()
@@ -201,10 +220,7 @@ public abstract class Layer : MapComponent
     /// </param>
     internal virtual Task UpdateFromJavaScript(Layer renderedLayer)
     {
-        if (renderedLayer.FullExtent is not null)
-        {
-            FullExtent = renderedLayer.FullExtent;
-        }
+        FullExtent ??= renderedLayer.FullExtent;
 
         return Task.CompletedTask;
     }
@@ -301,6 +317,10 @@ internal class LayerConverter : JsonConverter<Layer>
                     return JsonSerializer.Deserialize<BingMapsLayer>(ref cloneReader, newOptions);
                 case "imagery":
                     return JsonSerializer.Deserialize<ImageryLayer>(ref cloneReader, newOptions);
+                case "map-image":
+                    return JsonSerializer.Deserialize<MapImageLayer>(ref cloneReader, newOptions);
+                case "imagery-tile":
+                    return JsonSerializer.Deserialize<ImageryTileLayer>(ref cloneReader, newOptions);
             }
         }
 

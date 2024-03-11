@@ -13,6 +13,7 @@ using Microsoft.JSInterop;
 using ProtoBuf;
 using System.Diagnostics;
 using System.Reflection;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Text.Json;
 
@@ -640,21 +641,8 @@ public partial class MapView : MapComponent
     [JSInvokable]
     public async Task OnJsViewRendered()
     {
-#pragma warning disable CS0618
-        await OnMapRendered.InvokeAsync();
-#pragma warning restore CS0618
         await OnViewRendered.InvokeAsync(Id);
     }
-
-    /// <summary>
-    ///     Handler delegate for when the map view is fully rendered. Must return a <see cref="Task" />.
-    /// </summary>
-    /// <remarks>
-    ///     OBSOLETE: The naming of this method was inconsistent with ArcGIS and the name of this class. It has been replaced by <see cref="OnViewRendered"/> which also returns the Id of the view for handling multi-view scenarios.
-    /// </remarks>
-    [Parameter]
-    [Obsolete("Use OnViewRendered instead.")]
-    public EventCallback OnMapRendered { get; set; }
 
     /// <summary>
     ///     Handler delegate for when the map view is fully rendered. Must return a <see cref="Task" />.
@@ -813,8 +801,7 @@ public partial class MapView : MapComponent
     {
         LayerView? layerView = layerViewCreateEvent.Layer switch
         {
-            FeatureLayer => new FeatureLayerView(layerViewCreateEvent.LayerView!, new AbortManager(JsRuntime),
-                IsServer),
+            FeatureLayer => new FeatureLayerView(layerViewCreateEvent.LayerView!, new AbortManager(JsRuntime)),
             _ => layerViewCreateEvent.LayerView
         };
 
@@ -930,13 +917,20 @@ public partial class MapView : MapComponent
     ///     <see cref="OnExtentChanged" />
     /// </summary>
     [Parameter]
-    public int? EventRateLimitInMilliseconds { get; set; }
+    public int? EventRateLimitInMilliseconds { get; set; } = 100;
 
     /// <summary>
     ///    Optional setting to control the number of graphics that are serialized in a single chunk. Tuning this value might help with performance when adding large graphic sets.
     /// </summary>
     [Parameter]
     public int? GraphicSerializationChunkSize { get; set; }
+    
+    /// <summary>
+    ///     The maximum size of query results that will be returned in a stream. Note that setting this to a smaller
+    ///     value might create errors in query returns.
+    /// </summary>
+    [Parameter]
+    public long QueryResultsMaxSizeLimit { get; set; } = 1_000_000_000L;
     
     /// <summary>
     ///     For internal use only, this looks up a missing <see cref="DotNetObjectReference"/> for a <see cref="PopupTemplate"/>
@@ -1295,10 +1289,12 @@ public partial class MapView : MapComponent
         {
             Map!.Basemap ??= new Basemap();
             Map.Basemap.Layers.Add(layer);
+            layer.Parent ??= Map.Basemap;
         }
         else
         {
             Map!.Layers.Add(layer);
+            layer.Parent ??= Map;
         }
 
         if (ViewJsModule is null) return;
@@ -1770,7 +1766,7 @@ public partial class MapView : MapComponent
     /// </param>
     public async Task<HitTestResult> HitTest(ClickEvent clickEvent, HitTestOptions? options = null)
     {
-        return await HitTestImplementation(clickEvent, options, true);
+        return await HitTestImplementation(new ScreenPoint(clickEvent.X, clickEvent.Y), options);
     }
 
     /// <summary>
@@ -1785,7 +1781,7 @@ public partial class MapView : MapComponent
     /// </param>
     public async Task<HitTestResult> HitTest(PointerEvent pointerEvent, HitTestOptions? options = null)
     {
-        return await HitTestImplementation(pointerEvent, options, true);
+        return await HitTestImplementation(new ScreenPoint(pointerEvent.X, pointerEvent.Y), options);
     }
 
     /// <summary>
@@ -1798,9 +1794,25 @@ public partial class MapView : MapComponent
     /// <param name="options">
     ///     Options to specify what is included in or excluded from the hitTest.
     /// </param>
-    public async Task<HitTestResult> HitTest(Point screenPoint, HitTestOptions? options = null)
+    public async Task<HitTestResult> HitTest(ScreenPoint screenPoint, HitTestOptions? options = null)
     {
-        return await HitTestImplementation(screenPoint, options, false);
+        return await HitTestImplementation(screenPoint, options);
+    }
+    
+    /// <summary>
+    ///     Returns <see cref="HitTestResult" />s from each layer that intersects the specified screen coordinates. The results
+    ///     are organized as an array of objects containing different result types.
+    /// </summary>
+    /// <param name="mapPoint">
+    ///     The map point, in the same projection as the map, to check for hits.
+    /// </param>
+    /// <param name="options">
+    ///     Options to specify what is included in or excluded from the hitTest.
+    /// </param>
+    public async Task<HitTestResult> HitTest(Point mapPoint, HitTestOptions? options = null)
+    {
+        ScreenPoint screenPoint = await ToScreen(mapPoint);
+        return await HitTestImplementation(screenPoint, options);
     }
 
     /// <summary>
@@ -1883,15 +1895,14 @@ public partial class MapView : MapComponent
     /// </summary>
     public async Task AddWidget(Widget widget)
     {
-        if (!_widgets.Contains(widget))
+        if (_widgets.Add(widget))
         {
-            _widgets.Add(widget);
             widget.Parent ??= this;
             widget.View ??= this;
             widget.JsModule ??= ViewJsModule;
         }
 
-        if (ViewJsModule is null) return;
+        if (ViewJsModule is null || !widget.ArcGisWidget) return;
 
         while (Rendering)
         {
@@ -2024,7 +2035,7 @@ public partial class MapView : MapComponent
             // the first render never has all the child components registered
             Rendering = false;
 
-            _authenticationInitialized = await AuthenticationManager.Initialize();
+            AuthenticationInitialized = await AuthenticationManager.Initialize();
 
             if (!string.IsNullOrEmpty(AppId) && (PromptForOAuthLogin == true))
             {
@@ -2050,7 +2061,7 @@ public partial class MapView : MapComponent
             return;
         }
 
-        if (!_authenticationInitialized || Rendering || Map is null || ViewJsModule is null) return;
+        if (!AuthenticationInitialized || Rendering || Map is null || ViewJsModule is null) return;
 
         if (string.IsNullOrWhiteSpace(ApiKey) && AllowDefaultEsriLogin is null or false &&
             PromptForArcGISKey is null or true && string.IsNullOrWhiteSpace(AppId))
@@ -2071,8 +2082,8 @@ public partial class MapView : MapComponent
         }
 
         Rendering = true;
-        Map.Layers.RemoveWhere(l => l.Imported);
-        Map.Basemap?.Layers.RemoveWhere(l => l.Imported);
+        Map.Layers.RemoveAll(l => l.Imported);
+        Map.Basemap?.Layers.RemoveAll(l => l.Imported);
         ValidateRequiredChildren();
 
         await InvokeAsync(async () =>
@@ -2262,34 +2273,44 @@ public partial class MapView : MapComponent
         }
     }
     
-    private async Task<HitTestResult> HitTestImplementation(object pointObject, HitTestOptions? options,
-        bool isEvent)
+    private async Task<HitTestResult> HitTestImplementation(ScreenPoint screenPoint, HitTestOptions? options)
+    {
+        Guid hitTestId = Guid.NewGuid();
+        HitTestResult result = await ViewJsModule!.InvokeAsync<HitTestResult>("hitTest",
+            CancellationTokenSource.Token, screenPoint, Id, options, hitTestId);
+
+        if (_activeHitTests.TryGetValue(hitTestId, out ViewHit[]? viewHits))
+        {
+            result.Results = viewHits;
+        }
+
+        return result;
+    }
+    
+    /// <summary>
+    ///     Internal use callback from JavaScript
+    /// </summary>
+    [JSInvokable]
+    public async Task OnHitTestStreamCallback(IJSStreamReference streamReference, Guid hitTestId)
     {
         try
         {
-            if (IsServer)
-            {
-                var eventId = Guid.NewGuid();
+            await using Stream stream = await streamReference
+                .OpenReadStreamAsync(QueryResultsMaxSizeLimit);
+            using var ms = new MemoryStream();
+            await stream.CopyToAsync(ms);
+            ms.Seek(0, SeekOrigin.Begin);
+            ProtoViewHitCollection collection = Serializer.Deserialize<ProtoViewHitCollection>(ms);
+            ViewHit[] viewHits = collection.ViewHits!.Select(g => g.FromSerializationRecord()).ToArray();
 
-                await ViewJsModule!.InvokeVoidAsync("hitTest", CancellationTokenSource.Token,
-                    pointObject, eventId, Id, isEvent, options);
-                var json = _hitTestResults[eventId].ToString();
-                _hitTestResults.Remove(eventId);
-
-                return JsonSerializer.Deserialize<HitTestResult>(json,
-                    new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
-            }
-
-            return await ViewJsModule!.InvokeAsync<HitTestResult>("hitTest",
-                CancellationTokenSource.Token, pointObject, null, Id, isEvent, options);
+            _activeHitTests[hitTestId] = viewHits;
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex);
+            throw new SerializationException("Error deserializing graphics from stream.", ex);
         }
-
-        return new HitTestResult(new ViewHit[] { }, new ScreenPoint(1, 1));
     }
+
     
     private bool IsPro()
     {
@@ -2402,7 +2423,11 @@ public partial class MapView : MapComponent
     /// <summary>
     ///     A reference to the JavaScript AbortManager for this component.
     /// </summary>
-    protected AbortManager? AbortManager;
+    protected AbortManager? AbortManager; 
+    /// <summary>
+    ///     Marks that the authentication has been initialized.
+    /// </summary>
+    protected bool AuthenticationInitialized;
     
     private SpatialReference? _spatialReference;
     private Dictionary<Guid, StringBuilder> _hitTestResults = new();
@@ -2413,7 +2438,7 @@ public partial class MapView : MapComponent
     private HashSet<Graphic> _graphics = new();
     private HashSet<Widget> _widgets = new();
     private bool? _isPro;
-    private bool _authenticationInitialized;
+    private Dictionary<Guid, ViewHit[]> _activeHitTests = new();
     
 #endregion
 }

@@ -86,13 +86,6 @@ public class FieldInfo : MapComponent
     public string? Tooltip { get; set; } = string.Empty;
 
     /// <summary>
-    ///     Indicates whether the field is visible in the popup window.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? Visible { get; set; }
-
-    /// <summary>
     ///     A string determining what type of input box editors see when editing the field.
     /// </summary>
     [Parameter]
@@ -156,25 +149,54 @@ public class FieldInfo : MapComponent
 }
 
 [ProtoContract(Name = "FieldInfo")]
-internal record FieldInfoSerializationRecord([property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(1)]
-        string? FieldName = null,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(2)]
+internal record FieldInfoSerializationRecord : MapComponentSerializationRecord
+{
+    public FieldInfoSerializationRecord()
+    {
+    }
+    
+    public FieldInfoSerializationRecord(string? FieldName = null,
         string? Label = null,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(3)]
         string? Tooltip = null,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(4)]
         string? StringFieldOption = null,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(5)]
         FieldInfoFormatSerializationRecord? Format = null,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(6)]
         bool? IsEditable = null,
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        [property: ProtoMember(7)]
         bool? Visible = null)
-    : MapComponentSerializationRecord;
+    {
+        this.FieldName = FieldName;
+        this.Label = Label;
+        this.Tooltip = Tooltip;
+        this.StringFieldOption = StringFieldOption;
+        this.Format = Format;
+        this.IsEditable = IsEditable;
+        this.Visible = Visible;
+    }
+
+    public FieldInfo FromSerializationRecord()
+    {
+        return new FieldInfo(FieldName, Label, Tooltip, StringFieldOption,
+            Format?.FromSerializationRecord(), IsEditable, Visible);
+    }
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(1)]
+    public string? FieldName { get; init; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(2)]
+    public string? Label { get; init; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(3)]
+    public string? Tooltip { get; init; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(4)]
+    public string? StringFieldOption { get; init; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(5)]
+    public FieldInfoFormatSerializationRecord? Format { get; init; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(6)]
+    public bool? IsEditable { get; init; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(7)]
+    public bool? Visible { get; init; }
+}

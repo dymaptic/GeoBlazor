@@ -21,7 +21,7 @@ public class SerializationUnitTests
                 _random.NextDouble() * 10 + 50.0),
             new SimpleMarkerSymbol(new Outline(new MapColor("green")), new MapColor("red"), 10),
             new PopupTemplate("Test", "Test Content<br/>{testString}<br/>{testNumber}", new[] { "*" }),
-            new AttributesDictionary(new Dictionary<string, object> { { "testString", "test" }, { "testNumber", 123 } }));
+            new AttributesDictionary(new Dictionary<string, object?> { { "testString", "test" }, { "testNumber", 123 } }));
         var sw = Stopwatch.StartNew();
         string json = JsonSerializer.Serialize(graphic.ToSerializationRecord());
         byte[] data = Encoding.UTF8.GetBytes(json);
@@ -37,7 +37,7 @@ public class SerializationUnitTests
                 _random.NextDouble() * 10 + 50.0),
             new SimpleMarkerSymbol(new Outline(new MapColor("green")), new MapColor("red"), 10),
             new PopupTemplate("Test", "Test Content<br/>{testString}<br/>{testNumber}", new[] { "*" }),
-            new AttributesDictionary(new Dictionary<string, object> { { "testString", "test" }, { "testNumber", 123 } }));
+            new AttributesDictionary(new Dictionary<string, object?> { { "testString", "test" }, { "testNumber", 123 } }));
         var sw = Stopwatch.StartNew();
         ProtoGraphicCollection collection = new(new[] { graphic.ToSerializationRecord() });
         using MemoryStream ms = new();

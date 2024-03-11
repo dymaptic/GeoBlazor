@@ -1,7 +1,7 @@
 ﻿@page "/many-graphics"
 
 <PageTitle>Many Graphics</PageTitle>
-<h1>Many Points</h1>
+<h1>Many Graphics</h1>
 <div class="links-div">
     <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Graphic.html">ArcGIS API for JavaScript</a>
 </div>
@@ -21,8 +21,8 @@
         <SpatialReference Wkid="102100" />
     </Extent>
     <Map>
-        <OpenStreetMapLayer />
         <GraphicsLayer @ref="_graphicsLayer" />
+        <OpenStreetMapLayer />
     </Map>
 </MapView>
 <button disabled="@_generating" @onclick="AddGraphicsToView">Add Graphics To View</button>
@@ -160,7 +160,7 @@
 
     private AttributesDictionary GenerateAttributes()
     {
-        return new AttributesDictionary(new Dictionary<string, object> { { "testString", "test" }, { "testNumber", 123 } });
+        return new AttributesDictionary(new Dictionary<string, object?> { { "testString", "test" }, { "testNumber", 123 } });
     }
 
     private readonly Random _random = new();

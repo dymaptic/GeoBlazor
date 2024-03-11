@@ -6,7 +6,7 @@ import {
     arcGisObjectRefs,
     popupDotNetObjects,
     createLayer,
-    dotNetRefs, copyValuesIfExists
+    dotNetRefs, copyValuesIfExists, graphicsRefs
 } from "./arcGisJsInterop";
 import Geometry from "@arcgis/core/geometry/Geometry";
 import Point from "@arcgis/core/geometry/Point";
@@ -100,9 +100,10 @@ import {
     DotNetUniqueValueRenderer,
     DotNetVectorFieldRenderer,
     DotNetViewpoint,
-    DotNetVisualVariable,
+    DotNetVisualVariable, DotNetFeatureSet, DotNetPictureFillSymbol,
 } from "./definitions";
 import PictureMarkerSymbol from "@arcgis/core/symbols/PictureMarkerSymbol";
+import PictureFillSymbol from "@arcgis/core/symbols/PictureFillSymbol";
 import Popup from "@arcgis/core/widgets/Popup";
 import Query from "@arcgis/core/rest/support/Query";
 import FieldsContent from "@arcgis/core/popup/content/FieldsContent";
@@ -172,7 +173,16 @@ import AuthoringInfo from "@arcgis/core/renderers/support/AuthoringInfo";
 import AuthoringInfoVisualVariable from "@arcgis/core/renderers/support/AuthoringInfoVisualVariable";
 import ActionButton from "@arcgis/core/support/actions/ActionButton";
 import ActionToggle from "@arcgis/core/support/actions/ActionToggle";
-
+import FeatureSet from "@arcgis/core/rest/support/FeatureSet";
+import Sublayer from "@arcgis/core/layers/support/Sublayer.js";
+import DynamicMapLayer = __esri.DynamicMapLayer;
+import DynamicDataLayer = __esri.DynamicDataLayer;
+import TableDataSource = __esri.TableDataSource;
+import QueryTableDataSource = __esri.QueryTableDataSource;
+import RasterDataSource = __esri.RasterDataSource;
+import JoinTableDataSource = __esri.JoinTableDataSource;
+import DynamicDataLayerFields = __esri.DynamicDataLayerFields;
+import TickConfig = __esri.TickConfig;
 
 export function buildJsSpatialReference(dotNetSpatialReference: DotNetSpatialReference): SpatialReference {
     if (dotNetSpatialReference === undefined || dotNetSpatialReference === null) {
@@ -205,11 +215,18 @@ export function buildJsExtent(dotNetExtent: DotNetExtent, currentSpatialReferenc
 
 export function buildJsGraphic(graphicObject: any, viewId: string | null)
     : Graphic | null {
-    const graphic = new Graphic({
-        geometry: buildJsGeometry(graphicObject.geometry) as Geometry ?? null,
-        symbol: buildJsSymbol(graphicObject.symbol) as Symbol ?? null,
-    });
-
+    let graphic: Graphic;
+    if (graphicsRefs.hasOwnProperty(graphicObject.id)) {
+        graphic = graphicsRefs[graphicObject.id];
+        graphic.geometry = buildJsGeometry(graphicObject.geometry) as Geometry ?? graphic.geometry;
+        graphic.symbol = buildJsSymbol(graphicObject.symbol) as Symbol ?? graphic.symbol;
+    } else {
+        graphic = new Graphic({
+            geometry: buildJsGeometry(graphicObject.geometry) as Geometry ?? null,
+            symbol: buildJsSymbol(graphicObject.symbol) as Symbol ?? null,
+        });
+    }
+    
     graphic.attributes = buildJsAttributes(graphicObject.attributes);
 
     if (hasValue(graphicObject.popupTemplate)) {
@@ -230,6 +247,10 @@ export function buildJsAttributes(attributes: any): any {
                     case "number":
                     case "int32":
                     case "int64":
+                    case "double":
+                    case "single":
+                    case "float":
+                    case "int":
                         graphicAttributes[attr.key] = Number(attr.value);
                         break;
                     case "boolean":
@@ -292,7 +313,7 @@ export function buildJsPopupTemplate(popupTemplateObject: DotNetPopupTemplate, v
     }
 
     if (hasValue(popupTemplateObject.actions)) {
-        template.actions = popupTemplateObject.actions.map(buildJsPopupAction) as any;
+        template.actions = popupTemplateObject.actions.map(buildJsAction) as any;
     } 
 
     popupDotNetObjects.push(popupTemplateObject);
@@ -300,7 +321,7 @@ export function buildJsPopupTemplate(popupTemplateObject: DotNetPopupTemplate, v
     return template;
 }
 
-function buildJsPopupAction(dnAction: any): ActionButton | ActionToggle {
+export function buildJsAction(dnAction: any): ActionButton | ActionToggle {
     if (dnAction.type === "button") {
         let jsAction = new ActionButton();
         copyValuesIfExists(dnAction, jsAction, 'active', 'className', 'disabled', 'icon', 'id', 'image', 'title', 
@@ -402,7 +423,7 @@ export function buildJsSymbol(symbol: DotNetSymbol | null): Symbol | null {
                 color: buildJsColor(dnSimpleMarkerSymbol.color) ?? [255, 255, 255, 0.25],
                 path: dnSimpleMarkerSymbol.path ?? undefined,
                 size: dnSimpleMarkerSymbol.size ?? 12, // undefined breaks this
-                style: dnSimpleMarkerSymbol.markerStyle as any ?? dnSimpleMarkerSymbol.style as any ?? 'circle', // undefined breaks this
+                style: dnSimpleMarkerSymbol.style as any ?? 'circle', // undefined breaks this
                 xoffset: dnSimpleMarkerSymbol.xOffset ?? 0,
                 yoffset: dnSimpleMarkerSymbol.yOffset ?? 0
             });
@@ -419,7 +440,7 @@ export function buildJsSymbol(symbol: DotNetSymbol | null): Symbol | null {
                 join: dnSimpleLineSymbol.join as any ?? "round",
                 marker: dnSimpleLineSymbol.marker as any ?? null,
                 miterLimit: dnSimpleLineSymbol.miterLimit ?? 2,
-                style: dnSimpleLineSymbol.style as any ?? "solid",
+                style: dnSimpleLineSymbol.lineStyle as any ?? dnSimpleLineSymbol.style as any ?? "solid",
                 width: dnSimpleLineSymbol.width ?? 0.75
             });
         case "picture-marker":
@@ -432,6 +453,23 @@ export function buildJsSymbol(symbol: DotNetSymbol | null): Symbol | null {
                 width: dnPictureMarkerSymbol.width ?? 12,
                 url: dnPictureMarkerSymbol.url
             });
+            
+        case "picture-fill":
+            let dnPictureFillSymbol = symbol as DotNetPictureFillSymbol;
+            let jsFillSymbol = new PictureFillSymbol({
+                url: dnPictureFillSymbol.url,
+                width: dnPictureFillSymbol.width ?? 12,
+                height: dnPictureFillSymbol.height ?? 12,
+                xoffset: dnPictureFillSymbol.xOffset ?? 0,
+                yoffset: dnPictureFillSymbol.yOffset ?? 0,
+                xscale: dnPictureFillSymbol.xScale ?? 1,
+                yscale: dnPictureFillSymbol.yScale ?? 1
+            });
+            if (hasValue(dnPictureFillSymbol.outline)) {
+                jsFillSymbol.outline = buildJsSymbol(dnPictureFillSymbol.outline) as any;
+            }
+            
+            return jsFillSymbol;
 
         case "simple-fill":
             let dnSimpleFillSymbol = symbol as DotNetSimpleFillSymbol;
@@ -447,25 +485,31 @@ export function buildJsSymbol(symbol: DotNetSymbol | null): Symbol | null {
         case "text":
             let dotNetTextSymbol = symbol as DotNetTextSymbol;
             let jsTextSymbol = new TextSymbol({
-                angle: dotNetTextSymbol.angle ?? undefined,
-                backgroundColor: buildJsColor(dotNetTextSymbol.backgroundColor) ?? undefined,
-                borderLineColor: buildJsColor(dotNetTextSymbol.borderLineColor) ?? undefined,
-                borderLineSize: dotNetTextSymbol.borderLineSize ?? undefined,
-                color: buildJsColor(dotNetTextSymbol.color) ?? undefined,
-                haloColor: buildJsColor(dotNetTextSymbol.haloColor) ?? undefined,
-                haloSize: dotNetTextSymbol.haloSize ?? undefined,
-                horizontalAlignment: dotNetTextSymbol.horizontalAlignment as any ?? undefined,
-                kerning: dotNetTextSymbol.kerning ?? undefined,
-                lineHeight: dotNetTextSymbol.lineHeight ?? undefined,
-                lineWidth: dotNetTextSymbol.lineWidth ?? undefined,
-                rotated: dotNetTextSymbol.rotated ?? undefined,
-                text: dotNetTextSymbol.text ?? undefined,
-                verticalAlignment: dotNetTextSymbol.verticalAlignment as any ?? undefined,
-                xoffset: dotNetTextSymbol.xOffset ?? undefined,
-                yoffset: dotNetTextSymbol.yOffset ?? undefined
+                text: dotNetTextSymbol.text ?? undefined
             });
+            copyValuesIfExists(dotNetTextSymbol, jsTextSymbol, 'angle', 'borderLineSize', 'haloSize',
+                'horizontalAlignment', 'kerning', 'lineHeight', 'lineWidth', 'rotated', 'text', 'verticalAlignment');
+            
+            if (hasValue(dotNetTextSymbol.backgroundColor)) {
+                jsTextSymbol.backgroundColor = buildJsColor(dotNetTextSymbol.backgroundColor);
+            }
+            if (hasValue(dotNetTextSymbol.borderLineColor)) {
+                jsTextSymbol.borderLineColor = buildJsColor(dotNetTextSymbol.borderLineColor);
+            }
+            if (hasValue(dotNetTextSymbol.color)) {
+                jsTextSymbol.color = buildJsColor(dotNetTextSymbol.color);
+            }
             if (hasValue(dotNetTextSymbol.font)) {
                 jsTextSymbol.font = buildJsFont(dotNetTextSymbol.font);
+            }
+            if (hasValue(dotNetTextSymbol.haloColor)) {
+                jsTextSymbol.haloColor = buildJsColor(dotNetTextSymbol.haloColor);
+            }
+            if (hasValue(dotNetTextSymbol.xOffset)) {
+                jsTextSymbol.xoffset = dotNetTextSymbol.xOffset;
+            }
+            if (hasValue(dotNetTextSymbol.yOffset)) {
+                jsTextSymbol.yoffset = dotNetTextSymbol.yOffset;
             }
 
             return jsTextSymbol;
@@ -617,6 +661,8 @@ export function buildJsRenderer(dotNetRenderer: any): Renderer | null {
             copyValuesIfExists(dotNetRenderer, pieChartRenderer, 'defaultLabel', 'holePercentage', 'size');
             
             return pieChartRenderer;
+        case 'unique-value':
+            return buildJsUniqueValueRenderer(dotNetRenderer);
     }
     return dotNetRenderer;
 }
@@ -679,6 +725,17 @@ export function buildJsRasterShadedReliefRenderer(dnRasterShadedReliefRenderer: 
     return rasterShadedReliefRenderer;
 }
 
+export function buildJsImageryRenderer(dnRenderer: any) {
+    switch (dnRenderer?.imageryRendererType) {
+        case 'unique-value':
+            return buildJsUniqueValueRenderer(dnRenderer);
+        case 'raster-stretch':
+            return buildJsRasterStretchRenderer(dnRenderer);
+    }
+    
+    return null;
+}
+
 export function buildJsUniqueValueRenderer(dnUniqueValueRenderer: DotNetUniqueValueRenderer): UniqueValueRenderer | null {
     if (dnUniqueValueRenderer === undefined) return null;
     let uniqueValueRenderer = new UniqueValueRenderer();
@@ -688,37 +745,19 @@ export function buildJsUniqueValueRenderer(dnUniqueValueRenderer: DotNetUniqueVa
         }
         // Note: The PolygonSymbol3d is not currently supported
     }
-    if (hasValue(dnUniqueValueRenderer.defaultLabel)) {
-        uniqueValueRenderer.defaultLabel = dnUniqueValueRenderer.defaultLabel;
+    
+    copyValuesIfExists(dnUniqueValueRenderer, uniqueValueRenderer, 'defaultLabel', 'field', 'field2', 'field3',
+        'fieldDelimiter', 'legendOptions', 'orderByClassesEnabled', 'valueExpression', 'valueExpressionTitle');
+    
+    if (hasValue(dnUniqueValueRenderer.defaultSymbol?.symbol)) {
+        uniqueValueRenderer.defaultSymbol = buildJsSymbol(dnUniqueValueRenderer.defaultSymbol.symbol) as Symbol;
     }
-    if (hasValue(dnUniqueValueRenderer.defaultSymbol)) {
-        uniqueValueRenderer.defaultSymbol = buildJsSymbol(dnUniqueValueRenderer.defaultSymbol) as Symbol;
+    
+    if (hasValue(dnUniqueValueRenderer.uniqueValueInfos) && dnUniqueValueRenderer.uniqueValueInfos.length > 0) {
+        uniqueValueRenderer.uniqueValueInfos = dnUniqueValueRenderer.uniqueValueInfos as any[];
     }
-    if (hasValue(dnUniqueValueRenderer.field)) {
-        uniqueValueRenderer.field = dnUniqueValueRenderer.field;
-    }
-    if (hasValue(dnUniqueValueRenderer.field2)) {
-        uniqueValueRenderer.field2 = dnUniqueValueRenderer.field2;
-    }
-    if (hasValue(dnUniqueValueRenderer.field3)) {
-        uniqueValueRenderer.field3 = dnUniqueValueRenderer.field3;
-    }
-    if (hasValue(dnUniqueValueRenderer.fieldDelimiter)) {
-        uniqueValueRenderer.fieldDelimiter = dnUniqueValueRenderer.fieldDelimiter;
-    }
-    if (hasValue(dnUniqueValueRenderer.legendOptions)) {
-        uniqueValueRenderer.legendOptions = dnUniqueValueRenderer.legendOptions;
-    }
-    if (hasValue(dnUniqueValueRenderer.orderByClassesEnabled)) {
-        uniqueValueRenderer.orderByClassesEnabled = dnUniqueValueRenderer.orderByClassesEnabled;
-    }
-    if (hasValue(dnUniqueValueRenderer.valueExpression)) {
-        uniqueValueRenderer.valueExpression = dnUniqueValueRenderer.valueExpression;
-    }
-    if (hasValue(dnUniqueValueRenderer.valueExpressionTitle)) {
-        uniqueValueRenderer.valueExpressionTitle = dnUniqueValueRenderer.valueExpressionTitle;
-    }
-    if (hasValue(dnUniqueValueRenderer.visualVariables)) {
+    
+    if (hasValue(dnUniqueValueRenderer.visualVariables) && dnUniqueValueRenderer.visualVariables.length > 0) {
         uniqueValueRenderer.visualVariables = dnUniqueValueRenderer.visualVariables.map(buildJsVisualVariable) as VisualVariable[];
     }
     return uniqueValueRenderer;
@@ -988,33 +1027,13 @@ export function buildJsRasterStretchRenderer(dotNetRasterStretchRenderer: DotNet
     if (hasValue(dotNetRasterStretchRenderer.colorRamp)) {
         rasterStretchRenderer.colorRamp = buildJsColorRamp(dotNetRasterStretchRenderer.colorRamp) as ColorRamp;
     }
-    if (hasValue(dotNetRasterStretchRenderer.computeGamma)) {
-        rasterStretchRenderer.computeGamma = dotNetRasterStretchRenderer.computeGamma;
-    }
-    if (hasValue(dotNetRasterStretchRenderer.dynamicRangeAdjustment)) {
-        rasterStretchRenderer.dynamicRangeAdjustment = dotNetRasterStretchRenderer.dynamicRangeAdjustment;
-    }
-    if (hasValue(dotNetRasterStretchRenderer.gamma)) {
-        rasterStretchRenderer.gamma = dotNetRasterStretchRenderer.gamma;
-    }
-    if (hasValue(dotNetRasterStretchRenderer.useGamma)) {
-        rasterStretchRenderer.useGamma = dotNetRasterStretchRenderer.useGamma;
-    }
-    if (hasValue(dotNetRasterStretchRenderer.outputMax)) {
-        rasterStretchRenderer.outputMax = dotNetRasterStretchRenderer.outputMax;
-    }
-    if (hasValue(dotNetRasterStretchRenderer.outputMin)) {
-        rasterStretchRenderer.outputMin = dotNetRasterStretchRenderer.outputMin;
-    }
-    if (hasValue(dotNetRasterStretchRenderer.stretchType)) {
-        rasterStretchRenderer.stretchType = dotNetRasterStretchRenderer.stretchType as any;
-    }
-    if (hasValue(dotNetRasterStretchRenderer.statistics)) {
-        rasterStretchRenderer.statistics = dotNetRasterStretchRenderer.statistics;
-    }
-    if (hasValue(dotNetRasterStretchRenderer.numberOfStandardDeviations)) {
-        rasterStretchRenderer.numberOfStandardDeviations = dotNetRasterStretchRenderer.numberOfStandardDeviations;
-    }
+    
+    copyValuesIfExists(dotNetRasterStretchRenderer, rasterStretchRenderer, 'computeGamma',
+        'dynamicRangeAdjustment', 'gamma', 'useGamma', 'outputMax', 'outputMin', 'stretchType',
+        'statistics', 'numberOfStandardDeviations');
+    
+    arcGisObjectRefs[dotNetRasterStretchRenderer.id] = rasterStretchRenderer;
+    
     return rasterStretchRenderer;
 }
 
@@ -1144,7 +1163,7 @@ export async function buildJsPopup(dotNetPopup: any, viewId: string): Promise<Po
     });
     
     if (hasValue(dotNetPopup.actions)) {
-        popup.actions = dotNetPopup.actions.map(buildJsPopupAction) as any;
+        popup.actions = dotNetPopup.actions.map(buildJsAction) as any;
     }
 
     if (hasValue(dotNetPopup.location)) {
@@ -1218,7 +1237,6 @@ export async function buildJsPopupOptions(dotNetPopupOptions: any): Promise<Popu
     if (hasValue(dotNetPopupOptions.features)) {
         let features: Graphic[] = [];
         for (const f of dotNetPopupOptions.features) {
-            delete f.dotNetGraphicReference;
             let graphic = buildJsGraphic(f, null) as Graphic;
             graphic.layer = arcGisObjectRefs[f.layerId] as Layer;
             features.push(graphic);
@@ -1618,7 +1636,7 @@ function buildJsFormInput(dotNetFormInput: any): any {
     return undefined;
 }
 
-function buildJsAttachmentEdit(dotNetAttachmentEdit: DotNetAttachmentsEdit, viewId: string): AttachmentEdit {
+export function buildJsAttachmentEdit(dotNetAttachmentEdit: DotNetAttachmentsEdit, viewId: string): AttachmentEdit {
     return {
         feature: buildJsGraphic(dotNetAttachmentEdit.feature, viewId)!,
         attachment: dotNetAttachmentEdit.attachment
@@ -1966,4 +1984,171 @@ function buildJsSupportExpressionInfo(dnEI: any): supportExpressionInfo | null {
         returnType: dnEI.returnType ?? undefined,
         title: dnEI.title ?? undefined
     } as supportExpressionInfo;
+}
+
+export function buildJsFeatureSet(dnFs: DotNetFeatureSet, viewId: string | null): FeatureSet {
+    let jsFeatureSet = new FeatureSet();
+    copyValuesIfExists(dnFs, jsFeatureSet, 'displayFieldName', 'exceededTransferLimit',
+        'geometryType');
+    if (hasValue(dnFs.features)) {
+        jsFeatureSet.features = dnFs.features.map(f => buildJsGraphic(f, viewId) as Graphic);
+    }
+    if (hasValue(dnFs.fields)) {
+        jsFeatureSet.fields = dnFs.fields.map(f => buildJsField(f));
+    }
+    if (hasValue(dnFs.queryGeometry)) {
+        jsFeatureSet.queryGeometry = buildJsGeometry(dnFs.queryGeometry as DotNetGeometry) as Geometry;
+    }
+    if (hasValue(dnFs.spatialReference)) {
+        jsFeatureSet.spatialReference = buildJsSpatialReference(dnFs.spatialReference as DotNetSpatialReference);
+    }
+    return jsFeatureSet;
+}
+
+export function buildJsSublayer(dotNetSublayer: any): Sublayer {
+    let sublayer = new Sublayer({
+        id: dotNetSublayer.sublayerId
+    });
+    
+    copyValuesIfExists(dotNetSublayer, sublayer, 'maxScale', 'minScale', 'visible', 'labelsVisible',
+        'legendEnabled', 'listMode', 'opacity', 'popupEnabled', 'title', 'definitionExpression', 'url');
+    
+    if (hasValue(dotNetSublayer.floorInfo)) {
+        sublayer.floorInfo = {
+            floorField: dotNetSublayer.floorInfo.floorField ?? undefined
+        } as any;
+    }
+    
+    if (hasValue(dotNetSublayer.labelingInfo) && dotNetSublayer.labelingInfo.length > 0) {
+        sublayer.labelingInfo = dotNetSublayer.labelingInfo.map(buildJsLabelClass);
+    }
+    
+    if (hasValue(dotNetSublayer.sublayers) && dotNetSublayer.sublayers.length > 0) {
+        sublayer.sublayers = dotNetSublayer.sublayers.map(buildJsSublayer);
+    }
+    
+    if (hasValue(dotNetSublayer.renderer)) {
+        sublayer.renderer = buildJsRenderer(dotNetSublayer.renderer) as Renderer;
+    }
+    
+    if (hasValue(dotNetSublayer.popupTemplate)) {
+        sublayer.popupTemplate = buildJsPopupTemplate(dotNetSublayer.popupTemplate, null) as PopupTemplate;
+    }
+    
+    if (hasValue(dotNetSublayer.source)) {
+        sublayer.source = buildJsDynamicLayer(dotNetSublayer.source);
+    }
+    
+    arcGisObjectRefs[dotNetSublayer.id] = sublayer;
+    return sublayer;
+}
+
+function buildJsDynamicLayer(dotNetSource: any): DynamicMapLayer | DynamicDataLayer {
+    switch (dotNetSource.type) {
+        case 'map-layer':
+            return {
+                type: 'map-layer',
+                mapLayerId: dotNetSource.mapLayerId,
+                gdbVersion: dotNetSource.gdbVersion ?? undefined,
+            } as DynamicMapLayer;
+        default:
+            let dataLayer = {
+                type: 'data-layer'
+            } as DynamicDataLayer;
+            if (hasValue(dotNetSource?.dataSource)) {
+                dataLayer.dataSource = buildJsDynamicDataSource(dotNetSource.dataSource);
+            }
+            
+            if (hasValue(dotNetSource?.fields) && dotNetSource.fields.length > 0) {
+                dataLayer.fields = dotNetSource.fields.map(buildJsDynamicDataLayerField);
+            }
+
+            return dataLayer;
+    }
+}
+
+function buildJsDynamicDataSource(dotNetSource: any): any {
+    switch (dotNetSource.type) {
+        case 'table':
+            return {
+                type: 'table',
+                workspaceId: dotNetSource.workspaceId,
+                dataSourceName: dotNetSource.dataSourceName,
+                gdbVersion: dotNetSource.gdbVersion ?? undefined
+            } as TableDataSource;
+        case 'query-table':
+            let queryTable = {
+                type: 'query-table',
+                workspaceId: dotNetSource.workspaceId,
+                query: dotNetSource.query,
+                oidFields: dotNetSource.oidFields ?? undefined,
+                geometryType: dotNetSource.geometryType ?? undefined
+            } as QueryTableDataSource;
+            if (hasValue(dotNetSource.spatialReference)) {
+                queryTable.spatialReference = buildJsSpatialReference(dotNetSource.spatialReference);
+            }
+            return queryTable;
+        case 'raster':
+            return {
+                type: 'raster',
+                workspaceId: dotNetSource.workspaceId,
+                dataSourceName: dotNetSource.dataSourceName
+            } as RasterDataSource;
+        default:
+            let joinTable = {
+                type: 'join-table',
+                leftTableKey: dotNetSource.leftTableKey,
+                rightTableKey: dotNetSource.rightTableKey,
+                joinType: dotNetSource.joinType
+            } as JoinTableDataSource;
+            
+            if (hasValue(dotNetSource?.leftTableSource)) {
+                joinTable.leftTableSource = buildJsDynamicLayer(dotNetSource.leftTableSource);
+            }
+            if (hasValue(dotNetSource?.rightTableSource)) {
+                joinTable.rightTableSource = buildJsDynamicLayer(dotNetSource.rightTableSource);
+            }
+            
+            return joinTable;
+    }
+}
+
+function buildJsDynamicDataLayerField(dotNetField: any): DynamicDataLayerFields {
+    return {
+        name: dotNetField.name,
+        alias: dotNetField.alias ?? undefined
+    } as DynamicDataLayerFields;
+}
+
+export function buildJsTickConfig(dnTickConfig: any): TickConfig {
+    let tickConfig: TickConfig = {
+        mode: dnTickConfig.mode ?? undefined,
+        values: dnTickConfig.values ?? undefined
+    };
+    copyValuesIfExists(dnTickConfig, tickConfig, 'labelsVisible');
+    if (hasValue(dnTickConfig.tickCreatedFunction)) {
+        tickConfig.tickCreatedFunction = (value, tickElement, labelElement) => {
+            return new Function('value', 'tickElement', 'labelElement', dnTickConfig.tickCreatedFunction)(value, tickElement, labelElement);
+        };
+    }
+    if (hasValue(dnTickConfig.labelFormatFunction)) {
+        tickConfig.labelFormatFunction = (value, type, index) => {
+            return new Function('value', 'type', 'index', dnTickConfig.labelFormatFunction)(value, type, index);
+        };
+    }
+    
+    return tickConfig;
+}
+
+export function buildJsMultidimensionalSubset(dnSubSet: any): MultidimensionalSubset {
+    let subset = new MultidimensionalSubset();
+    if (hasValue(dnSubSet!.extentOfInterest)) {
+        subset.areaOfInterest = buildJsExtent(dnSubSet.extentOfInterest, null);
+    } else if (hasValue(dnSubSet.polygonOfInterest)) {
+        subset.areaOfInterest = buildJsPolygon(dnSubSet.polygonOfInterest) as Polygon;
+    }
+    if (hasValue(dnSubSet.subsetDefinitions) && dnSubSet.subsetDefinitions.length > 0) {
+        subset.subsetDefinitions = dnSubSet.subsetDefinitions.map(buildJsDimensionalDefinition);
+    }
+    return subset;
 }

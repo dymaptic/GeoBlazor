@@ -59,7 +59,8 @@ public class SimpleLineSymbol : LineSymbol
     {
         return new SymbolSerializationRecord(Type, Color)
         {
-            Width = Width, LineStyle = LineStyle?.ToString().ToKebabCase()
+            Width = Width?.Points, 
+            Style = LineStyle?.ToString().ToKebabCase()
         };
     }
 }
@@ -68,15 +69,20 @@ public class SimpleLineSymbol : LineSymbol
 ///     Possible line style values for <see cref="SimpleLineSymbol" />
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<LineStyle>))]
-[ProtoContract]
 public enum LineStyle
 {
 #pragma warning disable CS1591
-    [ProtoMember(0)]
     Solid,
-    [ProtoMember(1)]
+    Dash,
+    DashDot,
+    Dot,
+    LongDash,
+    LongDashDot,
+    LongDashDotDot,
+    ShortDash,
+    ShortDashDot,
+    ShortDashDotDot,
     ShortDot,
-    [ProtoMember(2)]
-    Dash
+    None
 #pragma warning restore CS1591
 }

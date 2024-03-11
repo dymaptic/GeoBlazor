@@ -172,10 +172,46 @@ public class MapPoint : List<double>, IEquatable<MapPoint>
 }
 
 [ProtoContract(Name = "MapPath")]
-internal record MapPathSerializationRecord([property: ProtoMember(1)] MapPointSerializationRecord[] Points);
+internal record MapPathSerializationRecord
+{
+    public MapPathSerializationRecord()
+    {
+    }
+    
+    public MapPathSerializationRecord(MapPointSerializationRecord[] Points)
+    {
+        this.Points = Points;
+    }
+
+    public MapPath FromSerializationRecord()
+    {
+        return new MapPath(Points.Select(p => p.FromSerializationRecord()));
+    }
+
+    [ProtoMember(1)]
+    public MapPointSerializationRecord[] Points { get; init; } = Array.Empty<MapPointSerializationRecord>(); 
+}
 
 [ProtoContract(Name = "MapPoint")]
-internal record MapPointSerializationRecord([property: ProtoMember(1)] double[] Coordinates);
+internal record MapPointSerializationRecord
+{
+    public MapPointSerializationRecord()
+    {
+    }
+    
+    public MapPointSerializationRecord(double[] Coordinates)
+    {
+        this.Coordinates = Coordinates;
+    }
+
+    public MapPoint FromSerializationRecord()
+    {
+        return new MapPoint(Coordinates);
+    }
+
+    [ProtoMember(1)]
+    public double[] Coordinates { get; init; } = Array.Empty<double>();
+}
 
 internal class MapPointEqualityComparer : EqualityComparer<MapPoint>
 {

@@ -8,6 +8,35 @@
               "nested": {
                 "proto": {
                   "nested": {
+                    "ProtoViewHitCollection": {
+                      "fields": {
+                        "viewHits": {
+                          "rule": "repeated",
+                          "type": "ViewHit",
+                          "id": 1
+                        }
+                      }
+                    },
+                    "ViewHit": {
+                      "fields": {
+                        "type": {
+                          "type": "string",
+                          "id": 1
+                        },
+                        "mapPoint": {
+                          "type": "Geometry",
+                          "id": 2
+                        },
+                        "graphic": {
+                          "type": "Graphic",
+                          "id": 3
+                        },
+                        "layerId": {
+                          "type": "string",
+                          "id": 4
+                        }
+                      }
+                    },
                     "ProtoGraphicCollection": {
                       "fields": {
                         "graphics": {
@@ -102,35 +131,35 @@
                           "type": "MapPath",
                           "id": 10
                         },
-                        "xMax": {
+                        "xmax": {
                           "type": "double",
                           "id": 11
                         },
-                        "xMin": {
+                        "xmin": {
                           "type": "double",
                           "id": 12
                         },
-                        "yMax": {
+                        "ymax": {
                           "type": "double",
                           "id": 13
                         },
-                        "yMin": {
+                        "ymin": {
                           "type": "double",
                           "id": 14
                         },
-                        "zMax": {
+                        "zmax": {
                           "type": "double",
                           "id": 15
                         },
-                        "zMin": {
+                        "zmin": {
                           "type": "double",
                           "id": 16
                         },
-                        "mMax": {
+                        "mmax": {
                           "type": "double",
                           "id": 17
                         },
-                        "mMin": {
+                        "mmin": {
                           "type": "double",
                           "id": 18
                         }
@@ -217,7 +246,7 @@
                           "id": 12
                         },
                         "haloSize": {
-                          "type": "int32",
+                          "type": "double",
                           "id": 13
                         },
                         "font": {
@@ -231,6 +260,50 @@
                         "url": {
                           "type": "string",
                           "id": 16
+                        },
+                        "backgroundColor": {
+                          "type": "MapColor",
+                          "id": 17
+                        },
+                        "borderLineSize": {
+                          "type": "double",
+                          "id": 18
+                        },
+                        "borderLineColor": {
+                          "type": "MapColor",
+                          "id": 19
+                        },
+                        "horizontalAlignment": {
+                          "type": "string",
+                          "id": 20
+                        },
+                        "kerning": {
+                          "type": "bool",
+                          "id": 21
+                        },
+                        "lineHeight": {
+                          "type": "double",
+                          "id": 22
+                        },
+                        "lineWidth": {
+                          "type": "double",
+                          "id": 23
+                        },
+                        "rotated": {
+                          "type": "bool",
+                          "id": 24
+                        },
+                        "verticalAlignment": {
+                          "type": "string",
+                          "id": 25
+                        },
+                        "xscale": {
+                          "type": "int32",
+                          "id": 26
+                        },
+                        "yscale": {
+                          "type": "int32",
+                          "id": 27
                         }
                       }
                     },
@@ -250,7 +323,7 @@
                     "MapFont": {
                       "fields": {
                         "size": {
-                          "type": "int32",
+                          "type": "string",
                           "id": 1
                         },
                         "family": {
