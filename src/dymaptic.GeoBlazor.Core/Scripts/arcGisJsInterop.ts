@@ -268,7 +268,11 @@ export async function getGeometryEngineWrapper(dotNetRef: any): Promise<Geometry
     return wrapper;
 }
 
-export function getLocatorWrapper(dotNetRef: any): LocatorWrapper {
+export async function getLocatorWrapper(dotNetRef: any): Promise<LocatorWrapper> {
+    if (ProtoGraphicCollection === undefined) {
+        await loadProtobuf();
+    }
+    
     let wrapper = new LocatorWrapper(dotNetRef);
     return wrapper;
 }
@@ -2827,7 +2831,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
                 });
             } else {
                 let portalItem = buildJsPortalItem(layerObject.portalItem);
-                newLayer = new ImageryLayer({ portalItem: portalItem });
+                newLayer = new ImageryTileLayer({ portalItem: portalItem });
             }
 
             let imageryTileLayer = newLayer as ImageryTileLayer;

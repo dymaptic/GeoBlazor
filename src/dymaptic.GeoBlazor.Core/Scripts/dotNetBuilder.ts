@@ -50,9 +50,9 @@ import {
     DotNetInheritedDomain,
     DotNetRangeDomain,
     DotNetEffect,
-    DotNetFeatureTemplate,
-    DotNetAddressCandidate
-    DotNetFeatureTemplate, DotNetFeatureSet
+    DotNetAddressCandidate,
+    DotNetFeatureTemplate, 
+    DotNetFeatureSet
 } from "./definitions";
 import Point from "@arcgis/core/geometry/Point";
 import Polyline from "@arcgis/core/geometry/Polyline";

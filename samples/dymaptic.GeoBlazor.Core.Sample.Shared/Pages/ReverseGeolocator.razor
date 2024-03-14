@@ -1,0 +1,55 @@
+﻿@page "/reverse-geolocator"
+@inject Locator Locator
+
+<PageTitle>Reverse Geolocator</PageTitle>
+<h1>Reverse Geolocator</h1>
+
+<div class="links-div">
+    <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/reverse-geocode/">ArcGIS API for JavaScript</a>
+    <a class="btn btn-primary" target="_blank" href="https://www.arcgis.com/home/item.html?id=8dda0e7b5e2d4fafa80132d59122268c">Streets (WGS84) BaseMap</a>
+</div>
+<p class="instructions">
+    Click on any location on the map, and the popup will show the latitude and logitude, 
+    as well as an address.
+</p>
+
+@if (!string.IsNullOrEmpty(_address))
+{
+    <h2>Selected Point</h2>
+    <p>Lat: @_latitude, Long: @_longitude</p>
+    <p>Address: <b>@_address</b></p>
+}
+<MapView @ref="View" Longitude="-78.50169"
+         Latitude="-0.21489"
+         Zoom="12"
+         Class="map-view"
+         OnClick="OnClick">
+    <Map>
+        <Basemap>
+            <PortalItem Id="8dda0e7b5e2d4fafa80132d59122268c" />
+        </Basemap>
+    </Map>
+</MapView>
+
+<PopupTemplate @ref="Popup" Title="@($"{_longitude}, {_latitude}")" StringContent="@_address" />
+
+@code {
+    public MapView? View { get; set; }
+    public PopupTemplate? Popup { get; set; }
+
+    private readonly string _serviceUrl = "http://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer";
+    private double _latitude;
+    private double _longitude;
+    private string _address = string.Empty;
+
+    private async Task OnClick(ClickEvent clickEvent)
+    {
+        Point mapPoint = clickEvent.MapPoint;
+        _latitude = mapPoint.Latitude!.Value;
+        _longitude = mapPoint.Longitude!.Value;
+        _address = (await Locator.LocationToAddress(_serviceUrl, mapPoint)).Address ?? string.Empty;
+        StateHasChanged();
+        await View!.ShowPopup(Popup!, mapPoint);
+    }
+
+}
