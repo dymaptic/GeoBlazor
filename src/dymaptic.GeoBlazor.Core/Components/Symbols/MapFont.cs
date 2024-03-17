@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using dymaptic.GeoBlazor.Core.Extensions;
+using dymaptic.GeoBlazor.Core.Objects;
+using Microsoft.AspNetCore.Components;
 using ProtoBuf;
 using System.Text.Json.Serialization;
 
@@ -47,11 +49,11 @@ public class MapFont : MapComponent
     }
     
     /// <summary>
-    ///     The font size in points.
+    ///     The font size in points. This value may be autocast with a string expressing size in points or pixels (e.g. 12px).
     /// </summary>
     [Parameter]
     [ProtoMember(1)]
-    public int? Size { get; set; }
+    public Dimension? Size { get; set; }
 
     /// <summary>
     ///     The font family of the text.

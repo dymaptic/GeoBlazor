@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<PackageId>dymaptic.GeoBlazor.Templates</PackageId>
 		<Title>GeoBlazor Project Templates</Title>
-		<PackageVersion>2.5.3</PackageVersion>
+		<PackageVersion>3.0.0-beta-1</PackageVersion>
 		<Version>2.5.2</Version>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<Company>dymaptic</Company>

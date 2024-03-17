@@ -2,6 +2,7 @@
 using dymaptic.GeoBlazor.Core.Components.Renderers.ColorRamps;
 using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using System.Text.Json.Serialization;
 
 
@@ -15,7 +16,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Renderers;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-RasterStretchRenderer.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// 
-public class RasterStretchRenderer : ImageryRenderer
+public class RasterStretchRenderer : MapComponent, IImageryRenderer
 {
     /// <summary>
     ///     Constructor for use in code
@@ -25,8 +26,40 @@ public class RasterStretchRenderer : ImageryRenderer
     /// <summary>
     ///     Constructor for use in code
     /// </summary>
-    public RasterStretchRenderer(MultipartColorRamp? colorRamp = null, bool? computeGamma = null, bool? dynamicRangeAdjustment = null, List<int>? gamma = null, int? outputMax = null, int? outputMin = null,
-        StretchType? stretchType = null, List<List<int>>? statistics = null, bool? useGamma = null, int? numberOfStandardDeviations = null)
+    /// <param name="colorRamp">
+    ///     The stretched values are mapped to this specified color ramp.
+    /// </param>
+    /// <param name="computeGamma">
+    ///     The computeGamma automatically calculates best gamma value to render exported image based on empirical model. This is applicable to any stretch type when useGamma is true.
+    /// </param>
+    /// <param name="dynamicRangeAdjustment">
+    ///     When Dynamic Range Adjustment is true, the statistics based on the current display extent are calculated as you zoom and pan around the image. This property only applies
+    /// </param>
+    /// <param name="gamma">
+    ///     The gamma values to be used if useGamma is set to true. Gamma refers to the degree of contrast between the mid-level gray values of a raster dataset. Gamma does not
+    /// </param>
+    /// <param name="outputMax">
+    ///     The outputMax denotes the output maximum, which is the highest pixel value. The outputMin and outputMax will set the range of values that will then be linearly contrast
+    /// </param>
+    /// <param name="outputMin">
+    ///     The outputMin denotes the output minimum, which is the lowest pixel value. The outputMin and outputMax will set the range of values that will then be linearly contrast
+    /// </param>
+    /// <param name="stretchType">
+    ///     The stretch type defines a histogram stretch that will be applied to the rasters to enhance their appearance. Stretching improves the appearance of the data by spreading the
+    /// </param>
+    /// <param name="statistics">
+    ///     The input statistics can be specified through the statistics property.
+    /// </param>
+    /// <param name="useGamma">
+    ///     Denotes whether the gamma value should be used.
+    /// </param>
+    /// <param name="numberOfStandardDeviations">
+    ///     Applicable when stretchType is standard-deviation. Specifies the number of standard deviations to use. The values beyond the number of standard deviations become the outputMin
+    /// </param>
+    public RasterStretchRenderer(ColorRamp? colorRamp = null, bool? computeGamma = null, 
+        bool? dynamicRangeAdjustment = null, List<int>? gamma = null, int? outputMax = null, int? outputMin = null,
+        StretchType? stretchType = null, RasterStatistics[]? statistics = null, bool? useGamma = null, 
+        int? numberOfStandardDeviations = null)
     {
 #pragma warning disable BL0005
         ColorRamp = colorRamp;
@@ -42,16 +75,18 @@ public class RasterStretchRenderer : ImageryRenderer
 #pragma warning restore BL0005
     }
 
+    /// <inheritdoc />
+    public string ImageryRendererType => "raster-stretch";
+
     /// <summary>
-    ///     The type of renderer.
+    ///     Type for compatibility with other renderers.
     /// </summary>
-    [JsonPropertyName("type")]
     public string Type => "raster-stretch";
 
     /// <summary>
     ///     The stretched values are mapped to this specified color ramp.
     /// </summary>
-    public MultipartColorRamp? ColorRamp { get; private set; }
+    public ColorRamp? ColorRamp { get; private set; }
 
     /// <summary>
     ///     The computeGamma automatically calculates best gamma value to render exported image based on empirical model. This is applicable to any stretch type when useGamma is true.
@@ -99,7 +134,7 @@ public class RasterStretchRenderer : ImageryRenderer
     ///     The input statistics can be specified through the statistics property.
     /// </summary>
     [Parameter]
-    public List<List<int>>? Statistics { get;  set; }
+    public RasterStatistics[]? Statistics { get;  set; }
 
     /// <summary>
     ///     Denotes whether the gamma value should be used.
@@ -113,6 +148,21 @@ public class RasterStretchRenderer : ImageryRenderer
     /// </summary>
     [Parameter]
     public int? NumberOfStandardDeviations { get; set; }
+
+    /// <summary>
+    ///     Updates the <see cref="StretchType"/> of the renderer after initial rendering.
+    /// </summary>
+    public async Task SetStretchType(StretchType stretchType)
+    {
+#pragma warning disable BL0005
+        StretchType = stretchType;
+#pragma warning restore BL0005
+        JsModule ??= Parent?.JsModule;
+
+        if (JsModule is null) return;
+        
+        await JsModule.InvokeVoidAsync("setStretchTypeForRenderer", Id, stretchType);
+    }
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
@@ -171,3 +221,20 @@ public enum StretchType
 #pragma warning restore CS1591
 }
 
+/// <summary>
+///     The input statistics for rasters
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-RasterStretchRenderer.html#statistics">ArcGIS Maps SDK for JavaScript</a>
+/// </summary>
+/// <param name="Min">
+///     The minimum pixel value.
+/// </param>
+/// <param name="Max">
+///     The maximum pixel value.
+/// </param>
+/// <param name="Avg">
+///     The average pixel value.
+/// </param>
+/// <param name="Stddev">
+///     The standard deviation of the pixel value.
+/// </param>
+public record RasterStatistics(double Min, double Max, double? Avg = null, double? Stddev = null);

@@ -1,0 +1,26 @@
+﻿@inherits TestRunnerBase
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+
+    [TestMethod]
+    public async Task TestCanRenderMapImageLayer(Action renderHandler)
+    {
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisDarkGray" />
+                    </Basemap>
+                    <MapImageLayer>
+                        <PortalItem Id="d7892b3c13b44391992ecd42bfa92d01" />
+                    </MapImageLayer>
+                </Map>
+            </MapView>);
+        await WaitForMapToRender();
+        await AssertJavaScript("assertLayerExists", args: "map-image");
+    }
+}

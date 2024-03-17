@@ -22,114 +22,51 @@ public record GoToOverrideParameters(Guid ViewId, GoToTarget Target, GoToOptions
 /// <summary>
 ///     The target location/viewpoint to animate to in the goTo() method. A two or three-element array of numbers represents the [x,y,z] coordinates to center the view on. When using an object for the target, use the properties in this record.
 /// </summary>
-public record GoToTarget(object? Target, double[]? Center, double? Scale, double? Zoom, double? Heading, double? Tilt,
-    Point? Position)
-{
-    /// <summary>
-    ///     Constructor for when the target is a collection of coordinates.
-    /// </summary>
-    public GoToTarget(double[]? targetCoordinates, object? target, double[]? center, double? scale, double? zoom, 
-        double? heading, double? tilt, Point? position) : this(target, center, scale, zoom, heading, tilt, position)
-    {
-        TargetCoordinates = targetCoordinates;
-    }
-    
-    /// <summary>
-    ///     Constructor for when the target is a collection of Geometries.
-    /// </summary>
-    public GoToTarget(Geometry[]? targetGeometries, object? target, double[]? center, double? scale, double? zoom, 
-        double? heading, double? tilt, Point? position) : this(target, center, scale, zoom, heading, tilt, position)
-    {
-        TargetGeometries = targetGeometries;
-    }
-    
-    /// <summary>
-    ///     Constructor for when the target is a single Geometry.
-    /// </summary>
-    public GoToTarget(Geometry? targetGeometry, object? target, double[]? center, double? scale, double? zoom, 
-        double? heading, double? tilt, Point? position) : this(target, center, scale, zoom, heading, tilt, position)
-    {
-        TargetGeometry = targetGeometry;
-    }
-    
-    /// <summary>
-    ///     Constructor for when the target is a collection of Graphics.
-    /// </summary>
-    public GoToTarget(Graphic[]? targetGraphics, object? target, double[]? center, double? scale, double? zoom, 
-        double? heading, double? tilt, Point? position) : this(target, center, scale, zoom, heading, tilt, position)
-    {
-        TargetGraphics = targetGraphics;
-    }
-    
-    /// <summary>
-    ///     Constructor for when the target is a single Graphic.
-    /// </summary>
-    public GoToTarget(Graphic? targetGraphic, object? target, double[]? center, double? scale, double? zoom, 
-        double? heading, double? tilt, Point? position) : this(target, center, scale, zoom, heading, tilt, position)
-    {
-        TargetGraphic = targetGraphic;
-    }
-    
-    /// <summary>
-    ///     The target of the animation as [x,y] or [x,y,z] coordinates.
-    /// </summary>
-    public double[]? TargetCoordinates { get; set; }
-
-    /// <summary>
-    ///     The target of the animation as a collection of geometries.
-    /// </summary>
-    public Geometry[]? TargetGeometries { get; set; }
-
-    /// <summary>
-    ///     The target of the animation as a single geometry.
-    /// </summary>
-    public Geometry? TargetGeometry { get; set; }
-
-    /// <summary>
-    ///     The target of the animation as a collection of graphics.
-    /// </summary>
-    public Graphic[]? TargetGraphics { get; set; }
-    
-    /// <summary>
-    ///     The target of the animation as a single graphic.
-    /// </summary>
-    public Graphic? TargetGraphic { get; set; }
-    
-    /// <summary>
-    ///     The target of the animation.
-    /// </summary>
-    public object? Target { get; set; } = Target;
-
-    /// <summary>
-    ///     The View.Center to go to.
-    /// </summary>
-    public double[]? Center { get; private set; } = Center;
-
-    /// <summary>
-    ///     The View.Scale to go to.
-    /// </summary>
-    public double? Scale { get; private set; } = Scale;
-
-    /// <summary>
-    ///     The View.Zoom to go to.
-    /// </summary>
-    public double? Zoom { get; private set; } = Zoom;
-
-    /// <summary>
-    ///     The View.Heading to go to.
-    /// </summary>
-    public double? Heading { get; private set; } = Heading;
-
-    /// <summary>
-    ///     The View.Tilt to go to. 
-    /// </summary>
-    public double? Tilt { get; private set; } = Tilt;
-
-    /// <summary>
-    ///    The View.Position to go to. 
-    /// </summary>
-    public Point? Position { get; private set; } = Position;
-}
+/// <param name="Target">
+///     The target of the animation.
+/// </param>
+/// <param name="Center">
+///     The MapView.Center to go to.
+/// </param>
+/// <param name="Scale">
+///     The MapView.Scale to go to.
+/// </param>
+/// <param name="Zoom">
+///     The MapView.Zoom to go to.
+/// </param>
+/// <param name="Heading">
+///     The Camera.Heading to go to.
+/// </param>
+/// <param name="Tilt">
+///     The Camera.Tilt to go to.
+/// </param>
+/// <param name="Position">
+///     The Camera.Position to go to.
+/// </param>
+/// <param name="TargetGeometries">
+///     The target as an array of Geometries.
+/// </param>
+/// <param name="TargetGraphics">
+///     The target as an array of Graphics.
+/// </param>
+/// <param name="TargetGeometry">
+///     The target as a single Geometry.
+/// </param>
+/// <param name="TargetGraphic">
+///     The target as a single Graphic.
+/// </param>
+public record GoToTarget(
+    object? Target,
+    double[]? Center,
+    double? Scale,
+    double? Zoom,
+    double? Heading,
+    double? Tilt,
+    Point? Position,
+    Geometry[]? TargetGeometries,
+    Graphic[]? TargetGraphics,
+    Geometry? TargetGeometry,
+    Graphic? TargetGraphic);
 
 /// <summary>
 ///     Animation options for the goTo() method. See properties below for parameter specifications.

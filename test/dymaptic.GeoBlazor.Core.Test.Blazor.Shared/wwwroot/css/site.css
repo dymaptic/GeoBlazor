@@ -35,7 +35,7 @@ button {
     justify-content: space-between;
 }
 
-.test-results-row {
+.test-results-col {
     display: flex;
     flex-direction: column;
     min-height: 100px;
@@ -43,8 +43,13 @@ button {
     overflow-y: auto;
 }
 
-.test-results-row button {
+.test-results-col button {
     width: 100px;
+}
+
+.button-row {
+    display: flex;
+    flex-direction: row;
 }
 
 .map-view {

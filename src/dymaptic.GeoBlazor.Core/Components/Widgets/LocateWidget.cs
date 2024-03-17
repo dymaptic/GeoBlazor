@@ -15,16 +15,6 @@ public class LocateWidget : Widget
     /// <inheritdoc />
     [JsonPropertyName("type")]
     public override string WidgetType => "locate";
-
-    /// <summary>
-    ///     Indicates whether the widget will automatically rotate to user's direction.
-    /// </summary>
-    /// <remarks>
-    ///     This property is deprecated. Use <see cref="RotationEnabled" /> instead.
-    /// </remarks>
-    [Parameter]
-    [Obsolete("UseHeadingEnabled is deprecated. Use RotateEnabled instead.")]
-    public bool UseHeadingEnabled { get; set; }
     
     /// <summary>
     ///    Indicates whether the widget will automatically rotate to the device heading based on the Geolocation APIs GeolocationCoordinates.heading property. The map will not rotate if the speed is 0, or if the device is unable to provide heading information.

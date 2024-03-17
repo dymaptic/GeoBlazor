@@ -1,4 +1,5 @@
-﻿using dymaptic.GeoBlazor.Core.Components.Symbols;
+﻿using dymaptic.GeoBlazor.Core.Extensions;
+using dymaptic.GeoBlazor.Core.Objects;
 using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
 using System.Text.Json.Serialization;
@@ -115,7 +116,7 @@ public class Label : LayerObject
     /// </remarks>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? RepeatLabelDistance { get; set; }
+    public Dimension? RepeatLabelDistance { get; set; }
     
     /// <summary>
     ///     Indicates whether to use domain names if the fields in the labelExpression or labelExpressionInfo have domains.

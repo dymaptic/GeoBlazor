@@ -31,7 +31,7 @@ public class PopupWidget : Widget
     ///     popup has a zoom-to action styled with a magnifying glass icon. When this icon is clicked, the view zooms in four
     ///     LODs and centers on the selected feature.
     /// </summary>
-    public HashSet<ActionBase>? Actions { get; set; }
+    public List<ActionBase>? Actions { get; set; }
 
     /// <summary>
     ///     Position of the popup in relation to the selected feature. The default behavior is to display above the feature and
@@ -159,7 +159,7 @@ public class PopupWidget : Widget
     ///     selected feature.
     ///     This value is null if no features are associated with the popup.
     /// </summary>
-    public HashSet<Graphic> Features { get; set; } = new();
+    public List<Graphic> Features { get; set; } = new();
 
     /// <summary>
     ///     Point used to position the popup. This is automatically set when viewing the popup by selecting a feature. If using
@@ -181,9 +181,9 @@ public class PopupWidget : Widget
     ///     The selected feature accessed by the popup. The content of the Popup is determined based on the PopupTemplate
     ///     assigned to this feature.
     /// </summary>
-    public async Task<Graphic> GetSelectedFeature()
+    public async Task<Graphic?> GetSelectedFeature()
     {
-        return await JsWidgetReference!.InvokeAsync<Graphic>("getSelectedFeature",
+        return await JsWidgetReference!.InvokeAsync<Graphic?>("getSelectedFeature",
             CancellationTokenSource.Token, View?.Id);
     }
 
@@ -311,7 +311,7 @@ public class PopupWidget : Widget
 
                 break;
             case ActionBase action:
-                Actions ??= new HashSet<ActionBase>();
+                Actions ??= new List<ActionBase>();
                 Actions.Add(action);
 
                 break;

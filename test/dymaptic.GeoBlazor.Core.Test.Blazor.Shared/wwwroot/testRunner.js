@@ -103,7 +103,7 @@ export function assertSymbolOnLayer(methodName, layerId, symbolType, dnSymbol) {
                     isMatch = true;
                     break;
                 default:
-                    isMatch = layer.renderer.symbol[propertyName] === dnSymbol[propertyName];
+                    isMatch = layer.renderer.symbol[propertyName].toString() === dnSymbol[propertyName].toString();
                     break;
             }
 
@@ -148,7 +148,7 @@ export function testThrow() {
     throw new Error("Test throw");
 }
 
-export async function assertPopupCallback(methodName) {
+export async function clickOnPopupAction(methodName) {
     let view = getView(methodName);
     let layer = view.map.layers.items[0];
     let featureSet = await layer.queryFeatures();

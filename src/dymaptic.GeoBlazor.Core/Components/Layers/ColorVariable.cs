@@ -11,6 +11,35 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 /// </summary>
 public class ColorVariable : VisualVariable
 {
+    /// <summary>
+    ///     Parameterless constructor for using as a razor component
+    /// </summary>
+    public ColorVariable()
+    {
+    }
+    
+    /// <summary>
+    ///     Constructs a new ColorVariable in code with parameters
+    /// </summary>
+    /// <param name="field">
+    ///     The name of the numeric attribute field that contains the data values used to determine the color/opacity/size/rotation of each feature.
+    /// </param>
+    /// <param name="normalizationField">
+    ///     The name of the numeric attribute field by which to normalize the data. If this field is used, then the values in stops should be normalized as percentages or ratios.
+    /// </param>
+    /// <param name="stops">
+    ///     An array of sequential objects, or stops, that defines a continuous color ramp. You must specify 2 - 8 stops. In most cases, no more than five are needed. Features with values that fall between the given stops will be assigned colors linearly interpolated along the ramp in relation to the nearest stop values. The stops must be listed in ascending order based on the value of the value property in each stop.
+    /// </param>
+    public ColorVariable(string field, string? normalizationField = null,
+        IReadOnlyList<ColorStop>? stops = null)
+    {
+#pragma warning disable BL0005
+        NormalizationField = normalizationField;
+        Field = field;
+        Stops = stops;
+#pragma warning restore BL0005
+    }
+    
     /// <inheritdoc />
     public override VisualVariableType VariableType => VisualVariableType.Color;
 
@@ -25,14 +54,14 @@ public class ColorVariable : VisualVariable
     ///     An array of sequential objects, or stops, that defines a continuous color ramp. You must specify 2 - 8 stops. In most cases, no more than five are needed. Features with values that fall between the given stops will be assigned colors linearly interpolated along the ramp in relation to the nearest stop values. The stops must be listed in ascending order based on the value of the value property in each stop.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyCollection<ColorStop>? Stops
+    public IReadOnlyList<ColorStop>? Stops
     {
         get => _stops;
         set
         {
             if (value is not null)
             {
-                _stops = new HashSet<ColorStop>(value);
+                _stops = new List<ColorStop>(value);
             }
             else
             {
@@ -47,7 +76,7 @@ public class ColorVariable : VisualVariable
         switch (child)
         {
             case ColorStop stop:
-                _stops ??= new HashSet<ColorStop>();
+                _stops ??= new List<ColorStop>();
                 _stops.Add(stop);
 
                 break;
@@ -87,7 +116,7 @@ public class ColorVariable : VisualVariable
         }
     }
     
-    private HashSet<ColorStop>? _stops;
+    private List<ColorStop>? _stops;
 }
 
 /// <summary>
@@ -96,6 +125,35 @@ public class ColorVariable : VisualVariable
 /// </summary>
 public class ColorStop: MapComponent
 {
+    /// <summary>
+    ///     Parameterless constructor for using as a razor component
+    /// </summary>
+    public ColorStop()
+    {
+    }
+    
+    /// <summary>
+    ///     Constructs a new ColorStop in code with parameters
+    /// </summary>
+    /// <param name="value">
+    ///     Specifies the data value to map to the given color.
+    /// </param>
+    /// <param name="color">
+    ///     The Color used to render features with the given value.
+    /// </param>
+    /// <param name="label">
+    ///     A string value used to label the stop along the color ramp in the Legend.
+    /// </param>
+    public ColorStop(double value, MapColor color, string? label = null)
+    {
+        AllowRender = false;
+#pragma warning disable BL0005
+        Value = value;
+        Color = color;
+        Label = label;
+#pragma warning restore BL0005
+    }
+    
     /// <summary>
     ///     The Color used to render features with the given value.
     /// </summary>

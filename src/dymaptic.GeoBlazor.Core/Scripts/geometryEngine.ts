@@ -869,6 +869,21 @@ export default class GeometryEngineWrapper {
             return null;
         }
     }
+    
+    getExtentCenter(extent: DotNetExtent): DotNetPoint {
+        let jsExtent = buildJsExtent(extent, null);
+        return buildDotNetPoint(jsExtent.center) as DotNetPoint;
+    }
+
+    getExtentHeight(extent: DotNetExtent): number {
+        let jsExtent = buildJsExtent(extent, null);
+        return jsExtent.height;
+    }
+
+    getExtentWidth(extent: DotNetExtent): number {
+        let jsExtent = buildJsExtent(extent, null);
+        return jsExtent.width;
+    }
 
     logError(error) {
         error.message ??= error.toString();

@@ -1,5 +1,6 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
 using dymaptic.GeoBlazor.Core.Components.Layers;
+using dymaptic.GeoBlazor.Core.Components.Widgets;
 using dymaptic.GeoBlazor.Core.Exceptions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
@@ -162,14 +163,14 @@ public class SceneView : MapView
     /// <inheritdoc />
     protected override async Task UpdateView()
     {
-        if (!MapRendered || !ShouldUpdate || ExtentSetByCode || ExtentChangedInJs)
+        if (!MapRendered || !ShouldUpdate || ExtentSetByCode || ExtentChangedInJs || PointerDown)
         {
             return;
         }
 
         ShouldUpdate = false;
 
-        ViewExtentUpdate change = await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("updateView",
+        ViewExtentUpdate? change = await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("updateView",
             CancellationTokenSource.Token, new
             {
                 Id,
@@ -180,7 +181,10 @@ public class SceneView : MapView
                 Tilt,
                 ZIndex
             });
-        Extent = change.Extent;
+        if (change is not null)
+        {
+            Extent = change.Extent;
+        }
         ShouldUpdate = true;
     }
 
@@ -192,7 +196,7 @@ public class SceneView : MapView
             return;
         }
 
-        if (Rendering || Map is null || ViewJsModule is null) return;
+        if (!AuthenticationInitialized || Rendering || Map is null || ViewJsModule is null) return;
 
         if (string.IsNullOrWhiteSpace(ApiKey) && AllowDefaultEsriLogin is null or false &&
             PromptForArcGISKey is null or true && string.IsNullOrWhiteSpace(AppId))
@@ -213,8 +217,8 @@ public class SceneView : MapView
         }
 
         Rendering = true;
-        Map.Layers.RemoveWhere(l => l.Imported);
-        Map.Basemap?.Layers.RemoveWhere(l => l.Imported);
+        Map.Layers.RemoveAll(l => l.Imported);
+        Map.Basemap?.Layers.RemoveAll(l => l.Imported);
         ValidateRequiredChildren();
 
         await InvokeAsync(async () =>
@@ -241,6 +245,15 @@ public class SceneView : MapView
                 EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions, ZIndex, Tilt);
             Rendering = false;
             MapRendered = true;
+            
+            if (ProJsViewModule is not null)
+            {
+                // register pro widgets
+                foreach (Widget widget in Widgets.Where(w => !w.GetType().Namespace!.Contains("Core")))
+                {
+                    await AddWidget(widget);
+                }
+            }
         });
     }
 }

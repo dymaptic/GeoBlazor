@@ -1,11 +1,11 @@
 ﻿import Popup from "@arcgis/core/widgets/Popup";
 import {buildDotNetGraphic} from "./dotNetBuilder";
-import {DotNetGraphic} from "./definitions";
+import {DotNetGraphic, IPropertyWrapper} from "./definitions";
 import {dotNetRefs, graphicsRefs} from "./arcGisJsInterop";
 import {buildJsSymbol} from "./jsBuilder";
 import Symbol from "@arcgis/core/symbols/Symbol";
 
-export default class PopupWidgetWrapper {
+export default class PopupWidgetWrapper implements IPropertyWrapper {
     private popup: Popup;
 
     constructor(popup: Popup) {
@@ -27,17 +27,17 @@ export default class PopupWidgetWrapper {
     }
 
     fetchFeatures(): Array<DotNetGraphic> {
-        return this.popup.features.map(buildDotNetGraphic);
+        return this.popup.features.map((g) => buildDotNetGraphic(g) as DotNetGraphic);
     }
 
     getFeatureCount(): number {
         return this.popup.featureCount;
     }
 
-    async getSelectedFeature(viewId: string | null): Promise<DotNetGraphic> {
+    async getSelectedFeature(viewId: string | null): Promise<DotNetGraphic | null> {
         let feature = this.popup.selectedFeature;
         let graphic = buildDotNetGraphic(feature);
-        if (viewId !== null) {
+        if (viewId !== null && graphic !== null) {
             graphic.id = await dotNetRefs[viewId].invokeMethodAsync('GetId');
             graphicsRefs[graphic.id as string] = feature;
         }
@@ -62,5 +62,9 @@ export default class PopupWidgetWrapper {
     
     setSelectedClusterBoundaryFeatureSymbol(symbol: any) {
         this.popup.viewModel.selectedClusterBoundaryFeature.symbol = buildJsSymbol(symbol) as Symbol;
+    }
+
+    setProperty(prop: string, value: any): void {
+        this.popup[prop] = value;
     }
 }

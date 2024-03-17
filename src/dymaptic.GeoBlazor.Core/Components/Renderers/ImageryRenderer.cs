@@ -1,20 +1,60 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Layers;
+using dymaptic.GeoBlazor.Core.Extensions;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+
 
 namespace dymaptic.GeoBlazor.Core.Components.Renderers;
 
 /// <summary>
-///     This interface is to bridge implementing the various imagery renderers. 
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#renderer">
-///         ArcGIS
-///         JS API
-///     </a>
+///     The IImageryRenderer is an interface for a group of renderers used for Imagery Layers
 /// </summary>
-/// 
-/// <summary>
-///     The ImageryRenderer is an abstract class to aide understanding that a number of different "renderers"
-///     inherit from the MapComponent class vs the Renderer class.
-/// </summary>
-public abstract class ImageryRenderer: MapComponent
+[JsonConverter(typeof(ImageryRendererConverter))]
+public interface IImageryRenderer
 {
+    /// <summary>
+    ///     The type of renderer.
+    /// </summary>
+    [JsonPropertyName("type")]
+    public string ImageryRendererType { get; }
+}
 
+internal class ImageryRendererConverter : JsonConverter<IImageryRenderer>
+{
+    public override IImageryRenderer? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        var newOptions = new JsonSerializerOptions(options)
+        {
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+        };
+        Utf8JsonReader cloneReader = reader;
+
+        if (JsonSerializer.Deserialize<Dictionary<string, object?>>(ref reader, newOptions) is not
+            IDictionary<string, object?> temp)
+        {
+            return null;
+        }
+
+        if (temp.TryGetValue("type", out object? typeValue))
+        {
+            switch (typeValue?.ToString())
+            {
+                case "raster-stretch":
+                    return JsonSerializer.Deserialize<RasterStretchRenderer>(ref cloneReader, newOptions);
+                case "unique-value":
+                    return JsonSerializer.Deserialize<UniqueValueRenderer>(ref cloneReader, newOptions);
+            }
+        }
+
+        return null;
+    }
+
+    public override void Write(Utf8JsonWriter writer, IImageryRenderer value, JsonSerializerOptions options)
+    {
+        var newOptions = new JsonSerializerOptions(options)
+        {
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+        };
+        writer.WriteRawValue(JsonSerializer.Serialize(value, typeof(object), newOptions));
+    }
 }

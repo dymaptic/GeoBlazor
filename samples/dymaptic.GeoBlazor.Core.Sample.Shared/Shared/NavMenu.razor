@@ -84,6 +84,7 @@
         new("widgets", "Widgets", "oi-location"),
         new("basemaps", "Basemaps", "oi-map"),
         new("feature-layers", "Feature Layers", "oi-layers"),
+        new("map-image-layers", "Map Image Layers", "oi-image"),
         new("labels", "Labels", "oi-text"),
         new("popups", "Popups", "oi-chat"),
         new("popup-actions", "Popup Actions", "oi-bullhorn"),
@@ -98,6 +99,7 @@
         new("wcslayers", "WCS Layers", "oi-project"),
         new("bingmaps-layer", "Bing Maps Layer", null, "bing.png"),
         new("imagerylayer", "Imagery Layers", "oi-image"),
+        new("imagery-tile-layer", "Imagery Tile Layers", null, "tile.png"),
         new("web-map", "Web Map", "oi-browser"),
         new("web-scene", "Web Scene", "oi-box"),
         new("events", "Events", "oi-flash"),
@@ -118,7 +120,9 @@
         new("marker-rotation", "Marker Rotation", "oi-loop-circular"),
         new("graphic-tracking", "Graphic Tracking", "oi-move"),
         new("geometry-methods", "Geometry Methods", "oi-task"),
-        new("search-multi-source", "Search Multiple Sources", "oi-magnifying-glass")
+        new("locator-methods", "Locator Methods", "oi-task"),
+        new("search-multi-source", "Search Multiple Sources", "oi-magnifying-glass"),
+        new("reverse-geolocator", "GeoLocator", "oi-arrow-circle-bottom")
     };
 
     public record PageLink(string Href, string Title, string? IconClass, string? ImageFile = null, bool Pro = false);

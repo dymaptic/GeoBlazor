@@ -40,7 +40,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
 
     /// <summary>
     ///     A boolean flag that indicates that the current <see cref="MapView" /> has finished rendering.
-    ///     To listen for a map rendering event, use <see cref="MapView.OnMapRendered" />.
+    ///     To listen for a map rendering event, use <see cref="MapView.OnViewRendered" />.
     /// </summary>
     [CascadingParameter(Name = "MapRendered")]
     [JsonIgnore]
@@ -284,20 +284,18 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
                 {
                     optionSet.Found = true;
                 }
-                else
-                {
-                    continue;
-                }
+                continue;
             }
-            else if (value is null)
+            
+            if (value is null)
             {
-                throw new MissingRequiredChildElementException(thisType.Name, propType.Name);
+                throw new MissingRequiredChildElementException(thisType.Name, propName);
             }
 
             // lists, arrays
             if ((propType.GetInterface(nameof(ICollection)) != null) && (((ICollection)value).Count == 0))
             {
-                throw new MissingRequiredChildElementException(thisType.Name, propType.Name);
+                throw new MissingRequiredChildElementException(thisType.Name, propName);
             }
         }
 
@@ -319,6 +317,17 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         {
             await Parent.RegisterChildComponent(this);
             _registered = true;
+        }
+    }
+
+    /// <inheritdoc />
+    public override async Task SetParametersAsync(ParameterView parameters)
+    {
+        await base.SetParametersAsync(parameters);
+        
+        foreach (KeyValuePair<string, object?> kvp in ModifiedParameters)
+        {
+            GetType().GetProperty(kvp.Key)!.SetValue(this, kvp.Value);
         }
     }
 
@@ -347,6 +356,11 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _listeners = new();
     private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _waiters = new();
     private Type? _proExtensions;
+
+    /// <summary>
+    ///     Properties that were modified in code, and should no longer be set via markup, but instead set to the value here.
+    /// </summary>
+    protected Dictionary<string, object?> ModifiedParameters = new();
 
     /// <summary>
     ///     Creates a cancellation token to control external calls
