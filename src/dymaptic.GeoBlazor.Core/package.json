@@ -11,8 +11,8 @@
   "author": "dymaptic",
   "license": "ISC",
   "dependencies": {
-    "@arcgis/core": "4.29.3",
-    "esbuild": "0.20.1",
+    "@arcgis/core": "4.29.7",
+    "esbuild": "0.20.2",
     "protobufjs": "7.2.6"
   },
   "devDependencies": {

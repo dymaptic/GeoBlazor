@@ -1,5 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Components.Widgets.LayerList;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System.Text.Json.Serialization;
 

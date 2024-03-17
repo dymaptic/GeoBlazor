@@ -1,8 +1,7 @@
-﻿using dymaptic.GeoBlazor.Core.Components.Layers;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 
-namespace dymaptic.GeoBlazor.Core.Components.Widgets.LayerList;
+namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
 /// <summary>
 ///     The ListItem class represents one of the operationalItems in the LayerListViewModel. In the LayerList widget UI,

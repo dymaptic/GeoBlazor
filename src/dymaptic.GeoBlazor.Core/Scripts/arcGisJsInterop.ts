@@ -135,6 +135,7 @@ import OpenStreetMapLayer from "@arcgis/core/layers/OpenStreetMapLayer";
 import Camera from "@arcgis/core/Camera";
 import ProjectionWrapper from "./projection";
 import GeometryEngineWrapper from "./geometryEngine";
+import LocatorWrapper from "./locator";
 import FeatureLayerViewWrapper from "./featureLayerView";
 import Popup from "@arcgis/core/widgets/Popup";
 import ElevationLayer from "@arcgis/core/layers/ElevationLayer";
@@ -264,6 +265,15 @@ export async function getGeometryEngineWrapper(dotNetRef: any): Promise<Geometry
         await loadProtobuf();
     }
     let wrapper = new GeometryEngineWrapper(dotNetRef);
+    return wrapper;
+}
+
+export async function getLocatorWrapper(dotNetRef: any): Promise<LocatorWrapper> {
+    if (ProtoGraphicCollection === undefined) {
+        await loadProtobuf();
+    }
+    
+    let wrapper = new LocatorWrapper(dotNetRef);
     return wrapper;
 }
 
@@ -2821,7 +2831,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
                 });
             } else {
                 let portalItem = buildJsPortalItem(layerObject.portalItem);
-                newLayer = new ImageryLayer({ portalItem: portalItem });
+                newLayer = new ImageryTileLayer({ portalItem: portalItem });
             }
 
             let imageryTileLayer = newLayer as ImageryTileLayer;
