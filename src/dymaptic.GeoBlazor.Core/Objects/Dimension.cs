@@ -2,7 +2,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 
 
-namespace dymaptic.GeoBlazor.Core.Extensions;
+namespace dymaptic.GeoBlazor.Core.Objects;
 
 /// <summary>
 ///     Defines a screen measurement in points or pixels. Supports implicit conversion from string, int, or double.
