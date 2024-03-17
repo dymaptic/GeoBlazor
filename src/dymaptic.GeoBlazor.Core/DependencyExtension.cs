@@ -28,6 +28,7 @@ public static class DependencyExtension
         return serviceCollection
             .AddSingleton<GeoBlazorSettings>(_ => settings)
             .AddScoped<GeometryEngine>()
+            .AddScoped<Locator>()
             .AddScoped<Projection>()
             .AddScoped<AbortManager>()
             .AddScoped<AuthenticationManager>()
