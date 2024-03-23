@@ -1,5 +1,6 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
 using dymaptic.GeoBlazor.Core.Components.Renderers;
+using dymaptic.GeoBlazor.Core.Objects;
 using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
 using System.Text.Json.Serialization;
@@ -61,9 +62,6 @@ public class ImageryLayer : Layer
     /// <param name="effect">
     ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to how image filters work.
     /// </param>
-    /// <param name="fields">
-    ///     An array of fields in the layer.
-    /// </param>
     /// <param name="format">
     ///     The format of the exported image.
     /// </param>
@@ -106,28 +104,61 @@ public class ImageryLayer : Layer
     /// <param name="popupEnabled">
     ///     Indicates whether to display popups when features in the layer are clicked.
     /// </param>
-    /// <param name="rasterFields">
-    ///     A complete list of fields that consists of raster attribute table fields, item pixel value, service pixel value, service pixel value with various server defined function templates, and raster attribute table fields.
-    /// </param>
     /// <param name="refreshInterval">
     ///     Refresh interval of the layer in minutes. Value of 0 indicates no refresh.
-    /// </param>
-    /// <param name="spatialReference">
-    ///     The spatial reference of the image service.
     /// </param>
     /// <param name="useViewTime">
     ///     Determines if the layer will update its temporal data based on the view's timeExtent.
     /// </param>
-    public ImageryLayer(string? url = null, PortalItem? portalItem = null, ImageryRenderer? renderer = null, IReadOnlyCollection<int>? bandIds = null,
-        string? blendMode = null, int? compressionQuality = null, double? compressionTolerance = null, string? copyright = null, string? definitionExpression = null,
-        Effect? effect = null, Field[]? fields = null, ImageFormat? format = null, bool? hasMultidimensions = null, int? imageMaxHeight = null,
-        int? imageMaxWidth = null, int? interpolation = null, bool? legendEnabled = null, int? maxScale = null, int? minScale = null,
-        IReadOnlyCollection<int>? noData = null, string? noDataInterpretation = null, string? objectIdField = null, bool? persistenceEnabled = null,
-        string? pixelType = null, bool? popupEnabled = null, IReadOnlyCollection<Field>? rasterFields = null, double? refreshInterval = null,
-        SpatialReference? spatialReference = null, bool? useViewTime = null
-        ) 
+    /// <param name="tileInfo">
+    ///     The tiling scheme information for the layer.
+    /// </param>
+    /// <param name="timeExtent">
+    ///     The layer's time extent. When the layer's useViewTime is false, the layer instructs the view to show data from the layer based on this time extent. If the useViewTime is true, and both layer and view time extents are set, then features that fall within the intersection of the view and layer time extents will be displayed. For example, if the layer's time extent is set to display features between 1970 and 1975 and the view has a time extent set to 1972-1980, the effective time on the feature layer will be 1972-1975.
+    /// </param>
+    /// <param name="timeInfo">
+    ///     TimeInfo provides information such as date fields that store start and end time for each feature and the fullTimeExtent for the layer.
+    /// </param>
+    /// <param name="timeOffset">
+    ///     A temporary offset of the time data based on a certain TimeInterval. This allows users to overlay features from two or more time-aware layers with different time extents. For example, if a layer has data recorded for the year 1970, an offset value of 2 years would temporarily shift the data to 1972. You can then overlay this data with data recorded in 1972. A time offset can be used for display purposes only. The query and selection are not affected by the offset.
+    /// </param>
+    /// <param name="title">
+    ///     The title of the layer.
+    /// </param>
+    /// <param name="opacity">
+    ///     The opacity of the layer.
+    /// </param>
+    /// <param name="listMode">
+    ///     The list mode of the layer.
+    /// </param>
+    /// <param name="visible">
+    ///     The visibility of the layer.
+    /// </param>
+    /// <param name="customParameters">
+    ///     A list of custom parameters appended to the URL of all resources fetched by the layer. It's an object with key-value pairs where value is a string. The layer's refresh() method needs to be called if the customParameters are updated at runtime.
+    /// </param>
+    /// <param name="fullExtent">
+    ///     The full extent of the layer.
+    /// </param>
+    public ImageryLayer(string? url = null, PortalItem? portalItem = null, IImageryRenderer? renderer = null,
+        IReadOnlyCollection<int>? bandIds = null, BlendMode? blendMode = null, int? compressionQuality = null, 
+        double? compressionTolerance = null, string? copyright = null, string? definitionExpression = null,
+        Effect? effect = null, ImageFormat? format = null,
+        bool? hasMultidimensions = null, int? imageMaxHeight = null, int? imageMaxWidth = null, 
+        int? interpolation = null, bool? legendEnabled = null, int? maxScale = null, int? minScale = null,
+        IReadOnlyCollection<int>? noData = null, string? noDataInterpretation = null, string? objectIdField = null,
+        bool? persistenceEnabled = null, PixelType? pixelType = null, bool? popupEnabled = null, 
+        double? refreshInterval = null, bool? useViewTime = null, TileInfo? tileInfo = null, 
+        TimeExtent? timeExtent = null, TimeInfo? timeInfo = null, TimeInterval? timeOffset = null, 
+        string? title = null, double? opacity = null, ListMode? listMode = null, bool? visible = null, 
+        Dictionary<string, object>? customParameters = null, Extent? fullExtent = null) 
     {
 #pragma warning disable BL0005
+        Title = title;
+        Opacity = opacity;
+        ListMode = listMode;
+        Visible = visible;
+        FullExtent = fullExtent;
         Renderer = renderer;
         Url = url;
         PortalItem = portalItem;
@@ -136,9 +167,9 @@ public class ImageryLayer : Layer
         CompressionQuality = compressionQuality;
         CompressionTolerance = compressionTolerance;
         Copyright = copyright;
+        CustomParameters = customParameters;
         DefinitionExpression = definitionExpression;
         Effect = effect;
-        Fields = fields;
         Format = format;
         HasMultidimensions = hasMultidimensions;
         ImageMaxHeight  = imageMaxHeight;
@@ -153,10 +184,12 @@ public class ImageryLayer : Layer
         PersistenceEnabled = persistenceEnabled;
         PixelType = pixelType;
         PopupEnabled = popupEnabled;
-        RasterFields = rasterFields;
         RefreshInterval = refreshInterval;
-        SpatialReference = spatialReference;
         UseViewTime = useViewTime;
+        TileInfo = tileInfo;
+        TimeExtent = timeExtent;
+        TimeInfo = timeInfo;
+        TimeOffset = timeOffset;
 #pragma warning restore BL0005
     }
 
@@ -177,8 +210,15 @@ public class ImageryLayer : Layer
     /// <summary>
     ///     An interface that implements the various imagery renderers.
     /// </summary>
-    public ImageryRenderer? Renderer { get; set; }
+    public IImageryRenderer? Renderer { get; set; }
 
+    /// <summary>
+    ///     The tiling scheme information for the layer.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public TileInfo? TileInfo { get; set; }
+    
     /// <summary>
     ///     Defines a band combination using 0-based band indexes.
     /// </summary>
@@ -191,7 +231,7 @@ public class ImageryLayer : Layer
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? BlendMode {  get; set; }
+    public BlendMode? BlendMode {  get; set; }
 
     /// <summary>
     ///     The compression quality value.
@@ -213,6 +253,14 @@ public class ImageryLayer : Layer
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Copyright { get; set; }
+    
+        
+    /// <summary>
+    ///     A list of custom parameters appended to the URL of all resources fetched by the layer. It's an object with key-value pairs where value is a string. The layer's refresh() method needs to be called if the customParameters are updated at runtime.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Dictionary<string, object>? CustomParameters { get; set; }
 
     /// <summary>
     ///     The SQL where clause used to filter rasters.
@@ -227,13 +275,6 @@ public class ImageryLayer : Layer
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Effect? Effect { get; set; }
-
-    /// <summary>
-    ///     An array of fields in the layer.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Field[]? Fields { get; set; }
 
     /// <summary>
     ///     The format of the exported image.
@@ -324,7 +365,7 @@ public class ImageryLayer : Layer
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? PixelType { get; set; }
+    public PixelType? PixelType { get; set; }
 
     /// <summary>
     ///     Indicates whether to display popups when features in the layer are clicked.
@@ -334,23 +375,34 @@ public class ImageryLayer : Layer
     public bool? PopupEnabled { get; set; }
 
     /// <summary>
-    ///     A complete list of fields that consists of raster attribute table fields, item pixel value, service pixel value, service pixel value with various server defined function templates, and raster attribute table fields. 
-    /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyCollection<Field>? RasterFields { get; set; }
-
-    /// <summary>
     ///     Refresh interval of the layer in minutes. Value of 0 indicates no refresh.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? RefreshInterval { get; set; }
-
+    
     /// <summary>
-    ///    The spatial reference of the image service.
+    ///     The layer's time extent. When the layer's useViewTime is false, the layer instructs the view to show data from the layer based on this time extent. If the useViewTime is true, and both layer and view time extents are set, then features that fall within the intersection of the view and layer time extents will be displayed. For example, if the layer's time extent is set to display features between 1970 and 1975 and the view has a time extent set to 1972-1980, the effective time on the feature layer will be 1972-1975.
     /// </summary>
+    [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public SpatialReference? SpatialReference { get; internal set; }
+    public TimeExtent? TimeExtent { get; set; }
+    
+    /// <summary>
+    ///     TimeInfo provides information such as date fields that store start and end time for each feature and the fullTimeExtent for the layer.
+    ///     Default Value:null
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public TimeInfo? TimeInfo { get; set; }
+    
+    /// <summary>
+    ///     A temporary offset of the time data based on a certain TimeInterval. This allows users to overlay features from two or more time-aware layers with different time extents. For example, if a layer has data recorded for the year 1970, an offset value of 2 years would temporarily shift the data to 1972. You can then overlay this data with data recorded in 1972. A time offset can be used for display purposes only. The query and selection are not affected by the offset.
+    ///     Default Value:null
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public TimeInterval? TimeOffset { get; set; }
 
     /// <summary>
     ///    Determines if the layer will update its temporal data based on the view's timeExtent. 
@@ -371,12 +423,20 @@ public class ImageryLayer : Layer
                     LayerChanged = true;
                 }
                 break;
-            case ImageryRenderer renderer:
+            case IImageryRenderer renderer:
                 if (!renderer.Equals(Renderer))
                 {
                     Renderer = renderer;
                     LayerChanged = true;
                 }
+                break;
+            case TileInfo tileInfo:
+                if (!tileInfo.Equals(TileInfo))
+                {
+                    TileInfo = tileInfo;
+                    LayerChanged = true;
+                }
+
                 break;
             default:
                 await base.RegisterChildComponent(child);
@@ -393,9 +453,14 @@ public class ImageryLayer : Layer
                 PortalItem = null;
                 LayerChanged = true;
                 break;
-            case ImageryRenderer _:
+            case IImageryRenderer _:
                 Renderer = null;
                 LayerChanged = true;
+                break;
+            case TileInfo _:
+                TileInfo = null;
+                LayerChanged = true;
+
                 break;
             default:
                 await base.UnregisterChildComponent(child);
@@ -408,7 +473,8 @@ public class ImageryLayer : Layer
     {
         base.ValidateRequiredChildren();
         PortalItem?.ValidateRequiredChildren();
-        Renderer?.ValidateRequiredChildren();
+        TileInfo?.ValidateRequiredChildren();
+        (Renderer as MapComponent)?.ValidateRequiredChildren();
     }
 }
 

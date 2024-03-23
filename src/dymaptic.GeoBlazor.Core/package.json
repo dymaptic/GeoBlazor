@@ -11,11 +11,11 @@
   "author": "dymaptic",
   "license": "ISC",
   "dependencies": {
-    "@arcgis/core": "4.28.10",
-    "esbuild": "0.19.8",
-    "protobufjs": "7.2.5"
+    "@arcgis/core": "4.29.7",
+    "esbuild": "0.20.2",
+    "protobufjs": "7.2.6"
   },
   "devDependencies": {
-    "@types/node": "^20.8.8"
+    "@types/node": "^20.11.24"
   }
 }

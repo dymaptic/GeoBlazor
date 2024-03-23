@@ -6,9 +6,10 @@ import {
     buildDotNetSuggestResult
 } from "./dotNetBuilder";
 import {buildJsGeometry} from "./jsBuilder";
+import {IPropertyWrapper} from "./definitions";
 
 
-export default class SearchWidgetWrapper {
+export default class SearchWidgetWrapper implements IPropertyWrapper {
     private searchWidget: Search;
 
     constructor(search: Search) {
@@ -109,5 +110,9 @@ export default class SearchWidgetWrapper {
     
     suggest(term: string) {
         return this.searchWidget.suggest(term);
+    }
+
+    setProperty(prop: string, value: any): void {
+        this.searchWidget[prop] = value;
     }
 }

@@ -113,7 +113,6 @@
 
         await layer!.Add(new Graphic(new Point(0, 0),
             new SimpleMarkerSymbol(color: new MapColor("black"))));
-        await WaitForMapToRender();
         await AssertJavaScript("assertGraphicExistsInLayer", args: new object[] { layer!.Id, "point", 1 });
     }
     
@@ -146,7 +145,6 @@
             AddFeatures = graphics
         };
         FeatureEditsResult result = await layer!.ApplyEdits(edits);
-        await WaitForMapToRender();
         await AssertJavaScript("assertGraphicExistsInLayer", args: new object[] { layer!.Id, "point", 2000 });
         Assert.AreEqual(2000, result.AddFeatureResults.Length);
         Assert.AreEqual(2000, layer.Source!.Count);
@@ -181,22 +179,21 @@
             AddFeatures = graphics
         };
         FeatureEditsResult result = await layer!.ApplyEdits(edits);
-        await WaitForMapToRender();
         await AssertJavaScript("assertGraphicExistsInLayer", args: new object[] { layer!.Id, "point", 2000 });
         Assert.AreEqual(2000, result.AddFeatureResults.Length);
-        
+#pragma warning disable BL0005
         foreach (Graphic graphic in graphics)
         {
             ((Point)graphic.Geometry!).X += 1;
             ((Point)graphic.Geometry!).Y += 1;
         }
+#pragma warning restore BL0005
         
         edits = new()
         {
             UpdateFeatures = graphics
         };
         result = await layer!.ApplyEdits(edits);
-        await WaitForMapToRender();
         await AssertJavaScript("assertGraphicExistsInLayer", args: new object[] { layer!.Id, "point", 2000 });
         Assert.AreEqual(2000, result.UpdateFeatureResults.Length);
     }
@@ -221,8 +218,10 @@
         Random random = new();
         for (var i = 0; i < 2000; i++)
         {
+            AttributesDictionary attributes = new();
+            await attributes.AddOrUpdate("OBJECT_ID", i);
             Point point = new Point(random.Next(-180, 180), random.Next(-80, 80));
-            Graphic graphic = new(point);
+            Graphic graphic = new(point, attributes: attributes);
             graphics.Add(graphic);
         }
         FeatureEdits edits = new()
@@ -230,7 +229,6 @@
             AddFeatures = graphics
         };
         FeatureEditsResult result = await layer!.ApplyEdits(edits);
-        await WaitForMapToRender();
         await AssertJavaScript("assertGraphicExistsInLayer", args: new object[] { layer!.Id, "point", 2000 });
         Assert.AreEqual(2000, result.AddFeatureResults.Length);
         
@@ -239,9 +237,110 @@
             DeleteFeatures = graphics
         };
         result = await layer!.ApplyEdits(edits);
-        await WaitForMapToRender();
         await Assert.ThrowsExceptionAsync<JSException>(async() =>
             await AssertJavaScript("assertGraphicExistsInLayer", args: new object[] { layer!.Id, "point", 2000 }));
         Assert.AreEqual(2000, result.DeleteFeatureResults.Length);
+    }
+
+    [TestMethod]
+    public async Task TestCanQueryFeatures(Action renderHandler)
+    {
+        FeatureLayer? layer = null;
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map ArcGISDefaultBasemap="topo-vector">
+                    <FeatureLayer @ref="layer" OutFields="@(new[] { "*" })">
+                        <PortalItem Id="234d2e3f6f554e0e84757662469c26d3" />
+                    </FeatureLayer>
+                </Map>
+                <Extent Xmax="-13620669.8431"
+                        Xmin="-13640432.281"
+                        Ymax="4556710.618000001"
+                        Ymin="4536523.6511999965">
+                    <SpatialReference Wkid="102100" />
+                </Extent>
+            </MapView>);
+        await WaitForMapToRender();
+        Point point = new(x: -13627933.093831237, y: 4547153.388126561, spatialReference: new(102100));
+        var query = new Query
+        {
+            Geometry = point,
+            Distance = 0.5,
+            Units = LinearUnit.Miles,
+            SpatialRelationship = SpatialRelationship.Intersects,
+            ReturnGeometry = false,
+            ReturnQueryGeometry = true,
+            OutFields = new HashSet<string> { "*" }
+        };
+        FeatureSet? result = await layer!.QueryFeatures(query);
+        Assert.IsNotNull(result);
+        Assert.IsTrue(result.Features!.Length > 0);
+    }
+
+    [TestMethod]
+    public async Task TestCanQueryRelatedFeatures(Action renderHandler)
+    {
+        FeatureLayer? layer = null;
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler" Longitude="-98.5795" Latitude="39.8282">
+                <Map ArcGISDefaultBasemap="topo-vector">
+                    <FeatureLayer @ref="layer" OutFields="@(new[] { "*" })">
+                        <PortalItem Id="7a301e848a7c4bfcaefdac4fe98a7f99" />
+                    </FeatureLayer>
+                </Map>
+            </MapView>);
+        await WaitForMapToRender();
+        Point point = new(x: -10469946.852199763, y: 4738582.470785314, spatialReference: new(102100));
+        var query = new Query
+        {
+            Geometry = point,
+            OutFields = new[] { "*" },
+            SpatialRelationship = SpatialRelationship.Intersects,
+            ReturnGeometry = false
+        };
+        int[] objectIds = await layer!.QueryObjectIds(query);
+        Assert.IsTrue(objectIds.Length > 0);
+        var relationshipQuery = new RelationshipQuery
+        {
+            OutFields = new[] { "NAME", "SUM_POPULATION" },
+            RelationshipId = layer.Relationships?.FirstOrDefault()?.Id,
+            ObjectIds = objectIds
+        };
+        Dictionary<int, FeatureSet?>? result = await layer.QueryRelatedFeatures(relationshipQuery);
+        Assert.IsNotNull(result);
+        Assert.IsTrue(result.Count > 0);
+    }
+    
+    [TestMethod]
+    public async Task TestCanQueryTopFeatures(Action renderHandler)
+    {
+        FeatureLayer? layer = null;
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler" Longitude="-97.75188" Latitude="37.23308">
+                <Map ArcGISDefaultBasemap="topo-vector">
+                    <FeatureLayer @ref="layer" OutFields="@(new[] { "*" })"
+                                  Url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/US_National_Parks_Annual_Visitation/FeatureServer/0">
+                    </FeatureLayer>
+                </Map>
+            </MapView>);
+        await WaitForMapToRender();
+        string[] orderByField = { "TOTAL DESC" };
+        TopFeaturesQuery query = new()
+        {
+            TopFilter = new TopFilter
+            {
+                TopCount = 3,
+                GroupByFields = new[] { "State" },
+                OrderByFields = orderByField
+            },
+            ReturnGeometry = true,
+            OutFields = new[] { "State, TOTAL, F2018, F2019, F2020, Park" },
+            OrderByFields = orderByField,
+            CacheHint = false
+        };
+        
+        FeatureSet? results = await layer!.QueryTopFeatures(query);
+        Assert.IsNotNull(results);
+        Assert.IsTrue(results.Features!.Length > 0);
     }
 }

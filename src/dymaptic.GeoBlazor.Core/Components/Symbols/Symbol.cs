@@ -1,4 +1,5 @@
-﻿using dymaptic.GeoBlazor.Core.Objects;
+﻿using dymaptic.GeoBlazor.Core.Extensions;
+using dymaptic.GeoBlazor.Core.Objects;
 using Microsoft.AspNetCore.Components;
 using ProtoBuf;
 using System.Text.Json;
@@ -131,7 +132,7 @@ internal record SymbolSerializationRecord : MapComponentSerializationRecord
     public MapColor? HaloColor { get; init; }
 
     [ProtoMember(13)]
-    public int? HaloSize { get; init; }
+    public double? HaloSize { get; init; }
 
     [ProtoMember(14)]
     public MapFont? MapFont { get; init; }
@@ -161,32 +162,39 @@ internal record SymbolSerializationRecord : MapComponentSerializationRecord
     public double? LineHeight { get; init; }
     
     [ProtoMember(23)]
-    public string? LineWidth { get; init; }
+    public double? LineWidth { get; init; }
     
     [ProtoMember(24)]
     public bool? Rotated { get; init; }
     
     [ProtoMember(25)]
     public string? VerticalAlignment { get; init; }
-
+    
+    [ProtoMember(26)]
+    public int? XScale { get; init; }
+    
+    [ProtoMember(27)]
+    public int? YScale { get; init; }
 
     public Symbol FromSerializationRecord()
     {
         return Type switch
         {
-            "outline" => new Outline(Color, Width, LineStyle is null ? null : Enum.Parse<LineStyle>(LineStyle!)),
-            "simple-marker" => new SimpleMarkerSymbol(Outline?.FromSerializationRecord() as Outline, Color, Size, Style, 
-                Angle, XOffset, YOffset, Style is null ? null : Enum.Parse<SimpleMarkerStyle>(Style!)),
-            "simple-line" => new SimpleLineSymbol(Color, Width, LineStyle is null ? null : Enum.Parse<LineStyle>(LineStyle!)),
+            "outline" => new Outline(Color, Width, LineStyle is null ? null : Enum.Parse<LineStyle>(LineStyle!, true)),
+            "simple-marker" => new SimpleMarkerSymbol(Outline?.FromSerializationRecord() as Outline, Color, Size, 
+                Style is null ? null : Enum.Parse<SimpleMarkerStyle>(Style!, true), Angle, XOffset, YOffset),
+            "simple-line" => new SimpleLineSymbol(Color, Width, LineStyle is null ? null : Enum.Parse<LineStyle>(LineStyle!, true)),
             "simple-fill" => new SimpleFillSymbol(Outline?.FromSerializationRecord() as Outline, Color, 
-                Style is null ? null : Enum.Parse<FillStyle>(Style!)),
-            "picture-marker" => new PictureMarkerSymbol(Url!, Height, Width),
+                Style is null ? null : Enum.Parse<FillStyle>(Style!, true)),
+            "picture-marker" => new PictureMarkerSymbol(Url!, Width, Height, Angle, XOffset, YOffset),
+            "picture-fill" => new PictureFillSymbol(Url!, Width, Height, XOffset, YOffset, XScale, YScale, 
+                Outline?.FromSerializationRecord() as Outline),
             "text" => new TextSymbol(Text ?? string.Empty, Color, HaloColor, HaloSize, 
                 MapFont, Angle, BackgroundColor, BorderLineColor,
-                BorderLineSize, HorizontalAlignment is null ? null : Enum.Parse<HorizontalAlignment>(HorizontalAlignment!),
+                BorderLineSize, HorizontalAlignment is null ? null : Enum.Parse<HorizontalAlignment>(HorizontalAlignment!, true),
                 Kerning, LineHeight, LineWidth, Rotated, 
-                VerticalAlignment is null ? null : Enum.Parse<VerticalAlignment>(VerticalAlignment!),
-                XOffset?.ToString(), YOffset?.ToString()),
+                VerticalAlignment is null ? null : Enum.Parse<VerticalAlignment>(VerticalAlignment!, true),
+                XOffset, YOffset),
             _ => throw new ArgumentException($"Unknown symbol type: {Type}")
         };
     }

@@ -9,6 +9,7 @@ using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using ProtoBuf;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -198,7 +199,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer
     ///     Determines the order in which features are drawn in the view.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public HashSet<OrderedLayerOrderBy>? OrderBy { get; set; }
+    public List<OrderedLayerOrderBy>? OrderBy { get; set; }
 
     /// <summary>
     ///     The <see cref="PopupTemplate" /> for the layer.
@@ -210,7 +211,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer
     ///     The label definition for this layer, specified as an array of <see cref="Label" />.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public HashSet<Label>? LabelingInfo { get; set; }
+    public List<Label>? LabelingInfo { get; set; }
 
     /// <summary>
     ///     The <see cref="Renderer" /> assigned to the layer.
@@ -417,7 +418,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer
 
             addFeatureResults = 
                 await SendEdits(addedFeatures.Skip(skip).Take(chunkSize)
-                        .Select(g => g.ToSerializationRecord()).ToArray(), "add", 
+                        .Select(g => g.ToSerializationRecord(true)).ToArray(), "add", 
                     options, addFeatureResults, abortSignal, cancellationToken);
             editMoment ??= addFeatureResults?.EditMoment;
         }
@@ -427,7 +428,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer
 
             updateFeatureResults = 
                 await SendEdits(updatedFeatures.Skip(skip).Take(chunkSize)
-                        .Select(g => g.ToSerializationRecord()).ToArray(), "update", 
+                        .Select(g => g.ToSerializationRecord(true)).ToArray(), "update", 
                     options, updateFeatureResults, abortSignal, cancellationToken);
             editMoment ??= updateFeatureResults?.EditMoment;
         }
@@ -437,7 +438,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer
 
             deleteFeatureResults = 
                 await SendEdits(deletedFeatures.Skip(skip).Take(chunkSize)
-                        .Select(g => g.ToSerializationRecord()).ToArray(), "delete", 
+                        .Select(g => g.ToSerializationRecord(true)).ToArray(), "delete", 
                     options, deleteFeatureResults, abortSignal, cancellationToken);
             editMoment ??= deleteFeatureResults?.EditMoment;
         }
@@ -642,7 +643,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer
 
                 break;
             case Label label:
-                LabelingInfo ??= new HashSet<Label>();
+                LabelingInfo ??= new List<Label>();
 
                 if (!LabelingInfo.Contains(label))
                 {
@@ -676,10 +677,11 @@ public class FeatureLayer : Layer, IFeatureReductionLayer
 
                 break;
             case OrderedLayerOrderBy orderBy:
-                OrderBy ??= new HashSet<OrderedLayerOrderBy>();
+                OrderBy ??= new List<OrderedLayerOrderBy>();
 
-                if (OrderBy.Add(orderBy))
+                if (!OrderBy.Contains(orderBy))
                 {
+                    OrderBy.Add(orderBy);
                     LayerChanged = true;
                 }
 
@@ -879,23 +881,20 @@ public class FeatureLayer : Layer, IFeatureReductionLayer
     public async Task<FeatureSet?> QueryFeatures(Query? query = null, CancellationToken cancellationToken = default)
     {
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        Guid queryId = Guid.NewGuid();
 
-        FeatureSet? result = await JsLayerReference!.InvokeAsync<FeatureSet?>("queryFeatures", cancellationToken,
-            query, new { signal = abortSignal }, DotNetObjectReference.Create(this), View?.Id);
+        FeatureSet result = (await JsLayerReference!.InvokeAsync<FeatureSet?>("queryFeatures", cancellationToken,
+            query, new { signal = abortSignal }, DotNetObjectReference.Create(this), View?.Id, queryId))!;
 
-        if (View!.IsServer && result is null)
+        if (_activeQueries.ContainsKey(queryId))
         {
-            JsonSerializerOptions options = new() { PropertyNameCaseInsensitive = true };
-            result = JsonSerializer.Deserialize<FeatureSet>(_queryFeatureData!.ToString(), options)!;
-            _queryFeatureData = null;
+            result.Features = _activeQueries[queryId];
+            _activeQueries.Remove(queryId);
         }
-
-        if (result?.Features is not null)
+        
+        foreach (Graphic graphic in result.Features!)
         {
-            foreach (Graphic graphic in result.Features)
-            {
-                graphic.LayerId = Id;
-            }
+            graphic.LayerId = Id;
         }
 
         await AbortManager.DisposeAbortController(cancellationToken);
@@ -904,18 +903,26 @@ public class FeatureLayer : Layer, IFeatureReductionLayer
     }
 
     /// <summary>
-    ///     partial query result return for Blazor Server, to avoid SignalR size limits
+    ///     Internal use callback from JavaScript
     /// </summary>
     [JSInvokable]
-    public void OnQueryFeaturesCreateChunk(string chunk, int chunkIndex)
+    public async Task OnQueryFeaturesStreamCallback(IJSStreamReference streamReference, Guid queryId)
     {
-        if (chunkIndex == 0)
+        try
         {
-            _queryFeatureData = new StringBuilder(chunk);
+            await using Stream stream = await streamReference
+                .OpenReadStreamAsync(View?.QueryResultsMaxSizeLimit ?? 1_000_000_000L);
+            using var ms = new MemoryStream();
+            await stream.CopyToAsync(ms);
+            ms.Seek(0, SeekOrigin.Begin);
+            ProtoGraphicCollection collection = Serializer.Deserialize<ProtoGraphicCollection>(ms);
+            Graphic[] graphics = collection?.Graphics.Select(g => g.FromSerializationRecord()).ToArray()!;
+
+            _activeQueries[queryId] = graphics;
         }
-        else
+        catch (Exception ex)
         {
-            _queryFeatureData!.Append(chunk);
+            throw new SerializationException("Error deserializing graphics from stream.", ex);   
         }
     }
 
@@ -959,34 +966,60 @@ public class FeatureLayer : Layer, IFeatureReductionLayer
         CancellationToken cancellationToken = default)
     {
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-
-        Dictionary<int, FeatureSet?>? result = await JsLayerReference!.InvokeAsync<Dictionary<int, FeatureSet?>?>(
+        Guid queryId = Guid.NewGuid();
+        Dictionary<int, FeatureSet?> result = (await JsLayerReference!.InvokeAsync<Dictionary<int, FeatureSet?>?>(
             "queryRelatedFeatures", cancellationToken, query, new { signal = abortSignal },
-            DotNetObjectReference.Create(this), View?.Id);
+            DotNetObjectReference.Create(this), View?.Id, queryId))!;
 
-        if (View!.IsServer && result is null)
+        if (_activeRelatedQueries.ContainsKey(queryId))
         {
-            JsonSerializerOptions options = new() { PropertyNameCaseInsensitive = true };
-            result = JsonSerializer.Deserialize<Dictionary<int, FeatureSet?>>(_queryFeatureData!.ToString(), options)!;
-            _queryFeatureData = null;
-        }
-
-        if (result is not null)
-        {
-            foreach (FeatureSet? set in result.Values)
+            Dictionary<int, Graphic[]> relatedGraphics = _activeRelatedQueries[queryId];
+            foreach (KeyValuePair<int, FeatureSet?> kvp in result)
             {
-                if (set?.Features is null) continue;
+                if (kvp.Value is null || !relatedGraphics.ContainsKey(kvp.Key)) continue;
 
-                foreach (Graphic graphic in set.Features)
+                kvp.Value.Features = relatedGraphics[kvp.Key];
+
+                foreach (Graphic graphic in kvp.Value.Features)
                 {
                     graphic.LayerId = Id;
                 }
             }
+            _activeRelatedQueries.Remove(queryId);
         }
 
         await AbortManager.DisposeAbortController(cancellationToken);
 
         return result;
+    }
+    
+    /// <summary>
+    ///     Internal use callback from JavaScript
+    /// </summary>
+    [JSInvokable]
+    public async Task OnQueryRelatedFeaturesStreamCallback(IJSStreamReference streamReference, Guid queryId, string objectId)
+    {
+        try
+        {
+            await using Stream stream = await streamReference
+                .OpenReadStreamAsync(View?.QueryResultsMaxSizeLimit ?? 1_000_000_000L);
+            using var ms = new MemoryStream();
+            await stream.CopyToAsync(ms);
+            ms.Seek(0, SeekOrigin.Begin);
+            ProtoGraphicCollection collection = Serializer.Deserialize<ProtoGraphicCollection>(ms);
+            Graphic[] graphics = collection?.Graphics.Select(g => g.FromSerializationRecord()).ToArray()!;
+
+            if (!_activeRelatedQueries.ContainsKey(queryId))
+            {
+                _activeRelatedQueries[queryId] = new Dictionary<int, Graphic[]>();
+            }
+
+            _activeRelatedQueries[queryId][int.Parse(objectId)] = graphics;
+        }
+        catch (Exception ex)
+        {
+            throw new SerializationException("Error deserializing graphics from stream.", ex);   
+        }
     }
 
     /// <summary>
@@ -1059,23 +1092,19 @@ public class FeatureLayer : Layer, IFeatureReductionLayer
         CancellationToken cancellationToken = default)
     {
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        Guid queryId = Guid.NewGuid();
+        FeatureSet result = (await JsLayerReference!.InvokeAsync<FeatureSet?>("queryTopFeatures", cancellationToken,
+            query, new { signal = abortSignal }, DotNetObjectReference.Create(this), View?.Id, queryId))!;
 
-        FeatureSet? result = await JsLayerReference!.InvokeAsync<FeatureSet?>("queryTopFeatures", cancellationToken,
-            query, new { signal = abortSignal }, DotNetObjectReference.Create(this), View?.Id);
-
-        if (View!.IsServer && result is null)
+        if (_activeQueries.ContainsKey(queryId))
         {
-            JsonSerializerOptions options = new() { PropertyNameCaseInsensitive = true };
-            result = JsonSerializer.Deserialize<FeatureSet>(_queryFeatureData!.ToString(), options)!;
-            _queryFeatureData = null;
+            result.Features = _activeQueries[queryId];
+            _activeQueries.Remove(queryId);
         }
-
-        if (result?.Features is not null)
+        
+        foreach (Graphic graphic in result.Features!)
         {
-            foreach (Graphic graphic in result.Features)
-            {
-                graphic.LayerId = Id;
-            }
+            graphic.LayerId = Id;
         }
 
         await AbortManager.DisposeAbortController(cancellationToken);
@@ -1242,7 +1271,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer
             }
             else
             {
-                LabelingInfo ??= new HashSet<Label>();
+                LabelingInfo ??= new List<Label>();
 
                 foreach (Label label in renderedFeatureLayer.LabelingInfo)
                 {
@@ -1279,8 +1308,9 @@ public class FeatureLayer : Layer, IFeatureReductionLayer
 
     private HashSet<Graphic>? _source;
     private HashSet<Field>? _fields;
-    private StringBuilder? _queryFeatureData;
     private bool _refreshRequired = false;
+    private Dictionary<Guid, Graphic[]> _activeQueries = new();
+    private Dictionary<Guid, Dictionary<int, Graphic[]>> _activeRelatedQueries = new();
 }
 
 /// <summary>
@@ -1352,10 +1382,47 @@ public class FeatureEdits
 public class AttachmentEdit
 {
     /// <summary>
-    ///     The feature, objectId or globalId of feature associated with the attachment.
+    ///     Construct an AttachmentEdit from a <see cref="Graphic"/> "Feature" and its <see cref="Attachment"/>.
+    /// </summary>
+    public AttachmentEdit(Graphic feature, Attachment attachment)
+    {
+        Feature = feature;
+        Attachment = attachment;
+    }
+
+    /// <summary>
+    ///     Construct an AttachmentEdit from a Feature's `objectId` and its <see cref="Attachment"/>.
+    /// </summary>
+    public AttachmentEdit(int objectId, Attachment attachment)
+    {
+        ObjectId = objectId;
+        Attachment = attachment;
+    }
+
+    /// <summary>
+    ///     Construct an AttachmentEdit from a Feature's `globalId` and its <see cref="Attachment"/>.
+    /// </summary>
+    public AttachmentEdit(string globalId, Attachment attachment)
+    {
+        GlobalId = globalId;
+        Attachment = attachment;
+    }
+    
+    /// <summary>
+    ///     The feature of feature associated with the attachment.
     /// </summary>
     [JsonConverter(typeof(GraphicToIdConverter))]
     public Graphic? Feature { get; set; }
+    
+    /// <summary>
+    ///     The `objectId` of the feature associated with the attachment.
+    /// </summary>
+    public int? ObjectId { get; set; }
+    
+    /// <summary>
+    ///     The `globalId` of the feature associated with the attachment.
+    /// </summary>
+    public string? GlobalId { get; set; }
 
     /// <summary>
     ///     The attachment to be added, updated or deleted.

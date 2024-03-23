@@ -21,8 +21,8 @@
         <SpatialReference Wkid="102100" />
     </Extent>
     <Map>
-        <OpenStreetMapLayer />
         <GraphicsLayer @ref="_graphicsLayer" />
+        <OpenStreetMapLayer />
     </Map>
 </MapView>
 <button disabled="@_generating" @onclick="AddGraphicsToView">Add Graphics To View</button>
@@ -160,7 +160,7 @@
 
     private AttributesDictionary GenerateAttributes()
     {
-        return new AttributesDictionary(new Dictionary<string, object> { { "testString", "test" }, { "testNumber", 123 } });
+        return new AttributesDictionary(new Dictionary<string, object?> { { "testString", "test" }, { "testNumber", 123 } });
     }
 
     private readonly Random _random = new();

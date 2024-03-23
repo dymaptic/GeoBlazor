@@ -8,6 +8,35 @@
               "nested": {
                 "proto": {
                   "nested": {
+                    "ProtoViewHitCollection": {
+                      "fields": {
+                        "viewHits": {
+                          "rule": "repeated",
+                          "type": "ViewHit",
+                          "id": 1
+                        }
+                      }
+                    },
+                    "ViewHit": {
+                      "fields": {
+                        "type": {
+                          "type": "string",
+                          "id": 1
+                        },
+                        "mapPoint": {
+                          "type": "Geometry",
+                          "id": 2
+                        },
+                        "graphic": {
+                          "type": "Graphic",
+                          "id": 3
+                        },
+                        "layerId": {
+                          "type": "string",
+                          "id": 4
+                        }
+                      }
+                    },
                     "ProtoGraphicCollection": {
                       "fields": {
                         "graphics": {
@@ -217,7 +246,7 @@
                           "id": 12
                         },
                         "haloSize": {
-                          "type": "int32",
+                          "type": "double",
                           "id": 13
                         },
                         "font": {
@@ -257,7 +286,7 @@
                           "id": 22
                         },
                         "lineWidth": {
-                          "type": "string",
+                          "type": "double",
                           "id": 23
                         },
                         "rotated": {
@@ -267,6 +296,14 @@
                         "verticalAlignment": {
                           "type": "string",
                           "id": 25
+                        },
+                        "xscale": {
+                          "type": "int32",
+                          "id": 26
+                        },
+                        "yscale": {
+                          "type": "int32",
+                          "id": 27
                         }
                       }
                     },
@@ -286,7 +323,7 @@
                     "MapFont": {
                       "fields": {
                         "size": {
-                          "type": "int32",
+                          "type": "string",
                           "id": 1
                         },
                         "family": {

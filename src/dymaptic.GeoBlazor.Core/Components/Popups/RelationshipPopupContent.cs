@@ -49,7 +49,7 @@ public class RelationshipPopupContent : PopupContent
     ///     The numeric id value for the defined relationship. This value can be found on the service itself or on the
     /// </param>
     public RelationshipPopupContent(string? title = null, string? description = null, int? displayCount = null,
-        string? displayType = null, HashSet<RelatedRecordsInfoFieldOrder>? orderByFields = null,
+        string? displayType = null, IReadOnlyList<RelatedRecordsInfoFieldOrder>? orderByFields = null,
         int? relationshipId = null)
     {
 #pragma warning disable BL0005
@@ -97,7 +97,7 @@ public class RelationshipPopupContent : PopupContent
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public HashSet<RelatedRecordsInfoFieldOrder> OrderByFields { get; set; } = new();
+    public IReadOnlyList<RelatedRecordsInfoFieldOrder> OrderByFields { get; set; } = new List<RelatedRecordsInfoFieldOrder>();
 
     /// <summary>
     ///     The numeric id value for the defined relationship. This value can be found on the service itself or on the

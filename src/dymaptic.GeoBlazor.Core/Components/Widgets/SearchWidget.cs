@@ -182,7 +182,7 @@ public class SearchWidget : Widget
     ///     Feature layers created from client-side graphics are not supported.
     /// </remarks>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public HashSet<SearchSource>? Sources { get; set; }
+    public List<SearchSource>? Sources { get; set; }
     
     /// <summary>
     ///     A customized PopupTemplate for the selected feature. Note that any templates defined on allSources take precedence over those defined directly on the template.
@@ -322,9 +322,9 @@ public class SearchWidget : Widget
     /// <remarks>
     ///     A graphic will be placed in the View's graphics for layer views that do not support the highlight method.
     /// </remarks>
-    public async Task<Graphic> GetResultGraphic()
+    public async Task<Graphic?> GetResultGraphic()
     {
-        return await JsWidgetReference!.InvokeAsync<Graphic>("getResultGraphic");
+        return await JsWidgetReference!.InvokeAsync<Graphic?>("getResultGraphic");
     }
 
     /// <summary>
@@ -366,7 +366,7 @@ public class SearchWidget : Widget
     [JSInvokable]
     public async Task OnJavaScriptSearchSelectResult(SearchResult searchResult)
     {
-        await OnSearchSelectResultEvent.InvokeAsync();
+        await OnSearchSelectResultEvent.InvokeAsync(searchResult);
     }
     
     /// <summary>
@@ -384,7 +384,7 @@ public class SearchWidget : Widget
         switch (child)
         {
             case SearchSource source:
-                Sources ??= new HashSet<SearchSource>();
+                Sources ??= new List<SearchSource>();
                 Sources.Add(source);
                 WidgetChanged = true;
                 break;

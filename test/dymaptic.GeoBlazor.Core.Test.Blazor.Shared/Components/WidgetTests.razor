@@ -318,7 +318,7 @@
         Assert.AreEqual(1, allSources.Count);
         IReadOnlyList<SearchSource> defaultSources = await widget.GetDefaultSources();
         Assert.AreEqual(1, defaultSources.Count);
-        Graphic resultGraphic = await widget.GetResultGraphic();
+        Graphic resultGraphic = (await widget.GetResultGraphic())!;
         Assert.IsNotNull(resultGraphic);
         SearchResult selectedResult = await widget.GetSelectedResult();
         Assert.IsNotNull(selectedResult);

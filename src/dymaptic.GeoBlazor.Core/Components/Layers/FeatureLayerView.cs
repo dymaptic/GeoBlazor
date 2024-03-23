@@ -1,6 +1,8 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
 using dymaptic.GeoBlazor.Core.Objects;
 using Microsoft.JSInterop;
+using ProtoBuf;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -16,10 +18,9 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 /// </summary>
 public class FeatureLayerView : LayerView
 {
-    internal FeatureLayerView(LayerView layerView, AbortManager abortManager, bool isServer)
+    internal FeatureLayerView(LayerView layerView, AbortManager abortManager)
     {
         _abortManager = abortManager;
-        _isServer = isServer;
         JsObjectReference = layerView.JsObjectReference;
         SpatialReferenceSupported = layerView.SpatialReferenceSupported;
         Suspended = layerView.Suspended;
@@ -263,15 +264,20 @@ public class FeatureLayerView : LayerView
     {
         IJSObjectReference abortSignal =
             await _abortManager.CreateAbortSignal(cancellationToken);
+        Guid queryId = Guid.NewGuid();
 
-        FeatureSet? result = await JsObjectReference!.InvokeAsync<FeatureSet?>("queryFeatures", cancellationToken,
-            query, new { signal = abortSignal }, DotNetObjectReference.Create(this), Layer.View?.Id);
+        FeatureSet result = await JsObjectReference!.InvokeAsync<FeatureSet>("queryFeatures", cancellationToken,
+            query, new { signal = abortSignal }, DotNetObjectReference.Create(this), Layer.View?.Id, queryId);
 
-        if (_isServer && result is null)
+        if (_activeQueries.ContainsKey(queryId))
         {
-            JsonSerializerOptions options = new() { PropertyNameCaseInsensitive = true };
-            result = JsonSerializer.Deserialize<FeatureSet>(_queryFeatureData!.ToString(), options)!;
-            _queryFeatureData = null;
+            result.Features = _activeQueries[queryId];
+            _activeQueries.Remove(queryId);
+        }
+        
+        foreach (Graphic graphic in result.Features!)
+        {
+            graphic.LayerId = Layer.Id;
         }
 
         await _abortManager.DisposeAbortController(cancellationToken);
@@ -280,18 +286,26 @@ public class FeatureLayerView : LayerView
     }
 
     /// <summary>
-    ///     partial query result return for Blazor Server, to avoid SignalR size limits
+    ///     Internal use callback from JavaScript
     /// </summary>
     [JSInvokable]
-    public void OnQueryFeaturesCreateChunk(string chunk, int chunkIndex)
+    public async Task OnQueryFeaturesStreamCallback(IJSStreamReference streamReference, Guid queryId)
     {
-        if (chunkIndex == 0)
+        try
         {
-            _queryFeatureData = new StringBuilder(chunk);
+            await using Stream stream = await streamReference
+                .OpenReadStreamAsync(Layer.View?.QueryResultsMaxSizeLimit ?? 1_000_000_000L);
+            using var ms = new MemoryStream();
+            await stream.CopyToAsync(ms);
+            ms.Seek(0, SeekOrigin.Begin);
+            ProtoGraphicCollection collection = Serializer.Deserialize<ProtoGraphicCollection>(ms);
+            Graphic[] graphics = collection?.Graphics.Select(g => g.FromSerializationRecord()).ToArray()!;
+
+            _activeQueries[queryId] = graphics;
         }
-        else
+        catch (Exception ex)
         {
-            _queryFeatureData!.Append(chunk);
+            throw new SerializationException("Error deserializing graphics from stream.", ex);   
         }
     }
 
@@ -323,8 +337,7 @@ public class FeatureLayerView : LayerView
     }
 
     private readonly AbortManager _abortManager;
-    private readonly bool _isServer;
-    private StringBuilder? _queryFeatureData;
+    private Dictionary<Guid, Graphic[]> _activeQueries = new();
 }
 
 /// <summary>

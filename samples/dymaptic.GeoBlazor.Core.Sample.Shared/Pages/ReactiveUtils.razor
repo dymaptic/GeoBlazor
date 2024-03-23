@@ -181,7 +181,7 @@ else
     </div>
 }
 
-<SceneView @ref="_view" Class="map-view" OnMapRendered="OnMapRendered">
+<SceneView @ref="_view" Class="map-view" OnViewRendered="OnViewRendered">
     <WebScene>
         <PortalItem Id="0614ea1f9dd043e9ba157b9c20d3c538" />
     </WebScene>
@@ -191,7 +191,7 @@ else
 
 @code {
 
-    private async Task OnMapRendered()
+    private async Task OnViewRendered()
     {
         await _homeWidget!.SetVisibility(false);
     }

@@ -24,4 +24,26 @@
         Assert.AreNotEqual(extent, newExtent);
     }
 
+    [TestMethod]
+    public async Task TestCanHitViewReturnCountryPolygon(Action renderHandler)
+    {
+        MapView? view = null;
+        FeatureLayer? countriesLayer = null;
+        AddMapRenderFragment(
+            @<MapView @ref="view" class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <FeatureLayer @ref="countriesLayer" Title="Countries">
+                        <PortalItem Id="ac80670eb213440ea5899bbf92a04998"/>
+                    </FeatureLayer>
+                </Map>
+            </MapView>);
+        await WaitForMapToRender();
+        
+        Point mapPoint = new Point(-74.0059, 40.7127);
+        await view!.AddGraphic(new Graphic(mapPoint, new SimpleMarkerSymbol(color: new MapColor("green"))));
+        ScreenPoint screenPoint = await view!.ToScreen(mapPoint);
+        HitTestResult result = await view!.HitTest(screenPoint);
+        Assert.IsNotNull(result);
+    }
+
 }

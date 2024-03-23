@@ -20,6 +20,7 @@ public class Map : MapComponent
     ///     Either <see cref="ArcGISDefaultBasemap" /> or <see cref="Basemap" /> should be set, but not both.
     /// </remarks>
     [Parameter]
+    [Obsolete("Define a Basemap with a BasemapStyle component instead.")]
     public string? ArcGISDefaultBasemap { get; set; }
 
     /// <summary>
@@ -31,15 +32,12 @@ public class Map : MapComponent
     /// <summary>
     ///     The <see cref="Basemap" /> for this map.
     /// </summary>
-    /// <remarks>
-    ///     Either <see cref="ArcGISDefaultBasemap" /> or <see cref="Basemap" /> should be set, but not both.
-    /// </remarks>
     public Basemap? Basemap { get; set; }
 
     /// <summary>
     ///     A collection of operational <see cref="Layer" />s.
     /// </summary>
-    public HashSet<Layer> Layers { get; set; } = new();
+    public List<Layer> Layers { get; set; } = new();
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
@@ -117,6 +115,6 @@ public class Map : MapComponent
         }
     }
 
-    private HashSet<Layer> _layersToRender = new();
+    private List<Layer> _layersToRender = new();
     private bool _rendering;
 }

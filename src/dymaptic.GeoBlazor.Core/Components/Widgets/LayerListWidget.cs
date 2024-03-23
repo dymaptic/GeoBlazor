@@ -1,5 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Components.Widgets.LayerList;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System.Text.Json.Serialization;
 
@@ -17,13 +16,6 @@ public class LayerListWidget : Widget
     /// <inheritdoc />
     [JsonPropertyName("type")]
     public override string WidgetType => "layerList";
-
-    /// <summary>
-    ///     The widget's default CSS icon class.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? IconClass { get; set; }
 
     /// <summary>
     ///     The widget's default label.
@@ -60,8 +52,15 @@ public class LayerListWidget : Widget
     ///     Returns the modified <see cref="ListItem" />
     /// </returns>
     [JSInvokable]
-    public Task<ListItem>? OnListItemCreated(ListItem item)
+    public async Task<object?> OnListItemCreated(ListItem item)
     {
-        return OnListItemCreatedHandler?.Invoke(item);
+        if (OnListItemCreatedHandler is not null)
+        {
+            ListItem result = await OnListItemCreatedHandler!.Invoke(item);
+
+            return (object)result;
+        }
+
+        return null;
     }
 }

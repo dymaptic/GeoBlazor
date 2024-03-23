@@ -37,7 +37,7 @@
             <label>Y: @_startY.Value.ToString("N2")</label>
         }
         <MapView @ref="_view1" Longitude="_startingLong" Latitude="_startingLat" Zoom="10" Class="map-view"
-                 OnMapRendered="View1Rendered" Style="background-color: lightblue; height: 300px;">
+                 OnViewRendered="View1Rendered" Style="background-color: lightblue; height: 300px;">
             <SpatialReference Wkid="@Wkid1" />
             <Map>
                 <GeoJSONLayer Url="https://services3.arcgis.com/GVgbJbqm8hXASVYi/ArcGIS/rest/services/World_Countries_(Generalized)/FeatureServer/0/query?where=1%3D1&outFields=*&f=geojson">
@@ -67,7 +67,7 @@
             <label>Y: @_endY.Value.ToString("N2")</label>
         }
         <MapView @ref="_view2" Longitude="_startingLong" Latitude="_startingLat" Zoom="3" Class="map-view"
-                 OnMapRendered="View2Rendered" Style="background-color: lightblue; height: 300px;">
+                 OnViewRendered="View2Rendered" Style="background-color: lightblue; height: 300px;">
             <SpatialReference Wkid="@Wkid2" />
             <Map>
                 <GeoJSONLayer Url="https://services3.arcgis.com/GVgbJbqm8hXASVYi/ArcGIS/rest/services/World_Countries_(Generalized)/FeatureServer/0/query?where=1%3D1&outFields=*&f=geojson">
