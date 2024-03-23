@@ -105,6 +105,9 @@ public class BasemapLayerListWidget : Widget
     /// <returns>
     ///     Returns the modified base <see cref="ListItem" />
     /// </returns>
+    /// <remarks>
+    ///     For internal use only. This returns an object simply for JavaScript serialization purposes.
+    /// </remarks>
     [JSInvokable]
     public async Task<object> OnBaseListItemCreated(ListItem item)
     {

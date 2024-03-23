@@ -40,12 +40,12 @@
 
         var firstGraphic = graphicHit[0];
 
-        Assert.IsNotNull(firstGraphic.Layer);
+        Assert.IsNotNull(firstGraphic.LayerId);
         Assert.IsNotNull(firstGraphic.MapPoint);
         Assert.IsNotNull(firstGraphic.Graphic);
 
 
-        Assert.AreEqual<Guid>(graphic.Id, firstGraphic.Graphic.Id);
+        Assert.AreEqual(graphic.Id, firstGraphic.Graphic.Id);
     }
 
     [TestMethod]
