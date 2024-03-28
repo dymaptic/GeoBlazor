@@ -7,6 +7,32 @@
 @code {
 
     [TestMethod]
+    public async Task TestCanSetFeatureLayerVisibility(Action renderHandler)
+    {
+        MapView? mapView = null;
+        async Task OnViewInitialized()
+        {
+            await mapView!.AddLayer(new FeatureLayer() { Title = "Test", Url = "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/TrailRuns/FeatureServer/0" });
+        }
+        AddMapRenderFragment(
+            @<MapView OnViewInitialized="@OnViewInitialized" @ref="@mapView" class="map-view" OnViewRendered="renderHandler">
+                <Map ArcGISDefaultBasemap="topo-vector">
+                </Map>
+            </MapView>);
+        await WaitForMapToRender();
+        await AssertJavaScript("assertLayerExists", args: "feature");
+
+        FeatureLayer? featureLayer = mapView!.Map!.Layers.OfType<FeatureLayer>().SingleOrDefault();
+        
+        Assert.IsNotNull(featureLayer);
+        Assert.IsNotNull(featureLayer.JsModule);
+
+        await featureLayer.SetVisibility(false);
+
+        Assert.IsFalse(featureLayer.Visible);
+    }
+
+    [TestMethod]
     public async Task TestCanRenderFeatureLayer(Action renderHandler)
     {
         AddMapRenderFragment(
