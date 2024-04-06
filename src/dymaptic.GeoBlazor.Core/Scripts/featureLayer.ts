@@ -55,6 +55,10 @@ export default class FeatureLayerWrapper implements IPropertyWrapper {
             }
         }
     }
+    
+    unwrap() {
+        return this.layer;
+    }
 
     createPopupTemplate(options: CreatePopupTemplateOptions | null): DotNetPopupTemplate {
         let jsPopupTemplate = options === null

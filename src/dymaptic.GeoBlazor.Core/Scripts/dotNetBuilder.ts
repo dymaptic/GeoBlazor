@@ -51,8 +51,8 @@ import {
     DotNetRangeDomain,
     DotNetEffect,
     DotNetAddressCandidate,
-    DotNetFeatureTemplate, 
-    DotNetFeatureSet
+    DotNetFeatureTemplate,
+    DotNetFeatureSet, DotNetPieChartMediaInfo
 } from "./definitions";
 import Point from "@arcgis/core/geometry/Point";
 import Polyline from "@arcgis/core/geometry/Polyline";
@@ -127,6 +127,8 @@ import FeatureSet from "@arcgis/core/rest/support/FeatureSet";
 import DirectionsFeatureSet from "@arcgis/core/rest/support/DirectionsFeatureSet";
 import MapImageLayer from "@arcgis/core/layers/MapImageLayer";
 import Sublayer from "@arcgis/core/layers/support/Sublayer.js";
+import TileLayer from "@arcgis/core/layers/TileLayer";
+import PieChartMediaInfo from "@arcgis/core/popup/content/PieChartMediaInfo";
 
 
 export function buildDotNetGraphic(graphic: Graphic): DotNetGraphic | null {
@@ -391,6 +393,8 @@ export function buildDotNetLayer(layer: Layer, includeGraphics: boolean = true)
             return buildDotNetMapImageLayer(layer as MapImageLayer);
         case 'graphics':
             return buildDotNetGraphicsLayer(layer as GraphicsLayer, includeGraphics);
+        case 'tile':
+            return buildDotNetTileLayer(layer as TileLayer);
         default:
 
             let dotNetLayer = {
@@ -515,6 +519,65 @@ function buildDotNetMapImageLayer(layer: MapImageLayer): any {
         dotNetLayer.sublayers = layer.sublayers.map(buildDotNetSublayer);
     }
     
+    if (hasValue(layer.allSublayers)) {
+        dotNetLayer.allSublayers = layer.allSublayers.map(buildDotNetSublayer);
+    }
+
+    if (Object.values(arcGisObjectRefs).includes(layer)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === layer) {
+                dotNetLayer.id = k;
+                break;
+            }
+        }
+    }
+
+    return dotNetLayer;
+}
+
+function buildDotNetTileLayer(layer: TileLayer): any {
+    let dotNetLayer: any = {
+        type: layer.type,
+        url: layer.url,
+        portalItem: layer.portalItem,
+        blendMode: layer.blendMode,
+        customParameters: layer.customParameters,
+        legendEnabled: layer.legendEnabled,
+        maxScale: layer.maxScale,
+        minScale: layer.minScale,
+        persistenceEnabled: layer.persistenceEnabled,
+        refreshInterval: layer.refreshInterval,
+        listMode: layer.listMode,
+        visible: layer.visible,
+        opacity: layer.opacity,
+        attributionDataUrl: layer.attributionDataUrl,
+        capabilities: layer.capabilities,
+        copyright: layer.copyright,
+        hasAttributionData: layer.hasAttributionData,
+        resampling: layer.resampling,
+        sourceJSON: layer.sourceJSON,
+        tileInfo: layer.tileInfo,
+        tileServers: layer.tileServers,
+        title: layer.title,
+        version: layer.version
+    };
+
+    if (hasValue(layer.effect)) {
+        dotNetLayer.effect = buildDotNetEffect(layer.effect);
+    }
+
+    if (hasValue(layer.fullExtent)) {
+        dotNetLayer.fullExtent = buildDotNetExtent(layer.fullExtent) as DotNetExtent;
+    }
+
+    if (hasValue(layer.spatialReference)) {
+        dotNetLayer.spatialReference = buildDotNetSpatialReference(layer.spatialReference) as DotNetSpatialReference;
+    }
+
+    if (hasValue(layer.sublayers)) {
+        dotNetLayer.sublayers = layer.sublayers.map(buildDotNetSublayer);
+    }
+
     if (hasValue(layer.allSublayers)) {
         dotNetLayer.allSublayers = layer.allSublayers.map(buildDotNetSublayer);
     }
@@ -848,6 +911,15 @@ export function buildDotNetMediaInfo(mediaInfo: MediaInfo): DotNetMediaInfo {
             caption: mediaInfo.caption,
             title: mediaInfo.title,
         } as DotNetLineChartMediaInfo;
+    }
+    
+    if (mediaInfo instanceof PieChartMediaInfo) {
+        return {
+            type: "pie-chart",
+            altText: mediaInfo.altText,
+            caption: mediaInfo.caption,
+            title: mediaInfo.title,
+        } as DotNetPieChartMediaInfo;
     }
 
     throw new Error("Unknown media info type");

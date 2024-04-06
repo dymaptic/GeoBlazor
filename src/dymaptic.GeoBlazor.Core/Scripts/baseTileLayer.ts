@@ -9,7 +9,10 @@ export default class BaseTileLayerWrapper implements IPropertyWrapper {
     constructor(btLayer: BaseTileLayer) {
         this.layer = btLayer;
     }
-    
+
+    unwrap() {
+        return this.layer;
+    }
     getTileBounds(level: number, row: number, col: number): any {
         return this.layer.getTileBounds(level, row, col);
     }
