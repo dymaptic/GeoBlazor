@@ -243,6 +243,9 @@ public class Sublayer: MapComponent
         ? sublayer.Layer
         : Parent as Layer;
 
+    /// <summary>
+    ///     Returns a flattened list of sublayers
+    /// </summary>
     public IReadOnlyList<Sublayer> GetAllSublayers()
     {
         return Sublayers
