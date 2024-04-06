@@ -243,6 +243,13 @@ public class Sublayer: MapComponent
         ? sublayer.Layer
         : Parent as Layer;
 
+    public IReadOnlyList<Sublayer> GetAllSublayers()
+    {
+        return Sublayers
+            .SelectMany(s => new[] { s }.Concat(s.GetAllSublayers()))
+            .ToList();
+    }
+
     /// <inheritdoc />
     public override void Refresh()
     {

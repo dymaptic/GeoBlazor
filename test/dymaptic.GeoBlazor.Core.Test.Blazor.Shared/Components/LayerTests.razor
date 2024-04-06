@@ -77,6 +77,7 @@
         }
         Assert.IsTrue(layerViewCreated);
         Assert.IsTrue(layer!.Sublayers!.Count > 0);
+        Assert.IsTrue(layer.AllSublayers!.Count > 0);
         await AssertJavaScript("assertLayerExists", args: "tile");
     }
 }
