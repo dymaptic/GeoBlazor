@@ -243,6 +243,13 @@ public class Sublayer: MapComponent
         ? sublayer.Layer
         : Parent as Layer;
 
+    public IReadOnlyList<Sublayer> GetAllSublayers()
+    {
+        return Sublayers
+            .SelectMany(s => new[] { s }.Concat(s.GetAllSublayers()))
+            .ToList();
+    }
+
     /// <inheritdoc />
     public override void Refresh()
     {
@@ -388,6 +395,9 @@ public class Sublayer: MapComponent
         await SetProperty(nameof(PopupEnabled).ToLowerFirstChar(), enabled);
     }
     
+    /// <summary>
+    ///     Update PopupTemplate after render.
+    /// </summary>
     public async Task SetPopupTemplate(PopupTemplate popupTemplate)
     {
         if (JsModule is null) return;

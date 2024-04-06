@@ -315,8 +315,10 @@ public class MapImageLayer : Layer
     /// <summary>
     ///     A flat Collection of all the sublayers in the MapImageLayer including the sublayers of its sublayers. All sublayers are referenced in the order in which they are drawn in the view (bottom to top).
     /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public IReadOnlyCollection<Sublayer>? AllSublayers { get; private set; }
+    [JsonIgnore]
+    public IReadOnlyList<Sublayer>? AllSublayers =>
+        Sublayers.SelectMany(s => new[]{s}.Concat(s.GetAllSublayers()))
+            .ToList();
     
     /// <summary>
     ///     Indicates the layer's supported capabilities.
@@ -447,7 +449,6 @@ public class MapImageLayer : Layer
         Opacity ??= renderedMapLayer.Opacity;
         PersistenceEnabled ??= renderedMapLayer.PersistenceEnabled;
         RefreshInterval ??= renderedMapLayer.RefreshInterval;
-        AllSublayers ??= renderedMapLayer.AllSublayers;
         Capabilities ??= renderedMapLayer.Capabilities;
         Copyright ??= renderedMapLayer.Copyright;
         DateFieldsTimeZone ??= renderedMapLayer.DateFieldsTimeZone;
