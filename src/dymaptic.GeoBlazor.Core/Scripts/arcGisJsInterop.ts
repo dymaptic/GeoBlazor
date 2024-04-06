@@ -57,9 +57,11 @@ import ImageryLayer from "@arcgis/core/layers/ImageryLayer.js";
 import ImageryTileLayer from "@arcgis/core/layers/ImageryTileLayer.js";
 
 import {
+    buildDotNetBookmark,
     buildDotNetExtent,
     buildDotNetFeature,
     buildDotNetGeometry,
+    buildDotNetGoToOverrideParameters,
     buildDotNetGraphic,
     buildDotNetHitTestResult,
     buildDotNetLayer,
@@ -67,66 +69,52 @@ import {
     buildDotNetPoint,
     buildDotNetPopupTemplate,
     buildDotNetSpatialReference,
-    buildDotNetTimeExtent,
-    buildDotNetTimeInfo,
-    buildDotNetTimeInterval,
-    buildViewExtentUpdate,
-    buildDotNetBookmark, 
-    buildDotNetGoToOverrideParameters
+    buildViewExtentUpdate
 } from "./dotNetBuilder";
 
 import {
+    buildJsAction,
     buildJsAttributes,
+    buildJsBookmark,
+    buildJsDimensionalDefinition,
+    buildJsEffect,
     buildJsExtent,
+    buildJsFeatureReduction,
     buildJsFields,
     buildJsFormTemplate,
     buildJsGeometry,
     buildJsGraphic,
+    buildJsImageryRenderer,
+    buildJsLabelClass,
+    buildJsMultidimensionalSubset,
     buildJsPoint,
     buildJsPopup,
     buildJsPopupOptions,
     buildJsPopupTemplate,
     buildJsPortalItem,
-    buildJsRenderer,
-    buildJsSpatialReference,
-    buildJsSymbol,
-    buildJsBookmark,
-    buildJsEffect,
     buildJsRasterStretchRenderer,
+    buildJsRenderer,
     buildJsSearchSource,
-    buildJsLabelClass,
-    buildJsFeatureReduction,
-    buildJsRasterShadedReliefRenderer,
-    buildJsRasterColormapRenderer,
-    buildJsVectorFieldRenderer,
-    buildJsFlowRenderer,
-    buildJsClassBreaksRenderer,
-    buildJsUniqueValueRenderer,
+    buildJsSpatialReference,
     buildJsSublayer,
-    buildJsAction,
-    buildJsTickConfig, buildJsImageryRenderer, buildJsMultidimensionalSubset, buildJsDimensionalDefinition
+    buildJsSymbol,
+    buildJsTickConfig
 } from "./jsBuilder";
 import {
     DotNetExtent,
     DotNetGeometry,
+    DotNetGraphic,
+    DotNetGraphicHit,
     DotNetHitTestOptions,
     DotNetHitTestResult,
     DotNetListItem,
     DotNetPoint,
+    DotNetPolygon,
+    DotNetPolyline,
     DotNetPopupTemplate,
     DotNetSpatialReference,
-    MapCollection,
-    DotNetDimensionalDefinition,
-    DotNetRasterColormapRenderer,
-    DotNetAlgorithmicColorRamp,
-    DotNetEffect,
-    DotNetMultidimensionalSubset, 
-    DotNetGraphic, 
-    DotNetPolyline, 
-    DotNetPolygon, 
     DotNetViewHit,
-    DotNetGraphicHit,
-    IPropertyWrapper
+    MapCollection
 } from "./definitions";
 import WebTileLayer from "@arcgis/core/layers/WebTileLayer";
 import TileInfo from "@arcgis/core/layers/support/TileInfo";
@@ -140,35 +128,24 @@ import FeatureLayerViewWrapper from "./featureLayerView";
 import Popup from "@arcgis/core/widgets/Popup";
 import ElevationLayer from "@arcgis/core/layers/ElevationLayer";
 import PopupWidgetWrapper from "./popupWidgetWrapper";
-import { load } from "protobufjs";
+import {load} from "protobufjs";
 import AuthenticationManager from "./authenticationManager";
-import HitTestResult = __esri.HitTestResult;
-import MapViewHitTestOptions = __esri.MapViewHitTestOptions;
-import LegendLayerInfos = __esri.LegendLayerInfos;
-import ScreenPoint = __esri.ScreenPoint;
 import RasterStretchRenderer from "@arcgis/core/renderers/RasterStretchRenderer";
 import DimensionalDefinition from "@arcgis/core/layers/support/DimensionalDefinition";
-import ColorRamp from "@arcgis/core/rest/support/ColorRamp";
-import MultipartColorRamp from "@arcgis/core/rest/support/MultipartColorRamp";
-import AlgorithmicColorRamp from "@arcgis/core/rest/support/AlgorithmicColorRamp";
 import Renderer from "@arcgis/core/renderers/Renderer";
 import Color from "@arcgis/core/Color";
 import BingMapsLayerWrapper from "./bingMapsLayer";
-import FeatureLayerView from "@arcgis/core/views/layers/FeatureLayerView";
 import SearchWidgetWrapper from "./searchWidgetWrapper";
 import SearchSource from "@arcgis/core/widgets/Search/SearchSource";
-import RasterShadedReliefRenderer from "@arcgis/core/renderers/RasterShadedReliefRenderer.js";
-import VectorFieldRenderer from "@arcgis/core/renderers/VectorFieldRenderer";
-import RasterColormapRenderer from "@arcgis/core/renderers/RasterColormapRenderer";
-import FlowRenderer from "@arcgis/core/renderers/FlowRenderer";
-import UniqueValueRenderer from "@arcgis/core/renderers/UniqueValueRenderer.js";
-import ClassBreaksRenderer from "@arcgis/core/renderers/ClassBreaksRenderer.js";
-import MultidimensionalSubset from "@arcgis/core/layers/support/MultidimensionalSubset";
 import BasemapStyle from "@arcgis/core/support/BasemapStyle";
 import Slider from "@arcgis/core/widgets/Slider";
 import SliderWidgetWrapper from "./sliderWidgetWrapper";
 import ListItemPanel from "@arcgis/core/widgets/LayerList/ListItemPanel";
 import ImageryTileLayerWrapper from "./imageryTileLayer";
+import HitTestResult = __esri.HitTestResult;
+import MapViewHitTestOptions = __esri.MapViewHitTestOptions;
+import LegendLayerInfos = __esri.LegendLayerInfos;
+import ScreenPoint = __esri.ScreenPoint;
 
 
 export let arcGisObjectRefs: Record<string, Accessor> = {};
@@ -192,6 +169,20 @@ export function setProperty(obj, prop, value) {
         obj.setProperty(prop, value);
     } else {
         obj[prop] = value;
+    }
+}
+
+export function setSublayerProperty(layerObj: any, sublayerId: number, prop: string, value: any) {
+    let sublayer = (layerObj as TileLayer)?.sublayers.find(sl => sl.id === sublayerId);
+    if (hasValue(sublayer)) {
+        setProperty(sublayer, prop, value);
+    }
+}
+
+export function setSublayerPopupTemplate(layerObj: any, sublayerId: number, popupTemplate: any, viewId: string) {
+    let sublayer = (layerObj as TileLayer)?.sublayers.find(sl => sl.id === sublayerId);
+    if (hasValue(sublayer) && hasValue(popupTemplate)) {
+        sublayer.popupTemplate = buildJsPopupTemplate(popupTemplate, viewId) as PopupTemplate;
     }
 }
 
@@ -725,14 +716,17 @@ function debounce(func: Function, wait: number | null, immediate: boolean) {
     }
 }
 
-export function registerWebLayer(layerJsRef: any, layerId: string) {
-    if (layerJsRef instanceof Layer) {
-        arcGisObjectRefs[layerId] = layerJsRef;
-    } else if (layerJsRef instanceof FeatureLayerWrapper) {
-        arcGisObjectRefs[layerId] = layerJsRef.layer;
-    } else if (layerJsRef instanceof BingMapsLayerWrapper) {
-        arcGisObjectRefs[layerId] = layerJsRef.layer;
+export function registerGeoBlazorObject(jsObjectRef: any, geoBlazorId: string) {
+    if ('unwrap' in jsObjectRef) {
+        arcGisObjectRefs[geoBlazorId] = jsObjectRef.unwrap();
+    } else {
+        arcGisObjectRefs[geoBlazorId] = jsObjectRef;
     }
+}
+
+export function registerGeoBlazorSublayer(layerId, sublayerId, sublayerGeoBlazorId) {
+    let layer = arcGisObjectRefs[layerId] as TileLayer;
+    arcGisObjectRefs[sublayerGeoBlazorId] = layer.allSublayers.find(sl => sl.id === sublayerId);
 }
 
 export async function hitTest(screenPoint: any, viewId: string, options: DotNetHitTestOptions | null, hitTestId: string)
@@ -2580,7 +2574,18 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
                     url: layerObject.url
                 });
             }
-            copyValuesIfExists(layerObject, newLayer, 'minScale', 'maxScale', 'opacity');
+            let tileLayer = newLayer as TileLayer;
+            copyValuesIfExists(layerObject, newLayer, 'minScale', 'maxScale', 'opacity', 'apiKey',
+                'blendMode', 'copyright', 'customParameters', 'legendEnabled', 'listMode', 'persistenceEnabled',
+                'refreshInterval', 'resampling', 'tileInfo', 'tileServers', 'title', 'version');
+
+            if (hasValue(layerObject.effect)) {
+                tileLayer.effect = buildJsEffect(layerObject.effect);
+            }
+            
+            if (hasValue(layerObject.fullExtent)) {
+                tileLayer.fullExtent = buildJsExtent(layerObject.fullExtent, null);
+            }
             break;
         case 'elevation':
             if (hasValue(layerObject.portalItem)) {

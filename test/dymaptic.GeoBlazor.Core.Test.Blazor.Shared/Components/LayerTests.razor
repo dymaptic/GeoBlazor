@@ -39,4 +39,44 @@
         await WaitForMapToRender();
         await AssertJavaScript("assertLayerExists", args: "imagery-tile");
     }
+
+    [TestMethod]
+    public async Task TestCanRenderTileLayerWithPortalIdAndSublayers(Action renderHandler)
+    {
+        TileLayer? layer = null;
+        MapView? mapView = null;
+        bool layerViewCreated = false;
+
+        async Task OnLayerViewCreated(LayerViewCreateEvent createEvent)
+        {
+            Assert.IsInstanceOfType<TileLayer>(createEvent.Layer);
+            TileLayer createdLayer = (TileLayer)createEvent.Layer;
+            Assert.AreEqual(layer?.Id, createdLayer.Id);
+            Sublayer firstSublayer = layer!.Sublayers![0];
+            await firstSublayer.SetPopupEnabled(false);
+            await AssertJavaScript("assertObjectHasPropertyWithValue", args: [firstSublayer.Id, "popupEnabled", false]);
+            layerViewCreated = true;
+        }
+        AddMapRenderFragment(
+            @<MapView @ref="mapView"
+                      class="map-view" 
+                      OnViewRendered="renderHandler"
+                      OnLayerViewCreate="OnLayerViewCreated">
+            <Map>
+                <TileLayer @ref="layer" Title="World Imagery">
+                    <PortalItem Id="10df2279f9684e4a9f6a7f08febac2a9" />
+                </TileLayer>
+            </Map>
+        </MapView>);
+        await WaitForMapToRender();
+        int tries = 100;
+        while (!layerViewCreated && tries > 0)
+        {
+            await Task.Delay(100);
+            tries--;
+        }
+        Assert.IsTrue(layerViewCreated);
+        Assert.IsTrue(layer!.Sublayers!.Count > 0);
+        await AssertJavaScript("assertLayerExists", args: "tile");
+    }
 }
