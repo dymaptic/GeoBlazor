@@ -135,7 +135,7 @@ internal record SymbolSerializationRecord : MapComponentSerializationRecord
     public double? HaloSize { get; init; }
 
     [ProtoMember(14)]
-    public MapFont? MapFont { get; init; }
+    public MapFontSerializationRecord? MapFont { get; init; }
 
     [ProtoMember(15)]
     public double? Height { get; init; }
@@ -190,7 +190,7 @@ internal record SymbolSerializationRecord : MapComponentSerializationRecord
             "picture-fill" => new PictureFillSymbol(Url!, Width, Height, XOffset, YOffset, XScale, YScale, 
                 Outline?.FromSerializationRecord() as Outline),
             "text" => new TextSymbol(Text ?? string.Empty, Color, HaloColor, HaloSize, 
-                MapFont, Angle, BackgroundColor, BorderLineColor,
+                MapFont?.FromSerializationRecord(), Angle, BackgroundColor, BorderLineColor,
                 BorderLineSize, HorizontalAlignment is null ? null : Enum.Parse<HorizontalAlignment>(HorizontalAlignment!, true),
                 Kerning, LineHeight, LineWidth, Rotated, 
                 VerticalAlignment is null ? null : Enum.Parse<VerticalAlignment>(VerticalAlignment!, true),

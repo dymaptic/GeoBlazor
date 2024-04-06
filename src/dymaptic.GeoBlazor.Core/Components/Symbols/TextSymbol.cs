@@ -309,7 +309,7 @@ public class TextSymbol : Symbol
             Text = Text, 
             HaloColor = HaloColor, 
             HaloSize = HaloSize?.Points,
-            MapFont = Font,
+            MapFont = Font?.ToSerializationRecord(),
             Angle = Angle,
             BackgroundColor = BackgroundColor,
             BorderLineSize = BorderLineSize,
