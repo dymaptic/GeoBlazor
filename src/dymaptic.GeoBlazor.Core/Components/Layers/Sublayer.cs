@@ -388,6 +388,9 @@ public class Sublayer: MapComponent
         await SetProperty(nameof(PopupEnabled).ToLowerFirstChar(), enabled);
     }
     
+    /// <summary>
+    ///     Update PopupTemplate after render.
+    /// </summary>
     public async Task SetPopupTemplate(PopupTemplate popupTemplate)
     {
         if (JsModule is null) return;
