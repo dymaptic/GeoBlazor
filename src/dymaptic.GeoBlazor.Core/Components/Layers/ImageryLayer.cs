@@ -354,13 +354,6 @@ public class ImageryLayer : Layer
     public string? ObjectIdField { get; set; }
 
     /// <summary>
-    ///     Enable persistence of the layer in a WebMap or WebScene.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? PersistenceEnabled { get; set; }
-
-    /// <summary>
     ///     Raster source pixel type.
     /// </summary>
     [Parameter]

@@ -461,6 +461,14 @@ public class Effect
     }
     
     /// <summary>
+    ///     Implicit conversion from string to Dimension
+    /// </summary>
+    public static implicit operator Effect(string stringVal)
+    {
+        return new Effect(stringVal);
+    }
+    
+    /// <summary>
     ///     The scale of the view for the effect to take place. Use only when setting a scale dependent effect.
     /// </summary>
     public double? Scale { get; set; }
