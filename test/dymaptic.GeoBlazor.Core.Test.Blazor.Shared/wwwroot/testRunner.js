@@ -8,6 +8,20 @@ export function initialize(core) {
     Color = Core.Color;
 }
 
+export function assertBasemapHasStyle(methodName, style) {
+    let view = getView(methodName);
+    if (view.map.basemap.style.id != style) {
+        throw new Error("Basemap does not have expected style");
+    }
+}
+
+export function assertBasemapHasPortalItemId(methodName, portalItemId) {
+    let view = getView(methodName);
+    if (view.map.basemap.portalItem.id != portalItemId) {
+        throw new Error("Basemap does not have expected portalItemId");
+    }
+}
+
 export function assertBasemapHasTwoLayers(methodName) {
     let view = getView(methodName);
     if (view.map.basemap.baseLayers.length !== 2) {

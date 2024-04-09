@@ -1,5 +1,6 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Layers;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text.Json;
@@ -37,6 +38,12 @@ public class Basemap : MapComponent
     ///     Use of the basemap style service requires authentication via an API key or user authentication. To learn more about API keys, see the API keys section in the ArcGIS Developer documentation.
     /// </summary>
     public BasemapStyle? Style { get; set; }
+
+
+    /// <summary>
+    ///     A boolean flag to indicate a "dirty" state that needs to be re-rendered
+    /// </summary>
+    protected bool NeedsRender = false;
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
@@ -89,6 +96,34 @@ public class Basemap : MapComponent
                 await base.UnregisterChildComponent(child);
 
                 break;
+        }
+    }
+
+
+    /// <summary>
+    ///    Refreshes the basemap
+    /// </summary>
+    public override void Refresh()
+    {
+        if (JsModule is null) return;
+
+        NeedsRender = true;
+        InvokeAsync(StateHasChanged);
+    }
+
+    /// <inheritdoc />
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if(NeedsRender && Parent is Map map)
+        {
+            NeedsRender = false;
+
+            map.Basemap?.Layers.RemoveAll(l => l.Imported);
+
+            string mapType = Parent is WebMap ? "webmap" : "map";
+            await JsModule!.InvokeVoidAsync("setBaseMap", map.View!.Id,  map, mapType);
         }
     }
 

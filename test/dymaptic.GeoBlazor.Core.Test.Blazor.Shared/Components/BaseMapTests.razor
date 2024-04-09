@@ -5,7 +5,6 @@
 }
 
 @code {
-
     [TestMethod]
     public async Task TestCanRenderArcGisDefaultBasemap(Action renderHandler)
     {
@@ -52,4 +51,59 @@
         await AssertJavaScript("assertBasemapHasTwoLayers");
     }
 
+    [TestMethod]
+    public async Task TestCanRefreshBasemapFromBaseMapStyle(Action renderHandler)
+    {
+        MapView? mapView = null;
+        BasemapStyleName baseMapStyle = BasemapStyleName.ArcgisDarkGrayBase;
+
+        AddMapRenderFragment(
+            @<MapView @ref="@mapView" class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="@baseMapStyle" />
+                    </Basemap>
+                </Map>
+            </MapView>);
+
+        await WaitForMapToRender();
+
+        Assert.IsTrue(mapView!.Map!.Basemap!.Style!.Name == baseMapStyle);
+        await AssertJavaScript("assertBasemapHasStyle", args: baseMapStyle);
+
+        baseMapStyle = BasemapStyleName.ArcgisNova;
+        mapView!.Map!.Basemap!.Refresh();
+        await WaitForMapToRender();
+
+        Assert.IsTrue(mapView!.Map!.Basemap!.Style!.Name == baseMapStyle);
+        await AssertJavaScript("assertBasemapHasStyle", args: baseMapStyle);
+    }
+
+    [TestMethod]
+    public async Task TestCanRefreshBasemapFromPortalId(Action renderHandler)
+    {
+        MapView? mapView = null;
+        string portalItemId = "55ebf90799fa4a3fa57562700a68c405";
+
+        AddMapRenderFragment(
+            @<MapView @ref="@mapView" class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <PortalItem Id="@portalItemId" />
+                    </Basemap>
+                </Map>
+            </MapView>);
+
+        await WaitForMapToRender();
+
+        Assert.IsTrue(mapView!.Map!.Basemap!.PortalItem!.Id == portalItemId);
+        await AssertJavaScript("assertBasemapHasPortalItemId", args: portalItemId);
+
+        portalItemId = "9053b6cd38d54e65bb0967f355a232df";
+        mapView!.Map!.Basemap!.Refresh();
+        await WaitForMapToRender();
+
+        Assert.IsTrue(mapView!.Map!.Basemap!.PortalItem!.Id == portalItemId);
+        await AssertJavaScript("assertBasemapHasPortalItemId", args: portalItemId);
+    }
 }

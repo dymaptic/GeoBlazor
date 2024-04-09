@@ -305,36 +305,8 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
         disposeView(id);
         let view: View;
 
-        let basemap: Basemap | undefined = undefined;
-        let basemapLayers: any[] = [];
-        if (!mapType.startsWith('web')) {
-            if (mapObject.arcGISDefaultBasemap !== undefined &&
-                mapObject.arcGISDefaultBasemap !== null) {
-                basemap = mapObject.arcGISDefaultBasemap;
-            } else if (hasValue(mapObject.basemap?.style)) {
-                let style = new BasemapStyle({
-                    id: mapObject.basemap.style.name
-                });
-                if (hasValue(mapObject.basemap.style.language)) {
-                    style.language = mapObject.basemap.style.language
-                }
-                if (hasValue(mapObject.basemap.style.serviceUrl)) {
-                    style.serviceUrl = mapObject.basemap.style.serviceUrl;
-                }
-                basemap = new Basemap({ style: style })
-            } else if (hasValue(mapObject.basemap?.portalItem?.id)) {
-                let portalItem = buildJsPortalItem(mapObject.basemap.portalItem);
-                basemap = new Basemap({ portalItem: portalItem });
-            } else if (mapObject.basemap?.layers.length > 0) {
-                for (let i = 0; i < mapObject.basemap.layers.length; i++) {
-                    const layerObject = mapObject.basemap.layers[i];
-                    basemapLayers.push(layerObject);
-                }
-                basemap = new Basemap({
-                    baseLayers: []
-                });
-            }
-        }
+        let basemap = getBaseMap(mapObject, mapType);
+        let basemapLayers = getBasemapLayers(mapObject, mapType);
 
         switch (mapType) {
             case 'webmap':
@@ -474,6 +446,49 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
     } catch (error) {
         logError(error, id);
     }
+}
+
+function getBaseMap(mapObject: any, mapType: string): Basemap | undefined {
+    let basemap: Basemap | undefined = undefined;
+
+    if (!mapType.startsWith('web')) {
+        if (mapObject.arcGISDefaultBasemap !== undefined &&
+            mapObject.arcGISDefaultBasemap !== null) {
+            basemap = mapObject.arcGISDefaultBasemap;
+        } else if (hasValue(mapObject.basemap?.style)) {
+            let style = new BasemapStyle({
+                id: mapObject.basemap.style.name
+            });
+            if (hasValue(mapObject.basemap.style.language)) {
+                style.language = mapObject.basemap.style.language
+            }
+            if (hasValue(mapObject.basemap.style.serviceUrl)) {
+                style.serviceUrl = mapObject.basemap.style.serviceUrl;
+            }
+            basemap = new Basemap({ style: style })
+        } else if (hasValue(mapObject.basemap?.portalItem?.id)) {
+            let portalItem = buildJsPortalItem(mapObject.basemap.portalItem);
+            basemap = new Basemap({ portalItem: portalItem });
+        } else if (mapObject.basemap?.layers.length > 0) {
+            basemap = new Basemap({
+                baseLayers: []
+            });
+        }
+    }
+
+    return basemap;
+}
+
+function getBasemapLayers(mapObject: any, mapType: string): any[] {
+    if (!mapType.startsWith('web')
+        && !mapObject.arcGISDefaultBasemap
+        && !hasValue(mapObject.basemap?.style)
+        && !hasValue(mapObject.basemap?.portalItem?.id)
+        && mapObject.basemap?.layers?.length > 0) {
+        return mapObject.basemap.layers.map(layer => layer);
+    }
+
+    return [];
 }
 
 function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: number | null,
@@ -678,6 +693,22 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
     });
 }
 
+export async function setBaseMap(viewId: string, mapObject: any, mapType: string) {
+    let basemap = getBaseMap(mapObject, mapType);
+
+    if (basemap instanceof Basemap) {
+
+        let view = arcGisObjectRefs[viewId] as View;
+        view.map.basemap = basemap;
+
+        let basemapLayers = getBasemapLayers(mapObject, mapType);
+
+        for (let i = basemapLayers.length - 1; i >= 0; i--) {
+            await addLayer(basemapLayers[i], viewId, true);
+        }
+    }
+}
+
 function debounce(func: Function, wait: number | null, immediate: boolean) {
     
     // 'private' variable for instance
@@ -724,6 +755,7 @@ function debounce(func: Function, wait: number | null, immediate: boolean) {
         }, wait ?? 300);
     }
 }
+
 
 export function registerWebLayer(layerJsRef: any, layerId: string) {
     if (layerJsRef instanceof Layer) {
