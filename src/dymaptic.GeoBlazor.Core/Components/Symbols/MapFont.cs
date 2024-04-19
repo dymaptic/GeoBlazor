@@ -13,7 +13,6 @@ namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 ///     understand how they differ depending on the layer type, and if you working with a MapView or SceneView.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-Font.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-[ProtoContract]
 public class MapFont : MapComponent
 {
     /// <summary>
@@ -38,7 +37,7 @@ public class MapFont : MapComponent
     /// <param name="weight">
     ///     The text weight.
     /// </param>
-    public MapFont(int? size, string? family, string? style, string? weight)
+    public MapFont(Dimension? size, string? family, string? style, string? weight)
     {
 #pragma warning disable BL0005
         Size = size;
@@ -76,5 +75,42 @@ public class MapFont : MapComponent
     [Parameter]
     [ProtoMember(4)]
     public string? Weight { get; set; }
+    
+    internal MapFontSerializationRecord ToSerializationRecord()
+    {
+        return new MapFontSerializationRecord(Size?.Points, Family, FontStyle, Weight);
+    }
+}
 
+[ProtoContract]
+internal record MapFontSerializationRecord
+{
+    public MapFontSerializationRecord()
+    {
+    }
+    
+    public MapFontSerializationRecord(double? Size, string? Family, string? FontStyle, string? Weight)
+    {
+        this.Size = Size;
+        this.Family = Family;
+        this.FontStyle = FontStyle;
+        this.Weight = Weight;
+    }
+
+    [ProtoMember(1)]
+    public double? Size { get; init; }
+    
+    [ProtoMember(2)]
+    public string? Family { get; init; }
+    
+    [ProtoMember(3)]
+    public string? FontStyle { get; init; }
+    
+    [ProtoMember(4)]
+    public string? Weight { get; init; }
+    
+    public MapFont FromSerializationRecord()
+    {
+        return new MapFont(Size, Family, FontStyle, Weight);
+    }
 }
