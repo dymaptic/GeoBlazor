@@ -461,7 +461,7 @@ public class Effect
     }
     
     /// <summary>
-    ///     Implicit conversion from string to Dimension
+    ///     Implicit conversion from string to Effect
     /// </summary>
     public static implicit operator Effect(string stringVal)
     {
