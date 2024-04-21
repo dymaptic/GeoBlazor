@@ -27,11 +27,10 @@ jobs:
       run: |
         cd ./src/dymaptic.GeoBlazor.Core
         npm install
+        npm run releaseBuild
         ./assetCopy.ps1
         cd ../..
     - name: Build Core
-      run: dotnet build ./src/dymaptic.GeoBlazor.Core/dymaptic.GeoBlazor.Core.csproj --no-restore /p:OptOutFromCoreEsBuild=false /p:GenerateDocs=false /p:UpdateTemplates=false -c Release
-    - name: Build Core (Again)
       run: dotnet build ./src/dymaptic.GeoBlazor.Core/dymaptic.GeoBlazor.Core.csproj --no-restore /p:OptOutFromCoreEsBuild=false /p:GenerateDocs=false /p:UpdateTemplates=false -c Release
     - name: Install xmllint
       shell: bash
