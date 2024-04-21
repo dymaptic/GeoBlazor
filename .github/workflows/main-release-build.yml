@@ -22,7 +22,7 @@ jobs:
         dotnet-version: 8.0.x
     - name: Restore dependencies
       run: dotnet restore ./src/dymaptic.GeoBlazor.Core/dymaptic.GeoBlazor.Core.csproj
-    - name: Copy Assets
+    - name: Copy Assets and Generate JS
       shell: pwsh
       run: |
         cd ./src/dymaptic.GeoBlazor.Core
