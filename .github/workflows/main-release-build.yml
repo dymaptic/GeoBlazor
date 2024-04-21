@@ -45,7 +45,7 @@ jobs:
       continue-on-error: false
       # Verify that the JS files are present in the output directory
       run: |
-        $nugetPath = ./src/dymaptic.GeoBlazor.Core/bin/Release/dymaptic.GeoBlazor.Core.${{env.CORE_VERSION}}.nupkg
+        $nugetPath = "./src/dymaptic.GeoBlazor.Core/bin/Release/dymaptic.GeoBlazor.Core.${{env.CORE_VERSION}}.nupkg"
         $jsFilePath = "staticwebassets\js\arcGisJsInterop.js"
         Expand-Archive -Path $nugetPath -Force -DestinationPath $env:TEMP
         $contents = Get-ChildItem -Path $env:TEMP -Recurse
