@@ -47,7 +47,8 @@ jobs:
       run: |
         $nugetPath = ./src/dymaptic.GeoBlazor.Core/bin/Release/dymaptic.GeoBlazor.Core.${{env.CORE_VERSION}}.nupkg
         $jsFilePath = "staticwebassets\js\arcGisJsInterop.js"
-        $contents = Get-ChildItem -Path (Expand-Archive -Path $nugetPath -DestinationPath $env:TEMP -Force | Out-Null; $env:TEMP) -Recurse
+        Expand-Archive -Path $nugetPath -Force -DestinationPath $env:TEMP
+        $contents = Get-ChildItem -Path $env:TEMP -Recurse
         $fileExists = $contents -match [regex]::Escape($jsFilePath)
     - name: Build Templates
       run: dotnet build ./templates/dymaptic.GeoBlazor.Templates.csproj -c Release
