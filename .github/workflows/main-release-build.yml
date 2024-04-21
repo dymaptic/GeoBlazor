@@ -47,7 +47,7 @@ jobs:
       run: |
         $nugetPath = "./src/dymaptic.GeoBlazor.Core/bin/Release/dymaptic.GeoBlazor.Core.${{env.CORE_VERSION}}.nupkg"
         $extractPath = "./src/dymaptic.GeoBlazor.Core/bin/Release/extract"
-        $jsFilePath = "staticwebassets\js\arcGisJsInterop.js"
+        $jsFilePath = "staticwebassets/js/arcGisJsInterop.js"
         Expand-Archive -Path $nugetPath -Force -DestinationPath $extractPath
         $contents = Get-ChildItem -Path $extractPath -Recurse
         $fileExists = $contents -match [regex]::Escape($jsFilePath)
@@ -55,7 +55,7 @@ jobs:
             Write-Output "JS file exists"
         } else {
             Write-Error "JS file does not exist"
-            Get-ChildItem -Path $extractPath -Recurse
+            echo $contents
             Exit 1
         }
     - name: Build Templates
