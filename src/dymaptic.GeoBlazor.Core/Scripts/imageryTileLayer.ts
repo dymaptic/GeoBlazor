@@ -17,6 +17,9 @@ export default class ImageryTileLayerWrapper implements IPropertyWrapper {
         }
     }
 
+    unwrap() {
+        return this.layer;
+    }
     async load(options: AbortSignal): Promise<void> {
         await this.layer.load(options);
     }

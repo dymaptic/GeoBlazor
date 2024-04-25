@@ -72,6 +72,14 @@ public abstract class Layer : MapComponent
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Extent? FullExtent { get; set; }
+    
+    /// <summary>
+    ///     Enable persistence of the layer in a WebMap or WebScene.
+    ///     Default Value: true
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? PersistenceEnabled { get; set; }
 
     /// <summary>
     ///     Marks an incoming layer loaded from a service or Javascript source.

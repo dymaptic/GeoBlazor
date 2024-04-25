@@ -1,4 +1,5 @@
 ﻿using Microsoft.JSInterop;
+using System.Collections.Concurrent;
 
 
 namespace dymaptic.GeoBlazor.Core.Objects;
@@ -69,32 +70,47 @@ public class AbortManager : IAsyncDisposable
     /// </param>
     public async Task DisposeAbortController(CancellationToken cancellationToken)
     {
-        (CancellationTokenRegistration registration, IJSObjectReference abortControllerRef) =
-            _tokensAndControllers[cancellationToken];
-
-        await registration.DisposeAsync();
-        await abortControllerRef.DisposeAsync();
-
-        if (_tokensAndControllers.ContainsKey(cancellationToken))
+        try
         {
-            _tokensAndControllers.Remove(cancellationToken);
+            (CancellationTokenRegistration registration, IJSObjectReference abortControllerRef) =
+                _tokensAndControllers[cancellationToken];
+
+            await registration.DisposeAsync();
+            await abortControllerRef.DisposeAsync();
+
+            if (_tokensAndControllers.ContainsKey(cancellationToken))
+            {
+                _tokensAndControllers.TryRemove(cancellationToken, out _);
+            }
+        }
+        catch(Exception ex)
+        {
+            Console.WriteLine(ex);
         }
     }
 
     private async Task AbortQuery(CancellationToken cancellationToken)
     {
-        (CancellationTokenRegistration registration, IJSObjectReference abortControllerRef) =
-            _tokensAndControllers[cancellationToken];
+        try
+        {
+            (CancellationTokenRegistration registration, IJSObjectReference abortControllerRef) =
+                _tokensAndControllers[cancellationToken];
 
-        // ReSharper disable once MethodSupportsCancellation
-        await abortControllerRef.InvokeVoidAsync("abort");
-        await abortControllerRef.DisposeAsync();
-        await registration.DisposeAsync();
-        _tokensAndControllers.Remove(cancellationToken);
+            // ReSharper disable once MethodSupportsCancellation
+            await abortControllerRef.InvokeVoidAsync("abort");
+            await abortControllerRef.DisposeAsync();
+            await registration.DisposeAsync();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+        }
+        
+        _tokensAndControllers.TryRemove(cancellationToken, out _);
     }
 
     private readonly IJSRuntime _jsRuntime;
-    private readonly Dictionary<CancellationToken, AbortReferenceRecord> _tokensAndControllers = new();
+    private readonly ConcurrentDictionary<CancellationToken, AbortReferenceRecord> _tokensAndControllers = new();
 
     private IJSObjectReference? _abortControllerModule;
 

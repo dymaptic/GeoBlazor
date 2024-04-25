@@ -805,8 +805,5 @@ export interface DotNetAddressCandidate {
 
 export interface IPropertyWrapper {
     setProperty(prop: string, value: any): void;
+    unwrap(): any;
 }
-
-
-
-

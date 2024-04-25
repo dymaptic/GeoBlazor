@@ -251,13 +251,6 @@ public class ImageryTileLayer : Layer
     public int? MinScale { get; set; }
 
     /// <summary>
-    ///     Enable persistence of the layer in a WebMap or WebScene.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? PersistenceEnabled { get; set; }
-
-    /// <summary>
     ///     Indicates whether to display popups when features in the layer are clicked.
     /// </summary>
     [Parameter]

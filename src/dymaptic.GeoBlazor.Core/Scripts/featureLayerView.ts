@@ -33,6 +33,9 @@ export default class FeatureLayerViewWrapper implements IPropertyWrapper {
         }
     }
 
+    unwrap() {
+        return this.featureLayerView;
+    }
     setFeatureEffect(dnfeatureEffect: DotNetFeatureEffect): void {
         this.featureLayerView.featureEffect = buildJsFeatureEffect(dnfeatureEffect) as FeatureEffect;
     }

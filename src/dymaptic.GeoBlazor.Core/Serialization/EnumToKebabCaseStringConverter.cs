@@ -24,7 +24,7 @@ public class EnumToKebabCaseStringConverter<T> : JsonConverter<T> where T : notn
 
         try
         {
-            return value is not null ? (T)Enum.Parse(typeof(T), value, true) : default(T)!;
+            return string.IsNullOrWhiteSpace(value) ? default(T)! : (T)Enum.Parse(typeof(T), value, true);
         }
         catch (Exception ex)
         {

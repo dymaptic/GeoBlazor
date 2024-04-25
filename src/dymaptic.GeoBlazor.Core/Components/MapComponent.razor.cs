@@ -327,7 +327,15 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         
         foreach (KeyValuePair<string, object?> kvp in ModifiedParameters)
         {
-            GetType().GetProperty(kvp.Key)!.SetValue(this, kvp.Value);
+            try
+            {
+                GetType().GetProperty(kvp.Key)?.SetValue(this, kvp.Value);
+            }
+            catch
+            {
+                // user set a value in `SetProperty` that doesn't match a known property
+                // don't log this
+            }
         }
     }
 

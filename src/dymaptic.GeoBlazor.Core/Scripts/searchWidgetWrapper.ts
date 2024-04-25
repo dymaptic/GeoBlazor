@@ -22,6 +22,9 @@ export default class SearchWidgetWrapper implements IPropertyWrapper {
         }
     }
 
+    unwrap() {
+        return this.searchWidget;
+    }
     getActiveSource() {
         let jsSource = this.searchWidget.activeSource;
         return buildDotNetSearchSource(jsSource);
