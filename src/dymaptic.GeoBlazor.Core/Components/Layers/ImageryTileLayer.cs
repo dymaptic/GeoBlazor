@@ -17,7 +17,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 ///         JS API
 ///     </a>
 /// </summary>
-public class ImageryTileLayer : Layer
+public class ImageryTileLayer : Layer, IPopupTemplateLayer
 {
     /// <inheritdoc />
     [JsonPropertyName("type")]

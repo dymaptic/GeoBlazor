@@ -4,9 +4,8 @@ import Graphic from "@arcgis/core/Graphic";
 import PopupTemplate from "@arcgis/core/PopupTemplate";
 import {
     arcGisObjectRefs,
-    popupDotNetObjects,
     createLayer,
-    dotNetRefs, copyValuesIfExists, graphicsRefs
+    copyValuesIfExists, graphicsRefs, popupTemplateRefs, dotNetRefs
 } from "./arcGisJsInterop";
 import Geometry from "@arcgis/core/geometry/Geometry";
 import Point from "@arcgis/core/geometry/Point";
@@ -43,18 +42,14 @@ import UniqueValueClass from "@arcgis/core/renderers/support/UniqueValueClass.js
 import UniqueValueGroup from "@arcgis/core/renderers/support/UniqueValueGroup.js";
 import {
     DotNetApplyEdits,
-    DotNetAuthoringInfo,
     DotNetAttachmentsEdit,
     DotNetAttachmentsPopupContent,
     DotNetBarChartMediaInfo,
     DotNetBookmark,
     DotNetChartMediaInfoValue,
-    DotNetClassBreaksInfo,
     DotNetClassBreaksRenderer,
-    DotNetColorRamp,
     DotNetColormapInfo,
     DotNetColumnChartMediaInfo,
-    DotNetDimensionalDefinition,
     DotNetElementExpressionInfo,
     DotNetExpressionInfo,
     DotNetExpressionPopupContent,
@@ -64,7 +59,6 @@ import {
     DotNetFeatureTemplate,
     DotNetFieldInfo,
     DotNetFieldInfoFormat,
-    DotNetFieldsIndex,
     DotNetFieldsPopupContent,
     DotNetFlowRenderer,
     DotNetGeometry,
@@ -73,7 +67,6 @@ import {
     DotNetLineChartMediaInfo,
     DotNetMediaInfo,
     DotNetMediaPopupContent,
-    DotNetMultidimensionalSubset,
     DotNetPictureMarkerSymbol,
     DotNetPieChartMediaInfo,
     DotNetPoint,
@@ -83,8 +76,6 @@ import {
     DotNetPopupTemplate,
     DotNetQuery,
     DotNetRasterColormapRenderer,
-    DotNetRasterFunction,
-    DotNetRasterFunctionInfo,
     DotNetRasterShadedReliefRenderer,
     DotNetRasterStretchRenderer,
     DotNetRelationshipQuery,
@@ -92,7 +83,6 @@ import {
     DotNetSimpleLineSymbol,
     DotNetSimpleMarkerSymbol,
     DotNetSpatialReference,
-    DotNetSubsetDimension,
     DotNetSymbol,
     DotNetTextPopupContent,
     DotNetTextSymbol,
@@ -130,7 +120,6 @@ import SimpleFillSymbol from "@arcgis/core/symbols/SimpleFillSymbol";
 import SimpleLineSymbol from "@arcgis/core/symbols/SimpleLineSymbol";
 import ElementExpressionInfo from "@arcgis/core/popup/ElementExpressionInfo";
 import ChartMediaInfoValueSeries from "@arcgis/core/popup/content/support/ChartMediaInfoValueSeries";
-import View from "@arcgis/core/views/View";
 import { buildDotNetGraphic, buildDotNetPoint, buildDotNetSpatialReference } from "./dotNetBuilder";
 import FormTemplate from "@arcgis/core/form/FormTemplate";
 import Element from "@arcgis/core/form/elements/Element";
@@ -286,8 +275,20 @@ export function buildJsPopupTemplate(popupTemplateObject: DotNetPopupTemplate, v
     } else {
         content = async (featureSelection) => {
             try {
-                await lookupDotNetRefForPopupTemplate(popupTemplateObject, viewId as string);
-                let results: DotNetPopupContent[] | null = await popupTemplateObject.dotNetPopupTemplateReference
+                if (viewId === null || !arcGisObjectRefs.hasOwnProperty(viewId)) {
+                    return;
+                }
+                let viewRef = dotNetRefs[viewId];
+                let popupRef = dotNetRefs[popupTemplateObject.id];
+                if (!hasValue(popupRef)) {
+                    popupRef = await viewRef.invokeMethodAsync('GetDotNetPopupTemplateObjectReference', popupTemplateObject.id);
+                    if (hasValue(popupRef)) {
+                        dotNetRefs[popupTemplateObject.id] = popupRef;
+                    }
+                }
+                
+                if (!hasValue(popupRef)) return null;
+                let results: DotNetPopupContent[] | null = await popupRef
                     .invokeMethodAsync("OnContentFunction", buildDotNetGraphic(featureSelection.graphic));
                 return results?.map(buildJsPopupContent);
             } catch (error) {
@@ -314,9 +315,9 @@ export function buildJsPopupTemplate(popupTemplateObject: DotNetPopupTemplate, v
 
     if (hasValue(popupTemplateObject.actions)) {
         template.actions = popupTemplateObject.actions.map(buildJsAction) as any;
-    } 
+    }
 
-    popupDotNetObjects.push(popupTemplateObject);
+    popupTemplateRefs[popupTemplateObject.id] = template;
     
     return template;
 }
@@ -332,14 +333,6 @@ export function buildJsAction(dnAction: any): ActionButton | ActionToggle {
     let jsAction = new ActionToggle();
     copyValuesIfExists(dnAction, jsAction, 'active', 'disabled', 'icon', 'id', 'title', 'value', 'visible');
     return jsAction;
-}
-
-async function lookupDotNetRefForPopupTemplate(popupTemplateObject: DotNetPopupTemplate, viewId: string) {
-    if (!hasValue(popupTemplateObject.dotNetPopupTemplateReference)) {
-        let viewRef = dotNetRefs[viewId];
-        popupTemplateObject.dotNetPopupTemplateReference =
-            await viewRef.invokeMethodAsync('GetDotNetPopupTemplateObjectReference', popupTemplateObject.id);
-    }
 }
 
 export function buildJsPopupContent(popupContentObject: DotNetPopupContent): ContentProperties | null {

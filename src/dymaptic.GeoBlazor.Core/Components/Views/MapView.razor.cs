@@ -980,12 +980,20 @@ public partial class MapView : MapComponent
         {
             switch (layer)
             {
-                case FeatureLayer { Source: not null } featureLayer:
-                    foreach (Graphic graphic in featureLayer.Source)
+                case FeatureLayer featureLayer:
+                    if (featureLayer.PopupTemplate?.Id == popupTemplateId)
                     {
-                        if (graphic.PopupTemplate?.Id == popupTemplateId)
+                        return featureLayer.PopupTemplate.DotNetPopupTemplateReference;
+                    }
+
+                    if (featureLayer.Source is not null)
+                    {
+                        foreach (Graphic graphic in featureLayer.Source)
                         {
-                            return graphic.PopupTemplate.DotNetPopupTemplateReference;
+                            if (graphic.PopupTemplate?.Id == popupTemplateId)
+                            {
+                                return graphic.PopupTemplate.DotNetPopupTemplateReference;
+                            }
                         }
                     }
 
@@ -997,6 +1005,13 @@ public partial class MapView : MapComponent
                         {
                             return graphic.PopupTemplate.DotNetPopupTemplateReference;
                         }
+                    }
+
+                    break;
+                case IPopupTemplateLayer templateLayer:
+                    if (templateLayer.PopupTemplate?.Id == popupTemplateId)
+                    {
+                        return templateLayer.PopupTemplate.DotNetPopupTemplateReference;
                     }
 
                     break;
