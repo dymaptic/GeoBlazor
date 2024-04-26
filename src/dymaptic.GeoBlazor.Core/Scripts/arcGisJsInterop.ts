@@ -198,6 +198,7 @@ export function getObjectReference(objectRef: any) {
         // check the class name first, as some esri types fail the `instanceof` check
         switch (objectRef?.__proto__.declaredClass) {
             case 'esri.views.2d.layers.FeatureLayerView2D':
+            case 'esri.views.3d.layers.FeatureLayerView3D':
                 return new FeatureLayerViewWrapper(objectRef);
         }
         
@@ -999,9 +1000,6 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                     }
                 }
 
-                if (hasValue(layerObject.fullExtent) && layerObject.fullExtent !== currentLayer.fullExtent) {
-                    currentLayer.fullExtent = buildJsExtent(layerObject.fullExtent, view.spatialReference);
-                }
                 if (hasValue(layerObject.popupTemplate)) {
                     featureLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId) as PopupTemplate;
                 }
@@ -1045,9 +1043,6 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                 if (hasValue(layerObject.popupTemplate)) {
                     geoJsonLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId ?? null) as PopupTemplate;
                 }
-                if (hasValue(layerObject.fullExtent) && layerObject.fullExtent !== currentLayer.fullExtent) {
-                    currentLayer.fullExtent = buildJsExtent(layerObject.fullExtent, view.spatialReference);
-                }
                 if (hasValue(layerObject.proProperties?.FeatureReduction)) {
                     geoJsonLayer.featureReduction = buildJsFeatureReduction(layerObject.proProperties.FeatureReduction, viewId);
                 } else {
@@ -1085,9 +1080,6 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                     }
                 }
 
-                if (hasValue(layerObject.fullExtent) && layerObject.fullExtent !== currentLayer.fullExtent) {
-                    currentLayer.fullExtent = buildJsExtent(layerObject.fullExtent, view.spatialReference);
-                }
                 break;
             case 'open-street-map':
                 let openStreetMapLayer = currentLayer as OpenStreetMapLayer;
@@ -1131,7 +1123,7 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
             case 'map-image':
                 copyValuesIfExists(layerObject, currentLayer, 'blendMode', 'customParameters', 'dpi',
                     'gdbVersion', 'imageFormat', 'imageMaxHeight', 'imageMaxWidth', 'imageTransparency', 'legendEnabled',
-                    'maxScale', 'minScale', 'persistenceEnabled', 'refreshInterval', 'timeExtent', 'timeInfo',
+                    'maxScale', 'minScale', 'refreshInterval', 'timeExtent', 'timeInfo',
                     'useViewTime');
 
                 if (hasValue(layerObject.sublayers) && layerObject.sublayers.length > 0 &&
@@ -1145,7 +1137,7 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                 copyValuesIfExists(layerObject, currentLayer, 'blendMode', 'maxScale', 'minScale', 'bandIds',
                     'compressionQuality', 'compressionTolerance', 'copyright', 'definitionExpression', 'format',
                     'hasMultidimensions', 'imageMaxHeight', 'imageMaxWidth', 'interpolation', 'legendEnabled',
-                    'noData', 'noDataInterpretation', 'objectIdField', 'persistenceEnabled', 'pixelType', 
+                    'noData', 'noDataInterpretation', 'objectIdField', 'pixelType', 
                     'popupEnabled', 'rasterFields', 'refreshInterval', 'useViewTime', 'tileInfo', 'timeExtent',
                     'timeInfo', 'timeOffset', 'customParameters');
                 if (hasValue(layerObject.effect)) {
@@ -1158,7 +1150,7 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                 
             case 'imagery-tile':
                 copyValuesIfExists(layerObject, currentLayer, 'blendMode', 'maxScale', 'minScale', 'bandIds',
-                    'copyright', 'interpolation', 'legendEnabled', 'persistenceEnabled', 'useViewTime', 
+                    'copyright', 'interpolation', 'legendEnabled', 'useViewTime', 
                     'customParameters');
                 if (hasValue(layerObject.effect)) {
                     (currentLayer as ImageryTileLayer).effect = buildJsEffect(layerObject.effect);
@@ -2471,6 +2463,13 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
                 let graphicObject = layerObject.graphics[i];
                 graphicsRefs[graphicObject.id] = graphic;
             }
+            
+            copyValuesIfExists(layerObject, graphicsLayer, 'blendMode',
+                'maxScale', 'minScale', 'screenSizePerspectiveEnabled');
+
+            if (hasValue(layerObject.effect)) {
+                graphicsLayer.effect = buildJsEffect(layerObject.effect);
+            }
             break;
         case 'feature':
             if (hasValue(layerObject.portalItem)) {
@@ -2547,7 +2546,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             
             copyValuesIfExists(layerObject, newLayer, 'blendMode', 'customParameters', 'dpi',
                 'gdbVersion', 'imageFormat', 'imageMaxHeight', 'imageMaxWidth', 'imageTransparency', 'legendEnabled',
-                'maxScale', 'minScale', 'persistenceEnabled', 'refreshInterval', 'timeExtent', 'timeInfo',
+                'maxScale', 'minScale', 'refreshInterval', 'timeExtent', 'timeInfo',
                 'useViewTime');
             
             if (hasValue(layerObject.sublayers) && layerObject.sublayers.length > 0) {
@@ -2576,16 +2575,13 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             }
             let tileLayer = newLayer as TileLayer;
             copyValuesIfExists(layerObject, newLayer, 'minScale', 'maxScale', 'opacity', 'apiKey',
-                'blendMode', 'copyright', 'customParameters', 'legendEnabled', 'listMode', 'persistenceEnabled',
+                'blendMode', 'copyright', 'customParameters', 'legendEnabled', 'listMode', 
                 'refreshInterval', 'resampling', 'tileInfo', 'tileServers', 'title', 'version');
 
             if (hasValue(layerObject.effect)) {
                 tileLayer.effect = buildJsEffect(layerObject.effect);
             }
             
-            if (hasValue(layerObject.fullExtent)) {
-                tileLayer.fullExtent = buildJsExtent(layerObject.fullExtent, null);
-            }
             break;
         case 'elevation':
             if (hasValue(layerObject.portalItem)) {
@@ -2823,7 +2819,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             copyValuesIfExists('bandIds', 'blendMode', 'compressionQuality', 'compressionTolerance',
                 'copyright', 'definitionExpression', 'format', 'hasMultidimensions', 'imageMaxHeight', 'imageMaxWidth',
                 'interpolation', 'legendEnabled', 'maxScale', 'minScale', 'multidimensionalInfo', 'noDataInterpretation',
-                'objectIdField', 'persistenceEnabled', 'pixelType', 'popupEnabled', 'refreshInterval', 
+                'objectIdField', 'pixelType', 'popupEnabled', 'refreshInterval', 
                 'serviceRasterInfo', 'useViewTime', 'version', 'capabilities', 'customParameters', 'timeExtent',
                 'timeInfo', 'timeOffset');
 
@@ -2856,7 +2852,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             }
 
             copyValuesIfExists('bandIds', 'blendMode', 'copyright', 'interpolation', 
-                'legendEnabled', 'maxScale', 'minScale', 'persistenceEnabled', 'popupEnabled', 'serviceRasterInfo', 
+                'legendEnabled', 'maxScale', 'minScale', 'popupEnabled', 'serviceRasterInfo', 
                 'useViewTime', 'version', 'customParameters', 'timeExtent', 'timeInfo', 'timeOffset', 'interpolation');
 
             newLayer = imageryTileLayer;
@@ -2865,7 +2861,8 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             return null;
     }
     
-    copyValuesIfExists(layerObject, newLayer, 'title', 'opacity', 'listMode', 'visible');
+    copyValuesIfExists(layerObject, newLayer, 'title', 'opacity', 'listMode', 'visible',
+        'persistenceEnabled');
 
     if (hasValue(layerObject.fullExtent) && layerObject.type !== 'open-street-map') {
         newLayer.fullExtent = buildJsExtent(layerObject.fullExtent, null);

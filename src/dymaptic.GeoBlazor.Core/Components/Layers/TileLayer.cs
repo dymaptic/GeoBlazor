@@ -89,14 +89,6 @@ public class TileLayer : Layer
     public PortalItem? PortalItem { get; set; }
     
     /// <summary>
-    ///     Enable persistence of the layer in a WebMap or WebScene.
-    ///     Default Value: true
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? PersistenceEnabled { get; set; }
-    
-    /// <summary>
     ///     Refresh interval of the layer in minutes. Value of 0 indicates no refresh.
     ///     Default Value: 0
     /// </summary>

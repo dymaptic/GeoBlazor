@@ -1324,6 +1324,7 @@ public partial class MapView : MapComponent
         {
             Map!.Layers.Add(layer);
             layer.Parent ??= Map;
+            layer.JsModule ??= ViewJsModule;
         }
 
         if (ViewJsModule is null) return;
