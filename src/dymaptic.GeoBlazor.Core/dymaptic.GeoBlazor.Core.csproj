@@ -81,8 +81,9 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="wwwroot\assets\" />
-        <Folder Include="Documentation\" />
+        <Folder Include="wwwroot/assets/" />
+        <Folder Include="wwwroot/js/" />
+        <Folder Include="Documentation/" />
     </ItemGroup>
 
     <Target Name="NPM Install" BeforeTargets="PreBuildEvent" Condition="$(TargetFrameworks.StartsWith($(TargetFramework))) AND '$(OptOutFromCoreEsBuild)' != 'true'">
