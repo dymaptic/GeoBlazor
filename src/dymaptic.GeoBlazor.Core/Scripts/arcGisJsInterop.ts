@@ -149,7 +149,8 @@ import ScreenPoint = __esri.ScreenPoint;
 
 
 export let arcGisObjectRefs: Record<string, Accessor> = {};
-export let popupDotNetObjects: any[] = [];
+
+export let popupTemplateRefs: Record<string, Accessor> = {};
 export let graphicsRefs: Record<string, Graphic> = {};
 export let dotNetRefs = {};
 export let queryLayer: FeatureLayer;
@@ -292,9 +293,8 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
         }
 
         checkConnectivity(id);
-        dotNetRefs[id] = dotNetRef;
-
         disposeView(id);
+        dotNetRefs[id] = dotNetRef;
         let view: View;
 
         let basemap: Basemap | undefined = undefined;
@@ -770,9 +770,14 @@ export function toScreen(mapPoint: any, viewId: string): ScreenPoint {
 
 export function disposeView(viewId: string): void {
     try {
-        let view = arcGisObjectRefs[viewId];
+        let view = arcGisObjectRefs[viewId] as MapView;
         view?.destroy();
-        delete arcGisObjectRefs.viewId;
+        delete arcGisObjectRefs[viewId];
+        delete dotNetRefs[viewId];
+        if (triggerActionHandlers.hasOwnProperty(viewId)) {
+            triggerActionHandlers[viewId].remove();
+            delete triggerActionHandlers[viewId];
+        }
     } catch (error) {
         logError(error, viewId);
     }
@@ -788,7 +793,12 @@ export function disposeMapComponent(componentId: string, viewId: string): void {
                 break;
         }
         component?.destroy();
-        delete arcGisObjectRefs[componentId];
+        if (arcGisObjectRefs.hasOwnProperty(componentId)) {
+            delete arcGisObjectRefs[componentId];
+        }
+        if (dotNetRefs.hasOwnProperty(componentId)) {
+            delete dotNetRefs[componentId];
+        }
         let view = arcGisObjectRefs[viewId] as View;
         view?.ui?.remove(component as any);
         disposeGraphic(componentId);
@@ -800,6 +810,7 @@ export function disposeMapComponent(componentId: string, viewId: string): void {
 export function disposeGraphic(graphicId: string) {
     try {
         let graphic = graphicsRefs[graphicId];
+        removeGraphicPopupTemplate(graphic);
         graphic?.destroy();
         delete graphicsRefs[graphicId];
     } catch (error) {
@@ -928,18 +939,17 @@ export function removeGraphics(graphicWrapperIds: string[], viewId: string, laye
         setWaitCursor(viewId);
         let view = arcGisObjectRefs[viewId] as View;
         let graphicsToRemove: Graphic[] = [];
+        for (const id of graphicWrapperIds) {
+            graphicsToRemove.push(graphicsRefs[id]);
+            removeGraphicPopupTemplate(graphicsRefs[id]);
+            delete graphicsRefs[id];
+        }
         if (hasValue(layerId)) {
             let layer = arcGisObjectRefs[layerId as string] as GraphicsLayer;
             layer.removeMany(graphicsToRemove);
         } else {
             view.graphics.removeMany(graphicsToRemove);
         }
-        (async () => {
-            for (const id of graphicWrapperIds) {
-                graphicsToRemove.push(graphicsRefs[id]);
-                delete graphicsRefs[id];
-            }
-        })();
         unsetWaitCursor(viewId);
     } catch (error) {
         logError(error, viewId);
@@ -951,6 +961,7 @@ export function removeGraphic(graphicId: string, viewId: string, layerId?: strin
         setWaitCursor(viewId);
         let view = arcGisObjectRefs[viewId] as View;
         let graphic = graphicsRefs[graphicId];
+        removeGraphicPopupTemplate(graphic);
         if (hasValue(layerId)) {
             let layer = arcGisObjectRefs[layerId as string] as GraphicsLayer;
             layer.remove(graphic);
@@ -1296,7 +1307,7 @@ export async function setPopup(dotNetPopup: any, viewId: string): Promise<Popup 
 
         view.popup = jsPopup;
 
-        setPopupHandler(viewId, dotNetPopup);
+        await setPopupHandler(viewId, dotNetPopup);
 
         return jsPopup;
     } catch (error) {
@@ -1309,39 +1320,19 @@ async function setPopupHandler(viewId: string, dotNetPopup: any | null) {
     try {
         let view = arcGisObjectRefs[viewId] as View;
 
-        if (hasValue(triggerActionHandler)) {
-            triggerActionHandler.remove();
+        if (hasValue(triggerActionHandlers[viewId])) {
+            triggerActionHandlers[viewId].remove();
         }
 
         if (!hasValue(view.popup.on)) {
             reactiveUtils.once(() => view.popup.on !== undefined)
                 .then(() => {
-                    triggerActionHandler = view.popup.on("trigger-action", async (event) => {
-                        if (hasValue(dotNetPopup)) {
-                            await dotNetPopup.dotNetWidgetReference.invokeMethodAsync("OnTriggerAction", event.action.id);
-                        }
-                        for (var index in popupDotNetObjects) {
-                            //we need to lookup the ref, because they can disappear if the popup has never been opened
-                            await lookupDotNetRefForPopupTemplate(popupDotNetObjects[index], viewId as string);
-                            if (hasValue(popupDotNetObjects[index].dotNetPopupTemplateReference)) {
-                                await popupDotNetObjects[index].dotNetPopupTemplateReference.invokeMethodAsync("OnTriggerAction", event.action.id);
-                            }
-                        }
-                    });
+                    triggerActionHandlers[viewId] = view.popup.on("trigger-action", 
+                            event => triggerActionCallback(event, viewId, dotNetPopup));
                 })
         } else {
-            triggerActionHandler = view.popup.on("trigger-action", async (event) => {
-                if (hasValue(dotNetPopup)) {
-                    await dotNetPopup.dotNetWidgetReference.invokeMethodAsync("OnTriggerAction", event.action.id);
-                }
-                for (var index in popupDotNetObjects) {
-                    //we need to lookup the ref, because they can disappear if the popup has never been opened
-                    await lookupDotNetRefForPopupTemplate(popupDotNetObjects[index], viewId as string);
-                    if (hasValue(popupDotNetObjects[index].dotNetPopupTemplateReference)) {
-                        await popupDotNetObjects[index].dotNetPopupTemplateReference.invokeMethodAsync("OnTriggerAction", event.action.id);
-                    }
-                }
-            });
+            triggerActionHandlers[viewId] = view.popup.on("trigger-action", 
+                    event => triggerActionCallback(event, viewId, dotNetPopup));
         }
     }
     catch (error) {
@@ -1349,15 +1340,30 @@ async function setPopupHandler(viewId: string, dotNetPopup: any | null) {
     }
 }
 
-async function lookupDotNetRefForPopupTemplate(popupTemplateObject: DotNetPopupTemplate, viewId: string) {
-    if (!hasValue(popupTemplateObject.dotNetPopupTemplateReference)) {
-        let viewRef = dotNetRefs[viewId];
-        popupTemplateObject.dotNetPopupTemplateReference =
-            await viewRef.invokeMethodAsync('GetDotNetPopupTemplateObjectReference', popupTemplateObject.id);
+async function triggerActionCallback(event, viewId, dotNetPopup) {
+    if (!arcGisObjectRefs.hasOwnProperty(viewId)) {
+        return;
+    }
+    if (hasValue(dotNetPopup)) {
+        await dotNetPopup.dotNetWidgetReference.invokeMethodAsync("OnTriggerAction", event.action.id);
+    }
+    let viewRef = dotNetRefs[viewId];
+    for (const k of Object.keys(popupTemplateRefs)) {
+        let popupRef = dotNetRefs[k];
+        if (!hasValue(popupRef)) {
+            popupRef = await viewRef.invokeMethodAsync('GetDotNetPopupTemplateObjectReference', k);
+            if (hasValue(popupRef)) {
+                dotNetRefs[k] = popupRef;
+            }
+        }
+        
+        if (hasValue(popupRef)) {
+            await popupRef.invokeMethodAsync("OnTriggerAction", event.action.id);
+        }
     }
 }
 
-export let triggerActionHandler: IHandle;
+export let triggerActionHandlers: Record<string, IHandle> = {};
 
 export async function openPopup(viewId: string, options: any | null): Promise<void> {
     try {
@@ -1569,13 +1575,12 @@ export function setGraphicPopupTemplate(id: string, popupTemplate: DotNetPopupTe
     }
 }
 
-export function removeGraphicPopupTemplate(id: string, popupTemplate: DotNetPopupTemplate, dotNetRef: any, viewId: string): void {
-
-    var arrItem = popupDotNetObjects.find(x => x.id === popupTemplate.id)
-    if (hasValue(arrItem)) {
-        var index = popupDotNetObjects.indexOf(arrItem)
-        if (index > -1) {
-            popupDotNetObjects.splice(index, 1);
+export function removeGraphicPopupTemplate(graphic: Graphic): void {
+    let id = Object.keys(popupTemplateRefs).find(k => popupTemplateRefs[k] === graphic);
+    if (id !== undefined) {
+        delete popupTemplateRefs[id];
+        if (dotNetRefs.hasOwnProperty(id)) {
+            delete dotNetRefs[id];
         }
     }
 }
@@ -1605,6 +1610,7 @@ export function clearGraphics(viewId: string, layerId?: string | null): void {
                 for (const key in graphicsRefs) {
                     if (graphicsRefs.hasOwnProperty(key)) {
                         const graphic = graphicsRefs[key];
+                        removeGraphicPopupTemplate(graphic);
                         if (graphic.layer == layer) {
                             delete graphicsRefs[key];
                         }
@@ -1617,6 +1623,7 @@ export function clearGraphics(viewId: string, layerId?: string | null): void {
                 for (const key in graphicsRefs) {
                     if (graphicsRefs.hasOwnProperty(key)) {
                         const graphic = graphicsRefs[key];
+                        removeGraphicPopupTemplate(graphic);
                         if (!hasValue(graphic.layer)) {
                             delete graphicsRefs[key];
                         }
@@ -2887,7 +2894,7 @@ export function removeLayer(layerId: string, viewId: string, isBasemapLayer: boo
             view.map?.remove(layer);
         }
         layer.destroy();
-        delete arcGisObjectRefs.layerId;
+        delete arcGisObjectRefs[layerId];
     } catch (error) {
         logError(error, viewId);
     }

@@ -17,7 +17,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 /// <example>
 ///     <a target="_blank" href="https://samples.geoblazor.com/pro-projection">Sample - Display Projection</a>
 /// </example>
-public class GeoJSONLayer : Layer, IFeatureReductionLayer
+public class GeoJSONLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer
 {
     /// <summary>
     ///     Parameterless constructor for using as a razor component

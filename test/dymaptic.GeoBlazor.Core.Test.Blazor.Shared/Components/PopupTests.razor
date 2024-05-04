@@ -44,4 +44,59 @@
         Assert.IsTrue(callbackCalled);
     }
 
+    [TestMethod]
+    public async Task TestPopupActionsOnGraphicsGetDisposed(Action renderHandler)
+    {
+        int callbackCalled = 0;
+        GraphicsLayer? layer = null;
+
+        Task ButtonClicked()
+        {
+            callbackCalled++;
+            return Task.CompletedTask;
+        }
+
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <PortalItem Id="f35ef07c9ed24020aadd65c8a65d3754" />
+                    </Basemap>
+                    <GraphicsLayer @ref="layer" />
+                </Map>
+            </MapView>);
+
+        await WaitForMapToRender();
+        
+        ActionButton actionButton = new ActionButton("Button Click", null, "test-1", ButtonClicked);
+
+        PopupTemplate popupTemplate = new PopupTemplate("PopupText", actions: [actionButton]);
+        Graphic testGraphic = new(new Point(0, 0),
+            new SimpleMarkerSymbol(color: new MapColor("red"), size: 10),
+            popupTemplate);
+        await layer!.Add(testGraphic);
+        await AssertJavaScript("clickOnGraphicPopupAction");
+        var tries = 10;
+        while (callbackCalled < 1 && (tries > 0))
+        {
+            await Task.Delay(1000);
+            tries--;
+        }
+        Assert.AreEqual(1, callbackCalled);
+        await layer.Clear();
+        testGraphic = new(new Point(0, 0),
+            new SimpleMarkerSymbol(color: new MapColor("red"), size: 10),
+            popupTemplate);
+        await layer.Add(testGraphic);
+        await AssertJavaScript("clickOnGraphicPopupAction");
+        tries = 10;
+        while (callbackCalled < 2 && (tries > 0))
+        {
+            await Task.Delay(1000);
+            tries--;
+        }
+
+        await Task.Delay(1000);
+        Assert.AreEqual(2, callbackCalled);
+    }
 }

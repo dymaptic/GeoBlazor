@@ -15,7 +15,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 ///     Represents a Sublayer in a MapImageLayer or a TileLayer. MapImageLayer allows you to display, query, and analyze layers from data defined in a map service. Map services contain Sublayers with properties such as renderer, labelingInfo, and definitionExpression, and others that are defined on the server. The properties of each MapImageLayer Sublayer on the map service may be dynamically changed by the user or developer. The properties of each TileLayer Sublayer are read-only, and cannot be modified.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public class Sublayer: MapComponent
+public class Sublayer: MapComponent, IPopupTemplateLayer
 {
     /// <summary>
     ///     Parameterless constructor for use as a Razor component.

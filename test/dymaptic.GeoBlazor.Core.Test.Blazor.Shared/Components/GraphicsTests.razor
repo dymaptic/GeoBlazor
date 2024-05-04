@@ -29,7 +29,7 @@
 
         var hitTestOptions = new HitTestOptions
         {
-            IncludeLayersByArcGISId = [ graphicsLayer!.Id.ToString() ]
+            IncludeByGeoBlazorId = [ graphicsLayer!.Id ]
         };
 
         var hitTestResult = await mapView!.HitTest((Point)graphic!.Geometry!, hitTestOptions);
