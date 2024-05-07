@@ -1342,6 +1342,9 @@ public partial class MapView : MapComponent
             layer.JsModule ??= ViewJsModule;
         }
 
+        layer.View ??= this;
+        layer.JsModule ??= ViewJsModule;
+
         if (ViewJsModule is null) return;
 
         if (ProJsViewModule is not null && layer.GetType().Namespace!.Contains("Pro"))
