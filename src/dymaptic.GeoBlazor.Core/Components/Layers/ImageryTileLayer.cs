@@ -17,7 +17,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 ///         JS API
 ///     </a>
 /// </summary>
-public class ImageryTileLayer : Layer
+public class ImageryTileLayer : Layer, IPopupTemplateLayer
 {
     /// <inheritdoc />
     [JsonPropertyName("type")]
@@ -249,13 +249,6 @@ public class ImageryTileLayer : Layer
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? MinScale { get; set; }
-
-    /// <summary>
-    ///     Enable persistence of the layer in a WebMap or WebScene.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? PersistenceEnabled { get; set; }
 
     /// <summary>
     ///     Indicates whether to display popups when features in the layer are clicked.

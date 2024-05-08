@@ -5,7 +5,7 @@ name: Main Branch Release Build
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "gh-action-testing" ]
 
 jobs:
   build: 
@@ -17,22 +17,21 @@ jobs:
       with:
         submodules: true
     - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
     - name: Restore dependencies
       run: dotnet restore ./src/dymaptic.GeoBlazor.Core/dymaptic.GeoBlazor.Core.csproj
-    - name: Copy Assets
+    - name: Copy Assets and Generate JS
       shell: pwsh
       run: |
         cd ./src/dymaptic.GeoBlazor.Core
         npm install
+        npm run releaseBuild
         ./assetCopy.ps1
         cd ../..
     - name: Build Core
       run: dotnet build ./src/dymaptic.GeoBlazor.Core/dymaptic.GeoBlazor.Core.csproj --no-restore /p:OptOutFromCoreEsBuild=false /p:GenerateDocs=false /p:UpdateTemplates=false -c Release
-    - name: Build Templates
-      run: dotnet build ./templates/dymaptic.GeoBlazor.Templates.csproj -c Release
     - name: Install xmllint
       shell: bash
       run: |
@@ -42,6 +41,25 @@ jobs:
       run: |
         CORE_VERSION=$(xmllint --xpath "//PropertyGroup/CoreVersion/text()" ./Directory.Build.props)
         echo "CORE_VERSION=$CORE_VERSION" >> $GITHUB_ENV
+    - name: Verify JS Files and Assets
+      shell: pwsh
+      continue-on-error: false
+      # Verify that the JS files are present in the output directory
+      run: |
+        $nugetPath = "./src/dymaptic.GeoBlazor.Core/bin/Release/dymaptic.GeoBlazor.Core.${{env.CORE_VERSION}}.nupkg"
+        $extractPath = "./src/dymaptic.GeoBlazor.Core/bin/Release/extract"
+        $jsFilePath = "staticwebassets/js/arcGisJsInterop.js"
+        Expand-Archive -Path $nugetPath -Force -DestinationPath $extractPath
+        $contents = Get-ChildItem -Path $extractPath -Recurse
+        $fileExists = $contents -match [regex]::Escape($jsFilePath)
+        if ($fileExists) {
+            Write-Output "JS file exists"
+        } else {
+            Write-Error "JS file does not exist"
+            Exit 1
+        }
+    - name: Build Templates
+      run: dotnet build ./templates/dymaptic.GeoBlazor.Templates.csproj -c Release
     - name: Copy PR Release Notes
       run: |
         PR_DESCRIPTION=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
@@ -52,10 +70,11 @@ jobs:
         echo "$DESC_PLUS_EOF" >> $GITHUB_ENV
         echo "EOF" >> $GITHUB_ENV
     - name: Create Release
+      if: github.ref == 'refs/heads/main'
       uses: softprops/action-gh-release@v1
       with:
-        body: ${{env.PR_DESCRIPTION}}
-        tag_name: "v${{env.PRO_VERSION}}"
+        body: "${{env.PR_DESCRIPTION}}"
+        tag_name: "v${{env.CORE_VERSION}}"
         generate_release_notes: true
         prerelease: true
         files: |
@@ -71,6 +90,7 @@ jobs:
         name: .templates-nuget
         path: ./templates/bin/Release/dymaptic.GeoBlazor.Templates.*.nupkg
   nuget-push:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     needs: build
     steps:
@@ -81,6 +101,7 @@ jobs:
     - name: Publish Core to Nuget
       run: dotnet nuget push ./dymaptic.GeoBlazor.Core.*.nupkg --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate
   templates-nuget-push:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     needs: build
     steps:

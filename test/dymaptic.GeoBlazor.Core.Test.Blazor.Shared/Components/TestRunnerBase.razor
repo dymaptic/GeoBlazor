@@ -2,7 +2,11 @@
 <div class="result-section" id="@ClassName">
     <h2>@Extensions.CamelCaseToSpaces(ClassName)</h2>
     <div @onclick="@(() => _collapsed = !_collapsed)" style="cursor: pointer; display: inline; font-weight: bold; color: white; padding: 5px; border-radius: 5px; margin-bottom: 5px;">@(_collapsed ? "\u25b6" : "\u25bc")</div>
-    <button @onclick="RunTests">Run Class Tests</button>
+    <button @onclick="() => RunTests()">Run Class Tests</button>
+    @if (_failed.Any())
+    {
+        <button @onclick="() => RunTests(true)">Rerun Failed Class Tests</button>
+    }
     <p>
         @if (_running)
         {
@@ -61,16 +65,21 @@
     [Parameter]
     public EventCallback<TestResult> OnTestResults { get; set; }
 
-    public async Task RunTests()
+    public async Task RunTests(bool onlyFailedTests = false)
     {
         _running = true;
         _resultBuilder = new StringBuilder();
         _passed.Clear();
-        _failed.Clear();
+        
         foreach (string key in _testResults.Keys)
         {
+            if (onlyFailedTests && !_failed.ContainsKey(key))
+            {
+                continue;
+            }
             _testResults[key] = string.Empty;
         }
+        _failed.Clear();
         
         foreach (MethodInfo method in _methodInfos!)
         {

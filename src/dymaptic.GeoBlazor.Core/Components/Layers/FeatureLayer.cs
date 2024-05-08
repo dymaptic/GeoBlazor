@@ -26,7 +26,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 /// <example>
 ///     <a target="_blank" href="https://samples.geoblazor.com/feature-layers">Sample - Feature Layers</a>
 /// </example>
-public class FeatureLayer : Layer, IFeatureReductionLayer
+public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer
 {
     /// <summary>
     ///     Constructor for use as a razor component

@@ -152,13 +152,28 @@ export async function clickOnPopupAction(methodName) {
     let view = getView(methodName);
     let layer = view.map.layers.items[0];
     let featureSet = await layer.queryFeatures();
-    view.popup.open({
+    await view.openPopup({
         features: [featureSet.features[0]]
     });
     let button = null;
     while (button === null) {
         await new Promise(resolve => setTimeout(resolve, 100));
         button = document.querySelector('[title="Measure Length"]');
+    }
+    button.click();
+}
+
+export async function clickOnGraphicPopupAction(methodName) {
+    let view = getView(methodName);
+    let layer = view.map.layers.items[0];
+    let graphic = layer.graphics.items[0];
+    await view.openPopup({
+        features: [graphic]
+    });
+    let button = null;
+    while (button === null) {
+        await new Promise(resolve => setTimeout(resolve, 100));
+        button = document.querySelector('[title="Button Click"]');
     }
     button.click();
 }

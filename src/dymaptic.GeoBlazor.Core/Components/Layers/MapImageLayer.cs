@@ -236,14 +236,6 @@ public class MapImageLayer : Layer
     public int? MinScale { get; set; }
     
     /// <summary>
-    ///     Enable persistence of the layer in a WebMap or WebScene.
-    ///     Default Value: true
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? PersistenceEnabled { get; set; }
-    
-    /// <summary>
     ///     Refresh interval of the layer in minutes. Value of 0 indicates no refresh.
     ///     Default Value: 0
     /// </summary>
@@ -315,27 +307,29 @@ public class MapImageLayer : Layer
     /// <summary>
     ///     A flat Collection of all the sublayers in the MapImageLayer including the sublayers of its sublayers. All sublayers are referenced in the order in which they are drawn in the view (bottom to top).
     /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public IReadOnlyCollection<Sublayer>? AllSublayers { private get; set; }
+    [JsonIgnore]
+    public IReadOnlyList<Sublayer>? AllSublayers =>
+        Sublayers.SelectMany(s => new[]{s}.Concat(s.GetAllSublayers()))
+            .ToList();
     
     /// <summary>
     ///     Indicates the layer's supported capabilities.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public MapImageLayerCapabilities? Capabilities { get; set; }
+    public MapImageLayerCapabilities? Capabilities { get; private set; }
 
     /// <summary>
     ///     The copyright text as defined by the service.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public string? Copyright { get; set; }
+    public string? Copyright { get; private set; }
     
     /// <summary>
     ///     The time zone that dates are stored in. This property does not apply to date fields referenced by timeInfo.
     ///     Even though dates are transmitted as UTC epoch values, this property may be useful when constructing date or time where clauses for querying. If constructing date or time where clauses, use FieldIndex.getTimeZone() to get the time zone for the given date field.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public string? DateFieldsTimeZone { get; set; }
+    public string? DateFieldsTimeZone { get; private set; }
     
     /// <summary>
     ///     This property is set by the service publisher and indicates that dates should be considered without the local timezone. This applies to both requests and responses.
@@ -347,32 +341,32 @@ public class MapImageLayer : Layer
     ///     - When using Layer.TimeInfo.FullTimeExtent in conjunction with TimeSlider, the local timezone offset must be removed.
     /// </remarks>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public bool? DatesInUnknownTimezone { get; set; }
+    public bool? DatesInUnknownTimezone { get; private set; }
     
     /// <summary>
     ///     The IANA time zone the author of the service intended data from date fields to be viewed in.
     ///     Default Value: null
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public string? PreferredTimeZone { get; set; }
+    public string? PreferredTimeZone { get; private set; }
     
     /// <summary>
     ///     The map service's metadata JSON exposed by the ArcGIS REST API. While most commonly used properties are exposed on the MapImageLayer class directly, this property gives access to all information returned by the map service. This property is useful if working in an application built using an older version of the API which requires access to map service properties from a more recent version.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public string? SourceJSON { get; set; }
+    public string? SourceJSON { get; private set; }
     
     /// <summary>
     ///     The spatial reference of the layer as defined by the service.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public SpatialReference? SpatialReference { get; set; }
+    public SpatialReference? SpatialReference { get; private set; }
 
     /// <summary>
     ///     The version of ArcGIS Server in which the map service is published.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public string? Version { get; set; }
+    public string? Version { get; private set; }
     
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
@@ -447,7 +441,6 @@ public class MapImageLayer : Layer
         Opacity ??= renderedMapLayer.Opacity;
         PersistenceEnabled ??= renderedMapLayer.PersistenceEnabled;
         RefreshInterval ??= renderedMapLayer.RefreshInterval;
-        AllSublayers ??= renderedMapLayer.AllSublayers;
         Capabilities ??= renderedMapLayer.Capabilities;
         Copyright ??= renderedMapLayer.Copyright;
         DateFieldsTimeZone ??= renderedMapLayer.DateFieldsTimeZone;
@@ -467,12 +460,30 @@ public class MapImageLayer : Layer
 
             if (matchingLayer is not null)
             {
-                matchingLayer.UpdateFromJavaScript(renderedSubLayer);
+                matchingLayer.Parent = this;
+                matchingLayer.JsModule = JsModule;
+                matchingLayer.View = View;
+                await matchingLayer.UpdateFromJavaScript(renderedSubLayer);
             }
             else
             {
-                _sublayers.Add(renderedSubLayer);
+                await RegisterNewSublayer(renderedSubLayer);
             }
+        }
+    }
+    
+    private async Task RegisterNewSublayer(Sublayer sublayer)
+    {
+        sublayer.Parent = this;
+        sublayer.JsModule = JsModule;
+        sublayer.View = View;
+        _sublayers!.Add(sublayer);
+        await JsModule!.InvokeVoidAsync("registerGeoBlazorSublayer", Id,
+            sublayer.SublayerId, sublayer.Id);
+
+        foreach (Sublayer subsub in sublayer.Sublayers)
+        {
+            await RegisterNewSublayer(subsub);
         }
     }
     

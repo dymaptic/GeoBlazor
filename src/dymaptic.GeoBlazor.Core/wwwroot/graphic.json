@@ -323,7 +323,7 @@
                     "MapFont": {
                       "fields": {
                         "size": {
-                          "type": "string",
+                          "type": "double",
                           "id": 1
                         },
                         "family": {

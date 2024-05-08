@@ -16,7 +16,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 ///     in SpatialReference.WGS84 in csv feed.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public class CSVLayer : Layer, IFeatureReductionLayer
+public class CSVLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer
 {
     /// <summary>
     ///     Parameterless constructor for use as a razor component

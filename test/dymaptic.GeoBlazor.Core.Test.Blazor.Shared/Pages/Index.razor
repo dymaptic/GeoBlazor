@@ -5,7 +5,11 @@
 @inject IJSRuntime JsRuntime
 
 <h1>Unit Tests</h1>
-<button @onclick="RunTests">Run All Tests</button>
+<button @onclick="() => RunTests()">Run All Tests</button>
+@if (_results.Any(kvp => kvp.Value.Failed.Any()))
+{
+    <button @onclick="() => RunTests(true)">Rerun Failed Tests</button>
+}
 <button @onclick="ToggleAll">@(_showAll ? "Collapse" : "Expand") All</button>
 <div class="result-section">
     @if (_running)
@@ -84,16 +88,23 @@
         StateHasChanged();
     }
 
-    private async Task<bool> RunTests()
+    private async Task<bool> RunTests(bool onlyFailedTests = false)
     {
         _running = true;
-        _results.Clear();
         List<Task> runnerTasks = new();
         foreach (KeyValuePair<string, DynamicComponent?> kvp in _testClasses)
         {
+            if (_results.ContainsKey(kvp.Key))
+            {
+                TestResult results = _results[kvp.Key];
+                if (onlyFailedTests && results.Failed.Count == 0)
+                {
+                    continue;
+                }
+            }
             if (kvp.Value != null)
             {
-                runnerTasks.Add(Task.Run(async () => await (kvp.Value!.Instance as TestRunnerBase)!.RunTests()));
+                runnerTasks.Add(Task.Run(async () => await (kvp.Value!.Instance as TestRunnerBase)!.RunTests(onlyFailedTests)));
             }
         }
         await Task.WhenAll(runnerTasks);

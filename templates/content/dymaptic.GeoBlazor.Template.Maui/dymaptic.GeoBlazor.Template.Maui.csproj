@@ -81,7 +81,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="dymaptic.GeoBlazor.Core" Version="3.0.0-beta-1" />
+		<PackageReference Include="dymaptic.GeoBlazor.Core" Version="3.0.2-beta-11" />
 		<PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="8.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />

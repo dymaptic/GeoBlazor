@@ -18,6 +18,10 @@ export default class PopupWidgetWrapper implements IPropertyWrapper {
         }
     }
 
+    unwrap() {
+        return this.popup;
+    }
+
     clear() {
         this.popup.clear();
     }

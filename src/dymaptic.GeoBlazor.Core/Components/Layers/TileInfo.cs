@@ -1,5 +1,6 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
 using dymaptic.GeoBlazor.Core.Extensions;
+using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -119,7 +120,7 @@ public class TileInfo : MapComponent
 /// <summary>
 ///     Image format of the cached tiles.
 /// </summary>
-[JsonConverter(typeof(TileInfoFormatConverter))]
+[JsonConverter(typeof(EnumToKebabCaseStringConverter<TileInfoFormat>))]
 public enum TileInfoFormat
 {
 #pragma warning disable CS1591
@@ -139,19 +140,4 @@ public enum TileInfoFormat
     Lerc,
     Pbf
 #pragma warning restore CS1591
-}
-
-internal class TileInfoFormatConverter : JsonConverter<TileInfoFormat>
-{
-    public override TileInfoFormat Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        throw new NotImplementedException();
-    }
-
-    public override void Write(Utf8JsonWriter writer, TileInfoFormat value, JsonSerializerOptions options)
-    {
-        string? stringVal = Enum.GetName(typeof(TileInfoFormat), value);
-        string resultString = stringVal!.ToKebabCase();
-        writer.WriteRawValue($"\"{resultString}\"");
-    }
 }

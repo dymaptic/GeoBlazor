@@ -1,6 +1,7 @@
 using dymaptic.GeoBlazor.Core.Components.Geometries;
 using dymaptic.GeoBlazor.Core.Components.Popups;
 using dymaptic.GeoBlazor.Core.Components.Renderers;
+using dymaptic.GeoBlazor.Core.Extensions;
 using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -14,7 +15,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 ///     Represents a Sublayer in a MapImageLayer or a TileLayer. MapImageLayer allows you to display, query, and analyze layers from data defined in a map service. Map services contain Sublayers with properties such as renderer, labelingInfo, and definitionExpression, and others that are defined on the server. The properties of each MapImageLayer Sublayer on the map service may be dynamically changed by the user or developer. The properties of each TileLayer Sublayer are read-only, and cannot be modified.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public class Sublayer: MapComponent
+public class Sublayer: MapComponent, IPopupTemplateLayer
 {
     /// <summary>
     ///     Parameterless constructor for use as a Razor component.
@@ -242,6 +243,16 @@ public class Sublayer: MapComponent
         ? sublayer.Layer
         : Parent as Layer;
 
+    /// <summary>
+    ///     Returns a flattened list of sublayers
+    /// </summary>
+    public IReadOnlyList<Sublayer> GetAllSublayers()
+    {
+        return Sublayers
+            .SelectMany(s => new[] { s }.Concat(s.GetAllSublayers()))
+            .ToList();
+    }
+
     /// <inheritdoc />
     public override void Refresh()
     {
@@ -255,7 +266,7 @@ public class Sublayer: MapComponent
     /// <summary>
     ///     Copies values when returning from ArcGIS JavaScript. For internal use only.
     /// </summary>
-    public void UpdateFromJavaScript(Sublayer renderedSublayer)
+    public async Task UpdateFromJavaScript(Sublayer renderedSublayer)
     {
         DefinitionExpression ??= renderedSublayer.DefinitionExpression;
         FloorInfo ??= renderedSublayer.FloorInfo;
@@ -281,18 +292,21 @@ public class Sublayer: MapComponent
         TypeIdField ??= renderedSublayer.TypeIdField;
         Types ??= renderedSublayer.Types;
         Url ??= renderedSublayer.Url;
+        
+        await JsModule!.InvokeVoidAsync("registerGeoBlazorSublayer", Layer!.Id,
+            renderedSublayer.SublayerId, renderedSublayer.Id);
 
-        foreach (Sublayer renderedSubLayer in renderedSublayer.Sublayers)
+        foreach (Sublayer childSublayer in renderedSublayer.Sublayers)
         {
-            Sublayer? matchingLayer = _sublayers.FirstOrDefault(l => l.Id == renderedSubLayer.Id);
+            Sublayer? matchingLayer = _sublayers.FirstOrDefault(l => l.Id == childSublayer.Id);
 
             if (matchingLayer is not null)
             {
-                matchingLayer.UpdateFromJavaScript(renderedSubLayer);
+                await matchingLayer.UpdateFromJavaScript(childSublayer);
             }
             else
             {
-                _sublayers.Add(renderedSubLayer);
+                _sublayers.Add(childSublayer);
             }
         }
     }
@@ -351,6 +365,50 @@ public class Sublayer: MapComponent
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public string? Url { get; set; }
 
+    /// <summary>
+    ///     Sets any property to a new value after initial render. Supports all basic types (strings, numbers, booleans, dictionaries) and properties.
+    /// </summary>
+    /// <param name="propertyName">
+    ///     The name of the property to set.
+    /// </param>
+    /// <param name="value">
+    ///     The new value.
+    /// </param>
+    public async Task SetProperty(string propertyName, object? value)
+    {
+        if (JsModule is null) return;
+        ModifiedParameters[propertyName] = value;
+        await JsModule!.InvokeVoidAsync("setSublayerProperty", Layer?.JsLayerReference, 
+            SublayerId, propertyName.ToLowerFirstChar(), value);
+    }
+    
+    /// <summary>
+    ///     Update LegendEnabled after render.
+    /// </summary>
+    public async Task SetLegendEnabled(bool enabled)
+    {
+        await SetProperty(nameof(LegendEnabled).ToLowerFirstChar(), enabled);
+    }
+
+    /// <summary>
+    ///     Update PopupEnabled after render.
+    /// </summary>
+    public async Task SetPopupEnabled(bool enabled)
+    {
+        await SetProperty(nameof(PopupEnabled).ToLowerFirstChar(), enabled);
+    }
+    
+    /// <summary>
+    ///     Update PopupTemplate after render.
+    /// </summary>
+    public async Task SetPopupTemplate(PopupTemplate popupTemplate)
+    {
+        if (JsModule is null) return;
+        ModifiedParameters[nameof(PopupTemplate)] = popupTemplate;
+        await JsModule!.InvokeVoidAsync("setSublayerPopupTemplate", Layer?.JsLayerReference, 
+            SublayerId, popupTemplate, View?.Id);
+    }
+    
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
     {

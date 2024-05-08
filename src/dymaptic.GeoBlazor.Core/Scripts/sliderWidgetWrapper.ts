@@ -14,6 +14,9 @@ export default class SliderWidgetWrapper implements IPropertyWrapper {
         }
     }
 
+    unwrap() {
+        return this.slider;
+    }
     getEffectiveSegmentElements() {
         return this.slider.effectiveSegmentElements;
     }

@@ -49,10 +49,15 @@
 <button @onclick="@(() => MapView!.Refresh())">Refresh</button>
 
 <MapView @ref="MapView" Longitude="-40" Latitude="28" Zoom="2" Class="map-view">
-    <Map ArcGISDefaultBasemap="arcgis-navigation" />
+    <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisNavigation" />
+        </Basemap>
+    </Map>
     @if (_showLocate)
     {
-        <LocateWidget RotationEnabled="false" Scale="1500" Position="OverlayPosition.TopLeft" />
+        <LocateWidget RotationEnabled="false" Scale="1500" 
+                      Position="OverlayPosition.TopLeft" />
     }
     @if (_showSearch)
     {
@@ -60,7 +65,8 @@
     }
     @if (_showBasemapToggle)
     {
-        <BasemapToggleWidget NextBasemapName="arcgis-imagery" Position="OverlayPosition.BottomRight" />
+        <BasemapToggleWidget NextBasemapStyle="BasemapStyleName.ArcgisImagery" 
+                             Position="OverlayPosition.BottomRight" />
     }
     @if (_showBasemapGallery)
     {
