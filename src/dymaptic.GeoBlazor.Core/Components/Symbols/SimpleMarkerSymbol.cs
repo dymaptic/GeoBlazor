@@ -80,6 +80,7 @@ public class SimpleMarkerSymbol : MarkerSymbol
     /// <summary>
     ///     The marker style.
     /// </summary>
+    [JsonPropertyName("style")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [Parameter]
     public SimpleMarkerStyle? MarkerStyle { get; set; }
