@@ -1,6 +1,7 @@
 ﻿using dymaptic.GeoBlazor.Core.Components;
 using ProtoBuf;
 using System.Diagnostics;
+using System.Globalization;
 using System.Reflection;
 using System.Reflection.Metadata;
 using System.Text.Json;
@@ -80,7 +81,7 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
                 switch (record.ValueType)
                 {
                     case "[object Number]":
-                        _backingDictionary[record.Key] = double.Parse(record.Value!);
+                        _backingDictionary[record.Key] = double.Parse(record.Value!, CultureInfo.CurrentCulture);
                         
                         break;
                     case "[object Boolean]":
@@ -99,7 +100,7 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
 
                         break;
                     case "[object Date]":
-                        _backingDictionary[record.Key] = DateTime.Parse(record.Value!);
+                        _backingDictionary[record.Key] = DateTime.Parse(record.Value!, CultureInfo.CurrentCulture);
 
                         break;
                     default:
