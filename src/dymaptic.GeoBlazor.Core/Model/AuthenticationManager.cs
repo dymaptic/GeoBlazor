@@ -102,7 +102,7 @@ public class AuthenticationManager
     {
         get
         {
-            _trustedServers ??= _configuration.GetSection("TrustedServers").Get<List<string>>();
+            _trustedServers ??= _configuration.GetSection("ArcGISTrustedServers").Get<List<string>>();
 
             return _trustedServers;
         }
