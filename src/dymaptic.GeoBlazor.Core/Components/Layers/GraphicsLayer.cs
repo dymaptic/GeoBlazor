@@ -303,7 +303,7 @@ public class GraphicsLayer : Layer
         AllowRender = false;
         var removedGraphics = graphics.ToList();
         var wrapperIds = removedGraphics.Select(g => g.Id).ToList();
-        await JsModule!.InvokeVoidAsync("removeGraphics", wrapperIds);
+        await JsModule!.InvokeVoidAsync("removeGraphics", wrapperIds, View?.Id, Id);
         _graphics.ExceptWith(removedGraphics);
         AllowRender = true;
     }
