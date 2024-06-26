@@ -3,15 +3,15 @@
   "description": "https://www.geoblazor.com",
   "main": "arcGisInterop.js",
   "scripts": {
-    "debugBuild": "esbuild ./Scripts/arcGisJsInterop.ts ./Scripts/abortController.ts --format=esm --bundle --sourcemap --outdir=wwwroot/js",
-    "watchBuild": "esbuild ./Scripts/arcGisJsInterop.ts ./Scripts/abortController.ts --format=esm --bundle --sourcemap --outdir=wwwroot/js --watch",
-    "releaseBuild": "esbuild ./Scripts/arcGisJsInterop.ts ./Scripts/abortController.ts --format=esm --bundle --minify --sourcemap --outdir=wwwroot/js"
+    "debugBuild": "esbuild ./Scripts/arcGisJsInterop.ts ./Scripts/abortController.ts --format=esm --bundle --sourcemap --outdir=wwwroot/js --splitting",
+    "watchBuild": "esbuild ./Scripts/arcGisJsInterop.ts ./Scripts/abortController.ts --format=esm --bundle --sourcemap --outdir=wwwroot/js --watch --splitting",
+    "releaseBuild": "esbuild ./Scripts/arcGisJsInterop.ts ./Scripts/abortController.ts --format=esm --bundle --minify --sourcemap --outdir=wwwroot/js --splitting"
   },
   "keywords": [],
   "author": "dymaptic",
   "license": "ISC",
   "dependencies": {
-    "@arcgis/core": "4.29.7",
+    "@arcgis/core": "4.29.10",
     "esbuild": "0.20.2",
     "protobufjs": "7.2.6"
   },

@@ -11,35 +11,8 @@ import Geometry from "@arcgis/core/geometry/Geometry";
 import Point from "@arcgis/core/geometry/Point";
 import Polyline from "@arcgis/core/geometry/Polyline";
 import Polygon from "@arcgis/core/geometry/Polygon";
-import TextSymbol from "@arcgis/core/symbols/TextSymbol";
-import SimpleRenderer from "@arcgis/core/renderers/SimpleRenderer";
 import Renderer from "@arcgis/core/renderers/Renderer";
-import Field from "@arcgis/core/layers/support/Field";
-import Font from "@arcgis/core/symbols/Font";
-import Bookmark from "@arcgis/core/webmap/Bookmark"
-import Viewpoint from "@arcgis/core/Viewpoint";
-import FeatureEffect from "@arcgis/core/layers/support/FeatureEffect";
-import FeatureFilter from "@arcgis/core/layers/support/FeatureFilter";
-import RasterStretchRenderer from "@arcgis/core/renderers/RasterStretchRenderer.js"
-import ColorRamp from "@arcgis/core/rest/support/ColorRamp.js";
-import DimensionalDefinition from "@arcgis/core/layers/support/DimensionalDefinition.js";
-import MultipartColorRamp from "@arcgis/core/rest/support/MultipartColorRamp.js";
-import AlgorithmicColorRamp from "@arcgis/core/rest/support/AlgorithmicColorRamp.js";
-import RasterShadedReliefRenderer from "@arcgis/core/renderers/RasterShadedReliefRenderer.js";
-import RasterColormapRenderer from "@arcgis/core/renderers/RasterColormapRenderer.js";
-import VectorFieldRenderer from "@arcgis/core/renderers/VectorFieldRenderer.js";
-import FlowRenderer from "@arcgis/core/renderers/FlowRenderer.js";
-import ClassBreaksRenderer from "@arcgis/core/renderers/ClassBreaksRenderer.js";
-import ClassBreakInfo from "@arcgis/core/renderers/support/ClassBreakInfo.js";
-import UniqueValueRenderer from "@arcgis/core/renderers/UniqueValueRenderer.js";
-import ColormapInfo from "@arcgis/core/renderers/support/ColormapInfo.js";
-import MultidimensionalSubset from "@arcgis/core/layers/support/MultidimensionalSubset.js";
-import PolygonSymbol3D from "@arcgis/core/symbols/PolygonSymbol3D.js";
-import FieldsIndex from "@arcgis/core/layers/support/FieldsIndex.js";
-import UniqueValue from "@arcgis/core/renderers/support/UniqueValue.js";
-import UniqueValueInfo from "@arcgis/core/renderers/support/UniqueValueInfo.js";
-import UniqueValueClass from "@arcgis/core/renderers/support/UniqueValueClass.js";
-import UniqueValueGroup from "@arcgis/core/renderers/support/UniqueValueGroup.js";
+
 import {
     DotNetApplyEdits,
     DotNetAttachmentsEdit,
@@ -92,86 +65,11 @@ import {
     DotNetViewpoint,
     DotNetVisualVariable, DotNetFeatureSet, DotNetPictureFillSymbol,
 } from "./definitions";
-import PictureMarkerSymbol from "@arcgis/core/symbols/PictureMarkerSymbol";
-import PictureFillSymbol from "@arcgis/core/symbols/PictureFillSymbol";
 import Popup from "@arcgis/core/widgets/Popup";
 import Query from "@arcgis/core/rest/support/Query";
-import FieldsContent from "@arcgis/core/popup/content/FieldsContent";
-import TextContent from "@arcgis/core/popup/content/TextContent";
-import FieldInfo from "@arcgis/core/popup/FieldInfo";
-import FieldInfoFormat from "@arcgis/core/popup/support/FieldInfoFormat";
-import MediaContent from "@arcgis/core/popup/content/MediaContent";
-import BarChartMediaInfo from "@arcgis/core/popup/content/BarChartMediaInfo";
-import ColumnChartMediaInfo from "@arcgis/core/popup/content/ColumnChartMediaInfo";
-import ChartMediaInfoValue from "@arcgis/core/popup/content/support/ChartMediaInfoValue";
-import ImageMediaInfoValue from "@arcgis/core/popup/content/support/ImageMediaInfoValue";
-import ImageMediaInfo from "@arcgis/core/popup/content/ImageMediaInfo";
-import LineChartMediaInfo from "@arcgis/core/popup/content/LineChartMediaInfo";
-import PieChartMediaInfo from "@arcgis/core/popup/content/PieChartMediaInfo";
-import AttachmentsContent from "@arcgis/core/popup/content/AttachmentsContent";
-import ExpressionContent from "@arcgis/core/popup/content/ExpressionContent";
 import Layer from "@arcgis/core/layers/Layer";
-import RelationshipQuery from "@arcgis/core/rest/support/RelationshipQuery";
-import TopFeaturesQuery from "@arcgis/core/rest/support/TopFeaturesQuery";
-import popupExpressionInfo from "@arcgis/core/popup/ExpressionInfo";
-import SimpleMarkerSymbol from "@arcgis/core/symbols/SimpleMarkerSymbol";
 import Symbol from "@arcgis/core/symbols/Symbol";
-import SimpleFillSymbol from "@arcgis/core/symbols/SimpleFillSymbol";
-import SimpleLineSymbol from "@arcgis/core/symbols/SimpleLineSymbol";
-import ElementExpressionInfo from "@arcgis/core/popup/ElementExpressionInfo";
-import ChartMediaInfoValueSeries from "@arcgis/core/popup/content/support/ChartMediaInfoValueSeries";
-import { buildDotNetGraphic, buildDotNetPoint, buildDotNetSpatialReference } from "./dotNetBuilder";
-import FormTemplate from "@arcgis/core/form/FormTemplate";
-import Element from "@arcgis/core/form/elements/Element";
-import GroupElement from "@arcgis/core/form/elements/GroupElement";
-import CodedValueDomain from "@arcgis/core/layers/support/CodedValueDomain";
-import RangeDomain from "@arcgis/core/layers/support/RangeDomain";
-import TextBoxInput from "@arcgis/core/form/elements/inputs/TextBoxInput";
-import TextAreaInput from "@arcgis/core/form/elements/inputs/TextAreaInput";
-import DateTimePickerInput from "@arcgis/core/form/elements/inputs/DateTimePickerInput";
-import BarcodeScannerInput from "@arcgis/core/form/elements/inputs/BarcodeScannerInput";
-import ComboBoxInput from "@arcgis/core/form/elements/inputs/ComboBoxInput";
-import RadioButtonsInput from "@arcgis/core/form/elements/inputs/RadioButtonsInput";
-import SwitchInput from "@arcgis/core/form/elements/inputs/SwitchInput";
-import SearchSource from "@arcgis/core/widgets/Search/SearchSource";
-import FeatureTemplate from "@arcgis/core/layers/support/FeatureTemplate";
-import ViewClickEvent = __esri.ViewClickEvent;
-import PopupOpenOptions = __esri.PopupOpenOptions;
-import PopupDockOptions = __esri.PopupDockOptions;
-import ContentProperties = __esri.ContentProperties;
-import FeatureLayerBaseApplyEditsEdits = __esri.FeatureLayerBaseApplyEditsEdits;
-import AttachmentEdit = __esri.AttachmentEdit;
-import CodedValue = __esri.CodedValue;
-import SearchSourceFilter = __esri.SearchSourceFilter;
-import SearchResult = __esri.SearchResult;
-import SuggestResult = __esri.SuggestResult;
-import LabelClass from "@arcgis/core/layers/support/LabelClass";
-import VisualVariable from "@arcgis/core/renderers/visualVariables/VisualVariable";
-import ColorVariable from "@arcgis/core/renderers/visualVariables/ColorVariable";
-import RotationVariable from "@arcgis/core/renderers/visualVariables/RotationVariable";
-import SizeVariable from "@arcgis/core/renderers/visualVariables/SizeVariable";
-import OpacityVariable from "@arcgis/core/renderers/visualVariables/OpacityVariable";
-import FeatureReductionCluster from "@arcgis/core/layers/support/FeatureReductionCluster";
-import FeatureReductionBinning from "@arcgis/core/layers/support/FeatureReductionBinning";
-import FeatureReductionSelection from "@arcgis/core/layers/support/FeatureReductionSelection";
-import AggregateField from "@arcgis/core/layers/support/AggregateField";
-import supportExpressionInfo from "@arcgis/core/layers/support/ExpressionInfo";
-import PieChartRenderer from "@arcgis/core/renderers/PieChartRenderer";
-import AttributeColorInfo from "@arcgis/core/renderers/support/AttributeColorInfo";
-import AuthoringInfo from "@arcgis/core/renderers/support/AuthoringInfo";
-import AuthoringInfoVisualVariable from "@arcgis/core/renderers/support/AuthoringInfoVisualVariable";
-import ActionButton from "@arcgis/core/support/actions/ActionButton";
-import ActionToggle from "@arcgis/core/support/actions/ActionToggle";
-import FeatureSet from "@arcgis/core/rest/support/FeatureSet";
-import Sublayer from "@arcgis/core/layers/support/Sublayer.js";
-import DynamicMapLayer = __esri.DynamicMapLayer;
-import DynamicDataLayer = __esri.DynamicDataLayer;
-import TableDataSource = __esri.TableDataSource;
-import QueryTableDataSource = __esri.QueryTableDataSource;
-import RasterDataSource = __esri.RasterDataSource;
-import JoinTableDataSource = __esri.JoinTableDataSource;
-import DynamicDataLayerFields = __esri.DynamicDataLayerFields;
-import TickConfig = __esri.TickConfig;
+import {buildDotNetGraphic} from "./dotNetBuilder";
 
 export function buildJsSpatialReference(dotNetSpatialReference: DotNetSpatialReference): SpatialReference {
     if (dotNetSpatialReference === undefined || dotNetSpatialReference === null) {
@@ -202,8 +100,8 @@ export function buildJsExtent(dotNetExtent: DotNetExtent, currentSpatialReferenc
     return extent;
 }
 
-export function buildJsGraphic(graphicObject: any, viewId: string | null)
-    : Graphic | null {
+export async function buildJsGraphic(graphicObject: any, viewId: string | null)
+    : Promise<Graphic | null> {
     let graphic: Graphic;
     if (graphicsRefs.hasOwnProperty(graphicObject.id)) {
         graphic = graphicsRefs[graphicObject.id];
@@ -219,7 +117,7 @@ export function buildJsGraphic(graphicObject: any, viewId: string | null)
     graphic.attributes = buildJsAttributes(graphicObject.attributes);
 
     if (hasValue(graphicObject.popupTemplate)) {
-        graphic.popupTemplate = buildJsPopupTemplate(graphicObject.popupTemplate, viewId) as PopupTemplate;
+        graphic.popupTemplate = await buildJsPopupTemplate(graphicObject.popupTemplate, viewId) as PopupTemplate;
     }
     
     copyValuesIfExists(graphicObject, graphic, 'visible');
@@ -264,7 +162,7 @@ export function buildJsAttributes(attributes: any): any {
     }
 }
 
-export function buildJsPopupTemplate(popupTemplateObject: DotNetPopupTemplate, viewId: string | null): PopupTemplate | null {
+export async function buildJsPopupTemplate(popupTemplateObject: DotNetPopupTemplate, viewId: string | null): PopupTemplate | null {
     if (!hasValue(popupTemplateObject)) return null;
     
     let content;
@@ -306,7 +204,8 @@ export function buildJsPopupTemplate(popupTemplateObject: DotNetPopupTemplate, v
     });
 
     if (hasValue(popupTemplateObject.fieldInfos)) {
-        template.fieldInfos = popupTemplateObject.fieldInfos.map(buildJsFieldInfo);
+        template.fieldInfos = popupTemplateObject.fieldInfos
+            .map(async (f) => await buildJsFieldInfo(f));
     }
 
     if (hasValue(popupTemplateObject.expressionInfos)) {
@@ -322,23 +221,26 @@ export function buildJsPopupTemplate(popupTemplateObject: DotNetPopupTemplate, v
     return template;
 }
 
-export function buildJsAction(dnAction: any): ActionButton | ActionToggle {
+export async function buildJsAction(dnAction: any): Promise<any> {
     if (dnAction.type === "button") {
+        let ActionButton = (await import("@arcgis/core/support/actions/ActionButton")).default;
         let jsAction = new ActionButton();
         copyValuesIfExists(dnAction, jsAction, 'active', 'className', 'disabled', 'icon', 'id', 'image', 'title', 
             'visible');
         return jsAction;
     }
 
+    let ActionToggle = (await import("@arcgis/core/support/actions/ActionToggle")).default;
     let jsAction = new ActionToggle();
     copyValuesIfExists(dnAction, jsAction, 'active', 'disabled', 'icon', 'id', 'title', 'value', 'visible');
     return jsAction;
 }
 
-export function buildJsPopupContent(popupContentObject: DotNetPopupContent): ContentProperties | null {
+export async function buildJsPopupContent(popupContentObject: DotNetPopupContent): any | null {
     switch (popupContentObject?.type) {
         case "fields":
             let dnFieldsContent = popupContentObject as DotNetFieldsPopupContent;
+            let FieldsContent = (await import("@arcgis/core/popup/content/FieldsContent")).default;
             let fieldsContent = new FieldsContent({
                 description: dnFieldsContent.description ?? '',
                 title: dnFieldsContent.title ?? ''
@@ -351,11 +253,13 @@ export function buildJsPopupContent(popupContentObject: DotNetPopupContent): Con
             return fieldsContent;
         case "text":
             let dnTextContent = popupContentObject as DotNetTextPopupContent;
+            let TextContent = (await import("@arcgis/core/popup/content/TextContent")).default;
             return new TextContent({
                 text: dnTextContent.text ?? null
             });
         case "media":
             let dnMediaContent = popupContentObject as DotNetMediaPopupContent;
+            let MediaContent = (await import("@arcgis/core/popup/content/MediaContent")).default;
             let mediaContent = new MediaContent();
             if (dnMediaContent.mediaInfos !== undefined && dnMediaContent.mediaInfos !== null &&
                 dnMediaContent.mediaInfos.length > 0) {
@@ -364,6 +268,7 @@ export function buildJsPopupContent(popupContentObject: DotNetPopupContent): Con
             return mediaContent;
         case "attachments":
             let dnAttachmentsContent = popupContentObject as DotNetAttachmentsPopupContent;
+            let AttachmentsContent = (await import("@arcgis/core/popup/content/AttachmentsContent")).default;
             return new AttachmentsContent({
                 description: dnAttachmentsContent.description ?? '',
                 title: dnAttachmentsContent.title ?? '',
@@ -371,6 +276,7 @@ export function buildJsPopupContent(popupContentObject: DotNetPopupContent): Con
             });
         case "expression":
             let dnExpressionContent = popupContentObject as DotNetExpressionPopupContent;
+            let ExpressionContent = (await import("@arcgis/core/popup/content/ExpressionContent")).default;
             let expressionContent = new ExpressionContent();
             if (hasValue(dnExpressionContent.expressionInfo)) {
                 expressionContent.expressionInfo = buildJsElementExpressionInfo(dnExpressionContent.expressionInfo);
@@ -380,7 +286,8 @@ export function buildJsPopupContent(popupContentObject: DotNetPopupContent): Con
     return null;
 }
 
-export function buildJsFieldInfo(fieldInfoObject: DotNetFieldInfo): FieldInfo {
+export async function buildJsFieldInfo(fieldInfoObject: DotNetFieldInfo): Promise<any> {
+    let FieldInfo = (await import("@arcgis/core/popup/FieldInfo")).default;
     let fieldInfo = new FieldInfo();
     copyValuesIfExists(fieldInfoObject, fieldInfo, 'fieldName', 'label', 'tooltip', 'stringFieldOption', 'visible', 'isEditable');
 
@@ -1171,7 +1078,7 @@ export async function buildJsPopup(dotNetPopup: any, viewId: string): Promise<Po
         let features: Graphic[] = [];
         for (const f of dotNetPopup.features) {
             delete f.dotNetGraphicReference;
-            let graphic = buildJsGraphic(f, viewId) as Graphic;
+            let graphic = await buildJsGraphic(f, viewId) as Graphic;
             features.push(graphic);
         }
         popup.features = features;
@@ -1230,7 +1137,7 @@ export async function buildJsPopupOptions(dotNetPopupOptions: any): Promise<Popu
     if (hasValue(dotNetPopupOptions.features)) {
         let features: Graphic[] = [];
         for (const f of dotNetPopupOptions.features) {
-            let graphic = buildJsGraphic(f, null) as Graphic;
+            let graphic = await buildJsGraphic(f, null) as Graphic;
             graphic.layer = arcGisObjectRefs[f.layerId] as Layer;
             features.push(graphic);
         }
@@ -1464,7 +1371,7 @@ export function buildJsPortalItem(dotNetPortalItem: any): any {
 }
 
 export function buildJsApplyEdits(dotNetApplyEdits: DotNetApplyEdits, viewId: string): FeatureLayerBaseApplyEditsEdits {
-    let addFeatures = dotNetApplyEdits.addFeatures?.map(f => buildJsGraphic(f, viewId)!);
+    let addFeatures = dotNetApplyEdits.addFeatures?.map(async f => await buildJsGraphic(f, viewId)!);
     let deleteFeatures = dotNetApplyEdits.deleteFeatures?.map(f => buildJsGraphic(f, viewId)!);
     let updateFeatures = dotNetApplyEdits.updateFeatures?.map(f => buildJsGraphic(f, viewId)!);
     let addAttachments = dotNetApplyEdits.addAttachments?.map(a => buildJsAttachmentEdit(a, viewId)!);
@@ -1778,7 +1685,7 @@ export async function buildJsSearchSource(dotNetSource: any, viewId: string): Pr
     };
 
     if (hasValue(dotNetSource.popupTemplate)) {
-        source.popupTemplate = buildJsPopupTemplate(dotNetSource.popupTemplate, viewId);
+        source.popupTemplate = await buildJsPopupTemplate(dotNetSource.popupTemplate, viewId);
     }
 
     if (hasValue(dotNetSource.resultSymbol)) {
@@ -1918,7 +1825,7 @@ export function buildJsFeatureReduction(dnFeatureReduction: any, viewId: string 
                 cluster.labelingInfo = dnFeatureReduction.labelingInfo.map(buildJsLabelClass);
             }
             if (hasValue(dnFeatureReduction.popupTemplate)) {
-                cluster.popupTemplate = buildJsPopupTemplate(dnFeatureReduction.popupTemplate, viewId) as PopupTemplate;
+                cluster.popupTemplate = await buildJsPopupTemplate(dnFeatureReduction.popupTemplate, viewId) as PopupTemplate;
             }
             if (hasValue(dnFeatureReduction.renderer)) {
                 cluster.renderer = buildJsRenderer(dnFeatureReduction.renderer) as Renderer;
@@ -1938,7 +1845,7 @@ export function buildJsFeatureReduction(dnFeatureReduction: any, viewId: string 
                 labelsVisible: dnFeatureReduction.labelsVisible ?? undefined,
                 maxScale: dnFeatureReduction.maxScale ?? undefined,
                 popupEnabled: dnFeatureReduction.popupEnabled ?? true,
-                popupTemplate: buildJsPopupTemplate(dnFeatureReduction.popupTemplate, viewId) ?? undefined,
+                popupTemplate: await buildJsPopupTemplate(dnFeatureReduction.popupTemplate, viewId) ?? undefined,
                 renderer: buildJsRenderer(dnFeatureReduction.renderer) ?? undefined
             } as FeatureReductionBinning;
             let binning = new FeatureReductionBinning();
@@ -1949,7 +1856,7 @@ export function buildJsFeatureReduction(dnFeatureReduction: any, viewId: string 
                 binning.labelingInfo = dnFeatureReduction.labelingInfo.map(buildJsLabelClass);
             }
             if (hasValue(dnFeatureReduction.popupTemplate)) {
-                binning.popupTemplate = buildJsPopupTemplate(dnFeatureReduction.popupTemplate, viewId) as PopupTemplate;
+                binning.popupTemplate = await buildJsPopupTemplate(dnFeatureReduction.popupTemplate, viewId) as PopupTemplate;
             }
             if (hasValue(dnFeatureReduction.renderer)) {
                 binning.renderer = buildJsRenderer(dnFeatureReduction.renderer) as Renderer;
@@ -2025,7 +1932,7 @@ export function buildJsSublayer(dotNetSublayer: any): Sublayer {
     }
     
     if (hasValue(dotNetSublayer.popupTemplate)) {
-        sublayer.popupTemplate = buildJsPopupTemplate(dotNetSublayer.popupTemplate, null) as PopupTemplate;
+        sublayer.popupTemplate = await buildJsPopupTemplate(dotNetSublayer.popupTemplate, null) as PopupTemplate;
     }
     
     if (hasValue(dotNetSublayer.source)) {
