@@ -146,6 +146,8 @@ import HitTestResult = __esri.HitTestResult;
 import MapViewHitTestOptions = __esri.MapViewHitTestOptions;
 import LegendLayerInfos = __esri.LegendLayerInfos;
 import ScreenPoint = __esri.ScreenPoint;
+import Polyline from "@arcgis/core/geometry/Polyline";
+import Polygon from "@arcgis/core/geometry/Polygon";
 
 
 export let arcGisObjectRefs: Record<string, Accessor> = {};
@@ -155,7 +157,8 @@ export let graphicsRefs: Record<string, Graphic> = {};
 export let dotNetRefs = {};
 export let queryLayer: FeatureLayer;
 export let blazorServer: boolean = false;
-export { projection, geometryEngine, Graphic, Color };
+export { projection, geometryEngine, Graphic, Color, Point, Polyline, Polygon };
+export * as normalizeUtils from "@arcgis/core/geometry/support/normalizeUtils"
 let notifyExtentChanged: boolean = true;
 let uploadingLayers: Array<string> = [];
 let userChangedViewExtent: boolean = false;
