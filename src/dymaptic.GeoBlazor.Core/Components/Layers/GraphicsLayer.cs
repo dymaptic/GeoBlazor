@@ -378,6 +378,8 @@ public class GraphicsLayer : Layer
         foreach (Graphic graphic in graphics)
         {
             _graphics.Add(graphic);
+            graphic.JsModule = JsModule;
+            graphic.Parent = this;
         }
     }
 
