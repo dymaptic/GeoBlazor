@@ -96,6 +96,26 @@ public class AuthenticationManager
     }
 
     /// <summary>
+    ///     Get or set the ArcGIS Application Trusted Servers.
+    /// </summary>
+    public List<string>? TrustedServers
+    {
+        get
+        {
+            _trustedServers ??= _configuration.GetSection("ArcGISTrustedServers").Get<List<string>>();
+
+            return _trustedServers;
+        }
+        set
+        {
+            if (value is not null)
+            {
+                _trustedServers = value;
+            }
+        }
+    }
+
+    /// <summary>
     ///     Initializes authentication based on either an OAuth App ID or an API Key. This is called automatically by <see cref="MapView" /> on first render, but can also be called manually for other actions such as rest calls.
     /// </summary>
     public async Task<bool> Initialize()
@@ -105,7 +125,7 @@ public class AuthenticationManager
             IJSObjectReference arcGisJsInterop = await GetArcGisJsInterop();
 
             _module = await arcGisJsInterop.InvokeAsync<IJSObjectReference>("getAuthenticationManager",
-                _cancellationTokenSource.Token, DotNetObjectReference.Create(this), ApiKey, AppId, PortalUrl);
+                _cancellationTokenSource.Token, DotNetObjectReference.Create(this), ApiKey, AppId, PortalUrl, TrustedServers);
         }
 
         return true;
@@ -180,6 +200,7 @@ public class AuthenticationManager
     private readonly CancellationTokenSource _cancellationTokenSource = new();
     private string? _appId;
     private string? _apiKey;
+    private List<string>? _trustedServers;
     private string? _portalUrl;
     private IJSObjectReference? _module;
 }

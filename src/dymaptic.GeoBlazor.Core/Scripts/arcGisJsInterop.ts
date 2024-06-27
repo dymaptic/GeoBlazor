@@ -3303,9 +3303,9 @@ function updateGeometryForProtobuf(geometry) {
 let _authenticationManager: AuthenticationManager | null = null;
 
 export function getAuthenticationManager(dotNetRef: any, apiKey: string | null, appId: string | null,
-    portalUrl: string | null): AuthenticationManager {
+    portalUrl: string | null, trustedServers: string[] | null): AuthenticationManager {
     if (_authenticationManager === null) {
-        _authenticationManager = new AuthenticationManager(dotNetRef, apiKey, appId, portalUrl);
+        _authenticationManager = new AuthenticationManager(dotNetRef, apiKey, appId, portalUrl, trustedServers);
     }
     return _authenticationManager;
 }
