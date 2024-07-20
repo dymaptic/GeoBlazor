@@ -1339,9 +1339,8 @@ public partial class MapView : MapComponent
         {
             Map!.Layers.Add(layer);
             layer.Parent ??= Map;
-            layer.JsModule ??= ViewJsModule;
         }
-
+        
         layer.View ??= this;
         layer.JsModule ??= ViewJsModule;
 
