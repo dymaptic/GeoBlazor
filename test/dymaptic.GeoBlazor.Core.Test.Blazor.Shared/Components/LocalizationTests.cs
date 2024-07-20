@@ -31,16 +31,24 @@ public class LocalizationTests: TestRunnerBase
     }
     
     [TestMethod]
-    public void TestDeserializeAmericanDoubleAttributeInEuropeanCultureFails()
+    public void TestDeserializeAmericanDoubleAttributeInEuropeanCultureReturnsWrongValue()
     {
         string originalCulture = Thread.CurrentThread.CurrentCulture.Name;
         SetCulture("de-DE");
         AttributeSerializationRecord doubleAttribute = new("Value", "1.1", "[object Number]");
-
-        Assert.ThrowsException<SerializationException>(() =>
-        {
-            AttributesDictionary _ = new([doubleAttribute]);
-        });
+        AttributesDictionary attributes = new([doubleAttribute]);
+        Assert.AreEqual(11.0, attributes["Value"]);
+        SetCulture(originalCulture);
+    }
+    
+    [TestMethod]
+    public void TestDeserializeEuropeanDoubleAttributeInAmericanCultureReturnsWrongValue()
+    {
+        string originalCulture = Thread.CurrentThread.CurrentCulture.Name;
+        SetCulture("en-US");
+        AttributeSerializationRecord doubleAttribute = new("Value", "1,1", "[object Number]");
+        AttributesDictionary attributes = new([doubleAttribute]);
+        Assert.AreEqual(11.0, attributes["Value"]);
         SetCulture(originalCulture);
     }
 
