@@ -1339,9 +1339,8 @@ public partial class MapView : MapComponent
         {
             Map!.Layers.Add(layer);
             layer.Parent ??= Map;
-            layer.JsModule ??= ViewJsModule;
         }
-
+        
         layer.View ??= this;
         layer.JsModule ??= ViewJsModule;
 
@@ -1473,7 +1472,7 @@ public partial class MapView : MapComponent
         if (ViewJsModule is null) return;
 
         await ViewJsModule!.InvokeVoidAsync("removeGraphics", CancellationTokenSource.Token,
-            oldGraphics.Select(g => g.Id), View!.Id, Id);
+            oldGraphics.Select(g => g.Id), View!.Id);
         AllowRender = true;
     }
 
