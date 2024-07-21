@@ -654,7 +654,15 @@ export function buildJsUniqueValueRenderer(dnUniqueValueRenderer: DotNetUniqueVa
     }
     
     if (hasValue(dnUniqueValueRenderer.uniqueValueInfos) && dnUniqueValueRenderer.uniqueValueInfos.length > 0) {
-        uniqueValueRenderer.uniqueValueInfos = dnUniqueValueRenderer.uniqueValueInfos as any[];
+        for (let i = 0; i < dnUniqueValueRenderer.uniqueValueInfos.length; i++) {
+            let dnUniqueValueInfo = dnUniqueValueRenderer.uniqueValueInfos[i];
+            let uniqueValueInfo = new UniqueValueInfo();
+            copyValuesIfExists(dnUniqueValueInfo, uniqueValueInfo, 'label', 'value');
+            if (hasValue(dnUniqueValueInfo.symbol)) {
+                uniqueValueInfo.symbol = buildJsSymbol(dnUniqueValueInfo.symbol) as Symbol;
+            }
+            uniqueValueRenderer.uniqueValueInfos.push(uniqueValueInfo);
+        }
     }
     
     if (hasValue(dnUniqueValueRenderer.visualVariables) && dnUniqueValueRenderer.visualVariables.length > 0) {
