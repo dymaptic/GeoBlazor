@@ -32,6 +32,9 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
     /// </param>
     public AttributesDictionary(Dictionary<string, object?> dictionary)
     {
+        CultureInfo cultureInfo = dictionary.TryGetValue("geoBlazorCulture", out object? gbCulture)
+            ? new CultureInfo(gbCulture!.ToString()!)
+            : CultureInfo.CurrentCulture;
         _backingDictionary = new Dictionary<string, object?>();
         var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
@@ -45,19 +48,23 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
                     JsonValueKind.Array => jsonElement.Deserialize(typeof(IEnumerable<object>), options),
                     JsonValueKind.False => false,
                     JsonValueKind.True => true,
-                    JsonValueKind.Number => jsonElement.ToString().Contains('.')
-                        ? Convert.ChangeType(jsonElement.ToString(), TypeCode.Double)
-                        : Convert.ChangeType(jsonElement.ToString(), TypeCode.Int64),
+                    JsonValueKind.Number => double.Parse(jsonElement.ToString(), cultureInfo),
                     JsonValueKind.String => jsonElement.ToString(),
                     _ => jsonElement
                 };
-                if (typedValue is string stringValue && Guid.TryParse(stringValue, out Guid guidValue))
+                if (typedValue is string stringValue)
                 {
-                    typedValue = guidValue;
+                    if (Guid.TryParse(stringValue, out Guid guidValue))
+                    {
+                        typedValue = guidValue;
+                    }
+                    else if (DateTime.TryParse(stringValue, cultureInfo, DateTimeStyles.None, out DateTime dateValue))
+                    {
+                        typedValue = dateValue;
+                    }
                 }
                 _backingDictionary[kvp.Key] = (typedValue ?? default(object?))!;
             }
-
             // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
             else if (kvp.Value is null) // could be null from serialization
             {
@@ -76,12 +83,27 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
 
         if (serializedAttributes is not null)
         {
+            CultureInfo cultureInfo;
+
+            if (serializedAttributes
+                    .FirstOrDefault(a => a.Key == "geoBlazorCulture") is { } serializedCulture)
+            {
+                string cultureName = serializedCulture.Value!;
+                cultureInfo = new CultureInfo(cultureName);
+                serializedAttributes = serializedAttributes.Where(a => a.Key != "geoBlazorCulture").ToArray();
+            }
+            else
+            {
+                cultureInfo = CultureInfo.CurrentCulture;
+            }
+
+
             foreach (AttributeSerializationRecord record in serializedAttributes)
             {
                 switch (record.ValueType)
                 {
                     case "[object Number]":
-                        _backingDictionary[record.Key] = double.Parse(record.Value!, CultureInfo.CurrentCulture);
+                        _backingDictionary[record.Key] = double.Parse(record.Value!, cultureInfo);
                         
                         break;
                     case "[object Boolean]":
@@ -100,7 +122,7 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
 
                         break;
                     case "[object Date]":
-                        _backingDictionary[record.Key] = DateTime.Parse(record.Value!, CultureInfo.CurrentCulture);
+                        _backingDictionary[record.Key] = DateTime.Parse(record.Value!, cultureInfo);
 
                         break;
                     default:
