@@ -59,8 +59,8 @@ export default class GraphicWrapper implements IPropertyWrapper {
         return this.graphic.visible;
     }
 
-    async setPopupTemplate(popupTemplate: DotNetPopupTemplate, viewId: string): Promise<void> {
-        let jsPopupTemplate = await buildJsPopupTemplate(popupTemplate, viewId);
+    setPopupTemplate(popupTemplate: DotNetPopupTemplate, viewId: string): void {
+        let jsPopupTemplate = buildJsPopupTemplate(popupTemplate, viewId);
         if (jsPopupTemplate !== null && this.graphic.popupTemplate !== jsPopupTemplate) {
             this.graphic.popupTemplate = jsPopupTemplate;
         }

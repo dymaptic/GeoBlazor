@@ -1,8 +1,5 @@
 ﻿using dymaptic.GeoBlazor.Core.Components;
 using ProtoBuf;
-using System.Diagnostics;
-using System.Reflection;
-using System.Reflection.Metadata;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -372,9 +369,15 @@ internal class AttributesDictionaryConverter : JsonConverter<AttributesDictionar
     public override AttributesDictionary? Read(ref Utf8JsonReader reader, Type typeToConvert,
         JsonSerializerOptions options)
     {
+        // if first symbol is array
+        if (reader.TokenType == JsonTokenType.StartArray)
+        {
+            AttributeSerializationRecord[]? records = JsonSerializer.Deserialize<AttributeSerializationRecord[]>(ref reader, options);
+            return new AttributesDictionary(records);
+        }
+        
         // read as a dictionary
-        Dictionary<string, object?>? dictionary =
-            JsonSerializer.Deserialize<Dictionary<string, object?>>(ref reader, options);
+        Dictionary<string, object?>? dictionary = JsonSerializer.Deserialize<Dictionary<string, object?>>(ref reader, options);
 
         if (dictionary is null)
         {

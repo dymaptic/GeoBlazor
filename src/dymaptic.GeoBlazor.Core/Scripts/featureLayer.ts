@@ -210,7 +210,7 @@ export default class FeatureLayerWrapper implements IPropertyWrapper {
         abortSignal: AbortSignal): Promise<any> {
         let jsGraphics: Graphic[] = [];
         for (const g of graphics) {
-            let jsGraphic = await buildJsGraphic(g, viewId) as Graphic;
+            let jsGraphic = buildJsGraphic(g, viewId) as Graphic;
             jsGraphics.push(jsGraphic);
         }
         if (abortSignal.aborted) {
@@ -316,8 +316,8 @@ export default class FeatureLayerWrapper implements IPropertyWrapper {
     async getFieldDomain(fieldName: string, graphic: DotNetGraphic): Promise<DotNetDomain | null> {
 
         let options: any | undefined = undefined;
-        if (graphic !== null && graphic !== undefined) {
-            let featureGraphic = await buildJsGraphic(graphic, null) as Graphic;
+        if (graphic != null && graphic != undefined) {
+            let featureGraphic = buildJsGraphic(graphic, null) as Graphic;
             options = {
                 feature: featureGraphic
             };

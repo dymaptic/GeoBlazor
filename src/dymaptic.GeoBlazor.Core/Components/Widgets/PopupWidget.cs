@@ -53,6 +53,7 @@ public class PopupWidget : Widget
     ///     DefaultValue: true
     /// </summary>
     [Parameter]
+    [Obsolete("Use MapView.PopupEnabled instead")]
     public bool? AutoOpenEnabled { get; set; }
 
     /// <summary>

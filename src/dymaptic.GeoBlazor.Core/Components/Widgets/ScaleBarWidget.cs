@@ -31,8 +31,10 @@ public class ScaleBarWidget : Widget
 public enum ScaleUnit
 {
 #pragma warning disable CS1591
+    [Obsolete("Use Imperial Instead")]
     NonMetric,
     Metric,
-    Dual
+    Dual,
+    Imperial
 #pragma warning restore CS1591
 }

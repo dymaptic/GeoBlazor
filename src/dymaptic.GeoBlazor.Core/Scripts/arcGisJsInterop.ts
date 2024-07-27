@@ -7,20 +7,54 @@ import SceneView from "@arcgis/core/views/SceneView";
 import MapView from "@arcgis/core/views/MapView";
 import WebMap from "@arcgis/core/WebMap";
 import WebScene from "@arcgis/core/WebScene";
+import * as route from "@arcgis/core/rest/route";
+import RouteParameters from "@arcgis/core/rest/support/RouteParameters";
 import FeatureSet from "@arcgis/core/rest/support/FeatureSet";
+import ServiceAreaParameters from "@arcgis/core/rest/support/ServiceAreaParameters";
+import * as serviceArea from "@arcgis/core/rest/serviceArea";
 import Graphic from "@arcgis/core/Graphic";
 import Point from "@arcgis/core/geometry/Point";
 import SpatialReference from "@arcgis/core/geometry/SpatialReference";
+import * as locator from "@arcgis/core/rest/locator";
+import BasemapGallery from "@arcgis/core/widgets/BasemapGallery";
+import ScaleBar from "@arcgis/core/widgets/ScaleBar";
+import Legend from "@arcgis/core/widgets/Legend";
+import PortalBasemapsSource from "@arcgis/core/widgets/BasemapGallery/support/PortalBasemapsSource";
 import Portal from "@arcgis/core/portal/Portal";
+import BasemapToggle from "@arcgis/core/widgets/BasemapToggle";
+import Expand from "@arcgis/core/widgets/Expand";
+import Search from "@arcgis/core/widgets/Search";
+import Locate from "@arcgis/core/widgets/Locate";
 import Widget from "@arcgis/core/widgets/Widget";
+import Measurement from "@arcgis/core/widgets/Measurement";
+import Bookmarks from "@arcgis/core/widgets/Bookmarks";
 import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
+import MapImageLayer from "@arcgis/core/layers/MapImageLayer";
 import Layer from "@arcgis/core/layers/Layer";
+import VectorTileLayer from "@arcgis/core/layers/VectorTileLayer";
+import TileLayer from "@arcgis/core/layers/TileLayer";
+import GeoJSONLayer from "@arcgis/core/layers/GeoJSONLayer";
+import CSVLayer from "@arcgis/core/layers/CSVLayer";
+import GeoRSSLayer from "@arcgis/core/layers/GeoRSSLayer";
+import BingMapsLayer from "@arcgis/core/layers/BingMapsLayer";
 import PopupTemplate from "@arcgis/core/PopupTemplate";
+import Query from "@arcgis/core/rest/support/Query";
 import View from "@arcgis/core/views/View";
 import ArcGisSymbol from "@arcgis/core/symbols/Symbol";
 import Accessor from "@arcgis/core/core/Accessor";
+
+import Home from "@arcgis/core/widgets/Home";
+import Compass from "@arcgis/core/widgets/Compass";
+import LayerList from "@arcgis/core/widgets/LayerList";
+import ListItem from "@arcgis/core/widgets/LayerList/ListItem";
 import * as reactiveUtils from "@arcgis/core/core/reactiveUtils";
+import BasemapLayerList from "@arcgis/core/widgets/BasemapLayerList";
+import FeatureLayerWrapper from "./featureLayer";
+import KMLLayer from "@arcgis/core/layers/KMLLayer";
+import WCSLayer from "@arcgis/core/layers/WCSLayer";
+import ImageryLayer from "@arcgis/core/layers/ImageryLayer.js";
+import ImageryTileLayer from "@arcgis/core/layers/ImageryTileLayer.js";
 
 import {
     buildDotNetBookmark,
@@ -82,24 +116,38 @@ import {
     DotNetViewHit,
     MapCollection
 } from "./definitions";
+import WebTileLayer from "@arcgis/core/layers/WebTileLayer";
+import TileInfo from "@arcgis/core/layers/support/TileInfo";
+import LOD from "@arcgis/core/layers/support/LOD";
+import OpenStreetMapLayer from "@arcgis/core/layers/OpenStreetMapLayer";
+import Camera from "@arcgis/core/Camera";
+import ProjectionWrapper from "./projection";
+import GeometryEngineWrapper from "./geometryEngine";
+import LocatorWrapper from "./locator";
+import FeatureLayerViewWrapper from "./featureLayerView";
 import Popup from "@arcgis/core/widgets/Popup";
+import ElevationLayer from "@arcgis/core/layers/ElevationLayer";
+import PopupWidgetWrapper from "./popupWidgetWrapper";
 import {load} from "protobufjs";
 import AuthenticationManager from "./authenticationManager";
+import RasterStretchRenderer from "@arcgis/core/renderers/RasterStretchRenderer";
+import DimensionalDefinition from "@arcgis/core/layers/support/DimensionalDefinition";
 import Renderer from "@arcgis/core/renderers/Renderer";
 import Color from "@arcgis/core/Color";
+import BingMapsLayerWrapper from "./bingMapsLayer";
+import SearchWidgetWrapper from "./searchWidgetWrapper";
+import SearchSource from "@arcgis/core/widgets/Search/SearchSource";
 import BasemapStyle from "@arcgis/core/support/BasemapStyle";
+import Slider from "@arcgis/core/widgets/Slider";
+import SliderWidgetWrapper from "./sliderWidgetWrapper";
 import ListItemPanel from "@arcgis/core/widgets/LayerList/ListItemPanel";
+import ImageryTileLayerWrapper from "./imageryTileLayer";
 import HitTestResult = __esri.HitTestResult;
 import MapViewHitTestOptions = __esri.MapViewHitTestOptions;
 import LegendLayerInfos = __esri.LegendLayerInfos;
 import ScreenPoint = __esri.ScreenPoint;
 import Polyline from "@arcgis/core/geometry/Polyline";
 import Polygon from "@arcgis/core/geometry/Polygon";
-import ProjectionWrapper from "./projection";
-import GeometryEngineWrapper from "./geometryEngine";
-import LocatorWrapper from "./locator";
-import Query from "@arcgis/core/rest/support/Query";
-import ListItem from "@arcgis/core/widgets/LayerList/ListItem";
 
 
 export let arcGisObjectRefs: Record<string, Accessor> = {};
@@ -109,8 +157,8 @@ export let graphicsRefs: Record<string, Graphic> = {};
 export let dotNetRefs = {};
 export let queryLayer: FeatureLayer;
 export let blazorServer: boolean = false;
-export { projection, geometryEngine, Graphic, Color, Point, Polyline, Polygon };
-export * as normalizeUtils from "@arcgis/core/geometry/support/normalizeUtils"
+import normalizeUtils from "@arcgis/core/geometry/support/normalizeUtils";
+export { projection, geometryEngine, Graphic, Color, Point, Polyline, Polygon, normalizeUtils };
 let notifyExtentChanged: boolean = true;
 let uploadingLayers: Array<string> = [];
 let userChangedViewExtent: boolean = false;
@@ -128,19 +176,17 @@ export function setProperty(obj, prop, value) {
     }
 }
 
-export async function setSublayerProperty(layerObj: any, sublayerId: number, prop: string, value: any) {
-    let TileLayer = (await import('@arcgis/core/layers/TileLayer')).default;
+export function setSublayerProperty(layerObj: any, sublayerId: number, prop: string, value: any) {
     let sublayer = (layerObj as TileLayer)?.sublayers.find(sl => sl.id === sublayerId);
     if (hasValue(sublayer)) {
         setProperty(sublayer, prop, value);
     }
 }
 
-export async function setSublayerPopupTemplate(layerObj: any, sublayerId: number, popupTemplate: any, viewId: string) {
-    let TileLayer = (await import('@arcgis/core/layers/TileLayer')).default;
+export function setSublayerPopupTemplate(layerObj: any, sublayerId: number, popupTemplate: any, viewId: string) {
     let sublayer = (layerObj as TileLayer)?.sublayers.find(sl => sl.id === sublayerId);
     if (hasValue(sublayer) && hasValue(popupTemplate)) {
-        sublayer.popupTemplate = await buildJsPopupTemplate(popupTemplate, viewId) as PopupTemplate;
+        sublayer.popupTemplate = buildJsPopupTemplate(popupTemplate, viewId) as PopupTemplate;
     }
 }
 
@@ -150,48 +196,37 @@ export function setAssetsPath(path: string) {
     }
 }
 
-export async function getObjectReference(objectRef: any) {
+export function getObjectReference(objectRef: any) {
     if (!hasValue(objectRef)) return objectRef;
     try {
         // check the class name first, as some esri types fail the `instanceof` check
         switch (objectRef?.__proto__.declaredClass) {
             case 'esri.views.2d.layers.FeatureLayerView2D':
             case 'esri.views.3d.layers.FeatureLayerView3D':
-                let FeatureLayerViewWrapper = (await import("./featureLayerViewWrapper")).default;
                 return new FeatureLayerViewWrapper(objectRef);
         }
         
         if (objectRef instanceof Layer) {
             if (objectRef instanceof FeatureLayer) {
-                let FeatureLayerWrapper = (await import("./featureLayerWrapper")).default;
                 return new FeatureLayerWrapper(objectRef);
             }
-            let BingMapsLayer = (await import("@arcgis/core/layers/BingMapsLayer")).default;
             if (objectRef instanceof BingMapsLayer) {
-                let BingMapsLayerWrapper = (await import("./bingMapsLayerWrapper")).default;
-                return new BingMapsLayerWrapper(objectRef as BingMapsLayer);
+                return new BingMapsLayerWrapper(objectRef);
             }
-            let ImageryTileLayer = (await import("@arcgis/core/layers/ImageryTileLayer")).default;
             if (objectRef instanceof ImageryTileLayer) {
-                let ImageryTileLayerWrapper = (await import("./imageryTileLayerWrapper")).default;
-                return new ImageryTileLayerWrapper(objectRef as ImageryTileLayer);
+                return new ImageryTileLayerWrapper(objectRef);
             }
         }
         if (objectRef instanceof Graphic) {
             return buildDotNetGraphic(objectRef);
         }
         if (objectRef instanceof Popup) {
-            let PopupWidgetWrapper = (await import("./popupWidgetWrapper")).default;
             return new PopupWidgetWrapper(objectRef);
         }
-        let Search = (await import("@arcgis/core/widgets/Search")).default;
         if (objectRef instanceof Search) {
-            let SearchWidgetWrapper = (await import("./searchWidgetWrapper")).default;
             return new SearchWidgetWrapper(objectRef);
         }
-        let Slider = (await import("@arcgis/core/widgets/Slider")).default;
         if (objectRef instanceof Slider) {
-            let SliderWidgetWrapper = (await import("./sliderWidgetWrapper")).default;
             return new SliderWidgetWrapper(objectRef);
         }
         return objectRef;
@@ -243,7 +278,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
     mapType: string, widgets: any[], graphics: any,
     spatialReference: any, constraints: any, extent: any,
     eventRateLimitInMilliseconds: number | null, activeEventHandlers: Array<string>,
-    isServer: boolean, highlightOptions?: any | null, zIndex?: number, tilt?: number)
+    isServer: boolean, highlightOptions?: any | null, popupEnabled?: boolean | null, zIndex?: number, tilt?: number)
     : Promise<void> {
     console.debug("render map");
     try {
@@ -348,7 +383,11 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
                 });
                 break;
         }
-
+        
+        if (hasValue(popupEnabled)) {
+            view.popupEnabled = popupEnabled;
+        }
+        
         if (hasValue(constraints)) {
             (view as MapView).constraints = constraints;
         }
@@ -542,9 +581,9 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
         let layerRef;
         let layerViewRef;
         // @ts-ignore
-        layerRef = DotNet.createJSObjectReference(await getObjectReference(evt.layer));
+        layerRef = DotNet.createJSObjectReference(getObjectReference(evt.layer));
         // @ts-ignore
-        layerViewRef = DotNet.createJSObjectReference(await getObjectReference(evt.layerView));
+        layerViewRef = DotNet.createJSObjectReference(getObjectReference(evt.layerView));
 
         let result = {
             layerObjectRef: layerRef,
@@ -693,8 +732,7 @@ export function registerGeoBlazorObject(jsObjectRef: any, geoBlazorId: string) {
     }
 }
 
-export async function registerGeoBlazorSublayer(layerId, sublayerId, sublayerGeoBlazorId) {
-    let TileLayer = (await import('@arcgis/core/layers/TileLayer')).default;
+export function registerGeoBlazorSublayer(layerId, sublayerId, sublayerGeoBlazorId) {
     let layer = arcGisObjectRefs[layerId] as TileLayer;
     arcGisObjectRefs[sublayerGeoBlazorId] = layer.allSublayers.find(sl => sl.id === sublayerId);
 }
@@ -881,7 +919,6 @@ export async function queryFeatureLayer(queryObject: any, layerObject: any, symb
     viewId: string): Promise<void> {
     try {
         setWaitCursor(viewId);
-        let Query = (await import('@arcgis/core/rest/support/Query')).default;
         let query = new Query({
             where: queryObject.where,
             outFields: queryObject.outFields,
@@ -894,7 +931,7 @@ export async function queryFeatureLayer(queryObject: any, layerObject: any, symb
         } else if (hasValue(queryObject.geometry)) {
             query.geometry = buildJsGeometry(queryObject.geometry)!;
         }
-        let popupTemplate = await buildJsPopupTemplate(popupTemplateObject, viewId) as PopupTemplate;
+        let popupTemplate = buildJsPopupTemplate(popupTemplateObject, viewId) as PopupTemplate;
         await addLayer(layerObject, viewId, false, true, () => {
             displayQueryResults(query, symbol, popupTemplate, viewId);
         });
@@ -982,7 +1019,7 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                 }
 
                 if (hasValue(layerObject.popupTemplate)) {
-                    featureLayer.popupTemplate = await buildJsPopupTemplate(layerObject.popupTemplate, viewId) as PopupTemplate;
+                    featureLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId) as PopupTemplate;
                 }
                 // on first pass the renderer is often left blank, but it fills in when the round trip happens to the server
                 if (hasValue(layerObject.renderer) && layerObject.renderer.type !== featureLayer.renderer.type) {
@@ -1008,7 +1045,6 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
 
                 break;
             case 'geo-json':
-                let GeoJSONLayer = (await import('@arcgis/core/layers/GeoJSONLayer')).default;
                 let geoJsonLayer = currentLayer as GeoJSONLayer;
                 if (hasValue(layerObject.renderer)) {
                     let renderer = buildJsRenderer(layerObject.renderer);
@@ -1023,7 +1059,7 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                     });
                 }
                 if (hasValue(layerObject.popupTemplate)) {
-                    geoJsonLayer.popupTemplate = await buildJsPopupTemplate(layerObject.popupTemplate, viewId ?? null) as PopupTemplate;
+                    geoJsonLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId ?? null) as PopupTemplate;
                 }
                 if (hasValue(layerObject.proProperties?.FeatureReduction)) {
                     geoJsonLayer.featureReduction = buildJsFeatureReduction(layerObject.proProperties.FeatureReduction, viewId);
@@ -1033,19 +1069,16 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                 }
                 break;
             case 'web-tile':
-                let WebTileLayer = (await import('@arcgis/core/layers/WebTileLayer')).default;
                 let webTileLayer = currentLayer as WebTileLayer;
                 copyValuesIfExists(layerObject, webTileLayer,
                     'subDomains', 'blendMode', 'copyright', 'maxScale', 'minScale', 'refreshInterval');
 
                 if (hasValue(layerObject.tileInfo)) {
-                    let TileInfo = (await import('@arcgis/core/layers/support/TileInfo')).default;
                     webTileLayer.tileInfo = new TileInfo();
                     copyValuesIfExists(layerObject.tileInfo, webTileLayer.tileInfo,
                         'dpi', 'format', 'isWrappable', 'size');
 
                     if (hasValue(layerObject.tileInfo.lods)) {
-                        let LOD = (await import('@arcgis/core/layers/support/LOD')).default;
                         webTileLayer.tileInfo.lods = layerObject.tileInfo.lods.map(l => {
                             let lod = new LOD();
                             copyValuesIfExists(l, lod, 'level', 'levelValue', 'resolution', 'scale');
@@ -1067,19 +1100,16 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
 
                 break;
             case 'open-street-map':
-                let OpenStreetMapLayer = (await import('@arcgis/core/layers/OpenStreetMapLayer')).default;
                 let openStreetMapLayer = currentLayer as OpenStreetMapLayer;
                 copyValuesIfExists(layerObject, openStreetMapLayer,
                     'subDomains', 'blendMode', 'copyright', 'maxScale', 'minScale', 'refreshInterval')
 
                 if (hasValue(layerObject.tileInfo)) {
-                    let TileInfo = (await import('@arcgis/core/layers/support/TileInfo')).default;
                     openStreetMapLayer.tileInfo = new TileInfo();
                     copyValuesIfExists(layerObject.tileInfo, openStreetMapLayer.tileInfo,
                         'dpi', 'format', 'isWrappable', 'size');
 
                     if (hasValue(layerObject.tileInfo.lods)) {
-                        let LOD = (await import('@arcgis/core/layers/support/LOD')).default;
                         openStreetMapLayer.tileInfo.lods = layerObject.tileInfo.lods.map(l => {
                             let lod = new LOD();
                             copyValuesIfExists(l, lod, 'level', 'levelValue', 'resolution', 'scale');
@@ -1101,7 +1131,6 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
 
                 break;
             case 'csv':
-                let CSVLayer = (await import('@arcgis/core/layers/CSVLayer')).default;
                 if (hasValue(layerObject.proProperties?.FeatureReduction)) {
                     (currentLayer as CSVLayer).featureReduction = buildJsFeatureReduction(layerObject.proProperties.FeatureReduction, viewId);
                 } else {
@@ -1110,7 +1139,6 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                 }
                 break;
             case 'map-image':
-                let MapImageLayer = (await import('@arcgis/core/layers/MapImageLayer')).default;
                 copyValuesIfExists(layerObject, currentLayer, 'blendMode', 'customParameters', 'dpi',
                     'gdbVersion', 'imageFormat', 'imageMaxHeight', 'imageMaxWidth', 'imageTransparency', 'legendEnabled',
                     'maxScale', 'minScale', 'refreshInterval', 'timeExtent', 'timeInfo',
@@ -1124,7 +1152,6 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                 break;
                 
             case 'imagery':
-                let ImageryLayer = (await import('@arcgis/core/layers/ImageryLayer')).default;
                 copyValuesIfExists(layerObject, currentLayer, 'blendMode', 'maxScale', 'minScale', 'bandIds',
                     'compressionQuality', 'compressionTolerance', 'copyright', 'definitionExpression', 'format',
                     'hasMultidimensions', 'imageMaxHeight', 'imageMaxWidth', 'interpolation', 'legendEnabled',
@@ -1140,7 +1167,6 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                 break;
                 
             case 'imagery-tile':
-                let ImageryTileLayer = (await import('@arcgis/core/layers/ImageryTileLayer')).default;
                 copyValuesIfExists(layerObject, currentLayer, 'blendMode', 'maxScale', 'minScale', 'bandIds',
                     'copyright', 'interpolation', 'legendEnabled', 'useViewTime', 
                     'customParameters');
@@ -1191,17 +1217,14 @@ export async function updateWidget(widgetObject: any, viewId: string): Promise<v
 
         switch (widgetObject.type) {
             case 'bookmarks':
-                let Bookmarks = (await import('@arcgis/core/widgets/Bookmarks')).default;
                 let bookmarks = currentWidget as Bookmarks;
                 if (hasValue(widgetObject.bookmarks)) {
                     bookmarks.bookmarks = widgetObject.bookmarks.map(buildJsBookmark);
                 }
                 break;
             case 'search':
-                let Search = (await import('@arcgis/core/widgets/Search')).default;
                 let search = currentWidget as Search;
                 if (hasValue(widgetObject.sources)) {
-                    let SearchSource = (await import('@arcgis/core/widgets/Search/SearchSource')).default;
                     let sources: SearchSource[] = [];
                     for (const source of widgetObject.sources) {
                         let jsSource = await buildJsSearchSource(source, viewId);
@@ -1212,7 +1235,7 @@ export async function updateWidget(widgetObject: any, viewId: string): Promise<v
                 }
 
                 if (hasValue(widgetObject.popupTemplate)) {
-                    search.popupTemplate = await buildJsPopupTemplate(widgetObject.popupTemplate, viewId) as PopupTemplate;
+                    search.popupTemplate = buildJsPopupTemplate(widgetObject.popupTemplate, viewId) as PopupTemplate;
                 }
 
                 if (hasValue(widgetObject.portal)) {
@@ -1222,7 +1245,6 @@ export async function updateWidget(widgetObject: any, viewId: string): Promise<v
                 }
                 break;
             case 'basemapLayerList':
-                let BasemapLayerList = (await import('@arcgis/core/widgets/BasemapLayerList')).default;
                 let basemapLayerList = currentWidget as BasemapLayerList;
                 if (hasValue(widgetObject.visibleElements)) {
                     basemapLayerList.visibleElements = {
@@ -1246,11 +1268,10 @@ export async function updateWidget(widgetObject: any, viewId: string): Promise<v
         logError(error, viewId);
     }
 }
-export async function findPlaces(addressQueryParams: any, symbol: any, popupTemplateObject: any, viewId: string): void {
+export function findPlaces(addressQueryParams: any, symbol: any, popupTemplateObject: any, viewId: string): void {
     try {
         setWaitCursor(viewId);
         let view = arcGisObjectRefs[viewId] as MapView;
-        let locator = await import('@arcgis/core/rest/locator');
         locator.addressToLocations(addressQueryParams.locatorUrl, {
             location: view.center,
             categories: addressQueryParams.categories,
@@ -1261,7 +1282,7 @@ export async function findPlaces(addressQueryParams: any, symbol: any, popupTemp
             .then(function (results) {
                 view.popup.close();
                 view.graphics.removeAll();
-                let popupTemplate = await buildJsPopupTemplate(popupTemplateObject, viewId) as PopupTemplate;
+                let popupTemplate = buildJsPopupTemplate(popupTemplateObject, viewId) as PopupTemplate;
                 results.forEach(function (result) {
                     view.graphics.add(new Graphic({
                         attributes: result.attributes,
@@ -1383,7 +1404,7 @@ export function closePopup(viewId: string): void {
 export async function showPopup(popupTemplateObject: any, location: DotNetPoint, viewId: string): Promise<void> {
     try {
         setWaitCursor(viewId);
-        let popupTemplate = await buildJsPopupTemplate(popupTemplateObject, viewId) as PopupTemplate;
+        let popupTemplate = buildJsPopupTemplate(popupTemplateObject, viewId) as PopupTemplate;
 
         await (arcGisObjectRefs[viewId] as View).openPopup({
             title: popupTemplate.title as string,
@@ -1422,10 +1443,10 @@ export async function addGraphic(streamRefOrGraphicObject: any, viewId: string, 
         let graphicId: string;
         if (streamRefOrGraphicObject.hasOwnProperty("_streamPromise")) {
             let graphics = await getGraphicsFromProtobufStream(streamRefOrGraphicObject) as any[];
-            graphic = await buildJsGraphic(graphics[0], viewId) as Graphic;
+            graphic = buildJsGraphic(graphics[0], viewId) as Graphic;
             graphicId = graphics[0].id;
         } else {
-            graphic = await buildJsGraphic(streamRefOrGraphicObject, viewId) as Graphic;
+            graphic = buildJsGraphic(streamRefOrGraphicObject, viewId) as Graphic;
             graphicId = streamRefOrGraphicObject.id;
         }
         let view = arcGisObjectRefs[viewId] as View;
@@ -1458,7 +1479,7 @@ export async function addGraphicsFromStream(streamRef: any, viewId: string, abor
             if (abortSignal.aborted) {
                 return;
             }
-            let jsGraphic = await buildJsGraphic(g, viewId) as Graphic;
+            let jsGraphic = buildJsGraphic(g, viewId) as Graphic;
             jsGraphics.push(jsGraphic);
         }
         if (abortSignal.aborted) {
@@ -1491,7 +1512,7 @@ export function addGraphicsSynchronously(graphicsArray: Uint8Array, viewId: stri
         let jsGraphics: Graphic[] = [];
         let view = arcGisObjectRefs[viewId] as View;
         for (const g of graphics) {
-            let jsGraphic = await buildJsGraphic(g, viewId) as Graphic;
+            let jsGraphic = buildJsGraphic(g, viewId) as Graphic;
             jsGraphics.push(jsGraphic);
         }
         if (hasValue(layerId)) {
@@ -1555,7 +1576,7 @@ export function getGraphicVisibility(id: string): boolean {
 export function setGraphicPopupTemplate(id: string, popupTemplate: DotNetPopupTemplate, dotNetRef: any, viewId: string): void {
     let graphic = graphicsRefs[id];
     popupTemplate.dotNetPopupTemplateReference = dotNetRef;
-    let jsPopupTemplate = await buildJsPopupTemplate(popupTemplate, viewId) as PopupTemplate;
+    let jsPopupTemplate = buildJsPopupTemplate(popupTemplate, viewId) as PopupTemplate;
     if (hasValue(graphic) && hasValue(popupTemplate) && graphic.popupTemplate !== jsPopupTemplate) {
         graphic.popupTemplate = jsPopupTemplate;
     }
@@ -1627,8 +1648,6 @@ export function clearGraphics(viewId: string, layerId?: string | null): void {
 export async function drawRouteAndGetDirections(routeUrl: string, routeSymbol: any, viewId: string): Promise<any[]> {
     try {
         setWaitCursor(viewId);
-        let route = await import('@arcgis/core/rest/route');
-        let RouteParameters = (await import('@arcgis/core/rest/support/RouteParameters')).default;
         let view = arcGisObjectRefs[viewId] as View;
         const routeParams = new RouteParameters({
             stops: new FeatureSet({
@@ -1664,12 +1683,9 @@ export async function drawRouteAndGetDirections(routeUrl: string, routeSymbol: a
     return [];
 }
 
-export async function solveServiceArea(url: string, driveTimeCutoffs: number[], serviceAreaSymbol: any, viewId: string): void {
+export function solveServiceArea(url: string, driveTimeCutoffs: number[], serviceAreaSymbol: any, viewId: string): void {
     try {
         setWaitCursor(viewId);
-        let ServiceAreaParameters = (await import('@arcgis/core/rest/support/ServiceAreaParameters')).default;
-        let serviceArea = await import('@arcgis/core/rest/serviceArea');
-        
         let view = arcGisObjectRefs[viewId] as View;
         const featureSet = new FeatureSet({
             features: [(view.graphics as MapCollection).items[0]]
@@ -1769,7 +1785,7 @@ export async function goToGraphics(graphics, viewId: string): Promise<void> {
     for (const graphic of graphics) {
         delete graphic.dotNetGraphicReference;
         delete graphic.layerId;
-        let jsGraphic = await buildJsGraphic(graphic, viewId);
+        let jsGraphic = buildJsGraphic(graphic, viewId);
         if (jsGraphic !== null) {
             jsGraphics.push(jsGraphic);
         }
@@ -1851,7 +1867,6 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
     let newWidget: Widget;
     switch (widget.type) {
         case 'locate':
-            let Locate = (await import('@arcgis/core/widgets/Locate')).default;
             const locate = new Locate({
                 view: view,
                 rotationEnabled: widget.rotationEnabled ?? undefined,
@@ -1868,14 +1883,12 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
 
             break;
         case 'search':
-            let Search = (await import('@arcgis/core/widgets/Search')).default;
             const search = new Search({
                 view: view
             });
             newWidget = search;
 
             if (hasValue(widget.sources)) {
-                let SearchSource = (await import('@arcgis/core/widgets/Search/SearchSource')).default;
                 let sources: SearchSource[] = [];
                 for (const source of widget.sources) {
                     let jsSource = await buildJsSearchSource(source, viewId);
@@ -1885,7 +1898,7 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
             }
 
             if (hasValue(widget.popupTemplate)) {
-                search.popupTemplate = await buildJsPopupTemplate(widget.popupTemplate, viewId) as PopupTemplate;
+                search.popupTemplate = buildJsPopupTemplate(widget.popupTemplate, viewId) as PopupTemplate;
             }
 
             if (hasValue(widget.portal)) {
@@ -1915,7 +1928,6 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
                 'searchTerm', 'suggestionsEnabled');
             break;
         case 'basemapToggle':
-            let BasemapToggle = (await import('@arcgis/core/widgets/BasemapToggle')).default;
             // the esri definition file is missing basemapToggle.nextBasemap, but it is in the docs.
             let basemapToggle = new BasemapToggle({
                 view: view
@@ -1933,8 +1945,6 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
             }
             break;
         case 'basemapGallery':
-            let BasemapGallery = (await import('@arcgis/core/widgets/BasemapGallery')).default;
-            let PortalBasemapsSource = (await import('@arcgis/core/widgets/BasemapGallery/support/PortalBasemapsSource')).default;
             let source = new PortalBasemapsSource();
             if (hasValue(widget.portalBasemapsSource)) {
                 const portal = new Portal();
@@ -1963,7 +1973,6 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
             });
             break;
         case 'scaleBar':
-            let ScaleBar = (await import('@arcgis/core/widgets/ScaleBar')).default;
             const scaleBar = new ScaleBar({
                 view: view
             });
@@ -1973,7 +1982,6 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
             }
             break;
         case 'legend':
-            let Legend = (await import('@arcgis/core/widgets/Legend')).default;
             const legend = new Legend({
                 view: view
             });
@@ -2009,24 +2017,18 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
             }
             break;
         case 'home':
-            let Home = (await import('@arcgis/core/widgets/Home')).default;
             const homeBtn = new Home({
                 view: view,
             });
             newWidget = homeBtn;
-            if (hasValue(widget.iconClass)) {
-                homeBtn.iconClass = widget.iconClass;
-            }
             break;
         case 'compass':
-            let Compass = (await import('@arcgis/core/widgets/Compass')).default;
             const compassWidget = new Compass({
                 view: view
             });
             newWidget = compassWidget;
             break;
         case 'layerList':
-            let LayerList = (await import('@arcgis/core/widgets/LayerList')).default;
             const layerListWidget = new LayerList({
                 view: view
             });
@@ -2036,15 +2038,14 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
                 layerListWidget.listItemCreatedFunction = async (evt) => {
                     let dotNetListItem = buildDotNetListItem(evt.item);
                     let returnItem = await widget.layerListWidgetObjectReference.invokeMethodAsync('OnListItemCreated', dotNetListItem) as DotNetListItem;
-                    if (hasValue(returnItem)) {
-                        await updateListItem(evt.item, returnItem);
+                    if (hasValue(returnItem) && hasValue(evt.item)) {
+                        updateListItem(evt.item, returnItem);
                     }
                 };
             }
 
             break;
         case 'basemapLayerList':
-            let BasemapLayerList = (await import('@arcgis/core/widgets/BasemapLayerList')).default;
             const basemapLayerListWidget = new BasemapLayerList({
                 view: view
             });
@@ -2054,8 +2055,8 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
                 basemapLayerListWidget.baseListItemCreatedFunction = async (evt) => {
                     let dotNetBaseListItem = buildDotNetListItem(evt.item);
                     let returnItem = await widget.baseLayerListWidgetObjectReference.invokeMethodAsync('OnBaseListItemCreated', dotNetBaseListItem) as DotNetListItem;
-                    if (hasValue(returnItem)) {
-                        await updateListItem(evt.item, returnItem);
+                    if (hasValue(returnItem) && hasValue(evt.item)) {
+                        updateListItem(evt.item, returnItem);
                     }
                 };
             }
@@ -2063,8 +2064,8 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
                 basemapLayerListWidget.baseListItemCreatedFunction = async (evt) => {
                     let dotNetReferenceListItem = buildDotNetListItem(evt.item);
                     let returnItem = await widget.baseLayerListWidgetObjectReference.invokeMethodAsync('OnReferenceListItemCreated', dotNetReferenceListItem) as DotNetListItem;
-                    if (hasValue(returnItem)) {
-                        await updateListItem(evt.item, returnItem);
+                    if (hasValue(returnItem) && hasValue(evt.item)) {
+                        updateListItem(evt.item, returnItem);
                     }
                 };
             }
@@ -2083,7 +2084,6 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
             
             break;
         case 'expand':
-            let Expand = (await import('@arcgis/core/widgets/Expand')).default;
             let content: any;
             let expandWidgetDiv = 
                 document.getElementById(`widget-container-${widget.id}`) as HTMLElement;
@@ -2147,7 +2147,6 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
             newWidget = await setPopup(widget, viewId) as Popup;
             break;
         case 'measurement':
-            let Measurement = (await import('@arcgis/core/widgets/Measurement')).default;
             newWidget = new Measurement({
                 view: view,
                 activeTool: widget.activeTool ?? undefined,
@@ -2157,7 +2156,6 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
             });
             break;
         case 'bookmarks':
-            let Bookmarks = (await import('@arcgis/core/widgets/Bookmarks')).default;
             const bookmarkWidget = new Bookmarks({
                 view: view,
                 editingEnabled: widget.editingEnabled,
@@ -2177,7 +2175,6 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
             newWidget = bookmarkWidget;
             break;
         case 'slider':
-            let Slider = (await import('@arcgis/core/widgets/Slider')).default;
             const slider = new Slider({
                 container: widget.containerId
             });
@@ -2319,12 +2316,12 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
     arcGisObjectRefs[widget.id] = newWidget;
     dotNetRefs[widget.id] = widget.dotNetComponentReference;
     // @ts-ignore
-    let jsRef = DotNet.createJSObjectReference(await getObjectReference(newWidget));
+    let jsRef = DotNet.createJSObjectReference(getObjectReference(newWidget));
     await widget.dotNetWidgetReference.invokeMethodAsync('OnJsWidgetCreated', jsRef);
     return newWidget;
 }
 
-async function updateListItem(jsItem: ListItem, dnItem: DotNetListItem) {
+function updateListItem(jsItem: ListItem, dnItem: DotNetListItem) {
     copyValuesIfExists(dnItem, jsItem, 'title', 'visible', 'childrenSortable', 'hidden',
         'open', 'sortable');
     
@@ -2332,7 +2329,7 @@ async function updateListItem(jsItem: ListItem, dnItem: DotNetListItem) {
         for (let i = 0; i < dnItem.children.length; i++) {
             let child = dnItem.children[i];
             let jsChild = jsItem.children[i];
-            await updateListItem(jsChild, child);
+            updateListItem(jsChild, child);
         }
     }
     if (hasValue(dnItem.actionsSections)) {
@@ -2343,7 +2340,7 @@ async function updateListItem(jsItem: ListItem, dnItem: DotNetListItem) {
             let dnSection = dnItem.actionsSections[i];
             for (let j = 0; j < dnSection.length; j++) {
                 let dnAction = dnSection[j];
-                let action = await buildJsAction(dnAction);
+                let action = buildJsAction(dnAction);
                 section.push(action);
             }
         }
@@ -2355,7 +2352,6 @@ async function updateListItem(jsItem: ListItem, dnItem: DotNetListItem) {
     }
     
     if (hasValue(dnItem.panel)) {
-        let ListItemPanel = (await import('@arcgis/core/widgets/LayerList/ListItemPanel')).default;
         if (hasValue(dnItem.panel.contentDivId)) {
             let contentDiv = document.getElementById(dnItem.panel.contentDivId);
             if (contentDiv !== null) {
@@ -2457,7 +2453,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
         let oldLayer = arcGisObjectRefs[layerObject.id] as Layer;
         if (!oldLayer.destroyed) {
             if (wrap) {
-                return await getObjectReference(arcGisObjectRefs[layerObject.id] as Layer);
+                return getObjectReference(arcGisObjectRefs[layerObject.id] as Layer);
             }
             return arcGisObjectRefs[layerObject.id] as Layer;
         }
@@ -2469,7 +2465,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             let graphicsLayer = newLayer as GraphicsLayer;
             let jsGraphics: Graphic[] = [];
             for (const g of layerObject.graphics) {
-                let jsGraphic = await buildJsGraphic(g, viewId ?? null) as Graphic;
+                let jsGraphic = buildJsGraphic(g, viewId ?? null) as Graphic;
                 jsGraphics.push(jsGraphic);
             }
             graphicsLayer.addMany(jsGraphics);
@@ -2500,7 +2496,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
                 if (hasValue(layerObject.source)) {
                     for (let i = 0; i < layerObject.source.length; i++) {
                         const graphicObject = layerObject.source[i];
-                        let graphic = await buildJsGraphic(graphicObject, viewId ?? null);
+                        let graphic = buildJsGraphic(graphicObject, viewId ?? null);
                         if (graphic !== null) {
                             source.push(graphic);
                         }
@@ -2522,7 +2518,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             }
 
             if (hasValue(layerObject.popupTemplate)) {
-                featureLayer.popupTemplate = await buildJsPopupTemplate(layerObject.popupTemplate, viewId ?? null) as PopupTemplate;
+                featureLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId ?? null) as PopupTemplate;
             }
             if (hasValue(layerObject.renderer)) {
                 let renderer = buildJsRenderer(layerObject.renderer);
@@ -2550,7 +2546,6 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             }
             break;
         case 'map-image':
-            let MapImageLayer = (await import('@arcgis/core/layers/MapImageLayer')).default;
             if (hasValue(layerObject.portalItem)) {
                 let portalItem = buildJsPortalItem(layerObject.portalItem);
                 newLayer = new MapImageLayer({ portalItem: portalItem });
@@ -2570,7 +2565,6 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             }
             break;
         case 'vector-tile':
-            let VectorTileLayer = (await import('@arcgis/core/layers/VectorTileLayer')).default;
             if (hasValue(layerObject.portalItem)) {
                 let portalItem = buildJsPortalItem(layerObject.portalItem);
                 newLayer = new VectorTileLayer({ portalItem: portalItem });
@@ -2581,7 +2575,6 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             }
             break;
         case 'tile':
-            let TileLayer = (await import('@arcgis/core/layers/TileLayer')).default;
             if (hasValue(layerObject.portalItem)) {
                 let portalItem = buildJsPortalItem(layerObject.portalItem);
 
@@ -2602,7 +2595,6 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             
             break;
         case 'elevation':
-            let ElevationLayer = (await import('@arcgis/core/layers/ElevationLayer')).default;
             if (hasValue(layerObject.portalItem)) {
                 let portalItem = buildJsPortalItem(layerObject.portalItem);
                 newLayer = new ElevationLayer({ portalItem: portalItem });
@@ -2613,7 +2605,6 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             }
             break;
         case 'geo-json':
-            let GeoJSONLayer = (await import('@arcgis/core/layers/GeoJSONLayer')).default;
             newLayer = new GeoJSONLayer({
                 url: layerObject.url
             });
@@ -2625,7 +2616,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
                 gjLayer.spatialReference = buildJsSpatialReference(layerObject.spatialReference);
             }
             if (hasValue(layerObject.popupTemplate)) {
-                gjLayer.popupTemplate = await buildJsPopupTemplate(layerObject.popupTemplate, viewId ?? null) as PopupTemplate;
+                gjLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId ?? null) as PopupTemplate;
             }
             if (hasValue(layerObject.proProperties?.FeatureReduction)) {
                 (newLayer as GeoJSONLayer).featureReduction = buildJsFeatureReduction(layerObject.proProperties.FeatureReduction, viewId!);
@@ -2634,11 +2625,9 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             copyValuesIfExists(layerObject, gjLayer, 'copyright');
             break;
         case 'geo-rss':
-            let GeoRSSLayer = (await import('@arcgis/core/layers/GeoRSSLayer')).default;
             newLayer = new GeoRSSLayer({ url: layerObject.url });
             break;
         case 'web-tile':
-            let WebTileLayer = (await import('@arcgis/core/layers/WebTileLayer')).default;
             let webTileLayer: WebTileLayer;
             if (hasValue(layerObject.urlTemplate)) {
                 webTileLayer = new WebTileLayer({
@@ -2654,13 +2643,11 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
                 'subDomains', 'blendMode', 'copyright', 'maxScale', 'minScale', 'refreshInterval');
 
             if (hasValue(layerObject.tileInfo)) {
-                let TileInfo = (await import('@arcgis/core/layers/support/TileInfo')).default;
                 webTileLayer.tileInfo = new TileInfo();
                 copyValuesIfExists(layerObject.tileInfo, webTileLayer.tileInfo,
                     'dpi', 'format', 'isWrappable', 'size');
 
                 if (hasValue(layerObject.tileInfo.lods)) {
-                    let LOD = (await import('@arcgis/core/layers/support/LOD')).default;
                     webTileLayer.tileInfo.lods = layerObject.tileInfo.lods.map(l => {
                         let lod = new LOD();
                         copyValuesIfExists(l, lod, 'level', 'levelValue', 'resolution', 'scale');
@@ -2679,7 +2666,6 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
 
             break;
         case 'open-street-map':
-            let OpenStreetMapLayer = (await import('@arcgis/core/layers/OpenStreetMapLayer')).default;
             let openStreetMapLayer: OpenStreetMapLayer;
             if (hasValue(layerObject.urlTemplate)) {
                 openStreetMapLayer = new OpenStreetMapLayer({
@@ -2697,13 +2683,11 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
                 'subDomains', 'blendMode', 'copyright', 'maxScale', 'minScale', 'refreshInterval')
 
             if (hasValue(layerObject.tileInfo)) {
-                let TileInfo = (await import('@arcgis/core/layers/support/TileInfo')).default;
                 openStreetMapLayer.tileInfo = new TileInfo();
                 copyValuesIfExists(layerObject.tileInfo, openStreetMapLayer.tileInfo,
                     'dpi', 'format', 'isWrappable', 'size');
 
                 if (hasValue(layerObject.tileInfo.lods)) {
-                    let LOD = (await import('@arcgis/core/layers/support/LOD')).default;
                     openStreetMapLayer.tileInfo.lods = layerObject.tileInfo.lods.map(l => {
                         let lod = new LOD();
                         copyValuesIfExists(l, lod, 'level', 'levelValue', 'resolution', 'scale');
@@ -2722,7 +2706,6 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
 
             break;
         case 'csv':
-            let CSVLayer = (await import('@arcgis/core/layers/CSVLayer')).default;
             newLayer = new CSVLayer({
                 url: layerObject.url,
                 copyright: layerObject.copyright
@@ -2737,7 +2720,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
                 });
             }
             if (hasValue(layerObject.popupTemplate)) {
-                csvLayer.popupTemplate = await buildJsPopupTemplate(layerObject.popupTemplate, viewId ?? null) as PopupTemplate;
+                csvLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId ?? null) as PopupTemplate;
             }
             if (hasValue(layerObject.proProperties?.FeatureReduction)) {
                 (newLayer as CSVLayer).featureReduction = buildJsFeatureReduction(layerObject.proProperties.FeatureReduction, viewId!);
@@ -2746,7 +2729,6 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             copyValuesIfExists(layerObject, csvLayer, 'blendMode', 'copyright', 'delimiter', 'displayField');
             break;
         case 'kml':
-            let KMLLayer = (await import('@arcgis/core/layers/KMLLayer')).default;
             let kmlLayer: KMLLayer;
             if (hasValue(layerObject.url)) {
                 kmlLayer = new KMLLayer({
@@ -2760,7 +2742,6 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             copyValuesIfExists(layerObject, kmlLayer, 'sublayers', 'blendMode', 'maxScale', 'minScale', 'title', 'visible');
             break;
         case 'wcs':
-            let WCSLayer = (await import('@arcgis/core/layers/WCSLayer')).default;
             newLayer = new WCSLayer({
                 url: layerObject.url,
                 title: layerObject.title
@@ -2768,14 +2749,12 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             let wcsLayer = newLayer as WCSLayer;
 
             if (hasValue(layerObject.renderer) && (layerObject.renderer.type == 'raster-stretch')) {
-                let RasterStretchRenderer = (await import('@arcgis/core/renderers/RasterStretchRenderer')).default;
                 wcsLayer.renderer = buildJsRasterStretchRenderer(layerObject.renderer) as RasterStretchRenderer;
             }
             if (hasValue(layerObject.multidimensionalDefinition) && layerObject.multidimensionalDefinition.length > 0) {
                 wcsLayer.multidimensionalDefinition = [];
-                let DimensionalDefinition = await (await import('@arcgis/core/layers/support/DimensionalDefinition')).default;
                 for (let i = 0; i < layerObject.multidimensionalDefinition.length; i++) {
-                
+
                     let wcsMDD = new DimensionalDefinition;
                     if (hasValue(layerObject.multidimensionalDefinition.VariableName)) {
                         wcsMDD.variableName = layerObject.multidimensionalDefinition.VariableName;
@@ -2797,7 +2776,6 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             newLayer = wcsLayer;
             break;
         case 'bing-maps':
-            let BingMapsLayer = (await import('@arcgis/core/layers/BingMapsLayer')).default;
             const bing = new BingMapsLayer({
                 key: layerObject.key,
                 style: layerObject.style
@@ -2816,7 +2794,6 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             copyValuesIfExists('blendMode', 'maxScale', 'minScale', 'refreshInterval');
             break;
         case 'imagery':
-            let ImageryLayer = (await import('@arcgis/core/layers/ImageryLayer')).default;
             if (hasValue(layerObject.url)) {
                 newLayer = new ImageryLayer({
                     url: layerObject.url
@@ -2847,7 +2824,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             }
             
             if (hasValue(layerObject.popupTemplate)) {
-                imageryLayer.popupTemplate = await buildJsPopupTemplate(layerObject.popupTemplate, viewId ?? null) as PopupTemplate;
+                imageryLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId ?? null) as PopupTemplate;
             }
 
             copyValuesIfExists('bandIds', 'blendMode', 'compressionQuality', 'compressionTolerance',
@@ -2860,7 +2837,6 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             newLayer = imageryLayer;
             break;
         case 'imagery-tile':
-            let ImageryTileLayer = (await import('@arcgis/core/layers/ImageryTileLayer')).default;
             if (hasValue(layerObject.url)) {
                 newLayer = new ImageryTileLayer({
                     url: layerObject.url
@@ -2883,7 +2859,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
                 imageryTileLayer.multidimensionalSubset = buildJsMultidimensionalSubset(layerObject.multidimensionsionalSubset);
             }
             if (hasValue(layerObject.popupTemplate)) {
-                imageryTileLayer.popupTemplate = await buildJsPopupTemplate(layerObject.popupTemplate, viewId ?? null) as PopupTemplate;
+                imageryTileLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId ?? null) as PopupTemplate;
             }
 
             copyValuesIfExists('bandIds', 'blendMode', 'copyright', 'interpolation', 
@@ -2906,7 +2882,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
     arcGisObjectRefs[layerObject.id] = newLayer;
 
     if (wrap) {
-        return await getObjectReference(newLayer);
+        return getObjectReference(newLayer);
     }
 
     return newLayer;
@@ -3360,8 +3336,7 @@ export function getWebMapBookmarks(viewId: string) {
     return null;
 }
 
-export async function setStretchTypeForRenderer(rendererId, stretchType) {
-    let RasterStretchRenderer = (await import('@arcgis/core/renderers/RasterStretchRenderer')).default;
+export function setStretchTypeForRenderer(rendererId, stretchType) {
     let renderer = arcGisObjectRefs[rendererId] as RasterStretchRenderer;
     renderer.stretchType = stretchType;
 }

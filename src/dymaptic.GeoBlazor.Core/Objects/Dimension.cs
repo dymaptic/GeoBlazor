@@ -9,7 +9,7 @@ namespace dymaptic.GeoBlazor.Core.Objects;
 ///     Dimensions can include `pt` or `px` units. If no units are specified, `pt` is assumed.
 /// </summary>
 [JsonConverter(typeof(DimensionConverter))]
-public class Dimension
+public class Dimension: IEquatable<Dimension>
 {
     /// <summary>
     ///     Constructs a new Dimension from a string. Supports `pt` or `px` units. If no units are specified, `pt` is assumed.
@@ -112,6 +112,38 @@ public class Dimension
         }
         
         throw new FormatException("Invalid dimension string. Formats supported: 12pt, 12px, 12.0, 12.0px, 12.0pt");
+    }
+
+    public bool Equals(Dimension? other)
+    {
+        if (ReferenceEquals(null, other)) return false;
+        if (ReferenceEquals(this, other)) return true;
+
+        return Points.Equals(other.Points);
+    }
+
+    public override bool Equals(object? obj)
+    {
+        if (ReferenceEquals(null, obj)) return false;
+        if (ReferenceEquals(this, obj)) return true;
+        if (obj.GetType() != this.GetType()) return false;
+
+        return Equals((Dimension)obj);
+    }
+
+    public override int GetHashCode()
+    {
+        return Points.GetHashCode();
+    }
+
+    public static bool operator ==(Dimension? left, Dimension? right)
+    {
+        return Equals(left, right);
+    }
+
+    public static bool operator !=(Dimension? left, Dimension? right)
+    {
+        return !Equals(left, right);
     }
 }
 
