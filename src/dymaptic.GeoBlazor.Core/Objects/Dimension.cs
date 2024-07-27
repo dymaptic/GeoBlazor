@@ -114,6 +114,9 @@ public class Dimension: IEquatable<Dimension>
         throw new FormatException("Invalid dimension string. Formats supported: 12pt, 12px, 12.0, 12.0px, 12.0pt");
     }
 
+    /// <summary>
+    ///     Determines if two Dimensions are equal to each other in Points.
+    /// </summary>
     public bool Equals(Dimension? other)
     {
         if (ReferenceEquals(null, other)) return false;
@@ -122,6 +125,7 @@ public class Dimension: IEquatable<Dimension>
         return Points.Equals(other.Points);
     }
 
+    /// <inheritdoc />
     public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
@@ -131,16 +135,23 @@ public class Dimension: IEquatable<Dimension>
         return Equals((Dimension)obj);
     }
 
+    /// <inheritdoc />
     public override int GetHashCode()
     {
         return Points.GetHashCode();
     }
 
+    /// <summary>
+    ///     Equality Operator
+    /// </summary>
     public static bool operator ==(Dimension? left, Dimension? right)
     {
         return Equals(left, right);
     }
 
+    /// <summary>
+    ///     Inequality Operator
+    /// </summary>
     public static bool operator !=(Dimension? left, Dimension? right)
     {
         return !Equals(left, right);
