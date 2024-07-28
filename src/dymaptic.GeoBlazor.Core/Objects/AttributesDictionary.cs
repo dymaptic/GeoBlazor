@@ -17,7 +17,7 @@ namespace dymaptic.GeoBlazor.Core.Objects;
 public class AttributesDictionary : IEquatable<AttributesDictionary>
 {
     /// <summary>
-    ///     Constructor
+    ///     Constructor for a new, empty dictionary
     /// </summary>
     public AttributesDictionary()
     {
@@ -25,16 +25,20 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
     }
 
     /// <summary>
-    ///     Constructor from existing dictionary
+    ///     Constructor from existing dictionary or JSON deserialized dictionary
     /// </summary>
     /// <param name="dictionary">
-    ///     The dictionary to use
+    ///     The dictionary to use.
     /// </param>
+    /// <remarks>
+    ///     It is possible to control the culture used for parsing numbers and dates by including a "geoBlazorCulture" key in the dictionary. The value should be a string representation of a culture name, such as "en-US" or "fr-FR".
+    ///     Alternatively, for a server-generated dictionary, the culture can be set in the server's CultureInfo.DefaultThreadCurrentUICulture property. It will fall back to `CultureInfo.CurrentCulture` if not set.
+    /// </remarks>
     public AttributesDictionary(Dictionary<string, object?> dictionary)
     {
         CultureInfo cultureInfo = dictionary.TryGetValue("geoBlazorCulture", out object? gbCulture)
             ? new CultureInfo(gbCulture!.ToString()!)
-            : CultureInfo.CurrentCulture;
+            : CultureInfo.DefaultThreadCurrentUICulture ?? CultureInfo.CurrentCulture;
         _backingDictionary = new Dictionary<string, object?>();
         var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
@@ -77,6 +81,12 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
         }
     }
 
+    /// <summary>
+    ///     Internal constructor for use with Protobuf deserialization
+    /// </summary>
+    /// <param name="serializedAttributes">
+    ///     The serialized attributes to use.
+    /// </param>
     internal AttributesDictionary(AttributeSerializationRecord[]? serializedAttributes)
     {
         _backingDictionary = new Dictionary<string, object?>();
@@ -94,7 +104,7 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
             }
             else
             {
-                cultureInfo = CultureInfo.CurrentCulture;
+                cultureInfo = CultureInfo.DefaultThreadCurrentUICulture ?? CultureInfo.CurrentCulture;
             }
 
 
