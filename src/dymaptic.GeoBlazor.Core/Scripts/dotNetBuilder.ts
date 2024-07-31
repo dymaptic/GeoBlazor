@@ -142,7 +142,6 @@ export function buildDotNetGraphic(graphic: Graphic): DotNetGraphic | null {
 
     dotNetGraphic.uid = (graphic as any).uid;
     dotNetGraphic.attributes = graphic.attributes ?? {};
-    dotNetGraphic.attributes.geoBlazorCulture = navigator.language;
     if (graphic.symbol !== undefined && graphic.symbol !== null) {
         dotNetGraphic.symbol = buildDotNetSymbol(graphic.symbol);
     }

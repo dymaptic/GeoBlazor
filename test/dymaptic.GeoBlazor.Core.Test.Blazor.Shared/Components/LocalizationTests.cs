@@ -11,7 +11,7 @@ public class LocalizationTests: TestRunnerBase
     [TestMethod]
     public void TestCanDeserializeAmericanDoubleAttribute()
     {
-        string originalCulture = Thread.CurrentThread.CurrentCulture.Name;
+        string originalCulture = JsModuleManager.ClientCultureInfo.Name;
         SetCulture("en-US");
         AttributeSerializationRecord doubleAttribute = new("Value", "1.1", "[object Number]");
         AttributesDictionary attributes = new([doubleAttribute]);
@@ -22,7 +22,7 @@ public class LocalizationTests: TestRunnerBase
     [TestMethod]
     public void TestCanDeserializeEuropeanDoubleAttribute()
     {
-        string originalCulture = Thread.CurrentThread.CurrentCulture.Name;
+        string originalCulture = JsModuleManager.ClientCultureInfo.Name;
         SetCulture("de-DE");
         AttributeSerializationRecord doubleAttribute = new("Value", "1,1", "[object Number]");
         AttributesDictionary attributes = new([doubleAttribute]);
@@ -33,7 +33,7 @@ public class LocalizationTests: TestRunnerBase
     [TestMethod]
     public void TestDeserializeAmericanDoubleAttributeInEuropeanCultureReturnsWrongValue()
     {
-        string originalCulture = Thread.CurrentThread.CurrentCulture.Name;
+        string originalCulture = JsModuleManager.ClientCultureInfo.Name;
         SetCulture("de-DE");
         AttributeSerializationRecord doubleAttribute = new("Value", "1.1", "[object Number]");
         AttributesDictionary attributes = new([doubleAttribute]);
@@ -44,7 +44,7 @@ public class LocalizationTests: TestRunnerBase
     [TestMethod]
     public void TestDeserializeEuropeanDoubleAttributeInAmericanCultureReturnsWrongValue()
     {
-        string originalCulture = Thread.CurrentThread.CurrentCulture.Name;
+        string originalCulture = JsModuleManager.ClientCultureInfo.Name;
         SetCulture("en-US");
         AttributeSerializationRecord doubleAttribute = new("Value", "1,1", "[object Number]");
         AttributesDictionary attributes = new([doubleAttribute]);
@@ -54,6 +54,6 @@ public class LocalizationTests: TestRunnerBase
 
     private void SetCulture(string cultureName)
     {
-        Thread.CurrentThread.CurrentCulture = new CultureInfo(cultureName);
+        JsModuleManager.ClientCultureInfo = new CultureInfo(cultureName);
     }
 }

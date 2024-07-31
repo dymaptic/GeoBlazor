@@ -1,9 +1,6 @@
 ﻿using dymaptic.GeoBlazor.Core.Components;
 using ProtoBuf;
-using System.Diagnostics;
 using System.Globalization;
-using System.Reflection;
-using System.Reflection.Metadata;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -25,22 +22,16 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
     }
 
     /// <summary>
-    ///     Constructor from existing dictionary or JSON deserialized dictionary
+    ///     Constructor from existing dictionary
     /// </summary>
     /// <param name="dictionary">
-    ///     The dictionary to use.
+    ///     The dictionary to use
     /// </param>
-    /// <remarks>
-    ///     It is possible to control the culture used for parsing numbers and dates by including a "geoBlazorCulture" key in the dictionary. The value should be a string representation of a culture name, such as "en-US" or "fr-FR".
-    ///     Alternatively, for a server-generated dictionary, the culture can be set in the server's CultureInfo.DefaultThreadCurrentUICulture property. It will fall back to `CultureInfo.CurrentCulture` if not set.
-    /// </remarks>
     public AttributesDictionary(Dictionary<string, object?> dictionary)
     {
-        CultureInfo cultureInfo = dictionary.TryGetValue("geoBlazorCulture", out object? gbCulture)
-            ? new CultureInfo(gbCulture!.ToString()!)
-            : CultureInfo.DefaultThreadCurrentUICulture ?? CultureInfo.CurrentCulture;
         _backingDictionary = new Dictionary<string, object?>();
         var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+        CultureInfo cultureInfo = JsModuleManager.ClientCultureInfo;
 
         foreach (KeyValuePair<string, object?> kvp in dictionary)
         {
@@ -93,33 +84,27 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
 
         if (serializedAttributes is not null)
         {
-            CultureInfo cultureInfo;
-
-            if (serializedAttributes
-                    .FirstOrDefault(a => a.Key == "geoBlazorCulture") is { } serializedCulture)
-            {
-                string cultureName = serializedCulture.Value!;
-                cultureInfo = new CultureInfo(cultureName);
-                serializedAttributes = serializedAttributes.Where(a => a.Key != "geoBlazorCulture").ToArray();
-            }
-            else
-            {
-                cultureInfo = CultureInfo.DefaultThreadCurrentUICulture ?? CultureInfo.CurrentCulture;
-            }
-
+            CultureInfo cultureInfo = JsModuleManager.ClientCultureInfo;
 
             foreach (AttributeSerializationRecord record in serializedAttributes)
             {
                 switch (record.ValueType)
                 {
+                    case "System.Int32":
+                        _backingDictionary[record.Key] = int.Parse(record.Value!, cultureInfo);
+                        
+                        break;
+                    case "System.Double":
                     case "[object Number]":
                         _backingDictionary[record.Key] = double.Parse(record.Value!, cultureInfo);
                         
                         break;
+                    case "System.Boolean":
                     case "[object Boolean]":
                         _backingDictionary[record.Key] = bool.Parse(record.Value!);
 
                         break;
+                    case "System.String":
                     case "[object String]":
                         if (Guid.TryParse(record.Value, out Guid guidValue))
                         {
@@ -131,6 +116,7 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
                         }
 
                         break;
+                    case "System.DateTime":
                     case "[object Date]":
                         _backingDictionary[record.Key] = DateTime.Parse(record.Value!, cultureInfo);
 

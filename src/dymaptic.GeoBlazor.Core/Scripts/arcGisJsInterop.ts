@@ -385,7 +385,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
         }
         
         if (hasValue(popupEnabled)) {
-            view.popupEnabled = popupEnabled;
+            view.popupEnabled = popupEnabled as boolean;
         }
         
         if (hasValue(constraints)) {
@@ -3339,4 +3339,8 @@ export function getWebMapBookmarks(viewId: string) {
 export function setStretchTypeForRenderer(rendererId, stretchType) {
     let renderer = arcGisObjectRefs[rendererId] as RasterStretchRenderer;
     renderer.stretchType = stretchType;
+}
+
+export function getBrowserLanguage(): string {
+    return navigator.language;
 }
