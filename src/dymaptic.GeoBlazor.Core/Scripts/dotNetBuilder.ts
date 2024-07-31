@@ -864,11 +864,11 @@ export function buildDotNetExpressionInfo(expressionInfo: any): DotNetExpression
 }
 
 export function buildDotNetFieldInfoFormat(format: FieldInfoFormat | null): DotNetFieldInfoFormat | null {
-    if (format === null) return null;
+    if (!hasValue(format)) return null;
     return {
-        dateFormat: format.dateFormat,
-        digitSeparator: format.digitSeparator,
-        places: format.places
+        dateFormat: format!.dateFormat,
+        digitSeparator: format!.digitSeparator,
+        places: format!.places
     } as DotNetFieldInfoFormat;
 }
 

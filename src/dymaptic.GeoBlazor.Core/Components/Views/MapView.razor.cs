@@ -959,7 +959,16 @@ public partial class MapView : MapComponent
     /// </summary>
     [Parameter]
     public long QueryResultsMaxSizeLimit { get; set; } = 1_000_000_000L;
-    
+
+    /// <summary>
+    ///     Controls whether the popup opens when users click on the view.
+    ///     When true, a Popup instance is created and assigned to view.popup the first time the user clicks on the view, unless popup is null. The popup then processes the click event.
+    ///     When false, the click event is ignored and popup is not created for features but will open for other scenarios that use a popup, such as displaying Search results.
+    ///     Default Value:true
+    /// </summary>
+    [Parameter]
+    public bool? PopupEnabled { get; set; }
+
     /// <summary>
     ///     For internal use only, this looks up a missing <see cref="DotNetObjectReference"/> for a <see cref="PopupTemplate"/>
     ///     and returns it to JavaScript.
@@ -2156,7 +2165,7 @@ public partial class MapView : MapComponent
             await ViewJsModule.InvokeVoidAsync("buildMapView", CancellationTokenSource.Token, Id,
                 DotNetObjectReference, Longitude, Latitude, Rotation, Map, Zoom, Scale,
                 mapType, Widgets, Graphics, SpatialReference, Constraints, Extent,
-                EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions);
+                EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions, PopupEnabled);
 
             Rendering = false;
             MapRendered = true;

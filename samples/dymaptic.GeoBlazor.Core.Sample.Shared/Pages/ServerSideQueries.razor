@@ -13,7 +13,8 @@
 <MapView @ref="_mapView"
          OnViewInitialized="OnViewInitialized"
          Class="map-view"
-         OnClick="OnClick">
+         OnClick="OnClick"
+         PopupEnabled="false">
     <Map ArcGISDefaultBasemap="gray-vector">
         <FeatureLayer @ref="_featureLayer" OutFields="@(new[] { "*" })">
             <PortalItem Id="234d2e3f6f554e0e84757662469c26d3" />
@@ -25,8 +26,7 @@
             Ymin="4536523.6511999965">
         <SpatialReference Wkid="102100" />
     </Extent>
-    <PopupWidget AutoOpenEnabled="false"
-                 DockEnabled="true">
+    <PopupWidget DockEnabled="true">
         <PopupDockOptions ButtonEnabled="false"
                           BreakPoint="@(new BreakPoint(false))"
                           Position="PopupDockPosition.BottomRight" />
