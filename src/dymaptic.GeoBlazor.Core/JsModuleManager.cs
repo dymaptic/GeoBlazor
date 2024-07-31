@@ -1,6 +1,6 @@
+using dymaptic.GeoBlazor.Core.Objects;
 using Microsoft.JSInterop;
 using System.Globalization;
-using System.Security.Claims;
 
 namespace dymaptic.GeoBlazor.Core;
 
@@ -9,6 +9,9 @@ namespace dymaptic.GeoBlazor.Core;
 /// </summary>
 public static class JsModuleManager
 {
+    /// <summary>
+    ///     The browser's culture information. Used to deserialize numbers and dates in <see cref="AttributesDictionary"/>.
+    /// </summary>
     public static CultureInfo ClientCultureInfo { get; set; } = CultureInfo.CurrentCulture;
     
     /// <summary>
