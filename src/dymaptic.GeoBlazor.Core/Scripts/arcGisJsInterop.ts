@@ -157,8 +157,8 @@ export let graphicsRefs: Record<string, Graphic> = {};
 export let dotNetRefs = {};
 export let queryLayer: FeatureLayer;
 export let blazorServer: boolean = false;
-export { projection, geometryEngine, Graphic, Color, Point, Polyline, Polygon };
-export * as normalizeUtils from "@arcgis/core/geometry/support/normalizeUtils"
+import normalizeUtils from "@arcgis/core/geometry/support/normalizeUtils";
+export { projection, geometryEngine, Graphic, Color, Point, Polyline, Polygon, normalizeUtils };
 let notifyExtentChanged: boolean = true;
 let uploadingLayers: Array<string> = [];
 let userChangedViewExtent: boolean = false;
@@ -278,7 +278,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
     mapType: string, widgets: any[], graphics: any,
     spatialReference: any, constraints: any, extent: any,
     eventRateLimitInMilliseconds: number | null, activeEventHandlers: Array<string>,
-    isServer: boolean, highlightOptions?: any | null, zIndex?: number, tilt?: number)
+    isServer: boolean, highlightOptions?: any | null, popupEnabled?: boolean | null, zIndex?: number, tilt?: number)
     : Promise<void> {
     console.debug("render map");
     try {
@@ -383,7 +383,11 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
                 });
                 break;
         }
-
+        
+        if (hasValue(popupEnabled)) {
+            view.popupEnabled = popupEnabled;
+        }
+        
         if (hasValue(constraints)) {
             (view as MapView).constraints = constraints;
         }
@@ -2017,9 +2021,6 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
                 view: view,
             });
             newWidget = homeBtn;
-            if (hasValue(widget.iconClass)) {
-                homeBtn.iconClass = widget.iconClass;
-            }
             break;
         case 'compass':
             const compassWidget = new Compass({
@@ -2037,7 +2038,7 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
                 layerListWidget.listItemCreatedFunction = async (evt) => {
                     let dotNetListItem = buildDotNetListItem(evt.item);
                     let returnItem = await widget.layerListWidgetObjectReference.invokeMethodAsync('OnListItemCreated', dotNetListItem) as DotNetListItem;
-                    if (hasValue(returnItem)) {
+                    if (hasValue(returnItem) && hasValue(evt.item)) {
                         updateListItem(evt.item, returnItem);
                     }
                 };
@@ -2054,7 +2055,7 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
                 basemapLayerListWidget.baseListItemCreatedFunction = async (evt) => {
                     let dotNetBaseListItem = buildDotNetListItem(evt.item);
                     let returnItem = await widget.baseLayerListWidgetObjectReference.invokeMethodAsync('OnBaseListItemCreated', dotNetBaseListItem) as DotNetListItem;
-                    if (hasValue(returnItem)) {
+                    if (hasValue(returnItem) && hasValue(evt.item)) {
                         updateListItem(evt.item, returnItem);
                     }
                 };
@@ -2063,7 +2064,7 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
                 basemapLayerListWidget.baseListItemCreatedFunction = async (evt) => {
                     let dotNetReferenceListItem = buildDotNetListItem(evt.item);
                     let returnItem = await widget.baseLayerListWidgetObjectReference.invokeMethodAsync('OnReferenceListItemCreated', dotNetReferenceListItem) as DotNetListItem;
-                    if (hasValue(returnItem)) {
+                    if (hasValue(returnItem) && hasValue(evt.item)) {
                         updateListItem(evt.item, returnItem);
                     }
                 };

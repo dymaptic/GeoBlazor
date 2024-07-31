@@ -242,7 +242,8 @@ public class SceneView : MapView
                 CancellationTokenSource.Token, Id, DotNetObjectReference,
                 Longitude, Latitude, Rotation, Map, Zoom, Scale,
                 mapType, Widgets, Graphics, SpatialReference, Constraints, Extent,
-                EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions, ZIndex, Tilt);
+                EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions,
+                PopupEnabled, ZIndex, Tilt);
             Rendering = false;
             MapRendered = true;
             

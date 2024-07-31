@@ -172,6 +172,7 @@ import RasterDataSource = __esri.RasterDataSource;
 import JoinTableDataSource = __esri.JoinTableDataSource;
 import DynamicDataLayerFields = __esri.DynamicDataLayerFields;
 import TickConfig = __esri.TickConfig;
+import MapView from "@arcgis/core/views/MapView";
 
 export function buildJsSpatialReference(dotNetSpatialReference: DotNetSpatialReference): SpatialReference {
     if (dotNetSpatialReference === undefined || dotNetSpatialReference === null) {
@@ -1147,6 +1148,7 @@ export function buildJsViewClickEvent(dotNetClickEvent: any): ViewClickEvent {
 }
 
 export async function buildJsPopup(dotNetPopup: any, viewId: string): Promise<Popup> {
+    
     let popup = new Popup({
         alignment: dotNetPopup.alignment ?? "auto",
         content: dotNetPopup.content ?? null,
@@ -1154,7 +1156,6 @@ export async function buildJsPopup(dotNetPopup: any, viewId: string): Promise<Po
         visible: dotNetPopup.visible ?? false,
         dockEnabled: dotNetPopup.dockEnabled ?? false,
         autoCloseEnabled: dotNetPopup.autoCloseEnabled ?? false,
-        autoOpenEnabled: dotNetPopup.autoOpenEnabled ?? true,
         collapseEnabled: dotNetPopup.collapseEnabled ?? true,
         defaultPopupTemplateEnabled: dotNetPopup.defaultPopupTemplateEnabled ?? false,
         headingLevel: dotNetPopup.headingLevel ?? 2,
@@ -1162,6 +1163,13 @@ export async function buildJsPopup(dotNetPopup: any, viewId: string): Promise<Po
         label: dotNetPopup.label ?? '',
         spinnerEnabled: dotNetPopup.spinnerEnabled ?? true
     });
+    
+    if (hasValue(dotNetPopup.autoOpenEnabled)) {
+        let view = arcGisObjectRefs[viewId] as MapView;
+        if (hasValue(view)) {
+            view.popupEnabled = dotNetPopup.autoOpenEnabled;
+        }
+    }
     
     if (hasValue(dotNetPopup.actions)) {
         popup.actions = dotNetPopup.actions.map(buildJsAction) as any;

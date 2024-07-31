@@ -12,9 +12,9 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.0"/>
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.7"/>
         <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.0"/>
-        <PackageReference Include="MSTest.TestFramework" Version="3.1.1"/>
+        <PackageReference Include="MSTest.TestFramework" Version="3.5.0"/>
     </ItemGroup>
 
     <ItemGroup>
@@ -25,18 +25,18 @@
         <AdditionalFiles Include="Components\WidgetTests.razor"/>
     </ItemGroup>
 
-    <Choose>
-        <When Condition="$(Configuration) == 'RELEASE' AND '$(UsePackageReferences)' == 'true'">
-            <ItemGroup Condition="$(Configuration) == 'RELEASE'">
-                <PackageReference Include="dymaptic.GeoBlazor.Core"  Version="$(CoreVersion)" />
-            </ItemGroup>
-        </When>
-        <Otherwise>
-            <ItemGroup Condition="$(Configuration) == 'DEBUG'">
-                <ProjectReference Include="..\..\src\dymaptic.GeoBlazor.Core\dymaptic.GeoBlazor.Core.csproj"/>
-            </ItemGroup>
-        </Otherwise>
-    </Choose>
+    <Target Name="ReferenceType" BeforeTargets="Build" Condition="$(Configuration) == 'DEBUG' OR $(UseProjectReference) == 'true'">
+        <Message Importance="high" Text="Using GeoBlazor Core Project Reference" />
+    </Target>
+    <ItemGroup Condition="$(Configuration) == 'DEBUG' OR $(UseProjectReference) == 'true'">
+        <ProjectReference Include="..\..\src\dymaptic.GeoBlazor.Core\dymaptic.GeoBlazor.Core.csproj" />
+    </ItemGroup>
+    <Target Name="ReferenceType" BeforeTargets="Build" Condition="$(Configuration) == 'RELEASE' AND $(UseProjectReference) != 'true'">
+        <Message Importance="high" Text="Using GeoBlazor Core Nuget Package" />
+    </Target>
+    <ItemGroup Condition="$(Configuration) == 'RELEASE' AND $(UseProjectReference) != 'true'">
+        <PackageReference Include="dymaptic.GeoBlazor.Core" Version="$(CoreVersion)" />
+    </ItemGroup>
     
     
     
