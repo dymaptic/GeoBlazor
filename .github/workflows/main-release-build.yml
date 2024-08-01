@@ -65,7 +65,7 @@ jobs:
         PR_DESCRIPTION=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
         "https://api.github.com/repos/${{ github.repository }}/pulls?state=closed&sort=updated&direction=desc" | \
         jq -r '.[0].body')
-        DESC_PLUS_EOF="${PR_DESCRIPTION}EOF"
+        DESC_PLUS_EOF="${PR_DESCRIPTION}\nEOF"
         echo "PR_DESCRIPTION<<EOF" >> $GITHUB_ENV
         echo "$DESC_PLUS_EOF" >> $GITHUB_ENV
         echo "EOF" >> $GITHUB_ENV
