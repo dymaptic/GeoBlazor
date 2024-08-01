@@ -177,14 +177,29 @@
         try
         {
             bool hasParameters = methodInfo.GetParameters().Any();
-            if (hasParameters)
+            if (methodInfo.ReturnType != typeof(Task))
             {
-                void RenderHandler() => _methodsWithRenderedMaps.Add(methodInfo.Name);
-                await (Task)methodInfo.Invoke(this, [(Action)RenderHandler])!;
+                if (hasParameters)
+                {
+                    void RenderHandler() => _methodsWithRenderedMaps.Add(methodInfo.Name);
+                    methodInfo.Invoke(this, [(Action)RenderHandler]);
+                }
+                else
+                {
+                    methodInfo.Invoke(this, null);
+                }
             }
             else
             {
-                await (Task)methodInfo.Invoke(this, null)!;
+                if (hasParameters)
+                {
+                    void RenderHandler() => _methodsWithRenderedMaps.Add(methodInfo.Name);
+                    await (Task)methodInfo.Invoke(this, [(Action)RenderHandler])!;
+                }
+                else
+                {
+                    await (Task)methodInfo.Invoke(this, null)!;
+                }
             }
 
             _passed[methodInfo.Name] = _resultBuilder.ToString();

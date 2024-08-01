@@ -1,0 +1,63 @@
+@using dymaptic.GeoBlazor.Core.Extensions
+@inherits TestRunnerBase
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+    [TestMethod]
+    public async Task CanRenderUniqueSimpleMarkerSymbols(Action renderHandler)
+    {
+        FeatureLayer? layer = null;
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Extent Xmax="-11122504.85982967"
+                        Xmin="-11367103.350342168"
+                        Ymax="4675194.398033299"
+                        Ymin="4430595.907520799">
+                    <SpatialReference Wkid="102100" />
+                </Extent>
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisStreets" />
+                    </Basemap>
+                    <FeatureLayer @ref="layer">
+                        <PortalItem Id="cdff193a3e3743a5bc770e2743f215b3" />
+                        <UniqueValueRenderer Field="PGM_SYS_ACRNM">
+                            <DefaultSymbol>
+                                <SimpleMarkerSymbol Color="@(new MapColor("red"))" MarkerStyle="SimpleMarkerStyle.Circle" />
+                            </DefaultSymbol>
+                            <UniqueValueInfo Value="AIR">
+                                <SimpleMarkerSymbol Color="@(new MapColor("blue"))" MarkerStyle="SimpleMarkerStyle.Cross" />
+                            </UniqueValueInfo>
+                            <UniqueValueInfo Value="NPDES">
+                                <SimpleMarkerSymbol Color="@(new MapColor("yellow"))" MarkerStyle="SimpleMarkerStyle.Diamond" />
+                            </UniqueValueInfo>
+                            <UniqueValueInfo Value="NJ-NJEMS">
+                                <SimpleMarkerSymbol Color="@(new MapColor("green"))" MarkerStyle="SimpleMarkerStyle.Path" />
+                            </UniqueValueInfo>
+                            <UniqueValueInfo Value="CA-ENVIROVIEW">
+                                <SimpleMarkerSymbol Color="@(new MapColor("purple"))" MarkerStyle="SimpleMarkerStyle.Square" />
+                            </UniqueValueInfo>
+                            <UniqueValueInfo Value="AIRS/AFS">
+                                <SimpleMarkerSymbol Color="@(new MapColor("orange"))" MarkerStyle="SimpleMarkerStyle.Triangle" />
+                            </UniqueValueInfo>
+                            <UniqueValueInfo Value="EIS">
+                                <SimpleMarkerSymbol Color="@(new MapColor("black"))" MarkerStyle="SimpleMarkerStyle.X" />
+                            </UniqueValueInfo>
+                            <UniqueValueInfo Value="MN-TEMPO">
+                                <SimpleMarkerSymbol Color="@(new MapColor("darkgreen"))" MarkerStyle="SimpleMarkerStyle.Circle" />
+                            </UniqueValueInfo>
+                            <UniqueValueInfo Value="FIS">
+                                <SimpleMarkerSymbol Color="@(new MapColor("lightblue"))" MarkerStyle="SimpleMarkerStyle.Cross" />
+                            </UniqueValueInfo>
+                        </UniqueValueRenderer>
+                    </FeatureLayer>
+                </Map>
+            </MapView>);
+
+        await WaitForMapToRender();
+        await AssertJavaScript("rendererAsserts.assertUniqueValueInfos", args: [layer!.Id]);
+    }
+}

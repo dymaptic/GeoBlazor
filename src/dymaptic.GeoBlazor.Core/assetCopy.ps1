@@ -1,11 +1,4 @@
-﻿if ($IsWindows)
-{
-    $SourceFiles = "./node_modules/@arcgis/core/assets/*"    
-}
-else
-{
-    $SourceFiles = "./node_modules/@arcgis/core/assets/"
-}
+﻿$SourceFiles = "./node_modules/@arcgis/core/assets/"
 
 $OutputDir = "./wwwroot/assets"
 $packageJson = (Get-Content "./package.json" -Raw) | ConvertFrom-Json
@@ -45,3 +38,12 @@ Else
     Write-Output "Asset files already copied. To update, delete wwwroot/assets contents and run again"
 }
 
+# if there is a folder called `assets` inside the assets folder, delete it
+# and move everything to the root of the assets folder
+$assetsFolder = "$OutputDir/assets"
+if ((Test-Path -Path $assetsFolder) -eq $true)
+{
+    Write-Output "Moving assets to root of assets folder"
+    Get-ChildItem -Path $assetsFolder -Recurse | Move-Item -Destination $OutputDir
+    Remove-Item -Path $assetsFolder -Recurse
+}

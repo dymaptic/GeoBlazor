@@ -100,7 +100,6 @@ export interface DotNetSimpleMarkerSymbol extends DotNetSymbol {
     path: string;
     size: number;
     style: string;
-    markerStyle: string;
     xOffset: number;
     yOffset: number;
 }

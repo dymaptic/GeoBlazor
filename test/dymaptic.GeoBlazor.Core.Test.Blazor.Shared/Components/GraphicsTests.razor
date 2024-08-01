@@ -5,6 +5,31 @@
 }
 
 @code {
+    [TestMethod]
+    public async Task TestCanClearGraphics(Action renderHandler)
+    {
+        MapView? mapView = null;
+        GraphicsLayer graphicsLayer = new GraphicsLayer();
+
+        async Task OnViewInitialized()
+        {
+            await mapView!.AddLayer(graphicsLayer);
+        }
+        AddMapRenderFragment(
+        @<MapView OnViewInitialized="@OnViewInitialized" @ref="mapView" class="map-view" OnViewRendered="renderHandler">
+            <Map>
+                <Basemap>
+                    <PortalItem Id="55ebf90799fa4a3fa57562700a68c405" />
+                </Basemap>
+            </Map>
+        </MapView>);
+
+        await WaitForMapToRender();
+
+        await graphicsLayer.Clear();
+
+        Assert.IsNotNull(graphicsLayer.View);
+    }
 
     [TestMethod]
     public async Task TestGraphicIdRemainsConsistentAfterOperations(Action renderHandler)

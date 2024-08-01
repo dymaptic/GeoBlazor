@@ -99,17 +99,14 @@ import Domain from "@arcgis/core/layers/support/Domain";
 import CodedValueDomain from "@arcgis/core/layers/support/CodedValueDomain";
 import InheritedDomain from "@arcgis/core/layers/support/InheritedDomain";
 import RangeDomain from "@arcgis/core/layers/support/RangeDomain";
-import Effect = __esri.Effect;
 import TileInfo from "@arcgis/core/layers/support/TileInfo";
 import LOD from "@arcgis/core/layers/support/LOD";
 import LayerSearchSource from "@arcgis/core/widgets/Search/LayerSearchSource";
-import SearchSource from "@arcgis/core/widgets/Search/SearchSource";
 import LocatorSearchSource from "@arcgis/core/widgets/Search/LocatorSearchSource";
 import SearchResult = __esri.SearchResult;
 import SuggestResult = __esri.SuggestResult;
 import FeatureType from "@arcgis/core/layers/support/FeatureType";
 import FeatureTemplate from "@arcgis/core/layers/support/FeatureTemplate";
-import FeatureTemplateThumbnail = __esri.FeatureTemplateThumbnail;
 import LabelClass from "@arcgis/core/layers/support/LabelClass";
 import Renderer from "@arcgis/core/renderers/Renderer";
 import PieChartRenderer from "@arcgis/core/renderers/PieChartRenderer";
@@ -120,7 +117,6 @@ import PieChartScheme = __esri.PieChartScheme;
 import SizeScheme = __esri.SizeScheme;
 import SizeSchemeForPoint = __esri.SizeSchemeForPoint;
 import SizeSchemeForPolygon = __esri.SizeSchemeForPolygon;
-import UniqueValuesResult = __esri.UniqueValuesResult;
 import AuthoringInfo from "@arcgis/core/renderers/support/AuthoringInfo";
 import AddressCandidate = __esri.AddressCandidate;
 import FeatureSet from "@arcgis/core/rest/support/FeatureSet";
@@ -867,11 +863,11 @@ export function buildDotNetExpressionInfo(expressionInfo: any): DotNetExpression
 }
 
 export function buildDotNetFieldInfoFormat(format: FieldInfoFormat | null): DotNetFieldInfoFormat | null {
-    if (format === null) return null;
+    if (!hasValue(format)) return null;
     return {
-        dateFormat: format.dateFormat,
-        digitSeparator: format.digitSeparator,
-        places: format.places
+        dateFormat: format!.dateFormat,
+        digitSeparator: format!.digitSeparator,
+        places: format!.places
     } as DotNetFieldInfoFormat;
 }
 
