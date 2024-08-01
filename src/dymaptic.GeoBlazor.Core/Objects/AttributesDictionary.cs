@@ -1,5 +1,6 @@
 ﻿using dymaptic.GeoBlazor.Core.Components;
 using ProtoBuf;
+using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -13,7 +14,7 @@ namespace dymaptic.GeoBlazor.Core.Objects;
 public class AttributesDictionary : IEquatable<AttributesDictionary>
 {
     /// <summary>
-    ///     Constructor
+    ///     Constructor for a new, empty dictionary
     /// </summary>
     public AttributesDictionary()
     {
@@ -30,6 +31,7 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
     {
         _backingDictionary = new Dictionary<string, object?>();
         var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+        CultureInfo cultureInfo = JsModuleManager.ClientCultureInfo;
 
         foreach (KeyValuePair<string, object?> kvp in dictionary)
         {
@@ -41,19 +43,23 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
                     JsonValueKind.Array => jsonElement.Deserialize(typeof(IEnumerable<object>), options),
                     JsonValueKind.False => false,
                     JsonValueKind.True => true,
-                    JsonValueKind.Number => jsonElement.ToString().Contains('.')
-                        ? Convert.ChangeType(jsonElement.ToString(), TypeCode.Double)
-                        : Convert.ChangeType(jsonElement.ToString(), TypeCode.Int64),
+                    JsonValueKind.Number => double.Parse(jsonElement.ToString(), cultureInfo),
                     JsonValueKind.String => jsonElement.ToString(),
                     _ => jsonElement
                 };
-                if (typedValue is string stringValue && Guid.TryParse(stringValue, out Guid guidValue))
+                if (typedValue is string stringValue)
                 {
-                    typedValue = guidValue;
+                    if (Guid.TryParse(stringValue, out Guid guidValue))
+                    {
+                        typedValue = guidValue;
+                    }
+                    else if (DateTime.TryParse(stringValue, cultureInfo, DateTimeStyles.None, out DateTime dateValue))
+                    {
+                        typedValue = dateValue;
+                    }
                 }
                 _backingDictionary[kvp.Key] = (typedValue ?? default(object?))!;
             }
-
             // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
             else if (kvp.Value is null) // could be null from serialization
             {
@@ -66,24 +72,39 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
         }
     }
 
+    /// <summary>
+    ///     Internal constructor for use with Protobuf deserialization
+    /// </summary>
+    /// <param name="serializedAttributes">
+    ///     The serialized attributes to use.
+    /// </param>
     internal AttributesDictionary(AttributeSerializationRecord[]? serializedAttributes)
     {
         _backingDictionary = new Dictionary<string, object?>();
 
         if (serializedAttributes is not null)
         {
+            CultureInfo cultureInfo = JsModuleManager.ClientCultureInfo;
+
             foreach (AttributeSerializationRecord record in serializedAttributes)
             {
                 switch (record.ValueType)
                 {
-                    case "[object Number]":
-                        _backingDictionary[record.Key] = double.Parse(record.Value!);
+                    case "System.Int32":
+                        _backingDictionary[record.Key] = int.Parse(record.Value!, cultureInfo);
                         
                         break;
+                    case "System.Double":
+                    case "[object Number]":
+                        _backingDictionary[record.Key] = double.Parse(record.Value!, cultureInfo);
+                        
+                        break;
+                    case "System.Boolean":
                     case "[object Boolean]":
                         _backingDictionary[record.Key] = bool.Parse(record.Value!);
 
                         break;
+                    case "System.String":
                     case "[object String]":
                         if (Guid.TryParse(record.Value, out Guid guidValue))
                         {
@@ -95,8 +116,9 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
                         }
 
                         break;
+                    case "System.DateTime":
                     case "[object Date]":
-                        _backingDictionary[record.Key] = DateTime.Parse(record.Value!);
+                        _backingDictionary[record.Key] = DateTime.Parse(record.Value!, cultureInfo);
 
                         break;
                     default:

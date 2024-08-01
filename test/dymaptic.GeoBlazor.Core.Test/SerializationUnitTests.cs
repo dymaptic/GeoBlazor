@@ -57,7 +57,9 @@ public class SerializationUnitTests
         Assert.AreEqual(((SimpleMarkerSymbol)graphic.Symbol!).Outline!.Color, ((SimpleMarkerSymbol)deserialized.Symbol!).Outline!.Color);
         Assert.AreEqual(((SimpleMarkerSymbol)graphic.Symbol!).Size, ((SimpleMarkerSymbol)deserialized.Symbol!).Size);
         Assert.AreEqual(graphic.PopupTemplate!.Title, deserialized.PopupTemplate!.Title);
-        
+        Assert.AreEqual(graphic.Attributes.Count, deserialized.Attributes.Count);
+        Assert.AreEqual(graphic.Attributes["testString"], deserialized.Attributes["testString"]);
+        Assert.AreEqual(graphic.Attributes["testNumber"], deserialized.Attributes["testNumber"]);
    }
 
     [TestMethod]
@@ -77,6 +79,33 @@ public class SerializationUnitTests
         sw.Stop();
         Console.WriteLine($"SerializeGraphicToJson: {sw.ElapsedMilliseconds}ms");
         Console.WriteLine($"Size: {data.Length} bytes");
+    }
+    
+    [TestMethod]
+    public void RoundTripSerializeToProtobuf()
+    {
+        var graphic = new Graphic(new Point(_random.NextDouble() * 10 + 11.0,
+                _random.NextDouble() * 10 + 50.0),
+            new SimpleMarkerSymbol(new Outline(new MapColor("green")), new MapColor("red"), 10),
+            new PopupTemplate("Test", "Test Content<br/>{testString}<br/>{testNumber}", new[] { "*" }),
+            new AttributesDictionary(
+                new Dictionary<string, object?> { { "testString", "test" }, { "testNumber", 123 } }));
+        ProtoGraphicCollection collection = new(new[] { graphic.ToSerializationRecord() });
+        using MemoryStream ms = new();
+        Serializer.Serialize(ms, collection);
+        byte[] data = ms.ToArray();
+        ProtoGraphicCollection deserializedCollection =
+            Serializer.Deserialize<ProtoGraphicCollection>((ReadOnlyMemory<byte>)data);
+        Graphic deserialized = deserializedCollection.Graphics[0].FromSerializationRecord();
+        Assert.AreEqual(((Point)graphic.Geometry!).Latitude, ((Point)deserialized.Geometry!).Latitude);
+        Assert.AreEqual(((Point)graphic.Geometry!).Longitude, ((Point)deserialized.Geometry!).Longitude);
+        Assert.AreEqual(((SimpleMarkerSymbol)graphic.Symbol!).Color, ((SimpleMarkerSymbol)deserialized.Symbol!).Color);
+        Assert.AreEqual(((SimpleMarkerSymbol)graphic.Symbol!).Outline!.Color, ((SimpleMarkerSymbol)deserialized.Symbol!).Outline!.Color);
+        Assert.AreEqual(((SimpleMarkerSymbol)graphic.Symbol!).Size, ((SimpleMarkerSymbol)deserialized.Symbol!).Size);
+        Assert.AreEqual(graphic.PopupTemplate!.Title, deserialized.PopupTemplate!.Title);
+        Assert.AreEqual(graphic.Attributes.Count, deserialized.Attributes.Count);
+        Assert.AreEqual(graphic.Attributes["testString"], deserialized.Attributes["testString"]);
+        Assert.AreEqual(graphic.Attributes["testNumber"], deserialized.Attributes["testNumber"]);
     }
 
     private readonly Random _random = new();

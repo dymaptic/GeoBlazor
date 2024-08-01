@@ -33,6 +33,8 @@
         <InternalsVisibleTo Include="dymaptic.GeoBlazor.Core.Sample.Shared" />
         <InternalsVisibleTo Include="dymaptic.GeoBlazor.Core.Test" />
         <InternalsVisibleTo Include="dymaptic.GeoBlazor.Pro.Test.Unit" />
+        <InternalsVisibleTo Include="dymaptic.GeoBlazor.Core.Test.Blazor.Shared" />
+        <InternalsVisibleTo Include="dymaptic.GeoBlazor.Pro.Test.Blazor.Shared" />
     </ItemGroup>
 
     <ItemGroup>

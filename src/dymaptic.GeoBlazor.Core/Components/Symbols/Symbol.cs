@@ -176,19 +176,21 @@ internal record SymbolSerializationRecord : MapComponentSerializationRecord
     [ProtoMember(27)]
     public int? YScale { get; init; }
 
-    public Symbol FromSerializationRecord()
+    public Symbol FromSerializationRecord(bool isOutline = false)
     {
         return Type switch
         {
             "outline" => new Outline(Color, Width, LineStyle is null ? null : Enum.Parse<LineStyle>(LineStyle!, true)),
-            "simple-marker" => new SimpleMarkerSymbol(Outline?.FromSerializationRecord() as Outline, Color, Size, 
+            "simple-marker" => new SimpleMarkerSymbol(Outline?.FromSerializationRecord(true) as Outline, Color, Size, 
                 Style is null ? null : Enum.Parse<SimpleMarkerStyle>(Style!, true), Angle, XOffset, YOffset),
-            "simple-line" => new SimpleLineSymbol(Color, Width, LineStyle is null ? null : Enum.Parse<LineStyle>(LineStyle!, true)),
-            "simple-fill" => new SimpleFillSymbol(Outline?.FromSerializationRecord() as Outline, Color, 
+            "simple-line" => isOutline 
+                ? new Outline(Color, Width, LineStyle is null ? null : Enum.Parse<LineStyle>(LineStyle!, true))
+                : new SimpleLineSymbol(Color, Width, LineStyle is null ? null : Enum.Parse<LineStyle>(LineStyle!, true)),
+            "simple-fill" => new SimpleFillSymbol(Outline?.FromSerializationRecord(true) as Outline, Color, 
                 Style is null ? null : Enum.Parse<FillStyle>(Style!, true)),
             "picture-marker" => new PictureMarkerSymbol(Url!, Width, Height, Angle, XOffset, YOffset),
             "picture-fill" => new PictureFillSymbol(Url!, Width, Height, XOffset, YOffset, XScale, YScale, 
-                Outline?.FromSerializationRecord() as Outline),
+                Outline?.FromSerializationRecord(true) as Outline),
             "text" => new TextSymbol(Text ?? string.Empty, Color, HaloColor, HaloSize, 
                 MapFont?.FromSerializationRecord(), Angle, BackgroundColor, BorderLineColor,
                 BorderLineSize, HorizontalAlignment is null ? null : Enum.Parse<HorizontalAlignment>(HorizontalAlignment!, true),
