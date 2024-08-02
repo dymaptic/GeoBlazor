@@ -56,6 +56,30 @@
     }
 
     [TestMethod]
+    public async Task TestCanRenderBasemapLayerListWidgetWithoutHandler(Action renderHandler)
+    {
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+
+                <Map>
+                    <Basemap>
+                        <TileLayer>
+                            <PortalItem Id="1b243539f4514b6ba35e7d995890db1d" />
+                        </TileLayer>
+                        <VectorTileLayer Opacity="0.75">
+                            <PortalItem Id="6976148c11bd497d8624206f9ee03e30" />
+                        </VectorTileLayer>
+                    </Basemap>
+                </Map>
+                <BasemapLayerListWidget />
+
+            </MapView>);
+
+        await WaitForMapToRender();
+        await AssertJavaScript("assertWidgetExists", args: "esri.widgets.BasemapLayerList");
+    }
+
+    [TestMethod]
     public async Task TestBasemapToggleFailsWithoutNextBasemap(Action renderHandler)
     {
         AddMapRenderFragment(
