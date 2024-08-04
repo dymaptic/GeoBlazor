@@ -31,7 +31,7 @@ jobs:
         ./assetCopy.ps1
         cd ../..
     - name: Build Core
-      run: dotnet build ./src/dymaptic.GeoBlazor.Core/dymaptic.GeoBlazor.Core.csproj --no-restore /p:OptOutFromCoreEsBuild=false /p:GenerateDocs=false /p:UpdateTemplates=false -c Release
+      run: dotnet build ./src/dymaptic.GeoBlazor.Core/dymaptic.GeoBlazor.Core.csproj --no-restore /p:OptOutFromCoreEsBuild=false /p:GenerateDocs=false -c Release
     - name: Install xmllint
       shell: bash
       run: |
@@ -58,8 +58,6 @@ jobs:
             Write-Error "JS file does not exist"
             Exit 1
         }
-    - name: Build Templates
-      run: dotnet build ./templates/dymaptic.GeoBlazor.Templates.csproj -c Release
     - name: Copy PR Release Notes
       run: |
         PR_DESCRIPTION=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
@@ -84,11 +82,6 @@ jobs:
       with:
         name: .core-nuget
         path: ./src/dymaptic.GeoBlazor.Core/bin/Release/dymaptic.GeoBlazor.Core.*.nupkg
-    - name: Upload templates artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: .templates-nuget
-        path: ./templates/bin/Release/dymaptic.GeoBlazor.Templates.*.nupkg
   nuget-push:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
@@ -100,14 +93,3 @@ jobs:
         name: .core-nuget          
     - name: Publish Core to Nuget
       run: dotnet nuget push ./dymaptic.GeoBlazor.Core.*.nupkg --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate
-  templates-nuget-push:
-    if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-    - name: Download artifact from build job
-      uses: actions/download-artifact@v3
-      with:
-        name: .templates-nuget
-    - name: Publish Templates to Nuget
-      run: dotnet nuget push ./dymaptic.GeoBlazor.Templates.*.nupkg --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate
