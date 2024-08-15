@@ -104,11 +104,6 @@
         <Exec Command="pwsh ./assetCopy.ps1" ContinueOnError="false" />
     </Target>
 
-    <Target Name="Update Templates" AfterTargets="PreBuildEvent" Condition="$(Configuration) == 'RELEASE' AND $(TargetFrameworks.StartsWith($(TargetFramework))) AND '$(UpdateTemplates)' == 'true'">
-        <Message Importance="high" Text="Update Template Versions" />
-        <Exec Command="pwsh ./updateTemplates.ps1 $(CoreVersion)" ContinueOnError="false" />
-    </Target>
-
     <Target Name="NPM Debug Build" AfterTargets="NPM Install" Condition="$(Configuration) == 'DEBUG' AND $(TargetFrameworks.StartsWith($(TargetFramework))) AND '$(OptOutFromCoreEsBuild)' != 'true'">
         <!-- Runs asynchronously to speed up build during development -->
         <Message Importance="high" Text="Launching Async NPM Build Script" />
