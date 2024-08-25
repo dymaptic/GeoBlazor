@@ -90,7 +90,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer
         if (url is null && portalItem is null && source is null)
         {
             throw new MissingRequiredOptionsChildElementException(nameof(FeatureLayer),
-                new[] { nameof(Url), nameof(PortalItem), nameof(Source) });
+                [nameof(Url), nameof(PortalItem), nameof(Source)]);
         }
 #pragma warning disable BL0005 // Component parameter should not be set outside of its component.
         Url = url;

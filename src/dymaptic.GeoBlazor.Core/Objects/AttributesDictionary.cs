@@ -31,7 +31,6 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
     {
         _backingDictionary = new Dictionary<string, object?>();
         var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-        CultureInfo cultureInfo = JsModuleManager.ClientCultureInfo;
 
         foreach (KeyValuePair<string, object?> kvp in dictionary)
         {
@@ -43,32 +42,37 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
                     JsonValueKind.Array => jsonElement.Deserialize(typeof(IEnumerable<object>), options),
                     JsonValueKind.False => false,
                     JsonValueKind.True => true,
-                    JsonValueKind.Number => double.Parse(jsonElement.ToString(), cultureInfo),
+                    JsonValueKind.Number => double.Parse(jsonElement.ToString(), CultureInfo.InvariantCulture),
                     JsonValueKind.String => jsonElement.ToString(),
                     _ => jsonElement
                 };
+
+                if (typedValue is double)
+                {
+                    if (int.TryParse(jsonElement.ToString(), CultureInfo.InvariantCulture, out int intVal))
+                    {
+                        typedValue = intVal;
+                    }
+                    else if (long.TryParse(jsonElement.ToString(), CultureInfo.InvariantCulture, out long longVal))
+                    {
+                        typedValue = longVal;
+                    }
+                }
+                
                 if (typedValue is string stringValue)
                 {
                     if (Guid.TryParse(stringValue, out Guid guidValue))
                     {
                         typedValue = guidValue;
                     }
-                    else if (DateTime.TryParse(stringValue, cultureInfo, DateTimeStyles.None, out DateTime dateValue))
+                    else if (DateTime.TryParse(stringValue, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dateValue))
                     {
                         typedValue = dateValue;
                     }
                 }
                 _backingDictionary[kvp.Key] = (typedValue ?? default(object?))!;
             }
-            // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
-            else if (kvp.Value is null) // could be null from serialization
-            {
-                _backingDictionary[kvp.Key] = string.Empty;
-            }
-            else
-            {
-                _backingDictionary[kvp.Key] = kvp.Value;
-            }
+            _backingDictionary[kvp.Key] = kvp.Value;
         }
     }
 
@@ -84,19 +88,53 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
 
         if (serializedAttributes is not null)
         {
-            CultureInfo cultureInfo = JsModuleManager.ClientCultureInfo;
-
             foreach (AttributeSerializationRecord record in serializedAttributes)
             {
+                if (record.Value is null)
+                {
+                    _backingDictionary[record.Key] = null;
+                    continue;
+                }
                 switch (record.ValueType)
                 {
                     case "System.Int32":
-                        _backingDictionary[record.Key] = int.Parse(record.Value!, cultureInfo);
+                    case "integer":
+                        _backingDictionary[record.Key] = int.Parse(record.Value!, CultureInfo.InvariantCulture);
                         
                         break;
+                    case "System.Int16":
+                    case "small-integer":
+                        _backingDictionary[record.Key] = short.Parse(record.Value!, CultureInfo.InvariantCulture);
+                        
+                        break;
+                    case "System.Int64":
+                    case "big-integer":
+                        _backingDictionary[record.Key] = long.Parse(record.Value!, CultureInfo.InvariantCulture);
+
+                        break;
+                    case "System.Single":
+                    case "single":
+                        _backingDictionary[record.Key] = float.Parse(record.Value!, CultureInfo.InvariantCulture);
+
+                        break;
                     case "System.Double":
+                    case "double":
+                        _backingDictionary[record.Key] = double.Parse(record.Value!, CultureInfo.InvariantCulture);
+                        
+                        break;
                     case "[object Number]":
-                        _backingDictionary[record.Key] = double.Parse(record.Value!, cultureInfo);
+                        if (int.TryParse(record.Value, CultureInfo.InvariantCulture, out int intVal))
+                        {
+                            _backingDictionary[record.Key] = intVal;
+                        }
+                        else if (long.TryParse(record.Value, CultureInfo.InvariantCulture, out long longVal))
+                        {
+                            _backingDictionary[record.Key] = longVal;
+                        }
+                        else if (double.TryParse(record.Value, CultureInfo.InvariantCulture, out double doubleVal))
+                        {
+                            _backingDictionary[record.Key] = doubleVal;
+                        }
                         
                         break;
                     case "System.Boolean":
@@ -104,25 +142,48 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
                         _backingDictionary[record.Key] = bool.Parse(record.Value!);
 
                         break;
-                    case "System.String":
-                    case "[object String]":
+                    case "guid":
+                        _backingDictionary[record.Key] = Guid.Parse(record.Value!);
+
+                        break;
+                    case "System.DateTime":
+                    case "date":
+                    case "timestamp-offset":
+                    case "[object Date]":
+                        // Date is serialized in ArcGIS as a long unix timestamp, so we check for this first.
+                        if (long.TryParse(record.Value, out long unixTimestamp))
+                        {
+                            _backingDictionary[record.Key] = DateTimeOffset.FromUnixTimeMilliseconds(unixTimestamp).DateTime;
+                        }
+                        else
+                        {
+                            _backingDictionary[record.Key] = DateTime.Parse(record.Value!, CultureInfo.InvariantCulture);
+                        }
+
+                        break;
+                    case "System.DateOnly":
+                    case "date-only":
+                        _backingDictionary[record.Key] = DateOnly.Parse(record.Value!, CultureInfo.InvariantCulture);
+
+                        break;
+                    case "System.TimeOnly":
+                    case "time-only":
+                        _backingDictionary[record.Key] = TimeOnly.Parse(record.Value!, CultureInfo.InvariantCulture);
+
+                        break;
+                    default:
                         if (Guid.TryParse(record.Value, out Guid guidValue))
                         {
                             _backingDictionary[record.Key] = guidValue;
+                        }
+                        else if (DateTime.TryParse(record.Value, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dateValue))
+                        {
+                            _backingDictionary[record.Key] = dateValue;
                         }
                         else
                         {
                             _backingDictionary[record.Key] = record.Value;
                         }
-
-                        break;
-                    case "System.DateTime":
-                    case "[object Date]":
-                        _backingDictionary[record.Key] = DateTime.Parse(record.Value!, cultureInfo);
-
-                        break;
-                    default:
-                        _backingDictionary[record.Key] = record.Value;
 
                         break;
                 }
@@ -346,8 +407,18 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
     {
         return _backingDictionary
             .Select(kvp =>
-                new AttributeSerializationRecord(kvp.Key, kvp.Value?.ToString(),
-                    kvp.Value?.GetType().ToString() ?? "null"))
+            {
+                string valueType = kvp.Value?.GetType().ToString() ?? "null";
+                string? stringVal = valueType switch
+                {
+                    "System.DateTime" => ((DateTime)kvp.Value!).ToString("O", CultureInfo.InvariantCulture),
+                    "System.DateOnly" => ((DateOnly)kvp.Value!).ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
+                    "System.TimeOnly" => ((TimeOnly)kvp.Value!).ToString("HH:mm:ss", CultureInfo.InvariantCulture),
+                    null => string.Empty,
+                    _ => kvp.Value?.ToString()
+                };
+                return new AttributeSerializationRecord(kvp.Key, stringVal, valueType!);
+            })
             .ToArray();
     }
 
@@ -415,10 +486,19 @@ internal class AttributesDictionaryConverter : JsonConverter<AttributesDictionar
 
         foreach (KeyValuePair<string, object?> entry in (Dictionary<string, object?>)value)
         {
+            string valueType = entry.Value?.GetType().ToString() ?? "null";
+            string? stringVal = valueType switch
+            {
+                "System.DateTime" => ((DateTime)entry.Value!).ToString("O", CultureInfo.InvariantCulture),
+                "System.DateOnly" => ((DateOnly)entry.Value!).ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
+                "System.TimeOnly" => ((TimeOnly)entry.Value!).ToString("HH:mm:ss", CultureInfo.InvariantCulture),
+                null => string.Empty,
+                _ => entry.Value?.ToString()
+            };
             writer.WriteStartObject();
             writer.WriteString("key", entry.Key);
-            writer.WriteString("value", entry.Value?.ToString());
-            writer.WriteString("valueType", entry.Value?.GetType().ToString() ?? "null");
+            writer.WriteString("value", stringVal);
+            writer.WriteString("valueType", valueType);
             writer.WriteEndObject();
         }
 
