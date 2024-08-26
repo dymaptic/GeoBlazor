@@ -366,6 +366,7 @@ public class SearchWidget : Widget
     [JSInvokable]
     public async Task OnJavaScriptSearchSelectResult(SearchResult searchResult)
     {
+        View!.ExtentChangedInJs = true;
         await OnSearchSelectResultEvent.InvokeAsync(searchResult);
     }
     

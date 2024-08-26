@@ -195,6 +195,46 @@
         await WaitForMapToRender();
         await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Locate");
     }
+    
+    /// <summary>
+    ///     This test asserts that the locate widget will not "bounce back" to the original location when parameters
+    ///     are set on MapView like Latitude/Longitude
+    /// </summary>
+    [TestMethod]
+    public async Task TestLocateWidgetAndOnViewRendered(Action renderHandler)
+    {
+        MapView? view = null;
+        LocateWidget? widget = null;
+        
+        async Task onViewRendered()
+        {
+            await Task.Delay(100);
+            Console.WriteLine("View rendered");
+            renderHandler.Invoke();
+        }
+        
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="onViewRendered" Latitude="34" Longitude="-118"
+                      Scale="1500"
+                      @ref="view">
+                <Map ArcGISDefaultBasemap="arcgis-imagery" />
+                <LocateWidget @ref="widget" RotationEnabled="false" Scale="1500" Position="OverlayPosition.TopLeft" />
+
+            </MapView>);
+
+        await WaitForMapToRender();
+        Point center = (await view!.GetCenter())!;
+        
+        // simulate click
+        await AssertJavaScript("locateWidgetAsserts.clickOnLocateWidget");
+        StateHasChanged();
+        await Task.Yield();
+        await Task.Delay(1000);
+        StateHasChanged();
+        Point newCenter = (await view.GetCenter())!;
+        Assert.IsTrue(Math.Abs(center.X!.Value - newCenter.X!.Value) > 0.1);
+        Assert.IsTrue(Math.Abs(center.Y!.Value - newCenter.Y!.Value) > 0.1);
+    }
 
     [TestMethod]
     public async Task TestCanRenderPopupWidget(Action renderHandler)

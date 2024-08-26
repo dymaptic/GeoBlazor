@@ -1862,7 +1862,7 @@ export async function addWidget(widget: any, viewId: string, setInContainerByDef
 }
 
 async function createWidget(widget: any, viewId: string): Promise<Widget | null> {
-    let view = arcGisObjectRefs[viewId] as MapView;
+    let view = arcGisObjectRefs[viewId] as SceneView | MapView;
 
     let newWidget: Widget;
     switch (widget.type) {
@@ -1880,6 +1880,17 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
                     await widget.locateWidgetObjectReference.invokeMethodAsync('OnJavaScriptGoToOverride', dnParams);
                 }
             }
+            
+            locate.on('locate', (_) => {
+                if (view instanceof SceneView) {
+                    dotNetRefs[viewId].invokeMethodAsync('OnJavascriptExtentChanged', buildDotNetExtent(view.extent),
+                        buildDotNetPoint(view.camera.position), view.zoom, view.scale, null, view.camera.tilt);
+                    return;
+                }
+                dotNetRefs[viewId].invokeMethodAsync('OnJavascriptExtentChanged', buildDotNetExtent((view as MapView).extent),
+                    buildDotNetPoint((view as MapView).center), (view as MapView).zoom, (view as MapView).scale,
+                    (view as MapView).rotation, null);
+            });
 
             break;
         case 'search':
@@ -1974,7 +1985,7 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
             break;
         case 'scaleBar':
             const scaleBar = new ScaleBar({
-                view: view
+                view: view as MapView
             });
             newWidget = scaleBar;
             if (hasValue(widget.unit)) {
@@ -2021,6 +2032,17 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
                 view: view,
             });
             newWidget = homeBtn;
+            
+            homeBtn.on('go', (_) => {
+                if (view instanceof SceneView) {
+                    dotNetRefs[viewId].invokeMethodAsync('OnJavascriptExtentChanged', buildDotNetExtent(view.extent),
+                        buildDotNetPoint(view.camera.position), view.zoom, view.scale, null, view.camera.tilt);
+                    return;
+                }
+                dotNetRefs[viewId].invokeMethodAsync('OnJavascriptExtentChanged', buildDotNetExtent((view as MapView).extent),
+                    buildDotNetPoint((view as MapView).center), (view as MapView).zoom, (view as MapView).scale,
+                    (view as MapView).rotation, null);
+            })
             break;
         case 'compass':
             const compassWidget = new Compass({
