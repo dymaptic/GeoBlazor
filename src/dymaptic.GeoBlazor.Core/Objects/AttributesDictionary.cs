@@ -49,11 +49,11 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
 
                 if (typedValue is double)
                 {
-                    if (int.TryParse(jsonElement.ToString(), CultureInfo.InvariantCulture, out int intVal))
+                    if (int.TryParse(jsonElement.ToString(), NumberStyles.None, CultureInfo.InvariantCulture, out int intVal))
                     {
                         typedValue = intVal;
                     }
-                    else if (long.TryParse(jsonElement.ToString(), CultureInfo.InvariantCulture, out long longVal))
+                    else if (long.TryParse(jsonElement.ToString(), NumberStyles.None, CultureInfo.InvariantCulture, out long longVal))
                     {
                         typedValue = longVal;
                     }
@@ -123,15 +123,15 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
                         
                         break;
                     case "[object Number]":
-                        if (int.TryParse(record.Value, CultureInfo.InvariantCulture, out int intVal))
+                        if (int.TryParse(record.Value, NumberStyles.None, CultureInfo.InvariantCulture, out int intVal))
                         {
                             _backingDictionary[record.Key] = intVal;
                         }
-                        else if (long.TryParse(record.Value, CultureInfo.InvariantCulture, out long longVal))
+                        else if (long.TryParse(record.Value, NumberStyles.None, CultureInfo.InvariantCulture, out long longVal))
                         {
                             _backingDictionary[record.Key] = longVal;
                         }
-                        else if (double.TryParse(record.Value, CultureInfo.InvariantCulture, out double doubleVal))
+                        else if (double.TryParse(record.Value, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out double doubleVal))
                         {
                             _backingDictionary[record.Key] = doubleVal;
                         }
