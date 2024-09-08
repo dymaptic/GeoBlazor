@@ -246,11 +246,6 @@ export function buildJsAttributes(attributes: any): any {
                     case "boolean":
                         graphicAttributes[attr.key] = attr.value.toLowerCase() === "true";
                         break;
-                    case "date":
-                    case "datetime":
-                    case "dateonly":
-                        graphicAttributes[attr.key] = new Date(attr.value);
-                        break;
                     case "object":
                         graphicAttributes[attr.key] = JSON.stringify(attr.value, null, 2);
                         break;

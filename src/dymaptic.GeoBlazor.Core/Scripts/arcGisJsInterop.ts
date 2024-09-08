@@ -3198,9 +3198,9 @@ export function decodeProtobufGraphics(uintArray: Uint8Array): any[] {
     return array.graphics;
 }
 
-export function getProtobufGraphicStream(graphics: DotNetGraphic[]): any {
+export function getProtobufGraphicStream(graphics: DotNetGraphic[], layer: FeatureLayer): any {
     for (let i = 0; i < graphics.length; i++) {
-        updateGraphicForProtobuf(graphics[i]);
+        updateGraphicForProtobuf(graphics[i], layer);
     }
     let obj = {
         graphics: graphics
@@ -3216,7 +3216,8 @@ function getProtobufViewHitStream(viewHits: DotNetViewHit[]): any{
         let viewHit = viewHits[i];
         if (viewHit.type === "graphic") {
             let graphic = (viewHit as DotNetGraphicHit).graphic;
-            updateGraphicForProtobuf(graphic);
+            let layer = arcGisObjectRefs[(viewHit as DotNetGraphicHit).layerId] as FeatureLayer;
+            updateGraphicForProtobuf(graphic, layer);
         }
     }
 
@@ -3229,13 +3230,23 @@ function getProtobufViewHitStream(viewHits: DotNetViewHit[]): any{
     return DotNet.createJSStreamReference(encoded);
 }
 
-function updateGraphicForProtobuf(graphic: DotNetGraphic) {
+function updateGraphicForProtobuf(graphic: DotNetGraphic, layer: FeatureLayer) {
     if (hasValue(graphic.attributes)) {
+        let fields = layer?.fields;
         graphic.attributes = Object.keys(graphic.attributes).map(attr => {
+            let typedValue = graphic.attributes[attr];
+            let valueType: string | undefined = undefined;
+            if (hasValue(fields)) {
+                let field = fields.find(f => f.name === attr);
+                if (hasValue(field)) {
+                    valueType = field!.type;
+                }
+            }
+            valueType ??= Object.prototype.toString.call(typedValue);
             return {
                 key: attr,
-                value: graphic.attributes[attr]?.toString(),
-                valueType: Object.prototype.toString.call(graphic.attributes[attr])
+                value: typedValue?.toString(),
+                valueType: valueType
             }
         });
     }

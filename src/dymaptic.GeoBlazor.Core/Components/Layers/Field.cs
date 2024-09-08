@@ -194,7 +194,11 @@ public enum FieldType
     Raster,
     Guid,
     GlobalId,
-    Xml
+    Xml,
+    BigInteger,
+    DateOnly,
+    TimeOnly,
+    TimestampOffset
 #pragma warning restore CS1591
 }
 

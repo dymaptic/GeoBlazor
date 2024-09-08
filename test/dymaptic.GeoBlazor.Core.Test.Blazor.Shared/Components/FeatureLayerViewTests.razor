@@ -12,7 +12,10 @@
         FeatureLayerView? layerView = null;
         void OnLayerViewCreate(LayerViewCreateEvent createEvent)
         {
-            layerView = createEvent.LayerView as FeatureLayerView;
+            if (createEvent.Layer is FeatureLayer)
+            {
+                layerView = createEvent.LayerView as FeatureLayerView;   
+            }
         }
         AddMapRenderFragment(
             @<MapView class="map-view" OnViewRendered="renderHandler"
