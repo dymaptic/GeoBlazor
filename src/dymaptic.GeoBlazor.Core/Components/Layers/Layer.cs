@@ -26,13 +26,15 @@ public abstract class Layer : MapComponent
 
     /// <summary>
     ///     The opacity of the layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#opacity">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? Opacity { get; set; }
 
     /// <summary>
-    ///     The title of the layer used to identify it in places such as the Legend and LayerList widgets.
+    ///     The title of the layer used to identify it in places such as the [LayerList](https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html) widget.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -42,13 +44,13 @@ public abstract class Layer : MapComponent
     ///     Represents the view for a single layer after it has been added to either a MapView or a SceneView.
     /// </summary>
     [JsonIgnore]
-    public LayerView? LayerView { get; set; }
+    public LayerView? LayerView { get; internal set; }
 
     /// <summary>
     ///     The JavaScript object that represents the layer.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IJSObjectReference? JsLayerReference { get; set; }
+    public IJSObjectReference? JsLayerReference { get; internal set; }
 
     /// <summary>
     ///     Indicates how the layer should display in the LayerList widget. The possible values are listed below.
@@ -80,6 +82,15 @@ public abstract class Layer : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? PersistenceEnabled { get; set; }
+    
+    /// <summary>
+    ///     Specifies a fixed [time extent](https://developers.arcgis.com/javascript/latest/api-reference/esri-TimeExtent.html) during which a layer should be visible.
+    ///     default null
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visibilityTimeExtent">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public TimeExtent? VisibilityTimeExtent { get; set; }
 
     /// <summary>
     ///     Marks an incoming layer loaded from a service or Javascript source.

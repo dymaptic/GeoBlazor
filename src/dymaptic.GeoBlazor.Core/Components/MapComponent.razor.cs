@@ -232,6 +232,26 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     }
 
     /// <summary>
+    ///     The reference to the .NET object that represents the component.
+    /// </summary>
+    public DotNetObjectReference<MapComponent> DotNetComponentReference => DotNetObjectReference.Create(this);
+
+    /// <summary>
+    ///     The reference to the JavaScript object that represents the component.
+    /// </summary>
+    [JsonIgnore]
+    protected IJSObjectReference? JsComponentReference { get; set; }
+    
+    /// <summary>
+    ///     For internal use, registration from JavaScript.
+    /// </summary>
+    [JSInvokable]
+    public void OnJsComponentCreated(IJSObjectReference jsComponentReference)
+    {
+        JsComponentReference = jsComponentReference;
+    }
+    
+    /// <summary>
     ///     When a <see cref="MapView" /> is prepared to render, this will check to make sure that all properties with the
     ///     <see cref="RequiredPropertyAttribute" /> are provided.
     /// </summary>
@@ -374,7 +394,6 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     ///     Creates a cancellation token to control external calls
     /// </summary>
     protected readonly CancellationTokenSource CancellationTokenSource = new();
-
 
 #region Events
 

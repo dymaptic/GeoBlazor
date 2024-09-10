@@ -60,4 +60,24 @@ export default class SliderWidgetWrapper implements IPropertyWrapper {
     setProperty(prop, value) {
         this.slider[prop] = value;
     }
+
+    getProperty(prop: string) {
+        return this.slider[prop];
+    }
+
+    addToProperty(prop: string, value: any) {
+        if (Array.isArray(value)) {
+            this.slider[prop].addMany(value);
+        } else {
+            this.slider[prop].add(value);
+        }
+    }
+
+    removeFromProperty(prop: string, value: any) {
+        if (Array.isArray(value)) {
+            this.slider[prop].removeMany(value);
+        } else {
+            this.slider[prop].remove(value);
+        }
+    }
 }

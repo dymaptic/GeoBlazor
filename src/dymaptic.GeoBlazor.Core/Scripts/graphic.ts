@@ -73,4 +73,24 @@ export default class GraphicWrapper implements IPropertyWrapper {
     setProperty(prop: string, value: any): void {
         this.graphic[prop] = value;
     }
+
+    getProperty(prop: string) {
+        return this.graphic[prop];
+    }
+
+    addToProperty(prop: string, value: any) {
+        if (Array.isArray(value)) {
+            this.graphic[prop].addMany(value);
+        } else {
+            this.graphic[prop].add(value);
+        }
+    }
+
+    removeFromProperty(prop: string, value: any) {
+        if (Array.isArray(value)) {
+            this.graphic[prop].removeMany(value);
+        } else {
+            this.graphic[prop].remove(value);
+        }
+    }
 }

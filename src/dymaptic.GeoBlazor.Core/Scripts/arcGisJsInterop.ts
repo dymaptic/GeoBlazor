@@ -176,6 +176,26 @@ export function setProperty(obj, prop, value) {
     }
 }
 
+export function addToProperty(obj, prop, value) {
+    if ('addToProperty' in obj) {
+        obj.addToProperty(prop, value);
+    } else if (Array.isArray(value)) {
+        obj[prop].addMany(value);
+    } else {
+        obj[prop].add(value);
+    }
+}
+
+export function removeFromProperty(obj, prop, value) {
+    if ('removeFromProperty' in obj) {
+        obj.removeFromProperty(prop, value);
+    } else if (Array.isArray(value)) {
+        obj[prop].removeMany(value);
+    } else {
+        obj[prop].remove(value);
+    }
+}
+
 export function setSublayerProperty(layerObj: any, sublayerId: number, prop: string, value: any) {
     let sublayer = (layerObj as TileLayer)?.sublayers.find(sl => sl.id === sublayerId);
     if (hasValue(sublayer)) {

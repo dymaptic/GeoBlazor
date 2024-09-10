@@ -187,6 +187,12 @@ export async function triggerSearchHandlers() {
     searchInput.dispatchEvent(new Event('input'));
 }
 
+export async function dispatchEvent(methodName, objectId, eventName) {
+    let obj = arcGisObjectRefs[objectId];
+    let event = new Event(eventName);
+    obj.dispatchEvent(event);
+}
+
 export function assertWidgetPropertyEqual(methodName, widgetClass, propName, expectedValue) {
     let view = getView(methodName);
     let widget = view.ui._components.find(c => c.widget.declaredClass === widgetClass).widget;

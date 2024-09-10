@@ -71,4 +71,24 @@ export default class PopupWidgetWrapper implements IPropertyWrapper {
     setProperty(prop: string, value: any): void {
         this.popup[prop] = value;
     }
+
+    getProperty(prop: string) {
+        return this.popup[prop];
+    }
+
+    addToProperty(prop: string, value: any) {
+        if (Array.isArray(value)) {
+            this.popup[prop].addMany(value);
+        } else {
+            this.popup[prop].add(value);
+        }
+    }
+
+    removeFromProperty(prop: string, value: any) {
+        if (Array.isArray(value)) {
+            this.popup[prop].removeMany(value);
+        } else {
+            this.popup[prop].remove(value);
+        }
+    }
 }

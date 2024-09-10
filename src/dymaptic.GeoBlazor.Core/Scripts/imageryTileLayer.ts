@@ -55,4 +55,24 @@ export default class ImageryTileLayerWrapper implements IPropertyWrapper {
     setProperty(prop, value) {
         this.layer[prop] = value;
     }
+
+    getProperty(prop: string) {
+        return this.layer[prop];
+    }
+
+    addToProperty(prop: string, value: any) {
+        if (Array.isArray(value)) {
+            this.layer[prop].addMany(value);
+        } else {
+            this.layer[prop].add(value);
+        }
+    }
+
+    removeFromProperty(prop: string, value: any) {
+        if (Array.isArray(value)) {
+            this.layer[prop].removeMany(value);
+        } else {
+            this.layer[prop].remove(value);
+        }
+    }
 }

@@ -118,4 +118,24 @@ export default class SearchWidgetWrapper implements IPropertyWrapper {
     setProperty(prop: string, value: any): void {
         this.searchWidget[prop] = value;
     }
+
+    getProperty(prop: string) {
+        return this.searchWidget[prop];
+    }
+
+    addToProperty(prop: string, value: any) {
+        if (Array.isArray(value)) {
+            this.searchWidget[prop].addMany(value);
+        } else {
+            this.searchWidget[prop].add(value);
+        }
+    }
+
+    removeFromProperty(prop: string, value: any) {
+        if (Array.isArray(value)) {
+            this.searchWidget[prop].removeMany(value);
+        } else {
+            this.searchWidget[prop].remove(value);
+        }
+    }
 }
