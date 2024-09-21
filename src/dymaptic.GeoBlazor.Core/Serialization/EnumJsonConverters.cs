@@ -124,3 +124,13 @@ public class DrawingToolStringConverter : EnumToKebabCaseStringConverter<Drawing
         }
     }
 }
+
+public class EnumToTypeScriptEnumConverter<T>: EnumToKebabCaseStringConverter<T> where T : notnull
+{
+    public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
+    {
+        Type enumType = typeof(T);
+        string enumName = enumType.Name;
+        writer.WriteStringValue($"{enumName}.{Enum.GetName(enumType, value)}");
+    }
+}

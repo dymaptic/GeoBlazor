@@ -103,4 +103,24 @@ export default class FeatureLayerViewWrapper implements IPropertyWrapper {
     setProperty(prop: string, value: any): void {
         this.featureLayerView[prop] = value;
     }
+
+    getProperty(prop: string) {
+        return this.featureLayerView[prop];
+    }
+
+    addToProperty(prop: string, value: any) {
+        if (Array.isArray(value)) {
+            this.featureLayerView[prop].addMany(value);
+        } else {
+            this.featureLayerView[prop].add(value);
+        }
+    }
+
+    removeFromProperty(prop: string, value: any) {
+        if (Array.isArray(value)) {
+            this.featureLayerView[prop].removeMany(value);
+        } else {
+            this.featureLayerView[prop].remove(value);
+        }
+    }
 }

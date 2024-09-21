@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using dymaptic.GeoBlazor.Core.Events;
 
 
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
@@ -25,14 +26,25 @@ public abstract class Layer : MapComponent
     public virtual string LayerType => default!;
 
     /// <summary>
+    ///     The unique ID assigned to the layer in ArcGIS.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#id">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? ArcGISId { get; set; }
+    
+    /// <summary>
     ///     The opacity of the layer.
+    ///     default 1
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#opacity">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? Opacity { get; set; }
 
     /// <summary>
-    ///     The title of the layer used to identify it in places such as the Legend and LayerList widgets.
+    ///     The title of the layer used to identify it in places such as the [Legend](https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html) and [LayerList](https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html) widgets.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -42,16 +54,19 @@ public abstract class Layer : MapComponent
     ///     Represents the view for a single layer after it has been added to either a MapView or a SceneView.
     /// </summary>
     [JsonIgnore]
-    public LayerView? LayerView { get; set; }
+    public LayerView? LayerView { get; internal set; }
 
     /// <summary>
     ///     The JavaScript object that represents the layer.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IJSObjectReference? JsLayerReference { get; set; }
+    public IJSObjectReference? JsLayerReference { get; internal set; }
+
 
     /// <summary>
-    ///     Indicates how the layer should display in the LayerList widget. The possible values are listed below.
+    ///     Indicates how the layer should display in the [LayerList](https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html) widget.
+    ///     default "show"
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#listMode">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -67,19 +82,30 @@ public abstract class Layer : MapComponent
     public bool? IsBasemapReferenceLayer { get; set; }
 
     /// <summary>
-    ///     The full extent of the layer. By default, this is worldwide. This property may be used to set the extent of the
-    ///     view to match a layer's extent so that its features appear to fill the view.
+    ///     The full extent of the layer. By default, this is worldwide. This property may be used to set the extent of the view to match a layer's extent so that its features appear to fill the view.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#fullExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
+    [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Extent? FullExtent { get; set; }
     
     /// <summary>
-    ///     Enable persistence of the layer in a WebMap or WebScene.
-    ///     Default Value: true
+    ///     Enable persistence of the layer in a [WebMap](https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html) or [WebScene](https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html).
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-OperationalLayer.html#persistenceEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? PersistenceEnabled { get; set; }
+
+    /// <summary>
+    ///     Specifies a fixed [time extent](https://developers.arcgis.com/javascript/latest/api-reference/esri-TimeExtent.html) during which a layer should be visible.
+    ///     default null
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visibilityTimeExtent">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public TimeExtent? VisibilityTimeExtent { get; set; }
 
     /// <summary>
     ///     Marks an incoming layer loaded from a service or Javascript source.
@@ -90,6 +116,154 @@ public abstract class Layer : MapComponent
     ///     Handles conversion from .NET CancellationToken to JavaScript AbortController
     /// </summary>
     public AbortManager? AbortManager { get; set; }
+
+#region PropertySetters
+
+    /// <summary>
+    ///    Asynchronously set the value of the FullExtent property after render.
+    /// </summary>
+    public async Task SetFullExtent(Extent value)
+    {
+        FullExtent = value;
+        ModifiedParameters["FullExtent"] = value;
+        if (JsLayerReference is null) return;
+            
+        await JsLayerReference!.InvokeVoidAsync("setProperty", 
+            CancellationTokenSource.Token,
+            JsComponentReference,
+            "fullExtent", 
+            value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the Opacity property after render.
+    /// </summary>
+    public async Task SetOpacity(double value)
+    {
+        Opacity = value;
+        ModifiedParameters["Opacity"] = value;
+        if (JsLayerReference is null) return;
+        
+        await JsLayerReference!.InvokeVoidAsync("setProperty", 
+            CancellationTokenSource.Token,
+            JsComponentReference,
+            "opacity", 
+            value);
+    }
+
+#endregion
+
+#region Property Getters
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the FullExtent property.
+    /// </summary>
+    public async Task<Extent?> GetFullExtent()
+    {
+        if (JsLayerReference is null) return null;
+            
+        return await JsLayerReference!.InvokeAsync<Extent>("getProperty", 
+            CancellationTokenSource.Token,
+            JsComponentReference, 
+            "fullExtent");
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Opacity property.
+    /// </summary>
+    public async Task<double?> GetOpacity()
+    {
+        if (JsLayerReference is null) return null;
+        
+        return await JsLayerReference!.InvokeAsync<double>("getProperty", 
+            CancellationTokenSource.Token,
+            JsComponentReference, 
+            "opacity");
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Visible property.
+    /// </summary>
+    public async Task<bool?> GetVisible()
+    {
+        if (JsLayerReference is null) return null;
+    
+        return await JsLayerReference!.InvokeAsync<bool>("getProperty", 
+            CancellationTokenSource.Token,
+            JsComponentReference, 
+            "visible");
+    }
+
+#endregion
+
+#region Public Methods
+
+    /// <summary>
+    ///     Fetches custom attribution data for the layer when it becomes available.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#fetchAttributionData">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    public async Task<object?> FetchAttributionData()
+    {
+        if (JsLayerReference is null) return null;
+            
+        return await JsLayerReference!.InvokeAsync<object>(
+            "fetchAttributionData", 
+            CancellationTokenSource.Token);
+    }
+
+#endregion
+
+#region Public Events
+
+    /// <summary>
+    ///     JavaScript-Invokable Method for internal use only.
+    /// </summary>
+    [JSInvokable]
+    public async Task OnJsLayerViewCreate(LayerViewCreateEvent layerViewCreateEvent)
+    {
+        await OnLayerViewCreate.InvokeAsync(layerViewCreateEvent);
+    }
+        
+    /// <summary>
+    ///     Fetches all the data for the layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#refresh">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [Parameter]
+    public EventCallback<LayerViewCreateEvent> OnLayerViewCreate { get; set; }
+       
+    /// <summary>
+    ///     JavaScript-Invokable Method for internal use only.
+    /// </summary>
+    [JSInvokable]
+    public async Task OnJsLayerViewCreateError(LayerViewCreateErrorEvent layerViewCreateErrorEvent)
+    {
+        await OnLayerViewCreateError.InvokeAsync(layerViewCreateErrorEvent);
+    }
+        
+    /// <summary>
+    ///     Fetches all the data for the layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#refresh">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [Parameter]
+    public EventCallback<LayerViewCreateErrorEvent> OnLayerViewCreateError { get; set; }
+
+    /// <summary>
+    ///     JavaScript-Invokable Method for internal use only.
+    /// </summary>
+    [JSInvokable]
+    public async Task OnJsLayerViewDestroy(LayerViewDestroyEvent layerViewDestroyEvent)
+    {
+        await OnLayerViewDestroy.InvokeAsync(layerViewDestroyEvent);
+    }
+
+    /// <summary>
+    ///     Fetches all the data for the layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#refresh">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [Parameter]
+    public EventCallback<LayerViewDestroyEvent> OnLayerViewDestroy { get; set; }
+    
+#endregion
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)

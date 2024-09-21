@@ -8,6 +8,11 @@ export function initialize(core) {
     Color = Core.Color;
 }
 
+export async function dispatchEvent(methodName, objectId, eventName) {
+    let obj = arcGisObjectRefs[objectId];
+    let event = new Event(eventName);
+    obj.dispatchEvent(event);
+}
 export function assertBasemapHasTwoLayers(methodName) {
     let view = getView(methodName);
     if (view.map.basemap.baseLayers.length !== 2) {

@@ -43,6 +43,7 @@ public class BasemapGalleryWidget : Widget
                 if (!pbms.Equals(PortalBasemapsSource))
                 {
                     PortalBasemapsSource = pbms;
+                    WidgetChanged = true;
                 }
 
                 break;
@@ -60,6 +61,7 @@ public class BasemapGalleryWidget : Widget
         {
             case PortalBasemapsSource _:
                 PortalBasemapsSource = null;
+                WidgetChanged = true;
 
                 break;
             default:
