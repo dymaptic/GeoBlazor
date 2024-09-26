@@ -155,6 +155,11 @@
         {
             _bookmarkWidget!.Bookmarks = _bookmarks;
         }
+        // if (_showAreaMeasurement2D)
+        // {
+        //     _areaMeasurement2DWidget = new AreaMeasurement2DWidget();
+        //     _areaMeasurement2DWidget.Start();
+        // }
     }
 
     private readonly List<Bookmark> _bookmarks = new List<Bookmark>()
@@ -184,4 +189,5 @@
     private bool _showBookmarks;
 
     private BookmarksWidget? _bookmarkWidget;
+    private AreaMeasurement2DWidget? _areaMeasurement2DWidget;
 }

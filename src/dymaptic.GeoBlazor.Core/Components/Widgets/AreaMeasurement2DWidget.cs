@@ -14,19 +14,10 @@ public class AreaMeasurement2DWidget : Widget
 
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public ActiveTool? ActiveTool { get; set; }
+    public AreaUnit Unit { get; set; }
 
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public AreaUnit? SystemOrAreaUnit { get; set; }
-
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? Label { get; set; }
-
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public AreaUnit[]? AreaUnitOptions { get; set; }
-
+    public AreaUnit[]? UnitOptions { get; set; }
 
 }
