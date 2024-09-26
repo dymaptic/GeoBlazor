@@ -30,10 +30,6 @@ public class MeasurementWidget : Widget
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ActiveTool? ActiveTool { get; set; }
 
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public ActiveWidget? ActiveWidget { get; set; }
-
     /// <summary>
     /// Unit system (imperial, metric) or specific unit used for displaying the area values.
     /// </summary>
