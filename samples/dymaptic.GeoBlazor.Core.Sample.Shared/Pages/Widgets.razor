@@ -97,7 +97,7 @@
     }
     @if (_showAreaMeasurement2D)
     {
-        <AreaMeasurement2DWidget ActiveTool="ActiveTool.Distance" Label="area measurement" SystemOrAreaUnit="AreaUnit.SquareInches" Position="OverlayPosition.TopLeft" />
+        <MeasurementWidget ActiveTool="ActiveTool.Area" Label="Test Area" AreaUnit="AreaUnit.SquareMeters" Position="OverlayPosition.TopLeft"/>
     }
     @if (_showBookmarks)
     {
@@ -188,6 +188,5 @@
     private bool _showAreaMeasurement2D;
     private bool _showBookmarks;
 
-    private BookmarksWidget? _bookmarkWidget;
-    private AreaMeasurement2DWidget? _areaMeasurement2DWidget;
+    private BookmarksWidget? _bookmarkWidget;    
 }

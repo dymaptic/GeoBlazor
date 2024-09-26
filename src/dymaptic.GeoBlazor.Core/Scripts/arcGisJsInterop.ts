@@ -2158,7 +2158,6 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
             });
             break;
         case 'areaMeasurement2D':
-            
             newWidget = new AreaMeasurement2D({
                 view: view,
                 viewModel: widget.AreaMeasurement2DViewModel ?? undefined,
