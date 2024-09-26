@@ -41,10 +41,10 @@
             <label>Bookmarks: <input type="checkbox" class="form-check-input" @onchange="@(() => ToggleWidget(nameof(BookmarksWidget)))"></label>
         </div>
         <div class="form-group">
-            <label>Measurement: <input type="checkbox" class="form-check-input" @onchange="@(() => ToggleWidget(nameof(MeasurementWidget)))"></label>
+            <label>Distance Measurement: <input type="checkbox" class="form-check-input" @onchange="@(() => ToggleWidget(nameof(MeasurementWidget)))"></label>
         </div>
         <div class="form-group">
-            <label>Area Measurement 2D: <input type="checkbox" class="form-check-input" @onchange="@(() => ToggleWidget(nameof(AreaMeasurement2DWidget)))"></label>
+            <label>Area Measurement 2D: <input type="checkbox" class="form-check-input" @onchange="@(() => ToggleWidget(nameof(MeasurementWidget)))"></label>
         </div>
         <div id="gallery-box"></div>
     </div>
@@ -93,7 +93,7 @@
     }
     @if (_showMeasurement)
     {
-        <MeasurementWidget ActiveTool="ActiveTool.Distance" Label="asdasdasdsds" LinearUnit="LengthUnit.NauticalMiles" AreaUnit="AreaUnit.SquareInches" Position="OverlayPosition.TopLeft" />
+        <MeasurementWidget ActiveTool="ActiveTool.Distance" Label="asdasdasdsds" LinearUnit="LengthUnit.NauticalMiles" Position="OverlayPosition.TopLeft" />
     }
     @if (_showAreaMeasurement2D)
     {
@@ -140,9 +140,6 @@
             case nameof(MeasurementWidget):
                 _showMeasurement = !_showMeasurement;
                 break;
-            case nameof(AreaMeasurement2DWidget):
-                _showAreaMeasurement2D = !_showAreaMeasurement2D;
-                break;
             case nameof(BookmarksWidget):
                 _showBookmarks = !_showBookmarks;
                 break;
@@ -155,11 +152,6 @@
         {
             _bookmarkWidget!.Bookmarks = _bookmarks;
         }
-        // if (_showAreaMeasurement2D)
-        // {
-        //     _areaMeasurement2DWidget = new AreaMeasurement2DWidget();
-        //     _areaMeasurement2DWidget.Start();
-        // }
     }
 
     private readonly List<Bookmark> _bookmarks = new List<Bookmark>()
@@ -185,7 +177,6 @@
     private bool _showHome;
     private bool _showCompass;
     private bool _showMeasurement;
-    private bool _showAreaMeasurement2D;
     private bool _showBookmarks;
 
     private BookmarksWidget? _bookmarkWidget;    
