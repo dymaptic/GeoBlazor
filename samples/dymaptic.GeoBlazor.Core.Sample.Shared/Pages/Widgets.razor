@@ -44,7 +44,7 @@
             <label>Distance Measurement: <input type="checkbox" class="form-check-input" @onchange="@(() => ToggleWidget(nameof(MeasurementWidget)))"></label>
         </div>
         <div class="form-group">
-            <label>Area Measurement 2D: <input type="checkbox" class="form-check-input" @onchange="@(() => ToggleWidget(nameof(MeasurementWidget)))"></label>
+            <label>Area Measurement 2D: <input type="checkbox" class="form-check-input" @onchange="@(() => ToggleWidget(nameof(AreaMeasurement2DWidget)))"></label>
         </div>
         <div id="gallery-box"></div>
     </div>
@@ -91,11 +91,11 @@
     {
         <CompassWidget Position="OverlayPosition.TopLeft" />
     }
-    @if (_showMeasurement)
+    @if (_showDistanceMeasurement)
     {
         <MeasurementWidget ActiveTool="ActiveTool.Distance" Label="asdasdasdsds" LinearUnit="LengthUnit.NauticalMiles" Position="OverlayPosition.TopLeft" />
     }
-    @if (_showAreaMeasurement2D)
+    @if (_showAreaMeasurement)
     {
         <MeasurementWidget ActiveTool="ActiveTool.Area" Label="Test Area" AreaUnit="AreaUnit.SquareMeters" Position="OverlayPosition.TopLeft"/>
     }
@@ -138,7 +138,10 @@
                 _showCompass = !_showCompass;
                 break;
             case nameof(MeasurementWidget):
-                _showMeasurement = !_showMeasurement;
+                _showDistanceMeasurement = !_showDistanceMeasurement;
+                break;
+            case nameof(AreaMeasurement2DWidget):
+                _showAreaMeasurement = !_showAreaMeasurement;
                 break;
             case nameof(BookmarksWidget):
                 _showBookmarks = !_showBookmarks;
@@ -176,7 +179,8 @@
     private bool _showLegend;
     private bool _showHome;
     private bool _showCompass;
-    private bool _showMeasurement;
+    private bool _showDistanceMeasurement;
+    private bool _showAreaMeasurement;
     private bool _showBookmarks;
 
     private BookmarksWidget? _bookmarkWidget;    
