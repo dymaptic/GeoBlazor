@@ -7,9 +7,84 @@
     <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMTSLayer.html">ArcGIS API for JavaScript</a>
     <a class="btn btn-primary" target="_blank" href="something"></a>
 </div>
-<Label>his sample shows how to add an instance of WMTSLayer. The WMTSLayer is used to create layers based on OGC Web Map Tile Service (WMTS).
+<Label>This sample shows how to add an instance of WMTSLayer. The WMTSLayer is used to create layers based on OGC Web Map Tile Service (WMTS).
     Typically, a WMTS service acts as a directory of WMTS layers, you can set a specific layer using the activeLayer property, (or else it will default to the first sublayer). 
     The WMTSLayer initially executes a WMTS GetCapabilities request, which might require CORS or a proxy page.</Label>
-@code {
+@* <button disabled="@(!_mapRendered)" @onclick="(()=>AddRemoveWCSLayer())">Show/Hide Basemap Toggle </button> *@
 
+<MapView @ref="_view" class="map-view" OnViewRendered="OnViewRendered">
+    <Map ArcGISDefaultBasemap="arcgis-light-gray">
+        @if (_markup)
+        {
+
+
+        }
+
+    </Map>
+</MapView>
+
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        _wmtsSampleSublayerPlain = new WMTSSublayer
+        {
+            Id = "IGNBase-gris",
+            TileMatrixSetId = "GoogleMapsCompatible"
+        };
+        _wmtsSampleSublayerOrtho = new WMTSSublayer
+        {
+            Id = "MIN",
+            TileMatrixSetId = "GoogleMapsCompatible"
+        };
+        _wmtsPlainSampleLayer = new WMTSLayer
+        {
+            Url = "https://www.ign.es/wmts/ign-base",
+            ServiceMode = "KVP",
+            ActiveLayer = _wmtsSampleSublayerPlain
+        };
+    }
+    private void BuildBasemaps()
+    {
+
+        WMTSLayer BaseLayers = new WMTSLayer()
+        {
+            Url = "https://www.ign.es/wmts/ign-base",
+            ,
+            ServiceMode = "KVP",
+            Copyright = "<a href=\"https://www.ign.es/\" target=\"_blank\">Instituto Geográfico Nacional</a>"
+        };
+
+
+    };
+
+    private void OnViewRendered() => _mapRendered = true;
+
+    private bool _mapRendered = false;
+    private bool _markup = false;
+    private MapView? _view;
+
+    private WMTSLayer? _wmtsPlainSampleLayer;
+    private WMTSLayer? _wmtsOrthoSampleLayer;
+    private WMTSSublayer? _wmtsSampleSublayerPlain;
+    private WMTSSublayer? _wmtsSampleSublayerOrtho;
+    private string _wmtsLayerUrl = "https://www.ign.es/wmts/ign-base";
+    private string _wmtsSampleTitle = "WMTS Layer";
+    private double _wmtsSampleOpacity = 0.5;
+    private Basemap? _plainIGNBasemap;
+    private Basemap? _orthoIGNBasemap;
+
+
+
+    // public async Task AddRemoveWCSLayer()
+    // {
+    //     if (!_view!.Map!.Layers.Any())
+    //     {
+    //         _wmtsSampleLayer = new(_wmtsLayerUrl, _wmtsSampleTitle, _wmtsSampleOpacity);
+    //         await _view.AddLayer(_wmtsSampleLayer);
+    //     }
+    //     else
+    //     {
+    //         await _view.RemoveLayer(_wmtsSampleLayer!);
+    //     }
+    // }
 }

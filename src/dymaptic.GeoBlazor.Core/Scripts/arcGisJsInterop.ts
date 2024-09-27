@@ -2874,6 +2874,31 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
 
             newLayer = imageryTileLayer;
             break;
+        case 'wmtslayer':
+
+            if (hasValue(layerObject.portalItem)) {
+                let portalItem = buildJsPortalItem(layerObject.portalItem);
+                newLayer = new WMTSLayer({
+                    portalItem: portalItem
+                });
+            } else {
+                newLayer = new WMTSLayer({
+                    url: layerObject.url
+                });
+            }
+            let wmtsLayer = newLayer as WMTSLayer;
+            wmtsLayer.title = layerObject.title;
+            //need to build out the js method to build wmtssublayers, build out tilematrixsets
+            }
+            copyValuesIfExists('blendMode', 'effect', 'maxScale', 'minScale', 'serviceMode', 'activeLayer', "wmtsSublayers" )
+
+
+
+
+
+
+            if ()
+            break;
          default:
             return null;
     }

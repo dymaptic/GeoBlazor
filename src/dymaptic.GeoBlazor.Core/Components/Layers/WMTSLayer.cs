@@ -51,12 +51,15 @@ public class WMTSLayer : Layer
     /// <param name="serviceMode">
     ///     The service mode for the WMTS layer. If not specified, the API will first make a getCapabilities request using RESTful. If that fails, it will try using KVP.
     /// </param>
+    /// /// <param name="activeLayer">
+    ///     The active/displayed WMTS sublayer. 
+    /// </param>
     /// <param name="wmtsSublayers">
     ///     The a collection of WMTS sublayers. Each sublayer represents a different layer within the WMTS service.
     /// </param>
     public WMTSLayer(string? url = null, PortalItem? portalItem = null, BlendMode? blendMode = null,
         Effect? effect = null, double? maxScale = null, double? minScale = null, bool? persistenceEnabled = null,
-        string? serviceMode = null, WMTSSublayer[]? wmtsSublayers = null)
+        string? serviceMode = null, WMTSSublayer? activeLayer = null, WMTSSublayer[]? wmtsSublayers = null)
     {
 #pragma warning disable BL0005
         Url = url;
@@ -67,6 +70,7 @@ public class WMTSLayer : Layer
         MinScale = minScale;
         PersistenceEnabled = persistenceEnabled;
         ServiceMode = serviceMode;
+        ActiveLayer = activeLayer;
         WMTSSublayers = wmtsSublayers;
     }
 
@@ -83,6 +87,12 @@ public class WMTSLayer : Layer
     /// </summary>
     [RequiredProperty(nameof(Url))]
     public PortalItem? PortalItem { get; set; }
+
+    /// <summary>
+    ///     The portal item for the WCS Layer source data.
+    /// </summary>
+    [RequiredProperty(nameof(Url))]
+    public WMTSSublayer? ActiveLayer { get; set; }
 
     /// <summary>
     ///     Blend modes are used to blend layers together to create an interesting effect in a layer, or even to produce what seems like a new layer. Unlike the method of using transparency which can result in a washed-out top layer, blend modes can create a variety of very vibrant and intriguing results by blending a layer with the layer(s) below it.
