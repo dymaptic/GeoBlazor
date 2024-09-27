@@ -8,7 +8,8 @@ namespace dymaptic.GeoBlazor.Core.Objects;
 /// <summary>
 /// Contains information about the WMTS Style for WMTSSublayer. 
 /// Valid WMTS styles are advertised in WMTS service metadata (GetCapabilities response)
-/// </summary>
+/// <a target = "_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMTSStyle.html">ArcGIS Maps SDK for JavaScript</a>
+///  </summary>
 public class WMTSStyle
 {
     /// <summary>

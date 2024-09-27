@@ -30,9 +30,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dymaptic.GeoBlazor.Core.Tes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dymaptic.GeoBlazor.Core.Test.Blazor.Wasm", "..\test\dymaptic.GeoBlazor.Core.Test.Blazor.Wasm\dymaptic.GeoBlazor.Core.Test.Blazor.Wasm.csproj", "{65E84734-80A0-4470-A288-E8988AE14521}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dymaptic.GeoBlazor.Core.Sample.WebApp", "..\samples\dymaptic.GeoBlazor.Core.Sample.WebApp\dymaptic.GeoBlazor.Core.Sample.WebApp.csproj", "{E69BF0F0-C621-4484-89AB-62ADBD889B3D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dymaptic.GeoBlazor.Core.Sample.WebApp", "..\samples\dymaptic.GeoBlazor.Core.Sample.WebApp\dymaptic.GeoBlazor.Core.Sample.WebApp.csproj", "{E69BF0F0-C621-4484-89AB-62ADBD889B3D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dymaptic.GeoBlazor.Core.Sample.WebApp.Client", "..\samples\dymaptic.GeoBlazor.Core.Sample.WebApp.Client\dymaptic.GeoBlazor.Core.Sample.WebApp.Client.csproj", "{2A9CE42F-322C-4AAD-8FB8-0D586F5215E1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dymaptic.GeoBlazor.Core.Sample.WebApp.Client", "..\samples\dymaptic.GeoBlazor.Core.Sample.WebApp.Client\dymaptic.GeoBlazor.Core.Sample.WebApp.Client.csproj", "{2A9CE42F-322C-4AAD-8FB8-0D586F5215E1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

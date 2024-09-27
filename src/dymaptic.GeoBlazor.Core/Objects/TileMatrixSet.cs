@@ -9,7 +9,8 @@ namespace dymaptic.GeoBlazor.Core.Objects;
 
 /// <summary>
 /// Contains information about the tiling scheme for WMTSSublayer.
-/// </summary>
+/// <a target = "_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TileMatrixSet.html">ArcGIS Maps SDK for JavaScript</a>
+///  </summary>
 
 public class TileMatrixSet
 {
