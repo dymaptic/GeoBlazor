@@ -92,8 +92,15 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     {
         if (Parent is not null && _registered)
         {
-            await Parent.UnregisterChildComponent(this);
-            _registered = false;
+            if (await Parent.UnregisterGeneratedChildComponent(this))
+            {
+                _registered = false;
+            }
+            else
+            {
+                await Parent.UnregisterChildComponent(this);
+                _registered = false;
+            }
         }
 
         foreach ((Delegate Handler, IJSObjectReference JsObjRef) tuple in _watchers.Values)
@@ -131,8 +138,289 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
                 // it's fine
             }
         }
+        
+        if (JsComponentReference is not null)
+        {
+            await JsComponentReference.DisposeAsync();
+        }
 
         CancellationTokenSource.Cancel();
+    }
+    
+    /// <summary>
+    ///     Sets any property to a new value after initial render. Supports all basic types (strings, numbers, booleans, dictionaries) and properties.
+    /// </summary>
+    /// <param name="propertyName">
+    ///     The name of the property to set.
+    /// </param>
+    /// <param name="value">
+    ///     The new value.
+    /// </param>
+    /// <param name="updateInMemory">
+    ///     Whether to update the in-memory value of the property as well as the ArcGIS JavaScript value. Default true.
+    /// </param>
+    /// <typeparam name="T">
+    ///     The type of the value to set.
+    /// </typeparam>
+    /// <exception cref="NotSupportedException">
+    ///     Throws if the component does not support the SetProperty method.
+    /// </exception>
+    public virtual async Task SetProperty<T>(string propertyName, T? value, bool updateInMemory = true)
+    {
+        if (updateInMemory)
+        {
+            Props ??= GetType().GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+            PropertyInfo? prop = Props.FirstOrDefault(p => p.Name == propertyName);
+            prop?.SetValue(this, value);
+            ModifiedParameters[propertyName] = value;
+        }
+        
+        if (JsModule is null) return;
+        JsComponentReference ??= await JsModule.InvokeAsync<IJSObjectReference>("getComponent", 
+            CancellationTokenSource.Token, Id);
+        if (JsComponentReference is null)
+        {
+            throw new NotSupportedException(
+                $"The component {GetType().Name} does not currently support the GetProperty method. Please contact dymaptic for support.");
+        }
+        await JsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token, JsComponentReference, 
+            propertyName.ToLowerFirstChar(), value);
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of any property, based on the property name. You must also define the type of the property in the Generic type.
+    /// </summary>
+    /// <param name="propertyName">
+    ///     The name of the property to get.
+    /// </param>
+    /// <param name="updateInMemory">
+    ///     Whether to update the in-memory value of the property when retrieving from JavaScript. Default true.
+    /// </param>
+    /// <typeparam name="T">
+    ///     The type of the value to get.
+    /// </typeparam>
+    /// <exception cref="NotSupportedException">
+    ///     Throws if the component does not support the GetProperty method.
+    /// </exception>
+    public virtual async Task<T?> GetProperty<T>(string propertyName, bool updateInMemory = true)
+    {
+        if (JsModule is null) return default;
+                 
+        JsComponentReference ??= await JsModule.InvokeAsync<IJSObjectReference>("getComponent",
+            CancellationTokenSource.Token, Id);
+        if (JsComponentReference is null)
+        {
+            throw new NotSupportedException(
+                $"The component {GetType().Name} does not currently support the GetProperty method. Please contact dymaptic for support.");
+        }
+        T? result = await JsModule.InvokeAsync<T?>("getProperty", 
+            CancellationTokenSource.Token, JsComponentReference, propertyName);
+
+        if (updateInMemory)
+        {
+            Props ??= GetType().GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+            PropertyInfo? prop = Props.FirstOrDefault(p => p.Name == propertyName);
+            object? currentValue = prop?.GetValue(this);
+            if (result is not null && !result.Equals(currentValue))
+            {
+                ModifiedParameters[propertyName] = result;
+                prop?.SetValue(this, result);
+            }
+        }
+        
+        return result;
+    }
+    
+    /// <summary>
+    ///     Asynchronously add a value to a property that is a collection.
+    /// </summary>
+    /// <param name="propertyName">
+    ///     The name of the property to add to.
+    /// </param>
+    /// <param name="value">
+    ///     The value to add to the property.
+    /// </param>
+    /// <param name="updateInMemory">
+    ///     Whether to update the in-memory collection of the property when adding to ArcGIS JavaScript. Default true.
+    /// </param>
+    /// <typeparam name="T">
+    ///     The type of the value to add.
+    /// </typeparam>
+    /// <exception cref="NotSupportedException">
+    ///     Throws if the component does not support the AddToProperty method.
+    /// </exception>
+    public virtual async Task AddToProperty<T>(string propertyName, T value, bool updateInMemory = true)
+    {
+        if (updateInMemory)
+        {
+            Props ??= GetType().GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+            PropertyInfo? prop = Props.FirstOrDefault(p => p.CanWrite && 
+                (p.Name == propertyName || p.Name == $"_{propertyName.ToLowerFirstChar()}"));
+            object? currentValue = prop?.GetValue(this);
+            if (currentValue is ICollection collection)
+            {
+                MethodInfo? addMethod = collection.GetType().GetMethod("Add");
+                addMethod?.Invoke(collection, new object?[] { value });
+            }
+            ModifiedParameters[propertyName] = prop!.GetValue(this);
+        }
+        
+        if (JsModule is null) return;
+        
+        JsComponentReference ??= await JsModule.InvokeAsync<IJSObjectReference>("getComponent",
+            CancellationTokenSource.Token, Id);
+        if (JsComponentReference is null)
+        {
+            throw new NotSupportedException(
+                $"The component {GetType().Name} does not currently support the AddToProperty method. Please contact dymaptic for support.");
+        }
+        await JsModule.InvokeVoidAsync("addToProperty", CancellationTokenSource.Token, JsComponentReference, 
+            propertyName.ToLowerFirstChar(), value);
+    }
+    
+    /// <summary>
+    ///     Asynchronously adds a set of values to a property that is a collection.
+    /// </summary>
+    /// <param name="propertyName">
+    ///     The name of the property to add to.
+    /// </param>
+    /// <param name="values">
+    ///     The values to add to the property.
+    /// </param>
+    /// <param name="updateInMemory">
+    ///     Whether to update the in-memory collection of the property when adding to ArcGIS JavaScript. Default true.
+    /// </param>
+    /// <typeparam name="T">
+    ///     The type of the values to add.
+    /// </typeparam>
+    /// <exception cref="NotSupportedException">
+    ///     Throws if the component does not support the AddToProperty method.
+    /// </exception>
+    public virtual async Task AddToProperty<T>(string propertyName, IReadOnlyList<T> values, bool updateInMemory = true)
+    {
+        if (updateInMemory)
+        {
+            Props ??= GetType().GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+            PropertyInfo? prop = Props.FirstOrDefault(p => p.CanWrite && 
+                (p.Name == propertyName || p.Name == $"_{propertyName.ToLowerFirstChar()}"));
+            object? currentValue = prop?.GetValue(this);
+            if (currentValue is ICollection collection)
+            {
+                MethodInfo? addMethod = collection.GetType().GetMethod("Add");
+                foreach (T value in values)
+                {
+                    addMethod?.Invoke(collection, new object?[] { value });
+                }
+                ModifiedParameters[propertyName] = prop!.GetValue(this);
+            }
+        }
+        
+        if (JsModule is null) return;
+        
+        JsComponentReference ??= await JsModule.InvokeAsync<IJSObjectReference>("getComponent",
+            CancellationTokenSource.Token, Id);
+        if (JsComponentReference is null)
+        {
+            throw new NotSupportedException(
+                $"The component {GetType().Name} does not currently support the AddToProperty method. Please contact dymaptic for support.");
+        }
+        await JsModule.InvokeVoidAsync("addToProperty", CancellationTokenSource.Token, JsComponentReference, 
+            propertyName.ToLowerFirstChar(), values);
+    }
+
+    /// <summary>
+    ///     Asynchronously remove a value from a property that is a collection.
+    /// </summary>
+    /// <param name="propertyName">
+    ///     The name of the property to remove from.
+    /// </param>
+    /// <param name="value">
+    ///     The value to remove from the property.
+    /// </param>
+    /// <param name="updateInMemory">
+    ///     Whether to update the in-memory collection of the property when removing from ArcGIS JavaScript. Default true.
+    /// </param>
+    /// <typeparam name="T">
+    ///     The type of the value to remove.
+    /// </typeparam>
+    /// <exception cref="NotSupportedException">
+    ///     Throws if the component does not support the RemoveFromProperty method.
+    /// </exception>
+    public virtual async Task RemoveFromProperty<T>(string propertyName, T value, bool updateInMemory = true)
+    {
+        if (updateInMemory)
+        {
+            Props ??= GetType().GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+            PropertyInfo? prop = Props.FirstOrDefault(p => p.CanWrite && 
+                (p.Name == propertyName || p.Name == $"_{propertyName.ToLowerFirstChar()}"));
+            object? currentValue = prop?.GetValue(this);
+            if (currentValue is ICollection collection)
+            {
+                MethodInfo? removeMethod = collection.GetType().GetMethod("Remove");
+                removeMethod?.Invoke(collection, new object?[] { value });
+                ModifiedParameters[propertyName] = prop!.GetValue(this);
+            }
+        }
+        if (JsModule is null) return;
+        
+        JsComponentReference ??= await JsModule.InvokeAsync<IJSObjectReference>("getComponent",
+            CancellationTokenSource.Token, Id);
+        if (JsComponentReference is null)
+        {
+            throw new NotSupportedException(
+                $"The component {GetType().Name} does not currently support the AddToProperty method. Please contact dymaptic for support.");
+        }
+        await JsModule.InvokeVoidAsync("removeFromProperty", CancellationTokenSource.Token, JsComponentReference, 
+            propertyName.ToLowerFirstChar(), value);
+    }
+    
+    /// <summary>
+    ///     Asynchronously remove a set of values from a property that is a collection.
+    /// </summary>
+    /// <param name="propertyName">
+    ///     The name of the property to remove from.
+    /// </param>
+    /// <param name="values">
+    ///     The values to remove from the property.
+    /// </param>
+    /// <param name="updateInMemory">
+    ///     Whether to update the in-memory collection of the property when removing from ArcGIS JavaScript. Default true.
+    /// </param>
+    /// <typeparam name="T">
+    ///     The type of the values to remove.
+    /// </typeparam>
+    /// <exception cref="NotSupportedException">
+    ///     Throws if the component does not support the RemoveFromProperty method.
+    /// </exception>
+    public virtual async Task RemoveFromProperty<T>(string propertyName, IReadOnlyList<T> values, bool updateInMemory = true)
+    {
+        if (updateInMemory)
+        {
+            Props ??= GetType().GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+            PropertyInfo? prop = Props.FirstOrDefault(p => p.CanWrite && 
+                (p.Name == propertyName || p.Name == $"_{propertyName.ToLowerFirstChar()}"));
+            object? currentValue = prop?.GetValue(this);
+            if (currentValue is ICollection collection)
+            {
+                MethodInfo? removeMethod = collection.GetType().GetMethod("Remove");
+                foreach (T value in values)
+                {
+                    removeMethod?.Invoke(collection, new object?[] { value });
+                }
+                ModifiedParameters[propertyName] = prop!.GetValue(this);
+            }
+        }
+        if (JsModule is null) return;
+        
+        JsComponentReference ??= await JsModule.InvokeAsync<IJSObjectReference>("getComponent",
+            CancellationTokenSource.Token, Id);
+        if (JsComponentReference is null)
+        {
+            throw new NotSupportedException(
+                $"The component {GetType().Name} does not currently support the AddToProperty method. Please contact dymaptic for support.");
+        }
+        await JsModule.InvokeVoidAsync("removeFromProperty", CancellationTokenSource.Token, JsComponentReference, 
+            propertyName.ToLowerFirstChar(), values);
     }
 
     /// <summary>
@@ -160,23 +448,36 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     /// </remarks>
     public virtual async Task RegisterChildComponent(MapComponent child)
     {
-        try
+        if (!ProNotFound)
         {
-            Assembly proAssembly = Assembly.Load("dymaptic.GeoBlazor.Pro");
-            _proExtensions ??= proAssembly.GetType("dymaptic.GeoBlazor.Pro.ProExtensions");
-            MethodInfo? method = _proExtensions?.GetMethod("RegisterProChildComponent");
-
-            if (method is not null)
+            try
             {
-                await (Task)method.Invoke(null, new object?[] { this, child })!;
+                // register pro components that can be children of core components
+                Assembly proAssembly = Assembly.Load("dymaptic.GeoBlazor.Pro");
+                _proExtensions ??= proAssembly.GetType("dymaptic.GeoBlazor.Pro.ProExtensions");
+                MethodInfo? method = _proExtensions?.GetMethod("RegisterProChildComponent");
 
-                return;
+                if (method is not null)
+                {
+                    await (Task)method.Invoke(null, new object?[] { this, child })!;
+
+                    return;
+                }
+            }
+            catch
+            {
+                ProNotFound = true;
             }
         }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-        }
+
+        throw new InvalidChildElementException(GetType().Name, child.GetType().Name);
+    }
+
+    /// <summary>
+    ///     Register a child component that was created with a source generator.
+    /// </summary>
+    protected virtual Task<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
         throw new InvalidChildElementException(GetType().Name, child.GetType().Name);
     }
 
@@ -191,23 +492,36 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     /// </remarks>
     public virtual async Task UnregisterChildComponent(MapComponent child)
     {
-        try
+        if (!ProNotFound)
         {
-            Assembly proAssembly = Assembly.Load("dymaptic.GeoBlazor.Pro");
-            _proExtensions ??= proAssembly.GetType("dymaptic.GeoBlazor.Pro.ProExtensions");
-            MethodInfo? method = _proExtensions?.GetMethod("UnregisterProChildComponent");
-
-            if (method is not null)
+            try
             {
-                await (Task)method.Invoke(null, new object?[] { this, child })!;
+                // unregister pro components that can be children of core components
+                Assembly proAssembly = Assembly.Load("dymaptic.GeoBlazor.Pro");
+                _proExtensions ??= proAssembly.GetType("dymaptic.GeoBlazor.Pro.ProExtensions");
+                MethodInfo? method = _proExtensions?.GetMethod("UnregisterProChildComponent");
 
-                return;
+                if (method is not null)
+                {
+                    await (Task)method.Invoke(null, new object?[] { this, child })!;
+
+                    return;
+                }
+            }
+            catch
+            {
+                ProNotFound = true;
             }
         }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-        }
+
+        throw new InvalidChildElementException(GetType().Name, child.GetType().Name);
+    }
+
+    /// <summary>
+    ///     Unregister a child component that was created with a source generator.
+    /// </summary>
+    protected virtual Task<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
         throw new InvalidChildElementException(GetType().Name, child.GetType().Name);
     }
 
@@ -263,16 +577,16 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     /// </exception>
     internal virtual void ValidateRequiredChildren()
     {
-        Type thisType = GetType();
-
-        IEnumerable<PropertyInfo> parameters = thisType
-            .GetProperties()
-            .Where(p =>
+        if (IsValidated) return;
+        
+        Props ??= GetType().GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+        
+        IEnumerable<PropertyInfo> requiredParameters = Props.Where(p =>
                 Attribute.IsDefined(p, typeof(RequiredPropertyAttribute)));
 
         List<ComponentOption> options = new();
 
-        foreach (PropertyInfo requiredParameter in parameters)
+        foreach (PropertyInfo requiredParameter in requiredParameters)
         {
             Type propType = requiredParameter.PropertyType;
             object? value = requiredParameter.GetValue(this);
@@ -309,13 +623,13 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
             
             if (value is null)
             {
-                throw new MissingRequiredChildElementException(thisType.Name, propName);
+                throw new MissingRequiredChildElementException(GetType().Name, propName);
             }
 
             // lists, arrays
-            if ((propType.GetInterface(nameof(ICollection)) != null) && (((ICollection)value).Count == 0))
+            if (propType.GetInterface(nameof(ICollection)) != null && ((ICollection)value).Count == 0)
             {
-                throw new MissingRequiredChildElementException(thisType.Name, propName);
+                throw new MissingRequiredChildElementException(GetType().Name, propName);
             }
         }
 
@@ -323,10 +637,53 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         {
             if (!option.Found)
             {
-                throw new MissingRequiredOptionsChildElementException(thisType.Name, option.Options);
+                throw new MissingRequiredOptionsChildElementException(GetType().Name, option.Options);
             }
         }
+        
+        IEnumerable<PropertyInfo> childComponentProps = Props.Where(p =>
+            p.PropertyType.IsSubclassOf(typeof(MapComponent)) || 
+            (p.PropertyType.IsGenericType && 
+             p.PropertyType.GenericTypeArguments[0].IsSubclassOf(typeof(MapComponent))));
+        
+        // fallback for components that don't correctly call their children's ValidateRequiredChildren
+        foreach (PropertyInfo childProp in childComponentProps)
+        {
+            if (childProp.GetValue(this) is MapComponent { IsValidated: false } child)
+            {
+                child.ValidateRequiredChildren();
+            }
+            else if (childProp.PropertyType.IsGenericType)
+            {
+                Type genericType = childProp.PropertyType.GenericTypeArguments[0];
+                if (genericType.IsSubclassOf(typeof(MapComponent)) && 
+                    childProp.GetValue(this) is IEnumerable<MapComponent> collection)
+                {
+                    foreach (MapComponent collectionChild in collection)
+                    {
+                        collectionChild.ValidateRequiredChildren();
+                    }
+                }
+            }
+        }
+        
+        IsValidated = true;
     }
+
+    /// <summary>
+    ///     Reflection-based properties of the component.
+    /// </summary>
+    protected PropertyInfo[]? Props;
+
+    /// <summary>
+    ///     Validates source-generated child components.
+    /// </summary>
+    protected virtual void ValidateRequiredGeneratedChildren()
+    {
+        
+    }
+
+    protected bool IsValidated;
 
     /// <inheritdoc />
     protected override async Task OnInitializedAsync()
@@ -335,6 +692,11 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
 
         if (Parent is not null && !_registered)
         {
+            if (await Parent.RegisterGeneratedChildComponent(this))
+            {
+                _registered = true;
+                return;
+            }
             await Parent.RegisterChildComponent(this);
             _registered = true;
         }
@@ -383,7 +745,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _watchers = new();
     private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _listeners = new();
     private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _waiters = new();
-    private Type? _proExtensions;
+    private static Type? _proExtensions;
 
     /// <summary>
     ///     Properties that were modified in code, and should no longer be set via markup, but instead set to the value here.
@@ -502,6 +864,11 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     protected bool IsRenderedBlazorComponent;
     private bool _registered;
     
+    /// <summary>
+    ///     The application is running with just GeoBlazor Core, not Pro
+    /// </summary>
+    protected static bool ProNotFound;
+
 
     private async Task AddReactiveWatcherImplementation(string watchExpression, Delegate handler, string? targetName,
         bool once, bool initial)

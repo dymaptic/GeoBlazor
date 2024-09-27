@@ -89,27 +89,10 @@ public abstract partial class Widget : MapComponent
         await OnWidgetCreated.InvokeAsync();
     }
     
-    /// <summary>
-    ///     Sets any property to a new value after initial render. Supports all basic types (strings, numbers, booleans, dictionaries) and properties.
-    /// </summary>
-    /// <param name="propertyName">
-    ///     The name of the property to set.
-    /// </param>
-    /// <param name="value">
-    ///     The new value.
-    /// </param>
-    public async Task SetProperty(string propertyName, object? value)
-    {
-        ModifiedParameters[propertyName] = value;
-        
-        if (JsModule is null) return;
-        await JsModule!.InvokeVoidAsync("setProperty", JsWidgetReference, 
-            propertyName.ToLowerFirstChar(), value);
-    }
-
     /// <inheritdoc />
     public override async Task SetParametersAsync(ParameterView parameters)
     {
+        // the value type of the parameters dictionary changed in .NET 8 to nullable objects.
 #if NET8_0_OR_GREATER
         IReadOnlyDictionary<string, object?> dictionary = parameters.ToDictionary();
 #else
@@ -121,6 +104,20 @@ public abstract partial class Widget : MapComponent
             throw new MissingMapViewReferenceException("Widgets outside the MapView must have the MapView parameter set.");
         }
         await base.SetParametersAsync(parameters);
+    }
+    
+    /// <inheritdoc />
+    public override async Task RegisterChildComponent(MapComponent child)
+    {
+        await base.RegisterChildComponent(child);
+        WidgetChanged = true;
+    }
+
+    /// <inheritdoc />
+    public override async Task UnregisterChildComponent(MapComponent child)
+    {
+        await base.UnregisterChildComponent(child);
+        WidgetChanged = true;
     }
 
     /// <inheritdoc />

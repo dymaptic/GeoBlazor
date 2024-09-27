@@ -196,6 +196,11 @@ export function removeFromProperty(obj, prop, value) {
     }
 }
 
+export function getJsComponent(id: string) {
+    // @ts-ignore
+    return DotNet.createJSObjectReference(arcGisObjectRefs[id]);
+}
+
 export function setSublayerProperty(layerObj: any, sublayerId: number, prop: string, value: any) {
     let sublayer = (layerObj as TileLayer)?.sublayers.find(sl => sl.id === sublayerId);
     if (hasValue(sublayer)) {
