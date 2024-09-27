@@ -53,6 +53,12 @@ import BasemapLayerList from "@arcgis/core/widgets/BasemapLayerList";
 import FeatureLayerWrapper from "./featureLayer";
 import KMLLayer from "@arcgis/core/layers/KMLLayer";
 import WCSLayer from "@arcgis/core/layers/WCSLayer";
+
+import WMTSLayer from "@arcgis/core/layers/WMTSLayer";
+import WMTSSublayer from "@arcgis/core/layers/support/WMTSSublayer";
+import WMTSStyle from "@arcgis/core/layers/support/WMTSStyle";
+import TileMatrixSet from "@arcgis/core/layers/support/TileMatrixSet";
+
 import ImageryLayer from "@arcgis/core/layers/ImageryLayer.js";
 import ImageryTileLayer from "@arcgis/core/layers/ImageryTileLayer.js";
 
