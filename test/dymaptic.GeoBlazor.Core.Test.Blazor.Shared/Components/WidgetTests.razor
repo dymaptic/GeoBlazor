@@ -183,7 +183,7 @@
     }
 
     [TestMethod]
-    public async Task TestCanRenderDistanceMeasurementWidgetWithLength(Action renderHandler)
+    public async Task TestCanRenderDistanceMeasurementWidgetWithLinearUnits(Action renderHandler)
     {
         AddMapRenderFragment(
             @<MapView class="map-view" OnViewRendered="renderHandler">
@@ -198,7 +198,7 @@
     }
 
     [TestMethod]
-    public async Task TestCanRenderDistanceMeasurementWidgetWithArea(Action renderHandler)
+    public async Task TestCanRenderDistanceMeasurementWidgetWithAreaUnits(Action renderHandler)
     {
         AddMapRenderFragment(
             @<MapView class="map-view" OnViewRendered="renderHandler">
@@ -213,7 +213,7 @@
     }
 
     [TestMethod]
-    public async Task TestCanRenderDistanceMeasurementWidgetWithoutLengthOrArea(Action renderHandler)
+    public async Task TestCanRenderDistanceMeasurementWidgetWithoutLengthOrAreaUnits(Action renderHandler)
     {
         AddMapRenderFragment(
             @<MapView class="map-view" OnViewRendered="renderHandler">
