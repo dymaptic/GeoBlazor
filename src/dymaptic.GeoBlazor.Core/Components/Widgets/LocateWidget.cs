@@ -46,11 +46,6 @@ public class LocateWidget : Widget
     public bool HasGoToOverride => GoToOverride is not null;
     
     /// <summary>
-    ///     A .NET object reference for calling this class from JavaScript.
-    /// </summary>
-    public DotNetObjectReference<LocateWidget> LocateWidgetObjectReference => DotNetObjectReference.Create(this);
-    
-    /// <summary>
     ///     JavaScript-invokable method for internal use
     /// </summary>
     [JSInvokable]

@@ -33,11 +33,6 @@ public class LayerListWidget : Widget
     public Func<ListItem, Task<ListItem>>? OnListItemCreatedHandler { get; set; }
 
     /// <summary>
-    ///     The .Net object reference to this class for calling from JavaScript.
-    /// </summary>
-    public DotNetObjectReference<LayerListWidget> LayerListWidgetObjectReference => DotNetObjectReference.Create(this);
-
-    /// <summary>
     ///     A convenience property that signifies whether a custom <see cref="OnListItemCreatedHandler" /> was registered.
     /// </summary>
     public bool HasCustomHandler => OnListItemCreatedHandler is not null;

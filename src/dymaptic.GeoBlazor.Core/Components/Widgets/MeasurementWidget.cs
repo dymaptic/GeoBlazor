@@ -19,11 +19,6 @@ public class MeasurementWidget : Widget
     public override string WidgetType => "measurement";
 
     /// <summary>
-    ///     A .NET object reference for calling this class from JavaScript.
-    /// </summary>
-    public DotNetObjectReference<MeasurementWidget> MeasurementWidgetObjectReference => DotNetObjectReference.Create(this);
-
-    /// <summary>
     /// Specifies the current measurement tool to display.
     /// </summary>
     [Parameter]

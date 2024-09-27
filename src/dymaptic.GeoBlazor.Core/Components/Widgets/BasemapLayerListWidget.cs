@@ -72,12 +72,6 @@ public class BasemapLayerListWidget : Widget
     public BasemapLayerListWidgetVisibleElements? VisibleElements { get; set; }
 
     /// <summary>
-    ///     The .Net object reference to this class for calling from JavaScript.
-    /// </summary>
-    public DotNetObjectReference<BasemapLayerListWidget> BaseLayerListWidgetObjectReference =>
-        DotNetObjectReference.Create(this);
-
-    /// <summary>
     ///     A convenience property that signifies whether a custom <see cref="OnBaseListItemCreatedHandler" /> was registered.
     /// </summary>
     public bool HasCustomBaseListHandler => OnBaseListItemCreatedHandler is not null;

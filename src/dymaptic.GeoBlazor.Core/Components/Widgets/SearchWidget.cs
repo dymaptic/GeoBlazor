@@ -351,11 +351,6 @@ public class SearchWidget : Widget
     {
         return await JsWidgetReference!.InvokeAsync<SuggestResult[]>("getSuggestions");
     }
-    
-    /// <summary>
-    ///     A .NET object reference for calling this class from JavaScript.
-    /// </summary>
-    public DotNetObjectReference<SearchWidget> SearchWidgetObjectReference => DotNetObjectReference.Create(this);
 
     /// <summary>
     ///     A JavaScript invokable method that is triggered whenever a "select-result" event is fired by the search widget.
