@@ -154,9 +154,11 @@ import Polygon from "@arcgis/core/geometry/Polygon";
 
 export let arcGisObjectRefs: Record<string, Accessor> = {};
 
+// this could be either the arcGIS object or a "wrapper" class
+export let jsObjectRefs: Record<string, any> = {};
 export let popupTemplateRefs: Record<string, Accessor> = {};
 export let graphicsRefs: Record<string, Graphic> = {};
-export let dotNetRefs = {};
+export let dotNetRefs: Record<string, any> = {};
 export let queryLayer: FeatureLayer;
 export let blazorServer: boolean = false;
 import normalizeUtils from "@arcgis/core/geometry/support/normalizeUtils";
@@ -834,6 +836,9 @@ export function disposeMapComponent(componentId: string, viewId: string): void {
         }
         if (dotNetRefs.hasOwnProperty(componentId)) {
             delete dotNetRefs[componentId];
+        }
+        if (jsObjectRefs.hasOwnProperty(componentId)) {
+            delete jsObjectRefs[componentId];
         }
         let view = arcGisObjectRefs[viewId] as View;
         view?.ui?.remove(component as any);
@@ -2344,8 +2349,9 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
 
     arcGisObjectRefs[widget.id] = newWidget;
     dotNetRefs[widget.id] = widget.dotNetComponentReference;
+    let wrap = jsObjectRefs[widget.id] ?? getObjectReference(newWidget);
     // @ts-ignore
-    let jsRef = DotNet.createJSObjectReference(getObjectReference(newWidget));
+    let jsRef = DotNet.createJSObjectReference(wrap);
     await widget.dotNetWidgetReference.invokeMethodAsync('OnJsWidgetCreated', jsRef);
     return newWidget;
 }
@@ -2911,6 +2917,10 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
     arcGisObjectRefs[layerObject.id] = newLayer;
 
     if (wrap) {
+        let wrap = jsObjectRefs[layerObject.id];
+        if (hasValue(wrap)) {
+            return wrap;
+        }
         return getObjectReference(newLayer);
     }
 

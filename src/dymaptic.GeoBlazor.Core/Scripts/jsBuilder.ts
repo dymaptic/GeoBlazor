@@ -1,4 +1,6 @@
-﻿import SpatialReference from "@arcgis/core/geometry/SpatialReference";
+﻿// region imports
+
+import SpatialReference from "@arcgis/core/geometry/SpatialReference";
 import Extent from "@arcgis/core/geometry/Extent";
 import Graphic from "@arcgis/core/Graphic";
 import PopupTemplate from "@arcgis/core/PopupTemplate";
@@ -170,6 +172,9 @@ import JoinTableDataSource = __esri.JoinTableDataSource;
 import DynamicDataLayerFields = __esri.DynamicDataLayerFields;
 import TickConfig = __esri.TickConfig;
 import MapView from "@arcgis/core/views/MapView";
+
+
+// region functions
 
 export function buildJsSpatialReference(dotNetSpatialReference: DotNetSpatialReference): SpatialReference {
     if (dotNetSpatialReference === undefined || dotNetSpatialReference === null) {
