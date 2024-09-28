@@ -1,4 +1,7 @@
-﻿import esriConfig from "@arcgis/core/config";
+﻿// noinspection JSUnusedGlobalSymbols
+
+// region imports
+import esriConfig from "@arcgis/core/config";
 import * as geometryEngine from "@arcgis/core/geometry/geometryEngine";
 import * as projection from "@arcgis/core/geometry/projection";
 import Basemap from "@arcgis/core/Basemap";
@@ -55,7 +58,6 @@ import KMLLayer from "@arcgis/core/layers/KMLLayer";
 import WCSLayer from "@arcgis/core/layers/WCSLayer";
 import ImageryLayer from "@arcgis/core/layers/ImageryLayer.js";
 import ImageryTileLayer from "@arcgis/core/layers/ImageryTileLayer.js";
-
 import {
     buildDotNetBookmark,
     buildDotNetExtent,
@@ -163,6 +165,8 @@ let notifyExtentChanged: boolean = true;
 let uploadingLayers: Array<string> = [];
 let userChangedViewExtent: boolean = false;
 let pointerDown: boolean = false;
+
+// region functions
 
 export function getProperty(obj, prop) {
     return obj[prop];
