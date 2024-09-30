@@ -10,7 +10,7 @@ namespace dymaptic.GeoBlazor.Core.Objects;
 /// <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-TimeInterval.html">ArcGIS Maps SDK for JavaScript</a>
 /// Used by Feature Layer.
 /// </summary>
-public class TimeInterval
+public record TimeInterval
 {
     /// <summary>
     /// Temporal units.

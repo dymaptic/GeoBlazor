@@ -1326,7 +1326,7 @@ public record ExtentQueryResult(int Count, Extent Extent);
 /// <summary>
 ///     Options for creating the <see cref="PopupTemplate" />.
 /// </summary>
-public class CreatePopupTemplateOptions
+public record CreatePopupTemplateOptions
 {
     /// <summary>
     ///     An array of field types to ignore when creating the popup. System fields such as Shape_Area and Shape_length, in
@@ -1345,7 +1345,7 @@ public class CreatePopupTemplateOptions
 ///     For use with <see cref="FeatureLayer.ApplyEdits"/>
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#applyEdits">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public class FeatureEdits
+public record FeatureEdits
 {
     /// <summary>
     ///     An array or a collection of features to be added. Values of non nullable fields must be provided when adding new features. Date fields must have numeric values representing universal time.
@@ -1378,7 +1378,7 @@ public class FeatureEdits
 ///     AttachmentEdit represents an attachment that can be added, updated or deleted via applyEdits. This object can be either pre-uploaded data or base 64 encoded data.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#AttachmentEdit">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public class AttachmentEdit
+public record AttachmentEdit
 {
     /// <summary>
     ///     Construct an AttachmentEdit from a <see cref="Graphic"/> "Feature" and its <see cref="Attachment"/>.
@@ -1432,7 +1432,7 @@ public class AttachmentEdit
 /// <summary>
 ///     The attachment to be added, updated or deleted in an <see cref="AttachmentEdit"/>.
 /// </summary>
-public class Attachment
+public record Attachment
 {
     /// <summary>
     ///     The globalId of the attachment to be added or updated. These Global IDs must be from the Global ID field created by ArcGIS. For more information on ArcGIS generated Global IDs, see the Global IDs and Attachments and relationship classes sections in the <a target="_blank" href="https://enterprise.arcgis.com/en/server/latest/publish-services/windows/prepare-data-for-offline-use.htm#ESRI_SECTION1_CDC34577197B43A980E4B5021DB1C32A">Data Preparation</a> documentation.
@@ -1464,7 +1464,7 @@ public class Attachment
 /// Time info represents the temporal data of a time-aware layer. The time info class provides information such
 /// as date fields that store the start and end times for each feature and the total time span for the layer.
 /// </summary>
-public class TimeInfo
+public record TimeInfo
 {
     /// <summary>
     ///     Public constructor
@@ -1513,7 +1513,7 @@ public class TimeInfo
 /// <summary>
 ///     The options to use with <see cref="FeatureLayer.ApplyEdits"/>.
 /// </summary>
-public class FeatureEditOptions
+public record FeatureEditOptions
 {
     /// <summary>
     ///     The geodatabase version to apply the edits. This parameter applies only if the capabilities.data.isVersioned property of the layer is true. If the gdbVersion parameter is not specified, edits are made to the published map’s version.

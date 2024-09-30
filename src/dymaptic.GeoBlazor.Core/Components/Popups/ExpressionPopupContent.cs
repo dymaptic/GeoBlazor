@@ -67,7 +67,7 @@ public class ExpressionPopupContent : PopupContent
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-ElementExpressionInfo.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 [ProtoContract]
-public class ElementExpressionInfo
+public record ElementExpressionInfo
 {
     /// <summary>
     ///     The Arcade expression evaluating to a dictionary. The dictionary must represent either a TextContent,

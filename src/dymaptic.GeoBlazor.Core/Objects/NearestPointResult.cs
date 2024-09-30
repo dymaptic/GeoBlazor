@@ -8,7 +8,7 @@ namespace dymaptic.GeoBlazor.Core.Objects;
 ///     Object returned from the nearestCoordinate(), nearestVertex(), and nearestVertices() methods of
 ///     <see cref="GeometryEngine" />.
 /// </summary>
-public class NearestPointResult
+public record NearestPointResult
 {
     /// <summary>
     ///     A vertex within the specified distance of the search.

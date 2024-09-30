@@ -8,7 +8,7 @@ namespace dymaptic.GeoBlazor.Core.Objects;
 ///     information about candidates, including the address, location, and match score.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AddressCandidate.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public class AddressCandidate
+public record AddressCandidate
 {
     /// <summary>
     ///     Address of the candidate.

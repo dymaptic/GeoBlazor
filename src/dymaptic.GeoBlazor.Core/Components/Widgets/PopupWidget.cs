@@ -478,7 +478,7 @@ public class PopupDockOptions : MapComponent
 ///     DefaultValue: true
 /// </summary>
 [JsonConverter(typeof(BreakPointConverter))]
-public class BreakPoint
+public record BreakPoint
 {
     /// <summary>
     ///     Constructor for building a breakpoint with specified max width and/or height.
@@ -570,7 +570,7 @@ public class PopupVisibleElements : MapComponent
 /// <summary>
 ///     Defines the location and content of the popup when opened with <see cref="MapView.OpenPopup" />
 /// </summary>
-public class PopupOpenOptions
+public record PopupOpenOptions
 {
     /// <summary>
     ///     Sets the title of the popup.

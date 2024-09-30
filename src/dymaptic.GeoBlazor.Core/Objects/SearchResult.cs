@@ -10,7 +10,7 @@ namespace dymaptic.GeoBlazor.Core.Objects;
 ///     The result object returned from a search.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#SearchResult">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public class SearchResult
+public record SearchResult
 {
     /// <summary>
     ///     The extent, or bounding box, of the returned feature. The value depends on the data source, with higher quality

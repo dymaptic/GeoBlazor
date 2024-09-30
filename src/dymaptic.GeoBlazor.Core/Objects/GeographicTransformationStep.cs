@@ -9,7 +9,7 @@ namespace dymaptic.GeoBlazor.Core.Objects;
 ///     represents a geographic datum transformation.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-GeographicTransformationStep.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public class GeographicTransformationStep
+public record GeographicTransformationStep
 {
     /// <summary>
     ///     Indicates if the geographic transformation is inverted.

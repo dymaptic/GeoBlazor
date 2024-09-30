@@ -7,7 +7,7 @@
 ///     the best possible accuracy when converting geometries from one spatial reference to another.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-GeographicTransformation.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public class GeographicTransformation
+public record GeographicTransformation
 {
     /// <summary>
     ///     Geographic transformation steps.
@@ -18,9 +18,11 @@ public class GeographicTransformation
     ///     Returns the inverse of the geographic transformation calling this method or null if the transformation is not
     ///     invertible.
     /// </summary>
-    /// <exception cref="NotImplementedException"></exception>
     public GeographicTransformation GetInverse()
     {
-        throw new NotImplementedException();
+        return new GeographicTransformation
+        {
+            Steps = Steps.Select(s => s with {IsInverse = !s.IsInverse}).Reverse().ToArray()
+        };
     }
 }

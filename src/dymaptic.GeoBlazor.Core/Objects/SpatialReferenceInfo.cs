@@ -6,7 +6,7 @@ namespace dymaptic.GeoBlazor.Core.Objects;
 /// <summary>
 ///     The return object of <see cref="GeometryEngine.ExtendedSpatialReferenceInfo" />
 /// </summary>
-public class SpatialReferenceInfo
+public record SpatialReferenceInfo
 {
     /// <summary>
     ///     The XY tolerance of the spatial reference.

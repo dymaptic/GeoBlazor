@@ -343,7 +343,7 @@ public class FeatureLayerView : LayerView
 /// <summary>
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public class FeatureFilter
+public record FeatureFilter
 {
     /// <summary>
     ///     Specifies a search distance from a given geometry in a spatial filter. The units property indicates the unit of
@@ -409,7 +409,7 @@ public class FeatureFilter
 /// <summary>
 ///  <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureEffect.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public class FeatureEffect
+public record FeatureEffect
 {
     /// <summary>
     /// The effect applied to features that do not meet the filter requirements.
@@ -436,7 +436,7 @@ public class FeatureEffect
 /// <summary>
 ///  <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureEffect.html#Effect">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public class Effect
+public record Effect
 {
     /// <summary>
     ///     Constructor

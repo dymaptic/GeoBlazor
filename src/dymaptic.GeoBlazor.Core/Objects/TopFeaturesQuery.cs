@@ -13,7 +13,7 @@ namespace dymaptic.GeoBlazor.Core.Objects;
 ///     support properties such as outStatistics and its related parameters or returnDistinctValues.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFeaturesQuery.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public class TopFeaturesQuery
+public record TopFeaturesQuery
 {
     /// <summary>
     ///     Indicates if the service should cache the query results. It only applies if the layer's
@@ -179,7 +179,7 @@ public class TopFeaturesQuery
 ///     United States.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFilter.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public class TopFilter
+public record TopFilter
 {
     /// <summary>
     ///     When one or more field names are provided in this property, the output result will be grouped based on unique

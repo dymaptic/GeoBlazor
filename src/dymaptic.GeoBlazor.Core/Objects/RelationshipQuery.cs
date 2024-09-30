@@ -10,7 +10,7 @@ namespace dymaptic.GeoBlazor.Core.Objects;
 ///     FeatureLayer.queryRelatedFeatures() methods, which will return FeatureSets grouped by source layer/table objectIds.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-RelationshipQuery.html#maxAllowableOffset">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public class RelationshipQuery
+public record RelationshipQuery
 {
     /// <summary>
     ///     Indicates if the service should cache the relationship query results. It only applies if the layer's

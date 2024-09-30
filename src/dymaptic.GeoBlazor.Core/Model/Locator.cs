@@ -349,7 +349,7 @@ public enum LocationType
 ///         API
 ///     </a>
 /// </summary>
-public class RequestOptions
+public record RequestOptions
 {
     /// <summary>
     ///     Indicates if and how requests to ArcGIS Services are authenticated. Only applicable when

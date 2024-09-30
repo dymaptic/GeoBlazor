@@ -10,7 +10,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 ///     FeatureSet include query.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FeatureSet.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public class FeatureSet
+public record FeatureSet
 {
     /// <summary>
     ///     The name of the layer's primary display field. The value of this property matches the name of one of the fields of

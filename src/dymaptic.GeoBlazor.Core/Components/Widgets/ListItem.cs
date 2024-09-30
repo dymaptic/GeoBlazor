@@ -10,7 +10,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 ///     related to the layer.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html#actionsSections">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public class ListItem
+public record ListItem
 {
     /// <summary>
     ///     The displayed title of the layer in the LayerList Widget.
@@ -81,7 +81,7 @@ public class ListItem
 ///     This class allows you to display custom content for each ListItem in the LayerList widget. ListItemPanel objects typically aren't constructed. Rather, they are modified using the listItemCreatedFunction property in the LayerList widget.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItemPanel.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public class ListItemPanel
+public record ListItemPanel
 {
     /// <summary>
     ///     Adds a CSS class used to style a node that represents the panel. Clicking the node will open and close the panel. Typically, an icon font is used for this property. Esri Icon Fonts are automatically made available and can be used to represent this content. To use one of these provided icon fonts, you must prefix the class name with esri-. For example, the default icon font is esri-icon-layer-list.

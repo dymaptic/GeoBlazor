@@ -3,7 +3,7 @@
 /// <summary>
 ///     A convenience method for pulling navigation directions from a Graphic in a RouteResult
 /// </summary>
-public class Direction
+public record Direction
 {
     /// <summary>
     ///     The navigation directions in human readable text.

@@ -11,7 +11,7 @@ namespace dymaptic.GeoBlazor.Core.Objects;
 ///     FeatureSet.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public class Query
+public record Query
 {
     /// <summary>
     ///     A where clause for the query.
@@ -326,7 +326,7 @@ public class Query
 /// <summary>
 ///     A collection of parameters to pass to locator.addressToLocations
 /// </summary>
-public class AddressQuery
+public record AddressQuery
 {
     /// <summary>
     ///     URL to the ArcGIS Server REST resource that represents a locator service.
