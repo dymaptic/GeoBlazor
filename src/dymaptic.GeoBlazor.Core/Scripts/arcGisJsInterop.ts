@@ -2888,9 +2888,9 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             }
             let wmtsLayer = newLayer as WMTSLayer;
             wmtsLayer.title = layerObject.title;
-            wmtsLayer.sublayers 
+
             //need to build out the js method to build wmtssublayers, build out tilematrixsets
-            copyValuesIfExists('blendMode', 'effect', 'maxScale', 'minScale', 'serviceMode', 'activeLayer',
+            copyValuesIfExists(layerObject, wmtsLayer, 'blendMode', 'effect', 'maxScale', 'minScale', 'serviceMode', 'activeLayer',
                 "wmtsSublayers");
             newLayer = wmtsLayer; 
             break;

@@ -86,12 +86,14 @@ public class WMTSLayer : Layer
     ///     The portal item for the WCS Layer source data.
     /// </summary>
     [RequiredProperty(nameof(Url))]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public PortalItem? PortalItem { get; set; }
 
     /// <summary>
-    ///     The portal item for the WCS Layer source data.
+    ///     The active sublayer to display.
     /// </summary>
-    [RequiredProperty(nameof(Url))]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public WMTSSublayer? ActiveLayer { get; set; }
 
     /// <summary>

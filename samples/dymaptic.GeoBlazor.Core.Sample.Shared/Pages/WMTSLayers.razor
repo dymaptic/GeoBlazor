@@ -13,43 +13,46 @@
     The WMTSLayer initially executes a WMTS GetCapabilities request, which might require CORS or a proxy page.</Label>
 @* <button disabled="@(!_mapRendered)" @onclick="(()=>AddRemoveWCSLayer())">Show/Hide Basemap Toggle </button> *@
 
- <MapView @ref="_view" class="map-view">
+ <MapView @ref="_view" class="map-view"  
+        Center="@(new Point(-3.7038, 40.4168))"
+        Scale="4622333.6">
     <Map>
-        <Basemap @ref="_plainIGNBasemap"/>
+        <Basemap>
+            <WMTSLayer @ref="_wmtsPlainLayer"
+                Url=""
+                Title="IGN Base"
+                ActiveLayer="_plainActiveLayer" />
+        </Basemap>
+
     </Map>
-    <BasemapToggleWidget @ref="_basemapToggleWidget" Position="OverlayPosition.BottomLeft">
-    </BasemapToggleWidget>
 </MapView> 
 
 @code {
-    protected override void OnAfterRender(bool firstRender)
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        BuildBasemaps();
-
-        _map = new Map()
+        BuildWMTSLayers();
+        if (_wmtsPlainLayer != null)
         {
-            Basemap = _plainIGNBasemap
-        };
+            await _wmtsPlainLayer.Load();
+        }
 
-        _view = new MapView()
-        {
-#pragma warning disable
-            Center = new Point(-3.7038, 40.4168),
-            Scale = 4622333.6783341225
-#pragma warning restore
-        };
+        //         _basemapToggleWidget = new BasemapToggleWidget()
+        //         {
+        //          View = _view,
+        //          NextBasemap = _orthoIGNBasemap
+        //         };
 
-        _basemapToggleWidget = new BasemapToggleWidget()
-        {
-         View = _view,
-         NextBasemap = _orthoIGNBasemap
-        };
     }
 
-    private void BuildBasemaps()
+    private void BuildWMTSLayers()
     {
-        MarkupString markupString = new MarkupString("<a href='https://www.ign.es/' target='_blank'>Instituto Geográfico Nacional</a>");
+        //MarkupString markupString = new MarkupString("<a href='https://www.ign.es/' target='_blank'>Instituto Geográfico Nacional</a>");
 #pragma warning disable
+        _plainActiveLayer = new WMTSSublayer
+            {
+                Id = "IGNBase-gris",
+                TileMatrixSetId = "GoogleMapsCompatible"
+            };
         _wmtsPlainLayer = new WMTSLayer
             {
                 Url = "https://www.ign.es/wmts/ign-base",
@@ -71,21 +74,22 @@
                 }
             };
 #pragma warning restore
-        _plainIGNBasemap = new Basemap
-        {
-            Layers = { _wmtsPlainLayer }
-        };
-        _orthoIGNBasemap = new Basemap
-        {
-            Layers = { _wmtsOrthoLayer }
-        };
+        // _plainIGNBasemap = new Basemap
+        // {
+        //     Layers = { _wmtsPlainLayer }
+        // };
+        // _orthoIGNBasemap = new Basemap
+        // {
+        //     Layers = { _wmtsOrthoLayer }
+        // };
     }
 
-    private Map? _map;
+    // private Map? _map;
     private MapView? _view;
-    private WMTSLayer _wmtsPlainLayer = new();
+    private WMTSLayer? _wmtsPlainLayer;
+    private WMTSSublayer? _plainActiveLayer;
     private WMTSLayer _wmtsOrthoLayer = new();
-    private BasemapToggleWidget? _basemapToggleWidget;
-    private Basemap? _plainIGNBasemap;
-    private Basemap? _orthoIGNBasemap;
+    // private BasemapToggleWidget? _basemapToggleWidget;
+    // private Basemap? _plainIGNBasemap;
+    // private Basemap? _orthoIGNBasemap;
 }
