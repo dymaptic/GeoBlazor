@@ -125,6 +125,7 @@ import MapImageLayer from "@arcgis/core/layers/MapImageLayer";
 import Sublayer from "@arcgis/core/layers/support/Sublayer.js";
 import TileLayer from "@arcgis/core/layers/TileLayer";
 import PieChartMediaInfo from "@arcgis/core/popup/content/PieChartMediaInfo";
+import TileMatrixSet from "@arcgis/core/layers/support/TileMatrixSet";
 
 
 export function buildDotNetGraphic(graphic: Graphic): DotNetGraphic | null {

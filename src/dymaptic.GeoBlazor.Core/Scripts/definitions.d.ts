@@ -1,4 +1,5 @@
 ﻿import Layer from "@arcgis/core/layers/Layer";
+import WMTSLayer from "@arcgis/core/layers/WMTSLayer";
 
 export interface MapObject {
     declaredClass: string;
@@ -806,3 +807,25 @@ export interface IPropertyWrapper {
     setProperty(prop: string, value: any): void;
     unwrap(): any;
 }
+
+export interface DotNetWMTSSTyle {
+    description: string;
+    id: string;
+    url: string;
+    title: string;
+}
+
+
+export interface DotNetWMTSSublayer {
+    description: string;
+    id: string;
+    title: string;
+    url: string;
+    imageFormat: string;
+    imageFormats: string[];
+    layer: DotNetLayer;
+    parent: DotNetLayer;
+    style: string;
+
+}
+

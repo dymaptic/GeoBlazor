@@ -12,79 +12,85 @@
     The WMTSLayer initially executes a WMTS GetCapabilities request, which might require CORS or a proxy page.</Label>
 @* <button disabled="@(!_mapRendered)" @onclick="(()=>AddRemoveWCSLayer())">Show/Hide Basemap Toggle </button> *@
 
-<MapView @ref="_view" class="map-view" OnViewRendered="OnViewRendered">
-    <Map ArcGISDefaultBasemap="arcgis-light-gray">
-        @if (_markup)
-        {
-
-
-        }
+ <MapView @ref="_view" class="map-view">
+    <Map>
+        <Basemap/>
 
     </Map>
-</MapView>
+    <BasemapToggleWidget Position="OverlayPosition.TopRight">
+    </BasemapToggleWidget>
+</MapView> 
 
 @code {
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override void OnAfterRender(bool firstRender)
     {
-        _wmtsSampleSublayerPlain = new WMTSSublayer
+        BuildBasemaps();
+        _basemapToggleWidget = new BasemapToggleWidget()
         {
-            Id = "IGNBase-gris",
-            TileMatrixSetId = "GoogleMapsCompatible"
+         View = _view,
+         NextBasemap = _orthoIGNBasemap
         };
-        _wmtsSampleSublayerOrtho = new WMTSSublayer
-        {
-            Id = "MIN",
-            TileMatrixSetId = "GoogleMapsCompatible"
-        };
-        _wmtsPlainSampleLayer = new WMTSLayer
-        {
-            Url = "https://www.ign.es/wmts/ign-base",
-            ServiceMode = "KVP",
-            ActiveLayer = _wmtsSampleSublayerPlain
-        };
+        _bookmarks.Add(new Bookmark("IGN Base", thumbnail: "https://www.ign.es/wmts/ign-base?SERVICE=WMTS&VERSION=1.0.0&REQUEST=GetTile&LAYER=IGNBase-gris&STYLE=default&FORMAT=image%2Fjpeg&TILEMATRIXSET=GoogleMapsCompatible&TILEMATRIX=6&TILEROW=24&TILECOL=31"));
+        _bookmarks.Add(new Bookmark("IGN Ortho", thumbnail: "https://www.ign.es/wmts/pnoa-ma?SERVICE=WMTS&VERSION=1.0.0&REQUEST=GetTile&LAYER=MIN&STYLE=default&FORMAT=image%2Fjpeg&TILEMATRIXSET=GoogleMapsCompatible&TILEMATRIX=6&TILEROW=24&TILECOL=31"));
+
+        //     _wmtsSampleSublayerPlain = new WMTSSublayer
+        //     {
+        //         Id = "IGNBase-gris",
+        //         TileMatrixSetId = "GoogleMapsCompatible"
+        //     };
+        //     _wmtsSampleSublayerOrtho = new WMTSSublayer
+        //     {
+        //         Id = "MIN",
+        //         TileMatrixSetId = "GoogleMapsCompatible"
+        //     };
+        //     _wmtsPlainSampleLayer = new WMTSLayer
+        //     {
+        //         Url = "https://www.ign.es/wmts/ign-base",
+        //         ServiceMode = "KVP",
+        //         ActiveLayer = _wmtsSampleSublayerPlain
+        //     };
     }
+
     private void BuildBasemaps()
     {
-
-        WMTSLayer BaseLayers = new WMTSLayer()
+        MarkupString markupString = new MarkupString("<a href='https://www.ign.es/' target='_blank'>Instituto Geográfico Nacional</a>");
+#pragma warning disable
+        _wmtsPlainLayer = new WMTSLayer
+            {
+                Url = "https://www.ign.es/wmts/ign-base",
+                Title = "IGN Base",
+                ActiveLayer = new WMTSSublayer
+                {
+                    Id = "IGNBase-gris",
+                    TileMatrixSetId = "GoogleMapsCompatible"
+                }
+            };
+        _wmtsOrthoLayer = new WMTSLayer
+            {
+                Url = "https://www.ign.es/wmts/pnoa-ma",
+                Title = "IGN Ortho",
+                ActiveLayer = new WMTSSublayer
+                {
+                    Id = "MIN",
+                    TileMatrixSetId = "GoogleMapsCompatible"
+                }
+            };
+#pragma warning restore
+        _plainIGNBasemap = new Basemap
         {
-            Url = "https://www.ign.es/wmts/ign-base",
-            ,
-            ServiceMode = "KVP",
-            Copyright = "<a href=\"https://www.ign.es/\" target=\"_blank\">Instituto Geográfico Nacional</a>"
+            Layers = { _wmtsPlainLayer }
         };
+        _orthoIGNBasemap = new Basemap
+        {
+            Layers = { _wmtsOrthoLayer }
+        };
+    }
 
-
-    };
-
-    private void OnViewRendered() => _mapRendered = true;
-
-    private bool _mapRendered = false;
-    private bool _markup = false;
     private MapView? _view;
-
-    private WMTSLayer? _wmtsPlainSampleLayer;
-    private WMTSLayer? _wmtsOrthoSampleLayer;
-    private WMTSSublayer? _wmtsSampleSublayerPlain;
-    private WMTSSublayer? _wmtsSampleSublayerOrtho;
-    private string _wmtsLayerUrl = "https://www.ign.es/wmts/ign-base";
-    private string _wmtsSampleTitle = "WMTS Layer";
-    private double _wmtsSampleOpacity = 0.5;
+    private WMTSLayer _wmtsPlainLayer = new();
+    private WMTSLayer _wmtsOrthoLayer = new();
+    private BasemapToggleWidget? _basemapToggleWidget;
+    private List<Bookmark> _bookmarks = new List<Bookmark>();
     private Basemap? _plainIGNBasemap;
     private Basemap? _orthoIGNBasemap;
-
-
-
-    // public async Task AddRemoveWCSLayer()
-    // {
-    //     if (!_view!.Map!.Layers.Any())
-    //     {
-    //         _wmtsSampleLayer = new(_wmtsLayerUrl, _wmtsSampleTitle, _wmtsSampleOpacity);
-    //         await _view.AddLayer(_wmtsSampleLayer);
-    //     }
-    //     else
-    //     {
-    //         await _view.RemoveLayer(_wmtsSampleLayer!);
-    //     }
-    // }
 }

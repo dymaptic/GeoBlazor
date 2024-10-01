@@ -2888,16 +2888,11 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             }
             let wmtsLayer = newLayer as WMTSLayer;
             wmtsLayer.title = layerObject.title;
+            wmtsLayer.sublayers 
             //need to build out the js method to build wmtssublayers, build out tilematrixsets
-            }
-            copyValuesIfExists('blendMode', 'effect', 'maxScale', 'minScale', 'serviceMode', 'activeLayer', "wmtsSublayers" )
-
-
-
-
-
-
-            if ()
+            copyValuesIfExists('blendMode', 'effect', 'maxScale', 'minScale', 'serviceMode', 'activeLayer',
+                "wmtsSublayers");
+            newLayer = wmtsLayer; 
             break;
          default:
             return null;
@@ -3385,4 +3380,53 @@ export function setStretchTypeForRenderer(rendererId, stretchType) {
 
 export function getBrowserLanguage(): string {
     return navigator.language;
+}
+
+export function setTileMatrixSet(tileMatrixSet) {
+    let tileMatrixSetObject = new TileMatrixSet({
+        id : tileMatrixSet.Id,
+        fullExtent: tileMatrixSet.Extent,
+        tileInfo : tileMatrixSet.TileInfo,
+    });
+    return tileMatrixSetObject;
+}
+
+export function setTileMatrixSets(tileMatrixSets) {
+    let tileMatrixSetsArray: TileMatrixSet[] = [];
+    for (var i = 0; i < tileMatrixSets.length; i++) {
+        let tileMatrixSet = tileMatrixSets[i];
+        let tileMatrixSetObject = new TileMatrixSet({
+            id: tileMatrixSet.Id,
+            fullExtent: tileMatrixSet.Extent,
+            tileInfo: tileMatrixSet.TileInfo,
+        });
+        tileMatrixSetsArray.push(tileMatrixSetObject);
+    }
+    return tileMatrixSetsArray;
+}
+
+export function setWMTSStyle(wmtsStyle) {
+    let wmtsStyleObject = new WMTSStyle({
+        description: wmtsStyle.description,
+        id: wmtsStyle.Id,
+        title: wmtsStyle.Title,
+    });
+}
+
+export function setWMTSSublayer(wMTSSublayer) {
+    let wmtsSublayerObject = new WMTSSublayer({
+        description: wMTSSublayer.description,
+        fullExtent: wMTSSublayer.fullExtent,
+        id: wMTSSublayer.id,
+        imageFormat: wMTSSublayer.imageFormat,
+        imageFormats: wMTSSublayer.imageFormats,
+        layer: wMTSSublayer.layer as WMTSLayer,
+        parent: wMTSSublayer.parent as WMTSLayer,
+        styleId: wMTSSublayer.styleId,
+        styles: wMTSSublayer.styles,
+        tileMatrixSetId: wMTSSublayer.tileMatrixSetId,
+        tileMatrixSet: setTileMatrixSet(wMTSSublayer.tileMatrixSet),
+        tileMatrixSets: setTileMatrixSets(wMTSSublayer.tileMatrixSets),
+        title: wMTSSublayer.title,
+    });
 }
