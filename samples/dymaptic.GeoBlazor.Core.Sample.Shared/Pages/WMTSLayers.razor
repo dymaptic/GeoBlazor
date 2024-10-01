@@ -7,17 +7,17 @@
     <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMTSLayer.html">ArcGIS API for JavaScript</a>
     <a class="btn btn-primary" target="_blank" href="something"></a>
 </div>
-<Label>This sample shows how to add an instance of WMTSLayer. The WMTSLayer is used to create layers based on OGC Web Map Tile Service (WMTS).
-    Typically, a WMTS service acts as a directory of WMTS layers, you can set a specific layer using the activeLayer property, (or else it will default to the first sublayer). 
+<Label>
+    The layers used in this sample are from Instituto Geográfico Nacional. Use the BasemapToggle widget to toggle between the layers. This sample shows how to add an instance of WMTSLayer.
+    The WMTSLayer is used to create layers based on OGC Web Map Tile Service (WMTS). Typically, a WMTS service acts as a directory of WMTS layers, you can set a specific layer using the activeLayer property, (or else it will default to the first sublayer). 
     The WMTSLayer initially executes a WMTS GetCapabilities request, which might require CORS or a proxy page.</Label>
 @* <button disabled="@(!_mapRendered)" @onclick="(()=>AddRemoveWCSLayer())">Show/Hide Basemap Toggle </button> *@
 
  <MapView @ref="_view" class="map-view">
     <Map>
-        <Basemap/>
-
+        <Basemap @ref="_plainIGNBasemap"/>
     </Map>
-    <BasemapToggleWidget Position="OverlayPosition.TopRight">
+    <BasemapToggleWidget @ref="_basemapToggleWidget" Position="OverlayPosition.BottomLeft">
     </BasemapToggleWidget>
 </MapView> 
 
@@ -25,30 +25,25 @@
     protected override void OnAfterRender(bool firstRender)
     {
         BuildBasemaps();
+
+        _map = new Map()
+        {
+            Basemap = _plainIGNBasemap
+        };
+
+        _view = new MapView()
+        {
+#pragma warning disable
+            Center = new Point(-3.7038, 40.4168),
+            Scale = 4622333.6783341225
+#pragma warning restore
+        };
+
         _basemapToggleWidget = new BasemapToggleWidget()
         {
          View = _view,
          NextBasemap = _orthoIGNBasemap
         };
-        _bookmarks.Add(new Bookmark("IGN Base", thumbnail: "https://www.ign.es/wmts/ign-base?SERVICE=WMTS&VERSION=1.0.0&REQUEST=GetTile&LAYER=IGNBase-gris&STYLE=default&FORMAT=image%2Fjpeg&TILEMATRIXSET=GoogleMapsCompatible&TILEMATRIX=6&TILEROW=24&TILECOL=31"));
-        _bookmarks.Add(new Bookmark("IGN Ortho", thumbnail: "https://www.ign.es/wmts/pnoa-ma?SERVICE=WMTS&VERSION=1.0.0&REQUEST=GetTile&LAYER=MIN&STYLE=default&FORMAT=image%2Fjpeg&TILEMATRIXSET=GoogleMapsCompatible&TILEMATRIX=6&TILEROW=24&TILECOL=31"));
-
-        //     _wmtsSampleSublayerPlain = new WMTSSublayer
-        //     {
-        //         Id = "IGNBase-gris",
-        //         TileMatrixSetId = "GoogleMapsCompatible"
-        //     };
-        //     _wmtsSampleSublayerOrtho = new WMTSSublayer
-        //     {
-        //         Id = "MIN",
-        //         TileMatrixSetId = "GoogleMapsCompatible"
-        //     };
-        //     _wmtsPlainSampleLayer = new WMTSLayer
-        //     {
-        //         Url = "https://www.ign.es/wmts/ign-base",
-        //         ServiceMode = "KVP",
-        //         ActiveLayer = _wmtsSampleSublayerPlain
-        //     };
     }
 
     private void BuildBasemaps()
@@ -86,11 +81,11 @@
         };
     }
 
+    private Map? _map;
     private MapView? _view;
     private WMTSLayer _wmtsPlainLayer = new();
     private WMTSLayer _wmtsOrthoLayer = new();
     private BasemapToggleWidget? _basemapToggleWidget;
-    private List<Bookmark> _bookmarks = new List<Bookmark>();
     private Basemap? _plainIGNBasemap;
     private Basemap? _orthoIGNBasemap;
 }
