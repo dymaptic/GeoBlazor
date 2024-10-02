@@ -33,8 +33,12 @@ public class MeasurementWidget : Widget
     public AreaUnit? AreaUnit { get; set; }
 
     /// <summary>
-    /// Unit system (imperial, metric) or specific unit used for displaying the distance values.
+    ///     Unit system (imperial, metric) or specific unit used for displaying the distance values.
     /// </summary>
+    /// <remarks>
+    ///     In a future version of GeoBlazor, the type of this property will be replaced with the
+    ///     more expansive `SystemOrLengthUnit` type.
+    /// </remarks>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public LengthUnit? LinearUnit { get; set; }
