@@ -1,5 +1,6 @@
 ﻿import Layer from "@arcgis/core/layers/Layer";
 import WMTSLayer from "@arcgis/core/layers/WMTSLayer";
+import TileInfo from "@arcgis/core/layers/support/TileInfo";
 
 export interface MapObject {
     declaredClass: string;
@@ -826,6 +827,12 @@ export interface DotNetWMTSSublayer {
     layer: DotNetLayer;
     parent: DotNetLayer;
     style: string;
-
 }
+
+export interface DotNetTileMatrixSet {
+    fullExtent: DotNetExtent;
+    id: string;
+    tileInfo: TileInfo;
+}
+
 

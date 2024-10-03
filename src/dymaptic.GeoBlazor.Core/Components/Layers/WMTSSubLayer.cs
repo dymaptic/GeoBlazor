@@ -25,6 +25,67 @@ public class WMTSSublayer
     }
 
     /// <summary>
+    ///     Constructor for the WMTSSublayer class.
+    /// </summary>
+    /// <param name="description">
+    ///     Description for the WMTS sublayer.
+    /// </param>
+    /// <param name="fullExtent">
+    ///     The full extent of the sublayer.
+    /// </param>
+    /// <param name="id">
+    ///     The unique id of the sublayer.
+    /// </param>
+    /// <param name="imageFormat">
+    ///     The map image format (MIME type) to request.
+    /// </param>
+    /// <param name="imageFormats">
+    ///     Supported image formats as retrieved from the GetCapabilities request.
+    /// </param>
+    /// <param name="layer">
+    ///     The WMTSLayer to which the sublayer belongs.
+    /// </param>
+    /// <param name="parent">
+    ///     The parent WMTSLayer to which the sublayer belongs.
+    /// </param>
+    /// <param name="styleId">
+    ///     The WMTSStyle to request.
+    /// </param>
+    /// <param name="styles">
+    ///     A collection of supported WMTSStyles as retrieved from the GetCapabilities request.
+    /// </param>
+    /// <param name="tileMatrixSet">
+    ///     The TileMatrixSet to request.
+    /// </param>
+    /// <param name="tileMatrixSets">
+    ///     A collection of supported TileMatrixSets.
+    /// </param>
+    /// <param name="tileMatrixSetId">
+    ///     The id of the TileMatrixSet to request.
+    /// </param>
+    /// <param name="title">
+    ///     The title of the WMTS sublayer used to identify it in places such as the LayerList and Legend widgets.
+    /// </param>
+    public WMTSSublayer(string? description, Extent? fullExtent, string? id, ImageFormat? imageFormat,
+        ImageFormat[]? imageFormats, WMTSLayer? layer, WMTSLayer? parent, string? styleId, WMTSStyle[]? styles,
+        TileMatrixSet? tileMatrixSet, TileMatrixSet[]? tileMatrixSets, string? tileMatrixSetId, string? title)
+    {
+        Description = description;
+        FullExtent = fullExtent;
+        Id = id;
+        ImageFormat = imageFormat;
+        ImageFormats = imageFormats;
+        Layer = layer;
+        Parent = parent;
+        StyleId = styleId;
+        Styles = styles;
+        TileMatrixSet = tileMatrixSet;
+        TileMatrixSets = tileMatrixSets;
+        TileMatrixSetId = tileMatrixSetId;
+        Title = title;
+    }
+
+    /// <summary>
     ///     Description for the WMTS sublayer.
     /// </summary>
     [Parameter]
@@ -32,13 +93,13 @@ public class WMTSSublayer
     public string? Description { get; set; }
 
     /// <summary>
-    ///     The full extent of the sublayer. 
+    ///     The full extent of the sublayer.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Extent? FullExtent { get; set; }
 
     /// <summary>
-    ///     The unique id of sublayer.
+    ///     The unique id of the sublayer.
     /// </summary>
     public string? Id { get; set; }
 
@@ -50,21 +111,21 @@ public class WMTSSublayer
     public ImageFormat? ImageFormat { get; set; }
 
     /// <summary>
-    ///    Supported image formats as retrieved from the GetCapabilities request..
+    ///     Supported image formats as retrieved from the GetCapabilities request.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ImageFormat[]? ImageFormats { get; set; }
 
     /// <summary>
-    ///    	The WMTSLayer to which the sublayer belongs.
+    ///     The WMTSLayer to which the sublayer belongs.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public WMTSLayer? Layer { get; set; }
 
     /// <summary>
-    ///    The parent WMTSLayer to which the sublayer belongs.
+    ///     The parent WMTSLayer to which the sublayer belongs.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -96,12 +157,7 @@ public class WMTSSublayer
     public string? TileMatrixSetId { get; set; }
 
     /// <summary>
-    ///     The title of the WMTS sublayer used to identify it in places such as
-    ///     the LayerList and Legend widgets.
+    ///     The title of the WMTS sublayer used to identify it in places such as the LayerList and Legend widgets.
     /// </summary>
     public string? Title { get; set; }
-
-
-
-
 }

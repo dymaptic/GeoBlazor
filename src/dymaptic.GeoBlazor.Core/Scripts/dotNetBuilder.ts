@@ -52,7 +52,10 @@ import {
     DotNetEffect,
     DotNetAddressCandidate,
     DotNetFeatureTemplate,
-    DotNetFeatureSet, DotNetPieChartMediaInfo
+    DotNetFeatureSet, DotNetPieChartMediaInfo,
+    DotNetWMTSSublayer,
+    DotNetWMTSSTyle,
+    DotNetTileMatrixSet,
 } from "./definitions";
 import Point from "@arcgis/core/geometry/Point";
 import Polyline from "@arcgis/core/geometry/Polyline";
