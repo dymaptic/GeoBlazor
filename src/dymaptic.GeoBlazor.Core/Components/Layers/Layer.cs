@@ -411,7 +411,7 @@ public abstract class Layer : MapComponent
     {
         LayerChanged = false;
 
-        if (JsModule is null) return;
+        if (CoreJsModule is null) return;
 
         if (GetType().Namespace!.Contains("Pro"))
         {
@@ -422,7 +422,7 @@ public abstract class Layer : MapComponent
         else
         {
             // ReSharper disable once RedundantCast
-            await JsModule!.InvokeVoidAsync("updateLayer", CancellationTokenSource.Token,
+            await CoreJsModule!.InvokeVoidAsync("updateLayer", CancellationTokenSource.Token,
                 (object)this, View!.Id);
         }
     }

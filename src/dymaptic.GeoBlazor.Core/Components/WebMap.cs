@@ -1,7 +1,5 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Widgets;
-using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using System.Text.Json.Serialization;
 
 
 namespace dymaptic.GeoBlazor.Core.Components;
@@ -72,10 +70,10 @@ public class WebMap : Map
     {
         var bookmarks = new List<Bookmark>();
 
-        if (JsModule != null)
+        if (CoreJsModule != null)
         {
             bookmarks =
-                await JsModule!.InvokeAsync<List<Bookmark>>("getWebMapBookmarks", CancellationTokenSource.Token, this.View?.Id);
+                await CoreJsModule!.InvokeAsync<List<Bookmark>>("getWebMapBookmarks", CancellationTokenSource.Token, this.View?.Id);
         }
         return bookmarks;
     }

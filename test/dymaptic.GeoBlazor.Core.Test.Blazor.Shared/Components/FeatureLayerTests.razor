@@ -27,7 +27,7 @@
         FeatureLayer? featureLayer = mapView!.Map!.Layers.OfType<FeatureLayer>().SingleOrDefault();
         
         Assert.IsNotNull(featureLayer);
-        Assert.IsNotNull(featureLayer.JsModule);
+        Assert.IsNotNull(MapComponent.CoreJsModule);
 
         await featureLayer.SetVisibility(false);
 

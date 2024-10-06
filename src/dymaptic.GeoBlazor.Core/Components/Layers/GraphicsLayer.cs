@@ -1,5 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Components.Views;
-using dymaptic.GeoBlazor.Core.Objects;
+﻿using dymaptic.GeoBlazor.Core.Objects;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using ProtoBuf;
@@ -159,12 +158,11 @@ public class GraphicsLayer : Layer
         foreach (Graphic graphic in newGraphics)
         {
             graphic.View = View;
-            graphic.JsModule = JsModule;
             graphic.LayerId = Id;
             graphic.Parent = this;
         }
 
-        if (JsModule is null || View is null)
+        if (CoreJsModule is null || View is null)
         {
             LayerChanged = true;
             UpdateState();
@@ -203,7 +201,7 @@ public class GraphicsLayer : Layer
                 }
 
                 ms.Seek(0, SeekOrigin.Begin);
-                ((IJSInProcessObjectReference)JsModule!).InvokeVoid("addGraphicsSynchronously", ms.ToArray(), View.Id, Id);
+                ((IJSInProcessObjectReference)CoreJsModule!).InvokeVoid("addGraphicsSynchronously", ms.ToArray(), View.Id, Id);
                 await ms.DisposeAsync();
                 await Task.Delay(1, cancellationToken);
             }
@@ -236,7 +234,7 @@ public class GraphicsLayer : Layer
                 ms.Seek(0, SeekOrigin.Begin);
                 using DotNetStreamReference streamRef = new(ms);
 
-                await JsModule!.InvokeVoidAsync("addGraphicsFromStream",
+                await CoreJsModule!.InvokeVoidAsync("addGraphicsFromStream",
                     cancellationToken, streamRef, View?.Id, abortSignal, Id);
             }
         }
@@ -272,7 +270,7 @@ public class GraphicsLayer : Layer
                     ms.Seek(0, SeekOrigin.Begin);
                     using DotNetStreamReference streamRef = new(ms);
 
-                    await JsModule!.InvokeVoidAsync("addGraphicsFromStream",
+                    await CoreJsModule!.InvokeVoidAsync("addGraphicsFromStream",
                         cancellationToken, streamRef, View?.Id, abortSignal, Id);
                 }, cancellationToken));
             }
@@ -303,7 +301,7 @@ public class GraphicsLayer : Layer
         AllowRender = false;
         var removedGraphics = graphics.ToList();
         var wrapperIds = removedGraphics.Select(g => g.Id).ToList();
-        await JsModule!.InvokeVoidAsync("removeGraphics", wrapperIds, View?.Id, Id);
+        await CoreJsModule!.InvokeVoidAsync("removeGraphics", wrapperIds, View?.Id, Id);
         _graphics.ExceptWith(removedGraphics);
         AllowRender = true;
     }
@@ -314,7 +312,7 @@ public class GraphicsLayer : Layer
     public async Task Clear()
     {
         AllowRender = false;
-        await JsModule!.InvokeVoidAsync("clearGraphics", View!.Id, Id);
+        await CoreJsModule!.InvokeVoidAsync("clearGraphics", View!.Id, Id);
         _graphicsToRender.Clear();
         _graphics.Clear();
         AllowRender = true;
@@ -343,13 +341,13 @@ public class GraphicsLayer : Layer
         switch (child)
         {
             case Graphic graphic:
-                if (_graphics.Remove(graphic) && JsModule is not null)
+                if (_graphics.Remove(graphic) && CoreJsModule is not null)
                 {
                     try
                     {
                         _graphicsToRender.Remove(graphic);
 
-                        await JsModule.InvokeVoidAsync("removeGraphic",
+                        await CoreJsModule.InvokeVoidAsync("removeGraphic",
                             CancellationTokenSource.Token, graphic.Id, View?.Id, Id);
                     }
                     catch
@@ -378,7 +376,6 @@ public class GraphicsLayer : Layer
         foreach (Graphic graphic in graphics)
         {
             _graphics.Add(graphic);
-            graphic.JsModule = JsModule;
             graphic.Parent = this;
         }
     }

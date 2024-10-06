@@ -3,8 +3,6 @@ using dymaptic.GeoBlazor.Core.Objects;
 using Microsoft.JSInterop;
 using ProtoBuf;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Text.Json;
 using System.Text.Json.Serialization;
 
 

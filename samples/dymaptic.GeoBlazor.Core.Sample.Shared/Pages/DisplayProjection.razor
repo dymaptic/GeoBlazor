@@ -107,7 +107,7 @@
     // the latency of the call is noticeable for a real-time event like pointer-move.
         IJSObjectReference module = await JsRuntime.InvokeAsync<IJSObjectReference>("import",
             "./_content/dymaptic.GeoBlazor.Core.Sample.Shared/js/extensions.js");
-        await module.InvokeVoidAsync("drawWithGeodesicBufferOnPointer", View.JsModule, PointSym, PolySym, 1000,
+        await module.InvokeVoidAsync("drawWithGeodesicBufferOnPointer", MapComponent.CoreJsModule, PointSym, PolySym, 1000,
             LinearUnit.Kilometers, View.Id);
     }
 

@@ -377,7 +377,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer
     {
         // Verify that the layer is loaded. Layers with no graphics are not rendered and therefore not loaded
         // as far as GeoBlazor is concerned
-        if (JsModule is not null && JsLayerReference is null)
+        if (CoreJsModule is not null && JsLayerReference is null)
         {
             await Load(cancellationToken);
         }
@@ -691,7 +691,6 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer
                 if (!_source.Contains(graphic))
                 {
                     graphic.View ??= View;
-                    graphic.JsModule ??= JsModule;
                     graphic.Parent ??= this;
                     graphic.LayerId ??= Id;
                     _source.Add(graphic);
@@ -1754,7 +1753,7 @@ public enum DrawingTool
 /// </summary>
 internal class GraphicToIdConverter: JsonConverter<Graphic>
 {
-    public override Graphic? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    public override Graphic Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         throw new NotImplementedException();
     }

@@ -2,7 +2,6 @@
 using dymaptic.GeoBlazor.Core.Objects;
 using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
-using ProtoBuf;
 using System.Text.Json.Serialization;
 
 

@@ -54,10 +54,10 @@ public class SceneView : MapView
             Latitude = point.Latitude;
             Longitude = point.Longitude;
 
-            if (ViewJsModule is null) return;
+            if (CoreJsModule is null) return;
 
             ViewExtentUpdate change =
-                await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("setCenter",
+                await CoreJsModule!.InvokeAsync<ViewExtentUpdate>("setCenter",
                     CancellationTokenSource.Token, (object)point, Id);
             Extent = change.Extent;
             Zoom = change.Zoom;
@@ -73,13 +73,13 @@ public class SceneView : MapView
     {
         Zoom = zoom;
 
-        if (ViewJsModule is not null)
+        if (CoreJsModule is not null)
         {
             ShouldUpdate = false;
             ExtentSetByCode = true;
 
             ViewExtentUpdate change =
-                await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("setZoom",
+                await CoreJsModule!.InvokeAsync<ViewExtentUpdate>("setZoom",
                     CancellationTokenSource.Token, Zoom, Id);
             Extent = change.Extent;
             Latitude = change.Center?.Latitude;
@@ -96,13 +96,13 @@ public class SceneView : MapView
     {
         Scale = scale;
 
-        if (ViewJsModule is not null)
+        if (CoreJsModule is not null)
         {
             ShouldUpdate = false;
             ExtentSetByCode = true;
 
             ViewExtentUpdate change =
-                await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("setScale",
+                await CoreJsModule!.InvokeAsync<ViewExtentUpdate>("setScale",
                     CancellationTokenSource.Token, Scale, Id);
             Extent = change.Extent;
             Latitude = change.Center?.Latitude;
@@ -121,13 +121,13 @@ public class SceneView : MapView
         {
             Extent = extent;
 
-            if (ViewJsModule is null) return;
+            if (CoreJsModule is null) return;
 
             ShouldUpdate = false;
             ExtentSetByCode = true;
 
             ViewExtentUpdate change =
-                await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("setExtent",
+                await CoreJsModule!.InvokeAsync<ViewExtentUpdate>("setExtent",
                     CancellationTokenSource.Token, (object)Extent, Id);
             Latitude = change.Center?.Latitude;
             Longitude = change.Center?.Longitude;
@@ -142,13 +142,13 @@ public class SceneView : MapView
     /// <inheritdoc />
     public override async Task GoTo(IEnumerable<Graphic> graphics)
     {
-        if (ViewJsModule is null) return;
+        if (CoreJsModule is null) return;
 
         ShouldUpdate = false;
         ExtentSetByCode = true;
 
         ViewExtentUpdate change =
-            await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("goToGraphics",
+            await CoreJsModule!.InvokeAsync<ViewExtentUpdate>("goToGraphics",
                 CancellationTokenSource.Token, graphics, Id);
         Extent = change.Extent;
         Latitude = change.Center?.Latitude;
@@ -170,7 +170,7 @@ public class SceneView : MapView
 
         ShouldUpdate = false;
 
-        ViewExtentUpdate? change = await ViewJsModule!.InvokeAsync<ViewExtentUpdate>("updateView",
+        ViewExtentUpdate? change = await CoreJsModule!.InvokeAsync<ViewExtentUpdate>("updateView",
             CancellationTokenSource.Token, new
             {
                 Id,
@@ -196,7 +196,7 @@ public class SceneView : MapView
             return;
         }
 
-        if (!AuthenticationInitialized || Rendering || Map is null || ViewJsModule is null) return;
+        if (!AuthenticationInitialized || Rendering || Map is null || CoreJsModule is null) return;
 
         if (string.IsNullOrWhiteSpace(ApiKey) && AllowDefaultEsriLogin is null or false &&
             PromptForArcGISKey is null or true && string.IsNullOrWhiteSpace(AppId))
@@ -234,11 +234,11 @@ public class SceneView : MapView
 
             NeedsRender = false;
 
-            await ViewJsModule!.InvokeVoidAsync("setAssetsPath", CancellationTokenSource.Token,
+            await CoreJsModule.InvokeVoidAsync("setAssetsPath", CancellationTokenSource.Token,
                 Configuration.GetValue<string?>("ArcGISAssetsPath",
                     "/_content/dymaptic.GeoBlazor.Core/assets"));
 
-            await ViewJsModule!.InvokeVoidAsync("buildMapView",
+            await CoreJsModule.InvokeVoidAsync("buildMapView",
                 CancellationTokenSource.Token, Id, DotNetObjectReference,
                 Longitude, Latitude, Rotation, Map, Zoom, Scale,
                 mapType, Widgets, Graphics, SpatialReference, Constraints, Extent,
@@ -247,7 +247,7 @@ public class SceneView : MapView
             Rendering = false;
             MapRendered = true;
             
-            if (ProJsViewModule is not null)
+            if (ProJsModule is not null)
             {
                 // register pro widgets
                 foreach (Widget widget in Widgets.Where(w => !w.GetType().Namespace!.Contains("Core")))

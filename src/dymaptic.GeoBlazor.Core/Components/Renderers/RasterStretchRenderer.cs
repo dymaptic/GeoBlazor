@@ -1,5 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Components.Layers;
-using dymaptic.GeoBlazor.Core.Components.Renderers.ColorRamps;
+﻿using dymaptic.GeoBlazor.Core.Components.Renderers.ColorRamps;
 using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -157,11 +156,9 @@ public class RasterStretchRenderer : MapComponent, IImageryRenderer
 #pragma warning disable BL0005
         StretchType = stretchType;
 #pragma warning restore BL0005
-        JsModule ??= Parent?.JsModule;
-
-        if (JsModule is null) return;
+        if (CoreJsModule is null) return;
         
-        await JsModule.InvokeVoidAsync("setStretchTypeForRenderer", Id, stretchType);
+        await CoreJsModule.InvokeVoidAsync("setStretchTypeForRenderer", Id, stretchType);
     }
 
     /// <inheritdoc />

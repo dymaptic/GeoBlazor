@@ -1,7 +1,6 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Renderers;
 using dymaptic.GeoBlazor.Core.Exceptions;
 using Microsoft.AspNetCore.Components;
-using System.Security.Cryptography.X509Certificates;
 using System.Text.Json.Serialization;
 
 

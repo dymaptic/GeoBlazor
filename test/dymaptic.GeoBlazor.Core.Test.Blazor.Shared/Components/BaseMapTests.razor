@@ -78,7 +78,7 @@
         ImageryTileLayer? imageryTileLayer = mapView!.Map!.Basemap!.Layers.OfType<ImageryTileLayer>().SingleOrDefault();
 
         Assert.IsNotNull(imageryTileLayer);
-        Assert.IsNotNull(imageryTileLayer.JsModule);
+        Assert.IsNotNull(MapComponent.CoreJsModule);
 
         await imageryTileLayer.SetVisibility(false);
 

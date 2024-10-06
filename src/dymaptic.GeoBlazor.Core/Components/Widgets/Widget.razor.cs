@@ -1,5 +1,4 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Views;
-using dymaptic.GeoBlazor.Core.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System.Text.Json;
@@ -148,10 +147,10 @@ public abstract partial class Widget : MapComponent
     {
         WidgetChanged = false;
 
-        if (JsModule is null) return;
+        if (CoreJsModule is null) return;
 
         // ReSharper disable once RedundantCast
-        await JsModule!.InvokeVoidAsync("updateWidget", CancellationTokenSource.Token,
+        await CoreJsModule!.InvokeVoidAsync("updateWidget", CancellationTokenSource.Token,
             (object)this, View!.Id);
     }
 

@@ -293,7 +293,7 @@ public class Sublayer: MapComponent, IPopupTemplateLayer
         Types ??= renderedSublayer.Types;
         Url ??= renderedSublayer.Url;
         
-        await JsModule!.InvokeVoidAsync("registerGeoBlazorSublayer", Layer!.Id,
+        await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorSublayer", Layer!.Id,
             renderedSublayer.SublayerId, renderedSublayer.Id);
 
         foreach (Sublayer childSublayer in renderedSublayer.Sublayers)
@@ -376,9 +376,9 @@ public class Sublayer: MapComponent, IPopupTemplateLayer
     /// </param>
     public async Task SetProperty(string propertyName, object? value)
     {
-        if (JsModule is null) return;
+        if (CoreJsModule is null) return;
         ModifiedParameters[propertyName] = value;
-        await JsModule!.InvokeVoidAsync("setSublayerProperty", Layer?.JsLayerReference, 
+        await CoreJsModule!.InvokeVoidAsync("setSublayerProperty", Layer?.JsLayerReference, 
             SublayerId, propertyName.ToLowerFirstChar(), value);
     }
     
@@ -403,9 +403,9 @@ public class Sublayer: MapComponent, IPopupTemplateLayer
     /// </summary>
     public async Task SetPopupTemplate(PopupTemplate popupTemplate)
     {
-        if (JsModule is null) return;
+        if (CoreJsModule is null) return;
         ModifiedParameters[nameof(PopupTemplate)] = popupTemplate;
-        await JsModule!.InvokeVoidAsync("setSublayerPopupTemplate", Layer?.JsLayerReference, 
+        await CoreJsModule!.InvokeVoidAsync("setSublayerPopupTemplate", Layer?.JsLayerReference, 
             SublayerId, popupTemplate, View?.Id);
     }
     

@@ -461,7 +461,6 @@ public class MapImageLayer : Layer
             if (matchingLayer is not null)
             {
                 matchingLayer.Parent = this;
-                matchingLayer.JsModule = JsModule;
                 matchingLayer.View = View;
                 await matchingLayer.UpdateFromJavaScript(renderedSubLayer);
             }
@@ -475,10 +474,9 @@ public class MapImageLayer : Layer
     private async Task RegisterNewSublayer(Sublayer sublayer)
     {
         sublayer.Parent = this;
-        sublayer.JsModule = JsModule;
         sublayer.View = View;
-        _sublayers!.Add(sublayer);
-        await JsModule!.InvokeVoidAsync("registerGeoBlazorSublayer", Id,
+        _sublayers.Add(sublayer);
+        await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorSublayer", Id,
             sublayer.SublayerId, sublayer.Id);
 
         foreach (Sublayer subsub in sublayer.Sublayers)

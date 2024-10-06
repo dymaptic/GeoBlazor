@@ -49,16 +49,20 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     /// <summary>
     ///     The reference to arcGisJsInterop.ts from .NET
     /// </summary>
-    [CascadingParameter(Name = "JsModule")]
+    [Obsolete("Use the static MapComponent.CoreJsModule property instead.")]
+    public IJSObjectReference? JsModule => CoreJsModule;
+    
+    /// <summary>
+    ///     The reference to arcGisJsInterop.ts from .NET
+    /// </summary>
     [JsonIgnore]
-    public IJSObjectReference? JsModule { get; set; }
+    public static IJSObjectReference? CoreJsModule { get; set; }
     
     /// <summary>
     ///     Optional JsModule for GeoBlazor Pro
     /// </summary>
-    [CascadingParameter(Name = "ProJsModule")]
     [JsonIgnore]
-    public IJSObjectReference? ProJsModule { get; set; }
+    public static IJSObjectReference? ProJsModule { get; set; }
 
     /// <summary>
     ///     The parent <see cref="MapView" /> of the current component.
@@ -127,11 +131,11 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
 
         _waiters.Clear();
 
-        if (JsModule is not null)
+        if (CoreJsModule is not null)
         {
             try
             {
-                await JsModule.InvokeVoidAsync("disposeMapComponent", Id, View?.Id);
+                await CoreJsModule.InvokeVoidAsync("disposeMapComponent", Id, View?.Id);
             }
             catch (JSDisconnectedException)
             {
@@ -175,15 +179,15 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
             ModifiedParameters[propertyName] = value;
         }
         
-        if (JsModule is null) return;
-        JsComponentReference ??= await JsModule.InvokeAsync<IJSObjectReference>("getComponent", 
+        if (CoreJsModule is null) return;
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getComponent", 
             CancellationTokenSource.Token, Id);
         if (JsComponentReference is null)
         {
             throw new NotSupportedException(
                 $"The component {GetType().Name} does not currently support the GetProperty method. Please contact dymaptic for support.");
         }
-        await JsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token, JsComponentReference, 
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token, JsComponentReference, 
             propertyName.ToLowerFirstChar(), value);
     }
     
@@ -204,16 +208,16 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     /// </exception>
     public virtual async Task<T?> GetProperty<T>(string propertyName, bool updateInMemory = true)
     {
-        if (JsModule is null) return default;
+        if (CoreJsModule is null) return default;
                  
-        JsComponentReference ??= await JsModule.InvokeAsync<IJSObjectReference>("getComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getComponent",
             CancellationTokenSource.Token, Id);
         if (JsComponentReference is null)
         {
             throw new NotSupportedException(
                 $"The component {GetType().Name} does not currently support the GetProperty method. Please contact dymaptic for support.");
         }
-        T? result = await JsModule.InvokeAsync<T?>("getProperty", 
+        T? result = await CoreJsModule.InvokeAsync<T?>("getProperty", 
             CancellationTokenSource.Token, JsComponentReference, propertyName);
 
         if (updateInMemory)
@@ -265,16 +269,16 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
             ModifiedParameters[propertyName] = prop!.GetValue(this);
         }
         
-        if (JsModule is null) return;
+        if (CoreJsModule is null) return;
         
-        JsComponentReference ??= await JsModule.InvokeAsync<IJSObjectReference>("getComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getComponent",
             CancellationTokenSource.Token, Id);
         if (JsComponentReference is null)
         {
             throw new NotSupportedException(
                 $"The component {GetType().Name} does not currently support the AddToProperty method. Please contact dymaptic for support.");
         }
-        await JsModule.InvokeVoidAsync("addToProperty", CancellationTokenSource.Token, JsComponentReference, 
+        await CoreJsModule.InvokeVoidAsync("addToProperty", CancellationTokenSource.Token, JsComponentReference, 
             propertyName.ToLowerFirstChar(), value);
     }
     
@@ -315,16 +319,16 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
             }
         }
         
-        if (JsModule is null) return;
+        if (CoreJsModule is null) return;
         
-        JsComponentReference ??= await JsModule.InvokeAsync<IJSObjectReference>("getComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getComponent",
             CancellationTokenSource.Token, Id);
         if (JsComponentReference is null)
         {
             throw new NotSupportedException(
                 $"The component {GetType().Name} does not currently support the AddToProperty method. Please contact dymaptic for support.");
         }
-        await JsModule.InvokeVoidAsync("addToProperty", CancellationTokenSource.Token, JsComponentReference, 
+        await CoreJsModule.InvokeVoidAsync("addToProperty", CancellationTokenSource.Token, JsComponentReference, 
             propertyName.ToLowerFirstChar(), values);
     }
 
@@ -361,16 +365,16 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
                 ModifiedParameters[propertyName] = prop!.GetValue(this);
             }
         }
-        if (JsModule is null) return;
+        if (CoreJsModule is null) return;
         
-        JsComponentReference ??= await JsModule.InvokeAsync<IJSObjectReference>("getComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getComponent",
             CancellationTokenSource.Token, Id);
         if (JsComponentReference is null)
         {
             throw new NotSupportedException(
                 $"The component {GetType().Name} does not currently support the AddToProperty method. Please contact dymaptic for support.");
         }
-        await JsModule.InvokeVoidAsync("removeFromProperty", CancellationTokenSource.Token, JsComponentReference, 
+        await CoreJsModule.InvokeVoidAsync("removeFromProperty", CancellationTokenSource.Token, JsComponentReference, 
             propertyName.ToLowerFirstChar(), value);
     }
     
@@ -410,16 +414,16 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
                 ModifiedParameters[propertyName] = prop!.GetValue(this);
             }
         }
-        if (JsModule is null) return;
+        if (CoreJsModule is null) return;
         
-        JsComponentReference ??= await JsModule.InvokeAsync<IJSObjectReference>("getComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getComponent",
             CancellationTokenSource.Token, Id);
         if (JsComponentReference is null)
         {
             throw new NotSupportedException(
                 $"The component {GetType().Name} does not currently support the AddToProperty method. Please contact dymaptic for support.");
         }
-        await JsModule.InvokeVoidAsync("removeFromProperty", CancellationTokenSource.Token, JsComponentReference, 
+        await CoreJsModule.InvokeVoidAsync("removeFromProperty", CancellationTokenSource.Token, JsComponentReference, 
             propertyName.ToLowerFirstChar(), values);
     }
 
@@ -476,9 +480,9 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     /// <summary>
     ///     Register a child component that was created with a source generator.
     /// </summary>
-    protected virtual Task<bool> RegisterGeneratedChildComponent(MapComponent child)
+    protected virtual ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
     {
-        throw new InvalidChildElementException(GetType().Name, child.GetType().Name);
+        return ValueTask.FromResult(false);
     }
 
     /// <summary>
@@ -520,9 +524,9 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     /// <summary>
     ///     Unregister a child component that was created with a source generator.
     /// </summary>
-    protected virtual Task<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    protected virtual ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
     {
-        throw new InvalidChildElementException(GetType().Name, child.GetType().Name);
+        return ValueTask.FromResult(false);
     }
 
     /// <summary>
@@ -541,7 +545,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     /// </param>
     public async Task SetVisibility(bool visible)
     {
-        await JsModule!.InvokeVoidAsync("setVisibility", CancellationTokenSource.Token, Id, visible);
+        await CoreJsModule!.InvokeVoidAsync("setVisibility", CancellationTokenSource.Token, Id, visible);
         Visible = visible;
     }
     
@@ -638,32 +642,6 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
             if (!option.Found)
             {
                 throw new MissingRequiredOptionsChildElementException(GetType().Name, option.Options);
-            }
-        }
-        
-        IEnumerable<PropertyInfo> childComponentProps = Props.Where(p =>
-            p.PropertyType.IsSubclassOf(typeof(MapComponent)) || 
-            (p.PropertyType.IsGenericType && 
-             p.PropertyType.GenericTypeArguments[0].IsSubclassOf(typeof(MapComponent))));
-        
-        // fallback for components that don't correctly call their children's ValidateRequiredChildren
-        foreach (PropertyInfo childProp in childComponentProps)
-        {
-            if (childProp.GetValue(this) is MapComponent { IsValidated: false } child)
-            {
-                child.ValidateRequiredChildren();
-            }
-            else if (childProp.PropertyType.IsGenericType)
-            {
-                Type genericType = childProp.PropertyType.GenericTypeArguments[0];
-                if (genericType.IsSubclassOf(typeof(MapComponent)) && 
-                    childProp.GetValue(this) is IEnumerable<MapComponent> collection)
-                {
-                    foreach (MapComponent collectionChild in collection)
-                    {
-                        collectionChild.ValidateRequiredChildren();
-                    }
-                }
             }
         }
         
@@ -882,7 +860,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         }
 
         IJSObjectReference? jsRef =
-            await JsModule!.InvokeAsync<IJSObjectReference?>("addReactiveWatcher", Id,
+            await CoreJsModule!.InvokeAsync<IJSObjectReference?>("addReactiveWatcher", Id,
                 targetName, watchExpression, once, initial, DotNetObjectReference.Create(this));
 
         if (jsRef != null)
@@ -964,7 +942,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     public async Task AddReactiveListener<T>(string eventName, Func<T, Task> handler, bool once = false)
     {
         IJSObjectReference? jsRef =
-            await JsModule!.InvokeAsync<IJSObjectReference?>("addReactiveListener", Id, eventName, once,
+            await CoreJsModule!.InvokeAsync<IJSObjectReference?>("addReactiveListener", Id, eventName, once,
                 DotNetObjectReference.Create(this));
 
         if (jsRef != null)
@@ -991,7 +969,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     public async Task AddReactiveListener<T>(string eventName, Action<T> handler, bool once = false)
     {
         IJSObjectReference? jsRef =
-            await JsModule!.InvokeAsync<IJSObjectReference?>("addReactiveListener", Id, eventName, once,
+            await CoreJsModule!.InvokeAsync<IJSObjectReference?>("addReactiveListener", Id, eventName, once,
                 DotNetObjectReference.Create(this));
 
         if (jsRef != null)
@@ -1139,7 +1117,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         }
 
         IJSObjectReference? jsRef =
-            await JsModule!.InvokeAsync<IJSObjectReference?>("addReactiveWaiter", Id,
+            await CoreJsModule!.InvokeAsync<IJSObjectReference?>("addReactiveWaiter", Id,
                 targetName, waitExpression, once, initial, DotNetObjectReference.Create(this));
 
         if (jsRef != null)
@@ -1215,7 +1193,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
             throw new UnMatchedTargetNameException(targetName, watchExpression);
         }
 
-        return await JsModule!.InvokeAsync<T>("awaitReactiveSingleWatchUpdate", token, Id, targetName,
+        return await CoreJsModule!.InvokeAsync<T>("awaitReactiveSingleWatchUpdate", token, Id, targetName,
             watchExpression);
     }
 
