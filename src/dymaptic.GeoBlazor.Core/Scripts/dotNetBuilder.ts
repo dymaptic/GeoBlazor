@@ -53,6 +53,7 @@ import {
     DotNetAddressCandidate,
     DotNetFeatureTemplate,
     DotNetFeatureSet, DotNetPieChartMediaInfo,
+    DotNetWMTSLayer,
     DotNetWMTSSublayer,
     DotNetWMTSSTyle,
     DotNetTileMatrixSet,
@@ -129,6 +130,9 @@ import Sublayer from "@arcgis/core/layers/support/Sublayer.js";
 import TileLayer from "@arcgis/core/layers/TileLayer";
 import PieChartMediaInfo from "@arcgis/core/popup/content/PieChartMediaInfo";
 import TileMatrixSet from "@arcgis/core/layers/support/TileMatrixSet";
+import WMTSSublayer from "@arcgis/core/layers/support/WMTSSublayer";
+import WMTSStyle from "@arcgis/core/layers/support/WMTSStyle";
+import WMTSLayer from "@arcgis/core/layers/WMTSLayer";
 
 
 export function buildDotNetGraphic(graphic: Graphic): DotNetGraphic | null {
@@ -656,6 +660,85 @@ function buildDotNetSublayer(sublayer: Sublayer): any {
 
     return dotNetSublayer;
 
+}
+
+function buildDotNetWMTSLayer(wmtsLayer: WMTSLayer): any
+{
+    let dotNetWMTSLayer: any = {
+        url: wmtsLayer.url,
+        portalItem: wmtsLayer.portalItem,
+        blendMode: wmtsLayer.blendMode,
+        minScale: wmtsLayer.minScale,
+        maxScale: wmtsLayer.maxScale,
+        persistenceEnabled: wmtsLayer.persistenceEnabled,
+        serviceMode: wmtsLayer.serviceMode
+    };
+    if (hasValue(wmtsLayer.effect)) {
+        dotNetWMTSLayer.effect = buildDotNetEffect(wmtsLayer.effect) as DotNetEffect;
+    }
+    if (hasValue(wmtsLayer.activeLayer)) {
+        dotNetWMTSLayer.activeLayer = buildDotNetWMTSSublayer(wmtsLayer.activeLayer) as DotNetWMTSSublayer;
+    }
+    if (hasValue(wmtsLayer.sublayers)) {
+        dotNetWMTSLayer.sublayers = wmtsLayer.sublayers.map(buildDotNetWMTSSublayer);
+    }
+}
+
+function buildDotNetWMTSSublayer(wmtsSublayer: WMTSSublayer): any {
+    let dotNetWMTSSublayer: any = {
+        description: wmtsSublayer.description,
+        id: wmtsSublayer.id,
+        styleId: wmtsSublayer.styleId,
+        imageFormat: wmtsSublayer.imageFormat,
+        imageFormats: wmtsSublayer.imageFormats,
+        tileMatrixSetId: wmtsSublayer.tileMatrixSetId,
+    };
+    if (hasValue(wmtsSublayer.fullExtent)) {
+            dotNetWMTSSublayer.fullExtent = buildDotNetExtent(wmtsSublayer.fullExtent) as DotNetExtent;
+    }
+    if (hasValue(wmtsSublayer.styles)) {
+        dotNetWMTSSublayer.styles = wmtsSublayer.styles.map(buildDotNetWMTSStyle);
+    }
+    if (hasValue(wmtsSublayer.tileMatrixSet)) {
+        dotNetWMTSSublayer.tileMatrixSet = buildDotNetTileMatrixSet(wmtsSublayer.tileMatrixSet) as TileMatrixSet;
+    }
+    if (hasValue(wmtsSublayer.tileMatrixSets)) {
+        dotNetWMTSSublayer.tileMatrixSets = wmtsSublayer.tileMatrixSets.map(buildDotNetTileMatrixSet);
+    }
+    //if (hasValue(wmtsSublayer.layer)) {
+    //    dotNetWMTSSublayer.layer = buildDotNet
+    //}
+    if (Object.values(arcGisObjectRefs).includes(wmtsSublayer)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === wmtsSublayer) {
+                dotNetWMTSSublayer.id = k;
+                break;
+            }
+        }
+    }
+    return dotNetWMTSSublayer;
+}
+
+function buildDotNetWMTSStyle(wmtsStyle: WMTSStyle): any {
+    let dotNetWMTSStyle: any = {
+        description: wmtsStyle.description,
+        id: wmtsStyle.id,
+        title: wmtsStyle.title
+    };
+    return dotNetWMTSStyle;
+}
+
+function buildDotNetTileMatrixSet(tileMatrixSet: TileMatrixSet): any {
+    let dotNetTileMatrixSet: any = {
+        id: tileMatrixSet.id
+    };
+    if (hasValue(tileMatrixSet.fullExtent)) {
+        dotNetTileMatrixSet.fullExtent = buildDotNetExtent(tileMatrixSet.fullExtent) as DotNetExtent;
+    }
+    if (hasValue(tileMatrixSet.tileInfo)) {
+        dotNetTileMatrixSet.tileInfo = buildDotNetTileInfo(tileMatrixSet.tileInfo) as TileInfo;
+    }
+    return dotNetTileMatrixSet;
 }
 
 function buildDotNetDynamicLayer(source: any): any {

@@ -1174,7 +1174,7 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                 
             case 'imagery-tile':
                 copyValuesIfExists(layerObject, currentLayer, 'blendMode', 'maxScale', 'minScale', 'bandIds',
-                    'copyright', 'interpolation', 'legendEnabled', 'useViewTime', 
+                    'copyright', 'interpolation', 'legendEnabled', 'useViewTime',
                     'customParameters');
                 if (hasValue(layerObject.effect)) {
                     (currentLayer as ImageryTileLayer).effect = buildJsEffect(layerObject.effect);
@@ -1185,7 +1185,15 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                 if (hasValue(layerObject.multidimensionalSubset)) {
                     (currentLayer as ImageryTileLayer).multidimensionalSubset = buildJsMultidimensionalSubset(layerObject.multidimensionalSubset);
                 }
-                
+                break;
+            case 'wmts':
+             copyValuesIfExists(layerObject, currentLayer, 'url', 'portalItem', 'blendMode', 'maxScale', 'minScale', 'persistenceEnabled', 'serviceMode');
+                if (hasValue(layerObject.effect)) {
+                    (currentLayer as WMTSLayer).effect = buildJsEffect(layerObject.effect);
+                }
+                if (hasValue(layerObject.activeLayer)) {
+                    (currentLayer as WMTSLayer).activeLayer = 
+                }
                 break;
         }
 
@@ -3410,6 +3418,7 @@ export function setWMTSStyle(wmtsStyle) {
         description: wmtsStyle.description,
         id: wmtsStyle.Id,
         title: wmtsStyle.Title,
+        url: wmtsStyle.Url
     });
 }
 

@@ -54,12 +54,12 @@ public class WMTSLayer : Layer
     /// /// <param name="activeLayer">
     ///     The active/displayed WMTS sublayer. 
     /// </param>
-    /// <param name="wmtsSublayers">
+    /// <param name="sublayers">
     ///     The a collection of WMTS sublayers. Each sublayer represents a different layer within the WMTS service.
     /// </param>
     public WMTSLayer(string? url = null, PortalItem? portalItem = null, BlendMode? blendMode = null,
         Effect? effect = null, double? maxScale = null, double? minScale = null, bool? persistenceEnabled = null,
-        string? serviceMode = null, WMTSSublayer? activeLayer = null, WMTSSublayer[]? wmtsSublayers = null)
+        string? serviceMode = null, WMTSSublayer? activeLayer = null, WMTSSublayer[]? sublayers = null)
     {
 #pragma warning disable BL0005
         Url = url;
@@ -71,7 +71,7 @@ public class WMTSLayer : Layer
         PersistenceEnabled = persistenceEnabled;
         ServiceMode = serviceMode;
         ActiveLayer = activeLayer;
-        WMTSSublayers = wmtsSublayers;
+        Sublayers = sublayers;
     }
 
     /// <summary>
@@ -147,5 +147,5 @@ public class WMTSLayer : Layer
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public WMTSSublayer[]? WMTSSublayers { get; set; }
+    public WMTSSublayer[]? Sublayers { get; set; }
 }

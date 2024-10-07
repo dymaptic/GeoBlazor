@@ -835,4 +835,22 @@ export interface DotNetTileMatrixSet {
     tileInfo: TileInfo;
 }
 
-
+export interface DotNetWMTSLayer extends DotNetLayer {
+    url: string;
+    portalItem: any;
+    spatialReference: DotNetSpatialReference;
+    tileMatrixSet: DotNetTileMatrixSet;
+    style: DotNetWMTSSTyle;
+    sublayers: DotNetWMTSSublayer[];
+    visible: boolean;
+    opacity: number;
+    listMode: string;
+    minScale: number;
+    maxScale: number;
+    activeLayer: DotNetWMTSSublayer;
+    blendMode: string;
+    effect: DotNetFeatureEffect;
+    persistenceEnabled: boolean;
+    refreshInterval: number;
+    serviceMode: string;
+}

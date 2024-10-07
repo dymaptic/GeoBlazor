@@ -11,85 +11,41 @@
     The layers used in this sample are from Instituto Geográfico Nacional. Use the BasemapToggle widget to toggle between the layers. This sample shows how to add an instance of WMTSLayer.
     The WMTSLayer is used to create layers based on OGC Web Map Tile Service (WMTS). Typically, a WMTS service acts as a directory of WMTS layers, you can set a specific layer using the activeLayer property, (or else it will default to the first sublayer). 
     The WMTSLayer initially executes a WMTS GetCapabilities request, which might require CORS or a proxy page.</Label>
-@* <button disabled="@(!_mapRendered)" @onclick="(()=>AddRemoveWCSLayer())">Show/Hide Basemap Toggle </button> *@
+ <button disabled="@(!_markup)">Show/Hide Basemap Toggle </button> 
 
- <MapView @ref="_view" class="map-view"  
-        Center="@(new Point(-3.7038, 40.4168))"
-        Scale="4622333.6">
+<MapView @ref="@_view" class="map-view"
+         Center="@(new Point(-3.7038, 40.4168))">
     <Map>
-        <Basemap>
-            <WMTSLayer @ref="_wmtsPlainLayer"
-                Url=""
-                Title="IGN Base"
-                ActiveLayer="_plainActiveLayer" />
-        </Basemap>
-
+        <WMTSLayer 
+            Url="https://www.ign.es/wmts/ign-base"
+            ActiveLayer="@_plainActiveLayer"></WMTSLayer>  
     </Map>
 </MapView> 
 
 @code {
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+
+
+    private MapView? _view;
+
+    private bool _markup = true;
+
+    private WMTSSublayer? _plainActiveLayer => new WMTSSublayer
     {
-        BuildWMTSLayers();
-        if (_wmtsPlainLayer != null)
-        {
-            await _wmtsPlainLayer.Load();
-        }
+        Id = "IGNBase-gris",
+        TileMatrixSetId = "GoogleMapsCompatible"
+    };
 
-        //         _basemapToggleWidget = new BasemapToggleWidget()
-        //         {
-        //          View = _view,
-        //          NextBasemap = _orthoIGNBasemap
-        //         };
-
-    }
-
-    private void BuildWMTSLayers()
-    {
-        //MarkupString markupString = new MarkupString("<a href='https://www.ign.es/' target='_blank'>Instituto Geográfico Nacional</a>");
+    private WMTSLayer? _wtmsSampleLayer => new WMTSLayer()
 #pragma warning disable
-        _plainActiveLayer = new WMTSSublayer
+        {
+            Url = "https://www.ign.es/wmts/ign-base",
+            ActiveLayer = new WMTSSublayer
             {
                 Id = "IGNBase-gris",
                 TileMatrixSetId = "GoogleMapsCompatible"
-            };
-        _wmtsPlainLayer = new WMTSLayer
-            {
-                Url = "https://www.ign.es/wmts/ign-base",
-                Title = "IGN Base",
-                ActiveLayer = new WMTSSublayer
-                {
-                    Id = "IGNBase-gris",
-                    TileMatrixSetId = "GoogleMapsCompatible"
-                }
-            };
-        _wmtsOrthoLayer = new WMTSLayer
-            {
-                Url = "https://www.ign.es/wmts/pnoa-ma",
-                Title = "IGN Ortho",
-                ActiveLayer = new WMTSSublayer
-                {
-                    Id = "MIN",
-                    TileMatrixSetId = "GoogleMapsCompatible"
-                }
-            };
+            }
 #pragma warning restore
-        // _plainIGNBasemap = new Basemap
-        // {
-        //     Layers = { _wmtsPlainLayer }
-        // };
-        // _orthoIGNBasemap = new Basemap
-        // {
-        //     Layers = { _wmtsOrthoLayer }
-        // };
-    }
+        };
 
-    // private Map? _map;
-    private MapView? _view;
-    private WMTSLayer? _wmtsPlainLayer;
-    private WMTSSublayer? _plainActiveLayer;
-    private WMTSLayer _wmtsOrthoLayer = new();
-    // private BasemapToggleWidget? _basemapToggleWidget;
-    // private Basemap? _plainIGNBasemap;
-    // private Basemap? _orthoIGNBasemap;
+
 }

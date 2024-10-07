@@ -22,10 +22,7 @@ public class WMTSStyle
     /// <summary>
     ///     Description for the WMTS style.
     /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Description { get; set; }
-
 
     /// <summary>
     ///     The unique id of WMTS style.
@@ -35,8 +32,6 @@ public class WMTSStyle
     /// <summary>
     ///     The URL to the legend which gets used in Legend widget.
     /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Url { get; set; }
 
 
