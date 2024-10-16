@@ -15,9 +15,24 @@ public class AbortManager : IAsyncDisposable
     /// <param name="jsRuntime">
     ///     The <see cref="IJSRuntime" /> to use for JavaScript interop.
     /// </param>
-    public AbortManager(IJSRuntime jsRuntime)
+    /// <param name="jsModuleManager">
+    ///     The <see cref="JsModuleManager" /> to use for JavaScript interop.
+    /// </param>
+    public AbortManager(IJSRuntime jsRuntime, JsModuleManager jsModuleManager)
     {
         _jsRuntime = jsRuntime;
+        _jsModuleManager = jsModuleManager;
+    }
+    
+    /// <summary>
+    ///     Creates a new AbortManager.
+    /// </summary>
+    /// <param name="jsModule">
+    ///     The CoreJsModule to use for JavaScript interop.
+    /// </param>
+    public AbortManager(IJSObjectReference jsModule)
+    {
+        _jsModule = jsModule;
     }
 
     /// <summary>
@@ -43,13 +58,13 @@ public class AbortManager : IAsyncDisposable
     /// </param>
     public async Task<IJSObjectReference> CreateAbortSignal(CancellationToken cancellationToken)
     {
-        if (_abortControllerModule is null)
+        if (_jsModule is null)
         {
-            _abortControllerModule = await _jsRuntime.InvokeAsync<IJSObjectReference>("import",
-                cancellationToken, "./_content/dymaptic.GeoBlazor.Core/js/abortController.js");
+            IJSObjectReference? proJsModule = await _jsModuleManager!.GetArcGisJsPro(_jsRuntime!, cancellationToken);
+            _jsModule = await _jsModuleManager.GetArcGisJsCore(_jsRuntime!, proJsModule, cancellationToken);
         }
-
-        AbortManagerResult result = await _abortControllerModule!
+        
+        AbortManagerResult result = await _jsModule
             .InvokeAsync<AbortManagerResult>("createAbortControllerAndSignal", cancellationToken);
 
         // ReSharper disable once AsyncVoidLambda
@@ -109,10 +124,12 @@ public class AbortManager : IAsyncDisposable
         _tokensAndControllers.TryRemove(cancellationToken, out _);
     }
 
-    private readonly IJSRuntime _jsRuntime;
+    
     private readonly ConcurrentDictionary<CancellationToken, AbortReferenceRecord> _tokensAndControllers = new();
 
-    private IJSObjectReference? _abortControllerModule;
+    private IJSObjectReference? _jsModule;
+    private readonly IJSRuntime? _jsRuntime;
+    private readonly JsModuleManager? _jsModuleManager;
 
     private record AbortReferenceRecord(CancellationTokenRegistration Registration,
         IJSObjectReference AbortControllerRef);

@@ -91,23 +91,21 @@
     private async Task<bool> RunTests(bool onlyFailedTests = false)
     {
         _running = true;
-        List<Task> runnerTasks = new();
-        foreach (KeyValuePair<string, DynamicComponent?> kvp in _testClasses)
+        await Parallel.ForEachAsync(_testClasses, async (kvp, _) =>
         {
-            if (_results.ContainsKey(kvp.Key))
+            if (_results.TryGetValue(kvp.Key, out var results))
             {
-                TestResult results = _results[kvp.Key];
                 if (onlyFailedTests && results.Failed.Count == 0)
                 {
-                    continue;
+                    return;
                 }
             }
             if (kvp.Value != null)
             {
-                runnerTasks.Add(Task.Run(async () => await (kvp.Value!.Instance as TestRunnerBase)!.RunTests(onlyFailedTests)));
+                await (kvp.Value!.Instance as TestRunnerBase)!.RunTests(onlyFailedTests);
             }
-        }
-        await Task.WhenAll(runnerTasks);
+        });
+        
         _running = false;
         await InvokeAsync(StateHasChanged);
         var resultBuilder = new StringBuilder($@"

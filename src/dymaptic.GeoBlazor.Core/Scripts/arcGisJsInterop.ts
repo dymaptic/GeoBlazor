@@ -1474,14 +1474,12 @@ export async function addGraphic(streamRefOrGraphicObject: any, viewId: string, 
     try {
         setWaitCursor(viewId);
         let graphic: Graphic;
-        let graphicId: string;
+        
         if (streamRefOrGraphicObject.hasOwnProperty("_streamPromise")) {
             let graphics = await getGraphicsFromProtobufStream(streamRefOrGraphicObject) as any[];
             graphic = buildJsGraphic(graphics[0], viewId) as Graphic;
-            graphicId = graphics[0].id;
         } else {
             graphic = buildJsGraphic(streamRefOrGraphicObject, viewId) as Graphic;
-            graphicId = streamRefOrGraphicObject.id;
         }
         let view = arcGisObjectRefs[viewId] as View;
         if (hasValue(layerId)) {
@@ -1494,7 +1492,7 @@ export async function addGraphic(streamRefOrGraphicObject: any, viewId: string, 
             }
             view.graphics?.add(graphic);
         }
-        graphicsRefs[graphicId] = graphic;
+        
         unsetWaitCursor(viewId);
     } catch (error) {
         logError(error, viewId);
@@ -1508,33 +1506,26 @@ export async function addGraphicsFromStream(streamRef: any, viewId: string, abor
         }
         let graphics = await getGraphicsFromProtobufStream(streamRef) as any[];
         let jsGraphics: Graphic[] = [];
+        let layer = hasValue(layerId) ? arcGisObjectRefs[layerId as string] as GraphicsLayer : null;
+        let existingGraphics = layer?.graphics || (arcGisObjectRefs[viewId] as View).graphics;
         let view = arcGisObjectRefs[viewId] as View;
         for (const g of graphics) {
             if (abortSignal.aborted) {
                 return;
             }
+            
             let jsGraphic = buildJsGraphic(g, viewId) as Graphic;
             jsGraphics.push(jsGraphic);
         }
+        jsGraphics = jsGraphics.filter(g => !existingGraphics.includes(g));
         if (abortSignal.aborted) {
             return;
         }
-        if (hasValue(layerId)) {
-            let layer = arcGisObjectRefs[layerId as string] as GraphicsLayer;
-            layer.addMany(jsGraphics);
+        if (hasValue(layer)) {
+            layer!.addMany(jsGraphics);
         } else {
             view.graphics?.addMany(jsGraphics);
         }
-        (async () => {
-            for (let i = 0; i < jsGraphics.length; i++) {
-                if (abortSignal.aborted) {
-                    return;
-                }
-                let graphic = jsGraphics[i];
-                let graphicObject = graphics[i];
-                graphicsRefs[graphicObject.id] = graphic;
-            }
-        })();
     } catch (error) {
         logError(error, viewId);
     }
@@ -1545,23 +1536,18 @@ export function addGraphicsSynchronously(graphicsArray: Uint8Array, viewId: stri
         let graphics = decodeProtobufGraphics(graphicsArray);
         let jsGraphics: Graphic[] = [];
         let view = arcGisObjectRefs[viewId] as View;
+        let layer = arcGisObjectRefs[layerId as string] as GraphicsLayer;
+        let existingGraphics = layer?.graphics || (arcGisObjectRefs[viewId] as View).graphics;
         for (const g of graphics) {
             let jsGraphic = buildJsGraphic(g, viewId) as Graphic;
             jsGraphics.push(jsGraphic);
         }
+        jsGraphics = jsGraphics.filter(g => !existingGraphics.includes(g));
         if (hasValue(layerId)) {
-            let layer = arcGisObjectRefs[layerId as string] as GraphicsLayer;
             layer.graphics?.addMany(jsGraphics);
         } else {
             view.graphics?.addMany(jsGraphics);
         }
-        (async () => {
-            for (let i = 0; i < jsGraphics.length; i++) {
-                let graphic = jsGraphics[i];
-                let graphicObject = graphics[i];
-                graphicsRefs[graphicObject.id] = graphic;
-            }
-        })();
     } catch (error) {
         logError(error, viewId);
     }
@@ -1911,7 +1897,7 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
             if (widget.hasGoToOverride) {
                 locate.goToOverride = async (view, parameters) => {
                     let dnParams = buildDotNetGoToOverrideParameters(parameters, viewId);
-                    await widget.locateWidgetObjectReference.invokeMethodAsync('OnJavaScriptGoToOverride', dnParams);
+                    await widget.dotNetComponentReference.invokeMethodAsync('OnJavaScriptGoToOverride', dnParams);
                 }
             }
 
@@ -1944,12 +1930,12 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
             if (widget.hasGoToOverride) {
                 search.goToOverride = async (view, parameters) => {
                     let dnParams = buildDotNetGoToOverrideParameters(parameters, viewId);
-                    await widget.searchWidgetObjectReference.invokeMethodAsync('OnJavaScriptGoToOverride', dnParams);
+                    await widget.dotNetComponentReference.invokeMethodAsync('OnJavaScriptGoToOverride', dnParams);
                 }
             }
 
             search.on('select-result', (evt) => {
-                widget.searchWidgetObjectReference.invokeMethodAsync('OnJavaScriptSearchSelectResult', {
+                widget.dotNetComponentReference.invokeMethodAsync('OnJavaScriptSearchSelectResult', {
                     extent: buildDotNetExtent(evt.result.extent),
                     feature: buildDotNetFeature(evt.result.feature),
                     name: evt.result.name
@@ -2071,7 +2057,7 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
             if (hasValue(widget.hasCustomHandler) && widget.hasCustomHandler) {
                 layerListWidget.listItemCreatedFunction = async (evt) => {
                     let dotNetListItem = buildDotNetListItem(evt.item);
-                    let returnItem = await widget.layerListWidgetObjectReference.invokeMethodAsync('OnListItemCreated', dotNetListItem) as DotNetListItem;
+                    let returnItem = await widget.dotNetComponentReference.invokeMethodAsync('OnListItemCreated', dotNetListItem) as DotNetListItem;
                     if (hasValue(returnItem) && hasValue(evt.item)) {
                         updateListItem(evt.item, returnItem);
                     }
@@ -2088,7 +2074,7 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
             if (hasValue(widget.hasCustomBaseListHandler) && widget.hasCustomBaseListHandler) {
                 basemapLayerListWidget.baseListItemCreatedFunction = async (evt) => {
                     let dotNetBaseListItem = buildDotNetListItem(evt.item);
-                    let returnItem = await widget.baseLayerListWidgetObjectReference.invokeMethodAsync('OnBaseListItemCreated', dotNetBaseListItem) as DotNetListItem;
+                    let returnItem = await widget.dotNetComponentReference.invokeMethodAsync('OnBaseListItemCreated', dotNetBaseListItem) as DotNetListItem;
                     if (hasValue(returnItem) && hasValue(evt.item)) {
                         updateListItem(evt.item, returnItem);
                     }
@@ -2097,7 +2083,7 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
             if (hasValue(widget.hasCustomReferenceListHandler) && widget.hasCustomReferenceListHandler) {
                 basemapLayerListWidget.baseListItemCreatedFunction = async (evt) => {
                     let dotNetReferenceListItem = buildDotNetListItem(evt.item);
-                    let returnItem = await widget.baseLayerListWidgetObjectReference.invokeMethodAsync('OnReferenceListItemCreated', dotNetReferenceListItem) as DotNetListItem;
+                    let returnItem = await widget.dotNetComponentReference.invokeMethodAsync('OnReferenceListItemCreated', dotNetReferenceListItem) as DotNetListItem;
                     if (hasValue(returnItem) && hasValue(evt.item)) {
                         updateListItem(evt.item, returnItem);
                     }
@@ -2504,11 +2490,6 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
                 jsGraphics.push(jsGraphic);
             }
             graphicsLayer.addMany(jsGraphics);
-            for (let i = 0; i < jsGraphics.length; i++) {
-                let graphic = jsGraphics[i];
-                let graphicObject = layerObject.graphics[i];
-                graphicsRefs[graphicObject.id] = graphic;
-            }
             
             copyValuesIfExists(layerObject, graphicsLayer, 'blendMode',
                 'maxScale', 'minScale', 'screenSizePerspectiveEnabled');
@@ -3393,4 +3374,15 @@ export function setStretchTypeForRenderer(rendererId, stretchType) {
 
 export function getBrowserLanguage(): string {
     return navigator.language;
+}
+
+export function createAbortControllerAndSignal() {
+    const controller = new AbortController();
+    const signal = controller.signal;
+    return {
+        // @ts-ignore
+        abortControllerRef: DotNet.createJSObjectReference(controller),
+        // @ts-ignore
+        abortSignalRef: DotNet.createJSObjectReference(signal)
+    }
 }

@@ -61,6 +61,9 @@
 @code {
     [Inject]
     public IJSRuntime JsRuntime { get; set; } = null!;
+    
+    [Inject]
+    public JsModuleManager JsModuleManager { get; set; } = null!;
 
     [Parameter]
     public EventCallback<TestResult> OnTestResults { get; set; }

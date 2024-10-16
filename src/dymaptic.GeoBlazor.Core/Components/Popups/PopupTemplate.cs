@@ -184,11 +184,6 @@ public class PopupTemplate : MapComponent
     public List<ActionBase>? Actions { get; set; }
 
     /// <summary>
-    ///     Object reference for callbacks from JavaScript.
-    /// </summary>
-    public DotNetObjectReference<PopupTemplate> DotNetPopupTemplateReference => DotNetObjectReference.Create(this);
-
-    /// <summary>
     ///     JS-invokable method for triggering actions.
     /// </summary>
     /// <param name="actionId">

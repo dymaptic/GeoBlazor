@@ -239,7 +239,7 @@ public class SceneView : MapView
                     "/_content/dymaptic.GeoBlazor.Core/assets"));
 
             await CoreJsModule.InvokeVoidAsync("buildMapView",
-                CancellationTokenSource.Token, Id, DotNetObjectReference,
+                CancellationTokenSource.Token, Id, DotNetComponentReference,
                 Longitude, Latitude, Rotation, Map, Zoom, Scale,
                 mapType, Widgets, Graphics, SpatialReference, Constraints, Extent,
                 EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions,

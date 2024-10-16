@@ -402,7 +402,9 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer
         Graphic[] deletedFeatures = edits.DeleteFeatures?.ToArray() ?? Array.Empty<Graphic>();
         long? editMoment = null;
         int chunkSize = View!.GraphicSerializationChunkSize ?? (View.IsMaui ? 100 : 200);
-        AbortManager ??= new AbortManager(JsRuntime);
+        ProJsModule ??= await JsModuleManager.GetArcGisJsPro(JsRuntime, cancellationToken);
+        CoreJsModule ??= await JsModuleManager.GetArcGisJsCore(JsRuntime, ProJsModule, cancellationToken);
+        AbortManager ??= new AbortManager(CoreJsModule);
         
         // return await JsLayerReference!.InvokeAsync<FeatureEditsResult>("applyEdits", edits, options,
         //     View!.Id);
@@ -882,7 +884,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer
         Guid queryId = Guid.NewGuid();
 
         FeatureSet result = (await JsLayerReference!.InvokeAsync<FeatureSet?>("queryFeatures", cancellationToken,
-            query, new { signal = abortSignal }, DotNetObjectReference.Create(this), View?.Id, queryId))!;
+            query, new { signal = abortSignal }, DotNetComponentReference, View?.Id, queryId))!;
 
         if (_activeQueries.ContainsKey(queryId))
         {
@@ -967,7 +969,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer
         Guid queryId = Guid.NewGuid();
         Dictionary<int, FeatureSet?> result = (await JsLayerReference!.InvokeAsync<Dictionary<int, FeatureSet?>?>(
             "queryRelatedFeatures", cancellationToken, query, new { signal = abortSignal },
-            DotNetObjectReference.Create(this), View?.Id, queryId))!;
+            DotNetComponentReference, View?.Id, queryId))!;
 
         if (_activeRelatedQueries.ContainsKey(queryId))
         {
@@ -1092,7 +1094,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         Guid queryId = Guid.NewGuid();
         FeatureSet result = (await JsLayerReference!.InvokeAsync<FeatureSet?>("queryTopFeatures", cancellationToken,
-            query, new { signal = abortSignal }, DotNetObjectReference.Create(this), View?.Id, queryId))!;
+            query, new { signal = abortSignal }, DotNetComponentReference, View?.Id, queryId))!;
 
         if (_activeQueries.ContainsKey(queryId))
         {

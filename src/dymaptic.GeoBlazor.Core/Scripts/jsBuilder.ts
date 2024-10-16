@@ -205,8 +205,7 @@ export function buildJsExtent(dotNetExtent: DotNetExtent, currentSpatialReferenc
     return extent;
 }
 
-export function buildJsGraphic(graphicObject: any, viewId: string | null)
-    : Graphic | null {
+export function buildJsGraphic(graphicObject: any, viewId: string | null) : Graphic | null {
     let graphic: Graphic;
     if (graphicsRefs.hasOwnProperty(graphicObject.id)) {
         graphic = graphicsRefs[graphicObject.id];
@@ -227,6 +226,7 @@ export function buildJsGraphic(graphicObject: any, viewId: string | null)
     
     copyValuesIfExists(graphicObject, graphic, 'visible');
 
+    graphicsRefs[graphicObject.id] = graphic;
     return graphic;
 }
 
@@ -1822,7 +1822,7 @@ export async function buildJsSearchSource(dotNetSource: any, viewId: string): Pr
                 },
                 viewId: viewId
             }
-            let dnResults = await dotNetSource.searchSourceObjectReference.invokeMethodAsync('OnJavaScriptGetResults', dnParams);
+            let dnResults = await dotNetSource.dotNetComponentReference.invokeMethodAsync('OnJavaScriptGetResults', dnParams);
 
             let results: SearchResult[] = [];
 
@@ -1859,7 +1859,7 @@ export async function buildJsSearchSource(dotNetSource: any, viewId: string): Pr
                 suggestTerm: params.suggestTerm,
                 viewId: viewId
             }
-            let dnResults = await dotNetSource.searchSourceObjectReference.invokeMethodAsync('OnJavaScriptGetSuggestions', dnParams);
+            let dnResults = await dotNetSource.dotNetComponentReference.invokeMethodAsync('OnJavaScriptGetSuggestions', dnParams);
 
             let results: SuggestResult[] = [];
 

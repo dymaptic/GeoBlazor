@@ -22,14 +22,14 @@ public class Locator : LogicComponent
     /// <summary>
     ///     Default Constructor
     /// </summary>
-    /// <param name="jsRuntime">
-    ///     Injected JavaScript Runtime reference
-    /// </param>
     /// <param name="authenticationManager">
     ///     Injected Identity Manager reference
     /// </param>
-    public Locator(IJSRuntime jsRuntime, AuthenticationManager authenticationManager) : base(jsRuntime,
-        authenticationManager)
+    /// <param name="jsModuleManager">
+    ///     Injected JavaScript Module Manager reference
+    /// </param>
+    public Locator(AuthenticationManager authenticationManager, JsModuleManager jsModuleManager) : 
+        base(authenticationManager)
     {
     }
 

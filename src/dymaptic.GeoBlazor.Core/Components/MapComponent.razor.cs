@@ -23,6 +23,10 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     [Inject]
     [JsonIgnore]
     public IJSRuntime JsRuntime { get; set; } = default!;
+    
+    [Inject]
+    [JsonIgnore]
+    public JsModuleManager JsModuleManager { get; set; } = default!;
 
     /// <summary>
     ///     ChildContent defines the ability to add other components within this component in the razor syntax.
@@ -49,20 +53,45 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     /// <summary>
     ///     The reference to arcGisJsInterop.ts from .NET
     /// </summary>
-    [Obsolete("Use the static MapComponent.CoreJsModule property instead.")]
+    [Obsolete("Use the CoreJsModule property instead.")]
+    [JsonIgnore]
     public IJSObjectReference? JsModule => CoreJsModule;
-    
+
     /// <summary>
     ///     The reference to arcGisJsInterop.ts from .NET
     /// </summary>
     [JsonIgnore]
-    public static IJSObjectReference? CoreJsModule { get; set; }
-    
+    public IJSObjectReference? CoreJsModule
+    {
+        get
+        {
+            if (_coreJsModule is null && Parent is not null)
+            {
+                _coreJsModule = Parent.CoreJsModule;
+            }
+
+            return _coreJsModule;
+        }
+        protected set => _coreJsModule = value;
+    }
+
     /// <summary>
     ///     Optional JsModule for GeoBlazor Pro
     /// </summary>
     [JsonIgnore]
-    public static IJSObjectReference? ProJsModule { get; set; }
+    public IJSObjectReference? ProJsModule
+    {
+        get
+        {
+            if (_proJsModule is null && Parent is not null)
+            {
+                _proJsModule = Parent.ProJsModule;
+            }
+            
+            return _proJsModule;
+        }
+        protected set => _proJsModule = value;
+    }
 
     /// <summary>
     ///     The parent <see cref="MapView" /> of the current component.
@@ -82,6 +111,12 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     ///     A unique identifier, used to track components across .NET and JavaScript.
     /// </summary>
     public Guid Id { get; init; } = Guid.NewGuid();
+    
+    /// <summary>
+    ///     Whether the component has been disposed.
+    /// </summary>
+    [JsonIgnore]
+    public bool IsDisposed { get; set; }
     
     /// <summary>
     ///     Extension properties for GeoBlazor Pro
@@ -149,8 +184,9 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         }
 
         CancellationTokenSource.Cancel();
+        IsDisposed = true;
     }
-    
+
     /// <summary>
     ///     Sets any property to a new value after initial render. Supports all basic types (strings, numbers, booleans, dictionaries) and properties.
     /// </summary>
@@ -667,7 +703,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-
+        
         if (Parent is not null && !_registered)
         {
             if (await Parent.RegisterGeneratedChildComponent(this))
@@ -700,9 +736,14 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     }
 
     /// <inheritdoc />
-    protected override void OnAfterRender(bool firstRender)
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        base.OnAfterRender(firstRender);
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
+        {
+            ProJsModule ??= await JsModuleManager.GetArcGisJsPro(JsRuntime, default);
+            CoreJsModule ??= await JsModuleManager.GetArcGisJsCore(JsRuntime, ProJsModule, default);
+        }
         IsRenderedBlazorComponent = true;
     }
 
@@ -841,7 +882,9 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     /// </summary>
     protected bool IsRenderedBlazorComponent;
     private bool _registered;
-    
+    private IJSObjectReference? _coreJsModule;
+    private IJSObjectReference? _proJsModule;
+
     /// <summary>
     ///     The application is running with just GeoBlazor Core, not Pro
     /// </summary>
@@ -861,7 +904,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
 
         IJSObjectReference? jsRef =
             await CoreJsModule!.InvokeAsync<IJSObjectReference?>("addReactiveWatcher", Id,
-                targetName, watchExpression, once, initial, DotNetObjectReference.Create(this));
+                targetName, watchExpression, once, initial, DotNetComponentReference);
 
         if (jsRef != null)
         {
@@ -943,7 +986,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     {
         IJSObjectReference? jsRef =
             await CoreJsModule!.InvokeAsync<IJSObjectReference?>("addReactiveListener", Id, eventName, once,
-                DotNetObjectReference.Create(this));
+                DotNetComponentReference);
 
         if (jsRef != null)
         {
@@ -1118,7 +1161,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
 
         IJSObjectReference? jsRef =
             await CoreJsModule!.InvokeAsync<IJSObjectReference?>("addReactiveWaiter", Id,
-                targetName, waitExpression, once, initial, DotNetObjectReference.Create(this));
+                targetName, waitExpression, once, initial, DotNetComponentReference);
 
         if (jsRef != null)
         {

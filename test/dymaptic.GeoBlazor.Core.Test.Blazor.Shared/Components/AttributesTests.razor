@@ -135,7 +135,7 @@ base.BuildRenderTree(__builder);
         await WaitForMapToRender();
         Graphic[] features =
         [
-            new Graphic(new Point(0, 0), 
+            new(new Point(0, 0), 
                 attributes: new AttributesDictionary(new Dictionary<string, object?>
                 {
                     {"OBJECTID", 1},
@@ -152,7 +152,10 @@ base.BuildRenderTree(__builder);
         ];
         await layer!.Add(features);
         HitTestResult hitTestResult = await view!.HitTest((Point)features[0].Geometry!);
-        Graphic hitGraphic = hitTestResult.Results.OfType<GraphicHit>().First().Graphic;
+        Graphic hitGraphic = hitTestResult.Results
+            .OfType<GraphicHit>()
+            .First(g => g.LayerId == layer.Id)
+            .Graphic;
         Assert.AreEqual(features[0].Attributes["OBJECTID"], hitGraphic.Attributes["OBJECTID"]!);
         Assert.AreEqual(features[0].Attributes["GUID"], hitGraphic.Attributes["GUID"]);
         Assert.AreEqual(features[0].Attributes["INT"], hitGraphic.Attributes["INT"]!);

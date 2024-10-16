@@ -99,16 +99,15 @@ export function assertSymbolOnLayer(methodName, layerId, symbolType, dnSymbol) {
                     break;
                 case "font":
                     let dnFont = dnSymbol[propertyName];
-                    isMatch = layer.renderer.symbol[propertyName].family === dnFont.family;
+                    isMatch = layer.renderer.symbol[propertyName]?.family === dnFont.family;
                     break;
                 case "id":
-                    isMatch = true;
-                    break;
                 case "proProperties":
+                case "dotNetComponentReference":
                     isMatch = true;
                     break;
                 default:
-                    isMatch = layer.renderer.symbol[propertyName].toString() === dnSymbol[propertyName].toString();
+                    isMatch = layer.renderer.symbol[propertyName]?.toString() === dnSymbol[propertyName]?.toString();
                     break;
             }
 

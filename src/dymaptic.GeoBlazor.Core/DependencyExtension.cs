@@ -27,6 +27,7 @@ public static class DependencyExtension
         serviceCollection.AddHttpClient<IAppValidator, RegistrationValidator>();
         return serviceCollection
             .AddSingleton<GeoBlazorSettings>(_ => settings)
+            .AddScoped<JsModuleManager>()
             .AddScoped<GeometryEngine>()
             .AddScoped<Locator>()
             .AddScoped<Projection>()

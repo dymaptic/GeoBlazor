@@ -16,7 +16,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 ///     attributes. A Graphic is displayed in the GraphicsLayer.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Graphic.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public class Graphic : LayerObject
+public class Graphic : LayerObject, IEquatable<Graphic>
 {
     /// <summary>
     ///     Parameterless constructor for using as a razor component
@@ -188,11 +188,11 @@ public class Graphic : LayerObject
             if (oldTemplate != null)
             {
                 await CoreJsModule.InvokeVoidAsync("removeGraphicPopupTemplate", Id,
-                    oldTemplate.ToSerializationRecord(), oldTemplate.DotNetPopupTemplateReference, View?.Id);
+                    oldTemplate.ToSerializationRecord(), oldTemplate.DotNetComponentReference, View?.Id);
             }
 
             await CoreJsModule.InvokeVoidAsync("setGraphicPopupTemplate", Id,
-                PopupTemplate.ToSerializationRecord(), PopupTemplate.DotNetPopupTemplateReference, View?.Id);
+                PopupTemplate.ToSerializationRecord(), PopupTemplate.DotNetComponentReference, View?.Id);
         }
         else
         {
@@ -281,8 +281,6 @@ public class Graphic : LayerObject
     /// <inheritdoc />
     public override async Task SetParametersAsync(ParameterView parameters)
     {
-        await base.SetParametersAsync(parameters);
-
         foreach (ParameterValue parameterValue in parameters)
         {
             if (parameterValue is { Name: nameof(Attributes), Value: AttributesDictionary attributeDictionary })
@@ -297,6 +295,8 @@ public class Graphic : LayerObject
                 Attributes.OnChange ??= OnAttributesChanged;
             }
         }
+        
+        await base.SetParametersAsync(parameters);
     }
 
     /// <inheritdoc />
@@ -367,6 +367,44 @@ public class Graphic : LayerObject
     private bool _updateGeometry;
     private bool _updatePopupTemplate;
     private bool _updateAttributes;
+
+    public bool Equals(Graphic? other)
+    {
+        if (other is null) return false;
+        if (ReferenceEquals(this, other)) return true;
+        if (IsRenderedBlazorComponent)
+        {
+            if (!other.IsRenderedBlazorComponent)
+            {
+                return false;
+            }
+        }
+
+        return Equals(Id, other.Id);
+    }
+
+    public override bool Equals(object? obj)
+    {
+        if (obj is null) return false;
+        if (ReferenceEquals(this, obj)) return true;
+        if (obj.GetType() != GetType()) return false;
+        return Equals((Graphic)obj);
+    }
+
+    public override int GetHashCode()
+    {
+        return (Geometry != null ? Geometry.GetHashCode() : 0);
+    }
+
+    public static bool operator ==(Graphic? left, Graphic? right)
+    {
+        return Equals(left, right);
+    }
+
+    public static bool operator !=(Graphic? left, Graphic? right)
+    {
+        return !Equals(left, right);
+    }
 }
 
 [ProtoContract(Name = "Graphic")]

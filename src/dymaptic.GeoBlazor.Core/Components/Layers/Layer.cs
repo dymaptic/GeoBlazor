@@ -345,18 +345,18 @@ public abstract class Layer : MapComponent
             // this layer has already been loaded
             return;
         }
-        AbortManager = new AbortManager(JsRuntime);
+        ProJsModule ??= await JsModuleManager.GetArcGisJsPro(JsRuntime, cancellationToken);
+        CoreJsModule ??= await JsModuleManager.GetArcGisJsCore(JsRuntime, ProJsModule, cancellationToken);
+        AbortManager = new AbortManager(CoreJsModule);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        IJSObjectReference? arcGisPro = await JsModuleManager.GetArcGisJsPro(JsRuntime, cancellationToken);
-        IJSObjectReference arcGisJsInterop = await JsModuleManager.GetArcGisJsCore(JsRuntime, arcGisPro, cancellationToken);
 
-        JsLayerReference = await arcGisJsInterop.InvokeAsync<IJSObjectReference>("createLayer",
+        JsLayerReference = await CoreJsModule.InvokeAsync<IJSObjectReference>("createLayer",
             // ReSharper disable once RedundantCast
             cancellationToken, (object)this, true, View?.Id);
 
         await JsLayerReference.InvokeVoidAsync("load", cancellationToken, abortSignal);
 
-        Layer loadedLayer = await arcGisJsInterop.InvokeAsync<Layer>("getSerializedDotNetObject",
+        Layer loadedLayer = await CoreJsModule.InvokeAsync<Layer>("getSerializedDotNetObject",
             cancellationToken, Id);
         await UpdateFromJavaScript(loadedLayer);
         await AbortManager.DisposeAbortController(cancellationToken);

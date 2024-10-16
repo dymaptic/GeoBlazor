@@ -16,12 +16,16 @@ public class AuthenticationManager
     /// <param name="jsRuntime">
     ///     Injected JavaScript Runtime reference
     /// </param>
+    /// <param name="jsModuleManager">
+    ///     Injected JavaScript Module Manager reference
+    /// </param>
     /// <param name="configuration">
     ///     Injected configuration object
     /// </param>
-    public AuthenticationManager(IJSRuntime jsRuntime, IConfiguration configuration)
+    public AuthenticationManager(IJSRuntime jsRuntime, JsModuleManager jsModuleManager, IConfiguration configuration)
     {
         _jsRuntime = jsRuntime;
+        _jsModuleManager = jsModuleManager;
         _configuration = configuration;
     }
 
@@ -185,16 +189,15 @@ public class AuthenticationManager
     /// </summary>
     public async Task<IJSObjectReference> GetArcGisJsInterop()
     {
-        LicenseType licenseType = Licensing.GetLicenseType();
-
         var token = new CancellationToken();
-        IJSObjectReference? arcGisPro = await JsModuleManager.GetArcGisJsPro(_jsRuntime, token);
-        IJSObjectReference arcGisJsInterop = await JsModuleManager.GetArcGisJsCore(_jsRuntime, arcGisPro, token);
+        IJSObjectReference? arcGisPro = await _jsModuleManager.GetArcGisJsPro(_jsRuntime, token);
+        IJSObjectReference arcGisJsInterop = await _jsModuleManager.GetArcGisJsCore(_jsRuntime, arcGisPro, token);
         
         return arcGisJsInterop;
     }
 
     private readonly IJSRuntime _jsRuntime;
+    private readonly JsModuleManager _jsModuleManager;
     private readonly IConfiguration _configuration;
     private readonly CancellationTokenSource _cancellationTokenSource = new();
     private string? _appId;

@@ -159,11 +159,6 @@ public class SearchSource : MapComponent
     public Symbol? ResultSymbol { get; set; }
     
     /// <summary>
-    ///     The .NET object reference to this class for calling from JavaScript.
-    /// </summary>
-    public DotNetObjectReference<SearchSource> SearchSourceObjectReference => DotNetObjectReference.Create(this);
-    
-    /// <summary>
     ///     Indicates for the JavaScript engine whether to set up the GetResults handler
     /// </summary>
     public bool HasGetResultsHandler => GetResultsHandler is not null;

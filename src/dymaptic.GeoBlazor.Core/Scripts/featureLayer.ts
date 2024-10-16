@@ -3,7 +3,6 @@ import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import Query from "@arcgis/core/rest/support/Query";
 import FeatureSet from "@arcgis/core/rest/support/FeatureSet";
 import {
-    DotNetApplyEdits,
     DotNetFeatureSet,
     DotNetGraphic,
     DotNetPopupTemplate,
@@ -15,19 +14,15 @@ import {
     DotNetFeatureLayer, IPropertyWrapper
 } from "./definitions";
 import {
-    buildJsApplyEdits,
     buildJsQuery,
     buildJsRelationshipQuery,
     buildJsTopFeaturesQuery,
-    buildJsPortalItem,
-    buildJsGraphic, buildJsEffect, buildJsAttachmentEdit
+    buildJsGraphic, 
+    buildJsEffect
 } from "./jsBuilder";
 import {
     buildDotNetExtent,
-    buildDotNetGeometry,
-    buildDotNetGraphic,
     buildDotNetPopupTemplate,
-    buildDotNetSpatialReference,
     buildDotNetFields,
     buildDotNetFeatureLayer,
     buildDotNetDomain,
@@ -236,13 +231,6 @@ export default class FeatureLayerWrapper implements IPropertyWrapper {
             result = await this.layer.applyEdits(featureEdits);
         }
         if (abortSignal.aborted) return;
-        (async () => {
-            for (let i = 0; i < jsGraphics.length; i++) {
-                let graphic = jsGraphics[i];
-                let graphicObject = graphics[i];
-                graphicsRefs[graphicObject.id] = graphic;
-            }
-        })();
         let dnResult = buildDotNetEditsResult(result);
         return dnResult;
     }
@@ -317,13 +305,13 @@ export default class FeatureLayerWrapper implements IPropertyWrapper {
     async getFieldDomain(fieldName: string, graphic: DotNetGraphic): Promise<DotNetDomain | null> {
 
         let options: any | undefined = undefined;
-        if (graphic != null && graphic != undefined) {
+        if (hasValue(graphic)) {
             let featureGraphic = buildJsGraphic(graphic, null) as Graphic;
             options = {
                 feature: featureGraphic
             };
         }
-        let result = await this.layer.getFieldDomain(fieldName, options);
+        let result = this.layer.getFieldDomain(fieldName, options);
 
         let domain = buildDotNetDomain(result);
 

@@ -1,6 +1,5 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
 using dymaptic.GeoBlazor.Core.Objects;
-using Microsoft.JSInterop;
 
 
 namespace dymaptic.GeoBlazor.Core.Model;
@@ -16,14 +15,14 @@ public class Projection : LogicComponent
     /// <summary>
     ///     Default Constructor
     /// </summary>
-    /// <param name="jsRuntime">
-    ///     Injected JavaScript Runtime reference
-    /// </param>
     /// <param name="authenticationManager">
     ///     Injected Identity Manager reference
     /// </param>
-    public Projection(IJSRuntime jsRuntime, AuthenticationManager authenticationManager) : base(jsRuntime,
-        authenticationManager)
+    /// <param name="jsModuleManager">
+    ///     Injected JavaScript Module Manager reference
+    /// </param>
+    public Projection(AuthenticationManager authenticationManager, JsModuleManager jsModuleManager) : 
+        base(authenticationManager)
     {
     }
 

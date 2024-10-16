@@ -162,7 +162,7 @@ public class GraphicsLayer : Layer
             graphic.Parent = this;
         }
 
-        if (CoreJsModule is null || View is null)
+        if (View is null)
         {
             LayerChanged = true;
             UpdateState();
@@ -172,7 +172,9 @@ public class GraphicsLayer : Layer
 
         var records = newGraphics.Select(g => g.ToSerializationRecord()).ToList();
         int chunkSize = View!.GraphicSerializationChunkSize ?? (View.IsMaui ? 100 : 200);
-        AbortManager ??= new AbortManager(JsRuntime);
+        ProJsModule ??= await JsModuleManager.GetArcGisJsPro(JsRuntime, cancellationToken);
+        CoreJsModule ??= await JsModuleManager.GetArcGisJsCore(JsRuntime, ProJsModule, cancellationToken);
+        AbortManager ??= new AbortManager(CoreJsModule);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
 
         if (View.IsWebAssembly)
@@ -401,11 +403,11 @@ public class GraphicsLayer : Layer
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
-        if (!firstRender && _graphicsToRender.Any() && !_rendering)
+        if (!firstRender && _graphicsToRender.Any(g => !g.IsDisposed) && !_rendering)
         {
             _rendering = true;
             AllowRender = false;
-            await Add(_graphicsToRender);
+            await Add(_graphicsToRender.Where(g => !g.IsDisposed));
             _graphicsToRender.Clear();
             AllowRender = true;
             _rendering = false;

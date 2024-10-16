@@ -20,14 +20,14 @@ public class GeometryEngine : LogicComponent
     /// <summary>
     ///     Default Constructor
     /// </summary>
-    /// <param name="jsRuntime">
-    ///     Injected JavaScript Runtime reference
-    /// </param>
     /// <param name="authenticationManager">
     ///     Injected Identity Manager reference
     /// </param>
-    public GeometryEngine(IJSRuntime jsRuntime, AuthenticationManager authenticationManager) : base(jsRuntime,
-        authenticationManager)
+    /// <param name="jsModuleManager">
+    ///     Injected JavaScript Module Manager reference
+    /// </param>
+    public GeometryEngine(AuthenticationManager authenticationManager, JsModuleManager jsModuleManager) : 
+        base(authenticationManager)
     {
     }
 

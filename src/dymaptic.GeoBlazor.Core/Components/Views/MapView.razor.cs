@@ -159,6 +159,16 @@ public partial class MapView : MapComponent
 #region Public Properties
 
     /// <summary>
+    ///     The reference to arcGisJsInterop.ts from .NET
+    /// </summary>
+    public IJSObjectReference? ViewJsModule { get; private set; }
+    
+    /// <summary>
+    ///     The reference to arcGisJsInterop.ts from .NET
+    /// </summary>
+    public IJSObjectReference? ProViewJsModule { get; private set; }
+
+    /// <summary>
     ///     The collection of <see cref="Widget" />s in the view.
     /// </summary>
     public IReadOnlyCollection<Widget> Widgets
@@ -251,12 +261,6 @@ public partial class MapView : MapComponent
         get => AuthenticationManager.AppId;
         set => AuthenticationManager.AppId = value;
     }
-
-    /// <summary>
-    ///     A .NET Object Reference to this view for use in JavaScript calls.
-    /// </summary>
-    protected DotNetObjectReference<MapView> DotNetObjectReference =>
-        Microsoft.JSInterop.DotNetObjectReference.Create(this);
 
 #endregion
 
@@ -827,7 +831,7 @@ public partial class MapView : MapComponent
         if (_isDisposed) return;
         LayerView? layerView = layerViewCreateEvent.Layer switch
         {
-            FeatureLayer => new FeatureLayerView(layerViewCreateEvent.LayerView!, new AbortManager(JsRuntime)),
+            FeatureLayer => new FeatureLayerView(layerViewCreateEvent.LayerView!, new AbortManager(CoreJsModule!)),
             _ => layerViewCreateEvent.LayerView
         };
 
@@ -846,7 +850,7 @@ public partial class MapView : MapComponent
 
             createdLayer.JsLayerReference ??= layerViewCreateEvent.LayerObjectRef;
 
-            createdLayer.AbortManager = new AbortManager(JsRuntime);
+            createdLayer.AbortManager = new AbortManager(CoreJsModule!);
             await createdLayer.UpdateFromJavaScript(layerViewCreateEvent.Layer!);
 
             if (layerView is not null)
@@ -861,7 +865,7 @@ public partial class MapView : MapComponent
             if (layer is not null)
             {
                 layer.LayerView = layerView;
-                layer.AbortManager = new AbortManager(JsRuntime);
+                layer.AbortManager = new AbortManager(CoreJsModule!);
                 layer.JsLayerReference = layerViewCreateEvent.LayerObjectRef;
                 layer.Imported = true;
 
@@ -972,14 +976,14 @@ public partial class MapView : MapComponent
     ///     and returns it to JavaScript.
     /// </summary>
     [JSInvokable]
-    public DotNetObjectReference<PopupTemplate>? GetDotNetPopupTemplateObjectReference(Guid popupTemplateId)
+    public DotNetObjectReference<MapComponent>? GetDotNetPopupTemplateObjectReference(Guid popupTemplateId)
     {
         if (_isDisposed) return null;
         foreach (Graphic graphic in Graphics)
         {
             if (graphic.PopupTemplate?.Id == popupTemplateId)
             {
-                return graphic.PopupTemplate.DotNetPopupTemplateReference;
+                return graphic.PopupTemplate.DotNetComponentReference;
             }
         }
 
@@ -990,7 +994,7 @@ public partial class MapView : MapComponent
                 case FeatureLayer featureLayer:
                     if (featureLayer.PopupTemplate?.Id == popupTemplateId)
                     {
-                        return featureLayer.PopupTemplate.DotNetPopupTemplateReference;
+                        return featureLayer.PopupTemplate.DotNetComponentReference;
                     }
 
                     if (featureLayer.Source is not null)
@@ -999,7 +1003,7 @@ public partial class MapView : MapComponent
                         {
                             if (graphic.PopupTemplate?.Id == popupTemplateId)
                             {
-                                return graphic.PopupTemplate.DotNetPopupTemplateReference;
+                                return graphic.PopupTemplate.DotNetComponentReference;
                             }
                         }
                     }
@@ -1010,7 +1014,7 @@ public partial class MapView : MapComponent
                     {
                         if (graphic.PopupTemplate?.Id == popupTemplateId)
                         {
-                            return graphic.PopupTemplate.DotNetPopupTemplateReference;
+                            return graphic.PopupTemplate.DotNetComponentReference;
                         }
                     }
 
@@ -1018,7 +1022,7 @@ public partial class MapView : MapComponent
                 case IPopupTemplateLayer templateLayer:
                     if (templateLayer.PopupTemplate?.Id == popupTemplateId)
                     {
-                        return templateLayer.PopupTemplate.DotNetPopupTemplateReference;
+                        return templateLayer.PopupTemplate.DotNetComponentReference;
                     }
 
                     break;
@@ -2060,7 +2064,8 @@ public partial class MapView : MapComponent
     /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        AbortManager ??= new AbortManager(JsRuntime);
+        await base.OnAfterRenderAsync(firstRender);
+        AbortManager ??= new AbortManager(CoreJsModule!);
 
         if (!LoadOnRender && !_renderCalled)
         {
@@ -2069,10 +2074,6 @@ public partial class MapView : MapComponent
 
         if (firstRender)
         {
-            ProJsModule ??= await JsModuleManager.GetArcGisJsPro(JsRuntime, CancellationTokenSource.Token);
-
-            CoreJsModule ??= await JsModuleManager.GetArcGisJsCore(JsRuntime, ProJsModule, CancellationTokenSource.Token);
-
             try
             {
                 await AppValidator.ValidateLicense();
@@ -2155,7 +2156,7 @@ public partial class MapView : MapComponent
                     "/_content/dymaptic.GeoBlazor.Core/assets"));
 
             await CoreJsModule.InvokeVoidAsync("buildMapView", CancellationTokenSource.Token, Id,
-                DotNetObjectReference, Longitude, Latitude, Rotation, Map, Zoom, Scale,
+                DotNetComponentReference, Longitude, Latitude, Rotation, Map, Zoom, Scale,
                 mapType, Widgets, Graphics, SpatialReference, Constraints, Extent,
                 EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions, PopupEnabled);
 

@@ -3,9 +3,9 @@
   "description": "https://www.geoblazor.com",
   "main": "arcGisInterop.js",
   "scripts": {
-    "debugBuild": "esbuild ./Scripts/arcGisJsInterop.ts ./Scripts/abortController.ts --format=esm --bundle --sourcemap --outdir=wwwroot/js --splitting",
-    "watchBuild": "esbuild ./Scripts/arcGisJsInterop.ts ./Scripts/abortController.ts --format=esm --bundle --sourcemap --outdir=wwwroot/js --watch --splitting",
-    "releaseBuild": "esbuild ./Scripts/arcGisJsInterop.ts ./Scripts/abortController.ts --format=esm --bundle --minify --sourcemap --outdir=wwwroot/js --splitting"
+    "debugBuild": "esbuild ./Scripts/arcGisJsInterop.ts --format=esm --bundle --sourcemap --outdir=wwwroot/js --splitting",
+    "watchBuild": "esbuild ./Scripts/arcGisJsInterop.ts --format=esm --bundle --sourcemap --outdir=wwwroot/js --watch --splitting",
+    "releaseBuild": "esbuild ./Scripts/arcGisJsInterop.ts --format=esm --bundle --minify --sourcemap --outdir=wwwroot/js --splitting"
   },
   "keywords": [],
   "author": "dymaptic",

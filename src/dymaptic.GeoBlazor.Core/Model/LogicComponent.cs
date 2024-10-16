@@ -12,15 +12,11 @@ public abstract class LogicComponent : IDisposable
     /// <summary>
     ///     Default constructor
     /// </summary>
-    /// <param name="jsRuntime">
-    ///     Injected JavaScript Runtime reference
-    /// </param>
     /// <param name="authenticationManager">
     ///     Injected Identity Manager reference
     /// </param>
-    public LogicComponent(IJSRuntime jsRuntime, AuthenticationManager authenticationManager)
+    protected LogicComponent(AuthenticationManager authenticationManager)
     {
-        JsRuntime = jsRuntime;
         AuthenticationManager = authenticationManager;
     }
 
@@ -115,11 +111,6 @@ public abstract class LogicComponent : IDisposable
 
         return await Component!.InvokeAsync<T>(method, CancellationTokenSource.Token, parameters);
     }
-
-    /// <summary>
-    ///     The reference to the JS Runtime.
-    /// </summary>
-    protected readonly IJSRuntime JsRuntime;
     
     /// <summary>
     ///    The reference to the Authentication Manager.
