@@ -72,7 +72,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
 
             return _coreJsModule;
         }
-        protected set => _coreJsModule = value;
+        internal set => _coreJsModule = value;
     }
 
     /// <summary>
@@ -90,7 +90,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
             
             return _proJsModule;
         }
-        protected set => _proJsModule = value;
+        internal set => _proJsModule = value;
     }
 
     /// <summary>
@@ -216,7 +216,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         }
         
         if (CoreJsModule is null) return;
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getComponent", 
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent", 
             CancellationTokenSource.Token, Id);
         if (JsComponentReference is null)
         {
@@ -246,7 +246,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     {
         if (CoreJsModule is null) return default;
                  
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
             CancellationTokenSource.Token, Id);
         if (JsComponentReference is null)
         {
@@ -307,7 +307,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         
         if (CoreJsModule is null) return;
         
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
             CancellationTokenSource.Token, Id);
         if (JsComponentReference is null)
         {
@@ -357,7 +357,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         
         if (CoreJsModule is null) return;
         
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
             CancellationTokenSource.Token, Id);
         if (JsComponentReference is null)
         {
@@ -403,7 +403,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         }
         if (CoreJsModule is null) return;
         
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
             CancellationTokenSource.Token, Id);
         if (JsComponentReference is null)
         {
@@ -452,7 +452,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         }
         if (CoreJsModule is null) return;
         
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
             CancellationTokenSource.Token, Id);
         if (JsComponentReference is null)
         {
@@ -582,19 +582,21 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     public async Task SetVisibility(bool visible)
     {
         await CoreJsModule!.InvokeVoidAsync("setVisibility", CancellationTokenSource.Token, Id, visible);
+        ModifiedParameters[nameof(Visible)] = visible;
         Visible = visible;
     }
     
     /// <summary>
     ///     The reference to the .NET object that represents the component.
     /// </summary>
+    [JsonConverter(typeof(DotNetObjectReferenceJsonConverter))]
     public DotNetObjectReference<MapComponent> DotNetComponentReference => DotNetObjectReference.Create(this);
 
     /// <summary>
     ///     The reference to the JavaScript object that represents the component.
     /// </summary>
     [JsonIgnore]
-    protected IJSObjectReference? JsComponentReference { get; set; }
+    internal IJSObjectReference? JsComponentReference { get; set; }
     
     /// <summary>
     ///     For internal use, registration from JavaScript.
@@ -1252,11 +1254,41 @@ internal class MapComponentConverter : JsonConverter<MapComponent>
 
     public override void Write(Utf8JsonWriter writer, MapComponent value, JsonSerializerOptions options)
     {
-        var newOptions = new JsonSerializerOptions(options)
+        _options ??= new JsonSerializerOptions(options)
         {
-            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
         };
-        writer.WriteRawValue(JsonSerializer.Serialize(value, typeof(object), newOptions));
+        
+        writer.WriteRawValue(JsonSerializer.Serialize(value, typeof(object), _options));
+    }
+
+    private JsonSerializerOptions? _options;
+}
+
+/// <summary>
+///     Custom converter to ensure that end users can serialize things like Graphics without getting hit by a loop with the `DotNetComponentReference` property that causes a Stack Overflow.
+/// </summary>
+internal class DotNetObjectReferenceJsonConverter : JsonConverter<DotNetObjectReference<MapComponent>>
+{
+    public override DotNetObjectReference<MapComponent>? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        return JsonSerializer.Deserialize(ref reader, typeToConvert, options) as DotNetObjectReference<MapComponent>;
+    }
+
+    public override void Write(Utf8JsonWriter writer, DotNetObjectReference<MapComponent> value, JsonSerializerOptions options)
+    {
+        // Using for loop for performance since this is hit a lot. Looking at the JsRuntime source, it would be possible right
+        // now to know that the _first_ converter can handle this type, but that could change in the future.
+        for (int i = 0; i < options.Converters.Count; i++)
+        {
+            if (options.Converters[i].CanConvert(typeof(DotNetObjectReference<MapComponent>)))
+            {
+                JsonSerializer.Serialize(writer, value, options);
+                return;
+            }
+        }
+        
+        writer.WriteNullValue();
     }
 }
 

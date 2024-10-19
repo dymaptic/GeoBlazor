@@ -172,6 +172,8 @@ import JoinTableDataSource = __esri.JoinTableDataSource;
 import DynamicDataLayerFields = __esri.DynamicDataLayerFields;
 import TickConfig = __esri.TickConfig;
 import MapView from "@arcgis/core/views/MapView";
+import UniqueValueClass from "@arcgis/core/renderers/support/UniqueValueClass";
+import UniqueValueGroup from "@arcgis/core/renderers/support/UniqueValueGroup";
 
 
 // region functions
@@ -738,7 +740,13 @@ export function buildJsUniqueValueRenderer(dnUniqueValueRenderer: DotNetUniqueVa
     }
     
     copyValuesIfExists(dnUniqueValueRenderer, uniqueValueRenderer, 'defaultLabel', 'field', 'field2', 'field3',
-        'fieldDelimiter', 'legendOptions', 'orderByClassesEnabled', 'valueExpression', 'valueExpressionTitle');
+        'fieldDelimiter', 'orderByClassesEnabled', 'valueExpression', 'valueExpressionTitle');
+    
+    if (hasValue(dnUniqueValueRenderer.legendOptions)) {
+        uniqueValueRenderer.legendOptions = {
+            title: dnUniqueValueRenderer.legendOptions.title
+        }
+    }
     
     if (hasValue(dnUniqueValueRenderer.defaultSymbol?.symbol)) {
         uniqueValueRenderer.defaultSymbol = buildJsSymbol(dnUniqueValueRenderer.defaultSymbol.symbol) as Symbol;
@@ -753,6 +761,46 @@ export function buildJsUniqueValueRenderer(dnUniqueValueRenderer: DotNetUniqueVa
                 uniqueValueInfo.symbol = buildJsSymbol(dnUniqueValueInfo.symbol) as Symbol;
             }
             uniqueValueRenderer.uniqueValueInfos.push(uniqueValueInfo);
+        }
+        if (!hasValue(dnUniqueValueRenderer.uniqueValueGroups)) {
+            let group = new UniqueValueGroup({
+                classes: []
+            });
+            for (let i = 0; i < dnUniqueValueRenderer.uniqueValueInfos.length; i++) {
+                let dnUniqueValueInfo = dnUniqueValueRenderer.uniqueValueInfos[i];
+                let uniqueValueClass = new UniqueValueClass();
+                copyValuesIfExists(dnUniqueValueInfo, uniqueValueClass, 'label');
+                if (hasValue(dnUniqueValueInfo.symbol)) {
+                    uniqueValueClass.symbol = buildJsSymbol(dnUniqueValueInfo.symbol) as Symbol;
+                }
+                if (hasValue(dnUniqueValueInfo.value)) {
+                    uniqueValueClass.values = [dnUniqueValueInfo.value];
+                }
+                group.classes.push(uniqueValueClass);
+            }
+            uniqueValueRenderer.uniqueValueGroups.push(group);
+        }
+    }
+    
+    if (hasValue(dnUniqueValueRenderer.uniqueValueGroups) && dnUniqueValueRenderer.uniqueValueGroups.length > 0) {
+        for (let i = 0; i < dnUniqueValueRenderer.uniqueValueGroups.length; i++) {
+            let dnUniqueValueGroup = dnUniqueValueRenderer.uniqueValueGroups[i];
+            let uniqueValueGroup = new UniqueValueGroup({
+                classes: []
+            });
+            copyValuesIfExists(dnUniqueValueGroup, uniqueValueGroup, 'heading');
+            if (hasValue(dnUniqueValueGroup.classes) && dnUniqueValueGroup.classes.length > 0) {
+                for (let j = 0; j < dnUniqueValueGroup.classes.length; j++) {
+                    let dnUniqueValueClass = dnUniqueValueGroup.classes[j];
+                    let uniqueValueClass = new UniqueValueClass();
+                    copyValuesIfExists(dnUniqueValueClass, uniqueValueClass, 'label', 'values');
+                    if (hasValue(dnUniqueValueClass.symbol)) {
+                        uniqueValueClass.symbol = buildJsSymbol(dnUniqueValueClass.symbol) as Symbol;
+                    }
+                    uniqueValueGroup.classes.push(uniqueValueClass);
+                }
+            }
+            uniqueValueRenderer.uniqueValueGroups.push(uniqueValueGroup);
         }
     }
     

@@ -293,8 +293,8 @@ public class ImageryTileLayer : Layer, IPopupTemplateLayer
     /// </summary>
     public async Task<RasterInfo?> GetServiceRasterInfo()
     {
-        if (JsLayerReference is null) return null;
-        return await JsLayerReference.InvokeAsync<RasterInfo>("getServiceRasterInfo", View?.Id);    
+        if (JsComponentReference is null) return null;
+        return await JsComponentReference.InvokeAsync<RasterInfo>("getServiceRasterInfo", View?.Id);    
     }
 
     /// <summary>
@@ -304,9 +304,9 @@ public class ImageryTileLayer : Layer, IPopupTemplateLayer
     {
         Renderer = renderer;
 
-        if (JsLayerReference is null) return;
+        if (JsComponentReference is null) return;
 
-        await JsLayerReference.InvokeVoidAsync("setRenderer", renderer);
+        await JsComponentReference.InvokeVoidAsync("setRenderer", renderer);
     }
 
     /// <inheritdoc />

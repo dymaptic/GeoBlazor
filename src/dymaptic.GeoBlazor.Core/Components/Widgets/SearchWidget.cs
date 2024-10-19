@@ -201,7 +201,7 @@ public class SearchWidget : Widget
 #pragma warning disable BL0005
         SearchTerm = searchTerm;
 #pragma warning restore BL0005
-        await JsWidgetReference!.InvokeVoidAsync("setSearchTerm", searchTerm);
+        await JsComponentReference!.InvokeVoidAsync("setSearchTerm", searchTerm);
     }
 
     /// <summary>
@@ -210,7 +210,7 @@ public class SearchWidget : Widget
     public async Task<string> GetSearchTerm()
     {
 #pragma warning disable BL0005
-        SearchTerm = await JsWidgetReference!.InvokeAsync<string>("getSearchTerm");
+        SearchTerm = await JsComponentReference!.InvokeAsync<string>("getSearchTerm");
 #pragma warning restore BL0005
         return SearchTerm;
     }
@@ -223,7 +223,7 @@ public class SearchWidget : Widget
     /// </param>
     public async Task<SearchResponse> Search(string searchTerm)
     {
-        return await JsWidgetReference!.InvokeAsync<SearchResponse>("search", searchTerm);
+        return await JsComponentReference!.InvokeAsync<SearchResponse>("search", searchTerm);
     }
     
     /// <summary>
@@ -234,7 +234,7 @@ public class SearchWidget : Widget
     /// </param>
     public async Task<SearchResponse> Search(Geometry searchTerm)
     {
-        return await JsWidgetReference!.InvokeAsync<SearchResponse>("search", searchTerm);
+        return await JsComponentReference!.InvokeAsync<SearchResponse>("search", searchTerm);
     }
     
     /// <summary>
@@ -245,7 +245,7 @@ public class SearchWidget : Widget
     /// </param>
     public async Task<SearchResponse> Search(SuggestResult searchTerm)
     {
-        return await JsWidgetReference!.InvokeAsync<SearchResponse>("search", searchTerm);
+        return await JsComponentReference!.InvokeAsync<SearchResponse>("search", searchTerm);
     }
     
     /// <summary>
@@ -256,7 +256,7 @@ public class SearchWidget : Widget
     /// </param>
     public async Task<SearchResponse> Search(double[][] searchTerm)
     {
-        return await JsWidgetReference!.InvokeAsync<SearchResponse>("search", new object[]{searchTerm});
+        return await JsComponentReference!.InvokeAsync<SearchResponse>("search", new object[]{searchTerm});
     }
     
     /// <summary>
@@ -270,7 +270,7 @@ public class SearchWidget : Widget
     /// </param>
     public async Task<SuggestResponse> Suggest(string? value = null)
     {
-        return await JsWidgetReference!.InvokeAsync<SuggestResponse>("suggest", value);
+        return await JsComponentReference!.InvokeAsync<SuggestResponse>("suggest", value);
     }
 
     /// <summary>
@@ -278,7 +278,7 @@ public class SearchWidget : Widget
     /// </summary>
     public async Task<SearchSource?> GetActiveSource()
     {
-        return await JsWidgetReference!.InvokeAsync<SearchSource?>("getActiveSource");
+        return await JsComponentReference!.InvokeAsync<SearchSource?>("getActiveSource");
     }
     
     /// <summary>
@@ -286,7 +286,7 @@ public class SearchWidget : Widget
     /// </summary>
     public async Task<SearchMenu> GetActiveMenu()
     {
-        return await JsWidgetReference!.InvokeAsync<SearchMenu>("getActiveMenu");
+        return await JsComponentReference!.InvokeAsync<SearchMenu>("getActiveMenu");
     }
 
     /// <summary>
@@ -294,7 +294,7 @@ public class SearchWidget : Widget
     /// </summary>
     public async Task<int> GetActiveSourceIndex()
     {
-        return await JsWidgetReference!.InvokeAsync<int>("getActiveSourceIndex");
+        return await JsComponentReference!.InvokeAsync<int>("getActiveSourceIndex");
     }
 
     /// <summary>
@@ -302,7 +302,7 @@ public class SearchWidget : Widget
     /// </summary>
     public async Task<IReadOnlyList<SearchSource>> GetAllSources()
     {
-        return await JsWidgetReference!.InvokeAsync<IReadOnlyList<SearchSource>>("getAllSources");
+        return await JsComponentReference!.InvokeAsync<IReadOnlyList<SearchSource>>("getAllSources");
     }
 
     /// <summary>
@@ -310,7 +310,7 @@ public class SearchWidget : Widget
     /// </summary>
     public async Task<IReadOnlyList<SearchSource>> GetDefaultSources()
     {
-        return await JsWidgetReference!.InvokeAsync<IReadOnlyList<SearchSource>>("getDefaultSources");
+        return await JsComponentReference!.InvokeAsync<IReadOnlyList<SearchSource>>("getDefaultSources");
     }
 
     /// <summary>
@@ -321,7 +321,7 @@ public class SearchWidget : Widget
     /// </remarks>
     public async Task<Graphic?> GetResultGraphic()
     {
-        return await JsWidgetReference!.InvokeAsync<Graphic?>("getResultGraphic");
+        return await JsComponentReference!.InvokeAsync<Graphic?>("getResultGraphic");
     }
 
     /// <summary>
@@ -329,7 +329,7 @@ public class SearchWidget : Widget
     /// </summary>
     public async Task<IReadOnlyList<SearchResultResponse>> GetResults()
     {
-        return await JsWidgetReference!.InvokeAsync<IReadOnlyList<SearchResultResponse>>("getResults");
+        return await JsComponentReference!.InvokeAsync<IReadOnlyList<SearchResultResponse>>("getResults");
     }
 
     /// <summary>
@@ -337,7 +337,7 @@ public class SearchWidget : Widget
     /// </summary>
     public async Task<SearchResult> GetSelectedResult()
     {
-        return await JsWidgetReference!.InvokeAsync<SearchResult>("getSelectedResult");
+        return await JsComponentReference!.InvokeAsync<SearchResult>("getSelectedResult");
     }
 
     /// <summary>
@@ -346,7 +346,7 @@ public class SearchWidget : Widget
     /// </summary>
     public async Task<SuggestResult[]> GetSuggestions()
     {
-        return await JsWidgetReference!.InvokeAsync<SuggestResult[]>("getSuggestions");
+        return await JsComponentReference!.InvokeAsync<SuggestResult[]>("getSuggestions");
     }
 
     /// <summary>

@@ -78,16 +78,6 @@ public abstract partial class Widget : MapComponent
     /// </summary>
     protected internal virtual bool ArcGisWidget => true;
     
-    /// <summary>
-    ///     JS-invokable callback to register a JS Object Reference
-    /// </summary>
-    [JSInvokable]
-    public async Task OnJsWidgetCreated(IJSObjectReference jsObjectReference)
-    {
-        JsWidgetReference = jsObjectReference;
-        await OnWidgetCreated.InvokeAsync();
-    }
-    
     /// <inheritdoc />
     public override async Task SetParametersAsync(ParameterView parameters)
     {
@@ -158,11 +148,6 @@ public abstract partial class Widget : MapComponent
     ///     Indicates if the widget has changed since the last render.
     /// </summary>
     public bool WidgetChanged;
-
-    /// <summary>
-    ///     JS Object Reference to the widget
-    /// </summary>
-    public IJSObjectReference? JsWidgetReference;
 
     private bool _externalWidgetRegistered;
 }

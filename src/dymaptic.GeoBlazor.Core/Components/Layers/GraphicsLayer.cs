@@ -314,7 +314,8 @@ public class GraphicsLayer : Layer
     public async Task Clear()
     {
         AllowRender = false;
-        await CoreJsModule!.InvokeVoidAsync("clearGraphics", View!.Id, Id);
+        Guid[] ids = _graphics.Select(g => g.Id).ToArray();
+        await CoreJsModule!.InvokeVoidAsync("clearGraphics", View!.Id, ids, Id);
         _graphicsToRender.Clear();
         _graphics.Clear();
         AllowRender = true;

@@ -1,4 +1,6 @@
-﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
+﻿using System.Text;
+using System.Text.Json;
+using dymaptic.GeoBlazor.Core.Components.Geometries;
 using dymaptic.GeoBlazor.Core.Objects;
 using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.JSInterop;
@@ -103,8 +105,14 @@ public class Locator : LogicComponent
         string? countryCode = null, List<string>? categories = null, LocationType? locationType = null,
         SpatialReference? outSpatialReference = null, RequestOptions? requestOptions = null)
     {
-        return await InvokeAsync<List<AddressCandidate>>("addressesToLocations", url, addresses, countryCode,
-            categories, locationType, outSpatialReference, requestOptions);
+        IJSStreamReference streamRef = await InvokeAsync<IJSStreamReference>("addressesToLocations", url, 
+            addresses, countryCode, categories, locationType, outSpatialReference, requestOptions);
+        await using Stream stream = await streamRef.OpenReadStreamAsync(1_000_000_000L);
+        using var ms = new MemoryStream();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        string json = Encoding.UTF8.GetString(ms.ToArray());
+        return JsonSerializer.Deserialize<List<AddressCandidate>>(json, _jsonOptions) ?? new List<AddressCandidate>();
     }
 
     /// <summary>
@@ -202,9 +210,15 @@ public class Locator : LogicComponent
         List<string>? outFields = null, SpatialReference? outSpatialReference = null, Extent? searchExtent = null,
         RequestOptions? requestOptions = null)
     {
-        return await InvokeAsync<List<AddressCandidate>>("addressToLocations", url, address, categories, countryCode,
-            forStorage, location, locationType, magicKey, maxLocations, outFields, outSpatialReference, searchExtent,
-            requestOptions);
+        IJSStreamReference streamRef = await InvokeAsync<IJSStreamReference>("addressToLocations", url, address, 
+            categories, countryCode, forStorage, location, locationType, magicKey, maxLocations, outFields, 
+            outSpatialReference, searchExtent, requestOptions);
+        await using Stream stream = await streamRef.OpenReadStreamAsync(1_000_000_000L);
+        using var ms = new MemoryStream();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        string json = Encoding.UTF8.GetString(ms.ToArray());
+        return JsonSerializer.Deserialize<List<AddressCandidate>>(json, _jsonOptions) ?? new List<AddressCandidate>();
     }
 
     /// <summary>
@@ -310,6 +324,11 @@ public class Locator : LogicComponent
         return await InvokeAsync<List<SuggestionResult>>("suggestLocations", url, location, text,
             categories, requestOptions);
     }
+    
+    private JsonSerializerOptions _jsonOptions = new()
+    {
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+    };
 
     private static readonly string ESRIGeoLocationUrl =
         "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer";

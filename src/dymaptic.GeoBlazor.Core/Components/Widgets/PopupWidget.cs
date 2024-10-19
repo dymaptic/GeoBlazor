@@ -183,7 +183,7 @@ public class PopupWidget : Widget
     /// </summary>
     public async Task<Graphic?> GetSelectedFeature()
     {
-        return await JsWidgetReference!.InvokeAsync<Graphic?>("getSelectedFeature",
+        return await JsComponentReference!.InvokeAsync<Graphic?>("getSelectedFeature",
             CancellationTokenSource.Token, View?.Id);
     }
 
@@ -192,7 +192,7 @@ public class PopupWidget : Widget
     /// </summary>
     public async Task SetContent(string stringContent)
     {
-        await JsWidgetReference!.InvokeVoidAsync("setContent", CancellationTokenSource.Token, stringContent);
+        await JsComponentReference!.InvokeVoidAsync("setContent", CancellationTokenSource.Token, stringContent);
     }
 
     /// <summary>
@@ -200,7 +200,7 @@ public class PopupWidget : Widget
     /// </summary>
     public async Task Clear()
     {
-        await JsWidgetReference!.InvokeVoidAsync("clear", CancellationTokenSource.Token);
+        await JsComponentReference!.InvokeVoidAsync("clear", CancellationTokenSource.Token);
     }
 
     /// <summary>
@@ -210,7 +210,7 @@ public class PopupWidget : Widget
     /// </summary>
     public async Task<Graphic[]> FetchFeatures()
     {
-        return await JsWidgetReference!.InvokeAsync<Graphic[]>("fetchFeatures", CancellationTokenSource.Token);
+        return await JsComponentReference!.InvokeAsync<Graphic[]>("fetchFeatures", CancellationTokenSource.Token);
     }
 
     /// <summary>
@@ -218,7 +218,7 @@ public class PopupWidget : Widget
     /// </summary>
     public async Task<int> GetFeatureCount()
     {
-        return await JsWidgetReference!.InvokeAsync<int>("getFeatureCount", CancellationTokenSource.Token);
+        return await JsComponentReference!.InvokeAsync<int>("getFeatureCount", CancellationTokenSource.Token);
     }
 
     /// <summary>
@@ -226,7 +226,7 @@ public class PopupWidget : Widget
     /// </summary>
     public async Task<int> GetSelectedFeatureIndex()
     {
-        return await JsWidgetReference!.InvokeAsync<int>("getSelectedFeatureIndex", CancellationTokenSource.Token);
+        return await JsComponentReference!.InvokeAsync<int>("getSelectedFeatureIndex", CancellationTokenSource.Token);
     }
 
     /// <summary>
@@ -234,7 +234,7 @@ public class PopupWidget : Widget
     /// </summary>
     public async Task<bool> GetVisibility()
     {
-        return await JsWidgetReference!.InvokeAsync<bool>("getVisibility", CancellationTokenSource.Token);
+        return await JsComponentReference!.InvokeAsync<bool>("getVisibility", CancellationTokenSource.Token);
     }
 
     /// <summary>
@@ -244,7 +244,7 @@ public class PopupWidget : Widget
     /// </summary>
     public async Task Open()
     {
-        await JsWidgetReference!.InvokeVoidAsync("open", CancellationTokenSource.Token);
+        await JsComponentReference!.InvokeVoidAsync("open", CancellationTokenSource.Token);
     }
 
     /// <summary>
@@ -253,7 +253,7 @@ public class PopupWidget : Widget
     /// </summary>
     public async Task Close()
     {
-        await JsWidgetReference!.InvokeVoidAsync("close", CancellationTokenSource.Token);
+        await JsComponentReference!.InvokeVoidAsync("close", CancellationTokenSource.Token);
     }
 
     /// <summary>

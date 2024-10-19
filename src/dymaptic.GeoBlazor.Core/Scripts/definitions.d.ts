@@ -768,7 +768,7 @@ export interface DotNetUniqueValueClass {
 export interface DotNetUniqueValueInfo {
     label: string;
     symbol: DotNetSymbol;
-    values: object[];
+    value: any;
 }
 
 export interface DotNetUniqueValueGroup {
@@ -784,7 +784,7 @@ export interface DotNetUniqueValueRenderer {
     field2: string;
     field3: string;
     fieldDelimiter: string;
-    legendOptions: object;
+    legendOptions: any;
     orderByClassesEnabled: boolean;
     type: string;
     uniqueValueGroups: DotNetUniqueValueGroup[];

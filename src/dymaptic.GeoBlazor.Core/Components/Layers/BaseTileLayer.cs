@@ -118,7 +118,7 @@ public class BaseTileLayer : Layer
     /// </returns>
     public async Task<double[]> GetTileBounds(int level, int row, int col)
     {
-        return await JsLayerReference!.InvokeAsync<double[]>("getTileBounds", level, row, col);
+        return await JsComponentReference!.InvokeAsync<double[]>("getTileBounds", level, row, col);
     }
 
     /// <summary>
@@ -144,7 +144,7 @@ public class BaseTileLayer : Layer
     /// </summary>
     public async Task<TileInfo?> GetTileInfo()
     {
-        return await JsLayerReference!.InvokeAsync<TileInfo?>("getTileInfo");
+        return await JsComponentReference!.InvokeAsync<TileInfo?>("getTileInfo");
     }
     
     /// <summary>
@@ -155,7 +155,7 @@ public class BaseTileLayer : Layer
     /// </param>
     public async Task SetEffect(Effect effect)
     {
-        await JsLayerReference!.InvokeVoidAsync("setEffect", effect);
+        await JsComponentReference!.InvokeVoidAsync("setEffect", effect);
     }
 
     /// <inheritdoc />

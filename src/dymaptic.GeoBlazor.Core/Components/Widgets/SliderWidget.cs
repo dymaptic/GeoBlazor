@@ -595,9 +595,9 @@ public class SliderWidget: Widget
     /// </summary>
     public async Task<ElementReference[]?> GetEffectiveSegmentElements()
     {
-        if (JsWidgetReference is null) return null;
+        if (JsComponentReference is null) return null;
         
-        return await JsWidgetReference.InvokeAsync<ElementReference[]>("getEffectiveSegmentElements");
+        return await JsComponentReference.InvokeAsync<ElementReference[]>("getEffectiveSegmentElements");
     }
 
     /// <summary>
@@ -605,9 +605,9 @@ public class SliderWidget: Widget
     /// </summary>
     public async Task<ElementReference[]?> GetLabelElements()
     {
-        if (JsWidgetReference is null) return null;
+        if (JsComponentReference is null) return null;
         
-        return await JsWidgetReference.InvokeAsync<ElementReference[]>("getLabelElements");
+        return await JsComponentReference.InvokeAsync<ElementReference[]>("getLabelElements");
     }
 
     /// <summary>
@@ -615,9 +615,9 @@ public class SliderWidget: Widget
     /// </summary>
     public async Task<string[]?> GetLabels()
     {
-        if (JsWidgetReference is null) return null;
+        if (JsComponentReference is null) return null;
         
-        return await JsWidgetReference.InvokeAsync<string[]>("getLabels");
+        return await JsComponentReference.InvokeAsync<string[]>("getLabels");
     }
     
     /// <summary>
@@ -625,9 +625,9 @@ public class SliderWidget: Widget
     /// </summary>
     public async Task<ElementReference?> GetMaxLabelElement()
     {
-        if (JsWidgetReference is null) return null;
+        if (JsComponentReference is null) return null;
         
-        return await JsWidgetReference.InvokeAsync<ElementReference>("getMaxLabelElement");
+        return await JsComponentReference.InvokeAsync<ElementReference>("getMaxLabelElement");
     }
     
     /// <summary>
@@ -635,9 +635,9 @@ public class SliderWidget: Widget
     /// </summary>
     public async Task<ElementReference?> GetMinLabelElement()
     {
-        if (JsWidgetReference is null) return null;
+        if (JsComponentReference is null) return null;
         
-        return await JsWidgetReference.InvokeAsync<ElementReference>("getMinLabelElement");
+        return await JsComponentReference.InvokeAsync<ElementReference>("getMinLabelElement");
     }
     
     /// <summary>
@@ -645,9 +645,9 @@ public class SliderWidget: Widget
     /// </summary>
     public async Task<ElementReference[]?> GetSegmentElements()
     {
-        if (JsWidgetReference is null) return null;
+        if (JsComponentReference is null) return null;
         
-        return await JsWidgetReference.InvokeAsync<ElementReference[]>("getSegmentElements");
+        return await JsComponentReference.InvokeAsync<ElementReference[]>("getSegmentElements");
     }
 
     /// <summary>
@@ -655,9 +655,9 @@ public class SliderWidget: Widget
     /// </summary>
     public async Task<SliderState?> GetState()
     {
-        if (JsWidgetReference is null) return null;
+        if (JsComponentReference is null) return null;
         
-        return await JsWidgetReference.InvokeAsync<SliderState>("getState");
+        return await JsComponentReference.InvokeAsync<SliderState>("getState");
     }
     
     /// <summary>
@@ -665,9 +665,9 @@ public class SliderWidget: Widget
     /// </summary>
     public async Task<ElementReference[]?> GetThumbElements()
     {
-        if (JsWidgetReference is null) return null;
+        if (JsComponentReference is null) return null;
         
-        return await JsWidgetReference.InvokeAsync<ElementReference[]>("getThumbElements");
+        return await JsComponentReference.InvokeAsync<ElementReference[]>("getThumbElements");
     }
     
     /// <summary>
@@ -675,9 +675,9 @@ public class SliderWidget: Widget
     /// </summary>
     public async Task<TickElementGroup[][]?> GetTickElements()
     {
-        if (JsWidgetReference is null) return null;
+        if (JsComponentReference is null) return null;
         
-        return await JsWidgetReference.InvokeAsync<TickElementGroup[][]>("getTickElements");
+        return await JsComponentReference.InvokeAsync<TickElementGroup[][]>("getTickElements");
     }
 
     /// <summary>
@@ -685,9 +685,9 @@ public class SliderWidget: Widget
     /// </summary>
     public async Task<ElementReference?> GetTrackElement()
     {
-        if (JsWidgetReference is null) return null;
+        if (JsComponentReference is null) return null;
         
-        return await JsWidgetReference.InvokeAsync<ElementReference>("getTrackElement");
+        return await JsComponentReference.InvokeAsync<ElementReference>("getTrackElement");
     }
 
     /// <summary>
@@ -697,9 +697,9 @@ public class SliderWidget: Widget
     {
         Max = max;
 
-        if (JsWidgetReference is null) return;
+        if (JsComponentReference is null) return;
 
-        await JsWidgetReference.InvokeVoidAsync("setProperty", "max", max);
+        await JsComponentReference.InvokeVoidAsync("setProperty", "max", max);
     }
     
     /// <summary>
@@ -709,9 +709,9 @@ public class SliderWidget: Widget
     {
         Min = min;
 
-        if (JsWidgetReference is null) return;
+        if (JsComponentReference is null) return;
 
-        await JsWidgetReference.InvokeVoidAsync("setProperty", "min", min);
+        await JsComponentReference.InvokeVoidAsync("setProperty", "min", min);
     }
 
     /// <summary>
@@ -721,9 +721,9 @@ public class SliderWidget: Widget
     {
         Values = values;
         
-        if (JsWidgetReference is null) return;
+        if (JsComponentReference is null) return;
         
-        await JsWidgetReference.InvokeVoidAsync("setProperty", "values", values);
+        await JsComponentReference.InvokeVoidAsync("setProperty", "values", values);
     }
 
     /// <summary>
@@ -733,9 +733,9 @@ public class SliderWidget: Widget
     {
         StepInterval = stepInterval;
         
-        if (JsWidgetReference is null) return;
+        if (JsComponentReference is null) return;
         
-        await JsWidgetReference.InvokeVoidAsync("setProperty", "steps", stepInterval);
+        await JsComponentReference.InvokeVoidAsync("setProperty", "steps", stepInterval);
     }
     
     /// <summary>
@@ -745,9 +745,9 @@ public class SliderWidget: Widget
     {
         Steps = steps;
         
-        if (JsWidgetReference is null) return;
+        if (JsComponentReference is null) return;
         
-        await JsWidgetReference.InvokeVoidAsync("setProperty", "steps", steps);
+        await JsComponentReference.InvokeVoidAsync("setProperty", "steps", steps);
     }
 
     /// <inheritdoc />

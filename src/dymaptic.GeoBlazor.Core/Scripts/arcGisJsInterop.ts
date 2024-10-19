@@ -1626,38 +1626,21 @@ export function setGraphicAttributes(Id: string, attributes: any): void {
 }
 
 
-export function clearGraphics(viewId: string, layerId?: string | null): void {
+export function clearGraphics(viewId: string, graphicIds: string[], layerId?: string | null): void {
     try {
         setWaitCursor(viewId);
         let view = arcGisObjectRefs[viewId] as View;
         if (hasValue(layerId)) {
             let layer = arcGisObjectRefs[layerId as string] as GraphicsLayer;
             layer.graphics?.removeAll();
-            (async () => {
-                for (const key in graphicsRefs) {
-                    if (graphicsRefs.hasOwnProperty(key)) {
-                        const graphic = graphicsRefs[key];
-                        removeGraphicPopupTemplate(graphic);
-                        if (graphic.layer == layer) {
-                            delete graphicsRefs[key];
-                        }
-                    }
-                }
-            })();
         } else {
             view.graphics.removeAll();
-            (async () => {
-                for (const key in graphicsRefs) {
-                    if (graphicsRefs.hasOwnProperty(key)) {
-                        const graphic = graphicsRefs[key];
-                        removeGraphicPopupTemplate(graphic);
-                        if (!hasValue(graphic.layer)) {
-                            delete graphicsRefs[key];
-                        }
-                    }
-                }
-            })();
         }
+        (async () => {
+            for (const id in graphicIds) {
+                delete graphicsRefs[graphicIds[id]];
+            }
+        })();
         unsetWaitCursor(viewId);
     } catch (error) {
         logError(error, viewId);
@@ -2338,7 +2321,7 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
     let wrap = jsObjectRefs[widget.id] ?? getObjectReference(newWidget);
     // @ts-ignore
     let jsRef = DotNet.createJSObjectReference(wrap);
-    await widget.dotNetWidgetReference.invokeMethodAsync('OnJsWidgetCreated', jsRef);
+    await widget.dotNetWidgetReference.invokeMethodAsync('OnJsComponentCreated', jsRef);
     return newWidget;
 }
 
@@ -2897,12 +2880,13 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
 
     arcGisObjectRefs[layerObject.id] = newLayer;
 
+    let objectRef = jsObjectRefs[layerObject.id] ?? getObjectReference(newLayer);
+    // @ts-ignore
+    let jsRef = DotNet.createJSObjectReference(objectRef);
+    await layerObject.dotNetWidgetReference.invokeMethodAsync('OnJsComponentCreated', jsRef);
+    
     if (wrap) {
-        let wrap = jsObjectRefs[layerObject.id];
-        if (hasValue(wrap)) {
-            return wrap;
-        }
-        return getObjectReference(newLayer);
+        return objectRef;
     }
 
     return newLayer;

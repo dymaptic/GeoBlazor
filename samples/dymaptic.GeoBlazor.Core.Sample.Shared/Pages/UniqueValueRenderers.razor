@@ -25,7 +25,7 @@
                       ""M"", 4,
                     100 );")" />
             <UniqueValueRenderer Field="RTTYP" DefaultLabel="Other">
-                <UniqueValueRendererLegendOptions Title="Freeway type" />
+                <UniqueValueRendererLegendOptions Title="Route type" />
                 <DefaultSymbol>
                     <SimpleLineSymbol Width="@(4)" LineStyle="LineStyle.Solid" Color="@(new MapColor("#f260a1"))" />
                 </DefaultSymbol>
@@ -44,5 +44,15 @@
             </UniqueValueRenderer>
         </FeatureLayer>
     </Map>
-    <LegendWidget Position="OverlayPosition.BottomLeft" />
+    @if (_showLegend)
+    {
+        <LegendWidget Position="OverlayPosition.BottomLeft" />
+    }
 </MapView>
+<button @onclick="() => _showLegend = !_showLegend" class="btn btn-primary">Toggle Legend</button>
+
+@code {
+    
+    
+    private bool _showLegend;
+}

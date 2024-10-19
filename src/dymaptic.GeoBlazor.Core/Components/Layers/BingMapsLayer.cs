@@ -102,7 +102,7 @@ public class BingMapsLayer : BaseTileLayer
     /// </summary>
     public async Task<string> GetBingLogo()
     {
-        return await JsLayerReference!.InvokeAsync<string>("getBingLogo");
+        return await JsComponentReference!.InvokeAsync<string>("getBingLogo");
     }
 
     /// <summary>
@@ -110,7 +110,7 @@ public class BingMapsLayer : BaseTileLayer
     /// </summary>
     public async Task<string> GetCopyright()
     {
-        return await JsLayerReference!.InvokeAsync<string>("getCopyright");
+        return await JsComponentReference!.InvokeAsync<string>("getCopyright");
     }
 
     /// <summary>
@@ -118,7 +118,7 @@ public class BingMapsLayer : BaseTileLayer
     /// </summary>
     public async Task<bool> HasAttributionData()
     {
-        return await JsLayerReference!.InvokeAsync<bool>("hasAttributionData");
+        return await JsComponentReference!.InvokeAsync<bool>("hasAttributionData");
     }
 }
 

@@ -46,7 +46,7 @@ public class Sublayer: MapComponent, IPopupTemplateLayer
     ///     The minimum scale (most zoomed out) at which the layer is visible in the view. If the map is zoomed out beyond this scale, the layer will not be visible. A value of 0 means the layer does not have a minimum scale. The minScale value should always be larger than the maxScale value, and less than or equal to the service specification.
     /// </param>
     /// <param name="opacity">
-    ///     The level of opacity to set on the sublayer on a scale from 0.0 - 1.0 where 0 is fully transparent and 1.0 is fully opaque. If the MapImageLayer.opacity is set, the actual opacity value of the sublayer will be the value of MapImageLayer.opacity multiplied by the sublayer's opacity.
+    ///     The level of opacity to set on the sublayer on a scale from 0.0 - 1.0 where 0 is fully transparent and 1.0 is fully opaque. If the MapImageLayer.Opacity is set, the actual opacity value of the sublayer will be the value of MapImageLayer.Opacity multiplied by the sublayer's opacity.
     /// </param>
     /// <param name="popupEnabled">
     ///     Indicates whether to display popups when features in the layer are clicked. The layer's popupTemplate is used to define the content of the popup. If popupEnabled is false, then the popupTemplate is ignored.
@@ -378,7 +378,7 @@ public class Sublayer: MapComponent, IPopupTemplateLayer
     {
         if (CoreJsModule is null) return;
         ModifiedParameters[propertyName] = value;
-        await CoreJsModule!.InvokeVoidAsync("setSublayerProperty", Layer?.JsLayerReference, 
+        await CoreJsModule!.InvokeVoidAsync("setSublayerProperty", Layer?.JsComponentReference, 
             SublayerId, propertyName.ToLowerFirstChar(), value);
     }
     
@@ -405,7 +405,7 @@ public class Sublayer: MapComponent, IPopupTemplateLayer
     {
         if (CoreJsModule is null) return;
         ModifiedParameters[nameof(PopupTemplate)] = popupTemplate;
-        await CoreJsModule!.InvokeVoidAsync("setSublayerPopupTemplate", Layer?.JsLayerReference, 
+        await CoreJsModule!.InvokeVoidAsync("setSublayerPopupTemplate", Layer?.JsComponentReference, 
             SublayerId, popupTemplate, View?.Id);
     }
     

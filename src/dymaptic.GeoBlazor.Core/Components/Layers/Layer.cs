@@ -56,12 +56,6 @@ public abstract class Layer : MapComponent
     [JsonIgnore]
     public LayerView? LayerView { get; internal set; }
 
-    /// <summary>
-    ///     The JavaScript object that represents the layer.
-    /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IJSObjectReference? JsLayerReference { get; internal set; }
-
 
     /// <summary>
     ///     Indicates how the layer should display in the [LayerList](https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html) widget.
@@ -126,9 +120,9 @@ public abstract class Layer : MapComponent
     {
         FullExtent = value;
         ModifiedParameters["FullExtent"] = value;
-        if (JsLayerReference is null) return;
+        if (JsComponentReference is null) return;
             
-        await JsLayerReference!.InvokeVoidAsync("setProperty", 
+        await JsComponentReference!.InvokeVoidAsync("setProperty", 
             CancellationTokenSource.Token,
             JsComponentReference,
             "fullExtent", 
@@ -142,9 +136,9 @@ public abstract class Layer : MapComponent
     {
         Opacity = value;
         ModifiedParameters["Opacity"] = value;
-        if (JsLayerReference is null) return;
+        if (JsComponentReference is null) return;
         
-        await JsLayerReference!.InvokeVoidAsync("setProperty", 
+        await JsComponentReference!.InvokeVoidAsync("setProperty", 
             CancellationTokenSource.Token,
             JsComponentReference,
             "opacity", 
@@ -160,9 +154,9 @@ public abstract class Layer : MapComponent
     /// </summary>
     public async Task<Extent?> GetFullExtent()
     {
-        if (JsLayerReference is null) return null;
+        if (JsComponentReference is null) return null;
             
-        return await JsLayerReference!.InvokeAsync<Extent>("getProperty", 
+        return await JsComponentReference!.InvokeAsync<Extent>("getProperty", 
             CancellationTokenSource.Token,
             JsComponentReference, 
             "fullExtent");
@@ -173,9 +167,9 @@ public abstract class Layer : MapComponent
     /// </summary>
     public async Task<double?> GetOpacity()
     {
-        if (JsLayerReference is null) return null;
+        if (JsComponentReference is null) return null;
         
-        return await JsLayerReference!.InvokeAsync<double>("getProperty", 
+        return await JsComponentReference!.InvokeAsync<double>("getProperty", 
             CancellationTokenSource.Token,
             JsComponentReference, 
             "opacity");
@@ -186,9 +180,9 @@ public abstract class Layer : MapComponent
     /// </summary>
     public async Task<bool?> GetVisible()
     {
-        if (JsLayerReference is null) return null;
+        if (JsComponentReference is null) return null;
     
-        return await JsLayerReference!.InvokeAsync<bool>("getProperty", 
+        return await JsComponentReference!.InvokeAsync<bool>("getProperty", 
             CancellationTokenSource.Token,
             JsComponentReference, 
             "visible");
@@ -204,9 +198,9 @@ public abstract class Layer : MapComponent
     /// </summary>
     public async Task<object?> FetchAttributionData()
     {
-        if (JsLayerReference is null) return null;
+        if (JsComponentReference is null) return null;
             
-        return await JsLayerReference!.InvokeAsync<object>(
+        return await JsComponentReference!.InvokeAsync<object>(
             "fetchAttributionData", 
             CancellationTokenSource.Token);
     }
@@ -312,11 +306,11 @@ public abstract class Layer : MapComponent
 
         LayerView?.Dispose();
 
-        if (JsLayerReference is not null)
+        if (JsComponentReference is not null)
         {
             try
             {
-                await JsLayerReference.DisposeAsync();
+                await JsComponentReference.DisposeAsync();
             }
             catch (JSDisconnectedException)
             {
@@ -340,7 +334,7 @@ public abstract class Layer : MapComponent
     /// </remarks>
     public async Task Load(CancellationToken cancellationToken = default)
     {
-        if (JsLayerReference is not null)
+        if (JsComponentReference is not null)
         {
             // this layer has already been loaded
             return;
@@ -350,11 +344,11 @@ public abstract class Layer : MapComponent
         AbortManager = new AbortManager(CoreJsModule);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
 
-        JsLayerReference = await CoreJsModule.InvokeAsync<IJSObjectReference>("createLayer",
+        JsComponentReference = await CoreJsModule.InvokeAsync<IJSObjectReference>("createLayer",
             // ReSharper disable once RedundantCast
             cancellationToken, (object)this, true, View?.Id);
 
-        await JsLayerReference.InvokeVoidAsync("load", cancellationToken, abortSignal);
+        await JsComponentReference.InvokeVoidAsync("load", cancellationToken, abortSignal);
 
         Layer loadedLayer = await CoreJsModule.InvokeAsync<Layer>("getSerializedDotNetObject",
             cancellationToken, Id);

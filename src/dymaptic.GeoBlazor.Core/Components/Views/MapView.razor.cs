@@ -848,7 +848,7 @@ public partial class MapView : MapComponent
         {
             createdLayer.LayerView = layerView;
 
-            createdLayer.JsLayerReference ??= layerViewCreateEvent.LayerObjectRef;
+            createdLayer.JsComponentReference ??= layerViewCreateEvent.LayerObjectRef;
 
             createdLayer.AbortManager = new AbortManager(CoreJsModule!);
             await createdLayer.UpdateFromJavaScript(layerViewCreateEvent.Layer!);
@@ -866,7 +866,9 @@ public partial class MapView : MapComponent
             {
                 layer.LayerView = layerView;
                 layer.AbortManager = new AbortManager(CoreJsModule!);
-                layer.JsLayerReference = layerViewCreateEvent.LayerObjectRef;
+                layer.JsComponentReference = layerViewCreateEvent.LayerObjectRef;
+                layer.CoreJsModule = CoreJsModule;
+                layer.ProJsModule = ProJsModule;
                 layer.Imported = true;
 
                 if (layerView is not null)
@@ -1318,12 +1320,14 @@ public partial class MapView : MapComponent
             graphic.View = null;
             graphic.Parent = null;
         }
+        
+        Guid[] ids = _graphics.Select(g => g.Id).ToArray();
 
         _graphics.Clear();
 
         if (CoreJsModule is null) return;
 
-        await CoreJsModule.InvokeVoidAsync("clearGraphics", CancellationTokenSource.Token, Id);
+        await CoreJsModule.InvokeVoidAsync("clearGraphics", CancellationTokenSource.Token, Id, ids);
         AllowRender = true;
     }
 
