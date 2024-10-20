@@ -95,7 +95,11 @@ public enum RendererType
     Simple,
     UniqueValue,
     [LookupType("dymaptic.GeoBlazor.Pro.Components.Renderers.PieChartRenderer")]
-    PieChart
+    PieChart,
+    ClassBreaks,
+    Dictionary,
+    DotDensity,
+    Heatmap
 #pragma warning restore CS1591
 }
 
