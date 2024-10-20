@@ -685,19 +685,19 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         
         IsValidated = true;
     }
+    
+    /// <summary>
+    ///     Validates source-generated child components.
+    /// </summary>
+    internal virtual void ValidateRequiredGeneratedChildren()
+    {
+        
+    }
 
     /// <summary>
     ///     Reflection-based properties of the component.
     /// </summary>
     protected PropertyInfo[]? Props;
-
-    /// <summary>
-    ///     Validates source-generated child components.
-    /// </summary>
-    protected virtual void ValidateRequiredGeneratedChildren()
-    {
-        
-    }
 
     protected bool IsValidated;
 
