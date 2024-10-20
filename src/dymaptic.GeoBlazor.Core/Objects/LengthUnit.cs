@@ -22,6 +22,6 @@ public enum LengthUnit
     Yards,
     Miles,
     NauticalMiles,
-    USFeet
+    UsFeet
 #pragma warning restore CS1591
 }

@@ -3,6 +3,7 @@ using dymaptic.GeoBlazor.Core.Serialization;
 using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using dymaptic.GeoBlazor.Core.Objects;
 
 
 namespace dymaptic.GeoBlazor.Core.Components.Renderers;
@@ -15,7 +16,6 @@ namespace dymaptic.GeoBlazor.Core.Components.Renderers;
 [JsonConverter(typeof(RendererConverter))]
 public abstract class Renderer : LayerObject
 {
-   
     /// <summary>
     ///     The subclass Renderer type
     /// </summary>
@@ -23,6 +23,12 @@ public abstract class Renderer : LayerObject
     // TODO: Setting this as an enum was a mistake that caused much more work when using this for reflection and deserialization
     // in a future version, we should replace with a string.
     public abstract RendererType RendererType { get; }
+    
+    /// <summary>
+    ///     Authoring metadata only included in renderers generated from one of the Smart Mapping creator methods, such as sizeRendererCreator.createContinuousRenderer() or colorRendererCreator.createContinuousRenderer(). This includes information from UI elements such as sliders and selected classification methods and themes. This allows the authoring clients to save specific overridable settings so that next time it is accessed via the UI, their selections can be remembered.
+    /// </summary>
+    [JsonInclude]
+    public AuthoringInfo? AuthoringInfo { get; private init; }
 }
 
 internal class RendererConverter : JsonConverter<Renderer>
