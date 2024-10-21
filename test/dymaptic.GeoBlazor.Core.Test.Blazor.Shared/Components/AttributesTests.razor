@@ -167,4 +167,33 @@ base.BuildRenderTree(__builder);
         Assert.AreEqual(features[0].Attributes["TIMESTAMP"], hitGraphic.Attributes["TIMESTAMP"]);
         Assert.AreEqual(features[0].Attributes["DATETIMESTAMP"], hitGraphic.Attributes["DATETIMESTAMP"]);
     }
+
+    [TestMethod]
+    public async Task TestCanUpdateAttributesOnRenderedGraphic(Action renderHandler)
+    {
+        MapView? mapView = null;
+        AddMapRenderFragment( 
+            @<MapView @ref="mapView" class="map-view" OnViewRendered="renderHandler">
+                <Map ArcGISDefaultBasemap="arcgis-imagery" />
+            </MapView>);
+
+        await WaitForMapToRender();
+
+        Point point = new(0, 0);
+        Guid testGuid = Guid.NewGuid();
+        Graphic testGraphic = new Graphic(point,
+            new SimpleMarkerSymbol(color: new MapColor("red"), size: 10),
+            attributes: new AttributesDictionary(new Dictionary<string, object?>
+            {
+                {"GUID_ID", testGuid}
+            }));
+        await mapView!.AddGraphic(testGraphic);
+        await Task.Yield();
+        await testGraphic.Attributes.AddOrUpdate("NEW_KEY", "NEW_VALUE");
+        ScreenPoint screenPoint = await mapView.ToScreen(point);
+        HitTestResult result = await mapView.HitTest(screenPoint);
+        GraphicHit graphicHit = (GraphicHit)result.Results[0];
+        Assert.AreEqual(testGuid, graphicHit.Graphic.Attributes["GUID_ID"]);
+        Assert.AreEqual("NEW_VALUE", graphicHit.Graphic.Attributes["NEW_KEY"]);
+    }
 }
