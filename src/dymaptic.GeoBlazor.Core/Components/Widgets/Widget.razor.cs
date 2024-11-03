@@ -64,11 +64,6 @@ public abstract partial class Widget : MapComponent
     public EventCallback OnWidgetCreated { get; set; }
 
     /// <summary>
-    ///     DotNet Object Reference to the widget
-    /// </summary>
-    public DotNetObjectReference<Widget> DotNetWidgetReference => DotNetObjectReference.Create(this);
-
-    /// <summary>
     ///     Indicates if the widget is hidden. For internal use only.
     /// </summary>
     protected virtual bool Hidden => false;

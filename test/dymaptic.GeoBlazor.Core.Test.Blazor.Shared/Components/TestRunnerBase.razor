@@ -133,9 +133,8 @@
         var tries = 200;
         while (!_methodsWithRenderedMaps.Contains(methodName) && (tries > 0))
         {
-            if (_mapRenderingExceptions.TryGetValue(methodName, out Exception? ex))
+            if (_mapRenderingExceptions.Remove(methodName, out Exception? ex))
             {
-                _mapRenderingExceptions.Remove(methodName);
                 ExceptionDispatchInfo.Capture(ex).Throw();
             }
             await Task.Delay(100);
@@ -152,7 +151,7 @@
     protected async Task AssertJavaScript(string jsAssertFunction, [CallerMemberName] string methodName = "", 
         params object[] args)
     {
-        List<object> jsArgs = new() { methodName };
+        List<object> jsArgs = [methodName];
         jsArgs.AddRange(args);
         if (jsAssertFunction.Contains("."))
         {

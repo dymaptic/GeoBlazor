@@ -1,12 +1,12 @@
-﻿import Search from "@arcgis/core/widgets/Search";
+﻿import Search from '@arcgis/core/widgets/Search';
 import {
     buildDotNetGraphic,
     buildDotNetSearchResult,
     buildDotNetSearchSource,
     buildDotNetSuggestResult
-} from "./dotNetBuilder";
-import {buildJsGeometry} from "./jsBuilder";
-import {IPropertyWrapper} from "./definitions";
+} from './dotNetBuilder';
+import {buildJsGeometry} from './jsBuilder';
+import {IPropertyWrapper} from './definitions';
 
 
 export default class SearchWidgetWrapper implements IPropertyWrapper {

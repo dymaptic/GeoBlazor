@@ -1,11 +1,15 @@
-﻿let Core;
+﻿export let Core;
 export let arcGisObjectRefs;
 let Color;
+export let Portal;
+export let SimpleRenderer;
 
 export function initialize(core) {
     Core = core;
     arcGisObjectRefs = Core.arcGisObjectRefs;
     Color = Core.Color;
+    Portal = Core.Portal;
+    SimpleRenderer = Core.SimpleRenderer;
 }
 
 export async function dispatchEvent(methodName, objectId, eventName) {

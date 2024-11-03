@@ -162,7 +162,20 @@ export let dotNetRefs: Record<string, any> = {};
 export let queryLayer: FeatureLayer;
 export let blazorServer: boolean = false;
 import normalizeUtils from "@arcgis/core/geometry/support/normalizeUtils";
-export { projection, geometryEngine, Graphic, Color, Point, Polyline, Polygon, normalizeUtils };
+import SimpleRenderer from "@arcgis/core/renderers/SimpleRenderer";
+export { 
+    projection, 
+    geometryEngine, 
+    Graphic, 
+    Color, 
+    Point, 
+    Polyline, 
+    Polygon, 
+    normalizeUtils,
+    Portal,
+    SimpleRenderer
+};
+
 let notifyExtentChanged: boolean = true;
 let uploadingLayers: Array<string> = [];
 let userChangedViewExtent: boolean = false;
@@ -1386,7 +1399,7 @@ async function triggerActionCallback(event, viewId, dotNetPopup) {
         return;
     }
     if (hasValue(dotNetPopup)) {
-        await dotNetPopup.dotNetWidgetReference.invokeMethodAsync("OnTriggerAction", event.action.id);
+        await dotNetPopup.dotNetComponentReference.invokeMethodAsync("OnTriggerAction", event.action.id);
     }
     let viewRef = dotNetRefs[viewId];
     for (const k of Object.keys(popupTemplateRefs)) {
@@ -2170,7 +2183,7 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
             }
 
             bookmarkWidget.on('bookmark-select', (event) => {
-                widget.dotNetWidgetReference.invokeMethodAsync('OnJavascriptBookmarkSelect', {
+                widget.dotNetComponentReference.invokeMethodAsync('OnJavascriptBookmarkSelect', {
                     bookmark: buildDotNetBookmark(event.bookmark)
                 });
             });
@@ -2231,70 +2244,70 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
             }
             
             slider.on('max-change', async (event) => {
-                await widget.dotNetWidgetReference.invokeMethodAsync('OnJsMaxChange', {
+                await widget.dotNetComponentReference.invokeMethodAsync('OnJsMaxChange', {
                     value: event.value,
                     oldValue: event.oldValue
                 });
             });
             slider.on('max-click', async (event) => {
-                await widget.dotNetWidgetReference.invokeMethodAsync('OnJsMaxClick', {
+                await widget.dotNetComponentReference.invokeMethodAsync('OnJsMaxClick', {
                     value: event.value
                 });                
             });
             slider.on('min-change', async (event) => {
-                await widget.dotNetWidgetReference.invokeMethodAsync('OnJsMinChange', {
+                await widget.dotNetComponentReference.invokeMethodAsync('OnJsMinChange', {
                     value: event.value,
                     oldValue: event.oldValue
                 });
             });
             slider.on('min-click', async (event) => {
-                await widget.dotNetWidgetReference.invokeMethodAsync('OnJsMinClick', {
+                await widget.dotNetComponentReference.invokeMethodAsync('OnJsMinClick', {
                     value: event.value
                 });
             });
             slider.on('segment-click', async (event) => {
-                await widget.dotNetWidgetReference.invokeMethodAsync('OnJsSegmentClick', {
+                await widget.dotNetComponentReference.invokeMethodAsync('OnJsSegmentClick', {
                     index: event.index,
                     thumbIndices: event.thumbIndices,
                     value: event.value
                 });
             });
             slider.on('segment-drag', async (event) => {
-                await widget.dotNetWidgetReference.invokeMethodAsync('OnJsSegmentDrag', {
+                await widget.dotNetComponentReference.invokeMethodAsync('OnJsSegmentDrag', {
                     index: event.index,
                     state: event.state,
                     thumbIndices: event.thumbIndices
                 });
             });
             slider.on('thumb-change', async (event) => {
-                await widget.dotNetWidgetReference.invokeMethodAsync('OnJsThumbChange', {
+                await widget.dotNetComponentReference.invokeMethodAsync('OnJsThumbChange', {
                     index: event.index,
                     value: event.value,
                     oldValue: event.oldValue
                 });
             });
             slider.on('thumb-click', async (event) => {
-                await widget.dotNetWidgetReference.invokeMethodAsync('OnJsThumbClick', {
+                await widget.dotNetComponentReference.invokeMethodAsync('OnJsThumbClick', {
                     index: event.index,
                     value: event.value
                 });
             });
             slider.on('thumb-drag', async (event) => {
-                await widget.dotNetWidgetReference.invokeMethodAsync('OnJsThumbDrag', {
+                await widget.dotNetComponentReference.invokeMethodAsync('OnJsThumbDrag', {
                     index: event.index,
                     state: event.state,
                     value: event.value
                 });
             });
             slider.on('tick-click', async (event) => {
-                await widget.dotNetWidgetReference.invokeMethodAsync('OnJsTickClick', {
+                await widget.dotNetComponentReference.invokeMethodAsync('OnJsTickClick', {
                     value: event.value,
                     configIndex: event.configIndex,
                     groupIndex: event.groupIndex
                 });
             });
             slider.on('track-click', async (event) => {
-                await widget.dotNetWidgetReference.invokeMethodAsync('OnJsTrackClick', {
+                await widget.dotNetComponentReference.invokeMethodAsync('OnJsTrackClick', {
                     value: event.value
                 });
             });
@@ -2302,7 +2315,7 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
             reactiveUtils.watch(
                 () => slider.values,
                 async () => {
-                    await widget.dotNetWidgetReference.invokeMethodAsync('OnJsValueChanged', slider.values);
+                    await widget.dotNetComponentReference.invokeMethodAsync('OnJsValueChanged', slider.values);
                 }
             );
             break;
@@ -2321,7 +2334,7 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
     let wrap = jsObjectRefs[widget.id] ?? getObjectReference(newWidget);
     // @ts-ignore
     let jsRef = DotNet.createJSObjectReference(wrap);
-    await widget.dotNetWidgetReference.invokeMethodAsync('OnJsComponentCreated', jsRef);
+    await widget.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsRef);
     return newWidget;
 }
 
@@ -2883,7 +2896,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
     let objectRef = jsObjectRefs[layerObject.id] ?? getObjectReference(newLayer);
     // @ts-ignore
     let jsRef = DotNet.createJSObjectReference(objectRef);
-    await layerObject.dotNetWidgetReference.invokeMethodAsync('OnJsComponentCreated', jsRef);
+    await layerObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsRef);
     
     if (wrap) {
         return objectRef;
@@ -3025,6 +3038,61 @@ export function copyValuesIfExists(originalObject: any, newObject: any, ...param
             newObject[p] = originalObject[p];
         }
     });
+}
+
+let geoblazorOnlyProps = ["id", "dotNetComponentReference"]
+
+export async function createArcGISObject(geoBlazorObject: any, newArcGISObject: any): Promise<any> {
+    try {
+        let existingArcGISObject = arcGisObjectRefs[geoBlazorObject.id];
+        if (hasValue(existingArcGISObject)) {
+            await copyValuesToArcGIS(geoBlazorObject, existingArcGISObject);
+            return existingArcGISObject;
+        }
+
+        if ('fromJSON' in newArcGISObject) {
+            try {
+                newArcGISObject = newArcGISObject.fromJSON(JSON.stringify(geoBlazorObject));
+            } catch (error) {
+                console.debug(error);
+                await copyValuesToArcGIS(geoBlazorObject, newArcGISObject);
+            }
+        } else {
+            await copyValuesToArcGIS(geoBlazorObject, newArcGISObject);
+        }
+
+        let objectRef = getObjectReference(newArcGISObject);
+        arcGisObjectRefs[geoBlazorObject.id] = newArcGISObject;
+        // @ts-ignore
+        let jsRef = DotNet.createJSObjectReference(objectRef);
+        await geoBlazorObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsRef);
+        return newArcGISObject;
+    } catch (error) {
+        logError(error, null);
+        return null;
+    }
+}
+
+export async function copyValuesToArcGIS(originalObject: any, newObject: any) {
+    for (let key in originalObject) {
+        if (geoblazorOnlyProps.includes(key)) {
+            continue;
+        }
+        if (typeof originalObject[key] === 'function') {
+            continue;
+        }
+        let value = originalObject[key];
+        if (!hasValue(value)) {
+            continue;
+        }
+        if (typeof value === 'object') {
+            let newValue = Array.isArray(value) ? [] : {};
+            await createArcGISObject(value, newValue);
+            newObject[key] = newValue;
+        } else {
+            newObject[key] = value;
+        }
+    }
 }
 
 function checkConnectivity(viewId) {

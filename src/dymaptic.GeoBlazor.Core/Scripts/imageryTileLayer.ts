@@ -1,8 +1,8 @@
-﻿import ImageryTileLayer from "@arcgis/core/layers/ImageryTileLayer";
-import {buildDotNetExtent, buildDotNetFeatureSet, buildDotNetSpatialReference} from "./dotNetBuilder";
-import {hasValue} from "./arcGisJsInterop";
-import {buildJsImageryRenderer} from "./jsBuilder";
-import {IPropertyWrapper} from "./definitions";
+﻿import ImageryTileLayer from '@arcgis/core/layers/ImageryTileLayer';
+import {buildDotNetExtent, buildDotNetFeatureSet, buildDotNetSpatialReference} from './dotNetBuilder';
+import {hasValue} from './arcGisJsInterop';
+import {buildJsImageryRenderer} from './jsBuilder';
+import {IPropertyWrapper} from './definitions';
 
 export default class ImageryTileLayerWrapper implements IPropertyWrapper {
     public layer: ImageryTileLayer;

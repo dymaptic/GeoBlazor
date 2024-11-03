@@ -1,5 +1,5 @@
-﻿import Slider from "@arcgis/core/widgets/Slider";
-import {IPropertyWrapper} from "./definitions";
+﻿import Slider from '@arcgis/core/widgets/Slider';
+import {IPropertyWrapper} from './definitions';
 
 export default class SliderWidgetWrapper implements IPropertyWrapper {
     private slider: Slider;
