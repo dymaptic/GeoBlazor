@@ -3095,6 +3095,46 @@ export async function copyValuesToArcGIS(originalObject: any, newObject: any) {
     }
 }
 
+export async function createGeoBlazorObject(arcGisObject: any, newGeoBlazorObject: any): Promise<any> {
+    try {
+
+        if ('toJSON' in arcGisObject) {
+            try {
+                newGeoBlazorObject = arcGisObject.toJSON();
+            } catch (error) {
+                console.debug(error);
+                await copyValuesToGeoBlazor(arcGisObject, newGeoBlazorObject);
+            }
+        } else {
+            await copyValuesToGeoBlazor(arcGisObject, newGeoBlazorObject);
+        }
+
+        return newGeoBlazorObject;
+    } catch (error) {
+        logError(error, null);
+        return null;
+    }
+}
+
+export async function copyValuesToGeoBlazor(originalObject: any, newObject: any) {
+    for (let key in originalObject) {
+        if (typeof originalObject[key] === 'function') {
+            continue;
+        }
+        let value = originalObject[key];
+        if (!hasValue(value)) {
+            continue;
+        }
+        if (typeof value === 'object') {
+            let newValue = Array.isArray(value) ? [] : {};
+            await createGeoBlazorObject(value, newValue);
+            newObject[key] = newValue;
+        } else {
+            newObject[key] = value;
+        }
+    }
+}
+
 function checkConnectivity(viewId) {
     let connectError = new Error('Cannot load ArcGIS Assets!');
     let message = '<div><h1>Cannot retrieve ArcGIS asset files.</h1><p><a target="_blank" href="https://docs/geoblazor.com/assetFiles"</p></div>';

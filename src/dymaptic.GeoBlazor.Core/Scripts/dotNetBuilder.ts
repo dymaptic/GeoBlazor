@@ -81,7 +81,14 @@ import ExpressionContent from "@arcgis/core/popup/content/ExpressionContent";
 import ElementExpressionInfo from "@arcgis/core/popup/ElementExpressionInfo";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
-import { arcGisObjectRefs, copyValuesIfExists, dotNetRefs, graphicsRefs, hasValue} from "./arcGisJsInterop";
+import { 
+    arcGisObjectRefs, 
+    copyValuesIfExists, 
+    dotNetRefs, 
+    graphicsRefs, 
+    hasValue,
+    createGeoBlazorObject
+} from "./arcGisJsInterop";
 import SimpleMarkerSymbol from "@arcgis/core/symbols/SimpleMarkerSymbol";
 import Symbol from "@arcgis/core/symbols/Symbol";
 import Graphic from "@arcgis/core/Graphic";
