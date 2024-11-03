@@ -1,4 +1,5 @@
-﻿using dymaptic.GeoBlazor.Core.Components.Layers;
+﻿using System.Text;
+using dymaptic.GeoBlazor.Core.Components.Layers;
 using dymaptic.GeoBlazor.Core.Extensions;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -17,20 +18,20 @@ public class EnumToKebabCaseStringConverter<T> : JsonConverter<T> where T : notn
     /// <inheritdoc />
     public override T Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        string? value = reader.GetString()
-            ?.Replace("-", string.Empty)
+        string? value = reader.GetString()?
+            .Replace("-", string.Empty)
             .Replace("esri", string.Empty)
             .Replace(typeof(T).Name, string.Empty);
 
         try
         {
-            return string.IsNullOrWhiteSpace(value) ? default(T)! : (T)Enum.Parse(typeof(T), value, true);
+            return string.IsNullOrWhiteSpace(value) ? default! : (T)Enum.Parse(typeof(T), value, true);
         }
         catch (Exception ex)
         {
             Console.WriteLine(ex);
 
-            return default(T)!;
+            return default!;
         }
     }
 
@@ -60,13 +61,13 @@ public class TimeEnumToKebabCaseStringConverter<T> : EnumToKebabCaseStringConver
 
         try
         {
-            return value is not null ? (T)Enum.Parse(typeof(T), value, true) : default(T)!;
+            return value is not null ? (T)Enum.Parse(typeof(T), value, true) : default!;
         }
         catch (Exception ex)
         {
             Console.WriteLine(ex);
 
-            return default(T)!;
+            return default!;
         }
     }
 }
@@ -87,13 +88,13 @@ public class LabelPlacementStringConverter : EnumToKebabCaseStringConverter<Labe
         {
             return value is not null 
                 ? (LabelPlacement)Enum.Parse(typeof(LabelPlacement), value, true) 
-                : default(LabelPlacement);
+                : default;
         }
         catch (Exception ex)
         {
             Console.WriteLine(ex);
 
-            return default(LabelPlacement);
+            return default;
         }
     }
 }
@@ -114,13 +115,13 @@ public class DrawingToolStringConverter : EnumToKebabCaseStringConverter<Drawing
         {
             return value is not null 
                 ? (DrawingTool)Enum.Parse(typeof(DrawingTool), value, true) 
-                : default(DrawingTool);
+                : default;
         }
         catch (Exception ex)
         {
             Console.WriteLine(ex);
 
-            return default(DrawingTool);
+            return default;
         }
     }
 }
