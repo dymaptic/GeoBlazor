@@ -1,5 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Components.Layers;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using System.Text.Json.Serialization;
 
 
@@ -10,7 +9,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Renderers;
 ///     represent features with a specific value.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-DimensionalDefinition.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public class DimensionalDefinition : LayerObject
+public class DimensionalDefinition : MapComponent
 {
     /// <summary>
     ///     Constructor for use as a razor component

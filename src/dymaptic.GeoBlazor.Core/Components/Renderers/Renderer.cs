@@ -14,7 +14,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Renderers;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-Renderer.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 [JsonConverter(typeof(RendererConverter))]
-public abstract class Renderer : LayerObject
+public abstract class Renderer: MapComponent
 {
     /// <summary>
     ///     The subclass Renderer type

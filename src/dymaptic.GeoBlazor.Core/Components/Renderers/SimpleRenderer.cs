@@ -2,6 +2,7 @@
 using dymaptic.GeoBlazor.Core.Components.Symbols;
 using Microsoft.AspNetCore.Components;
 using System.Text.Json.Serialization;
+using Microsoft.JSInterop;
 
 
 namespace dymaptic.GeoBlazor.Core.Components.Renderers;
@@ -60,12 +61,49 @@ public class SimpleRenderer : Renderer
     ///     A collection of <see cref="VisualVariable" /> objects.
     /// </summary>
     public HashSet<VisualVariable> VisualVariables { get; set; } = new();
+    
+    /// <summary>
+    ///     The <see cref="Symbol" /> for the object.
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    public Symbol? Symbol { get; protected set; }
+
+    /// <summary>
+    ///     Gets the current <see cref="Symbol" /> for the object.
+    /// </summary>
+    public virtual async Task<Symbol?> GetSymbol()
+    {
+        return await Task.Run(() => Symbol);
+    }
+
+    /// <summary>
+    ///     Sets the <see cref="Symbol" /> for the object.
+    /// </summary>
+    /// <param name="symbol">
+    ///     The <see cref="Symbol" /> for the object.
+    /// </param>
+    public virtual async Task SetSymbol(Symbol symbol)
+    {
+        Symbol = symbol;
+
+        if (CoreJsModule is not null)
+        {
+            await CoreJsModule.InvokeVoidAsync("setGraphicSymbol",
+                Id, Symbol.ToSerializationRecord());
+        }
+    }
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
     {
         switch (child)
         {
+            case Symbol symbol:
+
+                await SetSymbol(symbol);
+
+                break;
             case VisualVariable visualVariable:
                 VisualVariables.Add(visualVariable);
 
@@ -82,6 +120,10 @@ public class SimpleRenderer : Renderer
     {
         switch (child)
         {
+            case Symbol _:
+                Symbol = null;
+
+                break;
             case VisualVariable visualVariable:
                 VisualVariables.Remove(visualVariable);
 
@@ -97,6 +139,7 @@ public class SimpleRenderer : Renderer
     internal override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();
+        Symbol?.ValidateRequiredChildren();
 
         foreach (VisualVariable variable in VisualVariables)
         {

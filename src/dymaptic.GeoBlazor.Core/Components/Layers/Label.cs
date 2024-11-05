@@ -2,6 +2,8 @@
 using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
 using System.Text.Json.Serialization;
+using dymaptic.GeoBlazor.Core.Components.Symbols;
+using Microsoft.JSInterop;
 
 
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
@@ -11,7 +13,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 ///     layer. See the Labeling guide for more information about labeling.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LabelClass.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public class Label : LayerObject
+public class Label : MapComponent
 {
     /// <summary>
     ///     Parameterless constructor for use as a Blazor component.
@@ -137,12 +139,52 @@ public class Label : LayerObject
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public LabelExpressionInfo? LabelExpressionInfo { get; set; }
+    
+    /// <summary>
+    ///     The <see cref="Symbol" /> for the object.
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    public Symbol? Symbol { get; protected set; }
+
+    /// <summary>
+    ///     Gets the current <see cref="Symbol" /> for the object.
+    /// </summary>
+    public virtual async Task<Symbol?> GetSymbol()
+    {
+        return await Task.Run(() => Symbol);
+    }
+
+    /// <summary>
+    ///     Sets the <see cref="Symbol" /> for the object.
+    /// </summary>
+    /// <param name="symbol">
+    ///     The <see cref="Symbol" /> for the object.
+    /// </param>
+    public virtual async Task SetSymbol(Symbol symbol)
+    {
+        Symbol = symbol;
+
+        if (CoreJsModule is not null)
+        {
+            await CoreJsModule.InvokeVoidAsync("setGraphicSymbol",
+                Id, Symbol.ToSerializationRecord());
+        }
+        else
+        {
+            _updateSymbol = true;
+        }
+    }
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
     {
         switch (child)
         {
+            case Symbol symbol:
+                await SetSymbol(symbol);
+
+                break;
             case LabelExpressionInfo labelExpressionInfo:
                 // ReSharper disable once RedundantCast
                 if (!((object)labelExpressionInfo).Equals(LabelExpressionInfo))
@@ -163,6 +205,10 @@ public class Label : LayerObject
     {
         switch (child)
         {
+            case Symbol _:
+                Symbol = null;
+
+                break;
             case LabelExpressionInfo _:
                 LabelExpressionInfo = null;
 
@@ -173,13 +219,31 @@ public class Label : LayerObject
                 break;
         }
     }
+    
+    /// <inheritdoc />
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (CoreJsModule is not null)
+        {
+            if (_updateSymbol)
+            {
+                _updateSymbol = false;
+                await SetSymbol(Symbol!);
+            }
+        }
+    }
 
     /// <inheritdoc />
     internal override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();
+        Symbol?.ValidateRequiredChildren();
         LabelExpressionInfo?.ValidateRequiredChildren();
     }
+
+    private bool _updateSymbol;
 }
 
 /// <summary>

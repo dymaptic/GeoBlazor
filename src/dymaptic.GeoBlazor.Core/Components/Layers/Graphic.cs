@@ -16,7 +16,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 ///     attributes. A Graphic is displayed in the GraphicsLayer.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Graphic.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public class Graphic : LayerObject, IEquatable<Graphic>
+public class Graphic : MapComponent, IEquatable<Graphic>
 {
     /// <summary>
     ///     Parameterless constructor for using as a razor component
@@ -106,6 +106,13 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public PopupTemplate? PopupTemplate { get; private set; }
+    
+    /// <summary>
+    ///     The <see cref="Symbol" /> for the object.
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    public Symbol? Symbol { get; protected set; }
 
     /// <summary>
     ///     The GeoBlazor Id of the parent layer, used when serializing the graphic to/from JavaScript.
@@ -148,12 +155,42 @@ public class Graphic : LayerObject, IEquatable<Graphic>
         ToSerializationRecord();
     }
 
-    /// <inheritdoc />
-    public override async Task SetSymbol(Symbol symbol)
+    /// <summary>
+    ///     Sets the <see cref="Symbol" /> for the object.
+    /// </summary>
+    /// <param name="symbol">
+    ///     The <see cref="Symbol" /> for the object.
+    /// </param>
+    public async Task SetSymbol(Symbol symbol)
     {
-        await base.SetSymbol(symbol);
+        Symbol = symbol;
+
+        if (CoreJsModule is not null)
+        {
+            await CoreJsModule.InvokeVoidAsync("setGraphicSymbol",
+                Id, Symbol.ToSerializationRecord());
+        }
+        else
+        {
+            _updateSymbol = true;
+        }
+        
         _serializationRecord = null;
         ToSerializationRecord();
+    }
+
+    /// <summary>
+    ///     Gets the current <see cref="Symbol" /> for the object.
+    /// </summary>
+    public async Task<Symbol?> GetSymbol()
+    {
+        if (CoreJsModule is not null)
+        {
+            Symbol = await CoreJsModule.InvokeAsync<Symbol>("getGraphicSymbol",
+                CancellationTokenSource.Token, Id);
+        }
+
+        return Symbol;
     }
 
     /// <summary>
@@ -204,22 +241,15 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     }
 
     /// <inheritdoc />
-    public override async Task<Symbol?> GetSymbol()
-    {
-        if (CoreJsModule is not null)
-        {
-            Symbol = await CoreJsModule.InvokeAsync<Symbol>("getGraphicSymbol",
-                CancellationTokenSource.Token, Id);
-        }
-
-        return Symbol;
-    }
-
-    /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
     {
         switch (child)
         {
+            case Symbol symbol:
+
+                await SetSymbol(symbol);
+
+                break;
             case Geometry geometry:
                 if (View?.ExtentChangedInJs == true)
                 {
@@ -252,6 +282,10 @@ public class Graphic : LayerObject, IEquatable<Graphic>
     {
         switch (child)
         {
+            case Symbol _:
+                Symbol = null;
+
+                break;
             case Geometry _:
                 Geometry = null;
 
@@ -305,6 +339,7 @@ public class Graphic : LayerObject, IEquatable<Graphic>
         base.ValidateRequiredChildren();
         Geometry?.ValidateRequiredChildren();
         PopupTemplate?.ValidateRequiredChildren();
+        Symbol?.ValidateRequiredChildren();
     }
 
     internal GraphicSerializationRecord ToSerializationRecord(bool refresh = false)
@@ -328,9 +363,9 @@ public class Graphic : LayerObject, IEquatable<Graphic>
 
         if (CoreJsModule is not null)
         {
-            if (UpdateSymbol)
+            if (_updateSymbol)
             {
-                UpdateSymbol = false;
+                _updateSymbol = false;
                 await SetSymbol(Symbol!);
             }
 
@@ -365,6 +400,7 @@ public class Graphic : LayerObject, IEquatable<Graphic>
 
     private GraphicSerializationRecord? _serializationRecord;
     private bool _updateGeometry;
+    private bool _updateSymbol;
     private bool _updatePopupTemplate;
     private bool _updateAttributes;
 

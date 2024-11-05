@@ -1,6 +1,8 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Layers;
 using Microsoft.AspNetCore.Components;
 using System.Text.Json.Serialization;
+using dymaptic.GeoBlazor.Core.Components.Symbols;
+using Microsoft.JSInterop;
 
 
 namespace dymaptic.GeoBlazor.Core.Components.Renderers;
@@ -10,7 +12,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Renderers;
 ///     represent features with a specific value.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueInfo.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public class UniqueValueInfo : LayerObject
+public class UniqueValueInfo : MapComponent
 {
     /// <summary>
     ///     Features with this value will be rendered with the given symbol.
@@ -25,4 +27,76 @@ public class UniqueValueInfo : LayerObject
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Label { get; set; }
+    
+    /// <summary>
+    ///     The <see cref="Symbol" /> for the object.
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    public Symbol? Symbol { get; protected set; }
+
+    /// <summary>
+    ///     Gets the current <see cref="Symbol" /> for the object.
+    /// </summary>
+    public virtual async Task<Symbol?> GetSymbol()
+    {
+        return await Task.Run(() => Symbol);
+    }
+
+    /// <summary>
+    ///     Sets the <see cref="Symbol" /> for the object.
+    /// </summary>
+    /// <param name="symbol">
+    ///     The <see cref="Symbol" /> for the object.
+    /// </param>
+    public virtual async Task SetSymbol(Symbol symbol)
+    {
+        Symbol = symbol;
+
+        if (CoreJsModule is not null)
+        {
+            await CoreJsModule.InvokeVoidAsync("setGraphicSymbol",
+                Id, Symbol.ToSerializationRecord());
+        }
+    }
+    
+    /// <inheritdoc />
+    public override async Task RegisterChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case Symbol symbol:
+
+                await SetSymbol(symbol);
+
+                break;
+            default:
+                await base.RegisterChildComponent(child);
+
+                break;
+        }
+    }
+
+    /// <inheritdoc />
+    public override async Task UnregisterChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case Symbol _:
+                Symbol = null;
+
+                break;
+            default:
+                await base.UnregisterChildComponent(child);
+
+                break;
+        }
+    }
+
+    /// <inheritdoc />
+    internal override void ValidateRequiredChildren()
+    {
+        base.ValidateRequiredChildren();
+        Symbol?.ValidateRequiredChildren();
+    }
 }
