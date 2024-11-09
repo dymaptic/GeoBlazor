@@ -240,47 +240,6 @@ export function setAssetsPath(path: string) {
     }
 }
 
-export function getObjectReference(objectRef: any) {
-    if (!hasValue(objectRef)) return objectRef;
-    try {
-        // check the class name first, as some esri types fail the `instanceof` check
-        switch (objectRef?.__proto__.declaredClass) {
-            case 'esri.views.2d.layers.FeatureLayerView2D':
-            case 'esri.views.3d.layers.FeatureLayerView3D':
-                return new FeatureLayerViewWrapper(objectRef);
-        }
-        
-        if (objectRef instanceof Layer) {
-            if (objectRef instanceof FeatureLayer) {
-                return new FeatureLayerWrapper(objectRef);
-            }
-            if (objectRef instanceof BingMapsLayer) {
-                return new BingMapsLayerWrapper(objectRef);
-            }
-            if (objectRef instanceof ImageryTileLayer) {
-                return new ImageryTileLayerWrapper(objectRef);
-            }
-        }
-        if (objectRef instanceof Graphic) {
-            return buildDotNetGraphic(objectRef);
-        }
-        if (objectRef instanceof Popup) {
-            return new PopupWidgetWrapper(objectRef);
-        }
-        if (objectRef instanceof Search) {
-            return new SearchWidgetWrapper(objectRef);
-        }
-        if (objectRef instanceof Slider) {
-            return new SliderWidgetWrapper(objectRef);
-        }
-        return objectRef;
-    }
-    catch {
-        // do nothing
-    }
-    return objectRef;
-}
-
 export function getSerializedDotNetObject(id: string): any {
     let objectRef = arcGisObjectRefs[id];
     if (objectRef instanceof Layer) {
@@ -1877,23 +1836,23 @@ export async function addWidget(widget: any, viewId: string, setInContainerByDef
     }
 }
 
-async function createWidget(widget: any, viewId: string): Promise<Widget | null> {
+async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget | null> {
     let view = arcGisObjectRefs[viewId] as MapView;
 
     let newWidget: Widget;
-    switch (widget.type) {
+    switch (dotNetWidget.type) {
         case 'locate':
             const locate = new Locate({
                 view: view,
-                rotationEnabled: widget.rotationEnabled ?? undefined,
-                scale: widget.scale ?? undefined
+                rotationEnabled: dotNetWidget.rotationEnabled ?? undefined,
+                scale: dotNetWidget.scale ?? undefined
             });
             newWidget = locate;
 
-            if (widget.hasGoToOverride) {
+            if (dotNetWidget.hasGoToOverride) {
                 locate.goToOverride = async (view, parameters) => {
                     let dnParams = buildDotNetGoToOverrideParameters(parameters, viewId);
-                    await widget.dotNetComponentReference.invokeMethodAsync('OnJavaScriptGoToOverride', dnParams);
+                    await dotNetWidget.dotNetComponentReference.invokeMethodAsync('OnJavaScriptGoToOverride', dnParams);
                 }
             }
 
@@ -1904,41 +1863,41 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
             });
             newWidget = search;
 
-            if (hasValue(widget.sources)) {
+            if (hasValue(dotNetWidget.sources)) {
                 let sources: SearchSource[] = [];
-                for (const source of widget.sources) {
+                for (const source of dotNetWidget.sources) {
                     let jsSource = await buildJsSearchSource(source, viewId);
                     sources.push(jsSource);
                 }
                 search.sources.addMany(sources);
             }
 
-            if (hasValue(widget.popupTemplate)) {
-                search.popupTemplate = buildJsPopupTemplate(widget.popupTemplate, viewId) as PopupTemplate;
+            if (hasValue(dotNetWidget.popupTemplate)) {
+                search.popupTemplate = buildJsPopupTemplate(dotNetWidget.popupTemplate, viewId) as PopupTemplate;
             }
 
-            if (hasValue(widget.portal)) {
+            if (hasValue(dotNetWidget.portal)) {
                 search.portal = new Portal({
-                    url: widget.portal.url
+                    url: dotNetWidget.portal.url
                 });
             }
 
-            if (widget.hasGoToOverride) {
+            if (dotNetWidget.hasGoToOverride) {
                 search.goToOverride = async (view, parameters) => {
                     let dnParams = buildDotNetGoToOverrideParameters(parameters, viewId);
-                    await widget.dotNetComponentReference.invokeMethodAsync('OnJavaScriptGoToOverride', dnParams);
+                    await dotNetWidget.dotNetComponentReference.invokeMethodAsync('OnJavaScriptGoToOverride', dnParams);
                 }
             }
 
             search.on('select-result', (evt) => {
-                widget.dotNetComponentReference.invokeMethodAsync('OnJavaScriptSearchSelectResult', {
+                dotNetWidget.dotNetComponentReference.invokeMethodAsync('OnJavaScriptSearchSelectResult', {
                     extent: buildDotNetExtent(evt.result.extent),
                     feature: buildDotNetFeature(evt.result.feature),
                     name: evt.result.name
                 });
             });
 
-            copyValuesIfExists(widget, search, 'activeMenu', 'activeSourceIndex', 'allPlaceholder',
+            copyValuesIfExists(dotNetWidget, search, 'activeMenu', 'activeSourceIndex', 'allPlaceholder',
                 'autoSelect', 'disabled', 'includeDefaultSources', 'label', 'locationEnabled', 'maxResults',
                 'maxSuggestions', 'minSuggestCharacters', 'popupEnabled', 'resultGraphicEnabled', 'searchAllEnabled',
                 'searchTerm', 'suggestionsEnabled');
@@ -1949,38 +1908,38 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
                 view: view
             });
             newWidget = basemapToggle;
-            if (hasValue(widget.nextBasemapStyle)) {
-                basemapToggle.nextBasemap = widget.nextBasemapStyle;
+            if (hasValue(dotNetWidget.nextBasemapStyle)) {
+                basemapToggle.nextBasemap = dotNetWidget.nextBasemapStyle;
             }
-            else if (hasValue(widget.nextBasemapName)) {
+            else if (hasValue(dotNetWidget.nextBasemapName)) {
                 // @ts-ignore
-                basemapToggle.nextBasemap = widget.nextBasemapName;
+                basemapToggle.nextBasemap = dotNetWidget.nextBasemapName;
             } else {
                 // @ts-ignore
-                basemapToggle.nextBasemap = widget.nextBasemap;
+                basemapToggle.nextBasemap = dotNetWidget.nextBasemap;
             }
             break;
         case 'basemapGallery':
             let source = new PortalBasemapsSource();
-            if (hasValue(widget.portalBasemapsSource)) {
+            if (hasValue(dotNetWidget.portalBasemapsSource)) {
                 const portal = new Portal();
-                if (widget.portalBasemapsSource.portal?.url !== undefined &&
-                    widget.portalBasemapsSource.portal?.url !== null) {
-                    portal.url = widget.portalBasemapsSource.portal.url;
+                if (dotNetWidget.portalBasemapsSource.portal?.url !== undefined &&
+                    dotNetWidget.portalBasemapsSource.portal?.url !== null) {
+                    portal.url = dotNetWidget.portalBasemapsSource.portal.url;
                 }
                 source = new PortalBasemapsSource({
                     portal
                 });
-                if (widget.portalBasemapsSource.queryParams !== undefined &&
-                    widget.portalBasemapsSource.queryParams !== null) {
-                    source.query = widget.portalBasemapsSource.queryParams;
-                } else if (widget.portalBasemapsSource.queryString !== undefined &&
-                    widget.portalBasemapsSource.queryString !== null) {
-                    source.query = widget.portalBasemapsSource.queryString;
+                if (dotNetWidget.portalBasemapsSource.queryParams !== undefined &&
+                    dotNetWidget.portalBasemapsSource.queryParams !== null) {
+                    source.query = dotNetWidget.portalBasemapsSource.queryParams;
+                } else if (dotNetWidget.portalBasemapsSource.queryString !== undefined &&
+                    dotNetWidget.portalBasemapsSource.queryString !== null) {
+                    source.query = dotNetWidget.portalBasemapsSource.queryString;
                 }
-            } else if (hasValue(widget.title)) {
+            } else if (hasValue(dotNetWidget.title)) {
                 source.query = {
-                    title: widget.title
+                    title: dotNetWidget.title
                 };
             }
             newWidget = new BasemapGallery({
@@ -1993,8 +1952,8 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
                 view: view
             });
             newWidget = scaleBar;
-            if (hasValue(widget.unit)) {
-                scaleBar.unit = widget.unit;
+            if (hasValue(dotNetWidget.unit)) {
+                scaleBar.unit = dotNetWidget.unit;
             }
             break;
         case 'legend':
@@ -2003,9 +1962,9 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
             });
             newWidget = legend;
 
-            if (hasValue(widget.layerInfos) && widget.layerInfos.length > 0) {
+            if (hasValue(dotNetWidget.layerInfos) && dotNetWidget.layerInfos.length > 0) {
                 view.when(() => {
-                    legend.layerInfos = widget.layerInfos.map(li => {
+                    legend.layerInfos = dotNetWidget.layerInfos.map(li => {
                         let jsLayerInfo = {
                             layer: arcGisObjectRefs[li.layer.id]
                         } as LegendLayerInfos;
@@ -2020,15 +1979,15 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
                     });
                 });
             }
-            if (hasValue(widget.style)) {
-                if (hasValue(widget.style.layout)) {
+            if (hasValue(dotNetWidget.style)) {
+                if (hasValue(dotNetWidget.style.layout)) {
                     legend.style = {
-                        type: widget.style.type,
-                        layout: widget.style.layout
+                        type: dotNetWidget.style.type,
+                        layout: dotNetWidget.style.layout
                     };
                 }
                 else {
-                    legend.style = widget.style.type;
+                    legend.style = dotNetWidget.style.type;
                 }
             }
             break;
@@ -2050,10 +2009,10 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
             });
             newWidget = layerListWidget;
 
-            if (hasValue(widget.hasCustomHandler) && widget.hasCustomHandler) {
+            if (hasValue(dotNetWidget.hasCustomHandler) && dotNetWidget.hasCustomHandler) {
                 layerListWidget.listItemCreatedFunction = async (evt) => {
                     let dotNetListItem = buildDotNetListItem(evt.item);
-                    let returnItem = await widget.dotNetComponentReference.invokeMethodAsync('OnListItemCreated', dotNetListItem) as DotNetListItem;
+                    let returnItem = await dotNetWidget.dotNetComponentReference.invokeMethodAsync('OnListItemCreated', dotNetListItem) as DotNetListItem;
                     if (hasValue(returnItem) && hasValue(evt.item)) {
                         updateListItem(evt.item, returnItem);
                     }
@@ -2067,42 +2026,42 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
             });
             newWidget = basemapLayerListWidget;
 
-            if (hasValue(widget.hasCustomBaseListHandler) && widget.hasCustomBaseListHandler) {
+            if (hasValue(dotNetWidget.hasCustomBaseListHandler) && dotNetWidget.hasCustomBaseListHandler) {
                 basemapLayerListWidget.baseListItemCreatedFunction = async (evt) => {
                     let dotNetBaseListItem = buildDotNetListItem(evt.item);
-                    let returnItem = await widget.dotNetComponentReference.invokeMethodAsync('OnBaseListItemCreated', dotNetBaseListItem) as DotNetListItem;
+                    let returnItem = await dotNetWidget.dotNetComponentReference.invokeMethodAsync('OnBaseListItemCreated', dotNetBaseListItem) as DotNetListItem;
                     if (hasValue(returnItem) && hasValue(evt.item)) {
                         updateListItem(evt.item, returnItem);
                     }
                 };
             }
-            if (hasValue(widget.hasCustomReferenceListHandler) && widget.hasCustomReferenceListHandler) {
+            if (hasValue(dotNetWidget.hasCustomReferenceListHandler) && dotNetWidget.hasCustomReferenceListHandler) {
                 basemapLayerListWidget.baseListItemCreatedFunction = async (evt) => {
                     let dotNetReferenceListItem = buildDotNetListItem(evt.item);
-                    let returnItem = await widget.dotNetComponentReference.invokeMethodAsync('OnReferenceListItemCreated', dotNetReferenceListItem) as DotNetListItem;
+                    let returnItem = await dotNetWidget.dotNetComponentReference.invokeMethodAsync('OnReferenceListItemCreated', dotNetReferenceListItem) as DotNetListItem;
                     if (hasValue(returnItem) && hasValue(evt.item)) {
                         updateListItem(evt.item, returnItem);
                     }
                 };
             }
             
-            if (hasValue(widget.visibleElements)) {
+            if (hasValue(dotNetWidget.visibleElements)) {
                 basemapLayerListWidget.visibleElements = {
-                    statusIndicators: widget.visibleElements.statusIndicators,
-                    baseLayers: widget.visibleElements.baseLayers,
-                    referenceLayers: widget.visibleElements.referenceLayers,
-                    errors: widget.visibleElements.errors
+                    statusIndicators: dotNetWidget.visibleElements.statusIndicators,
+                    baseLayers: dotNetWidget.visibleElements.baseLayers,
+                    referenceLayers: dotNetWidget.visibleElements.referenceLayers,
+                    errors: dotNetWidget.visibleElements.errors
                 };
             }
             
-            copyValuesIfExists(widget, basemapLayerListWidget, 'basemapTitle', 'editingEnabled', 'headingLevel',
+            copyValuesIfExists(dotNetWidget, basemapLayerListWidget, 'basemapTitle', 'editingEnabled', 'headingLevel',
                 'multipleSelectionEnabled');
             
             break;
         case 'expand':
             let content: any;
             let expandWidgetDiv = 
-                document.getElementById(`widget-container-${widget.id}`) as HTMLElement;
+                document.getElementById(`widget-container-${dotNetWidget.id}`) as HTMLElement;
             if (expandWidgetDiv === null) {
                 return null;
             }
@@ -2116,74 +2075,74 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
                 }
             }
             expandWidgetDiv.hidden = false;
-            if (hasValue(widget.htmlContent)) {
+            if (hasValue(dotNetWidget.htmlContent)) {
                 let templatedContent = document.createElement('template');
-                templatedContent.innerHTML = widget.htmlContent;
+                templatedContent.innerHTML = dotNetWidget.htmlContent;
                 expandWidgetDiv.appendChild(templatedContent.content.firstChild!);
             }
             
-            if (hasValue(widget.widgetContent)) {
-                await addWidget(widget.widgetContent, viewId, true);
+            if (hasValue(dotNetWidget.widgetContent)) {
+                await addWidget(dotNetWidget.widgetContent, viewId, true);
             }
             view.ui.remove(content);
             const expand = new Expand({
                 view,
                 content: expandWidgetDiv,
-                expanded: widget.expanded,
-                mode: widget.mode,
+                expanded: dotNetWidget.expanded,
+                mode: dotNetWidget.mode,
             });
 
-            if (hasValue(widget.autoCollapse)) {
-                expand.autoCollapse = widget.autoCollapse;
+            if (hasValue(dotNetWidget.autoCollapse)) {
+                expand.autoCollapse = dotNetWidget.autoCollapse;
             }
 
-            if (hasValue(widget.closeOnEsc)) {
-                expand.closeOnEsc = widget.closeOnEsc;
+            if (hasValue(dotNetWidget.closeOnEsc)) {
+                expand.closeOnEsc = dotNetWidget.closeOnEsc;
             }
 
-            if (hasValue(widget.expandIcon)) {
-                expand.expandIcon = widget.expandIcon;
+            if (hasValue(dotNetWidget.expandIcon)) {
+                expand.expandIcon = dotNetWidget.expandIcon;
             }
 
-            if (hasValue(widget.collapseIcon)) {
-                expand.collapseIcon = widget.collapseIcon;
+            if (hasValue(dotNetWidget.collapseIcon)) {
+                expand.collapseIcon = dotNetWidget.collapseIcon;
             }
 
-            if (hasValue(widget.expandTooltip)) {
-                expand.expandTooltip = widget.expandTooltip;
+            if (hasValue(dotNetWidget.expandTooltip)) {
+                expand.expandTooltip = dotNetWidget.expandTooltip;
             }
 
-            if (hasValue(widget.collapseTooltip)) {
-                expand.collapseTooltip = widget.collapseTooltip;
+            if (hasValue(dotNetWidget.collapseTooltip)) {
+                expand.collapseTooltip = dotNetWidget.collapseTooltip;
             }
 
             newWidget = expand;
             break;
         case 'popup':
-            newWidget = await setPopup(widget, viewId) as Popup;
+            newWidget = await setPopup(dotNetWidget, viewId) as Popup;
             break;
         case 'measurement':
             newWidget = new Measurement({
                 view: view,
-                activeTool: widget.activeTool ?? undefined,
-                areaUnit: widget.areaUnit ?? undefined,
-                linearUnit: widget.linearUnit ?? undefined,
-                icon: widget.icon ?? undefined,
+                activeTool: dotNetWidget.activeTool ?? undefined,
+                areaUnit: dotNetWidget.areaUnit ?? undefined,
+                linearUnit: dotNetWidget.linearUnit ?? undefined,
+                icon: dotNetWidget.icon ?? undefined,
             });
             break;
         case 'bookmarks':
             const bookmarkWidget = new Bookmarks({
                 view: view,
-                editingEnabled: widget.editingEnabled,
-                disabled: widget.disabled,
-                icon: widget.icon
+                editingEnabled: dotNetWidget.editingEnabled,
+                disabled: dotNetWidget.disabled,
+                icon: dotNetWidget.icon
             });
-            if (widget.bookmarks != null) {
-                bookmarkWidget.bookmarks = widget.bookmarks.map(buildJsBookmark);
+            if (dotNetWidget.bookmarks != null) {
+                bookmarkWidget.bookmarks = dotNetWidget.bookmarks.map(buildJsBookmark);
             }
 
             bookmarkWidget.on('bookmark-select', (event) => {
-                widget.dotNetComponentReference.invokeMethodAsync('OnJavascriptBookmarkSelect', {
+                dotNetWidget.dotNetComponentReference.invokeMethodAsync('OnJavascriptBookmarkSelect', {
                     bookmark: buildDotNetBookmark(event.bookmark)
                 });
             });
@@ -2192,122 +2151,122 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
             break;
         case 'slider':
             const slider = new Slider({
-                container: widget.containerId
+                container: dotNetWidget.containerId
             });
             newWidget = slider;
-            copyValuesIfExists(widget, slider, 'disabled', 'draggableSegmentsEnabled', 'effectiveMax',
+            copyValuesIfExists(dotNetWidget, slider, 'disabled', 'draggableSegmentsEnabled', 'effectiveMax',
                 'effectiveMin', 'labelInputsEnabled', 'layout', 'max', 'min', 'precision', 
                 'rangeLabelInputsEnabled', 'snapOnClickEnabled', 'syncedSegmentsEnabled', 'thumbsConstrained',
                 'values', 'visible');
             
-            if (hasValue(widget.steps)) {
-                slider.steps = widget.steps;
-            } else if (hasValue(widget.stepInterval)) {
-                slider.steps = widget.stepInterval;
+            if (hasValue(dotNetWidget.steps)) {
+                slider.steps = dotNetWidget.steps;
+            } else if (hasValue(dotNetWidget.stepInterval)) {
+                slider.steps = dotNetWidget.stepInterval;
             }
             
-            if (hasValue(widget.inputCreatedFunction)) {
+            if (hasValue(dotNetWidget.inputCreatedFunction)) {
                 slider.inputCreatedFunction = (inputElement, type, thumbIndex) => {
-                    return new Function('inputElement', 'type', 'thumbIndex', widget.inputCreatedFunction)(inputElement, type, thumbIndex);
+                    return new Function('inputElement', 'type', 'thumbIndex', dotNetWidget.inputCreatedFunction)(inputElement, type, thumbIndex);
                 };
             }
             
-            if (hasValue(widget.inputFormatFunction)) {
+            if (hasValue(dotNetWidget.inputFormatFunction)) {
                 slider.inputFormatFunction = (value, type, index) => {
-                    return new Function('value', 'type', 'index', widget.inputFormatFunction)(value, type, index);
+                    return new Function('value', 'type', 'index', dotNetWidget.inputFormatFunction)(value, type, index);
                 };
             }
-            if (hasValue(widget.inputParseFunction)) {
+            if (hasValue(dotNetWidget.inputParseFunction)) {
                 slider.inputParseFunction = (value, type, index) => {
-                    return new Function('value', 'type', 'index', widget.inputParseFunction)(value, type, index);
+                    return new Function('value', 'type', 'index', dotNetWidget.inputParseFunction)(value, type, index);
                 };
             }
-            if (hasValue(widget.labelFormatFunction)) {
+            if (hasValue(dotNetWidget.labelFormatFunction)) {
                 slider.labelFormatFunction = (value, type, index) => {
-                    return new Function('value', 'type', 'index', widget.labelFormatFunction)(value, type, index);
+                    return new Function('value', 'type', 'index', dotNetWidget.labelFormatFunction)(value, type, index);
                 }
             }
-            if (hasValue(widget.thumbCreatedFunction)) {
+            if (hasValue(dotNetWidget.thumbCreatedFunction)) {
                 slider.thumbCreatedFunction = (index, value, thumbElement, labelElement) => {
-                    return new Function ('index', 'value', 'thumbElement', 'labelElement', widget.thumbCreatedFunction)(index, value, thumbElement, labelElement);
+                    return new Function ('index', 'value', 'thumbElement', 'labelElement', dotNetWidget.thumbCreatedFunction)(index, value, thumbElement, labelElement);
                 };
             }
             
-            if (hasValue(widget.tickConfigs) && widget.tickConfigs.length > 0) {
-                slider.tickConfigs = widget.tickConfigs.map(buildJsTickConfig);
+            if (hasValue(dotNetWidget.tickConfigs) && dotNetWidget.tickConfigs.length > 0) {
+                slider.tickConfigs = dotNetWidget.tickConfigs.map(buildJsTickConfig);
             }
-            if (hasValue(widget.visibleElements)) {
+            if (hasValue(dotNetWidget.visibleElements)) {
                 slider.visibleElements = {
-                    labels: widget.visibleElements.labels ?? false,
-                    rangeLabels: widget.visibleElements.rangeLabels ?? false
+                    labels: dotNetWidget.visibleElements.labels ?? false,
+                    rangeLabels: dotNetWidget.visibleElements.rangeLabels ?? false
                 };
             }
             
             slider.on('max-change', async (event) => {
-                await widget.dotNetComponentReference.invokeMethodAsync('OnJsMaxChange', {
+                await dotNetWidget.dotNetComponentReference.invokeMethodAsync('OnJsMaxChange', {
                     value: event.value,
                     oldValue: event.oldValue
                 });
             });
             slider.on('max-click', async (event) => {
-                await widget.dotNetComponentReference.invokeMethodAsync('OnJsMaxClick', {
+                await dotNetWidget.dotNetComponentReference.invokeMethodAsync('OnJsMaxClick', {
                     value: event.value
                 });                
             });
             slider.on('min-change', async (event) => {
-                await widget.dotNetComponentReference.invokeMethodAsync('OnJsMinChange', {
+                await dotNetWidget.dotNetComponentReference.invokeMethodAsync('OnJsMinChange', {
                     value: event.value,
                     oldValue: event.oldValue
                 });
             });
             slider.on('min-click', async (event) => {
-                await widget.dotNetComponentReference.invokeMethodAsync('OnJsMinClick', {
+                await dotNetWidget.dotNetComponentReference.invokeMethodAsync('OnJsMinClick', {
                     value: event.value
                 });
             });
             slider.on('segment-click', async (event) => {
-                await widget.dotNetComponentReference.invokeMethodAsync('OnJsSegmentClick', {
+                await dotNetWidget.dotNetComponentReference.invokeMethodAsync('OnJsSegmentClick', {
                     index: event.index,
                     thumbIndices: event.thumbIndices,
                     value: event.value
                 });
             });
             slider.on('segment-drag', async (event) => {
-                await widget.dotNetComponentReference.invokeMethodAsync('OnJsSegmentDrag', {
+                await dotNetWidget.dotNetComponentReference.invokeMethodAsync('OnJsSegmentDrag', {
                     index: event.index,
                     state: event.state,
                     thumbIndices: event.thumbIndices
                 });
             });
             slider.on('thumb-change', async (event) => {
-                await widget.dotNetComponentReference.invokeMethodAsync('OnJsThumbChange', {
+                await dotNetWidget.dotNetComponentReference.invokeMethodAsync('OnJsThumbChange', {
                     index: event.index,
                     value: event.value,
                     oldValue: event.oldValue
                 });
             });
             slider.on('thumb-click', async (event) => {
-                await widget.dotNetComponentReference.invokeMethodAsync('OnJsThumbClick', {
+                await dotNetWidget.dotNetComponentReference.invokeMethodAsync('OnJsThumbClick', {
                     index: event.index,
                     value: event.value
                 });
             });
             slider.on('thumb-drag', async (event) => {
-                await widget.dotNetComponentReference.invokeMethodAsync('OnJsThumbDrag', {
+                await dotNetWidget.dotNetComponentReference.invokeMethodAsync('OnJsThumbDrag', {
                     index: event.index,
                     state: event.state,
                     value: event.value
                 });
             });
             slider.on('tick-click', async (event) => {
-                await widget.dotNetComponentReference.invokeMethodAsync('OnJsTickClick', {
+                await dotNetWidget.dotNetComponentReference.invokeMethodAsync('OnJsTickClick', {
                     value: event.value,
                     configIndex: event.configIndex,
                     groupIndex: event.groupIndex
                 });
             });
             slider.on('track-click', async (event) => {
-                await widget.dotNetComponentReference.invokeMethodAsync('OnJsTrackClick', {
+                await dotNetWidget.dotNetComponentReference.invokeMethodAsync('OnJsTrackClick', {
                     value: event.value
                 });
             });
@@ -2315,7 +2274,7 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
             reactiveUtils.watch(
                 () => slider.values,
                 async () => {
-                    await widget.dotNetComponentReference.invokeMethodAsync('OnJsValueChanged', slider.values);
+                    await dotNetWidget.dotNetComponentReference.invokeMethodAsync('OnJsValueChanged', slider.values);
                 }
             );
             break;
@@ -2323,18 +2282,18 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
             return null;
     }
 
-    if (hasValue(widget.widgetId)) {
-        newWidget.id = widget.widgetId;
+    if (hasValue(dotNetWidget.widgetId)) {
+        newWidget.id = dotNetWidget.widgetId;
     }
 
-    copyValuesIfExists(widget, newWidget, 'icon', 'label');
+    copyValuesIfExists(dotNetWidget, newWidget, 'icon', 'label');
 
-    arcGisObjectRefs[widget.id] = newWidget;
-    dotNetRefs[widget.id] = widget.dotNetComponentReference;
-    let wrap = jsObjectRefs[widget.id] ?? getObjectReference(newWidget);
+    arcGisObjectRefs[dotNetWidget.id] = newWidget;
+    dotNetRefs[dotNetWidget.id] = dotNetWidget.dotNetComponentReference;
+    let wrap = jsObjectRefs[dotNetWidget.id] ?? getObjectReference(newWidget);
     // @ts-ignore
     let jsRef = DotNet.createJSObjectReference(wrap);
-    await widget.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsRef);
+    await dotNetWidget.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsRef);
     return newWidget;
 }
 
@@ -2465,49 +2424,49 @@ export async function addLayer(layerObject: any, viewId: string, isBasemapLayer?
     }
 }
 
-export async function createLayer(layerObject: any, wrap?: boolean | null, viewId?: string | null): Promise<Layer | null> {
-    if (arcGisObjectRefs.hasOwnProperty(layerObject.id)) {
-        let oldLayer = arcGisObjectRefs[layerObject.id] as Layer;
+export async function createLayer(dotNetLayer: any, wrap?: boolean | null, viewId?: string | null): Promise<Layer | null> {
+    if (arcGisObjectRefs.hasOwnProperty(dotNetLayer.id)) {
+        let oldLayer = arcGisObjectRefs[dotNetLayer.id] as Layer;
         if (!oldLayer.destroyed) {
             if (wrap) {
-                return getObjectReference(arcGisObjectRefs[layerObject.id] as Layer);
+                return getObjectReference(arcGisObjectRefs[dotNetLayer.id] as Layer);
             }
-            return arcGisObjectRefs[layerObject.id] as Layer;
+            return arcGisObjectRefs[dotNetLayer.id] as Layer;
         }
     }
     let newLayer: Layer;
-    switch (layerObject.type) {
+    switch (dotNetLayer.type) {
         case 'graphics':
             newLayer = new GraphicsLayer();
             let graphicsLayer = newLayer as GraphicsLayer;
             let jsGraphics: Graphic[] = [];
-            for (const g of layerObject.graphics) {
+            for (const g of dotNetLayer.graphics) {
                 let jsGraphic = buildJsGraphic(g, viewId ?? null) as Graphic;
                 jsGraphics.push(jsGraphic);
             }
             graphicsLayer.addMany(jsGraphics);
             
-            copyValuesIfExists(layerObject, graphicsLayer, 'blendMode',
+            copyValuesIfExists(dotNetLayer, graphicsLayer, 'blendMode',
                 'maxScale', 'minScale', 'screenSizePerspectiveEnabled');
 
-            if (hasValue(layerObject.effect)) {
-                graphicsLayer.effect = buildJsEffect(layerObject.effect);
+            if (hasValue(dotNetLayer.effect)) {
+                graphicsLayer.effect = buildJsEffect(dotNetLayer.effect);
             }
             break;
         case 'feature':
-            if (hasValue(layerObject.portalItem)) {
-                let portalItem = buildJsPortalItem(layerObject.portalItem);
+            if (hasValue(dotNetLayer.portalItem)) {
+                let portalItem = buildJsPortalItem(dotNetLayer.portalItem);
 
                 newLayer = new FeatureLayer({ portalItem: portalItem });
-            } else if (hasValue(layerObject.url)) {
+            } else if (hasValue(dotNetLayer.url)) {
                 newLayer = new FeatureLayer({
-                    url: layerObject.url
+                    url: dotNetLayer.url
                 });
             } else {
                 let source: Array<Graphic> = [];
-                if (hasValue(layerObject.source)) {
-                    for (let i = 0; i < layerObject.source.length; i++) {
-                        const graphicObject = layerObject.source[i];
+                if (hasValue(dotNetLayer.source)) {
+                    for (let i = 0; i < dotNetLayer.source.length; i++) {
+                        const graphicObject = dotNetLayer.source[i];
                         let graphic = buildJsGraphic(graphicObject, viewId ?? null);
                         if (graphic !== null) {
                             source.push(graphic);
@@ -2521,322 +2480,322 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             }
             let featureLayer = newLayer as FeatureLayer;
 
-            copyValuesIfExists(layerObject, featureLayer, 'minScale', 'maxScale', 'orderBy', 'objectIdField',
+            copyValuesIfExists(dotNetLayer, featureLayer, 'minScale', 'maxScale', 'orderBy', 'objectIdField',
                 'definitionExpression', 'outFields', 'legendEnabled', 'popupEnabled', 'apiKey', 'blendMode',
                 'geometryType');
 
-            if (hasValue(layerObject.formTemplate)) {
-                featureLayer.formTemplate = buildJsFormTemplate(layerObject.formTemplate);
+            if (hasValue(dotNetLayer.formTemplate)) {
+                featureLayer.formTemplate = buildJsFormTemplate(dotNetLayer.formTemplate);
             }
 
-            if (hasValue(layerObject.popupTemplate)) {
-                featureLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId ?? null) as PopupTemplate;
+            if (hasValue(dotNetLayer.popupTemplate)) {
+                featureLayer.popupTemplate = buildJsPopupTemplate(dotNetLayer.popupTemplate, viewId ?? null) as PopupTemplate;
             }
-            if (hasValue(layerObject.renderer)) {
-                let renderer = buildJsRenderer(layerObject.renderer);
+            if (hasValue(dotNetLayer.renderer)) {
+                let renderer = buildJsRenderer(dotNetLayer.renderer);
                 if (renderer !== null) {
                     featureLayer.renderer = renderer;
                 }
             }
-            if (hasValue(layerObject.fields)) {
-                featureLayer.fields = buildJsFields(layerObject.fields);
+            if (hasValue(dotNetLayer.fields)) {
+                featureLayer.fields = buildJsFields(dotNetLayer.fields);
             }
-            if (hasValue(layerObject.spatialReference)) {
-                featureLayer.spatialReference = buildJsSpatialReference(layerObject.spatialReference);
+            if (hasValue(dotNetLayer.spatialReference)) {
+                featureLayer.spatialReference = buildJsSpatialReference(dotNetLayer.spatialReference);
             }
             
-            if (hasValue(layerObject.labelingInfo)) {
-                featureLayer.labelingInfo = layerObject.labelingInfo.map(buildJsLabelClass);
+            if (hasValue(dotNetLayer.labelingInfo)) {
+                featureLayer.labelingInfo = dotNetLayer.labelingInfo.map(buildJsLabelClass);
             }
 
-            if (hasValue(layerObject.proProperties?.FeatureReduction)) {
-                (newLayer as FeatureLayer).featureReduction = buildJsFeatureReduction(layerObject.proProperties.FeatureReduction, viewId!);
+            if (hasValue(dotNetLayer.proProperties?.FeatureReduction)) {
+                (newLayer as FeatureLayer).featureReduction = buildJsFeatureReduction(dotNetLayer.proProperties.FeatureReduction, viewId!);
             }
             
-            if (hasValue(layerObject.effect)) {
-                featureLayer.effect = buildJsEffect(layerObject.effect);
+            if (hasValue(dotNetLayer.effect)) {
+                featureLayer.effect = buildJsEffect(dotNetLayer.effect);
             }
             break;
         case 'map-image':
-            if (hasValue(layerObject.portalItem)) {
-                let portalItem = buildJsPortalItem(layerObject.portalItem);
+            if (hasValue(dotNetLayer.portalItem)) {
+                let portalItem = buildJsPortalItem(dotNetLayer.portalItem);
                 newLayer = new MapImageLayer({ portalItem: portalItem });
             } else {
                 newLayer = new MapImageLayer({
-                    url: layerObject.url
+                    url: dotNetLayer.url
                 });
             }
             
-            copyValuesIfExists(layerObject, newLayer, 'blendMode', 'customParameters', 'dpi',
+            copyValuesIfExists(dotNetLayer, newLayer, 'blendMode', 'customParameters', 'dpi',
                 'gdbVersion', 'imageFormat', 'imageMaxHeight', 'imageMaxWidth', 'imageTransparency', 'legendEnabled',
                 'maxScale', 'minScale', 'refreshInterval', 'timeExtent', 'timeInfo',
                 'useViewTime');
             
-            if (hasValue(layerObject.sublayers) && layerObject.sublayers.length > 0) {
-                (newLayer as MapImageLayer).sublayers = layerObject.sublayers.map(buildJsSublayer);
+            if (hasValue(dotNetLayer.sublayers) && dotNetLayer.sublayers.length > 0) {
+                (newLayer as MapImageLayer).sublayers = dotNetLayer.sublayers.map(buildJsSublayer);
             }
             break;
         case 'vector-tile':
-            if (hasValue(layerObject.portalItem)) {
-                let portalItem = buildJsPortalItem(layerObject.portalItem);
+            if (hasValue(dotNetLayer.portalItem)) {
+                let portalItem = buildJsPortalItem(dotNetLayer.portalItem);
                 newLayer = new VectorTileLayer({ portalItem: portalItem });
             } else {
                 newLayer = new VectorTileLayer({
-                    url: layerObject.url
+                    url: dotNetLayer.url
                 });
             }
             break;
         case 'tile':
-            if (hasValue(layerObject.portalItem)) {
-                let portalItem = buildJsPortalItem(layerObject.portalItem);
+            if (hasValue(dotNetLayer.portalItem)) {
+                let portalItem = buildJsPortalItem(dotNetLayer.portalItem);
 
                 newLayer = new TileLayer({ portalItem: portalItem });
             } else {
                 newLayer = new TileLayer({
-                    url: layerObject.url
+                    url: dotNetLayer.url
                 });
             }
             let tileLayer = newLayer as TileLayer;
-            copyValuesIfExists(layerObject, newLayer, 'minScale', 'maxScale', 'opacity', 'apiKey',
+            copyValuesIfExists(dotNetLayer, newLayer, 'minScale', 'maxScale', 'opacity', 'apiKey',
                 'blendMode', 'copyright', 'customParameters', 'legendEnabled', 'listMode', 
                 'refreshInterval', 'resampling', 'tileInfo', 'tileServers', 'title', 'version');
 
-            if (hasValue(layerObject.effect)) {
-                tileLayer.effect = buildJsEffect(layerObject.effect);
+            if (hasValue(dotNetLayer.effect)) {
+                tileLayer.effect = buildJsEffect(dotNetLayer.effect);
             }
             
             break;
         case 'elevation':
-            if (hasValue(layerObject.portalItem)) {
-                let portalItem = buildJsPortalItem(layerObject.portalItem);
+            if (hasValue(dotNetLayer.portalItem)) {
+                let portalItem = buildJsPortalItem(dotNetLayer.portalItem);
                 newLayer = new ElevationLayer({ portalItem: portalItem });
             } else {
                 newLayer = new ElevationLayer({
-                    url: layerObject.url
+                    url: dotNetLayer.url
                 });
             }
             break;
         case 'geo-json':
             newLayer = new GeoJSONLayer({
-                url: layerObject.url
+                url: dotNetLayer.url
             });
             let gjLayer = newLayer as GeoJSONLayer;
-            if (hasValue(layerObject.renderer)) {
-                gjLayer.renderer = buildJsRenderer(layerObject.renderer) as Renderer;
+            if (hasValue(dotNetLayer.renderer)) {
+                gjLayer.renderer = buildJsRenderer(dotNetLayer.renderer) as Renderer;
             }
-            if (hasValue(layerObject.spatialReference)) {
-                gjLayer.spatialReference = buildJsSpatialReference(layerObject.spatialReference);
+            if (hasValue(dotNetLayer.spatialReference)) {
+                gjLayer.spatialReference = buildJsSpatialReference(dotNetLayer.spatialReference);
             }
-            if (hasValue(layerObject.popupTemplate)) {
-                gjLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId ?? null) as PopupTemplate;
+            if (hasValue(dotNetLayer.popupTemplate)) {
+                gjLayer.popupTemplate = buildJsPopupTemplate(dotNetLayer.popupTemplate, viewId ?? null) as PopupTemplate;
             }
-            if (hasValue(layerObject.proProperties?.FeatureReduction)) {
-                (newLayer as GeoJSONLayer).featureReduction = buildJsFeatureReduction(layerObject.proProperties.FeatureReduction, viewId!);
+            if (hasValue(dotNetLayer.proProperties?.FeatureReduction)) {
+                (newLayer as GeoJSONLayer).featureReduction = buildJsFeatureReduction(dotNetLayer.proProperties.FeatureReduction, viewId!);
             }
             
-            copyValuesIfExists(layerObject, gjLayer, 'copyright');
+            copyValuesIfExists(dotNetLayer, gjLayer, 'copyright');
             break;
         case 'geo-rss':
-            newLayer = new GeoRSSLayer({ url: layerObject.url });
+            newLayer = new GeoRSSLayer({ url: dotNetLayer.url });
             break;
         case 'web-tile':
             let webTileLayer: WebTileLayer;
-            if (hasValue(layerObject.urlTemplate)) {
+            if (hasValue(dotNetLayer.urlTemplate)) {
                 webTileLayer = new WebTileLayer({
-                    urlTemplate: layerObject.urlTemplate
+                    urlTemplate: dotNetLayer.urlTemplate
                 });
             } else {
-                let portalItem = buildJsPortalItem(layerObject.portalItem);
+                let portalItem = buildJsPortalItem(dotNetLayer.portalItem);
                 webTileLayer = new WebTileLayer({ portalItem: portalItem });
             }
             newLayer = webTileLayer;
 
-            copyValuesIfExists(layerObject, webTileLayer,
+            copyValuesIfExists(dotNetLayer, webTileLayer,
                 'subDomains', 'blendMode', 'copyright', 'maxScale', 'minScale', 'refreshInterval');
 
-            if (hasValue(layerObject.tileInfo)) {
+            if (hasValue(dotNetLayer.tileInfo)) {
                 webTileLayer.tileInfo = new TileInfo();
-                copyValuesIfExists(layerObject.tileInfo, webTileLayer.tileInfo,
+                copyValuesIfExists(dotNetLayer.tileInfo, webTileLayer.tileInfo,
                     'dpi', 'format', 'isWrappable', 'size');
 
-                if (hasValue(layerObject.tileInfo.lods)) {
-                    webTileLayer.tileInfo.lods = layerObject.tileInfo.lods.map(l => {
+                if (hasValue(dotNetLayer.tileInfo.lods)) {
+                    webTileLayer.tileInfo.lods = dotNetLayer.tileInfo.lods.map(l => {
                         let lod = new LOD();
                         copyValuesIfExists(l, lod, 'level', 'levelValue', 'resolution', 'scale');
                         return lod;
                     });
                 }
 
-                if (hasValue(layerObject.tileInfo.origin)) {
-                    webTileLayer.tileInfo.origin = buildJsPoint(layerObject.tileInfo.origin) as Point;
+                if (hasValue(dotNetLayer.tileInfo.origin)) {
+                    webTileLayer.tileInfo.origin = buildJsPoint(dotNetLayer.tileInfo.origin) as Point;
                 }
 
-                if (hasValue(layerObject.tileInfo.spatialReference)) {
-                    webTileLayer.tileInfo.spatialReference = buildJsSpatialReference(layerObject.tileInfo.spatialReference);
+                if (hasValue(dotNetLayer.tileInfo.spatialReference)) {
+                    webTileLayer.tileInfo.spatialReference = buildJsSpatialReference(dotNetLayer.tileInfo.spatialReference);
                 }
             }
 
             break;
         case 'open-street-map':
             let openStreetMapLayer: OpenStreetMapLayer;
-            if (hasValue(layerObject.urlTemplate)) {
+            if (hasValue(dotNetLayer.urlTemplate)) {
                 openStreetMapLayer = new OpenStreetMapLayer({
-                    urlTemplate: layerObject.urlTemplate
+                    urlTemplate: dotNetLayer.urlTemplate
                 });
-            } else if (hasValue(layerObject.portalItem)) {
-                let portalItem = buildJsPortalItem(layerObject.portalItem);
+            } else if (hasValue(dotNetLayer.portalItem)) {
+                let portalItem = buildJsPortalItem(dotNetLayer.portalItem);
                 openStreetMapLayer = new OpenStreetMapLayer({ portalItem: portalItem });
             } else {
                 openStreetMapLayer = new OpenStreetMapLayer();
             }
             newLayer = openStreetMapLayer;
 
-            copyValuesIfExists(layerObject, openStreetMapLayer,
+            copyValuesIfExists(dotNetLayer, openStreetMapLayer,
                 'subDomains', 'blendMode', 'copyright', 'maxScale', 'minScale', 'refreshInterval')
 
-            if (hasValue(layerObject.tileInfo)) {
+            if (hasValue(dotNetLayer.tileInfo)) {
                 openStreetMapLayer.tileInfo = new TileInfo();
-                copyValuesIfExists(layerObject.tileInfo, openStreetMapLayer.tileInfo,
+                copyValuesIfExists(dotNetLayer.tileInfo, openStreetMapLayer.tileInfo,
                     'dpi', 'format', 'isWrappable', 'size');
 
-                if (hasValue(layerObject.tileInfo.lods)) {
-                    openStreetMapLayer.tileInfo.lods = layerObject.tileInfo.lods.map(l => {
+                if (hasValue(dotNetLayer.tileInfo.lods)) {
+                    openStreetMapLayer.tileInfo.lods = dotNetLayer.tileInfo.lods.map(l => {
                         let lod = new LOD();
                         copyValuesIfExists(l, lod, 'level', 'levelValue', 'resolution', 'scale');
                         return lod;
                     });
                 }
 
-                if (hasValue(layerObject.tileInfo.origin)) {
-                    openStreetMapLayer.tileInfo.origin = buildJsPoint(layerObject.tileInfo.origin) as Point;
+                if (hasValue(dotNetLayer.tileInfo.origin)) {
+                    openStreetMapLayer.tileInfo.origin = buildJsPoint(dotNetLayer.tileInfo.origin) as Point;
                 }
 
-                if (hasValue(layerObject.tileInfo.spatialReference)) {
-                    openStreetMapLayer.tileInfo.spatialReference = buildJsSpatialReference(layerObject.tileInfo.spatialReference);
+                if (hasValue(dotNetLayer.tileInfo.spatialReference)) {
+                    openStreetMapLayer.tileInfo.spatialReference = buildJsSpatialReference(dotNetLayer.tileInfo.spatialReference);
                 }
             }
 
             break;
         case 'csv':
             newLayer = new CSVLayer({
-                url: layerObject.url,
-                copyright: layerObject.copyright
+                url: dotNetLayer.url,
+                copyright: dotNetLayer.copyright
             });
             let csvLayer = newLayer as CSVLayer;
-            if (hasValue(layerObject.renderer)) {
-                csvLayer.renderer = buildJsRenderer(layerObject.renderer) as Renderer;
+            if (hasValue(dotNetLayer.renderer)) {
+                csvLayer.renderer = buildJsRenderer(dotNetLayer.renderer) as Renderer;
             }
-            if (hasValue(layerObject.spatialReference)) {
+            if (hasValue(dotNetLayer.spatialReference)) {
                 csvLayer.spatialReference = new SpatialReference({
-                    wkid: layerObject.spatialReference.wkid
+                    wkid: dotNetLayer.spatialReference.wkid
                 });
             }
-            if (hasValue(layerObject.popupTemplate)) {
-                csvLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId ?? null) as PopupTemplate;
+            if (hasValue(dotNetLayer.popupTemplate)) {
+                csvLayer.popupTemplate = buildJsPopupTemplate(dotNetLayer.popupTemplate, viewId ?? null) as PopupTemplate;
             }
-            if (hasValue(layerObject.proProperties?.FeatureReduction)) {
-                (newLayer as CSVLayer).featureReduction = buildJsFeatureReduction(layerObject.proProperties.FeatureReduction, viewId!);
+            if (hasValue(dotNetLayer.proProperties?.FeatureReduction)) {
+                (newLayer as CSVLayer).featureReduction = buildJsFeatureReduction(dotNetLayer.proProperties.FeatureReduction, viewId!);
             }
 
-            copyValuesIfExists(layerObject, csvLayer, 'blendMode', 'copyright', 'delimiter', 'displayField');
+            copyValuesIfExists(dotNetLayer, csvLayer, 'blendMode', 'copyright', 'delimiter', 'displayField');
             break;
         case 'kml':
             let kmlLayer: KMLLayer;
-            if (hasValue(layerObject.url)) {
+            if (hasValue(dotNetLayer.url)) {
                 kmlLayer = new KMLLayer({
-                    url: layerObject.url
+                    url: dotNetLayer.url
                 });
             } else {
-                let portalItem = buildJsPortalItem(layerObject.portalItem);
+                let portalItem = buildJsPortalItem(dotNetLayer.portalItem);
                 kmlLayer = new KMLLayer({ portalItem: portalItem });
             }
             newLayer = kmlLayer;
-            copyValuesIfExists(layerObject, kmlLayer, 'sublayers', 'blendMode', 'maxScale', 'minScale', 'title', 'visible');
+            copyValuesIfExists(dotNetLayer, kmlLayer, 'sublayers', 'blendMode', 'maxScale', 'minScale', 'title', 'visible');
             break;
         case 'wcs':
             newLayer = new WCSLayer({
-                url: layerObject.url,
-                title: layerObject.title
+                url: dotNetLayer.url,
+                title: dotNetLayer.title
             });
             let wcsLayer = newLayer as WCSLayer;
 
-            if (hasValue(layerObject.renderer) && (layerObject.renderer.type == 'raster-stretch')) {
-                wcsLayer.renderer = buildJsRasterStretchRenderer(layerObject.renderer) as RasterStretchRenderer;
+            if (hasValue(dotNetLayer.renderer) && (dotNetLayer.renderer.type == 'raster-stretch')) {
+                wcsLayer.renderer = buildJsRasterStretchRenderer(dotNetLayer.renderer) as RasterStretchRenderer;
             }
-            if (hasValue(layerObject.multidimensionalDefinition) && layerObject.multidimensionalDefinition.length > 0) {
+            if (hasValue(dotNetLayer.multidimensionalDefinition) && dotNetLayer.multidimensionalDefinition.length > 0) {
                 wcsLayer.multidimensionalDefinition = [];
-                for (let i = 0; i < layerObject.multidimensionalDefinition.length; i++) {
+                for (let i = 0; i < dotNetLayer.multidimensionalDefinition.length; i++) {
 
                     let wcsMDD = new DimensionalDefinition;
-                    if (hasValue(layerObject.multidimensionalDefinition.VariableName)) {
-                        wcsMDD.variableName = layerObject.multidimensionalDefinition.VariableName;
+                    if (hasValue(dotNetLayer.multidimensionalDefinition.VariableName)) {
+                        wcsMDD.variableName = dotNetLayer.multidimensionalDefinition.VariableName;
                     }
-                    if (hasValue(layerObject.multidimensionalDefinition.DimensionName)) {
-                        wcsMDD.dimensionName = layerObject.multidimensionalDefinition.DimensionName;
+                    if (hasValue(dotNetLayer.multidimensionalDefinition.DimensionName)) {
+                        wcsMDD.dimensionName = dotNetLayer.multidimensionalDefinition.DimensionName;
                     }
-                    if (hasValue(layerObject.multidimensionalDefinition.Values)) {
-                        wcsMDD.values = layerObject.multidimensionalDefinition.Values;
+                    if (hasValue(dotNetLayer.multidimensionalDefinition.Values)) {
+                        wcsMDD.values = dotNetLayer.multidimensionalDefinition.Values;
                     }
-                    if (hasValue(layerObject.multidimensionalDefinition.isSlice)) {
-                        wcsMDD.isSlice = layerObject.multidimensionalDefinition.isSlice;
+                    if (hasValue(dotNetLayer.multidimensionalDefinition.isSlice)) {
+                        wcsMDD.isSlice = dotNetLayer.multidimensionalDefinition.isSlice;
                     }
                     wcsLayer.multidimensionalDefinition.push(wcsMDD);
                 }
             }
-            copyValuesIfExists(layerObject, 'bandIds', 'copyright', 'coverageId', 'coverageInfo', 'customParameters', 'fields', 'interpolation', 'maxScale', 'minscale', 'rasterInfo');
+            copyValuesIfExists(dotNetLayer, 'bandIds', 'copyright', 'coverageId', 'coverageInfo', 'customParameters', 'fields', 'interpolation', 'maxScale', 'minscale', 'rasterInfo');
 
             newLayer = wcsLayer;
             break;
         case 'bing-maps':
             const bing = new BingMapsLayer({
-                key: layerObject.key,
-                style: layerObject.style
+                key: dotNetLayer.key,
+                style: dotNetLayer.style
             });
 
             newLayer = bing;
 
-            if (hasValue(layerObject.spatialReference)) {
-                bing.spatialReference = buildJsSpatialReference(layerObject.spatialReference);
+            if (hasValue(dotNetLayer.spatialReference)) {
+                bing.spatialReference = buildJsSpatialReference(dotNetLayer.spatialReference);
             }
 
-            if (hasValue(layerObject.effect)) {
-                bing.effect = buildJsEffect(layerObject.effect);
+            if (hasValue(dotNetLayer.effect)) {
+                bing.effect = buildJsEffect(dotNetLayer.effect);
             }
 
             copyValuesIfExists('blendMode', 'maxScale', 'minScale', 'refreshInterval');
             break;
         case 'imagery':
-            if (hasValue(layerObject.url)) {
+            if (hasValue(dotNetLayer.url)) {
                 newLayer = new ImageryLayer({
-                    url: layerObject.url
+                    url: dotNetLayer.url
                 });
             } else {
-                let portalItem = buildJsPortalItem(layerObject.portalItem);
+                let portalItem = buildJsPortalItem(dotNetLayer.portalItem);
                 newLayer = new ImageryLayer({ portalItem: portalItem });
             }
 
             let imageryLayer = newLayer as ImageryLayer;
 
-            if (hasValue(layerObject.renderer)) {
-                imageryLayer.renderer = buildJsImageryRenderer(layerObject.renderer) as any;
+            if (hasValue(dotNetLayer.renderer)) {
+                imageryLayer.renderer = buildJsImageryRenderer(dotNetLayer.renderer) as any;
             }
             
-            if (hasValue(layerObject.effect)) {
-                imageryLayer.effect = buildJsEffect(layerObject.effect);
+            if (hasValue(dotNetLayer.effect)) {
+                imageryLayer.effect = buildJsEffect(dotNetLayer.effect);
             }
-            if (hasValue(layerObject.fields && layerObject.fields.length > 0)) {
-                imageryLayer.fields = buildJsFields(layerObject.fields);
+            if (hasValue(dotNetLayer.fields && dotNetLayer.fields.length > 0)) {
+                imageryLayer.fields = buildJsFields(dotNetLayer.fields);
             }
-            if (hasValue(layerObject.multidimensionsionalSubset)) {
+            if (hasValue(dotNetLayer.multidimensionsionalSubset)) {
                 imageryLayer.multidimensionalSubset = 
-                    buildJsMultidimensionalSubset(layerObject.multidimensionsionalSubset);
+                    buildJsMultidimensionalSubset(dotNetLayer.multidimensionsionalSubset);
             }
-            if (hasValue(layerObject.noData)) {
-                imageryLayer.noData = layerObject.noData;
+            if (hasValue(dotNetLayer.noData)) {
+                imageryLayer.noData = dotNetLayer.noData;
             }
             
-            if (hasValue(layerObject.popupTemplate)) {
-                imageryLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId ?? null) as PopupTemplate;
+            if (hasValue(dotNetLayer.popupTemplate)) {
+                imageryLayer.popupTemplate = buildJsPopupTemplate(dotNetLayer.popupTemplate, viewId ?? null) as PopupTemplate;
             }
 
             copyValuesIfExists('bandIds', 'blendMode', 'compressionQuality', 'compressionTolerance',
@@ -2849,29 +2808,29 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             newLayer = imageryLayer;
             break;
         case 'imagery-tile':
-            if (hasValue(layerObject.url)) {
+            if (hasValue(dotNetLayer.url)) {
                 newLayer = new ImageryTileLayer({
-                    url: layerObject.url
+                    url: dotNetLayer.url
                 });
             } else {
-                let portalItem = buildJsPortalItem(layerObject.portalItem);
+                let portalItem = buildJsPortalItem(dotNetLayer.portalItem);
                 newLayer = new ImageryTileLayer({ portalItem: portalItem });
             }
 
             let imageryTileLayer = newLayer as ImageryTileLayer;
 
-            if (hasValue(layerObject.renderer)) {
-                imageryTileLayer.renderer = buildJsImageryRenderer(layerObject.renderer) as any;
+            if (hasValue(dotNetLayer.renderer)) {
+                imageryTileLayer.renderer = buildJsImageryRenderer(dotNetLayer.renderer) as any;
             }
 
-            if (hasValue(layerObject.effect)) {
-                imageryTileLayer.effect = buildJsEffect(layerObject.effect);
+            if (hasValue(dotNetLayer.effect)) {
+                imageryTileLayer.effect = buildJsEffect(dotNetLayer.effect);
             }
-            if (hasValue(layerObject.multidimensionsionalSubset)) {
-                imageryTileLayer.multidimensionalSubset = buildJsMultidimensionalSubset(layerObject.multidimensionsionalSubset);
+            if (hasValue(dotNetLayer.multidimensionsionalSubset)) {
+                imageryTileLayer.multidimensionalSubset = buildJsMultidimensionalSubset(dotNetLayer.multidimensionsionalSubset);
             }
-            if (hasValue(layerObject.popupTemplate)) {
-                imageryTileLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId ?? null) as PopupTemplate;
+            if (hasValue(dotNetLayer.popupTemplate)) {
+                imageryTileLayer.popupTemplate = buildJsPopupTemplate(dotNetLayer.popupTemplate, viewId ?? null) as PopupTemplate;
             }
 
             copyValuesIfExists('bandIds', 'blendMode', 'copyright', 'interpolation', 
@@ -2884,25 +2843,68 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             return null;
     }
     
-    copyValuesIfExists(layerObject, newLayer, 'title', 'opacity', 'listMode', 'visible',
+    copyValuesIfExists(dotNetLayer, newLayer, 'title', 'opacity', 'listMode', 'visible',
         'persistenceEnabled');
 
-    if (hasValue(layerObject.fullExtent) && layerObject.type !== 'open-street-map') {
-        newLayer.fullExtent = buildJsExtent(layerObject.fullExtent, null);
+    if (hasValue(dotNetLayer.fullExtent) && dotNetLayer.type !== 'open-street-map') {
+        newLayer.fullExtent = buildJsExtent(dotNetLayer.fullExtent, null);
     }
 
-    arcGisObjectRefs[layerObject.id] = newLayer;
+    arcGisObjectRefs[dotNetLayer.id] = newLayer;
 
-    let objectRef = jsObjectRefs[layerObject.id] ?? getObjectReference(newLayer);
+    let objectRef = jsObjectRefs[dotNetLayer.id] ?? getObjectReference(newLayer);
     // @ts-ignore
     let jsRef = DotNet.createJSObjectReference(objectRef);
-    await layerObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsRef);
+    await dotNetLayer.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsRef);
     
     if (wrap) {
         return objectRef;
     }
 
     return newLayer;
+}
+
+export async function getObjectReference(objectRef: any) {
+    if (!hasValue(objectRef)) return objectRef;
+    try {
+        // check the class name first, as some esri types fail the `instanceof` check
+        switch (objectRef?.__proto__.declaredClass) {
+            case 'esri.views.2d.layers.FeatureLayerView2D':
+            case 'esri.views.3d.layers.FeatureLayerView3D':
+                return new FeatureLayerViewWrapper(objectRef);
+        }
+
+        if (objectRef instanceof Layer) {
+            if (objectRef instanceof FeatureLayer) {
+                return new FeatureLayerWrapper(objectRef);
+            }
+            if (objectRef instanceof BingMapsLayer) {
+                return new BingMapsLayerWrapper(objectRef);
+            }
+            if (objectRef instanceof ImageryTileLayer) {
+                return new ImageryTileLayerWrapper(objectRef);
+            }
+        }
+        if (objectRef instanceof Graphic) {
+            return buildDotNetGraphic(objectRef);
+        }
+        if (objectRef instanceof Popup) {
+            return new PopupWidgetWrapper(objectRef);
+        }
+        if (objectRef instanceof Search) {
+            return new SearchWidgetWrapper(objectRef);
+        }
+        if (objectRef instanceof Slider) {
+            return new SliderWidgetWrapper(objectRef);
+        }
+        
+        // return default arcgis object -- do not remove this comment, necessary for code-gen
+        return objectRef;
+    }
+    catch {
+        // do nothing
+    }
+    return objectRef;
 }
 
 export function removeLayer(layerId: string, viewId: string, isBasemapLayer: boolean): void {
