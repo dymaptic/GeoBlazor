@@ -3099,7 +3099,7 @@ export async function copyValuesToArcGIS(originalObject: any, newObject: any) {
 
 export async function createGeoBlazorObject(arcGisObject: any, newGeoBlazorObject: any): Promise<any> {
     try {
-
+        newGeoBlazorObject ??= {};
         if ('toJSON' in arcGisObject) {
             try {
                 newGeoBlazorObject = arcGisObject.toJSON();
