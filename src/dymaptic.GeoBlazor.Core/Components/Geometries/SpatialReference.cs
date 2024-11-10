@@ -41,13 +41,13 @@ public class SpatialReference : MapComponent
     ///     A convenience static instance for WGS84 Spatial Reference.
     /// </summary>
     [JsonIgnore]
-    public static SpatialReference Wgs84 { get; set; } = new(4326);
+    public static SpatialReference Wgs84 => new(4326);
 
     /// <summary>
     ///     A convenience static instance for WebMercator Spatial Reference.
     /// </summary>
     [JsonIgnore]
-    public static SpatialReference WebMercator { get; set; } = new(3857);
+    public static SpatialReference WebMercator => new(3857);
 
     /// <summary>
     ///     An image coordinate system defines the spatial reference used to display the image in its original coordinates
