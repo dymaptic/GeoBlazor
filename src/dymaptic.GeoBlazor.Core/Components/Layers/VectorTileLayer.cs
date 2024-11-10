@@ -10,7 +10,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 ///     VectorTileLayer delivers styled maps while taking advantage of cached raster map tiles with vector map data.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public class VectorTileLayer : TileLayer
+public class VectorTileLayer : Layer
 {
     /// <inheritdoc />
     [JsonPropertyName("type")]

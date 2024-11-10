@@ -11,6 +11,7 @@ using System.Text.Json.Serialization;
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
+
 /// <summary>
 ///     The abstract base Razor Component class that all GeoBlazor components derive from.
 /// </summary>
