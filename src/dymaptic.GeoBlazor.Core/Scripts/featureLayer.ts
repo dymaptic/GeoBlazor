@@ -32,16 +32,17 @@ import {
     buildDotNetFeatureLayer,
     buildDotNetDomain,
     buildDotNetFeatureType,
-    buildDotNetEditsResult, buildDotNetFeatureSet,
+    buildDotNetEditsResult, 
+    buildDotNetFeatureSet,
 } from "./dotNetBuilder";
 import {
-    blazorServer,
-    dotNetRefs,
     graphicsRefs,
-    getGraphicsFromProtobufStream, arcGisObjectRefs, hasValue, decodeProtobufGraphics, getProtobufGraphicStream
+    getGraphicsFromProtobufStream, 
+    hasValue, 
+    decodeProtobufGraphics, 
+    getProtobufGraphicStream
 } from "./arcGisJsInterop";
 import Graphic from "@arcgis/core/Graphic";
-import View from "@arcgis/core/views/View";
 
 export default class FeatureLayerWrapper implements IPropertyWrapper {
     public layer: FeatureLayer;
@@ -97,7 +98,7 @@ export default class FeatureLayerWrapper implements IPropertyWrapper {
 
             let dotNetFeatureSet = await buildDotNetFeatureSet(featureSet, viewId);
             if (dotNetFeatureSet.features.length > 0) {
-                let graphics = getProtobufGraphicStream(dotNetFeatureSet.features);
+                let graphics = getProtobufGraphicStream(dotNetFeatureSet.features, this.layer);
                 await dotNetRef.invokeMethodAsync('OnQueryFeaturesStreamCallback', graphics, queryId);
                 dotNetFeatureSet.features = [];
             }
@@ -130,7 +131,7 @@ export default class FeatureLayerWrapper implements IPropertyWrapper {
                     let featureSet = featureSetsDictionary[prop] as FeatureSet;
                     let dotNetFeatureSet = await buildDotNetFeatureSet(featureSet, viewId);
                     if (dotNetFeatureSet.features.length > 0) {
-                        let graphics = getProtobufGraphicStream(dotNetFeatureSet.features);
+                        let graphics = getProtobufGraphicStream(dotNetFeatureSet.features, this.layer);
                         await dotNetRef.invokeMethodAsync('OnQueryRelatedFeaturesStreamCallback', graphics, queryId, prop);
                         dotNetFeatureSet.features = [];
                     }
@@ -157,7 +158,7 @@ export default class FeatureLayerWrapper implements IPropertyWrapper {
             let featureSet = await this.layer.queryTopFeatures(jsQuery, options);
             let dotNetFeatureSet = await buildDotNetFeatureSet(featureSet, viewId);
             if (dotNetFeatureSet.features.length > 0) {
-                let graphics = getProtobufGraphicStream(dotNetFeatureSet.features);
+                let graphics = getProtobufGraphicStream(dotNetFeatureSet.features, this.layer);
                 await dotNetRef.invokeMethodAsync('OnQueryFeaturesStreamCallback', graphics, queryId);
                 dotNetFeatureSet.features = [];
             }

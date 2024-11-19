@@ -4,17 +4,13 @@ import {
     DotNetFeatureEffect,
     DotNetFeatureFilter,
     DotNetFeatureSet,
-    DotNetGraphic,
     DotNetQuery,
     IPropertyWrapper
 } from "./definitions";
 import {buildJsFeatureEffect, buildJsFeatureFilter, buildJsQuery} from "./jsBuilder";
-import {blazorServer, dotNetRefs, getProtobufGraphicStream, graphicsRefs, hasValue} from "./arcGisJsInterop";
+import {getProtobufGraphicStream, hasValue} from "./arcGisJsInterop";
 import {
-    buildDotNetFeatureSet,
-    buildDotNetGeometry,
-    buildDotNetGraphic,
-    buildDotNetSpatialReference
+    buildDotNetFeatureSet
 } from "./dotNetBuilder";
 import FeatureEffect from "@arcgis/core/layers/support/FeatureEffect";
 import FeatureFilter from "@arcgis/core/layers/support/FeatureFilter";
@@ -87,7 +83,7 @@ export default class FeatureLayerViewWrapper implements IPropertyWrapper {
 
             let dotNetFeatureSet = await buildDotNetFeatureSet(featureSet, viewId);
             if (dotNetFeatureSet.features.length > 0) {
-                let graphics = getProtobufGraphicStream(dotNetFeatureSet.features);
+                let graphics = getProtobufGraphicStream(dotNetFeatureSet.features, this.featureLayerView.layer);
                 await dotNetRef.invokeMethodAsync('OnQueryFeaturesStreamCallback', graphics, queryId);
                 dotNetFeatureSet.features = [];
             }

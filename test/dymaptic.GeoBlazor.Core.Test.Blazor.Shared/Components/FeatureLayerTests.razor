@@ -46,6 +46,36 @@
         await WaitForMapToRender();
         await AssertJavaScript("assertLayerExists", args: "feature");
     }
+    
+    [TestMethod]
+    public async Task TestCanRenderFeatureLayerWithSource(Action renderHandler)
+    {
+        FeatureLayer? layer = null;
+        List<Graphic> graphics = [];
+        Random random = new();
+        for (var i = 0; i < 2000; i++)
+        {
+            Point point = new Point(random.Next(-180, 180), random.Next(-80, 80));
+            Graphic graphic = new(point, attributes: new AttributesDictionary(new Dictionary<string, object?>()
+            {
+                { "OBJECT_ID", i }
+            }));
+            graphics.Add(graphic);
+        }
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map ArcGISDefaultBasemap="topo-vector">
+                    <FeatureLayer @ref="layer" Source="graphics" 
+                                  GeometryType="GeometryType.Point"
+                                  ObjectIdField="OBJECT_ID">
+                    </FeatureLayer>
+                </Map>
+            </MapView>);
+        await WaitForMapToRender();
+        await AssertJavaScript("assertLayerExists", args: "feature");
+        await AssertJavaScript("assertGraphicExistsInLayer", args: [layer!.Id, "point", 2000]);
+        Assert.AreEqual(2000, layer.Source!.Count);
+    }
 
     [TestMethod]
     public async Task TestCanRunFeatureLayerMethods(Action renderHandler)
@@ -80,7 +110,7 @@
         Query query = await layer!.CreateQuery();
         Assert.IsNotNull(query);
         query.Num = 5;
-        query.OutFields = new[] { "*" };
+        query.OutFields = ["*"];
         FeatureSet? featureSet = await layer!.QueryFeatures(query);
         Assert.IsNotNull(featureSet);
         foreach (Graphic feature in featureSet.Features!)
@@ -119,8 +149,7 @@
             ] 
         };
         await layer!.ApplyEdits(edits);
-        await WaitForMapToRender();
-        await AssertJavaScript("assertGraphicExistsInLayer", args: new object[] { layer!.Id, "point", 1 });
+        await AssertJavaScript("assertGraphicExistsInLayer", args: [layer!.Id, "point", 1]);
     }
     
     [TestMethod]
@@ -141,7 +170,7 @@
 
         await layer!.Add(new Graphic(new Point(0, 0),
             new SimpleMarkerSymbol(color: new MapColor("black"))));
-        await AssertJavaScript("assertGraphicExistsInLayer", args: new object[] { layer!.Id, "point", 1 });
+        await AssertJavaScript("assertGraphicExistsInLayer", args: [layer!.Id, "point", 1]);
     }
     
     [TestMethod]
@@ -173,7 +202,7 @@
             AddFeatures = graphics
         };
         FeatureEditsResult result = await layer!.ApplyEdits(edits);
-        await AssertJavaScript("assertGraphicExistsInLayer", args: new object[] { layer!.Id, "point", 2000 });
+        await AssertJavaScript("assertGraphicExistsInLayer", args: [layer!.Id, "point", 2000]);
         Assert.AreEqual(2000, result.AddFeatureResults.Length);
         Assert.AreEqual(2000, layer.Source!.Count);
     }
@@ -207,7 +236,7 @@
             AddFeatures = graphics
         };
         FeatureEditsResult result = await layer!.ApplyEdits(edits);
-        await AssertJavaScript("assertGraphicExistsInLayer", args: new object[] { layer!.Id, "point", 2000 });
+        await AssertJavaScript("assertGraphicExistsInLayer", args: [layer!.Id, "point", 2000]);
         Assert.AreEqual(2000, result.AddFeatureResults.Length);
 #pragma warning disable BL0005
         foreach (Graphic graphic in graphics)
@@ -222,7 +251,7 @@
             UpdateFeatures = graphics
         };
         result = await layer!.ApplyEdits(edits);
-        await AssertJavaScript("assertGraphicExistsInLayer", args: new object[] { layer!.Id, "point", 2000 });
+        await AssertJavaScript("assertGraphicExistsInLayer", args: [layer!.Id, "point", 2000]);
         Assert.AreEqual(2000, result.UpdateFeatureResults.Length);
     }
 
@@ -257,7 +286,7 @@
             AddFeatures = graphics
         };
         FeatureEditsResult result = await layer!.ApplyEdits(edits);
-        await AssertJavaScript("assertGraphicExistsInLayer", args: new object[] { layer!.Id, "point", 2000 });
+        await AssertJavaScript("assertGraphicExistsInLayer", args: [layer!.Id, "point", 2000]);
         Assert.AreEqual(2000, result.AddFeatureResults.Length);
         
         edits = new()
@@ -266,7 +295,7 @@
         };
         result = await layer!.ApplyEdits(edits);
         await Assert.ThrowsExceptionAsync<JSException>(async() =>
-            await AssertJavaScript("assertGraphicExistsInLayer", args: new object[] { layer!.Id, "point", 2000 }));
+            await AssertJavaScript("assertGraphicExistsInLayer", args: [layer!.Id, "point", 2000]));
         Assert.AreEqual(2000, result.DeleteFeatureResults.Length);
     }
 
@@ -322,7 +351,7 @@
         var query = new Query
         {
             Geometry = point,
-            OutFields = new[] { "*" },
+            OutFields = ["*"],
             SpatialRelationship = SpatialRelationship.Intersects,
             ReturnGeometry = false
         };
@@ -330,7 +359,7 @@
         Assert.IsTrue(objectIds.Length > 0);
         var relationshipQuery = new RelationshipQuery
         {
-            OutFields = new[] { "NAME", "SUM_POPULATION" },
+            OutFields = ["NAME", "SUM_POPULATION"],
             RelationshipId = layer.Relationships?.FirstOrDefault()?.Id,
             ObjectIds = objectIds
         };
@@ -352,17 +381,17 @@
                 </Map>
             </MapView>);
         await WaitForMapToRender();
-        string[] orderByField = { "TOTAL DESC" };
+        string[] orderByField = ["TOTAL DESC"];
         TopFeaturesQuery query = new()
         {
             TopFilter = new TopFilter
             {
                 TopCount = 3,
-                GroupByFields = new[] { "State" },
+                GroupByFields = ["State"],
                 OrderByFields = orderByField
             },
             ReturnGeometry = true,
-            OutFields = new[] { "State, TOTAL, F2018, F2019, F2020, Park" },
+            OutFields = ["State, TOTAL, F2018, F2019, F2020, Park"],
             OrderByFields = orderByField,
             CacheHint = false
         };
