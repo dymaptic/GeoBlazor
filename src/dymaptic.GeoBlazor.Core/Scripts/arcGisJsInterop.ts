@@ -129,7 +129,7 @@ import LocatorWrapper from "./locator";
 import FeatureLayerViewWrapper from "./featureLayerView";
 import Popup from "@arcgis/core/widgets/Popup";
 import ElevationLayer from "@arcgis/core/layers/ElevationLayer";
-import PopupWidgetWrapper from "./popupWidgetWrapper";
+import PopupWidgetWrapper from "./popupWidget";
 import {load} from "protobufjs";
 import AuthenticationManager from "./authenticationManager";
 import RasterStretchRenderer from "@arcgis/core/renderers/RasterStretchRenderer";
@@ -137,11 +137,11 @@ import DimensionalDefinition from "@arcgis/core/layers/support/DimensionalDefini
 import Renderer from "@arcgis/core/renderers/Renderer";
 import Color from "@arcgis/core/Color";
 import BingMapsLayerWrapper from "./bingMapsLayer";
-import SearchWidgetWrapper from "./searchWidgetWrapper";
+import SearchWidgetWrapper from "./searchWidget";
 import SearchSource from "@arcgis/core/widgets/Search/SearchSource";
 import BasemapStyle from "@arcgis/core/support/BasemapStyle";
 import Slider from "@arcgis/core/widgets/Slider";
-import SliderWidgetWrapper from "./sliderWidgetWrapper";
+import SliderWidgetWrapper from "./sliderWidget";
 import ListItemPanel from "@arcgis/core/widgets/LayerList/ListItemPanel";
 import ImageryTileLayerWrapper from "./imageryTileLayer";
 import HitTestResult = __esri.HitTestResult;
@@ -152,7 +152,7 @@ import Polyline from "@arcgis/core/geometry/Polyline";
 import Polygon from "@arcgis/core/geometry/Polygon";
 
 
-export let arcGisObjectRefs: Record<string, Accessor> = {};
+export let arcGisObjectRefs: Record<string, any> = {};
 
 // this could be either the arcGIS object or a "wrapper" class
 export let jsObjectRefs: Record<string, any> = {};
@@ -3097,9 +3097,8 @@ export async function copyValuesToArcGIS(originalObject: any, newObject: any) {
     }
 }
 
-export async function createGeoBlazorObject(arcGisObject: any, newGeoBlazorObject: any): Promise<any> {
+export async function createGeoBlazorObject(arcGisObject: any, newGeoBlazorObject: any = {}): Promise<any> {
     try {
-        newGeoBlazorObject ??= {};
         if ('toJSON' in arcGisObject) {
             try {
                 newGeoBlazorObject = arcGisObject.toJSON();

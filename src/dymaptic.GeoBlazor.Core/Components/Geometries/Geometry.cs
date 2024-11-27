@@ -19,7 +19,7 @@ public abstract class Geometry : MapComponent
     ///     The <see cref="Extent" /> of the geometry.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Extent? Extent { get; set; }
+    public Extent? Extent { get; protected set; }
 
     /// <summary>
     ///     The <see cref="SpatialReference" /> of the geometry.
