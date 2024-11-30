@@ -204,7 +204,7 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns an array of geometries created by cutting the input geometry with the cutter.
     /// </returns>
-    public async Task<Geometry[]> Cut(Geometry geometry, PolyLine cutter)
+    public async Task<Geometry[]> Cut(Geometry geometry, Polyline cutter)
     {
         return await InvokeAsync<Geometry[]>("cut", geometry, cutter);
     }
@@ -1101,7 +1101,7 @@ public class GeometryEngine : LogicComponent
     /// <summary>
     ///     Adds a path, or line segment, to the polyline. When added, the index of the path is incremented by one.
     /// </summary>
-    /// <param name="polyLine">
+    /// <param name="polyline">
     ///     The polyline to add the path to. Will return a new modified copy.
     /// </param>
     /// <param name="points">
@@ -1110,15 +1110,15 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns a new polyline with the added path.
     /// </returns>
-    public async Task<PolyLine> AddPath(PolyLine polyLine, MapPath points)
+    public async Task<Polyline> AddPath(Polyline polyline, MapPath points)
     {
-        return await InvokeAsync<PolyLine>("addPath", polyLine, points);
+        return await InvokeAsync<Polyline>("addPath", polyline, points);
     }
 
     /// <summary>
     ///     Adds a path, or line segment, to the polyline. When added, the index of the path is incremented by one.
     /// </summary>
-    /// <param name="polyLine">
+    /// <param name="polyline">
     ///     The polyline to add the path to. Will return a new modified copy.
     /// </param>
     /// <param name="points">
@@ -1127,7 +1127,7 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns a new polyline with the added path.
     /// </returns>
-    public async Task<PolyLine> AddPath(PolyLine polyLine, Point[] points)
+    public async Task<Polyline> AddPath(Polyline polyline, Point[] points)
     {
         var mapPoints = new List<MapPoint>();
 
@@ -1136,13 +1136,13 @@ public class GeometryEngine : LogicComponent
             mapPoints.Add(new MapPoint(p.X!.Value, p.Y!.Value));
         }
 
-        return await AddPath(polyLine, new MapPath(mapPoints));
+        return await AddPath(polyline, new MapPath(mapPoints));
     }
 
     /// <summary>
     ///     Returns a point specified by a path and point in the path.
     /// </summary>
-    /// <param name="polyLine">
+    /// <param name="polyline">
     ///     The polyline to get the point from.
     /// </param>
     /// <param name="pathIndex">
@@ -1154,15 +1154,15 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns the point along the Polyline located in the given path and point indices.
     /// </returns>
-    public async Task<Point> GetPoint(PolyLine polyLine, int pathIndex, int pointIndex)
+    public async Task<Point> GetPoint(Polyline polyline, int pathIndex, int pointIndex)
     {
-        return await InvokeAsync<Point>("getPointOnPolyline", polyLine, pathIndex, pointIndex);
+        return await InvokeAsync<Point>("getPointOnPolyline", polyline, pathIndex, pointIndex);
     }
 
     /// <summary>
     ///     Inserts a new point into a polyline and returns the modified line.
     /// </summary>
-    /// <param name="polyLine">
+    /// <param name="polyline">
     ///     The polyline to insert the point into.
     /// </param>
     /// <param name="pathIndex">
@@ -1177,15 +1177,15 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns a new polyline with the inserted point.
     /// </returns>
-    public async Task<PolyLine> InsertPoint(PolyLine polyLine, int pathIndex, int pointIndex, Point point)
+    public async Task<Polyline> InsertPoint(Polyline polyline, int pathIndex, int pointIndex, Point point)
     {
-        return await InvokeAsync<PolyLine>("insertPointOnPolyline", polyLine, pathIndex, pointIndex, point);
+        return await InvokeAsync<Polyline>("insertPointOnPolyline", polyline, pathIndex, pointIndex, point);
     }
 
     /// <summary>
     ///     Removes a path from the Polyline. The index specifies which path to remove.
     /// </summary>
-    /// <param name="polyLine">
+    /// <param name="polyline">
     ///     The polyline to remove the path from.
     /// </param>
     /// <param name="index">
@@ -1194,15 +1194,15 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns an object with the modified polyline and the removed path.
     /// </returns>
-    public async Task<(PolyLine PolyLine, Point[] Path)> RemovePath(PolyLine polyLine, int index)
+    public async Task<(Polyline PolyLine, Point[] Path)> RemovePath(Polyline polyline, int index)
     {
-        return await InvokeAsync<(PolyLine PolyLine, Point[] Path)>("removePath", polyLine, index);
+        return await InvokeAsync<(Polyline PolyLine, Point[] Path)>("removePath", polyline, index);
     }
 
     /// <summary>
     ///     Removes a point from the polyline at the given pointIndex within the path identified by the given pathIndex.
     /// </summary>
-    /// <param name="polyLine">
+    /// <param name="polyline">
     ///     The polyline to remove the point from.
     /// </param>
     /// <param name="pathIndex">
@@ -1214,16 +1214,16 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns an object with the modified polyline and the removed point.
     /// </returns>
-    public async Task<(PolyLine PolyLine, Point Point)> RemovePoint(PolyLine polyLine, int pathIndex, int pointIndex)
+    public async Task<(Polyline PolyLine, Point Point)> RemovePoint(Polyline polyline, int pathIndex, int pointIndex)
     {
-        return await InvokeAsync<(PolyLine PolyLine, Point Point)>("removePointOnPolyline", polyLine, pathIndex,
+        return await InvokeAsync<(Polyline PolyLine, Point Point)>("removePointOnPolyline", polyline, pathIndex,
             pointIndex);
     }
 
     /// <summary>
     ///     Updates a point in a polyline and returns the modified polyline.
     /// </summary>
-    /// <param name="polyLine">
+    /// <param name="polyline">
     ///     The polyline to update the point in.
     /// </param>
     /// <param name="pathIndex">
@@ -1238,9 +1238,9 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns a new polyline with the updated point.
     /// </returns>
-    public async Task<PolyLine> SetPoint(PolyLine polyLine, int pathIndex, int pointIndex, Point point)
+    public async Task<Polyline> SetPoint(Polyline polyline, int pathIndex, int pointIndex, Point point)
     {
-        return await InvokeAsync<PolyLine>("setPointOnPolyline", polyLine, pathIndex, pointIndex, point);
+        return await InvokeAsync<Polyline>("setPointOnPolyline", polyline, pathIndex, pointIndex, point);
     }
 
     /// <summary>

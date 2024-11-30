@@ -9,12 +9,12 @@ namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 ///     polyline also has boolean-valued hasM and hasZ properties.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polyline.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public class PolyLine : Geometry
+public class Polyline : Geometry
 {
     /// <summary>
     ///     A parameterless constructor for using as a razor component
     /// </summary>
-    public PolyLine()
+    public Polyline()
     {
     }
 
@@ -30,7 +30,7 @@ public class PolyLine : Geometry
     /// <param name="extent">
     ///     The <see cref="Extent" /> of the geometry.
     /// </param>
-    public PolyLine(MapPath[] paths, SpatialReference? spatialReference = null,
+    public Polyline(MapPath[] paths, SpatialReference? spatialReference = null,
         Extent? extent = null)
     {
         AllowRender = false;
@@ -53,9 +53,9 @@ public class PolyLine : Geometry
     /// <summary>
     ///     Returns a deep clone of the geometry.
     /// </summary>
-    public PolyLine Clone()
+    public Polyline Clone()
     {
-        return new PolyLine(Paths.Select(p => p.Clone()).ToArray(), SpatialReference?.Clone(), Extent?.Clone());
+        return new Polyline(Paths.Select(p => p.Clone()).ToArray(), SpatialReference?.Clone(), Extent?.Clone());
     }
     
     internal override GeometrySerializationRecord ToSerializationRecord()

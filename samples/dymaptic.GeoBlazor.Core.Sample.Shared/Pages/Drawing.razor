@@ -227,7 +227,7 @@
     private async Task SetLinePath(ChangeEventArgs args, int i, int j)
     {
         mapPath[i][j] = Convert.ToDouble(args.Value);
-        await _polylineGraphic.SetGeometry(new PolyLine([mapPath]));
+        await _polylineGraphic.SetGeometry(new Polyline([mapPath]));
     }
     
     private async Task SetRingPath(ChangeEventArgs args, int i, int j)
@@ -245,7 +245,7 @@
     private Graphic _pointGraphic = new(new Point(_pointLong, _pointLat),
         new SimpleMarkerSymbol(new Outline(new MapColor(255, 255, 255), 1), 
             new MapColor(81, 46, 132)));
-    private Graphic _polylineGraphic = new(new PolyLine([mapPath]), 
+    private Graphic _polylineGraphic = new(new Polyline([mapPath]), 
         new SimpleLineSymbol(new MapColor("white"), 2));
     private GraphicsLayer? _graphicsLayer;
     private string? _geometry;

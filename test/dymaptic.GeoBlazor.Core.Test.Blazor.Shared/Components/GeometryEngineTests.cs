@@ -174,7 +174,7 @@ public class GeometryEngineTests : TestRunnerBase
                 new MapPoint(-10423442.8218, 5091028.472199999)
             }
         };
-        var polyline = new PolyLine(mapPaths, new SpatialReference(102100));
+        var polyline = new Polyline(mapPaths, new SpatialReference(102100));
         Polygon buffer = await GeometryEngine.Buffer(polyline, 20, LinearUnit.Yards);
         Assert.IsNotNull(buffer);
     }
@@ -311,10 +311,10 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestCrossesTrue()
     {
-        var polyline1 = new PolyLine(new MapPath[] { new() { new MapPoint(0, 0), new MapPoint(10, 10) } },
+        var polyline1 = new Polyline(new MapPath[] { new() { new MapPoint(0, 0), new MapPoint(10, 10) } },
             new SpatialReference(103002));
 
-        var polyline2 = new PolyLine(new MapPath[] { new() { new MapPoint(0, 10), new MapPoint(10, 0) } },
+        var polyline2 = new Polyline(new MapPath[] { new() { new MapPoint(0, 10), new MapPoint(10, 0) } },
             new SpatialReference(103002));
 
         bool crosses = await GeometryEngine.Crosses(polyline1, polyline2);
@@ -325,10 +325,10 @@ public class GeometryEngineTests : TestRunnerBase
     [TestMethod]
     public async Task TestCrossesFalse()
     {
-        var polyline1 = new PolyLine(new MapPath[] { new() { new MapPoint(0, 0), new MapPoint(10, 10) } },
+        var polyline1 = new Polyline(new MapPath[] { new() { new MapPoint(0, 0), new MapPoint(10, 10) } },
             new SpatialReference(103002));
 
-        var polyline2 = new PolyLine(new MapPath[] { new() { new MapPoint(10, 0), new MapPoint(20, 0) } },
+        var polyline2 = new Polyline(new MapPath[] { new() { new MapPoint(10, 0), new MapPoint(20, 0) } },
             new SpatialReference(103002));
 
         bool crosses = await GeometryEngine.Crosses(polyline1, polyline2);
@@ -353,7 +353,7 @@ public class GeometryEngineTests : TestRunnerBase
                     }
                 }, new SpatialReference(103002));
 
-        var cutter = new PolyLine(new MapPath[] { new() { new MapPoint(5, -5), new MapPoint(5, 15) } },
+        var cutter = new Polyline(new MapPath[] { new() { new MapPoint(5, -5), new MapPoint(5, 15) } },
             new SpatialReference(103002));
 
         Geometry[] cut = await GeometryEngine.Cut(polygon, cutter);
@@ -378,7 +378,7 @@ public class GeometryEngineTests : TestRunnerBase
                     }
                 }, new SpatialReference(103002));
 
-        var cutter = new PolyLine(new MapPath[] { new() { new MapPoint(-5, -5), new MapPoint(-5, -15) } },
+        var cutter = new Polyline(new MapPath[] { new() { new MapPoint(-5, -5), new MapPoint(-5, -15) } },
             new SpatialReference(103002));
 
         Geometry[] cut = await GeometryEngine.Cut(polygon, cutter);
@@ -931,7 +931,7 @@ public class GeometryEngineTests : TestRunnerBase
             new() { new MapPoint(0, 0), new MapPoint(0, 10), new MapPoint(10, 10), new MapPoint(10, 0) }
         });
 
-        var polyline = new PolyLine(new MapPath[]
+        var polyline = new Polyline(new MapPath[]
         {
             new() { new MapPoint(5, 5), new MapPoint(5, 15), new MapPoint(15, 15), new MapPoint(15, 5) }
         });
@@ -947,7 +947,7 @@ public class GeometryEngineTests : TestRunnerBase
         Assert.IsNotNull(intersect);
         Assert.AreEqual(2, intersect.Length);
         Assert.IsInstanceOfType<Polygon>(intersect[0]);
-        Assert.IsInstanceOfType<PolyLine>(intersect[1]);
+        Assert.IsInstanceOfType<Polyline>(intersect[1]);
     }
 
     [TestMethod]
@@ -1230,7 +1230,7 @@ public class GeometryEngineTests : TestRunnerBase
     public async Task TestPlanarLength()
     {
         var polyline =
-            new PolyLine(
+            new Polyline(
                 new MapPath[]
                 {
                     new() { new MapPoint(0, 0), new MapPoint(0, 10), new MapPoint(10, 10), new MapPoint(10, 0) }

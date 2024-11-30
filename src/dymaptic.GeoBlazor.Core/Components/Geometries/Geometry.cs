@@ -9,7 +9,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 
 /// <summary>
 ///     The base class for geometry objects. This class has no constructor. To construct geometries see
-///     <see cref="Point" />, <see cref="PolyLine" />, or <see cref="Polygon" />.
+///     <see cref="Point" />, <see cref="Polyline" />, or <see cref="Polygon" />.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Geometry.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 [JsonConverter(typeof(GeometryConverter))]
@@ -179,7 +179,7 @@ internal record GeometrySerializationRecord : MapComponentSerializationRecord
         {
             "point" => new Point(Longitude, Latitude, X, Y, Z, SpatialReference?.FromSerializationRecord(),
                 Extent?.FromSerializationRecord() as Extent),
-            "polyline" => new PolyLine(Paths!.Select(x => x.FromSerializationRecord()).ToArray(),
+            "polyline" => new Polyline(Paths!.Select(x => x.FromSerializationRecord()).ToArray(),
                 SpatialReference?.FromSerializationRecord(),
                 Extent?.FromSerializationRecord() as Extent),
             "polygon" => new Polygon(Rings!.Select(x => x.FromSerializationRecord()).ToArray(),
@@ -220,7 +220,7 @@ internal class GeometryConverter : JsonConverter<Geometry>
                 case "polygon":
                     return JsonSerializer.Deserialize<Polygon>(ref cloneReader, newOptions);
                 case "polyline":
-                    return JsonSerializer.Deserialize<PolyLine>(ref cloneReader, newOptions);
+                    return JsonSerializer.Deserialize<Polyline>(ref cloneReader, newOptions);
             }
         }
 
@@ -231,7 +231,7 @@ internal class GeometryConverter : JsonConverter<Geometry>
 
         if (temp.ContainsKey("paths"))
         {
-            return JsonSerializer.Deserialize<PolyLine>(ref cloneReader, newOptions);
+            return JsonSerializer.Deserialize<Polyline>(ref cloneReader, newOptions);
         }
 
         if (temp.ContainsKey("latitude") || temp.ContainsKey("x"))

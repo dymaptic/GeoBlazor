@@ -34,7 +34,7 @@
             @<MapView class="map-view" OnViewRendered="renderHandler">
                 <Map ArcGISDefaultBasemap="arcgis-imagery" />
                 <Graphic Attributes="_attributes">
-                    <PolyLine Paths="_paths" />
+                    <polyline Paths="_paths" />
                     <SimpleLineSymbol Color="@(new MapColor("ffffff"))"></SimpleLineSymbol>
                     <PopupTemplate Title="{Name}" StringContent="{Description}" />
                 </Graphic>
@@ -74,7 +74,7 @@
                     <Point Latitude="100" Longitude="12" />
                 </Graphic>
                 <Graphic>
-                    <PolyLine Paths="_paths" />
+                    <polyline Paths="_paths" />
                 </Graphic>
                 <Graphic>
                     <Polygon Rings="_rings" />
@@ -115,7 +115,7 @@
             </MapView>);
         await WaitForMapToRender();
 
-        await mapView!.AddGraphic(new Graphic(new PolyLine(_paths),
+        await mapView!.AddGraphic(new Graphic(new Polyline(_paths),
             new SimpleLineSymbol(new MapColor("purple")),
             new PopupTemplate("title", "content"), _attributes));
         

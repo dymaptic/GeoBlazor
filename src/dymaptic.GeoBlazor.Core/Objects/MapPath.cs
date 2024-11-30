@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 namespace dymaptic.GeoBlazor.Core.Objects;
 
 /// <summary>
-///     Represents both <see cref="PolyLine.Paths" /> and <see cref="Polygon.Rings" />, as a two-dimensional array of
+///     Represents both <see cref="Polyline.Paths" /> and <see cref="Polygon.Rings" />, as a two-dimensional array of
 ///     number coordinates.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polyline.html#paths">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
