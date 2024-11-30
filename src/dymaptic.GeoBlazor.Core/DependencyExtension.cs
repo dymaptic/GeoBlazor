@@ -12,7 +12,7 @@ namespace dymaptic.GeoBlazor.Core;
 public static class DependencyExtension
 {
     /// <summary>
-    ///     Adds the Logic components <see cref="GeometryEngine" /> and <see cref="Projection" /> to your dependency
+    ///     Adds the Logic components <see cref="GeometryEngine" /> and <see cref="ProjectionEngine" /> to your dependency
     ///     injection collection.
     /// </summary>
     /// <remarks>
@@ -29,8 +29,8 @@ public static class DependencyExtension
             .AddSingleton<GeoBlazorSettings>(_ => settings)
             .AddScoped<JsModuleManager>()
             .AddScoped<GeometryEngine>()
-            .AddScoped<Locator>()
-            .AddScoped<Projection>()
+            .AddScoped<LocationService>()
+            .AddScoped<ProjectionEngine>()
             .AddScoped<AbortManager>()
             .AddScoped<AuthenticationManager>()
             .AddScoped<IAppValidator, RegistrationValidator>();

@@ -10,7 +10,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     geographic (datum) transformation for the project operation, or accept the default transformation if one is needed.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-projection.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public class Projection : LogicComponent
+public class ProjectionEngine : LogicComponent
 {
     /// <summary>
     ///     Default Constructor
@@ -21,13 +21,13 @@ public class Projection : LogicComponent
     /// <param name="jsModuleManager">
     ///     Injected JavaScript Module Manager reference
     /// </param>
-    public Projection(AuthenticationManager authenticationManager, JsModuleManager jsModuleManager) : 
+    public ProjectionEngine(AuthenticationManager authenticationManager, JsModuleManager jsModuleManager) : 
         base(authenticationManager)
     {
     }
 
     /// <inheritdoc />
-    protected override string ComponentName => nameof(Projection);
+    protected override string ComponentName => nameof(ProjectionEngine);
 
     /// <summary>
     ///     Projects an array of geometries to the specified output spatial reference.

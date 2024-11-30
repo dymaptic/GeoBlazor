@@ -1,5 +1,5 @@
 ﻿@page "/locator-methods"
-@inject Locator Locator
+@inject LocationService LocationService
 <PageTitle>Locator Methods</PageTitle>
 <h1>Locator Methods</h1>
 
@@ -93,22 +93,22 @@
 
     private async Task AddressesToLocations()
     {
-        _locations2 = await Locator.AddressesToLocations([new Address("380 New York Street", "Redlands", "CA", "92373"), new Address("400 New York Street", "Redlands", "CA", "92373")]);
+        _locations2 = await LocationService.AddressesToLocations([new Address("380 New York Street", "Redlands", "CA", "92373"), new Address("400 New York Street", "Redlands", "CA", "92373")]);
     }
 
     private async Task AddressToLocations()
     {
-        _locations1 = await Locator.AddressToLocations(new Address("380 New York Street", "Redlands", "CA", "92373"), outFields: new() { "*" });
+        _locations1 = await LocationService.AddressToLocations(new Address("380 New York Street", "Redlands", "CA", "92373"), outFields: new() { "*" });
     }
 
     private async Task SuggestLocations()
     {
-        _suggestions = await Locator.SuggestLocations(new Point(longitude: -111.93, latitude: 40.74), "1");
+        _suggestions = await LocationService.SuggestLocations(new Point(longitude: -111.93, latitude: 40.74), "1");
     }
 
     private async Task LocationToAddress()
     {
-        _address = await Locator.LocationToAddress(new Point(longitude: -111.93, latitude: 40.74));
+        _address = await LocationService.LocationToAddress(new Point(longitude: -111.93, latitude: 40.74));
     }
 
 

@@ -1,5 +1,5 @@
 ﻿@page "/reverse-geolocator"
-@inject Locator Locator
+@inject LocationService LocationService
 
 <PageTitle>Reverse Geolocator</PageTitle>
 <h1>Reverse Geolocator</h1>
@@ -47,7 +47,7 @@
         Point mapPoint = clickEvent.MapPoint;
         _latitude = mapPoint.Latitude!.Value;
         _longitude = mapPoint.Longitude!.Value;
-        _address = (await Locator.LocationToAddress(_serviceUrl, mapPoint)).Address ?? string.Empty;
+        _address = (await LocationService.LocationToAddress(_serviceUrl, mapPoint)).Address ?? string.Empty;
         StateHasChanged();
         await View!.ShowPopup(Popup!, mapPoint);
     }

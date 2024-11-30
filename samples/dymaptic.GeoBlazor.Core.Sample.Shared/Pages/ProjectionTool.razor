@@ -1,5 +1,5 @@
 ﻿@page "/projection-tool"
-@inject Projection Projection
+@inject ProjectionEngine ProjectionEngine
 
 <h1>Projection</h1>
 <div class="links-div">
@@ -189,14 +189,14 @@ else
     {
         _allRendered = true;
         Geometry? renderedPoint = await _graphic1!.GetGeometry();
-        var startPoint = await Projection.Project(renderedPoint!, _view1SpatialReference!) as Point;
+        var startPoint = await ProjectionEngine.Project(renderedPoint!, _view1SpatialReference!) as Point;
         _startX = startPoint!.X;
         _startY = startPoint.Y;
-        var endPoint = await Projection.Project(renderedPoint!, _view2SpatialReference!) as Point;
+        var endPoint = await ProjectionEngine.Project(renderedPoint!, _view2SpatialReference!) as Point;
         _endX = endPoint!.X;
         _endY = endPoint.Y;
         Extent? view1Extent = await _view1!.GetExtent();
-        _transformation = await Projection.GetTransformation(_view1SpatialReference!, _view2SpatialReference!, view1Extent!);
+        _transformation = await ProjectionEngine.GetTransformation(_view1SpatialReference!, _view2SpatialReference!, view1Extent!);
         StateHasChanged();
     }
 

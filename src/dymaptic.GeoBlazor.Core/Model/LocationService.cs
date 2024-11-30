@@ -19,7 +19,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///         JS API
 ///     </a>
 /// </summary>
-public class Locator : LogicComponent
+public class LocationService : LogicComponent
 {
     /// <summary>
     ///     Default Constructor
@@ -30,13 +30,13 @@ public class Locator : LogicComponent
     /// <param name="jsModuleManager">
     ///     Injected JavaScript Module Manager reference
     /// </param>
-    public Locator(AuthenticationManager authenticationManager, JsModuleManager jsModuleManager) : 
+    public LocationService(AuthenticationManager authenticationManager, JsModuleManager jsModuleManager) : 
         base(authenticationManager)
     {
     }
 
     /// <inheritdoc />
-    protected override string ComponentName => nameof(Locator);
+    protected override string ComponentName => nameof(LocationService);
 
     /// <summary>
     ///     Find address candidates for multiple input addresses.
@@ -349,7 +349,7 @@ public class Locator : LogicComponent
 public record SuggestionResult(bool IsCollection, string MagicKey, string Text);
 
 /// <summary>
-///     Location types for the <see cref="Locator" /> class.
+///     Location types for the <see cref="LocationService" /> class.
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<LocationType>))]
 public enum LocationType
