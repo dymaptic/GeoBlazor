@@ -25,7 +25,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 /// <example>
 ///     <a target="_blank" href="https://samples.geoblazor.com/feature-layers">Sample - Feature Layers</a>
 /// </example>
-public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer
+public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, IFeatureLayerBase
 {
     /// <summary>
     ///     Constructor for use as a razor component
@@ -284,6 +284,37 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer
     /// TimeInfo provides information such as date fields that store start and end time for each feature and the fullTimeExtent for the layer.
     /// </summary>
     public TimeInfo? TimeInfo { get; set; }
+    
+    /// <summary>  
+    ///     Configures the method for reducing the number of point features in the view.  
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureReductionLayer.html#featureReduction">ArcGIS Maps SDK for JavaScript</a>  
+    /// </summary>  
+    [Parameter]  
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]  
+    public IFeatureReduction? FeatureReduction { get; set; }  
+  
+    /// <summary>  
+    ///    Asynchronously set the value of the FeatureReduction property after render.  
+    /// </summary>  
+    /// <param name="value">  
+    ///     The value to set.  
+    /// </param>  
+    public async Task SetFeatureReduction(IFeatureReduction value)  
+    {  
+        FeatureReduction = value;  
+        ModifiedParameters["FeatureReduction"] = value;  
+        await SetProperty(nameof(FeatureReduction), value, false);  
+    }  
+  
+    /// <summary>  
+    ///     Asynchronously retrieve the current value of the FeatureReduction property.  
+    /// </summary>  
+    public async Task<IFeatureReduction?> GetFeatureReduction()  
+    {  
+        FeatureReduction = await GetProperty<IFeatureReduction>(nameof(FeatureReduction), false);  
+        ModifiedParameters["FeatureReduction"] = FeatureReduction;  
+        return FeatureReduction;  
+    }
 
 
     /// <summary>

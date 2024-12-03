@@ -97,6 +97,37 @@ public class GeoJSONLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public PopupTemplate? PopupTemplate { get; set; }
+    
+    /// <summary>  
+    ///     Configures the method for reducing the number of point features in the view.  
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureReductionLayer.html#featureReduction">ArcGIS Maps SDK for JavaScript</a>  
+    /// </summary>  
+    [Parameter]  
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]  
+    public IFeatureReduction? FeatureReduction { get; set; }  
+  
+    /// <summary>  
+    ///    Asynchronously set the value of the FeatureReduction property after render.  
+    /// </summary>  
+    /// <param name="value">  
+    ///     The value to set.  
+    /// </param>  
+    public async Task SetFeatureReduction(IFeatureReduction value)  
+    {  
+        FeatureReduction = value;  
+        ModifiedParameters["FeatureReduction"] = value;  
+        await SetProperty(nameof(FeatureReduction), value, false);  
+    }  
+  
+    /// <summary>  
+    ///     Asynchronously retrieve the current value of the FeatureReduction property.  
+    /// </summary>  
+    public async Task<IFeatureReduction?> GetFeatureReduction()  
+    {  
+        FeatureReduction = await GetProperty<IFeatureReduction>(nameof(FeatureReduction), false);  
+        ModifiedParameters["FeatureReduction"] = FeatureReduction;  
+        return FeatureReduction;  
+    }
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)

@@ -14,7 +14,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 ///     snippets in the methods below for examples of how to access client-side graphics from the view.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#whenLayerView">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public class FeatureLayerView : LayerView
+public record FeatureLayerView : LayerView
 {
     internal FeatureLayerView(LayerView layerView, AbortManager abortManager)
     {
