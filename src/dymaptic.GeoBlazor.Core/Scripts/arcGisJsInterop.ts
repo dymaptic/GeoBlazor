@@ -584,9 +584,9 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
         let layerRef;
         let layerViewRef;
         // @ts-ignore
-        layerRef = DotNet.createJSObjectReference(getObjectReference(evt.layer));
+        layerRef = DotNet.createJSObjectReference(await getObjectReference(evt.layer));
         // @ts-ignore
-        layerViewRef = DotNet.createJSObjectReference(getObjectReference(evt.layerView));
+        layerViewRef = DotNet.createJSObjectReference(await getObjectReference(evt.layerView));
 
         let result = {
             layerObjectRef: layerRef,
@@ -2290,7 +2290,7 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
 
     arcGisObjectRefs[dotNetWidget.id] = newWidget;
     dotNetRefs[dotNetWidget.id] = dotNetWidget.dotNetComponentReference;
-    let wrap = jsObjectRefs[dotNetWidget.id] ?? getObjectReference(newWidget);
+    let wrap = jsObjectRefs[dotNetWidget.id] ?? await getObjectReference(newWidget);
     // @ts-ignore
     let jsRef = DotNet.createJSObjectReference(wrap);
     await dotNetWidget.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsRef);
@@ -2305,7 +2305,9 @@ function updateListItem(jsItem: ListItem, dnItem: DotNetListItem) {
         for (let i = 0; i < dnItem.children.length; i++) {
             let child = dnItem.children[i];
             let jsChild = jsItem.children[i];
-            updateListItem(jsChild, child);
+            if (hasValue(child) && hasValue(jsChild)) {
+                updateListItem(jsChild, child);
+            }
         }
     }
     if (hasValue(dnItem.actionsSections)) {
@@ -2429,7 +2431,7 @@ export async function createLayer(dotNetLayer: any, wrap?: boolean | null, viewI
         let oldLayer = arcGisObjectRefs[dotNetLayer.id] as Layer;
         if (!oldLayer.destroyed) {
             if (wrap) {
-                return getObjectReference(arcGisObjectRefs[dotNetLayer.id] as Layer);
+                return await getObjectReference(arcGisObjectRefs[dotNetLayer.id] as Layer);
             }
             return arcGisObjectRefs[dotNetLayer.id] as Layer;
         }
@@ -2852,7 +2854,7 @@ export async function createLayer(dotNetLayer: any, wrap?: boolean | null, viewI
 
     arcGisObjectRefs[dotNetLayer.id] = newLayer;
 
-    let objectRef = jsObjectRefs[dotNetLayer.id] ?? getObjectReference(newLayer);
+    let objectRef = jsObjectRefs[dotNetLayer.id] ?? await getObjectReference(newLayer);
     // @ts-ignore
     let jsRef = DotNet.createJSObjectReference(objectRef);
     await dotNetLayer.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsRef);
@@ -3063,7 +3065,7 @@ export async function createArcGISObject(geoBlazorObject: any, newArcGISObject: 
             await copyValuesToArcGIS(geoBlazorObject, newArcGISObject);
         }
 
-        let objectRef = getObjectReference(newArcGISObject);
+        let objectRef = await getObjectReference(newArcGISObject);
         arcGisObjectRefs[geoBlazorObject.id] = newArcGISObject;
         // @ts-ignore
         let jsRef = DotNet.createJSObjectReference(objectRef);

@@ -181,7 +181,8 @@ else
     </div>
 }
 
-<SceneView @ref="_view" Class="map-view" OnViewRendered="OnViewRendered">
+<SceneView @ref="_view" Class="map-view" OnViewRendered="OnViewRendered"
+           OnLayerViewCreate="OnLayerViewCreate">
     <WebScene>
         <PortalItem Id="0614ea1f9dd043e9ba157b9c20d3c538" />
     </WebScene>
@@ -262,6 +263,23 @@ else
         {
             await _view!.RemoveReactiveWatcher(expression);
         }
+    }
+    
+    // hook to `MapView.OnLayerViewCreate`
+    private async Task OnLayerViewCreate(LayerViewCreateEvent createEvent)
+    {
+        Layer? layer = createEvent.Layer;
+
+        if (layer is not FeatureLayer)
+        {
+            return;
+        }
+        
+        await layer.AddReactiveWatcher<bool>($"{layer.Title}?.visible", 
+            v => 
+        {
+            Console.WriteLine($"Layer {layer.Title} visibility = {v}");
+        }, layer.Title);
     }
 
     private void PopupWatchHandler(bool value)
