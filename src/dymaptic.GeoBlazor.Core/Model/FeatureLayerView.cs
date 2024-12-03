@@ -1,4 +1,5 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
+using dymaptic.GeoBlazor.Core.Components.Layers;
 using dymaptic.GeoBlazor.Core.Objects;
 using Microsoft.JSInterop;
 using ProtoBuf;
@@ -6,7 +7,7 @@ using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 
 
-namespace dymaptic.GeoBlazor.Core.Components.Layers;
+namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     The FeatureLayerView is responsible for rendering a FeatureLayer's features as graphics in the View. The methods in

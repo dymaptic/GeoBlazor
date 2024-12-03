@@ -46,7 +46,7 @@
         // initializes the dimensional filter for the raster display
         List<DimensionalDefinition> multidimensionalDefinition = new()
             {
-                new(dimensionName: "StdZ", variableName: "water_temp", values: new List<long> { 0 }), 
+                new DimensionalDefinition(dimensionName: "StdZ", variableName: "water_temp", values: new List<long> { 0 }), 
                 new(dimensionName: "Std_Time", variableName: "temperature", values: new List<long>{ 1396828800000 } )
             };
         return multidimensionalDefinition;

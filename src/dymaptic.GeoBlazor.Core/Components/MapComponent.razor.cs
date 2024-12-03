@@ -569,9 +569,10 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     /// <summary>
     ///     Provides a way to externally call `StateHasChanged` on the component.
     /// </summary>
-    public virtual void Refresh()
+    public virtual ValueTask Refresh()
     {
         UpdateState();
+        return ValueTask.CompletedTask;
     }
 
     /// <summary>

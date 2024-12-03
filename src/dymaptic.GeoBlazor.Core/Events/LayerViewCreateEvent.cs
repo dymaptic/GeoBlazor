@@ -1,5 +1,6 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Layers;
 using dymaptic.GeoBlazor.Core.Components.Views;
+using dymaptic.GeoBlazor.Core.Model;
 using Microsoft.JSInterop;
 
 

@@ -1040,12 +1040,13 @@ public partial class MapView : MapComponent
 #region Public Methods
 
     /// <inheritdoc />
-    public override void Refresh()
+    public override ValueTask Refresh()
     {
         NeedsRender = true;
         ExtentSetByCode = false;
         ExtentChangedInJs = false;
         StateHasChanged();
+        return ValueTask.CompletedTask;
     }
 
     /// <summary>

@@ -4,6 +4,7 @@ using dymaptic.GeoBlazor.Core.Components.Renderers;
 using dymaptic.GeoBlazor.Core.Components.Widgets;
 using dymaptic.GeoBlazor.Core.Exceptions;
 using dymaptic.GeoBlazor.Core.Interfaces;
+using dymaptic.GeoBlazor.Core.Model;
 using dymaptic.GeoBlazor.Core.Objects;
 using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
@@ -629,10 +630,10 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
     /// <summary>
     /// Fetches all the data for the layer. Calls 'refresh' on the layer.
     /// </summary>
-    public override void Refresh()
+    public override ValueTask Refresh()
     {
         _refreshRequired = true;
-        base.Refresh();
+        return base.Refresh();
     }
     
     /// <summary>

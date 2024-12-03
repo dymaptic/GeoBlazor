@@ -1,7 +1,8 @@
-﻿using Microsoft.JSInterop;
+﻿using dymaptic.GeoBlazor.Core.Components.Layers;
+using Microsoft.JSInterop;
 
 
-namespace dymaptic.GeoBlazor.Core.Components.Layers;
+namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     Represents the view for a single layer after it has been added to either a MapView or a SceneView.

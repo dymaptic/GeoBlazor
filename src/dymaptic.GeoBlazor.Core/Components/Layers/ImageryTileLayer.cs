@@ -1,6 +1,7 @@
 using dymaptic.GeoBlazor.Core.Components.Geometries;
 using dymaptic.GeoBlazor.Core.Components.Popups;
 using dymaptic.GeoBlazor.Core.Components.Renderers;
+using dymaptic.GeoBlazor.Core.Model;
 using dymaptic.GeoBlazor.Core.Objects;
 using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;

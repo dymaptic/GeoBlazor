@@ -111,7 +111,7 @@
 
         await WaitForMapToRender();
         Assert.AreEqual(1, graphicsLayer!.Graphics.Count);
-        graphic!.Refresh();
+        await graphic!.Refresh();
         await AssertJavaScript("assertGraphicExistsInLayer", args: new object[] { graphicsLayer.Id, "point", 1 });
     }
 

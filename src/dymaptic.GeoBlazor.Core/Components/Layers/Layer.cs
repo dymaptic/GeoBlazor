@@ -6,6 +6,7 @@ using Microsoft.JSInterop;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using dymaptic.GeoBlazor.Core.Events;
+using dymaptic.GeoBlazor.Core.Model;
 
 
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
@@ -357,10 +358,10 @@ public abstract class Layer : MapComponent
     }
 
     /// <inheritdoc />
-    public override void Refresh()
+    public override ValueTask Refresh()
     {
         LayerChanged = true;
-        base.Refresh();
+        return base.Refresh();
     }
 
     /// <inheritdoc />

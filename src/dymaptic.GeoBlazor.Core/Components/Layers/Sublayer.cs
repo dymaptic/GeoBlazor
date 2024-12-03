@@ -254,13 +254,13 @@ public class Sublayer: MapComponent, IPopupTemplateLayer
     }
 
     /// <inheritdoc />
-    public override void Refresh()
+    public override ValueTask Refresh()
     {
         if (Layer is not null)
         {
             Layer.LayerChanged = true;
         }
-        base.Refresh();
+        return base.Refresh();
     }
 
     /// <summary>

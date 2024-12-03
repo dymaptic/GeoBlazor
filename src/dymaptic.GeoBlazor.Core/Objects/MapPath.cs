@@ -14,6 +14,10 @@ namespace dymaptic.GeoBlazor.Core.Objects;
 [JsonConverter(typeof(MapPathConverter))]
 public class MapPath : List<MapPoint>, IEquatable<MapPath>
 {
+    public static implicit operator MapPath(MapPoint[] p) => new(p);
+    public static implicit operator MapPath(List<List<double>> p) => new(p.Select(x => new MapPoint(x)));
+    public static implicit operator MapPath(double[][] p) => new(p.Select(x => new MapPoint(x)));
+    
     /// <summary>
     ///     Generate a new path or ring from a parameter list of points.
     /// </summary>
@@ -110,6 +114,8 @@ internal class MapPathEqualityComparer : EqualityComparer<MapPath>
 [JsonConverter(typeof(MapPointConverter))]
 public class MapPoint : List<double>, IEquatable<MapPoint>
 {
+    public static implicit operator MapPoint(double[] p) => new(p);
+    
     /// <summary>
     ///     Create a new point from a parameter list of numbers.
     /// </summary>

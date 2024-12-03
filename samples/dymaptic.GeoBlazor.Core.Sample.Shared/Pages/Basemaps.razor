@@ -104,16 +104,16 @@
         _basemapType = val;
     }
     
-    private void SelectStyleMapChanged(ChangeEventArgs obj)
+    private async Task SelectStyleMapChanged(ChangeEventArgs obj)
     {
         _basemapStyleName = (BasemapStyleName)Enum.Parse(typeof(BasemapStyleName), obj.Value!.ToString()!, true);
-        _mapView1?.Refresh();
+        await _mapView1!.Refresh();
     }
 
-    private void SelectPortalMapChanged(ChangeEventArgs obj)
+    private async Task SelectPortalMapChanged(ChangeEventArgs obj)
     {
         _basemapId = obj.Value?.ToString() ?? "55ebf90799fa4a3fa57562700a68c405";
-        _mapView2?.Refresh();
+        await _mapView2!.Refresh();
     }
 
     private MapView? _mapView1;

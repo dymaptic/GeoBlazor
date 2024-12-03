@@ -313,14 +313,14 @@
         StateHasChanged();
     }
 
-    private void OnSliderThumbDrag(SliderThumbDragEvent dragEvent)
+    private async Task OnSliderThumbDrag(SliderThumbDragEvent dragEvent)
     {
         _selectedPopulation = dragEvent.Value;
 
         if (dragEvent.State == SliderThumbDragState.Stop)
         {
             _cityDefinitionExpression = $"pop2000 > {_selectedPopulation}";
-            _cities!.Refresh();
+            await _cities!.Refresh();
         }
     }
 
