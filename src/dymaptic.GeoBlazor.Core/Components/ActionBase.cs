@@ -36,6 +36,14 @@ public abstract class ActionBase : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? Active { get; set; }
+    
+        
+    /// <summary>
+    ///     This adds a CSS class to the ActionButton's node.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? ClassName { get; set; }
 
     /// <summary>
     ///     Indicates whether this action is disabled.
@@ -197,13 +205,6 @@ public class ActionButton : ActionBase
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Image { get; set; }
-    
-    /// <summary>
-    ///     This adds a CSS class to the ActionButton's node.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? ClassName { get; set; }
 
     internal override ActionBaseSerializationRecord ToSerializationRecord()
     {

@@ -24,6 +24,7 @@ public record FeatureSet
     ///     maxRecordCount features. It will be false otherwise. Supported by ArcGIS Server version 10.1 and later.
     /// </summary>
     public bool? ExceededTransferLimit { get; set; }
+    
     /// <summary>
     ///     The array of graphics returned from a task.
     /// </summary>
