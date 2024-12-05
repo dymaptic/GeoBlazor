@@ -158,7 +158,7 @@ export let dotNetRefs = {};
 export let queryLayer: FeatureLayer;
 export let blazorServer: boolean = false;
 import normalizeUtils from "@arcgis/core/geometry/support/normalizeUtils";
-export { projection, geometryEngine, Graphic, Color, Point, Polyline, Polygon, normalizeUtils };
+export { projection, geometryEngine, Graphic, Color, Point, Polyline, Polygon, normalizeUtils, esriConfig };
 let notifyExtentChanged: boolean = true;
 let uploadingLayers: Array<string> = [];
 let userChangedViewExtent: boolean = false;
@@ -3315,9 +3315,9 @@ function updateGeometryForProtobuf(geometry) {
 let _authenticationManager: AuthenticationManager | null = null;
 
 export function getAuthenticationManager(dotNetRef: any, apiKey: string | null, appId: string | null,
-    portalUrl: string | null, trustedServers: string[] | null): AuthenticationManager {
+    portalUrl: string | null, trustedServers: string[] | null, fontsUrl: string | null): AuthenticationManager {
     if (_authenticationManager === null) {
-        _authenticationManager = new AuthenticationManager(dotNetRef, apiKey, appId, portalUrl, trustedServers);
+        _authenticationManager = new AuthenticationManager(dotNetRef, apiKey, appId, portalUrl, trustedServers, fontsUrl);
     }
     return _authenticationManager;
 }
