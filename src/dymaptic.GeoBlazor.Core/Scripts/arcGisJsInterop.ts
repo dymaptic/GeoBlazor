@@ -158,6 +158,7 @@ export let dotNetRefs = {};
 export let queryLayer: FeatureLayer;
 export let blazorServer: boolean = false;
 import normalizeUtils from "@arcgis/core/geometry/support/normalizeUtils";
+import Screenshot = __esri.Screenshot;
 export { projection, geometryEngine, Graphic, Color, Point, Polyline, Polygon, normalizeUtils };
 let notifyExtentChanged: boolean = true;
 let uploadingLayers: Array<string> = [];
@@ -3354,4 +3355,41 @@ export function setStretchTypeForRenderer(rendererId, stretchType) {
 
 export function getBrowserLanguage(): string {
     return navigator.language;
+}
+
+
+export async function takeScreenshot(viewId, options): Promise<any> {
+    let view = arcGisObjectRefs[viewId] as MapView;
+    let screenshot: Screenshot;
+    if (hasValue(options)) {
+        if (hasValue(options.layerIds) && options.layerIds.length > 0) {
+            options.layers = options.layerIds.map(id => arcGisObjectRefs[id]);
+            delete options.layerIds;
+        }
+        screenshot = await view.takeScreenshot(options);
+    } else {
+        screenshot = await view.takeScreenshot();
+    }
+    
+    let buffer = base64ToArrayBuffer(screenshot.dataUrl.split(",")[1]);
+    
+    // @ts-ignore
+    let jsStreamRef = DotNet.createJSStreamReference(buffer);
+    
+    return {
+        width: screenshot.data.width,
+        height: screenshot.data.height,
+        colorSpace: screenshot.data.colorSpace,
+        stream: jsStreamRef
+    };
+}
+
+// Converts a base64 string to an ArrayBuffer
+function base64ToArrayBuffer(base64): Uint8Array {
+    const binaryString = atob(base64);
+    const bytes = new Uint8Array(binaryString.length);
+    for (let i = 0; i < binaryString.length; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+    }
+    return bytes;
 }
