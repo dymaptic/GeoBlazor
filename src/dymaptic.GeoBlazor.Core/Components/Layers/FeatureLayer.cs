@@ -82,7 +82,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
     /// <param name="popupTemplate">
     ///     The <see cref="PopupTemplate" /> for the layer.
     /// </param>
-    public FeatureLayer(string? url = null, PortalItem? portalItem = null, IReadOnlyCollection<Graphic>? source = null,
+    public FeatureLayer(string? url = null, PortalItem? portalItem = null, IReadOnlyList<Graphic>? source = null,
         string[]? outFields = null, string? definitionExpression = null, double? minScale = null,
         double? maxScale = null, string? objectIdField = null, GeometryType? geometryType = null, string? title = null,
         double? opacity = null, bool? visible = null, ListMode? listMode = null, PopupTemplate? popupTemplate = null)
@@ -211,7 +211,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
     ///     The label definition for this layer, specified as an array of <see cref="Label" />.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public List<Label>? LabelingInfo { get; set; }
+    public IReadOnlyList<Label>? LabelingInfo { get; set; }
 
     /// <summary>
     ///     The <see cref="Renderer" /> assigned to the layer.
@@ -654,7 +654,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
         {
             _refreshRequired = false;
             var newLayer = await JsComponentReference!.InvokeAsync<FeatureLayer>("refresh");
-            await this.UpdateFromJavaScript(newLayer);
+            await UpdateFromJavaScript(newLayer);
         }
 
         await base.OnAfterRenderAsync(firstRender);
@@ -680,7 +680,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
 
                 if (!LabelingInfo.Contains(label))
                 {
-                    LabelingInfo.Add(label);
+                    LabelingInfo = LabelingInfo.Append(label).ToList();
                     LayerChanged = true;
                 }
 
@@ -768,7 +768,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
 
                 break;
             case Label label:
-                LabelingInfo?.Remove(label);
+                LabelingInfo = LabelingInfo?.Where(l => !l.Equals(label)).ToList();
                 LayerChanged = true;
 
                 break;
@@ -1307,7 +1307,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
 
                 foreach (Label label in renderedFeatureLayer.LabelingInfo)
                 {
-                    LabelingInfo.Add(label);
+                    LabelingInfo = LabelingInfo.Append(label).ToList();
                 }
             }
         }
