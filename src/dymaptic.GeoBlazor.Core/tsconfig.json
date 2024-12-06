@@ -9,7 +9,7 @@
       "ES2020",
       "DOM"
     ],
-    "module": "ES2020",
+    "module": "ESNext",
     "moduleResolution": "Node",
     "resolveJsonModule": true,
     "sourceMap": true,

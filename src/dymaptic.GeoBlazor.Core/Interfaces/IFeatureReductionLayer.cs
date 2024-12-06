@@ -3,6 +3,7 @@
 /// <summary>
 ///     Defines a layer that supports Feature Reduction clusters and binning in GeoBlazor Pro
 /// </summary>
+[CodeGenerationIgnore]
 public interface IFeatureReductionLayer
 {
     /// <summary>  
@@ -10,17 +11,4 @@ public interface IFeatureReductionLayer
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureReductionLayer.html#featureReduction">ArcGIS Maps SDK for JavaScript</a>  
     /// </summary> 
     public IFeatureReduction? FeatureReduction { get; set; }
-
-    /// <summary>  
-    ///    Asynchronously set the value of the FeatureReduction property after render.  
-    /// </summary>  
-    /// <param name="value">  
-    ///     The value to set.  
-    /// </param>  
-    public Task SetFeatureReduction(IFeatureReduction value);
-
-    /// <summary>  
-    ///     Asynchronously retrieve the current value of the FeatureReduction property.  
-    /// </summary>  
-    public Task<IFeatureReduction?> GetFeatureReduction();
 }

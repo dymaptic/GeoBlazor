@@ -1,63 +1,6 @@
 ﻿// noinspection JSUnusedGlobalSymbols
 
 // region imports
-import esriConfig from "@arcgis/core/config";
-import * as geometryEngine from "@arcgis/core/geometry/geometryEngine";
-import * as projection from "@arcgis/core/geometry/projection";
-import Basemap from "@arcgis/core/Basemap";
-import Map from "@arcgis/core/Map";
-import SceneView from "@arcgis/core/views/SceneView";
-import MapView from "@arcgis/core/views/MapView";
-import WebMap from "@arcgis/core/WebMap";
-import WebScene from "@arcgis/core/WebScene";
-import * as route from "@arcgis/core/rest/route";
-import RouteParameters from "@arcgis/core/rest/support/RouteParameters";
-import FeatureSet from "@arcgis/core/rest/support/FeatureSet";
-import ServiceAreaParameters from "@arcgis/core/rest/support/ServiceAreaParameters";
-import * as serviceArea from "@arcgis/core/rest/serviceArea";
-import Graphic from "@arcgis/core/Graphic";
-import Point from "@arcgis/core/geometry/Point";
-import SpatialReference from "@arcgis/core/geometry/SpatialReference";
-import * as locator from "@arcgis/core/rest/locator";
-import BasemapGallery from "@arcgis/core/widgets/BasemapGallery";
-import ScaleBar from "@arcgis/core/widgets/ScaleBar";
-import Legend from "@arcgis/core/widgets/Legend";
-import PortalBasemapsSource from "@arcgis/core/widgets/BasemapGallery/support/PortalBasemapsSource";
-import Portal from "@arcgis/core/portal/Portal";
-import BasemapToggle from "@arcgis/core/widgets/BasemapToggle";
-import Expand from "@arcgis/core/widgets/Expand";
-import Search from "@arcgis/core/widgets/Search";
-import Locate from "@arcgis/core/widgets/Locate";
-import Widget from "@arcgis/core/widgets/Widget";
-import Measurement from "@arcgis/core/widgets/Measurement";
-import Bookmarks from "@arcgis/core/widgets/Bookmarks";
-import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
-import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
-import MapImageLayer from "@arcgis/core/layers/MapImageLayer";
-import Layer from "@arcgis/core/layers/Layer";
-import VectorTileLayer from "@arcgis/core/layers/VectorTileLayer";
-import TileLayer from "@arcgis/core/layers/TileLayer";
-import GeoJSONLayer from "@arcgis/core/layers/GeoJSONLayer";
-import CSVLayer from "@arcgis/core/layers/CSVLayer";
-import GeoRSSLayer from "@arcgis/core/layers/GeoRSSLayer";
-import BingMapsLayer from "@arcgis/core/layers/BingMapsLayer";
-import PopupTemplate from "@arcgis/core/PopupTemplate";
-import Query from "@arcgis/core/rest/support/Query";
-import View from "@arcgis/core/views/View";
-import ArcGisSymbol from "@arcgis/core/symbols/Symbol";
-import Accessor from "@arcgis/core/core/Accessor";
-
-import Home from "@arcgis/core/widgets/Home";
-import Compass from "@arcgis/core/widgets/Compass";
-import LayerList from "@arcgis/core/widgets/LayerList";
-import ListItem from "@arcgis/core/widgets/LayerList/ListItem";
-import * as reactiveUtils from "@arcgis/core/core/reactiveUtils";
-import BasemapLayerList from "@arcgis/core/widgets/BasemapLayerList";
-import FeatureLayerWrapper from "./featureLayer";
-import KMLLayer from "@arcgis/core/layers/KMLLayer";
-import WCSLayer from "@arcgis/core/layers/WCSLayer";
-import ImageryLayer from "@arcgis/core/layers/ImageryLayer.js";
-import ImageryTileLayer from "@arcgis/core/layers/ImageryTileLayer.js";
 import {
     buildDotNetBookmark,
     buildDotNetExtent,
@@ -73,7 +16,6 @@ import {
     buildDotNetSpatialReference,
     buildViewExtentUpdate
 } from "./dotNetBuilder";
-
 import {
     buildJsAction,
     buildJsAttributes,
@@ -81,7 +23,6 @@ import {
     buildJsDimensionalDefinition,
     buildJsEffect,
     buildJsExtent,
-    buildJsFeatureReduction,
     buildJsFields,
     buildJsFormTemplate,
     buildJsGeometry,
@@ -118,42 +59,113 @@ import {
     DotNetViewHit,
     MapCollection
 } from "./definitions";
-import WebTileLayer from "@arcgis/core/layers/WebTileLayer";
-import TileInfo from "@arcgis/core/layers/support/TileInfo";
-import LOD from "@arcgis/core/layers/support/LOD";
-import OpenStreetMapLayer from "@arcgis/core/layers/OpenStreetMapLayer";
-import Camera from "@arcgis/core/Camera";
-import ProjectionWrapper from "./projection";
-import GeometryEngineWrapper from "./geometryEngine";
-import LocatorWrapper from "./locator";
-import FeatureLayerViewWrapper from "./featureLayerView";
-import Popup from "@arcgis/core/widgets/Popup";
-import ElevationLayer from "@arcgis/core/layers/ElevationLayer";
-import PopupWidgetWrapper from "./popupWidget";
-import {load} from "protobufjs";
+import * as geometryEngine from "@arcgis/core/geometry/geometryEngine";
+import * as locator from "@arcgis/core/rest/locator";
+import * as projection from "@arcgis/core/geometry/projection";
+import * as reactiveUtils from "@arcgis/core/core/reactiveUtils";
+import * as route from "@arcgis/core/rest/route";
+import * as serviceArea from "@arcgis/core/rest/serviceArea";
+import Accessor from "@arcgis/core/core/Accessor";
+import ArcGisSymbol from "@arcgis/core/symbols/Symbol";
 import AuthenticationManager from "./authenticationManager";
-import RasterStretchRenderer from "@arcgis/core/renderers/RasterStretchRenderer";
-import DimensionalDefinition from "@arcgis/core/layers/support/DimensionalDefinition";
-import Renderer from "@arcgis/core/renderers/Renderer";
-import Color from "@arcgis/core/Color";
-import BingMapsLayerWrapper from "./bingMapsLayer";
-import SearchWidgetWrapper from "./searchWidget";
-import SearchSource from "@arcgis/core/widgets/Search/SearchSource";
+import Basemap from "@arcgis/core/Basemap";
+import BasemapGallery from "@arcgis/core/widgets/BasemapGallery";
+import BasemapLayerList from "@arcgis/core/widgets/BasemapLayerList";
 import BasemapStyle from "@arcgis/core/support/BasemapStyle";
+import BasemapToggle from "@arcgis/core/widgets/BasemapToggle";
+import BingMapsLayer from "@arcgis/core/layers/BingMapsLayer";
+import BingMapsLayerWrapper from "./bingMapsLayer";
+import Bookmarks from "@arcgis/core/widgets/Bookmarks";
+import Camera from "@arcgis/core/Camera";
+import Color from "@arcgis/core/Color";
+import Compass from "@arcgis/core/widgets/Compass";
+import CSVLayer from "@arcgis/core/layers/CSVLayer";
+import DimensionalDefinition from "@arcgis/core/layers/support/DimensionalDefinition";
+import ElevationLayer from "@arcgis/core/layers/ElevationLayer";
+import esriConfig from "@arcgis/core/config";
+import Expand from "@arcgis/core/widgets/Expand";
+import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
+import FeatureLayerViewWrapper from "./featureLayerView";
+import FeatureLayerWrapper from "./featureLayer";
+import FeatureSet from "@arcgis/core/rest/support/FeatureSet";
+import GeoJSONLayer from "@arcgis/core/layers/GeoJSONLayer";
+import GeometryEngineWrapper from "./geometryEngine";
+import GeoRSSLayer from "@arcgis/core/layers/GeoRSSLayer";
+import Graphic from "@arcgis/core/Graphic";
+import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
+import HitTestResult = __esri.HitTestResult;
+import Home from "@arcgis/core/widgets/Home";
+import ImageryLayer from "@arcgis/core/layers/ImageryLayer.js";
+import ImageryTileLayer from "@arcgis/core/layers/ImageryTileLayer.js";
+import ImageryTileLayerWrapper from "./imageryTileLayer";
+import KMLLayer from "@arcgis/core/layers/KMLLayer";
+import Layer from "@arcgis/core/layers/Layer";
+import LayerList from "@arcgis/core/widgets/LayerList";
+import Legend from "@arcgis/core/widgets/Legend";
+import LegendLayerInfos = __esri.LegendLayerInfos;
+import ListItem from "@arcgis/core/widgets/LayerList/ListItem";
+import ListItemPanel from "@arcgis/core/widgets/LayerList/ListItemPanel";
+import Locate from "@arcgis/core/widgets/Locate";
+import LocatorWrapper from "./locator";
+import LOD from "@arcgis/core/layers/support/LOD";
+import Map from "@arcgis/core/Map";
+import MapImageLayer from "@arcgis/core/layers/MapImageLayer";
+import MapView from "@arcgis/core/views/MapView";
+import MapViewHitTestOptions = __esri.MapViewHitTestOptions;
+import Measurement from "@arcgis/core/widgets/Measurement";
+import normalizeUtils from "@arcgis/core/geometry/support/normalizeUtils";
+import OpenStreetMapLayer from "@arcgis/core/layers/OpenStreetMapLayer";
+import Point from "@arcgis/core/geometry/Point";
+import Polygon from "@arcgis/core/geometry/Polygon";
+import Polyline from "@arcgis/core/geometry/Polyline";
+import Popup from "@arcgis/core/widgets/Popup";
+import PopupTemplate from "@arcgis/core/PopupTemplate";
+import PopupWidgetWrapper from "./popupWidget";
+import Portal from "@arcgis/core/portal/Portal";
+import PortalBasemapsSource from "@arcgis/core/widgets/BasemapGallery/support/PortalBasemapsSource";
+import ProjectionWrapper from "./projection";
+import Query from "@arcgis/core/rest/support/Query";
+import RasterStretchRenderer from "@arcgis/core/renderers/RasterStretchRenderer";
+import Renderer from "@arcgis/core/renderers/Renderer";
+import RouteParameters from "@arcgis/core/rest/support/RouteParameters";
+import ScaleBar from "@arcgis/core/widgets/ScaleBar";
+import SceneView from "@arcgis/core/views/SceneView";
+import ScreenPoint = __esri.ScreenPoint;
+import Search from "@arcgis/core/widgets/Search";
+import SearchSource from "@arcgis/core/widgets/Search/SearchSource";
+import SearchWidgetWrapper from "./searchWidget";
+import ServiceAreaParameters from "@arcgis/core/rest/support/ServiceAreaParameters";
+import SimpleRenderer from "@arcgis/core/renderers/SimpleRenderer";
 import Slider from "@arcgis/core/widgets/Slider";
 import SliderWidgetWrapper from "./sliderWidget";
-import ListItemPanel from "@arcgis/core/widgets/LayerList/ListItemPanel";
-import ImageryTileLayerWrapper from "./imageryTileLayer";
-import HitTestResult = __esri.HitTestResult;
-import MapViewHitTestOptions = __esri.MapViewHitTestOptions;
-import LegendLayerInfos = __esri.LegendLayerInfos;
-import ScreenPoint = __esri.ScreenPoint;
-import Polyline from "@arcgis/core/geometry/Polyline";
-import Polygon from "@arcgis/core/geometry/Polygon";
+import SpatialReference from "@arcgis/core/geometry/SpatialReference";
+import TileInfo from "@arcgis/core/layers/support/TileInfo";
+import TileLayer from "@arcgis/core/layers/TileLayer";
+import VectorTileLayer from "@arcgis/core/layers/VectorTileLayer";
+import View from "@arcgis/core/views/View";
+import WCSLayer from "@arcgis/core/layers/WCSLayer";
+import WebMap from "@arcgis/core/WebMap";
+import WebScene from "@arcgis/core/WebScene";
+import WebTileLayer from "@arcgis/core/layers/WebTileLayer";
+import Widget from "@arcgis/core/widgets/Widget";
+import {load} from "protobufjs";
 
+// region exports
 
+// re-export imported types
+export {
+    projection,
+    geometryEngine,
+    Graphic,
+    Color,
+    Point,
+    Polyline,
+    Polygon,
+    normalizeUtils,
+    Portal,
+    SimpleRenderer
+};
 export let arcGisObjectRefs: Record<string, any> = {};
-
 // this could be either the arcGIS object or a "wrapper" class
 export let jsObjectRefs: Record<string, any> = {};
 export let popupTemplateRefs: Record<string, Accessor> = {};
@@ -161,27 +173,21 @@ export let graphicsRefs: Record<string, Graphic> = {};
 export let dotNetRefs: Record<string, any> = {};
 export let queryLayer: FeatureLayer;
 export let blazorServer: boolean = false;
-import normalizeUtils from "@arcgis/core/geometry/support/normalizeUtils";
-import SimpleRenderer from "@arcgis/core/renderers/SimpleRenderer";
-export { 
-    projection, 
-    geometryEngine, 
-    Graphic, 
-    Color, 
-    Point, 
-    Polyline, 
-    Polygon, 
-    normalizeUtils,
-    Portal,
-    SimpleRenderer
-};
+
+// region module variables
 
 let notifyExtentChanged: boolean = true;
 let uploadingLayers: Array<string> = [];
 let userChangedViewExtent: boolean = false;
 let pointerDown: boolean = false;
+let Pro: any;
 
 // region functions
+
+export async function setPro(): Promise<void> {
+    // @ts-ignore
+    Pro = await import("./arcGisPro");
+}
 
 export function getProperty(obj, prop) {
     return obj[prop];
@@ -1042,8 +1048,8 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                     featureLayer.labelingInfo = layerObject.labelingInfo.map(buildJsLabelClass);
                 }
 
-                if (hasValue(layerObject.proProperties?.FeatureReduction)) {
-                    featureLayer.featureReduction = buildJsFeatureReduction(layerObject.proProperties.FeatureReduction, viewId);
+                if (hasValue(layerObject.proProperties?.FeatureReduction) && hasValue(Pro)) {
+                    await Pro.addFeatureReduction(featureLayer, layerObject.proProperties.FeatureReduction, viewId);
                 }
 
                 copyValuesIfExists(layerObject, featureLayer, 'minScale', 'maxScale', 'orderBy', 'objectIdField',
@@ -1067,8 +1073,8 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                 if (hasValue(layerObject.popupTemplate)) {
                     geoJsonLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId ?? null) as PopupTemplate;
                 }
-                if (hasValue(layerObject.proProperties?.FeatureReduction)) {
-                    geoJsonLayer.featureReduction = buildJsFeatureReduction(layerObject.proProperties.FeatureReduction, viewId);
+                if (hasValue(layerObject.proProperties?.FeatureReduction) && hasValue(Pro)) {
+                    await Pro.addFeatureReduction(geoJsonLayer, layerObject.proProperties.FeatureReduction, viewId);
                 } else {
                     // @ts-ignore
                     geoJsonLayer.featureReduction = null;
@@ -1137,8 +1143,8 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
 
                 break;
             case 'csv':
-                if (hasValue(layerObject.proProperties?.FeatureReduction)) {
-                    (currentLayer as CSVLayer).featureReduction = buildJsFeatureReduction(layerObject.proProperties.FeatureReduction, viewId);
+                if (hasValue(layerObject.proProperties?.FeatureReduction) && hasValue(Pro)) {
+                    await Pro.addFeatureReduction(currentLayer, layerObject.proProperties.FeatureReduction, viewId);
                 } else {
                     // @ts-ignore
                     (currentLayer as CSVLayer).featureReduction = null;
@@ -2059,7 +2065,6 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
             
             break;
         case 'expand':
-            let content: any;
             let expandWidgetDiv = 
                 document.getElementById(`widget-container-${dotNetWidget.id}`) as HTMLElement;
             if (expandWidgetDiv === null) {
@@ -2084,7 +2089,6 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
             if (hasValue(dotNetWidget.widgetContent)) {
                 await addWidget(dotNetWidget.widgetContent, viewId, true);
             }
-            view.ui.remove(content);
             const expand = new Expand({
                 view,
                 content: expandWidgetDiv,
@@ -2510,8 +2514,8 @@ export async function createLayer(dotNetLayer: any, wrap?: boolean | null, viewI
                 featureLayer.labelingInfo = dotNetLayer.labelingInfo.map(buildJsLabelClass);
             }
 
-            if (hasValue(dotNetLayer.proProperties?.FeatureReduction)) {
-                (newLayer as FeatureLayer).featureReduction = buildJsFeatureReduction(dotNetLayer.proProperties.FeatureReduction, viewId!);
+            if (hasValue(dotNetLayer.proProperties?.FeatureReduction) && hasValue(Pro)) {
+                await Pro.addFeatureReduction(featureLayer, dotNetLayer.proProperties.FeatureReduction, viewId);
             }
             
             if (hasValue(dotNetLayer.effect)) {
@@ -2591,8 +2595,8 @@ export async function createLayer(dotNetLayer: any, wrap?: boolean | null, viewI
             if (hasValue(dotNetLayer.popupTemplate)) {
                 gjLayer.popupTemplate = buildJsPopupTemplate(dotNetLayer.popupTemplate, viewId ?? null) as PopupTemplate;
             }
-            if (hasValue(dotNetLayer.proProperties?.FeatureReduction)) {
-                (newLayer as GeoJSONLayer).featureReduction = buildJsFeatureReduction(dotNetLayer.proProperties.FeatureReduction, viewId!);
+            if (hasValue(dotNetLayer.proProperties?.FeatureReduction) && hasValue(Pro)) {
+                await Pro.addFeatureReduction(gjLayer, dotNetLayer.proProperties.FeatureReduction, viewId);
             }
             
             copyValuesIfExists(dotNetLayer, gjLayer, 'copyright');
@@ -2695,8 +2699,8 @@ export async function createLayer(dotNetLayer: any, wrap?: boolean | null, viewI
             if (hasValue(dotNetLayer.popupTemplate)) {
                 csvLayer.popupTemplate = buildJsPopupTemplate(dotNetLayer.popupTemplate, viewId ?? null) as PopupTemplate;
             }
-            if (hasValue(dotNetLayer.proProperties?.FeatureReduction)) {
-                (newLayer as CSVLayer).featureReduction = buildJsFeatureReduction(dotNetLayer.proProperties.FeatureReduction, viewId!);
+            if (hasValue(dotNetLayer.proProperties?.FeatureReduction) && hasValue(Pro)) {
+                await Pro.addFeatureReduction(newLayer, dotNetLayer.proProperties.FeatureReduction, viewId);
             }
 
             copyValuesIfExists(dotNetLayer, csvLayer, 'blendMode', 'copyright', 'delimiter', 'displayField');

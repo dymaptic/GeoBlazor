@@ -292,31 +292,8 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
     /// </summary>  
     [Parameter]  
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]  
-    public IFeatureReduction? FeatureReduction { get; set; }  
-  
-    /// <summary>  
-    ///    Asynchronously set the value of the FeatureReduction property after render.  
-    /// </summary>  
-    /// <param name="value">  
-    ///     The value to set.  
-    /// </param>  
-    public async Task SetFeatureReduction(IFeatureReduction value)  
-    {  
-        FeatureReduction = value;  
-        ModifiedParameters["FeatureReduction"] = value;  
-        await SetProperty(nameof(FeatureReduction), value, false);  
-    }  
-  
-    /// <summary>  
-    ///     Asynchronously retrieve the current value of the FeatureReduction property.  
-    /// </summary>  
-    public async Task<IFeatureReduction?> GetFeatureReduction()  
-    {  
-        FeatureReduction = await GetProperty<IFeatureReduction>(nameof(FeatureReduction), false);  
-        ModifiedParameters["FeatureReduction"] = FeatureReduction;  
-        return FeatureReduction;  
-    }
-
+    [CodeGenerationIgnore]
+    public IFeatureReduction? FeatureReduction { get; set; }
 
     /// <summary>
     ///     Add a graphic to the current layer's source
