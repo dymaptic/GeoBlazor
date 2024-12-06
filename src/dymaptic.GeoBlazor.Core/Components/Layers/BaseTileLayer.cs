@@ -41,8 +41,8 @@ public class BaseTileLayer : Layer
     /// <param name="spatialReference">
     ///     The spatial reference of the layer.
     /// </param>
-    public BaseTileLayer(BlendMode? blendMode = null, Effect? effect = null, double? maxScale = null,
-        double? minScale = null, double? refreshInterval = null, SpatialReference? spatialReference = null)
+    public BaseTileLayer(BlendMode? blendMode = null, Effect? effect = null, int? maxScale = null,
+        int? minScale = null, double? refreshInterval = null, SpatialReference? spatialReference = null)
     {
 #pragma warning disable BL0005
         BlendMode = blendMode;
@@ -74,7 +74,7 @@ public class BaseTileLayer : Layer
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public double? MaxScale { get; set; }
+    public int? MaxScale { get; set; }
     
     /// <summary>
     ///     The minimum scale (most zoomed out) at which the layer is visible in the view. If the map is zoomed out beyond this scale, the layer will not be visible. A value of 0 means the layer does not have a minimum scale. The minScale value should always be larger than the maxScale value, and less than or equal to the service specification.
@@ -82,7 +82,7 @@ public class BaseTileLayer : Layer
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public double? MinScale { get; set; }
+    public int? MinScale { get; set; }
     
     /// <summary>
     ///     Refresh interval of the layer in minutes. Value of 0 indicates no refresh.

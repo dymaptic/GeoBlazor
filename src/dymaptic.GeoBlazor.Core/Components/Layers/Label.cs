@@ -90,14 +90,14 @@ public class Label : MapComponent
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public double? MaxScale { get; set; }
+    public int? MaxScale { get; set; }
     
     /// <summary>
     ///     The minimum scale (most zoomed out) at which labels are visible in the view. A value of 0 means the label's visibility does not have a minimum scale. The minScale value should always be larger than the maxScale value, and less than or equal to the service specification.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public double? MinScale { get; set; }
+    public int? MinScale { get; set; }
     
     /// <summary>
     ///     Indicates whether or not to repeat the label along the polyline feature. If true, the label will be repeated according to the repeatLabelDistance. If false, the label will display once per polyline segment.

@@ -116,47 +116,6 @@ public class PictureFillSymbol : FillSymbol
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Dimension? YOffset { get; set; }
-    
-    /// <summary>
-    ///     The outline of the polygon.
-    /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Outline? Outline { get; set; }
-
-    /// <inheritdoc />
-    public override async Task RegisterChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case Outline outline:
-                if (!outline.Equals(Outline))
-                {
-                    Outline = outline;
-                }
-
-                break;
-            default:
-                await base.RegisterChildComponent(child);
-
-                break;
-        }
-    }
-    
-    /// <inheritdoc />
-    public override async Task UnregisterChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case Outline _:
-                Outline = null;
-
-                break;
-            default:
-                await base.UnregisterChildComponent(child);
-
-                break;
-        }
-    }
 
     internal override SymbolSerializationRecord ToSerializationRecord()
     {

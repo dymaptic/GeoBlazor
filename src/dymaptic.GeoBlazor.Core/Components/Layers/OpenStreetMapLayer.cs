@@ -57,7 +57,7 @@ public class OpenStreetMapLayer : WebTileLayer
     ///     UrlTemplate should include a {subDomain} place holder.
     /// </param>
     public OpenStreetMapLayer(PortalItem? portalItem = null, string? title = null, BlendMode? blendMode = null,
-        string? copyright = null, double? maxScale = null, double? minScale = null, double? refreshInterval = null,
+        string? copyright = null, int? maxScale = null, int? minScale = null, double? refreshInterval = null,
         IList<string>? subDomains = null, TileInfo? tileInfo = null, double? opacity = null, bool? visible = null,
         ListMode? listMode = null)
     {

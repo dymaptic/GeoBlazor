@@ -30,7 +30,7 @@ public class Constraints : MapComponent
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public double? MinScale { get; set; }
+    public int? MinScale { get; set; }
 
     /// <summary>
     ///     The maximum scale the user is allowed to zoom to within the view. Setting this value to 0 allows the user to
@@ -38,7 +38,7 @@ public class Constraints : MapComponent
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public double? MaxScale { get; set; }
+    public int? MaxScale { get; set; }
 
     /// <summary>
     ///     The minimum zoom level the user is allowed to zoom to within the view.
