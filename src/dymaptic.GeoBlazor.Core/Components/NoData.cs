@@ -29,7 +29,7 @@ public class NoData : MapComponent
     {
 #pragma warning disable BL0005
         PixelValue = pixelValue;
-#pragma warning restore BL0005;
+#pragma warning restore BL0005
     }
     
     /// <summary>

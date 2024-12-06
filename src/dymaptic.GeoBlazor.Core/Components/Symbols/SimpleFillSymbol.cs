@@ -45,12 +45,6 @@ public class SimpleFillSymbol : FillSymbol
     }
 
     /// <summary>
-    ///     The outline of the polygon.
-    /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Outline? Outline { get; set; }
-
-    /// <summary>
     ///     The fill style.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
