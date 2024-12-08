@@ -60,7 +60,7 @@ public class WebTileLayer : Layer
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IList<string>? SubDomains { get; set; }
+    public IReadOnlyList<string>? SubDomains { get; set; }
 
     /// <summary>
     ///     The url template is a string that specifies the URL of the hosted tile images to load. The url template resembles

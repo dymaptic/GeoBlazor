@@ -54,7 +54,7 @@ public class PopupTemplate : MapComponent
     /// <param name="actions">
     ///     Defines actions that may be executed by clicking the icon or image symbolizing them in the popup
     /// </param>
-    public PopupTemplate(string? title = null, string? stringContent = null, IEnumerable<string>? outFields = null,
+    public PopupTemplate(string? title = null, string? stringContent = null, IReadOnlyList<string>? outFields = null,
         IReadOnlyList<FieldInfo>? fieldInfos = null, IReadOnlyList<PopupContent>? contents = null,
         IReadOnlyList<ExpressionInfo>? expressionInfos = null, bool? overwriteActions = null,
         bool? returnGeometry = null, IReadOnlyList<ActionBase>? actions = null)
@@ -359,7 +359,7 @@ internal record PopupTemplateSerializationRecord : MapComponentSerializationReco
 
     public PopupTemplate FromSerializationRecord()
     {
-        return new PopupTemplate(Title, StringContent, OutFields,
+        return new PopupTemplate(Title, StringContent, OutFields?.ToList(),
             FieldInfos?.Select(f => f.FromSerializationRecord()).ToList(),
             Content?.Select(c => c.FromSerializationRecord()).ToList(),
             ExpressionInfos?.Select(e => e.FromSerializationRecord()).ToList(), 

@@ -15,7 +15,7 @@ import {
     buildDotNetPopupTemplate,
     buildDotNetSpatialReference,
     buildViewExtentUpdate
-} from "./dotNetBuilder";
+} from './dotNetBuilder';
 import {
     buildJsAction,
     buildJsAttributes,
@@ -42,7 +42,7 @@ import {
     buildJsSublayer,
     buildJsSymbol,
     buildJsTickConfig
-} from "./jsBuilder";
+} from './jsBuilder';
 import {
     DotNetExtent,
     DotNetGeometry,
@@ -58,7 +58,7 @@ import {
     DotNetSpatialReference,
     DotNetViewHit,
     MapCollection
-} from "./definitions";
+} from './definitions';
 import * as geometryEngine from "@arcgis/core/geometry/geometryEngine";
 import * as locator from "@arcgis/core/rest/locator";
 import * as projection from "@arcgis/core/geometry/projection";

@@ -1,6 +1,7 @@
 using System.Text.Json.Serialization;
 using dymaptic.GeoBlazor.Core.Components;
 using dymaptic.GeoBlazor.Core.Components.Renderers.ColorRamps;
+using dymaptic.GeoBlazor.Core.Model;
 using Microsoft.AspNetCore.Components;
 
 namespace dymaptic.GeoBlazor.Core.Objects;

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using dymaptic.GeoBlazor.Core.Extensions;
+using Microsoft.AspNetCore.Components;
 using ProtoBuf;
 using System.Text.Json.Serialization;
 
@@ -43,7 +44,7 @@ public class FieldInfo : MapComponent
     ///     Indicates whether the field is visible in the popup window.
     /// </param>
     public FieldInfo(string? fieldName = null, string? label = null, string? tooltip = null,
-        string? stringFieldOption = null, FieldInfoFormat? format = null,
+        StringFieldOption? stringFieldOption = null, FieldInfoFormat? format = null,
         bool? isEditable = null, bool? visible = null)
     {
 #pragma warning disable BL0005
@@ -90,7 +91,7 @@ public class FieldInfo : MapComponent
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? StringFieldOption { get; set; }
+    public StringFieldOption? StringFieldOption { get; set; }
 
     /// <summary>
     ///     Class which provides formatting options for numerical or date fields and how they should display within a popup.
@@ -143,7 +144,7 @@ public class FieldInfo : MapComponent
 
     internal FieldInfoSerializationRecord ToSerializationRecord()
     {
-        return new FieldInfoSerializationRecord(FieldName, Label, Tooltip, StringFieldOption,
+        return new FieldInfoSerializationRecord(FieldName, Label, Tooltip, StringFieldOption?.ToString().ToKebabCase(),
             Format?.ToSerializationRecord(), IsEditable, Visible);
     }
 }
@@ -174,7 +175,14 @@ internal record FieldInfoSerializationRecord : MapComponentSerializationRecord
 
     public FieldInfo FromSerializationRecord()
     {
-        return new FieldInfo(FieldName, Label, Tooltip, StringFieldOption,
+        StringFieldOption? sfo = StringFieldOption switch
+        {
+            "rich-text" => Components.StringFieldOption.RichText,
+            "text-area" => Components.StringFieldOption.TextArea,
+            "text-box" => Components.StringFieldOption.TextBox,
+            _ => null
+        };
+        return new FieldInfo(FieldName, Label, Tooltip, sfo,
             Format?.FromSerializationRecord(), IsEditable, Visible);
     }
 

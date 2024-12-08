@@ -230,6 +230,9 @@ public class TileLayer : Layer
         await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorSublayer", Id,
             sublayer.SublayerId, sublayer.Id);
 
+#pragma warning disable BL0005
+        sublayer.Sublayers ??= new List<Sublayer>();
+#pragma warning restore BL0005
         foreach (Sublayer subsub in sublayer.Sublayers)
         {
             await RegisterNewSublayer(subsub);

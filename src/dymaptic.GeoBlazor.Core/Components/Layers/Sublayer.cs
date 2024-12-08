@@ -2,6 +2,7 @@ using dymaptic.GeoBlazor.Core.Components.Geometries;
 using dymaptic.GeoBlazor.Core.Components.Popups;
 using dymaptic.GeoBlazor.Core.Components.Renderers;
 using dymaptic.GeoBlazor.Core.Extensions;
+using dymaptic.GeoBlazor.Core.Model;
 using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -248,9 +249,9 @@ public class Sublayer: MapComponent, IPopupTemplateLayer
     /// </summary>
     public IReadOnlyList<Sublayer> GetAllSublayers()
     {
-        return Sublayers
+        return Sublayers?
             .SelectMany(s => new[] { s }.Concat(s.GetAllSublayers()))
-            .ToList();
+            .ToList() ?? [];
     }
 
     /// <inheritdoc />
@@ -296,6 +297,10 @@ public class Sublayer: MapComponent, IPopupTemplateLayer
         await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorSublayer", Layer!.Id,
             renderedSublayer.SublayerId, renderedSublayer.Id);
 
+        if (renderedSublayer.Sublayers is null)
+        {
+            return;
+        }
         foreach (Sublayer childSublayer in renderedSublayer.Sublayers)
         {
             Sublayer? matchingLayer = _sublayers.FirstOrDefault(l => l.Id == childSublayer.Id);

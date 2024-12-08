@@ -48,14 +48,14 @@ public abstract class VisualVariable : MapComponent
     ///     An object providing options for displaying the visual variable in the Legend.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public LegendOptions? LegendOptions { get; set; }
+    public VisualVariableLegendOptions? LegendOptions { get; set; }
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
     {
         switch (child)
         {
-            case LegendOptions options:
+            case VisualVariableLegendOptions options:
                 if (!options.Equals(LegendOptions))
                 {
                     LegendOptions = options;
@@ -74,7 +74,7 @@ public abstract class VisualVariable : MapComponent
     {
         switch (child)
         {
-            case LegendOptions _:
+            case VisualVariableLegendOptions _:
                 LegendOptions = null;
 
                 break;
@@ -89,7 +89,7 @@ public abstract class VisualVariable : MapComponent
 /// <summary>
 ///     An object providing options for displaying the visual variable in the Legend.
 /// </summary>
-public class LegendOptions : MapComponent
+public class VisualVariableLegendOptions : MapComponent
 {
     /// <summary>
     ///     Indicates whether to show the visual variable in the legend.

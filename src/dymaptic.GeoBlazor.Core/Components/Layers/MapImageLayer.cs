@@ -455,6 +455,10 @@ public class MapImageLayer : Layer
         TimeInfo ??= renderedMapLayer.TimeInfo;
         Version ??= renderedMapLayer.Version;
 
+        if (renderedMapLayer.Sublayers is null)
+        {
+            return;
+        }
         foreach (Sublayer renderedSubLayer in renderedMapLayer.Sublayers)
         {
             Sublayer? matchingLayer = _sublayers.FirstOrDefault(l => l.Id == renderedSubLayer.Id);
@@ -480,6 +484,9 @@ public class MapImageLayer : Layer
         await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorSublayer", Id,
             sublayer.SublayerId, sublayer.Id);
 
+#pragma warning disable BL0005
+        sublayer.Sublayers ??= new List<Sublayer>();
+#pragma warning restore BL0005
         foreach (Sublayer subsub in sublayer.Sublayers)
         {
             await RegisterNewSublayer(subsub);

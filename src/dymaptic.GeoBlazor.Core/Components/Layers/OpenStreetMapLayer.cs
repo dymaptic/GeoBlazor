@@ -1,4 +1,7 @@
-﻿namespace dymaptic.GeoBlazor.Core.Components.Layers;
+﻿using dymaptic.GeoBlazor.Core.Interfaces;
+
+
+namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
 /// <summary>
 ///     Allows you to use basemaps from OpenStreetMap. Set the tileservers property to change which OpenStreetMap tiles you
@@ -58,7 +61,7 @@ public class OpenStreetMapLayer : WebTileLayer
     /// </param>
     public OpenStreetMapLayer(PortalItem? portalItem = null, string? title = null, BlendMode? blendMode = null,
         string? copyright = null, int? maxScale = null, int? minScale = null, double? refreshInterval = null,
-        IList<string>? subDomains = null, TileInfo? tileInfo = null, double? opacity = null, bool? visible = null,
+        IReadOnlyList<string>? subDomains = null, TileInfo? tileInfo = null, double? opacity = null, bool? visible = null,
         ListMode? listMode = null)
     {
 #pragma warning disable BL0005

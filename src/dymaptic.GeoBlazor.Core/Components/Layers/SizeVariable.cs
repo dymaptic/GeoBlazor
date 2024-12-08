@@ -1,4 +1,5 @@
-﻿using dymaptic.GeoBlazor.Core.Objects;
+﻿using dymaptic.GeoBlazor.Core.Model;
+using dymaptic.GeoBlazor.Core.Objects;
 using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
 using System.Text.Json.Serialization;
@@ -69,7 +70,7 @@ public class SizeVariable : VisualVariable
         double? minDataValue = null, double? maxDataValue = null,
         VisualValueRepresentation? valueRepresentation = null, VisualValueUnit? valueUnit = null,
         string? normalizationField = null, string? target = null, bool? useSymbolValue = null, VisualAxis? axis = null,
-        string? valueExpression = null, string? valueExpressionTitle = null, LegendOptions? legendOptions = null)
+        string? valueExpression = null, string? valueExpressionTitle = null, VisualVariableLegendOptions? legendOptions = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005

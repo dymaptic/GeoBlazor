@@ -1,4 +1,5 @@
-﻿using dymaptic.GeoBlazor.Core.Serialization;
+﻿using dymaptic.GeoBlazor.Core.Components.Renderers.ColorRamps;
+using dymaptic.GeoBlazor.Core.Serialization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 

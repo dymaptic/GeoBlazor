@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using dymaptic.GeoBlazor.Core.Extensions;
+using Microsoft.AspNetCore.Components;
 using ProtoBuf;
 using System.Text.Json.Serialization;
 
@@ -32,7 +33,7 @@ public class FieldInfoFormat : MapComponent
     /// <param name="dateFormat">
     ///     Used only with Date fields.
     /// </param>
-    public FieldInfoFormat(int? places = null, bool? digitSeparator = null, string? dateFormat = null)
+    public FieldInfoFormat(int? places = null, bool? digitSeparator = null, DateFormat? dateFormat = null)
     {
 #pragma warning disable BL0005
         Places = places;
@@ -60,11 +61,11 @@ public class FieldInfoFormat : MapComponent
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? DateFormat { get; set; }
+    public DateFormat? DateFormat { get; set; }
 
     internal FieldInfoFormatSerializationRecord ToSerializationRecord()
     {
-        return new FieldInfoFormatSerializationRecord(Places, DigitSeparator, DateFormat);
+        return new FieldInfoFormatSerializationRecord(Places, DigitSeparator, DateFormat?.ToString().ToKebabCase());
     }
 }
 
@@ -86,7 +87,39 @@ internal record FieldInfoFormatSerializationRecord : MapComponentSerializationRe
 
     public FieldInfoFormat FromSerializationRecord()
     {
-        return new FieldInfoFormat(Places, DigitSeparator, DateFormat);
+        DateFormat? df = DateFormat switch
+        {
+            "short-date" => Components.DateFormat.ShortDate,
+            "short-date-short-time.cs" => Components.DateFormat.ShortDateShortTime,
+            "short-date-short-time-24" => Components.DateFormat.ShortDateShortTime24,
+            "short-date-long-time" => Components.DateFormat.ShortDateLongTime,
+            "short-date-long-time-24" => Components.DateFormat.ShortDateLongTime24,
+            "short-date-le" => Components.DateFormat.ShortDateLe,
+            "short-date-le-short-time" => Components.DateFormat.ShortDateLeShortTime,
+            "short-date-le-short-time-24" => Components.DateFormat.ShortDateLeShortTime24,
+            "short-date-le-long-time" => Components.DateFormat.ShortDateLeLongTime,
+            "short-date-le-long-time-24" => Components.DateFormat.ShortDateLeLongTime24,
+            "long-month-day-year" => Components.DateFormat.LongMonthDayYear,
+            "long-month-day-year-short-time" => Components.DateFormat.LongMonthDayYearShortTime,
+            "long-month-day-year-short-time-24" => Components.DateFormat.LongMonthDayYearShortTime24,
+            "long-month-day-year-long-time" => Components.DateFormat.LongMonthDayYearLongTime,
+            "long-month-day-year-long-time-24" => Components.DateFormat.LongMonthDayYearLongTime24,
+            "day-short-month-year" => Components.DateFormat.DayShortMonthYear,
+            "day-short-month-year-short-time" => Components.DateFormat.DayShortMonthYearShortTime,
+            "day-short-month-year-short-time-24" => Components.DateFormat.DayShortMonthYearShortTime24,
+            "day-short-month-year-long-time" => Components.DateFormat.DayShortMonthYearLongTime,
+            "day-short-month-year-long-time-24" => Components.DateFormat.DayShortMonthYearLongTime24,
+            "long-date" => Components.DateFormat.LongDate,
+            "long-date-short-time" => Components.DateFormat.LongDateShortTime,
+            "long-date-short-time-24" => Components.DateFormat.LongDateShortTime24,
+            "long-date-long-time" => Components.DateFormat.LongDateLongTime,
+            "long-date-long-time-24" => Components.DateFormat.LongDateLongTime24,
+            "long-month-year" => Components.DateFormat.LongMonthYear,
+            "short-month-year" => Components.DateFormat.ShortMonthYear,
+            "year" => Components.DateFormat.Year,
+            _ => null
+        };
+        return new FieldInfoFormat(Places, DigitSeparator, df);
     }
 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

@@ -327,7 +327,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
     /// <exception cref="InvalidOperationException">
     ///     If the layer is already loaded, you must use <see cref="ApplyEdits"/> to add graphics.
     /// </exception>
-    public async Task Add(IEnumerable<Graphic> graphics)
+    public async Task Add(IReadOnlyList<Graphic> graphics)
     {
         if (JsComponentReference is not null)
         {
@@ -591,7 +591,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
     /// <summary>
     ///    Describes the layer's supported capabilities.
     /// </summary>
-    public async Task<FeatureLayerCapabilities> GetCapabilities()
+    public async Task<FeatureLayerCapabilities?> GetCapabilities()
     {
         return await JsComponentReference!.InvokeAsync<FeatureLayerCapabilities>("getCapabilities");
     }
