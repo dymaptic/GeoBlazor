@@ -98,7 +98,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     /// <summary>
     ///     Handles conversion from .NET CancellationToken to JavaScript AbortController
     /// </summary>
-    protected AbortManager? AbortManager { get; set; }
+    internal AbortManager? AbortManager { get; set; }
 
     /// <summary>
     ///     The parent <see cref="MapView" /> of the current component.
