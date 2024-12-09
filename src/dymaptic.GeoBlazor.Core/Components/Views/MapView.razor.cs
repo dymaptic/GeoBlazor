@@ -2469,10 +2469,7 @@ public partial class MapView : MapComponent
     ///     Indicates that the pointer is currently down, to prevent updating the extent during this action.
     /// </summary>
     protected bool PointerDown;
-    /// <summary>
-    ///     A reference to the JavaScript AbortManager for this component.
-    /// </summary>
-    protected AbortManager? AbortManager; 
+    
     /// <summary>
     ///     Marks that the authentication has been initialized.
     /// </summary>
