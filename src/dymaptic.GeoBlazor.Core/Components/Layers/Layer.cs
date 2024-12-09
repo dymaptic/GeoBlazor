@@ -108,11 +108,6 @@ public abstract class Layer : MapComponent
     /// </summary>
     public bool Imported { get; set; }
 
-    /// <summary>
-    ///     Handles conversion from .NET CancellationToken to JavaScript AbortController
-    /// </summary>
-    public AbortManager? AbortManager { get; set; }
-
 #region PropertySetters
 
     /// <summary>

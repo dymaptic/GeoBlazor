@@ -1,6 +1,7 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Views;
 using dymaptic.GeoBlazor.Core.Exceptions;
 using dymaptic.GeoBlazor.Core.Extensions;
+using dymaptic.GeoBlazor.Core.Objects;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System.Collections;
@@ -93,6 +94,11 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         }
         internal set => _proJsModule = value;
     }
+    
+    /// <summary>
+    ///     Handles conversion from .NET CancellationToken to JavaScript AbortController
+    /// </summary>
+    protected AbortManager? AbortManager { get; set; }
 
     /// <summary>
     ///     The parent <see cref="MapView" /> of the current component.
@@ -747,6 +753,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         {
             ProJsModule ??= await JsModuleManager.GetArcGisJsPro(JsRuntime, default);
             CoreJsModule ??= await JsModuleManager.GetArcGisJsCore(JsRuntime, ProJsModule, default);
+            AbortManager ??= new AbortManager(CoreJsModule);
         }
         IsRenderedBlazorComponent = true;
     }
@@ -779,8 +786,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     ///     Creates a cancellation token to control external calls
     /// </summary>
     protected readonly CancellationTokenSource CancellationTokenSource = new();
-
-
+    
 #region Events
 
     /// <summary>
