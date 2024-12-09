@@ -4,10 +4,10 @@ import {buildJsGeometry, buildJsPopupTemplate, buildJsSymbol} from "./jsBuilder"
 import {buildDotNetGeometry, buildDotNetPopupTemplate} from "./dotNetBuilder";
 
 export default class GraphicWrapper implements IPropertyWrapper {
-    public graphic: Graphic;
+    public component: Graphic;
 
     constructor(graphic: Graphic) {
-        this.graphic = graphic;
+        this.component = graphic;
         // set all properties from graphic
         for (let prop in graphic) {
             if (graphic.hasOwnProperty(prop)) {
@@ -16,81 +16,85 @@ export default class GraphicWrapper implements IPropertyWrapper {
         }
     }
 
+    unwrap() {
+        return this.component;
+    }
+
     setAttribute(name: string, value: any): void {
-        if (this.graphic.attributes[name] !== value) {
-            this.graphic.attributes[name] = value;
+        if (this.component.attributes[name] !== value) {
+            this.component.attributes[name] = value;
         }
     }
 
     getAttribute(name: string): any {
-        return this.graphic.attributes[name];
+        return this.component.attributes[name];
     }
 
     removeAttribute(name: string): void {
-        delete this.graphic.attributes[name];
+        delete this.component.attributes[name];
     }
 
     setGeometry(geometry: DotNetGeometry): void {
         let jsGeometry = buildJsGeometry(geometry);
-        if (jsGeometry !== null && this.graphic.geometry !== jsGeometry) {
-            this.graphic.geometry = jsGeometry;
+        if (jsGeometry !== null && this.component.geometry !== jsGeometry) {
+            this.component.geometry = jsGeometry;
         }
     }
 
     getGeometry(): DotNetGeometry | null {
-        return buildDotNetGeometry(this.graphic.geometry);
+        return buildDotNetGeometry(this.component.geometry);
     }
 
     setSymbol(symbol: any): void {
-        if (this.graphic.symbol !== symbol) {
-            this.graphic.symbol = buildJsSymbol(symbol) as any;
+        if (this.component.symbol !== symbol) {
+            this.component.symbol = buildJsSymbol(symbol) as any;
         }
     }
 
     getSymbol(): any {
-        return this.graphic.symbol;
+        return this.component.symbol;
     }
 
     setVisibility(visible: boolean): void {
-        this.graphic.visible = visible;
+        this.component.visible = visible;
     }
 
     getVisibility(): boolean {
-        return this.graphic.visible;
+        return this.component.visible;
     }
 
     setPopupTemplate(popupTemplate: DotNetPopupTemplate, viewId: string): void {
         let jsPopupTemplate = buildJsPopupTemplate(popupTemplate, viewId);
-        if (jsPopupTemplate !== null && this.graphic.popupTemplate !== jsPopupTemplate) {
-            this.graphic.popupTemplate = jsPopupTemplate;
+        if (jsPopupTemplate !== null && this.component.popupTemplate !== jsPopupTemplate) {
+            this.component.popupTemplate = jsPopupTemplate;
         }
     }
 
     getPopupTemplate(): DotNetPopupTemplate | null {
-        return buildDotNetPopupTemplate(this.graphic.popupTemplate);
+        return buildDotNetPopupTemplate(this.component.popupTemplate);
     }
 
     setProperty(prop: string, value: any): void {
-        this.graphic[prop] = value;
+        this.component[prop] = value;
     }
 
     getProperty(prop: string) {
-        return this.graphic[prop];
+        return this.component[prop];
     }
 
     addToProperty(prop: string, value: any) {
         if (Array.isArray(value)) {
-            this.graphic[prop].addMany(value);
+            this.component[prop].addMany(value);
         } else {
-            this.graphic[prop].add(value);
+            this.component[prop].add(value);
         }
     }
 
     removeFromProperty(prop: string, value: any) {
         if (Array.isArray(value)) {
-            this.graphic[prop].removeMany(value);
+            this.component[prop].removeMany(value);
         } else {
-            this.graphic[prop].remove(value);
+            this.component[prop].remove(value);
         }
     }
 }
