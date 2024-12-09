@@ -185,8 +185,12 @@ let Pro: any;
 // region functions
 
 export async function setPro(): Promise<void> {
-    // @ts-ignore
-    Pro = await import("./arcGisPro");
+    try {
+        // @ts-ignore
+        Pro = await import("./arcGisPro");
+    } catch {
+        // this catch tells esbuild to ignore
+    }
 }
 
 export function getProperty(obj, prop) {
