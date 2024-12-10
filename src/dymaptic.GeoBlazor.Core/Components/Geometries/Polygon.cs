@@ -30,7 +30,7 @@ public class Polygon : Geometry
     /// <param name="extent">
     ///     The <see cref="Extent" /> of the geometry.
     /// </param>
-    public Polygon(MapPath[] rings, SpatialReference? spatialReference = null, Extent? extent = null)
+    public Polygon(IReadOnlyList<MapPath> rings, SpatialReference? spatialReference = null, Extent? extent = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -44,7 +44,8 @@ public class Polygon : Geometry
     ///     An array of <see cref="MapPath" /> rings.
     /// </summary>
     [Parameter]
-    public MapPath[] Rings { get; set; } = Array.Empty<MapPath>();
+    [CodeGenerationIgnore]
+    public IReadOnlyList<MapPath> Rings { get; set; } = [];
 
     /// <inheritdoc />
     public override string Type => "polygon";

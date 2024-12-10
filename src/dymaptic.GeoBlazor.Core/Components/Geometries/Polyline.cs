@@ -30,7 +30,7 @@ public class Polyline : Geometry
     /// <param name="extent">
     ///     The <see cref="Extent" /> of the geometry.
     /// </param>
-    public Polyline(MapPath[] paths, SpatialReference? spatialReference = null,
+    public Polyline(IReadOnlyList<MapPath> paths, SpatialReference? spatialReference = null,
         Extent? extent = null)
     {
         AllowRender = false;
@@ -45,7 +45,7 @@ public class Polyline : Geometry
     ///     An array of <see cref="MapPath" /> paths, or line segments, that make up the polyline.
     /// </summary>
     [Parameter]
-    public MapPath[] Paths { get; set; } = Array.Empty<MapPath>();
+    public IReadOnlyList<MapPath> Paths { get; set; } = [];
 
     /// <inheritdoc />
     public override string Type => "polyline";
