@@ -12,7 +12,11 @@
         MapView? view = null;
         AddMapRenderFragment(
         @<MapView @ref="view" class="map-view" OnViewRendered="renderHandler">
-            <Map ArcGISDefaultBasemap="arcgis-imagery" />
+            <Map>
+                <Basemap>
+                    <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+                </Basemap>
+            </Map>
         </MapView>);
         await WaitForMapToRender();
 

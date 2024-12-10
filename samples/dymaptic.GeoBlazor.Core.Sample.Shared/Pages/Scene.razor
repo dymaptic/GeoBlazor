@@ -48,7 +48,10 @@
 </div>
 <SceneView @ref="_view" Longitude="_longitude" Latitude="_latitude" Class="map-view"
            ZIndex="2000" Tilt="76" OnViewRendered="OnViewRendered">
-    <Map Ground="world-elevation" ArcGISDefaultBasemap="satellite">
+    <Map Ground="world-elevation">
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisImageryStandard" />
+        </Basemap>
         <GraphicsLayer @ref="_graphicsLayer">
             <Graphic @ref="_polygonGraphic" Attributes="_graphic1Attributes">
                 <Polygon Rings="@(new[] { _mapRings })" />

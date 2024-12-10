@@ -10,84 +10,100 @@
     {
         LayerListWidget? layerList = null;
         AddMapRenderFragment(
-            @<MapView class="map-view" OnViewRendered="renderHandler">
+    @<MapView class="map-view" OnViewRendered="renderHandler">
 
-                <Map ArcGISDefaultBasemap="arcgis-imagery" />
-                <ExpandWidget Position="OverlayPosition.TopLeft" Expanded="true" Mode="Mode.Floating">
-                    <LayerListWidget @ref="layerList" />
-                </ExpandWidget>
+        <Map>
+            <Basemap>
+                <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+            </Basemap>
+        </Map>
+        <ExpandWidget Position="OverlayPosition.TopLeft" Expanded="true" Mode="Mode.Floating">
+            <LayerListWidget @ref="layerList" />
+        </ExpandWidget>
 
-            </MapView>);
+    </MapView>);
 
         await WaitForMapToRender();
         await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Expand");
         await AssertJavaScript("expandWidgetAsserts.assertContentByClassName", args: "esri-layer-list");
         Assert.IsNotNull(layerList);
     }
-    
+
     [TestMethod]
     public async Task TestCanRenderExpandWidgetWithHtmlContent(Action renderHandler)
     {
         AddMapRenderFragment(
-            @<MapView class="map-view" OnViewRendered="renderHandler">
-    
-                <Map ArcGISDefaultBasemap="arcgis-imagery" />
-                <ExpandWidget Position="OverlayPosition.TopLeft" Expanded="true" Mode="Mode.Floating">
-                    <button id="test-button" type="button">Click Me</button>
-                </ExpandWidget>
-    
-            </MapView>);
-    
+    @<MapView class="map-view" OnViewRendered="renderHandler">
+
+        <Map>
+            <Basemap>
+                <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+            </Basemap>
+        </Map>
+        <ExpandWidget Position="OverlayPosition.TopLeft" Expanded="true" Mode="Mode.Floating">
+            <button id="test-button" type="button">Click Me</button>
+        </ExpandWidget>
+
+    </MapView>);
+
         await WaitForMapToRender();
         await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Expand");
         await AssertJavaScript("expandWidgetAsserts.assertContentById", args: "test-button");
     }
-    
+
     [TestMethod]
     public async Task TestCanRenderExpandWidgetWithWidgetAfterHtmlContent(Action renderHandler)
     {
         LegendWidget? legend = null;
         AddMapRenderFragment(
-            @<MapView class="map-view" OnViewRendered="renderHandler">
+    @<MapView class="map-view" OnViewRendered="renderHandler">
 
-                <Map ArcGISDefaultBasemap="arcgis-imagery" />
-                <ExpandWidget Position="OverlayPosition.TopLeft" Expanded="true" Mode="Mode.Floating">
-                    <button id="test-button-1" type="button">Click Me</button>
-                    <LegendWidget @ref="legend" />
-                </ExpandWidget>
+        <Map>
+            <Basemap>
+                <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+            </Basemap>
+        </Map>
+        <ExpandWidget Position="OverlayPosition.TopLeft" Expanded="true" Mode="Mode.Floating">
+            <button id="test-button-1" type="button">Click Me</button>
+            <LegendWidget @ref="legend" />
+        </ExpandWidget>
 
-            </MapView>);
+    </MapView>);
 
         await WaitForMapToRender();
         await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Expand");
         await AssertJavaScript("expandWidgetAsserts.assertContentByClassName", args: "esri-legend");
         await AssertJavaScript("expandWidgetAsserts.assertContentById", args: "test-button-1");
-        await AssertJavaScript("expandWidgetAsserts.assertContentOrder", 
-            args: new object[] {"test-button-1", $"widget-container-{legend!.Id}"});
+        await AssertJavaScript("expandWidgetAsserts.assertContentOrder",
+    args: new object[] { "test-button-1", $"widget-container-{legend!.Id}" });
         Assert.IsNotNull(legend);
     }
-    
+
     [TestMethod]
     public async Task TestCanRenderExpandWidgetWithWidgetBeforeHtmlContent(Action renderHandler)
     {
         LegendWidget? legend = null;
         AddMapRenderFragment(
-            @<MapView class="map-view" OnViewRendered="renderHandler">
+    @<MapView class="map-view" OnViewRendered="renderHandler">
 
-                <Map ArcGISDefaultBasemap="arcgis-imagery" />
-                <ExpandWidget Position="OverlayPosition.TopLeft" Expanded="true" Mode="Mode.Floating">
-                    <LegendWidget @ref="legend" />
-                    <button id="test-button-2" type="button">Click Me</button>
-                </ExpandWidget>
+        <Map>
+            <Basemap>
+                <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+            </Basemap>
+        </Map>
+        <ExpandWidget Position="OverlayPosition.TopLeft" Expanded="true" Mode="Mode.Floating">
+            <LegendWidget @ref="legend" />
+            <button id="test-button-2" type="button">Click Me</button>
+        </ExpandWidget>
 
-            </MapView>);
+    </MapView>);
 
         await WaitForMapToRender();
         await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Expand");
         await AssertJavaScript("expandWidgetAsserts.assertContentByClassName", args: "esri-legend");
         await AssertJavaScript("expandWidgetAsserts.assertContentById", args: "test-button-2");
-        await AssertJavaScript("expandWidgetAsserts.assertContentOrder", 
-            args: new object[] {$"widget-container-{legend!.Id}", "test-button-2"});
+        await AssertJavaScript("expandWidgetAsserts.assertContentOrder",
+            args: new object[] { $"widget-container-{legend!.Id}", "test-button-2" });
         Assert.IsNotNull(legend);
     }
 }

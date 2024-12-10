@@ -36,7 +36,10 @@
 
 <MapView @ref="_view" OnViewRendered="OnViewRendered"
          Longitude="-107.95166" Latitude="43.18083" Zoom="4" Class="map-view">
-    <Map ArcGISDefaultBasemap="arcgis-topographic">
+    <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+        </Basemap>
     </Map>
 </MapView>
 
