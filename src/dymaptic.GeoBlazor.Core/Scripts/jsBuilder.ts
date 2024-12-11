@@ -179,10 +179,12 @@ export function buildJsSpatialReference(dotNetSpatialReference: DotNetSpatialRef
         return new SpatialReference({ wkid: 4326 });
     }
     let jsSpatialRef = new SpatialReference();
-    if (dotNetSpatialReference.wkid !== null && dotNetSpatialReference.wkid !== undefined) {
+    if (hasValue(dotNetSpatialReference.wkid)) {
         jsSpatialRef.wkid = dotNetSpatialReference.wkid;
-    } else if (dotNetSpatialReference.wkt !== null && dotNetSpatialReference.wkt !== undefined) {
-        jsSpatialRef.wkt = dotNetSpatialReference.wkt;
+    } else if (hasValue(dotNetSpatialReference.wkt)) {
+        jsSpatialRef.wkt = dotNetSpatialReference.wkt
+    } else if (hasValue(dotNetSpatialReference.wkt2)) {
+        jsSpatialRef.wkt2 = dotNetSpatialReference.wkt2
     } else {
         jsSpatialRef.wkid = 4326;
     }

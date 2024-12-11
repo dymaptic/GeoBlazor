@@ -97,7 +97,14 @@ public class SpatialReference : MapComponent
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [Parameter]
     public string? Wkt { get; set; }
-    
+
+    /// <summary>
+    ///    The well-known text of the coordinate system as defined by OGC standard for well-known text strings.
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [Parameter]
+    public string? Wkt2 { get; set; }
+
     /// <summary>
     ///     Returns a deep clone of the Spatial Reference.
     /// </summary>
@@ -114,6 +121,8 @@ public class SpatialReference : MapComponent
 
 internal class SpatialReferenceConverter : JsonConverter<SpatialReference>
 {
+    public override bool HandleNull => true;
+
     public override SpatialReference? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         var spatialReference = new SpatialReference();
@@ -134,6 +143,10 @@ internal class SpatialReferenceConverter : JsonConverter<SpatialReference>
                             break;
                         case "wkt":
                             spatialReference.Wkt = reader.GetString();
+
+                            break;
+                        case "wkt2":
+                            spatialReference.Wkt2 = reader.GetString();
 
                             break;
                         case "isGeographic":
@@ -181,9 +194,13 @@ internal class SpatialReferenceConverter : JsonConverter<SpatialReference>
         {
             writer.WriteString("wkt", value.Wkt);
         }
+        else if (!string.IsNullOrWhiteSpace(value.Wkt2))
+        {
+            writer.WriteString("wkt2", value.Wkt2);
+        }
         else
         {
-            throw new ArgumentException("SpatialReference must have either a Wkid or Wkt");
+            throw new ArgumentException("SpatialReference must have either a Wkid, Wkt, or Wkt2");
         }
 
         writer.WriteEndObject();
@@ -196,7 +213,7 @@ internal record SpatialReferenceSerializationRecord : MapComponentSerializationR
     public SpatialReferenceSerializationRecord()
     {
     }
-    
+
     public SpatialReferenceSerializationRecord(int? Wkid,
         string? Wkt = null)
     {
