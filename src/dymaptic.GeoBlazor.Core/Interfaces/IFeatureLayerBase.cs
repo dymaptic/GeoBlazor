@@ -4,6 +4,7 @@ using dymaptic.GeoBlazor.Core.Components.Layers;
 using dymaptic.GeoBlazor.Core.Components.Widgets;
 using dymaptic.GeoBlazor.Core.Model;
 using dymaptic.GeoBlazor.Core.Objects;
+using dymaptic.GeoBlazor.Core.Results;
 
 
 namespace dymaptic.GeoBlazor.Core.Interfaces;
@@ -52,7 +53,7 @@ public interface IFeatureLayerBase
     /// <param name="cancellationToken">
     ///     A cancellation token that can be used to cancel the query operation.
     /// </param>
-    Task<Dictionary<int, FeatureSet?>?> QueryRelatedFeatures(RelationshipQuery query,
+    Task<RelatedFeaturesQueryResult?> QueryRelatedFeatures(RelationshipQuery query,
         CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -66,6 +67,6 @@ public interface IFeatureLayerBase
     /// <param name="cancellationToken">
     ///     A cancellation token that can be used to cancel the query operation.
     /// </param>
-    Task<Dictionary<int, int>> QueryRelatedFeaturesCount(RelationshipQuery query,
+    Task<RelatedFeaturesCountQueryResult> QueryRelatedFeaturesCount(RelationshipQuery query,
         CancellationToken cancellationToken = default);
 }

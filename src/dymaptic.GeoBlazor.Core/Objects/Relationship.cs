@@ -75,7 +75,7 @@ public record Relationship
 ///     The cardinality which specifies the number of objects in the origin FeatureLayer related to the number of objects
 ///     in the destination FeatureLayer. Please see the Desktop help for additional information on cardinality.
 /// </summary>
-[JsonConverter(typeof(EnumRelConverter<Cardinality>))]
+[JsonConverter(typeof(EnumRelationshipConverter<Cardinality>))]
 public enum Cardinality
 {
     /// <summary>
@@ -95,7 +95,7 @@ public enum Cardinality
 /// <summary>
 ///     Indicates whether the table participating in the relationship is the origin or destination table.
 /// </summary>
-[JsonConverter(typeof(EnumRelConverter<Role>))]
+[JsonConverter(typeof(EnumRelationshipConverter<Role>))]
 public enum Role
 {
     /// <summary>
@@ -106,19 +106,4 @@ public enum Role
     ///     Destination
     /// </summary>
     Destination
-}
-
-internal class EnumRelConverter<T> : EnumToKebabCaseStringConverter<T> where T : notnull
-{
-    public override T Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        string? value = reader.GetString()
-            ?.Replace("-", string.Empty)
-            .Replace("Rel", string.Empty)
-            .Replace("Role", string.Empty)
-            .Replace("esri", string.Empty)
-            .Replace(nameof(Cardinality), string.Empty);
-
-        return value is not null ? (T)Enum.Parse(typeof(T), value, true) : default(T)!;
-    }
 }

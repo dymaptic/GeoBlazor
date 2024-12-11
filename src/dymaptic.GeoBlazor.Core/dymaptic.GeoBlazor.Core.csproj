@@ -78,6 +78,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <Folder Include="Enums\" />
         <Folder Include="wwwroot/assets/" />
         <Folder Include="wwwroot/js/" />
         <Folder Include="Documentation/" />

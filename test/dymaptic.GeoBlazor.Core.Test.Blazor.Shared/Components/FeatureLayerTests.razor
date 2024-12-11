@@ -1,4 +1,5 @@
-﻿@inherits TestRunnerBase
+﻿@using dymaptic.GeoBlazor.Core.Results
+@inherits TestRunnerBase
 
 @{
     base.BuildRenderTree(__builder);
@@ -123,7 +124,7 @@
         Assert.IsNotNull(field);
         Domain? domain = await layer.GetFieldDomain(fieldName);
         Assert.IsNotNull(domain);
-        FeatureLayerCapabilities capabilities = await layer.GetCapabilities();
+        FeatureLayerCapabilities? capabilities = await layer.GetCapabilities();
         Assert.IsNotNull(capabilities);
     }
 
@@ -363,7 +364,7 @@
             RelationshipId = layer.Relationships?.FirstOrDefault()?.Id,
             ObjectIds = objectIds
         };
-        Dictionary<int, FeatureSet?>? result = await layer.QueryRelatedFeatures(relationshipQuery);
+        RelatedFeaturesQueryResult? result = await layer.QueryRelatedFeatures(relationshipQuery);
         Assert.IsNotNull(result);
         Assert.IsTrue(result.Count > 0);
     }

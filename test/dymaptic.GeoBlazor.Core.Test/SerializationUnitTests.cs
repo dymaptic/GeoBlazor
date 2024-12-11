@@ -21,7 +21,7 @@ public class SerializationUnitTests
         var graphic = new Graphic(new Point(_random.NextDouble() * 10 + 11.0,
                 _random.NextDouble() * 10 + 50.0),
             new SimpleMarkerSymbol(new Outline(new MapColor("green")), new MapColor("red"), 10),
-            new PopupTemplate("Test", "Test Content<br/>{testString}<br/>{testNumber}", new[] { "*" }),
+            new PopupTemplate("Test", "Test Content<br/>{testString}<br/>{testNumber}", ["*"]),
             new AttributesDictionary(
                 new Dictionary<string, object?> { { "testString", "test" }, { "testNumber", 123 } }));
         var sw = Stopwatch.StartNew();
@@ -68,11 +68,11 @@ public class SerializationUnitTests
         var graphic = new Graphic(new Point(_random.NextDouble() * 10 + 11.0,
                 _random.NextDouble() * 10 + 50.0),
             new SimpleMarkerSymbol(new Outline(new MapColor("green")), new MapColor("red"), 10),
-            new PopupTemplate("Test", "Test Content<br/>{testString}<br/>{testNumber}", new[] { "*" }),
+            new PopupTemplate("Test", "Test Content<br/>{testString}<br/>{testNumber}", ["*"]),
             new AttributesDictionary(
                 new Dictionary<string, object?> { { "testString", "test" }, { "testNumber", 123 } }));
         var sw = Stopwatch.StartNew();
-        ProtoGraphicCollection collection = new(new[] { graphic.ToSerializationRecord() });
+        ProtoGraphicCollection collection = new([graphic.ToSerializationRecord()]);
         using MemoryStream ms = new();
         Serializer.Serialize(ms, collection);
         byte[] data = ms.ToArray();
@@ -87,10 +87,10 @@ public class SerializationUnitTests
         var graphic = new Graphic(new Point(_random.NextDouble() * 10 + 11.0,
                 _random.NextDouble() * 10 + 50.0),
             new SimpleMarkerSymbol(new Outline(new MapColor("green")), new MapColor("red"), 10),
-            new PopupTemplate("Test", "Test Content<br/>{testString}<br/>{testNumber}", new[] { "*" }),
+            new PopupTemplate("Test", "Test Content<br/>{testString}<br/>{testNumber}", ["*"]),
             new AttributesDictionary(
                 new Dictionary<string, object?> { { "testString", "test" }, { "testNumber", 123 } }));
-        ProtoGraphicCollection collection = new(new[] { graphic.ToSerializationRecord() });
+        ProtoGraphicCollection collection = new([graphic.ToSerializationRecord()]);
         using MemoryStream ms = new();
         Serializer.Serialize(ms, collection);
         byte[] data = ms.ToArray();

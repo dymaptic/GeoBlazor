@@ -2,6 +2,7 @@
 using System.Text;
 using dymaptic.GeoBlazor.Core.Components.Layers;
 using dymaptic.GeoBlazor.Core.Extensions;
+using dymaptic.GeoBlazor.Core.Objects;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -134,5 +135,20 @@ public class EnumToTypeScriptEnumConverter<T>: EnumToKebabCaseStringConverter<T>
         Type enumType = typeof(T);
         string enumName = enumType.Name;
         writer.WriteStringValue($"{enumName}.{Enum.GetName(enumType, value)}");
+    }
+}
+
+internal class EnumRelationshipConverter<T> : EnumToKebabCaseStringConverter<T> where T : notnull
+{
+    public override T Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        string? value = reader.GetString()
+            ?.Replace("-", string.Empty)
+            .Replace("Rel", string.Empty)
+            .Replace("Role", string.Empty)
+            .Replace("esri", string.Empty)
+            .Replace(nameof(Cardinality), string.Empty);
+
+        return value is not null ? (T)Enum.Parse(typeof(T), value, true) : default(T)!;
     }
 }

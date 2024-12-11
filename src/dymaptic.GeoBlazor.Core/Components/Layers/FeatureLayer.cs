@@ -6,13 +6,11 @@ using dymaptic.GeoBlazor.Core.Exceptions;
 using dymaptic.GeoBlazor.Core.Interfaces;
 using dymaptic.GeoBlazor.Core.Model;
 using dymaptic.GeoBlazor.Core.Objects;
+using dymaptic.GeoBlazor.Core.Results;
 using dymaptic.GeoBlazor.Core.Serialization;
-using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
 using ProtoBuf;
 using System.Runtime.Serialization;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
 
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
@@ -971,23 +969,23 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
     /// <param name="cancellationToken">
     ///     A cancellation token that can be used to cancel the query operation.
     /// </param>
-    public async Task<Dictionary<int, FeatureSet?>?> QueryRelatedFeatures(RelationshipQuery query,
+    public async Task<RelatedFeaturesQueryResult?> QueryRelatedFeatures(RelationshipQuery query,
         CancellationToken cancellationToken = default)
     {
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         Guid queryId = Guid.NewGuid();
-        Dictionary<int, FeatureSet?> result = (await JsComponentReference!.InvokeAsync<Dictionary<int, FeatureSet?>?>(
+        RelatedFeaturesQueryResult result = (await JsComponentReference!.InvokeAsync<RelatedFeaturesQueryResult?>(
             "queryRelatedFeatures", cancellationToken, query, new { signal = abortSignal },
             DotNetComponentReference, View?.Id, queryId))!;
 
         if (_activeRelatedQueries.ContainsKey(queryId))
         {
-            Dictionary<int, Graphic[]> relatedGraphics = _activeRelatedQueries[queryId];
-            foreach (KeyValuePair<int, FeatureSet?> kvp in result)
+            Dictionary<long, Graphic[]> relatedGraphics = _activeRelatedQueries[queryId];
+            foreach (KeyValuePair<long, FeatureSet?> kvp in result)
             {
-                if (kvp.Value is null || !relatedGraphics.ContainsKey(kvp.Key)) continue;
+                if (kvp.Value is null || !relatedGraphics.TryGetValue(kvp.Key, out Graphic[]? relatedGraphic)) continue;
 
-                kvp.Value.Features = relatedGraphics[kvp.Key];
+                kvp.Value.Features = relatedGraphic;
 
                 foreach (Graphic graphic in kvp.Value.Features)
                 {
@@ -1020,7 +1018,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
 
             if (!_activeRelatedQueries.ContainsKey(queryId))
             {
-                _activeRelatedQueries[queryId] = new Dictionary<int, Graphic[]>();
+                _activeRelatedQueries[queryId] = new Dictionary<long, Graphic[]>();
             }
 
             _activeRelatedQueries[queryId][int.Parse(objectId)] = graphics;
@@ -1042,12 +1040,12 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
     /// <param name="cancellationToken">
     ///     A cancellation token that can be used to cancel the query operation.
     /// </param>
-    public async Task<Dictionary<int, int>> QueryRelatedFeaturesCount(RelationshipQuery query,
+    public async Task<RelatedFeaturesCountQueryResult> QueryRelatedFeaturesCount(RelationshipQuery query,
         CancellationToken cancellationToken = default)
     {
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
 
-        Dictionary<int, int> result = await JsComponentReference!.InvokeAsync<Dictionary<int, int>>(
+        RelatedFeaturesCountQueryResult result = await JsComponentReference!.InvokeAsync<RelatedFeaturesCountQueryResult>(
             "queryRelatedFeaturesCount", cancellationToken, query, new { signal = abortSignal });
 
         await AbortManager.DisposeAbortController(cancellationToken);
@@ -1319,7 +1317,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
     private HashSet<Field>? _fields;
     private bool _refreshRequired = false;
     private Dictionary<Guid, Graphic[]> _activeQueries = new();
-    private Dictionary<Guid, Dictionary<int, Graphic[]>> _activeRelatedQueries = new();
+    private Dictionary<Guid, Dictionary<long, Graphic[]>> _activeRelatedQueries = new();
 }
 
 /// <summary>

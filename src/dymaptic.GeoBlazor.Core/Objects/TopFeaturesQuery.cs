@@ -186,14 +186,14 @@ public record TopFilter
     ///     values from those fields.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IEnumerable<string>? GroupByFields { get; set; }
+    public IReadOnlyList<string>? GroupByFields { get; set; }
 
     /// <summary>
     ///     One or more field names used to order the query results. Specify ASC (ascending) or DESC (descending) after the
     ///     field name to control the order. The default order is ASC.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IEnumerable<string>? OrderByFields { get; set; }
+    public IReadOnlyList<string>? OrderByFields { get; set; }
 
     /// <summary>
     ///     Defines the number of features to be returned from the top features query.

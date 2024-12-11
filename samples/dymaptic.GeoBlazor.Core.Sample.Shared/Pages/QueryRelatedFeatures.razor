@@ -1,4 +1,5 @@
 ﻿@page "/query-related-features"
+@using dymaptic.GeoBlazor.Core.Results
 <PageTitle>Query Related Features</PageTitle>
 <h1>Query Related Features</h1>
 
@@ -96,7 +97,7 @@
         var query = new Query
         {
             Geometry = point,
-            OutFields = new[] { "*" },
+            OutFields = ["*"],
             SpatialRelationship = SpatialRelationship.Intersects,
             ReturnGeometry = false
         };
@@ -118,7 +119,7 @@
 
         var relationshipQuery = new RelationshipQuery
         {
-            OutFields = new[] { "NAME", "SUM_POPULATION" },
+            OutFields = ["NAME", "SUM_POPULATION"],
             RelationshipId = _featureLayer.Relationships?.FirstOrDefault()?.Id,
             ObjectIds = objectIds
         };
@@ -128,5 +129,5 @@
 
     private FeatureLayer? _featureLayer;
     private HighlightHandle? _highlight;
-    Dictionary<int, FeatureSet?>? _relatedFeatures;
+    RelatedFeaturesQueryResult? _relatedFeatures;
 }
