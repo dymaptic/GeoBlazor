@@ -1,8 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Components.Layers;
-using Microsoft.AspNetCore.Components;
-using System.Text.Json.Serialization;
-using dymaptic.GeoBlazor.Core.Components.Symbols;
-using Microsoft.JSInterop;
+﻿using dymaptic.GeoBlazor.Core.Components.Symbols;
 
 
 namespace dymaptic.GeoBlazor.Core.Components.Renderers;

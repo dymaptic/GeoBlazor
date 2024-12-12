@@ -1,4 +1,7 @@
-﻿namespace dymaptic.GeoBlazor.Core.Events;
+﻿using dymaptic.GeoBlazor.Core.Enums;
+
+
+namespace dymaptic.GeoBlazor.Core.Events;
 
 /// <summary>
 ///     Fires when a wheel button of a pointing device (typically a mouse) is scrolled on the view.

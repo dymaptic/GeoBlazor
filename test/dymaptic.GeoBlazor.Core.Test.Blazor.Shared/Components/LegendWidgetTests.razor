@@ -12,7 +12,10 @@
         AddMapRenderFragment(
             @<MapView class="map-view" OnViewRendered="renderHandler">
 
-                <Map ArcGISDefaultBasemap="arcgis-imagery">
+                <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+        </Basemap>
                     <GeoJSONLayer Title="Earthquakes from the last month"
                                   Url="https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson" />
                 </Map>

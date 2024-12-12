@@ -1,4 +1,5 @@
-﻿using dymaptic.GeoBlazor.Core.Serialization;
+﻿using dymaptic.GeoBlazor.Core.Enums;
+using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
 using System.Text.Json.Serialization;
 
@@ -93,7 +94,7 @@ public class ExpandWidget : Widget
     ///   The mode in which the widget displays.
     /// </summary>
     [Parameter]
-    public Mode Mode { get; set; } = Mode.Auto;
+    public ExpandMode Mode { get; set; } = ExpandMode.Auto;
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
@@ -129,20 +130,4 @@ public class ExpandWidget : Widget
                 break;
         }
     }
-}
-
-
-/// <summary>
-/// The mode in which the Expander widget displays. These modes are listed below.
-/// Possible Values:"auto"|"floating"|"drawer"
-/// Default Value:"auto"
-/// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<Mode>))]
-public enum Mode
-{
-#pragma warning disable CS1591
-    Auto,
-    Floating,
-    Drawer
-#pragma warning restore CS1591
 }

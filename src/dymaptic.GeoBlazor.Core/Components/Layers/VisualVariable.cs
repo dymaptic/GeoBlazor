@@ -1,4 +1,6 @@
-﻿using dymaptic.GeoBlazor.Core.Serialization;
+﻿using dymaptic.GeoBlazor.Core.Enums;
+using dymaptic.GeoBlazor.Core.Options;
+using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -84,20 +86,6 @@ public abstract class VisualVariable : MapComponent
                 break;
         }
     }
-}
-
-/// <summary>
-///     A collection of <see cref="VisualVariable" /> Types
-/// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<VisualVariableType>))]
-public enum VisualVariableType
-{
-#pragma warning disable CS1591
-    Size,
-    Rotation,
-    Color,
-    Opacity
-#pragma warning restore CS1591
 }
 
 internal class VisualVariableConverter : JsonConverter<VisualVariable>

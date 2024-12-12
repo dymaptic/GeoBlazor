@@ -1,4 +1,5 @@
-﻿using dymaptic.GeoBlazor.Core.Extensions;
+﻿using dymaptic.GeoBlazor.Core.Enums;
+using dymaptic.GeoBlazor.Core.Extensions;
 using dymaptic.GeoBlazor.Core.Objects;
 using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
@@ -62,26 +63,4 @@ public class SimpleLineSymbol : LineSymbol
             Style = LineStyle?.ToString().ToKebabCase()
         };
     }
-}
-
-/// <summary>
-///     Possible line style values for <see cref="SimpleLineSymbol" />
-/// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<LineStyle>))]
-public enum LineStyle
-{
-#pragma warning disable CS1591
-    Solid,
-    Dash,
-    DashDot,
-    Dot,
-    LongDash,
-    LongDashDot,
-    LongDashDotDot,
-    ShortDash,
-    ShortDashDot,
-    ShortDashDotDot,
-    ShortDot,
-    None
-#pragma warning restore CS1591
 }

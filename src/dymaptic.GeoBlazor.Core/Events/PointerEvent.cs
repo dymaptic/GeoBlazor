@@ -1,4 +1,7 @@
-﻿namespace dymaptic.GeoBlazor.Core.Events;
+﻿using dymaptic.GeoBlazor.Core.Enums;
+
+
+namespace dymaptic.GeoBlazor.Core.Events;
 
 /// <summary>
 ///     This event type returns for all pointer events (down, up, enter, leave, move, etc.).

@@ -15,7 +15,10 @@
          Class="map-view"
          OnClick="OnClick"
          PopupEnabled="false">
-    <Map ArcGISDefaultBasemap="gray-vector">
+    <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisLightGrayBase" />
+        </Basemap>
         <FeatureLayer @ref="_featureLayer" OutFields="@(new[] { "*" })">
             <PortalItem Id="234d2e3f6f554e0e84757662469c26d3" />
         </FeatureLayer>

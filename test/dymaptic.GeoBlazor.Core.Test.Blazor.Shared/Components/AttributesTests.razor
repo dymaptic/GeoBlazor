@@ -1,3 +1,4 @@
+@using dymaptic.GeoBlazor.Core.Results
 @inherits TestRunnerBase
 
 @{
@@ -11,7 +12,11 @@ base.BuildRenderTree(__builder);
         MapView? mapView = null;
         AddMapRenderFragment( 
             @<MapView @ref="mapView" class="map-view" OnViewRendered="renderHandler">
-                <Map ArcGISDefaultBasemap="arcgis-imagery" />
+                <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+        </Basemap>
+    </Map>
             </MapView>);
 
         await WaitForMapToRender();
@@ -127,7 +132,10 @@ base.BuildRenderTree(__builder);
             @<MapView @ref="view"
                       class="map-view" 
                       OnViewRendered="renderHandler">
-                <Map ArcGISDefaultBasemap="arcgis-imagery">
+                <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+        </Basemap>
                     <GraphicsLayer @ref="layer" />
                 </Map>
             </MapView>);
@@ -174,7 +182,11 @@ base.BuildRenderTree(__builder);
         MapView? mapView = null;
         AddMapRenderFragment( 
             @<MapView @ref="mapView" class="map-view" OnViewRendered="renderHandler">
-                <Map ArcGISDefaultBasemap="arcgis-imagery" />
+                <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+        </Basemap>
+    </Map>
             </MapView>);
 
         await WaitForMapToRender();

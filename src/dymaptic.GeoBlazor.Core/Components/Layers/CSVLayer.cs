@@ -1,9 +1,7 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Popups;
 using dymaptic.GeoBlazor.Core.Components.Renderers;
+using dymaptic.GeoBlazor.Core.Enums;
 using dymaptic.GeoBlazor.Core.Interfaces;
-using Microsoft.AspNetCore.Components;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 
 
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
@@ -182,55 +180,5 @@ public class CSVLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer
         PopupTemplate?.ValidateRequiredChildren();
         Renderer?.ValidateRequiredChildren();
         base.ValidateRequiredChildren();
-    }
-}
-
-/// <summary>
-///     Possible Column Delimiters for CSVLayer
-/// </summary>
-[JsonConverter(typeof(CSVDelimiterConverter))]
-public enum CSVDelimiter
-{
-#pragma warning disable CS1591
-    Comma,
-    Space,
-    Semicolon,
-    Pipe,
-    TabDelimited
-#pragma warning restore CS1591
-}
-
-internal class CSVDelimiterConverter : JsonConverter<CSVDelimiter>
-{
-    public override CSVDelimiter Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        throw new NotImplementedException();
-    }
-
-    public override void Write(Utf8JsonWriter writer, CSVDelimiter value, JsonSerializerOptions options)
-    {
-        switch (value)
-        {
-            case CSVDelimiter.Comma:
-                writer.WriteStringValue(",");
-
-                break;
-            case CSVDelimiter.Space:
-                writer.WriteStringValue(" ");
-
-                break;
-            case CSVDelimiter.Semicolon:
-                writer.WriteStringValue(";");
-
-                break;
-            case CSVDelimiter.Pipe:
-                writer.WriteStringValue("|");
-
-                break;
-            case CSVDelimiter.TabDelimited:
-                writer.WriteStringValue("\t");
-
-                break;
-        }
     }
 }

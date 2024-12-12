@@ -1,6 +1,7 @@
 using dymaptic.GeoBlazor.Core.Components.Geometries;
 using dymaptic.GeoBlazor.Core.Components.Popups;
 using dymaptic.GeoBlazor.Core.Components.Renderers;
+using dymaptic.GeoBlazor.Core.Enums;
 using dymaptic.GeoBlazor.Core.Extensions;
 using dymaptic.GeoBlazor.Core.Model;
 using dymaptic.GeoBlazor.Core.Serialization;
@@ -1184,18 +1185,6 @@ public class JoinTableDataSource : DynamicDataSource
         RightTableSource?.ValidateRequiredChildren();
         base.ValidateRequiredChildren();
     }
-}
-
-/// <summary>
-///     Possible types of joins for a <see cref="JoinTableDataSource"/>
-/// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<DynamicJoinType>))]
-public enum DynamicJoinType
-{
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-    LeftOuterJoin,
-    LeftInnerJoin
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 }
 
 /// <summary>

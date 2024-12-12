@@ -3,6 +3,7 @@ using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
 using System.Text.Json.Serialization;
 using dymaptic.GeoBlazor.Core.Components.Symbols;
+using dymaptic.GeoBlazor.Core.Enums;
 using Microsoft.JSInterop;
 
 
@@ -244,64 +245,4 @@ public class Label : MapComponent
     }
 
     private bool _updateSymbol;
-}
-
-/// <summary>
-///     Defines how labels should be placed relative to one another. By default, labels have a static deconfliction strategy, meaning labels that overlap are dropped to make them easier to read.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LabelClass.html#deconflictionStrategy">ArcGIS Maps SDK for JavaScript</a>
-/// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<DeconflictionStrategy>))]
-public enum DeconflictionStrategy
-{
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-    None,
-    Static
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
-}
-
-/// <summary>
-///     Specifies the orientation of the label position of a polyline label.
-/// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<LabelPosition>))]
-public enum LabelPosition
-{
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-    Curved,
-    Parallel
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
-}
-
-/// <summary>
-///     The position of the <see cref="Label"/>. Possible values are based on the feature type. This property requires a value.
-/// </summary>
-[JsonConverter(typeof(LabelPlacementStringConverter))]
-public enum LabelPlacement
-{
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-    AboveCenter,
-    AboveLeft,
-    AboveRight,
-    BelowCenter,
-    BelowLeft,
-    BelowRight,
-    CenterCenter,
-    CenterLeft,
-    CenterRight,
-    AboveAfter,
-    AboveAlong,
-    AboveBefore,
-    AboveStart,
-    AboveEnd,
-    BelowAfter,
-    BelowAlong,
-    BelowBefore,
-    BelowStart,
-    BelowEnd,
-    CenterAfter,
-    CenterAlong,
-    CenterBefore,
-    CenterStart,
-    CenterEnd,
-    AlwaysHorizontal
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 }

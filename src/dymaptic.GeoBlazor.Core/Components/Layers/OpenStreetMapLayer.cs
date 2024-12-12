@@ -1,4 +1,5 @@
-﻿using dymaptic.GeoBlazor.Core.Interfaces;
+﻿using dymaptic.GeoBlazor.Core.Enums;
+using dymaptic.GeoBlazor.Core.Interfaces;
 
 
 namespace dymaptic.GeoBlazor.Core.Components.Layers;

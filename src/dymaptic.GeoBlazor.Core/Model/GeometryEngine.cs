@@ -1,6 +1,8 @@
 ﻿using dymaptic.GeoBlazor.Core.Components;
 using dymaptic.GeoBlazor.Core.Components.Geometries;
+using dymaptic.GeoBlazor.Core.Enums;
 using dymaptic.GeoBlazor.Core.Objects;
+using dymaptic.GeoBlazor.Core.Results;
 using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.JSInterop;
 using System.Text.Json.Serialization;
@@ -1467,18 +1469,4 @@ public class GeometryEngine : LogicComponent
     {
         return await InvokeAsync<double?>("getExtentWidth", extent);
     }
-}
-
-/// <summary>
-///     Join types for creating an offset geometry in <see cref="GeometryEngine" />
-/// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<JoinType>))]
-public enum JoinType
-{
-#pragma warning disable CS1591
-    Round,
-    Bevel,
-    Miter,
-    Square
-#pragma warning restore CS1591
 }

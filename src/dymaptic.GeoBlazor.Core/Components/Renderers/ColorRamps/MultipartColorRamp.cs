@@ -1,4 +1,7 @@
-﻿namespace dymaptic.GeoBlazor.Core.Components.Renderers.ColorRamps;
+﻿using dymaptic.GeoBlazor.Core.Enums;
+
+
+namespace dymaptic.GeoBlazor.Core.Components.Renderers.ColorRamps;
 
 /// <summary>
 ///     Creates a color ramp for use in a raster renderer. The algorithmic color ramp is defined by specifying two colors and the

@@ -1,4 +1,5 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
+using dymaptic.GeoBlazor.Core.Enums;
 using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
 using System.Text.Json.Serialization;
@@ -113,29 +114,4 @@ public class TileInfo : MapComponent
         SpatialReference?.ValidateRequiredChildren();
         base.ValidateRequiredChildren();
     }
-}
-
-/// <summary>
-///     Image format of the cached tiles.
-/// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<TileInfoFormat>))]
-public enum TileInfoFormat
-{
-#pragma warning disable CS1591
-    Png,
-    Png24,
-    Png32,
-    Jpg,
-    Dib,
-    Tiff,
-    Emf,
-    Ps,
-    Pdf,
-    Gif,
-    Svg,
-    Svgz,
-    Mixed,
-    Lerc,
-    Pbf
-#pragma warning restore CS1591
 }

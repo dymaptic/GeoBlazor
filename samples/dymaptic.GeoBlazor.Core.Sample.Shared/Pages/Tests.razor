@@ -18,7 +18,10 @@
     <Extent Xmin="-41525513" Ymin="4969181" Xmax="-36687355" Ymax="9024624">
         <SpatialReference Wkid="102100" />
     </Extent>
-    <Map ArcGISDefaultBasemap="arcgis-topographic">
+    <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+        </Basemap>
         <GraphicsLayer>
             @for (var i = 0; i < _graphicsCount; i++)
             {
@@ -55,13 +58,19 @@
             Ymax="4061566.0769513007" Ymin="4015703.859980177">
         <SpatialReference Wkid="102100" />
     </Extent>
-    <Map ArcGISDefaultBasemap="arcgis-navigation">
+    <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisNavigation" />
+        </Basemap>
     </Map>
 </MapView>
 
 <h2>MapRendered Test Map</h2>
 <MapView @ref="_view3" Style="height: 600px; width: 100%;" OnViewRendered="OnMap3Rendered" OnClick="On3Click">
-    <Map ArcGISDefaultBasemap="arcgis-navigation">
+    <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisNavigation" />
+        </Basemap>
     </Map>
     <Extent Xmax="4120960.074670904" Xmin="-3412935.278412999" Ymax="8963926.222211033" Ymin="6049459.93475111">
         <SpatialReference Wkid="102100" />
@@ -71,7 +80,10 @@
 
 <h2>Spatial Ref from FeatureLayer Test Map</h2>
 <MapView Style="height: 600px; width: 100%;">
-    <Map ArcGISDefaultBasemap="arcgis-navigation">
+    <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisNavigation" />
+        </Basemap>
         <FeatureLayer Url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/weather_stations_010417/FeatureServer/0" />
     </Map>
     <Extent Xmax="4120960.074670904" Xmin="-3412935.278412999" Ymax="8963926.222211033" Ymin="6049459.93475111">
@@ -85,7 +97,10 @@
     <Extent Xmax="-12316914.7038" Xmin="-14596572.5354" Ymax="6562278.17835" Ymin="4992526.63148">
         <SpatialReference Wkid="102100" />
     </Extent>
-    <Map ArcGISDefaultBasemap="arcgis-topographic">
+    <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+        </Basemap>
         <FeatureLayer>
             <PortalItem Id="a07b8cd0b3514285ab1ff001befd2288">
                 <Portal Url="https://arcgis.dymaptic.com/portal/" />

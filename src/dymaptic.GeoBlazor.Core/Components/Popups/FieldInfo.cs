@@ -1,4 +1,5 @@
-﻿using dymaptic.GeoBlazor.Core.Extensions;
+﻿using dymaptic.GeoBlazor.Core.Enums;
+using dymaptic.GeoBlazor.Core.Extensions;
 using Microsoft.AspNetCore.Components;
 using ProtoBuf;
 using System.Text.Json.Serialization;
@@ -177,9 +178,9 @@ internal record FieldInfoSerializationRecord : MapComponentSerializationRecord
     {
         StringFieldOption? sfo = StringFieldOption switch
         {
-            "rich-text" => Components.StringFieldOption.RichText,
-            "text-area" => Components.StringFieldOption.TextArea,
-            "text-box" => Components.StringFieldOption.TextBox,
+            "rich-text" => Enums.StringFieldOption.RichText,
+            "text-area" => Enums.StringFieldOption.TextArea,
+            "text-box" => Enums.StringFieldOption.TextBox,
             _ => null
         };
         return new FieldInfo(FieldName, Label, Tooltip, sfo,

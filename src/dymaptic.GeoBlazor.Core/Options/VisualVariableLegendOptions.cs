@@ -1,4 +1,7 @@
-namespace dymaptic.GeoBlazor.Core.Components;
+using dymaptic.GeoBlazor.Core.Components;
+
+
+namespace dymaptic.GeoBlazor.Core.Options;
 
 /// <summary>
 ///     An object providing options for displaying the visual variable in the Legend.

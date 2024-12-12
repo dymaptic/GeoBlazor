@@ -13,7 +13,11 @@
          Latitude="34.03000"
          Zoom="13"
          Class="map-view">
-    <Map ArcGISDefaultBasemap="arcgis-navigation" />
+    <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisNavigation" />
+        </Basemap>
+    </Map>
 
     <CustomOverlay Position="OverlayPosition.TopRight">
         <select class="esri-widget esri-select demo-select" @onchange="OnSqlQueryChanged">

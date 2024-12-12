@@ -1,8 +1,6 @@
-﻿using dymaptic.GeoBlazor.Core.Extensions;
+﻿using dymaptic.GeoBlazor.Core.Enums;
+using dymaptic.GeoBlazor.Core.Extensions;
 using dymaptic.GeoBlazor.Core.Objects;
-using dymaptic.GeoBlazor.Core.Serialization;
-using Microsoft.AspNetCore.Components;
-using System.Text.Json.Serialization;
 
 
 namespace dymaptic.GeoBlazor.Core.Components.Symbols;
@@ -324,31 +322,4 @@ public class TextSymbol : Symbol
             YOffset = YOffset?.Points
         };
     }
-}
-
-/// <summary>
-///     The horizontal alignment for a text symbol's text.
-/// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<HorizontalAlignment>))]
-public enum HorizontalAlignment
-{
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-    Left,
-    Right,
-    Center
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
-}
-
-/// <summary>
-///     The vertical alignment for a text symbol's text.
-/// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<VerticalAlignment>))]
-public enum VerticalAlignment
-{
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-    Baseline,
-    Top,
-    Middle,
-    Bottom
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 }

@@ -1,4 +1,5 @@
-﻿using dymaptic.GeoBlazor.Core.Objects;
+﻿using dymaptic.GeoBlazor.Core.Enums;
+using dymaptic.GeoBlazor.Core.Objects;
 
 
 namespace dymaptic.GeoBlazor.Core.Components.Symbols;

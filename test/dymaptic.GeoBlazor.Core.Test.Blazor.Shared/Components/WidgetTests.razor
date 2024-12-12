@@ -1,4 +1,5 @@
-﻿@inherits TestRunnerBase
+﻿@using dymaptic.GeoBlazor.Core.Results
+@inherits TestRunnerBase
 
 @{
     base.BuildRenderTree(__builder);
@@ -12,7 +13,11 @@
         AddMapRenderFragment(
             @<MapView class="map-view" OnViewRendered="renderHandler">
 
-                <Map ArcGISDefaultBasemap="arcgis-imagery" />
+                <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+        </Basemap>
+    </Map>
                 <BasemapGalleryWidget />
 
             </MapView>);
@@ -85,7 +90,11 @@
         AddMapRenderFragment(
             @<MapView class="map-view" OnViewRendered="renderHandler">
 
-                <Map ArcGISDefaultBasemap="arcgis-imagery" />
+                <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+        </Basemap>
+    </Map>
                 <BasemapToggleWidget />
 
             </MapView>);
@@ -100,7 +109,11 @@
         AddMapRenderFragment(
             @<MapView class="map-view" OnViewRendered="renderHandler">
 
-                <Map ArcGISDefaultBasemap="arcgis-imagery" />
+                <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+        </Basemap>
+    </Map>
                 <BasemapToggleWidget NextBasemapName="arcgis-topographic" />
 
             </MapView>);
@@ -115,7 +128,11 @@
         AddMapRenderFragment(
             @<MapView class="map-view" OnViewRendered="renderHandler">
 
-                <Map ArcGISDefaultBasemap="arcgis-imagery" />
+                <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+        </Basemap>
+    </Map>
                 <CompassWidget />
 
             </MapView>);
@@ -130,7 +147,11 @@
         AddMapRenderFragment(
             @<MapView class="map-view" OnViewRendered="renderHandler">
 
-                <Map ArcGISDefaultBasemap="arcgis-imagery" />
+                <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+        </Basemap>
+    </Map>
                 <HomeWidget />
 
             </MapView>);
@@ -172,7 +193,11 @@
         AddMapRenderFragment(
             @<MapView class="map-view" OnViewRendered="renderHandler">
 
-                <Map ArcGISDefaultBasemap="arcgis-imagery" />
+                <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+        </Basemap>
+    </Map>
                 <LegendWidget />
 
             </MapView>);
@@ -187,7 +212,11 @@
         AddMapRenderFragment(
             @<MapView class="map-view" OnViewRendered="renderHandler">
 
-                <Map ArcGISDefaultBasemap="arcgis-imagery" />
+                <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+        </Basemap>
+    </Map>
                 <LocateWidget />
 
             </MapView>);
@@ -202,7 +231,11 @@
         AddMapRenderFragment(
             @<MapView class="map-view" OnViewRendered="renderHandler">
 
-                <Map ArcGISDefaultBasemap="arcgis-imagery" />
+                <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+        </Basemap>
+    </Map>
                 <PopupWidget />
 
             </MapView>);
@@ -217,7 +250,11 @@
         AddMapRenderFragment(
             @<MapView class="map-view" OnViewRendered="renderHandler">
 
-                <Map ArcGISDefaultBasemap="arcgis-imagery" />
+                <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+        </Basemap>
+    </Map>
                 <ScaleBarWidget />
 
             </MapView>);
@@ -232,7 +269,11 @@
         AddMapRenderFragment(
             @<MapView class="map-view" OnViewRendered="renderHandler">
 
-                <Map ArcGISDefaultBasemap="arcgis-imagery" />
+                <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+        </Basemap>
+    </Map>
                 <SearchWidget />
 
             </MapView>);
@@ -257,7 +298,11 @@
         AddMapRenderFragment(
             @<MapView class="map-view" OnViewRendered="renderHandler">
 
-                <Map ArcGISDefaultBasemap="arcgis-imagery" />
+                <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+        </Basemap>
+    </Map>
                 <SearchWidget @ref="widget">
                     <SearchSource GetResultsHandler="GetResultsHandler" />
                 </SearchWidget>
@@ -286,7 +331,11 @@
         AddMapRenderFragment(
             @<MapView class="map-view" OnViewRendered="renderHandler">
 
-                <Map ArcGISDefaultBasemap="arcgis-imagery" />
+                <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+        </Basemap>
+    </Map>
                 <SearchWidget>
                     <SearchSource GetSuggestionsHandler="GetSuggestionsHandler" />
                 </SearchWidget>
@@ -314,7 +363,11 @@
         AddMapRenderFragment(
             @<MapView class="map-view" OnViewRendered="renderHandler">
 
-                <Map ArcGISDefaultBasemap="arcgis-imagery" />
+                <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+        </Basemap>
+    </Map>
                 <SearchWidget @ref="widget" />
 
             </MapView>);
@@ -361,7 +414,11 @@
         AddMapRenderFragment(
             @<div>
                 <MapView @ref="mapView" class="map-view" OnViewRendered="renderHandler">
-                    <Map ArcGISDefaultBasemap="arcgis-imagery" />
+                    <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+        </Basemap>
+    </Map>
                 </MapView>
                 <HomeWidget @ref="homeWidget" MapView="@mapView"
                             OnWidgetCreated="OnWidgetCreated"/>
@@ -381,7 +438,11 @@
         AddMapRenderFragment(
             @<div>
                 <MapView class="map-view" OnViewRendered="renderHandler">
-                    <Map ArcGISDefaultBasemap="arcgis-imagery" />
+                    <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+        </Basemap>
+    </Map>
                 </MapView>
                 <HomeWidget />
             </div>);
@@ -402,7 +463,11 @@
             @<div>
                 <div id="external-container" />
                 <MapView class="map-view" OnViewRendered="renderHandler">
-                    <Map ArcGISDefaultBasemap="arcgis-imagery" />
+                    <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+        </Basemap>
+    </Map>
                     <HomeWidget @ref="homeWidget" ContainerId="external-container"
                                 OnWidgetCreated="OnWidgetCreated" />
                 </MapView>

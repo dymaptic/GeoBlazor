@@ -3,6 +3,8 @@ using dymaptic.GeoBlazor.Core.Components.Geometries;
 using dymaptic.GeoBlazor.Core.Components.Layers;
 using dymaptic.GeoBlazor.Core.Components.Popups;
 using dymaptic.GeoBlazor.Core.Components.Symbols;
+using dymaptic.GeoBlazor.Core.Enums;
+using dymaptic.GeoBlazor.Core.Results;
 using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -514,18 +516,6 @@ public class LocatorSearchSourceFilter : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Geometry? Geometry { get; set; }
-}
-
-/// <summary>
-///     Defines the type of location, either street or rooftop, of the point returned from the World Geocoding Service.
-/// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<LocatorSearchLocationType>))]
-public enum LocatorSearchLocationType
-{
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-    Rooftop,
-    Street
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 }
 
 /// <summary>

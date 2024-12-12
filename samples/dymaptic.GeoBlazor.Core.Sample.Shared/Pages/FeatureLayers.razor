@@ -43,7 +43,10 @@
 </div>
 
 <MapView Longitude="-118.80543" Latitude="34.02700" Zoom="13" Class="map-view">
-    <Map ArcGISDefaultBasemap="arcgis-topographic">
+    <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+        </Basemap>
         @if (_showPolygonLayer)
         {
             <FeatureLayer Url="https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Parks_and_Open_Space/FeatureServer/0" />

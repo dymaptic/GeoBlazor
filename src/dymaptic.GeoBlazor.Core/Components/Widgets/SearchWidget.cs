@@ -1,7 +1,9 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
 using dymaptic.GeoBlazor.Core.Components.Layers;
 using dymaptic.GeoBlazor.Core.Components.Popups;
+using dymaptic.GeoBlazor.Core.Enums;
 using dymaptic.GeoBlazor.Core.Objects;
+using dymaptic.GeoBlazor.Core.Results;
 using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -439,18 +441,4 @@ public class SearchWidget : Widget
         Portal?.ValidateRequiredChildren();
         base.ValidateRequiredChildren();
     }
-}
-
-/// <summary>
-///     The active menu of the search widget.
-/// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<SearchMenu>))]
-public enum SearchMenu
-{
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-    None,
-    Suggestion,
-    Source,
-    Warning
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 }

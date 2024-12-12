@@ -1,3 +1,4 @@
+using dymaptic.GeoBlazor.Core.Enums;
 using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -804,34 +805,6 @@ public class SliderWidget: Widget
 }
 
 /// <summary>
-///     Possible layouts of the <see cref="SliderWidget"/>
-/// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<SliderLayout>))]
-public enum SliderLayout
-{
-#pragma warning disable 1591
-    Horizontal,
-    HorizontalReversed,
-    Vertical,
-    VerticalReversed
-#pragma warning restore 1591
-}
-
-/// <summary>
-///     The state of the <see cref="SliderWidget"/>.
-/// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<SliderState>))]
-public enum SliderState
-{
-#pragma warning disable 1591
-    Ready,
-    Disabled,
-    Editing,
-    Dragging
-#pragma warning restore 1591
-}
-
-/// <summary>
 ///     Object specification for configuring ticks on the slider. An array of these objects should be set on the tickConfigs property.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#TickConfig">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
@@ -939,26 +912,6 @@ public class SliderTickConfig: MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? LabelFormatFunction { get; set; }
-}
-
-/// <summary>
-///     The mode of the <see cref="SliderTickConfig"/>.
-/// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<TickConfigMode>))]
-public enum TickConfigMode
-{
-    /// <summary>
-    ///     Places a fixed number of ticks (provided in the values property) at equal distances from each other below the slider track.
-    /// </summary>
-    Count,
-    /// <summary>
-    ///     When set, and a single number is set on the values property, ticks will be placed at the specified percentage interval along the length of the slider. For example, when mode is percent and values is 5, then 20 ticks will be placed below the slider track (at 5-percent intervals from each other). If an array of values is provided, the values are interpreted as percentages along the slider. So if values is [10, 50, 90], then three ticks will be placed below the track; one at the midway point, and two 10 percent of the length from either end of the slider.
-    /// </summary>
-    Percent,
-    /// <summary>
-    ///     Indicates that ticks will only be placed at the values specified in the values property.
-    /// </summary>
-    Position
 }
 
 /// <summary>
@@ -1086,18 +1039,6 @@ public record SliderSegmentClickEvent(int Index, int[] ThumbIndices, double Valu
 public record SliderSegmentDragEvent(int Index, SliderDragState State, int[] ThumbIndices);
 
 /// <summary>
-///     The state of the drag in a <see cref="SliderSegmentDragEvent"/>.
-/// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<SliderDragState>))]
-public enum SliderDragState
-{
-#pragma warning disable 1591
-    Start,
-    Drag
-#pragma warning restore 1591
-}
-
-/// <summary>
 ///     Event arguments for the <see cref="SliderWidget.OnThumbChange"/> event.
 /// </summary>
 /// <param name="Index">
@@ -1135,19 +1076,6 @@ public record SliderThumbClickEvent(int Index, double Value);
 ///     The value of the thumb when the event is emitted.
 /// </param>
 public record SliderThumbDragEvent(int Index, SliderThumbDragState State, double Value);
-
-/// <summary>
-///     The state of the drag in a <see cref="SliderThumbDragEvent"/>.
-/// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<SliderThumbDragState>))]
-public enum SliderThumbDragState
-{
-#pragma warning disable 1591
-    Drag,
-    Start,
-    Stop
-#pragma warning restore 1591
-}
 
 /// <summary>
 ///     Event arguments for the <see cref="SliderWidget.OnTickClick"/> event.

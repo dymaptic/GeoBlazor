@@ -1,4 +1,5 @@
-﻿using dymaptic.GeoBlazor.Core.Objects;
+﻿using dymaptic.GeoBlazor.Core.Enums;
+using dymaptic.GeoBlazor.Core.Objects;
 using Microsoft.AspNetCore.Components;
 using System.Text.Json.Serialization;
 

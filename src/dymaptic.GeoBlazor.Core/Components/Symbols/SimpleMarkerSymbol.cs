@@ -1,4 +1,5 @@
-﻿using dymaptic.GeoBlazor.Core.Extensions;
+﻿using dymaptic.GeoBlazor.Core.Enums;
+using dymaptic.GeoBlazor.Core.Extensions;
 using dymaptic.GeoBlazor.Core.Objects;
 using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
@@ -164,21 +165,4 @@ public class SimpleMarkerSymbol : MarkerSymbol
 
         return style1 == style2;
     }
-}
-
-/// <summary>
-///     The marker style.
-/// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<SimpleMarkerStyle>))]
-public enum SimpleMarkerStyle
-{
-#pragma warning disable CS1591
-    Circle,
-    Square,
-    Cross,
-    X,
-    Diamond,
-    Triangle,
-    Path
-#pragma warning restore CS1591
 }

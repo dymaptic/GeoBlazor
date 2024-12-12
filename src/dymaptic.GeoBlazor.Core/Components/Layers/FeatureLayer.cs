@@ -2,10 +2,12 @@
 using dymaptic.GeoBlazor.Core.Components.Popups;
 using dymaptic.GeoBlazor.Core.Components.Renderers;
 using dymaptic.GeoBlazor.Core.Components.Widgets;
+using dymaptic.GeoBlazor.Core.Enums;
 using dymaptic.GeoBlazor.Core.Exceptions;
 using dymaptic.GeoBlazor.Core.Interfaces;
 using dymaptic.GeoBlazor.Core.Model;
 using dymaptic.GeoBlazor.Core.Objects;
+using dymaptic.GeoBlazor.Core.Options;
 using dymaptic.GeoBlazor.Core.Results;
 using dymaptic.GeoBlazor.Core.Serialization;
 using ProtoBuf;
@@ -1321,34 +1323,6 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
 }
 
 /// <summary>
-///     The return type for <see cref="FeatureLayer.QueryExtent" />.
-/// </summary>
-/// <param name="Count">
-///     The number of features that satisfy the input query.
-/// </param>
-/// <param name="Extent">
-///     The extent of features that satisfy the query.
-/// </param>
-public record ExtentQueryResult(int Count, Extent Extent);
-
-/// <summary>
-///     Options for creating the <see cref="PopupTemplate" />.
-/// </summary>
-public record CreatePopupTemplateOptions
-{
-    /// <summary>
-    ///     An array of field types to ignore when creating the popup. System fields such as Shape_Area and Shape_length, in
-    ///     addition to geometry, blob, raster, guid and xml field types are automatically ignored.
-    /// </summary>
-    public string[]? IgnoreFieldTypes { get; set; }
-
-    /// <summary>
-    ///     An array of field names set to be visible within the PopupTemplate.
-    /// </summary>
-    public HashSet<string>? VisibleFieldNames { get; set; }
-}
-
-/// <summary>
 ///     Object containing features and attachments to be added, updated or deleted.
 ///     For use with <see cref="FeatureLayer.ApplyEdits"/>
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#applyEdits">ArcGIS Maps SDK for JavaScript</a>
@@ -1617,32 +1591,6 @@ public record FeatureEditsResult(
         };
     }
 }
-
-/// <summary>
-///     FeatureEditResult represents the result of adding, updating or deleting a feature or an attachment.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#FeatureEditResult">ArcGIS Maps SDK for JavaScript</a>
-/// </summary>
-/// <param name="ObjectId">
-///     The objectId of the feature or the attachmentId of the attachment that was edited.
-/// </param>
-/// <param name="GlobalId">
-///     The globalId of the feature or the attachment that was edited.
-/// </param>
-/// <param name="Error">
-///     If the edit failed, the edit result includes an error.
-/// </param>
-public record FeatureEditResult(long? ObjectId, string? GlobalId, EditError? Error);
-
-/// <summary>
-///     The error object in a <see cref="FeatureEditResult"/>
-/// </summary>
-/// <param name="Name">
-///     Error name.
-/// </param>
-/// <param name="Message">
-///     Message describing the error.
-/// </param>
-public record EditError(string? Name, string? Message);
 
 /// <summary>
 ///     Results returned from the applyEdits method if the returnServiceEditsOption parameter is set to original-and-current-features. It contains features that were added, deleted or updated in different feature layers of a feature service as a result of editing a single feature that participates in a composite relationship in a database. The results are organized by each layer affected by the edit. For example, if a feature is deleted and it is the origin in a composite relationship, the edited features as a result of this deletion are returned.

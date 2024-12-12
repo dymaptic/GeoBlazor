@@ -1,4 +1,7 @@
-﻿namespace dymaptic.GeoBlazor.Core.Events;
+﻿using dymaptic.GeoBlazor.Core.Enums;
+
+
+namespace dymaptic.GeoBlazor.Core.Events;
 
 /// <summary>
 ///     Fires after a keyboard key is released.

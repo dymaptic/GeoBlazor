@@ -1,4 +1,5 @@
-﻿using dymaptic.GeoBlazor.Core.Serialization;
+﻿using dymaptic.GeoBlazor.Core.Enums;
+using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
 using System.Text.Json.Serialization;
 
@@ -59,16 +60,4 @@ public class RotationVariable : VisualVariable
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public RotationType? RotationType { get; set; }
-}
-
-/// <summary>
-///     Options for rotation type for <see cref="RotationVariable" />
-/// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<RotationType>))]
-public enum RotationType
-{
-#pragma warning disable CS1591
-    Geographic,
-    Arithmetic
-#pragma warning restore CS1591
 }

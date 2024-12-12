@@ -1,9 +1,8 @@
 ﻿using dymaptic.GeoBlazor.Core.Components;
-using Microsoft.AspNetCore.Components;
-using System.Text.Json.Serialization;
+using dymaptic.GeoBlazor.Core.Objects;
 
 
-namespace dymaptic.GeoBlazor.Core.Objects;
+namespace dymaptic.GeoBlazor.Core.Options;
 
 /// <summary>
 ///     Options for configuring the highlight. Use the highlight method on the appropriate LayerView to highlight a

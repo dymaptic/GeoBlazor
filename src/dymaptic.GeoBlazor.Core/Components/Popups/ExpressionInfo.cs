@@ -1,4 +1,5 @@
-﻿using dymaptic.GeoBlazor.Core.Serialization;
+﻿using dymaptic.GeoBlazor.Core.Enums;
+using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
 using ProtoBuf;
 using System.Text.Json.Serialization;
@@ -39,7 +40,7 @@ public class ExpressionInfo : MapComponent
     /// <param name="returnType">
     ///     Indicates the return type of the Arcade expression.
     /// </param>
-    public ExpressionInfo(string? expression, string? name, string? title, ReturnType? returnType)
+    public ExpressionInfo(string? expression, string? name, string? title, ExpressionInfoReturnType? returnType)
     {
 #pragma warning disable BL0005
         Expression = expression;
@@ -79,7 +80,7 @@ public class ExpressionInfo : MapComponent
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public ReturnType? ReturnType { get; set; }
+    public ExpressionInfoReturnType? ReturnType { get; set; }
     
     internal ExpressionInfoSerializationRecord ToSerializationRecord()
     {
@@ -97,7 +98,7 @@ internal record ExpressionInfoSerializationRecord : MapComponentSerializationRec
     public ExpressionInfoSerializationRecord(string? Expression,
         string? Name,
         string? Title,
-        ReturnType? ReturnType)
+        ExpressionInfoReturnType? ReturnType)
     {
         this.Expression = Expression;
         this.Name = Name;
@@ -121,17 +122,5 @@ internal record ExpressionInfoSerializationRecord : MapComponentSerializationRec
     public string? Title { get; init; }
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(4)]
-    public ReturnType? ReturnType { get; init; }
-}
-
-/// <summary>
-///     Indicates the return type of the Arcade expression.
-/// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<ReturnType>))]
-public enum ReturnType
-{
-#pragma warning disable CS1591
-    String,
-    Number
-#pragma warning restore CS1591
+    public ExpressionInfoReturnType? ReturnType { get; init; }
 }

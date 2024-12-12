@@ -13,7 +13,10 @@
 <button disabled="@(!_mapRendered)" @onclick="(()=>_markup = !_markup)">Add/Remove new WCS Layer in Markup without colorizing</button>
 
 <MapView @ref="_view" class="map-view" OnViewRendered="OnViewRendered">
-    <Map ArcGISDefaultBasemap="arcgis-light-gray">
+    <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisLightGrayBase" />
+        </Basemap>
         @if (_markup)
         {
             <WCSLayer Url="https://sampleserver6.arcgisonline.com/arcgis/services/ScientificData/SeaTemperature/ImageServer/WCSServer?request=GetCapabilities&service=WCS"></WCSLayer>

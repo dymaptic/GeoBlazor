@@ -73,18 +73,6 @@ public class NoData : MapComponent
     public long[]? PixelValueArray { get; set; }
 }
 
-/// <summary>
-///     The interpretation of no data values in the raster dataset.
-/// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<NoDataInterpretation>))]
-public enum NoDataInterpretation
-{
-#pragma warning disable  CS1591
-    Any,
-    All
-#pragma warning restore  CS1591
-}
-
 internal class NoDataConverter : JsonConverter<NoData>
 {
     public override NoData? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)

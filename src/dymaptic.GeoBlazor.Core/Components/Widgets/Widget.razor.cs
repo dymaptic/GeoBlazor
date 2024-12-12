@@ -1,4 +1,5 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Views;
+using dymaptic.GeoBlazor.Core.Enums;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System.Text.Json;

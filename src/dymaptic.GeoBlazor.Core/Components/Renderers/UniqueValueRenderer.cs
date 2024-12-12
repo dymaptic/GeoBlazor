@@ -1,6 +1,5 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Symbols;
-using Microsoft.AspNetCore.Components;
-using System.Text.Json.Serialization;
+using dymaptic.GeoBlazor.Core.Enums;
 
 
 namespace dymaptic.GeoBlazor.Core.Components.Renderers;

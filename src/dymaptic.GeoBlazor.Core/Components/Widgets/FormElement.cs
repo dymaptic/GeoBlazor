@@ -1,7 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Serialization;
-using Microsoft.AspNetCore.Components;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json;
 
 
 namespace dymaptic.GeoBlazor.Core.Components.Widgets;
@@ -262,20 +259,6 @@ public class GroupElement : FormElement
         }
         base.ValidateRequiredChildren();
     }
-}
-
-/// <summary>
-///     Return types for Arcade expressions.
-/// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<ArcadeReturnType>))]
-public enum ArcadeReturnType
-{
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-    Boolean,
-    Date,
-    Number,
-    String
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member    
 }
 
 internal class FormElementConverter : JsonConverter<FormElement>

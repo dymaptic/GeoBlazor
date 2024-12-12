@@ -1,5 +1,7 @@
-﻿using dymaptic.GeoBlazor.Core.Model;
+﻿using dymaptic.GeoBlazor.Core.Enums;
+using dymaptic.GeoBlazor.Core.Model;
 using dymaptic.GeoBlazor.Core.Objects;
+using dymaptic.GeoBlazor.Core.Options;
 using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
 using System.Text.Json.Serialization;
@@ -293,56 +295,4 @@ public class SizeStop : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? Value {get; set;}
-}
-
-/// <summary>
-///     Only applicable when working in a SceneView. Defines the axis the size visual variable should be applied to when rendering features with an ObjectSymbol3DLayer. See the local scene sample for an example of this.
-/// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<VisualAxis>))]
-public enum VisualAxis
-{
-#pragma warning disable CS1591
-    Width,
-    Depth,
-    Height,
-    WidthAndDepth,
-    All
-#pragma warning restore CS1591
-}
-
-/// <summary>
-///     Specifies how to apply the data value when mapping real-world sizes.
-/// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<VisualValueRepresentation>))]
-public enum VisualValueRepresentation
-{
-#pragma warning disable CS1591
-    Radius,
-    Diameter,
-    Area,
-    Width,
-    Distance
-#pragma warning restore CS1591
-}
-
-/// <summary>
-///     Specifies how to apply the data value when mapping real-world sizes.
-/// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<VisualValueUnit>))]
-public enum VisualValueUnit
-{
-#pragma warning disable CS1591
-    Unknown,
-    Inches,
-    Feet,
-    Yards,
-    Miles,
-    NauticalMiles,
-    Millimeters,
-    Centimeters,
-    Decimeters,
-    Meters,
-    Kilometers,
-    DecimalDegrees
-#pragma warning restore CS1591
 }

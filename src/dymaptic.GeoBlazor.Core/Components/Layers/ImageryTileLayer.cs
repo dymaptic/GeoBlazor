@@ -1,6 +1,7 @@
 using dymaptic.GeoBlazor.Core.Components.Geometries;
 using dymaptic.GeoBlazor.Core.Components.Popups;
 using dymaptic.GeoBlazor.Core.Components.Renderers;
+using dymaptic.GeoBlazor.Core.Enums;
 using dymaptic.GeoBlazor.Core.Model;
 using dymaptic.GeoBlazor.Core.Objects;
 using dymaptic.GeoBlazor.Core.Serialization;
@@ -413,20 +414,6 @@ public class ImageryTileLayer : Layer, IPopupTemplateLayer
 }
 
 /// <summary>
-///     Defines how to interpolate pixel values.
-/// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<PixelInterpolation>))]
-public enum PixelInterpolation
-{
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-    Nearest,
-    Bilinear,
-    Cubic,
-    Majority
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
-}
-
-/// <summary>
 ///     A subset of multidimensional raster data created by slicing the data along defined variables and dimensions. Only dimensional slices that meet the multidimensionalSubset requirements will be available on a multidimensional ImageryLayer or ImageryTileLayer when the multiDimensionalSubset property is set on the layer. For example, if you have an ImageryLayer that contains 30 years of monthly precipitation data, and you only want to expose data for each January to see how precipitation has changed for that month, you can set the multiDimensionalSubset on the imagery layer.
 ///     When the multiDimensionalSubset is defined on a layer, the multidimensionalDefinition property of the ImageryTileLayer or the mosaicRule.multidimensionalDefinition of the ImageryLayer must be within the defined multidimensionalSubset, otherwise nothing will be displayed on the map or available for analysis.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-MultidimensionalSubset.html">ArcGIS Maps SDK for JavaScript</a>
@@ -773,45 +760,3 @@ public record RasterBandStatistics(double Min, double Max, double Avg, double St
 ///     Count of pixels that fall into each bin.
 /// </param>
 public record RasterHistogram(int Size, double Min, double Max, int[] Counts);
-
-
-/// <summary>
-///     Possible data types for Rasters
-/// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<RasterDataType>))]
-public enum RasterDataType
-{
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-    Generic,
-    Elevation,
-    Thematic,
-    Processed,
-    Scientific,
-    VectorUv,
-    VectorU,
-    VectorV,
-    VectorMagdir,
-    VectorMagnitude,
-    VectorDirection,
-    StandardTime
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
-}
-
-/// <summary>
-///     Types of pixels for raster data sources
-/// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<PixelType>))]
-public enum PixelType
-{
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-    Unknown,
-    S8,
-    S16,
-    S32,
-    U8,
-    U16,
-    U32,
-    F32,
-    F64
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
-}

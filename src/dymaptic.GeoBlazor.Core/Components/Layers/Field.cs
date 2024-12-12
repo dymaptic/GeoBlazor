@@ -1,7 +1,5 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Widgets;
-using dymaptic.GeoBlazor.Core.Serialization;
-using Microsoft.AspNetCore.Components;
-using System.Text.Json.Serialization;
+using dymaptic.GeoBlazor.Core.Enums;
 
 
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
@@ -172,55 +170,4 @@ public class Field : MapComponent
                 break;
         }
     }
-}
-
-/// <summary>
-///     Potential types of Fields in a FeatureLayer
-/// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<FieldType>))]
-public enum FieldType
-{
-#pragma warning disable CS1591
-    SmallInteger,
-    Integer,
-    Single,
-    Double,
-    Long,
-    String,
-    Date,
-    Oid,
-    Geometry,
-    Blob,
-    Raster,
-    Guid,
-    GlobalId,
-    Xml,
-    BigInteger,
-    DateOnly,
-    TimeOnly,
-    TimestampOffset
-#pragma warning restore CS1591
-}
-
-/// <summary>
-///     The types of values that can be assigned to a field.
-/// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<FieldValueType>))]
-public enum FieldValueType
-{
-#pragma warning disable CS1591
-    Binary,
-    Coordinate,
-    CountOrAmount,
-    DateAndTime,
-    Description,
-    LocationOrPlaceName,
-    Measurement,
-    NameOrTitle,
-    None,
-    OrderedOrRanked,
-    PercentageOrRatio,
-    TypeOrCategory,
-    UniqueIdentifier
-#pragma warning restore CS1591
 }

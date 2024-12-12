@@ -1,4 +1,5 @@
-﻿using dymaptic.GeoBlazor.Core.Extensions;
+﻿using dymaptic.GeoBlazor.Core.Enums;
+using dymaptic.GeoBlazor.Core.Extensions;
 using dymaptic.GeoBlazor.Core.Objects;
 using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
@@ -105,22 +106,4 @@ public class SimpleFillSymbol : FillSymbol
             Style = FillStyle?.ToString().ToKebabCase()
         };
     }
-}
-
-/// <summary>
-///     The possible fill style for the <see cref="SimpleFillSymbol" />
-/// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<FillStyle>))]
-public enum FillStyle
-{
-#pragma warning disable CS1591
-    BackwardDiagonal,
-    Cross,
-    DiagonalCross,
-    ForwardDiagonal,
-    Horizontal,
-    None,
-    Solid,
-    Vertical
-#pragma warning restore CS1591
 }

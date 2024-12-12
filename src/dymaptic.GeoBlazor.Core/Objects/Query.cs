@@ -1,4 +1,5 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
+using dymaptic.GeoBlazor.Core.Enums;
 using dymaptic.GeoBlazor.Core.Serialization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -475,83 +476,6 @@ public record QuantizationParameters
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? Tolerance { get; init; }
-}
-
-/// <summary>
-///     Geometry coordinates are optimized for viewing and displaying of data.
-/// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<QuantizationMode>))]
-public enum QuantizationMode
-{
-#pragma warning disable CS1591
-    View,
-    Edit
-#pragma warning restore CS1591
-}
-
-/// <summary>
-///     The integer's coordinates will be returned relative to the origin position defined by this property value.
-/// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<OriginPosition>))]
-public enum OriginPosition
-{
-#pragma warning disable CS1591
-    UpperLeft,
-    LowerLeft
-#pragma warning restore CS1591
-}
-
-/// <summary>
-///     This parameter can be either standard SQL92 standard or it can use the native SQL of the underlying datastore
-///     native. See the ArcGIS REST API documentation for more information.
-/// </summary>
-/// <remarks>
-///     This property does not apply to layer view or CSVLayer queries.
-/// </remarks>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<SqlFormat>))]
-public enum SqlFormat
-{
-#pragma warning disable CS1591
-    None,
-    Standard,
-    Native
-#pragma warning restore CS1591
-}
-
-/// <summary>
-///     Defines the type of statistic.
-/// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<StatisticType>))]
-public enum StatisticType
-{
-#pragma warning disable CS1591
-    Count,
-    Sum,
-    Min,
-    Max,
-    Avg,
-    Stddev,
-    Var,
-    PercentileContinuous,
-    PercentileDiscrete,
-    EnvelopeAggregate,
-    CentroidAggregate,
-    ConvexHullAggregate
-#pragma warning restore CS1591
-}
-
-/// <summary>
-///     Specify ASC (ascending) or DESC (descending) to control the order of the data. For example, in a data set of 10
-///     values from 1 to 10, the percentile value for 0.9 with orderBy set to ascending (ASC) is 9, but when orderBy is set
-///     to descending (DESC) the result is 2. The default is ASC.
-/// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<OrderBy>))]
-public enum OrderBy
-{
-#pragma warning disable CS1591
-    Asc,
-    Desc
-#pragma warning restore CS1591
 }
 
 /// <summary>

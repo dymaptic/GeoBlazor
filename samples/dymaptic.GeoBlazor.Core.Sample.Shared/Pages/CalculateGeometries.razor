@@ -1,5 +1,4 @@
 ﻿@page "/calculate-geometries"
-
 @inject GeometryEngine GeometryEngine
 
 <PageTitle>Calculate Geometries</PageTitle>
@@ -33,7 +32,7 @@
                 </SimpleMarkerSymbol>
             </Graphic>
             <Graphic>
-                <polyline Paths="@(new[] { _mapPath })" />
+                <Polyline Paths="@(new[] { _mapPath })" />
                 <SimpleLineSymbol Color="@(new MapColor(81, 46, 132))" Width="2" />
             </Graphic>
             <Graphic>

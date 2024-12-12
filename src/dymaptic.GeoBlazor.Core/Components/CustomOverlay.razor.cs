@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using dymaptic.GeoBlazor.Core.Enums;
+using Microsoft.AspNetCore.Components;
 using System.ComponentModel;
 
 

@@ -1,4 +1,5 @@
-﻿using dymaptic.GeoBlazor.Core.Serialization;
+﻿using dymaptic.GeoBlazor.Core.Enums;
+using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
 using System.Text.Json.Serialization;
 
@@ -22,19 +23,4 @@ public class ScaleBarWidget : Widget
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [Parameter]
     public ScaleUnit? Unit { get; set; }
-}
-
-/// <summary>
-///     Possible unit values for the <see cref="ScaleBarWidget" />
-/// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<ScaleUnit>))]
-public enum ScaleUnit
-{
-#pragma warning disable CS1591
-    [Obsolete("Use Imperial Instead")]
-    NonMetric,
-    Metric,
-    Dual,
-    Imperial
-#pragma warning restore CS1591
 }

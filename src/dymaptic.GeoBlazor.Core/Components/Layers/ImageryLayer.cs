@@ -1,5 +1,6 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
 using dymaptic.GeoBlazor.Core.Components.Renderers;
+using dymaptic.GeoBlazor.Core.Enums;
 using dymaptic.GeoBlazor.Core.Model;
 using dymaptic.GeoBlazor.Core.Objects;
 using dymaptic.GeoBlazor.Core.Serialization;
@@ -471,24 +472,3 @@ public class ImageryLayer : Layer
         (Renderer as MapComponent)?.ValidateRequiredChildren();
     }
 }
-
-/// <summary>
-/// The format of the data sent by the server.
-/// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<ImageFormat>))]
-public enum ImageFormat
-{
-#pragma warning disable CS1591
-    Png,
-    Png8,
-    Png24,
-    Png32,
-    Jpg,
-    Bmp,
-    Gif,
-    Jpgpng,
-    Lerc,
-    Tiff
-#pragma warning restore CS1591
-}
-

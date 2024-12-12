@@ -1,4 +1,5 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Layers;
+using dymaptic.GeoBlazor.Core.Enums;
 using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
 using System.Text.Json.Serialization;
@@ -134,32 +135,4 @@ public class LegendStyle : MapComponent
     /// </summary>
     [Parameter]
     public LegendStyleLayout? Layout { get; set; }
-}
-
-
-/// <summary>
-/// The Legend style type.
-/// <a target="_blank" href=" https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#style">ArcGIS Maps SDK for JavaScript</a>
-/// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<LegendStyleType>))]
-public enum LegendStyleType
-{
-#pragma warning disable CS1591
-    Card,
-    Classic,
-#pragma warning restore CS1591
-}
-
-/// <summary>
-/// The legend style layout when there are multiple legends
-/// <a target="_blank" href=" https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#style">ArcGIS Maps SDK for JavaScript</a>
-/// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<LegendStyleLayout>))]
-public enum LegendStyleLayout
-{
-#pragma warning disable CS1591
-    Auto,
-    SideBySide,
-    Stack
-#pragma warning restore CS1591
 }
