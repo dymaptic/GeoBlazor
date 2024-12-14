@@ -1,4 +1,4 @@
-using dymaptic.GeoBlazor.Pro.Components.Widgets;
+using dymaptic.GeoBlazor.Core.Enums;
 
 
 namespace dymaptic.GeoBlazor.Core.Options;

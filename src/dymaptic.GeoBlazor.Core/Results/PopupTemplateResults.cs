@@ -1,6 +1,3 @@
-using dymaptic.GeoBlazor.Pro.Model;
-
-
 namespace dymaptic.GeoBlazor.Core.Results;
 
 /// <summary>

@@ -83,12 +83,6 @@
         <Folder Include="Documentation/" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Reference Include="dymaptic.GeoBlazor.Pro">
-        <HintPath>..\..\..\..\dymaptic.GeoBlazor.CodeGen.Test\bin\Debug\net8.0\dymaptic.GeoBlazor.Pro.dll</HintPath>
-      </Reference>
-    </ItemGroup>
-
     <Target Name="NPM Install" BeforeTargets="PreBuildEvent" Condition="$(TargetFrameworks.StartsWith($(TargetFramework))) AND '$(OptOutFromCoreEsBuild)' != 'true'">
         <!-- Runs synchronously to ensure all files are ready for nuget packaging in release mode -->
         <Message Importance="high" Text="Running NPM Install" />
