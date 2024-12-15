@@ -153,8 +153,7 @@ internal class SpatialReferenceConverter : JsonConverter<SpatialReference>
 
                             break;
                         case "imageCoordinateSystem":
-                            spatialReference.ImageCoordinateSystem =
-                                JsonSerializer.Deserialize<object>(ref reader, options);
+                            spatialReference.ImageCoordinateSystem = reader.GetString();
 
                             break;
                     }
