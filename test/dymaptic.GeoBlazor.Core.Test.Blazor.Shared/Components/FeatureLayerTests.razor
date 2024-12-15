@@ -1,6 +1,4 @@
-﻿@using dymaptic.GeoBlazor.Core.Enums
-@using dymaptic.GeoBlazor.Core.Results
-@inherits TestRunnerBase
+﻿@inherits TestRunnerBase
 
 @{
     base.BuildRenderTree(__builder);
@@ -20,7 +18,10 @@
         }
         AddMapRenderFragment(
             @<MapView OnViewInitialized="@OnViewInitialized" @ref="@mapView" class="map-view" OnViewRendered="renderHandler">
-                <Map ArcGISDefaultBasemap="topo-vector">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+                    </Basemap>
                 </Map>
             </MapView>);
         await WaitForMapToRender();
@@ -333,7 +334,7 @@
         };
         FeatureSet? result = await layer!.QueryFeatures(query);
         Assert.IsNotNull(result);
-        Assert.IsTrue(result.Features!.Length > 0);
+        Assert.IsTrue(result.Features!.Count > 0);
     }
 
     [TestMethod]
@@ -386,12 +387,7 @@
         string[] orderByField = ["TOTAL DESC"];
         TopFeaturesQuery query = new()
         {
-            TopFilter = new TopFilter
-            {
-                TopCount = 3,
-                GroupByFields = ["State"],
-                OrderByFields = orderByField
-            },
+            TopFilter = new TopFilter(["State"], orderByField, 3),
             ReturnGeometry = true,
             OutFields = ["State, TOTAL, F2018, F2019, F2020, Park"],
             OrderByFields = orderByField,
@@ -400,6 +396,6 @@
         
         FeatureSet? results = await layer!.QueryTopFeatures(query);
         Assert.IsNotNull(results);
-        Assert.IsTrue(results.Features!.Length > 0);
+        Assert.IsTrue(results.Features!.Count > 0);
     }
 }

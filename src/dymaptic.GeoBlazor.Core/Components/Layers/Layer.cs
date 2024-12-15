@@ -1,5 +1,6 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
 using dymaptic.GeoBlazor.Core.Components.Layers;
+using dymaptic.GeoBlazor.Core.Enums;
 using dymaptic.GeoBlazor.Core.Extensions;
 using dymaptic.GeoBlazor.Core.Objects;
 using Microsoft.AspNetCore.Components;
@@ -489,39 +490,5 @@ internal class LayerConverter : JsonConverter<Layer>
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
         };
         writer.WriteRawValue(JsonSerializer.Serialize(value, typeof(object), newOptions));
-    }
-}
-
-/// <summary>
-///     Indicates how the layer should display in the LayerList widget. The possible values are listed below.
-/// </summary>
-[JsonConverter(typeof(ListModeConverter))]
-public enum ListMode
-{
-#pragma warning disable CS1591
-    Show,
-    Hide,
-    HideChildren
-#pragma warning restore CS1591
-}
-
-internal class ListModeConverter : JsonConverter<ListMode>
-{
-    public override ListMode Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        return reader.GetString() switch
-        {
-            "show" => ListMode.Show,
-            "hide" => ListMode.Hide,
-            "hide-children" => ListMode.HideChildren,
-            _ => throw new JsonException()
-        };
-    }
-
-    public override void Write(Utf8JsonWriter writer, ListMode value, JsonSerializerOptions options)
-    {
-        string? stringVal = Enum.GetName(typeof(ListMode), value);
-        string resultString = stringVal!.ToKebabCase();
-        writer.WriteRawValue($"\"{resultString}\"");
     }
 }

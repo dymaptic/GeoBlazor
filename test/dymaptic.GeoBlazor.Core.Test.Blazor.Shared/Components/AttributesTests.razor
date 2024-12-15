@@ -101,7 +101,7 @@ base.BuildRenderTree(__builder);
         query.OutFields = ["OBJECTID", "GUID", "INT", "DOUBLE", "STRING", "DATETIME", "DATE", "TIME", "TIMESTAMP", "DATETIMESTAMP"];
         query.Where = "OBJECTID=1";
         FeatureSet? result = await layer.QueryFeatures(query);
-        Assert.AreEqual(1, result!.Features!.Length);
+        Assert.AreEqual(1, result!.Features!.Count);
         Graphic queriedFeature = result.Features[0];
         Assert.IsInstanceOfType<Guid>(queriedFeature.Attributes["GUID"]);
         Assert.AreEqual(features[0].Attributes["GUID"], queriedFeature.Attributes["GUID"]);

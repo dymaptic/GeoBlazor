@@ -121,10 +121,10 @@
                 @if (_results is not null)
                 {
                     <h5 class="heading" id="resultsHeading" slot="header-content">
-                        Results: @_results!.Features!.Length parks
+                        Results: @_results!.Features!.Count parks
                     </h5>
                     <div id="results">
-                        @for (var i = 0; i < _results.Features.Length; i++)
+                        @for (var i = 0; i < _results.Features.Count; i++)
                         {
                             Graphic result = _results.Features[i];
                             int index = i;
@@ -160,24 +160,20 @@
         _clearQueryBtnAppearance = "outline";
         _queryParksBtnAppearance = "solid";
         _orderByFieldSelected = await GetTimeRange();
-        string[] orderByField = { $"{_orderByFieldSelected} {_orderDirectionSelected}" };
+        string[] orderByField = [$"{_orderByFieldSelected} {_orderDirectionSelected}"];
         var query = new TopFeaturesQuery
         {
-            TopFilter = new TopFilter
-            {
-                TopCount = int.Parse(await GetTopCount()),
-                GroupByFields = new[] { "State" },
-                OrderByFields = orderByField
-            },
+            TopFilter = new TopFilter(["State"], orderByField, 
+                int.Parse(await GetTopCount())),
             ReturnGeometry = true,
-            OutFields = new[] { "State, TOTAL, F2018, F2019, F2020, Park" },
+            OutFields = ["State, TOTAL, F2018, F2019, F2020, Park"],
             OrderByFields = orderByField,
             CacheHint = false
         };
 
         _results = await _featureLayer!.QueryTopFeatures(query);
 
-        query.OrderByFields = new[] { "" };
+        query.OrderByFields = [""];
         int[] objectIds = await _featureLayer!.QueryTopObjectIds(query);
         await _layerView!.SetFilter(new FeatureFilter
         {
@@ -191,7 +187,7 @@
         var options = new PopupOpenOptions
         {
             Location = await feature.GetGeometry(),
-            Features = new[] { feature }
+            Features = [feature]
         };
         await _mapView!.ClosePopup();
         await _mapView!.OpenPopup(options);

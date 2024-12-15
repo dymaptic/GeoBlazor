@@ -1681,31 +1681,6 @@ public record FeatureTemplate(string Name, string Description, DrawingTool Drawi
 public record Thumbnail(string ContentType, string ImageData, double Height, double Width);
 
 /// <summary>
-///     Name of the default drawing tool defined for the template to create a feature.
-/// </summary>
-[JsonConverter(typeof(DrawingToolStringConverter))]
-public enum DrawingTool
-{
-#pragma warning disable CS1591
-    AutoCompletePolygon,
-    Circle,
-    Ellipse,
-    Freehand,
-    Line,
-    None,
-    Point,
-    Polygon,
-    Rectangle,
-    Arrow,
-    Triangle,
-    LeftArrow,
-    RightArrow,
-    UpArrow,
-    DownArrow
-#pragma warning restore CS1591
-}
-
-/// <summary>
 ///     One-directional converter to just send the component Id to JS
 /// </summary>
 internal class GraphicToIdConverter: JsonConverter<Graphic>

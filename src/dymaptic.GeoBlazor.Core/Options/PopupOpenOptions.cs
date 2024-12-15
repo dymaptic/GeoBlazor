@@ -42,7 +42,7 @@ public record PopupOpenOptions
     ///     Sets the popup's features, which populate the title and content of the popup based on each graphic's PopupTemplate.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Graphic[]? Features { get; set; }
+    public IReadOnlyList<Graphic>? Features { get; set; }
 
     /// <summary>
     ///     This property enables multiple features in a popup to display in a list rather than displaying the first selected

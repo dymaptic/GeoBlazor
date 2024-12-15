@@ -1,5 +1,4 @@
-﻿@using dymaptic.GeoBlazor.Core.Enums
-@inherits TestRunnerBase
+﻿@inherits TestRunnerBase
 
 @{
     base.BuildRenderTree(__builder);
@@ -54,6 +53,6 @@
         }
         FeatureSet? result = await layerView!.QueryFeatures(query);
         Assert.IsNotNull(result);
-        Assert.IsTrue(result.Features!.Length > 0);
+        Assert.IsTrue(result.Features!.Count > 0);
     }
 }
