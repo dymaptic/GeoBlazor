@@ -30,12 +30,12 @@ public record FeatureSet
     /// <summary>
     ///     The array of graphics returned from a task.
     /// </summary>
-    public Graphic[]? Features { get; set; }
+    public IReadOnlyList<Graphic>? Features { get; set; }
     
     /// <summary>
     ///     Information about each field.
     /// </summary>
-    public Field[]? Fields { get; set; }
+    public IReadOnlyList<Field>? Fields { get; set; }
     
     /// <summary>
     ///     The geometry type of features in the FeatureSet. All features's geometry must be of the same type.

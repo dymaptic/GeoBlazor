@@ -180,25 +180,25 @@ public record TopFeaturesQuery
 ///     United States.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-TopFilter.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public record TopFilter
+public record TopFilter(IReadOnlyList<string>? GroupByFields, IReadOnlyList<string>? OrderByFields, int? TopCount)
 {
     /// <summary>
     ///     When one or more field names are provided in this property, the output result will be grouped based on unique
     ///     values from those fields.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<string>? GroupByFields { get; set; }
+    public IReadOnlyList<string>? GroupByFields { get; set; } = GroupByFields;
 
     /// <summary>
     ///     One or more field names used to order the query results. Specify ASC (ascending) or DESC (descending) after the
     ///     field name to control the order. The default order is ASC.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<string>? OrderByFields { get; set; }
+    public IReadOnlyList<string>? OrderByFields { get; set; } = OrderByFields;
 
     /// <summary>
     ///     Defines the number of features to be returned from the top features query.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public int? TopCount { get; set; }
+    public int? TopCount { get; set; } = TopCount;
 }
