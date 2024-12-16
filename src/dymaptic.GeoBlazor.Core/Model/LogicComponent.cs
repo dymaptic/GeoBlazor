@@ -1,5 +1,4 @@
 ﻿using dymaptic.GeoBlazor.Core.Exceptions;
-using Microsoft.JSInterop;
 
 
 namespace dymaptic.GeoBlazor.Core.Model;

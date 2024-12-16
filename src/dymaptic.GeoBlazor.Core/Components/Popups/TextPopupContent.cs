@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-using System.Text.Json.Serialization;
-
-
-namespace dymaptic.GeoBlazor.Core.Components.Popups;
+﻿namespace dymaptic.GeoBlazor.Core.Components.Popups;
 
 /// <summary>
 ///     A TextContent popup element is used to define descriptive text as an element within a PopupTemplate's content. The

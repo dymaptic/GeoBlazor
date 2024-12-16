@@ -9,15 +9,10 @@ using dymaptic.GeoBlazor.Core.Model;
 using dymaptic.GeoBlazor.Core.Objects;
 using dymaptic.GeoBlazor.Core.Options;
 using dymaptic.GeoBlazor.Core.Results;
-using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
-using Microsoft.JSInterop;
-using ProtoBuf;
 using System.Diagnostics;
 using System.Reflection;
-using System.Runtime.Serialization;
 using System.Text;
-using System.Text.Json;
 
 
 // ReSharper disable RedundantCast

@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-
-
-namespace dymaptic.GeoBlazor.Core.Components.Widgets;
+﻿namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
 /// <summary>
 ///     Abstract base class for Input fields in a form element.

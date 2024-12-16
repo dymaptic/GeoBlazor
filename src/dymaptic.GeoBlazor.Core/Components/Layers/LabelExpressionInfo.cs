@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-
-
-namespace dymaptic.GeoBlazor.Core.Components.Layers;
+﻿namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
 /// <summary>
 ///     If working with a MapImageLayer that supports Arcade, you can also use labelExpressionInfo. To determine this,

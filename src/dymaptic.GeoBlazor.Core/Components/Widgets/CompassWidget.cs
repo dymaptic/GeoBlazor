@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-using System.Text.Json.Serialization;
-
-
-namespace dymaptic.GeoBlazor.Core.Components.Widgets;
+﻿namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
 /// <summary>
 ///     The Compass widget indicates where north is in relation to the current view rotation or camera heading. Clicking

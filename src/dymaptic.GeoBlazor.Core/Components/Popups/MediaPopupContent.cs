@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-using System.Text.Json.Serialization;
-
-
-namespace dymaptic.GeoBlazor.Core.Components.Popups;
+﻿namespace dymaptic.GeoBlazor.Core.Components.Popups;
 
 /// <summary>
 ///     A MediaContent popup element contains an individual or array of chart and/or image media elements to display within

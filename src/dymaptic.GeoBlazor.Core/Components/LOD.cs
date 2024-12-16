@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-using System.Text.Json.Serialization;
-
-
-namespace dymaptic.GeoBlazor.Core.Components;
+﻿namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     A TileLayer has a number of LODs (Levels of Detail). Each LOD corresponds to a map at a given scale or resolution.

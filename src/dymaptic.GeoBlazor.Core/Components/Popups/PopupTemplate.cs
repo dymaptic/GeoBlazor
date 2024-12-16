@@ -1,8 +1,4 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Layers;
-using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
-using ProtoBuf;
-using System.Text.Json.Serialization;
 
 
 namespace dymaptic.GeoBlazor.Core.Components.Popups;

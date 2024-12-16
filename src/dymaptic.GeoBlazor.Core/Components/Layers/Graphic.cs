@@ -2,10 +2,6 @@
 using dymaptic.GeoBlazor.Core.Components.Popups;
 using dymaptic.GeoBlazor.Core.Components.Symbols;
 using dymaptic.GeoBlazor.Core.Objects;
-using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
-using ProtoBuf;
-using System.Text.Json.Serialization;
 using ParameterValue = Microsoft.AspNetCore.Components.ParameterValue;
 
 

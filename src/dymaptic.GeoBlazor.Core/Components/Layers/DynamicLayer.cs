@@ -1,6 +1,5 @@
 using dymaptic.GeoBlazor.Core.Components.Geometries;
 using dymaptic.GeoBlazor.Core.Enums;
-using System.Text.Json;
 
 
 namespace dymaptic.GeoBlazor.Core.Components.Layers;

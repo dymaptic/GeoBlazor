@@ -1,8 +1,4 @@
 using dymaptic.GeoBlazor.Core.Enums;
-using dymaptic.GeoBlazor.Core.Serialization;
-using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
-using System.Text.Json.Serialization;
 
 
 namespace dymaptic.GeoBlazor.Core.Components.Widgets;

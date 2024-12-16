@@ -3,8 +3,6 @@ using dymaptic.GeoBlazor.Core.Components.Popups;
 using dymaptic.GeoBlazor.Core.Components.Renderers;
 using dymaptic.GeoBlazor.Core.Enums;
 using dymaptic.GeoBlazor.Core.Interfaces;
-using Microsoft.AspNetCore.Components;
-using System.Text.Json.Serialization;
 
 
 namespace dymaptic.GeoBlazor.Core.Components.Layers;

@@ -1,7 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-
-namespace dymaptic.GeoBlazor.Core.Components.Symbols;
+﻿namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 
 /// <summary>
 ///     Fill symbols are used to draw Polygon graphics in a GraphicsLayer or a FeatureLayer in a 2D MapView. To create new

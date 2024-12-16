@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-using System.Text.Json.Serialization;
-
-
-namespace dymaptic.GeoBlazor.Core.Components.Widgets;
+﻿namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
 /// <summary>
 ///     Provides a simple widget that switches the View to its initial Viewpoint or a previously defined viewpoint.

@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-using System.Text.Json.Serialization;
-
-
-namespace dymaptic.GeoBlazor.Core.Components.Popups;
+﻿namespace dymaptic.GeoBlazor.Core.Components.Popups;
 
 /// <summary>
 ///     An AttachmentsContent popup element represents an attachment element associated with a feature. This resource is

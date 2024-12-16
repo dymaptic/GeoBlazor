@@ -9,10 +9,6 @@ using dymaptic.GeoBlazor.Core.Model;
 using dymaptic.GeoBlazor.Core.Objects;
 using dymaptic.GeoBlazor.Core.Options;
 using dymaptic.GeoBlazor.Core.Results;
-using dymaptic.GeoBlazor.Core.Serialization;
-using ProtoBuf;
-using System.Runtime.Serialization;
-using System.Text.Json;
 
 
 namespace dymaptic.GeoBlazor.Core.Components.Layers;

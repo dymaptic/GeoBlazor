@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-using System.Text.Json.Serialization;
-
-
-namespace dymaptic.GeoBlazor.Core.Components.Widgets;
+﻿namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
 /// <summary>
 ///     The BasemapGallery widget displays a collection images representing basemaps from ArcGIS.com or a user-defined set

@@ -1,6 +1,5 @@
 ﻿using dymaptic.GeoBlazor.Core.Enums;
 using dymaptic.GeoBlazor.Core.Extensions;
-using ProtoBuf;
 
 
 namespace dymaptic.GeoBlazor.Core.Components.Popups;

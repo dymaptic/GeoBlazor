@@ -1,7 +1,5 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Renderers;
 using dymaptic.GeoBlazor.Core.Exceptions;
-using Microsoft.AspNetCore.Components;
-using System.Text.Json.Serialization;
 
 
 namespace dymaptic.GeoBlazor.Core.Components.Layers;

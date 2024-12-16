@@ -1,7 +1,4 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
-using ProtoBuf;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 
 
 namespace dymaptic.GeoBlazor.Core.Objects;

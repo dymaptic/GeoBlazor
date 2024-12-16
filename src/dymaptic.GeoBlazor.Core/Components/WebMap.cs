@@ -1,5 +1,4 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Widgets;
-using Microsoft.JSInterop;
 
 
 namespace dymaptic.GeoBlazor.Core.Components;

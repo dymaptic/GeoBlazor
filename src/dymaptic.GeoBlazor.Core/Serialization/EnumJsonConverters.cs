@@ -1,7 +1,6 @@
 ﻿using dymaptic.GeoBlazor.Core.Enums;
 using dymaptic.GeoBlazor.Core.Extensions;
 using dymaptic.GeoBlazor.Core.Objects;
-using System.Text.Json;
 
 
 namespace dymaptic.GeoBlazor.Core.Serialization;

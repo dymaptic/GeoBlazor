@@ -1,7 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-
-namespace dymaptic.GeoBlazor.Core.Objects;
+﻿namespace dymaptic.GeoBlazor.Core.Objects;
 
 /// <summary>
 ///     Represents a step in the process of transforming coordinates from one geographic coordinate system to another. A

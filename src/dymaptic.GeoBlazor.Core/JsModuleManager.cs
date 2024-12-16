@@ -1,5 +1,3 @@
-using Microsoft.JSInterop;
-
 namespace dymaptic.GeoBlazor.Core;
 
 /// <summary>

@@ -1,10 +1,7 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
 using dymaptic.GeoBlazor.Core.Enums;
 using dymaptic.GeoBlazor.Core.Model;
-using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
 using System.Globalization;
-using System.Text.Json.Serialization;
 
 
 namespace dymaptic.GeoBlazor.Core.Components.Layers;

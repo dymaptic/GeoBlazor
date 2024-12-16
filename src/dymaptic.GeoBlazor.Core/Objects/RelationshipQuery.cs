@@ -1,6 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Components;
-using dymaptic.GeoBlazor.Core.Components.Geometries;
-using System.Text.Json.Serialization;
+﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
 
 
 namespace dymaptic.GeoBlazor.Core.Objects;

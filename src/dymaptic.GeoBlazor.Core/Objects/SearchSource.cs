@@ -5,12 +5,7 @@ using dymaptic.GeoBlazor.Core.Components.Popups;
 using dymaptic.GeoBlazor.Core.Components.Symbols;
 using dymaptic.GeoBlazor.Core.Enums;
 using dymaptic.GeoBlazor.Core.Results;
-using dymaptic.GeoBlazor.Core.Serialization;
-using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
 using System.Reflection;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 
 
 namespace dymaptic.GeoBlazor.Core.Objects;

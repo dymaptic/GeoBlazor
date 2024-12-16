@@ -1,10 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-using ProtoBuf;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-
-
-namespace dymaptic.GeoBlazor.Core.Components.Popups;
+﻿namespace dymaptic.GeoBlazor.Core.Components.Popups;
 
 /// <summary>
 ///     Base class for all MediaInfos used in <see cref="MediaPopupContent" />

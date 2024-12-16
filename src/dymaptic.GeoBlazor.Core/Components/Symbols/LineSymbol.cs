@@ -1,6 +1,4 @@
 ﻿using dymaptic.GeoBlazor.Core.Objects;
-using Microsoft.AspNetCore.Components;
-using System.Text.Json.Serialization;
 
 
 namespace dymaptic.GeoBlazor.Core.Components.Symbols;

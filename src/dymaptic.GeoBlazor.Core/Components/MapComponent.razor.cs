@@ -2,12 +2,8 @@
 using dymaptic.GeoBlazor.Core.Exceptions;
 using dymaptic.GeoBlazor.Core.Extensions;
 using dymaptic.GeoBlazor.Core.Objects;
-using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
 using System.Collections;
 using System.Reflection;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 
 
 namespace dymaptic.GeoBlazor.Core.Components;

@@ -1,6 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Components;
-using dymaptic.GeoBlazor.Core.Components.Layers;
-using Microsoft.JSInterop;
+﻿using dymaptic.GeoBlazor.Core.Components.Layers;
 
 
 namespace dymaptic.GeoBlazor.Core.Model;

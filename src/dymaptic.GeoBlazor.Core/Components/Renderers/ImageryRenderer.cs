@@ -1,7 +1,4 @@
-﻿using System.Text.Json;
-
-
-namespace dymaptic.GeoBlazor.Core.Components.Renderers;
+﻿namespace dymaptic.GeoBlazor.Core.Components.Renderers;
 
 /// <summary>
 ///     The IImageryRenderer is an interface for a group of renderers used for Imagery Layers

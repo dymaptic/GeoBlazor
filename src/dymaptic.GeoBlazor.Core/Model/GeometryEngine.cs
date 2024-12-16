@@ -1,11 +1,7 @@
-﻿using dymaptic.GeoBlazor.Core.Components;
-using dymaptic.GeoBlazor.Core.Components.Geometries;
+﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
 using dymaptic.GeoBlazor.Core.Enums;
 using dymaptic.GeoBlazor.Core.Objects;
 using dymaptic.GeoBlazor.Core.Results;
-using dymaptic.GeoBlazor.Core.Serialization;
-using Microsoft.JSInterop;
-using System.Text.Json.Serialization;
 
 
 // ReSharper disable RedundantEnumerableCastCall

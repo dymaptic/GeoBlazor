@@ -1,10 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-using ProtoBuf;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-
-
-namespace dymaptic.GeoBlazor.Core.Components.Geometries;
+﻿namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 
 /// <summary>
 ///     Defines the spatial reference of a view, layer, or method parameters. This indicates the projected or geographic
