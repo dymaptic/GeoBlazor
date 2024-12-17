@@ -352,7 +352,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
                 MethodInfo? addMethod = collection.GetType().GetMethod("Add");
                 foreach (T value in values)
                 {
-                    addMethod?.Invoke(collection, new object?[] { value });
+                    addMethod?.Invoke(collection, [value]);
                 }
                 ModifiedParameters[propertyName] = prop!.GetValue(this);
             }
@@ -400,7 +400,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
             if (currentValue is ICollection collection)
             {
                 MethodInfo? removeMethod = collection.GetType().GetMethod("Remove");
-                removeMethod?.Invoke(collection, new object?[] { value });
+                removeMethod?.Invoke(collection, [value]);
                 ModifiedParameters[propertyName] = prop!.GetValue(this);
             }
         }
@@ -448,7 +448,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
                 MethodInfo? removeMethod = collection.GetType().GetMethod("Remove");
                 foreach (T value in values)
                 {
-                    removeMethod?.Invoke(collection, new object?[] { value });
+                    removeMethod?.Invoke(collection, [value]);
                 }
                 ModifiedParameters[propertyName] = prop!.GetValue(this);
             }
@@ -502,7 +502,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
 
                 if (method is not null)
                 {
-                    await (Task)method.Invoke(null, new object?[] { this, child })!;
+                    await (Task)method.Invoke(null, [this, child])!;
 
                     return;
                 }
@@ -546,7 +546,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
 
                 if (method is not null)
                 {
-                    await (Task)method.Invoke(null, new object?[] { this, child })!;
+                    await (Task)method.Invoke(null, [this, child])!;
 
                     return;
                 }
@@ -619,11 +619,22 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
             {
                 object? result = await CoreJsModule!.InvokeAsync<object?>("getProperty",
                     CancellationTokenSource.Token, JsComponentReference, prop.Name.ToLowerFirstChar());
-                prop.SetValue(this, result);
+                if (prop.PropertyType.IsAssignableTo(typeof(MapComponent)))
+                {
+                    // create a new instance
+                    MapComponent instance = (MapComponent)Activator.CreateInstance(prop.PropertyType)!;
+                    prop.SetValue(this, instance);
+                    instance.Parent = this;
+                    await instance.OnJsComponentCreated((IJSObjectReference)result!);
+                }
+                else
+                {
+                    prop.SetValue(this, result);
+                }
             }
-            catch
+            catch(Exception ex)
             {
-                // ignore
+                Console.WriteLine(ex);
             }
         }
     }
@@ -647,7 +658,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         IEnumerable<PropertyInfo> requiredParameters = Props.Where(p =>
                 Attribute.IsDefined(p, typeof(RequiredPropertyAttribute)));
 
-        List<ComponentOption> options = new();
+        List<ComponentOption> options = [];
 
         foreach (PropertyInfo requiredParameter in requiredParameters)
         {
