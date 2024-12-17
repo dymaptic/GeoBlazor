@@ -257,7 +257,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
                 $"The component {GetType().Name} does not currently support the GetProperty method. Please contact dymaptic for support.");
         }
         T? result = await CoreJsModule.InvokeAsync<T?>("getProperty", 
-            CancellationTokenSource.Token, JsComponentReference, propertyName);
+            CancellationTokenSource.Token, JsComponentReference, propertyName.ToLowerFirstChar());
 
         if (updateInMemory)
         {
@@ -303,7 +303,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
             if (currentValue is ICollection collection)
             {
                 MethodInfo? addMethod = collection.GetType().GetMethod("Add");
-                addMethod?.Invoke(collection, new object?[] { value });
+                addMethod?.Invoke(collection, [value]);
             }
             ModifiedParameters[propertyName] = prop!.GetValue(this);
         }
@@ -606,9 +606,26 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     ///     For internal use, registration from JavaScript.
     /// </summary>
     [JSInvokable]
-    public void OnJsComponentCreated(IJSObjectReference jsComponentReference)
+    public async Task OnJsComponentCreated(IJSObjectReference jsComponentReference)
     {
         JsComponentReference = jsComponentReference;
+        PropertyInfo[] readonlyProps = GetType()
+            .GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
+            .Where(p => p.SetMethod?.IsPublic != true).ToArray();
+
+        foreach (PropertyInfo prop in readonlyProps)
+        {
+            try
+            {
+                object? result = await CoreJsModule!.InvokeAsync<object?>("getProperty",
+                    CancellationTokenSource.Token, JsComponentReference, prop.Name.ToLowerFirstChar());
+                prop.SetValue(this, result);
+            }
+            catch
+            {
+                // ignore
+            }
+        }
     }
 
     /// <summary>
