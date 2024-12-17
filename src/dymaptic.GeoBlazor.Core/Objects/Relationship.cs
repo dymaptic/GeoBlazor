@@ -1,4 +1,6 @@
-﻿using dymaptic.GeoBlazor.Core.Serialization;
+﻿
+
+using dymaptic.GeoBlazor.Core.Enums;
 
 
 namespace dymaptic.GeoBlazor.Core.Objects;
@@ -67,41 +69,4 @@ public record Relationship
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Role? Role { get; set; }
-}
-
-/// <summary>
-///     The cardinality which specifies the number of objects in the origin FeatureLayer related to the number of objects
-///     in the destination FeatureLayer. Please see the Desktop help for additional information on cardinality.
-/// </summary>
-[JsonConverter(typeof(EnumRelationshipConverter<Cardinality>))]
-public enum Cardinality
-{
-    /// <summary>
-    ///     One-to-one
-    /// </summary>
-    OneToOne,
-    /// <summary>
-    ///     One-to-many
-    /// </summary>
-    OneToMany,
-    /// <summary>
-    ///     Many-to-one
-    /// </summary>
-    ManyToMany
-}
-
-/// <summary>
-///     Indicates whether the table participating in the relationship is the origin or destination table.
-/// </summary>
-[JsonConverter(typeof(EnumRelationshipConverter<Role>))]
-public enum Role
-{
-    /// <summary>
-    ///     Origin
-    /// </summary>
-    Origin,
-    /// <summary>
-    ///     Destination
-    /// </summary>
-    Destination
 }
