@@ -14,9 +14,7 @@ using dymaptic.GeoBlazor.Core.Results;
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
 /// <summary>
-///     A FeatureLayer is a single layer that can be created from a Map Service or Feature Service; ArcGIS Online or ArcGIS
-///     Enterprise portal items; or from an array of client-side features. The layer can be either a spatial (has
-///     geographic features) or non-spatial (table).
+///     A FeatureLayer is a single layer that can be created from a Map Service or Feature Service; ArcGIS Online or ArcGIS Enterprise portal items; or from an array of client-side features. The layer can be either a spatial (has geographic features) or non-spatial (table).
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <example>
@@ -86,7 +84,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
         if (url is null && portalItem is null && source is null)
         {
             throw new MissingRequiredOptionsChildElementException(nameof(FeatureLayer),
-                new[] { nameof(Url), nameof(PortalItem), nameof(Source) });
+                [nameof(Url), nameof(PortalItem), nameof(Source)]);
         }
 #pragma warning disable BL0005 // Component parameter should not be set outside of its component.
         Url = url;
@@ -234,40 +232,22 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [RequiredProperty(nameof(Url), nameof(PortalItem))]
-#pragma warning disable BL0007
-    public IReadOnlyCollection<Graphic>? Source
-#pragma warning restore BL0007
-    {
-        get => _source;
-        set
-        {
-            if (value is not null && (_source is null || !_source!.Any()))
-            {
-                _source = new HashSet<Graphic>(value);
-            }
-        }
-    }
+    public IReadOnlyCollection<Graphic>? Source { get; set; }
 
     /// <summary>
     ///     An array of fields in the layer.
     /// </summary>
-    public IReadOnlyCollection<Field>? Fields
-    {
-        get => _fields;
-        set
-        {
-            if (value is not null)
-            {
-                _fields = new HashSet<Field>(value);
-            }
-        }
-    }
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IReadOnlyCollection<Field>? Fields { get; set; }
 
     /// <summary>
     ///     Array of relationships set up for the layer. Each object in the array describes the layer's relationship with
     ///     another layer or table.
     /// </summary>
-    public Relationship[]? Relationships { get; set; }
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IReadOnlyCollection<Relationship>? Relationships { get; set; }
 
     /// <summary>
     ///     The template used in an associated layer's FeatureForm Widget (Available in GeoBlazor Pro). All of the properties and field configurations set on the layer's FeatureForm are handled via the FormTemplate.
@@ -306,7 +286,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
         {
             await ApplyEdits(new FeatureEdits
             {
-                AddFeatures = new []{graphic}
+                AddFeatures = [graphic]
             });
 
             return;
@@ -377,7 +357,8 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
     ///     Applies edits to features in a layer. New features can be created and existing features can be updated or deleted. Feature geometries and/or attributes may be modified. Only applicable to layers in a feature service and client-side features set through the FeatureLayer's source property. Attachments can also be added, updated or deleted.
     ///     If client-side features are added, removed or updated at runtime using applyEdits() then use FeatureLayer's queryFeatures() method to return updated features.
     /// </summary>
-    public async Task<FeatureEditsResult> ApplyEdits(FeatureEdits edits, FeatureEditOptions? options = null,
+        [CodeGenerationIgnore]
+        public async Task<FeatureEditsResult> ApplyEdits(FeatureEdits edits, FeatureEditOptions? options = null,
         CancellationToken cancellationToken = default)
     {
         // Verify that the layer is loaded. Layers with no graphics are not rendered and therefore not loaded
@@ -387,13 +368,13 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
             await Load(cancellationToken);
         }
         
-        FeatureEditsResult emptyResult = new FeatureEditsResult(Array.Empty<FeatureEditResult>(), 
-            Array.Empty<FeatureEditResult>(),
-            Array.Empty<FeatureEditResult>(),
-            Array.Empty<FeatureEditResult>(),
-            Array.Empty<FeatureEditResult>(),
-            Array.Empty<FeatureEditResult>(),
-            Array.Empty<EditedFeatureResult>(),
+        FeatureEditsResult emptyResult = new FeatureEditsResult([], 
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
             null);
 
         if (cancellationToken.IsCancellationRequested ||
@@ -402,9 +383,9 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
             return emptyResult;
         }
 
-        Graphic[] addedFeatures = edits.AddFeatures?.ToArray() ?? Array.Empty<Graphic>();
-        Graphic[] updatedFeatures = edits.UpdateFeatures?.ToArray() ?? Array.Empty<Graphic>();
-        Graphic[] deletedFeatures = edits.DeleteFeatures?.ToArray() ?? Array.Empty<Graphic>();
+        Graphic[] addedFeatures = edits.AddFeatures?.ToArray() ?? [];
+        Graphic[] updatedFeatures = edits.UpdateFeatures?.ToArray() ?? [];
+        Graphic[] deletedFeatures = edits.DeleteFeatures?.ToArray() ?? [];
         long? editMoment = null;
         int chunkSize = View!.GraphicSerializationChunkSize ?? (View.IsMaui ? 100 : 200);
         ProJsModule ??= await JsModuleManager.GetArcGisJsPro(JsRuntime, cancellationToken);
@@ -416,7 +397,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
         FeatureEditsResult? addFeatureResults = null;
         FeatureEditsResult? updateFeatureResults = null;
         FeatureEditsResult? deleteFeatureResults = null;
-        List<EditedFeatureResult> editedFeatureResults = new();
+        List<EditedFeatureResult> editedFeatureResults = [];
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         for (var index = 0; index < addedFeatures.Length; index += chunkSize)
         {
@@ -483,32 +464,25 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
             }
         }
         
-        if (_source is not null)
+        if (Source is not null)
         {
             // update the in-memory collections:
-            foreach (Graphic addedGraphic in addedFeatures)
-            {
-                _source!.Add(addedGraphic);
-            }
-            foreach (Graphic updatedGraphic in updatedFeatures)
-            {
-                _source!.Remove(updatedGraphic);
-                _source!.Add(updatedGraphic);
-            }
-            foreach (Graphic deletedGraphic in deletedFeatures)
-            {
-                _source!.Remove(deletedGraphic);
-            }
+            Source = Source
+                .Except(deletedFeatures)
+                .Except(updatedFeatures)
+                .Concat(addedFeatures)
+                .Concat(updatedFeatures)
+                .ToList();
         }
 
         return new FeatureEditsResult
         (
-            addFeatureResults?.AddFeatureResults ?? Array.Empty<FeatureEditResult>(), 
-            updateFeatureResults?.UpdateFeatureResults ?? Array.Empty<FeatureEditResult>(), 
-            deleteFeatureResults?.DeleteFeatureResults ?? Array.Empty<FeatureEditResult>(), 
-            attachmentResults?.AddAttachmentResults ?? Array.Empty<FeatureEditResult>(),
-            attachmentResults?.UpdateAttachmentResults ?? Array.Empty<FeatureEditResult>(),
-            attachmentResults?.DeleteAttachmentResults ?? Array.Empty<FeatureEditResult>(),
+            addFeatureResults?.AddFeatureResults ?? [], 
+            updateFeatureResults?.UpdateFeatureResults ?? [], 
+            deleteFeatureResults?.DeleteFeatureResults ?? [], 
+            attachmentResults?.AddAttachmentResults ?? [],
+            attachmentResults?.UpdateAttachmentResults ?? [],
+            attachmentResults?.DeleteAttachmentResults ?? [],
             editedFeatureResults.ToArray(),
             editMoment
         );
@@ -579,6 +553,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
     /// <summary>
     /// Returns the Domain associated with the given field name. The domain can be either a CodedValueDomain or RangeDomain.
     /// </summary>
+    [CodeGenerationIgnore]
     public async Task<Domain?> GetFieldDomain(string fieldName, Graphic? feature = null)
     {
         return await JsComponentReference!.InvokeAsync<Domain?>("getFieldDomain", fieldName, feature);
@@ -603,6 +578,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
     /// <summary>
     /// Fetches all the data for the layer. Calls 'refresh' on the layer.
     /// </summary>
+    [CodeGenerationIgnore]
     public override ValueTask Refresh()
     {
         _refreshRequired = true;
@@ -683,7 +659,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
 
                 break;
             case OrderedLayerOrderBy orderBy:
-                OrderBy ??= new List<OrderedLayerOrderBy>();
+                OrderBy ??= [];
 
                 if (!OrderBy.Contains(orderBy))
                 {
@@ -693,24 +669,25 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
 
                 break;
             case Graphic graphic:
-                _source ??= new HashSet<Graphic>();
+                Source ??= new HashSet<Graphic>();
 
-                if (!_source.Contains(graphic))
+                if (!Source.Contains(graphic))
                 {
                     graphic.View ??= View;
                     graphic.Parent ??= this;
                     graphic.LayerId ??= Id;
-                    _source.Add(graphic);
+                    Source = [..Source, graphic];
 
                     LayerChanged = true;
                 }
 
                 break;
             case Field field:
-                _fields ??= new HashSet<Field>();
+                Fields ??= new HashSet<Field>();
 
-                if (_fields.Add(field))
+                if (!Fields.Contains(field))
                 {
+                    Fields = [..Fields, field];
                     LayerChanged = true;
                 }
 
@@ -766,17 +743,17 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
 
                 break;
             case Graphic graphic:
-                if (_source?.Contains(graphic) ?? false)
+                if (Source?.Contains(graphic) ?? false)
                 {
-                    _source.Remove(graphic);
+                    Source = Source.Except([graphic]).ToHashSet();
                     LayerChanged = true;
                 }
 
                 break;
             case Field field:
-                if (_fields?.Contains(field) ?? false)
+                if (Fields?.Contains(field) ?? false)
                 {
-                    _fields.Remove(field);
+                    Fields = Fields.Except([field]).ToHashSet();
                     LayerChanged = true;
                 }
 
@@ -806,11 +783,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
     }
 
     /// <summary>
-    ///     Creates query parameter object that can be used to fetch features that satisfy the layer's configurations such as
-    ///     definitionExpression, gdbVersion, and historicMoment. It will return Z and M values based on the layer's data
-    ///     capabilities. It sets the query parameter's outFields property to ["*"]. The results will include geometries of
-    ///     features and values for all available fields for client-side queries or all fields in the layer for server side
-    ///     queries.
+    ///     Creates query parameter object that can be used to fetch features that satisfy the layer's configurations such as definitionExpression, gdbVersion, and historicMoment. It will return Z and M values based on the layer's data capabilities. It sets the query parameter's outFields property to ["*"]. The results will include geometries of features and values for all available fields for client-side queries or all fields in the layer for server side queries.
     /// </summary>
     public async Task<Query> CreateQuery()
     {
@@ -818,19 +791,15 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
     }
 
     /// <summary>
-    ///     Executes a Query against the feature service and returns the Extent of features that satisfy the query. If no
-    ///     parameters are specified, then the extent and count of all features satisfying the layer's configuration/filters
-    ///     are returned.
-    ///     To query for the extent of features/graphics available to or visible in the View on the client rather than making a
-    ///     server-side query, you must use the <see cref="FeatureLayerView.QueryExtent" /> method.
+    ///     Executes a Query against the feature service and returns the Extent of features that satisfy the query. If no parameters are specified, then the extent and count of all features satisfying the layer's configuration/filters are returned. To query for the extent of features/graphics available to or visible in the View on the client rather than making a server-side query, you must use the <see cref="FeatureLayerView.QueryExtent" /> method.
     /// </summary>
     /// <param name="query">
-    ///     Specifies the attributes and spatial filter of the query. If no parameters are specified, then the extent and count
-    ///     of all features satisfying the layer's configuration/filters are returned.
+    ///     Specifies the attributes and spatial filter of the query. If no parameters are specified, then the extent and count of all features satisfying the layer's configuration/filters are returned.
     /// </param>
     /// <param name="cancellationToken">
     ///     A cancellation token that can be used to cancel the query operation.
     /// </param>
+    [CodeGenerationIgnore]
     public async Task<ExtentQueryResult> QueryExtent(Query? query = null, CancellationToken cancellationToken = default)
     {
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
@@ -844,19 +813,16 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
     }
 
     /// <summary>
-    ///     Executes a Query against the feature service and returns the number of features that satisfy the query. If no
-    ///     parameters are specified, the total number of features satisfying the layer's configuration/filters is returned.
-    ///     To query for the count of features/graphics available to or visible in the View on the client rather than making a
-    ///     server-side query, you must use the <see cref="FeatureLayerView.QueryFeatureCount" /> method.
+    ///     Executes a Query against the feature service and returns the number of features that satisfy the query. If no parameters are specified, the total number of features satisfying the layer's configuration/filters is returned. To query for the count of features/graphics available to or visible in the View on the client rather than making a server-side query, you must use the <see cref="FeatureLayerView.QueryFeatureCount" /> method.
     /// </summary>
     /// <param name="query">
-    ///     Specifies the attributes and spatial filter of the query. If no parameters are specified, the total number of
-    ///     features satisfying the layer's configuration/filters is returned.
+    ///     Specifies the attributes and spatial filter of the query. If no parameters are specified, the total number of features satisfying the layer's configuration/filters is returned.
     /// </param>
     /// <param name="cancellationToken">
     ///     A cancellation token that can be used to cancel the query operation.
     /// </param>
     /// <returns></returns>
+    [CodeGenerationIgnore]
     public async Task<int> QueryFeatureCount(Query? query = null, CancellationToken cancellationToken = default)
     {
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
@@ -870,19 +836,16 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
     }
 
     /// <summary>
-    ///     Executes a Query against the feature service and returns the number of features that satisfy the query. If no
-    ///     parameters are specified, the total number of features satisfying the layer's configuration/filters is returned.
-    ///     To query for the count of features/graphics available to or visible in the View on the client rather than making a
-    ///     server-side query, you must use the <see cref="FeatureLayerView.QueryFeatureCount" /> method.
+    ///     Executes a Query against the feature service and returns the number of features that satisfy the query. If no parameters are specified, the total number of features satisfying the layer's configuration/filters is returned. To query for the count of features/graphics available to or visible in the View on the client rather than making a server-side query, you must use the <see cref="FeatureLayerView.QueryFeatureCount" /> method.
     /// </summary>
     /// <param name="query">
-    ///     Specifies the attributes and spatial filter of the query. If no parameters are specified, the total number of
-    ///     features satisfying the layer's configuration/filters is returned.
+    ///     Specifies the attributes and spatial filter of the query. If no parameters are specified, the total number of features satisfying the layer's configuration/filters is returned.
     /// </param>
     /// <param name="cancellationToken">
     ///     A cancellation token that can be used to cancel the query operation.
     /// </param>
     /// <returns></returns>
+    [CodeGenerationIgnore]
     public async Task<FeatureSet?> QueryFeatures(Query? query = null, CancellationToken cancellationToken = default)
     {
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
@@ -893,7 +856,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
 
         if (_activeQueries.ContainsKey(queryId))
         {
-            result.Features = _activeQueries[queryId];
+            result = result with {Features = _activeQueries[queryId]};
             _activeQueries.Remove(queryId);
         }
         
@@ -932,19 +895,15 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
     }
 
     /// <summary>
-    ///     Executes a Query against the feature service and returns an array of Object IDs for features that satisfy the input
-    ///     query. If no parameters are specified, then the Object IDs of all features satisfying the layer's
-    ///     configuration/filters are returned.
-    ///     To query for ObjectIDs of features/graphics available to or visible in the View on the client rather than making a
-    ///     server-side query, you must use the <see cref="FeatureLayerView.QueryObjectIds" /> method.
+    ///     Executes a Query against the feature service and returns an array of Object IDs for features that satisfy the input query. If no parameters are specified, then the Object IDs of all features satisfying the layer's configuration/filters are returned. To query for ObjectIDs of features/graphics available to or visible in the View on the client rather than making a server-side query, you must use the <see cref="FeatureLayerView.QueryObjectIds" /> method.
     /// </summary>
     /// <param name="query">
-    ///     Specifies the attributes and spatial filter of the query. If no parameters are specified, then the Object IDs of
-    ///     all features satisfying the layer's configuration/filters are returned.
+    ///     Specifies the attributes and spatial filter of the query. If no parameters are specified, then the Object IDs of all features satisfying the layer's configuration/filters are returned.
     /// </param>
     /// <param name="cancellationToken">
     ///     A cancellation token that can be used to cancel the query operation.
     /// </param>
+    [CodeGenerationIgnore]
     public async Task<int[]> QueryObjectIds(Query query, CancellationToken cancellationToken = default)
     {
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
@@ -958,8 +917,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
     }
 
     /// <summary>
-    ///     Executes a RelationshipQuery against the feature service and returns FeatureSets grouped by source layer or table
-    ///     objectIds.
+    ///     Executes a RelationshipQuery against the feature service and returns FeatureSets grouped by source layer or table objectIds.
     /// </summary>
     /// <param name="query">
     ///     Specifies relationship parameters for querying related features or records from a layer or a table.
@@ -967,6 +925,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
     /// <param name="cancellationToken">
     ///     A cancellation token that can be used to cancel the query operation.
     /// </param>
+    [CodeGenerationIgnore]
     public async Task<RelatedFeaturesQueryResult?> QueryRelatedFeatures(RelationshipQuery query,
         CancellationToken cancellationToken = default)
     {
@@ -982,13 +941,14 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
             foreach (KeyValuePair<long, FeatureSet?> kvp in result)
             {
                 if (kvp.Value is null || !relatedGraphics.TryGetValue(kvp.Key, out Graphic[]? relatedGraphic)) continue;
-
-                kvp.Value.Features = relatedGraphic;
-
-                foreach (Graphic graphic in kvp.Value.Features)
+                
+                
+                foreach (Graphic graphic in relatedGraphic)
                 {
                     graphic.LayerId = Id;
                 }
+                result[kvp.Key] = kvp.Value with {Features = relatedGraphic};
+                
             }
             _activeRelatedQueries.Remove(queryId);
         }
@@ -1028,9 +988,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
     }
 
     /// <summary>
-    ///     Executes a RelationshipQuery against the feature service and when resolved, it returns an object containing key
-    ///     value pairs. Key in this case is the objectId of the feature and value is the number of related features associated
-    ///     with the feature.
+    ///     Executes a RelationshipQuery against the feature service and when resolved, it returns an object containing key value pairs. Key in this case is the objectId of the feature and value is the number of related features associated with the feature.
     /// </summary>
     /// <param name="query">
     ///     Specifies relationship parameters for querying related features or records from a layer or a table.
@@ -1038,6 +996,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
     /// <param name="cancellationToken">
     ///     A cancellation token that can be used to cancel the query operation.
     /// </param>
+    [CodeGenerationIgnore]
     public async Task<RelatedFeaturesCountQueryResult> QueryRelatedFeaturesCount(RelationshipQuery query,
         CancellationToken cancellationToken = default)
     {
@@ -1052,8 +1011,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
     }
 
     /// <summary>
-    ///     Executes a TopFeaturesQuery against a feature service and returns the count of features or records that satisfy the
-    ///     query.
+    ///     Executes a TopFeaturesQuery against a feature service and returns the count of features or records that satisfy the query.
     /// </summary>
     /// <remarks>
     ///     Known Limitations: Currently, the <see cref="QueryTopFeatureCount" /> is only supported with server-side
@@ -1065,6 +1023,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
     /// <param name="cancellationToken">
     ///     A cancellation token that can be used to cancel the query operation.
     /// </param>
+    [CodeGenerationIgnore]
     public async Task<int> QueryTopFeatureCount(TopFeaturesQuery query, CancellationToken cancellationToken = default)
     {
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
@@ -1078,14 +1037,10 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
     }
 
     /// <summary>
-    ///     Executes a TopFeaturesQuery against a feature service and returns a FeatureSet once the promise resolves. The
-    ///     FeatureSet contains an array of top features grouped and ordered by specified fields. For example, you can call
-    ///     this method to query top three counties grouped by state names while ordering them based on their populations in a
-    ///     descending order.
+    ///     Executes a TopFeaturesQuery against a feature service and returns a FeatureSet once the promise resolves. The FeatureSet contains an array of top features grouped and ordered by specified fields. For example, you can call this method to query top three counties grouped by state names while ordering them based on their populations in descending order.
     /// </summary>
     /// <remarks>
-    ///     Known Limitations: Currently, the <see cref="QueryTopFeatures" /> is only supported with server-side
-    ///     <see cref="FeatureLayer" />s.
+    ///     Known Limitations: Currently, the <see cref="QueryTopFeatures" /> is only supported with server-side <see cref="FeatureLayer" />s.
     /// </remarks>
     /// <param name="query">
     ///     Specifies the attributes, spatial, temporal, and top filter of the query. The topFilter parameter must be set.
@@ -1093,6 +1048,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
     /// <param name="cancellationToken">
     ///     A cancellation token that can be used to cancel the query operation.
     /// </param>
+    [CodeGenerationIgnore]
     public async Task<FeatureSet?> QueryTopFeatures(TopFeaturesQuery query,
         CancellationToken cancellationToken = default)
     {
@@ -1103,7 +1059,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
 
         if (_activeQueries.ContainsKey(queryId))
         {
-            result.Features = _activeQueries[queryId];
+            result = result with {Features = _activeQueries[queryId]};
             _activeQueries.Remove(queryId);
         }
         
@@ -1118,15 +1074,23 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
     }
 
     /// <summary>
+    ///     Executes a TopFeaturesQuery against a feature service and returns an array of Object IDs for features that satisfy the input query. If no parameters are specified, then the Object IDs of all features satisfying the layer's configuration/filters are returned. To query for ObjectIDs of features/graphics available to or visible in the View on the client rather than making a server-side query, you must use the <see cref="FeatureLayerView.QueryTopObjectIds" /> method.
     /// </summary>
-    /// <param name="query"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    public async Task<int[]> QueryTopObjectIds(TopFeaturesQuery query, CancellationToken cancellationToken = default)
+    /// <param name="query">
+    ///     Specifies the attributes, spatial, temporal, and top filter of the query. The topFilter parameter must be set.
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     A cancellation token that can be used to cancel the query operation.
+    /// </param>
+    /// <returns>
+    ///     An array of Object IDs for features that satisfy the input query.
+    /// </returns>
+    [CodeGenerationIgnore]
+    public async Task<long[]> QueryTopObjectIds(TopFeaturesQuery query, CancellationToken cancellationToken = default)
     {
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
 
-        int[] queryResult = await JsComponentReference!.InvokeAsync<int[]>("queryTopObjectIds", cancellationToken,
+        long[] queryResult = await JsComponentReference!.InvokeAsync<long[]>("queryTopObjectIds", cancellationToken,
             query, new { signal = abortSignal });
 
         await AbortManager.DisposeAbortController(cancellationToken);
@@ -1138,8 +1102,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
     ///     Executes a TopFeaturesQuery against a feature service and returns the Extent of features that satisfy the query.
     /// </summary>
     /// <remarks>
-    ///     Known Limitations: Currently, the <see cref="QueryTopFeaturesExtent" /> is only supported with server-side
-    ///     <see cref="FeatureLayer" />s.
+    ///     Known Limitations: Currently, the <see cref="QueryTopFeaturesExtent" /> is only supported with server-side <see cref="FeatureLayer" />s.
     /// </remarks>
     /// <param name="query">
     ///     Specifies the attributes, spatial, temporal, and top filter of the query. The topFilter parameter must be set.
@@ -1147,6 +1110,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
     /// <param name="cancellationToken">
     ///     A cancellation token that can be used to cancel the query operation.
     /// </param>
+    [CodeGenerationIgnore]
     public async Task<ExtentQueryResult> QueryTopFeaturesExtent(TopFeaturesQuery? query = null,
         CancellationToken cancellationToken = default)
     {
@@ -1210,22 +1174,10 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
 
         if (renderedFeatureLayer.Fields is not null && renderedFeatureLayer.Fields.Any())
         {
-            if (Fields is null)
-            {
-                Fields = renderedFeatureLayer.Fields;
-            }
-            else
-            {
-                foreach (Field field in renderedFeatureLayer.Fields)
-                {
-                    Field? existingField = Fields.FirstOrDefault(f => f.Name == field.Name);
-
-                    if (existingField is null)
-                    {
-                        _fields!.Add(field);
-                    }
-                }
-            }
+            Fields = Fields?
+                .Concat(renderedFeatureLayer.Fields)
+                .ToHashSet() 
+                ?? renderedFeatureLayer.Fields;
         }
 
         if (renderedFeatureLayer.DefinitionExpression is not null)
@@ -1311,8 +1263,6 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
         }
     }
 
-    private HashSet<Graphic>? _source;
-    private HashSet<Field>? _fields;
     private bool _refreshRequired = false;
     private Dictionary<Guid, Graphic[]> _activeQueries = new();
     private Dictionary<Guid, Dictionary<long, Graphic[]>> _activeRelatedQueries = new();
