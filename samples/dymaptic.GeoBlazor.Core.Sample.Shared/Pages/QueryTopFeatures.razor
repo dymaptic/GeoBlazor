@@ -174,10 +174,12 @@
         _results = await _featureLayer!.QueryTopFeatures(query);
 
         query.OrderByFields = [""];
-        int[] objectIds = await _featureLayer!.QueryTopObjectIds(query);
+        long[] objectIds = await _featureLayer!.QueryTopObjectIds(query);
         await _layerView!.SetFilter(new FeatureFilter
         {
+#pragma warning disable BL0005
             ObjectIds = objectIds
+#pragma warning restore BL0005
         });
     }
 

@@ -43,7 +43,9 @@
             {
                 Filter = new FeatureFilter()
                 {
+#pragma warning disable BL0005
                     Where = $"Name = '{hurricaneName!.ToUpper()}'"
+#pragma warning restore BL0005
                 },
                 ExcludedEffect = new() { new Effect("grayscale(100%) opacity(30%)") }
             };

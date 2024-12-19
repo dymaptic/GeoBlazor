@@ -165,6 +165,10 @@ export {
     Portal,
     SimpleRenderer
 };
+
+export * from './jsBuilder';
+export * from './jsBuilder.gb';
+
 export let arcGisObjectRefs: Record<string, any> = {};
 // this could be either the arcGIS object or a "wrapper" class
 export let jsObjectRefs: Record<string, any> = {};
@@ -193,11 +197,18 @@ export async function setPro(): Promise<void> {
     }
 }
 
-export function getProperty(obj, prop) {
-    return obj[prop];
+export async function getProperty(obj: any, prop: string): Promise<any> {
+    let val: any;
+    if ('getProperty' in obj) {
+        val = obj.getProperty(prop);
+    } else {
+        val = obj[prop];
+    }
+
+    return await getObjectReference(val);
 }
 
-export function setProperty(obj, prop, value) {
+export async function setProperty(obj: any, prop: string, value: any): Promise<void> {
     if ('setProperty' in obj) {
         obj.setProperty(prop, value);
     } else {
@@ -737,12 +748,11 @@ function debounce(func: Function, wait: number | null, immediate: boolean) {
     }
 }
 
-export function registerGeoBlazorObject(jsObjectRef: any, geoBlazorId: string) {
-    if ('unwrap' in jsObjectRef) {
-        arcGisObjectRefs[geoBlazorId] = jsObjectRef.unwrap();
-    } else {
-        arcGisObjectRefs[geoBlazorId] = jsObjectRef;
-    }
+export async function registerGeoBlazorObject(jsObjectRef: any, geoBlazorId: string) {
+    arcGisObjectRefs[geoBlazorId] = await getObjectReference(jsObjectRef);
+    jsObjectRefs[geoBlazorId] = jsObjectRef.hasOwnProperty('unwrap') 
+        ? jsObjectRef.unwrap() 
+        : jsObjectRef;
 }
 
 export function registerGeoBlazorSublayer(layerId, sublayerId, sublayerGeoBlazorId) {
@@ -3112,14 +3122,13 @@ export async function createGeoBlazorObject(arcGisObject: any, newGeoBlazorObjec
         if ('toJSON' in arcGisObject) {
             try {
                 newGeoBlazorObject = arcGisObject.toJSON();
+                return newGeoBlazorObject;
             } catch (error) {
-                console.debug(error);
-                await copyValuesToGeoBlazor(arcGisObject, newGeoBlazorObject);
+                logError(error, null);
             }
-        } else {
-            await copyValuesToGeoBlazor(arcGisObject, newGeoBlazorObject);
         }
 
+        await copyValuesToGeoBlazor(arcGisObject, newGeoBlazorObject);
         return newGeoBlazorObject;
     } catch (error) {
         logError(error, null);

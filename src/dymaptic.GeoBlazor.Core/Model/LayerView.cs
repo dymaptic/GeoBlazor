@@ -1,4 +1,5 @@
-﻿using dymaptic.GeoBlazor.Core.Components.Layers;
+﻿using dymaptic.GeoBlazor.Core.Components;
+using dymaptic.GeoBlazor.Core.Components.Layers;
 
 
 namespace dymaptic.GeoBlazor.Core.Model;
@@ -7,7 +8,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     Represents the view for a single layer after it has been added to either a MapView or a SceneView.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public record LayerView : IDisposable
+public class LayerView : MapComponent
 {
     /// <summary>
     ///     The layer being viewed.
@@ -35,11 +36,6 @@ public record LayerView : IDisposable
     public bool Updating { get; init; }
 
     /// <summary>
-    ///     Value is true when the layer is updating; for example, if it is in the process of fetching data.
-    /// </summary>
-    public bool Visible { get; init; }
-
-    /// <summary>
     ///     Disposes the LayerView.
     /// </summary>
     public void Dispose()
@@ -55,29 +51,7 @@ public record LayerView : IDisposable
             CancellationTokenSource.Cancel();
         }
     }
-
-    /// <summary>
-    ///     Creates a cancellation token to control external calls
-    /// </summary>
-    protected CancellationTokenSource CancellationTokenSource = new();
 }
 
 #pragma warning disable CS1574, CS0419
-/// <summary>
-///     A handle to a <see cref="LayerView.Highlight" /> call result. The handle can be used to remove the installed
-///     highlight.
-/// </summary>
-/// <param name="JsObjectReference">
-///     The JavaScript object reference used by the handle.
-/// </param>
 #pragma warning restore CS1574, CS0419
-public record HighlightHandle(IJSObjectReference JsObjectReference)
-{
-    /// <summary>
-    ///     Removes the highlight.
-    /// </summary>
-    public async Task Remove()
-    {
-        await JsObjectReference.InvokeVoidAsync("remove");
-    }
-}

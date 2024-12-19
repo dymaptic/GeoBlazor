@@ -32,12 +32,14 @@ export default class FeatureLayerViewWrapper implements IPropertyWrapper {
     unwrap() {
         return this.featureLayerView;
     }
-    setFeatureEffect(dnfeatureEffect: DotNetFeatureEffect): void {
+    setFeatureEffect(dnfeatureEffect: DotNetFeatureEffect): any {
         this.featureLayerView.featureEffect = buildJsFeatureEffect(dnfeatureEffect) as FeatureEffect;
+        return this.featureLayerView.featureEffect;
     }
 
-    setFilter(dnDeatureFilter: DotNetFeatureFilter): void {
+    setFilter(dnDeatureFilter: DotNetFeatureFilter): any {
         this.featureLayerView.filter = buildJsFeatureFilter(dnDeatureFilter) as FeatureFilter;
+        return this.featureLayerView.filter;
     }
 
     setMaximumNumberOfFeatures(maximumNumberOfFeatures: number): void {

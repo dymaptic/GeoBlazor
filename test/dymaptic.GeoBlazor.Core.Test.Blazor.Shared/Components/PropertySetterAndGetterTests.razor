@@ -1,0 +1,60 @@
+@inherits TestRunnerBase
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+
+@code {
+
+    [TestMethod]
+    public async Task TestCanGetAndSetABasicProperty(Action renderHandler)
+    {
+        FeatureLayer? layer = null;
+
+        AddMapRenderFragment(@<MapView class="map-view" OnViewRendered="renderHandler">
+            <Map>
+                <Basemap>
+                    <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+                </Basemap>
+                <FeatureLayer Title="TestLayer1" ObjectIdField="ObjectId" @ref="layer" Source="@( [])" />
+            </Map>
+        </MapView>);
+
+        await WaitForMapToRender();
+        
+        Assert.IsNotNull(layer);
+        Assert.AreEqual("TestLayer1", layer.Title);
+        await layer.SetProperty(nameof(FeatureLayer.Title), "TestLayer2");
+        Assert.AreEqual("TestLayer2", layer.Title);
+        string? title = await layer.GetProperty<string>(nameof(FeatureLayer.Title));
+        Assert.AreEqual("TestLayer2", title);
+    }
+
+    [TestMethod]
+    public async Task TestCanGetAndSetAMapComponentProperty(Action renderHandler)
+    {
+        FeatureLayer? layer = null;
+
+        AddMapRenderFragment(@<MapView class="map-view" OnViewRendered="renderHandler">
+            <Map>
+                <Basemap>
+                    <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+                </Basemap>
+                <FeatureLayer Title="TestLayer1" ObjectIdField="ObjectId" @ref="layer" Source="@( [])" GeometryType="GeometryType.Point" />
+            </Map>
+        </MapView>);
+
+        await WaitForMapToRender();
+        
+        Assert.IsNotNull(layer);
+        Assert.IsNull(layer.Renderer);
+        await layer.SetProperty(nameof(FeatureLayer.Renderer), 
+            new SimpleRenderer(new SimpleMarkerSymbol(null, new MapColor("green"))));
+        Assert.IsNotNull(layer.Renderer);
+        SimpleRenderer? renderer = await layer.GetProperty<SimpleRenderer>(nameof(FeatureLayer.Renderer));
+        Assert.AreEqual(layer.Renderer, renderer);
+        await layer.Add(new Graphic(new Point(0, 0)));
+        Assert.AreEqual("green", renderer!.Symbol!.Color!.HexOrNameValue);
+    }
+}

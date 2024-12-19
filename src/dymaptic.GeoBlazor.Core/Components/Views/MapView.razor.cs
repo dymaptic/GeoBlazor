@@ -834,6 +834,8 @@ public partial class MapView : MapComponent
 
         if (layerView is not null)
         {
+            layerView.View = this;
+            layerView.Parent = this;
             layerView.JsObjectReference = layerViewCreateEvent.LayerViewObjectRef;
         }
 

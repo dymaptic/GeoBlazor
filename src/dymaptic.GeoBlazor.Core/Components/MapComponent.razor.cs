@@ -3,6 +3,8 @@ using dymaptic.GeoBlazor.Core.Exceptions;
 using dymaptic.GeoBlazor.Core.Extensions;
 using dymaptic.GeoBlazor.Core.Objects;
 using System.Collections;
+using System.ComponentModel;
+using System.Dynamic;
 using System.Reflection;
 
 
@@ -208,26 +210,78 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     /// <exception cref="NotSupportedException">
     ///     Throws if the component does not support the SetProperty method.
     /// </exception>
-    public virtual async Task SetProperty<T>(string propertyName, T? value, bool updateInMemory = true)
+    public virtual async Task SetProperty<T>(string propertyName, T? value)
     {
-        if (updateInMemory)
+        try
         {
             Props ??= GetType().GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
             PropertyInfo? prop = Props.FirstOrDefault(p => p.Name == propertyName);
-            prop?.SetValue(this, value);
+
+            if (prop is null)
+            {
+                throw new NotSupportedException($"The component {GetType().Name} does not have a property named {
+                    propertyName}.");
+            }
+
+            prop.SetValue(this, value);
             ModifiedParameters[propertyName] = value;
+
+            if (CoreJsModule is null) return;
+
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+                CancellationTokenSource.Token, Id);
+
+            if (JsComponentReference is null)
+            {
+                throw new NotSupportedException($"The component {GetType().Name
+                } does not currently support the SetProperty method. Please contact dymaptic for support.");
+            }
+
+            if (value is MapComponent component)
+            {
+                component.Parent = this;
+                component.View = View;
+
+                if (component.JsComponentReference is null)
+                {
+                    // new MapComponent, needs to be built and registered in JS
+                    try
+                    {
+                        // this also calls back to OnJsComponentCreated
+                        IJSObjectReference jsObjectReference = await CoreJsModule.InvokeAsync<IJSObjectReference>(
+                            $"buildJs{prop.PropertyType.Name}", CancellationTokenSource.Token, 
+                                value, View?.Id);
+                        component.JsComponentReference ??= jsObjectReference;
+
+                        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+                            JsComponentReference, propertyName.ToLowerFirstChar(), jsObjectReference);
+
+                        return;
+                    }
+                    catch
+                    {
+                        // try just passing the value directly below
+                    }
+                }
+                else
+                {
+                    // this component has already been registered, but we'll call setProperty to make sure
+                    // it is attached to the parent
+                    await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+                        JsComponentReference,
+                        propertyName.ToLowerFirstChar(), component.JsComponentReference);
+
+                    return;
+                }
+            }
+
+            await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token, JsComponentReference,
+                propertyName.ToLowerFirstChar(), value);
         }
-        
-        if (CoreJsModule is null) return;
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent", 
-            CancellationTokenSource.Token, Id);
-        if (JsComponentReference is null)
+        catch (Exception ex)
         {
-            throw new NotSupportedException(
-                $"The component {GetType().Name} does not currently support the GetProperty method. Please contact dymaptic for support.");
+            Console.WriteLine(ex);
         }
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token, JsComponentReference, 
-            propertyName.ToLowerFirstChar(), value);
     }
     
     /// <summary>
@@ -245,33 +299,111 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     /// <exception cref="NotSupportedException">
     ///     Throws if the component does not support the GetProperty method.
     /// </exception>
-    public virtual async Task<T?> GetProperty<T>(string propertyName, bool updateInMemory = true)
+    public virtual async Task<T?> GetProperty<T>(string propertyName)
     {
-        if (CoreJsModule is null) return default;
+        Props ??= GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
+        PropertyInfo prop = Props.First(p => p.Name == propertyName);
+        T? currentValue = (T?)prop.GetValue(this);
+        
+        if (CoreJsModule is null)
+        {
+            // we aren't hooked to JS, so return the current value in memory
+            return currentValue;
+        }
                  
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
-            CancellationTokenSource.Token, Id);
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>(
+            "getJsComponent", CancellationTokenSource.Token, Id);
         if (JsComponentReference is null)
         {
-            throw new NotSupportedException(
-                $"The component {GetType().Name} does not currently support the GetProperty method. Please contact dymaptic for support.");
-        }
-        T? result = await CoreJsModule.InvokeAsync<T?>("getProperty", 
-            CancellationTokenSource.Token, JsComponentReference, propertyName.ToLowerFirstChar());
-
-        if (updateInMemory)
-        {
-            Props ??= GetType().GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-            PropertyInfo? prop = Props.FirstOrDefault(p => p.Name == propertyName);
-            object? currentValue = prop?.GetValue(this);
-            if (result is not null && !result.Equals(currentValue))
-            {
-                ModifiedParameters[propertyName] = result;
-                prop?.SetValue(this, result);
-            }
+            // we aren't hooked to JS, so return the current value in memory
+            return currentValue;
         }
         
-        return result;
+        bool isMapComponent = prop.PropertyType.IsAssignableTo(typeof(MapComponent));
+
+        try
+        {
+            if (isMapComponent)
+            {
+                if (currentValue is MapComponent { JsComponentReference: not null })
+                {
+                    // this component has already been registered
+                    return currentValue;
+                }
+
+                // get the JS object reference
+                IJSObjectReference? refResult = await CoreJsModule!.InvokeAsync<IJSObjectReference?>("getProperty",
+                    CancellationTokenSource.Token, JsComponentReference, propertyName.ToLowerFirstChar());
+
+                if (refResult is null)
+                {
+                    return default;
+                }
+
+                Type instanceType = typeof(T);
+                T? instance = default;
+                if (instanceType.IsAbstract)
+                {
+                    // try to read the "type" from the JS object
+                    string? typeName = await CoreJsModule.InvokeAsync<string?>("getProperty",
+                        CancellationTokenSource.Token, refResult, "type");
+
+                    List<Type> childTypes = Assembly
+                        .GetAssembly(instanceType)!
+                        .GetTypes()
+                        .Where(t => t.IsAssignableTo(instanceType))
+                        .ToList();
+                    
+                    // try instantiating each one to read the "type" property
+                    if (typeName is null)
+                    {
+                        instance = (T)Activator.CreateInstance(childTypes.First())!;
+                    }
+                    else
+                    {
+                        foreach (Type childType in childTypes)
+                        {
+                            instance = (T)Activator.CreateInstance(childType)!;
+                            string subType = (string)childType.GetProperty("Type")!.GetValue(instance)!;
+
+                            if (subType == typeName)
+                            {
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                MapComponent component = (instance as MapComponent)!;
+                prop.SetValue(this, instance);
+                component.Parent = this;
+                component.View = View;
+
+                // register this type in JS
+                await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorObject",
+                    CancellationTokenSource.Token, component.JsComponentReference, component.Id);
+                
+                // call to set other values
+                await component.OnJsComponentCreated(refResult);
+                
+                ModifiedParameters[propertyName] = component;
+
+                return instance;
+            }
+
+            // non MapComponent, return value from JS
+            T? result = await CoreJsModule!.InvokeAsync<T?>("getProperty",
+                CancellationTokenSource.Token, JsComponentReference, propertyName.ToLowerFirstChar());
+            prop.SetValue(this, result);
+            ModifiedParameters[propertyName] = result;
+
+            return result;
+        }
+        catch(Exception ex)
+        {
+            Console.WriteLine($"Error calling GetProperty for property {propertyName} on component {GetType().Name}: {ex}");
+            return currentValue;
+        }
     }
     
     /// <summary>
@@ -609,28 +741,20 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     public async Task OnJsComponentCreated(IJSObjectReference jsComponentReference)
     {
         JsComponentReference = jsComponentReference;
-        PropertyInfo[] readonlyProps = GetType()
+        PropertyInfo[] arcGisProps = GetType()
             .GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
-            .Where(p => p.SetMethod?.IsPublic != true).ToArray();
+            .Where(p => p.SetMethod is not null 
+                && p.GetCustomAttribute<ArcGISPropertyAttribute>() is not null)
+            .ToArray();
 
-        foreach (PropertyInfo prop in readonlyProps)
+        foreach (PropertyInfo prop in arcGisProps)
         {
             try
             {
-                object? result = await CoreJsModule!.InvokeAsync<object?>("getProperty",
-                    CancellationTokenSource.Token, JsComponentReference, prop.Name.ToLowerFirstChar());
-                if (prop.PropertyType.IsAssignableTo(typeof(MapComponent)))
-                {
-                    // create a new instance
-                    MapComponent instance = (MapComponent)Activator.CreateInstance(prop.PropertyType)!;
-                    prop.SetValue(this, instance);
-                    instance.Parent = this;
-                    await instance.OnJsComponentCreated((IJSObjectReference)result!);
-                }
-                else
-                {
-                    prop.SetValue(this, result);
-                }
+                // call GetProperty with reflection
+                MethodInfo method = GetType().GetMethod("GetProperty")!.MakeGenericMethod(prop.PropertyType);
+                Task methodTask = (Task)method.Invoke(this, [prop.Name])!;
+                await methodTask;
             }
             catch(Exception ex)
             {
