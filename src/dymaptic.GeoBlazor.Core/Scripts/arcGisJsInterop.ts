@@ -27,6 +27,8 @@ import Search from "@arcgis/core/widgets/Search";
 import Locate from "@arcgis/core/widgets/Locate";
 import Widget from "@arcgis/core/widgets/Widget";
 import Measurement from "@arcgis/core/widgets/Measurement";
+import AreaMeasurement2D from "@arcgis/core/widgets/AreaMeasurement2D";
+import AreaMeasurement2DViewModel from "@arcgis/core/widgets/AreaMeasurement2D/AreaMeasurement2DViewModel";
 import Bookmarks from "@arcgis/core/widgets/Bookmarks";
 import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
@@ -2154,6 +2156,14 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
                 areaUnit: widget.areaUnit ?? undefined,
                 linearUnit: widget.linearUnit ?? undefined,
                 icon: widget.icon ?? undefined,
+            });
+            break;
+        case 'areaMeasurement2D':
+            newWidget = new AreaMeasurement2D({
+                view: view,
+                viewModel: widget.AreaMeasurement2DViewModel ?? undefined,
+                unit: widget.unit ?? undefined,
+                unitOptions: widget.unitOptions ?? undefined
             });
             break;
         case 'bookmarks':
