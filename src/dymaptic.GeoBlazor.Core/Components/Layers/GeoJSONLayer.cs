@@ -3,6 +3,7 @@ using dymaptic.GeoBlazor.Core.Components.Popups;
 using dymaptic.GeoBlazor.Core.Components.Renderers;
 using dymaptic.GeoBlazor.Core.Interfaces;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json.Serialization;
 
 
@@ -22,6 +23,7 @@ public class GeoJSONLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer
     /// <summary>
     ///     Parameterless constructor for using as a razor component
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public GeoJSONLayer()
     {
     }

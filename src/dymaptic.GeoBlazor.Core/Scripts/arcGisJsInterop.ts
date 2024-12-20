@@ -2061,7 +2061,7 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
                 };
             }
             if (hasValue(widget.hasCustomReferenceListHandler) && widget.hasCustomReferenceListHandler) {
-                basemapLayerListWidget.baseListItemCreatedFunction = async (evt) => {
+                basemapLayerListWidget.referenceListItemCreatedFunction = async (evt) => {
                     let dotNetReferenceListItem = buildDotNetListItem(evt.item);
                     let returnItem = await widget.baseLayerListWidgetObjectReference.invokeMethodAsync('OnReferenceListItemCreated', dotNetReferenceListItem) as DotNetListItem;
                     if (hasValue(returnItem) && hasValue(evt.item)) {

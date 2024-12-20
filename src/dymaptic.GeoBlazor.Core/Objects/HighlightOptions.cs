@@ -1,5 +1,6 @@
 ﻿using dymaptic.GeoBlazor.Core.Components;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json.Serialization;
 
 
@@ -17,6 +18,7 @@ public class HighlightOptions : MapComponent
     /// <summary>
     ///     Default Constructor for use as a Blazor Component.
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public HighlightOptions()
     {
     }

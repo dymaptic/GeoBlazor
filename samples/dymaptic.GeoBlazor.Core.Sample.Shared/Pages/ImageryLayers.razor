@@ -15,7 +15,10 @@
 
 <MapView @ref="_view" class="map-view" 
          OnViewRendered="OnViewRendered">
-    <Map ArcGISDefaultBasemap="arcgis-light-gray">
+    <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+        </Basemap>
         @if (_markup)
         {
             <ImageryLayer Url="https://sampleserver6.arcgisonline.com/arcgis/rest/services/NLCDLandCover2001/ImageServer" Opacity="0.6"></ImageryLayer>

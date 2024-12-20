@@ -1,7 +1,7 @@
-﻿using dymaptic.GeoBlazor.Core.Extensions;
-using dymaptic.GeoBlazor.Core.Objects;
+﻿using dymaptic.GeoBlazor.Core.Objects;
 using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json.Serialization;
 
 
@@ -17,6 +17,7 @@ public class Label : LayerObject
     /// <summary>
     ///     Parameterless constructor for use as a Blazor component.
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public Label()
     {
     }

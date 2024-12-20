@@ -1,5 +1,6 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Layers;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
 using ProtoBuf;
 using System.Text.Json.Serialization;
@@ -18,6 +19,7 @@ public class PopupTemplate : MapComponent
     /// <summary>
     ///     Parameterless constructor for using as a razor component
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public PopupTemplate()
     {
     }

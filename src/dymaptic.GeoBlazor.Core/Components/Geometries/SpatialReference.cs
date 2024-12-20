@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.DependencyInjection;
 using ProtoBuf;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -20,6 +21,7 @@ public class SpatialReference : MapComponent
     /// <summary>
     ///     Parameterless constructor for use as a razor component
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public SpatialReference()
     {
     }

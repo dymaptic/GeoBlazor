@@ -20,7 +20,7 @@
         <RepositoryType>git</RepositoryType>
         <PackageIcon>Blazor-API-500px.png</PackageIcon>
         <GeneratePackageOnBuild Condition="$(Configuration) == 'RELEASE' AND $(GeneratePackage) != 'false'">true</GeneratePackageOnBuild>
-        <TargetFrameworks>net9.0;net8.0</TargetFrameworks>
+        <TargetFramework>net8.0</TargetFramework>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <Nullable>enable</Nullable>
@@ -47,12 +47,6 @@
         <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
         <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.2" />
         <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.1" />
-    </ItemGroup>
-    <ItemGroup Condition=" '$(TargetFramework)' == 'net9.0' ">
-        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.0" />
-        <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.0" />
-        <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="9.0.0" />
-        <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.0" />
     </ItemGroup>
     <PropertyGroup Condition="$(Configuration) == 'RELEASE' AND $(TargetFrameworks.StartsWith($(TargetFramework)))">
         <GenerateDocumentationFile>true</GenerateDocumentationFile>

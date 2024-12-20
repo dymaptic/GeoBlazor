@@ -7,10 +7,10 @@ using dymaptic.GeoBlazor.Core.Interfaces;
 using dymaptic.GeoBlazor.Core.Objects;
 using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
 using ProtoBuf;
 using System.Runtime.Serialization;
-using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -31,6 +31,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer
     /// <summary>
     ///     Constructor for use as a razor component
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public FeatureLayer()
     {
     }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json.Serialization;
 
 
@@ -14,6 +15,7 @@ public class MediaPopupContent : PopupContent
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public MediaPopupContent()
     {
     }

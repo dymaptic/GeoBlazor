@@ -1,5 +1,6 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Layers;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json.Serialization;
 
 
@@ -15,6 +16,7 @@ public class DimensionalDefinition : LayerObject
     /// <summary>
     ///     Constructor for use as a razor component
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public DimensionalDefinition() { }
 
     /// <summary>

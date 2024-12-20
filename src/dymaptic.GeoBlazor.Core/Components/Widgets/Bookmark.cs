@@ -1,6 +1,7 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Views;
 using dymaptic.GeoBlazor.Core.Objects;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json.Serialization;
 
 namespace dymaptic.GeoBlazor.Core.Components.Widgets;
@@ -15,6 +16,7 @@ public class Bookmark : MapComponent
     /// <summary>
     ///     Parameterless constructor for use as a Blazor component.
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public Bookmark()
     {
     }

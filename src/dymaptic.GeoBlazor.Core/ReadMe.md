@@ -1,5 +1,12 @@
 ﻿# GeoBlazor
 
+# *.NET 9 NOTICE*
+*Version 3.1.2-beta-1 fixes a [breaking change](https://github.com/dotnet/aspnetcore/issues/58004) that Microsoft introduced in how constructors are used in .NET 9 Razor Components.*
+
+*Even with that fix, you will still experience __very slow__ build times when targeting .NET 9 or even just using the .NET 9 SDK to build previous versions. We have an open request for a fix [here](https://github.com/dotnet/aspnetcore/issues/59014)*
+
+*To avoid disruptions, we recommend staying on .NET 8 for now, and using a global.json file to pin your SDK build version to .NET 8.*
+
 ## PUT MAPS IN YOUR BLAZOR APPS
 
 With GeoBlazor, you have access to the world’s most powerful and versatile web mapping API, the
@@ -21,7 +28,7 @@ ArcGIS JavaScript API, but without having to write a single line of JavaScript.
 
 1. Create a new Blazor Web App (.NET 8), Blazor Server, Blazor Wasm, or Blazor Hybrid (MAUI) project,
    using the templates provided in your IDE or the `dotnet` CLI.
-2. add a `PackageReference` to the latest version of the `dymaptic.GeoBlazor.Core` package via your IDE's Nuget Package
+2. Add a `PackageReference` to the latest version of the `dymaptic.GeoBlazor.Core` package via your IDE's Nuget Package
    Manager or `dotnet add package dymaptic.GeoBlazor.Core`. For Blazor Web Apps supporting WebAssembly, add this
    reference to the `.Client` WebAssembly project.
 3. The ArcGIS API requires some form of authentication. The simplest is to use an API Key. Generate a key from
@@ -107,8 +114,6 @@ ArcGIS JavaScript API, but without having to write a single line of JavaScript.
    ```
 
 7. Create a new Razor Component in the `Pages` folder, or just use `Index.razor`. Add a `MapView`. Give it basic
-
-8. Create a new Razor Component in the `Pages` folder, or just use `Index.razor`. Add a `MapView`. Give it basic
    parameters to ensure that it can render.
 
    ```html
@@ -122,7 +127,7 @@ ArcGIS JavaScript API, but without having to write a single line of JavaScript.
       private readonly double _longitude = -118.805;
    } 
    ```
-9. Within the `MapView`, define a map using the `WebMap` component. To load a pre-generated map from ArcGIS Online or
+8. Within the `MapView`, define a map using the `WebMap` component. To load a pre-generated map from ArcGIS Online or
    Portal, get the Map Id (PortalItem Id)
    of the map.
 
@@ -133,7 +138,7 @@ ArcGIS JavaScript API, but without having to write a single line of JavaScript.
        </WebMap>
    </MapView>
    ```
-10. Add a Widget to the `MapView`, after the `WebMap`.
+9. Add a Widget to the `MapView`, after the `WebMap`.
 
    ```html
    <MapView Longitude="_longitude" Latitude="_latitude" Zoom="11" Style="height: 400px; width: 100%;"> 
@@ -144,11 +149,11 @@ ArcGIS JavaScript API, but without having to write a single line of JavaScript.
    </MapView>
    ```
 
-11. Run your application and make sure you can see your map!
-12. Now that you have a great starting point, you can now start to customize the features available in your new app
+10. Run your application and make sure you can see your map!
+11. Now that you have a great starting point, you can now start to customize the features available in your new app
     using Geoblazor's capabilites:<br/>
     -Take a look at the [Documentation](https://docs.geoblazor.com/index.html) pages to learn more.
-13. _Optional_: To remove the `Thank You` message from your console messages, please consider registering your application
+12. _Optional_: To remove the `Thank You` message from your console messages, please consider registering your application
     on the [dymaptic licensing server](https://licensing.dymaptic.com). After registering and filling out a small questionnaire,
     you will receive a registration key, which you can add to any configuration (e.g., `appsettings.json`) to remove the
     message.

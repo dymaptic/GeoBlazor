@@ -1,5 +1,6 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
 using System.Text.Json.Serialization;
 
@@ -15,6 +16,7 @@ public class BaseTileLayer : Layer
     /// <summary>
     ///     Parameterless constructor for use as a razor component
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public BaseTileLayer()
     {
     }

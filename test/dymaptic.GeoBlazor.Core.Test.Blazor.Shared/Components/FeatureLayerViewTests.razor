@@ -20,7 +20,10 @@
         AddMapRenderFragment(
             @<MapView class="map-view" OnViewRendered="renderHandler"
                       OnLayerViewCreate="OnLayerViewCreate">
-                <Map ArcGISDefaultBasemap="topo-vector">
+                <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+        </Basemap>
                     <FeatureLayer OutFields="@(new[] { "*" })">
                         <PortalItem Id="234d2e3f6f554e0e84757662469c26d3" />
                     </FeatureLayer>

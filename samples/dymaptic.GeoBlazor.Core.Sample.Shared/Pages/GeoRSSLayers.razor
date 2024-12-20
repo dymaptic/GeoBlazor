@@ -9,7 +9,10 @@
 </p>
 
 <MapView Longitude="-107.95166" Latitude="43.18083" Zoom="4" Class="map-view">
-    <Map ArcGISDefaultBasemap="arcgis-light-gray">
+    <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+        </Basemap>
         <GeoRSSLayer
             Url="https://arcgis.github.io/arcgis-samples-javascript/sample-data/layers-georss/sample-georss.xml" />
     </Map>
