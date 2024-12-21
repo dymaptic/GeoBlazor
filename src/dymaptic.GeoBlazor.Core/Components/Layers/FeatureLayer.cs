@@ -1163,7 +1163,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
         {
             Fields = Fields?
                 .Concat(renderedFeatureLayer.Fields)
-                .ToHashSet() 
+                .ToList() 
                 ?? renderedFeatureLayer.Fields;
         }
 
