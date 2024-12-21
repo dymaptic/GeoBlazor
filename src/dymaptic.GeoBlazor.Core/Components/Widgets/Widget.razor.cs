@@ -56,6 +56,13 @@ public abstract partial class Widget : MapComponent
     [Parameter]
     public EventCallback OnWidgetCreated { get; set; }
 
+    [JSInvokable]
+    public override async Task OnJsComponentCreated(IJSObjectReference jsComponentReference)
+    {
+        await base.OnJsComponentCreated(jsComponentReference);
+        await OnWidgetCreated.InvokeAsync(this);
+    }
+
     /// <summary>
     ///     Indicates if the widget is hidden. For internal use only.
     /// </summary>

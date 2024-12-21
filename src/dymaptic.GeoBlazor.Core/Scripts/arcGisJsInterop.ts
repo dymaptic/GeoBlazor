@@ -272,7 +272,7 @@ export function getSerializedDotNetObject(id: string): any {
     return objectRef;
 }
 
-export async function getProjectionWrapper(dotNetRef: any): Promise<ProjectionWrapper> {
+export async function getProjectionEngineWrapper(dotNetRef: any): Promise<ProjectionWrapper> {
     if (ProtoGraphicCollection === undefined) {
         await loadProtobuf();
     }
@@ -288,7 +288,7 @@ export async function getGeometryEngineWrapper(dotNetRef: any): Promise<Geometry
     return wrapper;
 }
 
-export async function getLocatorWrapper(dotNetRef: any): Promise<LocatorWrapper> {
+export async function getLocationServiceWrapper(dotNetRef: any): Promise<LocatorWrapper> {
     if (ProtoGraphicCollection === undefined) {
         await loadProtobuf();
     }

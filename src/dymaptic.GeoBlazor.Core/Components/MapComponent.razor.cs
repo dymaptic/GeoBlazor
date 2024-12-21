@@ -728,7 +728,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     ///     For internal use, registration from JavaScript.
     /// </summary>
     [JSInvokable]
-    public async Task OnJsComponentCreated(IJSObjectReference jsComponentReference)
+    public virtual async Task OnJsComponentCreated(IJSObjectReference jsComponentReference)
     {
         JsComponentReference = jsComponentReference;
         PropertyInfo[] arcGisProps = GetType()

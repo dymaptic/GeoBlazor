@@ -11,12 +11,12 @@
         @if (_running)
         {
             <span style="color: orange; font-weight: bold">Running... @Remaining tests pending</span>
-            <span>@(_passed.Any() || _failed.Any() ? ", " : "")</span>
+            <span>, </span>
         }
         @if (_passed.Any() || _failed.Any())
         {
             <span style="color: green;">Passed: @_passed.Count</span>
-            <span>@(_passed.Any() && _failed.Any() ? ", " : "")</span>
+            <span>, </span>
             <span style="color: red;">Failed: @_failed.Count</span>
         }
     </p>
@@ -236,7 +236,8 @@
         await InvokeAsync(async () =>
         {
             StateHasChanged();
-            await OnTestResults.InvokeAsync(new TestResult(ClassName, _passed, _failed));
+            await OnTestResults.InvokeAsync(
+                new TestResult(ClassName, _methodInfos!.Length, _passed, _failed));
         });
         _interactionToggles[testName] = false;
         _currentTest = null;
@@ -248,7 +249,7 @@
     }
 
     private string ClassName => GetType().Name;
-    private int Remaining => _methodInfos?.Length ?? 0 - _passed.Count - _failed.Count;
+    private int Remaining => _methodInfos is null ? 0 : _methodInfos.Length - (_passed.Count + _failed.Count);
     private IJSObjectReference? _jsObjectReference;
     private StringBuilder _resultBuilder = new();
     private MethodInfo[]? _methodInfos;
