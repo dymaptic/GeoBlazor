@@ -1,11 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
-using dymaptic.GeoBlazor.Core.Enums;
-using dymaptic.GeoBlazor.Core.Objects;
-using dymaptic.GeoBlazor.Core.Events;
-using dymaptic.GeoBlazor.Core.Model;
-
-
-namespace dymaptic.GeoBlazor.Core.Components.Layers;
+﻿namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
 /// <summary>
 ///     The layer is the most fundamental component of a Map. It is a collection of spatial data in the form of vector

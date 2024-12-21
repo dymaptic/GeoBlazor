@@ -1,9 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Enums;
-using dymaptic.GeoBlazor.Core.Objects;
-using dymaptic.GeoBlazor.Core.Options;
-
-
-namespace dymaptic.GeoBlazor.Core.Components.Layers;
+﻿namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
 /// <summary>
 ///     The size visual variable defines the size of individual features in a layer based on a numeric (often thematic)

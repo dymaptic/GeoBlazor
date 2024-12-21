@@ -1,7 +1,3 @@
-using dymaptic.GeoBlazor.Core.Components.Geometries;
-using dymaptic.GeoBlazor.Core.Components.Renderers;
-
-
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
 /// <summary>

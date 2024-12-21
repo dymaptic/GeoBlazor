@@ -1,6 +1,3 @@
-using dymaptic.GeoBlazor.Core.Components.Popups;
-
-
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
 /// <summary>

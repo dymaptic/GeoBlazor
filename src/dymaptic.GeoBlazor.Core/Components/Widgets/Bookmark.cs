@@ -1,8 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Components.Views;
-using dymaptic.GeoBlazor.Core.Objects;
-
-
-namespace dymaptic.GeoBlazor.Core.Components.Widgets;
+﻿namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
 /// <summary>
 /// A bookmark is a saved map extent that allows end users to quickly navigate

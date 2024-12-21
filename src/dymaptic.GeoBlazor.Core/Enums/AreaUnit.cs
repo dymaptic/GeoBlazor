@@ -1,7 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Serialization;
-
-
-namespace dymaptic.GeoBlazor.Core.Enums;
+﻿namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 /// Units for area measurement. Use one of the possible values listed below or any of the numeric codes for area units.

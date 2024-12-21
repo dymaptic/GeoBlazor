@@ -1,8 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Enums;
-using dymaptic.GeoBlazor.Core.Extensions;
-
-
-namespace dymaptic.GeoBlazor.Core.Serialization;
+﻿namespace dymaptic.GeoBlazor.Core.Serialization;
 
 /// <summary>
 ///     Converts an enum to a kebab case string for serialization.

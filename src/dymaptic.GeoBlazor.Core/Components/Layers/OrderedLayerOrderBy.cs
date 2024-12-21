@@ -1,7 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Enums;
-
-
-namespace dymaptic.GeoBlazor.Core.Components.Layers;
+﻿namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
 /// <summary>
 ///     Determines the order in which features are drawn in the view.

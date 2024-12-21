@@ -1,7 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Enums;
-
-
-namespace dymaptic.GeoBlazor.Core.Components.Popups;
+﻿namespace dymaptic.GeoBlazor.Core.Components.Popups;
 
 /// <summary>
 ///     The ExpressionInfo class references Arcade expressions following the specification defined by the Arcade Popup

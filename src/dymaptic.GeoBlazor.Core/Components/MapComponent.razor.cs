@@ -1,14 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Components.Views;
-using dymaptic.GeoBlazor.Core.Exceptions;
-using dymaptic.GeoBlazor.Core.Extensions;
-using dymaptic.GeoBlazor.Core.Objects;
-using System.Collections;
-using System.ComponentModel;
-using System.Dynamic;
-using System.Reflection;
-
-
-namespace dymaptic.GeoBlazor.Core.Components;
+﻿namespace dymaptic.GeoBlazor.Core.Components;
 
 
 /// <summary>

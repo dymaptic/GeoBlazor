@@ -1,7 +1,4 @@
-﻿using System.Collections.Concurrent;
-
-
-namespace dymaptic.GeoBlazor.Core.Objects;
+﻿namespace dymaptic.GeoBlazor.Core.Objects;
 
 /// <summary>
 ///     The AbortManager translates a .NET <see cref="CancellationToken" /> into a JavaScript abort signal.
@@ -115,9 +112,9 @@ public class AbortManager : IAsyncDisposable
             await abortControllerRef.DisposeAsync();
             await registration.DisposeAsync();
         }
-        catch (Exception ex)
+        catch
         {
-            Console.WriteLine(ex);
+            // swallow these exceptions, it usually means we are disconnected already.
         }
         
         _tokensAndControllers.TryRemove(cancellationToken, out _);

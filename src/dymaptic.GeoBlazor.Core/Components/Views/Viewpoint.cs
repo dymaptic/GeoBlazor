@@ -1,7 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
-
-
-namespace dymaptic.GeoBlazor.Core.Components.Views;
+﻿namespace dymaptic.GeoBlazor.Core.Components.Views;
 
 /// <summary>
 /// Describes a point of view for a 2D or 3D view. In a 2D view, the viewpoint is determined using a center point and scale value.

@@ -1,8 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Enums;
-using dymaptic.GeoBlazor.Core.Options;
-
-
-namespace dymaptic.GeoBlazor.Core.Components.Layers;
+﻿namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
 /// <summary>
 ///     The visual variable base class. See each of the subclasses that extend this class to learn how to create continuous

@@ -1,10 +1,3 @@
-using dymaptic.GeoBlazor.Core.Components.Popups;
-using dymaptic.GeoBlazor.Core.Components.Renderers;
-using dymaptic.GeoBlazor.Core.Enums;
-using dymaptic.GeoBlazor.Core.Model;
-using dymaptic.GeoBlazor.Core.Objects;
-
-
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
 /// <summary>
@@ -96,7 +89,7 @@ public class ImageryTileLayer : Layer, IPopupTemplateLayer
     public ImageryTileLayer(string? url = null, PortalItem? portalItem = null, IImageryRenderer? renderer = null, 
         IReadOnlyCollection<int>? bandIds = null, BlendMode? blendMode = null, string? copyright = null, 
         Effect? effect = null, PixelInterpolation? interpolation = null, bool? legendEnabled = null, 
-        ListMode? listMode = null, int? maxScale = null, int? minScale = null, 
+        ListMode? listMode = null, double? maxScale = null, double? minScale = null, 
         IReadOnlyList<DimensionalDefinition>? multidimensionalDefinition = null, 
         MultidimensionalSubset? multidimensionalSubset = null,
         bool? persistenceEnabled = null, bool? popupEnabled = null, PopupTemplate? popupTemplate = null,
@@ -238,14 +231,14 @@ public class ImageryTileLayer : Layer, IPopupTemplateLayer
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public int? MaxScale { get; set; }
+    public double? MaxScale { get; set; }
 
     /// <summary>
     ///     The minimum scale (most zoomed out) at which the layer is visible in the view. If the map is zoomed out beyond this scale, the layer will not be visible. A value of 0 means the layer does not have a minimum scale. The minScale value should always be larger than the maxScale value, and lesser than or equal to the service specification.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public int? MinScale { get; set; }
+    public double? MinScale { get; set; }
 
     /// <summary>
     ///     Indicates whether to display popups when features in the layer are clicked.

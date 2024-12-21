@@ -1,8 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
-using dymaptic.GeoBlazor.Core.Enums;
-
-
-namespace dymaptic.GeoBlazor.Core.Objects;
+﻿namespace dymaptic.GeoBlazor.Core.Objects;
 
 /// <summary>
 ///     This class defines parameters for executing queries for features from a layer or layer view. Once a Query object's

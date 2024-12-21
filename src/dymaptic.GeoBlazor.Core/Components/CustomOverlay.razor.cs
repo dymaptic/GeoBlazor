@@ -1,8 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Enums;
-using System.ComponentModel;
-
-
-namespace dymaptic.GeoBlazor.Core.Components;
+﻿namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     A container for placing custom html or Razor Components on top of the Map View.

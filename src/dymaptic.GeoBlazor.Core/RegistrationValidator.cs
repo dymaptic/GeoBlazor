@@ -1,8 +1,4 @@
-﻿using System.Diagnostics;
-using System.Text;
-
-
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+﻿#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
 namespace dymaptic.GeoBlazor.Core;
 

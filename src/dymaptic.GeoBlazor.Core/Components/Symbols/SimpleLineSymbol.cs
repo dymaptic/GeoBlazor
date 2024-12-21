@@ -1,9 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Enums;
-using dymaptic.GeoBlazor.Core.Extensions;
-using dymaptic.GeoBlazor.Core.Objects;
-
-
-namespace dymaptic.GeoBlazor.Core.Components.Symbols;
+﻿namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 
 /// <summary>
 ///     SimpleLineSymbol is used for rendering 2D polyline geometries in a 2D MapView. SimpleLineSymbol is also used for

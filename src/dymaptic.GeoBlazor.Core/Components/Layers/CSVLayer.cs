@@ -1,10 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Components.Popups;
-using dymaptic.GeoBlazor.Core.Components.Renderers;
-using dymaptic.GeoBlazor.Core.Enums;
-using dymaptic.GeoBlazor.Core.Interfaces;
-
-
-namespace dymaptic.GeoBlazor.Core.Components.Layers;
+﻿namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
 /// <summary>
 ///     The CSVLayer is a point layer based on a CSV file (.csv, .txt). CSV is a plain-text file format used to

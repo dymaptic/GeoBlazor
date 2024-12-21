@@ -1,9 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Enums;
-using dymaptic.GeoBlazor.Core.Extensions;
-using dymaptic.GeoBlazor.Core.Objects;
-
-
-namespace dymaptic.GeoBlazor.Core.Components.Symbols;
+﻿namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 
 /// <summary>
 ///     Text symbols are used to define the graphic for displaying labels on a FeatureLayer, CSVLayer, Sublayer, and

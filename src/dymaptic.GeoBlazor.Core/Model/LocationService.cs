@@ -1,12 +1,4 @@
-﻿using System.Text;
-using dymaptic.GeoBlazor.Core.Components.Geometries;
-using dymaptic.GeoBlazor.Core.Enums;
-using dymaptic.GeoBlazor.Core.Objects;
-using dymaptic.GeoBlazor.Core.Options;
-using dymaptic.GeoBlazor.Core.Results;
-
-
-namespace dymaptic.GeoBlazor.Core.Model;
+﻿namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     Represents a geocode service resource exposed by the ArcGIS Server REST API. It is used to generate candidates for

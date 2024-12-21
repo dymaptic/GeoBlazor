@@ -1,7 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Components.Layers;
-
-
-namespace dymaptic.GeoBlazor.Core.Components;
+﻿namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     The Map class contains properties and methods for storing, managing, and overlaying layers common to both 2D and 3D

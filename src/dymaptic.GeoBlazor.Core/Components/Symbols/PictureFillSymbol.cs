@@ -1,7 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Objects;
-
-
-namespace dymaptic.GeoBlazor.Core.Components.Symbols;
+﻿namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 
 /// <summary>
 ///     PictureFillSymbol uses an image in a repeating pattern to symbolize polygon features in a 2D MapView. A url must point to a valid image. In addition, the symbol can have an optional outline, which is defined by a SimpleLineSymbol. PictureFillSymbols may be applied to polygon features in a FeatureLayer or an individual Graphic.

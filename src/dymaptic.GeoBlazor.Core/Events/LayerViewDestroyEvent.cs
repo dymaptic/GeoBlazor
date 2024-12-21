@@ -1,8 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Components.Layers;
-using dymaptic.GeoBlazor.Core.Model;
-
-
-namespace dymaptic.GeoBlazor.Core.Events;
+﻿namespace dymaptic.GeoBlazor.Core.Events;
 
 /// <summary>
 ///     Fires after a LayerView is destroyed and is no longer rendered in the view. This happens for example when a layer

@@ -1,7 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Exceptions;
-
-
-namespace dymaptic.GeoBlazor.Core.Model;
+﻿namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     A base class for non-map components, such as GeometryEngine, Projection, etc.

@@ -1,8 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Components.Renderers.ColorRamps;
-using dymaptic.GeoBlazor.Core.Enums;
-
-
-namespace dymaptic.GeoBlazor.Core.Components.Renderers;
+﻿namespace dymaptic.GeoBlazor.Core.Components.Renderers;
 
 /// <summary>
 ///     RasterStretchRenderer defines the symbology with a gradual ramp of colors for each pixel in a ImageryLayer, ImageryTileLayer,

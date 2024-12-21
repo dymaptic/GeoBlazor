@@ -1,7 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Objects;
-
-
-namespace dymaptic.GeoBlazor.Core.Components.Geometries;
+﻿namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 
 /// <summary>
 ///     A polygon contains an array of rings and a spatialReference. Each ring is represented as an array of points. The

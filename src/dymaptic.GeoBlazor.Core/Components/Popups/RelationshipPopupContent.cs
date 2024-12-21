@@ -1,7 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Enums;
-
-
-namespace dymaptic.GeoBlazor.Core.Components.Popups;
+﻿namespace dymaptic.GeoBlazor.Core.Components.Popups;
 
 /// <summary>
 ///     A RelationshipContent popup element represents a relationship element associated with a feature. This can only be

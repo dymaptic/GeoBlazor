@@ -1,9 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Objects;
-using dymaptic.GeoBlazor.Core.Components.Symbols;
-using dymaptic.GeoBlazor.Core.Enums;
-
-
-namespace dymaptic.GeoBlazor.Core.Components.Layers;
+﻿namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
 /// <summary>
 ///     Defines label expressions, symbols, scale ranges, label priorities, and label placement options for labels on a

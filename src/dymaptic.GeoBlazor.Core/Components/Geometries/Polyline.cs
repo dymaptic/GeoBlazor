@@ -1,7 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Objects;
-
-
-namespace dymaptic.GeoBlazor.Core.Components.Geometries;
+﻿namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 
 /// <summary>
 ///     A polyline contains an array of paths and spatialReference. Each path is represented as an array of points. A

@@ -1,17 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
-using dymaptic.GeoBlazor.Core.Components.Popups;
-using dymaptic.GeoBlazor.Core.Components.Renderers;
-using dymaptic.GeoBlazor.Core.Components.Widgets;
-using dymaptic.GeoBlazor.Core.Enums;
-using dymaptic.GeoBlazor.Core.Exceptions;
-using dymaptic.GeoBlazor.Core.Interfaces;
-using dymaptic.GeoBlazor.Core.Model;
-using dymaptic.GeoBlazor.Core.Objects;
-using dymaptic.GeoBlazor.Core.Options;
-using dymaptic.GeoBlazor.Core.Results;
-
-
-namespace dymaptic.GeoBlazor.Core.Components.Layers;
+﻿namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
 /// <summary>
 ///     A FeatureLayer is a single layer that can be created from a Map Service or Feature Service; ArcGIS Online or ArcGIS Enterprise portal items; or from an array of client-side features. The layer can be either a spatial (has geographic features) or non-spatial (table).
@@ -77,8 +64,8 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
     ///     The <see cref="PopupTemplate" /> for the layer.
     /// </param>
     public FeatureLayer(string? url = null, PortalItem? portalItem = null, IReadOnlyList<Graphic>? source = null,
-        string[]? outFields = null, string? definitionExpression = null, int? minScale = null,
-        int? maxScale = null, string? objectIdField = null, GeometryType? geometryType = null, string? title = null,
+        string[]? outFields = null, string? definitionExpression = null, double? minScale = null,
+        double? maxScale = null, string? objectIdField = null, GeometryType? geometryType = null, string? title = null,
         double? opacity = null, bool? visible = null, ListMode? listMode = null, PopupTemplate? popupTemplate = null)
     {
         if (url is null && portalItem is null && source is null)
@@ -152,14 +139,14 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public int? MinScale { get; set; }
+    public double? MinScale { get; set; }
 
     /// <summary>
     ///     The maximum scale (most zoomed in) at which the layer is visible in the view.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public int? MaxScale { get; set; }
+    public double? MaxScale { get; set; }
 
     /// <summary>
     ///     The name of an oidfield containing a unique value or identifier for each feature in the layer.

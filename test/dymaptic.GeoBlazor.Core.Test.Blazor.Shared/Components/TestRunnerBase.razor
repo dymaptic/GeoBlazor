@@ -10,11 +10,13 @@
     <p>
         @if (_running)
         {
-            <span style="color: orange; font-weight: bold">Running...&nbsp;</span>
+            <span style="color: orange; font-weight: bold">Running... @Remaining tests pending</span>
+            <span>@(_passed.Any() || _failed.Any() ? ", " : "")</span>
         }
         @if (_passed.Any() || _failed.Any())
         {
-            <span style="color: green;">Passed: @_passed.Count,</span>
+            <span style="color: green;">Passed: @_passed.Count</span>
+            <span>@(_passed.Any() && _failed.Any() ? ", " : "")</span>
             <span style="color: red;">Failed: @_failed.Count</span>
         }
     </p>
@@ -246,6 +248,7 @@
     }
 
     private string ClassName => GetType().Name;
+    private int Remaining => _methodInfos?.Length ?? 0 - _passed.Count - _failed.Count;
     private IJSObjectReference? _jsObjectReference;
     private StringBuilder _resultBuilder = new();
     private MethodInfo[]? _methodInfos;

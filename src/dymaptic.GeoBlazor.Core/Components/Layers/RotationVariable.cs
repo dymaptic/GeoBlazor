@@ -1,7 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Enums;
-
-
-namespace dymaptic.GeoBlazor.Core.Components.Layers;
+﻿namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
 /// <summary>
 ///     The rotation visual variable defines how features rendered with marker symbols or text symbols in a MapView are

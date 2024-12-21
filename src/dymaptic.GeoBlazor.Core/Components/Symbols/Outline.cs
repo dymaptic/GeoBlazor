@@ -1,8 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Enums;
-using dymaptic.GeoBlazor.Core.Objects;
-
-
-namespace dymaptic.GeoBlazor.Core.Components.Symbols;
+﻿namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 
 /// <summary>
 ///     A convenience sub-class of <see cref="SimpleLineSymbol" /> for defining outlines of other symbols.

@@ -1,9 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Components;
-using dymaptic.GeoBlazor.Core.Components.Widgets;
-using dymaptic.GeoBlazor.Core.Serialization;
-
-
-namespace dymaptic.GeoBlazor.Core.Enums;
+﻿namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     A collection of possible positions for setting a <see cref="Widget" /> or <see cref="CustomOverlay" />

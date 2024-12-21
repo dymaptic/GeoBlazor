@@ -1,7 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Objects;
-
-
-namespace dymaptic.GeoBlazor.Core.Components.Geometries;
+﻿namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 
 /// <summary>
 ///     The base class for geometry objects. This class has no constructor. To construct geometries see

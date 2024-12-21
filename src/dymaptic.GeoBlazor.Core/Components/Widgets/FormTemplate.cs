@@ -1,7 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Components.Popups;
-
-
-namespace dymaptic.GeoBlazor.Core.Components.Widgets;
+﻿namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
 /// <summary>
 ///     A FormTemplate formats and defines the content of a FeatureForm for a specific Layer or Graphic. A FormTemplate allows the user to access values from feature attributes when a feature in the view is selected.

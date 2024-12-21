@@ -1,7 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Objects;
-
-
-namespace dymaptic.GeoBlazor.Core.Components.Symbols;
+﻿namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 
 /// <summary>
 ///     Abstract class. Line symbols are used to draw Polyline features in a FeatureLayer in a 2D MapView.

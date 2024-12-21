@@ -1,7 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Enums;
-
-
-namespace dymaptic.GeoBlazor.Core.Components.Layers;
+﻿namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
 /// <summary>
 ///     The opacity visual variable defines the opacity of each feature's symbol based on a numeric field value or number returned from an expression. You must specify stops to construct the opacity ramp.

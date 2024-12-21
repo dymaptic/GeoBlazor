@@ -1,10 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
-using dymaptic.GeoBlazor.Core.Components.Layers;
-using dymaptic.GeoBlazor.Core.Exceptions;
-using dymaptic.GeoBlazor.Core.Objects;
-
-
-namespace dymaptic.GeoBlazor.Core.Results;
+﻿namespace dymaptic.GeoBlazor.Core.Results;
 
 /// <summary>
 ///     The result object returned from a search.

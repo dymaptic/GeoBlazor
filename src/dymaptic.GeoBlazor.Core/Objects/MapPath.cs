@@ -1,7 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
-
-
-namespace dymaptic.GeoBlazor.Core.Objects;
+﻿namespace dymaptic.GeoBlazor.Core.Objects;
 
 /// <summary>
 ///     Represents both <see cref="Polyline.Paths" /> and <see cref="Polygon.Rings" />, as a two-dimensional array of

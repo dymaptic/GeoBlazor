@@ -1,8 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Components;
-using System.Globalization;
-
-
-namespace dymaptic.GeoBlazor.Core.Objects;
+﻿namespace dymaptic.GeoBlazor.Core.Objects;
 
 /// <summary>
 ///     Dictionary of Graphic Attributes that can be asynchronously updated

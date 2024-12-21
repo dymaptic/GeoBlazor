@@ -1,12 +1,3 @@
-using dymaptic.GeoBlazor.Core.Components;
-using dymaptic.GeoBlazor.Core.Components.Geometries;
-using dymaptic.GeoBlazor.Core.Components.Layers;
-using dymaptic.GeoBlazor.Core.Model;
-using dymaptic.GeoBlazor.Core.Objects;
-using dymaptic.GeoBlazor.Core.Options;
-using dymaptic.GeoBlazor.Core.Results;
-
-
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 public interface IFeatureLayerBase

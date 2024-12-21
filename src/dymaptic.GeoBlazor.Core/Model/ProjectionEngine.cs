@@ -1,8 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
-using dymaptic.GeoBlazor.Core.Objects;
-
-
-namespace dymaptic.GeoBlazor.Core.Model;
+﻿namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     A client-side projection engine for converting geometries from one SpatialReference to another. When projecting

@@ -1,10 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Model;
-using dymaptic.GeoBlazor.Core.Objects;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-
-
-namespace dymaptic.GeoBlazor.Core;
+﻿namespace dymaptic.GeoBlazor.Core;
 
 /// <summary>
 ///     Static extension class for injecting GeoBlazor types

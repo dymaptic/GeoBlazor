@@ -1,7 +1,3 @@
-using dymaptic.GeoBlazor.Core.Components.Layers;
-using dymaptic.GeoBlazor.Core.Serialization;
-
-
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>

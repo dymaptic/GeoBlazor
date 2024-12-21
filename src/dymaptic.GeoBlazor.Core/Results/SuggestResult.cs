@@ -1,8 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Exceptions;
-using dymaptic.GeoBlazor.Core.Objects;
-
-
-namespace dymaptic.GeoBlazor.Core.Results;
+﻿namespace dymaptic.GeoBlazor.Core.Results;
 
 /// <summary>
 ///     The result object returned from a suggest().

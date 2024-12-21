@@ -1,8 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Components;
-using dymaptic.GeoBlazor.Core.Objects;
-
-
-namespace dymaptic.GeoBlazor.Core.Options;
+﻿namespace dymaptic.GeoBlazor.Core.Options;
 
 /// <summary>
 ///     Options for configuring the highlight. Use the highlight method on the appropriate LayerView to highlight a

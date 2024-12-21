@@ -1,8 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Components.Views;
-using Microsoft.Extensions.Configuration;
-
-
-namespace dymaptic.GeoBlazor.Core.Model;
+﻿namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     Manager for all authentication-related tasks, tokens, and keys

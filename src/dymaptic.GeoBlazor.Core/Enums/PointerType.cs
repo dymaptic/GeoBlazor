@@ -1,7 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Serialization;
-
-
-namespace dymaptic.GeoBlazor.Core.Enums;
+﻿namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     The types of pointers recognized by the DOM

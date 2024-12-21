@@ -1,21 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
-using dymaptic.GeoBlazor.Core.Components.Layers;
-using dymaptic.GeoBlazor.Core.Components.Popups;
-using dymaptic.GeoBlazor.Core.Components.Symbols;
-using dymaptic.GeoBlazor.Core.Components.Widgets;
-using dymaptic.GeoBlazor.Core.Events;
-using dymaptic.GeoBlazor.Core.Exceptions;
-using dymaptic.GeoBlazor.Core.Model;
-using dymaptic.GeoBlazor.Core.Objects;
-using dymaptic.GeoBlazor.Core.Options;
-using dymaptic.GeoBlazor.Core.Results;
-using Microsoft.Extensions.Configuration;
-using System.Diagnostics;
-using System.Reflection;
-using System.Text;
-
-
-// ReSharper disable RedundantCast
+﻿// ReSharper disable RedundantCast
 
 namespace dymaptic.GeoBlazor.Core.Components.Views;
 

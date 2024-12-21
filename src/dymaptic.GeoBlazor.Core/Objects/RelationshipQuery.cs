@@ -1,7 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
-
-
-namespace dymaptic.GeoBlazor.Core.Objects;
+﻿namespace dymaptic.GeoBlazor.Core.Objects;
 
 /// <summary>
 ///     This class defines parameters for executing queries for related records from a layer. Once a RelationshipQuery

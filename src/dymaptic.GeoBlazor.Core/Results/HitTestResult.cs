@@ -1,8 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
-using dymaptic.GeoBlazor.Core.Components.Layers;
-
-
-namespace dymaptic.GeoBlazor.Core.Results;
+﻿namespace dymaptic.GeoBlazor.Core.Results;
 
 /// <summary>
 ///     Object specification for the result of the MapView.HitTest method.

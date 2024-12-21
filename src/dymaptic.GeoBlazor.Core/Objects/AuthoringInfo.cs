@@ -1,8 +1,3 @@
-using dymaptic.GeoBlazor.Core.Components;
-using dymaptic.GeoBlazor.Core.Components.Renderers.ColorRamps;
-using dymaptic.GeoBlazor.Core.Enums;
-
-
 namespace dymaptic.GeoBlazor.Core.Objects;
 
 

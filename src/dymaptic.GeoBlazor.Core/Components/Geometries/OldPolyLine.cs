@@ -1,6 +1,3 @@
-using dymaptic.GeoBlazor.Core.Objects;
-
-
 namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 
 [Obsolete("Renamed to Polyline (lowercase 'l') to match the JavaScript API")]

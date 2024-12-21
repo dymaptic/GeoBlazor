@@ -1,10 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
-using dymaptic.GeoBlazor.Core.Components.Layers;
-using dymaptic.GeoBlazor.Core.Components.Widgets;
-using dymaptic.GeoBlazor.Core.Exceptions;
-using Microsoft.Extensions.Configuration;
-using System.Diagnostics;
-
+﻿
 
 // ReSharper disable RedundantCast
 
