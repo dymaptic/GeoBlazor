@@ -6,12 +6,12 @@ import {buildDotNetGeometry, buildDotNetPopupTemplate} from "./dotNetBuilder";
 export default class GraphicWrapper implements IPropertyWrapper {
     public component: Graphic;
 
-    constructor(graphic: Graphic) {
-        this.component = graphic;
+    constructor(component: Graphic) {
+        this.component = component;
         // set all properties from graphic
-        for (let prop in graphic) {
-            if (graphic.hasOwnProperty(prop)) {
-                this[prop] = graphic[prop];
+        for (let prop in component) {
+            if (component.hasOwnProperty(prop)) {
+                this[prop] = component[prop];
             }
         }
     }

@@ -2473,69 +2473,6 @@ export async function createLayer(dotNetLayer: any, wrap?: boolean | null, viewI
                 graphicsLayer.effect = buildJsEffect(dotNetLayer.effect);
             }
             break;
-        case 'feature':
-            if (hasValue(dotNetLayer.portalItem)) {
-                let portalItem = buildJsPortalItem(dotNetLayer.portalItem);
-
-                newLayer = new FeatureLayer({ portalItem: portalItem });
-            } else if (hasValue(dotNetLayer.url)) {
-                newLayer = new FeatureLayer({
-                    url: dotNetLayer.url
-                });
-            } else {
-                let source: Array<Graphic> = [];
-                if (hasValue(dotNetLayer.source)) {
-                    for (let i = 0; i < dotNetLayer.source.length; i++) {
-                        const graphicObject = dotNetLayer.source[i];
-                        let graphic = buildJsGraphic(graphicObject, viewId ?? null);
-                        if (graphic !== null) {
-                            source.push(graphic);
-                        }
-                    }
-                }
-
-                newLayer = new FeatureLayer({
-                    source: source
-                });
-            }
-            let featureLayer = newLayer as FeatureLayer;
-
-            copyValuesIfExists(dotNetLayer, featureLayer, 'minScale', 'maxScale', 'orderBy', 'objectIdField',
-                'definitionExpression', 'outFields', 'legendEnabled', 'popupEnabled', 'apiKey', 'blendMode',
-                'geometryType');
-
-            if (hasValue(dotNetLayer.formTemplate)) {
-                featureLayer.formTemplate = buildJsFormTemplate(dotNetLayer.formTemplate);
-            }
-
-            if (hasValue(dotNetLayer.popupTemplate)) {
-                featureLayer.popupTemplate = buildJsPopupTemplate(dotNetLayer.popupTemplate, viewId ?? null) as PopupTemplate;
-            }
-            if (hasValue(dotNetLayer.renderer)) {
-                let renderer = buildJsRenderer(dotNetLayer.renderer);
-                if (renderer !== null) {
-                    featureLayer.renderer = renderer;
-                }
-            }
-            if (hasValue(dotNetLayer.fields)) {
-                featureLayer.fields = buildJsFields(dotNetLayer.fields);
-            }
-            if (hasValue(dotNetLayer.spatialReference)) {
-                featureLayer.spatialReference = buildJsSpatialReference(dotNetLayer.spatialReference);
-            }
-            
-            if (hasValue(dotNetLayer.labelingInfo)) {
-                featureLayer.labelingInfo = dotNetLayer.labelingInfo.map(buildJsLabelClass);
-            }
-
-            if (hasValue(dotNetLayer.proProperties?.FeatureReduction) && hasValue(Pro)) {
-                await Pro.addFeatureReduction(featureLayer, dotNetLayer.proProperties.FeatureReduction, viewId);
-            }
-            
-            if (hasValue(dotNetLayer.effect)) {
-                featureLayer.effect = buildJsEffect(dotNetLayer.effect);
-            }
-            break;
         case 'map-image':
             if (hasValue(dotNetLayer.portalItem)) {
                 let portalItem = buildJsPortalItem(dotNetLayer.portalItem);
@@ -2555,16 +2492,7 @@ export async function createLayer(dotNetLayer: any, wrap?: boolean | null, viewI
                 (newLayer as MapImageLayer).sublayers = dotNetLayer.sublayers.map(buildJsSublayer);
             }
             break;
-        case 'vector-tile':
-            if (hasValue(dotNetLayer.portalItem)) {
-                let portalItem = buildJsPortalItem(dotNetLayer.portalItem);
-                newLayer = new VectorTileLayer({ portalItem: portalItem });
-            } else {
-                newLayer = new VectorTileLayer({
-                    url: dotNetLayer.url
-                });
-            }
-            break;
+        
         case 'tile':
             if (hasValue(dotNetLayer.portalItem)) {
                 let portalItem = buildJsPortalItem(dotNetLayer.portalItem);
@@ -2718,19 +2646,6 @@ export async function createLayer(dotNetLayer: any, wrap?: boolean | null, viewI
             }
 
             copyValuesIfExists(dotNetLayer, csvLayer, 'blendMode', 'copyright', 'delimiter', 'displayField');
-            break;
-        case 'kml':
-            let kmlLayer: KMLLayer;
-            if (hasValue(dotNetLayer.url)) {
-                kmlLayer = new KMLLayer({
-                    url: dotNetLayer.url
-                });
-            } else {
-                let portalItem = buildJsPortalItem(dotNetLayer.portalItem);
-                kmlLayer = new KMLLayer({ portalItem: portalItem });
-            }
-            newLayer = kmlLayer;
-            copyValuesIfExists(dotNetLayer, kmlLayer, 'sublayers', 'blendMode', 'maxScale', 'minScale', 'title', 'visible');
             break;
         case 'wcs':
             newLayer = new WCSLayer({
