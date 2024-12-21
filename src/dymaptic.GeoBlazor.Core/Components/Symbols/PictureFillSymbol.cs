@@ -43,8 +43,8 @@ public class PictureFillSymbol : FillSymbol
     ///     The outline of the polygon.
     /// </param>
     public PictureFillSymbol(string url, Dimension? width = null, Dimension? height = null,
-        Dimension? xOffset = null, Dimension? yOffset = null, int? xScale = null, 
-        int? yScale = null, Outline? outline = null)
+        Dimension? xOffset = null, Dimension? yOffset = null, double? xScale = null, 
+        double? yScale = null, Outline? outline = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -88,7 +88,7 @@ public class PictureFillSymbol : FillSymbol
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public int? XScale { get; set; }
+    public double? XScale { get; set; }
     
     /// <summary>
     ///     The scale factor on the y axis of the symbol.
@@ -96,7 +96,7 @@ public class PictureFillSymbol : FillSymbol
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public int? YScale { get; set; }
+    public double? YScale { get; set; }
     
     /// <summary>
     ///     The offset on the x-axis in points.

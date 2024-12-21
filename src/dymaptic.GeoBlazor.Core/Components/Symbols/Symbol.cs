@@ -162,10 +162,10 @@ internal record SymbolSerializationRecord : MapComponentSerializationRecord
     public string? VerticalAlignment { get; init; }
     
     [ProtoMember(26)]
-    public int? XScale { get; init; }
+    public double? XScale { get; init; }
     
     [ProtoMember(27)]
-    public int? YScale { get; init; }
+    public double? YScale { get; init; }
 
     public Symbol FromSerializationRecord(bool isOutline = false)
     {

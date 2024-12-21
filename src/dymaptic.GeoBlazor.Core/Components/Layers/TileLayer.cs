@@ -67,14 +67,14 @@ public class TileLayer : Layer
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public int? MaxScale { get; set; }
+    public double? MaxScale { get; set; }
 
     /// <summary>
     ///     The minimum scale (most zoomed out) at which the layer is visible in the view. If the map is zoomed out beyond this scale, the layer will not be visible. A value of 0 means the layer does not have a minimum scale. The minScale value should always be larger than the maxScale value, and lesser than or equal to the service specification.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public int? MinScale { get; set; }
+    public double? MinScale { get; set; }
 
     /// <summary>
     ///     The <see cref="PortalItem" /> from which the layer is loaded.

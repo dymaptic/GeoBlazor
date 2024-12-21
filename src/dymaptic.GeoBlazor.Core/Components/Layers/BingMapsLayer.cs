@@ -42,7 +42,7 @@ public class BingMapsLayer : BaseTileLayer
     ///     The spatial reference of the layer. Default Value: 102100
     /// </param>
     public BingMapsLayer(string key, BingImageryStyle? style = null, BlendMode? blendMode = null, Effect? effect = null, 
-        int? maxScale = null, int? minScale = null, double? refreshInterval = null, 
+        double? maxScale = null, double? minScale = null, double? refreshInterval = null, 
         SpatialReference? spatialReference = null)
         : base(blendMode, effect, maxScale, minScale, refreshInterval, spatialReference)
     {

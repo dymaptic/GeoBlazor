@@ -33,14 +33,14 @@ public class WebTileLayer : Layer
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public int? MaxScale { get; set; }
+    public double? MaxScale { get; set; }
 
     /// <summary>
     ///     The minimum scale (most zoomed out) at which the layer is visible in the view.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public int? MinScale { get; set; }
+    public double? MinScale { get; set; }
 
     /// <summary>
     ///     Refresh interval of the layer in minutes.

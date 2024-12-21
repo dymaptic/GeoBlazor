@@ -137,7 +137,7 @@ public class ImageryLayer : Layer
         double? compressionTolerance = null, string? copyright = null, string? definitionExpression = null,
         Effect? effect = null, ImageFormat? format = null,
         bool? hasMultidimensions = null, int? imageMaxHeight = null, int? imageMaxWidth = null, 
-        int? interpolation = null, bool? legendEnabled = null, int? maxScale = null, int? minScale = null,
+        int? interpolation = null, bool? legendEnabled = null, double? maxScale = null, double? minScale = null,
         IReadOnlyCollection<int>? noData = null, string? noDataInterpretation = null, string? objectIdField = null,
         bool? persistenceEnabled = null, PixelType? pixelType = null, bool? popupEnabled = null, 
         double? refreshInterval = null, bool? useViewTime = null, TileInfo? tileInfo = null, 
@@ -315,14 +315,14 @@ public class ImageryLayer : Layer
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public int? MaxScale { get; set; }
+    public double? MaxScale { get; set; }
 
     /// <summary>
     ///     The minimum scale (most zoomed out) at which the layer is visible in the view.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public int? MinScale { get; set; }
+    public double? MinScale { get; set; }
 
     /// <summary>
     ///     The pixel value representing no available information.

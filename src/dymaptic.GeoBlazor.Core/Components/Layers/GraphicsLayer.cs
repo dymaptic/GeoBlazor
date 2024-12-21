@@ -51,7 +51,7 @@ public class GraphicsLayer : Layer
     /// </param>
     public GraphicsLayer(IReadOnlyCollection<Graphic>? graphics = null, string? title = null,
         double? opacity = null, bool? visible = null, ListMode? listMode = null,
-        bool? persistenceEnabled = null, int? minScale = null, int? maxScale = null,
+        bool? persistenceEnabled = null, double? minScale = null, double? maxScale = null,
         bool? screenSizePerspectiveEnabled = null, BlendMode? blendMode = null)
     {
 #pragma warning disable BL0005
@@ -91,14 +91,14 @@ public class GraphicsLayer : Layer
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public int? MinScale { get; set; }
+    public double? MinScale { get; set; }
 
     /// <summary>
     ///     The maximum scale (most zoomed in) at which the layer is visible in the view.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public int? MaxScale { get; set; }
+    public double? MaxScale { get; set; }
     
     /// <summary>
     ///     Apply perspective scaling to screen-size point symbols in a SceneView. When true, screen sized objects such as icons, labels or callouts integrate better in the 3D scene by applying a certain perspective projection to the sizing of features. This only applies when using a SceneView.

@@ -68,7 +68,7 @@ public class Sublayer: MapComponent, IPopupTemplateLayer
     ///     An array of sublayers. This property is only available after the sublayer has been loaded.
     /// </param>
     public Sublayer(int? sublayerId = null, bool? labelsVisible = null, bool? legendEnabled = null, 
-        ListMode? listMode = null, int? maxScale = null, int? minScale = null, double? opacity = null, 
+        ListMode? listMode = null, double? maxScale = null, double? minScale = null, double? opacity = null, 
         bool? popupEnabled = null, string? title = null, bool? visible = null, string? definitionExpression = null, 
         LayerFloorInfo? floorInfo = null, IEnumerable<Label>? labelingInfo = null, PopupTemplate? popupTemplate = null,
         Renderer? renderer = null, DynamicLayer? source = null, IEnumerable<Sublayer>? sublayers = null)
@@ -154,14 +154,14 @@ public class Sublayer: MapComponent, IPopupTemplateLayer
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public int? MaxScale { get; set; }
+    public double? MaxScale { get; set; }
     
     /// <summary>
     ///     The minimum scale (most zoomed out) at which the layer is visible in the view. If the map is zoomed out beyond this scale, the layer will not be visible. A value of 0 means the layer does not have a minimum scale. The minScale value should always be larger than the maxScale value, and less than or equal to the service specification.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public int? MinScale { get; set; }
+    public double? MinScale { get; set; }
     
     /// <summary>
     ///     The level of opacity to set on the sublayer on a scale from 0.0 - 1.0 where 0 is fully transparent and 1.0 is fully opaque. If the MapImageLayer.opacity is set, the actual opacity value of the sublayer will be the value of MapImageLayer.opacity multiplied by the sublayer's opacity.
