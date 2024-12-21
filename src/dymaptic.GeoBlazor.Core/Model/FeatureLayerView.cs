@@ -234,7 +234,7 @@ public class FeatureLayerView : LayerView
 
         if (_activeQueries.ContainsKey(queryId))
         {
-            result.Features = _activeQueries[queryId];
+            result = result with { Features = _activeQueries[queryId]};
             _activeQueries.Remove(queryId);
         }
         
@@ -294,5 +294,5 @@ public class FeatureLayerView : LayerView
     }
 
     private readonly AbortManager _abortManager;
-    private readonly Dictionary<Guid, IReadOnlyList<Graphic>> _activeQueries = new();
+    private readonly Dictionary<Guid, Graphic[]> _activeQueries = new();
 }

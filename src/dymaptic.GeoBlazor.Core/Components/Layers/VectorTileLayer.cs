@@ -173,7 +173,7 @@ public class VectorTileLayer : Layer
     internal override async Task UpdateFromJavaScript(Layer renderedLayer)
     {
         await base.UpdateFromJavaScript(renderedLayer);
-        TileLayer renderedTileLayer = (TileLayer)renderedLayer;
+        VectorTileLayer renderedTileLayer = (VectorTileLayer)renderedLayer;
         Sublayers ??= renderedTileLayer.Sublayers;
         Url ??= renderedTileLayer.Url;
         Title ??= renderedTileLayer.Title;
