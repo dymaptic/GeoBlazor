@@ -18,6 +18,9 @@ public class Basemap : MapComponent
     /// </summary>
     public List<Layer> Layers { get; set; } = new();
     
+    public IReadOnlyList<Layer>? BaseLayers { get; set; }
+    public IReadOnlyList<Layer>? ReferenceLayers { get; set; }
+    
     /// <summary>
     ///     The style of the basemap from the basemap styles service (v2). The basemap styles service is a ready-to-use location service that serves vector and image tiles representing geographic features around the world.
     ///     You can use the service to display:
@@ -29,6 +32,22 @@ public class Basemap : MapComponent
     ///     Use of the basemap style service requires authentication via an API key or user authentication. To learn more about API keys, see the API keys section in the ArcGIS Developer documentation.
     /// </summary>
     public BasemapStyle? Style { get; set; }
+    
+    /// <summary>  
+    ///     Asynchronously retrieve the current value of the BaseLayers property.  
+    /// </summary>  
+    public Task<IReadOnlyList<Layer>?> GetBaseLayers()  
+    {  
+        return Task.FromResult(BaseLayers);  
+    }  
+  
+    /// <summary>  
+    ///     Asynchronously retrieve the current value of the ReferenceLayers property.  
+    /// </summary>  
+    public Task<IReadOnlyList<Layer>?> GetReferenceLayers()  
+    {  
+        return Task.FromResult(ReferenceLayers);  
+    }
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
