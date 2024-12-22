@@ -1,7 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Attributes;
-
-
-namespace dymaptic.GeoBlazor.Core.Components;
+﻿namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     The web scene is the core element of 3D mapping across ArcGIS. It defines the content, style, environment, and

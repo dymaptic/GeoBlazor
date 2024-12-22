@@ -1,7 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Attributes;
-
-
-namespace dymaptic.GeoBlazor.Core.Interfaces;
+﻿namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
 ///     Defines a layer that supports Feature Reduction clusters and binning in GeoBlazor Pro

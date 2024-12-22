@@ -1,7 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Attributes;
-
-
-namespace dymaptic.GeoBlazor.Core.Components.Layers;
+﻿namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
 /// <summary>
 ///     WCS presents raster data from a OGC Web Coverage Service. Raster data are projected and rendered on the client-side.

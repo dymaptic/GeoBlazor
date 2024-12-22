@@ -1,7 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Attributes;
-
-
-namespace dymaptic.GeoBlazor.Core.Components.Layers;
+﻿namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
 /// <summary>
 ///     The CSVLayer is a point layer based on a CSV file (.csv, .txt). CSV is a plain-text file format used to

@@ -1,7 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Attributes;
-
-
-namespace dymaptic.GeoBlazor.Core.Components;
+﻿namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     Creates a new basemap object. Basemaps can be created from a PortalItem, from a well known basemap ID, or can be

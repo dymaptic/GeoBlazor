@@ -1,7 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Attributes;
-
-
-namespace dymaptic.GeoBlazor.Core.Components.Symbols;
+﻿namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 
 /// <summary>
 ///     Symbol is the abstract base class for all symbols. Symbols represent point, line, polygon, and mesh geometries as vector graphics within a View. Symbols can only be set directly on individual graphics in a GraphicsLayer or in View.graphics. Otherwise they are assigned to a Renderer that is applied to a Layer.
