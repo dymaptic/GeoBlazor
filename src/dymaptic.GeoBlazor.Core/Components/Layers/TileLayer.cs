@@ -125,6 +125,14 @@ public class TileLayer : Layer
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<string>? TileServers { get; set; }
 
+    /// <summary>  
+    ///     Asynchronously retrieve the current value of the Subtables property.  
+    /// </summary>  
+    public Task<IReadOnlyList<Sublayer>?> GetSubtables()
+    {
+        throw new NotImplementedException();
+    }
+
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
     {
