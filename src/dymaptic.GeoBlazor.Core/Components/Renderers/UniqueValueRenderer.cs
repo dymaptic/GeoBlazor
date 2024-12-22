@@ -1,4 +1,7 @@
-﻿namespace dymaptic.GeoBlazor.Core.Components.Renderers;
+﻿using dymaptic.GeoBlazor.Core.Attributes;
+
+
+namespace dymaptic.GeoBlazor.Core.Components.Renderers;
 
 /// <summary>
 ///     UniqueValueRenderer allows you to symbolize features in a Layer based on one or more matching string attributes.

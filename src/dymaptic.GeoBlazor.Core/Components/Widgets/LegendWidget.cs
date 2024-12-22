@@ -1,4 +1,7 @@
-﻿namespace dymaptic.GeoBlazor.Core.Components.Widgets;
+﻿using dymaptic.GeoBlazor.Core.Attributes;
+
+
+namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
 /// <summary>
 ///     The Legend widget describes the symbols used to represent layers in a map. All symbols and text used in this widget

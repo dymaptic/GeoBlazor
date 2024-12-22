@@ -1,4 +1,7 @@
-﻿namespace dymaptic.GeoBlazor.Core.Components;
+﻿using dymaptic.GeoBlazor.Core.Attributes;
+
+
+namespace dymaptic.GeoBlazor.Core.Components;
 
 
 /// <summary>

@@ -1,4 +1,7 @@
-﻿namespace dymaptic.GeoBlazor.Core.Components.Layers;
+﻿using dymaptic.GeoBlazor.Core.Attributes;
+
+
+namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
 /// <summary>
 ///     Information about each field in a layer. Field objects must be constructed when creating a FeatureLayer from

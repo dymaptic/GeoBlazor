@@ -1,4 +1,4 @@
-namespace dymaptic.GeoBlazor.Core;
+namespace dymaptic.GeoBlazor.Core.Attributes;
 
 /// <summary>
 ///     Attribute to mark a property as an ArcGIS property.

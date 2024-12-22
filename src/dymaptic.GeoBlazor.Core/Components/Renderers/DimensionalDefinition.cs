@@ -1,4 +1,7 @@
-﻿namespace dymaptic.GeoBlazor.Core.Components.Renderers;
+﻿using dymaptic.GeoBlazor.Core.Attributes;
+
+
+namespace dymaptic.GeoBlazor.Core.Components.Renderers;
 
 /// <summary>
 ///     Defines the symbols to use in a UniqueValueRenderer. Each unique value info defines a symbol that should be used to

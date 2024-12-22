@@ -1,4 +1,4 @@
-namespace dymaptic.GeoBlazor.Core;
+namespace dymaptic.GeoBlazor.Core.Attributes;
 
 /// <summary>
 ///     This attribute tells the GeoBlazor Code Generation Utility to ignore and leave unchanged the identified member

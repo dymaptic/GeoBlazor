@@ -1,4 +1,7 @@
-﻿namespace dymaptic.GeoBlazor.Core.Components;
+﻿using dymaptic.GeoBlazor.Core.Attributes;
+
+
+namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     Actions are customizable behavior which can be executed in certain widgets such as Popups, a BasemapLayerList, or a

@@ -1,5 +1,8 @@
 ﻿// ReSharper disable RedundantCast
 
+using dymaptic.GeoBlazor.Core.Attributes;
+
+
 namespace dymaptic.GeoBlazor.Core.Components.Views;
 
 /// <summary>

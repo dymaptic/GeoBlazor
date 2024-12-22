@@ -1,4 +1,7 @@
-﻿namespace dymaptic.GeoBlazor.Core.Components.Layers;
+﻿using dymaptic.GeoBlazor.Core.Attributes;
+
+
+namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
 /// <summary>
 ///     ElevationLayer is a tile layer used for rendering elevations in SceneViews. A default world elevation layer can be

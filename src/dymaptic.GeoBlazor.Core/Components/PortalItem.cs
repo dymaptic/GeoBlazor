@@ -1,4 +1,7 @@
-﻿namespace dymaptic.GeoBlazor.Core.Components;
+﻿using dymaptic.GeoBlazor.Core.Attributes;
+
+
+namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     An item (a unit of content) in the Portal. Each item has a unique identifier and a well known URL that is

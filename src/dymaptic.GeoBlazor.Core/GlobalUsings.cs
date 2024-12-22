@@ -1,3 +1,4 @@
+global using dymaptic.GeoBlazor.Core.Attributes;
 global using dymaptic.GeoBlazor.Core.Components.Geometries;
 global using dymaptic.GeoBlazor.Core.Components.Layers;
 global using dymaptic.GeoBlazor.Core.Components.Popups;

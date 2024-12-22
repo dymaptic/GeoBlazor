@@ -1,4 +1,4 @@
-namespace dymaptic.GeoBlazor.Core;
+namespace dymaptic.GeoBlazor.Core.Attributes;
 
 /// <summary>
 ///     Add this attribute to any property on any subclass of <see cref="MapComponent" />, and if the user
