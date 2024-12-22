@@ -231,6 +231,13 @@ public class Graphic : MapComponent, IEquatable<Graphic>
         _serializationRecord = null;
         ToSerializationRecord();
     }
+    
+    public Layer? Layer { get; set; }
+        
+    public Task<Layer?> GetLayer()
+    {
+        return Task.FromResult(Layer);
+    }
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
