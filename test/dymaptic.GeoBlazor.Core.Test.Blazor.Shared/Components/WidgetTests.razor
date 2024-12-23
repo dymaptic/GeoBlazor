@@ -199,11 +199,60 @@
         </Map>
         <LegendWidget />
 
-    </MapView>);
+            </MapView>
+    );
 
         await WaitForMapToRender();
         await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Legend");
     }
+
+    [TestMethod]
+    public async Task TestCanRenderDistanceMeasurementWidgetWithLinearUnits(Action renderHandler)
+    {
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+
+                <Map ArcGISDefaultBasemap="arcgis-imagery" />
+                <MeasurementWidget LinearUnit="LengthUnit.NauticalMiles" />
+
+            </MapView>
+    );
+        await WaitForMapToRender();
+        await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Measurement");
+    }
+
+    [TestMethod]
+    public async Task TestCanRenderDistanceMeasurementWidgetWithAreaUnits(Action renderHandler)
+    {
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+
+                <Map ArcGISDefaultBasemap="arcgis-imagery" />
+                <MeasurementWidget AreaUnit="AreaUnit.SquareKilometers" />
+
+            </MapView>
+    );
+        await WaitForMapToRender();
+        await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Measurement");
+    }
+
+    [TestMethod]
+    public async Task TestCanRenderDistanceMeasurementWidgetWithoutLengthOrAreaUnits(Action renderHandler)
+    {
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+
+                <Map ArcGISDefaultBasemap="arcgis-imagery" />
+                <MeasurementWidget />
+
+            </MapView>
+        );
+        await WaitForMapToRender();
+        await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Measurement");
+    }
+
+
+
 
     [TestMethod]
     public async Task TestCanRenderLocateWidget(Action renderHandler)
