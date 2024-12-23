@@ -40,7 +40,7 @@ public class SimpleMarkerSymbol : MarkerSymbol
     ///     The offset on the y-axis in points. This value may be autocast with a string expressing size in points or pixels (e.g. 12px).
     /// </param>
     public SimpleMarkerSymbol(Outline? outline = null, MapColor? color = null, Dimension? size = null,
-        SimpleMarkerStyle? style = null, double? angle = null, Dimension? xOffset = null, Dimension? yOffset = null)
+        SimpleMarkerSymbolStyle? style = null, double? angle = null, Dimension? xOffset = null, Dimension? yOffset = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -50,7 +50,7 @@ public class SimpleMarkerSymbol : MarkerSymbol
         Angle = angle;
         XOffset = xOffset;
         YOffset = yOffset;
-        MarkerStyle = style;
+        Style = style;
 #pragma warning restore BL0005
     }
     
@@ -73,10 +73,9 @@ public class SimpleMarkerSymbol : MarkerSymbol
     /// <summary>
     ///     The marker style.
     /// </summary>
-    [JsonPropertyName("style")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [Parameter]
-    public SimpleMarkerStyle? MarkerStyle { get; set; }
+    public SimpleMarkerSymbolStyle? Style { get; set; }
     
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
@@ -126,35 +125,10 @@ public class SimpleMarkerSymbol : MarkerSymbol
         {
             Outline = Outline?.ToSerializationRecord(),
             Size = Size?.Points,
-            Style = MarkerStyle?.ToString().ToKebabCase(),
+            Style = Style?.ToString().ToKebabCase(),
             Angle = Angle,
             XOffset = XOffset?.Points,
             YOffset = YOffset?.Points
         };
-    }
-
-    private bool StylesEqual(string? style1, string? style2)
-    {
-        if (style1 is null)
-        {
-            if (style2 is null || (style2 == "circle"))
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        if (style2 is null)
-        {
-            if (style1 == "circle")
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        return style1 == style2;
     }
 }

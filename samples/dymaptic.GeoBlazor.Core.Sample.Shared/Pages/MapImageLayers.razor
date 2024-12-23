@@ -87,7 +87,7 @@
                                 <SimpleRenderer>
                                     <SimpleLineSymbol Color="@(new MapColor(255, 255, 255, 0.5))"
                                                       Width="@(new Dimension(0.75))"
-                                                      LineStyle="@LineStyle.LongDashDotDot" />
+                                                      Style="@SimpleLineSymbolStyle.LongDashDotDot" />
                                 </SimpleRenderer>
                                 <DynamicDataLayer>
                                     <TableDataSource WorkspaceId="MyDatabaseWorkspaceIDSSR2"
@@ -132,7 +132,7 @@
                                       Visible="true"
                                       Opacity="0.8">
                                 <SimpleRenderer Label="Interstate highway">
-                                    <SimpleLineSymbol LineStyle="LineStyle.None"
+                                    <SimpleLineSymbol Style="SimpleLineSymbolStyle.None"
                                                       Width="@(0.7)"
                                                       Color="@(new MapColor("white"))" />
                                 </SimpleRenderer>
@@ -144,7 +144,7 @@
                                 <SimpleRenderer Label="Cities">
                                     <SimpleMarkerSymbol Size="@(3)"
                                                         Color="@(new MapColor("white"))"
-                                                        MarkerStyle="@SimpleMarkerStyle.Circle">
+                                                        Style="@SimpleMarkerSymbolStyle.Circle">
                                         <Outline Width="@(0.5)"
                                                  Color="@(new MapColor("gray"))" />
                                     </SimpleMarkerSymbol>
@@ -204,7 +204,7 @@
                             </Sublayer>
                             <Sublayer SublayerId="0">
                                 <SimpleRenderer Label="Cities">
-                                    <SimpleMarkerSymbol MarkerStyle="@SimpleMarkerStyle.Circle"
+                                    <SimpleMarkerSymbol Style="@SimpleMarkerSymbolStyle.Circle"
                                                         Size="@(0.5)"
                                                         Color="@(new MapColor("white"))" />
                                 </SimpleRenderer>

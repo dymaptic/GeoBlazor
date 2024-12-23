@@ -23,16 +23,16 @@ public class SimpleLineSymbol : LineSymbol
     /// <param name="width">
     ///     The width of the line symbol in points.
     /// </param>
-    /// <param name="lineStyle">
+    /// <param name="style">
     ///     The line style.
     /// </param>
-    public SimpleLineSymbol(MapColor? color = null, double? width = null, LineStyle? lineStyle = null)
+    public SimpleLineSymbol(MapColor? color = null, double? width = null, SimpleLineSymbolStyle? style = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         Color = color;
         Width = width;
-        LineStyle = lineStyle;
+        Style = style;
 #pragma warning restore BL0005
     }
     
@@ -42,17 +42,16 @@ public class SimpleLineSymbol : LineSymbol
     /// <summary>
     ///     Specifies the line style.
     /// </summary>
-    [JsonPropertyName("style")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [Parameter]
-    public LineStyle? LineStyle { get; set; }
+    public SimpleLineSymbolStyle? Style { get; set; }
 
     internal override SymbolSerializationRecord ToSerializationRecord()
     {
         return new SymbolSerializationRecord(Type, Color)
         {
             Width = Width?.Points, 
-            Style = LineStyle?.ToString().ToKebabCase()
+            Style = Style?.ToString().ToKebabCase()
         };
     }
 }

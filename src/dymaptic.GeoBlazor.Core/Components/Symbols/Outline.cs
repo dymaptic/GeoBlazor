@@ -21,11 +21,11 @@ public class Outline : SimpleLineSymbol
     /// <param name="width">
     ///     The width of the outline in points.
     /// </param>
-    /// <param name="lineStyle">
+    /// <param name="style">
     ///     The style of the outline.
     /// </param>
-    public Outline(MapColor? color = null, double? width = null, LineStyle? lineStyle = null)
-        : base(color, width, lineStyle)
+    public Outline(MapColor? color = null, double? width = null, SimpleLineSymbolStyle? style = null)
+        : base(color, width, style)
     {
         AllowRender = false;
     }

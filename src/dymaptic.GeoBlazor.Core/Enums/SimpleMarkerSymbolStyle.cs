@@ -3,8 +3,8 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 /// <summary>
 ///     The marker style.
 /// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<SimpleMarkerStyle>))]
-public enum SimpleMarkerStyle
+[JsonConverter(typeof(EnumToKebabCaseStringConverter<SimpleMarkerSymbolStyle>))]
+public enum SimpleMarkerSymbolStyle
 {
 #pragma warning disable CS1591
     Circle,

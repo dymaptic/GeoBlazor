@@ -1,6 +1,4 @@
-﻿import Layer from "@arcgis/core/layers/Layer";
-
-export interface MapObject {
+﻿export interface MapObject {
     declaredClass: string;
 
     destroy();
