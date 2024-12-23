@@ -44,14 +44,12 @@ public class MapFont : MapComponent
     ///     The font size in points. This value may be autocast with a string expressing size in points or pixels (e.g. 12px).
     /// </summary>
     [Parameter]
-    [ProtoMember(1)]
     public Dimension? Size { get; set; }
 
     /// <summary>
     ///     The font family of the text.
     /// </summary>
     [Parameter]
-    [ProtoMember(2)]
     public string? Family { get; set; }
 
     /// <summary>
@@ -59,14 +57,12 @@ public class MapFont : MapComponent
     /// </summary>
     [Parameter]
     [JsonPropertyName("style")]
-    [ProtoMember(3, Name = "style")]
     public string? FontStyle { get; set; }
 
     /// <summary>
     ///     The text weight.
     /// </summary>
     [Parameter]
-    [ProtoMember(4)]
     public string? Weight { get; set; }
     
     internal MapFontSerializationRecord ToSerializationRecord()
