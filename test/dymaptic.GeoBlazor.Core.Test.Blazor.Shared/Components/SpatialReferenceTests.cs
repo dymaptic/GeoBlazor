@@ -1,13 +1,16 @@
-﻿@inherits TestRunnerBase
+﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
+using dymaptic.GeoBlazor.Core.Model;
+using dymaptic.GeoBlazor.Core.Objects;
+using Microsoft.AspNetCore.Components;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-@inject Projection projection
+namespace dymaptic.GeoBlazor.Core.Test.Blazor.Shared.Components;
 
-@{
-    base.BuildRenderTree(__builder);
-}
+public class SpatialReferenceTests : TestRunnerBase
+{
+    [Inject]
+    public Projection Projection { get; set; } = default!;
 
-@code {
-    
     [TestMethod]
     public async Task ConvertWktToJSAndBack(Action renderHandler)
     {
@@ -18,7 +21,7 @@
          ], SpatialReference.Wgs84
          );
 
-        var result = await projection.Project(polyLine, wktSpatialReference);
+        var result = await Projection.Project(polyLine, wktSpatialReference);
 
         Assert.IsNotNull(result);
         Assert.IsNotNull(result.SpatialReference?.Wkt);
@@ -34,7 +37,7 @@
             ], SpatialReference.Wgs84
         );
 
-        var result = await projection.Project(polyLine, wktSpatialReference);
+        var result = await Projection.Project(polyLine, wktSpatialReference);
 
         Assert.IsNotNull(result);
         Assert.IsNotNull(result.SpatialReference?.Wkt2);
@@ -50,7 +53,7 @@
             ], SpatialReference.Wgs84
         );
 
-        var result = await projection.Project(polyLine, wkidSpatialReference);
+        var result = await Projection.Project(polyLine, wkidSpatialReference);
 
         Assert.IsNotNull(result);
         Assert.IsNotNull(result.SpatialReference?.Wkid);
