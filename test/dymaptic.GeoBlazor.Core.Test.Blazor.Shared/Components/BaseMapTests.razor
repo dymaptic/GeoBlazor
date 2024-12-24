@@ -11,7 +11,11 @@
     {
         AddMapRenderFragment(
             @<MapView class="map-view" OnViewRendered="renderHandler">
-                <Map ArcGISDefaultBasemap="arcgis-imagery" />
+                <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+        </Basemap>
+    </Map>
             </MapView>);
         await WaitForMapToRender();
     }

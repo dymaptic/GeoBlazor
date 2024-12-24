@@ -11,7 +11,11 @@ base.BuildRenderTree(__builder);
         MapView? mapView = null;
         AddMapRenderFragment( 
             @<MapView @ref="mapView" class="map-view" OnViewRendered="renderHandler">
-                <Map ArcGISDefaultBasemap="arcgis-imagery" />
+                <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+        </Basemap>
+    </Map>
             </MapView>);
 
         await WaitForMapToRender();
@@ -67,7 +71,10 @@ base.BuildRenderTree(__builder);
         AddMapRenderFragment(
             @<MapView class="map-view" OnViewRendered="renderHandler"
                       OnLayerViewCreate="onLayerCreated">
-                <Map ArcGISDefaultBasemap="topo-vector">
+                <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+        </Basemap>
                     <FeatureLayer @ref="layer" Source="features"
                                   GeometryType="GeometryType.Point"
                                   ObjectIdField="OBJECTID">
@@ -127,7 +134,10 @@ base.BuildRenderTree(__builder);
             @<MapView @ref="view"
                       class="map-view" 
                       OnViewRendered="renderHandler">
-                <Map ArcGISDefaultBasemap="arcgis-imagery">
+                <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+        </Basemap>
                     <GraphicsLayer @ref="layer" />
                 </Map>
             </MapView>);

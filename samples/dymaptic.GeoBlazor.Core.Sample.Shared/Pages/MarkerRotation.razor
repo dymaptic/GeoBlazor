@@ -12,7 +12,10 @@
     <Extent Xmin="-41525513" Ymin="4969181" Xmax="-36687355" Ymax="9024624">
         <SpatialReference Wkid="3857" />
     </Extent>
-    <Map ArcGISDefaultBasemap="satellite">
+    <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+        </Basemap>
         <FeatureLayer Url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/weather_stations_010417/FeatureServer/0">
             <SimpleRenderer>
                 <PictureMarkerSymbol

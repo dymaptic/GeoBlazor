@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.DependencyInjection;
 using ProtoBuf;
 using System.Text.Json.Serialization;
 
@@ -14,6 +15,7 @@ public class FieldInfo : MapComponent
     /// <summary>
     ///     Parameterless constructor for using as a razor component
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public FieldInfo()
     {
     }

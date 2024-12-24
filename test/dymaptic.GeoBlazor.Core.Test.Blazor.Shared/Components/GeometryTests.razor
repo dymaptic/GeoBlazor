@@ -12,7 +12,11 @@
         AddMapRenderFragment(
             @<MapView class="map-view" OnViewRendered="renderHandler">
 
-                <Map ArcGISDefaultBasemap="arcgis-imagery" />
+                <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+        </Basemap>
+    </Map>
                 <Graphic Attributes="_attributes">
                     <Point Latitude="100" Longitude="12" />
                     <SimpleMarkerSymbol Color="@(new MapColor("green"))">
@@ -32,7 +36,11 @@
     {
         AddMapRenderFragment(
             @<MapView class="map-view" OnViewRendered="renderHandler">
-                <Map ArcGISDefaultBasemap="arcgis-imagery" />
+                <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+        </Basemap>
+    </Map>
                 <Graphic Attributes="_attributes">
                     <PolyLine Paths="_paths" />
                     <SimpleLineSymbol Color="@(new MapColor("ffffff"))"></SimpleLineSymbol>
@@ -49,7 +57,11 @@
     {
         AddMapRenderFragment(
             @<MapView class="map-view" OnViewRendered="renderHandler">
-                <Map ArcGISDefaultBasemap="arcgis-imagery" />
+                <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+        </Basemap>
+    </Map>
                 <Graphic Attributes="_attributes">
                     <Polygon Rings="_rings" />
                     <SimpleFillSymbol Color="@(new MapColor("ffffff"))">
@@ -69,7 +81,11 @@
     {
         AddMapRenderFragment(
             @<MapView class="map-view" OnViewRendered="renderHandler">
-                <Map ArcGISDefaultBasemap="arcgis-imagery" />
+                <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+        </Basemap>
+    </Map>
                 <Graphic>
                     <Point Latitude="100" Longitude="12" />
                 </Graphic>
@@ -94,7 +110,11 @@
         MapView? mapView = null;        
         AddMapRenderFragment( 
             @<MapView @ref=" mapView" class="map-view" OnViewRendered="renderHandler">
-                <Map ArcGISDefaultBasemap="arcgis-imagery" />
+                <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+        </Basemap>
+    </Map>
             </MapView>);
         await WaitForMapToRender();
 
@@ -111,7 +131,11 @@
         MapView? mapView = null;
         AddMapRenderFragment(
             @<MapView @ref="mapView" class="map-view" OnViewRendered="renderHandler">
-                <Map ArcGISDefaultBasemap="arcgis-imagery" />
+                <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+        </Basemap>
+    </Map>
             </MapView>);
         await WaitForMapToRender();
 
@@ -128,7 +152,11 @@
         MapView? mapView = null;
         AddMapRenderFragment(
             @<MapView @ref="mapView" class="map-view" OnViewRendered="renderHandler">
-                <Map ArcGISDefaultBasemap="arcgis-imagery" />
+                <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+        </Basemap>
+    </Map>
             </MapView>);
         await WaitForMapToRender();
 

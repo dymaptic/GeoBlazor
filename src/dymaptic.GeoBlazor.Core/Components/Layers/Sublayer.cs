@@ -4,6 +4,7 @@ using dymaptic.GeoBlazor.Core.Components.Renderers;
 using dymaptic.GeoBlazor.Core.Extensions;
 using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -20,6 +21,7 @@ public class Sublayer: MapComponent, IPopupTemplateLayer
     /// <summary>
     ///     Parameterless constructor for use as a Razor component.
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public Sublayer()
     {
     }
@@ -614,6 +616,7 @@ public class LayerFloorInfo: MapComponent
     /// <summary>
     ///     Parameterless constructor for use as a Razor component.
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public LayerFloorInfo()
     {
     }
@@ -660,6 +663,7 @@ public class DynamicMapLayer : DynamicLayer
     /// <summary>
     ///     Parameterless constructor for use as a Razor component.
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public DynamicMapLayer()
     {
     }
@@ -709,6 +713,7 @@ public class DynamicDataLayer : DynamicLayer
     /// <summary>
     ///     Parameterless constructor for use as a Razor component.
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public DynamicDataLayer()
     {
     }
@@ -828,6 +833,7 @@ public class TableDataSource : DynamicDataSource
     /// <summary>
     ///     Parameterless constructor for use as a Razor component.
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public TableDataSource()
     {
     }
@@ -888,6 +894,7 @@ public class QueryTableDataSource : DynamicDataSource
     /// <summary>
     ///     Parameterless constructor for use as a Razor component.
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public QueryTableDataSource()
     {
     }
@@ -1008,6 +1015,7 @@ public class RasterDataSource : DynamicDataSource
     /// <summary>
     ///     Parameterless constructor for use as a Razor component.
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public RasterDataSource()
     {
     }
@@ -1056,6 +1064,7 @@ public class JoinTableDataSource : DynamicDataSource
     /// <summary>
     ///     Parameterless constructor for use as a Razor component.
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public JoinTableDataSource()
     {
     }
@@ -1201,6 +1210,7 @@ public class DynamicLayerField : MapComponent
     /// <summary>
     ///     Parameterless constructor for use as a Razor component.
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public DynamicLayerField()
     {
     }

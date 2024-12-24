@@ -1,6 +1,6 @@
-﻿using dymaptic.GeoBlazor.Core.Components.Views;
-using dymaptic.GeoBlazor.Core.Objects;
+﻿using dymaptic.GeoBlazor.Core.Objects;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
 using ProtoBuf;
 using System.Text.Json;
@@ -20,6 +20,7 @@ public class GraphicsLayer : Layer
     /// <summary>
     ///     Parameterless constructor for use as a razor component
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public GraphicsLayer()
     {
     }
@@ -462,6 +463,7 @@ internal class GraphicsToSerializationConverter : JsonConverter<IReadOnlyCollect
 [ProtoContract]
 internal record ProtoGraphicCollection
 {
+    [ActivatorUtilitiesConstructor]
     public ProtoGraphicCollection()
     {
     }

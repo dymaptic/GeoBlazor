@@ -15,7 +15,10 @@
 
 
 <MapView @ref="_view" class="map-view" OnViewRendered="OnViewRendered" Scale="0">
-    <Map ArcGISDefaultBasemap="dark-gray-vector">
+    <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+        </Basemap>
         @if (_markup)
         {
             <KMLLayer Url="@_kmlLayerUrl" Title="Major EarthQuakes Query Result"></KMLLayer>

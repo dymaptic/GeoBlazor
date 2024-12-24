@@ -12,7 +12,11 @@
         AddMapRenderFragment(
             @<MapView class="map-view" OnViewRendered="renderHandler">
 
-                <Map ArcGISDefaultBasemap="arcgis-imagery" />
+                <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+        </Basemap>
+    </Map>
                 <ExpandWidget Position="OverlayPosition.TopLeft" Expanded="true" Mode="Mode.Floating">
                     <LayerListWidget @ref="layerList" />
                 </ExpandWidget>
@@ -31,7 +35,11 @@
         AddMapRenderFragment(
             @<MapView class="map-view" OnViewRendered="renderHandler">
     
-                <Map ArcGISDefaultBasemap="arcgis-imagery" />
+                <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+        </Basemap>
+    </Map>
                 <ExpandWidget Position="OverlayPosition.TopLeft" Expanded="true" Mode="Mode.Floating">
                     <button id="test-button" type="button">Click Me</button>
                 </ExpandWidget>
@@ -50,7 +58,11 @@
         AddMapRenderFragment(
             @<MapView class="map-view" OnViewRendered="renderHandler">
 
-                <Map ArcGISDefaultBasemap="arcgis-imagery" />
+                <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+        </Basemap>
+    </Map>
                 <ExpandWidget Position="OverlayPosition.TopLeft" Expanded="true" Mode="Mode.Floating">
                     <button id="test-button-1" type="button">Click Me</button>
                     <LegendWidget @ref="legend" />
@@ -74,7 +86,11 @@
         AddMapRenderFragment(
             @<MapView class="map-view" OnViewRendered="renderHandler">
 
-                <Map ArcGISDefaultBasemap="arcgis-imagery" />
+                <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+        </Basemap>
+    </Map>
                 <ExpandWidget Position="OverlayPosition.TopLeft" Expanded="true" Mode="Mode.Floating">
                     <LegendWidget @ref="legend" />
                     <button id="test-button-2" type="button">Click Me</button>

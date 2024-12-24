@@ -1,4 +1,7 @@
-﻿namespace dymaptic.GeoBlazor.Core.Components.Layers;
+﻿using Microsoft.Extensions.DependencyInjection;
+
+
+namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
 /// <summary>
 ///     Allows you to use basemaps from OpenStreetMap. Set the tileservers property to change which OpenStreetMap tiles you
@@ -10,6 +13,7 @@ public class OpenStreetMapLayer : WebTileLayer
     /// <summary>
     ///     Parameterless constructor for use as a razor component
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public OpenStreetMapLayer()
     {
     }

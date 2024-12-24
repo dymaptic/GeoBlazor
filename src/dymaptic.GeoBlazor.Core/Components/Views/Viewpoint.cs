@@ -1,5 +1,6 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json.Serialization;
 
 namespace dymaptic.GeoBlazor.Core.Components.Views;
@@ -14,6 +15,7 @@ public class Viewpoint : MapComponent
     /// <summary>
     ///     Parameterless constructor for use as a Blazor component.
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public Viewpoint()
     {
     }

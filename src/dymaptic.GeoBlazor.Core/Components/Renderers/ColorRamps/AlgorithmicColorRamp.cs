@@ -1,6 +1,7 @@
 ﻿using dymaptic.GeoBlazor.Core.Objects;
 using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json.Serialization;
 
 
@@ -16,6 +17,7 @@ public class AlgorithmicColorRamp : ColorRamp
     /// <summary>
     ///     Constructor for use in code
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public AlgorithmicColorRamp() { }
 
     /// <summary>

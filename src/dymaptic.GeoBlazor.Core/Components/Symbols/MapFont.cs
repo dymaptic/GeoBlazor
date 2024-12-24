@@ -1,6 +1,6 @@
-﻿using dymaptic.GeoBlazor.Core.Extensions;
-using dymaptic.GeoBlazor.Core.Objects;
+﻿using dymaptic.GeoBlazor.Core.Objects;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.DependencyInjection;
 using ProtoBuf;
 using System.Text.Json.Serialization;
 
@@ -18,6 +18,7 @@ public class MapFont : MapComponent
     /// <summary>
     ///     Parameterless constructor for using as a razor component
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public MapFont()
     {
     }
