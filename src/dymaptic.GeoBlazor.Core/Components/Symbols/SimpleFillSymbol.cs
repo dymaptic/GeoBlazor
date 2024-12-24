@@ -24,16 +24,16 @@ public class SimpleFillSymbol : FillSymbol
     /// <param name="color">
     ///     The color of the polygon.
     /// </param>
-    /// <param name="fillStyle">
+    /// <param name="style">
     ///     The fill style.
     /// </param>
-    public SimpleFillSymbol(Outline? outline = null, MapColor? color = null, FillStyle? fillStyle = null)
+    public SimpleFillSymbol(Outline? outline = null, MapColor? color = null, FillStyle? style = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         Outline = outline;
         Color = color;
-        FillStyle = fillStyle;
+        Style = style;
 #pragma warning restore BL0005
     }
 
@@ -42,8 +42,7 @@ public class SimpleFillSymbol : FillSymbol
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [Parameter]
-    [JsonPropertyName("style")]
-    public FillStyle? FillStyle { get; set; }
+    public FillStyle? Style { get; set; }
 
     /// <inheritdoc />
     public override string Type => "simple-fill";
@@ -95,7 +94,7 @@ public class SimpleFillSymbol : FillSymbol
         return new SymbolSerializationRecord(Type, Color)
         {
             Outline = Outline?.ToSerializationRecord(), 
-            Style = FillStyle?.ToString().ToKebabCase()
+            Style = Style?.ToString().ToKebabCase()
         };
     }
 }

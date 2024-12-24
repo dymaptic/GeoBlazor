@@ -38,7 +38,6 @@ public class RotationVariable : VisualVariable
     }
     
     /// <inheritdoc />
-    [JsonPropertyName("type")]
     public override VisualVariableType Type => VisualVariableType.Rotation;
 
     /// <summary>

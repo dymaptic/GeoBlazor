@@ -85,7 +85,6 @@ public class SizeVariable : VisualVariable
     }
 
     /// <inheritdoc />
-    [JsonPropertyName("type")]
     public override VisualVariableType Type => VisualVariableType.Size;
 
     /// <summary>

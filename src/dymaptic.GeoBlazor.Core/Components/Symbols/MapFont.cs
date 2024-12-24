@@ -35,7 +35,7 @@ public class MapFont : MapComponent
 #pragma warning disable BL0005
         Size = size;
         Family = family;
-        FontStyle = style;
+        Style = style;
         Weight = weight;
 #pragma warning restore BL0005
     }
@@ -56,8 +56,7 @@ public class MapFont : MapComponent
     ///     The text style.
     /// </summary>
     [Parameter]
-    [JsonPropertyName("style")]
-    public string? FontStyle { get; set; }
+    public string? Style { get; set; }
 
     /// <summary>
     ///     The text weight.
@@ -67,7 +66,7 @@ public class MapFont : MapComponent
     
     internal MapFontSerializationRecord ToSerializationRecord()
     {
-        return new MapFontSerializationRecord(Size?.Points, Family, FontStyle, Weight);
+        return new MapFontSerializationRecord(Size?.Points, Family, Style, Weight);
     }
 }
 

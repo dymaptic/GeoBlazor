@@ -27,8 +27,7 @@ public class AlgorithmicColorRamp : ColorRamp
     /// <summary>
     ///     A string value representing the color ramp type.
     /// </summary>
-    [JsonPropertyName("type")]
-    public override ColorRampType ColorRampType => ColorRampType.Algorithmic;
+    public override ColorRampType Type => ColorRampType.Algorithmic;
 
     /// <summary>
     ///     The algorithm used to generate the colors between the fromColor and toColor.

@@ -10,7 +10,6 @@ public class UniqueValueInfo : MapComponent
     /// <summary>
     ///     Features with this value will be rendered with the given symbol.
     /// </summary>
-    [JsonPropertyName("value")]
     [Parameter]
     public string? Value { get; set; }
 

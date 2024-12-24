@@ -12,7 +12,8 @@ public class UniqueValueRenderer : Renderer, IImageryRenderer
     public override RendererType Type => RendererType.UniqueValue;
 
     /// <inheritdoc />
-    public string ImageryRendererType => "unique-value";
+    [JsonIgnore] // ignore bc we have two "Type" properties that will serialize to the same value
+    ImageryRendererType IImageryRenderer.Type => ImageryRendererType.UniqueValue;
 
     /// <summary>
     ///     The name of the attribute field the renderer uses to match unique values or types.

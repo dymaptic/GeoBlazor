@@ -25,7 +25,7 @@ public class MultipartColorRamp : ColorRamp
     /// <summary>
     ///     A string value representing the color ramp type.
     /// </summary>
-    public override ColorRampType ColorRampType => ColorRampType.Multipart;
+    public override ColorRampType Type => ColorRampType.Multipart;
 
     /// <summary>
     ///     Define an array of algorithmic color ramps used to generate the multi part ramp.

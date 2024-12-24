@@ -68,12 +68,7 @@ public class RasterStretchRenderer : MapComponent, IImageryRenderer
     }
 
     /// <inheritdoc />
-    public string ImageryRendererType => "raster-stretch";
-
-    /// <summary>
-    ///     Type for compatibility with other renderers.
-    /// </summary>
-    public string Type => "raster-stretch";
+    public ImageryRendererType Type => ImageryRendererType.RasterStretch;
 
     /// <summary>
     ///     The stretched values are mapped to this specified color ramp.
