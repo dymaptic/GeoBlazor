@@ -178,7 +178,7 @@ internal record SymbolSerializationRecord : MapComponentSerializationRecord
                 ? new Outline(Color, Width, LineStyle is null ? null : Enum.Parse<SimpleLineSymbolStyle>(LineStyle!, true))
                 : new SimpleLineSymbol(Color, Width, LineStyle is null ? null : Enum.Parse<SimpleLineSymbolStyle>(LineStyle!, true)),
             "simple-fill" => new SimpleFillSymbol(Outline?.FromSerializationRecord(true) as Outline, Color, 
-                Style is null ? null : Enum.Parse<FillStyle>(Style!, true)),
+                Style is null ? null : Enum.Parse<SimpleFillSymbolStyle>(Style!, true)),
             "picture-marker" => new PictureMarkerSymbol(Url!, Width, Height, Angle, XOffset, YOffset),
             "picture-fill" => new PictureFillSymbol(Url!, Width, Height, XOffset, YOffset, XScale, YScale, 
                 Outline?.FromSerializationRecord(true) as Outline),

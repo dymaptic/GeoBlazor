@@ -3,8 +3,8 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 /// <summary>
 ///     The possible fill style for the <see cref="SimpleFillSymbol" />
 /// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<FillStyle>))]
-public enum FillStyle
+[JsonConverter(typeof(EnumToKebabCaseStringConverter<SimpleFillSymbolStyle>))]
+public enum SimpleFillSymbolStyle
 {
 #pragma warning disable CS1591
     BackwardDiagonal,

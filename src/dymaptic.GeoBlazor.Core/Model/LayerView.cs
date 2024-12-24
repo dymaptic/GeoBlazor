@@ -9,7 +9,7 @@ public class LayerView : MapComponent
     /// <summary>
     ///     The layer being viewed.
     /// </summary>
-    public Layer Layer { get; set; } = default!;
+    public Layer? Layer { get; set; }
 
     /// <summary>
     ///     The JavaScript object reference used by the LayerView.
@@ -48,6 +48,3 @@ public class LayerView : MapComponent
         }
     }
 }
-
-#pragma warning disable CS1574, CS0419
-#pragma warning restore CS1574, CS0419

@@ -27,7 +27,7 @@ public class SimpleFillSymbol : FillSymbol
     /// <param name="style">
     ///     The fill style.
     /// </param>
-    public SimpleFillSymbol(Outline? outline = null, MapColor? color = null, FillStyle? style = null)
+    public SimpleFillSymbol(Outline? outline = null, MapColor? color = null, SimpleFillSymbolStyle? style = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -42,7 +42,7 @@ public class SimpleFillSymbol : FillSymbol
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [Parameter]
-    public FillStyle? Style { get; set; }
+    public SimpleFillSymbolStyle? Style { get; set; }
 
     /// <inheritdoc />
     public override string Type => "simple-fill";
