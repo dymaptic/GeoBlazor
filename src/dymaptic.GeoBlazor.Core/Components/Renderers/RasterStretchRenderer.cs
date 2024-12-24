@@ -1,7 +1,7 @@
-﻿using dymaptic.GeoBlazor.Core.Components.Layers;
-using dymaptic.GeoBlazor.Core.Components.Renderers.ColorRamps;
+﻿using dymaptic.GeoBlazor.Core.Components.Renderers.ColorRamps;
 using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
 using System.Text.Json.Serialization;
 
@@ -21,6 +21,7 @@ public class RasterStretchRenderer : MapComponent, IImageryRenderer
     /// <summary>
     ///     Constructor for use in code
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public RasterStretchRenderer() { }
 
     /// <summary>

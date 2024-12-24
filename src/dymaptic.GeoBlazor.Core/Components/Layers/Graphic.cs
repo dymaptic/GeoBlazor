@@ -3,6 +3,7 @@ using dymaptic.GeoBlazor.Core.Components.Popups;
 using dymaptic.GeoBlazor.Core.Components.Symbols;
 using dymaptic.GeoBlazor.Core.Objects;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
 using ProtoBuf;
 using System.Text.Json.Serialization;
@@ -21,6 +22,7 @@ public class Graphic : LayerObject
     /// <summary>
     ///     Parameterless constructor for using as a razor component
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public Graphic()
     {
     }

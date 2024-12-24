@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.DependencyInjection;
 using ProtoBuf;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -79,6 +80,7 @@ public class BarChartMediaInfo : MediaInfo
     /// <summary>
     ///     Parameterless constructor for use as a razor component.
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public BarChartMediaInfo()
     {
     }
@@ -196,6 +198,7 @@ public class ChartMediaInfoValue : MapComponent
     /// <summary>
     ///     Parameterless constructor for use as a razor component.
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public ChartMediaInfoValue()
     {
     }
@@ -383,6 +386,7 @@ public class ChartMediaInfoValueSeries : MapComponent
     /// <summary>
     ///     Parameterless constructor for use as a razor component.
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public ChartMediaInfoValueSeries()
     {
     }
@@ -477,6 +481,7 @@ public class ColumnChartMediaInfo : MediaInfo
     /// <summary>
     ///     Parameterless constructor for use as a razor component.
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public ColumnChartMediaInfo()
     {
     }
@@ -594,6 +599,7 @@ public class ImageMediaInfo : MediaInfo
     /// <summary>
     ///     Parameterless constructor for use as a razor component.
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public ImageMediaInfo()
     {
     }
@@ -728,6 +734,7 @@ public class ImageMediaInfoValue : MapComponent
     /// <summary>
     ///     Parameterless constructor for use as a razor component.
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public ImageMediaInfoValue()
     {
     }
@@ -778,6 +785,7 @@ public class LineChartMediaInfo : MediaInfo
     /// <summary>
     ///     Parameterless constructor for use as a razor component.
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public LineChartMediaInfo()
     {
     }
@@ -895,6 +903,7 @@ public class PieChartMediaInfo : MediaInfo
     /// <summary>
     ///     Parameterless constructor for use as a razor component.
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public PieChartMediaInfo()
     {
     }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.DependencyInjection;
 using ProtoBuf;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -139,6 +140,7 @@ public class ActionButton : ActionBase
     /// <summary>
     ///     Parameterless constructor for use as a razor component.
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public ActionButton()
     {
     }
@@ -222,6 +224,7 @@ public class ActionToggle : ActionBase
     /// <summary>
     ///     Parameterless constructor for use as a razor component.
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public ActionToggle()
     {
     }

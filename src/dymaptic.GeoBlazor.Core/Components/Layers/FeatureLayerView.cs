@@ -1,10 +1,9 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
 using dymaptic.GeoBlazor.Core.Objects;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
 using ProtoBuf;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Text.Json;
 using System.Text.Json.Serialization;
 
 
@@ -455,6 +454,7 @@ public class Effect
     /// <summary>
     ///     Constructor
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public Effect()
     {
         

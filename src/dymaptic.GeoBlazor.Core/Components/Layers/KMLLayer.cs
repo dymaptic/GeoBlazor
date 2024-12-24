@@ -1,5 +1,6 @@
 ﻿using dymaptic.GeoBlazor.Core.Exceptions;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json.Serialization;
 
 
@@ -19,6 +20,7 @@ public class KMLLayer : Layer
     /// <summary>
     ///     Parameterless constructor for use as a razor component
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public KMLLayer()
     {
     }

@@ -2,7 +2,7 @@
 using dymaptic.GeoBlazor.Core.Objects;
 using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
-using ProtoBuf;
+using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json.Serialization;
 
 
@@ -18,6 +18,7 @@ public class SimpleLineSymbol : LineSymbol
     /// <summary>
     ///     Parameterless constructor for using as a razor component
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public SimpleLineSymbol()
     {
     }

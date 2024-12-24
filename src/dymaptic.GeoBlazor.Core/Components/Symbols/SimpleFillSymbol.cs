@@ -2,6 +2,7 @@
 using dymaptic.GeoBlazor.Core.Objects;
 using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json.Serialization;
 
 
@@ -18,6 +19,7 @@ public class SimpleFillSymbol : FillSymbol
     /// <summary>
     ///     Parameterless constructor for using as a razor component
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public SimpleFillSymbol()
     {
     }
