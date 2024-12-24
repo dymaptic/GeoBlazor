@@ -10,8 +10,7 @@
 public class WebTileLayer : Layer
 {
     /// <inheritdoc />
-    [JsonPropertyName("type")]
-    public override string LayerType => "web-tile";
+    public override LayerType Type => LayerType.WebTile;
 
     /// <summary>
     ///     Blend modes are used to blend layers together to create an interesting effect in a layer, or even to produce what

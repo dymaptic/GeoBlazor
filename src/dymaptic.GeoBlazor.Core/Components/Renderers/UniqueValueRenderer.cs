@@ -9,8 +9,7 @@
 public class UniqueValueRenderer : Renderer, IImageryRenderer
 {
     /// <inheritdoc />
-    [JsonPropertyName("type")]
-    public override RendererType RendererType => RendererType.UniqueValue;
+    public override RendererType Type => RendererType.UniqueValue;
 
     /// <inheritdoc />
     public string ImageryRendererType => "unique-value";

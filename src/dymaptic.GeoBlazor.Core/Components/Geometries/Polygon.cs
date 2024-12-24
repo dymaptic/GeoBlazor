@@ -44,7 +44,7 @@ public class Polygon : Geometry
     public IReadOnlyList<MapPath> Rings { get; set; } = [];
 
     /// <inheritdoc />
-    public override string Type => "polygon";
+    public override GeometryType Type => GeometryType.Polygon;
 
     /// <summary>
     ///     Returns a deep clone of the geometry.
@@ -56,7 +56,8 @@ public class Polygon : Geometry
     
     internal override GeometrySerializationRecord ToSerializationRecord()
     {
-        return new GeometrySerializationRecord(Type, Extent?.ToSerializationRecord(),
+        return new GeometrySerializationRecord(Type.ToString().ToKebabCase(), 
+            Extent?.ToSerializationRecord(),
             SpatialReference?.ToSerializationRecord())
         {
             Rings = Rings.Select(p => p.ToSerializationRecord()).ToArray()

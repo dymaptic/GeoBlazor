@@ -9,7 +9,7 @@
 public class BasemapGalleryWidget : Widget
 {
     /// <inheritdoc />
-    public override string WidgetType => "basemapGallery";
+    public override WidgetType Type => WidgetType.BasemapGallery;
 
     /// <summary>
     ///     The title to query against the source.

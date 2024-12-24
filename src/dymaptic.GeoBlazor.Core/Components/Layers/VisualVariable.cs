@@ -11,8 +11,7 @@ public abstract class VisualVariable : MapComponent
     /// <summary>
     ///     The visual variable type.
     /// </summary>
-    [JsonPropertyName("type")]
-    public virtual VisualVariableType VariableType { get; } = default!;
+    public abstract VisualVariableType Type { get; }
 
     /// <summary>
     ///     The name of the numeric attribute field that contains the data values used to determine the

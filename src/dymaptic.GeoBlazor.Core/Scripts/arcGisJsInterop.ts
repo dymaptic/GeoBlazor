@@ -1070,7 +1070,7 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                     'definitionExpression', 'outFields');
 
                 break;
-            case 'geo-json':
+            case 'geojson':
                 let geoJsonLayer = currentLayer as GeoJSONLayer;
                 if (hasValue(layerObject.renderer)) {
                     let renderer = buildJsRenderer(layerObject.renderer);
@@ -1270,7 +1270,7 @@ export async function updateWidget(widgetObject: any, viewId: string): Promise<v
                     });
                 }
                 break;
-            case 'basemapLayerList':
+            case 'basemap-layer-list':
                 let basemapLayerList = currentWidget as BasemapLayerList;
                 if (hasValue(widgetObject.visibleElements)) {
                     basemapLayerList.visibleElements = {
@@ -1922,7 +1922,7 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
                 'maxSuggestions', 'minSuggestCharacters', 'popupEnabled', 'resultGraphicEnabled', 'searchAllEnabled',
                 'searchTerm', 'suggestionsEnabled');
             break;
-        case 'basemapToggle':
+        case 'basemap-toggle':
             // the esri definition file is missing basemapToggle.nextBasemap, but it is in the docs.
             let basemapToggle = new BasemapToggle({
                 view: view
@@ -1939,7 +1939,7 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
                 basemapToggle.nextBasemap = dotNetWidget.nextBasemap;
             }
             break;
-        case 'basemapGallery':
+        case 'basemap-gallery':
             let source = new PortalBasemapsSource();
             if (hasValue(dotNetWidget.portalBasemapsSource)) {
                 const portal = new Portal();
@@ -1967,7 +1967,7 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
                 source: source
             });
             break;
-        case 'scaleBar':
+        case 'scale-bar':
             const scaleBar = new ScaleBar({
                 view: view
             });
@@ -2023,7 +2023,7 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
             });
             newWidget = compassWidget;
             break;
-        case 'layerList':
+        case 'layer-list':
             const layerListWidget = new LayerList({
                 view: view
             });
@@ -2040,7 +2040,7 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
             }
 
             break;
-        case 'basemapLayerList':
+        case 'basemap-layer-list':
             const basemapLayerListWidget = new BasemapLayerList({
                 view: view
             });
@@ -2523,7 +2523,7 @@ export async function createLayer(dotNetLayer: any, wrap?: boolean | null, viewI
                 });
             }
             break;
-        case 'geo-json':
+        case 'geojson':
             newLayer = new GeoJSONLayer({
                 url: dotNetLayer.url
             });

@@ -78,5 +78,5 @@ public class OpenStreetMapLayer : WebTileLayer
     }
 
     /// <inheritdoc />
-    public override string LayerType => "open-street-map";
+    public override LayerType Type => LayerType.OpenStreetMap;
 }

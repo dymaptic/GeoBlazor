@@ -272,7 +272,7 @@ public class QueryTableDataSource : DynamicDataSource
     ///     The spatial reference of the geometry of each feature in the table source.
     /// </param>
     public QueryTableDataSource(string workspaceId, string query, string? oidFields = null, 
-        GeometryType? geometryType = null, SpatialReference? spatialReference = null)
+        FeatureGeometryType? geometryType = null, SpatialReference? spatialReference = null)
     {
 #pragma warning disable BL0005 // Set parameter or member default value.
         WorkspaceId = workspaceId;
@@ -312,7 +312,7 @@ public class QueryTableDataSource : DynamicDataSource
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public GeometryType? GeometryType { get; set; }
+    public FeatureGeometryType? GeometryType { get; set; }
     
     /// <summary>
     ///     The spatial reference of the geometry of each feature in the table source.

@@ -7,7 +7,7 @@
 public class HomeWidget : Widget
 {
     /// <inheritdoc />
-    public override string WidgetType => "home";
+    public override WidgetType Type => WidgetType.Home;
 
     /// <summary>
     ///     The widget's default label.

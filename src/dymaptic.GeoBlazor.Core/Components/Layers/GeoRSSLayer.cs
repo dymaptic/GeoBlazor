@@ -46,8 +46,7 @@ public class GeoRSSLayer : Layer
     }
 
     /// <inheritdoc />
-    [JsonPropertyName("type")]
-    public override string LayerType => "geo-rss";
+    public override LayerType Type => LayerType.GeoRSS;
 
     /// <summary>
     ///     The url for the GeoRSS source data.

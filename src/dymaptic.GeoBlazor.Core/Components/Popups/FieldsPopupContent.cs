@@ -59,7 +59,7 @@ public class FieldsPopupContent : PopupContent
     public string? Title { get; set; }
 
     /// <inheritdoc />
-    public override string Type => "fields";
+    public override PopupContentType Type => PopupContentType.Fields;
 
     /// <summary>
     ///     Array of <see cref="FieldInfo" />s
@@ -120,7 +120,7 @@ public class FieldsPopupContent : PopupContent
 
     internal override PopupContentSerializationRecord ToSerializationRecord()
     {
-        return new PopupContentSerializationRecord(Type)
+        return new PopupContentSerializationRecord(Type.ToString().ToKebabCase())
         {
             FieldInfos = FieldInfos?.Select(i => i.ToSerializationRecord()).ToArray(), 
             Description = Description, Title = Title

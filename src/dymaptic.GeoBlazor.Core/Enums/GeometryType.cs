@@ -11,7 +11,7 @@ public enum GeometryType
     Multipoint,
     Polyline,
     Polygon,
-    Multipatch,
+    Extent,
     Mesh
 #pragma warning restore CS1591
 }

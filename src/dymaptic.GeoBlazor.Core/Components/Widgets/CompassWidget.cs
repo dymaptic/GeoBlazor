@@ -11,7 +11,7 @@
 public class CompassWidget : Widget
 {
     /// <inheritdoc />
-    public override string WidgetType => "compass";
+    public override WidgetType Type => WidgetType.Compass;
 
     /// <summary>
     ///     The widget's default label.

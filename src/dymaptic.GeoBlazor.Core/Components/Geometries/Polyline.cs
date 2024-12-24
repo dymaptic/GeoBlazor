@@ -44,7 +44,7 @@ public class Polyline : Geometry
     public IReadOnlyList<MapPath> Paths { get; set; } = [];
 
     /// <inheritdoc />
-    public override string Type => "polyline";
+    public override GeometryType Type => GeometryType.Polyline;
 
     /// <summary>
     ///     Returns a deep clone of the geometry.
@@ -56,7 +56,8 @@ public class Polyline : Geometry
     
     internal override GeometrySerializationRecord ToSerializationRecord()
     {
-        return new GeometrySerializationRecord(Type, Extent?.ToSerializationRecord(),
+        return new GeometrySerializationRecord(Type.ToString().ToKebabCase(), 
+            Extent?.ToSerializationRecord(),
             SpatialReference?.ToSerializationRecord())
         {
             Paths = Paths.Select(p => p.ToSerializationRecord()).ToArray()

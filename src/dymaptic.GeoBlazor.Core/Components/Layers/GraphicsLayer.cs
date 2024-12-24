@@ -118,8 +118,7 @@ public class GraphicsLayer : Layer
     }
 
     /// <inheritdoc />
-    [JsonPropertyName("type")]
-    public override string LayerType => "graphics";
+    public override LayerType Type => LayerType.Graphics;
 
     /// <summary>
     ///     Add a graphic to the current layer

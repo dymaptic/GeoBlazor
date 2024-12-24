@@ -36,7 +36,7 @@ public class ColorVariable : VisualVariable
     }
     
     /// <inheritdoc />
-    public override VisualVariableType VariableType => VisualVariableType.Color;
+    public override VisualVariableType Type => VisualVariableType.Color;
 
     /// <summary>
     ///     Name of the numeric attribute field by which to normalize the data. If this field is used, then the values in stops should be normalized as percentages or ratios.

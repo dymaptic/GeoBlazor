@@ -53,8 +53,7 @@ public class BingMapsLayer : BaseTileLayer
     }
 
     /// <inheritdoc />
-    [JsonPropertyName("type")]
-    public override string LayerType => "bing-maps";
+    public override LayerType Type => LayerType.BingMaps;
 
     /// <summary>
     ///     Bing Maps Key.

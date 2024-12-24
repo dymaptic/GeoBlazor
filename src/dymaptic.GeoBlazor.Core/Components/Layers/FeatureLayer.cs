@@ -65,7 +65,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
     /// </param>
     public FeatureLayer(string? url = null, PortalItem? portalItem = null, IReadOnlyList<Graphic>? source = null,
         string[]? outFields = null, string? definitionExpression = null, double? minScale = null,
-        double? maxScale = null, string? objectIdField = null, GeometryType? geometryType = null, string? title = null,
+        double? maxScale = null, string? objectIdField = null, FeatureGeometryType? geometryType = null, string? title = null,
         double? opacity = null, bool? visible = null, ListMode? listMode = null, PopupTemplate? popupTemplate = null)
     {
         if (url is null && portalItem is null && source is null)
@@ -160,7 +160,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public GeometryType? GeometryType { get; set; }
+    public FeatureGeometryType? GeometryType { get; set; }
     
     /// <summary>
     ///     Indicates whether the layer will be included in the legend.
@@ -242,7 +242,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
     public FormTemplate? FormTemplate { get; set; }
 
     /// <inheritdoc />
-    public override string LayerType => "feature";
+    public override LayerType Type => LayerType.Feature;
 
     /// <summary>
     /// TimeInfo provides information such as date fields that store start and end time for each feature and the fullTimeExtent for the layer.

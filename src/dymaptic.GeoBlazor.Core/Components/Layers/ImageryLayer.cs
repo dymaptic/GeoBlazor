@@ -11,8 +11,7 @@
 public class ImageryLayer : Layer
 {
     /// <inheritdoc />
-    [JsonPropertyName("type")]
-    public override string LayerType => "imagery";
+    public override LayerType Type => LayerType.Imagery;
 
     /// <summary>
     ///     Parameterless constructor for use as a razor component

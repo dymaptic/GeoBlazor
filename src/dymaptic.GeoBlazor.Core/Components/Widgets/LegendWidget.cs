@@ -9,7 +9,7 @@
 public class LegendWidget : Widget
 {
     /// <inheritdoc />
-    public override string WidgetType => "legend";
+    public override WidgetType Type => WidgetType.Legend;
 
     /// <summary>
     ///     Specifies a subset of the layers to display in the legend. This includes any basemap layers you want to be visible

@@ -86,7 +86,7 @@ public class SizeVariable : VisualVariable
 
     /// <inheritdoc />
     [JsonPropertyName("type")]
-    public override VisualVariableType VariableType => VisualVariableType.Size;
+    public override VisualVariableType Type => VisualVariableType.Size;
 
     /// <summary>
     ///     Only applicable when working in a SceneView. Defines the axis the size visual variable should be applied to when rendering features with an ObjectSymbol3DLayer. See the local scene sample for an example of this.

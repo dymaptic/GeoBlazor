@@ -86,7 +86,7 @@ public class BaseTileLayer : Layer
     public double? RefreshInterval { get; set; }
 
     /// <inheritdoc />
-    public override string LayerType => "base-tile";
+    public override LayerType Type => LayerType.BaseTile;
 
     /// <summary>
     ///     The spatial reference of the layer.

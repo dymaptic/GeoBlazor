@@ -8,8 +8,7 @@
 public class KMLLayer : Layer
 {
     /// <inheritdoc />
-    [JsonPropertyName("type")]
-    public override string LayerType => "kml";
+    public override LayerType Type => LayerType.KML;
 
     /// <summary>
     ///     Parameterless constructor for use as a razor component

@@ -9,8 +9,7 @@
 public class LayerListWidget : Widget
 {
     /// <inheritdoc />
-    [JsonPropertyName("type")]
-    public override string WidgetType => "layerList";
+    public override WidgetType Type => WidgetType.LayerList;
 
     /// <summary>
     ///     The widget's default label.

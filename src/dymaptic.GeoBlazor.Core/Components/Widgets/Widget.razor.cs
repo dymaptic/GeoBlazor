@@ -34,8 +34,7 @@ public abstract partial class Widget : MapComponent
     /// <summary>
     ///     The type of widget
     /// </summary>
-    [JsonPropertyName("type")]
-    public abstract string WidgetType { get; }
+    public abstract WidgetType Type { get; }
     
     /// <summary>
     ///     Icon which represents the widget. It is typically used when the widget is controlled by another one (e.g. in the Expand widget).
@@ -69,19 +68,15 @@ public abstract partial class Widget : MapComponent
     protected virtual bool Hidden => false;
     
     /// <summary>
-    ///     Indicates that the widget is sent to ArcGIS JS to render.
+    ///     Indicates that the widget is sent to ArcGIS JS to render. Custom GeoBlazor Widgets should override this to return false.
     /// </summary>
-    protected internal virtual bool ArcGisWidget => true;
+    protected internal virtual bool ArcGISWidget => true;
     
     /// <inheritdoc />
     public override async Task SetParametersAsync(ParameterView parameters)
     {
         // the value type of the parameters dictionary changed in .NET 8 to nullable objects.
-#if NET8_0_OR_GREATER
         IReadOnlyDictionary<string, object?> dictionary = parameters.ToDictionary();
-#else
-        IReadOnlyDictionary<string, object> dictionary = parameters.ToDictionary();
-#endif
 
         if (!dictionary.ContainsKey(nameof(View)) && !dictionary.ContainsKey(nameof(MapView)))
         {
@@ -142,22 +137,9 @@ public abstract partial class Widget : MapComponent
     /// <summary>
     ///     Indicates if the widget has changed since the last render.
     /// </summary>
-    public bool WidgetChanged;
+    protected bool WidgetChanged;
 
     private bool _externalWidgetRegistered;
-}
-
-internal class WidgetConverter : JsonConverter<Widget>
-{
-    public override Widget Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        throw new NotImplementedException();
-    }
-
-    public override void Write(Utf8JsonWriter writer, Widget value, JsonSerializerOptions options)
-    {
-        writer.WriteRawValue(JsonSerializer.Serialize(value, typeof(object), options));
-    }
 }
 
 /// <summary>

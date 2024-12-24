@@ -39,8 +39,7 @@ public class SimpleRenderer : Renderer
     }
     
     /// <inheritdoc />
-    [JsonPropertyName("type")]
-    public override RendererType RendererType => RendererType.Simple;
+    public override RendererType Type => RendererType.Simple;
     
     /// <summary>
     ///     The label for the renderer. This describes what features with the given symbol represent in the real world. This will display next to the layer's symbol inside the Legend widget.

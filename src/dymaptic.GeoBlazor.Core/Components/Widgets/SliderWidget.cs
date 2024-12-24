@@ -143,7 +143,7 @@ public class SliderWidget: Widget
     }
 
     /// <inheritdoc />
-    public override string WidgetType => "slider";
+    public override WidgetType Type => WidgetType.Slider;
     
     /// <summary>
     ///     When true, sets the slider to a disabled state so the user cannot interact with it.

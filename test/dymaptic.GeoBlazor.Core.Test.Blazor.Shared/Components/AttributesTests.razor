@@ -1,4 +1,3 @@
-@using dymaptic.GeoBlazor.Core.Results
 @inherits TestRunnerBase
 
 @{
@@ -61,7 +60,7 @@ base.BuildRenderTree(__builder);
                 }))
         ];
 
-        void onLayerCreated(LayerViewCreateEvent evt)
+        void OnLayerCreated(LayerViewCreateEvent evt)
         {
             if (evt.Layer is FeatureLayer)
             {
@@ -71,10 +70,10 @@ base.BuildRenderTree(__builder);
         
         AddMapRenderFragment(
             @<MapView class="map-view" OnViewRendered="renderHandler"
-                      OnLayerViewCreate="onLayerCreated">
+                      OnLayerViewCreate="OnLayerCreated">
                 <Map ArcGISDefaultBasemap="topo-vector">
                     <FeatureLayer @ref="layer" Source="features"
-                                  GeometryType="GeometryType.Point"
+                                  GeometryType="FeatureGeometryType.Point"
                                   ObjectIdField="OBJECTID">
                         <Field Name="OBJECTID" Type="FieldType.Oid" />
                         <Field Name="GUID" Type="FieldType.Guid" />

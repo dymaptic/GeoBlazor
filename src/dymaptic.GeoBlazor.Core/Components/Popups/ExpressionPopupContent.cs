@@ -36,7 +36,7 @@ public class ExpressionPopupContent : PopupContent
     }
 
     /// <inheritdoc />
-    public override string Type => "expression";
+    public override PopupContentType Type => PopupContentType.Expression;
 
     /// <summary>
     ///     Contains the Arcade expression used to create a popup content element. See the ElementExpressionInfo documentation
@@ -48,7 +48,10 @@ public class ExpressionPopupContent : PopupContent
 
     internal override PopupContentSerializationRecord ToSerializationRecord()
     {
-        return new PopupContentSerializationRecord(Type) { ExpressionInfo = ExpressionInfo };
+        return new PopupContentSerializationRecord(Type.ToString().ToKebabCase())
+        {
+            ExpressionInfo = ExpressionInfo
+        };
     }
 }
 

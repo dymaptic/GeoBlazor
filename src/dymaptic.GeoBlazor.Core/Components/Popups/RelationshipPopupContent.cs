@@ -60,7 +60,7 @@ public class RelationshipPopupContent : PopupContent
     }
 
     /// <inheritdoc />
-    public override string Type => "relationship";
+    public override PopupContentType Type => PopupContentType.Relationship;
 
     /// <summary>
     ///     Describes the relationship's content in detail.
@@ -110,7 +110,7 @@ public class RelationshipPopupContent : PopupContent
 
     internal override PopupContentSerializationRecord ToSerializationRecord()
     {
-        return new PopupContentSerializationRecord(Type)
+        return new PopupContentSerializationRecord(Type.ToString().ToKebabCase())
         {
             Description = Description,
             DisplayCount = DisplayCount,

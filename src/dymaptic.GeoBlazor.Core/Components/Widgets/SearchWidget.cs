@@ -10,8 +10,7 @@
 public class SearchWidget : Widget
 {
     /// <inheritdoc />
-    [JsonPropertyName("type")]
-    public override string WidgetType => "search";
+    public override WidgetType Type => WidgetType.Search;
 
     /// <summary>
     ///     Sets the current active menu of the Search widget. Default value is None.

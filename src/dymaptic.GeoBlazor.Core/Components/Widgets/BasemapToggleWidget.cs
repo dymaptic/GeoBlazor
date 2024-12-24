@@ -8,8 +8,7 @@
 public class BasemapToggleWidget : Widget
 {
     /// <inheritdoc />
-    [JsonPropertyName("type")]
-    public override string WidgetType => "basemapToggle";
+    public override WidgetType Type => WidgetType.BasemapToggle;
 
     /// <summary>
     ///     The name of the next basemap for toggling.

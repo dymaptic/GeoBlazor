@@ -54,8 +54,7 @@ public class GeoJSONLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer
     }
 
     /// <inheritdoc />
-    [JsonPropertyName("type")]
-    public override string LayerType => "geo-json";
+    public override LayerType Type => LayerType.GeoJSON;
 
     /// <summary>
     ///     The url for the GeoJSON source data.

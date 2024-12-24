@@ -9,7 +9,7 @@
 public class ScaleBarWidget : Widget
 {
     /// <inheritdoc />
-    public override string WidgetType => "scaleBar";
+    public override WidgetType Type => WidgetType.ScaleBar;
 
     /// <summary>
     ///     Units to use for the scale bar

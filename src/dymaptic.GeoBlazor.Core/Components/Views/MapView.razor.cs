@@ -1946,7 +1946,7 @@ public partial class MapView : MapComponent
             widget.View ??= this;
         }
 
-        if (CoreJsModule is null || !widget.ArcGisWidget) return;
+        if (CoreJsModule is null || !widget.ArcGISWidget) return;
 
         while (Rendering)
         {

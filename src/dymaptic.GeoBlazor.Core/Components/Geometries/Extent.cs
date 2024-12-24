@@ -110,7 +110,7 @@ public class Extent : Geometry
     public double? Mmin { get; set; }
 
     /// <inheritdoc />
-    public override string Type => "extent";
+    public override GeometryType Type => GeometryType.Extent;
 
     /// <summary>
     ///     Returns a deep clone of the geometry.
@@ -122,7 +122,8 @@ public class Extent : Geometry
 
     internal override GeometrySerializationRecord ToSerializationRecord()
     {
-        return new GeometrySerializationRecord(Type, null, SpatialReference?.ToSerializationRecord())
+        return new GeometrySerializationRecord(Type.ToString().ToKebabCase(), 
+            null, SpatialReference?.ToSerializationRecord())
         {
             Xmax = Xmax,
             Xmin = Xmin,

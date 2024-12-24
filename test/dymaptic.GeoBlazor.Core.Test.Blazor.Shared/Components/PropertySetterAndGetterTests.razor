@@ -41,7 +41,11 @@
                 <Basemap>
                     <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
                 </Basemap>
-                <FeatureLayer Title="TestLayer1" ObjectIdField="ObjectId" @ref="layer" Source="@( [])" GeometryType="GeometryType.Point" />
+                <FeatureLayer Title="TestLayer1" 
+                              ObjectIdField="ObjectId" 
+                              @ref="layer" 
+                              Source="@( [])" 
+                              GeometryType="FeatureGeometryType.Point" />
             </Map>
         </MapView>);
 

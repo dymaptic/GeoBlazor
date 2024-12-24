@@ -87,7 +87,7 @@
         }
         @if (_showGraphics)
         {
-            <FeatureLayer ObjectIdField="ObjectID" GeometryType="GeometryType.Point">
+            <FeatureLayer ObjectIdField="ObjectID" GeometryType="FeatureGeometryType.Point">
                 <SpatialReference Wkid="4326" />
                 <PopupTemplate Title="Custom Point {ObjectID}" StringContent="<img src='{url}' />" />
                 <SimpleRenderer>

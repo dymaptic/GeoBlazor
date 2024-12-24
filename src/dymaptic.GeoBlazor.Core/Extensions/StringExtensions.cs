@@ -42,4 +42,112 @@ internal static class StringExtensions
             }
         });
     }
+    
+    public static string KebabToPascalCase(this string val)
+    {
+        if (val.Length == 0)
+        {
+            return val;
+        }
+        
+        if (char.IsDigit(val[0]) && val.Length > 1)
+        {
+            List<char> numberPrefixChars = [val[0]];
+            for (int i = 1; i < val.Length; i++)
+            {
+                if (char.IsDigit(val[i]))
+                {
+                    numberPrefixChars.Add(val[i]);
+                }
+                else
+                {
+                    break;
+                }
+            }
+            
+            string numWords = NumberToPascalCaseWords(int.Parse(new string(numberPrefixChars.ToArray())));
+            string remaining = val.Substring(numberPrefixChars.Count);
+            return $"{numWords}{remaining.KebabToPascalCase()}";
+        }
+        
+        return string.Create(val.Length - val.Count(c => c == '-'), val, (span, txt) =>
+        {
+            var offset = 0;
+            var nextUpper = true;
+            
+            for (var i = 0; i < txt.Length; i++)
+            {
+                char c = txt[i];
+
+                switch (c)
+                {
+                    case '-':
+                        nextUpper = true;
+                        offset++;
+                        break;
+                    case '/': // handle slashes as dashes
+                    case '.': // handle dots as dashes
+                        span[i - offset] = '_';
+                        nextUpper = true;
+                        break;
+                    default:
+                        span[i - offset] = nextUpper ? char.ToUpper(c) : c;
+                        nextUpper = char.IsDigit(c); // capitalize after digits
+                        break;
+                }
+            }
+        });
+    }
+    
+    private static string NumberToPascalCaseWords(int number)
+    {
+        if (number == 0)
+            return "Zero";
+        if (number < 0)
+            return $"Minus{NumberToPascalCaseWords(Math.Abs(number))}";
+        
+        StringBuilder sb = new();
+
+        if (number / 1000000 > 0)
+        {
+            sb.Append($"{NumberToPascalCaseWords(number / 1000000)}Million");
+            number %= 1000000;
+        }
+
+        if (number / 1000 > 0)
+        {
+            sb.Append($"{NumberToPascalCaseWords(number / 1000)}Thousand");
+            number %= 1000;
+        }
+
+        if (number / 100 > 0)
+        {
+            sb.Append($"{NumberToPascalCaseWords(number / 100)}Hundred");
+            number %= 100;
+        }
+
+        if (number > 0)
+        {
+            if (number < 20)
+                sb.Append(Numbers[number]);
+            else
+            {
+                sb.Append(Tens[number / 10]);
+                if (number % 10 > 0)
+                    sb.Append($"{Numbers[number % 10]}");
+            }
+        }
+
+        return sb.ToString();
+    }
+
+    private static readonly string[] Numbers =
+    {
+        "Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine",
+        "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen",
+        "Eighteen", "Nineteen"
+    };
+    
+    private static readonly string[] Tens =
+        { "Zero", "Ten", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety" };
 }

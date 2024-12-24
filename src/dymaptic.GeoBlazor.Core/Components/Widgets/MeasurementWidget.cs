@@ -9,8 +9,7 @@
 public class MeasurementWidget : Widget
 {
     /// <inheritdoc />
-    [JsonPropertyName("type")]
-    public override string WidgetType => "measurement";
+    public override WidgetType Type => WidgetType.Measurement;
 
     /// <summary>
     /// Specifies the current measurement tool to display.

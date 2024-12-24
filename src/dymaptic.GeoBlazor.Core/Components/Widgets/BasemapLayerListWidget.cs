@@ -11,8 +11,7 @@
 public class BasemapLayerListWidget : Widget
 {
     /// <inheritdoc />
-    [JsonPropertyName("type")]
-    public override string WidgetType => "basemapLayerList";
+    public override WidgetType Type => WidgetType.BasemapLayerList;
 
     /// <summary>
     ///     The widget's default label.

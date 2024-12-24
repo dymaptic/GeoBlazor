@@ -62,8 +62,7 @@ public class CSVLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer
     }
 
     /// <inheritdoc />
-    [JsonPropertyName("type")]
-    public override string LayerType => "csv";
+    public override LayerType Type => LayerType.CSV;
 
     /// <summary>
     ///     The url for the GeoRSS source data.

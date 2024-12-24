@@ -29,7 +29,7 @@ public class TextPopupContent : PopupContent
     }
 
     /// <inheritdoc />
-    public override string Type => "text";
+    public override PopupContentType Type => PopupContentType.Text;
 
     /// <summary>
     ///     The formatted string content to display. This may contain a field name enclosed in {} (e.g. {FIELDNAME}), or an
@@ -45,6 +45,9 @@ public class TextPopupContent : PopupContent
 
     internal override PopupContentSerializationRecord ToSerializationRecord()
     {
-        return new PopupContentSerializationRecord(Type) { Text = Text };
+        return new PopupContentSerializationRecord(Type.ToString().ToKebabCase())
+        {
+            Text = Text
+        };
     }
 }

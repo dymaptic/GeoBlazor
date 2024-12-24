@@ -36,7 +36,7 @@ public class AttachmentsPopupContent : PopupContent
     }
     
     /// <inheritdoc />
-    public override string Type => "attachments";
+    public override PopupContentType Type => PopupContentType.Attachments;
 
     /// <summary>
     ///     Describes the attachment's content in detail.
@@ -61,7 +61,7 @@ public class AttachmentsPopupContent : PopupContent
 
     internal override PopupContentSerializationRecord ToSerializationRecord()
     {
-        return new PopupContentSerializationRecord(Type)
+        return new PopupContentSerializationRecord(Type.ToString().ToKebabCase())
         {
             Description = Description, DisplayType = DisplayType, Title = Title
         };

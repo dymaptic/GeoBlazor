@@ -56,12 +56,11 @@ public class VectorTileLayer : Layer
     /// </summary>  
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public PortalItem? PortalItem { get; set; }  
-  
-    /// <inheritdoc />  
-    [CodeGenerationIgnore]  
-    [ArcGISProperty]  
-    public override string LayerType => "vector-tile";  
+    public PortalItem? PortalItem { get; set; }
+
+    /// <inheritdoc />    
+    [ArcGISProperty]
+    public override LayerType Type => LayerType.VectorTile;  
   
     /// <inheritdoc />  
     internal override async Task UpdateFromJavaScript(Layer renderedLayer)  
@@ -80,4 +79,49 @@ public class VectorTileLayer : Layer
         MinScale ??= renderedTileLayer.MinScale;  
         MaxScale ??= renderedTileLayer.MaxScale;  
         PortalItem ??= renderedTileLayer.PortalItem;  
-    }}
+    }
+    
+    /// <inheritdoc />
+    public override async Task RegisterChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case PortalItem portalItem:
+                if (!portalItem.Equals(PortalItem))
+                {
+                    PortalItem = portalItem;
+                    LayerChanged = true;
+                }
+
+                break;
+            default:
+                await base.RegisterChildComponent(child);
+
+                break;
+        }
+    }
+
+    /// <inheritdoc />
+    public override async Task UnregisterChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case PortalItem _:
+                PortalItem = null;
+                LayerChanged = true;
+
+                break;
+            default:
+                await base.UnregisterChildComponent(child);
+
+                break;
+        }
+    }
+
+    /// <inheritdoc />
+    internal override void ValidateRequiredChildren()
+    {
+        base.ValidateRequiredChildren();
+        PortalItem?.ValidateRequiredChildren();
+    }
+}

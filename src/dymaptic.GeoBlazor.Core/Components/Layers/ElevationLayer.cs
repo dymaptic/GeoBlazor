@@ -8,8 +8,7 @@
 public class ElevationLayer : Layer
 {
     /// <inheritdoc />
-    [JsonPropertyName("type")]
-    public override string LayerType => "elevation";
+    public override LayerType Type => LayerType.Elevation;
 
     /// <summary>
     ///     URL pointing to the Elevation layer resource on an ArcGIS Image Server.

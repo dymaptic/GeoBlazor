@@ -94,7 +94,7 @@ public class Point : Geometry
     public double? M { get; set; }
 
     /// <inheritdoc />
-    public override string Type => "point";
+    public override GeometryType Type => GeometryType.Point;
 
     /// <summary>
     ///     Returns a deep clone of the geometry.
@@ -106,7 +106,8 @@ public class Point : Geometry
 
     internal override GeometrySerializationRecord ToSerializationRecord()
     {
-        return new GeometrySerializationRecord(Type, Extent?.ToSerializationRecord(),
+        return new GeometrySerializationRecord(Type.ToString().ToKebabCase(), 
+            Extent?.ToSerializationRecord(),
             SpatialReference?.ToSerializationRecord())
         {
             Longitude = Longitude,

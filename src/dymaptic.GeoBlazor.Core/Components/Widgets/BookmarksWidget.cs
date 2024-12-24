@@ -7,8 +7,7 @@
 public class BookmarksWidget : Widget
 {
     /// <inheritdoc />
-    [JsonPropertyName("type")]
-    public override string WidgetType => "bookmarks";
+    public override WidgetType Type => WidgetType.Bookmarks;
 
     /// <summary>
     ///     When true, the widget is visually withdrawn and cannot be interacted with.

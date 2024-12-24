@@ -164,7 +164,7 @@ public class PopupWidget : Widget
     public PopupVisibleElements? VisibleElements { get; set; }
 
     /// <inheritdoc />
-    public override string WidgetType => "popup";
+    public override WidgetType Type => WidgetType.Popup;
 
     /// <summary>
     ///     The selected feature accessed by the popup. The content of the Popup is determined based on the PopupTemplate

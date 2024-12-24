@@ -10,8 +10,7 @@ public abstract class PopupContent : MapComponent
     /// <summary>
     ///     The type of Popup Content
     /// </summary>
-    [JsonPropertyName("type")]
-    public abstract string Type { get; }
+    public abstract PopupContentType Type { get; }
 
     internal abstract PopupContentSerializationRecord ToSerializationRecord();
 }
@@ -69,7 +68,7 @@ internal record PopupContentSerializationRecord : MapComponentSerializationRecor
         return Type switch
         {
             "fields" => new FieldsPopupContent(FieldInfos?.Select(i => 
-                    i.FromSerializationRecord()).ToArray() ?? Array.Empty<FieldInfo>(),
+                    i.FromSerializationRecord()).ToArray() ?? [],
                 Description, Title),
             "text" => new TextPopupContent(Text),
             "attachments" => new AttachmentsPopupContent(Title, Description, DisplayType),

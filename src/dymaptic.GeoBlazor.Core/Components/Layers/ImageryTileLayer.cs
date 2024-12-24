@@ -10,8 +10,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 public class ImageryTileLayer : Layer, IPopupTemplateLayer
 {
     /// <inheritdoc />
-    [JsonPropertyName("type")]
-    public override string LayerType => "imagery-tile";
+    public override LayerType Type => LayerType.ImageryTile;
 
     /// <summary>
     ///     Parameterless constructor for use as a razor component

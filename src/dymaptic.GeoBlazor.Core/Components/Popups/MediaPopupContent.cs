@@ -46,7 +46,7 @@ public class MediaPopupContent : PopupContent
     }
     
     /// <inheritdoc />
-    public override string Type => "media";
+    public override PopupContentType Type => PopupContentType.Media;
 
     /// <summary>
     ///     Index of the current active media within the popup's media content. This will be the media that is currently viewed
@@ -126,7 +126,7 @@ public class MediaPopupContent : PopupContent
 
     internal override PopupContentSerializationRecord ToSerializationRecord()
     {
-        return new PopupContentSerializationRecord(Type)
+        return new PopupContentSerializationRecord(Type.ToString().ToKebabCase())
         {
             ActiveMediaInfoIndex = ActiveMediaInfoIndex,
             Description = Description,

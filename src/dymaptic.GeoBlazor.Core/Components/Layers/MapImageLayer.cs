@@ -133,7 +133,7 @@ public class MapImageLayer : Layer
     }
     
     /// <inheritdoc />
-    public override string LayerType => "map-image";
+    public override LayerType Type => LayerType.MapImage;
 
     /// <summary>
     ///     Blend modes are used to blend layers together to create an interesting effect in a layer, or even to produce what seems like a new layer. Unlike the method of using transparency which can result in a washed-out top layer, blend modes can create a variety of very vibrant and intriguing results by blending a layer with the layer(s) below it.
