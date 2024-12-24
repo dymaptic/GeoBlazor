@@ -13,11 +13,11 @@
 <button disabled="@(!_mapRendered)" @onclick="(()=>AddRemoveImageryLayer())">Add or Remove Imagery Layer in code</button>
 <button disabled="@(!_mapRendered)" @onclick="(()=>_markup = !_markup)">Add new Imagery Layer in Markup</button>
 
-<MapView @ref="_view" class="map-view" 
+<MapView @ref="_view" class="map-view"
          OnViewRendered="OnViewRendered">
     <Map>
         <Basemap>
-            <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+            <BasemapStyle Name="BasemapStyleName.ArcgisLightGray" />
         </Basemap>
         @if (_markup)
         {

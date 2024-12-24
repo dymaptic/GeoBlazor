@@ -13,10 +13,10 @@
         AddMapRenderFragment(
         @<MapView @ref="view" class="map-view" OnViewRendered="renderHandler">
             <Map>
-        <Basemap>
-            <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
-        </Basemap>
-    </Map>
+                <Basemap>
+                    <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+                </Basemap>
+            </Map>
         </MapView>);
         await WaitForMapToRender();
 

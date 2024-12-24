@@ -21,7 +21,7 @@
          EventRateLimitInMilliseconds="50">
     <Map>
         <Basemap>
-            <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+            <BasemapStyle Name="BasemapStyleName.ArcgisDarkGray" />
         </Basemap>
         <FeatureLayer @ref="_hurricaneLayer"
                       OutFields="@(new[] { "*" })"
@@ -63,9 +63,9 @@
         try
         {
             HitTestOptions options = new()
-            {
-                IncludeByGeoBlazorId = new[] { _hurricaneLayer!.Id }
-            };
+                {
+                    IncludeByGeoBlazorId = new[] { _hurricaneLayer!.Id }
+                };
             HitTestResult result = await _mapView!.HitTest(pointerEvent, options);
             Graphic? graphic = result.Results.OfType<GraphicHit>().FirstOrDefault()?.Graphic;
             if (graphic?.Attributes != null)

@@ -48,9 +48,9 @@
 </div>
 <SceneView @ref="_view" Longitude="_longitude" Latitude="_latitude" Class="map-view"
            ZIndex="2000" Tilt="76" OnViewRendered="OnViewRendered">
-    <Map Ground="world-elevation" >
+    <Map Ground="world-elevation">
         <Basemap>
-            <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+            <BasemapStyle Name="BasemapStyleName.ArcgisImageryStandard" />
         </Basemap>
         <GraphicsLayer @ref="_graphicsLayer">
             <Graphic @ref="_polygonGraphic" Attributes="_graphic1Attributes">

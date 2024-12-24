@@ -10,13 +10,13 @@
     public async Task TestCanRenderArcGisDefaultBasemap(Action renderHandler)
     {
         AddMapRenderFragment(
-            @<MapView class="map-view" OnViewRendered="renderHandler">
-                <Map>
-        <Basemap>
-            <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
-        </Basemap>
-    </Map>
-            </MapView>);
+    @<MapView class="map-view" OnViewRendered="renderHandler">
+        <Map>
+            <Basemap>
+                <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+            </Basemap>
+        </Map>
+    </MapView>);
         await WaitForMapToRender();
     }
 
@@ -24,13 +24,13 @@
     public async Task TestCanRenderBasemapFromPortalId(Action renderHandler)
     {
         AddMapRenderFragment(
-            @<MapView class="map-view" OnViewRendered="renderHandler">
-                <Map>
-                    <Basemap>
-                        <PortalItem Id="55ebf90799fa4a3fa57562700a68c405" />
-                    </Basemap>
-                </Map>
-            </MapView>);
+    @<MapView class="map-view" OnViewRendered="renderHandler">
+        <Map>
+            <Basemap>
+                <PortalItem Id="55ebf90799fa4a3fa57562700a68c405" />
+            </Basemap>
+        </Map>
+    </MapView>);
 
         await WaitForMapToRender();
     }
@@ -39,18 +39,18 @@
     public async Task TestCanRenderBasemapFromTileLayers(Action renderHandler)
     {
         AddMapRenderFragment(
-            @<MapView class="map-view" OnViewRendered="renderHandler">
-                <Map>
-                    <Basemap>
-                        <TileLayer>
-                            <PortalItem Id="1b243539f4514b6ba35e7d995890db1d" />
-                        </TileLayer>
-                        <VectorTileLayer Opacity="0.75">
-                            <PortalItem Id="6976148c11bd497d8624206f9ee03e30" />
-                        </VectorTileLayer>
-                    </Basemap>
-                </Map>
-            </MapView>);
+    @<MapView class="map-view" OnViewRendered="renderHandler">
+        <Map>
+            <Basemap>
+                <TileLayer>
+                    <PortalItem Id="1b243539f4514b6ba35e7d995890db1d" />
+                </TileLayer>
+                <VectorTileLayer Opacity="0.75">
+                    <PortalItem Id="6976148c11bd497d8624206f9ee03e30" />
+                </VectorTileLayer>
+            </Basemap>
+        </Map>
+    </MapView>);
 
         await WaitForMapToRender();
         await AssertJavaScript("assertBasemapHasTwoLayers");
@@ -63,19 +63,19 @@
         async Task OnViewInitialized()
         {
             await mapView!.AddLayer(new ImageryTileLayer(
-                "https://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer"), 
-                isBasemapLayer: true );
+            "https://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer"),
+            isBasemapLayer: true);
         }
         AddMapRenderFragment(
-            @<MapView OnViewInitialized="@OnViewInitialized" 
-                      @ref="@mapView" class="map-view" 
-                      OnViewRendered="renderHandler">
-                <Map>
-                    <Basemap>
-                        <PortalItem Id="55ebf90799fa4a3fa57562700a68c405" />
-                    </Basemap>
-                </Map>
-            </MapView>);
+    @<MapView OnViewInitialized="@OnViewInitialized"
+                          @ref="@mapView" class="map-view"
+                          OnViewRendered="renderHandler">
+        <Map>
+            <Basemap>
+                <PortalItem Id="55ebf90799fa4a3fa57562700a68c405" />
+            </Basemap>
+        </Map>
+    </MapView>);
 
         await WaitForMapToRender();
 

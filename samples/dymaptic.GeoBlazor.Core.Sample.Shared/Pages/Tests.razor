@@ -26,6 +26,7 @@
             @for (var i = 0; i < _graphicsCount; i++)
             {
                 var index = i;
+
                 <Graphic>
                     <Point Longitude="_longs[index]" Latitude="_lats[index]" />
                 </Graphic>
@@ -38,6 +39,7 @@
                 {
                     double lat = _lats[i];
                     double lon = _longs[i];
+
                     <Graphic>
                         <Point Longitude="@lon" Latitude="@lat" />
                         <SimpleMarkerSymbol Color="@(new MapColor("red"))" Size="6">
@@ -60,7 +62,7 @@
     </Extent>
     <Map>
         <Basemap>
-            <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+            <BasemapStyle Name="BasemapStyleName.ArcgisNavigation" />
         </Basemap>
     </Map>
 </MapView>
@@ -69,7 +71,7 @@
 <MapView @ref="_view3" Style="height: 600px; width: 100%;" OnViewRendered="OnMap3Rendered" OnClick="On3Click">
     <Map>
         <Basemap>
-            <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+            <BasemapStyle Name="BasemapStyleName.ArcgisNavigation" />
         </Basemap>
     </Map>
     <Extent Xmax="4120960.074670904" Xmin="-3412935.278412999" Ymax="8963926.222211033" Ymin="6049459.93475111">
@@ -82,7 +84,7 @@
 <MapView Style="height: 600px; width: 100%;">
     <Map>
         <Basemap>
-            <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+            <BasemapStyle Name="BasemapStyleName.ArcgisNavigation" />
         </Basemap>
         <FeatureLayer Url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/weather_stations_010417/FeatureServer/0" />
     </Map>
@@ -127,7 +129,7 @@
             _longs.Add(_random.NextDouble() * 10 + 11.0);
         }
     }
-    
+
     private Task OnExtentChanged(Extent extent)
     {
         return Task.CompletedTask;
