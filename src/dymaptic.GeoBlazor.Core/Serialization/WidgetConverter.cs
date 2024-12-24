@@ -20,6 +20,36 @@ internal class WidgetConverter : JsonConverter<Widget>
         {
             switch (typeValue?.ToString())
             {
+                case "basemap-gallery":
+                    return JsonSerializer.Deserialize<BasemapGalleryWidget>(ref cloneReader, newOptions);
+                case "basemap-layer-list":
+                    return JsonSerializer.Deserialize<BasemapLayerListWidget>(ref cloneReader, newOptions);
+                case "basemap-toggle":
+                    return JsonSerializer.Deserialize<BasemapToggleWidget>(ref cloneReader, newOptions);
+                case "bookmarks":
+                    return JsonSerializer.Deserialize<BookmarksWidget>(ref cloneReader, newOptions);
+                case "compass":
+                    return JsonSerializer.Deserialize<CompassWidget>(ref cloneReader, newOptions);
+                case "expand":
+                    return JsonSerializer.Deserialize<ExpandWidget>(ref cloneReader, newOptions);
+                case "home":
+                    return JsonSerializer.Deserialize<HomeWidget>(ref cloneReader, newOptions);
+                case "layer-list":
+                    return JsonSerializer.Deserialize<LayerListWidget>(ref cloneReader, newOptions);
+                case "legend":
+                    return JsonSerializer.Deserialize<LegendWidget>(ref cloneReader, newOptions);
+                case "locate":
+                    return JsonSerializer.Deserialize<LocateWidget>(ref cloneReader, newOptions);
+                case "measurement":
+                    return JsonSerializer.Deserialize<MeasurementWidget>(ref cloneReader, newOptions);
+                case "popup":
+                    return JsonSerializer.Deserialize<PopupWidget>(ref cloneReader, newOptions);
+                case "scale-bar":
+                    return JsonSerializer.Deserialize<ScaleBarWidget>(ref cloneReader, newOptions);
+                case "search":
+                    return JsonSerializer.Deserialize<SearchWidget>(ref cloneReader, newOptions);
+                case "slider":
+                    return JsonSerializer.Deserialize<SliderWidget>(ref cloneReader, newOptions);
                 case null:
                     return null;
                 default:
