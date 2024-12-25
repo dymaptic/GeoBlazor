@@ -30,7 +30,7 @@ public class MediaPopupContent : PopupContent
     ///     Index of the current active media within the popup's media content. This will be the media that is currently viewed
     /// </param>
     public MediaPopupContent(string? title = null, string? description = null, 
-        IReadOnlyList<MediaInfo>? mediaInfos = null, string? activeMediaInfoIndex = null)
+        IReadOnlyList<MediaInfo>? mediaInfos = null, int? activeMediaInfoIndex = null)
     {
 #pragma warning disable BL0005
         Title = title;
@@ -54,7 +54,7 @@ public class MediaPopupContent : PopupContent
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? ActiveMediaInfoIndex { get; set; }
+    public int? ActiveMediaInfoIndex { get; set; }
 
     /// <summary>
     ///     Describes the media's content in detail.

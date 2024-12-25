@@ -1,8 +1,8 @@
 namespace dymaptic.GeoBlazor.Core.Serialization;
 
-internal class ColorRampConverter : JsonConverter<ColorRamp>
+internal class VisualVariableConverter : JsonConverter<VisualVariable>
 {
-    public override ColorRamp? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    public override VisualVariable? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         var newOptions = new JsonSerializerOptions(options)
         {
@@ -20,17 +20,21 @@ internal class ColorRampConverter : JsonConverter<ColorRamp>
         {
             switch (typeValue?.ToString())
             {
-                case "algorithmic":
-                    return JsonSerializer.Deserialize<AlgorithmicColorRamp>(ref cloneReader, newOptions);
-                case "multipart":
-                    return JsonSerializer.Deserialize<MultipartColorRamp>(ref cloneReader, newOptions);
+                case "size":
+                    return JsonSerializer.Deserialize<SizeVariable>(ref cloneReader, newOptions);
+                case "color":
+                    return JsonSerializer.Deserialize<ColorVariable>(ref cloneReader, newOptions);
+                case "opacity":
+                    return JsonSerializer.Deserialize<OpacityVariable>(ref cloneReader, newOptions);
+                case null:
+                    return null;
             }
         }
 
         return null;
     }
 
-    public override void Write(Utf8JsonWriter writer, ColorRamp value, JsonSerializerOptions options)
+    public override void Write(Utf8JsonWriter writer, VisualVariable value, JsonSerializerOptions options)
     {
         var newOptions = new JsonSerializerOptions(options)
         {

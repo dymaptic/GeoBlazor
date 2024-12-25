@@ -465,7 +465,7 @@
                           "id": 6
                         },
                         "activeMediaInfoIndex": {
-                          "type": "string",
+                          "type": "int32",
                           "id": 7
                         },
                         "mediaInfos": {
@@ -483,7 +483,7 @@
                           "id": 10
                         },
                         "relationshipId": {
-                          "type": "int32",
+                          "type": "int64",
                           "id": 11
                         },
                         "text": {

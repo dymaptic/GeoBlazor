@@ -1,4 +1,4 @@
-﻿namespace dymaptic.GeoBlazor.Core.Components.Layers;
+﻿namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     The visual variable base class. See each of the subclasses that extend this class to learn how to create continuous
@@ -76,22 +76,5 @@ public abstract class VisualVariable : MapComponent
 
                 break;
         }
-    }
-}
-
-internal class VisualVariableConverter : JsonConverter<VisualVariable>
-{
-    public override VisualVariable? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        return JsonSerializer.Deserialize(ref reader, typeof(object), options) as VisualVariable;
-    }
-
-    public override void Write(Utf8JsonWriter writer, VisualVariable value, JsonSerializerOptions options)
-    {
-        var newOptions = new JsonSerializerOptions(options)
-        {
-            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
-        };
-        writer.WriteRawValue(JsonSerializer.Serialize(value, typeof(object), newOptions));
     }
 }

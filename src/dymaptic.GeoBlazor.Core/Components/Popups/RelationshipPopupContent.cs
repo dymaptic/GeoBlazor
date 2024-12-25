@@ -44,7 +44,7 @@ public class RelationshipPopupContent : PopupContent
     /// </param>
     public RelationshipPopupContent(string? title = null, string? description = null, int? displayCount = null,
         string? displayType = null, IReadOnlyList<RelatedRecordsInfoFieldOrder>? orderByFields = null,
-        int? relationshipId = null)
+        long? relationshipId = null)
     {
 #pragma warning disable BL0005
         Title = title;
@@ -99,7 +99,7 @@ public class RelationshipPopupContent : PopupContent
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public int? RelationshipId { get; set; }
+    public long? RelationshipId { get; set; }
 
     /// <summary>
     ///     A heading indicating what the relationship's content represents.

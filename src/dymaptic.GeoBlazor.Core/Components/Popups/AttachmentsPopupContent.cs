@@ -26,7 +26,8 @@ public class AttachmentsPopupContent : PopupContent
     /// <param name="displayType">
     ///     A string value indicating how to display an attachment.
     /// </param>
-    public AttachmentsPopupContent(string? title = null, string? description = null, string? displayType = null)
+    public AttachmentsPopupContent(string? title = null, string? description = null, 
+        AttachmentsPopupContentDisplayType? displayType = null)
     {
 #pragma warning disable BL0005
         Title = title;
@@ -50,7 +51,7 @@ public class AttachmentsPopupContent : PopupContent
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? DisplayType { get; set; }
+    public AttachmentsPopupContentDisplayType? DisplayType { get; set; }
 
     /// <summary>
     ///     A heading indicating what the attachment's content represents.
@@ -63,7 +64,7 @@ public class AttachmentsPopupContent : PopupContent
     {
         return new PopupContentSerializationRecord(Type.ToString().ToKebabCase())
         {
-            Description = Description, DisplayType = DisplayType, Title = Title
+            Description = Description, DisplayType = DisplayType?.ToString(), Title = Title
         };
     }
 }
