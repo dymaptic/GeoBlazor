@@ -40,6 +40,10 @@
 
     <ItemGroup>
         <PackageReference Include="DefaultDocumentation" Version="0.8.2" PrivateAssets="all" />
+        <PackageReference Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" Version="3.3.4">
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+          <PrivateAssets>all</PrivateAssets>
+        </PackageReference>
         <PackageReference Include="protobuf-net" Version="3.2.30" />
     </ItemGroup>
     <ItemGroup Condition=" '$(TargetFramework)' == 'net8.0' ">
