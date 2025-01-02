@@ -166,6 +166,7 @@ export interface DotNetSpatialReference {
     isWrappable: boolean;
     wkid: number;
     wkt: string;
+    wkt2: string;
     imageCoordinateSystem: any;
 }
 

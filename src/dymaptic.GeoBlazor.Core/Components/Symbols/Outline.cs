@@ -8,6 +8,7 @@ public class Outline : SimpleLineSymbol
     /// <summary>
     ///     Parameterless constructor for using as a razor component
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public Outline()
     {
     }

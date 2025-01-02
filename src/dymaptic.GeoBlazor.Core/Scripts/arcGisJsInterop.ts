@@ -131,6 +131,7 @@ import RouteParameters from "@arcgis/core/rest/support/RouteParameters";
 import ScaleBar from "@arcgis/core/widgets/ScaleBar";
 import SceneView from "@arcgis/core/views/SceneView";
 import ScreenPoint = __esri.ScreenPoint;
+import Screenshot = __esri.Screenshot;
 import Search from "@arcgis/core/widgets/Search";
 import SearchSource from "@arcgis/core/widgets/Search/SearchSource";
 import SearchWidgetWrapper from "./searchWidget";
@@ -165,6 +166,7 @@ export {
     Portal,
     SimpleRenderer
 };
+
 
 export * from './jsBuilder';
 export * from './jsBuilder.gb';
@@ -2148,6 +2150,14 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
                 icon: dotNetWidget.icon ?? undefined,
             });
             break;
+        case 'areaMeasurement2D':
+            newWidget = new AreaMeasurement2D({
+                view: view,
+                viewModel: widget.AreaMeasurement2DViewModel ?? undefined,
+                unit: widget.unit ?? undefined,
+                unitOptions: widget.unitOptions ?? undefined
+            });
+            break;
         case 'bookmarks':
             const bookmarkWidget = new Bookmarks({
                 view: view,
@@ -3412,4 +3422,39 @@ export function createAbortControllerAndSignal() {
         // @ts-ignore
         abortSignalRef: DotNet.createJSObjectReference(signal)
     }
+
+export async function takeScreenshot(viewId, options): Promise<any> {
+    let view = arcGisObjectRefs[viewId] as MapView;
+    let screenshot: Screenshot;
+    if (hasValue(options)) {
+        if (hasValue(options.layerIds) && options.layerIds.length > 0) {
+            options.layers = options.layerIds.map(id => arcGisObjectRefs[id]);
+            delete options.layerIds;
+        }
+        screenshot = await view.takeScreenshot(options);
+    } else {
+        screenshot = await view.takeScreenshot();
+    }
+    
+    let buffer = base64ToArrayBuffer(screenshot.dataUrl.split(",")[1]);
+    
+    // @ts-ignore
+    let jsStreamRef = DotNet.createJSStreamReference(buffer);
+    
+    return {
+        width: screenshot.data.width,
+        height: screenshot.data.height,
+        colorSpace: screenshot.data.colorSpace,
+        stream: jsStreamRef
+    };
+}
+
+// Converts a base64 string to an ArrayBuffer
+function base64ToArrayBuffer(base64): Uint8Array {
+    const binaryString = atob(base64);
+    const bytes = new Uint8Array(binaryString.length);
+    for (let i = 0; i < binaryString.length; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+    }
+    return bytes;
 }

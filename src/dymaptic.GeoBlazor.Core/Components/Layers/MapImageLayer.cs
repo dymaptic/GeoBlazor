@@ -11,6 +11,7 @@ public class MapImageLayer : Layer
     /// <summary>
     ///     Parameterless constructor for use as a Razor component.
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public MapImageLayer()
     {
     }

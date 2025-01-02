@@ -14,6 +14,7 @@ public class WCSLayer : Layer
     /// <summary>
     ///     Constructor for use as a razor component
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public WCSLayer()
     {
     }

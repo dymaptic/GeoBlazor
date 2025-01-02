@@ -10,18 +10,18 @@
     public async Task TestLegendHasContentFromLayer(Action renderHandler)
     {
         AddMapRenderFragment(
-            @<MapView class="map-view" OnViewRendered="renderHandler">
+    @<MapView class="map-view" OnViewRendered="renderHandler">
 
-                <Map>
-        <Basemap>
-            <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
-        </Basemap>
-                    <GeoJSONLayer Title="Earthquakes from the last month"
-                                  Url="https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson" />
-                </Map>
-                <LegendWidget />
+        <Map>
+            <Basemap>
+                <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+            </Basemap>
+            <GeoJSONLayer Title="Earthquakes from the last month"
+                          Url="https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson" />
+        </Map>
+        <LegendWidget />
 
-            </MapView>);
+    </MapView>);
 
         await WaitForMapToRender();
         await AssertJavaScript("legendWidgetAsserts.assertHasContent");

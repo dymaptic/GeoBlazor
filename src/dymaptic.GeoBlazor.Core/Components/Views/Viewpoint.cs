@@ -10,6 +10,7 @@ public class Viewpoint : MapComponent
     /// <summary>
     ///     Parameterless constructor for use as a Blazor component.
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public Viewpoint()
     {
     }

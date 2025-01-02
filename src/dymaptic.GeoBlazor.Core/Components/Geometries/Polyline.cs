@@ -10,6 +10,7 @@ public class Polyline : Geometry
     /// <summary>
     ///     A parameterless constructor for using as a razor component
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public Polyline()
     {
     }

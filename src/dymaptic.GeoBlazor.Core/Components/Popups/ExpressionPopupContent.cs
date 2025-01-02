@@ -18,6 +18,7 @@ public class ExpressionPopupContent : PopupContent
     /// <summary>
     ///     Parameterless constructor for use as a razor component.
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public ExpressionPopupContent()
     {
     }

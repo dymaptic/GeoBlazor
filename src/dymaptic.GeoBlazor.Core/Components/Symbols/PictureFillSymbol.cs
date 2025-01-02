@@ -9,6 +9,7 @@ public class PictureFillSymbol : FillSymbol
     /// <summary>
     ///     Parameterless constructor for use as a razor component
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public PictureFillSymbol()
     {
     }

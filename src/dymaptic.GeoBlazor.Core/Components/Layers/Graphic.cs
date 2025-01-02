@@ -13,6 +13,7 @@ public class Graphic : MapComponent, IEquatable<Graphic>
     /// <summary>
     ///     Parameterless constructor for using as a razor component
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public Graphic()
     {
     }

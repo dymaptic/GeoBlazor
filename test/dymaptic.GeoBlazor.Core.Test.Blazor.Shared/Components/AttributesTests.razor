@@ -1,7 +1,7 @@
 @inherits TestRunnerBase
 
 @{
-base.BuildRenderTree(__builder);
+    base.BuildRenderTree(__builder);
 }
 
 @code {
@@ -9,25 +9,25 @@ base.BuildRenderTree(__builder);
     public async Task TestCanSerializeAndDeserializeGuidAttributes(Action renderHandler)
     {
         MapView? mapView = null;
-        AddMapRenderFragment( 
-            @<MapView @ref="mapView" class="map-view" OnViewRendered="renderHandler">
-                <Map>
-        <Basemap>
-            <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
-        </Basemap>
-    </Map>
-            </MapView>);
+        AddMapRenderFragment(
+		    @<MapView @ref="mapView" class="map-view" OnViewRendered="renderHandler">
+		        <Map>
+		            <Basemap>
+		                <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+		            </Basemap>
+		        </Map>
+		    </MapView>);
 
         await WaitForMapToRender();
 
         Point point = new(0, 0);
         Guid testGuid = Guid.NewGuid();
         Graphic testGraphic = new Graphic(point,
-            new SimpleMarkerSymbol(color: new MapColor("red"), size: 10),
-            attributes: new AttributesDictionary(new Dictionary<string, object?>
-            {
+    new SimpleMarkerSymbol(color: new MapColor("red"), size: 10),
+    attributes: new AttributesDictionary(new Dictionary<string, object?>
+                            {
                 {"GUID_ID", testGuid}
-            }));
+                            }));
         await mapView!.AddGraphic(testGraphic);
         await Task.Yield();
         ScreenPoint screenPoint = await mapView.ToScreen(point);
@@ -44,8 +44,8 @@ base.BuildRenderTree(__builder);
 
         Graphic[] features =
         [
-            new Graphic(new Point(0, 0), 
-                attributes: new AttributesDictionary(new Dictionary<string, object?>
+    new Graphic(new Point(0, 0),
+    attributes: new AttributesDictionary(new Dictionary<string, object?>
                 {
                     {"OBJECTID", 1},
                     {"GUID", Guid.NewGuid()},
@@ -67,28 +67,31 @@ base.BuildRenderTree(__builder);
                 layerView = evt.LayerView as FeatureLayerView;
             }
         }
-        
+
         AddMapRenderFragment(
-            @<MapView class="map-view" OnViewRendered="renderHandler"
-                      OnLayerViewCreate="OnLayerCreated">
-                <Map ArcGISDefaultBasemap="topo-vector">
-                    <FeatureLayer @ref="layer" Source="features"
-                                  GeometryType="FeatureGeometryType.Point"
-                                  ObjectIdField="OBJECTID">
-                        <Field Name="OBJECTID" Type="FieldType.Oid" />
-                        <Field Name="GUID" Type="FieldType.Guid" />
-                        <Field Name="INT" Type="FieldType.Integer" />
-                        <Field Name="DOUBLE" Type="FieldType.Double" />
-                        <Field Name="STRING" Type="FieldType.String" />
-                        <Field Name="DATETIME" Type="FieldType.Date" />
-                        <Field Name="DATE" Type="FieldType.DateOnly" />
-                        <Field Name="TIME" Type="FieldType.TimeOnly" />
-                        <Field Name="TIMESTAMP" Type="FieldType.TimestampOffset" />
-                        <Field Name="DATETIMESTAMP" Type="FieldType.Date" />
-                    </FeatureLayer>
-                </Map>
-            </MapView>);
-        
+		    @<MapView class="map-view" OnViewRendered="renderHandler"
+		                  OnLayerViewCreate="onLayerCreated">
+		        <Map>
+		            <Basemap>
+		                <BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" />
+		            </Basemap>
+		            <FeatureLayer @ref="layer" Source="features"
+		                          GeometryType="GeometryType.Point"
+		                          ObjectIdField="OBJECTID">
+		                <Field Name="OBJECTID" Type="FieldType.Oid" />
+		                <Field Name="GUID" Type="FieldType.Guid" />
+		                <Field Name="INT" Type="FieldType.Integer" />
+		                <Field Name="DOUBLE" Type="FieldType.Double" />
+		                <Field Name="STRING" Type="FieldType.String" />
+		                <Field Name="DATETIME" Type="FieldType.Date" />
+		                <Field Name="DATE" Type="FieldType.DateOnly" />
+		                <Field Name="TIME" Type="FieldType.TimeOnly" />
+		                <Field Name="TIMESTAMP" Type="FieldType.TimestampOffset" />
+		                <Field Name="DATETIMESTAMP" Type="FieldType.Date" />
+		            </FeatureLayer>
+		        </Map>
+		    </MapView>);
+
         await WaitForMapToRender();
         int tries = 100;
         while (layerView is null && tries > 0)
@@ -117,27 +120,27 @@ base.BuildRenderTree(__builder);
         Assert.IsInstanceOfType<TimeOnly>(queriedFeature.Attributes["TIME"]);
         Assert.AreEqual(features[0].Attributes["TIME"], queriedFeature.Attributes["TIME"]);
         Assert.IsInstanceOfType<DateTime>(queriedFeature.Attributes["TIMESTAMP"]);
-        Assert.AreEqual(DateTimeOffset.FromUnixTimeMilliseconds((long)features[0].Attributes["TIMESTAMP"]!).DateTime, queriedFeature.Attributes["TIMESTAMP"]);   
+        Assert.AreEqual(DateTimeOffset.FromUnixTimeMilliseconds((long)features[0].Attributes["TIMESTAMP"]!).DateTime, queriedFeature.Attributes["TIMESTAMP"]);
         Assert.IsInstanceOfType<DateTime>(queriedFeature.Attributes["DATETIMESTAMP"]);
         Assert.AreEqual(DateTimeOffset.FromUnixTimeMilliseconds((long)features[0].Attributes["DATETIMESTAMP"]!).DateTime, queriedFeature.Attributes["DATETIMESTAMP"]);
     }
-    
+
     [TestMethod]
     public async Task TestCanHitTestGraphicsWithAttributes(Action renderHandler)
     {
         MapView? view = null;
         GraphicsLayer? layer = null;
-        AddMapRenderFragment( 
-            @<MapView @ref="view"
-                      class="map-view" 
-                      OnViewRendered="renderHandler">
-                <Map>
-        <Basemap>
-            <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
-        </Basemap>
-                    <GraphicsLayer @ref="layer" />
-                </Map>
-            </MapView>);
+        AddMapRenderFragment(
+		    @<MapView @ref="view"
+		                  class="map-view"
+		                  OnViewRendered="renderHandler">
+		        <Map>
+		            <Basemap>
+		                <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+		            </Basemap>
+		            <GraphicsLayer @ref="layer" />
+		        </Map>
+		    </MapView>);
 
         await WaitForMapToRender();
         Graphic[] features =

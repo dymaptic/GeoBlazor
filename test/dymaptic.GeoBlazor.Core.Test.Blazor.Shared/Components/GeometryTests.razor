@@ -13,10 +13,10 @@
             @<MapView class="map-view" OnViewRendered="renderHandler">
 
                 <Map>
-        <Basemap>
-            <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
-        </Basemap>
-    </Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+                    </Basemap>
+                </Map>
                 <Graphic Attributes="_attributes">
                     <Point Latitude="100" Longitude="12" />
                     <SimpleMarkerSymbol Color="@(new MapColor("green"))">
@@ -37,10 +37,10 @@
         AddMapRenderFragment(
             @<MapView class="map-view" OnViewRendered="renderHandler">
                 <Map>
-        <Basemap>
-            <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
-        </Basemap>
-    </Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+                    </Basemap>
+                </Map>
                 <Graphic Attributes="_attributes">
                     <Polyline Paths="_paths" />
                     <SimpleLineSymbol Color="@(new MapColor("ffffff"))"></SimpleLineSymbol>
@@ -58,10 +58,10 @@
         AddMapRenderFragment(
             @<MapView class="map-view" OnViewRendered="renderHandler">
                 <Map>
-        <Basemap>
-            <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
-        </Basemap>
-    </Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+                    </Basemap>
+                </Map>
                 <Graphic Attributes="_attributes">
                     <Polygon Rings="_rings" />
                     <SimpleFillSymbol Color="@(new MapColor("ffffff"))">
@@ -82,10 +82,10 @@
         AddMapRenderFragment(
             @<MapView class="map-view" OnViewRendered="renderHandler">
                 <Map>
-        <Basemap>
-            <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
-        </Basemap>
-    </Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+                    </Basemap>
+                </Map>
                 <Graphic>
                     <Point Latitude="100" Longitude="12" />
                 </Graphic>
@@ -111,10 +111,10 @@
         AddMapRenderFragment( 
             @<MapView @ref=" mapView" class="map-view" OnViewRendered="renderHandler">
                 <Map>
-        <Basemap>
-            <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
-        </Basemap>
-    </Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+                    </Basemap>
+                </Map>
             </MapView>);
         await WaitForMapToRender();
 
@@ -132,10 +132,10 @@
         AddMapRenderFragment(
             @<MapView @ref="mapView" class="map-view" OnViewRendered="renderHandler">
                 <Map>
-        <Basemap>
-            <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
-        </Basemap>
-    </Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+                    </Basemap>
+                </Map>
             </MapView>);
         await WaitForMapToRender();
 
@@ -153,10 +153,10 @@
         AddMapRenderFragment(
             @<MapView @ref="mapView" class="map-view" OnViewRendered="renderHandler">
                 <Map>
-        <Basemap>
-            <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
-        </Basemap>
-    </Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+                    </Basemap>
+                </Map>
             </MapView>);
         await WaitForMapToRender();
 

@@ -11,6 +11,7 @@ public class SimpleMarkerSymbol : MarkerSymbol
     /// <summary>
     ///     Parameterless constructor for using as a razor component
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public SimpleMarkerSymbol()
     {
     }

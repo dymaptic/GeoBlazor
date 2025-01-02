@@ -17,6 +17,7 @@ public class RelationshipPopupContent : PopupContent
     /// <summary>
     ///     Parameterless constructor for use as a razor component
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public RelationshipPopupContent()
     {
     }
@@ -132,6 +133,7 @@ public class RelatedRecordsInfoFieldOrder : MapComponent
     /// <summary>
     ///     Parameterless constructor for use as a razor component
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public RelatedRecordsInfoFieldOrder()
     {
     }

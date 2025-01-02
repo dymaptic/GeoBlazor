@@ -13,6 +13,7 @@ public class KMLLayer : Layer
     /// <summary>
     ///     Parameterless constructor for use as a razor component
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public KMLLayer()
     {
     }

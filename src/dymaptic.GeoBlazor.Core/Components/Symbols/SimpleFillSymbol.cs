@@ -11,6 +11,7 @@ public class SimpleFillSymbol : FillSymbol
     /// <summary>
     ///     Parameterless constructor for using as a razor component
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public SimpleFillSymbol()
     {
     }

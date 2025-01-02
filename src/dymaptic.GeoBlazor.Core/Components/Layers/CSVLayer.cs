@@ -12,6 +12,7 @@ public class CSVLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer
     /// <summary>
     ///     Parameterless constructor for use as a razor component
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public CSVLayer()
     {
     }

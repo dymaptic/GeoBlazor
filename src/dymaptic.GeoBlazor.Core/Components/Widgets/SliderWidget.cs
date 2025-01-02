@@ -12,6 +12,7 @@ public class SliderWidget: Widget
     /// <summary>
     ///     Parameterless constructor for use as a Razor component.
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public SliderWidget()
     {
     }
@@ -806,6 +807,7 @@ public class SliderTickConfig: MapComponent
     /// <summary>
     ///     Parameterless constructor for use as a Razor component.
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public SliderTickConfig()
     {
     }
@@ -927,6 +929,7 @@ public class SliderVisibleElements : MapComponent
     /// <summary>
     ///     Parameterless constructor for use as a Razor component.
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public SliderVisibleElements()
     {
     }

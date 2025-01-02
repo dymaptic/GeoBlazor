@@ -1,4 +1,7 @@
-﻿namespace dymaptic.GeoBlazor.Core.Components.Renderers.ColorRamps;
+﻿using Microsoft.Extensions.DependencyInjection;
+
+
+namespace dymaptic.GeoBlazor.Core.Components.Renderers.ColorRamps;
 
 /// <summary>
 ///     Creates a color ramp for use in a raster renderer. The algorithmic color ramp is defined by specifying two colors and the
@@ -10,6 +13,7 @@ public class MultipartColorRamp : ColorRamp
     /// <summary>
     ///     Constructor for use in code
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public MultipartColorRamp() { }
 
     /// <summary>

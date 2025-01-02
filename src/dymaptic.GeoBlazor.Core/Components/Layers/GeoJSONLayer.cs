@@ -14,6 +14,7 @@ public class GeoJSONLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer
     /// <summary>
     ///     Parameterless constructor for using as a razor component
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public GeoJSONLayer()
     {
     }

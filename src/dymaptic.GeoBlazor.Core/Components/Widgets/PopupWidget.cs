@@ -381,6 +381,7 @@ public class PopupDockOptions : MapComponent
     /// <summary>
     ///     Parameterless constructor for use as a razor component.
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public PopupDockOptions()
     {
     }
@@ -491,6 +492,7 @@ public class PopupVisibleElements : MapComponent
     /// <summary>
     ///     Parameterless constructor for use as a razor component.
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public PopupVisibleElements()
     {
     }

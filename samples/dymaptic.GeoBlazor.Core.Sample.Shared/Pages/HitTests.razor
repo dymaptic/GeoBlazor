@@ -20,7 +20,10 @@
          Latitude="35.863534"
          Zoom="3"
          EventRateLimitInMilliseconds="50">
-    <Map ArcGISDefaultBasemap="dark-gray-vector">
+    <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisDarkGray" />
+        </Basemap>
         <FeatureLayer @ref="_hurricaneLayer"
                       OutFields="@(new[] { "*" })"
                       Url="https://sampleserver6.arcgisonline.com/arcgis/rest/services/Hurricanes/MapServer/1">
@@ -61,9 +64,9 @@
         try
         {
             HitTestOptions options = new()
-            {
-                IncludeByGeoBlazorId = new[] { _hurricaneLayer!.Id }
-            };
+                {
+                    IncludeByGeoBlazorId = new[] { _hurricaneLayer!.Id }
+                };
             HitTestResult result = await _mapView!.HitTest(pointerEvent, options);
             Graphic? graphic = result.Results.OfType<GraphicHit>().FirstOrDefault()?.Graphic;
             if (graphic?.Attributes != null)

@@ -11,6 +11,7 @@ public class RotationVariable : VisualVariable
     /// <summary>
     ///     Parameterless constructor for using as a razor component
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public RotationVariable()
     {
     }

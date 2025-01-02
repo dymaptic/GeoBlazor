@@ -26,6 +26,7 @@
             @for (var i = 0; i < _graphicsCount; i++)
             {
                 var index = i;
+
                 <Graphic>
                     <Point Longitude="_longs[index]" Latitude="_lats[index]" />
                 </Graphic>
@@ -38,6 +39,7 @@
                 {
                     double lat = _lats[i];
                     double lon = _longs[i];
+
                     <Graphic>
                         <Point Longitude="@lon" Latitude="@lat" />
                         <SimpleMarkerSymbol Color="@(new MapColor("red"))" Size="6">
@@ -127,7 +129,7 @@
             _longs.Add(_random.NextDouble() * 10 + 11.0);
         }
     }
-    
+
     private Task OnExtentChanged(Extent extent)
     {
         return Task.CompletedTask;

@@ -228,3 +228,13 @@ export function getView(methodName) {
     const viewId = mapContainer.id.replace('map-container-', '');
     return arcGisObjectRefs[viewId];
 }
+
+export function assertImageExists(methodName, elementId) {
+    let element = document.getElementById(elementId);
+    if (element === null) {
+        throw new Error(`Element with id ${elementId} does not exist`);
+    }
+    if (element.tagName !== 'IMG') {
+        throw new Error(`Element with id ${elementId} is not an image`);
+    }
+}

@@ -357,6 +357,7 @@ export function buildDotNetSpatialReference(spatialReference: SpatialReference):
         isWrappable: spatialReference.isWrappable,
         wkid: spatialReference.wkid,
         wkt: spatialReference.wkt,
+        wkt2: spatialReference.wkt2,
         imageCoordinateSystem: spatialReference.imageCoordinateSystem
     } as DotNetSpatialReference;
 }

@@ -11,6 +11,7 @@ public class MapFont : MapComponent
     /// <summary>
     ///     Parameterless constructor for using as a razor component
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public MapFont()
     {
     }

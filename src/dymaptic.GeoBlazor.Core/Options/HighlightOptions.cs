@@ -12,6 +12,7 @@ public class HighlightOptions : MapComponent
     /// <summary>
     ///     Default Constructor for use as a Blazor Component.
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public HighlightOptions()
     {
     }

@@ -10,6 +10,7 @@ public class Polygon : Geometry
     /// <summary>
     ///     Parameterless constructor for use as a razor component
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public Polygon()
     {
     }

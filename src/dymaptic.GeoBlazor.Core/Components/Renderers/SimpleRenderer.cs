@@ -9,6 +9,7 @@ public class SimpleRenderer : Renderer
     /// <summary>
     ///     Parameterless constructor for use as a Razor component.
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public SimpleRenderer()
     {
     }

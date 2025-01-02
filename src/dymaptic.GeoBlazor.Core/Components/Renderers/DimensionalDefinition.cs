@@ -10,6 +10,7 @@ public class DimensionalDefinition : MapComponent
     /// <summary>
     ///     Constructor for use as a razor component
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public DimensionalDefinition()
     {
     }

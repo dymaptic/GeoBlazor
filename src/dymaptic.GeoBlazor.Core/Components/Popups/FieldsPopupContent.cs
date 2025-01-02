@@ -10,6 +10,7 @@ public class FieldsPopupContent : PopupContent
     /// <summary>
     ///     Parameterless constructor for using as a razor component
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public FieldsPopupContent()
     {
     }

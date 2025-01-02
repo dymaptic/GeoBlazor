@@ -9,6 +9,7 @@ public class ColorVariable : VisualVariable
     /// <summary>
     ///     Parameterless constructor for using as a razor component
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public ColorVariable()
     {
     }
@@ -123,6 +124,7 @@ public class ColorStop: MapComponent
     /// <summary>
     ///     Parameterless constructor for using as a razor component
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public ColorStop()
     {
     }

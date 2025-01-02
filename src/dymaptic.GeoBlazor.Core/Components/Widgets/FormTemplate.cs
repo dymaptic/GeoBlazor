@@ -10,6 +10,7 @@ public class FormTemplate : MapComponent
     /// <summary>
     ///     Parameterless constructor for use as a razor component
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public FormTemplate()
     {
     }

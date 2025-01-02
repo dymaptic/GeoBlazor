@@ -10,6 +10,7 @@ public class SizeVariable : VisualVariable
     /// <summary>
     ///     Parameterless constructor for use as a razor component
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public SizeVariable()
     {
     }
@@ -239,6 +240,7 @@ public class SizeStop : MapComponent
     /// <summary>
     ///     Parameterless constructor for use as a razor component
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public SizeStop()
     {
     }

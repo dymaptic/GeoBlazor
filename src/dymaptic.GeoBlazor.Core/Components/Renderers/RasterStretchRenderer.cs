@@ -13,6 +13,7 @@ public class RasterStretchRenderer : MapComponent, IImageryRenderer
     /// <summary>
     ///     Constructor for use in code
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public RasterStretchRenderer() { }
 
     /// <summary>

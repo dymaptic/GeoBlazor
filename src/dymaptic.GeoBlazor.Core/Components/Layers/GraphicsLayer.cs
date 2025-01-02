@@ -11,6 +11,7 @@ public class GraphicsLayer : Layer
     /// <summary>
     ///     Parameterless constructor for use as a razor component
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public GraphicsLayer()
     {
     }
@@ -453,6 +454,7 @@ internal class GraphicsToSerializationConverter : JsonConverter<IReadOnlyCollect
 [ProtoContract]
 internal record ProtoGraphicCollection
 {
+    [ActivatorUtilitiesConstructor]
     public ProtoGraphicCollection()
     {
     }

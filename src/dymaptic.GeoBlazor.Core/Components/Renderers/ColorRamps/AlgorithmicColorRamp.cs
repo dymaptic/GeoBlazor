@@ -10,6 +10,7 @@ public class AlgorithmicColorRamp : ColorRamp
     /// <summary>
     ///     Constructor for use in code
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public AlgorithmicColorRamp() { }
 
     /// <summary>
