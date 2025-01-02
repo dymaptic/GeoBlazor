@@ -104,7 +104,11 @@ public abstract class Layer : MapComponent
     {
         FullExtent = value;
         ModifiedParameters["FullExtent"] = value;
-        if (JsComponentReference is null) return;
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
             
         await JsComponentReference!.InvokeVoidAsync("setProperty", 
             CancellationTokenSource.Token,
@@ -120,7 +124,11 @@ public abstract class Layer : MapComponent
     {
         Opacity = value;
         ModifiedParameters["Opacity"] = value;
-        if (JsComponentReference is null) return;
+
+        if (JsComponentReference is null)
+        {
+            return;
+        }
         
         await JsComponentReference!.InvokeVoidAsync("setProperty", 
             CancellationTokenSource.Token,
@@ -138,7 +146,10 @@ public abstract class Layer : MapComponent
     /// </summary>
     public async Task<Extent?> GetFullExtent()
     {
-        if (JsComponentReference is null) return null;
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
             
         return await JsComponentReference!.InvokeAsync<Extent>("getProperty", 
             CancellationTokenSource.Token,
@@ -151,7 +162,10 @@ public abstract class Layer : MapComponent
     /// </summary>
     public async Task<double?> GetOpacity()
     {
-        if (JsComponentReference is null) return null;
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<double>("getProperty", 
             CancellationTokenSource.Token,
@@ -164,7 +178,10 @@ public abstract class Layer : MapComponent
     /// </summary>
     public async Task<bool?> GetVisible()
     {
-        if (JsComponentReference is null) return null;
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
     
         return await JsComponentReference!.InvokeAsync<bool>("getProperty", 
             CancellationTokenSource.Token,
@@ -340,11 +357,16 @@ public abstract class Layer : MapComponent
         await AbortManager.DisposeAbortController(cancellationToken);
     }
 
-    /// <inheritdoc />
-    public override ValueTask Refresh()
+    /// <inheritdoc/>
+    public override async ValueTask Refresh()
     {
         LayerChanged = true;
-        return base.Refresh();
+        await base.Refresh();
+        if (JsComponentReference is null) return;
+        
+        await JsComponentReference!.InvokeAsync<string?>(
+            "refresh", 
+            CancellationTokenSource.Token);
     }
 
     /// <inheritdoc />

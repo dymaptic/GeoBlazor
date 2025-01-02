@@ -10,8 +10,13 @@ public abstract class FillSymbol : Symbol
         
     /// <summary>
     ///     The outline of the polygon.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-FillSymbol.html#outline">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
+    [ArcGISProperty]
+    [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonConverter(typeof(OutlineConverter))]
+    [CodeGenerationIgnore]
     public Outline? Outline { get; set; }
     
     /// <inheritdoc />

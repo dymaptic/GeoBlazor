@@ -36,12 +36,14 @@ public class SpatialReference : MapComponent
     ///     A convenience static instance for WGS84 Spatial Reference.
     /// </summary>
     [JsonIgnore]
+    [CodeGenerationIgnore]
     public static SpatialReference Wgs84 => new(4326);
 
     /// <summary>
     ///     A convenience static instance for WebMercator Spatial Reference.
     /// </summary>
     [JsonIgnore]
+    [CodeGenerationIgnore]
     public static SpatialReference WebMercator => new(3857);
 
     /// <summary>

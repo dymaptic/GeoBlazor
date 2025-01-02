@@ -711,6 +711,17 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         ModifiedParameters[nameof(Visible)] = visible;
         Visible = visible;
     }
+
+    /// <summary>
+    ///     Toggles the visibility of the component.
+    /// </summary>
+    /// <param name="visible">
+    ///     The new value to set for visibility of the component.
+    /// </param>
+    public Task SetVisible(bool visible)
+    {
+        return SetVisibility(visible);
+    }
     
     /// <summary>
     ///     The reference to the .NET object that represents the component.
