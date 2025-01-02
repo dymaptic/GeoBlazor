@@ -20,16 +20,36 @@ public class SpatialReference : MapComponent
     }
 
     /// <summary>
-    ///     Creates a new SpatialReference in code with a Wkid
+    ///     Constructor for use in C# code.
     /// </summary>
     /// <param name="wkid">
-    ///     The well-known Id for the spatial reference
+    ///     The well-known ID of a spatial reference.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-SpatialReference.html#wkid">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public SpatialReference(int wkid)
+    /// <param name="imageCoordinateSystem">
+    ///     An [image coordinate system](https://developers.arcgis.com/rest/services-reference/raster-ics.htm) defines the spatial reference used to display the image in its original coordinates without distortion, map transformations or ortho-rectification.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-SpatialReference.html#imageCoordinateSystem">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="wkt">
+    ///     The well-known text that defines a spatial reference.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-SpatialReference.html#wkt">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="wkt2">
+    ///     The well-known text of the coordinate system as defined by OGC standard for well-known text strings.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-SpatialReference.html#wkt2">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    public SpatialReference(
+        int? wkid = null,
+        string? imageCoordinateSystem = null,
+        string? wkt = null,
+        string? wkt2 = null)
     {
 #pragma warning disable BL0005
         Wkid = wkid;
-#pragma warning restore BL0005
+        ImageCoordinateSystem = imageCoordinateSystem;
+        Wkt = wkt;
+        Wkt2 = wkt2;
+#pragma warning restore BL0005    
     }
 
     /// <summary>

@@ -1,7 +1,7 @@
 ﻿namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 
 /// <summary>
-///     A convenience sub-class of <see cref="SimpleLineSymbol" /> for defining outlines of other symbols.
+///     A convenience subclass of <see cref="SimpleLineSymbol" /> for defining outlines of other symbols.
 /// </summary>
 public class Outline : SimpleLineSymbol
 {

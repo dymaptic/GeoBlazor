@@ -337,6 +337,10 @@
                         "weight": {
                           "type": "string",
                           "id": 4
+                        },
+                        "decoration": {
+                          "type": "string",
+                          "id": 5
                         }
                       }
                     },

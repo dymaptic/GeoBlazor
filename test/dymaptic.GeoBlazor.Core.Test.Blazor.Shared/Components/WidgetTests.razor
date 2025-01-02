@@ -114,7 +114,7 @@
                 <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
             </Basemap>
         </Map>
-        <BasemapToggleWidget NextBasemapName="arcgis-topographic" />
+        <BasemapToggleWidget NextBasemapStyle="BasemapStyleName.ArcgisTopographic" />
 
     </MapView>);
 
@@ -211,11 +211,14 @@
     [TestMethod]
     public async Task TestCanRenderDistanceMeasurementWidgetWithLinearUnits(Action renderHandler)
     {
-        AddMapRenderFragment(@<MapView class="map-view" OnViewRendered="renderHandler">
-
-                <Map ArcGISDefaultBasemap="arcgis-imagery" />
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+                    </Basemap>
+                </Map>
                 <MeasurementWidget LinearUnit="LengthUnit.NauticalMiles" />
-
             </MapView>
     );
         await WaitForMapToRender();
@@ -227,10 +230,12 @@
     {
         AddMapRenderFragment(
             @<MapView class="map-view" OnViewRendered="renderHandler">
-
-                <Map ArcGISDefaultBasemap="arcgis-imagery" />
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+                    </Basemap>
+                </Map>
                 <MeasurementWidget AreaUnit="AreaUnit.SquareKilometers" />
-
             </MapView>
     );
         await WaitForMapToRender();
@@ -242,10 +247,12 @@
     {
         AddMapRenderFragment(
             @<MapView class="map-view" OnViewRendered="renderHandler">
-
-                <Map ArcGISDefaultBasemap="arcgis-imagery" />
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+                    </Basemap>
+                </Map>
                 <MeasurementWidget />
-
             </MapView>
         );
         await WaitForMapToRender();

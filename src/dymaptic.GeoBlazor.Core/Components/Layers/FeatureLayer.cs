@@ -230,12 +230,12 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
     public IReadOnlyCollection<Field>? Fields { get; set; }
 
     /// <summary>
-    ///     Array of relationships set up for the layer. Each object in the array describes the layer's relationship with
-    ///     another layer or table.
+    ///     Array of [relationships](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Relationship.html) set up for the layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#relationships">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    [Parameter]
+    [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyCollection<Relationship>? Relationships { get; set; }
+    public IReadOnlyList<Relationship>? Relationships { get; protected set; }
 
     /// <summary>
     ///     The template used in an associated layer's FeatureForm Widget (Available in GeoBlazor Pro). All of the properties and field configurations set on the layer's FeatureForm are handled via the FormTemplate.

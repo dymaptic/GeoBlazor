@@ -6,6 +6,68 @@ namespace dymaptic.GeoBlazor.Core.Model;
 public class FeatureFilter: MapComponent
 {
     /// <summary>
+    ///     Parameterless constructor for use as a Razor Component.
+    /// </summary>
+    [ActivatorUtilitiesConstructor]
+    public FeatureFilter()
+    {
+    }
+
+    /// <summary>
+    ///     Constructor for use in C# code.
+    /// </summary>
+    /// <param name="distance">
+    ///     Specifies a search distance from a given [geometry](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html#geometry) in a spatial filter.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html#distance">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="geometry">
+    ///     The geometry to apply to the spatial filter.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html#geometry">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="objectIds">
+    ///     An array of objectIds of the features to be filtered.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html#objectIds">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="spatialRelationship">
+    ///     For spatial filters, this parameter defines the spatial relationship to filter features in the layer view against the filter [geometry](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html#geometry).
+    ///     default intersects
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html#spatialRelationship">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="timeExtent">
+    ///     A range of time with start and end date.
+    ///     default null
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html#timeExtent">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="units">
+    ///     The unit for calculating the buffer distance when [distance](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html#distance) is specified in a spatial filter.
+    ///     default null
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html#units">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="where">
+    ///     A where clause for the feature filter.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html#where">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    public FeatureFilter(
+        double? distance = null,
+        Geometry? geometry = null,
+        IReadOnlyList<long>? objectIds = null,
+        SpatialRelationship? spatialRelationship = null,
+        TimeExtent? timeExtent = null,
+        LinearUnit? units = null,
+        string? where = null)
+    {
+#pragma warning disable BL0005
+        Distance = distance;
+        Geometry = geometry;
+        ObjectIds = objectIds;
+        SpatialRelationship = spatialRelationship;
+        TimeExtent = timeExtent;
+        Units = units;
+        Where = where;
+#pragma warning restore BL0005    
+    }
+    
+    /// <summary>
     ///     Specifies a search distance from a given geometry in a spatial filter. The units property indicates the unit of measurement. In essence, setting this property creates a buffer at the specified size around the input geometry. The filter will use that buffer to display features in the layer or layer view that adhere to the to the indicated spatial relationship.
     /// </summary>
     [Parameter]

@@ -54,9 +54,10 @@ public record RelationshipQuery
 
     /// <summary>
     ///     An array of objectIds for the features in the layer/table being queried.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-RelationshipQuery.html#objectIds">ArcGIS Maps SDK for JavaScript</a>
+    ///     Union type for ObjectIds: number[] | string[]
     /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IEnumerable<int>? ObjectIds { get; set; }
+    public IReadOnlyCollection<string>? ObjectIds { get; set; }
 
     /// <summary>
     ///     One or more field names used to order the query results. Specify ASC (ascending) or DESC (descending) after the
@@ -95,7 +96,7 @@ public record RelationshipQuery
     ///     corresponding to the related table/layer of the relationship are queried.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public int? RelationshipId { get; set; }
+    public long? RelationshipId { get; set; }
 
     /// <summary>
     ///     If true, each feature in the FeatureSet includes the geometry. Set to false (default) if you do not plan to include

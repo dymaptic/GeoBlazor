@@ -239,7 +239,8 @@ export function buildDotNetSymbol(symbol: Symbol): DotNetSymbol {
                 family: symbol.font.family,
                 size: symbol.font.size,
                 style: symbol.font.style,
-                weight: symbol.font.weight
+                weight: symbol.font.weight,
+                decoration: symbol.font.decoration
             },
             angle: symbol.angle,
             backgroundColor: symbol.backgroundColor?.toHex(),

@@ -25,7 +25,7 @@ public record FeatureSet
     /// <summary>
     ///     The array of graphics returned from a task.
     /// </summary>
-    public IReadOnlyList<Graphic>? Features { get; set; }
+    public Graphic[]? Features { get; set; }
     
     /// <summary>
     ///     Information about each field.

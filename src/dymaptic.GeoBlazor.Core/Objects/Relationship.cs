@@ -28,7 +28,7 @@ public record Relationship
     ///     the ArcGIS Services directory.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public int? Id { get; set; }
+    public long? RelationshipId { get; set; }
 
     /// <summary>
     ///     The field used to establish the relate within the FeatureLayer.

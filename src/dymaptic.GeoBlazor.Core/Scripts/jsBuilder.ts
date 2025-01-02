@@ -508,7 +508,7 @@ export function buildJsSymbol(symbol: DotNetSymbol | null): Symbol | null {
                 jsTextSymbol.color = buildJsColor(dotNetTextSymbol.color);
             }
             if (hasValue(dotNetTextSymbol.font)) {
-                jsTextSymbol.font = buildJsFont(dotNetTextSymbol.font);
+                jsTextSymbol.font = buildJsMapFont(dotNetTextSymbol.font);
             }
             if (hasValue(dotNetTextSymbol.haloColor)) {
                 jsTextSymbol.haloColor = buildJsColor(dotNetTextSymbol.haloColor);
@@ -1317,12 +1317,14 @@ export async function buildJsPopupOptions(dotNetPopupOptions: any): Promise<Popu
     return options;
 }
 
-function buildJsFont(dotNetFont: any): Font {
+function buildJsMapFont(dotNetFont: any): Font {
     let font = new Font();
     font.size = dotNetFont.size ?? 9;
     font.family = dotNetFont.family ?? "sans-serif";
     font.style = dotNetFont.style ?? "normal";
     font.weight = dotNetFont.weight ?? "normal";
+    
+    copyValuesIfExists(dotNetFont, font, 'decoration');
 
     return font;
 }
