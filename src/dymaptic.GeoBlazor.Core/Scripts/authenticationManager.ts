@@ -7,7 +7,7 @@ export default class AuthenticationManager {
     private info: OAuthInfo | undefined;
     private dotNetRef: any;
 
-    constructor(dotNetReference, apiKey, appId, portalUrl, trustedServers) {
+    constructor(dotNetReference, apiKey, appId, portalUrl, trustedServers, fontsUrl) {
         if (appId !== null) {
             this.appId = appId;
             this.info = new OAuthInfo({
@@ -25,6 +25,10 @@ export default class AuthenticationManager {
         
         if (trustedServers !== null) {
             esriConfig.request.trustedServers = esriConfig.request.trustedServers !== undefined ? esriConfig.request.trustedServers.concat(trustedServers) : trustedServers;
+        }
+        
+        if (fontsUrl !== null) {
+            esriConfig.fontsUrl = fontsUrl;
         }
 
         this.dotNetRef = dotNetReference;
