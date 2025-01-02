@@ -1,7 +1,7 @@
 ﻿# GeoBlazor
 
 # *.NET 9 NOTICE*
-*Version 3.1.2-beta-1 fixes a [breaking change](https://github.com/dotnet/aspnetcore/issues/58004) that Microsoft introduced in how constructors are used in .NET 9 Razor Components.*
+*Version 3.1.2-beta-2 fixes a [breaking change](https://github.com/dotnet/aspnetcore/issues/58004) that Microsoft introduced in how constructors are used in .NET 9 Razor Components.*
 
 *Even with that fix, you will still experience __very slow__ build times when targeting .NET 9 or even just using the .NET 9 SDK to build previous versions. We have an open request for a fix [here](https://github.com/dotnet/aspnetcore/issues/59014)*
 
