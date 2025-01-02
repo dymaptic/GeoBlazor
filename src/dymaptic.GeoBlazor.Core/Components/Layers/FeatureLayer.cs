@@ -524,6 +524,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
     /// </summary>
     /// <param name="feature"></param>
     /// <returns></returns>
+    [ArcGISMethod]
     public async Task<FeatureType?> GetFeatureType(Graphic feature)
     {
         return await JsComponentReference!.InvokeAsync<FeatureType>("getFeatureType", feature);
@@ -533,6 +534,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
     /// Returns the Field instance for a field name (case-insensitive).
     /// </summary>
     /// <param name="fieldName">the field name (case-insensitive).</param>
+    [ArcGISMethod]
     public async Task<Field?> GetField(string fieldName)
     {
         return await JsComponentReference!.InvokeAsync<Field?>("getField", fieldName);
@@ -764,6 +766,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
     /// <param name="options">
     ///     Options for creating the popup template.
     /// </param>
+    [ArcGISMethod]
     public async Task<PopupTemplate> CreatePopupTemplate(CreatePopupTemplateOptions? options = null)
     {
         return await JsComponentReference!.InvokeAsync<PopupTemplate>("createPopupTemplate",
@@ -773,6 +776,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
     /// <summary>
     ///     Creates query parameter object that can be used to fetch features that satisfy the layer's configurations such as definitionExpression, gdbVersion, and historicMoment. It will return Z and M values based on the layer's data capabilities. It sets the query parameter's outFields property to ["*"]. The results will include geometries of features and values for all available fields for client-side queries or all fields in the layer for server side queries.
     /// </summary>
+    [ArcGISMethod]
     public async Task<Query> CreateQuery()
     {
         return await JsComponentReference!.InvokeAsync<Query>("createQuery", CancellationTokenSource.Token);
@@ -892,13 +896,10 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
     ///     A cancellation token that can be used to cancel the query operation.
     /// </param>
     [CodeGenerationIgnore]
-    public async Task<int[]> QueryObjectIds(Query query, CancellationToken cancellationToken = default)
+    public async Task<long[]> QueryObjectIds(Query query, CancellationToken cancellationToken = default)
     {
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-
-        int[] queryResult = await JsComponentReference!.InvokeAsync<int[]>("queryObjectIds", cancellationToken,
-            query, new { signal = abortSignal });
-
+        long[] queryResult = await JsComponentReference!.InvokeAsync<long[]>("queryObjectIds", cancellationToken, query, new { signal = abortSignal });
         await AbortManager.DisposeAbortController(cancellationToken);
 
         return queryResult;
@@ -928,15 +929,17 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
             Dictionary<long, Graphic[]> relatedGraphics = _activeRelatedQueries[queryId];
             foreach (KeyValuePair<long, FeatureSet?> kvp in result)
             {
-                if (kvp.Value is null || !relatedGraphics.TryGetValue(kvp.Key, out Graphic[]? relatedGraphic)) continue;
-                
-                
+                if (kvp.Value is null || !relatedGraphics.TryGetValue(kvp.Key, out Graphic[]? relatedGraphic))
+                    continue;
                 foreach (Graphic graphic in relatedGraphic)
                 {
                     graphic.LayerId = Id;
                 }
-                result[kvp.Key] = kvp.Value with {Features = relatedGraphic};
                 
+                result[kvp.Key] = kvp.Value with
+                {
+                    Features = relatedGraphic
+                };
             }
             _activeRelatedQueries.Remove(queryId);
         }

@@ -15,43 +15,71 @@ public class Point : Geometry
     }
 
     /// <summary>
-    ///     Creates a new Point programmatically with parameters
+    ///     Constructor for use in C# code.
     /// </summary>
     /// <param name="longitude">
     ///     The longitude of the point.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Point.html#longitude">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="latitude">
     ///     The latitude of the point.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Point.html#latitude">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="x">
     ///     The x-coordinate (easting) of the point in map units.
+    ///     default 0
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Point.html#x">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="y">
     ///     The y-coordinate (northing) of the point in map units.
+    ///     default 0
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Point.html#y">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="z">
     ///     The z-coordinate (or elevation) of the point in map units.
+    ///     default undefined
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Point.html#z">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="spatialReference">
-    ///     The <see cref="SpatialReference" /> of the geometry.
+    ///     The spatial reference of the geometry.
+    ///     default WGS84 (wkid: 4326)
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Geometry.html#spatialReference">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="extent">
-    ///     The <see cref="Extent" /> of the geometry.
+    /// <param name="hasM">
+    ///     Indicates if the geometry has M values.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Geometry.html#hasM">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public Point(double? longitude = null, double? latitude = null, double? x = null, double? y = null,
+    /// <param name="hasZ">
+    ///     Indicates if the geometry has z-values (elevation).
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Geometry.html#hasZ">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="m">
+    ///     The m-coordinate of the point in map units.
+    ///     default undefined
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Point.html#m">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    public Point(
+        double? longitude = null,
+        double? latitude = null,
+        double? x = null,
+        double? y = null,
         double? z = null,
-        SpatialReference? spatialReference = null, Extent? extent = null)
+        SpatialReference? spatialReference = null,
+        bool? hasM = null,
+        bool? hasZ = null,
+        double? m = null)
     {
-        AllowRender = false;
 #pragma warning disable BL0005
-        Latitude = latitude;
         Longitude = longitude;
+        Latitude = latitude;
         X = x;
         Y = y;
         Z = z;
         SpatialReference = spatialReference;
-        Extent = extent;
-#pragma warning restore BL0005
+        HasM = hasM;
+        HasZ = hasZ;
+        M = m;
+#pragma warning restore BL0005    
     }
 
     /// <summary>
@@ -102,7 +130,7 @@ public class Point : Geometry
     /// </summary>
     public Point Clone()
     {
-        return new Point(Longitude, Latitude, X, Y, Z, SpatialReference?.Clone(), Extent?.Clone());
+        return new Point(Longitude, Latitude, X, Y, Z, SpatialReference?.Clone(), HasM, HasZ, M);
     }
 
     internal override GeometrySerializationRecord ToSerializationRecord()
@@ -115,7 +143,10 @@ public class Point : Geometry
             Latitude = Latitude,
             X = X,
             Y = Y,
-            Z = Z
+            Z = Z,
+            HasM = HasM,
+            HasZ = HasZ,
+            M = M
         };
     }
 }

@@ -121,12 +121,12 @@
                 @if (_results is not null)
                 {
                     <h5 class="heading" id="resultsHeading" slot="header-content">
-                        Results: @_results!.Features!.Count parks
+                        Results: @_results!.Features!.Length parks
                     </h5>
                     <div id="results">
-                        @for (var i = 0; i < _results.Features.Count; i++)
+                        @for (var i = 0; i < _results.Features!.Length; i++)
                         {
-                            Graphic result = _results.Features[i];
+                            Graphic result = _results.Features![i];
                             int index = i;
                             <calcite-pick-list-item label="@result.Attributes["Park"]"
                                                     value="@i"

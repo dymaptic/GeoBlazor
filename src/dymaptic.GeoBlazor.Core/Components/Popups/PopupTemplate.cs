@@ -147,6 +147,7 @@ public class PopupTemplate : MapComponent
     ///     Either <see cref="Content" /> or <see cref="StringContent" /> should be defined, but not both.
     /// </remarks>
     [RequiredProperty(nameof(StringContent), nameof(ContentFunction))]
+    [CodeGenerationIgnore]
     public List<PopupContent> Content { get; set; } = new();
 
     /// <summary>

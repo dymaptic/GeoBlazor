@@ -15,7 +15,10 @@ export interface DotNetGraphic {
     uid: string;
     geometry: any;
     attributes: any;
-
+    visible: boolean | null;
+    legendLabel: string | null;
+    aggregateGeometries: string | null;
+    origin: any;
     dotNetGraphicReference: any;
     symbol: DotNetSymbol;
 }

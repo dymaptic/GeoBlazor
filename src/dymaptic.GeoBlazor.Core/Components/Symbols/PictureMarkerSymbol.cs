@@ -65,7 +65,7 @@ public class PictureMarkerSymbol : MarkerSymbol
     public Dimension? Width { get; set; }
 
     /// <inheritdoc />
-    public override string Type => "picture-marker";
+    public override SymbolType Type => SymbolType.PictureMarker;
 
     /// <summary>
     ///     The URL to an image or SVG document.
@@ -75,7 +75,7 @@ public class PictureMarkerSymbol : MarkerSymbol
 
     internal override SymbolSerializationRecord ToSerializationRecord()
     {
-        return new SymbolSerializationRecord(Type, null)
+        return new SymbolSerializationRecord(Type.ToString().ToKebabCase(), null)
         {
             Url = Url,
             Width = Width?.Points,

@@ -56,6 +56,6 @@
         }
         FeatureSet? result = await layerView!.QueryFeatures(query);
         Assert.IsNotNull(result);
-        Assert.IsTrue(result.Features!.Count > 0);
+        Assert.IsTrue(result.Features!.Length > 0);
     }
 }

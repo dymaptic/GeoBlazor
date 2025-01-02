@@ -20,6 +20,8 @@ internal class WidgetConverter : JsonConverter<Widget>
         {
             switch (typeValue?.ToString())
             {
+                case "area-measurement-2d":
+                    return JsonSerializer.Deserialize<AreaMeasurement2DWidget>(ref cloneReader, newOptions);
                 case "basemap-gallery":
                     return JsonSerializer.Deserialize<BasemapGalleryWidget>(ref cloneReader, newOptions);
                 case "basemap-layer-list":

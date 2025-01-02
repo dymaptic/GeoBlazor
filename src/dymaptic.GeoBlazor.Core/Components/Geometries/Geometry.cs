@@ -12,8 +12,27 @@ public abstract class Geometry : MapComponent
     ///     The <see cref="Extent" /> of the geometry.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [CodeGenerationIgnore]
     public Extent? Extent { get; protected set; }
 
+    /// <summary>
+    ///     Indicates if the geometry has M values.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Geometry.html#hasM">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? HasM { get; set; }
+    
+    /// <summary>
+    ///     Indicates if the geometry has z-values (elevation).
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Geometry.html#hasZ">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? HasZ { get; set; }
+    
     /// <summary>
     ///     The <see cref="SpatialReference" /> of the geometry.
     /// </summary>
@@ -78,6 +97,30 @@ public abstract class Geometry : MapComponent
         base.ValidateRequiredChildren();
         Extent?.ValidateRequiredChildren();
         SpatialReference?.ValidateRequiredChildren();
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the SpatialReference property.
+    /// </summary>
+    public async Task<Extent?> GetExtent()
+    {
+        if (CoreJsModule is null)
+        {
+            return Extent;
+        }
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+            "getJsComponent", CancellationTokenSource.Token, Id);
+        if (JsComponentReference is null)
+        {
+            return Extent;
+        }
+
+        // get the property value
+#pragma warning disable BL0005
+        Extent = await CoreJsModule!.InvokeAsync<Extent?>("getProperty",
+            CancellationTokenSource.Token, JsComponentReference, "extent");
+#pragma warning restore BL0005
+        return Extent;
     }
 
     internal abstract GeometrySerializationRecord ToSerializationRecord();
@@ -166,20 +209,35 @@ internal record GeometrySerializationRecord : MapComponentSerializationRecord
     [ProtoMember(18)]
     public double? Mmin { get; set; }
 
+    [ProtoMember(19)]
+    public bool? HasM { get; set; }
+    
+    [ProtoMember(20)]
+    public bool? HasZ { get; set; }
+
+    [ProtoMember(21)]
+    public double? M { get; set; }
+    
+    [ProtoMember(22)]
+    public GeometrySerializationRecord? Centroid { get; set; }
+    
+    [ProtoMember(23)]
+    public bool? IsSelfIntersecting { get; set; }
+    
     public Geometry FromSerializationRecord()
     {
         return Type switch
         {
             "point" => new Point(Longitude, Latitude, X, Y, Z, SpatialReference?.FromSerializationRecord(),
-                Extent?.FromSerializationRecord() as Extent),
+                HasM, HasZ, M),
             "polyline" => new Polyline(Paths!.Select(x => x.FromSerializationRecord()).ToArray(),
-                SpatialReference?.FromSerializationRecord(),
-                Extent?.FromSerializationRecord() as Extent),
+                SpatialReference?.FromSerializationRecord(), HasM, HasZ),
             "polygon" => new Polygon(Rings!.Select(x => x.FromSerializationRecord()).ToArray(),
                 SpatialReference?.FromSerializationRecord(),
-                Extent?.FromSerializationRecord() as Extent),
+                Centroid?.FromSerializationRecord() as Point, 
+                HasM, HasZ, IsSelfIntersecting),
             "extent" => new Extent(Xmax!.Value, Xmin!.Value, Ymax!.Value, Ymin!.Value, Zmax, Zmin, 
-                Mmax, Mmin, SpatialReference?.FromSerializationRecord()),
+                Mmax, Mmin, SpatialReference?.FromSerializationRecord(), HasM, HasZ),
             _ => throw new ArgumentOutOfRangeException()
         };
     }

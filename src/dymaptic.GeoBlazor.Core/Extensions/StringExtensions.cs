@@ -20,6 +20,7 @@ internal static class StringExtensions
         return string.Create(val.Length + (val.Count(char.IsUpper) - 1), val, (span, txt) =>
         {
             var offset = 0;
+            bool previousWasDigit = false;
 
             for (var i = 0; i < txt.Length; i++)
             {
@@ -27,10 +28,13 @@ internal static class StringExtensions
 
                 if (char.IsUpper(c))
                 {
-                    if (i > 0)
+                    if (!previousWasDigit) // only add a dash if the previous character was not a digit
                     {
-                        span[i + offset] = '-';
-                        offset++;
+                        if (i > 0)
+                        {
+                            span[i + offset] = '-';
+                            offset++;
+                        }
                     }
 
                     span[i + offset] = char.ToLower(c);
@@ -39,6 +43,8 @@ internal static class StringExtensions
                 {
                     span[i + offset] = c;
                 }
+
+                previousWasDigit = char.IsDigit(c);
             }
         });
     }

@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-
+﻿
 
 namespace dymaptic.GeoBlazor.Core.Components.Renderers.ColorRamps;
 

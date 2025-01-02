@@ -18,7 +18,7 @@ public abstract class Symbol : MapComponent
     /// <summary>
     ///     The symbol type
     /// </summary>
-    public virtual string Type => default!;
+    public abstract SymbolType Type { get; }
 
     internal abstract SymbolSerializationRecord ToSerializationRecord();
 }
@@ -51,6 +51,8 @@ internal class SymbolJsonConverter : JsonConverter<Symbol>
                     return JsonSerializer.Deserialize<SimpleLineSymbol>(ref cloneReader, newOptions);
                 case "simple-fill":
                     return JsonSerializer.Deserialize<SimpleFillSymbol>(ref cloneReader, newOptions);
+                case "picture-fill":
+                    return JsonSerializer.Deserialize<PictureFillSymbol>(ref cloneReader, newOptions);
                 case "picture-marker":
                     return JsonSerializer.Deserialize<PictureMarkerSymbol>(ref cloneReader, newOptions);
                 case "text":

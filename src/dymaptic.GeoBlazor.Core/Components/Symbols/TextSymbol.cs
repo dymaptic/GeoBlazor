@@ -100,7 +100,7 @@ public class TextSymbol : Symbol
     }
 
     /// <inheritdoc />
-    public override string Type => "text";
+    public override SymbolType Type => SymbolType.Text;
     
     /// <summary>
     ///     The angle of the text. 0 is horizontal and the angle moves clockwise.
@@ -298,7 +298,7 @@ public class TextSymbol : Symbol
 
     internal override SymbolSerializationRecord ToSerializationRecord()
     {
-        return new SymbolSerializationRecord(Type, Color)
+        return new SymbolSerializationRecord(Type.ToString().ToKebabCase(), Color)
         {
             Text = Text, 
             HaloColor = HaloColor, 

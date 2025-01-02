@@ -229,6 +229,7 @@ public class Sublayer: MapComponent, IPopupTemplateLayer
     ///     The MapImageLayer or TileLayer to which the sublayer belongs.
     /// </summary>
     [JsonIgnore]
+    [CodeGenerationIgnore]
     public Layer? Layer => Parent is Sublayer sublayer
         ? sublayer.Layer
         : Parent as Layer;

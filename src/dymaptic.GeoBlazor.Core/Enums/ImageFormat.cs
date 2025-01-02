@@ -16,7 +16,9 @@ public enum ImageFormat
     Gif,
     Jpgpng,
     Lerc,
-    Tiff
+    Tiff,
+    Bip,
+    Bsq
 #pragma warning restore CS1591
 }
 

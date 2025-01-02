@@ -459,8 +459,7 @@
     {
         HomeWidget? homeWidget = null;
         MapView? mapView = null;
-        var widgetCreated = false;
-
+        bool widgetCreated = false;
         void OnWidgetCreated()
         {
             widgetCreated = true;
@@ -510,8 +509,7 @@
     public async Task TestCanRenderOutsideOfMapViewWithContainerId(Action renderHandler)
     {
         HomeWidget? homeWidget = null;
-        var widgetCreated = false;
-
+        bool widgetCreated = false;
         void OnWidgetCreated()
         {
             widgetCreated = true;

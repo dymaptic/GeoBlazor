@@ -1,4 +1,5 @@
-﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
+﻿using dymaptic.GeoBlazor.Core.Components;
+using dymaptic.GeoBlazor.Core.Components.Geometries;
 using dymaptic.GeoBlazor.Core.Model;
 using dymaptic.GeoBlazor.Core.Objects;
 using Microsoft.AspNetCore.Components;
@@ -9,7 +10,7 @@ namespace dymaptic.GeoBlazor.Core.Test.Blazor.Shared.Components;
 public class SpatialReferenceTests : TestRunnerBase
 {
     [Inject]
-    public Projection Projection { get; set; } = default!;
+    public required ProjectionEngine Projection { get; set; }
 
     [TestMethod]
     public async Task ConvertWktToJSAndBack(Action renderHandler)

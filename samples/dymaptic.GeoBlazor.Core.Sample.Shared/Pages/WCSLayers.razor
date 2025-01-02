@@ -67,7 +67,7 @@
         List<AlgorithmicColorRamp> wcsLayerColorRamps = new() { toFromColor1, toFromColor2, toFromColor3 };
 
         MultipartColorRamp wcsLayercolorRamp = new(wcsLayerColorRamps);
-        RasterStatistics wcsLayerStatistics = new(-3, 37, 1, 1);
+        RasterBandStatistics wcsLayerStatistics = new(1, max: 37, min: -3, stddev: 1);
         RasterStretchRenderer displayRenderer = new(colorRamp: wcsLayercolorRamp,
             stretchType: StretchType.StandardDeviation, statistics: [wcsLayerStatistics],
             numberOfStandardDeviations: 3);

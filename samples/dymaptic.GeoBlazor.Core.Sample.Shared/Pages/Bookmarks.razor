@@ -39,16 +39,8 @@
 
         var hurricaneName = eventArgs.Bookmark.Name;
 
-        var featureEffect = new FeatureEffect
-            {
-                Filter = new FeatureFilter()
-                {
-#pragma warning disable BL0005
-                    Where = $"Name = '{hurricaneName!.ToUpper()}'"
-#pragma warning restore BL0005
-                },
-                ExcludedEffect = new() { new Effect("grayscale(100%) opacity(30%)") }
-            };
+        var featureEffect = new FeatureEffect([new Effect("grayscale(100%) opacity(30%)")],
+            null, new FeatureFilter(where: $"Name = '{hurricaneName!.ToUpper()}'"));
         _ = _layerView.SetFeatureEffect(featureEffect);
     }
 

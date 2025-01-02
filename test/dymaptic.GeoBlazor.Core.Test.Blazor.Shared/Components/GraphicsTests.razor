@@ -233,7 +233,7 @@
         Graphic graphic = new Graphic(point);
         TextSymbol symbol = new("Hello", color: new MapColor("red"),
             backgroundColor: new MapColor("transparent"),
-            font: new MapFont(12, "Arial", "normal", "bold"));
+            font: new MapFont(12, "Arial", MapFontStyle.Normal, Weight.Bold) );
         await graphic.SetSymbol(symbol);
 
         await layer!.Add(graphic);

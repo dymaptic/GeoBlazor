@@ -1,4 +1,4 @@
-namespace dymaptic.GeoBlazor.Core.Components.Layers;
+namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     A subset of multidimensional raster data created by slicing the data along defined variables and dimensions. Only dimensional slices that meet the multidimensionalSubset requirements will be available on a multidimensional ImageryLayer or ImageryTileLayer when the multiDimensionalSubset property is set on the layer. For example, if you have an ImageryLayer that contains 30 years of monthly precipitation data, and you only want to expose data for each January to see how precipitation has changed for that month, you can set the multiDimensionalSubset on the imagery layer.

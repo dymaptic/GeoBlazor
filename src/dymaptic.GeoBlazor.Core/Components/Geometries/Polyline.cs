@@ -16,32 +16,44 @@ public class Polyline : Geometry
     }
 
     /// <summary>
-    ///     Creates a new PolyLine in code with parameters
+    ///     Constructor for use in C# code.
     /// </summary>
     /// <param name="paths">
-    ///     An array of <see cref="MapPath" /> paths, or line segments, that make up the polyline.
+    ///     An array of paths, or line segments, that make up the polyline.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polyline.html#paths">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="spatialReference">
-    ///     The <see cref="SpatialReference" /> of the geometry.
+    ///     The spatial reference of the geometry.
+    ///     default WGS84 (wkid: 4326)
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Geometry.html#spatialReference">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="extent">
-    ///     The <see cref="Extent" /> of the geometry.
+    /// <param name="hasM">
+    ///     Indicates if the geometry has M values.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Geometry.html#hasM">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    public Polyline(IReadOnlyList<MapPath> paths, SpatialReference? spatialReference = null,
-        Extent? extent = null)
+    /// <param name="hasZ">
+    ///     Indicates if the geometry has z-values (elevation).
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Geometry.html#hasZ">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    public Polyline(
+        IReadOnlyList<MapPath> paths,
+        SpatialReference? spatialReference = null,
+        bool? hasM = null,
+        bool? hasZ = null)
     {
-        AllowRender = false;
 #pragma warning disable BL0005
         Paths = paths;
         SpatialReference = spatialReference;
-        Extent = extent;
-#pragma warning restore BL0005
+        HasM = hasM;
+        HasZ = hasZ;
+#pragma warning restore BL0005    
     }
 
     /// <summary>
     ///     An array of <see cref="MapPath" /> paths, or line segments, that make up the polyline.
     /// </summary>
     [Parameter]
+    [CodeGenerationIgnore]
     public IReadOnlyList<MapPath> Paths { get; set; } = [];
 
     /// <inheritdoc />
@@ -52,7 +64,8 @@ public class Polyline : Geometry
     /// </summary>
     public Polyline Clone()
     {
-        return new Polyline(Paths.Select(p => p.Clone()).ToArray(), SpatialReference?.Clone(), Extent?.Clone());
+        return new Polyline(Paths.Select(p => p.Clone()).ToArray(), SpatialReference?.Clone(), 
+            HasM, HasZ);
     }
     
     internal override GeometrySerializationRecord ToSerializationRecord()
@@ -61,7 +74,9 @@ public class Polyline : Geometry
             Extent?.ToSerializationRecord(),
             SpatialReference?.ToSerializationRecord())
         {
-            Paths = Paths.Select(p => p.ToSerializationRecord()).ToArray()
+            Paths = Paths.Select(p => p.ToSerializationRecord()).ToArray(),
+            HasM = HasM,
+            HasZ = HasZ
         };
     }
 }

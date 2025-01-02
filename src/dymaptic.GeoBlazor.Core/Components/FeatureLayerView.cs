@@ -1,4 +1,4 @@
-﻿namespace dymaptic.GeoBlazor.Core.Model;
+﻿namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     The FeatureLayerView is responsible for rendering a FeatureLayer's features as graphics in the View. The methods in the FeatureLayerView provide developers with the ability to query and highlight graphics in the view. See the code snippets in the methods below for examples of how to access client-side graphics from the view.
@@ -6,14 +6,56 @@
 /// </summary>
 public class FeatureLayerView : LayerView
 {
-    internal FeatureLayerView(LayerView layerView, AbortManager abortManager)
+    /// <summary>
+    ///     Constructor for use in C# code.
+    /// </summary>
+    /// <param name="layerView">
+    /// </param>
+    /// <param name="abortManager">
+    /// </param>
+    /// <param name="featureEffect">
+    ///     The featureEffect can be used to draw attention features of interest.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#featureEffect">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="filter">
+    ///     The [attribute](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html#where), [geometry](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html#geometry), and [time extent](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html#timeExtent) filter.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#filter">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="highlightOptions">
+    ///     Options for configuring the highlight.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-HighlightLayerViewMixin.html#highlightOptions">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="maximumNumberOfFeatures">
+    ///     The maximum number of features that can be displayed at a time.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#maximumNumberOfFeatures">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="maximumNumberOfFeaturesExceeded">
+    ///     Signifies whether the maximum number of features has been exceeded.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#maximumNumberOfFeaturesExceeded">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    [CodeGenerationIgnore]
+    internal FeatureLayerView(
+        LayerView layerView,
+        AbortManager abortManager,
+        FeatureEffect? featureEffect = null,
+        FeatureFilter? filter = null,
+        HighlightOptions? highlightOptions = null,
+        double? maximumNumberOfFeatures = null,
+        bool? maximumNumberOfFeaturesExceeded = null)
     {
-        _abortManager = abortManager;
+#pragma warning disable BL0005
         JsObjectReference = layerView.JsObjectReference;
         SpatialReferenceSupported = layerView.SpatialReferenceSupported;
         Suspended = layerView.Suspended;
         Updating = layerView.Updating;
         Visible = layerView.Visible;
+        AbortManager = abortManager;
+        FeatureEffect = featureEffect;
+        Filter = filter;
+        HighlightOptions = highlightOptions;
+        MaximumNumberOfFeatures = maximumNumberOfFeatures;
+        MaximumNumberOfFeaturesExceeded = maximumNumberOfFeaturesExceeded;
+#pragma warning restore BL0005    
     }
 
     /// <summary>
@@ -26,6 +68,33 @@ public class FeatureLayerView : LayerView
     ///     The featureEffect can be used to draw attention features of interest.
     /// </summary>
     public FeatureEffect? FeatureEffect { get; private set; }
+    
+    /// <summary>
+    ///     Options for configuring the highlight.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-HighlightLayerViewMixin.html#highlightOptions">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public HighlightOptions? HighlightOptions { get; set; }
+    
+    /// <summary>
+    ///     The maximum number of features that can be displayed at a time.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#maximumNumberOfFeatures">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public double? MaximumNumberOfFeatures { get; set; }
+    
+    /// <summary>
+    ///     Signifies whether the maximum number of features has been exceeded.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#maximumNumberOfFeaturesExceeded">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? MaximumNumberOfFeaturesExceeded { get; set; }
 
     /// <summary>
     ///     Sets the <see cref="FeatureFilter" /> for this view.
@@ -74,12 +143,29 @@ public class FeatureLayerView : LayerView
     /// <returns>
     ///     A handle that allows the highlight to be removed later.
     /// </returns>
-    public async Task<HighlightHandle> Highlight(int objectId)
+    [CodeGenerationIgnore]
+    public async Task<HighlightHandle> Highlight(long objectId)
     {
         IJSObjectReference objectRef =
             await JsObjectReference!.InvokeAsync<IJSObjectReference>("highlight",
                 CancellationTokenSource.Token, objectId);
+        return new HighlightHandle(objectRef);
+    }
 
+    /// <summary>
+    ///     Highlights the given feature(s).
+    /// </summary>
+    /// <param name = "target">
+    ///     The ObjectID of the graphic to highlight.
+    /// </param>
+    /// <returns>
+    ///     A handle that allows the highlight to be removed later.
+    /// </returns>
+    [CodeGenerationIgnore]
+    public async Task<HighlightHandle> Highlight(string target)
+    {
+        IJSObjectReference objectRef = await JsObjectReference!.InvokeAsync<IJSObjectReference>("highlight", 
+            CancellationTokenSource.Token, target);
         return new HighlightHandle(objectRef);
     }
 
@@ -92,7 +178,7 @@ public class FeatureLayerView : LayerView
     /// <returns>
     ///     A handle that allows the highlight to be removed later.
     /// </returns>
-    public async Task<HighlightHandle> Highlight(IEnumerable<int> objectIds)
+    public async Task<HighlightHandle> Highlight(IEnumerable<long> objectIds)
     {
         IJSObjectReference objectRef =
             await JsObjectReference!.InvokeAsync<IJSObjectReference>("highlight",
@@ -140,6 +226,8 @@ public class FeatureLayerView : LayerView
     /// <summary>
     ///     Creates query parameter object that can be used to fetch features as they are being displayed. It sets the query parameter's outFields property to ["*"] and returnGeometry to true. The output spatial reference outSpatialReference is set to the spatial reference of the view. Parameters of the filter currently applied to the layerview are also incorporated in the returned query object. The results will include geometries of features and values for availableFields.
     /// </summary>
+    [ArcGISMethod]
+    [CodeGenerationIgnore]
     public async Task<Query> CreateQuery()
     {
         return await JsObjectReference!.InvokeAsync<Query>("createQuery", CancellationTokenSource.Token);
@@ -161,15 +249,12 @@ public class FeatureLayerView : LayerView
     /// <param name="cancellationToken">
     ///     A cancellation token that can be used to cancel the query operation.
     /// </param>
-    public async Task<ExtentQueryResult> QueryExtent(Query query, CancellationToken cancellationToken = default)
+    [CodeGenerationIgnore]
+    public async Task<ExtentQueryResult?> QueryExtent(Query query, CancellationToken cancellationToken = default)
     {
-        IJSObjectReference abortSignal = await _abortManager.CreateAbortSignal(cancellationToken);
-
-        ExtentQueryResult result = await JsObjectReference!.InvokeAsync<ExtentQueryResult>("queryExtent",
-            cancellationToken, query, new { signal = abortSignal });
-
-        await _abortManager.DisposeAbortController(cancellationToken);
-
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        ExtentQueryResult? result = await JsObjectReference!.InvokeAsync<ExtentQueryResult?>("queryExtent", cancellationToken, query, new { signal = abortSignal });
+        await AbortManager.DisposeAbortController(cancellationToken);
         return result;
     }
 
@@ -192,15 +277,12 @@ public class FeatureLayerView : LayerView
     /// <returns>
     ///     The number of features that satisfy the query.
     /// </returns>
-    public async Task<int> QueryFeatureCount(Query? query = null, CancellationToken cancellationToken = default)
+    [CodeGenerationIgnore]
+    public async Task<int?> QueryFeatureCount(Query? query = null, CancellationToken cancellationToken = default)
     {
-        IJSObjectReference abortSignal = await _abortManager.CreateAbortSignal(cancellationToken);
-
-        int result = await JsObjectReference!.InvokeAsync<int>("queryFeatureCount", cancellationToken,
-            query, new { signal = abortSignal });
-
-        await _abortManager.DisposeAbortController(cancellationToken);
-
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        int? result = await JsObjectReference!.InvokeAsync<int?>("queryFeatureCount", cancellationToken, query, new { signal = abortSignal });
+        await AbortManager.DisposeAbortController(cancellationToken);
         return result;
     }
 
@@ -223,15 +305,14 @@ public class FeatureLayerView : LayerView
     /// <returns>
     ///     A FeatureSet containing the features that satisfy the query.
     /// </returns>
+    [CodeGenerationIgnore]
     public async Task<FeatureSet?> QueryFeatures(Query? query = null, CancellationToken cancellationToken = default)
     {
-        IJSObjectReference abortSignal =
-            await _abortManager.CreateAbortSignal(cancellationToken);
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         Guid queryId = Guid.NewGuid();
-
-        FeatureSet result = await JsObjectReference!.InvokeAsync<FeatureSet>("queryFeatures", cancellationToken,
-            query, new { signal = abortSignal }, DotNetObjectReference.Create(this), Layer.View?.Id, queryId);
-
+        FeatureSet result = await JsObjectReference!.InvokeAsync<FeatureSet>("queryFeatures", 
+            cancellationToken, query, new { signal = abortSignal }, DotNetObjectReference.Create(this), 
+            Layer?.View?.Id, queryId);
         if (_activeQueries.ContainsKey(queryId))
         {
             result = result with { Features = _activeQueries[queryId]};
@@ -240,11 +321,10 @@ public class FeatureLayerView : LayerView
         
         foreach (Graphic graphic in result.Features!)
         {
-            graphic.LayerId = Layer.Id;
+            graphic.LayerId = Layer?.Id;
         }
 
-        await _abortManager.DisposeAbortController(cancellationToken);
-
+        await AbortManager.DisposeAbortController(cancellationToken);
         return result;
     }
 
@@ -256,8 +336,8 @@ public class FeatureLayerView : LayerView
     {
         try
         {
-            await using Stream stream = await streamReference
-                .OpenReadStreamAsync(Layer.View?.QueryResultsMaxSizeLimit ?? 1_000_000_000L);
+            await using Stream stream = await streamReference.OpenReadStreamAsync(
+                Layer?.View?.QueryResultsMaxSizeLimit ?? 1_000_000_000L);
             using var ms = new MemoryStream();
             await stream.CopyToAsync(ms);
             ms.Seek(0, SeekOrigin.Begin);
@@ -281,18 +361,14 @@ public class FeatureLayerView : LayerView
     /// <param name="cancellationToken">
     ///     A cancellation token that can be used to cancel the query operation.
     /// </param>
-    public async Task<int[]> QueryObjectIds(Query query, CancellationToken cancellationToken = default)
+    [CodeGenerationIgnore]
+    public async Task<long[]?> QueryObjectIds(Query query, CancellationToken cancellationToken = default)
     {
-        IJSObjectReference abortSignal = await _abortManager.CreateAbortSignal(cancellationToken);
-
-        int[] queryResult = await JsObjectReference!.InvokeAsync<int[]>("queryObjectIds", cancellationToken,
-            query, new { signal = abortSignal });
-
-        await _abortManager.DisposeAbortController(cancellationToken);
-
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        long[]? queryResult = await JsObjectReference!.InvokeAsync<long[]?>("queryObjectIds", cancellationToken, query, new { signal = abortSignal });
+        await AbortManager.DisposeAbortController(cancellationToken);
         return queryResult;
     }
 
-    private readonly AbortManager _abortManager;
     private readonly Dictionary<Guid, Graphic[]> _activeQueries = new();
 }

@@ -8,7 +8,7 @@ public class PolyLine : Polyline
     }
 
     public PolyLine(MapPath[] paths, SpatialReference? spatialReference = null,
-        Extent? extent = null): base(paths, spatialReference, extent)
+        Extent? extent = null): base(paths, spatialReference)
     {
     }
 }

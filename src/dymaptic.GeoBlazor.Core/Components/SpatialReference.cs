@@ -1,4 +1,4 @@
-﻿namespace dymaptic.GeoBlazor.Core.Components.Geometries;
+﻿namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     Defines the spatial reference of a view, layer, or method parameters. This indicates the projected or geographic
@@ -56,6 +56,7 @@ public class SpatialReference : MapComponent
     ///     Indicates if the spatial reference refers to a geographic coordinate system.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [CodeGenerationIgnore]
     public bool? IsGeographic { get; set; }
 
     /// <summary>
@@ -63,6 +64,7 @@ public class SpatialReference : MapComponent
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [Parameter]
+    [CodeGenerationIgnore]
     public bool? IsWebMercator { get; set; }
 
     /// <summary>
@@ -77,6 +79,7 @@ public class SpatialReference : MapComponent
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [Parameter]
+    [CodeGenerationIgnore]
     public bool? IsWrappable { get; set; }
 
     /// <summary>

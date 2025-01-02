@@ -3,7 +3,6 @@ global using dymaptic.GeoBlazor.Core.Components.Geometries;
 global using dymaptic.GeoBlazor.Core.Components.Layers;
 global using dymaptic.GeoBlazor.Core.Components.Popups;
 global using dymaptic.GeoBlazor.Core.Components.Renderers;
-global using dymaptic.GeoBlazor.Core.Components.Renderers.ColorRamps;
 global using dymaptic.GeoBlazor.Core.Components.Symbols;
 global using dymaptic.GeoBlazor.Core.Components.Views;
 global using dymaptic.GeoBlazor.Core.Components.Widgets;

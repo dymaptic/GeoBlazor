@@ -15,6 +15,11 @@ public enum PixelType
     U16,
     U32,
     F32,
-    F64
+    F64,
+    U1,
+    U2,
+    U4,
+    C64,
+    C128
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 }

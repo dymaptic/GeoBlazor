@@ -101,7 +101,7 @@
             ReturnGeometry = false
         };
 
-        int[] objectIds = await _featureLayer!.QueryObjectIds(query);
+        long[] objectIds = await _featureLayer!.QueryObjectIds(query);
         if (!objectIds.Any())
         {
             return;
@@ -119,8 +119,8 @@
         var relationshipQuery = new RelationshipQuery
         {
             OutFields = ["NAME", "SUM_POPULATION"],
-            RelationshipId = _featureLayer.Relationships?.FirstOrDefault()?.Id,
-            ObjectIds = objectIds
+            RelationshipId = _featureLayer.Relationships?.FirstOrDefault()?.RelationshipId,
+            ObjectIds = objectIds.Select(i => i.ToString()).ToList()
         };
 
         _relatedFeatures = await _featureLayer.QueryRelatedFeatures(relationshipQuery);

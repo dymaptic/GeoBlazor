@@ -20,7 +20,7 @@
 		    @<MapView OnViewInitialized="@OnViewInitialized" @ref="@mapView" class="map-view" OnViewRendered="renderHandler">
 		        <Map>
 		            <Basemap>
-		                <BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" />
+                        <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
 		            </Basemap>
 		        </Map>
 		    </MapView>);
@@ -72,7 +72,7 @@
 		                <BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" />
 		            </Basemap>
 		            <FeatureLayer @ref="layer" Source="graphics"
-		                          GeometryType="GeometryType.Point"
+                                  GeometryType="FeatureGeometryType.Point"
 		                          ObjectIdField="OBJECT_ID">
 		            </FeatureLayer>
 		        </Map>
@@ -144,7 +144,7 @@
 		                <BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" />
 		            </Basemap>
 		            <FeatureLayer @ref="layer" Source="@([])"
-		                          GeometryType="GeometryType.Point"
+                                  GeometryType="FeatureGeometryType.Point"
 		                          ObjectIdField="OBJECT_ID">
 		            </FeatureLayer>
 		        </Map>
@@ -173,7 +173,7 @@
                 <BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" />
             </Basemap>
             <FeatureLayer @ref="layer" Source="@([])"
-                          GeometryType="GeometryType.Point"
+                                  GeometryType="FeatureGeometryType.Point"
                           ObjectIdField="OBJECT_ID">
             </FeatureLayer>
         </Map>
@@ -197,7 +197,7 @@
                 <BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" />
             </Basemap>
             <FeatureLayer @ref="layer" Source="@([])"
-                          GeometryType="GeometryType.Point"
+                                  GeometryType="FeatureGeometryType.Point"
                           ObjectIdField="OBJECT_ID">
             </FeatureLayer>
         </Map>
@@ -234,7 +234,7 @@
                 <BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" />
             </Basemap>
             <FeatureLayer @ref="layer" Source="@([])"
-                          GeometryType="GeometryType.Point"
+                                  GeometryType="FeatureGeometryType.Point"
                           ObjectIdField="OBJECT_ID">
             </FeatureLayer>
         </Map>
@@ -285,7 +285,7 @@
                 <BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" />
             </Basemap>
             <FeatureLayer @ref="layer" Source="@([])"
-                          GeometryType="GeometryType.Point"
+                                  GeometryType="FeatureGeometryType.Point"
                           ObjectIdField="OBJECT_ID">
             </FeatureLayer>
         </Map>
@@ -356,7 +356,7 @@
                 };
         FeatureSet? result = await layer!.QueryFeatures(query);
         Assert.IsNotNull(result);
-        Assert.IsTrue(result.Features!.Count > 0);
+        Assert.IsTrue(result.Features!.Length > 0);
     }
 
     [TestMethod]
@@ -383,13 +383,13 @@
                     SpatialRelationship = SpatialRelationship.Intersects,
                     ReturnGeometry = false
                 };
-        int[] objectIds = await layer!.QueryObjectIds(query);
+        long[] objectIds = await layer!.QueryObjectIds(query);
         Assert.IsTrue(objectIds.Length > 0);
         var relationshipQuery = new RelationshipQuery
         {
             OutFields = ["NAME", "SUM_POPULATION"],
-            RelationshipId = layer.Relationships?.FirstOrDefault()?.Id,
-            ObjectIds = objectIds
+            RelationshipId = layer.Relationships?.FirstOrDefault()?.RelationshipId,
+            ObjectIds = objectIds.Select(i => i.ToString()).ToList()
         };
         RelatedFeaturesQueryResult? result = await layer.QueryRelatedFeatures(relationshipQuery);
         Assert.IsNotNull(result);
@@ -424,6 +424,6 @@
         
         FeatureSet? results = await layer!.QueryTopFeatures(query);
         Assert.IsNotNull(results);
-        Assert.IsTrue(results.Features!.Count > 0);
+        Assert.IsTrue(results.Features!.Length > 0);
     }
 }

@@ -1,4 +1,4 @@
-namespace dymaptic.GeoBlazor.Core.Objects;
+namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     The unit of the spatial reference.

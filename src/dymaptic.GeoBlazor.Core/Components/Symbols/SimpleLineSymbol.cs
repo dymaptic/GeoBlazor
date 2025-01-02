@@ -38,7 +38,7 @@ public class SimpleLineSymbol : LineSymbol
     }
     
     /// <inheritdoc />
-    public override string Type => "simple-line";
+    public override SymbolType Type => SymbolType.SimpleLine;
 
     /// <summary>
     ///     Specifies the line style.
@@ -49,7 +49,7 @@ public class SimpleLineSymbol : LineSymbol
 
     internal override SymbolSerializationRecord ToSerializationRecord()
     {
-        return new SymbolSerializationRecord(Type, Color)
+        return new SymbolSerializationRecord(Type.ToString().ToKebabCase(), Color)
         {
             Width = Width?.Points, 
             Style = Style?.ToString().ToKebabCase()

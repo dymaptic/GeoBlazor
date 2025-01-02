@@ -228,7 +228,20 @@ export function buildJsGraphic(graphicObject: any, viewId: string | null) : Grap
         graphic.popupTemplate = buildJsPopupTemplate(graphicObject.popupTemplate, viewId) as PopupTemplate;
     }
 
-    copyValuesIfExists(graphicObject, graphic, 'visible');
+    if (hasValue(graphicObject.origin)) {
+        let layer : any | undefined = undefined;
+        if (arcGisObjectRefs.hasOwnProperty(graphicObject.origin.id)) {
+            layer = arcGisObjectRefs[graphicObject.origin.layerId] as any;
+        }
+        graphic.origin = {
+            type: 'vector-tile',
+            layer: layer,
+            layerId: graphicObject.origin.arcGISLayerId,
+            layerIndex: graphicObject.origin.layerIndex
+        }
+    }
+    
+    copyValuesIfExists(graphicObject, graphic, 'visible', 'aggregateGeometries');
 
     graphicsRefs[graphicObject.id] = graphic;
     return graphic;
@@ -566,6 +579,7 @@ export function buildJsPoint(dnPoint: DotNetPoint): Point | null {
         y: dnPoint.y ?? undefined
     });
 
+    copyValuesIfExists(dnPoint, point, 'z', 'm', 'hasZ', 'hasM');
     if (hasValue(dnPoint.spatialReference)) {
         point.spatialReference = buildJsSpatialReference(dnPoint.spatialReference);
     } else {

@@ -75,7 +75,7 @@ public class PictureFillSymbol : FillSymbol
     public Dimension? Width { get; set; }
 
     /// <inheritdoc />
-    public override string Type => "picture-fill";
+    public override SymbolType Type => SymbolType.PictureFill;
 
     /// <summary>
     ///     The URL to an image or SVG document.
@@ -115,7 +115,7 @@ public class PictureFillSymbol : FillSymbol
 
     internal override SymbolSerializationRecord ToSerializationRecord()
     {
-        return new SymbolSerializationRecord(Type, null)
+        return new SymbolSerializationRecord(Type.ToString().ToKebabCase(), null)
         {
             Url = Url,
             Width = Width?.Points,

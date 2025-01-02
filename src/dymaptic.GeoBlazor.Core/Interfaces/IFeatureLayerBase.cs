@@ -20,6 +20,7 @@ public interface IFeatureLayerBase
     ///     Applies edits to features in a layer. New features can be created and existing features can be updated or deleted. Feature geometries and/or attributes may be modified. Only applicable to layers in a feature service and client-side features set through the FeatureLayer's source property. Attachments can also be added, updated or deleted.
     ///     If client-side features are added, removed or updated at runtime using applyEdits() then use FeatureLayer's queryFeatures() method to return updated features.
     /// </summary>
+    [CodeGenerationIgnore]
     Task<FeatureEditsResult> ApplyEdits(FeatureEdits edits, FeatureEditOptions? options = null,
         CancellationToken cancellationToken = default);
 
@@ -27,11 +28,13 @@ public interface IFeatureLayerBase
     /// Returns the Field instance for a field name (case-insensitive).
     /// </summary>
     /// <param name="fieldName">the field name (case-insensitive).</param>
+    [ArcGISMethod]
     Task<Field?> GetField(string fieldName);
 
     /// <summary>
     /// Returns the Domain associated with the given field name. The domain can be either a CodedValueDomain or RangeDomain.
     /// </summary>
+    [CodeGenerationIgnore]
     Task<Domain?> GetFieldDomain(string fieldName, Graphic? feature = null);
 
     /// <summary>
@@ -44,6 +47,7 @@ public interface IFeatureLayerBase
     /// <param name="cancellationToken">
     ///     A cancellation token that can be used to cancel the query operation.
     /// </param>
+    [CodeGenerationIgnore]
     Task<RelatedFeaturesQueryResult?> QueryRelatedFeatures(RelationshipQuery query,
         CancellationToken cancellationToken = default);
 
@@ -58,6 +62,7 @@ public interface IFeatureLayerBase
     /// <param name="cancellationToken">
     ///     A cancellation token that can be used to cancel the query operation.
     /// </param>
+    [CodeGenerationIgnore]
     Task<RelatedFeaturesCountQueryResult> QueryRelatedFeaturesCount(RelationshipQuery query,
         CancellationToken cancellationToken = default);
 }

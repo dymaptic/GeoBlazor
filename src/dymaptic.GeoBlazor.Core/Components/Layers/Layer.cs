@@ -389,7 +389,10 @@ public abstract class Layer : MapComponent
     {
         LayerChanged = false;
 
-        if (CoreJsModule is null) return;
+        if (CoreJsModule is null)
+        {
+            return;
+        }
 
         if (GetType().Namespace!.Contains("Pro"))
         {

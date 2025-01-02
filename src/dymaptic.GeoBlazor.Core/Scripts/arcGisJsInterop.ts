@@ -2,6 +2,11 @@
 
 // region imports
 import {
+    buildJsFeatureLayer,
+    buildJsKMLLayer,
+    buildJsVectorTileLayer
+} from './jsBuilder.gb';
+import {
     buildDotNetBookmark,
     buildDotNetExtent,
     buildDotNetFeature,
@@ -67,6 +72,7 @@ import * as route from "@arcgis/core/rest/route";
 import * as serviceArea from "@arcgis/core/rest/serviceArea";
 import Accessor from "@arcgis/core/core/Accessor";
 import ArcGisSymbol from "@arcgis/core/symbols/Symbol";
+import AreaMeasurement2D from "@arcgis/core/widgets/AreaMeasurement2D";
 import AuthenticationManager from "./authenticationManager";
 import Basemap from "@arcgis/core/Basemap";
 import BasemapGallery from "@arcgis/core/widgets/BasemapGallery";
@@ -1468,12 +1474,14 @@ export async function addGraphic(streamRefOrGraphicObject: any, viewId: string, 
     try {
         setWaitCursor(viewId);
         let graphic: Graphic;
-        
+        let graphicId: string;
         if (streamRefOrGraphicObject.hasOwnProperty("_streamPromise")) {
             let graphics = await getGraphicsFromProtobufStream(streamRefOrGraphicObject) as any[];
             graphic = buildJsGraphic(graphics[0], viewId) as Graphic;
+            graphicId = graphics[0].id;
         } else {
             graphic = buildJsGraphic(streamRefOrGraphicObject, viewId) as Graphic;
+            graphicId = streamRefOrGraphicObject.id;
         }
         let view = arcGisObjectRefs[viewId] as View;
         if (hasValue(layerId)) {
@@ -1486,7 +1494,7 @@ export async function addGraphic(streamRefOrGraphicObject: any, viewId: string, 
             }
             view.graphics?.add(graphic);
         }
-        
+        graphicsRefs[graphicId] = graphic;
         unsetWaitCursor(viewId);
     } catch (error) {
         logError(error, viewId);
@@ -2153,9 +2161,9 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
         case 'areaMeasurement2D':
             newWidget = new AreaMeasurement2D({
                 view: view,
-                viewModel: widget.AreaMeasurement2DViewModel ?? undefined,
-                unit: widget.unit ?? undefined,
-                unitOptions: widget.unitOptions ?? undefined
+                viewModel: dotNetWidget.AreaMeasurement2DViewModel ?? undefined,
+                unit: dotNetWidget.unit ?? undefined,
+                unitOptions: dotNetWidget.unitOptions ?? undefined
             });
             break;
         case 'bookmarks':
@@ -2454,7 +2462,7 @@ export async function addLayer(layerObject: any, viewId: string, isBasemapLayer?
     }
 }
 
-export async function createLayer(dotNetLayer: any, wrap?: boolean | null, viewId?: string | null): Promise<Layer | null> {
+export async function createLayer(dotNetLayer: any, wrap: boolean | null, viewId: string | null): Promise<Layer | null> {
     if (arcGisObjectRefs.hasOwnProperty(dotNetLayer.id)) {
         let oldLayer = arcGisObjectRefs[dotNetLayer.id] as Layer;
         if (!oldLayer.destroyed) {
@@ -2784,6 +2792,18 @@ export async function createLayer(dotNetLayer: any, wrap?: boolean | null, viewI
 
             newLayer = imageryTileLayer;
             break;
+        case 'feature':
+            newLayer = await buildJsFeatureLayer(dotNetLayer, viewId);
+
+            break;
+        case 'kml':
+            newLayer = await buildJsKMLLayer(dotNetLayer);
+
+            break;
+        case 'vector-tile':
+            newLayer = await buildJsVectorTileLayer(dotNetLayer);
+
+            break;
          default:
             return null;
     }
@@ -2843,6 +2863,16 @@ export async function getObjectReference(objectRef: any) {
             return new SliderWidgetWrapper(objectRef);
         }
         
+        let { default: KMLLayer } = await import ('@arcgis/core/layers/KMLLayer');
+        if (objectRef instanceof KMLLayer) {
+            let { default: KMLLayerWrapper } = await import('./kMLLayer');
+            return new KMLLayerWrapper(objectRef);
+        }
+        let { default: VectorTileLayer } = await import ('@arcgis/core/layers/VectorTileLayer');
+        if (objectRef instanceof VectorTileLayer) {
+            let { default: VectorTileLayerWrapper } = await import('./vectorTileLayer');
+            return new VectorTileLayerWrapper(objectRef);
+        }
         // return default arcgis object -- do not remove this comment, necessary for code-gen
         return objectRef;
     }
@@ -3422,10 +3452,11 @@ export function createAbortControllerAndSignal() {
         // @ts-ignore
         abortSignalRef: DotNet.createJSObjectReference(signal)
     }
+}
 
 export async function takeScreenshot(viewId, options): Promise<any> {
     let view = arcGisObjectRefs[viewId] as MapView;
-    let screenshot: Screenshot;
+    let screenshot : __esri.Screenshot;
     if (hasValue(options)) {
         if (hasValue(options.layerIds) && options.layerIds.length > 0) {
             options.layers = options.layerIds.map(id => arcGisObjectRefs[id]);

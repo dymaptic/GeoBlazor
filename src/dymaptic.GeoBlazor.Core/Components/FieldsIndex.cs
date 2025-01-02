@@ -1,4 +1,4 @@
-namespace dymaptic.GeoBlazor.Core.Components.Layers;
+namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     This class provides convenient methods that can be used to make case-insensitive lookups for a field by its name. It also provides more information such as the list of date fields in a layer.
@@ -23,6 +23,7 @@ public class FieldsIndex : MapComponent
     /// <param name="fieldName">
     ///     The name of the field. The name is case-insensitive.
     /// </param>
+    [ArcGISMethod]
     public async Task<Field> Get(string fieldName)
     {
         return await JsFieldsReference.InvokeAsync<Field>("get", fieldName);
@@ -42,6 +43,7 @@ public class FieldsIndex : MapComponent
     ///     For DateOnly, TimeOnly, or TimeStampOffset Fields: Returns null.
     ///     All other fields return null.
     /// </returns>
+    [ArcGISMethod]
     public async Task<string?> GetTimeZone(string fieldName)
     {
         return await JsFieldsReference.InvokeAsync<string>("getTimeZone", fieldName);
@@ -53,6 +55,7 @@ public class FieldsIndex : MapComponent
     /// <param name="fieldName">
     ///     The name of the field. The name is case-insensitive.
     /// </param>
+    [ArcGISMethod]
     public async Task<bool> Has(string fieldName)
     {
         return await JsFieldsReference.InvokeAsync<bool>("has", fieldName);
@@ -64,6 +67,7 @@ public class FieldsIndex : MapComponent
     /// <param name="fieldName">
     ///     The name of the field.
     /// </param>
+    [ArcGISMethod]
     public async Task<bool> IsDateField(string fieldName)
     {
         return await JsFieldsReference.InvokeAsync<bool>("isDateField", fieldName);

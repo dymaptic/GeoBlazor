@@ -1,4 +1,4 @@
-﻿namespace dymaptic.GeoBlazor.Core.Components.Renderers.ColorRamps;
+﻿namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     A ColorRamp object is used to specify a range of colors that are applied to a group of symbols or pixels.

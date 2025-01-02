@@ -9,6 +9,7 @@ public class NoData : MapComponent
     /// <summary>
     ///     Constructor for use as a razor component
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public NoData()
     {
     }

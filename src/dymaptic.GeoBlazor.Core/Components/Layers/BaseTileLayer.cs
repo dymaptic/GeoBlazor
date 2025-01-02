@@ -111,6 +111,7 @@ public class BaseTileLayer : Layer
     /// <returns>
     ///     Returns an array with the following structure: [xmin, ymin, xmax, ymax]
     /// </returns>
+    [CodeGenerationIgnore]
     public async Task<double[]> GetTileBounds(int level, int row, int col)
     {
         return await JsComponentReference!.InvokeAsync<double[]>("getTileBounds", level, row, col);

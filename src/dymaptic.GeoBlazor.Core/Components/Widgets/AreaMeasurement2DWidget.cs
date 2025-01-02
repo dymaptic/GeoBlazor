@@ -16,7 +16,7 @@ public class AreaMeasurement2DWidget : Widget
 {
     /// <inheritdoc />
     [JsonPropertyName("type")]
-    public override string WidgetType => "areaMeasurement2D";
+    public override WidgetType Type => WidgetType.AreaMeasurement2D;
 
     /// <summary>
     ///     A .NET object reference for calling this class from JavaScript.

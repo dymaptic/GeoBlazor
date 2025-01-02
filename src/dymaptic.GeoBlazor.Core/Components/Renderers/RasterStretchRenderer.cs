@@ -51,7 +51,7 @@ public class RasterStretchRenderer : MapComponent, IImageryRenderer
     /// </param>
     public RasterStretchRenderer(ColorRamp? colorRamp = null, bool? computeGamma = null, 
         bool? dynamicRangeAdjustment = null, List<int>? gamma = null, int? outputMax = null, int? outputMin = null,
-        StretchType? stretchType = null, RasterStatistics[]? statistics = null, bool? useGamma = null, 
+        StretchType? stretchType = null, RasterBandStatistics[]? statistics = null, bool? useGamma = null, 
         int? numberOfStandardDeviations = null)
     {
 #pragma warning disable BL0005
@@ -122,7 +122,7 @@ public class RasterStretchRenderer : MapComponent, IImageryRenderer
     ///     The input statistics can be specified through the statistics property.
     /// </summary>
     [Parameter]
-    public RasterStatistics[]? Statistics { get;  set; }
+    public RasterBandStatistics[]? Statistics { get;  set; }
 
     /// <summary>
     ///     Denotes whether the gamma value should be used.

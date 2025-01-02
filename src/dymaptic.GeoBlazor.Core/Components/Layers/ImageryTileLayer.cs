@@ -294,7 +294,10 @@ public class ImageryTileLayer : Layer, IPopupTemplateLayer
     {
         Renderer = renderer;
 
-        if (JsComponentReference is null) return;
+        if (JsComponentReference is null)
+        {
+            return;
+        }
 
         await JsComponentReference.InvokeVoidAsync("setRenderer", renderer);
     }

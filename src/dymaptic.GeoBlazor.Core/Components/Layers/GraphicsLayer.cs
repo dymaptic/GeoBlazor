@@ -112,6 +112,7 @@ public class GraphicsLayer : Layer
     ///     A collection of <see cref="Graphic" />s in the layer.
     /// </summary>
     [JsonConverter(typeof(GraphicsToSerializationConverter))]
+[CodeGenerationIgnore]
     public IReadOnlyCollection<Graphic> Graphics
     {
         get => _graphics;
@@ -127,6 +128,7 @@ public class GraphicsLayer : Layer
     /// <param name="graphic">
     ///     The graphic to add
     /// </param>
+[ArcGISMethod]
     public Task Add(Graphic graphic)
     {
         return Add(new[] { graphic });
@@ -279,6 +281,7 @@ public class GraphicsLayer : Layer
     /// <param name="graphic">
     ///     The graphic to remove
     /// </param>
+    [ArcGISMethod]
     public Task Remove(Graphic graphic)
     {
         return UnregisterChildComponent(graphic);
@@ -454,7 +457,6 @@ internal class GraphicsToSerializationConverter : JsonConverter<IReadOnlyCollect
 [ProtoContract]
 internal record ProtoGraphicCollection
 {
-    [ActivatorUtilitiesConstructor]
     public ProtoGraphicCollection()
     {
     }

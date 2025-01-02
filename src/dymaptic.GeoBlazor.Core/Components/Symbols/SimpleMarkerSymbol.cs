@@ -69,7 +69,7 @@ public class SimpleMarkerSymbol : MarkerSymbol
     public Dimension? Size { get; set; }
 
     /// <inheritdoc />
-    public override string Type => "simple-marker";
+    public override SymbolType Type => SymbolType.SimpleMarker;
 
     /// <summary>
     ///     The marker style.
@@ -122,7 +122,7 @@ public class SimpleMarkerSymbol : MarkerSymbol
 
     internal override SymbolSerializationRecord ToSerializationRecord()
     {
-        return new SymbolSerializationRecord(Type, Color)
+        return new SymbolSerializationRecord(Type.ToString().ToKebabCase(), Color)
         {
             Outline = Outline?.ToSerializationRecord(),
             Size = Size?.Points,

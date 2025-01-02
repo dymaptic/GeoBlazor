@@ -46,7 +46,7 @@ public class SimpleFillSymbol : FillSymbol
     public SimpleFillSymbolStyle? Style { get; set; }
 
     /// <inheritdoc />
-    public override string Type => "simple-fill";
+    public override SymbolType Type => SymbolType.SimpleFill;
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
@@ -92,7 +92,7 @@ public class SimpleFillSymbol : FillSymbol
 
     internal override SymbolSerializationRecord ToSerializationRecord()
     {
-        return new SymbolSerializationRecord(Type, Color)
+        return new SymbolSerializationRecord(Type.ToString().ToKebabCase(), Color)
         {
             Outline = Outline?.ToSerializationRecord(), 
             Style = Style?.ToString().ToKebabCase()

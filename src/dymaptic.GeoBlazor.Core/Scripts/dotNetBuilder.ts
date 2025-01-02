@@ -149,6 +149,9 @@ export function buildDotNetGraphic(graphic: Graphic): DotNetGraphic | null {
 
     dotNetGraphic.uid = (graphic as any).uid;
     dotNetGraphic.attributes = graphic.attributes ?? {};
+    dotNetGraphic.visible = graphic.visible;
+    dotNetGraphic.aggregateGeometries = graphic.aggregateGeometries;
+    
     if (graphic.symbol !== undefined && graphic.symbol !== null) {
         dotNetGraphic.symbol = buildDotNetSymbol(graphic.symbol);
     }
