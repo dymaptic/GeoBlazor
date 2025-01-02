@@ -13,7 +13,10 @@
 <button disabled="@(!_mapRendered)" @onclick="(()=>_markup = !_markup)">Add/Remove new WCS Layer in Markup without colorizing</button>
 
 <MapView @ref="_view" class="map-view" OnViewRendered="OnViewRendered">
-    <Map ArcGISDefaultBasemap="arcgis-light-gray">
+    <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisLightGray" />
+        </Basemap>
         @if (_markup)
         {
             <WCSLayer Url="https://sampleserver6.arcgisonline.com/arcgis/services/ScientificData/SeaTemperature/ImageServer/WCSServer?request=GetCapabilities&service=WCS"></WCSLayer>
@@ -46,7 +49,7 @@
         // initializes the dimensional filter for the raster display
         List<DimensionalDefinition> multidimensionalDefinition = new()
             {
-                new(dimensionName: "StdZ", variableName: "water_temp", values: new List<long> { 0 }), 
+                new(dimensionName: "StdZ", variableName: "water_temp", values: new List<long> { 0 }),
                 new(dimensionName: "Std_Time", variableName: "temperature", values: new List<long>{ 1396828800000 } )
             };
         return multidimensionalDefinition;
@@ -61,12 +64,12 @@
 
         var toFromColor3 = new AlgorithmicColorRamp(algorithm: Algorithm.Hsv, fromColor: new MapColor(255, 255, 0), toColor: new MapColor(255, 0, 0));
 
-        List<AlgorithmicColorRamp> wcsLayerColorRamps = new() {toFromColor1,toFromColor2,toFromColor3};
+        List<AlgorithmicColorRamp> wcsLayerColorRamps = new() { toFromColor1, toFromColor2, toFromColor3 };
 
         MultipartColorRamp wcsLayercolorRamp = new(wcsLayerColorRamps);
         RasterStatistics wcsLayerStatistics = new(-3, 37, 1, 1);
-        RasterStretchRenderer displayRenderer = new(colorRamp: wcsLayercolorRamp, 
-            stretchType: StretchType.StandardDeviation, statistics: [wcsLayerStatistics], 
+        RasterStretchRenderer displayRenderer = new(colorRamp: wcsLayercolorRamp,
+            stretchType: StretchType.StandardDeviation, statistics: [wcsLayerStatistics],
             numberOfStandardDeviations: 3);
 
         return displayRenderer;

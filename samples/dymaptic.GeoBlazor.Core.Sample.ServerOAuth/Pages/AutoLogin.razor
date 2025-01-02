@@ -4,7 +4,11 @@
 <MapView Latitude="0" Longitude="0" Zoom="2"
          PromptForOAuthLogin="true"
          Style="height: 500px; width: 100%;">
-    <Map ArcGISDefaultBasemap="arcgis-topographic"></Map>
+    <Map >
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+        </Basemap>
+    </Map>
     <SearchWidget Position="OverlayPosition.TopRight" />
 </MapView>
 

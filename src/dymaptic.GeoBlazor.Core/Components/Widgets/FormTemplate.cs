@@ -1,5 +1,6 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Popups;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.DependencyInjection;
 
 
 namespace dymaptic.GeoBlazor.Core.Components.Widgets;
@@ -14,6 +15,7 @@ public class FormTemplate : MapComponent
     /// <summary>
     ///     Parameterless constructor for use as a razor component
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public FormTemplate()
     {
     }

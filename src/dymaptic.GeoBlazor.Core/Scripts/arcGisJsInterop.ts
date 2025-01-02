@@ -27,6 +27,8 @@ import Search from "@arcgis/core/widgets/Search";
 import Locate from "@arcgis/core/widgets/Locate";
 import Widget from "@arcgis/core/widgets/Widget";
 import Measurement from "@arcgis/core/widgets/Measurement";
+import AreaMeasurement2D from "@arcgis/core/widgets/AreaMeasurement2D";
+import AreaMeasurement2DViewModel from "@arcgis/core/widgets/AreaMeasurement2D/AreaMeasurement2DViewModel";
 import Bookmarks from "@arcgis/core/widgets/Bookmarks";
 import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
@@ -158,6 +160,7 @@ export let dotNetRefs = {};
 export let queryLayer: FeatureLayer;
 export let blazorServer: boolean = false;
 import normalizeUtils from "@arcgis/core/geometry/support/normalizeUtils";
+import Screenshot = __esri.Screenshot;
 export { projection, geometryEngine, Graphic, Color, Point, Polyline, Polygon, normalizeUtils, esriConfig };
 let notifyExtentChanged: boolean = true;
 let uploadingLayers: Array<string> = [];
@@ -2061,7 +2064,7 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
                 };
             }
             if (hasValue(widget.hasCustomReferenceListHandler) && widget.hasCustomReferenceListHandler) {
-                basemapLayerListWidget.baseListItemCreatedFunction = async (evt) => {
+                basemapLayerListWidget.referenceListItemCreatedFunction = async (evt) => {
                     let dotNetReferenceListItem = buildDotNetListItem(evt.item);
                     let returnItem = await widget.baseLayerListWidgetObjectReference.invokeMethodAsync('OnReferenceListItemCreated', dotNetReferenceListItem) as DotNetListItem;
                     if (hasValue(returnItem) && hasValue(evt.item)) {
@@ -2153,6 +2156,14 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
                 areaUnit: widget.areaUnit ?? undefined,
                 linearUnit: widget.linearUnit ?? undefined,
                 icon: widget.icon ?? undefined,
+            });
+            break;
+        case 'areaMeasurement2D':
+            newWidget = new AreaMeasurement2D({
+                view: view,
+                viewModel: widget.AreaMeasurement2DViewModel ?? undefined,
+                unit: widget.unit ?? undefined,
+                unitOptions: widget.unitOptions ?? undefined
             });
             break;
         case 'bookmarks':
@@ -3354,4 +3365,41 @@ export function setStretchTypeForRenderer(rendererId, stretchType) {
 
 export function getBrowserLanguage(): string {
     return navigator.language;
+}
+
+
+export async function takeScreenshot(viewId, options): Promise<any> {
+    let view = arcGisObjectRefs[viewId] as MapView;
+    let screenshot: Screenshot;
+    if (hasValue(options)) {
+        if (hasValue(options.layerIds) && options.layerIds.length > 0) {
+            options.layers = options.layerIds.map(id => arcGisObjectRefs[id]);
+            delete options.layerIds;
+        }
+        screenshot = await view.takeScreenshot(options);
+    } else {
+        screenshot = await view.takeScreenshot();
+    }
+    
+    let buffer = base64ToArrayBuffer(screenshot.dataUrl.split(",")[1]);
+    
+    // @ts-ignore
+    let jsStreamRef = DotNet.createJSStreamReference(buffer);
+    
+    return {
+        width: screenshot.data.width,
+        height: screenshot.data.height,
+        colorSpace: screenshot.data.colorSpace,
+        stream: jsStreamRef
+    };
+}
+
+// Converts a base64 string to an ArrayBuffer
+function base64ToArrayBuffer(base64): Uint8Array {
+    const binaryString = atob(base64);
+    const bytes = new Uint8Array(binaryString.length);
+    for (let i = 0; i < binaryString.length; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+    }
+    return bytes;
 }

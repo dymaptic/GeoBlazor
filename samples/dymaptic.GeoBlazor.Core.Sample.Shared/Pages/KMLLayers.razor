@@ -7,15 +7,18 @@
     <a class="btn btn-primary" target="_blank" href="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/US_National_Parks_Annual_Visitation/FeatureServer/0">USGS Earthquake Hazards Program Monitoring Center</a>
 </div>
 <Label>The sample KML Layer uses a URL to see major earthquakes for latest 30 days from USGS to the map database :</Label>
-    <InputText @bind-Value="_kmlLayerUrl"></InputText>
-<br/>
+<InputText @bind-Value="_kmlLayerUrl"></InputText>
+<br />
 <Label>Click the buttons below to see the different ways to display a KML layer</Label>
 <button disabled="@(!_mapRendered)" @onclick="(()=>AddRemoveKMLLayer())">Add or Remove KML Layer in code</button>
 <button disabled="@(!_mapRendered)" @onclick="(()=>_markup = !_markup)">Add new KML Layer in Markup</button>
 
 
 <MapView @ref="_view" class="map-view" OnViewRendered="OnViewRendered" Scale="0">
-    <Map ArcGISDefaultBasemap="dark-gray-vector">
+    <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisDarkGrayBase" />
+        </Basemap>
         @if (_markup)
         {
             <KMLLayer Url="@_kmlLayerUrl" Title="Major EarthQuakes Query Result"></KMLLayer>

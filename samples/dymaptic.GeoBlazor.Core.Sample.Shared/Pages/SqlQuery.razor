@@ -13,7 +13,11 @@
          Latitude="34.03000"
          Zoom="13"
          Class="map-view">
-    <Map ArcGISDefaultBasemap="arcgis-navigation" />
+    <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisNavigation" />
+        </Basemap>
+    </Map>
 
     <CustomOverlay Position="OverlayPosition.TopRight">
         <select class="esri-widget esri-select demo-select" @onchange="OnSqlQueryChanged">
@@ -53,16 +57,16 @@
         if (whereClause == _parcelLayerSql[0]) return;
 
         var query = new Query
-        {
-            Where = whereClause,
-            OutFields = new HashSet<string>
+            {
+                Where = whereClause,
+                OutFields = new HashSet<string>
             {
                 "APN", "UseType", "TaxRateCity", "Roll_LandValue"
             },
-            ReturnGeometry = true,
-            SpatialRelationship = SpatialRelationship.Intersects,
-            UseViewExtent = true
-        };
+                ReturnGeometry = true,
+                SpatialRelationship = SpatialRelationship.Intersects,
+                UseViewExtent = true
+            };
         await View!.QueryFeatures(query, QueryFeatureLayer!, Symbol!, Popup!);
     }
 

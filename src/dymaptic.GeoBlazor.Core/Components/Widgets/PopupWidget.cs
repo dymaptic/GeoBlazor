@@ -1,10 +1,10 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
 using dymaptic.GeoBlazor.Core.Components.Layers;
 using dymaptic.GeoBlazor.Core.Components.Popups;
-using dymaptic.GeoBlazor.Core.Components.Symbols;
 using dymaptic.GeoBlazor.Core.Components.Views;
 using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -428,6 +428,7 @@ public class PopupDockOptions : MapComponent
     /// <summary>
     ///     Parameterless constructor for use as a razor component.
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public PopupDockOptions()
     {
     }
@@ -538,6 +539,7 @@ public class PopupVisibleElements : MapComponent
     /// <summary>
     ///     Parameterless constructor for use as a razor component.
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public PopupVisibleElements()
     {
     }

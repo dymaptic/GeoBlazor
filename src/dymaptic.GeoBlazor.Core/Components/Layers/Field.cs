@@ -1,6 +1,7 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Widgets;
 using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json.Serialization;
 
 
@@ -16,6 +17,7 @@ public class Field : MapComponent
     /// <summary>
     ///     Parameterless constructor for use as a razor component
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public Field()
     {
     }
