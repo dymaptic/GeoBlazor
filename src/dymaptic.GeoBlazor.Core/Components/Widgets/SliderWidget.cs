@@ -103,9 +103,9 @@ public class SliderWidget: Widget
         SliderLayout? layout = null, double? max = null, double? min = null, double? precision = null, 
         bool? rangeLabelInputsEnabled = null, bool? snapOnClickEnabled = null, double[]? steps = null, 
         double? stepInterval = null, bool? syncedSegmentsEnabled = null, bool? thumbsConstrained = null, 
-        IReadOnlyCollection<double>? values = null, string? inputCreatedFunction = null, 
+        IReadOnlyList<double>? values = null, string? inputCreatedFunction = null, 
         string? inputFormatFunction = null, string? inputParseFunction = null, string? labelFormatFunction = null,
-        string? thumbCreatedFunction = null, IReadOnlyCollection<SliderTickConfig>? tickConfigs = null,
+        string? thumbCreatedFunction = null, IReadOnlyList<SliderTickConfig>? tickConfigs = null,
         bool? visible = null, SliderVisibleElements? visibleElements = null)
     {
 #pragma warning disable BL0005
@@ -242,7 +242,7 @@ public class SliderWidget: Widget
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyCollection<double>? Steps { get; set; }
+    public IReadOnlyList<double>? Steps { get; set; }
     
     /// <summary>
     ///     The interval in which slider thumbs can be moved. Use either this or <see cref="Steps"/>.
@@ -272,7 +272,7 @@ public class SliderWidget: Widget
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyCollection<double>? Values { get; set; }
+    public IReadOnlyList<double>? Values { get; set; }
     
     /// <summary>
     ///     A function that provides the developer with access to the input elements when rangeLabelInputsEnabled and/or labelInputsEnabled are set to true. This allows the developer to customize the input elements corresponding to slider min/max and thumb values to validate user input. For example, you can access input elements and customize them with type and pattern attributes.
@@ -588,31 +588,31 @@ public class SliderWidget: Widget
     /// <summary>
     ///     Retrieves references to the HTML Element nodes representing the slider segment between the min and effectiveMin, and the segment between the effectiveMax and max. You can use this method to customize the style and attach event handlers to these segments. This only applies to sliders where the effectiveMin and effectiveMax are specified.
     /// </summary>
-    public async Task<ElementReference[]?> GetEffectiveSegmentElements()
+    public async Task<IReadOnlyList<ElementReference>?> GetEffectiveSegmentElements()
     {
         if (JsComponentReference is null) return null;
         
-        return await JsComponentReference.InvokeAsync<ElementReference[]>("getEffectiveSegmentElements");
+        return await JsComponentReference.InvokeAsync<IReadOnlyList<ElementReference>>("getEffectiveSegmentElements");
     }
 
     /// <summary>
     ///     Retrieves references to the HTML Element nodes representing labels attached to slider thumbs. You can use this property to customize the style of labels and attach event handlers to each element.
     /// </summary>
-    public async Task<ElementReference[]?> GetLabelElements()
+    public async Task<IReadOnlyList<ElementReference>?> GetLabelElements()
     {
         if (JsComponentReference is null) return null;
         
-        return await JsComponentReference.InvokeAsync<ElementReference[]>("getLabelElements");
+        return await JsComponentReference.InvokeAsync<IReadOnlyList<ElementReference>>("getLabelElements");
     }
 
     /// <summary>
     ///     Retrieves an array of strings associated with 'values' generated using an internal label formatter or the values returned from labelFormatFunction.
     /// </summary>
-    public async Task<string[]?> GetLabels()
+    public async Task<IReadOnlyList<string>?> GetLabels()
     {
         if (JsComponentReference is null) return null;
         
-        return await JsComponentReference.InvokeAsync<string[]>("getLabels");
+        return await JsComponentReference.InvokeAsync<IReadOnlyList<string>>("getLabels");
     }
     
     /// <summary>
@@ -638,11 +638,11 @@ public class SliderWidget: Widget
     /// <summary>
     ///     Retrieves the HTML Element nodes representing interactive slider segments. Segments are interactive when situated between two thumbs. You can use this property to customize the style and attach event handlers to segments.
     /// </summary>
-    public async Task<ElementReference[]?> GetSegmentElements()
+    public async Task<IReadOnlyList<ElementReference>?> GetSegmentElements()
     {
         if (JsComponentReference is null) return null;
         
-        return await JsComponentReference.InvokeAsync<ElementReference[]>("getSegmentElements");
+        return await JsComponentReference.InvokeAsync<IReadOnlyList<ElementReference>>("getSegmentElements");
     }
 
     /// <summary>
@@ -658,11 +658,11 @@ public class SliderWidget: Widget
     /// <summary>
     ///     Retrieves references to the HTML Element nodes representing slider thumbs. You can use this property to customize the style of thumbs and attach event handlers to each thumb.
     /// </summary>
-    public async Task<ElementReference[]?> GetThumbElements()
+    public async Task<IReadOnlyList<ElementReference>?> GetThumbElements()
     {
         if (JsComponentReference is null) return null;
         
-        return await JsComponentReference.InvokeAsync<ElementReference[]>("getThumbElements");
+        return await JsComponentReference.InvokeAsync<IReadOnlyList<ElementReference>>("getThumbElements");
     }
     
     /// <summary>
@@ -712,7 +712,7 @@ public class SliderWidget: Widget
     /// <summary>
     ///     Updates the <see cref="Values"/> after initial render.
     /// </summary>
-    public async Task SetValues(IReadOnlyCollection<double> values)
+    public async Task SetValues(IReadOnlyList<double> values)
     {
         Values = values;
         
@@ -736,7 +736,7 @@ public class SliderWidget: Widget
     /// <summary>
     ///     Updates the <see cref="Steps"/> value after initial render.
     /// </summary>
-    public async Task SetSteps(IReadOnlyCollection<double> steps)
+    public async Task SetSteps(IReadOnlyList<double> steps)
     {
         Steps = steps;
         
@@ -834,7 +834,7 @@ public class SliderTickConfig: MapComponent
     ///     Callback for formatting tick labels.
     /// </param>
     public SliderTickConfig(TickConfigMode? mode = null, double? singleValue = null,
-        IReadOnlyCollection<double>? values = null, bool? labelsVisible = null, 
+        IReadOnlyList<double>? values = null, bool? labelsVisible = null, 
         string? tickCreatedFunction = null, string? labelFormatFunction = null)
     {
 #pragma warning disable BL0005
@@ -866,7 +866,7 @@ public class SliderTickConfig: MapComponent
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyCollection<double>? Values { get; set; }
+    public IReadOnlyList<double>? Values { get; set; }
     
     /// <summary>
     ///     Indicates whether to render labels for the ticks.

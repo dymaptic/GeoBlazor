@@ -108,7 +108,7 @@
         IJSObjectReference module = await JsRuntime.InvokeAsync<IJSObjectReference>("import",
             "./_content/dymaptic.GeoBlazor.Core.Sample.Shared/js/extensions.js");
         await module.InvokeVoidAsync("drawWithGeodesicBufferOnPointer", View.CoreJsModule, PointSym, PolySym, 1000,
-            LinearUnit.Kilometers, View.Id);
+            GeometryEngineLinearUnit.Kilometers, View.Id);
     }
 
     private async Task DisplayCoordinates(Point? center)

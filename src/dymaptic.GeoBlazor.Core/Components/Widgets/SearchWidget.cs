@@ -316,9 +316,9 @@ public class SearchWidget : Widget
     /// <summary>
     ///     Retrieves an array of objects, each containing a SearchResult from the search.
     /// </summary>
-    public async Task<IReadOnlyList<SearchResultResponse>> GetResults()
+    public async Task<SearchResultResponse[]> GetResults()
     {
-        return await JsComponentReference!.InvokeAsync<IReadOnlyList<SearchResultResponse>>("getResults");
+        return await JsComponentReference!.InvokeAsync<SearchResultResponse[]>("getResults");
     }
 
     /// <summary>

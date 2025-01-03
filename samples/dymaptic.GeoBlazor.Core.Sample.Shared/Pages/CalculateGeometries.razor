@@ -59,7 +59,7 @@
     {
         if (_bufferPolygon is not null) return;
 
-        _bufferPolygon = await GeometryEngine.GeodesicBuffer(PointGeometry!, 1, LinearUnit.Kilometers);
+        _bufferPolygon = await GeometryEngine.GeodesicBuffer(PointGeometry!, 1, GeometryEngineLinearUnit.Kilometers);
         _bufferGraphic = new Graphic(_bufferPolygon, _bufferGraphicFill);
         await GraphicsLayer!.Add(_bufferGraphic);
     }

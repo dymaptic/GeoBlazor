@@ -157,7 +157,7 @@ public record TopFeaturesQuery
     ///     parameter only applies if the layer's capabilities.query.supportsDistance is true.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public LinearUnit? Units { get; set; }
+    public GeometryEngineLinearUnit? Units { get; set; }
 
     /// <summary>
     ///     A where clause for the query. Any legal SQL where clause operating on the fields in the layer is allowed. Be sure

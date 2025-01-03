@@ -20,7 +20,7 @@ public class GeometryEngineTests : TestRunnerBase
     public async Task TestBufferWithProjectedPoint()
     {
         var point = new Point(0, 0, spatialReference: new SpatialReference(103002));
-        Polygon buffer = await GeometryEngine.Buffer(point, 10.0, LinearUnit.Feet);
+        Polygon buffer = await GeometryEngine.Buffer(point, 10.0, GeometryEngineLinearUnit.Feet);
         Assert.IsNotNull(buffer);
     }
 
@@ -28,7 +28,7 @@ public class GeometryEngineTests : TestRunnerBase
     public async Task TestBufferWithWgs84PointThrowsJavaScriptError()
     {
         var point = new Point(0, 0, spatialReference: new SpatialReference(4326));
-        await Assert.ThrowsExceptionAsync<JSException>(() => GeometryEngine.Buffer(point, 10.0, LinearUnit.Feet));
+        await Assert.ThrowsExceptionAsync<JSException>(() => GeometryEngine.Buffer(point, 10.0, GeometryEngineLinearUnit.Feet));
     }
 
     [TestMethod]
@@ -38,7 +38,7 @@ public class GeometryEngineTests : TestRunnerBase
         var point2 = new Point(10, 10, spatialReference: new SpatialReference(103002));
 
         Polygon[] buffers =
-            await GeometryEngine.Buffer(new[] { point1, point2 }, new[] { 10.0, 20.0 }, LinearUnit.Feet);
+            await GeometryEngine.Buffer(new[] { point1, point2 }, new[] { 10.0, 20.0 }, GeometryEngineLinearUnit.Feet);
         Assert.IsNotNull(buffers);
         Assert.AreEqual(2, buffers.Length);
     }
@@ -50,7 +50,7 @@ public class GeometryEngineTests : TestRunnerBase
         var point2 = new Point(10, 10, spatialReference: new SpatialReference(103002));
 
         Polygon[] buffers =
-            await GeometryEngine.Buffer(new[] { point1, point2 }, new[] { 10.0, 20.0 }, LinearUnit.Feet, true);
+            await GeometryEngine.Buffer(new[] { point1, point2 }, new[] { 10.0, 20.0 }, GeometryEngineLinearUnit.Feet, true);
         Assert.IsNotNull(buffers);
         Assert.AreEqual(1, buffers.Length);
     }
@@ -178,7 +178,7 @@ public class GeometryEngineTests : TestRunnerBase
             }
         };
         var polyline = new Polyline(mapPaths, new SpatialReference(102100));
-        Polygon buffer = await GeometryEngine.Buffer(polyline, 20, LinearUnit.Yards);
+        Polygon buffer = await GeometryEngine.Buffer(polyline, 20, GeometryEngineLinearUnit.Yards);
         Assert.IsNotNull(buffer);
     }
 
@@ -406,7 +406,7 @@ public class GeometryEngineTests : TestRunnerBase
                     }
                 }, new SpatialReference(103002));
 
-        Geometry densifiedPolygon = await GeometryEngine.Densify(boundaryPolygon, 1, LinearUnit.Feet);
+        Geometry densifiedPolygon = await GeometryEngine.Densify(boundaryPolygon, 1, GeometryEngineLinearUnit.Feet);
 
         Assert.AreNotEqual(boundaryPolygon, densifiedPolygon);
     }
@@ -574,7 +574,7 @@ public class GeometryEngineTests : TestRunnerBase
         var point1 = new Point(0, 0, spatialReference: new SpatialReference(103002));
         var point2 = new Point(10, 10, spatialReference: new SpatialReference(103002));
 
-        double distance = await GeometryEngine.Distance(point1, point2, LinearUnit.Feet);
+        double distance = await GeometryEngine.Distance(point1, point2, GeometryEngineLinearUnit.Feet);
 
         Assert.AreNotEqual(0, distance);
     }
@@ -748,7 +748,7 @@ public class GeometryEngineTests : TestRunnerBase
 
         var generalizedPolygon =
             await GeometryEngine.Generalize(complexPolygon, 1, true,
-                LinearUnit.Feet) as Polygon;
+                GeometryEngineLinearUnit.Feet) as Polygon;
         Assert.IsNotNull(generalizedPolygon);
         Assert.AreNotEqual(complexPolygon, generalizedPolygon);
 
@@ -811,7 +811,7 @@ public class GeometryEngineTests : TestRunnerBase
             }
         });
 
-        Polygon bufferedPolygon = await GeometryEngine.GeodesicBuffer(polygon, 10, LinearUnit.Feet);
+        Polygon bufferedPolygon = await GeometryEngine.GeodesicBuffer(polygon, 10, GeometryEngineLinearUnit.Feet);
 
         Assert.IsNotNull(bufferedPolygon);
 
@@ -847,7 +847,7 @@ public class GeometryEngineTests : TestRunnerBase
 
         Geometry[] bufferedGeometries =
             await GeometryEngine.GeodesicBuffer(new[] { polygon1, polygon2 }, new double[] { 10, 15 },
-                LinearUnit.Feet);
+                GeometryEngineLinearUnit.Feet);
 
         Assert.IsNotNull(bufferedGeometries);
         Assert.AreEqual(2, bufferedGeometries.Length);
@@ -864,7 +864,7 @@ public class GeometryEngineTests : TestRunnerBase
                     new() { new MapPoint(0, 0), new MapPoint(0, 10), new MapPoint(10, 10), new MapPoint(10, 0) }
                 }, new SpatialReference(102100));
 
-        var densifiedPolygon = await GeometryEngine.GeodesicDensify(polygon, 100, LinearUnit.Feet) as Polygon;
+        var densifiedPolygon = await GeometryEngine.GeodesicDensify(polygon, 100, GeometryEngineLinearUnit.Feet) as Polygon;
 
         Assert.IsNotNull(densifiedPolygon);
         Assert.AreNotEqual(densifiedPolygon, polygon);
@@ -885,7 +885,7 @@ public class GeometryEngineTests : TestRunnerBase
             }
         });
 
-        double length = await GeometryEngine.GeodesicLength(polygon, LinearUnit.Feet);
+        double length = await GeometryEngine.GeodesicLength(polygon, GeometryEngineLinearUnit.Feet);
 
         Assert.IsTrue(length > 0);
     }
@@ -1097,7 +1097,7 @@ public class GeometryEngineTests : TestRunnerBase
                     }
                 }, new SpatialReference(102100));
 
-        Geometry offset = await GeometryEngine.Offset(polygon, 10, LinearUnit.Feet, JoinType.Bevel);
+        Geometry offset = await GeometryEngine.Offset(polygon, 10, GeometryEngineLinearUnit.Feet, JoinType.Bevel);
 
         Assert.IsNotNull(offset);
         Assert.AreNotEqual(polygon, offset);
@@ -1138,7 +1138,7 @@ public class GeometryEngineTests : TestRunnerBase
 
         Geometry[] geometries = { polygon1, polygon2 };
 
-        Geometry[] offset = await GeometryEngine.Offset(geometries, 10, LinearUnit.Feet, JoinType.Bevel);
+        Geometry[] offset = await GeometryEngine.Offset(geometries, 10, GeometryEngineLinearUnit.Feet, JoinType.Bevel);
 
         Assert.IsNotNull(offset);
 
@@ -1239,7 +1239,7 @@ public class GeometryEngineTests : TestRunnerBase
                     new() { new MapPoint(0, 0), new MapPoint(0, 10), new MapPoint(10, 10), new MapPoint(10, 0) }
                 }, new SpatialReference(102100));
 
-        double length = await GeometryEngine.PlanarLength(polyline, LinearUnit.Kilometers);
+        double length = await GeometryEngine.PlanarLength(polyline, GeometryEngineLinearUnit.Kilometers);
 
         Assert.IsTrue(length > 0);
     }

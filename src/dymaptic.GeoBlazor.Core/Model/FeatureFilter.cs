@@ -53,7 +53,7 @@ public class FeatureFilter: MapComponent
         IReadOnlyList<long>? objectIds = null,
         SpatialRelationship? spatialRelationship = null,
         TimeExtent? timeExtent = null,
-        LinearUnit? units = null,
+        GeometryEngineLinearUnit? units = null,
         string? where = null)
     {
 #pragma warning disable BL0005
@@ -110,7 +110,7 @@ public class FeatureFilter: MapComponent
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public LinearUnit? Units { get; set; }
+    public GeometryEngineLinearUnit? Units { get; set; }
 
     /// <summary>
     ///     A where clause for the feature filter. Any legal SQL92 where clause operating on the fields in the layer is allowed. Be sure to have the correct sequence of single and double quotes when writing the where clause in JavaScript. For apps where users can interactively change fields used for attribute filter, we suggest you include all possible fields in the outFields of the layer. This ensures the best user experience when switching or updating fields for attribute filters.

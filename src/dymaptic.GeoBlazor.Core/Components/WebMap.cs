@@ -62,14 +62,15 @@ public class WebMap : Map
     /// Gets the bookmarks defined in the WebMap from layers
     /// </summary>
     /// <returns>A list of bookmarks or null</returns>
-    public async Task<List<Bookmark>> GetBookmarks()
+    public async Task<Bookmark[]?> GetBookmarks()
     {
-        var bookmarks = new List<Bookmark>();
+        Bookmark[]? bookmarks = null;
 
         if (CoreJsModule != null)
         {
             bookmarks =
-                await CoreJsModule!.InvokeAsync<List<Bookmark>>("getWebMapBookmarks", CancellationTokenSource.Token, this.View?.Id);
+                await CoreJsModule!.InvokeAsync<Bookmark[]>("getWebMapBookmarks", 
+                    CancellationTokenSource.Token, this.View?.Id);
         }
         return bookmarks;
     }

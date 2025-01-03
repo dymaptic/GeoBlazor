@@ -60,7 +60,7 @@ public class GeometryEngine : LogicComponent
     ///     The resulting buffers.
     /// </returns>
     public async Task<Polygon[]> Buffer(IEnumerable<Geometry> geometries, IEnumerable<double> distances,
-        LinearUnit? unit = null, bool? unionResults = null)
+        GeometryEngineLinearUnit? unit = null, bool? unionResults = null)
     {
         return await InvokeAsync<Polygon[]>("buffer", geometries, distances, unit, unionResults);
     }
@@ -87,7 +87,7 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The resulting buffer.
     /// </returns>
-    public async Task<Polygon> Buffer(Geometry geometry, double distance, LinearUnit? unit = null)
+    public async Task<Polygon> Buffer(Geometry geometry, double distance, GeometryEngineLinearUnit? unit = null)
     {
         return await InvokeAsync<Polygon>("buffer", geometry, distance, unit);
     }
@@ -220,7 +220,7 @@ public class GeometryEngine : LogicComponent
     ///     The densified geometry.
     /// </returns>
     public async Task<Geometry> Densify(Geometry geometry, double maxSegmentLength,
-        LinearUnit? maxSegmentLengthUnit = null)
+        GeometryEngineLinearUnit? maxSegmentLengthUnit = null)
     {
         return await InvokeAsync<Geometry>("densify", geometry, maxSegmentLength,
             maxSegmentLengthUnit);
@@ -296,7 +296,7 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Distance between the two input geometries.
     /// </returns>
-    public async Task<double> Distance(Geometry geometry1, Geometry geometry2, LinearUnit? distanceUnit = null)
+    public async Task<double> Distance(Geometry geometry1, Geometry geometry2, GeometryEngineLinearUnit? distanceUnit = null)
     {
         return await InvokeAsync<double>("distance", geometry1, geometry2, distanceUnit);
     }
@@ -390,7 +390,7 @@ public class GeometryEngine : LogicComponent
     ///     The generalized geometry.
     /// </returns>
     public async Task<Geometry> Generalize(Geometry geometry, double maxDeviation, bool? removeDegenerateParts = null,
-        LinearUnit? maxDeviationUnit = null)
+        GeometryEngineLinearUnit? maxDeviationUnit = null)
     {
         return await InvokeAsync<Geometry>("generalize", geometry, maxDeviation,
             removeDegenerateParts, maxDeviationUnit);
@@ -454,7 +454,7 @@ public class GeometryEngine : LogicComponent
     ///     The resulting buffers
     /// </returns>
     public async Task<Polygon[]> GeodesicBuffer(IEnumerable<Geometry> geometries, IEnumerable<double> distances,
-        LinearUnit? unit = null, bool? unionResults = null)
+        GeometryEngineLinearUnit? unit = null, bool? unionResults = null)
     {
         return await InvokeAsync<Polygon[]>("geodesicBuffer", geometries, distances, unit, unionResults);
     }
@@ -484,7 +484,7 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The resulting buffers
     /// </returns>
-    public async Task<Polygon> GeodesicBuffer(Geometry geometry, double distance, LinearUnit? unit = null)
+    public async Task<Polygon> GeodesicBuffer(Geometry geometry, double distance, GeometryEngineLinearUnit? unit = null)
     {
         return await InvokeAsync<Polygon>("geodesicBuffer", geometry, distance, unit);
     }
@@ -507,7 +507,7 @@ public class GeometryEngine : LogicComponent
     ///     Returns the densified geometry.
     /// </returns>
     public async Task<Geometry> GeodesicDensify(Geometry geometry, double maxSegmentLength,
-        LinearUnit? maxSegmentLengthUnit = null)
+        GeometryEngineLinearUnit? maxSegmentLengthUnit = null)
     {
         return await InvokeAsync<Geometry>("geodesicDensify", geometry, maxSegmentLength,
             maxSegmentLengthUnit);
@@ -532,7 +532,7 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Length of the input geometry.
     /// </returns>
-    public async Task<double> GeodesicLength(Geometry geometry, LinearUnit? unit = null)
+    public async Task<double> GeodesicLength(Geometry geometry, GeometryEngineLinearUnit? unit = null)
     {
         return await InvokeAsync<double>("geodesicLength", geometry, unit);
     }
@@ -699,7 +699,7 @@ public class GeometryEngine : LogicComponent
     ///     The offset geometries.
     /// </returns>
     public async Task<Geometry[]> Offset(IEnumerable<Geometry> geometries, double offsetDistance,
-        LinearUnit? offsetUnit = null, JoinType? joinType = null, double? bevelRatio = null,
+        GeometryEngineLinearUnit? offsetUnit = null, JoinType? joinType = null, double? bevelRatio = null,
         double? flattenError = null)
     {
         return await InvokeAsync<Geometry[]>("offset", geometries, offsetDistance,
@@ -738,7 +738,7 @@ public class GeometryEngine : LogicComponent
     ///     The offset geometry.
     /// </returns>
     public async Task<Geometry> Offset(Geometry geometry, double offsetDistance,
-        LinearUnit? offsetUnit = null, JoinType? joinType = null, double? bevelRatio = null,
+        GeometryEngineLinearUnit? offsetUnit = null, JoinType? joinType = null, double? bevelRatio = null,
         double? flattenError = null)
     {
         return await InvokeAsync<Geometry>("offset", geometry, offsetDistance,
@@ -799,7 +799,7 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The length of the input geometry.
     /// </returns>
-    public async Task<double> PlanarLength(Geometry geometry, LinearUnit? unit = null)
+    public async Task<double> PlanarLength(Geometry geometry, GeometryEngineLinearUnit? unit = null)
     {
         return await InvokeAsync<double>("planarLength", geometry, unit);
     }
