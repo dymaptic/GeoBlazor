@@ -16,13 +16,13 @@ public class TableDataSource : DynamicDataSource
     /// <summary>
     ///     Creates a new TableDataSource in code with parameters.
     /// </summary>
-    /// <param name = "workspaceId">
+    /// <param name="workspaceId">
     ///     The workspace where the table resides as defined in the ArcGIS Server Manager.
     /// </param>
-    /// <param name = "dataSourceName">
+    /// <param name="dataSourceName">
     ///     The name of the table in the registered workspace.
     /// </param>
-    /// <param name = "gdbVersion">
+    /// <param name="gdbVersion">
     ///     References the geodatabase version if multiple versions exist in the geodatabase.
     /// </param>
     public TableDataSource(string workspaceId, string dataSourceName, string? gdbVersion = null)

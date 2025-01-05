@@ -17,10 +17,10 @@ public class SliderVisibleElements : MapComponent
     /// <summary>
     ///     Constructor with parameters for use in C# code.
     /// </summary>
-    /// <param name = "labels">
+    /// <param name="labels">
     ///     Indicates whether to display labels for slider thumbs. By default, labels display input thumb values as floating point values with a precision of two digits. The format of labels can be customized via the labelFormatFunction.
     /// </param>
-    /// <param name = "rangeLabels">
+    /// <param name="rangeLabels">
     ///     Indicates whether to display min or max range values on the slider. The format of labels can be customized via the labelFormatFunction.
     /// </param>
     public SliderVisibleElements(bool? labels = null, bool? rangeLabels = null)

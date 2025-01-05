@@ -37,7 +37,7 @@ public class UniqueValueInfo : MapComponent
     /// <summary>
     ///     Sets the <see cref = "Symbol"/> for the object.
     /// </summary>
-    /// <param name = "symbol">
+    /// <param name="symbol">
     ///     The <see cref = "Symbol"/> for the object.
     /// </param>
     public virtual async Task SetSymbol(Symbol symbol)

@@ -17,31 +17,31 @@ public class Field : MapComponent
     /// <summary>
     ///     Creates a new Field in code with parameters
     /// </summary>
-    /// <param name = "type">
+    /// <param name="type">
     ///     The data type of the field.
     /// </param>
-    /// <param name = "name">
+    /// <param name="name">
     ///     The name of the field.
     /// </param>
-    /// <param name = "alias">
+    /// <param name="alias">
     ///     The display name for the field.
     /// </param>
-    /// <param name = "description">
+    /// <param name="description">
     ///     Contains information describing the purpose of each field.
     /// </param>
-    /// <param name = "length">
+    /// <param name="length">
     ///     The field length.
     /// </param>
-    /// <param name = "editable">
+    /// <param name="editable">
     ///     Indicates whether the field is editable.
     /// </param>
-    /// <param name = "nullable">
+    /// <param name="nullable">
     ///     Indicates if the field can accept null values.
     /// </param>
-    /// <param name = "defaultValue">
+    /// <param name="defaultValue">
     ///     The default value set for the field.
     /// </param>
-    /// <param name = "valueType">
+    /// <param name="valueType">
     ///     The types of values that can be assigned to a field.
     /// </param>
     public Field(FieldType type, string? name = null, string? alias = null, string? description = null, int? length = null, bool? editable = null, bool? nullable = null, object? defaultValue = null, FieldValueType? valueType = null)

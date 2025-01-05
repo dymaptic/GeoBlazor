@@ -1,4 +1,4 @@
-namespace dymaptic.GeoBlazor.Core.Components;
+﻿namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     The FeatureLayerView is responsible for rendering a FeatureLayer's features as graphics in the View. The methods in the FeatureLayerView provide developers with the ability to query and highlight graphics in the view. See the code snippets in the methods below for examples of how to access client-side graphics from the view.
@@ -155,7 +155,7 @@ public class FeatureLayerView : LayerView
     /// <summary>
     ///     Highlights the given feature(s).
     /// </summary>
-    /// <param name = "target">
+    /// <param name="target">
     ///     The ObjectID of the graphic to highlight.
     /// </param>
     /// <returns>

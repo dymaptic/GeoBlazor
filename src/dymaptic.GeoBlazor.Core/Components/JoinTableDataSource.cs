@@ -16,19 +16,19 @@ public class JoinTableDataSource : DynamicDataSource
     /// <summary>
     ///     Creates a new JoinTableDataSource in code with parameters.
     /// </summary>
-    /// <param name = "leftTableKey">
+    /// <param name="leftTableKey">
     ///     The field name used for joining or matching records in the left table to records in the right table.
     /// </param>
-    /// <param name = "rightTableKey">
+    /// <param name="rightTableKey">
     ///     The field name used for joining or matching records in the right table to records in the left table.
     /// </param>
-    /// <param name = "joinType">
+    /// <param name="joinType">
     ///     The type of join that will be performed.
     /// </param>
-    /// <param name = "leftTableSource">
+    /// <param name="leftTableSource">
     ///     The left table for joining to the right table source. This can either be a dynamic map layer or a dynamic data layer. The dynamic data layer may contain another join data source used for nested joining.
     /// </param>
-    /// <param name = "rightTableSource">
+    /// <param name="rightTableSource">
     ///     The right table for joining to the left table source. This can either be a dynamic map layer or a dynamic data layer. The dynamic data layer may contain another join data source used for nested joining.
     /// </param>
     public JoinTableDataSource(string leftTableKey, string rightTableKey, DynamicJoinType joinType, DynamicLayer leftTableSource, DynamicLayer rightTableSource)

@@ -17,19 +17,19 @@ public class QueryTableDataSource : DynamicDataSource
     /// <summary>
     ///     Creates a new QueryTableDataSource in code with parameters.
     /// </summary>
-    /// <param name = "workspaceId">
+    /// <param name="workspaceId">
     ///     The workspace where the table resides as defined in the ArcGIS Server Manager.
     /// </param>
-    /// <param name = "query">
+    /// <param name="query">
     ///     The SQL query used to filter records.
     /// </param>
-    /// <param name = "oidFields">
+    /// <param name="oidFields">
     ///     The field name(s) containing the unique IDs for each record in the table. This can be a comma separated list if the query table is used in a JoinTableDataSource.
     /// </param>
-    /// <param name = "geometryType">
+    /// <param name="geometryType">
     ///     The geometry type of each record in the table.
     /// </param>
-    /// <param name = "spatialReference">
+    /// <param name="spatialReference">
     ///     The spatial reference of the geometry of each feature in the table source.
     /// </param>
     public QueryTableDataSource(string workspaceId, string query, string? oidFields = null, FeatureGeometryType? geometryType = null, SpatialReference? spatialReference = null)

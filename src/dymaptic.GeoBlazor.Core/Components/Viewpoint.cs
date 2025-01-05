@@ -17,13 +17,13 @@ public class Viewpoint : MapComponent
     /// <summary>
     ///     Constructor for C# use.
     /// </summary>
-    /// <param name = "targetGeometry">
+    /// <param name="targetGeometry">
     ///     The target geometry framed by the viewpoint.
     /// </param>
-    /// <param name = "scale">
+    /// <param name="scale">
     ///     The scale of the viewpoint.
     /// </param>
-    /// <param name = "rotation">
+    /// <param name="rotation">
     ///     The rotation of due north in relation to the top of the view in degrees.
     /// </param>
     public Viewpoint(Geometry? targetGeometry = null, double? scale = null, double? rotation = null)

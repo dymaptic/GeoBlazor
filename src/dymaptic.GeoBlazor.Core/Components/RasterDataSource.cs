@@ -16,10 +16,10 @@ public class RasterDataSource : DynamicDataSource
     /// <summary>
     ///     Creates a new RasterDataSource in code with parameters.
     /// </summary>
-    /// <param name = "workspaceId">
+    /// <param name="workspaceId">
     ///     The workspace where the table resides as defined in the ArcGIS Server Manager.
     /// </param>
-    /// <param name = "dataSourceName">
+    /// <param name="dataSourceName">
     ///     The name of the raster in the registered workspace.
     /// </param>
     public RasterDataSource(string workspaceId, string dataSourceName)

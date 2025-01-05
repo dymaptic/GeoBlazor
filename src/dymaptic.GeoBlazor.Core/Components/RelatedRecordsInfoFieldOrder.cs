@@ -18,10 +18,10 @@ public class RelatedRecordsInfoFieldOrder : MapComponent
     /// <summary>
     ///     Constructor for creating a new RelatedRecordsInfoFieldOrder in code with parameters
     /// </summary>
-    /// <param name = "field">
+    /// <param name="field">
     ///     The attribute value of the field selected that will drive the sorting of related records.
     /// </param>
-    /// <param name = "order">
+    /// <param name="order">
     ///     Set the ascending or descending sort order of the returned related records.
     /// </param>
     public RelatedRecordsInfoFieldOrder(string? field = null, OrderBy? order = null)

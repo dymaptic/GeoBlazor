@@ -16,25 +16,25 @@ public class FieldInfo : MapComponent
     /// <summary>
     ///     Constructor for creating a new FieldInfo in code with parameters
     /// </summary>
-    /// <param name = "fieldName">
+    /// <param name="fieldName">
     ///     The field name as defined by the service or the name of an Arcade expression.
     /// </param>
-    /// <param name = "label">
+    /// <param name="label">
     ///     The field name as defined by the service or the name of an Arcade expression.
     /// </param>
-    /// <param name = "tooltip">
+    /// <param name="tooltip">
     ///     A string providing an editing hint for editors of the field.
     /// </param>
-    /// <param name = "stringFieldOption">
+    /// <param name="stringFieldOption">
     ///     A string determining what type of input box editors see when editing the field.
     /// </param>
-    /// <param name = "format">
+    /// <param name="format">
     ///     Class which provides formatting options for numerical or date fields and how they should display within a popup.
     /// </param>
-    /// <param name = "isEditable">
+    /// <param name="isEditable">
     ///     A Boolean determining whether users can edit this field.
     /// </param>
-    /// <param name = "visible">
+    /// <param name="visible">
     ///     Indicates whether the field is visible in the popup window.
     /// </param>
     public FieldInfo(string? fieldName = null, string? label = null, string? tooltip = null, StringFieldOption? stringFieldOption = null, FieldInfoFormat? format = null, bool? isEditable = null, bool? visible = null)

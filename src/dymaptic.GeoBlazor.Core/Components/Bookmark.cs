@@ -17,16 +17,16 @@ public class Bookmark : MapComponent
     /// <summary>
     ///     Constructor for building in C#.
     /// </summary>
-    /// <param name = "name">
+    /// <param name="name">
     ///     The name of the bookmark.
     /// </param>
-    /// <param name = "timeExtent">
+    /// <param name="timeExtent">
     ///     The extent of the specified bookmark.
     /// </param>
-    /// <param name = "thumbnail">
+    /// <param name="thumbnail">
     ///     The URL for a thumbnail image.
     /// </param>
-    /// <param name = "viewpoint">
+    /// <param name="viewpoint">
     ///     The viewpoint of the bookmark item. Defines the rotation, scale, and target geometry of the bookmark.
     /// </param>
     public Bookmark(string? name = null, TimeExtent? timeExtent = null, string? thumbnail = null, Viewpoint? viewpoint = null)

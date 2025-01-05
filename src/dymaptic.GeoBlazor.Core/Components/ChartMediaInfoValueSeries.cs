@@ -16,13 +16,13 @@ public class ChartMediaInfoValueSeries : MapComponent
     /// <summary>
     ///     Constructor for building a <see cref = "ChartMediaInfoValueSeries"/> in code.
     /// </summary>
-    /// <param name = "fieldName">
+    /// <param name="fieldName">
     ///     String value indicating the field's name for a series.
     /// </param>
-    /// <param name = "tooltip">
+    /// <param name="tooltip">
     ///     String value indicating the tooltip for a series.
     /// </param>
-    /// <param name = "value">
+    /// <param name="value">
     ///     Numerical value for the chart series.
     /// </param>
     public ChartMediaInfoValueSeries(string? fieldName = null, string? tooltip = null, double? value = null)

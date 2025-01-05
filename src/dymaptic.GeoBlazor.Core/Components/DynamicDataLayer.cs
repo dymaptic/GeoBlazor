@@ -16,10 +16,10 @@ public class DynamicDataLayer : DynamicLayer
     /// <summary>
     ///     Creates a new DynamicDataLayer in code with parameters.
     /// </summary>
-    /// <param name = "dataSource">
+    /// <param name="dataSource">
     ///     The data source for the dynamic data layer.
     /// </param>
-    /// <param name = "fields">
+    /// <param name="fields">
     ///     Controls field visibility in the layer. Only specified fields will be visible. If null, all fields are visible in the dynamic layer. The specification for a field object is provided below.
     /// </param>
     public DynamicDataLayer(DynamicDataSource dataSource, IEnumerable<DynamicLayerField>? fields = null)

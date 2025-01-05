@@ -16,16 +16,16 @@ public partial class LineSymbolMarker : MapComponent
     /// <summary>
     ///     Constructor for use in C# code.
     /// </summary>
-    /// <param name = "color">
+    /// <param name="color">
     ///     The color of the marker.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-LineSymbolMarker.html#color">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name = "placement">
+    /// <param name="placement">
     ///     The placement of the marker(s) on the line.
     ///     default "begin-end"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-LineSymbolMarker.html#placement">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name = "style">
+    /// <param name="style">
     ///     The marker style.
     ///     default "arrow"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-LineSymbolMarker.html#style">ArcGIS Maps SDK for JavaScript</a>
@@ -145,7 +145,7 @@ public partial class LineSymbolMarker : MapComponent
     /// <summary>
     ///    Asynchronously set the value of the Color property after render.
     /// </summary>
-    /// <param name = "value">
+    /// <param name="value">
     ///     The value to set.
     /// </param>
     public async Task SetColor(MapColor value)
@@ -171,7 +171,7 @@ public partial class LineSymbolMarker : MapComponent
     /// <summary>
     ///    Asynchronously set the value of the Placement property after render.
     /// </summary>
-    /// <param name = "value">
+    /// <param name="value">
     ///     The value to set.
     /// </param>
     public async Task SetPlacement(LinePlacement value)
@@ -197,7 +197,7 @@ public partial class LineSymbolMarker : MapComponent
     /// <summary>
     ///    Asynchronously set the value of the Style property after render.
     /// </summary>
-    /// <param name = "value">
+    /// <param name="value">
     ///     The value to set.
     /// </param>
     public async Task SetStyle(LineSymbolMarkerStyle value)

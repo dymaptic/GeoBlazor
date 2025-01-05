@@ -15,10 +15,10 @@ public class ImageMediaInfoValue : MapComponent
     /// <summary>
     ///     Constructor for building a <see cref = "ImageMediaInfoValue"/> in code.
     /// </summary>
-    /// <param name = "linkURL">
+    /// <param name="linkURL">
     ///     A string containing a URL to be launched in a browser when a user clicks the image.
     /// </param>
-    /// <param name = "sourceURL">
+    /// <param name="sourceURL">
     ///     A string containing the URL to the image.
     /// </param>
     public ImageMediaInfoValue(string? linkURL = null, string? sourceURL = null)

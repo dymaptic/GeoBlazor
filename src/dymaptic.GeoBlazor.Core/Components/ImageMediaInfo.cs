@@ -15,19 +15,19 @@ public class ImageMediaInfo : MediaInfo
     /// <summary>
     ///     Constructor for building a <see cref = "ImageMediaInfo"/> in code.
     /// </summary>
-    /// <param name = "title">
+    /// <param name="title">
     ///     The title of the media element.
     /// </param>
-    /// <param name = "caption">
+    /// <param name="caption">
     ///     Defines a caption for the media.
     /// </param>
-    /// <param name = "altText">
+    /// <param name="altText">
     ///     Provides an alternate text for an image if the image cannot be displayed.
     /// </param>
-    /// <param name = "value">
+    /// <param name="value">
     ///     Defines the value format of the image media element and how the images should be retrieved.
     /// </param>
-    /// <param name = "refreshInterval">
+    /// <param name="refreshInterval">
     ///     Refresh interval of the layer in minutes. Non-zero value indicates automatic layer refresh at the specified
     /// </param>
     public ImageMediaInfo(string? title = null, string? caption = null, string? altText = null, ImageMediaInfoValue? value = null, double? refreshInterval = null)

@@ -18,13 +18,13 @@ public class RotationVariable : VisualVariable
     /// <summary>
     ///     Constructs a new RotationVariable in code with parameters
     /// </summary>
-    /// <param name = "field">
+    /// <param name="field">
     ///     The name of the numeric attribute field that contains the data values used to determine the rotation of each feature.
     /// </param>
-    /// <param name = "axis">
+    /// <param name="axis">
     ///     Only applicable when working in a SceneView.
     /// </param>
-    /// <param name = "rotationType">
+    /// <param name="rotationType">
     ///     Defines the origin and direction of rotation depending on how the angle of rotation was measured.
     /// </param>
     public RotationVariable(string field, string? axis = null, RotationType? rotationType = null)

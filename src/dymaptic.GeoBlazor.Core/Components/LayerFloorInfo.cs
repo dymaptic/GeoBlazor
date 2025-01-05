@@ -15,7 +15,7 @@ public class LayerFloorInfo : MapComponent
     /// <summary>
     ///     Creates a new LayerFloorInfo in code with parameters.
     /// </summary>
-    /// <param name = "floorField">
+    /// <param name="floorField">
     ///     The field name derived from a floor-aware layer and used to filter features by floor level.
     /// </param>
     public LayerFloorInfo(string floorField)

@@ -16,10 +16,10 @@ public class DynamicMapLayer : DynamicLayer
     /// <summary>
     ///     Creates a new DynamicMapLayer in code with parameters.
     /// </summary>
-    /// <param name = "mapLayerId">
+    /// <param name="mapLayerId">
     ///     The id of the service sublayer.
     /// </param>
-    /// <param name = "gdbVersion">
+    /// <param name="gdbVersion">
     ///     An optional property for specifying the GDB version.
     /// </param>
     public DynamicMapLayer(int mapLayerId, string? gdbVersion = null)

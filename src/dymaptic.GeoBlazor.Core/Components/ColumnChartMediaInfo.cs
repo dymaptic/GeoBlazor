@@ -15,16 +15,16 @@ public class ColumnChartMediaInfo : MediaInfo
     /// <summary>
     ///     Constructor for building a <see cref = "ColumnChartMediaInfo"/> in code.
     /// </summary>
-    /// <param name = "title">
+    /// <param name="title">
     ///     The title of the media element.
     /// </param>
-    /// <param name = "caption">
+    /// <param name="caption">
     ///     Defines a caption for the media.
     /// </param>
-    /// <param name = "altText">
+    /// <param name="altText">
     ///     Provides an alternate text for an image if the image cannot be displayed.
     /// </param>
-    /// <param name = "value">
+    /// <param name="value">
     ///     Defines the chart value.
     /// </param>
     public ColumnChartMediaInfo(string? title = null, string? caption = null, string? altText = null, ChartMediaInfoValue? value = null)

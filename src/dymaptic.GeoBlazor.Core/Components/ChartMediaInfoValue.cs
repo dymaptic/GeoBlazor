@@ -15,16 +15,16 @@ public class ChartMediaInfoValue : MapComponent
     /// <summary>
     ///     Constructor for building a <see cref = "ChartMediaInfoValue"/> in code.
     /// </summary>
-    /// <param name = "fields">
+    /// <param name="fields">
     ///     An array of strings, with each string containing the name of a field to display in the chart.
     /// </param>
-    /// <param name = "normalizeField">
+    /// <param name="normalizeField">
     ///     A string containing the name of a field. The values of all fields in the chart will be normalized (divided) by the
     /// </param>
-    /// <param name = "tooltipField">
+    /// <param name="tooltipField">
     ///     String value indicating the tooltip for a chart specified from another field. It is used for showing tooltips from
     /// </param>
-    /// <param name = "series">
+    /// <param name="series">
     ///     An array of ChartMediaInfoValueSeries objects which provide information of x/y data that is plotted in a chart.
     /// </param>
     public ChartMediaInfoValue(IReadOnlyCollection<string>? fields = null, string? normalizeField = null, string? tooltipField = null, IReadOnlyList<ChartMediaInfoValueSeries>? series = null)

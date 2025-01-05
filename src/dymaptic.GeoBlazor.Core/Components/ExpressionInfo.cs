@@ -21,16 +21,16 @@ public class ExpressionInfo : MapComponent
     /// <summary>
     ///     Constructor for creating a new ExpressionInfo in code with parameters
     /// </summary>
-    /// <param name = "expression">
+    /// <param name="expression">
     ///     An Arcade expression following the specification defined by the Arcade Popup Profile. Expressions must return a
     /// </param>
-    /// <param name = "name">
+    /// <param name="name">
     ///     The name of the expression. This is used to reference the value of the given expression in the popupTemplate's
     /// </param>
-    /// <param name = "title">
+    /// <param name="title">
     ///     The title used to describe the value returned by the expression in the popup. This will display if the value is
     /// </param>
-    /// <param name = "returnType">
+    /// <param name="returnType">
     ///     Indicates the return type of the Arcade expression.
     /// </param>
     public ExpressionInfo(string? expression, string? name, string? title, ExpressionInfoReturnType? returnType)

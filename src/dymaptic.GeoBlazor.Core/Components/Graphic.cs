@@ -1,4 +1,4 @@
-using ParameterValue = Microsoft.AspNetCore.Components.ParameterValue;
+﻿using ParameterValue = Microsoft.AspNetCore.Components.ParameterValue;
 
 namespace dymaptic.GeoBlazor.Core.Components;
 /// <summary>
@@ -158,7 +158,7 @@ public partial class Graphic: MapComponent
     /// <summary>
     ///     Sets the <see cref = "Geometry"/> on the rendered graphic.
     /// </summary>
-    /// <param name = "geometry"></param>
+    /// <param name="geometry"></param>
     public async Task SetGeometry(Geometry geometry)
     {
         Geometry = geometry;
@@ -178,7 +178,7 @@ public partial class Graphic: MapComponent
     /// <summary>
     ///     Sets the <see cref = "Symbol"/> for the object.
     /// </summary>
-    /// <param name = "symbol">
+    /// <param name="symbol">
     ///     The <see cref = "Symbol"/> for the object.
     /// </param>
     public async Task SetSymbol(Symbol symbol)
@@ -226,7 +226,7 @@ public partial class Graphic: MapComponent
     /// <summary>
     ///     Sets the <see cref = "PopupTemplate"/> on the rendered graphic.
     /// </summary>
-    /// <param name = "popupTemplate">
+    /// <param name="popupTemplate">
     ///     The <see cref = "PopupTemplate"/> for displaying content in a Popup when the graphic is selected.
     /// </param>
     public async Task SetPopupTemplate(PopupTemplate popupTemplate)

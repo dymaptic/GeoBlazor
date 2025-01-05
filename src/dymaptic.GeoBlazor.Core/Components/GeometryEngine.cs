@@ -11,10 +11,10 @@ public class GeometryEngine : LogicComponent
     /// <summary>
     ///     Default Constructor
     /// </summary>
-    /// <param name = "authenticationManager">
+    /// <param name="authenticationManager">
     ///     Injected Identity Manager reference
     /// </param>
-    /// <param name = "jsModuleManager">
+    /// <param name="jsModuleManager">
     ///     Injected JavaScript Module Manager reference
     /// </param>
     public GeometryEngine(AuthenticationManager authenticationManager, JsModuleManager jsModuleManager) : base(authenticationManager)
@@ -34,10 +34,10 @@ public class GeometryEngine : LogicComponent
     ///     geometries with a projected coordinate system other than Web Mercator. If you need to buffer geometries with a
     ///     geographic coordinate system other than WGS84 (wkid: 4326), use geometryService.buffer().
     /// </remarks>
-    /// <param name = "geometries">
+    /// <param name="geometries">
     ///     The buffer input geometries.
     /// </param>
-    /// <param name = "distances">
+    /// <param name="distances">
     ///     The specified distance(s) for buffering. The length of the geometry array does not have to equal the length of the
     ///     distance array. For example, if you pass an array of four geometries: [g1, g2, g3, g4] and an array with one
     ///     distance: [d1], all four geometries will be buffered by the single distance value. If instead you use an array of
@@ -45,10 +45,10 @@ public class GeometryEngine : LogicComponent
     ///     value of the geometry array will be matched one to one with those in the distance array until the final value of
     ///     the distance array is reached, in which case that value will be applied to the remaining geometries.
     /// </param>
-    /// <param name = "unit">
+    /// <param name="unit">
     ///     Measurement unit of the distance(s). Defaults to the units of the input geometries.
     /// </param>
-    /// <param name = "unionResults">
+    /// <param name="unionResults">
     ///     Determines whether the output geometries should be unioned into a single polygon.
     /// </param>
     /// <returns>
@@ -70,13 +70,13 @@ public class GeometryEngine : LogicComponent
     ///     geometries with a projected coordinate system other than Web Mercator. If you need to buffer geometries with a
     ///     geographic coordinate system other than WGS84 (wkid: 4326), use geometryService.buffer().
     /// </remarks>
-    /// <param name = "geometry">
+    /// <param name="geometry">
     ///     The buffer input geometries.
     /// </param>
-    /// <param name = "distance">
+    /// <param name="distance">
     ///     The specified distance(s) for buffering.
     /// </param>
-    /// <param name = "unit">
+    /// <param name="unit">
     ///     Measurement unit of the distance(s). Defaults to the units of the input geometries.
     /// </param>
     /// <returns>
@@ -90,10 +90,10 @@ public class GeometryEngine : LogicComponent
     /// <summary>
     ///     Calculates the clipped geometry from a target geometry by an envelope.
     /// </summary>
-    /// <param name = "geometry">
+    /// <param name="geometry">
     ///     The geometry to be clipped.
     /// </param>
-    /// <param name = "extent">
+    /// <param name="extent">
     ///     The envelope used to clip.
     /// </param>
     /// <returns>
@@ -108,11 +108,11 @@ public class GeometryEngine : LogicComponent
     /// <summary>
     ///     Indicates if one geometry contains another geometry.
     /// </summary>
-    /// <param name = "containerGeometry">
+    /// <param name="containerGeometry">
     ///     The geometry that is tested for the "contains" relationship to the other geometry. Think of this geometry as the
     ///     potential "container" of the insideGeometry.
     /// </param>
-    /// <param name = "insideGeometry">
+    /// <param name="insideGeometry">
     ///     The geometry that is tested for the "within" relationship to the containerGeometry.
     /// </param>
     /// <returns>
@@ -129,10 +129,10 @@ public class GeometryEngine : LogicComponent
     ///     group of geometries or vertices. The input can be a single geometry (such as a polyline) or an array of any
     ///     geometry type. The hull is typically a polygon but can also be a polyline or a point in degenerate cases.
     /// </summary>
-    /// <param name = "geometries">
+    /// <param name="geometries">
     ///     The input geometries used to calculate the convex hull. The input array can include various geometry types.
     /// </param>
-    /// <param name = "merge">
+    /// <param name="merge">
     ///     Indicates whether to merge the output into a single geometry (usually a polygon).
     /// </param>
     /// <returns>
@@ -150,7 +150,7 @@ public class GeometryEngine : LogicComponent
     ///     group of geometries or vertices. The input can be a single geometry (such as a polyline) or an array of any
     ///     geometry type. The hull is typically a polygon but can also be a polyline or a point in degenerate cases.
     /// </summary>
-    /// <param name = "geometry">
+    /// <param name="geometry">
     ///     The input geometry used to calculate the convex hull.
     /// </param>
     /// <returns>
@@ -165,10 +165,10 @@ public class GeometryEngine : LogicComponent
     /// <summary>
     ///     Indicates if one geometry crosses another geometry.
     /// </summary>
-    /// <param name = "geometry1">
+    /// <param name="geometry1">
     ///     The geometry to cross.
     /// </param>
-    /// <param name = "geometry2">
+    /// <param name="geometry2">
     ///     The geometry being crossed.
     /// </param>
     /// <returns>
@@ -189,10 +189,10 @@ public class GeometryEngine : LogicComponent
     ///     empty. An undefined cut will only be produced if a left cut or right cut was produced and there was a part left
     ///     over after cutting, or a cut is bounded to the left and right of the cutter.
     /// </summary>
-    /// <param name = "geometry">
+    /// <param name="geometry">
     ///     The geometry to be cut.
     /// </param>
-    /// <param name = "cutter">
+    /// <param name="cutter">
     ///     The polyline to cut the geometry.
     /// </param>
     /// <returns>
@@ -207,13 +207,13 @@ public class GeometryEngine : LogicComponent
     /// <summary>
     ///     Densify geometries by plotting points between existing vertices.
     /// </summary>
-    /// <param name = "geometry">
+    /// <param name="geometry">
     ///     The geometry to be densified.
     /// </param>
-    /// <param name = "maxSegmentLength">
+    /// <param name="maxSegmentLength">
     ///     The maximum segment length allowed. Must be a positive value.
     /// </param>
-    /// <param name = "maxSegmentLengthUnit">
+    /// <param name="maxSegmentLengthUnit">
     ///     Measurement unit for maxSegmentLength. Defaults to the units of the input geometry.
     /// </param>
     /// <returns>
@@ -229,10 +229,10 @@ public class GeometryEngine : LogicComponent
     ///     Creates the difference of two geometries. The resultant geometry is the portion of inputGeometry not in the
     ///     subtractor. The dimension of the subtractor has to be equal to or greater than that of the inputGeometry.
     /// </summary>
-    /// <param name = "geometries">
+    /// <param name="geometries">
     ///     The input geometries to subtract from.
     /// </param>
-    /// <param name = "subtractor">
+    /// <param name="subtractor">
     ///     The geometry being subtracted from inputGeometry.
     /// </param>
     /// <returns>
@@ -248,10 +248,10 @@ public class GeometryEngine : LogicComponent
     ///     Creates the difference of two geometries. The resultant geometry is the portion of inputGeometry not in the
     ///     subtractor. The dimension of the subtractor has to be equal to or greater than that of the inputGeometry.
     /// </summary>
-    /// <param name = "geometry">
+    /// <param name="geometry">
     ///     The input geometry to subtract from.
     /// </param>
-    /// <param name = "subtractor">
+    /// <param name="subtractor">
     ///     The geometry being subtracted from inputGeometry.
     /// </param>
     /// <returns>
@@ -265,10 +265,10 @@ public class GeometryEngine : LogicComponent
     /// <summary>
     ///     Indicates if one geometry is disjoint (doesn't intersect in any way) with another geometry.
     /// </summary>
-    /// <param name = "geometry1">
+    /// <param name="geometry1">
     ///     The base geometry that is tested for the "disjoint" relationship to the other geometry.
     /// </param>
-    /// <param name = "geometry2">
+    /// <param name="geometry2">
     ///     The comparison geometry that is tested for the "disjoint" relationship to the other geometry.
     /// </param>
     /// <returns>
@@ -284,13 +284,13 @@ public class GeometryEngine : LogicComponent
     ///     Calculates the shortest planar distance between two geometries. Distance is reported in the linear units specified
     ///     by distanceUnit or, if distanceUnit is null, the units of the spatialReference of input geometry.
     /// </summary>
-    /// <param name = "geometry1">
+    /// <param name="geometry1">
     ///     First input geometry.
     /// </param>
-    /// <param name = "geometry2">
+    /// <param name="geometry2">
     ///     Second input geometry.
     /// </param>
-    /// <param name = "distanceUnit">
+    /// <param name="distanceUnit">
     ///     Measurement unit of the return value. Defaults to the units of the input geometries.
     /// </param>
     /// <returns>
@@ -309,10 +309,10 @@ public class GeometryEngine : LogicComponent
     ///     In ArcGIS for JS, this method is called `Equals`. However, this term has special meaning in .NET, so we have
     ///     renamed here.
     /// </remarks>
-    /// <param name = "geometry1">
+    /// <param name="geometry1">
     ///     First input geometry.
     /// </param>
-    /// <param name = "geometry2">
+    /// <param name="geometry2">
     ///     Second input geometry.
     /// </param>
     /// <returns>
@@ -326,7 +326,7 @@ public class GeometryEngine : LogicComponent
     /// <summary>
     ///     Returns an object containing additional information about the input spatial reference.
     /// </summary>
-    /// <param name = "spatialReference">
+    /// <param name="spatialReference">
     ///     The input spatial reference.
     /// </param>
     /// <returns>
@@ -341,10 +341,10 @@ public class GeometryEngine : LogicComponent
     /// <summary>
     ///     Flips a geometry on the horizontal axis. Can optionally be flipped around a point.
     /// </summary>
-    /// <param name = "geometry">
+    /// <param name="geometry">
     ///     The input geometry to be flipped.
     /// </param>
-    /// <param name = "flipOrigin">
+    /// <param name="flipOrigin">
     ///     Point to flip the geometry around. Defaults to the centroid of the geometry.
     /// </param>
     /// <returns>
@@ -359,10 +359,10 @@ public class GeometryEngine : LogicComponent
     /// <summary>
     ///     Flips a geometry on the vertical axis. Can optionally be flipped around a point.
     /// </summary>
-    /// <param name = "geometry">
+    /// <param name="geometry">
     ///     The input geometry to be flipped.
     /// </param>
-    /// <param name = "flipOrigin">
+    /// <param name="flipOrigin">
     ///     Point to flip the geometry around. Defaults to the centroid of the geometry.
     /// </param>
     /// <returns>
@@ -378,16 +378,16 @@ public class GeometryEngine : LogicComponent
     ///     Performs the generalize operation on the geometries in the cursor. Point and Multipoint geometries are left
     ///     unchanged. Envelope is converted to a Polygon and then generalized.
     /// </summary>
-    /// <param name = "geometry">
+    /// <param name="geometry">
     ///     The input geometry to be generalized.
     /// </param>
-    /// <param name = "maxDeviation">
+    /// <param name="maxDeviation">
     ///     The maximum allowed deviation from the generalized geometry to the original geometry.
     /// </param>
-    /// <param name = "removeDegenerateParts">
+    /// <param name="removeDegenerateParts">
     ///     When true the degenerate parts of the geometry will be removed from the output (may be undesired for drawing).
     /// </param>
-    /// <param name = "maxDeviationUnit">
+    /// <param name="maxDeviationUnit">
     ///     Measurement unit for maxDeviation. Defaults to the units of the input geometry.
     /// </param>
     /// <returns>
@@ -409,10 +409,10 @@ public class GeometryEngine : LogicComponent
     /// <remarks>
     ///     This method only works with WGS84 (wkid: 4326) and Web Mercator spatial references.
     /// </remarks>
-    /// <param name = "geometry">
+    /// <param name="geometry">
     ///     The input polygon
     /// </param>
-    /// <param name = "unit">
+    /// <param name="unit">
     ///     Measurement unit of the return value. Defaults to the units of the input geometries.
     /// </param>
     /// <returns>
@@ -437,10 +437,10 @@ public class GeometryEngine : LogicComponent
     ///     other than Web Mercator, use buffer() instead. If the input geometries have a geographic coordinate system other
     ///     than WGS84 (wkid: 4326), use geometryService.buffer().
     /// </remarks>
-    /// <param name = "geometries">
+    /// <param name="geometries">
     ///     The buffer input geometries
     /// </param>
-    /// <param name = "distances">
+    /// <param name="distances">
     ///     The specified distance(s) for buffering. The length of the geometry array does not have to equal the length of the
     ///     distance array. For example, if you pass an array of four geometries: [g1, g2, g3, g4] and an array with one
     ///     distance: [d1], all four geometries will be buffered by the single distance value. If instead you use an array of
@@ -448,10 +448,10 @@ public class GeometryEngine : LogicComponent
     ///     value of the geometry array will be matched one to one with those in the distance array until the final value of
     ///     the distance array is reached, in which case that value will be applied to the remaining geometries.
     /// </param>
-    /// <param name = "unit">
+    /// <param name="unit">
     ///     Measurement unit of the distance(s). Defaults to the units of the input geometries.
     /// </param>
-    /// <param name = "unionResults">
+    /// <param name="unionResults">
     ///     Determines whether the output geometries should be unioned into a single polygon.
     /// </param>
     /// <returns>
@@ -476,13 +476,13 @@ public class GeometryEngine : LogicComponent
     ///     other than Web Mercator, use buffer() instead. If the input geometries have a geographic coordinate system other
     ///     than WGS84 (wkid: 4326), use geometryService.buffer().
     /// </remarks>
-    /// <param name = "geometry">
+    /// <param name="geometry">
     ///     The buffer input geometru
     /// </param>
-    /// <param name = "distance">
+    /// <param name="distance">
     ///     The specified distance for buffering.
     /// </param>
-    /// <param name = "unit">
+    /// <param name="unit">
     ///     Measurement unit of the distance. Defaults to the units of the input geometry.
     /// </param>
     /// <returns>
@@ -497,14 +497,14 @@ public class GeometryEngine : LogicComponent
     ///     Returns a geodesically densified version of the input geometry. Use this function to draw the line(s) of the
     ///     geometry along great circles.
     /// </summary>
-    /// <param name = "geometry">
+    /// <param name="geometry">
     ///     A polyline or polygon to densify.
     /// </param>
-    /// <param name = "maxSegmentLength">
+    /// <param name="maxSegmentLength">
     ///     The maximum segment length allowed (in meters if a maxSegmentLengthUnit is not provided). This must be a positive
     ///     value.
     /// </param>
-    /// <param name = "maxSegmentLengthUnit">
+    /// <param name="maxSegmentLengthUnit">
     ///     Measurement unit for maxSegmentLength. If not provided, the unit will default to meters.
     /// </param>
     /// <returns>
@@ -526,10 +526,10 @@ public class GeometryEngine : LogicComponent
     /// <remarks>
     ///     This method only works with WGS84 (wkid: 4326) and Web Mercator spatial references.
     /// </remarks>
-    /// <param name = "geometry">
+    /// <param name="geometry">
     ///     The input geometry.
     /// </param>
-    /// <param name = "unit">
+    /// <param name="unit">
     ///     Measurement unit of the return value. Defaults to the units of the input geometry.
     /// </param>
     /// <returns>
@@ -546,10 +546,10 @@ public class GeometryEngine : LogicComponent
     ///     dimensions (i.e. point = 0; polyline = 1; polygon = 2), then the result's dimension will be equal to the lowest
     ///     dimension of the inputs. The table below describes the expected output for various combinations of geometry types.
     /// </summary>
-    /// <param name = "geometries1">
+    /// <param name="geometries1">
     ///     The input array of geometries.
     /// </param>
-    /// <param name = "geometry2">
+    /// <param name="geometry2">
     ///     The geometry to intersect with geometries1.
     /// </param>
     /// <returns>
@@ -566,10 +566,10 @@ public class GeometryEngine : LogicComponent
     ///     dimensions (i.e. point = 0; polyline = 1; polygon = 2), then the result's dimension will be equal to the lowest
     ///     dimension of the inputs.
     /// </summary>
-    /// <param name = "geometry1">
+    /// <param name="geometry1">
     ///     The input geometry.
     /// </param>
-    /// <param name = "geometry2">
+    /// <param name="geometry2">
     ///     The geometry to intersect with geometry1.
     /// </param>
     /// <returns>
@@ -583,10 +583,10 @@ public class GeometryEngine : LogicComponent
     /// <summary>
     ///     Indicates if one geometry intersects another geometry.
     /// </summary>
-    /// <param name = "geometry1">
+    /// <param name="geometry1">
     ///     The geometry that is tested for the intersects relationship to the other geometry.
     /// </param>
-    /// <param name = "geometry2">
+    /// <param name="geometry2">
     ///     The geometry being intersected.
     /// </param>
     /// <returns>
@@ -602,7 +602,7 @@ public class GeometryEngine : LogicComponent
     ///     Indicates if the given geometry is topologically simple. In a simplified geometry, no polygon rings or polyline
     ///     paths will overlap, and no self-intersection will occur.
     /// </summary>
-    /// <param name = "geometry">
+    /// <param name="geometry">
     ///     The input geometry.
     /// </param>
     /// <returns>
@@ -617,10 +617,10 @@ public class GeometryEngine : LogicComponent
     /// <summary>
     ///     Finds the coordinate of the geometry that is closest to the specified point.
     /// </summary>
-    /// <param name = "geometry">
+    /// <param name="geometry">
     ///     The geometry to consider.
     /// </param>
-    /// <param name = "inputPoint">
+    /// <param name="inputPoint">
     ///     The point used to search the nearest coordinate in the geometry.
     /// </param>
     /// <returns>
@@ -635,10 +635,10 @@ public class GeometryEngine : LogicComponent
     /// <summary>
     ///     Finds the vertex on the geometry nearest to the specified point.
     /// </summary>
-    /// <param name = "geometry">
+    /// <param name="geometry">
     ///     The geometry to consider.
     /// </param>
-    /// <param name = "inputPoint">
+    /// <param name="inputPoint">
     ///     The point used to search the nearest vertex in the geometry.
     /// </param>
     /// <returns>
@@ -654,16 +654,16 @@ public class GeometryEngine : LogicComponent
     ///     Finds all vertices in the given distance from the specified point, sorted from the closest to the furthest and
     ///     returns them as an array of Objects.
     /// </summary>
-    /// <param name = "geometry">
+    /// <param name="geometry">
     ///     The geometry to consider.
     /// </param>
-    /// <param name = "inputPoint">
+    /// <param name="inputPoint">
     ///     The point from which to measure.
     /// </param>
-    /// <param name = "searchRadius">
+    /// <param name="searchRadius">
     ///     The distance to search from the inputPoint in the units of the view's spatial reference.
     /// </param>
-    /// <param name = "maxVertexCountToReturn">
+    /// <param name="maxVertexCountToReturn">
     ///     The maximum number of vertices to return.
     /// </param>
     /// <returns>
@@ -679,27 +679,27 @@ public class GeometryEngine : LogicComponent
     ///     The offset operation creates a geometry that is a constant planar distance from an input polyline or polygon. It is
     ///     similar to buffering, but produces a one-sided result.
     /// </summary>
-    /// <param name = "geometries">
+    /// <param name="geometries">
     ///     The geometries to offset.
     /// </param>
-    /// <param name = "offsetDistance">
+    /// <param name="offsetDistance">
     ///     The planar distance to offset from the input geometry. If offsetDistance > 0, then the offset geometry is
     ///     constructed to the right of the oriented input geometry, if offsetDistance = 0, then there is no change in the
     ///     geometries, otherwise it is constructed to the left. For a simple polygon, the orientation of outer rings is
     ///     clockwise and for inner rings it is counter clockwise. So the "right side" of a simple polygon is always its
     ///     inside.
     /// </param>
-    /// <param name = "offsetUnit">
+    /// <param name="offsetUnit">
     ///     Measurement unit of the offset distance. Defaults to the units of the input geometries.
     /// </param>
-    /// <param name = "joinType">
+    /// <param name="joinType">
     ///     The <see cref = "JoinType"/>
     /// </param>
-    /// <param name = "bevelRatio">
+    /// <param name="bevelRatio">
     ///     Applicable when joinType = 'miter'; bevelRatio is multiplied by the offset distance and the result determines how
     ///     far a mitered offset intersection can be located before it is beveled.
     /// </param>
-    /// <param name = "flattenError">
+    /// <param name="flattenError">
     ///     Applicable when joinType = 'round'; flattenError determines the maximum distance of the resulting segments compared
     ///     to the true circular arc. The algorithm never produces more than around 180 vertices for each round join.
     /// </param>
@@ -716,27 +716,27 @@ public class GeometryEngine : LogicComponent
     ///     The offset operation creates a geometry that is a constant planar distance from an input polyline or polygon. It is
     ///     similar to buffering, but produces a one-sided result.
     /// </summary>
-    /// <param name = "geometry">
+    /// <param name="geometry">
     ///     The geometry to offset.
     /// </param>
-    /// <param name = "offsetDistance">
+    /// <param name="offsetDistance">
     ///     The planar distance to offset from the input geometry. If offsetDistance > 0, then the offset geometry is
     ///     constructed to the right of the oriented input geometry, if offsetDistance = 0, then there is no change in the
     ///     geometries, otherwise it is constructed to the left. For a simple polygon, the orientation of outer rings is
     ///     clockwise and for inner rings it is counter clockwise. So the "right side" of a simple polygon is always its
     ///     inside.
     /// </param>
-    /// <param name = "offsetUnit">
+    /// <param name="offsetUnit">
     ///     Measurement unit of the offset distance. Defaults to the units of the input geometries.
     /// </param>
-    /// <param name = "joinType">
+    /// <param name="joinType">
     ///     The <see cref = "JoinType"/>
     /// </param>
-    /// <param name = "bevelRatio">
+    /// <param name="bevelRatio">
     ///     Applicable when joinType = 'miter'; bevelRatio is multiplied by the offset distance and the result determines how
     ///     far a mitered offset intersection can be located before it is beveled.
     /// </param>
-    /// <param name = "flattenError">
+    /// <param name="flattenError">
     ///     Applicable when joinType = 'round'; flattenError determines the maximum distance of the resulting segments compared
     ///     to the true circular arc. The algorithm never produces more than around 180 vertices for each round join.
     /// </param>
@@ -751,10 +751,10 @@ public class GeometryEngine : LogicComponent
     /// <summary>
     ///     Indicates if one geometry overlaps another geometry.
     /// </summary>
-    /// <param name = "geometry1">
+    /// <param name="geometry1">
     ///     The base geometry that is tested for the "overlaps" relationship with the other geometry.
     /// </param>
-    /// <param name = "geometry2">
+    /// <param name="geometry2">
     ///     The comparison geometry that is tested for the "overlaps" relationship with the other geometry.
     /// </param>
     /// <returns>
@@ -773,10 +773,10 @@ public class GeometryEngine : LogicComponent
     ///     geodesicArea(). If the input geometries have a projected coordinate system other than Web Mercator, use
     ///     planarArea() instead.
     /// </summary>
-    /// <param name = "geometry">
+    /// <param name="geometry">
     ///     The input polygon.
     /// </param>
-    /// <param name = "unit">
+    /// <param name="unit">
     ///     Measurement unit of the return value. Defaults to the units of the input geometries.
     /// </param>
     /// <returns>
@@ -795,10 +795,10 @@ public class GeometryEngine : LogicComponent
     ///     calculate lengths using geodesicLength(). If the input geometries have a projected coordinate system other than Web
     ///     Mercator, use planarLength() instead.
     /// </summary>
-    /// <param name = "geometry">
+    /// <param name="geometry">
     ///     The input geometry.
     /// </param>
-    /// <param name = "unit">
+    /// <param name="unit">
     ///     Measurement unit of the return value. Defaults to the units of the input geometries.
     /// </param>
     /// <returns>
@@ -813,13 +813,13 @@ public class GeometryEngine : LogicComponent
     /// <summary>
     ///     Indicates if the given DE-9IM relation is true for the two geometries.
     /// </summary>
-    /// <param name = "geometry1">
+    /// <param name="geometry1">
     ///     The first geometry for the relation.
     /// </param>
-    /// <param name = "geometry2">
+    /// <param name="geometry2">
     ///     The second geometry for the relation.
     /// </param>
-    /// <param name = "relation">
+    /// <param name="relation">
     ///     The Dimensionally Extended 9 Intersection Model (DE-9IM) matrix relation (encoded as a string) to test against the
     ///     relationship of the two geometries. This string contains the test result of each intersection represented in the
     ///     DE-9IM matrix. Each result is one character of the string and may be represented as either a number (maximum
@@ -847,13 +847,13 @@ public class GeometryEngine : LogicComponent
     ///     Rotates a geometry counterclockwise by the specified number of degrees. Rotation is around the centroid, or a given
     ///     rotation point.
     /// </summary>
-    /// <param name = "geometry">
+    /// <param name="geometry">
     ///     The geometry to rotate.
     /// </param>
-    /// <param name = "angle">
+    /// <param name="angle">
     ///     The rotation angle in degrees.
     /// </param>
-    /// <param name = "rotationOrigin">
+    /// <param name="rotationOrigin">
     ///     Point to rotate the geometry around. Defaults to the centroid of the geometry.
     /// </param>
     /// <returns>
@@ -870,7 +870,7 @@ public class GeometryEngine : LogicComponent
     ///     topologically legal with respect to their geometry type. At the end of a simplify operation, no polygon rings or
     ///     polyline paths will overlap, and no self-intersection will occur.
     /// </summary>
-    /// <param name = "geometry">
+    /// <param name="geometry">
     ///     The geometry to be simplified.
     /// </param>
     /// <returns>
@@ -886,10 +886,10 @@ public class GeometryEngine : LogicComponent
     ///     Creates the symmetric difference of two geometries. The symmetric difference includes the parts that are in either
     ///     of the sets, but not in both.
     /// </summary>
-    /// <param name = "leftGeometries">
+    /// <param name="leftGeometries">
     ///     One of the Geometry instances in the XOR operation.
     /// </param>
-    /// <param name = "rightGeometry">
+    /// <param name="rightGeometry">
     ///     One of the Geometry instances in the XOR operation.
     /// </param>
     /// <returns>
@@ -905,10 +905,10 @@ public class GeometryEngine : LogicComponent
     ///     Creates the symmetric difference of two geometries. The symmetric difference includes the parts that are in either
     ///     of the sets, but not in both.
     /// </summary>
-    /// <param name = "leftGeometry">
+    /// <param name="leftGeometry">
     ///     One of the Geometry instances in the XOR operation.
     /// </param>
-    /// <param name = "rightGeometry">
+    /// <param name="rightGeometry">
     ///     One of the Geometry instances in the XOR operation.
     /// </param>
     /// <returns>
@@ -922,10 +922,10 @@ public class GeometryEngine : LogicComponent
     /// <summary>
     ///     Indicates if one geometry touches another geometry.
     /// </summary>
-    /// <param name = "geometry1">
+    /// <param name="geometry1">
     ///     The geometry to test the "touches" relationship with the other geometry.
     /// </param>
-    /// <param name = "geometry2">
+    /// <param name="geometry2">
     ///     The geometry to be touched.
     /// </param>
     /// <returns>
@@ -940,7 +940,7 @@ public class GeometryEngine : LogicComponent
     /// <summary>
     ///     All inputs must be of the same type of geometries and share one spatial reference.
     /// </summary>
-    /// <param name = "geometries">
+    /// <param name="geometries">
     ///     An array of Geometries to union.
     /// </param>
     /// <returns>
@@ -955,7 +955,7 @@ public class GeometryEngine : LogicComponent
     /// <summary>
     ///     All inputs must be of the same type of geometries and share one spatial reference.
     /// </summary>
-    /// <param name = "geometries">
+    /// <param name="geometries">
     ///     An array of Geometries to union.
     /// </param>
     /// <returns>
@@ -969,10 +969,10 @@ public class GeometryEngine : LogicComponent
     /// <summary>
     ///     Indicates if one geometry is within another geometry.
     /// </summary>
-    /// <param name = "innerGeometry">
+    /// <param name="innerGeometry">
     ///     The base geometry that is tested for the "within" relationship to the other geometry.
     /// </param>
-    /// <param name = "outerGeometry">
+    /// <param name="outerGeometry">
     ///     The comparison geometry that is tested for the "contains" relationship to the other geometry.
     /// </param>
     /// <returns>
@@ -987,7 +987,7 @@ public class GeometryEngine : LogicComponent
     /// <summary>
     ///     Creates a new instance of this class and initializes it with values from a JSON object generated from an ArcGIS product. The object passed into the input json parameter often comes from a response to a query operation in the REST API or a toJSON() method from another ArcGIS product. See the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/programming-patterns/#using-fromjson">Using fromJSON()</a> topic in the Guide for details and examples of when and how to use this function.
     /// </summary>
-    /// <param name = "json">
+    /// <param name="json">
     ///     A JSON representation of the instance in the ArcGIS format. See the <a target="_blank" href="https://developers.arcgis.com/documentation/common-data-types/overview-of-common-data-types.htm">ArcGIS REST API documentation</a> for examples of the structure of various input JSON objects.
     /// </param>
     /// <returns>
@@ -1002,7 +1002,7 @@ public class GeometryEngine : LogicComponent
     /// <summary>
     ///     Converts an instance of this class to its ArcGIS portal JSON representation. See the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/programming-patterns/#using-fromjson">Using fromJSON()</a> guide topic for more information.
     /// </summary>
-    /// <param name = "geometry">
+    /// <param name="geometry">
     ///     The geometry to convert.
     /// </param>
     /// <returns>
@@ -1029,10 +1029,10 @@ public class GeometryEngine : LogicComponent
     /// <summary>
     ///     Centers the given extent to the given point, and returns a new extent.
     /// </summary>
-    /// <param name = "extent">
+    /// <param name="extent">
     ///     The input extent.
     /// </param>
-    /// <param name = "point">
+    /// <param name="point">
     ///     The point to center the extent on.
     /// </param>
     /// <returns>
@@ -1046,10 +1046,10 @@ public class GeometryEngine : LogicComponent
     /// <summary>
     ///     Expands the extent by the given factor. For example, a value of 1.5 will expand the extent to be 50 percent larger than the original extent.
     /// </summary>
-    /// <param name = "extent">
+    /// <param name="extent">
     ///     The input extent.
     /// </param>
-    /// <param name = "factor">
+    /// <param name="factor">
     ///     The factor by which to expand the extent.
     /// </param>
     /// <returns>
@@ -1063,7 +1063,7 @@ public class GeometryEngine : LogicComponent
     /// <summary>
     ///     Returns an array with either one Extent that's been shifted to within +/- 180 or two Extents if the original extent intersects the International Dateline.
     /// </summary>
-    /// <param name = "extent">
+    /// <param name="extent">
     ///     The input extent.
     /// </param>
     /// <returns>
@@ -1077,16 +1077,16 @@ public class GeometryEngine : LogicComponent
     /// <summary>
     ///     Modifies the extent geometry in-place with X and Y offsets in map units.
     /// </summary>
-    /// <param name = "extent">
+    /// <param name="extent">
     ///     The input extent.
     /// </param>
-    /// <param name = "dx">
+    /// <param name="dx">
     ///     The offset distance in map units for the X-coordinate.
     /// </param>
-    /// <param name = "dy">
+    /// <param name="dy">
     ///     The offset distance in map units for the Y-coordinate.
     /// </param>
-    /// <param name = "dz">
+    /// <param name="dz">
     ///     The offset distance in map units for the Z-coordinate.
     /// </param>
     /// <returns></returns>
@@ -1098,7 +1098,7 @@ public class GeometryEngine : LogicComponent
     /// <summary>
     ///     Modifies the point geometry in-place by shifting the X-coordinate to within +/- 180 span in map units.
     /// </summary>
-    /// <param name = "point">
+    /// <param name="point">
     ///     The input point.
     /// </param>
     /// <returns>
@@ -1112,10 +1112,10 @@ public class GeometryEngine : LogicComponent
     /// <summary>
     ///     Adds a path, or line segment, to the polyline. When added, the index of the path is incremented by one.
     /// </summary>
-    /// <param name = "polyline">
+    /// <param name="polyline">
     ///     The polyline to add the path to. Will return a new modified copy.
     /// </param>
-    /// <param name = "points">
+    /// <param name="points">
     ///     The polyline path to add as a <see cref = "MapPath"/>.
     /// </param>
     /// <returns>
@@ -1129,10 +1129,10 @@ public class GeometryEngine : LogicComponent
     /// <summary>
     ///     Adds a path, or line segment, to the polyline. When added, the index of the path is incremented by one.
     /// </summary>
-    /// <param name = "polyline">
+    /// <param name="polyline">
     ///     The polyline to add the path to. Will return a new modified copy.
     /// </param>
-    /// <param name = "points">
+    /// <param name="points">
     ///     The polyline path to add as an array of <see cref = "Point"/>s.
     /// </param>
     /// <returns>
@@ -1152,13 +1152,13 @@ public class GeometryEngine : LogicComponent
     /// <summary>
     ///     Returns a point specified by a path and point in the path.
     /// </summary>
-    /// <param name = "polyline">
+    /// <param name="polyline">
     ///     The polyline to get the point from.
     /// </param>
-    /// <param name = "pathIndex">
+    /// <param name="pathIndex">
     ///     The index of the path in the polyline.
     /// </param>
-    /// <param name = "pointIndex">
+    /// <param name="pointIndex">
     ///     The index of the point in the path.
     /// </param>
     /// <returns>
@@ -1172,16 +1172,16 @@ public class GeometryEngine : LogicComponent
     /// <summary>
     ///     Inserts a new point into a polyline and returns the modified line.
     /// </summary>
-    /// <param name = "polyline">
+    /// <param name="polyline">
     ///     The polyline to insert the point into.
     /// </param>
-    /// <param name = "pathIndex">
+    /// <param name="pathIndex">
     ///     The index of the path in which to insert a point.
     /// </param>
-    /// <param name = "pointIndex">
+    /// <param name="pointIndex">
     ///     The index of the inserted point in the path.
     /// </param>
-    /// <param name = "point">
+    /// <param name="point">
     ///     The point to insert into the polyline.
     /// </param>
     /// <returns>
@@ -1195,10 +1195,10 @@ public class GeometryEngine : LogicComponent
     /// <summary>
     ///     Removes a path from the Polyline. The index specifies which path to remove.
     /// </summary>
-    /// <param name = "polyline">
+    /// <param name="polyline">
     ///     The polyline to remove the path from.
     /// </param>
-    /// <param name = "index">
+    /// <param name="index">
     ///     The index of the path to remove.
     /// </param>
     /// <returns>
@@ -1212,13 +1212,13 @@ public class GeometryEngine : LogicComponent
     /// <summary>
     ///     Removes a point from the polyline at the given pointIndex within the path identified by the given pathIndex.
     /// </summary>
-    /// <param name = "polyline">
+    /// <param name="polyline">
     ///     The polyline to remove the point from.
     /// </param>
-    /// <param name = "pathIndex">
+    /// <param name="pathIndex">
     ///     The index of the path in which to remove a point.
     /// </param>
-    /// <param name = "pointIndex">
+    /// <param name="pointIndex">
     ///     The index of the point in the path to remove.
     /// </param>
     /// <returns>
@@ -1232,16 +1232,16 @@ public class GeometryEngine : LogicComponent
     /// <summary>
     ///     Updates a point in a polyline and returns the modified polyline.
     /// </summary>
-    /// <param name = "polyline">
+    /// <param name="polyline">
     ///     The polyline to update the point in.
     /// </param>
-    /// <param name = "pathIndex">
+    /// <param name="pathIndex">
     ///     The index of the path in which to update a point.
     /// </param>
-    /// <param name = "pointIndex">
+    /// <param name="pointIndex">
     ///     The index of the point in the path to update.
     /// </param>
-    /// <param name = "point">
+    /// <param name="point">
     ///     The new point to update the polyline with.
     /// </param>
     /// <returns>
@@ -1255,10 +1255,10 @@ public class GeometryEngine : LogicComponent
     /// <summary>
     ///     Adds a ring to the Polygon. The ring can be one of the following: an array of numbers or an array of points. When added the index of the ring is incremented by one.
     /// </summary>
-    /// <param name = "polygon">
+    /// <param name="polygon">
     ///     The polygon to add the ring to.
     /// </param>
-    /// <param name = "points">
+    /// <param name="points">
     ///     A polygon ring. The first and last coordinates/points in the ring must be the same.
     /// </param>
     /// <returns>
@@ -1272,10 +1272,10 @@ public class GeometryEngine : LogicComponent
     /// <summary>
     ///     Adds a ring to the Polygon. The ring can be one of the following: an array of numbers or an array of points. When added the index of the ring is incremented by one.
     /// </summary>
-    /// <param name = "polygon">
+    /// <param name="polygon">
     ///     The polygon to add the ring to.
     /// </param>
-    /// <param name = "points">
+    /// <param name="points">
     ///     A polygon ring. The first and last coordinates/points in the ring must be the same.
     /// </param>
     /// <returns>
@@ -1295,7 +1295,7 @@ public class GeometryEngine : LogicComponent
     /// <summary>
     ///     Converts the given Extent to a Polygon instance. This is useful for scenarios in which you would like to display an area of interest, which is typically defined by an Extent or bounding box, as a polygon with a fill symbol in the view. Some geoprocessing tools require input geometries to be of a Polygon type and not an Extent.
     /// </summary>
-    /// <param name = "extent">
+    /// <param name="extent">
     ///     An extent object to convert to a polygon.
     /// </param>
     /// <returns>
@@ -1309,13 +1309,13 @@ public class GeometryEngine : LogicComponent
     /// <summary>
     ///     Returns a point specified by a ring and point in the ring.
     /// </summary>
-    /// <param name = "polygon">
+    /// <param name="polygon">
     ///     The polygon to get the point from.
     /// </param>
-    /// <param name = "ringIndex">
+    /// <param name="ringIndex">
     ///     The index of the ring containing the desired point.
     /// </param>
-    /// <param name = "pointIndex">
+    /// <param name="pointIndex">
     ///     The index of the desired point within the ring.
     /// </param>
     /// <returns>
@@ -1329,16 +1329,16 @@ public class GeometryEngine : LogicComponent
     /// <summary>
     ///     Inserts a new point into the polygon.
     /// </summary>
-    /// <param name = "polygon">
+    /// <param name="polygon">
     ///     The polygon to insert the point into.
     /// </param>
-    /// <param name = "ringIndex">
+    /// <param name="ringIndex">
     ///     The index of the ring in which to insert the point.
     /// </param>
-    /// <param name = "pointIndex">
+    /// <param name="pointIndex">
     ///     The index of the point to insert within the ring.
     /// </param>
-    /// <param name = "point">
+    /// <param name="point">
     ///     The point to insert into the polygon.
     /// </param>
     /// <returns>
@@ -1352,10 +1352,10 @@ public class GeometryEngine : LogicComponent
     /// <summary>
     ///     Checks if a Polygon ring is clockwise
     /// </summary>
-    /// <param name = "polygon">
+    /// <param name="polygon">
     ///     The polygon to check the ring on.
     /// </param>
-    /// <param name = "ring">
+    /// <param name="ring">
     ///     A polygon ring defined as a <see cref = "MapPath"/>. The first and last coordinates/points in the ring must be the same.
     /// </param>
     /// <returns>
@@ -1369,10 +1369,10 @@ public class GeometryEngine : LogicComponent
     /// <summary>
     ///     Checks if a Polygon ring is clockwise
     /// </summary>
-    /// <param name = "polygon">
+    /// <param name="polygon">
     ///     The polygon to check the ring on.
     /// </param>
-    /// <param name = "ring">
+    /// <param name="ring">
     ///     A polygon ring defined as an array of <see cref = "Point"/>s. The first and last coordinates/points in the ring must be the same.
     /// </param>
     /// <returns>
@@ -1392,13 +1392,13 @@ public class GeometryEngine : LogicComponent
     /// <summary>
     ///     Removes a point from the polygon at the given pointIndex within the ring identified by the given ringIndex.
     /// </summary>
-    /// <param name = "polygon">
+    /// <param name="polygon">
     ///     The polyline to remove the point from.
     /// </param>
-    /// <param name = "ringIndex">
+    /// <param name="ringIndex">
     ///     The index of the ring containing the point to remove.
     /// </param>
-    /// <param name = "pointIndex">
+    /// <param name="pointIndex">
     ///     The index of the point to remove within the ring.
     /// </param>
     /// <returns>
@@ -1412,10 +1412,10 @@ public class GeometryEngine : LogicComponent
     /// <summary>
     ///     Removes a ring from the Polygon. The index specifies which ring to remove.
     /// </summary>
-    /// <param name = "polygon">
+    /// <param name="polygon">
     ///     The polygon to remove the ring from.
     /// </param>
-    /// <param name = "index">
+    /// <param name="index">
     ///     The index of the ring to remove.
     /// </param>
     /// <returns>
@@ -1429,16 +1429,16 @@ public class GeometryEngine : LogicComponent
     /// <summary>
     ///     Updates a point in a polygon and returns the modified polygon.
     /// </summary>
-    /// <param name = "polygon">
+    /// <param name="polygon">
     ///     The polygon to update the point in.
     /// </param>
-    /// <param name = "ringIndex">
+    /// <param name="ringIndex">
     ///     The index of the ring containing the point to update.
     /// </param>
-    /// <param name = "pointIndex">
+    /// <param name="pointIndex">
     ///     The index of the point to update within the ring.
     /// </param>
-    /// <param name = "point">
+    /// <param name="point">
     ///     The new point to update the polygon with.
     /// </param>
     /// <returns>

@@ -17,13 +17,13 @@ public class Label : MapComponent
     /// <summary>
     ///    Constructor for generating in code.
     /// </summary>
-    /// <param name = "labelPlacement">
+    /// <param name="labelPlacement">
     ///     The position of the label.
     /// </param>
-    /// <param name = "labelExpression">
+    /// <param name="labelExpression">
     ///     Defines the labels for a MapImageLayer.
     /// </param>
-    /// <param name = "labelExpressionInfo">
+    /// <param name="labelExpressionInfo">
     ///     Defines the labels for a <see cref = "FeatureLayer"/>.
     /// </param>
     public Label(LabelPlacement? labelPlacement = null, string? labelExpression = null, LabelExpressionInfo? labelExpressionInfo = null)
@@ -150,7 +150,7 @@ public class Label : MapComponent
     /// <summary>
     ///     Sets the <see cref = "Symbol"/> for the object.
     /// </summary>
-    /// <param name = "symbol">
+    /// <param name="symbol">
     ///     The <see cref = "Symbol"/> for the object.
     /// </param>
     public virtual async Task SetSymbol(Symbol symbol)

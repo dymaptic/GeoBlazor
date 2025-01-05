@@ -17,19 +17,19 @@ public class FormTemplate : MapComponent
     /// <summary>
     ///     Creates a new FormTemplate in code with parameters
     /// </summary>
-    /// <param name = "title">
+    /// <param name="title">
     ///     The string template for defining how to format the title displayed at the top of a form.
     /// </param>
-    /// <param name = "description">
+    /// <param name="description">
     ///     The description of the form.
     /// </param>
-    /// <param name = "preserveFieldValuesWhenHidden">
+    /// <param name="preserveFieldValuesWhenHidden">
     ///     Indicates whether to retain or clear a form's field element values. Use this property when a field element initially displays as visible but then updates to not display as a result of an applied visibilityExpression.
     /// </param>
-    /// <param name = "elements">
+    /// <param name="elements">
     ///     An array of form element objects that represent an ordered list of form elements.
     /// </param>
-    /// <param name = "expressionInfos">
+    /// <param name="expressionInfos">
     ///     An array of objects or ExpressionInfo[] that reference Arcade expressions following the specification defined by the Form Constraint Profile or the Form Calculation Profile. Form Constraint expressions must return either true or false. Form Calculation expressions must return a string, date, or a number.
     /// </param>
     public FormTemplate(string? title = null, string? description = null, bool? preserveFieldValuesWhenHidden = null, List<FormElement>? elements = null, List<ExpressionInfo>? expressionInfos = null)

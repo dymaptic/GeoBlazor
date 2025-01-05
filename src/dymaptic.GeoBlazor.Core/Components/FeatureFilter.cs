@@ -15,34 +15,34 @@ public class FeatureFilter : MapComponent
     /// <summary>
     ///     Constructor for use in C# code.
     /// </summary>
-    /// <param name = "distance">
+    /// <param name="distance">
     ///     Specifies a search distance from a given [geometry](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html#geometry) in a spatial filter.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html#distance">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name = "geometry">
+    /// <param name="geometry">
     ///     The geometry to apply to the spatial filter.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html#geometry">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name = "objectIds">
+    /// <param name="objectIds">
     ///     An array of objectIds of the features to be filtered.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html#objectIds">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name = "spatialRelationship">
+    /// <param name="spatialRelationship">
     ///     For spatial filters, this parameter defines the spatial relationship to filter features in the layer view against the filter [geometry](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html#geometry).
     ///     default intersects
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html#spatialRelationship">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name = "timeExtent">
+    /// <param name="timeExtent">
     ///     A range of time with start and end date.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html#timeExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name = "units">
+    /// <param name="units">
     ///     The unit for calculating the buffer distance when [distance](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html#distance) is specified in a spatial filter.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html#units">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name = "where">
+    /// <param name="where">
     ///     A where clause for the feature filter.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html#where">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
