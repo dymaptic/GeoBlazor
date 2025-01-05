@@ -32,6 +32,7 @@ public class LocateWidget : Widget
     /// </summary>
     [Parameter]
     [JsonIgnore]
+    [CodeGenerationIgnore]
     public Action<GoToOverrideParameters>? GoToOverride { get; set; }
 
     /// <summary>
