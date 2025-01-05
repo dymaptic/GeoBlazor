@@ -1,4 +1,4 @@
-﻿namespace dymaptic.GeoBlazor.Core.Components;
+namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     Domains define constraints on a layer field. There are two types of domains: coded values and range domains. This is an abstract class.
@@ -84,6 +84,7 @@ public class CodedValue<T> : MapComponent
     ///     The value of the code.
     /// </summary>
     [Parameter]
+    [CodeGenerationIgnore]
     public T? Code { get; set; }
 }
 

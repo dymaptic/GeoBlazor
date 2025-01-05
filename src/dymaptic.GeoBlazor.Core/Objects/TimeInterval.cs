@@ -1,4 +1,4 @@
-﻿namespace dymaptic.GeoBlazor.Core.Objects;
+namespace dymaptic.GeoBlazor.Core.Objects;
 
 /// <summary>
 /// TimeInterval is a class that describes a length of time in one of ten temporal units such as seconds, days, or years.

@@ -1,4 +1,4 @@
-﻿namespace dymaptic.GeoBlazor.Core.Objects;
+namespace dymaptic.GeoBlazor.Core.Objects;
 
 /// <summary>
 ///     The return object of <see cref="GeometryEngine.ExtendedSpatialReferenceInfo" />

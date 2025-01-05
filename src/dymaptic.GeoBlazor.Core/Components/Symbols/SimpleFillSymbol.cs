@@ -1,4 +1,4 @@
-﻿namespace dymaptic.GeoBlazor.Core.Components.Symbols;
+namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 
 /// <summary>
 ///     SimpleFillSymbol is used for rendering 2D polygons in either a MapView or a SceneView. It can be filled with a

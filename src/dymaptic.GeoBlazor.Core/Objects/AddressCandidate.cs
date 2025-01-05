@@ -1,4 +1,4 @@
-﻿namespace dymaptic.GeoBlazor.Core.Objects;
+namespace dymaptic.GeoBlazor.Core.Objects;
 
 /// <summary>
 ///     Represents the result of a geocode service operation as a list of address candidates. This resource provides

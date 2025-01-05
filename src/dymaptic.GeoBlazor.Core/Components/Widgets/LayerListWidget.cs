@@ -1,4 +1,4 @@
-﻿namespace dymaptic.GeoBlazor.Core.Components.Widgets;
+namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
 /// <summary>
 ///     The LayerList widget provides a way to display a list of layers, and switch on/off their visibility. The ListItem

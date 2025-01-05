@@ -1,4 +1,4 @@
-﻿namespace dymaptic.GeoBlazor.Core.Results;
+namespace dymaptic.GeoBlazor.Core.Results;
 
 /// <summary>
 ///     Object specification for the result of the MapView.HitTest method.

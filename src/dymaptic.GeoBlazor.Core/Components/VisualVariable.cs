@@ -1,4 +1,4 @@
-﻿namespace dymaptic.GeoBlazor.Core.Components;
+namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     The visual variable base class. See each of the subclasses that extend this class to learn how to create continuous

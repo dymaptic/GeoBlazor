@@ -1,4 +1,4 @@
-﻿namespace dymaptic.GeoBlazor.Core.Components.Layers;
+namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
 /// <summary>
 ///     The layer is the most fundamental component of a Map. It is a collection of spatial data in the form of vector

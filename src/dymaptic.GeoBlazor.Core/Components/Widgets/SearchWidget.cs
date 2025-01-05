@@ -1,4 +1,4 @@
-﻿namespace dymaptic.GeoBlazor.Core.Components.Widgets;
+namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
 /// <summary>
 ///     The Search widget provides a way to perform search operations on locator service(s), map/feature service feature
@@ -210,7 +210,8 @@ public class SearchWidget : Widget
     /// <param name="searchTerm">
     ///     The term to search for.
     /// </param>
-    public async Task<SearchResponse> Search(string searchTerm)
+    [ArcGISMethod]
+public async Task<SearchResponse> Search(string searchTerm)
     {
         return await JsComponentReference!.InvokeAsync<SearchResponse>("search", searchTerm);
     }
@@ -257,7 +258,8 @@ public class SearchWidget : Widget
     /// <param name="value">
     ///     The string value used to suggest() on an active Locator or feature layer. If nothing is passed in, takes the current value of the widget.
     /// </param>
-    public async Task<SuggestResponse> Suggest(string? value = null)
+    [ArcGISMethod]
+public async Task<SuggestResponse> Suggest(string? value = null)
     {
         return await JsComponentReference!.InvokeAsync<SuggestResponse>("suggest", value);
     }
@@ -316,7 +318,8 @@ public class SearchWidget : Widget
     /// <summary>
     ///     Retrieves an array of objects, each containing a SearchResult from the search.
     /// </summary>
-    public async Task<SearchResultResponse[]> GetResults()
+    [CodeGenerationIgnore]
+public async Task<SearchResultResponse[]> GetResults()
     {
         return await JsComponentReference!.InvokeAsync<SearchResultResponse[]>("getResults");
     }
@@ -333,7 +336,8 @@ public class SearchWidget : Widget
     ///     Retrieves an array of results from the suggest method.
     ///     This is available if working with a 10.3 or greater geocoding service that has suggest capability loaded or a 10.3 or greater feature layer that supports pagination, i.e. supportsPagination = true.
     /// </summary>
-    public async Task<SuggestResult[]> GetSuggestions()
+    [CodeGenerationIgnore]
+public async Task<SuggestResult[]> GetSuggestions()
     {
         return await JsComponentReference!.InvokeAsync<SuggestResult[]>("getSuggestions");
     }

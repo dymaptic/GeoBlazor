@@ -1,4 +1,4 @@
-﻿namespace dymaptic.GeoBlazor.Core.Components.Widgets;
+namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
 /// <summary>
 ///     Provides a simple widget that animates the View to the user's current location. The view rotates according to the

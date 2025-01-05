@@ -1,4 +1,4 @@
-﻿namespace dymaptic.GeoBlazor.Core.Components.Popups;
+namespace dymaptic.GeoBlazor.Core.Components.Popups;
 
 /// <summary>
 ///     A FieldsContent popup element represents the FieldInfo associated with a feature. If this is not set within the

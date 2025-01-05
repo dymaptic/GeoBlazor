@@ -1,4 +1,4 @@
-﻿namespace dymaptic.GeoBlazor.Core.Components;
+namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     The size visual variable defines the size of individual features in a layer based on a numeric (often thematic)

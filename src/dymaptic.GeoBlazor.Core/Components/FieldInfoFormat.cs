@@ -1,4 +1,4 @@
-﻿namespace dymaptic.GeoBlazor.Core.Components;
+namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     The FieldInfoFormat class is used with numerical or date fields to provide more detail about how the value should

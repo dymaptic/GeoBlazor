@@ -1,4 +1,4 @@
-﻿namespace dymaptic.GeoBlazor.Core.Enums;
+namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     A collection of units for measuring Linear distances.

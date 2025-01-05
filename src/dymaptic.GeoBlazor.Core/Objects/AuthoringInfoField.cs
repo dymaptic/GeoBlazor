@@ -1,4 +1,4 @@
-﻿
+
 
 namespace dymaptic.GeoBlazor.Core.Objects;
 
@@ -31,16 +31,6 @@ public record AuthoringInfoField(string Field, string? NormalizationField,
 /// </param>
 public record ClassBreakInfo(double MaxValue, double MinValue);
 
-/// <summary>
-///      Contains summary statistics about the data represented by the renderer.
-/// </summary>
-/// <param name="Max">
-///     The maximum data value of the attribute represented by the renderer. Legends displaying above-and-below themed data will not display values greater than this number.
-/// </param>
-/// <param name="Min">
-///     The minimum data value of the attribute represented by the renderer. Legends displaying above-and-below themed data will not display values smaller than this number.
-/// </param>
-public record AuthoringInfoStatistics(double Max, double Min);
 
 /// <summary>
 ///     Contains authoring properties of visual variables generated from one of the Smart Mapping methods or sliders.

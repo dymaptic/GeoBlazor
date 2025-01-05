@@ -1,4 +1,4 @@
-﻿namespace dymaptic.GeoBlazor.Core.Components.Symbols;
+namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 
 /// <summary>
 ///     SimpleMarkerSymbol is used for rendering 2D Point geometries with a simple shape and color in either a MapView or a

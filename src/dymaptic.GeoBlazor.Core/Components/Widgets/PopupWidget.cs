@@ -1,4 +1,4 @@
-﻿namespace dymaptic.GeoBlazor.Core.Components.Widgets;
+namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
 /// <summary>
 ///     The Popup widget allows users to view content from feature attributes. Popups enhance web applications by providing
@@ -187,7 +187,8 @@ public class PopupWidget : Widget
     /// <summary>
     ///     Removes promises, features, content, title and location from the Popup.
     /// </summary>
-    public async Task Clear()
+    [ArcGISMethod]
+public async Task Clear()
     {
         await JsComponentReference!.InvokeVoidAsync("clear", CancellationTokenSource.Token);
     }
@@ -197,7 +198,8 @@ public class PopupWidget : Widget
     ///     LayerViews in the view. In order to use this, a layer must already have an associated PopupTemplate and have its
     ///     popupEnabled. These features can then be used within a custom Popup or Feature widget experience.
     /// </summary>
-    public async Task<Graphic[]> FetchFeatures()
+    [CodeGenerationIgnore]
+public async Task<Graphic[]> FetchFeatures()
     {
         return await JsComponentReference!.InvokeAsync<Graphic[]>("fetchFeatures", CancellationTokenSource.Token);
     }
@@ -240,7 +242,8 @@ public class PopupWidget : Widget
     ///     Closes the popup by setting its visible property to false. Users can alternatively close the popup by directly
     ///     setting the visible property to false.
     /// </summary>
-    public async Task Close()
+    [ArcGISMethod]
+public async Task Close()
     {
         await JsComponentReference!.InvokeVoidAsync("close", CancellationTokenSource.Token);
     }
@@ -370,62 +373,6 @@ public class PopupWidget : Widget
     }
 }
 
-/// <summary>
-///     Docking the popup allows for a better user experience, particularly when opening popups in apps on mobile devices.
-///     When a popup is "dockEnabled" it means the popup no longer points to the selected feature or the location assigned
-///     to it. Rather it is placed in one of the corners of the view or to the top or bottom of it. This property allows
-///     the developer to set various options for docking the popup.
-/// </summary>
-public class PopupDockOptions : MapComponent
-{
-    /// <summary>
-    ///     Parameterless constructor for use as a razor component.
-    /// </summary>
-    [ActivatorUtilitiesConstructor]
-    public PopupDockOptions()
-    {
-    }
-
-    /// <summary>
-    ///     Constructor for creating a PopupDockOptions object in code.
-    /// </summary>
-    /// <param name="position">
-    ///     The position in the view at which to dock the popup.
-    /// </param>
-    /// <param name="buttonEnabled">
-    ///     If true, displays the dock button. If false, hides the dock button from the popup.
-    /// </param>
-    /// <param name="breakPoint">
-    ///     Defines the dimensions of the View at which to dock the popup. Set to false to disable docking at a breakpoint.
-    /// </param>
-    public PopupDockOptions(PopupDockPosition? position = null, bool? buttonEnabled = null,
-        BreakPoint? breakPoint = null)
-    {
-#pragma warning disable BL0005
-        Position = position;
-        ButtonEnabled = buttonEnabled;
-        BreakPoint = breakPoint;
-#pragma warning restore BL0005
-    }
-
-    /// <summary>
-    ///     The position in the view at which to dock the popup.
-    /// </summary>
-    [Parameter]
-    public PopupDockPosition? Position { get; set; }
-
-    /// <summary>
-    ///     If true, displays the dock button. If false, hides the dock button from the popup.
-    /// </summary>
-    [Parameter]
-    public bool? ButtonEnabled { get; set; }
-
-    /// <summary>
-    ///     Defines the dimensions of the View at which to dock the popup. Set to false to disable docking at a breakpoint.
-    /// </summary>
-    [Parameter]
-    public BreakPoint? BreakPoint { get; set; }
-}
 
 /// <summary>
 ///     Defines the dimensions of the View at which to dock the popup. Set to false to disable docking at a breakpoint.
@@ -483,44 +430,6 @@ public record BreakPoint
     public double? Height { get; set; }
 }
 
-/// <summary>
-///     The visible elements that are displayed within the widget. This provides the ability to turn individual elements of
-///     the widget's display on/off.
-/// </summary>
-public class PopupVisibleElements : MapComponent
-{
-    /// <summary>
-    ///     Parameterless constructor for use as a razor component.
-    /// </summary>
-    [ActivatorUtilitiesConstructor]
-    public PopupVisibleElements()
-    {
-    }
-
-    /// <summary>
-    ///     Constructor for creating a PopupVisibleElements object in code.
-    /// </summary>
-    public PopupVisibleElements(bool? closeButton = null, bool? featureNavigation = null)
-    {
-#pragma warning disable BL0005
-        CloseButton = closeButton;
-        FeatureNavigation = featureNavigation;
-#pragma warning restore BL0005
-    }
-
-    /// <summary>
-    ///     Indicates whether to display a close button on the popup dialog. Default value is true.
-    /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? CloseButton { get; set; }
-
-    /// <summary>
-    ///     Indicates whether pagination for feature navigation will be displayed. Default value is true. This allows the user
-    ///     to scroll through various selected features using pagination arrows.
-    /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? FeatureNavigation { get; set; }
-}
 
 internal class BreakPointConverter : JsonConverter<BreakPoint>
 {

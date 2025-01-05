@@ -1,4 +1,4 @@
-﻿namespace dymaptic.GeoBlazor.Core.Components.Geometries;
+namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 
 /// <summary>
 ///     A location defined by X, Y, and Z coordinates.

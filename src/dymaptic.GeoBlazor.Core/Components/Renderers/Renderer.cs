@@ -1,4 +1,4 @@
-﻿namespace dymaptic.GeoBlazor.Core.Components.Renderers;
+namespace dymaptic.GeoBlazor.Core.Components.Renderers;
 
 /// <summary>
 ///     Abstract base class, renderers define how to visually represent each feature in one of the following layer types:

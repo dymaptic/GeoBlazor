@@ -1,4 +1,4 @@
-﻿namespace dymaptic.GeoBlazor.Core.Components.Widgets;
+namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
 /// <summary>
 ///     The ScaleBar widget displays a scale bar on the map or in a specified HTML node. The widget respects various

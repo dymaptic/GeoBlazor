@@ -1,4 +1,4 @@
-﻿namespace dymaptic.GeoBlazor.Core.Components.Layers;
+namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
 /// <summary>
 ///     A GraphicsLayer contains one or more client-side Graphics. Each graphic in the GraphicsLayer is rendered in a

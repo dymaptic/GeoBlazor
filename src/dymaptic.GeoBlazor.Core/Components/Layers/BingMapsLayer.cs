@@ -1,4 +1,4 @@
-﻿namespace dymaptic.GeoBlazor.Core.Components.Layers;
+namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
 /// <summary>
 ///     This layer supports Microsoft's Bing tiled map content. Three map styles are supported - road, aerial and hybrid.

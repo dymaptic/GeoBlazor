@@ -1,4 +1,4 @@
-﻿namespace dymaptic.GeoBlazor.Core.Components;
+namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     Base class for all MediaInfos used in <see cref="MediaPopupContent" />

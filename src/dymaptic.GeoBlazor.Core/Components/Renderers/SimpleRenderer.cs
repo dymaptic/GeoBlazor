@@ -1,4 +1,4 @@
-﻿namespace dymaptic.GeoBlazor.Core.Components.Renderers;
+namespace dymaptic.GeoBlazor.Core.Components.Renderers;
 
 /// <summary>
 ///     SimpleRenderer renders all features in a Layer with one Symbol. This renderer may be used to simply visualize the location of geographic features.

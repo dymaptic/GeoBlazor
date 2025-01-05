@@ -1,4 +1,4 @@
-﻿namespace dymaptic.GeoBlazor.Core.Components.Popups;
+namespace dymaptic.GeoBlazor.Core.Components.Popups;
 
 /// <summary>
 ///     A PopupTemplate formats and defines the content of a Popup for a specific Layer or Graphic. The user can also use

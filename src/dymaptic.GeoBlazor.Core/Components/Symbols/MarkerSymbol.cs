@@ -1,4 +1,4 @@
-﻿namespace dymaptic.GeoBlazor.Core.Components.Symbols;
+namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 
 /// <summary>
 ///     Marker symbols are used to draw Point graphics in a FeatureLayer or individual graphics in a 2D MapView. To create

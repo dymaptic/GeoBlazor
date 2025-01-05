@@ -1,4 +1,4 @@
-﻿namespace dymaptic.GeoBlazor.Core.Components.Symbols;
+namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 
 /// <summary>
 ///     PictureMarkerSymbol renders Point graphics in either a 2D MapView or 3D SceneView using an image. A url must point

@@ -1,4 +1,4 @@
-﻿using ParameterValue = Microsoft.AspNetCore.Components.ParameterValue;
+using ParameterValue = Microsoft.AspNetCore.Components.ParameterValue;
 
 namespace dymaptic.GeoBlazor.Core.Components;
 /// <summary>

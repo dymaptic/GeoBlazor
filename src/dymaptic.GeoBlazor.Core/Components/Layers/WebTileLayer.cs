@@ -1,4 +1,4 @@
-﻿namespace dymaptic.GeoBlazor.Core.Components.Layers;
+namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
 /// <summary>
 ///     WebTileLayer provides a simple way to add non-ArcGIS Server map tiles as a layer to a map. The constructor takes a

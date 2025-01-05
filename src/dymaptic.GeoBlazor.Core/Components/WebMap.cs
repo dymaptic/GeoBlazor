@@ -1,4 +1,4 @@
-﻿namespace dymaptic.GeoBlazor.Core.Components;
+namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     Loads a WebMap from ArcGIS Online or ArcGIS Enterprise portal into a MapView. It defines the content, style, and
@@ -14,6 +14,7 @@ public class WebMap : Map
     [RequiredProperty(nameof(Basemap), nameof(ArcGISDefaultBasemap))]
 #pragma warning restore CS0618 // Type or member is obsolete
     [RequiredProperty] // the extra required here is for WebMap only, whereas the previous allows a check against the Map base type
+    [CodeGenerationIgnore]
     public PortalItem? PortalItem { get; set; }
 
     /// <inheritdoc />

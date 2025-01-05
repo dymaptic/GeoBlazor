@@ -1,4 +1,4 @@
-﻿namespace dymaptic.GeoBlazor.Core.Components.Widgets;
+namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
 /// <summary>
 ///     The Legend widget describes the symbols used to represent layers in a map. All symbols and text used in this widget
@@ -81,51 +81,3 @@ public class LegendWidget : Widget
     }
 }
 
-/// <summary>
-///     Specifies a layer to display in the legend.
-/// </summary>
-public class LayerInfo : MapComponent
-{
-    /// <summary>
-    ///     Specifies a title for the layer to display above its symbols and descriptions. If no title is specified the service
-    ///     name is used.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? Title { get; set; }
-
-    /// <summary>
-    ///     A layer to display in the legend.
-    /// </summary>
-    [Parameter]
-    [EditorRequired]
-    [RequiredProperty]
-    public Layer Layer { get; set; } = default!;
-
-    /// <summary>
-    ///     Only applicable if the layer is a MapImageLayer. The IDs of the MapImageLayer sublayers for which to display legend
-    ///     information.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public int[]? SublayerIds { get; set; }
-}
-
-/// <summary>
-/// The widget legend style, sets the display style of the legend widget.
-/// <a target="_blank" href=" https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#style">ArcGIS Maps SDK for JavaScript</a>
-/// </summary>
-public class LegendStyle : MapComponent
-{
-    /// <summary>
-    /// The Legend style type.
-    /// </summary>
-    [Parameter]
-    public LegendStyleType? Type { get; set; }
-
-    /// <summary>
-    /// The legend style layout when there are multiple legends
-    /// </summary>
-    [Parameter]
-    public LegendStyleLayout? Layout { get; set; }
-}

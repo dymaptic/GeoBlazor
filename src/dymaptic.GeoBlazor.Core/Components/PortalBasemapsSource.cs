@@ -1,4 +1,4 @@
-﻿namespace dymaptic.GeoBlazor.Core.Components;
+namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     The PortalBasemapsSource class is a Portal-driven Basemap source in the BasemapGalleryViewModel or BasemapGallery

@@ -4,6 +4,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     AttachmentEdit represents an attachment that can be added, updated or deleted via applyEdits. This object can be either pre-uploaded data or base 64 encoded data.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#AttachmentEdit">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
+[CodeGenerationIgnore]
 public record AttachmentEdit
 {
     /// <summary>

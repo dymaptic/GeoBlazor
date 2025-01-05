@@ -1,4 +1,4 @@
-﻿namespace dymaptic.GeoBlazor.Core.Results;
+namespace dymaptic.GeoBlazor.Core.Results;
 
 /// <summary>
 ///     Object returned from the nearestCoordinate(), nearestVertex(), and nearestVertices() methods of

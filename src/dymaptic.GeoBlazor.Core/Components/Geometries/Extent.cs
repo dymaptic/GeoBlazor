@@ -1,4 +1,4 @@
-﻿namespace dymaptic.GeoBlazor.Core.Components.Geometries;
+namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 
 /// <summary>
 ///     The minimum and maximum X and Y coordinates of a bounding box. Extent is used to describe the visible portion of a

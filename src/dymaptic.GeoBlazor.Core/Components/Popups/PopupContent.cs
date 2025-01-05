@@ -1,4 +1,4 @@
-﻿namespace dymaptic.GeoBlazor.Core.Components.Popups;
+namespace dymaptic.GeoBlazor.Core.Components.Popups;
 
 /// <summary>
 ///     Abstract base class, PopupContent elements define what should display within the PopupTemplate content.

@@ -1,4 +1,4 @@
-﻿namespace dymaptic.GeoBlazor.Core.Components.Popups;
+namespace dymaptic.GeoBlazor.Core.Components.Popups;
 
 /// <summary>
 ///     An ExpressionContent element allows you to define a popup content element with an Arcade expression. The expression

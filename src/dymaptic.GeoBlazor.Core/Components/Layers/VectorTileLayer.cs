@@ -1,4 +1,4 @@
-﻿namespace dymaptic.GeoBlazor.Core.Components.Layers;  
+namespace dymaptic.GeoBlazor.Core.Components.Layers;  
   
 /// <summary>  
 ///     VectorTileLayer accesses cached tiles of data and renders it in vector format. It is similar to a WebTileLayer in  
