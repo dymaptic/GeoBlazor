@@ -1,3 +1,6 @@
+using System.Drawing;
+
+
 namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
@@ -7,8 +10,12 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 [JsonConverter(typeof(MapColorConverter))]
 [ProtoContract]
+[CodeGenerationIgnore]
 public class MapColor : IEquatable<MapColor>
 {
+    private double[] _rgbaValues = [];
+    private string? _hexOrNameValue;
+
     /// <summary>
     ///     Parameterless constructor for Protobuf deserialization.
     ///     Not intended for public use.
@@ -25,7 +32,7 @@ public class MapColor : IEquatable<MapColor>
     /// </param>
     public MapColor(params double[] values)
     {
-        Values.AddRange(values);
+        RgbaValues = values;
     }
 
     /// <summary>
@@ -59,13 +66,31 @@ public class MapColor : IEquatable<MapColor>
     ///     The numeric values for calculating a color (rgb/rgba).
     /// </summary>
     [ProtoMember(1)]
-    public List<double> Values { get; set; } = new();
+    public double[] RgbaValues
+    {
+        get => _rgbaValues;
+        set
+        {
+            _rgbaValues = value;
+            Color? color = ToSystemColor();
+            HexOrNameValue = color is null ? null : ToHex();
+        }
+    }
 
     /// <summary>
     ///     The name or hex value of the color.
     /// </summary>
     [ProtoMember(2)]
-    public string? HexOrNameValue { get; set; }
+    public string? HexOrNameValue
+    {
+        get => _hexOrNameValue;
+        set
+        {
+            _hexOrNameValue = value;
+            Color? color = ToSystemColor();
+            RgbaValues = color is null ? [] : [color.Value.R, color.Value.G, color.Value.B, color.Value.A / 255.0];
+        }
+    }
 
     /// <inheritdoc />
     public bool Equals(MapColor? other)
@@ -73,7 +98,7 @@ public class MapColor : IEquatable<MapColor>
         if (ReferenceEquals(null, other)) return false;
         if (ReferenceEquals(this, other)) return true;
 
-        return Values.SequenceEqual(other.Values) && (HexOrNameValue == other.HexOrNameValue);
+        return RgbaValues.SequenceEqual(other.RgbaValues) && (HexOrNameValue == other.HexOrNameValue);
     }
 
     /// <inheritdoc />
@@ -89,7 +114,7 @@ public class MapColor : IEquatable<MapColor>
     /// <inheritdoc />
     public override int GetHashCode()
     {
-        return HashCode.Combine(Values, HexOrNameValue);
+        return HashCode.Combine(RgbaValues, HexOrNameValue);
     }
 
     /// <summary>
@@ -97,7 +122,106 @@ public class MapColor : IEquatable<MapColor>
     /// </summary>
     public MapColor Clone()
     {
-        return Values.Any() ? new MapColor(Values.ToArray()) : new MapColor(HexOrNameValue!);
+        return RgbaValues.Any() ? new MapColor(RgbaValues.ToArray()) : new MapColor(HexOrNameValue!);
+    }
+
+    /// <summary>
+    ///     Returns a CSS color string in rgba form representing the Color instance.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Color.html#toCss">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    public string? ToCss()
+    {
+        Color? color = ToSystemColor();
+        return color is null 
+            ? null 
+            : $"rgba({color.Value.R}, {color.Value.G}, {color.Value.B}, {color.Value.A / 255.0})";
+    }
+
+    /// <summary>
+    ///     Returns the color in hexadecimal format.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Color.html#toHex">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    public string? ToHex()
+    {
+        Color? color = ToSystemColor();
+        return color is null ? null : $"#{color.Value.R:X2}{color.Value.G:X2}{color.Value.B:X2}{color.Value.A:X2}";
+    }
+
+    /// <summary>
+    ///     Returns a <see cref="System.Drawing.Color" /> instance representing the Color instance.
+    /// </summary>
+    public Color? ToSystemColor()
+    {
+        if (RgbaValues.Any())
+        {
+            return Color.FromArgb(
+                (int)(RgbaValues[3] * 255),
+                (int)RgbaValues[0],
+                (int)RgbaValues[1],
+                (int)RgbaValues[2]);
+        }
+
+        if (HexOrNameValue is null)
+        {
+            return null;
+        }
+        
+        if (HexOrNameValue.StartsWith("#"))
+        {
+            return ColorTranslator.FromHtml(HexOrNameValue);
+        }
+        
+        return Color.FromName(HexOrNameValue);
+    }
+
+    /// <summary>
+    ///     Creates a Color instance by blending two colors using a weight factor.
+    /// </summary>
+    /// <param name="start">
+    ///     The start color.
+    /// </param>
+    /// <param name="end">
+    ///     The end color.
+    /// </param>
+    /// <param name="weight">
+    ///     The weight factor. 0 means the start color, 1 means the end color, 0.5 means a 50/50 blend.
+    /// </param>
+    /// <returns>
+    ///     A new color instance representing the blended color, or null if the colors could not be blended.
+    /// </returns>
+    public static MapColor? BlendColors(MapColor start, MapColor end, double weight)
+    {
+        if (!start.RgbaValues.Any())
+        {
+            // reset triggers calculation of rgba values from hex or name
+            start.HexOrNameValue = start.HexOrNameValue;
+        }
+
+        if (!end.RgbaValues.Any())
+        {
+            end.HexOrNameValue = end.HexOrNameValue;
+        }
+        
+        if (start.RgbaValues.Any() && end.RgbaValues.Any())
+        {
+            double[] startValues = start.RgbaValues.ToArray();
+            double[] endValues = end.RgbaValues.ToArray();
+
+            double[] blendedValues = new double[4];
+
+            for (int i = 0; i < 4; i++)
+            {
+                if (i > startValues.Length - 1 || i > endValues.Length - 1)
+                {
+                    break;
+                }
+                blendedValues[i] = startValues[i] + (endValues[i] - startValues[i]) * weight;
+            }
+
+            return new MapColor(blendedValues);
+        }
+
+        return null;
     }
 }
 
@@ -124,9 +248,9 @@ internal class MapColorConverter : JsonConverter<MapColor>
 
     public override void Write(Utf8JsonWriter writer, MapColor value, JsonSerializerOptions options)
     {
-        if (value.Values.Any())
+        if (value.RgbaValues.Any())
         {
-            writer.WriteRawValue(JsonSerializer.Serialize(value.Values, options));
+            writer.WriteRawValue(JsonSerializer.Serialize(value.RgbaValues, options));
         }
         else if (value.HexOrNameValue is not null)
         {

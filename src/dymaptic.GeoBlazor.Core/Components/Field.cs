@@ -44,7 +44,9 @@ public class Field : MapComponent
     /// <param name="valueType">
     ///     The types of values that can be assigned to a field.
     /// </param>
-    public Field(FieldType type, string? name = null, string? alias = null, string? description = null, int? length = null, bool? editable = null, bool? nullable = null, object? defaultValue = null, FieldValueType? valueType = null)
+    public Field(FieldType type, string? name = null, string? alias = null, string? description = null, 
+        int? length = null, bool? editable = null, bool? nullable = null, object? defaultValue = null, 
+        FieldValueType? valueType = null)
     {
 #pragma warning disable BL0005
         Type = type;
@@ -78,7 +80,7 @@ public class Field : MapComponent
     /// </summary>
     [Parameter]
     [RequiredProperty]
-    public FieldType Type { get; set; }
+    public FieldType? Type { get; set; }
 
     /// <summary>
     ///     The default value set for the field.

@@ -9,6 +9,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     The JavaScript object reference used by the handle.
 /// </param>
 #pragma warning restore CS1574, CS0419
+[CodeGenerationIgnore]
 public record HighlightHandle(IJSObjectReference JsObjectReference)
 {
     /// <summary>
