@@ -1,4 +1,4 @@
-﻿namespace dymaptic.GeoBlazor.Core.Objects;
+namespace dymaptic.GeoBlazor.Core.Objects;
 
 /// <summary>
 ///     A convenience method for pulling navigation directions from a Graphic in a RouteResult

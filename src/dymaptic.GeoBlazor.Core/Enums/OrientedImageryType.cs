@@ -1,5 +1,4 @@
-namespace dymaptic.GeoBlazor.Core.Objects;
-
+namespace dymaptic.GeoBlazor.Core.Enums;
 /// <summary>
 ///     Enum that defines the imagery type used in the particular Oriented Imagery Layer.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-OrientedImageryLayer.html#orientedImageryType">ArcGIS Maps SDK for JavaScript</a>
@@ -16,7 +15,7 @@ public enum OrientedImageryType
 #pragma warning restore CS1591
 }
 
-internal class OrientedImageryTypeConverter: JsonConverter<OrientedImageryType>
+internal class OrientedImageryTypeConverter : JsonConverter<OrientedImageryType>
 {
     public override OrientedImageryType Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
@@ -43,7 +42,6 @@ internal class OrientedImageryTypeConverter: JsonConverter<OrientedImageryType>
             OrientedImageryType.Inspection => "inspection",
             _ => string.Empty
         };
-
         writer.WriteStringValue(type);
     }
 }

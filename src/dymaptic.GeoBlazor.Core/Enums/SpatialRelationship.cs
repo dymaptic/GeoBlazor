@@ -1,4 +1,4 @@
-﻿namespace dymaptic.GeoBlazor.Core.Enums;
+namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     For spatial queries, this parameter defines the spatial relationship to query features in the layer or layer view

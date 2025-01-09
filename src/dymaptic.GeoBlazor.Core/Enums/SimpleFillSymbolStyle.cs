@@ -4,6 +4,7 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 ///     The possible fill style for the <see cref="SimpleFillSymbol" />
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<SimpleFillSymbolStyle>))]
+[CodeGenerationIgnore]
 public enum SimpleFillSymbolStyle
 {
 #pragma warning disable CS1591

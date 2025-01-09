@@ -1,4 +1,4 @@
-﻿namespace dymaptic.GeoBlazor.Core.Enums;
+namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     Specifies the current measurement tool to display.

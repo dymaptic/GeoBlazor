@@ -11,7 +11,8 @@ public interface IHighlightLayerViewMixin
     /// <returns>
     ///     A handle that allows the highlight to be removed later.
     /// </returns>
-    Task<HighlightHandle> Highlight(long objectId);
+    [CodeGenerationIgnore]
+Task<HighlightHandle> Highlight(long objectId);
     
     /// <summary>
     ///     Highlights the given feature(s).

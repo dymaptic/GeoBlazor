@@ -1,5 +1,4 @@
-namespace dymaptic.GeoBlazor.Core.Objects;
-
+namespace dymaptic.GeoBlazor.Core.Enums;
 /// <summary>
 ///     Defines the way two expressions are combined to yield a single result.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-sql-WhereClause.html#BinaryNode">ArcGIS Maps SDK for JavaScript</a>
@@ -58,8 +57,7 @@ internal class BinaryNodeOperatorConverter : JsonConverter<BinaryNodeOperator>
             "-" => BinaryNodeOperator.Minus,
             "+" => BinaryNodeOperator.Plus,
             "/" => BinaryNodeOperator.DividedBy,
-            _ => throw new JsonException()
-        };
+            _ => throw new JsonException()};
     }
 
     public override void Write(Utf8JsonWriter writer, BinaryNodeOperator value, JsonSerializerOptions options)
@@ -86,8 +84,6 @@ internal class BinaryNodeOperatorConverter : JsonConverter<BinaryNodeOperator>
             BinaryNodeOperator.Minus => "-",
             BinaryNodeOperator.Plus => "+",
             BinaryNodeOperator.DividedBy => "/",
-            _ => throw new JsonException()
-        });
+            _ => throw new JsonException()});
     }
 }
-
