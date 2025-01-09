@@ -8,13 +8,14 @@ import {
     IPropertyWrapper
 } from "./definitions";
 import {buildJsFeatureEffect, buildJsFeatureFilter, buildJsQuery} from "./jsBuilder";
-import {getProtobufGraphicStream, hasValue} from "./arcGisJsInterop";
+import {getProtobufGraphicStream, graphicsRefs, hasValue} from "./arcGisJsInterop";
 import {
     buildDotNetFeatureSet
 } from "./dotNetBuilder";
 import FeatureEffect from "@arcgis/core/layers/support/FeatureEffect";
 import FeatureFilter from "@arcgis/core/layers/support/FeatureFilter";
 import Handle = __esri.Handle;
+import Graphic from "@arcgis/core/Graphic";
 
 export default class FeatureLayerViewWrapper implements IPropertyWrapper {
     private featureLayerView: FeatureLayerView;
@@ -56,6 +57,27 @@ export default class FeatureLayerViewWrapper implements IPropertyWrapper {
 
     highlight(target: any): Handle {
         return this.featureLayerView.highlight(target);
+    }
+    
+    highlightByGeoBlazorId(geoBlazorId: string): Handle | null {
+        if (!graphicsRefs.hasOwnProperty(geoBlazorId)) {
+            return null;
+        }
+        let graphic = graphicsRefs[geoBlazorId] as Graphic;
+        return this.featureLayerView.highlight(graphic);
+    }
+    
+    highlightByGeoBlazorIds(geoBlazorIds: string[]): Handle | null {
+        let graphics : Graphic[] = [];
+        geoBlazorIds.forEach(i => {
+            if (graphicsRefs.hasOwnProperty(i)) {
+                graphics.push(graphicsRefs[i] as Graphic);
+            }
+        });
+        if (graphics.length === 0) {
+            return null;
+        }
+        return this.featureLayerView.highlight(graphics);
     }
 
     async queryExtent(query: DotNetQuery, options: any): Promise<any> {
