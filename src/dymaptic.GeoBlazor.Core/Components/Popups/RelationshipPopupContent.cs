@@ -116,7 +116,7 @@ public class RelationshipPopupContent : PopupContent
             Description = Description,
             DisplayCount = DisplayCount,
             DisplayType = DisplayType,
-            OrderByFields = OrderByFields?.Select(r => r.ToSerializationRecord()).ToArray(),
+            OrderByFields = OrderByFields.Select(r => r.ToSerializationRecord()).ToArray(),
             RelationshipId = RelationshipId,
             Title = Title
         };

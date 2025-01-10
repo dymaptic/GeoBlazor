@@ -135,25 +135,25 @@ internal static class StringExtensions
         if (number > 0)
         {
             if (number < 20)
-                sb.Append(Numbers[number]);
+                sb.Append(numbers[number]);
             else
             {
-                sb.Append(Tens[number / 10]);
+                sb.Append(tens[number / 10]);
                 if (number % 10 > 0)
-                    sb.Append($"{Numbers[number % 10]}");
+                    sb.Append($"{numbers[number % 10]}");
             }
         }
 
         return sb.ToString();
     }
 
-    private static readonly string[] Numbers =
-    {
+    private static readonly string[] numbers =
+    [
         "Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine",
         "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen",
         "Eighteen", "Nineteen"
-    };
+    ];
     
-    private static readonly string[] Tens =
-        { "Zero", "Ten", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety" };
+    private static readonly string[] tens =
+        ["Zero", "Ten", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"];
 }

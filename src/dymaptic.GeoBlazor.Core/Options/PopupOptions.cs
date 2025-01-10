@@ -1,4 +1,4 @@
-﻿namespace dymaptic.GeoBlazor.Core.Components.Widgets;
+﻿namespace dymaptic.GeoBlazor.Core.Options;
 
 /// <summary>
 ///     A collection of options to define when creating a Popup.

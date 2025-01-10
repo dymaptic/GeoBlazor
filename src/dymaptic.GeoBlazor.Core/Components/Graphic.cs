@@ -374,7 +374,7 @@ public partial class Graphic: MapComponent
 
     public override int GetHashCode()
     {
-        return (Geometry != null ? Geometry.GetHashCode() : 0);
+        return Id.GetHashCode();
     }
 
     public static bool operator ==(Graphic? left, Graphic? right)

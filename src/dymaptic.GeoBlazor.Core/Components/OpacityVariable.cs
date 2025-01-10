@@ -51,21 +51,7 @@ public class OpacityVariable: VisualVariable
     ///     An array of objects that defines the opacity to apply to features in a layer in a sequence of stops. You must specify 2 - 8 stops. In most cases, no more than five are needed. Features with data values that fall between the given stops will be assigned opacity values linearly interpolated along the ramp in relation to the stop values. The stops must be listed in ascending order based on the value of the value property in each stop.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<OpacityStop>? Stops
-    {
-        get => _stops;
-        set
-        {
-            if (value is not null)
-            {
-                _stops = new List<OpacityStop>(value);
-            }
-            else
-            {
-                _stops = null;
-            }
-        }
-    }
+    public IReadOnlyList<OpacityStop>? Stops { get; set; }
     
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
@@ -73,8 +59,8 @@ public class OpacityVariable: VisualVariable
         switch (child)
         {
             case OpacityStop stop:
-                _stops ??= new List<OpacityStop>();
-                _stops.Add(stop);
+                Stops ??= new List<OpacityStop>();
+                Stops = [..Stops, stop];
 
                 break;
             default:
@@ -90,7 +76,7 @@ public class OpacityVariable: VisualVariable
         switch (child)
         {
             case OpacityStop stop:
-                _stops?.Remove(stop);
+                Stops = Stops?.Except([stop]).ToList();
 
                 break;
             default:
@@ -104,14 +90,12 @@ public class OpacityVariable: VisualVariable
     {
         base.ValidateRequiredChildren();
 
-        if (_stops is not null)
+        if (Stops is not null)
         {
-            foreach (OpacityStop stop in _stops)
+            foreach (OpacityStop stop in Stops)
             {
                 stop.ValidateRequiredChildren();
             }
         }
     }
-
-    private List<OpacityStop>? _stops;
 }

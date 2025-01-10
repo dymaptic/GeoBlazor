@@ -239,9 +239,9 @@ public class Sublayer: MapComponent, IPopupTemplateLayer
     /// </summary>
     public IReadOnlyList<Sublayer> GetAllSublayers()
     {
-        return Sublayers?
+        return Sublayers
             .SelectMany(s => new[] { s }.Concat(s.GetAllSublayers()))
-            .ToList() ?? [];
+            .ToList();
     }
 
     /// <inheritdoc />
@@ -287,10 +287,6 @@ public class Sublayer: MapComponent, IPopupTemplateLayer
         await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorSublayer", Layer!.Id,
             renderedSublayer.SublayerId, renderedSublayer.Id);
 
-        if (renderedSublayer.Sublayers is null)
-        {
-            return;
-        }
         foreach (Sublayer childSublayer in renderedSublayer.Sublayers)
         {
             Sublayer? matchingLayer = _sublayers.FirstOrDefault(l => l.Id == childSublayer.Id);

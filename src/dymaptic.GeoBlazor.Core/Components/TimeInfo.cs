@@ -1,10 +1,10 @@
-namespace dymaptic.GeoBlazor.Core.Model;
+namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 /// Time info represents the temporal data of a time-aware layer. The time info class provides information such
 /// as date fields that store the start and end times for each feature and the total time span for the layer.
 /// </summary>
-public record TimeInfo
+public partial class TimeInfo: MapComponent
 {
     /// <summary>
     ///     Public constructor

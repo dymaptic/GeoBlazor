@@ -1,4 +1,4 @@
-namespace dymaptic.GeoBlazor.Core.Objects;
+namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 /// TimeInterval is a class that describes a length of time in one of ten temporal units such as seconds, days, or years.
@@ -6,7 +6,7 @@ namespace dymaptic.GeoBlazor.Core.Objects;
 /// <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-TimeInterval.html">ArcGIS Maps SDK for JavaScript</a>
 /// Used by Feature Layer.
 /// </summary>
-public record TimeInterval
+public partial class TimeInterval: MapComponent
 {
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
@@ -47,6 +47,6 @@ public record TimeInterval
     /// <summary>
     /// The numerical value of the time extent.
     /// </summary>
-    public double Value { get; set; } = 0;
+    public double Value { get; set; }
 }
 

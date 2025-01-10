@@ -49,14 +49,7 @@ public class MapPath : List<MapPoint>, IEquatable<MapPath>
     /// <inheritdoc />
     public override int GetHashCode()
     {
-        int hash = base.GetHashCode();
-
-        for (var i = 0; i < Count; i++)
-        {
-            hash += this[i].GetHashCode();
-        }
-
-        return hash;
+        return HashCode.Combine(this.Select(p => p.GetHashCode()));
     }
 
     /// <summary>
@@ -147,14 +140,7 @@ public class MapPoint : List<double>, IEquatable<MapPoint>
     /// <inheritdoc />
     public override int GetHashCode()
     {
-        int hash = base.GetHashCode();
-
-        for (var i = 0; i < Count; i++)
-        {
-            hash += this[i].GetHashCode();
-        }
-
-        return hash;
+        return HashCode.Combine(this.Select(p => p.GetHashCode()));
     }
 
     /// <summary>

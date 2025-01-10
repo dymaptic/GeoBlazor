@@ -162,7 +162,7 @@ public class SceneView : MapView
 
         ShouldUpdate = false;
 
-        ViewExtentUpdate? change = await CoreJsModule!.InvokeAsync<ViewExtentUpdate>("updateView",
+        ViewExtentUpdate? change = await CoreJsModule!.InvokeAsync<ViewExtentUpdate?>("updateView",
             CancellationTokenSource.Token, new
             {
                 Id,

@@ -1,11 +1,30 @@
-namespace dymaptic.GeoBlazor.Core.Objects;
+namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     A time extent for a temporal query against time-aware layers. For example, it can be used to discover all crimes
 ///     that occurred during the night shift from 10 PM to 6 AM on a particular date.
 /// </summary>
 [JsonConverter(typeof(TimeExtentConverter))]
-public record TimeExtent(DateTime Start, DateTime End);
+public partial class TimeExtent: MapComponent
+{
+    /// <summary>
+    ///     Constructs a new TimeExtent from two DateTimes.
+    /// </summary>
+    /// <param name="start">
+    ///     The start of the time extent.
+    /// </param>
+    /// <param name="end">
+    ///     The end of the time extent.
+    /// </param>
+    public TimeExtent(DateTime start, DateTime end)
+    {
+        Start = start;
+        End = end;
+    }
+    
+    public DateTime Start { get; init; }
+    public DateTime End { get; init; }
+}
 
 internal class TimeExtentConverter: JsonConverter<TimeExtent>
 {

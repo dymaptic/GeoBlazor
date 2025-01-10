@@ -17,6 +17,7 @@ public record Effect
     public Effect(string value, double? scale = null)
     {
         Value = value;
+        Scale = scale;
     }
 
     /// <summary>

@@ -14,10 +14,7 @@ public class GeometryEngine : LogicComponent
     /// <param name="authenticationManager">
     ///     Injected Identity Manager reference
     /// </param>
-    /// <param name="jsModuleManager">
-    ///     Injected JavaScript Module Manager reference
-    /// </param>
-    public GeometryEngine(AuthenticationManager authenticationManager, JsModuleManager jsModuleManager) : base(authenticationManager)
+    public GeometryEngine(AuthenticationManager authenticationManager) : base(authenticationManager)
     {
     }
 

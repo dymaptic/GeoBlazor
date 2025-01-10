@@ -135,10 +135,6 @@ public class SimpleRenderer : Renderer
     {
         base.ValidateRequiredChildren();
         Symbol?.ValidateRequiredChildren();
-        if (VisualVariables is null)
-        {
-            return;
-        }
         
         foreach (VisualVariable variable in VisualVariables)
         {

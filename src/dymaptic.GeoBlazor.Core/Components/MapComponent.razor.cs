@@ -191,9 +191,6 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     /// <param name="value">
     ///     The new value.
     /// </param>
-    /// <param name="updateInMemory">
-    ///     Whether to update the in-memory value of the property as well as the ArcGIS JavaScript value. Default true.
-    /// </param>
     /// <typeparam name="T">
     ///     The type of the value to set.
     /// </typeparam>
@@ -279,9 +276,6 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     /// </summary>
     /// <param name="propertyName">
     ///     The name of the property to get.
-    /// </param>
-    /// <param name="updateInMemory">
-    ///     Whether to update the in-memory value of the property when retrieving from JavaScript. Default true.
     /// </param>
     /// <typeparam name="T">
     ///     The type of the value to get.
@@ -900,8 +894,8 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         await base.OnAfterRenderAsync(firstRender);
         if (firstRender)
         {
-            ProJsModule ??= await JsModuleManager.GetArcGisJsPro(JsRuntime, default);
-            CoreJsModule ??= await JsModuleManager.GetArcGisJsCore(JsRuntime, ProJsModule, default);
+            ProJsModule ??= await JsModuleManager.GetArcGisJsPro(JsRuntime, CancellationToken.None);
+            CoreJsModule ??= await JsModuleManager.GetArcGisJsCore(JsRuntime, ProJsModule, CancellationToken.None);
             AbortManager ??= new AbortManager(CoreJsModule);
         }
         IsRenderedBlazorComponent = true;
@@ -1436,6 +1430,8 @@ internal class DotNetObjectReferenceJsonConverter : JsonConverter<DotNetObjectRe
     {
         // Using for loop for performance since this is hit a lot. Looking at the JsRuntime source, it would be possible right
         // now to know that the _first_ converter can handle this type, but that could change in the future.
+        // ReSharper disable once ForCanBeConvertedToForeach
+        // ReSharper disable once LoopCanBeConvertedToQuery
         for (int i = 0; i < options.Converters.Count; i++)
         {
             if (options.Converters[i].CanConvert(typeof(DotNetObjectReference<MapComponent>)))

@@ -197,7 +197,7 @@ public class GraphicsLayer : Layer
                 }
 
                 ms.Seek(0, SeekOrigin.Begin);
-                ((IJSInProcessObjectReference)CoreJsModule!).InvokeVoid("addGraphicsSynchronously", ms.ToArray(), View.Id, Id);
+                ((IJSInProcessObjectReference)CoreJsModule).InvokeVoid("addGraphicsSynchronously", ms.ToArray(), View.Id, Id);
                 await ms.DisposeAsync();
                 await Task.Delay(1, cancellationToken);
             }
@@ -230,7 +230,7 @@ public class GraphicsLayer : Layer
                 ms.Seek(0, SeekOrigin.Begin);
                 using DotNetStreamReference streamRef = new(ms);
 
-                await CoreJsModule!.InvokeVoidAsync("addGraphicsFromStream",
+                await CoreJsModule.InvokeVoidAsync("addGraphicsFromStream",
                     cancellationToken, streamRef, View?.Id, abortSignal, Id);
             }
         }
@@ -266,7 +266,7 @@ public class GraphicsLayer : Layer
                     ms.Seek(0, SeekOrigin.Begin);
                     using DotNetStreamReference streamRef = new(ms);
 
-                    await CoreJsModule!.InvokeVoidAsync("addGraphicsFromStream",
+                    await CoreJsModule.InvokeVoidAsync("addGraphicsFromStream",
                         cancellationToken, streamRef, View?.Id, abortSignal, Id);
                 }, cancellationToken));
             }

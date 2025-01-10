@@ -17,10 +17,7 @@ public class LocationService : LogicComponent
     /// <param name="authenticationManager">
     ///     Injected Identity Manager reference
     /// </param>
-    /// <param name="jsModuleManager">
-    ///     Injected JavaScript Module Manager reference
-    /// </param>
-    public LocationService(AuthenticationManager authenticationManager, JsModuleManager jsModuleManager) : base(authenticationManager)
+    public LocationService(AuthenticationManager authenticationManager) : base(authenticationManager)
     {
     }
 
@@ -57,7 +54,7 @@ public class LocationService : LogicComponent
     [CodeGenerationIgnore]
     public async Task<List<AddressCandidate>> AddressesToLocations(List<Address> addresses, string? countryCode = null, List<string>? categories = null, LocationType? locationType = null, SpatialReference? outSpatialReference = null, RequestOptions? requestOptions = null)
     {
-        return await AddressesToLocations(ESRIGeoLocationUrl, addresses, countryCode, categories, locationType, outSpatialReference, requestOptions);
+        return await AddressesToLocations(esriGeoLocationUrl, addresses, countryCode, categories, locationType, outSpatialReference, requestOptions);
     }
 
     /// <summary>
@@ -142,7 +139,7 @@ public class LocationService : LogicComponent
     [CodeGenerationIgnore]
     public async Task<List<AddressCandidate>> AddressToLocations(Address address, List<string>? categories = null, string? countryCode = null, bool? forStorage = null, Point? location = null, LocationType? locationType = null, string? magicKey = null, int? maxLocations = null, List<string>? outFields = null, SpatialReference? outSpatialReference = null, Extent? searchExtent = null, RequestOptions? requestOptions = null)
     {
-        return await AddressToLocations(ESRIGeoLocationUrl, address, categories, countryCode, forStorage, location, locationType, magicKey, maxLocations, outFields, outSpatialReference, searchExtent, requestOptions);
+        return await AddressToLocations(esriGeoLocationUrl, address, categories, countryCode, forStorage, location, locationType, magicKey, maxLocations, outFields, outSpatialReference, searchExtent, requestOptions);
     }
 
     /// <summary>
@@ -219,7 +216,7 @@ public class LocationService : LogicComponent
     [CodeGenerationIgnore]
     public async Task<AddressCandidate> LocationToAddress(Point location, LocationType? locationType = null, SpatialReference? outSpatialReference = null, RequestOptions? requestOptions = null)
     {
-        return await LocationToAddress(ESRIGeoLocationUrl, location, locationType, outSpatialReference, requestOptions);
+        return await LocationToAddress(esriGeoLocationUrl, location, locationType, outSpatialReference, requestOptions);
     }
 
     /// <summary>
@@ -269,7 +266,7 @@ public class LocationService : LogicComponent
     [CodeGenerationIgnore]
     public async Task<List<SuggestionResult>> SuggestLocations(Point location, string text, List<string>? categories = null, RequestOptions? requestOptions = null)
     {
-        return await SuggestLocations(ESRIGeoLocationUrl, location, text, categories, requestOptions);
+        return await SuggestLocations(esriGeoLocationUrl, location, text, categories, requestOptions);
     }
 
     /// <summary>
@@ -296,9 +293,9 @@ public class LocationService : LogicComponent
         return await InvokeAsync<List<SuggestionResult>>("suggestLocations", url, location, text, categories, requestOptions);
     }
 
-    private JsonSerializerOptions _jsonOptions = new()
+    private readonly JsonSerializerOptions _jsonOptions = new()
     {
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
     };
-    private static readonly string ESRIGeoLocationUrl = "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer";
+    private static readonly string esriGeoLocationUrl = "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer";
 }

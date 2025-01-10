@@ -14,7 +14,7 @@ public class JsModuleManager
         {
             if (proModule is null)
             {
-                Version? version = System.Reflection.Assembly.GetAssembly(typeof(JsModuleManager))!.GetName().Version;
+                Version? version = Assembly.GetAssembly(typeof(JsModuleManager))!.GetName().Version;
                 _coreModule = await jsRuntime
                     .InvokeAsync<IJSObjectReference>("import", cancellationToken, 
                         $"./_content/dymaptic.GeoBlazor.Core/js/arcGisJsInterop.js?v={version}");
@@ -35,7 +35,7 @@ public class JsModuleManager
     {
         if (_proModule is null && !_proChecked)
         {
-            Version? version = System.Reflection.Assembly.GetAssembly(typeof(JsModuleManager))!.GetName().Version;
+            Version? version = Assembly.GetAssembly(typeof(JsModuleManager))!.GetName().Version;
 
             LicenseType licenseType = Licensing.GetLicenseType();
 

@@ -393,7 +393,7 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
     /// <inheritdoc />
     public override int GetHashCode()
     {
-        return base.GetHashCode();
+        return _backingDictionary.GetHashCode();
     }
 
     internal AttributeSerializationRecord[] ToSerializationRecord()

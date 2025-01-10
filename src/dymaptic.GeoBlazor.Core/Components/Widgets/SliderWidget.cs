@@ -775,7 +775,7 @@ public async Task<TickElementGroup[][]?> GetTickElements()
                 _tickConfigs.Remove(tickConfig); 
                 
                 break;
-            case SliderVisibleElements visibleElement:
+            case SliderVisibleElements:
                 VisibleElements = null;
                 
                 break;
