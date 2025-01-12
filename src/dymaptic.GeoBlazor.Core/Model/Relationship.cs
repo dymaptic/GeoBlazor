@@ -1,7 +1,4 @@
-
-
-namespace dymaptic.GeoBlazor.Core.Objects;
-
+namespace dymaptic.GeoBlazor.Core.Model;
 /// <summary>
 ///     Describes a layer's relationship with another layer or table. These relationships are listed in the ArcGIS Services
 ///     directory as described in the REST API documentation.
