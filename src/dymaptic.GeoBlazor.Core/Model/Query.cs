@@ -316,7 +316,7 @@ public record Query
     ///     parameter only applies if the layer's capabilities.query.supportsDistance is true.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public GeometryEngineLinearUnit? Units { get; set; }
+    public QueryUnits? Units { get; set; }
 }
 
 

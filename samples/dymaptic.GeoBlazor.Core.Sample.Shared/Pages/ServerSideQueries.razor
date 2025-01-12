@@ -106,7 +106,7 @@
     }
 
     private double? Distance => _queryType == "distance" ? 0.5 : null;
-    private GeometryEngineLinearUnit? Unit => _queryType == "distance" ? GeometryEngineLinearUnit.Miles : null;
+    private QueryUnits? Unit => _queryType == "distance" ? QueryUnits.Miles : null;
     private MapView? _mapView;
     private FeatureLayer? _featureLayer;
     private readonly Graphic _pointGraphic = new(symbol: new SimpleMarkerSymbol(
