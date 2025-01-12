@@ -81,7 +81,9 @@ public class PictureFillSymbol : FillSymbol
     ///     The URL to an image or SVG document.
     /// </summary>
     [Parameter]
-    public string Url { get; set; } = default!;
+    [RequiredProperty]
+    [EditorRequired]
+    public string Url { get; set; } = null!;
     
     /// <summary>
     ///     The scale factor on the x axis of the symbol.

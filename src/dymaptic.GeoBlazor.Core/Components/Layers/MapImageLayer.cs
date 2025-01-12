@@ -289,11 +289,7 @@ public class MapImageLayer : Layer
     ///     All sublayers are referenced in the order in which they are drawn in the view (bottom to top).
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public IReadOnlyList<Sublayer> Sublayers
-    {
-        get => _sublayers;
-        set => _sublayers = new List<Sublayer>(value);
-    }
+    public IReadOnlyList<Sublayer>? Sublayers { get; set; }
     
     //TODO: Add support for adding, removing, reordering sublayers
     
@@ -301,8 +297,8 @@ public class MapImageLayer : Layer
     ///     A flat Collection of all the sublayers in the MapImageLayer including the sublayers of its sublayers. All sublayers are referenced in the order in which they are drawn in the view (bottom to top).
     /// </summary>
     [JsonIgnore]
-    public IReadOnlyList<Sublayer> AllSublayers =>
-        Sublayers.SelectMany(s => new[]{s}.Concat(s.GetAllSublayers()))
+    public IReadOnlyList<Sublayer>? AllSublayers =>
+        Sublayers?.SelectMany(s => new[]{s}.Concat(s.GetAllSublayers() ?? []))
             .ToList();
     
     /// <summary>
@@ -371,7 +367,8 @@ public class MapImageLayer : Layer
                 
                 break;
             case Sublayer sublayer:
-                _sublayers.Add(sublayer);
+                Sublayers ??= [];
+                Sublayers = [..Sublayers, sublayer];
                 
                 break;
             default:
@@ -391,7 +388,7 @@ public class MapImageLayer : Layer
                 
                 break;
             case Sublayer sublayer:
-                _sublayers.Remove(sublayer);
+                Sublayers = Sublayers?.Except([sublayer]).ToList();
 
                 break;
             default:
@@ -406,9 +403,12 @@ public class MapImageLayer : Layer
     {
         PortalItem?.ValidateRequiredChildren();
 
-        foreach (Sublayer sublayer in _sublayers)
+        if (Sublayers is not null)
         {
-            sublayer.ValidateRequiredChildren();
+            foreach (Sublayer sublayer in Sublayers)
+            {
+                sublayer.ValidateRequiredChildren();
+            }
         }
         base.ValidateRequiredChildren();
     }
@@ -447,9 +447,14 @@ public class MapImageLayer : Layer
         TimeInfo ??= renderedMapLayer.TimeInfo;
         Version ??= renderedMapLayer.Version;
 
+        if (renderedMapLayer.Sublayers is null)
+        {
+            return;
+        }
+
         foreach (Sublayer renderedSubLayer in renderedMapLayer.Sublayers)
         {
-            Sublayer? matchingLayer = _sublayers.FirstOrDefault(l => l.Id == renderedSubLayer.Id);
+            Sublayer? matchingLayer = Sublayers?.FirstOrDefault(l => l.Id == renderedSubLayer.Id);
 
             if (matchingLayer is not null)
             {
@@ -468,86 +473,19 @@ public class MapImageLayer : Layer
     {
         sublayer.Parent = this;
         sublayer.View = View;
-        _sublayers.Add(sublayer);
+        Sublayers ??= [];
+        Sublayers = [..Sublayers, sublayer];
         await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorSublayer", Id,
             sublayer.SublayerId, sublayer.Id);
 
+        if (sublayer.Sublayers is null)
+        {
+            return;
+        }
+        
         foreach (Sublayer subsub in sublayer.Sublayers)
         {
             await RegisterNewSublayer(subsub);
         }
     }
-    
-    private List<Sublayer> _sublayers = new();
 }
-
-/// <summary>
-///     Indicates the layer's supported capabilities.
-/// </summary>
-/// <param name="ExportMap">
-///     Indicates options supported by the exportMap operation. Will be null if the supportsExportMap is false.
-/// </param>
-/// <param name="ExportTiles">
-///     Indicates options supported by the exportTiles operation. Will be null if the supportsExportTiles is false.
-/// </param>
-/// <param name="Operations">
-///     Indicates operations that can be performed on the service.
-/// </param>
-public record MapImageLayerCapabilities(
-    MapImageExportMap ExportMap,
-    MapImageExportTiles ExportTiles,
-    MapImageOperations Operations);
-
-/// <summary>
-///     Indicates options supported by the exportMap operation. Will be null if the supportsExportMap is false.
-/// </summary>
-/// <param name="SupportsArcadeExpressionForLabeling">
-///     Indicates if sublayers support Arcade expressions for labeling. Only applies to MapImageLayer.
-/// </param>
-/// <param name="SupportsDynamicLayers">
-///     Indicates if sublayers rendering can be modified or added using dynamic layers.
-/// </param>
-/// <param name="SupportsSublayersChanges">
-///     Indicates if sublayers can be added, or removed. supportsDynamicLayers must be true as well to be able to reorder sublayers.
-/// </param>
-/// <param name="SupportsSublayerDefinitionExpression">
-///     Indicates if sublayers definition expression can be set.
-/// </param>
-/// <param name="SupportsSublayerVisibility">
-///     Indicates if sublayers visibility can be changed.
-/// </param>
-/// <param name="SupportsCIMSymbols">
-///     Indicates if CIMSymbol can be used in a sublayer's renderer.
-/// </param>
-public record MapImageExportMap(bool SupportsArcadeExpressionForLabeling, bool SupportsDynamicLayers,
-    bool SupportsSublayersChanges, bool SupportsSublayerDefinitionExpression,
-    bool SupportsSublayerVisibility, bool SupportsCIMSymbols);
-
-/// <summary>
-///     Indicates options supported by the exportTiles operation. Will be null if the supportsExportTiles is false.
-/// </summary>
-/// <param name="MaxExportTilesCount">
-///     Specifies the maximum number of tiles that can be exported to a cache dataset or a tile package.
-/// </param>
-public record MapImageExportTiles(int MaxExportTilesCount);
-
-/// <summary>
-///     Indicates operations that can be performed on the service.
-/// </summary>
-/// <param name="SupportsExportMap">
-///     Indicates if the service can generate images.
-/// </param>
-/// <param name="SupportsExportTiles">
-///     Indicates if the tiles from the service can be exported.
-/// </param>
-/// <param name="SupportsIdentify">
-///     Indicates if the service supports the identify operation.
-/// </param>
-/// <param name="SupportsQuery">
-///     Indicates if features in the sublayers can be queried.
-/// </param>
-/// <param name="SupportsTileMap">
-///     Indicates if the service exposes a tile map that describes the presence of tiles.
-/// </param>
-public record MapImageOperations(bool SupportsExportMap, bool SupportsExportTiles, bool SupportsIdentify, 
-    bool SupportsQuery, bool SupportsTileMap);

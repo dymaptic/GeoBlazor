@@ -31,7 +31,7 @@ public class TileLayer : Layer
     /// </summary>
     [JsonIgnore]
     public IReadOnlyList<Sublayer>? AllSublayers =>
-        Sublayers?.SelectMany(s => new[]{s}.Concat(s.GetAllSublayers()))
+        Sublayers?.SelectMany(s => new[]{s}.Concat(s.GetAllSublayers() ?? []))
             .ToList();
     
     /// <summary>
@@ -104,11 +104,7 @@ public class TileLayer : Layer
     /// <summary>
     ///     A Collection of Sublayer objects. All sublayers are referenced in the order in which they are drawn in the view (bottom to top). Sublayer properties on TileLayer are read-only, with the following exceptions: LegendEnabled, PopupEnabled, PopupTemplate
     /// </summary>
-    public IReadOnlyList<Sublayer>? Sublayers
-    {
-        get => _sublayers;
-        set => _sublayers = value?.ToList();
-    }
+    public IReadOnlyList<Sublayer>? Sublayers { get; set; }
     
     /// <summary>
     ///     The tiling scheme information for the layer.
@@ -200,13 +196,13 @@ public class TileLayer : Layer
         MaxScale ??= renderedTileLayer.MaxScale;
         PortalItem ??= renderedTileLayer.PortalItem;
 
-        _sublayers ??= new List<Sublayer>();
+        Sublayers ??= [];
 
         if (renderedTileLayer.Sublayers is not null)
         {
             foreach (Sublayer renderedSubLayer in renderedTileLayer.Sublayers!)
             {
-                Sublayer? matchingLayer = _sublayers.FirstOrDefault(l => l.Id == renderedSubLayer.Id);
+                Sublayer? matchingLayer = Sublayers.FirstOrDefault(l => l.Id == renderedSubLayer.Id);
 
                 if (matchingLayer is not null)
                 {
@@ -226,15 +222,19 @@ public class TileLayer : Layer
     {
         sublayer.Parent = this;
         sublayer.View = View;
-        _sublayers!.Add(sublayer);
+        Sublayers ??= [];
+        Sublayers = [..Sublayers, sublayer];
         await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorSublayer", Id,
             sublayer.SublayerId, sublayer.Id);
+
+        if (sublayer.Sublayers is null)
+        {
+            return;
+        }
 
         foreach (Sublayer subsub in sublayer.Sublayers)
         {
             await RegisterNewSublayer(subsub);
         }
     }
-    
-    private List<Sublayer>? _sublayers;
 }

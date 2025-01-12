@@ -32,10 +32,7 @@ public class SimpleRenderer : Renderer
 #pragma warning disable BL0005 // Set parameter or member default value.
         Symbol = symbol;
         Label = label;
-        if (visualVariables is not null)
-        {
-            VisualVariables = new HashSet<VisualVariable>(visualVariables);
-        }
+        VisualVariables = visualVariables;
 #pragma warning restore BL0005 // Set parameter or member default value.
     }
     
@@ -54,7 +51,7 @@ public class SimpleRenderer : Renderer
     ///     A collection of <see cref="VisualVariable" /> objects.
     /// </summary>
     [ArcGISProperty]
-    public HashSet<VisualVariable> VisualVariables { get; set; } = new();
+    public IReadOnlyList<VisualVariable>? VisualVariables { get; set; }
     
     /// <summary>
     ///     The <see cref="Symbol" /> for the object.
@@ -100,7 +97,8 @@ public class SimpleRenderer : Renderer
 
                 break;
             case VisualVariable visualVariable:
-                VisualVariables.Add(visualVariable);
+                VisualVariables ??= new List<VisualVariable>();
+                VisualVariables = [..VisualVariables, visualVariable];
 
                 break;
             default:
@@ -120,7 +118,7 @@ public class SimpleRenderer : Renderer
 
                 break;
             case VisualVariable visualVariable:
-                VisualVariables.Remove(visualVariable);
+                VisualVariables = VisualVariables?.Except([visualVariable]).ToList();
 
                 break;
             default:
@@ -135,10 +133,13 @@ public class SimpleRenderer : Renderer
     {
         base.ValidateRequiredChildren();
         Symbol?.ValidateRequiredChildren();
-        
-        foreach (VisualVariable variable in VisualVariables)
+
+        if (VisualVariables is not null)
         {
-            variable.ValidateRequiredChildren();
+            foreach (VisualVariable variable in VisualVariables)
+            {
+                variable.ValidateRequiredChildren();
+            }
         }
     }
 }

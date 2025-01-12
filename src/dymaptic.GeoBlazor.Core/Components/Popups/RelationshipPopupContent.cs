@@ -92,7 +92,7 @@ public class RelationshipPopupContent : PopupContent
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<RelatedRecordsInfoFieldOrder> OrderByFields { get; set; } = new List<RelatedRecordsInfoFieldOrder>();
+    public IReadOnlyList<RelatedRecordsInfoFieldOrder>? OrderByFields { get; set; }
 
     /// <summary>
     ///     The numeric id value for the defined relationship. This value can be found on the service itself or on the
@@ -116,7 +116,7 @@ public class RelationshipPopupContent : PopupContent
             Description = Description,
             DisplayCount = DisplayCount,
             DisplayType = DisplayType,
-            OrderByFields = OrderByFields.Select(r => r.ToSerializationRecord()).ToArray(),
+            OrderByFields = OrderByFields?.Select(r => r.ToSerializationRecord()).ToArray(),
             RelationshipId = RelationshipId,
             Title = Title
         };

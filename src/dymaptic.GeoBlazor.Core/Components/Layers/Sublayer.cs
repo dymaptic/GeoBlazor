@@ -71,8 +71,8 @@ public class Sublayer: MapComponent, IPopupTemplateLayer
     public Sublayer(int? sublayerId = null, bool? labelsVisible = null, bool? legendEnabled = null, 
         ListMode? listMode = null, double? maxScale = null, double? minScale = null, double? opacity = null, 
         bool? popupEnabled = null, string? title = null, bool? visible = null, string? definitionExpression = null, 
-        LayerFloorInfo? floorInfo = null, IEnumerable<Label>? labelingInfo = null, PopupTemplate? popupTemplate = null,
-        Renderer? renderer = null, DynamicLayer? source = null, IEnumerable<Sublayer>? sublayers = null)
+        LayerFloorInfo? floorInfo = null, IReadOnlyList<Label>? labelingInfo = null, PopupTemplate? popupTemplate = null,
+        Renderer? renderer = null, DynamicLayer? source = null, IReadOnlyList<Sublayer>? sublayers = null)
     {
 #pragma warning disable BL0005 // Set parameter or member default value.
         SublayerId = sublayerId;
@@ -87,19 +87,11 @@ public class Sublayer: MapComponent, IPopupTemplateLayer
         Visible = visible;
         DefinitionExpression = definitionExpression;
         FloorInfo = floorInfo;
-
-        if (labelingInfo is not null)
-        {
-            LabelingInfo = new HashSet<Label>(labelingInfo);
-        }
+        LabelingInfo = labelingInfo;
         PopupTemplate = popupTemplate;
         Renderer = renderer;
         Source = source;
-
-        if (sublayers is not null)
-        {
-            Sublayers = new List<Sublayer>(sublayers);
-        }
+        Sublayers = sublayers;
 #pragma warning restore BL0005 // Set parameter or member default value.
     }
     
@@ -189,11 +181,7 @@ public class Sublayer: MapComponent, IPopupTemplateLayer
     /// <summary>
     ///     The label definition for this layer, specified as an array of LabelClass objects. Use this property to specify labeling properties for the layer such as label expression, placement, and size.
     /// </summary>
-    public IReadOnlyCollection<Label> LabelingInfo
-    {
-        get => _labelingInfo;
-        set => _labelingInfo = new HashSet<Label>(value);
-    }
+    public IReadOnlyList<Label>? LabelingInfo { get; set; }
     
     /// <summary>
     ///     The popup template for the sublayer. When set, the popupTemplate allows users to access attributes and display their values in the view's popup when the user clicks the image.
@@ -219,11 +207,7 @@ public class Sublayer: MapComponent, IPopupTemplateLayer
     ///     If a sublayer contains sublayers, this property is a Collection of Sublayer objects belonging to the given sublayer with sublayers.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public IReadOnlyList<Sublayer> Sublayers
-    {
-        get => _sublayers;
-        set => _sublayers = new List<Sublayer>(value);
-    }
+    public IReadOnlyList<Sublayer>? Sublayers { get; set; }
 
     /// <summary>
     ///     The MapImageLayer or TileLayer to which the sublayer belongs.
@@ -237,10 +221,10 @@ public class Sublayer: MapComponent, IPopupTemplateLayer
     /// <summary>
     ///     Returns a flattened list of sublayers
     /// </summary>
-    public IReadOnlyList<Sublayer> GetAllSublayers()
+    public IReadOnlyList<Sublayer>? GetAllSublayers()
     {
-        return Sublayers
-            .SelectMany(s => new[] { s }.Concat(s.GetAllSublayers()))
+        return Sublayers?
+            .SelectMany(s => new[] { s }.Concat(s.GetAllSublayers() ?? []))
             .ToList();
     }
 
@@ -287,9 +271,14 @@ public class Sublayer: MapComponent, IPopupTemplateLayer
         await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorSublayer", Layer!.Id,
             renderedSublayer.SublayerId, renderedSublayer.Id);
 
+        if (renderedSublayer.Sublayers is null)
+        {
+            return;
+        }
+        
         foreach (Sublayer childSublayer in renderedSublayer.Sublayers)
         {
-            Sublayer? matchingLayer = _sublayers.FirstOrDefault(l => l.Id == childSublayer.Id);
+            Sublayer? matchingLayer = Sublayers?.FirstOrDefault(l => l.Id == childSublayer.Id);
 
             if (matchingLayer is not null)
             {
@@ -297,7 +286,8 @@ public class Sublayer: MapComponent, IPopupTemplateLayer
             }
             else
             {
-                _sublayers.Add(childSublayer);
+                Sublayers ??= [];
+                Sublayers = [..Sublayers, childSublayer];
             }
         }
     }
@@ -410,7 +400,8 @@ public class Sublayer: MapComponent, IPopupTemplateLayer
                 
                 break;
             case Label label:
-                _labelingInfo.Add(label);
+                LabelingInfo ??= [];
+                LabelingInfo = [..LabelingInfo, label];
 
                 break;
             case PopupTemplate popupTemplate:
@@ -422,7 +413,8 @@ public class Sublayer: MapComponent, IPopupTemplateLayer
 
                 break;
             case Sublayer sublayer:
-                _sublayers.Add(sublayer);
+                Sublayers ??= [];
+                Sublayers = [..Sublayers, sublayer];
 
                 break;
             case DynamicLayer dynamicLayer:
@@ -446,7 +438,7 @@ public class Sublayer: MapComponent, IPopupTemplateLayer
                 
                 break;
             case Label label:
-                _labelingInfo.Remove(label);
+                LabelingInfo = LabelingInfo?.Except([label]).ToList();
 
                 break;
             case PopupTemplate _:
@@ -458,7 +450,7 @@ public class Sublayer: MapComponent, IPopupTemplateLayer
 
                 break;
             case Sublayer sublayer:
-                _sublayers.Remove(sublayer);
+                Sublayers = Sublayers?.Except([sublayer]).ToList();
 
                 break;
             case Renderer _:
@@ -479,18 +471,21 @@ public class Sublayer: MapComponent, IPopupTemplateLayer
         PopupTemplate?.ValidateRequiredChildren();
         Source?.ValidateRequiredChildren();
 
-        foreach (Label label in _labelingInfo)
+        if (LabelingInfo is not null)
         {
-            label.ValidateRequiredChildren();
+            foreach (Label label in LabelingInfo)
+            {
+                label.ValidateRequiredChildren();
+            }
         }
 
-        foreach (Sublayer sublayer in _sublayers)
+        if (Sublayers is not null)
         {
-            sublayer.ValidateRequiredChildren();
+            foreach (Sublayer sublayer in Sublayers)
+            {
+                sublayer.ValidateRequiredChildren();
+            }
         }
         base.ValidateRequiredChildren();
     }
-    
-    private HashSet<Label> _labelingInfo = new();
-    private List<Sublayer> _sublayers = new();
 }

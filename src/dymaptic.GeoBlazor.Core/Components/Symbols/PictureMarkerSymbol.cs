@@ -71,7 +71,9 @@ public class PictureMarkerSymbol : MarkerSymbol
     ///     The URL to an image or SVG document.
     /// </summary>
     [Parameter]
-    public string Url { get; set; } = default!;
+    [RequiredProperty]
+    [EditorRequired]
+    public string Url { get; set; } = null!;
 
     internal override SymbolSerializationRecord ToSerializationRecord()
     {
