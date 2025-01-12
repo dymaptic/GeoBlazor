@@ -1,13 +1,13 @@
 
 
-namespace dymaptic.GeoBlazor.Core.Components;
+namespace dymaptic.GeoBlazor.Core.Objects;
 
 /// <summary>
 ///     Describes a layer's relationship with another layer or table. These relationships are listed in the ArcGIS Services
 ///     directory as described in the REST API documentation.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Relationship.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public class Relationship: MapComponent
+public record Relationship
 {
     /// <summary>
     ///     The cardinality which specifies the number of objects in the origin FeatureLayer related to the number of objects
