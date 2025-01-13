@@ -38,6 +38,7 @@ public class SpatialReference : MapComponent
     ///     The well-known text of the coordinate system as defined by OGC standard for well-known text strings.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-SpatialReference.html#wkt2">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    [CodeGenerationIgnore]
     public SpatialReference(
         int? wkid = null,
         string? imageCoordinateSystem = null,

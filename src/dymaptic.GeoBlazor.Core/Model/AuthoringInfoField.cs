@@ -1,6 +1,6 @@
 
 
-namespace dymaptic.GeoBlazor.Core.Objects;
+namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     A numeric field used for generating a relationship renderer
