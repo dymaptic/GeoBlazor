@@ -14,8 +14,6 @@ public class Portal : MapComponent
     ///     The URL to the portal instance.
     /// </summary>
     [Parameter]
-    [EditorRequired]
-    [RequiredProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Url { get; set; }
 }
