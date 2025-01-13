@@ -20,12 +20,12 @@ import Graphic from "@arcgis/core/Graphic";
 export default class FeatureLayerViewWrapper implements IPropertyWrapper {
     private featureLayerView: FeatureLayerView;
 
-    constructor(featureLayerView: FeatureLayerView) {
-        this.featureLayerView = featureLayerView;
+    constructor(component: FeatureLayerView) {
+        this.featureLayerView = component;
         // set all properties from featureLayerView
-        for (let prop in featureLayerView) {
-            if (featureLayerView.hasOwnProperty(prop)) {
-                this[prop] = featureLayerView[prop];
+        for (let prop in component) {
+            if (component.hasOwnProperty(prop)) {
+                this[prop] = component[prop];
             }
         }
     }

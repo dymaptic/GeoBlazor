@@ -6,9 +6,9 @@ import {buildDotNetEffect, buildDotNetTileInfo} from "./dotNetBuilder";
 export default class BingMapsLayerWrapper extends BaseTileLayerWrapper {
     public layer: BingMapsLayer;
     
-    constructor(bmLayer: BingMapsLayer) {
-        super(bmLayer);
-        this.layer = bmLayer;
+    constructor(layer: BingMapsLayer) {
+        super(layer);
+        this.layer = layer;
     }
     
     getBingLogo() {

@@ -2,11 +2,6 @@
 
 // region imports
 import {
-    buildJsFeatureLayer,
-    buildJsKMLLayer,
-    buildJsVectorTileLayer
-} from './jsBuilder.gb';
-import {
     buildDotNetBookmark,
     buildDotNetExtent,
     buildDotNetFeature,
@@ -148,7 +143,6 @@ import SliderWidgetWrapper from "./sliderWidget";
 import SpatialReference from "@arcgis/core/geometry/SpatialReference";
 import TileInfo from "@arcgis/core/layers/support/TileInfo";
 import TileLayer from "@arcgis/core/layers/TileLayer";
-import VectorTileLayer from "@arcgis/core/layers/VectorTileLayer";
 import View from "@arcgis/core/views/View";
 import WCSLayer from "@arcgis/core/layers/WCSLayer";
 import WebMap from "@arcgis/core/WebMap";
@@ -2792,18 +2786,6 @@ export async function createLayer(dotNetLayer: any, wrap: boolean | null, viewId
 
             newLayer = imageryTileLayer;
             break;
-        case 'feature':
-            newLayer = await buildJsFeatureLayer(dotNetLayer, viewId);
-
-            break;
-        case 'kml':
-            newLayer = await buildJsKMLLayer(dotNetLayer);
-
-            break;
-        case 'vector-tile':
-            newLayer = await buildJsVectorTileLayer(dotNetLayer);
-
-            break;
          default:
             return null;
     }
@@ -2863,16 +2845,6 @@ export async function getObjectReference(objectRef: any) {
             return new SliderWidgetWrapper(objectRef);
         }
         
-        let { default: KMLLayer } = await import ('@arcgis/core/layers/KMLLayer');
-        if (objectRef instanceof KMLLayer) {
-            let { default: KMLLayerWrapper } = await import('./kMLLayer');
-            return new KMLLayerWrapper(objectRef);
-        }
-        let { default: VectorTileLayer } = await import ('@arcgis/core/layers/VectorTileLayer');
-        if (objectRef instanceof VectorTileLayer) {
-            let { default: VectorTileLayerWrapper } = await import('./vectorTileLayer');
-            return new VectorTileLayerWrapper(objectRef);
-        }
         // return default arcgis object -- do not remove this comment, necessary for code-gen
         return objectRef;
     }
