@@ -41,7 +41,7 @@ public class GeoJSONLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer
     /// <param name="listMode">
     ///     Indicates how the layer should display in the LayerList widget. The possible values are listed below.
     /// </param>
-    public GeoJSONLayer(string? url = null, string? copyright = null, string? title = null,
+    public GeoJSONLayer(string url, string? copyright = null, string? title = null,
         double? opacity = null, bool? visible = null, ListMode? listMode = null)
     {
 #pragma warning disable BL0005
@@ -61,8 +61,10 @@ public class GeoJSONLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer
     ///     The url for the GeoJSON source data.
     /// </summary>
     [Parameter]
+    [EditorRequired]
+    [RequiredProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? Url { get; set; }
+    public string Url { get; set; } = null!;
 
     /// <summary>
     ///     A copyright string to identify ownership of the data.

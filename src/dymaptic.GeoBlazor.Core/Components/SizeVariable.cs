@@ -166,21 +166,7 @@ public class SizeVariable : VisualVariable
     ///     An array of objects that defines the mapping of data values returned from field or valueExpression to icon sizes. You must specify 2 - 6 stops. The stops must be listed in ascending order based on the value of the value property in each stop.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<SizeStop>? Stops
-    {
-        get => _stops;
-        set
-        {
-            if (value is not null)
-            {
-                _stops = new List<SizeStop>(value);
-            }
-            else
-            {
-                _stops = null;
-            }
-        }
-    }
+    public IReadOnlyList<SizeStop>? Stops { get; set; }
     
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
@@ -188,8 +174,8 @@ public class SizeVariable : VisualVariable
         switch (child)
         {
             case SizeStop stop:
-                _stops ??= new List<SizeStop>();
-                _stops.Add(stop);
+                Stops ??= [];
+                Stops = [..Stops, stop];
 
                 break;
             default:
@@ -205,7 +191,7 @@ public class SizeVariable : VisualVariable
         switch (child)
         {
             case SizeStop stop:
-                _stops?.Remove(stop);
+                Stops = Stops?.Except([stop]).ToList();
 
                 break;
             default:
@@ -219,14 +205,12 @@ public class SizeVariable : VisualVariable
     {
         base.ValidateRequiredChildren();
 
-        if (_stops is not null)
+        if (Stops is not null)
         {
-            foreach (SizeStop stop in _stops)
+            foreach (SizeStop stop in Stops)
             {
                 stop.ValidateRequiredChildren();
             }
         }
     }
-
-    private List<SizeStop>? _stops;
 }
