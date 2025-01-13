@@ -50,21 +50,7 @@ public class ColorVariable : VisualVariable
     ///     An array of sequential objects, or stops, that defines a continuous color ramp. You must specify 2 - 8 stops. In most cases, no more than five are needed. Features with values that fall between the given stops will be assigned colors linearly interpolated along the ramp in relation to the nearest stop values. The stops must be listed in ascending order based on the value of the value property in each stop.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<ColorStop>? Stops
-    {
-        get => _stops;
-        set
-        {
-            if (value is not null)
-            {
-                _stops = new List<ColorStop>(value);
-            }
-            else
-            {
-                _stops = null;
-            }
-        }
-    }
+    public IReadOnlyList<ColorStop>? Stops { get; set; }
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
@@ -72,8 +58,8 @@ public class ColorVariable : VisualVariable
         switch (child)
         {
             case ColorStop stop:
-                _stops ??= new List<ColorStop>();
-                _stops.Add(stop);
+                Stops ??= [];
+                Stops = [..Stops, stop];
 
                 break;
             default:
@@ -89,7 +75,7 @@ public class ColorVariable : VisualVariable
         switch (child)
         {
             case ColorStop stop:
-                _stops?.Remove(stop);
+                Stops = Stops?.Except([stop]).ToList();
 
                 break;
             default:
@@ -103,14 +89,12 @@ public class ColorVariable : VisualVariable
     {
         base.ValidateRequiredChildren();
 
-        if (_stops is not null)
+        if (Stops is not null)
         {
-            foreach (ColorStop stop in _stops)
+            foreach (ColorStop stop in Stops)
             {
                 stop.ValidateRequiredChildren();
             }
         }
     }
-    
-    private List<ColorStop>? _stops;
 }
