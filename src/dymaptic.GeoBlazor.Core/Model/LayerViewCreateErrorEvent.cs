@@ -8,4 +8,5 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// <param name="Error">
 ///     An error object describing why the layer view failed to create.
 /// </param>
+[CodeGenerationIgnore]
 public record LayerViewCreateErrorEvent(Layer Layer, JavascriptError Error);

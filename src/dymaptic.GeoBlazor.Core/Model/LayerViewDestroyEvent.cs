@@ -9,4 +9,5 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// <param name="LayerView">
 ///     The LayerView that was destroyed in the view.
 /// </param>
+[CodeGenerationIgnore]
 public record LayerViewDestroyEvent(Layer Layer, LayerView LayerView);
