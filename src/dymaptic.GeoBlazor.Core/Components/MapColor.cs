@@ -13,7 +13,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 [CodeGenerationIgnore]
 public class MapColor : IEquatable<MapColor>
 {
-    private double[] _rgbaValues = [];
+    private double[]? _rgbaValues = [];
     private string? _hexOrNameValue;
 
     /// <summary>
@@ -66,14 +66,14 @@ public class MapColor : IEquatable<MapColor>
     ///     The numeric values for calculating a color (rgb/rgba).
     /// </summary>
     [ProtoMember(1)]
-    public double[] RgbaValues
+    public double[]? RgbaValues
     {
         get => _rgbaValues;
         set
         {
             _rgbaValues = value;
             Color? color = ToSystemColor();
-            HexOrNameValue = color is null ? null : ToHex();
+            HexOrNameValue ??= color is null ? null : ToHex();
         }
     }
 
@@ -88,7 +88,7 @@ public class MapColor : IEquatable<MapColor>
         {
             _hexOrNameValue = value;
             Color? color = ToSystemColor();
-            RgbaValues = color is null ? [] : [color.Value.R, color.Value.G, color.Value.B, color.Value.A / 255.0];
+            RgbaValues ??= color is null ? [] : [color.Value.R, color.Value.G, color.Value.B, color.Value.A / 255.0];
         }
     }
 
@@ -97,6 +97,14 @@ public class MapColor : IEquatable<MapColor>
     {
         if (ReferenceEquals(null, other)) return false;
         if (ReferenceEquals(this, other)) return true;
+        if (RgbaValues is null && other.RgbaValues is null)
+        {
+            return HexOrNameValue == other.HexOrNameValue;
+        }
+        if (RgbaValues is null || other.RgbaValues is null)
+        {
+            return false;
+        }
 
         return RgbaValues.SequenceEqual(other.RgbaValues) && (HexOrNameValue == other.HexOrNameValue);
     }
@@ -122,7 +130,7 @@ public class MapColor : IEquatable<MapColor>
     /// </summary>
     public MapColor Clone()
     {
-        return RgbaValues.Any() ? new MapColor(RgbaValues.ToArray()) : new MapColor(HexOrNameValue!);
+        return RgbaValues?.Any() == true ? new MapColor(RgbaValues.ToArray()) : new MapColor(HexOrNameValue!);
     }
 
     /// <summary>
@@ -152,7 +160,7 @@ public class MapColor : IEquatable<MapColor>
     /// </summary>
     public Color? ToSystemColor()
     {
-        if (RgbaValues.Any())
+        if (RgbaValues?.Any() == true)
         {
             return Color.FromArgb(
                 (int)(RgbaValues[3] * 255),
@@ -191,18 +199,18 @@ public class MapColor : IEquatable<MapColor>
     /// </returns>
     public static MapColor? BlendColors(MapColor start, MapColor end, double weight)
     {
-        if (!start.RgbaValues.Any())
+        if (start.RgbaValues?.Any() != true)
         {
             // reset triggers calculation of rgba values from hex or name
             start.HexOrNameValue = start.HexOrNameValue;
         }
 
-        if (!end.RgbaValues.Any())
+        if (end.RgbaValues?.Any() != true)
         {
             end.HexOrNameValue = end.HexOrNameValue;
         }
         
-        if (start.RgbaValues.Any() && end.RgbaValues.Any())
+        if (start.RgbaValues?.Any() == true && end.RgbaValues?.Any() == true)
         {
             double[] startValues = start.RgbaValues.ToArray();
             double[] endValues = end.RgbaValues.ToArray();

@@ -148,6 +148,7 @@ public class PopupTemplate : MapComponent
     /// </remarks>
     [RequiredProperty(nameof(StringContent), nameof(ContentFunction))]
     [CodeGenerationIgnore]
+    [Parameter]
     public List<PopupContent> Content { get; set; } = new();
 
     /// <summary>

@@ -1015,8 +1015,6 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
     try {
         setWaitCursor(viewId);
         let currentLayer = arcGisObjectRefs[layerObject.id] as Layer;
-        let view = arcGisObjectRefs[viewId] as View;
-
         if (currentLayer === undefined) {
             unsetWaitCursor(viewId);
             return;
@@ -3101,7 +3099,8 @@ function checkConnectivity(viewId) {
                     throw connectError;
                 }
             })
-            .catch(error => {
+            .catch(
+                error => {
                 // The resource could not be reached
                 mapContainer.innerHTML = message;
                 logError(connectError, viewId)
