@@ -62,14 +62,14 @@ public class Outline : SimpleLineSymbol
     }
 }
 
-internal class OutlineConverter : JsonConverter<SimpleLineSymbol>
+internal class OutlineConverter : JsonConverter<Outline>
 {
-    public override SimpleLineSymbol? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    public override Outline? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         return JsonSerializer.Deserialize<Outline>(ref reader, options);
     }
 
-    public override void Write(Utf8JsonWriter writer, SimpleLineSymbol value, JsonSerializerOptions options)
+    public override void Write(Utf8JsonWriter writer, Outline value, JsonSerializerOptions options)
     {
         var newOptions = new JsonSerializerOptions(options)
         {

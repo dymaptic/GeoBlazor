@@ -202,8 +202,14 @@ internal class SpatialReferenceConverter : JsonConverter<SpatialReference>
         return null;
     }
 
-    public override void Write(Utf8JsonWriter writer, SpatialReference value, JsonSerializerOptions options)
+    public override void Write(Utf8JsonWriter writer, SpatialReference? value, JsonSerializerOptions options)
     {
+        if (value is null)
+        {
+            writer.WriteNullValue();
+            return;
+        }
+        
         writer.WriteStartObject();
 
         if (value.Wkid.HasValue)

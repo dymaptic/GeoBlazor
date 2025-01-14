@@ -162,8 +162,17 @@ public class MapColor : IEquatable<MapColor>
     {
         if (RgbaValues?.Any() == true)
         {
+            if (RgbaValues.Length == 4)
+            {
+                return Color.FromArgb(
+                    (int)(RgbaValues[3] * 255),
+                    (int)RgbaValues[0],
+                    (int)RgbaValues[1],
+                    (int)RgbaValues[2]);
+            }
+            
             return Color.FromArgb(
-                (int)(RgbaValues[3] * 255),
+                255,
                 (int)RgbaValues[0],
                 (int)RgbaValues[1],
                 (int)RgbaValues[2]);

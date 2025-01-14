@@ -70,6 +70,8 @@ public partial class Graphic: MapComponent
         AggregateGeometries = aggregateGeometries;
         Origin = origin;
 #pragma warning restore BL0005    
+        Attributes.OnChange = OnAttributesChanged;
+        ToSerializationRecord();
     }
     
     /// <summary>
@@ -284,6 +286,76 @@ public partial class Graphic: MapComponent
         }
 
         await base.SetParametersAsync(parameters);
+    }
+    
+    /// <inheritdoc />
+    public override async Task RegisterChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case Symbol symbol:
+
+                await SetSymbol(symbol);
+
+                break;
+            case Geometry geometry:
+                if (View?.ExtentChangedInJs == true)
+                {
+                    return;
+                }
+
+                await SetGeometry(geometry);
+
+                break;
+            case PopupTemplate popupTemplate:
+                if (View?.ExtentChangedInJs == true)
+                {
+                    return;
+                }
+
+                await SetPopupTemplate(popupTemplate);
+
+                break;
+            default:
+                await base.RegisterChildComponent(child);
+
+                break;
+        }
+
+        ToSerializationRecord(true);
+    }
+
+    /// <inheritdoc />
+    public override async Task UnregisterChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case Symbol _:
+                Symbol = null;
+
+                break;
+            case Geometry _:
+                Geometry = null;
+
+                break;
+            case PopupTemplate _:
+                PopupTemplate = null;
+
+                break;
+            default:
+                await base.UnregisterChildComponent(child);
+
+                break;
+        }
+    }
+
+    /// <inheritdoc />
+    internal override void ValidateRequiredChildren()
+    {
+        base.ValidateRequiredChildren();
+        Symbol?.ValidateRequiredChildren();
+        Geometry?.ValidateRequiredChildren();
+        PopupTemplate?.ValidateRequiredChildren();
     }
 
     internal GraphicSerializationRecord ToSerializationRecord(bool refresh = false)

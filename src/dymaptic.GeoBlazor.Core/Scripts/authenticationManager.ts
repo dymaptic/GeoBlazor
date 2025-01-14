@@ -22,7 +22,9 @@ export default class AuthenticationManager {
         } else if (apiKey !== null) {
             esriConfig.apiKey = apiKey;
         }
-        esriConfig.portalUrl = portalUrl;
+        if (portalUrl !== undefined && portalUrl !== null) {
+            esriConfig.portalUrl = portalUrl;
+        }
         
         if (trustedServers !== null) {
             esriConfig.request.trustedServers = esriConfig.request.trustedServers !== undefined ? esriConfig.request.trustedServers.concat(trustedServers) : trustedServers;

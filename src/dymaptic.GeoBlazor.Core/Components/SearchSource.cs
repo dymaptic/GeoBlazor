@@ -247,18 +247,7 @@ internal class SearchSourceConverter : JsonConverter<SearchSource>
 
     public override void Write(Utf8JsonWriter writer, SearchSource value, JsonSerializerOptions options)
     {
-        switch (value)
-        {
-            case LocatorSearchSource locatorSearchSource:
-                JsonSerializer.Serialize(writer, locatorSearchSource, options);
-                break;
-            case LayerSearchSource layerSearchSource:
-                JsonSerializer.Serialize(writer, layerSearchSource, options);
-                break;
-            default:
-                JsonSerializer.Serialize(writer, value, options);
-                break;
-        }
+        JsonSerializer.Serialize(writer, value, typeof(object), options);
     }
 
     // Copy properties from source object to new instance of target object, for instance using reflection.

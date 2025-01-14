@@ -2502,7 +2502,16 @@ export async function createLayer(dotNetLayer: any, wrap: boolean | null, viewId
                 (newLayer as MapImageLayer).sublayers = dotNetLayer.sublayers.map(buildJsSublayer);
             }
             break;
-        
+        case 'vector-tile':
+            if (hasValue(dotNetLayer.portalItem)) {
+                let portalItem = buildJsPortalItem(dotNetLayer.portalItem);
+                newLayer = new VectorTileLayer({ portalItem: portalItem });
+            } else {
+                newLayer = new VectorTileLayer({
+                    url: dotNetLayer.url
+                });
+            }
+            break;
         case 'tile':
             if (hasValue(dotNetLayer.portalItem)) {
                 let portalItem = buildJsPortalItem(dotNetLayer.portalItem);
