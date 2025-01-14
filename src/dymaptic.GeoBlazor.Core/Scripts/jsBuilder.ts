@@ -432,8 +432,8 @@ export function buildJsSymbol(symbol: DotNetSymbol | null): Symbol | null {
                 path: dnSimpleMarkerSymbol.path ?? undefined,
                 size: dnSimpleMarkerSymbol.size ?? 12, // undefined breaks this
                 style: dnSimpleMarkerSymbol.style as any ?? 'circle', // undefined breaks this
-                xoffset: dnSimpleMarkerSymbol.xOffset ?? 0,
-                yoffset: dnSimpleMarkerSymbol.yOffset ?? 0
+                xoffset: dnSimpleMarkerSymbol.xoffset ?? 0,
+                yoffset: dnSimpleMarkerSymbol.yoffset ?? 0
             });
 
             if (hasValue(dnSimpleMarkerSymbol.outline)) {
@@ -455,8 +455,8 @@ export function buildJsSymbol(symbol: DotNetSymbol | null): Symbol | null {
             let dnPictureMarkerSymbol = symbol as DotNetPictureMarkerSymbol;
             return new PictureMarkerSymbol({
                 angle: dnPictureMarkerSymbol.angle ?? 0,
-                xoffset: dnPictureMarkerSymbol.xOffset ?? 0,
-                yoffset: dnPictureMarkerSymbol.yOffset ?? 0,
+                xoffset: dnPictureMarkerSymbol.xoffset ?? 0,
+                yoffset: dnPictureMarkerSymbol.yoffset ?? 0,
                 height: dnPictureMarkerSymbol.height ?? 12,
                 width: dnPictureMarkerSymbol.width ?? 12,
                 url: dnPictureMarkerSymbol.url
@@ -468,8 +468,8 @@ export function buildJsSymbol(symbol: DotNetSymbol | null): Symbol | null {
                 url: dnPictureFillSymbol.url,
                 width: dnPictureFillSymbol.width ?? 12,
                 height: dnPictureFillSymbol.height ?? 12,
-                xoffset: dnPictureFillSymbol.xOffset ?? 0,
-                yoffset: dnPictureFillSymbol.yOffset ?? 0,
+                xoffset: dnPictureFillSymbol.xoffset ?? 0,
+                yoffset: dnPictureFillSymbol.yoffset ?? 0,
                 xscale: dnPictureFillSymbol.xScale ?? 1,
                 yscale: dnPictureFillSymbol.yScale ?? 1
             });
@@ -513,11 +513,11 @@ export function buildJsSymbol(symbol: DotNetSymbol | null): Symbol | null {
             if (hasValue(dotNetTextSymbol.haloColor)) {
                 jsTextSymbol.haloColor = buildJsColor(dotNetTextSymbol.haloColor);
             }
-            if (hasValue(dotNetTextSymbol.xOffset)) {
-                jsTextSymbol.xoffset = dotNetTextSymbol.xOffset;
+            if (hasValue(dotNetTextSymbol.xoffset)) {
+                jsTextSymbol.xoffset = dotNetTextSymbol.xoffset;
             }
-            if (hasValue(dotNetTextSymbol.yOffset)) {
-                jsTextSymbol.yoffset = dotNetTextSymbol.yOffset;
+            if (hasValue(dotNetTextSymbol.yoffset)) {
+                jsTextSymbol.yoffset = dotNetTextSymbol.yoffset;
             }
 
             return jsTextSymbol;

@@ -30,14 +30,14 @@ public class PictureMarkerSymbol : MarkerSymbol
     /// <param name="angle">
     ///     The angle of the marker relative to the screen in degrees.
     /// </param>
-    /// <param name="xOffset">
+    /// <param name="xoffset">
     ///     The offset on the x-axis in points.
     /// </param>
-    /// <param name="yOffset">
+    /// <param name="yoffset">
     ///     The offset on the y-axis in points.
     /// </param>
     public PictureMarkerSymbol(string url, Dimension? width = null, Dimension? height = null,
-        double? angle = null, Dimension? xOffset = null, Dimension? yOffset = null)
+        double? angle = null, Dimension? xoffset = null, Dimension? yoffset = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -45,8 +45,8 @@ public class PictureMarkerSymbol : MarkerSymbol
         Width = width;
         Height = height;
         Angle = angle;
-        XOffset = xOffset;
-        YOffset = yOffset;
+        Xoffset = xoffset;
+        Yoffset = yoffset;
 #pragma warning restore BL0005
     }
     
@@ -83,8 +83,8 @@ public class PictureMarkerSymbol : MarkerSymbol
             Width = Width?.Points,
             Height = Height?.Points,
             Angle = Angle,
-            XOffset = XOffset?.Points,
-            YOffset = YOffset?.Points
+            Xoffset = Xoffset?.Points,
+            Yoffset = Yoffset?.Points
         };
     }
 }

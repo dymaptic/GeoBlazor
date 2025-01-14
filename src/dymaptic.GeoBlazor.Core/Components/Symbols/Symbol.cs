@@ -107,10 +107,10 @@ internal record SymbolSerializationRecord : MapComponentSerializationRecord
     public double? Angle { get; init; }
 
     [ProtoMember(7)]
-    public double? XOffset { get; init; }
+    public double? Xoffset { get; init; }
 
     [ProtoMember(8)]
-    public double? YOffset { get; init; }
+    public double? Yoffset { get; init; }
 
     [ProtoMember(9)]
     public double? Width { get; init; }
@@ -175,21 +175,21 @@ internal record SymbolSerializationRecord : MapComponentSerializationRecord
         {
             "outline" => new Outline(Color, Width, LineStyle is null ? null : Enum.Parse<SimpleLineSymbolStyle>(LineStyle!, true)),
             "simple-marker" => new SimpleMarkerSymbol(Outline?.FromSerializationRecord(true) as Outline, Color, Size, 
-                Style is null ? null : Enum.Parse<SimpleMarkerSymbolStyle>(Style!, true), Angle, XOffset, YOffset),
+                Style is null ? null : Enum.Parse<SimpleMarkerSymbolStyle>(Style!, true), Angle, Xoffset, Yoffset),
             "simple-line" => isOutline 
                 ? new Outline(Color, Width, LineStyle is null ? null : Enum.Parse<SimpleLineSymbolStyle>(LineStyle!, true))
                 : new SimpleLineSymbol(Color, Width, LineStyle is null ? null : Enum.Parse<SimpleLineSymbolStyle>(LineStyle!, true)),
             "simple-fill" => new SimpleFillSymbol(Outline?.FromSerializationRecord(true) as Outline, Color, 
                 Style is null ? null : Enum.Parse<SimpleFillSymbolStyle>(Style!, true)),
-            "picture-marker" => new PictureMarkerSymbol(Url!, Width, Height, Angle, XOffset, YOffset),
-            "picture-fill" => new PictureFillSymbol(Url!, Width, Height, XOffset, YOffset, XScale, YScale, 
+            "picture-marker" => new PictureMarkerSymbol(Url!, Width, Height, Angle, Xoffset, Yoffset),
+            "picture-fill" => new PictureFillSymbol(Url!, Width, Height, Xoffset, Yoffset, XScale, YScale, 
                 Outline?.FromSerializationRecord(true) as Outline),
             "text" => new TextSymbol(Text ?? string.Empty, Color, HaloColor, HaloSize, 
                 MapFont?.FromSerializationRecord(), Angle, BackgroundColor, BorderLineColor,
                 BorderLineSize, HorizontalAlignment is null ? null : Enum.Parse<HorizontalAlignment>(HorizontalAlignment!, true),
                 Kerning, LineHeight, LineWidth, Rotated, 
                 VerticalAlignment is null ? null : Enum.Parse<VerticalAlignment>(VerticalAlignment!, true),
-                XOffset, YOffset),
+                Xoffset, Yoffset),
             _ => throw new ArgumentException($"Unknown symbol type: {Type}")
         };
     }

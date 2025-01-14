@@ -181,8 +181,8 @@ export function buildDotNetSymbol(symbol: Symbol): DotNetSymbol {
             size: symbol.size,
             style: symbol.style,
             path: symbol.path,
-            xOffset: symbol.xoffset,
-            yOffset: symbol.yoffset,
+            xoffset: symbol.xoffset,
+            yoffset: symbol.yoffset,
         } as DotNetSimpleMarkerSymbol;
         if (symbol.outline !== undefined && symbol.outline !== null) {
             dnMarkerSymbol.outline = buildDotNetSymbol(symbol.outline) as DotNetSimpleLineSymbol;
@@ -219,8 +219,8 @@ export function buildDotNetSymbol(symbol: Symbol): DotNetSymbol {
             width: symbol.width,
             height: symbol.height,
             angle: symbol.angle,
-            xOffset: symbol.xoffset,
-            yOffset: symbol.yoffset
+            xoffset: symbol.xoffset,
+            yoffset: symbol.yoffset
         } as DotNetPictureMarkerSymbol;
     }
     if (symbol instanceof TextSymbol) {
@@ -233,8 +233,8 @@ export function buildDotNetSymbol(symbol: Symbol): DotNetSymbol {
             kerning: symbol.kerning,
             rotated: symbol.rotated,
             text: symbol.text,
-            xOffset: symbol.xoffset,
-            yOffset: symbol.yoffset,
+            xoffset: symbol.xoffset,
+            yoffset: symbol.yoffset,
             font: {
                 family: symbol.font.family,
                 size: symbol.font.size,

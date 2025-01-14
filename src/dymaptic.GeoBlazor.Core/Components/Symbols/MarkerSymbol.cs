@@ -19,12 +19,12 @@ public abstract class MarkerSymbol : Symbol
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Dimension? XOffset { get; set; }
+    public Dimension? Xoffset { get; set; }
 
     /// <summary>
     ///     The offset on the y-axis in points. This value may be autocast with a string expressing size in points or pixels (e.g. 12px).
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Dimension? YOffset { get; set; }
+    public Dimension? Yoffset { get; set; }
 }

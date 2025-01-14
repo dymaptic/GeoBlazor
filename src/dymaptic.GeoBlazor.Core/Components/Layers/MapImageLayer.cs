@@ -105,7 +105,7 @@ public class MapImageLayer : Layer
         PortalItem = portalItem;
         BlendMode = blendMode;
         CustomParameters = customParameters;
-        DPI = dpi;
+        Dpi = dpi;
         Effect = effect;
         GdbVersion = gdbVersion;
         ImageFormat = imageFormat;
@@ -156,7 +156,7 @@ public class MapImageLayer : Layer
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public int? DPI { get; set; }
+    public int? Dpi { get; set; }
     
     /// <summary>
     ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to how image filters work. This powerful capability allows you to apply css filter-like functions to layers to create custom visual effects to enhance the cartographic quality of your maps. This is done by applying the desired effect to the layer's effect property as a string or an array of objects to set scale dependent effects.
@@ -420,7 +420,7 @@ public class MapImageLayer : Layer
         var renderedMapLayer = (MapImageLayer)renderedLayer;
         Url ??= renderedMapLayer.Url;
         Title ??= renderedMapLayer.Title;
-        DPI ??= renderedMapLayer.DPI;
+        Dpi ??= renderedMapLayer.Dpi;
         Effect ??= renderedMapLayer.Effect;
         GdbVersion ??= renderedMapLayer.GdbVersion;
         ImageFormat ??= renderedMapLayer.ImageFormat;

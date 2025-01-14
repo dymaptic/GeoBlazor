@@ -65,17 +65,17 @@ public class TextSymbol : Symbol
     /// <param name="verticalAlignment">
     ///     Adjusts the vertical alignment of the text. Default value is Baseline.
     /// </param>
-    /// <param name="xOffset">
+    /// <param name="xoffset">
     ///     The offset on the x-axis in points. This value is a string expressing size in points or pixels (e.g. "12px", "12pt"),
     /// </param>
-    /// <param name="yOffset">
+    /// <param name="yoffset">
     ///     The offset on the y-axis in points. This value is a string expressing size in points or pixels (e.g. "12px", "12pt"),
     /// </param>
     public TextSymbol(string text, MapColor? color = null, MapColor? haloColor = null, Dimension? haloSize = null,
         MapFont? font = null, double? angle = null, MapColor? backgroundColor = null, MapColor? borderLineColor = null,
         double? borderLineSize = null, HorizontalAlignment? horizontalAlignment = null, bool? kerning = null,
         double? lineHeight = null, Dimension? lineWidth = null, bool? rotated = null, 
-        VerticalAlignment? verticalAlignment = null, Dimension? xOffset = null, Dimension? yOffset = null)
+        VerticalAlignment? verticalAlignment = null, Dimension? xoffset = null, Dimension? yoffset = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -94,8 +94,8 @@ public class TextSymbol : Symbol
         LineWidth = lineWidth;
         Rotated = rotated;
         VerticalAlignment = verticalAlignment;
-        XOffset = xOffset;
-        YOffset = yOffset;
+        Xoffset = xoffset;
+        Yoffset = yoffset;
 #pragma warning restore BL0005
     }
 
@@ -236,7 +236,7 @@ public class TextSymbol : Symbol
     /// </remarks>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Dimension? XOffset { get; set; }
+    public Dimension? Xoffset { get; set; }
     
     /// <summary>
     ///     The offset on the y-axis in points. This value is a string expressing size in points or pixels (e.g. "12px", "12pt"), which defaults to points.
@@ -246,7 +246,7 @@ public class TextSymbol : Symbol
     /// </remarks>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Dimension? YOffset { get; set; }
+    public Dimension? Yoffset { get; set; }
 
     /// <summary>
     ///     The <see cref="MapFont" /> used to style the text.
@@ -314,8 +314,8 @@ public class TextSymbol : Symbol
             LineWidth = LineWidth?.Points,
             Rotated = Rotated,
             VerticalAlignment = VerticalAlignment?.ToString().ToKebabCase(),
-            XOffset = XOffset?.Points,
-            YOffset = YOffset?.Points
+            Xoffset = Xoffset?.Points,
+            Yoffset = Yoffset?.Points
         };
     }
 }

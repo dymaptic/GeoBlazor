@@ -26,10 +26,10 @@ public class PictureFillSymbol : FillSymbol
     /// <param name="height">
     ///     The height of the image in points.
     /// </param>
-    /// <param name="xOffset">
+    /// <param name="xoffset">
     ///     The offset on the x-axis in points.
     /// </param>
-    /// <param name="yOffset">
+    /// <param name="yoffset">
     ///     The offset on the y-axis in points.
     /// </param>
     /// <param name="xScale">
@@ -44,7 +44,7 @@ public class PictureFillSymbol : FillSymbol
     ///     The outline of the polygon.
     /// </param>
     public PictureFillSymbol(string url, Dimension? width = null, Dimension? height = null,
-        Dimension? xOffset = null, Dimension? yOffset = null, double? xScale = null, 
+        Dimension? xoffset = null, Dimension? yoffset = null, double? xScale = null, 
         double? yScale = null, Outline? outline = null)
     {
         AllowRender = false;
@@ -52,8 +52,8 @@ public class PictureFillSymbol : FillSymbol
         Url = url;
         Width = width;
         Height = height;
-        XOffset = xOffset;
-        YOffset = yOffset;
+        Xoffset = xoffset;
+        Yoffset = yoffset;
         XScale = xScale;
         YScale = yScale;
         Outline = outline;
@@ -106,14 +106,14 @@ public class PictureFillSymbol : FillSymbol
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Dimension? XOffset { get; set; }
+    public Dimension? Xoffset { get; set; }
     
     /// <summary>
     ///     The offset on the y-axis in points.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Dimension? YOffset { get; set; }
+    public Dimension? Yoffset { get; set; }
 
     internal override SymbolSerializationRecord ToSerializationRecord()
     {
@@ -122,8 +122,8 @@ public class PictureFillSymbol : FillSymbol
             Url = Url,
             Width = Width?.Points,
             Height = Height?.Points,
-            XOffset = XOffset?.Points,
-            YOffset = YOffset?.Points,
+            Xoffset = Xoffset?.Points,
+            Yoffset = Yoffset?.Points,
             XScale = XScale,
             YScale = YScale,
             Outline = Outline?.ToSerializationRecord()

@@ -34,14 +34,14 @@ public class SimpleMarkerSymbol : MarkerSymbol
     /// <param name="angle">
     ///     The angle of the marker relative to the screen in degrees.
     /// </param>
-    /// <param name="xOffset">
+    /// <param name="xoffset">
     ///     The offset on the x-axis in points. This value may be autocast with a string expressing size in points or pixels (e.g. 12px).
     /// </param>
-    /// <param name="yOffset">
+    /// <param name="yoffset">
     ///     The offset on the y-axis in points. This value may be autocast with a string expressing size in points or pixels (e.g. 12px).
     /// </param>
     public SimpleMarkerSymbol(Outline? outline = null, MapColor? color = null, Dimension? size = null,
-        SimpleMarkerSymbolStyle? style = null, double? angle = null, Dimension? xOffset = null, Dimension? yOffset = null)
+        SimpleMarkerSymbolStyle? style = null, double? angle = null, Dimension? xoffset = null, Dimension? yoffset = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -49,8 +49,8 @@ public class SimpleMarkerSymbol : MarkerSymbol
         Color = color;
         Size = size;
         Angle = angle;
-        XOffset = xOffset;
-        YOffset = yOffset;
+        Xoffset = xoffset;
+        Yoffset = yoffset;
         Style = style;
 #pragma warning restore BL0005
     }
@@ -128,8 +128,8 @@ public class SimpleMarkerSymbol : MarkerSymbol
             Size = Size?.Points,
             Style = Style?.ToString().ToKebabCase(),
             Angle = Angle,
-            XOffset = XOffset?.Points,
-            YOffset = YOffset?.Points
+            Xoffset = Xoffset?.Points,
+            Yoffset = Yoffset?.Points
         };
     }
 }
