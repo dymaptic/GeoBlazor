@@ -32,7 +32,7 @@ public class PopupTemplate : MapComponent
     ///     An array of FieldInfo that defines how fields in the dataset or values from Arcade expressions participate in a
     ///     popup.
     /// </param>
-    /// <param name="contents">
+    /// <param name="content">
     ///     Pass advanced <see cref="PopupContent" /> parameters
     /// </param>
     /// <param name="expressionInfos">
@@ -49,7 +49,7 @@ public class PopupTemplate : MapComponent
     ///     Defines actions that may be executed by clicking the icon or image symbolizing them in the popup
     /// </param>
     public PopupTemplate(string? title = null, string? stringContent = null, IReadOnlyList<string>? outFields = null,
-        IReadOnlyList<FieldInfo>? fieldInfos = null, IReadOnlyList<PopupContent>? contents = null,
+        IReadOnlyList<FieldInfo>? fieldInfos = null, IReadOnlyList<PopupContent>? content = null,
         IReadOnlyList<ExpressionInfo>? expressionInfos = null, bool? overwriteActions = null,
         bool? returnGeometry = null, IReadOnlyList<ActionBase>? actions = null)
     {
@@ -60,9 +60,9 @@ public class PopupTemplate : MapComponent
         OverwriteActions = overwriteActions;
         ReturnGeometry = returnGeometry;
 
-        if (contents is not null)
+        if (content is not null)
         {
-            Content = contents.ToList();
+            Content = content.ToList();
         }
 
         if (fieldInfos is not null)
@@ -149,7 +149,7 @@ public class PopupTemplate : MapComponent
     [RequiredProperty(nameof(StringContent), nameof(ContentFunction))]
     [CodeGenerationIgnore]
     [Parameter]
-    public List<PopupContent> Content { get; set; } = new();
+    public IReadOnlyList<PopupContent>? Content { get; set; }
 
     /// <summary>
     ///     An array of FieldInfo that defines how fields in the dataset or values from Arcade expressions participate in a
@@ -219,7 +219,8 @@ public class PopupTemplate : MapComponent
         switch (child)
         {
             case PopupContent popupContent:
-                Content.Add(popupContent);
+                Content ??= [];
+                Content = [..Content, popupContent];
 
                 break;
             case FieldInfo fieldInfo:
@@ -253,10 +254,7 @@ public class PopupTemplate : MapComponent
         switch (child)
         {
             case PopupContent popupContent:
-                if (Content.Contains(popupContent))
-                {
-                    Content.Remove(popupContent);
-                }
+                Content = Content?.Except([popupContent]).ToList();
 
                 break;
             case FieldInfo fieldInfo:
@@ -283,9 +281,12 @@ public class PopupTemplate : MapComponent
     {
         base.ValidateRequiredChildren();
 
-        foreach (PopupContent item in Content)
+        if (Content is not null)
         {
-            item.ValidateRequiredChildren();
+            foreach (PopupContent item in Content)
+            {
+                item.ValidateRequiredChildren();
+            }
         }
 
         if (FieldInfos != null)
@@ -317,7 +318,7 @@ public class PopupTemplate : MapComponent
     {
         return new PopupTemplateSerializationRecord(Title, StringContent, OutFields,
             FieldInfos?.Select(f => f.ToSerializationRecord()),
-            Content.Select(c => c.ToSerializationRecord()),
+            Content?.Select(c => c.ToSerializationRecord()),
             ExpressionInfos?.Select(e => e.ToSerializationRecord()), OverwriteActions,
             ReturnGeometry, Actions?.Select(a => a.ToSerializationRecord()), Id.ToString());
     }

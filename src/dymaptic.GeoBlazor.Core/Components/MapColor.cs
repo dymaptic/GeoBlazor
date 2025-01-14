@@ -256,7 +256,7 @@ internal class MapColorConverter : JsonConverter<MapColor>
 
     public override void Write(Utf8JsonWriter writer, MapColor value, JsonSerializerOptions options)
     {
-        if (value.RgbaValues.Any())
+        if (value.RgbaValues?.Any() == true)
         {
             writer.WriteRawValue(JsonSerializer.Serialize(value.RgbaValues, options));
         }
