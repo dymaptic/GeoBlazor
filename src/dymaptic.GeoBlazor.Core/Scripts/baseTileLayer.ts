@@ -6,8 +6,8 @@ import {IPropertyWrapper} from './definitions';
 export default class BaseTileLayerWrapper implements IPropertyWrapper {
     public layer: BaseTileLayer;
 
-    constructor(btLayer: BaseTileLayer) {
-        this.layer = btLayer;
+    constructor(layer: BaseTileLayer) {
+        this.layer = layer;
     }
 
     unwrap() {

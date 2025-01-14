@@ -18,7 +18,7 @@ import Handle = __esri.Handle;
 import Graphic from "@arcgis/core/Graphic";
 
 export default class FeatureLayerViewWrapper implements IPropertyWrapper {
-    private featureLayerView: FeatureLayerView;
+    public featureLayerView: FeatureLayerView;
 
     constructor(component: FeatureLayerView) {
         this.featureLayerView = component;
