@@ -1926,7 +1926,7 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
             });
 
             copyValuesIfExists(widget, search, 'activeMenu', 'activeSourceIndex', 'allPlaceholder',
-                'autoSelect', 'disabled', 'includeDefaultSources', 'label', 'locationEnabled', 'maxResults',
+                'autoSelect', 'disabled', 'includeDefaultSources', 'locationEnabled', 'maxResults',
                 'maxSuggestions', 'minSuggestCharacters', 'popupEnabled', 'resultGraphicEnabled', 'searchAllEnabled',
                 'searchTerm', 'suggestionsEnabled');
             break;
@@ -2193,7 +2193,7 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
             copyValuesIfExists(widget, slider, 'disabled', 'draggableSegmentsEnabled', 'effectiveMax',
                 'effectiveMin', 'labelInputsEnabled', 'layout', 'max', 'min', 'precision', 
                 'rangeLabelInputsEnabled', 'snapOnClickEnabled', 'syncedSegmentsEnabled', 'thumbsConstrained',
-                'values', 'visible');
+                'values');
             
             if (hasValue(widget.steps)) {
                 slider.steps = widget.steps;
@@ -2322,7 +2322,7 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
         newWidget.id = widget.widgetId;
     }
 
-    copyValuesIfExists(widget, newWidget, 'icon', 'label');
+    copyValuesIfExists(widget, newWidget, 'icon', 'label', 'visible');
 
     arcGisObjectRefs[widget.id] = newWidget;
     dotNetRefs[widget.id] = widget.dotNetComponentReference;
