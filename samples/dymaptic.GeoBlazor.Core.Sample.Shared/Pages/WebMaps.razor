@@ -8,7 +8,7 @@
 <p class="instructions">
     A simple demo of loading a complete WebMap from ArcGIS Online, including layers, icons, popups, and widgets.
 </p>
-<MapView OnLayerViewCreate="OnLayerViewCreate" Class="map-view">
+<MapView OnLayerViewCreate="StateHasChanged" Class="map-view">
     <WebMap @ref="_webMap">
         <PortalItem Id="31cfc5b138e24dee866c457948773ac4" />
     </WebMap>
@@ -46,6 +46,10 @@
                                 </ul>
                             </div>
                         }
+                        else
+                        {
+                            <button class="btn btn-primary" @onclick="@(() => LoadLayer(fl))">Load Features</button>
+                        }
                     </td>
                 </tr>
             }
@@ -55,20 +59,21 @@
 
 @code {
 
-    private async Task OnLayerViewCreate(LayerViewCreateEvent evt)
+    private async Task LoadLayer(FeatureLayer? featureLayer)
     {
-        try
+        if (featureLayer is null)
         {
-            if (evt.Layer is FeatureLayer fl)
-            {
-                FeatureSet? features = await fl.QueryFeatures();
-                _featureLayerGraphics[fl.Id] = features!.Features!.ToArray();
-            }
+            return;
         }
-        catch (Exception ex)
+
+        FeatureSet? featureSet = await featureLayer.QueryFeatures(new Query());
+        if (featureSet?.Features is null)
         {
-            Console.WriteLine(ex);
+            return;
         }
+
+        _featureLayerGraphics[featureLayer.Id] = featureSet.Features;
+        StateHasChanged();
     }
 
     private WebMap? _webMap;

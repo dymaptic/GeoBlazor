@@ -8,7 +8,7 @@ import {
     IPropertyWrapper
 } from "./definitions";
 import {buildJsFeatureEffect, buildJsFeatureFilter, buildJsQuery} from "./jsBuilder";
-import {getProtobufGraphicStream, hasValue} from "./arcGisJsInterop";
+import {arcGisObjectRefs, getProtobufGraphicStream, hasValue} from "./arcGisJsInterop";
 import {
     buildDotNetFeatureSet
 } from "./dotNetBuilder";
@@ -17,7 +17,8 @@ import FeatureFilter from "@arcgis/core/layers/support/FeatureFilter";
 import Handle = __esri.Handle;
 
 export default class FeatureLayerViewWrapper implements IPropertyWrapper {
-    private featureLayerView: FeatureLayerView;
+    public featureLayerView: FeatureLayerView;
+    private geoBlazorLayerId: string = '';
 
     constructor(featureLayerView: FeatureLayerView) {
         this.featureLayerView = featureLayerView;
@@ -25,6 +26,11 @@ export default class FeatureLayerViewWrapper implements IPropertyWrapper {
         for (let prop in featureLayerView) {
             if (featureLayerView.hasOwnProperty(prop)) {
                 this[prop] = featureLayerView[prop];
+            }
+        }
+        for (let key in arcGisObjectRefs) {
+            if (arcGisObjectRefs[key] === this.featureLayerView.layer) {
+                this.geoBlazorLayerId = key;
             }
         }
     }
@@ -81,7 +87,7 @@ export default class FeatureLayerViewWrapper implements IPropertyWrapper {
 
             let featureSet = await this.featureLayerView.queryFeatures(jsQuery, options);
 
-            let dotNetFeatureSet = await buildDotNetFeatureSet(featureSet, viewId);
+            let dotNetFeatureSet = await buildDotNetFeatureSet(featureSet, this.geoBlazorLayerId, viewId);
             if (dotNetFeatureSet.features.length > 0) {
                 let graphics = getProtobufGraphicStream(dotNetFeatureSet.features, this.featureLayerView.layer);
                 await dotNetRef.invokeMethodAsync('OnQueryFeaturesStreamCallback', graphics, queryId);

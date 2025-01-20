@@ -9,7 +9,7 @@
     public async Task TestCanClearGraphics(Action renderHandler)
     {
         MapView? mapView = null;
-        GraphicsLayer graphicsLayer = new GraphicsLayer();
+        GraphicsLayer graphicsLayer = new();
 
         async Task OnViewInitialized()
         {
@@ -55,18 +55,18 @@
 
         await WaitForMapToRender();
 
-        var hitTestOptions = new HitTestOptions
-                {
-                    IncludeByGeoBlazorId = [graphicsLayer!.Id]
-                };
+        HitTestOptions hitTestOptions = new()
+        {
+            IncludeByGeoBlazorId = [graphicsLayer!.Id]
+        };
 
-        var hitTestResult = await mapView!.HitTest((Point)graphic!.Geometry!, hitTestOptions);
+        HitTestResult hitTestResult = await mapView!.HitTest((Point)graphic!.Geometry!, hitTestOptions);
 
-        var graphicHit = hitTestResult.Results.OfType<GraphicHit>().ToArray();
+        GraphicHit[] graphicHit = hitTestResult.Results.OfType<GraphicHit>().ToArray();
 
         Assert.AreEqual(1, graphicHit.Length);
 
-        var firstGraphic = graphicHit[0];
+        GraphicHit firstGraphic = graphicHit[0];
 
         Assert.IsNotNull(firstGraphic.LayerId);
         Assert.IsNotNull(firstGraphic.MapPoint);
@@ -91,8 +91,8 @@
 
         await WaitForMapToRender();
 
-        var testGraphic = new Graphic(new Point(0, 0),
-    new SimpleMarkerSymbol(color: new MapColor("red"), size: 10));
+        Graphic testGraphic = new(new Point(0, 0),
+    new SimpleMarkerSymbol(color: new("red"), size: 10));
         await mapView!.AddGraphic(testGraphic);
         await testGraphic.SetGeometry(new Point(1, 1));
         await mapView.RemoveGraphic(testGraphic);
@@ -140,8 +140,8 @@
 
         await WaitForMapToRender();
 
-        var testGraphic = new Graphic(new Point(0, 0),
-        new SimpleMarkerSymbol(color: new MapColor("red"), size: 10));
+        Graphic testGraphic = new(new Point(0, 0),
+        new SimpleMarkerSymbol(color: new("red"), size: 10));
         await mapView!.AddGraphic(testGraphic);
         await AssertJavaScript("assertGraphicExistsInView", args: new object[] { "point", 1 });
     }
@@ -165,23 +165,23 @@
         List<Graphic> newGraphics = [];
 
         Point point = new(0, 0);
-        Graphic graphic = new Graphic(point);
+        Graphic graphic = new(point);
         newGraphics.Add(graphic);
         // invalid url
-        PictureMarkerSymbol ps = new PictureMarkerSymbol("https://github.githubassets.com/anything.png",
+        PictureMarkerSymbol ps = new("https://github.githubassets.com/anything.png",
         15, 15, 0, 0, 0);
         await graphic.SetSymbol(ps);
 
-        point = new Point(point.Longitude - 0.1, point.Latitude);
-        Graphic graphic2 = new Graphic(point);
+        point = new(point.Longitude - 0.1, point.Latitude);
+        Graphic graphic2 = new(point);
         newGraphics.Add(graphic2);
-        PictureMarkerSymbol ps2 = new PictureMarkerSymbol(
+        PictureMarkerSymbol ps2 = new(
         "https://github.githubassets.com/assets/GitHub-Mark-ea2971cee799.png",
         15, 15, 0, 0, 0);
         await graphic2.SetSymbol(ps2);
 
         await layer!.Add(newGraphics);
-        await Task.Yield();
+        await Task.Delay(1);
         await AssertJavaScript("assertGraphicExistsInLayer", args: [layer.Id, "point", 2]);
     }
 
@@ -202,13 +202,13 @@
         await WaitForMapToRender();
 
         Point point = new(0, 0);
-        Graphic graphic = new Graphic(point);
-        PictureMarkerSymbol ps = new PictureMarkerSymbol("./_content/dymaptic.GeoBlazor.Core.Test.Blazor.Shared/images/homeicon.jpg",
+        Graphic graphic = new(point);
+        PictureMarkerSymbol ps = new("./_content/dymaptic.GeoBlazor.Core.Test.Blazor.Shared/images/homeicon.jpg",
         15, 15, 0, 0, 0);
         await graphic.SetSymbol(ps);
 
         await layer!.Add(graphic);
-        await Task.Yield();
+        await Task.Delay(1);
         await AssertJavaScript("assertGraphicExistsInLayer", args: [layer.Id, "point", 1]);
     }
 
@@ -229,14 +229,14 @@
         await WaitForMapToRender();
 
         Point point = new(0, 0);
-        Graphic graphic = new Graphic(point);
-        TextSymbol symbol = new("Hello", color: new MapColor("red"),
-            backgroundColor: new MapColor("transparent"),
-            font: new MapFont(12, "Arial", "normal", "bold"));
+        Graphic graphic = new(point);
+        TextSymbol symbol = new("Hello", color: new("red"),
+            backgroundColor: new("transparent"),
+            font: new(12, "Arial", "normal", "bold"));
         await graphic.SetSymbol(symbol);
 
         await layer!.Add(graphic);
-        await Task.Yield();
+        await Task.Delay(1);
         await AssertJavaScript("assertGraphicExistsInLayer", args: [layer.Id, "point", 1]);
     }
 }

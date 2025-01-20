@@ -27,7 +27,7 @@ export default class ImageryTileLayerWrapper implements IPropertyWrapper {
     getServiceRasterInfo(viewId: string) {
         let jsInfo = this.layer.serviceRasterInfo;
         return {
-            attributeTable: hasValue(jsInfo.attributeTable) ? buildDotNetFeatureSet(jsInfo.attributeTable, viewId) : null,
+            attributeTable: hasValue(jsInfo.attributeTable) ? buildDotNetFeatureSet(jsInfo.attributeTable, null, viewId) : null,
             bandCount: jsInfo.bandCount,
             bandInfos: jsInfo.bandInfos,
             colormap: jsInfo.colormap,
