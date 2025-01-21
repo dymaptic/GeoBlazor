@@ -141,12 +141,14 @@ public partial class MapView : MapComponent
     /// <summary>
     ///     The reference to arcGisJsInterop.ts from .NET
     /// </summary>
-    public IJSObjectReference? ViewJsModule { get; private set; }
-    
+    [Obsolete("Use CoreJsModule instead.")]
+    public IJSObjectReference? ViewJsModule => CoreJsModule;
+
     /// <summary>
     ///     The reference to arcGisJsInterop.ts from .NET
     /// </summary>
-    public IJSObjectReference? ProViewJsModule { get; private set; }
+    [Obsolete("Use ProJsModule instead.")]
+    public IJSObjectReference? ProViewJsModule => ProJsModule;
 
     /// <summary>
     ///     The collection of <see cref="Widget" />s in the view.
@@ -2018,7 +2020,7 @@ public partial class MapView : MapComponent
     {
         try
         {
-            JsScreenshot jsScreenshot = await ViewJsModule!.InvokeAsync<JsScreenshot>("takeScreenshot",
+            JsScreenshot jsScreenshot = await CoreJsModule!.InvokeAsync<JsScreenshot>("takeScreenshot",
                 CancellationTokenSource.Token, Id, options);
             Stream mapStream = await jsScreenshot.Stream.OpenReadStreamAsync(1_000_000_000L);
             MemoryStream ms = new();
@@ -2177,6 +2179,11 @@ public partial class MapView : MapComponent
             await CoreJsModule.InvokeVoidAsync("setAssetsPath", CancellationTokenSource.Token,
                 Configuration.GetValue<string?>("ArcGISAssetsPath",
                     "/_content/dymaptic.GeoBlazor.Core/assets"));
+
+            while (Map is null) // race condition in WebAssembly causes the map to be disposed while creating child components within it.
+            {
+                await Task.Delay(1);
+            }
 
             await CoreJsModule.InvokeVoidAsync("buildMapView", CancellationTokenSource.Token, Id,
                 DotNetComponentReference, Longitude, Latitude, Rotation, Map, Zoom, Scale,

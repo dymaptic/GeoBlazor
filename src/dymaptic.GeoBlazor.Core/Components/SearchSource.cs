@@ -3,8 +3,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 ///     The following properties define generic sources properties for use in the Search widget. Please see the subclasses that extend this class for more information about working with Search widget sources.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-[JsonDerivedType(typeof(LocatorSearchSource), "locator")]
-[JsonDerivedType(typeof(LayerSearchSource), "layer")]
+[JsonConverter(typeof(SearchSourceConverter))]
 public abstract class SearchSource : MapComponent
 {
     /// <summary>
@@ -218,5 +217,43 @@ public abstract class SearchSource : MapComponent
         PopupTemplate?.ValidateRequiredChildren();
         ResultSymbol?.ValidateRequiredChildren();
         base.ValidateRequiredChildren();
+    }
+}
+
+
+internal class SearchSourceConverter : JsonConverter<SearchSource>
+{
+    public override SearchSource? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        if (reader.TokenType != JsonTokenType.StartObject)
+        {
+            return null;
+        }
+
+        using var jsonDocument = JsonDocument.ParseValue(ref reader);
+        var rootElement = jsonDocument.RootElement;
+        if (rootElement.TryGetProperty("url", out JsonElement _))
+        {
+            return JsonSerializer.Deserialize<LocatorSearchSource>(rootElement.GetRawText(), options);
+        }
+
+        if (rootElement.TryGetProperty("layer", out JsonElement _) || rootElement.TryGetProperty("layerId", out JsonElement _))
+        {
+            return JsonSerializer.Deserialize<LayerSearchSource>(rootElement.GetRawText(), options);
+        }
+
+        return null;
+    }
+
+    public override void Write(Utf8JsonWriter writer, SearchSource value, JsonSerializerOptions options)
+    {
+        if (value is LocatorSearchSource locatorSource)
+        {
+            JsonSerializer.Serialize(writer, locatorSource, options);
+        }
+        else if (value is LayerSearchSource layerSource)
+        {
+            JsonSerializer.Serialize(writer, layerSource, options);
+        }
     }
 }

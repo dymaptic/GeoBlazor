@@ -778,6 +778,7 @@ export function buildJsUniqueValueRenderer(dnUniqueValueRenderer: DotNetUniqueVa
             uniqueValueRenderer.uniqueValueInfos.push(uniqueValueInfo);
         }
         if (!hasValue(dnUniqueValueRenderer.uniqueValueGroups)) {
+            uniqueValueRenderer.uniqueValueGroups = [];
             let group = new UniqueValueGroup({
                 classes: []
             });

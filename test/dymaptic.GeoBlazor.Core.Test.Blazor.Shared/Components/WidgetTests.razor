@@ -371,7 +371,8 @@
             </Basemap>
         </Map>
         <SearchWidget @ref="widget">
-            <SearchSource GetResultsHandler="GetResultsHandler" />
+            <LocatorSearchSource Url="https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer"
+                                 GetResultsHandler="GetResultsHandler" />
         </SearchWidget>
 
     </MapView>);
@@ -405,7 +406,8 @@
             </Basemap>
         </Map>
         <SearchWidget>
-            <SearchSource GetSuggestionsHandler="GetSuggestionsHandler" />
+            <LocatorSearchSource Url="https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer" 
+                                 GetSuggestionsHandler="GetSuggestionsHandler" />
         </SearchWidget>
 
     </MapView>);

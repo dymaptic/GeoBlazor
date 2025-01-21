@@ -1627,8 +1627,8 @@ export function getGraphicPopupTemplate(id: string, layerId: string | null, view
     return buildDotNetPopupTemplate(graphic.popupTemplate);
 }
 
-export function setGraphicAttributes(Id: string, attributes: any, layerId: string | null, viewId: string | null): void {
-    let graphic = lookupGraphicById(Id, layerId, viewId);
+export function setGraphicAttributes(id: string, attributes: any, layerId: string | null, viewId: string | null): void {
+    let graphic = lookupGraphicById(id, layerId, viewId);
     if (graphic !== null) {
         graphic.attributes = buildJsAttributes(attributes);
     }
@@ -2084,7 +2084,7 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
                 };
             }
             if (hasValue(dotNetWidget.hasCustomReferenceListHandler) && dotNetWidget.hasCustomReferenceListHandler) {
-                basemapLayerListWidget.baseListItemCreatedFunction = async (evt) => {
+                basemapLayerListWidget.referenceListItemCreatedFunction = async (evt) => {
                     let dotNetReferenceListItem = buildDotNetListItem(evt.item);
                     let returnItem = await dotNetWidget.dotNetComponentReference.invokeMethodAsync('OnReferenceListItemCreated', dotNetReferenceListItem) as DotNetListItem;
                     if (hasValue(returnItem) && hasValue(evt.item)) {

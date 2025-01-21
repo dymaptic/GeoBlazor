@@ -97,10 +97,11 @@ public class Map : MapComponent
     {
         if (!firstRender && _layersToRender.Any() && !_rendering)
         {
+            List<Layer> newLayers = _layersToRender.ToList();
             _rendering = true;
             AllowRender = false;
 
-            foreach (Layer layer in _layersToRender)
+            foreach (Layer layer in newLayers)
             {
                 await View!.AddLayer(layer);
             }

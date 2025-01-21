@@ -1,5 +1,4 @@
-﻿@using dymaptic.GeoBlazor.Core.Results
-@inherits TestRunnerBase
+﻿@inherits TestRunnerBase
 
 @{
     base.BuildRenderTree(__builder);
@@ -40,19 +39,18 @@
         GraphicsLayer? graphicsLayer = null;
 
         AddMapRenderFragment(
-    @<MapView @ref="mapView" class="map-view" OnViewRendered="renderHandler">
-        <Map>
-            <Basemap>
-                <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
-            </Basemap>
-            <GraphicsLayer @ref="graphicsLayer">
-                <Graphic @ref="graphic">
-                    <Point X="0" Y="0" />
-                </Graphic>
-            </GraphicsLayer>
-        </Map>
-    </MapView>
-        );
+            @<MapView @ref="mapView" class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+                    </Basemap>
+                    <GraphicsLayer @ref="graphicsLayer">
+                        <Graphic @ref="graphic">
+                            <Point X="0" Y="0" />
+                        </Graphic>
+                    </GraphicsLayer>
+                </Map>
+            </MapView>);
 
         await WaitForMapToRender();
 

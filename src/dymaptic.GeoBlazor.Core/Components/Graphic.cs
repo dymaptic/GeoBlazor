@@ -12,8 +12,11 @@ public partial class Graphic: MapComponent
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
     [ActivatorUtilitiesConstructor]
+    [CodeGenerationIgnore]
     public Graphic()
     {
+        Attributes.OnChange = OnAttributesChanged;
+        ToSerializationRecord();
     }
 
     /// <summary>
