@@ -63,8 +63,8 @@ export default class GraphicWrapper implements IPropertyWrapper {
         return this.component.visible;
     }
 
-    setPopupTemplate(popupTemplate: DotNetPopupTemplate, viewId: string): void {
-        let jsPopupTemplate = buildJsPopupTemplate(popupTemplate, viewId);
+    setPopupTemplate(popupTemplate: DotNetPopupTemplate, layerId: string | null, viewId: string): void {
+        let jsPopupTemplate = buildJsPopupTemplate(popupTemplate, layerId, viewId);
         if (jsPopupTemplate !== null && this.component.popupTemplate !== jsPopupTemplate) {
             this.component.popupTemplate = jsPopupTemplate;
         }

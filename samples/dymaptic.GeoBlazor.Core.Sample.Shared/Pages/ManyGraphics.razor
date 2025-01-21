@@ -65,7 +65,7 @@
     {
         _generating = true;
         StateHasChanged();
-        _cts.Cancel();
+        await _cts.CancelAsync();
         _cts = new CancellationTokenSource();
         await _view!.AddGraphics(_graphics, _cts.Token);
         await InvokeAsync(() =>
@@ -79,7 +79,7 @@
     {
         _generating = true;
         StateHasChanged();
-        _cts.Cancel();
+        await _cts.CancelAsync();
         _cts = new CancellationTokenSource();
         await _graphicsLayer!.Add(_graphics, _cts.Token);
         await InvokeAsync(() =>
@@ -91,7 +91,9 @@
 
     private async Task ClearGraphics()
     {
-        _cts.Cancel();
+        _generating = true;
+        StateHasChanged();
+        await _cts.CancelAsync();
         _cts = new CancellationTokenSource();
         await _graphicsLayer!.Clear();
         await _view!.ClearGraphics();

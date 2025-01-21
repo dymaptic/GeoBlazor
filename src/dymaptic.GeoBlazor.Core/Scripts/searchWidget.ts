@@ -59,7 +59,7 @@ export default class SearchWidgetWrapper implements IPropertyWrapper {
     }
     
     getResultGraphic() {
-        return buildDotNetGraphic(this.searchWidget.resultGraphic);
+        return buildDotNetGraphic(this.searchWidget.resultGraphic, null, null);
     }
     
     getResults() {

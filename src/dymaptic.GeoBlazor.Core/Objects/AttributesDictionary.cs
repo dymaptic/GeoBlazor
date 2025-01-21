@@ -1,10 +1,10 @@
-﻿namespace dymaptic.GeoBlazor.Core.Objects;
+namespace dymaptic.GeoBlazor.Core.Objects;
 
 /// <summary>
 ///     Dictionary of Graphic Attributes that can be asynchronously updated
 /// </summary>
 [JsonConverter(typeof(AttributesDictionaryConverter))]
-public class AttributesDictionary : IEquatable<AttributesDictionary>
+public class AttributesDictionary : IEquatable<AttributesDictionary>, IEnumerable<KeyValuePair<string, object?>>
 {
     /// <summary>
     ///     Constructor for a new, empty dictionary
@@ -277,7 +277,7 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
     /// <param name="value">
     ///     The value to add or update
     /// </param>
-    public async Task AddOrUpdate(string key, object value)
+    public async Task AddOrUpdate(string key, object? value)
     {
         _backingDictionary[key] = value;
 
@@ -363,6 +363,11 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
         return _backingDictionary.ContainsValue(value);
     }
 
+    public IEnumerator<KeyValuePair<string, object?>> GetEnumerator()
+    {
+        return _backingDictionary.GetEnumerator();
+    }
+
     /// <inheritdoc />
     public override bool Equals(object? obj)
     {
@@ -394,6 +399,11 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>
     public override int GetHashCode()
     {
         return _backingDictionary.GetHashCode();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
     }
 
     internal AttributeSerializationRecord[] ToSerializationRecord()

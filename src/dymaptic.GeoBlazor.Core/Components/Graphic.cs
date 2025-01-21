@@ -151,7 +151,8 @@ public partial class Graphic: MapComponent
     {
         if (CoreJsModule is not null)
         {
-            Geometry = await CoreJsModule.InvokeAsync<Geometry>("getGraphicGeometry", CancellationTokenSource.Token, Id);
+            Geometry = await CoreJsModule.InvokeAsync<Geometry>("getGraphicGeometry", 
+                CancellationTokenSource.Token, Id, LayerId, View?.Id);
         }
 
         return Geometry;
@@ -166,7 +167,8 @@ public partial class Graphic: MapComponent
         Geometry = geometry;
         if (CoreJsModule is not null)
         {
-            await CoreJsModule.InvokeVoidAsync("setGraphicGeometry", Id, Geometry.ToSerializationRecord());
+            await CoreJsModule.InvokeVoidAsync("setGraphicGeometry", Id, LayerId, View?.Id,
+                Geometry.ToSerializationRecord());
         }
         else
         {
@@ -188,7 +190,8 @@ public partial class Graphic: MapComponent
         Symbol = symbol;
         if (CoreJsModule is not null)
         {
-            await CoreJsModule.InvokeVoidAsync("setGraphicSymbol", Id, Symbol.ToSerializationRecord());
+            await CoreJsModule.InvokeVoidAsync("setGraphicSymbol", Id, Symbol.ToSerializationRecord(),
+                LayerId, View?.Id);
         }
         else
         {
@@ -206,7 +209,8 @@ public partial class Graphic: MapComponent
     {
         if (CoreJsModule is not null)
         {
-            Symbol = await CoreJsModule.InvokeAsync<Symbol>("getGraphicSymbol", CancellationTokenSource.Token, Id);
+            Symbol = await CoreJsModule.InvokeAsync<Symbol>("getGraphicSymbol", CancellationTokenSource.Token, 
+                Id, LayerId, View?.Id);
         }
 
         return Symbol;
@@ -219,7 +223,8 @@ public partial class Graphic: MapComponent
     {
         if (CoreJsModule is not null)
         {
-            PopupTemplate = await CoreJsModule.InvokeAsync<PopupTemplate>("getGraphicPopupTemplate", CancellationTokenSource.Token, Id);
+            PopupTemplate = await CoreJsModule.InvokeAsync<PopupTemplate>("getGraphicPopupTemplate", 
+                CancellationTokenSource.Token, Id, LayerId, View?.Id);
         }
 
         return PopupTemplate;
@@ -407,7 +412,8 @@ public partial class Graphic: MapComponent
     {
         if (CoreJsModule is null)
             return;
-        await CoreJsModule.InvokeVoidAsync("setGraphicAttributes", CancellationTokenSource.Token, Id, Attributes);
+        await CoreJsModule.InvokeVoidAsync("setGraphicAttributes", CancellationTokenSource.Token, Id, 
+            Attributes, LayerId, View?.Id);
         ToSerializationRecord(true);
     }
 

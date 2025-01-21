@@ -5,10 +5,14 @@
 @inject IJSRuntime JsRuntime
 
 <h1>Unit Tests</h1>
-<button @onclick="() => RunTests()">Run All Tests</button>
+<button @onclick="() => RunTests(false, _cts.Token)">Run All Tests</button>
 @if (_results.Any(kvp => kvp.Value.Failed.Any()))
 {
-    <button @onclick="() => RunTests(true)">Rerun Failed Tests</button>
+    <button @onclick="() => RunTests(true, _cts.Token)">Rerun Failed Tests</button>
+}
+@if (_running)
+{
+    <button style="background-color: hotpink;" @onclick="CancelRun">Stop</button>
 }
 <button @onclick="ToggleAll">@(_showAll ? "Collapse" : "Expand") All</button>
 <div class="result-section">
@@ -54,7 +58,7 @@
 
             if (Configuration["runOnStart"] == "true")
             {
-                bool passed = await RunTests();
+                bool passed = await RunTests(false, _cts.Token);
 
                 if (!passed)
                 {
@@ -96,12 +100,21 @@
         StateHasChanged();
     }
 
-    private async Task<bool> RunTests(bool onlyFailedTests = false)
+    private async Task<bool> RunTests(bool onlyFailedTests = false, CancellationToken token = default)
     {
         _running = true;
-        await Parallel.ForEachAsync(_testClasses, async (kvp, _) =>
+        ParallelOptions options = new()
         {
-            if (_results.TryGetValue(kvp.Key, out var results))
+            CancellationToken = token
+        };
+        await Parallel.ForEachAsync(_testClasses, options, async (kvp, cToken) =>
+        {
+            if (cToken.IsCancellationRequested)
+            {
+                return;
+            }
+            
+            if (_results.TryGetValue(kvp.Key, out TestResult? results))
             {
                 if (onlyFailedTests && results.Failed.Count == 0)
                 {
@@ -110,7 +123,7 @@
             }
             if (kvp.Value != null)
             {
-                await (kvp.Value!.Instance as TestRunnerBase)!.RunTests(onlyFailedTests);
+                await (kvp.Value!.Instance as TestRunnerBase)!.RunTests(onlyFailedTests, true);
             }
         });
         
@@ -167,6 +180,12 @@ Failed: {result.Value.Failed.Count}");
         testClass.Toggle(true);
     }
 
+    private async Task CancelRun()
+    {
+        await _cts.CancelAsync();
+        _cts = new CancellationTokenSource();
+    }
+
     private int Remaining => _results.Sum(r => 
         r.Value.TestCount - (r.Value.Passed.Count + r.Value.Failed.Count));
     private int Passed => _results.Sum(r => r.Value.Passed.Count);
@@ -177,4 +196,5 @@ Failed: {result.Value.Failed.Count}");
     private readonly Dictionary<string, DynamicComponent?> _testClasses = new();
     private readonly Dictionary<string, TestResult> _results = new();
     private bool _showAll;
+    private CancellationTokenSource _cts = new();
 }

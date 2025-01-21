@@ -19,6 +19,7 @@ export interface DotNetGraphic {
     legendLabel: string | null;
     aggregateGeometries: string | null;
     origin: any;
+    layerId: string | null;
     dotNetGraphicReference: any;
     symbol: DotNetSymbol;
 }
@@ -363,7 +364,6 @@ export interface DotNetPopupTemplate {
     returnGeometry: boolean;
     dotNetPopupTemplateReference: any;
     id: string;
-
     actions: any[];
 }
 

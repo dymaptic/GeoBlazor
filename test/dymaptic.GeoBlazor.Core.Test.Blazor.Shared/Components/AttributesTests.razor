@@ -29,7 +29,7 @@
                 {"GUID_ID", testGuid}
                             }));
         await mapView!.AddGraphic(testGraphic);
-        await Task.Yield();
+        await Task.Delay(1);
         ScreenPoint screenPoint = await mapView.ToScreen(point);
         HitTestResult result = await mapView.HitTest(screenPoint);
         GraphicHit graphicHit = (GraphicHit)result.Results[0];
@@ -145,7 +145,7 @@
         await WaitForMapToRender();
         Graphic[] features =
         [
-            new(new Point(0, 0), 
+            new(new Point(0, 0),
                 attributes: new AttributesDictionary(new Dictionary<string, object?>
                 {
                     {"OBJECTID", 1},

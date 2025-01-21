@@ -971,6 +971,11 @@ public partial class MapView : MapComponent
             }
         }
 
+        if (Map is null)
+        {
+            return null;
+        }
+
         foreach (Layer layer in Map!.Layers)
         {
             switch (layer)
@@ -1183,7 +1188,8 @@ public partial class MapView : MapComponent
                 }
 
                 ms.Seek(0, SeekOrigin.Begin);
-                ((IJSInProcessObjectReference)CoreJsModule).InvokeVoid("addGraphicsSynchronously", ms.ToArray(), Id);
+                ((IJSInProcessObjectReference)CoreJsModule).InvokeVoid("addGraphicsSynchronously", 
+                    ms.ToArray(), Id, null);
                 await ms.DisposeAsync();
                 await Task.Delay(1, cancellationToken);
             }
@@ -1218,7 +1224,7 @@ public partial class MapView : MapComponent
                 using DotNetStreamReference streamRef = new(ms);
 
                 await CoreJsModule.InvokeVoidAsync("addGraphicsFromStream", cancellationToken,
-                    streamRef, Id, abortSignal);
+                    streamRef, Id, abortSignal, null);
             }
         }
         else
@@ -1254,7 +1260,7 @@ public partial class MapView : MapComponent
                     using DotNetStreamReference streamRef = new(ms);
 
                     await CoreJsModule.InvokeVoidAsync("addGraphicsFromStream", cancellationToken,
-                        streamRef, Id, abortSignal);
+                        streamRef, Id, abortSignal, null);
                 }, cancellationToken));
             }
 
@@ -1287,7 +1293,7 @@ public partial class MapView : MapComponent
             using DotNetStreamReference streamRef = new(ms);
 
             await CoreJsModule.InvokeVoidAsync("addGraphic", CancellationTokenSource.Token,
-                streamRef, Id);
+                streamRef, Id, null);
         }
     }
 
@@ -1298,19 +1304,12 @@ public partial class MapView : MapComponent
     {
         AllowRender = false;
 
-        foreach (Graphic graphic in _graphics)
+        _graphics.Clear();
+        if (CoreJsModule is not null)
         {
-            graphic.View = null;
-            graphic.Parent = null;
+            await CoreJsModule!.InvokeVoidAsync("clearGraphics", CancellationTokenSource.Token, Id);    
         }
         
-        Guid[] ids = _graphics.Select(g => g.Id).ToArray();
-
-        _graphics.Clear();
-
-        if (CoreJsModule is null) return;
-
-        await CoreJsModule.InvokeVoidAsync("clearGraphics", CancellationTokenSource.Token, Id, ids);
         AllowRender = true;
     }
 
@@ -1437,13 +1436,13 @@ public partial class MapView : MapComponent
     public async Task RemoveGraphic(Graphic graphic)
     {
         _graphics.Remove(graphic);
-        graphic.Parent = null;
-        graphic.View = null;
 
         if (CoreJsModule is null) return;
 
         await CoreJsModule.InvokeVoidAsync("removeGraphic", CancellationTokenSource.Token,
-            graphic.Id, Id);
+            graphic.Id, Id, null);
+        graphic.Parent = null;
+        graphic.View = null;
     }
 
     /// <summary>

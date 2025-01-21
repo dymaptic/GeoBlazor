@@ -387,7 +387,7 @@ public class Sublayer: MapComponent, IPopupTemplateLayer
         if (CoreJsModule is null) return;
         ModifiedParameters[nameof(PopupTemplate)] = popupTemplate;
         await CoreJsModule!.InvokeVoidAsync("setSublayerPopupTemplate", Layer?.JsComponentReference, 
-            SublayerId, popupTemplate, View?.Id);
+            SublayerId, popupTemplate, Layer?.Id, View?.Id);
     }
     
     /// <inheritdoc />

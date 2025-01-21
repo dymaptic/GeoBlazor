@@ -17,8 +17,7 @@ public class PortalItem : MapComponent
     public new string Id { get; set; } = default!;
 
     /// <summary>
-    ///     An authorization string used to access the portal item. API keys are generated and managed in the ArcGIS Developer
-    ///     dashboard. An API key is tied explicitly to an ArcGIS account; it is also used to monitor service usage.
+    ///     An authorization string used to access the portal item. API keys are generated and managed in the ArcGIS Developer Portal. An API key is tied explicitly to an ArcGIS account; it is also used to monitor service usage.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

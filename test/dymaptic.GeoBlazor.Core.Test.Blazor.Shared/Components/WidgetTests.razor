@@ -28,13 +28,21 @@
     [TestMethod]
     public async Task TestCanRenderBasemapLayerListWidget(Action renderHandler)
     {
-        var handlerWasCalled = false;
+        var referenceHandlerCalled = false;
 
         Task<ListItem> OnReferenceListItemCreatedHandler(ListItem item)
         {
             Assert.IsNotNull(item);
-            handlerWasCalled = true;
+            referenceHandlerCalled = true;
+            return Task.FromResult(item);
+        }
 
+        var baseHandlerCalled = false;
+        
+        Task<ListItem> OnBaseListItemCreatedHandler(ListItem item)
+        {
+            Assert.IsNotNull(item);
+            baseHandlerCalled = true;
             return Task.FromResult(item);
         }
 
@@ -46,18 +54,20 @@
                 <TileLayer>
                     <PortalItem Id="1b243539f4514b6ba35e7d995890db1d" />
                 </TileLayer>
-                <VectorTileLayer Opacity="0.75">
+                <VectorTileLayer Opacity="0.75" IsBasemapReferenceLayer="true">
                     <PortalItem Id="6976148c11bd497d8624206f9ee03e30" />
                 </VectorTileLayer>
             </Basemap>
         </Map>
-        <BasemapLayerListWidget OnReferenceListItemCreatedHandler="OnReferenceListItemCreatedHandler" />
+        <BasemapLayerListWidget OnReferenceListItemCreatedHandler="OnReferenceListItemCreatedHandler"
+                                OnBaseListItemCreatedHandler="OnBaseListItemCreatedHandler" />
 
     </MapView>);
 
         await WaitForMapToRender();
         await AssertJavaScript("assertWidgetExists", args: "esri.widgets.BasemapLayerList");
-        Assert.IsTrue(handlerWasCalled);
+        Assert.IsTrue(referenceHandlerCalled);
+        Assert.IsTrue(baseHandlerCalled);
     }
 
     [TestMethod]

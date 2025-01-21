@@ -114,6 +114,29 @@ public class AuthenticationManager
     }
 
     /// <summary>
+    ///     Get or set the ArcGIS Fonts URL. This would only be used in disconnected scenarios where you want to point to a local ArcGIS Portal.
+    /// </summary>
+    public string? FontsUrl
+    {
+        get
+        {
+            if (string.IsNullOrWhiteSpace(_fontsUrl))
+            {
+                _fontsUrl = _configuration["ArcGISFontsUrl"];
+            }
+
+            return _fontsUrl;
+        }
+        set
+        {
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                _fontsUrl = value;
+            }
+        }
+    }
+
+    /// <summary>
     ///     Initializes authentication based on either an OAuth App ID or an API Key. This is called automatically by <see cref="MapView" /> on first render, but can also be called manually for other actions such as rest calls.
     /// </summary>
     public async Task<bool> Initialize()
@@ -123,7 +146,8 @@ public class AuthenticationManager
             IJSObjectReference arcGisJsInterop = await GetArcGisJsInterop();
 
             _module = await arcGisJsInterop.InvokeAsync<IJSObjectReference>("getAuthenticationManager",
-                _cancellationTokenSource.Token, DotNetObjectReference.Create(this), ApiKey, AppId, PortalUrl, TrustedServers);
+                _cancellationTokenSource.Token, DotNetObjectReference.Create(this), ApiKey, AppId, PortalUrl, 
+                TrustedServers, FontsUrl);
         }
 
         return true;
@@ -200,4 +224,5 @@ public class AuthenticationManager
     private List<string>? _trustedServers;
     private string? _portalUrl;
     private IJSObjectReference? _module;
+    private string? _fontsUrl;
 }

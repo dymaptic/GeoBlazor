@@ -70,9 +70,10 @@
     [Parameter]
     public EventCallback<TestResult> OnTestResults { get; set; }
 
-    public async Task RunTests(bool onlyFailedTests = false)
+    public async Task RunTests(bool onlyFailedTests = false, bool parallelTesting = false)
     {
         _running = true;
+        _parallelTesting = parallelTesting;
         _resultBuilder = new StringBuilder();
         _passed.Clear();
         
@@ -90,6 +91,18 @@
         {
             await RunTest(method);
         }
+
+        if (_parallelRetryTests.Any())
+        {
+            await Task.Delay(1000);
+            foreach (MethodInfo retryMethod in _parallelRetryTests)
+            {
+                _failed.Remove(retryMethod.Name);
+                await RunTest(retryMethod);
+            }
+        }
+
+        _parallelRetryTests.Clear();
         
         _running = false;
     }
@@ -132,7 +145,7 @@
     protected async Task WaitForMapToRender([CallerMemberName] string methodName = "")
     {
         await InvokeAsync(StateHasChanged);
-        var tries = 200;
+        var tries = 100;
         while (!_methodsWithRenderedMaps.Contains(methodName) && (tries > 0))
         {
             if (_mapRenderingExceptions.Remove(methodName, out Exception? ex))
@@ -145,6 +158,11 @@
 
         if (!_methodsWithRenderedMaps.Contains(methodName))
         {
+            if (_parallelTesting && _parallelRetryTests.All(mi => mi.Name != methodName))
+            {
+                // Sometimes running multiple tests in parallel causes timeouts, give this another chance.
+                _parallelRetryTests.Add(_methodInfos!.First(mi => mi.Name == methodName));
+            }
             throw new TimeoutException("Map did not render in allotted time.");
         }
         _methodsWithRenderedMaps.Remove(methodName);
@@ -263,4 +281,6 @@
     private readonly Dictionary<string, string?> _failed = new();
     private Dictionary<string, bool> _interactionToggles = [];
     private string? _currentTest;
+    private readonly List<MethodInfo> _parallelRetryTests = [];
+    private bool _parallelTesting;
 }

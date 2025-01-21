@@ -8,7 +8,7 @@ import {
     IPropertyWrapper
 } from "./definitions";
 import {buildJsFeatureEffect, buildJsFeatureFilter, buildJsQuery} from "./jsBuilder";
-import {getProtobufGraphicStream, graphicsRefs, hasValue} from "./arcGisJsInterop";
+import {arcGisObjectRefs, getProtobufGraphicStream, graphicsRefs, hasValue} from "./arcGisJsInterop";
 import {
     buildDotNetFeatureSet
 } from "./dotNetBuilder";
@@ -19,6 +19,7 @@ import Graphic from "@arcgis/core/Graphic";
 
 export default class FeatureLayerViewWrapper implements IPropertyWrapper {
     public featureLayerView: FeatureLayerView;
+    private geoBlazorLayerId: string = '';
 
     constructor(component: FeatureLayerView) {
         this.featureLayerView = component;
@@ -26,6 +27,14 @@ export default class FeatureLayerViewWrapper implements IPropertyWrapper {
         for (let prop in component) {
             if (component.hasOwnProperty(prop)) {
                 this[prop] = component[prop];
+            }
+        }
+        if (!graphicsRefs.hasOwnProperty(this.geoBlazorLayerId)) {
+            graphicsRefs[this.geoBlazorLayerId] = {};
+        }
+        for (let key in arcGisObjectRefs) {
+            if (arcGisObjectRefs[key] === this.featureLayerView.layer) {
+                this.geoBlazorLayerId = key;
             }
         }
     }
@@ -63,15 +72,22 @@ export default class FeatureLayerViewWrapper implements IPropertyWrapper {
         if (!graphicsRefs.hasOwnProperty(geoBlazorId)) {
             return null;
         }
-        let graphic = graphicsRefs[geoBlazorId] as Graphic;
-        return this.featureLayerView.highlight(graphic);
+        
+        if (graphicsRefs[this.geoBlazorLayerId].hasOwnProperty(geoBlazorId)) {
+            let graphic = graphicsRefs[this.geoBlazorLayerId][geoBlazorId];
+            return this.featureLayerView.highlight(graphic);
+        }
+        
+        return null;
     }
     
     highlightByGeoBlazorIds(geoBlazorIds: string[]): Handle | null {
         let graphics : Graphic[] = [];
+        let group = graphicsRefs[this.geoBlazorLayerId];
+        
         geoBlazorIds.forEach(i => {
-            if (graphicsRefs.hasOwnProperty(i)) {
-                graphics.push(graphicsRefs[i] as Graphic);
+            if (group.hasOwnProperty(i)) {
+                graphics.push(group[i] as Graphic);
             }
         });
         if (graphics.length === 0) {
@@ -105,7 +121,7 @@ export default class FeatureLayerViewWrapper implements IPropertyWrapper {
 
             let featureSet = await this.featureLayerView.queryFeatures(jsQuery, options);
 
-            let dotNetFeatureSet = await buildDotNetFeatureSet(featureSet, viewId);
+            let dotNetFeatureSet = await buildDotNetFeatureSet(featureSet, this.geoBlazorLayerId, viewId);
             if (dotNetFeatureSet.features.length > 0) {
                 let graphics = getProtobufGraphicStream(dotNetFeatureSet.features, this.featureLayerView.layer);
                 await dotNetRef.invokeMethodAsync('OnQueryFeaturesStreamCallback', graphics, queryId);

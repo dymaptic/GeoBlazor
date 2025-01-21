@@ -142,8 +142,6 @@ public class SpatialReference : MapComponent
 
 internal class SpatialReferenceConverter : JsonConverter<SpatialReference>
 {
-    public override bool HandleNull => true;
-
     public override SpatialReference? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         var spatialReference = new SpatialReference();

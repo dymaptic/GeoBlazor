@@ -32,15 +32,17 @@ import {
 } from "./dotNetBuilder";
 import {
     graphicsRefs,
-    getGraphicsFromProtobufStream, 
-    hasValue, 
-    decodeProtobufGraphics, 
-    getProtobufGraphicStream
+    getGraphicsFromProtobufStream,
+    hasValue,
+    decodeProtobufGraphics,
+    getProtobufGraphicStream,
+    arcGisObjectRefs, lookupGraphicById
 } from "./arcGisJsInterop";
 import Graphic from "@arcgis/core/Graphic";
 
 export default class FeatureLayerWrapper implements IPropertyWrapper {
     public layer: FeatureLayer;
+    private readonly geoBlazorId: string = '';
 
     constructor(layer: FeatureLayer) {
         this.layer = layer;
@@ -48,6 +50,11 @@ export default class FeatureLayerWrapper implements IPropertyWrapper {
         for (let prop in layer) {
             if (layer.hasOwnProperty(prop)) {
                 this[prop] = layer[prop];
+            }
+        }
+        for (let key in arcGisObjectRefs) {
+            if (arcGisObjectRefs[key] === layer) {
+                this.geoBlazorId = key;
             }
         }
     }
@@ -91,7 +98,7 @@ export default class FeatureLayerWrapper implements IPropertyWrapper {
 
             let featureSet = await this.layer.queryFeatures(jsQuery, options);
 
-            let dotNetFeatureSet = await buildDotNetFeatureSet(featureSet, viewId);
+            let dotNetFeatureSet = await buildDotNetFeatureSet(featureSet, this.geoBlazorId, viewId);
             if (dotNetFeatureSet.features.length > 0) {
                 let graphics = getProtobufGraphicStream(dotNetFeatureSet.features, this.layer);
                 await dotNetRef.invokeMethodAsync('OnQueryFeaturesStreamCallback', graphics, queryId);
@@ -103,7 +110,7 @@ export default class FeatureLayerWrapper implements IPropertyWrapper {
             console.debug(error);
             throw error;
         }
-    }
+    } 
 
     async queryFeatureCount(query: DotNetQuery, options: any): Promise<number> {
         let jsQuery = buildJsQuery(query);
@@ -124,7 +131,7 @@ export default class FeatureLayerWrapper implements IPropertyWrapper {
             for (let prop in featureSetsDictionary) {
                 if (featureSetsDictionary.hasOwnProperty(prop)) {
                     let featureSet = featureSetsDictionary[prop] as FeatureSet;
-                    let dotNetFeatureSet = await buildDotNetFeatureSet(featureSet, viewId);
+                    let dotNetFeatureSet = await buildDotNetFeatureSet(featureSet, this.geoBlazorId, viewId);
                     if (dotNetFeatureSet.features.length > 0) {
                         let graphics = getProtobufGraphicStream(dotNetFeatureSet.features, this.layer);
                         await dotNetRef.invokeMethodAsync('OnQueryRelatedFeaturesStreamCallback', graphics, queryId, prop);
@@ -151,7 +158,7 @@ export default class FeatureLayerWrapper implements IPropertyWrapper {
         try {
             let jsQuery = buildJsTopFeaturesQuery(query);
             let featureSet = await this.layer.queryTopFeatures(jsQuery, options);
-            let dotNetFeatureSet = await buildDotNetFeatureSet(featureSet, viewId);
+            let dotNetFeatureSet = await buildDotNetFeatureSet(featureSet, this.geoBlazorId, viewId);
             if (dotNetFeatureSet.features.length > 0) {
                 let graphics = getProtobufGraphicStream(dotNetFeatureSet.features, this.layer);
                 await dotNetRef.invokeMethodAsync('OnQueryFeaturesStreamCallback', graphics, queryId);
@@ -189,8 +196,7 @@ export default class FeatureLayerWrapper implements IPropertyWrapper {
             return;
         }
         let graphics = await getGraphicsFromProtobufStream(streamRef) as any[];
-        let result = await this.applyGraphicEdits(graphics, editType, options, viewId, abortSignal);
-        return result;
+        return await this.applyGraphicEdits(graphics, editType, options, viewId, abortSignal);
     }
     
     async applyGraphicEditsSynchronously(graphicsArray: Uint8Array, editType: string, options: any, 
@@ -206,7 +212,7 @@ export default class FeatureLayerWrapper implements IPropertyWrapper {
         abortSignal: AbortSignal): Promise<any> {
         let jsGraphics: Graphic[] = [];
         for (const g of graphics) {
-            let jsGraphic = buildJsGraphic(g, viewId) as Graphic;
+            let jsGraphic = buildJsGraphic(g, this.geoBlazorId, viewId) as Graphic;
             jsGraphics.push(jsGraphic);
         }
         if (abortSignal.aborted) {
@@ -231,8 +237,7 @@ export default class FeatureLayerWrapper implements IPropertyWrapper {
             result = await this.layer.applyEdits(featureEdits);
         }
         if (abortSignal.aborted) return;
-        let dnResult = buildDotNetEditsResult(result);
-        return dnResult;
+        return buildDotNetEditsResult(result, this.geoBlazorId);
     }
     
     async applyAttachmentEdits(edits: any, options: any, viewId: string,
@@ -241,7 +246,7 @@ export default class FeatureLayerWrapper implements IPropertyWrapper {
         let addAttachments = edits.addAttachments?.map(e => {
             if (hasValue(e.feature)) {
                 return {
-                    feature: graphicsRefs[e.feature],
+                    feature: lookupGraphicById(e.feature.id, this.geoBlazorId, viewId),
                     attachment: e.attachment
                 }
             } else {
@@ -254,7 +259,7 @@ export default class FeatureLayerWrapper implements IPropertyWrapper {
         let updateAttachments = edits.updateAttachments?.map(e => {
             if (hasValue(e.feature)) {
                 return {
-                    feature: graphicsRefs[e.feature],
+                    feature: lookupGraphicById(e.feature.id, this.geoBlazorId, viewId),
                     attachment: e.attachment
                 }
             } else {
@@ -277,22 +282,21 @@ export default class FeatureLayerWrapper implements IPropertyWrapper {
         }
         if (abortSignal.aborted) return;
 
-        let dnResult = buildDotNetEditsResult(result);
-        return dnResult;
+        return buildDotNetEditsResult(result, this.geoBlazorId);
     }
 
-    async getFeatureType(graphic: DotNetGraphic): Promise<any> {
+    async getFeatureType(graphic: DotNetGraphic, viewId: string | null): Promise<any> {
+        
+        let feature = lookupGraphicById(graphic.id as string, this.geoBlazorId, viewId);
 
-        let feature = graphicsRefs[graphic.id as string] as Graphic;
-
-        let result = this.layer.getFeatureType(feature);
+        let result = this.layer.getFeatureType(feature as Graphic);
 
         return buildDotNetFeatureType(result);
     }
 
-    async getField(fieldName: string): Promise<DotNetField | null> {
+    getField(fieldName: string): DotNetField | null {
 
-        let result = await this.layer.getField(fieldName);
+        let result = this.layer.getField(fieldName);
 
         if (result != undefined) {
             let field = buildDotNetFields([result]);
@@ -302,43 +306,40 @@ export default class FeatureLayerWrapper implements IPropertyWrapper {
         return null;
     }
 
-    async getFieldDomain(fieldName: string, graphic: DotNetGraphic): Promise<DotNetDomain | null> {
+    getFieldDomain(fieldName: string, graphic: DotNetGraphic): DotNetDomain | null {
 
         let options: any | undefined = undefined;
         if (hasValue(graphic)) {
-            let featureGraphic = buildJsGraphic(graphic, null) as Graphic;
+            let featureGraphic = buildJsGraphic(graphic, this.geoBlazorId, null) as Graphic;
             options = {
                 feature: featureGraphic
             };
         }
         let result = this.layer.getFieldDomain(fieldName, options);
 
-        let domain = buildDotNetDomain(result);
-
-        return domain;
+        return buildDotNetDomain(result);
     }
 
     getCapabilities() {
         return this.layer.capabilities;
     }
 
-    async clone(): Promise<DotNetFeatureLayer> {
+    clone(): DotNetFeatureLayer {
 
-        let result = await this.layer.clone();
+        let result = this.layer.clone();
 
         return buildDotNetFeatureLayer(result);
     }
 
-    async refresh(): Promise<DotNetFeatureLayer> {
+    refresh(): DotNetFeatureLayer {
 
-        await this.layer.refresh();
+        this.layer.refresh();
 
         return buildDotNetFeatureLayer(this.layer);
     }
 
     setEffect(dnEffect: any): void {
-        let jsEffect = buildJsEffect(dnEffect);
-        this.layer.effect = jsEffect;
+        this.layer.effect = buildJsEffect(dnEffect);
     }
     hasValue(prop: any): boolean {
         return prop !== undefined && prop !== null;

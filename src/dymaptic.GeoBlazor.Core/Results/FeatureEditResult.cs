@@ -13,7 +13,12 @@ namespace dymaptic.GeoBlazor.Core.Results;
 /// <param name="Error">
 ///     If the edit failed, the edit result includes an error.
 /// </param>
-public record FeatureEditResult(long? ObjectId, string? GlobalId, EditError? Error);
+[CodeGenerationIgnore]
+public record FeatureEditResult(
+    [property: JsonConverter(typeof(LongConverter))]
+    long? ObjectId, 
+    string? GlobalId, 
+    EditError? Error);
 
 /// <summary>
 ///     The error object in a <see cref="FeatureEditResult"/>

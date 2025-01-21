@@ -197,7 +197,8 @@ public class GraphicsLayer : Layer
                 }
 
                 ms.Seek(0, SeekOrigin.Begin);
-                ((IJSInProcessObjectReference)CoreJsModule).InvokeVoid("addGraphicsSynchronously", ms.ToArray(), View.Id, Id);
+                ((IJSInProcessObjectReference)CoreJsModule).InvokeVoid("addGraphicsSynchronously", 
+                    ms.ToArray(), View.Id, Id);
                 await ms.DisposeAsync();
                 await Task.Delay(1, cancellationToken);
             }
@@ -309,10 +310,9 @@ public class GraphicsLayer : Layer
     public async Task Clear()
     {
         AllowRender = false;
-        Guid[] ids = _graphics.Select(g => g.Id).ToArray();
-        await CoreJsModule!.InvokeVoidAsync("clearGraphics", View!.Id, ids, Id);
         _graphicsToRender.Clear();
         _graphics.Clear();
+        await CoreJsModule!.InvokeVoidAsync("clearGraphics", View!.Id, Id);
         AllowRender = true;
     }
 

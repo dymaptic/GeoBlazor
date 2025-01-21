@@ -3,8 +3,9 @@ namespace dymaptic.GeoBlazor.Core.Components;
 ///     The following properties define generic sources properties for use in the Search widget. Please see the subclasses that extend this class for more information about working with Search widget sources.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-[JsonConverter(typeof(SearchSourceConverter))]
-public class SearchSource : MapComponent
+[JsonDerivedType(typeof(LocatorSearchSource), "locator")]
+[JsonDerivedType(typeof(LayerSearchSource), "layer")]
+public abstract class SearchSource : MapComponent
 {
     /// <summary>
     ///     The type of source.
@@ -218,55 +219,4 @@ public class SearchSource : MapComponent
         ResultSymbol?.ValidateRequiredChildren();
         base.ValidateRequiredChildren();
     }
-}
-
-
-internal class SearchSourceConverter : JsonConverter<SearchSource>
-{
-    public override SearchSource? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        if (reader.TokenType != JsonTokenType.StartObject)
-        {
-            return null;
-        }
-
-        using var jsonDocument = JsonDocument.ParseValue(ref reader);
-        var rootElement = jsonDocument.RootElement;
-        if (rootElement.TryGetProperty("url", out JsonElement _))
-        {
-            return JsonSerializer.Deserialize<LocatorSearchSource>(rootElement.GetRawText(), options);
-        }
-
-        if (rootElement.TryGetProperty("layer", out JsonElement _) || rootElement.TryGetProperty("layerId", out JsonElement _))
-        {
-            return JsonSerializer.Deserialize<LayerSearchSource>(rootElement.GetRawText(), options);
-        }
-
-        return null;
-    }
-
-    public override void Write(Utf8JsonWriter writer, SearchSource value, JsonSerializerOptions options)
-    {
-        JsonSerializer.Serialize(writer, value, typeof(object), options);
-    }
-
-    // Copy properties from source object to new instance of target object, for instance using reflection.
-    private static TTarget? MapFrom<TSource, TTarget>(TSource? sourceObject)
-        where TTarget : class, new()
-    {
-        if (sourceObject is null)
-            return null;
-        IEnumerable<PropertyInfo> sourceProperties = typeof(TSource).GetProperties().Where(prop => prop.CanRead);
-        PropertyInfo[] targetProperties = typeof(TTarget).GetProperties().Where(prop => prop.CanWrite).ToArray();
-        TTarget target = new TTarget();
-        foreach (PropertyInfo sourceProperty in sourceProperties)
-        {
-            PropertyInfo? targetProperty = targetProperties.FirstOrDefault(prop => prop.Name == sourceProperty.Name);
-            targetProperty?.SetValue(target, sourceProperty.GetValue(sourceObject));
-        }
-
-        return target;
-    }
-
-
 }
