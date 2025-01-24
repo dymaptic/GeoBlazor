@@ -50,6 +50,7 @@ public partial class Graphic: MapComponent
     ///     Returns information about an origin of a graphic if applicable.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Graphic.html#origin">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    [CodeGenerationIgnore]
     public Graphic(
         Geometry? geometry = null,
         Symbol? symbol = null,
