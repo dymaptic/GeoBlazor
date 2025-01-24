@@ -1158,7 +1158,7 @@ public partial class MapView : MapComponent
             graphic.AllowRender = false;
         }
 
-        if (CoreJsModule is null) return;
+        if (CoreJsModule is null || !MapRendered) return;
 
         var records = newGraphics.Select(g => g.ToSerializationRecord()).ToList();
         int chunkSize = GraphicSerializationChunkSize ?? (IsMaui ? 100 : 200);

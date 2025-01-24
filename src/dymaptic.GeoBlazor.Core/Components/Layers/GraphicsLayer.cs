@@ -156,7 +156,7 @@ public class GraphicsLayer : Layer
             graphic.Parent = this;
         }
 
-        if (View is null)
+        if (View is null || !View.MapRendered)
         {
             LayerChanged = true;
             UpdateState();
@@ -399,7 +399,7 @@ public class GraphicsLayer : Layer
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
-        if (!firstRender && _graphicsToRender.Any(g => !g.IsDisposed) && !_rendering)
+        if (!firstRender && _graphicsToRender.Any(g => !g.IsDisposed) && !_rendering && View?.MapRendered == true)
         {
             _rendering = true;
             AllowRender = false;

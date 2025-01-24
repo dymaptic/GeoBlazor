@@ -12,6 +12,19 @@ export function initialize(core) {
     SimpleRenderer = Core.SimpleRenderer;
 }
 
+export function setJsTimeout(time, methodName) {
+    delete timeouts[methodName];
+    setTimeout(() => {
+        timeouts[methodName] = true;
+    }, time);
+}
+
+export function timeoutComplete(methodName) {
+    return timeouts[methodName] === true;
+}
+
+let timeouts = {};
+
 export async function dispatchEvent(methodName, objectId, eventName) {
     let obj = arcGisObjectRefs[objectId];
     let event = new Event(eventName);

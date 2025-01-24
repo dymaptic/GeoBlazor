@@ -185,6 +185,15 @@
             await _jsObjectReference!.InvokeVoidAsync(jsAssertFunction, jsArgs.ToArray());   
         }
     }
+    
+    protected async Task WaitForJsTimeout(long time, [CallerMemberName] string methodName = "")
+    {
+        await _jsObjectReference!.InvokeVoidAsync("setJsTimeout", time, methodName);
+        while (!await _jsObjectReference!.InvokeAsync<bool>("timeoutComplete", methodName))
+        {
+            await Task.Delay(100);
+        }
+    }
 
     private async Task RunTest(MethodInfo methodInfo)
     {
