@@ -2,7 +2,8 @@
 
 // region imports
 import {
-    buildJsBaseTileLayer, buildJsFeatureLayer,
+    buildJsBaseTileLayer, 
+    buildJsFeatureLayer,
     buildJsImageryTileLayer,
     buildJsVectorTileLayer,
     buildJsWebTileLayer
@@ -152,7 +153,6 @@ import View from "@arcgis/core/views/View";
 import WCSLayer from "@arcgis/core/layers/WCSLayer";
 import WebMap from "@arcgis/core/WebMap";
 import WebScene from "@arcgis/core/WebScene";
-import WebTileLayer from "@arcgis/core/layers/WebTileLayer";
 import Widget from "@arcgis/core/widgets/Widget";
 import {load} from "protobufjs";
 import VectorTileLayer from "@arcgis/core/layers/VectorTileLayer";
@@ -1144,7 +1144,7 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                 }
                 break;
             case 'web-tile':
-                let webTileLayer = currentLayer as WebTileLayer;
+                let webTileLayer = currentLayer as __esri.WebTileLayer;
                 copyValuesIfExists(layerObject, webTileLayer,
                     'subDomains', 'blendMode', 'copyright', 'maxScale', 'minScale', 'refreshInterval');
 
@@ -2650,41 +2650,7 @@ export async function createLayer(dotNetLayer: any, wrap: boolean | null, viewId
             newLayer = new GeoRSSLayer({ url: dotNetLayer.url });
             break;
         case 'web-tile':
-            let webTileLayer: WebTileLayer;
-            if (hasValue(dotNetLayer.urlTemplate)) {
-                webTileLayer = new WebTileLayer({
-                    urlTemplate: dotNetLayer.urlTemplate
-                });
-            } else {
-                let portalItem = buildJsPortalItem(dotNetLayer.portalItem);
-                webTileLayer = new WebTileLayer({ portalItem: portalItem });
-            }
-            newLayer = webTileLayer;
-
-            copyValuesIfExists(dotNetLayer, webTileLayer,
-                'subDomains', 'blendMode', 'copyright', 'maxScale', 'minScale', 'refreshInterval');
-
-            if (hasValue(dotNetLayer.tileInfo)) {
-                webTileLayer.tileInfo = new TileInfo();
-                copyValuesIfExists(dotNetLayer.tileInfo, webTileLayer.tileInfo,
-                    'dpi', 'format', 'isWrappable', 'size');
-
-                if (hasValue(dotNetLayer.tileInfo.lods)) {
-                    webTileLayer.tileInfo.lods = dotNetLayer.tileInfo.lods.map(l => {
-                        let lod = new LOD();
-                        copyValuesIfExists(l, lod, 'level', 'levelValue', 'resolution', 'scale');
-                        return lod;
-                    });
-                }
-
-                if (hasValue(dotNetLayer.tileInfo.origin)) {
-                    webTileLayer.tileInfo.origin = buildJsPoint(dotNetLayer.tileInfo.origin) as Point;
-                }
-
-                if (hasValue(dotNetLayer.tileInfo.spatialReference)) {
-                    webTileLayer.tileInfo.spatialReference = buildJsSpatialReference(dotNetLayer.tileInfo.spatialReference);
-                }
-            }
+            newLayer = await buildJsWebTileLayer(dotNetLayer);
 
             break;
         case 'open-street-map':
@@ -2895,7 +2861,7 @@ export async function createLayer(dotNetLayer: any, wrap: boolean | null, viewId
 
             break;
         case 'imagery-tile':
-            newLayer = await buildJsImageryTileLayer(dotNetLayer, viewId);
+            newLayer = await buildJsImageryTileLayer(dotNetLayer, dotNetLayer.id, viewId);
 
             break;
         case 'vector-tile':
@@ -3021,7 +2987,7 @@ function setWaitCursor(viewId: string): void {
     }
 }
 
-function unsetWaitCursor(viewId: string): void {
+function unsetWaitCursor(viewId: string | null): void {
     let viewContainer = document.getElementById(`map-container-${viewId}`);
     if (viewContainer !== null) {
         document.body.style.cursor = 'unset';
