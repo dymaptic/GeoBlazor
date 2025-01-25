@@ -3,7 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
-///     Enumeration for MapFontStyle
+///     <summary>
+///          MapFontStyle enumeration.
+///      </summary>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<MapFontStyle>))]
 public enum MapFontStyle

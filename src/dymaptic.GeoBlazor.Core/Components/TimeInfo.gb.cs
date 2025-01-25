@@ -188,9 +188,10 @@ public partial class TimeInfo
         }
 
         // get the JS object reference
-        IJSObjectReference? refResult = await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
-            "getProperty", CancellationTokenSource.Token, JsComponentReference, 
-            "fullTimeExtent");
+        IJSObjectReference? refResult = (await CoreJsModule!.InvokeAsync<JsObjectRefWrapper?>(
+            "getObjectRefForProperty", CancellationTokenSource.Token, JsComponentReference, 
+            "fullTimeExtent"))?.Value;
+            
         if (refResult is null)
         {
             return null;

@@ -3,7 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
-///     Enumeration for ReturnServiceEditsOption
+///     <summary>
+///          Enumeration for ReturnServiceEditsOption
+///      </summary>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<ReturnServiceEditsOption>))]
 public enum ReturnServiceEditsOption

@@ -6,7 +6,18 @@ import {
     buildJsFeatureLayer,
     buildJsImageryTileLayer,
     buildJsVectorTileLayer,
-    buildJsWebTileLayer
+    buildJsWebTileLayer,
+    buildJsBingMapsLayer,
+    buildJsCSVLayer,
+    buildJsElevationLayer,
+    buildJsGeoJSONLayer,
+    buildJsGeoRSSLayer,
+    buildJsGraphicsLayer,
+    buildJsImageryLayer,
+    buildJsKMLLayer,
+    buildJsMapImageLayer,
+    buildJsTileLayer,
+    buildJsWCSLayer
 } from './jsBuilder.gb';
 import {
     buildDotNetBookmark,
@@ -138,7 +149,6 @@ import RouteParameters from "@arcgis/core/rest/support/RouteParameters";
 import ScaleBar from "@arcgis/core/widgets/ScaleBar";
 import SceneView from "@arcgis/core/views/SceneView";
 import ScreenPoint = __esri.ScreenPoint;
-import Screenshot = __esri.Screenshot;
 import Search from "@arcgis/core/widgets/Search";
 import SearchSource from "@arcgis/core/widgets/Search/SearchSource";
 import SearchWidgetWrapper from "./searchWidget";
@@ -2933,10 +2943,55 @@ export async function getObjectReference(objectRef: any) {
             let { default: BaseTileLayerWrapper } = await import('./baseTileLayer');
             return new BaseTileLayerWrapper(objectRef);
         }
+        let { default: CSVLayer } = await import ('@arcgis/core/layers/CSVLayer');
+        if (objectRef instanceof CSVLayer) {
+            let { default: CSVLayerWrapper } = await import('./cSVLayer');
+            return new CSVLayerWrapper(objectRef);
+        }
+        let { default: ElevationLayer } = await import ('@arcgis/core/layers/ElevationLayer');
+        if (objectRef instanceof ElevationLayer) {
+            let { default: ElevationLayerWrapper } = await import('./elevationLayer');
+            return new ElevationLayerWrapper(objectRef);
+        }
+        let { default: GeoJSONLayer } = await import ('@arcgis/core/layers/GeoJSONLayer');
+        if (objectRef instanceof GeoJSONLayer) {
+            let { default: GeoJSONLayerWrapper } = await import('./geoJSONLayer');
+            return new GeoJSONLayerWrapper(objectRef);
+        }
+        let { default: GeoRSSLayer } = await import ('@arcgis/core/layers/GeoRSSLayer');
+        if (objectRef instanceof GeoRSSLayer) {
+            let { default: GeoRSSLayerWrapper } = await import('./geoRSSLayer');
+            return new GeoRSSLayerWrapper(objectRef);
+        }
+        let { default: GraphicsLayer } = await import ('@arcgis/core/layers/GraphicsLayer');
+        if (objectRef instanceof GraphicsLayer) {
+            let { default: GraphicsLayerWrapper } = await import('./graphicsLayer');
+            return new GraphicsLayerWrapper(objectRef);
+        }
+        let { default: ImageryLayer } = await import ('@arcgis/core/layers/ImageryLayer');
+        if (objectRef instanceof ImageryLayer) {
+            let { default: ImageryLayerWrapper } = await import('./imageryLayer');
+            return new ImageryLayerWrapper(objectRef);
+        }
+        let { default: KMLLayer } = await import ('@arcgis/core/layers/KMLLayer');
+        if (objectRef instanceof KMLLayer) {
+            let { default: KMLLayerWrapper } = await import('./kMLLayer');
+            return new KMLLayerWrapper(objectRef);
+        }
+        let { default: MapImageLayer } = await import ('@arcgis/core/layers/MapImageLayer');
+        if (objectRef instanceof MapImageLayer) {
+            let { default: MapImageLayerWrapper } = await import('./mapImageLayer');
+            return new MapImageLayerWrapper(objectRef);
+        }
         let { default: VectorTileLayer } = await import ('@arcgis/core/layers/VectorTileLayer');
         if (objectRef instanceof VectorTileLayer) {
             let { default: VectorTileLayerWrapper } = await import('./vectorTileLayer');
             return new VectorTileLayerWrapper(objectRef);
+        }
+        let { default: WCSLayer } = await import ('@arcgis/core/layers/WCSLayer');
+        if (objectRef instanceof WCSLayer) {
+            let { default: WCSLayerWrapper } = await import('./wCSLayer');
+            return new WCSLayerWrapper(objectRef);
         }
         let { default: WebTileLayer } = await import ('@arcgis/core/layers/WebTileLayer');
         if (objectRef instanceof WebTileLayer) {

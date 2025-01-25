@@ -3,7 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
-///     Enumeration for ImageFormat
+///     <summary>
+///      The format of the data sent by the server.
+///      </summary>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<ImageFormat>))]
 public enum ImageFormat

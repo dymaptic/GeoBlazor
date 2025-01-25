@@ -331,9 +331,10 @@ public partial class WebTileLayer : IBlendLayer,
         }
 
         // get the JS object reference
-        IJSObjectReference? refResult = await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
-            "getProperty", CancellationTokenSource.Token, JsComponentReference, 
-            "portalItem");
+        IJSObjectReference? refResult = (await CoreJsModule!.InvokeAsync<JsObjectRefWrapper?>(
+            "getObjectRefForProperty", CancellationTokenSource.Token, JsComponentReference, 
+            "portalItem"))?.Value;
+            
         if (refResult is null)
         {
             return null;
@@ -503,9 +504,10 @@ public partial class WebTileLayer : IBlendLayer,
         }
 
         // get the JS object reference
-        IJSObjectReference? refResult = await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
-            "getProperty", CancellationTokenSource.Token, JsComponentReference, 
-            "tileInfo");
+        IJSObjectReference? refResult = (await CoreJsModule!.InvokeAsync<JsObjectRefWrapper?>(
+            "getObjectRefForProperty", CancellationTokenSource.Token, JsComponentReference, 
+            "tileInfo"))?.Value;
+            
         if (refResult is null)
         {
             return null;

@@ -178,9 +178,10 @@ public abstract partial class Layer : IHitTestItem,
         }
 
         // get the JS object reference
-        IJSObjectReference? refResult = await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
-            "getProperty", CancellationTokenSource.Token, JsComponentReference, 
-            "visibilityTimeExtent");
+        IJSObjectReference? refResult = (await CoreJsModule!.InvokeAsync<JsObjectRefWrapper?>(
+            "getObjectRefForProperty", CancellationTokenSource.Token, JsComponentReference, 
+            "visibilityTimeExtent"))?.Value;
+            
         if (refResult is null)
         {
             return null;

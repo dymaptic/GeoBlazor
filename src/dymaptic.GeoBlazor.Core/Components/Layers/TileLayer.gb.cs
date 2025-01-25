@@ -329,9 +329,10 @@ public partial class TileLayer : IAPIKeyMixin,
         }
 
         // get the JS object reference
-        IJSObjectReference? refResult = await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
-            "getProperty", CancellationTokenSource.Token, JsComponentReference, 
-            "allSublayers");
+        IJSObjectReference? refResult = (await CoreJsModule!.InvokeAsync<JsObjectRefWrapper?>(
+            "getObjectRefForProperty", CancellationTokenSource.Token, JsComponentReference, 
+            "allSublayers"))?.Value;
+            
         if (refResult is null)
         {
             return null;
@@ -721,9 +722,10 @@ public partial class TileLayer : IAPIKeyMixin,
         }
 
         // get the JS object reference
-        IJSObjectReference? refResult = await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
-            "getProperty", CancellationTokenSource.Token, JsComponentReference, 
-            "portalItem");
+        IJSObjectReference? refResult = (await CoreJsModule!.InvokeAsync<JsObjectRefWrapper?>(
+            "getObjectRefForProperty", CancellationTokenSource.Token, JsComponentReference, 
+            "portalItem"))?.Value;
+            
         if (refResult is null)
         {
             return null;
@@ -918,9 +920,10 @@ public partial class TileLayer : IAPIKeyMixin,
         }
 
         // get the JS object reference
-        IJSObjectReference? refResult = await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
-            "getProperty", CancellationTokenSource.Token, JsComponentReference, 
-            "sublayers");
+        IJSObjectReference? refResult = (await CoreJsModule!.InvokeAsync<JsObjectRefWrapper?>(
+            "getObjectRefForProperty", CancellationTokenSource.Token, JsComponentReference, 
+            "sublayers"))?.Value;
+            
         if (refResult is null)
         {
             return null;
@@ -1035,9 +1038,10 @@ public partial class TileLayer : IAPIKeyMixin,
         }
 
         // get the JS object reference
-        IJSObjectReference? refResult = await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
-            "getProperty", CancellationTokenSource.Token, JsComponentReference, 
-            "tileInfo");
+        IJSObjectReference? refResult = (await CoreJsModule!.InvokeAsync<JsObjectRefWrapper?>(
+            "getObjectRefForProperty", CancellationTokenSource.Token, JsComponentReference, 
+            "tileInfo"))?.Value;
+            
         if (refResult is null)
         {
             return null;

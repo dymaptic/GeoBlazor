@@ -202,9 +202,10 @@ public partial class FeatureTemplate : MapComponent
         }
 
         // get the JS object reference
-        IJSObjectReference? refResult = await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
-            "getProperty", CancellationTokenSource.Token, JsComponentReference, 
-            "prototype");
+        IJSObjectReference? refResult = (await CoreJsModule!.InvokeAsync<JsObjectRefWrapper?>(
+            "getObjectRefForProperty", CancellationTokenSource.Token, JsComponentReference, 
+            "prototype"))?.Value;
+            
         if (refResult is null)
         {
             return null;

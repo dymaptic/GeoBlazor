@@ -3,7 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
-///     Enumeration for ListMode
+///     <summary>
+///          Indicates how the layer should display in the LayerList widget. The possible values are listed below.
+///      </summary>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<ListMode>))]
 public enum ListMode

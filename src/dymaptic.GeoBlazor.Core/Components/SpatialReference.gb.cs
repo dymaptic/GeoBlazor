@@ -18,47 +18,6 @@ public partial class SpatialReference
     {
     }
 
-    /// <summary>
-    ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
-    /// </summary>
-    /// <param name="wkid">
-    ///     The well-known ID of a spatial reference.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-SpatialReference.html#wkid">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="imageCoordinateSystem">
-    ///     An <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/raster-ics.htm">image coordinate system</a> defines the spatial reference used to display the image in its original coordinates without distortion, map transformations or ortho-rectification.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-SpatialReference.html#imageCoordinateSystem">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="wkt">
-    ///     The well-known text that defines a spatial reference.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-SpatialReference.html#wkt">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="wkt2">
-    ///     The well-known text of the coordinate system as defined by OGC standard for well-known text strings.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-SpatialReference.html#wkt2">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    public SpatialReference(
-        int wkid,
-        string? imageCoordinateSystem = null,
-        string? wkt = null,
-        string? wkt2 = null)
-    {
-        AllowRender = false;
-#pragma warning disable BL0005
-        Wkid = wkid;
-        ImageCoordinateSystem = imageCoordinateSystem;
-        if (wkt is not null)
-        {
-            Wkt = wkt;
-        }
-        if (wkt2 is not null)
-        {
-            Wkt2 = wkt2;
-        }
-#pragma warning restore BL0005    
-    }
-    
-    
 #region Public Properties / Blazor Parameters
 
     /// <summary>

@@ -3,7 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
-///     Enumeration for AuthoringInfoFlowTheme
+///     <summary>
+///          Enumeration for AuthoringInfoFlowTheme
+///      </summary>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<AuthoringInfoFlowTheme>))]
 public enum AuthoringInfoFlowTheme

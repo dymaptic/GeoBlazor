@@ -3,7 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
-///     Enumeration for Role
+///     <summary>
+///          Indicates whether the table participating in the relationship is the origin or destination table.
+///      </summary>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<Role>))]
 public enum Role

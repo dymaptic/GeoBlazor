@@ -3,7 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
-///     Enumeration for HorizontalAlignment
+///     <summary>
+///          The horizontal alignment for a text symbol's text.
+///      </summary>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<HorizontalAlignment>))]
 public enum HorizontalAlignment

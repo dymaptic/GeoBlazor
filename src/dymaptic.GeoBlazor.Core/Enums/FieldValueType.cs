@@ -3,7 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
-///     Enumeration for FieldValueType
+///     <summary>
+///          The types of values that can be assigned to a field.
+///      </summary>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<FieldValueType>))]
 public enum FieldValueType
