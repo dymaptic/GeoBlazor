@@ -210,7 +210,13 @@ public class SceneView : MapView
 
         Rendering = true;
         Map.Layers.RemoveAll(l => l.Imported);
-        Map.Basemap?.Layers.RemoveAll(l => l.Imported);
+        if (Map.Basemap is not null)
+        {
+#pragma warning disable BL0005
+            Map.Basemap!.BaseLayers = Map.Basemap.BaseLayers?.Where(l => !l.Imported).ToList();
+            Map.Basemap!.ReferenceLayers = Map.Basemap!.ReferenceLayers?.Where(l => !l.Imported).ToList();
+#pragma warning restore BL0005 
+        }
         ValidateRequiredChildren();
 
         await InvokeAsync(async () =>

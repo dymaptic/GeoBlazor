@@ -1,4 +1,5 @@
-﻿import CreatePopupTemplateOptions = __esri.CreatePopupTemplateOptions;
+import FeatureLayerGenerated from './featureLayer.gb';
+import CreatePopupTemplateOptions = __esri.CreatePopupTemplateOptions;
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import Query from "@arcgis/core/rest/support/Query";
 import FeatureSet from "@arcgis/core/rest/support/FeatureSet";
@@ -40,28 +41,13 @@ import {
 } from "./arcGisJsInterop";
 import Graphic from "@arcgis/core/Graphic";
 
-export default class FeatureLayerWrapper implements IPropertyWrapper {
-    public layer: FeatureLayer;
+export default class FeatureLayerWrapper extends FeatureLayerGenerated {
     private readonly geoBlazorId: string = '';
 
     constructor(layer: FeatureLayer) {
-        this.layer = layer;
-        // set all properties from layer
-        for (let prop in layer) {
-            if (layer.hasOwnProperty(prop)) {
-                this[prop] = layer[prop];
-            }
-        }
-        for (let key in arcGisObjectRefs) {
-            if (arcGisObjectRefs[key] === layer) {
-                this.geoBlazorId = key;
-            }
-        }
+        super(layer);
     }
     
-    unwrap() {
-        return this.layer;
-    }
 
     createPopupTemplate(options: CreatePopupTemplateOptions | null): DotNetPopupTemplate {
         let jsPopupTemplate = options === null
@@ -70,9 +56,6 @@ export default class FeatureLayerWrapper implements IPropertyWrapper {
         return buildDotNetPopupTemplate(jsPopupTemplate);
     }
 
-    async load(options: AbortSignal): Promise<void> {
-        await this.layer.load(options);
-    }
 
     createQuery(): Query {
         return this.layer.createQuery();
@@ -345,27 +328,7 @@ export default class FeatureLayerWrapper implements IPropertyWrapper {
         return prop !== undefined && prop !== null;
     }
 
-    setProperty(prop: string, value: any): void {
-        this.layer[prop] = value;
-    }
 
-    getProperty(prop: string) {
-        return this.layer[prop];
-    }
 
-    addToProperty(prop: string, value: any) {
-        if (Array.isArray(value)) {
-            this.layer[prop].addMany(value);
-        } else {
-            this.layer[prop].add(value);
-        }
-    }
 
-    removeFromProperty(prop: string, value: any) {
-        if (Array.isArray(value)) {
-            this.layer[prop].removeMany(value);
-        } else {
-            this.layer[prop].remove(value);
-        }
-    }
 }

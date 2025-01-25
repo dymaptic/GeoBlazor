@@ -779,7 +779,7 @@ public partial class MapView : MapComponent
     /// </summary>
     [JSInvokable]
     public async Task OnJavascriptLayerViewCreateComplete(Guid? geoBlazorLayerId, string layerUid,
-        IJSObjectReference layerRef, IJSObjectReference layerViewRef, bool isBasemapLayer)
+        IJSObjectReference layerRef, IJSObjectReference layerViewRef, bool isBasemapLayer, bool isReferenceLayer)
     {
         if (_isDisposed) return;
         try
@@ -792,7 +792,7 @@ public partial class MapView : MapComponent
 
             LayerViewCreateInternalEvent createEvent =
                 new(layerRef, layerViewRef, geoBlazorLayerId ?? Guid.Empty, layer,
-                    layerView, isBasemapLayer);
+                    layerView, isBasemapLayer, isReferenceLayer);
             await OnJavascriptLayerViewCreate(createEvent);
         }
         catch (Exception ex)
@@ -825,8 +825,10 @@ public partial class MapView : MapComponent
         }
 
         Layer? createdLayer = layerViewCreateEvent.IsBasemapLayer
-            ? Map?.Basemap?.Layers.FirstOrDefault(l => l.Id == layerViewCreateEvent.LayerGeoBlazorId)
-            : Map?.Layers.FirstOrDefault(l => l.Id == layerViewCreateEvent.LayerGeoBlazorId);
+            ? Map?.Basemap?.BaseLayers?.FirstOrDefault(l => l.Id == layerViewCreateEvent.LayerGeoBlazorId)
+            : layerViewCreateEvent.IsReferenceLayer
+                ? Map?.Basemap?.ReferenceLayers?.FirstOrDefault(l => l.Id == layerViewCreateEvent.LayerGeoBlazorId)
+                : Map?.Layers.FirstOrDefault(l => l.Id == layerViewCreateEvent.LayerGeoBlazorId);
 
         if (createdLayer is not null) // layer already exists in C#
         {
@@ -866,7 +868,18 @@ public partial class MapView : MapComponent
                 {
                     if (Map?.Basemap is not null)
                     {
-                        Map!.Basemap!.Layers.Add(layer);
+#pragma warning disable BL0005
+                        Map!.Basemap!.BaseLayers ??= [];
+                        Map.Basemap.BaseLayers = [..Map.Basemap.BaseLayers, layer];
+                    }
+                }
+                else if (layerViewCreateEvent.IsReferenceLayer)
+                {
+                    if (Map?.Basemap is not null)
+                    {
+                        Map!.Basemap!.ReferenceLayers ??= [];
+                        Map.Basemap.ReferenceLayers = [..Map.Basemap.ReferenceLayers, layer];
+#pragma warning restore BL0005
                     }
                 }
                 else
@@ -1324,13 +1337,28 @@ public partial class MapView : MapComponent
     /// <param name="isBasemapLayer">
     ///     If true, adds the layer as a Basemap. If there is no Basemap yet, one will be created.
     /// </param>
-    public async Task AddLayer(Layer layer, bool isBasemapLayer = false)
+    /// <param name="isBasemapReferenceLayer">
+    ///     If true, adds the layer as a Basemap Reference Layer.
+    /// </param>
+    public async Task AddLayer(Layer layer, bool isBasemapLayer = false, bool isBasemapReferenceLayer = false)
     {
-        if (isBasemapLayer)
+        if (isBasemapLayer && layer.IsBasemapReferenceLayer != true)
         {
             Map!.Basemap ??= new Basemap();
-            Map.Basemap.Layers.Add(layer);
+            
+#pragma warning disable BL0005
+            Map.Basemap.BaseLayers ??= [];
+            Map.Basemap.BaseLayers = [..Map.Basemap.BaseLayers, layer];
             layer.Parent ??= Map.Basemap;
+        }
+        else if (isBasemapReferenceLayer || layer.IsBasemapReferenceLayer == true)
+        {
+            Map!.Basemap ??= new Basemap();
+            Map.Basemap.ReferenceLayers ??= [];
+            Map.Basemap.ReferenceLayers = [..Map.Basemap.ReferenceLayers, layer];
+            layer.Parent ??= Map.Basemap;
+            layer.IsBasemapReferenceLayer = true;
+#pragma warning restore BL0005
         }
         else
         {
@@ -1345,12 +1373,12 @@ public partial class MapView : MapComponent
         if (ProJsModule is not null && layer.GetType().Namespace!.Contains("Pro"))
         {
             await ProJsModule!.InvokeVoidAsync("addProLayer", CancellationTokenSource.Token, 
-                (object)layer, Id, isBasemapLayer);
+                (object)layer, Id, isBasemapLayer, isBasemapReferenceLayer);
         }
         else
         {
             await CoreJsModule.InvokeVoidAsync("addLayer", CancellationTokenSource.Token,
-                (object)layer, Id, isBasemapLayer);
+                (object)layer, Id, isBasemapLayer, isBasemapReferenceLayer);
         }
     }
 
@@ -1363,15 +1391,29 @@ public partial class MapView : MapComponent
     /// <param name="isBasemapLayer">
     ///     If true, removes the layer as a Basemap
     /// </param>
-    public async Task RemoveLayer(Layer layer, bool isBasemapLayer = false)
+    /// <param name="isReferenceLayer">
+    ///     If true, removes the layer as a Basemap Reference Layer
+    /// </param>
+    public async Task RemoveLayer(Layer layer, bool isBasemapLayer = false, bool isReferenceLayer = false)
     {
         var removed = false;
 
-        if (isBasemapLayer)
+        if (isBasemapLayer && layer.IsBasemapReferenceLayer != true)
         {
-            if (Map?.Basemap?.Layers.Contains(layer) == true)
+            if (Map?.Basemap?.BaseLayers?.Contains(layer) == true)
             {
-                Map.Basemap.Layers.Remove(layer);
+#pragma warning disable BL0005
+                Map.Basemap.BaseLayers = Map.Basemap.BaseLayers.Except([layer]).ToList();
+                layer.Parent = null;
+                removed = true;
+            }
+        }
+        if (isReferenceLayer || layer.IsBasemapReferenceLayer == true)
+        {
+            if (Map?.Basemap?.ReferenceLayers?.Contains(layer) == true)
+            {
+                Map.Basemap.ReferenceLayers = Map.Basemap.ReferenceLayers.Except([layer]).ToList();
+#pragma warning restore BL0005
                 layer.Parent = null;
                 removed = true;
             }
@@ -1389,7 +1431,7 @@ public partial class MapView : MapComponent
         if (CoreJsModule is null || !removed) return;
 
         await CoreJsModule.InvokeVoidAsync("removeLayer", CancellationTokenSource.Token,
-            layer.Id, Id, isBasemapLayer);
+            layer.Id, Id, isBasemapLayer, isReferenceLayer);
     }
 
     /// <summary>
@@ -2160,7 +2202,14 @@ public partial class MapView : MapComponent
 
         Rendering = true;
         Map.Layers.RemoveAll(l => l.Imported);
-        Map.Basemap?.Layers.RemoveAll(l => l.Imported);
+
+        if (Map.Basemap is not null)
+        {
+#pragma warning disable BL0005
+            Map.Basemap!.BaseLayers = Map.Basemap.BaseLayers?.Where(l => !l.Imported).ToList();
+            Map.Basemap!.ReferenceLayers = Map.Basemap!.ReferenceLayers?.Where(l => !l.Imported).ToList();
+#pragma warning restore BL0005 
+        }
         ValidateRequiredChildren();
 
         await InvokeAsync(async () =>
@@ -2185,24 +2234,26 @@ public partial class MapView : MapComponent
                 await Task.Delay(1);
             }
 
-            await CoreJsModule.InvokeVoidAsync("buildMapView", CancellationTokenSource.Token, Id,
-                DotNetComponentReference, Longitude, Latitude, Rotation, Map, Zoom, Scale,
-                mapType, Widgets, Graphics, SpatialReference, Constraints, Extent,
-                EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions, PopupEnabled);
+            if (ProJsModule is null)
+            {
+                await CoreJsModule.InvokeVoidAsync("buildMapView", CancellationTokenSource.Token, Id,
+                    DotNetComponentReference, Longitude, Latitude, Rotation, Map, Zoom, Scale,
+                    mapType, Widgets, Graphics, SpatialReference, Constraints, Extent,
+                    EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions, PopupEnabled);    
+            }
+            else
+            {
+                await ProJsModule.InvokeVoidAsync("buildMapView", CancellationTokenSource.Token, Id,
+                    DotNetComponentReference, Longitude, Latitude, Rotation, Map, Zoom, Scale,
+                    mapType, Widgets, Graphics, SpatialReference, Constraints, Extent,
+                    EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions, PopupEnabled,
+                    Widgets.Where(w => !w.GetType().Namespace!.Contains("Core")),
+                    Map.Layers.Where(l => !l.GetType().Namespace!.Contains("Core")));
+            }
+            
 
             Rendering = false;
             MapRendered = true;
-
-            if (ProJsModule is not null)
-            {
-                // register pro widgets
-                foreach (Widget widget in Widgets.Where(w => !w.GetType().Namespace!.Contains("Core")))
-                {
-                    await AddWidget(widget);
-                }
-            }
-           
-          
         });
     }
 #endregion

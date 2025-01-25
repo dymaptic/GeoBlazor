@@ -1,4 +1,5 @@
-﻿import FeatureLayerView from "@arcgis/core/views/layers/FeatureLayerView";
+import FeatureLayerViewGenerated from './featureLayerView.gb';
+import FeatureLayerView from "@arcgis/core/views/layers/FeatureLayerView";
 import Query from "@arcgis/core/rest/support/Query";
 import {
     DotNetFeatureEffect,
@@ -17,31 +18,13 @@ import FeatureFilter from "@arcgis/core/layers/support/FeatureFilter";
 import Handle = __esri.Handle;
 import Graphic from "@arcgis/core/Graphic";
 
-export default class FeatureLayerViewWrapper implements IPropertyWrapper {
-    public featureLayerView: FeatureLayerView;
+export default class FeatureLayerViewWrapper extends FeatureLayerViewGenerated {
     private geoBlazorLayerId: string = '';
 
     constructor(component: FeatureLayerView) {
-        this.featureLayerView = component;
-        // set all properties from featureLayerView
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
-        if (!graphicsRefs.hasOwnProperty(this.geoBlazorLayerId)) {
-            graphicsRefs[this.geoBlazorLayerId] = {};
-        }
-        for (let key in arcGisObjectRefs) {
-            if (arcGisObjectRefs[key] === this.featureLayerView.layer) {
-                this.geoBlazorLayerId = key;
-            }
-        }
+        super(component);
     }
 
-    unwrap() {
-        return this.featureLayerView;
-    }
     setFeatureEffect(dnfeatureEffect: DotNetFeatureEffect): any {
         this.featureLayerView.featureEffect = buildJsFeatureEffect(dnfeatureEffect) as FeatureEffect;
         return this.featureLayerView.featureEffect;
@@ -140,27 +123,7 @@ export default class FeatureLayerViewWrapper implements IPropertyWrapper {
         return await this.featureLayerView.queryObjectIds(jsQuery, options);
     }
 
-    setProperty(prop: string, value: any): void {
-        this.featureLayerView[prop] = value;
-    }
 
-    getProperty(prop: string) {
-        return this.featureLayerView[prop];
-    }
 
-    addToProperty(prop: string, value: any) {
-        if (Array.isArray(value)) {
-            this.featureLayerView[prop].addMany(value);
-        } else {
-            this.featureLayerView[prop].add(value);
-        }
-    }
 
-    removeFromProperty(prop: string, value: any) {
-        if (Array.isArray(value)) {
-            this.featureLayerView[prop].removeMany(value);
-        } else {
-            this.featureLayerView[prop].remove(value);
-        }
-    }
 }

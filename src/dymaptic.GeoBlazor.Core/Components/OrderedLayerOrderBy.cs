@@ -1,8 +1,6 @@
 namespace dymaptic.GeoBlazor.Core.Components;
-/// <summary>
-///     Determines the order in which features are drawn in the view.
-/// </summary>
-public class OrderedLayerOrderBy : MapComponent
+
+public partial class OrderedLayerOrderBy : MapComponent
 {
     /// <summary>
     ///     The number or date field whose values will be used to sort features.

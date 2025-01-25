@@ -1,11 +1,7 @@
 using ParameterValue = Microsoft.AspNetCore.Components.ParameterValue;
 
 namespace dymaptic.GeoBlazor.Core.Components;
-/// <summary>
-///     A Graphic is a vector representation of real world geographic phenomena. It can contain geometry, a symbol, and
-///     attributes. A Graphic is displayed in the GraphicsLayer.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Graphic.html">ArcGIS Maps SDK for JavaScript</a>
-/// </summary>
+
 public partial class Graphic: MapComponent
 {
     /// <summary>

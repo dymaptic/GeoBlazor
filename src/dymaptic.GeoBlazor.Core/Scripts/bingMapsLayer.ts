@@ -1,14 +1,13 @@
-﻿import BingMapsLayer from "@arcgis/core/layers/BingMapsLayer";
+import BingMapsLayerGenerated from './bingMapsLayer.gb';
+import BingMapsLayer from "@arcgis/core/layers/BingMapsLayer";
 import BaseTileLayerWrapper from "./baseTileLayer";
 import {buildJsEffect} from "./jsBuilder";
 import {buildDotNetEffect, buildDotNetTileInfo} from "./dotNetBuilder";
 
-export default class BingMapsLayerWrapper extends BaseTileLayerWrapper {
-    public layer: BingMapsLayer;
+export default class BingMapsLayerWrapper extends BingMapsLayerGenerated {
     
     constructor(layer: BingMapsLayer) {
         super(layer);
-        this.layer = layer;
     }
     
     getBingLogo() {

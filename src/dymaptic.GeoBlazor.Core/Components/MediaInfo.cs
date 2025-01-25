@@ -1,10 +1,7 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
-/// <summary>
-///     Base class for all MediaInfos used in <see cref="MediaPopupContent" />
-/// </summary>
 [JsonConverter(typeof(MediaInfoConverter))]
-public abstract class MediaInfo : MapComponent
+public abstract partial class MediaInfo : MapComponent
 {
     /// <summary>
     ///     Indicates the type of media

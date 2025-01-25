@@ -1,0 +1,315 @@
+@inherits TestRunnerBase
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+
+    [TestMethod]
+    public async Task TestCanRenderVectorTileLayer(Action renderHandler)
+    {
+        VectorTileLayer? vectorTileLayer = null;
+
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+                    </Basemap>
+                    <VectorTileLayer 
+                        ApiKey="@("amet")"
+                        BlendMode="@(BlendMode.Multiply)"
+                        Effect="@(new Effect("voluptatum",
+                            41372165.4322))"
+                        FullExtent="@(new Extent(37.6211,
+                                -37.0011,
+                                76.7038,
+                                -30.7918,
+                                310.7386,
+                                548.1057,
+                                211.1098,
+                                979.5108,
+                            new SpatialReference(8,
+                                    "nulla",
+                                    "nemo",
+                                    "praesentium"),
+                                true,
+                                true))"
+                        InitialExtent="@(new Extent(58.1498,
+                                -140.4543,
+                                6.7402,
+                                17.1364,
+                                16.6146,
+                                419.4120,
+                                235.1566,
+                                890.1623,
+                            new SpatialReference(1,
+                                    "eius",
+                                    "quis",
+                                    "aliquam"),
+                                true,
+                                true))"
+                        ListMode="@(ListMode.Hide)"
+                        MaxScale="@(6078135.5453)"
+                        MinScale="@(6471.1037)"
+                        Opacity="@(0.2614)"
+                        PersistenceEnabled="@(true)"
+                        SpatialReference="@(new SpatialReference(2,
+                                "et",
+                                "officiis",
+                                "ipsum"))"
+                        Style="@("perferendis")"
+                        Title="@("consectetur consequuntur consequuntur")"
+                        Url="@("https://vectortileservices3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_Mountains_Parcels_VTL/VectorTileServer/")">
+                        <TimeExtent 
+                            Start="@(new DateTime(2018, 3, 5, 16, 54, 49))"
+                            End="@(new DateTime(2014, 2, 9, 6, 53, 28))">
+                        </TimeExtent>
+                        <TileInfo 
+                            Dpi="@(242.2185)"
+                            Format="@(TileInfoFormat.Png32)"
+                            IsWrappable="@(true)"
+                            Lods="@([new LOD(2,
+                                    "sapiente",
+                                    90.0973,
+                                    47509923.1403)])"
+                            Origin="@(new Point(116.3694,
+                                    -4.1191,
+                                    -79.0116,
+                                    -20.1393,
+                                    788.5275,
+                                new SpatialReference(9,
+                                        "accusantium",
+                                        "voluptas",
+                                        "deserunt"),
+                                    true,
+                                    true,
+                                    551.3840))"
+                            Size="@([1,
+                                3])"
+                            SpatialReference="@(new SpatialReference(4,
+                                    "nobis",
+                                    "qui",
+                                    "fugit"))">
+                        </TileInfo>
+                        <PortalItem 
+                            Access="@(PortalItemAccess.Org)"
+                            AccessInformation="@("ad")"
+                            ApiKey="@("voluptate")"
+                            AvgRating="@(903.8721)"
+                            Categories="@(["nemo",
+                                "consequatur",
+                                "et"])"
+                            Created="@(new DateTime(2023, 7, 26, 11, 11, 43))"
+                            Culture="@("consequatur")"
+                            Description="@("nisi rerum tempora in")"
+                            Extent="@(new Extent(-157.5752,
+                                    -119.8160,
+                                    14.4934,
+                                    53.6653,
+                                    53.8677,
+                                    413.6689,
+                                    946.7021,
+                                    803.9242,
+                                new SpatialReference(5,
+                                        "sit",
+                                        "quo",
+                                        "qui"),
+                                    true,
+                                    true))"
+                            GroupCategories="@(["incidunt",
+                                "rem",
+                                "et"])"
+                            LicenseInfo="@("et")"
+                            Modified="@(new DateTime(2005, 1, 9, 13, 8, 24))"
+                            Name="@("id")"
+                            NumComments="@(739.9079)"
+                            NumRatings="@(613.2582)"
+                            NumViews="@(613.3300)"
+                            Owner="@("Zion Auer")"
+                            OwnerFolder="@("Hayley Douglas")"
+                            Portal="@(new Portal(PortalAccess.Public,
+                                    true,
+                                AuthMode.Auto,
+                                    ["quam",
+                                        "fugiat"],
+                                    "dolore",
+                                    "neque",
+                                    "aut",
+                                    true,
+                                    true,
+                                    true,
+                                    true,
+                                    true,
+                                    true,
+                                    true))"
+                            PortalItemId="@("tempore")"
+                            Screenshots="@(["mollitia",
+                                "soluta",
+                                "quisquam",
+                                "id"])"
+                            Size="@(2)"
+                            Snippet="@("minus")"
+                            Tags="@(["neque",
+                                "deleniti"])"
+                            Title="@("dicta itaque architecto")"
+                            TypeKeywords="@(["nisi",
+                                "est"])"
+                            Url="@("https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trailheads_Styled/FeatureServer/0")">
+                        </PortalItem>
+                    </VectorTileLayer>
+                </Map>
+            </MapView>);
+        await WaitForMapToRender();
+        Assert.IsNotNull(vectorTileLayer!);
+        await AssertJavaScript("assertLayerExists", args: "vector-tile");
+        await vectorTileLayer.DeleteStyleLayer("suscipit");
+        var getLayoutPropertiesMethodResult = await vectorTileLayer.GetLayoutProperties("culpa");
+        Assert.IsNotNull(getLayoutPropertiesMethodResult);
+        var getPaintPropertiesMethodResult = await vectorTileLayer.GetPaintProperties("quos");
+        Assert.IsNotNull(getPaintPropertiesMethodResult);
+        var getStyleLayerMethodResult = await vectorTileLayer.GetStyleLayer("sed");
+        Assert.IsNotNull(getStyleLayerMethodResult);
+        var getStyleLayerIdMethodResult = await vectorTileLayer.GetStyleLayerId(9);
+        Assert.IsNotNull(getStyleLayerIdMethodResult);
+        var getStyleLayerIndexMethodResult = await vectorTileLayer.GetStyleLayerIndex("voluptatem");
+        Assert.IsNotNull(getStyleLayerIndexMethodResult);
+        var getStyleLayerVisibilityMethodResult = await vectorTileLayer.GetStyleLayerVisibility("id");
+        Assert.IsNotNull(getStyleLayerVisibilityMethodResult);
+        var loadStyleMethodResult = await vectorTileLayer.LoadStyle("at",
+                default);
+        Assert.IsNotNull(loadStyleMethodResult);
+        await vectorTileLayer.SetLayoutProperties("quo",
+                "culpa");
+        await vectorTileLayer.SetPaintProperties("vero",
+                "voluptate");
+        var setSpriteSourceMethodResult = await vectorTileLayer.SetSpriteSource(default);
+        Assert.IsNotNull(setSpriteSourceMethodResult);
+        await vectorTileLayer.SetStyleLayer("dolore",
+                2);
+        await vectorTileLayer.SetStyleLayerVisibility("ea",
+            Visibility.None);
+        BlendMode testBlendMode = BlendMode.ColorDodge;
+        await vectorTileLayer.SetBlendMode(testBlendMode);
+        var blendMode = await vectorTileLayer.GetBlendMode();
+        Assert.AreEqual(testBlendMode, blendMode);
+        Extent testFullExtent = new Extent(40.3521,
+                    97.9973,
+                    -16.8613,
+                    64.8732,
+                    45.2893,
+                    557.1230,
+                    670.2315,
+                    6.3935,
+                new SpatialReference(7,
+                        "odit",
+                        "sed",
+                        "repudiandae"),
+                    true,
+                    true);
+        await vectorTileLayer.SetFullExtent(testFullExtent);
+        var fullExtent = await vectorTileLayer.GetFullExtent();
+        Assert.AreEqual(testFullExtent, fullExtent);
+        Extent testInitialExtent = new Extent(-4.9312,
+                    168.5757,
+                    18.9929,
+                    -31.1500,
+                    444.2248,
+                    426.8881,
+                    109.8691,
+                    49.6326,
+                new SpatialReference(2,
+                        "est",
+                        "perspiciatis",
+                        "nesciunt"),
+                    true,
+                    true);
+        await vectorTileLayer.SetInitialExtent(testInitialExtent);
+        var initialExtent = await vectorTileLayer.GetInitialExtent();
+        Assert.AreEqual(testInitialExtent, initialExtent);
+        ListMode testListMode = ListMode.Show;
+        await vectorTileLayer.SetListMode(testListMode);
+        var listMode = await vectorTileLayer.GetListMode();
+        Assert.AreEqual(testListMode, listMode);
+        PortalItem testPortalItem = new PortalItem(PortalItemAccess.Private,
+                    "porro",
+                    "quaerat",
+                    17.2770,
+                    ["voluptatem",
+                        "accusamus",
+                        "mollitia"],
+                    new DateTime(2004, 1, 20, 22, 52, 28),
+                    "autem",
+                    "est vel nisi aut pariatur",
+                new Extent(97.7988,
+                        5.7013,
+                        64.9154,
+                        23.4724,
+                        42.9970,
+                        476.2799,
+                        81.6064,
+                        532.0669,
+                    new SpatialReference(4,
+                            "ut",
+                            "nostrum",
+                            "ad"),
+                        true,
+                        true),
+                    ["enim",
+                        "necessitatibus"],
+                    "ut",
+                    new DateTime(2014, 2, 19, 6, 32, 2),
+                    "updatedAt",
+                    698.2305);
+        await vectorTileLayer.SetPortalItem(testPortalItem);
+        var portalItem = await vectorTileLayer.GetPortalItem();
+        Assert.AreEqual(testPortalItem, portalItem);
+        SpatialReference testSpatialReference = new SpatialReference(6,
+                    "consequuntur",
+                    "quae",
+                    "quam");
+        await vectorTileLayer.SetSpatialReference(testSpatialReference);
+        var spatialReference = await vectorTileLayer.GetSpatialReference();
+        Assert.AreEqual(testSpatialReference, spatialReference);
+        TileInfo testTileInfo = new TileInfo(203.9395,
+                    TileInfoFormat.Png24,
+                    true,
+                [new LOD(6,
+                        "quia",
+                        20.0313,
+                        32311860.6055),
+                new LOD(2,
+                        "eaque",
+                        29.3377,
+                        35735556.9082)],
+                new Point(-27.6852,
+                        9.8219,
+                        -112.9613,
+                        -3.0070,
+                        149.6267,
+                    new SpatialReference(8,
+                            "aut",
+                            "non",
+                            "ex"),
+                        true,
+                        true,
+                        436.2334),
+                    [9,
+                        8,
+                        8,
+                        7],
+                new SpatialReference(5,
+                        "blanditiis",
+                        "a",
+                        "est"));
+        await vectorTileLayer.SetTileInfo(testTileInfo);
+        var tileInfo = await vectorTileLayer.GetTileInfo();
+        Assert.AreEqual(testTileInfo, tileInfo);
+        TimeExtent testVisibilityTimeExtent = new TimeExtent(new DateTime(2016, 1, 7, 19, 53, 56),
+                    new DateTime(2022, 10, 22, 15, 47, 19));
+        await vectorTileLayer.SetVisibilityTimeExtent(testVisibilityTimeExtent);
+        var visibilityTimeExtent = await vectorTileLayer.GetVisibilityTimeExtent();
+        Assert.AreEqual(testVisibilityTimeExtent, visibilityTimeExtent);
+    }
+}

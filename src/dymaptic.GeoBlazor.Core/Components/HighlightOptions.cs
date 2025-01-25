@@ -1,34 +1,8 @@
 namespace dymaptic.GeoBlazor.Core.Components;
-/// <summary>
-///     Options for configuring the highlight. Use the highlight method on the appropriate LayerView to highlight a
-///     feature. With version 4.19, highlighting a feature influences the shadow of the feature as well. By default, the
-///     shadow of the highlighted feature is displayed in a darker shade.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#highlightOptions">ArcGIS Maps SDK for JavaScript (LayerView)</a>
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html#highlightOptions">ArcGIS Maps SDK for JavaScript (SceneView)</a>
-/// </summary>
-public class HighlightOptions : MapComponent
-{
-    /// <summary>
-    ///     Default Constructor for use as a Blazor Component.
-    /// </summary>
-    [ActivatorUtilitiesConstructor]
-    public HighlightOptions()
-    {
-    }
 
-    /// <summary>
-    ///     Constructor for use in C# code.
-    /// </summary>
-    public HighlightOptions(MapColor? color = null, MapColor? haloColor = null, double? haloOpacity = null, double? fillOpacity = null, MapColor? shadowColor = null, double? shadowOpacity = null, double? shadowDifference = null)
-    {
-        Color = color;
-        HaloColor = haloColor;
-        HaloOpacity = haloOpacity;
-        FillOpacity = fillOpacity;
-        ShadowColor = shadowColor;
-        ShadowOpacity = shadowOpacity;
-        ShadowDifference = shadowDifference;
-    }
+public partial class HighlightOptions : MapComponent
+{
+
 
     /// <summary>
     ///     The color of the highlight fill.

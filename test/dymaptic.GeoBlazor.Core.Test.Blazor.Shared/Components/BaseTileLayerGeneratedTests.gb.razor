@@ -1,0 +1,204 @@
+@inherits TestRunnerBase
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+
+    [TestMethod]
+    public async Task TestCanRenderBaseTileLayer(Action renderHandler)
+    {
+        BaseTileLayer? baseTileLayer = null;
+
+        RefreshEvent? refreshResult = null;
+        void OnRefresh(RefreshEvent result)
+        {
+            refreshResult = result;
+        }
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+                    </Basemap>
+                    <BaseTileLayer 
+                        BlendMode="@(BlendMode.ColorBurn)"
+                        Effect="@(new Effect("voluptas",
+                            38734203.4017))"
+                        MaxScale="@(43573622.3573)"
+                        MinScale="@(39128.2615)"
+                        RefreshInterval="@(397.4917)"
+                        SpatialReference="@(new SpatialReference(6,
+                                "dolor",
+                                "et",
+                                "sint"))"
+                        FullExtent="@(new Extent(-82.0962,
+                                -159.3132,
+                                -7.3058,
+                                -49.8264,
+                                949.3485,
+                                495.5150,
+                                919.6914,
+                                895.3421,
+                            new SpatialReference(7,
+                                    "optio",
+                                    "qui",
+                                    "ratione"),
+                                true,
+                                true))"
+                        ListMode="@(ListMode.Hide)"
+                        Opacity="@(0.7881)"
+                        PersistenceEnabled="@(true)"
+                        Title="@("occaecati officia voluptatum")"
+                        OnRefresh="OnRefresh">
+                        <TimeExtent 
+                            Start="@(new DateTime(2008, 11, 25, 15, 37, 36))"
+                            End="@(new DateTime(2013, 4, 17, 22, 25, 9))">
+                        </TimeExtent>
+                        <TileInfo 
+                            Dpi="@(814.4727)"
+                            Format="@(TileInfoFormat.Png32)"
+                            IsWrappable="@(true)"
+                            Lods="@([new LOD(6,
+                                    "earum",
+                                    99.3618,
+                                    13921953.4549),
+                            new LOD(1,
+                                    "ut",
+                                    31.7672,
+                                    41710532.6310),
+                            new LOD(7,
+                                    "in",
+                                    18.0557,
+                                    4137585.7130),
+                            new LOD(1,
+                                    "quo",
+                                    33.7201,
+                                    21013179.4486)])"
+                            Origin="@(new Point(83.7986,
+                                    -88.2150,
+                                    -56.5569,
+                                    41.7521,
+                                    172.6219,
+                                new SpatialReference(9,
+                                        "et",
+                                        "consectetur",
+                                        "voluptatem"),
+                                    true,
+                                    true,
+                                    959.6574))"
+                            Size="@([7,
+                                4,
+                                3])"
+                            SpatialReference="@(new SpatialReference(8,
+                                    "cumque",
+                                    "quaerat",
+                                    "ut"))">
+                        </TileInfo>
+                    </BaseTileLayer>
+                </Map>
+            </MapView>);
+        await WaitForMapToRender();
+        Assert.IsNotNull(baseTileLayer!);
+        await AssertJavaScript("dispatchEvent", args: [baseTileLayer!.Id, "refresh"]);
+        int tries = 100;
+        while (tries > 0 &&
+            (refreshResult is null))
+        {
+            await Task.Delay(100);
+            tries--;
+        }
+        Assert.IsInstanceOfType<RefreshEvent>(refreshResult);
+        await AssertJavaScript("assertLayerExists", args: "BaseTileLayerType");
+        var addResolvingPromiseMethodResult = await baseTileLayer.AddResolvingPromise("ea");
+        Assert.IsNotNull(addResolvingPromiseMethodResult);
+        var fetchTileMethodResult = await baseTileLayer.FetchTile(670.1923,
+                783.5129,
+                303.3765,
+                default);
+        Assert.IsNotNull(fetchTileMethodResult);
+        var getTileUrlMethodResult = await baseTileLayer.GetTileUrl(100.3800,
+                435.0010,
+                984.3977);
+        Assert.IsNotNull(getTileUrlMethodResult);
+        BlendMode testBlendMode = BlendMode.Overlay;
+        await baseTileLayer.SetBlendMode(testBlendMode);
+        var blendMode = await baseTileLayer.GetBlendMode();
+        Assert.AreEqual(testBlendMode, blendMode);
+        SpatialReference testSpatialReference = new SpatialReference(2,
+                    "reprehenderit",
+                    "cumque",
+                    "aut");
+        await baseTileLayer.SetSpatialReference(testSpatialReference);
+        var spatialReference = await baseTileLayer.GetSpatialReference();
+        Assert.AreEqual(testSpatialReference, spatialReference);
+        Extent testFullExtent = new Extent(136.1300,
+                    66.5487,
+                    -53.6036,
+                    51.1980,
+                    419.1690,
+                    16.2827,
+                    152.1720,
+                    991.8811,
+                new SpatialReference(9,
+                        "molestiae",
+                        "nobis",
+                        "fuga"),
+                    true,
+                    true);
+        await baseTileLayer.SetFullExtent(testFullExtent);
+        var fullExtent = await baseTileLayer.GetFullExtent();
+        Assert.AreEqual(testFullExtent, fullExtent);
+        ListMode testListMode = ListMode.Show;
+        await baseTileLayer.SetListMode(testListMode);
+        var listMode = await baseTileLayer.GetListMode();
+        Assert.AreEqual(testListMode, listMode);
+        TileInfo testTileInfo = new TileInfo(986.3031,
+                    TileInfoFormat.Svg,
+                    true,
+                [new LOD(4,
+                        "quo",
+                        45.4947,
+                        12507549.8452),
+                new LOD(5,
+                        "repellendus",
+                        49.6361,
+                        2318067.1356),
+                new LOD(5,
+                        "iure",
+                        70.8833,
+                        13018527.1649),
+                new LOD(6,
+                        "saepe",
+                        45.2933,
+                        43629471.4587)],
+                new Point(83.7212,
+                        45.2577,
+                        -171.4726,
+                        -7.3733,
+                        912.7133,
+                    new SpatialReference(1,
+                            "voluptatum",
+                            "qui",
+                            "et"),
+                        true,
+                        true,
+                        901.4035),
+                    [8,
+                        2,
+                        7],
+                new SpatialReference(9,
+                        "qui",
+                        "nulla",
+                        "ipsum"));
+        await baseTileLayer.SetTileInfo(testTileInfo);
+        var tileInfo = await baseTileLayer.GetTileInfo();
+        Assert.AreEqual(testTileInfo, tileInfo);
+        TimeExtent testVisibilityTimeExtent = new TimeExtent(new DateTime(2023, 2, 17, 5, 41, 2),
+                    new DateTime(2015, 4, 8, 17, 10, 56));
+        await baseTileLayer.SetVisibilityTimeExtent(testVisibilityTimeExtent);
+        var visibilityTimeExtent = await baseTileLayer.GetVisibilityTimeExtent();
+        Assert.AreEqual(testVisibilityTimeExtent, visibilityTimeExtent);
+    }
+}

@@ -1,77 +1,8 @@
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
-/// <summary>
-///     A GraphicsLayer contains one or more client-side Graphics. Each graphic in the GraphicsLayer is rendered in a
-///     LayerView inside either a SceneView or a MapView. The graphics contain discrete vector geometries that represent
-///     real-world phenomena.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GraphicsLayer.html">ArcGIS Maps SDK for JavaScript</a>
-/// </summary>
-public class GraphicsLayer : Layer
+public partial class GraphicsLayer : Layer
 {
-    /// <summary>
-    ///     Parameterless constructor for use as a razor component
-    /// </summary>
-    [ActivatorUtilitiesConstructor]
-    public GraphicsLayer()
-    {
-    }
 
-    /// <summary>
-    ///     Constructor for use in code
-    /// </summary>
-    /// <param name="graphics">
-    ///     A collection of <see cref="Graphic" />s in the layer.
-    /// </param>
-    /// <param name="title">
-    ///     The title of the layer used to identify it in places such as the Legend and LayerList widgets.
-    /// </param>
-    /// <param name="opacity">
-    ///     The opacity of the layer.
-    /// </param>
-    /// <param name="visible">
-    ///     Indicates if the layer is visible in the View. When false, the layer may still be added to a Map instance that is
-    ///     referenced in a view, but its features will not be visible in the view.
-    /// </param>
-    /// <param name="listMode">
-    ///     Indicates how the layer should display in the LayerList widget. The possible values are listed below.
-    /// </param>
-    /// <param name="persistenceEnabled">
-    ///     Indicates if the layer will allow the client to save the layer's state to local storage.
-    /// </param>
-    /// <param name="minScale">
-    ///     The minimum scale (most zoomed out) at which the layer is visible in the view.
-    /// </param>
-    /// <param name="maxScale">
-    ///     The maximum scale (most zoomed in) at which the layer is visible in the view.
-    /// </param>
-    /// <param name="screenSizePerspectiveEnabled">
-    ///     Indicates if the layer will display in a perspective view in a SceneView.
-    /// </param>
-    /// <param name="blendMode">
-    ///     Blend modes are used to blend layers together to create an interesting effect in a layer
-    /// </param>
-    public GraphicsLayer(IReadOnlyCollection<Graphic>? graphics = null, string? title = null,
-        double? opacity = null, bool? visible = null, ListMode? listMode = null,
-        bool? persistenceEnabled = null, double? minScale = null, double? maxScale = null,
-        bool? screenSizePerspectiveEnabled = null, BlendMode? blendMode = null)
-    {
-#pragma warning disable BL0005
-        Title = title;
-        Opacity = opacity;
-        Visible = visible;
-        ListMode = listMode;
-        PersistenceEnabled = persistenceEnabled;
-        MinScale = minScale;
-        MaxScale = maxScale;
-        ScreenSizePerspectiveEnabled = screenSizePerspectiveEnabled;
-        BlendMode = blendMode;
-
-        if (graphics is not null)
-        {
-            Graphics = graphics;
-        }
-#pragma warning restore BL0005
-    }
     
     /// <summary>
     ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to how image filters work. This powerful capability allows you to apply css filter-like functions to layers to create custom visual effects to enhance the cartographic quality of your maps. This is done by applying the desired effect to the layer's effect property as a string or an array of objects to set scale dependent effects.

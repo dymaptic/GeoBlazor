@@ -1,0 +1,276 @@
+@inherits TestRunnerBase
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+
+    [TestMethod]
+    public async Task TestCanRenderWebTileLayer(Action renderHandler)
+    {
+        WebTileLayer? webTileLayer = null;
+
+        RefreshEvent? refreshResult = null;
+        void OnRefresh(RefreshEvent result)
+        {
+            refreshResult = result;
+        }
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+                    </Basemap>
+                    <WebTileLayer 
+                        BlendMode="@(BlendMode.ColorBurn)"
+                        Copyright="@("quam")"
+                        Effect="@(new Effect("dolore",
+                            10117324.3568))"
+                        FullExtent="@(new Extent(82.0282,
+                                -15.2174,
+                                -67.1282,
+                                7.5165,
+                                510.5481,
+                                213.6271,
+                                968.4218,
+                                929.3339,
+                            new SpatialReference(5,
+                                    "adipisci",
+                                    "alias",
+                                    "et"),
+                                true,
+                                true))"
+                        ListMode="@(ListMode.Hide)"
+                        MaxScale="@(39582570.1704)"
+                        MinScale="@(19602.0272)"
+                        Opacity="@(0.9494)"
+                        PersistenceEnabled="@(true)"
+                        RefreshInterval="@(721.8093)"
+                        SubDomains="@(["ipsa",
+                            "dignissimos",
+                            "qui",
+                            "ea"])"
+                        Title="@("quam aut ex")"
+                        UrlTemplate="@("http://kamron.org")"
+                        OnRefresh="OnRefresh">
+                        <TimeExtent 
+                            Start="@(new DateTime(2015, 7, 19, 8, 9, 25))"
+                            End="@(new DateTime(2016, 3, 24, 0, 30, 53))">
+                        </TimeExtent>
+                        <TileInfo 
+                            Dpi="@(99.6659)"
+                            Format="@(TileInfoFormat.Tiff)"
+                            IsWrappable="@(true)"
+                            Lods="@([new LOD(8,
+                                    "voluptatum",
+                                    72.7535,
+                                    12090545.0366)])"
+                            Origin="@(new Point(-25.1361,
+                                    -76.2654,
+                                    -95.5445,
+                                    47.1339,
+                                    416.8797,
+                                new SpatialReference(4,
+                                        "ea",
+                                        "cum",
+                                        "sequi"),
+                                    true,
+                                    true,
+                                    870.7130))"
+                            Size="@([8,
+                                1,
+                                9,
+                                4])"
+                            SpatialReference="@(new SpatialReference(8,
+                                    "rerum",
+                                    "impedit",
+                                    "id"))">
+                        </TileInfo>
+                        <PortalItem 
+                            Access="@(PortalItemAccess.Shared)"
+                            AccessInformation="@("quia")"
+                            ApiKey="@("esse")"
+                            AvgRating="@(503.9799)"
+                            Categories="@(["ad",
+                                "quis",
+                                "ratione"])"
+                            Created="@(new DateTime(2019, 5, 3, 4, 19, 13))"
+                            Culture="@("ut")"
+                            Description="@("ducimus est atque repudiandae")"
+                            Extent="@(new Extent(-118.1998,
+                                    35.5277,
+                                    31.2591,
+                                    -20.2525,
+                                    183.7707,
+                                    259.1252,
+                                    92.0633,
+                                    665.6395,
+                                new SpatialReference(3,
+                                        "sunt",
+                                        "et",
+                                        "laborum"),
+                                    true,
+                                    true))"
+                            GroupCategories="@(["iste",
+                                "voluptatibus"])"
+                            LicenseInfo="@("eveniet")"
+                            Modified="@(new DateTime(2017, 2, 24, 20, 7, 24))"
+                            Name="@("email")"
+                            NumComments="@(284.4525)"
+                            NumRatings="@(646.1329)"
+                            NumViews="@(244.1585)"
+                            Owner="@("Zora Jacobi")"
+                            OwnerFolder="@("Sabryna Hoeger")"
+                            Portal="@(new Portal(PortalAccess.Private,
+                                    true,
+                                AuthMode.NoPrompt,
+                                    ["aut",
+                                        "fugit",
+                                        "velit"],
+                                    "harum",
+                                    "amet",
+                                    "culpa",
+                                    true,
+                                    true,
+                                    true,
+                                    true,
+                                    true,
+                                    true,
+                                    true))"
+                            PortalItemId="@("id")"
+                            Screenshots="@(["temporibus",
+                                "culpa",
+                                "similique"])"
+                            Size="@(9)"
+                            Snippet="@("sed")"
+                            Tags="@(["ut",
+                                "vel",
+                                "amet",
+                                "eos"])"
+                            Title="@("sunt adipisci nihil")"
+                            TypeKeywords="@(["reprehenderit",
+                                "consequatur"])"
+                            Url="@("https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Parks_and_Open_Space/FeatureServer/0")">
+                        </PortalItem>
+                    </WebTileLayer>
+                </Map>
+            </MapView>);
+        await WaitForMapToRender();
+        Assert.IsNotNull(webTileLayer!);
+        await AssertJavaScript("dispatchEvent", args: [webTileLayer!.Id, "refresh"]);
+        int tries = 100;
+        while (tries > 0 &&
+            (refreshResult is null))
+        {
+            await Task.Delay(100);
+            tries--;
+        }
+        Assert.IsInstanceOfType<RefreshEvent>(refreshResult);
+        await AssertJavaScript("assertLayerExists", args: "WebTileLayerType");
+        var fetchTileMethodResult = await webTileLayer.FetchTile(806.8384,
+                343.9183,
+                6.3353,
+                default);
+        Assert.IsNotNull(fetchTileMethodResult);
+        var getTileUrlMethodResult = await webTileLayer.GetTileUrl(613.7248,
+                576.6186,
+                338.9622);
+        Assert.IsNotNull(getTileUrlMethodResult);
+        BlendMode testBlendMode = BlendMode.Saturation;
+        await webTileLayer.SetBlendMode(testBlendMode);
+        var blendMode = await webTileLayer.GetBlendMode();
+        Assert.AreEqual(testBlendMode, blendMode);
+        Extent testFullExtent = new Extent(152.3427,
+                    135.4676,
+                    -0.8170,
+                    -59.4618,
+                    483.7784,
+                    223.2151,
+                    729.1279,
+                    651.3698,
+                new SpatialReference(1,
+                        "sint",
+                        "perspiciatis",
+                        "odio"),
+                    true,
+                    true);
+        await webTileLayer.SetFullExtent(testFullExtent);
+        var fullExtent = await webTileLayer.GetFullExtent();
+        Assert.AreEqual(testFullExtent, fullExtent);
+        ListMode testListMode = ListMode.Show;
+        await webTileLayer.SetListMode(testListMode);
+        var listMode = await webTileLayer.GetListMode();
+        Assert.AreEqual(testListMode, listMode);
+        PortalItem testPortalItem = new PortalItem(PortalItemAccess.Shared,
+                    "fuga",
+                    "qui",
+                    744.3996,
+                    ["et",
+                        "a",
+                        "consequatur"],
+                    new DateTime(2018, 3, 5, 18, 20, 15),
+                    "odio",
+                    "quod vel voluptas fugiat et",
+                new Extent(-22.7860,
+                        -139.9213,
+                        0.2950,
+                        -46.5750,
+                        45.3081,
+                        421.4753,
+                        297.2333,
+                        390.1502,
+                    new SpatialReference(1,
+                            "rerum",
+                            "molestias",
+                            "eum"),
+                        true,
+                        true),
+                    ["laboriosam",
+                        "qui",
+                        "delectus",
+                        "tenetur"],
+                    "voluptatem",
+                    new DateTime(2015, 2, 7, 11, 32, 17),
+                    "name",
+                    185.7347);
+        await webTileLayer.SetPortalItem(testPortalItem);
+        var portalItem = await webTileLayer.GetPortalItem();
+        Assert.AreEqual(testPortalItem, portalItem);
+        TileInfo testTileInfo = new TileInfo(14.9744,
+                    TileInfoFormat.Svg,
+                    true,
+                [new LOD(3,
+                        "eius",
+                        97.8679,
+                        19284004.9918)],
+                new Point(28.0137,
+                        -1.8359,
+                        -89.9859,
+                        73.7558,
+                        130.7274,
+                    new SpatialReference(9,
+                            "aut",
+                            "ducimus",
+                            "nisi"),
+                        true,
+                        true,
+                        657.3127),
+                    [8,
+                        8,
+                        5,
+                        1],
+                new SpatialReference(8,
+                        "et",
+                        "eos",
+                        "cumque"));
+        await webTileLayer.SetTileInfo(testTileInfo);
+        var tileInfo = await webTileLayer.GetTileInfo();
+        Assert.AreEqual(testTileInfo, tileInfo);
+        TimeExtent testVisibilityTimeExtent = new TimeExtent(new DateTime(2007, 10, 6, 12, 52, 19),
+                    new DateTime(2023, 10, 17, 19, 53, 39));
+        await webTileLayer.SetVisibilityTimeExtent(testVisibilityTimeExtent);
+        var visibilityTimeExtent = await webTileLayer.GetVisibilityTimeExtent();
+        Assert.AreEqual(testVisibilityTimeExtent, visibilityTimeExtent);
+    }
+}

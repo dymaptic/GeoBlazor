@@ -1,13 +1,6 @@
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
-/// <summary>
-///     The TileLayer allows you work with a cached map service exposed by the ArcGIS Server REST API and add it to a Map
-///     as a tile layer. A cached service accesses tiles from a cache instead of dynamically rendering images. Because they
-///     are cached, tiled layers render faster than MapImageLayers. To create an instance of TileLayer, you must reference
-///     the URL of the cached map service.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-TileLayer.html">ArcGIS Maps SDK for JavaScript</a>
-/// </summary>
-public class TileLayer : Layer
+public partial class TileLayer : Layer
 {
     /// <inheritdoc />
     public override LayerType Type => LayerType.Tile;
@@ -19,32 +12,6 @@ public class TileLayer : Layer
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? ApiKey { get; set; }
 
-    /// <summary>
-    ///     The URL of the REST endpoint of the layer.
-    /// </summary>
-    [Parameter]
-    [RequiredProperty(nameof(PortalItem))]
-    public string? Url { get; set; }
-    
-    /// <summary>
-    ///     A flat Collection of all the sublayers in the MapImageLayer including the sublayers of its sublayers. All sublayers are referenced in the order in which they are drawn in the view (bottom to top).
-    /// </summary>
-    [JsonIgnore]
-    public IReadOnlyList<Sublayer>? AllSublayers =>
-        Sublayers?.SelectMany(s => new[]{s}.Concat(s.GetAllSublayers() ?? []))
-            .ToList();
-    
-    /// <summary>
-    ///     Indicates the layer's supported capabilities.
-    /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public MapImageLayerCapabilities? Capabilities { get; private set; }
-
-    /// <summary>
-    ///     The copyright text as defined by the service.
-    /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public string? Copyright { get; private set; }
     
     /// <summary>
     ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to how image filters work. This powerful capability allows you to apply css filter-like functions to layers to create custom visual effects to enhance the cartographic quality of your maps. This is done by applying the desired effect to the layer's effect property as a string or an array of objects to set scale dependent effects.
@@ -75,11 +42,6 @@ public class TileLayer : Layer
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? MinScale { get; set; }
 
-    /// <summary>
-    ///     The <see cref="PortalItem" /> from which the layer is loaded.
-    /// </summary>
-    [RequiredProperty(nameof(Url))]
-    public PortalItem? PortalItem { get; set; }
     
     /// <summary>
     ///     Refresh interval of the layer in minutes. Value of 0 indicates no refresh.
@@ -88,23 +50,7 @@ public class TileLayer : Layer
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? RefreshInterval { get; set; }
-    
-    /// <summary>
-    ///     The map service's metadata JSON exposed by the ArcGIS REST API. While most commonly used properties are exposed on the MapImageLayer class directly, this property gives access to all information returned by the map service. This property is useful if working in an application built using an older version of the API which requires access to map service properties from a more recent version.
-    /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public string? SourceJSON { get; private set; }
-    
-    /// <summary>
-    ///     The spatial reference of the layer as defined by the service.
-    /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public SpatialReference? SpatialReference { get; private set; }
 
-    /// <summary>
-    ///     A Collection of Sublayer objects. All sublayers are referenced in the order in which they are drawn in the view (bottom to top). Sublayer properties on TileLayer are read-only, with the following exceptions: LegendEnabled, PopupEnabled, PopupTemplate
-    /// </summary>
-    public IReadOnlyList<Sublayer>? Sublayers { get; set; }
     
     /// <summary>
     ///     The tiling scheme information for the layer.
@@ -128,49 +74,6 @@ public class TileLayer : Layer
         throw new NotImplementedException();
     }
 
-    /// <inheritdoc />
-    public override async Task RegisterChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case PortalItem portalItem:
-                if (!portalItem.Equals(PortalItem))
-                {
-                    PortalItem = portalItem;
-                    LayerChanged = true;
-                }
-
-                break;
-            default:
-                await base.RegisterChildComponent(child);
-
-                break;
-        }
-    }
-
-    /// <inheritdoc />
-    public override async Task UnregisterChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case PortalItem _:
-                PortalItem = null;
-                LayerChanged = true;
-
-                break;
-            default:
-                await base.UnregisterChildComponent(child);
-
-                break;
-        }
-    }
-
-    /// <inheritdoc />
-    internal override void ValidateRequiredChildren()
-    {
-        base.ValidateRequiredChildren();
-        PortalItem?.ValidateRequiredChildren();
-    }
 
     /// <inheritdoc />
     internal override async Task UpdateFromJavaScript(Layer renderedLayer)

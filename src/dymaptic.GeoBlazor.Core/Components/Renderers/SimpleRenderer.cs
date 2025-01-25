@@ -1,40 +1,8 @@
 namespace dymaptic.GeoBlazor.Core.Components.Renderers;
 
-/// <summary>
-///     SimpleRenderer renders all features in a Layer with one Symbol. This renderer may be used to simply visualize the location of geographic features.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-SimpleRenderer.html">ArcGIS Maps SDK for JavaScript</a>
-/// </summary>
-public class SimpleRenderer : Renderer
+public partial class SimpleRenderer : Renderer
 {
-    /// <summary>
-    ///     Parameterless constructor for use as a Razor component.
-    /// </summary>
-    [ActivatorUtilitiesConstructor]
-    public SimpleRenderer()
-    {
-    }
 
-    /// <summary>
-    ///     Constructor for a SimpleRenderer for use in code.
-    /// </summary>
-    /// <param name="symbol">
-    ///     The symbol for the renderer.
-    /// </param>
-    /// <param name="label">
-    ///     The label for the renderer.
-    /// </param>
-    /// <param name="visualVariables">
-    ///     An array of <see cref="VisualVariable" /> objects.
-    /// </param>
-    public SimpleRenderer(Symbol symbol, string? label = null,
-        VisualVariable[]? visualVariables = null)
-    {
-#pragma warning disable BL0005 // Set parameter or member default value.
-        Symbol = symbol;
-        Label = label;
-        VisualVariables = visualVariables;
-#pragma warning restore BL0005 // Set parameter or member default value.
-    }
     
     /// <inheritdoc />
     public override RendererType Type => RendererType.Simple;
@@ -47,19 +15,6 @@ public class SimpleRenderer : Renderer
     [Parameter]
     public string? Label { get; set; }
 
-    /// <summary>
-    ///     A collection of <see cref="VisualVariable" /> objects.
-    /// </summary>
-    [ArcGISProperty]
-    public IReadOnlyList<VisualVariable>? VisualVariables { get; set; }
-    
-    /// <summary>
-    ///     The <see cref="Symbol" /> for the object.
-    /// </summary>
-    [ArcGISProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [JsonInclude]
-    public Symbol? Symbol { get; protected set; }
 
     /// <summary>
     ///     Gets the current <see cref="Symbol" /> for the object.
@@ -91,13 +46,9 @@ public class SimpleRenderer : Renderer
     {
         switch (child)
         {
-            case Symbol symbol:
 
-                await SetSymbol(symbol);
-
-                break;
             case VisualVariable visualVariable:
-                VisualVariables ??= new List<VisualVariable>();
+                VisualVariables ??= [];
                 VisualVariables = [..VisualVariables, visualVariable];
 
                 break;
@@ -113,10 +64,7 @@ public class SimpleRenderer : Renderer
     {
         switch (child)
         {
-            case Symbol _:
-                Symbol = null;
 
-                break;
             case VisualVariable visualVariable:
                 VisualVariables = VisualVariables?.Except([visualVariable]).ToList();
 
@@ -128,18 +76,4 @@ public class SimpleRenderer : Renderer
         }
     }
 
-    /// <inheritdoc />
-    internal override void ValidateRequiredChildren()
-    {
-        base.ValidateRequiredChildren();
-        Symbol?.ValidateRequiredChildren();
-
-        if (VisualVariables is not null)
-        {
-            foreach (VisualVariable variable in VisualVariables)
-            {
-                variable.ValidateRequiredChildren();
-            }
-        }
-    }
 }

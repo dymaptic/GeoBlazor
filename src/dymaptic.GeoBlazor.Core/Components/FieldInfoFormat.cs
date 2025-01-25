@@ -1,41 +1,8 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
-/// <summary>
-///     The FieldInfoFormat class is used with numerical or date fields to provide more detail about how the value should
-///     be displayed in a popup. Use this class in place of the legacy formatting functions: DateString, DateFormat, and/or
-///     NumberFormat.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-support-FieldInfoFormat.html">ArcGIS Maps SDK for JavaScript</a>
-/// </summary>
-public class FieldInfoFormat : MapComponent
+public partial class FieldInfoFormat : MapComponent
 {
-    /// <summary>
-    ///     Parameterless constructor for using as a razor component
-    /// </summary>
-    [ActivatorUtilitiesConstructor]
-    public FieldInfoFormat()
-    {
-    }
 
-    /// <summary>
-    ///     Constructor for creating a new FieldInfoFormat in code with parameters
-    /// </summary>
-    /// <param name="places">
-    ///     Used only with Number fields to specify the number of supported decimal places that should appear in popups.
-    /// </param>
-    /// <param name="digitSeparator">
-    ///     Used only with Number fields.
-    /// </param>
-    /// <param name="dateFormat">
-    ///     Used only with Date fields.
-    /// </param>
-    public FieldInfoFormat(int? places = null, bool? digitSeparator = null, DateFormat? dateFormat = null)
-    {
-#pragma warning disable BL0005
-        Places = places;
-        DigitSeparator = digitSeparator;
-        DateFormat = dateFormat;
-#pragma warning restore BL0005
-    }
 
     /// <summary>
     ///     Used only with Number fields to specify the number of supported decimal places that should appear in popups.

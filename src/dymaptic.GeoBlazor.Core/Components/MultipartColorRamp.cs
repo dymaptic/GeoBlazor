@@ -2,38 +2,15 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-/// <summary>
-///     Creates a color ramp for use in a raster renderer. The algorithmic color ramp is defined by specifying two colors and the
-///     algorithm used to traverse the intervening color spaces.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-MultipartColorRamp.html">ArcGIS Maps SDK for JavaScript</a>
-/// </summary>
-public class MultipartColorRamp : ColorRamp
+public partial class MultipartColorRamp : ColorRamp
 {
-    /// <summary>
-    ///     Constructor for use in code
-    /// </summary>
-    [ActivatorUtilitiesConstructor]
-    public MultipartColorRamp() { }
 
-    /// <summary>
-    ///     Constructor for use in code
-    /// </summary>
-    public MultipartColorRamp(List<AlgorithmicColorRamp>? colorRamps)
-    {
-#pragma warning disable BL0005
-        ColorRamps = colorRamps;
-#pragma warning restore BL0005
-    }
     /// <inheritdoc />
     /// <summary>
     ///     A string value representing the color ramp type.
     /// </summary>
     public override ColorRampType Type => ColorRampType.Multipart;
 
-    /// <summary>
-    ///     Define an array of algorithmic color ramps used to generate the multi part ramp.
-    /// </summary>
-    public List<AlgorithmicColorRamp>? ColorRamps { get; private set; }
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
@@ -41,10 +18,10 @@ public class MultipartColorRamp : ColorRamp
         switch (child)
         {
             case AlgorithmicColorRamp colorRamps:
-                ColorRamps ??= new List<AlgorithmicColorRamp>();
+                ColorRamps ??= [];
                 if (!ColorRamps.Contains(colorRamps))
                 {
-                    ColorRamps.Add(colorRamps);
+                    ColorRamps = [..ColorRamps, colorRamps];
                 }
                 break;
             default:
@@ -59,7 +36,7 @@ public class MultipartColorRamp : ColorRamp
         switch (child)
         {
             case AlgorithmicColorRamp colorRamps:
-                ColorRamps?.Remove(colorRamps);
+                ColorRamps = ColorRamps?.Except([colorRamps]).ToList();
 
                 if (ColorRamps is not null && !ColorRamps.Any())
                 {
@@ -73,17 +50,5 @@ public class MultipartColorRamp : ColorRamp
                 break;
         }
     }
-    /// <inheritdoc />
-    internal override void ValidateRequiredChildren()
-    {
-        base.ValidateRequiredChildren();
 
-        if (ColorRamps is not null)
-        {
-            foreach (AlgorithmicColorRamp colorRamp in ColorRamps)
-            {
-                colorRamp.ValidateRequiredChildren();
-            }
-        }
-    }
 }

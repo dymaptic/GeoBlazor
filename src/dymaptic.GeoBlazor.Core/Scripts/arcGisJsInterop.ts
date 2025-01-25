@@ -2,6 +2,12 @@
 
 // region imports
 import {
+    buildJsBaseTileLayer,
+    buildJsImageryTileLayer,
+    buildJsVectorTileLayer,
+    buildJsWebTileLayer
+} from './jsBuilder.gb';
+import {
     buildDotNetBookmark,
     buildDotNetExtent,
     buildDotNetGeometry,
@@ -325,7 +331,8 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
         let view: View;
 
         let basemap: Basemap | undefined = undefined;
-        let basemapLayers: any[] = [];
+        let basemapBaseLayers: any[] = [];
+        let basemapReferenceLayers: any[] = [];
         if (!mapType.startsWith('web')) {
             if (mapObject.arcGISDefaultBasemap !== undefined &&
                 mapObject.arcGISDefaultBasemap !== null) {
@@ -344,10 +351,22 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
             } else if (hasValue(mapObject.basemap?.portalItem?.id)) {
                 let portalItem = buildJsPortalItem(mapObject.basemap.portalItem);
                 basemap = new Basemap({ portalItem: portalItem });
-            } else if (mapObject.basemap?.layers.length > 0) {
-                for (let i = 0; i < mapObject.basemap.layers.length; i++) {
-                    const layerObject = mapObject.basemap.layers[i];
-                    basemapLayers.push(layerObject);
+            } else if (mapObject.basemap?.baseLayers?.length > 0 || mapObject.basemap?.referenceLayers?.length > 0) {
+                if (hasValue(mapObject.basemap.baseLayers)) {
+                    for (let i = 0; i < mapObject.basemap.baseLayers.length; i++) {
+                        const layerObject = mapObject.basemap.baseLayers[i];
+                        if (layerObject.isReferenceLayer) {
+                            basemapReferenceLayers.push(layerObject);
+                        } else {
+                            basemapBaseLayers.push(layerObject);
+                        }
+                    }
+                }
+                if (hasValue(mapObject.basemap.referenceLayers)) {
+                    for (let j = 0; j < mapObject.basemap.referenceLayers.length; j++) {
+                        const layerObject = mapObject.basemap.referenceLayers[j];
+                        basemapReferenceLayers.push(layerObject);
+                    }
                 }
                 basemap = new Basemap({
                     baseLayers: []
@@ -442,9 +461,14 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
             }
         }
 
-        for (let i = basemapLayers.length - 1; i >= 0; i--) {
-            const layerObject = basemapLayers[i];
+        for (let i = basemapBaseLayers.length - 1; i >= 0; i--) {
+            const layerObject = basemapBaseLayers[i];
             await addLayer(layerObject, id, true);
+        }
+        
+        for (let i = basemapReferenceLayers.length - 1; i >= 0; i--) {
+            const layerObject = basemapReferenceLayers[i];
+            await addLayer(layerObject, id, false, true);
         }
 
         for (const widget of widgets.filter(w => w.type !== 'popup')) {
@@ -597,11 +621,15 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
         let layerGeoBlazorId = Object.keys(arcGisObjectRefs).find(key => arcGisObjectRefs[key] === evt.layer);
 
         let isBasemapLayer = false;
-        if (hasValue(view.map.basemap) &&
-            (view.map.basemap.baseLayers?.includes(evt.layer) || view.map.basemap.referenceLayers?.includes(evt.layer))) {
-            isBasemapLayer = true;
+        let isReferenceLayer = false;
+        if (hasValue(view.map.basemap)) {
+            if (view.map.basemap.baseLayers?.includes(evt.layer)) {
+                isBasemapLayer = true;
+            } else if (view.map.basemap.referenceLayers?.includes(evt.layer)) {
+                isReferenceLayer = true;
+            }
         }
-        
+
         let layerRef;
         let layerViewRef;
         // @ts-ignore
@@ -615,7 +643,8 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
             layerView: buildDotNetLayerView(evt.layerView),
             layer: buildDotNetLayer(evt.layer, false),
             layerGeoBlazorId: layerGeoBlazorId,
-            isBasemapLayer: isBasemapLayer
+            isBasemapLayer: isBasemapLayer,
+            isReferenceLayer: isReferenceLayer
         }
 
         let layerUid = evt.layer.id;
@@ -651,7 +680,7 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
         }
 
         await dotNetRef.invokeMethodAsync('OnJavascriptLayerViewCreateComplete', layerGeoBlazorId ?? null, layerUid,
-            result.layerObjectRef, result.layerViewObjectRef, isBasemapLayer);
+            result.layerObjectRef, result.layerViewObjectRef, isBasemapLayer, isReferenceLayer);
         uploadingLayers.splice(uploadingLayers.indexOf(layerUid), 1);
     });
 
@@ -962,7 +991,7 @@ export async function queryFeatureLayer(queryObject: any, layerObject: any, symb
             query.geometry = buildJsGeometry(queryObject.geometry)!;
         }
         let popupTemplate = buildJsPopupTemplate(popupTemplateObject, layerObject.id, viewId) as PopupTemplate;
-        await addLayer(layerObject, viewId, false, true, () => {
+        await addLayer(layerObject, viewId, false, false, true, () => {
             displayQueryResults(query, symbol, popupTemplate, viewId);
         });
         unsetWaitCursor(viewId);
@@ -2451,8 +2480,8 @@ export function removeWidget(widgetId: string, viewId: string): void {
     delete arcGisObjectRefs.widgetId;
 }
 
-export async function addLayer(layerObject: any, viewId: string, isBasemapLayer?: boolean, isQueryLayer?: boolean,
-    callback?: Function): Promise<void> {
+export async function addLayer(layerObject: any, viewId: string, isBasemapLayer?: boolean, isReferenceLayer?: boolean, 
+                               isQueryLayer?: boolean, callback?: Function): Promise<void> {
     try {
         let view = arcGisObjectRefs[viewId] as View;
         if (!hasValue(view?.map)) return;
@@ -2467,6 +2496,8 @@ export async function addLayer(layerObject: any, viewId: string, isBasemapLayer?
             } else {
                 view.map?.basemap.baseLayers.push(newLayer);
             }
+        } else if (isReferenceLayer) {
+            view.map?.basemap.referenceLayers.push(newLayer);
         } else if (isQueryLayer) {
             queryLayer = newLayer as FeatureLayer;
             if (callback !== undefined) {
@@ -2907,6 +2938,22 @@ export async function createLayer(dotNetLayer: any, wrap: boolean | null, viewId
 
             newLayer = imageryTileLayer;
             break;
+        case 'BaseTileLayerType':
+            newLayer = await buildJsBaseTileLayer(dotNetLayer);
+
+            break;
+        case 'imagery-tile':
+            newLayer = await buildJsImageryTileLayer(dotNetLayer, viewId);
+
+            break;
+        case 'vector-tile':
+            newLayer = await buildJsVectorTileLayer(dotNetLayer);
+
+            break;
+        case 'WebTileLayerType':
+            newLayer = await buildJsWebTileLayer(dotNetLayer);
+
+            break;
         default:
             return null;
     }
@@ -2963,6 +3010,21 @@ export async function getObjectReference(objectRef: any) {
             return new SliderWidgetWrapper(objectRef);
         }
         
+        let { default: BaseTileLayer } = await import ('@arcgis/core/layers/BaseTileLayer');
+        if (objectRef instanceof BaseTileLayer) {
+            let { default: BaseTileLayerWrapper } = await import('./baseTileLayer');
+            return new BaseTileLayerWrapper(objectRef);
+        }
+        let { default: VectorTileLayer } = await import ('@arcgis/core/layers/VectorTileLayer');
+        if (objectRef instanceof VectorTileLayer) {
+            let { default: VectorTileLayerWrapper } = await import('./vectorTileLayer');
+            return new VectorTileLayerWrapper(objectRef);
+        }
+        let { default: WebTileLayer } = await import ('@arcgis/core/layers/WebTileLayer');
+        if (objectRef instanceof WebTileLayer) {
+            let { default: WebTileLayerWrapper } = await import('./webTileLayer');
+            return new WebTileLayerWrapper(objectRef);
+        }
         // return default arcgis object -- do not remove this comment, necessary for code-gen
         return objectRef;
     }
@@ -2972,12 +3034,14 @@ export async function getObjectReference(objectRef: any) {
     return objectRef;
 }
 
-export function removeLayer(layerId: string, viewId: string, isBasemapLayer: boolean): void {
+export function removeLayer(layerId: string, viewId: string, isBasemapLayer: boolean, isReferenceLayer): void {
     try {
         let layer = arcGisObjectRefs[layerId] as Layer;
         let view = arcGisObjectRefs[viewId] as MapView;
         if (isBasemapLayer) {
             view.map?.basemap.baseLayers.remove(layer);
+        } else if (isReferenceLayer) {
+            view.map?.basemap.referenceLayers.remove(layer);
         } else {
             view.map?.remove(layer);
         }

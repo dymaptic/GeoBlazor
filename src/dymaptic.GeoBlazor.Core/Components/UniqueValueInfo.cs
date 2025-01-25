@@ -1,10 +1,6 @@
 namespace dymaptic.GeoBlazor.Core.Components;
-/// <summary>
-///     Defines the symbols to use in a UniqueValueRenderer. Each unique value info defines a symbol that should be used to
-///     represent features with a specific value.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueInfo.html">ArcGIS Maps SDK for JavaScript</a>
-/// </summary>
-public class UniqueValueInfo : MapComponent
+
+public partial class UniqueValueInfo : MapComponent
 {
     /// <summary>
     ///     Features with this value will be rendered with the given symbol.
@@ -19,12 +15,6 @@ public class UniqueValueInfo : MapComponent
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Label { get; set; }
 
-    /// <summary>
-    ///     The <see cref = "Symbol"/> for the object.
-    /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [JsonInclude]
-    public Symbol? Symbol { get; protected set; }
 
     /// <summary>
     ///     Gets the current <see cref = "Symbol"/> for the object.
@@ -49,38 +39,4 @@ public class UniqueValueInfo : MapComponent
         }
     }
 
-    /// <inheritdoc/>
-    public override async Task RegisterChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case Symbol symbol:
-                await SetSymbol(symbol);
-                break;
-            default:
-                await base.RegisterChildComponent(child);
-                break;
-        }
-    }
-
-    /// <inheritdoc/>
-    public override async Task UnregisterChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case Symbol _:
-                Symbol = null;
-                break;
-            default:
-                await base.UnregisterChildComponent(child);
-                break;
-        }
-    }
-
-    /// <inheritdoc/>
-    internal override void ValidateRequiredChildren()
-    {
-        base.ValidateRequiredChildren();
-        Symbol?.ValidateRequiredChildren();
-    }
 }

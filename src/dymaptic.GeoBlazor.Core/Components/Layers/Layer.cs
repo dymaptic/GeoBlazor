@@ -1,13 +1,7 @@
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
-/// <summary>
-///     The layer is the most fundamental component of a Map. It is a collection of spatial data in the form of vector
-///     graphics or raster images that represent real-world phenomena. Layers may contain discrete features that store
-///     vector data or continuous cells/pixels that store raster data.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html">ArcGIS Maps SDK for JavaScript</a>
-/// </summary>
 [JsonConverter(typeof(LayerConverter))]
-public abstract class Layer : MapComponent
+public abstract partial class Layer : MapComponent
 {
     /// <summary>
     ///     Used internally to identify the sub type of Layer
@@ -189,22 +183,6 @@ public abstract class Layer : MapComponent
             "visible");
     }
 
-#endregion
-
-#region Public Methods
-
-    /// <summary>
-    ///     Fetches custom attribution data for the layer when it becomes available.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#fetchAttributionData">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    public async Task<object?> FetchAttributionData()
-    {
-        if (JsComponentReference is null) return null;
-            
-        return await JsComponentReference!.InvokeAsync<object>(
-            "fetchAttributionData", 
-            CancellationTokenSource.Token);
-    }
 
 #endregion
 

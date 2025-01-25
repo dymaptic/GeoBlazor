@@ -1,12 +1,7 @@
 namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 
-/// <summary>
-///     The base class for geometry objects. This class has no constructor. To construct geometries see
-///     <see cref="Point" />, <see cref="Polyline" />, or <see cref="Polygon" />.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Geometry.html">ArcGIS Maps SDK for JavaScript</a>
-/// </summary>
 [JsonConverter(typeof(GeometryConverter))]
-public abstract class Geometry : MapComponent
+public abstract partial class Geometry : MapComponent
 {
     /// <summary>
     ///     The <see cref="Extent" /> of the geometry.
@@ -32,12 +27,7 @@ public abstract class Geometry : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? HasZ { get; set; }
-    
-    /// <summary>
-    ///     The <see cref="SpatialReference" /> of the geometry.
-    /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public SpatialReference? SpatialReference { get; set; }
+
 
     /// <summary>
     ///     The Geometry "type", used internally to render.
@@ -56,14 +46,7 @@ public abstract class Geometry : MapComponent
                 }
 
                 break;
-            case SpatialReference spatialReference:
-                // ReSharper disable once RedundantCast
-                if (!((object)spatialReference).Equals(SpatialReference))
-                {
-                    SpatialReference = spatialReference;
-                }
 
-                break;
             default:
                 await base.RegisterChildComponent(child);
 
@@ -80,10 +63,7 @@ public abstract class Geometry : MapComponent
                 Extent = null;
 
                 break;
-            case SpatialReference _:
-                SpatialReference = null;
 
-                break;
             default:
                 await base.UnregisterChildComponent(child);
 
@@ -96,7 +76,7 @@ public abstract class Geometry : MapComponent
     {
         base.ValidateRequiredChildren();
         Extent?.ValidateRequiredChildren();
-        SpatialReference?.ValidateRequiredChildren();
+
     }
     
     /// <summary>

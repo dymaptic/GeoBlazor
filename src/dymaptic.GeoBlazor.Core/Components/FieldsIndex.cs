@@ -1,21 +1,12 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
-/// <summary>
-///     This class provides convenient methods that can be used to make case-insensitive lookups for a field by its name. It also provides more information such as the list of date fields in a layer.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FieldsIndex.html">ArcGIS Maps SDK for JavaScript</a>
-/// </summary>
-public class FieldsIndex : MapComponent
+public partial class FieldsIndex : MapComponent
 {
     /// <summary>
     ///     For internal use only, JavaScript object reference.
     /// </summary>
     public IJSObjectReference JsFieldsReference { get; set; } = default!;
-    
-    /// <summary>
-    ///     An array of date fields or field json objects.
-    /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public Field[]? DateFields { get; set; }
+
 
     /// <summary>
     ///     Returns a field with the specified field name.

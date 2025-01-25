@@ -1,96 +1,8 @@
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
-/// <summary>
-///     A FeatureLayer is a single layer that can be created from a Map Service or Feature Service; ArcGIS Online or ArcGIS Enterprise portal items; or from an array of client-side features. The layer can be either a spatial (has geographic features) or non-spatial (table).
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html">ArcGIS Maps SDK for JavaScript</a>
-/// </summary>
-/// <example>
-///     <a target="_blank" href="https://samples.geoblazor.com/feature-layers">Sample - Feature Layers</a>
-/// </example>
-public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, IFeatureLayerBase
+public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, IFeatureLayerBase
 {
-    /// <summary>
-    ///     Constructor for use as a razor component
-    /// </summary>
-    [ActivatorUtilitiesConstructor]
-    public FeatureLayer()
-    {
-    }
 
-    /// <summary>
-    ///     Constructor for creating a new FeatureLayer in code. Either the url, portalItem, or source parameter must be
-    ///     specified.
-    /// </summary>
-    /// <param name="url">
-    ///     The absolute URL of the REST endpoint of the layer, non-spatial table or service
-    /// </param>
-    /// <param name="portalItem">
-    ///     The <see cref="PortalItem" /> from which the layer is loaded.
-    /// </param>
-    /// <param name="source">
-    ///     A collection of Graphic objects used to create a FeatureLayer.
-    /// </param>
-    /// <param name="outFields">
-    ///     An array of field names from the service to include with each feature.
-    /// </param>
-    /// <param name="definitionExpression">
-    ///     The SQL where clause used to filter features on the client.
-    /// </param>
-    /// <param name="minScale">
-    ///     The minimum scale (most zoomed out) at which the layer is visible in the view.
-    /// </param>
-    /// <param name="maxScale">
-    ///     The maximum scale (most zoomed in) at which the layer is visible in the view.
-    /// </param>
-    /// <param name="objectIdField">
-    ///     The name of an oidfield containing a unique value or identifier for each feature in the layer.
-    /// </param>
-    /// <param name="geometryType">
-    ///     The geometry type of the feature layer. All features must be of the same type.
-    /// </param>
-    /// <param name="title">
-    ///     The title of the layer used to identify it in places such as the Legend and LayerList widgets.
-    /// </param>
-    /// <param name="opacity">
-    ///     The opacity of the layer.
-    /// </param>
-    /// <param name="visible">
-    ///     Indicates if the layer is visible in the View. When false, the layer may still be added to a Map instance that is
-    ///     referenced in a view, but its features will not be visible in the view.
-    /// </param>
-    /// <param name="listMode">
-    ///     Indicates how the layer should display in the LayerList widget. The possible values are listed below.
-    /// </param>
-    /// <param name="popupTemplate">
-    ///     The <see cref="PopupTemplate" /> for the layer.
-    /// </param>
-    public FeatureLayer(string? url = null, PortalItem? portalItem = null, IReadOnlyList<Graphic>? source = null,
-        string[]? outFields = null, string? definitionExpression = null, double? minScale = null,
-        double? maxScale = null, string? objectIdField = null, FeatureGeometryType? geometryType = null, string? title = null,
-        double? opacity = null, bool? visible = null, ListMode? listMode = null, PopupTemplate? popupTemplate = null)
-    {
-        if (url is null && portalItem is null && source is null)
-        {
-            throw new MissingRequiredOptionsChildElementException(nameof(FeatureLayer),
-                [nameof(Url), nameof(PortalItem), nameof(Source)]);
-        }
-#pragma warning disable BL0005 // Component parameter should not be set outside of its component.
-        Url = url;
-        Source = source;
-        PortalItem = portalItem;
-        OutFields = outFields;
-        DefinitionExpression = definitionExpression;
-        MinScale = minScale;
-        MaxScale = maxScale;
-        ObjectIdField = objectIdField;
-        GeometryType = geometryType;
-        Title = title;
-        Opacity = opacity;
-        Visible = visible;
-        ListMode = listMode;
-        PopupTemplate = popupTemplate;
-#pragma warning restore BL0005 // Component parameter should not be set outside of its component.
-    }
     
     /// <summary>
     ///     An authorization string used to access a resource or service. API keys are generated and managed in the ArcGIS Developer Portal. An API key is tied explicitly to an ArcGIS account; it is also used to monitor service usage. Setting a fine-grained API key on a specific class overrides the global API key.
@@ -113,13 +25,6 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Effect? Effect { get; set; }
 
-    /// <summary>
-    ///     The absolute URL of the REST endpoint of the layer, non-spatial table or service
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [RequiredProperty(nameof(PortalItem), nameof(Source))]
-    public string? Url { get; set; }
 
     /// <summary>
     ///     The SQL where clause used to filter features on the client.
@@ -128,12 +33,6 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? DefinitionExpression { get; set; }
 
-    /// <summary>
-    ///     An array of field names from the service to include with each feature.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string[]? OutFields { get; set; }
 
     /// <summary>
     ///     The minimum scale (most zoomed out) at which the layer is visible in the view.
@@ -177,78 +76,10 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? PopupEnabled { get; set; }
 
-    /// <summary>
-    ///     Determines the order in which features are drawn in the view.
-    /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public List<OrderedLayerOrderBy>? OrderBy { get; set; }
-
-    /// <summary>
-    ///     The <see cref="PopupTemplate" /> for the layer.
-    /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public PopupTemplate? PopupTemplate { get; set; }
-
-    /// <summary>
-    ///     The label definition for this layer, specified as an array of <see cref="Label" />.
-    /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<Label>? LabelingInfo { get; set; }
-
-    /// <summary>
-    ///     The <see cref="Renderer" /> assigned to the layer.
-    /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Renderer? Renderer { get; set; }
-
-    /// <summary>
-    ///     The <see cref="PortalItem" /> from which the layer is loaded.
-    /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [RequiredProperty(nameof(Url), nameof(Source))]
-    public PortalItem? PortalItem { get; set; }
-
-    /// <summary>
-    ///     The spatial reference for the feature layer
-    /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public SpatialReference? SpatialReference { get; set; }
-
-    /// <summary>
-    ///     A collection of Graphic objects used to create a FeatureLayer.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [RequiredProperty(nameof(Url), nameof(PortalItem))]
-    public IReadOnlyCollection<Graphic>? Source { get; set; }
-
-    /// <summary>
-    ///     An array of fields in the layer.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyCollection<Field>? Fields { get; set; }
-
-    /// <summary>
-    ///     Array of [relationships](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Relationship.html) set up for the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#relationships">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<Relationship>? Relationships { get; protected set; }
-
-    /// <summary>
-    ///     The template used in an associated layer's FeatureForm Widget (Available in GeoBlazor Pro). All of the properties and field configurations set on the layer's FeatureForm are handled via the FormTemplate.
-    /// </summary>
-    public FormTemplate? FormTemplate { get; set; }
 
     /// <inheritdoc />
     public override LayerType Type => LayerType.Feature;
 
-    /// <summary>
-    /// TimeInfo provides information such as date fields that store start and end time for each feature and the fullTimeExtent for the layer.
-    /// </summary>
-    public TimeInfo? TimeInfo { get; set; }
     
     /// <summary>  
     ///     Configures the method for reducing the number of point features in the view.  
@@ -606,60 +437,20 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
     {
         switch (child)
         {
-            case PopupTemplate popupTemplate:
-                if (!popupTemplate.Equals(PopupTemplate))
-                {
-                    PopupTemplate = popupTemplate;
-                    LayerChanged = true;
-                }
 
-                break;
             case Label label:
-                LabelingInfo ??= new List<Label>();
+                LabelingInfo ??= [];
 
                 if (!LabelingInfo.Contains(label))
                 {
-                    LabelingInfo = LabelingInfo.Append(label).ToList();
+                    LabelingInfo = [..LabelingInfo, label];
                     LayerChanged = true;
                 }
 
                 break;
-            case Renderer renderer:
-                if (!renderer.Equals(Renderer))
-                {
-                    Renderer = renderer;
-                    LayerChanged = true;
-                }
 
-                break;
-            case PortalItem portalItem:
-                if (!portalItem.Equals(PortalItem))
-                {
-                    PortalItem = portalItem;
-                    LayerChanged = true;
-                }
-
-                break;
-            case SpatialReference spatialRef:
-                if (!spatialRef.Equals(SpatialReference))
-                {
-                    SpatialReference = spatialRef;
-                    LayerChanged = true;
-                }
-
-                break;
-            case OrderedLayerOrderBy orderBy:
-                OrderBy ??= [];
-
-                if (!OrderBy.Contains(orderBy))
-                {
-                    OrderBy.Add(orderBy);
-                    LayerChanged = true;
-                }
-
-                break;
             case Graphic graphic:
-                Source ??= new HashSet<Graphic>();
+                Source ??= [];
 
                 if (!Source.Contains(graphic))
                 {
@@ -673,7 +464,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
 
                 break;
             case Field field:
-                Fields ??= new HashSet<Field>();
+                Fields ??= [];
 
                 if (!Fields.Contains(field))
                 {
@@ -682,14 +473,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
                 }
 
                 break;
-            case FormTemplate formTemplate:
-                if (!formTemplate.Equals(FormTemplate))
-                {
-                    FormTemplate = formTemplate;
-                    LayerChanged = true;
-                }
 
-                break;
             default:
                 await base.RegisterChildComponent(child);
 
@@ -702,40 +486,17 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
     {
         switch (child)
         {
-            case PopupTemplate _:
-                PopupTemplate = null;
-                LayerChanged = true;
 
-                break;
             case Label label:
                 LabelingInfo = LabelingInfo?.Where(l => !l.Equals(label)).ToList();
                 LayerChanged = true;
 
                 break;
-            case Renderer _:
-                Renderer = null;
-                LayerChanged = true;
 
-                break;
-            case PortalItem _:
-                PortalItem = null;
-                LayerChanged = true;
-
-                break;
-            case SpatialReference _:
-                SpatialReference = null;
-                LayerChanged = true;
-
-                break;
-            case OrderedLayerOrderBy orderBy:
-                OrderBy?.Remove(orderBy);
-                LayerChanged = true;
-
-                break;
             case Graphic graphic:
                 if (Source?.Contains(graphic) ?? false)
                 {
-                    Source = Source.Except([graphic]).ToHashSet();
+                    Source = Source?.Except([graphic]).ToList();
                     LayerChanged = true;
                 }
 
@@ -743,16 +504,12 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
             case Field field:
                 if (Fields?.Contains(field) ?? false)
                 {
-                    Fields = Fields.Except([field]).ToHashSet();
+                    Fields = Fields?.Except([field]).ToList();
                     LayerChanged = true;
                 }
 
                 break;
-            case FormTemplate _:
-                FormTemplate = null;
-                LayerChanged = true;
 
-                break;
             default:
                 await base.UnregisterChildComponent(child);
 
@@ -1115,39 +872,6 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, 
         return result;
     }
 
-
-    /// <inheritdoc />
-    internal override void ValidateRequiredChildren()
-    {
-        base.ValidateRequiredChildren();
-        PopupTemplate?.ValidateRequiredChildren();
-        Renderer?.ValidateRequiredChildren();
-        PortalItem?.ValidateRequiredChildren();
-
-        if (LabelingInfo is not null)
-        {
-            foreach (Label label in LabelingInfo)
-            {
-                label.ValidateRequiredChildren();
-            }
-        }
-
-        if (Source is not null)
-        {
-            foreach (Graphic graphic in Source)
-            {
-                graphic.ValidateRequiredChildren();
-            }
-        }
-
-        if (Fields is not null)
-        {
-            foreach (Field field in Fields)
-            {
-                field.ValidateRequiredChildren();
-            }
-        }
-    }
 
     /// <inheritdoc />
     internal override async Task UpdateFromJavaScript(Layer renderedLayer)

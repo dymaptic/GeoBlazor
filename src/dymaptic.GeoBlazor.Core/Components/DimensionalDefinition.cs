@@ -1,31 +1,8 @@
 namespace dymaptic.GeoBlazor.Core.Components;
-/// <summary>
-///     Defines the symbols to use in a UniqueValueRenderer. Each unique value info defines a symbol that should be used to
-///     represent features with a specific value.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-DimensionalDefinition.html">ArcGIS Maps SDK for JavaScript</a>
-/// </summary>
-public class DimensionalDefinition : MapComponent
-{
-    /// <summary>
-    ///     Constructor for use as a razor component
-    /// </summary>
-    [ActivatorUtilitiesConstructor]
-    public DimensionalDefinition()
-    {
-    }
 
-    /// <summary>
-    ///     Constructor for use in code
-    /// </summary>
-    public DimensionalDefinition(string? dimensionName = null, bool? isSlice = null, string? variableName = null, DimensionalDefinitionValues? values = null)
-    {
-#pragma warning disable BL0005
-        DimensionName = dimensionName;
-        IsSlice = isSlice;
-        VariableName = variableName;
-        Values = values;
-#pragma warning restore BL0005
-    }
+public partial class DimensionalDefinition : MapComponent
+{
+
 
     /// <summary>
     ///     The dimension associated with the variable..

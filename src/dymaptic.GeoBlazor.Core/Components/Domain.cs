@@ -1,11 +1,7 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
-/// <summary>
-///     Domains define constraints on a layer field. There are two types of domains: coded values and range domains. This is an abstract class.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Domain.html">ArcGIS Maps SDK for JavaScript</a>
-/// </summary>
 [JsonConverter(typeof(DomainConverter))]
-public abstract class Domain : MapComponent
+public abstract partial class Domain : MapComponent
 {
     /// <summary>
     ///     The domain type.

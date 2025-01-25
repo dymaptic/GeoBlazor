@@ -1,8 +1,6 @@
 namespace dymaptic.GeoBlazor.Core.Components;
-/// <summary>
-///     An object providing options for displaying the visual variable in the Legend.
-/// </summary>
-public class VisualVariableLegendOptions : MapComponent
+
+public partial class VisualVariableLegendOptions : MapComponent
 {
     /// <summary>
     ///     Indicates whether to show the visual variable in the legend.

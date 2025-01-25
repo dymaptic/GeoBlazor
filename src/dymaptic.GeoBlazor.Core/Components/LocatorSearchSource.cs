@@ -65,9 +65,7 @@ public class LocatorSearchSource : SearchSource
     ///     URL to the ArcGIS Server REST resource that represents a locator service. This is required.
     /// </summary>
     [Parameter]
-    [RequiredProperty]
-    [EditorRequired]
-    public string Url { get; set; } = default !;
+    public string Url { get; set; } = "https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer";
 
     /// <summary>
     ///     For filtering suggests or search results. Setting a value here takes precedence over withinViewEnabled.

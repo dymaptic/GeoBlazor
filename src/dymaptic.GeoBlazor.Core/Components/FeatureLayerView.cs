@@ -1,10 +1,6 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
-/// <summary>
-///     The FeatureLayerView is responsible for rendering a FeatureLayer's features as graphics in the View. The methods in the FeatureLayerView provide developers with the ability to query and highlight graphics in the view. See the code snippets in the methods below for examples of how to access client-side graphics from the view.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#whenLayerView">ArcGIS Maps SDK for JavaScript</a>
-/// </summary>
-public class FeatureLayerView : LayerView
+public partial class FeatureLayerView : LayerView
 {
     /// <summary>
     ///     Constructor for use in C# code.
@@ -58,16 +54,6 @@ public class FeatureLayerView : LayerView
 #pragma warning restore BL0005    
     }
 
-    /// <summary>
-    ///     The attribute, geometry, and time extent filter. Only the features that satisfy the filter are displayed on the view.
-    /// </summary>
-    public FeatureFilter? Filter { get; private set; }
-
-
-    /// <summary>
-    ///     The featureEffect can be used to draw attention features of interest.
-    /// </summary>
-    public FeatureEffect? FeatureEffect { get; private set; }
     
     /// <summary>
     ///     Options for configuring the highlight.

@@ -1,13 +1,6 @@
 namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
-/// <summary>
-///     WebTileLayer provides a simple way to add non-ArcGIS Server map tiles as a layer to a map. The constructor takes a
-///     URL template that usually follows a pattern of http://some.domain.com/{level}/{col}/{row}/ where level corresponds
-///     to a zoom level, and column and row represent tile column and row, respectively. This pattern is not required, but
-///     is the most common one currently on the web.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WebTileLayer.html#urlTemplate">ArcGIS Maps SDK for JavaScript</a>
-/// </summary>
-public class WebTileLayer : Layer
+public partial class WebTileLayer : Layer
 {
     /// <inheritdoc />
     public override LayerType Type => LayerType.WebTile;
@@ -70,73 +63,4 @@ public class WebTileLayer : Layer
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? UrlTemplate { get; set; }
 
-    /// <summary>
-    ///     The portal item from which the layer is loaded.
-    /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public PortalItem? PortalItem { get; set; }
-
-    /// <summary>
-    ///     The tiling scheme information for the layer.
-    /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public TileInfo? TileInfo { get; set; }
-
-    /// <inheritdoc />
-    public override async Task RegisterChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case PortalItem portalItem:
-                if (!portalItem.Equals(PortalItem))
-                {
-                    PortalItem = portalItem;
-                    LayerChanged = true;
-                }
-
-                break;
-            case TileInfo tileInfo:
-                if (!tileInfo.Equals(TileInfo))
-                {
-                    TileInfo = tileInfo;
-                    LayerChanged = true;
-                }
-
-                break;
-            default:
-                await base.RegisterChildComponent(child);
-
-                break;
-        }
-    }
-
-    /// <inheritdoc />
-    public override async Task UnregisterChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case PortalItem _:
-                PortalItem = null;
-                LayerChanged = true;
-
-                break;
-            case TileInfo _:
-                TileInfo = null;
-                LayerChanged = true;
-
-                break;
-            default:
-                await base.UnregisterChildComponent(child);
-
-                break;
-        }
-    }
-
-    /// <inheritdoc />
-    internal override void ValidateRequiredChildren()
-    {
-        PortalItem?.ValidateRequiredChildren();
-        TileInfo?.ValidateRequiredChildren();
-        base.ValidateRequiredChildren();
-    }
 }

@@ -1,11 +1,7 @@
 namespace dymaptic.GeoBlazor.Core.Components.Popups;
 
-/// <summary>
-///     Abstract base class, PopupContent elements define what should display within the PopupTemplate content.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-Content.html">ArcGIS Maps SDK for JavaScript</a>
-/// </summary>
 [JsonConverter(typeof(PopupContentConverter))]
-public abstract class PopupContent : MapComponent
+public abstract partial class PopupContent : MapComponent
 {
     /// <summary>
     ///     The type of Popup Content

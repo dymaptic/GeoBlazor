@@ -1,6 +1,6 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
-public interface IHighlightLayerViewMixin
+public partial interface IHighlightLayerViewMixin
 {
     /// <summary>
     ///     Highlights the given feature(s).

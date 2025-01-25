@@ -1,40 +1,8 @@
 namespace dymaptic.GeoBlazor.Core.Components;
-/// <summary>
-///     Defines label expressions, symbols, scale ranges, label priorities, and label placement options for labels on a
-///     layer. See the Labeling guide for more information about labeling.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LabelClass.html">ArcGIS Maps SDK for JavaScript</a>
-/// </summary>
-public class Label : MapComponent
+
+public partial class Label : MapComponent
 {
-    /// <summary>
-    ///     Parameterless constructor for use as a Blazor component.
-    /// </summary>
-    [ActivatorUtilitiesConstructor]
-    public Label()
-    {
-    }
 
-    /// <summary>
-    ///    Constructor for generating in code.
-    /// </summary>
-    /// <param name="labelPlacement">
-    ///     The position of the label.
-    /// </param>
-    /// <param name="labelExpression">
-    ///     Defines the labels for a MapImageLayer.
-    /// </param>
-    /// <param name="labelExpressionInfo">
-    ///     Defines the labels for a <see cref = "FeatureLayer"/>.
-    /// </param>
-    public Label(LabelPlacement? labelPlacement = null, string? labelExpression = null, LabelExpressionInfo? labelExpressionInfo = null)
-    {
-#pragma warning disable BL0005 // Component parameter should not be set outside of its component.
-
-        LabelPlacement = labelPlacement;
-        LabelExpression = labelExpression;
-        LabelExpressionInfo = labelExpressionInfo;
-#pragma warning restore BL0005
-    }
 
     /// <summary>
     ///     Defines how labels should be placed relative to one another. By default, labels have a static deconfliction strategy, meaning labels that overlap are dropped to make them easier to read.
@@ -126,18 +94,6 @@ public class Label : MapComponent
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Where { get; set; }
 
-    /// <summary>
-    ///     Defines the labels for a <see cref = "FeatureLayer"/>.
-    /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public LabelExpressionInfo? LabelExpressionInfo { get; set; }
-
-    /// <summary>
-    ///     The <see cref = "Symbol"/> for the object.
-    /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [JsonInclude]
-    public Symbol? Symbol { get; protected set; }
 
     /// <summary>
     ///     Gets the current <see cref = "Symbol"/> for the object.
@@ -166,44 +122,6 @@ public class Label : MapComponent
         }
     }
 
-    /// <inheritdoc/>
-    public override async Task RegisterChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case Symbol symbol:
-                await SetSymbol(symbol);
-                break;
-            case LabelExpressionInfo labelExpressionInfo:
-                // ReSharper disable once RedundantCast
-                if (!((object)labelExpressionInfo).Equals(LabelExpressionInfo))
-                {
-                    LabelExpressionInfo = labelExpressionInfo;
-                }
-
-                break;
-            default:
-                await base.RegisterChildComponent(child);
-                break;
-        }
-    }
-
-    /// <inheritdoc/>
-    public override async Task UnregisterChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case Symbol _:
-                Symbol = null;
-                break;
-            case LabelExpressionInfo _:
-                LabelExpressionInfo = null;
-                break;
-            default:
-                await base.UnregisterChildComponent(child);
-                break;
-        }
-    }
 
     /// <inheritdoc/>
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -219,13 +137,6 @@ public class Label : MapComponent
         }
     }
 
-    /// <inheritdoc/>
-    internal override void ValidateRequiredChildren()
-    {
-        base.ValidateRequiredChildren();
-        Symbol?.ValidateRequiredChildren();
-        LabelExpressionInfo?.ValidateRequiredChildren();
-    }
 
     private bool _updateSymbol;
 }

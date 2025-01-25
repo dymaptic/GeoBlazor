@@ -1,12 +1,6 @@
 namespace dymaptic.GeoBlazor.Core.Components.Popups;
 
-/// <summary>
-///     A PopupTemplate formats and defines the content of a Popup for a specific Layer or Graphic. The user can also use
-///     the PopupTemplate to access values from feature attributes and values returned from Arcade expressions when a
-///     feature in the view is selected.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html">ArcGIS Maps SDK for JavaScript</a>
-/// </summary>
-public class PopupTemplate : MapComponent
+public partial class PopupTemplate : MapComponent
 {
     /// <summary>
     ///     Parameterless constructor for using as a razor component
@@ -98,19 +92,6 @@ public class PopupTemplate : MapComponent
     [Parameter]
     public string? Title { get; set; }
 
-    /// <summary>
-    ///     An array of field names used in the PopupTemplate. Use this property to indicate what fields are required to fully
-    ///     render the PopupTemplate. This is important if setting content via a function since any fields needed for
-    ///     successful rendering should be specified here.
-    ///     Generally speaking, it is good practice to always set this property when instantiating a new popup template.
-    ///     To fetch the values from all fields, use ["*"].
-    /// </summary>
-    /// <remarks>
-    ///     This will not fetch fields from related tables. If related features are needed, set this using FieldInfo.
-    /// </remarks>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IEnumerable<string>? OutFields { get; set; }
 
     /// <summary>
     ///     Indicates whether actions should replace existing popup actions.
@@ -151,33 +132,6 @@ public class PopupTemplate : MapComponent
     [Parameter]
     public IReadOnlyList<PopupContent>? Content { get; set; }
 
-    /// <summary>
-    ///     An array of FieldInfo that defines how fields in the dataset or values from Arcade expressions participate in a
-    ///     popup. If no FieldInfo are specified, nothing will display since the popup will only display the fields that are
-    ///     defined by this array. Each FieldInfo contains properties for a single field or expression. This property can be
-    ///     set directly within the PopupTemplate or within the fields content element. If this is not set within the fields
-    ///     content element, it will default to whatever is specified directly within the PopupTemplate.fieldInfos. The image
-    ///     on the left is a result of using the first example snippet below, whereas the image on the right is a result of the
-    ///     second snippet.
-    /// </summary>
-    /// <remarks>
-    ///     Use this fieldInfos property to specify any formatting options for numbers displayed in chart or text elements.
-    /// </remarks>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public List<FieldInfo>? FieldInfos { get; set; }
-
-    /// <summary>
-    ///     An array of objects or ExpressionInfo[] that reference Arcade expressions following the specification defined by
-    ///     the Arcade Popup Profile.
-    /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public List<ExpressionInfo>? ExpressionInfos { get; set; }
-
-    /// <summary>
-    ///     Defines actions that may be executed by clicking the icon or image symbolizing them in the popup
-    /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public List<ActionBase>? Actions { get; set; }
 
     /// <summary>
     ///     JS-invokable method for triggering actions.
@@ -224,21 +178,18 @@ public class PopupTemplate : MapComponent
 
                 break;
             case FieldInfo fieldInfo:
-                FieldInfos ??= new List<FieldInfo>();
-
-                FieldInfos.Add(fieldInfo);
+                FieldInfos ??= [];
+                FieldInfos = [..FieldInfos, fieldInfo];
 
                 break;
             case ExpressionInfo expressionInfo:
-                ExpressionInfos ??= new List<ExpressionInfo>();
-
-                ExpressionInfos.Add(expressionInfo);
+                ExpressionInfos ??= [];
+                ExpressionInfos = [..ExpressionInfos, expressionInfo];
 
                 break;
             case ActionBase action:
-                Actions ??= new List<ActionBase>();
-
-                Actions.Add(action);
+                Actions ??= [];
+                Actions = [..Actions, action];
 
                 break;
             default:
@@ -258,15 +209,15 @@ public class PopupTemplate : MapComponent
 
                 break;
             case FieldInfo fieldInfo:
-                FieldInfos?.Remove(fieldInfo);
+                FieldInfos = FieldInfos?.Except([fieldInfo]).ToList();
 
                 break;
             case ExpressionInfo expressionInfo:
-                ExpressionInfos?.Remove(expressionInfo);
+                ExpressionInfos = ExpressionInfos?.Except([expressionInfo]).ToList();
 
                 break;
             case ActionBase action:
-                Actions?.Remove(action);
+                Actions = Actions?.Except([action]).ToList();
 
                 break;
             default:
@@ -289,29 +240,6 @@ public class PopupTemplate : MapComponent
             }
         }
 
-        if (FieldInfos != null)
-        {
-            foreach (FieldInfo fieldInfo in FieldInfos)
-            {
-                fieldInfo.ValidateRequiredChildren();
-            }
-        }
-
-        if (ExpressionInfos != null)
-        {
-            foreach (ExpressionInfo expressionInfo in ExpressionInfos)
-            {
-                expressionInfo.ValidateRequiredChildren();
-            }
-        }
-
-        if (Actions != null)
-        {
-            foreach (ActionBase action in Actions)
-            {
-                action.ValidateRequiredChildren();
-            }
-        }
     }
 
     internal PopupTemplateSerializationRecord ToSerializationRecord()

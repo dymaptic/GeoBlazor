@@ -1,24 +1,15 @@
-﻿import Graphic from "@arcgis/core/Graphic";
+import GraphicGenerated from './graphic.gb';
+import Graphic from "@arcgis/core/Graphic";
 import {DotNetGeometry, DotNetPopupTemplate, IPropertyWrapper} from "./definitions";
 import {buildJsGeometry, buildJsPopupTemplate, buildJsSymbol} from "./jsBuilder";
 import {buildDotNetGeometry, buildDotNetPopupTemplate} from "./dotNetBuilder";
 
-export default class GraphicWrapper implements IPropertyWrapper {
-    public component: Graphic;
+export default class GraphicWrapper extends GraphicGenerated {
 
     constructor(component: Graphic) {
-        this.component = component;
-        // set all properties from graphic
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
+        super(component);
     }
 
-    unwrap() {
-        return this.component;
-    }
 
     setAttribute(name: string, value: any): void {
         if (this.component.attributes[name] !== value) {
@@ -74,27 +65,7 @@ export default class GraphicWrapper implements IPropertyWrapper {
         return buildDotNetPopupTemplate(this.component.popupTemplate);
     }
 
-    setProperty(prop: string, value: any): void {
-        this.component[prop] = value;
-    }
 
-    getProperty(prop: string) {
-        return this.component[prop];
-    }
 
-    addToProperty(prop: string, value: any) {
-        if (Array.isArray(value)) {
-            this.component[prop].addMany(value);
-        } else {
-            this.component[prop].add(value);
-        }
-    }
 
-    removeFromProperty(prop: string, value: any) {
-        if (Array.isArray(value)) {
-            this.component[prop].removeMany(value);
-        } else {
-            this.component[prop].remove(value);
-        }
-    }
 }

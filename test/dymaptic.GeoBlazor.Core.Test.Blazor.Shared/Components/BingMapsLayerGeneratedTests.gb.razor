@@ -1,0 +1,170 @@
+@inherits TestRunnerBase
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+
+    [TestMethod]
+    public async Task TestCanRenderBingMapsLayer(Action renderHandler)
+    {
+        BingMapsLayer? bingMapsLayer = null;
+
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+                    </Basemap>
+                    <BingMapsLayer 
+                        Key="@("aut")"
+                        Style="@(BingImageryStyle.Aerial)"
+                        BlendMode="@(BlendMode.Difference)"
+                        Effect="@(new Effect("sunt",
+                            44943586.6290))"
+                        MaxScale="@(34320222.3610)"
+                        MinScale="@(40351.5652)"
+                        RefreshInterval="@(235.5730)"
+                        SpatialReference="@(new SpatialReference(3,
+                                "iste",
+                                "est",
+                                "rerum"))"
+                        FullExtent="@(new Extent(158.0220,
+                                153.6791,
+                                -80.7718,
+                                28.7730,
+                                893.7220,
+                                944.8465,
+                                569.0433,
+                                88.0569,
+                            new SpatialReference(5,
+                                    "et",
+                                    "ipsum",
+                                    "saepe"),
+                                true,
+                                true))"
+                        ListMode="@(ListMode.Show)"
+                        Opacity="@(0.5146)"
+                        PersistenceEnabled="@(true)"
+                        Region="@("aut")"
+                        Title="@("sed quas inventore")">
+                        <TimeExtent 
+                            Start="@(new DateTime(2012, 7, 19, 4, 27, 34))"
+                            End="@(new DateTime(2017, 3, 27, 19, 52, 15))">
+                        </TimeExtent>
+                        <TileInfo 
+                            Dpi="@(44.6888)"
+                            Format="@(TileInfoFormat.Gif)"
+                            IsWrappable="@(true)"
+                            Lods="@([new LOD(4,
+                                    "facere",
+                                    88.9695,
+                                    36092441.6706),
+                            new LOD(1,
+                                    "ad",
+                                    51.4992,
+                                    42556455.2229)])"
+                            Origin="@(new Point(-107.1223,
+                                    54.4984,
+                                    179.9574,
+                                    -88.8170,
+                                    963.3276,
+                                new SpatialReference(4,
+                                        "est",
+                                        "ad",
+                                        "earum"),
+                                    true,
+                                    true,
+                                    504.2549))"
+                            Size="@([8,
+                                2,
+                                8])"
+                            SpatialReference="@(new SpatialReference(6,
+                                    "harum",
+                                    "maxime",
+                                    "exercitationem"))">
+                        </TileInfo>
+                    </BingMapsLayer>
+                </Map>
+            </MapView>);
+        await WaitForMapToRender();
+        Assert.IsNotNull(bingMapsLayer!);
+        await AssertJavaScript("assertLayerExists", args: "bing-maps");
+        BlendMode testBlendMode = BlendMode.ColorDodge;
+        await bingMapsLayer.SetBlendMode(testBlendMode);
+        var blendMode = await bingMapsLayer.GetBlendMode();
+        Assert.AreEqual(testBlendMode, blendMode);
+        SpatialReference testSpatialReference = new SpatialReference(5,
+                    "quia",
+                    "qui",
+                    "sunt");
+        await bingMapsLayer.SetSpatialReference(testSpatialReference);
+        var spatialReference = await bingMapsLayer.GetSpatialReference();
+        Assert.AreEqual(testSpatialReference, spatialReference);
+        Extent testFullExtent = new Extent(113.8443,
+                    -168.9379,
+                    71.0943,
+                    48.7662,
+                    898.9289,
+                    281.3155,
+                    480.9344,
+                    503.5155,
+                new SpatialReference(6,
+                        "nisi",
+                        "at",
+                        "earum"),
+                    true,
+                    true);
+        await bingMapsLayer.SetFullExtent(testFullExtent);
+        var fullExtent = await bingMapsLayer.GetFullExtent();
+        Assert.AreEqual(testFullExtent, fullExtent);
+        ListMode testListMode = ListMode.Show;
+        await bingMapsLayer.SetListMode(testListMode);
+        var listMode = await bingMapsLayer.GetListMode();
+        Assert.AreEqual(testListMode, listMode);
+        TileInfo testTileInfo = new TileInfo(348.1236,
+                    TileInfoFormat.Jpg,
+                    true,
+                [new LOD(9,
+                        "officiis",
+                        20.0994,
+                        30010118.4290),
+                new LOD(7,
+                        "ut",
+                        47.8813,
+                        15952416.9762),
+                new LOD(3,
+                        "quae",
+                        88.7714,
+                        16582755.4019)],
+                new Point(146.7263,
+                        -42.0897,
+                        -135.4334,
+                        83.2160,
+                        456.0108,
+                    new SpatialReference(2,
+                            "quibusdam",
+                            "cumque",
+                            "blanditiis"),
+                        true,
+                        true,
+                        550.6010),
+                    [1,
+                        4,
+                        9,
+                        2],
+                new SpatialReference(2,
+                        "non",
+                        "distinctio",
+                        "odit"));
+        await bingMapsLayer.SetTileInfo(testTileInfo);
+        var tileInfo = await bingMapsLayer.GetTileInfo();
+        Assert.AreEqual(testTileInfo, tileInfo);
+        TimeExtent testVisibilityTimeExtent = new TimeExtent(new DateTime(2008, 5, 20, 4, 15, 47),
+                    new DateTime(2021, 7, 2, 7, 13, 20));
+        await bingMapsLayer.SetVisibilityTimeExtent(testVisibilityTimeExtent);
+        var visibilityTimeExtent = await bingMapsLayer.GetVisibilityTimeExtent();
+        Assert.AreEqual(testVisibilityTimeExtent, visibilityTimeExtent);
+    }
+}

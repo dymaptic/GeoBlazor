@@ -1,6 +1,6 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
-public interface IFeatureLayerBase
+public partial interface IFeatureLayerBase
 {
     /// <summary>
     ///     The absolute URL of the REST endpoint of the layer, non-spatial table or service

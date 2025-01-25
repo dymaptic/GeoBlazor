@@ -1,43 +1,8 @@
 namespace dymaptic.GeoBlazor.Core.Components.Symbols;
-/// <summary>
-///    LineSymbolMarker is used for rendering a simple marker graphic on a [SimpleLineSymbol](https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleLineSymbol.html).
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-LineSymbolMarker.html">ArcGIS Maps SDK for JavaScript</a>
-/// </summary>
+
 public partial class LineSymbolMarker : MapComponent
 {
-    /// <summary>
-    ///     Parameterless constructor for use as a Razor Component.
-    /// </summary>
-    [ActivatorUtilitiesConstructor]
-    public LineSymbolMarker()
-    {
-    }
 
-    /// <summary>
-    ///     Constructor for use in C# code.
-    /// </summary>
-    /// <param name="color">
-    ///     The color of the marker.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-LineSymbolMarker.html#color">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="placement">
-    ///     The placement of the marker(s) on the line.
-    ///     default "begin-end"
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-LineSymbolMarker.html#placement">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="style">
-    ///     The marker style.
-    ///     default "arrow"
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-LineSymbolMarker.html#style">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    public LineSymbolMarker(MapColor? color = null, LinePlacement? placement = null, LineSymbolMarkerStyle? style = null)
-    {
-#pragma warning disable BL0005
-        Color = color;
-        Placement = placement;
-        Style = style;
-#pragma warning restore BL0005
-    }
 
 #region Public Properties / Blazor Parameters
     /// <summary>

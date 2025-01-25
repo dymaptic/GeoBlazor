@@ -1,77 +1,8 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
-/// <summary>
-///     Raster statistics information returned that meets the specified ImageHistogramParameters from the computeStatisticsHistograms() method on ImageryLayer or ImageryTileLayer.
-/// </summary>
-/// <summary>
-///    
-/// </summary>
 public partial class RasterBandStatistics : MapComponent
 {
-    /// <summary>
-    ///     Parameterless constructor for use as a Razor Component.
-    /// </summary>
-    [ActivatorUtilitiesConstructor]
-    public RasterBandStatistics()
-    {
-    }
 
-    /// <summary>
-    ///     Constructor for use in C# code.
-    /// </summary>
-    /// <param name="avg">
-    ///     Average of the statistics.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#RasterBandStatistics">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="count">
-    ///     Count of the statistics.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#RasterBandStatistics">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="max">
-    ///     Maximum value of the statistics.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#RasterBandStatistics">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="median">
-    ///     Median value of the statistics.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#RasterBandStatistics">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="min">
-    ///     Minimum value of the statistics.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#RasterBandStatistics">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="mode">
-    ///     Mode value of the statistics.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#RasterBandStatistics">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="stddev">
-    ///     Standard deviation of the statistics.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#RasterBandStatistics">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="sum">
-    ///     Sum of the statistics.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#RasterBandStatistics">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    public RasterBandStatistics(
-        double? avg = null,
-        int? count = null,
-        double? max = null,
-        double? median = null,
-        double? min = null,
-        double? mode = null,
-        double? stddev = null,
-        double? sum = null)
-    {
-#pragma warning disable BL0005
-        Avg = avg;
-        Count = count;
-        Max = max;
-        Median = median;
-        Min = min;
-        Mode = mode;
-        Stddev = stddev;
-        Sum = sum;
-#pragma warning restore BL0005    
-    }
     
     
 #region Public Properties / Blazor Parameters

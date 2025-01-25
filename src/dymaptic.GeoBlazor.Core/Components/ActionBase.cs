@@ -1,12 +1,7 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
-/// <summary>
-///     Actions are customizable behavior which can be executed in certain widgets such as Popups, a BasemapLayerList, or a
-///     LayerList.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionBase.html">ArcGIS Maps SDK for JavaScript</a>
-/// </summary>
 [JsonConverter(typeof(ActionBaseConverter))]
-public abstract class ActionBase : MapComponent
+public abstract partial class ActionBase : MapComponent
 {
     /// <summary>
     ///     The title of the action.

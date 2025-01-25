@@ -1,11 +1,6 @@
 namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 
-/// <summary>
-///     The minimum and maximum X and Y coordinates of a bounding box. Extent is used to describe the visible portion of a
-///     MapView. When working in a SceneView, Camera is used to define the visible part of the map within the view.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Extent.html">ArcGIS Maps SDK for JavaScript</a>
-/// </summary>
-public class Extent : Geometry
+public partial class Extent : Geometry
 {
     /// <summary>
     ///     Parameterless constructor for use as a razor component
