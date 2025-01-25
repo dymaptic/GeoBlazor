@@ -19,38 +19,38 @@
                     </Basemap>
                     <KMLLayer 
                         Url="@("https://earthquake.usgs.gov/fdsnws/event/1/query?format=kml&minmagnitude=5.8")"
-                        BlendMode="@(BlendMode.ColorDodge)"
-                        Effect="@(new Effect("eos",
-                            20045520.5249))"
-                        FullExtent="@(new Extent(-13.5758,
-                                171.0661,
-                                -15.6218,
-                                65.4568,
-                                540.0490,
-                                756.9123,
-                                785.8521,
-                                281.2922,
+                        BlendMode="@(BlendMode.Xor)"
+                        Effect="@(new Effect("ipsum",
+                            14927975.1288))"
+                        FullExtent="@(new Extent(-100.3500,
+                                -90.1987,
+                                -17.5808,
+                                11.8708,
+                                142.9063,
+                                935.8316,
+                                312.7227,
+                                545.6336,
                             new SpatialReference(4,
-                                    "dolor",
-                                    "dolores",
-                                    "odit"),
+                                    "iste",
+                                    "incidunt",
+                                    "esse"),
                                 true,
                                 true))"
-                        ListMode="@(ListMode.Show)"
-                        MaxScale="@(41873073.0109)"
-                        MinScale="@(29909.1003)"
-                        Opacity="@(0.8153)"
+                        ListMode="@(ListMode.Hide)"
+                        MaxScale="@(20770534.3590)"
+                        MinScale="@(43611.0426)"
+                        Opacity="@(0.3101)"
                         PersistenceEnabled="@(true)"
-                        Title="@("minus ea rerum")">
+                        Title="@("non est tempore")">
                         <TimeExtent 
-                            Start="@(new DateTime(2018, 2, 24, 1, 52, 43))"
-                            End="@(new DateTime(2019, 7, 14, 16, 13, 36))">
+                            Start="@(new DateTime(2016, 3, 18, 10, 44, 41))"
+                            End="@(new DateTime(2021, 9, 25, 12, 17, 57))">
                         </TimeExtent>
                         <KMLSublayer 
-                            Description="@("et vel veritatis expedita voluptatem excepturi")"
-                            KMLSublayerId="@(7)"
-                            NetworkLink="@("debitis")"
-                            Title="@("quos neque minus")">
+                            Description="@("quas esse quo similique ducimus quasi saepe")"
+                            KMLSublayerId="@(1)"
+                            NetworkLink="@("ipsam")"
+                            Title="@("libero ullam iste")">
                         </KMLSublayer>
                     </KMLLayer>
                 </Map>
@@ -58,73 +58,86 @@
         await WaitForMapToRender();
         Assert.IsNotNull(kMLLayer!);
         await AssertJavaScript("assertLayerExists", args: "kml");
-        PortalItem testPortalItem = new PortalItem(PortalItemAccess.Public,
-                    "fuga",
-                    "eum",
-                    520.9758,
-                    ["facilis",
-                        "est"],
-                    new DateTime(2022, 8, 23, 16, 53, 22),
-                    "quasi",
-                    "voluptatibus quisquam quis odio",
-                new Extent(-145.5162,
-                        -31.5446,
-                        3.7768,
-                        -23.2392,
-                        545.0070,
-                        276.1561,
-                        160.5233,
-                        605.7512,
-                    new SpatialReference(4,
-                            "sed",
-                            "necessitatibus",
-                            "nulla"),
+        PortalItem testPortalItem = new PortalItem(PortalItemAccess.Private,
+                    "deleniti",
+                    "similique",
+                    145.4247,
+                    ["voluptatem",
+                        "quisquam",
+                        "ipsam"],
+                    new DateTime(2002, 2, 19, 17, 26, 10),
+                    "enim",
+                    "alias quas magni porro",
+                new Extent(-155.0985,
+                        -84.9590,
+                        38.7858,
+                        -44.2060,
+                        110.0968,
+                        371.0572,
+                        711.6743,
+                        982.0541,
+                    new SpatialReference(3,
+                            "similique",
+                            "eos",
+                            "earum"),
                         true,
                         true),
-                    ["doloremque",
-                        "tempore",
-                        "ratione"],
-                    "facere",
-                    new DateTime(2005, 6, 19, 7, 47, 34),
-                    "email",
-                    467.4618);
+                    ["aut",
+                        "quaerat",
+                        "nulla"],
+                    "eveniet",
+                    new DateTime(2001, 1, 12, 9, 46, 34),
+                    "category",
+                    621.3752);
         await kMLLayer.SetPortalItem(testPortalItem);
         var portalItem = await kMLLayer.GetPortalItem();
         Assert.AreEqual(testPortalItem, portalItem);
-        BlendMode testBlendMode = BlendMode.ColorBurn;
+        BlendMode testBlendMode = BlendMode.ColorDodge;
         await kMLLayer.SetBlendMode(testBlendMode);
         var blendMode = await kMLLayer.GetBlendMode();
         Assert.AreEqual(testBlendMode, blendMode);
-        Extent testFullExtent = new Extent(-21.9892,
-                    -143.4950,
-                    -53.9176,
-                    4.3704,
-                    340.5698,
-                    802.0101,
-                    333.2944,
-                    667.7864,
-                new SpatialReference(7,
-                        "itaque",
-                        "fugit",
+        Extent testFullExtent = new Extent(15.7597,
+                    -118.8841,
+                    5.4859,
+                    69.4048,
+                    871.0561,
+                    473.7146,
+                    844.3455,
+                    819.5684,
+                new SpatialReference(8,
+                        "necessitatibus",
+                        "eum",
                         "qui"),
                     true,
                     true);
         await kMLLayer.SetFullExtent(testFullExtent);
         var fullExtent = await kMLLayer.GetFullExtent();
         Assert.AreEqual(testFullExtent, fullExtent);
-        ListMode testListMode = ListMode.Hide;
+        ListMode testListMode = ListMode.Show;
         await kMLLayer.SetListMode(testListMode);
         var listMode = await kMLLayer.GetListMode();
         Assert.AreEqual(testListMode, listMode);
-        IReadOnlyList<KMLSublayer> testSublayers = [new KMLSublayer("sed enim ipsa nesciunt ut omnis",
-                    3,
-                    "dolor",
-                    "ad debitis fuga")];
+        IReadOnlyList<KMLSublayer> testSublayers = [new KMLSublayer("expedita praesentium magnam ratione",
+                    5,
+                    "est",
+                    "dolorum et tempora"),
+            new KMLSublayer("ratione minima occaecati assumenda",
+                    7,
+                    "et",
+                    "sit et praesentium"),
+            new KMLSublayer("harum qui dolore ducimus beatae",
+                    6,
+                    "et",
+                    "architecto rerum est"),
+            new KMLSublayer("qui in nihil ut eveniet voluptate",
+                    2,
+                    "rerum",
+                    "rerum praesentium velit")];
         await kMLLayer.SetSublayers(testSublayers);
         var sublayers = await kMLLayer.GetSublayers();
         Assert.AreEqual(testSublayers, sublayers);
-        TimeExtent testVisibilityTimeExtent = new TimeExtent(new DateTime(2007, 5, 27, 20, 49, 14),
-                    new DateTime(2012, 4, 25, 2, 28, 13));
+        TimeExtent testVisibilityTimeExtent = new TimeExtent(new DateTime(2001, 9, 15, 6, 55, 7),
+                    new DateTime(2001, 2, 27, 1, 19, 30));
         await kMLLayer.SetVisibilityTimeExtent(testVisibilityTimeExtent);
         var visibilityTimeExtent = await kMLLayer.GetVisibilityTimeExtent();
         Assert.AreEqual(testVisibilityTimeExtent, visibilityTimeExtent);
