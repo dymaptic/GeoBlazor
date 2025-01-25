@@ -178,7 +178,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
             await JsComponentReference.DisposeAsync();
         }
 
-        CancellationTokenSource.Cancel();
+        await CancellationTokenSource.CancelAsync();
         IsDisposed = true;
     }
 
@@ -285,6 +285,15 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     /// </exception>
     public virtual async Task<T?> GetProperty<T>(string propertyName)
     {
+        Type componentType = GetType();
+
+        if (componentType.GetMethod($"Get{propertyName}") is { } typedMethod)
+        {
+            Task<T?> methodTask = (Task<T?>)typedMethod.Invoke(this, [])!;
+
+            return await methodTask;
+        }
+        
         Props ??= GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
         PropertyInfo prop = Props.First(p => p.Name == propertyName);
         T? currentValue = (T?)prop.GetValue(this);
@@ -304,6 +313,8 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         }
         
         bool isMapComponent = prop.PropertyType.IsAssignableTo(typeof(MapComponent));
+        Type instanceType = typeof(T);
+        T? instance = default;
 
         try
         {
@@ -314,48 +325,87 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
                     // this component has already been registered
                     return currentValue;
                 }
+                
+                IJSObjectReference? refResult;
 
-                // get the JS object reference
-                IJSObjectReference? refResult = await CoreJsModule!.InvokeAsync<IJSObjectReference?>("getProperty",
-                    CancellationTokenSource.Token, JsComponentReference, propertyName.ToLowerFirstChar());
-
-                if (refResult is null)
+                try
                 {
-                    return default;
+                    // get the JS object reference to compare exact types for instantiation and set child properties
+                    // we have to wrap the JsObjectReference because a null will throw an error
+                    // https://github.com/dotnet/aspnetcore/issues/52070
+                    refResult = (await CoreJsModule!.InvokeAsync<JsObjectRefWrapper?>("getObjectRefForProperty",
+                        CancellationTokenSource.Token, JsComponentReference, propertyName.ToLowerFirstChar()))?.Value;
+                }
+                catch
+                {
+                    refResult = null;
                 }
 
-                Type instanceType = typeof(T);
-                T? instance = default;
-                if (instanceType.IsAbstract)
+                try
                 {
-                    // try to read the "type" from the JS object
-                    string? typeName = await CoreJsModule.InvokeAsync<string?>("getProperty",
-                        CancellationTokenSource.Token, refResult, "type");
-
-                    List<Type> childTypes = Assembly
-                        .GetAssembly(instanceType)!
-                        .GetTypes()
-                        .Where(t => t.IsAssignableTo(instanceType))
-                        .ToList();
-                    
-                    // try instantiating each one to read the "type" property
-                    if (typeName is null)
+                    // try using built in deserialization
+                    instance = await CoreJsModule!.InvokeAsync<T?>("getProperty",
+                        CancellationTokenSource.Token, JsComponentReference, propertyName.ToLowerFirstChar());
+                }
+                catch
+                {
+                    // Try to deserialize the object with the JS method. This might fail if we don't have the
+                    // all deserialization edge cases handled.
+                    try
                     {
-                        instance = (T)Activator.CreateInstance(childTypes.First())!;
+                        instance = await CoreJsModule.InvokeAsync<T?>("createGeoBlazorObject",
+                            CancellationTokenSource.Token, refResult);
                     }
-                    else
+                    catch
                     {
-                        foreach (Type childType in childTypes)
+                        // continue, we'll try to instantiate the object below
+                    }
+                    
+                    if (instanceType.IsAbstract)
+                    {
+                        if (refResult is null)
                         {
-                            instance = (T)Activator.CreateInstance(childType)!;
-                            string subType = (string)childType.GetProperty("Type")!.GetValue(instance)!;
+                            return default;
+                        }
 
-                            if (subType == typeName)
+                        // try to read the "type" from the JS object
+                        string? typeName = await CoreJsModule.InvokeAsync<string?>("getProperty",
+                            CancellationTokenSource.Token, refResult, "type");
+
+                        List<Type> childTypes = Assembly
+                            .GetAssembly(instanceType)!
+                            .GetTypes()
+                            .Where(t => t.IsAssignableTo(instanceType))
+                            .ToList();
+
+                        // try instantiating each one to read the "type" property
+                        if (typeName is null)
+                        {
+                            instance = (T)Activator.CreateInstance(childTypes.First())!;
+                        }
+                        else
+                        {
+                            foreach (Type childType in childTypes)
                             {
-                                break;
+                                instance = (T)Activator.CreateInstance(childType)!;
+                                string subType = (string)childType.GetProperty("Type")!.GetValue(instance)!;
+
+                                if (subType == typeName)
+                                {
+                                    break;
+                                }
                             }
                         }
                     }
+                    else
+                    {
+                        instance = (T)Activator.CreateInstance(instanceType)!;
+                    }
+                }
+
+                if (instance is null)
+                {
+                    return default;
                 }
 
                 MapComponent component = (instance as MapComponent)!;
@@ -363,25 +413,73 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
                 component.Parent = this;
                 component.View = View;
 
-                // register this type in JS
-                await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorObject",
-                    CancellationTokenSource.Token, component.JsComponentReference, component.Id);
-                
-                // call to set other values
-                await component.OnJsComponentCreated(refResult);
-                
+                if (refResult is not null)
+                {
+                    // call to set other values
+                    await component.OnJsComponentCreated(refResult);
+                    
+                    // register this type in JS
+                    await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorObject",
+                        CancellationTokenSource.Token, component.JsComponentReference, component.Id);
+                }
+
                 ModifiedParameters[propertyName] = component;
 
                 return instance;
             }
 
             // non MapComponent, return value from JS
-            T? result = await CoreJsModule!.InvokeAsync<T?>("getProperty",
-                CancellationTokenSource.Token, JsComponentReference, propertyName.ToLowerFirstChar());
-            prop.SetValue(this, result);
-            ModifiedParameters[propertyName] = result;
+            if (typeof(T).IsValueType)
+            {
+                object? objectResult = await CoreJsModule!.InvokeAsync<object?>("getProperty",
+                    CancellationTokenSource.Token, JsComponentReference, propertyName.ToLowerFirstChar());
 
-            return result;
+                if (objectResult is JsonElement jsonResult)
+                {
+                    if (typeof(T) == typeof(bool?))
+                    {
+                        instance = (T)(object)jsonResult.GetBoolean();
+                    }
+                    else if (typeof(T) == typeof(int?))
+                    {
+                        instance = (T)(object)jsonResult.GetInt32();
+                    }
+                    else if (typeof(T) == typeof(long?))
+                    {
+                        instance = (T)(object)jsonResult.GetInt64();
+                    }
+                    else if (typeof(T) == typeof(double?))
+                    {
+                        instance = (T)(object)jsonResult.GetDouble();
+                    }
+                    else if (typeof(T) == typeof(DateTime?))
+                    {
+                        instance = (T)(object)jsonResult.GetDateTime();
+                    }
+                    else
+                    {
+                        instance = (T)(object)jsonResult.GetString()!;
+                    }
+                }
+                else
+                {
+                    instance = objectResult is null ? default : (T)objectResult;
+                }
+            }
+            else
+            {
+                instance = await CoreJsModule!.InvokeAsync<T?>("getProperty",
+                    CancellationTokenSource.Token, JsComponentReference, propertyName.ToLowerFirstChar());
+            }
+            prop.SetValue(this, instance);
+            ModifiedParameters[propertyName] = instance;
+
+            return instance;
+        }
+        catch (TaskCanceledException)
+        {
+            // do nothing, task was cancelled
+            return currentValue;
         }
         catch(Exception ex)
         {
@@ -747,9 +845,23 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
             try
             {
                 // call GetProperty with reflection
-                MethodInfo method = GetType().GetMethod("GetProperty")!.MakeGenericMethod(prop.PropertyType);
-                Task methodTask = (Task)method.Invoke(this, [prop.Name])!;
+                MethodInfo? method = GetType().GetMethod($"Get{prop.Name}");
+                Task methodTask;
+
+                if (method is null)
+                {
+                    method = GetType().GetMethod("GetProperty")!.MakeGenericMethod(prop.PropertyType)!;
+                    methodTask = (Task)method.Invoke(this, [prop.Name])!;
+                }
+                else
+                {
+                    methodTask = (Task)method.Invoke(this, [])!;
+                }
                 await methodTask;
+            }
+            catch (TaskCanceledException)
+            {
+                // do nothing, task was cancelled
             }
             catch(Exception ex)
             {

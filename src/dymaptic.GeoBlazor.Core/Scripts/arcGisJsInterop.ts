@@ -2,7 +2,7 @@
 
 // region imports
 import {
-    buildJsBaseTileLayer,
+    buildJsBaseTileLayer, buildJsFeatureLayer,
     buildJsImageryTileLayer,
     buildJsVectorTileLayer,
     buildJsWebTileLayer
@@ -207,6 +207,15 @@ export async function setPro(): Promise<void> {
     }
 }
 
+// we have to wrap the JsObjectReference because a null will throw an error
+// https://github.com/dotnet/aspnetcore/issues/52070
+export async function getObjectRefForProperty(obj: any, prop: string): Promise<any> {
+    let val = await getProperty(obj, prop);
+    return {
+        value: getObjectReference(val)
+    };
+}
+
 export async function getProperty(obj: any, prop: string): Promise<any> {
     let val: any;
     if ('getProperty' in obj) {
@@ -214,8 +223,12 @@ export async function getProperty(obj: any, prop: string): Promise<any> {
     } else {
         val = obj[prop];
     }
-
-    return await getObjectReference(val);
+    
+    if (hasValue(val)) {
+        return await getObjectReference(val);
+    }
+    
+    return null;
 }
 
 export async function setProperty(obj: any, prop: string, value: any): Promise<void> {
@@ -247,8 +260,13 @@ export function removeFromProperty(obj, prop, value) {
 }
 
 export function getJsComponent(id: string) {
-    // @ts-ignore
-    return DotNet.createJSObjectReference(arcGisObjectRefs[id]);
+    let component = arcGisObjectRefs[id];
+    
+    if (hasValue(component)) {
+        // @ts-ignore
+        return DotNet.createJSObjectReference();
+    }
+    return null;
 }
 
 export function setSublayerProperty(layerObj: any, sublayerId: number, prop: string, value: any) {
@@ -2546,74 +2564,8 @@ export async function createLayer(dotNetLayer: any, wrap: boolean | null, viewId
             }
             break;
         case 'feature':
-            if (hasValue(dotNetLayer.portalItem)) {
-                let portalItem = buildJsPortalItem(dotNetLayer.portalItem);
-
-                newLayer = new FeatureLayer({ portalItem: portalItem });
-            } else if (hasValue(dotNetLayer.url)) {
-                newLayer = new FeatureLayer({
-                    url: dotNetLayer.url
-                });
-            } else {
-                let source: Array<Graphic> = [];
-                if (hasValue(dotNetLayer.source)) {
-                    for (let i = 0; i < dotNetLayer.source.length; i++) {
-                        const graphicObject = dotNetLayer.source[i];
-                        let graphic = buildJsGraphic(graphicObject, dotNetLayer.id, viewId ?? null);
-                        if (graphic !== null) {
-                            source.push(graphic);
-                        }
-                    }
-                }
-
-                newLayer = new FeatureLayer({
-                    source: source
-                });
-            }
-            let featureLayer = newLayer as FeatureLayer;
-
-            copyValuesIfExists(dotNetLayer, featureLayer, 'minScale', 'maxScale', 'objectIdField',
-                'definitionExpression', 'outFields', 'legendEnabled', 'popupEnabled', 'apiKey', 'blendMode',
-                'geometryType');
-
-            if (hasValue(dotNetLayer.formTemplate)) {
-                featureLayer.formTemplate = buildJsFormTemplate(dotNetLayer.formTemplate);
-            }
-
-            if (hasValue(dotNetLayer.popupTemplate)) {
-                featureLayer.popupTemplate = buildJsPopupTemplate(dotNetLayer.popupTemplate, dotNetLayer.id, viewId ?? null) as PopupTemplate;
-            }
-            if (hasValue(dotNetLayer.renderer)) {
-                let renderer = buildJsRenderer(dotNetLayer.renderer);
-                if (renderer !== null) {
-                    featureLayer.renderer = renderer;
-                }
-            }
-
-            if (hasValue(dotNetLayer.orderBy) && dotNetLayer.orderBy.length > 0) {
-                featureLayer.orderBy = dotNetLayer.orderBy.map(o => {
-                    return {
-                        field: o.field,
-                        order: o.order,
-                        valueExpression: o.valueExpression
-                    };
-                })
-            }
-
-            if (hasValue(dotNetLayer.fields)) {
-                featureLayer.fields = buildJsFields(dotNetLayer.fields);
-            }
-            if (hasValue(dotNetLayer.spatialReference)) {
-                featureLayer.spatialReference = buildJsSpatialReference(dotNetLayer.spatialReference);
-            }
-
-            if (hasValue(dotNetLayer.labelingInfo)) {
-                featureLayer.labelingInfo = dotNetLayer.labelingInfo.map(buildJsLabelClass);
-            }
-
-            if (hasValue(dotNetLayer.effect)) {
-                featureLayer.effect = buildJsEffect(dotNetLayer.effect);
-            }
+            newLayer = await buildJsFeatureLayer(dotNetLayer, dotNetLayer.id, viewId);
+            
             break;
         case 'map-image':
             if (hasValue(dotNetLayer.portalItem)) {
@@ -3057,17 +3009,7 @@ async function resetCenterToSpatialReference(center: Point, spatialReference: Sp
 }
 
 export function logError(error, viewId: string | null) {
-    error.message ??= error.toString();
-    if (viewId !== null) {
-        try {
-            dotNetRefs[viewId].invokeMethodAsync('OnJavascriptError', {
-                message: error.message, name: error.name, stack: error.stack
-            });
-        } catch {
-            // ignore, we've already logged to the console
-        }
-        unsetWaitCursor(viewId);
-    }
+    unsetWaitCursor(viewId);
     throw error;
 }
 

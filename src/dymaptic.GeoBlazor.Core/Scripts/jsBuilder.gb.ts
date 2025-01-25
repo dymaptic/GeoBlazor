@@ -52,14 +52,14 @@ export async function buildJsPortalFolder(dotNetObject: any): Promise<any> {
     return jsPortalFolder;
 }
 
-export async function buildJsCSVLayer(dotNetObject: any, viewId: string | null): Promise<any> {
+export async function buildJsCSVLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { default: CSVLayer } = await import('@arcgis/core/layers/CSVLayer');
     let jsCSVLayer = new CSVLayer();
     if (hasValue(dotNetObject.featureEffect)) {
         jsCSVLayer.featureEffect = buildJsFeatureEffect(dotNetObject.featureEffect) as any;
     }
     if (hasValue(dotNetObject.popupTemplate)) {
-        jsCSVLayer.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, viewId) as any;
+        jsCSVLayer.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.portalItem)) {
         jsCSVLayer.portalItem = buildJsPortalItem(dotNetObject.portalItem) as any;
@@ -149,7 +149,7 @@ export async function buildJsBaseTileLayer(dotNetObject: any): Promise<any> {
     return jsBaseTileLayer;
 }
 
-export async function buildJsFeatureLayer(dotNetObject: any, viewId: string | null): Promise<any> {
+export async function buildJsFeatureLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { default: FeatureLayer } = await import('@arcgis/core/layers/FeatureLayer');
     let jsFeatureLayer = new FeatureLayer();
     if (hasValue(dotNetObject.featureEffect)) {
@@ -159,7 +159,7 @@ export async function buildJsFeatureLayer(dotNetObject: any, viewId: string | nu
         jsFeatureLayer.formTemplate = buildJsFormTemplate(dotNetObject.formTemplate) as any;
     }
     if (hasValue(dotNetObject.popupTemplate)) {
-        jsFeatureLayer.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, viewId) as any;
+        jsFeatureLayer.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.portalItem)) {
         jsFeatureLayer.portalItem = buildJsPortalItem(dotNetObject.portalItem) as any;
@@ -183,7 +183,10 @@ export async function buildJsFeatureLayer(dotNetObject: any, viewId: string | nu
     
     let { default: FeatureLayerWrapper } = await import('./featureLayer');
     let featureLayerWrapper = new FeatureLayerWrapper(jsFeatureLayer);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', featureLayerWrapper);
+    
+    // @ts-ignore
+    let jsRef = DotNet.createJSObjectReference(featureLayerWrapper);
+    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsRef);
     jsObjectRefs[dotNetObject.id] = featureLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureLayer;
     return jsFeatureLayer;
@@ -235,14 +238,14 @@ export async function buildJsTileLayer(dotNetObject: any): Promise<any> {
     return jsTileLayer;
 }
 
-export async function buildJsGeoJSONLayer(dotNetObject: any, viewId: string | null): Promise<any> {
+export async function buildJsGeoJSONLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { default: GeoJSONLayer } = await import('@arcgis/core/layers/GeoJSONLayer');
     let jsGeoJSONLayer = new GeoJSONLayer();
     if (hasValue(dotNetObject.featureEffect)) {
         jsGeoJSONLayer.featureEffect = buildJsFeatureEffect(dotNetObject.featureEffect) as any;
     }
     if (hasValue(dotNetObject.popupTemplate)) {
-        jsGeoJSONLayer.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, viewId) as any;
+        jsGeoJSONLayer.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.portalItem)) {
         jsGeoJSONLayer.portalItem = buildJsPortalItem(dotNetObject.portalItem) as any;
@@ -330,14 +333,14 @@ export async function buildJsRasterFunction(dotNetObject: any): Promise<any> {
     return jsRasterFunction;
 }
 
-export async function buildJsImageryLayer(dotNetObject: any, viewId: string | null): Promise<any> {
+export async function buildJsImageryLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { default: ImageryLayer } = await import('@arcgis/core/layers/ImageryLayer');
     let jsImageryLayer = new ImageryLayer();
     if (hasValue(dotNetObject.multidimensionalSubset)) {
         jsImageryLayer.multidimensionalSubset = buildJsMultidimensionalSubset(dotNetObject.multidimensionalSubset) as any;
     }
     if (hasValue(dotNetObject.popupTemplate)) {
-        jsImageryLayer.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, viewId) as any;
+        jsImageryLayer.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.portalItem)) {
         jsImageryLayer.portalItem = buildJsPortalItem(dotNetObject.portalItem) as any;
@@ -357,7 +360,7 @@ export async function buildJsImageryLayer(dotNetObject: any, viewId: string | nu
     return jsImageryLayer;
 }
 
-export async function buildJsWCSLayer(dotNetObject: any, viewId: string | null): Promise<any> {
+export async function buildJsWCSLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { default: WCSLayer } = await import('@arcgis/core/layers/WCSLayer');
     let jsWCSLayer = new WCSLayer();
     if (hasValue(dotNetObject.coverageInfo)) {
@@ -367,7 +370,7 @@ export async function buildJsWCSLayer(dotNetObject: any, viewId: string | null):
         jsWCSLayer.multidimensionalSubset = buildJsMultidimensionalSubset(dotNetObject.multidimensionalSubset) as any;
     }
     if (hasValue(dotNetObject.popupTemplate)) {
-        jsWCSLayer.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, viewId) as any;
+        jsWCSLayer.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.portalItem)) {
         jsWCSLayer.portalItem = buildJsPortalItem(dotNetObject.portalItem) as any;
@@ -387,8 +390,8 @@ export async function buildJsWCSLayer(dotNetObject: any, viewId: string | null):
 }
 
 export async function buildJsCoverageInfo(dotNetObject: any): Promise<any> {
-    let jsCoverageInfo : __esri.CoverageInfo = {
-    rasterInfo: await buildJsRasterInfo(dotNetObject.rasterInfo) as any,
+    let jsCoverageInfo = {
+        rasterInfo: await buildJsRasterInfo(dotNetObject.rasterInfo) as any,
     }
     await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsCoverageInfo);
     jsObjectRefs[dotNetObject.id] = jsCoverageInfo;

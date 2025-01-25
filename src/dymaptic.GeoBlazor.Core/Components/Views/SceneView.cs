@@ -236,23 +236,29 @@ public class SceneView : MapView
                 Configuration.GetValue<string?>("ArcGISAssetsPath",
                     "/_content/dymaptic.GeoBlazor.Core/assets"));
 
-            await CoreJsModule.InvokeVoidAsync("buildMapView",
-                CancellationTokenSource.Token, Id, DotNetComponentReference,
-                Longitude, Latitude, Rotation, Map, Zoom, Scale,
-                mapType, Widgets, Graphics, SpatialReference, Constraints, Extent,
-                EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions,
-                PopupEnabled, ZIndex, Tilt);
+            if (ProJsModule is null)
+            {
+                await CoreJsModule.InvokeVoidAsync("buildMapView",
+                    CancellationTokenSource.Token, Id, DotNetComponentReference,
+                    Longitude, Latitude, Rotation, Map, Zoom, Scale,
+                    mapType, Widgets, Graphics, SpatialReference, Constraints, Extent,
+                    EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions,
+                    PopupEnabled, ZIndex, Tilt);
+            }
+            else
+            {
+                await ProJsModule.InvokeVoidAsync("buildSceneView",
+                    CancellationTokenSource.Token, Id, DotNetComponentReference,
+                    Longitude, Latitude, Rotation, Map, Zoom, Scale,
+                    mapType, Widgets, Graphics, SpatialReference, Constraints, Extent,
+                    EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions,
+                    PopupEnabled,
+                    Widgets.Where(w => !w.GetType().Namespace!.Contains("Core")),
+                    Map.Layers.Where(l => !l.GetType().Namespace!.Contains("Core")),
+                    ZIndex, Tilt);
+            }
             Rendering = false;
             MapRendered = true;
-            
-            if (ProJsModule is not null)
-            {
-                // register pro widgets
-                foreach (Widget widget in Widgets.Where(w => !w.GetType().Namespace!.Contains("Core")))
-                {
-                    await AddWidget(widget);
-                }
-            }
         });
     }
 }

@@ -191,7 +191,7 @@ export function buildJsSpatialReference(dotNetSpatialReference: DotNetSpatialRef
     return jsSpatialRef;
 }
 
-export function buildJsExtent(dotNetExtent: DotNetExtent, currentSpatialReference: SpatialReference | null): Extent {
+export function buildJsExtent(dotNetExtent: DotNetExtent, currentSpatialReference: SpatialReference | null = null): Extent {
     let extent = new Extent();
     copyValuesIfExists(dotNetExtent, extent, 'xmax', 'xmin', 'ymax', 'ymin', 'zmax', 'zmin', 'mmax', 'mmin');
 
