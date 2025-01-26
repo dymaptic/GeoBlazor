@@ -1435,25 +1435,6 @@ public partial class MapView : MapComponent
     }
 
     /// <summary>
-    ///     A custom method to set up the interaction for clicking a start and end point, and have the view render a driving
-    ///     route. Also returns a set of <see cref="Direction" />s for display.
-    /// </summary>
-    /// <param name="routeSymbol">
-    ///     The <see cref="Symbol" /> used to render the route.
-    /// </param>
-    /// <param name="routeUrl">
-    ///     A routing service url for calculating the route.
-    /// </param>
-    /// <returns>
-    ///     A collection of <see cref="Direction" /> steps to follow the route.
-    /// </returns>
-    public async Task<Direction[]> DrawRouteAndGetDirections(Symbol routeSymbol, string routeUrl)
-    {
-        return await CoreJsModule!.InvokeAsync<Direction[]?>("drawRouteAndGetDirections",
-            CancellationTokenSource.Token, routeUrl, (object)routeSymbol, Id) ?? Array.Empty<Direction>();
-    }
-
-    /// <summary>
     ///     A custom method to find and display Service Areas around a given point.
     /// </summary>
     /// <param name="serviceAreaUrl">

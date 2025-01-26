@@ -5,6 +5,7 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 ///     <a target="_blank" href="(https://developers.arcgis.com/javascript/latest/api-reference/esri-smartMapping-renderers-color.html#createAgeRenderer">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 [JsonConverter(typeof(RendererSymbolTypeConverter))]
+[CodeGenerationIgnore]
 public enum RendererSymbolType
 {
     /// <summary>
