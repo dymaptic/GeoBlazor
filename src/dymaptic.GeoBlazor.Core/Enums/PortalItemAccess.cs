@@ -3,11 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
-///     <summary>
-///          <summary>
-///               Enumeration for PortalItemAccess
-///           </summary>
-///      </summary>
+///     Enumeration for PortalItemAccess
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<PortalItemAccess>))]
 public enum PortalItemAccess

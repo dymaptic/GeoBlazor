@@ -3,11 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
-///     <summary>
-///          <summary>
-///               Enumeration for ImageAreaUnit
-///           </summary>
-///      </summary>
+///     Enumeration for ImageAreaUnit
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<ImageAreaUnit>))]
 public enum ImageAreaUnit

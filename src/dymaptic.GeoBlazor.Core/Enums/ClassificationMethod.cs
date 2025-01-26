@@ -3,11 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
-///     <summary>
-///          <summary>
-///               Enumeration for ClassificationMethod
-///           </summary>
-///      </summary>
+///     Enumeration for ClassificationMethod
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<ClassificationMethod>))]
 public enum ClassificationMethod

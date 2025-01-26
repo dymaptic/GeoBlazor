@@ -3,11 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
-///     <summary>
-///          <summary>
-///               Enumeration for PortalUserRole
-///           </summary>
-///      </summary>
+///     Enumeration for PortalUserRole
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<PortalUserRole>))]
 public enum PortalUserRole

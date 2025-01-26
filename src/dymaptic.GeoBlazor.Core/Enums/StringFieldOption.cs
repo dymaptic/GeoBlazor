@@ -3,11 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
-///     <summary>
-///          <summary>
-///               StringFieldOption enumeration.
-///           </summary>
-///      </summary>
+///     StringFieldOption enumeration.
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<StringFieldOption>))]
 public enum StringFieldOption

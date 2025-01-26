@@ -3,11 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
-///     <summary>
-///          <summary>
-///               Enumeration for Operation
-///           </summary>
-///      </summary>
+///     Enumeration for Operation
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<Operation>))]
 public enum Operation

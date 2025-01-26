@@ -3,11 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
-///     <summary>
-///          <summary>
-///               Enumeration for ReferenceSizeSymbolStyle
-///           </summary>
-///      </summary>
+///     Enumeration for ReferenceSizeSymbolStyle
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<ReferenceSizeSymbolStyle>))]
 public enum ReferenceSizeSymbolStyle

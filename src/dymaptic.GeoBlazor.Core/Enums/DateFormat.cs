@@ -3,11 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
-///     <summary>
-///          <summary>
-///               DateFormat enumeration.
-///           </summary>
-///      </summary>
+///     DateFormat enumeration.
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<DateFormat>))]
 public enum DateFormat

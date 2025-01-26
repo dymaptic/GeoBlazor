@@ -3,11 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
-///     <summary>
-///          <summary>
-///               Enumeration for UnivariateTheme
-///           </summary>
-///      </summary>
+///     Enumeration for UnivariateTheme
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<UnivariateTheme>))]
 public enum UnivariateTheme

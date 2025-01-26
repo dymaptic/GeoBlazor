@@ -3,11 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
-///     <summary>
-///          <summary>
-///               Enumeration for Interpolation
-///           </summary>
-///      </summary>
+///     Enumeration for Interpolation
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<Interpolation>))]
 public enum Interpolation

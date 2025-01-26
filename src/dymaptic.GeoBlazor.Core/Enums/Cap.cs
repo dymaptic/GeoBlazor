@@ -3,11 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
-///     <summary>
-///          <summary>
-///               Cap enumeration.
-///           </summary>
-///      </summary>
+///     Cap enumeration.
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<Cap>))]
 public enum Cap

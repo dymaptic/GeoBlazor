@@ -3,11 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
-///     <summary>
-///          <summary>
-///               The vertical alignment for a text symbol's text.
-///           </summary>
-///      </summary>
+///     The vertical alignment for a text symbol's text.
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<VerticalAlignment>))]
 public enum VerticalAlignment

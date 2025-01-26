@@ -3,11 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
-///     <summary>
-///          <summary>
-///               Enumeration for Status
-///           </summary>
-///      </summary>
+///     Enumeration for Status
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<Status>))]
 public enum Status

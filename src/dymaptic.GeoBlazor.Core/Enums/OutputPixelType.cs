@@ -3,11 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
-///     <summary>
-///          <summary>
-///               Enumeration for OutputPixelType
-///           </summary>
-///      </summary>
+///     Enumeration for OutputPixelType
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<OutputPixelType>))]
 public enum OutputPixelType

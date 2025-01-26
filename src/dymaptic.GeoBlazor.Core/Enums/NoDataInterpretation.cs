@@ -3,11 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
-///     <summary>
-///          <summary>
-///               The interpretation of no data values in the raster dataset.
-///           </summary>
-///      </summary>
+///     The interpretation of no data values in the raster dataset.
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<NoDataInterpretation>))]
 public enum NoDataInterpretation

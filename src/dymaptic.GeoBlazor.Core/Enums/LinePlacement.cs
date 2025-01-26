@@ -3,11 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
-///     <summary>
-///          <summary>
-///               Placement enumeration.
-///           </summary>
-///      </summary>
+///     Placement enumeration.
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<LinePlacement>))]
 public enum LinePlacement

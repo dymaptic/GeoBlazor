@@ -3,11 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
-///     <summary>
-///          <summary>
-///               Decoration enumeration.
-///           </summary>
-///      </summary>
+///     Decoration enumeration.
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<TextDecoration>))]
 public enum TextDecoration

@@ -3,11 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
-///     <summary>
-///          <summary>
-///               Enumeration for Visibility
-///           </summary>
-///      </summary>
+///     Enumeration for Visibility
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<Visibility>))]
 public enum Visibility

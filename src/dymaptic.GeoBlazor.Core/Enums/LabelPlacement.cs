@@ -3,11 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
-///     <summary>
-///          <summary>
-///               The position of the <see cref="Label"/>. Possible values are based on the feature type. This property requires a value.
-///           </summary>
-///      </summary>
+///     The position of the <see cref="Label"/>. Possible values are based on the feature type. This property requires a value.
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<LabelPlacement>))]
 public enum LabelPlacement

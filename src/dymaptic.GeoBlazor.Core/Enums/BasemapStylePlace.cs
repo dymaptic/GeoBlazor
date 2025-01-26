@@ -3,11 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
-///     <summary>
-///          <summary>
-///               Enumeration for BasemapStylePlace
-///           </summary>
-///      </summary>
+///     Enumeration for BasemapStylePlace
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<BasemapStylePlace>))]
 public enum BasemapStylePlace

@@ -3,11 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
-///     <summary>
-///          <summary>
-///               Options for rotation type for <see cref="RotationVariable" />
-///           </summary>
-///      </summary>
+///     Options for rotation type for <see cref="RotationVariable" />
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<RotationType>))]
 public enum RotationType

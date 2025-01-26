@@ -3,11 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
-///     <summary>
-///          <summary>
-///               Possible types of geometries
-///           </summary>
-///      </summary>
+///     Possible types of geometries
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<GeometryType>))]
 public enum GeometryType

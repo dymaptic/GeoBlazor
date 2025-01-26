@@ -3,11 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
-///     <summary>
-///          <summary>
-///               Enumeration for ItemControl
-///           </summary>
-///      </summary>
+///     Enumeration for ItemControl
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<ItemControl>))]
 public enum ItemControl

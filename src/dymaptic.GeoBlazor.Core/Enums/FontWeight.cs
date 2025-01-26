@@ -3,11 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
-///     <summary>
-///          <summary>
-///               Weight enumeration.
-///           </summary>
-///      </summary>
+///     Weight enumeration.
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<FontWeight>))]
 public enum FontWeight

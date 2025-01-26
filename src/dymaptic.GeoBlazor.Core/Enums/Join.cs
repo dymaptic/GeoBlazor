@@ -3,11 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
-///     <summary>
-///          <summary>
-///               Join enumeration.
-///           </summary>
-///      </summary>
+///     Join enumeration.
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<Join>))]
 public enum Join

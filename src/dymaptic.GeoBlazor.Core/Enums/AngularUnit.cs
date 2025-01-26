@@ -3,11 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
-///     <summary>
-///          <summary>
-///               Enumeration for AngularUnit
-///           </summary>
-///      </summary>
+///     Enumeration for AngularUnit
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<AngularUnit>))]
 public enum AngularUnit

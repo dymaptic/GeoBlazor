@@ -3,11 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
-///     <summary>
-///          <summary>
-///               Enumeration for SortField
-///           </summary>
-///      </summary>
+///     Enumeration for SortField
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<SortField>))]
 public enum SortField

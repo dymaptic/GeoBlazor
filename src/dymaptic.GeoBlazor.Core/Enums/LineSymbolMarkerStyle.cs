@@ -3,11 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
-///     <summary>
-///          <summary>
-///               LineSymbolMarkerStyle enumeration.
-///           </summary>
-///      </summary>
+///     LineSymbolMarkerStyle enumeration.
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<LineSymbolMarkerStyle>))]
 public enum LineSymbolMarkerStyle

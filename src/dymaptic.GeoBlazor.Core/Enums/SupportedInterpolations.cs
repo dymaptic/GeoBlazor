@@ -3,11 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
-///     <summary>
-///          <summary>
-///               Enumeration for SupportedInterpolations
-///           </summary>
-///      </summary>
+///     Enumeration for SupportedInterpolations
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<SupportedInterpolations>))]
 public enum SupportedInterpolations

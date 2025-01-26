@@ -3,11 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
-///     <summary>
-///          <summary>
-///               Enumeration for Axis
-///           </summary>
-///      </summary>
+///     Enumeration for Axis
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<Axis>))]
 public enum Axis

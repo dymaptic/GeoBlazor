@@ -3,11 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
-///     <summary>
-///          <summary>
-///               Enumeration for AuthoringInfoVisualVariableUnits
-///           </summary>
-///      </summary>
+///     Enumeration for AuthoringInfoVisualVariableUnits
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<AuthoringInfoVisualVariableUnits>))]
 public enum AuthoringInfoVisualVariableUnits

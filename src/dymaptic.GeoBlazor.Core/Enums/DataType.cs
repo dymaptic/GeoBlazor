@@ -3,11 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
-///     <summary>
-///          <summary>
-///               Enumeration for DataType
-///           </summary>
-///      </summary>
+///     Enumeration for DataType
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<DataType>))]
 public enum DataType
