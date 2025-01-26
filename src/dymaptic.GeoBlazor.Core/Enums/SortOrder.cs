@@ -4,7 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <summary>
-///          The sort order options for <see cref="OrderedLayerOrderBy" />
+///          <summary>
+///               The sort order options for <see cref="OrderedLayerOrderBy" />
+///           </summary>
 ///      </summary>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<SortOrder>))]

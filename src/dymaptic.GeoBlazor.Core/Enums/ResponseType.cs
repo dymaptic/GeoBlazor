@@ -4,7 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <summary>
-///          Response types for the <see cref="RequestOptions" /> class.
+///          <summary>
+///               Response types for the <see cref="RequestOptions" /> class.
+///           </summary>
 ///      </summary>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<ResponseType>))]

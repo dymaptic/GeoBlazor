@@ -4,7 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <summary>
-///          Possible line style values for <see cref="SimpleLineSymbol" />
+///          <summary>
+///               Possible line style values for <see cref="SimpleLineSymbol" />
+///           </summary>
 ///      </summary>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<SimpleLineSymbolStyle>))]

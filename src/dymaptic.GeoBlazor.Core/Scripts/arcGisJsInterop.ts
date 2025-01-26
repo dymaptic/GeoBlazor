@@ -222,7 +222,8 @@ export async function setPro(): Promise<void> {
 export async function getObjectRefForProperty(obj: any, prop: string): Promise<any> {
     let val = await getProperty(obj, prop);
     return {
-        value: getObjectReference(val)
+        // @ts-ignore
+        value: hasValue(val) ? DotNet.createJSObjectReference(val) : null
     };
 }
 
@@ -744,6 +745,9 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
         if (!notifyExtentChanged) return;
         userChangedViewExtent = true;
         let extentCallback = () => {
+            if (!hasValue((view as MapView).extent)) {
+                return;
+            }
             if (view instanceof SceneView) {
                 dotNetRef.invokeMethodAsync('OnJavascriptExtentChanged', buildDotNetExtent(view.extent),
                     buildDotNetPoint(view.camera.position), view.zoom, view.scale, null, view.camera.tilt);

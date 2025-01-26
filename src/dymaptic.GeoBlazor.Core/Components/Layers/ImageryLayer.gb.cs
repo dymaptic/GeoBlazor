@@ -664,7 +664,7 @@ public partial class ImageryLayer : IArcGISImageService,
 
         // get the property value
 #pragma warning disable BL0005
-        CompressionQuality = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        CompressionQuality = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "compressionQuality");
 #pragma warning restore BL0005
          ModifiedParameters[nameof(CompressionQuality)] = CompressionQuality;
@@ -927,7 +927,7 @@ public partial class ImageryLayer : IArcGISImageService,
 
         // get the property value
 #pragma warning disable BL0005
-        Format = await CoreJsModule!.InvokeAsync<ImageFormat>("getProperty",
+        Format = await CoreJsModule!.InvokeAsync<ImageFormat?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "format");
 #pragma warning restore BL0005
          ModifiedParameters[nameof(Format)] = Format;

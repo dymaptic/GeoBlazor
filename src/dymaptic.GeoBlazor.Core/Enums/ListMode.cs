@@ -4,7 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <summary>
-///          Indicates how the layer should display in the LayerList widget. The possible values are listed below.
+///          <summary>
+///               Indicates how the layer should display in the LayerList widget. The possible values are listed below.
+///           </summary>
 ///      </summary>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<ListMode>))]

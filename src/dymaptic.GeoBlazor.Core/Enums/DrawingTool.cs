@@ -4,7 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <summary>
-///          Name of the default drawing tool defined for the template to create a feature.
+///          <summary>
+///               Name of the default drawing tool defined for the template to create a feature.
+///           </summary>
 ///      </summary>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<DrawingTool>))]

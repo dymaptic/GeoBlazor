@@ -4,7 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <summary>
-///          LineSymbolMarkerStyle enumeration.
+///          <summary>
+///               LineSymbolMarkerStyle enumeration.
+///           </summary>
 ///      </summary>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<LineSymbolMarkerStyle>))]

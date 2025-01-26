@@ -4,9 +4,11 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <summary>
-///          The unit for `offset` values.
-///          default meters
-///          <a target="_blank" href="global.html#unit">ArcGIS Maps SDK for JavaScript</a>
+///          <summary>
+///               The unit for `offset` values.
+///               default meters
+///               <a target="_blank" href="global.html#unit">ArcGIS Maps SDK for JavaScript</a>
+///           </summary>
 ///      </summary>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<ElevationUnit>))]
