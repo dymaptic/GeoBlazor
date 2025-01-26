@@ -10,4 +10,3 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     Array of <see cref = "ExifInfoTag"/> objects.
 /// </param>
 public record ExifInfo(string Name, ExifInfoTag[] Tags);
-
