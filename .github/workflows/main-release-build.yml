@@ -63,7 +63,7 @@ jobs:
         PR_DESCRIPTION=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
         "https://api.github.com/repos/${{ github.repository }}/pulls?state=closed&sort=updated&direction=desc" | \
         jq -r '.[0].body')
-        DESC_PLUS_EOF="${PR_DESCRIPTION}\nEOF"
+        DESC_PLUS_EOF="${PR_DESCRIPTION}"
         echo "PR_DESCRIPTION<<EOF" >> $GITHUB_ENV
         echo "$DESC_PLUS_EOF" >> $GITHUB_ENV
         echo "EOF" >> $GITHUB_ENV
@@ -74,7 +74,7 @@ jobs:
         body: "${{env.PR_DESCRIPTION}}"
         tag_name: "v${{env.CORE_VERSION}}"
         generate_release_notes: true
-        prerelease: true
+        prerelease: false
         files: |
           ./src/dymaptic.GeoBlazor.Core/bin/Release/dymaptic.GeoBlazor.Core.*.nupkg
     - name: Upload nuget artifact
@@ -88,7 +88,7 @@ jobs:
     needs: build
     steps:
     - name: Download artifact from build job
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4.1.7
       with:
         name: .core-nuget          
     - name: Publish Core to Nuget

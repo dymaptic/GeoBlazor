@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json.Serialization;
 
 
@@ -15,6 +16,7 @@ public class TextPopupContent : PopupContent
     /// <summary>
     ///     Parameterless constructor for use as a razor component.
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public TextPopupContent()
     {
     }

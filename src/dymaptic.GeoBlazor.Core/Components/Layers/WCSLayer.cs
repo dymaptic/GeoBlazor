@@ -1,7 +1,7 @@
 ﻿using dymaptic.GeoBlazor.Core.Components.Renderers;
 using dymaptic.GeoBlazor.Core.Exceptions;
 using Microsoft.AspNetCore.Components;
-using System.Security.Cryptography.X509Certificates;
+using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json.Serialization;
 
 
@@ -22,6 +22,7 @@ public class WCSLayer : Layer
     /// <summary>
     ///     Constructor for use as a razor component
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public WCSLayer()
     {
     }

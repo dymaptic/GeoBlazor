@@ -8,21 +8,21 @@
 
 
     <ItemGroup>
-        <SupportedPlatform Include="browser"/>
+        <SupportedPlatform Include="browser" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.7"/>
-        <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.0"/>
-        <PackageReference Include="MSTest.TestFramework" Version="3.5.0"/>
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.11" />
+        <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.0" />
+        <PackageReference Include="MSTest.TestFramework" Version="3.5.0" />
     </ItemGroup>
 
     <ItemGroup>
-        <AdditionalFiles Include="Components\BaseMapTests.razor"/>
-        <AdditionalFiles Include="Components\GeometryTests.razor"/>
-        <AdditionalFiles Include="Components\GraphicsTests.razor"/>
-        <AdditionalFiles Include="Components\TestRunnerBase.razor"/>
-        <AdditionalFiles Include="Components\WidgetTests.razor"/>
+        <AdditionalFiles Include="Components\BaseMapTests.razor" />
+        <AdditionalFiles Include="Components\GeometryTests.razor" />
+        <AdditionalFiles Include="Components\GraphicsTests.razor" />
+        <AdditionalFiles Include="Components\TestRunnerBase.razor" />
+        <AdditionalFiles Include="Components\WidgetTests.razor" />
     </ItemGroup>
 
     <Target Name="ReferenceType" BeforeTargets="Build" Condition="$(Configuration) == 'DEBUG' OR $(UseProjectReference) == 'true'">

@@ -17,7 +17,7 @@ export interface DotNetGraphic {
     uid: string;
     geometry: any;
     attributes: any;
-
+    layerId: string | null;
     dotNetGraphicReference: any;
     symbol: DotNetSymbol;
 }
@@ -168,6 +168,7 @@ export interface DotNetSpatialReference {
     isWrappable: boolean;
     wkid: number;
     wkt: string;
+    wkt2: string;
     imageCoordinateSystem: any;
 }
 
@@ -361,7 +362,6 @@ export interface DotNetPopupTemplate {
     returnGeometry: boolean;
     dotNetPopupTemplateReference: any;
     id: string;
-
     actions: any[];
 }
 
@@ -784,7 +784,7 @@ export interface DotNetUniqueValueRenderer {
     field2: string;
     field3: string;
     fieldDelimiter: string;
-    legendOptions: object;
+    legendOptions: any;
     orderByClassesEnabled: boolean;
     type: string;
     uniqueValueGroups: DotNetUniqueValueGroup[];

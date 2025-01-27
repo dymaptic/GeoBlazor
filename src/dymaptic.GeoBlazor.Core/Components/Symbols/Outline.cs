@@ -1,4 +1,5 @@
 ﻿using dymaptic.GeoBlazor.Core.Objects;
+using Microsoft.Extensions.DependencyInjection;
 
 
 namespace dymaptic.GeoBlazor.Core.Components.Symbols;
@@ -11,6 +12,7 @@ public class Outline : SimpleLineSymbol
     /// <summary>
     ///     Parameterless constructor for using as a razor component
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public Outline()
     {
     }

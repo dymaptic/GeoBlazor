@@ -985,6 +985,11 @@ public partial class MapView : MapComponent
             }
         }
 
+        if (Map is null)
+        {
+            return null;
+        }
+
         foreach (Layer layer in Map!.Layers)
         {
             switch (layer)
@@ -1197,7 +1202,7 @@ public partial class MapView : MapComponent
                 }
 
                 ms.Seek(0, SeekOrigin.Begin);
-                ((IJSInProcessObjectReference)JsModule!).InvokeVoid("addGraphicsSynchronously", ms.ToArray(), Id);
+                ((IJSInProcessObjectReference)JsModule!).InvokeVoid("addGraphicsSynchronously", ms.ToArray(), Id, null);
                 await ms.DisposeAsync();
                 await Task.Delay(1, cancellationToken);
             }
@@ -1232,7 +1237,7 @@ public partial class MapView : MapComponent
                 using DotNetStreamReference streamRef = new(ms);
 
                 await ViewJsModule!.InvokeVoidAsync("addGraphicsFromStream", cancellationToken,
-                    streamRef, Id, abortSignal);
+                    streamRef, Id, abortSignal, null);
             }
         }
         else
@@ -1268,7 +1273,7 @@ public partial class MapView : MapComponent
                     using DotNetStreamReference streamRef = new(ms);
 
                     await ViewJsModule!.InvokeVoidAsync("addGraphicsFromStream", cancellationToken,
-                        streamRef, Id, abortSignal);
+                        streamRef, Id, abortSignal, null);
                 }, cancellationToken));
             }
 
@@ -1302,7 +1307,7 @@ public partial class MapView : MapComponent
             using DotNetStreamReference streamRef = new(ms);
 
             await ViewJsModule!.InvokeVoidAsync("addGraphic", CancellationTokenSource.Token,
-                streamRef, Id);
+                streamRef, Id, null); // layerId is null
         }
     }
 
@@ -1313,17 +1318,12 @@ public partial class MapView : MapComponent
     {
         AllowRender = false;
 
-        foreach (Graphic graphic in _graphics)
-        {
-            graphic.View = null;
-            graphic.Parent = null;
-        }
-
         _graphics.Clear();
-
-        if (ViewJsModule is null) return;
-
-        await ViewJsModule!.InvokeVoidAsync("clearGraphics", CancellationTokenSource.Token, Id);
+        if (ViewJsModule is not null)
+        {
+            await ViewJsModule!.InvokeVoidAsync("clearGraphics", CancellationTokenSource.Token, Id);    
+        }
+        
         AllowRender = true;
     }
 
@@ -1451,13 +1451,13 @@ public partial class MapView : MapComponent
     public async Task RemoveGraphic(Graphic graphic)
     {
         _graphics.Remove(graphic);
-        graphic.Parent = null;
-        graphic.View = null;
 
         if (ViewJsModule is null) return;
 
         await ViewJsModule!.InvokeVoidAsync("removeGraphic", CancellationTokenSource.Token,
-            graphic.Id, Id);
+            graphic.Id, Id, null);
+        graphic.Parent = null;
+        graphic.View = null;
     }
 
     /// <summary>
@@ -2019,6 +2019,43 @@ public partial class MapView : MapComponent
                 // ignore, dispose is called by Blazor too early
             }
         });
+    }
+
+    /// <summary>
+    ///     Create a screenshot of the current view. Screenshots include only elements that are rendered on the canvas (all geographical elements), but excludes overlayed DOM elements (UI, popups, measurement labels, etc.). By default, a screenshot of the whole view is created. Different options allow for creating different types of screenshots, including taking screenshots at different aspect ratios, different resolutions and creating thumbnails.
+    /// </summary>
+    /// <param name="options">
+    ///     Optional settings for the screenshot.
+    /// </param>
+    /// <returns>
+    ///     Returns a <see cref="Screenshot"/> which includes a Base64 data url as well as raw image data in a byte array.
+    /// </returns>
+    public async Task<Screenshot> TakeScreenshot(ScreenshotOptions? options = null)
+    {
+        try
+        {
+            JsScreenshot jsScreenshot = await ViewJsModule!.InvokeAsync<JsScreenshot>("takeScreenshot",
+                CancellationTokenSource.Token, Id, options);
+            Stream mapStream = await jsScreenshot.Stream.OpenReadStreamAsync(1_000_000_000L);
+            MemoryStream ms = new();
+            await mapStream.CopyToAsync(ms);
+            ms.Seek(0, SeekOrigin.Begin);
+            byte[] data = ms.ToArray();
+            string base64 = 
+                $"data:image/{(options?.Format == ScreenshotFormat.Jpg ? "jpg" : "png")};base64,{Convert.ToBase64String(data)}";
+
+            Screenshot screenshot = new(base64, new ImageData(data, jsScreenshot.ColorSpace,
+                jsScreenshot.Width, jsScreenshot.Height));
+            await mapStream.DisposeAsync();
+            await ms.DisposeAsync();
+
+            return screenshot;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+            throw;
+        }
     }
 
 #endregion

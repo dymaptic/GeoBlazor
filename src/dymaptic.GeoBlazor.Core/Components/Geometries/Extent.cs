@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.DependencyInjection;
 
 
 namespace dymaptic.GeoBlazor.Core.Components.Geometries;
@@ -13,6 +14,7 @@ public class Extent : Geometry
     /// <summary>
     ///     Parameterless constructor for use as a razor component
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public Extent()
     {
     }

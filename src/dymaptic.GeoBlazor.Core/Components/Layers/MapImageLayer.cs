@@ -2,6 +2,7 @@ using dymaptic.GeoBlazor.Core.Components.Geometries;
 using dymaptic.GeoBlazor.Core.Objects;
 using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
 using System.Text.Json.Serialization;
 
@@ -19,6 +20,7 @@ public class MapImageLayer : Layer
     /// <summary>
     ///     Parameterless constructor for use as a Razor component.
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public MapImageLayer()
     {
     }

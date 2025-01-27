@@ -7,10 +7,10 @@ using dymaptic.GeoBlazor.Core.Interfaces;
 using dymaptic.GeoBlazor.Core.Objects;
 using dymaptic.GeoBlazor.Core.Serialization;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
 using ProtoBuf;
 using System.Runtime.Serialization;
-using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -31,6 +31,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer
     /// <summary>
     ///     Constructor for use as a razor component
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public FeatureLayer()
     {
     }
@@ -111,7 +112,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer
     }
     
     /// <summary>
-    ///     An authorization string used to access a resource or service. API keys are generated and managed in the ArcGIS Developer dashboard. An API key is tied explicitly to an ArcGIS account; it is also used to monitor service usage. Setting a fine-grained API key on a specific class overrides the global API key.
+    ///     An authorization string used to access a resource or service. API keys are generated and managed in the ArcGIS Developer Portal. An API key is tied explicitly to an ArcGIS account; it is also used to monitor service usage. Setting a fine-grained API key on a specific class overrides the global API key.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -558,7 +559,7 @@ public class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer
     /// <returns></returns>
     public async Task<FeatureType?> GetFeatureType(Graphic feature)
     {
-        return await JsLayerReference!.InvokeAsync<FeatureType>("getFeatureType", feature);
+        return await JsLayerReference!.InvokeAsync<FeatureType>("getFeatureType", feature, View?.Id);
     }
 
     /// <summary>
@@ -1624,7 +1625,11 @@ public record FeatureEditsResult(
 /// <param name="Error">
 ///     If the edit failed, the edit result includes an error.
 /// </param>
-public record FeatureEditResult(long? ObjectId, string? GlobalId, EditError? Error);
+public record FeatureEditResult(
+    [property: JsonConverter(typeof(LongConverter))]
+    long? ObjectId, 
+    string? GlobalId, 
+    EditError? Error);
 
 /// <summary>
 ///     The error object in a <see cref="FeatureEditResult"/>

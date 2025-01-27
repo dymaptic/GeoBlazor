@@ -12,7 +12,11 @@
          Zoom="11"
          Class="map-view"
          OnClick="OnClick">
-    <Map ArcGISDefaultBasemap="arcgis-navigation" />
+    <Map>
+        <Basemap>
+            <BasemapStyle Name="BasemapStyleName.ArcgisNavigation" />
+        </Basemap>
+    </Map>
 </MapView>
 
 <Graphic @ref="AreaGraphic">

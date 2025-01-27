@@ -9,20 +9,20 @@
     public async Task TestCanClearGraphics(Action renderHandler)
     {
         MapView? mapView = null;
-        GraphicsLayer graphicsLayer = new GraphicsLayer();
+        GraphicsLayer graphicsLayer = new();
 
         async Task OnViewInitialized()
         {
             await mapView!.AddLayer(graphicsLayer);
         }
         AddMapRenderFragment(
-        @<MapView OnViewInitialized="@OnViewInitialized" @ref="mapView" class="map-view" OnViewRendered="renderHandler">
-            <Map>
-                <Basemap>
-                    <PortalItem Id="55ebf90799fa4a3fa57562700a68c405" />
-                </Basemap>
-            </Map>
-        </MapView>);
+    @<MapView OnViewInitialized="@OnViewInitialized" @ref="mapView" class="map-view" OnViewRendered="renderHandler">
+        <Map>
+            <Basemap>
+                <PortalItem Id="55ebf90799fa4a3fa57562700a68c405" />
+            </Basemap>
+        </Map>
+    </MapView>);
 
         await WaitForMapToRender();
 
@@ -39,31 +39,34 @@
         GraphicsLayer? graphicsLayer = null;
 
         AddMapRenderFragment(
-            @<MapView @ref="mapView" class="map-view" OnViewRendered="renderHandler">
-                <Map ArcGISDefaultBasemap="arcgis-imagery">
-                    <GraphicsLayer @ref="graphicsLayer">
-                        <Graphic @ref="graphic">
-                            <Point X="0" Y="0" />
-                        </Graphic>
-                    </GraphicsLayer>
-                </Map>
-            </MapView>
-            );
+    @<MapView @ref="mapView" class="map-view" OnViewRendered="renderHandler">
+        <Map>
+            <Basemap>
+                <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+            </Basemap>
+            <GraphicsLayer @ref="graphicsLayer">
+                <Graphic @ref="graphic">
+                    <Point X="0" Y="0" />
+                </Graphic>
+            </GraphicsLayer>
+        </Map>
+    </MapView>
+        );
 
         await WaitForMapToRender();
 
-        var hitTestOptions = new HitTestOptions
+        HitTestOptions hitTestOptions = new()
         {
-            IncludeByGeoBlazorId = [ graphicsLayer!.Id ]
+            IncludeByGeoBlazorId = [graphicsLayer!.Id]
         };
 
-        var hitTestResult = await mapView!.HitTest((Point)graphic!.Geometry!, hitTestOptions);
+        HitTestResult hitTestResult = await mapView!.HitTest((Point)graphic!.Geometry!, hitTestOptions);
 
-        var graphicHit = hitTestResult.Results.OfType<GraphicHit>().ToArray();
+        GraphicHit[] graphicHit = hitTestResult.Results.OfType<GraphicHit>().ToArray();
 
         Assert.AreEqual(1, graphicHit.Length);
 
-        var firstGraphic = graphicHit[0];
+        GraphicHit firstGraphic = graphicHit[0];
 
         Assert.IsNotNull(firstGraphic.LayerId);
         Assert.IsNotNull(firstGraphic.MapPoint);
@@ -79,13 +82,17 @@
         MapView? mapView = null;
         AddMapRenderFragment(
     @<MapView @ref="mapView" class="map-view" OnViewRendered="renderHandler">
-        <Map ArcGISDefaultBasemap="arcgis-imagery" />
+        <Map>
+            <Basemap>
+                <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+            </Basemap>
+        </Map>
     </MapView>);
 
         await WaitForMapToRender();
 
-        var testGraphic = new Graphic(new Point(0, 0),
-        new SimpleMarkerSymbol(color: new MapColor("red"), size: 10));
+        Graphic testGraphic = new(new Point(0, 0),
+    new SimpleMarkerSymbol(color: new("red"), size: 10));
         await mapView!.AddGraphic(testGraphic);
         await testGraphic.SetGeometry(new Point(1, 1));
         await mapView.RemoveGraphic(testGraphic);
@@ -99,15 +106,18 @@
         GraphicsLayer? graphicsLayer = null;
 
         AddMapRenderFragment(
-            @<MapView class="map-view" OnViewRendered="renderHandler">
-                <Map ArcGISDefaultBasemap="arcgis-imagery">
-                    <GraphicsLayer @ref="graphicsLayer">
-                        <Graphic @ref="graphic">
-                            <Point X="0" Y="0" />
-                        </Graphic>
-                    </GraphicsLayer>
-                </Map>
-            </MapView>);
+    @<MapView class="map-view" OnViewRendered="renderHandler">
+        <Map>
+            <Basemap>
+                <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+            </Basemap>
+            <GraphicsLayer @ref="graphicsLayer">
+                <Graphic @ref="graphic">
+                    <Point X="0" Y="0" />
+                </Graphic>
+            </GraphicsLayer>
+        </Map>
+    </MapView>);
 
         await WaitForMapToRender();
         Assert.AreEqual(1, graphicsLayer!.Graphics.Count);
@@ -119,128 +129,114 @@
     public async Task TestCanAddGraphicsToRenderedMap(Action renderHandler)
     {
         MapView? mapView = null;
-        AddMapRenderFragment( 
-            @<MapView @ref="mapView" class="map-view" OnViewRendered="renderHandler">
-                <Map ArcGISDefaultBasemap="arcgis-imagery" />
-            </MapView>);
+        AddMapRenderFragment(
+    @<MapView @ref="mapView" class="map-view" OnViewRendered="renderHandler">
+        <Map>
+            <Basemap>
+                <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+            </Basemap>
+        </Map>
+    </MapView>);
 
         await WaitForMapToRender();
 
-        var testGraphic = new Graphic(new Point(0, 0),
-            new SimpleMarkerSymbol(color: new MapColor("red"), size: 10));
+        Graphic testGraphic = new(new Point(0, 0),
+        new SimpleMarkerSymbol(color: new("red"), size: 10));
         await mapView!.AddGraphic(testGraphic);
         await AssertJavaScript("assertGraphicExistsInView", args: new object[] { "point", 1 });
-    }
-    
-    [TestMethod]
-    public async Task TestCanSerializeAndDeserializeGuidAttributes(Action renderHandler)
-    {
-        MapView? mapView = null;
-        AddMapRenderFragment( 
-            @<MapView @ref="mapView" class="map-view" OnViewRendered="renderHandler">
-                <Map ArcGISDefaultBasemap="arcgis-imagery" />
-            </MapView>);
-
-        await WaitForMapToRender();
-
-        Point point = new(0, 0);
-        Guid testGuid = Guid.NewGuid();
-        Graphic testGraphic = new Graphic(point,
-            new SimpleMarkerSymbol(color: new MapColor("red"), size: 10),
-            attributes: new AttributesDictionary(new Dictionary<string, object?>
-            {
-                {"GUID_ID", testGuid}
-            }));
-        await mapView!.AddGraphic(testGraphic);
-        await Task.Yield();
-        ScreenPoint screenPoint = await mapView.ToScreen(point);
-        HitTestResult result = await mapView.HitTest(screenPoint);
-        GraphicHit graphicHit = (GraphicHit)result.Results[0];
-        Assert.AreEqual(testGuid, graphicHit.Graphic.Attributes["GUID_ID"]);
     }
 
     [TestMethod]
     public async Task TestCanContinueWithBrokenGraphicUrl(Action renderHandler)
     {
         GraphicsLayer? layer = null;
-        AddMapRenderFragment( 
-            @<MapView class="map-view" OnViewRendered="renderHandler">
-                <Map ArcGISDefaultBasemap="arcgis-imagery">
-                    <GraphicsLayer @ref="layer" />
-                </Map>
-            </MapView>);
+        AddMapRenderFragment(
+    @<MapView class="map-view" OnViewRendered="renderHandler">
+        <Map>
+            <Basemap>
+                <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+            </Basemap>
+            <GraphicsLayer @ref="layer" />
+        </Map>
+    </MapView>);
 
         await WaitForMapToRender();
 
         List<Graphic> newGraphics = [];
-        
+
         Point point = new(0, 0);
-        Graphic graphic = new Graphic(point);
+        Graphic graphic = new(point);
         newGraphics.Add(graphic);
         // invalid url
-        PictureMarkerSymbol ps = new PictureMarkerSymbol("https://github.githubassets.com/anything.png", 
-            15, 15, 0, 0, 0);
+        PictureMarkerSymbol ps = new("https://github.githubassets.com/anything.png",
+        15, 15, 0, 0, 0);
         await graphic.SetSymbol(ps);
-    
-        point = new Point(point.Longitude - 0.1, point.Latitude);
-        Graphic graphic2 = new Graphic(point);
+
+        point = new(point.Longitude - 0.1, point.Latitude);
+        Graphic graphic2 = new(point);
         newGraphics.Add(graphic2);
-        PictureMarkerSymbol ps2 = new PictureMarkerSymbol(
-            "https://github.githubassets.com/assets/GitHub-Mark-ea2971cee799.png", 
-            15, 15, 0, 0, 0);
+        PictureMarkerSymbol ps2 = new(
+        "https://github.githubassets.com/assets/GitHub-Mark-ea2971cee799.png",
+        15, 15, 0, 0, 0);
         await graphic2.SetSymbol(ps2);
-        
+
         await layer!.Add(newGraphics);
-        await Task.Yield();
+        await Task.Delay(1);
         await AssertJavaScript("assertGraphicExistsInLayer", args: [layer.Id, "point", 2]);
     }
-    
+
     [TestMethod]
     public async Task TestCanRenderPictureMarkerWithJpg(Action renderHandler)
     {
         GraphicsLayer? layer = null;
-        AddMapRenderFragment( 
-            @<MapView class="map-view" OnViewRendered="renderHandler">
-                <Map ArcGISDefaultBasemap="arcgis-imagery">
-                    <GraphicsLayer @ref="layer" />
-                </Map>
-            </MapView>);
+        AddMapRenderFragment(
+    @<MapView class="map-view" OnViewRendered="renderHandler">
+        <Map>
+            <Basemap>
+                <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+            </Basemap>
+            <GraphicsLayer @ref="layer" />
+        </Map>
+    </MapView>);
 
         await WaitForMapToRender();
-        
+
         Point point = new(0, 0);
-        Graphic graphic = new Graphic(point);
-        PictureMarkerSymbol ps = new PictureMarkerSymbol("./_content/dymaptic.GeoBlazor.Core.Test.Blazor.Shared/images/homeicon.jpg", 
-            15, 15, 0, 0, 0);
+        Graphic graphic = new(point);
+        PictureMarkerSymbol ps = new("./_content/dymaptic.GeoBlazor.Core.Test.Blazor.Shared/images/homeicon.jpg",
+        15, 15, 0, 0, 0);
         await graphic.SetSymbol(ps);
 
         await layer!.Add(graphic);
-        await Task.Yield();
+        await Task.Delay(1);
         await AssertJavaScript("assertGraphicExistsInLayer", args: [layer.Id, "point", 1]);
     }
-    
+
     [TestMethod]
     public async Task TestCanRenderGraphicWithTextSymbol(Action renderHandler)
     {
         GraphicsLayer? layer = null;
-        AddMapRenderFragment( 
-            @<MapView class="map-view" OnViewRendered="renderHandler">
-                <Map ArcGISDefaultBasemap="arcgis-imagery">
-                    <GraphicsLayer @ref="layer" />
-                </Map>
-            </MapView>);
+        AddMapRenderFragment(
+    @<MapView class="map-view" OnViewRendered="renderHandler">
+        <Map>
+            <Basemap>
+                <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+            </Basemap>
+            <GraphicsLayer @ref="layer" />
+        </Map>
+    </MapView>);
 
         await WaitForMapToRender();
-        
+
         Point point = new(0, 0);
-        Graphic graphic = new Graphic(point);
-        TextSymbol symbol = new( "Hello", color: new MapColor("red"), 
-            backgroundColor: new MapColor("transparent") , 
-            font: new MapFont(12, "Arial", "normal", "bold") );
+        Graphic graphic = new(point);
+        TextSymbol symbol = new("Hello", color: new("red"),
+            backgroundColor: new("transparent"),
+            font: new(12, "Arial", "normal", "bold"));
         await graphic.SetSymbol(symbol);
 
         await layer!.Add(graphic);
-        await Task.Yield();
+        await Task.Delay(1);
         await AssertJavaScript("assertGraphicExistsInLayer", args: [layer.Id, "point", 1]);
     }
 }

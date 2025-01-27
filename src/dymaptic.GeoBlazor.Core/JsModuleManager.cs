@@ -1,6 +1,4 @@
-using dymaptic.GeoBlazor.Core.Objects;
 using Microsoft.JSInterop;
-using System.Globalization;
 
 namespace dymaptic.GeoBlazor.Core;
 
@@ -9,11 +7,6 @@ namespace dymaptic.GeoBlazor.Core;
 /// </summary>
 public static class JsModuleManager
 {
-    /// <summary>
-    ///     The browser's culture information. Used to deserialize numbers and dates in <see cref="AttributesDictionary"/>.
-    /// </summary>
-    public static CultureInfo ClientCultureInfo { get; set; } = CultureInfo.CurrentCulture;
-    
     /// <summary>
     ///     Retrieves the main entry point for the GeoBlazor Core JavaScript module.
     /// </summary>
@@ -33,9 +26,6 @@ public static class JsModuleManager
         {
             core = await proModule.InvokeAsync<IJSObjectReference>("getCore", cancellationToken);    
         }
-        
-        string browserLanguage = await core.InvokeAsync<string>("getBrowserLanguage", cancellationToken);
-        ClientCultureInfo = new CultureInfo(browserLanguage);
 
         return core;
     }

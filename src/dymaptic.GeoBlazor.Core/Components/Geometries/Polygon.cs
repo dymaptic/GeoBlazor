@@ -1,5 +1,6 @@
 ﻿using dymaptic.GeoBlazor.Core.Objects;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.DependencyInjection;
 
 
 namespace dymaptic.GeoBlazor.Core.Components.Geometries;
@@ -14,6 +15,7 @@ public class Polygon : Geometry
     /// <summary>
     ///     Parameterless constructor for use as a razor component
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public Polygon()
     {
     }

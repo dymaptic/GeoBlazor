@@ -3,6 +3,7 @@ using dymaptic.GeoBlazor.Core.Components.Popups;
 using dymaptic.GeoBlazor.Core.Components.Symbols;
 using dymaptic.GeoBlazor.Core.Objects;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
 using ProtoBuf;
 using System.Text.Json.Serialization;
@@ -21,6 +22,7 @@ public class Graphic : LayerObject
     /// <summary>
     ///     Parameterless constructor for using as a razor component
     /// </summary>
+    [ActivatorUtilitiesConstructor]
     public Graphic()
     {
     }
@@ -119,8 +121,13 @@ public class Graphic : LayerObject
     {
         if (LayerJsModule is not null)
         {
-            Geometry = await LayerJsModule!.InvokeAsync<Geometry>("getGraphicGeometry",
-                CancellationTokenSource.Token, Id);
+            Geometry? result = await LayerJsModule!.InvokeAsync<Geometry?>("getGraphicGeometry",
+                CancellationTokenSource.Token, Id, LayerId, View?.Id);
+
+            if (result is not null)
+            {
+                Geometry = result;
+            }
         }
 
         return Geometry;
@@ -136,7 +143,7 @@ public class Graphic : LayerObject
 
         if (LayerJsModule is not null)
         {
-            await LayerJsModule.InvokeVoidAsync("setGraphicGeometry", Id,
+            await LayerJsModule.InvokeVoidAsync("setGraphicGeometry", Id, LayerId, View?.Id,
                 Geometry.ToSerializationRecord());
         }
         else
@@ -151,7 +158,17 @@ public class Graphic : LayerObject
     /// <inheritdoc />
     public override async Task SetSymbol(Symbol symbol)
     {
-        await base.SetSymbol(symbol);
+        Symbol = symbol;
+
+        if (LayerJsModule is not null)
+        {
+            await LayerJsModule.InvokeVoidAsync("setGraphicSymbol",
+                Id, Symbol.ToSerializationRecord(), LayerId, View?.Id);
+        }
+        else
+        {
+            UpdateSymbol = true;
+        }
         _serializationRecord = null;
         ToSerializationRecord();
     }
@@ -163,8 +180,13 @@ public class Graphic : LayerObject
     {
         if (LayerJsModule is not null)
         {
-            PopupTemplate = await LayerJsModule!.InvokeAsync<PopupTemplate>("getGraphicPopupTemplate",
-                CancellationTokenSource.Token, Id);
+            PopupTemplate? result = await LayerJsModule!.InvokeAsync<PopupTemplate?>("getGraphicPopupTemplate",
+                CancellationTokenSource.Token, Id, LayerId, View?.Id);
+
+            if (result is not null)
+            {
+                PopupTemplate = result;
+            }
         }
 
         return PopupTemplate;
@@ -187,12 +209,11 @@ public class Graphic : LayerObject
         {
             if (oldTemplate != null)
             {
-                await LayerJsModule.InvokeVoidAsync("removeGraphicPopupTemplate", Id,
-                    oldTemplate.ToSerializationRecord(), oldTemplate.DotNetPopupTemplateReference, View?.Id);
+                await LayerJsModule.InvokeVoidAsync("removeGraphicPopupTemplate", Id);
             }
 
             await LayerJsModule.InvokeVoidAsync("setGraphicPopupTemplate", Id,
-                PopupTemplate.ToSerializationRecord(), PopupTemplate.DotNetPopupTemplateReference, View?.Id);
+                PopupTemplate.ToSerializationRecord(), PopupTemplate.DotNetPopupTemplateReference, LayerId, View?.Id);
         }
         else
         {
@@ -208,8 +229,13 @@ public class Graphic : LayerObject
     {
         if (LayerJsModule is not null)
         {
-            Symbol = await LayerJsModule!.InvokeAsync<Symbol>("getGraphicSymbol",
-                CancellationTokenSource.Token, Id);
+            Symbol? result = await LayerJsModule!.InvokeAsync<Symbol?>("getGraphicSymbol",
+                CancellationTokenSource.Token, Id, LayerId, View?.Id);
+
+            if (result is not null)
+            {
+                Symbol = result;
+            }
         }
 
         return Symbol;
@@ -359,7 +385,7 @@ public class Graphic : LayerObject
         if (LayerJsModule is null) return;
 
         await LayerJsModule.InvokeVoidAsync("setGraphicAttributes",
-            CancellationTokenSource.Token, Id, Attributes);
+            CancellationTokenSource.Token, Id, Attributes, LayerId, View?.Id);
         ToSerializationRecord(true);
     }
 

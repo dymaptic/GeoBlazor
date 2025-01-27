@@ -5,7 +5,7 @@ import PopupTemplate from "@arcgis/core/PopupTemplate";
 import {
     arcGisObjectRefs,
     createLayer,
-    copyValuesIfExists, graphicsRefs, popupTemplateRefs, dotNetRefs
+    copyValuesIfExists, popupTemplateRefs, dotNetRefs, lookupGraphicById
 } from "./arcGisJsInterop";
 import Geometry from "@arcgis/core/geometry/Geometry";
 import Point from "@arcgis/core/geometry/Point";
@@ -30,19 +30,11 @@ import RasterColormapRenderer from "@arcgis/core/renderers/RasterColormapRendere
 import VectorFieldRenderer from "@arcgis/core/renderers/VectorFieldRenderer.js";
 import FlowRenderer from "@arcgis/core/renderers/FlowRenderer.js";
 import ClassBreaksRenderer from "@arcgis/core/renderers/ClassBreaksRenderer.js";
-import ClassBreakInfo from "@arcgis/core/renderers/support/ClassBreakInfo.js";
 import UniqueValueRenderer from "@arcgis/core/renderers/UniqueValueRenderer.js";
 import ColormapInfo from "@arcgis/core/renderers/support/ColormapInfo.js";
 import MultidimensionalSubset from "@arcgis/core/layers/support/MultidimensionalSubset.js";
-import PolygonSymbol3D from "@arcgis/core/symbols/PolygonSymbol3D.js";
-import FieldsIndex from "@arcgis/core/layers/support/FieldsIndex.js";
-import UniqueValue from "@arcgis/core/renderers/support/UniqueValue.js";
 import UniqueValueInfo from "@arcgis/core/renderers/support/UniqueValueInfo.js";
-import UniqueValueClass from "@arcgis/core/renderers/support/UniqueValueClass.js";
-import UniqueValueGroup from "@arcgis/core/renderers/support/UniqueValueGroup.js";
 import {
-    DotNetApplyEdits,
-    DotNetAttachmentsEdit,
     DotNetAttachmentsPopupContent,
     DotNetBarChartMediaInfo,
     DotNetBookmark,
@@ -139,8 +131,8 @@ import ViewClickEvent = __esri.ViewClickEvent;
 import PopupOpenOptions = __esri.PopupOpenOptions;
 import PopupDockOptions = __esri.PopupDockOptions;
 import ContentProperties = __esri.ContentProperties;
-import FeatureLayerBaseApplyEditsEdits = __esri.FeatureLayerBaseApplyEditsEdits;
-import AttachmentEdit = __esri.AttachmentEdit;
+
+
 import CodedValue = __esri.CodedValue;
 import SearchSourceFilter = __esri.SearchSourceFilter;
 import SearchResult = __esri.SearchResult;
@@ -179,10 +171,12 @@ export function buildJsSpatialReference(dotNetSpatialReference: DotNetSpatialRef
         return new SpatialReference({ wkid: 4326 });
     }
     let jsSpatialRef = new SpatialReference();
-    if (dotNetSpatialReference.wkid !== null) {
+    if (hasValue(dotNetSpatialReference.wkid)) {
         jsSpatialRef.wkid = dotNetSpatialReference.wkid;
-    } else if (dotNetSpatialReference.wkt !== null) {
-        jsSpatialRef.wkt = dotNetSpatialReference.wkt;
+    } else if (hasValue(dotNetSpatialReference.wkt)) {
+        jsSpatialRef.wkt = dotNetSpatialReference.wkt
+    } else if (hasValue(dotNetSpatialReference.wkt2)) {
+        jsSpatialRef.wkt2 = dotNetSpatialReference.wkt2
     } else {
         jsSpatialRef.wkid = 4326;
     }
@@ -193,7 +187,7 @@ export function buildJsSpatialReference(dotNetSpatialReference: DotNetSpatialRef
 export function buildJsExtent(dotNetExtent: DotNetExtent, currentSpatialReference: SpatialReference | null): Extent {
     let extent = new Extent();
     copyValuesIfExists(dotNetExtent, extent, 'xmax', 'xmin', 'ymax', 'ymin', 'zmax', 'zmin', 'mmax', 'mmin');
-    
+
     if (hasValue(dotNetExtent.spatialReference)) {
         extent.spatialReference = buildJsSpatialReference(dotNetExtent.spatialReference)
     } else if (currentSpatialReference !== null) {
@@ -203,11 +197,10 @@ export function buildJsExtent(dotNetExtent: DotNetExtent, currentSpatialReferenc
     return extent;
 }
 
-export function buildJsGraphic(graphicObject: any, viewId: string | null)
+export function buildJsGraphic(graphicObject: any, layerId: string | null, viewId: string | null)
     : Graphic | null {
-    let graphic: Graphic;
-    if (graphicsRefs.hasOwnProperty(graphicObject.id)) {
-        graphic = graphicsRefs[graphicObject.id];
+    let graphic: Graphic | null = lookupGraphicById(graphicObject.id, layerId, viewId);
+    if (graphic !== null) {
         graphic.geometry = buildJsGeometry(graphicObject.geometry) as Geometry ?? graphic.geometry;
         graphic.symbol = buildJsSymbol(graphicObject.symbol) as Symbol ?? graphic.symbol;
     } else {
@@ -216,13 +209,13 @@ export function buildJsGraphic(graphicObject: any, viewId: string | null)
             symbol: buildJsSymbol(graphicObject.symbol) as Symbol ?? null,
         });
     }
-    
+
     graphic.attributes = buildJsAttributes(graphicObject.attributes);
 
     if (hasValue(graphicObject.popupTemplate)) {
         graphic.popupTemplate = buildJsPopupTemplate(graphicObject.popupTemplate, viewId) as PopupTemplate;
     }
-    
+
     copyValuesIfExists(graphicObject, graphic, 'visible');
 
     return graphic;
@@ -246,11 +239,6 @@ export function buildJsAttributes(attributes: any): any {
                     case "boolean":
                         graphicAttributes[attr.key] = attr.value.toLowerCase() === "true";
                         break;
-                    case "date":
-                    case "datetime":
-                    case "dateonly":
-                        graphicAttributes[attr.key] = new Date(attr.value);
-                        break;
                     case "object":
                         graphicAttributes[attr.key] = JSON.stringify(attr.value, null, 2);
                         break;
@@ -267,7 +255,7 @@ export function buildJsAttributes(attributes: any): any {
 
 export function buildJsPopupTemplate(popupTemplateObject: DotNetPopupTemplate, viewId: string | null): PopupTemplate | null {
     if (!hasValue(popupTemplateObject)) return null;
-    
+
     let content;
     if (hasValue(popupTemplateObject.stringContent)) {
         content = popupTemplateObject.stringContent;
@@ -287,7 +275,7 @@ export function buildJsPopupTemplate(popupTemplateObject: DotNetPopupTemplate, v
                         dotNetRefs[popupTemplateObject.id] = popupRef;
                     }
                 }
-                
+
                 if (!hasValue(popupRef)) return null;
                 let results: DotNetPopupContent[] | null = await popupRef
                     .invokeMethodAsync("OnContentFunction", buildDotNetGraphic(featureSelection.graphic));
@@ -319,14 +307,14 @@ export function buildJsPopupTemplate(popupTemplateObject: DotNetPopupTemplate, v
     }
 
     popupTemplateRefs[popupTemplateObject.id] = template;
-    
+
     return template;
 }
 
 export function buildJsAction(dnAction: any): ActionButton | ActionToggle {
     if (dnAction.type === "button") {
         let jsAction = new ActionButton();
-        copyValuesIfExists(dnAction, jsAction, 'active', 'className', 'disabled', 'icon', 'id', 'image', 'title', 
+        copyValuesIfExists(dnAction, jsAction, 'active', 'className', 'disabled', 'icon', 'id', 'image', 'title',
             'visible');
         return jsAction;
     }
@@ -447,7 +435,7 @@ export function buildJsSymbol(symbol: DotNetSymbol | null): Symbol | null {
                 width: dnPictureMarkerSymbol.width ?? 12,
                 url: dnPictureMarkerSymbol.url
             });
-            
+
         case "picture-fill":
             let dnPictureFillSymbol = symbol as DotNetPictureFillSymbol;
             let jsFillSymbol = new PictureFillSymbol({
@@ -462,7 +450,7 @@ export function buildJsSymbol(symbol: DotNetSymbol | null): Symbol | null {
             if (hasValue(dnPictureFillSymbol.outline)) {
                 jsFillSymbol.outline = buildJsSymbol(dnPictureFillSymbol.outline) as any;
             }
-            
+
             return jsFillSymbol;
 
         case "simple-fill":
@@ -483,7 +471,7 @@ export function buildJsSymbol(symbol: DotNetSymbol | null): Symbol | null {
             });
             copyValuesIfExists(dotNetTextSymbol, jsTextSymbol, 'angle', 'borderLineSize', 'haloSize',
                 'horizontalAlignment', 'kerning', 'lineHeight', 'lineWidth', 'rotated', 'text', 'verticalAlignment');
-            
+
             if (hasValue(dotNetTextSymbol.backgroundColor)) {
                 jsTextSymbol.backgroundColor = buildJsColor(dotNetTextSymbol.backgroundColor);
             }
@@ -537,7 +525,7 @@ export function buildJsBookmark(dnBookmark: DotNetBookmark): Bookmark | null {
 
     if (!(dnBookmark.thumbnail == null)) {
         //ESRI has this as an "object" with url property
-        bookmark.thumbnail = {url: dnBookmark.thumbnail};
+        bookmark.thumbnail = { url: dnBookmark.thumbnail };
     }
 
     if (hasValue(dnBookmark.viewpoint)) {
@@ -653,7 +641,7 @@ export function buildJsRenderer(dotNetRenderer: any): Renderer | null {
                 pieChartRenderer.visualVariables = dotNetRenderer.visualVariables.map(buildVisualVariable);
             }
             copyValuesIfExists(dotNetRenderer, pieChartRenderer, 'defaultLabel', 'holePercentage', 'size');
-            
+
             return pieChartRenderer;
         case 'unique-value':
             return buildJsUniqueValueRenderer(dotNetRenderer);
@@ -726,28 +714,39 @@ export function buildJsImageryRenderer(dnRenderer: any) {
         case 'raster-stretch':
             return buildJsRasterStretchRenderer(dnRenderer);
     }
-    
+
     return null;
 }
 
 export function buildJsUniqueValueRenderer(dnUniqueValueRenderer: DotNetUniqueValueRenderer): UniqueValueRenderer | null {
     if (dnUniqueValueRenderer === undefined) return null;
-    let uniqueValueRenderer = new UniqueValueRenderer();
+    
+    // Setting this by calling the class constructor breaks the Legend widget for some reason.
+    let uniqueValueRenderer: any = {
+        type: 'unique-value'
+    };
     if (hasValue(dnUniqueValueRenderer.backgroundFillSymbol)) {
         if (dnUniqueValueRenderer.backgroundFillSymbol.type == "FillSymbol") {
             uniqueValueRenderer.backgroundFillSymbol = buildJsSymbol(dnUniqueValueRenderer.backgroundFillSymbol) as SimpleFillSymbol;
         }
         // Note: The PolygonSymbol3d is not currently supported
     }
-    
+
     copyValuesIfExists(dnUniqueValueRenderer, uniqueValueRenderer, 'defaultLabel', 'field', 'field2', 'field3',
-        'fieldDelimiter', 'legendOptions', 'orderByClassesEnabled', 'valueExpression', 'valueExpressionTitle');
+        'fieldDelimiter', 'orderByClassesEnabled', 'valueExpression', 'valueExpressionTitle');
+
+    if (hasValue(dnUniqueValueRenderer.legendOptions)) {
+        uniqueValueRenderer.legendOptions = {
+            title: dnUniqueValueRenderer.legendOptions.title
+        };
+    }
     
     if (hasValue(dnUniqueValueRenderer.defaultSymbol?.symbol)) {
         uniqueValueRenderer.defaultSymbol = buildJsSymbol(dnUniqueValueRenderer.defaultSymbol.symbol) as Symbol;
     }
-    
+
     if (hasValue(dnUniqueValueRenderer.uniqueValueInfos) && dnUniqueValueRenderer.uniqueValueInfos.length > 0) {
+        uniqueValueRenderer.uniqueValueInfos = [];
         for (let i = 0; i < dnUniqueValueRenderer.uniqueValueInfos.length; i++) {
             let dnUniqueValueInfo = dnUniqueValueRenderer.uniqueValueInfos[i];
             let uniqueValueInfo = new UniqueValueInfo();
@@ -758,7 +757,7 @@ export function buildJsUniqueValueRenderer(dnUniqueValueRenderer: DotNetUniqueVa
             uniqueValueRenderer.uniqueValueInfos.push(uniqueValueInfo);
         }
     }
-    
+
     if (hasValue(dnUniqueValueRenderer.visualVariables) && dnUniqueValueRenderer.visualVariables.length > 0) {
         uniqueValueRenderer.visualVariables = dnUniqueValueRenderer.visualVariables.map(buildJsVisualVariable) as VisualVariable[];
     }
@@ -878,12 +877,12 @@ export function buildJsFlowRenderer(dotNetFlowRenderer: DotNetFlowRenderer): Flo
 }
 
 function buildJsAttributeColorInfo(dnColorInfo: any): AttributeColorInfo {
-  
+
     let attributeColorInfo = new AttributeColorInfo();
     if (hasValue(dnColorInfo.color)) {
         attributeColorInfo.color = buildJsColor(dnColorInfo.color);
     }
-    copyValuesIfExists(dnColorInfo, attributeColorInfo, 'field', 'label', 'valueExpression', 
+    copyValuesIfExists(dnColorInfo, attributeColorInfo, 'field', 'label', 'valueExpression',
         'valueExpressionTitle');
     return attributeColorInfo;
 }
@@ -891,7 +890,7 @@ function buildJsAttributeColorInfo(dnColorInfo: any): AttributeColorInfo {
 function buildJsAuthoringInfo(dnAuthoringInfo: any): AuthoringInfo {
     let authoringInfo = new AuthoringInfo();
     copyValuesIfExists(dnAuthoringInfo, authoringInfo, 'classificationMethod', 'fadeRatio', 'fields',
-        'flowTheme', 'focus', 'isAutoGenerated', 'lengthUnit', 'maxSliderValue', 'minSliderValue', 
+        'flowTheme', 'focus', 'isAutoGenerated', 'lengthUnit', 'maxSliderValue', 'minSliderValue',
         'standardDeviationInterval', 'type', 'univariateSymbolStyle', 'univariateTheme');
     if (hasValue(dnAuthoringInfo.colorRamp)) {
         authoringInfo.colorRamp = buildJsColorRamp(dnAuthoringInfo.colorRamp) as ColorRamp;
@@ -922,18 +921,18 @@ function buildJsAuthoringInfo(dnAuthoringInfo: any): AuthoringInfo {
             label: dnAuthoringInfo.field2.label
         }
     }
-    
+
     if (hasValue(dnAuthoringInfo.statistics)) {
         authoringInfo.statistics = {
             max: dnAuthoringInfo.statistics.max,
             min: dnAuthoringInfo.statistics.min
         };
     }
-    
+
     if (hasValue(dnAuthoringInfo.visualVariables)) {
         authoringInfo.visualVariables = dnAuthoringInfo.visualVariables.map(buildAuthoringVisualVariable);
     }
-    
+
     return authoringInfo;
 }
 
@@ -985,7 +984,7 @@ export function buildVisualVariable(dnVV: any): VisualVariable | null {
                     return dnStop;
                 });
             }
-            
+
             return colorVariable;
         case "rotation":
             let rotationVariable = variable as RotationVariable;
@@ -995,7 +994,7 @@ export function buildVisualVariable(dnVV: any): VisualVariable | null {
             let sizeVariable = variable as SizeVariable;
             copyValuesIfExists(dnVV, sizeVariable, 'axis', 'maxDataValue', 'minDataValue', 'minSize', 'maxSize',
                 'normalizationField', 'target', 'useSymbolValue', 'valueUnit');
-            
+
             if (hasValue(dnVV.stops) && dnVV.stops.length > 0) {
                 sizeVariable.stops = dnVV.stops.map((stop: any) => {
                     let dnStop = {};
@@ -1018,7 +1017,7 @@ export function buildVisualVariable(dnVV: any): VisualVariable | null {
             }
             return opacityVariable;
     }
-    
+
     return null;
 }
 
@@ -1029,13 +1028,13 @@ export function buildJsRasterStretchRenderer(dotNetRasterStretchRenderer: DotNet
     if (hasValue(dotNetRasterStretchRenderer.colorRamp)) {
         rasterStretchRenderer.colorRamp = buildJsColorRamp(dotNetRasterStretchRenderer.colorRamp) as ColorRamp;
     }
-    
+
     copyValuesIfExists(dotNetRasterStretchRenderer, rasterStretchRenderer, 'computeGamma',
         'dynamicRangeAdjustment', 'gamma', 'useGamma', 'outputMax', 'outputMin', 'stretchType',
         'statistics', 'numberOfStandardDeviations');
-    
+
     arcGisObjectRefs[dotNetRasterStretchRenderer.id] = rasterStretchRenderer;
-    
+
     return rasterStretchRenderer;
 }
 
@@ -1148,7 +1147,7 @@ export function buildJsViewClickEvent(dotNetClickEvent: any): ViewClickEvent {
 }
 
 export async function buildJsPopup(dotNetPopup: any, viewId: string): Promise<Popup> {
-    
+
     let popup = new Popup({
         alignment: dotNetPopup.alignment ?? "auto",
         content: dotNetPopup.content ?? null,
@@ -1163,14 +1162,14 @@ export async function buildJsPopup(dotNetPopup: any, viewId: string): Promise<Po
         label: dotNetPopup.label ?? '',
         spinnerEnabled: dotNetPopup.spinnerEnabled ?? true
     });
-    
+
     if (hasValue(dotNetPopup.autoOpenEnabled)) {
         let view = arcGisObjectRefs[viewId] as MapView;
         if (hasValue(view)) {
             view.popupEnabled = dotNetPopup.autoOpenEnabled;
         }
     }
-    
+
     if (hasValue(dotNetPopup.actions)) {
         popup.actions = dotNetPopup.actions.map(buildJsAction) as any;
     }
@@ -1187,7 +1186,7 @@ export async function buildJsPopup(dotNetPopup: any, viewId: string): Promise<Po
         let features: Graphic[] = [];
         for (const f of dotNetPopup.features) {
             delete f.dotNetGraphicReference;
-            let graphic = buildJsGraphic(f, viewId) as Graphic;
+            let graphic = buildJsGraphic(f, f.layerId, viewId) as Graphic;
             features.push(graphic);
         }
         popup.features = features;
@@ -1246,7 +1245,7 @@ export async function buildJsPopupOptions(dotNetPopupOptions: any): Promise<Popu
     if (hasValue(dotNetPopupOptions.features)) {
         let features: Graphic[] = [];
         for (const f of dotNetPopupOptions.features) {
-            let graphic = buildJsGraphic(f, null) as Graphic;
+            let graphic = buildJsGraphic(f, f.layerId, null) as Graphic;
             graphic.layer = arcGisObjectRefs[f.layerId] as Layer;
             features.push(graphic);
         }
@@ -1479,23 +1478,6 @@ export function buildJsPortalItem(dotNetPortalItem: any): any {
     return portalItem;
 }
 
-export function buildJsApplyEdits(dotNetApplyEdits: DotNetApplyEdits, viewId: string): FeatureLayerBaseApplyEditsEdits {
-    let addFeatures = dotNetApplyEdits.addFeatures?.map(f => buildJsGraphic(f, viewId)!);
-    let deleteFeatures = dotNetApplyEdits.deleteFeatures?.map(f => buildJsGraphic(f, viewId)!);
-    let updateFeatures = dotNetApplyEdits.updateFeatures?.map(f => buildJsGraphic(f, viewId)!);
-    let addAttachments = dotNetApplyEdits.addAttachments?.map(a => buildJsAttachmentEdit(a, viewId)!);
-    let updateAttachments = dotNetApplyEdits.updateAttachments?.map(a => buildJsAttachmentEdit(a, viewId)!);
-
-    return {
-        addFeatures: addFeatures ?? undefined,
-        deleteFeatures: deleteFeatures ?? undefined,
-        updateFeatures: updateFeatures ?? undefined,
-        addAttachments: addAttachments ?? undefined,
-        updateAttachments: updateAttachments ?? undefined,
-        deleteAttachments: dotNetApplyEdits.deleteAttachments ?? undefined
-    };
-}
-
 export function buildJsFormTemplate(dotNetFormTemplate: any): FormTemplate {
     let formTemplate = new FormTemplate({
         title: dotNetFormTemplate.title ?? undefined,
@@ -1645,13 +1627,6 @@ function buildJsFormInput(dotNetFormInput: any): any {
     return undefined;
 }
 
-export function buildJsAttachmentEdit(dotNetAttachmentEdit: DotNetAttachmentsEdit, viewId: string): AttachmentEdit {
-    return {
-        feature: buildJsGraphic(dotNetAttachmentEdit.feature, viewId)!,
-        attachment: dotNetAttachmentEdit.attachment
-    };
-}
-
 function buildJsColor(color: any) {
     if (!hasValue(color)) return null;
     // @ts-ignore
@@ -1717,7 +1692,7 @@ export function buildJsFeatureTemplate(dnFeatureTemplate: DotNetFeatureTemplate,
         description: dnFeatureTemplate.description,
         drawingTool: dnFeatureTemplate.drawingTool as any,
         thumbnail: dnFeatureTemplate.thumbnail as any,
-        prototype: buildJsGraphic(dnFeatureTemplate.prototype, viewId)
+        prototype: buildJsGraphic(dnFeatureTemplate.prototype, null, viewId)
     } as FeatureTemplate
 }
 
@@ -1835,7 +1810,7 @@ export async function buildJsSearchSource(dotNetSource: any, viewId: string): Pr
                     name: dnResult.name ?? undefined,
                 };
                 if (hasValue(dnResult.feature)) {
-                    result.feature = buildJsGraphic(dnResult.feature, viewId) as Graphic;
+                    result.feature = buildJsGraphic(dnResult.feature, dnResult.feature?.layerId, viewId) as Graphic;
                 }
                 results.push(result);
             }
@@ -1922,7 +1897,7 @@ function buildJsSearchSourceFilter(dotNetFilter: any): SearchSourceFilter | null
     return filter;
 }
 
-export function buildJsFeatureReduction(dnFeatureReduction: any, viewId: string | null) : any {
+export function buildJsFeatureReduction(dnFeatureReduction: any, viewId: string | null): any {
     if (!hasValue(dnFeatureReduction)) return null;
     switch (dnFeatureReduction.type) {
         case 'cluster':
@@ -1942,7 +1917,7 @@ export function buildJsFeatureReduction(dnFeatureReduction: any, viewId: string 
             if (hasValue(dnFeatureReduction.symbol)) {
                 cluster.symbol = buildJsSymbol(dnFeatureReduction.symbol) as any;
             }
-            copyValuesIfExists(dnFeatureReduction, cluster, 'clusterMaxSize', 'clusterMinSize', 'clusterRadius', 
+            copyValuesIfExists(dnFeatureReduction, cluster, 'clusterMaxSize', 'clusterMinSize', 'clusterRadius',
                 'labelsVisible', 'maxScale', 'popupEnabled');
             return cluster;
         case 'binning':
@@ -2000,7 +1975,7 @@ export function buildJsFeatureSet(dnFs: DotNetFeatureSet, viewId: string | null)
     copyValuesIfExists(dnFs, jsFeatureSet, 'displayFieldName', 'exceededTransferLimit',
         'geometryType');
     if (hasValue(dnFs.features)) {
-        jsFeatureSet.features = dnFs.features.map(f => buildJsGraphic(f, viewId) as Graphic);
+        jsFeatureSet.features = dnFs.features.map(f => buildJsGraphic(f, f.layerId, viewId) as Graphic);
     }
     if (hasValue(dnFs.fields)) {
         jsFeatureSet.fields = dnFs.fields.map(f => buildJsField(f));
@@ -2018,36 +1993,36 @@ export function buildJsSublayer(dotNetSublayer: any): Sublayer {
     let sublayer = new Sublayer({
         id: dotNetSublayer.sublayerId
     });
-    
+
     copyValuesIfExists(dotNetSublayer, sublayer, 'maxScale', 'minScale', 'visible', 'labelsVisible',
         'legendEnabled', 'listMode', 'opacity', 'popupEnabled', 'title', 'definitionExpression', 'url');
-    
+
     if (hasValue(dotNetSublayer.floorInfo)) {
         sublayer.floorInfo = {
             floorField: dotNetSublayer.floorInfo.floorField ?? undefined
         } as any;
     }
-    
+
     if (hasValue(dotNetSublayer.labelingInfo) && dotNetSublayer.labelingInfo.length > 0) {
         sublayer.labelingInfo = dotNetSublayer.labelingInfo.map(buildJsLabelClass);
     }
-    
+
     if (hasValue(dotNetSublayer.sublayers) && dotNetSublayer.sublayers.length > 0) {
         sublayer.sublayers = dotNetSublayer.sublayers.map(buildJsSublayer);
     }
-    
+
     if (hasValue(dotNetSublayer.renderer)) {
         sublayer.renderer = buildJsRenderer(dotNetSublayer.renderer) as Renderer;
     }
-    
+
     if (hasValue(dotNetSublayer.popupTemplate)) {
         sublayer.popupTemplate = buildJsPopupTemplate(dotNetSublayer.popupTemplate, null) as PopupTemplate;
     }
-    
+
     if (hasValue(dotNetSublayer.source)) {
         sublayer.source = buildJsDynamicLayer(dotNetSublayer.source);
     }
-    
+
     arcGisObjectRefs[dotNetSublayer.id] = sublayer;
     return sublayer;
 }
@@ -2067,7 +2042,7 @@ function buildJsDynamicLayer(dotNetSource: any): DynamicMapLayer | DynamicDataLa
             if (hasValue(dotNetSource?.dataSource)) {
                 dataLayer.dataSource = buildJsDynamicDataSource(dotNetSource.dataSource);
             }
-            
+
             if (hasValue(dotNetSource?.fields) && dotNetSource.fields.length > 0) {
                 dataLayer.fields = dotNetSource.fields.map(buildJsDynamicDataLayerField);
             }
@@ -2110,14 +2085,14 @@ function buildJsDynamicDataSource(dotNetSource: any): any {
                 rightTableKey: dotNetSource.rightTableKey,
                 joinType: dotNetSource.joinType
             } as JoinTableDataSource;
-            
+
             if (hasValue(dotNetSource?.leftTableSource)) {
                 joinTable.leftTableSource = buildJsDynamicLayer(dotNetSource.leftTableSource);
             }
             if (hasValue(dotNetSource?.rightTableSource)) {
                 joinTable.rightTableSource = buildJsDynamicLayer(dotNetSource.rightTableSource);
             }
-            
+
             return joinTable;
     }
 }
@@ -2145,7 +2120,7 @@ export function buildJsTickConfig(dnTickConfig: any): TickConfig {
             return new Function('value', 'type', 'index', dnTickConfig.labelFormatFunction)(value, type, index);
         };
     }
-    
+
     return tickConfig;
 }
 
