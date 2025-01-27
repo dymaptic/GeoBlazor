@@ -7,7 +7,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 ///    Contains authoring properties of visual variables generated from one of the Smart Mapping methods or sliders.
 ///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfoVisualVariable.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial class AuthoringInfoVisualVariable: MapComponent
+public partial class AuthoringInfoVisualVariable
 {
 
     /// <summary>

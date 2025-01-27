@@ -21,13 +21,13 @@ public partial class BasemapStyle
     /// <summary>
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
-    /// <param name="name">
-    ///     The id of the basemap style.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-BasemapStyle.html#id">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
     /// <param name="language">
     ///     The language of the place labels in the basemap style.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-BasemapStyle.html#language">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="name">
+    ///     The id of the basemap style.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-BasemapStyle.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="places">
     ///     Indicates whether to display <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-places.html">places</a> with the basemap style.
@@ -43,16 +43,16 @@ public partial class BasemapStyle
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-BasemapStyle.html#worldview">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public BasemapStyle(
-        BasemapStyleName name,
         string? language = null,
+        BasemapStyleName? name = null,
         BasemapStylePlace? places = null,
         string? serviceUrl = null,
         string? worldview = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
-        Name = name;
         Language = language;
+        Name = name;
         Places = places;
         ServiceUrl = serviceUrl;
         Worldview = worldview;

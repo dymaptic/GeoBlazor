@@ -1,6 +1,7 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
-public partial class AuthoringInfoVisualVariable: MapComponent
+
+public partial record ElevationSampler
 {
    // Add custom code to this file to override generated code
 }

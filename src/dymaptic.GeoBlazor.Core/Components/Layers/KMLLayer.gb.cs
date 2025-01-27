@@ -372,7 +372,7 @@ public partial class KMLLayer : IBlendLayer,
 #pragma warning disable BL0005
         PortalItem = new PortalItem();
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(PortalItem)] = PortalItem;
+        ModifiedParameters[nameof(PortalItem)] = PortalItem;
         PortalItem.Parent = this;
         PortalItem.View = View;
         PortalItem.JsComponentReference = refResult;

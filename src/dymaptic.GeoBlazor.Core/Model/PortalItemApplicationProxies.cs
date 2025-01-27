@@ -1,6 +1,7 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
-public partial class RasterBandInfo
+
+public partial record PortalItemApplicationProxies
 {
    // Add custom code to this file to override generated code
 }

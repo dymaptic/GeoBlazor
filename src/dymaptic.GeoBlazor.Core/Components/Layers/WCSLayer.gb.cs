@@ -978,7 +978,7 @@ public partial class WCSLayer : IBlendLayer,
 #pragma warning disable BL0005
         PortalItem = new PortalItem();
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(PortalItem)] = PortalItem;
+        ModifiedParameters[nameof(PortalItem)] = PortalItem;
         PortalItem.Parent = this;
         PortalItem.View = View;
         PortalItem.JsComponentReference = refResult;
@@ -1173,7 +1173,7 @@ public partial class WCSLayer : IBlendLayer,
 #pragma warning disable BL0005
         TimeExtent = new TimeExtent();
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(TimeExtent)] = TimeExtent;
+        ModifiedParameters[nameof(TimeExtent)] = TimeExtent;
         TimeExtent.Parent = this;
         TimeExtent.View = View;
         TimeExtent.JsComponentReference = refResult;

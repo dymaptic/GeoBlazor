@@ -235,7 +235,7 @@ public partial class TimeInfo
 #pragma warning disable BL0005
         FullTimeExtent = new TimeExtent();
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(FullTimeExtent)] = FullTimeExtent;
+        ModifiedParameters[nameof(FullTimeExtent)] = FullTimeExtent;
         FullTimeExtent.Parent = this;
         FullTimeExtent.View = View;
         FullTimeExtent.JsComponentReference = refResult;

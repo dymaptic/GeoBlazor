@@ -1,4 +1,4 @@
-namespace dymaptic.GeoBlazor.Core.Components.Widgets;
+namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     The ListItem class represents one of the operationalItems in the LayerListViewModel. In the LayerList widget UI,
@@ -7,7 +7,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 ///     related to the layer.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html#actionsSections">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public record ListItem
+public class ListItem: MapComponent
 {
     /// <summary>
     ///     The displayed title of the layer in the LayerList Widget.

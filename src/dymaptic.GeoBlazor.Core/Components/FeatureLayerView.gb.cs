@@ -224,7 +224,7 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
 #pragma warning disable BL0005
         Filter = new FeatureFilter();
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Filter)] = Filter;
+        ModifiedParameters[nameof(Filter)] = Filter;
         Filter.Parent = this;
         Filter.View = View;
         Filter.JsComponentReference = refResult;

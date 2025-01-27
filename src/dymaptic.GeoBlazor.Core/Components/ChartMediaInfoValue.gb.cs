@@ -50,10 +50,7 @@ public partial class ChartMediaInfoValue
     {
         AllowRender = false;
 #pragma warning disable BL0005
-        if (fields is not null)
-        {
-            Fields = fields;
-        }
+        Fields = fields;
         NormalizeField = normalizeField;
         TooltipField = tooltipField;
         Series = series;

@@ -21,7 +21,6 @@ namespace dymaptic.GeoBlazor.Core.Model;
 public partial record PixelSize(
     double X,
     double Y,
-    PixelSizeSpatialReference? SpatialReference = null)
-{
-}
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    PixelSizeSpatialReference? SpatialReference = null);
 

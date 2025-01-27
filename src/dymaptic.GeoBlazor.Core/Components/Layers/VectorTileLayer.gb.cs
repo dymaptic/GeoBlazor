@@ -601,7 +601,7 @@ public partial class VectorTileLayer : IBlendLayer,
 #pragma warning disable BL0005
         PortalItem = new PortalItem();
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(PortalItem)] = PortalItem;
+        ModifiedParameters[nameof(PortalItem)] = PortalItem;
         PortalItem.Parent = this;
         PortalItem.View = View;
         PortalItem.JsComponentReference = refResult;
@@ -766,7 +766,7 @@ public partial class VectorTileLayer : IBlendLayer,
 #pragma warning disable BL0005
         TileInfo = new TileInfo();
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(TileInfo)] = TileInfo;
+        ModifiedParameters[nameof(TileInfo)] = TileInfo;
         TileInfo.Parent = this;
         TileInfo.View = View;
         TileInfo.JsComponentReference = refResult;

@@ -245,7 +245,7 @@ public abstract partial class Layer : IHitTestItem,
 #pragma warning disable BL0005
         VisibilityTimeExtent = new TimeExtent();
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(VisibilityTimeExtent)] = VisibilityTimeExtent;
+        ModifiedParameters[nameof(VisibilityTimeExtent)] = VisibilityTimeExtent;
         VisibilityTimeExtent.Parent = this;
         VisibilityTimeExtent.View = View;
         VisibilityTimeExtent.JsComponentReference = refResult;

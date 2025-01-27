@@ -80,6 +80,79 @@
         <Folder Include="Documentation/" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="Model\VectorTileLayerCurrentStyleInfo.gb.cs" />
+      <Compile Remove="Model\VectorTileLayerCapabilitiesExportTiles.gb.cs" />
+      <Compile Remove="Model\Subtype.gb.cs" />
+      <Compile Remove="Model\SubsetDimension.gb.cs" />
+      <Compile Remove="Model\SublayerCapabilitiesQueryRelated.gb.cs" />
+      <Compile Remove="Model\SublayerCapabilitiesOperations.gb.cs" />
+      <Compile Remove="Model\SpriteSource.gb.cs" />
+      <Compile Remove="Model\SpriteInfo.gb.cs" />
+      <Compile Remove="Model\RasterSliceValue.gb.cs" />
+      <Compile Remove="Model\RasterMultidimensionalInfoVariablesDimensions.gb.cs" />
+      <Compile Remove="Model\RasterMultidimensionalInfoVariables.gb.cs" />
+      <Compile Remove="Model\RasterMultidimensionalInfo.gb.cs" />
+      <Compile Remove="Model\RasterInfoStatistics.gb.cs" />
+      <Compile Remove="Model\RasterInfo.gb.cs" />
+      <Compile Remove="Model\RasterHistogram.gb.cs" />
+      <Compile Remove="Model\RasterFunctionInfo.gb.cs" />
+      <Compile Remove="Model\RasterBandStatistics.gb.cs" />
+      <Compile Remove="Model\RasterBandInfo.gb.cs" />
+      <Compile Remove="Model\QueryRangeValues.gb.cs" />
+      <Compile Remove="Model\QueryParameterValues.gb.cs" />
+      <Compile Remove="Model\PublishingInfo.gb.cs" />
+      <Compile Remove="Model\PortalGroup.gb.cs" />
+      <Compile Remove="Model\PixelSizeSpatialReference.gb.cs" />
+      <Compile Remove="Model\MosaicRule.gb.cs" />
+      <Compile Remove="Model\MeasurementValue.gb.cs" />
+      <Compile Remove="Model\ImageSample.gb.cs" />
+      <Compile Remove="Model\ImageInspectionInfoOrientation.gb.cs" />
+      <Compile Remove="Model\GeometryFieldsInfo.gb.cs" />
+      <Compile Remove="Model\GeoJSONLayerEditsEventUpdatedFeatures.gb.cs" />
+      <Compile Remove="Model\GeoJSONLayerEditsEventDeletedFeatures.gb.cs" />
+      <Compile Remove="Model\GeoJSONLayerEditsEventAddedFeatures.gb.cs" />
+      <Compile Remove="Model\GeoJSONLayerCapabilitiesQueryRelated.gb.cs" />
+      <Compile Remove="Model\GeoJSONLayerCapabilitiesOperations.gb.cs" />
+      <Compile Remove="Model\GeoJSONLayerCapabilitiesEditing.gb.cs" />
+      <Compile Remove="Model\GeoJSONLayerCapabilitiesData.gb.cs" />
+      <Compile Remove="Model\FetchResource.gb.cs" />
+      <Compile Remove="Model\ElevationTileData.gb.cs" />
+      <Compile Remove="Model\ElevationSamplerDemResolution.gb.cs" />
+      <Compile Remove="Model\EditingInfo.cs" />
+      <Compile Remove="Model\EditingInfo.gb.cs" />
+      <Compile Remove="Model\EditFieldsInfo.cs" />
+      <Compile Remove="Model\EditFieldsInfo.gb.cs" />
+      <Compile Remove="Model\EditedFeatureResultEditedFeaturesUpdates.cs" />
+      <Compile Remove="Model\EditedFeatureResultEditedFeaturesUpdates.gb.cs" />
+      <Compile Remove="Model\EditedFeatureResultEditedFeatures.cs" />
+      <Compile Remove="Model\EditedFeatureResultEditedFeatures.gb.cs" />
+      <Compile Remove="Model\CSVLayerCapabilitiesQueryRelated.cs" />
+      <Compile Remove="Model\CSVLayerCapabilitiesQueryRelated.gb.cs" />
+      <Compile Remove="Model\CSVLayerCapabilitiesOperations.cs" />
+      <Compile Remove="Model\CSVLayerCapabilitiesOperations.gb.cs" />
+      <Compile Remove="Model\CSVLayerCapabilitiesEditing.cs" />
+      <Compile Remove="Model\CSVLayerCapabilitiesEditing.gb.cs" />
+      <Compile Remove="Model\CSVLayerCapabilitiesData.cs" />
+      <Compile Remove="Model\CSVLayerCapabilitiesData.gb.cs" />
+      <Compile Remove="Model\CoverageInfo.cs" />
+      <Compile Remove="Model\CoverageInfo.gb.cs" />
+      <Compile Remove="Model\CapabilitiesQuerySupportedSpatialAggregationStatistics.cs" />
+      <Compile Remove="Model\CapabilitiesQuerySupportedSpatialAggregationStatistics.gb.cs" />
+      <Compile Remove="Model\ArcGISMapServiceCapabilitiesOperations.cs" />
+      <Compile Remove="Model\ArcGISMapServiceCapabilitiesOperations.gb.cs" />
+      <Compile Remove="Model\ArcGISMapServiceCapabilitiesExportTiles.cs" />
+      <Compile Remove="Model\ArcGISMapServiceCapabilitiesExportTiles.gb.cs" />
+      <Compile Remove="Model\ArcGISMapServiceCapabilitiesExportMap.cs" />
+      <Compile Remove="Model\ArcGISMapServiceCapabilitiesExportMap.gb.cs" />
+      <Compile Remove="Components\AuthoringInfoField1ClassBreakInfos.cs" />
+      <Compile Remove="Components\AuthoringInfoField1ClassBreakInfos.gb.cs" />
+      <Compile Remove="Components\AuthoringInfoField.cs" />
+      <Compile Remove="Components\AuthoringInfoField.gb.cs" />
+      <Compile Remove="Components\AuthoringInfo.cs" />
+      <Compile Remove="Components\AuthoringInfo.gb.cs" />
+    </ItemGroup>
+
     <Target Name="NPM Install" BeforeTargets="PreBuildEvent" Condition="$(TargetFrameworks.StartsWith($(TargetFramework))) AND '$(OptOutFromCoreEsBuild)' != 'true'">
         <!-- Runs synchronously to ensure all files are ready for nuget packaging in release mode -->
         <Message Importance="high" Text="Running NPM Install" />

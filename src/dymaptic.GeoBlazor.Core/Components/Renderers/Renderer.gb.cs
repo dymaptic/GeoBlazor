@@ -90,5 +90,5 @@ public abstract partial class Renderer
     }
     
 #endregion
-      
+    
 }

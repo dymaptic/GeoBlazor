@@ -22,10 +22,6 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     /// <summary>
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
-    /// <param name="uniqueValueInfos">
-    ///     Defines categories and their corresponding symbols based on a set of values expected from the provided <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#field">field</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#valueExpression">valueExpression</a>.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#uniqueValueInfos">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
     /// <param name="authoringInfo">
     ///     Authoring metadata only included in renderers generated from one of the Smart Mapping creator methods, such as <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-smartMapping-renderers-size.html#createContinuousRenderer">sizeRendererCreator.createContinuousRenderer()</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-smartMapping-renderers-color.html#createContinuousRenderer">colorRendererCreator.createContinuousRenderer()</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-Renderer.html#authoringInfo">ArcGIS Maps SDK for JavaScript</a>
@@ -71,6 +67,10 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     ///     An array of objects defining groups of unique values.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#uniqueValueGroups">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="uniqueValueInfos">
+    ///     Defines categories and their corresponding symbols based on a set of values expected from the provided <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#field">field</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#valueExpression">valueExpression</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#uniqueValueInfos">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     /// <param name="valueExpression">
     ///     An <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/">Arcade</a> expression following the specification defined by the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/#visualization">Arcade Visualization Profile</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#valueExpression">ArcGIS Maps SDK for JavaScript</a>
@@ -84,7 +84,6 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-mixins-VisualVariablesMixin.html#visualVariables">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public UniqueValueRenderer(
-        IReadOnlyList<UniqueValueInfo> uniqueValueInfos,
         AuthoringInfo? authoringInfo = null,
         IUniqueValueRendererBackgroundFillSymbol? backgroundFillSymbol = null,
         string? defaultLabel = null,
@@ -96,13 +95,13 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         UniqueValueRendererLegendOptions? legendOptions = null,
         bool? orderByClassesEnabled = null,
         IReadOnlyList<UniqueValueGroup>? uniqueValueGroups = null,
+        IReadOnlyList<UniqueValueInfo>? uniqueValueInfos = null,
         string? valueExpression = null,
         string? valueExpressionTitle = null,
         IReadOnlyList<VisualVariable>? visualVariables = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
-        UniqueValueInfos = uniqueValueInfos;
         AuthoringInfo = authoringInfo;
         BackgroundFillSymbol = backgroundFillSymbol;
         DefaultLabel = defaultLabel;
@@ -114,6 +113,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         LegendOptions = legendOptions;
         OrderByClassesEnabled = orderByClassesEnabled;
         UniqueValueGroups = uniqueValueGroups;
+        UniqueValueInfos = uniqueValueInfos;
         ValueExpression = valueExpression;
         ValueExpressionTitle = valueExpressionTitle;
         VisualVariables = visualVariables;

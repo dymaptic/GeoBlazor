@@ -7,7 +7,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 ///    Feature templates define all the information required to create a new feature in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html">feature layer</a>.
 ///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureTemplate.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial class FeatureTemplate: MapComponent
+public partial class FeatureTemplate
 {
 
     /// <summary>
@@ -259,7 +259,7 @@ public partial class FeatureTemplate: MapComponent
 #pragma warning disable BL0005
         Prototype = new Graphic();
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Prototype)] = Prototype;
+        ModifiedParameters[nameof(Prototype)] = Prototype;
         Prototype.Parent = this;
         Prototype.View = View;
         Prototype.JsComponentReference = refResult;

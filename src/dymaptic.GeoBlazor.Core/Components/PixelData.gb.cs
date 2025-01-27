@@ -154,7 +154,7 @@ public partial class PixelData : MapComponent
 #pragma warning disable BL0005
         PixelBlock = new PixelBlock();
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(PixelBlock)] = PixelBlock;
+        ModifiedParameters[nameof(PixelBlock)] = PixelBlock;
         PixelBlock.Parent = this;
         PixelBlock.View = View;
         PixelBlock.JsComponentReference = refResult;
