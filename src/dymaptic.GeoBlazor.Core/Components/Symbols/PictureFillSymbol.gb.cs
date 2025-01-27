@@ -149,11 +149,16 @@ public partial class PictureFillSymbol : IRouteSymbolsPolygonBarriers,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Height = await CoreJsModule!.InvokeAsync<Dimension?>("getProperty",
+        Dimension? result = await CoreJsModule!.InvokeAsync<Dimension?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "height");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Height = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Height)] = Height;
+             ModifiedParameters[nameof(Height)] = Height;
+        }
+         
         return Height;
     }
     
@@ -174,11 +179,16 @@ public partial class PictureFillSymbol : IRouteSymbolsPolygonBarriers,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Url = await CoreJsModule!.InvokeAsync<string>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "url");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Url = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Url)] = Url;
+             ModifiedParameters[nameof(Url)] = Url;
+        }
+         
         return Url;
     }
     
@@ -199,11 +209,16 @@ public partial class PictureFillSymbol : IRouteSymbolsPolygonBarriers,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Width = await CoreJsModule!.InvokeAsync<Dimension?>("getProperty",
+        Dimension? result = await CoreJsModule!.InvokeAsync<Dimension?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "width");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Width = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Width)] = Width;
+             ModifiedParameters[nameof(Width)] = Width;
+        }
+         
         return Width;
     }
     
@@ -224,11 +239,16 @@ public partial class PictureFillSymbol : IRouteSymbolsPolygonBarriers,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Xoffset = await CoreJsModule!.InvokeAsync<Dimension?>("getProperty",
+        Dimension? result = await CoreJsModule!.InvokeAsync<Dimension?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "xoffset");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Xoffset = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Xoffset)] = Xoffset;
+             ModifiedParameters[nameof(Xoffset)] = Xoffset;
+        }
+         
         return Xoffset;
     }
     
@@ -249,11 +269,16 @@ public partial class PictureFillSymbol : IRouteSymbolsPolygonBarriers,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Xscale = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "xscale");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Xscale = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Xscale)] = Xscale;
+             ModifiedParameters[nameof(Xscale)] = Xscale;
+        }
+         
         return Xscale;
     }
     
@@ -274,11 +299,16 @@ public partial class PictureFillSymbol : IRouteSymbolsPolygonBarriers,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Yoffset = await CoreJsModule!.InvokeAsync<Dimension?>("getProperty",
+        Dimension? result = await CoreJsModule!.InvokeAsync<Dimension?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "yoffset");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Yoffset = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Yoffset)] = Yoffset;
+             ModifiedParameters[nameof(Yoffset)] = Yoffset;
+        }
+         
         return Yoffset;
     }
     
@@ -299,11 +329,16 @@ public partial class PictureFillSymbol : IRouteSymbolsPolygonBarriers,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Yscale = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "yscale");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Yscale = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Yscale)] = Yscale;
+             ModifiedParameters[nameof(Yscale)] = Yscale;
+        }
+         
         return Yscale;
     }
     
@@ -329,7 +364,7 @@ public partial class PictureFillSymbol : IRouteSymbolsPolygonBarriers,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -359,7 +394,7 @@ public partial class PictureFillSymbol : IRouteSymbolsPolygonBarriers,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -389,7 +424,7 @@ public partial class PictureFillSymbol : IRouteSymbolsPolygonBarriers,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -419,7 +454,7 @@ public partial class PictureFillSymbol : IRouteSymbolsPolygonBarriers,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -449,7 +484,7 @@ public partial class PictureFillSymbol : IRouteSymbolsPolygonBarriers,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -479,7 +514,7 @@ public partial class PictureFillSymbol : IRouteSymbolsPolygonBarriers,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -509,7 +544,7 @@ public partial class PictureFillSymbol : IRouteSymbolsPolygonBarriers,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

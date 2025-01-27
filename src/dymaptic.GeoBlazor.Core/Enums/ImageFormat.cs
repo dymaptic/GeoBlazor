@@ -4,9 +4,7 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <summary>
-///          <summary>
-///           The format of the data sent by the server.
-///           </summary>
+///      The format of the data sent by the server.
 ///      </summary>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<ImageFormat>))]

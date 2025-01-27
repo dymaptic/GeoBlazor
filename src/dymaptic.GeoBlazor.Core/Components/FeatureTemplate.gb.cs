@@ -7,7 +7,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 ///    Feature templates define all the information required to create a new feature in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html">feature layer</a>.
 ///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureTemplate.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial class FeatureTemplate : MapComponent
+public partial class FeatureTemplate: MapComponent
 {
 
     /// <summary>
@@ -127,11 +127,16 @@ public partial class FeatureTemplate : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Description = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "description");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Description = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Description)] = Description;
+             ModifiedParameters[nameof(Description)] = Description;
+        }
+         
         return Description;
     }
     
@@ -152,11 +157,16 @@ public partial class FeatureTemplate : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        DrawingTool = await CoreJsModule!.InvokeAsync<DrawingTool>("getProperty",
+        DrawingTool? result = await CoreJsModule!.InvokeAsync<DrawingTool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "drawingTool");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             DrawingTool = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(DrawingTool)] = DrawingTool;
+             ModifiedParameters[nameof(DrawingTool)] = DrawingTool;
+        }
+         
         return DrawingTool;
     }
     
@@ -177,11 +187,16 @@ public partial class FeatureTemplate : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Name = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "name");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Name = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Name)] = Name;
+             ModifiedParameters[nameof(Name)] = Name;
+        }
+         
         return Name;
     }
     
@@ -211,15 +226,22 @@ public partial class FeatureTemplate : MapComponent
             return null;
         }
         
+        Graphic? result = null;
+        
         // Try to deserialize the object. This might fail if we don't have the
         // all deserialization edge cases handled.
         try
         {
-#pragma warning disable BL0005
-            Prototype = await CoreJsModule.InvokeAsync<Graphic?>(
+            result = await CoreJsModule.InvokeAsync<Graphic?>(
                 "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
+            if (result is not null)
+            {
+#pragma warning disable BL0005
+                Prototype = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Prototype)] = Prototype;
+                ModifiedParameters[nameof(Prototype)] = Prototype;
+            }
+            
             if (Prototype is not null)
             {
                 Prototype.Parent = this;
@@ -271,11 +293,16 @@ public partial class FeatureTemplate : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Thumbnail = await CoreJsModule!.InvokeAsync<Thumbnail?>("getProperty",
+        Thumbnail? result = await CoreJsModule!.InvokeAsync<Thumbnail?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "thumbnail");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Thumbnail = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Thumbnail)] = Thumbnail;
+             ModifiedParameters[nameof(Thumbnail)] = Thumbnail;
+        }
+         
         return Thumbnail;
     }
     
@@ -301,7 +328,7 @@ public partial class FeatureTemplate : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -331,7 +358,7 @@ public partial class FeatureTemplate : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -361,7 +388,7 @@ public partial class FeatureTemplate : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -391,7 +418,7 @@ public partial class FeatureTemplate : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -443,7 +470,7 @@ public partial class FeatureTemplate : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

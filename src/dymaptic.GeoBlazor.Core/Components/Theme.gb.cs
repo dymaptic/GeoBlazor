@@ -82,11 +82,16 @@ public partial class Theme : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        AccentColor = await CoreJsModule!.InvokeAsync<MapColor?>("getProperty",
+        MapColor? result = await CoreJsModule!.InvokeAsync<MapColor?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "accentColor");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             AccentColor = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(AccentColor)] = AccentColor;
+             ModifiedParameters[nameof(AccentColor)] = AccentColor;
+        }
+         
         return AccentColor;
     }
     
@@ -107,11 +112,16 @@ public partial class Theme : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        TextColor = await CoreJsModule!.InvokeAsync<MapColor?>("getProperty",
+        MapColor? result = await CoreJsModule!.InvokeAsync<MapColor?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "textColor");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             TextColor = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(TextColor)] = TextColor;
+             ModifiedParameters[nameof(TextColor)] = TextColor;
+        }
+         
         return TextColor;
     }
     
@@ -137,7 +147,7 @@ public partial class Theme : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -167,7 +177,7 @@ public partial class Theme : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

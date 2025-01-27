@@ -85,11 +85,16 @@ public partial class PieChartMediaInfo : IChartMediaInfo
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Value = await CoreJsModule!.InvokeAsync<ChartMediaInfoValue?>("getProperty",
+        ChartMediaInfoValue? result = await CoreJsModule!.InvokeAsync<ChartMediaInfoValue?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "value");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Value = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Value)] = Value;
+             ModifiedParameters[nameof(Value)] = Value;
+        }
+         
         return Value;
     }
     
@@ -115,7 +120,7 @@ public partial class PieChartMediaInfo : IChartMediaInfo
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

@@ -112,11 +112,16 @@ public partial class ActionToggle
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Value = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "value");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Value = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Value)] = Value;
+             ModifiedParameters[nameof(Value)] = Value;
+        }
+         
         return Value;
     }
     
@@ -142,7 +147,7 @@ public partial class ActionToggle
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

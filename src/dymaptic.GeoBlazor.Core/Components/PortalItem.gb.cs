@@ -523,11 +523,16 @@ public partial class PortalItem
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Access = await CoreJsModule!.InvokeAsync<PortalItemAccess>("getProperty",
+        PortalItemAccess? result = await CoreJsModule!.InvokeAsync<PortalItemAccess?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "access");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Access = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Access)] = Access;
+             ModifiedParameters[nameof(Access)] = Access;
+        }
+         
         return Access;
     }
     
@@ -548,11 +553,16 @@ public partial class PortalItem
         }
 
         // get the property value
-#pragma warning disable BL0005
-        AccessInformation = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "accessInformation");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             AccessInformation = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(AccessInformation)] = AccessInformation;
+             ModifiedParameters[nameof(AccessInformation)] = AccessInformation;
+        }
+         
         return AccessInformation;
     }
     
@@ -573,11 +583,16 @@ public partial class PortalItem
         }
 
         // get the property value
-#pragma warning disable BL0005
-        ApiKey = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "apiKey");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ApiKey = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(ApiKey)] = ApiKey;
+             ModifiedParameters[nameof(ApiKey)] = ApiKey;
+        }
+         
         return ApiKey;
     }
     
@@ -598,11 +613,16 @@ public partial class PortalItem
         }
 
         // get the property value
-#pragma warning disable BL0005
-        ApplicationProxies = await CoreJsModule!.InvokeAsync<IReadOnlyList<PortalItemApplicationProxies>?>("getProperty",
+        IReadOnlyList<PortalItemApplicationProxies>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<PortalItemApplicationProxies>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "applicationProxies");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ApplicationProxies = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(ApplicationProxies)] = ApplicationProxies;
+             ModifiedParameters[nameof(ApplicationProxies)] = ApplicationProxies;
+        }
+         
         return ApplicationProxies;
     }
     
@@ -623,11 +643,16 @@ public partial class PortalItem
         }
 
         // get the property value
-#pragma warning disable BL0005
-        AvgRating = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "avgRating");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             AvgRating = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(AvgRating)] = AvgRating;
+             ModifiedParameters[nameof(AvgRating)] = AvgRating;
+        }
+         
         return AvgRating;
     }
     
@@ -648,11 +673,16 @@ public partial class PortalItem
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Categories = await CoreJsModule!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
+        IReadOnlyList<string>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "categories");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Categories = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Categories)] = Categories;
+             ModifiedParameters[nameof(Categories)] = Categories;
+        }
+         
         return Categories;
     }
     
@@ -673,11 +703,16 @@ public partial class PortalItem
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Created = await CoreJsModule!.InvokeAsync<DateTime>("getProperty",
+        DateTime? result = await CoreJsModule!.InvokeAsync<DateTime?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "created");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Created = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Created)] = Created;
+             ModifiedParameters[nameof(Created)] = Created;
+        }
+         
         return Created;
     }
     
@@ -698,11 +733,16 @@ public partial class PortalItem
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Culture = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "culture");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Culture = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Culture)] = Culture;
+             ModifiedParameters[nameof(Culture)] = Culture;
+        }
+         
         return Culture;
     }
     
@@ -723,11 +763,16 @@ public partial class PortalItem
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Description = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "description");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Description = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Description)] = Description;
+             ModifiedParameters[nameof(Description)] = Description;
+        }
+         
         return Description;
     }
     
@@ -748,11 +793,16 @@ public partial class PortalItem
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Extent = await CoreJsModule!.InvokeAsync<Extent?>("getProperty",
+        Extent? result = await CoreJsModule!.InvokeAsync<Extent?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "extent");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Extent = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Extent)] = Extent;
+             ModifiedParameters[nameof(Extent)] = Extent;
+        }
+         
         return Extent;
     }
     
@@ -773,11 +823,16 @@ public partial class PortalItem
         }
 
         // get the property value
-#pragma warning disable BL0005
-        GroupCategories = await CoreJsModule!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
+        IReadOnlyList<string>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "groupCategories");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             GroupCategories = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(GroupCategories)] = GroupCategories;
+             ModifiedParameters[nameof(GroupCategories)] = GroupCategories;
+        }
+         
         return GroupCategories;
     }
     
@@ -798,11 +853,16 @@ public partial class PortalItem
         }
 
         // get the property value
-#pragma warning disable BL0005
-        IsLayer = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "isLayer");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             IsLayer = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(IsLayer)] = IsLayer;
+             ModifiedParameters[nameof(IsLayer)] = IsLayer;
+        }
+         
         return IsLayer;
     }
     
@@ -823,11 +883,16 @@ public partial class PortalItem
         }
 
         // get the property value
-#pragma warning disable BL0005
-        IsOrgItem = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "isOrgItem");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             IsOrgItem = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(IsOrgItem)] = IsOrgItem;
+             ModifiedParameters[nameof(IsOrgItem)] = IsOrgItem;
+        }
+         
         return IsOrgItem;
     }
     
@@ -848,11 +913,16 @@ public partial class PortalItem
         }
 
         // get the property value
-#pragma warning disable BL0005
-        ItemControl = await CoreJsModule!.InvokeAsync<ItemControl>("getProperty",
+        ItemControl? result = await CoreJsModule!.InvokeAsync<ItemControl?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "itemControl");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ItemControl = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(ItemControl)] = ItemControl;
+             ModifiedParameters[nameof(ItemControl)] = ItemControl;
+        }
+         
         return ItemControl;
     }
     
@@ -873,11 +943,16 @@ public partial class PortalItem
         }
 
         // get the property value
-#pragma warning disable BL0005
-        ItemPageUrl = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "itemPageUrl");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ItemPageUrl = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(ItemPageUrl)] = ItemPageUrl;
+             ModifiedParameters[nameof(ItemPageUrl)] = ItemPageUrl;
+        }
+         
         return ItemPageUrl;
     }
     
@@ -898,11 +973,16 @@ public partial class PortalItem
         }
 
         // get the property value
-#pragma warning disable BL0005
-        ItemUrl = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "itemUrl");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ItemUrl = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(ItemUrl)] = ItemUrl;
+             ModifiedParameters[nameof(ItemUrl)] = ItemUrl;
+        }
+         
         return ItemUrl;
     }
     
@@ -923,11 +1003,16 @@ public partial class PortalItem
         }
 
         // get the property value
-#pragma warning disable BL0005
-        LicenseInfo = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "licenseInfo");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             LicenseInfo = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(LicenseInfo)] = LicenseInfo;
+             ModifiedParameters[nameof(LicenseInfo)] = LicenseInfo;
+        }
+         
         return LicenseInfo;
     }
     
@@ -948,11 +1033,16 @@ public partial class PortalItem
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Loaded = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "loaded");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Loaded = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Loaded)] = Loaded;
+             ModifiedParameters[nameof(Loaded)] = Loaded;
+        }
+         
         return Loaded;
     }
     
@@ -973,11 +1063,16 @@ public partial class PortalItem
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Modified = await CoreJsModule!.InvokeAsync<DateTime>("getProperty",
+        DateTime? result = await CoreJsModule!.InvokeAsync<DateTime?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "modified");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Modified = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Modified)] = Modified;
+             ModifiedParameters[nameof(Modified)] = Modified;
+        }
+         
         return Modified;
     }
     
@@ -998,11 +1093,16 @@ public partial class PortalItem
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Name = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "name");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Name = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Name)] = Name;
+             ModifiedParameters[nameof(Name)] = Name;
+        }
+         
         return Name;
     }
     
@@ -1023,11 +1123,16 @@ public partial class PortalItem
         }
 
         // get the property value
-#pragma warning disable BL0005
-        NumComments = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "numComments");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             NumComments = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(NumComments)] = NumComments;
+             ModifiedParameters[nameof(NumComments)] = NumComments;
+        }
+         
         return NumComments;
     }
     
@@ -1048,11 +1153,16 @@ public partial class PortalItem
         }
 
         // get the property value
-#pragma warning disable BL0005
-        NumRatings = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "numRatings");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             NumRatings = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(NumRatings)] = NumRatings;
+             ModifiedParameters[nameof(NumRatings)] = NumRatings;
+        }
+         
         return NumRatings;
     }
     
@@ -1073,11 +1183,16 @@ public partial class PortalItem
         }
 
         // get the property value
-#pragma warning disable BL0005
-        NumViews = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "numViews");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             NumViews = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(NumViews)] = NumViews;
+             ModifiedParameters[nameof(NumViews)] = NumViews;
+        }
+         
         return NumViews;
     }
     
@@ -1098,11 +1213,16 @@ public partial class PortalItem
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Owner = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "owner");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Owner = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Owner)] = Owner;
+             ModifiedParameters[nameof(Owner)] = Owner;
+        }
+         
         return Owner;
     }
     
@@ -1123,11 +1243,16 @@ public partial class PortalItem
         }
 
         // get the property value
-#pragma warning disable BL0005
-        OwnerFolder = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "ownerFolder");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             OwnerFolder = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(OwnerFolder)] = OwnerFolder;
+             ModifiedParameters[nameof(OwnerFolder)] = OwnerFolder;
+        }
+         
         return OwnerFolder;
     }
     
@@ -1157,15 +1282,22 @@ public partial class PortalItem
             return null;
         }
         
+        Portal? result = null;
+        
         // Try to deserialize the object. This might fail if we don't have the
         // all deserialization edge cases handled.
         try
         {
-#pragma warning disable BL0005
-            Portal = await CoreJsModule.InvokeAsync<Portal?>(
+            result = await CoreJsModule.InvokeAsync<Portal?>(
                 "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
+            if (result is not null)
+            {
+#pragma warning disable BL0005
+                Portal = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Portal)] = Portal;
+                ModifiedParameters[nameof(Portal)] = Portal;
+            }
+            
             if (Portal is not null)
             {
                 Portal.Parent = this;
@@ -1183,7 +1315,7 @@ public partial class PortalItem
 #pragma warning disable BL0005
         Portal = new Portal();
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Portal)] = Portal;
+        ModifiedParameters[nameof(Portal)] = Portal;
         Portal.Parent = this;
         Portal.View = View;
         Portal.JsComponentReference = refResult;
@@ -1274,11 +1406,16 @@ public partial class PortalItem
         }
 
         // get the property value
-#pragma warning disable BL0005
-        PortalItemId = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "portalItemId");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             PortalItemId = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(PortalItemId)] = PortalItemId;
+             ModifiedParameters[nameof(PortalItemId)] = PortalItemId;
+        }
+         
         return PortalItemId;
     }
     
@@ -1299,11 +1436,16 @@ public partial class PortalItem
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Screenshots = await CoreJsModule!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
+        IReadOnlyList<string>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "screenshots");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Screenshots = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Screenshots)] = Screenshots;
+             ModifiedParameters[nameof(Screenshots)] = Screenshots;
+        }
+         
         return Screenshots;
     }
     
@@ -1324,11 +1466,16 @@ public partial class PortalItem
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Size = await CoreJsModule!.InvokeAsync<int>("getProperty",
+        int? result = await CoreJsModule!.InvokeAsync<int?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "size");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Size = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Size)] = Size;
+             ModifiedParameters[nameof(Size)] = Size;
+        }
+         
         return Size;
     }
     
@@ -1349,11 +1496,16 @@ public partial class PortalItem
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Snippet = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "snippet");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Snippet = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Snippet)] = Snippet;
+             ModifiedParameters[nameof(Snippet)] = Snippet;
+        }
+         
         return Snippet;
     }
     
@@ -1374,11 +1526,16 @@ public partial class PortalItem
         }
 
         // get the property value
-#pragma warning disable BL0005
-        SourceJSON = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "sourceJSON");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             SourceJSON = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(SourceJSON)] = SourceJSON;
+             ModifiedParameters[nameof(SourceJSON)] = SourceJSON;
+        }
+         
         return SourceJSON;
     }
     
@@ -1399,11 +1556,16 @@ public partial class PortalItem
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Tags = await CoreJsModule!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
+        IReadOnlyList<string>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "tags");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Tags = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Tags)] = Tags;
+             ModifiedParameters[nameof(Tags)] = Tags;
+        }
+         
         return Tags;
     }
     
@@ -1424,11 +1586,16 @@ public partial class PortalItem
         }
 
         // get the property value
-#pragma warning disable BL0005
-        ThumbnailUrl = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "thumbnailUrl");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ThumbnailUrl = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(ThumbnailUrl)] = ThumbnailUrl;
+             ModifiedParameters[nameof(ThumbnailUrl)] = ThumbnailUrl;
+        }
+         
         return ThumbnailUrl;
     }
     
@@ -1449,11 +1616,16 @@ public partial class PortalItem
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Title = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "title");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Title = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Title)] = Title;
+             ModifiedParameters[nameof(Title)] = Title;
+        }
+         
         return Title;
     }
     
@@ -1474,11 +1646,16 @@ public partial class PortalItem
         }
 
         // get the property value
-#pragma warning disable BL0005
-        TypeKeywords = await CoreJsModule!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
+        IReadOnlyList<string>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "typeKeywords");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             TypeKeywords = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(TypeKeywords)] = TypeKeywords;
+             ModifiedParameters[nameof(TypeKeywords)] = TypeKeywords;
+        }
+         
         return TypeKeywords;
     }
     
@@ -1499,11 +1676,16 @@ public partial class PortalItem
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Url = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "url");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Url = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Url)] = Url;
+             ModifiedParameters[nameof(Url)] = Url;
+        }
+         
         return Url;
     }
     
@@ -1529,7 +1711,7 @@ public partial class PortalItem
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -1559,7 +1741,7 @@ public partial class PortalItem
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -1589,7 +1771,7 @@ public partial class PortalItem
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -1619,7 +1801,7 @@ public partial class PortalItem
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -1649,7 +1831,7 @@ public partial class PortalItem
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -1679,7 +1861,7 @@ public partial class PortalItem
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -1709,7 +1891,7 @@ public partial class PortalItem
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -1739,7 +1921,7 @@ public partial class PortalItem
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -1769,7 +1951,7 @@ public partial class PortalItem
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -1799,7 +1981,7 @@ public partial class PortalItem
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -1829,7 +2011,7 @@ public partial class PortalItem
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -1859,7 +2041,7 @@ public partial class PortalItem
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -1889,7 +2071,7 @@ public partial class PortalItem
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -1919,7 +2101,7 @@ public partial class PortalItem
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -1949,7 +2131,7 @@ public partial class PortalItem
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -1979,7 +2161,7 @@ public partial class PortalItem
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2009,7 +2191,7 @@ public partial class PortalItem
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2039,7 +2221,7 @@ public partial class PortalItem
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2069,7 +2251,7 @@ public partial class PortalItem
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2121,7 +2303,7 @@ public partial class PortalItem
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2151,7 +2333,7 @@ public partial class PortalItem
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2181,7 +2363,7 @@ public partial class PortalItem
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2211,7 +2393,7 @@ public partial class PortalItem
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2241,7 +2423,7 @@ public partial class PortalItem
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2271,7 +2453,7 @@ public partial class PortalItem
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2301,7 +2483,7 @@ public partial class PortalItem
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2331,7 +2513,7 @@ public partial class PortalItem
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2844,16 +3026,6 @@ public partial class PortalItem
     {
         switch (child)
         {
-            case PortalItemApplicationProxies applicationProxies:
-                ApplicationProxies ??= [];
-                if (!ApplicationProxies.Contains(applicationProxies))
-                {
-                    ApplicationProxies = [..ApplicationProxies, applicationProxies];
-                    
-                    ModifiedParameters[nameof(ApplicationProxies)] = ApplicationProxies;
-                }
-                
-                return true;
             case Portal portal:
                 if (portal != Portal)
                 {
@@ -2872,11 +3044,6 @@ public partial class PortalItem
     {
         switch (child)
         {
-            case PortalItemApplicationProxies applicationProxies:
-                ApplicationProxies = ApplicationProxies?.Where(a => a != applicationProxies).ToList();
-                
-                ModifiedParameters[nameof(ApplicationProxies)] = ApplicationProxies;
-                return true;
             case Portal _:
                 Portal = null;
                 
@@ -2894,13 +3061,6 @@ public partial class PortalItem
         if (Id is null)
         {
             throw new MissingRequiredChildElementException(nameof(PortalItem), nameof(Id));
-        }
-        if (ApplicationProxies is not null)
-        {
-            foreach (PortalItemApplicationProxies child in ApplicationProxies)
-            {
-                child.ValidateRequiredGeneratedChildren();
-            }
         }
         Portal?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();

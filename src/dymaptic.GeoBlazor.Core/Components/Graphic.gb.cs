@@ -52,11 +52,16 @@ public partial class Graphic : IHitTestItem,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        AggregateGeometries = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "aggregateGeometries");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             AggregateGeometries = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(AggregateGeometries)] = AggregateGeometries;
+             ModifiedParameters[nameof(AggregateGeometries)] = AggregateGeometries;
+        }
+         
         return AggregateGeometries;
     }
     
@@ -77,11 +82,16 @@ public partial class Graphic : IHitTestItem,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        IsAggregate = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "isAggregate");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             IsAggregate = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(IsAggregate)] = IsAggregate;
+             ModifiedParameters[nameof(IsAggregate)] = IsAggregate;
+        }
+         
         return IsAggregate;
     }
     
@@ -102,11 +112,16 @@ public partial class Graphic : IHitTestItem,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Origin = await CoreJsModule!.InvokeAsync<GraphicOrigin?>("getProperty",
+        GraphicOrigin? result = await CoreJsModule!.InvokeAsync<GraphicOrigin?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "origin");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Origin = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Origin)] = Origin;
+             ModifiedParameters[nameof(Origin)] = Origin;
+        }
+         
         return Origin;
     }
     
@@ -132,7 +147,7 @@ public partial class Graphic : IHitTestItem,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -162,7 +177,7 @@ public partial class Graphic : IHitTestItem,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

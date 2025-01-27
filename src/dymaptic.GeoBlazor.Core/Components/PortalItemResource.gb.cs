@@ -90,11 +90,16 @@ public partial class PortalItemResource : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Path = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "path");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Path = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Path)] = Path;
+             ModifiedParameters[nameof(Path)] = Path;
+        }
+         
         return Path;
     }
     
@@ -124,15 +129,22 @@ public partial class PortalItemResource : MapComponent
             return null;
         }
         
+        PortalItem? result = null;
+        
         // Try to deserialize the object. This might fail if we don't have the
         // all deserialization edge cases handled.
         try
         {
-#pragma warning disable BL0005
-            PortalItem = await CoreJsModule.InvokeAsync<PortalItem?>(
+            result = await CoreJsModule.InvokeAsync<PortalItem?>(
                 "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
+            if (result is not null)
+            {
+#pragma warning disable BL0005
+                PortalItem = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(PortalItem)] = PortalItem;
+                ModifiedParameters[nameof(PortalItem)] = PortalItem;
+            }
+            
             if (PortalItem is not null)
             {
                 PortalItem.Parent = this;
@@ -150,7 +162,7 @@ public partial class PortalItemResource : MapComponent
 #pragma warning disable BL0005
         PortalItem = new PortalItem();
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(PortalItem)] = PortalItem;
+        ModifiedParameters[nameof(PortalItem)] = PortalItem;
         PortalItem.Parent = this;
         PortalItem.View = View;
         PortalItem.JsComponentReference = refResult;
@@ -213,11 +225,16 @@ public partial class PortalItemResource : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Url = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "url");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Url = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Url)] = Url;
+             ModifiedParameters[nameof(Url)] = Url;
+        }
+         
         return Url;
     }
     
@@ -243,7 +260,7 @@ public partial class PortalItemResource : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -273,7 +290,7 @@ public partial class PortalItemResource : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

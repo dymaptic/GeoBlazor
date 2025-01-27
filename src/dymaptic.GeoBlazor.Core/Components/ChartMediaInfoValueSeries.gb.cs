@@ -78,11 +78,16 @@ public partial class ChartMediaInfoValueSeries
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Color = await CoreJsModule!.InvokeAsync<MapColor?>("getProperty",
+        MapColor? result = await CoreJsModule!.InvokeAsync<MapColor?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "color");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Color = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Color)] = Color;
+             ModifiedParameters[nameof(Color)] = Color;
+        }
+         
         return Color;
     }
     
@@ -103,11 +108,16 @@ public partial class ChartMediaInfoValueSeries
         }
 
         // get the property value
-#pragma warning disable BL0005
-        FieldName = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "fieldName");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             FieldName = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(FieldName)] = FieldName;
+             ModifiedParameters[nameof(FieldName)] = FieldName;
+        }
+         
         return FieldName;
     }
     
@@ -128,11 +138,16 @@ public partial class ChartMediaInfoValueSeries
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Tooltip = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "tooltip");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Tooltip = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Tooltip)] = Tooltip;
+             ModifiedParameters[nameof(Tooltip)] = Tooltip;
+        }
+         
         return Tooltip;
     }
     
@@ -153,11 +168,16 @@ public partial class ChartMediaInfoValueSeries
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Value = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "value");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Value = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Value)] = Value;
+             ModifiedParameters[nameof(Value)] = Value;
+        }
+         
         return Value;
     }
     

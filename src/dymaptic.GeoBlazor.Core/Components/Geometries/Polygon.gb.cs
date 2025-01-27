@@ -85,11 +85,16 @@ public partial class Polygon
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Centroid = await CoreJsModule!.InvokeAsync<Point?>("getProperty",
+        Point? result = await CoreJsModule!.InvokeAsync<Point?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "centroid");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Centroid = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Centroid)] = Centroid;
+             ModifiedParameters[nameof(Centroid)] = Centroid;
+        }
+         
         return Centroid;
     }
     
@@ -110,11 +115,16 @@ public partial class Polygon
         }
 
         // get the property value
-#pragma warning disable BL0005
-        IsSelfIntersecting = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "isSelfIntersecting");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             IsSelfIntersecting = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(IsSelfIntersecting)] = IsSelfIntersecting;
+             ModifiedParameters[nameof(IsSelfIntersecting)] = IsSelfIntersecting;
+        }
+         
         return IsSelfIntersecting;
     }
     
@@ -140,7 +150,7 @@ public partial class Polygon
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -170,7 +180,7 @@ public partial class Polygon
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

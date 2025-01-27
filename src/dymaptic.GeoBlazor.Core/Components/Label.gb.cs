@@ -170,11 +170,16 @@ public partial class Label
         }
 
         // get the property value
-#pragma warning disable BL0005
-        AllowOverrun = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "allowOverrun");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             AllowOverrun = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(AllowOverrun)] = AllowOverrun;
+             ModifiedParameters[nameof(AllowOverrun)] = AllowOverrun;
+        }
+         
         return AllowOverrun;
     }
     
@@ -195,11 +200,16 @@ public partial class Label
         }
 
         // get the property value
-#pragma warning disable BL0005
-        DeconflictionStrategy = await CoreJsModule!.InvokeAsync<DeconflictionStrategy>("getProperty",
+        DeconflictionStrategy? result = await CoreJsModule!.InvokeAsync<DeconflictionStrategy?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "deconflictionStrategy");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             DeconflictionStrategy = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(DeconflictionStrategy)] = DeconflictionStrategy;
+             ModifiedParameters[nameof(DeconflictionStrategy)] = DeconflictionStrategy;
+        }
+         
         return DeconflictionStrategy;
     }
     
@@ -220,11 +230,16 @@ public partial class Label
         }
 
         // get the property value
-#pragma warning disable BL0005
-        LabelExpression = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "labelExpression");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             LabelExpression = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(LabelExpression)] = LabelExpression;
+             ModifiedParameters[nameof(LabelExpression)] = LabelExpression;
+        }
+         
         return LabelExpression;
     }
     
@@ -245,11 +260,16 @@ public partial class Label
         }
 
         // get the property value
-#pragma warning disable BL0005
-        LabelExpressionInfo = await CoreJsModule!.InvokeAsync<LabelExpressionInfo?>("getProperty",
+        LabelExpressionInfo? result = await CoreJsModule!.InvokeAsync<LabelExpressionInfo?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "labelExpressionInfo");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             LabelExpressionInfo = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(LabelExpressionInfo)] = LabelExpressionInfo;
+             ModifiedParameters[nameof(LabelExpressionInfo)] = LabelExpressionInfo;
+        }
+         
         return LabelExpressionInfo;
     }
     
@@ -270,11 +290,16 @@ public partial class Label
         }
 
         // get the property value
-#pragma warning disable BL0005
-        LabelPlacement = await CoreJsModule!.InvokeAsync<LabelPlacement>("getProperty",
+        LabelPlacement? result = await CoreJsModule!.InvokeAsync<LabelPlacement?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "labelPlacement");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             LabelPlacement = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(LabelPlacement)] = LabelPlacement;
+             ModifiedParameters[nameof(LabelPlacement)] = LabelPlacement;
+        }
+         
         return LabelPlacement;
     }
     
@@ -295,11 +320,16 @@ public partial class Label
         }
 
         // get the property value
-#pragma warning disable BL0005
-        LabelPosition = await CoreJsModule!.InvokeAsync<LabelPosition>("getProperty",
+        LabelPosition? result = await CoreJsModule!.InvokeAsync<LabelPosition?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "labelPosition");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             LabelPosition = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(LabelPosition)] = LabelPosition;
+             ModifiedParameters[nameof(LabelPosition)] = LabelPosition;
+        }
+         
         return LabelPosition;
     }
     
@@ -320,11 +350,16 @@ public partial class Label
         }
 
         // get the property value
-#pragma warning disable BL0005
-        MaxScale = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "maxScale");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             MaxScale = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(MaxScale)] = MaxScale;
+             ModifiedParameters[nameof(MaxScale)] = MaxScale;
+        }
+         
         return MaxScale;
     }
     
@@ -345,11 +380,16 @@ public partial class Label
         }
 
         // get the property value
-#pragma warning disable BL0005
-        MinScale = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "minScale");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             MinScale = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(MinScale)] = MinScale;
+             ModifiedParameters[nameof(MinScale)] = MinScale;
+        }
+         
         return MinScale;
     }
     
@@ -370,11 +410,16 @@ public partial class Label
         }
 
         // get the property value
-#pragma warning disable BL0005
-        RepeatLabel = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "repeatLabel");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             RepeatLabel = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(RepeatLabel)] = RepeatLabel;
+             ModifiedParameters[nameof(RepeatLabel)] = RepeatLabel;
+        }
+         
         return RepeatLabel;
     }
     
@@ -395,11 +440,16 @@ public partial class Label
         }
 
         // get the property value
-#pragma warning disable BL0005
-        RepeatLabelDistance = await CoreJsModule!.InvokeAsync<Dimension?>("getProperty",
+        Dimension? result = await CoreJsModule!.InvokeAsync<Dimension?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "repeatLabelDistance");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             RepeatLabelDistance = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(RepeatLabelDistance)] = RepeatLabelDistance;
+             ModifiedParameters[nameof(RepeatLabelDistance)] = RepeatLabelDistance;
+        }
+         
         return RepeatLabelDistance;
     }
     
@@ -420,11 +470,16 @@ public partial class Label
         }
 
         // get the property value
-#pragma warning disable BL0005
-        UseCodedValues = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "useCodedValues");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             UseCodedValues = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(UseCodedValues)] = UseCodedValues;
+             ModifiedParameters[nameof(UseCodedValues)] = UseCodedValues;
+        }
+         
         return UseCodedValues;
     }
     
@@ -445,11 +500,16 @@ public partial class Label
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Where = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "where");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Where = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Where)] = Where;
+             ModifiedParameters[nameof(Where)] = Where;
+        }
+         
         return Where;
     }
     
@@ -475,7 +535,7 @@ public partial class Label
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -505,7 +565,7 @@ public partial class Label
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -535,7 +595,7 @@ public partial class Label
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -565,7 +625,7 @@ public partial class Label
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -595,7 +655,7 @@ public partial class Label
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -625,7 +685,7 @@ public partial class Label
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -655,7 +715,7 @@ public partial class Label
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -685,7 +745,7 @@ public partial class Label
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -715,7 +775,7 @@ public partial class Label
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -745,7 +805,7 @@ public partial class Label
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -775,7 +835,7 @@ public partial class Label
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -805,7 +865,7 @@ public partial class Label
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

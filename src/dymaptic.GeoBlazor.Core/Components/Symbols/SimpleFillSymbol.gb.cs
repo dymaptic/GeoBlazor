@@ -72,11 +72,16 @@ public partial class SimpleFillSymbol : IRouteSymbolsPolygonBarriers,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Style = await CoreJsModule!.InvokeAsync<SimpleFillSymbolStyle>("getProperty",
+        SimpleFillSymbolStyle? result = await CoreJsModule!.InvokeAsync<SimpleFillSymbolStyle?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "style");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Style = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Style)] = Style;
+             ModifiedParameters[nameof(Style)] = Style;
+        }
+         
         return Style;
     }
     
@@ -102,7 +107,7 @@ public partial class SimpleFillSymbol : IRouteSymbolsPolygonBarriers,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

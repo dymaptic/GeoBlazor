@@ -98,11 +98,16 @@ public partial class MultidimensionalSubset
         }
 
         // get the property value
-#pragma warning disable BL0005
-        AreaOfInterest = await CoreJsModule!.InvokeAsync<Geometry?>("getProperty",
+        Geometry? result = await CoreJsModule!.InvokeAsync<Geometry?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "areaOfInterest");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             AreaOfInterest = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(AreaOfInterest)] = AreaOfInterest;
+             ModifiedParameters[nameof(AreaOfInterest)] = AreaOfInterest;
+        }
+         
         return AreaOfInterest;
     }
     
@@ -123,11 +128,16 @@ public partial class MultidimensionalSubset
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Dimensions = await CoreJsModule!.InvokeAsync<IReadOnlyList<SubsetDimension>?>("getProperty",
+        IReadOnlyList<SubsetDimension>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<SubsetDimension>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "dimensions");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Dimensions = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Dimensions)] = Dimensions;
+             ModifiedParameters[nameof(Dimensions)] = Dimensions;
+        }
+         
         return Dimensions;
     }
     
@@ -148,11 +158,16 @@ public partial class MultidimensionalSubset
         }
 
         // get the property value
-#pragma warning disable BL0005
-        SubsetDefinitions = await CoreJsModule!.InvokeAsync<IReadOnlyList<DimensionalDefinition>?>("getProperty",
+        IReadOnlyList<DimensionalDefinition>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<DimensionalDefinition>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "subsetDefinitions");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             SubsetDefinitions = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(SubsetDefinitions)] = SubsetDefinitions;
+             ModifiedParameters[nameof(SubsetDefinitions)] = SubsetDefinitions;
+        }
+         
         return SubsetDefinitions;
     }
     
@@ -173,11 +188,16 @@ public partial class MultidimensionalSubset
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Variables = await CoreJsModule!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
+        IReadOnlyList<string>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "variables");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Variables = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Variables)] = Variables;
+             ModifiedParameters[nameof(Variables)] = Variables;
+        }
+         
         return Variables;
     }
     
@@ -203,7 +223,7 @@ public partial class MultidimensionalSubset
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -233,7 +253,7 @@ public partial class MultidimensionalSubset
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -293,16 +313,6 @@ public partial class MultidimensionalSubset
     {
         switch (child)
         {
-            case SubsetDimension dimensions:
-                Dimensions ??= [];
-                if (!Dimensions.Contains(dimensions))
-                {
-                    Dimensions = [..Dimensions, dimensions];
-                    
-                    ModifiedParameters[nameof(Dimensions)] = Dimensions;
-                }
-                
-                return true;
             case DimensionalDefinition subsetDefinitions:
                 SubsetDefinitions ??= [];
                 if (!SubsetDefinitions.Contains(subsetDefinitions))
@@ -322,11 +332,6 @@ public partial class MultidimensionalSubset
     {
         switch (child)
         {
-            case SubsetDimension dimensions:
-                Dimensions = Dimensions?.Where(d => d != dimensions).ToList();
-                
-                ModifiedParameters[nameof(Dimensions)] = Dimensions;
-                return true;
             case DimensionalDefinition subsetDefinitions:
                 SubsetDefinitions = SubsetDefinitions?.Where(s => s != subsetDefinitions).ToList();
                 
@@ -341,13 +346,6 @@ public partial class MultidimensionalSubset
     internal override void ValidateRequiredGeneratedChildren()
     {
     
-        if (Dimensions is not null)
-        {
-            foreach (SubsetDimension child in Dimensions)
-            {
-                child.ValidateRequiredGeneratedChildren();
-            }
-        }
         if (SubsetDefinitions is not null)
         {
             foreach (DimensionalDefinition child in SubsetDefinitions)

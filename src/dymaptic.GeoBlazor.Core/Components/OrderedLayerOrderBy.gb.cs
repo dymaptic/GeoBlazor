@@ -68,11 +68,16 @@ public partial class OrderedLayerOrderBy
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Field = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "field");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Field = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Field)] = Field;
+             ModifiedParameters[nameof(Field)] = Field;
+        }
+         
         return Field;
     }
     
@@ -93,11 +98,16 @@ public partial class OrderedLayerOrderBy
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Order = await CoreJsModule!.InvokeAsync<SortOrder>("getProperty",
+        SortOrder? result = await CoreJsModule!.InvokeAsync<SortOrder?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "order");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Order = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Order)] = Order;
+             ModifiedParameters[nameof(Order)] = Order;
+        }
+         
         return Order;
     }
     
@@ -118,11 +128,16 @@ public partial class OrderedLayerOrderBy
         }
 
         // get the property value
-#pragma warning disable BL0005
-        ValueExpression = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "valueExpression");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ValueExpression = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(ValueExpression)] = ValueExpression;
+             ModifiedParameters[nameof(ValueExpression)] = ValueExpression;
+        }
+         
         return ValueExpression;
     }
     
@@ -148,7 +163,7 @@ public partial class OrderedLayerOrderBy
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -178,7 +193,7 @@ public partial class OrderedLayerOrderBy
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -208,7 +223,7 @@ public partial class OrderedLayerOrderBy
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

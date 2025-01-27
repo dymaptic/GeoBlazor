@@ -29,11 +29,16 @@ public abstract partial class Domain
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Name = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "name");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Name = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Name)] = Name;
+             ModifiedParameters[nameof(Name)] = Name;
+        }
+         
         return Name;
     }
     
@@ -59,7 +64,7 @@ public abstract partial class Domain
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

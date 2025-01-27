@@ -95,11 +95,16 @@ public partial class SimpleRenderer : IRendererWithVisualVariables,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Label = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "label");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Label = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Label)] = Label;
+             ModifiedParameters[nameof(Label)] = Label;
+        }
+         
         return Label;
     }
     
@@ -120,11 +125,16 @@ public partial class SimpleRenderer : IRendererWithVisualVariables,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        VisualVariables = await CoreJsModule!.InvokeAsync<IReadOnlyList<VisualVariable>?>("getProperty",
+        IReadOnlyList<VisualVariable>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<VisualVariable>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "visualVariables");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             VisualVariables = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(VisualVariables)] = VisualVariables;
+             ModifiedParameters[nameof(VisualVariables)] = VisualVariables;
+        }
+         
         return VisualVariables;
     }
     
@@ -150,7 +160,7 @@ public partial class SimpleRenderer : IRendererWithVisualVariables,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -180,7 +190,7 @@ public partial class SimpleRenderer : IRendererWithVisualVariables,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

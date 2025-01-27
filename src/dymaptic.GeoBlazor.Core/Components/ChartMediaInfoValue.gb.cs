@@ -112,11 +112,16 @@ public partial class ChartMediaInfoValue
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Colors = await CoreJsModule!.InvokeAsync<IReadOnlyList<MapColor>?>("getProperty",
+        IReadOnlyList<MapColor>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<MapColor>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "colors");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Colors = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Colors)] = Colors;
+             ModifiedParameters[nameof(Colors)] = Colors;
+        }
+         
         return Colors;
     }
     
@@ -137,11 +142,16 @@ public partial class ChartMediaInfoValue
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Fields = await CoreJsModule!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
+        IReadOnlyList<string>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "fields");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Fields = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Fields)] = Fields;
+             ModifiedParameters[nameof(Fields)] = Fields;
+        }
+         
         return Fields;
     }
     
@@ -162,11 +172,16 @@ public partial class ChartMediaInfoValue
         }
 
         // get the property value
-#pragma warning disable BL0005
-        NormalizeField = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "normalizeField");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             NormalizeField = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(NormalizeField)] = NormalizeField;
+             ModifiedParameters[nameof(NormalizeField)] = NormalizeField;
+        }
+         
         return NormalizeField;
     }
     
@@ -187,11 +202,16 @@ public partial class ChartMediaInfoValue
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Series = await CoreJsModule!.InvokeAsync<IReadOnlyList<ChartMediaInfoValueSeries>?>("getProperty",
+        IReadOnlyList<ChartMediaInfoValueSeries>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<ChartMediaInfoValueSeries>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "series");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Series = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Series)] = Series;
+             ModifiedParameters[nameof(Series)] = Series;
+        }
+         
         return Series;
     }
     
@@ -212,11 +232,16 @@ public partial class ChartMediaInfoValue
         }
 
         // get the property value
-#pragma warning disable BL0005
-        TooltipField = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "tooltipField");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             TooltipField = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(TooltipField)] = TooltipField;
+             ModifiedParameters[nameof(TooltipField)] = TooltipField;
+        }
+         
         return TooltipField;
     }
     
@@ -242,7 +267,7 @@ public partial class ChartMediaInfoValue
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -272,7 +297,7 @@ public partial class ChartMediaInfoValue
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -302,7 +327,7 @@ public partial class ChartMediaInfoValue
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -332,7 +357,7 @@ public partial class ChartMediaInfoValue
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -362,7 +387,7 @@ public partial class ChartMediaInfoValue
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

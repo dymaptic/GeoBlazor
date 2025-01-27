@@ -6,8 +6,7 @@ import {
     buildJsPopupTemplate,
     buildJsRenderer,
     buildJsFormTemplate,
-    buildJsMultidimensionalSubset,
-    buildJsExtent
+    buildJsMultidimensionalSubset
 } from './jsBuilder';
 
 // region functions
@@ -1074,9 +1073,6 @@ export async function buildJsImageryLayer(dotNetObject: any, layerId: string | n
 export async function buildJsWCSLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { default: WCSLayer } = await import('@arcgis/core/layers/WCSLayer');
     let jsWCSLayer = new WCSLayer();
-    if (hasValue(dotNetObject.coverageInfo)) {
-        jsWCSLayer.coverageInfo = await buildJsCoverageInfo(dotNetObject.coverageInfo) as any;
-    }
     if (hasValue(dotNetObject.multidimensionalSubset)) {
         jsWCSLayer.multidimensionalSubset = buildJsMultidimensionalSubset(dotNetObject.multidimensionalSubset) as any;
     }
@@ -1106,6 +1102,9 @@ export async function buildJsWCSLayer(dotNetObject: any, layerId: string | null,
     }
     if (hasValue(dotNetObject.coverageId)) {
         jsWCSLayer.coverageId = dotNetObject.coverageId;
+    }
+    if (hasValue(dotNetObject.coverageInfo)) {
+        jsWCSLayer.coverageInfo = dotNetObject.coverageInfo;
     }
     if (hasValue(dotNetObject.customParameters)) {
         jsWCSLayer.customParameters = dotNetObject.customParameters;
@@ -1173,89 +1172,6 @@ export async function buildJsWCSLayer(dotNetObject: any, layerId: string | null,
     jsObjectRefs[dotNetObject.id] = wCSLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsWCSLayer;
     return jsWCSLayer;
-}
-
-export async function buildJsCoverageInfo(dotNetObject: any): Promise<any> {
-    let jsCoverageInfo = {
-    rasterInfo: await buildJsRasterInfo(dotNetObject.rasterInfo) as any,
-        bandNames: dotNetObject.bandNames,
-        coverageDescription: dotNetObject.coverageDescription,
-        id: dotNetObject.id,
-        description: dotNetObject.description,
-        lonLatEnvelope: dotNetObject.lonLatEnvelope,
-        supportedFormats: dotNetObject.supportedFormats,
-        supportedInterpolations: dotNetObject.supportedInterpolations,
-        title: dotNetObject.title,
-        useEPSGAxis: dotNetObject.useEPSGAxis,
-        version: dotNetObject.version,
-    }
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsCoverageInfo);
-    jsObjectRefs[dotNetObject.id] = jsCoverageInfo;
-    arcGisObjectRefs[dotNetObject.id] = jsCoverageInfo;
-    return jsCoverageInfo;
-}
-
-export async function buildJsRasterInfo(dotNetObject: any): Promise<any> {
-    let { default: RasterInfo } = await import('@arcgis/core/layers/support/RasterInfo');
-    let jsRasterInfo = new RasterInfo();
-    if (hasValue(dotNetObject.extent)) {
-        jsRasterInfo.extent = buildJsExtent(dotNetObject.extent) as any;
-    }
-    if (hasValue(dotNetObject.attributeTable)) {
-        jsRasterInfo.attributeTable = dotNetObject.attributeTable;
-    }
-    if (hasValue(dotNetObject.bandCount)) {
-        jsRasterInfo.bandCount = dotNetObject.bandCount;
-    }
-    if (hasValue(dotNetObject.bandInfos)) {
-        jsRasterInfo.bandInfos = dotNetObject.bandInfos;
-    }
-    if (hasValue(dotNetObject.colormap)) {
-        jsRasterInfo.colormap = dotNetObject.colormap;
-    }
-    if (hasValue(dotNetObject.dataType)) {
-        jsRasterInfo.dataType = dotNetObject.dataType;
-    }
-    if (hasValue(dotNetObject.hasMultidimensionalTranspose)) {
-        jsRasterInfo.hasMultidimensionalTranspose = dotNetObject.hasMultidimensionalTranspose;
-    }
-    if (hasValue(dotNetObject.height)) {
-        jsRasterInfo.height = dotNetObject.height;
-    }
-    if (hasValue(dotNetObject.histograms)) {
-        jsRasterInfo.histograms = dotNetObject.histograms;
-    }
-    if (hasValue(dotNetObject.keyProperties)) {
-        jsRasterInfo.keyProperties = dotNetObject.keyProperties;
-    }
-    if (hasValue(dotNetObject.multidimensionalInfo)) {
-        jsRasterInfo.multidimensionalInfo = dotNetObject.multidimensionalInfo;
-    }
-    if (hasValue(dotNetObject.noDataValue)) {
-        jsRasterInfo.noDataValue = dotNetObject.noDataValue;
-    }
-    if (hasValue(dotNetObject.pixelSize)) {
-        jsRasterInfo.pixelSize = dotNetObject.pixelSize;
-    }
-    if (hasValue(dotNetObject.pixelType)) {
-        jsRasterInfo.pixelType = dotNetObject.pixelType;
-    }
-    if (hasValue(dotNetObject.sensorInfo)) {
-        jsRasterInfo.sensorInfo = dotNetObject.sensorInfo;
-    }
-    if (hasValue(dotNetObject.spatialReference)) {
-        jsRasterInfo.spatialReference = dotNetObject.spatialReference;
-    }
-    if (hasValue(dotNetObject.statistics)) {
-        jsRasterInfo.statistics = dotNetObject.statistics;
-    }
-    if (hasValue(dotNetObject.width)) {
-        jsRasterInfo.width = dotNetObject.width;
-    }
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsRasterInfo);
-    jsObjectRefs[dotNetObject.id] = jsRasterInfo;
-    arcGisObjectRefs[dotNetObject.id] = jsRasterInfo;
-    return jsRasterInfo;
 }
 
 export async function buildJsBingMapsLayer(dotNetObject: any): Promise<any> {

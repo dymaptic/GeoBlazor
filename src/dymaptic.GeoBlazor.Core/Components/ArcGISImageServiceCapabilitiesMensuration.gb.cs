@@ -157,11 +157,16 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Supports3D = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "supports3D");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Supports3D = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Supports3D)] = Supports3D;
+             ModifiedParameters[nameof(Supports3D)] = Supports3D;
+        }
+         
         return Supports3D;
     }
     
@@ -182,11 +187,16 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        SupportsAreaAndPerimeter = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "supportsAreaAndPerimeter");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             SupportsAreaAndPerimeter = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(SupportsAreaAndPerimeter)] = SupportsAreaAndPerimeter;
+             ModifiedParameters[nameof(SupportsAreaAndPerimeter)] = SupportsAreaAndPerimeter;
+        }
+         
         return SupportsAreaAndPerimeter;
     }
     
@@ -207,11 +217,16 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        SupportsDistanceAndAngle = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "supportsDistanceAndAngle");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             SupportsDistanceAndAngle = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(SupportsDistanceAndAngle)] = SupportsDistanceAndAngle;
+             ModifiedParameters[nameof(SupportsDistanceAndAngle)] = SupportsDistanceAndAngle;
+        }
+         
         return SupportsDistanceAndAngle;
     }
     
@@ -232,11 +247,16 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        SupportsHeightFromBaseAndTop = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "supportsHeightFromBaseAndTop");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             SupportsHeightFromBaseAndTop = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(SupportsHeightFromBaseAndTop)] = SupportsHeightFromBaseAndTop;
+             ModifiedParameters[nameof(SupportsHeightFromBaseAndTop)] = SupportsHeightFromBaseAndTop;
+        }
+         
         return SupportsHeightFromBaseAndTop;
     }
     
@@ -257,11 +277,16 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        SupportsHeightFromBaseAndTopShadow = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "supportsHeightFromBaseAndTopShadow");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             SupportsHeightFromBaseAndTopShadow = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(SupportsHeightFromBaseAndTopShadow)] = SupportsHeightFromBaseAndTopShadow;
+             ModifiedParameters[nameof(SupportsHeightFromBaseAndTopShadow)] = SupportsHeightFromBaseAndTopShadow;
+        }
+         
         return SupportsHeightFromBaseAndTopShadow;
     }
     
@@ -282,11 +307,16 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        SupportsHeightFromTopAndTopShadow = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "supportsHeightFromTopAndTopShadow");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             SupportsHeightFromTopAndTopShadow = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(SupportsHeightFromTopAndTopShadow)] = SupportsHeightFromTopAndTopShadow;
+             ModifiedParameters[nameof(SupportsHeightFromTopAndTopShadow)] = SupportsHeightFromTopAndTopShadow;
+        }
+         
         return SupportsHeightFromTopAndTopShadow;
     }
     
@@ -307,11 +337,16 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        SupportsPointOrCentroid = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "supportsPointOrCentroid");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             SupportsPointOrCentroid = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(SupportsPointOrCentroid)] = SupportsPointOrCentroid;
+             ModifiedParameters[nameof(SupportsPointOrCentroid)] = SupportsPointOrCentroid;
+        }
+         
         return SupportsPointOrCentroid;
     }
     
@@ -337,7 +372,7 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -367,7 +402,7 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -397,7 +432,7 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -427,7 +462,7 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -457,7 +492,7 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -487,7 +522,7 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -517,7 +552,7 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

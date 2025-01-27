@@ -67,11 +67,16 @@ public partial class CapabilitiesQueryTopFeatures : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        SupportsCacheHint = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "supportsCacheHint");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             SupportsCacheHint = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(SupportsCacheHint)] = SupportsCacheHint;
+             ModifiedParameters[nameof(SupportsCacheHint)] = SupportsCacheHint;
+        }
+         
         return SupportsCacheHint;
     }
     
@@ -97,7 +102,7 @@ public partial class CapabilitiesQueryTopFeatures : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

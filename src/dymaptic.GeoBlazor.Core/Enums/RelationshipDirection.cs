@@ -3,7 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
-///     The direction of the relationship. Can either be forward (from origin to destination) or reverse (from destination to origin).
+///     <summary>
+///          The direction of the relationship. Can either be forward (from origin to destination) or reverse (from destination to origin).
+///      </summary>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<RelationshipDirection>))]
 public enum RelationshipDirection

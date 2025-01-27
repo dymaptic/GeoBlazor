@@ -210,11 +210,16 @@ public partial class KMLLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        BlendMode = await CoreJsModule!.InvokeAsync<BlendMode>("getProperty",
+        BlendMode? result = await CoreJsModule!.InvokeAsync<BlendMode?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "blendMode");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             BlendMode = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(BlendMode)] = BlendMode;
+             ModifiedParameters[nameof(BlendMode)] = BlendMode;
+        }
+         
         return BlendMode;
     }
     
@@ -235,11 +240,16 @@ public partial class KMLLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Effect = await CoreJsModule!.InvokeAsync<Effect?>("getProperty",
+        Effect? result = await CoreJsModule!.InvokeAsync<Effect?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "effect");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Effect = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Effect)] = Effect;
+             ModifiedParameters[nameof(Effect)] = Effect;
+        }
+         
         return Effect;
     }
     
@@ -260,11 +270,16 @@ public partial class KMLLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        MaxScale = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "maxScale");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             MaxScale = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(MaxScale)] = MaxScale;
+             ModifiedParameters[nameof(MaxScale)] = MaxScale;
+        }
+         
         return MaxScale;
     }
     
@@ -285,11 +300,16 @@ public partial class KMLLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        MinScale = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "minScale");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             MinScale = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(MinScale)] = MinScale;
+             ModifiedParameters[nameof(MinScale)] = MinScale;
+        }
+         
         return MinScale;
     }
     
@@ -319,15 +339,22 @@ public partial class KMLLayer : IBlendLayer,
             return null;
         }
         
+        PortalItem? result = null;
+        
         // Try to deserialize the object. This might fail if we don't have the
         // all deserialization edge cases handled.
         try
         {
-#pragma warning disable BL0005
-            PortalItem = await CoreJsModule.InvokeAsync<PortalItem?>(
+            result = await CoreJsModule.InvokeAsync<PortalItem?>(
                 "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
+            if (result is not null)
+            {
+#pragma warning disable BL0005
+                PortalItem = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(PortalItem)] = PortalItem;
+                ModifiedParameters[nameof(PortalItem)] = PortalItem;
+            }
+            
             if (PortalItem is not null)
             {
                 PortalItem.Parent = this;
@@ -408,11 +435,16 @@ public partial class KMLLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Sublayers = await CoreJsModule!.InvokeAsync<IReadOnlyList<KMLSublayer>?>("getProperty",
+        IReadOnlyList<KMLSublayer>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<KMLSublayer>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "sublayers");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Sublayers = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Sublayers)] = Sublayers;
+             ModifiedParameters[nameof(Sublayers)] = Sublayers;
+        }
+         
         return Sublayers;
     }
     
@@ -433,11 +465,16 @@ public partial class KMLLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Url = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "url");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Url = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Url)] = Url;
+             ModifiedParameters[nameof(Url)] = Url;
+        }
+         
         return Url;
     }
     
@@ -463,7 +500,7 @@ public partial class KMLLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -493,7 +530,7 @@ public partial class KMLLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -523,7 +560,7 @@ public partial class KMLLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -553,7 +590,7 @@ public partial class KMLLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -583,7 +620,7 @@ public partial class KMLLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -635,7 +672,7 @@ public partial class KMLLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -665,7 +702,7 @@ public partial class KMLLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

@@ -54,11 +54,16 @@ public partial class TextPopupContent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Text = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "text");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Text = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Text)] = Text;
+             ModifiedParameters[nameof(Text)] = Text;
+        }
+         
         return Text;
     }
     
@@ -84,7 +89,7 @@ public partial class TextPopupContent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

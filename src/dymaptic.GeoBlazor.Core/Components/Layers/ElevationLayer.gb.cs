@@ -173,11 +173,16 @@ public partial class ElevationLayer : IArcGISCachedService,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Copyright = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "copyright");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Copyright = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Copyright)] = Copyright;
+             ModifiedParameters[nameof(Copyright)] = Copyright;
+        }
+         
         return Copyright;
     }
     
@@ -207,15 +212,22 @@ public partial class ElevationLayer : IArcGISCachedService,
             return null;
         }
         
+        PortalItem? result = null;
+        
         // Try to deserialize the object. This might fail if we don't have the
         // all deserialization edge cases handled.
         try
         {
-#pragma warning disable BL0005
-            PortalItem = await CoreJsModule.InvokeAsync<PortalItem?>(
+            result = await CoreJsModule.InvokeAsync<PortalItem?>(
                 "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
+            if (result is not null)
+            {
+#pragma warning disable BL0005
+                PortalItem = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(PortalItem)] = PortalItem;
+                ModifiedParameters[nameof(PortalItem)] = PortalItem;
+            }
+            
             if (PortalItem is not null)
             {
                 PortalItem.Parent = this;
@@ -296,11 +308,16 @@ public partial class ElevationLayer : IArcGISCachedService,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        SourceJSON = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "sourceJSON");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             SourceJSON = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(SourceJSON)] = SourceJSON;
+             ModifiedParameters[nameof(SourceJSON)] = SourceJSON;
+        }
+         
         return SourceJSON;
     }
     
@@ -321,11 +338,16 @@ public partial class ElevationLayer : IArcGISCachedService,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        SpatialReference = await CoreJsModule!.InvokeAsync<SpatialReference?>("getProperty",
+        SpatialReference? result = await CoreJsModule!.InvokeAsync<SpatialReference?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "spatialReference");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             SpatialReference = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+             ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+        }
+         
         return SpatialReference;
     }
     
@@ -355,15 +377,22 @@ public partial class ElevationLayer : IArcGISCachedService,
             return null;
         }
         
+        TileInfo? result = null;
+        
         // Try to deserialize the object. This might fail if we don't have the
         // all deserialization edge cases handled.
         try
         {
-#pragma warning disable BL0005
-            TileInfo = await CoreJsModule.InvokeAsync<TileInfo?>(
+            result = await CoreJsModule.InvokeAsync<TileInfo?>(
                 "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
+            if (result is not null)
+            {
+#pragma warning disable BL0005
+                TileInfo = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(TileInfo)] = TileInfo;
+                ModifiedParameters[nameof(TileInfo)] = TileInfo;
+            }
+            
             if (TileInfo is not null)
             {
                 TileInfo.Parent = this;
@@ -415,11 +444,16 @@ public partial class ElevationLayer : IArcGISCachedService,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Url = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "url");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Url = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Url)] = Url;
+             ModifiedParameters[nameof(Url)] = Url;
+        }
+         
         return Url;
     }
     
@@ -445,7 +479,7 @@ public partial class ElevationLayer : IArcGISCachedService,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -475,7 +509,7 @@ public partial class ElevationLayer : IArcGISCachedService,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -527,7 +561,7 @@ public partial class ElevationLayer : IArcGISCachedService,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -579,7 +613,7 @@ public partial class ElevationLayer : IArcGISCachedService,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

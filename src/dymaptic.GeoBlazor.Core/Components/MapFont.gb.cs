@@ -83,11 +83,16 @@ public partial class MapFont
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Decoration = await CoreJsModule!.InvokeAsync<TextDecoration>("getProperty",
+        TextDecoration? result = await CoreJsModule!.InvokeAsync<TextDecoration?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "decoration");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Decoration = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Decoration)] = Decoration;
+             ModifiedParameters[nameof(Decoration)] = Decoration;
+        }
+         
         return Decoration;
     }
     
@@ -108,11 +113,16 @@ public partial class MapFont
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Family = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "family");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Family = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Family)] = Family;
+             ModifiedParameters[nameof(Family)] = Family;
+        }
+         
         return Family;
     }
     
@@ -133,11 +143,16 @@ public partial class MapFont
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Size = await CoreJsModule!.InvokeAsync<Dimension?>("getProperty",
+        Dimension? result = await CoreJsModule!.InvokeAsync<Dimension?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "size");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Size = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Size)] = Size;
+             ModifiedParameters[nameof(Size)] = Size;
+        }
+         
         return Size;
     }
     
@@ -158,11 +173,16 @@ public partial class MapFont
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Style = await CoreJsModule!.InvokeAsync<MapFontStyle>("getProperty",
+        MapFontStyle? result = await CoreJsModule!.InvokeAsync<MapFontStyle?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "style");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Style = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Style)] = Style;
+             ModifiedParameters[nameof(Style)] = Style;
+        }
+         
         return Style;
     }
     
@@ -183,11 +203,16 @@ public partial class MapFont
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Weight = await CoreJsModule!.InvokeAsync<FontWeight>("getProperty",
+        FontWeight? result = await CoreJsModule!.InvokeAsync<FontWeight?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "weight");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Weight = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Weight)] = Weight;
+             ModifiedParameters[nameof(Weight)] = Weight;
+        }
+         
         return Weight;
     }
     
@@ -213,7 +238,7 @@ public partial class MapFont
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -243,7 +268,7 @@ public partial class MapFont
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -273,7 +298,7 @@ public partial class MapFont
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -303,7 +328,7 @@ public partial class MapFont
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -333,7 +358,7 @@ public partial class MapFont
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

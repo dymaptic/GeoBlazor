@@ -86,11 +86,16 @@ public partial class LayerOptions : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        ReturnTopmostRaster = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "returnTopmostRaster");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ReturnTopmostRaster = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(ReturnTopmostRaster)] = ReturnTopmostRaster;
+             ModifiedParameters[nameof(ReturnTopmostRaster)] = ReturnTopmostRaster;
+        }
+         
         return ReturnTopmostRaster;
     }
     
@@ -111,11 +116,16 @@ public partial class LayerOptions : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        ShowNoDataRecords = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "showNoDataRecords");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ShowNoDataRecords = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(ShowNoDataRecords)] = ShowNoDataRecords;
+             ModifiedParameters[nameof(ShowNoDataRecords)] = ShowNoDataRecords;
+        }
+         
         return ShowNoDataRecords;
     }
     
@@ -141,7 +151,7 @@ public partial class LayerOptions : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -171,7 +181,7 @@ public partial class LayerOptions : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

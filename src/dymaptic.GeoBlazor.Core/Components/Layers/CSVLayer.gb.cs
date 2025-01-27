@@ -635,11 +635,16 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        BlendMode = await CoreJsModule!.InvokeAsync<BlendMode>("getProperty",
+        BlendMode? result = await CoreJsModule!.InvokeAsync<BlendMode?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "blendMode");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             BlendMode = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(BlendMode)] = BlendMode;
+             ModifiedParameters[nameof(BlendMode)] = BlendMode;
+        }
+         
         return BlendMode;
     }
     
@@ -660,11 +665,16 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Capabilities = await CoreJsModule!.InvokeAsync<CSVLayerCapabilities?>("getProperty",
+        CSVLayerCapabilities? result = await CoreJsModule!.InvokeAsync<CSVLayerCapabilities?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "capabilities");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Capabilities = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Capabilities)] = Capabilities;
+             ModifiedParameters[nameof(Capabilities)] = Capabilities;
+        }
+         
         return Capabilities;
     }
     
@@ -685,11 +695,16 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Copyright = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "copyright");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Copyright = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Copyright)] = Copyright;
+             ModifiedParameters[nameof(Copyright)] = Copyright;
+        }
+         
         return Copyright;
     }
     
@@ -710,11 +725,16 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        CustomParameters = await CoreJsModule!.InvokeAsync<Dictionary<string, object>?>("getProperty",
+        Dictionary<string, object>? result = await CoreJsModule!.InvokeAsync<Dictionary<string, object>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "customParameters");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             CustomParameters = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(CustomParameters)] = CustomParameters;
+             ModifiedParameters[nameof(CustomParameters)] = CustomParameters;
+        }
+         
         return CustomParameters;
     }
     
@@ -735,11 +755,16 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        DateFieldsTimeZone = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "dateFieldsTimeZone");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             DateFieldsTimeZone = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(DateFieldsTimeZone)] = DateFieldsTimeZone;
+             ModifiedParameters[nameof(DateFieldsTimeZone)] = DateFieldsTimeZone;
+        }
+         
         return DateFieldsTimeZone;
     }
     
@@ -760,11 +785,16 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        DefinitionExpression = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "definitionExpression");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             DefinitionExpression = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(DefinitionExpression)] = DefinitionExpression;
+             ModifiedParameters[nameof(DefinitionExpression)] = DefinitionExpression;
+        }
+         
         return DefinitionExpression;
     }
     
@@ -785,11 +815,16 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Delimiter = await CoreJsModule!.InvokeAsync<CSVDelimiter>("getProperty",
+        CSVDelimiter? result = await CoreJsModule!.InvokeAsync<CSVDelimiter?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "delimiter");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Delimiter = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Delimiter)] = Delimiter;
+             ModifiedParameters[nameof(Delimiter)] = Delimiter;
+        }
+         
         return Delimiter;
     }
     
@@ -810,11 +845,16 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        DisplayField = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "displayField");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             DisplayField = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(DisplayField)] = DisplayField;
+             ModifiedParameters[nameof(DisplayField)] = DisplayField;
+        }
+         
         return DisplayField;
     }
     
@@ -835,11 +875,16 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Effect = await CoreJsModule!.InvokeAsync<Effect?>("getProperty",
+        Effect? result = await CoreJsModule!.InvokeAsync<Effect?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "effect");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Effect = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Effect)] = Effect;
+             ModifiedParameters[nameof(Effect)] = Effect;
+        }
+         
         return Effect;
     }
     
@@ -860,11 +905,16 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        ElevationInfo = await CoreJsModule!.InvokeAsync<CSVLayerElevationInfo?>("getProperty",
+        CSVLayerElevationInfo? result = await CoreJsModule!.InvokeAsync<CSVLayerElevationInfo?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "elevationInfo");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ElevationInfo = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(ElevationInfo)] = ElevationInfo;
+             ModifiedParameters[nameof(ElevationInfo)] = ElevationInfo;
+        }
+         
         return ElevationInfo;
     }
     
@@ -885,11 +935,16 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        FeatureEffect = await CoreJsModule!.InvokeAsync<FeatureEffect?>("getProperty",
+        FeatureEffect? result = await CoreJsModule!.InvokeAsync<FeatureEffect?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "featureEffect");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             FeatureEffect = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(FeatureEffect)] = FeatureEffect;
+             ModifiedParameters[nameof(FeatureEffect)] = FeatureEffect;
+        }
+         
         return FeatureEffect;
     }
     
@@ -910,11 +965,16 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Fields = await CoreJsModule!.InvokeAsync<IReadOnlyList<Field>?>("getProperty",
+        IReadOnlyList<Field>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<Field>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "fields");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Fields = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Fields)] = Fields;
+             ModifiedParameters[nameof(Fields)] = Fields;
+        }
+         
         return Fields;
     }
     
@@ -934,50 +994,17 @@ public partial class CSVLayer : IBlendLayer,
             return FieldsIndex;
         }
 
-        // get the JS object reference
-        IJSObjectReference? refResult = (await CoreJsModule!.InvokeAsync<JsObjectRefWrapper?>(
-            "getObjectRefForProperty", CancellationTokenSource.Token, JsComponentReference, 
-            "fieldsIndex"))?.Value;
-            
-        if (refResult is null)
-        {
-            return null;
-        }
-        
-        // Try to deserialize the object. This might fail if we don't have the
-        // all deserialization edge cases handled.
-        try
+        // get the property value
+        FieldsIndex? result = await CoreJsModule!.InvokeAsync<FieldsIndex?>("getProperty",
+            CancellationTokenSource.Token, JsComponentReference, "fieldsIndex");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            FieldsIndex = await CoreJsModule.InvokeAsync<FieldsIndex?>(
-                "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
+             FieldsIndex = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(FieldsIndex)] = FieldsIndex;
-            if (FieldsIndex is not null)
-            {
-                FieldsIndex.Parent = this;
-                FieldsIndex.View = View;
-                FieldsIndex.JsComponentReference = refResult;
-                await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorObject",
-                    CancellationTokenSource.Token, refResult, FieldsIndex.Id);
-                return FieldsIndex;
-            }
+             ModifiedParameters[nameof(FieldsIndex)] = FieldsIndex;
         }
-        catch
-        {
-            Console.WriteLine("Failed to deserialize FieldsIndex");
-        }
-#pragma warning disable BL0005
-        FieldsIndex = new FieldsIndex();
-#pragma warning restore BL0005
-         ModifiedParameters[nameof(FieldsIndex)] = FieldsIndex;
-        FieldsIndex.Parent = this;
-        FieldsIndex.View = View;
-        FieldsIndex.JsComponentReference = refResult;
-        // register this type in JS
-        await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorObject",
-            CancellationTokenSource.Token, refResult, FieldsIndex.Id);
-        await FieldsIndex.GetProperty<IReadOnlyList<Field>>(nameof(FieldsIndex.DateFields));
+         
         return FieldsIndex;
     }
     
@@ -998,11 +1025,16 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        GeometryType = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "geometryType");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             GeometryType = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(GeometryType)] = GeometryType;
+             ModifiedParameters[nameof(GeometryType)] = GeometryType;
+        }
+         
         return GeometryType;
     }
     
@@ -1023,11 +1055,16 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        IsTable = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "isTable");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             IsTable = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(IsTable)] = IsTable;
+             ModifiedParameters[nameof(IsTable)] = IsTable;
+        }
+         
         return IsTable;
     }
     
@@ -1048,11 +1085,16 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        LabelingInfo = await CoreJsModule!.InvokeAsync<IReadOnlyList<Label>?>("getProperty",
+        IReadOnlyList<Label>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<Label>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "labelingInfo");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             LabelingInfo = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(LabelingInfo)] = LabelingInfo;
+             ModifiedParameters[nameof(LabelingInfo)] = LabelingInfo;
+        }
+         
         return LabelingInfo;
     }
     
@@ -1073,11 +1115,16 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        LabelsVisible = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "labelsVisible");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             LabelsVisible = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(LabelsVisible)] = LabelsVisible;
+             ModifiedParameters[nameof(LabelsVisible)] = LabelsVisible;
+        }
+         
         return LabelsVisible;
     }
     
@@ -1098,11 +1145,16 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        LatitudeField = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "latitudeField");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             LatitudeField = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(LatitudeField)] = LatitudeField;
+             ModifiedParameters[nameof(LatitudeField)] = LatitudeField;
+        }
+         
         return LatitudeField;
     }
     
@@ -1123,11 +1175,16 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        LegendEnabled = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "legendEnabled");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             LegendEnabled = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(LegendEnabled)] = LegendEnabled;
+             ModifiedParameters[nameof(LegendEnabled)] = LegendEnabled;
+        }
+         
         return LegendEnabled;
     }
     
@@ -1148,11 +1205,16 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        LongitudeField = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "longitudeField");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             LongitudeField = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(LongitudeField)] = LongitudeField;
+             ModifiedParameters[nameof(LongitudeField)] = LongitudeField;
+        }
+         
         return LongitudeField;
     }
     
@@ -1173,11 +1235,16 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        MaxScale = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "maxScale");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             MaxScale = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(MaxScale)] = MaxScale;
+             ModifiedParameters[nameof(MaxScale)] = MaxScale;
+        }
+         
         return MaxScale;
     }
     
@@ -1198,11 +1265,16 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        MinScale = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "minScale");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             MinScale = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(MinScale)] = MinScale;
+             ModifiedParameters[nameof(MinScale)] = MinScale;
+        }
+         
         return MinScale;
     }
     
@@ -1223,11 +1295,16 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        ObjectIdField = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "objectIdField");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ObjectIdField = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(ObjectIdField)] = ObjectIdField;
+             ModifiedParameters[nameof(ObjectIdField)] = ObjectIdField;
+        }
+         
         return ObjectIdField;
     }
     
@@ -1248,11 +1325,16 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        OrderBy = await CoreJsModule!.InvokeAsync<IReadOnlyList<OrderedLayerOrderBy>?>("getProperty",
+        IReadOnlyList<OrderedLayerOrderBy>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<OrderedLayerOrderBy>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "orderBy");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             OrderBy = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(OrderBy)] = OrderBy;
+             ModifiedParameters[nameof(OrderBy)] = OrderBy;
+        }
+         
         return OrderBy;
     }
     
@@ -1273,11 +1355,16 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        OutFields = await CoreJsModule!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
+        IReadOnlyList<string>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "outFields");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             OutFields = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(OutFields)] = OutFields;
+             ModifiedParameters[nameof(OutFields)] = OutFields;
+        }
+         
         return OutFields;
     }
     
@@ -1298,11 +1385,16 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        PopupEnabled = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "popupEnabled");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             PopupEnabled = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(PopupEnabled)] = PopupEnabled;
+             ModifiedParameters[nameof(PopupEnabled)] = PopupEnabled;
+        }
+         
         return PopupEnabled;
     }
     
@@ -1323,11 +1415,16 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        PopupTemplate = await CoreJsModule!.InvokeAsync<PopupTemplate?>("getProperty",
+        PopupTemplate? result = await CoreJsModule!.InvokeAsync<PopupTemplate?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "popupTemplate");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             PopupTemplate = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
+             ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
+        }
+         
         return PopupTemplate;
     }
     
@@ -1357,15 +1454,22 @@ public partial class CSVLayer : IBlendLayer,
             return null;
         }
         
+        PortalItem? result = null;
+        
         // Try to deserialize the object. This might fail if we don't have the
         // all deserialization edge cases handled.
         try
         {
-#pragma warning disable BL0005
-            PortalItem = await CoreJsModule.InvokeAsync<PortalItem?>(
+            result = await CoreJsModule.InvokeAsync<PortalItem?>(
                 "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
+            if (result is not null)
+            {
+#pragma warning disable BL0005
+                PortalItem = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(PortalItem)] = PortalItem;
+                ModifiedParameters[nameof(PortalItem)] = PortalItem;
+            }
+            
             if (PortalItem is not null)
             {
                 PortalItem.Parent = this;
@@ -1446,11 +1550,16 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        RefreshInterval = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "refreshInterval");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             RefreshInterval = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(RefreshInterval)] = RefreshInterval;
+             ModifiedParameters[nameof(RefreshInterval)] = RefreshInterval;
+        }
+         
         return RefreshInterval;
     }
     
@@ -1471,11 +1580,16 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Renderer = await CoreJsModule!.InvokeAsync<Renderer?>("getProperty",
+        Renderer? result = await CoreJsModule!.InvokeAsync<Renderer?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "renderer");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Renderer = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Renderer)] = Renderer;
+             ModifiedParameters[nameof(Renderer)] = Renderer;
+        }
+         
         return Renderer;
     }
     
@@ -1496,11 +1610,16 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        ScreenSizePerspectiveEnabled = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "screenSizePerspectiveEnabled");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ScreenSizePerspectiveEnabled = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(ScreenSizePerspectiveEnabled)] = ScreenSizePerspectiveEnabled;
+             ModifiedParameters[nameof(ScreenSizePerspectiveEnabled)] = ScreenSizePerspectiveEnabled;
+        }
+         
         return ScreenSizePerspectiveEnabled;
     }
     
@@ -1521,11 +1640,16 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        SpatialReference = await CoreJsModule!.InvokeAsync<SpatialReference?>("getProperty",
+        SpatialReference? result = await CoreJsModule!.InvokeAsync<SpatialReference?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "spatialReference");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             SpatialReference = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+             ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+        }
+         
         return SpatialReference;
     }
     
@@ -1555,15 +1679,22 @@ public partial class CSVLayer : IBlendLayer,
             return null;
         }
         
+        TimeExtent? result = null;
+        
         // Try to deserialize the object. This might fail if we don't have the
         // all deserialization edge cases handled.
         try
         {
-#pragma warning disable BL0005
-            TimeExtent = await CoreJsModule.InvokeAsync<TimeExtent?>(
+            result = await CoreJsModule.InvokeAsync<TimeExtent?>(
                 "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
+            if (result is not null)
+            {
+#pragma warning disable BL0005
+                TimeExtent = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(TimeExtent)] = TimeExtent;
+                ModifiedParameters[nameof(TimeExtent)] = TimeExtent;
+            }
+            
             if (TimeExtent is not null)
             {
                 TimeExtent.Parent = this;
@@ -1610,11 +1741,16 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        TimeInfo = await CoreJsModule!.InvokeAsync<TimeInfo?>("getProperty",
+        TimeInfo? result = await CoreJsModule!.InvokeAsync<TimeInfo?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "timeInfo");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             TimeInfo = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(TimeInfo)] = TimeInfo;
+             ModifiedParameters[nameof(TimeInfo)] = TimeInfo;
+        }
+         
         return TimeInfo;
     }
     
@@ -1635,11 +1771,16 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        TimeOffset = await CoreJsModule!.InvokeAsync<TimeInterval?>("getProperty",
+        TimeInterval? result = await CoreJsModule!.InvokeAsync<TimeInterval?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "timeOffset");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             TimeOffset = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(TimeOffset)] = TimeOffset;
+             ModifiedParameters[nameof(TimeOffset)] = TimeOffset;
+        }
+         
         return TimeOffset;
     }
     
@@ -1660,11 +1801,16 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Url = await CoreJsModule!.InvokeAsync<string>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "url");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Url = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Url)] = Url;
+             ModifiedParameters[nameof(Url)] = Url;
+        }
+         
         return Url;
     }
     
@@ -1685,11 +1831,16 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        UseViewTime = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "useViewTime");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             UseViewTime = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(UseViewTime)] = UseViewTime;
+             ModifiedParameters[nameof(UseViewTime)] = UseViewTime;
+        }
+         
         return UseViewTime;
     }
     
@@ -1715,7 +1866,7 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -1745,7 +1896,7 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -1775,7 +1926,7 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -1805,7 +1956,7 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -1835,7 +1986,7 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -1865,7 +2016,7 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -1895,7 +2046,7 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -1925,7 +2076,7 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -1955,7 +2106,7 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -1985,7 +2136,7 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2015,7 +2166,7 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2045,7 +2196,7 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2075,7 +2226,7 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2105,7 +2256,7 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2135,7 +2286,7 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2165,7 +2316,7 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2195,7 +2346,7 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2225,7 +2376,7 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2255,7 +2406,7 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2285,7 +2436,7 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2315,7 +2466,7 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2345,7 +2496,7 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2375,7 +2526,7 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2405,7 +2556,7 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2457,7 +2608,7 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2487,7 +2638,7 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2517,7 +2668,7 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2547,7 +2698,7 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2577,7 +2728,7 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2629,7 +2780,7 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2659,7 +2810,7 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2689,7 +2840,7 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2719,7 +2870,7 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -3102,15 +3253,6 @@ public partial class CSVLayer : IBlendLayer,
     {
         switch (child)
         {
-            case CSVLayerCapabilities capabilities:
-                if (capabilities != Capabilities)
-                {
-                    Capabilities = capabilities;
-                    LayerChanged = true;
-                    ModifiedParameters[nameof(Capabilities)] = Capabilities;
-                }
-                
-                return true;
             case CSVLayerElevationInfo elevationInfo:
                 if (elevationInfo != ElevationInfo)
                 {
@@ -3136,15 +3278,6 @@ public partial class CSVLayer : IBlendLayer,
                     Fields = [..Fields, fields];
                     LayerChanged = true;
                     ModifiedParameters[nameof(Fields)] = Fields;
-                }
-                
-                return true;
-            case FieldsIndex fieldsIndex:
-                if (fieldsIndex != FieldsIndex)
-                {
-                    FieldsIndex = fieldsIndex;
-                    LayerChanged = true;
-                    ModifiedParameters[nameof(FieldsIndex)] = FieldsIndex;
                 }
                 
                 return true;
@@ -3231,11 +3364,6 @@ public partial class CSVLayer : IBlendLayer,
     {
         switch (child)
         {
-            case CSVLayerCapabilities _:
-                Capabilities = null;
-                LayerChanged = true;
-                ModifiedParameters[nameof(Capabilities)] = Capabilities;
-                return true;
             case CSVLayerElevationInfo _:
                 ElevationInfo = null;
                 LayerChanged = true;
@@ -3250,11 +3378,6 @@ public partial class CSVLayer : IBlendLayer,
                 Fields = Fields?.Where(f => f != fields).ToList();
                 LayerChanged = true;
                 ModifiedParameters[nameof(Fields)] = Fields;
-                return true;
-            case FieldsIndex _:
-                FieldsIndex = null;
-                LayerChanged = true;
-                ModifiedParameters[nameof(FieldsIndex)] = FieldsIndex;
                 return true;
             case Label labelingInfo:
                 LabelingInfo = LabelingInfo?.Where(l => l != labelingInfo).ToList();
@@ -3309,7 +3432,6 @@ public partial class CSVLayer : IBlendLayer,
         {
             throw new MissingRequiredChildElementException(nameof(CSVLayer), nameof(Url));
         }
-        Capabilities?.ValidateRequiredGeneratedChildren();
         ElevationInfo?.ValidateRequiredGeneratedChildren();
         FeatureEffect?.ValidateRequiredGeneratedChildren();
         if (Fields is not null)
@@ -3319,7 +3441,6 @@ public partial class CSVLayer : IBlendLayer,
                 child.ValidateRequiredGeneratedChildren();
             }
         }
-        FieldsIndex?.ValidateRequiredGeneratedChildren();
         if (LabelingInfo is not null)
         {
             foreach (Label child in LabelingInfo)

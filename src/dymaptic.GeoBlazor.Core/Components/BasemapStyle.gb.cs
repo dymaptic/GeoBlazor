@@ -111,11 +111,16 @@ public partial class BasemapStyle
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Language = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "language");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Language = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Language)] = Language;
+             ModifiedParameters[nameof(Language)] = Language;
+        }
+         
         return Language;
     }
     
@@ -136,11 +141,16 @@ public partial class BasemapStyle
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Name = await CoreJsModule!.InvokeAsync<BasemapStyleName>("getProperty",
+        BasemapStyleName? result = await CoreJsModule!.InvokeAsync<BasemapStyleName?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "name");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Name = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Name)] = Name;
+             ModifiedParameters[nameof(Name)] = Name;
+        }
+         
         return Name;
     }
     
@@ -161,11 +171,16 @@ public partial class BasemapStyle
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Places = await CoreJsModule!.InvokeAsync<BasemapStylePlace>("getProperty",
+        BasemapStylePlace? result = await CoreJsModule!.InvokeAsync<BasemapStylePlace?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "places");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Places = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Places)] = Places;
+             ModifiedParameters[nameof(Places)] = Places;
+        }
+         
         return Places;
     }
     
@@ -186,11 +201,16 @@ public partial class BasemapStyle
         }
 
         // get the property value
-#pragma warning disable BL0005
-        ServiceUrl = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "serviceUrl");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ServiceUrl = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(ServiceUrl)] = ServiceUrl;
+             ModifiedParameters[nameof(ServiceUrl)] = ServiceUrl;
+        }
+         
         return ServiceUrl;
     }
     
@@ -211,11 +231,16 @@ public partial class BasemapStyle
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Worldview = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "worldview");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Worldview = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Worldview)] = Worldview;
+             ModifiedParameters[nameof(Worldview)] = Worldview;
+        }
+         
         return Worldview;
     }
     
@@ -241,7 +266,7 @@ public partial class BasemapStyle
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -271,7 +296,7 @@ public partial class BasemapStyle
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -301,7 +326,7 @@ public partial class BasemapStyle
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -331,7 +356,7 @@ public partial class BasemapStyle
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -361,7 +386,7 @@ public partial class BasemapStyle
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

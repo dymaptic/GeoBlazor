@@ -29,11 +29,16 @@ public abstract partial class MarkerSymbol
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Angle = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "angle");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Angle = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Angle)] = Angle;
+             ModifiedParameters[nameof(Angle)] = Angle;
+        }
+         
         return Angle;
     }
     
@@ -54,11 +59,16 @@ public abstract partial class MarkerSymbol
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Xoffset = await CoreJsModule!.InvokeAsync<Dimension?>("getProperty",
+        Dimension? result = await CoreJsModule!.InvokeAsync<Dimension?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "xoffset");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Xoffset = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Xoffset)] = Xoffset;
+             ModifiedParameters[nameof(Xoffset)] = Xoffset;
+        }
+         
         return Xoffset;
     }
     
@@ -79,11 +89,16 @@ public abstract partial class MarkerSymbol
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Yoffset = await CoreJsModule!.InvokeAsync<Dimension?>("getProperty",
+        Dimension? result = await CoreJsModule!.InvokeAsync<Dimension?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "yoffset");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Yoffset = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Yoffset)] = Yoffset;
+             ModifiedParameters[nameof(Yoffset)] = Yoffset;
+        }
+         
         return Yoffset;
     }
     
@@ -109,7 +124,7 @@ public abstract partial class MarkerSymbol
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -139,7 +154,7 @@ public abstract partial class MarkerSymbol
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -169,7 +184,7 @@ public abstract partial class MarkerSymbol
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

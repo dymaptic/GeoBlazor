@@ -3,7 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
-///     Enumeration for PortalQuerySortOrder
+///     <summary>
+///          Enumeration for PortalQuerySortOrder
+///      </summary>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<PortalQuerySortOrder>))]
 public enum PortalQuerySortOrder

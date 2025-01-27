@@ -101,11 +101,16 @@ public partial class FormTemplate
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Description = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "description");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Description = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Description)] = Description;
+             ModifiedParameters[nameof(Description)] = Description;
+        }
+         
         return Description;
     }
     
@@ -126,11 +131,16 @@ public partial class FormTemplate
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Elements = await CoreJsModule!.InvokeAsync<IReadOnlyList<FormElement>?>("getProperty",
+        IReadOnlyList<FormElement>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<FormElement>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "elements");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Elements = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Elements)] = Elements;
+             ModifiedParameters[nameof(Elements)] = Elements;
+        }
+         
         return Elements;
     }
     
@@ -151,11 +161,16 @@ public partial class FormTemplate
         }
 
         // get the property value
-#pragma warning disable BL0005
-        ExpressionInfos = await CoreJsModule!.InvokeAsync<IReadOnlyList<ExpressionInfo>?>("getProperty",
+        IReadOnlyList<ExpressionInfo>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<ExpressionInfo>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "expressionInfos");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ExpressionInfos = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(ExpressionInfos)] = ExpressionInfos;
+             ModifiedParameters[nameof(ExpressionInfos)] = ExpressionInfos;
+        }
+         
         return ExpressionInfos;
     }
     
@@ -176,11 +191,16 @@ public partial class FormTemplate
         }
 
         // get the property value
-#pragma warning disable BL0005
-        PreserveFieldValuesWhenHidden = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "preserveFieldValuesWhenHidden");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             PreserveFieldValuesWhenHidden = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(PreserveFieldValuesWhenHidden)] = PreserveFieldValuesWhenHidden;
+             ModifiedParameters[nameof(PreserveFieldValuesWhenHidden)] = PreserveFieldValuesWhenHidden;
+        }
+         
         return PreserveFieldValuesWhenHidden;
     }
     
@@ -201,11 +221,16 @@ public partial class FormTemplate
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Title = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "title");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Title = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Title)] = Title;
+             ModifiedParameters[nameof(Title)] = Title;
+        }
+         
         return Title;
     }
     
@@ -231,7 +256,7 @@ public partial class FormTemplate
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -261,7 +286,7 @@ public partial class FormTemplate
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -291,7 +316,7 @@ public partial class FormTemplate
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -321,7 +346,7 @@ public partial class FormTemplate
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -351,7 +376,7 @@ public partial class FormTemplate
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

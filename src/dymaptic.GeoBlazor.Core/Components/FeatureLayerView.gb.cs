@@ -92,11 +92,16 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        AvailableFields = await CoreJsModule!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
+        IReadOnlyList<string>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "availableFields");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             AvailableFields = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(AvailableFields)] = AvailableFields;
+             ModifiedParameters[nameof(AvailableFields)] = AvailableFields;
+        }
+         
         return AvailableFields;
     }
     
@@ -117,11 +122,16 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        DataUpdating = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "dataUpdating");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             DataUpdating = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(DataUpdating)] = DataUpdating;
+             ModifiedParameters[nameof(DataUpdating)] = DataUpdating;
+        }
+         
         return DataUpdating;
     }
     
@@ -142,11 +152,16 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        FeatureEffect = await CoreJsModule!.InvokeAsync<FeatureEffect?>("getProperty",
+        FeatureEffect? result = await CoreJsModule!.InvokeAsync<FeatureEffect?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "featureEffect");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             FeatureEffect = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(FeatureEffect)] = FeatureEffect;
+             ModifiedParameters[nameof(FeatureEffect)] = FeatureEffect;
+        }
+         
         return FeatureEffect;
     }
     
@@ -176,15 +191,22 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
             return null;
         }
         
+        FeatureFilter? result = null;
+        
         // Try to deserialize the object. This might fail if we don't have the
         // all deserialization edge cases handled.
         try
         {
-#pragma warning disable BL0005
-            Filter = await CoreJsModule.InvokeAsync<FeatureFilter?>(
+            result = await CoreJsModule.InvokeAsync<FeatureFilter?>(
                 "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
+            if (result is not null)
+            {
+#pragma warning disable BL0005
+                Filter = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Filter)] = Filter;
+                ModifiedParameters[nameof(Filter)] = Filter;
+            }
+            
             if (Filter is not null)
             {
                 Filter.Parent = this;
@@ -236,11 +258,16 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        HasAllFeatures = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "hasAllFeatures");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             HasAllFeatures = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(HasAllFeatures)] = HasAllFeatures;
+             ModifiedParameters[nameof(HasAllFeatures)] = HasAllFeatures;
+        }
+         
         return HasAllFeatures;
     }
     
@@ -261,11 +288,16 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        HasAllFeaturesInView = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "hasAllFeaturesInView");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             HasAllFeaturesInView = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(HasAllFeaturesInView)] = HasAllFeaturesInView;
+             ModifiedParameters[nameof(HasAllFeaturesInView)] = HasAllFeaturesInView;
+        }
+         
         return HasAllFeaturesInView;
     }
     
@@ -286,11 +318,16 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        HasFullGeometries = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "hasFullGeometries");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             HasFullGeometries = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(HasFullGeometries)] = HasFullGeometries;
+             ModifiedParameters[nameof(HasFullGeometries)] = HasFullGeometries;
+        }
+         
         return HasFullGeometries;
     }
     
@@ -311,11 +348,16 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        HighlightOptions = await CoreJsModule!.InvokeAsync<HighlightOptions?>("getProperty",
+        HighlightOptions? result = await CoreJsModule!.InvokeAsync<HighlightOptions?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "highlightOptions");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             HighlightOptions = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(HighlightOptions)] = HighlightOptions;
+             ModifiedParameters[nameof(HighlightOptions)] = HighlightOptions;
+        }
+         
         return HighlightOptions;
     }
     
@@ -336,11 +378,16 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        MaximumNumberOfFeatures = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "maximumNumberOfFeatures");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             MaximumNumberOfFeatures = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(MaximumNumberOfFeatures)] = MaximumNumberOfFeatures;
+             ModifiedParameters[nameof(MaximumNumberOfFeatures)] = MaximumNumberOfFeatures;
+        }
+         
         return MaximumNumberOfFeatures;
     }
     
@@ -361,11 +408,16 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        MaximumNumberOfFeaturesExceeded = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "maximumNumberOfFeaturesExceeded");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             MaximumNumberOfFeaturesExceeded = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(MaximumNumberOfFeaturesExceeded)] = MaximumNumberOfFeaturesExceeded;
+             ModifiedParameters[nameof(MaximumNumberOfFeaturesExceeded)] = MaximumNumberOfFeaturesExceeded;
+        }
+         
         return MaximumNumberOfFeaturesExceeded;
     }
     
@@ -391,7 +443,7 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -421,7 +473,7 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -451,7 +503,7 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

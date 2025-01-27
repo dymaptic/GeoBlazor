@@ -96,11 +96,16 @@ public partial class FeatureEffect
         }
 
         // get the property value
-#pragma warning disable BL0005
-        ExcludedEffect = await CoreJsModule!.InvokeAsync<IReadOnlyList<Effect>?>("getProperty",
+        IReadOnlyList<Effect>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<Effect>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "excludedEffect");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ExcludedEffect = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(ExcludedEffect)] = ExcludedEffect;
+             ModifiedParameters[nameof(ExcludedEffect)] = ExcludedEffect;
+        }
+         
         return ExcludedEffect;
     }
     
@@ -121,11 +126,16 @@ public partial class FeatureEffect
         }
 
         // get the property value
-#pragma warning disable BL0005
-        ExcludedLabelsVisible = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "excludedLabelsVisible");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ExcludedLabelsVisible = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(ExcludedLabelsVisible)] = ExcludedLabelsVisible;
+             ModifiedParameters[nameof(ExcludedLabelsVisible)] = ExcludedLabelsVisible;
+        }
+         
         return ExcludedLabelsVisible;
     }
     
@@ -155,15 +165,22 @@ public partial class FeatureEffect
             return null;
         }
         
+        FeatureFilter? result = null;
+        
         // Try to deserialize the object. This might fail if we don't have the
         // all deserialization edge cases handled.
         try
         {
-#pragma warning disable BL0005
-            Filter = await CoreJsModule.InvokeAsync<FeatureFilter?>(
+            result = await CoreJsModule.InvokeAsync<FeatureFilter?>(
                 "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
+            if (result is not null)
+            {
+#pragma warning disable BL0005
+                Filter = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Filter)] = Filter;
+                ModifiedParameters[nameof(Filter)] = Filter;
+            }
+            
             if (Filter is not null)
             {
                 Filter.Parent = this;
@@ -181,7 +198,7 @@ public partial class FeatureEffect
 #pragma warning disable BL0005
         Filter = new FeatureFilter();
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Filter)] = Filter;
+        ModifiedParameters[nameof(Filter)] = Filter;
         Filter.Parent = this;
         Filter.View = View;
         Filter.JsComponentReference = refResult;
@@ -215,11 +232,16 @@ public partial class FeatureEffect
         }
 
         // get the property value
-#pragma warning disable BL0005
-        IncludedEffect = await CoreJsModule!.InvokeAsync<IReadOnlyList<Effect>?>("getProperty",
+        IReadOnlyList<Effect>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<Effect>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "includedEffect");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             IncludedEffect = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(IncludedEffect)] = IncludedEffect;
+             ModifiedParameters[nameof(IncludedEffect)] = IncludedEffect;
+        }
+         
         return IncludedEffect;
     }
     
@@ -245,7 +267,7 @@ public partial class FeatureEffect
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -275,7 +297,7 @@ public partial class FeatureEffect
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -305,7 +327,7 @@ public partial class FeatureEffect
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -357,7 +379,7 @@ public partial class FeatureEffect
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

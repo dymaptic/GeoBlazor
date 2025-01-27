@@ -4,11 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <summary>
-///          <summary>
-///           Temporal units. Used by TimeInterval on Feature Layers.
-///            <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-TimeInterval.html">ArcGIS Maps SDK for JavaScript</a>
-///           Used by Feature Layer.
-///           </summary>
+///      Temporal units. Used by TimeInterval on Feature Layers.
+///       <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-TimeInterval.html">ArcGIS Maps SDK for JavaScript</a>
+///      Used by Feature Layer.
 ///      </summary>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<TemporalTime>))]

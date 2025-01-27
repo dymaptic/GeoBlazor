@@ -7,7 +7,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 ///    Contains authoring properties of visual variables generated from one of the Smart Mapping methods or sliders.
 ///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfoVisualVariable.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial class AuthoringInfoVisualVariable : MapComponent
+public partial class AuthoringInfoVisualVariable: MapComponent
 {
 
     /// <summary>
@@ -232,11 +232,16 @@ public partial class AuthoringInfoVisualVariable : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        EndTime = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "endTime");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             EndTime = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(EndTime)] = EndTime;
+             ModifiedParameters[nameof(EndTime)] = EndTime;
+        }
+         
         return EndTime;
     }
     
@@ -257,11 +262,16 @@ public partial class AuthoringInfoVisualVariable : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Field = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "field");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Field = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Field)] = Field;
+             ModifiedParameters[nameof(Field)] = Field;
+        }
+         
         return Field;
     }
     
@@ -282,11 +292,16 @@ public partial class AuthoringInfoVisualVariable : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        MaxSliderValue = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "maxSliderValue");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             MaxSliderValue = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(MaxSliderValue)] = MaxSliderValue;
+             ModifiedParameters[nameof(MaxSliderValue)] = MaxSliderValue;
+        }
+         
         return MaxSliderValue;
     }
     
@@ -307,11 +322,16 @@ public partial class AuthoringInfoVisualVariable : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        MinSliderValue = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "minSliderValue");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             MinSliderValue = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(MinSliderValue)] = MinSliderValue;
+             ModifiedParameters[nameof(MinSliderValue)] = MinSliderValue;
+        }
+         
         return MinSliderValue;
     }
     
@@ -332,11 +352,16 @@ public partial class AuthoringInfoVisualVariable : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        NormalizationField = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "normalizationField");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             NormalizationField = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(NormalizationField)] = NormalizationField;
+             ModifiedParameters[nameof(NormalizationField)] = NormalizationField;
+        }
+         
         return NormalizationField;
     }
     
@@ -357,11 +382,16 @@ public partial class AuthoringInfoVisualVariable : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        ReferenceSizeScale = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "referenceSizeScale");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ReferenceSizeScale = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(ReferenceSizeScale)] = ReferenceSizeScale;
+             ModifiedParameters[nameof(ReferenceSizeScale)] = ReferenceSizeScale;
+        }
+         
         return ReferenceSizeScale;
     }
     
@@ -382,11 +412,16 @@ public partial class AuthoringInfoVisualVariable : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        ReferenceSizeSymbolStyle = await CoreJsModule!.InvokeAsync<ReferenceSizeSymbolStyle>("getProperty",
+        ReferenceSizeSymbolStyle? result = await CoreJsModule!.InvokeAsync<ReferenceSizeSymbolStyle?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "referenceSizeSymbolStyle");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ReferenceSizeSymbolStyle = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(ReferenceSizeSymbolStyle)] = ReferenceSizeSymbolStyle;
+             ModifiedParameters[nameof(ReferenceSizeSymbolStyle)] = ReferenceSizeSymbolStyle;
+        }
+         
         return ReferenceSizeSymbolStyle;
     }
     
@@ -407,11 +442,16 @@ public partial class AuthoringInfoVisualVariable : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        SizeStops = await CoreJsModule!.InvokeAsync<IReadOnlyList<SizeStop>?>("getProperty",
+        IReadOnlyList<SizeStop>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<SizeStop>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "sizeStops");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             SizeStops = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(SizeStops)] = SizeStops;
+             ModifiedParameters[nameof(SizeStops)] = SizeStops;
+        }
+         
         return SizeStops;
     }
     
@@ -432,11 +472,16 @@ public partial class AuthoringInfoVisualVariable : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        StartTime = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "startTime");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             StartTime = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(StartTime)] = StartTime;
+             ModifiedParameters[nameof(StartTime)] = StartTime;
+        }
+         
         return StartTime;
     }
     
@@ -457,11 +502,16 @@ public partial class AuthoringInfoVisualVariable : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Style = await CoreJsModule!.InvokeAsync<AuthoringInfoVisualVariableStyle>("getProperty",
+        AuthoringInfoVisualVariableStyle? result = await CoreJsModule!.InvokeAsync<AuthoringInfoVisualVariableStyle?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "style");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Style = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Style)] = Style;
+             ModifiedParameters[nameof(Style)] = Style;
+        }
+         
         return Style;
     }
     
@@ -482,11 +532,16 @@ public partial class AuthoringInfoVisualVariable : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Theme = await CoreJsModule!.InvokeAsync<Theme?>("getProperty",
+        Theme? result = await CoreJsModule!.InvokeAsync<Theme?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "theme");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Theme = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Theme)] = Theme;
+             ModifiedParameters[nameof(Theme)] = Theme;
+        }
+         
         return Theme;
     }
     
@@ -507,11 +562,16 @@ public partial class AuthoringInfoVisualVariable : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Units = await CoreJsModule!.InvokeAsync<AuthoringInfoVisualVariableUnits>("getProperty",
+        AuthoringInfoVisualVariableUnits? result = await CoreJsModule!.InvokeAsync<AuthoringInfoVisualVariableUnits?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "units");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Units = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Units)] = Units;
+             ModifiedParameters[nameof(Units)] = Units;
+        }
+         
         return Units;
     }
     
@@ -537,7 +597,7 @@ public partial class AuthoringInfoVisualVariable : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -567,7 +627,7 @@ public partial class AuthoringInfoVisualVariable : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -597,7 +657,7 @@ public partial class AuthoringInfoVisualVariable : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -627,7 +687,7 @@ public partial class AuthoringInfoVisualVariable : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -657,7 +717,7 @@ public partial class AuthoringInfoVisualVariable : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -687,7 +747,7 @@ public partial class AuthoringInfoVisualVariable : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -717,7 +777,7 @@ public partial class AuthoringInfoVisualVariable : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -747,7 +807,7 @@ public partial class AuthoringInfoVisualVariable : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -777,7 +837,7 @@ public partial class AuthoringInfoVisualVariable : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -807,7 +867,7 @@ public partial class AuthoringInfoVisualVariable : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -837,7 +897,7 @@ public partial class AuthoringInfoVisualVariable : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -867,7 +927,7 @@ public partial class AuthoringInfoVisualVariable : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

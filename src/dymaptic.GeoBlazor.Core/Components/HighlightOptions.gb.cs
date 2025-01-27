@@ -90,11 +90,16 @@ public partial class HighlightOptions
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Color = await CoreJsModule!.InvokeAsync<MapColor?>("getProperty",
+        MapColor? result = await CoreJsModule!.InvokeAsync<MapColor?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "color");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Color = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Color)] = Color;
+             ModifiedParameters[nameof(Color)] = Color;
+        }
+         
         return Color;
     }
     
@@ -115,11 +120,16 @@ public partial class HighlightOptions
         }
 
         // get the property value
-#pragma warning disable BL0005
-        FillOpacity = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "fillOpacity");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             FillOpacity = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(FillOpacity)] = FillOpacity;
+             ModifiedParameters[nameof(FillOpacity)] = FillOpacity;
+        }
+         
         return FillOpacity;
     }
     
@@ -140,11 +150,16 @@ public partial class HighlightOptions
         }
 
         // get the property value
-#pragma warning disable BL0005
-        HaloColor = await CoreJsModule!.InvokeAsync<MapColor?>("getProperty",
+        MapColor? result = await CoreJsModule!.InvokeAsync<MapColor?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "haloColor");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             HaloColor = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(HaloColor)] = HaloColor;
+             ModifiedParameters[nameof(HaloColor)] = HaloColor;
+        }
+         
         return HaloColor;
     }
     
@@ -165,11 +180,16 @@ public partial class HighlightOptions
         }
 
         // get the property value
-#pragma warning disable BL0005
-        HaloOpacity = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "haloOpacity");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             HaloOpacity = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(HaloOpacity)] = HaloOpacity;
+             ModifiedParameters[nameof(HaloOpacity)] = HaloOpacity;
+        }
+         
         return HaloOpacity;
     }
     
@@ -190,11 +210,16 @@ public partial class HighlightOptions
         }
 
         // get the property value
-#pragma warning disable BL0005
-        ShadowColor = await CoreJsModule!.InvokeAsync<MapColor?>("getProperty",
+        MapColor? result = await CoreJsModule!.InvokeAsync<MapColor?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "shadowColor");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ShadowColor = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(ShadowColor)] = ShadowColor;
+             ModifiedParameters[nameof(ShadowColor)] = ShadowColor;
+        }
+         
         return ShadowColor;
     }
     
@@ -215,11 +240,16 @@ public partial class HighlightOptions
         }
 
         // get the property value
-#pragma warning disable BL0005
-        ShadowDifference = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "shadowDifference");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ShadowDifference = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(ShadowDifference)] = ShadowDifference;
+             ModifiedParameters[nameof(ShadowDifference)] = ShadowDifference;
+        }
+         
         return ShadowDifference;
     }
     
@@ -240,11 +270,16 @@ public partial class HighlightOptions
         }
 
         // get the property value
-#pragma warning disable BL0005
-        ShadowOpacity = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "shadowOpacity");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ShadowOpacity = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(ShadowOpacity)] = ShadowOpacity;
+             ModifiedParameters[nameof(ShadowOpacity)] = ShadowOpacity;
+        }
+         
         return ShadowOpacity;
     }
     
@@ -270,7 +305,7 @@ public partial class HighlightOptions
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -300,7 +335,7 @@ public partial class HighlightOptions
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -330,7 +365,7 @@ public partial class HighlightOptions
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -360,7 +395,7 @@ public partial class HighlightOptions
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -390,7 +425,7 @@ public partial class HighlightOptions
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -420,7 +455,7 @@ public partial class HighlightOptions
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -450,7 +485,7 @@ public partial class HighlightOptions
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

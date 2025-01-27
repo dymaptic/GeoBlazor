@@ -52,11 +52,16 @@ public abstract partial class VisualVariable
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Field = await CoreJsModule!.InvokeAsync<string>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "field");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Field = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Field)] = Field;
+             ModifiedParameters[nameof(Field)] = Field;
+        }
+         
         return Field;
     }
     
@@ -77,11 +82,16 @@ public abstract partial class VisualVariable
         }
 
         // get the property value
-#pragma warning disable BL0005
-        LegendOptions = await CoreJsModule!.InvokeAsync<VisualVariableLegendOptions?>("getProperty",
+        VisualVariableLegendOptions? result = await CoreJsModule!.InvokeAsync<VisualVariableLegendOptions?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "legendOptions");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             LegendOptions = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(LegendOptions)] = LegendOptions;
+             ModifiedParameters[nameof(LegendOptions)] = LegendOptions;
+        }
+         
         return LegendOptions;
     }
     
@@ -102,11 +112,16 @@ public abstract partial class VisualVariable
         }
 
         // get the property value
-#pragma warning disable BL0005
-        ValueExpression = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "valueExpression");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ValueExpression = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(ValueExpression)] = ValueExpression;
+             ModifiedParameters[nameof(ValueExpression)] = ValueExpression;
+        }
+         
         return ValueExpression;
     }
     
@@ -127,11 +142,16 @@ public abstract partial class VisualVariable
         }
 
         // get the property value
-#pragma warning disable BL0005
-        ValueExpressionTitle = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "valueExpressionTitle");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ValueExpressionTitle = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(ValueExpressionTitle)] = ValueExpressionTitle;
+             ModifiedParameters[nameof(ValueExpressionTitle)] = ValueExpressionTitle;
+        }
+         
         return ValueExpressionTitle;
     }
     
@@ -157,7 +177,7 @@ public abstract partial class VisualVariable
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -187,7 +207,7 @@ public abstract partial class VisualVariable
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -217,7 +237,7 @@ public abstract partial class VisualVariable
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -247,7 +267,7 @@ public abstract partial class VisualVariable
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

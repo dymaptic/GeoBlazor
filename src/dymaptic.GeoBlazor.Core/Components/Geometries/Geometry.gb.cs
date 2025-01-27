@@ -51,11 +51,16 @@ public abstract partial class Geometry : ISearchViewModelSelectedSuggestion
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Cache = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "cache");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Cache = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Cache)] = Cache;
+             ModifiedParameters[nameof(Cache)] = Cache;
+        }
+         
         return Cache;
     }
     
@@ -76,11 +81,16 @@ public abstract partial class Geometry : ISearchViewModelSelectedSuggestion
         }
 
         // get the property value
-#pragma warning disable BL0005
-        HasM = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "hasM");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             HasM = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(HasM)] = HasM;
+             ModifiedParameters[nameof(HasM)] = HasM;
+        }
+         
         return HasM;
     }
     
@@ -101,11 +111,16 @@ public abstract partial class Geometry : ISearchViewModelSelectedSuggestion
         }
 
         // get the property value
-#pragma warning disable BL0005
-        HasZ = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "hasZ");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             HasZ = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(HasZ)] = HasZ;
+             ModifiedParameters[nameof(HasZ)] = HasZ;
+        }
+         
         return HasZ;
     }
     
@@ -126,11 +141,16 @@ public abstract partial class Geometry : ISearchViewModelSelectedSuggestion
         }
 
         // get the property value
-#pragma warning disable BL0005
-        SpatialReference = await CoreJsModule!.InvokeAsync<SpatialReference?>("getProperty",
+        SpatialReference? result = await CoreJsModule!.InvokeAsync<SpatialReference?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "spatialReference");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             SpatialReference = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+             ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+        }
+         
         return SpatialReference;
     }
     
@@ -156,7 +176,7 @@ public abstract partial class Geometry : ISearchViewModelSelectedSuggestion
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -186,7 +206,7 @@ public abstract partial class Geometry : ISearchViewModelSelectedSuggestion
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -216,7 +236,7 @@ public abstract partial class Geometry : ISearchViewModelSelectedSuggestion
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

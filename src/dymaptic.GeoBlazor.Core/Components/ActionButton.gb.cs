@@ -111,11 +111,16 @@ public partial class ActionButton
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Image = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "image");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Image = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Image)] = Image;
+             ModifiedParameters[nameof(Image)] = Image;
+        }
+         
         return Image;
     }
     
@@ -141,7 +146,7 @@ public partial class ActionButton
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

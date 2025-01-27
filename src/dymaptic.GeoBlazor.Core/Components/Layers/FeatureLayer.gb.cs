@@ -936,11 +936,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        ApiKey = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "apiKey");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ApiKey = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(ApiKey)] = ApiKey;
+             ModifiedParameters[nameof(ApiKey)] = ApiKey;
+        }
+         
         return ApiKey;
     }
     
@@ -961,11 +966,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        BlendMode = await CoreJsModule!.InvokeAsync<BlendMode>("getProperty",
+        BlendMode? result = await CoreJsModule!.InvokeAsync<BlendMode?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "blendMode");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             BlendMode = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(BlendMode)] = BlendMode;
+             ModifiedParameters[nameof(BlendMode)] = BlendMode;
+        }
+         
         return BlendMode;
     }
     
@@ -986,11 +996,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Charts = await CoreJsModule!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
+        IReadOnlyList<string>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "charts");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Charts = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Charts)] = Charts;
+             ModifiedParameters[nameof(Charts)] = Charts;
+        }
+         
         return Charts;
     }
     
@@ -1011,11 +1026,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Copyright = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "copyright");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Copyright = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Copyright)] = Copyright;
+             ModifiedParameters[nameof(Copyright)] = Copyright;
+        }
+         
         return Copyright;
     }
     
@@ -1036,11 +1056,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        CustomParameters = await CoreJsModule!.InvokeAsync<Dictionary<string, object>?>("getProperty",
+        Dictionary<string, object>? result = await CoreJsModule!.InvokeAsync<Dictionary<string, object>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "customParameters");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             CustomParameters = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(CustomParameters)] = CustomParameters;
+             ModifiedParameters[nameof(CustomParameters)] = CustomParameters;
+        }
+         
         return CustomParameters;
     }
     
@@ -1061,11 +1086,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        DateFieldsTimeZone = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "dateFieldsTimeZone");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             DateFieldsTimeZone = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(DateFieldsTimeZone)] = DateFieldsTimeZone;
+             ModifiedParameters[nameof(DateFieldsTimeZone)] = DateFieldsTimeZone;
+        }
+         
         return DateFieldsTimeZone;
     }
     
@@ -1086,11 +1116,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        DatesInUnknownTimezone = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "datesInUnknownTimezone");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             DatesInUnknownTimezone = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(DatesInUnknownTimezone)] = DatesInUnknownTimezone;
+             ModifiedParameters[nameof(DatesInUnknownTimezone)] = DatesInUnknownTimezone;
+        }
+         
         return DatesInUnknownTimezone;
     }
     
@@ -1111,11 +1146,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        DefinitionExpression = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "definitionExpression");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             DefinitionExpression = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(DefinitionExpression)] = DefinitionExpression;
+             ModifiedParameters[nameof(DefinitionExpression)] = DefinitionExpression;
+        }
+         
         return DefinitionExpression;
     }
     
@@ -1136,11 +1176,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        DisplayField = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "displayField");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             DisplayField = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(DisplayField)] = DisplayField;
+             ModifiedParameters[nameof(DisplayField)] = DisplayField;
+        }
+         
         return DisplayField;
     }
     
@@ -1170,15 +1215,22 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return null;
         }
         
+        Layer? result = null;
+        
         // Try to deserialize the object. This might fail if we don't have the
         // all deserialization edge cases handled.
         try
         {
-#pragma warning disable BL0005
-            DynamicDataSource = await CoreJsModule.InvokeAsync<Layer?>(
+            result = await CoreJsModule.InvokeAsync<Layer?>(
                 "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
+            if (result is not null)
+            {
+#pragma warning disable BL0005
+                DynamicDataSource = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(DynamicDataSource)] = DynamicDataSource;
+                ModifiedParameters[nameof(DynamicDataSource)] = DynamicDataSource;
+            }
+            
             if (DynamicDataSource is not null)
             {
                 DynamicDataSource.Parent = this;
@@ -1214,11 +1266,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        EditFieldsInfo = await CoreJsModule!.InvokeAsync<EditFieldsInfo?>("getProperty",
+        EditFieldsInfo? result = await CoreJsModule!.InvokeAsync<EditFieldsInfo?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "editFieldsInfo");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             EditFieldsInfo = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(EditFieldsInfo)] = EditFieldsInfo;
+             ModifiedParameters[nameof(EditFieldsInfo)] = EditFieldsInfo;
+        }
+         
         return EditFieldsInfo;
     }
     
@@ -1239,11 +1296,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        EditingEnabled = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "editingEnabled");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             EditingEnabled = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(EditingEnabled)] = EditingEnabled;
+             ModifiedParameters[nameof(EditingEnabled)] = EditingEnabled;
+        }
+         
         return EditingEnabled;
     }
     
@@ -1264,11 +1326,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        EditingInfo = await CoreJsModule!.InvokeAsync<EditingInfo?>("getProperty",
+        EditingInfo? result = await CoreJsModule!.InvokeAsync<EditingInfo?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "editingInfo");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             EditingInfo = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(EditingInfo)] = EditingInfo;
+             ModifiedParameters[nameof(EditingInfo)] = EditingInfo;
+        }
+         
         return EditingInfo;
     }
     
@@ -1289,11 +1356,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Effect = await CoreJsModule!.InvokeAsync<Effect?>("getProperty",
+        Effect? result = await CoreJsModule!.InvokeAsync<Effect?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "effect");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Effect = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Effect)] = Effect;
+             ModifiedParameters[nameof(Effect)] = Effect;
+        }
+         
         return Effect;
     }
     
@@ -1314,11 +1386,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        EffectiveCapabilities = await CoreJsModule!.InvokeAsync<Capabilities?>("getProperty",
+        Capabilities? result = await CoreJsModule!.InvokeAsync<Capabilities?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "effectiveCapabilities");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             EffectiveCapabilities = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(EffectiveCapabilities)] = EffectiveCapabilities;
+             ModifiedParameters[nameof(EffectiveCapabilities)] = EffectiveCapabilities;
+        }
+         
         return EffectiveCapabilities;
     }
     
@@ -1339,11 +1416,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        EffectiveEditingEnabled = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "effectiveEditingEnabled");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             EffectiveEditingEnabled = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(EffectiveEditingEnabled)] = EffectiveEditingEnabled;
+             ModifiedParameters[nameof(EffectiveEditingEnabled)] = EffectiveEditingEnabled;
+        }
+         
         return EffectiveEditingEnabled;
     }
     
@@ -1364,11 +1446,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        ElevationInfo = await CoreJsModule!.InvokeAsync<FeatureLayerBaseElevationInfo?>("getProperty",
+        FeatureLayerBaseElevationInfo? result = await CoreJsModule!.InvokeAsync<FeatureLayerBaseElevationInfo?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "elevationInfo");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ElevationInfo = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(ElevationInfo)] = ElevationInfo;
+             ModifiedParameters[nameof(ElevationInfo)] = ElevationInfo;
+        }
+         
         return ElevationInfo;
     }
     
@@ -1389,11 +1476,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        FeatureEffect = await CoreJsModule!.InvokeAsync<FeatureEffect?>("getProperty",
+        FeatureEffect? result = await CoreJsModule!.InvokeAsync<FeatureEffect?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "featureEffect");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             FeatureEffect = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(FeatureEffect)] = FeatureEffect;
+             ModifiedParameters[nameof(FeatureEffect)] = FeatureEffect;
+        }
+         
         return FeatureEffect;
     }
     
@@ -1414,11 +1506,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Fields = await CoreJsModule!.InvokeAsync<IReadOnlyList<Field>?>("getProperty",
+        IReadOnlyList<Field>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<Field>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "fields");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Fields = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Fields)] = Fields;
+             ModifiedParameters[nameof(Fields)] = Fields;
+        }
+         
         return Fields;
     }
     
@@ -1438,50 +1535,17 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return FieldsIndex;
         }
 
-        // get the JS object reference
-        IJSObjectReference? refResult = (await CoreJsModule!.InvokeAsync<JsObjectRefWrapper?>(
-            "getObjectRefForProperty", CancellationTokenSource.Token, JsComponentReference, 
-            "fieldsIndex"))?.Value;
-            
-        if (refResult is null)
-        {
-            return null;
-        }
-        
-        // Try to deserialize the object. This might fail if we don't have the
-        // all deserialization edge cases handled.
-        try
+        // get the property value
+        FieldsIndex? result = await CoreJsModule!.InvokeAsync<FieldsIndex?>("getProperty",
+            CancellationTokenSource.Token, JsComponentReference, "fieldsIndex");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            FieldsIndex = await CoreJsModule.InvokeAsync<FieldsIndex?>(
-                "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
+             FieldsIndex = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(FieldsIndex)] = FieldsIndex;
-            if (FieldsIndex is not null)
-            {
-                FieldsIndex.Parent = this;
-                FieldsIndex.View = View;
-                FieldsIndex.JsComponentReference = refResult;
-                await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorObject",
-                    CancellationTokenSource.Token, refResult, FieldsIndex.Id);
-                return FieldsIndex;
-            }
+             ModifiedParameters[nameof(FieldsIndex)] = FieldsIndex;
         }
-        catch
-        {
-            Console.WriteLine("Failed to deserialize FieldsIndex");
-        }
-#pragma warning disable BL0005
-        FieldsIndex = new FieldsIndex();
-#pragma warning restore BL0005
-         ModifiedParameters[nameof(FieldsIndex)] = FieldsIndex;
-        FieldsIndex.Parent = this;
-        FieldsIndex.View = View;
-        FieldsIndex.JsComponentReference = refResult;
-        // register this type in JS
-        await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorObject",
-            CancellationTokenSource.Token, refResult, FieldsIndex.Id);
-        await FieldsIndex.GetProperty<IReadOnlyList<Field>>(nameof(FieldsIndex.DateFields));
+         
         return FieldsIndex;
     }
     
@@ -1502,11 +1566,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        FloorInfo = await CoreJsModule!.InvokeAsync<LayerFloorInfo?>("getProperty",
+        LayerFloorInfo? result = await CoreJsModule!.InvokeAsync<LayerFloorInfo?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "floorInfo");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             FloorInfo = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(FloorInfo)] = FloorInfo;
+             ModifiedParameters[nameof(FloorInfo)] = FloorInfo;
+        }
+         
         return FloorInfo;
     }
     
@@ -1527,11 +1596,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        FormTemplate = await CoreJsModule!.InvokeAsync<FormTemplate?>("getProperty",
+        FormTemplate? result = await CoreJsModule!.InvokeAsync<FormTemplate?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "formTemplate");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             FormTemplate = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(FormTemplate)] = FormTemplate;
+             ModifiedParameters[nameof(FormTemplate)] = FormTemplate;
+        }
+         
         return FormTemplate;
     }
     
@@ -1552,11 +1626,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        GdbVersion = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "gdbVersion");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             GdbVersion = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(GdbVersion)] = GdbVersion;
+             ModifiedParameters[nameof(GdbVersion)] = GdbVersion;
+        }
+         
         return GdbVersion;
     }
     
@@ -1577,11 +1656,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        GeometryFieldsInfo = await CoreJsModule!.InvokeAsync<GeometryFieldsInfo?>("getProperty",
+        GeometryFieldsInfo? result = await CoreJsModule!.InvokeAsync<GeometryFieldsInfo?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "geometryFieldsInfo");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             GeometryFieldsInfo = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(GeometryFieldsInfo)] = GeometryFieldsInfo;
+             ModifiedParameters[nameof(GeometryFieldsInfo)] = GeometryFieldsInfo;
+        }
+         
         return GeometryFieldsInfo;
     }
     
@@ -1602,11 +1686,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        GeometryType = await CoreJsModule!.InvokeAsync<FeatureGeometryType>("getProperty",
+        FeatureGeometryType? result = await CoreJsModule!.InvokeAsync<FeatureGeometryType?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "geometryType");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             GeometryType = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(GeometryType)] = GeometryType;
+             ModifiedParameters[nameof(GeometryType)] = GeometryType;
+        }
+         
         return GeometryType;
     }
     
@@ -1627,11 +1716,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        HasM = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "hasM");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             HasM = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(HasM)] = HasM;
+             ModifiedParameters[nameof(HasM)] = HasM;
+        }
+         
         return HasM;
     }
     
@@ -1652,11 +1746,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        HasZ = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "hasZ");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             HasZ = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(HasZ)] = HasZ;
+             ModifiedParameters[nameof(HasZ)] = HasZ;
+        }
+         
         return HasZ;
     }
     
@@ -1677,11 +1776,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        HistoricMoment = await CoreJsModule!.InvokeAsync<DateTime>("getProperty",
+        DateTime? result = await CoreJsModule!.InvokeAsync<DateTime?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "historicMoment");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             HistoricMoment = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(HistoricMoment)] = HistoricMoment;
+             ModifiedParameters[nameof(HistoricMoment)] = HistoricMoment;
+        }
+         
         return HistoricMoment;
     }
     
@@ -1702,11 +1806,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        IsTable = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "isTable");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             IsTable = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(IsTable)] = IsTable;
+             ModifiedParameters[nameof(IsTable)] = IsTable;
+        }
+         
         return IsTable;
     }
     
@@ -1727,11 +1836,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        LabelingInfo = await CoreJsModule!.InvokeAsync<IReadOnlyList<Label>?>("getProperty",
+        IReadOnlyList<Label>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<Label>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "labelingInfo");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             LabelingInfo = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(LabelingInfo)] = LabelingInfo;
+             ModifiedParameters[nameof(LabelingInfo)] = LabelingInfo;
+        }
+         
         return LabelingInfo;
     }
     
@@ -1752,11 +1866,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        LabelsVisible = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "labelsVisible");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             LabelsVisible = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(LabelsVisible)] = LabelsVisible;
+             ModifiedParameters[nameof(LabelsVisible)] = LabelsVisible;
+        }
+         
         return LabelsVisible;
     }
     
@@ -1777,11 +1896,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        LayerIndex = await CoreJsModule!.InvokeAsync<int>("getProperty",
+        int? result = await CoreJsModule!.InvokeAsync<int?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "layerIndex");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             LayerIndex = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(LayerIndex)] = LayerIndex;
+             ModifiedParameters[nameof(LayerIndex)] = LayerIndex;
+        }
+         
         return LayerIndex;
     }
     
@@ -1802,11 +1926,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        LegendEnabled = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "legendEnabled");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             LegendEnabled = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(LegendEnabled)] = LegendEnabled;
+             ModifiedParameters[nameof(LegendEnabled)] = LegendEnabled;
+        }
+         
         return LegendEnabled;
     }
     
@@ -1827,11 +1956,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        MaxScale = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "maxScale");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             MaxScale = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(MaxScale)] = MaxScale;
+             ModifiedParameters[nameof(MaxScale)] = MaxScale;
+        }
+         
         return MaxScale;
     }
     
@@ -1852,11 +1986,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        MinScale = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "minScale");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             MinScale = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(MinScale)] = MinScale;
+             ModifiedParameters[nameof(MinScale)] = MinScale;
+        }
+         
         return MinScale;
     }
     
@@ -1877,11 +2016,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        ObjectIdField = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "objectIdField");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ObjectIdField = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(ObjectIdField)] = ObjectIdField;
+             ModifiedParameters[nameof(ObjectIdField)] = ObjectIdField;
+        }
+         
         return ObjectIdField;
     }
     
@@ -1902,11 +2046,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        OrderBy = await CoreJsModule!.InvokeAsync<IReadOnlyList<OrderedLayerOrderBy>?>("getProperty",
+        IReadOnlyList<OrderedLayerOrderBy>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<OrderedLayerOrderBy>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "orderBy");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             OrderBy = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(OrderBy)] = OrderBy;
+             ModifiedParameters[nameof(OrderBy)] = OrderBy;
+        }
+         
         return OrderBy;
     }
     
@@ -1927,11 +2076,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        OutFields = await CoreJsModule!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
+        IReadOnlyList<string>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "outFields");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             OutFields = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(OutFields)] = OutFields;
+             ModifiedParameters[nameof(OutFields)] = OutFields;
+        }
+         
         return OutFields;
     }
     
@@ -1952,11 +2106,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        PopupEnabled = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "popupEnabled");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             PopupEnabled = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(PopupEnabled)] = PopupEnabled;
+             ModifiedParameters[nameof(PopupEnabled)] = PopupEnabled;
+        }
+         
         return PopupEnabled;
     }
     
@@ -1977,11 +2136,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        PopupTemplate = await CoreJsModule!.InvokeAsync<PopupTemplate?>("getProperty",
+        PopupTemplate? result = await CoreJsModule!.InvokeAsync<PopupTemplate?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "popupTemplate");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             PopupTemplate = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
+             ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
+        }
+         
         return PopupTemplate;
     }
     
@@ -2011,15 +2175,22 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return null;
         }
         
+        PortalItem? result = null;
+        
         // Try to deserialize the object. This might fail if we don't have the
         // all deserialization edge cases handled.
         try
         {
-#pragma warning disable BL0005
-            PortalItem = await CoreJsModule.InvokeAsync<PortalItem?>(
+            result = await CoreJsModule.InvokeAsync<PortalItem?>(
                 "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
+            if (result is not null)
+            {
+#pragma warning disable BL0005
+                PortalItem = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(PortalItem)] = PortalItem;
+                ModifiedParameters[nameof(PortalItem)] = PortalItem;
+            }
+            
             if (PortalItem is not null)
             {
                 PortalItem.Parent = this;
@@ -2100,11 +2271,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        PreferredTimeZone = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "preferredTimeZone");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             PreferredTimeZone = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(PreferredTimeZone)] = PreferredTimeZone;
+             ModifiedParameters[nameof(PreferredTimeZone)] = PreferredTimeZone;
+        }
+         
         return PreferredTimeZone;
     }
     
@@ -2125,11 +2301,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        PublishingInfo = await CoreJsModule!.InvokeAsync<PublishingInfo?>("getProperty",
+        PublishingInfo? result = await CoreJsModule!.InvokeAsync<PublishingInfo?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "publishingInfo");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             PublishingInfo = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(PublishingInfo)] = PublishingInfo;
+             ModifiedParameters[nameof(PublishingInfo)] = PublishingInfo;
+        }
+         
         return PublishingInfo;
     }
     
@@ -2150,11 +2331,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        RefreshInterval = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "refreshInterval");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             RefreshInterval = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(RefreshInterval)] = RefreshInterval;
+             ModifiedParameters[nameof(RefreshInterval)] = RefreshInterval;
+        }
+         
         return RefreshInterval;
     }
     
@@ -2175,11 +2361,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Relationships = await CoreJsModule!.InvokeAsync<IReadOnlyList<Relationship>?>("getProperty",
+        IReadOnlyList<Relationship>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<Relationship>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "relationships");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Relationships = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Relationships)] = Relationships;
+             ModifiedParameters[nameof(Relationships)] = Relationships;
+        }
+         
         return Relationships;
     }
     
@@ -2200,11 +2391,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Renderer = await CoreJsModule!.InvokeAsync<Renderer?>("getProperty",
+        Renderer? result = await CoreJsModule!.InvokeAsync<Renderer?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "renderer");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Renderer = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Renderer)] = Renderer;
+             ModifiedParameters[nameof(Renderer)] = Renderer;
+        }
+         
         return Renderer;
     }
     
@@ -2225,11 +2421,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        ReturnM = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "returnM");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ReturnM = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(ReturnM)] = ReturnM;
+             ModifiedParameters[nameof(ReturnM)] = ReturnM;
+        }
+         
         return ReturnM;
     }
     
@@ -2250,11 +2451,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        ReturnZ = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "returnZ");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ReturnZ = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(ReturnZ)] = ReturnZ;
+             ModifiedParameters[nameof(ReturnZ)] = ReturnZ;
+        }
+         
         return ReturnZ;
     }
     
@@ -2275,11 +2481,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        ScreenSizePerspectiveEnabled = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "screenSizePerspectiveEnabled");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ScreenSizePerspectiveEnabled = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(ScreenSizePerspectiveEnabled)] = ScreenSizePerspectiveEnabled;
+             ModifiedParameters[nameof(ScreenSizePerspectiveEnabled)] = ScreenSizePerspectiveEnabled;
+        }
+         
         return ScreenSizePerspectiveEnabled;
     }
     
@@ -2300,11 +2511,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        ServiceDefinitionExpression = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "serviceDefinitionExpression");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ServiceDefinitionExpression = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(ServiceDefinitionExpression)] = ServiceDefinitionExpression;
+             ModifiedParameters[nameof(ServiceDefinitionExpression)] = ServiceDefinitionExpression;
+        }
+         
         return ServiceDefinitionExpression;
     }
     
@@ -2325,11 +2541,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        ServiceItemId = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "serviceItemId");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ServiceItemId = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(ServiceItemId)] = ServiceItemId;
+             ModifiedParameters[nameof(ServiceItemId)] = ServiceItemId;
+        }
+         
         return ServiceItemId;
     }
     
@@ -2359,15 +2580,22 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return null;
         }
         
+        IReadOnlyList<Graphic>? result = null;
+        
         // Try to deserialize the object. This might fail if we don't have the
         // all deserialization edge cases handled.
         try
         {
-#pragma warning disable BL0005
-            Source = await CoreJsModule.InvokeAsync<IReadOnlyList<Graphic>?>(
+            result = await CoreJsModule.InvokeAsync<IReadOnlyList<Graphic>?>(
                 "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
+            if (result is not null)
+            {
+#pragma warning disable BL0005
+                Source = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Source)] = Source;
+                ModifiedParameters[nameof(Source)] = Source;
+            }
+            
             if (Source is not null)
             {
                 for (int i = 0; i < Source.Count; i++)
@@ -2397,13 +2625,13 @@ public partial class FeatureLayer : IAPIKeyMixin,
         {
             return null;
         }
-        List<Graphic> result = new List<Graphic>();
+        List<Graphic> newResult = [];
         for (int i = 0; i < length; i++)
         {
-            result.Add(new Graphic());
+            newResult.Add(new Graphic());
         }
 #pragma warning disable BL0005
-        Source = result;
+        Source = newResult;
 #pragma warning restore BL0005
          ModifiedParameters[nameof(Source)] = Source;
         for (int i = 0; i < Source.Count; i++)
@@ -2448,11 +2676,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        SourceJSON = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "sourceJSON");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             SourceJSON = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(SourceJSON)] = SourceJSON;
+             ModifiedParameters[nameof(SourceJSON)] = SourceJSON;
+        }
+         
         return SourceJSON;
     }
     
@@ -2473,11 +2706,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        SpatialReference = await CoreJsModule!.InvokeAsync<SpatialReference?>("getProperty",
+        SpatialReference? result = await CoreJsModule!.InvokeAsync<SpatialReference?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "spatialReference");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             SpatialReference = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+             ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+        }
+         
         return SpatialReference;
     }
     
@@ -2498,11 +2736,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        SubtypeField = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "subtypeField");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             SubtypeField = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(SubtypeField)] = SubtypeField;
+             ModifiedParameters[nameof(SubtypeField)] = SubtypeField;
+        }
+         
         return SubtypeField;
     }
     
@@ -2523,11 +2766,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Subtypes = await CoreJsModule!.InvokeAsync<IReadOnlyList<Subtype>?>("getProperty",
+        IReadOnlyList<Subtype>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<Subtype>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "subtypes");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Subtypes = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Subtypes)] = Subtypes;
+             ModifiedParameters[nameof(Subtypes)] = Subtypes;
+        }
+         
         return Subtypes;
     }
     
@@ -2548,11 +2796,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Templates = await CoreJsModule!.InvokeAsync<IReadOnlyList<FeatureTemplate>?>("getProperty",
+        IReadOnlyList<FeatureTemplate>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<FeatureTemplate>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "templates");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Templates = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Templates)] = Templates;
+             ModifiedParameters[nameof(Templates)] = Templates;
+        }
+         
         return Templates;
     }
     
@@ -2582,15 +2835,22 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return null;
         }
         
+        TimeExtent? result = null;
+        
         // Try to deserialize the object. This might fail if we don't have the
         // all deserialization edge cases handled.
         try
         {
-#pragma warning disable BL0005
-            TimeExtent = await CoreJsModule.InvokeAsync<TimeExtent?>(
+            result = await CoreJsModule.InvokeAsync<TimeExtent?>(
                 "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
+            if (result is not null)
+            {
+#pragma warning disable BL0005
+                TimeExtent = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(TimeExtent)] = TimeExtent;
+                ModifiedParameters[nameof(TimeExtent)] = TimeExtent;
+            }
+            
             if (TimeExtent is not null)
             {
                 TimeExtent.Parent = this;
@@ -2637,11 +2897,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        TimeInfo = await CoreJsModule!.InvokeAsync<TimeInfo?>("getProperty",
+        TimeInfo? result = await CoreJsModule!.InvokeAsync<TimeInfo?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "timeInfo");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             TimeInfo = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(TimeInfo)] = TimeInfo;
+             ModifiedParameters[nameof(TimeInfo)] = TimeInfo;
+        }
+         
         return TimeInfo;
     }
     
@@ -2662,11 +2927,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        TimeOffset = await CoreJsModule!.InvokeAsync<TimeInterval?>("getProperty",
+        TimeInterval? result = await CoreJsModule!.InvokeAsync<TimeInterval?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "timeOffset");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             TimeOffset = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(TimeOffset)] = TimeOffset;
+             ModifiedParameters[nameof(TimeOffset)] = TimeOffset;
+        }
+         
         return TimeOffset;
     }
     
@@ -2687,11 +2957,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        TypeIdField = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "typeIdField");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             TypeIdField = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(TypeIdField)] = TypeIdField;
+             ModifiedParameters[nameof(TypeIdField)] = TypeIdField;
+        }
+         
         return TypeIdField;
     }
     
@@ -2712,11 +2987,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Types = await CoreJsModule!.InvokeAsync<IReadOnlyList<FeatureType>?>("getProperty",
+        IReadOnlyList<FeatureType>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<FeatureType>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "types");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Types = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Types)] = Types;
+             ModifiedParameters[nameof(Types)] = Types;
+        }
+         
         return Types;
     }
     
@@ -2737,11 +3017,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Url = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "url");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Url = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Url)] = Url;
+             ModifiedParameters[nameof(Url)] = Url;
+        }
+         
         return Url;
     }
     
@@ -2762,11 +3047,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        UseViewTime = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "useViewTime");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             UseViewTime = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(UseViewTime)] = UseViewTime;
+             ModifiedParameters[nameof(UseViewTime)] = UseViewTime;
+        }
+         
         return UseViewTime;
     }
     
@@ -2787,11 +3077,16 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Version = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "version");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Version = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Version)] = Version;
+             ModifiedParameters[nameof(Version)] = Version;
+        }
+         
         return Version;
     }
     
@@ -2817,7 +3112,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2847,7 +3142,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2877,7 +3172,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2907,7 +3202,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2937,7 +3232,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2967,7 +3262,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2997,7 +3292,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -3027,7 +3322,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -3057,7 +3352,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -3109,7 +3404,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -3139,7 +3434,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -3169,7 +3464,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -3199,7 +3494,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -3229,7 +3524,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -3259,7 +3554,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -3289,7 +3584,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -3319,7 +3614,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -3349,7 +3644,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -3379,7 +3674,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -3409,7 +3704,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -3439,7 +3734,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -3469,7 +3764,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -3499,7 +3794,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -3529,7 +3824,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -3559,7 +3854,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -3589,7 +3884,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -3619,7 +3914,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -3649,7 +3944,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -3679,7 +3974,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -3709,7 +4004,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -3739,7 +4034,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -3791,7 +4086,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -3821,7 +4116,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -3851,7 +4146,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -3881,7 +4176,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -3911,7 +4206,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -3941,7 +4236,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -3997,7 +4292,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -4027,7 +4322,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -4057,7 +4352,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -4087,7 +4382,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -4139,7 +4434,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -4169,7 +4464,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -4199,7 +4494,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -4229,7 +4524,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -4259,7 +4554,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -4289,7 +4584,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -4699,24 +4994,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
                 }
                 
                 return true;
-            case EditFieldsInfo editFieldsInfo:
-                if (editFieldsInfo != EditFieldsInfo)
-                {
-                    EditFieldsInfo = editFieldsInfo;
-                    LayerChanged = true;
-                    ModifiedParameters[nameof(EditFieldsInfo)] = EditFieldsInfo;
-                }
-                
-                return true;
-            case EditingInfo editingInfo:
-                if (editingInfo != EditingInfo)
-                {
-                    EditingInfo = editingInfo;
-                    LayerChanged = true;
-                    ModifiedParameters[nameof(EditingInfo)] = EditingInfo;
-                }
-                
-                return true;
             case Capabilities effectiveCapabilities:
                 if (effectiveCapabilities != EffectiveCapabilities)
                 {
@@ -4754,15 +5031,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
                 }
                 
                 return true;
-            case FieldsIndex fieldsIndex:
-                if (fieldsIndex != FieldsIndex)
-                {
-                    FieldsIndex = fieldsIndex;
-                    LayerChanged = true;
-                    ModifiedParameters[nameof(FieldsIndex)] = FieldsIndex;
-                }
-                
-                return true;
             case LayerFloorInfo floorInfo:
                 if (floorInfo != FloorInfo)
                 {
@@ -4778,15 +5046,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
                     FormTemplate = formTemplate;
                     LayerChanged = true;
                     ModifiedParameters[nameof(FormTemplate)] = FormTemplate;
-                }
-                
-                return true;
-            case GeometryFieldsInfo geometryFieldsInfo:
-                if (geometryFieldsInfo != GeometryFieldsInfo)
-                {
-                    GeometryFieldsInfo = geometryFieldsInfo;
-                    LayerChanged = true;
-                    ModifiedParameters[nameof(GeometryFieldsInfo)] = GeometryFieldsInfo;
                 }
                 
                 return true;
@@ -4828,15 +5087,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
                 }
                 
                 return true;
-            case PublishingInfo publishingInfo:
-                if (publishingInfo != PublishingInfo)
-                {
-                    PublishingInfo = publishingInfo;
-                    LayerChanged = true;
-                    ModifiedParameters[nameof(PublishingInfo)] = PublishingInfo;
-                }
-                
-                return true;
             case Renderer renderer:
                 if (renderer != Renderer)
                 {
@@ -4853,16 +5103,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
                     Source = [..Source, source];
                     LayerChanged = true;
                     ModifiedParameters[nameof(Source)] = Source;
-                }
-                
-                return true;
-            case Subtype subtypes:
-                Subtypes ??= [];
-                if (!Subtypes.Contains(subtypes))
-                {
-                    Subtypes = [..Subtypes, subtypes];
-                    LayerChanged = true;
-                    ModifiedParameters[nameof(Subtypes)] = Subtypes;
                 }
                 
                 return true;
@@ -4917,16 +5157,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
                 LayerChanged = true;
                 ModifiedParameters[nameof(DynamicDataSource)] = DynamicDataSource;
                 return true;
-            case EditFieldsInfo _:
-                EditFieldsInfo = null;
-                LayerChanged = true;
-                ModifiedParameters[nameof(EditFieldsInfo)] = EditFieldsInfo;
-                return true;
-            case EditingInfo _:
-                EditingInfo = null;
-                LayerChanged = true;
-                ModifiedParameters[nameof(EditingInfo)] = EditingInfo;
-                return true;
             case Capabilities _:
                 EffectiveCapabilities = null;
                 LayerChanged = true;
@@ -4947,11 +5177,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
                 LayerChanged = true;
                 ModifiedParameters[nameof(Fields)] = Fields;
                 return true;
-            case FieldsIndex _:
-                FieldsIndex = null;
-                LayerChanged = true;
-                ModifiedParameters[nameof(FieldsIndex)] = FieldsIndex;
-                return true;
             case LayerFloorInfo _:
                 FloorInfo = null;
                 LayerChanged = true;
@@ -4961,11 +5186,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
                 FormTemplate = null;
                 LayerChanged = true;
                 ModifiedParameters[nameof(FormTemplate)] = FormTemplate;
-                return true;
-            case GeometryFieldsInfo _:
-                GeometryFieldsInfo = null;
-                LayerChanged = true;
-                ModifiedParameters[nameof(GeometryFieldsInfo)] = GeometryFieldsInfo;
                 return true;
             case Label labelingInfo:
                 LabelingInfo = LabelingInfo?.Where(l => l != labelingInfo).ToList();
@@ -4987,11 +5207,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
                 LayerChanged = true;
                 ModifiedParameters[nameof(PortalItem)] = PortalItem;
                 return true;
-            case PublishingInfo _:
-                PublishingInfo = null;
-                LayerChanged = true;
-                ModifiedParameters[nameof(PublishingInfo)] = PublishingInfo;
-                return true;
             case Renderer _:
                 Renderer = null;
                 LayerChanged = true;
@@ -5001,11 +5216,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
                 Source = Source?.Where(s => s != source).ToList();
                 LayerChanged = true;
                 ModifiedParameters[nameof(Source)] = Source;
-                return true;
-            case Subtype subtypes:
-                Subtypes = Subtypes?.Where(s => s != subtypes).ToList();
-                LayerChanged = true;
-                ModifiedParameters[nameof(Subtypes)] = Subtypes;
                 return true;
             case FeatureTemplate templates:
                 Templates = Templates?.Where(t => t != templates).ToList();
@@ -5041,8 +5251,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
             throw new MissingRequiredOptionsChildElementException(nameof(FeatureLayer), [nameof(Url), nameof(PortalItem), nameof(Source)]);
         }
         DynamicDataSource?.ValidateRequiredGeneratedChildren();
-        EditFieldsInfo?.ValidateRequiredGeneratedChildren();
-        EditingInfo?.ValidateRequiredGeneratedChildren();
         EffectiveCapabilities?.ValidateRequiredGeneratedChildren();
         ElevationInfo?.ValidateRequiredGeneratedChildren();
         FeatureEffect?.ValidateRequiredGeneratedChildren();
@@ -5053,10 +5261,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
                 child.ValidateRequiredGeneratedChildren();
             }
         }
-        FieldsIndex?.ValidateRequiredGeneratedChildren();
         FloorInfo?.ValidateRequiredGeneratedChildren();
         FormTemplate?.ValidateRequiredGeneratedChildren();
-        GeometryFieldsInfo?.ValidateRequiredGeneratedChildren();
         if (LabelingInfo is not null)
         {
             foreach (Label child in LabelingInfo)
@@ -5072,15 +5278,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
             }
         }
         PopupTemplate?.ValidateRequiredGeneratedChildren();
-        PublishingInfo?.ValidateRequiredGeneratedChildren();
         Renderer?.ValidateRequiredGeneratedChildren();
-        if (Subtypes is not null)
-        {
-            foreach (Subtype child in Subtypes)
-            {
-                child.ValidateRequiredGeneratedChildren();
-            }
-        }
         if (Templates is not null)
         {
             foreach (FeatureTemplate child in Templates)

@@ -71,11 +71,16 @@ public partial class AlgorithmicColorRamp : IClassBreaksCreateRendererParamsColo
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Algorithm = await CoreJsModule!.InvokeAsync<Algorithm>("getProperty",
+        Algorithm? result = await CoreJsModule!.InvokeAsync<Algorithm?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "algorithm");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Algorithm = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Algorithm)] = Algorithm;
+             ModifiedParameters[nameof(Algorithm)] = Algorithm;
+        }
+         
         return Algorithm;
     }
     
@@ -96,11 +101,16 @@ public partial class AlgorithmicColorRamp : IClassBreaksCreateRendererParamsColo
         }
 
         // get the property value
-#pragma warning disable BL0005
-        FromColor = await CoreJsModule!.InvokeAsync<MapColor?>("getProperty",
+        MapColor? result = await CoreJsModule!.InvokeAsync<MapColor?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "fromColor");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             FromColor = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(FromColor)] = FromColor;
+             ModifiedParameters[nameof(FromColor)] = FromColor;
+        }
+         
         return FromColor;
     }
     
@@ -121,11 +131,16 @@ public partial class AlgorithmicColorRamp : IClassBreaksCreateRendererParamsColo
         }
 
         // get the property value
-#pragma warning disable BL0005
-        ToColor = await CoreJsModule!.InvokeAsync<MapColor?>("getProperty",
+        MapColor? result = await CoreJsModule!.InvokeAsync<MapColor?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "toColor");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ToColor = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(ToColor)] = ToColor;
+             ModifiedParameters[nameof(ToColor)] = ToColor;
+        }
+         
         return ToColor;
     }
     
@@ -151,7 +166,7 @@ public partial class AlgorithmicColorRamp : IClassBreaksCreateRendererParamsColo
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -181,7 +196,7 @@ public partial class AlgorithmicColorRamp : IClassBreaksCreateRendererParamsColo
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -211,7 +226,7 @@ public partial class AlgorithmicColorRamp : IClassBreaksCreateRendererParamsColo
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

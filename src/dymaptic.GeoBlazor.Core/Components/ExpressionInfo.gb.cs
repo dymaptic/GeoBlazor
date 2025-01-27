@@ -72,11 +72,16 @@ public partial class ExpressionInfo
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Expression = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "expression");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Expression = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Expression)] = Expression;
+             ModifiedParameters[nameof(Expression)] = Expression;
+        }
+         
         return Expression;
     }
     
@@ -97,11 +102,16 @@ public partial class ExpressionInfo
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Name = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "name");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Name = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Name)] = Name;
+             ModifiedParameters[nameof(Name)] = Name;
+        }
+         
         return Name;
     }
     
@@ -122,11 +132,16 @@ public partial class ExpressionInfo
         }
 
         // get the property value
-#pragma warning disable BL0005
-        ReturnType = await CoreJsModule!.InvokeAsync<ExpressionInfoReturnType>("getProperty",
+        ExpressionInfoReturnType? result = await CoreJsModule!.InvokeAsync<ExpressionInfoReturnType?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "returnType");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ReturnType = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(ReturnType)] = ReturnType;
+             ModifiedParameters[nameof(ReturnType)] = ReturnType;
+        }
+         
         return ReturnType;
     }
     
@@ -147,11 +162,16 @@ public partial class ExpressionInfo
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Title = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "title");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Title = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Title)] = Title;
+             ModifiedParameters[nameof(Title)] = Title;
+        }
+         
         return Title;
     }
     
@@ -177,7 +197,7 @@ public partial class ExpressionInfo
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -207,7 +227,7 @@ public partial class ExpressionInfo
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -237,7 +257,7 @@ public partial class ExpressionInfo
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -267,7 +287,7 @@ public partial class ExpressionInfo
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

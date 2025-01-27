@@ -79,11 +79,16 @@ public partial class FieldsPopupContent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Description = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "description");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Description = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Description)] = Description;
+             ModifiedParameters[nameof(Description)] = Description;
+        }
+         
         return Description;
     }
     
@@ -104,11 +109,16 @@ public partial class FieldsPopupContent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        FieldInfos = await CoreJsModule!.InvokeAsync<IReadOnlyList<FieldInfo>?>("getProperty",
+        IReadOnlyList<FieldInfo>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<FieldInfo>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "fieldInfos");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             FieldInfos = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(FieldInfos)] = FieldInfos;
+             ModifiedParameters[nameof(FieldInfos)] = FieldInfos;
+        }
+         
         return FieldInfos;
     }
     
@@ -129,11 +139,16 @@ public partial class FieldsPopupContent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Title = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "title");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Title = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Title)] = Title;
+             ModifiedParameters[nameof(Title)] = Title;
+        }
+         
         return Title;
     }
     
@@ -159,7 +174,7 @@ public partial class FieldsPopupContent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -189,7 +204,7 @@ public partial class FieldsPopupContent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -219,7 +234,7 @@ public partial class FieldsPopupContent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

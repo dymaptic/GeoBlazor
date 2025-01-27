@@ -57,11 +57,16 @@ public partial class Extent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Center = await CoreJsModule!.InvokeAsync<Point?>("getProperty",
+        Point? result = await CoreJsModule!.InvokeAsync<Point?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "center");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Center = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Center)] = Center;
+             ModifiedParameters[nameof(Center)] = Center;
+        }
+         
         return Center;
     }
     
@@ -82,11 +87,16 @@ public partial class Extent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Height = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "height");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Height = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Height)] = Height;
+             ModifiedParameters[nameof(Height)] = Height;
+        }
+         
         return Height;
     }
     
@@ -107,11 +117,16 @@ public partial class Extent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Mmax = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "mmax");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Mmax = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Mmax)] = Mmax;
+             ModifiedParameters[nameof(Mmax)] = Mmax;
+        }
+         
         return Mmax;
     }
     
@@ -132,11 +147,16 @@ public partial class Extent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Mmin = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "mmin");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Mmin = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Mmin)] = Mmin;
+             ModifiedParameters[nameof(Mmin)] = Mmin;
+        }
+         
         return Mmin;
     }
     
@@ -157,11 +177,16 @@ public partial class Extent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Width = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "width");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Width = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Width)] = Width;
+             ModifiedParameters[nameof(Width)] = Width;
+        }
+         
         return Width;
     }
     
@@ -182,11 +207,16 @@ public partial class Extent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Zmax = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "zmax");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Zmax = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Zmax)] = Zmax;
+             ModifiedParameters[nameof(Zmax)] = Zmax;
+        }
+         
         return Zmax;
     }
     
@@ -207,11 +237,16 @@ public partial class Extent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Zmin = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "zmin");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Zmin = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Zmin)] = Zmin;
+             ModifiedParameters[nameof(Zmin)] = Zmin;
+        }
+         
         return Zmin;
     }
     
@@ -237,7 +272,7 @@ public partial class Extent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -267,7 +302,7 @@ public partial class Extent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -297,7 +332,7 @@ public partial class Extent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -327,7 +362,7 @@ public partial class Extent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

@@ -3,7 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
-///     Enumeration for UnivariateSymbolStyle
+///     <summary>
+///          Enumeration for UnivariateSymbolStyle
+///      </summary>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<UnivariateSymbolStyle>))]
 public enum UnivariateSymbolStyle

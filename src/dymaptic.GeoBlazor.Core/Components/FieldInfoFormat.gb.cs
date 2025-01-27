@@ -67,11 +67,16 @@ public partial class FieldInfoFormat
         }
 
         // get the property value
-#pragma warning disable BL0005
-        DateFormat = await CoreJsModule!.InvokeAsync<DateFormat>("getProperty",
+        DateFormat? result = await CoreJsModule!.InvokeAsync<DateFormat?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "dateFormat");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             DateFormat = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(DateFormat)] = DateFormat;
+             ModifiedParameters[nameof(DateFormat)] = DateFormat;
+        }
+         
         return DateFormat;
     }
     
@@ -92,11 +97,16 @@ public partial class FieldInfoFormat
         }
 
         // get the property value
-#pragma warning disable BL0005
-        DigitSeparator = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "digitSeparator");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             DigitSeparator = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(DigitSeparator)] = DigitSeparator;
+             ModifiedParameters[nameof(DigitSeparator)] = DigitSeparator;
+        }
+         
         return DigitSeparator;
     }
     
@@ -117,11 +127,16 @@ public partial class FieldInfoFormat
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Places = await CoreJsModule!.InvokeAsync<int>("getProperty",
+        int? result = await CoreJsModule!.InvokeAsync<int?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "places");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Places = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Places)] = Places;
+             ModifiedParameters[nameof(Places)] = Places;
+        }
+         
         return Places;
     }
     
@@ -147,7 +162,7 @@ public partial class FieldInfoFormat
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -177,7 +192,7 @@ public partial class FieldInfoFormat
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -207,7 +222,7 @@ public partial class FieldInfoFormat
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

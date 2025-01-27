@@ -54,11 +54,16 @@ public partial class ExpressionPopupContent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        ExpressionInfo = await CoreJsModule!.InvokeAsync<ElementExpressionInfo?>("getProperty",
+        ElementExpressionInfo? result = await CoreJsModule!.InvokeAsync<ElementExpressionInfo?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "expressionInfo");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ExpressionInfo = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(ExpressionInfo)] = ExpressionInfo;
+             ModifiedParameters[nameof(ExpressionInfo)] = ExpressionInfo;
+        }
+         
         return ExpressionInfo;
     }
     
@@ -84,7 +89,7 @@ public partial class ExpressionPopupContent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

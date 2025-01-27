@@ -119,11 +119,16 @@ public partial class PictureMarkerSymbol : IRouteStopSymbolsBreak,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Height = await CoreJsModule!.InvokeAsync<Dimension?>("getProperty",
+        Dimension? result = await CoreJsModule!.InvokeAsync<Dimension?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "height");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Height = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Height)] = Height;
+             ModifiedParameters[nameof(Height)] = Height;
+        }
+         
         return Height;
     }
     
@@ -144,11 +149,16 @@ public partial class PictureMarkerSymbol : IRouteStopSymbolsBreak,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Url = await CoreJsModule!.InvokeAsync<string>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "url");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Url = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Url)] = Url;
+             ModifiedParameters[nameof(Url)] = Url;
+        }
+         
         return Url;
     }
     
@@ -169,11 +179,16 @@ public partial class PictureMarkerSymbol : IRouteStopSymbolsBreak,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Width = await CoreJsModule!.InvokeAsync<Dimension?>("getProperty",
+        Dimension? result = await CoreJsModule!.InvokeAsync<Dimension?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "width");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Width = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Width)] = Width;
+             ModifiedParameters[nameof(Width)] = Width;
+        }
+         
         return Width;
     }
     
@@ -199,7 +214,7 @@ public partial class PictureMarkerSymbol : IRouteStopSymbolsBreak,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -229,7 +244,7 @@ public partial class PictureMarkerSymbol : IRouteStopSymbolsBreak,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -259,7 +274,7 @@ public partial class PictureMarkerSymbol : IRouteStopSymbolsBreak,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

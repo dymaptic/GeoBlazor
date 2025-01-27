@@ -163,11 +163,16 @@ public partial class TimeInfo
         }
 
         // get the property value
-#pragma warning disable BL0005
-        EndField = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "endField");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             EndField = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(EndField)] = EndField;
+             ModifiedParameters[nameof(EndField)] = EndField;
+        }
+         
         return EndField;
     }
     
@@ -197,15 +202,22 @@ public partial class TimeInfo
             return null;
         }
         
+        TimeExtent? result = null;
+        
         // Try to deserialize the object. This might fail if we don't have the
         // all deserialization edge cases handled.
         try
         {
-#pragma warning disable BL0005
-            FullTimeExtent = await CoreJsModule.InvokeAsync<TimeExtent?>(
+            result = await CoreJsModule.InvokeAsync<TimeExtent?>(
                 "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
+            if (result is not null)
+            {
+#pragma warning disable BL0005
+                FullTimeExtent = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(FullTimeExtent)] = FullTimeExtent;
+                ModifiedParameters[nameof(FullTimeExtent)] = FullTimeExtent;
+            }
+            
             if (FullTimeExtent is not null)
             {
                 FullTimeExtent.Parent = this;
@@ -252,11 +264,16 @@ public partial class TimeInfo
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Interval = await CoreJsModule!.InvokeAsync<TimeInterval?>("getProperty",
+        TimeInterval? result = await CoreJsModule!.InvokeAsync<TimeInterval?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "interval");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Interval = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Interval)] = Interval;
+             ModifiedParameters[nameof(Interval)] = Interval;
+        }
+         
         return Interval;
     }
     
@@ -277,11 +294,16 @@ public partial class TimeInfo
         }
 
         // get the property value
-#pragma warning disable BL0005
-        StartField = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "startField");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             StartField = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(StartField)] = StartField;
+             ModifiedParameters[nameof(StartField)] = StartField;
+        }
+         
         return StartField;
     }
     
@@ -302,11 +324,16 @@ public partial class TimeInfo
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Stops = await CoreJsModule!.InvokeAsync<IReadOnlyList<DateTime>>("getProperty",
+        IReadOnlyList<DateTime>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<DateTime>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "stops");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Stops = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Stops)] = Stops;
+             ModifiedParameters[nameof(Stops)] = Stops;
+        }
+         
         return Stops;
     }
     
@@ -327,11 +354,16 @@ public partial class TimeInfo
         }
 
         // get the property value
-#pragma warning disable BL0005
-        TimeZone = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "timeZone");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             TimeZone = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(TimeZone)] = TimeZone;
+             ModifiedParameters[nameof(TimeZone)] = TimeZone;
+        }
+         
         return TimeZone;
     }
     
@@ -352,11 +384,16 @@ public partial class TimeInfo
         }
 
         // get the property value
-#pragma warning disable BL0005
-        TrackIdField = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "trackIdField");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             TrackIdField = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(TrackIdField)] = TrackIdField;
+             ModifiedParameters[nameof(TrackIdField)] = TrackIdField;
+        }
+         
         return TrackIdField;
     }
     
@@ -382,7 +419,7 @@ public partial class TimeInfo
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -412,7 +449,7 @@ public partial class TimeInfo
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -464,7 +501,7 @@ public partial class TimeInfo
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -494,7 +531,7 @@ public partial class TimeInfo
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -524,7 +561,7 @@ public partial class TimeInfo
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -554,7 +591,7 @@ public partial class TimeInfo
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -584,7 +621,7 @@ public partial class TimeInfo
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

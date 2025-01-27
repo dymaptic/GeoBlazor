@@ -131,11 +131,16 @@ public partial class TileInfo
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Dpi = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "dpi");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Dpi = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Dpi)] = Dpi;
+             ModifiedParameters[nameof(Dpi)] = Dpi;
+        }
+         
         return Dpi;
     }
     
@@ -156,11 +161,16 @@ public partial class TileInfo
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Format = await CoreJsModule!.InvokeAsync<TileInfoFormat>("getProperty",
+        TileInfoFormat? result = await CoreJsModule!.InvokeAsync<TileInfoFormat?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "format");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Format = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Format)] = Format;
+             ModifiedParameters[nameof(Format)] = Format;
+        }
+         
         return Format;
     }
     
@@ -181,11 +191,16 @@ public partial class TileInfo
         }
 
         // get the property value
-#pragma warning disable BL0005
-        IsWrappable = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "isWrappable");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             IsWrappable = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(IsWrappable)] = IsWrappable;
+             ModifiedParameters[nameof(IsWrappable)] = IsWrappable;
+        }
+         
         return IsWrappable;
     }
     
@@ -206,11 +221,16 @@ public partial class TileInfo
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Lods = await CoreJsModule!.InvokeAsync<IReadOnlyList<LOD>?>("getProperty",
+        IReadOnlyList<LOD>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<LOD>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "lods");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Lods = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Lods)] = Lods;
+             ModifiedParameters[nameof(Lods)] = Lods;
+        }
+         
         return Lods;
     }
     
@@ -231,11 +251,16 @@ public partial class TileInfo
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Origin = await CoreJsModule!.InvokeAsync<Point?>("getProperty",
+        Point? result = await CoreJsModule!.InvokeAsync<Point?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "origin");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Origin = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Origin)] = Origin;
+             ModifiedParameters[nameof(Origin)] = Origin;
+        }
+         
         return Origin;
     }
     
@@ -256,11 +281,16 @@ public partial class TileInfo
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Size = await CoreJsModule!.InvokeAsync<IReadOnlyList<int>>("getProperty",
+        IReadOnlyList<int>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<int>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "size");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Size = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Size)] = Size;
+             ModifiedParameters[nameof(Size)] = Size;
+        }
+         
         return Size;
     }
     
@@ -281,11 +311,16 @@ public partial class TileInfo
         }
 
         // get the property value
-#pragma warning disable BL0005
-        SpatialReference = await CoreJsModule!.InvokeAsync<SpatialReference?>("getProperty",
+        SpatialReference? result = await CoreJsModule!.InvokeAsync<SpatialReference?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "spatialReference");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             SpatialReference = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+             ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+        }
+         
         return SpatialReference;
     }
     
@@ -311,7 +346,7 @@ public partial class TileInfo
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -341,7 +376,7 @@ public partial class TileInfo
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -371,7 +406,7 @@ public partial class TileInfo
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -401,7 +436,7 @@ public partial class TileInfo
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -431,7 +466,7 @@ public partial class TileInfo
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -461,7 +496,7 @@ public partial class TileInfo
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -491,7 +526,7 @@ public partial class TileInfo
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

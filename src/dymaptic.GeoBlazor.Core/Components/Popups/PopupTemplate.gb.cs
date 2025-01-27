@@ -107,11 +107,16 @@ public partial class PopupTemplate
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Actions = await CoreJsModule!.InvokeAsync<IReadOnlyList<ActionBase>?>("getProperty",
+        IReadOnlyList<ActionBase>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<ActionBase>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "actions");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Actions = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Actions)] = Actions;
+             ModifiedParameters[nameof(Actions)] = Actions;
+        }
+         
         return Actions;
     }
     
@@ -132,11 +137,16 @@ public partial class PopupTemplate
         }
 
         // get the property value
-#pragma warning disable BL0005
-        ExpressionInfos = await CoreJsModule!.InvokeAsync<IReadOnlyList<ExpressionInfo>?>("getProperty",
+        IReadOnlyList<ExpressionInfo>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<ExpressionInfo>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "expressionInfos");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ExpressionInfos = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(ExpressionInfos)] = ExpressionInfos;
+             ModifiedParameters[nameof(ExpressionInfos)] = ExpressionInfos;
+        }
+         
         return ExpressionInfos;
     }
     
@@ -157,11 +167,16 @@ public partial class PopupTemplate
         }
 
         // get the property value
-#pragma warning disable BL0005
-        FieldInfos = await CoreJsModule!.InvokeAsync<IReadOnlyList<FieldInfo>?>("getProperty",
+        IReadOnlyList<FieldInfo>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<FieldInfo>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "fieldInfos");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             FieldInfos = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(FieldInfos)] = FieldInfos;
+             ModifiedParameters[nameof(FieldInfos)] = FieldInfos;
+        }
+         
         return FieldInfos;
     }
     
@@ -182,11 +197,16 @@ public partial class PopupTemplate
         }
 
         // get the property value
-#pragma warning disable BL0005
-        LastEditInfoEnabled = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "lastEditInfoEnabled");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             LastEditInfoEnabled = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(LastEditInfoEnabled)] = LastEditInfoEnabled;
+             ModifiedParameters[nameof(LastEditInfoEnabled)] = LastEditInfoEnabled;
+        }
+         
         return LastEditInfoEnabled;
     }
     
@@ -207,11 +227,16 @@ public partial class PopupTemplate
         }
 
         // get the property value
-#pragma warning disable BL0005
-        LayerOptions = await CoreJsModule!.InvokeAsync<LayerOptions?>("getProperty",
+        LayerOptions? result = await CoreJsModule!.InvokeAsync<LayerOptions?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "layerOptions");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             LayerOptions = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(LayerOptions)] = LayerOptions;
+             ModifiedParameters[nameof(LayerOptions)] = LayerOptions;
+        }
+         
         return LayerOptions;
     }
     
@@ -232,11 +257,16 @@ public partial class PopupTemplate
         }
 
         // get the property value
-#pragma warning disable BL0005
-        OutFields = await CoreJsModule!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
+        IReadOnlyList<string>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "outFields");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             OutFields = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(OutFields)] = OutFields;
+             ModifiedParameters[nameof(OutFields)] = OutFields;
+        }
+         
         return OutFields;
     }
     
@@ -257,11 +287,16 @@ public partial class PopupTemplate
         }
 
         // get the property value
-#pragma warning disable BL0005
-        OverwriteActions = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "overwriteActions");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             OverwriteActions = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(OverwriteActions)] = OverwriteActions;
+             ModifiedParameters[nameof(OverwriteActions)] = OverwriteActions;
+        }
+         
         return OverwriteActions;
     }
     
@@ -282,11 +317,16 @@ public partial class PopupTemplate
         }
 
         // get the property value
-#pragma warning disable BL0005
-        ReturnGeometry = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "returnGeometry");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ReturnGeometry = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(ReturnGeometry)] = ReturnGeometry;
+             ModifiedParameters[nameof(ReturnGeometry)] = ReturnGeometry;
+        }
+         
         return ReturnGeometry;
     }
     
@@ -307,11 +347,16 @@ public partial class PopupTemplate
         }
 
         // get the property value
-#pragma warning disable BL0005
-        StringTitle = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "stringTitle");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             StringTitle = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(StringTitle)] = StringTitle;
+             ModifiedParameters[nameof(StringTitle)] = StringTitle;
+        }
+         
         return StringTitle;
     }
     
@@ -332,11 +377,16 @@ public partial class PopupTemplate
         }
 
         // get the property value
-#pragma warning disable BL0005
-        TaskCollectionTitle = await CoreJsModule!.InvokeAsync<Func<Task>?>("getProperty",
+        Func<Task>? result = await CoreJsModule!.InvokeAsync<Func<Task>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "taskCollectionTitle");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             TaskCollectionTitle = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(TaskCollectionTitle)] = TaskCollectionTitle;
+             ModifiedParameters[nameof(TaskCollectionTitle)] = TaskCollectionTitle;
+        }
+         
         return TaskCollectionTitle;
     }
     
@@ -362,7 +412,7 @@ public partial class PopupTemplate
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -392,7 +442,7 @@ public partial class PopupTemplate
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -422,7 +472,7 @@ public partial class PopupTemplate
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -452,7 +502,7 @@ public partial class PopupTemplate
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -482,7 +532,7 @@ public partial class PopupTemplate
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -512,7 +562,7 @@ public partial class PopupTemplate
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -542,7 +592,7 @@ public partial class PopupTemplate
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -572,7 +622,7 @@ public partial class PopupTemplate
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -602,7 +652,7 @@ public partial class PopupTemplate
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -632,7 +682,7 @@ public partial class PopupTemplate
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -859,9 +909,9 @@ public partial class PopupTemplate
     internal override void ValidateRequiredGeneratedChildren()
     {
     
-        if (StringContent is null && (Content is null || Content.Count == 0) && ContentFunction is null)
+        if ((Content is null || Content.Count == 0) && ContentFunction is null && StringContent is null)
         {
-            throw new MissingRequiredOptionsChildElementException(nameof(PopupTemplate), [nameof(StringContent), nameof(Content), nameof(ContentFunction)]);
+            throw new MissingRequiredOptionsChildElementException(nameof(PopupTemplate), [nameof(Content), nameof(ContentFunction), nameof(StringContent)]);
         }
         if (Actions is not null)
         {

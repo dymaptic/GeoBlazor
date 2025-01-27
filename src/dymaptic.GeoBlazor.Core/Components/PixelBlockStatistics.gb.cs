@@ -97,11 +97,16 @@ public partial class PixelBlockStatistics : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        MaxValue = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "maxValue");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             MaxValue = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(MaxValue)] = MaxValue;
+             ModifiedParameters[nameof(MaxValue)] = MaxValue;
+        }
+         
         return MaxValue;
     }
     
@@ -122,11 +127,16 @@ public partial class PixelBlockStatistics : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        MinValue = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "minValue");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             MinValue = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(MinValue)] = MinValue;
+             ModifiedParameters[nameof(MinValue)] = MinValue;
+        }
+         
         return MinValue;
     }
     
@@ -147,11 +157,16 @@ public partial class PixelBlockStatistics : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        NoDataValue = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "noDataValue");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             NoDataValue = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(NoDataValue)] = NoDataValue;
+             ModifiedParameters[nameof(NoDataValue)] = NoDataValue;
+        }
+         
         return NoDataValue;
     }
     
@@ -177,7 +192,7 @@ public partial class PixelBlockStatistics : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -207,7 +222,7 @@ public partial class PixelBlockStatistics : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -237,7 +252,7 @@ public partial class PixelBlockStatistics : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

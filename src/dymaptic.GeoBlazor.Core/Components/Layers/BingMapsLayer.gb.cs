@@ -196,37 +196,17 @@ public partial class BingMapsLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Culture = await CoreJsModule!.InvokeAsync<CultureInfo?>("getProperty",
+        CultureInfo? result = await CoreJsModule!.InvokeAsync<CultureInfo?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "culture");
-#pragma warning restore BL0005
-         ModifiedParameters[nameof(Culture)] = Culture;
-        return Culture;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Key property.
-    /// </summary>
-    public async Task<string?> GetKey()
-    {
-        if (CoreJsModule is null)
+        if (result is not null)
         {
-            return Key;
-        }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
-        if (JsComponentReference is null)
-        {
-            return Key;
-        }
-
-        // get the property value
 #pragma warning disable BL0005
-        Key = await CoreJsModule!.InvokeAsync<string>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "key");
+             Culture = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Key)] = Key;
-        return Key;
+             ModifiedParameters[nameof(Culture)] = Culture;
+        }
+         
+        return Culture;
     }
     
     /// <summary>
@@ -246,11 +226,16 @@ public partial class BingMapsLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Region = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "region");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Region = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Region)] = Region;
+             ModifiedParameters[nameof(Region)] = Region;
+        }
+         
         return Region;
     }
     
@@ -271,11 +256,16 @@ public partial class BingMapsLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Style = await CoreJsModule!.InvokeAsync<BingImageryStyle>("getProperty",
+        BingImageryStyle? result = await CoreJsModule!.InvokeAsync<BingImageryStyle?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "style");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Style = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Style)] = Style;
+             ModifiedParameters[nameof(Style)] = Style;
+        }
+         
         return Style;
     }
     
@@ -301,7 +291,7 @@ public partial class BingMapsLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -331,7 +321,7 @@ public partial class BingMapsLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -361,7 +351,7 @@ public partial class BingMapsLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -391,7 +381,7 @@ public partial class BingMapsLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

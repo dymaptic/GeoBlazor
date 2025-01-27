@@ -73,11 +73,16 @@ public partial class DimensionalDefinition
         }
 
         // get the property value
-#pragma warning disable BL0005
-        DimensionName = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "dimensionName");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             DimensionName = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(DimensionName)] = DimensionName;
+             ModifiedParameters[nameof(DimensionName)] = DimensionName;
+        }
+         
         return DimensionName;
     }
     
@@ -98,11 +103,16 @@ public partial class DimensionalDefinition
         }
 
         // get the property value
-#pragma warning disable BL0005
-        IsSlice = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "isSlice");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             IsSlice = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(IsSlice)] = IsSlice;
+             ModifiedParameters[nameof(IsSlice)] = IsSlice;
+        }
+         
         return IsSlice;
     }
     
@@ -123,11 +133,16 @@ public partial class DimensionalDefinition
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Values = await CoreJsModule!.InvokeAsync<DimensionalDefinitionValues?>("getProperty",
+        DimensionalDefinitionValues? result = await CoreJsModule!.InvokeAsync<DimensionalDefinitionValues?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "values");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Values = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Values)] = Values;
+             ModifiedParameters[nameof(Values)] = Values;
+        }
+         
         return Values;
     }
     
@@ -148,11 +163,16 @@ public partial class DimensionalDefinition
         }
 
         // get the property value
-#pragma warning disable BL0005
-        VariableName = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "variableName");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             VariableName = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(VariableName)] = VariableName;
+             ModifiedParameters[nameof(VariableName)] = VariableName;
+        }
+         
         return VariableName;
     }
     
@@ -178,7 +198,7 @@ public partial class DimensionalDefinition
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -208,7 +228,7 @@ public partial class DimensionalDefinition
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -238,7 +258,7 @@ public partial class DimensionalDefinition
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -268,7 +288,7 @@ public partial class DimensionalDefinition
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

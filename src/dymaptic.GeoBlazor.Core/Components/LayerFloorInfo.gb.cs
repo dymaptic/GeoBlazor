@@ -54,11 +54,16 @@ public partial class LayerFloorInfo
         }
 
         // get the property value
-#pragma warning disable BL0005
-        FloorField = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "floorField");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             FloorField = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(FloorField)] = FloorField;
+             ModifiedParameters[nameof(FloorField)] = FloorField;
+        }
+         
         return FloorField;
     }
     
@@ -84,7 +89,7 @@ public partial class LayerFloorInfo
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

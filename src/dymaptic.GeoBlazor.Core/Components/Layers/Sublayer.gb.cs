@@ -327,11 +327,16 @@ public partial class Sublayer
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Capabilities = await CoreJsModule!.InvokeAsync<SublayerCapabilities?>("getProperty",
+        SublayerCapabilities? result = await CoreJsModule!.InvokeAsync<SublayerCapabilities?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "capabilities");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Capabilities = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Capabilities)] = Capabilities;
+             ModifiedParameters[nameof(Capabilities)] = Capabilities;
+        }
+         
         return Capabilities;
     }
     
@@ -352,11 +357,16 @@ public partial class Sublayer
         }
 
         // get the property value
-#pragma warning disable BL0005
-        DataSource = await CoreJsModule!.InvokeAsync<DynamicDataSource?>("getProperty",
+        DynamicDataSource? result = await CoreJsModule!.InvokeAsync<DynamicDataSource?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "dataSource");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             DataSource = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(DataSource)] = DataSource;
+             ModifiedParameters[nameof(DataSource)] = DataSource;
+        }
+         
         return DataSource;
     }
     
@@ -377,11 +387,16 @@ public partial class Sublayer
         }
 
         // get the property value
-#pragma warning disable BL0005
-        DefinitionExpression = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "definitionExpression");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             DefinitionExpression = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(DefinitionExpression)] = DefinitionExpression;
+             ModifiedParameters[nameof(DefinitionExpression)] = DefinitionExpression;
+        }
+         
         return DefinitionExpression;
     }
     
@@ -402,11 +417,16 @@ public partial class Sublayer
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Fields = await CoreJsModule!.InvokeAsync<IReadOnlyList<Field>?>("getProperty",
+        IReadOnlyList<Field>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<Field>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "fields");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Fields = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Fields)] = Fields;
+             ModifiedParameters[nameof(Fields)] = Fields;
+        }
+         
         return Fields;
     }
     
@@ -426,50 +446,17 @@ public partial class Sublayer
             return FieldsIndex;
         }
 
-        // get the JS object reference
-        IJSObjectReference? refResult = (await CoreJsModule!.InvokeAsync<JsObjectRefWrapper?>(
-            "getObjectRefForProperty", CancellationTokenSource.Token, JsComponentReference, 
-            "fieldsIndex"))?.Value;
-            
-        if (refResult is null)
-        {
-            return null;
-        }
-        
-        // Try to deserialize the object. This might fail if we don't have the
-        // all deserialization edge cases handled.
-        try
+        // get the property value
+        FieldsIndex? result = await CoreJsModule!.InvokeAsync<FieldsIndex?>("getProperty",
+            CancellationTokenSource.Token, JsComponentReference, "fieldsIndex");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            FieldsIndex = await CoreJsModule.InvokeAsync<FieldsIndex?>(
-                "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
+             FieldsIndex = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(FieldsIndex)] = FieldsIndex;
-            if (FieldsIndex is not null)
-            {
-                FieldsIndex.Parent = this;
-                FieldsIndex.View = View;
-                FieldsIndex.JsComponentReference = refResult;
-                await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorObject",
-                    CancellationTokenSource.Token, refResult, FieldsIndex.Id);
-                return FieldsIndex;
-            }
+             ModifiedParameters[nameof(FieldsIndex)] = FieldsIndex;
         }
-        catch
-        {
-            Console.WriteLine("Failed to deserialize FieldsIndex");
-        }
-#pragma warning disable BL0005
-        FieldsIndex = new FieldsIndex();
-#pragma warning restore BL0005
-         ModifiedParameters[nameof(FieldsIndex)] = FieldsIndex;
-        FieldsIndex.Parent = this;
-        FieldsIndex.View = View;
-        FieldsIndex.JsComponentReference = refResult;
-        // register this type in JS
-        await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorObject",
-            CancellationTokenSource.Token, refResult, FieldsIndex.Id);
-        await FieldsIndex.GetProperty<IReadOnlyList<Field>>(nameof(FieldsIndex.DateFields));
+         
         return FieldsIndex;
     }
     
@@ -490,11 +477,16 @@ public partial class Sublayer
         }
 
         // get the property value
-#pragma warning disable BL0005
-        FloorInfo = await CoreJsModule!.InvokeAsync<LayerFloorInfo?>("getProperty",
+        LayerFloorInfo? result = await CoreJsModule!.InvokeAsync<LayerFloorInfo?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "floorInfo");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             FloorInfo = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(FloorInfo)] = FloorInfo;
+             ModifiedParameters[nameof(FloorInfo)] = FloorInfo;
+        }
+         
         return FloorInfo;
     }
     
@@ -515,11 +507,16 @@ public partial class Sublayer
         }
 
         // get the property value
-#pragma warning disable BL0005
-        FullExtent = await CoreJsModule!.InvokeAsync<Extent?>("getProperty",
+        Extent? result = await CoreJsModule!.InvokeAsync<Extent?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "fullExtent");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             FullExtent = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(FullExtent)] = FullExtent;
+             ModifiedParameters[nameof(FullExtent)] = FullExtent;
+        }
+         
         return FullExtent;
     }
     
@@ -540,11 +537,16 @@ public partial class Sublayer
         }
 
         // get the property value
-#pragma warning disable BL0005
-        IsTable = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "isTable");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             IsTable = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(IsTable)] = IsTable;
+             ModifiedParameters[nameof(IsTable)] = IsTable;
+        }
+         
         return IsTable;
     }
     
@@ -565,11 +567,16 @@ public partial class Sublayer
         }
 
         // get the property value
-#pragma warning disable BL0005
-        LabelingInfo = await CoreJsModule!.InvokeAsync<IReadOnlyList<Label>?>("getProperty",
+        IReadOnlyList<Label>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<Label>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "labelingInfo");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             LabelingInfo = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(LabelingInfo)] = LabelingInfo;
+             ModifiedParameters[nameof(LabelingInfo)] = LabelingInfo;
+        }
+         
         return LabelingInfo;
     }
     
@@ -590,11 +597,16 @@ public partial class Sublayer
         }
 
         // get the property value
-#pragma warning disable BL0005
-        LabelsVisible = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "labelsVisible");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             LabelsVisible = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(LabelsVisible)] = LabelsVisible;
+             ModifiedParameters[nameof(LabelsVisible)] = LabelsVisible;
+        }
+         
         return LabelsVisible;
     }
     
@@ -615,11 +627,16 @@ public partial class Sublayer
         }
 
         // get the property value
-#pragma warning disable BL0005
-        LegendEnabled = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "legendEnabled");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             LegendEnabled = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(LegendEnabled)] = LegendEnabled;
+             ModifiedParameters[nameof(LegendEnabled)] = LegendEnabled;
+        }
+         
         return LegendEnabled;
     }
     
@@ -640,11 +657,16 @@ public partial class Sublayer
         }
 
         // get the property value
-#pragma warning disable BL0005
-        ListMode = await CoreJsModule!.InvokeAsync<ListMode>("getProperty",
+        ListMode? result = await CoreJsModule!.InvokeAsync<ListMode?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "listMode");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ListMode = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(ListMode)] = ListMode;
+             ModifiedParameters[nameof(ListMode)] = ListMode;
+        }
+         
         return ListMode;
     }
     
@@ -665,11 +687,16 @@ public partial class Sublayer
         }
 
         // get the property value
-#pragma warning disable BL0005
-        MaxScale = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "maxScale");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             MaxScale = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(MaxScale)] = MaxScale;
+             ModifiedParameters[nameof(MaxScale)] = MaxScale;
+        }
+         
         return MaxScale;
     }
     
@@ -690,11 +717,16 @@ public partial class Sublayer
         }
 
         // get the property value
-#pragma warning disable BL0005
-        MinScale = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "minScale");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             MinScale = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(MinScale)] = MinScale;
+             ModifiedParameters[nameof(MinScale)] = MinScale;
+        }
+         
         return MinScale;
     }
     
@@ -715,11 +747,16 @@ public partial class Sublayer
         }
 
         // get the property value
-#pragma warning disable BL0005
-        ObjectIdField = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "objectIdField");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ObjectIdField = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(ObjectIdField)] = ObjectIdField;
+             ModifiedParameters[nameof(ObjectIdField)] = ObjectIdField;
+        }
+         
         return ObjectIdField;
     }
     
@@ -740,11 +777,16 @@ public partial class Sublayer
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Opacity = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "opacity");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Opacity = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Opacity)] = Opacity;
+             ModifiedParameters[nameof(Opacity)] = Opacity;
+        }
+         
         return Opacity;
     }
     
@@ -765,11 +807,16 @@ public partial class Sublayer
         }
 
         // get the property value
-#pragma warning disable BL0005
-        PopupEnabled = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "popupEnabled");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             PopupEnabled = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(PopupEnabled)] = PopupEnabled;
+             ModifiedParameters[nameof(PopupEnabled)] = PopupEnabled;
+        }
+         
         return PopupEnabled;
     }
     
@@ -790,11 +837,16 @@ public partial class Sublayer
         }
 
         // get the property value
-#pragma warning disable BL0005
-        PopupTemplate = await CoreJsModule!.InvokeAsync<PopupTemplate?>("getProperty",
+        PopupTemplate? result = await CoreJsModule!.InvokeAsync<PopupTemplate?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "popupTemplate");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             PopupTemplate = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
+             ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
+        }
+         
         return PopupTemplate;
     }
     
@@ -815,11 +867,16 @@ public partial class Sublayer
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Relationships = await CoreJsModule!.InvokeAsync<IReadOnlyList<Relationship>?>("getProperty",
+        IReadOnlyList<Relationship>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<Relationship>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "relationships");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Relationships = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Relationships)] = Relationships;
+             ModifiedParameters[nameof(Relationships)] = Relationships;
+        }
+         
         return Relationships;
     }
     
@@ -840,11 +897,16 @@ public partial class Sublayer
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Renderer = await CoreJsModule!.InvokeAsync<Renderer?>("getProperty",
+        Renderer? result = await CoreJsModule!.InvokeAsync<Renderer?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "renderer");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Renderer = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Renderer)] = Renderer;
+             ModifiedParameters[nameof(Renderer)] = Renderer;
+        }
+         
         return Renderer;
     }
     
@@ -865,11 +927,16 @@ public partial class Sublayer
         }
 
         // get the property value
-#pragma warning disable BL0005
-        SourceJSON = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "sourceJSON");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             SourceJSON = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(SourceJSON)] = SourceJSON;
+             ModifiedParameters[nameof(SourceJSON)] = SourceJSON;
+        }
+         
         return SourceJSON;
     }
     
@@ -890,11 +957,16 @@ public partial class Sublayer
         }
 
         // get the property value
-#pragma warning disable BL0005
-        SpatialReference = await CoreJsModule!.InvokeAsync<SpatialReference?>("getProperty",
+        SpatialReference? result = await CoreJsModule!.InvokeAsync<SpatialReference?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "spatialReference");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             SpatialReference = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+             ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+        }
+         
         return SpatialReference;
     }
     
@@ -915,11 +987,16 @@ public partial class Sublayer
         }
 
         // get the property value
-#pragma warning disable BL0005
-        SublayerId = await CoreJsModule!.InvokeAsync<long>("getProperty",
+        long? result = await CoreJsModule!.InvokeAsync<long?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "sublayerId");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             SublayerId = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(SublayerId)] = SublayerId;
+             ModifiedParameters[nameof(SublayerId)] = SublayerId;
+        }
+         
         return SublayerId;
     }
     
@@ -940,11 +1017,16 @@ public partial class Sublayer
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Title = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "title");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Title = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Title)] = Title;
+             ModifiedParameters[nameof(Title)] = Title;
+        }
+         
         return Title;
     }
     
@@ -965,11 +1047,16 @@ public partial class Sublayer
         }
 
         // get the property value
-#pragma warning disable BL0005
-        TypeIdField = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "typeIdField");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             TypeIdField = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(TypeIdField)] = TypeIdField;
+             ModifiedParameters[nameof(TypeIdField)] = TypeIdField;
+        }
+         
         return TypeIdField;
     }
     
@@ -990,11 +1077,16 @@ public partial class Sublayer
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Types = await CoreJsModule!.InvokeAsync<IReadOnlyList<FeatureType>?>("getProperty",
+        IReadOnlyList<FeatureType>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<FeatureType>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "types");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Types = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Types)] = Types;
+             ModifiedParameters[nameof(Types)] = Types;
+        }
+         
         return Types;
     }
     
@@ -1015,11 +1107,16 @@ public partial class Sublayer
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Url = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "url");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Url = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Url)] = Url;
+             ModifiedParameters[nameof(Url)] = Url;
+        }
+         
         return Url;
     }
     
@@ -1045,7 +1142,7 @@ public partial class Sublayer
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -1075,7 +1172,7 @@ public partial class Sublayer
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -1105,7 +1202,7 @@ public partial class Sublayer
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -1135,7 +1232,7 @@ public partial class Sublayer
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -1165,7 +1262,7 @@ public partial class Sublayer
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -1195,7 +1292,7 @@ public partial class Sublayer
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -1225,7 +1322,7 @@ public partial class Sublayer
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -1255,7 +1352,7 @@ public partial class Sublayer
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -1285,7 +1382,7 @@ public partial class Sublayer
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -1315,7 +1412,7 @@ public partial class Sublayer
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -1345,7 +1442,7 @@ public partial class Sublayer
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -1375,7 +1472,7 @@ public partial class Sublayer
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -1405,7 +1502,7 @@ public partial class Sublayer
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -1745,15 +1842,6 @@ public partial class Sublayer
                 }
                 
                 return true;
-            case FieldsIndex fieldsIndex:
-                if (fieldsIndex != FieldsIndex)
-                {
-                    FieldsIndex = fieldsIndex;
-                    
-                    ModifiedParameters[nameof(FieldsIndex)] = FieldsIndex;
-                }
-                
-                return true;
             case Label labelingInfo:
                 LabelingInfo ??= [];
                 if (!LabelingInfo.Contains(labelingInfo))
@@ -1806,11 +1894,6 @@ public partial class Sublayer
                 
                 ModifiedParameters[nameof(Fields)] = Fields;
                 return true;
-            case FieldsIndex _:
-                FieldsIndex = null;
-                
-                ModifiedParameters[nameof(FieldsIndex)] = FieldsIndex;
-                return true;
             case Label labelingInfo:
                 LabelingInfo = LabelingInfo?.Where(l => l != labelingInfo).ToList();
                 
@@ -1847,7 +1930,6 @@ public partial class Sublayer
                 child.ValidateRequiredGeneratedChildren();
             }
         }
-        FieldsIndex?.ValidateRequiredGeneratedChildren();
         if (LabelingInfo is not null)
         {
             foreach (Label child in LabelingInfo)

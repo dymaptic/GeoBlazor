@@ -52,11 +52,16 @@ public abstract partial class ActionBase
         }
 
         // get the property value
-#pragma warning disable BL0005
-        ActionId = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "actionId");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ActionId = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(ActionId)] = ActionId;
+             ModifiedParameters[nameof(ActionId)] = ActionId;
+        }
+         
         return ActionId;
     }
     
@@ -77,11 +82,16 @@ public abstract partial class ActionBase
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Active = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "active");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Active = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Active)] = Active;
+             ModifiedParameters[nameof(Active)] = Active;
+        }
+         
         return Active;
     }
     
@@ -102,11 +112,16 @@ public abstract partial class ActionBase
         }
 
         // get the property value
-#pragma warning disable BL0005
-        ClassName = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "className");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ClassName = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(ClassName)] = ClassName;
+             ModifiedParameters[nameof(ClassName)] = ClassName;
+        }
+         
         return ClassName;
     }
     
@@ -127,11 +142,16 @@ public abstract partial class ActionBase
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Disabled = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "disabled");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Disabled = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Disabled)] = Disabled;
+             ModifiedParameters[nameof(Disabled)] = Disabled;
+        }
+         
         return Disabled;
     }
     
@@ -152,11 +172,16 @@ public abstract partial class ActionBase
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Icon = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "icon");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Icon = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Icon)] = Icon;
+             ModifiedParameters[nameof(Icon)] = Icon;
+        }
+         
         return Icon;
     }
     
@@ -177,11 +202,16 @@ public abstract partial class ActionBase
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Title = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "title");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Title = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Title)] = Title;
+             ModifiedParameters[nameof(Title)] = Title;
+        }
+         
         return Title;
     }
     
@@ -207,7 +237,7 @@ public abstract partial class ActionBase
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -237,7 +267,7 @@ public abstract partial class ActionBase
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -267,7 +297,7 @@ public abstract partial class ActionBase
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -297,7 +327,7 @@ public abstract partial class ActionBase
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -327,7 +357,7 @@ public abstract partial class ActionBase
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -357,7 +387,7 @@ public abstract partial class ActionBase
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

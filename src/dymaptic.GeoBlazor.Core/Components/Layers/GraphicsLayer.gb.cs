@@ -161,11 +161,16 @@ public partial class GraphicsLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        BlendMode = await CoreJsModule!.InvokeAsync<BlendMode>("getProperty",
+        BlendMode? result = await CoreJsModule!.InvokeAsync<BlendMode?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "blendMode");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             BlendMode = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(BlendMode)] = BlendMode;
+             ModifiedParameters[nameof(BlendMode)] = BlendMode;
+        }
+         
         return BlendMode;
     }
     
@@ -186,11 +191,16 @@ public partial class GraphicsLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Effect = await CoreJsModule!.InvokeAsync<Effect?>("getProperty",
+        Effect? result = await CoreJsModule!.InvokeAsync<Effect?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "effect");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Effect = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Effect)] = Effect;
+             ModifiedParameters[nameof(Effect)] = Effect;
+        }
+         
         return Effect;
     }
     
@@ -211,11 +221,16 @@ public partial class GraphicsLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        ElevationInfo = await CoreJsModule!.InvokeAsync<GraphicsLayerElevationInfo?>("getProperty",
+        GraphicsLayerElevationInfo? result = await CoreJsModule!.InvokeAsync<GraphicsLayerElevationInfo?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "elevationInfo");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ElevationInfo = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(ElevationInfo)] = ElevationInfo;
+             ModifiedParameters[nameof(ElevationInfo)] = ElevationInfo;
+        }
+         
         return ElevationInfo;
     }
     
@@ -236,11 +251,16 @@ public partial class GraphicsLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        MaxScale = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "maxScale");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             MaxScale = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(MaxScale)] = MaxScale;
+             ModifiedParameters[nameof(MaxScale)] = MaxScale;
+        }
+         
         return MaxScale;
     }
     
@@ -261,11 +281,16 @@ public partial class GraphicsLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        MinScale = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "minScale");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             MinScale = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(MinScale)] = MinScale;
+             ModifiedParameters[nameof(MinScale)] = MinScale;
+        }
+         
         return MinScale;
     }
     
@@ -286,11 +311,16 @@ public partial class GraphicsLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        ScreenSizePerspectiveEnabled = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "screenSizePerspectiveEnabled");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ScreenSizePerspectiveEnabled = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(ScreenSizePerspectiveEnabled)] = ScreenSizePerspectiveEnabled;
+             ModifiedParameters[nameof(ScreenSizePerspectiveEnabled)] = ScreenSizePerspectiveEnabled;
+        }
+         
         return ScreenSizePerspectiveEnabled;
     }
     
@@ -316,7 +346,7 @@ public partial class GraphicsLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -346,7 +376,7 @@ public partial class GraphicsLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -376,7 +406,7 @@ public partial class GraphicsLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -406,7 +436,7 @@ public partial class GraphicsLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -436,7 +466,7 @@ public partial class GraphicsLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -466,7 +496,7 @@ public partial class GraphicsLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

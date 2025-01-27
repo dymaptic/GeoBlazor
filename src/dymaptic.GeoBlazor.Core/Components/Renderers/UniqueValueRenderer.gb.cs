@@ -253,11 +253,16 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        BackgroundFillSymbol = await CoreJsModule!.InvokeAsync<IUniqueValueRendererBackgroundFillSymbol?>("getProperty",
+        IUniqueValueRendererBackgroundFillSymbol? result = await CoreJsModule!.InvokeAsync<IUniqueValueRendererBackgroundFillSymbol?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "backgroundFillSymbol");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             BackgroundFillSymbol = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(BackgroundFillSymbol)] = BackgroundFillSymbol;
+             ModifiedParameters[nameof(BackgroundFillSymbol)] = BackgroundFillSymbol;
+        }
+         
         return BackgroundFillSymbol;
     }
     
@@ -278,11 +283,16 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        DefaultLabel = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "defaultLabel");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             DefaultLabel = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(DefaultLabel)] = DefaultLabel;
+             ModifiedParameters[nameof(DefaultLabel)] = DefaultLabel;
+        }
+         
         return DefaultLabel;
     }
     
@@ -303,11 +313,16 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        DefaultSymbol = await CoreJsModule!.InvokeAsync<DefaultSymbol?>("getProperty",
+        DefaultSymbol? result = await CoreJsModule!.InvokeAsync<DefaultSymbol?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "defaultSymbol");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             DefaultSymbol = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(DefaultSymbol)] = DefaultSymbol;
+             ModifiedParameters[nameof(DefaultSymbol)] = DefaultSymbol;
+        }
+         
         return DefaultSymbol;
     }
     
@@ -328,11 +343,16 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Field = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "field");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Field = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Field)] = Field;
+             ModifiedParameters[nameof(Field)] = Field;
+        }
+         
         return Field;
     }
     
@@ -353,11 +373,16 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Field2 = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "field2");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Field2 = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Field2)] = Field2;
+             ModifiedParameters[nameof(Field2)] = Field2;
+        }
+         
         return Field2;
     }
     
@@ -378,11 +403,16 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Field3 = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "field3");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Field3 = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Field3)] = Field3;
+             ModifiedParameters[nameof(Field3)] = Field3;
+        }
+         
         return Field3;
     }
     
@@ -403,11 +433,16 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        FieldDelimiter = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "fieldDelimiter");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             FieldDelimiter = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(FieldDelimiter)] = FieldDelimiter;
+             ModifiedParameters[nameof(FieldDelimiter)] = FieldDelimiter;
+        }
+         
         return FieldDelimiter;
     }
     
@@ -428,11 +463,16 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        LegendOptions = await CoreJsModule!.InvokeAsync<UniqueValueRendererLegendOptions?>("getProperty",
+        UniqueValueRendererLegendOptions? result = await CoreJsModule!.InvokeAsync<UniqueValueRendererLegendOptions?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "legendOptions");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             LegendOptions = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(LegendOptions)] = LegendOptions;
+             ModifiedParameters[nameof(LegendOptions)] = LegendOptions;
+        }
+         
         return LegendOptions;
     }
     
@@ -453,11 +493,16 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        OrderByClassesEnabled = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "orderByClassesEnabled");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             OrderByClassesEnabled = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(OrderByClassesEnabled)] = OrderByClassesEnabled;
+             ModifiedParameters[nameof(OrderByClassesEnabled)] = OrderByClassesEnabled;
+        }
+         
         return OrderByClassesEnabled;
     }
     
@@ -478,11 +523,16 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        UniqueValueGroups = await CoreJsModule!.InvokeAsync<IReadOnlyList<UniqueValueGroup>?>("getProperty",
+        IReadOnlyList<UniqueValueGroup>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<UniqueValueGroup>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "uniqueValueGroups");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             UniqueValueGroups = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(UniqueValueGroups)] = UniqueValueGroups;
+             ModifiedParameters[nameof(UniqueValueGroups)] = UniqueValueGroups;
+        }
+         
         return UniqueValueGroups;
     }
     
@@ -503,11 +553,16 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        UniqueValueInfos = await CoreJsModule!.InvokeAsync<IReadOnlyList<UniqueValueInfo>?>("getProperty",
+        IReadOnlyList<UniqueValueInfo>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<UniqueValueInfo>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "uniqueValueInfos");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             UniqueValueInfos = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(UniqueValueInfos)] = UniqueValueInfos;
+             ModifiedParameters[nameof(UniqueValueInfos)] = UniqueValueInfos;
+        }
+         
         return UniqueValueInfos;
     }
     
@@ -528,11 +583,16 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        ValueExpression = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "valueExpression");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ValueExpression = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(ValueExpression)] = ValueExpression;
+             ModifiedParameters[nameof(ValueExpression)] = ValueExpression;
+        }
+         
         return ValueExpression;
     }
     
@@ -553,11 +613,16 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        ValueExpressionTitle = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "valueExpressionTitle");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ValueExpressionTitle = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(ValueExpressionTitle)] = ValueExpressionTitle;
+             ModifiedParameters[nameof(ValueExpressionTitle)] = ValueExpressionTitle;
+        }
+         
         return ValueExpressionTitle;
     }
     
@@ -578,11 +643,16 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        VisualVariables = await CoreJsModule!.InvokeAsync<IReadOnlyList<VisualVariable>?>("getProperty",
+        IReadOnlyList<VisualVariable>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<VisualVariable>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "visualVariables");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             VisualVariables = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(VisualVariables)] = VisualVariables;
+             ModifiedParameters[nameof(VisualVariables)] = VisualVariables;
+        }
+         
         return VisualVariables;
     }
     
@@ -608,7 +678,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -638,7 +708,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -668,7 +738,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -698,7 +768,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -728,7 +798,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -758,7 +828,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -788,7 +858,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -818,7 +888,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -848,7 +918,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -878,7 +948,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -908,7 +978,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -938,7 +1008,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -968,7 +1038,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -998,7 +1068,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

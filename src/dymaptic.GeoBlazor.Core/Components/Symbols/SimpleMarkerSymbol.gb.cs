@@ -135,11 +135,16 @@ public partial class SimpleMarkerSymbol : IRouteStopSymbolsBreak,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Outline = await CoreJsModule!.InvokeAsync<Outline?>("getProperty",
+        Outline? result = await CoreJsModule!.InvokeAsync<Outline?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "outline");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Outline = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Outline)] = Outline;
+             ModifiedParameters[nameof(Outline)] = Outline;
+        }
+         
         return Outline;
     }
     
@@ -160,11 +165,16 @@ public partial class SimpleMarkerSymbol : IRouteStopSymbolsBreak,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Path = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "path");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Path = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Path)] = Path;
+             ModifiedParameters[nameof(Path)] = Path;
+        }
+         
         return Path;
     }
     
@@ -185,11 +195,16 @@ public partial class SimpleMarkerSymbol : IRouteStopSymbolsBreak,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Size = await CoreJsModule!.InvokeAsync<Dimension?>("getProperty",
+        Dimension? result = await CoreJsModule!.InvokeAsync<Dimension?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "size");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Size = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Size)] = Size;
+             ModifiedParameters[nameof(Size)] = Size;
+        }
+         
         return Size;
     }
     
@@ -210,11 +225,16 @@ public partial class SimpleMarkerSymbol : IRouteStopSymbolsBreak,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Style = await CoreJsModule!.InvokeAsync<SimpleMarkerSymbolStyle>("getProperty",
+        SimpleMarkerSymbolStyle? result = await CoreJsModule!.InvokeAsync<SimpleMarkerSymbolStyle?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "style");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Style = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Style)] = Style;
+             ModifiedParameters[nameof(Style)] = Style;
+        }
+         
         return Style;
     }
     
@@ -240,7 +260,7 @@ public partial class SimpleMarkerSymbol : IRouteStopSymbolsBreak,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -270,7 +290,7 @@ public partial class SimpleMarkerSymbol : IRouteStopSymbolsBreak,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -300,7 +320,7 @@ public partial class SimpleMarkerSymbol : IRouteStopSymbolsBreak,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -330,7 +350,7 @@ public partial class SimpleMarkerSymbol : IRouteStopSymbolsBreak,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

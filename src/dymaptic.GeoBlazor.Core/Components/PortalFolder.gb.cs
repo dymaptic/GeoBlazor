@@ -115,11 +115,16 @@ public partial class PortalFolder : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Created = await CoreJsModule!.InvokeAsync<DateTime>("getProperty",
+        DateTime? result = await CoreJsModule!.InvokeAsync<DateTime?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "created");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Created = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Created)] = Created;
+             ModifiedParameters[nameof(Created)] = Created;
+        }
+         
         return Created;
     }
     
@@ -140,11 +145,16 @@ public partial class PortalFolder : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        PortalFolderId = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "portalFolderId");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             PortalFolderId = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(PortalFolderId)] = PortalFolderId;
+             ModifiedParameters[nameof(PortalFolderId)] = PortalFolderId;
+        }
+         
         return PortalFolderId;
     }
     
@@ -165,11 +175,16 @@ public partial class PortalFolder : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Title = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "title");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Title = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Title)] = Title;
+             ModifiedParameters[nameof(Title)] = Title;
+        }
+         
         return Title;
     }
     
@@ -190,11 +205,16 @@ public partial class PortalFolder : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Url = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "url");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Url = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Url)] = Url;
+             ModifiedParameters[nameof(Url)] = Url;
+        }
+         
         return Url;
     }
     
@@ -220,7 +240,7 @@ public partial class PortalFolder : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -250,7 +270,7 @@ public partial class PortalFolder : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -280,7 +300,7 @@ public partial class PortalFolder : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

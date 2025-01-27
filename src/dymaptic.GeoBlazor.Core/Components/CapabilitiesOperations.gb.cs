@@ -187,11 +187,16 @@ public partial class CapabilitiesOperations : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        SupportsAdd = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "supportsAdd");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             SupportsAdd = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(SupportsAdd)] = SupportsAdd;
+             ModifiedParameters[nameof(SupportsAdd)] = SupportsAdd;
+        }
+         
         return SupportsAdd;
     }
     
@@ -212,11 +217,16 @@ public partial class CapabilitiesOperations : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        SupportsCalculate = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "supportsCalculate");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             SupportsCalculate = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(SupportsCalculate)] = SupportsCalculate;
+             ModifiedParameters[nameof(SupportsCalculate)] = SupportsCalculate;
+        }
+         
         return SupportsCalculate;
     }
     
@@ -237,11 +247,16 @@ public partial class CapabilitiesOperations : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        SupportsDelete = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "supportsDelete");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             SupportsDelete = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(SupportsDelete)] = SupportsDelete;
+             ModifiedParameters[nameof(SupportsDelete)] = SupportsDelete;
+        }
+         
         return SupportsDelete;
     }
     
@@ -262,11 +277,16 @@ public partial class CapabilitiesOperations : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        SupportsEditing = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "supportsEditing");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             SupportsEditing = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(SupportsEditing)] = SupportsEditing;
+             ModifiedParameters[nameof(SupportsEditing)] = SupportsEditing;
+        }
+         
         return SupportsEditing;
     }
     
@@ -287,11 +307,16 @@ public partial class CapabilitiesOperations : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        SupportsQuery = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "supportsQuery");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             SupportsQuery = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(SupportsQuery)] = SupportsQuery;
+             ModifiedParameters[nameof(SupportsQuery)] = SupportsQuery;
+        }
+         
         return SupportsQuery;
     }
     
@@ -312,11 +337,16 @@ public partial class CapabilitiesOperations : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        SupportsQueryAttachments = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "supportsQueryAttachments");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             SupportsQueryAttachments = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(SupportsQueryAttachments)] = SupportsQueryAttachments;
+             ModifiedParameters[nameof(SupportsQueryAttachments)] = SupportsQueryAttachments;
+        }
+         
         return SupportsQueryAttachments;
     }
     
@@ -337,11 +367,16 @@ public partial class CapabilitiesOperations : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        SupportsQueryTopFeatures = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "supportsQueryTopFeatures");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             SupportsQueryTopFeatures = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(SupportsQueryTopFeatures)] = SupportsQueryTopFeatures;
+             ModifiedParameters[nameof(SupportsQueryTopFeatures)] = SupportsQueryTopFeatures;
+        }
+         
         return SupportsQueryTopFeatures;
     }
     
@@ -362,11 +397,16 @@ public partial class CapabilitiesOperations : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        SupportsUpdate = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "supportsUpdate");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             SupportsUpdate = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(SupportsUpdate)] = SupportsUpdate;
+             ModifiedParameters[nameof(SupportsUpdate)] = SupportsUpdate;
+        }
+         
         return SupportsUpdate;
     }
     
@@ -387,11 +427,16 @@ public partial class CapabilitiesOperations : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        SupportsValidateSql = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "supportsValidateSql");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             SupportsValidateSql = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(SupportsValidateSql)] = SupportsValidateSql;
+             ModifiedParameters[nameof(SupportsValidateSql)] = SupportsValidateSql;
+        }
+         
         return SupportsValidateSql;
     }
     
@@ -417,7 +462,7 @@ public partial class CapabilitiesOperations : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -447,7 +492,7 @@ public partial class CapabilitiesOperations : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -477,7 +522,7 @@ public partial class CapabilitiesOperations : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -507,7 +552,7 @@ public partial class CapabilitiesOperations : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -537,7 +582,7 @@ public partial class CapabilitiesOperations : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -567,7 +612,7 @@ public partial class CapabilitiesOperations : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -597,7 +642,7 @@ public partial class CapabilitiesOperations : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -627,7 +672,7 @@ public partial class CapabilitiesOperations : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -657,7 +702,7 @@ public partial class CapabilitiesOperations : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

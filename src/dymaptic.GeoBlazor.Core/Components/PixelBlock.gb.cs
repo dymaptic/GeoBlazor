@@ -172,11 +172,16 @@ public partial class PixelBlock : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Height = await CoreJsModule!.InvokeAsync<int>("getProperty",
+        int? result = await CoreJsModule!.InvokeAsync<int?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "height");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Height = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Height)] = Height;
+             ModifiedParameters[nameof(Height)] = Height;
+        }
+         
         return Height;
     }
     
@@ -197,11 +202,16 @@ public partial class PixelBlock : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Mask = await CoreJsModule!.InvokeAsync<Stream?>("getProperty",
+        Stream? result = await CoreJsModule!.InvokeAsync<Stream?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "mask");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Mask = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Mask)] = Mask;
+             ModifiedParameters[nameof(Mask)] = Mask;
+        }
+         
         return Mask;
     }
     
@@ -222,11 +232,16 @@ public partial class PixelBlock : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        MaskIsAlpha = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "maskIsAlpha");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             MaskIsAlpha = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(MaskIsAlpha)] = MaskIsAlpha;
+             ModifiedParameters[nameof(MaskIsAlpha)] = MaskIsAlpha;
+        }
+         
         return MaskIsAlpha;
     }
     
@@ -247,11 +262,16 @@ public partial class PixelBlock : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Pixels = await CoreJsModule!.InvokeAsync<Stream?>("getProperty",
+        Stream? result = await CoreJsModule!.InvokeAsync<Stream?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "pixels");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Pixels = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Pixels)] = Pixels;
+             ModifiedParameters[nameof(Pixels)] = Pixels;
+        }
+         
         return Pixels;
     }
     
@@ -272,11 +292,16 @@ public partial class PixelBlock : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        PixelType = await CoreJsModule!.InvokeAsync<PixelType>("getProperty",
+        PixelType? result = await CoreJsModule!.InvokeAsync<PixelType?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "pixelType");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             PixelType = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(PixelType)] = PixelType;
+             ModifiedParameters[nameof(PixelType)] = PixelType;
+        }
+         
         return PixelType;
     }
     
@@ -297,11 +322,16 @@ public partial class PixelBlock : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Statistics = await CoreJsModule!.InvokeAsync<IReadOnlyList<PixelBlockStatistics>?>("getProperty",
+        IReadOnlyList<PixelBlockStatistics>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<PixelBlockStatistics>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "statistics");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Statistics = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Statistics)] = Statistics;
+             ModifiedParameters[nameof(Statistics)] = Statistics;
+        }
+         
         return Statistics;
     }
     
@@ -322,11 +352,16 @@ public partial class PixelBlock : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        ValidPixelCount = await CoreJsModule!.InvokeAsync<int>("getProperty",
+        int? result = await CoreJsModule!.InvokeAsync<int?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "validPixelCount");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ValidPixelCount = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(ValidPixelCount)] = ValidPixelCount;
+             ModifiedParameters[nameof(ValidPixelCount)] = ValidPixelCount;
+        }
+         
         return ValidPixelCount;
     }
     
@@ -347,11 +382,16 @@ public partial class PixelBlock : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Width = await CoreJsModule!.InvokeAsync<int>("getProperty",
+        int? result = await CoreJsModule!.InvokeAsync<int?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "width");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Width = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Width)] = Width;
+             ModifiedParameters[nameof(Width)] = Width;
+        }
+         
         return Width;
     }
     
@@ -377,7 +417,7 @@ public partial class PixelBlock : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -407,7 +447,7 @@ public partial class PixelBlock : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -437,7 +477,7 @@ public partial class PixelBlock : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -467,7 +507,7 @@ public partial class PixelBlock : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -497,7 +537,7 @@ public partial class PixelBlock : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -527,7 +567,7 @@ public partial class PixelBlock : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -557,7 +597,7 @@ public partial class PixelBlock : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -587,7 +627,7 @@ public partial class PixelBlock : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

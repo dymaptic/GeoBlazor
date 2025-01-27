@@ -80,11 +80,16 @@ public partial class ColorStop
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Color = await CoreJsModule!.InvokeAsync<MapColor>("getProperty",
+        MapColor? result = await CoreJsModule!.InvokeAsync<MapColor?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "color");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Color = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Color)] = Color;
+             ModifiedParameters[nameof(Color)] = Color;
+        }
+         
         return Color;
     }
     
@@ -105,11 +110,16 @@ public partial class ColorStop
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Label = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "label");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Label = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Label)] = Label;
+             ModifiedParameters[nameof(Label)] = Label;
+        }
+         
         return Label;
     }
     
@@ -130,11 +140,16 @@ public partial class ColorStop
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Value = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "value");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Value = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Value)] = Value;
+             ModifiedParameters[nameof(Value)] = Value;
+        }
+         
         return Value;
     }
     
@@ -160,7 +175,7 @@ public partial class ColorStop
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -190,7 +205,7 @@ public partial class ColorStop
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -220,7 +235,7 @@ public partial class ColorStop
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

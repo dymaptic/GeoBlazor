@@ -53,11 +53,16 @@ public abstract partial class Layer : IHitTestItem,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        ArcGISLayerId = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "arcGISLayerId");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ArcGISLayerId = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(ArcGISLayerId)] = ArcGISLayerId;
+             ModifiedParameters[nameof(ArcGISLayerId)] = ArcGISLayerId;
+        }
+         
         return ArcGISLayerId;
     }
     
@@ -78,11 +83,16 @@ public abstract partial class Layer : IHitTestItem,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        ListMode = await CoreJsModule!.InvokeAsync<ListMode>("getProperty",
+        ListMode? result = await CoreJsModule!.InvokeAsync<ListMode?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "listMode");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ListMode = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(ListMode)] = ListMode;
+             ModifiedParameters[nameof(ListMode)] = ListMode;
+        }
+         
         return ListMode;
     }
     
@@ -103,11 +113,16 @@ public abstract partial class Layer : IHitTestItem,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Loaded = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "loaded");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Loaded = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Loaded)] = Loaded;
+             ModifiedParameters[nameof(Loaded)] = Loaded;
+        }
+         
         return Loaded;
     }
     
@@ -128,11 +143,16 @@ public abstract partial class Layer : IHitTestItem,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        PersistenceEnabled = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "persistenceEnabled");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             PersistenceEnabled = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(PersistenceEnabled)] = PersistenceEnabled;
+             ModifiedParameters[nameof(PersistenceEnabled)] = PersistenceEnabled;
+        }
+         
         return PersistenceEnabled;
     }
     
@@ -153,11 +173,16 @@ public abstract partial class Layer : IHitTestItem,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Title = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "title");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Title = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Title)] = Title;
+             ModifiedParameters[nameof(Title)] = Title;
+        }
+         
         return Title;
     }
     
@@ -187,15 +212,22 @@ public abstract partial class Layer : IHitTestItem,
             return null;
         }
         
+        TimeExtent? result = null;
+        
         // Try to deserialize the object. This might fail if we don't have the
         // all deserialization edge cases handled.
         try
         {
-#pragma warning disable BL0005
-            VisibilityTimeExtent = await CoreJsModule.InvokeAsync<TimeExtent?>(
+            result = await CoreJsModule.InvokeAsync<TimeExtent?>(
                 "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
+            if (result is not null)
+            {
+#pragma warning disable BL0005
+                VisibilityTimeExtent = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(VisibilityTimeExtent)] = VisibilityTimeExtent;
+                ModifiedParameters[nameof(VisibilityTimeExtent)] = VisibilityTimeExtent;
+            }
+            
             if (VisibilityTimeExtent is not null)
             {
                 VisibilityTimeExtent.Parent = this;
@@ -247,7 +279,7 @@ public abstract partial class Layer : IHitTestItem,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -277,7 +309,7 @@ public abstract partial class Layer : IHitTestItem,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -307,7 +339,7 @@ public abstract partial class Layer : IHitTestItem,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -337,7 +369,7 @@ public abstract partial class Layer : IHitTestItem,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -367,7 +399,7 @@ public abstract partial class Layer : IHitTestItem,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

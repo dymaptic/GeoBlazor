@@ -122,11 +122,16 @@ public partial class FieldInfo
         }
 
         // get the property value
-#pragma warning disable BL0005
-        FieldName = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "fieldName");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             FieldName = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(FieldName)] = FieldName;
+             ModifiedParameters[nameof(FieldName)] = FieldName;
+        }
+         
         return FieldName;
     }
     
@@ -147,11 +152,16 @@ public partial class FieldInfo
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Format = await CoreJsModule!.InvokeAsync<FieldInfoFormat?>("getProperty",
+        FieldInfoFormat? result = await CoreJsModule!.InvokeAsync<FieldInfoFormat?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "format");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Format = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Format)] = Format;
+             ModifiedParameters[nameof(Format)] = Format;
+        }
+         
         return Format;
     }
     
@@ -172,11 +182,16 @@ public partial class FieldInfo
         }
 
         // get the property value
-#pragma warning disable BL0005
-        IsEditable = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "isEditable");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             IsEditable = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(IsEditable)] = IsEditable;
+             ModifiedParameters[nameof(IsEditable)] = IsEditable;
+        }
+         
         return IsEditable;
     }
     
@@ -197,11 +212,16 @@ public partial class FieldInfo
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Label = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "label");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Label = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Label)] = Label;
+             ModifiedParameters[nameof(Label)] = Label;
+        }
+         
         return Label;
     }
     
@@ -222,11 +242,16 @@ public partial class FieldInfo
         }
 
         // get the property value
-#pragma warning disable BL0005
-        StatisticType = await CoreJsModule!.InvokeAsync<StatisticType>("getProperty",
+        StatisticType? result = await CoreJsModule!.InvokeAsync<StatisticType?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "statisticType");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             StatisticType = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(StatisticType)] = StatisticType;
+             ModifiedParameters[nameof(StatisticType)] = StatisticType;
+        }
+         
         return StatisticType;
     }
     
@@ -247,11 +272,16 @@ public partial class FieldInfo
         }
 
         // get the property value
-#pragma warning disable BL0005
-        StringFieldOption = await CoreJsModule!.InvokeAsync<StringFieldOption>("getProperty",
+        StringFieldOption? result = await CoreJsModule!.InvokeAsync<StringFieldOption?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "stringFieldOption");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             StringFieldOption = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(StringFieldOption)] = StringFieldOption;
+             ModifiedParameters[nameof(StringFieldOption)] = StringFieldOption;
+        }
+         
         return StringFieldOption;
     }
     
@@ -272,11 +302,16 @@ public partial class FieldInfo
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Tooltip = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "tooltip");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Tooltip = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Tooltip)] = Tooltip;
+             ModifiedParameters[nameof(Tooltip)] = Tooltip;
+        }
+         
         return Tooltip;
     }
     
@@ -302,7 +337,7 @@ public partial class FieldInfo
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -332,7 +367,7 @@ public partial class FieldInfo
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -362,7 +397,7 @@ public partial class FieldInfo
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -392,7 +427,7 @@ public partial class FieldInfo
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -422,7 +457,7 @@ public partial class FieldInfo
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -452,7 +487,7 @@ public partial class FieldInfo
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -482,7 +517,7 @@ public partial class FieldInfo
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

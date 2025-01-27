@@ -588,11 +588,16 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        BandIds = await CoreJsModule!.InvokeAsync<IReadOnlyList<long>>("getProperty",
+        IReadOnlyList<long>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<long>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "bandIds");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             BandIds = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(BandIds)] = BandIds;
+             ModifiedParameters[nameof(BandIds)] = BandIds;
+        }
+         
         return BandIds;
     }
     
@@ -613,11 +618,16 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        BlendMode = await CoreJsModule!.InvokeAsync<BlendMode>("getProperty",
+        BlendMode? result = await CoreJsModule!.InvokeAsync<BlendMode?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "blendMode");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             BlendMode = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(BlendMode)] = BlendMode;
+             ModifiedParameters[nameof(BlendMode)] = BlendMode;
+        }
+         
         return BlendMode;
     }
     
@@ -638,11 +648,16 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Capabilities = await CoreJsModule!.InvokeAsync<ArcGISImageServiceCapabilities?>("getProperty",
+        ArcGISImageServiceCapabilities? result = await CoreJsModule!.InvokeAsync<ArcGISImageServiceCapabilities?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "capabilities");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Capabilities = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Capabilities)] = Capabilities;
+             ModifiedParameters[nameof(Capabilities)] = Capabilities;
+        }
+         
         return Capabilities;
     }
     
@@ -663,11 +678,16 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        CompressionQuality = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "compressionQuality");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             CompressionQuality = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(CompressionQuality)] = CompressionQuality;
+             ModifiedParameters[nameof(CompressionQuality)] = CompressionQuality;
+        }
+         
         return CompressionQuality;
     }
     
@@ -688,11 +708,16 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        CompressionTolerance = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "compressionTolerance");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             CompressionTolerance = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(CompressionTolerance)] = CompressionTolerance;
+             ModifiedParameters[nameof(CompressionTolerance)] = CompressionTolerance;
+        }
+         
         return CompressionTolerance;
     }
     
@@ -713,11 +738,16 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Copyright = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "copyright");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Copyright = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Copyright)] = Copyright;
+             ModifiedParameters[nameof(Copyright)] = Copyright;
+        }
+         
         return Copyright;
     }
     
@@ -738,11 +768,16 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        CustomParameters = await CoreJsModule!.InvokeAsync<Dictionary<string, object>?>("getProperty",
+        Dictionary<string, object>? result = await CoreJsModule!.InvokeAsync<Dictionary<string, object>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "customParameters");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             CustomParameters = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(CustomParameters)] = CustomParameters;
+             ModifiedParameters[nameof(CustomParameters)] = CustomParameters;
+        }
+         
         return CustomParameters;
     }
     
@@ -763,11 +798,16 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        DefaultMosaicRule = await CoreJsModule!.InvokeAsync<MosaicRule?>("getProperty",
+        MosaicRule? result = await CoreJsModule!.InvokeAsync<MosaicRule?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "defaultMosaicRule");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             DefaultMosaicRule = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(DefaultMosaicRule)] = DefaultMosaicRule;
+             ModifiedParameters[nameof(DefaultMosaicRule)] = DefaultMosaicRule;
+        }
+         
         return DefaultMosaicRule;
     }
     
@@ -788,11 +828,16 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        DefinitionExpression = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "definitionExpression");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             DefinitionExpression = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(DefinitionExpression)] = DefinitionExpression;
+             ModifiedParameters[nameof(DefinitionExpression)] = DefinitionExpression;
+        }
+         
         return DefinitionExpression;
     }
     
@@ -813,11 +858,16 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Effect = await CoreJsModule!.InvokeAsync<Effect?>("getProperty",
+        Effect? result = await CoreJsModule!.InvokeAsync<Effect?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "effect");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Effect = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Effect)] = Effect;
+             ModifiedParameters[nameof(Effect)] = Effect;
+        }
+         
         return Effect;
     }
     
@@ -838,11 +888,16 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Fields = await CoreJsModule!.InvokeAsync<IReadOnlyList<Field>?>("getProperty",
+        IReadOnlyList<Field>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<Field>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "fields");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Fields = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Fields)] = Fields;
+             ModifiedParameters[nameof(Fields)] = Fields;
+        }
+         
         return Fields;
     }
     
@@ -862,50 +917,17 @@ public partial class ImageryLayer : IArcGISImageService,
             return FieldsIndex;
         }
 
-        // get the JS object reference
-        IJSObjectReference? refResult = (await CoreJsModule!.InvokeAsync<JsObjectRefWrapper?>(
-            "getObjectRefForProperty", CancellationTokenSource.Token, JsComponentReference, 
-            "fieldsIndex"))?.Value;
-            
-        if (refResult is null)
-        {
-            return null;
-        }
-        
-        // Try to deserialize the object. This might fail if we don't have the
-        // all deserialization edge cases handled.
-        try
+        // get the property value
+        FieldsIndex? result = await CoreJsModule!.InvokeAsync<FieldsIndex?>("getProperty",
+            CancellationTokenSource.Token, JsComponentReference, "fieldsIndex");
+        if (result is not null)
         {
 #pragma warning disable BL0005
-            FieldsIndex = await CoreJsModule.InvokeAsync<FieldsIndex?>(
-                "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
+             FieldsIndex = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(FieldsIndex)] = FieldsIndex;
-            if (FieldsIndex is not null)
-            {
-                FieldsIndex.Parent = this;
-                FieldsIndex.View = View;
-                FieldsIndex.JsComponentReference = refResult;
-                await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorObject",
-                    CancellationTokenSource.Token, refResult, FieldsIndex.Id);
-                return FieldsIndex;
-            }
+             ModifiedParameters[nameof(FieldsIndex)] = FieldsIndex;
         }
-        catch
-        {
-            Console.WriteLine("Failed to deserialize FieldsIndex");
-        }
-#pragma warning disable BL0005
-        FieldsIndex = new FieldsIndex();
-#pragma warning restore BL0005
-         ModifiedParameters[nameof(FieldsIndex)] = FieldsIndex;
-        FieldsIndex.Parent = this;
-        FieldsIndex.View = View;
-        FieldsIndex.JsComponentReference = refResult;
-        // register this type in JS
-        await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorObject",
-            CancellationTokenSource.Token, refResult, FieldsIndex.Id);
-        await FieldsIndex.GetProperty<IReadOnlyList<Field>>(nameof(FieldsIndex.DateFields));
+         
         return FieldsIndex;
     }
     
@@ -926,11 +948,16 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Format = await CoreJsModule!.InvokeAsync<ImageFormat?>("getProperty",
+        ImageFormat? result = await CoreJsModule!.InvokeAsync<ImageFormat?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "format");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Format = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Format)] = Format;
+             ModifiedParameters[nameof(Format)] = Format;
+        }
+         
         return Format;
     }
     
@@ -951,11 +978,16 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        HasMultidimensions = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "hasMultidimensions");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             HasMultidimensions = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(HasMultidimensions)] = HasMultidimensions;
+             ModifiedParameters[nameof(HasMultidimensions)] = HasMultidimensions;
+        }
+         
         return HasMultidimensions;
     }
     
@@ -976,11 +1008,16 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        ImageMaxHeight = await CoreJsModule!.InvokeAsync<int>("getProperty",
+        int? result = await CoreJsModule!.InvokeAsync<int?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "imageMaxHeight");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ImageMaxHeight = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(ImageMaxHeight)] = ImageMaxHeight;
+             ModifiedParameters[nameof(ImageMaxHeight)] = ImageMaxHeight;
+        }
+         
         return ImageMaxHeight;
     }
     
@@ -1001,11 +1038,16 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        ImageMaxWidth = await CoreJsModule!.InvokeAsync<int>("getProperty",
+        int? result = await CoreJsModule!.InvokeAsync<int?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "imageMaxWidth");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ImageMaxWidth = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(ImageMaxWidth)] = ImageMaxWidth;
+             ModifiedParameters[nameof(ImageMaxWidth)] = ImageMaxWidth;
+        }
+         
         return ImageMaxWidth;
     }
     
@@ -1026,11 +1068,16 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Interpolation = await CoreJsModule!.InvokeAsync<Interpolation>("getProperty",
+        Interpolation? result = await CoreJsModule!.InvokeAsync<Interpolation?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "interpolation");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Interpolation = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Interpolation)] = Interpolation;
+             ModifiedParameters[nameof(Interpolation)] = Interpolation;
+        }
+         
         return Interpolation;
     }
     
@@ -1051,11 +1098,16 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        LegendEnabled = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "legendEnabled");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             LegendEnabled = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(LegendEnabled)] = LegendEnabled;
+             ModifiedParameters[nameof(LegendEnabled)] = LegendEnabled;
+        }
+         
         return LegendEnabled;
     }
     
@@ -1076,11 +1128,16 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        MaxScale = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "maxScale");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             MaxScale = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(MaxScale)] = MaxScale;
+             ModifiedParameters[nameof(MaxScale)] = MaxScale;
+        }
+         
         return MaxScale;
     }
     
@@ -1101,11 +1158,16 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        MinScale = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "minScale");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             MinScale = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(MinScale)] = MinScale;
+             ModifiedParameters[nameof(MinScale)] = MinScale;
+        }
+         
         return MinScale;
     }
     
@@ -1126,11 +1188,16 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        MosaicRule = await CoreJsModule!.InvokeAsync<MosaicRule?>("getProperty",
+        MosaicRule? result = await CoreJsModule!.InvokeAsync<MosaicRule?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "mosaicRule");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             MosaicRule = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(MosaicRule)] = MosaicRule;
+             ModifiedParameters[nameof(MosaicRule)] = MosaicRule;
+        }
+         
         return MosaicRule;
     }
     
@@ -1151,11 +1218,16 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        MultidimensionalInfo = await CoreJsModule!.InvokeAsync<RasterMultidimensionalInfo?>("getProperty",
+        RasterMultidimensionalInfo? result = await CoreJsModule!.InvokeAsync<RasterMultidimensionalInfo?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "multidimensionalInfo");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             MultidimensionalInfo = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(MultidimensionalInfo)] = MultidimensionalInfo;
+             ModifiedParameters[nameof(MultidimensionalInfo)] = MultidimensionalInfo;
+        }
+         
         return MultidimensionalInfo;
     }
     
@@ -1176,11 +1248,16 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        MultidimensionalSubset = await CoreJsModule!.InvokeAsync<MultidimensionalSubset?>("getProperty",
+        MultidimensionalSubset? result = await CoreJsModule!.InvokeAsync<MultidimensionalSubset?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "multidimensionalSubset");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             MultidimensionalSubset = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(MultidimensionalSubset)] = MultidimensionalSubset;
+             ModifiedParameters[nameof(MultidimensionalSubset)] = MultidimensionalSubset;
+        }
+         
         return MultidimensionalSubset;
     }
     
@@ -1201,11 +1278,16 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        NoData = await CoreJsModule!.InvokeAsync<NoData?>("getProperty",
+        NoData? result = await CoreJsModule!.InvokeAsync<NoData?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "noData");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             NoData = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(NoData)] = NoData;
+             ModifiedParameters[nameof(NoData)] = NoData;
+        }
+         
         return NoData;
     }
     
@@ -1226,11 +1308,16 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        NoDataInterpretation = await CoreJsModule!.InvokeAsync<NoDataInterpretation>("getProperty",
+        NoDataInterpretation? result = await CoreJsModule!.InvokeAsync<NoDataInterpretation?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "noDataInterpretation");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             NoDataInterpretation = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(NoDataInterpretation)] = NoDataInterpretation;
+             ModifiedParameters[nameof(NoDataInterpretation)] = NoDataInterpretation;
+        }
+         
         return NoDataInterpretation;
     }
     
@@ -1251,11 +1338,16 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        ObjectIdField = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "objectIdField");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ObjectIdField = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(ObjectIdField)] = ObjectIdField;
+             ModifiedParameters[nameof(ObjectIdField)] = ObjectIdField;
+        }
+         
         return ObjectIdField;
     }
     
@@ -1276,11 +1368,16 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        PixelFilter = await CoreJsModule!.InvokeAsync<PixelFilterFunction?>("getProperty",
+        PixelFilterFunction? result = await CoreJsModule!.InvokeAsync<PixelFilterFunction?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "pixelFilter");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             PixelFilter = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(PixelFilter)] = PixelFilter;
+             ModifiedParameters[nameof(PixelFilter)] = PixelFilter;
+        }
+         
         return PixelFilter;
     }
     
@@ -1301,11 +1398,16 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        PixelType = await CoreJsModule!.InvokeAsync<PixelType>("getProperty",
+        PixelType? result = await CoreJsModule!.InvokeAsync<PixelType?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "pixelType");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             PixelType = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(PixelType)] = PixelType;
+             ModifiedParameters[nameof(PixelType)] = PixelType;
+        }
+         
         return PixelType;
     }
     
@@ -1326,11 +1428,16 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        PopupEnabled = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "popupEnabled");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             PopupEnabled = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(PopupEnabled)] = PopupEnabled;
+             ModifiedParameters[nameof(PopupEnabled)] = PopupEnabled;
+        }
+         
         return PopupEnabled;
     }
     
@@ -1351,11 +1458,16 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        PopupTemplate = await CoreJsModule!.InvokeAsync<PopupTemplate?>("getProperty",
+        PopupTemplate? result = await CoreJsModule!.InvokeAsync<PopupTemplate?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "popupTemplate");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             PopupTemplate = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
+             ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
+        }
+         
         return PopupTemplate;
     }
     
@@ -1385,15 +1497,22 @@ public partial class ImageryLayer : IArcGISImageService,
             return null;
         }
         
+        PortalItem? result = null;
+        
         // Try to deserialize the object. This might fail if we don't have the
         // all deserialization edge cases handled.
         try
         {
-#pragma warning disable BL0005
-            PortalItem = await CoreJsModule.InvokeAsync<PortalItem?>(
+            result = await CoreJsModule.InvokeAsync<PortalItem?>(
                 "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
+            if (result is not null)
+            {
+#pragma warning disable BL0005
+                PortalItem = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(PortalItem)] = PortalItem;
+                ModifiedParameters[nameof(PortalItem)] = PortalItem;
+            }
+            
             if (PortalItem is not null)
             {
                 PortalItem.Parent = this;
@@ -1474,11 +1593,16 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        RasterFields = await CoreJsModule!.InvokeAsync<IReadOnlyList<Field>?>("getProperty",
+        IReadOnlyList<Field>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<Field>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "rasterFields");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             RasterFields = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(RasterFields)] = RasterFields;
+             ModifiedParameters[nameof(RasterFields)] = RasterFields;
+        }
+         
         return RasterFields;
     }
     
@@ -1499,11 +1623,16 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        RasterFunction = await CoreJsModule!.InvokeAsync<RasterFunction?>("getProperty",
+        RasterFunction? result = await CoreJsModule!.InvokeAsync<RasterFunction?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "rasterFunction");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             RasterFunction = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(RasterFunction)] = RasterFunction;
+             ModifiedParameters[nameof(RasterFunction)] = RasterFunction;
+        }
+         
         return RasterFunction;
     }
     
@@ -1524,11 +1653,16 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        RasterFunctionInfos = await CoreJsModule!.InvokeAsync<IReadOnlyList<RasterFunctionInfo>?>("getProperty",
+        IReadOnlyList<RasterFunctionInfo>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<RasterFunctionInfo>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "rasterFunctionInfos");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             RasterFunctionInfos = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(RasterFunctionInfos)] = RasterFunctionInfos;
+             ModifiedParameters[nameof(RasterFunctionInfos)] = RasterFunctionInfos;
+        }
+         
         return RasterFunctionInfos;
     }
     
@@ -1549,11 +1683,16 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        RefreshInterval = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "refreshInterval");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             RefreshInterval = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(RefreshInterval)] = RefreshInterval;
+             ModifiedParameters[nameof(RefreshInterval)] = RefreshInterval;
+        }
+         
         return RefreshInterval;
     }
     
@@ -1574,11 +1713,16 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Renderer = await CoreJsModule!.InvokeAsync<IImageryRenderer?>("getProperty",
+        IImageryRenderer? result = await CoreJsModule!.InvokeAsync<IImageryRenderer?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "renderer");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Renderer = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Renderer)] = Renderer;
+             ModifiedParameters[nameof(Renderer)] = Renderer;
+        }
+         
         return Renderer;
     }
     
@@ -1599,11 +1743,16 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        ServiceRasterInfo = await CoreJsModule!.InvokeAsync<RasterInfo?>("getProperty",
+        RasterInfo? result = await CoreJsModule!.InvokeAsync<RasterInfo?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "serviceRasterInfo");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ServiceRasterInfo = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(ServiceRasterInfo)] = ServiceRasterInfo;
+             ModifiedParameters[nameof(ServiceRasterInfo)] = ServiceRasterInfo;
+        }
+         
         return ServiceRasterInfo;
     }
     
@@ -1624,11 +1773,16 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        SourceJSON = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "sourceJSON");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             SourceJSON = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(SourceJSON)] = SourceJSON;
+             ModifiedParameters[nameof(SourceJSON)] = SourceJSON;
+        }
+         
         return SourceJSON;
     }
     
@@ -1649,11 +1803,16 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        SourceType = await CoreJsModule!.InvokeAsync<SourceType>("getProperty",
+        SourceType? result = await CoreJsModule!.InvokeAsync<SourceType?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "sourceType");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             SourceType = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(SourceType)] = SourceType;
+             ModifiedParameters[nameof(SourceType)] = SourceType;
+        }
+         
         return SourceType;
     }
     
@@ -1674,11 +1833,16 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        SpatialReference = await CoreJsModule!.InvokeAsync<SpatialReference?>("getProperty",
+        SpatialReference? result = await CoreJsModule!.InvokeAsync<SpatialReference?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "spatialReference");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             SpatialReference = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+             ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+        }
+         
         return SpatialReference;
     }
     
@@ -1708,15 +1872,22 @@ public partial class ImageryLayer : IArcGISImageService,
             return null;
         }
         
+        TimeExtent? result = null;
+        
         // Try to deserialize the object. This might fail if we don't have the
         // all deserialization edge cases handled.
         try
         {
-#pragma warning disable BL0005
-            TimeExtent = await CoreJsModule.InvokeAsync<TimeExtent?>(
+            result = await CoreJsModule.InvokeAsync<TimeExtent?>(
                 "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
+            if (result is not null)
+            {
+#pragma warning disable BL0005
+                TimeExtent = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(TimeExtent)] = TimeExtent;
+                ModifiedParameters[nameof(TimeExtent)] = TimeExtent;
+            }
+            
             if (TimeExtent is not null)
             {
                 TimeExtent.Parent = this;
@@ -1763,11 +1934,16 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        TimeInfo = await CoreJsModule!.InvokeAsync<TimeInfo?>("getProperty",
+        TimeInfo? result = await CoreJsModule!.InvokeAsync<TimeInfo?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "timeInfo");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             TimeInfo = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(TimeInfo)] = TimeInfo;
+             ModifiedParameters[nameof(TimeInfo)] = TimeInfo;
+        }
+         
         return TimeInfo;
     }
     
@@ -1788,11 +1964,16 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        TimeOffset = await CoreJsModule!.InvokeAsync<TimeInterval?>("getProperty",
+        TimeInterval? result = await CoreJsModule!.InvokeAsync<TimeInterval?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "timeOffset");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             TimeOffset = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(TimeOffset)] = TimeOffset;
+             ModifiedParameters[nameof(TimeOffset)] = TimeOffset;
+        }
+         
         return TimeOffset;
     }
     
@@ -1813,11 +1994,16 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Url = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "url");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Url = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Url)] = Url;
+             ModifiedParameters[nameof(Url)] = Url;
+        }
+         
         return Url;
     }
     
@@ -1838,11 +2024,16 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        UseViewTime = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "useViewTime");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             UseViewTime = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(UseViewTime)] = UseViewTime;
+             ModifiedParameters[nameof(UseViewTime)] = UseViewTime;
+        }
+         
         return UseViewTime;
     }
     
@@ -1863,11 +2054,16 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Version = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "version");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Version = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Version)] = Version;
+             ModifiedParameters[nameof(Version)] = Version;
+        }
+         
         return Version;
     }
     
@@ -1893,7 +2089,7 @@ public partial class ImageryLayer : IArcGISImageService,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -1923,7 +2119,7 @@ public partial class ImageryLayer : IArcGISImageService,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -1953,7 +2149,7 @@ public partial class ImageryLayer : IArcGISImageService,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -1983,7 +2179,7 @@ public partial class ImageryLayer : IArcGISImageService,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2013,7 +2209,7 @@ public partial class ImageryLayer : IArcGISImageService,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2043,7 +2239,7 @@ public partial class ImageryLayer : IArcGISImageService,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2073,7 +2269,7 @@ public partial class ImageryLayer : IArcGISImageService,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2103,7 +2299,7 @@ public partial class ImageryLayer : IArcGISImageService,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2133,7 +2329,7 @@ public partial class ImageryLayer : IArcGISImageService,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2163,7 +2359,7 @@ public partial class ImageryLayer : IArcGISImageService,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2193,7 +2389,7 @@ public partial class ImageryLayer : IArcGISImageService,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2223,7 +2419,7 @@ public partial class ImageryLayer : IArcGISImageService,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2253,7 +2449,7 @@ public partial class ImageryLayer : IArcGISImageService,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2283,7 +2479,7 @@ public partial class ImageryLayer : IArcGISImageService,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2313,7 +2509,7 @@ public partial class ImageryLayer : IArcGISImageService,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2343,7 +2539,7 @@ public partial class ImageryLayer : IArcGISImageService,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2373,7 +2569,7 @@ public partial class ImageryLayer : IArcGISImageService,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2403,7 +2599,7 @@ public partial class ImageryLayer : IArcGISImageService,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2433,7 +2629,7 @@ public partial class ImageryLayer : IArcGISImageService,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2463,7 +2659,7 @@ public partial class ImageryLayer : IArcGISImageService,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2493,7 +2689,7 @@ public partial class ImageryLayer : IArcGISImageService,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2523,7 +2719,7 @@ public partial class ImageryLayer : IArcGISImageService,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2553,7 +2749,7 @@ public partial class ImageryLayer : IArcGISImageService,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2583,7 +2779,7 @@ public partial class ImageryLayer : IArcGISImageService,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2613,7 +2809,7 @@ public partial class ImageryLayer : IArcGISImageService,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2643,7 +2839,7 @@ public partial class ImageryLayer : IArcGISImageService,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2673,7 +2869,7 @@ public partial class ImageryLayer : IArcGISImageService,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2703,7 +2899,7 @@ public partial class ImageryLayer : IArcGISImageService,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2755,7 +2951,7 @@ public partial class ImageryLayer : IArcGISImageService,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2785,7 +2981,7 @@ public partial class ImageryLayer : IArcGISImageService,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2815,7 +3011,7 @@ public partial class ImageryLayer : IArcGISImageService,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2845,7 +3041,7 @@ public partial class ImageryLayer : IArcGISImageService,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2875,7 +3071,7 @@ public partial class ImageryLayer : IArcGISImageService,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2927,7 +3123,7 @@ public partial class ImageryLayer : IArcGISImageService,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2957,7 +3153,7 @@ public partial class ImageryLayer : IArcGISImageService,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -2987,7 +3183,7 @@ public partial class ImageryLayer : IArcGISImageService,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -3017,7 +3213,7 @@ public partial class ImageryLayer : IArcGISImageService,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -3791,24 +3987,6 @@ public partial class ImageryLayer : IArcGISImageService,
                 }
                 
                 return true;
-            case FieldsIndex fieldsIndex:
-                if (fieldsIndex != FieldsIndex)
-                {
-                    FieldsIndex = fieldsIndex;
-                    LayerChanged = true;
-                    ModifiedParameters[nameof(FieldsIndex)] = FieldsIndex;
-                }
-                
-                return true;
-            case RasterMultidimensionalInfo multidimensionalInfo:
-                if (multidimensionalInfo != MultidimensionalInfo)
-                {
-                    MultidimensionalInfo = multidimensionalInfo;
-                    LayerChanged = true;
-                    ModifiedParameters[nameof(MultidimensionalInfo)] = MultidimensionalInfo;
-                }
-                
-                return true;
             case MultidimensionalSubset multidimensionalSubset:
                 if (multidimensionalSubset != MultidimensionalSubset)
                 {
@@ -3845,25 +4023,6 @@ public partial class ImageryLayer : IArcGISImageService,
                 }
                 
                 return true;
-            case RasterFunctionInfo rasterFunctionInfos:
-                RasterFunctionInfos ??= [];
-                if (!RasterFunctionInfos.Contains(rasterFunctionInfos))
-                {
-                    RasterFunctionInfos = [..RasterFunctionInfos, rasterFunctionInfos];
-                    LayerChanged = true;
-                    ModifiedParameters[nameof(RasterFunctionInfos)] = RasterFunctionInfos;
-                }
-                
-                return true;
-            case RasterInfo serviceRasterInfo:
-                if (serviceRasterInfo != ServiceRasterInfo)
-                {
-                    ServiceRasterInfo = serviceRasterInfo;
-                    LayerChanged = true;
-                    ModifiedParameters[nameof(ServiceRasterInfo)] = ServiceRasterInfo;
-                }
-                
-                return true;
             default:
                 return await base.RegisterGeneratedChildComponent(child);
         }
@@ -3877,16 +4036,6 @@ public partial class ImageryLayer : IArcGISImageService,
                 Capabilities = null;
                 LayerChanged = true;
                 ModifiedParameters[nameof(Capabilities)] = Capabilities;
-                return true;
-            case FieldsIndex _:
-                FieldsIndex = null;
-                LayerChanged = true;
-                ModifiedParameters[nameof(FieldsIndex)] = FieldsIndex;
-                return true;
-            case RasterMultidimensionalInfo _:
-                MultidimensionalInfo = null;
-                LayerChanged = true;
-                ModifiedParameters[nameof(MultidimensionalInfo)] = MultidimensionalInfo;
                 return true;
             case MultidimensionalSubset _:
                 MultidimensionalSubset = null;
@@ -3908,16 +4057,6 @@ public partial class ImageryLayer : IArcGISImageService,
                 LayerChanged = true;
                 ModifiedParameters[nameof(RasterFunction)] = RasterFunction;
                 return true;
-            case RasterFunctionInfo rasterFunctionInfos:
-                RasterFunctionInfos = RasterFunctionInfos?.Where(r => r != rasterFunctionInfos).ToList();
-                LayerChanged = true;
-                ModifiedParameters[nameof(RasterFunctionInfos)] = RasterFunctionInfos;
-                return true;
-            case RasterInfo _:
-                ServiceRasterInfo = null;
-                LayerChanged = true;
-                ModifiedParameters[nameof(ServiceRasterInfo)] = ServiceRasterInfo;
-                return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);
         }
@@ -3932,19 +4071,9 @@ public partial class ImageryLayer : IArcGISImageService,
             throw new MissingRequiredOptionsChildElementException(nameof(ImageryLayer), [nameof(Url), nameof(PortalItem)]);
         }
         Capabilities?.ValidateRequiredGeneratedChildren();
-        FieldsIndex?.ValidateRequiredGeneratedChildren();
-        MultidimensionalInfo?.ValidateRequiredGeneratedChildren();
         MultidimensionalSubset?.ValidateRequiredGeneratedChildren();
         PopupTemplate?.ValidateRequiredGeneratedChildren();
         RasterFunction?.ValidateRequiredGeneratedChildren();
-        if (RasterFunctionInfos is not null)
-        {
-            foreach (RasterFunctionInfo child in RasterFunctionInfos)
-            {
-                child.ValidateRequiredGeneratedChildren();
-            }
-        }
-        ServiceRasterInfo?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();
     }
       

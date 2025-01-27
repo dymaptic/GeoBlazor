@@ -29,11 +29,16 @@ public abstract partial class Symbol
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Color = await CoreJsModule!.InvokeAsync<MapColor?>("getProperty",
+        MapColor? result = await CoreJsModule!.InvokeAsync<MapColor?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "color");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Color = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Color)] = Color;
+             ModifiedParameters[nameof(Color)] = Color;
+        }
+         
         return Color;
     }
     
@@ -59,7 +64,7 @@ public abstract partial class Symbol
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

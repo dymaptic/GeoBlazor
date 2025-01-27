@@ -101,11 +101,16 @@ public partial class SimpleLineSymbol : IRouteSymbolsDirectionLines,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Cap = await CoreJsModule!.InvokeAsync<Cap>("getProperty",
+        Cap? result = await CoreJsModule!.InvokeAsync<Cap?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "cap");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Cap = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Cap)] = Cap;
+             ModifiedParameters[nameof(Cap)] = Cap;
+        }
+         
         return Cap;
     }
     
@@ -126,11 +131,16 @@ public partial class SimpleLineSymbol : IRouteSymbolsDirectionLines,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Join = await CoreJsModule!.InvokeAsync<Join>("getProperty",
+        Join? result = await CoreJsModule!.InvokeAsync<Join?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "join");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Join = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Join)] = Join;
+             ModifiedParameters[nameof(Join)] = Join;
+        }
+         
         return Join;
     }
     
@@ -151,11 +161,16 @@ public partial class SimpleLineSymbol : IRouteSymbolsDirectionLines,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Marker = await CoreJsModule!.InvokeAsync<LineSymbolMarker?>("getProperty",
+        LineSymbolMarker? result = await CoreJsModule!.InvokeAsync<LineSymbolMarker?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "marker");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Marker = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Marker)] = Marker;
+             ModifiedParameters[nameof(Marker)] = Marker;
+        }
+         
         return Marker;
     }
     
@@ -176,11 +191,16 @@ public partial class SimpleLineSymbol : IRouteSymbolsDirectionLines,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        MiterLimit = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "miterLimit");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             MiterLimit = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(MiterLimit)] = MiterLimit;
+             ModifiedParameters[nameof(MiterLimit)] = MiterLimit;
+        }
+         
         return MiterLimit;
     }
     
@@ -201,11 +221,16 @@ public partial class SimpleLineSymbol : IRouteSymbolsDirectionLines,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Style = await CoreJsModule!.InvokeAsync<SimpleLineSymbolStyle>("getProperty",
+        SimpleLineSymbolStyle? result = await CoreJsModule!.InvokeAsync<SimpleLineSymbolStyle?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "style");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Style = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Style)] = Style;
+             ModifiedParameters[nameof(Style)] = Style;
+        }
+         
         return Style;
     }
     
@@ -231,7 +256,7 @@ public partial class SimpleLineSymbol : IRouteSymbolsDirectionLines,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -261,7 +286,7 @@ public partial class SimpleLineSymbol : IRouteSymbolsDirectionLines,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -291,7 +316,7 @@ public partial class SimpleLineSymbol : IRouteSymbolsDirectionLines,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -321,7 +346,7 @@ public partial class SimpleLineSymbol : IRouteSymbolsDirectionLines,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -351,7 +376,7 @@ public partial class SimpleLineSymbol : IRouteSymbolsDirectionLines,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

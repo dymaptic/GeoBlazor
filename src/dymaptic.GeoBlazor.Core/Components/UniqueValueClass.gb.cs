@@ -97,11 +97,16 @@ public partial class UniqueValueClass : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Label = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "label");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Label = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Label)] = Label;
+             ModifiedParameters[nameof(Label)] = Label;
+        }
+         
         return Label;
     }
     
@@ -122,11 +127,16 @@ public partial class UniqueValueClass : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Symbol = await CoreJsModule!.InvokeAsync<Symbol?>("getProperty",
+        Symbol? result = await CoreJsModule!.InvokeAsync<Symbol?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "symbol");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Symbol = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Symbol)] = Symbol;
+             ModifiedParameters[nameof(Symbol)] = Symbol;
+        }
+         
         return Symbol;
     }
     
@@ -147,11 +157,16 @@ public partial class UniqueValueClass : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Values = await CoreJsModule!.InvokeAsync<IReadOnlyList<UniqueValue>?>("getProperty",
+        IReadOnlyList<UniqueValue>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<UniqueValue>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "values");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Values = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Values)] = Values;
+             ModifiedParameters[nameof(Values)] = Values;
+        }
+         
         return Values;
     }
     
@@ -177,7 +192,7 @@ public partial class UniqueValueClass : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -207,7 +222,7 @@ public partial class UniqueValueClass : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -237,7 +252,7 @@ public partial class UniqueValueClass : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

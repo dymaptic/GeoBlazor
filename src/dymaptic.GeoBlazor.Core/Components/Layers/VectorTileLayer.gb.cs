@@ -259,11 +259,16 @@ public partial class VectorTileLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        ApiKey = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "apiKey");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ApiKey = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(ApiKey)] = ApiKey;
+             ModifiedParameters[nameof(ApiKey)] = ApiKey;
+        }
+         
         return ApiKey;
     }
     
@@ -284,11 +289,16 @@ public partial class VectorTileLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        AttributionDataUrl = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "attributionDataUrl");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             AttributionDataUrl = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(AttributionDataUrl)] = AttributionDataUrl;
+             ModifiedParameters[nameof(AttributionDataUrl)] = AttributionDataUrl;
+        }
+         
         return AttributionDataUrl;
     }
     
@@ -309,11 +319,16 @@ public partial class VectorTileLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        BlendMode = await CoreJsModule!.InvokeAsync<BlendMode>("getProperty",
+        BlendMode? result = await CoreJsModule!.InvokeAsync<BlendMode?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "blendMode");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             BlendMode = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(BlendMode)] = BlendMode;
+             ModifiedParameters[nameof(BlendMode)] = BlendMode;
+        }
+         
         return BlendMode;
     }
     
@@ -334,11 +349,16 @@ public partial class VectorTileLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Capabilities = await CoreJsModule!.InvokeAsync<VectorTileLayerCapabilities?>("getProperty",
+        VectorTileLayerCapabilities? result = await CoreJsModule!.InvokeAsync<VectorTileLayerCapabilities?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "capabilities");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Capabilities = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Capabilities)] = Capabilities;
+             ModifiedParameters[nameof(Capabilities)] = Capabilities;
+        }
+         
         return Capabilities;
     }
     
@@ -359,11 +379,16 @@ public partial class VectorTileLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        CurrentStyleInfo = await CoreJsModule!.InvokeAsync<VectorTileLayerCurrentStyleInfo?>("getProperty",
+        VectorTileLayerCurrentStyleInfo? result = await CoreJsModule!.InvokeAsync<VectorTileLayerCurrentStyleInfo?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "currentStyleInfo");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             CurrentStyleInfo = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(CurrentStyleInfo)] = CurrentStyleInfo;
+             ModifiedParameters[nameof(CurrentStyleInfo)] = CurrentStyleInfo;
+        }
+         
         return CurrentStyleInfo;
     }
     
@@ -384,11 +409,16 @@ public partial class VectorTileLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        CustomParameters = await CoreJsModule!.InvokeAsync<Dictionary<string, object>?>("getProperty",
+        Dictionary<string, object>? result = await CoreJsModule!.InvokeAsync<Dictionary<string, object>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "customParameters");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             CustomParameters = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(CustomParameters)] = CustomParameters;
+             ModifiedParameters[nameof(CustomParameters)] = CustomParameters;
+        }
+         
         return CustomParameters;
     }
     
@@ -409,11 +439,16 @@ public partial class VectorTileLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Effect = await CoreJsModule!.InvokeAsync<Effect?>("getProperty",
+        Effect? result = await CoreJsModule!.InvokeAsync<Effect?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "effect");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Effect = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Effect)] = Effect;
+             ModifiedParameters[nameof(Effect)] = Effect;
+        }
+         
         return Effect;
     }
     
@@ -434,11 +469,16 @@ public partial class VectorTileLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        InitialExtent = await CoreJsModule!.InvokeAsync<Extent?>("getProperty",
+        Extent? result = await CoreJsModule!.InvokeAsync<Extent?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "initialExtent");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             InitialExtent = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(InitialExtent)] = InitialExtent;
+             ModifiedParameters[nameof(InitialExtent)] = InitialExtent;
+        }
+         
         return InitialExtent;
     }
     
@@ -459,11 +499,16 @@ public partial class VectorTileLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        MaxScale = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "maxScale");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             MaxScale = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(MaxScale)] = MaxScale;
+             ModifiedParameters[nameof(MaxScale)] = MaxScale;
+        }
+         
         return MaxScale;
     }
     
@@ -484,11 +529,16 @@ public partial class VectorTileLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        MinScale = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "minScale");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             MinScale = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(MinScale)] = MinScale;
+             ModifiedParameters[nameof(MinScale)] = MinScale;
+        }
+         
         return MinScale;
     }
     
@@ -518,15 +568,22 @@ public partial class VectorTileLayer : IBlendLayer,
             return null;
         }
         
+        PortalItem? result = null;
+        
         // Try to deserialize the object. This might fail if we don't have the
         // all deserialization edge cases handled.
         try
         {
-#pragma warning disable BL0005
-            PortalItem = await CoreJsModule.InvokeAsync<PortalItem?>(
+            result = await CoreJsModule.InvokeAsync<PortalItem?>(
                 "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
+            if (result is not null)
+            {
+#pragma warning disable BL0005
+                PortalItem = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(PortalItem)] = PortalItem;
+                ModifiedParameters[nameof(PortalItem)] = PortalItem;
+            }
+            
             if (PortalItem is not null)
             {
                 PortalItem.Parent = this;
@@ -607,11 +664,16 @@ public partial class VectorTileLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        SpatialReference = await CoreJsModule!.InvokeAsync<SpatialReference?>("getProperty",
+        SpatialReference? result = await CoreJsModule!.InvokeAsync<SpatialReference?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "spatialReference");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             SpatialReference = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+             ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+        }
+         
         return SpatialReference;
     }
     
@@ -632,11 +694,16 @@ public partial class VectorTileLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Style = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "style");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Style = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Style)] = Style;
+             ModifiedParameters[nameof(Style)] = Style;
+        }
+         
         return Style;
     }
     
@@ -666,15 +733,22 @@ public partial class VectorTileLayer : IBlendLayer,
             return null;
         }
         
+        TileInfo? result = null;
+        
         // Try to deserialize the object. This might fail if we don't have the
         // all deserialization edge cases handled.
         try
         {
-#pragma warning disable BL0005
-            TileInfo = await CoreJsModule.InvokeAsync<TileInfo?>(
+            result = await CoreJsModule.InvokeAsync<TileInfo?>(
                 "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
+            if (result is not null)
+            {
+#pragma warning disable BL0005
+                TileInfo = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(TileInfo)] = TileInfo;
+                ModifiedParameters[nameof(TileInfo)] = TileInfo;
+            }
+            
             if (TileInfo is not null)
             {
                 TileInfo.Parent = this;
@@ -726,11 +800,16 @@ public partial class VectorTileLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Url = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "url");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Url = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Url)] = Url;
+             ModifiedParameters[nameof(Url)] = Url;
+        }
+         
         return Url;
     }
     
@@ -756,7 +835,7 @@ public partial class VectorTileLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -786,7 +865,7 @@ public partial class VectorTileLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -816,7 +895,7 @@ public partial class VectorTileLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -846,7 +925,7 @@ public partial class VectorTileLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -876,7 +955,7 @@ public partial class VectorTileLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -906,7 +985,7 @@ public partial class VectorTileLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -936,7 +1015,7 @@ public partial class VectorTileLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -966,7 +1045,7 @@ public partial class VectorTileLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -1018,7 +1097,7 @@ public partial class VectorTileLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -1048,7 +1127,7 @@ public partial class VectorTileLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -1078,7 +1157,7 @@ public partial class VectorTileLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -1130,7 +1209,7 @@ public partial class VectorTileLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -1433,24 +1512,6 @@ layerId,
     {
         switch (child)
         {
-            case VectorTileLayerCapabilities capabilities:
-                if (capabilities != Capabilities)
-                {
-                    Capabilities = capabilities;
-                    LayerChanged = true;
-                    ModifiedParameters[nameof(Capabilities)] = Capabilities;
-                }
-                
-                return true;
-            case VectorTileLayerCurrentStyleInfo currentStyleInfo:
-                if (currentStyleInfo != CurrentStyleInfo)
-                {
-                    CurrentStyleInfo = currentStyleInfo;
-                    LayerChanged = true;
-                    ModifiedParameters[nameof(CurrentStyleInfo)] = CurrentStyleInfo;
-                }
-                
-                return true;
             case TileInfo tileInfo:
                 if (tileInfo != TileInfo)
                 {
@@ -1469,16 +1530,6 @@ layerId,
     {
         switch (child)
         {
-            case VectorTileLayerCapabilities _:
-                Capabilities = null;
-                LayerChanged = true;
-                ModifiedParameters[nameof(Capabilities)] = Capabilities;
-                return true;
-            case VectorTileLayerCurrentStyleInfo _:
-                CurrentStyleInfo = null;
-                LayerChanged = true;
-                ModifiedParameters[nameof(CurrentStyleInfo)] = CurrentStyleInfo;
-                return true;
             case TileInfo _:
                 TileInfo = null;
                 LayerChanged = true;
@@ -1493,12 +1544,10 @@ layerId,
     internal override void ValidateRequiredGeneratedChildren()
     {
     
-        if (Url is null && PortalItem is null)
+        if (PortalItem is null && Url is null)
         {
-            throw new MissingRequiredOptionsChildElementException(nameof(VectorTileLayer), [nameof(Url), nameof(PortalItem)]);
+            throw new MissingRequiredOptionsChildElementException(nameof(VectorTileLayer), [nameof(PortalItem), nameof(Url)]);
         }
-        Capabilities?.ValidateRequiredGeneratedChildren();
-        CurrentStyleInfo?.ValidateRequiredGeneratedChildren();
         TileInfo?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();
     }

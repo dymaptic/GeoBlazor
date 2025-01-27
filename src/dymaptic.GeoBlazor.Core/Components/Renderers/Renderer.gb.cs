@@ -42,11 +42,16 @@ public abstract partial class Renderer
         }
 
         // get the property value
-#pragma warning disable BL0005
-        AuthoringInfo = await CoreJsModule!.InvokeAsync<AuthoringInfo?>("getProperty",
+        AuthoringInfo? result = await CoreJsModule!.InvokeAsync<AuthoringInfo?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "authoringInfo");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             AuthoringInfo = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(AuthoringInfo)] = AuthoringInfo;
+             ModifiedParameters[nameof(AuthoringInfo)] = AuthoringInfo;
+        }
+         
         return AuthoringInfo;
     }
     
@@ -72,7 +77,7 @@ public abstract partial class Renderer
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -85,8 +90,5 @@ public abstract partial class Renderer
     }
     
 #endregion
-
-
-
-
+      
 }

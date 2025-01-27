@@ -256,11 +256,16 @@ public partial class GeoRSSLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        BlendMode = await CoreJsModule!.InvokeAsync<BlendMode>("getProperty",
+        BlendMode? result = await CoreJsModule!.InvokeAsync<BlendMode?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "blendMode");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             BlendMode = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(BlendMode)] = BlendMode;
+             ModifiedParameters[nameof(BlendMode)] = BlendMode;
+        }
+         
         return BlendMode;
     }
     
@@ -281,11 +286,16 @@ public partial class GeoRSSLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Effect = await CoreJsModule!.InvokeAsync<Effect?>("getProperty",
+        Effect? result = await CoreJsModule!.InvokeAsync<Effect?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "effect");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Effect = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Effect)] = Effect;
+             ModifiedParameters[nameof(Effect)] = Effect;
+        }
+         
         return Effect;
     }
     
@@ -306,11 +316,16 @@ public partial class GeoRSSLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        LegendEnabled = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "legendEnabled");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             LegendEnabled = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(LegendEnabled)] = LegendEnabled;
+             ModifiedParameters[nameof(LegendEnabled)] = LegendEnabled;
+        }
+         
         return LegendEnabled;
     }
     
@@ -331,11 +346,16 @@ public partial class GeoRSSLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        LineSymbol = await CoreJsModule!.InvokeAsync<SimpleLineSymbol?>("getProperty",
+        SimpleLineSymbol? result = await CoreJsModule!.InvokeAsync<SimpleLineSymbol?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "lineSymbol");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             LineSymbol = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(LineSymbol)] = LineSymbol;
+             ModifiedParameters[nameof(LineSymbol)] = LineSymbol;
+        }
+         
         return LineSymbol;
     }
     
@@ -356,11 +376,16 @@ public partial class GeoRSSLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        MaxScale = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "maxScale");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             MaxScale = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(MaxScale)] = MaxScale;
+             ModifiedParameters[nameof(MaxScale)] = MaxScale;
+        }
+         
         return MaxScale;
     }
     
@@ -381,11 +406,16 @@ public partial class GeoRSSLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        MinScale = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "minScale");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             MinScale = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(MinScale)] = MinScale;
+             ModifiedParameters[nameof(MinScale)] = MinScale;
+        }
+         
         return MinScale;
     }
     
@@ -406,11 +436,16 @@ public partial class GeoRSSLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        PointSymbol = await CoreJsModule!.InvokeAsync<MarkerSymbol?>("getProperty",
+        MarkerSymbol? result = await CoreJsModule!.InvokeAsync<MarkerSymbol?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "pointSymbol");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             PointSymbol = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(PointSymbol)] = PointSymbol;
+             ModifiedParameters[nameof(PointSymbol)] = PointSymbol;
+        }
+         
         return PointSymbol;
     }
     
@@ -431,11 +466,16 @@ public partial class GeoRSSLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        PolygonSymbol = await CoreJsModule!.InvokeAsync<SimpleFillSymbol?>("getProperty",
+        SimpleFillSymbol? result = await CoreJsModule!.InvokeAsync<SimpleFillSymbol?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "polygonSymbol");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             PolygonSymbol = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(PolygonSymbol)] = PolygonSymbol;
+             ModifiedParameters[nameof(PolygonSymbol)] = PolygonSymbol;
+        }
+         
         return PolygonSymbol;
     }
     
@@ -456,11 +496,16 @@ public partial class GeoRSSLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        RefreshInterval = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "refreshInterval");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             RefreshInterval = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(RefreshInterval)] = RefreshInterval;
+             ModifiedParameters[nameof(RefreshInterval)] = RefreshInterval;
+        }
+         
         return RefreshInterval;
     }
     
@@ -481,11 +526,16 @@ public partial class GeoRSSLayer : IBlendLayer,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Url = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "url");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Url = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Url)] = Url;
+             ModifiedParameters[nameof(Url)] = Url;
+        }
+         
         return Url;
     }
     
@@ -511,7 +561,7 @@ public partial class GeoRSSLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -541,7 +591,7 @@ public partial class GeoRSSLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -571,7 +621,7 @@ public partial class GeoRSSLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -601,7 +651,7 @@ public partial class GeoRSSLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -631,7 +681,7 @@ public partial class GeoRSSLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -661,7 +711,7 @@ public partial class GeoRSSLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -691,7 +741,7 @@ public partial class GeoRSSLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -721,7 +771,7 @@ public partial class GeoRSSLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -751,7 +801,7 @@ public partial class GeoRSSLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -781,7 +831,7 @@ public partial class GeoRSSLayer : IBlendLayer,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

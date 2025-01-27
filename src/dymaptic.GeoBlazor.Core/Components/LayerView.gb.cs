@@ -84,11 +84,16 @@ public partial class LayerView
         }
 
         // get the property value
-#pragma warning disable BL0005
-        SpatialReferenceSupported = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "spatialReferenceSupported");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             SpatialReferenceSupported = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(SpatialReferenceSupported)] = SpatialReferenceSupported;
+             ModifiedParameters[nameof(SpatialReferenceSupported)] = SpatialReferenceSupported;
+        }
+         
         return SpatialReferenceSupported;
     }
     
@@ -109,11 +114,16 @@ public partial class LayerView
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Suspended = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "suspended");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Suspended = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Suspended)] = Suspended;
+             ModifiedParameters[nameof(Suspended)] = Suspended;
+        }
+         
         return Suspended;
     }
     
@@ -134,11 +144,16 @@ public partial class LayerView
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Updating = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "updating");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Updating = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Updating)] = Updating;
+             ModifiedParameters[nameof(Updating)] = Updating;
+        }
+         
         return Updating;
     }
     
@@ -159,11 +174,16 @@ public partial class LayerView
         }
 
         // get the property value
-#pragma warning disable BL0005
-        View = await CoreJsModule!.InvokeAsync<MapView?>("getProperty",
+        MapView? result = await CoreJsModule!.InvokeAsync<MapView?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "view");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             View = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(View)] = View;
+             ModifiedParameters[nameof(View)] = View;
+        }
+         
         return View;
     }
     
@@ -184,11 +204,16 @@ public partial class LayerView
         }
 
         // get the property value
-#pragma warning disable BL0005
-        VisibleAtCurrentScale = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "visibleAtCurrentScale");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             VisibleAtCurrentScale = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(VisibleAtCurrentScale)] = VisibleAtCurrentScale;
+             ModifiedParameters[nameof(VisibleAtCurrentScale)] = VisibleAtCurrentScale;
+        }
+         
         return VisibleAtCurrentScale;
     }
     
@@ -209,11 +234,16 @@ public partial class LayerView
         }
 
         // get the property value
-#pragma warning disable BL0005
-        VisibleAtCurrentTimeExtent = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "visibleAtCurrentTimeExtent");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             VisibleAtCurrentTimeExtent = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(VisibleAtCurrentTimeExtent)] = VisibleAtCurrentTimeExtent;
+             ModifiedParameters[nameof(VisibleAtCurrentTimeExtent)] = VisibleAtCurrentTimeExtent;
+        }
+         
         return VisibleAtCurrentTimeExtent;
     }
     

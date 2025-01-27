@@ -97,11 +97,16 @@ public partial class ElementExpressionInfo : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Expression = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "expression");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Expression = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Expression)] = Expression;
+             ModifiedParameters[nameof(Expression)] = Expression;
+        }
+         
         return Expression;
     }
     
@@ -122,11 +127,16 @@ public partial class ElementExpressionInfo : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        ReturnType = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "returnType");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ReturnType = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(ReturnType)] = ReturnType;
+             ModifiedParameters[nameof(ReturnType)] = ReturnType;
+        }
+         
         return ReturnType;
     }
     
@@ -147,11 +157,16 @@ public partial class ElementExpressionInfo : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Title = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "title");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Title = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Title)] = Title;
+             ModifiedParameters[nameof(Title)] = Title;
+        }
+         
         return Title;
     }
     
@@ -177,7 +192,7 @@ public partial class ElementExpressionInfo : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -207,7 +222,7 @@ public partial class ElementExpressionInfo : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -237,7 +252,7 @@ public partial class ElementExpressionInfo : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

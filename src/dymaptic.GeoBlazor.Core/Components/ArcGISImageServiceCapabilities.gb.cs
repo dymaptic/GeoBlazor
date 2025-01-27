@@ -97,11 +97,16 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Mensuration = await CoreJsModule!.InvokeAsync<ArcGISImageServiceCapabilitiesMensuration?>("getProperty",
+        ArcGISImageServiceCapabilitiesMensuration? result = await CoreJsModule!.InvokeAsync<ArcGISImageServiceCapabilitiesMensuration?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "mensuration");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Mensuration = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Mensuration)] = Mensuration;
+             ModifiedParameters[nameof(Mensuration)] = Mensuration;
+        }
+         
         return Mensuration;
     }
     
@@ -122,11 +127,16 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Operations = await CoreJsModule!.InvokeAsync<ArcGISImageServiceCapabilitiesOperations?>("getProperty",
+        ArcGISImageServiceCapabilitiesOperations? result = await CoreJsModule!.InvokeAsync<ArcGISImageServiceCapabilitiesOperations?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "operations");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Operations = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Operations)] = Operations;
+             ModifiedParameters[nameof(Operations)] = Operations;
+        }
+         
         return Operations;
     }
     
@@ -147,11 +157,16 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Query = await CoreJsModule!.InvokeAsync<ArcGISImageServiceCapabilitiesQuery?>("getProperty",
+        ArcGISImageServiceCapabilitiesQuery? result = await CoreJsModule!.InvokeAsync<ArcGISImageServiceCapabilitiesQuery?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "query");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Query = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Query)] = Query;
+             ModifiedParameters[nameof(Query)] = Query;
+        }
+         
         return Query;
     }
     
@@ -177,7 +192,7 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -207,7 +222,7 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -237,7 +252,7 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

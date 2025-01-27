@@ -91,11 +91,16 @@ public partial class ImageMediaInfo
         }
 
         // get the property value
-#pragma warning disable BL0005
-        RefreshInterval = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "refreshInterval");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             RefreshInterval = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(RefreshInterval)] = RefreshInterval;
+             ModifiedParameters[nameof(RefreshInterval)] = RefreshInterval;
+        }
+         
         return RefreshInterval;
     }
     
@@ -116,11 +121,16 @@ public partial class ImageMediaInfo
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Value = await CoreJsModule!.InvokeAsync<ImageMediaInfoValue?>("getProperty",
+        ImageMediaInfoValue? result = await CoreJsModule!.InvokeAsync<ImageMediaInfoValue?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "value");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Value = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Value)] = Value;
+             ModifiedParameters[nameof(Value)] = Value;
+        }
+         
         return Value;
     }
     
@@ -146,7 +156,7 @@ public partial class ImageMediaInfo
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -176,7 +186,7 @@ public partial class ImageMediaInfo
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

@@ -112,11 +112,16 @@ public partial class FeatureLayerBaseElevationInfo : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        FeatureExpressionInfo = await CoreJsModule!.InvokeAsync<FeatureLayerBaseElevationInfoFeatureExpressionInfo?>("getProperty",
+        FeatureLayerBaseElevationInfoFeatureExpressionInfo? result = await CoreJsModule!.InvokeAsync<FeatureLayerBaseElevationInfoFeatureExpressionInfo?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "featureExpressionInfo");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             FeatureExpressionInfo = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(FeatureExpressionInfo)] = FeatureExpressionInfo;
+             ModifiedParameters[nameof(FeatureExpressionInfo)] = FeatureExpressionInfo;
+        }
+         
         return FeatureExpressionInfo;
     }
     
@@ -137,11 +142,16 @@ public partial class FeatureLayerBaseElevationInfo : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Mode = await CoreJsModule!.InvokeAsync<ElevationInfoMode>("getProperty",
+        ElevationInfoMode? result = await CoreJsModule!.InvokeAsync<ElevationInfoMode?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "mode");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Mode = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Mode)] = Mode;
+             ModifiedParameters[nameof(Mode)] = Mode;
+        }
+         
         return Mode;
     }
     
@@ -162,11 +172,16 @@ public partial class FeatureLayerBaseElevationInfo : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Offset = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "offset");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Offset = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Offset)] = Offset;
+             ModifiedParameters[nameof(Offset)] = Offset;
+        }
+         
         return Offset;
     }
     
@@ -187,11 +202,16 @@ public partial class FeatureLayerBaseElevationInfo : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Unit = await CoreJsModule!.InvokeAsync<ElevationUnit>("getProperty",
+        ElevationUnit? result = await CoreJsModule!.InvokeAsync<ElevationUnit?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "unit");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Unit = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Unit)] = Unit;
+             ModifiedParameters[nameof(Unit)] = Unit;
+        }
+         
         return Unit;
     }
     
@@ -217,7 +237,7 @@ public partial class FeatureLayerBaseElevationInfo : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -247,7 +267,7 @@ public partial class FeatureLayerBaseElevationInfo : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -277,7 +297,7 @@ public partial class FeatureLayerBaseElevationInfo : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -307,7 +327,7 @@ public partial class FeatureLayerBaseElevationInfo : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

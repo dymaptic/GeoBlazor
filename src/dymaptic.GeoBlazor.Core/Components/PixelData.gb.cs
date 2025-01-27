@@ -82,11 +82,16 @@ public partial class PixelData : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Extent = await CoreJsModule!.InvokeAsync<Extent?>("getProperty",
+        Extent? result = await CoreJsModule!.InvokeAsync<Extent?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "extent");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Extent = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Extent)] = Extent;
+             ModifiedParameters[nameof(Extent)] = Extent;
+        }
+         
         return Extent;
     }
     
@@ -116,15 +121,22 @@ public partial class PixelData : MapComponent
             return null;
         }
         
+        PixelBlock? result = null;
+        
         // Try to deserialize the object. This might fail if we don't have the
         // all deserialization edge cases handled.
         try
         {
-#pragma warning disable BL0005
-            PixelBlock = await CoreJsModule.InvokeAsync<PixelBlock?>(
+            result = await CoreJsModule.InvokeAsync<PixelBlock?>(
                 "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
+            if (result is not null)
+            {
+#pragma warning disable BL0005
+                PixelBlock = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(PixelBlock)] = PixelBlock;
+                ModifiedParameters[nameof(PixelBlock)] = PixelBlock;
+            }
+            
             if (PixelBlock is not null)
             {
                 PixelBlock.Parent = this;
@@ -182,7 +194,7 @@ public partial class PixelData : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -212,7 +224,7 @@ public partial class PixelData : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

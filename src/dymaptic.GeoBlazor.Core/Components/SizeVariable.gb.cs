@@ -153,11 +153,16 @@ public partial class SizeVariable : IColorSizeSliderUpdateVisualVariables,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Axis = await CoreJsModule!.InvokeAsync<VisualAxis>("getProperty",
+        VisualAxis? result = await CoreJsModule!.InvokeAsync<VisualAxis?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "axis");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Axis = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Axis)] = Axis;
+             ModifiedParameters[nameof(Axis)] = Axis;
+        }
+         
         return Axis;
     }
     
@@ -178,11 +183,16 @@ public partial class SizeVariable : IColorSizeSliderUpdateVisualVariables,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        MaxDataValue = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "maxDataValue");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             MaxDataValue = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(MaxDataValue)] = MaxDataValue;
+             ModifiedParameters[nameof(MaxDataValue)] = MaxDataValue;
+        }
+         
         return MaxDataValue;
     }
     
@@ -203,11 +213,16 @@ public partial class SizeVariable : IColorSizeSliderUpdateVisualVariables,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        MaxSize = await CoreJsModule!.InvokeAsync<Dimension?>("getProperty",
+        Dimension? result = await CoreJsModule!.InvokeAsync<Dimension?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "maxSize");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             MaxSize = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(MaxSize)] = MaxSize;
+             ModifiedParameters[nameof(MaxSize)] = MaxSize;
+        }
+         
         return MaxSize;
     }
     
@@ -228,11 +243,16 @@ public partial class SizeVariable : IColorSizeSliderUpdateVisualVariables,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        MinDataValue = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "minDataValue");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             MinDataValue = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(MinDataValue)] = MinDataValue;
+             ModifiedParameters[nameof(MinDataValue)] = MinDataValue;
+        }
+         
         return MinDataValue;
     }
     
@@ -253,11 +273,16 @@ public partial class SizeVariable : IColorSizeSliderUpdateVisualVariables,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        MinSize = await CoreJsModule!.InvokeAsync<Dimension?>("getProperty",
+        Dimension? result = await CoreJsModule!.InvokeAsync<Dimension?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "minSize");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             MinSize = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(MinSize)] = MinSize;
+             ModifiedParameters[nameof(MinSize)] = MinSize;
+        }
+         
         return MinSize;
     }
     
@@ -278,11 +303,16 @@ public partial class SizeVariable : IColorSizeSliderUpdateVisualVariables,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        NormalizationField = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "normalizationField");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             NormalizationField = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(NormalizationField)] = NormalizationField;
+             ModifiedParameters[nameof(NormalizationField)] = NormalizationField;
+        }
+         
         return NormalizationField;
     }
     
@@ -303,11 +333,16 @@ public partial class SizeVariable : IColorSizeSliderUpdateVisualVariables,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Stops = await CoreJsModule!.InvokeAsync<IReadOnlyList<SizeStop>?>("getProperty",
+        IReadOnlyList<SizeStop>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<SizeStop>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "stops");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Stops = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Stops)] = Stops;
+             ModifiedParameters[nameof(Stops)] = Stops;
+        }
+         
         return Stops;
     }
     
@@ -328,11 +363,16 @@ public partial class SizeVariable : IColorSizeSliderUpdateVisualVariables,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Target = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "target");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Target = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Target)] = Target;
+             ModifiedParameters[nameof(Target)] = Target;
+        }
+         
         return Target;
     }
     
@@ -353,11 +393,16 @@ public partial class SizeVariable : IColorSizeSliderUpdateVisualVariables,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        UseSymbolValue = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "useSymbolValue");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             UseSymbolValue = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(UseSymbolValue)] = UseSymbolValue;
+             ModifiedParameters[nameof(UseSymbolValue)] = UseSymbolValue;
+        }
+         
         return UseSymbolValue;
     }
     
@@ -378,11 +423,16 @@ public partial class SizeVariable : IColorSizeSliderUpdateVisualVariables,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        ValueRepresentation = await CoreJsModule!.InvokeAsync<VisualValueRepresentation>("getProperty",
+        VisualValueRepresentation? result = await CoreJsModule!.InvokeAsync<VisualValueRepresentation?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "valueRepresentation");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ValueRepresentation = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(ValueRepresentation)] = ValueRepresentation;
+             ModifiedParameters[nameof(ValueRepresentation)] = ValueRepresentation;
+        }
+         
         return ValueRepresentation;
     }
     
@@ -403,11 +453,16 @@ public partial class SizeVariable : IColorSizeSliderUpdateVisualVariables,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        ValueUnit = await CoreJsModule!.InvokeAsync<VisualValueUnit>("getProperty",
+        VisualValueUnit? result = await CoreJsModule!.InvokeAsync<VisualValueUnit?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "valueUnit");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ValueUnit = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(ValueUnit)] = ValueUnit;
+             ModifiedParameters[nameof(ValueUnit)] = ValueUnit;
+        }
+         
         return ValueUnit;
     }
     
@@ -433,7 +488,7 @@ public partial class SizeVariable : IColorSizeSliderUpdateVisualVariables,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -463,7 +518,7 @@ public partial class SizeVariable : IColorSizeSliderUpdateVisualVariables,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -493,7 +548,7 @@ public partial class SizeVariable : IColorSizeSliderUpdateVisualVariables,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -523,7 +578,7 @@ public partial class SizeVariable : IColorSizeSliderUpdateVisualVariables,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -553,7 +608,7 @@ public partial class SizeVariable : IColorSizeSliderUpdateVisualVariables,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -583,7 +638,7 @@ public partial class SizeVariable : IColorSizeSliderUpdateVisualVariables,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -613,7 +668,7 @@ public partial class SizeVariable : IColorSizeSliderUpdateVisualVariables,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -643,7 +698,7 @@ public partial class SizeVariable : IColorSizeSliderUpdateVisualVariables,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -673,7 +728,7 @@ public partial class SizeVariable : IColorSizeSliderUpdateVisualVariables,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -703,7 +758,7 @@ public partial class SizeVariable : IColorSizeSliderUpdateVisualVariables,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -733,7 +788,7 @@ public partial class SizeVariable : IColorSizeSliderUpdateVisualVariables,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

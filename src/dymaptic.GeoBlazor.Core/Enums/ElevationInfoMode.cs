@@ -3,7 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
-///     Enumeration for ElevationInfoMode
+///     <summary>
+///          Enumeration for ElevationInfoMode
+///      </summary>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<ElevationInfoMode>))]
 public enum ElevationInfoMode

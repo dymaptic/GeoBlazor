@@ -72,11 +72,16 @@ public partial class MultipartColorRamp : IClassBreaksCreateRendererParamsColorR
         }
 
         // get the property value
-#pragma warning disable BL0005
-        ColorRamps = await CoreJsModule!.InvokeAsync<IReadOnlyList<AlgorithmicColorRamp>?>("getProperty",
+        IReadOnlyList<AlgorithmicColorRamp>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<AlgorithmicColorRamp>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "colorRamps");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ColorRamps = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(ColorRamps)] = ColorRamps;
+             ModifiedParameters[nameof(ColorRamps)] = ColorRamps;
+        }
+         
         return ColorRamps;
     }
     
@@ -102,7 +107,7 @@ public partial class MultipartColorRamp : IClassBreaksCreateRendererParamsColorR
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

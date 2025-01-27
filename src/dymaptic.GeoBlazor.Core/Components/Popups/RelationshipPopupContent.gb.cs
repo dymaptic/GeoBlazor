@@ -85,11 +85,16 @@ public partial class RelationshipPopupContent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Description = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "description");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Description = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Description)] = Description;
+             ModifiedParameters[nameof(Description)] = Description;
+        }
+         
         return Description;
     }
     
@@ -110,11 +115,16 @@ public partial class RelationshipPopupContent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        DisplayCount = await CoreJsModule!.InvokeAsync<int>("getProperty",
+        int? result = await CoreJsModule!.InvokeAsync<int?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "displayCount");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             DisplayCount = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(DisplayCount)] = DisplayCount;
+             ModifiedParameters[nameof(DisplayCount)] = DisplayCount;
+        }
+         
         return DisplayCount;
     }
     
@@ -135,11 +145,16 @@ public partial class RelationshipPopupContent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        DisplayType = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "displayType");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             DisplayType = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(DisplayType)] = DisplayType;
+             ModifiedParameters[nameof(DisplayType)] = DisplayType;
+        }
+         
         return DisplayType;
     }
     
@@ -160,11 +175,16 @@ public partial class RelationshipPopupContent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        OrderByFields = await CoreJsModule!.InvokeAsync<IReadOnlyList<RelatedRecordsInfoFieldOrder>?>("getProperty",
+        IReadOnlyList<RelatedRecordsInfoFieldOrder>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<RelatedRecordsInfoFieldOrder>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "orderByFields");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             OrderByFields = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(OrderByFields)] = OrderByFields;
+             ModifiedParameters[nameof(OrderByFields)] = OrderByFields;
+        }
+         
         return OrderByFields;
     }
     
@@ -185,11 +205,16 @@ public partial class RelationshipPopupContent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        RelationshipId = await CoreJsModule!.InvokeAsync<long>("getProperty",
+        long? result = await CoreJsModule!.InvokeAsync<long?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "relationshipId");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             RelationshipId = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(RelationshipId)] = RelationshipId;
+             ModifiedParameters[nameof(RelationshipId)] = RelationshipId;
+        }
+         
         return RelationshipId;
     }
     
@@ -210,11 +235,16 @@ public partial class RelationshipPopupContent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Title = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "title");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Title = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Title)] = Title;
+             ModifiedParameters[nameof(Title)] = Title;
+        }
+         
         return Title;
     }
     
@@ -240,7 +270,7 @@ public partial class RelationshipPopupContent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -270,7 +300,7 @@ public partial class RelationshipPopupContent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -300,7 +330,7 @@ public partial class RelationshipPopupContent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -330,7 +360,7 @@ public partial class RelationshipPopupContent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -360,7 +390,7 @@ public partial class RelationshipPopupContent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -390,7 +420,7 @@ public partial class RelationshipPopupContent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

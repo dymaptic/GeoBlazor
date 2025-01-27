@@ -67,11 +67,16 @@ public partial class CapabilitiesMetadata : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        SupportsAdvancedFieldProperties = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "supportsAdvancedFieldProperties");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             SupportsAdvancedFieldProperties = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(SupportsAdvancedFieldProperties)] = SupportsAdvancedFieldProperties;
+             ModifiedParameters[nameof(SupportsAdvancedFieldProperties)] = SupportsAdvancedFieldProperties;
+        }
+         
         return SupportsAdvancedFieldProperties;
     }
     
@@ -97,7 +102,7 @@ public partial class CapabilitiesMetadata : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

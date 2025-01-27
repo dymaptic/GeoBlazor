@@ -86,11 +86,16 @@ public partial class TimeExtent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        End = await CoreJsModule!.InvokeAsync<DateTime>("getProperty",
+        DateTime? result = await CoreJsModule!.InvokeAsync<DateTime?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "end");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             End = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(End)] = End;
+             ModifiedParameters[nameof(End)] = End;
+        }
+         
         return End;
     }
     
@@ -111,11 +116,16 @@ public partial class TimeExtent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Start = await CoreJsModule!.InvokeAsync<DateTime>("getProperty",
+        DateTime? result = await CoreJsModule!.InvokeAsync<DateTime?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "start");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Start = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Start)] = Start;
+             ModifiedParameters[nameof(Start)] = Start;
+        }
+         
         return Start;
     }
     
@@ -141,7 +151,7 @@ public partial class TimeExtent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -171,7 +181,7 @@ public partial class TimeExtent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

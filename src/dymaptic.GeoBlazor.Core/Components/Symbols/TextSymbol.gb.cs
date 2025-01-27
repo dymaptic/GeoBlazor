@@ -175,11 +175,16 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Angle = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "angle");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Angle = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Angle)] = Angle;
+             ModifiedParameters[nameof(Angle)] = Angle;
+        }
+         
         return Angle;
     }
     
@@ -200,11 +205,16 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        BackgroundColor = await CoreJsModule!.InvokeAsync<MapColor?>("getProperty",
+        MapColor? result = await CoreJsModule!.InvokeAsync<MapColor?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "backgroundColor");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             BackgroundColor = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(BackgroundColor)] = BackgroundColor;
+             ModifiedParameters[nameof(BackgroundColor)] = BackgroundColor;
+        }
+         
         return BackgroundColor;
     }
     
@@ -225,11 +235,16 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        BorderLineColor = await CoreJsModule!.InvokeAsync<MapColor?>("getProperty",
+        MapColor? result = await CoreJsModule!.InvokeAsync<MapColor?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "borderLineColor");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             BorderLineColor = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(BorderLineColor)] = BorderLineColor;
+             ModifiedParameters[nameof(BorderLineColor)] = BorderLineColor;
+        }
+         
         return BorderLineColor;
     }
     
@@ -250,11 +265,16 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        BorderLineSize = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "borderLineSize");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             BorderLineSize = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(BorderLineSize)] = BorderLineSize;
+             ModifiedParameters[nameof(BorderLineSize)] = BorderLineSize;
+        }
+         
         return BorderLineSize;
     }
     
@@ -275,11 +295,16 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Font = await CoreJsModule!.InvokeAsync<MapFont?>("getProperty",
+        MapFont? result = await CoreJsModule!.InvokeAsync<MapFont?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "font");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Font = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Font)] = Font;
+             ModifiedParameters[nameof(Font)] = Font;
+        }
+         
         return Font;
     }
     
@@ -300,11 +325,16 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        HaloColor = await CoreJsModule!.InvokeAsync<MapColor?>("getProperty",
+        MapColor? result = await CoreJsModule!.InvokeAsync<MapColor?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "haloColor");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             HaloColor = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(HaloColor)] = HaloColor;
+             ModifiedParameters[nameof(HaloColor)] = HaloColor;
+        }
+         
         return HaloColor;
     }
     
@@ -325,11 +355,16 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        HaloSize = await CoreJsModule!.InvokeAsync<Dimension?>("getProperty",
+        Dimension? result = await CoreJsModule!.InvokeAsync<Dimension?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "haloSize");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             HaloSize = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(HaloSize)] = HaloSize;
+             ModifiedParameters[nameof(HaloSize)] = HaloSize;
+        }
+         
         return HaloSize;
     }
     
@@ -350,11 +385,16 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        HorizontalAlignment = await CoreJsModule!.InvokeAsync<HorizontalAlignment>("getProperty",
+        HorizontalAlignment? result = await CoreJsModule!.InvokeAsync<HorizontalAlignment?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "horizontalAlignment");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             HorizontalAlignment = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(HorizontalAlignment)] = HorizontalAlignment;
+             ModifiedParameters[nameof(HorizontalAlignment)] = HorizontalAlignment;
+        }
+         
         return HorizontalAlignment;
     }
     
@@ -375,11 +415,16 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Kerning = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "kerning");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Kerning = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Kerning)] = Kerning;
+             ModifiedParameters[nameof(Kerning)] = Kerning;
+        }
+         
         return Kerning;
     }
     
@@ -400,11 +445,16 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        LineHeight = await CoreJsModule!.InvokeAsync<double>("getProperty",
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "lineHeight");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             LineHeight = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(LineHeight)] = LineHeight;
+             ModifiedParameters[nameof(LineHeight)] = LineHeight;
+        }
+         
         return LineHeight;
     }
     
@@ -425,11 +475,16 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        LineWidth = await CoreJsModule!.InvokeAsync<Dimension?>("getProperty",
+        Dimension? result = await CoreJsModule!.InvokeAsync<Dimension?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "lineWidth");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             LineWidth = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(LineWidth)] = LineWidth;
+             ModifiedParameters[nameof(LineWidth)] = LineWidth;
+        }
+         
         return LineWidth;
     }
     
@@ -450,11 +505,16 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Rotated = await CoreJsModule!.InvokeAsync<bool>("getProperty",
+        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "rotated");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Rotated = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Rotated)] = Rotated;
+             ModifiedParameters[nameof(Rotated)] = Rotated;
+        }
+         
         return Rotated;
     }
     
@@ -475,11 +535,16 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Text = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "text");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Text = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Text)] = Text;
+             ModifiedParameters[nameof(Text)] = Text;
+        }
+         
         return Text;
     }
     
@@ -500,11 +565,16 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        VerticalAlignment = await CoreJsModule!.InvokeAsync<VerticalAlignment>("getProperty",
+        VerticalAlignment? result = await CoreJsModule!.InvokeAsync<VerticalAlignment?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "verticalAlignment");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             VerticalAlignment = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(VerticalAlignment)] = VerticalAlignment;
+             ModifiedParameters[nameof(VerticalAlignment)] = VerticalAlignment;
+        }
+         
         return VerticalAlignment;
     }
     
@@ -525,11 +595,16 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Xoffset = await CoreJsModule!.InvokeAsync<Dimension?>("getProperty",
+        Dimension? result = await CoreJsModule!.InvokeAsync<Dimension?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "xoffset");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Xoffset = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Xoffset)] = Xoffset;
+             ModifiedParameters[nameof(Xoffset)] = Xoffset;
+        }
+         
         return Xoffset;
     }
     
@@ -550,11 +625,16 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Yoffset = await CoreJsModule!.InvokeAsync<Dimension?>("getProperty",
+        Dimension? result = await CoreJsModule!.InvokeAsync<Dimension?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "yoffset");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Yoffset = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Yoffset)] = Yoffset;
+             ModifiedParameters[nameof(Yoffset)] = Yoffset;
+        }
+         
         return Yoffset;
     }
     
@@ -580,7 +660,7 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -610,7 +690,7 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -640,7 +720,7 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -670,7 +750,7 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -700,7 +780,7 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -730,7 +810,7 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -760,7 +840,7 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -790,7 +870,7 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -820,7 +900,7 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -850,7 +930,7 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -880,7 +960,7 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -910,7 +990,7 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -940,7 +1020,7 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -970,7 +1050,7 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -1000,7 +1080,7 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -1030,7 +1110,7 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

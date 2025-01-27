@@ -85,11 +85,16 @@ public partial class MediaPopupContent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        ActiveMediaInfoIndex = await CoreJsModule!.InvokeAsync<int>("getProperty",
+        int? result = await CoreJsModule!.InvokeAsync<int?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "activeMediaInfoIndex");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ActiveMediaInfoIndex = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(ActiveMediaInfoIndex)] = ActiveMediaInfoIndex;
+             ModifiedParameters[nameof(ActiveMediaInfoIndex)] = ActiveMediaInfoIndex;
+        }
+         
         return ActiveMediaInfoIndex;
     }
     
@@ -110,11 +115,16 @@ public partial class MediaPopupContent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Description = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "description");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Description = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Description)] = Description;
+             ModifiedParameters[nameof(Description)] = Description;
+        }
+         
         return Description;
     }
     
@@ -135,11 +145,16 @@ public partial class MediaPopupContent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        MediaInfos = await CoreJsModule!.InvokeAsync<IReadOnlyList<MediaInfo>?>("getProperty",
+        IReadOnlyList<MediaInfo>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<MediaInfo>?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "mediaInfos");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             MediaInfos = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(MediaInfos)] = MediaInfos;
+             ModifiedParameters[nameof(MediaInfos)] = MediaInfos;
+        }
+         
         return MediaInfos;
     }
     
@@ -160,11 +175,16 @@ public partial class MediaPopupContent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        Title = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "title");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Title = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(Title)] = Title;
+             ModifiedParameters[nameof(Title)] = Title;
+        }
+         
         return Title;
     }
     
@@ -190,7 +210,7 @@ public partial class MediaPopupContent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -220,7 +240,7 @@ public partial class MediaPopupContent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -250,7 +270,7 @@ public partial class MediaPopupContent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -280,7 +300,7 @@ public partial class MediaPopupContent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)

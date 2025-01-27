@@ -129,11 +129,16 @@ public partial class RasterFunction : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        FunctionArguments = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "functionArguments");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             FunctionArguments = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(FunctionArguments)] = FunctionArguments;
+             ModifiedParameters[nameof(FunctionArguments)] = FunctionArguments;
+        }
+         
         return FunctionArguments;
     }
     
@@ -154,11 +159,16 @@ public partial class RasterFunction : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        FunctionName = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "functionName");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             FunctionName = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(FunctionName)] = FunctionName;
+             ModifiedParameters[nameof(FunctionName)] = FunctionName;
+        }
+         
         return FunctionName;
     }
     
@@ -179,11 +189,16 @@ public partial class RasterFunction : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        OutputPixelType = await CoreJsModule!.InvokeAsync<OutputPixelType>("getProperty",
+        OutputPixelType? result = await CoreJsModule!.InvokeAsync<OutputPixelType?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "outputPixelType");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             OutputPixelType = result.Value;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(OutputPixelType)] = OutputPixelType;
+             ModifiedParameters[nameof(OutputPixelType)] = OutputPixelType;
+        }
+         
         return OutputPixelType;
     }
     
@@ -204,11 +219,16 @@ public partial class RasterFunction : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        RasterFunctionDefinition = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "rasterFunctionDefinition");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             RasterFunctionDefinition = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(RasterFunctionDefinition)] = RasterFunctionDefinition;
+             ModifiedParameters[nameof(RasterFunctionDefinition)] = RasterFunctionDefinition;
+        }
+         
         return RasterFunctionDefinition;
     }
     
@@ -229,11 +249,16 @@ public partial class RasterFunction : MapComponent
         }
 
         // get the property value
-#pragma warning disable BL0005
-        VariableName = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, JsComponentReference, "variableName");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             VariableName = result;
 #pragma warning restore BL0005
-         ModifiedParameters[nameof(VariableName)] = VariableName;
+             ModifiedParameters[nameof(VariableName)] = VariableName;
+        }
+         
         return VariableName;
     }
     
@@ -259,7 +284,7 @@ public partial class RasterFunction : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -289,7 +314,7 @@ public partial class RasterFunction : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -319,7 +344,7 @@ public partial class RasterFunction : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -349,7 +374,7 @@ public partial class RasterFunction : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
@@ -379,7 +404,7 @@ public partial class RasterFunction : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
             CancellationTokenSource.Token, Id);
     
         if (JsComponentReference is null)
