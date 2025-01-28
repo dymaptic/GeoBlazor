@@ -2600,16 +2600,6 @@ export async function createLayer(dotNetLayer: any, wrap: boolean | null, viewId
                 (newLayer as MapImageLayer).sublayers = dotNetLayer.sublayers.map(buildJsSublayer);
             }
             break;
-        case 'vector-tile':
-            if (hasValue(dotNetLayer.portalItem)) {
-                let portalItem = buildJsPortalItem(dotNetLayer.portalItem);
-                newLayer = new VectorTileLayer({ portalItem: portalItem });
-            } else {
-                newLayer = new VectorTileLayer({
-                    url: dotNetLayer.url
-                });
-            }
-            break;
         case 'tile':
             if (hasValue(dotNetLayer.portalItem)) {
                 let portalItem = buildJsPortalItem(dotNetLayer.portalItem);
@@ -2837,38 +2827,6 @@ export async function createLayer(dotNetLayer: any, wrap: boolean | null, viewId
                 'timeInfo', 'timeOffset');
 
             newLayer = imageryLayer;
-            break;
-        case 'imagery-tile':
-            if (hasValue(dotNetLayer.url)) {
-                newLayer = new ImageryTileLayer({
-                    url: dotNetLayer.url
-                });
-            } else {
-                let portalItem = buildJsPortalItem(dotNetLayer.portalItem);
-                newLayer = new ImageryTileLayer({ portalItem: portalItem });
-            }
-
-            let imageryTileLayer = newLayer as ImageryTileLayer;
-
-            if (hasValue(dotNetLayer.renderer)) {
-                imageryTileLayer.renderer = buildJsImageryRenderer(dotNetLayer.renderer) as any;
-            }
-
-            if (hasValue(dotNetLayer.effect)) {
-                imageryTileLayer.effect = buildJsEffect(dotNetLayer.effect);
-            }
-            if (hasValue(dotNetLayer.multidimensionsionalSubset)) {
-                imageryTileLayer.multidimensionalSubset = buildJsMultidimensionalSubset(dotNetLayer.multidimensionsionalSubset);
-            }
-            if (hasValue(dotNetLayer.popupTemplate)) {
-                imageryTileLayer.popupTemplate = buildJsPopupTemplate(dotNetLayer.popupTemplate, dotNetLayer.id, viewId ?? null) as PopupTemplate;
-            }
-
-            copyValuesIfExists('bandIds', 'blendMode', 'copyright', 'interpolation', 
-                'legendEnabled', 'maxScale', 'minScale', 'popupEnabled', 'serviceRasterInfo', 
-                'useViewTime', 'version', 'customParameters', 'timeExtent', 'timeInfo', 'timeOffset', 'interpolation');
-
-            newLayer = imageryTileLayer;
             break;
         case 'BaseTileLayerType':
             newLayer = await buildJsBaseTileLayer(dotNetLayer);

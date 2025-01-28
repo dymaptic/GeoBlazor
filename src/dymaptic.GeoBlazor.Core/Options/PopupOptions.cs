@@ -1,4 +1,7 @@
-﻿namespace dymaptic.GeoBlazor.Core.Options;
+﻿using dymaptic.GeoBlazor.Core.Components.Popups.PopupDockComponents;
+
+
+namespace dymaptic.GeoBlazor.Core.Options;
 
 /// <summary>
 ///     A collection of options to define when creating a Popup.

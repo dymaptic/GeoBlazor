@@ -1,7 +1,7 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
 
-public partial record CSVLayerCapabilities
+public partial class AuthoringInfo
 {
    // Add custom code to this file to override generated code
 }
