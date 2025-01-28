@@ -1,10 +1,10 @@
-namespace dymaptic.GeoBlazor.Core.Components;
+namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
-///     The TextAreaInput class defines the desired user interface as a multi-line text area.
+///     The TextAreaInput record defines the desired user interface as a multi-line text area.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-form-elements-inputs-TextAreaInput.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public class TextAreaInput : FormInput
+public record TextAreaInput : FormInput
 {
     /// <inheritdoc/>
     public override string Type => "text-area";
