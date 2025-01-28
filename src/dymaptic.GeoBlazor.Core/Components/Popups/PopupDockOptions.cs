@@ -1,4 +1,4 @@
-namespace dymaptic.GeoBlazor.Core.Components.Popups.PopupDockComponents;
+namespace dymaptic.GeoBlazor.Core.Components.Popups;
 /// <summary>
 ///     Docking the popup allows for a better user experience, particularly when opening popups in apps on mobile devices.
 ///     When a popup is "dockEnabled" it means the popup no longer points to the selected feature or the location assigned
@@ -54,4 +54,3 @@ public class PopupDockOptions : MapComponent
     [Parameter]
     public BreakPoint? BreakPoint { get; set; }
 }
-

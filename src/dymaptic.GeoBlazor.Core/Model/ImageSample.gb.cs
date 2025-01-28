@@ -38,7 +38,7 @@ public partial record ImageSample(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     long? LocationId = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    IReadOnlyList<double>? PixelValue = null,
+    IReadOnlyCollection<double>? PixelValue = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     long? RasterId = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

@@ -1,4 +1,4 @@
-namespace dymaptic.GeoBlazor.Core.Model;
+namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     The SwitchInput class defines the desired user interface for a binary switch or toggle. This should be used when selecting between two options.
@@ -7,7 +7,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// <remarks>
 ///     Coded-value domains are required when using this input type.
 /// </remarks>
-public record SwitchInput : FormInput
+public class SwitchInput : FormInput
 {
     /// <inheritdoc/>
     public override string Type => "switch";

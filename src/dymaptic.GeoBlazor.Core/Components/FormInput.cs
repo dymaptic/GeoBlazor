@@ -1,9 +1,9 @@
-namespace dymaptic.GeoBlazor.Core.Model;
+namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
-///     Abstract base record for Input fields in a form element.
+///     Abstract base class for Input fields in a form element.
 /// </summary>
-public abstract record FormInput
+public abstract class FormInput: MapComponent
 {
     /// <summary>
     ///     The type of form element input.

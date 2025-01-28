@@ -1,10 +1,10 @@
-namespace dymaptic.GeoBlazor.Core.Model;
+namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
-///     The DateTimePickerInput record defines the desired user interface for editing date fields in a form.
+///     The DateTimePickerInput class defines the desired user interface for editing date fields in a form.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-form-elements-inputs-DateTimePickerInput.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public record DateTimePickerInput : FormInput
+public class DateTimePickerInput : FormInput
 {
     /// <inheritdoc/>
     public override string Type => "datetime-picker";
