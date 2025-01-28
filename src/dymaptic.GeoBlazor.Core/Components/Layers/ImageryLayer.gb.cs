@@ -917,50 +917,20 @@ public partial class ImageryLayer : IArcGISImageService,
             return FieldsIndex;
         }
 
-        // get the JS object reference
-        IJSObjectReference? refResult = (await CoreJsModule!.InvokeAsync<JsObjectRefWrapper?>(
-            "getObjectRefForProperty", CancellationTokenSource.Token, JsComponentReference, 
-            "fieldsIndex"))?.Value;
-            
-        if (refResult is null)
+        // get the property value
+        FieldsIndex? result = await CoreJsModule!.InvokeAsync<FieldsIndex?>("getProperty",
+            CancellationTokenSource.Token, JsComponentReference, "fieldsIndex");
+        if (result is not null)
         {
-            return null;
-        }
-        
-        FieldsIndex? result = null;
-        
-        // Try to deserialize the object. This might fail if we don't have the
-        // all deserialization edge cases handled.
-        try
-        {
-            result = await CoreJsModule.InvokeAsync<FieldsIndex?>(
-                "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
-            if (result is not null)
-            {
 #pragma warning disable BL0005
-                FieldsIndex = result;
+             FieldsIndex = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(FieldsIndex)] = FieldsIndex;
-            }
-            
-            if (FieldsIndex is not null)
-            {
-                FieldsIndex.Parent = this;
-                FieldsIndex.View = View;
-                FieldsIndex.JsComponentReference = refResult;
-                await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorObject",
-                    CancellationTokenSource.Token, refResult, FieldsIndex.Id);
-                return FieldsIndex;
-            }
+             ModifiedParameters[nameof(FieldsIndex)] = FieldsIndex;
+            FieldsIndex.JsComponentReference = (await CoreJsModule!.InvokeAsync<JsObjectRefWrapper?>(
+                "getObjectRefForProperty", CancellationTokenSource.Token, JsComponentReference, 
+                "fieldsIndex"))?.Value;
         }
-        catch
-        {
-            Console.WriteLine("Failed to deserialize FieldsIndex");
-        }
-#pragma warning disable BL0005
-        FieldsIndex = new FieldsIndex();
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(FieldsIndex)] = FieldsIndex;
+         
         return FieldsIndex;
     }
     
@@ -4020,15 +3990,6 @@ public partial class ImageryLayer : IArcGISImageService,
                 }
                 
                 return true;
-            case FieldsIndex fieldsIndex:
-                if (fieldsIndex != FieldsIndex)
-                {
-                    FieldsIndex = fieldsIndex;
-                    LayerChanged = true;
-                    ModifiedParameters[nameof(FieldsIndex)] = FieldsIndex;
-                }
-                
-                return true;
             case MultidimensionalSubset multidimensionalSubset:
                 if (multidimensionalSubset != MultidimensionalSubset)
                 {
@@ -4079,11 +4040,6 @@ public partial class ImageryLayer : IArcGISImageService,
                 LayerChanged = true;
                 ModifiedParameters[nameof(Capabilities)] = Capabilities;
                 return true;
-            case FieldsIndex _:
-                FieldsIndex = null;
-                LayerChanged = true;
-                ModifiedParameters[nameof(FieldsIndex)] = FieldsIndex;
-                return true;
             case MultidimensionalSubset _:
                 MultidimensionalSubset = null;
                 LayerChanged = true;
@@ -4113,12 +4069,11 @@ public partial class ImageryLayer : IArcGISImageService,
     internal override void ValidateRequiredGeneratedChildren()
     {
     
-        if (Url is null && PortalItem is null)
+        if (PortalItem is null && Url is null)
         {
-            throw new MissingRequiredOptionsChildElementException(nameof(ImageryLayer), [nameof(Url), nameof(PortalItem)]);
+            throw new MissingRequiredOptionsChildElementException(nameof(ImageryLayer), [nameof(PortalItem), nameof(Url)]);
         }
         Capabilities?.ValidateRequiredGeneratedChildren();
-        FieldsIndex?.ValidateRequiredGeneratedChildren();
         MultidimensionalSubset?.ValidateRequiredGeneratedChildren();
         PopupTemplate?.ValidateRequiredGeneratedChildren();
         RasterFunction?.ValidateRequiredGeneratedChildren();

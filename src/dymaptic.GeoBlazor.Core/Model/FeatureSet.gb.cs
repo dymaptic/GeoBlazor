@@ -35,13 +35,18 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FeatureSet.html#spatialReference">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 public partial record FeatureSet(
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? DisplayFieldName = null,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     bool? ExceededTransferLimit = null,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     Graphic[]? Features = null,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     IReadOnlyList<Field>? Fields = null,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     GeometryType? GeometryType = null,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     Geometry? QueryGeometry = null,
-    SpatialReference? SpatialReference = null) : IClosestFacilityParametersFacilities, IClosestFacilityParametersIncidents, IServiceAreaParametersFacilities
-{
-}
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    SpatialReference? SpatialReference = null) : IClosestFacilityParametersFacilities, IClosestFacilityParametersIncidents, IServiceAreaParametersFacilities;
 

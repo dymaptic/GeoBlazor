@@ -20,11 +20,6 @@ public class ListItem: MapComponent
     public Guid? LayerId { get; set; }
 
     /// <summary>
-    ///     Determines whether the layer is visible on load.
-    /// </summary>
-    public bool? Visible { get; set; }
-
-    /// <summary>
     ///     The children items in a layer.
     /// </summary>
     /// <remarks>

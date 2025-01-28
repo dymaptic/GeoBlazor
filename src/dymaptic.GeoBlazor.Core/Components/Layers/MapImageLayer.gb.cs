@@ -2699,9 +2699,9 @@ public partial class MapImageLayer : IArcGISMapService,
     internal override void ValidateRequiredGeneratedChildren()
     {
     
-        if (Url is null && PortalItem is null)
+        if (PortalItem is null && Url is null)
         {
-            throw new MissingRequiredOptionsChildElementException(nameof(MapImageLayer), [nameof(Url), nameof(PortalItem)]);
+            throw new MissingRequiredOptionsChildElementException(nameof(MapImageLayer), [nameof(PortalItem), nameof(Url)]);
         }
         TimeOffset?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();

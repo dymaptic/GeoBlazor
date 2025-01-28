@@ -2433,9 +2433,9 @@ public partial class WCSLayer : IBlendLayer,
     internal override void ValidateRequiredGeneratedChildren()
     {
     
-        if (Url is null && PortalItem is null)
+        if (PortalItem is null && Url is null)
         {
-            throw new MissingRequiredOptionsChildElementException(nameof(WCSLayer), [nameof(Url), nameof(PortalItem)]);
+            throw new MissingRequiredOptionsChildElementException(nameof(WCSLayer), [nameof(PortalItem), nameof(Url)]);
         }
         if (MultidimensionalDefinition is not null)
         {

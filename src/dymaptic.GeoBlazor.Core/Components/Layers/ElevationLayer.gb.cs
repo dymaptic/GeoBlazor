@@ -819,9 +819,9 @@ public partial class ElevationLayer : IArcGISCachedService,
     internal override void ValidateRequiredGeneratedChildren()
     {
     
-        if (Url is null && PortalItem is null)
+        if (PortalItem is null && Url is null)
         {
-            throw new MissingRequiredOptionsChildElementException(nameof(ElevationLayer), [nameof(Url), nameof(PortalItem)]);
+            throw new MissingRequiredOptionsChildElementException(nameof(ElevationLayer), [nameof(PortalItem), nameof(Url)]);
         }
         TileInfo?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();

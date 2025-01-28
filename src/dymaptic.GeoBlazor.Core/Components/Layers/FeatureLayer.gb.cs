@@ -1535,57 +1535,20 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return FieldsIndex;
         }
 
-        // get the JS object reference
-        IJSObjectReference? refResult = (await CoreJsModule!.InvokeAsync<JsObjectRefWrapper?>(
-            "getObjectRefForProperty", CancellationTokenSource.Token, JsComponentReference, 
-            "fieldsIndex"))?.Value;
-            
-        if (refResult is null)
+        // get the property value
+        FieldsIndex? result = await CoreJsModule!.InvokeAsync<FieldsIndex?>("getProperty",
+            CancellationTokenSource.Token, JsComponentReference, "fieldsIndex");
+        if (result is not null)
         {
-            return null;
-        }
-        
-        FieldsIndex? result = null;
-        
-        // Try to deserialize the object. This might fail if we don't have the
-        // all deserialization edge cases handled.
-        try
-        {
-            result = await CoreJsModule.InvokeAsync<FieldsIndex?>(
-                "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
-            if (result is not null)
-            {
 #pragma warning disable BL0005
-                FieldsIndex = result;
+             FieldsIndex = result;
 #pragma warning restore BL0005
-                ModifiedParameters[nameof(FieldsIndex)] = FieldsIndex;
-            }
-            
-            if (FieldsIndex is not null)
-            {
-                FieldsIndex.Parent = this;
-                FieldsIndex.View = View;
-                FieldsIndex.JsComponentReference = refResult;
-                await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorObject",
-                    CancellationTokenSource.Token, refResult, FieldsIndex.Id);
-                return FieldsIndex;
-            }
+             ModifiedParameters[nameof(FieldsIndex)] = FieldsIndex;
+            FieldsIndex.JsComponentReference = (await CoreJsModule!.InvokeAsync<JsObjectRefWrapper?>(
+                "getObjectRefForProperty", CancellationTokenSource.Token, JsComponentReference, 
+                "fieldsIndex"))?.Value;
         }
-        catch
-        {
-            Console.WriteLine("Failed to deserialize FieldsIndex");
-        }
-#pragma warning disable BL0005
-        FieldsIndex = new FieldsIndex();
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(FieldsIndex)] = FieldsIndex;
-        FieldsIndex.Parent = this;
-        FieldsIndex.View = View;
-        FieldsIndex.JsComponentReference = refResult;
-        // register this type in JS
-        await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorObject",
-            CancellationTokenSource.Token, refResult, FieldsIndex.Id);
-        await FieldsIndex.GetProperty<IReadOnlyList<Field>>(nameof(FieldsIndex.DateFields));
+         
         return FieldsIndex;
     }
     
@@ -5071,15 +5034,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
                 }
                 
                 return true;
-            case FieldsIndex fieldsIndex:
-                if (fieldsIndex != FieldsIndex)
-                {
-                    FieldsIndex = fieldsIndex;
-                    LayerChanged = true;
-                    ModifiedParameters[nameof(FieldsIndex)] = FieldsIndex;
-                }
-                
-                return true;
             case LayerFloorInfo floorInfo:
                 if (floorInfo != FloorInfo)
                 {
@@ -5226,11 +5180,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
                 LayerChanged = true;
                 ModifiedParameters[nameof(Fields)] = Fields;
                 return true;
-            case FieldsIndex _:
-                FieldsIndex = null;
-                LayerChanged = true;
-                ModifiedParameters[nameof(FieldsIndex)] = FieldsIndex;
-                return true;
             case LayerFloorInfo _:
                 FloorInfo = null;
                 LayerChanged = true;
@@ -5300,9 +5249,9 @@ public partial class FeatureLayer : IAPIKeyMixin,
     internal override void ValidateRequiredGeneratedChildren()
     {
     
-        if (Url is null && PortalItem is null && (Source is null || Source.Count == 0))
+        if (PortalItem is null && (Source is null || Source.Count == 0) && Url is null)
         {
-            throw new MissingRequiredOptionsChildElementException(nameof(FeatureLayer), [nameof(Url), nameof(PortalItem), nameof(Source)]);
+            throw new MissingRequiredOptionsChildElementException(nameof(FeatureLayer), [nameof(PortalItem), nameof(Source), nameof(Url)]);
         }
         DynamicDataSource?.ValidateRequiredGeneratedChildren();
         EffectiveCapabilities?.ValidateRequiredGeneratedChildren();
@@ -5315,7 +5264,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
                 child.ValidateRequiredGeneratedChildren();
             }
         }
-        FieldsIndex?.ValidateRequiredGeneratedChildren();
         FloorInfo?.ValidateRequiredGeneratedChildren();
         FormTemplate?.ValidateRequiredGeneratedChildren();
         if (LabelingInfo is not null)

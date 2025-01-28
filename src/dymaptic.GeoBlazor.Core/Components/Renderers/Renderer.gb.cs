@@ -90,5 +90,49 @@ public abstract partial class Renderer
     }
     
 #endregion
+
+
+
+
+
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case AuthoringInfo authoringInfo:
+                if (authoringInfo != AuthoringInfo)
+                {
+                    AuthoringInfo = authoringInfo;
+                    
+                    ModifiedParameters[nameof(AuthoringInfo)] = AuthoringInfo;
+                }
+                
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case AuthoringInfo _:
+                AuthoringInfo = null;
+                
+                ModifiedParameters[nameof(AuthoringInfo)] = AuthoringInfo;
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
     
+    /// <inheritdoc />
+    internal override void ValidateRequiredGeneratedChildren()
+    {
+    
+        AuthoringInfo?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
+      
 }

@@ -10,7 +10,8 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     default []
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FieldsIndex.html#dateFields">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
-public partial record FieldsIndex(IReadOnlyList<Field>? DateFields = null)
+public partial record FieldsIndex(
+    IReadOnlyList<Field>? DateFields = null)
 {
     /// <summary>
     ///     An array of date fields or field json objects.

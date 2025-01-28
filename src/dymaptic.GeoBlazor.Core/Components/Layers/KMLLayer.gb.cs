@@ -809,9 +809,9 @@ public partial class KMLLayer : IBlendLayer,
     internal override void ValidateRequiredGeneratedChildren()
     {
     
-        if (Url is null && PortalItem is null)
+        if (PortalItem is null && Url is null)
         {
-            throw new MissingRequiredOptionsChildElementException(nameof(KMLLayer), [nameof(Url), nameof(PortalItem)]);
+            throw new MissingRequiredOptionsChildElementException(nameof(KMLLayer), [nameof(PortalItem), nameof(Url)]);
         }
         if (Sublayers is not null)
         {

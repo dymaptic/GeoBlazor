@@ -21,22 +21,22 @@ public partial class MultidimensionalSubset
     /// <summary>
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
-    /// <param name="subsetDefinitions">
-    ///     The variable and dimension subset definitions to set the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-MultidimensionalSubset.html#subsetDefinitions">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
     /// <param name="areaOfInterest">
     ///     The spatial area of interest.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-MultidimensionalSubset.html#areaOfInterest">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="subsetDefinitions">
+    ///     The variable and dimension subset definitions to set the layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-MultidimensionalSubset.html#subsetDefinitions">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     public MultidimensionalSubset(
-        IReadOnlyList<DimensionalDefinition> subsetDefinitions,
-        Geometry? areaOfInterest = null)
+        Geometry? areaOfInterest = null,
+        IReadOnlyList<DimensionalDefinition>? subsetDefinitions = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
-        SubsetDefinitions = subsetDefinitions;
         AreaOfInterest = areaOfInterest;
+        SubsetDefinitions = subsetDefinitions;
 #pragma warning restore BL0005    
     }
     

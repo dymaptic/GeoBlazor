@@ -2,8 +2,196 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
+
 /// <summary>
 ///    Describes the class breaks generated for this field.
 ///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#field1">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial class AuthoringInfoField1ClassBreakInfos : MapComponent;
+public partial class AuthoringInfoField1ClassBreakInfos : MapComponent
+{
+
+    /// <summary>
+    ///     Parameterless constructor for use as a Razor Component.
+    /// </summary>
+    [ActivatorUtilitiesConstructor]
+    public AuthoringInfoField1ClassBreakInfos()
+    {
+    }
+
+    /// <summary>
+    ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
+    /// </summary>
+    /// <param name="maxValue">
+    ///     The maximum bound of values to visualize in the given field.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#field1">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="minValue">
+    ///     The minimum bound of values to visualize in the given field.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#field1">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    public AuthoringInfoField1ClassBreakInfos(
+        double? maxValue = null,
+        double? minValue = null)
+    {
+        AllowRender = false;
+#pragma warning disable BL0005
+        MaxValue = maxValue;
+        MinValue = minValue;
+#pragma warning restore BL0005    
+    }
+    
+    
+#region Public Properties / Blazor Parameters
+
+    /// <summary>
+    ///     The maximum bound of values to visualize in the given field.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#field1">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public double? MaxValue { get; set; }
+    
+    /// <summary>
+    ///     The minimum bound of values to visualize in the given field.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html#field1">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public double? MinValue { get; set; }
+    
+#endregion
+
+#region Property Getters
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the MaxValue property.
+    /// </summary>
+    public async Task<double?> GetMaxValue()
+    {
+        if (CoreJsModule is null)
+        {
+            return MaxValue;
+        }
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+            "getJsComponent", CancellationTokenSource.Token, Id);
+        if (JsComponentReference is null)
+        {
+            return MaxValue;
+        }
+
+        // get the property value
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+            CancellationTokenSource.Token, JsComponentReference, "maxValue");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             MaxValue = result.Value;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(MaxValue)] = MaxValue;
+        }
+         
+        return MaxValue;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the MinValue property.
+    /// </summary>
+    public async Task<double?> GetMinValue()
+    {
+        if (CoreJsModule is null)
+        {
+            return MinValue;
+        }
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+            "getJsComponent", CancellationTokenSource.Token, Id);
+        if (JsComponentReference is null)
+        {
+            return MinValue;
+        }
+
+        // get the property value
+        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+            CancellationTokenSource.Token, JsComponentReference, "minValue");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             MinValue = result.Value;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(MinValue)] = MinValue;
+        }
+         
+        return MinValue;
+    }
+    
+#endregion
+
+#region Property Setters
+
+    /// <summary>
+    ///    Asynchronously set the value of the MaxValue property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetMaxValue(double value)
+    {
+#pragma warning disable BL0005
+        MaxValue = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(MaxValue)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
+            CancellationTokenSource.Token, Id);
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "maxValue", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the MinValue property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetMinValue(double value)
+    {
+#pragma warning disable BL0005
+        MinValue = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(MinValue)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
+            CancellationTokenSource.Token, Id);
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "minValue", value);
+    }
+    
+#endregion
+
+
+
+
+}

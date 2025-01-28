@@ -195,10 +195,7 @@ public partial class ImageryTileLayer : IBlendLayer,
         ListMode = listMode;
         MaxScale = maxScale;
         MinScale = minScale;
-        if (multidimensionalDefinition is not null)
-        {
-            MultidimensionalDefinition = multidimensionalDefinition;
-        }
+        MultidimensionalDefinition = multidimensionalDefinition;
         MultidimensionalSubset = multidimensionalSubset;
         PersistenceEnabled = persistenceEnabled;
         PopupEnabled = popupEnabled;
@@ -2446,9 +2443,9 @@ public partial class ImageryTileLayer : IBlendLayer,
     internal override void ValidateRequiredGeneratedChildren()
     {
     
-        if (Url is null && PortalItem is null)
+        if (PortalItem is null && Url is null)
         {
-            throw new MissingRequiredOptionsChildElementException(nameof(ImageryTileLayer), [nameof(Url), nameof(PortalItem)]);
+            throw new MissingRequiredOptionsChildElementException(nameof(ImageryTileLayer), [nameof(PortalItem), nameof(Url)]);
         }
         if (MultidimensionalDefinition is not null)
         {

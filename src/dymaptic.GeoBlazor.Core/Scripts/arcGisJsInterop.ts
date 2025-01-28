@@ -3002,6 +3002,11 @@ export async function getObjectReference(objectRef: any) {
             let { default: WebTileLayerWrapper } = await import('./webTileLayer');
             return new WebTileLayerWrapper(objectRef);
         }
+        let { default: TileLayer } = await import ('@arcgis/core/layers/TileLayer');
+        if (objectRef instanceof TileLayer) {
+            let { default: TileLayerWrapper } = await import('./tileLayer');
+            return new TileLayerWrapper(objectRef);
+        }
         // return default arcgis object -- do not remove this comment, necessary for code-gen
         return objectRef;
     }
