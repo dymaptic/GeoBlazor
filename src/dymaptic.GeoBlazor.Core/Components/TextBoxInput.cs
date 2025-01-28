@@ -1,10 +1,10 @@
-namespace dymaptic.GeoBlazor.Core.Model;
+namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
-///     The TextBoxInput r defiecordnes the desired user interface as a single-line text box.
+///     The TextBoxInput class defines the desired user interface as a single-line text box.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-form-elements-inputs-TextBoxInput.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public record TextBoxInput : FormInput
+public class TextBoxInput : FormInput
 {
     /// <inheritdoc/>
     public override string Type => "text-box";
