@@ -5,7 +5,7 @@ import PopupTemplate from "@arcgis/core/PopupTemplate";
 import {
     arcGisObjectRefs,
     createLayer,
-    copyValuesIfExists, graphicsRefs, popupTemplateRefs, dotNetRefs
+    copyValuesIfExists, popupTemplateRefs, dotNetRefs, lookupGraphicById
 } from "./arcGisJsInterop";
 import Geometry from "@arcgis/core/geometry/Geometry";
 import Point from "@arcgis/core/geometry/Point";
@@ -30,19 +30,11 @@ import RasterColormapRenderer from "@arcgis/core/renderers/RasterColormapRendere
 import VectorFieldRenderer from "@arcgis/core/renderers/VectorFieldRenderer.js";
 import FlowRenderer from "@arcgis/core/renderers/FlowRenderer.js";
 import ClassBreaksRenderer from "@arcgis/core/renderers/ClassBreaksRenderer.js";
-import ClassBreakInfo from "@arcgis/core/renderers/support/ClassBreakInfo.js";
 import UniqueValueRenderer from "@arcgis/core/renderers/UniqueValueRenderer.js";
 import ColormapInfo from "@arcgis/core/renderers/support/ColormapInfo.js";
 import MultidimensionalSubset from "@arcgis/core/layers/support/MultidimensionalSubset.js";
-import PolygonSymbol3D from "@arcgis/core/symbols/PolygonSymbol3D.js";
-import FieldsIndex from "@arcgis/core/layers/support/FieldsIndex.js";
-import UniqueValue from "@arcgis/core/renderers/support/UniqueValue.js";
 import UniqueValueInfo from "@arcgis/core/renderers/support/UniqueValueInfo.js";
-import UniqueValueClass from "@arcgis/core/renderers/support/UniqueValueClass.js";
-import UniqueValueGroup from "@arcgis/core/renderers/support/UniqueValueGroup.js";
 import {
-    DotNetApplyEdits,
-    DotNetAttachmentsEdit,
     DotNetAttachmentsPopupContent,
     DotNetBarChartMediaInfo,
     DotNetBookmark,
@@ -139,8 +131,8 @@ import ViewClickEvent = __esri.ViewClickEvent;
 import PopupOpenOptions = __esri.PopupOpenOptions;
 import PopupDockOptions = __esri.PopupDockOptions;
 import ContentProperties = __esri.ContentProperties;
-import FeatureLayerBaseApplyEditsEdits = __esri.FeatureLayerBaseApplyEditsEdits;
-import AttachmentEdit = __esri.AttachmentEdit;
+
+
 import CodedValue = __esri.CodedValue;
 import SearchSourceFilter = __esri.SearchSourceFilter;
 import SearchResult = __esri.SearchResult;
@@ -205,11 +197,10 @@ export function buildJsExtent(dotNetExtent: DotNetExtent, currentSpatialReferenc
     return extent;
 }
 
-export function buildJsGraphic(graphicObject: any, viewId: string | null)
+export function buildJsGraphic(graphicObject: any, layerId: string | null, viewId: string | null)
     : Graphic | null {
-    let graphic: Graphic;
-    if (graphicsRefs.hasOwnProperty(graphicObject.id)) {
-        graphic = graphicsRefs[graphicObject.id];
+    let graphic: Graphic | null = lookupGraphicById(graphicObject.id, layerId, viewId);
+    if (graphic !== null) {
         graphic.geometry = buildJsGeometry(graphicObject.geometry) as Geometry ?? graphic.geometry;
         graphic.symbol = buildJsSymbol(graphicObject.symbol) as Symbol ?? graphic.symbol;
     } else {
@@ -729,7 +720,11 @@ export function buildJsImageryRenderer(dnRenderer: any) {
 
 export function buildJsUniqueValueRenderer(dnUniqueValueRenderer: DotNetUniqueValueRenderer): UniqueValueRenderer | null {
     if (dnUniqueValueRenderer === undefined) return null;
-    let uniqueValueRenderer = new UniqueValueRenderer();
+    
+    // Setting this by calling the class constructor breaks the Legend widget for some reason.
+    let uniqueValueRenderer: any = {
+        type: 'unique-value'
+    };
     if (hasValue(dnUniqueValueRenderer.backgroundFillSymbol)) {
         if (dnUniqueValueRenderer.backgroundFillSymbol.type == "FillSymbol") {
             uniqueValueRenderer.backgroundFillSymbol = buildJsSymbol(dnUniqueValueRenderer.backgroundFillSymbol) as SimpleFillSymbol;
@@ -738,13 +733,20 @@ export function buildJsUniqueValueRenderer(dnUniqueValueRenderer: DotNetUniqueVa
     }
 
     copyValuesIfExists(dnUniqueValueRenderer, uniqueValueRenderer, 'defaultLabel', 'field', 'field2', 'field3',
-        'fieldDelimiter', 'legendOptions', 'orderByClassesEnabled', 'valueExpression', 'valueExpressionTitle');
+        'fieldDelimiter', 'orderByClassesEnabled', 'valueExpression', 'valueExpressionTitle');
 
+    if (hasValue(dnUniqueValueRenderer.legendOptions)) {
+        uniqueValueRenderer.legendOptions = {
+            title: dnUniqueValueRenderer.legendOptions.title
+        };
+    }
+    
     if (hasValue(dnUniqueValueRenderer.defaultSymbol?.symbol)) {
         uniqueValueRenderer.defaultSymbol = buildJsSymbol(dnUniqueValueRenderer.defaultSymbol.symbol) as Symbol;
     }
 
     if (hasValue(dnUniqueValueRenderer.uniqueValueInfos) && dnUniqueValueRenderer.uniqueValueInfos.length > 0) {
+        uniqueValueRenderer.uniqueValueInfos = [];
         for (let i = 0; i < dnUniqueValueRenderer.uniqueValueInfos.length; i++) {
             let dnUniqueValueInfo = dnUniqueValueRenderer.uniqueValueInfos[i];
             let uniqueValueInfo = new UniqueValueInfo();
@@ -1184,7 +1186,7 @@ export async function buildJsPopup(dotNetPopup: any, viewId: string): Promise<Po
         let features: Graphic[] = [];
         for (const f of dotNetPopup.features) {
             delete f.dotNetGraphicReference;
-            let graphic = buildJsGraphic(f, viewId) as Graphic;
+            let graphic = buildJsGraphic(f, f.layerId, viewId) as Graphic;
             features.push(graphic);
         }
         popup.features = features;
@@ -1243,7 +1245,7 @@ export async function buildJsPopupOptions(dotNetPopupOptions: any): Promise<Popu
     if (hasValue(dotNetPopupOptions.features)) {
         let features: Graphic[] = [];
         for (const f of dotNetPopupOptions.features) {
-            let graphic = buildJsGraphic(f, null) as Graphic;
+            let graphic = buildJsGraphic(f, f.layerId, null) as Graphic;
             graphic.layer = arcGisObjectRefs[f.layerId] as Layer;
             features.push(graphic);
         }
@@ -1476,23 +1478,6 @@ export function buildJsPortalItem(dotNetPortalItem: any): any {
     return portalItem;
 }
 
-export function buildJsApplyEdits(dotNetApplyEdits: DotNetApplyEdits, viewId: string): FeatureLayerBaseApplyEditsEdits {
-    let addFeatures = dotNetApplyEdits.addFeatures?.map(f => buildJsGraphic(f, viewId)!);
-    let deleteFeatures = dotNetApplyEdits.deleteFeatures?.map(f => buildJsGraphic(f, viewId)!);
-    let updateFeatures = dotNetApplyEdits.updateFeatures?.map(f => buildJsGraphic(f, viewId)!);
-    let addAttachments = dotNetApplyEdits.addAttachments?.map(a => buildJsAttachmentEdit(a, viewId)!);
-    let updateAttachments = dotNetApplyEdits.updateAttachments?.map(a => buildJsAttachmentEdit(a, viewId)!);
-
-    return {
-        addFeatures: addFeatures ?? undefined,
-        deleteFeatures: deleteFeatures ?? undefined,
-        updateFeatures: updateFeatures ?? undefined,
-        addAttachments: addAttachments ?? undefined,
-        updateAttachments: updateAttachments ?? undefined,
-        deleteAttachments: dotNetApplyEdits.deleteAttachments ?? undefined
-    };
-}
-
 export function buildJsFormTemplate(dotNetFormTemplate: any): FormTemplate {
     let formTemplate = new FormTemplate({
         title: dotNetFormTemplate.title ?? undefined,
@@ -1642,13 +1627,6 @@ function buildJsFormInput(dotNetFormInput: any): any {
     return undefined;
 }
 
-export function buildJsAttachmentEdit(dotNetAttachmentEdit: DotNetAttachmentsEdit, viewId: string): AttachmentEdit {
-    return {
-        feature: buildJsGraphic(dotNetAttachmentEdit.feature, viewId)!,
-        attachment: dotNetAttachmentEdit.attachment
-    };
-}
-
 function buildJsColor(color: any) {
     if (!hasValue(color)) return null;
     // @ts-ignore
@@ -1714,7 +1692,7 @@ export function buildJsFeatureTemplate(dnFeatureTemplate: DotNetFeatureTemplate,
         description: dnFeatureTemplate.description,
         drawingTool: dnFeatureTemplate.drawingTool as any,
         thumbnail: dnFeatureTemplate.thumbnail as any,
-        prototype: buildJsGraphic(dnFeatureTemplate.prototype, viewId)
+        prototype: buildJsGraphic(dnFeatureTemplate.prototype, null, viewId)
     } as FeatureTemplate
 }
 
@@ -1832,7 +1810,7 @@ export async function buildJsSearchSource(dotNetSource: any, viewId: string): Pr
                     name: dnResult.name ?? undefined,
                 };
                 if (hasValue(dnResult.feature)) {
-                    result.feature = buildJsGraphic(dnResult.feature, viewId) as Graphic;
+                    result.feature = buildJsGraphic(dnResult.feature, dnResult.feature?.layerId, viewId) as Graphic;
                 }
                 results.push(result);
             }
@@ -1997,7 +1975,7 @@ export function buildJsFeatureSet(dnFs: DotNetFeatureSet, viewId: string | null)
     copyValuesIfExists(dnFs, jsFeatureSet, 'displayFieldName', 'exceededTransferLimit',
         'geometryType');
     if (hasValue(dnFs.features)) {
-        jsFeatureSet.features = dnFs.features.map(f => buildJsGraphic(f, viewId) as Graphic);
+        jsFeatureSet.features = dnFs.features.map(f => buildJsGraphic(f, f.layerId, viewId) as Graphic);
     }
     if (hasValue(dnFs.fields)) {
         jsFeatureSet.fields = dnFs.fields.map(f => buildJsField(f));

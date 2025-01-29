@@ -228,6 +228,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     public async Task SetVisibility(bool visible)
     {
         await JsModule!.InvokeVoidAsync("setVisibility", CancellationTokenSource.Token, Id, visible);
+        ModifiedParameters["Visible"] = visible;
         Visible = visible;
     }
 

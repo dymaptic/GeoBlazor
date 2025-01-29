@@ -32,7 +32,7 @@ ArcGIS JavaScript API, but without having to write a single line of JavaScript.
    Manager or `dotnet add package dymaptic.GeoBlazor.Core`. For Blazor Web Apps supporting WebAssembly, add this
    reference to the `.Client` WebAssembly project.
 3. The ArcGIS API requires some form of authentication. The simplest is to use an API Key. Generate a key from
-   the [ArcGIS Developer Dashboard](https://developers.arcgis.com/api-keys/). For Blazor Server, place it in your
+   the [ArcGIS Portal](https://developers.arcgis.com/documentation/security-and-authentication/api-key-authentication/). For Blazor Server, place it in your
    appsettings.json, like this:
 
    ```json

@@ -54,24 +54,24 @@
     public async Task TestCanTakeScreenshot(Action renderHandler)
     {
         MapView? view = null;
-        AddMapRenderFragment(
-            @<MapView @ref="view" class="map-view" OnViewRendered="renderHandler">
-                <Map>
-                    <Basemap>
-                        <BasemapStyle Name="BasemapStyleName.ArcgisNavigation" />
-                    </Basemap>
-                </Map>
-            </MapView>);
+
+        AddMapRenderFragment(@<MapView @ref="view" class="map-view" OnViewRendered="renderHandler">
+                                 <Map>
+                                     <Basemap>
+                                         <BasemapStyle Name="BasemapStyleName.ArcgisNavigation" />
+                                     </Basemap>
+                                 </Map>
+                             </MapView>);
         await WaitForMapToRender();
-        
+
         Screenshot screenshot = await view!.TakeScreenshot();
         Assert.IsNotNull(screenshot);
         Assert.IsNotNull(screenshot.DataUrl);
         Assert.IsTrue(screenshot.DataUrl.StartsWith("data:image/png;base64,"));
-        
+
         AddMapRenderFragment(@<img id="screenshot1" src="@screenshot.DataUrl" alt="screenshot" />);
-        StateHasChanged();
-        await Task.Yield();
+        await InvokeAsync(StateHasChanged);
+        await Task.Delay(1);
         await AssertJavaScript("assertImageExists", args: ["screenshot1"]);
     }
 
@@ -108,8 +108,8 @@
         Assert.IsTrue(screenshot.DataUrl.StartsWith("data:image/jpg;base64,"));
         
         AddMapRenderFragment(@<img id="screenshot2" src="@screenshot.DataUrl" alt="screenshot" />);
-        StateHasChanged();
-        await Task.Yield();
+        await InvokeAsync(StateHasChanged);
+        await Task.Delay(1);
         await AssertJavaScript("assertImageExists", args: ["screenshot2"]);
     }
 }
