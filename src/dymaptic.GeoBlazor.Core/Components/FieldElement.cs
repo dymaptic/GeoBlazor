@@ -1,4 +1,4 @@
-namespace dymaptic.GeoBlazor.Core.Model;
+namespace dymaptic.GeoBlazor.Core.Components;
 /// <summary>
 ///     A FieldElement form element defines how a feature layer's field participates in the FeatureForm. This is the recommended approach to set field configurations within a feature form's or feature layer's formTemplate.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-form-elements-FieldElement.html">ArcGIS Maps SDK for JavaScript</a>

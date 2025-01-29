@@ -1,4 +1,4 @@
-namespace dymaptic.GeoBlazor.Core.Components.Widgets;
+namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     Form elements define what should display within the FormTemplate elements. There are three specific element types:

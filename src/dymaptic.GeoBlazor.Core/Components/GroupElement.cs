@@ -1,4 +1,4 @@
-namespace dymaptic.GeoBlazor.Core.Model;
+namespace dymaptic.GeoBlazor.Core.Components;
 /// <summary>
 ///     A GroupElement form element defines a container that holds a set of form elements that can be expanded, collapsed, or displayed together. This is the preferred way to set grouped field configurations within a FeatureForm or Featurelayer formTemplate.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-form-elements-GroupElement.html">ArcGIS Maps SDK for JavaScript</a>
