@@ -5,3 +5,13 @@ namespace dymaptic.GeoBlazor.Core.Serialization;
 ///     https://github.com/dotnet/aspnetcore/issues/52070
 /// </summary>
 internal record struct JsObjectRefWrapper(IJSObjectReference? Value);
+
+internal record struct JsNullableDoubleWrapper(double? Value);
+
+internal record struct JsNullableFloatWrapper(float? Value);
+
+internal record struct JsNullableIntWrapper(int? Value);    
+
+internal record struct JsNullableBoolWrapper(bool? Value);
+
+internal record struct JsNullableDateTimeWrapper(DateTime? Value);

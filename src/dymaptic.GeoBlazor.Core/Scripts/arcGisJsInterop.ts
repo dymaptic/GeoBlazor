@@ -242,6 +242,14 @@ export async function getProperty(obj: any, prop: string): Promise<any> {
     return null;
 }
 
+// nullable value types cannot be correctly deserialized directly with the current Blazor implementation, so we have to wrap them
+export async function getNullableValueTypedProperty(obj: any, prop: string): Promise<any> {
+    let val = await getProperty(obj, prop);
+    return {
+        value: val
+    };
+}
+
 export async function setProperty(obj: any, prop: string, value: any): Promise<void> {
     if ('setProperty' in obj) {
         obj.setProperty(prop, value);
