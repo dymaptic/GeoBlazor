@@ -374,10 +374,11 @@ else
         _homeWidgetVisible = true;
     }
 
-    private Task<ListItem> OnListItemCreated(ListItem item)
+    private async Task<ListItem> OnListItemCreated(ListItem item)
     {
-        item.Visible = false;
-        return Task.Run(() => item);
+        await item.SetVisibility(false);
+
+        return item;
     }
 
     private async Task AttachZoomWatcher()

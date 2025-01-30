@@ -1,11 +1,7 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
-/// <summary>
-///     Form elements define what should display within the FormTemplate elements. There are three specific element types:
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-form-elements-Element.html">ArcGIS Maps SDK for JavaScript</a>
-/// </summary>
 [JsonConverter(typeof(FormElementConverter))]
-public abstract class FormElement: MapComponent
+public abstract partial class FormElement: MapComponent
 {
     /// <summary>
     ///     The element's description providing the purpose behind it.

@@ -67,7 +67,7 @@
             await _layer.SetRenderer(new RasterStretchRenderer(new AlgorithmicColorRamp(Algorithm.CieLab,
                 new MapColor(0, 0, 0, 0), new MapColor(0, 0, 0, 1)),
                 stretchType: _stretchType, 
-                statistics: [new RasterBandStatistics(min: 120, max: 3068, avg: 400, stddev: 700)]));
+                statistics: [new RasterBandStatistics(Min: 120, Max: 3068, Avg: 400, Stddev: 700)]));
             _layer.LayerChanged = true;
             _rasterInfo = await _layer.GetServiceRasterInfo();
             StateHasChanged();
@@ -81,7 +81,7 @@
 
     private async Task UpdateRenderer(double[] values)
     {
-        var bandStat = _rasterInfo!.Statistics![0];
+        var bandStat = _rasterInfo!.Statistics!.First();
         RasterStretchRenderer newRenderer;
         switch (_stretchType)
         {
@@ -89,15 +89,15 @@
                 newRenderer = new RasterStretchRenderer(new AlgorithmicColorRamp(Algorithm.CieLab,
                         new MapColor(0, 0, 0, 0), new MapColor(0, 0, 0, 1)),
                     stretchType: _stretchType, 
-                    statistics: [new RasterBandStatistics(bandStat.Avg, max: values[1], min: values[0], stddev: bandStat.Stddev)]);
+                    statistics: [new RasterBandStatistics(bandStat.Avg, Max: values[1], Min: values[0], Stddev: bandStat.Stddev)]);
 
                 break;
             default:
                 newRenderer = new RasterStretchRenderer(new AlgorithmicColorRamp(Algorithm.CieLab,
                         new MapColor(0, 0, 0, 0), new MapColor(0, 0, 0, 1)),
                     stretchType: _stretchType, 
-                    statistics: [new RasterBandStatistics(bandStat.Avg, max: bandStat.Max, min: bandStat.Min, 
-                        stddev: bandStat.Stddev)],
+                    statistics: [new RasterBandStatistics(bandStat.Avg, Max: bandStat.Max, Min: bandStat.Min, 
+                        Stddev: bandStat.Stddev)],
                 numberOfStandardDeviations: (int)values[0]);
 
                 break;

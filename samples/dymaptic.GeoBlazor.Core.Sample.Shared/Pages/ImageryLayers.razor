@@ -1,5 +1,4 @@
 ﻿@page "/imagerylayer"
-@using dymaptic.GeoBlazor.Core.Functions
 
 <h3>Imagery Layers</h3>
 
@@ -11,8 +10,8 @@
 <InputText @bind-Value="_imageryLayerUrl"></InputText>
 <br />
 <Label>Click the buttons below to see the different ways to display a Imagery layer</Label>
-<button disabled="@(!_mapRendered)" @onclick="(()=>AddRemoveImageryLayer())">Add or Remove Imagery Layer in code</button>
-<button disabled="@(!_mapRendered)" @onclick="(()=>_markup = !_markup)">Add new Imagery Layer in Markup</button>
+<button disabled="@(!_mapRendered)" @onclick="AddRemoveImageryLayer">Add or Remove Imagery Layer in code</button>
+<button disabled="@(!_mapRendered)" @onclick="()=>_markup = !_markup">Add new Imagery Layer in Markup</button>
 
 <MapView @ref="_view" class="map-view"
          OnViewRendered="OnViewRendered">

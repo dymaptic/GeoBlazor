@@ -466,6 +466,16 @@ public partial class FormTemplate
     {
         switch (child)
         {
+            case FormElement elements:
+                Elements ??= [];
+                if (!Elements.Contains(elements))
+                {
+                    Elements = [..Elements, elements];
+                    
+                    ModifiedParameters[nameof(Elements)] = Elements;
+                }
+                
+                return true;
             case ExpressionInfo expressionInfos:
                 ExpressionInfos ??= [];
                 if (!ExpressionInfos.Contains(expressionInfos))
@@ -485,6 +495,11 @@ public partial class FormTemplate
     {
         switch (child)
         {
+            case FormElement elements:
+                Elements = Elements?.Where(e => e != elements).ToList();
+                
+                ModifiedParameters[nameof(Elements)] = Elements;
+                return true;
             case ExpressionInfo expressionInfos:
                 ExpressionInfos = ExpressionInfos?.Where(e => e != expressionInfos).ToList();
                 
@@ -499,6 +514,13 @@ public partial class FormTemplate
     internal override void ValidateRequiredGeneratedChildren()
     {
     
+        if (Elements is not null)
+        {
+            foreach (FormElement child in Elements)
+            {
+                child.ValidateRequiredGeneratedChildren();
+            }
+        }
         if (ExpressionInfos is not null)
         {
             foreach (ExpressionInfo child in ExpressionInfos)
