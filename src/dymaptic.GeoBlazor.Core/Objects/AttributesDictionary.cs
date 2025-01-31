@@ -73,7 +73,10 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>, IEnumerabl
                 }
                 _backingDictionary[kvp.Key] = (typedValue ?? default(object?))!;
             }
-            _backingDictionary[kvp.Key] = kvp.Value;
+            else
+            {
+                _backingDictionary[kvp.Key] = kvp.Value;
+            }
         }
     }
 
