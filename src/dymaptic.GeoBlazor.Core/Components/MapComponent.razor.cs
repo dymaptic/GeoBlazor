@@ -124,6 +124,9 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     /// </summary>
     public virtual async ValueTask DisposeAsync()
     {
+        await CancellationTokenSource.CancelAsync();
+        IsDisposed = true;
+        
         if (Parent is not null && _registered)
         {
             if (await Parent.UnregisterGeneratedChildComponent(this))
@@ -177,9 +180,6 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         {
             await JsComponentReference.DisposeAsync();
         }
-
-        await CancellationTokenSource.CancelAsync();
-        IsDisposed = true;
     }
 
     /// <summary>
@@ -834,6 +834,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     [JSInvokable]
     public virtual async Task OnJsComponentCreated(IJSObjectReference jsComponentReference)
     {
+        Console.WriteLine($"OnJsComponentCreated called for {GetType().Name}");
         JsComponentReference = jsComponentReference;
         PropertyInfo[] arcGisProps = GetType()
             .GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
@@ -841,9 +842,9 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
                 && p.GetCustomAttribute<ArcGISPropertyAttribute>() is not null)
             .ToArray();
 
-        foreach (PropertyInfo prop in arcGisProps)
+        await Parallel.ForEachAsync(arcGisProps, CancellationTokenSource.Token, async (prop, token) =>
         {
-            if (IsDisposed)
+            if (IsDisposed || token.IsCancellationRequested)
             {
                 return;
             }
@@ -861,15 +862,14 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
             catch (TaskCanceledException)
             {
                 // do nothing, task was cancelled
-                return;
+                await CancellationTokenSource.CancelAsync();
             }
             catch(Exception ex)
             {
                 Console.WriteLine(ex);
-
-                return;
+                await CancellationTokenSource.CancelAsync();
             }
-        }
+        });
     }
 
     /// <summary>

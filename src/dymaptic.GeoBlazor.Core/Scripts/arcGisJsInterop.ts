@@ -117,7 +117,7 @@ import Map from "@arcgis/core/Map";
 import MapImageLayer from "@arcgis/core/layers/MapImageLayer";
 import MapView from "@arcgis/core/views/MapView";
 import Measurement from "@arcgis/core/widgets/Measurement";
-import {normalizeUtils} from "@arcgis/core/geometry/support/normalizeUtils";
+import normalizeUtils from "@arcgis/core/geometry/support/normalizeUtils";
 import OpenStreetMapLayer from "@arcgis/core/layers/OpenStreetMapLayer";
 import Point from "@arcgis/core/geometry/Point";
 import Polygon from "@arcgis/core/geometry/Polygon";
@@ -3088,33 +3088,29 @@ export function copyValuesIfExists(originalObject: any, newObject: any, ...param
     });
 }
 
-let geoblazorOnlyProps = ["id", "dotNetComponentReference"]
-
-export async function createArcGISObject(geoBlazorObject: any, newArcGISObject: any): Promise<any> {
+export async function createGeoBlazorObject(arcGisObject: any, newGeoBlazorObject: any = {}): Promise<any> {
     try {
-        let existingArcGISObject = arcGisObjectRefs[geoBlazorObject.id];
-        if (hasValue(existingArcGISObject)) {
-            await copyValuesToArcGIS(geoBlazorObject, existingArcGISObject);
-            return existingArcGISObject;
-        }
-
-        if ('fromJSON' in newArcGISObject) {
-            try {
-                newArcGISObject = newArcGISObject.fromJSON(JSON.stringify(geoBlazorObject));
-            } catch (error) {
-                console.debug(error);
-                await copyValuesToArcGIS(geoBlazorObject, newArcGISObject);
+        if ('items' in arcGisObject) {
+            let items = arcGisObject.items;
+            for (let i = 0; i < items.length; i++) {
+                let item = items[i];
+                let newItem = {};
+                await createGeoBlazorObject(item, newItem);
+                newGeoBlazorObject.items.push(newItem);
             }
-        } else {
-            await copyValuesToArcGIS(geoBlazorObject, newArcGISObject);
+            return newGeoBlazorObject;
+        }
+        if ('toJSON' in arcGisObject) {
+            try {
+                newGeoBlazorObject = arcGisObject.toJSON();
+                return newGeoBlazorObject;
+            } catch (error) {
+                logError(error, null);
+            }
         }
 
-        let objectRef = await getObjectReference(newArcGISObject);
-        arcGisObjectRefs[geoBlazorObject.id] = newArcGISObject;
-        // @ts-ignore
-        let jsRef = DotNet.createJSObjectReference(objectRef);
-        await geoBlazorObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsRef);
-        return newArcGISObject;
+        await copyValuesToGeoBlazor(arcGisObject, newGeoBlazorObject);
+        return newGeoBlazorObject;
     } catch (error) {
         logError(error, null);
         return null;
