@@ -1917,10 +1917,10 @@ export async function addWidget(widget: any, viewId: string, setInContainerByDef
         if (hasValue(widget.containerId) && !hasValue(newWidget.container)) {
             let container = document.getElementById(widget.containerId);
             let innerContainer = document.createElement('div');
-            innerContainer.id = `widget-${widget.type}`;
-            let existingWidget = document.getElementById(`widget-${widget.type}`);
-            if (existingWidget !== null) {
-                container?.removeChild(existingWidget);
+            innerContainer.className = `widget-${widget.type}`;
+            let existingWidget = container?.getElementsByClassName(`widget-${widget.type}`);
+            if (hasValue(existingWidget) && existingWidget!.length > 0) {
+                container?.removeChild((existingWidget as HTMLCollectionOf<Element>)[0]);
             }
             container?.appendChild(innerContainer);
             newWidget.container = innerContainer;
