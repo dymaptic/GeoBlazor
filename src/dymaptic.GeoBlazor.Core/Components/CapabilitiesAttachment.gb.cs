@@ -157,12 +157,12 @@ public partial class CapabilitiesAttachment : MapComponent
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "supportsCacheHint");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             SupportsCacheHint = result.Value;
+             SupportsCacheHint = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(SupportsCacheHint)] = SupportsCacheHint;
         }
@@ -187,12 +187,12 @@ public partial class CapabilitiesAttachment : MapComponent
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "supportsContentType");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             SupportsContentType = result.Value;
+             SupportsContentType = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(SupportsContentType)] = SupportsContentType;
         }
@@ -217,12 +217,12 @@ public partial class CapabilitiesAttachment : MapComponent
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "supportsExifInfo");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             SupportsExifInfo = result.Value;
+             SupportsExifInfo = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(SupportsExifInfo)] = SupportsExifInfo;
         }
@@ -247,12 +247,12 @@ public partial class CapabilitiesAttachment : MapComponent
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "supportsKeywords");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             SupportsKeywords = result.Value;
+             SupportsKeywords = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(SupportsKeywords)] = SupportsKeywords;
         }
@@ -277,12 +277,12 @@ public partial class CapabilitiesAttachment : MapComponent
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "supportsName");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             SupportsName = result.Value;
+             SupportsName = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(SupportsName)] = SupportsName;
         }
@@ -307,12 +307,12 @@ public partial class CapabilitiesAttachment : MapComponent
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "supportsResize");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             SupportsResize = result.Value;
+             SupportsResize = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(SupportsResize)] = SupportsResize;
         }
@@ -337,12 +337,12 @@ public partial class CapabilitiesAttachment : MapComponent
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "supportsSize");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             SupportsSize = result.Value;
+             SupportsSize = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(SupportsSize)] = SupportsSize;
         }

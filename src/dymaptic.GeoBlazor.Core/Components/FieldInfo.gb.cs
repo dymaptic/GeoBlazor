@@ -182,12 +182,12 @@ public partial class FieldInfo
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "isEditable");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             IsEditable = result.Value;
+             IsEditable = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(IsEditable)] = IsEditable;
         }

@@ -82,12 +82,12 @@ public abstract partial class ActionBase
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "active");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Active = result.Value;
+             Active = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Active)] = Active;
         }
@@ -142,12 +142,12 @@ public abstract partial class ActionBase
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "disabled");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Disabled = result.Value;
+             Disabled = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Disabled)] = Disabled;
         }

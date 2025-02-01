@@ -20,7 +20,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// </param>
 public partial record QueryRangeValues(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    IReadOnlyList<double>? DoubleCollectionValues = null,
+    IReadOnlyCollection<double>? DoubleCollectionValues = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     double? DoubleValues = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

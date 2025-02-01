@@ -115,12 +115,12 @@ public partial class RelationshipPopupContent
         }
 
         // get the property value
-        int? result = await CoreJsModule!.InvokeAsync<int?>("getProperty",
+        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "displayCount");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             DisplayCount = result.Value;
+             DisplayCount = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(DisplayCount)] = DisplayCount;
         }

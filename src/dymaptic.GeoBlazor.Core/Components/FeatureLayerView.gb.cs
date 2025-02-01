@@ -122,12 +122,12 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "dataUpdating");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             DataUpdating = result.Value;
+             DataUpdating = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(DataUpdating)] = DataUpdating;
         }
@@ -191,13 +191,11 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
             return null;
         }
         
-        FeatureFilter? result = null;
-        
         // Try to deserialize the object. This might fail if we don't have the
         // all deserialization edge cases handled.
         try
         {
-            result = await CoreJsModule.InvokeAsync<FeatureFilter?>(
+            FeatureFilter? result = await CoreJsModule.InvokeAsync<FeatureFilter?>(
                 "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
             if (result is not null)
             {
@@ -217,9 +215,9 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
                 return Filter;
             }
         }
-        catch
+        catch(Exception ex)
         {
-            Console.WriteLine("Failed to deserialize Filter");
+            Console.WriteLine($"Failed to deserialize Filter. Error: {ex}");
         }
 #pragma warning disable BL0005
         Filter = new FeatureFilter();
@@ -258,12 +256,12 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "hasAllFeatures");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             HasAllFeatures = result.Value;
+             HasAllFeatures = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(HasAllFeatures)] = HasAllFeatures;
         }
@@ -288,12 +286,12 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "hasAllFeaturesInView");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             HasAllFeaturesInView = result.Value;
+             HasAllFeaturesInView = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(HasAllFeaturesInView)] = HasAllFeaturesInView;
         }
@@ -318,12 +316,12 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "hasFullGeometries");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             HasFullGeometries = result.Value;
+             HasFullGeometries = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(HasFullGeometries)] = HasFullGeometries;
         }
@@ -378,12 +376,12 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "maximumNumberOfFeatures");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             MaximumNumberOfFeatures = result.Value;
+             MaximumNumberOfFeatures = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(MaximumNumberOfFeatures)] = MaximumNumberOfFeatures;
         }
@@ -408,12 +406,12 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "maximumNumberOfFeaturesExceeded");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             MaximumNumberOfFeaturesExceeded = result.Value;
+             MaximumNumberOfFeaturesExceeded = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(MaximumNumberOfFeaturesExceeded)] = MaximumNumberOfFeaturesExceeded;
         }

@@ -251,12 +251,12 @@ public partial class GraphicsLayer : IBlendLayer,
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "maxScale");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             MaxScale = result.Value;
+             MaxScale = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(MaxScale)] = MaxScale;
         }
@@ -281,12 +281,12 @@ public partial class GraphicsLayer : IBlendLayer,
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "minScale");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             MinScale = result.Value;
+             MinScale = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(MinScale)] = MinScale;
         }
@@ -311,12 +311,12 @@ public partial class GraphicsLayer : IBlendLayer,
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "screenSizePerspectiveEnabled");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             ScreenSizePerspectiveEnabled = result.Value;
+             ScreenSizePerspectiveEnabled = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(ScreenSizePerspectiveEnabled)] = ScreenSizePerspectiveEnabled;
         }

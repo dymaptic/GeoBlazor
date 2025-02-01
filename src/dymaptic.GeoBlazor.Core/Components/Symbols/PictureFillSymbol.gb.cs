@@ -269,12 +269,12 @@ public partial class PictureFillSymbol : IRouteSymbolsPolygonBarriers,
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "xscale");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Xscale = result.Value;
+             Xscale = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Xscale)] = Xscale;
         }
@@ -329,12 +329,12 @@ public partial class PictureFillSymbol : IRouteSymbolsPolygonBarriers,
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "yscale");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Yscale = result.Value;
+             Yscale = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Yscale)] = Yscale;
         }

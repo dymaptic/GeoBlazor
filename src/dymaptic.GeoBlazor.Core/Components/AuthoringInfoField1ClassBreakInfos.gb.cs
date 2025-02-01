@@ -82,12 +82,12 @@ public partial class AuthoringInfoField1ClassBreakInfos : MapComponent
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "maxValue");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             MaxValue = result.Value;
+             MaxValue = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(MaxValue)] = MaxValue;
         }
@@ -112,12 +112,12 @@ public partial class AuthoringInfoField1ClassBreakInfos : MapComponent
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "minValue");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             MinValue = result.Value;
+             MinValue = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(MinValue)] = MinValue;
         }

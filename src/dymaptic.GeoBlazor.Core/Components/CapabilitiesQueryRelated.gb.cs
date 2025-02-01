@@ -112,12 +112,12 @@ public partial class CapabilitiesQueryRelated : MapComponent
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "supportsCacheHint");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             SupportsCacheHint = result.Value;
+             SupportsCacheHint = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(SupportsCacheHint)] = SupportsCacheHint;
         }
@@ -142,12 +142,12 @@ public partial class CapabilitiesQueryRelated : MapComponent
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "supportsCount");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             SupportsCount = result.Value;
+             SupportsCount = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(SupportsCount)] = SupportsCount;
         }
@@ -172,12 +172,12 @@ public partial class CapabilitiesQueryRelated : MapComponent
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "supportsOrderBy");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             SupportsOrderBy = result.Value;
+             SupportsOrderBy = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(SupportsOrderBy)] = SupportsOrderBy;
         }
@@ -202,12 +202,12 @@ public partial class CapabilitiesQueryRelated : MapComponent
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "supportsPagination");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             SupportsPagination = result.Value;
+             SupportsPagination = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(SupportsPagination)] = SupportsPagination;
         }

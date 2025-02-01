@@ -96,12 +96,12 @@ public partial class SpatialReference
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "metersPerUnit");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             MetersPerUnit = result.Value;
+             MetersPerUnit = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(MetersPerUnit)] = MetersPerUnit;
         }
@@ -156,12 +156,12 @@ public partial class SpatialReference
         }
 
         // get the property value
-        int? result = await CoreJsModule!.InvokeAsync<int?>("getProperty",
+        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "wkid");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Wkid = result.Value;
+             Wkid = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Wkid)] = Wkid;
         }

@@ -172,12 +172,12 @@ public partial class PixelBlock : MapComponent
         }
 
         // get the property value
-        int? result = await CoreJsModule!.InvokeAsync<int?>("getProperty",
+        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "height");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Height = result.Value;
+             Height = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Height)] = Height;
         }
@@ -232,12 +232,12 @@ public partial class PixelBlock : MapComponent
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "maskIsAlpha");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             MaskIsAlpha = result.Value;
+             MaskIsAlpha = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(MaskIsAlpha)] = MaskIsAlpha;
         }
@@ -352,12 +352,12 @@ public partial class PixelBlock : MapComponent
         }
 
         // get the property value
-        int? result = await CoreJsModule!.InvokeAsync<int?>("getProperty",
+        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "validPixelCount");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             ValidPixelCount = result.Value;
+             ValidPixelCount = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(ValidPixelCount)] = ValidPixelCount;
         }
@@ -382,12 +382,12 @@ public partial class PixelBlock : MapComponent
         }
 
         // get the property value
-        int? result = await CoreJsModule!.InvokeAsync<int?>("getProperty",
+        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "width");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Width = result.Value;
+             Width = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Width)] = Width;
         }

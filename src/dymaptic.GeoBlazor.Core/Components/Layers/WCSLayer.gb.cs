@@ -726,12 +726,12 @@ public partial class WCSLayer : IBlendLayer,
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "legendEnabled");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             LegendEnabled = result.Value;
+             LegendEnabled = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(LegendEnabled)] = LegendEnabled;
         }
@@ -756,12 +756,12 @@ public partial class WCSLayer : IBlendLayer,
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "maxScale");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             MaxScale = result.Value;
+             MaxScale = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(MaxScale)] = MaxScale;
         }
@@ -786,12 +786,12 @@ public partial class WCSLayer : IBlendLayer,
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "minScale");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             MinScale = result.Value;
+             MinScale = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(MinScale)] = MinScale;
         }
@@ -876,12 +876,12 @@ public partial class WCSLayer : IBlendLayer,
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "popupEnabled");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             PopupEnabled = result.Value;
+             PopupEnabled = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(PopupEnabled)] = PopupEnabled;
         }
@@ -945,13 +945,11 @@ public partial class WCSLayer : IBlendLayer,
             return null;
         }
         
-        PortalItem? result = null;
-        
         // Try to deserialize the object. This might fail if we don't have the
         // all deserialization edge cases handled.
         try
         {
-            result = await CoreJsModule.InvokeAsync<PortalItem?>(
+            PortalItem? result = await CoreJsModule.InvokeAsync<PortalItem?>(
                 "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
             if (result is not null)
             {
@@ -971,9 +969,9 @@ public partial class WCSLayer : IBlendLayer,
                 return PortalItem;
             }
         }
-        catch
+        catch(Exception ex)
         {
-            Console.WriteLine("Failed to deserialize PortalItem");
+            Console.WriteLine($"Failed to deserialize PortalItem. Error: {ex}");
         }
 #pragma warning disable BL0005
         PortalItem = new PortalItem();
@@ -1140,13 +1138,11 @@ public partial class WCSLayer : IBlendLayer,
             return null;
         }
         
-        TimeExtent? result = null;
-        
         // Try to deserialize the object. This might fail if we don't have the
         // all deserialization edge cases handled.
         try
         {
-            result = await CoreJsModule.InvokeAsync<TimeExtent?>(
+            TimeExtent? result = await CoreJsModule.InvokeAsync<TimeExtent?>(
                 "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
             if (result is not null)
             {
@@ -1166,9 +1162,9 @@ public partial class WCSLayer : IBlendLayer,
                 return TimeExtent;
             }
         }
-        catch
+        catch(Exception ex)
         {
-            Console.WriteLine("Failed to deserialize TimeExtent");
+            Console.WriteLine($"Failed to deserialize TimeExtent. Error: {ex}");
         }
 #pragma warning disable BL0005
         TimeExtent = new TimeExtent();
@@ -1292,12 +1288,12 @@ public partial class WCSLayer : IBlendLayer,
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "useViewTime");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             UseViewTime = result.Value;
+             UseViewTime = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(UseViewTime)] = UseViewTime;
         }

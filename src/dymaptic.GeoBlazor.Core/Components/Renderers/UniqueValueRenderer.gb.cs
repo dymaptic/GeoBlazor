@@ -493,12 +493,12 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "orderByClassesEnabled");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             OrderByClassesEnabled = result.Value;
+             OrderByClassesEnabled = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(OrderByClassesEnabled)] = OrderByClassesEnabled;
         }

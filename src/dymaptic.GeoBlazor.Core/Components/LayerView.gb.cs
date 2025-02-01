@@ -84,12 +84,12 @@ public partial class LayerView
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "spatialReferenceSupported");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             SpatialReferenceSupported = result.Value;
+             SpatialReferenceSupported = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(SpatialReferenceSupported)] = SpatialReferenceSupported;
         }
@@ -114,12 +114,12 @@ public partial class LayerView
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "suspended");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Suspended = result.Value;
+             Suspended = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Suspended)] = Suspended;
         }
@@ -144,12 +144,12 @@ public partial class LayerView
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "updating");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Updating = result.Value;
+             Updating = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Updating)] = Updating;
         }
@@ -204,12 +204,12 @@ public partial class LayerView
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "visibleAtCurrentScale");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             VisibleAtCurrentScale = result.Value;
+             VisibleAtCurrentScale = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(VisibleAtCurrentScale)] = VisibleAtCurrentScale;
         }
@@ -234,12 +234,12 @@ public partial class LayerView
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "visibleAtCurrentTimeExtent");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             VisibleAtCurrentTimeExtent = result.Value;
+             VisibleAtCurrentTimeExtent = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(VisibleAtCurrentTimeExtent)] = VisibleAtCurrentTimeExtent;
         }

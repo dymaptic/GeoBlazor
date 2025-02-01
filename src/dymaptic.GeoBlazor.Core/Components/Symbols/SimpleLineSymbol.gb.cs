@@ -191,12 +191,12 @@ public partial class SimpleLineSymbol : IRouteSymbolsDirectionLines,
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "miterLimit");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             MiterLimit = result.Value;
+             MiterLimit = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(MiterLimit)] = MiterLimit;
         }

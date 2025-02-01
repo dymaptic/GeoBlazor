@@ -396,13 +396,11 @@ public partial class MapImageLayer : IArcGISMapService,
             return null;
         }
         
-        IReadOnlyList<Sublayer>? result = null;
-        
         // Try to deserialize the object. This might fail if we don't have the
         // all deserialization edge cases handled.
         try
         {
-            result = await CoreJsModule.InvokeAsync<IReadOnlyList<Sublayer>?>(
+            IReadOnlyList<Sublayer>? result = await CoreJsModule.InvokeAsync<IReadOnlyList<Sublayer>?>(
                 "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
             if (result is not null)
             {
@@ -431,9 +429,9 @@ public partial class MapImageLayer : IArcGISMapService,
                 }
             }
         }
-        catch
+        catch(Exception ex)
         {
-            Console.WriteLine("Failed to deserialize AllSublayers");
+            Console.WriteLine($"Failed to deserialize AllSublayers. Error: {ex}");
         }
         int? length = await CoreJsModule.InvokeAsync<int?>("getProperty",
             CancellationTokenSource.Token, refResult, "length");
@@ -662,12 +660,12 @@ public partial class MapImageLayer : IArcGISMapService,
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "datesInUnknownTimezone");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             DatesInUnknownTimezone = result.Value;
+             DatesInUnknownTimezone = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(DatesInUnknownTimezone)] = DatesInUnknownTimezone;
         }
@@ -692,12 +690,12 @@ public partial class MapImageLayer : IArcGISMapService,
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "dpi");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Dpi = result.Value;
+             Dpi = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Dpi)] = Dpi;
         }
@@ -812,12 +810,12 @@ public partial class MapImageLayer : IArcGISMapService,
         }
 
         // get the property value
-        int? result = await CoreJsModule!.InvokeAsync<int?>("getProperty",
+        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "imageMaxHeight");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             ImageMaxHeight = result.Value;
+             ImageMaxHeight = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(ImageMaxHeight)] = ImageMaxHeight;
         }
@@ -842,12 +840,12 @@ public partial class MapImageLayer : IArcGISMapService,
         }
 
         // get the property value
-        int? result = await CoreJsModule!.InvokeAsync<int?>("getProperty",
+        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "imageMaxWidth");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             ImageMaxWidth = result.Value;
+             ImageMaxWidth = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(ImageMaxWidth)] = ImageMaxWidth;
         }
@@ -872,12 +870,12 @@ public partial class MapImageLayer : IArcGISMapService,
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "imageTransparency");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             ImageTransparency = result.Value;
+             ImageTransparency = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(ImageTransparency)] = ImageTransparency;
         }
@@ -902,12 +900,12 @@ public partial class MapImageLayer : IArcGISMapService,
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "legendEnabled");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             LegendEnabled = result.Value;
+             LegendEnabled = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(LegendEnabled)] = LegendEnabled;
         }
@@ -932,12 +930,12 @@ public partial class MapImageLayer : IArcGISMapService,
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "maxScale");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             MaxScale = result.Value;
+             MaxScale = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(MaxScale)] = MaxScale;
         }
@@ -962,12 +960,12 @@ public partial class MapImageLayer : IArcGISMapService,
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "minScale");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             MinScale = result.Value;
+             MinScale = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(MinScale)] = MinScale;
         }
@@ -1001,13 +999,11 @@ public partial class MapImageLayer : IArcGISMapService,
             return null;
         }
         
-        PortalItem? result = null;
-        
         // Try to deserialize the object. This might fail if we don't have the
         // all deserialization edge cases handled.
         try
         {
-            result = await CoreJsModule.InvokeAsync<PortalItem?>(
+            PortalItem? result = await CoreJsModule.InvokeAsync<PortalItem?>(
                 "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
             if (result is not null)
             {
@@ -1027,9 +1023,9 @@ public partial class MapImageLayer : IArcGISMapService,
                 return PortalItem;
             }
         }
-        catch
+        catch(Exception ex)
         {
-            Console.WriteLine("Failed to deserialize PortalItem");
+            Console.WriteLine($"Failed to deserialize PortalItem. Error: {ex}");
         }
 #pragma warning disable BL0005
         PortalItem = new PortalItem();
@@ -1127,12 +1123,12 @@ public partial class MapImageLayer : IArcGISMapService,
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "refreshInterval");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             RefreshInterval = result.Value;
+             RefreshInterval = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(RefreshInterval)] = RefreshInterval;
         }
@@ -1226,13 +1222,11 @@ public partial class MapImageLayer : IArcGISMapService,
             return null;
         }
         
-        IReadOnlyList<Sublayer>? result = null;
-        
         // Try to deserialize the object. This might fail if we don't have the
         // all deserialization edge cases handled.
         try
         {
-            result = await CoreJsModule.InvokeAsync<IReadOnlyList<Sublayer>?>(
+            IReadOnlyList<Sublayer>? result = await CoreJsModule.InvokeAsync<IReadOnlyList<Sublayer>?>(
                 "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
             if (result is not null)
             {
@@ -1261,9 +1255,9 @@ public partial class MapImageLayer : IArcGISMapService,
                 }
             }
         }
-        catch
+        catch(Exception ex)
         {
-            Console.WriteLine("Failed to deserialize Sublayers");
+            Console.WriteLine($"Failed to deserialize Sublayers. Error: {ex}");
         }
         int? length = await CoreJsModule.InvokeAsync<int?>("getProperty",
             CancellationTokenSource.Token, refResult, "length");
@@ -1351,13 +1345,11 @@ public partial class MapImageLayer : IArcGISMapService,
             return null;
         }
         
-        IReadOnlyList<Sublayer>? result = null;
-        
         // Try to deserialize the object. This might fail if we don't have the
         // all deserialization edge cases handled.
         try
         {
-            result = await CoreJsModule.InvokeAsync<IReadOnlyList<Sublayer>?>(
+            IReadOnlyList<Sublayer>? result = await CoreJsModule.InvokeAsync<IReadOnlyList<Sublayer>?>(
                 "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
             if (result is not null)
             {
@@ -1386,9 +1378,9 @@ public partial class MapImageLayer : IArcGISMapService,
                 }
             }
         }
-        catch
+        catch(Exception ex)
         {
-            Console.WriteLine("Failed to deserialize Subtables");
+            Console.WriteLine($"Failed to deserialize Subtables. Error: {ex}");
         }
         int? length = await CoreJsModule.InvokeAsync<int?>("getProperty",
             CancellationTokenSource.Token, refResult, "length");
@@ -1476,13 +1468,11 @@ public partial class MapImageLayer : IArcGISMapService,
             return null;
         }
         
-        TimeExtent? result = null;
-        
         // Try to deserialize the object. This might fail if we don't have the
         // all deserialization edge cases handled.
         try
         {
-            result = await CoreJsModule.InvokeAsync<TimeExtent?>(
+            TimeExtent? result = await CoreJsModule.InvokeAsync<TimeExtent?>(
                 "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
             if (result is not null)
             {
@@ -1502,9 +1492,9 @@ public partial class MapImageLayer : IArcGISMapService,
                 return TimeExtent;
             }
         }
-        catch
+        catch(Exception ex)
         {
-            Console.WriteLine("Failed to deserialize TimeExtent");
+            Console.WriteLine($"Failed to deserialize TimeExtent. Error: {ex}");
         }
 #pragma warning disable BL0005
         TimeExtent = new TimeExtent();
@@ -1628,12 +1618,12 @@ public partial class MapImageLayer : IArcGISMapService,
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "useViewTime");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             UseViewTime = result.Value;
+             UseViewTime = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(UseViewTime)] = UseViewTime;
         }
@@ -1658,12 +1648,12 @@ public partial class MapImageLayer : IArcGISMapService,
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "version");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Version = result.Value;
+             Version = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Version)] = Version;
         }

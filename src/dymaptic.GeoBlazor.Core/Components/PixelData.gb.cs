@@ -121,13 +121,11 @@ public partial class PixelData : MapComponent
             return null;
         }
         
-        PixelBlock? result = null;
-        
         // Try to deserialize the object. This might fail if we don't have the
         // all deserialization edge cases handled.
         try
         {
-            result = await CoreJsModule.InvokeAsync<PixelBlock?>(
+            PixelBlock? result = await CoreJsModule.InvokeAsync<PixelBlock?>(
                 "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
             if (result is not null)
             {
@@ -147,9 +145,9 @@ public partial class PixelData : MapComponent
                 return PixelBlock;
             }
         }
-        catch
+        catch(Exception ex)
         {
-            Console.WriteLine("Failed to deserialize PixelBlock");
+            Console.WriteLine($"Failed to deserialize PixelBlock. Error: {ex}");
         }
 #pragma warning disable BL0005
         PixelBlock = new PixelBlock();

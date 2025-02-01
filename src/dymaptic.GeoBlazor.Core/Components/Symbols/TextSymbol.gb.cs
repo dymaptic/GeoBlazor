@@ -175,12 +175,12 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "angle");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Angle = result.Value;
+             Angle = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Angle)] = Angle;
         }
@@ -265,12 +265,12 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "borderLineSize");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             BorderLineSize = result.Value;
+             BorderLineSize = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(BorderLineSize)] = BorderLineSize;
         }
@@ -415,12 +415,12 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "kerning");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Kerning = result.Value;
+             Kerning = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Kerning)] = Kerning;
         }
@@ -445,12 +445,12 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "lineHeight");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             LineHeight = result.Value;
+             LineHeight = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(LineHeight)] = LineHeight;
         }
@@ -505,12 +505,12 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "rotated");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Rotated = result.Value;
+             Rotated = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Rotated)] = Rotated;
         }

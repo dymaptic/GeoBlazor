@@ -27,6 +27,18 @@ public abstract partial class Geometry : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? HasZ { get; set; }
+    
+        
+    /// <summary>
+    ///     The spatial reference of the geometry.
+    ///     default WGS84 (wkid: 4326)
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Geometry.html#spatialReference">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [CodeGenerationIgnore]
+    public SpatialReference? SpatialReference { get; set; }
 
 
     /// <summary>
@@ -35,6 +47,7 @@ public abstract partial class Geometry : MapComponent
     public abstract GeometryType Type { get; }
 
     /// <inheritdoc />
+    [CodeGenerationIgnore]
     public override async Task RegisterChildComponent(MapComponent child)
     {
         switch (child)
@@ -43,6 +56,13 @@ public abstract partial class Geometry : MapComponent
                 if (!extent.Equals(Extent))
                 {
                     Extent = extent;
+                }
+
+                break;
+            case SpatialReference spatialReference:
+                if (!spatialReference.Equals(SpatialReference))
+                {
+                    SpatialReference = spatialReference;
                 }
 
                 break;
@@ -55,6 +75,7 @@ public abstract partial class Geometry : MapComponent
     }
 
     /// <inheritdoc />
+    [CodeGenerationIgnore]
     public override async Task UnregisterChildComponent(MapComponent child)
     {
         switch (child)
@@ -63,7 +84,10 @@ public abstract partial class Geometry : MapComponent
                 Extent = null;
 
                 break;
+            case SpatialReference _:
+                SpatialReference = null;
 
+                break;
             default:
                 await base.UnregisterChildComponent(child);
 
@@ -72,11 +96,12 @@ public abstract partial class Geometry : MapComponent
     }
 
     /// <inheritdoc />
+    [CodeGenerationIgnore]
     internal override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();
         Extent?.ValidateRequiredChildren();
-
+        SpatialReference?.ValidateRequiredChildren();
     }
     
     /// <summary>

@@ -85,12 +85,12 @@ public partial class LOD
         }
 
         // get the property value
-        int? result = await CoreJsModule!.InvokeAsync<int?>("getProperty",
+        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "level");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Level = result.Value;
+             Level = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Level)] = Level;
         }
@@ -145,12 +145,12 @@ public partial class LOD
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "resolution");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Resolution = result.Value;
+             Resolution = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Resolution)] = Resolution;
         }
@@ -175,12 +175,12 @@ public partial class LOD
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "scale");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Scale = result.Value;
+             Scale = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Scale)] = Scale;
         }

@@ -341,12 +341,12 @@ public partial class PortalUser : MapComponent
         }
 
         // get the property value
-        DateTime? result = await CoreJsModule!.InvokeAsync<DateTime?>("getProperty",
+        JsNullableDateTimeWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDateTimeWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "created");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Created = result.Value;
+             Created = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Created)] = Created;
         }
@@ -491,12 +491,12 @@ public partial class PortalUser : MapComponent
         }
 
         // get the property value
-        DateTime? result = await CoreJsModule!.InvokeAsync<DateTime?>("getProperty",
+        JsNullableDateTimeWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDateTimeWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "modified");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Modified = result.Value;
+             Modified = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Modified)] = Modified;
         }
@@ -1357,9 +1357,7 @@ public partial class PortalUser : MapComponent
         return await JsComponentReference!.InvokeAsync<PortalItem?>(
             "addItem", 
             CancellationTokenSource.Token,
-            new { item, data, folder },
-            data,
-            folder);
+            new { item, data, folder });
     }
     
     /// <summary>
@@ -1486,13 +1484,7 @@ public partial class PortalUser : MapComponent
         return await JsComponentReference!.InvokeAsync<FetchItemsResult?>(
             "fetchItems", 
             CancellationTokenSource.Token,
-            new { folder, inRecycleBin, includeSubfolderItems, num, sortField, sortOrder, start },
-            inRecycleBin,
-            includeSubfolderItems,
-            num,
-            sortField,
-            sortOrder,
-            start);
+            new { folder, inRecycleBin, includeSubfolderItems, num, sortField, sortOrder, start });
     }
     
     /// <summary>

@@ -226,13 +226,11 @@ public partial class FeatureTemplate
             return null;
         }
         
-        Graphic? result = null;
-        
         // Try to deserialize the object. This might fail if we don't have the
         // all deserialization edge cases handled.
         try
         {
-            result = await CoreJsModule.InvokeAsync<Graphic?>(
+            Graphic? result = await CoreJsModule.InvokeAsync<Graphic?>(
                 "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
             if (result is not null)
             {
@@ -252,9 +250,9 @@ public partial class FeatureTemplate
                 return Prototype;
             }
         }
-        catch
+        catch(Exception ex)
         {
-            Console.WriteLine("Failed to deserialize Prototype");
+            Console.WriteLine($"Failed to deserialize Prototype. Error: {ex}");
         }
 #pragma warning disable BL0005
         Prototype = new Graphic();

@@ -97,12 +97,12 @@ public partial class FieldInfoFormat
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "digitSeparator");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             DigitSeparator = result.Value;
+             DigitSeparator = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(DigitSeparator)] = DigitSeparator;
         }
@@ -127,12 +127,12 @@ public partial class FieldInfoFormat
         }
 
         // get the property value
-        int? result = await CoreJsModule!.InvokeAsync<int?>("getProperty",
+        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "places");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Places = result.Value;
+             Places = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Places)] = Places;
         }

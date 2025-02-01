@@ -250,12 +250,12 @@ public partial class Field
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "editable");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Editable = result.Value;
+             Editable = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Editable)] = Editable;
         }
@@ -280,12 +280,12 @@ public partial class Field
         }
 
         // get the property value
-        int? result = await CoreJsModule!.InvokeAsync<int?>("getProperty",
+        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "length");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Length = result.Value;
+             Length = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Length)] = Length;
         }
@@ -340,12 +340,12 @@ public partial class Field
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "nullable");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Nullable = result.Value;
+             Nullable = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Nullable)] = Nullable;
         }

@@ -338,13 +338,11 @@ public partial class TileLayer : IAPIKeyMixin,
             return null;
         }
         
-        IReadOnlyList<Sublayer>? result = null;
-        
         // Try to deserialize the object. This might fail if we don't have the
         // all deserialization edge cases handled.
         try
         {
-            result = await CoreJsModule.InvokeAsync<IReadOnlyList<Sublayer>?>(
+            IReadOnlyList<Sublayer>? result = await CoreJsModule.InvokeAsync<IReadOnlyList<Sublayer>?>(
                 "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
             if (result is not null)
             {
@@ -373,9 +371,9 @@ public partial class TileLayer : IAPIKeyMixin,
                 }
             }
         }
-        catch
+        catch(Exception ex)
         {
-            Console.WriteLine("Failed to deserialize AllSublayers");
+            Console.WriteLine($"Failed to deserialize AllSublayers. Error: {ex}");
         }
         int? length = await CoreJsModule.InvokeAsync<int?>("getProperty",
             CancellationTokenSource.Token, refResult, "length");
@@ -664,12 +662,12 @@ public partial class TileLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "hasAttributionData");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             HasAttributionData = result.Value;
+             HasAttributionData = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(HasAttributionData)] = HasAttributionData;
         }
@@ -694,12 +692,12 @@ public partial class TileLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "legendEnabled");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             LegendEnabled = result.Value;
+             LegendEnabled = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(LegendEnabled)] = LegendEnabled;
         }
@@ -724,12 +722,12 @@ public partial class TileLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "maxScale");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             MaxScale = result.Value;
+             MaxScale = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(MaxScale)] = MaxScale;
         }
@@ -754,12 +752,12 @@ public partial class TileLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "minScale");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             MinScale = result.Value;
+             MinScale = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(MinScale)] = MinScale;
         }
@@ -793,13 +791,11 @@ public partial class TileLayer : IAPIKeyMixin,
             return null;
         }
         
-        PortalItem? result = null;
-        
         // Try to deserialize the object. This might fail if we don't have the
         // all deserialization edge cases handled.
         try
         {
-            result = await CoreJsModule.InvokeAsync<PortalItem?>(
+            PortalItem? result = await CoreJsModule.InvokeAsync<PortalItem?>(
                 "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
             if (result is not null)
             {
@@ -819,9 +815,9 @@ public partial class TileLayer : IAPIKeyMixin,
                 return PortalItem;
             }
         }
-        catch
+        catch(Exception ex)
         {
-            Console.WriteLine("Failed to deserialize PortalItem");
+            Console.WriteLine($"Failed to deserialize PortalItem. Error: {ex}");
         }
 #pragma warning disable BL0005
         PortalItem = new PortalItem();
@@ -889,12 +885,12 @@ public partial class TileLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "refreshInterval");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             RefreshInterval = result.Value;
+             RefreshInterval = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(RefreshInterval)] = RefreshInterval;
         }
@@ -919,12 +915,12 @@ public partial class TileLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "resampling");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Resampling = result.Value;
+             Resampling = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Resampling)] = Resampling;
         }
@@ -1018,13 +1014,11 @@ public partial class TileLayer : IAPIKeyMixin,
             return null;
         }
         
-        IReadOnlyList<Sublayer>? result = null;
-        
         // Try to deserialize the object. This might fail if we don't have the
         // all deserialization edge cases handled.
         try
         {
-            result = await CoreJsModule.InvokeAsync<IReadOnlyList<Sublayer>?>(
+            IReadOnlyList<Sublayer>? result = await CoreJsModule.InvokeAsync<IReadOnlyList<Sublayer>?>(
                 "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
             if (result is not null)
             {
@@ -1053,9 +1047,9 @@ public partial class TileLayer : IAPIKeyMixin,
                 }
             }
         }
-        catch
+        catch(Exception ex)
         {
-            Console.WriteLine("Failed to deserialize Sublayers");
+            Console.WriteLine($"Failed to deserialize Sublayers. Error: {ex}");
         }
         int? length = await CoreJsModule.InvokeAsync<int?>("getProperty",
             CancellationTokenSource.Token, refResult, "length");
@@ -1143,13 +1137,11 @@ public partial class TileLayer : IAPIKeyMixin,
             return null;
         }
         
-        TileInfo? result = null;
-        
         // Try to deserialize the object. This might fail if we don't have the
         // all deserialization edge cases handled.
         try
         {
-            result = await CoreJsModule.InvokeAsync<TileInfo?>(
+            TileInfo? result = await CoreJsModule.InvokeAsync<TileInfo?>(
                 "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
             if (result is not null)
             {
@@ -1169,9 +1161,9 @@ public partial class TileLayer : IAPIKeyMixin,
                 return TileInfo;
             }
         }
-        catch
+        catch(Exception ex)
         {
-            Console.WriteLine("Failed to deserialize TileInfo");
+            Console.WriteLine($"Failed to deserialize TileInfo. Error: {ex}");
         }
 #pragma warning disable BL0005
         TileInfo = new TileInfo();
@@ -1270,12 +1262,12 @@ public partial class TileLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "version");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Version = result.Value;
+             Version = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Version)] = Version;
         }

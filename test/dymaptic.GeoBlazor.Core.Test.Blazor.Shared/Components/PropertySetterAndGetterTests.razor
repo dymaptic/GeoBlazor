@@ -58,7 +58,11 @@
         Assert.IsNotNull(layer.Renderer);
         SimpleRenderer? renderer = await layer.GetProperty<SimpleRenderer>(nameof(FeatureLayer.Renderer));
         Assert.AreEqual(layer.Renderer, renderer);
-        await layer.Add(new Graphic(new Point(0, 0)));
+        AttributesDictionary attributes = new(new Dictionary<string, object?>
+        {
+            ["ObjectId"] = "1"
+        });
+        await layer.Add(new Graphic(new Point(0, 0), attributes: attributes));
         Assert.AreEqual("green", renderer!.Symbol!.Color!.HexOrNameValue);
     }
 }

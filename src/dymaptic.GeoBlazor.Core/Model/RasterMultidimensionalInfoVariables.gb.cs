@@ -34,13 +34,13 @@ public partial record RasterMultidimensionalInfoVariables(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? Description = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    IReadOnlyList<RasterMultidimensionalInfoVariablesDimensions>? Dimensions = null,
+    IReadOnlyCollection<RasterMultidimensionalInfoVariablesDimensions>? Dimensions = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    IReadOnlyList<RasterHistogram>? Histograms = null,
+    IReadOnlyCollection<RasterHistogram>? Histograms = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? Name = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    IReadOnlyList<RasterBandStatistics>? Statistics = null,
+    IReadOnlyCollection<RasterBandStatistics>? Statistics = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? Unit = null);
 

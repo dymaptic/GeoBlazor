@@ -34,9 +34,8 @@ export default class BingMapsLayerGenerated implements IPropertyWrapper {
 
     async createLayerView(view: any,
         options: any): Promise<any> {
-        let result = await this.layer.createLayerView(view,
+        return await this.layer.createLayerView(view,
             options);
-        return await createGeoBlazorObject(result);
     }
 
     async fetchAttributionData(): Promise<any> {

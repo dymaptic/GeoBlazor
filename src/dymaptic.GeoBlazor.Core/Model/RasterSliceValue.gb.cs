@@ -20,9 +20,9 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// </param>
 public partial record RasterSliceValue(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    IReadOnlyList<double>? MagdirValue = null,
+    IReadOnlyCollection<double>? MagdirValue = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    IReadOnlyList<DimensionalDefinition>? MultidimensionalDefinition = null,
+    IReadOnlyCollection<DimensionalDefinition>? MultidimensionalDefinition = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    IReadOnlyList<double>? Value = null);
+    IReadOnlyCollection<double>? Value = null);
 

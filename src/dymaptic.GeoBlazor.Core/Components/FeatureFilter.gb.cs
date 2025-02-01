@@ -116,12 +116,12 @@ public partial class FeatureFilter
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "distance");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Distance = result.Value;
+             Distance = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Distance)] = Distance;
         }
@@ -245,13 +245,11 @@ public partial class FeatureFilter
             return null;
         }
         
-        TimeExtent? result = null;
-        
         // Try to deserialize the object. This might fail if we don't have the
         // all deserialization edge cases handled.
         try
         {
-            result = await CoreJsModule.InvokeAsync<TimeExtent?>(
+            TimeExtent? result = await CoreJsModule.InvokeAsync<TimeExtent?>(
                 "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
             if (result is not null)
             {
@@ -271,9 +269,9 @@ public partial class FeatureFilter
                 return TimeExtent;
             }
         }
-        catch
+        catch(Exception ex)
         {
-            Console.WriteLine("Failed to deserialize TimeExtent");
+            Console.WriteLine($"Failed to deserialize TimeExtent. Error: {ex}");
         }
 #pragma warning disable BL0005
         TimeExtent = new TimeExtent();

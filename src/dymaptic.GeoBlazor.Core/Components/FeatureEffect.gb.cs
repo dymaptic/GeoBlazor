@@ -126,12 +126,12 @@ public partial class FeatureEffect
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "excludedLabelsVisible");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             ExcludedLabelsVisible = result.Value;
+             ExcludedLabelsVisible = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(ExcludedLabelsVisible)] = ExcludedLabelsVisible;
         }
@@ -165,13 +165,11 @@ public partial class FeatureEffect
             return null;
         }
         
-        FeatureFilter? result = null;
-        
         // Try to deserialize the object. This might fail if we don't have the
         // all deserialization edge cases handled.
         try
         {
-            result = await CoreJsModule.InvokeAsync<FeatureFilter?>(
+            FeatureFilter? result = await CoreJsModule.InvokeAsync<FeatureFilter?>(
                 "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
             if (result is not null)
             {
@@ -191,9 +189,9 @@ public partial class FeatureEffect
                 return Filter;
             }
         }
-        catch
+        catch(Exception ex)
         {
-            Console.WriteLine("Failed to deserialize Filter");
+            Console.WriteLine($"Failed to deserialize Filter. Error: {ex}");
         }
 #pragma warning disable BL0005
         Filter = new FeatureFilter();

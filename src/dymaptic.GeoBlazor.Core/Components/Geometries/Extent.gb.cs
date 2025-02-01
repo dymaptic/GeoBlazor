@@ -87,12 +87,12 @@ public partial class Extent
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "height");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Height = result.Value;
+             Height = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Height)] = Height;
         }
@@ -117,12 +117,12 @@ public partial class Extent
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "mmax");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Mmax = result.Value;
+             Mmax = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Mmax)] = Mmax;
         }
@@ -147,12 +147,12 @@ public partial class Extent
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "mmin");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Mmin = result.Value;
+             Mmin = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Mmin)] = Mmin;
         }
@@ -177,12 +177,12 @@ public partial class Extent
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "width");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Width = result.Value;
+             Width = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Width)] = Width;
         }
@@ -207,12 +207,12 @@ public partial class Extent
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "zmax");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Zmax = result.Value;
+             Zmax = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Zmax)] = Zmax;
         }
@@ -237,12 +237,12 @@ public partial class Extent
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "zmin");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Zmin = result.Value;
+             Zmin = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Zmin)] = Zmin;
         }

@@ -36,17 +36,17 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// </param>
 public partial record QueryParameterValues(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    IReadOnlyList<DateTime>? DateTimeCollectionValue = null,
+    IReadOnlyCollection<DateTime>? DateTimeCollectionValue = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     DateTime? DateTimeValue = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    IReadOnlyList<double>? DoubleCollectionValue = null,
+    IReadOnlyCollection<double>? DoubleCollectionValue = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     double? DoubleValue = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? Name = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    IReadOnlyList<string>? StringCollectionValue = null,
+    IReadOnlyCollection<string>? StringCollectionValue = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? StringValue = null);
 

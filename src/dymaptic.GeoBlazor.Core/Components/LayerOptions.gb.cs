@@ -86,12 +86,12 @@ public partial class LayerOptions : MapComponent
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "returnTopmostRaster");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             ReturnTopmostRaster = result.Value;
+             ReturnTopmostRaster = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(ReturnTopmostRaster)] = ReturnTopmostRaster;
         }
@@ -116,12 +116,12 @@ public partial class LayerOptions : MapComponent
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "showNoDataRecords");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             ShowNoDataRecords = result.Value;
+             ShowNoDataRecords = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(ShowNoDataRecords)] = ShowNoDataRecords;
         }

@@ -29,12 +29,12 @@ public abstract partial class MarkerSymbol
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "angle");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Angle = result.Value;
+             Angle = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Angle)] = Angle;
         }

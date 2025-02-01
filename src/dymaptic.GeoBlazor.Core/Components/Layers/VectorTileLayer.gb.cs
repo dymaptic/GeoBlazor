@@ -499,12 +499,12 @@ public partial class VectorTileLayer : IBlendLayer,
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "maxScale");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             MaxScale = result.Value;
+             MaxScale = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(MaxScale)] = MaxScale;
         }
@@ -529,12 +529,12 @@ public partial class VectorTileLayer : IBlendLayer,
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "minScale");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             MinScale = result.Value;
+             MinScale = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(MinScale)] = MinScale;
         }
@@ -568,13 +568,11 @@ public partial class VectorTileLayer : IBlendLayer,
             return null;
         }
         
-        PortalItem? result = null;
-        
         // Try to deserialize the object. This might fail if we don't have the
         // all deserialization edge cases handled.
         try
         {
-            result = await CoreJsModule.InvokeAsync<PortalItem?>(
+            PortalItem? result = await CoreJsModule.InvokeAsync<PortalItem?>(
                 "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
             if (result is not null)
             {
@@ -594,9 +592,9 @@ public partial class VectorTileLayer : IBlendLayer,
                 return PortalItem;
             }
         }
-        catch
+        catch(Exception ex)
         {
-            Console.WriteLine("Failed to deserialize PortalItem");
+            Console.WriteLine($"Failed to deserialize PortalItem. Error: {ex}");
         }
 #pragma warning disable BL0005
         PortalItem = new PortalItem();
@@ -733,13 +731,11 @@ public partial class VectorTileLayer : IBlendLayer,
             return null;
         }
         
-        TileInfo? result = null;
-        
         // Try to deserialize the object. This might fail if we don't have the
         // all deserialization edge cases handled.
         try
         {
-            result = await CoreJsModule.InvokeAsync<TileInfo?>(
+            TileInfo? result = await CoreJsModule.InvokeAsync<TileInfo?>(
                 "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
             if (result is not null)
             {
@@ -759,9 +755,9 @@ public partial class VectorTileLayer : IBlendLayer,
                 return TileInfo;
             }
         }
-        catch
+        catch(Exception ex)
         {
-            Console.WriteLine("Failed to deserialize TileInfo");
+            Console.WriteLine($"Failed to deserialize TileInfo. Error: {ex}");
         }
 #pragma warning disable BL0005
         TileInfo = new TileInfo();

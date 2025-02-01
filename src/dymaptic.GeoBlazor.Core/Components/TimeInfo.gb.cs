@@ -202,13 +202,11 @@ public partial class TimeInfo
             return null;
         }
         
-        TimeExtent? result = null;
-        
         // Try to deserialize the object. This might fail if we don't have the
         // all deserialization edge cases handled.
         try
         {
-            result = await CoreJsModule.InvokeAsync<TimeExtent?>(
+            TimeExtent? result = await CoreJsModule.InvokeAsync<TimeExtent?>(
                 "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
             if (result is not null)
             {
@@ -228,9 +226,9 @@ public partial class TimeInfo
                 return FullTimeExtent;
             }
         }
-        catch
+        catch(Exception ex)
         {
-            Console.WriteLine("Failed to deserialize FullTimeExtent");
+            Console.WriteLine($"Failed to deserialize FullTimeExtent. Error: {ex}");
         }
 #pragma warning disable BL0005
         FullTimeExtent = new TimeExtent();

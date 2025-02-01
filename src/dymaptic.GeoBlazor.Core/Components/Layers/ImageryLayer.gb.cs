@@ -678,12 +678,12 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "compressionQuality");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             CompressionQuality = result.Value;
+             CompressionQuality = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(CompressionQuality)] = CompressionQuality;
         }
@@ -708,12 +708,12 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "compressionTolerance");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             CompressionTolerance = result.Value;
+             CompressionTolerance = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(CompressionTolerance)] = CompressionTolerance;
         }
@@ -981,12 +981,12 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "hasMultidimensions");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             HasMultidimensions = result.Value;
+             HasMultidimensions = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(HasMultidimensions)] = HasMultidimensions;
         }
@@ -1011,12 +1011,12 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-        int? result = await CoreJsModule!.InvokeAsync<int?>("getProperty",
+        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "imageMaxHeight");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             ImageMaxHeight = result.Value;
+             ImageMaxHeight = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(ImageMaxHeight)] = ImageMaxHeight;
         }
@@ -1041,12 +1041,12 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-        int? result = await CoreJsModule!.InvokeAsync<int?>("getProperty",
+        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "imageMaxWidth");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             ImageMaxWidth = result.Value;
+             ImageMaxWidth = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(ImageMaxWidth)] = ImageMaxWidth;
         }
@@ -1101,12 +1101,12 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "legendEnabled");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             LegendEnabled = result.Value;
+             LegendEnabled = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(LegendEnabled)] = LegendEnabled;
         }
@@ -1131,12 +1131,12 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "maxScale");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             MaxScale = result.Value;
+             MaxScale = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(MaxScale)] = MaxScale;
         }
@@ -1161,12 +1161,12 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "minScale");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             MinScale = result.Value;
+             MinScale = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(MinScale)] = MinScale;
         }
@@ -1431,12 +1431,12 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "popupEnabled");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             PopupEnabled = result.Value;
+             PopupEnabled = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(PopupEnabled)] = PopupEnabled;
         }
@@ -1500,13 +1500,11 @@ public partial class ImageryLayer : IArcGISImageService,
             return null;
         }
         
-        PortalItem? result = null;
-        
         // Try to deserialize the object. This might fail if we don't have the
         // all deserialization edge cases handled.
         try
         {
-            result = await CoreJsModule.InvokeAsync<PortalItem?>(
+            PortalItem? result = await CoreJsModule.InvokeAsync<PortalItem?>(
                 "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
             if (result is not null)
             {
@@ -1526,9 +1524,9 @@ public partial class ImageryLayer : IArcGISImageService,
                 return PortalItem;
             }
         }
-        catch
+        catch(Exception ex)
         {
-            Console.WriteLine("Failed to deserialize PortalItem");
+            Console.WriteLine($"Failed to deserialize PortalItem. Error: {ex}");
         }
 #pragma warning disable BL0005
         PortalItem = new PortalItem();
@@ -1686,12 +1684,12 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "refreshInterval");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             RefreshInterval = result.Value;
+             RefreshInterval = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(RefreshInterval)] = RefreshInterval;
         }
@@ -1875,13 +1873,11 @@ public partial class ImageryLayer : IArcGISImageService,
             return null;
         }
         
-        TimeExtent? result = null;
-        
         // Try to deserialize the object. This might fail if we don't have the
         // all deserialization edge cases handled.
         try
         {
-            result = await CoreJsModule.InvokeAsync<TimeExtent?>(
+            TimeExtent? result = await CoreJsModule.InvokeAsync<TimeExtent?>(
                 "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
             if (result is not null)
             {
@@ -1901,9 +1897,9 @@ public partial class ImageryLayer : IArcGISImageService,
                 return TimeExtent;
             }
         }
-        catch
+        catch(Exception ex)
         {
-            Console.WriteLine("Failed to deserialize TimeExtent");
+            Console.WriteLine($"Failed to deserialize TimeExtent. Error: {ex}");
         }
 #pragma warning disable BL0005
         TimeExtent = new TimeExtent();
@@ -2027,12 +2023,12 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "useViewTime");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             UseViewTime = result.Value;
+             UseViewTime = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(UseViewTime)] = UseViewTime;
         }
@@ -2057,12 +2053,12 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "version");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Version = result.Value;
+             Version = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Version)] = Version;
         }

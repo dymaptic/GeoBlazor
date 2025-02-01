@@ -28,7 +28,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// </param>
 public partial record RasterHistogram(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    IReadOnlyList<double>? DoubleCollectionCounts = null,
+    IReadOnlyCollection<double>? DoubleCollectionCounts = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     int[]? IntCollectionCounts = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

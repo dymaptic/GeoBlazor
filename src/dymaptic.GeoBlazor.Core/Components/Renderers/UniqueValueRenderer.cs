@@ -24,6 +24,7 @@ public partial class UniqueValueRenderer : Renderer, IImageryRenderer
 
 
     /// <inheritdoc />
+    [CodeGenerationIgnore]
     public override async Task RegisterChildComponent(MapComponent child)
     {
         switch (child)
@@ -31,6 +32,11 @@ public partial class UniqueValueRenderer : Renderer, IImageryRenderer
             case UniqueValueInfo uniqueValue:
                 UniqueValueInfos ??= [];
                 UniqueValueInfos = [..UniqueValueInfos, uniqueValue];
+
+                break;
+            
+            case DefaultSymbol defaultSymbol:
+                DefaultSymbol = defaultSymbol;
 
                 break;
 
@@ -42,6 +48,7 @@ public partial class UniqueValueRenderer : Renderer, IImageryRenderer
     }
 
     /// <inheritdoc />
+    [CodeGenerationIgnore]
     public override async Task UnregisterChildComponent(MapComponent child)
     {
         switch (child)
@@ -50,11 +57,32 @@ public partial class UniqueValueRenderer : Renderer, IImageryRenderer
                 UniqueValueInfos = UniqueValueInfos?.Except([uniqueValue]).ToList();
 
                 break;
+            case DefaultSymbol defaultSymbol:
+                DefaultSymbol = null;
+
+                break;
 
             default:
                 await base.UnregisterChildComponent(child);
 
                 break;
         }
+    }
+
+    /// <inheritdoc />
+    [CodeGenerationIgnore]
+    internal override void ValidateRequiredChildren()
+    {
+        base.ValidateRequiredChildren();
+
+        if (UniqueValueInfos is not null && UniqueValueInfos.Any())
+        {
+            foreach (UniqueValueInfo uniqueValue in UniqueValueInfos)
+            {
+                uniqueValue.ValidateRequiredChildren();
+            }
+        }
+        
+        DefaultSymbol?.ValidateRequiredChildren();
     }
 }

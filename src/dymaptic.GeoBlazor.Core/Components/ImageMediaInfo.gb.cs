@@ -91,12 +91,12 @@ public partial class ImageMediaInfo
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "refreshInterval");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             RefreshInterval = result.Value;
+             RefreshInterval = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(RefreshInterval)] = RefreshInterval;
         }

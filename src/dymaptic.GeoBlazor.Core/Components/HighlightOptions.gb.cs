@@ -120,12 +120,12 @@ public partial class HighlightOptions
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "fillOpacity");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             FillOpacity = result.Value;
+             FillOpacity = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(FillOpacity)] = FillOpacity;
         }
@@ -180,12 +180,12 @@ public partial class HighlightOptions
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "haloOpacity");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             HaloOpacity = result.Value;
+             HaloOpacity = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(HaloOpacity)] = HaloOpacity;
         }
@@ -240,12 +240,12 @@ public partial class HighlightOptions
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "shadowDifference");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             ShadowDifference = result.Value;
+             ShadowDifference = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(ShadowDifference)] = ShadowDifference;
         }
@@ -270,12 +270,12 @@ public partial class HighlightOptions
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "shadowOpacity");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             ShadowOpacity = result.Value;
+             ShadowOpacity = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(ShadowOpacity)] = ShadowOpacity;
         }

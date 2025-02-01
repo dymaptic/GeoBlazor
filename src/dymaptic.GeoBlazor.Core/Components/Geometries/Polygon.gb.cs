@@ -115,12 +115,12 @@ public partial class Polygon
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "isSelfIntersecting");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             IsSelfIntersecting = result.Value;
+             IsSelfIntersecting = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(IsSelfIntersecting)] = IsSelfIntersecting;
         }

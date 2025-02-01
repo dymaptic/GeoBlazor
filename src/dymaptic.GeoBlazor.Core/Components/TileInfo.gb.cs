@@ -131,12 +131,12 @@ public partial class TileInfo
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "dpi");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Dpi = result.Value;
+             Dpi = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Dpi)] = Dpi;
         }
@@ -191,12 +191,12 @@ public partial class TileInfo
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "isWrappable");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             IsWrappable = result.Value;
+             IsWrappable = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(IsWrappable)] = IsWrappable;
         }

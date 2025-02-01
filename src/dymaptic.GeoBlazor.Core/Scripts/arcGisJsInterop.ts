@@ -2,28 +2,18 @@
 
 // region imports
 import {
-    buildJsBaseTileLayer, 
+    buildJsBaseTileLayer,
     buildJsFeatureLayer,
     buildJsImageryTileLayer,
     buildJsVectorTileLayer,
-    buildJsWebTileLayer,
-    buildJsBingMapsLayer,
-    buildJsCSVLayer,
-    buildJsElevationLayer,
-    buildJsGeoJSONLayer,
-    buildJsGeoRSSLayer,
-    buildJsGraphicsLayer,
-    buildJsImageryLayer,
-    buildJsKMLLayer,
-    buildJsMapImageLayer,
-    buildJsTileLayer,
-    buildJsWCSLayer
+    buildJsWebTileLayer
 } from './jsBuilder.gb';
 import {
     buildDotNetBookmark,
     buildDotNetExtent,
     buildDotNetGeometry,
-    buildDotNetGoToOverrideParameters, buildDotNetGraphic,
+    buildDotNetGoToOverrideParameters,
+    buildDotNetGraphic,
     buildDotNetHitTestResult,
     buildDotNetLayer,
     buildDotNetLayerView,
@@ -41,7 +31,6 @@ import {
     buildJsEffect,
     buildJsExtent,
     buildJsFields,
-    buildJsFormTemplate,
     buildJsGeometry,
     buildJsGraphic,
     buildJsImageryRenderer,
@@ -111,7 +100,6 @@ import GeometryEngineWrapper from "./geometryEngine";
 import GeoRSSLayer from "@arcgis/core/layers/GeoRSSLayer";
 import Graphic from "@arcgis/core/Graphic";
 import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
-import HitTestResult = __esri.HitTestResult;
 import Home from "@arcgis/core/widgets/Home";
 import ImageryLayer from "@arcgis/core/layers/ImageryLayer.js";
 import ImageryTileLayer from "@arcgis/core/layers/ImageryTileLayer.js";
@@ -120,7 +108,6 @@ import KMLLayer from "@arcgis/core/layers/KMLLayer";
 import Layer from "@arcgis/core/layers/Layer";
 import LayerList from "@arcgis/core/widgets/LayerList";
 import Legend from "@arcgis/core/widgets/Legend";
-import LegendLayerInfos = __esri.LegendLayerInfos;
 import ListItem from "@arcgis/core/widgets/LayerList/ListItem";
 import ListItemPanel from "@arcgis/core/widgets/LayerList/ListItemPanel";
 import Locate from "@arcgis/core/widgets/Locate";
@@ -129,9 +116,8 @@ import LOD from "@arcgis/core/layers/support/LOD";
 import Map from "@arcgis/core/Map";
 import MapImageLayer from "@arcgis/core/layers/MapImageLayer";
 import MapView from "@arcgis/core/views/MapView";
-import MapViewHitTestOptions = __esri.MapViewHitTestOptions;
 import Measurement from "@arcgis/core/widgets/Measurement";
-import normalizeUtils from "@arcgis/core/geometry/support/normalizeUtils";
+import {normalizeUtils} from "@arcgis/core/geometry/support/normalizeUtils";
 import OpenStreetMapLayer from "@arcgis/core/layers/OpenStreetMapLayer";
 import Point from "@arcgis/core/geometry/Point";
 import Polygon from "@arcgis/core/geometry/Polygon";
@@ -148,7 +134,6 @@ import Renderer from "@arcgis/core/renderers/Renderer";
 import RouteParameters from "@arcgis/core/rest/support/RouteParameters";
 import ScaleBar from "@arcgis/core/widgets/ScaleBar";
 import SceneView from "@arcgis/core/views/SceneView";
-import ScreenPoint = __esri.ScreenPoint;
 import Search from "@arcgis/core/widgets/Search";
 import SearchSource from "@arcgis/core/widgets/Search/SearchSource";
 import SearchWidgetWrapper from "./searchWidget";
@@ -165,7 +150,10 @@ import WebMap from "@arcgis/core/WebMap";
 import WebScene from "@arcgis/core/WebScene";
 import Widget from "@arcgis/core/widgets/Widget";
 import {load} from "protobufjs";
-import VectorTileLayer from "@arcgis/core/layers/VectorTileLayer";
+import HitTestResult = __esri.HitTestResult;
+import LegendLayerInfos = __esri.LegendLayerInfos;
+import MapViewHitTestOptions = __esri.MapViewHitTestOptions;
+import ScreenPoint = __esri.ScreenPoint;
 
 // region exports
 
@@ -2413,10 +2401,6 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
 
     arcGisObjectRefs[dotNetWidget.id] = newWidget;
     dotNetRefs[dotNetWidget.id] = dotNetWidget.dotNetComponentReference;
-    let wrap = jsObjectRefs[dotNetWidget.id] ?? await getObjectReference(newWidget);
-    // @ts-ignore
-    let jsRef = DotNet.createJSObjectReference(wrap);
-    await dotNetWidget.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsRef);
     return newWidget;
 }
 
@@ -2864,14 +2848,9 @@ export async function createLayer(dotNetLayer: any, wrap: boolean | null, viewId
     }
 
     arcGisObjectRefs[dotNetLayer.id] = newLayer;
-
-    let objectRef = jsObjectRefs[dotNetLayer.id] ?? await getObjectReference(newLayer);
-    // @ts-ignore
-    let jsRef = DotNet.createJSObjectReference(objectRef);
-    await dotNetLayer.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsRef);
     
     if (wrap) {
-        return objectRef;
+        return jsObjectRefs[dotNetLayer.id] ?? await getObjectReference(newLayer);
     }
 
     return newLayer;
@@ -3136,47 +3115,6 @@ export async function createArcGISObject(geoBlazorObject: any, newArcGISObject: 
         let jsRef = DotNet.createJSObjectReference(objectRef);
         await geoBlazorObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsRef);
         return newArcGISObject;
-    } catch (error) {
-        logError(error, null);
-        return null;
-    }
-}
-
-export async function copyValuesToArcGIS(originalObject: any, newObject: any) {
-    for (let key in originalObject) {
-        if (geoblazorOnlyProps.includes(key)) {
-            continue;
-        }
-        if (typeof originalObject[key] === 'function') {
-            continue;
-        }
-        let value = originalObject[key];
-        if (!hasValue(value)) {
-            continue;
-        }
-        if (typeof value === 'object') {
-            let newValue = Array.isArray(value) ? [] : {};
-            await createArcGISObject(value, newValue);
-            newObject[key] = newValue;
-        } else {
-            newObject[key] = value;
-        }
-    }
-}
-
-export async function createGeoBlazorObject(arcGisObject: any, newGeoBlazorObject: any = {}): Promise<any> {
-    try {
-        if ('toJSON' in arcGisObject) {
-            try {
-                newGeoBlazorObject = arcGisObject.toJSON();
-                return newGeoBlazorObject;
-            } catch (error) {
-                logError(error, null);
-            }
-        }
-
-        await copyValuesToGeoBlazor(arcGisObject, newGeoBlazorObject);
-        return newGeoBlazorObject;
     } catch (error) {
         logError(error, null);
         return null;

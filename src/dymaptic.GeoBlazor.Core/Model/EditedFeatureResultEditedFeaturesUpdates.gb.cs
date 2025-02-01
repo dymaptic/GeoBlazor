@@ -16,7 +16,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// </param>
 public partial record EditedFeatureResultEditedFeaturesUpdates(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    IReadOnlyList<Graphic>? Current = null,
+    IReadOnlyCollection<Graphic>? Current = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    IReadOnlyList<Graphic>? Original = null);
+    IReadOnlyCollection<Graphic>? Original = null);
 

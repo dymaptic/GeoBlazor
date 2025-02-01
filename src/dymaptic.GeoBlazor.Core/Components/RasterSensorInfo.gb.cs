@@ -172,12 +172,12 @@ public partial class RasterSensorInfo : MapComponent
         }
 
         // get the property value
-        DateTime? result = await CoreJsModule!.InvokeAsync<DateTime?>("getProperty",
+        JsNullableDateTimeWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDateTimeWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "acquisitionDate");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             AcquisitionDate = result.Value;
+             AcquisitionDate = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(AcquisitionDate)] = AcquisitionDate;
         }
@@ -202,12 +202,12 @@ public partial class RasterSensorInfo : MapComponent
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "cloudCover");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             CloudCover = result.Value;
+             CloudCover = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(CloudCover)] = CloudCover;
         }
@@ -262,12 +262,12 @@ public partial class RasterSensorInfo : MapComponent
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "sensorAzimuth");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             SensorAzimuth = result.Value;
+             SensorAzimuth = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(SensorAzimuth)] = SensorAzimuth;
         }
@@ -292,12 +292,12 @@ public partial class RasterSensorInfo : MapComponent
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "sensorElevation");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             SensorElevation = result.Value;
+             SensorElevation = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(SensorElevation)] = SensorElevation;
         }
@@ -352,12 +352,12 @@ public partial class RasterSensorInfo : MapComponent
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "sunAzimuth");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             SunAzimuth = result.Value;
+             SunAzimuth = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(SunAzimuth)] = SunAzimuth;
         }
@@ -382,12 +382,12 @@ public partial class RasterSensorInfo : MapComponent
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "sunElevation");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             SunElevation = result.Value;
+             SunElevation = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(SunElevation)] = SunElevation;
         }

@@ -85,12 +85,12 @@ public partial class MediaPopupContent
         }
 
         // get the property value
-        int? result = await CoreJsModule!.InvokeAsync<int?>("getProperty",
+        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "activeMediaInfoIndex");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             ActiveMediaInfoIndex = result.Value;
+             ActiveMediaInfoIndex = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(ActiveMediaInfoIndex)] = ActiveMediaInfoIndex;
         }

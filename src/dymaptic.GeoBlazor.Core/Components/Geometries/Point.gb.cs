@@ -107,12 +107,12 @@ public partial class Point
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "latitude");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Latitude = result.Value;
+             Latitude = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Latitude)] = Latitude;
         }
@@ -137,12 +137,12 @@ public partial class Point
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "longitude");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Longitude = result.Value;
+             Longitude = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Longitude)] = Longitude;
         }
@@ -167,12 +167,12 @@ public partial class Point
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "m");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             M = result.Value;
+             M = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(M)] = M;
         }
@@ -197,12 +197,12 @@ public partial class Point
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "x");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             X = result.Value;
+             X = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(X)] = X;
         }
@@ -227,12 +227,12 @@ public partial class Point
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "y");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Y = result.Value;
+             Y = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Y)] = Y;
         }
@@ -257,12 +257,12 @@ public partial class Point
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "z");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Z = result.Value;
+             Z = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Z)] = Z;
         }

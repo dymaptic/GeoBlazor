@@ -157,12 +157,12 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "supports3D");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Supports3D = result.Value;
+             Supports3D = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Supports3D)] = Supports3D;
         }
@@ -187,12 +187,12 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "supportsAreaAndPerimeter");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             SupportsAreaAndPerimeter = result.Value;
+             SupportsAreaAndPerimeter = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(SupportsAreaAndPerimeter)] = SupportsAreaAndPerimeter;
         }
@@ -217,12 +217,12 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "supportsDistanceAndAngle");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             SupportsDistanceAndAngle = result.Value;
+             SupportsDistanceAndAngle = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(SupportsDistanceAndAngle)] = SupportsDistanceAndAngle;
         }
@@ -247,12 +247,12 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "supportsHeightFromBaseAndTop");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             SupportsHeightFromBaseAndTop = result.Value;
+             SupportsHeightFromBaseAndTop = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(SupportsHeightFromBaseAndTop)] = SupportsHeightFromBaseAndTop;
         }
@@ -277,12 +277,12 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "supportsHeightFromBaseAndTopShadow");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             SupportsHeightFromBaseAndTopShadow = result.Value;
+             SupportsHeightFromBaseAndTopShadow = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(SupportsHeightFromBaseAndTopShadow)] = SupportsHeightFromBaseAndTopShadow;
         }
@@ -307,12 +307,12 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "supportsHeightFromTopAndTopShadow");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             SupportsHeightFromTopAndTopShadow = result.Value;
+             SupportsHeightFromTopAndTopShadow = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(SupportsHeightFromTopAndTopShadow)] = SupportsHeightFromTopAndTopShadow;
         }
@@ -337,12 +337,12 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "supportsPointOrCentroid");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             SupportsPointOrCentroid = result.Value;
+             SupportsPointOrCentroid = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(SupportsPointOrCentroid)] = SupportsPointOrCentroid;
         }

@@ -172,12 +172,12 @@ public partial class GraphicsLayerElevationInfo : MapComponent
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "offset");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Offset = result.Value;
+             Offset = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Offset)] = Offset;
         }

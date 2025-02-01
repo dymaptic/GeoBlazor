@@ -292,12 +292,12 @@ public partial class AuthoringInfoVisualVariable
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "maxSliderValue");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             MaxSliderValue = result.Value;
+             MaxSliderValue = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(MaxSliderValue)] = MaxSliderValue;
         }
@@ -322,12 +322,12 @@ public partial class AuthoringInfoVisualVariable
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "minSliderValue");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             MinSliderValue = result.Value;
+             MinSliderValue = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(MinSliderValue)] = MinSliderValue;
         }
@@ -382,12 +382,12 @@ public partial class AuthoringInfoVisualVariable
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "referenceSizeScale");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             ReferenceSizeScale = result.Value;
+             ReferenceSizeScale = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(ReferenceSizeScale)] = ReferenceSizeScale;
         }

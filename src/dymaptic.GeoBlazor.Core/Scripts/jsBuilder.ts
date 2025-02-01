@@ -938,7 +938,7 @@ export function buildJsFlowRenderer(dotNetFlowRenderer: DotNetFlowRenderer): Flo
     return flowRenderer;
 }
 
-function buildJsAttributeColorInfo(dnColorInfo: any): AttributeColorInfo {
+export function buildJsAttributeColorInfo(dnColorInfo: any): AttributeColorInfo {
 
     let attributeColorInfo = new AttributeColorInfo();
     if (hasValue(dnColorInfo.color)) {
@@ -998,7 +998,7 @@ export function buildJsAuthoringInfo(dnAuthoringInfo: any): AuthoringInfo {
     return authoringInfo;
 }
 
-function buildAuthoringVisualVariable(dnVV: any): AuthoringInfoVisualVariable {
+export function buildAuthoringVisualVariable(dnVV: any): AuthoringInfoVisualVariable {
     let authVV = new AuthoringInfoVisualVariable();
     copyValuesIfExists(dnVV, authVV, 'endTime', 'field', 'maxSliderValue', 'minSliderValue', 'startTime',
         'style', 'theme', 'type', 'units');
@@ -1142,7 +1142,7 @@ export function buildJsFields(dotNetFields: any): Array<Field> {
     return fields;
 }
 
-function buildJsField(dotNetField: any): Field {
+export function buildJsField(dotNetField: any): Field {
     let field = new Field();
     if (hasValue(dotNetField.type)) {
         field.type = dotNetField.type;
@@ -1261,7 +1261,7 @@ export async function buildJsPopup(dotNetPopup: any, viewId: string): Promise<Po
     return popup;
 }
 
-function buildJsDockOptions(dotNetDockOptions: any): PopupDockOptions {
+export function buildJsDockOptions(dotNetDockOptions: any): PopupDockOptions {
     let dockOptions: PopupDockOptions = {
         buttonEnabled: dotNetDockOptions.buttonEnabled ?? undefined,
         position: dotNetDockOptions.position ?? undefined,
@@ -1317,7 +1317,7 @@ export async function buildJsPopupOptions(dotNetPopupOptions: any): Promise<Popu
     return options;
 }
 
-function buildJsMapFont(dotNetFont: any): Font {
+export function buildJsMapFont(dotNetFont: any): Font {
     let font = new Font();
     font.size = dotNetFont.size ?? 9;
     font.family = dotNetFont.family ?? "sans-serif";
@@ -1578,7 +1578,7 @@ export function buildJsTimeSliderStops(dotNetStop: any): any | null {
     return null;
 }
 
-function buildJsFormTemplateElement(dotNetFormTemplateElement: any): Element {
+export function buildJsFormTemplateElement(dotNetFormTemplateElement: any): Element {
     switch (dotNetFormTemplateElement.type) {
         case 'group':
             return new GroupElement({
@@ -1623,7 +1623,7 @@ function buildJsFormTemplateElement(dotNetFormTemplateElement: any): Element {
     return fieldElement;
 }
 
-function buildJsDomain(dotNetDomain: any): any {
+export function buildJsDomain(dotNetDomain: any): any {
     switch (dotNetDomain?.type) {
         case 'coded-value':
             return new CodedValueDomain({
@@ -1641,14 +1641,14 @@ function buildJsDomain(dotNetDomain: any): any {
     return undefined;
 }
 
-function buildJsCodedValue(dotNetCodedValue: any): CodedValue {
+export function buildJsCodedValue(dotNetCodedValue: any): CodedValue {
     return {
         name: dotNetCodedValue.name ?? undefined,
         code: dotNetCodedValue.code ?? undefined
     };
 }
 
-function buildJsFormInput(dotNetFormInput: any): any {
+export function buildJsFormInput(dotNetFormInput: any): any {
     switch (dotNetFormInput?.type) {
         case 'text-box':
             return new TextBoxInput({
@@ -1691,7 +1691,7 @@ function buildJsFormInput(dotNetFormInput: any): any {
     return undefined;
 }
 
-function buildJsColor(color: any) {
+export function buildJsColor(color: any) {
     if (!hasValue(color)) return null;
     // @ts-ignore
     if (typeof color === "string" || color instanceof Array<number>) return color;
@@ -1701,7 +1701,7 @@ function buildJsColor(color: any) {
     return color.values;
 }
 
-function buildJsPathsOrRings(pathsOrRings: any) {
+export function buildJsPathsOrRings(pathsOrRings: any) {
     if (!hasValue(pathsOrRings)) return null;
     if (pathsOrRings[0].hasOwnProperty("points")) {
         let array: [][][] = [];
@@ -1718,7 +1718,7 @@ function buildJsPathsOrRings(pathsOrRings: any) {
     return pathsOrRings;
 }
 
-function hasValue(prop: any): boolean {
+export function hasValue(prop: any): boolean {
     return prop !== undefined && prop !== null;
 }
 
@@ -1950,7 +1950,7 @@ export async function buildJsSearchSource(dotNetSource: any, viewId: string): Pr
     return source as SearchSource;
 }
 
-function buildJsSearchSourceFilter(dotNetFilter: any): SearchSourceFilter | null {
+export function buildJsSearchSourceFilter(dotNetFilter: any): SearchSourceFilter | null {
     if (!hasValue(dotNetFilter)) return null;
 
     let filter: SearchSourceFilter = {
@@ -1972,7 +1972,7 @@ export function buildJsAggregateField(dnAggregateField: any): AggregateField {
     });
 }
 
-function buildJsSupportExpressionInfo(dnEI: any): supportExpressionInfo | null {
+export function buildJsSupportExpressionInfo(dnEI: any): supportExpressionInfo | null {
     if (!hasValue(dnEI)) return null;
     return {
         expression: dnEI.expression ?? undefined,
@@ -2038,7 +2038,7 @@ export function buildJsSublayer(dotNetSublayer: any): Sublayer {
     return sublayer;
 }
 
-function buildJsDynamicLayer(dotNetSource: any): DynamicMapLayer | DynamicDataLayer {
+export function buildJsDynamicLayer(dotNetSource: any): DynamicMapLayer | DynamicDataLayer {
     switch (dotNetSource.type) {
         case 'map-layer':
             return {
@@ -2062,7 +2062,7 @@ function buildJsDynamicLayer(dotNetSource: any): DynamicMapLayer | DynamicDataLa
     }
 }
 
-function buildJsDynamicDataSource(dotNetSource: any): any {
+export function buildJsDynamicDataSource(dotNetSource: any): any {
     switch (dotNetSource.type) {
         case 'table':
             return {
@@ -2108,7 +2108,7 @@ function buildJsDynamicDataSource(dotNetSource: any): any {
     }
 }
 
-function buildJsDynamicDataLayerField(dotNetField: any): DynamicDataLayerFields {
+export function buildJsDynamicDataLayerField(dotNetField: any): DynamicDataLayerFields {
     return {
         name: dotNetField.name,
         alias: dotNetField.alias ?? undefined

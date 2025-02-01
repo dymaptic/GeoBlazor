@@ -115,12 +115,12 @@ public partial class PortalFolder : MapComponent
         }
 
         // get the property value
-        DateTime? result = await CoreJsModule!.InvokeAsync<DateTime?>("getProperty",
+        JsNullableDateTimeWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDateTimeWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "created");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Created = result.Value;
+             Created = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Created)] = Created;
         }

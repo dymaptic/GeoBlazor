@@ -113,12 +113,12 @@ public abstract partial class Layer : IHitTestItem,
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "loaded");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Loaded = result.Value;
+             Loaded = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Loaded)] = Loaded;
         }
@@ -143,12 +143,12 @@ public abstract partial class Layer : IHitTestItem,
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "persistenceEnabled");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             PersistenceEnabled = result.Value;
+             PersistenceEnabled = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(PersistenceEnabled)] = PersistenceEnabled;
         }
@@ -212,13 +212,11 @@ public abstract partial class Layer : IHitTestItem,
             return null;
         }
         
-        TimeExtent? result = null;
-        
         // Try to deserialize the object. This might fail if we don't have the
         // all deserialization edge cases handled.
         try
         {
-            result = await CoreJsModule.InvokeAsync<TimeExtent?>(
+            TimeExtent? result = await CoreJsModule.InvokeAsync<TimeExtent?>(
                 "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
             if (result is not null)
             {
@@ -238,9 +236,9 @@ public abstract partial class Layer : IHitTestItem,
                 return VisibilityTimeExtent;
             }
         }
-        catch
+        catch(Exception ex)
         {
-            Console.WriteLine("Failed to deserialize VisibilityTimeExtent");
+            Console.WriteLine($"Failed to deserialize VisibilityTimeExtent. Error: {ex}");
         }
 #pragma warning disable BL0005
         VisibilityTimeExtent = new TimeExtent();

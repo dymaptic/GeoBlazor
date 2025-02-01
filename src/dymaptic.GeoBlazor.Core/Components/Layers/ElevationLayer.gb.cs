@@ -212,13 +212,11 @@ public partial class ElevationLayer : IArcGISCachedService,
             return null;
         }
         
-        PortalItem? result = null;
-        
         // Try to deserialize the object. This might fail if we don't have the
         // all deserialization edge cases handled.
         try
         {
-            result = await CoreJsModule.InvokeAsync<PortalItem?>(
+            PortalItem? result = await CoreJsModule.InvokeAsync<PortalItem?>(
                 "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
             if (result is not null)
             {
@@ -238,9 +236,9 @@ public partial class ElevationLayer : IArcGISCachedService,
                 return PortalItem;
             }
         }
-        catch
+        catch(Exception ex)
         {
-            Console.WriteLine("Failed to deserialize PortalItem");
+            Console.WriteLine($"Failed to deserialize PortalItem. Error: {ex}");
         }
 #pragma warning disable BL0005
         PortalItem = new PortalItem();
@@ -377,13 +375,11 @@ public partial class ElevationLayer : IArcGISCachedService,
             return null;
         }
         
-        TileInfo? result = null;
-        
         // Try to deserialize the object. This might fail if we don't have the
         // all deserialization edge cases handled.
         try
         {
-            result = await CoreJsModule.InvokeAsync<TileInfo?>(
+            TileInfo? result = await CoreJsModule.InvokeAsync<TileInfo?>(
                 "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
             if (result is not null)
             {
@@ -403,9 +399,9 @@ public partial class ElevationLayer : IArcGISCachedService,
                 return TileInfo;
             }
         }
-        catch
+        catch(Exception ex)
         {
-            Console.WriteLine("Failed to deserialize TileInfo");
+            Console.WriteLine($"Failed to deserialize TileInfo. Error: {ex}");
         }
 #pragma warning disable BL0005
         TileInfo = new TileInfo();

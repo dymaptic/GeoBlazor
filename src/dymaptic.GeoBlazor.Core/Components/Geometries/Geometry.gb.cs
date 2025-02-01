@@ -20,16 +20,6 @@ public abstract partial class Geometry : ISearchViewModelSelectedSuggestion
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Cache { get; protected set; }
     
-    /// <summary>
-    ///     The spatial reference of the geometry.
-    ///     default WGS84 (wkid: 4326)
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Geometry.html#spatialReference">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public SpatialReference? SpatialReference { get; set; }
-    
 #endregion
 
 #region Property Getters
@@ -81,12 +71,12 @@ public abstract partial class Geometry : ISearchViewModelSelectedSuggestion
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "hasM");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             HasM = result.Value;
+             HasM = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(HasM)] = HasM;
         }
@@ -111,47 +101,17 @@ public abstract partial class Geometry : ISearchViewModelSelectedSuggestion
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "hasZ");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             HasZ = result.Value;
+             HasZ = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(HasZ)] = HasZ;
         }
          
         return HasZ;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the SpatialReference property.
-    /// </summary>
-    public async Task<SpatialReference?> GetSpatialReference()
-    {
-        if (CoreJsModule is null)
-        {
-            return SpatialReference;
-        }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
-        if (JsComponentReference is null)
-        {
-            return SpatialReference;
-        }
-
-        // get the property value
-        SpatialReference? result = await CoreJsModule!.InvokeAsync<SpatialReference?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "spatialReference");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             SpatialReference = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
-        }
-         
-        return SpatialReference;
     }
     
 #endregion
@@ -216,36 +176,6 @@ public abstract partial class Geometry : ISearchViewModelSelectedSuggestion
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "hasZ", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the SpatialReference property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetSpatialReference(SpatialReference value)
-    {
-#pragma warning disable BL0005
-        SpatialReference = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(SpatialReference)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "spatialReference", value);
     }
     
 #endregion

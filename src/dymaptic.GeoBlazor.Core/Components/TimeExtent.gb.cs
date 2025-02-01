@@ -86,12 +86,12 @@ public partial class TimeExtent
         }
 
         // get the property value
-        DateTime? result = await CoreJsModule!.InvokeAsync<DateTime?>("getProperty",
+        JsNullableDateTimeWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDateTimeWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "end");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             End = result.Value;
+             End = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(End)] = End;
         }
@@ -116,12 +116,12 @@ public partial class TimeExtent
         }
 
         // get the property value
-        DateTime? result = await CoreJsModule!.InvokeAsync<DateTime?>("getProperty",
+        JsNullableDateTimeWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDateTimeWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "start");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Start = result.Value;
+             Start = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Start)] = Start;
         }

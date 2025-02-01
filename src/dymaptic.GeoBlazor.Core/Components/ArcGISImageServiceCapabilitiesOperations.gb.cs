@@ -322,12 +322,12 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "supportsCalculateVolume");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             SupportsCalculateVolume = result.Value;
+             SupportsCalculateVolume = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(SupportsCalculateVolume)] = SupportsCalculateVolume;
         }
@@ -352,12 +352,12 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "supportsComputeHistograms");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             SupportsComputeHistograms = result.Value;
+             SupportsComputeHistograms = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(SupportsComputeHistograms)] = SupportsComputeHistograms;
         }
@@ -382,12 +382,12 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "supportsComputePixelLocation");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             SupportsComputePixelLocation = result.Value;
+             SupportsComputePixelLocation = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(SupportsComputePixelLocation)] = SupportsComputePixelLocation;
         }
@@ -412,12 +412,12 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "supportsComputeStatisticsHistograms");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             SupportsComputeStatisticsHistograms = result.Value;
+             SupportsComputeStatisticsHistograms = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(SupportsComputeStatisticsHistograms)] = SupportsComputeStatisticsHistograms;
         }
@@ -442,12 +442,12 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "supportsDownload");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             SupportsDownload = result.Value;
+             SupportsDownload = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(SupportsDownload)] = SupportsDownload;
         }
@@ -472,12 +472,12 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "supportsExportImage");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             SupportsExportImage = result.Value;
+             SupportsExportImage = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(SupportsExportImage)] = SupportsExportImage;
         }
@@ -502,12 +502,12 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "supportsFindImages");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             SupportsFindImages = result.Value;
+             SupportsFindImages = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(SupportsFindImages)] = SupportsFindImages;
         }
@@ -532,12 +532,12 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "supportsGetImageUrl");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             SupportsGetImageUrl = result.Value;
+             SupportsGetImageUrl = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(SupportsGetImageUrl)] = SupportsGetImageUrl;
         }
@@ -562,12 +562,12 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "supportsGetSamples");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             SupportsGetSamples = result.Value;
+             SupportsGetSamples = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(SupportsGetSamples)] = SupportsGetSamples;
         }
@@ -592,12 +592,12 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "supportsIdentify");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             SupportsIdentify = result.Value;
+             SupportsIdentify = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(SupportsIdentify)] = SupportsIdentify;
         }
@@ -622,12 +622,12 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "supportsImageToMap");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             SupportsImageToMap = result.Value;
+             SupportsImageToMap = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(SupportsImageToMap)] = SupportsImageToMap;
         }
@@ -652,12 +652,12 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "supportsImageToMapMultiray");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             SupportsImageToMapMultiray = result.Value;
+             SupportsImageToMapMultiray = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(SupportsImageToMapMultiray)] = SupportsImageToMapMultiray;
         }
@@ -682,12 +682,12 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "supportsMapToImage");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             SupportsMapToImage = result.Value;
+             SupportsMapToImage = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(SupportsMapToImage)] = SupportsMapToImage;
         }
@@ -712,12 +712,12 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "supportsMeasure");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             SupportsMeasure = result.Value;
+             SupportsMeasure = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(SupportsMeasure)] = SupportsMeasure;
         }
@@ -742,12 +742,12 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "supportsProject");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             SupportsProject = result.Value;
+             SupportsProject = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(SupportsProject)] = SupportsProject;
         }
@@ -772,12 +772,12 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "supportsQuery");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             SupportsQuery = result.Value;
+             SupportsQuery = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(SupportsQuery)] = SupportsQuery;
         }
@@ -802,12 +802,12 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "supportsQueryBoundary");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             SupportsQueryBoundary = result.Value;
+             SupportsQueryBoundary = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(SupportsQueryBoundary)] = SupportsQueryBoundary;
         }
@@ -832,12 +832,12 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "supportsQueryGPSInfo");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             SupportsQueryGPSInfo = result.Value;
+             SupportsQueryGPSInfo = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(SupportsQueryGPSInfo)] = SupportsQueryGPSInfo;
         }

@@ -1058,12 +1058,12 @@ public partial class Portal
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "allSSL");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             AllSSL = result.Value;
+             AllSSL = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(AllSSL)] = AllSSL;
         }
@@ -1238,12 +1238,12 @@ public partial class Portal
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "canListApps");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             CanListApps = result.Value;
+             CanListApps = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(CanListApps)] = CanListApps;
         }
@@ -1268,12 +1268,12 @@ public partial class Portal
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "canListData");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             CanListData = result.Value;
+             CanListData = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(CanListData)] = CanListData;
         }
@@ -1298,12 +1298,12 @@ public partial class Portal
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "canListPreProvisionedItems");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             CanListPreProvisionedItems = result.Value;
+             CanListPreProvisionedItems = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(CanListPreProvisionedItems)] = CanListPreProvisionedItems;
         }
@@ -1328,12 +1328,12 @@ public partial class Portal
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "canProvisionDirectPurchase");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             CanProvisionDirectPurchase = result.Value;
+             CanProvisionDirectPurchase = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(CanProvisionDirectPurchase)] = CanProvisionDirectPurchase;
         }
@@ -1358,12 +1358,12 @@ public partial class Portal
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "canSearchPublic");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             CanSearchPublic = result.Value;
+             CanSearchPublic = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(CanSearchPublic)] = CanSearchPublic;
         }
@@ -1388,12 +1388,12 @@ public partial class Portal
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "canShareBingPublic");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             CanShareBingPublic = result.Value;
+             CanShareBingPublic = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(CanShareBingPublic)] = CanShareBingPublic;
         }
@@ -1418,12 +1418,12 @@ public partial class Portal
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "canSharePublic");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             CanSharePublic = result.Value;
+             CanSharePublic = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(CanSharePublic)] = CanSharePublic;
         }
@@ -1448,12 +1448,12 @@ public partial class Portal
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "canSignInArcGIS");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             CanSignInArcGIS = result.Value;
+             CanSignInArcGIS = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(CanSignInArcGIS)] = CanSignInArcGIS;
         }
@@ -1478,12 +1478,12 @@ public partial class Portal
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "canSignInIDP");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             CanSignInIDP = result.Value;
+             CanSignInIDP = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(CanSignInIDP)] = CanSignInIDP;
         }
@@ -1538,12 +1538,12 @@ public partial class Portal
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "commentsEnabled");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             CommentsEnabled = result.Value;
+             CommentsEnabled = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(CommentsEnabled)] = CommentsEnabled;
         }
@@ -1568,12 +1568,12 @@ public partial class Portal
         }
 
         // get the property value
-        DateTime? result = await CoreJsModule!.InvokeAsync<DateTime?>("getProperty",
+        JsNullableDateTimeWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDateTimeWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "created");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Created = result.Value;
+             Created = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Created)] = Created;
         }
@@ -1748,12 +1748,12 @@ public partial class Portal
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "eueiEnabled");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             EueiEnabled = result.Value;
+             EueiEnabled = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(EueiEnabled)] = EueiEnabled;
         }
@@ -1868,12 +1868,12 @@ public partial class Portal
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "hasCategorySchema");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             HasCategorySchema = result.Value;
+             HasCategorySchema = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(HasCategorySchema)] = HasCategorySchema;
         }
@@ -1958,12 +1958,12 @@ public partial class Portal
         }
 
         // get the property value
-        int? result = await CoreJsModule!.InvokeAsync<int?>("getProperty",
+        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "homePageFeaturedContentCount");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             HomePageFeaturedContentCount = result.Value;
+             HomePageFeaturedContentCount = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(HomePageFeaturedContentCount)] = HomePageFeaturedContentCount;
         }
@@ -1988,12 +1988,12 @@ public partial class Portal
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "httpPort");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             HttpPort = result.Value;
+             HttpPort = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(HttpPort)] = HttpPort;
         }
@@ -2018,12 +2018,12 @@ public partial class Portal
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "httpsPort");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             HttpsPort = result.Value;
+             HttpsPort = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(HttpsPort)] = HttpsPort;
         }
@@ -2078,12 +2078,12 @@ public partial class Portal
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "isOrganization");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             IsOrganization = result.Value;
+             IsOrganization = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(IsOrganization)] = IsOrganization;
         }
@@ -2108,12 +2108,12 @@ public partial class Portal
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "isPortal");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             IsPortal = result.Value;
+             IsPortal = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(IsPortal)] = IsPortal;
         }
@@ -2138,12 +2138,12 @@ public partial class Portal
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "isReadOnly");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             IsReadOnly = result.Value;
+             IsReadOnly = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(IsReadOnly)] = IsReadOnly;
         }
@@ -2198,12 +2198,12 @@ public partial class Portal
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "loaded");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Loaded = result.Value;
+             Loaded = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Loaded)] = Loaded;
         }
@@ -2228,12 +2228,12 @@ public partial class Portal
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "maxTokenExpirationMinutes");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             MaxTokenExpirationMinutes = result.Value;
+             MaxTokenExpirationMinutes = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(MaxTokenExpirationMinutes)] = MaxTokenExpirationMinutes;
         }
@@ -2258,12 +2258,12 @@ public partial class Portal
         }
 
         // get the property value
-        DateTime? result = await CoreJsModule!.InvokeAsync<DateTime?>("getProperty",
+        JsNullableDateTimeWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDateTimeWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "modified");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Modified = result.Value;
+             Modified = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Modified)] = Modified;
         }
@@ -2438,12 +2438,12 @@ public partial class Portal
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "recycleBinEnabled");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             RecycleBinEnabled = result.Value;
+             RecycleBinEnabled = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(RecycleBinEnabled)] = RecycleBinEnabled;
         }
@@ -2558,12 +2558,12 @@ public partial class Portal
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "showHomePageDescription");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             ShowHomePageDescription = result.Value;
+             ShowHomePageDescription = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(ShowHomePageDescription)] = ShowHomePageDescription;
         }
@@ -2618,12 +2618,12 @@ public partial class Portal
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "supportsHostedServices");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             SupportsHostedServices = result.Value;
+             SupportsHostedServices = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(SupportsHostedServices)] = SupportsHostedServices;
         }
@@ -2828,12 +2828,12 @@ public partial class Portal
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "use3dBasemaps");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Use3dBasemaps = result.Value;
+             Use3dBasemaps = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Use3dBasemaps)] = Use3dBasemaps;
         }
@@ -2858,12 +2858,12 @@ public partial class Portal
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "useStandardizedQuery");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             UseStandardizedQuery = result.Value;
+             UseStandardizedQuery = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(UseStandardizedQuery)] = UseStandardizedQuery;
         }
@@ -2888,12 +2888,12 @@ public partial class Portal
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "useVectorBasemaps");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             UseVectorBasemaps = result.Value;
+             UseVectorBasemaps = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(UseVectorBasemaps)] = UseVectorBasemaps;
         }

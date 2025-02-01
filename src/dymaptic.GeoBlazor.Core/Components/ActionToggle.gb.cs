@@ -112,12 +112,12 @@ public partial class ActionToggle
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "value");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Value = result.Value;
+             Value = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Value)] = Value;
         }

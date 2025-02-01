@@ -643,12 +643,12 @@ public partial class PortalItem
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "avgRating");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             AvgRating = result.Value;
+             AvgRating = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(AvgRating)] = AvgRating;
         }
@@ -703,12 +703,12 @@ public partial class PortalItem
         }
 
         // get the property value
-        DateTime? result = await CoreJsModule!.InvokeAsync<DateTime?>("getProperty",
+        JsNullableDateTimeWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDateTimeWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "created");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Created = result.Value;
+             Created = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Created)] = Created;
         }
@@ -853,12 +853,12 @@ public partial class PortalItem
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "isLayer");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             IsLayer = result.Value;
+             IsLayer = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(IsLayer)] = IsLayer;
         }
@@ -883,12 +883,12 @@ public partial class PortalItem
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "isOrgItem");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             IsOrgItem = result.Value;
+             IsOrgItem = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(IsOrgItem)] = IsOrgItem;
         }
@@ -1033,12 +1033,12 @@ public partial class PortalItem
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "loaded");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Loaded = result.Value;
+             Loaded = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Loaded)] = Loaded;
         }
@@ -1063,12 +1063,12 @@ public partial class PortalItem
         }
 
         // get the property value
-        DateTime? result = await CoreJsModule!.InvokeAsync<DateTime?>("getProperty",
+        JsNullableDateTimeWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDateTimeWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "modified");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Modified = result.Value;
+             Modified = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Modified)] = Modified;
         }
@@ -1123,12 +1123,12 @@ public partial class PortalItem
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "numComments");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             NumComments = result.Value;
+             NumComments = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(NumComments)] = NumComments;
         }
@@ -1153,12 +1153,12 @@ public partial class PortalItem
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "numRatings");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             NumRatings = result.Value;
+             NumRatings = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(NumRatings)] = NumRatings;
         }
@@ -1183,12 +1183,12 @@ public partial class PortalItem
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "numViews");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             NumViews = result.Value;
+             NumViews = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(NumViews)] = NumViews;
         }
@@ -1282,13 +1282,11 @@ public partial class PortalItem
             return null;
         }
         
-        Portal? result = null;
-        
         // Try to deserialize the object. This might fail if we don't have the
         // all deserialization edge cases handled.
         try
         {
-            result = await CoreJsModule.InvokeAsync<Portal?>(
+            Portal? result = await CoreJsModule.InvokeAsync<Portal?>(
                 "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
             if (result is not null)
             {
@@ -1308,9 +1306,9 @@ public partial class PortalItem
                 return Portal;
             }
         }
-        catch
+        catch(Exception ex)
         {
-            Console.WriteLine("Failed to deserialize Portal");
+            Console.WriteLine($"Failed to deserialize Portal. Error: {ex}");
         }
 #pragma warning disable BL0005
         Portal = new Portal();
@@ -1466,12 +1464,12 @@ public partial class PortalItem
         }
 
         // get the property value
-        int? result = await CoreJsModule!.InvokeAsync<int?>("getProperty",
+        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "size");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Size = result.Value;
+             Size = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Size)] = Size;
         }
@@ -2835,7 +2833,6 @@ public partial class PortalItem
             "fetchRelatedItems", 
             CancellationTokenSource.Token,
             new { relationshipType, direction },
-            direction,
             new { signal = abortSignal });
                 
         await AbortManager.DisposeAbortController(cancellationToken);
@@ -2880,9 +2877,6 @@ public partial class PortalItem
             "fetchResources", 
             CancellationTokenSource.Token,
             new { num, start, sortOrder, sortField },
-            start,
-            sortOrder,
-            sortField,
             new { signal = abortSignal });
                 
         await AbortManager.DisposeAbortController(cancellationToken);
@@ -3013,8 +3007,7 @@ public partial class PortalItem
         return await JsComponentReference!.InvokeAsync<PortalItem?>(
             "updateThumbnail", 
             CancellationTokenSource.Token,
-            new { thumbnail, filename },
-            filename);
+            new { thumbnail, filename });
     }
     
 #endregion

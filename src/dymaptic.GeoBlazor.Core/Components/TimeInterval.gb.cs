@@ -116,12 +116,12 @@ public partial class TimeInterval
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "value");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Value = result.Value;
+             Value = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Value)] = Value;
         }

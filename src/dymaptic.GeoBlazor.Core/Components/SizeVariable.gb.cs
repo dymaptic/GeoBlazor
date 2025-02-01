@@ -183,12 +183,12 @@ public partial class SizeVariable : IColorSizeSliderUpdateVisualVariables,
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "maxDataValue");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             MaxDataValue = result.Value;
+             MaxDataValue = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(MaxDataValue)] = MaxDataValue;
         }
@@ -243,12 +243,12 @@ public partial class SizeVariable : IColorSizeSliderUpdateVisualVariables,
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "minDataValue");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             MinDataValue = result.Value;
+             MinDataValue = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(MinDataValue)] = MinDataValue;
         }
@@ -393,12 +393,12 @@ public partial class SizeVariable : IColorSizeSliderUpdateVisualVariables,
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "useSymbolValue");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             UseSymbolValue = result.Value;
+             UseSymbolValue = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(UseSymbolValue)] = UseSymbolValue;
         }

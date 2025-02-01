@@ -111,7 +111,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     ///     Whether the component has been disposed.
     /// </summary>
     [JsonIgnore]
-    public bool IsDisposed { get; set; }
+    public bool IsDisposed { get; private set; }
     
     /// <summary>
     ///     Extension properties for GeoBlazor Pro
@@ -289,9 +289,10 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
 
         if (componentType.GetMethod($"Get{propertyName}") is { } typedMethod)
         {
-            Task<T?> methodTask = (Task<T?>)typedMethod.Invoke(this, [])!;
+            Task methodTask = (Task)typedMethod.Invoke(this, [])!;
 
-            return await methodTask;
+            await methodTask.ConfigureAwait(false);
+            return methodTask.GetType().GetProperty("Result")!.GetValue(methodTask) is T result ? result : default;
         }
         
         Props ??= GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
@@ -842,30 +843,31 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
 
         foreach (PropertyInfo prop in arcGisProps)
         {
+            if (IsDisposed)
+            {
+                return;
+            }
             try
             {
                 // call GetProperty with reflection
                 MethodInfo? method = GetType().GetMethod($"Get{prop.Name}");
-                Task methodTask;
 
-                if (method is null)
+                if (method is not null)
                 {
-                    method = GetType().GetMethod("GetProperty")!.MakeGenericMethod(prop.PropertyType)!;
-                    methodTask = (Task)method.Invoke(this, [prop.Name])!;
+                    Task methodTask = (Task)method.Invoke(this, [])!;
+                    await methodTask;
                 }
-                else
-                {
-                    methodTask = (Task)method.Invoke(this, [])!;
-                }
-                await methodTask;
             }
             catch (TaskCanceledException)
             {
                 // do nothing, task was cancelled
+                return;
             }
             catch(Exception ex)
             {
                 Console.WriteLine(ex);
+
+                return;
             }
         }
     }

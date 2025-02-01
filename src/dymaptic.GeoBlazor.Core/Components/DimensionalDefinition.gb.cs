@@ -103,12 +103,12 @@ public partial class DimensionalDefinition
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "isSlice");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             IsSlice = result.Value;
+             IsSlice = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(IsSlice)] = IsSlice;
         }

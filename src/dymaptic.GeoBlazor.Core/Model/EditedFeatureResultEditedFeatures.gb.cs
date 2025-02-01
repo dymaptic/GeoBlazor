@@ -24,11 +24,11 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// </param>
 public partial record EditedFeatureResultEditedFeatures(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    IReadOnlyList<Graphic>? Adds = null,
+    IReadOnlyCollection<Graphic>? Adds = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    IReadOnlyList<Graphic>? Deletes = null,
+    IReadOnlyCollection<Graphic>? Deletes = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     SpatialReference? SpatialReference = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    IReadOnlyList<EditedFeatureResultEditedFeaturesUpdates>? Updates = null);
+    IReadOnlyCollection<EditedFeatureResultEditedFeaturesUpdates>? Updates = null);
 

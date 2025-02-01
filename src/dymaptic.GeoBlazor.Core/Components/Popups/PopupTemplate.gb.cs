@@ -197,12 +197,12 @@ public partial class PopupTemplate
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "lastEditInfoEnabled");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             LastEditInfoEnabled = result.Value;
+             LastEditInfoEnabled = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(LastEditInfoEnabled)] = LastEditInfoEnabled;
         }
@@ -287,12 +287,12 @@ public partial class PopupTemplate
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "overwriteActions");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             OverwriteActions = result.Value;
+             OverwriteActions = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(OverwriteActions)] = OverwriteActions;
         }
@@ -317,12 +317,12 @@ public partial class PopupTemplate
         }
 
         // get the property value
-        bool? result = await CoreJsModule!.InvokeAsync<bool?>("getProperty",
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "returnGeometry");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             ReturnGeometry = result.Value;
+             ReturnGeometry = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(ReturnGeometry)] = ReturnGeometry;
         }

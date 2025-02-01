@@ -36,7 +36,7 @@ export default class UniqueValueRendererGenerated implements IPropertyWrapper {
     }
 
     async getUniqueValueInfo(graphic: any): Promise<any> {
-        let jsGraphic = await buildJsGraphic(graphic, viewId) as any;
+        let jsGraphic = await buildJsGraphic(graphic, layerId, viewId) as any;
         let result = await this.component.getUniqueValueInfo(jsGraphic);
         return await createGeoBlazorObject(result);
     }

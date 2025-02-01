@@ -82,12 +82,12 @@ public partial class AuthoringInfoStatistics
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "max");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Max = result.Value;
+             Max = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Max)] = Max;
         }
@@ -112,12 +112,12 @@ public partial class AuthoringInfoStatistics
         }
 
         // get the property value
-        double? result = await CoreJsModule!.InvokeAsync<double?>("getProperty",
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "min");
-        if (result is not null)
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Min = result.Value;
+             Min = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Min)] = Min;
         }
